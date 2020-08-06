@@ -789,6 +789,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    content: "Amazing! We just launched live online classes."
 #    link: "Ready to get ahead on your coding?"
 
+#  code_quest:
+#    great: "Great!"
+#    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
+#    link: "Click here to register and learn more"
+#    global_tournament: "Global Tournament"
+#    register: "Register"
+#    date: "Aug 1 - Aug 31"
+
   play_game_dev_level:
     created_by: "{{name}}에 의해 창조되었습니다"
     created_during_hoc: "코드 시간동안 작성되었습니다."
@@ -1121,9 +1129,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     shubhangi_title: "소프트웨어 엔지니어 팀장"
     retrostyle_title: "일러스트레이션"
     retrostyle_blurb: "레트로스타일 게임"
+    community_title: "...그리고 저희의 오픈소스 커뮤니티"
     bryukh_title: "게임플레이 개발자"
     bryukh_blurb: "퍼즐 구성자"
-    community_title: "...그리고 저희의 오픈소스 커뮤니티"
     community_subtitle: "500명이 넘는 Contributor분들이 CodeCombat 개발을 도와주고 계십니다, 매주 새로운 분들이 저희 프로젝트에 참여해주시고 계십니다!!"
     community_description_3: "CodeCombat 은"
     community_description_link_2: "커뮤니티 프로젝트입니다"

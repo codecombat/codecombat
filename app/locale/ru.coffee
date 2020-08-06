@@ -1,12 +1,13 @@
 module.exports = nativeDescription: "русский", englishDescription: "Russian", translation:
+
   new_home:
     title: "CodeCombat - Игры с програмированнием для изучения Python и Java Script"
     meta_keywords: "CodeCombat, Python, Javascript, Игры с програмированнием"
     meta_description: "Учитесь писать код с помощью игр для програмирования.Изучайте Python, JavaScript и HTML, решая головоломки, и учитесь создавать собственные игры и сайты для написания кода."
     meta_og_url: "https://codecombat.com"
+#    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "Игра для програмированния, созданная с учителями в уме"
     built_for_teachers_blurb: "Обучение детей программированию часто может быть ошеломляющим. CodeCombat помогает всем преподавателям учить студентов программировать на JavaScript или Python, двух самых популярных языках программирования. Благодаря всеобъемлющему учебному плану, который включает в себя шесть блоков информатики и способствует обучению посредством основанных на проектах блоков разработки игр и веб-разработки, дети будут продвигаться по пути от основного синтаксиса к рекурсии!"
-#    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_subtitle1: "Информатика"
     built_for_teachers_subblurb1: "Начиная с бесплатного курса «Введение в информатику», студенты осваивают основные понятия кодирования, такие как циклы while/for, функции и алгоритмы."
     built_for_teachers_subtitle2: "Разработка игр"
@@ -58,7 +59,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     for_leaders_subtitle3: "Гибкие варианты использования"
     for_leaders_subblurb3: "Независимо от того, хотите ли вы создать факультатив по кодированию в средней школе, курс CTE или класс AP Computer Science Principles, CodeCombat разработан с учетом ваших потребностей."
     for_leaders_subtitle4: "Навыки реального мира"
-#    for_leaders_subblurb4: "Студенты создают навыки и развивают мышление роста с помощью задач кодирования, которые готовят их к работе на 500K+ открытых вычислительных площадках."
+#    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
     for_teachers_title: "Для учителей"
     for_teachers_blurb: "Инструменты для раскрытия потенциала ученика"
     for_teachers_subtitle1: "Проектное обучение"
@@ -787,6 +788,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    title: "Thank you!"
 #    content: "Amazing! We just launched live online classes."
 #    link: "Ready to get ahead on your coding?"
+
+#  code_quest:
+#    great: "Great!"
+#    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
+#    link: "Click here to register and learn more"
+#    global_tournament: "Global Tournament"
+#    register: "Register"
+#    date: "Aug 1 - Aug 31"
 
   play_game_dev_level:
     created_by: "Создано {{name}}"
@@ -3117,6 +3126,17 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     active_students_stat_description: "Активных студентов - это количество студентов, которые вошли в CodeCombat за последние 60 дней."
     project_stat_description: "Проектов создано - это общее количество созданных игр и проектов веб-разработки."
     no_teachers: "Вы не управляете ни одним учителем."
+#    totals_calculated: "How are these totals calculated?"
+#    totals_explanation_1: "How are these totals calculated?"
+#    totals_explanation_2: "Licenses used"
+#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
+#    totals_explanation_4: "Total students"
+#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
+#    totals_explanation_6: "Active students"
+#    totals_explanation_7: "Counts all students who were active within the past 60 days."
+#    totals_explanation_8: "Projects created"
+#    totals_explanation_9: "Counts total games and web pages created."
+#    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
   interactives:
     phenomenal_job: "Феноменальная работа!"
@@ -3129,5 +3149,3 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     pitch_body: "Для лучшей работы CodeCombat используй последнюю версию Chrome. Загрузи последнюю версию Chrome, нажав кнопку ниже!"
     download: "Скачай Chrome"
     ignore: "Игнорирую"
-
-    

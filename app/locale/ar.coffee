@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "العربية", englishDescription: "Arabic", translation:
+
   new_home:
     title: "كودكومبات - العاب برمجة لتعليم بايثون و جافا سكريبت"
     meta_keywords: "كودكومبات, بايثون, جافا سكريبت, العاب برمجة"
@@ -356,7 +357,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    complete_subscription: "Complete Subscription"
 #    create_student_header: "Create Student Account"
 #    create_teacher_header: "Create Teacher Account"
-#    create_individual_header: "إنشاء حساب فردي"
+#    create_individual_header: "Create Individual Account"
     email_announcements: "تلقي الإعلانات عن طريق البريد الإلكتروني"
     sign_in_to_continue: "تسجيل الدخول أو إنشاء حساب جديد للمتابعة"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
@@ -788,6 +789,14 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    content: "Amazing! We just launched live online classes."
 #    link: "Ready to get ahead on your coding?"
 
+#  code_quest:
+#    great: "Great!"
+#    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
+#    link: "Click here to register and learn more"
+#    global_tournament: "Global Tournament"
+#    register: "Register"
+#    date: "Aug 1 - Aug 31"
+
 #  play_game_dev_level:
 #    created_by: "Created by {{name}}"
 #    created_during_hoc: "Created during Hour of Code"
@@ -805,7 +814,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 
   game_menu:
     inventory_tab: "المخزن"
-    save_load_tab: "أحفظ\أسترجع"
+    save_load_tab: "أحفظأسترجع"
     options_tab: "خيارات"
     guide_tab: "الدليل"
     guide_video_tutorial: "فيديو تعليمي"
