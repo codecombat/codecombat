@@ -405,6 +405,7 @@ module.exports = class LevelLoader extends CocoClass
     return 'not all session dependencies registered' if @sessionDependenciesRegistered and not @sessionDependenciesRegistered[@session.id] and not @sessionless
     return 'not all opponent session dependencies registered' if @sessionDependenciesRegistered and @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id] and not @sessionless
     return 'session is not loaded' unless @session?.loaded or @sessionless
+    return 'opponent session is not loaded' if @opponentSession and not @opponentSession.loaded
     return 'have not published level loaded' unless @publishedLevelLoaded or @sessionless
     return ''
 
