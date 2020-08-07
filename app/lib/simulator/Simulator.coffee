@@ -392,6 +392,7 @@ module.exports = class Simulator extends CocoClass
 
   generateSpellsObject: ->
     spells = {}
+    promises = []
     for {hero, team} in [{hero: 'Hero Placeholder', team: 'humans'}, {hero: 'Hero Placeholder 1', team: 'ogres'}]
       sessionInfo = _.filter(@task.getSessions(), {team: team})[0]
       fullSpellName = _.string.slugify(hero) + '/plan'
@@ -399,13 +400,32 @@ module.exports = class Simulator extends CocoClass
       submittedCodeLanguage = 'javascript' if submittedCodeLanguage in ['clojure', 'io']  # No longer supported
       submittedCode = LZString.decompressFromUTF16 sessionInfo?.submittedCode?[_.string.slugify(hero)]?.plan ? ''
       aether = new Aether createAetherOptions functionName: 'plan', codeLanguage: submittedCodeLanguage, skipProtectAPI: false
-      try
-        aether.transpile submittedCode
-      catch e
-        console.log "Couldn't transpile #{fullSpellName}:\n#{submittedCode}\n", e
-        aether.transpile ''
-      spells[fullSpellName] = name: 'plan', team: team, thang: {thang: {id: hero}, aether: aether}
-    spells
+      spl = name: 'plan', team: team, thang: {thang: {id: hero}, aether: aether}, fullSpellName: fullSpellName
+      promises.push(@fetchToken(submittedCode, submittedCodeLanguage, spl))
+    Promise.all(promises)
+      .then((values) =>
+           for res in values
+             spl = res.spell
+             source = res.source
+             fullSpellName = spl.fullSpellName
+             try
+               spl.thang.aether.transpile source
+             catch e
+               console.log "Couldn't transpile #{fullSpellName}:\n#{source}\n", e
+             delete spl.fullSpellName
+             spells[fullSpellName] = spl)
+      .then(() => spells)
+
+  fetchToken: (source, language, spell) =>
+    if language not in ['java', 'cpp'] or /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
+      return Promise.resolve({source: source, spell: spell})
+
+    headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
+    service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
+    fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
+    .then (x) => x.json()
+    .then (x) => {source: x.token, spell: spell}
 
 
 class SimulationTask
