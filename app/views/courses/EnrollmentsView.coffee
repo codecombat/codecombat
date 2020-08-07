@@ -74,7 +74,7 @@ module.exports = class EnrollmentsView extends RootView
       @newAdministeredClassrooms = new Classrooms()
       @allAdministeredClassrooms = []
       @listenTo @newAdministeredClassrooms, 'sync', @newAdministeredClassroomsSync
-      teachers = me.get('administratedTeachers')
+      teachers = me.get('administratedTeachers') ? []
       @totalAdministeredTeachers = teachers.length
       teachers.forEach((teacher) =>
         @supermodel.trackRequest @newAdministeredClassrooms.fetchByOwner(teacher)
