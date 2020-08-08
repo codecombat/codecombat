@@ -95,7 +95,9 @@ module.exports = class Simulator extends CocoClass
   commenceSingleSimulation: ->
     @listenToOnce @god, 'infinite-loop', @handleSingleSimulationInfiniteLoop
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
-    @god.createWorld {spells: @generateSpellsObject()}
+    @generateSpellsObject()
+        .then((spell) => @god.createWorld {spells: spell})
+    # @god.createWorld {spells: @generateSpellsObject()}
 
   handleSingleSimulationError: (error) ->
     console.error 'There was an error simulating a single game!', error
