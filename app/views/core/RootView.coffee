@@ -148,7 +148,7 @@ module.exports = class RootView extends CocoView
 
   addLanguagesToSelect: ($select, initialVal) ->
     # For now, we only want to support a few languages for Ozaria when launching for HoC 2019:
-    supportedLanguages = ['en-US', 'es-419', 'zh-HANS']
+    supportedLanguages = ['en-US', 'es-419', 'zh-HANS', 'ru']
     filteredLocale = _.pick(locale, supportedLanguages)
     codes = _.keys(filteredLocale)
 
