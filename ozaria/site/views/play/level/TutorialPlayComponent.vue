@@ -34,7 +34,7 @@
   const defaultPositionTargets = {
     'Run Button': { element: '#run', on: 'top' },
     'Next Button': { element: '#next', on: 'top' },
-    'Play Button': { element: '#run', on: 'top' },
+    'Play Button': { element: '#capstone-playback-view > button:nth-child(1)', on: 'top' },
     'Update Button': { element: '#update-game', on: 'top' },
     'Goal List': { element: '#goals-view', on: 'bottom' },
     'Code Bank Button': { element: '#spell-palette-view', on: 'right' },
