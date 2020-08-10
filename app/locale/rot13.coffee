@@ -789,6 +789,14 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     content: "Nznmvat! Jr whfg ynhapurq yvir bayvar pynffrf."
     link: "Ernql gb trg nurnq ba lbhe pbqvat?"
 
+  code_quest:
+    great: "Terng!"
+    join_paragraph: "Wbva gur ynetrfg vagreangvbany Clguba NV pbqvat gbheanzrag sbe nyy ntrf naq pbzcrgr sbe gur gbc bs gur yrnqreobneq! Guvf zbagu-ybat tybony onggyr fgnegf Nhthfg 1fg naq vapyhqrf $5x jbegu bs cevmrf naq n iveghny njneqf prerzbal jurer jr'yy naabhapr jvaaref naq erpbtavmr lbhe pbqvat fxvyyf."
+    link: "Pyvpx urer gb ertvfgre naq yrnea zber"
+    global_tournament: "Tybony Gbheanzrag"
+    register: "Ertvfgre"
+    date: "Nht 1 - Nht 31"
+
   play_game_dev_level:
     created_by: "Perngrq ol {{anzr}}"
     created_during_hoc: "Perngrq qhevat Ubhe bs Pbqr"
