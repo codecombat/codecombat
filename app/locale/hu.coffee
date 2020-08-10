@@ -156,20 +156,20 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     view_progress: "Fejlődés megtekintése"
     go_to_courses: "Ugrás a Kurzusaimhoz"
     want_coco: "Szeretnéd kipróbálni a CodeCombatot az iskoládban?"
-#    educator: "Educator"
-#    student: "Student"
+    educator: "Pedagógus"
+    student: "Tanuló"
 #    our_coding_programs: "Our Coding Programs"
-#    codecombat: "CodeCombat"
-#    ozaria: "Ozaria"
+    codecombat: "CodeCombat"
+    ozaria: "Ozaria"
 #    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
 #    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
-#    try_codecombat: "Try CodeCombat"
-#    try_ozaria: "Try Ozaria"
+    try_codecombat: "Próbáld ki a CodeCombatot"
+    try_ozaria: "Próbáld ki az Ozariat"
 
   nav:
-#    educators: "Educators"
-#    follow_us: "Follow Us"
-#    general: "General"
+    educators: "Pedagógusok"
+    follow_us: "Kövess minket"
+    general: "Általános"
     map: "Térkép"
     play: "Játék" # The top nav bar entry where players choose which levels to play
     community: "Közösség"
@@ -189,7 +189,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     twitter_follow: "Követés"
     my_classrooms: "Tantermeim"
     my_courses: "Kurzusaim"
-#    my_teachers: "My Teachers"
+    my_teachers: "Tanáraim"
     careers: "Karrier"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -214,7 +214,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   modal:
     close: "Bezár"
     okay: "Oké"
-#    cancel: "Cancel"
+    cancel: "Mégsem"
 
   not_found:
     page_not_found: "Az oldal nem található"
@@ -748,10 +748,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
-#    learning_goals: "Learning Goals"
-#    start: "Start"
-#    vega_character: "Vega Character"
-#    click_to_continue: "Click to Continue"
+    learning_goals: "Tanulási célok"
+    start: "Start"
+    vega_character: "Vega karakter"
+    click_to_continue: "Kattints a folytatáshoz"
 
 #  apis:
 #    methods: "Methods"

@@ -2199,7 +2199,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     join_url_email: "Scrivici"
     join_url_slack: "canale Slack pubblico"
     archmage_subscribe_desc: "Ricevi le email sulle nuove opportunità di sviluppo e sugli ultimi aggiornamenti."
-    artisan_introduction_pref: "Dobbiamo costruire nuovi livelli! La gente chide sempre nuovi contenuti, e non possiamo costruirne così tanti e così tanto velocemente da soli. Per ora la tua workstation è al livello uno; il nostro editor di livelli è a malapena usabile persino dai suoi creatori, quindi fai attenzione. Se hai idee per campanie che richiedano cicli for per"
+    artisan_introduction_pref: "Dobbiamo costruire nuovi livelli! La gente chide sempre nuovi contenuti, e non possiamo costruirne così tanti e così tanto velocemente da soli. Per ora la tua workstation è al livello uno; il nostro editor di livelli è a malapena usabile persino dai suoi creatori, quindi fai attenzione. Se hai idee per campagne che richiedano cicli for per"
     artisan_introduction_suf: ", allora beh, questo corso potrebbe fare per te."
     artisan_attribute_1: "Qualunque esperienza nella costruzione di contenuti come questo andrebbero bene, così come l'uso dell'editor di livelli della Blizzard. Ehi, non è strettamente necessario però!"
     artisan_attribute_2: "Una voglia matta di fare un sacco di testing e ripetere. Per fare dei buoni livelli, devi mostrarli ad altri e guardarli giocare, ed esser preparato a trovare un sacco di cose da correggere."
