@@ -1528,6 +1528,13 @@ class PlayLevelView extends RootView {
     } else {
       this.waitingForSubmissionComplete = true
     }
+
+    // Hack to work around bugged goal states not calling notify in specific cases (stage 3 on Chapter 1):
+    if (this.level.get('ozariaType') !== 'capstone') {
+      setTimeout(function () {
+        this.goalManager.notifyGoalChanges()
+      }.bind(this), 2000)
+    }
   }
 
   // Cinematice playback
