@@ -927,7 +927,7 @@
 
   // These are set as important in order to properly cascade for each .shepherd-element box:
   .element-attached-top
-    top: -75px !important
+    top: -155px !important
   .element-attached-right
     left: 55px !important
   .element-attached-bottom
