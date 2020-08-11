@@ -435,6 +435,8 @@
         </div>
       </div>
     </div>
+
+    <button class="sticky-footer" @click="onCtaClicked">{{ $t('parents_landing_2.book_first_class') }}</button>
   </div>
 </template>
 
@@ -984,5 +986,22 @@ export default {
         line-height: 19px;
 
         color: #1FBAB4;
+    }
+
+    .sticky-footer {
+      z-index: 1;
+
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      height: 60px;
+      width: 100%;
+
+      background: #1FBAB4;
+      box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.1);
+
+      border-radius: 0;
     }
 </style>
