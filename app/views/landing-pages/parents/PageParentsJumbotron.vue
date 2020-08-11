@@ -93,6 +93,8 @@ export default {
     background-repeat: no-repeat;
     background-position: center;
 
+    position: relative;
+    z-index: 2;
   }
 
   .jumbotron h1 {
