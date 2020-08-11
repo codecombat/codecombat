@@ -154,7 +154,14 @@ module.exports = class MainAdminView extends RootView
           <td>#{user.lastName or ''}</td>
           <td>
             <button class='user-spy-button'>Spy</button>
-            #{if new User(user).isTeacher() then "<button class='teacher-dashboard-button'>View Classes</button>" else ""}
+            #{if new User(user).isTeacher()
+                # New Teacher Dashboard doesn't allow admin to navigate to a teacher classroom.
+                # Instead Spy on the teacher and inspect that way.
+                # "<button class='teacher-dashboard-button'>View Classes</button>"
+                ""
+              else
+                ""
+              }
           </td>
         </tr>")
       result = "<table class=\"table\">#{result.join('\n')}</table>"
