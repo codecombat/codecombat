@@ -28,7 +28,7 @@ module.exports = class HeroSelectView extends CocoView
     # @heroes = new ThangTypes({}, { project: ['original', 'name', 'heroClass, 'slug''] })
     # @supermodel.trackRequest @heroes.fetchHeroes()
 
-    api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'heroClass', 'slug', 'ozaria'] }).then (heroes) =>
+    api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'i18n', 'heroClass', 'slug', 'ozaria'] }).then (heroes) =>
       @heroes = heroes.filter((h) => !h.ozaria)
       @debouncedRender()
 
