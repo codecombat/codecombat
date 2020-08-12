@@ -92,12 +92,14 @@
       :loading="loading"
     />
 
-    <class-stat-calculator
-      v-for="clas in sortedActiveClasses"
-      :key="clas._id"
-      :classroom-state="clas"
-      @clickTeacherArchiveModalButton="openEditModal(clas)"
-    />
+    <div id="class-stats-area">
+      <class-stat-calculator
+        v-for="clas in sortedActiveClasses"
+        :key="clas._id"
+        :classroom-state="clas"
+        @clickTeacherArchiveModalButton="openEditModal(clas)"
+      />
+    </div>
 
     <div id="archived-area">
       <div class="archived-title">
@@ -148,6 +150,10 @@
       color: #545b64;
       padding: 10px 31px;
     }
+  }
+
+  #class-stats-area {
+    min-height: 200px;
   }
 
   #archived-area {
