@@ -157,29 +157,14 @@ module.exports = class Spell
     @view?.getSource() ? @source
 
   transpile: (source) ->
-    @fetchToken(source)
-      .then((token) =>
-             unless @language is 'html'
-               try
-                 @thang?.aether.transpile token
-                 @session.lastAST = @thang?.aether?.ast
-               catch e
-                 console.log "Couldn't transpile!\n#{source}\n", e
-             null)
-
-  fetchToken: (source) =>
-    unless source
+    if source
+      @source = source
+    else
       source = @getSource()
-
-    if @language not in ['java', 'cpp'] or /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
-      return Promise.resolve(source)
-
-    headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-    m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
-    service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
-    fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: @language})}
-    .then (x) => x.json()
-    .then (x) => x.token
+    unless @language is 'html'
+      @thang?.aether.transpile source
+      @session.lastAST = @thang?.aether.ast
+    null
 
   # NOTE: By default, I think this compares the current source code with the source *last saved to the server* (not the last time it was run)
   hasChanged: (newSource=null, currentSource=null) ->
