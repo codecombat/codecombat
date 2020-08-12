@@ -69,7 +69,7 @@
                   <div class="per-student-label">{{ $t('parents_landing_2.per_student') }}</div>
                 </div>
 
-                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/jPlOQTv7JXIJ" class="button">
+                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/jPlOQTv7JXIJ" class="button" @click="onTimetapLinkCtaClicked">
                   {{ $t('parents_landing_2.choose_plan') }}
                 </a>
                 <button v-else @click="onCtaClicked">
@@ -105,7 +105,7 @@
                   <div class="per-student-label">{{ $t('parents_landing_2.per_student') }}</div>
                 </div>
 
-                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/jPlOQTv7JXIJ" class="button">
+                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/wPvlbTkKwauE" class="button" @click="onTimetapLinkCtaClicked">
                   {{ $t('parents_landing_2.choose_plan') }}
                 </a>
                 <button v-else @click="onCtaClicked">
@@ -137,7 +137,7 @@
                 </div>
 
 
-                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/wPvlbTkKwauE" class="button">
+                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/wPvlbTkKwauE" class="button" @click="onTimetapLinkCtaClicked">
                   {{ $t('parents_landing_2.choose_plan') }}
                 </a>
                 <button v-else @click="onCtaClicked">
@@ -493,14 +493,24 @@ export default {
   },
 
   methods: {
+    async trackCtaClicked () {
+      await application.tracker.trackEvent(
+          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked'
+      )
+    },
+
+    async onTimetapLinkCtaClicked(e) {
+      e.preventDefault()
+      await this.trackCtaClicked()
+      window.location = e.target.getAttribute('href')
+    },
+
     async onCtaClicked (e) {
       if (e && e.preventDefault) {
         e.preventDefault()
       }
 
-      const eventPromise = application.tracker.trackEvent(
-          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked'
-      )
+      const eventPromise = this.trackCtaClicked()
 
       if (this.type === 'parents' || this.type === 'sales') {
         window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_INTERACTION_ID })
