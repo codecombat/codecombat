@@ -195,25 +195,24 @@ module.exports = class LevelLoader extends CocoClass
         @listenToOnce @opponentSession, 'sync', @preloadTokenForOpponentSession
 
   preloadTokenForOpponentSession: (session) ->
-    console.log('opponentSession:', session)
     language = session.get('codeLanguage')
-    if language not in ['java', 'cpp']
+    compressed = session.get 'interpret'
+    if language not in ['java', 'cpp'] or not compressed
       @loadDependenciesForSession session
     else
-      if compressed = session.get 'interpret'
-        uncompressed = LZString.decompressFromUTF16 compressed
-        code = session.get 'code'
+      uncompressed = LZString.decompressFromUTF16 compressed
+      code = session.get 'code'
 
-        headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-        m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
-        service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
-        fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: uncompressed, language: language})}
-        .then (x) => x.json()
-        .then (x) =>
-          code[if session.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan = x.token
-          session.set 'code', code
-          session.unset 'interpret'
-          @loadDependenciesForSession session
+      headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+      m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
+      service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
+      fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: uncompressed, language: language})}
+      .then (x) => x.json()
+      .then (x) =>
+        code[if session.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan = x.token
+        session.set 'code', code
+        session.unset 'interpret'
+        @loadDependenciesForSession session
 
   loadDependenciesForSession: (session) ->
     console.debug "Loading dependencies for session: ", session if LOG
