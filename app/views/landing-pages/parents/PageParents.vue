@@ -498,14 +498,14 @@ export default {
         e.preventDefault()
       }
 
-      application.tracker.trackEvent(
+      const eventPromise = application.tracker.trackEvent(
           (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked'
       )
 
       if (this.type === 'parents' || this.type === 'sales') {
         window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_INTERACTION_ID })
       } else if (this.type === 'self-serve' || this.type === 'thank-you') {
-        await new Promise(resolve => setTimeout(resolve, 350))
+        await eventPromise
         window.location = 'https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=landingpage'
       } else {
         console.error('Unknown CTA type on parents page')
