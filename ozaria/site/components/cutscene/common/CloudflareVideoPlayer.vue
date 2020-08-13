@@ -1,6 +1,7 @@
 <script>
 import LayoutAspectRatioContainer from '../../common/LayoutAspectRatioContainer'
 import LayoutCenterContent from '../../common/LayoutCenterContent'
+import { log } from '../../../common/logger'
 
 export default {
   components: {
@@ -27,7 +28,10 @@ export default {
   },
 
   data: () => ({
-    cloudflareCaptionUrl: null
+    cloudflareCaptionUrl: null,
+    checkEndedIntervalFailsafe: null,
+    currentTimeFrozenCheck: 0,
+    lastCurrentTime: null
   }),
 
   watch: {
@@ -70,16 +74,48 @@ export default {
     }
   },
 
+  beforeDestroy () {
+    clearInterval(this.checkEndedIntervalFailsafe)
+  },
+
   methods: {
     onVideoLoaded () {
       const video = this.$refs['cloudflareVideo']
       if (video) {
         video.muted = !this.soundOn
         video.addEventListener('ended', () => this.onCompleted())
+
+        // Check allows us to catch edge cases where the player fails
+        // to emit an ended event. These cases occur when the currentTime
+        // stops advancing about 0.2sec on either side of the total duration.
+        // The cloudflare player gets stuck making 204 requests and doesn't
+        // trigger an ended event.
+        clearInterval(this.checkEndedIntervalFailsafe)
+        this.checkEndedIntervalFailsafe = setInterval(() => {
+          const { currentTime, duration, paused } = this.$refs['cloudflareVideo']
+          if (!this.lastCurrentTime || this.lastCurrentTime !== currentTime) {
+            this.lastCurrentTime = currentTime
+            this.currentTimeFrozenCheck = 0
+          } else {
+            if (this.lastCurrentTime === currentTime && !paused) {
+              this.currentTimeFrozenCheck += 1
+            }
+          }
+
+          // Only trigger failsafe if the video is within a second of the duration.
+          // Prevents failsafe triggering due to video buffering.
+          const isVideoNearEnd = Math.abs(duration - currentTime) < 1
+
+          if (isVideoNearEnd && this.currentTimeFrozenCheck > 3) {
+            log('Cutscene Ended Failsafe triggered')
+            this.onCompleted()
+          }
+        }, 500)
       }
     },
 
     onCompleted () {
+      clearInterval(this.checkEndedIntervalFailsafe)
       this.$emit('completed')
     },
 
@@ -100,7 +136,7 @@ export default {
       :aspect-ratio="16 / 9"
     >
       <div class="cutscene">
-        <stream ref="cloudflareVideo" :src="cloudflareID" controls>
+        <stream ref="cloudflareVideo" :src="cloudflareID" controls preload="auto">
           <track v-if="cloudflareCaptionUrl" kind="captions" :src="cloudflareCaptionUrl" default />
         </stream>
       </div>
