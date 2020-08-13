@@ -3065,7 +3065,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     send: "Fraq Rznvy"
 
   hoc_2019:
-    heading: "Ubhe bs Pbqr 2019"
+    heading: "Ubhe bs Pbqr 2020"
     start: "Fgneg Lbhe Wbhearl"
     create_a_class: "Perngr n pynff gb genpx lbhe fghqragf' cebterff naq rafher gurve ubhe bs pbqr tnzrf ner fnirq!"
     choose_language: "1. PUBBFR YNATHNTR"

@@ -3,6 +3,7 @@
   import LayoutSplit from './layout/LayoutSplit'
   import CloseModalBar from './layout/CloseModalBar'
 
+  const countryList = require('country-list')()
   const Classroom = require('core/api/classrooms')
   const utils = require('core/utils')
   const CourseInstances = require('core/api/course-instances')
@@ -47,7 +48,7 @@
           aceConfig: {
             language: this.languageSelected.toLowerCase()
           },
-          name: 'Hour of Code 2019' // TODO use utils.hourOfCodeOptions
+          name: this.$t('hoc_2019.heading') // TODO use utils.hourOfCodeOptions
         })
         const { codeCamel, _id } = resp
 
@@ -121,9 +122,15 @@
         if (me.get('country')) {
           trialReqCountry = (utils.countries || []).find((c) => c.country === me.get('country')).countryCode
           if (trialReqCountry === 'US') {
-            trialReqCountry = 'USA'
+            trialReqCountry = 'United States'
           }
         }
+
+        // Server will 500 if country isn't part of this list
+        if (countryList.getNames().indexOf(trialReqCountry) === -1) {
+          trialReqCountry = ''
+        }
+
         let trialReqName = this.firstName
         if (this.lastName) {
           trialReqName += ' ' + this.lastName
