@@ -90,7 +90,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teachers_love_codecombat_blurb2: "Jbhyq erpbzzraq PbqrPbzong gb bgure pbzchgre fpvrapr grnpuref"
     teachers_love_codecombat_blurb3: "Fnl gung PbqrPbzong urycf gurz fhccbeg fghqragf’ ceboyrz fbyivat novyvgvrf"
     teachers_love_codecombat_subblurb: "Va cnegarefuvc jvgu ZpERY Vagreangvbany, n yrnqre va erfrnepu-onfrq thvqnapr naq rinyhngvbaf bs rqhpngvbany grpuabybtl."
-    top_banner_blurb: "Arj: wbva bhe zvffvba!"
+    top_banner_blurb: "Cneragf, obbx lbhe puvyq'f svefg yvir bayvar pbqvat pynff sbe serr!" # {punatr}
     try_the_game: "Gel gur tnzr"
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
@@ -788,6 +788,14 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     title: "Gunax lbh!"
     content: "Nznmvat! Jr whfg ynhapurq yvir bayvar pynffrf."
     link: "Ernql gb trg nurnq ba lbhe pbqvat?"
+
+  code_quest:
+    great: "Terng!"
+    join_paragraph: "Wbva gur ynetrfg vagreangvbany Clguba NV pbqvat gbheanzrag sbe nyy ntrf naq pbzcrgr sbe gur gbc bs gur yrnqreobneq! Guvf zbagu-ybat tybony onggyr fgnegf Nhthfg 1fg naq vapyhqrf $5x jbegu bs cevmrf naq n iveghny njneqf prerzbal jurer jr'yy naabhapr jvaaref naq erpbtavmr lbhe pbqvat fxvyyf."
+    link: "Pyvpx urer gb ertvfgre naq yrnea zber"
+    global_tournament: "Tybony Gbheanzrag"
+    register: "Ertvfgre"
+    date: "Nht 1 - Nht 31"
 
   play_game_dev_level:
     created_by: "Perngrq ol {{anzr}}"
@@ -2974,12 +2982,18 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     small_group_classes_detail_3: "Ohvyq cebwrpgf naq tvir srrqonpx gb bgure fghqragf"
     small_group_classes_detail_4: "Fperra funevat gb trg yvir srrqonpx ba pbqvat naq qrohttvat"
     private_classes: "Cevingr Pbqvat Pynffrf"
+    four_sessions_per_month: "4 Cevingr Frffvbaf / Zb."
+    eight_sessions_per_month: "8 Cevingr Frffvbaf / Zb."
+    four_private_classes_price: "$219/zb"
+    eight_private_classes_price: "$399/zb"
     private_classes_detail: "4 be 8 Cevingr Frffvbaf / Zb."
     private_classes_price: "$219/zb be $399/zb"
     private_classes_detail_1: "1:1 fghqrag gb vafgehpgbe engvb"
     private_classes_detail_2: "60 zvahgr pynffrf"
     private_classes_detail_3: "Syrkvoyr fpurqhyr gnvyberq gb lbhe arrqf"
     private_classes_detail_4: "Yrffba cynaf naq yvir srrqonpx gnvyberq gb fghqragf' yrneavat fglyr, cnpr, naq novyvgl yriry"
+    best_seller: "Orfg Fryyre"
+    best_value: "Orfg Inyhr"
     codecombat_premium: "PbqrPbzong Cerzvhz"
     learn_at_own_pace: "Yrnea ng Lbhe Bja Cnpr"
     monthly_sub: "Zbaguyl Fhofpevcgvba"
