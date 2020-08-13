@@ -136,7 +136,11 @@ module.exports = class CastButtonView extends CocoView
     maxStage = Math.max((@options.level.get('additionalGoals') || []).map((g) -> g.stage)...)
     if @options.level.get('ozariaType') == 'capstone' and @options?.capstoneStage == maxStage and @options.level.get('creativeMode') == true
       # In final stage of creativeMode capstone we ignore all goals to allow unconstrained freedom.
-      @winnable = true
+      # If there is a win-goal state set to that one single state.
+      if typeof e.goalStates?['win-game']?.status == 'string'
+        @winnable = e.goalStates?['win-game']?.status is 'success'
+      else
+        @winnable = true
 
     if @winnable
       @$el.find('#next').removeClass('inactive')
