@@ -20,7 +20,7 @@ export default {
       </div>
       <div class="ozaria-header">
         <img src="/images/pages/modal/hoc2019/whiteOzariaWordmark.png" />
-        <h3>Hour of Code 2019</h3>
+        <h3>{{ $t('hoc_2019.heading') }}</h3>
         <div class="yellow-bar"></div>
       </div>
       <img class="spirit-lands" src="/images/pages/modal/hoc2019/SpiritLandReveal.png" />

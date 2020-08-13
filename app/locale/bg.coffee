@@ -3062,7 +3062,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    send: "Send Email"
 
 #  hoc_2019:
-#    heading: "Hour of Code 2019"
+#    heading: "Hour of Code 2020"
 #    start: "Start Your Journey"
 #    create_a_class: "Create a class to track your students' progress and ensure their hour of code games are saved!"
 #    choose_language: "1. CHOOSE LANGUAGE"

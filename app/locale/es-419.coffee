@@ -3062,7 +3062,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     send: "Enviar correo"
 
   hoc_2019:
-    heading: "Hora del Código 2019"
+    heading: "Hora del Código 2020"
     start: "Empieza tu camino"
     create_a_class: "¡Crea una clase para monitorear el progreso de los estudiantes y garantizar el guardado de sus juegos de la Hora del Código!"
     choose_language: "1. ELEGIR IDIOMA"
