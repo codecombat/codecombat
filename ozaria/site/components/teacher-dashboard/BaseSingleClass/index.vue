@@ -71,7 +71,7 @@
 
         // Get the name and content list of a module.
         for (const [moduleNum, moduleContent] of Object.entries(modules)) {
-          const moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId][moduleNum]}`
+          const moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
           const moduleStatsForTable = {
             displayName: moduleDisplayName,
             contentList: moduleContent.map(({ displayName, type, _id, name, ozariaType }) => {
