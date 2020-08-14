@@ -67,15 +67,26 @@ module.exports = class Simulator extends CocoClass
         @simulatingPlayerStrings = {}
         for team in ['humans', 'ogres']
           session = _.find(taskData.sessions, {team: team})
+          unless session
+            alert 'no team!'
+            return @cleanupAndSimulateAnotherTask()
           @simulatingPlayerStrings[team] = "#{session.creatorName or session.creator} #{session.team}"
         @trigger 'statusUpdate', "Setting up #{taskData.sessions[0].levelID} simulation between #{@simulatingPlayerStrings.humans} and #{@simulatingPlayerStrings.ogres}"
         #refactor this
         @task = new SimulationTask(taskData)
+        try
+          levelID = @task.getLevelName()
+        catch err
+          console.error err
+          alert 'no levelname'
+          @trigger 'statusUpdate', "Error simulating game: #{err}. Trying another game in #{@retryDelayInSeconds} seconds."
+          @simulateAnotherTaskAfterDelay()
+          return
 
         @supermodel ?= new SuperModel()
         @supermodel.resetProgress()
         @stopListening @supermodel, 'loaded-all'
-        @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), opponentSessionID: @task.getSecondSessionID(), headless: true
+        @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), opponentSessionID: @task.getSecondSessionID(), headless: true
 
         if @supermodel.finished()
           @simulateSingleGame()
