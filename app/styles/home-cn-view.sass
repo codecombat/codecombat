@@ -451,7 +451,7 @@
               width: 42px
               height: 40px
           .quote-1
-            background-image: url("http://coco-assets.oss-cn-beijing.aliyuncs.com/images/home/century_carousel1.jpg")
+            background-image: url("https://assets.koudashijie.com/images/home/century_carousel1.jpg")
             background-position: right
             @media (min-width: $screen-sm-min)
               h4.text-white
@@ -596,6 +596,32 @@
           position: absolute
           top: 145px
           width: 100%
+
+  .floatCS
+    position: fixed
+    bottom: 0
+    padding-top: 5px
+    right: 200px
+    width: 60px
+    border-radius: 8px
+    background-color: #0085dd
+    display: flex
+    flex-direction: column
+    align-items: center
+    color: white
+    font-size: 10px
+    cursor: pointer
+    &:hover .qr
+        display: block
+    .qr
+      width: 100px
+      position: absolute
+      display: none
+      top: -120px
+    .icon
+      width: 4em
+    .text
+      text-align: center
 
 body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='sr'], body[lang='pl'], body[lang='lt'], body[lang='sl'], body[lang='tr'], body[lang='vi']
   #home-view

@@ -207,12 +207,20 @@ mixin accountLinks
                     .col-lg-3
                       h3(data-i18n="nav.follow_us")
                       div.follow_us
-                        .mpqrcode
-                          span='老师请扫'
-                          img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
-                        .mpqrcode
-                          span='家长请扫'
-                          img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
+                        .socialicon
+                          .si.si-wechat
+                            .mpqrcode
+                              .span
+                                span='老师请扫'
+                                img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+                              .span
+                                span='家长请扫'
+                                img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
+                          .si.si-tiktok
+                            .tkqrcode
+                              img.tkqr(src="https://assets.koudashijie.com/images/home/tiktokqr.jpg")
+                          a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
+                          a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
               else
                 .col-lg-12
                   .row

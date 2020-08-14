@@ -603,11 +603,56 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
 
     .follow_us
       display: flex
-      .mpqrcode
-        margin-right: 20px
+      flex-direction: column
+      .socialicon
         display: flex
-        flex-direction: column
-        align-items: center
+        justify-content: space-between
+        .si
+          width: 50px
+          height: 45px
+          background-size: 50px
+          background-position: center
+          background-repeat: no-repeat
+          position: relative
+          cursor: pointer
+        .si-bilibili
+          background-image: url('https://assets.koudashijie.com/images/home/icon/bilibili-dark.png')
+          &:hover
+            background-image: url('https://assets.koudashijie.com/images/home/icon/bilibili-light.png')
+        .si-wechat
+          background-image: url('https://assets.koudashijie.com/images/home/icon/wechat-dark.png')
+          &:hover
+            background-image: url('https://assets.koudashijie.com/images/home/icon/wechat-light.png')
+          &:hover .mpqrcode
+            display: flex
+        .si-tiktok
+          background-image: url('https://assets.koudashijie.com/images/home/icon/tiktok-dark.png')
+          &:hover
+            background-image: url('https://assets.koudashijie.com/images/home/icon/tiktok-light.png')
+          &:hover .tkqrcode
+            display: flex
+        .si-weibo
+          background-image: url('https://assets.koudashijie.com/images/home/icon/weibo-dark.png')
+          &:hover
+            background-image: url('https://assets.koudashijie.com/images/home/icon/weibo-light.png')
+          
+      .tkqrcode
+        display: none
+        position: absolute
+        top: 50px
+        left: 0
+        .tkqr
+          width: 120px
+      .mpqrcode
+        display: none
+        position: absolute
+        top: 50px
+        left: 0
+        .span
+          margin-right: 20px
+          display: flex
+          flex-direction: column
+          align-items: center
 
 
   #final-footer
