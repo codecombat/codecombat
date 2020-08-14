@@ -19,6 +19,8 @@
     },
 
     computed: {
+      // Note this is not used because changing the page url causes a reload, which makes
+      // the pre load of this iframe useless
       timetapIframeUrl () {
         if (this.classType === undefined) {
           return 'https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal'
@@ -56,7 +58,7 @@
     </template>
 
     <template slot="body">
-      <iframe ref="timetapIframe" :src="timetapIframeUrl" />
+      <iframe ref="timetapIframe" src="https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal" sandbox="allow-same-origin allow-scripts" />
     </template>
   </base-modal>
 </template>
