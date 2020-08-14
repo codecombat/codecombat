@@ -68,7 +68,7 @@ module.exports = class Simulator extends CocoClass
         for team in ['humans', 'ogres']
           session = _.find(taskData.sessions, {team: team})
           unless session
-            @trigger 'statusUpdate', "Error simulating game: find 'no team' sessions. Trying another game in #{@retryDelayInSeconds} seconds."
+            @trigger 'statusUpdate', "Error simulating game: didn't find both teams' sessions. Trying another game in #{@retryDelayInSeconds} seconds."
             @simulateAnotherTaskAfterDelay()
             return
           @simulatingPlayerStrings[team] = "#{session.creatorName or session.creator} #{session.team}"
@@ -79,7 +79,6 @@ module.exports = class Simulator extends CocoClass
           levelID = @task.getLevelName()
         catch err
           console.error err
-          alert 'no levelname'
           @trigger 'statusUpdate', "Error simulating game: #{err}. Trying another game in #{@retryDelayInSeconds} seconds."
           @simulateAnotherTaskAfterDelay()
           return
