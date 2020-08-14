@@ -24,7 +24,7 @@
           return 'https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal'
         } else if (this.classType === 'group') {
           return 'https://www.timetap.com/appts/jPlOQTv7JXIJ?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal'
-        } else if (this.classTYpe === 'private') {
+        } else if (this.classType === 'private') {
           return 'https://www.timetap.com/appts/wPvlbTkKwauE?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal'
         }
       }

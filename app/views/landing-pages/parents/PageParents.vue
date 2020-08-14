@@ -1,6 +1,6 @@
 <template>
   <div>
-    <page-parents-jumbotron :type="type" @cta-clicked="onCtaClicked"/>
+    <page-parents-jumbotron :type="type" @cta-clicked="onGenericCtaClicked"/>
     <modal-timetap-schedule
         v-if="type !== 'parents'"
         :show="showTimetapModal"
@@ -53,7 +53,7 @@
               <li>{{ $t('parents_landing_2.live_class_details_5') }}</li>
             </ul>
 
-            <button class="default-top-spacing" @click="onCtaClicked">
+            <button class="default-top-spacing" @click="onGenericCtaClicked">
               {{ $t('parents_landing_2.try_free_class') }}
             </button>
           </div>
@@ -76,10 +76,7 @@
                   <div class="per-student-label">{{ $t('parents_landing_2.per_student') }}</div>
                 </div>
 
-                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/jPlOQTv7JXIJ" class="button" @click="onTimetapLinkCtaClicked">
-                  {{ $t('parents_landing_2.choose_plan') }}
-                </a>
-                <button v-else @click="onCtaClicked">
+                <button @click="onGroupClassCtaClicked">
                   {{ $t('parents_landing_2.choose_plan') }}
                 </button>
 
@@ -112,10 +109,7 @@
                   <div class="per-student-label">{{ $t('parents_landing_2.per_student') }}</div>
                 </div>
 
-                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/wPvlbTkKwauE" class="button" @click="onTimetapLinkCtaClicked">
-                  {{ $t('parents_landing_2.choose_plan') }}
-                </a>
-                <button v-else @click="onCtaClicked">
+                <button @click="onPrivateClassCtaClicked">
                   {{ $t('parents_landing_2.choose_plan') }}
                 </button>
 
@@ -144,10 +138,7 @@
                 </div>
 
 
-                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/wPvlbTkKwauE" class="button" @click="onTimetapLinkCtaClicked">
-                  {{ $t('parents_landing_2.choose_plan') }}
-                </a>
-                <button v-else @click="onCtaClicked">
+                <button @click="onPrivateClassCtaClicked">
                   {{ $t('parents_landing_2.choose_plan') }}
                 </button>
 
@@ -251,7 +242,7 @@
 
         <div class="row">
           <div class="col-lg-12 buy-now-row">
-            <button @click="onCtaClicked">
+            <button @click="onGenericCtaClicked">
               {{ $t('parents_landing_2.book_first_class') }}
             </button>
           </div>
@@ -311,7 +302,7 @@
 
         <div class="row">
           <div class="col-lg-12 buy-now-row">
-            <button @click="onCtaClicked">
+            <button @click="onGenericCtaClicked">
               {{ $t('parents_landing_2.book_first_class') }}
             </button>
           </div>
@@ -393,7 +384,7 @@
 
       <div class="row buy-now-row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <button @click="onCtaClicked">{{ $t('parents_landing_2.get_started') }}</button>
+          <button @click="onGenericCtaClicked">{{ $t('parents_landing_2.get_started') }}</button>
         </div>
       </div>
     </div>
@@ -443,7 +434,7 @@
       </div>
     </div>
 
-    <button class="sticky-footer" @click="onCtaClicked">{{ $t('parents_landing_2.book_first_class') }}</button>
+    <button class="sticky-footer" @click="onGenericCtaClicked">{{ $t('parents_landing_2.book_first_class') }}</button>
   </div>
 </template>
 
@@ -475,7 +466,8 @@ export default {
 
   data: () => ({
     timetapModalClassType: undefined,
-    showTimetapModal: true,
+    showTimetapModal: false,
+    modalClassType: undefined
   }),
 
   metaInfo () {
@@ -506,10 +498,19 @@ export default {
       )
     },
 
-    async onTimetapLinkCtaClicked(e) {
-      e.preventDefault()
-      await this.trackCtaClicked()
-      window.location = e.target.getAttribute('href')
+    onGroupClassCtaClicked (e) {
+      this.timetapModalClassType = 'group'
+      this.onCtaClicked(e)
+    },
+
+    onPrivateClassCtaClicked (e) {
+      this.timetapModalClassType = 'private'
+      this.onCtaClicked(e)
+    },
+
+    onGenericCtaClicked (e) {
+      this.timetapModalClassType = undefined;
+      this.onCtaClicked(e)
     },
 
     async onCtaClicked (e) {
