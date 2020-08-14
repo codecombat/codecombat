@@ -68,8 +68,9 @@ module.exports = class Simulator extends CocoClass
         for team in ['humans', 'ogres']
           session = _.find(taskData.sessions, {team: team})
           unless session
-            alert 'no team!'
-            return @cleanupAndSimulateAnotherTask()
+            @trigger 'statusUpdate', "Error simulating game: find 'no team' sessions. Trying another game in #{@retryDelayInSeconds} seconds."
+            @simulateAnotherTaskAfterDelay()
+            return
           @simulatingPlayerStrings[team] = "#{session.creatorName or session.creator} #{session.team}"
         @trigger 'statusUpdate', "Setting up #{taskData.sessions[0].levelID} simulation between #{@simulatingPlayerStrings.humans} and #{@simulatingPlayerStrings.ogres}"
         #refactor this
