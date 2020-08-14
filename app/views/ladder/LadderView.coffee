@@ -70,9 +70,9 @@ module.exports = class LadderView extends RootView
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model
     @winners = require('./tournament_results')[@levelID]
 
-    if tournamentEndDate = {greed: 1402444800000, 'criss-cross': 1410912000000, 'zero-sum': 1428364800000, 'ace-of-coders': 1444867200000}[@levelID]
+    if tournamentEndDate = {greed: 1402444800000, 'criss-cross': 1410912000000, 'zero-sum': 1428364800000, 'ace-of-coders': 1444867200000, 'battle-of-red-cliffs': 1598918400000}[@levelID]
       @tournamentTimeLeft = moment(new Date(tournamentEndDate)).fromNow()
-    if tournamentStartDate = {'zero-sum': 1427472000000, 'ace-of-coders': 1442417400000}[@levelID]
+    if tournamentStartDate = {'zero-sum': 1427472000000, 'ace-of-coders': 1442417400000, 'battle-of-red-cliffs': 1596295800000}[@levelID]
       @tournamentTimeElapsed = moment(new Date(tournamentStartDate)).fromNow()
 
     @displayTabContent = 'display: block'

@@ -32,6 +32,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     classroom_in_box_blurb1: "Involucre a todos los estudiantes para que confíen que la programación es para ellos."
     classroom_in_box_blurb2: "Apoderar a cualquier educador para que se sienta seguro al enseñar programación."
     classroom_in_box_blurb3: "Inspirar a todos los líderes escolares para crear un programa de Ciencias de la Computación de clase mundial."
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    click_here: "Click here"
     creativity_rigor_title: "Donde la creatividad alcanza el rigor"
     creativity_rigor_subtitle1: "Haga que la programación sea divertida y enseñe habilidades del mundo real"
@@ -2511,6 +2513,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     unknown: "Error desconocido." # {change}
     error: "ERROR"
     general_desc: "Ocurrió un errór, probablemente es tu culpa. Espera un poco y luego refresca la página, o visíta uno de los siguientes enlaces para regresar a programar!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Nivel"
@@ -3040,6 +3043,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"

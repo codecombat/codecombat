@@ -32,6 +32,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     classroom_in_box_blurb1: "모든 학생들이 코딩이 자신 스스로를 위한 것이라고 생각하게 합니다."
     classroom_in_box_blurb2: "선생님이 코딩을 가르칠 때 자신감을 갖도록 합니다."
     classroom_in_box_blurb3: "모든 학교 지도자들에게 세계적인 수준의 컴퓨터 공학 프로그램을 만들게 수 있게 영감을 줍니다."
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    click_here: "Click here"
     creativity_rigor_title: "창의력이 활력과 만나는 곳"
     creativity_rigor_subtitle1: "코딩을 더욱 재미있게 만들고 실제 기술을 가르칩니다."
@@ -1119,9 +1121,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     shubhangi_title: "소프트웨어 엔지니어 팀장"
     retrostyle_title: "일러스트레이션"
     retrostyle_blurb: "레트로스타일 게임"
-    community_title: "...그리고 저희의 오픈소스 커뮤니티"
     bryukh_title: "게임플레이 개발자"
     bryukh_blurb: "퍼즐 구성자"
+    community_title: "...그리고 저희의 오픈소스 커뮤니티"
     community_subtitle: "500명이 넘는 Contributor분들이 CodeCombat 개발을 도와주고 계십니다, 매주 새로운 분들이 저희 프로젝트에 참여해주시고 계십니다!!"
     community_description_3: "CodeCombat 은"
     community_description_link_2: "커뮤니티 프로젝트입니다"
@@ -2511,6 +2513,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     unknown: "알 수 없는 에러 발생" # {change}
 #    error: "ERROR"
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "레벨"
@@ -3040,6 +3043,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"

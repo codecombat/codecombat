@@ -32,6 +32,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    click_here: "Click here"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
@@ -154,20 +156,20 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     view_progress: "Fejlődés megtekintése"
     go_to_courses: "Ugrás a Kurzusaimhoz"
     want_coco: "Szeretnéd kipróbálni a CodeCombatot az iskoládban?"
-#    educator: "Educator"
-#    student: "Student"
+    educator: "Pedagógus"
+    student: "Tanuló"
 #    our_coding_programs: "Our Coding Programs"
-#    codecombat: "CodeCombat"
-#    ozaria: "Ozaria"
+    codecombat: "CodeCombat"
+    ozaria: "Ozaria"
 #    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
 #    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
-#    try_codecombat: "Try CodeCombat"
-#    try_ozaria: "Try Ozaria"
+    try_codecombat: "Próbáld ki a CodeCombatot"
+    try_ozaria: "Próbáld ki az Ozariat"
 
   nav:
-#    educators: "Educators"
-#    follow_us: "Follow Us"
-#    general: "General"
+    educators: "Pedagógusok"
+    follow_us: "Kövess minket"
+    general: "Általános"
     map: "Térkép"
     play: "Játék" # The top nav bar entry where players choose which levels to play
     community: "Közösség"
@@ -187,7 +189,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     twitter_follow: "Követés"
     my_classrooms: "Tantermeim"
     my_courses: "Kurzusaim"
-#    my_teachers: "My Teachers"
+    my_teachers: "Tanáraim"
     careers: "Karrier"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -212,7 +214,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   modal:
     close: "Bezár"
     okay: "Oké"
-#    cancel: "Cancel"
+    cancel: "Mégsem"
 
   not_found:
     page_not_found: "Az oldal nem található"
@@ -746,10 +748,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    concept_unlocked: "Concept Unlocked"
 #    use_at_least_one_concept: "Use at least one concept: "
 #    command_bank: "Command Bank"
-#    learning_goals: "Learning Goals"
-#    start: "Start"
-#    vega_character: "Vega Character"
-#    click_to_continue: "Click to Continue"
+    learning_goals: "Tanulási célok"
+    start: "Start"
+    vega_character: "Vega karakter"
+    click_to_continue: "Kattints a folytatáshoz"
 
 #  apis:
 #    methods: "Methods"
@@ -2511,6 +2513,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     unknown: "Ismeretlen hiba." # {change}
     error: "HIBA"
     general_desc: "Hiba történt, valószínűleg a mi készülékünkben. Kis idő múlva frissítsd az oldalt vagy válassz az alábbi linkek közül, hogy visszatérj a programozáshoz."
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Szint"
@@ -3040,6 +3043,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"

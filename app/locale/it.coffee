@@ -32,6 +32,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    click_here: "Click here"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
@@ -2197,7 +2199,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     join_url_email: "Scrivici"
     join_url_slack: "canale Slack pubblico"
     archmage_subscribe_desc: "Ricevi le email sulle nuove opportunità di sviluppo e sugli ultimi aggiornamenti."
-    artisan_introduction_pref: "Dobbiamo costruire nuovi livelli! La gente chide sempre nuovi contenuti, e non possiamo costruirne così tanti e così tanto velocemente da soli. Per ora la tua workstation è al livello uno; il nostro editor di livelli è a malapena usabile persino dai suoi creatori, quindi fai attenzione. Se hai idee per campanie che richiedano cicli for per"
+    artisan_introduction_pref: "Dobbiamo costruire nuovi livelli! La gente chide sempre nuovi contenuti, e non possiamo costruirne così tanti e così tanto velocemente da soli. Per ora la tua workstation è al livello uno; il nostro editor di livelli è a malapena usabile persino dai suoi creatori, quindi fai attenzione. Se hai idee per campagne che richiedano cicli for per"
     artisan_introduction_suf: ", allora beh, questo corso potrebbe fare per te."
     artisan_attribute_1: "Qualunque esperienza nella costruzione di contenuti come questo andrebbero bene, così come l'uso dell'editor di livelli della Blizzard. Ehi, non è strettamente necessario però!"
     artisan_attribute_2: "Una voglia matta di fare un sacco di testing e ripetere. Per fare dei buoni livelli, devi mostrarli ad altri e guardarli giocare, ed esser preparato a trovare un sacco di cose da correggere."
@@ -2511,6 +2513,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     unknown: "Errore sconosciuto." # {change}
     error: "ERRORE"
     general_desc: "Qualcosa è andato storto, e probabilmente è colpa nostra. Prova ad aspettare un attimo e ricarica la pagina, altrimenti visita uno dei seguenti links per tornare a programmare!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "Livello"
@@ -3040,6 +3043,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"

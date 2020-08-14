@@ -32,6 +32,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     classroom_in_box_blurb1: "讓每個學生都參與進來，讓他們相信編碼是為了他們自己。"
     classroom_in_box_blurb2: "讓每位老師在授課時更有自信。"
     classroom_in_box_blurb3: "激勵更多的學校來創造出世界一流的電腦科學課程。"
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    click_here: "Click here"
     creativity_rigor_title: "創造力與邏輯相遇的地方"
     creativity_rigor_subtitle1: "讓編碼變得有趣並學習到現實世界共通的技能"
@@ -2511,6 +2513,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     unknown: "未知錯誤。"
     error: "錯誤"
     general_desc: "發生了某些錯誤，它很有可能是我們造成的。 請試著等待一小段時間然後再刷新這個頁面，或是進入下方的其中一個連結以回到編程頁面!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
   resources:
     level: "等級"
@@ -3040,6 +3043,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"

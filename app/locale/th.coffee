@@ -32,6 +32,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     classroom_in_box_blurb1: "ให้นักเรียนทุกคนมีส่วนร่วมเพื่อให้พวกเขาเชื่อว่าการเขียนโค้ดนั้นมีไว้สำหรับพวกเขา"
     classroom_in_box_blurb2: "ช่วยให้นักการศึกษารู้สึกมั่นใจเมื่อสอนการเขียนโค้ด"
     classroom_in_box_blurb3: "สร้างแรงบันดาลใจให้ผู้นำโรงเรียนทุกคนสร้างโปรแกรมวิทยาศาสตร์คอมพิวเตอร์ระดับโลก"
+#    classroom_in_box_blurb4: ""
+#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    click_here: "Click here"
     creativity_rigor_title: "ที่ความคิดสร้างสรรค์ตรงกับความรุนแรง"
     creativity_rigor_subtitle1: "ทำให้การเขียนโค้ดสนุกและสอนทักษะการใช้งานจริง"
@@ -2511,6 +2513,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    unknown: "Unknown Error"
 #    error: "ERROR"
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
+#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
 #  resources:
 #    level: "Level"
@@ -3040,6 +3043,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    grade: "Grade"
 #    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
 #    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+#    start_free_trial_today: "Start free trial today"
+#    live_classes_title: "Live coding classes from CodeCombat!"
+#    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"

@@ -180,18 +180,20 @@ module.exports = class LevelLoader extends CocoClass
       @opponentSession = @opponentSessionResource.model
 
     if @session.loaded
-      console.debug 'LevelLoader: session already loaded:', @session
+      console.debug 'LevelLoader: session already loaded:', @session if LOG
       @session.setURL '/db/level.session/' + @session.id
       @loadDependenciesForSession @session
     else
-      console.debug 'LevelLoader: loading session:', @session
+      console.debug 'LevelLoader: loading session:', @session if LOG
       @listenToOnce @session, 'sync', ->
         @session.setURL '/db/level.session/' + @session.id
         @loadDependenciesForSession @session
     if @opponentSession
       if @opponentSession.loaded
+        console.debug 'LevelLoader: opponent session already loaded:', @opponentSession if LOG
         @loadDependenciesForSession @opponentSession
       else
+        console.debug 'LevelLoader: loading opponent session:', @opponentSession if LOG
         @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
 
   loadDependenciesForSession: (session) ->
@@ -380,6 +382,7 @@ module.exports = class LevelLoader extends CocoClass
       @worldNecessities.push @maybeLoadURL(url, LevelComponent, 'component')
 
   onWorldNecessityLoaded: (resource) ->
+    # Note: this can also be called when session, opponentSession, or other resources with dedicated load handlers are loaded, before those handlers
     index = @worldNecessities.indexOf(resource)
     if resource.name is 'thang'
       @loadDefaultComponentsForThangType(resource.model)
@@ -396,7 +399,7 @@ module.exports = class LevelLoader extends CocoClass
 
   checkAllWorldNecessitiesRegisteredAndLoaded: ->
     reason = @getReasonForNotYetLoaded()
-    console.debug('LevelLoader: Reason not loaded:', reason)
+    console.debug('LevelLoader: Reason not loaded:', reason) if reason and LOG
     return !reason
 
   getReasonForNotYetLoaded: ->
@@ -405,6 +408,7 @@ module.exports = class LevelLoader extends CocoClass
     return 'not all session dependencies registered' if @sessionDependenciesRegistered and not @sessionDependenciesRegistered[@session.id] and not @sessionless
     return 'not all opponent session dependencies registered' if @sessionDependenciesRegistered and @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id] and not @sessionless
     return 'session is not loaded' unless @session?.loaded or @sessionless
+    return 'opponent session is not loaded' if @opponentSession and (not @opponentSession.loaded or @opponentSession.get('interpret'))
     return 'have not published level loaded' unless @publishedLevelLoaded or @sessionless
     return ''
 
