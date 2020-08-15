@@ -191,10 +191,30 @@ module.exports = class LevelLoader extends CocoClass
     if @opponentSession
       if @opponentSession.loaded
         console.debug 'LevelLoader: opponent session already loaded:', @opponentSession if LOG
-        @loadDependenciesForSession @opponentSession
+        @preloadTokenForOpponentSession @opponentSession
       else
         console.debug 'LevelLoader: loading opponent session:', @opponentSession if LOG
-        @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
+        @listenToOnce @opponentSession, 'sync', @preloadTokenForOpponentSession
+
+  preloadTokenForOpponentSession: (session) =>
+    language = session.get('codeLanguage')
+    compressed = session.get 'interpret'
+    if language not in ['java', 'cpp'] or not compressed
+      @loadDependenciesForSession session
+    else
+      uncompressed = LZString.decompressFromUTF16 compressed
+      code = session.get 'code'
+
+      headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+      m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
+      service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
+      fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: uncompressed, language: language})}
+      .then (x) => x.json()
+      .then (x) =>
+        code[if session.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan = x.token
+        session.set 'code', code
+        session.unset 'interpret'
+        @loadDependenciesForSession session
 
   loadDependenciesForSession: (session) ->
     console.debug "Loading dependencies for session: ", session if LOG
@@ -410,6 +430,7 @@ module.exports = class LevelLoader extends CocoClass
     return 'session is not loaded' unless @session?.loaded or @sessionless
     return 'opponent session is not loaded' if @opponentSession and (not @opponentSession.loaded or @opponentSession.get('interpret'))
     return 'have not published level loaded' unless @publishedLevelLoaded or @sessionless
+    return 'cpp/java token is still fetching' if @opponentSession and @opponentSession.get 'interpret'
     return ''
 
   onWorldNecessitiesLoaded: ->
