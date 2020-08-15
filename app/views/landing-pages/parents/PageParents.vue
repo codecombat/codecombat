@@ -1,6 +1,13 @@
 <template>
   <div>
-    <page-parents-jumbotron :type="type" @cta-clicked="onCtaClicked"/>
+    <page-parents-jumbotron :type="type" @cta-clicked="onGenericCtaClicked"/>
+    <modal-timetap-schedule
+        v-if="type !== 'parents'"
+        :show="showTimetapModal"
+        :class-type="timetapModalClassType"
+        @close="showTimetapModal = false"
+        @booked="onClassBooked"
+    />
 
     <div class="container-background gray-1-background">
       <div class="container">
@@ -46,7 +53,7 @@
               <li>{{ $t('parents_landing_2.live_class_details_5') }}</li>
             </ul>
 
-            <button class="default-top-spacing" @click="onCtaClicked">
+            <button class="default-top-spacing" @click="onGenericCtaClicked">
               {{ $t('parents_landing_2.try_free_class') }}
             </button>
           </div>
@@ -69,10 +76,7 @@
                   <div class="per-student-label">{{ $t('parents_landing_2.per_student') }}</div>
                 </div>
 
-                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/jPlOQTv7JXIJ" class="button" @click="onTimetapLinkCtaClicked">
-                  {{ $t('parents_landing_2.choose_plan') }}
-                </a>
-                <button v-else @click="onCtaClicked">
+                <button @click="onGroupClassCtaClicked">
                   {{ $t('parents_landing_2.choose_plan') }}
                 </button>
 
@@ -105,10 +109,7 @@
                   <div class="per-student-label">{{ $t('parents_landing_2.per_student') }}</div>
                 </div>
 
-                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/wPvlbTkKwauE" class="button" @click="onTimetapLinkCtaClicked">
-                  {{ $t('parents_landing_2.choose_plan') }}
-                </a>
-                <button v-else @click="onCtaClicked">
+                <button @click="onPrivateClassCtaClicked">
                   {{ $t('parents_landing_2.choose_plan') }}
                 </button>
 
@@ -137,10 +138,7 @@
                 </div>
 
 
-                <a v-if="type === 'self-serve'" href="https://www.timetap.com/appts/wPvlbTkKwauE" class="button" @click="onTimetapLinkCtaClicked">
-                  {{ $t('parents_landing_2.choose_plan') }}
-                </a>
-                <button v-else @click="onCtaClicked">
+                <button @click="onPrivateClassCtaClicked">
                   {{ $t('parents_landing_2.choose_plan') }}
                 </button>
 
@@ -244,7 +242,7 @@
 
         <div class="row">
           <div class="col-lg-12 buy-now-row">
-            <button @click="onCtaClicked">
+            <button @click="onGenericCtaClicked">
               {{ $t('parents_landing_2.book_first_class') }}
             </button>
           </div>
@@ -304,7 +302,7 @@
 
         <div class="row">
           <div class="col-lg-12 buy-now-row">
-            <button @click="onCtaClicked">
+            <button @click="onGenericCtaClicked">
               {{ $t('parents_landing_2.book_first_class') }}
             </button>
           </div>
@@ -386,7 +384,7 @@
 
       <div class="row buy-now-row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <button @click="onCtaClicked">{{ $t('parents_landing_2.get_started') }}</button>
+          <button @click="onGenericCtaClicked">{{ $t('parents_landing_2.get_started') }}</button>
         </div>
       </div>
     </div>
@@ -436,18 +434,20 @@
       </div>
     </div>
 
-    <button class="sticky-footer" @click="onCtaClicked">{{ $t('parents_landing_2.book_first_class') }}</button>
+    <button class="sticky-footer" @click="onGenericCtaClicked">{{ $t('parents_landing_2.book_first_class') }}</button>
   </div>
 </template>
 
 <script>
 import PageParentsSectionPremium from './PageParentsSectionPremium'
 import PageParentsJumbotron from './PageParentsJumbotron'
+import ModalTimetapSchedule from './ModalTimetapSchedule'
 
 const DRIFT_LIVE_CLASSES_INTERACTION_ID = 214809
 
 export default {
   components: {
+    ModalTimetapSchedule,
     PageParentsSectionPremium,
     PageParentsJumbotron
   },
@@ -464,6 +464,12 @@ export default {
     }
   },
 
+  data: () => ({
+    timetapModalClassType: undefined,
+    showTimetapModal: false,
+    modalClassType: undefined
+  }),
+
   metaInfo () {
     return {
       title: (this.type === 'parents') ? undefined : this.$t('parents_landing_2.live_classes_title'),
@@ -477,14 +483,7 @@ export default {
     window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
 
     if (this.type === 'thank-you') {
-      application.tracker.trackEvent('CodeCombat live class booked', {}, ['facebook'])
-
-      noty({
-        text: this.$t('parents_landing_2.live_class_booked_thank_you'),
-        layout: 'topCenter',
-        type: 'success',
-        timeout: 10000
-      })
+      this.onClassBooked()
     }
   },
 
@@ -499,10 +498,19 @@ export default {
       )
     },
 
-    async onTimetapLinkCtaClicked(e) {
-      e.preventDefault()
-      await this.trackCtaClicked()
-      window.location = e.target.getAttribute('href')
+    onGroupClassCtaClicked (e) {
+      this.timetapModalClassType = 'group'
+      this.onCtaClicked(e)
+    },
+
+    onPrivateClassCtaClicked (e) {
+      this.timetapModalClassType = 'private'
+      this.onCtaClicked(e)
+    },
+
+    onGenericCtaClicked (e) {
+      this.timetapModalClassType = undefined;
+      this.onCtaClicked(e)
     },
 
     async onCtaClicked (e) {
@@ -510,13 +518,12 @@ export default {
         e.preventDefault()
       }
 
-      const eventPromise = this.trackCtaClicked()
+      this.trackCtaClicked()
 
       if (this.type === 'parents' || this.type === 'sales') {
         window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_INTERACTION_ID })
       } else if (this.type === 'self-serve' || this.type === 'thank-you') {
-        await eventPromise
-        window.location = 'https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=landingpage'
+        this.showTimetapModal = true
       } else {
         console.error('Unknown CTA type on parents page')
       }
@@ -526,6 +533,19 @@ export default {
       if (e.interactionId === DRIFT_LIVE_CLASSES_INTERACTION_ID) {
         application.tracker.trackEvent('Live classes welcome call scheduled', {}, ['facebook'])
       }
+    },
+
+    onClassBooked () {
+      this.showTimetapModal = false
+
+      application.tracker.trackEvent('CodeCombat live class booked', {}, ['facebook'])
+
+      noty({
+        text: this.$t('parents_landing_2.live_class_booked_thank_you'),
+        layout: 'topCenter',
+        type: 'success',
+        timeout: 10000
+      })
     }
   },
 }
