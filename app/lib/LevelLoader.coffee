@@ -210,11 +210,11 @@ module.exports = class LevelLoader extends CocoClass
       service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
       fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: uncompressed, language: language})}
       .then (x) => x.json()
-      .then(((x) =>
+      .then (x) =>
         code[if session.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan = x.token
         session.set 'code', code
         session.unset 'interpret'
-        @loadDependenciesForSession session).bind(@))
+        @loadDependenciesForSession session
 
   loadDependenciesForSession: (session) ->
     console.debug "Loading dependencies for session: ", session if LOG
