@@ -968,14 +968,14 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #  avatar_selection:
 #    pick_an_avatar: "Pick an avatar that will represent you as a player"
 
-#  premium_features:
-#    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
-#    master_coder: "Become a Master Coder by subscribing today!"
-#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
-#    subscribe_now: "Subscribe Now"
-#    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
-#    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
-#    hero_caption: "Exciting new heroes!"
+  premium_features:
+    get_premium: "Hol dir<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
+    master_coder: "Werde ein Meister-Programmierer, indem du heute abonnierst!"
+    paypal_redirect: "Du wirst zu PayPal weitergeleitet, um das Abo abzuschließen."
+    subscribe_now: "Abonniere jetzt"
+    hero_blurb_1: "Bekomme Zugang zu __premiumHeroesCount__ tollen Helden, die nur für Abonennten sind! Nutze die nicht aufzuhaltende Kraft von Okar Stompfoot, die tödliche Präzision von Naria of the Leaf, or rufe mit Nalfar Cryptor \"liebenswerte\" Skelette zu dir."
+    hero_blurb_2: "Premium-Kämpfer erhalten atemberaubende Kampffähigkeiten wie Kriegsrufe, Stampfen und den Gegner zu schleudern. Oder spiele als Ranger, indem du Heimlichkeit und Bogen nutzt, Messer wirfst und Fallen stellst! Teste deine Fähigkeiten als ein wahrer Programmier-Magier und entfessle ein mächtiges Aufkommen von ursprünglicher, geisterbeschwörender oder elementarer Magie!"
+    hero_caption: "Áufregende neue Helden!"
 #    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
