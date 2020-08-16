@@ -7,13 +7,3 @@ export function getRequestAQuoteGroup (user) {
     return 'request-a-quote-header'
   }
 }
-
-export function getOzariaEncouragementModalGroup (user) {
-  const bucket = user.get('testGroupNumber') % 10
-
-  if (bucket < 5) {
-    return 'ozaria-encouragement-modal-show'
-  } else {
-    return 'ozaria-encouragement-modal-no-show'
-  }
-}

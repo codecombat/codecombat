@@ -55,7 +55,11 @@ module.exports = class Spell
 
     @source = @originalSource
     @parameters = p.parameters
-    if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
+    if @otherSession and @team is @otherSession.get('team') and sessionSource = @otherSession.getSourceFor(@spellKey)
+      # Load opponent code from other session (new way, not relying on PlayLevelView loadOpponentTeam)
+      @source = sessionSource
+    else if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
+      # Load either our code or opponent code (old way, opponent code copied into our session in PlayLevelView loadOpponentTeam)
       if sessionSource isnt '// Should fill in some default source\n'  # TODO: figure out why session is getting this default source in there and stop it
         @source = sessionSource
     if p.aiSource and not @otherSession and not @canWrite()
@@ -82,8 +86,7 @@ module.exports = class Spell
         }
       """
     if @language is 'cpp' and not @languages[@language]
-      # TODO: do some transforms here to handle most common sample code differences between JavaScript and C++
-      @languages.cpp = @languages.javascript
+      @languages.cpp = utils.translatejs2cpp @languages.javascript
     @originalSource = @languages[@language] ? @languages.javascript
     @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
 

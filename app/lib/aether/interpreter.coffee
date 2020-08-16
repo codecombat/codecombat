@@ -153,7 +153,8 @@ makeYieldFilter = (aether) -> (engine, evaluator, e) ->
 
   if e? and e.type is 'event' and e.event is 'loopBodyStart'
     
-    if top.srcAst.type is 'WhileStatement' and top.srcAst.test.type is 'Literal'
+    # Legacy programming languages use 'Literal' whilst C++ and Java use 'BooleanLiteral'.
+    if top.srcAst.type is 'WhileStatement' and (top.srcAst.test.type is 'Literal' or top.srcAst.test.type is 'BooleanLiteral')
       if aether.whileLoopMarker?
         currentMark = aether.whileLoopMarker(top)
         if currentMark is top.mark

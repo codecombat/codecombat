@@ -22,25 +22,21 @@ if showGameDevAlert
 
 // TODO: .gameplay-container causes world map buttons to briefly appear in top left of screen
 .gameplay-container
-  if features.codePlay
-    img.small-nav-logo.codeplay-logo(src="/images/common/codeplay/CodePlay_Lockup.png")
+  a(href="/").picoctf-hide
+    img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
 
-  else
-    a(href="/").picoctf-hide
-      img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+  .picoctf-show
+    a(href="http://staging.picoctf.com").picoctf-logo
+      img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
+    a(href="http://codecombat.com").picoctf-powered-by
+      em.spr powered by
+      img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
-    .picoctf-show
-      a(href="http://staging.picoctf.com").picoctf-logo
-        img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
-      a(href="http://codecombat.com").picoctf-powered-by
-        em.spr powered by
-        img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
+  if view.shouldShow('back-to-classroom')
+    a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase.under-logo(href='/play', data-i18n="play.back_to_classroom")
 
-    if view.shouldShow('back-to-classroom')
-      a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase.under-logo(href='/play', data-i18n="play.back_to_classroom")
-    
-    if view.shouldShow('videos')
-      a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button(data-i18n="play_level.videos")
+  if view.shouldShow('videos')
+    a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button(data-i18n="play_level.videos")
 
   if serverConfig.codeNinjas
     a(href="https://code.ninja")
@@ -273,6 +269,8 @@ if showGameDevAlert
 
   .game-controls.header-font.picoctf-hide
     if !(features.picoCtf || features.brainPop)
+      if view.shouldShow('promotion')
+        button.btn.promotion-menu-icon(data-toggle='coco-modal', data-target='play/modal/PromotionModal', title='New: Code in Beijing!')
       if view.shouldShow('premium')
         button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
       if view.shouldShow('poll')
@@ -312,10 +310,10 @@ if showGameDevAlert
             a(href="/play").player-name.spr= me.get('name')
           else
             a(href="/account").player-name.spr= me.get('name')
-          if !features.codePlay && !me.isStudent()
+          if !me.isStudent()
             button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
-          if me.isPremium()
-            button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
+          //- if me.isPremium()
+          //-   button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
 
   button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
     .glyphicon.glyphicon-volume-off
@@ -339,14 +337,3 @@ if showGameDevAlert
           span= levelsCompleted
           | /
           span= levelsTotal
-
-if campaign && view.shouldShow('codeplay-ads')
-  a(href="https://lenovogamestate.com/pages/products/")
-    - var url = "/images/common/codeplay/NA_LevelsPage_Cube_160x480.png"
-    if me.isFromUk()
-      - url = "/images/common/codeplay/UK_LevelsPage_Cube_160x480.png"
-    if me.setToGerman()
-      - url = "/images/common/codeplay/DE_LevelsPage_MIIX510_160x480_DE.png"
-    if me.setToSpanish()
-      - url = "/images/common/codeplay/MX_LevelsPage_910_160x480_MX.png"
-    img#codeplay-ad(src=url)

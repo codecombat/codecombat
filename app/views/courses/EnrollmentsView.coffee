@@ -70,11 +70,25 @@ module.exports = class EnrollmentsView extends RootView
     @listenTo @prepaids, 'sync', @updatePrepaidGroups
     @listenTo(@state, 'all', @debouncedRender)
 
+    if me.isSchoolAdmin()
+      @newAdministeredClassrooms = new Classrooms()
+      @allAdministeredClassrooms = []
+      @listenTo @newAdministeredClassrooms, 'sync', @newAdministeredClassroomsSync
+      teachers = me.get('administratedTeachers') ? []
+      @totalAdministeredTeachers = teachers.length
+      teachers.forEach((teacher) =>
+        @supermodel.trackRequest @newAdministeredClassrooms.fetchByOwner(teacher)
+      )
+
     me.getClientCreatorPermissions()?.then(() => @render?())
 
     leadPriorityRequest = me.getLeadPriority()
     @supermodel.trackRequest leadPriorityRequest
     leadPriorityRequest.then (r) => @onLeadPriorityResponse(r)
+
+  afterRender: ->
+    super()
+    @$('[data-toggle="tooltip"]').tooltip(placement: 'top', html: true, animation: false, container: '#site-content-area')
 
   getStarterLicenseCourseList: ->
     return if !@courses.loaded
@@ -87,6 +101,59 @@ module.exports = class EnrollmentsView extends RootView
   onceClassroomsSync: ->
     for classroom in @classrooms.models
       @supermodel.trackRequests @members.fetchForClassroom(classroom, {remove: false, removeDeleted: true})
+
+  newAdministeredClassroomsSync: ->
+    @allAdministeredClassrooms.push(
+      @newAdministeredClassrooms
+        .models
+        .map((c) -> c.attributes)
+        .filter((c) -> c.courses.length > 1 or (c.courses.length == 1 and c.courses[0]._id != utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE))
+    )
+
+    @totalAdministeredTeachers -= 1
+    if @totalAdministeredTeachers is 0
+      students = @uniqueStudentsPerYear(_.flatten(@allAdministeredClassrooms))
+      @state.set('uniqueStudentsPerYear', students)
+
+  relativeToYear: (momentDate) ->
+    year = momentDate.year()
+    shortYear = year - 2000
+    start = "#{year}-06-30" # One day earlier to ease comparison
+    end = "#{year + 1}-07-01" # One day later to ease comparison
+    if moment(momentDate).isBetween(start, end)
+      displayStartDate = "7/1/#{shortYear}"
+      displayEndDate = "6/30/#{year + 1}"
+    else if moment(momentDate).isBefore(start)
+      displayStartDate = "7/1/#{shortYear - 1}"
+      displayEndDate = "6/30/#{year}"
+    else if moment(momentDate).isAfter(end)
+      displayStartDate = "7/1/#{shortYear + 1}"
+      displayEndDate = "6/30/#{year + 2}"
+
+    return $.i18n.t('school_administrator.date_thru_date', {
+      startDateRange: displayStartDate
+      endDateRange: displayEndDate
+    })
+
+  # Count total students in classrooms (both active and archived) created between
+  # July 1-June 30 as the cut off for each school year (e.g. July 1, 2019-June 30, 2020)
+  uniqueStudentsPerYear: (allClassrooms) =>
+    dateFromObjectId = (objectId) ->
+      return new Date(parseInt(objectId.substring(0, 8), 16) * 1000)
+
+    years = {}
+    for classroom in allClassrooms
+      { _id, members } = classroom
+      if members?.length > 0
+        creationDate = moment(dateFromObjectId(_id))
+        year = @relativeToYear(creationDate)
+        if not years[year]
+          years[year] = new Set(members)
+        else
+          yearSet = years[year]
+          members.forEach(yearSet.add, yearSet)
+
+    return years
 
   onLoaded: ->
     @calculateEnrollmentStats()
@@ -113,7 +180,7 @@ module.exports = class EnrollmentsView extends RootView
     coursePrepaids = @prepaids.filter((p) => p.get('type') == 'course')
 
     skipUpsellDueToExistingLicenses = coursePrepaids.length > 0
-    shouldUpsell = !skipUpsellDueToExistingLicenses and (@state.get('leadPriority') is 'low') and (me.get('preferredLanguage') isnt 'nl-BE')
+    shouldUpsell = me.useStripe() and !skipUpsellDueToExistingLicenses and (@state.get('leadPriority') is 'low')
 
     @state.set({ shouldUpsell })
 
@@ -178,3 +245,9 @@ module.exports = class EnrollmentsView extends RootView
       prepaid = @prepaids.get(prepaidID)
       prepaid.set({ joiners })
     @openModalView(@shareLicensesModal)
+
+  getEnrollmentExplanation: ->
+    t = {}
+    for i in [1..5]
+      t[i] = $.i18n.t("teacher.enrollment_explanation_#{i}")
+    return "<p>#{t[1]} <b>#{t[2]}</b> #{t[3]}</p><p><b>#{t[4]}:</b> #{t[5]}</p>"

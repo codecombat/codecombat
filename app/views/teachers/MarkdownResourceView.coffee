@@ -10,6 +10,9 @@ module.exports = class MarkdownResourceView extends RootView
   id: 'markdown-resource-view'
   template: require 'templates/teachers/markdown-resource-view'
 
+  events:
+    'click .print-btn': 'onClickPrint'
+
   initialize: (options, @name) ->
     super(options)
     @content = ''
@@ -42,6 +45,8 @@ module.exports = class MarkdownResourceView extends RootView
       @loadingData = false
       @render()
 
+  onClickPrint: ->
+    window.tracker?.trackEvent 'Teachers Click Print Resource', { category: 'Teachers', label: @name }
 
   afterRender: ->
     super()
