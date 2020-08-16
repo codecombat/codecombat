@@ -141,7 +141,7 @@ mixin courseProgressTab
         .clearfix
     - var course = state.get('selectedCourse');
     - var courseInstance = view.getSelectedCourseInstance()
-    if me.showCourseProgressControl() && courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
+    if courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
       .text-center(data-course-id=course.id)
         span(data-i18n="courses.set_start_locked_level")
         span.spr :

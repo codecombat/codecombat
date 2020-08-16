@@ -25,12 +25,12 @@ const GoogleClassroomAPIHandler = class GoogleClassroomAPIHandler extends CocoCl
       })
   }
 
-  loadStudentsFromAPI (googleClassroomId) {
+  loadStudentsFromAPI (googleClassroomId, nextPageToken='') {
     return new Promise((resolve, reject) => {
       gapi.client.load ('classroom', 'v1', () => {
-        gapi.client.classroom.courses.students.list({access_token: application.gplusHandler.token(), courseId: googleClassroomId})
+        gapi.client.classroom.courses.students.list({access_token: application.gplusHandler.token(), courseId: googleClassroomId, pageToken: nextPageToken})
         .then((r) => {
-          resolve(r.result.students || [])
+          resolve(r.result || {})
           })
         .catch ((err) => {
           console.error("Error in fetching from Google Classroom:", err)
@@ -100,7 +100,16 @@ module.exports = {
   importStudentsToClassroom: async function (cocoClassroom) {
     try {
       const googleClassroomId = cocoClassroom.get("googleClassroomId")
-      const importedStudents = await this.gcApiHandler.loadStudentsFromAPI(googleClassroomId)
+
+      let importedStudents = []
+      let importStudentsResult = await this.gcApiHandler.loadStudentsFromAPI(googleClassroomId)
+      importedStudents = importedStudents.concat(importStudentsResult.students || [])
+      while ((importStudentsResult.nextPageToken || '').length > 0) {
+        const nextPageToken = importStudentsResult.nextPageToken
+        importStudentsResult = await this.gcApiHandler.loadStudentsFromAPI(googleClassroomId, nextPageToken)
+        importedStudents = importedStudents.concat(importStudentsResult.students || [])
+      }
+
       let promises = []
       for (let student of importedStudents){
         let attrs = {

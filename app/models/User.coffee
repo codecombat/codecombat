@@ -409,8 +409,8 @@ module.exports = class User extends CocoModel
     options.url = '/auth/logout'
     FB?.logout?()
     options.success ?= ->
-      window.application.tracker.resetIdentity().then =>
-        window.application.tracker.identifyAfterNextPageLoad()
+      window.application.tracker.identifyAfterNextPageLoad()
+      window.application.tracker.resetIdentity().finally =>
         location = _.result(window.currentView, 'logoutRedirectURL')
         if location
           window.location = location
@@ -613,7 +613,6 @@ module.exports = class User extends CocoModel
   showChinaResourceInfo: -> features?.china ? false
   useChinaHomeView: -> features?.china ? false
   showChinaRegistration: -> features?.china ? false
-  showCourseProgressControl: -> features?.china ? false
   enableCpp: -> features?.china ? false
   useQiyukf: -> features?.china ? false
   useChinaServices: -> features?.china ? false

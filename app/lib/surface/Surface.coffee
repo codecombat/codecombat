@@ -626,23 +626,10 @@ module.exports = Surface = class Surface extends CocoClass
 
     #scaleFactor = if application.isIPadApp then 2 else 1  # Retina
     scaleFactor = 1
-    if @options.stayVisible or features.codePlay
-      availableHeight = window.innerHeight
-      availableHeight -= ($('.ad-container').outerHeight() or 0)
-      availableHeight -= ($('#game-area').outerHeight() or 0) - ($('#canvas-wrapper').outerHeight() or 0)
-      if features.codePlay
-        bannerHeight = ($('#codeplay-product-banner').height() or 0)
-        availableHeight -= bannerHeight
-        scaleFactor = availableHeight / newHeight if availableHeight < newHeight
-      scaleFactor = availableHeight / newHeight if availableHeight < newHeight
-
     newWidth *= scaleFactor
     newHeight *= scaleFactor
 
-    return @updateCodePlayMargin() if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
-    return @updateCodePlayMargin() if newWidth < 200 or newHeight < 200
     @normalCanvas.add(@webGLCanvas).attr width: newWidth, height: newHeight
-    @updateCodePlayMargin()
     @trigger 'resize', { width: newWidth, height: newHeight }
 
     # Cannot do this to the webGLStage because it does not use scaleX/Y.
@@ -655,13 +642,6 @@ module.exports = Surface = class Surface extends CocoClass
       # Since normalCanvas is absolutely positioned, it needs help aligning with webGLCanvas.
       offset = @webGLCanvas.offset().left - ($('#page-container').innerWidth() - $('#canvas-wrapper').innerWidth()) / 2
       @normalCanvas.css 'left', offset
-
-  updateCodePlayMargin: ->
-    return unless features.codePlay
-    availableWidth = (window.innerWidth * .57 - 200)
-    width = @normalCanvas.attr('width')
-    margin = Math.max(availableWidth - width, 0)
-    @normalCanvas.add(@webGLCanvas).css('margin-left', margin/2)
 
   #- Camera focus on hero
   focusOnHero: ->

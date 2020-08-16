@@ -1,4 +1,4 @@
-import BaseTracker from './BaseTracker'
+import BaseTracker, { DEFAULT_USER_TRAITS_TO_REPORT, extractDefaultUserTraits } from './BaseTracker'
 
 // Copied from Segment analytics-js getting started guide at:
 // https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/
@@ -99,12 +99,6 @@ const DEFAULT_SEGMENT_OPTIONS = {
   Intercom: { hideDefaultLauncher: true }
 }
 
-const DEFAULT_SEGMENT_TRAITS_TO_REPORT = [
-  'email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS',
-  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role', 'firstName', 'lastName',
-  'dateCreated'
-]
-
 export default class SegmentTracker extends BaseTracker {
   constructor (store) {
     super()
@@ -159,14 +153,7 @@ export default class SegmentTracker extends BaseTracker {
       ...meAttrs
     } = me
 
-    const filteredMeAttributes = DEFAULT_SEGMENT_TRAITS_TO_REPORT.reduce((obj, key) => {
-      const meAttr = meAttrs[key]
-      if (typeof meAttr !== 'undefined' && meAttr !== null) {
-        obj[key] = meAttr
-      }
-
-      return obj;
-    }, {})
+    const filteredMeAttributes = extractDefaultUserTraits(me)
 
     const options = { ...DEFAULT_SEGMENT_OPTIONS }
     return new Promise((resolve) => {
