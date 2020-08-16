@@ -1655,7 +1655,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    view_project: "View Project"
 #    edit_project: "Edit Project"
 
-#  teacher:
+  teacher:
 #    assigning_course: "Assigning course"
 #    back_to_top: "Back to Top"
 #    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
