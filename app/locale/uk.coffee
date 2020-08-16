@@ -232,7 +232,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    game_development_title: "__level__ | Game Development"
 #    web_development_title: "__level__ | Web Development"
     anon_signup_title_1: "CodeCombat має"
-    anon_signup_title_2: "Класну Версію!"
+    anon_signup_title_2: "Класний Версію!"
 #    anon_signup_enter_code: "Enter Class Code:"
 #    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
 #    anon_signup_create_class: "Want to create a class?"
