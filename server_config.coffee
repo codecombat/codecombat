@@ -18,7 +18,7 @@ config.proxy = process.env.COCO_PROXY
 
 config.timeout = parseInt(process.env.COCO_TIMEOUT) or 60*1000
 
-config.chinaDomain = "koudashijie.com;ccombat.cn;contributors.codecombat.com"
+config.chinaDomain = "bridge.koudashijie.com;koudashijie.com;ccombat.cn;contributors.codecombat.com"
 config.chinaInfra = process.env.COCO_CHINA_INFRASTRUCTURE or false
 
 config.brazilDomain = "br.codecombat.com;contributors.codecombat.com"

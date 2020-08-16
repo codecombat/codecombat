@@ -1,4 +1,5 @@
 store = require('core/store')
+api = require 'core/api'
 ShareLicensesStoreModule = require './ShareLicensesStoreModule'
 User = require 'models/User'
 
@@ -22,4 +23,7 @@ module.exports = ShareLicensesJoinerRow =
       (new User(@joiner)).broadName()
   components: {}
   methods:
-    {}
+    {
+      revokeTeacher: ->
+        @$emit 'revokeJoiner', @prepaid._id, @joiner
+    }

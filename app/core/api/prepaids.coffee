@@ -9,6 +9,12 @@ module.exports = {
       json: { userID }
     })
 
+  revokeJoiner: ({ prepaidID, userID }, options={}) ->
+    fetchJson(@url(prepaidID, 'joiners'), _.assign {}, options, {
+      method: 'DELETE'
+      json: { userID }
+    })
+
   fetchJoiners: ({ prepaidID }, options={}) ->
     fetchJson(@url(prepaidID, 'joiners'))
     

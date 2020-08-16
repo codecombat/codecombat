@@ -30,6 +30,7 @@
     li.list-item( is="share-licenses-joiner-row",
         v-if="joiner",
         v-for="joiner in prepaid.joiners",
+        @revokeJoiner="revokeJoiner",
         :key="joiner.userID",
         :joiner="joiner",
         :prepaid="prepaid")

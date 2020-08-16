@@ -343,15 +343,16 @@ mixin breadcrumbs
                         table.side-by-side
                           tr
                             td
-                              if view.levelStudentCodeMap[level.get('original')]
-                                if view.levelProgressMap[level.get('original')] === 'complete'
+                              - var levelOriginal = level.get('original')
+                              unless view.levelStudentCodeMap[levelOriginal].length
+                                i.small(data-i18n="teacher.no_code_yet")
+                              each code in view.levelStudentCodeMap[levelOriginal]
+                                if view.levelProgressMap[levelOriginal] === 'complete'
                                   pre
-                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                                    code(class=langClass)= code.plan
                                 else
                                   pre.incomplete-code
-                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
-                              else
-                                i.small(data-i18n="teacher.no_code_yet")
+                                    code(class=langClass)= code.plan
                             td.project-blurb
                               i.small(data-i18n="teacher.solution_project_blurb")
                     each solution, index in solutions
@@ -364,15 +365,18 @@ mixin breadcrumbs
                               .small!= marked(solution.description || '')
                           tr
                             td
-                              if view.levelStudentCodeMap[level.get('original')]
+                              - var levelStudentCodes = view.levelStudentCodeMap[level.get('original')]
+                              unless levelStudentCodes.length
+                                i.small(data-i18n="teacher.no_code_yet")
+                              each code in levelStudentCodes
+                                if level.isLadder()
+                                  i.small(data-i18n="ladder."+code.team)
                                 if view.levelProgressMap[level.get('original')] === 'complete'
                                   pre
-                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                                    code(class=langClass)= code.plan
                                 else
                                   pre.incomplete-code
-                                    code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
-                              else
-                                i.small(data-i18n="teacher.no_code_yet")
+                                    code(class=langClass)= code.plan
                             td
                               if solutions.length === 1
                                 pre

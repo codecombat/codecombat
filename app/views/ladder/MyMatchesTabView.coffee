@@ -86,8 +86,7 @@ module.exports = class MyMatchesTabView extends CocoView
           name = opponentUser?.name
           name ||= opponentUser.firstName + ' ' + opponentUser.lastName if opponentUser?.firstName
           name ||= "Anonymous #{opponent.userID.substr(18)}" if opponentUser
-          unless name
-            console.log 'found', nameMap[opponent.userID], 'for', opponent.userID, "http://codecombat.com/db/user/#{opponent.userID}"
+          name ||= opponent.name
           name ||= '<bad match data>'
           if name.length > 21
             name = name.substr(0, 18) + '...'
@@ -109,7 +108,7 @@ module.exports = class MyMatchesTabView extends CocoView
       placeholder = $(el)
       sessionID = placeholder.data('session-id')
       session = _.find @sessions.models, {id: sessionID}
-      if @level.get('mirrorMatch') or @level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty', 'treasure-games', 'king-of-the-hill']  # TODO: remove slug list once these levels are configured as mirror matches
+      if @level.get('mirrorMatch')
         mirrorSession = (s for s in @sessions.models when s.get('team') isnt session.get('team'))[0]
       ladderSubmissionView = new LadderSubmissionView session: session, level: @level, mirrorSession: mirrorSession
       @insertSubView ladderSubmissionView, placeholder

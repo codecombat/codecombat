@@ -1,0 +1,31 @@
+block content
+  if view.history
+    #model
+      div
+        p(style="color:white") 自动跳转中，请稍后。。。
+  .container-fluid.con
+    .header.row
+      a.navbar-brand(href="/home")
+        img#logo-img(src="/images/pages/base/logo.png")
+
+    .row
+      .col-md-6.left.center(style="padding-left:2%")
+        .card
+          div(style="display:inline-block;")
+            .name
+              h3(style="color: #00BDB5;font-weight:400;font-size:30px") 机构/学校用户
+            .use
+              p(style="color: black;font-weight:300;font-size:24px") 适合机构/学校教学使用
+              button.btn.btn-lg.one(style="text-transform: none;letter-spacing: 0.72px") 立即访问
+          div(style="display:inline-block;;overflow: hidden;margin-left:50px;")
+            img.photo(src="https://assets.koudashijie.com/images/redirect-coco.png")
+      .col-md-6.right.center(style="padding-right:2%;padding-left:0")
+        .card
+          div(style="display:inline-block;")
+            .name
+              h3(style="color: black;font-weight:400;font-size:30px") 个人用户
+            .use
+              p(style="color: black;font-weight:300;font-size:24px") 适合个人在家中学习使用
+            button.btn.btn-lg.two(style="text-transform: none;letter-spacing: 0.72px") 立即访问
+          div(style="display:inline-block;overflow:hidden;margin-left:50px;")
+            img.photo(src="https://assets.koudashijie.com/images/redirect-netease.png")

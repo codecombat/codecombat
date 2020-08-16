@@ -14,8 +14,8 @@ describe 'RequestQuoteView', ->
     organization: 'School'
     district: 'District'
     city: 'Springfield'
-    state: 'AA'
-    country: 'asdf'
+    state: 'AL'
+    country: 'United States'
     numStudents: '1-10'
     numStudentsTotal: '10,000+'
   }
