@@ -2399,7 +2399,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    unsubscribe_failed: "Failed"
 #    unsubscribe_success: "Success"
 
-#  account_invoices:
+  account_invoices:
 #    amount: "Amount in US dollars"
 #    declined: "Your card was declined"
 #    invalid_amount: "Please enter a US dollar amount."
@@ -2409,7 +2409,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     retrying: "서버 에러, 재시도중."
     success: "성공. 감사합니다!"
 
-#  account_prepaid:
+  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
 #    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
