@@ -56,7 +56,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     for_leaders_subtitle2: "Full Coding Curriculum"
     for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
     for_leaders_subtitle3: "Flexible Use Cases"
-    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs." #{change}
     for_leaders_subtitle4: "Real-World Skills"
     for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
     for_teachers_title: "For Teachers"
