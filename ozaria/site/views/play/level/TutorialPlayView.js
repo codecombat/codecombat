@@ -15,7 +15,8 @@ class TutorialPlayView extends RootComponent {
     }
 
     this.propsData = {
-      characterPortrait: level.get('characterPortrait')
+      characterPortrait: level.get('characterPortrait'),
+      isTeacher: me.isTeacher()
     }
 
     const specificArticles = (level.get('documentation') || {}).specificArticles || []

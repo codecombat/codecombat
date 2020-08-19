@@ -51,6 +51,10 @@
   export default Vue.extend({
     name: 'TutorialPlayComponent',
     props: {
+      isTeacher: {
+        type: Boolean,
+        required: true
+      },
       characterPortrait: {
         type: String,
         default: 'vega'
@@ -59,10 +63,6 @@
     data: () => ({
       seenMessages: null,
       hasLineHighlighting: false,
-      defaultStep: {
-        position: 'stationary',
-        message: 'Back to tutorial'
-      },
       restartAtId: null,
       previousLength: null,
       previousActiveStep: 0,
@@ -86,6 +86,10 @@
     },
     watch: {
       tutorialSteps () {
+        if (this.isTeacher) {
+          return
+        }
+
         // If steps are being added when we are already active, it means we need to restart the tutorial and
         // show the next step after the currently last step:
         if (this.tour && this.tour.steps && this.tour.steps.length) {
@@ -99,6 +103,10 @@
         this.begin()
       },
       codeBankOpen () {
+        if (this.isTeacher) {
+          return
+        }
+
         // Force redrawing of current step to adjust to position of the code bank:
         const { options } = this.tour.getCurrentStep()
         if (options?.attachTo?.element === defaultPositionTargets['Code Bank Button'].element) {
@@ -113,6 +121,10 @@
 
       onClose () {
         this.cleanUpRendering()
+        if (this.isTeacher) {
+          return
+        }
+
         this.tour.show(this.restartAtId ? this.restartAtId : this.tour.steps[this.tour.steps.length - 1].options.id)
         this.restartAtId = null
       },
@@ -159,6 +171,12 @@
             keyboardNavigation: false // Disabling until rendering between steps is cleaned up outside of button click
           })
 
+          let tutorialSteps = this.tutorialSteps.slice()
+
+          if (this.isTeacher) {
+            tutorialSteps = tutorialSteps.filter(s => s.intro).concat(this.teacherStep)
+          }
+
           const backButton = {
             classes: 'shepherd-back-button shepherd-back-button-active',
             text: '',
@@ -197,20 +215,20 @@
           let complexLastStep
           const canSeeComplexSteps = me.isAdmin() || me?.emailLower?.endsWith('@codecombat.com')
 
-          const steps = this.tutorialSteps.map((tutorialStep, index) => {
+          const steps = tutorialSteps.map((tutorialStep, index) => {
             const details = buildStepPositionalDetails(tutorialStep)
             const buttons = []
 
-            if (index === 0 && (tutorialStep.intro || index !== this.tutorialSteps.length - 1)) {
+            if (index === 0 && (tutorialStep.intro || index !== tutorialSteps.length - 1)) {
               if (tutorialStep.intro) {
                 // Button for the intro
                 buttons.push(startButton)
-              } else if (this.tutorialSteps.length > 1) {
+              } else if (tutorialSteps.length > 1) {
                 // Buttons for a weird first step without intro
                 buttons.push(inactiveBackButton)
                 buttons.push(nextButton)
               }
-            } else if (index === this.tutorialSteps.length - 1) {
+            } else if (index === tutorialSteps.length - 1) {
               const unusualLastStep = tutorialStep.position !== 'stationary' || details.attachTo
 
               // Button for final step. Handle if this is the first item in the tour.
@@ -271,7 +289,7 @@
               buttons: buttons,
               fontSize: 19
             }
-          }).filter((s, i) => !this.tutorialSteps[i].internalRelease || canSeeComplexSteps)
+          }).filter((s, i) => !tutorialSteps[i].internalRelease || canSeeComplexSteps)
 
           if (!steps.length) {
             // TODO: Notify us when this happens in production? No level should be without steps
@@ -304,7 +322,7 @@
             }
           } else {
             // New steps, let's show the first new step, skipping the intro
-            startingPosition = this.tutorialSteps[0].intro ? 1 : 0
+            startingPosition = tutorialSteps[0].intro ? 1 : 0
           }
 
           if (complexLastStep && canSeeComplexSteps) {
@@ -345,7 +363,10 @@
       showTourStep ({ step }) {
         // If we can't find information about the step, it means it is not part of the regular steps,
         // and we need to handle the unique case of an extra appended defaultStep that links back to the regular steps
-        const tutorialStep = this.tutorialSteps[step.options.id] || this.defaultStep
+        let tutorialStep = this.tutorialSteps[step.options.id] || this.defaultStep
+        if (this.isTeacher && !tutorialStep.intro) {
+          tutorialStep = this.teacherStep
+        }
 
         if (this.hasLineHighlighting) {
           // The editor tries to scroll down to show the latest code. For line highlighting, we need specific
@@ -356,7 +377,7 @@
         $(".full-gold-highlight").removeClass("full-gold-highlight")
         $('.button-glow').removeClass('button-glow')
 
-        const alreadySeen = this.seenMessages.has(step.options.id)
+        const alreadySeen = this.seenMessages.has(step.options.id) || this.isTeacher
 
         this.cleanUpRendering()
         this.delayedRenderTrigger(step, tutorialStep, alreadySeen)
@@ -440,6 +461,10 @@
             const tempOverlay = overlayElement.detach()
             $('.chrome-container').prepend(tempOverlay)
             stationaryTextElement.css('visibility', 'visible')
+            if (this.isTeacher) {
+              // We show a fair amount of text for teachers, so let's reduce the size a bit
+              textElement.css('font-size', '15px')
+            }
           } else {
             $(`.shepherd-rectangle`).addClass('shepherd-rectangle-expanding')
             headerClasses.push(`shepherd-header-moving-${this.characterPortrait}`)
@@ -519,7 +544,20 @@
         tutorialSteps: 'game/tutorialSteps',
         tutorialActive: 'game/tutorialActive',
         codeBankOpen: 'game/codeBankOpen'
-      })
+      }),
+      // Compute default and teacher steps so i18n is available
+      defaultStep () {
+        return {
+          position: 'stationary',
+          message: this.$t('play.back_to_tutorial')
+        }
+      },
+      teacherStep () {
+        return {
+          position: 'stationary',
+          message: this.$t('play.teacher_vega_message')
+        }
+      },
     }
   })
 </script>
