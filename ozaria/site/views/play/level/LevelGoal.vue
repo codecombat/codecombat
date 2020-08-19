@@ -4,7 +4,7 @@
     <img v-if="goalComplete"
          class="check-mark" alt="Check mark for checkbox"
          src="/images/ozaria/level/check_mark.png" />
-    <span class="goal-text" v-html="goalText"></span>
+    <span v-html="goalText"></span>
   </li>
 </template>
 
@@ -58,8 +58,8 @@
     font-weight: lighter
 
   .rectangle
-    min-height: 19px
-    min-width: 18px
+    height: 19px
+    width: 18px
     border-radius: 4px
     margin-right: 10px
     margin-top: 2px
@@ -70,8 +70,4 @@
     position: absolute
     left: 3.5%
     width: 20px
-
-  .goal-text
-    overflow-x: scroll
-    overflow-y: hidden
 </style>
