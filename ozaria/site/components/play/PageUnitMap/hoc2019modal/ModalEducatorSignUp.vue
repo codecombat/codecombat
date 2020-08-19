@@ -252,7 +252,7 @@
       <div id="teacher-aside">
         <div class="teacher-asides">
           <img id="lessonplan-img" src="/images/pages/modal/hoc2019/LessonPlan.png"/>
-          <a href="https://www.ozaria.com/teachers/hour-of-code" target="_blank">{{$t("hoc_2019.download_lesson_plan")}}</a>
+          <a href="/teachers/hour-of-code" target="_blank">{{$t("hoc_2019.download_lesson_plan")}}</a>
         </div>
         <div class="teacher-asides">
           <img id="ozaria-img" src="/images/pages/modal/hoc2019/Ozaria.png"/>
