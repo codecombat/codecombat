@@ -292,14 +292,16 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })
     'teachers/demo': redirect('/teachers/quote')
     'teachers/enrollments': redirect('/teachers/licenses')
-    'teachers/hour-of-code': redirect('/teachers/resources/hoc2019LessonPlan')
+    'teachers/hour-of-code': => window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'
+    # Redundant linking in case of external linking to our hoc resources:
+    'teachers/resources/hoc2019':  => window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'
+    'teachers/resources/hoc2020':  => window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'
     'teachers/licenses': teacherProxyRoute(go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true }))
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/resources': teacherProxyRoute(go('teachers/ResourceHubView', { redirectStudents: true }))
     # Removing route, leaving plumbing.  Unclear how much we'd rewrite this, given a new endorsement.
     # 'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
-    'teachers/resources/hoc2019': redirect('/teachers/resources/hoc2019LessonPlan') # TODO clarify if this is required
     'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
     'teachers/signup': ->
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
