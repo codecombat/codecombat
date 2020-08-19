@@ -1,12 +1,17 @@
 <template>
   <div>
     <div v-if="showStatus" class="goals-status rtl-allowed">
-      <span>{{ $t("play_level.goals") }} : {{ $t("play_level." + goalStatus) }}</span>
+      <span class="goal-status-text">{{ $t("play_level.goals") }} : {{ $t("play_level." + goalStatus) }}</span>
     </div>
     <div class="level-goals">
       <!-- TODO: Split this into two components, one the ul, the other the goals-status-->
       <ul id="primary-goals-list" dir="auto">
-        <level-goal v-for="goal in levelGoals"
+        <level-goal v-for="goal in incompleteLevelGoals"
+                    :key="goal.id"
+                    :goal="goal"
+                    :state="goalStates[goal.id]">
+        </level-goal>
+        <level-goal v-for="goal in completeLevelGoals"
                     :key="goal.id"
                     :goal="goal"
                     :state="goalStates[goal.id]">
@@ -62,6 +67,8 @@
           # For the current capstone stage, we show all goals:
           return @capstoneStage == g.stage
         )
+      incompleteLevelGoals: -> @levelGoals.filter((g) => @goalStates[g.id].status != 'success' )
+      completeLevelGoals: -> @levelGoals.filter((g) => @goalStates[g.id].status == 'success' )
       conceptGoals: ->
         @goals.filter((g) => g.concepts?.length)
       conceptStatus: ->
@@ -108,4 +115,8 @@
     list-style-type: none
     margin: 0
     padding-left: 5px
+
+  .goal-status-text
+    white-space: nowrap
+    overflow-y: scroll
 </style>
