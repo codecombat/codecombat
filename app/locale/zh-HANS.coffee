@@ -91,7 +91,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teachers_love_codecombat_blurb2: "会向其他计算机科学教师推荐 CodeCombat"
     teachers_love_codecombat_blurb3: "认为 CodeCombat 帮助提高学生解决问题的能力"
     teachers_love_codecombat_subblurb: "数据来源于美国中洲国际教育研究院 (McREL International)，美国中洲国际教育研究院是教育技术研究指导和评估的领导者。"
-#    top_banner_blurb: "Parents, book your child's first live online coding class for free!" # {change}
+#    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
     try_the_game: "免费试玩"
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
