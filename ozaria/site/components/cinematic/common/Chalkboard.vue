@@ -1,7 +1,6 @@
 <script>
   import store from 'app/core/store'
   import { mapState } from 'vuex'
-  import marked from 'marked'
   import visualChalkboardModule from './visualChalkboardModule'
 
   /**
@@ -19,7 +18,7 @@
   export default {
     computed: {
       ...mapState({
-        markdown: state => (state.visualChalkboard || {}).chalkboardMarkdown || '',
+        html: state => (state.visualChalkboard || {}).chalkboardHtml || '',
         chalkboardWidth: state => (state.visualChalkboard || {}).width || 45,
         chalkboardHeight: state => (state.visualChalkboard || {}).height || 80,
         xOffset: state => {
@@ -37,10 +36,11 @@
         transitionTime: state => (state.visualChalkboard || {}).transitionTime || 0
       }),
 
-      compiledMarkdown () {
-        return decodeHtml(marked(this.markdown))
+      compiledHtml () {
+        return decodeHtml(this.html)
       }
     },
+
     mounted () {
       store.registerModule('visualChalkboard', visualChalkboardModule())
     },
@@ -69,7 +69,7 @@
         </div>
         <div
           id="markdown-contents"
-          v-html="compiledMarkdown"
+          v-html="compiledHtml"
         />
       </div>
     </div>
@@ -126,6 +126,18 @@
     align-content: center;
     flex-direction: column;
     text-align: center;
+  }
+
+  #markdown-contents ::v-deep .rich-text-content {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    text-align: left;
+    padding: 20px;
+    white-space: pre;
+    height: 100%;
+    width: 100%
   }
 
   #chalkboard {

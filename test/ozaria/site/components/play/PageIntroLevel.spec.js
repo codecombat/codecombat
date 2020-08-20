@@ -3,8 +3,8 @@ import { shallowMount } from '@vue/test-utils'
 import pageIntroLevel from 'ozaria/site/components/play/PageIntroLevel/index'
 import factories from 'test/app/factories'
 import api from 'core/api'
-import interactiveComponent from 'ozaria/site/components/interactive/PageInteractive'
-import cinematicComponent from 'ozaria/site/components/cinematic/PageCinematic'
+// import interactiveComponent from 'ozaria/site/components/interactive/PageInteractive'
+// import cinematicComponent from 'ozaria/site/components/cinematic/PageCinematic'
 import store from 'core/store'
 
 const introLevel = {

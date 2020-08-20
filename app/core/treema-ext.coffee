@@ -92,6 +92,27 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
       valEl.find('.ace_editor').hide()
     @showingPreview = not @showingPreview
 
+class RichTextTreema extends TreemaNode
+  initPreview: (valEl, data) ->
+    valEl.css('width', '100%')
+    buttonRow = $('<div></div>')
+    valEl.append(buttonRow)
+    buttonRow.append($('<button>Edit Content</button>').addClass('btn btn-sm btn-primary').click(@editContent))
+    previewContainer = $('<div class="preview-container" style="width:100%; min-height: 80px; border:1px solid black; line-height: 16px; padding: 5px; white-space: pre"></div>')
+    previewContainer.html(@settings.callbacks.jsonToHtml(data))
+    valEl.append(previewContainer)
+
+  editContent: =>
+    saveChangesCallback = (data) =>
+      @data = data
+      @saveChanges()
+      @flushChanges()
+      @refreshDisplay()
+    @settings.callbacks.showRichTextModal @data, saveChangesCallback
+
+  buildValueForDisplay: (valEl, data) -> @initPreview(valEl, data)
+  buildValueForEditing: (valEl, data) -> @initPreview(valEl, data)
+
 class SoundFileTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-sound-file'
   editable: false
@@ -609,4 +630,5 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass('js-file', JavaScriptFileTreema)
   TreemaNode.setNodeSubclass('vtt-file', VttFileTreema)
   TreemaNode.setNodeSubclass('cinematic-dialog', CinematicDialogTreema)
+  TreemaNode.setNodeSubclass('rich-text', RichTextTreema)
   #TreemaNode.setNodeSubclass 'checkbox', CheckboxTreema

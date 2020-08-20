@@ -30,6 +30,27 @@ const HERO_PET = 'HERO_PET'
 const BACKGROUND_OBJECT = 'BACKGROUND_OBJECT'
 const BACKGROUND = 'BACKGROUND'
 
+const QUILL_CONFIG = {
+  paragraphTag: 'div',
+  customTagAttributes: (op) => {
+    if (op.attributes.align) {
+      // Replace Quill align attribute with CSS text-align style attribute
+      return { 'style': `text-align: ${op.attributes.align};` }
+    } else if (op.attributes.size) {
+      switch (op.attributes.size) {
+        case 'small':
+          return { 'style': `font-size: 18px;` }
+        case 'large':
+          return { 'style': `font-size: 28px;` }
+        case 'huge':
+          return { 'style': `font-size: 32px;` }
+      }
+    } else if (op.attributes.font) {
+      return { 'style': `font-family: ${op.attributes.font};` }
+    }
+  }
+}
+
 // The server imports from this file via cinematic schema and cannot use any modern syntax.
 module.exports = {
   WIDTH,
@@ -45,5 +66,6 @@ module.exports = {
   RIGHT_LANK_KEY,
   HERO_PET,
   BACKGROUND_OBJECT,
-  BACKGROUND
+  BACKGROUND,
+  QUILL_CONFIG
 }

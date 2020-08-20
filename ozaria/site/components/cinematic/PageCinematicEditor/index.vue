@@ -1,17 +1,22 @@
 <script>
   import { getCinematic, putCinematic } from '../../../api/cinematic'
+  import BaseModal from 'ozaria/site/components/common/BaseModal'
   import Cinematic from '../../../models/Cinematic'
   import CinematicCanvas from '../common/CinematicCanvas'
   import CocoCollection from 'app/collections/CocoCollection'
   import LayoutCenterContent from '../../common/LayoutCenterContent'
-
+  import { QUILL_CONFIG } from 'ozaria/engine/cinematic/constants'
+  import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html'
   const FlexSearch = require('flexsearch')
   const api = require('core/api')
+  const Quill = require('quill')
+  require('core/services/filepicker')()
 
   require('lib/setupTreema')
 
   module.exports = Vue.extend({
     components: {
+      BaseModal,
       'cinematic-canvas': CinematicCanvas,
       'layout-center-content': LayoutCenterContent
     },
@@ -34,7 +39,8 @@
       programmingLanguage: 'python',
       dialogSearch: null,
       dialogSearchInput: '',
-      dialogSearchResults: []
+      dialogSearchResults: [],
+      showRichEdit: false
     }),
 
     computed: {
@@ -95,7 +101,9 @@
           filePath: 'cinematic',
           files,
           callbacks: {
-            change: this.pushChanges
+            change: this.pushChanges,
+            jsonToHtml: this.quillJsonToHtml,
+            showRichTextModal: this.showRichTextModal
           }
         })
         treema.build()
@@ -145,7 +153,7 @@
           return
         }
 
-        const cinematicData = this.treema.data;
+        const cinematicData = this.treema.data
 
         const i18n = cinematicData.i18n
         if (i18n === undefined) {
@@ -218,6 +226,79 @@
           shots.childrenTreemas[shotIdx].childrenTreemas.dialogNodes.open()
           shots.childrenTreemas[shotIdx].childrenTreemas.dialogNodes.childrenTreemas[dialogIdx].open()
         }
+      },
+
+      /**
+       * Show rich text editor modal with 3rd party Quill editor
+       */
+      showRichTextModal (data, saveChangesCallback) {
+        this.showRichEdit = true
+        // Rich text modal has to be showing before this works
+        setTimeout(() => {
+          const ozariaChalkboardFontColors = ['#0C725A', '#4425D9', '#BA0ABA', '#CD0638', '#0F6CD1', '#94653C']
+          this.quill = new Quill('#rich-editor', {
+            modules: {
+              toolbar: [
+                [{ 'font': [] }],
+                // TODO: make font size dropdown show actual sizes we want instead of built-in values
+                // [{ 'size': [false, '18px', '22px', '24px', '26px', '28px', '30px', '32px'] }],
+                [{ 'size': [ 'small', false, 'large', 'huge' ] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'color': ozariaChalkboardFontColors }, { 'background': ozariaChalkboardFontColors }],
+                ['image'],
+                [{ align: [false, 'center', 'right', 'center'] }],
+                ['clean']
+              ]
+            },
+            theme: 'snow'
+          })
+          const toolbar = this.quill.getModule('toolbar')
+          toolbar.addHandler('image', this.uploadAndInsertImageCallback)
+          this.quill.setContents(data)
+          this.updateLocalRichEditCallback = saveChangesCallback
+        }, 100)
+      },
+
+      /**
+       * Upload an image and insert via URL into Quill editor
+       * TODO: consolidate file picker and upload code copied from treema-ext.coffee
+       */
+      uploadAndInsertImageCallback () {
+        filepicker.pick((InkBlob) => {
+          const body = {
+            url: InkBlob.url,
+            filename: InkBlob.filename,
+            mimetype: InkBlob.mimetype,
+            path: 'cinematic',
+            force: true
+          }
+
+          const uploadingPath = ['cinematic', InkBlob.filename].join('/')
+
+          const imageUploadedCallback = (url) => {
+            this.quill.insertEmbed(this.quill.getSelection().index, 'image', url)
+          }
+          if (window.application.isProduction()) {
+            $.ajax('/file', { type: 'POST', data: body, success: () => imageUploadedCallback(`/file/${uploadingPath}`) })
+          } else {
+            setTimeout(() => imageUploadedCallback('https://www.ozaria.com/images/pages/not_found/404_1.png'), 500)
+          }
+        })
+      },
+
+      updateLocalRichEdit () {
+        if (this.updateLocalRichEditCallback) {
+          this.updateLocalRichEditCallback(JSON.parse(JSON.stringify(this.quill.getContents())))
+        }
+        this.closeRichEdit()
+      },
+
+      closeRichEdit () {
+        this.showRichEdit = false
+      },
+
+      quillJsonToHtml (quillJson) {
+        return new QuillDeltaToHtmlConverter(quillJson.ops, QUILL_CONFIG).convert()
       }
     }
   })
@@ -230,7 +311,9 @@
   >
     <!-- Have a cinematic Slug -->
     <div class="row">
-      <div class="col-md-8"><h1>{{ heading }}</h1></div>
+      <div class="col-md-8">
+        <h1>{{ heading }}</h1>
+      </div>
       <div class="col-md-4">
         <span>There is no autosave.</span>
         <button
@@ -264,7 +347,10 @@
       <div class="col-md-6">
         <div class="dialogue-search-tool">
           <label>Search Dialogue: </label>
-          <input v-model="dialogSearchInput" placeholder='Search dialog text'>
+          <input
+            v-model="dialogSearchInput"
+            placeholder="Search dialog text"
+          >
           <ul>
             <li
               v-for="{ id, text } in dialogSearchResults"
@@ -278,14 +364,43 @@
       </div>
       <div class="row">
         <layout-center-content v-if="rawData">
-          <cinematic-canvas :cinematicData="rawData" :key="rerenderKey" :userOptions="{ programmingLanguage }" />
+          <cinematic-canvas
+            :key="rerenderKey"
+            :cinematic-data="rawData"
+            :user-options="{ programmingLanguage }"
+          />
         </layout-center-content>
       </div>
     </div>
+    <base-modal
+      v-if="showRichEdit"
+      style="min-width:50%"
+    >
+      <template #header>
+        <span class="text-capitalize status-text">Update Chalkboard Content</span>
+      </template>
+
+      <template #body>
+        <div class="rich-editor-container">
+          <div id="rich-editor" />
+        </div>
+      </template>
+
+      <template #footer>
+        <button @click="updateLocalRichEdit">
+          Update
+        </button>
+        <button @click="closeRichEdit">
+          Cancel
+        </button>
+      </template>
+    </base-modal>
   </div>
 </template>
 
 <style scoped>
+  @import 'https://cdn.quilljs.com/1.3.6/quill.snow.css';
+
   .container {
     margin-top: 30px;
     background-color: white;
@@ -322,6 +437,11 @@
 
   .dialogue-search-tool ul li:hover {
     background-color: #cccccc;
+  }
+
+  .rich-editor-container {
+    width: 100%;
+    min-height: 40px
   }
 
 </style>

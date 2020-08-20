@@ -6,6 +6,9 @@ import {
 import { SyncFunction } from '../commands/commands'
 import _ from 'lodash'
 import { defaultWidth, defaultHeight, defaultXoffset, defaultYoffset } from '../../../site/components/cinematic/common/visualChalkboardModule'
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html'
+import { QUILL_CONFIG } from '../constants'
+import marked from 'marked'
 
 export default class VisualChalkboard {
   constructor () {
@@ -16,8 +19,8 @@ export default class VisualChalkboard {
 
   parseDialogNode (dialogNode) {
     const commands = []
-    const visualChalboardData = getVisualChalkBoardData(dialogNode) || {}
-    const { chalkboardContent, width, height, xOffset, yOffset } = visualChalboardData
+    const visualChalkboardData = getVisualChalkBoardData(dialogNode) || {}
+    const { chalkboardContent, width, height, xOffset, yOffset } = visualChalkboardData
     if (chalkboardContent || width || height || xOffset || yOffset) {
       let priorChalkboard = null
       if (this.lastChalkboardData !== null) {
@@ -31,10 +34,22 @@ export default class VisualChalkboard {
           yOffset: defaultYoffset
         }
       }
-      this.lastChalkboardData = _.merge(this.lastChalkboardData, visualChalboardData)
+      this.lastChalkboardData = _.merge(this.lastChalkboardData, visualChalkboardData)
+
+      // Convert to HTML, assume strings are markdown and non-strings are quill-json
+      // TODO: better way to deliberately detect data schema here?
+      let html = ''
+      if (typeof chalkboardContent === 'string') {
+        html = marked(chalkboardContent)
+        this.lastChalkboardData.html = html
+      } else if (typeof chalkboardContent === 'object') {
+        html = new QuillDeltaToHtmlConverter(chalkboardContent.ops, QUILL_CONFIG).convert()
+        html = `<div class="rich-text-content">${html}</div>`
+        this.lastChalkboardData.html = html
+      }
       const commandDataChalkboard = new SyncFunction(() =>
         store.dispatch('visualChalkboard/changeChalkboardContents', {
-          markdown: chalkboardContent,
+          html,
           width,
           height,
           xOffset,
@@ -42,28 +57,7 @@ export default class VisualChalkboard {
         })
       )
       if (priorChalkboard) {
-        commandDataChalkboard.undoCommandFactory = () => {
-          const {
-            chalkboardContent,
-            width,
-            height,
-            xOffset,
-            yOffset
-          } = priorChalkboard
-          return new SyncFunction(() => {
-            if (chalkboardContent || width || height) {
-              store.dispatch('visualChalkboard/changeChalkboardContents', {
-                markdown: chalkboardContent,
-                width,
-                height
-              })
-            }
-            store.dispatch('visualChalkboard/instantVisualChalkboardMove', {
-              xOffset,
-              yOffset
-            })
-          })
-        }
+        this.storePriorChalkboard(commandDataChalkboard, priorChalkboard)
       }
       commands.push(commandDataChalkboard)
     }
@@ -90,5 +84,30 @@ export default class VisualChalkboard {
     }
 
     return commands
+  }
+
+  storePriorChalkboard (commandDataChalkboard, priorChalkboard) {
+    commandDataChalkboard.undoCommandFactory = () => {
+      const {
+        html,
+        width,
+        height,
+        xOffset,
+        yOffset
+      } = priorChalkboard
+      return new SyncFunction(() => {
+        if (html || width || height) {
+          store.dispatch('visualChalkboard/changeChalkboardContents', {
+            html,
+            width,
+            height
+          })
+        }
+        store.dispatch('visualChalkboard/instantVisualChalkboardMove', {
+          xOffset,
+          yOffset
+        })
+      })
+    }
   }
 }

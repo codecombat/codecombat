@@ -12,7 +12,7 @@ export default () => ({
   namespaced: true,
 
   state: {
-    chalkboardMarkdown: 'Temporary Text',
+    chalkboardHtml: 'Temporary Text',
     // Starting defaults chosen by content team.
     width: defaultWidth,
     height: defaultHeight,
@@ -23,8 +23,8 @@ export default () => ({
   },
 
   mutations: {
-    setChalkboardContents (state, markdown) {
-      state.chalkboardMarkdown = markdown
+    setChalkboardContents (state, html) {
+      state.chalkboardHtml = html
     },
 
     setChalkboardDimensions (state, { width, height }) {
@@ -55,9 +55,9 @@ export default () => ({
   },
 
   actions: {
-    changeChalkboardContents ({ commit }, { markdown, width, height, xOffset, yOffset }) {
-      if (markdown) {
-        commit('setChalkboardContents', markdown)
+    changeChalkboardContents ({ commit }, { html, width, height, xOffset, yOffset }) {
+      if (html) {
+        commit('setChalkboardContents', html)
       }
       commit('setChalkboardDimensions', { width, height })
       commit('setChalkboardOffset', { xOffset, yOffset })

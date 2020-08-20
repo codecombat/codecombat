@@ -108,7 +108,16 @@ const DialogNode = c.object({
   visualChalkBoardData: c.object({
     title: 'Visual Chalkboard Data'
   }, {
-    chalkboardContent: { title: 'Content', type: 'string', maxLength: 4000, description: 'Content to place in the chalkboard', format: 'markdown' },
+    chalkboardContent: { 
+      oneOf: [
+        { title: 'Markdown Content', type: 'string', maxLength: 4000, description: 'Content to place in the chalkboard', format: 'markdown' },
+        {
+          type: 'object',
+          title: 'Rich Text Content',
+          format: 'rich-text',
+        },
+      ]
+    },
     width: { title: 'width (%)', description: 'The chalkboard width.', type: 'number', 'default': 45 },
     height: { title: 'height (%)', type: 'number', 'default': 75 },
     xOffset: { title: 'X offset (%)', description: 'An offset from the center along x', type: 'number', 'default': 46 },
