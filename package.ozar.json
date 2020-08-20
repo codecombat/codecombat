@@ -167,6 +167,8 @@
     "paypal-rest-sdk": "^1.7.1",
     "plyr": "^3.5.4",
     "promise-polyfill": "^5.2.1",
+    "quill": "^1.3.7",
+    "quill-delta-to-html": "^0.12.0",
     "random-seed": "^0.3.0",
     "request": "^2.75.0",
     "serve-favicon": "^2.3.2",
