@@ -348,6 +348,8 @@ _.extend LevelSchema.properties,
   exemplarProjectUrl: c.url { title: 'Exemplar Project URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)' }
   exemplarCodeUrl: c.url { title: 'Exemplar Code URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)' }
   projectRubricUrl: c.url { title: 'Project Rubric URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)' }
+  totalStages: c.int { title: 'Capstone Total Stages', description: 'Only needed for chapter 1 capstones. Tells the teacher dashboard (track progress table and curriculum guide) where to display this capstone. Required when we want to offset capstone to display after levels that are between the stages.' }
+
   nextLevel: {
     type: 'object',
     links: [{rel: 'extra', href: '/db/level/{($)}'}, {rel: 'db', href: '/db/level/{(original)}/version/{(majorVersion)}'}],
