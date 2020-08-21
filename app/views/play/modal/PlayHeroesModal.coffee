@@ -142,11 +142,14 @@ module.exports = class PlayHeroesModal extends ModalView
         {id: 'javascript', name: 'JavaScript'}
       ]
     else
+      @subscriberCodeLanguageList = [
+        {id: 'cpp', name: "C++ (#{$.i18n.t('choose_hero.experimental')})"}
+      ]
       @codeLanguageList = [
         {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
         {id: 'javascript', name: 'JavaScript'}
         {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
-        {id: 'cpp', name: "C++ (#{$.i18n.t('choose_hero.experimental')})"}
+        @subscriberCodeLanguageList...
       ]
 
       if me.isAdmin() or not application.isProduction()
@@ -300,6 +303,11 @@ module.exports = class PlayHeroesModal extends ModalView
   #- Exiting
 
   saveAndHide: ->
+    if !me.hasSubscription() and @subscriberCodeLanguageList.find((l) -> l.id == @codeLanguage)
+      @openModalView new SubscribeModal()
+      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: experimental language'
+      return
+
     hero = @selectedHero?.get('original')
     hero ?= @visibleHero?.get('original') if @visibleHero?.loaded and not @visibleHero.locked
     unless hero
