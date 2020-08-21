@@ -66,22 +66,6 @@ block content
         a#how-to-enroll-link(data-i18n="teacher.how_to_apply_licenses")
 
       .row.m-t-3
-        #prepaids-col.col-md-8.rtl-allowed
-          if _.size(pending) > 0
-            h5.m-b-1.m-t-3(data-i18n="teacher.pending_credits")
-            .row
-              for prepaid in pending
-                .prepaid-card-container.col-sm-4.col-xs-6.rtl-allowed
-                  +prepaidCard(prepaid, 'pending-prepaid-card')
-
-          if _.size(empty) > 0
-            h5.m-b-1(data-i18n="teacher.empty_credits")
-            .row
-              for prepaid in empty
-                .prepaid-card-container.col-sm-4.col-xs-6.rtl-allowed
-                  +prepaidCard(prepaid, 'empty-prepaid-card')
-
-      .row.m-t-3
         if anyPrepaids
           #prepaids-col.col-md-8.rtl-allowed
             if _.size(available) > 0

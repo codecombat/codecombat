@@ -90,7 +90,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
     teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-    top_banner_blurb: "Parents, book your child's first live online coding class for free!" # {change}
+    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -3061,6 +3061,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     start_free_trial_today: "Start free trial today"
     live_classes_title: "Live coding classes from CodeCombat!"
     live_class_booked_thank_you: "Your live class has been booked, thank you!"
+    book_your_class: "Book Your Class"
 
   parent_modal:
     refer_teacher: "Refer Teacher"
