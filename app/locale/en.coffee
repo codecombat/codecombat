@@ -433,7 +433,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     eu_confirmation_place_of_processing: "Learn more about the possible risks"
     eu_confirmation_student: "If you are not sure, ask your teacher."
     eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
-    password_requirements: "Between 8 and 64 characters and no repeated characters"
+    password_requirements: "8 to 64 characters with no repeating"
     invalid: "Invalid"
 
   recover:
