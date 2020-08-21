@@ -90,7 +90,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teachers_love_codecombat_blurb2: "Jbhyq erpbzzraq PbqrPbzong gb bgure pbzchgre fpvrapr grnpuref"
     teachers_love_codecombat_blurb3: "Fnl gung PbqrPbzong urycf gurz fhccbeg fghqragf’ ceboyrz fbyivat novyvgvrf"
     teachers_love_codecombat_subblurb: "Va cnegarefuvc jvgu ZpERY Vagreangvbany, n yrnqre va erfrnepu-onfrq thvqnapr naq rinyhngvbaf bs rqhpngvbany grpuabybtl."
-    top_banner_blurb: "Cneragf, obbx lbhe puvyq'f svefg yvir bayvar pbqvat pynff sbe serr!" # {punatr}
+    top_banner_blurb: "Cneragf, obbx lbhe puvyq'f svefg yvir bayvar pbqvat pynff sbe serr!"
     try_the_game: "Gel gur tnzr"
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
