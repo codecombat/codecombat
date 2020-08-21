@@ -170,6 +170,13 @@ module.exports = class BasicInfoView extends CocoView
       return false
 
     res = tv4.validateMultiple data, @formSchema()
+    if res.errors and res.errors.some((err) -> err.dataPath == '/password')
+      res.errors = res.errors.filter((err) -> err.dataPath != '/password')
+      res.errors.push({
+        dataPath: '/password',
+        message: 'Password must be between 8 and 64 characters and must not contain repeated characters'
+      })
+
     forms.applyErrorsToForm(@$('form'), res.errors) unless res.valid
     return res.valid
 
