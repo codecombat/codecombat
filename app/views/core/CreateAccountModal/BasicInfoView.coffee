@@ -174,7 +174,7 @@ module.exports = class BasicInfoView extends CocoView
       res.errors = res.errors.filter((err) -> err.dataPath != '/password')
       res.errors.push({
         dataPath: '/password',
-        message: 'Password must be between 8 and 64 characters and must not contain repeated characters'
+        message: $.i18n.t('signup.invalid')
       })
 
     forms.applyErrorsToForm(@$('form'), res.errors) unless res.valid
