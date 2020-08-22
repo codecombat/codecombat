@@ -91,7 +91,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "New: join our mission!"
+#    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
 #    try_the_game: "Try the game"
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
@@ -789,6 +789,14 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    content: "Amazing! We just launched live online classes."
 #    link: "Ready to get ahead on your coding?"
 
+#  code_quest:
+#    great: "Great!"
+#    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
+#    link: "Click here to register and learn more"
+#    global_tournament: "Global Tournament"
+#    register: "Register"
+#    date: "Aug 1 - Aug 31"
+
 #  play_game_dev_level:
 #    created_by: "Created by {{name}}"
 #    created_during_hoc: "Created during Hour of Code"
@@ -968,14 +976,14 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #  avatar_selection:
 #    pick_an_avatar: "Pick an avatar that will represent you as a player"
 
-#  premium_features:
-#    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
-#    master_coder: "Become a Master Coder by subscribing today!"
-#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
-#    subscribe_now: "Subscribe Now"
-#    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
-#    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
-#    hero_caption: "Exciting new heroes!"
+  premium_features:
+    get_premium: "Hol dir<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
+    master_coder: "Werde ein Meister-Programmierer, indem du heute abonnierst!"
+    paypal_redirect: "Du wirst zu PayPal weitergeleitet, um das Abo abzuschließen."
+    subscribe_now: "Abonniere jetzt"
+    hero_blurb_1: "Bekomme Zugang zu __premiumHeroesCount__ tollen Helden, die nur für Abonennten sind! Nutze die nicht aufzuhaltende Kraft von Okar Stompfoot, die tödliche Präzision von Naria of the Leaf, or rufe mit Nalfar Cryptor \"liebenswerte\" Skelette zu dir."
+    hero_blurb_2: "Premium-Kämpfer erhalten atemberaubende Kampffähigkeiten wie Kriegsrufe, Stampfen und den Gegner zu schleudern. Oder spiele als Ranger, indem du Heimlichkeit und Bogen nutzt, Messer wirfst und Fallen stellst! Teste deine Fähigkeiten als ein wahrer Programmier-Magier und entfessle ein mächtiges Aufkommen von ursprünglicher, geisterbeschwörender oder elementarer Magie!"
+    hero_caption: "Áufregende neue Helden!"
 #    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
@@ -2974,12 +2982,18 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    small_group_classes_detail_3: "Build projects and give feedback to other students"
 #    small_group_classes_detail_4: "Screen sharing to get live feedback on coding and debugging"
 #    private_classes: "Private Coding Classes"
+#    four_sessions_per_month: "4 Private Sessions / Mo."
+#    eight_sessions_per_month: "8 Private Sessions / Mo."
+#    four_private_classes_price: "$219/mo"
+#    eight_private_classes_price: "$399/mo"
 #    private_classes_detail: "4 or 8 Private Sessions / Mo."
 #    private_classes_price: "$219/mo or $399/mo"
 #    private_classes_detail_1: "1:1 student to instructor ratio"
 #    private_classes_detail_2: "60 minute classes"
 #    private_classes_detail_3: "Flexible schedule tailored to your needs"
 #    private_classes_detail_4: "Lesson plans and live feedback tailored to students' learning style, pace, and ability level"
+#    best_seller: "Best Seller"
+#    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
@@ -3046,6 +3060,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    start_free_trial_today: "Start free trial today"
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
+#    book_your_class: "Book Your Class"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
