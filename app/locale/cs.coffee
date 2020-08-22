@@ -91,7 +91,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "New: join our mission!"
+#    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
 #    try_the_game: "Try the game"
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
@@ -788,6 +788,14 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    title: "Thank you!"
 #    content: "Amazing! We just launched live online classes."
 #    link: "Ready to get ahead on your coding?"
+
+#  code_quest:
+#    great: "Great!"
+#    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
+#    link: "Click here to register and learn more"
+#    global_tournament: "Global Tournament"
+#    register: "Register"
+#    date: "Aug 1 - Aug 31"
 
 #  play_game_dev_level:
 #    created_by: "Created by {{name}}"
@@ -2974,12 +2982,18 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    small_group_classes_detail_3: "Build projects and give feedback to other students"
 #    small_group_classes_detail_4: "Screen sharing to get live feedback on coding and debugging"
 #    private_classes: "Private Coding Classes"
+#    four_sessions_per_month: "4 Private Sessions / Mo."
+#    eight_sessions_per_month: "8 Private Sessions / Mo."
+#    four_private_classes_price: "$219/mo"
+#    eight_private_classes_price: "$399/mo"
 #    private_classes_detail: "4 or 8 Private Sessions / Mo."
 #    private_classes_price: "$219/mo or $399/mo"
 #    private_classes_detail_1: "1:1 student to instructor ratio"
 #    private_classes_detail_2: "60 minute classes"
 #    private_classes_detail_3: "Flexible schedule tailored to your needs"
 #    private_classes_detail_4: "Lesson plans and live feedback tailored to students' learning style, pace, and ability level"
+#    best_seller: "Best Seller"
+#    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
@@ -3046,6 +3060,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    start_free_trial_today: "Start free trial today"
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
+#    book_your_class: "Book Your Class"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
