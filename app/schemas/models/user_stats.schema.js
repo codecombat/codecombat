@@ -7,7 +7,8 @@ const UserStatsSchema = schema.object({}, {
       title: 'User stats',
       additionalProperties: true
     }
-  )
+  ),
+  lastUpdatedAt: schema.stringDate()
 })
 
 schema.extendBasicProperties(UserStatsSchema, 'user.stat')

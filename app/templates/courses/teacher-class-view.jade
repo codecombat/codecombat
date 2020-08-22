@@ -141,7 +141,7 @@ mixin courseProgressTab
         .clearfix
     - var course = state.get('selectedCourse');
     - var courseInstance = view.getSelectedCourseInstance()
-    if me.showCourseProgressControl() && courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
+    if courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
       .text-center(data-course-id=course.id)
         span(data-i18n="courses.set_start_locked_level")
         span.spr :
@@ -240,10 +240,10 @@ mixin studentCourseProgressDot(progress, levelsTotal, label, student, course, co
   - _.assign(progress, { levelsTotal: levelsTotal })
   if progress.completed
     a.open-certificate-btn(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + courseInstance.id, data-event-action="Teachers Click Certificates - Students tab")
-      .progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
+      .progress-dot.has-tooltip(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
         +progressDotLabel(label)
   else
-    .progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
+    .progress-dot.has-tooltip(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
       +progressDotLabel(label)
 
 mixin allStudentsLevelProgressDot(progress, level, levelNumber)
@@ -273,10 +273,10 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
   if link
     if state.get('readOnly')
       - link = link.replace('/teachers/classes/', '/school-administrator/teacher/' + view.classroom.get('ownerID') + '/classroom/')
-    a.progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context), href=link)
+    a.progress-dot.has-tooltip.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context), href=link)
       +progressDotLabel(labelText)
   else
-    .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context))
+    .progress-dot.has-tooltip.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context))
       +progressDotLabel(labelText)
 
 
@@ -312,10 +312,10 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
   if link
     if state.get('readOnly')
       - link = link.replace('/teachers/classes/', '/school-administrator/teacher/' + view.classroom.get('ownerID') + '/classroom/')
-    a.progress-dot.level-progress-dot.student-level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context) href=link, data-student-id=student.id, data-level-slug=level.get('slug'), data-level-progress=(progress.completed ? 'complete' : progress.started ? 'started' : 'not started'), data-course-id=view.state.get('selectedCourse').id)
+    a.progress-dot.has-tooltip.level-progress-dot.student-level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context) href=link, data-student-id=student.id, data-level-slug=level.get('slug'), data-level-progress=(progress.completed ? 'complete' : progress.started ? 'started' : 'not started'), data-course-id=view.state.get('selectedCourse').id)
       +progressDotLabel(labelText)
   else
-    .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
+    .progress-dot.has-tooltip.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
       +progressDotLabel(labelText)
   if topScore && topScore.thresholdAchieved
     br

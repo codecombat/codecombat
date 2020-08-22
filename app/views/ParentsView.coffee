@@ -3,6 +3,7 @@ template = require 'templates/base-flat'
 ParentsViewComponent = require('./ParentsViewComponent.vue').default
 ParentReferTeacherModal = require('views/core/ParentReferTeacherModal')
 
+# DEPRECATED - this is the old /parents page
 module.exports = class ParentView extends RootComponent
   id: 'parents-view'
   template: template
@@ -10,4 +11,10 @@ module.exports = class ParentView extends RootComponent
   propsData: {}
 
   initialize: ->
-    @propsData = { onReferTeacher: () => @openModalView new ParentReferTeacherModal() }
+    @propsData = {
+      onReferTeacher: () =>
+        if me.showChinaResourceInfo()
+          window.open('https://xuetang.koudashijie.com')
+        else
+          @openModalView new ParentReferTeacherModal()
+    }

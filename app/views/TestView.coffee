@@ -137,7 +137,10 @@ module.exports = TestView = class TestView extends RootView
         jasmine.Ajax.requests.reset()
         Backbone.Mediator.init()
         Backbone.Mediator.setValidationEnabled false
-        spyOn(application.tracker, 'trackEvent')
+        spyOn(application.tracker, 'trackEvent').and.returnValue(Promise.resolve())
+        spyOn(application.tracker, 'trackPageView').and.returnValue(Promise.resolve())
+        spyOn(application.tracker, 'identify').and.returnValue(Promise.resolve())
+        spyOn(application.tracker, 'identifyAfterNextPageLoad').and.returnValue(Promise.resolve())
         application.timeoutsToClear = []
         jasmine.addMatchers(customMatchers)
         @notySpy = spyOn(window, 'noty') # mainly to hide them
