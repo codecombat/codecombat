@@ -180,19 +180,41 @@ module.exports = class LevelLoader extends CocoClass
       @opponentSession = @opponentSessionResource.model
 
     if @session.loaded
-      console.debug 'LevelLoader: session already loaded:', @session
+      console.debug 'LevelLoader: session already loaded:', @session if LOG
       @session.setURL '/db/level.session/' + @session.id
       @loadDependenciesForSession @session
     else
-      console.debug 'LevelLoader: loading session:', @session
+      console.debug 'LevelLoader: loading session:', @session if LOG
       @listenToOnce @session, 'sync', ->
         @session.setURL '/db/level.session/' + @session.id
         @loadDependenciesForSession @session
     if @opponentSession
       if @opponentSession.loaded
-        @loadDependenciesForSession @opponentSession
+        console.debug 'LevelLoader: opponent session already loaded:', @opponentSession if LOG
+        @preloadTokenForOpponentSession @opponentSession
       else
-        @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
+        console.debug 'LevelLoader: loading opponent session:', @opponentSession if LOG
+        @listenToOnce @opponentSession, 'sync', @preloadTokenForOpponentSession
+
+  preloadTokenForOpponentSession: (session) =>
+    language = session.get('codeLanguage')
+    compressed = session.get 'interpret'
+    if language not in ['java', 'cpp'] or not compressed
+      @loadDependenciesForSession session
+    else
+      uncompressed = LZString.decompressFromUTF16 compressed
+      code = session.get 'code'
+
+      headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+      m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
+      service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
+      fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: uncompressed, language: language})}
+      .then (x) => x.json()
+      .then (x) =>
+        code[if session.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan = x.token
+        session.set 'code', code
+        session.unset 'interpret'
+        @loadDependenciesForSession session
 
   loadDependenciesForSession: (session) ->
     console.debug "Loading dependencies for session: ", session if LOG
@@ -380,6 +402,7 @@ module.exports = class LevelLoader extends CocoClass
       @worldNecessities.push @maybeLoadURL(url, LevelComponent, 'component')
 
   onWorldNecessityLoaded: (resource) ->
+    # Note: this can also be called when session, opponentSession, or other resources with dedicated load handlers are loaded, before those handlers
     index = @worldNecessities.indexOf(resource)
     if resource.name is 'thang'
       @loadDefaultComponentsForThangType(resource.model)
@@ -396,7 +419,7 @@ module.exports = class LevelLoader extends CocoClass
 
   checkAllWorldNecessitiesRegisteredAndLoaded: ->
     reason = @getReasonForNotYetLoaded()
-    console.debug('LevelLoader: Reason not loaded:', reason)
+    console.debug('LevelLoader: Reason not loaded:', reason) if reason and LOG
     return !reason
 
   getReasonForNotYetLoaded: ->
@@ -405,8 +428,9 @@ module.exports = class LevelLoader extends CocoClass
     return 'not all session dependencies registered' if @sessionDependenciesRegistered and not @sessionDependenciesRegistered[@session.id] and not @sessionless
     return 'not all opponent session dependencies registered' if @sessionDependenciesRegistered and @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id] and not @sessionless
     return 'session is not loaded' unless @session?.loaded or @sessionless
-    return 'opponent session is not loaded' if @opponentSession and not @opponentSession.loaded
+    return 'opponent session is not loaded' if @opponentSession and (not @opponentSession.loaded or @opponentSession.get('interpret'))
     return 'have not published level loaded' unless @publishedLevelLoaded or @sessionless
+    return 'cpp/java token is still fetching' if @opponentSession and @opponentSession.get 'interpret'
     return ''
 
   onWorldNecessitiesLoaded: ->
