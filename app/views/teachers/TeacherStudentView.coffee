@@ -38,6 +38,7 @@ module.exports = class TeacherStudentView extends RootView
     @state = new State({
       'renderOnlyContent': options.renderOnlyContent
     })
+    @startTime = new Date()
 
     if (options.renderOnlyContent)
       @template = viewTemplate
@@ -88,6 +89,12 @@ module.exports = class TeacherStudentView extends RootView
       @updateSelectedCourseProgress(levelSlug)
       window.location.href = window.location.href 
 
+  destroy: ->
+    if @startTime
+      timeSpent = new Date() - @startTime
+      application.tracker?.trackTiming timeSpent, 'Teachers Time Spent',  'Student Profile Page', me.id
+    super()
+  
   afterRender: ->
     super(arguments...)
     @$('.progress-dot, .btn-view-project-level').each (i, el) ->
@@ -124,10 +131,18 @@ module.exports = class TeacherStudentView extends RootView
     @levelSolutionsMap = @levels.getSolutionsMap([@classroom.get('aceConfig')?.language, 'html'])
     @levelStudentCodeMap = {}
     for session in @sessions.models when session.get('creator') is @studentID
+      levelOriginal = session.get('level').original
+      @levelStudentCodeMap[levelOriginal] = @levelStudentCodeMap[levelOriginal] || []
       # Normal level
-      @levelStudentCodeMap[session.get('level').original] = session.get('code')?['hero-placeholder']?['plan']
+      if session.get('code')?['hero-placeholder']?['plan']
+        @levelStudentCodeMap[levelOriginal].push({
+          plan: session.get('code')['hero-placeholder']['plan'],
+          team: 'humans'})
       # Arena level
-      @levelStudentCodeMap[session.get('level').original] ?= session.get('code')?['hero-placeholder-1']?['plan']
+      if session.get('code')?['hero-placeholder-1']?['plan']
+        @levelStudentCodeMap[levelOriginal].push({
+          plan: session.get('code')['hero-placeholder-1']['plan'],
+          team: 'ogres'})
 
   updateSelectedCourseProgress: (levelSlug) ->
     return unless levelSlug

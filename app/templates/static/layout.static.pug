@@ -3,15 +3,17 @@ block begin
 html(lang='en')
   head
     meta(charset='utf-8')
-    meta(name='viewport', content='width=1024')
+    meta(name='viewport', content='width=1024', data-vue-meta="true", data-vmid="viewport")
     meta(http-equiv='Accept-CH', content='Viewport-Width')
     title(data-i18n="new_home.title")
     meta(name="keywords", data-i18n="[content]new_home.meta_keywords")
     meta(name="description", data-i18n="[content]new_home.meta_description")
     meta(property='og:title', data-i18n="[content]new_home.title")
+    meta(property='og:description', data-i18n="[content]new_home.meta_description")
     meta(property='og:url', data-i18n="[content]new_home.meta_og_url")
     meta(property='og:type', content='game')
     meta(property='og:image', content='http://codecombat.com/images/pages/home/play_img.png')
+    meta(property='og:image:alt', content='CodeCombat')
     meta(property='og:site_name', content='CodeCombat')
     meta(name='twitter:card', content='summary')
     meta(name='twitter:title', content='CodeCombat: Learn to Code by Playing a Game')
@@ -20,6 +22,7 @@ html(lang='en')
     meta(name='twitter:image:src', content='http://codecombat.com/images/pages/base/logo_square_250.png')
     meta(name='twitter:description', content='Learn programming with a multiplayer live coding strategy game for beginners. Learn Python or JavaScript as you defeat ogres, solve mazes, and level up. Open source HTML5 game!')
     meta(name="p:domain_verify", content="f5afcb2c36bb8b1cbd70c44b65e5ec75")
+    meta(name='fb:app_id', content='148832601965463')
     link(href='https://plus.google.com/115285980638641924488', rel='publisher')
     link(rel='shortcut icon', href='/images/favicon.ico')
     link(rel='apple-touch-icon', href='/images/pages/base/logo_square_250.png')
@@ -44,8 +47,6 @@ html(lang='en')
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
         ga('create', 'UA-39724129-1', 'auto');
 
-        if(features.codePlay) { ga('create', 'UA-80597440-3', {name: 'codeplay'}); }
-
       // Global site tag (gtag.js) - Google Ads: 811324643
       script(async src="https://www.googletagmanager.com/gtag/js?id=AW-811324643")
       script.
@@ -61,7 +62,7 @@ html(lang='en')
         (function() {
         var hm = document.createElement("script");
         hm.src = "https://hm.baidu.com/hm.js?ffc38c02cf8f484ab8f785b58dfa8b6e";
-        var s = document.getElementsByTagName("script")[0]; 
+        var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
         })();
 
@@ -80,7 +81,6 @@ html(lang='en')
       });
     if me.useStripe()
       script(src='https://checkout.stripe.com/checkout.js')
-    // CodePlay Tags Header
 
     // Webpack-inserted CSS:
     //- (will be inserted at runtime)
@@ -110,4 +110,15 @@ html(lang='en')
     #fb-root
     block content
     #modal-wrapper.modal-content.hide
-    // CodePlay Tags Footer
+
+  if me.useQiyukf()
+    script.
+      (function (w, d, n, a, j) {
+        w[n] = w[n] || function () {
+          (w[n].a = w[n].a || []).push(arguments);
+        };
+        j = d.createElement('script');
+        j.async = true;
+        j.src = 'https://qiyukf.com/script/417b0e66819a980076108e0dac606b50.js';
+        d.body.appendChild(j);
+      })(window, document, 'ysf');

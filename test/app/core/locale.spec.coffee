@@ -46,4 +46,5 @@ describe 'Check keys', ->
                 This can occur when:
                   * Parent key for '#{keyChild}' is accidentally commented.
                   * English translation for '#{key}.#{keyChild}' has been deleted.
+                You may need to run copy-i18n-tags.js
               """
