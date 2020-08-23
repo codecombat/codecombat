@@ -235,11 +235,7 @@ module.exports = class TeacherClassesView extends RootView
     if showOzariaEncouragementModal
       window.localStorage.removeItem('showOzariaEncouragementModal')
 
-    ozariaEncouragementModalGroup = experiments.getOzariaEncouragementModalGroup(window.me)
-    if ozariaEncouragementModalGroup == 'ozaria-encouragement-modal-show'
-      @showOzariaLink = true
-
-    if showOzariaEncouragementModal and ozariaEncouragementModalGroup == 'ozaria-encouragement-modal-show'
+    if showOzariaEncouragementModal
       @openOzariaEncouragementModal()
     else if me.isTeacher() and not @classrooms.length
       @openNewClassroomModal()

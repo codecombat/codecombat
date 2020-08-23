@@ -57,6 +57,8 @@ compile = (contents, locals, filename, cb) ->
     locals.me.useSocialSignOn = -> not (locals.chinaInfra ? false)
     locals.me.useGoogleAnalytics = -> not (locals.chinaInfra ? false)
     locals.me.useStripe = -> not (locals.chinaInfra ? false)
+    # Netease Qiyu Live Chat Plugin
+    locals.me.useQiyukf = -> locals.chinaInfra ? false
     str = outFn(locals)
   catch e
     console.log "Compile", filename, basePath

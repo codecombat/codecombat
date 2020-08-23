@@ -3,10 +3,6 @@ extends /templates/base
 block content
   - var base = "/images/pages/play/ladder/prize_";
 
-  if view.tournamentEnd
-    #tournamentend
-      p(data-i18n="ladder.tournament_end_desc")
-
   div#ladder-top
 
     if view.leagueType === 'course' && view.course
@@ -142,12 +138,16 @@ block content
 
     div#columns.row
       div.column.col-md-2
-      if view.teams
-        for team in view.teams
-          div.column.col-md-4
-            a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
-              span(data-i18n="play.play_as")
-              span.spl= team.displayName
+      if view.tournamentEnd
+        #tournamentend
+          p(data-i18n="ladder.tournament_end_desc")
+      else
+        if view.teams
+          for team in view.teams
+            div.column.col-md-4
+              a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
+                span(data-i18n="play.play_as")
+                span.spl= team.displayName
       div.column.col-md-2
 
     .spectate-button-container

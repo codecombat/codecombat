@@ -15,16 +15,22 @@ TeacherRolePanel = Vue.extend
       showRequired: false
     })
 
-  computed: {
-    validPhoneNumber: ->
-      return !me.showChinaRegistration() or forms.validatePhoneNumber(@phoneNumber)
-  }
+  computed:
+    _.assign({},
+      Vuex.mapGetters(trialReqProps: 'modal/getTrialRequestProperties'),
+      askForPhoneNumber: ->
+        return me.showChinaRegistration() or this.trialReqProps.country == 'United States'
+      phoneNumberRequired: ->
+        return me.showChinaRegistration()
+      validPhoneNumber: ->
+        return !@phoneNumber or forms.validatePhoneNumber(@phoneNumber)
+    )
 
   methods:
     clickContinue: ->
       # Make sure to add conditions if we change this to be used on non-teacher path
       window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Continue Clicked', category: 'Teachers'
-      requiredAttrs = _.pick(@, ['role','numStudents'].concat(if me.showChinaRegistration() then ['phoneNumber'] else []))
+      requiredAttrs = _.pick(@, ['role','numStudents'].concat(if this.phoneNumberRequired then ['phoneNumber'] else []))
       unless _.all(requiredAttrs) and @validPhoneNumber
         @showRequired = true
         return
