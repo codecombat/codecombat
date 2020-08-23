@@ -156,6 +156,11 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     view_progress: "Ver mi progreso"
     go_to_courses: "Ir a mis cursos"
     want_coco: "¿Quieres CodeCombat en tu escuela?"
+    educator: "Educador"
+    student: "Estudiante"
+
+  nav:
+    educators: "Estudiantes"
 #    our_coding_programs: "Our Coding Programs"
 #    codecombat: "CodeCombat"
 #    ozaria: "Ozaria"
@@ -163,9 +168,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
 #    try_codecombat: "Try CodeCombat"
 #    try_ozaria: "Try Ozaria"
-
-  nav:
-    educators: "Maestros"
     follow_us: "Síguenos"
     general: "General"
     map: "Mapa"
@@ -453,6 +455,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     coming_soon: "¡Próximamente!"
     continue: "Continuar" # When used as an action verb, like "Continue forward"
     next: "Siguiente"
+#    default_code: "Default Code"
     default_code: "Código por defecto"
     loading: "Cargando..."
     overview: "Vista global"
@@ -481,7 +484,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     save_changes: "Guardar cambios"
     required_field: "Campo requerido" # {change}
     submit: "Enviar"
-    replay: "Repetir"
+    replay: "Repetición"
     complete: "Completar"
 
   general:
@@ -616,8 +619,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     reload_really: "¿Estás seguro que quieres reiniciar el nivel?"
     reload_confirm: "Recargarlo todo"
 #    restart_really: "Are you sure you want to restart the level? You'll loose all the code you've written."
-    restart_confirm: "Sí, Reiniciar"
-#    test_level: "Test Level"
+    restart_confirm: "Si, reiniciar"
+    test_level: "Nivel de prueba"
     victory: "Victoria"
     victory_title_prefix: "¡"
     victory_title_suffix: " Completado!"
@@ -634,7 +637,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_experience_gained: "XP Conseguida"
     victory_gems_gained: "Gemas Conseguidas"
     victory_new_item: "Nuevo artículo"
-    victory_new_hero: "Nuevo heroe"
+    victory_new_hero: "Nuevo Héroe"
     victory_viking_code_school: "Jolines, el nivel que acabas de pasar era difícil! Si todavía no eres un desarrollador de software, deberías serlo. Acabas de conseguir una aceptación por vía rápida con la Escuela Vikinga de Có, donde tú puedes llevar tus habilidades al siguiente nivel y convertirte en un desarrollador web profesional en 14 semanas."
     victory_become_a_viking: "Convertirse en un vikingo"
     victory_no_progress_for_teachers: "El progreso no se guarda para los profesores. Pero, puedes añadir una cuenta de estudiante a tu clase para ti."
@@ -840,8 +843,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     difficulty: "Dificultad"
     gold_collected: "Oro conseguido"
     survival_time: "Sobrevivió"
-#    defeated: "Enemies Defeated"
-#    code_length: "Lines of Code"
+    defeated: "Enemigos Derrotados"
+    code_length: "Líneas de código"
 #    score_display: "__scoreType__: __score__"
 
   inventory:
@@ -871,9 +874,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     prompt_button: "Ingresa a la tienda"
     recovered: "Las gemas compradas con anterioridad han sido recuperadas. Por favor, actualiza la página."
     price: "x{{gems}} / mes"
-#    buy_premium: "Buy Premium"
-    purchase: "Compra"
-#    purchased: "Purchased"
+    buy_premium: "Comprar Premium"
+    purchase: "Comprar"
+    purchased: "Comprado"
 
 #  subscribe_for_gems:
 #    prompt_title: "Not Enough Gems!"
@@ -1035,7 +1038,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     restricted_to_certain_heroes: "Solo ciertos héroes pueden jugar este nivel."
 
   char_customization_modal:
-    heading: "Personalizar tu héroe"
+    heading: "Personalizar tu héroeo"
     body: "Cuerpo"
     name_label: "Nombre del héroe"
     hair_label: "Color de pelo"
