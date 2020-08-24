@@ -1676,7 +1676,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    complete_solution: "Complete Solution"
 #    course_not_started: "Student has not started this course yet."
     appreciation_week_blurb1: "V <strong>Týždni ocenenia učiteľov 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Appreciation Week</strong>\", and include:"
-
 #    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
 #    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
 #    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"

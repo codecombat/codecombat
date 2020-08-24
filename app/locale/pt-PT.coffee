@@ -207,7 +207,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     help_pref: "Precisas de ajuda? Envia um e-mail para"
     help_suff: "e nós entraremos em contacto!"
     resource_hub: "Centro de Recursos"
-#    apcsp: "AP CS Principles" - Not aplicable in Portugal
+#    apcsp: "AP CS Principles"
     parent: "Educadores"
     browser_recommendation: "Para a melhor experiência, recomendamos a utilização da última versão do Chrome. Descarregue o navegador aqui!"
 
@@ -422,6 +422,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     teacher_students_can_start_now: "Os seus alunos poderão começar a jogar o primeiro módulo, Introdução à Ciência da Computação, imediatamente."
     teacher_list_create_class: "No ecrã seguinte, poderá criar uma nova turma."
     teacher_list_add_students: "Adicione alunos à turma clicando no link Ver Turma, depois envie aos seus alunos o Código da Turma ou URL. Pode também convidá-los por correio electrónico se tiverem endereços de correio electrónico."
+#    teacher_list_resource_hub_1: "Check out the"
     teacher_list_resource_hub_2: "Guias de Curso"
     teacher_list_resource_hub_3: "para soluções a todos os níveis, e o"
     teacher_list_resource_hub_4: "Centro de Recursos"

@@ -214,7 +214,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
   modal:
     close: "Luk"
     okay: "Okay"
-#    cancel: "Cancel"
     cancel: "Annullér"
 
   not_found:

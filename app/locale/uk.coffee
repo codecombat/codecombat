@@ -239,9 +239,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     anon_signup_enter_code: "Введить код класу:"
     anon_signup_ask_teacher: "Ще немає? Запитай у свого вчителя!"
     anon_signup_create_class: "Бажаєте створити клас?"
-#    anon_signup_enter_code: "Enter Class Code:"
-#    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
-#    anon_signup_create_class: "Want to create a class?"
 #    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
     anon_signup_create_teacher: "Створити безкоштовний акаунт вчителя"
     play_as: "Грати за" # Ladder page
@@ -776,7 +773,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     number: "Число"
     webjavascript: "JavaScript"
 
-#   amazon_hoc:
+#  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
 #    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
@@ -788,7 +785,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
   live_class:
-#    title: "Дякую!"
+#    title: "Thank you!"
     content: "Вражаюче! Ми зараз запустили онлайн-клас."
     link: "Вже готові прямувати до кодування?"
 
