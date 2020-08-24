@@ -168,8 +168,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 
   nav:
 #    educators: "Educators"
-#    follow_us: "Follow Us"
-#    general: "General"
+    follow_us: "Ikuti Kami"
+    general: "Utama" #General menu
     map: "Peta"
     play: "Tingkatan" # The top nav bar entry where players choose which levels to play
     community: "Komunitas"
@@ -189,7 +189,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     twitter_follow: "Ikuti"
     my_classrooms: "Kelasku"
     my_courses: "Kursusku"
-#    my_teachers: "My Teachers"
+    my_teachers: "Guruku"
     careers: "Karir"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -209,12 +209,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     resource_hub: "Pusat Sumber Daya"
     apcsp: "Fundamental AP CS"
     parent: "Orang Tua"
-#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
-
+    browser_recommendation: "Untuk pengalaman yang lebih baik, kami merekomendasikan menggunakan browser chrome terbaru. Download browser disini"
   modal:
     close: "Tutup"
     okay: "Baik"
-#    cancel: "Cancel"
+    cancel: "Batal"
 
   not_found:
     page_not_found: "Laman tidak ditemukan"
@@ -351,7 +350,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     sign_in_with_facebook: "Masuk dengan Facebook"
     sign_in_with_gplus: "Masuk dengan Google"
     signup_switch: "Ingin membuat akun?"
-#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
+    accounts_merge_confirmation: "Akun tersebut telah digunakan oleh akun google yang lain. Apakah anda ingin menggabungkan kedua akun tersebut?"
 
   signup:
     complete_subscription: "Berlanggangan Penuh"
@@ -497,7 +496,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     rejected: "Ditolak"
     withdrawn: "Ditarik"
     accept: "Terima"
-#    accept_and_save: "Accept&Save"
+    accept_and_save: "Terima&Simpan"
     reject: "Tolak"
     withdraw: "Tarik"
     submitter: "Yang Mengajukan"
@@ -1009,8 +1008,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     javascript_blurb: "Bahasa untuk web. (Tidak sama dengan Java.)"
     coffeescript_blurb: "Sintaksis Javascript yang lebih bagus"
     lua_blurb: "Bahasa untuk Skrip Permainan"
-    java_blurb: "(Hanya Pelanggan) Android dan perusahaan."
-#    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
+    java_blurb: "(Khusus Pelanggan) Android dan perusahaan."
+    cpp_blurb: "(Khusus Pelanggan) Pengembangan game dan komputasi kinerja tinggi."
     status: "Status"
     weapons: "Senjata"
     weapons_warrior: "Pedang - Jarak Dekat, Tanpa Sihir"
@@ -1625,10 +1624,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     update_old_classroom_detail_2: "dan berikan siswa-siswa Kelas Kode yang baru muncul"
     view_assessments: "Lihat Penilaian"
     view_challenges: "lihat level tantangan"
-#    view_ranking: "view ranking"
-#    ranking_position: "Position"
-#    ranking_players: "Players"
-#    ranking_completed_leves: "Completed levels"
+    view_ranking: "Lihat Peringkat"
+    ranking_position: "Posisi"
+    ranking_players: "Pemain"
+    ranking_completed_leves: "Peringkat Diselesaikan "
     challenge: "Tantangan:"
     challenge_level: "Level Tantangan:"
     status: "Status:"
