@@ -1129,9 +1129,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
+    bryukh_title: "Speldesigner" # {change}
+    bryukh_blurb: "Maakt puzzels"
     community_title: "...en onze open-source gemeenschap"
-#    bryukh_title: "Senior Gameplay Developer"
-#    bryukh_blurb: "Constructs puzzles"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
     community_description_link_2: "gemeenschapsproject"
