@@ -12,6 +12,7 @@
 CodeCombat now runs in Docker! You can easily get up and running with CodeCombat in your local environment by following the [Docker guide](../../wiki/Dev-Setup:-General-Information).
 
 CodeCombat is a multiplayer programming game for learning how to code.
+Learn popular programming languages by playing videogames
 **See the [Archmage (coder) developer wiki](../../wiki/Archmage-Home) for a dev
 setup guide, extensive documentation, and much more to get started hacking!**
 
