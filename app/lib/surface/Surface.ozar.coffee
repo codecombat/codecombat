@@ -181,7 +181,6 @@ module.exports = Surface = class Surface extends CocoClass
     return if @destroyed
     return if @loaded
     @loaded = true
-    @lankBoss.createMarks()
     @updateState true
     @drawCurrentFrame()
     createjs.Ticker.addEventListener 'tick', @tick
