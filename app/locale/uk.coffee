@@ -239,9 +239,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     anon_signup_enter_code: "Введить код класу:"
     anon_signup_ask_teacher: "Ще немає? Запитай у свого вчителя!"
     anon_signup_create_class: "Бажаєте створити клас?"
-    anon_signup_enter_code: "Введить код класу:"
-    anon_signup_ask_teacher: "Ще немає? Запитайтесь у вчителя!"
-    anon_signup_create_class: "Бажаєте створити клас?"
     anon_signup_setup_class: "Налаштуйте клас, дадайте студентів та монітор розвитку!"
     anon_signup_create_teacher: "Створити безкоштовний акаунт вчителя"
     play_as: "Грати за" # Ladder page
@@ -792,7 +789,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     content: "Вражаюче! Ми зараз запустили онлайн-клас."
     link: "Вже готові прямувати до кодування?"
 
-#  code_quest:
+  code_quest:
     great: "Неймовірно!"
 #    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
     link: "Тиснить тут щоб зареєструватись та дізнатись більше"
@@ -934,7 +931,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     support_part1: "Потрібна допомога з опціями оплати? Напишіть на" # {change}
     support_part2: "support@codecombat.com"
 
-#  announcement:
+  announcement:
     now_available: "Тепер доступний для підпісників!"
     subscriber: "підписник"
 #    cuddly_companions: "Cuddly Companions!" # Pet Announcement Modal
