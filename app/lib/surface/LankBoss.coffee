@@ -44,8 +44,6 @@ module.exports = class LankBoss extends CocoClass
 
   destroy: ->
     @removeLank lank for thangID, lank of @lanks
-    @targetMark?.destroy()
-    @selectionMark?.destroy()
     lankLayer.destroy() for lankLayer in _.values @layerAdapters
     super()
 
@@ -90,10 +88,6 @@ module.exports = class LankBoss extends CocoClass
     layer.addLank lank
     layer.updateLayerOrder()
     lank
-
-  createMarks: ->
-    @targetMark = new Mark name: 'target', camera: @camera, layer: @layerAdapters['Ground'], thangType: 'target'
-    @selectionMark = new Mark name: 'selection', camera: @camera, layer: @layerAdapters['Ground'], thangType: 'selection'
 
   createLankOptions: (options) ->
     _.extend options, {
@@ -149,7 +143,6 @@ module.exports = class LankBoss extends CocoClass
   update: (frameChanged) ->
     @adjustLankExistence() if frameChanged
     lank.update frameChanged for lank in @lankArray
-    @updateSelection()
     @layerAdapters['Default'].updateLayerOrder()
     @cacheObstacles()
 
@@ -246,13 +239,9 @@ module.exports = class LankBoss extends CocoClass
 
   play: ->
     lank.play() for lank in @lankArray
-    @selectionMark?.play()
-    @targetMark?.play()
 
   stop: ->
     lank.stop() for lank in @lankArray
-    @selectionMark?.stop()
-    @targetMark?.stop()
 
   # Selection
 
@@ -371,33 +360,3 @@ module.exports = class LankBoss extends CocoClass
       lank and lank.thangType.get('name') is 'Flag' and lank.thang.team is me.team and (lank.thang.color is e.color or not e.color) and not lank.notOfThisWorld
     return unless flagLank
     Backbone.Mediator.publish 'surface:remove-flag', color: flagLank.thang.color
-
-  # Marks
-
-  updateSelection: ->
-    if @selectedLank?.thang and (not @selectedLank.thang.exists or not @world.getThangByID @selectedLank.thang.id)
-      thangID = @selectedLank.thang.id
-      @selectedLank = null  # Don't actually trigger deselection, but remove the selected lank.
-      @selectionMark?.toggle false
-      @willSelectThang = [thangID, null]
-    @updateTarget()
-    return unless @selectionMark
-    @selectedLank = null if @selectedLank and (@selectedLank.destroyed or not @selectedLank.thang)
-    # The selection mark should be on the ground layer, unless we're not a normal lank (like a wall), in which case we'll place it higher so we can see it.
-    if @selectedLank and @selectedLank.sprite.parent isnt @layerAdapters.Default.container
-      @selectionMark.setLayer @layerAdapters.Default
-    else if @selectedLank
-      @selectionMark.setLayer @layerAdapters.Ground
-    @selectionMark.toggle @selectedLank?
-    @selectionMark.setLank @selectedLank
-    @selectionMark.update()
-
-  updateTarget: ->
-    return unless @targetMark
-    thang = @selectedLank?.thang
-    target = thang?.target
-    targetPos = thang?.targetPos
-    targetPos = null if targetPos?.isZero?()  # Null targetPos get serialized as (0, 0, 0)
-    @targetMark.setLank if target then @lanks[target.id] else null
-    @targetMark.toggle @targetMark.lank or targetPos
-    @targetMark.update if targetPos then @camera.worldToSurface targetPos else null
