@@ -278,7 +278,7 @@ extractRuntimeErrorDetails = (options) ->
     loc = options.aether?.esperEngine?.evaluator?.topFrame?.ast?.loc
     options.range ?= esperLocToAetherLoc loc
 
-  if options.error.name?
+  if options.error?.name?
     options.message = "#{options.error.name}: #{options.message}"
 
   if options.range?
