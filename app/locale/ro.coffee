@@ -434,6 +434,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     eu_confirmation_place_of_processing: "Află mai multe despre riscuri posibile."
     eu_confirmation_student: "Dacă nu ești sigur, întreabă-ți profesorul."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
 
   recover:
     recover_account_title: "Recuperează Cont"

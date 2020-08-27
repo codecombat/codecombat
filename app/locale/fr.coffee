@@ -434,6 +434,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     eu_confirmation_place_of_processing: "En savoir plus sur les risques possibles"
     eu_confirmation_student: "Si vous n'êtes pas sûr, demandez à votre enseignant."
     eu_confirmation_individual: "Si vous ne voulez pas que nous stockions vos données sur des serveurs américains, vous pouvez continuer à jouer anonymement sans sauvegarder votre code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
 
   recover:
     recover_account_title: "Récupérer son compte"

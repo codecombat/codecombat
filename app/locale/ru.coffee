@@ -434,6 +434,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     eu_confirmation_place_of_processing: "Узнайте больше о возможных рискахs"
     eu_confirmation_student: "Если вы не уверены, спросите своего учителя."
     eu_confirmation_individual: "Если вы не хотите хранить данные на американских серверах, вы всегда можете играть анонимно, не сохраняя ваш код."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
 
   recover:
     recover_account_title: "Восстановить учётную запись"

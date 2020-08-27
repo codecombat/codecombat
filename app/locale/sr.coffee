@@ -434,6 +434,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     eu_confirmation_place_of_processing: "Сазнај више о могућим ризицима"
     eu_confirmation_student: "Ако ниси сигуран, питај наставника."
     eu_confirmation_individual: "Ако не желиш да чувамо твоје податке на америчким серверима, увек можеш да наставиш анонимно да се играш без чувања кода."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
 
   recover:
     recover_account_title: "Поврати налог"

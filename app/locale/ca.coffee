@@ -434,6 +434,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     eu_confirmation_place_of_processing: "Saber més sobre possibles riscos"
     eu_confirmation_student: "Si dubtes, consulta al teu professorat."
     eu_confirmation_individual: "Si no vols que desem les teves dades als servidors dels EE.UU., sempre pots continuar jugant de manera anònima sense desar el teu codi."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
 
   recover:
     recover_account_title: "Recuperar Compte"
