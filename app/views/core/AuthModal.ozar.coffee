@@ -183,7 +183,6 @@ formSchema = {
         User.schema.properties.email
       ]
     }
-    password: User.schema.properties.password
   }
   required: ['emailOrUsername', 'password']
 }
