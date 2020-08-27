@@ -33,6 +33,8 @@ module.exports = class EditStudentModal extends ModalView
     @listenTo @classroom, 'save-password:success', ->
       @state.set { passwordChanged: true, errorMessage: "" }
     @listenTo @classroom, 'save-password:error', (error) ->
+      if error.message == "Data matches schema from \"not\""
+        error.message = $.i18n.t('signup.invalid_password')
       @state.set({ errorMessage: error.message })
       # TODO: Show an error. (password too short)
 
@@ -77,7 +79,7 @@ module.exports = class EditStudentModal extends ModalView
       error: (prepaid, jqxhr) =>
         msg = jqxhr.responseJSON.message
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-      complete: => 
+      complete: =>
         @render()
     })
     window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: @user.id, ['Mixpanel']
@@ -86,7 +88,7 @@ module.exports = class EditStudentModal extends ModalView
     @classroom.setStudentPassword(@user, @state.get('newPassword'))
 
   onChangeNewPasswordInput: (e) ->
-    @state.set { 
+    @state.set {
       newPassword: $(e.currentTarget).val()
       emailSent: false
       passwordChanged: false
