@@ -96,15 +96,16 @@ form#basic-info-form.modal-body.basic-info
             label.control-label(for="password-input")
               span(data-i18n="general.password")
             input.form-control.input-lg#password-input(name="password" type="password" value=view.signupState.get('signupForm').password dir="auto")
+            small.form-text.text-muted(data-i18n="signup.password_requirements")
 
-      .error-area
+  .error-area
         - var error = view.state.get('error');
         if error
           .row
             .col-xs-7.col-xs-offset-3
           .alert.alert-danger= error
 
-    
+
 
   // In reverse order for tabbing purposes
   .history-nav-buttons

@@ -485,6 +485,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     already_have_account: "Already have a CodeCombat or Ozaria account"
     select_your_role: "Select your role"
     select_your_state: "Select your state"
+    password_requirements: "8 to 64 characters with no repeating"
+    invalid: "Invalid"
+    invalid_password: "Invalid password"
 
   form_validation_errors:
     required: 'Field is required'

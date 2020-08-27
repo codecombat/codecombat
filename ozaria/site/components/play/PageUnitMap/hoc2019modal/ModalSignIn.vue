@@ -14,8 +14,7 @@ const formSchema = {
         User.schema.properties.name,
         User.schema.properties.email
       ]
-    },
-    password: User.schema.properties.password
+    }
   },
   required: ['emailOrUsername', 'password']
 }
@@ -123,11 +122,11 @@ export default {
                 })
               } else {
                 errors.showNotyNetworkError(...arguments);
-                reject(...arguments) 
+                reject(...arguments)
               }
             }
           }))
-        
+
         await new Promise((resolve, reject) =>
           me.loginGPlusUser(gplusAttrs.gplusID, {
             data: loginOptions,
@@ -281,7 +280,7 @@ export default {
       color: $authGray;
       margin: 0;
     }
-  
+
     .line {
       height: 2px;
       width: 120px;
@@ -308,7 +307,7 @@ export default {
 
   .extra-pane > p:nth-child(2) {
     margin: 12px 0 0;
-   }   
+   }
 
   .extra-pane {
     text-align: center;
@@ -325,7 +324,7 @@ export default {
       color: $authGray;
     }
   }
-  
+
   #recover-account-wrapper {
     text-align: right;
 

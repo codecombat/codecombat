@@ -1,4 +1,4 @@
-import { helpers, required, email, requiredIf } from 'vuelidate/lib/validators'
+import { helpers, required, email, requiredIf, minLength, maxLength, not } from 'vuelidate/lib/validators'
 import { getSchoolFormFieldsConfig } from './signUpConfig'
 
 const User = require('models/User')
@@ -28,7 +28,10 @@ export const basicInfoValidations = {
     uniqueEmail
   },
   password: {
-    required
+    required,
+    minLength: minLength(8),
+    maxLength: maxLength(64),
+    repeating: not(helpers.regex('repeating', /([\s\S])\1\1/))
   }
 }
 

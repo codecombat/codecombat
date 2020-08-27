@@ -83,7 +83,9 @@
           span.inline-flex-form-label-div
             span.control-label {{ $t("general.password") }}
             span.form-error(v-if="!$v.password.required") {{ $t(validationMessages.errorRequired.i18n) }}
+            span.form-error(v-else-if="$v.password.$error") {{ $t('signup.invalid') }}
           input#password-input.form-control(name="password" v-model="$v.password.$model" type="password" @change="onChangeValue($event)")
+          small.form-text.text-muted {{ $t("signup.password_requirements") }}
       .buttons.form-group.row
         .col-xs-offset-5
           secondary-button(type="submit", :inactive="!isFormValid") {{ $t("common.next") }}
