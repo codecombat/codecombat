@@ -31,15 +31,15 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     classroom_in_box_title: "We Streven Ernaar om:"
     classroom_in_box_blurb1: "Elke student erbij te betrekken zodat ze geloven dat coderen voor hen is. "
     classroom_in_box_blurb2: "Elke leraar in staat te stellen zich zeker van zichzelf te voelen wanneer ze lesgeven in programmeren."
-#    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+    classroom_in_box_blurb3: "Inspireer alle bestuurders binnen het onderwijs om een computerwetenschappelijk leerprogramma van wereldklasse te creëren."
 #    classroom_in_box_blurb4: ""
 #    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
-#    click_here: "Click here"
+    click_here: "Klik hier"
     creativity_rigor_title: "Waar Creativiteit en Structuur Samenkomen"
     creativity_rigor_subtitle1: "Programmeren leuk te maken en real-world-skills te leren"
     creativity_rigor_blurb1: "Studenten typen echte Python en JavaScript terwijl ze games spelen die trial-en-error aanmoedigen, kritisch denken, en creativiteit. Studenten passen dan de programmeerskills toe die ze hebben geleerd, door hun eigen games en websites te ontwerpen in projectgebaseerde cursussen."
     creativity_rigor_subtitle2: "Studenten op hun eigen niveau te bereiken"
-    creativity_rigor_blurb2: "Elk CodeCombat-level gaat langzaam omhoog in niveau, gebaseerd op miljoenen datapunten en geoptimaliseerd om zich aan elke leerling aan te passen. Oefenlevels en hints helpen studenten wanneer ze vastlopen, en uitdagingslevels beoordelen het leren van studenten tijdens het spel."
+    creativity_rigor_blurb2: "Elk CodeCombat-level gaat langzaam omhoog in niveau, gebaseerd op miljoenen datapunten en geoptimaliseerd om zich aan elke leerling aan te passen. Oefenlevels en hints helpen studenten wanneer ze vastlopen, en uitdagingslevels (Challenges) beoordelen het leren van studenten tijdens het spel."
     creativity_rigor_subtitle3: "Gemaakt voor alle leraren, ongeacht hun ervaring"
     creativity_rigor_blurb3: "CodeCombat’s op eigen tempo en op standaarden afgestemde curriculum maakt lesgeven in informatica mogelijk voor iedereen. CodeCombat rust leraren uit met de training, leermiddelen en toegewijde ondersteuning om zich zelfverzekerd en succesvol te voelen in de klas."
     featured_partners_title1: "Uitgelicht In"
@@ -91,7 +91,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teachers_love_codecombat_blurb2: "Zouden CodeCombat aanraden aan andere informatica-docenten"
     teachers_love_codecombat_blurb3: "Zeggen dat CodeCombat hen helpt om de probleemoplossende vaardigheden van studenten te ondersteunen"
     teachers_love_codecombat_subblurb: "In samenwerking met McREL International, een leider in op onderzoek gebaseerde begeleiding en evaluaties van educatieve technologie."
-#    top_banner_blurb: "New: join our mission!"
+#    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
     try_the_game: "Probeer de game"
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
@@ -184,7 +184,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     legal: "Rechten"
     privacy: "Privacy"
     about: "Over Ons"
-#    impact: "Impact"
+    impact: "Impact"
     contact: "Contact"
     twitter_follow: "Volgen"
     my_classrooms: "Mijn klassen" # {change}
@@ -209,7 +209,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     resource_hub: "Hulpmiddelen"
     apcsp: "AP CS Principes"
     parent: "Ouders"
-#    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
+    browser_recommendation: "Voor de beste ervaring raden we aan de nieuwste versie van Chrome te gebruiken. Download de browser hier!"
 
   modal:
     close: "Sluiten"
@@ -655,8 +655,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     skip_tutorial: "Overslaan (esc)"
     keyboard_shortcuts: "Sneltoetsen"
     loading_start: "Start Level"
-#    loading_start_combo: "Start Combo Challenge"
-#    loading_start_concept: "Start Concept Challenge"
+    loading_start_combo: "Start Combinatie Uitdaging"
+    loading_start_concept: "Start Concept Uitdaging"
     problem_alert_title: "Verbeter je Code"
     time_current: "Nu:"
     time_total: "Maximum:"
@@ -788,6 +788,14 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    title: "Thank you!"
 #    content: "Amazing! We just launched live online classes."
 #    link: "Ready to get ahead on your coding?"
+
+#  code_quest:
+#    great: "Great!"
+#    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
+#    link: "Click here to register and learn more"
+#    global_tournament: "Global Tournament"
+#    register: "Register"
+#    date: "Aug 1 - Aug 31"
 
   play_game_dev_level:
     created_by: "Gemaakt door {{name}}"
@@ -1622,8 +1630,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     ranking_players: "Spelers"
     ranking_completed_leves: "Voltooide levels"
     challenge: "Uitdaging/Challenge:"
-#    challenge_level: "Challenge Level:"
-#    status: "Status:"
+    challenge_level: "Challenge Level:"
+    status: "Status:"
     assessments: "Evaluaties"
     challenges: "Challenges"
     level_name: "Naam van het level:"
@@ -1651,9 +1659,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     classes: "Lessen"
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
-#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+    ask_next_course: "Wil je meer spelen? Vraag je docent om toegang tot de volgende cursus."
+#    set_start_locked_level: "Set start locked level"
+    no_level_limit: "Geen limiet"
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -1807,7 +1815,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     how_to_apply_licenses_blurb_2: "Kan ik een licentie toepassen zonder een cursus toe te wijzen?"
     how_to_apply_licenses_blurb_3: "Ja — ga naar de Licentie Status tab in je klas en klik op \"Licentie toepassen\" bij een leerling die geen actieve licentie heeft."
     request_sent: "Verzoek Verstuurd!"
-#    assessments: "Assessments"
+    assessments: "Opdracht"
     license_status: "Licentie Status"
     status_expired: "Verlopen op {{date}}"
     status_not_enrolled: "Niet Ingeschreven"
@@ -1999,7 +2007,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     combo: "Combo"
     combo_explanation: "Leerlingen komen door Combo challenge levels door in ieder geval één van de genoemde concepten te gebruiken. Bekijk de code van de leerling door op 'vooruitgang'te klikken."
     concept: "Concept"
-#    sync_google_classroom: "Sync Google Classroom"
+    sync_google_classroom: "Synchroniseer met Google Classroom"
     try_ozaria_footer: "Probeer ons nieuwe avonturenspel, Ozaria!"
 
   teacher_ozaria_encouragement_modal:
@@ -2022,7 +2030,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher_not_found: "Docent niet gevonden. Zorg ervoor dat deze docent al een Docentenaccount heeft aangemaakt."
     teacher_not_valid: "Dit is geen geldig Docentenaccount. Alleen docenten met een account kunnen licenties delen."
     already_shared: "Je hebt deze licenties al met deze docent gedeeld."
-#    have_not_shared: "You've not shared these licenses with that teacher."
+    have_not_shared: "Je hebt deze licenties niet met die docent gedeeld."
     teachers_using_these: "Docenten die beschikking hebben over de licenties:"
     footer: "Wanneer docenten licenties intrekken van leerling, kunnen de licenties weer gebruikt worden door andere docenten die beschikking hebben over de licenties."
     you: "(jij)"
@@ -2321,7 +2329,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tournament_end_desc: "Het toernooi is voorbij, bedankt voor het spelen"
 
   user:
-#    user_title: "__name__ - Learn to Code with CodeCombat"
+    user_title: "__name__ - Leer coderen met CodeCombat"
     stats: "Statistieken"
     singleplayer_title: "Singleplayer Levels"
     multiplayer_title: "Multiplayer Levels"
@@ -2345,7 +2353,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     certificate_lines_of: "regels"
     certificate_levels_completed: "afgeronde levels"
     certificate_for: "Voor"
-#    certificate_number: "No."
+    certificate_number: "Nr."
 
   achievements:
     last_earned: "Laatst verdiend"
@@ -2366,7 +2374,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     payments_title: "Betalingen"
     subscription_title: "Abonnement"
     invoices_title: "Facturen"
-#    prepaids_title: "Prepaids"
+    prepaids_title: "Prepaids"
     payments: "Betalingen"
     prepaid_codes: "Prepaidcodes"
     purchased: "Gekocht"
@@ -2567,7 +2575,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     continue_statements: "Continue instructie"
     dom_events: "DOM Events"
     dynamic_styling: "Dynamische Styling"
-#    events: "Events"
+    events: "Evenementen"
     event_concurrency: "Event Samenloop"
     event_data: "Event Data"
     event_handlers: "Event Handlers"
@@ -2733,7 +2741,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     third_party_description: "CodeCombat gebruikt onder andere de volgende diensten van derden:"
     cookies_message: "CodeCombat gebruikt een aantal essentiële en niet-essentiële cookies"
     cookies_deny: "Wijs niet-essentiële cookies af"
-#    cookies_allow: "Allow cookies"
+    cookies_allow: "Laat cookies toe"
 
   ladder_prizes:
     title: "Toernooiprijzen" # This section was for an old tournament and doesn't need new translations now.
@@ -2974,12 +2982,18 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    small_group_classes_detail_3: "Build projects and give feedback to other students"
 #    small_group_classes_detail_4: "Screen sharing to get live feedback on coding and debugging"
 #    private_classes: "Private Coding Classes"
+#    four_sessions_per_month: "4 Private Sessions / Mo."
+#    eight_sessions_per_month: "8 Private Sessions / Mo."
+#    four_private_classes_price: "$219/mo"
+#    eight_private_classes_price: "$399/mo"
 #    private_classes_detail: "4 or 8 Private Sessions / Mo."
 #    private_classes_price: "$219/mo or $399/mo"
 #    private_classes_detail_1: "1:1 student to instructor ratio"
 #    private_classes_detail_2: "60 minute classes"
 #    private_classes_detail_3: "Flexible schedule tailored to your needs"
 #    private_classes_detail_4: "Lesson plans and live feedback tailored to students' learning style, pace, and ability level"
+#    best_seller: "Best Seller"
+#    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
@@ -3046,6 +3060,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    start_free_trial_today: "Start free trial today"
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
+#    book_your_class: "Book Your Class"
 
   parent_modal:
     refer_teacher: "Verwijs de leraar door"
@@ -3136,8 +3151,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     select_statement_left: "Oeps, selecteer iets van links voordat je op \"Submit.\" klikt."
     fill_boxes: "Oeps, zorg ervoor dat je alle velden hebt ingevuld voordat je op \"Submit.\"klikt."
 
-#  browser_recommendation:
-#    title: "CodeCombat works best on Chrome!"
-#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
-#    download: "Download Chrome"
-#    ignore: "Ignore"
+  browser_recommendation:
+    title: "CodeCombat werkt het best onder Chrome!"
+    pitch_body: "Voor de beste CodeCombat-ervaring, raden we aan om de nieuwste versie van Chrome te gebruiken. Download de nieuwste versie van Chrome door op de onderstaande knop te klikken!"
+    download: "Download Chrome"
+    ignore: "Negeren"

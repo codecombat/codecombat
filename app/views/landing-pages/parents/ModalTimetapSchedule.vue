@@ -79,6 +79,8 @@
   .timetap-modal ::v-deep .modal-body {
     padding-left: 4px;
     padding-right: 4px;
+
+    flex-direction: column;
   }
 
   .timetap-modal ::v-deep .modal-footer {
@@ -88,6 +90,7 @@
   }
 
   .timetap-modal iframe {
+    flex-grow: 1;
     width: 100%;
     height: 100%;
   }

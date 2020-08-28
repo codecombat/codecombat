@@ -90,7 +90,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
     teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-    top_banner_blurb: "Parents, book your child's first live online coding class for free!" # {change}
+    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -435,6 +435,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     eu_confirmation_place_of_processing: "Learn more about the possible risks"
     eu_confirmation_student: "If you are not sure, ask your teacher."
     eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+    password_requirements: "8 to 64 characters with no repeating"
+    invalid: "Invalid"
+    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Recover Account"
