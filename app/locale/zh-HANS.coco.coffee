@@ -246,6 +246,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     request_licenses: "联系我们获取详细信息"
     compete: "开战！" # Course details page
     spectate: "旁观他人的游戏" # Ladder page
+    simulate_all: "创建全部对局" # Ladder page
     players: "玩家" # Hover over a level on /play
     hours_played: "游戏时长" # Hover over a level on /play
     items: "道具" # Tooltip on item shop button from /play
