@@ -434,6 +434,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Recupera account"

@@ -434,6 +434,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     eu_confirmation_place_of_processing: "Дізнайтеся більше про можливі ризики"
     eu_confirmation_student: "Якщо ви не впевнені, дізнайтеся у вашого вчителя."
     eu_confirmation_individual: "Якщо ви не бажаєте сберігати свої дані на серверах США, то ви завжди можете грати анонімно без збереження свого коду."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Відновити обліківку"
@@ -773,7 +776,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     number: "Число"
     webjavascript: "JavaScript"
 
-#   amazon_hoc:
+#  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
 #    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."

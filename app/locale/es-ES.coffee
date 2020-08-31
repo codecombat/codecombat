@@ -158,9 +158,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     want_coco: "¿Quieres CodeCombat en tu escuela?"
     educator: "Educador"
     student: "Estudiante"
-
-  nav:
-    educators: "Estudiantes"
 #    our_coding_programs: "Our Coding Programs"
 #    codecombat: "CodeCombat"
 #    ozaria: "Ozaria"
@@ -168,6 +165,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
 #    try_codecombat: "Try CodeCombat"
 #    try_ozaria: "Try Ozaria"
+
+  nav:
+    educators: "Estudiantes"
     follow_us: "Síguenos"
     general: "General"
     map: "Mapa"
@@ -434,6 +434,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Recuperar Cuenta"
@@ -455,7 +458,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     coming_soon: "¡Próximamente!"
     continue: "Continuar" # When used as an action verb, like "Continue forward"
     next: "Siguiente"
-#    default_code: "Default Code"
     default_code: "Código por defecto"
     loading: "Cargando..."
     overview: "Vista global"

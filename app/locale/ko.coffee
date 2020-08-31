@@ -434,6 +434,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     eu_confirmation_place_of_processing: "Learn more about the possible risks 다른 위험에 대해 알아봅시다."
     eu_confirmation_student: "확실하지 않다면, 선생님께 물어보세요."
     eu_confirmation_individual: "자신의 정보가 미국 서버에 저장되는게 싫으시다면, 언제든지 익명으로 게임하시면 됩니다."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "계정 복구"

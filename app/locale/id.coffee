@@ -169,7 +169,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   nav:
 #    educators: "Educators"
     follow_us: "Ikuti Kami"
-    general: "Utama" #General menu
+    general: "Utama"
     map: "Peta"
     play: "Tingkatan" # The top nav bar entry where players choose which levels to play
     community: "Komunitas"
@@ -210,6 +210,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     apcsp: "Fundamental AP CS"
     parent: "Orang Tua"
     browser_recommendation: "Untuk pengalaman yang lebih baik, kami merekomendasikan menggunakan browser chrome terbaru. Download browser disini"
+
   modal:
     close: "Tutup"
     okay: "Baik"
@@ -433,6 +434,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Pulihkan Akun"
