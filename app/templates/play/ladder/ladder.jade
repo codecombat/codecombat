@@ -141,6 +141,9 @@ block content
       if view.tournamentEnd
         #tournamentend
           p(data-i18n="ladder.tournament_end_desc")
+      else if view.level.get('slug') == 'battle-of-red-cliffs'
+        p
+          strong Submissions were locked August 31. Final rankings announced on Sept 5 at 4:30 pm PDT.
       else
         if view.teams
           for team in view.teams
