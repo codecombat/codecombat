@@ -9,7 +9,7 @@ block content
           a(href="/parents", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Parents Page")
 
     .row#jumbotron-container-fluid
-      .col-md-6
+      .col-lg-6
         h1.text-white(data-i18n="new_home.slogan")
         div.button-section
           if me.isAnonymous()
@@ -27,15 +27,6 @@ block content
                 a.btn.btn-lg.btn-primary.my-courses-btn(href="/students", data-event-action="Homepage Click My Courses CTA", data-i18n="new_home.go_to_courses")
               else
                 a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
-
-      //- CodeQuest banner
-      .col-md-6.col-lg-4.col-lg-offset-2.codequest-banner-container.hidden-xs.hidden-sm
-        .codequest-banner
-          img(src="/images/pages/home/codequestlogo1.png")
-          p.tournament
-            b(data-i18n="code_quest.global_tournament")
-          a.btn.btn-primary.btn-lg.register(href="https://codequest.codecombat.com/?utm_campaign=codequest&utm_medium=landingpage&utm_source=codecombat" data-i18n="code_quest.register")
-          p(data-i18n="code_quest.date")
 
     .row.text-center#game-based
         .col-md-12
