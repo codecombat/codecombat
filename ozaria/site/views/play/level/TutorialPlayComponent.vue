@@ -884,10 +884,15 @@
   .shepherd-next-button-inactive:hover
     background-image: url('/images/ozaria/level/InactiveR.svg')
 
-  .shepherd-header-moving-capella
-    background-image: url('/images/ozaria/level/Moving_Capella.png')
-  .shepherd-header-moving-capella:not(:disabled):hover
-    background-image: url('/images/ozaria/level/Moving_Capella.png')
+  .shepherd-header-moving-wise-capella
+    background-image: url('/images/ozaria/level/Moving_WiseCapella.png')
+  .shepherd-header-moving-wise-capella:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Moving_WiseCapella.png')
+  .shepherd-header-stationary-wise-capella
+    background-image: url('/images/ozaria/level/Static_WiseCapella.png')
+  .shepherd-header-stationary-wise-capella:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Static_WiseCapella.png')
+
   .shepherd-header-moving-capella
     background-image: url('/images/ozaria/level/Moving_Capella.png')
   .shepherd-header-moving-capella:not(:disabled):hover
