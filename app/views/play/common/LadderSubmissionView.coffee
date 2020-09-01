@@ -23,6 +23,7 @@ module.exports = class LadderSubmissionView extends CocoView
     ctx.isRanking = @session?.get('isRanking')
     ctx.simulateURL = "/play/ladder/#{@level.get('slug')}#simulate"
     ctx.lastSubmitted = moment(submitDate).fromNow() if submitDate = @session?.get('submitDate')
+    ctx.rankingDisabled = @level?.get('slug') is 'battle-of-red-cliffs'  # Temp: disallow submissions for this tournament during scoring 2020-08-31
     ctx
 
   afterRender: ->
@@ -89,9 +90,17 @@ module.exports = class LadderSubmissionView extends CocoView
           patch = code: mirrorCode, codeLanguage: @session.get('codeLanguage')
           tempSession = new LevelSession _id: @mirrorSession.id
           tempSession.save patch, patch: true, type: 'PUT', success: ->
+          if @level.get('slug') is 'battle-of-red-cliffs'
+            # Temp: disallow submissions for this tournament during scoring 2020-08-31
+            mirrorAjaxOptions.success()
+          else
             $.ajax '/queue/scoring', mirrorAjaxOptions
 
-      $.ajax '/queue/scoring', ajaxOptions
+      if @level.get('slug') is 'battle-of-red-cliffs'
+        # Temp: disallow submissions for this tournament during scoring 2020-08-31
+        ajaxOptions.success()
+      else
+        $.ajax '/queue/scoring', ajaxOptions
 
   onHelpSimulate: ->
     @playSound 'menu-button-click'
