@@ -302,8 +302,14 @@ module.exports = class LadderTabView extends CocoView
     return unless me.isAdmin()
     row = $(e.target).parent()
     player = new User _id: row.data 'player-id'
+    playerName = row.find('.name-col-cell').text()
     session = new LevelSession _id: row.data 'session-id'
-    @openModalView new ModelModal models: [session, player]
+    if /^cq/.test(playerName) and not features.china
+      # CodeQuest users use cq name prefix and don't exist on global server; hack around this
+      models = [session]
+    else
+      models = [session, player]
+    @openModalView new ModelModal models: models
 
   onClickSpectateCell: (e) ->
     cell = $(e.target).closest '.spectate-cell'

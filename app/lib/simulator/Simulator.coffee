@@ -49,14 +49,17 @@ module.exports = class Simulator extends CocoClass
         background: Boolean(@options.background)
         levelID: @options.levelID
         leagueID: @options.leagueID
-      error: (errorData) ->
+      error: (errorData) =>
+        return if @destroyed
         console.warn "There was an error fetching two games! #{JSON.stringify errorData}"
         if errorData?.responseText?.indexOf("Old simulator") isnt -1
           noty {
-            text: errorData.responseText
+            text: errorData.responseText or "Error fetching games to simulate"
             layout: 'center'
             type: 'error'
+            timeout: 5000
           }
+          @simulateAnotherTaskAfterDelay()
       success: (taskData) =>
         return if @destroyed
         unless taskData
