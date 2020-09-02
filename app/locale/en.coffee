@@ -43,7 +43,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
     featured_partners_title1: "Featured In"
     featured_partners_title2: "Awards & Partners"
-    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+    featured_partners_blurb1: "Clever Partner" #{change}
     featured_partners_blurb2: "Best Creativity Tool for Students"
     featured_partners_blurb3: "Top Pick for Learning"
     featured_partners_blurb4: "Code.org Official Partner"
