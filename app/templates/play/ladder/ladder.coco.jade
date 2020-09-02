@@ -157,7 +157,8 @@ block content
       a(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : "")).spectate-button.btn.btn-illustrated.btn-info.center
         span(data-i18n="play.spectate") Spectate
 
-    if me.isAdmin()
+    if me.isAdmin() && (me.get('slug') == 'nick' || features.china)
+      // This button could consume a lot of server resources
       .spectate-button-container
         a.simulate-all-button.btn.btn-illustrated.btn-info.center
           span(data-i18n="play.simulate_all")
