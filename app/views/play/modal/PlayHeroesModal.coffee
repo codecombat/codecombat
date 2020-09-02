@@ -303,7 +303,7 @@ module.exports = class PlayHeroesModal extends ModalView
   #- Exiting
 
   saveAndHide: ->
-    if !me.hasSubscription() and @subscriberCodeLanguageList.find((l) -> l.id == @codeLanguage)
+    if !me.hasSubscription() and @subscriberCodeLanguageList.find((l) => l.id == @codeLanguage)
       @openModalView new SubscribeModal()
       window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: experimental language'
       return
