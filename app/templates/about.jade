@@ -514,10 +514,20 @@ block content
                 li.small(data-i18n="about.jobs_benefit_4")
                 li.small(data-i18n="about.jobs_benefit_5")
 
-          .col-sm-6.col-md-5.col-lg-4
+          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
-              h5 (No Open Roles)
-              p.small Check back later for updates on new positions at CodeCombat.
+              h5 Software Engineer
+                  .text-center
+                    small.label
+                      | Remote • Full-time
+                  p.small CodeCombat is looking for a Software Engineer to join our game-based education startup. We want to hear from you!
+                  a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/7a4db25a-174f-40bd-866a-7c99f42b02b9?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
+                    span(data-i18n="about.learn_more")
+
+          //- .col-sm-6.col-md-5.col-lg-4
+          //-   .job-listing
+          //-     h5 (No Open Roles)
+          //-     p.small Check back later for updates on new positions at CodeCombat.
 
       #contact.anchor
         .text-center
