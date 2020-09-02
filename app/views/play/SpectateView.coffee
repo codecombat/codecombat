@@ -57,12 +57,22 @@ module.exports = class SpectateLevelView extends RootView
     console.profile?() if PROFILE_ME
     super options
 
+    @isEditorPreview = utils.getQueryVariable 'dev'
     @sessionOne = utils.getQueryVariable 'session-one'
     @sessionTwo = utils.getQueryVariable 'session-two'
     if options.spectateSessions
       @sessionOne = options.spectateSessions.sessionOne
       @sessionTwo = options.spectateSessions.sessionTwo
 
+    if @isEditorPreview
+      @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
+        model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
+      f = => @loadRandomSessions?() unless @levelLoader  # Wait to see if it's just given to us through setLevel.
+      setTimeout f, 100
+    else
+      @loadRandomSessions()
+
+  loadRandomSessions: ->
     if not @sessionOne or not @sessionTwo
       @fetchRandomSessionPair (err, data) =>
         if err? then return console.log "There was an error fetching the random session pair: #{data}"
