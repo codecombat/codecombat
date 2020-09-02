@@ -6,6 +6,7 @@ coursesHelper = require '../lib/coursesHelper'
 User = require 'models/User'
 Level = require 'models/Level'
 api = require 'core/api'
+ClassroomLib = require './ClassroomLib'
 
 module.exports = class Classroom extends CocoModel
   @className: 'Classroom'
@@ -253,6 +254,12 @@ module.exports = class Classroom extends CocoModel
   getSortedCourses: ->
     utils.sortCourses(@get('courses') ? [])
 
+  isStudentOnLockedCourse: (studentID, courseID) ->
+    Classroom.isStudentOnLockedCourse(@attributes, studentID, courseID)
+
+  isStudentOnLockedLevel: (studentID, courseID, levelOriginal) ->
+    Classroom.isStudentOnLockedLevel(@attributes, studentID, courseID, levelOriginal)
+
   updateCourses: (options={}) ->
     options.url = @url() + '/update-courses'
     options.type = 'POST'
@@ -275,3 +282,8 @@ module.exports = class Classroom extends CocoModel
     _.any(@get('courses'), (course) -> _.any(course.levels, { assessment: true }))
 
   isGoogleClassroom: -> @get('googleClassroomId')?.length > 0
+
+
+
+# Make ClassroomLib accessible as static methods.
+_.assign(Classroom, ClassroomLib.default)

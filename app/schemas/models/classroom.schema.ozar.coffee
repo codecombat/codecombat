@@ -78,6 +78,15 @@ _.extend ClassroomSchema.properties,
     gems: {type: 'boolean', description: 'Allow students to earn gems.', default: false}
     xp: {type: 'boolean', description: 'Students collect XP and level up.', default: false}
   }
+  studentLockMap: c.object {
+    title: 'Student Locking Info',
+    description: 'The teacher controls this in order to control student progress through the chapters.'
+    additionalProperties: c.object(
+      { title: 'Student Lock Object', description: 'Key value of student id tied to the lock data.' }, {
+        courseId: c.objectId(),
+        levelOriginal: c.objectId()
+      })
+  }, {}
 
   stats: c.object { additionalProperties: true }
 

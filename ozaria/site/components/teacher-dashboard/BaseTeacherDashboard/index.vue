@@ -250,6 +250,11 @@
       .popover-arrow {
         border-color: white;
       }
+
+      &.lock-tooltip .popover-inner  {
+        padding: 0;
+        z-index: 2; /* Prevents tooltip arrow appearing over button */
+      }
     }
 
     &[aria-hidden='true'] {

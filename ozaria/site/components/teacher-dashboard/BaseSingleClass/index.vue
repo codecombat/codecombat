@@ -10,10 +10,12 @@
   import ModalEditStudent from '../modals/ModalEditStudent'
 
   import utils from 'app/core/utils'
+  import { getGameContentDisplayNameWithType } from 'ozaria/site/common/ozariaUtils.js'
   import User from 'models/User'
 
   import _ from 'lodash'
   import TableStudentListVue from './table/TableStudentList.vue'
+  import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
 
   export default {
     name: COMPONENT_NAMES.MY_CLASSES_SINGLE,
@@ -57,10 +59,10 @@
       modules () {
         const selectedCourseId = this.selectedCourseId
         const modules = (this.gameContent[selectedCourseId] || {}).modules
-
         if (modules === undefined) {
           return []
         }
+        const intros = (this.gameContent[selectedCourseId] || {}).introLevels
 
         const modulesForTable = []
         const courseInstances = this.getCourseInstancesForClass(this.classroom.ownerID, this.classroom._id)
@@ -71,38 +73,9 @@
 
         // Get the name and content list of a module.
         for (const [moduleNum, moduleContent] of Object.entries(modules)) {
+
           const moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
-          const moduleStatsForTable = {
-            displayName: moduleDisplayName,
-            contentList: moduleContent.map(({ displayName, type, _id, name, ozariaType }) => {
-              let normalizedType = type
-
-              if (ozariaType) {
-                if (ozariaType === 'challenge') {
-                  normalizedType = 'challengelvl'
-                } else if (ozariaType === 'practice') {
-                  normalizedType = 'practicelvl'
-                } else if (ozariaType === 'capstone') {
-                  normalizedType = 'capstone'
-                }
-              } else {
-                normalizedType = type;
-              }
-
-              if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl'].includes(normalizedType)) {
-                throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
-              }
-
-              return ({
-                displayName: displayName || name,
-                type: normalizedType,
-                _id,
-                description: '' // TODO: Where do we store this?
-              })
-            }),
-            studentSessions: {},
-            classSummaryProgress: []
-          }
+          const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, moduleContent, intros, moduleNum)
 
           // Track summary stats to display in the header of the table
           const classSummaryProgressMap = new Map(moduleContent.map((content) => {
@@ -121,9 +94,11 @@
             moduleStatsForTable.studentSessions[student._id] = moduleContent.map((content) => {
               const { original, fromIntroLevelOriginal } = content
               let normalizedOriginal = original || fromIntroLevelOriginal
+              const isLocked = ClassroomLib.isStudentOnLockedLevel(this.classroom, student._id, this.selectedCourseId, normalizedOriginal)
               const defaultProgressDot = {
                 status: 'assigned',
-                normalizedType: content.type
+                normalizedType: content.type,
+                isLocked
               }
 
               if (content.type === 'game-dev') {
@@ -340,7 +315,9 @@
         setPanelSessionContent: 'teacherDashboardPanel/setPanelSessionContent',
         showPanelSessionContent: 'teacherDashboardPanel/showPanelSessionContent',
         clearSelectedStudents: 'baseSingleClass/clearSelectedStudents',
-        addStudentSelectedId: 'baseSingleClass/addStudentSelectedId'
+        addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
+        lockSelectedStudents: 'baseSingleClass/lockSelectedStudents',
+        unlockSelectedStudents: 'baseSingleClass/unlockSelectedStudents'
       }),
 
       ...mapMutations({
@@ -371,6 +348,157 @@
         } else {
           this.clearSelectedStudents()
         }
+      },
+
+      lockLevelHandler ({ normalizedType, normalizedOriginal, slug }) {
+        window.tracker?.trackEvent(`Lock ${normalizedType}: Click`, { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}-${slug}` })
+        this.lockLevelOriginalForStudents(normalizedOriginal, () => {
+          window.tracker?.trackEvent(`Lock ${normalizedType}: Success`, { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}-${slug}` })
+        })
+      },
+      unlockLevelHandler ({ normalizedType, normalizedOriginal, slug }) {
+        window.tracker?.trackEvent(`Unlock ${normalizedType}: Click`, { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}-${slug}` })
+        this.unlockLevelOriginalForStudents(normalizedOriginal, () => {
+          window.tracker?.trackEvent(`Unlock ${normalizedType}: Success`, { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}-${slug}` })
+        })
+      },
+
+      // Creates summary stats table for the content. These are the icons along
+      // the top of the track progress table.
+      createModuleStatsTable (moduleDisplayName, moduleContent, intros, moduleNum) {
+        return {
+          moduleNum,
+          displayName: moduleDisplayName,
+          contentList: moduleContent.map((content) => {
+            const { displayName, type, _id, name, ozariaType, documentation, original, fromIntroLevelOriginal, slug } = content
+            const normalizedOriginal = original || fromIntroLevelOriginal
+            let normalizedType = type
+            if (ozariaType) {
+              if (ozariaType === 'challenge') {
+                normalizedType = 'challengelvl'
+              } else if (ozariaType === 'practice') {
+                normalizedType = 'practicelvl'
+              } else if (ozariaType === 'capstone') {
+                normalizedType = 'capstone'
+              }
+            } else {
+              normalizedType = type;
+            }
+
+            if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl'].includes(normalizedType)) {
+              throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
+            }
+
+            let description = (documentation?.specificArticles || []).find(({name}) => name === 'Learning Goals')?.body
+            let contentLevelSlug = slug
+            if (fromIntroLevelOriginal) {
+              description = (intros[fromIntroLevelOriginal]?.documentation?.specificArticles || []).find(({name}) => name === 'Learning Goals')?.body
+              contentLevelSlug = intros[fromIntroLevelOriginal]?.slug
+            }
+            let tooltipName = getGameContentDisplayNameWithType(content)
+            if (fromIntroLevelOriginal) {
+              const { name, displayName } = intros[fromIntroLevelOriginal] || {}
+              tooltipName = `Intro: ${displayName || name}`
+            }
+
+            return ({
+              displayName: displayName || name,
+              type: normalizedType,
+              _id,
+              normalizedOriginal,
+              tooltipName: tooltipName,
+              description: description || '',
+              contentKey: original || fromIntroLevelOriginal, // Currently use the original as the key that groups levels together.
+              submitLock: () => this.lockLevelHandler({ normalizedOriginal, normalizedType, slug: contentLevelSlug }),
+              removeLock: () => this.unlockLevelHandler({ normalizedOriginal, normalizedType, slug: contentLevelSlug })
+            })
+          }),
+          studentSessions: {},
+          classSummaryProgress: []
+        }
+      },
+
+      lockLevelOriginalForStudents (normalizedOriginal, onSuccess) {
+        this.lockSelectedStudents({
+          classroom: this.classroom,
+          currentCourseId: this.selectedCourseId,
+          original: normalizedOriginal,
+          onSuccess
+        })
+      },
+
+      lockModuleForStudents ({ moduleNum }) {
+        // Find and lock the first level of the passed in module.
+        const modules = (this.gameContent[this.selectedCourseId] || {}).modules
+
+        // Locking the first level of the module is equivalent to locking
+        // the whole module.
+        const levelOriginalToLock = modules[moduleNum]?.[0]?.fromIntroLevelOriginal || modules[moduleNum]?.[0]?.original
+        if (!levelOriginalToLock) {
+          throw new Error('Could not find an original')
+        }
+
+        window.tracker?.trackEvent('Lock Module: Click', { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}` })
+        this.lockLevelOriginalForStudents(levelOriginalToLock, () => {
+          window.tracker?.trackEvent('Lock Module: Success', { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}` })
+        })
+      },
+
+      unlockLevelOriginalForStudents (normalizedOriginal, onSuccess) {
+        // Unlocks the current level by locking the next level or next course.
+        // Edge case is if you are unlocking the final level of the course.
+        // In this case fetch the next course and lock it without a level set. (This locks the whole next course.)
+        const modules = (this.gameContent[this.selectedCourseId] || {}).modules
+        const classLevels = this.classroom.courses.find(({_id}) => _id === this.selectedCourseId)?.levels || []
+
+        const unlockLevelIdx = classLevels.findIndex(({ original }) => original === normalizedOriginal);
+        if (unlockLevelIdx === -1) {
+          throw new Error('Level original not in level when unlocking')
+        }
+
+        const levelToLockIdx = unlockLevelIdx + 1
+        if (levelToLockIdx >= classLevels.length) {
+          const nextCourseIdIdx = utils.orderedCourseIDs.indexOf(this.selectedCourseId) + 1
+          if (utils.orderedCourseIDs[nextCourseIdIdx]) {
+            this.unlockSelectedStudents({
+              classroom: this.classroom,
+              currentCourseId: utils.orderedCourseIDs[nextCourseIdIdx],
+              onSuccess
+            })
+          } else {
+            // Explicitly unsets and unlocks all levels.
+            this.unlockSelectedStudents({
+              classroom: this.classroom,
+              onSuccess,
+              currentCourseId: undefined
+            })
+          }
+        } else {
+          const { original } = classLevels[levelToLockIdx]
+          this.unlockSelectedStudents({
+            classroom: this.classroom,
+            currentCourseId: this.selectedCourseId,
+            onSuccess,
+            original
+          })
+        }
+      },
+
+      unlockModuleForStudents ({ moduleNum }) {
+        // Find and unlock the last level in the module.
+        const modules = (this.gameContent[this.selectedCourseId] || {}).modules
+
+        // Unlocking the last level of a module, is equivalent to unlocking that module.
+        const lastIdx = modules[moduleNum].length - 1
+        const levelOriginalToUnlock = modules[moduleNum]?.[lastIdx]?.fromIntroLevelOriginal || modules[moduleNum]?.[lastIdx]?.original
+        if (!levelOriginalToUnlock) {
+          throw new Error('Could not find an original to unlock')
+        }
+
+        window.tracker?.trackEvent('Unlock Module: Click', { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}` })
+        this.unlockLevelOriginalForStudents(levelOriginalToUnlock, () => {
+          window.tracker?.trackEvent('Unlock Module: Success', { category: 'Teachers', label: `${utils.courseAcronyms?.[this.selectedCourseId]}` })
+        })
       }
     }
   }
@@ -410,6 +538,8 @@
       :modules="modules"
 
       @toggle-all-students="toggleAllStudents"
+      @lock="lockModuleForStudents"
+      @unlock="unlockModuleForStudents"
     />
     <modal-edit-student v-if="editingStudent" />
   </div>

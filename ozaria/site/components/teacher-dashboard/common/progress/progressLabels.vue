@@ -1,8 +1,11 @@
 <script>
   import IconHelp from '../../common/icons/IconHelp'
+  import ProgressDot from '../../common/progress/progressDot'
+
   export default {
     components: {
-      IconHelp
+      IconHelp,
+      ProgressDot
     },
     props: {
       showReviewLabels: {
@@ -28,10 +31,17 @@
       <span>Assigned</span>
     </div>
     <div class="img-subtext" v-if="showReviewLabels">
+      <progress-dot
+        :is-locked="true"
+        class="dot-border"
+      />
+      <span>{{ $t("common.locked") }}</span>
+    </div>
+    <div class="img-subtext" v-if="showReviewLabels">
       <div class="dot-border concept-flag-border"><div class="dot green-dot"></div></div>
       <span>Concept Flag</span>
     </div>
-    <div v-if="showReviewLabels">
+    <div v-if="showReviewLabels" class="help-container">
       <v-popover
         popover-class="teacher-dashboard-tooltip lighter-p large-width"
         trigger="hover"
@@ -82,9 +92,13 @@
   justify-content: center;
   align-items: center;
 
-  & > div:not(.grid-container) {
-    width: 58px;
+  & > div {
+    width: 50px;
     margin: 0 10px;
+  }
+
+  & > div.help-container {
+    width: 26px;
   }
 }
 

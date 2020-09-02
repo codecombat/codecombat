@@ -5,11 +5,15 @@
 
   import ContentIcon from '../../common/icons/ContentIcon'
   import ProgressDot from '../../common/progress/progressDot'
+  import LockButton from '../../common/buttons/LockButton'
+
+  import { mapGetters, mapMutations } from 'vuex'
 
   export default {
     components: {
       ContentIcon,
-      ProgressDot
+      ProgressDot,
+      LockButton
     },
     props: {
       moduleHeading: {
@@ -29,9 +33,34 @@
     },
 
     computed: {
+      ...mapGetters({
+        showingTooltipOfThisOriginal: 'baseSingleClass/getShowingTooltipOfThisOriginal'
+      }),
+
       cssVariables () {
         return {
           '--cols': this.listOfContent.length
+        }
+      }
+    },
+
+    methods: {
+      ...mapMutations({
+        setShowingTooltipOfThisOriginal: 'baseSingleClass/setShowingTooltipOfThisOriginal'
+      }),
+
+      lockModule () {
+        this.$emit('lock')
+      },
+
+      unlockModule () {
+        this.$emit('unlock')
+      },
+
+      classForContentIconHover (normalizedOriginal) {
+        return {
+          'hover-trigger-area': true,
+          'hoverState': this.showingTooltipOfThisOriginal === normalizedOriginal
         }
       }
     }
@@ -39,12 +68,68 @@
 </script>
 
 <template>
-  <div class="moduleHeading" :style="cssVariables">
+  <div
+    class="moduleHeading"
+    :style="cssVariables"
+  >
     <div class="title">
       <h3>{{ moduleHeading }}</h3>
+      <v-popover
+        placement="top"
+        trigger="hover"
+        popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
+      >
+        <!-- Triggers the tooltip -->
+        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconLock.svg">
+
+        <!-- The tooltip -->
+        <template slot="popover">
+          <div class="module-popover-locking">
+            <lock-button @click="lockModule">{{ $t('teacher_dashboard.lock') }}</lock-button>
+            <lock-button @click="unlockModule">{{ $t('teacher_dashboard.unlock') }}</lock-button>
+          </div>
+        </template>
+      </v-popover>
     </div>
-    <div class="content-icons" v-for="({type}, idx) of listOfContent" :key="`${idx}-${type}`">
-      <ContentIcon class="content-icon" :icon="type" />
+    <div
+      v-for="({ type, tooltipName, description, submitLock, removeLock, normalizedOriginal }, idx) of listOfContent"
+      :key="`${idx}-${type}`"
+
+      class="content-icons"
+    >
+      <v-popover
+        popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
+        trigger="hover"
+        placement="top"
+
+        @show="setShowingTooltipOfThisOriginal(normalizedOriginal)"
+        @hide="setShowingTooltipOfThisOriginal(undefined)"
+      >
+        <!-- Triggers the tooltip -->
+        <div
+          :class="classForContentIconHover(normalizedOriginal)"
+        >
+          <ContentIcon
+            class="content-icon"
+            :icon="type"
+          />
+        </div>
+        <!-- The tooltip -->
+        <template slot="popover">
+          <div class="level-popover-locking">
+            <h3 style="margin-bottom: 15px;">{{ tooltipName }}</h3>
+            <p>{{ description }}</p>
+            <div class="lock-btn-row">
+              <lock-button @click="submitLock">
+                {{ $t('teacher_dashboard.lock') }}
+              </lock-button>
+              <lock-button @click="removeLock">
+                {{ $t('teacher_dashboard.unlock') }}
+              </lock-button>
+            </div>
+          </div>
+        </template>
+      </v-popover>
     </div>
     <div class="golden-backer" v-for="({ status, border }, idx) of classSummaryProgress" :key="idx">
       <ProgressDot :status="status" :border="border" />
@@ -76,11 +161,12 @@
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   background-color: #413c55;
   border-bottom: 1px solid white;
 
-  padding: 0 12px;
+  padding: 0 0 0 12px;
 
   h3 {
     overflow: hidden;
@@ -130,5 +216,35 @@ h3 {
   @include font-p-4-paragraph-smallest-gray;
   color: white;
   font-weight: 600;
+}
+
+.module-popover-locking {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+}
+
+.level-popover-locking {
+  padding: 16px 16px 0;
+}
+
+.lock-btn-row {
+  display: flex;
+  flex-direction: row;
+
+  margin: 22px -16px 0;
+
+  &::v-deep button {
+    width: 100%;
+  }
+}
+
+.hover-trigger-area {
+  padding: 4px;
+  border-radius: 4px;
+
+  &.hoverState {
+    background-color: #ADADAD;
+  }
 }
 </style>
