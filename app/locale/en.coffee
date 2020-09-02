@@ -43,7 +43,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
     featured_partners_title1: "Featured In"
     featured_partners_title2: "Awards & Partners"
-    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+    featured_partners_blurb1: "Clever Partner" #{change}
     featured_partners_blurb2: "Best Creativity Tool for Students"
     featured_partners_blurb3: "Top Pick for Learning"
     featured_partners_blurb4: "Code.org Official Partner"
@@ -56,7 +56,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     for_leaders_subtitle2: "Full Coding Curriculum"
     for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
     for_leaders_subtitle3: "Flexible Use Cases"
-    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs." #{change}
     for_leaders_subtitle4: "Real-World Skills"
     for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
     for_teachers_title: "For Teachers"
