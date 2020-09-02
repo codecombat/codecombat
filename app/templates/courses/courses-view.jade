@@ -122,6 +122,9 @@ block content
                       - var course = view.store.state.courses.byId[courseID];
                       - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
                       - var nextLevel = stats.levels.next;
+                      - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
+                      - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
+                      - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
                       - var campaign = classroom.campaignForCourse(courseID)
                       - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: campaign._id});
                       h6
@@ -138,7 +141,7 @@ block content
                           //if view.showVideosLinkForCourse(course._id)
                           //  = " "
                           //  a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
-                      +course-instance-body(courseInstance, stats, nextLevel, mapUrl, campaign._id)
+                      +course-instance-body(courseInstance, stats, nextLevel, mapUrl, campaign._id, isLocked)
                       .clearfix
 
             h3(data-i18n="courses.join_class")
@@ -159,7 +162,7 @@ block content
                 .alert.alert-danger= view.errorMessage
 
 
-mixin course-instance-body(courseInstance, stats, nextLevel, mapUrl, campaignId)
+mixin course-instance-body(courseInstance, stats, nextLevel, mapUrl, campaignId, isLocked)
   - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
 
   if stats.courseComplete
@@ -173,20 +176,23 @@ mixin course-instance-body(courseInstance, stats, nextLevel, mapUrl, campaignId)
       - var projectLevel = stats.levels.project;
       if arenaLevel
         - var url = view.urls.courseArenaLadder({level: view.originalLevelMap[arenaLevel.get('original')] || arenaLevel, courseInstance: courseInstance});
-        a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=arenaLevel.get('slug'), data-event-action="Students Play Arena")
+        button.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=arenaLevel.get('slug'), data-event-action="Students Play Arena" disabled=isLocked)
           span(data-i18n="courses.play_arena")
       else if projectLevel
         - var url = view.urls.courseLevel({level: view.originalLevelMap[projectLevel.get('original')] || projectLevel, courseInstance: courseInstance, campaignId: campaignId});
-        a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project")
+        button.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project" disabled=isLocked)
           span(data-i18n="courses.view_project")
       else
-        a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.unit_complete")
+        button.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.unit_complete")
     else if nextLevel
-      if nextLevel != stats.levels.first
-        a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=mapUrl, data-level-slug=nextLevel.get('slug'), data-event-action="Students Continue Course")
+      if isLocked
+        button.play-btn.btn.btn-forest.btn-lg.m-b-1(disabled=isLocked)
+          span(data-i18n="common.locked")
+      else if nextLevel != stats.levels.first
+        button.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=mapUrl, data-level-slug=nextLevel.get('slug'), data-event-action="Students Continue Course")
           span(data-i18n="common.continue")
       else
-        a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=mapUrl, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course")
+        button.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=mapUrl, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course" disabled=isLocked)
           span(data-i18n="courses.start")
 
   if stats.levels.lastPlayed

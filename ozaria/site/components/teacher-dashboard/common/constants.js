@@ -15,6 +15,12 @@ export const resourceHubLinks = {
     label: 'Dashboard Tutorial',
     resourceHubSection: 'gettingStarted'
   },
+  howtoContentLocking: {
+    icon: 'Slides',
+    label: 'How To: Control Student Pacing',
+    link: 'https://docs.google.com/presentation/d/1jAs_w8RjqbCtCQRGGI2_pRiZGar8rcNjEBcSFUYMF6c/edit?usp=sharing',
+    resourceHubSection: 'gettingStarted'
+  },
   howtoCurrGuide: {
     icon: 'Slides',
     label: 'How To: Curriculum Guide',

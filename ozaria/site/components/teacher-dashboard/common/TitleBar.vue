@@ -202,6 +202,9 @@
   padding-left: 30px;
   padding-right: 30px;
 
+  position: relative;
+  z-index: 11;
+
   /* Drop shadow bottom ref: https://css-tricks.com/snippets/css/css-box-shadow/ */
   -webkit-box-shadow: 0 8px 6px -6px #D2D2D2;
     -moz-box-shadow: 0 8px 6px -6px #D2D2D2;

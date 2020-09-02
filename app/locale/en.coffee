@@ -553,6 +553,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     empty: "Empty"
     done: "Done"
     remove: "Remove"
+    locked: "Locked"
 
   general:
     and: "and"
@@ -3166,3 +3167,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     console_instructions: 'See why by opening your browser console: 1) Right click 2) Choose "Inspect" 3) Click the console tab.'
     skip_video: 'Skip video'
     unavailable: 'Unavailable'
+
+  teacher_dashboard:
+    lock: 'Lock'
+    unlock: 'Unlock'
+    teacher_locked_message: 'Your teacher has locked the next level'
+

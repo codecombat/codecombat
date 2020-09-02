@@ -6,6 +6,7 @@
   import urls from 'core/urls'
   import api from 'core/api'
   import ModalCharCustomization from 'ozaria/site/components/char-customization/ModalCharCustomization'
+  import ClassroomLib from '../../../../app/models/ClassroomLib'
 
   export default Vue.extend({
     components: {
@@ -52,6 +53,8 @@
       capstoneLevelSession: {},
       isFirstLevel: undefined,
       showCharCx: false,
+      classroom: undefined,
+      nextLevelIsLocked: false,
       doReload: true // Reload browser while loading the next URL. This is to fix the memory leak in cinematics.
     }),
     computed: {
@@ -131,13 +134,28 @@
         console.error('Error in victory modal', e)
       }
     },
+
     methods: {
       ...mapActions({
         buildLevelsData: 'unitMap/buildLevelsData'
       }),
+      async fetchRequiredData (campaignHandle) {
+        // TODO: Fix duplicate fetching here. The `buildLevelsData` also fetches this.
+        //       Ideally we use vuex getters to get the already fetched classroom.
+        const promises = []
+        promises.push(api.courseInstances.get({ courseInstanceID: this.courseInstanceId }).then(async courseInstance => {
+          const classroomId = courseInstance.classroomID
+          // classroom snapshot of the levels for the course
+          this.classroom = await api.classrooms.get({ classroomID: classroomId })
+        }))
+
+        promises.push(this.buildLevelsData({ campaignHandle, courseInstanceId: this.courseInstanceId, courseId: this.courseId, classroom: this.classroom }))
+        return Promise.all(promises)
+      },
+
       async getNextLevelLink () {
         const campaignHandle = this.currentLevel.campaign || this.currentLevel.attributes.campaign
-        await this.buildLevelsData({ campaignHandle, courseInstanceId: this.courseInstanceId, courseId: this.courseId })
+        await this.fetchRequiredData(campaignHandle)
         const currentLevelData = this.levelsList[this.currentLevel.original || this.currentLevel.attributes.original]
         this.isFirstLevel = currentLevelData.first
         let currentLevelStage
@@ -145,6 +163,21 @@
           currentLevelStage = parseInt(this.capstoneStage)
         }
         const nextLevel = getNextLevelForLevel(currentLevelData, currentLevelStage) || {}
+        this.nextLevelIsLocked = ClassroomLib.isStudentOnLockedLevel(this.classroom, me.get('_id'), this.courseId, nextLevel.original)
+        if (this.nextLevelIsLocked) {
+          noty({
+            layout: 'center',
+            type: 'info',
+            text: this.$t('teacher_dashboard.teacher_locked_message'),
+            buttons: [{
+              text: this.$t('play.back_to_dashboard'),
+              onClick: ($noty) => {
+                $noty.close()
+                application.router.navigate('/students', { trigger: true })
+              }
+            }]
+          })
+        }
         if (nextLevel.original && !this.showShareModal && this.levelsList[nextLevel.original]) {
           const nextLevelLinkOptions = {
             courseId: this.courseId,
@@ -286,11 +319,13 @@
         >
           {{ $t("common.replay") }}
         </button>
+        <!-- TODO: Button doesn't handle loading state -->
         <button
           class="next-button ozaria-button ozaria-primary-button"
+          :disabled="nextLevelIsLocked"
           @click="nextButtonClick"
         >
-          {{ $t("common.next") }}
+          {{ nextLevelIsLocked ? $t("common.locked") : $t("common.next") }}
         </button>
       </div>
     </template>
@@ -343,4 +378,6 @@
       width: 182px
     .next-button
       width: 182px
+      &:disabled
+        background-color: #adadad
 </style>

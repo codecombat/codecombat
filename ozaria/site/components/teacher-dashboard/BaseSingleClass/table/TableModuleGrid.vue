@@ -60,13 +60,14 @@
 <template>
   <div class="moduleGrid" :style="cssVariables">
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
-    <div :class="cellClass(index)" v-for="({ status, flag, clickHandler, selectedKey, normalizedType }, index) of allStudentSessionsLinear" :key="selectedKey">
+    <div :class="cellClass(index)" v-for="({ status, flag, clickHandler, selectedKey, normalizedType, isLocked }, index) of allStudentSessionsLinear" :key="selectedKey">
       <ProgressDot
         :status="status"
         :border="getFlag(flag)"
         :click-progress-handler="clickHandler"
         :click-state="selectedProgressKey && selectedProgressKey === selectedKey"
         :content-type="normalizedType"
+        :isLocked="isLocked"
       />
     </div>
   </div>
@@ -87,5 +88,6 @@
 
   .cell-style {
     border-bottom: 1px solid #d8d8d8;
+    height: 29px;
   }
 </style>

@@ -73,6 +73,14 @@
         const table = $('#classTableFrame')
         this.isTouchingRight = table.scrollLeft() + table.innerWidth() >= table[0].scrollWidth
         this.isTouchingLeft = table.scrollLeft() <= 0.1
+      },
+
+      lockModule (moduleNum) {
+        this.$emit('lock', { moduleNum })
+      },
+
+      unlockModule (moduleNum) {
+        this.$emit('unlock', { moduleNum })
       }
     }
   }
@@ -102,12 +110,15 @@
 
           <!-- Module Headers -->
           <table-module-header
-            v-for="({ displayName, contentList, classSummaryProgress }) of modules"
+            v-for="({ displayName, contentList, classSummaryProgress, moduleNum }) of modules"
 
             :key="`${displayName}`"
             :module-heading="displayName"
             :list-of-content="contentList"
             :class-summary-progress="classSummaryProgress"
+
+            @lock="lockModule(moduleNum)"
+            @unlock="unlockModule(moduleNum)"
           />
         </div>
       </div>
@@ -147,6 +158,9 @@
   display: flex;
   justify-content: center;
 
+  margin-top: 22px;
+  overflow: hidden;
+
   & .arrow {
     position: absolute;
     top: 36px;
@@ -156,12 +170,17 @@
 
 #classTableFrame {
   width: calc(100vw - 70px);
-  max-height: calc(100vh - 320px);
+  min-height: 560px;
+  height: calc(100vh - 100px);
   /* Ensures that table never gets too wide. */
   max-width: 1850px;
   overflow-y: scroll;
   overflow-x: scroll;
-  margin: 22px 70px 22px 0;
+  margin: 0 70px 22px 0;
+
+  /* Counters the huge margin making space for tooltips */
+  /* We also have to float everything on the page over this space */
+  margin-top: $anti-tooltip-spacing;
 }
 
 .table-row {
@@ -183,6 +202,15 @@
   position: -webkit-sticky; /* Safari */
   top: 0;
   z-index: 10;
+
+  /*
+    This is required to make room for the tooltips to appear on top.
+    We then negate this from the parent container with a negative margin.
+    The tooltips can now display above this header.
+    Removing this will make all the tooltips drop to below as they will think
+    they are being rendered off the top of the screen.
+  */
+  padding-top: $tooltip-spacing;
 
   background-color: white;
 

@@ -13,6 +13,11 @@
         }
       },
 
+      isLocked: {
+        type: Boolean,
+        default: false,
+      },
+
       border: {
         type: String,
         default: ''
@@ -89,7 +94,12 @@
     @click="clickHandler"
     >
     <div :class="dotBorder">
-      <div :class="dotClass"></div>
+      <img 
+        v-if="isLocked"
+        class="dot"
+        src="/images/ozaria/teachers/dashboard/svg_icons/IconLockedProgress.svg"
+      >
+      <div v-else :class="dotClass"></div>
     </div>
   </div>
 </template>

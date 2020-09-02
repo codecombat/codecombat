@@ -41,7 +41,7 @@
 </script>
 
 <template>
-  <div class="guidelines-nav">
+  <div class="view-and-manage">
     <div class="title-card">
       <span>View Options</span>
     </div>
@@ -114,7 +114,7 @@
   @import "ozaria/site/styles/common/variables.scss";
   @import "app/styles/ozaria/_ozaria-style-params.scss";
 
-  .guidelines-nav {
+  .view-and-manage {
     height: 50px;
     max-height: 50px;
     min-width: 1260px;
@@ -123,6 +123,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
+    position: relative;
+    z-index: 11;
 
     /* Drop shadow bottom ref: https://css-tricks.com/snippets/css/css-box-shadow/ */
     -webkit-box-shadow: 0 7px 6px -6px #D2D2D2;
@@ -153,7 +156,7 @@
     flex: 0.5 0.5 0px;
     justify-content: flex-start;
     justify-content: start;
-    min-width: 390px;
+    min-width: 396px;
   }
 
   .arrow-icon {

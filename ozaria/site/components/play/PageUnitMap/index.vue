@@ -9,9 +9,8 @@
   import LayoutCenterContent from '../../common/LayoutCenterContent'
   import LayoutAspectRatioContainer from 'ozaria/site/components/common/LayoutAspectRatioContainer'
   import UnitMapBackground from './common/UnitMapBackground'
-  import AudioPlayer from 'app/lib/AudioPlayer'
-  import createjs from 'app/lib/createjs-parts'
   import HoC2019Modal from './hoc2019modal/index'
+  import ClassroomLib from '../../../../../app/models/ClassroomLib'
 
   export default Vue.extend({
     components: {
@@ -295,11 +294,13 @@
       },
 
       setUnlockedLevels () {
+        let lockedByTeacher = false
         for (let level in this.levels) {
+          lockedByTeacher = lockedByTeacher || ClassroomLib.isStudentOnLockedLevel(this.classroom, me.get('_id'), this.computedCourseId, level)
           if (this.levelStatusMap[level] || this.levels[level].first || this.nextLevelOriginal === level) {
-            this.levels[level].locked = false
+            this.levels[level].locked = lockedByTeacher || false
           } else {
-            this.levels[level].locked = true
+            this.levels[level].locked = lockedByTeacher || true
           }
         }
       },
