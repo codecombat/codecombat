@@ -10,7 +10,7 @@ block modal-body-content
   form
     if view.shouldShowGoogleClassroomButton()
       a#link-google-classroom-btn.btn.btn-primary.btn-lg(data-i18n="courses.link_google_classroom")
-    
+
     .form-group.google-class-name.secret
       label(data-i18n="courses.select_your_classroom")
       if view.googleClassrooms.length > 0
@@ -21,9 +21,9 @@ block modal-body-content
       else
         select.select-google-class.form-control(name="googleClassroomId" type='text' disabled=true)
           option(value="" data-i18n="courses.no_classrooms_found")
-        a.small.create-manually 
+        a.small.create-manually
           u(data-i18n="courses.create_classroom_manually")
-    
+
     .form-group.class-name
       label(data-i18n="courses.class_name")
       input#name-input.form-control(name="name" type='text' value=view.classroom.get('name'))
@@ -45,7 +45,7 @@ block modal-body-content
         option(value="python") Python
         option(value="javascript") JavaScript
         if view.enableCpp
-          option(value="cpp") C++
+          option(value="cpp") C++ (#{$.i18n.t('choose_hero.experimental')})
 
     .form-group
       label
