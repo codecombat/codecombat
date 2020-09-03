@@ -42,9 +42,15 @@
         <a v-if="isParentsPage" href="#" class="full-width button" @click="onCtaClick">
           {{ $t('parents_landing_2.learn_with_instructor') }}
         </a>
-        <a v-else href="#" class="full-width button" @click="onCtaClick">
+        <a v-else-if="type !== 'call'" href="#" class="full-width button" @click="onCtaClick">
           {{ $t('parents_landing_2.start_free_trial_today') }}
         </a>
+        <a v-else href="tel:818-873-2633" class="full-width button" @click="onCtaClick">
+          {{ $t('parents_landing_2.call_to_book') }}<br />
+          <span v-if="isUs">818-USE-CODE</span>
+          <span v-else>+1 818-873-2633</span>
+        </a>
+        <span v-if="isUs && type === 'call'" class="full-phone-number full-width">+1 818-873-2633</span>
       </div>
     </div>
     <div class="row" v-if="isParentsPage">
@@ -70,6 +76,10 @@ export default {
   computed: {
     isParentsPage: function () {
       return this.type === 'parents'
+    },
+
+    isUs: function () {
+      return window.me.get('country') === 'united-states'
     }
   },
 
@@ -132,6 +142,20 @@ export default {
   @media (min-width: 375px) {
     .jumbotron {
       padding: 50px;
+    }
+  }
+
+  .full-phone-number {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    color: #000;
+    text-align: center;
+  }
+
+  @media (max-width: 500px) {
+    .full-phone-number {
+      display: none;
     }
   }
 
