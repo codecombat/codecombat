@@ -443,7 +443,8 @@ import PageParentsSectionPremium from './PageParentsSectionPremium'
 import PageParentsJumbotron from './PageParentsJumbotron'
 import ModalTimetapSchedule from './ModalTimetapSchedule'
 
-const DRIFT_LIVE_CLASSES_INTERACTION_ID = 214809
+const DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID = 214809
+const DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID = 222065
 
 export default {
   components: {
@@ -494,7 +495,8 @@ export default {
   methods: {
     async trackCtaClicked () {
       await application.tracker.trackEvent(
-          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked'
+          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
+          { parentsPageType: this.type }
       )
     },
 
@@ -521,7 +523,14 @@ export default {
       this.trackCtaClicked()
 
       if (this.type === 'parents' || this.type === 'sales') {
-        window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_INTERACTION_ID })
+        window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID })
+      } else if (this.type === 'chat') {
+        const hour = new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles "}).getHour();
+        if (hour >= 7 && hour <= 17) {
+          window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID })
+        } else {
+          window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID })
+        }
       } else if (this.type === 'self-serve' || this.type === 'thank-you') {
         this.showTimetapModal = true
       } else {
@@ -530,15 +539,15 @@ export default {
     },
 
     onDriftMeetingBooked (e) {
-      if (e.interactionId === DRIFT_LIVE_CLASSES_INTERACTION_ID) {
-        application.tracker.trackEvent('Live classes welcome call scheduled', {}, ['facebook'])
+      if (e.interactionId === DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID || e.interactionId === DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID) {
+        application.tracker.trackEvent('Live classes welcome call scheduled', { parentsPageType: this.type }, ['facebook'])
       }
     },
 
     onClassBooked () {
       this.showTimetapModal = false
 
-      application.tracker.trackEvent('CodeCombat live class booked', {}, ['facebook'])
+      application.tracker.trackEvent('CodeCombat live class booked', { parentsPageType: this.type }, ['facebook'])
 
       noty({
         text: this.$t('parents_landing_2.live_class_booked_thank_you'),
