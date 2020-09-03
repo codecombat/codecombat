@@ -3066,6 +3066,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     live_classes_title: "Live coding classes from CodeCombat!"
     live_class_booked_thank_you: "Your live class has been booked, thank you!"
     book_your_class: "Book Your Class"
+    call_to_book: "Call now to book"
 
   parent_modal:
     refer_teacher: "Refer Teacher"

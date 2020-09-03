@@ -55,6 +55,7 @@
 
             <button class="default-top-spacing" @click="onGenericCtaClicked">
               {{ $t('parents_landing_2.try_free_class') }}
+              <span v-if="isCallType"><br />{{ ctaPhoneNumber }}</span>
             </button>
           </div>
         </div>
@@ -78,6 +79,7 @@
 
                 <button @click="onGroupClassCtaClicked">
                   {{ $t('parents_landing_2.choose_plan') }}
+                  <span v-if="isCallType"><br />{{ ctaPhoneNumber }}</span>
                 </button>
 
                 <ul>
@@ -111,6 +113,7 @@
 
                 <button @click="onPrivateClassCtaClicked">
                   {{ $t('parents_landing_2.choose_plan') }}
+                  <span v-if="isCallType"><br />{{ ctaPhoneNumber }}</span>
                 </button>
 
                 <ul>
@@ -140,6 +143,7 @@
 
                 <button @click="onPrivateClassCtaClicked">
                   {{ $t('parents_landing_2.choose_plan') }}
+                  <span v-if="isCallType"><br />{{ ctaPhoneNumber }}</span>
                 </button>
 
                 <ul>
@@ -244,6 +248,7 @@
           <div class="col-lg-12 buy-now-row">
             <button @click="onGenericCtaClicked">
               {{ $t('parents_landing_2.book_first_class') }}
+              <span v-if="isCallType"><br />{{ ctaPhoneNumber }}</span>
             </button>
           </div>
         </div>
@@ -304,6 +309,7 @@
           <div class="col-lg-12 buy-now-row">
             <button @click="onGenericCtaClicked">
               {{ $t('parents_landing_2.book_first_class') }}
+              <span v-if="isCallType"><br />{{ ctaPhoneNumber }}</span>
             </button>
           </div>
         </div>
@@ -384,7 +390,10 @@
 
       <div class="row buy-now-row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <button @click="onGenericCtaClicked">{{ $t('parents_landing_2.get_started') }}</button>
+          <button @click="onGenericCtaClicked">
+            {{ $t('parents_landing_2.get_started') }}
+            <span v-if="isCallType"><br />{{ ctaPhoneNumber }}</span>
+          </button>
         </div>
       </div>
     </div>
@@ -434,7 +443,10 @@
       </div>
     </div>
 
-    <button class="sticky-footer" @click="onGenericCtaClicked">{{ $t('parents_landing_2.book_first_class') }}</button>
+    <button class="sticky-footer" @click="onGenericCtaClicked">
+      {{ $t('parents_landing_2.book_first_class') }}
+      <span v-if="isCallType"> - {{ ctaPhoneNumber }}</span>
+    </button>
   </div>
 </template>
 
@@ -443,7 +455,8 @@ import PageParentsSectionPremium from './PageParentsSectionPremium'
 import PageParentsJumbotron from './PageParentsJumbotron'
 import ModalTimetapSchedule from './ModalTimetapSchedule'
 
-const DRIFT_LIVE_CLASSES_INTERACTION_ID = 214809
+const DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID = 214809
+const DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID = 222065
 
 export default {
   components: {
@@ -494,7 +507,8 @@ export default {
   methods: {
     async trackCtaClicked () {
       await application.tracker.trackEvent(
-          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked'
+          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
+          { parentsPageType: this.type }
       )
     },
 
@@ -521,24 +535,33 @@ export default {
       this.trackCtaClicked()
 
       if (this.type === 'parents' || this.type === 'sales') {
-        window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_INTERACTION_ID })
+        window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID })
+      } else if (this.type === 'chat') {
+        const now = new Date()
+        if (now.getUTCHours() - 8 >= 7 && now.getUTCHours() - 8 <= 17) {
+          window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID })
+        } else {
+          window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID })
+        }
       } else if (this.type === 'self-serve' || this.type === 'thank-you') {
         this.showTimetapModal = true
+      } else if (this.type === 'call') {
+        window.location.href = 'tel:818-873-2633'
       } else {
         console.error('Unknown CTA type on parents page')
       }
     },
 
     onDriftMeetingBooked (e) {
-      if (e.interactionId === DRIFT_LIVE_CLASSES_INTERACTION_ID) {
-        application.tracker.trackEvent('Live classes welcome call scheduled', {}, ['facebook'])
+      if (e.interactionId === DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID || e.interactionId === DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID) {
+        application.tracker.trackEvent('Live classes welcome call scheduled', { parentsPageType: this.type }, ['facebook'])
       }
     },
 
     onClassBooked () {
       this.showTimetapModal = false
 
-      application.tracker.trackEvent('CodeCombat live class booked', {}, ['facebook'])
+      application.tracker.trackEvent('CodeCombat live class booked', { parentsPageType: this.type }, ['facebook'])
 
       noty({
         text: this.$t('parents_landing_2.live_class_booked_thank_you'),
@@ -548,6 +571,24 @@ export default {
       })
     }
   },
+
+  computed: {
+    isCallType: function () {
+      return this.type === 'call'
+    },
+
+    isUs: function () {
+      return window.me.get('country') === 'united-states'
+    },
+
+    ctaPhoneNumber: function () {
+      if (this.isUs) {
+        return '818-USE-CODE'
+      } else {
+        return '+1 818-873-2633'
+      }
+    }
+  }
 }
 </script>
 
