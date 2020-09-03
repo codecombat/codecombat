@@ -215,6 +215,8 @@ module.exports = class LadderView extends RootView
         originalLevelID: @level.get('original'),
         levelMajorVersion: 0,
         leagueID: @leagueID
+        mirrorMatch: @level.get('mirrorMatch') ? false
+        sessionLimit: 750
       type: 'POST'
       parse: true
       success: (res)->
