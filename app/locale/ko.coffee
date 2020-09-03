@@ -44,7 +44,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     creativity_rigor_blurb3: "CodeCombat의 자율적이고 표준화된 커리큘럼은 모든 사람에게 컴퓨터 공학을 가르치는 것을 가능하게 합니다. CodeCombat은 교실에서 자신감과 성취감을 느끼기 위해 교사들에게 트레이닝, 교육 리소스 및 헌신적인 지원을 제공합니다."
     featured_partners_title1: "특집 기사"
     featured_partners_title2: "수상 & 파트너"
-    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+    featured_partners_blurb1: "CollegeBoard Endorsed Provider" # {change}
     featured_partners_blurb2: "학생들을 위한 가장 좋은 창의력 도구"
     featured_partners_blurb3: "Top Pick for Learning"
     featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     for_leaders_subtitle2: "모든 코딩 교육과정"
     for_leaders_subblurb2: "모든 교사가 컴퓨터 과학을 가르칠 수 있도록 교육 자원과 전문적 개발을 갖춘 표준화된 교육과정입니다."
     for_leaders_subtitle3: "유연한 사용성"
-    for_leaders_subblurb3: "CodeCombat은 중학교 코딩 선택 과목, CTE 경로 또는 AP Computer Science Principle 클래스를 만들든 여러분의 필요에 맞게 조정됩니다."
+    for_leaders_subblurb3: "CodeCombat은 중학교 코딩 선택 과목, CTE 경로 또는 AP Computer Science Principle 클래스를 만들든 여러분의 필요에 맞게 조정됩니다." # {change}
     for_leaders_subtitle4: "실무를 위한 기술"
     for_leaders_subblurb4: "학생들은 500K 이상의 개방형 컴퓨팅 작업에 대비하는 코딩 과제를 통해 성장 마인드를 형성하고 개발합니다."
     for_teachers_title: "선생님들을 위해"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    request_licenses: "Contact our school specialists for details."
     compete: "경쟁!" # Course details page
     spectate: "관중모드" # Ladder page
+#    simulate_all: "Simulate All"
     players: "플레이어" # Hover over a level on /play
     hours_played: "플레이한 시간" # Hover over a level on /play
     items: "아이템" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     eu_confirmation_place_of_processing: "Learn more about the possible risks 다른 위험에 대해 알아봅시다."
     eu_confirmation_student: "확실하지 않다면, 선생님께 물어보세요."
     eu_confirmation_individual: "자신의 정보가 미국 서버에 저장되는게 싫으시다면, 언제든지 익명으로 게임하시면 됩니다."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "계정 복구"

@@ -44,7 +44,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     creativity_rigor_blurb3: "扣哒世界自带竞赛系统(多人算法编程竞技场和创意编程顶峰项目)。已被中国、美国、新加坡、以色列等多个国家采用，是多个知名青少年编程竞赛指定平台。"
     featured_partners_title1: "媒体报道"
     featured_partners_title2: "荣誉及合作伙伴"
-    featured_partners_blurb1: "美国大学理事会认证"
+    featured_partners_blurb1: "美国大学理事会认证" # {change}
     featured_partners_blurb2: "学生最佳创造力工具"
     featured_partners_blurb3: "学习的最优选择"
     featured_partners_blurb4: "Code.org 官方合作伙伴"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     for_leaders_subtitle2: "全套教案支持"
     for_leaders_subblurb2: "符合标准的编程教案，包括教学资源和专业发展指引，任何教师都能轻松教授计算机科学。"
     for_leaders_subtitle3: "量身定制课程"
-    for_leaders_subblurb3: "无论是少儿编程机构、中小学编程选修课、大学编程入门基础，扣哒世界都可以根据合作伙伴需求定制课程。"
+    for_leaders_subblurb3: "无论是少儿编程机构、中小学编程选修课、大学编程入门基础，扣哒世界都可以根据合作伙伴需求定制课程。" # {change}
     for_leaders_subtitle4: "职场实用技能"
     for_leaders_subblurb4: "学生通过编程挑战培养坚韧的意志力，强化计算思维，为将来百万个计算机相关行业的岗位空缺作准备。"
     for_teachers_title: "写给老师"
@@ -246,7 +246,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     request_licenses: "联系我们获取详细信息"
     compete: "开战！" # Course details page
     spectate: "旁观他人的游戏" # Ladder page
-    simulate_all: "创建全部对局" # Ladder page
+    simulate_all: "创建全部对局"
     players: "玩家" # Hover over a level on /play
     hours_played: "游戏时长" # Hover over a level on /play
     items: "道具" # Tooltip on item shop button from /play
@@ -435,6 +435,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     eu_confirmation_place_of_processing: "获取更多相关信息"
     eu_confirmation_student: "如果你确定，询问你的老师"
     eu_confirmation_individual: "如果不愿让我们存储你的数据，你可以一直匿名玩游戏（但不能保存你的代码和进度）"
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "找回账户"
