@@ -143,11 +143,15 @@
         // TODO: Fix duplicate fetching here. The `buildLevelsData` also fetches this.
         //       Ideally we use vuex getters to get the already fetched classroom.
         const promises = []
-        promises.push(api.courseInstances.get({ courseInstanceID: this.courseInstanceId }).then(async courseInstance => {
-          const classroomId = courseInstance.classroomID
-          // classroom snapshot of the levels for the course
-          this.classroom = await api.classrooms.get({ classroomID: classroomId })
-        }))
+
+        // Only do this load if we have a courseInstanceId. We won't have for hour of code for example.
+        if (this.courseInstanceId) {
+          promises.push(api.courseInstances.get({ courseInstanceID: this.courseInstanceId }).then(async courseInstance => {
+            const classroomId = courseInstance.classroomID
+            // classroom snapshot of the levels for the course
+            this.classroom = await api.classrooms.get({ classroomID: classroomId })
+          }))
+        }
 
         promises.push(this.buildLevelsData({ campaignHandle, courseInstanceId: this.courseInstanceId, courseId: this.courseId, classroom: this.classroom }))
         return Promise.all(promises)
@@ -163,7 +167,10 @@
           currentLevelStage = parseInt(this.capstoneStage)
         }
         const nextLevel = getNextLevelForLevel(currentLevelData, currentLevelStage) || {}
-        this.nextLevelIsLocked = ClassroomLib.isStudentOnLockedLevel(this.classroom, me.get('_id'), this.courseId, nextLevel.original)
+        if (this.classroom) {
+          this.nextLevelIsLocked = ClassroomLib.isStudentOnLockedLevel(this.classroom, me.get('_id'), this.courseId, nextLevel.original)
+        }
+
         if (this.nextLevelIsLocked) {
           noty({
             layout: 'center',
