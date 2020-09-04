@@ -506,9 +506,15 @@ export default {
 
   methods: {
     async trackCtaClicked () {
-      await application.tracker.trackEvent(
+     await application.tracker.trackEvent(
           (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
           { parentsPageType: this.type }
+      )
+
+      await application.tracker.trackEvent(
+          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
+          { parentsPageType: this.type },
+          ['facebook']
       )
     },
 
