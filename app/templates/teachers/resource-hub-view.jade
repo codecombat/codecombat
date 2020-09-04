@@ -122,10 +122,25 @@ block content
             span(data-i18n="teacher.progress_journal")
             span.spl [PDF]
           p(data-i18n="teacher.progress_journal_desc")
+
+      h4(data-i18n="teacher.standardized_curricula")
+      ul
         li
           a.resource-link(href="/apcsp")
             span(data-i18n="teacher.ap_cs_principles")
           p(data-i18n="teacher.ap_cs_principles_desc")
+
+        if me.showChinaResourceInfo()
+          li
+            a.resource-link(href="https://assets.koudashijie.com/resources/CIEYLTPrinciples.pdf")
+              span(data-i18n="teacher.cie_ylt_python_principles")
+              span.spl [PDF]
+            p(data-i18n="teacher.cie_ylt_python_principles_desc")
+          li
+            a.resource-link(href="https://assets.koudashijie.com/resources/NCREPrinciples.pdf")
+              span(data-i18n="teacher.ncre_python_principles")
+              span.spl [PDF]
+            p(data-i18n="teacher.ncre_python_principles_desc")
 
       h4(data-i18n="teacher.cs1")
       ul
