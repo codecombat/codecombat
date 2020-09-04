@@ -754,7 +754,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     click_to_continue: "Kliknij, aby kontynuować"
 
   apis:
-    methods: "Medoty"
+    methods: "Metody"
     events: "Zdarzenia"
 #    handlers: "Handlers"
     properties: "Właściwości"
