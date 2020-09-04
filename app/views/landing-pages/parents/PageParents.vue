@@ -1067,7 +1067,7 @@ export default {
       left: 0;
       right: 0;
 
-      height: 60px;
+      min-height: 60px;
       width: 100%;
 
       background: #1FBAB4;
