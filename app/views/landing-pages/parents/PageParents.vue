@@ -544,7 +544,8 @@ export default {
         window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID })
       } else if (this.type === 'chat') {
         const now = new Date()
-        if (now.getUTCHours() - 8 >= 7 && now.getUTCHours() - 8 <= 17) {
+        // Monday to Friday 8am - 4pm EST
+        if (now.getUTCHours() - 5 >= 7 && now.getUTCHours() - 5 <= 15 && now.getDay() > 0 && now.getDay() < 6) {
           window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID })
         } else {
           window.drift.api.startInteraction({ interactionId: DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID })
