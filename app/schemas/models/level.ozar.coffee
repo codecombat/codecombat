@@ -448,7 +448,7 @@ _.extend LevelSchema.properties,
   allowedHeroes: { type: 'array', title: 'Allowed Heroes', description: 'Which heroes can play this level. For any hero, leave unset.', items: {
     type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
   }}
-  campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
+  campaign: c.shortString title: 'Campaign', description: 'WARNING - Set automatically with campaign editor!!!!! Which campaign this level is part of (like "desert").'  # Automatically set by campaign editor.
   campaignIndex: c.int title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden'  # Automatically set by campaign editor.
   scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).'}, {
       anyOf: [

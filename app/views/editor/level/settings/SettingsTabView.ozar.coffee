@@ -23,7 +23,7 @@ module.exports = class SettingsTabView extends CocoView
     'requiredGear', 'restrictedGear', 'requiredProperties', 'restrictedProperties', 'recommendedHealth', 'allowedHeroes',
     'maximumHealth', 'assessmentPlacement', 'password', 'mirrorMatch', 'autocompleteReplacement', 'introContent',
     'additionalGoals', 'isPlayedInStages', 'ozariaType', 'methodsBankList', 'displayName', 'characterPortrait', 'creativeMode', 'screenshot',
-    'exemplarProjectUrl', 'exemplarCodeUrl', 'projectRubricUrl', 'totalStages'
+    'exemplarProjectUrl', 'exemplarCodeUrl', 'projectRubricUrl', 'totalStages', 'campaign'
   ]
 
   subscriptions:
