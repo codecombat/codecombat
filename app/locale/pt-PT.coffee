@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     creativity_rigor_blurb3: "O currículo autogerido e alinhado com as normas do CodeCombat torna o ensino das ciências da computação acessível a todos. CodeCombat fornece aos professores a formação, os recursos didácticos e o apoio dedicado para se sentirem confiantes e bem sucedidos na sala de aula."
     featured_partners_title1: "Apresentado em"
     featured_partners_title2: "Prémios e Parceiros"
-    featured_partners_blurb1: "Fornecedor endossado pelo CollegeBoard"
+    featured_partners_blurb1: "Fornecedor endossado pelo CollegeBoard" # {change}
     featured_partners_blurb2: "Melhor Ferramenta de Criatividade para Estudantes"
     featured_partners_blurb3: "Escolha superior para aprendizagem"
     featured_partners_blurb4: "Parceiro Oficial do Code.org"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     for_leaders_subtitle2: "Curriculum de Programação Completo"
     for_leaders_subblurb2: "Um currículo alinhado com as normas, com recursos instrucionais e desenvolvimento profissional para permitir que qualquer professor possa ensinar informática."
     for_leaders_subtitle3: "Casos de Utilização Flexível"
-    for_leaders_subblurb3: "Quer pretendas aprender a programar de uma forma elegível para o Ensino Secundário, ou curso Técnico-profissional, o CodeCombat é adaptado às tuas necessidades."
+    for_leaders_subblurb3: "Quer pretendas aprender a programar de uma forma elegível para o Ensino Secundário, ou curso Técnico-profissional, o CodeCombat é adaptado às tuas necessidades." # {change}
     for_leaders_subtitle4: "Competências para o mundo real"
     for_leaders_subblurb4: "Os estudantes desenvolvem uma mentalidade de crescimento através de desafios de programação que os preparam para os trabalhos de computação existentes no mercado."
     for_teachers_title: "Para Professores"
@@ -207,7 +207,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     help_pref: "Precisas de ajuda? Envia um e-mail para"
     help_suff: "e nós entraremos em contacto!"
     resource_hub: "Centro de Recursos"
-#    apcsp: "AP CS Principles" - Not aplicable in Portugal
+#    apcsp: "AP CS Principles"
     parent: "Educadores"
     browser_recommendation: "Para a melhor experiência, recomendamos a utilização da última versão do Chrome. Descarregue o navegador aqui!"
 
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     request_licenses: "Contacte os nossos especialistas escolares para mais detalhes."
     compete: "Competir!" # Course details page
     spectate: "Assistir" # Ladder page
+#    simulate_all: "Simulate All"
     players: "jogadores" # Hover over a level on /play
     hours_played: "horas jogadas" # Hover over a level on /play
     items: "Itens" # Tooltip on item shop button from /play
@@ -422,6 +423,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     teacher_students_can_start_now: "Os seus alunos poderão começar a jogar o primeiro módulo, Introdução à Ciência da Computação, imediatamente."
     teacher_list_create_class: "No ecrã seguinte, poderá criar uma nova turma."
     teacher_list_add_students: "Adicione alunos à turma clicando no link Ver Turma, depois envie aos seus alunos o Código da Turma ou URL. Pode também convidá-los por correio electrónico se tiverem endereços de correio electrónico."
+#    teacher_list_resource_hub_1: "Check out the"
     teacher_list_resource_hub_2: "Guias de Curso"
     teacher_list_resource_hub_3: "para soluções a todos os níveis, e o"
     teacher_list_resource_hub_4: "Centro de Recursos"
@@ -433,6 +435,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     eu_confirmation_place_of_processing: "Saiba mais sobre os possíveis riscos"
     eu_confirmation_student: "Se não tens a certeza, pergunta ao teu professor."
     eu_confirmation_individual: "Se não quiser que armazenemos os seus dados em servidores dos EUA, pode sempre continuar a jogar anonimamente sem guardar o seu código."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Recuperar Conta"
@@ -3060,6 +3065,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"

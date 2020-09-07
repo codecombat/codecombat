@@ -44,7 +44,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
     featured_partners_title2: "Prix et partenaires"
-    featured_partners_blurb1: "Fournisseur approuvé par le CollegeBoard"
+    featured_partners_blurb1: "Fournisseur approuvé par le CollegeBoard" # {change}
     featured_partners_blurb2: "Meilleur outil de créativité pour les étudiants"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     request_licenses: "Contactez nos spécialistes la version salle de classe pour plus de détails."
     compete: "Participer !" # Course details page
     spectate: "Spectateur" # Ladder page
+#    simulate_all: "Simulate All"
     players: "Joueurs" # Hover over a level on /play
     hours_played: "Heures jouées" # Hover over a level on /play
     items: "Objets" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     eu_confirmation_place_of_processing: "En savoir plus sur les risques possibles"
     eu_confirmation_student: "Si vous n'êtes pas sûr, demandez à votre enseignant."
     eu_confirmation_individual: "Si vous ne voulez pas que nous stockions vos données sur des serveurs américains, vous pouvez continuer à jouer anonymement sans sauvegarder votre code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Récupérer son compte"
@@ -3061,6 +3065,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
   parent_modal:
     refer_teacher: "Référence Enseignant"
