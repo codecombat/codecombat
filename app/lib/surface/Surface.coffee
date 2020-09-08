@@ -105,6 +105,8 @@ module.exports = Surface = class Surface extends CocoClass
       @listenTo(@gameUIState, 'surface:stage-mouse-move', @onWorldMouseMove)
     @onResize = _.debounce @onResize, resizeDelay
     @initEasel()
+    @pathLayerAdapter = @lankBoss.layerAdapters['Path']
+    @listenTo(@pathLayerAdapter, 'new-spritesheet', @updatePaths)
     $(window).on 'resize', @onResize
     if @world.ended
       _.defer => @setWorld @world
@@ -717,19 +719,25 @@ module.exports = Surface = class Surface extends CocoClass
       @options.resizeStrategy = @options.originalResizeStrategy
 
   updatePaths: ->
-    return unless @options.paths and @heroLank
+    return unless @options.paths and @world.showPathFor?.length
     @hidePaths()
     return if @world.showPaths is 'never'
-    layerAdapter = @lankBoss.layerAdapters['Path']
-    @trailmaster ?= new TrailMaster @camera, layerAdapter
-    @paths = @trailmaster.generatePaths @world, @heroLank.thang
-    @paths.name = 'paths'
-    layerAdapter.addChild @paths
+    @trailmaster ?= new TrailMaster @camera, @pathLayerAdapter
+    @trailmaster.cleanUp()
+    @paths = []
+    for thangID in @world.showPathFor
+      lank = @lankBoss.lankFor thangID
+      continue if not lank
+      path = @trailmaster.generatePaths @world, lank.thang
+      continue if not path
+      path.name = 'paths'
+      @pathLayerAdapter.addChild path
+      @paths.push(path)
 
   hidePaths: ->
-    return if not @paths
-    if @paths.parent
-      @paths.parent.removeChild @paths
+    return if not @paths?.length
+    for path in @paths when path.parent
+      path.parent.removeChild path
     @paths = null
 
 

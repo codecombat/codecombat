@@ -18,12 +18,10 @@ module.exports = class TrailMaster extends CocoClass
     super()
     @tweenedSprites = []
     @tweens = []
-    @listenTo @layerAdapter, 'new-spritesheet', -> @generatePaths(@world, @thang)
 
   generatePaths: (@world, @thang) ->
     return if @generatingPaths
     @generatingPaths = true
-    @cleanUp()
     @createGraphics()
     pathDisplayObject = new createjs.Container(@layerAdapter.spriteSheet)
     pathDisplayObject.mouseEnabled = pathDisplayObject.mouseChildren = false
