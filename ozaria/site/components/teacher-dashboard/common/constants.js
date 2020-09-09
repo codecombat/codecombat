@@ -69,6 +69,12 @@ export const resourceHubLinks = {
     link: 'https://docs.google.com/presentation/d/1-27EBwUUHn6YdzWzyb5LzZI6OfutxOVtbqEMB2Swbj0/edit?usp=sharing',
     resourceHubSection: 'educatorResources'
   },
+  pacingGuide: {
+    icon: 'Spreadsheet',
+    label: 'Pacing Guide',
+    link: 'https://docs.google.com/spreadsheets/d/1EbWMXI1-0697csaM_NCZLUWvJKed5ayFGlC73I7rztk/edit?usp=sharing',
+    resourceHubSection: 'educatorResources'
+  },
   scopeSequence: {
     icon: 'Spreadsheet',
     label: 'Scope & Sequence',

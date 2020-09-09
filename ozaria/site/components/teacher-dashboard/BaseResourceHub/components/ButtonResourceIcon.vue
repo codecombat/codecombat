@@ -4,7 +4,7 @@
       icon: {
         type: String,
         required: true,
-        validator: value => ['PDF', 'Spreadsheet', 'Doc', 'FAQ', 'Slides', 'Solutions', 'Spreadsheet', 'Video'].indexOf(value) !== -1
+        validator: value => ['PDF', 'Spreadsheet', 'Doc', 'FAQ', 'Slides', 'Solutions', 'Video'].indexOf(value) !== -1
       },
       label: {
         type: String,
