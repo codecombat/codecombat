@@ -1843,6 +1843,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
     student_getting_started: "Student Quick Start Guide"
     student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "AP Computer Science Principles"
     ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
     cs1: "Introduction to Computer Science"

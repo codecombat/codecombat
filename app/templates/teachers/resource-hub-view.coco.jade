@@ -122,10 +122,25 @@ block content
             span(data-i18n="teacher.progress_journal")
             span.spl [PDF]
           p(data-i18n="teacher.progress_journal_desc")
+
+      h4(data-i18n="teacher.standardized_curricula")
+      ul
         li
           a.resource-link(href="/apcsp")
             span(data-i18n="teacher.ap_cs_principles")
           p(data-i18n="teacher.ap_cs_principles_desc")
+
+        if me.showChinaResourceInfo()
+          li
+            a.resource-link(href="https://assets.koudashijie.com/resources/CIEYLTPrinciples.pdf")
+              span="中国电子学会-全国青少年软件编程等级考试Python（扣哒世界完全匹配）"
+              span.spl [PDF]
+            p="青少年等级考试，英文名称（Youth Level Test）以下简称等级考试。等级考试是中国电子学会服务于国家教育改革和全民科学素质提升的需要，以提升我国青少年整体信息素养和创新能力为目标，于2011年起面向全国青少年开展的信息技术能力素质 的评价项目。"
+          li
+            a.resource-link(href="https://assets.koudashijie.com/resources/NCREPrinciples.pdf")
+              span="教育部考试中心-全国计算机等级考试二级Python（扣哒世界完全匹配）"
+              span.spl [PDF]
+            p="全国计算机等级考试（National Computer Rank Examination，简称NCRE），是经原国家教育委员会（现教育部）批准，由教育部考试中心主办，面向社会，用于考查应试人员计算机应用知识与技能的全国性计算机水平考试体系。"
 
       h4(data-i18n="teacher.cs1")
       ul
