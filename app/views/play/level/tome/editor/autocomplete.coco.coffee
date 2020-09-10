@@ -315,9 +315,13 @@ module.exports = class Autocomplete
 
           if doc.userShouldCaptureReturn
             varName = doc.userShouldCaptureReturn.variableName ? 'result'
+            type = doc.userShouldCaptureReturn.type?[e.language]
+            type ?= switch e.language
+              when 'javascript', 'java' then 'var'
+              when 'cpp' then 'auto'
+              else ''
             entry.captureReturn = switch e.language
-              when 'javascript', 'java' then 'var ' + varName + ' = '
-              when 'cpp' then 'auto ' + varName + ' = '  # TODO: be smarter about return types when we can?
+              when 'javascript', 'java', 'cpp' then type + ' ' + varName + ' = '
               #when 'lua' then 'local ' + varName + ' = '  # TODO: should we do this?
               else varName + ' = '
 
