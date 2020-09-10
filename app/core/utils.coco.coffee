@@ -60,6 +60,7 @@ translatejs2cpp = (jsCode, fullCode=true) ->
     jsCodes[i] = jsCodes[i].replace new RegExp(' or ', 'g'), ' || '
     jsCodes[i] = jsCodes[i].replace new RegExp('not ', 'g'), '!'
     jsCodes[i] = jsCodes[i].replace new RegExp(' var ', 'g'), ' auto '
+    jsCodes[i] = jsCodes[i].replace new RegExp("'", 'g'), '"'
   unless fullCode
     lines = jsCodes[len-1].split '\n'
     jsCodes[len-1] = (lines.map (line) -> line.slice 1).join('\n')
