@@ -984,7 +984,9 @@ module.exports = class SpellView extends CocoView
     #console.log "finished=#{valid and (endOfLine or beginningOfLine) and not incompleteThis}", valid, endOfLine, beginningOfLine, incompleteThis, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
     if not incompleteThis and @options.level.isType('game-dev')
       # TODO: Improve gamedev autocast speed
-      @spell.transpile @getSource()
+      @fetchTokenForSource().then (token) =>
+        # TODO: This is janky for those languages with a delay
+        @spell.transpile token
       @cast(false, false, true)
     else if (endOfLine or beginningOfLine) and not incompleteThis
       @preload()
