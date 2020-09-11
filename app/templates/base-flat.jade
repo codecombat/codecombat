@@ -187,7 +187,7 @@ mixin accountLinks
                           li
                             a(href="/teachers/resources", data-i18n="nav.resource_hub")
                           li
-                            a(href="/apcsp", data-i18n="nav.apcsp")
+                            a(href="/teachers/resources") 课程体系
                           li
                             a(href="/teachers/classes", data-i18n="nav.my_classrooms")
                     .col-lg-3
@@ -231,6 +231,32 @@ mixin accountLinks
                           a(href="/about", data-i18n="nav.about")
                         li
                           a(href="/about#careers", data-i18n="nav.careers")
+                        li
+                          - var faqURL = "/teachers/resources/faq";
+                          - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                          -     faqURL = "/teachers/resources/faq-nl-NL";
+                          - if (me.get('preferredLanguage') == 'he')
+                          -     faqURL = "/teachers/resources/faq-HE";
+                          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                          -     faqURL = "/teachers/resources/faq-pt-BR";
+                          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                          -     faqURL = "/teachers/resources/faq-zh-HANS";
+                          a(href=faqURL, data-i18n="teacher.educator_faq")
+                        li
+                          a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                        li
+                          a(href="https://ozaria.com", data-i18n="new_home.try_ozaria")
+                        li
+                          a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                  .col-lg-3
+                    h3 相关链接
+                    ul.list-unstyled
+                      li
+                        a(href="https://codecombat.163.com") 极客战记（个人版）
+                      li
+                        a(href="https://aojiarui.com") 奥佳睿 - CodeCombat原创新作
+                      li
+                        a(href="https://codecombat.com") CodeCombat全球官网
 
                         if me.isTeacher(true)
                           li
@@ -267,6 +293,33 @@ mixin accountLinks
                           a(href='/community', data-i18n="nav.community")
                         li
                           a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
+                        li
+                          - var faqURL = "/teachers/resources/faq";
+                          - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                          -     faqURL = "/teachers/resources/faq-nl-NL";
+                          - if (me.get('preferredLanguage') == 'he')
+                          -     faqURL = "/teachers/resources/faq-HE";
+                          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                          -     faqURL = "/teachers/resources/faq-pt-BR";
+                          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                          -     faqURL = "/teachers/resources/faq-zh-HANS";
+                          a(href=faqURL, data-i18n="teacher.educator_faq")
+                        li
+                          a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                        li
+                          a(href="https://ozaria.com", data-i18n="new_home.try_ozaria")
+                        li
+                          a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                  .col-lg-3
+                    h3(data-i18n="nav.get_involved")
+                    ul.list-unstyled
+                      li
+                        a(href='/community', data-i18n="nav.community")
+                      li
+                        a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
+                      li
+                        a(href="https://github.com/codecombat/codecombat") GitHub
+                      if !me.isStudent() && me.showForumLink()
                         li
                           a(href="https://github.com/codecombat/codecombat") GitHub
                         if !me.isStudent() && me.showForumLink()

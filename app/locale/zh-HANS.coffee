@@ -1844,6 +1844,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_getting_started_desc: "第一次使用 CodeCombat ？下载此老师入门指南开始设置您的账号，创建第一个课堂并邀请学生参加第一门课程。"
     student_getting_started: "学生快速入门指南"
     student_getting_started_desc: "您可以在讲解 CodeCombat 之前先将此入门指南发布给学生，以便他们熟悉代码编辑器。本指南可用于 Python 和 JavaScript 语言教室。"
+    standardized_curricula: "课程体系和课程标准"
     ap_cs_principles: "AP 计算机科学原理"
     ap_cs_principles_desc: "AP计算机科学原理为学生提供了计算机科学的应用，影响和可能性的广泛介绍。本课程在教授编程基础知识的同时，还强调了计算思维和解决问题的能力。"
     cs1: "计算机科学的介绍"

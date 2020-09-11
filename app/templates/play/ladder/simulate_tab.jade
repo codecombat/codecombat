@@ -9,15 +9,16 @@ p
 
 p.simulation-count
   span.spr(data-i18n="ladder.games_simulated_by") Games simulated by you:
-  span#simulated-by-you= me.get('simulatedBy') || 0
+  span#simulated-by-you= view.simulatedByYouCount
 
 //p.simulation-count
 //  span.spr(data-i18n="ladder.games_simulated_for") Games simulated for you:
 //  span#simulated-for-you= me.get('simulatedFor') || 0
 
-//p.simulation-count
-//  span.spr(data-i18n="ladder.games_in_queue") Games currently in the queue:
-//  span#games-in-queue= view.simulatorsLeaderboardData.numberOfGamesInQueue || 0
+if view.simulatorsLeaderboardData && view.simulatorsLeaderboardData.numberOfGamesInQueue > 0
+  p.simulation-count
+    span.spr(data-i18n="ladder.games_in_queue") Games currently in the queue:
+    span#games-in-queue= view.simulatorsLeaderboardData.numberOfGamesInQueue || 0
 
 if view.simulatorsLeaderboardData
   - var topSimulators = view.simulatorsLeaderboardData.topSimulators.models;

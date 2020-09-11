@@ -157,7 +157,8 @@ block content
       a(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : "")).spectate-button.btn.btn-illustrated.btn-info.center
         span(data-i18n="play.spectate") Spectate
 
-    if me.isAdmin()
+    if me.isAdmin() && (me.get('slug') == 'nick' || features.china)
+      // This button could consume a lot of server resources
       .spectate-button-container
         a.simulate-all-button.btn.btn-illustrated.btn-info.center
           span(data-i18n="play.simulate_all")
@@ -177,7 +178,7 @@ block content
     if view.level.get('name') == 'Greed'
       li
         a(href="#rules", data-toggle="tab", data-i18n="ladder.rules") Rules
-    if view.level.get('name') == 'Greed' || view.level.get('name') == 'Criss-Cross' || view.level.get('name') == 'Zero Sum' || view.level.get('name') == 'Ace of Coders'
+    if view.winners
       li
         a(href="#winners", data-toggle="tab", data-i18n="ladder.winners") Winners
 
@@ -852,3 +853,42 @@ block content
                     a(href="/play/spectate/" + view.level.get('slug') + "?session-one=55df8c9207d920b7e4262f33" + "&session-two=" + player.sessionID, data-i18n="ladder.watch_battle") Watch the battle
                   else
                     a(href="/play/spectate/" + view.level.get('slug') + "?session-one=" + player.sessionID + "&session-two=55e1d23686c019bc47b640fe", data-i18n="ladder.watch_battle") Watch the battle
+
+    if view.level.get('name') == 'Battle of Red Cliffs'
+      .tab-pane.well#winners
+        h1(data-i18n="ladder.winners") Winners
+
+        h2
+          a(href="https://www.youtube.com/watch?v=1DGKmmUssrA&feature=youtu.be") Watch the awards ceremony!
+
+        p Overall rank determined by # of wins against top 750 players. Players not in top 750 at time of ranking have estimated win scores based on their prior ladder ranking. Players outside top 10 were placed in the Open bracket if not enough registration information was provided. Prizes depended on supplying registration information.
+
+        table.table.table-hover.table-condensed
+          thead
+            tr
+              th(data-i18n="ladder_prizes.rank") Rank
+              th(data-i18n="teachers_quote.country")
+              th(data-i18n="general.player") Player
+              th Wins
+              th Losses
+              th Rank 1-3
+              th Rank 4-6
+              th Rank 7-12
+              th Rank Open
+              th(data-i18n="play.spectate") Spectate
+          tbody
+            each player in view.winners
+              tr
+                td= player.rankOverall
+                td= _.string.titleize(player.country)
+                td= player.name || $.i18n.t('play.anonymous')
+                td
+                  span.win= player.wins || 0
+                td
+                  span.loss= player.losses || 750
+                td= player.rankElementary
+                td= player.rankMiddle
+                td= player.rankHigh
+                td= player.rankOpen
+                td
+                  a(href="/play/spectate/" + view.level.get('slug') + "?session-one=" + player.sessionID + "&session-two=5f24bb6f5737013ff31e827c", data-i18n="ladder.watch_battle") Watch the battle
