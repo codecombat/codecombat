@@ -45,7 +45,8 @@
     data: () => ({
       visibleViews: [],
       childFormsValid: false,
-      signInModal: false
+      signInModal: false,
+      creatingTeacherAccountLoad: false
     }),
 
     computed: {
@@ -146,12 +147,16 @@
           noty({ text: 'Correct the errors in signup form', type: 'error', layout: 'center', timeout: 2000 })
           return
         }
+
+        this.creatingTeacherAccountLoad = true
+
         try {
           await this.createAccount()
           this.finishLogin()
         } catch (err) {
           console.error('Error in teacher signup', err)
           noty({ text: err.message || 'Error during signup', type: 'error', layout: 'center', timeout: 2000 })
+          this.creatingTeacherAccountLoad = false
         }
       },
 
@@ -185,6 +190,7 @@
             v-if="isSchoolInfoForm(view)"
             :key="trialReqProps.role+'-'+trialReqProps.country"
             :is="view"
+            :creatingTeacherAccountLoad="creatingTeacherAccountLoad"
             @goToNext="goToNextView(view)"
             @startSignup="startSignup"
             @signIn="openSignInModal"

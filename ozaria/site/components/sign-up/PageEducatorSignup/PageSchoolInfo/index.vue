@@ -17,6 +17,13 @@
 
     mixins: [validationMixin],
 
+    props: {
+      creatingTeacherAccountLoad: {
+        required: false,
+        default: false,
+        type: Boolean
+      }
+    },
     data: () => ({
       phoneNumber: '',
       numStudents: '',
@@ -142,7 +149,8 @@
             a(href="https://www.ozaria.com/privacy#gdpr" target="_blank") {{ $t("signup.eu_confirmation_place_of_processing") }}
       .buttons.form-group.row
         .col-xs-offset-7
-          secondary-button(type="submit", :inactive="doneDisabled") {{ $t("common.done") }}
+          secondary-button(v-if="!creatingTeacherAccountLoad" type="submit", :inactive="doneDisabled") {{ $t("common.done") }}
+          secondary-button(v-else type="submit", :inactive="true" disabled) {{ $t("common.loading") }}
 </template>
 
 <style lang="sass" scoped>
