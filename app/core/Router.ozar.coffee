@@ -287,8 +287,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/projects/:classroomId': go('core/SingletonAppVueComponentView')
     'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true })
     'teachers/classes/:classroomID': teacherProxyRoute(go('courses/TeacherClassView', { redirectStudents: true, teachersOnly: true }))
-    'teachers/courses': redirect('/teachers/units') # Redirected 8/20/2019
-    'teachers/units': go('courses/TeacherCoursesView', { redirectStudents: true })
+    'teachers/courses': redirect('/teachers') # Redirected 8/20/2019
+    'teachers/units': redirect('/teachers') # Redirected 9/10/2020
     'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })
     'teachers/demo': redirect('/teachers/quote')
     'teachers/enrollments': redirect('/teachers/licenses')
