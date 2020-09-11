@@ -118,6 +118,15 @@ PropertyDocumentationSchema = c.object {
         title: 'Variable Name'
         description: 'Variable name this property is autocompleted into.'
         default: 'result'
+      type:
+        type: 'object'
+        title: 'Variable Type'
+        description: 'Variable return types by code language. Can usually leave blank. Fill in if it is a primitive type and not auto in C++.'
+        title: 'Language Descriptions',
+        description: 'Example return values by code language.',
+        additionalProperties: {type: 'string', description: 'Description of the return value.', maxLength: 1000}
+        format: 'code-languages-object'
+        default: {cpp: 'auto'}
 
 DependencySchema = c.object {
   title: 'Component Dependency'

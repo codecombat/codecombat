@@ -62,7 +62,7 @@ module.exports = class JavaScript extends Language
     # Run it through JSHint first, because that doesn't rely on Esprima
     # See also how ACE does it: https://github.com/ajaxorg/ace/blob/master/lib/ace/mode/javascript_worker.js
     # TODO: make JSHint stop providing these globals somehow; the below doesn't work
-    jshintOptions = browser: false, couch: false, devel: false, dojo: false, jquery: false, mootools: false, node: false, nonstandard: false, phantom: false, prototypejs: false, rhino: false, worker: false, wsh: false, yui: false
+    jshintOptions = browser: false, couch: false, devel: false, dojo: false, jquery: false, mootools: false, node: false, nonstandard: false, phantom: false, prototypejs: false, rhino: false, worker: false, wsh: false, yui: false, iterator: true, esnext: true
     jshintGlobals = _.zipObject jshintGlobals, (false for g in aether.allGlobals)  # JSHint expects {key: writable} globals
     # Doesn't work; can't find a way to skip warnings from JSHint programmatic options instead of in code comments.
     #for problemID, problem of @originalOptions.problems when problem.level is 'ignore' and /jshint/.test problemID

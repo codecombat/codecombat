@@ -126,7 +126,7 @@ module.exports.createFunction = (aether) ->
       else
         fx = engine.functionFromASTSync aether.ast
   catch error
-    console.log 'Esper: error parsing AST. Returning empty function.', error.message
+    console.error 'Esper: error parsing AST. Returning empty function.', error.message, error
     if aether.language.id is 'javascript'
       error.message = "Couldn't understand your code. Are your { and } braces matched?"
     else
