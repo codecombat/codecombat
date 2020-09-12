@@ -258,6 +258,7 @@
             width: 100%
             height: 100%
             position: absolute
+            z-index: 3 // Make sure progress dot sits above invisible navigation
 
             &.locked
                 cursor: auto
