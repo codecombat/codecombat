@@ -390,7 +390,7 @@ module.exports = class PlayLevelView extends RootView
   initGoalManager: ->
     options = {}
 
-    # Add two lines to handle `int main() { return 0;}` in C++ for the linesOfCode goal.
+    # Add three lines to handle `int main() { return 0;}` in C++ for the linesOfCode goal.
     if ((@session?.get('codeLanguage') is 'cpp' or me.get('aceConfig')?.language is 'cpp') and Array.isArray(@level.get('goals')))
       @level.get('goals').forEach((goal) =>
         if goal?.linesOfCode?.humans and typeof goal.linesOfCode.humans == 'number'
