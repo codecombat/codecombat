@@ -40,8 +40,9 @@ translatejs2cpp = (jsCode, fullCode=true) ->
   lines = jsCodes[len-1].split '\n'
   if fullCode
     jsCodes[len-1] = """
-      void main() {
+      int main() {
       #{(lines.map (line) -> '    ' + line).join '\n'}
+      return 0;
       }
     """
   else
