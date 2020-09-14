@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     request_licenses: "Posa't en contacte amb els especialistes del centre per obtenir més informació."
     compete: "Competir!" # Course details page
     spectate: "Espectador" # Ladder page
+#    simulate_all: "Simulate All"
     players: "Jugadors" # Hover over a level on /play
     hours_played: "Hores jugades" # Hover over a level on /play
     items: "Objectes" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     eu_confirmation_place_of_processing: "Saber més sobre possibles riscos"
     eu_confirmation_student: "Si dubtes, consulta al teu professorat."
     eu_confirmation_individual: "Si no vols que desem les teves dades als servidors dels EE.UU., sempre pots continuar jugant de manera anònima sense desar el teu codi."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Recuperar Compte"
@@ -1839,6 +1843,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     teacher_getting_started_desc: "Ets nou a CodeCombat? Descarrega aquesta Guia d'introducció per a docents per configurar el teu compte, crear la teva primera classe, i invitar alumnat al primer curs."
     student_getting_started: "Guia d'introducció per l'alumnat"
     student_getting_started_desc: "Pots distribuir aquesta guia al teu alumnat abans de començar amb CodeCombat per a que es puguin anar familiaritzant amb l'editor de codi. Aquesta guis serveix tant per classes de Python com de JavaScript."
+#    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "AP Principis d'informàtica"
     ap_cs_principles_desc: "AP Principis d'informàtica dona als estudiants una àmplia introducció al poder, l'impacte i les possibilitats de la informàtica. El curs fa èmfasi en el pensament computacional i la resolució de problemes, a més d'ensenyar els fonaments de la programació."
     cs1: "Introducció a la informàtica"
@@ -3061,6 +3066,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
   parent_modal:
     refer_teacher: "Consulteu al Professor"
