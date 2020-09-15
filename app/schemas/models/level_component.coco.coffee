@@ -174,10 +174,10 @@ _.extend LevelComponentSchema.properties,
     type: 'string'
     title: 'Language'
     description: 'Which programming language this Component is written in.'
-    'enum': ['coffeescript']
+    'enum': ['coffeescript', 'javascript']
   code:
     title: 'Code'
-    description: 'The code for this Component, as a CoffeeScript class. TODO: add link to documentation for how to write these.'
+    description: 'The code for this Component, as a CoffeeScript/JavaScript class. TODO: add link to documentation for how to write these.'
     type: 'string'
     format: 'coffee'
   js:
