@@ -60,8 +60,8 @@ mixin accountLinks
                     if me.showChinaResourceInfo()
                       li
                         a.text-p(data-i18n="nav.aiyouth", href="http://aiyouth.koudashijie.com")
-                      li
-                        a.text-p(data-i18n="nav.blog", href="https://blog.koudashijie.com")
+                      -// li
+                      -//   a.text-p(data-i18n="nav.blog", href="https://blog.koudashijie.com")
                       li
                         a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/contact-cn")
                     else if me.isAnonymous() && require('app/core/experiments').getRequestAQuoteGroup(me) === 'request-a-quote-header'
@@ -167,8 +167,8 @@ mixin accountLinks
                             a(href="/contact-cn", data-i18n="nav.contact")
                         -// li
                         -//   a(href="/parents", data-i18n="nav.parent")
-                        li
-                          a(href="http://blog.koudashijie.com/", data-i18n="nav.blog")
+                        -// li
+                        -//   a(href="http://blog.koudashijie.com/", data-i18n="nav.blog")
                     .col-lg-3
                       if !me.isStudent()
                         h3(data-i18n="nav.educators")
@@ -263,8 +263,8 @@ mixin accountLinks
                             a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                         -// li
                         -//   a(href="/parents", data-i18n="nav.parent")
-                        li
-                          a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
+                        -// li
+                        -//   a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
                     .col-lg-3
                       if !me.isStudent()
                         h3(data-i18n="nav.educators")
