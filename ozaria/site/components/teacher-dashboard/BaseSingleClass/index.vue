@@ -1,9 +1,6 @@
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
   import { COMPONENT_NAMES } from '../common/constants.js'
-  import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
-  import TitleBar from '../common/TitleBar'
-  import LoadingBar from '../common/LoadingBar'
   import Guidelines from './Guidelines'
   import ViewAndMange from './ViewAndManage'
   import TableClassFrame from './table/TableClassFrame'
@@ -20,12 +17,9 @@
   export default {
     name: COMPONENT_NAMES.MY_CLASSES_SINGLE,
     components: {
-      'secondary-teacher-navigation': SecondaryTeacherNavigation,
-      'title-bar': TitleBar,
       'guidelines': Guidelines,
       'view-and-manage': ViewAndMange,
       'table-class-frame': TableClassFrame,
-      'loading-bar': LoadingBar,
       ModalEditStudent
     },
     props: {
@@ -33,6 +27,14 @@
         type: String,
         default: '',
         required: true
+      },
+      teacherId: { // sent from DSA
+        type: String,
+        default: ''
+      },
+      displayOnly: { // sent from DSA
+        type: Boolean,
+        default: false
       }
     },
 
@@ -43,10 +45,7 @@
 
     computed: {
       ...mapGetters({
-        loading: 'teacherDashboard/getLoadingState',
-        activeClassrooms: 'teacherDashboard/getActiveClassrooms',
         classroom: 'teacherDashboard/getCurrentClassroom',
-        classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
         selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
         levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
         getInteractiveSessionsForClass: 'interactives/getInteractiveSessionsForClass',
@@ -288,7 +287,7 @@
     },
 
     mounted () {
-      this.setTeacherId(me.get('_id'))
+      this.setTeacherId(this.teacherId || me.get('_id'))
       this.setClassroomId(this.classroomId)
       this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
     },
@@ -327,10 +326,6 @@
         setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom',
         closePanel: 'teacherDashboardPanel/closePanel'
       }),
-
-      onChangeCourse (courseId) {
-        this.setSelectedCourseId({ courseId: courseId })
-      },
 
       onChangeStudentSort (sortMethod) {
         this.sortMethod = sortMethod
@@ -506,24 +501,10 @@
 
 <template>
   <div>
-    <secondary-teacher-navigation
-      :classrooms="activeClassrooms"
-    />
-    <title-bar
-      :title="classroom.name || ''"
-      :show-class-info="true"
-      :classroom="classroom"
-      :courses="classroomCourses"
-      :selected-course-id="selectedCourseId"
-      @change-course="onChangeCourse"
-    />
-    <loading-bar
-      :key="loading"
-      :loading="loading"
-    />
     <guidelines :visible="isGuidelinesVisible" v-on:click-arrow="clickGuidelineArrow" />
     <view-and-manage
       :arrow-visible="!isGuidelinesVisible"
+      :display-only="displayOnly"
 
       @change-sort-by="onChangeStudentSort"
       @click-arrow="clickGuidelineArrow"
@@ -536,11 +517,12 @@
       v-if="modules && students"
       :students="students"
       :modules="modules"
+      :display-only="displayOnly"
 
       @toggle-all-students="toggleAllStudents"
       @lock="lockModuleForStudents"
       @unlock="unlockModuleForStudents"
     />
-    <modal-edit-student v-if="editingStudent" />
+    <modal-edit-student v-if="editingStudent" :display-only="displayOnly" />
   </div>
 </template>

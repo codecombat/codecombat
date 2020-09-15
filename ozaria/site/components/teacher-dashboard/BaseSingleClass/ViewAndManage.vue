@@ -15,6 +15,10 @@
       arrowVisible: {
         type: Boolean,
         default: false
+      },
+      displayOnly: {
+        type: Boolean,
+        default: false
       }
     },
     methods: {
@@ -64,32 +68,37 @@
       <div class="manage-container">
         <primary-button
           class="primary-btn"
+          :inactive="displayOnly"
           @click="$emit('assignContent')"
         >
           Assign Content
         </primary-button>
         <icon-button-with-text
           class="icon-with-text"
-          icon-name="IconAddStudents"
+          :icon-name="displayOnly ? 'IconAddStudents_Gray' : 'IconAddStudents'"
           text="Add Students"
+          :inactive="displayOnly"
           @click="$emit('addStudents')"
         />
         <icon-button-with-text
           class="icon-with-text"
-          icon-name="IconRemoveStudents"
+          :icon-name="displayOnly ? 'IconRemoveStudents_Gray' : 'IconRemoveStudents'"
           text="Remove Students"
+          :inactive="displayOnly"
           @click="$emit('removeStudents')"
         />
         <icon-button-with-text
           class="icon-with-text larger-icon"
-          icon-name="IconLicenseApply"
+          :icon-name="displayOnly ? 'IconLicenseApply_Gray' : 'IconLicenseApply'"
           text="Apply Licenses"
+          :inactive="displayOnly"
           @click="applyLicenses"
         />
         <icon-button-with-text
           class="icon-with-text larger-icon"
-          icon-name="IconLicenseRevoke"
+          :icon-name="displayOnly ? 'IconLicenseRevoke_Gray' : 'IconLicenseRevoke'"
           text="Revoke Licenses"
+          :inactive="displayOnly"
           @click="revokeLicenses"
         />
       </div>

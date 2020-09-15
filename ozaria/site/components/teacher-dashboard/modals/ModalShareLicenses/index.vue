@@ -39,7 +39,8 @@
     computed: {
       ...mapGetters({
         getJoinersForPrepaid: 'prepaids/getJoinersForPrepaid',
-        getUserById: 'users/getUserById'
+        getUserById: 'users/getUserById',
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
       }),
 
       sharedPoolForPrepaid () {
@@ -73,10 +74,10 @@
       }),
       async addTeacher () {
         if (!this.$v.$invalid) {
-          window.tracker?.trackEvent('My Licenses: Add Teacher Clicked from Share modal', { category: 'Teachers' })
+          window.tracker?.trackEvent('My Licenses: Add Teacher Clicked from Share modal', { category: this.getTrackCategory })
           try {
             await this.addJoinerForPrepaid({ prepaidId: this.prepaid._id, email: this.teacherEmailInput })
-            window.tracker?.trackEvent('My Licenses: Add Teacher Success from Share modal', { category: 'Teachers' })
+            window.tracker?.trackEvent('My Licenses: Add Teacher Success from Share modal', { category: this.getTrackCategory })
           } catch (err) {
             console.error("Error in adding teacher:", err)
             noty({ text: "Error in adding teacher", type: "error", layout: "topCenter", timeout: 2000 })

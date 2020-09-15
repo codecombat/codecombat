@@ -37,6 +37,7 @@ module.exports = class RootView extends CocoView
     'treema-error': 'onTreemaError'
     'click [data-i18n]': 'onClickTranslatedElement'
     'click .track-click-event': 'onTrackClickEvent'
+    'click .dashboard-toggle-link': 'onClickDashboardToggleLink'
 
   subscriptions:
     'achievements:new': 'handleNewAchievements'
@@ -110,6 +111,23 @@ module.exports = class RootView extends CocoView
     eventAction = $(e.target)?.closest('a')?.data('event-action')
     if eventAction
       window.tracker?.trackEvent eventAction, { category: 'Teachers' }
+  
+  onClickDashboardToggleLink: (e) ->
+    $(e.target)?.parent('.dashboard-button')?.addClass('active')
+    $(e.target)?.parent('.dashboard-button')?.siblings('.dashboard-button')?.removeClass('active')
+
+  initializeDashboardToggleState: () ->
+    teacherDashboardButton = @$el?.find('.teacher-dashboard-button')?.parent('.dashboard-button')
+    schoolAdminDashboardButton = @$el?.find('.school-admin-dashboard-button')?.parent('.dashboard-button')
+    if document.location.href.search('/school-administrator') >= 0
+      teacherDashboardButton?.removeClass('active')
+      schoolAdminDashboardButton?.addClass('active')
+    else if document.location.href.search('/teachers') >= 0
+      teacherDashboardButton?.addClass('active')
+      schoolAdminDashboardButton?.removeClass('active')
+    else
+      teacherDashboardButton?.removeClass('active')
+      schoolAdminDashboardButton?.removeClass('active').addClass('show-divider')
 
   showLoading: ($el) ->
     $el ?= @$el.find('#site-content-area')
@@ -134,6 +152,8 @@ module.exports = class RootView extends CocoView
     @chooseTab(location.hash.replace('#', '')) if location.hash
     @buildLanguages()
     $('body').removeClass('is-playing')
+    if me.isSchoolAdmin()
+      @initializeDashboardToggleState()
 
   chooseTab: (category) ->
     $("a[href='##{category}']", @$el).tab('show')

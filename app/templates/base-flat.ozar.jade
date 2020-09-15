@@ -104,9 +104,12 @@ mixin accountLinks
                       else
                         a.text-p(href="/students", data-i18n="nav.classes")
                   if me.isSchoolAdmin()
-                    li
-                      a.text-p(href="/school-administrator", data-i18n="nav.my_teachers")
-                  if !me.isAnonymous() && me.isTeacher()
+                    li.dashboard-toggle
+                      .dashboard-button
+                        a.school-admin-dashboard-button.dashboard-toggle-link(href="/school-administrator" data-i18n="nav.admin")
+                      .dashboard-button
+                        a.teacher-dashboard-button.dashboard-toggle-link(href="/teachers" data-i18n="nav.teacher")
+                  if !me.isAnonymous() && !me.isSchoolAdmin() && me.isTeacher()
                     li
                       if document.location.href.search('/teachers/classes') >= 0
                         a.text-p(href="/teachers/classes", data-i18n="nav.my_classrooms")

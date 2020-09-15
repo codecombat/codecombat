@@ -1,5 +1,6 @@
 <script>
   import IconButton from '../common/buttons/IconButton'
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -27,10 +28,15 @@
         default: ''
       }
     },
+    computed: {
+      ...mapGetters({
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
+      })
+    },
     methods: {
       trackEvent (eventName) {
         if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: 'Teachers', label: this.courseName })
+          window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
         }
       }
     }

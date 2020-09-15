@@ -8,7 +8,10 @@ export default {
     teacherId: '',
     classroomId: '', // current classrom id for single class page and projects page
     selectedCourseIdForClassroom: {}, // selectedCourse for each classroomId across single class and student projects page
-    loading: false
+    loading: false,
+    pageTitle: '',
+    componentName: '',
+    trackCategory: 'Teachers' // used for tracking events on pages shared between DSA and DT
   },
 
   mutations: {
@@ -35,6 +38,15 @@ export default {
       if (state.classroomId) {
         Vue.set(state.selectedCourseIdForClassroom, state.classroomId, courseId)
       }
+    },
+    setPageTitle (state, title) {
+      state.pageTitle = title
+    },
+    setComponentName (state, componentName) {
+      state.componentName = componentName
+    },
+    setTrackCategory (state, trackCategory) {
+      state.trackCategory = trackCategory
     }
   },
 
@@ -48,8 +60,17 @@ export default {
     classroom (state, getters) {
       return getters.getActiveClassrooms.find((c) => c._id === state.classroomId) || {}
     },
+    getPageTitle (state) {
+      return state.pageTitle
+    },
+    getComponentName (state) {
+      return state.componentName
+    },
     getLoadingState (state) {
       return state.loading
+    },
+    getTrackCategory (state) {
+      return state.trackCategory
     },
     getActiveClassrooms (state, _getters, _rootState, rootGetters) {
       if (state.teacherId) {
@@ -139,6 +160,7 @@ export default {
       }
 
       commit('startLoading')
+      commit('setComponentName', componentName)
       try {
         if (componentName === COMPONENT_NAMES.MY_CLASSES_ALL) {
           // My classes page
@@ -166,7 +188,7 @@ export default {
       } finally {
         commit('stopLoading')
         if (options.loadedEventName) { // should be set for tracking the loaded event for dashboard pages
-          window.tracker?.trackEvent(options.loadedEventName, { category: 'Teachers' })
+          window.tracker?.trackEvent(options.loadedEventName, { category: state.trackCategory })
         }
       }
     },

@@ -13,6 +13,13 @@
       SecondaryButton
     },
 
+    props: {
+      displayOnly: {
+        type: Boolean,
+        default: false
+      }
+    },
+
     data: () => ({
       newPassword: '',
       changingPassword: false
@@ -112,6 +119,7 @@
               >Change Password</label>
               <input
                 v-model="newPassword"
+                :disabled="displayOnly"
                 name="changePassword"
                 type="text"
                 autocomplete="off"
@@ -120,6 +128,7 @@
               >
               <primary-button
                 style="padding: 9px 22px;"
+                :inactive="displayOnly"
                 @click="changePassword"
               >
                 Change Password

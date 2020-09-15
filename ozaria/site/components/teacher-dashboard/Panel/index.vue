@@ -1,5 +1,4 @@
 <script>
-  import TeacherDashboardPanel from '../../../store/TeacherDashboardPanel'
   import { mapMutations, mapGetters } from 'vuex'
 
   import StudentInfo from './components/StudentInfo'
@@ -31,7 +30,8 @@
         panelHeader: 'teacherDashboardPanel/panelHeader',
         studentInfo: 'teacherDashboardPanel/studentInfo',
         conceptCheck: 'teacherDashboardPanel/conceptCheck',
-        panelSessionContent: 'teacherDashboardPanel/panelSessionContent'
+        panelSessionContent: 'teacherDashboardPanel/panelSessionContent',
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
       }),
 
       footerLinkText () {
@@ -41,14 +41,6 @@
           return ``
         }
       }
-    },
-
-    beforeCreate () {
-      this.$store.registerModule('teacherDashboardPanel', TeacherDashboardPanel)
-    },
-
-    destroyed () {
-      this.$store.unregisterModule('teacherDashboardPanel')
     },
 
     methods: {
@@ -63,7 +55,7 @@
       },
 
       clickFooterLink () {
-        window.tracker?.trackEvent('Track Progress: Progress Modal Footer Link Clicked', { category: 'Teachers', label: this.panelFooter.icon })
+        window.tracker?.trackEvent('Track Progress: Progress Modal Footer Link Clicked', { category: this.getTrackCategory, label: this.panelFooter.icon })
       }
     }
   }

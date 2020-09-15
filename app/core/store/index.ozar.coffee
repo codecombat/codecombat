@@ -38,6 +38,12 @@ store = new Vuex.Store({
     prepaids: require('./modules/prepaids').default
     gameContent: require('./modules/gameContent').default
     teacherDashboard: require('./modules/teacherDashboard').default
+    schoolAdminDashboard: require('./modules/schoolAdminDashboard').default
+    userStats: require('./modules/userStats').default
+    # Modules needed for DT as well as DSA:
+    baseSingleClass: require('ozaria/site/store/BaseSingleClass').default
+    baseCurriculumGuide: require('ozaria/site/store/BaseCurriculumGuide').default
+    teacherDashboardPanel: require('ozaria/site/store/TeacherDashboardPanel').default
   }
 })
 

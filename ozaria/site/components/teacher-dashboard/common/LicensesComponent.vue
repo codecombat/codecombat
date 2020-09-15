@@ -12,12 +12,9 @@
     },
     computed: {
       ...mapGetters({
-        getLicensesStatsByTeacher: 'prepaids/getLicensesStatsByTeacher'
+        getLicensesStatsByTeacher: 'prepaids/getLicensesStatsByTeacher',
+        teacherId: 'teacherDashboard/teacherId'
       }),
-
-      teacherId () {
-        return me.get('_id')
-      },
 
       totalUsedLicenses () {
         return this.getLicensesStatsByTeacher(this.teacherId).usedLicenses

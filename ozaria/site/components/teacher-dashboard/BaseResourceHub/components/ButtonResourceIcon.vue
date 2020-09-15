@@ -18,6 +18,10 @@
       from: {
         type: String,
         default: 'Resource Hub'
+      },
+      trackCategory: {
+        type: String,
+        default: ''
       }
     },
     computed: {
@@ -31,7 +35,7 @@
     methods: {
       clickIcon () {
         const eventName = `Resource Icon Clicked: ${this.label}`
-        window.tracker?.trackEvent(eventName, { category: 'Teachers', label: this.from })
+        window.tracker?.trackEvent(eventName, { category: this.trackCategory || 'Teachers', label: this.from })
         this.$emit('click')
       }
     }

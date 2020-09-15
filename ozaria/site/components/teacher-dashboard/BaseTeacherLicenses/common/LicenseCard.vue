@@ -34,6 +34,14 @@
       expired: {
         type: Boolean,
         default: false
+      },
+      displayOnly: {
+        type: Boolean,
+        default: false
+      },
+      disableApplyLicenses: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
@@ -53,10 +61,10 @@
         return !this.owner || this.owner._id === this.teacherId
       },
       applyLicensesDisabled () {
-        return this.expired || this.remaining === 0
+        return this.disableApplyLicenses || this.displayOnly || this.expired || this.remaining === 0
       },
       shareLicensesDisabled () {
-        return this.expired || !this.isLicenseOwner
+        return this.displayOnly || this.expired || !this.isLicenseOwner
       },
       applyLicensesIcon () {
         if (this.applyLicensesDisabled) {

@@ -6,6 +6,7 @@
         chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
         selectedChapterId: 'baseCurriculumGuide/selectedChapterId',
         getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
       }),
 
       chapterNav () {
@@ -37,7 +38,7 @@
 
       clickChapterNav (campaignID) {
         this.clickChapterHeading(campaignID)
-        window.tracker?.trackEvent('Curriculum Guide: Chapter Nav Clicked', { category: 'Teachers', label: this.courseName })
+        window.tracker?.trackEvent('Curriculum Guide: Chapter Nav Clicked', { category: this.getTrackCategory, label: this.courseName })
       }
     }
   }

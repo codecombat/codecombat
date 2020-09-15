@@ -37,6 +37,11 @@
       contentType: {
         type: String,
         default: null
+      },
+
+      trackCategory: {
+        type: String,
+        default: ''
       }
     },
 
@@ -81,7 +86,7 @@
           if (this.border === 'red') {
             eventLabel += ' alert'
           }
-          window.tracker?.trackEvent('Track Progress: Progress Dot Clicked', { category: 'Teachers', label: eventLabel })
+          window.tracker?.trackEvent('Track Progress: Progress Dot Clicked', { category: this.trackCategory || 'Teachers', label: eventLabel })
         }
       }
     }

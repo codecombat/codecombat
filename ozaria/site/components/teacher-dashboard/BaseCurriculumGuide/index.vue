@@ -24,7 +24,8 @@
       ...mapGetters({
         getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
         getModuleInfo: 'baseCurriculumGuide/getModuleInfo',
-        getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage'
+        getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
       }),
 
       courseName () {
@@ -53,7 +54,7 @@
         closeCurriculumGuide: 'baseCurriculumGuide/closeCurriculumGuide'
       }),
       changeLanguage(e) {
-        window.tracker?.trackEvent('Curriculum Guide: Language Changed from dropdown', { category: 'Teachers', label: this.courseName })
+        window.tracker?.trackEvent('Curriculum Guide: Language Changed from dropdown', { category: this.getTrackCategory, label: this.courseName })
         this.setSelectedLanguage(e.target.value)
       },
       isCapstoneModule (moduleNum) {
