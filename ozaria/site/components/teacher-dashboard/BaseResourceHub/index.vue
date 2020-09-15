@@ -1,18 +1,12 @@
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
-  import { COMPONENT_NAMES, resourceHubLinks } from '../common/constants.js'
-  import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
-  import TitleBar from '../common/TitleBar'
-  import LoadingBar from '../common/LoadingBar'
+  import { COMPONENT_NAMES, PAGE_TITLES, resourceHubLinks } from '../common/constants.js'
   import ButtonResourceIcon from './components/ButtonResourceIcon'
   import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
 
   export default {
     name: COMPONENT_NAMES.RESOURCE_HUB,
     components: {
-      'secondary-teacher-navigation': SecondaryTeacherNavigation,
-      'title-bar': TitleBar,
-      'loading-bar': LoadingBar,
       ButtonResourceIcon,
       ModalOnboardingVideo
     },
@@ -38,6 +32,7 @@
 
     mounted () {
       this.setTeacherId(me.get('_id'))
+      this.setPageTitle(PAGE_TITLES[this.$options.name])
       this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Resource Hub: Loaded' } })
     },
 
@@ -51,7 +46,8 @@
       }),
       ...mapMutations({
         resetLoadingState: 'teacherDashboard/resetLoadingState',
-        setTeacherId: 'teacherDashboard/setTeacherId'
+        setTeacherId: 'teacherDashboard/setTeacherId',
+        setPageTitle: 'teacherDashboard/setPageTitle'
       }),
       trackEvent (eventName) {
         if (eventName) {
@@ -70,17 +66,6 @@
 
 <template>
   <div id='base-resource-hub'>
-    <secondary-teacher-navigation
-      :classrooms="activeClassrooms"
-    />
-    <title-bar
-      title="Resource Hub"
-      @newClass="$emit('newClass')"
-    />
-    <loading-bar
-      :key="loading"
-      :loading="loading"
-    />
 
     <modal-onboarding-video
       v-if="showVideoModal"

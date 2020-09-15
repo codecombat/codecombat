@@ -32,6 +32,10 @@
       goals: {
         type: Array,
         default: () => []
+      },
+      trackCategory: {
+        type: String,
+        default: ''
       }
     },
     data: () => {
@@ -63,13 +67,13 @@
         if (!this.inactiveAccordion) {
           this.codeContainerVisible = !this.codeContainerVisible
           if (this.codeContainerVisible) {
-            window.tracker?.trackEvent('Student Projects: View Student Code Arrow Opened', { category: 'Teachers' })
+            window.tracker?.trackEvent('Student Projects: View Student Code Arrow Opened', { category: this.trackCategory || 'Teachers' })
           }
         }
       },
       openProjectUrl () {
         if (!this.inactiveAccordion && this.projectUrl) {
-          window.tracker?.trackEvent('Student Projects: View Project Clicked', { category: 'Teachers' })
+          window.tracker?.trackEvent('Student Projects: View Project Clicked', { category: this.trackCategory || 'Teachers' })
           window.open(this.projectUrl, '_blank')
         }
       }

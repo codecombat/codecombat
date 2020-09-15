@@ -3,6 +3,7 @@
   import StudentRow from './StudentRow'
   import { playDevLevel } from 'app/core/urls'
   import { broadName } from 'models/User'
+  import { mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -29,6 +30,9 @@
       }
     },
     computed: {
+      ...mapGetters({
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
+      }),
       capstoneSession () {
         return (member) => {
           return (this.levelSessionsByUser[member._id] || {})[this.capstoneLevel.original]
@@ -119,6 +123,7 @@
       :language="sessionLanguage(member)"
       :project-url="projectUrl(member)"
       :goals="goalStatus(member)"
+      :track-category="getTrackCategory"
     />
   </div>
 </template>

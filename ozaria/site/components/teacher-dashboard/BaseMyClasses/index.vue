@@ -1,21 +1,29 @@
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
-  import { COMPONENT_NAMES } from '../common/constants.js'
-  import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
-  import TitleBar from '../common/TitleBar'
-  import LoadingBar from '../common/LoadingBar'
+  import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
   import ClassStatCalculator from './components/ClassStatCalculator'
   import ModalEditClass from '../modals/ModalEditClass'
   import moment from 'moment'
 
+  import ButtonsSchoolAdmin from './ButtonsSchoolAdmin'
+
   export default {
     name: COMPONENT_NAMES.MY_CLASSES_ALL,
     components: {
-      'secondary-teacher-navigation': SecondaryTeacherNavigation,
-      'title-bar': TitleBar,
-      'loading-bar': LoadingBar,
       ClassStatCalculator,
-      ModalEditClass
+      ModalEditClass,
+      ButtonsSchoolAdmin
+    },
+
+    props: {
+      teacherId: { // sent from DSA
+        type: String,
+        default: ''
+      },
+      displayOnly: { // sent from DSA
+        type: Boolean,
+        default: false
+      }
     },
 
     data: () => {
@@ -28,9 +36,9 @@
 
     computed: {
       ...mapGetters({
-        loading: 'teacherDashboard/getLoadingState',
         activeClassrooms: 'teacherDashboard/getActiveClassrooms',
-        archivedClassrooms: 'teacherDashboard/getArchivedClassrooms'
+        archivedClassrooms: 'teacherDashboard/getArchivedClassrooms',
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
       }),
 
       sortedActiveClasses () {
@@ -51,7 +59,8 @@
     },
 
     mounted () {
-      this.setTeacherId(me.get('_id'))
+      this.setTeacherId(this.teacherId || me.get('_id'))
+      this.setPageTitle(PAGE_TITLES[this.$options.name])
       this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'All Classes: Loaded' } })
     },
 
@@ -66,7 +75,8 @@
 
       ...mapMutations({
         resetLoadingState: 'teacherDashboard/resetLoadingState',
-        setTeacherId: 'teacherDashboard/setTeacherId'
+        setTeacherId: 'teacherDashboard/setTeacherId',
+        setPageTitle: 'teacherDashboard/setPageTitle'
       }),
 
       openEditModal (classroom) {
@@ -76,6 +86,9 @@
 
       clickArchiveArrow () {
         this.archiveHidden = !this.archiveHidden
+        if (!this.archiveHidden) {
+          window.tracker?.trackEvent('All Classes: Archived Classes Dropdown Opened', { category: this.getTrackCategory })
+        }
       }
     }
   }
@@ -83,22 +96,26 @@
 
 <template>
   <div>
-    <secondary-teacher-navigation
-      :classrooms="activeClassrooms"
-    />
-    <title-bar title="All classes" @newClass="$emit('newClass')" :all-classes-page="true" />
-    <loading-bar
-      :key="loading"
-      :loading="loading"
-    />
-
     <div id="class-stats-area">
-      <class-stat-calculator
+      <div
         v-for="clas in sortedActiveClasses"
         :key="clas._id"
-        :classroom-state="clas"
-        @clickTeacherArchiveModalButton="openEditModal(clas)"
-      />
+        class="active-class"
+      >
+        <class-stat-calculator
+          :classroom-state="clas"
+          :display-only="displayOnly"
+          class="class-stats"
+          @clickTeacherArchiveModalButton="openEditModal(clas)"
+        />
+        <buttons-school-admin
+          v-if="displayOnly"
+          class="buttons-school-admin"
+          :inactive="false"
+          :progress-url="`/school-administrator/teacher/${clas.ownerID}/classes/${clas._id}`"
+          :projects-url="`/school-administrator/teacher/${clas.ownerID}/classes/${clas._id}/projects`"
+        />
+      </div>
     </div>
 
     <div id="archived-area">
@@ -110,13 +127,24 @@
         </div>
       </div>
 
-      <class-stat-calculator
+      <div
         v-for="clas in sortedArchivedClassrooms"
         v-show="!archiveHidden"
         :key="clas._id"
-        :classroom-state="clas"
-        @clickTeacherArchiveModalButton="openEditModal(clas)"
-      />
+        class="archived-class"
+      >
+        <class-stat-calculator
+          :classroom-state="clas"
+          :display-only="displayOnly"
+          class="class-stats"
+          @clickTeacherArchiveModalButton="openEditModal(clas)"
+        />
+        <buttons-school-admin
+          v-if="displayOnly"
+          class="buttons-school-admin"
+          :inactive="true"
+        />
+      </div>
     </div>
 
     <modal-edit-class
@@ -160,6 +188,21 @@
     background-color: #d8d8d8;
     margin-bottom: -50px;
     padding-bottom: 50px;
+  }
+
+  .active-class, .archived-class {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 28px 32px 0;
+    .class-stats {
+      flex-grow: 7;
+    }
+    .buttons-school-admin {
+      flex-grow: 1;
+      height: 126px;
+    }
   }
 
   .arrow-toggle {

@@ -1,9 +1,6 @@
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
-  import { COMPONENT_NAMES } from '../common/constants.js'
-  import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
-  import TitleBar from '../common/TitleBar'
-  import LoadingBar from '../common/LoadingBar'
+  import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
   import PageNoLicenses from './PageNoLicenses'
   import PageLicenses from './PageLicenses'
   import ModalGetLicenses from '../modals/ModalGetLicenses'
@@ -13,14 +10,22 @@
   export default {
     name: COMPONENT_NAMES.MY_LICENSES,
     components: {
-      'secondary-teacher-navigation': SecondaryTeacherNavigation,
-      'title-bar': TitleBar,
-      'loading-bar': LoadingBar,
       'page-no-licenses': PageNoLicenses,
       'page-licenses': PageLicenses,
       ModalGetLicenses,
       ModalApplyLicenses,
       ModalShareLicenses
+    },
+
+    props: {
+      teacherId: { // sent from DSA
+        type: String,
+        default: ''
+      },
+      displayOnly: { // sent from DSA
+        type: Boolean,
+        default: false
+      }
     },
 
     data: () => {
@@ -35,19 +40,19 @@
     computed: {
       ...mapGetters({
         loading: 'teacherDashboard/getLoadingState',
-        activeClassrooms: 'teacherDashboard/getActiveClassrooms',
         activeLicenses: 'teacherDashboard/getActiveLicenses',
         expiredLicenses: 'teacherDashboard/getExpiredLicenses',
-        teacherId: 'teacherDashboard/teacherId'
+        getTeacherId: 'teacherDashboard/teacherId'
       }),
 
       showLicensesPage () {
-        return this.activeLicenses.length > 0 || this.expiredLicenses.length > 0
+        return this.displayOnly || this.activeLicenses.length > 0 || this.expiredLicenses.length > 0
       }
     },
 
     mounted () {
-      this.setTeacherId(me.get('_id'))
+      this.setTeacherId(this.teacherId || me.get('_id'))
+      this.setPageTitle(PAGE_TITLES[this.$options.name])
       this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'My Licenses: Loaded' } })
     },
 
@@ -61,7 +66,8 @@
       }),
       ...mapMutations({
         resetLoadingState: 'teacherDashboard/resetLoadingState',
-        setTeacherId: 'teacherDashboard/setTeacherId'
+        setTeacherId: 'teacherDashboard/setTeacherId',
+        setPageTitle: 'teacherDashboard/setPageTitle'
       }),
       getLicenses () {
         this.showModalGetLicenses = true
@@ -81,20 +87,13 @@
 
 <template>
   <div id="base-licenses">
-    <secondary-teacher-navigation
-      :classrooms="activeClassrooms"
-    />
-    <title-bar title="My Licenses" @newClass="$emit('newClass')" />
-    <loading-bar
-      :key="loading"
-      :loading="loading"
-    />
 
     <page-licenses
       v-if="showLicensesPage"
       :active-licenses="activeLicenses"
       :expired-licenses="expiredLicenses"
-      :teacher-id="teacherId"
+      :teacher-id="getTeacherId"
+      :display-only="displayOnly"
       @getLicenses="getLicenses"
       @apply="applyLicenses"
       @share="shareLicenses"

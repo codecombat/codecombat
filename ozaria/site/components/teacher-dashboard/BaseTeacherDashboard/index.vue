@@ -6,11 +6,14 @@
   import ModalRemoveStudents from '../modals/ModalRemoveStudents'
   import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
 
-  import BaseSingleClass from '../../../store/BaseSingleClass'
   import BaseCurriculumGuide from '../BaseCurriculumGuide'
-  import BaseCurriculumGuideModule from '../../../store/BaseCurriculumGuide'
 
-  import { mapMutations } from 'vuex'
+  import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
+  import TitleBar from '../common/TitleBar'
+  import LoadingBar from 'ozaria/site/components/common/LoadingBar'
+  import { COMPONENT_NAMES } from '../common/constants.js'
+
+  import { mapMutations, mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -20,7 +23,10 @@
       ModalAddStudents,
       ModalRemoveStudents,
       BaseCurriculumGuide,
-      ModalOnboardingVideo
+      ModalOnboardingVideo,
+      SecondaryTeacherNavigation,
+      TitleBar,
+      LoadingBar
     },
 
     data () {
@@ -36,17 +42,40 @@
       }
     },
 
+    computed: {
+      ...mapGetters({
+        loading: 'teacherDashboard/getLoadingState',
+        getPageTitle: 'teacherDashboard/getPageTitle',
+        activeClassrooms: 'teacherDashboard/getActiveClassrooms',
+        classroom: 'teacherDashboard/getCurrentClassroom',
+        classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
+        selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+        componentName: 'teacherDashboard/getComponentName'
+      }),
+
+      pageTitle () {
+        if (this.showClassInfo) {
+          return this.classroom.name || ''
+        } else {
+          return this.getPageTitle
+        }
+      },
+
+      isAllClassesPage () {
+        return this.componentName === COMPONENT_NAMES.MY_CLASSES_ALL
+      },
+
+      showClassInfo () {
+        return this.componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE || this.componentName === COMPONENT_NAMES.STUDENT_PROJECTS
+      }
+    },
+
     watch: {
       $route (to, from) {
         if (to.params.classroomId !== from.params.classroomId && to.params.classroomId) {
           this.updateStoreOnNavigation()
         }
       }
-    },
-
-    beforeCreate () {
-      this.$store.registerModule('baseSingleClass', BaseSingleClass)
-      this.$store.registerModule('baseCurriculumGuide', BaseCurriculumGuideModule)
     },
 
     created () {
@@ -56,11 +85,6 @@
         this.showRestrictedDiv = false
         this.updateStoreOnNavigation()
       }
-    },
-
-    destroyed () {
-      this.$store.unregisterModule('baseSingleClass')
-      this.$store.unregisterModule('baseCurriculumGuide')
     },
 
     metaInfo () {
@@ -80,7 +104,9 @@
       ...mapMutations({
         setClassroomId: 'teacherDashboard/setClassroomId',
         setTeacherId: 'teacherDashboard/setTeacherId',
-        closeCurriculumGuide: 'baseCurriculumGuide/closeCurriculumGuide'
+        closeCurriculumGuide: 'baseCurriculumGuide/closeCurriculumGuide',
+        setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom',
+        setTeacherPagesTrackCategory: 'teacherDashboard/setTrackCategory'
       }),
 
       updateStoreOnNavigation () {
@@ -88,12 +114,17 @@
           this.setClassroomId(this.$route.params.classroomId)
         }
         this.setTeacherId(me.get('_id'))
+        this.setTeacherPagesTrackCategory('Teachers') // For pages shared between DT and DSA
       },
 
       closeOnboardingModal () {
         me.set('seenNewDashboardModal', true)
         me.save()
         this.showOnboardingModal = false
+      },
+
+      onChangeCourse (courseId) {
+        this.setSelectedCourseId({ courseId: courseId })
       }
     }
   }
@@ -107,8 +138,24 @@
   <div v-else>
     <base-curriculum-guide />
     <panel />
-    <router-view
+    <secondary-teacher-navigation
+      :classrooms="activeClassrooms"
+    />
+    <title-bar
+      :title="pageTitle"
+      :show-class-info="showClassInfo"
+      :classroom="classroom"
+      :courses="classroomCourses"
+      :selected-course-id="selectedCourseId"
+      :all-classes-page="isAllClassesPage"
+      @change-course="onChangeCourse"
       @newClass="showNewClassModal = true"
+    />
+    <loading-bar
+      :key="loading"
+      :loading="loading"
+    />
+    <router-view
       @assignContent="showAssignContentModal = true"
       @addStudents="showAddStudentsModal = true"
       @removeStudents="showRemoveStudentsModal = true"

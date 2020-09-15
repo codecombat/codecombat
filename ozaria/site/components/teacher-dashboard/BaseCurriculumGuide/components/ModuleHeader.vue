@@ -31,7 +31,8 @@
         getCurrentModuleNames: 'baseCurriculumGuide/getCurrentModuleNames',
         getCurrentModuleHeadingInfo: 'baseCurriculumGuide/getCurrentModuleHeadingInfo',
         getCapstoneInfo: 'baseCurriculumGuide/getCapstoneInfo',
-        isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
+        isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign',
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
       }),
 
       getModuleInfo () {
@@ -74,7 +75,7 @@
 
       trackEvent (eventName) {
         if (!this.isOnLockedCampaign && eventName) {
-          window.tracker?.trackEvent(eventName, { category: 'Teachers', label: this.courseName })
+          window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
         }
       }
     }

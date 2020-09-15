@@ -26,11 +26,16 @@
       teacherId: {
         type: String,
         required: true
+      },
+      displayOnly: { // sent from DSA
+        type: Boolean,
+        default: false
       }
     },
     computed: {
       ...mapGetters({
-        getUserById: 'users/getUserById'
+        getUserById: 'users/getUserById',
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
       }),
       howToLicensesResourceData () {
         return resourceHubLinks.howToLicenses
@@ -39,7 +44,7 @@
     methods: {
       trackEvent (eventName) {
         if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: 'Teachers' })
+          window.tracker?.trackEvent(eventName, { category: this.getTrackCategory })
         }
       }
     }
@@ -58,6 +63,7 @@
         :icon="howToLicensesResourceData.icon"
         :label="howToLicensesResourceData.label"
         :link="howToLicensesResourceData.link"
+        :track-category="getTrackCategory"
         from="My Licenses"
       />
       <div class="side-bar-text">
@@ -65,6 +71,7 @@
       </div>
       <primary-button
         class="get-licenses-btn"
+        :inactive="displayOnly"
         @click="$emit('getLicenses')"
         @click.native="trackEvent('My Licenses: Get More Licenses Clicked')"
       >
@@ -78,6 +85,7 @@
           v-for="license in activeLicenses"
           :key="license._id"
           class="card col-md-2"
+          :display-only="displayOnly"
           :total="license.maxRedeemers"
           :used="(license.redeemers || []).length"
           :start-date="license.startDate"
@@ -94,6 +102,7 @@
           v-for="license in expiredLicenses"
           :key="license._id"
           class="card col-md-2"
+          :display-only="displayOnly"
           :total="license.maxRedeemers"
           :used="(license.redeemers || []).length"
           :start-date="license.startDate"

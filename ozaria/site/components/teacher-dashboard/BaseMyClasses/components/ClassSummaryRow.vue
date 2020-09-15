@@ -30,6 +30,10 @@
       archived: {
         type: Boolean,
         default: false
+      },
+      displayOnly: {
+        type: Boolean,
+        default: false
       }
     },
     methods: {
@@ -49,7 +53,7 @@
       class="flex-row"
     >
       <router-link
-        v-if="!archived"
+        v-if="!archived && !displayOnly"
         tag="a"
         :to="`/teachers/classes/${classId}`"
         class="flex-row clickable"
@@ -74,6 +78,7 @@
         />
       </div>
       <div
+        v-if="!displayOnly"
         class="btn-ellipse"
         @click="$emit('clickTeacherArchiveModalButton')"
       >

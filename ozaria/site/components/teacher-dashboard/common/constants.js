@@ -9,6 +9,12 @@ export const COMPONENT_NAMES = {
   // CURRICULUM_GUIDE: 'BaseCurriculumGuide'
 }
 
+export const PAGE_TITLES = {
+  [COMPONENT_NAMES.MY_CLASSES_ALL]: 'All Classes',
+  [COMPONENT_NAMES.MY_LICENSES]: 'My Licenses',
+  [COMPONENT_NAMES.RESOURCE_HUB]: 'Resource Hub'
+}
+
 export const resourceHubLinks = {
   dashboardTutorial: {
     icon: 'Video',

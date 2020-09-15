@@ -1,5 +1,28 @@
+<script>
+  export default Vue.extend({
+    props: {
+      inactive: {
+        type: Boolean,
+        default: false
+      }
+    },
+    methods: {
+      onClick () {
+        if (!this.inactive) {
+          this.$emit('click')
+        }
+      }
+    }
+  })
+</script>
+
 <template>
-  <button @click="$emit('click')"><slot /></button>
+  <button
+    :disabled="inactive"
+    @click="onClick"
+  >
+    <slot />
+  </button>
 </template>
 
 <style lang="scss" scoped>
@@ -21,6 +44,12 @@ button {
     background-color: $goldenlight;
     transition: background-color .35s;
     color: #ffffff;
+  }
+
+  &:disabled {
+    background: #ADADAD;
+    color: #000000;
+    cursor: default;
   }
 }
 </style>

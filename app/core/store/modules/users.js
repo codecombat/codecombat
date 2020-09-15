@@ -92,7 +92,11 @@ export default {
             commit('setUsers', [res])
           }
         })
-        .catch((e) => noty({ text: 'Fetch user failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
+        .catch((e) => {
+          console.error(`Fetch user failure ${e.message}`)
+          // HACK: Disabling this user notification whilst keeping it in the console.
+          // noty({ text: 'Fetch user failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 })
+        })
     }
   }
 }

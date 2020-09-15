@@ -174,6 +174,30 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
     .border-navy
       border-color: $navy
 
+    .dashboard-toggle
+      border-radius: 8px
+      margin: 8px 15px
+      border: 1px solid #FFFFFF
+      display: inline-flex
+      align-items: center
+      justify-content: center
+      .dashboard-button
+        padding: 6px 15px
+        margin: 0px
+        a
+          @include font-p-3-small-button-text-black
+          letter-spacing: 0.333333px
+          text-transform: uppercase
+          color: #FFFFFF
+          text-decoration: none
+      .active
+        border-radius: 8px
+        background: $moon
+        a
+          color: $pitch
+      .show-divider:not(:last-child)
+        border-right: 1px solid #FFFFFF
+
   // Reference: https://stackoverflow.com/a/25517025
   .vertical-align
     display: flex

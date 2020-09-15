@@ -1,20 +1,28 @@
-<style scoped>
-    * {
-        color: #065e73;
-    }
-    li {
-        display: inline;
-    }
-    li:not(:first-child):before {
-        color: #000;
-        content: " > ";
-    }
+<style lang="scss" scoped>
+@import "ozaria/site/styles/common/variables.scss";
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+li {
+  @include font-p-2-paragraph-medium-gray;
+  color: $twilight;
+  display: inline;
+  a {
+    text-decoration: underline;
+  }
+}
+li:not(:first-child):before {
+  content: " > ";
+  color: $twilight;
+  font-weight: bold;
+}
+li:last-child {
+  color: #6D8392;
+}
 </style>
 
 <template>
     <div class="breadcrumbs rtl-allowed">
         <li v-for="link in links">
-            <a v-if="link.href" :href="link.href">{{ link.i18n ? $t(link.i18n) : link.text }}</a>
+            <a v-if="link.href" :href="link.href" @click="$emit('click', link.text)">{{ link.i18n ? $t(link.i18n) : link.text }}</a>
             <span v-else-if="link.i18n">{{ $t(link.i18n) }}</span>
             <span v-else>{{ link.text }}</span>
         </li>

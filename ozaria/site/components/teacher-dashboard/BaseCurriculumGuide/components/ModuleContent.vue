@@ -26,7 +26,8 @@
         getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
         getContentDescription: 'baseCurriculumGuide/getContentDescription',
         getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
-        isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
+        isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign',
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
       }),
 
       courseName () {
@@ -79,7 +80,7 @@
     methods: {
       trackEvent (eventName) {
         if (eventName) {
-          window.tracker?.trackEvent(eventName, { category: 'Teachers', label: this.courseName })
+          window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
         }
       }
     }

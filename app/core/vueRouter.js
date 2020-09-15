@@ -1,11 +1,14 @@
 import VueRouter from 'vue-router'
 
-import SchoolAdminDashboard from 'app/views/school-administrator/SchoolAdministratorComponent'
-import SchoolAdminDashboardTeacherListView from 'app/views/school-administrator/teachers/SchoolAdminTeacherListView'
-import SchoolAdminTeacherView from 'app/views/school-administrator/dashboard/SchoolAdminDashboardTeacherView'
+// new DSA
+import BaseSchoolAdminDashboard from '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminDashboard/index.vue'
+import BaseMySchools from '../../ozaria/site/components/school-admin-dashboard/BaseMySchools/index.vue'
+import BaseSchoolAdminLicenses from '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminLicenses/index.vue'
 
-import TeacherClassView from 'app/views/courses/TeacherClassView.vue'
-import TeacherStudentView from 'app/views/teachers/classes/TeacherStudentView.vue'
+import BaseAdministeredTeacherAllClasses from '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherAllClasses/index.vue'
+import BaseAdministeredTeacherClassProgress from '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherClassProgress/index.vue'
+import BaseAdministeredTeacherClassProjects from '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherClassProjects/index.vue'
+import BaseAdministeredTeacherLicenses from '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherLicenses/index.vue'
 
 import PageCinematicEditor from '../../ozaria/site/components/cinematic/PageCinematicEditor'
 import BaseCinematicList from '../../ozaria/site/components/cinematic/PageCinematicEditor/BaseCinematicList'
@@ -72,12 +75,15 @@ export default function getVueRouter () {
         },
         {
           path: '/school-administrator',
-          component: SchoolAdminDashboard,
+          component: BaseSchoolAdminDashboard,
           children: [
-            { path: '', component: SchoolAdminDashboardTeacherListView },
-            { path: 'teacher/:teacherId', component: SchoolAdminTeacherView },
-            { path: 'teacher/:teacherId/classroom/:classroomId', component: TeacherClassView },
-            { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: TeacherStudentView }
+            { path: '', component: BaseMySchools },
+            { path: 'teacher/:teacherId', component: BaseAdministeredTeacherAllClasses, props: true },
+            { path: 'teacher/:teacherId/classes', component: BaseAdministeredTeacherAllClasses, props: true },
+            { path: 'teacher/:teacherId/classes/:classroomId', component: BaseAdministeredTeacherClassProgress, props: true },
+            { path: 'teacher/:teacherId/classes/:classroomId/projects', component: BaseAdministeredTeacherClassProjects, props: true },
+            { path: 'teacher/:teacherId/licenses/', component: BaseAdministeredTeacherLicenses, props: true },
+            { path: 'licenses', component: BaseSchoolAdminLicenses }
           ]
         },
         {

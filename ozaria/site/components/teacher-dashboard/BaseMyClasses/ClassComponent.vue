@@ -15,6 +15,10 @@
       chapterStats: {
         type: Array,
         required: true
+      },
+      displayOnly: {
+        type: Boolean,
+        default: false
       }
     }
   }
@@ -29,6 +33,7 @@
       :num-students="classroomStats.numberOfStudents"
       :date-created="classroomStats.classroomCreated"
       :archived="classroomStats.archived"
+      :display-only="displayOnly"
       @clickTeacherArchiveModalButton="$emit('clickTeacherArchiveModalButton')"
     />
     <class-chapter-summaries :chapter-progress="chapterStats" />
@@ -36,7 +41,5 @@
 </template>
 
 <style lang="scss" scoped>
-  .class-component {
-    margin: 28px 32px 0;
-  }
+
 </style>

@@ -1,9 +1,6 @@
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
   import { COMPONENT_NAMES } from '../common/constants.js'
-  import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
-  import TitleBar from '../common/TitleBar'
-  import LoadingBar from '../common/LoadingBar'
   import CapstoneMenuBar from './CapstoneMenuBar'
   import CapstoneDetailsContainer from './CapstoneDetailsContainer'
   import CapstoneSessionsContainer from './CapstoneSessionsContainer'
@@ -15,9 +12,6 @@
   export default {
     name: COMPONENT_NAMES.STUDENT_PROJECTS,
     components: {
-      'secondary-teacher-navigation': SecondaryTeacherNavigation,
-      'title-bar': TitleBar,
-      'loading-bar': LoadingBar,
       'capstone-menu-bar': CapstoneMenuBar,
       'capstone-details-container': CapstoneDetailsContainer,
       'capstone-sessions-container': CapstoneSessionsContainer
@@ -27,12 +21,14 @@
         type: String,
         default: '',
         required: true
+      },
+      teacherId: { // sent from DSA
+        type: String,
+        default: ''
       }
     },
     computed: {
       ...mapGetters({
-        loading: 'teacherDashboard/getLoadingState',
-        activeClassrooms: 'teacherDashboard/getActiveClassrooms',
         classroom: 'teacherDashboard/getCurrentClassroom',
         classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
         selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
@@ -65,7 +61,7 @@
     },
 
     mounted () {
-      this.setTeacherId(me.get('_id'))
+      this.setTeacherId(this.teacherId || me.get('_id'))
       this.setClassroomId(this.classroomId)
       this.fetchData({ componentName: this.$options.name, options: { data: projectionData, loadedEventName: 'Student Projects: Loaded' } })
     },
@@ -83,31 +79,13 @@
         setTeacherId: 'teacherDashboard/setTeacherId',
         setClassroomId: 'teacherDashboard/setClassroomId',
         setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom'
-      }),
-      onChangeCourse (courseId) {
-        this.setSelectedCourseId({ courseId: courseId })
-      }
+      })
     }
   }
 </script>
 
 <template>
   <div>
-    <secondary-teacher-navigation
-      :classrooms="activeClassrooms"
-    />
-    <title-bar
-      :title="classroom.name || ''"
-      :show-class-info="true"
-      :classroom="classroom"
-      :courses="classroomCourses"
-      :selected-course-id="selectedCourseId"
-      @change-course="onChangeCourse"
-    />
-    <loading-bar
-      :key="loading"
-      :loading="loading"
-    />
     <capstone-menu-bar
       :title="capstoneLevel.displayName"
       :course-name="selectedCourse.name"

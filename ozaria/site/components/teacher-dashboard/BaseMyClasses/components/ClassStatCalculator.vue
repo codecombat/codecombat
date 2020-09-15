@@ -12,6 +12,10 @@
       classroomState: {
         type: Object,
         required: true
+      },
+      displayOnly: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -127,6 +131,7 @@
   <ClassComponent
     :classroom-stats="classroomStatsFromClassroom"
     :chapter-stats="chapterStatsAdapter"
+    :display-only="displayOnly"
     @clickTeacherArchiveModalButton="$emit('clickTeacherArchiveModalButton')"
   />
 </template>

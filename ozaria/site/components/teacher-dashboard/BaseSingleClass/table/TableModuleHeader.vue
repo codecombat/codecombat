@@ -29,6 +29,11 @@
       classSummaryProgress: {
         type: Array,
         required: true
+      },
+
+      displayOnly: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -40,6 +45,14 @@
       cssVariables () {
         return {
           '--cols': this.listOfContent.length
+        }
+      },
+
+      lockIconUrl () {
+        if (this.displayOnly) {
+          return '/images/ozaria/teachers/dashboard/svg_icons/IconLock_Gray.svg'
+        } else {
+          return '/images/ozaria/teachers/dashboard/svg_icons/IconLock.svg'
         }
       }
     },
@@ -75,12 +88,13 @@
     <div class="title">
       <h3>{{ moduleHeading }}</h3>
       <v-popover
+        v-if="!displayOnly"
         placement="top"
         trigger="hover"
         popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
       >
         <!-- Triggers the tooltip -->
-        <img src="/images/ozaria/teachers/dashboard/svg_icons/IconLock.svg">
+        <img :src="lockIconUrl">
 
         <!-- The tooltip -->
         <template slot="popover">
@@ -90,6 +104,10 @@
           </div>
         </template>
       </v-popover>
+      <img
+        v-else
+        :src="lockIconUrl"
+      >
     </div>
     <div
       v-for="({ type, tooltipName, description, submitLock, removeLock, normalizedOriginal }, idx) of listOfContent"
@@ -118,8 +136,11 @@
         <template slot="popover">
           <div class="level-popover-locking">
             <h3 style="margin-bottom: 15px;">{{ tooltipName }}</h3>
-            <p>{{ description }}</p>
-            <div class="lock-btn-row">
+            <p style="margin-bottom: 15px;">{{ description }}</p>
+            <div
+              v-if="!displayOnly"
+              class="lock-btn-row"
+            >
               <lock-button @click="submitLock">
                 {{ $t('teacher_dashboard.lock') }}
               </lock-button>

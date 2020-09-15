@@ -233,6 +233,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classes: "Classes"
     term_of_service: "Terms of Service"
     privacy: "Privacy"
+    admin: "Admin"
+    teacher: "Teacher"
 
   modal:
     close: "Close"
@@ -1287,6 +1289,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     get_licenses: "Get Licenses"
     get_full_access_to_ozaria: "Get Full Access to Ozaria"
     unlock_all: "Unlock all the above plus all the teacher support you need"
+    unlock_all_dsa: "Unlock all the above plus all the support teachers need"
     comprehensive_dashboards: "Comprehensive teacher and administrator dashboards"
     lesson_plans_rubrics_guides: "Lesson Plans, Project Rubrics, Solution Guides, and more"
     dedicated_customer_success_manager: "A dedicated customer success manager"
@@ -1300,6 +1303,18 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     support_student_progress_desc: "Unlock formative and summative assessment data from Concept Checks, Levels, and Capstone Projects to support student progress."
     creative_projects: "Creative Projects"
     creative_projects_desc: "Inspire imagination and unleash student creativity with shareable capstone projects, like in Chapter 2 where students design their own storytelling game. "
+    looking_for_engaging: "Looking for engaging computer science curriculum?"
+    licenses_are_required: "Licenses are required for students to continue their journey beyond Chapter 1."
+    real_world_skills: "Real-World Skills"
+    real_world_skills_desc: "Students learn typed Python and JavaScript, the two most popular coding languages, and enhance their critical-thinking skills, creativity, and resilience to prepare them for any career."
+    personalized_learning: "Personalized Learning and Scaffolded Instruction"
+    personalized_learning_desc: "Students learn concepts at their own pace. Levels increase in difficulty while providing built-in hints to encourage persistence and grit."
+    flexible_curriculum: "Flexible Standards- Aligned Curriculum"
+    flexible_curriculum_desc: "100% CSTA-aligned curriculum that can easily be adapted to any schedule, scenario, or setting."
+    resources_to_support: "Resources to Support Teachers"
+    resources_to_support_desc: "Lesson plans, extension activities, curriculum guides, and more instructional resources designed with remote and hybrid settings in mind."
+    actionable_insights: "Actionable Insights for Educators"
+    actionable_insights_desc: "Empower educators with intuitive student progress and assessment data that makes differentiating instruction possible."
 
   special_offer:
     special_offer: "Special Offer"
@@ -3156,7 +3171,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     students_stat_description: 'Total students accounts for all students across all classrooms, regardless of whether they have licenses applied.'
     active_students_stat_description: 'Active students counts the number of students that have logged into CodeCombat in the last 60 days.'
     project_stat_description: 'Projects created counts the total number of Game and Web development projects that have been created.'
-    no_teachers: 'You are not administrating any teachers.'
+    no_teachers: 'You don’t have any schools tied to your account yet. Please contact your <strong>District Success Manager</strong> or <a href="mailto:schools@codecombat.com">schools@codecombat.com</a> to get your dashboard set up.' # {change}
 
   interactives:
     phenomenal_job: 'Phenomenal Job!'

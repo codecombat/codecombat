@@ -18,7 +18,8 @@
     },
     computed: {
       ...mapGetters({
-        selectedProgressKey: 'teacherDashboardPanel/selectedProgressKey'
+        selectedProgressKey: 'teacherDashboardPanel/selectedProgressKey',
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
       }),
 
       cols () {
@@ -68,6 +69,7 @@
         :click-state="selectedProgressKey && selectedProgressKey === selectedKey"
         :content-type="normalizedType"
         :isLocked="isLocked"
+        :track-category="getTrackCategory"
       />
     </div>
   </div>

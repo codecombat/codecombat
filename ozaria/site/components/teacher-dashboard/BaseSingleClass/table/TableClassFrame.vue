@@ -26,6 +26,10 @@
       modules: {
         type: Array,
         required: true
+      },
+      displayOnly: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -116,6 +120,7 @@
             :module-heading="displayName"
             :list-of-content="contentList"
             :class-summary-progress="classSummaryProgress"
+            :display-only="displayOnly"
 
             @lock="lockModule(moduleNum)"
             @unlock="unlockModule(moduleNum)"

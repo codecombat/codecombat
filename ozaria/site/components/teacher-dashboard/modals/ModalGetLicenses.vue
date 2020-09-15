@@ -5,11 +5,24 @@
   import BaseModalTeacherDashboard from './BaseModalTeacherDashboard'
   import api from 'core/api'
   import contact from 'core/contact'
+  import { mapGetters } from 'vuex'
 
   export default Vue.extend({
     components: {
       BaseModalTeacherDashboard,
       SecondaryButton
+    },
+    props: {
+      subtitle: {
+        type: String,
+        // default to DT text
+        default: 'Send us a message and our classroom success team will be in touch to help find the best solution for your students\' needs!'
+      },
+      emailMessage: {
+        type: String,
+        // default to DT text
+        default: 'Hi Ozaria! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 2 and on.'
+      }
     },
     mixins: [validationMixin],
     data: () => ({
@@ -38,6 +51,9 @@
       }
     },
     computed: {
+      ...mapGetters({
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
+      }),
       isFormValid () {
         return !this.$v.$invalid
       }
@@ -57,7 +73,7 @@
 
       this.email = me.get('email') || props.email
 
-      this.message = `Hi Ozaria! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 2 and on.
+      this.message = this.emailMessage + `
       
       Name of School: ${props.nces_name || props.organization || ''}
       Name of District: ${props.nces_district || props.district || ''}
@@ -72,7 +88,7 @@
       },
       async onClickSubmit () {
         if (this.isFormValid) {
-          window.tracker?.trackEvent('Get Licenses Modal: Submit Clicked', { category: 'Teachers' })
+          window.tracker?.trackEvent('Get Licenses Modal: Submit Clicked', { category: this.getTrackCategory })
           const sendObject = {
             country: me.get('country'),
             state: this.state,
@@ -86,8 +102,8 @@
             await contact.send({ data: sendObject })
             this.sendingInProgress = false
             window.location.href = '#license-request'
-            window.tracker?.trackEvent('Get Licenses Modal: Submit Success', { category: 'Teachers' })
-            noty({ text: 'Message sent!', type: 'success', layout: 'center', timeout: 2000 })
+            window.tracker?.trackEvent('Get Licenses Modal: Submit Success', { category: this.getTrackCategory })
+            noty({ text: 'Our team has received your request and will reach out to you shortly.', type: 'success', layout: 'center', timeout: 2000 })
             this.$emit('close')
           } catch (e) {
             this.sendingInProgress = false
@@ -105,7 +121,7 @@
     @close="closeModal"
   >
     <div class="style-ozaria teacher-form">
-      <span class="sub-title"> Send us a message and our classroom success team will be in touch to help find the best solution for your students' needs! </span>
+      <span class="sub-title"> {{ subtitle }} </span>
       <form
         class="form-container"
         @submit.prevent="onClickSubmit"
