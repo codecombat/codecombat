@@ -3158,3 +3158,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     pitch_body: "为保证 CodeCombat 的所有功能正常运行，建议使用 Chrome 浏览器进行学习。"
     download: "下载 CHROME 浏览器"
     ignore: "忽略"
+
+  admin:
+    license_type_full: "全课许可"
+    license_type_preset1: "CS1+CS2+GD1+WD1"
+    license_type_preset2: "CS1+CS2+CS3+CS4"
+    license_type_customize: "可选课程"

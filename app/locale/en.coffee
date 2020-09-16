@@ -3163,3 +3163,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     pitch_body: 'For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!'
     download: 'Download Chrome'
     ignore: 'Ignore'
+
+  admin:
+    license_type_full: 'Full Courses'
+    license_type_preset1: 'CS1+CS2+GD1+WD1'
+    license_type_preset2: 'CS1+CS2+CS3+CS4'
+    license_type_customize: 'Customize Courses'
