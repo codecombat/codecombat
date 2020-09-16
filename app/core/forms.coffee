@@ -11,7 +11,7 @@ module.exports.formToObject = ($el, options) ->
       if input.is(':checked')
         obj[name].push(input.val())
     else if input.attr('type') is 'radio'
-      continue unless input.is('checked')
+      continue unless input.is(':checked')
       obj[name] = input.val()
     else
       value = input.val() or ''
