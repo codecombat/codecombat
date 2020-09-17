@@ -19,6 +19,7 @@ module.exports = class ActivateLicensesModal extends ModalView
     'change select.classroom-select': 'replaceStudentList'
     'submit form': 'onSubmitForm'
     'click #get-more-licenses-btn': 'onClickGetMoreLicensesButton'
+    'click #selectPrepaidType .radio': 'onSelectPrepaidType'
 
   getInitialState: (options) ->
     selectedUsers = options.selectedUsers or options.users
@@ -38,6 +39,8 @@ module.exports = class ActivateLicensesModal extends ModalView
     @prepaids.comparator = 'endDate' # use prepaids in order of expiration
     @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @classrooms = new Classrooms()
+    @selectedPrepaidType = null
+    @prepaidByGroup = {}
     @supermodel.trackRequest @classrooms.fetchMine({
       data: {archived: false}
       success: =>
@@ -55,13 +58,23 @@ module.exports = class ActivateLicensesModal extends ModalView
     @listenTo @users, 'change add remove reset', ->
       @updateVisibleSelectedUsers()
       @render()
-    @listenTo @prepaids, 'sync add remove', ->
-      @state.set {
-        unusedEnrollments: @prepaids.totalMaxRedeemers() - @prepaids.totalRedeemers()
-      }
+    @listenTo @prepaids, 'sync add remove reset', ->
+        @prepaidByGroup = {}
+        @prepaids.each (prepaid) => 
+          type = prepaid.courseType()
+          @prepaidByGroup[type] = @prepaidByGroup?[type] || 0
+          @prepaidByGroup[type] += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0)
+      # @state.set {
+      #   unusedEnrollments: @prepaids.totalMaxRedeemers() - @prepaids.totalRedeemers()
+      # }
       
   onLoaded: ->
     @prepaids.reset(@prepaids.filter((prepaid) -> prepaid.status() is 'available'))
+    # @state.set {
+    #     prepaidTypes: @prepaids.groupBy((p) -> p.courseType())
+    # }
+    @selectedPrepaidType = Object.keys(@prepaidByGroup)[0]
+    # @renderSelectors('#selectPrepaidType')
     super()
   
   afterRender: ->
@@ -127,7 +140,7 @@ module.exports = class ActivateLicensesModal extends ModalView
       return
 
     user = usersToRedeem.first()
-    prepaid = @prepaids.find((prepaid) -> prepaid.status() is 'available')
+    prepaid = @prepaids.find((prepaid) => prepaid.status() is 'available' and prepaid.courseType() == @selectedPrepaidType)
     prepaid.redeem(user, {
       success: (prepaid) =>
         user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))
@@ -144,6 +157,13 @@ module.exports = class ActivateLicensesModal extends ModalView
 
   finishRedeemUsers: ->
     @trigger 'redeem-users', @state.get('selectedUsers')
+
+  onSelectPrepaidType: (e) ->
+    @selectedPrepaidType = $(e.target).parent().children('input').val()
+    @state.set {
+      unusedEnrollments: @prepaidByGroup[@selectedPrepaidType]
+    }
+    @renderSelectors("#license-type-select")
 
   onClickGetMoreLicensesButton: ->
     @hide?() # In case this is opened in /teachers/licenses itself, otherwise the button does nothing

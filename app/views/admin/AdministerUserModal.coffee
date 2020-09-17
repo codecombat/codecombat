@@ -143,7 +143,7 @@ module.exports = class AdministerUserModal extends ModalView
     attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
     attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
 
-    attrs.type = if attrs.licenseType == 'all' then 'course' else 'customize_license'
+    # attrs.type = if attrs.licenseType == 'all' then 'course' else 'customized_license'
     switch attrs.licenseType
       when 'preset1' then attrs.includedCourseIDs = PRESET_1_COURSE_IDS
       when 'preset2' then attrs.includedCourseIDs = PRESET_2_COURSE_IDS
@@ -151,6 +151,7 @@ module.exports = class AdministerUserModal extends ModalView
     delete attrs.licenseType
 
     _.extend(attrs, {
+      type: 'course'
       creator: @user.id
       properties:
         adminAdded: me.id

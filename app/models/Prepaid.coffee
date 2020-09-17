@@ -1,5 +1,6 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/prepaid.schema'
+utils = require '../core/utils'
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
@@ -42,6 +43,16 @@ module.exports = class Prepaid extends CocoModel
       return 'empty'
       
     return 'available'
+
+  courseType: ->
+    type = @get('type')
+    if type == 'starter_license'
+      return 'starter license'
+    includedCourseIDs = @get('includedCourseIDs')
+    if includedCourseIDs
+      return 'customized license with '+ (includedCourseIDs.map (id) -> utils.courseAcronyms[id]).join('+')
+    else
+      return 'full license'
 
   redeem: (user, options={}) ->
     options.url = _.result(@, 'url')+'/redeemers'
