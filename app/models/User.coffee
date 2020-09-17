@@ -373,6 +373,14 @@ module.exports = class User extends CocoModel
     # NOTE: Default type is 'course' if no type is marked on the user's copy
     return @get('coursePrepaid')?.type or 'course'
 
+  prepaidFakeType: ->
+    return undefined unless @get('coursePrepaid') or @get('coursePrepaidID')
+    type = @get('coursePrepaid')?.type
+    courses = @get('coursePrepaid')?.includedCourseIDs
+    if type == 'course' and Array.isArray(courses)
+      return (courses.map (id) -> utils.courseAcronyms[id]).join('+')
+    return type or 'course'
+    
   prepaidIncludesCourse: (course) ->
     return false unless @get('coursePrepaid') or @get('coursePrepaidID')
     includedCourseIDs = @get('coursePrepaid')?.includedCourseIDs
