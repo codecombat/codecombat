@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     creativity_rigor_blurb3: "O currículo individualizado e alinhado aos padrões da CodeCombat torna o ensino da ciência da computação possível para todos. O CodeCombat equipa os professores com treinamento, recursos instrucionais e suporte dedicado para se sentir confiante e bem-sucedido em sala de aula."
     featured_partners_title1: "Em destaque"
     featured_partners_title2: "Prêmios e Parceiros"
-    featured_partners_blurb1: "Provedor aprovado do CollegeBoard"
+    featured_partners_blurb1: "Provedor aprovado do CollegeBoard" # {change}
     featured_partners_blurb2: "Melhor ferramenta de criatividade para estudantes"
     featured_partners_blurb3: "Escolha superior para aprender"
     featured_partners_blurb4: "Parceiro oficial Code.org"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     for_leaders_subtitle2: "Currículo Completo de Codificação"
     for_leaders_subblurb2: "Um currículo alinhado a padrões com recursos instrucionais e desenvolvimento profissional para capacitar qualquer professor a ensinar ciência da computação."
     for_leaders_subtitle3: "Casos de uso flexíveis"
-    for_leaders_subblurb3: "Se você quer construir uma classe eletiva de codificação da Escola Secundária, uma via de CTE, ou uma classe de Princípios da Ciência da Computação AP, o CodeCombat é adaptado para atender às suas necessidades."
+    for_leaders_subblurb3: "Se você quer construir uma classe eletiva de codificação da Escola Secundária, uma via de CTE, ou uma classe de Princípios da Ciência da Computação AP, o CodeCombat é adaptado para atender às suas necessidades." # {change}
     for_leaders_subtitle4: "Habilidades do mundo real"
     for_leaders_subblurb4: "Os alunos constroem a coragem e desenvolvem uma mentalidade de crescimento através de desafios de codificação que os preparam para os trabalhos de computação aberta de 500K +."
     for_teachers_title: "Para Professores"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     request_licenses: "Contate nossos especialistas para detahes."
     compete: "Concorrer!" # Course details page
     spectate: "Assistir" # Ladder page
+#    simulate_all: "Simulate All"
     players: "Jogadores" # Hover over a level on /play
     hours_played: "Horas jogadas" # Hover over a level on /play
     items: "Itens" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     eu_confirmation_place_of_processing: "Sabe mais possíveis riscos"
     eu_confirmation_student: "Se você não tem certeza, pergunte ao seu professor."
     eu_confirmation_individual: "Se você não deseja que armazenemos seus dados em servidores dos Estados Unidos, você sempre poderá jogar anônimamente sem salvar seu código"
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Recuperar Conta"
@@ -1839,6 +1843,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     teacher_getting_started_desc: "Novo no CodeCombat? Faça o download deste Guia de primeiros passos do professor para configurar sua conta, criar sua primeira turma e convidar os alunos para o primeiro curso."
     student_getting_started: "Guia Rápido do Aluno"
     student_getting_started_desc: "Você pode distribuir este guia para seus alunos antes de iniciar o CodeCombat para que eles possam se familiarizar com o editor de código. Este guia pode ser usado para aulas de Python e JavaScript."
+#    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "Princípios de Ciências da Computação"
     ap_cs_principles_desc: "O Principios de Ciências da Computação dá aos alunos uma ampla introdução ao poder, impacto e possibilidades da Ciência da Computação. O curso enfatiza o pensamento computacional e a resolução de problemas, ao mesmo tempo em que ensina os fundamentos da programação."
     cs1: "Introdução a Ciência da Computação"
@@ -3061,6 +3066,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"

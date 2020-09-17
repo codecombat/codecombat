@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     request_licenses: "Neem contact met ons op voor meer informatie."
     compete: "Compleet!" # Course details page
     spectate: "Toeschouwen" # Ladder page
+#    simulate_all: "Simulate All"
     players: "Spelers" # Hover over a level on /play
     hours_played: "Speeltijd" # Hover over a level on /play
     items: "Items" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     eu_confirmation_place_of_processing: "Lees meer over mogelijke risico's."
     eu_confirmation_student: "Als je het niet zeker weet, vraag het dan aan je leraar."
     eu_confirmation_individual: "Als je niet wilt dat we je data op US servers bewaren, kun je altijd anoniem spelen zonder je code te bewaren."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -1129,9 +1133,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
+    community_title: "...en onze open-source gemeenschap"
     bryukh_title: "Speldesigner" # {change}
     bryukh_blurb: "Maakt puzzels"
-    community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
     community_description_link_2: "gemeenschapsproject"
@@ -1839,6 +1843,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     teacher_getting_started_desc: "Nieuw bij CodeCombat? Download de Leraar Startgids om een account op te zetten, een klas te creëren en leerlingen uit te nodigen voor hun eerste cursus."
     student_getting_started: "Leerlingen Startgids"
     student_getting_started_desc: "Leerlingen kunnen deze gids bekijken voordat ze met CodeCombat beginnen zodat ze alvast vertrouwd raken met de code editor. Deze gids kan gebruikt worden in Python en JavaScript klassen."
+#    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "AP Computerwetenschap Principes"
     ap_cs_principles_desc: "AP Computerwetenschap Principes geven leerlingen een brede introductie tot de kracht,impact en mogelijkheden van de Computerwetenschap. De cursus benadrukt 'computational thinking' and probleemoplossend vermogen terwijl ook de basis van het programmeren wordt geleerd."
     cs1: "Computer Science introductie"
@@ -3061,6 +3066,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
   parent_modal:
     refer_teacher: "Verwijs de leraar door"

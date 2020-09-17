@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -169,7 +169,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   nav:
 #    educators: "Educators"
     follow_us: "Ikuti Kami"
-    general: "Utama" #General menu
+    general: "Utama"
     map: "Peta"
     play: "Tingkatan" # The top nav bar entry where players choose which levels to play
     community: "Komunitas"
@@ -210,6 +210,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     apcsp: "Fundamental AP CS"
     parent: "Orang Tua"
     browser_recommendation: "Untuk pengalaman yang lebih baik, kami merekomendasikan menggunakan browser chrome terbaru. Download browser disini"
+
   modal:
     close: "Tutup"
     okay: "Baik"
@@ -245,6 +246,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     request_licenses: "Hubungi spesialis sekolah kami untuk rinciannya"
     compete: "Bertanding!" # Course details page
     spectate: "Tonton" # Ladder page
+#    simulate_all: "Simulate All"
     players: "pemain" # Hover over a level on /play
     hours_played: "jam bermain" # Hover over a level on /play
     items: "Barang" # Tooltip on item shop button from /play
@@ -433,6 +435,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Pulihkan Akun"
@@ -1838,6 +1843,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teacher_getting_started_desc: "Baru di CodeCombat? Unduh Panduan Guru untuk Memulai ini untuk mempersiapkan akunmu, membuat kelas pertamamu, dan mengundang siswa untuk kursus pertama."
     student_getting_started: "Panduan Memulai Cepat Siswa"
     student_getting_started_desc: "Kamu dapat membagikan panduan ini kepada siswamu sebelum memulai CodeCombat supaya mereka dapat membiasakan diri mereka dengan editor kode. Panduan ini dapat digunakan baik untuk kelas Python dan JavaScript."
+#    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "Kepala Sekolah Ilmu Komputer AP"
     ap_cs_principles_desc: "Kepala Sekolah Ilmu Komputer AP memberikan siswa pengenalan luas mengenai kekuatan, pengaruh, dan kemungkinan dalam Ilmu Komputer. Kursus menekankan pemikiran komputasional dan pemecahan masalah sambil mengajar dasar pemrograman."
     cs1: "Pengenalan Ilmu Komputer"
@@ -3060,6 +3066,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"

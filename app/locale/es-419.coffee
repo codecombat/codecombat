@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     creativity_rigor_blurb3: "El plan de estudios de CodeCombat, a ritmo propio y alineado con los estándares, hace posible la enseñanza de Ciencias de la Computación para todos. CodeCombat equipa a los maestros con capacitación, recursos de instrucción y apoyo dedicado para sentirse seguros y exitosos en el aula."
     featured_partners_title1: "Presentado en"
     featured_partners_title2: "Premios y socios"
-    featured_partners_blurb1: "Proveedor respaldado por CollegeBoard"
+    featured_partners_blurb1: "Proveedor respaldado por CollegeBoard" # {change}
     featured_partners_blurb2: "Mejor herramienta de creatividad para estudiantes"
     featured_partners_blurb3: "La mejor opción para aprender"
     featured_partners_blurb4: "Socio oficial de Code.org"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     for_leaders_subtitle2: "Completo plan de estudio de programación"
     for_leaders_subblurb2: "Un currículo alineado con los estándares con recursos de instrucción y desarrollo profesional para permitir que cualquier maestro enseñe Ciencias de la Computación."
     for_leaders_subtitle3: "Casos de uso flexibles"
-    for_leaders_subblurb3: "Ya sea que desee crear una clase electiva de programación de escuela intermedia, una ruta CTE o una clase de Principios de Ciencias de la Computación, CodeCombat se adapta a sus necesidades."
+    for_leaders_subblurb3: "Ya sea que desee crear una clase electiva de programación de escuela intermedia, una ruta CTE o una clase de Principios de Ciencias de la Computación, CodeCombat se adapta a sus necesidades." # {change}
     for_leaders_subtitle4: "Habilidades del mundo real"
     for_leaders_subblurb4: "Los estudiantes construyen y desarrollan una mentalidad de crecimiento a través de los desafíos de programación que los preparan para los más de 500k trabajos informáticos abiertos."
     for_teachers_title: "Para maestros"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     request_licenses: "Contacta a nuestros especialistas escolares para más detalles."
     compete: "¡Competir!" # Course details page
     spectate: "Observar" # Ladder page
+#    simulate_all: "Simulate All"
     players: "Jugadores" # Hover over a level on /play
     hours_played: "horas jugadas" # Hover over a level on /play
     items: "Objetos" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     eu_confirmation_place_of_processing: "Aprender más sobre los posibles riesgos"
     eu_confirmation_student: "Si no estás seguro, pregúntale a tu maestro."
     eu_confirmation_individual: "Si no deseas que almacenemos tus datos en servidores de EE. UU., Siempre puedes seguir jugando de forma anónima sin guardar tu código."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "recuperar cuenta"
@@ -1839,6 +1843,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    standardized_curricula: "Standardized Curricula"
 #    ap_cs_principles: "AP Computer Science Principles"
 #    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
 #    cs1: "Introduction to Computer Science"
@@ -3061,6 +3066,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
