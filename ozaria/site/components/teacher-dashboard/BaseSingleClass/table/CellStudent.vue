@@ -37,6 +37,7 @@
         @change="$emit('change')"
       >
       <p
+        :title="studentName"
         @click="() => openModalEditStudent(studentId)"
       >
         {{ studentName }}
@@ -74,8 +75,9 @@
       color: #476fb1;
 
       max-width: 125px;
-      text-overflow: ellipsis;
       overflow-x: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 
