@@ -434,6 +434,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     eu_confirmation_place_of_processing: "Lees meer over mogelijke risico's."
     eu_confirmation_student: "Als je het niet zeker weet, vraag het dan aan je leraar."
     eu_confirmation_individual: "Als je niet wilt dat we je data op US servers bewaren, kun je altijd anoniem spelen zonder je code te bewaren."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -1129,9 +1132,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
+    community_title: "...en onze open-source gemeenschap"
     bryukh_title: "Speldesigner" # {change}
     bryukh_blurb: "Maakt puzzels"
-    community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
     community_description_link_2: "gemeenschapsproject"

@@ -434,6 +434,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Obnov účet"
@@ -1676,7 +1679,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    complete_solution: "Complete Solution"
 #    course_not_started: "Student has not started this course yet."
     appreciation_week_blurb1: "V <strong>Týždni ocenenia učiteľov 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Appreciation Week</strong>\", and include:"
-
 #    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
 #    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
 #    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"

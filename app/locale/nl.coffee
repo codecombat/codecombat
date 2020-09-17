@@ -434,6 +434,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     eu_confirmation_place_of_processing: "Lees meer over mogelijke risico's."
     eu_confirmation_student: "Als je het niet zeker weet, vraag het dan aan je leraar."
     eu_confirmation_individual: "Als je niet wilt dat we je data op US servers bewaren, kun je altijd anoniem spelen zonder je code te bewaren."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -1660,7 +1663,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
     ask_next_course: "Wil je meer spelen? Vraag je docent om toegang tot de volgende cursus."
-#    set_start_locked_level: "Set start locked level"
+#    set_start_locked_level: "Assign up to level"
     no_level_limit: "Geen limiet"
 
   project_gallery:

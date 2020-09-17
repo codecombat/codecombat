@@ -433,6 +433,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     eu_confirmation_place_of_processing: "Yrnea zber nobhg gur cbffvoyr evfxf"
     eu_confirmation_student: "Vs lbh ner abg fher, nfx lbhe grnpure."
     eu_confirmation_individual: "Vs lbh qb abg jnag hf gb fgber lbhe qngn ba HF freiref, lbh pna nyjnlf xrrc cynlvat nabalzbhfyl jvgubhg fnivat lbhe pbqr."
+    password_requirements: "8 gb 64 punenpgref jvgu ab ercrngvat"
+    invalid: "Vainyvq"
+    invalid_password: "Vainyvq cnffjbeq"
 
   recover:
     recover_account_title: "Erpbire Nppbhag"

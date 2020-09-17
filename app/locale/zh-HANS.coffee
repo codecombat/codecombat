@@ -435,6 +435,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     eu_confirmation_place_of_processing: "获取更多相关信息"
     eu_confirmation_student: "如果你确定，询问你的老师"
     eu_confirmation_individual: "如果不愿让我们存储你的数据，你可以一直匿名玩游戏（但不能保存你的代码和进度）"
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "找回账户"
