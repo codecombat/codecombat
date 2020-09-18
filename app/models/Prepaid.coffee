@@ -63,10 +63,8 @@ module.exports = class Prepaid extends CocoModel
 
   includesCourse: (course) ->
     courseID = course.get?('name') or course
-    if @get('type') is 'starter_license'
-      return courseID in (@get('includedCourseIDs') ? [])
-    else
-      return true
+    # no includedCourseIDs means full-license, so always return true
+    return courseID in (@get('includedCourseIDs') ? [ courseID ])
 
   revoke: (user, options={}) ->
     options.url = _.result(@, 'url')+'/redeemers'
