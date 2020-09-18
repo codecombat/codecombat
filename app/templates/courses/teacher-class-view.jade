@@ -446,7 +446,7 @@ mixin enrollmentStatusTab
             if status !== 'enrolled' && me.canManageLicensesViaUI() && !state.get('readOnly')
               button.enroll-student-button.btn.btn-navy(data-i18n="teacher.apply_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
             else
-              - var prepaidType = student.prepaidFakeType()
+              - var prepaidType = student.prepaidType('includeCourseIDs')
               if prepaidType === 'course'
                 span(data-i18n="teacher.full_license")
               else if prepaidType === 'starter_license'

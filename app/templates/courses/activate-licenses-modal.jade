@@ -9,7 +9,6 @@ block modal-header-content
 block modal-body-content
   - var numToEnroll = state.get('visibleSelectedUsers').length
   - var unusedEnrollments = view.prepaidByGroup[view.selectedPrepaidType]
-  -// view.prepaids.totalMaxRedeemers() - view.prepaids.totalRedeemers()
   - var tooManySelected = numToEnroll > unusedEnrollments
   - var noneSelected = numToEnroll == 0
   
@@ -59,7 +58,6 @@ block modal-body-content
       span(data-i18n="inventory.available_item")
     #selectPrepaidType.well.form-group
       - var prepaids = view.prepaidByGroup
-      - console.log(prepaids)
       each value, key in prepaids
         - var selected = view.selectedPrepaidType == key
         .radio.prepaid-type-line

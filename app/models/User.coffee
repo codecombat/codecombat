@@ -367,18 +367,15 @@ module.exports = class User extends CocoModel
     return 'enrolled' unless coursePrepaid.endDate
     return if coursePrepaid.endDate > new Date().toISOString() then 'enrolled' else 'expired'
 
-  prepaidType: ->
+  prepaidType: (includeCourseIDs) =>
     # TODO: remove once legacy prepaidIDs are migrated to objects
     return undefined unless @get('coursePrepaid') or @get('coursePrepaidID')
-    # NOTE: Default type is 'course' if no type is marked on the user's copy
-    return @get('coursePrepaid')?.type or 'course'
-
-  prepaidFakeType: ->
-    return undefined unless @get('coursePrepaid') or @get('coursePrepaidID')
     type = @get('coursePrepaid')?.type
-    courses = @get('coursePrepaid')?.includedCourseIDs
-    if type == 'course' and Array.isArray(courses)
-      return (courses.map (id) -> utils.courseAcronyms[id]).join('+')
+    if includeCourseIDs
+      courses = @get('coursePrepaid')?.includedCourseIDs
+      if type == 'course' and Array.isArray(courses)
+        return (courses.map (id) -> utils.courseAcronyms[id]).join('+')
+    # NOTE: Default type is 'course' if no type is marked on the user's copy
     return type or 'course'
     
   prepaidIncludesCourse: (course) ->

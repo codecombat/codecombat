@@ -44,15 +44,15 @@ module.exports = class Prepaid extends CocoModel
       
     return 'available'
 
-  courseType: ->
+  typeDescription: ->
     type = @get('type')
     if type == 'starter_license'
-      return 'starter license'
+      return 'Starter License'
     includedCourseIDs = @get('includedCourseIDs')
     if includedCourseIDs
-      return 'customized license with '+ (includedCourseIDs.map (id) -> utils.courseAcronyms[id]).join('+')
+      return 'Customized License with '+ (includedCourseIDs.map (id) -> utils.courseAcronyms[id]).join('+')
     else
-      return 'full license'
+      return 'Full License'
 
   redeem: (user, options={}) ->
     options.url = _.result(@, 'url')+'/redeemers'

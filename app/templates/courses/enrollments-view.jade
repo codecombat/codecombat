@@ -109,7 +109,7 @@ mixin prepaidCard(prepaid, className)
       div.rtl-allowed(data-i18n="teacher.full_license")
     div.includedCourses
       each id in (includedCourseIDs || [])
-        i.span=view.utils.courseAcronyms[id]
+        i.course-acronym=view.utils.courseAcronyms[id]
     div.m-t-1.rtl-allowed(dir="auto")
       i.small-details
         if prepaid.usedSpots() === 1

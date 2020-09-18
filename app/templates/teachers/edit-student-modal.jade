@@ -8,7 +8,7 @@ block modal-header-content
 block modal-body-content
 
   - var status = view.user.prepaidStatus()
-  - var prepaidType = view.user.prepaidFakeType()
+  - var prepaidType = view.user.prepaidType('includeCourseIDs')
 
   .text-center
     .license-details
