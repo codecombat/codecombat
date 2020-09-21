@@ -3076,8 +3076,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
     send: "Send Email"
 
-  hoc_2018:
-    banner: "Welcome to Hour of Code 2019!"
+  hoc:
+    banner: "Welcome to Hour of Code 2020!"
     page_heading: "Your students will learn to code by building their own game!"
     step_1: "Step 1: Watch Video Overview"
     step_2: "Step 2: Try it Yourself"
@@ -3102,17 +3102,17 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     point4: "✓ Project-based courses"
     point5: "✓ Student tracking"
     point6: "✓ Full lesson plans"
-    title: "HOUR OF CODE 2019"
+    title: "HOUR OF CODE 2020"
     acronym: "HOC"
 
-  hoc_2018_interstitial:
-    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+  hoc_interstitial:
+    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
     educator: "I'm an educator"
     show_resources: "Show me teacher resources!"
     student: "I'm a student"
     ready_to_code: "I'm ready to code!"
 
-  hoc_2018_completion:
+  hoc_completion:
     congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
     send: "Send your Hour of Code game to friends and family!"
     copy: "Copy URL"

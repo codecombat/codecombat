@@ -3072,7 +3072,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     custom_message: "我刚刚找到了CodeCombat，我想它对你的教室来说是个很棒的程序!它是一个符合标准课程的计算机科学学习平台。计算机知识是非常重要的，我认为这将是一个让学生学习编码的好方法。"
     send: "发送邮件"
 
-  hoc_2018:
+  hoc:
 #    banner: "Welcome to Hour of Code 2019!"
     page_heading: "教你的学生如何建立自己的街机游戏!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
@@ -3101,14 +3101,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
-#  hoc_2018_interstitial:
+#  hoc_interstitial:
 #    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
 #    ready_to_code: "I'm ready to code!"
 
-#  hoc_2018_completion:
+#  hoc_completion:
 #    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
 #    send: "Send your Hour of Code game to friends and family!"
 #    copy: "Copy URL"

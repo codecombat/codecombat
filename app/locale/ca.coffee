@@ -3071,7 +3071,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     custom_message: "Acabo de trobar CodeCombat i vaig pensar que seria un gran programa per a la vostra aula! És una plataforma d'aprenentatge d'informàtica amb un pla d'estudis amb estàndards.\n\nL'alfabetització informàtica és tan important i crec que aquesta seria una gran manera d'aconseguir que els estudiants es dediquin a aprendre a codificar."
     send: "E-mail enviat"
 
-  hoc_2018:
+  hoc:
 #    banner: "Welcome to Hour of Code 2019!"
     page_heading: "Ensenya als teus alumnes com construir el seu propi joc d'arcade!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
@@ -3100,14 +3100,14 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
-#  hoc_2018_interstitial:
+#  hoc_interstitial:
 #    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
 #    ready_to_code: "I'm ready to code!"
 
-#  hoc_2018_completion:
+#  hoc_completion:
 #    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
 #    send: "Send your Hour of Code game to friends and family!"
 #    copy: "Copy URL"

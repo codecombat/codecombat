@@ -1,87 +1,87 @@
 <template lang="pug">
-  #hoc-2018-page
+  #hoc-page
     .hoc-header
-      h4(data-i18n="hoc_2018.banner")
+      h4(data-i18n="hoc.banner")
 
     .container
 
       .row
-        h1.page-heading(data-i18n="hoc_2018.page_heading")
+        h1.page-heading(data-i18n="hoc.page_heading")
 
       .row.get-started
         .col-md-4
-          h4.bold-header(data-i18n="hoc_2018.step_1")
+          h4.bold-header(data-i18n="hoc.step_1")
           <iframe src="https://www.youtube.com/embed/k965LUC7oww" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         .col-md-4
-          h4.bold-header(data-i18n="hoc_2018.step_2")
+          h4.bold-header(data-i18n="hoc.step_2")
           img(src='/images/pages/teachers/hour-of-code/code_play_share.png')
         .col-md-4
-          h4.bold-header(data-i18n="hoc_2018.step_3")
+          h4.bold-header(data-i18n="hoc.step_3")
           .glyphicon.glyphicon-download-alt.download-icon
 
       .row.get-started
         .col-md-4
         .col-md-4
-          a.btn.btn-primary.btn-lg(href="/play/hoc-2018" data-i18n="hoc_2018.try_activity")
+          a.btn.btn-primary.btn-lg(href="/play/hoc-2020" data-i18n="hoc.try_activity")
         .col-md-4
-          a.btn.btn-primary.btn-lg(href="http://files.codecombat.com/docs/resources/hourofcode/HourofCodeCodeCombatLessonPlan2018.pdf" target="_blank" data-i18n="hoc_2018.download_pdf")
+          a.btn.btn-primary.btn-lg(href="http://files.codecombat.com/docs/resources/hourofcode/HourofCodeCodeCombatLessonPlan2020.pdf" target="_blank" data-i18n="hoc.download_pdf")
 
       .row
         br
-        h1.page-heading(data-i18n="hoc_2018.teacher_signup_heading")
-        h4(data-i18n="hoc_2018.teacher_signup_blurb")
+        h1.page-heading(data-i18n="hoc.teacher_signup_heading")
+        h4(data-i18n="hoc.teacher_signup_blurb")
         div
           div.get-cs1-container
-            h6(data-i18n="hoc_2018.teacher_signup_input_blurb")
+            h6(data-i18n="hoc.teacher_signup_input_blurb")
             div
-              input.teacher-email-input(type="text" v-model="teacherEmail" data-i18n="[placeholder]hoc_2018.teacher_signup_input_placeholder")
+              input.teacher-email-input(type="text" v-model="teacherEmail" data-i18n="[placeholder]hoc.teacher_signup_input_placeholder")
               button.btn.btn-primary.btn-md.get-cs1-btn(v-on:click="onGetCS1Free(teacherEmail)")
-                span(data-i18n="hoc_2018.teacher_signup_input_button")
+                span(data-i18n="hoc.teacher_signup_input_button")
 
       .row
         br
-        h3(data-i18n="hoc_2018.activities_header")
+        h3(data-i18n="hoc.activities_header")
 
       .row.overline.activities-row
         .col-md-4
           img(src='/images/pages/teachers/hour-of-code/escape_the_dungeon.png')
-          h6(data-i18n="hoc_2018.activity_label_1")
+          h6(data-i18n="hoc.activity_label_1")
           div
-            a.btn.btn-primary.btn-md(href="/play/dungeon?hour_of_code=true" data-i18n="hoc_2018.try_activity")
+            a.btn.btn-primary.btn-md(href="/play/dungeon?hour_of_code=true" data-i18n="hoc.try_activity")
           div
-            a.btn.btn-primary.btn-md(href="/teachers/resources/hoc" data-i18n="hoc_2018.activity_button_1")
+            a.btn.btn-primary.btn-md(href="/teachers/resources/hoc" data-i18n="hoc.activity_button_1")
 
         .col-md-4
           img(src='/images/pages/teachers/hour-of-code/beginner_buildagame.png')
-          h6(data-i18n="hoc_2018.activity_label_2")
-          a.btn.btn-primary.btn-md(href="/play/game-dev-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
+          h6(data-i18n="hoc.activity_label_2")
+          a.btn.btn-primary.btn-md(href="/play/game-dev-hoc?hour_of_code=true" data-i18n="hoc.try_activity")
 
         .col-md-4
           img(src='/images/pages/teachers/hour-of-code/advanced_buildagame.png')
-          h6(data-i18n="hoc_2018.activity_label_3")
-          a.btn.btn-primary.btn-md(href="/play/game-dev-hoc-2?hour_of_code=true" data-i18n="hoc_2018.try_activity")
+          h6(data-i18n="hoc.activity_label_3")
+          a.btn.btn-primary.btn-md(href="/play/game-dev-hoc-2?hour_of_code=true" data-i18n="hoc.try_activity")
 
       .row
         br
-        h3(data-i18n="hoc_2018.about")
+        h3(data-i18n="hoc.about")
 
       .row.overline
         .col-md-1
         .col-md-4
           img(src='/images/pages/teachers/hour-of-code/about_codecombat.png')
         .col-md-6.text-left
-          p(data-i18n="hoc_2018.about_copy")
+          p(data-i18n="hoc.about_copy")
           .row
             .col-md-6.bullet-points
               ul
-                li(data-i18n="hoc_2018.point1")
-                li(data-i18n="hoc_2018.point2")
-                li(data-i18n="hoc_2018.point3")
+                li(data-i18n="hoc.point1")
+                li(data-i18n="hoc.point2")
+                li(data-i18n="hoc.point3")
             .col-md-6.bullet-points
               ul
-                li(data-i18n="hoc_2018.point4")
-                li(data-i18n="hoc_2018.point5")
-                li(data-i18n="hoc_2018.point6")
+                li(data-i18n="hoc.point4")
+                li(data-i18n="hoc.point5")
+                li(data-i18n="hoc.point6")
         .col-md-1
 
       .row
@@ -118,7 +118,7 @@ module.exports = Vue.extend({
 <style lang="sass">
 @import "../../styles/style-flat-variables"
 
-#hoc-2018-page
+#hoc-page
   text-align: center
   .hoc-header
     background-color: $navy

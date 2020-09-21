@@ -3072,7 +3072,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     custom_message: "V whfg sbhaq PbqrPbzong naq gubhtug vg'q or n terng cebtenz sbe lbhe pynffebbz! Vg'f n pbzchgre fpvrapr yrneavat cyngsbez jvgu fgnaqneqf-nyvtarq pheevphyhz.\a\aPbzchgre yvgrenpl vf fb vzcbegnag naq V guvax guvf jbhyq or n terng jnl gb trg fghqragf ratntrq va yrneavat gb pbqr."
     send: "Fraq Rznvy"
 
-  hoc_2018:
+  hoc:
     banner: "Jrypbzr gb Ubhe bs Pbqr 2019!"
     page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!"
     step_1: "Fgrc 1: Jngpu Ivqrb Bireivrj"
@@ -3101,14 +3101,14 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     title: "UBHE BS PBQR 2019"
     acronym: "UBP"
 
-  hoc_2018_interstitial:
+  hoc_interstitial:
     welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2019!"
     educator: "V'z na rqhpngbe"
     show_resources: "Fubj zr grnpure erfbheprf!"
     student: "V'z n fghqrag"
     ready_to_code: "V'z ernql gb pbqr!"
 
-  hoc_2018_completion:
+  hoc_completion:
     congratulations: "Pbatenghyngvbaf ba pbzcyrgvat <o>Pbqr, Cynl, Funer!</o>"
     send: "Fraq lbhe Ubhe bs Pbqr tnzr gb sevraqf naq snzvyl!"
     copy: "Pbcl HEY"

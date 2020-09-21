@@ -3071,7 +3071,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     custom_message: "Ik heb net CodeCombat ontdekt en denk dat dit een geschikt programma voor uw klas is! Het is een computerwetenschappelijk leerplatform met een op standaarden afgestemd leerplan.\n\nMediawijsheid is zo belangrijk, en ik denk dat dit een geweldige manier is om studenten bezig te houden met leren programmeren."
     send: "Verzend e-mail"
 
-  hoc_2018:
+  hoc:
 #    banner: "Welcome to Hour of Code 2019!"
     page_heading: "Leer je leerlingen hoe ze hun eigen arcadespel kunnen bouwen!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
@@ -3100,14 +3100,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
-#  hoc_2018_interstitial:
+#  hoc_interstitial:
 #    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
 #    ready_to_code: "I'm ready to code!"
 
-#  hoc_2018_completion:
+#  hoc_completion:
 #    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
 #    send: "Send your Hour of Code game to friends and family!"
 #    copy: "Copy URL"

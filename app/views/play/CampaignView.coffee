@@ -134,7 +134,7 @@ module.exports = class CampaignView extends RootView
     @levelDifficultyMap = {}
     @levelScoreMap = {}
 
-    if @terrain is "hoc-2018"
+    if @terrain is "hoc-2018" or @terrain is "hoc-2020"
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
 
     if utils.getQueryVariable('hour_of_code')
@@ -160,7 +160,7 @@ module.exports = class CampaignView extends RootView
         else 'code_combat'
       $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
     else if me.isTeacher() and not utils.getQueryVariable('course-instance') and
-        not application.getHocCampaign() and not @terrain is "hoc-2018"
+        not application.getHocCampaign() and not (@terrain is "hoc-2018" or @terrain is "hoc-2020")
       # redirect teachers away from home campaigns
       application.router.navigate('/teachers', { trigger: true, replace: true })
       return
@@ -293,13 +293,13 @@ module.exports = class CampaignView extends RootView
     @listenTo me, 'change:earned', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:heroConfig', -> @updateHero()
 
-    if utils.getQueryVariable('hour_of_code') or @terrain is "hoc-2018"
+    if utils.getQueryVariable('hour_of_code') or @terrain is "hoc-2018" or @terrain is "hoc-2020"
       if not sessionStorage.getItem(@terrain)
         sessionStorage.setItem(@terrain, "seen-modal")
         clearTimeout(@playMusicTimeout)
         setTimeout(=>
             @openModalView new HoCModal({
-              showVideo: @terrain is "hoc-2018",
+              showVideo: @terrain is "hoc-2018" or @terrain is "hoc-2020",
               onDestroy: delayMusicStart,
             })
         , 0)

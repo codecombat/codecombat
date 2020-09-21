@@ -4,7 +4,7 @@ HoCComponent = require('./HoCComponent.vue').default
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 
 module.exports = class HoCView extends RootComponent
-  id: 'hoc-2018'
+  id: 'hoc'
   template: template
   VueComponent: HoCComponent
   skipMetaBinding: true

@@ -34,7 +34,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     classroom_in_box_blurb3: "Inspireer alle bestuurders binnen het onderwijs om een computerwetenschappelijk leerprogramma van wereldklasse te creëren."
 #    classroom_in_box_blurb4: ""
 #    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
-    click_here: "Klik hier"    
+    click_here: "Klik hier"
     creativity_rigor_title: "Waar Creativiteit en Structuur Samenkomen"
     creativity_rigor_subtitle1: "Programmeren leuk te maken en real-world-skills te leren"
     creativity_rigor_blurb1: "Studenten typen echte Python en JavaScript terwijl ze games spelen die trial-en-error aanmoedigen, kritisch denken, en creativiteit. Studenten passen dan de programmeerskills toe die ze hebben geleerd, door hun eigen games en websites te ontwerpen in projectgebaseerde cursussen."
@@ -3070,7 +3070,7 @@ play_game_dev_level:
     custom_message: "Ik heb net CodeCombat ontdekt en denk dat dit een geschikt programma voor uw klas is! Het is een computerwetenschappelijk leerplatform met een op standaarden afgestemd leerplan.\n\nMediawijsheid is zo belangrijk, en ik denk dat dit een geweldige manier is om leerlingen bezig te houden met leren programmeren."
     send: "Verzend e-mail"
 
-  hoc_2018:
+  hoc:
     banner: "Fijne Computer Science Education Week 2018!" # {change}
     page_heading: "Leer je leerlingen hoe ze hun eigen arcadespel kunnen bouwen!" # {change}
     step_1: "Stap 1: bekijk video-overzicht"
@@ -3099,14 +3099,14 @@ play_game_dev_level:
 #    title: "HOUR OF CODE 2019"
 #    acronym: "HOC"
 
-  hoc_2018_interstitial:
+  hoc_interstitial:
     welcome: "Welkom bij CodeCombat's Hour of Code 2018!" # {change}
     educator: "Ik ben een onderwijzer"
     show_resources: "Laat me de leraren-informatie zien!"
     student: "Ik ben een leerling"
     ready_to_code: "Ik ben klaar om te coderen!"
 
-  hoc_2018_completion:
+  hoc_completion:
     congratulations: "Gefeliciteerd met het voltooien van <b>Code, Speel, Deel!</b>"
     send: "Stuur je Hour of Code-game naar familie en vrienden!"
     copy: "Kopieer URL"
