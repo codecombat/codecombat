@@ -39,6 +39,12 @@ export const resourceHubLinks = {
     link: 'https://docs.google.com/presentation/d/1SfM5ZMjae8wm8HESHoXXO0wBnKJmJD53BgtG9XwVW9k/edit?usp=sharing',
     resourceHubSection: 'gettingStarted'
   },
+  howToShareLesson: {
+    icon: 'Doc',
+    label: 'How To: Share Lesson & Activity Slides',
+    link: 'https://docs.google.com/document/d/1JTshzRvg_EGEDY7Kczb5T0X8WKmS0UXTdWZVmvzE9B0/edit?usp=sharing',
+    resourceHubSection: 'gettingStarted'
+  },
   howToProjects: {
     icon: 'Slides',
     label: 'How To: Student Projects',
