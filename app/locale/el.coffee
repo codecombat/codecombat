@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     request_licenses: "Επικοινωνήστε με τους ειδικούς του σχολείου για λεπτομέρειες."
     compete: "Αγωνίσου!" # Course details page
     spectate: "Θεατής" # Ladder page
+#    simulate_all: "Simulate All"
     players: "παίκτες" # Hover over a level on /play
     hours_played: "ώρες παιχνιδιού" # Hover over a level on /play
     items: "Αντικείμενα" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Ανάκτηση λογαριασμού"
@@ -1839,6 +1843,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     teacher_getting_started_desc: "Καινούριος στο CodeCombat; Κάντε λήψη αυτού του Οδηγού Ξεκινήματος Εκπαιδευτικού για να ρυθμίσετε το λογαριασμό σας, να δημιουργήσετε την πρώτη σας τάξη και να προσκαλέσετε τους μαθητές στο πρώτο μάθημα."
     student_getting_started: "Οδηγός Γρήγορης Εκκίνησης Μαθητή"
     student_getting_started_desc: "Μπορείτε να διανείμετε αυτόν τον οδηγό στους σπουδαστές σας πριν ξεκινήσετε το CodeCombat έτσι ώστε να μπορέσουν να εξοικειωθούν με τον επεξεργαστή κώδικα. Αυτός ο οδηγός μπορεί να χρησιμοποιηθεί για τις τάξεις Python και JavaScript."
+#    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "Αρχές της Επιστήμης των Υπολογιστών AP"
     ap_cs_principles_desc: "Οι Αρχές της Επιστήμης των Υπολογιστών AP παρέχουν στους μαθητές μια ευρεία εισαγωγή στην δύναμη, τον αντίκτυπο και τις δυνατότητες της Πληροφορικής. Το μάθημα δίνει έμφαση στην υπολογιστική σκέψη και την επίλυση προβλημάτων ενώ ταυτόχρονα διδάσκει τα βασικά του προγραμματισμού."
     cs1: "Εισαγωγή στην Πληροφορική"
@@ -3061,6 +3066,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3072,7 +3078,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3097,11 +3103,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
