@@ -40,26 +40,30 @@ translatejs2cpp = (jsCode, fullCode=true) ->
   lines = jsCodes[len-1].split '\n'
   if fullCode
     jsCodes[len-1] = """
-      void main() {
+      int main() {
       #{(lines.map (line) -> '    ' + line).join '\n'}
+      return 0;
       }
     """
   else
     jsCodes[len-1] = (lines.map (line) -> ' ' + line).join('\n')
   for i in [0..len-1] by 1
-    if /^ ?function/.test(jsCodes[i])
+    if /^ *function/.test(jsCodes[i])
       variables = jsCodes[i].match(/function.*\((.*)\)/)[1]
       v = ''
       v = variables.split(', ').map((e) -> 'auto ' + e).join(', ') if variables
       jsCodes[i] = jsCodes[i].replace(/function(.*)\((.*)\)/, 'auto$1(' + v + ')')
     jsCodes[i] = jsCodes[i].replace new RegExp('var x', 'g'), 'float x'
     jsCodes[i] = jsCodes[i].replace new RegExp('var y', 'g'), 'float y'
+    jsCodes[i] = jsCodes[i].replace new RegExp('var dist', 'g'), 'float dist'
+    jsCodes[i] = jsCodes[i].replace new RegExp('var (\\w+)Index', 'g'), 'int $1Index'
     jsCodes[i] = jsCodes[i].replace new RegExp(' === ', 'g'), ' == '
     jsCodes[i] = jsCodes[i].replace new RegExp(' !== ', 'g'), ' != '
-    jsCodes[i] = jsCodes[i].replace new RegExp(' and ', 'g'), ' && '
-    jsCodes[i] = jsCodes[i].replace new RegExp(' or ', 'g'), ' || '
-    jsCodes[i] = jsCodes[i].replace new RegExp('not ', 'g'), '!'
     jsCodes[i] = jsCodes[i].replace new RegExp(' var ', 'g'), ' auto '
+    jsCodes[i] = jsCodes[i].replace new RegExp(' = \\[(.*)\\]', 'g'), ' = {$1}'
+    # Don't substitute these within comments
+    noComment = '^ *([^/\\r\\n]*?)'
+    jsCodes[i] = jsCodes[i].replace new RegExp(noComment + "'(.*?)'", 'gm'), '$1"$2"'
   unless fullCode
     lines = jsCodes[len-1].split '\n'
     jsCodes[len-1] = (lines.map (line) -> line.slice 1).join('\n')

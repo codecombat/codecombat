@@ -66,17 +66,6 @@ block content
 
           li
             .profile-pic
-              a(href="http://www.mattlott.com/" rel="external")
-                img(src="/images/pages/about/team-avatars/matt-avatar.png").img-thumbnail.avatar
-                img(src="/images/pages/about/team-headshots/matt-headshot.png").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name
-                a(href="http://www.mattlott.com/" rel="external") Matt Lott
-              small(data-i18n="about.matt_title")
-              br
-
-          li
-            .profile-pic
               a(href="http://bryukh.com" rel="external")
                 img(src="/images/pages/about/team-avatars/bryukh-avatar.png").img-thumbnail.avatar
                 img(src="/images/pages/about/team-headshots/bryukh-headshot.jpg").img-thumbnail.headshot
@@ -112,16 +101,7 @@ block content
             .team-bio
               h6.label.team-name
                 a(href="https://www.linkedin.com/in/jane-park-90bb11b/" rel="external") Jane Park
-              small Associate Product Manager
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/shubhangi-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/shubhangi-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Shubhangi Gupta
-              small(data-i18n="about.shubhangi_title")
+              small Product Manager
               br
 
           li
@@ -251,15 +231,6 @@ block content
 
           li
             .profile-pic
-              img(src="/images/pages/about/team-avatars/maya-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/maya-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Maya McCoy
-              small(data-i18n="about.maya_title")
-              br
-
-          li
-            .profile-pic
               img(src="/images/pages/about/team-avatars/matias-avatar.png").img-thumbnail.avatar
               img(src="/images/pages/about/team-headshots/matias-headshot.jpg").img-thumbnail.headshot
             .team-bio
@@ -310,15 +281,6 @@ block content
             .team-bio
               h6.label.team-name Lance Wu
               small(data-i18n="about.lance_title")
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/ashley-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/ashley-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Ashley Stoddard
-              small Senior Artist
               br
 
           li
@@ -514,10 +476,20 @@ block content
                 li.small(data-i18n="about.jobs_benefit_4")
                 li.small(data-i18n="about.jobs_benefit_5")
 
-          .col-sm-6.col-md-5.col-lg-4
+          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
-              h5 (No Open Roles)
-              p.small Check back later for updates on new positions at CodeCombat.
+              h5 Software Engineer
+                  .text-center
+                    small.label
+                      | Remote • Full-time
+                  p.small CodeCombat is looking for a Software Engineer to join our game-based education startup. We want to hear from you!
+                  a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/7a4db25a-174f-40bd-866a-7c99f42b02b9?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
+                    span(data-i18n="about.learn_more")
+
+          //- .col-sm-6.col-md-5.col-lg-4
+          //-   .job-listing
+          //-     h5 (No Open Roles)
+          //-     p.small Check back later for updates on new positions at CodeCombat.
 
       #contact.anchor
         .text-center
