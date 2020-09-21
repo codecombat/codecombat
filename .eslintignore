@@ -55,9 +55,9 @@ app/app.js
 app/core/components/PieComponent.vue
 app/components/cinematic/editor/ListItem.vue
 app/views/CinematicCanvas.vue
-app/views/special_event/HoC2018InterstitialModal.vue
-app/views/special_event/HoC2018Component.vue
-app/views/special_event/HoC2018VictoryModal.vue
+app/views/special_event/HoCInterstitialModal.vue
+app/views/special_event/HoCComponent.vue
+app/views/special_event/HoCVictoryModal.vue
 app/views/LicensorViewComponent.vue
 app/views/core/LoadingProgress.vue
 app/views/core/ParentReferTeacherModalComponent.vue
