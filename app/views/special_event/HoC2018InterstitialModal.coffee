@@ -1,7 +1,7 @@
 ModalComponent = require 'views/core/ModalComponent'
-HoCInterstitialComponent = require('./HoC2018InterstitialModal.vue').default
+HoCInterstitialComponent = require('./HoCInterstitialModal.vue').default
 
-module.exports = class HoC2018InterstitialModal extends ModalComponent
+module.exports = class HoCInterstitialModal extends ModalComponent
   id: 'hoc-interstitial-modal'
   template: require 'templates/core/modal-base-flat'
   closeButton: true

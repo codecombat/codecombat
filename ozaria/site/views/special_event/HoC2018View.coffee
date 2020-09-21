@@ -1,12 +1,12 @@
 RootComponent = require 'views/core/RootComponent'
 template = require 'templates/base-flat'
-HoC2018 = require('./HoC2018Component.vue').default
+HoCComponent = require('./HoCComponent.vue').default
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 
-module.exports = class HoC2018View extends RootComponent
-  id: 'hoc-2018'
+module.exports = class HoCView extends RootComponent
+  id: 'hoc-'
   template: template
-  VueComponent: HoC2018
+  VueComponent: HoCComponent
   skipMetaBinding: true
 
   constructor: (options) ->

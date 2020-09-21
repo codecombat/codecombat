@@ -44,7 +44,7 @@ PromotionModal = require 'views/play/modal/PromotionModal'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 fetchJson = require 'core/api/fetch-json'
-HoCModal = require 'views/special_event/HoC2018InterstitialModal.coffee'
+HoCModal = require 'views/special_event/HoCInterstitialModal.coffee'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
 
 require 'lib/game-libraries'
