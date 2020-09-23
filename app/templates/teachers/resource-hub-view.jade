@@ -114,11 +114,12 @@ block content
           p(data-i18n="teacher.student_getting_started_desc")
         
         if me.get('preferredLanguage') == 'en-US'
-          //- TODO - Migrate other languages over to sharing a doc
-          a.resource-link(href='https://docs.google.com/document/d/1dQ21ZbfGpr0s_6TrKhOndQqR0l4gY76T1f3L41Kc2k4/edit?usp=sharing')
-            span(data-i18n="teacher.progress_journal")
-            span.spl (Make a copy to edit)
-          p(data-i18n="teacher.progress_journal_desc")
+          li
+            //- TODO - Migrate other languages over to sharing a doc
+            a.resource-link(href='https://docs.google.com/document/d/1dQ21ZbfGpr0s_6TrKhOndQqR0l4gY76T1f3L41Kc2k4/edit?usp=sharing')
+              span(data-i18n="teacher.progress_journal")
+              span.spl (Make a copy to edit)
+            p(data-i18n="teacher.progress_journal_desc")
         else
           li
             - var progressJournalURL = "http://files.codecombat.com/docs/resources/ProgressJournal.pdf";
@@ -200,13 +201,14 @@ block content
             span(data-i18n="teacher.arenas_curriculum")
           p(data-i18n="teacher.arenas_curriculum_desc")
         if me.get('preferredLanguage') == 'en-US'
-          //- TODO - Migrate other languages over to sharing a doc.
-          a.resource-link(href='https://docs.google.com/document/d/1UjFrsBJIYFGuf58q87g-nQvhcybwWgaOl6GWO52eNH4/edit?usp=sharing')
-            span(data-i18n="teacher.engineering_cycle_worksheet")
-            span.spl (Make a copy to edit)
-          a.resource-link(href="http://files.codecombat.com/docs/resources/WorksheetExample.pdf")
-              i.span.spl(data-i18n="teacher.engineering_cycle_worksheet_link")
-            p(data-i18n="teacher.engineering_cycle_worksheet_desc")
+          li
+            //- TODO - Migrate other languages over to sharing a doc.
+            a.resource-link(href='https://docs.google.com/document/d/1UjFrsBJIYFGuf58q87g-nQvhcybwWgaOl6GWO52eNH4/edit?usp=sharing')
+              span(data-i18n="teacher.engineering_cycle_worksheet")
+              span.spl (Make a copy to edit)
+            a.resource-link(href="http://files.codecombat.com/docs/resources/WorksheetExample.pdf")
+                i.span.spl(data-i18n="teacher.engineering_cycle_worksheet_link")
+              p(data-i18n="teacher.engineering_cycle_worksheet_desc")
         else
           li
             - var engineeringCycleWorksheetURL = "http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf";
