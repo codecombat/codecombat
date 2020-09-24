@@ -1782,6 +1782,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_students_selected: "没有学生被选中。"
     show_students_from: "展示这些学生" # Enroll students modal
     apply_licenses_to_the_following_students: "将许可应用于以下学生"
+    select_license_type: "选择一个许可类型"
     students_have_licenses: "以下学生已应用许可:"
     all_students: "所有学生"
     apply_licenses: "应用许可"
@@ -1927,6 +1928,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     student_great_detail: "这个学生可能是一个很好的候选人，帮助其他学生通过这门课程。"
     full_license: "全课许可"
     starter_license: "入门许可"
+    customized_license: "定制许可"
     trial: "试用"
     hoc_welcome: "计算机教育周快乐"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3158,3 +3160,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     pitch_body: "为保证 CodeCombat 的所有功能正常运行，建议使用 Chrome 浏览器进行学习。"
     download: "下载 CHROME 浏览器"
     ignore: "忽略"
+
+  admin:
+    license_type_full: "全课许可"
+    license_type_preset1: "CS1+CS2+GD1+WD1"
+    license_type_preset2: "CS1+CS2+CS3+CS4"
+    license_type_customize: "可选课程"

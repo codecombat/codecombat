@@ -446,10 +446,13 @@ mixin enrollmentStatusTab
             if status !== 'enrolled' && me.canManageLicensesViaUI() && !state.get('readOnly')
               button.enroll-student-button.btn.btn-navy(data-i18n="teacher.apply_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
             else
-              if student.prepaidType() === 'course'
+              - var prepaidType = student.prepaidType('includeCourseIDs')
+              if prepaidType === 'course'
                 span(data-i18n="teacher.full_license")
-              else if student.prepaidType() === 'starter_license'
+              else if prepaidType === 'starter_license'
                 span(data-i18n="teacher.starter_license")
+              else
+                span=prepaidType
           if me.canRevokeLicensesViaUI() && !state.get('readOnly')
             td.revoke-col
               if status === 'enrolled' && student.prepaidType() === 'course'

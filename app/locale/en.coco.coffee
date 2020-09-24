@@ -1785,6 +1785,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_students_selected: "No students were selected."
     show_students_from: "Show students from" # Enroll students modal
     apply_licenses_to_the_following_students: "Apply Licenses to the Following Students"
+    select_license_type: "Select License Type to Apply"
     students_have_licenses: "The following students already have licenses applied:"
     all_students: "All Students"
     apply_licenses: "Apply Licenses"
@@ -1930,6 +1931,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     student_great_detail: "This student might be a good candidate to help other students working through this course."
     full_license: "Full License"
     starter_license: "Starter License"
+    customized_license: "Customized License"
     trial: "Trial"
     hoc_welcome: "Happy Computer Science Education Week"
     hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3163,3 +3165,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     pitch_body: 'For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!'
     download: 'Download Chrome'
     ignore: 'Ignore'
+
+  admin:
+    license_type_full: 'Full Courses'
+    license_type_preset1: 'CS1+CS2+GD1+WD1'
+    license_type_preset2: 'CS1+CS2+CS3+CS4'
+    license_type_customize: 'Customize Courses'
