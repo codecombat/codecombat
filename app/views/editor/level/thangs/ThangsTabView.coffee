@@ -683,8 +683,10 @@ module.exports = class ThangsTabView extends CocoView
     else
       components = _.cloneDeep thangType.get('components') ? []
     components = @createEssentialComponents(thangType.get('components')) unless components.length
-    physical = _.find components, (c) -> c.config?.pos?
-    physical.config.pos = x: pos.x, y: pos.y, z: physical.config.pos.z if physical
+    positionComponent = _.find(components or [], (c) => c.original in LevelComponent.positionIDs)
+    if positionComponent
+      positionComponent.config ?= {}
+      positionComponent.config.pos = {x: pos.x, y: pos.y, z: positionComponent.config?.pos?.z || 0}
     thang = thangType: thangType.get('original'), id: thangID, components: components
     if batchInsert
       @thangsBatch.push thang
