@@ -159,6 +159,33 @@ block modal-body-content
           input#seats-input(type="number", name="maxRedeemers", min="1")
       .form-group
         label
+          span Licenses Type
+          =":"
+          #license-type-select
+            .radio
+              label.license-type
+                input(type="radio", name="licenseType", value="all", checked=view.licenseType==='all')
+                span(data-i18n="admin.license_type_full")
+            .radio
+              label.license-type
+                input(type="radio", name="licenseType", value="preset1", checked=view.licenseType==='preset1')
+                span(data-i18n="admin.license_type_preset1")
+            .radio
+              label.license-type
+                input(type="radio", name="licenseType", value="preset2", checked=view.licenseType==='preset2')
+                span(data-i18n="admin.license_type_preset2")
+            .radio
+              label.license-type
+                input(type="radio", name="licenseType", value="customize", checked=view.licenseType==='customize')
+                span(data-i18n="admin.license_type_customize")
+            #select-courses
+              if view.licenseType === 'customize'
+                each courseID, key in view.utils.courseIDs
+                  label.course-name
+                    input(type="checkbox", name="includedCourseIDs", value=courseID, checked=key==='INTRODUCTION_TO_COMPUTER_SCIENCE')
+                    span=view.utils.courseAcronyms[courseID]
+      .form-group
+        label
           span Start Date
           =" "
           input(type="date" name="startDate" value=moment.timezone().tz(view.timeZone).format('YYYY-MM-DD'))
