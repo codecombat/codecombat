@@ -16,6 +16,10 @@
   }
 
   export default {
+    data: () => ({
+      displayed: false,
+      displayInterval: null
+    }),
     computed: {
       ...mapState({
         html: state => (state.visualChalkboard || {}).chalkboardHtml || '',
@@ -43,9 +47,13 @@
 
     mounted () {
       store.registerModule('visualChalkboard', visualChalkboardModule())
+
+      // Hack: Fixes chalkboard flying across screen when loading
+      this.displayInterval = setTimeout(() => { this.displayed = true }, 1200)
     },
 
     beforeDestroy () {
+      clearInterval(this.displayInterval)
       store.unregisterModule('visualChalkboard')
     }
   }
@@ -55,6 +63,7 @@
   <div id="cinematic-chalkboard-container">
     <!-- TODO: Refactored to use vue transitions? -->
     <div
+      v-if="displayed"
       id="chalkboard-modal"
       :style="{
         width: `${chalkboardWidth}%`,
@@ -113,8 +122,6 @@
 
     display: flex;
     flex-direction: column;
-
-    transition: transform 1s ease-in-out;
   }
 
   #markdown-contents {
