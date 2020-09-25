@@ -53,8 +53,6 @@ updateState = (aether, evaluator) ->
         rng = top.ast.originalRange
 
         if not rng and top.ast.loc?
-          if top.ast.loc.start and not top.ast.loc.end
-            top.ast.loc.end = top.ast.loc.start
           rng =
             start: {row:top.ast.loc.start.line - 1, col:top.ast.loc.start.column}
             end: {row:top.ast.loc.end.line - 1, col:top.ast.loc.end.column}
