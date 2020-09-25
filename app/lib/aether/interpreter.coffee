@@ -53,6 +53,8 @@ updateState = (aether, evaluator) ->
         rng = top.ast.originalRange
 
         if not rng and top.ast.loc?
+          if top.ast.loc.start and not top.ast.loc.end
+            top.ast.loc.end = top.ast.loc.start
           rng =
             start: {row:top.ast.loc.start.line - 1, col:top.ast.loc.start.column}
             end: {row:top.ast.loc.end.line - 1, col:top.ast.loc.end.column}
@@ -152,7 +154,7 @@ makeYieldFilter = (aether) -> (engine, evaluator, e) ->
 
 
   if e? and e.type is 'event' and e.event is 'loopBodyStart'
-    
+
     # Legacy programming languages use 'Literal' whilst C++ and Java use 'BooleanLiteral'.
     if top.srcAst.type is 'WhileStatement' and (top.srcAst.test.type is 'Literal' or top.srcAst.test.type is 'BooleanLiteral')
       if aether.whileLoopMarker?

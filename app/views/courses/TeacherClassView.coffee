@@ -631,10 +631,10 @@ module.exports = class TeacherClassView extends RootView
       canAssignCourses = totalSpotsAvailable >= _.size(unenrolledStudents)
       if not canAssignCourses
         # These ones just matter for display
-        availableFullLicenses = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.get('type') is 'course')
+        availableFullLicenses = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.get('type') is 'course' and not prepaid.get('includedCourseIDs'))
         numStudentsWithoutFullLicenses = _(members)
           .map((userID) => @students.get(userID))
-          .filter((user) => user.prepaidType() isnt 'course' or not user.isEnrolled())
+          .filter((user) => user.prepaidType('includedCourseIDs') isnt 'course' or not user.isEnrolled())
           .size()
         numFullLicensesAvailable = _.reduce(prepaid.openSpots() for prepaid in availableFullLicenses, (val, total) -> val + total) or 0
         modal = new CoursesNotAssignedModal({

@@ -51,6 +51,7 @@ module.exports = class EnrollmentsView extends RootView
     window.tracker?.trackEvent 'Classes Licenses Loaded', category: 'Teachers', ['Mixpanel']
     super(options)
 
+    @utils = utils
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetch({data: { project: 'free,i18n,name' }})
     @listenTo @courses, 'sync', ->
