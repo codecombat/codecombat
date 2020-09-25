@@ -296,7 +296,7 @@ const characterThangTypeSlug = character => {
  * Returns exactly the data required to place a hero on the canvas.
  * Does not return the thangType original.
  * Get it with:
- * `me.get('heroConfig').thangType`
+ * `me.get('ozariaUserOptions').thangType`
  * @param {CharacterSchema} character - the left or right hero
  * @returns {Object|undefined} The position data and hero type
  */
@@ -369,6 +369,8 @@ export const getTextPosition = dialogNode => (dialogNode || {}).textLocation
 export const getSpeaker = dialogNode => (dialogNode || {}).speaker || 'left'
 
 export const getText = dialogNode => (dialogNode || {}).text
+
+export const getVoiceOver = dialogNode => (dialogNode || {}).voiceOver
 
 /**
  * @param {DialogNode} dialogNode

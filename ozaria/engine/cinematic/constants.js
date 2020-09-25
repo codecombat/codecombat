@@ -15,9 +15,14 @@ const LETTER_ANIMATE_TIME = 45
 const LEFT_SPEAKER_CAMERA_POS = { x: -165, y: -65 }
 const RIGHT_SPEAKER_CAMERA_POS = { x: 165, y: -65 }
 
+// Hero A is male
+const HERO_A_ID = '5d03e18887ed53004682e340'
+// Hero B is female
+const HERO_B_ID = '5d03e60dab809900234a0037'
+
 // The default hero if the user has malformed state or missing hero.
 // Useful if an admin is testing without selecting a hero in advance.
-const HERO_THANG_ID = '5d03e18887ed53004682e340'
+const HERO_THANG_ID = HERO_A_ID
 
 const AVATAR_THANG_ID = '5d48b61ae92cc00030a9b2db'
 const PET_AVATAR_THANG_ID = '5d48bd7677c98f0029118e11'
@@ -67,5 +72,7 @@ module.exports = {
   HERO_PET,
   BACKGROUND_OBJECT,
   BACKGROUND,
-  QUILL_CONFIG
+  QUILL_CONFIG,
+  HERO_A_ID,
+  HERO_B_ID
 }
