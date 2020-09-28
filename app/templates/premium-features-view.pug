@@ -1,0 +1,84 @@
+extends /templates/base-flat.jade
+
+block content
+  #jumbotron.top-jumbo
+    img#bannerImg(src="/images/pages/features/banner.png")
+    .container#bannerContainer
+      .row
+        .col-xs-12
+          h1.top-offset-200(data-i18n="[html]premium_features.get_premium")
+
+  .container
+    .row
+      br
+      .col-sm-12.center-text
+        h3(data-i18n="premium_features.master_coder")
+      if !me.hasSubscription()
+        .col-sm-2.col-sm-offset-5.center-text
+          br
+          button.btn.btn-forest.btn-block.btn-lg.buy(data-i18n="premium_features.subscribe_now", data-button-location='top')
+      else
+        .col-sm-12.center-text
+          br
+          div(data-i18n="subscribe.premium_already_subscribed")
+      .col-sm-12.center-text
+        if !me.isAnonymous()
+          .continue-playing
+            a(href='/play', data-i18n="courses.continue_playing")
+
+  .container
+    .row.feature-row.bottom-offset-72
+      .col-sm-6
+        .feature-text
+          p(data-i18n="premium_features.hero_blurb_1", data-i18n-options={premiumHeroesCount: view.i18nData.premiumHeroesCount})
+          p(data-i18n="premium_features.hero_blurb_2")
+      .col-sm-5.col-sm-offset-1
+        .void.void-right.burgundy
+          .void-text.void-text-right
+            h2(data-i18n="premium_features.hero_caption")
+          img.void-image.void-image-right#heroes-void-image(src="/images/pages/features/heroes.png")
+
+    .row.feature-row
+      .col-sm-5
+        .void.void-left.navy
+          .void-text.void-text-left.force-width-265
+            h2(data-i18n="premium_features.pet_caption") 
+          img.void-image.void-image-left.force-right-265#pets-void-image(src="/images/pages/features/collect_command.png")
+      .col-sm-6.col-sm-offset-1
+        .feature-text
+          p(data-i18n="premium_features.pet_blurb_1")
+          p(data-i18n="premium_features.pet_blurb_2")
+
+    .row.feature-row
+      .col-sm-6
+        .feature-text
+          p(data-i18n="premium_features.game_dev_blurb")
+      .col-sm-5.col-sm-offset-1
+        .void.void-right.forest
+          .void-text.void-text-right
+            h2(data-i18n="premium_features.game_dev_caption")
+          img.void-image.void-image-right#game-dev-void-image(src="/images/pages/features/game_web_dev.png")
+
+    .row
+      .col-sm-8.col-sm-offset-2
+        h3.center-text(data-i18n="premium_features.everything_in_premium")
+        br
+        ul
+          li(data-i18n="premium_features.list_gems")
+          li(data-i18n="premium_features.list_levels" data-i18n-options={premiumLevelsCount: view.i18nData.premiumLevelsCount})
+          li(data-i18n="premium_features.list_heroes")
+          li(data-i18n="premium_features.list_game_dev")
+          li(data-i18n="premium_features.list_web_dev")
+          li(data-i18n="premium_features.list_items")
+          li(data-i18n="premium_features.list_support")
+          li(data-i18n="premium_features.list_clans")
+
+  .container
+    .row
+      .col-sm-2.col-sm-offset-5
+        if !me.hasSubscription()
+          br
+          button.btn.btn-forest.btn-block.btn-lg.buy(data-i18n="premium_features.subscribe_now", data-button-location='bottom')
+
+  #jumbotron.bottom-jumbo
+    #bottom-gradient-blend
