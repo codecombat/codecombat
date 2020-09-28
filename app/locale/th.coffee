@@ -44,7 +44,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     creativity_rigor_blurb3: "หลักสูตรที่สอดคล้องกับมาตรฐานของ CodeCombat ทำให้การสอนวิทยาศาสตร์คอมพิวเตอร์เป็นไปได้สำหรับทุกคน CodeCombat ช่วยให้ครูมีการฝึกอบรมทรัพยากรการเรียนการสอนและการสนับสนุนโดยเฉพาะเพื่อให้มั่นใจในความมั่นใจและประสบความสำเร็จในห้องเรียน"
     featured_partners_title1: "แนะนำใน"
     featured_partners_title2: "รางวัลและพันธมิตร"
-    featured_partners_blurb1: "ผู้ให้บริการที่ได้รับการรับรองจาก CollegeBoard"
+    featured_partners_blurb1: "ผู้ให้บริการที่ได้รับการรับรองจาก CollegeBoard" # {change}
     featured_partners_blurb2: "เครื่องมือความคิดสร้างสรรค์ที่ดีที่สุดสำหรับนักเรียน"
     featured_partners_blurb3: "สุดยอดเพื่อการเรียนรู้"
     featured_partners_blurb4: "พันธมิตรอย่างเป็นทางการของ Code.org"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     for_leaders_subtitle2: "หลักสูตรการเขียนโปรแกรมแบบเต็ม"
     for_leaders_subblurb2: "หลักสูตรที่ได้มาตรฐานสอดคล้องกับทรัพยากรการเรียนการสอนและการพัฒนาวิชาชีพเพื่อให้ครูผู้สอนวิชาวิทยาศาสตร์คอมพิวเตอร์"
     for_leaders_subtitle3: "กรณีการใช้งานที่ยืดหยุ่น"
-    for_leaders_subblurb3: "ไม่ว่าคุณต้องการที่จะสร้างวิชาเลือกรหัสมัธยม, เส้นทาง CTE หรือคลาสคอมพิวเตอร์หลักการ AP, CodeCombat ได้รับการปรับแต่งให้เหมาะกับความต้องการของคุณ"
+    for_leaders_subblurb3: "ไม่ว่าคุณต้องการที่จะสร้างวิชาเลือกรหัสมัธยม, เส้นทาง CTE หรือคลาสคอมพิวเตอร์หลักการ AP, CodeCombat ได้รับการปรับแต่งให้เหมาะกับความต้องการของคุณ" # {change}
     for_leaders_subtitle4: "ทักษะโลกแห่งความจริง"
     for_leaders_subblurb4: "นักเรียนสร้างความกล้าหาญและพัฒนาความคิดการเติบโตผ่านความท้าทายด้านการเขียนโค้ดที่เตรียมไว้สำหรับงานคอมพิวเตอร์แบบเปิดขนาด 500K +"
     for_teachers_title: "สำหรับครู"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    request_licenses: "Contact our school specialists for details."
 #    compete: "Compete!" # Course details page
 #    spectate: "Spectate" # Ladder page
+#    simulate_all: "Simulate All"
     players: "ผู้เล่น" # Hover over a level on /play
     hours_played: "จำนวนชั่วโมงที่เล่น" # Hover over a level on /play
     items: "สิ่งของ" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
 #  recover:
 #    recover_account_title: "Recover Account"
@@ -1781,6 +1785,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    no_students_selected: "No students were selected."
 #    show_students_from: "Show students from" # Enroll students modal
 #    apply_licenses_to_the_following_students: "Apply Licenses to the Following Students"
+#    select_license_type: "Select License Type to Apply"
 #    students_have_licenses: "The following students already have licenses applied:"
 #    all_students: "All Students"
 #    apply_licenses: "Apply Licenses"
@@ -1839,6 +1844,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    standardized_curricula: "Standardized Curricula"
 #    ap_cs_principles: "AP Computer Science Principles"
 #    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
 #    cs1: "Introduction to Computer Science"
@@ -1925,6 +1931,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    student_great_detail: "This student might be a good candidate to help other students working through this course."
 #    full_license: "Full License"
 #    starter_license: "Starter License"
+#    customized_license: "Customized License"
 #    trial: "Trial"
 #    hoc_welcome: "Happy Computer Science Education Week"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3061,6 +3068,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3072,7 +3080,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3097,11 +3105,11 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3156,3 +3164,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"

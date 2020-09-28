@@ -44,7 +44,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     creativity_rigor_blurb3: "Самостоятельная, стандартизированная учебная программа CodeCombat делает преподавание информатики возможным для всех. CodeCombat предоставляет учителям учебные, учебные ресурсы и специальную поддержку, чтобы чувствовать себя уверенно и успешно в классе."
     featured_partners_title1: "Зарекомендован в"
     featured_partners_title2: "Награды и Партнеры"
-    featured_partners_blurb1: "Совет колледжа одобрил провайдера"
+    featured_partners_blurb1: "Совет колледжа одобрил провайдера" # {change}
     featured_partners_blurb2: "Лучшая креативная вещь для студентов"
     featured_partners_blurb3: "Лучший выбор для обучения"
     featured_partners_blurb4: "Code.org Официальный партнер"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     for_leaders_subtitle2: "Программа полная кодирования"
     for_leaders_subblurb2: "Соответствующая стандартам учебная программа с учебными ресурсами и профессиональным развитием, позволяющая любому преподавателю преподавать информатику."
     for_leaders_subtitle3: "Гибкие варианты использования"
-    for_leaders_subblurb3: "Независимо от того, хотите ли вы создать факультатив по кодированию в средней школе, курс CTE или класс AP Computer Science Principles, CodeCombat разработан с учетом ваших потребностей."
+    for_leaders_subblurb3: "Независимо от того, хотите ли вы создать факультатив по кодированию в средней школе, курс CTE или класс AP Computer Science Principles, CodeCombat разработан с учетом ваших потребностей." # {change}
     for_leaders_subtitle4: "Навыки реального мира"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
     for_teachers_title: "Для учителей"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     request_licenses: "Связаться с нашими специалистами и узнать больше."
     compete: "Соревноваться!" # Course details page
     spectate: "Наблюдать" # Ladder page
+#    simulate_all: "Simulate All"
     players: "игроки" # Hover over a level on /play
     hours_played: "часов сыграно" # Hover over a level on /play
     items: "Предметы" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     eu_confirmation_place_of_processing: "Узнайте больше о возможных рискахs"
     eu_confirmation_student: "Если вы не уверены, спросите своего учителя."
     eu_confirmation_individual: "Если вы не хотите хранить данные на американских серверах, вы всегда можете играть анонимно, не сохраняя ваш код."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Восстановить учётную запись"
@@ -1781,6 +1785,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     no_students_selected: "Не выбрано ни одного ученика."
     show_students_from: "Показать учеников из" # Enroll students modal
     apply_licenses_to_the_following_students: "Применить Лицензии для следующих учеников"
+#    select_license_type: "Select License Type to Apply"
     students_have_licenses: "Ученики, у которых есть лицензии:"
     all_students: "Все ученики"
     apply_licenses: "Применить Лицензию"
@@ -1839,6 +1844,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teacher_getting_started_desc: "Вы новичок на CodeCombat? Загрузите учительское руководство начинающего, чтобы настроить свою учетную запись, создать свой первый класс и пригласить учеников на первый курс."
     student_getting_started: "Ученическое руководство начинающего"
     student_getting_started_desc: "Вы можете показать это руководство ученикам перед началом урока на CodeCombat, чтобы они могли ознакомиться с редактором кода. Это руководство может использоваться как для Python, так и для JavaScript классов."
+#    standardized_curricula: "Standardized Curricula"
 #    ap_cs_principles: "AP Computer Science Principles"
 #    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
     cs1: "Введение в информатику"
@@ -1925,6 +1931,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    student_great_detail: "This student might be a good candidate to help other students working through this course."
     full_license: "Полная лицензия"
     starter_license: "Начальная лицензия"
+#    customized_license: "Customized License"
     trial: "Триал"
 #    hoc_welcome: "Happy Computer Science Education Week"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3061,6 +3068,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
   parent_modal:
     refer_teacher: "Уведомить учителя"
@@ -3072,7 +3080,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     send: "Отправить"
 
   hoc_2018:
-    banner: "Добро пожаловать в час кода 2019!"
+    banner: "Добро пожаловать в час кода 2019!" # {change}
     page_heading: "Ваши ученики будут учиться программировать, создавая свою собственную игру"
     step_1: "Шаг 1: Посмотри вводное видео"
     step_2: "Шаг 2: Попробуй сам"
@@ -3097,11 +3105,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     point4: "✓ Курсы, основаны на проектах"
     point5: "✓ Отслеживай процесс студентов"
     point6: "✓ Полный учебный план"
-    title: "Час кода 2019"
+    title: "Час кода 2019" # {change}
     acronym: "ЧК"
 
   hoc_2018_interstitial:
-    welcome: "Добро пожаловать в час кода 2019 на CodeCombat!"
+    welcome: "Добро пожаловать в час кода 2019 на CodeCombat!" # {change}
     educator: "Я педагог"
     show_resources: "Покажите мне информацию для учителя!"
     student: "Я ученик"
@@ -3156,3 +3164,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     pitch_body: "Для лучшей работы CodeCombat используй последнюю версию Chrome. Загрузи последнюю версию Chrome, нажав кнопку ниже!"
     download: "Скачай Chrome"
     ignore: "Игнорирую"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"

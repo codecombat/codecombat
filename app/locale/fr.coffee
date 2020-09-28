@@ -44,7 +44,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
     featured_partners_title2: "Prix et partenaires"
-    featured_partners_blurb1: "Fournisseur approuvé par le CollegeBoard"
+    featured_partners_blurb1: "Fournisseur approuvé par le CollegeBoard" # {change}
     featured_partners_blurb2: "Meilleur outil de créativité pour les étudiants"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     request_licenses: "Contactez nos spécialistes la version salle de classe pour plus de détails."
     compete: "Participer !" # Course details page
     spectate: "Spectateur" # Ladder page
+#    simulate_all: "Simulate All"
     players: "Joueurs" # Hover over a level on /play
     hours_played: "Heures jouées" # Hover over a level on /play
     items: "Objets" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     eu_confirmation_place_of_processing: "En savoir plus sur les risques possibles"
     eu_confirmation_student: "Si vous n'êtes pas sûr, demandez à votre enseignant."
     eu_confirmation_individual: "Si vous ne voulez pas que nous stockions vos données sur des serveurs américains, vous pouvez continuer à jouer anonymement sans sauvegarder votre code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Récupérer son compte"
@@ -1781,6 +1785,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     no_students_selected: "Aucun étudiant n'a été sélectionné."
     show_students_from: "Montrer aux élèves de" # Enroll students modal
     apply_licenses_to_the_following_students: "Appliquer des licences aux étudiants suivants"
+#    select_license_type: "Select License Type to Apply"
     students_have_licenses: "Les étudiants suivants ont déjà fait l'objet d'une demande de licence:"
     all_students: "Tous les étudiants"
     apply_licenses: "Appliquer des licences"
@@ -1839,6 +1844,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     teacher_getting_started_desc: "Nouveau sur CodeCombat ? Téléchargez ce guide de démarrage pour créer votre compte, créer votre première classe et inviter les élèves au premier cours."
     student_getting_started: "Guide de démarrage rapide de l'élève"
     student_getting_started_desc: "Vous pouvez distribuer ce guide à vos étudiants avant de commencer CodeCombat pourqu'ils se familiarisent avec léditeur de code. Ce guide peut être utilisé pour les classes de  Python et de JavaScript."
+#    standardized_curricula: "Standardized Curricula"
 #    ap_cs_principles: "AP Computer Science Principles"
 #    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
     cs1: "Introduction à l'informatique"
@@ -1925,6 +1931,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     student_great_detail: "Cet étudiant pourrait être un bon candidat pour aider d'autres étudiants à suivre ce cours."
     full_license: "Licence complète"
     starter_license: "Licence de débutant"
+#    customized_license: "Customized License"
     trial: "Essai"
     hoc_welcome: "Bonne Semaine de l'enseignement de l'informatique"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3061,6 +3068,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
   parent_modal:
     refer_teacher: "Référence Enseignant"
@@ -3101,7 +3109,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    acronym: "HOC"
 
   hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
     educator: "Je suis un éducateur"
     show_resources: "Montrez-moi les ressources pédagogiques !"
     student: "Je suis étudiant"
@@ -3156,3 +3164,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"

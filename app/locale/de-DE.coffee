@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     creativity_rigor_blurb3: "CodeCombat's selbstbestimmter, an Standards orientierter Lehrplan macht das Unterrichten von Informatik für jeden Menschen möglich. CodeCombat stattet Lehrende mit Schulungen, Unterrichtsressourcen und engagierter Unterstützung aus, damit sie sich im Klassenzimmer sicher und erfolgreich fühlen."
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
     for_teachers_title: "Für Lehrer"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     request_licenses: "Kontaktieren Sie unseren Schulspezialisten für Details."
     compete: "Teilnehmen!" # Course details page
     spectate: "Zuschauen" # Ladder page
+#    simulate_all: "Simulate All"
     players: "Spieler" # Hover over a level on /play
     hours_played: "Stunden gespielt" # Hover over a level on /play
     items: "Gegenstände" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     eu_confirmation_place_of_processing: "Erfahre mehr über die möglichen Risiken"
     eu_confirmation_student: "Wenn du dir nicht sicher bist, frag deinen Lehrer."
     eu_confirmation_individual: "Wenn du deine Daten nicht auf US-Servern gespeichaert haben möchtest, kannst du Anonym weiterspielen. Dein Code wird nicht gesichert."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Account-Wiederherstellung"
@@ -1781,6 +1785,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     no_students_selected: "Es wurden keine Schüler ausgewählt."
     show_students_from: "Schüler anzeigen aus" # Enroll students modal
     apply_licenses_to_the_following_students: "Wende Lizenzen für die folgenden Schüler an"
+#    select_license_type: "Select License Type to Apply"
     students_have_licenses: "Auf die folgenden Schüler wurden bereits Lizenzen angewandt:"
     all_students: "Alle Schüler"
     apply_licenses: "Lizenzen anwenden"
@@ -1839,6 +1844,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     teacher_getting_started_desc: "Neu bei CodeCombat? Lade dir unsere Erste Schritte-Anleitung für Lehrer runter, um dein Konto einzurichten, deine erste Klasse zu erstellen, und deine Schüler zum ersten Kurs einzuladen."
     student_getting_started: "Schnellstart-Anleitung für Schüler"
     student_getting_started_desc: "Diese Anleitung kannst du an deine Schüler verteilen, bevor ihr mit CodeCombat anfangt, damit sie sich mit dem Code-Editor vertraut machen können. Diese Anleitung kann sowohl für Python- als auch für JavaScript-Klassenzimmer benutzt werden."
+#    standardized_curricula: "Standardized Curricula"
 #    ap_cs_principles: "AP Computer Science Principles"
 #    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
     cs1: "Einführung in die Informatik"
@@ -1925,6 +1931,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     student_great_detail: "Dieser Schüler ist möglicherweise ein guter Kandidat, um andere Schülern beim Bearbeiten dieses Kurses zu helfen."
     full_license: "Volllizenz"
     starter_license: "Starterlizenz"
+#    customized_license: "Customized License"
     trial: "Testversion"
     hoc_welcome: "Fröhliche Informatik-Bildungswoche"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3061,6 +3068,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
   parent_modal:
     refer_teacher: "Lehrperson empfehlen"
@@ -3072,7 +3080,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     send: "Email senden"
 
   hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3097,11 +3105,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     point4: "✓ Projekt-basierte Kurse"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3156,3 +3164,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"

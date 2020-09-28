@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     request_licenses: "Neem contact met ons op voor meer informatie."
     compete: "Compleet!" # Course details page
     spectate: "Toeschouwen" # Ladder page
+#    simulate_all: "Simulate All"
     players: "Spelers" # Hover over a level on /play
     hours_played: "Speeltijd" # Hover over a level on /play
     items: "Items" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     eu_confirmation_place_of_processing: "Lees meer over mogelijke risico's."
     eu_confirmation_student: "Als je het niet zeker weet, vraag het dan aan je leraar."
     eu_confirmation_individual: "Als je niet wilt dat we je data op US servers bewaren, kun je altijd anoniem spelen zonder je code te bewaren."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -1129,9 +1133,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    shubhangi_title: "Senior Software Engineer"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
+    community_title: "...en onze open-source gemeenschap"
     bryukh_title: "Speldesigner" # {change}
     bryukh_blurb: "Maakt puzzels"
-    community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
     community_description_link_2: "gemeenschapsproject"
@@ -1781,6 +1785,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     no_students_selected: "Er waren geen leerlingen geselecteerd."
     show_students_from: "Toon leerlingen vanaf" # Enroll students modal
     apply_licenses_to_the_following_students: "Pas licenties toe op deze leeringen"
+#    select_license_type: "Select License Type to Apply"
     students_have_licenses: "De volgende leeringen hebben al licenties:"
     all_students: "Alle leerlingen"
     apply_licenses: "Pas licenties toe"
@@ -1839,6 +1844,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     teacher_getting_started_desc: "Nieuw bij CodeCombat? Download de Leraar Startgids om een account op te zetten, een klas te creëren en leerlingen uit te nodigen voor hun eerste cursus."
     student_getting_started: "Leerlingen Startgids"
     student_getting_started_desc: "Leerlingen kunnen deze gids bekijken voordat ze met CodeCombat beginnen zodat ze alvast vertrouwd raken met de code editor. Deze gids kan gebruikt worden in Python en JavaScript klassen."
+#    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "AP Computerwetenschap Principes"
     ap_cs_principles_desc: "AP Computerwetenschap Principes geven leerlingen een brede introductie tot de kracht,impact en mogelijkheden van de Computerwetenschap. De cursus benadrukt 'computational thinking' and probleemoplossend vermogen terwijl ook de basis van het programmeren wordt geleerd."
     cs1: "Computer Science introductie"
@@ -1925,6 +1931,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     student_great_detail: "Deze leerling kan misschien andere leerlingen helpen met het doorlopen van deze cursus."
     full_license: "Volledige Licentie"
     starter_license: "Starter Licentie"
+#    customized_license: "Customized License"
     trial: "Uitproberen"
     hoc_welcome: "Fijne Computer Wetenschap Educatie Week!"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3061,6 +3068,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
   parent_modal:
     refer_teacher: "Verwijs de leraar door"
@@ -3072,7 +3080,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     send: "Verzend e-mail"
 
   hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
     page_heading: "Leer je leerlingen hoe ze hun eigen arcadespel kunnen bouwen!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3097,11 +3105,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     point4: "✓ Projectgebaseerde lessen"
     point5: "✓ Leerling-volgsysteem"
     point6: "✓ Volledige lesplannen"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3156,3 +3164,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"
