@@ -68,6 +68,7 @@
   },
   "main": "index.js",
   "standard": {
+    "parser": "@babel",
     "plugins": [
       "script-tags"
     ],
@@ -205,6 +206,7 @@
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
+    "@babel/eslint-plugin": "^7.11.5",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/plugin-proposal-optional-chaining": "^7.9.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
@@ -227,14 +229,14 @@
     "copy-webpack-plugin": "^4.0.1",
     "country-data": "0.0.24",
     "cross-env": "^5.2.0",
-    "eslint": "^5.16.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.17.2",
+    "eslint": "^7.10.0",
+    "eslint-config-standard": "^14.0.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-script-tags": "^0.5.0",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^5.2.2",
+    "eslint-plugin-vue": "^6.2.2",
     "exports-loader": "^0.6.3",
     "faker": "^3.1.0",
     "file-loader": "^0.11.2",
