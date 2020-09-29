@@ -1,10 +1,10 @@
 /*!
  * jaba
  * 
- * Compiled: Wed Oct 30 2019 20:06:05 GMT-0700 (PDT)
+ * Compiled: Tue Sep 22 2020 10:33:53 GMT-0700 (PDT)
  * Target  : web (umd)
  * Profile : modern
- * Version : 0d3b993-dirty
+ * Version : 5359afd-dirty
  * 
  * 
  * Private
@@ -217,6 +217,8 @@ function skope(node) {
 				next(node.body);
 				methods.pop();
 				return;
+			case "Global":
+				return;
 			case "FieldDeclaration":
 				for ( let frag of node.fragments ) {
 					scope[frag.name.identifier] = {node: node, type: node.type, kind: "ClassFeature"}
@@ -270,7 +272,7 @@ function skope(node) {
 				break;
 			case "ReturnStatement":
 				node.bindType = methods[methods.length-1].returnType2;
-				next(node.expression);
+				if ( node.expression ) next(node.expression);
 				break;
 			case "SuperConstructorInvocation":
 				node.refClass = classes[classes.length-1];
@@ -302,6 +304,9 @@ function skope(node) {
 			case "AssertStatement":
 			case "EnhancedForStatement":
 			case "MethodReference":
+			case "FieldAccess":
+			case "TypeDeclarationStatement":
+			case "EmptyStatement":
 
 				for ( var k in node ) {
 					if ( node[k] && node[k].node ) next(node[k]);
@@ -355,6 +360,7 @@ var esper = __webpack_require__(1);
 var Value = esper.Value;
 let stdlib = __webpack_require__(7);
 let debug = () => {}
+
 
 class JavaPrimitiveValue extends esper.PrimitiveValue {
 	constructor(value) {
@@ -440,14 +446,15 @@ class JavaCast extends esper.ObjectValue {
 		debug("CAST", args[1], "to", args[0].toNative());
 		if ( args[0].jsTypeName == "undefined" ) return args[1];
 		let t = args[0].toNative();
-		if ( t == "var" ) return args[1];
+		if ( t == "var" || t == "auto" ) return args[1];
+		if ( t == "String" ) t = "string";
 		if ( t == "int" || t == "double" || t == "string" || t == "bool" ) {
 			let val = args[1].toNative();
 			let out = new JavaPrimitiveValue(val);
 			out.boundType = t;
 			return out;
 		}
-
+		debug("CAST FAILED", t);
 		return args[1];
 	}
 }
@@ -534,8 +541,11 @@ module.exports = {
 
 var esper = __webpack_require__(1);
 let EasyObjectValue = esper.EasyObjectValue;
+let ArrayValue = esper.ArrayValue;
+let CompletionRecord = esper.CompletionRecord;
 let Value = esper.Value;
 let debug = () => {};
+
 
 class JavaObject extends EasyObjectValue {
 	static *equals(thiz, args) {
@@ -585,7 +595,7 @@ class Integer extends EasyObjectValue {
 		return s.fromNative(Math.floor(thiz.native)); 
 	}
 	static *toString$(thiz, args, s) { 
-		return s.fromNative(thiz.native);
+		return s.fromNative(thiz.native.toString());
 	}
 	*call(thiz, args, s) {
 		return Value.fromNative(7);
@@ -605,6 +615,60 @@ function getTypeKey(w) {
 	if ( !w ) return 'V'
 }
 
+function *dispatch(name, thiz, args, s, extra) {
+	let target = undefined
+	let w = '$V$';
+	for ( let a of args ) {
+		debug("ARG", a.boundType, a.debugString);
+		switch ( a.boundType ) {
+			case 'double': w += 'D'; break;
+			case 'int': w += 'I'; break;
+			case 'string': w += 'S'; break;
+			default: w += 'V';
+		}
+	}
+
+	function reduceBuiltins(s) {
+		s = s.replace("LInteger_", "I");
+		s = s.replace("LDouble_", "D");
+		return s;
+	}
+
+	let canidates = [];
+	for ( let m in thiz.properties ) {
+		let parts = m.match(/^([^$]+)\$(.)\$(.*)/);
+		debug("?",m,'vs',name);
+		if ( !parts ) continue;
+		if ( parts[1] != name ) continue;
+		let target = yield * thiz.get(m, s);
+		if ( m == name + w) {
+			canidates = [[target, m, 100]];
+			break;
+		}
+		let score = 80;
+		let wtest = '$' + parts[2] + '$' + parts[3];
+		debug("W",w,wtest);
+		if ( wtest.length != w.length ) score -= 40;
+
+		let a = reduceBuiltins(wtest);
+		let b = reduceBuiltins(w);
+
+
+
+		if ( a != b ) score -= 10;
+
+		canidates.push([target, m, score]);
+	}
+
+	if ( canidates.length == 0 ) {
+		debug("CALL FAILED", name)
+		return Value.undef;
+	}
+	canidates.sort((a,b) => b[2] - a[2]);
+	debug("Found", w, canidates[0][0].name);
+	return yield * canidates[0][0].call(thiz, args, s, extra);
+}
+
 class JavaMethodDispatch extends EasyObjectValue {
 	constructor(name, realm) {
 		super(realm);
@@ -612,57 +676,8 @@ class JavaMethodDispatch extends EasyObjectValue {
 		this.realm = realm;
 	}
 
-	*call(thiz, args, s, n) {
-		let target = undefined
-		let w = '$V$';
-		for ( let a of args ) {
-			debug("ARG", a.boundType);
-			switch ( a.boundType ) {
-				case 'double': w += 'D'; break;
-				case 'int': w += 'I'; break;
-				case 'string': w += 'S'; break;
-				default: w += 'V';
-			}
-		}
-
-		function reduceBuiltins(s) {
-			s = s.replace("LInteger_", "I");
-			s = s.replace("LDouble_", "D");
-			return s;
-		}
-
-		let canidates = [];
-		for ( let m in thiz.properties ) {
-			let parts = m.match(/^([^$]+)\$(.)\$(.*)/);
-			if ( !parts ) continue;
-			if ( parts[1] != this.name ) continue;
-			let target = yield * thiz.get(m, s);
-			if ( m == this.name + w) {
-				canidates = [[target, m, 100]];
-				break;
-			}
-			let score = 80;
-			let wtest = '$' + parts[2] + '$' + parts[3];
-			console.log("W",w,wtest);
-			if ( wtest.length != w.length ) score -= 40;
-
-			let a = reduceBuiltins(wtest);
-			let b = reduceBuiltins(w);
-
-
-
-			if ( a != b ) score -= 10;
-
-			canidates.push([target, m, score]);
-		}
-
-		if ( canidates.length == 0 ) {
-			debug("CALL FAILED", this.name)
-			return Value.undef;
-		}
-		canidates.sort((a,b) => b[2] - a[2]);
-		console.log("Found", w, canidates);
-		return yield * canidates[0][0].call(thiz, args, s, n);
+	*call(thiz, args, s, extra) {
+		return yield * dispatch(this.name, thiz, args, s, extra);
 	}
 }
 
@@ -684,13 +699,57 @@ class JavaCreateClass extends EasyObjectValue {
 	*call(thiz, args, s) {
 
 		let name = yield * args[0].toStringNative();
-		wrap(args[1], s.realm);
-		wrap(yield * args[1].get('prototype', s.realm), s.realm);
-		s.global.add(name, args[1]);
-		args[1].call = JavaMethodDispatch.prototype.call;
-		args[1].name = name;
+		let target = args[1];
+		wrap(target, s.realm);
+		wrap(yield * target.get('prototype', s.realm), s.realm);
+		s.global.add(name, target);
+		target.name = name;
+		target.call = function*(thiz, args, s) {
+			let pt = yield * target.makeThisForNew();
+			debug("-> Invoke ctor", name);
+			yield * dispatch(name, pt, args, s);
+			return pt;
+		}
 		
+		//let ctor = yield * target.get('constructor', s.realm);
+		//target.setImmediate(name + '$V$', ctor);
+
 		return args[0];
+	}
+}
+
+class JavaCreateDefault extends EasyObjectValue {
+	*call(thiz, args, s) {
+		let typ = yield * args[0].toStringNative();
+		switch ( typ ) {
+			case "int":
+			case "float":
+			case "double":
+				return s.fromNative(0, typ);
+			default:
+				if ( s.realm.options.language != "cpp" ) {
+					return Value.undef;
+				}
+				let callee = s.get(typ);
+				if ( callee ) {
+					let thiz = yield * callee.makeThisForNew(s.realm);
+					let result = yield * callee.call(thiz, [], s);
+					return thiz;
+				}
+				return Value.undef;
+		} 
+		
+	}
+}
+
+class JavaNewInstance extends EasyObjectValue {
+	*call(thiz, args, s) {
+		if ( s.realm.options.language != "cpp" ) {
+			return args[0]
+		}
+		let object = ArrayValue.make(args, s.realm);
+		return new esper.plugins.pointers.PointerValue(object, 0, s.realm);
+		
 	}
 }
 
@@ -728,7 +787,11 @@ class System extends EasyObjectValue {
 	static *out$g(thiz, argz, s) { return this.out; }
 }
 
-module.exports = { o: {JavaObject}, f:{Math:JavaMath, JavaCreateClass, JavaString, Integer, Double, System} }
+module.exports = { 
+	o: {JavaObject},
+	f:{Math:JavaMath, JavaCreateClass, JavaCreateDefault, JavaNewInstance, JavaString, Integer, Double, System} 
+}
+
 
 /***/ })
 /******/ ]);
