@@ -27,6 +27,12 @@ export const resourceHubLinks = {
     link: 'https://docs.google.com/presentation/d/1jAs_w8RjqbCtCQRGGI2_pRiZGar8rcNjEBcSFUYMF6c/edit?usp=sharing',
     resourceHubSection: 'gettingStarted'
   },
+  howtoCreateClass: {
+    icon: 'Slides',
+    label: 'How To: Create Classes & Add Students',
+    link: 'https://docs.google.com/presentation/d/1ZmHMo_v7MenQ-LHnvG27dua7d8toBAvoJBwbS2ZN4jc/edit?usp=sharing',
+    resourceHubSection: 'gettingStarted'
+  },
   howtoCurrGuide: {
     icon: 'Slides',
     label: 'How To: Curriculum Guide',
