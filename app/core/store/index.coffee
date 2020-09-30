@@ -19,6 +19,11 @@ store = new Vuex.Store({
     updateFeatures: (state, features) -> state.features = features
   }
 
+  getters: {
+    localeLoaded: (state) => (locale) =>
+      return state.localesLoaded[locale] == true
+  }
+
   modules: {
     me: require('./modules/me').default,
     courses: require('./modules/courses'),
@@ -44,6 +49,7 @@ store = new Vuex.Store({
     baseSingleClass: require('ozaria/site/store/BaseSingleClass').default
     baseCurriculumGuide: require('ozaria/site/store/BaseCurriculumGuide').default
     teacherDashboardPanel: require('ozaria/site/store/TeacherDashboardPanel').default
+    tracker: require('./modules/tracker').default
   }
 })
 
