@@ -2,7 +2,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   ozaria_home:
     subtitle: "Увлекательное Программирование"
-    summary: "Ozaria - это курс информатики, приключенческая игра и сказочная история, в которой ученики овладеют потерянной магией программирования, чтобы спасти сказочный мир" 
+    summary: "Ozaria - это курс информатики, приключенческая игра и сказочная история, в которой ученики овладеют потерянной магией программирования, чтобы спасти сказочный мир"
     value_prop1_h1: "Невероятная история. Увлекательный игровой процесс."
     value_prop1_h2: "Сделайте процесс обучения интересным"
     value_prop1_p: "В мире Озарии, ученики будут участниками истории в ходе которой они изучат основные понятия информатики, чтобы пройти игру. Интригующее повествование позволит ученикам ассоциировать себя и переживать вместе с героями истории и их вклад в приключения героев будет вкладом для их обучения."
@@ -45,8 +45,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     century_skills_blurb1: "Ученики не просто прокачивают своего героя. Они прокачивают самих себя."
     century_skills_quote1: "Ты застрял... так что ты перебираешь все возможные варианты как исправить и пробуешь еще раз. Я не смог оказаться здесь если бы не старался."
     century_skills_subtitle1: "Критическое мышление"
-    century_skills_quote2: "Все остальные делали лабиринты, поэтому я подумал: 'захват флага', и вот что я сделал."
     century_skills_subblurb1: "С помощью головоломок по программированию, которые естественным путем выстраиваются в повышающие сложность уровни, наша игра убедит детей использовать критическое мышление."
+    century_skills_quote2: "Все остальные делали лабиринты, поэтому я подумал: 'захват флага', и вот что я сделал."
     century_skills_subtitle2: "Творчество"
     century_skills_subblurb2: "CodeCombat вдохновляет учеников делится своим творчеством в ходе построения своих игр и веб страниц."
     century_skills_quote3: "Если я застрял на уровне. Я буду работать с людьми вокруг меня, пока мы все не сможем понять это."
@@ -116,7 +116,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teachers_love_codecombat_blurb2: "Рекомендую CodeCombat всем учителмя информатики"
     teachers_love_codecombat_blurb3: "Скажите, что CodeCombat помогает им поддерживать способности учащихся решать проблемы"
     teachers_love_codecombat_subblurb: "В партнерстве с McREL International, лидером в области основанного на исследованиях руководства и оценки образовательных технологий."
-    top_banner_blurb: "Новости: присоединяйтесь к нашей миссии!"
+    top_banner_blurb: "Новости: присоединяйтесь к нашей миссии!" # {change}
     try_the_game: "Попробуй игру"
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
@@ -232,6 +232,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     return_coco: "Вернуться на CodeCombat"
     classes: "Классы"
     term_of_service: "Условия обслуживания"
+#    admin: "Admin"
+#    teacher: "Teacher"
 
   modal:
     close: "Закрыть"
@@ -308,6 +310,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     back_to_ozaria: "Назад на ozaria.com"
     customize_hero: "Настроить героя"
     account_settings: "Настройки акаунта"
+#    back_to_tutorial: "Back to tutorial"
+#    teacher_vega_message: "Students are guided by these tutorial messages. In order to view these messages and to save your progress as you play through the game, please create a student account and play Ozaria as a student."
 
   code:
     if: "если" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -482,6 +486,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     already_have_account: "Уже есть аккаунт CodeCombat или Ozaria"
     select_your_role: "Выберите вашу роль"
     select_your_state: "Выберите регион"
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   form_validation_errors:
     required: "Обязательное поле"
@@ -547,6 +554,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     empty: "Пустой"
     done: "Готово"
     remove: "Удалить"
+#    locked: "Locked"
 
   general:
     and: "и"
@@ -1279,6 +1287,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    get_licenses: "Get Licenses"
 #    get_full_access_to_ozaria: "Get Full Access to Ozaria"
 #    unlock_all: "Unlock all the above plus all the teacher support you need"
+#    unlock_all_dsa: "Unlock all the above plus all the support teachers need"
 #    comprehensive_dashboards: "Comprehensive teacher and administrator dashboards"
 #    lesson_plans_rubrics_guides: "Lesson Plans, Project Rubrics, Solution Guides, and more"
 #    dedicated_customer_success_manager: "A dedicated customer success manager"
@@ -1292,6 +1301,18 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    support_student_progress_desc: "Unlock formative and summative assessment data from Concept Checks, Levels, and Capstone Projects to support student progress."
 #    creative_projects: "Creative Projects"
 #    creative_projects_desc: "Inspire imagination and unleash student creativity with shareable capstone projects, like in Chapter 2 where students design their own storytelling game. "
+#    looking_for_engaging: "Looking for engaging computer science curriculum?"
+#    licenses_are_required: "Licenses are required for students to continue their journey beyond Chapter 1."
+#    real_world_skills: "Real-World Skills"
+#    real_world_skills_desc: "Students learn typed Python and JavaScript, the two most popular coding languages, and enhance their critical-thinking skills, creativity, and resilience to prepare them for any career."
+#    personalized_learning: "Personalized Learning and Scaffolded Instruction"
+#    personalized_learning_desc: "Students learn concepts at their own pace. Levels increase in difficulty while providing built-in hints to encourage persistence and grit."
+#    flexible_curriculum: "Flexible Standards- Aligned Curriculum"
+#    flexible_curriculum_desc: "100% CSTA-aligned curriculum that can easily be adapted to any schedule, scenario, or setting."
+#    resources_to_support: "Resources to Support Teachers"
+#    resources_to_support_desc: "Lesson plans, extension activities, curriculum guides, and more instructional resources designed with remote and hybrid settings in mind."
+#    actionable_insights: "Actionable Insights for Educators"
+#    actionable_insights_desc: "Empower educators with intuitive student progress and assessment data that makes differentiating instruction possible."
 
   special_offer:
     special_offer: "Специальное предложение"
@@ -2836,6 +2857,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     third_party_description: "CodeCombat использует следующие сторонние сервисы (среди прочих):"
     cookies_message: "CodeCombat использует постоянные и сеансовые куки."
     cookies_deny: "Отказаться от использования сеансовых куки"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Турнирные призы" # This section was for an old tournament and doesn't need new translations now.
@@ -3147,7 +3169,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
-#    no_teachers: "You are not administrating any teachers."
+#    no_teachers: "You don’t have any schools tied to your account yet. Please contact your <strong>District Success Manager</strong> or <a href=\"mailto:schools@codecombat.com\">schools@codecombat.com</a> to get your dashboard set up."
 
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
@@ -3158,3 +3180,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
 #    skip_video: "Skip video"
 #    unavailable: "Unavailable"
+
+#  teacher_dashboard:
+#    lock: "Lock"
+#    unlock: "Unlock"
+#    teacher_locked_message: "Your teacher has locked the next level"

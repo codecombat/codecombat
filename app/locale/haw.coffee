@@ -116,7 +116,7 @@ module.exports = nativeDescription: "ʻŌlelo Hawaiʻi", englishDescription: "Ha
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "New: join our mission!"
+#    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
 #    try_the_game: "Try the game"
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
@@ -232,6 +232,8 @@ module.exports = nativeDescription: "ʻŌlelo Hawaiʻi", englishDescription: "Ha
 #    return_coco: "Return to CodeCombat"
 #    classes: "Classes"
 #    term_of_service: "Terms of Service"
+#    admin: "Admin"
+#    teacher: "Teacher"
 
 #  modal:
 #    close: "Close"
@@ -308,6 +310,8 @@ module.exports = nativeDescription: "ʻŌlelo Hawaiʻi", englishDescription: "Ha
 #    back_to_ozaria: "Back to ozaria.com"
 #    customize_hero: "Customize Hero"
 #    account_settings: "Account Settings"
+#    back_to_tutorial: "Back to tutorial"
+#    teacher_vega_message: "Students are guided by these tutorial messages. In order to view these messages and to save your progress as you play through the game, please create a student account and play Ozaria as a student."
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -482,6 +486,9 @@ module.exports = nativeDescription: "ʻŌlelo Hawaiʻi", englishDescription: "Ha
 #    already_have_account: "Already have a CodeCombat or Ozaria account"
 #    select_your_role: "Select your role"
 #    select_your_state: "Select your state"
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
 #  form_validation_errors:
 #    required: "Field is required"
@@ -547,6 +554,7 @@ module.exports = nativeDescription: "ʻŌlelo Hawaiʻi", englishDescription: "Ha
 #    empty: "Empty"
 #    done: "Done"
 #    remove: "Remove"
+#    locked: "Locked"
 
 #  general:
 #    and: "and"
@@ -1279,6 +1287,7 @@ module.exports = nativeDescription: "ʻŌlelo Hawaiʻi", englishDescription: "Ha
 #    get_licenses: "Get Licenses"
 #    get_full_access_to_ozaria: "Get Full Access to Ozaria"
 #    unlock_all: "Unlock all the above plus all the teacher support you need"
+#    unlock_all_dsa: "Unlock all the above plus all the support teachers need"
 #    comprehensive_dashboards: "Comprehensive teacher and administrator dashboards"
 #    lesson_plans_rubrics_guides: "Lesson Plans, Project Rubrics, Solution Guides, and more"
 #    dedicated_customer_success_manager: "A dedicated customer success manager"
@@ -1292,6 +1301,18 @@ module.exports = nativeDescription: "ʻŌlelo Hawaiʻi", englishDescription: "Ha
 #    support_student_progress_desc: "Unlock formative and summative assessment data from Concept Checks, Levels, and Capstone Projects to support student progress."
 #    creative_projects: "Creative Projects"
 #    creative_projects_desc: "Inspire imagination and unleash student creativity with shareable capstone projects, like in Chapter 2 where students design their own storytelling game. "
+#    looking_for_engaging: "Looking for engaging computer science curriculum?"
+#    licenses_are_required: "Licenses are required for students to continue their journey beyond Chapter 1."
+#    real_world_skills: "Real-World Skills"
+#    real_world_skills_desc: "Students learn typed Python and JavaScript, the two most popular coding languages, and enhance their critical-thinking skills, creativity, and resilience to prepare them for any career."
+#    personalized_learning: "Personalized Learning and Scaffolded Instruction"
+#    personalized_learning_desc: "Students learn concepts at their own pace. Levels increase in difficulty while providing built-in hints to encourage persistence and grit."
+#    flexible_curriculum: "Flexible Standards- Aligned Curriculum"
+#    flexible_curriculum_desc: "100% CSTA-aligned curriculum that can easily be adapted to any schedule, scenario, or setting."
+#    resources_to_support: "Resources to Support Teachers"
+#    resources_to_support_desc: "Lesson plans, extension activities, curriculum guides, and more instructional resources designed with remote and hybrid settings in mind."
+#    actionable_insights: "Actionable Insights for Educators"
+#    actionable_insights_desc: "Empower educators with intuitive student progress and assessment data that makes differentiating instruction possible."
 
 #  special_offer:
 #    special_offer: "Special Offer"
@@ -2836,6 +2857,7 @@ module.exports = nativeDescription: "ʻŌlelo Hawaiʻi", englishDescription: "Ha
 #    third_party_description: "CodeCombat uses the following third party services (among others):"
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
+#    cookies_allow: "Allow cookies"
 
 #  ladder_prizes:
 #    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
@@ -3147,7 +3169,7 @@ module.exports = nativeDescription: "ʻŌlelo Hawaiʻi", englishDescription: "Ha
 #    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
 #    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
 #    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
-#    no_teachers: "You are not administrating any teachers."
+#    no_teachers: "You don’t have any schools tied to your account yet. Please contact your <strong>District Success Manager</strong> or <a href=\"mailto:schools@codecombat.com\">schools@codecombat.com</a> to get your dashboard set up."
 
 #  interactives:
 #    phenomenal_job: "Phenomenal Job!"
@@ -3158,3 +3180,8 @@ module.exports = nativeDescription: "ʻŌlelo Hawaiʻi", englishDescription: "Ha
 #    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab."
 #    skip_video: "Skip video"
 #    unavailable: "Unavailable"
+
+#  teacher_dashboard:
+#    lock: "Lock"
+#    unlock: "Unlock"
+#    teacher_locked_message: "Your teacher has locked the next level"

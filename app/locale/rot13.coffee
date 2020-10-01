@@ -116,7 +116,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teachers_love_codecombat_blurb2: "Jbhyq erpbzzraq PbqrPbzong gb bgure pbzchgre fpvrapr grnpuref"
     teachers_love_codecombat_blurb3: "Fnl gung PbqrPbzong urycf gurz fhccbeg fghqragf’ ceboyrz fbyivat novyvgvrf"
     teachers_love_codecombat_subblurb: "Va cnegarefuvc jvgu ZpERY Vagreangvbany, n yrnqre va erfrnepu-onfrq thvqnapr naq rinyhngvbaf bs rqhpngvbany grpuabybtl."
-    top_banner_blurb: "Arj: wbva bhe zvffvba!"
+    top_banner_blurb: "Cneragf, obbx lbhe puvyq'f svefg yvir bayvar pbqvat pynff sbe serr!"
     try_the_game: "Gel gur tnzr"
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
@@ -233,6 +233,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     classes: "Pynffrf"
     term_of_service: "Grezf bs Freivpr"
     privacy: "Cevinpl"
+    admin: "Nqzva"
+    teacher: "Grnpure"
 
   modal:
     close: "Pybfr"
@@ -309,6 +311,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     back_to_ozaria: "Onpx gb bmnevn.pbz"
     customize_hero: "Phfgbzvmr Ureb"
     account_settings: 'Nppbhag Frggvatf'
+    back_to_tutorial: 'Onpx gb ghgbevny'
+    teacher_vega_message: 'Fghqragf ner thvqrq ol gurfr ghgbevny zrffntrf. Va beqre gb ivrj gurfr zrffntrf naq gb fnir lbhe cebterff nf lbh cynl guebhtu gur tnzr, cyrnfr perngr n fghqrag nppbhag naq cynl Bmnevn nf n fghqrag.'
 
   code:
     if: "vs"  # Xrljbeqf--gurfr genafyngvbaf fubj hc ba ubire, fb cyrnfr genafyngr gurz nyy, rira vs vg'f xvaq bs ybat. (Va gur pbqr rqvgbe, gurl jvyy fgvyy or va Ratyvfu.)
@@ -483,6 +487,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     already_have_account: "Nyernql unir n PbqrPbzong be Bmnevn nppbhag"
     select_your_role: "Fryrpg lbhe ebyr"
     select_your_state: "Fryrpg lbhe fgngr"
+    password_requirements: "8 gb 64 punenpgref jvgu ab ercrngvat"
+    invalid: "Vainyvq"
+    invalid_password: "Vainyvq cnffjbeq"
 
   form_validation_errors:
     required: 'Svryq vf erdhverq'
@@ -548,6 +555,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     empty: "Rzcgl"
     done: "Qbar"
     remove: "Erzbir"
+    locked: "Ybpxrq"
 
   general:
     and: "naq"
@@ -1281,6 +1289,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     get_licenses: "Trg Yvprafrf"
     get_full_access_to_ozaria: "Trg Shyy Npprff gb Bmnevn"
     unlock_all: "Haybpx nyy gur nobir cyhf nyy gur grnpure fhccbeg lbh arrq"
+    unlock_all_dsa: "Haybpx nyy gur nobir cyhf nyy gur fhccbeg grnpuref arrq"
     comprehensive_dashboards: "Pbzcerurafvir grnpure naq nqzvavfgengbe qnfuobneqf"
     lesson_plans_rubrics_guides: "Yrffba Cynaf, Cebwrpg Ehoevpf, Fbyhgvba Thvqrf, naq zber"
     dedicated_customer_success_manager: "N qrqvpngrq phfgbzre fhpprff znantre"
@@ -1294,6 +1303,18 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     support_student_progress_desc: "Haybpx sbezngvir naq fhzzngvir nffrffzrag qngn sebz Pbaprcg Purpxf, Yriryf, naq Pncfgbar Cebwrpgf gb fhccbeg fghqrag cebterff."
     creative_projects: "Perngvir Cebwrpgf"
     creative_projects_desc: "Vafcver vzntvangvba naq hayrnfu fghqrag perngvivgl jvgu funernoyr pncfgbar cebwrpgf, yvxr va Puncgre 2 jurer fghqragf qrfvta gurve bja fgbelgryyvat tnzr. "
+    looking_for_engaging: "Ybbxvat sbe ratntvat pbzchgre fpvrapr pheevphyhz?"
+    licenses_are_required: "Yvprafrf ner erdhverq sbe fghqragf gb pbagvahr gurve wbhearl orlbaq Puncgre 1."
+    real_world_skills: "Erny-Jbeyq Fxvyyf"
+    real_world_skills_desc: "Fghqragf yrnea glcrq Clguba naq WninFpevcg, gur gjb zbfg cbchyne pbqvat ynathntrf, naq raunapr gurve pevgvpny-guvaxvat fxvyyf, perngvivgl, naq erfvyvrapr gb cercner gurz sbe nal pnerre."
+    personalized_learning: "Crefbanyvmrq Yrneavat naq Fpnssbyqrq Vafgehpgvba"
+    personalized_learning_desc: "Fghqragf yrnea pbaprcgf ng gurve bja cnpr. Yriryf vapernfr va qvssvphygl juvyr cebivqvat ohvyg-va uvagf gb rapbhentr crefvfgrapr naq tevg."
+    flexible_curriculum: "Syrkvoyr Fgnaqneqf- Nyvtarq Pheevphyhz"
+    flexible_curriculum_desc: "100% PFGN-nyvtarq pheevphyhz gung pna rnfvyl or nqncgrq gb nal fpurqhyr, fpranevb, be frggvat."
+    resources_to_support: "Erfbheprf gb Fhccbeg Grnpuref"
+    resources_to_support_desc: "Yrffba cynaf, rkgrafvba npgvivgvrf, pheevphyhz thvqrf, naq zber vafgehpgvbany erfbheprf qrfvtarq jvgu erzbgr naq uloevq frggvatf va zvaq."
+    actionable_insights: "Npgvbanoyr Vafvtugf sbe Rqhpngbef"
+    actionable_insights_desc: "Rzcbjre rqhpngbef jvgu vaghvgvir fghqrag cebterff naq nffrffzrag qngn gung znxrf qvssreragvngvat vafgehpgvba cbffvoyr."
 
   special_offer:
     special_offer: "Fcrpvny Bssre"
@@ -2839,6 +2860,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     third_party_description: "PbqrPbzong hfrf gur sbyybjvat guveq cnegl freivprf (nzbat bguref):"
     cookies_message: 'PbqrPbzong hfrf n srj rffragvny naq aba-rffragvny pbbxvrf.'
     cookies_deny: 'Qrpyvar aba-rffragvny pbbxvrf'
+    cookies_allow: 'Nyybj pbbxvrf' # {punatr}
 
   ladder_prizes:
     title: "Gbheanzrag Cevmrf"  # Guvf frpgvba jnf sbe na byq gbheanzrag naq qbrfa'g arrq arj genafyngvbaf abj.
@@ -3150,7 +3172,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     students_stat_description: 'Gbgny fghqragf nppbhagf sbe nyy fghqragf npebff nyy pynffebbzf, ertneqyrff bs jurgure gurl unir yvprafrf nccyvrq.'
     active_students_stat_description: 'Npgvir fghqragf pbhagf gur ahzore bs fghqragf gung unir ybttrq vagb PbqrPbzong va gur ynfg 60 qnlf.'
     project_stat_description: 'Cebwrpgf perngrq pbhagf gur gbgny ahzore bs Tnzr naq Jro qrirybczrag cebwrpgf gung unir orra perngrq.'
-    no_teachers: 'Lbh ner abg nqzvavfgengvat nal grnpuref.'
+    no_teachers: 'Lbh qba’g unir nal fpubbyf gvrq gb lbhe nppbhag lrg. Cyrnfr pbagnpg lbhe <fgebat>Qvfgevpg Fhpprff Znantre</fgebat> be <n uers="znvygb:fpubbyf@pbqrpbzong.pbz">fpubbyf@pbqrpbzong.pbz</n> gb trg lbhe qnfuobneq frg hc.'
 
   interactives:
     phenomenal_job: 'Curabzrany Wbo!'
@@ -3161,3 +3183,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     console_instructions: 'Frr jul ol bcravat lbhe oebjfre pbafbyr: 1) Evtug pyvpx 2) Pubbfr "Vafcrpg" 3) Pyvpx gur pbafbyr gno.'
     skip_video: 'Fxvc ivqrb'
     unavailable: 'Haninvynoyr'
+
+  teacher_dashboard:
+    lock: 'Ybpx'
+    unlock: 'Haybpx'
+    teacher_locked_message: 'Lbhe grnpure unf ybpxrq gur arkg yriry'
+

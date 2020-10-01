@@ -116,7 +116,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
     teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-    top_banner_blurb: "Parents, book your child's first live online coding class for free!" # {change}
+    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -2860,7 +2860,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     third_party_description: "CodeCombat uses the following third party services (among others):"
     cookies_message: 'CodeCombat uses a few essential and non-essential cookies.'
     cookies_deny: 'Decline non-essential cookies'
-    cookies_allow: 'Allow cookies' # {change}
+    cookies_allow: 'Allow cookies'
 
   ladder_prizes:
     title: "Tournament Prizes"  # This section was for an old tournament and doesn't need new translations now.
@@ -3172,7 +3172,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     students_stat_description: 'Total students accounts for all students across all classrooms, regardless of whether they have licenses applied.'
     active_students_stat_description: 'Active students counts the number of students that have logged into CodeCombat in the last 60 days.'
     project_stat_description: 'Projects created counts the total number of Game and Web development projects that have been created.'
-    no_teachers: 'You don’t have any schools tied to your account yet. Please contact your <strong>District Success Manager</strong> or <a href="mailto:schools@codecombat.com">schools@codecombat.com</a> to get your dashboard set up.' # {change}
+    no_teachers: 'You don’t have any schools tied to your account yet. Please contact your <strong>District Success Manager</strong> or <a href="mailto:schools@codecombat.com">schools@codecombat.com</a> to get your dashboard set up.'
 
   interactives:
     phenomenal_job: 'Phenomenal Job!'

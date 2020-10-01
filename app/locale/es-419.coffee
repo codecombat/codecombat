@@ -116,7 +116,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     teachers_love_codecombat_blurb2: "Recomendarían CodeCombat a otros maestros de Ciencias de la Computación"
     teachers_love_codecombat_blurb3: "Dicen que CodeCombat los ayuda a mejorar las habilidades de resolución de problemas de sus estudiantes"
     teachers_love_codecombat_subblurb: "En asociación con McREL International, líder en orientación basada en investigación y evaluaciones de tecnología educativa."
-    top_banner_blurb: "Nuevo: ¡Únete a nuestra misión!"
+    top_banner_blurb: "Nuevo: ¡Únete a nuestra misión!" # {change}
     try_the_game: "Prueba el juego"
     classroom_edition: "Versión para el aula:"
     learn_to_code: "Aprende a programar:"
@@ -232,6 +232,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     return_coco: "Volver a CodeCombat"
     classes: "Clases"
     term_of_service: "Términos de Servicio"
+#    admin: "Admin"
+#    teacher: "Teacher"
 
   modal:
     close: "Cerrar"
@@ -308,6 +310,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     back_to_ozaria: "Volver a ozaria.com"
     customize_hero: "Personalizar héroe"
     account_settings: "Configuración de cuenta"
+#    back_to_tutorial: "Back to tutorial"
+#    teacher_vega_message: "Students are guided by these tutorial messages. In order to view these messages and to save your progress as you play through the game, please create a student account and play Ozaria as a student."
 
   code:
     if: "si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -482,6 +486,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     already_have_account: "Ya tienes una cuenta de Ozaria o CodeCombat"
     select_your_role: "Selecciona tu rol"
     select_your_state: "Selecciona tu estado"
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   form_validation_errors:
     required: "El campo es obligatorio"
@@ -547,6 +554,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     empty: "Vacío"
     done: "Listo"
     remove: "Quitar"
+#    locked: "Locked"
 
   general:
     and: "y"
@@ -1279,6 +1287,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     get_licenses: "Conseguir licencias"
     get_full_access_to_ozaria: "Obtener acceso completo a Ozaria"
     unlock_all: "Desbloquea todo lo anterior y recibe apoyo para maestros"
+#    unlock_all_dsa: "Unlock all the above plus all the support teachers need"
     comprehensive_dashboards: "Paneles muy completos para maestros y administradores"
     lesson_plans_rubrics_guides: "Planes de estudios, guías de evaluación, guías de soluciones y más"
     dedicated_customer_success_manager: "Un gerente exclusivo de satisfacción del cliente"
@@ -1292,6 +1301,18 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     support_student_progress_desc: "Obtén datos de evaluaciones formativas y sumativas a partir de comprobaciones de conceptos, niveles y proyectos finales para ayudar a los estudiantes a progresar."
     creative_projects: "Proyectos creativos"
     creative_projects_desc: "Despierta la imaginación y desata la creatividad de tus estudiantes con los proyectos finales. Por ejemplo, en el capítulo 2, deben diseñar su propio juego narrativo, que luego pueden compartir con quien quieran. "
+#    looking_for_engaging: "Looking for engaging computer science curriculum?"
+#    licenses_are_required: "Licenses are required for students to continue their journey beyond Chapter 1."
+#    real_world_skills: "Real-World Skills"
+#    real_world_skills_desc: "Students learn typed Python and JavaScript, the two most popular coding languages, and enhance their critical-thinking skills, creativity, and resilience to prepare them for any career."
+#    personalized_learning: "Personalized Learning and Scaffolded Instruction"
+#    personalized_learning_desc: "Students learn concepts at their own pace. Levels increase in difficulty while providing built-in hints to encourage persistence and grit."
+#    flexible_curriculum: "Flexible Standards- Aligned Curriculum"
+#    flexible_curriculum_desc: "100% CSTA-aligned curriculum that can easily be adapted to any schedule, scenario, or setting."
+#    resources_to_support: "Resources to Support Teachers"
+#    resources_to_support_desc: "Lesson plans, extension activities, curriculum guides, and more instructional resources designed with remote and hybrid settings in mind."
+#    actionable_insights: "Actionable Insights for Educators"
+#    actionable_insights_desc: "Empower educators with intuitive student progress and assessment data that makes differentiating instruction possible."
 
   special_offer:
     special_offer: "Oferta Especial"
@@ -2836,6 +2857,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     third_party_description: "CodeCombat utiliza los siguientes servicios de terceros (entre otros):"
     cookies_message: "CodeCombat utiliza algunas cookies esenciales y no esenciales."
     cookies_deny: "Rechazar las cookies no esenciales"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "Premios de Torneos" # This section was for an old tournament and doesn't need new translations now.
@@ -3158,3 +3180,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     console_instructions: "Entérate por qué abriendo la consola de tu navegador: 1) haz clic derecho, 2) elige \"Inspeccionar\" y 3) haz clic en la pestaña Consola."
     skip_video: "Saltar video"
     unavailable: "No disponible"
+
+#  teacher_dashboard:
+#    lock: "Lock"
+#    unlock: "Unlock"
+#    teacher_locked_message: "Your teacher has locked the next level"
