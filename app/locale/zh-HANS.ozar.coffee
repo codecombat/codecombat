@@ -116,7 +116,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teachers_love_codecombat_blurb2: "会向其他计算机科学教师推荐 CodeCombat"
     teachers_love_codecombat_blurb3: "认为 CodeCombat 帮助提高学生解决问题的能力"
     teachers_love_codecombat_subblurb: "数据来源于美国中洲国际教育研究院 (McREL International)，美国中洲国际教育研究院是教育技术研究指导和评估的领导者。"
-#    top_banner_blurb: "New: join our mission!"
+#    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
     try_the_game: "免费试玩"
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
@@ -232,6 +232,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     return_coco: "返回CodeCombat"
     classes: "我的课程"
     term_of_service: "服务条款"
+#    admin: "Admin"
+#    teacher: "Teacher"
 
   modal:
     close: "关闭"
@@ -308,6 +310,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     back_to_ozaria: "返回奥佳睿首页"
     customize_hero: "英雄设置"
     account_settings: "账户设置"
+#    back_to_tutorial: "Back to tutorial"
+#    teacher_vega_message: "Students are guided by these tutorial messages. In order to view these messages and to save your progress as you play through the game, please create a student account and play Ozaria as a student."
 
   code:
     if: "如果" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -482,6 +486,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    already_have_account: "Already have a CodeCombat or Ozaria account"
 #    select_your_role: "Select your role"
 #    select_your_state: "Select your state"
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
 #  form_validation_errors:
 #    required: "Field is required"
@@ -547,6 +554,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    empty: "Empty"
 #    done: "Done"
 #    remove: "Remove"
+#    locked: "Locked"
 
   general:
     and: "与"
@@ -1279,6 +1287,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    get_licenses: "Get Licenses"
 #    get_full_access_to_ozaria: "Get Full Access to Ozaria"
 #    unlock_all: "Unlock all the above plus all the teacher support you need"
+#    unlock_all_dsa: "Unlock all the above plus all the support teachers need"
 #    comprehensive_dashboards: "Comprehensive teacher and administrator dashboards"
 #    lesson_plans_rubrics_guides: "Lesson Plans, Project Rubrics, Solution Guides, and more"
 #    dedicated_customer_success_manager: "A dedicated customer success manager"
@@ -1292,6 +1301,18 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    support_student_progress_desc: "Unlock formative and summative assessment data from Concept Checks, Levels, and Capstone Projects to support student progress."
 #    creative_projects: "Creative Projects"
 #    creative_projects_desc: "Inspire imagination and unleash student creativity with shareable capstone projects, like in Chapter 2 where students design their own storytelling game. "
+#    looking_for_engaging: "Looking for engaging computer science curriculum?"
+#    licenses_are_required: "Licenses are required for students to continue their journey beyond Chapter 1."
+#    real_world_skills: "Real-World Skills"
+#    real_world_skills_desc: "Students learn typed Python and JavaScript, the two most popular coding languages, and enhance their critical-thinking skills, creativity, and resilience to prepare them for any career."
+#    personalized_learning: "Personalized Learning and Scaffolded Instruction"
+#    personalized_learning_desc: "Students learn concepts at their own pace. Levels increase in difficulty while providing built-in hints to encourage persistence and grit."
+#    flexible_curriculum: "Flexible Standards- Aligned Curriculum"
+#    flexible_curriculum_desc: "100% CSTA-aligned curriculum that can easily be adapted to any schedule, scenario, or setting."
+#    resources_to_support: "Resources to Support Teachers"
+#    resources_to_support_desc: "Lesson plans, extension activities, curriculum guides, and more instructional resources designed with remote and hybrid settings in mind."
+#    actionable_insights: "Actionable Insights for Educators"
+#    actionable_insights_desc: "Empower educators with intuitive student progress and assessment data that makes differentiating instruction possible."
 
   special_offer:
     special_offer: "特别优惠"
@@ -2836,6 +2857,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     third_party_description: "CodeCombat使用了下列第三方服务（除了别的以外）："
     cookies_message: "CodeCombat使用了必要和非必要的cookies."
     cookies_deny: "禁用非必要的cookies"
+#    cookies_allow: "Allow cookies"
 
   ladder_prizes:
     title: "竞标赛奖项" # This section was for an old tournament and doesn't need new translations now.
@@ -3158,3 +3180,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     console_instructions: "请按照一下步骤打开浏览器命令行查看原因：1）单击鼠标右键2）选择\"检查\"3）点击Console标签栏"
     skip_video: "跳过视频"
     unavailable: "无法获取资源"
+
+#  teacher_dashboard:
+#    lock: "Lock"
+#    unlock: "Unlock"
+#    teacher_locked_message: "Your teacher has locked the next level"
