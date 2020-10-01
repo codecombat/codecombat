@@ -35,6 +35,9 @@ const HERO_PET = 'HERO_PET'
 const BACKGROUND_OBJECT = 'BACKGROUND_OBJECT'
 const BACKGROUND = 'BACKGROUND'
 
+const VOICE_OVER_VOLUME = 0.9
+const BACKGROUND_VOLUME = 0.15
+
 const QUILL_CONFIG = {
   paragraphTag: 'div',
   customTagAttributes: (op) => {
@@ -74,5 +77,7 @@ module.exports = {
   BACKGROUND,
   QUILL_CONFIG,
   HERO_A_ID,
-  HERO_B_ID
+  HERO_B_ID,
+  VOICE_OVER_VOLUME,
+  BACKGROUND_VOLUME
 }

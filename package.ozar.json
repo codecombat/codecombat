@@ -134,7 +134,7 @@
     "geoip-lite": "^1.1.6",
     "graceful-fs": "~2.0.1",
     "gridfs-stream": "~1.1.1",
-    "howler": "^2.1.2",
+    "howler": "^2.2.0",
     "html-webpack-plugin": "^2.30.1",
     "htmlparser2": "^3.9.1",
     "jade": "^1.11.0",
