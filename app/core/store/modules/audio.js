@@ -7,6 +7,7 @@ export default {
     muted: {
       all: false,
 
+      voiceOver: false,
       background: false,
       soundEffects: false,
       ui: false
@@ -19,6 +20,7 @@ export default {
 
     // Tracks are groupings of sounds that can be played / paused / faded / muted together
     tracks: {
+      voiceOver: new Map(),
       background: new Map(),
       soundEffects: new Map(),
       ui: new Map()
@@ -225,29 +227,39 @@ export default {
     },
 
     /**
-     * Plays a new sound on a track
+     * Plays a new sound on a track.
      *
-     * @param opts {object} Howl configuration to play
+     * @param opts {string|object} SoundId or Howl configuration to play
      * @param opts.track {string} Track to play sound on
+     * @param opts.preloadedId {string} For playing an already loaded sound
+     * @param opts.volume {number} Volume of sound [0, 1]
+     *
+     * If passing in opts as a sound ID:
+     *   Plays an existing sound. If sound is already playing it fires a new sound.
      *
      * @return ID of the newly playing sound
-     *//*
-     * Plays an existing sound.  Noop when sound is already playing.
-     *
-     * @param opts {string} ID of sound to play
-     *
      * @throws {Error} when invalid ID specified
      */
     playSound ({ getters, commit, state, dispatch }, opts) {
-      if (typeof opts !== 'object') {
-        const id = opts
+      if (typeof opts !== 'object' || opts.preloadedId) {
+        const id = typeof opts !== 'object' ? opts : opts.preloadedId
 
         const sound = getters.getSoundById(id)
         if (!sound) {
           throw new Error('Sound ID does not exist')
         }
 
-        sound.play()
+        // Creates a new overlapping oneshot sound instance.
+        const playingInstanceId = sound.play()
+
+        // Setting volume cancels any current fade effects
+        if (typeof opts?.volume === 'number') {
+          // Note: It is important that this happens after the play is called.
+          //       This allows us to only change the volume of the instance playing.
+          //       There may still be another instance playing that has a different volume.
+          sound.volume(opts.volume, playingInstanceId)
+        }
+
         return id
       }
 
@@ -274,9 +286,10 @@ export default {
         mute: howlOpts.muted || state.muted.all || state.muted[opts.track]
       })
 
-      let soundId = Math.random()
+      // Prevent falsy 0 by incrementing
+      let soundId = Math.random() + 1
       while (getters.hasId(soundId)) {
-        soundId = Math.random()
+        soundId = Math.random() + 1
       }
 
       if (!howlOpts.loop) {
