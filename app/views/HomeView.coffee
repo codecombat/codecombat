@@ -41,6 +41,7 @@ module.exports = class HomeView extends RootView
     ],
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
+
     ]
 
   onClickJumbotronDownArrow: ->
