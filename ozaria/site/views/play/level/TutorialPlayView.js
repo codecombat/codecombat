@@ -33,9 +33,9 @@ class TutorialPlayView extends RootComponent {
       intro: {
         levelType: internationalizeLevelType(level.get('ozariaType'), true),
         learningGoals: learningGoals ? utils.i18n(learningGoals, 'body') : 'Learning goals'
-      }
+      },
+      voiceOver: narrative?.voiceOver
     })
-
   }
 }
 

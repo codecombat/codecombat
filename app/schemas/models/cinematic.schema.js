@@ -89,20 +89,6 @@ const ShotSetup = c.object({
   }
 })
 
-const VoiceOver = {
-  oneOf: [
-    c.sound(),
-    c.object({
-      title: 'Hero VO',
-      description: 'This voice over is spoken by the hero',
-      required: ['female', 'male']
-    }, {
-      female: c.sound(),
-      male: c.sound()
-    })
-  ]
-}
-
 const DialogNode = c.object({
   title: 'Dialog Node',
   description: 'A node of a shot. Contains dialog instructions.',
@@ -110,7 +96,7 @@ const DialogNode = c.object({
 }, {
   speaker: c.shortString({ enum: ['left', 'right'], title: 'Speaker', description: 'Which character is speaking. Used to select speech bubble.' }),
   text: { type: 'string', title: 'Text', description: 'html text', maxLength: 500 },
-  voiceOver: VoiceOver,
+  voiceOver: c.voiceOver,
   widthOverride: c.int({ title: 'Text Width(%)', description: 'The percent width of the text dialogue box based on the users screen size. Default is 31.' }),
   textAnimationLength: c.int({ title: 'Text Animation Length(ms)', description: 'The number of milliseconds it takes for the text to animate in.' }),
   speakingAnimationAction: c.shortString({ title: 'Speaking Animation', description: 'The animation to play on the lank while the text is being animated. If not set will default to "talkNeutral"' }),

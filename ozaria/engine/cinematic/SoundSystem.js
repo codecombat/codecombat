@@ -6,21 +6,15 @@ import { getSetupMusic, getSoundEffects, getVoiceOver } from '../../../app/schem
 import { SyncFunction, Sleep, SequentialCommands } from './commands/commands'
 
 import store from 'app/core/store'
-import { HERO_B_ID, VOICE_OVER_VOLUME, BACKGROUND_VOLUME } from './constants'
+import { BACKGROUND_VOLUME } from './constants'
 
 // Returns a voice over command from list of audio files
 // Includes a way to stop audio playing if user skips ahead, or goes backwards.
-const createVoiceOverCommand = ({ src }) => {
-  const soundIdPromise = store.dispatch('audio/playSound', {
-    track: 'voiceOver',
-    autoplay: false,
-    src
-  })
-  const voiceOverPlayCommand = new SyncFunction(async () => {
-    store.dispatch('audio/fadeTrack', { to: 0, track: 'voiceOver', duration: 100 })
-    const soundId = await soundIdPromise
-    store.dispatch('audio/playSound', { preloadedId: soundId, volume: VOICE_OVER_VOLUME })
-  })
+const createVoiceOverCommand = (voiceOverObj) => {
+  const soundIdPromise = store.dispatch('voiceOver/preload', voiceOverObj)
+  const voiceOverPlayCommand = new SyncFunction(() =>
+    store.dispatch('voiceOver/playVoiceOver', soundIdPromise)
+  )
 
   voiceOverPlayCommand.undoCommandFactory = () => {
     return new SyncFunction(() => {
@@ -105,19 +99,10 @@ export class SoundSystem {
       ]))
     })
 
-    let voiceOver = getVoiceOver(dialogNode)
-    if (voiceOver?.male || voiceOver?.female) {
-      const userThangType = (me.get('ozariaUserOptions') || {}).cinematicThangTypeOriginal || HERO_B_ID
-      if (userThangType === HERO_B_ID) {
-        voiceOver = voiceOver.female
-      } else {
-        voiceOver = voiceOver.male
-      }
-    }
-
-    if (voiceOver?.mp3 || voiceOver?.ogg) {
+    const voiceOver = getVoiceOver(dialogNode)
+    if (voiceOver) {
       soundCommands.push(
-        createVoiceOverCommand({ src: Object.values(voiceOver).map(f => `/file/${f}`) })
+        createVoiceOverCommand(voiceOver)
       )
     }
 

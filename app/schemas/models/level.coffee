@@ -6,6 +6,7 @@ c.extendNamedProperties SpecificArticleSchema  # name first
 SpecificArticleSchema.properties.body = {type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown'}
 SpecificArticleSchema.properties.i18n = {type: 'object', format: 'i18n', props: ['name', 'body'], description: 'Help translate this article'}
 SpecificArticleSchema.displayProperty = 'name'
+SpecificArticleSchema.properties.voiceOver = c.voiceOver
 
 side = {title: 'Side', description: 'A side.', type: 'string', 'enum': ['left', 'right', 'top', 'bottom']}
 thang = {title: 'Thang', description: 'The name of a Thang.', type: 'string', maxLength: 60, format: 'thang'}
@@ -91,6 +92,7 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
       mp3: c.shortString(title: 'MP3', format: 'sound-file')
       ogg: c.shortString(title: 'OGG', format: 'sound-file')
       preload: {title: 'Preload', description: 'Whether to load this sound file before the level can begin (typically for the first dialogue of a level).', type: 'boolean' }
+    voiceOver: c.voiceOver
     responses: c.array {title: 'Buttons', description: 'An array of buttons to include with the dialogue, with which the user can respond.'}, ResponseSchema
     character: c.shortString(
       title: 'Character'
