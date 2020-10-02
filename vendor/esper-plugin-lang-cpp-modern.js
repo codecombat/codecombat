@@ -1,10 +1,10 @@
 /*!
  * jaba
  * 
- * Compiled: Tue Nov 05 2019 09:14:09 GMT-0800 (PST)
+ * Compiled: Tue Sep 22 2020 10:33:53 GMT-0700 (PDT)
  * Target  : web (umd)
  * Profile : modern
- * Version : ac898e9-dirty
+ * Version : 5359afd-dirty
  * 
  * 
  * Private
@@ -175,6 +175,8 @@ function skope(node) {
 				next(node.body);
 				methods.pop();
 				return;
+			case "Global":
+				return;
 			case "FieldDeclaration":
 				for ( let frag of node.fragments ) {
 					scope[frag.name.identifier] = {node: node, type: node.type, kind: "ClassFeature"}
@@ -228,7 +230,7 @@ function skope(node) {
 				break;
 			case "ReturnStatement":
 				node.bindType = methods[methods.length-1].returnType2;
-				next(node.expression);
+				if ( node.expression ) next(node.expression);
 				break;
 			case "SuperConstructorInvocation":
 				node.refClass = classes[classes.length-1];
@@ -410,7 +412,7 @@ class JavaCast extends esper.ObjectValue {
 			out.boundType = t;
 			return out;
 		}
-		console.log("CAST FAILED", t);
+		debug("CAST FAILED", t);
 		return args[1];
 	}
 }
@@ -662,7 +664,7 @@ class JavaCreateClass extends EasyObjectValue {
 		target.name = name;
 		target.call = function*(thiz, args, s) {
 			let pt = yield * target.makeThisForNew();
-			console.log("-> Invoke ctor", name);
+			debug("-> Invoke ctor", name);
 			yield * dispatch(name, pt, args, s);
 			return pt;
 		}
@@ -747,6 +749,7 @@ module.exports = {
 	o: {JavaObject},
 	f:{Math:JavaMath, JavaCreateClass, JavaCreateDefault, JavaNewInstance, JavaString, Integer, Double, System} 
 }
+
 
 /***/ }),
 /* 8 */
