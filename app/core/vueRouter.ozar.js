@@ -10,6 +10,7 @@ import BaseAdministeredTeacherClassProgress from '../../ozaria/site/components/s
 import BaseAdministeredTeacherClassProjects from '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherClassProjects/index.vue'
 import BaseAdministeredTeacherLicenses from '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherLicenses/index.vue'
 
+import PageCinematicEditor from '../../ozaria/site/components/cinematic/PageCinematicEditor'
 import BaseCinematicList from '../../ozaria/site/components/cinematic/PageCinematicEditor/BaseCinematicList'
 
 import PageCutsceneEditorList from '../../ozaria/site/components/cutscene/PageCutsceneEditorList'
@@ -39,32 +40,32 @@ export default function getVueRouter () {
       routes: [
         {
           path: '/editor/cinematic',
-          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/cinematic/PageCinematicEditor/BaseCinematicList')
+          component: BaseCinematicList
         },
         {
           // TODO: The cinematic editor route should use vue guards to check for admin access.
           // TODO: Once we have a base editor component, use the nested route structure.
           path: '/editor/cinematic/:slug',
-          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/cinematic/PageCinematicEditor'),
+          component: PageCinematicEditor,
           props: true
         },
         {
           path: '/editor/cutscene',
-          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/cutscene/PageCutsceneEditorList')
+          component: PageCutsceneEditorList
         },
         {
           path: '/editor/cutscene/:slugOrId',
-          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/cutscene/PageCutsceneEditor'),
+          component: PageCutsceneEditor,
           props: true
         },
         {
           path: '/editor/interactive/:slug?',
-          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/interactive/PageInteractiveEditor'),
+          component: PageInteractiveEditor,
           props: true
         },
         {
           path: '/editor/archived-elements',
-          component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/archived-elements/ArchivedElementsEditor'),
+          component: ArchivedElementsEditor,
           beforeEnter: (to, from, next) => {
             // TODO: Fix /editor redirect. The documentation says next('/editor') would redirect to /editor,
             // but it is not working as intended. Perhaps something to do with our use of Backbone and Vue together.
@@ -74,33 +75,32 @@ export default function getVueRouter () {
         },
         {
           path: '/school-administrator',
-          component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminDashboard/index.vue'),
+          component: BaseSchoolAdminDashboard,
           children: [
-            { path: '', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseMySchools/index.vue') },
-            { path: 'teacher/:teacherId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminDashboard/index.vue'), props: true },
-            { path: 'teacher/:teacherId/classes', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherAllClasses/index.vue'), props: true },
-            { path: 'teacher/:teacherId/classes/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherClassProgress/index.vue'), props: true },
-            { path: 'teacher/:teacherId/classes/:classroomId/projects', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherClassProjects/index.vue'), props: true },
-            { path: 'teacher/:teacherId/licenses/', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherLicenses/index.vue'), props: true },
-            { path: 'licenses', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminLicenses/index.vue') }
+            { path: '', component: BaseMySchools },
+            { path: 'teacher/:teacherId', component: BaseAdministeredTeacherAllClasses, props: true },
+            { path: 'teacher/:teacherId/classes', component: BaseAdministeredTeacherAllClasses, props: true },
+            { path: 'teacher/:teacherId/classes/:classroomId', component: BaseAdministeredTeacherClassProgress, props: true },
+            { path: 'teacher/:teacherId/classes/:classroomId/projects', component: BaseAdministeredTeacherClassProjects, props: true },
+            { path: 'teacher/:teacherId/licenses/', component: BaseAdministeredTeacherLicenses, props: true },
+            { path: 'licenses', component: BaseSchoolAdminLicenses }
           ]
         },
-
         {
           path: '/teachers',
-          component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/index.vue'),
+          component: BaseTeacherDashboard,
           children: [
-            { path: '', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseMyClasses/index.vue') },
-            { path: 'classes', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseMyClasses/index.vue') },
-            { path: 'classes/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseSingleClass/index.vue'), props: true },
-            { path: 'projects/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseStudentProjects/index.vue'), props: true },
-            { path: 'licenses', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherLicenses/index.vue') },
-            { path: 'resources', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue') }
+            { path: '', component: BaseMyClasses },
+            { path: 'classes', component: BaseMyClasses },
+            { path: 'classes/:classroomId', component: BaseSingleClass, props: true },
+            { path: 'projects/:classroomId', component: BaseStudentProjects, props: true },
+            { path: 'licenses', component: BaseTeacherLicenses },
+            { path: 'resources', component: BaseResourceHub }
           ]
         },
         {
           path: '/cinematicplaceholder/:levelSlug?',
-          component: () => import(/* webpackChunkName: "play" */ '../../ozaria/site/components/cinematic/CinematicPlaceholder'),
+          component: CinematicPlaceholder,
           props: (route) => {
             return {
               levelSlug: route.params.levelSlug
@@ -109,7 +109,7 @@ export default function getVueRouter () {
         },
         {
           path: '/sign-up/educator',
-          component: () => import(/* webpackChunkName: "account" */ '../../ozaria/site/components/sign-up/PageEducatorSignup/index.vue')
+          component: PageEducatorSignup
         }
       ]
     })

@@ -8,6 +8,7 @@ errors = require 'core/errors'
 User = require 'models/User'
 algolia = require 'core/services/algolia'
 State = require 'models/State'
+loadSegment = require('core/services/segment')
 countryList = require('country-list')()
 UsaStates = require('usa-states').UsaStates
 
@@ -60,6 +61,7 @@ module.exports = class CreateTeacherAccountView extends RootView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @state, 'change:showUsaStateDropdown', -> @renderSelectors('.state')
     @listenTo @state, 'change:stateValue', -> @renderSelectors('.state')
+    loadSegment() unless @segmentLoaded
 
   onLeaveMessage: ->
     if @formChanged
@@ -88,7 +90,7 @@ module.exports = class CreateTeacherAccountView extends RootView
     stateVal = stateElem.val()
     @state.set({stateValue: stateVal})
 
-    if e.target.value == 'United States'
+    if e.target.value == 'United States' 
       @state.set({showUsaStateDropdown: true})
       if !@usaStatesAbbreviations.includes(stateVal)
         @state.set({stateValue: ''})
@@ -249,7 +251,7 @@ module.exports = class CreateTeacherAccountView extends RootView
   onTrialRequestSubmit: ->
     window.tracker?.trackEvent 'Teachers Create Account Submitted', category: 'Teachers', ['Mixpanel']
     @formChanged = false
-
+    
     Promise.resolve()
     .then =>
       attrs = _.pick(forms.formToObject(@$('form')), 'role', 'firstName', 'lastName')
@@ -268,7 +270,7 @@ module.exports = class CreateTeacherAccountView extends RootView
         throw new Error('Could not save user')
       @trigger 'update-settings'
       return jqxhr
-
+      
     .then =>
       { name, email } = forms.formToObject(@$('form'))
       if @gplusAttrs
@@ -286,40 +288,17 @@ module.exports = class CreateTeacherAccountView extends RootView
       return jqxhr
 
     .then =>
-      trialRequestIdentifyData = _.pick @trialRequest.attributes.properties, ["siteOrigin", "marketingReferrer", "referrer", "notes", "numStudentsTotal", "numStudents", "purchaserRole", "role", "phoneNumber", "country", "state", "city", "district", "organization", "nces_students", "nces_name", "nces_id", "nces_phone", "nces_district_students", "nces_district_schools", "nces_district_id", "nces_district"]
-      trialRequestIdentifyData.educationLevel_elementary = _.contains @trialRequest.attributes.properties.educationLevel, "Elementary"
-      trialRequestIdentifyData.educationLevel_middle = _.contains @trialRequest.attributes.properties.educationLevel, "Middle"
-      trialRequestIdentifyData.educationLevel_high = _.contains @trialRequest.attributes.properties.educationLevel, "High"
-      trialRequestIdentifyData.educationLevel_college = _.contains @trialRequest.attributes.properties.educationLevel, "College+"
-
-      application.tracker.identifyAfterNextPageLoad()
-      return window.application.tracker.identify trialRequestIdentifyData
-
-    .then =>
-      trackerCalls = []
-
-      loginMethod = 'CodeCombat'
-      if @gplusAttrs
-        loginMethod = 'GPlus'
-        trackerCalls.push(
-          window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
-        )
-      else if @facebookAttrs
-        loginMethod = 'Facebook'
-        trackerCalls.push(
-          window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
-        )
-
-      trackerCalls.push(
-        window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
-      )
-
-      return Promise.all(trackerCalls).catch(->)
-
+      trialRequestIntercomData = _.pick @trialRequest.attributes.properties, ["siteOrigin", "marketingReferrer", "referrer", "notes", "numStudentsTotal", "numStudents", "purchaserRole", "role", "phoneNumber", "country", "state", "city", "district", "organization", "nces_students", "nces_name", "nces_id", "nces_phone", "nces_district_students", "nces_district_schools", "nces_district_id", "nces_district"]
+      trialRequestIntercomData.educationLevel_elementary = _.contains @trialRequest.attributes.properties.educationLevel, "Elementary"
+      trialRequestIntercomData.educationLevel_middle = _.contains @trialRequest.attributes.properties.educationLevel, "Middle"
+      trialRequestIntercomData.educationLevel_high = _.contains @trialRequest.attributes.properties.educationLevel, "High"
+      trialRequestIntercomData.educationLevel_college = _.contains @trialRequest.attributes.properties.educationLevel, "College+"
+      application.tracker.updateTrialRequestData trialRequestIntercomData
+      
     .then =>
       application.router.navigate(SIGNUP_REDIRECT, { trigger: true })
       application.router.reload()
-
+      
     .then =>
       @trigger 'on-trial-request-submit-complete'
 
@@ -338,7 +317,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       else
         errors.showNotyNetworkError(arguments...)
       @$('#create-account-btn').text('Submit').attr('disabled', false)
-
+    
 
   # GPlus signup
 
@@ -470,10 +449,10 @@ module.exports = class CreateTeacherAccountView extends RootView
   onChangeEmail: (e) ->
     @updateAuthModalInitialValues { email: @$(e.currentTarget).val() }
     @checkEmail()
-
+    
   checkEmail: ->
     email = @$('[name="email"]').val()
-
+    
     if not _.isEmpty(email) and email is @state.get('checkEmailValue')
       return @state.get('checkEmailPromise')
 
@@ -484,11 +463,11 @@ module.exports = class CreateTeacherAccountView extends RootView
         checkEmailPromise: null
       })
       return Promise.resolve()
-
+      
     @state.set({
       checkEmailState: 'checking'
       checkEmailValue: email
-
+      
       checkEmailPromise: (User.checkEmailExists(email)
       .then ({exists}) =>
         return unless email is @$('[name="email"]').val()
@@ -502,7 +481,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       )
     })
     return @state.get('checkEmailPromise')
-
+    
 
 formSchema = {
   type: 'object'
