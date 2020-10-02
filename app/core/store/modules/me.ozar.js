@@ -1,12 +1,14 @@
 import _ from 'lodash'
 const userSchema = require('schemas/models/user')
 const api = require('core/api')
+const utils = require('core/utils')
 
 const emptyUser = _.zipObject((_.keys(userSchema.properties).map((key) => [key, null])))
 
 export default {
   namespaced: true,
-  state: emptyUser,
+  state: _.cloneDeep(emptyUser),
+
   getters: {
     currentUserId (state) {
       return state._id
@@ -20,6 +22,10 @@ export default {
 
     isTeacher (state) {
       return (state != null ? state.role : undefined) === 'teacher'
+    },
+
+    isParent (state) {
+      return (state != null ? state.role : undefined) === 'parent'
     },
 
     forumLink (state) {
@@ -45,7 +51,7 @@ export default {
     },
 
     preferredLocale (state) {
-      return state.preferredLanguage
+      return state.preferredLanguage || 'en-US'
     },
 
     isPaidTeacher (_state, _getters, _rootState, rootGetters) {
@@ -71,6 +77,18 @@ export default {
      */
     getCh1Avatar (state) {
       return (state.ozariaUserOptions || {}).avatar
+    },
+
+    inEU (state) {
+      if (!state.country) {
+        return undefined
+      }
+
+      return utils.inEU(state.country)
+    },
+
+    isSmokeTestUser (state) {
+      return utils.isSmokeTestEmail(state.email)
     }
   },
 
@@ -101,6 +119,10 @@ export default {
       commit('updateUser', { ozariaUserOptions:
         { ...ozariaConfig, avatar: { cinematicThangTypeId, cinematicPetThangId, avatarCodeString } }
       })
+    },
+
+    authenticated ({ commit }, user) {
+      commit('updateUser', user)
     }
   }
 }
