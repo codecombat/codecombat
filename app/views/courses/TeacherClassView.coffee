@@ -701,6 +701,8 @@ module.exports = class TeacherClassView extends RootView
       return if e.handled
       throw e if e instanceof Error and not application.isProduction()
       text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown')
+      if e.responseJSON?.errorName == 'PaymentRequired'
+        text = $.i18n.t('teacher.not_assigned_msg_1')
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 
   removeCourse: (courseID, members) ->
