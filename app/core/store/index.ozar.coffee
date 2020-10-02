@@ -34,6 +34,7 @@ store = new Vuex.Store({
     layoutChrome: require('./modules/layoutChrome').default
     unitMap: require('./modules/unitMap').default
     audio: require('./modules/audio').default
+    voiceOver: require('./modules/voiceOver').default
     archivedElements: require('./modules/archivedElements').default
     prepaids: require('./modules/prepaids').default
     gameContent: require('./modules/gameContent').default
