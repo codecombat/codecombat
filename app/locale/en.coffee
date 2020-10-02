@@ -1395,7 +1395,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
     find_us: "Find us on these sites"
     social_github: "Check out all our code on GitHub"
-    social_blog: "Read the CodeCombat blog on Sett"
+    social_blog: "Read the CodeCombat blog" # {change}
     social_discource: "Join the discussion on our Discourse forum"
     social_facebook: "Like CodeCombat on Facebook"
     social_twitter: "Follow CodeCombat on Twitter"
