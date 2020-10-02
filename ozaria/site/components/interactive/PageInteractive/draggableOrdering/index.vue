@@ -314,8 +314,18 @@
 
   .submit {
     justify-content: flex-end;
-
     margin: 18.69px auto;
+
+    @media(max-height: 799px) {
+      position: absolute;
+      right: -52%;
+      bottom: 0;
+    }
+    @media(max-width: 1199px) {
+      position: absolute;
+      right: -52%;
+      bottom: 0;
+    }
   }
 
   ul {

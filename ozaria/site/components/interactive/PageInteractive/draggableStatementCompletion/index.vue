@@ -384,8 +384,18 @@
 
   .submit {
     justify-content: flex-end;
-
     margin: auto auto 18.69px auto;
+
+    @media(max-height: 799px) {
+      position: absolute;
+      right: 61%;
+      bottom: 5%;
+    }
+    @media(max-width: 1199px) {
+      position: absolute;
+      right: 61%;
+      bottom: 5%;
+    }
   }
 
   /deep/ .slot {

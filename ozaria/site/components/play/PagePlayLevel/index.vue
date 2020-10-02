@@ -22,7 +22,6 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
   import PlayLevelView from 'ozaria/site/views/play/level/PlayLevelView'
   import BackboneViewHarness from 'app/views/common/BackboneViewHarness'
   import LayoutAspectRatioContainer from 'ozaria/site/components/common/LayoutAspectRatioContainer'
