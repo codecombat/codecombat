@@ -195,7 +195,7 @@ module.exports = class User extends CocoModel
     return if oldRole is role or (oldRole and not force)
     @set 'role', role
     @patch()
-    application.tracker?.updateRole()
+    application.tracker.identify()
     return @get 'role'
 
   a = 5
@@ -430,11 +430,14 @@ module.exports = class User extends CocoModel
     options.url = '/auth/logout'
     FB?.logout?()
     options.success ?= ->
-      location = _.result(window.currentView, 'logoutRedirectURL')
-      if location
-        window.location = location
-      else
-        window.location.reload()
+      window.application.tracker.identifyAfterNextPageLoad()
+      window.application.tracker.resetIdentity().finally =>
+        location = _.result(window.currentView, 'logoutRedirectURL')
+        if location
+          window.location = location
+        else
+          window.location.reload()
+
     @fetch(options)
 
   signupWithPassword: (name, email, password, options={}) ->

@@ -6,6 +6,7 @@ forms = require 'core/forms'
 errors = require 'core/errors'
 User = require 'models/User'
 State = require 'models/State'
+store = require 'core/store'
 
 ###
 This view handles the primary form for user details — name, email, password, etc,
@@ -249,7 +250,9 @@ module.exports = class BasicInfoView extends CocoView
 
       return new Promise(jqxhr.then)
 
-    .then =>
+    .then (newUser) =>
+      # More data will be added by the server so make sure to trigger an identify call after page reload
+      window.application.tracker.identifyAfterNextPageLoad()
 
       # Don't sign up, kick to TeacherComponent instead
       if @signupState.get('path') is 'teacher'
@@ -260,7 +263,11 @@ module.exports = class BasicInfoView extends CocoView
         return
 
       # Use signup method
-      window.tracker?.identify() unless User.isSmokeTestUser({ email: @signupState.get('signupForm').email })
+      unless User.isSmokeTestUser({ email: @signupState.get('signupForm').email })
+        # Set new user data and call initial identify
+        store.dispatch('me/authenticated', newUser)
+        window.application.tracker.identify()
+
       switch @signupState.get('ssoUsed')
         when 'gplus'
           { email, gplusID } = @signupState.get('ssoAttrs')
@@ -275,6 +282,27 @@ module.exports = class BasicInfoView extends CocoView
           jqxhr = me.signupWithPassword(name, email, password)
 
       return new Promise(jqxhr.then)
+
+    .then =>
+      trackerCalls = []
+
+      loginMethod = 'CodeCombat'
+      if @signupState.get('ssoUsed') is'gplus'
+        loginMethod = 'GPlus'
+        trackerCalls.push(
+          window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
+        )
+      else if @signupState.get('ssoUsed') is 'facebook'
+        loginMethod = 'Facebook'
+        trackerCalls.push(
+          window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
+        )
+
+      trackerCalls.push(
+        window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
+      )
+
+      return Promise.all(trackerCalls).catch(->)
 
     .then =>
       { classCode, classroom } = @signupState.attributes
