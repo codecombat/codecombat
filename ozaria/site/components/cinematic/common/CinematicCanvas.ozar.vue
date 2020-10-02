@@ -428,14 +428,14 @@ export default {
   border-image: url('/images/ozaria/cinematic/Speech_Bubble_Right.svg')
   background-color: white
   border-image-slice: 40 40 40 40 fill
-  border-image-width: 4rem
-  border-image-outset: 20px 30px 45px 30px
+  border-image-width: 2vw
+  border-image-outset: 4vh 3vw 4vh 3vw
 
 .cinematic-speech-bubble-left
   border-image: url('/images/ozaria/cinematic/Speech_Bubble_Left.svg')
   background-color: white
   border-image-slice: 40 40 40 40 fill
-  border-image-width: 4rem
-  border-image-outset: 20px 30px 45px 30px
+  border-image-width: 2vw
+  border-image-outset: 4vh 3vw 4vh 3vw
 
 </style>

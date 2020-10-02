@@ -416,8 +416,6 @@
     height: 100%;
 
     .code {
-      flex-grow: 1;
-
       /deep/ .CodeMirror {
         font-family: 'Roboto Mono', monospace;
         font-size: 16px;
@@ -444,7 +442,6 @@
 
     .submit {
       justify-content: flex-end;
-
       margin: 18.69px auto;
     }
   }

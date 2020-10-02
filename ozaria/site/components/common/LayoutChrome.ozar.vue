@@ -283,7 +283,8 @@
 
     &.chrome-off-slice, &.chrome-on-slice
       border-image-slice: 182 194 130 118 fill
-      border-image-width: 140px 148px 124px 90px
+      // vh and vw does not scale with browser zoom, creating more space when zoomed in
+      border-image-width: 17vh 12vw 14vh 7vw
       border-image-repeat: round
 
     .side-center-on
@@ -293,35 +294,36 @@
       background: url(/images/ozaria/layout/chrome/central_off.png)
 
     .side-center-off, .side-center-on
-      width: 75px
-      height: 100%
+      width: 6.2vw
+      height: 50vh
       overflow: hidden
       position: absolute
       right: 0
-      top: $topOffset
+      top: 28vh
       background-position: center
       background-size: contain
       background-repeat: no-repeat
+
 
     #chrome-menu
       display: flex
       flex-direction: column
       justify-content: space-around
-      width: 58px
+      width: 4.5vw
       height: 80vh
       position: absolute
       top: calc(10vh + #{$topOffset})
       right: 0
       pointer-events: auto
       .button-flex-item
-        width: 58px
-        height: 58px
-        margin: 3px 0
+        width: 7vh
+        height: 7vh
+        margin: 1vh -0.2vw
         cursor: pointer
 
       .spacer
         flex-grow: 1
-        min-height: 224px
+        min-height: 20vh
 
       .hideBtn
         visibility: hidden
@@ -363,7 +365,7 @@
 
       .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn
         &, &:hover
-          background-size: 45px
+          background-size: 100%
           background-position: center
           background-repeat: no-repeat
 
@@ -383,13 +385,13 @@
       .text-contents
         display: inline-block
         color: #40F3E4
-        padding: 10px 70px 30px
+        padding: 1vh 7vw 2vh
         font-family: 'Open Sans', serif
-        font-size: 24px
+        font-size: 4vh
         letter-spacing: 1.78px
         line-height: 24px
         text-shadow: 0 2px 4px rgba(51,236,201,0.55)
-        min-width: 370px
+        min-width: 40vw
 
       .save-progress-div
         height: 28px
@@ -445,12 +447,12 @@
 
     box-shadow: 0px 3px 3px rgba(0,0,0,0.3)
 
-    &[aria-hidden='true'] 
+    &[aria-hidden='true']
       visibility: hidden
       opacity: 0
       transition: opacity .15s, visibility .15s
 
-    &[aria-hidden='false'] 
+    &[aria-hidden='false']
       visibility: visible
       opacity: 1
       transition: opacity .15s
@@ -483,10 +485,10 @@
         margin-left: 0
         margin-right: 0
 
-    &[x-placement^="right"] 
+    &[x-placement^="right"]
       margin-left: 5px
 
-      .tooltip-arrow 
+      .tooltip-arrow
         border-width: 5px 5px 5px 0
         border-left-color: transparent !important
         border-top-color: transparent !important

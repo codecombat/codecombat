@@ -1,5 +1,5 @@
 
-@import "app/styles/ozaria/_ozaria-style-params.scss"; 
+@import "app/styles/ozaria/_ozaria-style-params.scss";
 @import "app/styles/style-flat-variables.sass";
 
 $title-font-style: 'Arvo', serif;
@@ -8,10 +8,10 @@ $label-font-style: 'Work Sans', sans-serif;
 $code-font-style: 'Roboto Mono', monospace;
 
 // Ozaria Chrome
-$chromeTopPadding: 69px;
-$chromeRightPadding: 76px;
-$chromeBottomPadding: 37px;
-$chromeLeftPadding: 30px;
+$chromeTopPadding: 8vh;
+$chromeRightPadding: 6vw;
+$chromeBottomPadding: 4vh;
+$chromeLeftPadding: 2vw;
 
 // Used in the signup modals
 $authGray: #a4a4a4;

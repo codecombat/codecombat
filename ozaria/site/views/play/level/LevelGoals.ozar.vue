@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="showStatus" class="goals-status rtl-allowed">
-      <span>{{ $t("play_level.goals") }} : {{ $t("play_level." + goalStatus) }}</span>
+      <span class="goal-status-text">{{ $t("play_level.goals") }} : {{ $t("play_level." + goalStatus) }}</span>
     </div>
     <div class="level-goals">
       <!-- TODO: Split this into two components, one the ul, the other the goals-status-->
@@ -54,7 +54,7 @@
         goalStatus = 'running' if @casting
         return goalStatus
       levelGoals: ->
-        @goals.filter((g) => not g.concepts?.length).filter((g) =>
+        filtered = @goals.filter((g) => not g.concepts?.length).filter((g) =>
           # For all non-capstone goals, we how all incomplete goals
           if !@capstoneStage || !g.stage || @goalStates[g.id].status != 'success'
             return true
@@ -62,6 +62,10 @@
           # For the current capstone stage, we show all goals:
           return @capstoneStage == g.stage
         )
+        # Scroll goals into view if necessary (TODO: better suited as a watch trigger):
+        @refreshGoalsView(filtered)
+
+        return filtered
       conceptGoals: ->
         @goals.filter((g) => g.concepts?.length)
       conceptStatus: ->
@@ -70,6 +74,18 @@
           if state?.status is 'success'
             return 'success'
         return 'incomplete'
+    }
+
+    methods: {
+      refreshGoalsView: (filtered) ->
+        # Scroll goals into view if more goals remain
+        if filtered.length > 2 and
+            filtered.filter((g) => @goalStates[g.id].status == 'success').length > 0 and
+            filtered.filter((g) => @goalStates[g.id].status != 'success').length > 0
+          goalsView = $('#goals-view')
+          # Defensive in case this is somehow rendered when no goals are meant to be displayed
+          if goalsView && goalsView.animate
+            goalsView.animate({ scrollTop: (goalsView[0].scrollHeight - goalsView[0].clientHeight ) / 2 })
     }
 
     components: {
@@ -102,10 +118,15 @@
     width: 100%
     background: rgb(60, 60, 60)
     white-space: nowrap
-    padding: 2%
+    overflow-x: scroll
+    padding: 2% 2% 10px 2%
 
   ul
     list-style-type: none
     margin: 0
     padding-left: 5px
+
+  .goal-status-text
+    white-space: nowrap
+    overflow: hidden
 </style>

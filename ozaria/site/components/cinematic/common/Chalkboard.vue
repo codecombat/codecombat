@@ -97,8 +97,12 @@
     font-size: 24px;
     line-height: 28px;
     font-weight: normal;
+    padding: 0.2vh 0.2vw;
     p {
       margin-bottom: 0;
+    }
+    span {
+      font-size: 2vmax;
     }
   }
 </style>
@@ -117,7 +121,7 @@
   overflow: hidden;
 
   #chalkboard-modal {
-    width: 45%;
+    width: 50%;
     height: 80%;
 
     display: flex;
@@ -170,8 +174,8 @@
 
       .chalkboard-decoration {
         background-image: url('/images/ozaria/cinematic/CN_Acodus_Sticker.png');
-        width: 4rem;
-        height: 8rem;
+        width: 3vw;
+        height: 7vh;
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
