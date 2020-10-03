@@ -166,7 +166,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     try_ozaria: "Try Ozaria"
 
   nav:
-    aiyouth: "AI Youth"
     educators: "Educators"
     follow_us: "Follow Us"
     general: "General"
@@ -184,6 +183,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     legal: "Legal"
     privacy: "Privacy Notice"
     about: "About"
+    events: "Events"
     impact: "Impact"
     contact: "Contact"
     twitter_follow: "Follow"
@@ -1395,7 +1395,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
     find_us: "Find us on these sites"
     social_github: "Check out all our code on GitHub"
-    social_blog: "Read the CodeCombat blog" # {change}
+    social_blog: "Read the CodeCombat blog on Sett"
     social_discource: "Join the discussion on our Discourse forum"
     social_facebook: "Like CodeCombat on Facebook"
     social_twitter: "Follow CodeCombat on Twitter"
@@ -3082,7 +3082,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     send: "Send Email"
 
   hoc_2018:
-    banner: "Welcome to Hour of Code 2020!" #{change}
+    banner: "Welcome to Hour of Code 2019!"
     page_heading: "Your students will learn to code by building their own game!"
     step_1: "Step 1: Watch Video Overview"
     step_2: "Step 2: Try it Yourself"
@@ -3107,11 +3107,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     point4: "✓ Project-based courses"
     point5: "✓ Student tracking"
     point6: "✓ Full lesson plans"
-    title: "HOUR OF CODE 2020" #{change}
+    title: "HOUR OF CODE 2019"
     acronym: "HOC"
 
   hoc_2018_interstitial:
-    welcome: "Welcome to CodeCombat's Hour of Code 2020!" #{change}
+    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
     educator: "I'm an educator"
     show_resources: "Show me teacher resources!"
     student: "I'm a student"
@@ -3172,3 +3172,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_type_preset1: 'CS1+CS2+GD1+WD1'
     license_type_preset2: 'CS1+CS2+CS3+CS4'
     license_type_customize: 'Customize Courses'
+
+  events:
+    main_title: 'CodeCombat Events'
+    main_description: 'The important events of codecombat China'
