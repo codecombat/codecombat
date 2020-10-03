@@ -1775,6 +1775,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     assign_course: "分配课程"
 #    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
     remove_course: "移除课程"
+    not_assigned_msg_1: "未能将课程分配给学生, 因为有学生的许可未包含此课程"
     not_assigned_modal_title: "课程未分配"
     not_assigned_modal_starter_body_1: "本课程需要学生许可证。您没有足够的学生许可证来分配本课程给所有选课的学生。"
 #    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."

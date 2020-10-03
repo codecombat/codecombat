@@ -1775,6 +1775,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     assign_course: "Assign Course"
     removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
     remove_course: "Remove Course"
+    not_assigned_msg_1: "Cannot add users to a course instance until they are added to a prepaid that includes this course"
     not_assigned_modal_title: "Courses were not assigned"
     not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
     not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
