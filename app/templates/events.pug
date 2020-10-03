@@ -1,0 +1,27 @@
+extends /templates/base-flat.jade
+
+mixin event(e)
+  .event.anchor.row(id=e.time)
+    .content=e.content
+      .time=e.time
+    .img
+      .img-list
+        each img in e.img
+          img(src="https://assets.koudashijie.com/images/events/" + img)
+      .img-desc=e.imgDesc
+
+block content
+  div(data-spy="scroll", data-target="#nav-container")
+    .container-fluid#jumbotron
+      .container
+        .row
+          //TODO: Size these correctly
+          .col-xs-10
+            h1(data-i18n="events.main_title")
+        .row
+          .col-xs-14
+            h3.description(data-i18n="events.main_description")
+
+    #events-container.container
+      each event in view.events
+        +event(event)

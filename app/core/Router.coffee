@@ -45,6 +45,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
+    'events': go('EventsView')
     'contact-cn': go('ContactCNView')
     'china-bridge': go('ChinaBridgeView')
 

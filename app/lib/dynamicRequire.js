@@ -1,5 +1,6 @@
 module.exports = {
   'views/AboutView': function () { return import(/* webpackChunkName: "AboutView" */ 'views/AboutView') },
+  'views/EventsView': function () { return import(/* webpackChunkName: "EventsView" */ 'views/EventsView')},
   'views/HomeView': function () { return import(/* webpackChunkName: "HomeView" */ 'views/HomeView') },
   'views/HomeCNView': function () { return import(/* webpackChunkName: "HomeCNView" */ 'views/HomeCNView') },
   'views/ContactCNView': function () { return import(/* webpackChunkName: "ContactCNView" */ 'views/ContactCNView') },

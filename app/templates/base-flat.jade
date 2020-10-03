@@ -68,7 +68,12 @@ mixin accountLinks
                       li
                         a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/teachers/quote")
                     li
-                      if document.location.href.search('/about') >= 0
+                      if me.showChinaResourceInfo()
+                        if document.location.href.search('/events') >= 0
+                          a.text-p.text-teal(href="/events", data-i18n="nav.events")
+                        else
+                          a.text-p(href="/events", data-i18n="nav.events")
+                      else if document.location.href.search('/about') >= 0
                         a.text-p.text-teal(href="/about", data-i18n="nav.about")
                       else
                         a.text-p(href="/about", data-i18n="nav.about")
@@ -159,7 +164,7 @@ mixin accountLinks
                       h3(data-i18n="nav.general")
                       ul.list-unstyled
                         li
-                          a(href="/about", data-i18n="nav.about")
+                          a(href="/events", data-i18n="nav.events")
                         //li
                         //  a(href="/about#careers", data-i18n="nav.careers")
                         if !me.isStudent()
