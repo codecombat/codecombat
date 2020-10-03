@@ -166,6 +166,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     try_ozaria: "Try Ozaria"
 
   nav:
+    aiyouth: "AI Youth"
     educators: "Educators"
     follow_us: "Follow Us"
     general: "General"
