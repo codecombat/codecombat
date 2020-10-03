@@ -34,7 +34,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     classroom_in_box_blurb3: "赋能学校和培训机构开设精品编程课"
     classroom_in_box_blurb4: "打造具有全球影响力的编程竞赛平台"
 #    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
-#    click_here: "Click here"
+    click_here: "点击这里"
     creativity_rigor_title: "扣哒世界与众不同"
     creativity_rigor_subtitle1: "寓教于乐，轻松入门"
     creativity_rigor_blurb1: "扣哒世界把编程学习过程具象成”游戏闯关”和小项目开发。鼓励发挥想象力和试错，在潜移默化中掌握编程语法、算法、英语，培养逻辑思维和动手能力。"
@@ -2745,7 +2745,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     third_party_description: "CodeCombat使用了下列第三方服务（除了别的以外）："
     cookies_message: "CodeCombat使用了必要和非必要的cookies."
     cookies_deny: "禁用非必要的cookies"
-#    cookies_allow: "Allow cookies"
+    cookies_allow: "允许cookies"
 
   ladder_prizes:
     title: "竞标赛奖项" # This section was for an old tournament and doesn't need new translations now.
