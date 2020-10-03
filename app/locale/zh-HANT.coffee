@@ -34,7 +34,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     classroom_in_box_blurb3: "激勵更多的學校來創造出世界一流的電腦科學課程。"
 #    classroom_in_box_blurb4: ""
 #    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
-#    click_here: "Click here"
+    click_here: "點擊這裡"
     creativity_rigor_title: "創造力與邏輯相遇的地方"
     creativity_rigor_subtitle1: "讓編碼變得有趣並學習到現實世界共通的技能"
     creativity_rigor_blurb1: "學生在玩遊戲時學會輸入真正的 Python 和 JavaScript 代碼，鼓勵反複試驗、批判性思考和創造力。然後讓學生通過在專題課程中開發自己的遊戲和網站，應用他們學到的編碼技能。"
@@ -751,7 +751,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
-#    click_to_continue: "Click to Continue"
+    click_to_continue: "點擊繼續"
 
 #  apis:
 #    methods: "Methods"
@@ -1376,8 +1376,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     beautify: "利用標準格式來美化您的程式碼"
     maximize_editor: "最大化/最小化程式碼編輯器"
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "點擊任意區域繼續"
 
   community:
     main_title: "CodeCombat社群"
