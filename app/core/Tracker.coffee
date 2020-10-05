@@ -2,6 +2,7 @@
 SuperModel = require 'models/SuperModel'
 utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
+loadSegmentIo = require('core/services/segment')
 api = require('core/api')
 experiments = require('core/experiments')
 
@@ -14,14 +15,59 @@ module.exports = class Tracker extends CocoClass
   cookies: {required: false, answered: false, consented: false, declined: false}
   constructor: ->
     super()
+    if window.tracker
+      console.error 'Overwrote our Tracker!', window.tracker
+    window.tracker = @
     @supermodel = new SuperModel()
     @isProduction = document.location.href.search('ozaria.com') isnt -1
+    @promptForCookieConsent()  # Will call finishInitialization
+
+  promptForCookieConsent: ->
+    return unless $.i18n.lng()  # Will initialize once we finish initializing translations
+    return @finishInitialization() unless me.get('country') and me.inEU()
+    @cookies.required = true
+    @cookiePopup?.close()
+    window.cookieconsent.hasTransition = false
+    window.cookieconsent.initialise
+      onPopupOpen: ->
+        window.tracker.cookiePopup = @
+      onInitialise: (status) ->
+        window.tracker.cookiePopup = @
+        window.tracker.cookies.answered = status in ['allow', 'dismiss', 'deny']
+        window.tracker.cookies.consented = status in ['allow', 'dismiss']
+        window.tracker.cookies.declined = status is 'deny'
+        console.log 'Initial cookie consent status:', status, window.tracker.cookies if debugAnalytics
+        window.tracker.finishInitialization()
+      onStatusChange: (status) ->
+        window.tracker.cookies.answered = status in ['allow', 'dismiss', 'deny']
+        window.tracker.cookies.consented = status in ['allow', 'dismiss']
+        window.tracker.cookies.declined = status is 'deny'
+        console.log 'Cookie consent status change:', status, window.tracker.cookies if debugAnalytics
+      container: document.getElementById('#page-container')
+      palette: {popup: {background: "#000"}, button: {background: "#f1d600"}}
+      hasTransition: false
+      revokable: true
+      law: false
+      location: false
+      type: 'opt-out'
+      content:
+        message: $.i18n.t 'legal.cookies_message'
+        dismiss: $.i18n.t 'general.accept'
+        deny: $.i18n.t 'legal.cookies_deny'
+        link: $.i18n.t 'nav.privacy'
+        href: '/privacy'
 
   finishInitialization: ->
     return if @initialized
     @initialized = true
     @trackReferrers()
+    if @isProduction and me.isTeacher(true) and not me.get('unsubscribedFromMarketingEmails')
+      @initializeIntercom().then =>
+        @identify()
+        @updateRole() if me.get('role')
+      @updateIntercomRegularly()
     @identify() # Needs supermodel to exist first
+    @updateRole() if me.get('role')
 
   trackReferrers: ->
     elapsed = new Date() - new Date(me.get('dateCreated'))
@@ -58,7 +104,12 @@ module.exports = class Tracker extends CocoClass
     @trackEventInternal('Identify', {id: me.id, traits})
     return unless @shouldTrackExternalEvents()
 
-  trackPageView: (includeIntegrations = []) ->
+    if me.isTeacher(true) and @segmentLoaded and not me.get('unsubscribedFromMarketingEmails')
+      traits.createdAt = me.get 'dateCreated'  # Intercom, at least, wants this
+      analytics.identify me.id, traits
+      window.Intercom?('update', traits)
+
+  trackPageView: (includeIntegrations=[]) ->
     name = Backbone.history.getFragment()
     url = "/#{name}"
 
@@ -71,6 +122,14 @@ module.exports = class Tracker extends CocoClass
     ga? 'send', 'pageview', url
     ga?('codeplay.send', 'pageview', url) if features.codePlay
     window.snowplow 'trackPageView'
+
+    if me.isTeacher(true) and @segmentLoaded
+      options = {}
+      if includeIntegrations?.length
+        options.integrations = All: false
+        for integration in includeIntegrations
+          options.integrations[integration] = true
+      analytics.page url, {}, options
 
   trackEvent: (action, properties={}, includeIntegrations=[]) =>
     console.log 'Tracking external analytics event:', action, properties, includeIntegrations if debugAnalytics
@@ -98,6 +157,15 @@ module.exports = class Tracker extends CocoClass
 
       ga? 'send', gaFieldObject
       ga? 'codeplay.send', gaFieldObject if features.codePlay
+
+    if me.isTeacher(true) and @segmentLoaded
+      options = {}
+      if includeIntegrations
+        # https://segment.com/docs/libraries/analytics.js/#selecting-integrations
+        options.integrations = All: false
+        for integration in includeIntegrations
+          options.integrations[integration] = true
+      analytics?.track action, {}, options
 
   trackSnowplow: (event, properties) =>
     return if @shouldBlockAllTracking()
@@ -171,6 +239,63 @@ module.exports = class Tracker extends CocoClass
     console.log 'Would track timing event:', arguments if debugAnalytics
     if @shouldTrackExternalEvents()
       ga? 'send', 'timing', category, variable, duration, label
+
+  initializeIntercom: ->
+    return unless @isProduction and me.isTeacher(true)
+    # Boot Intercom with minimal isOzaria properties based on existence of Ozaria owned trial requests or classrooms
+    intercomSettings = app_id: "zzeo1k6k" # TODO: save Intercom app id somewhere?
+    intercomSettings['user_id'] = me.id
+    TrialRequests = require 'collections/TrialRequests'
+    trialRequests = new TrialRequests()
+    trialRequests.fetchOwn({data: {project: '_id'}}).then (data) ->
+      if data.length > 0
+        # Ozaria trial request means isOzariaNew = true
+        intercomSettings['isOzariaNew'] = true
+        intercomSettings['isOzaria'] = true
+        window.Intercom?('boot', intercomSettings)
+      else
+        # No Ozaria trial request and Ozaria classroom means isOzariaCC = true
+        Classrooms = require 'collections/Classrooms'
+        classrooms = new Classrooms()
+        classrooms.fetchMine({data: {project: '_id'}}).then (data) ->
+          if data.length > 0
+            intercomSettings['isOzariaCC'] = true
+            intercomSettings['isOzaria'] = true
+            window.Intercom?('boot', intercomSettings)
+        , (error) ->
+          console.error 'Tracker failed to fetch classrooms', error
+    , (error) ->
+      console.error 'Tracker failed to fetch trial requests', error
+
+  updateIntercomRegularly: ->
+    return if @shouldBlockAllTracking() or application.testing or not @isProduction
+    timesChecked = 0
+    updateIntercom = =>
+      # Check for new Intercom messages!
+      # Intercom only allows 10 updates for free per page refresh; then 1 per 30min
+      # https://developers.intercom.com/docs/intercom-javascript#section-intercomupdate
+      window.Intercom?('update')
+      timesChecked += 1
+      timeUntilNext = (if timesChecked < 10 then 5*60*1000 else 30*60*1000)
+      setTimeout(updateIntercom, timeUntilNext)
+    setTimeout(updateIntercom, 5*60*1000)
+
+  updateRole: ->
+    return if me.isAdmin() or @shouldBlockAllTracking()
+    return unless me.isTeacher(true)
+    loadSegmentIo()
+    .then =>
+      @segmentLoaded = true and me.useSocialSignOn()
+      @identify()
+    #analytics.page()  # It looks like we don't want to call this here because it somehow already gets called once in addition to this.
+    # TODO: record any events and pageviews that have built up before we knew we were a teacher.
+
+  updateTrialRequestData: (attrs) ->
+    return if @shouldBlockAllTracking()
+    loadSegmentIo()
+    .then =>
+      @segmentLoaded = true and me.useSocialSignOn()
+      @identify(attrs)
 
   shouldBlockAllTracking: ->
     doNotTrack = (navigator?.doNotTrack or window?.doNotTrack) and not (navigator?.doNotTrack is 'unspecified' or window?.doNotTrack is 'unspecified')

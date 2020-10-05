@@ -2,8 +2,8 @@ api = require 'core/api'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
 SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 ncesData = _.zipObject(['nces_'+key, ''] for key in SCHOOL_NCES_KEYS)
+require('core/services/segment')()
 User = require('models/User')
-store = require('core/store')
 
 getDefaultState = () =>
   return {
@@ -75,7 +75,7 @@ module.exports = TeacherSignupStoreModule = {
   }
   actions: {
     createAccount: ({state, commit, dispatch, rootState}) ->
-
+      
       return Promise.resolve()
       .then =>
         saveOptions = {
@@ -97,11 +97,19 @@ module.exports = TeacherSignupStoreModule = {
         delete properties.otherEducationLevel
         delete properties.otherEducationLevelExplanation
         properties.email = state.signupForm.email
-
+        
         return api.trialRequests.post({
           type: 'course'
           properties
         })
+      
+      .then =>
+        trialRequestIntercomData = _.pick state.trialRequestProperties, ["siteOrigin", "marketingReferrer", "referrer", "notes", "numStudentsTotal", "numStudents", "purchaserRole", "role", "phoneNumber", "country", "state", "city", "district", "organization", "nces_students", "nces_name", "nces_id", "nces_phone", "nces_district_students", "nces_district_schools", "nces_district_id", "nces_district"]
+        trialRequestIntercomData.educationLevel_elementary = _.contains state.trialRequestProperties.educationLevel, "Elementary"
+        trialRequestIntercomData.educationLevel_middle = _.contains state.trialRequestProperties.educationLevel, "Middle"
+        trialRequestIntercomData.educationLevel_high = _.contains state.trialRequestProperties.educationLevel, "High"
+        trialRequestIntercomData.educationLevel_college = _.contains state.trialRequestProperties.educationLevel, "College+"
+        application.tracker.updateTrialRequestData trialRequestIntercomData unless User.isSmokeTestUser({ email: state.signupForm.email })
 
       .then =>
         signupForm = _.omit(state.signupForm, (attr) -> attr is '')
@@ -113,10 +121,6 @@ module.exports = TeacherSignupStoreModule = {
           return api.users.signupWithFacebook(attrs)
         else
           return api.users.signupWithPassword(attrs)
-
-      .then (user) =>
-        store.dispatch('me/authenticated', user)
-        application.tracker.identifyAfterNextPageLoad()
 
       .then =>
         userUpdate = {}
@@ -138,27 +142,6 @@ module.exports = TeacherSignupStoreModule = {
             root: true
           })
 
-      .then =>
-        trackerCalls = []
-
-        loginMethod = 'CodeCombat'
-        if state.ssoUsed is'gplus'
-          loginMethod = 'GPlus'
-          trackerCalls.push(
-            window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
-          )
-        else if state.ssoUsed is'facebook'
-          loginMethod = 'Facebook'
-          trackerCalls.push(
-            window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
-          )
-
-        trackerCalls.push(
-          window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
-        )
-
-        return Promise.all(trackerCalls).catch(->)
-
   updateAccount: ({state, commit, dispatch, rootState}) ->
     return api.trialRequests.getOwn()
     .then (trialRequests) =>
@@ -176,28 +159,24 @@ module.exports = TeacherSignupStoreModule = {
       delete properties.otherEducationLevel
       delete properties.otherEducationLevelExplanation
       for key, value of properties
-        if value && value.length > 0
+        if value && value.length > 0 
           trialRequestUpdate.properties[key] = value
       return api.trialRequests.update(trialRequestUpdate)
-
+    
     .then =>
       trialRequestIntercomData = _.pick state.trialRequestProperties, ["siteOrigin", "marketingReferrer", "referrer", "notes", "numStudentsTotal", "numStudents", "purchaserRole", "role", "phoneNumber", "country", "state", "city", "district", "organization", "nces_students", "nces_name", "nces_id", "nces_phone", "nces_district_students", "nces_district_schools", "nces_district_id", "nces_district"]
       trialRequestIntercomData.educationLevel_elementary = _.contains state.trialRequestProperties.educationLevel, "Elementary"
       trialRequestIntercomData.educationLevel_middle = _.contains state.trialRequestProperties.educationLevel, "Middle"
       trialRequestIntercomData.educationLevel_high = _.contains state.trialRequestProperties.educationLevel, "High"
       trialRequestIntercomData.educationLevel_college = _.contains state.trialRequestProperties.educationLevel, "College+"
-      unless User.isSmokeTestUser({ email: state.signupForm.email })
-        # Delay auth flow until tracker call resolves so that we ensure any callbacks are fired but swallow errors
-        # so that we prevent the auth redirect from happning (we don't want to block auth because of tracking
-        # failures)
-        return application.tracker.identify(trialRequestIdentifyData).catch(->)
+      application.tracker.updateTrialRequestData trialRequestIntercomData unless User.isSmokeTestUser({ email: me.get('email') })
 
     .then =>
-        return dispatch(
-          'me/save',
-          { role: state.trialRequestProperties.role.toLowerCase() },
-          { root: true}
-        )
+      return dispatch('me/save', {
+          role: state.trialRequestProperties.role.toLowerCase()
+        }, {
+          root: true
+        })
   }
 }
 

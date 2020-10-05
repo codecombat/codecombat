@@ -54,6 +54,9 @@ module.exports = class AuthModal extends ModalView
     res = tv4.validateMultiple userObject, formSchema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     new Promise(me.loginPasswordUser(userObject.emailOrUsername, userObject.password).then)
+    .then(=>
+      if window.nextURL then window.location.href = window.nextURL else loginNavigate(@subModalContinue)
+    )
     .catch((jqxhr) =>
       showingError = false
       if jqxhr.status is 401
@@ -77,16 +80,6 @@ module.exports = class AuthModal extends ModalView
       if not showingError
         @$('#unknown-error-alert').removeClass('hide')
     )
-    .then(=>
-      application.tracker.identifyAfterNextPageLoad()
-      return application.tracker.identify()
-    )
-    .finally(=>
-      if window.nextURL
-        window.location.href = window.nextURL
-      else
-        loginNavigate(@subModalContinue)
-    )
 
 
   # Google Plus
@@ -105,11 +98,7 @@ module.exports = class AuthModal extends ModalView
             existingUser.fetchGPlusUser(gplusAttrs.gplusID, gplusAttrs.email, {
               success: =>
                 me.loginGPlusUser(gplusAttrs.gplusID, {
-                  success: =>
-                    application.tracker.identifyAfterNextPageLoad()
-                    application.tracker.identify().finally(=>
-                      loginNavigate(@subModalContinue)
-                    )
+                  success: => loginNavigate(@subModalContinue)
                   error: @onGPlusLoginError
                 })
               error: (res, jqxhr) =>
@@ -119,11 +108,7 @@ module.exports = class AuthModal extends ModalView
                       $noty.close()
                       me.loginGPlusUser(gplusAttrs.gplusID, {
                         data: { merge: true, email: gplusAttrs.email }
-                        success: =>
-                          application.tracker.identifyAfterNextPageLoad()
-                          application.tracker.identify().finally(=>
-                            loginNavigate(@subModalContinue)
-                          )
+                        success: => loginNavigate(@subModalContinue)
                         error: @onGPlusLoginError
                       })
                     }, { text: 'No', onClick: ($noty) -> $noty.close() }]
@@ -161,11 +146,7 @@ module.exports = class AuthModal extends ModalView
             existingUser.fetchFacebookUser(facebookAttrs.facebookID, {
               success: =>
                 me.loginFacebookUser(facebookAttrs.facebookID, {
-                  success: =>
-                    application.tracker.identifyAfterNextPageLoad()
-                    application.tracker.identify().then(=>
-                      loginNavigate(@subModalContinue)
-                    )
+                  success: => loginNavigate(@subModalContinue)
                   error: @onFacebookLoginError
                 })
               error: @onFacebookLoginError

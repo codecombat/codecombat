@@ -76,10 +76,7 @@ Object.defineProperties module.exports,
   load:
     enumerable: false
     value: (langCode) ->
-      if langCode in ['en', 'en-US']
-        @storeLoadedLanguage(langCode, module.exports[langCode])
-        return Promise.resolve()
-
+      return Promise.resolve() if langCode in ['en', 'en-US']
       console.log "Loading locale:", langCode
       promises = [
         new Promise (accept, reject) ->

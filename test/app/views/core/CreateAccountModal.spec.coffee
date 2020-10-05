@@ -4,8 +4,6 @@ Classroom = require 'models/Classroom'
 forms = require 'core/forms'
 factories = require 'test/app/factories'
 
-Tracker = require('app/core/Tracker')
-
 SchoolInfoPanel = Vue.extend(require 'views/core/CreateAccountModal/teacher/SchoolInfoPanel')
 TeacherSignupStoreModule = require 'views/core/CreateAccountModal/teacher/TeacherSignupStoreModule'
 
@@ -601,6 +599,7 @@ describe 'CreateAccountModal Vue Store', ->
       spyOn(api.users, 'signupWithFacebook').and.returnValue(Promise.resolve())
       spyOn(api.users, 'signupWithPassword').and.returnValue(Promise.resolve())
       spyOn(api.trialRequests, 'post').and.returnValue(Promise.resolve())
+      spyOn(application.tracker, 'updateTrialRequestData').and.returnValue(Promise.resolve())
       @dispatch = jasmine.createSpy()
       @commit = jasmine.createSpy()
       @rootState = {
