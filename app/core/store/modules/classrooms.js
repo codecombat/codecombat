@@ -1,5 +1,6 @@
 import classroomsApi from 'core/api/classrooms'
 import courseInstancesApi from 'core/api/course-instances'
+import storage from 'core/storage'
 
 export default {
   namespaced: true,
@@ -20,7 +21,11 @@ export default {
       //  }
       byTeacher: {}, // used for teacher dashboard, TODO combine byClassroom/byTeacher?
       byCourseInstanceId: {}
-    }
+    },
+
+    // TODO: Handle HoC classrooms and "most recent classroom" better. This is a hack
+    // for HoC 2020, so classCode is shown in the LayoutChrome
+    mostRecentClassCode: ''
   },
 
   mutations: {
@@ -148,6 +153,13 @@ export default {
         }
       }
       Vue.set(state.classrooms.byTeacher, teacherId, teacherClassroomsState)
+    },
+
+    setMostRecentClassCode: (state, classCode) => {
+      state.mostRecentClassCode = classCode
+      // Persisting to local storage to help HoC users always have their class code in the layout chrome
+      // TODO: Probably better ways to handle this! :)
+      storage.save('most-recent-class-code', classCode)
     }
   },
 
@@ -163,6 +175,16 @@ export default {
     },
     getArchivedClassroomsByTeacher: (state) => (id) => {
       return (state.classrooms.byTeacher[id] || {}).archived
+    },
+    getMostRecentClassCode: (state) => {
+      if (state.mostRecentClassCode?.length > 0) {
+        return state.mostRecentClassCode
+      }
+
+      // For teachers who reload their page or come back after HoC sign up, still show class code:
+      if (me.isTeacher()) {
+        return storage.load('most-recent-class-code')
+      }
     }
   },
 
@@ -194,6 +216,7 @@ export default {
               classroomID,
               classroom: res
             })
+            commit('setMostRecentClassCode', res.codeCamel)
           } else {
             throw new Error('Unexpected response from get classroom API.')
           }
@@ -211,6 +234,7 @@ export default {
             courseInstanceId,
             classroom: res
           })
+          commit('setMostRecentClassCode', res.codeCamel)
         } else {
           throw new Error('Unexpected response from fetchByCourseInstanceId classroom API.')
         }
@@ -268,6 +292,23 @@ export default {
       const classroom = options.classroom
       await classroomsApi.update({ classroomID: classroom._id, updates: options.updates })
       commit('updateClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, updates: options.updates })
+    },
+
+    setMostRecentClassCode: ({ commit }, classCode) => {
+      commit('setMostRecentClassCode', classCode)
+    },
+
+    setMostRecentClassroomId: ({ commit, state }, classroomId) => {
+      // TODO: State should be set across all "by" lookups so it can be looked up properly, but hacking this
+      // by unwrapping the teacher -> active -> classroom -> codeCamel
+      let codeCamel = state?.classrooms?.byClassroom?.[classroomId]?.codeCamel
+      if (!codeCamel) {
+        codeCamel = Object.values(state?.classrooms?.byTeacher || {}).find(t => t?.active)?.active?.find(c => c?._id === classroomId)?.codeCamel
+      }
+
+      if (codeCamel) {
+        commit('setMostRecentClassCode', codeCamel)
+      }
     }
   }
 }

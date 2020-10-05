@@ -11,6 +11,12 @@
       ModalClassInfo,
       ModalInviteStudents
     },
+    props: {
+      classroom: {
+        type: Object,
+        required: true
+      }
+    },
     data: () => {
       return {
         showInviteStudentsModal: false,
@@ -19,7 +25,8 @@
     },
     computed: {
       ...mapGetters({
-        classroom: 'teacherDashboard/getCurrentClassroom',
+        // TODO: Almost certain this can be cut, but leaving in as this will be quickly merged
+        // for HoC and there's no one around to review... :)
         selectedStudentIds: 'baseSingleClass/selectedStudentIds'
       }),
       showClassInfoModal () {

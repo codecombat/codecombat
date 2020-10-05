@@ -10,6 +10,7 @@ import ModalEducatorCompletedSignUp from './ModalEducatorCompletedSignUp'
 import ModalStudentAccountCreated from './StudentSignup/ModalStudentAccountCreated'
 import TeacherSignupStoreModule from 'app/views/core/CreateAccountModal/teacher/TeacherSignupStoreModule'
 import StudentAuthStoreModule from 'ozaria/site/store/StudentAuthStoreModule'
+import store from 'app/core/store'
 
 const utils = require('core/utils')
 
@@ -176,6 +177,7 @@ export default {
 
     setClassCode (classCode) {
       this.classCode = classCode;
+      this.$store.dispatch('classrooms/setMostRecentClassCode', classCode)
     }
   },
 
@@ -191,6 +193,7 @@ export default {
   <base-modal-container
     :id="viewId"
     class="hoc2019-modal"
+    :fade="Boolean(saveProgressModal)"
   >
     <ModalStartJourney
       v-if="currentView === 'ModalStartJourney'"

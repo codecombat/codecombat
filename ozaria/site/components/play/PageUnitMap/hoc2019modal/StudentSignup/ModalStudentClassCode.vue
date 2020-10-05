@@ -65,14 +65,14 @@
     <LayoutSplit @back="$emit('back')">
       <CloseModalBar @click="$emit('closeModal')"/>
       <div id="student-signup">
-
-        <h1>{{$t("hoc_2019.want_to_save")}}</h1>
+        <h1>{{$t("hoc_2019.have_a_class_code")}}</h1>
         <div>
-          <h3>{{$t("hoc_2019.ask_teacher_class_code") + ":"}}</h3>
+          <p class="student-subtitle">{{ $t("hoc_2019.enter_it_here") }}</p>
           <form @submit.prevent="onSubmitForm">
             <div class="form-group">
-              <label class="label-cc" for="classCode">{{$t("hoc_2019.class_code")}}</label>
+              <label class="label-cc" for="class-code-input">{{$t("hoc_2019.class_code")}}</label>
               <input
+                id="class-code-input"
                 class="ozaria-input-field"
                 v-model="classCode"
                 type="text"
@@ -86,12 +86,21 @@
                 type="submit"
                 :disabled="!isClassCodeValid"
               >
-                {{$t("play_level.done")}}
+                {{ $t("common.submit") }}
               </button>
             </div>
           </form>
         </div>
-        <a @click="$emit('closeModal')">{{$t("hoc_2019.dont_have")}}</a>
+
+        <div class="or">
+          <div class="yellow-bar-1"></div>
+          <div class='or-text'><span>{{$t("general.or")}}</span></div>
+          <div class="yellow-bar-2"></div>
+        </div>
+
+        <div class="text-center">
+          <button class="play-now-btn" @click="$emit('closeModal')">{{ $t("new_home.play_now") }}</button>
+        </div>
       </div>
     </LayoutSplit>
 </template>
@@ -105,20 +114,16 @@
   width: 590px;
   padding: 0 30px 40px 24px;
   h1 {
-    color: $pitch;
-    font-family: Work Sans;
+    height: 28px;
+    width: 247px;
+    color: #000000;
+    font-family: "Work Sans";
     font-size: 24px;
-    line-height: 28px;
+    font-weight: 600;
     letter-spacing: 0.83px;
-    font-style: normal;
-  }
-
-  h3 {
-    color: $pitch;
-    font-family: Work Sans;
-    font-size: 20px;
-    line-height: 30px;
-    letter-spacing: 0.3x;
+    line-height: 28px;
+    margin-top: 55px;
+    margin-bottom: 30px;
   }
 
   label.label-cc {
@@ -138,13 +143,6 @@
     text-decoration: underline;
   }
 
-  // hard coded spacing as per design
-  h1 {
-    margin-top: 55px;
-  }
-  h3 {
-    margin-top: 52px;
-  }
   a {
     display: block;
     margin-top: 42px;
@@ -192,13 +190,74 @@
       margin-left: 14px;
       color: $pitch;
       background-image: unset;
-      background-color: $dusk;
+      border-radius: 1px;
+      background-color: #F7D047;
       border: unset;
 
       &:hover {
         background-color: $dusk-dark;
       }
     }
+  }
+
+  .play-now-btn {
+    text-shadow: unset;
+    font-family: Work Sans, "Open Sans", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    line-height: 24px;
+
+    box-sizing: border-box;
+    height: 50px;
+    width: 200px;
+    border: 1px solid #5DB9AC;
+    border-radius: 1px;
+    background-color: #5DB9AC;
+
+    margin-bottom: 35px;
+    margin-top: 20px;
+  }
+
+  .or {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 40px 0 40px 0;
+
+    .yellow-bar-1, .yellow-bar-2 {
+      height: 8px;
+      width: 230px;
+      display: inline-block;
+    }
+    .yellow-bar-1 {
+      background: linear-gradient(to left, #efc947 0%, #F7D047 80.4%, #F7D047 100%);
+    }
+    .yellow-bar-2 {
+      background: linear-gradient(to left, #D1B147 0%, #D1B147 40%, #efc947 100%);
+    }
+    .or-text {
+      width: 54px;
+      text-align: center;
+    }
+    span {
+      font-family: Work Sans;
+      font-size: 28px;
+      line-height: 32px;
+      letter-spacing: 0.56px;
+      color: $goldenlight;
+      font-weight: 600;
+    }
+  }
+
+  .student-subtitle {
+    height: 24px;
+    width: 433px;
+    color: #545B64;
+    font-family: "Work Sans";
+    font-size: 18px;
+    letter-spacing: 0.3px;
+    line-height: 24px;
   }
 }
 </style>

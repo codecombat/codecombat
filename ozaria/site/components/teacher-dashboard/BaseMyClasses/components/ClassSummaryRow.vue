@@ -1,10 +1,13 @@
 <script>
   import ClassInfoRow from '../../common/ClassInfoRow'
   import IconEllipsis from '../../common/icons/IconEllipsis'
+  import IconButtonWithText from '../../common/buttons/IconButtonWithText'
+
   export default {
     components: {
       ClassInfoRow,
-      IconEllipsis
+      IconEllipsis,
+      'icon-button-with-text': IconButtonWithText
     },
     props: {
       classId: {
@@ -24,6 +27,10 @@
         required: true
       },
       dateCreated: {
+        type: String,
+        required: true
+      },
+      codeCamel: {
         type: String,
         required: true
       },
@@ -77,6 +84,19 @@
           :date-created="dateCreated"
         />
       </div>
+      <div class="flex-row class-code">
+        <span class="class-code-title">{{ $t('teachers.class_code') }}</span>
+        <span class="class-code-text">{{ codeCamel }}</span>
+      </div>
+      <div class="flex-row floaty-right">
+        <icon-button-with-text
+            class="icon-with-text"
+            :icon-name="displayOnly ? 'IconAddStudents_Gray' : 'IconAddStudents'"
+            text="Add Students"
+            :inactive="displayOnly"
+            @click="$emit('clickAddStudentsModalButton')"
+        />
+      </div>
       <div
         v-if="!displayOnly"
         class="btn-ellipse"
@@ -92,6 +112,59 @@
   @import "app/styles/bootstrap/variables";
   @import "ozaria/site/styles/common/variables.scss";
   @import "app/styles/ozaria/_ozaria-style-params.scss";
+
+  .class-code {
+    width: 227px;
+    height: 30px;
+
+    margin-right: 20px;
+    padding: 0 9.62px 0 9.67px;
+
+    /* gray 0 */
+    background: #F2F2F2;
+
+    /* Gray 3 */
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+
+    font-family: Work Sans;
+
+    .class-code-title {
+      height: 12px;
+      left: 9.67px;
+      top: 10px;
+      margin-right: 8.15px;
+
+      font-style: italic;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 12px;
+
+      /* identical to box height, or 100% */
+      letter-spacing: 0.333333px;
+
+      display: flex;
+      align-items: center;
+      letter-spacing: 0.333333px;
+      white-space: nowrap;
+
+      /* NOTY */
+      color: #1CA0E2;
+    }
+
+    .class-code-text {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 18px;
+
+      /* identical to box height, or 129% */
+      letter-spacing: 0.266667px;
+
+      /* Gray 6 (Dark text) */
+      color: #545B64;
+    }
+  }
 
   h2 {
     @include font-h-4-nav-uppercase-black;
@@ -129,6 +202,13 @@
 
   .padding-left {
     padding-left: 30px;
+  }
+
+  .floaty-right {
+    width: 150px;
+    height: 46px;
+    white-space: nowrap;
+    margin-right: 30px;
   }
 
   .btn-ellipse {

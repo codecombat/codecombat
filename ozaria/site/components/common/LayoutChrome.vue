@@ -1,6 +1,7 @@
 <script>
   import { mapGetters, mapActions } from 'vuex'
   import SignupModal from 'ozaria/site/components/play/PageUnitMap/hoc2019modal'
+  import { tryCopy } from '../../common/ozariaUtils'
 
   export default Vue.extend({
     components: {
@@ -35,7 +36,9 @@
         soundOn: 'layoutChrome/soundOn',
         getMapUrl: 'layoutChrome/getMapUrl',
         isTeacher: 'me/isTeacher',
-        isStudent: 'me/isStudent'
+        isStudent: 'me/isStudent',
+        isAnonymous: 'me/isAnonymous',
+        classCode: 'classrooms/getMostRecentClassCode'
       }),
 
       mapLink () {
@@ -52,7 +55,7 @@
       },
 
       displaySaveProgressButton () {
-        return me.isAnonymous()
+        return !this.isTeacher && this.isAnonymous
       },
 
       showSaveProgressModal () {
@@ -65,7 +68,7 @@
       // `hoc_progress_modal_time` is set in the unit map component
       // and since chrome is mounted before unit map, the condition will be false while on the unit map page
       // However it will be true if the user navigates to any level from the unit map, since chrome is mounted again on those pages
-      if (window.sessionStorage.getItem('hoc_progress_modal_time') && me.isAnonymous()) {
+      if (window.sessionStorage.getItem('hoc_progress_modal_time') && this.isAnonymous) {
         this.showProgressModal = setInterval(() => {
           if (window.sessionStorage.getItem('show_hoc_progress_modal')) {
             this.openSaveProgressModal = true
@@ -133,6 +136,11 @@
             exitFullScreen.call(document)
           }
         }
+      },
+
+      copyClassCode () {
+        this.$refs['classCodeRef'].select()
+        tryCopy()
       }
     }
   })
@@ -140,8 +148,23 @@
 
 <template>
   <div class="chrome-container">
+    <div v-if="classCode" class="class-code-container">
+      <label for="classCode" class="class-code-descriptor"> {{ $t("teachers.class_code") }} </label>
+      <div class="class-code-text-container">
+        <input
+          id="classCode"
+          class="class-code-text"
+          ref="classCodeRef"
+          :value="classCode"
+          type="text"
+          readonly
+        />
+      </div>
+      <a @click="copyClassCode"><img src="/images/pages/modal/hoc2019/Copy.png" alt="Copy class code"/></a>
+    </div>
+
     <div
-      :class="[ 'chrome-border', chromeOn ? 'chrome-on-slice' : 'chrome-off-slice']"
+        :class="[ 'chrome-border', chromeOn ? 'chrome-on-slice' : 'chrome-off-slice']"
     >
       <div :class="[ chromeOn ? 'side-center-on' : 'side-center-off']" />
 
@@ -237,6 +260,54 @@
 
 <style lang="sass" scoped>
   @import "ozaria/site/styles/common/variables.scss"
+
+  .class-code-container
+    height: 30px
+    width: 274px
+    right: 10%
+    top: 0.5%
+    position: absolute
+    display: flex
+    z-index: 99999
+
+    .class-code-text-container
+      height: 28px
+      width: 192px
+      border-radius: 4px
+      background-color: #231D1D
+      box-shadow: inset 2px 2px 3px 0 rgba(0,0,0,0.5), inset -2px -2px 3px 0 #191213
+      margin: 0 8px 0 8px
+      text-align: center
+
+    .class-code-descriptor
+      height: 28px
+      width: 42px
+      color: #40F3E4
+      font-family: "Space Mono"
+      font-size: 12px
+      font-style: italic
+      letter-spacing: 0.24px
+      line-height: 14px
+      text-align: center
+
+    .class-code-text
+      height: 30px
+      width: 164px
+      color: #40F3E4
+      font-family: "Work Sans"
+      font-size: 18px
+      letter-spacing: 0.36px
+      line-height: 30px
+      text-align: center
+      // Turn off <input> style:
+      background: transparent
+      border: none
+      outline: none
+
+    img
+      cursor: pointer
+      height: 30px
+      width: 24px
 
   .chrome-container
     position: fixed

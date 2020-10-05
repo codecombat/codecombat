@@ -1,7 +1,19 @@
+<script>
+
+export default {
+  props: {
+    fade: {
+      type: Boolean,
+      default: true
+    }
+  }
+}
+</script>
+
 <template>
   <!-- Modified from https://vuejs.org/v2/examples/modal.html -->
   <transition name="modal">
-    <div class="modal-mask">
+    <div :class="`${fade ? 'modal-mask-fade' : 'modal-mask'}`">
       <div class="modal-container">
         <slot />
       </div>
@@ -9,25 +21,45 @@
   </transition>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
     .modal-mask {
-        z-index: 9998;
+      z-index: 9998;
 
-        position: fixed;
-        top: 0;
-        left: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
 
-        width: 100%;
-        height: 100%;
+      width: 100%;
+      height: 100%;
 
-        background-color: rgba(0, 0, 0, .7);
+      display: flex;
 
-        display: flex;
+      align-items: center;
+      justify-content: center;
 
-        align-items: center;
-        justify-content: center;
+      transition: opacity .3s ease;
+    }
 
-        transition: opacity .3s ease;
+    // TODO: Don't repeat modal-mask here. Had unexpected interactions that
+    // I couldn't get to the bottom of. These two could be simplified.
+    .modal-mask-fade {
+      z-index: 9998;
+
+      position: fixed;
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background-color: rgba(0, 0, 0, .7);
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      transition: opacity .3s ease;
     }
 
     .modal-container {

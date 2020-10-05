@@ -174,6 +174,7 @@
     />
     <modal-add-students
       v-if="showAddStudentsModal"
+      :classroom="classroom"
       @close="showAddStudentsModal = false"
     />
     <modal-remove-students
