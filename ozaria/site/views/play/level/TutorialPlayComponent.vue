@@ -878,6 +878,7 @@
     background-image: url('/images/ozaria/level/HoverR.svg')
 
   .shepherd-next-button-inactive
+    cursor: initial
     background-image: url('/images/ozaria/level/InactiveR.svg')
   .shepherd-next-button-inactive:not(:disabled):hover
     background-image: url('/images/ozaria/level/InactiveR.svg')
