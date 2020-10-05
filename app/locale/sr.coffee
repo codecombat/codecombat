@@ -44,7 +44,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     request_licenses: "Контактирај наше школске стручњаке за детаље."
     compete: "Такмичи се!" # Course details page
     spectate: "Посматрај" # Ladder page
+#    simulate_all: "Simulate All"
     players: "играчи" # Hover over a level on /play
     hours_played: "сати играња" # Hover over a level on /play
     items: "Ствари" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     eu_confirmation_place_of_processing: "Сазнај више о могућим ризицима"
     eu_confirmation_student: "Ако ниси сигуран, питај наставника."
     eu_confirmation_individual: "Ако не желиш да чувамо твоје податке на америчким серверима, увек можеш да наставиш анонимно да се играш без чувања кода."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Поврати налог"
@@ -1390,7 +1394,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     article_editor_suffix: "и помози CodeCombat играчима да добију највише од свог играња."
     find_us: "Нађи нас на овим сајтовима"
     social_github: "Погледај цео наш код на GitHub-у"
-    social_blog: "Читај CodeCombat блог на Sett-у"
+    social_blog: "Читај CodeCombat блог на Sett-у" # {change}
     social_discource: "Придружи се дискусији на нашем Discourse форуму"
     social_facebook: "Лајкуј CodeCombat на Фејсбуку"
     social_twitter: "Запрати CodeCombat на Твитеру"
@@ -1770,6 +1774,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     assign_course: "Додели курс"
     removed_course_msg: "{{numberRemoved}} ученици су уклоњени из {{courseName}}."
     remove_course: "Уклони курс"
+#    not_assigned_msg_1: "Cannot add users to a course instance until they are added to a prepaid that includes this course"
     not_assigned_modal_title: "Курсеви нису додељени"
     not_assigned_modal_starter_body_1: "Овај курс захтева почетну лиценцу. Немаш довољно доступних почетних лиценци за доделу овог курса свим __selected__ изабраним ученицима."
     not_assigned_modal_starter_body_2: "Купи почетне лиценце за доделу приступа овом курсу."
@@ -1781,6 +1786,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     no_students_selected: "Ниједан ученик није изабран."
     show_students_from: "Прикажи ученике из" # Enroll students modal
     apply_licenses_to_the_following_students: "Примени лиценце на следеће ученике"
+#    select_license_type: "Select License Type to Apply"
     students_have_licenses: "Следећи ученици већ имају примењене лиценце:"
     all_students: "Сви ученици"
     apply_licenses: "Примени лиценце"
@@ -1839,6 +1845,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     teacher_getting_started_desc: "Нов си на CodeCombat-у? Преузми овај водич за започињање за наставника да направиш свог налог, свој први час и да позовеш ученике на први курс."
     student_getting_started: "Водич за брзо започињање за ученика"
     student_getting_started_desc: "Можеш да поделиш овај водич ученицима пре него што отпочнеш CodeCombat да би могли да се упознају са уређивачем кода. Овај водич може да се користи и за Python и за JavaScript учионице."
+#    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "AP принципи компјутерске науке"
     ap_cs_principles_desc: "AP принципи компјутерске науке дају ученицима широк увод у снагу, утицај и могућности компјутерске науке. Курс истиче компјутерско размишљање и решавање проблема док у исто време учи основе програмирања. "
     cs1: "Увод у компјутерску науку"
@@ -1925,6 +1932,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     student_great_detail: "Овај ученик је можда добар кандидат да помогне другим ученицима да пређу овај курс."
     full_license: "Пуна лиценца"
     starter_license: "Почетна лиценца"
+#    customized_license: "Customized License"
     trial: "Проба"
     hoc_welcome: "Срећа недеља образовања компјутерском науком"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3061,6 +3069,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3072,7 +3081,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3097,11 +3106,11 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3156,3 +3165,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"

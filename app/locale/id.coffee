@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -169,7 +169,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   nav:
 #    educators: "Educators"
     follow_us: "Ikuti Kami"
-    general: "Utama" #General menu
+    general: "Utama"
     map: "Peta"
     play: "Tingkatan" # The top nav bar entry where players choose which levels to play
     community: "Komunitas"
@@ -210,6 +210,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     apcsp: "Fundamental AP CS"
     parent: "Orang Tua"
     browser_recommendation: "Untuk pengalaman yang lebih baik, kami merekomendasikan menggunakan browser chrome terbaru. Download browser disini"
+
   modal:
     close: "Tutup"
     okay: "Baik"
@@ -245,6 +246,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     request_licenses: "Hubungi spesialis sekolah kami untuk rinciannya"
     compete: "Bertanding!" # Course details page
     spectate: "Tonton" # Ladder page
+#    simulate_all: "Simulate All"
     players: "pemain" # Hover over a level on /play
     hours_played: "jam bermain" # Hover over a level on /play
     items: "Barang" # Tooltip on item shop button from /play
@@ -433,6 +435,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Pulihkan Akun"
@@ -1389,7 +1394,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     article_editor_suffix: "dan bantu pemain CodeCombat untuk mendapatkan hasil maksimal dari waktu bermain mereka."
     find_us: "Temukan kami di situs-situs berikut"
     social_github: "Lihat semua kode kami di Github"
-    social_blog: "Baca blog CodeCombat di Sett"
+    social_blog: "Baca blog CodeCombat di Sett" # {change}
     social_discource: "Bergabung dalam diskusi di forum Discourse kami"
     social_facebook: "Like CodeCombat di Facebook"
     social_twitter: "Follow CodeCombat di Twitter"
@@ -1769,6 +1774,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     assign_course: "Daftarkan Kursus"
     removed_course_msg: "{{numberRemoved}} siswa telah dihapus dari {{courseName}}."
     remove_course: "Hapus Kursus"
+#    not_assigned_msg_1: "Cannot add users to a course instance until they are added to a prepaid that includes this course"
     not_assigned_modal_title: "Kursus belum ditetapkan"
     not_assigned_modal_starter_body_1: "Kursus ini membutuhkan Lisensi Awal. Kamu tidak memiliki cukup Lisensi Awal yang tersedia untuk menetapkan kursus ini ke semua __selected__ siswa terpilih."
     not_assigned_modal_starter_body_2: "Beli Lisensi Awal untuk berikan akses ke kursus ini"
@@ -1780,6 +1786,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     no_students_selected: "Tidak ada siswa yang terpilih."
     show_students_from: "Tampilkan siswa dari" # Enroll students modal
     apply_licenses_to_the_following_students: "Gunakan Lisensi untuk Siswa Berikut"
+#    select_license_type: "Select License Type to Apply"
     students_have_licenses: "Siswa berikut telah memiliki lisensi:"
     all_students: "Semua Siswa"
     apply_licenses: "Pakai Lisensi"
@@ -1838,6 +1845,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teacher_getting_started_desc: "Baru di CodeCombat? Unduh Panduan Guru untuk Memulai ini untuk mempersiapkan akunmu, membuat kelas pertamamu, dan mengundang siswa untuk kursus pertama."
     student_getting_started: "Panduan Memulai Cepat Siswa"
     student_getting_started_desc: "Kamu dapat membagikan panduan ini kepada siswamu sebelum memulai CodeCombat supaya mereka dapat membiasakan diri mereka dengan editor kode. Panduan ini dapat digunakan baik untuk kelas Python dan JavaScript."
+#    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "Kepala Sekolah Ilmu Komputer AP"
     ap_cs_principles_desc: "Kepala Sekolah Ilmu Komputer AP memberikan siswa pengenalan luas mengenai kekuatan, pengaruh, dan kemungkinan dalam Ilmu Komputer. Kursus menekankan pemikiran komputasional dan pemecahan masalah sambil mengajar dasar pemrograman."
     cs1: "Pengenalan Ilmu Komputer"
@@ -1924,6 +1932,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     student_great_detail: "Siswa ini mungkin mampu menjadi kandidat yang baik dalam membantu siswa lainnya mengerjakan di kursus ini."
     full_license: "Lisensi Penuh"
     starter_license: "Lisensi Awal"
+#    customized_license: "Customized License"
     trial: "Percobaan"
     hoc_welcome: "Selamat Pekan Pendidikan Ilmu Komputer"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3060,6 +3069,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3071,7 +3081,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3096,11 +3106,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3155,3 +3165,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"

@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     request_licenses: "Posa't en contacte amb els especialistes del centre per obtenir més informació."
     compete: "Competir!" # Course details page
     spectate: "Espectador" # Ladder page
+#    simulate_all: "Simulate All"
     players: "Jugadors" # Hover over a level on /play
     hours_played: "Hores jugades" # Hover over a level on /play
     items: "Objectes" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     eu_confirmation_place_of_processing: "Saber més sobre possibles riscos"
     eu_confirmation_student: "Si dubtes, consulta al teu professorat."
     eu_confirmation_individual: "Si no vols que desem les teves dades als servidors dels EE.UU., sempre pots continuar jugant de manera anònima sense desar el teu codi."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Recuperar Compte"
@@ -1390,7 +1394,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     article_editor_suffix: "i ajuda als jugadors de CodeCombat a treure el màxim profit del seu temps de joc."
     find_us: "Troba'ns en aquests llocs"
     social_github: "Consulteu tot el nostre codi a GitHub"
-    social_blog: "Llegiu el bloc de CodeCombat al setembre"
+    social_blog: "Llegiu el bloc de CodeCombat al setembre" # {change}
     social_discource: "Uneix-te a les discussions al nostre fòrum de comentaris"
     social_facebook: "Fes Like a CodeCombat en Facebook"
     social_twitter: "Segueix CodeCombat al Twitter"
@@ -1770,6 +1774,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     assign_course: "Assignar Curs"
     removed_course_msg: "{{numberRemoved}} alumnes s'han esborrat de {{courseName}}."
     remove_course: "Esborrar Curs"
+#    not_assigned_msg_1: "Cannot add users to a course instance until they are added to a prepaid that includes this course"
     not_assigned_modal_title: "Els cursos no es van assignar"
     not_assigned_modal_starter_body_1: "Aquest curs requereix Llicències Inicials. No tens suficients Llicències Inicials disponibles per assignar aquest curs a tots els __selected__ alumnes seleccionats."
     not_assigned_modal_starter_body_2: "Compra Llicències Inicials per garantir l'accés a aquest curs."
@@ -1781,6 +1786,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     no_students_selected: "No s'ha seleccionat cap alumne."
     show_students_from: "Mostrar alumnat de" # Enroll students modal
     apply_licenses_to_the_following_students: "Otorgar Llicències als següents Alumnes"
+#    select_license_type: "Select License Type to Apply"
     students_have_licenses: "Els següents alumnes ja tenen llicències otorgades:"
     all_students: "Tots els Alumnes"
     apply_licenses: "Otorgar Llicències"
@@ -1839,6 +1845,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     teacher_getting_started_desc: "Ets nou a CodeCombat? Descarrega aquesta Guia d'introducció per a docents per configurar el teu compte, crear la teva primera classe, i invitar alumnat al primer curs."
     student_getting_started: "Guia d'introducció per l'alumnat"
     student_getting_started_desc: "Pots distribuir aquesta guia al teu alumnat abans de començar amb CodeCombat per a que es puguin anar familiaritzant amb l'editor de codi. Aquesta guis serveix tant per classes de Python com de JavaScript."
+#    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "AP Principis d'informàtica"
     ap_cs_principles_desc: "AP Principis d'informàtica dona als estudiants una àmplia introducció al poder, l'impacte i les possibilitats de la informàtica. El curs fa èmfasi en el pensament computacional i la resolució de problemes, a més d'ensenyar els fonaments de la programació."
     cs1: "Introducció a la informàtica"
@@ -1925,6 +1932,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     student_great_detail: "Aquest estudiant pot ser un bon candidat per ajudar altres estudiants que iintentin fer aquest curs."
     full_license: "Llicència Total"
     starter_license: "Llicència Inicial"
+#    customized_license: "Customized License"
     trial: "Prova"
     hoc_welcome: "Feliç setmana de l'aprenentatge d'Informàtica"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3061,6 +3069,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
   parent_modal:
     refer_teacher: "Consulteu al Professor"
@@ -3072,7 +3081,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     send: "E-mail enviat"
 
   hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
     page_heading: "Ensenya als teus alumnes com construir el seu propi joc d'arcade!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3097,11 +3106,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     point4: "✓ Cursos basats en Projectes"
     point5: "✓ Seguiment de l'Alumnat"
     point6: "✓ Planificació de Lliçons complertes"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3156,3 +3165,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"
