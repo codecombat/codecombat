@@ -3110,6 +3110,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     save_progress: 'Save Progress'
     err_google_exists: "An account already exists for the Google account you've selected. Please choose another Google account or sign up with a username and password."
     err_username_taken: "An account already exists for the username you've entered. Please choose another username."
+    enter_it_here: "Enter it here to save your progress as you play:"
+    have_a_class_code: "Have a class code?"
 
   hoc_2018:
     banner: "Happy Computer Science Education Week 2018!"

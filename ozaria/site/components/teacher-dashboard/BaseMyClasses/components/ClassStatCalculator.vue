@@ -41,7 +41,8 @@
           language: this.classroomState.aceConfig.language || 'python',
           numberOfStudents: this.classroomState.members.length || 0,
           classroomCreated: this.classroomCreationDate,
-          archived: this.classroomState.archived
+          archived: this.classroomState.archived,
+          codeCamel: this.classroomState.codeCamel
         }
       },
 
@@ -133,5 +134,6 @@
     :chapter-stats="chapterStatsAdapter"
     :display-only="displayOnly"
     @clickTeacherArchiveModalButton="$emit('clickTeacherArchiveModalButton')"
+    @clickAddStudentsModalButton="$emit('clickAddStudentsModalButton')"
   />
 </template>

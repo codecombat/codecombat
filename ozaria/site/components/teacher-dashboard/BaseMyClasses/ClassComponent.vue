@@ -32,9 +32,11 @@
       :language="classroomStats.language"
       :num-students="classroomStats.numberOfStudents"
       :date-created="classroomStats.classroomCreated"
+      :code-camel="classroomStats.codeCamel"
       :archived="classroomStats.archived"
       :display-only="displayOnly"
       @clickTeacherArchiveModalButton="$emit('clickTeacherArchiveModalButton')"
+      @clickAddStudentsModalButton="$emit('clickAddStudentsModalButton')"
     />
     <class-chapter-summaries :chapter-progress="chapterStats" />
   </div>

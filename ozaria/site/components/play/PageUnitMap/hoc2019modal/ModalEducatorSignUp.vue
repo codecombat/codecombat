@@ -250,14 +250,18 @@
     </div>
     <template slot="aside">
       <div id="teacher-aside">
-        <div class="teacher-asides">
-          <img id="lessonplan-img" src="/images/pages/modal/hoc2019/LessonPlan.png"/>
-          <a href="/teachers/hour-of-code" target="_blank">{{$t("hoc_2019.download_lesson_plan")}}</a>
-        </div>
-        <div class="teacher-asides">
-          <img id="ozaria-img" src="/images/pages/modal/hoc2019/Ozaria.png"/>
-          <a @click="$emit('closeModal')">{{$t("hoc_2019.try_activity_without_class")}}</a>
-        </div>
+        <a @click="$emit('closeModal')" class="gold-dark">
+          <div class="teacher-asides gold-filled">
+            <img id="ozaria-img" class="logo-black" src="/images/pages/modal/hoc2019/Ozaria.png"/>
+            <span>{{$t("hoc_2019.try_activity_without_class")}}</span>
+          </div>
+        </a>
+        <a href="/teachers/hour-of-code" target="_blank" class="gold-gold">
+          <div class="teacher-asides gold-outline">
+            <img id="lessonplan-img" class="f-ile" src="/images/pages/modal/hoc2019/LessonPlan.png"/>
+            <span>{{$t("hoc_2019.download_lesson_plan")}}</span>
+          </div>
+        </a>
       </div>
     </template>
   </LayoutSplit>
@@ -329,6 +333,8 @@
   }
   // TODO: Refactor these out to be a standard button across the codebase:
   .ozaria-btn {
+    // TODO: Breaks text centering, supposed to match https://projects.invisionapp.com/d/main#/console/20582175/432475827/inspect
+    //height: 50px;
     text-shadow: unset;
     font-family: Work Sans, "Open Sans", sans-serif;
     font-size: 20px;
@@ -404,21 +410,64 @@
   }
 }
 #teacher-aside {
+  height: 115px;
+  width: 280px;
+
+  .gold-gold {
+    color: #F7D047;
+  }
+
+  .gold-dark {
+    color: #131B25;
+  }
+
+  .logo-black {
+    width: 43px;
+  }
+
+  .f-ile {
+    width: 50px;
+  }
+
+  a {
+    font-family: "Work Sans";
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.27px;
+  }
+
   .teacher-asides {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 15px;
+  }
 
-    width: 254px;
-    img {
-      width: 60px;
+  .gold-filled {
+    height: 50px;
+    width: 280px;
+    border-radius: 4px;
+    background: linear-gradient(59.61deg, #D1B147 0%, #D1B147 20%, #F7D047 90.4%, #F7D047 100%);
+
+    span {
+      height: 40px;
+      width: 185px;
+      line-height: 18px;
     }
-    a {
-      color: white;
-      text-decoration: underline;
-      font-size: 16px;
+  }
+
+  .gold-outline {
+    box-sizing: border-box;
+    height: 50px;
+    width: 280px;
+    border: 1.5px solid #D1B147;
+    border-radius: 4px;
+
+    span {
+      height: 24px;
+      width: 185px;
       line-height: 24px;
-      letter-spacing: 0.27px;
     }
   }
 }

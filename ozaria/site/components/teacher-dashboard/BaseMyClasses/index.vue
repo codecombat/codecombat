@@ -3,6 +3,7 @@
   import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
   import ClassStatCalculator from './components/ClassStatCalculator'
   import ModalEditClass from '../modals/ModalEditClass'
+  import ModalAddStudents from '../modals/ModalAddStudents'
   import moment from 'moment'
 
   import ButtonsSchoolAdmin from './ButtonsSchoolAdmin'
@@ -12,7 +13,8 @@
     components: {
       ClassStatCalculator,
       ModalEditClass,
-      ButtonsSchoolAdmin
+      ButtonsSchoolAdmin,
+      ModalAddStudents
     },
 
     props: {
@@ -29,6 +31,7 @@
     data: () => {
       return {
         showEditClassModal: false,
+        showAddStudentsModal: false,
         editClassroomObject: {},
         archiveHidden: true
       }
@@ -84,6 +87,11 @@
         this.editClassroomObject = classroom
       },
 
+      openAddModal (classroom) {
+        this.showAddStudentsModal = true
+        this.editClassroomObject = classroom
+      },
+
       clickArchiveArrow () {
         this.archiveHidden = !this.archiveHidden
         if (!this.archiveHidden) {
@@ -107,6 +115,7 @@
           :display-only="displayOnly"
           class="class-stats"
           @clickTeacherArchiveModalButton="openEditModal(clas)"
+          @clickAddStudentsModalButton="openAddModal(clas)"
         />
         <buttons-school-admin
           v-if="displayOnly"
@@ -151,6 +160,11 @@
       v-if="showEditClassModal"
       :classroom="editClassroomObject"
       @close="showEditClassModal = false"
+    />
+    <modal-add-students
+      v-if="showAddStudentsModal"
+      :classroom="editClassroomObject"
+      @close="showAddStudentsModal = false"
     />
   </div>
 </template>
