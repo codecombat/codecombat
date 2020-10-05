@@ -111,7 +111,7 @@ module.exports = class RootView extends CocoView
     eventAction = $(e.target)?.closest('a')?.data('event-action')
     if eventAction
       window.tracker?.trackEvent eventAction, { category: 'Teachers' }
-  
+
   onClickDashboardToggleLink: (e) ->
     $(e.target)?.parent('.dashboard-button')?.addClass('active')
     $(e.target)?.parent('.dashboard-button')?.siblings('.dashboard-button')?.removeClass('active')
@@ -168,7 +168,7 @@ module.exports = class RootView extends CocoView
 
   addLanguagesToSelect: ($select, initialVal) ->
     # For now, we only want to support a few languages for Ozaria when launching for HoC 2019:
-    supportedLanguages = ['en-US', 'es-419', 'zh-HANS', 'ru']
+    supportedLanguages = ['en-US', 'es-419', 'zh-HANS', 'ru', 'he']
     filteredLocale = _.pick(locale, supportedLanguages)
     codes = _.keys(filteredLocale)
 
