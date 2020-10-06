@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     request_licenses: "Επικοινωνήστε με τους ειδικούς του σχολείου για λεπτομέρειες."
     compete: "Αγωνίσου!" # Course details page
     spectate: "Θεατής" # Ladder page
+#    simulate_all: "Simulate All"
     players: "παίκτες" # Hover over a level on /play
     hours_played: "ώρες παιχνιδιού" # Hover over a level on /play
     items: "Αντικείμενα" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Ανάκτηση λογαριασμού"
@@ -1390,7 +1394,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     article_editor_suffix: "και βοήθησε άλλους παίκτες του CodeCombat να εκμεταλλευτούν το χρόνο τους όσο το δυνατόν καλύτερα."
     find_us: "Μπορείς να μας βρεις στους ακόλουθους ιστοχώρους"
     social_github: "Δες όλον τον κώδικά μας στο GitHub"
-    social_blog: "Διάβασε το ιστολόγιο του CodeCombat στο Sett"
+    social_blog: "Διάβασε το ιστολόγιο του CodeCombat στο Sett" # {change}
     social_discource: "Μπείτε στη συζήτηση στο φόρουμ μας που είναι βασισμένο στο Discourse"
     social_facebook: "Κάντε Like στο CodeCombat στο Facebook"
     social_twitter: "Ακολουθείστε το CodeCombat στο Twitter"
@@ -1770,6 +1774,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     assign_course: "Συμμετοχή σε Μάθημα"
     removed_course_msg: "{{numberRemoved}} μαθητές έχουν απομακρυνθεί από {{courseName}}."
     remove_course: "Διαγραφή Μαθήματος"
+#    not_assigned_msg_1: "Cannot add users to a course instance until they are added to a prepaid that includes this course"
     not_assigned_modal_title: "Μαθήματα που δεν έχουν εκχωρηθεί"
     not_assigned_modal_starter_body_1: "Αυτό το μάθημα απαιτεί Άδεια Εκκίνησης. Δεν έχετε στη διάθεσή σας αρκετές Άδειες Εκκίνησης για να εκχωρήσετε αυτό το μάθημα σε όλους τους __selected__ επιλεγμένους μαθητές."
     not_assigned_modal_starter_body_2: "Αγοράστε Άδειες Εκκίνησης για να επιτρέψετε την πρόσβαση σε αυτό το μάθημα."
@@ -1781,6 +1786,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     no_students_selected: "Δεν επιλέχθηκαν μαθητές."
     show_students_from: "Εμφάνιση μαθητών από" # Enroll students modal
     apply_licenses_to_the_following_students: "Εφαρμογή Αδειών στους Ακόλουθους Μαθητές"
+#    select_license_type: "Select License Type to Apply"
     students_have_licenses: "Στου ακόλουθους μαθητές έχει γίνει ήδη αποδοχή άδειας:"
     all_students: "Όλοι οι Μαθητές"
     apply_licenses: "Εφαρμογή Αδειών"
@@ -1839,6 +1845,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     teacher_getting_started_desc: "Καινούριος στο CodeCombat; Κάντε λήψη αυτού του Οδηγού Ξεκινήματος Εκπαιδευτικού για να ρυθμίσετε το λογαριασμό σας, να δημιουργήσετε την πρώτη σας τάξη και να προσκαλέσετε τους μαθητές στο πρώτο μάθημα."
     student_getting_started: "Οδηγός Γρήγορης Εκκίνησης Μαθητή"
     student_getting_started_desc: "Μπορείτε να διανείμετε αυτόν τον οδηγό στους σπουδαστές σας πριν ξεκινήσετε το CodeCombat έτσι ώστε να μπορέσουν να εξοικειωθούν με τον επεξεργαστή κώδικα. Αυτός ο οδηγός μπορεί να χρησιμοποιηθεί για τις τάξεις Python και JavaScript."
+#    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "Αρχές της Επιστήμης των Υπολογιστών AP"
     ap_cs_principles_desc: "Οι Αρχές της Επιστήμης των Υπολογιστών AP παρέχουν στους μαθητές μια ευρεία εισαγωγή στην δύναμη, τον αντίκτυπο και τις δυνατότητες της Πληροφορικής. Το μάθημα δίνει έμφαση στην υπολογιστική σκέψη και την επίλυση προβλημάτων ενώ ταυτόχρονα διδάσκει τα βασικά του προγραμματισμού."
     cs1: "Εισαγωγή στην Πληροφορική"
@@ -1925,6 +1932,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     student_great_detail: "Αυτός ο μαθητής μπορεί να γίνει ένας καλός υποψήφιος για να βοηθήσει άλλους μαθητές που εργάζονται σε αυτού το μαθήματα."
     full_license: "Πλήρη Άδεια"
     starter_license: "Άδεια Εκκίνησης"
+#    customized_license: "Customized License"
     trial: "Δοκιμαστικά"
     hoc_welcome: "Ευτυχισμένη Εβδομάδα Εκπαίδευσης στη Πληροφορική"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3061,6 +3069,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3072,7 +3081,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3097,11 +3106,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3156,3 +3165,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"
