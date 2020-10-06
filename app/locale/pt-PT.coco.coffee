@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     creativity_rigor_blurb3: "O currículo autogerido e alinhado com as normas do CodeCombat torna o ensino das ciências da computação acessível a todos. CodeCombat fornece aos professores a formação, os recursos didácticos e o apoio dedicado para se sentirem confiantes e bem sucedidos na sala de aula."
     featured_partners_title1: "Apresentado em"
     featured_partners_title2: "Prémios e Parceiros"
-    featured_partners_blurb1: "Fornecedor endossado pelo CollegeBoard"
+    featured_partners_blurb1: "Fornecedor endossado pelo CollegeBoard" # {change}
     featured_partners_blurb2: "Melhor Ferramenta de Criatividade para Estudantes"
     featured_partners_blurb3: "Escolha superior para aprendizagem"
     featured_partners_blurb4: "Parceiro Oficial do Code.org"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     for_leaders_subtitle2: "Curriculum de Programação Completo"
     for_leaders_subblurb2: "Um currículo alinhado com as normas, com recursos instrucionais e desenvolvimento profissional para permitir que qualquer professor possa ensinar informática."
     for_leaders_subtitle3: "Casos de Utilização Flexível"
-    for_leaders_subblurb3: "Quer pretendas aprender a programar de uma forma elegível para o Ensino Secundário, ou curso Técnico-profissional, o CodeCombat é adaptado às tuas necessidades."
+    for_leaders_subblurb3: "Quer pretendas aprender a programar de uma forma elegível para o Ensino Secundário, ou curso Técnico-profissional, o CodeCombat é adaptado às tuas necessidades." # {change}
     for_leaders_subtitle4: "Competências para o mundo real"
     for_leaders_subblurb4: "Os estudantes desenvolvem uma mentalidade de crescimento através de desafios de programação que os preparam para os trabalhos de computação existentes no mercado."
     for_teachers_title: "Para Professores"
@@ -207,7 +207,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     help_pref: "Precisas de ajuda? Envia um e-mail para"
     help_suff: "e nós entraremos em contacto!"
     resource_hub: "Centro de Recursos"
-#    apcsp: "AP CS Principles" - Not aplicable in Portugal
+#    apcsp: "AP CS Principles"
     parent: "Educadores"
     browser_recommendation: "Para a melhor experiência, recomendamos a utilização da última versão do Chrome. Descarregue o navegador aqui!"
 
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     request_licenses: "Contacte os nossos especialistas escolares para mais detalhes."
     compete: "Competir!" # Course details page
     spectate: "Assistir" # Ladder page
+#    simulate_all: "Simulate All"
     players: "jogadores" # Hover over a level on /play
     hours_played: "horas jogadas" # Hover over a level on /play
     items: "Itens" # Tooltip on item shop button from /play
@@ -422,6 +423,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     teacher_students_can_start_now: "Os seus alunos poderão começar a jogar o primeiro módulo, Introdução à Ciência da Computação, imediatamente."
     teacher_list_create_class: "No ecrã seguinte, poderá criar uma nova turma."
     teacher_list_add_students: "Adicione alunos à turma clicando no link Ver Turma, depois envie aos seus alunos o Código da Turma ou URL. Pode também convidá-los por correio electrónico se tiverem endereços de correio electrónico."
+#    teacher_list_resource_hub_1: "Check out the"
     teacher_list_resource_hub_2: "Guias de Curso"
     teacher_list_resource_hub_3: "para soluções a todos os níveis, e o"
     teacher_list_resource_hub_4: "Centro de Recursos"
@@ -433,6 +435,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     eu_confirmation_place_of_processing: "Saiba mais sobre os possíveis riscos"
     eu_confirmation_student: "Se não tens a certeza, pergunta ao teu professor."
     eu_confirmation_individual: "Se não quiser que armazenemos os seus dados em servidores dos EUA, pode sempre continuar a jogar anonimamente sem guardar o seu código."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Recuperar Conta"
@@ -1389,7 +1394,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     article_editor_suffix: "e ajuda os jogadores do CodeCombat a obter o máximo do tempo de jogo deles."
     find_us: "Encontra-nos nestes sítios"
     social_github: "Confere todo o nosso código no GitHub"
-    social_blog: "Lê o blog do CodeCombat no Sett"
+    social_blog: "Lê o blog do CodeCombat no Sett" # {change}
     social_discource: "Junta-te à discussão no nosso fórum Discourse"
     social_facebook: "Gosta do CodeCombat no Facebook"
     social_twitter: "Segue o CodeCombat no Twitter"
@@ -1769,6 +1774,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     assign_course: "Atribuir Curso"
     removed_course_msg: "{{numberRemoved}} estudantes foram removidos de {{courseName}}."
     remove_course: "Remover Curso"
+#    not_assigned_msg_1: "Cannot add users to a course instance until they are added to a prepaid that includes this course"
     not_assigned_modal_title: "Os cursos não foram atribuídos"
 #    not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
 #    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
@@ -1780,6 +1786,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     no_students_selected: "Nenhum estudante foi selecionado."
 #    show_students_from: "Show students from" # Enroll students modal
     apply_licenses_to_the_following_students: "Aplicar Licenças aos Seguintes Estudantes"
+#    select_license_type: "Select License Type to Apply"
 #    students_have_licenses: "The following students already have licenses applied:"
     all_students: "Todos os Estudantes"
     apply_licenses: "Aplicar Licenças"
@@ -1838,6 +1845,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    standardized_curricula: "Standardized Curricula"
 #    ap_cs_principles: "AP Computer Science Principles"
 #    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
 #    cs1: "Introduction to Computer Science"
@@ -1924,6 +1932,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    student_great_detail: "This student might be a good candidate to help other students working through this course."
 #    full_license: "Full License"
 #    starter_license: "Starter License"
+#    customized_license: "Customized License"
 #    trial: "Trial"
 #    hoc_welcome: "Happy Computer Science Education Week"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3060,6 +3069,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3071,7 +3081,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3096,11 +3106,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3155,3 +3165,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"

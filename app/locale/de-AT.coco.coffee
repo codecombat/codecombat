@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    request_licenses: "Contact our school specialists for details."
     compete: "Abgeschlossen!" # Course details page
     spectate: "Zuschauen" # Ladder page
+#    simulate_all: "Simulate All"
     players: "Spieler" # Hover over a level on /play
     hours_played: "Stunden gespielt" # Hover over a level on /play
     items: "Gegenstände" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "Account Wiederherstellung"
@@ -1390,7 +1394,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     article_editor_suffix: "und hilf CodeCombat Spielern das meiste aus ihrer Spielzeit heraus zu bekommen."
     find_us: "Finde uns auf diesen Seiten"
 #    social_github: "Check out all our code on GitHub"
-    social_blog: "Lese den CodeCombat Blog auf Sett"
+    social_blog: "Lese den CodeCombat Blog auf Sett" # {change}
     social_discource: "Schließe dich den Diskussionen in unserem Discourse Forum an"
     social_facebook: "Like CodeCombat auf Facebook"
     social_twitter: "Folge CodeCombat auf Twitter"
@@ -1770,6 +1774,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    assign_course: "Assign Course"
 #    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
 #    remove_course: "Remove Course"
+#    not_assigned_msg_1: "Cannot add users to a course instance until they are added to a prepaid that includes this course"
 #    not_assigned_modal_title: "Courses were not assigned"
 #    not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
 #    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
@@ -1781,6 +1786,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    no_students_selected: "No students were selected."
 #    show_students_from: "Show students from" # Enroll students modal
 #    apply_licenses_to_the_following_students: "Apply Licenses to the Following Students"
+#    select_license_type: "Select License Type to Apply"
 #    students_have_licenses: "The following students already have licenses applied:"
 #    all_students: "All Students"
 #    apply_licenses: "Apply Licenses"
@@ -1839,6 +1845,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    standardized_curricula: "Standardized Curricula"
 #    ap_cs_principles: "AP Computer Science Principles"
 #    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
 #    cs1: "Introduction to Computer Science"
@@ -1925,6 +1932,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    student_great_detail: "This student might be a good candidate to help other students working through this course."
 #    full_license: "Full License"
 #    starter_license: "Starter License"
+#    customized_license: "Customized License"
 #    trial: "Trial"
 #    hoc_welcome: "Happy Computer Science Education Week"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3061,6 +3069,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3072,7 +3081,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3097,11 +3106,11 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3156,3 +3165,9 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"

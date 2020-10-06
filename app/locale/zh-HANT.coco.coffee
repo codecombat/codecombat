@@ -44,7 +44,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     creativity_rigor_blurb3: "CodeCombat 可以自我掌控學習步調，共通標準的課程使得教授電腦科學成為可能。CodeCombat 可以為教師提供培訓，教學資源和專門支持，讓他們在課堂上感到自信和成功。"
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    request_licenses: "Contact our school specialists for details."
     compete: "競賽!" # Course details page
     spectate: "觀戰" # Ladder page
+#    simulate_all: "Simulate All"
     players: "玩家" # Hover over a level on /play
     hours_played: "已玩時數" # Hover over a level on /play
     items: "物品" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    eu_confirmation_place_of_processing: "Learn more about the possible risks"
 #    eu_confirmation_student: "If you are not sure, ask your teacher."
 #    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "復原帳號"
@@ -1390,7 +1394,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     article_editor_suffix: "以及幫助CodeCombat玩家在遊戲中獲得更多知識。"
     find_us: "透過這些網站連繫我們"
     social_github: "在GitHub上查看我們的程式碼"
-    social_blog: "閱讀CodeCombat在Sett上的部落格"
+    social_blog: "閱讀CodeCombat在Sett上的部落格" # {change}
     social_discource: "加入我們在Discourse論壇上的討論"
     social_facebook: "關注CodeCombat的Facebook"
     social_twitter: "關注CodeCombat的Twitter"
@@ -1770,6 +1774,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     assign_course: "指派班級"
 #    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
 #    remove_course: "Remove Course"
+#    not_assigned_msg_1: "Cannot add users to a course instance until they are added to a prepaid that includes this course"
     not_assigned_modal_title: "班級未被指派"
     not_assigned_modal_starter_body_1: "這個課程需要一個起始註冊碼。您沒有足夠多可用的起始註冊碼來指派這個課程給所有 __selected__ 選擇的學生。"
     not_assigned_modal_starter_body_2: "購買起始註冊碼來授予這個課程的存取。"
@@ -1781,6 +1786,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     no_students_selected: "沒有選擇的學生。"
     show_students_from: "顯示學生從" # Enroll students modal
     apply_licenses_to_the_following_students: "使用註冊碼到下列的學生"
+#    select_license_type: "Select License Type to Apply"
     students_have_licenses: "下列的學生已經適用註冊碼:"
     all_students: "所有學生"
     apply_licenses: "適用註冊碼"
@@ -1839,6 +1845,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     teacher_getting_started_desc: "對於 CodeCombat 還不熟悉嗎? 下載這份<給已經開始的老師指引>來設立您的帳號，建立您的第一個班級，並且邀請學生來上第一堂課程。"
     student_getting_started: "學生快速開始指引"
     student_getting_started_desc: "您可以分發這份指引給您的學生，然後再開始進行 CodeCombat ，這樣他們就可以自行運用逞式碼編輯器熟悉環境。 這份指引可以適用於 Python 以及 JavaScript 的班級。"
+#    standardized_curricula: "Standardized Curricula"
 #    ap_cs_principles: "AP Computer Science Principles"
 #    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
     cs1: "計算機科學入門"
@@ -1925,6 +1932,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     student_great_detail: "這個學生可能可以幫助其他人學習這個課程"
     full_license: "完整註冊碼"
     starter_license: "起始註冊碼Starter License"
+#    customized_license: "Customized License"
     trial: "試用"
     hoc_welcome: "快樂計算機科學教育週"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3061,6 +3069,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3072,7 +3081,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3097,11 +3106,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3156,3 +3165,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"
