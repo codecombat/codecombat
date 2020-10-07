@@ -674,6 +674,7 @@ export default {
     .row.equal-height {
         display: flex;
         flex-wrap: wrap;
+        width: 100%;
     }
 
     .row.equal-height > [class*='col-'] {
