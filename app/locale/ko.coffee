@@ -44,7 +44,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     creativity_rigor_blurb3: "CodeCombat의 자율적이고 표준화된 커리큘럼은 모든 사람에게 컴퓨터 공학을 가르치는 것을 가능하게 합니다. CodeCombat은 교실에서 자신감과 성취감을 느끼기 위해 교사들에게 트레이닝, 교육 리소스 및 헌신적인 지원을 제공합니다."
     featured_partners_title1: "특집 기사"
     featured_partners_title2: "수상 & 파트너"
-    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+    featured_partners_blurb1: "CollegeBoard Endorsed Provider" # {change}
     featured_partners_blurb2: "학생들을 위한 가장 좋은 창의력 도구"
     featured_partners_blurb3: "Top Pick for Learning"
     featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     for_leaders_subtitle2: "모든 코딩 교육과정"
     for_leaders_subblurb2: "모든 교사가 컴퓨터 과학을 가르칠 수 있도록 교육 자원과 전문적 개발을 갖춘 표준화된 교육과정입니다."
     for_leaders_subtitle3: "유연한 사용성"
-    for_leaders_subblurb3: "CodeCombat은 중학교 코딩 선택 과목, CTE 경로 또는 AP Computer Science Principle 클래스를 만들든 여러분의 필요에 맞게 조정됩니다."
+    for_leaders_subblurb3: "CodeCombat은 중학교 코딩 선택 과목, CTE 경로 또는 AP Computer Science Principle 클래스를 만들든 여러분의 필요에 맞게 조정됩니다." # {change}
     for_leaders_subtitle4: "실무를 위한 기술"
     for_leaders_subblurb4: "학생들은 500K 이상의 개방형 컴퓨팅 작업에 대비하는 코딩 과제를 통해 성장 마인드를 형성하고 개발합니다."
     for_teachers_title: "선생님들을 위해"
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    request_licenses: "Contact our school specialists for details."
     compete: "경쟁!" # Course details page
     spectate: "관중모드" # Ladder page
+#    simulate_all: "Simulate All"
     players: "플레이어" # Hover over a level on /play
     hours_played: "플레이한 시간" # Hover over a level on /play
     items: "아이템" # Tooltip on item shop button from /play
@@ -434,6 +435,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     eu_confirmation_place_of_processing: "Learn more about the possible risks 다른 위험에 대해 알아봅시다."
     eu_confirmation_student: "확실하지 않다면, 선생님께 물어보세요."
     eu_confirmation_individual: "자신의 정보가 미국 서버에 저장되는게 싫으시다면, 언제든지 익명으로 게임하시면 됩니다."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
 
   recover:
     recover_account_title: "계정 복구"
@@ -1390,7 +1394,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     article_editor_suffix: "코드컴뱃 플레이어를 도와 자신의 플레이 시간을 최대한 활용하게해주십시오."
     find_us: "이 사이트에서 우리를 찾기"
     social_github: "GitHub에서 우리의 모든 코드를 체크아웃하기"
-    social_blog: "Sett의 코드컴뱃 블로그 읽기"
+    social_blog: "Sett의 코드컴뱃 블로그 읽기" # {change}
     social_discource: "토론 포럼에서 토론에 참여하기"
     social_facebook: "Facebook에서 코드컴뱃 좋아요하기"
     social_twitter: "Twitter에서 코드컴뱃 팔로우하기"
@@ -1770,6 +1774,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    assign_course: "Assign Course"
 #    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
 #    remove_course: "Remove Course"
+#    not_assigned_msg_1: "Cannot add users to a course instance until they are added to a prepaid that includes this course"
 #    not_assigned_modal_title: "Courses were not assigned"
 #    not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
 #    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
@@ -1781,6 +1786,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    no_students_selected: "No students were selected."
 #    show_students_from: "Show students from" # Enroll students modal
 #    apply_licenses_to_the_following_students: "Apply Licenses to the Following Students"
+#    select_license_type: "Select License Type to Apply"
 #    students_have_licenses: "The following students already have licenses applied:"
 #    all_students: "All Students"
 #    apply_licenses: "Apply Licenses"
@@ -1839,6 +1845,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    standardized_curricula: "Standardized Curricula"
 #    ap_cs_principles: "AP Computer Science Principles"
 #    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
 #    cs1: "Introduction to Computer Science"
@@ -1925,6 +1932,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    student_great_detail: "This student might be a good candidate to help other students working through this course."
 #    full_license: "Full License"
 #    starter_license: "Starter License"
+#    customized_license: "Customized License"
 #    trial: "Trial"
 #    hoc_welcome: "Happy Computer Science Education Week"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -3061,6 +3069,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3072,7 +3081,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3097,11 +3106,11 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3156,3 +3165,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_preset1: "CS1+CS2+GD1+WD1"
+#    license_type_preset2: "CS1+CS2+CS3+CS4"
+#    license_type_customize: "Customize Courses"
