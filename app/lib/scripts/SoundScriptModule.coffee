@@ -71,7 +71,8 @@ module.exports = class SoundScriptModule extends ScriptModule
         # during restarts.  See endNote method for more details.
         unique: "level/soundScriptModule/background/#{@noteGroup.sound.music.file}"
         src: [ "/file#{@noteGroup.sound.music.file}.ogg", "/file#{@noteGroup.sound.music.file}.mp3" ]
-        loop: true
+        loop: true,
+        volume: 0.25
       }
 
     return note

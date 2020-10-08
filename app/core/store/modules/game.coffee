@@ -36,7 +36,8 @@ module.exports = {
       state.timesAutocompleteUsed = times
     addTutorialStep: (state, step) ->
       if state.tutorial.find((s) ->
-        return _.isEqual(step, s)
+        # There is a function property that needs to be omitted because they don't compare
+        return _.isEqual(_.omit(step, _.functions(step)), _.omit(s, _.functions(s)))
       )
         return
 
@@ -59,7 +60,16 @@ module.exports = {
   }
   actions: {
     # Idempotent, will not add the same step twice
-    addTutorialStep: ({ commit, rootState }, step) ->
+    addTutorialStep: ({ commit, rootState, dispatch }, step) ->
+      # Turns voiceOver property into a function to play voice over if possible.
+
+      if step.voiceOver
+        soundIdPromise = dispatch('voiceOver/preload', step.voiceOver, { root: true })
+        # Lazy function we can call to play the voice over.
+        # TODO: Localize by passing in different file path based on i18n.
+        step.playVoiceOver = () => dispatch('voiceOver/playVoiceOver', soundIdPromise, { root: true })
+
+
       commit('addTutorialStep', step)
     setTutorialActive: ({ commit, rootState }, tutorialActive) ->
       commit('setTutorialActive', tutorialActive)
@@ -73,10 +83,11 @@ module.exports = {
       commit('resetTutorial', options)
     # Idempotent, will not add the same step twice
     # Appends steps to the tutorial, extracting information from each say event in sayEvents
-    addTutorialStepsFromSayEvents: ({ commit, rootState }, sayEvents) ->
+    addTutorialStepsFromSayEvents: ({ commit, rootState, dispatch }, sayEvents) ->
       sayEvents.forEach((sayEvent) ->
         { say, tutorial } = sayEvent
-        commit('addTutorialStep', {
+
+        dispatch('addTutorialStep', {
           message: utils.i18n(say, 'text')
           # To stay backwards compatible with old Vega messages,
           # they are turned into stationary Vega messages with no other qualities:
@@ -87,6 +98,7 @@ module.exports = {
           grayOverlay: tutorial?.grayOverlay
           advanceOnTarget: tutorial?.advanceOnTarget
           internalRelease: tutorial?.internalRelease
+          voiceOver: say.voiceOver
         })
       )
     toggleCodeBank: ({ commit, rootState }) ->

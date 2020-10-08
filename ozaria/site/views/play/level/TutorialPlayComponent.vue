@@ -368,6 +368,11 @@
           tutorialStep = this.teacherStep
         }
 
+        if (typeof tutorialStep?.playVoiceOver === 'function') {
+          // This plays a voiceOver track cutting off existing track if user is going fast.
+          tutorialStep.playVoiceOver()
+        }
+
         if (this.hasLineHighlighting) {
           // The editor tries to scroll down to show the latest code. For line highlighting, we need specific
           // line numbers, so we to scroll to the top (as early as possible) so the offset is correct:
