@@ -43,7 +43,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     creativity_rigor_blurb3: "PbqrPbzong’f frys-cnprq, fgnaqneqf-nyvtarq pheevphyhz znxrf grnpuvat pbzchgre fpvrapr cbffvoyr sbe rirelbar. PbqrPbzong rdhvcf grnpuref jvgu gur genvavat, vafgehpgvbany erfbheprf, naq qrqvpngrq fhccbeg gb srry pbasvqrag naq fhpprffshy va gur pynffebbz."
     featured_partners_title1: "Srngherq Va"
     featured_partners_title2: "Njneqf & Cnegaref"
-    featured_partners_blurb1: "Pyrire Cnegare" #{punatr}
+    featured_partners_blurb1: "Pyrire Cnegare" #
     featured_partners_blurb2: "Orfg Perngvivgl Gbby sbe Fghqragf"
     featured_partners_blurb3: "Gbc Cvpx sbe Yrneavat"
     featured_partners_blurb4: "Pbqr.bet Bssvpvny Cnegare"
@@ -56,7 +56,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     for_leaders_subtitle2: "Shyy Pbqvat Pheevphyhz"
     for_leaders_subblurb2: "N fgnaqneqf-nyvtarq pheevphyhz jvgu vafgehpgvbany erfbheprf naq cebsrffvbany qrirybczrag gb ranoyr nal grnpure gb grnpu pbzchgre fpvrapr."
     for_leaders_subtitle3: "Syrkvoyr Hfr Pnfrf"
-    for_leaders_subblurb3: "Jurgure lbh jnag gb ohvyq n Zvqqyr Fpubby pbqvat ryrpgvir, n PGR cngujnl, be ner grnpuvat na Vageb gb PF pynff, PbqrPbzong vf gnvyberq gb fhvg lbhe arrqf." #{punatr}
+    for_leaders_subblurb3: "Jurgure lbh jnag gb ohvyq n Zvqqyr Fpubby pbqvat ryrpgvir, n PGR cngujnl, be ner grnpuvat na Vageb gb PF pynff, PbqrPbzong vf gnvyberq gb fhvg lbhe arrqf." #
     for_leaders_subtitle4: "Erny-Jbeyq Fxvyyf"
     for_leaders_subblurb4: "Fghqragf ohvyq tevg naq qrirybc n tebjgu zvaqfrg guebhtu pbqvat punyyratrf gung cercner gurz sbe gur 500X+ bcra pbzchgvat wbof."
     for_teachers_title: "Sbe Grnpuref"
@@ -1394,7 +1394,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     article_editor_suffix: "naq uryc PbqrPbzong cynlref trg gur zbfg bhg bs gurve cynlgvzr."
     find_us: "Svaq hf ba gurfr fvgrf"
     social_github: "Purpx bhg nyy bhe pbqr ba TvgUho"
-    social_blog: "Ernq gur PbqrPbzong oybt" # {punatr}
+    social_blog: "Ernq gur PbqrPbzong oybt"
     social_discource: "Wbva gur qvfphffvba ba bhe Qvfpbhefr sbehz"
     social_facebook: "Yvxr PbqrPbzong ba Snprobbx"
     social_twitter: "Sbyybj PbqrPbzong ba Gjvggre"
@@ -3082,7 +3082,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     send: "Fraq Rznvy"
 
   hoc_2018:
-    banner: "Jrypbzr gb Ubhe bs Pbqr 2020!" #{punatr}
+    banner: "Jrypbzr gb Ubhe bs Pbqr 2020!" #
     page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!"
     step_1: "Fgrc 1: Jngpu Ivqrb Bireivrj"
     step_2: "Fgrc 2: Gel vg Lbhefrys"
@@ -3107,11 +3107,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     point4: "✓ Cebwrpg-onfrq pbhefrf"
     point5: "✓ Fghqrag genpxvat"
     point6: "✓ Shyy yrffba cynaf"
-    title: "UBHE BS PBQR 2020" #{punatr}
+    title: "UBHE BS PBQR 2020" #
     acronym: "UBP"
 
   hoc_2018_interstitial:
-    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2020!" #{punatr}
+    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2020!" #
     educator: "V'z na rqhpngbe"
     show_resources: "Fubj zr grnpure erfbheprf!"
     student: "V'z n fghqrag"
