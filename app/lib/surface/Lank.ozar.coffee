@@ -763,7 +763,8 @@ module.exports = Lank = class Lank extends CocoClass
 
   # Sounds dont loop and never stop
   # Sounds don't play duplicate levels
-  playSound: (sound, withDelay=true, volume=1.0) ->
+  # Volume is set to 0.3 by default to let voice over pop
+  playSound: (sound, withDelay=true, volume=0.3) ->
     # Sounds are triggered once and play until they complete.  If a sound is already playing it
     # is not played again.  These constraints allow us to wait until the thang type is loaded to
     # play sounds.
