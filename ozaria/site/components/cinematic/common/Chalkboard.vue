@@ -92,18 +92,20 @@
 }
 </style>
 
-<style lang="scss">
+<style>
   #markdown-contents {
     font-size: 24px;
     line-height: 28px;
     font-weight: normal;
     padding: 0.2vh 0.2vw;
-    p {
+  }
+
+  #markdown-contents p {
       margin-bottom: 0;
-    }
-    span {
-      font-size: 2vmax;
-    }
+  }
+
+  #markdown-contents span {
+      font-size: min(2vmax, 24px);
   }
 </style>
 
