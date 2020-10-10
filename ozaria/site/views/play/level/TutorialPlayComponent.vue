@@ -1034,7 +1034,7 @@
     width: $game-view-width
     height: $goals-vega-height
     background: #000000
-    z-index: 10000 // Must be a larger z-index than svg overlay.
+    z-index: 1001 // Must be a larger z-index than svg overlay, less than .modal-mask
     justify-content: center
     align-items: center
 
