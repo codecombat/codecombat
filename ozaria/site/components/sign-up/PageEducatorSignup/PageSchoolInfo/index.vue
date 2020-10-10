@@ -141,12 +141,14 @@
       .marketingConsent.form-group.row
         .col-xs-10.form-checkbox-input
           input#marketingConsent(name="marketingConsent", type="checkbox", v-model="marketingConsent")
-          span {{ $t("signup.teacher_email_announcements") }}
+          label(for="marketingConsent")
+            span {{ $t("signup.teacher_email_announcements") }}
       .gdprConsent.form-group.row(v-if="isEU")
         .col-xs-10.form-checkbox-input
           input#gdprConsent(name="gdprConsent", type="checkbox", v-model="gdprConsent")
-          span {{ $t("signup.eu_confirmation") }}!{' '}
-            a(href="https://www.ozaria.com/privacy#gdpr" target="_blank") {{ $t("signup.eu_confirmation_place_of_processing") }}
+          label(for="gdprConsent")
+            span {{ $t("signup.eu_confirmation") }}!{' '}
+              a(href="https://www.ozaria.com/privacy#gdpr" target="_blank") {{ $t("signup.eu_confirmation_place_of_processing") }}
       .buttons.form-group.row
         .col-xs-offset-7
           secondary-button(v-if="!creatingTeacherAccountLoad" type="submit", :inactive="doneDisabled") {{ $t("common.done") }}
