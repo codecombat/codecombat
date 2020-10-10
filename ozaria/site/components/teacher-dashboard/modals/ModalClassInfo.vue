@@ -45,13 +45,11 @@
       copyCode () {
         this.$refs['classCode'].select()
         tryCopy()
-        noty({ type: 'info', text: 'Link copied to clipboard', layout: 'topCenter', timeout: 2000 })
         window.tracker?.trackEvent('Add Students: Copy Class Code Clicked', { category: 'Teachers', label: this.from })
       },
       copyUrl () {
         this.$refs['classUrl'].select()
         tryCopy()
-        noty({ type: 'info', text: 'Link copied to clipboard', layout: 'topCenter', timeout: 2000 })
         window.tracker?.trackEvent('Add Students: Copy Class URL Clicked', { category: 'Teachers', label: this.from })
       },
       clickInviteButton () {

@@ -267,9 +267,11 @@ function internationalizeConfigAux (obj, userLocale) {
 export function tryCopy () {
   try {
     document.execCommand('copy')
+    const message = 'Copied to clipboard'
+    noty({ text: message, layout: 'topCenter', type: 'info', killer: false, timeout: 2000 })
   } catch (err) {
     const message = 'Oops, unable to copy'
-    noty({ text: message, layout: 'topCenter', type: 'error', killer: false })
+    noty({ text: message, layout: 'topCenter', type: 'error', killer: false, timeout: 3000 })
   }
 }
 
