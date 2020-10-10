@@ -250,6 +250,10 @@ module.exports = class Aether
         'IfStatement', 'SwitchStatement', 'ThrowStatement', 'ContinueStatement', 'BreakStatement'
       ]
         ++count
+    # for minus `int main() { return 0;}` 3 lines for cpp
+    if @language.id == 'cpp'
+      count -= 3
+
     return count
 
 Aether.getTokenSource = (raw) ->
