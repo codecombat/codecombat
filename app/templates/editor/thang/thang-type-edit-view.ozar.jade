@@ -58,6 +58,12 @@ block header
               a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert", disabled=!authorized)#revert-button Revert
             li(class=!authorized ? "disabled": "")
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
+            li(class=!authorized ? "disabled": "")
+              a#toggle-archive-button
+                if thangType.get('archived')
+                  span Unarchive
+                else
+                  span Archive
             li.divider
             li.dropdown-header(data-i18n="common.info") Info
             li#history-button
@@ -103,6 +109,8 @@ block outer_content
                 input#real-upload-button(type="file")
                 input#real-animate-upload-button(type="file")
               #thang-type-file-size= fileSizeString
+              if thangType.get('archived')
+                h2(data-i18n="general.archived")
           div#thang-type-treema
           .clearfix
         div#display-col.well
