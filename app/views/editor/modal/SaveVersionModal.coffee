@@ -24,6 +24,7 @@ module.exports = class SaveVersionModal extends ModalView
     @model = options.model or options.level
     @isPatch = not @model.hasWriteAccess()
     @hasChanges = @model.hasLocalChanges()
+    @commitMessage = options.commitMessage
 
   afterRender: (insertDeltaView=true) ->
     super()
@@ -35,7 +36,7 @@ module.exports = class SaveVersionModal extends ModalView
         @insertSubView(deltaView, changeEl)
       catch e
         console.error 'Couldn\'t create delta view:', e, e.stack
-    @$el.find('.commit-message input').attr('placeholder', $.i18n.t('general.commit_msg'))
+    @$el.find('.commit-message input').attr('placeholder', $.i18n.t('general.commit_msg')).val @commitMessage
 
   onSubmitForm: (e) ->
     e.preventDefault()

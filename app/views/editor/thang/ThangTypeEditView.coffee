@@ -168,6 +168,7 @@ module.exports = class ThangTypeEditView extends RootView
     'click .play-with-level-parent': 'onPlayLevelSelect'
     'keyup .play-with-level-input': 'onPlayLevelKeyUp'
     'click li:not(.disabled) > #pop-level-i18n-button': 'onPopulateLevelI18N'
+    'click li:not(.disabled) > #toggle-archive-button': 'onToggleArchive'
     'mousedown #canvas': 'onCanvasMouseDown'
     'mouseup #canvas': 'onCanvasMouseUp'
     'mousemove #canvas': 'onCanvasMouseMove'
@@ -646,8 +647,16 @@ module.exports = class ThangTypeEditView extends RootView
     @thangType.populateI18N()
     _.delay((-> document.location.reload()), 500)
 
-  openSaveModal: ->
-    modal = new SaveVersionModal model: @thangType
+  onToggleArchive: ->
+    if @thangType.get 'archived'
+      @thangType.unset 'archived'
+    else
+      @thangType.set 'archived', new Date().getTime()
+    @render()
+    @openSaveModal null, if @thangType.get('archived') then 'Archived' else 'Unarchived'
+
+  openSaveModal: (e, commitMessage) ->
+    modal = new SaveVersionModal model: @thangType, commitMessage: commitMessage
     @openModalView modal
     @listenToOnce modal, 'save-new-version', @saveNewThangType
     @listenToOnce modal, 'hidden', -> @stopListening(modal)
