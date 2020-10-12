@@ -104,7 +104,7 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
   move: c.object {title: 'Move', description: 'Tell the Thang to move.', required: ['target'], default: {target: {}, duration: 500}},
     target: _.extend _.cloneDeep(PointSchema), {title: 'Target', description: 'Target point to which the Thang will move.', default: {x: 20, y: 20}}
     duration: {title: 'Duration', description: 'Number of milliseconds over which to move, or 0 for an instant move.', type: 'integer', minimum: 0, format: 'milliseconds'}
-  tutorial: c.object {title: 'Tutorial', description: 'Move Vega around on the screen as a step by step tutorial to explain things.', default: {internalRelease: true}},
+  tutorial: c.object {title: 'Tutorial', description: 'Move Vega around on the screen as a step by step tutorial to explain things.', default: {internalRelease: false}},
     internalRelease: {title: 'Internal Release', description: 'Only show this step to admins or accounts with @codecombat emails', type: 'boolean'}
     position: c.shortString(
       title: 'Dialog Position'
