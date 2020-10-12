@@ -500,8 +500,8 @@ _.extend LevelSchema.properties,
   methodsBankList: c.array {title: 'Methods Bank List'}, c.object {
     properties: {
       name: c.shortString(title: 'Name'),
-      section: c.shortString(title: 'Methods Bank Section', pattern: '^[a-z]+$'),
-      subSection: c.shortString(title: 'Methods Bank Sub-Section', pattern: '^[a-zA-Z]+$'),
+      section: c.shortString(title: 'Methods Bank Section', pattern: /^\w[\w ]*$/),
+      subSection: c.shortString(title: 'Methods Bank Sub-Section', pattern: /^\w[\w ]*$/),
       componentName: c.shortString(title: 'Level Component Name', description: 'Level Component to use for documentation in case there are multiple components with same property\'s documentation'),
     }
   }
