@@ -104,6 +104,13 @@ export class SoundSystem {
       soundCommands.push(
         createVoiceOverCommand(voiceOver)
       )
+    } else {
+      // If no voice over, cut any VO that may be playing.
+      soundCommands.push(
+        new SyncFunction(() => {
+          store.dispatch('audio/fadeTrack', { to: 0, track: 'voiceOver', duration: 100 })
+        })
+      )
     }
 
     return soundCommands
