@@ -134,7 +134,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     real_code: "Real, typed code"
     from_the_first_level: "from the first level"
     getting_students: "Getting students to typed code as quickly as possible is critical to learning programming syntax and proper structure."
-    educator_resources: "Educator resources"
+    educator_resources: "Educator Resources"
     course_guides: "and course guides"
     teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds."
     accessible_to: "Accessible to"

@@ -65,32 +65,39 @@
 </script>
 
 <template>
-  <div id='base-resource-hub'>
-
+  <div id="base-resource-hub">
     <modal-onboarding-video
       v-if="showVideoModal"
       @close="closeVideoModal"
     />
 
-    <div class='flex-container'>
+    <div class="flex-container">
       <div class="aside">
-        <h4>Table of Contents</h4>
+        <h4>{{ $t('common.table_of_contents') }}</h4>
         <ul>
-          <li><a href="#getting-started">Getting Started</a></li>
-          <li><a href="#educator-resources">Educator Resources</a></li>
+          <li><a href="#getting-started">{{ $t('teacher.getting_started') }}</a></li>
+          <li><a href="#educator-resources">{{ $t('new_home.educator_resources') }}</a></li>
         </ul>
 
-        <h4>Contact</h4>
+        <h4>{{ $t('nav.contact') }}</h4>
         <div class="contact-icon">
-          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconMail.svg" /><a href="mailto:support@ozaria.com" @click="trackEvent('Resource Hub: Support Email Clicked')">support@ozaria.com</a>
+          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconMail.svg">
+          <a
+            href="mailto:support@ozaria.com"
+            @click="trackEvent('Resource Hub: Support Email Clicked')"
+          >
+            support@ozaria.com
+          </a>
         </div>
       </div>
 
       <div class="resource-hub">
-        <h4 id="getting-started">Getting Started</h4>
+        <h4 id="getting-started">
+          {{ $t('teacher.getting_started') }}
+        </h4>
         <div class="resource-contents-row">
           <button-resource-icon
-            v-for="resourceHubLink in gettingStartedLinks" 
+            v-for="resourceHubLink in gettingStartedLinks"
             :key="resourceHubLink.label"
             :icon="resourceHubLink.icon"
             :label="resourceHubLink.label"
@@ -99,10 +106,12 @@
           />
         </div>
 
-        <h4 id="educator-resources">Educator Resources</h4>
+        <h4 id="educator-resources">
+          {{ $t('new_home.educator_resources') }}
+        </h4>
         <div class="resource-contents-row">
           <button-resource-icon
-            v-for="resourceHubLink in educatorResourcesLinks" 
+            v-for="resourceHubLink in educatorResourcesLinks"
             :key="resourceHubLink.label"
             :icon="resourceHubLink.icon"
             :label="resourceHubLink.label"

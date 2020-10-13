@@ -87,6 +87,12 @@ export const resourceHubLinks = {
     link: 'https://docs.google.com/presentation/d/1-27EBwUUHn6YdzWzyb5LzZI6OfutxOVtbqEMB2Swbj0/edit?usp=sharing',
     resourceHubSection: 'educatorResources'
   },
+  isteStandardsAlignment: {
+    icon: 'Doc',
+    label: 'ISTE Standards Alignment',
+    link: 'https://docs.google.com/document/d/1Nx7lIXyI5mMU_tB9HgPOqdEtzMcpDgXZE_RGjVaMN5o/edit?usp=sharing',
+    resourceHubSection: 'educatorResources'
+  },
   pacingGuide: {
     icon: 'Spreadsheet',
     label: 'Pacing Guide',
