@@ -47,15 +47,12 @@ export default class Tracker2 extends BaseTracker {
     const isGlobal = !(window.features || {}).china
     if (isGlobal) {
       // add trackers we don't want china to enable here.
-       var globalTrackers = [
-         this.driftTracker,
-         this.googleOptimizeTracker,
-         this.facebookPixelTracker
-       ]
       this.trackers = [
         ...this.trackers,
-        ...globalTrackers
-        ]
+        this.driftTracker,
+        this.googleOptimizeTracker,
+        this.facebookPixelTracker
+      ]
     }
   }
 
