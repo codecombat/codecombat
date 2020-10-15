@@ -3112,6 +3112,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     err_username_taken: "An account already exists for the username you've entered. Please choose another username."
     enter_it_here: "Enter it here to save your progress as you play:"
     have_a_class_code: "Have a class code?"
+    create_class_and_try_activity: "Create Class and Try Activity"
 
   hoc_2018:
     banner: "Happy Computer Science Education Week 2018!"
