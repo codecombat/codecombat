@@ -242,7 +242,7 @@
             type="submit"
             :disabled="loading.isLoading"
           >
-            {{loading.isLoading ? "Creating Account" : "Create Class and Try Activity"}}
+            {{ loading.isLoading ? $t("signup.creating") : $t("hoc_2019.create_class_and_try_activity") }}
           </button>
           <a class="sign-in" @click="$emit('signIn')">{{$t("hoc_2019.already_have_account")}}</a>
         </div>
@@ -341,9 +341,9 @@
     font-weight: 600;
     letter-spacing: 0.4px;
     line-height: 22px;
-    min-height: 60px;
+    min-height: 50px;
     min-width: 261px;
-    padding: 24px 32px;
+    padding: 16px 32px;
 
     color: $pitch;
     background-image: unset;
@@ -354,6 +354,10 @@
 
     &:hover {
       background-color: $dusk-dark;
+    }
+
+    &:disabled {
+      background-color: $authGray;
     }
   }
 
