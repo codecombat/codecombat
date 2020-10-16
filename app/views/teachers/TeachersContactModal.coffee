@@ -47,7 +47,7 @@ module.exports = class TeachersContactModal extends ModalView
       @state.set('formValues', { name, email, message })
       @slackLog({
         event: 'Done loading',
-        message: "name: #{name}, email: #{email}, trailRequest: #{trialRequest._id}"
+        message: "name: #{name}, email: #{email}, trialRequest: #{trialRequest._id}"
       })
     catch e
       @slackLog({
