@@ -20,6 +20,9 @@ UserLib = {
     return emailName if emailName
     return 'Anonymous'
   isSmokeTestUser: (user) -> utils.isSmokeTestEmail(user.email)
+  isTeacher: (user, includePossibleTeachers=false) ->
+    return true if includePossibleTeachers and user.role is 'possible teacher'  # They maybe haven't created an account but we think they might be a teacher based on behavior
+    return user.role in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 }
 
 module.exports = class User extends CocoModel
@@ -42,7 +45,7 @@ module.exports = class User extends CocoModel
   isSchoolAdmin: -> @PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
-  isIndividualUser: -> not @isStudent() and not @isTeacher()
+  isIndividualUser: -> not @isStudent() and not User.isTeacher(@attributes)
 
   isInternal: ->
     email = @get('email')
@@ -97,12 +100,10 @@ module.exports = class User extends CocoModel
 
   isCreatedByClient: -> @get('clientCreator')?
 
-  isTeacher: (includePossibleTeachers=false) ->
-    return true if includePossibleTeachers and @get('role') is 'possible teacher'  # They maybe haven't created an account but we think they might be a teacher based on behavior
-    return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
+  isTeacher: (includePossibleTeachers=false) -> User.isTeacher(@attributes, includePossibleTeachers)
 
   isPaidTeacher: ->
-    return false unless @isTeacher()
+    return false unless User.isTeacher(@attributes)
     return @isCreatedByClient() or (/@codeninjas.com$/i.test me.get('email'))
 
   isTeacherOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
@@ -195,7 +196,7 @@ module.exports = class User extends CocoModel
     return if oldRole is role or (oldRole and not force)
     @set 'role', role
     @patch()
-    application.tracker?.updateRole()
+    application.tracker.identify()
     return @get 'role'
 
   a = 5
@@ -430,11 +431,14 @@ module.exports = class User extends CocoModel
     options.url = '/auth/logout'
     FB?.logout?()
     options.success ?= ->
-      location = _.result(window.currentView, 'logoutRedirectURL')
-      if location
-        window.location = location
-      else
-        window.location.reload()
+      window.application.tracker.identifyAfterNextPageLoad()
+      window.application.tracker.resetIdentity().finally =>
+        location = _.result(window.currentView, 'logoutRedirectURL')
+        if location
+          window.location = location
+        else
+          window.location.reload()
+
     @fetch(options)
 
   signupWithPassword: (name, email, password, options={}) ->
@@ -650,7 +654,7 @@ module.exports = class User extends CocoModel
     return true if utils.freeCampaignIds.includes(campaignData._id)
     return true if @isAdmin() or @isInternal()
 
-    return true if @isTeacher() # TODO revisit this - we may want to restrict unpaid teachers
+    return true if User.isTeacher(@attributes) # TODO revisit this - we may want to restrict unpaid teachers
     return true if @isStudent() # TODO this should validate the student license, but we currently check this else where
 
     return false

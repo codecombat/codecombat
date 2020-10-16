@@ -15,8 +15,6 @@ module.exports = {
       credentials: 'include'
       json: { name, email, password }
     }))
-    .then ->
-      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
 
   signupWithFacebook: ({userID, name, email, facebookID}, options={}) ->
     fetchJson(@url(userID, 'signup-with-facebook'), _.assign({}, options, {
@@ -24,9 +22,6 @@ module.exports = {
       credentials: 'include'
       json: { name, email, facebookID, facebookAccessToken: application.facebookHandler.token() }
     }))
-    .then ->
-      window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
-      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'Facebook'
 
   signupWithGPlus: ({userID, name, email, gplusID}, options={}) ->
     fetchJson(@url(userID, 'signup-with-gplus'), _.assign({}, options, {
@@ -34,9 +29,6 @@ module.exports = {
       credentials: 'include'
       json: { name, email, gplusID, gplusAccessToken: application.gplusHandler.token() }
     }))
-    .then ->
-      window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
-      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
 
   signupFromGoogleClassroom: (attrs, options={}) ->
     fetchJson("/db/user/signup-from-google-classroom", _.assign({}, options, {
@@ -95,8 +87,8 @@ module.exports = {
         includeTrialRequests
       }
     })
-  
-  setCountryGeo: (options = {}) -> 
+
+  setCountryGeo: (options = {}) ->
     fetchJson("/db/user/setUserCountryGeo", _.assign({}, options, {
       method: 'PUT'
     }))

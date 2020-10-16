@@ -207,7 +207,6 @@ module.exports = class RootView extends CocoView
     @saveLanguage(newLang)
     locale.load(me.get('preferredLanguage', true)).then =>
       @onLanguageLoaded()
-      window.tracker.promptForCookieConsent()
 
   onLanguageLoaded: ->
     @render()
