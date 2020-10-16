@@ -54,12 +54,11 @@ module.exports = class StarterLicenseUpsellView extends RootView
 
   getStarterLicenseCourseList: ->
     return if !@courses.loaded
-#    COURSE_IDS = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS)
-#    starterLicenseCourseList = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS).map (_id) =>
-#      utils.i18n(@courses.findWhere({_id})?.attributes, 'name')
-#    starterLicenseCourseList.push($.t('general.and') + ' ' + starterLicenseCourseList.pop())
-#    starterLicenseCourseList.join(', ')
-    return ['asdf', '123314']
+    COURSE_IDS = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS)
+    starterLicenseCourseList = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS).map (_id) =>
+      utils.i18n(@courses.findWhere({_id})?.attributes, 'name')
+    starterLicenseCourseList.push($.t('general.and') + ' ' + starterLicenseCourseList.pop())
+    starterLicenseCourseList.join(', ')
 
   onClickPurchaseButton: ->
     @openModalView(new PurchaseStarterLicensesModal())
