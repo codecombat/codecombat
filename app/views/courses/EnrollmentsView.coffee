@@ -224,6 +224,15 @@ module.exports = class EnrollmentsView extends RootView
     @openModalView(new HowToEnrollModal())
 
   onClickContactUsButton: ->
+    $.ajax({
+      type: 'POST',
+      url: '/db/trial.request.slacklog',
+      data: {
+        event: 'EnrollmentsView clicked contact us',
+        name: me?.broadName(),
+        email: me?.get('email')
+      }
+    })
     window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers', ['Mixpanel']
     modal = new TeachersContactModal()
     @openModalView(modal)
