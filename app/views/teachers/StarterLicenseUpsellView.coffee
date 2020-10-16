@@ -22,7 +22,7 @@ module.exports = class StarterLicenseUpsellView extends RootView
     maxQuantityStarterLicenses: MAX_STARTER_LICENSES
     starterLicenseLengthMonths: STARTER_LICENCE_LENGTH_MONTHS
     starterLicenseCourseList: @state.get('starterLicenseCourseList')
-    
+
   events:
     'click .purchase-btn': 'onClickPurchaseButton'
     'click .contact-us-btn': 'onClickContactUsButton'
@@ -47,11 +47,11 @@ module.exports = class StarterLicenseUpsellView extends RootView
     @listenTo me, 'change:preferredLanguage', ->
       @state.set { starterLicenseCourseList: @getStarterLicenseCourseList() }
     me.getClientCreatorPermissions()?.then(() => @render?())
-      
+
   onLoaded: ->
     @state.set { starterLicenseCourseList: @getStarterLicenseCourseList() }
     null
-      
+
   getStarterLicenseCourseList: ->
     return if !@courses.loaded
     COURSE_IDS = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS)
@@ -64,5 +64,14 @@ module.exports = class StarterLicenseUpsellView extends RootView
     @openModalView(new PurchaseStarterLicensesModal())
 
   onClickContactUsButton: ->
+    $.ajax({
+      type: 'POST',
+      url: '/db/trial.request.slacklog',
+      data: {
+        event: 'StarterLicenseUpsellView clicked contact us',
+        name: me?.broadName(),
+        email: me?.get('email')
+      }
+    })
     window.tracker?.trackEvent 'Classes Starter Licenses Upsell Contact Us', category: 'Teachers', ['Mixpanel']
     @openModalView(new TeachersContactModal())

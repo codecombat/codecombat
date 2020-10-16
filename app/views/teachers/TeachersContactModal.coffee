@@ -13,6 +13,9 @@ module.exports = class TeachersContactModal extends ModalView
     'submit form': 'onSubmitForm'
 
   initialize: (options={}) ->
+    @slackLog({
+      event: 'Initialized'
+    })
     @state = new State({
       formValues: {
         name: ''
@@ -28,11 +31,12 @@ module.exports = class TeachersContactModal extends ModalView
     @state.on 'change', @render, @
 
   onLoaded: ->
-    trialRequest = @trialRequests.first()
-    props = trialRequest?.get('properties') or {}
-    name = if props.firstName and props.lastName then "#{props.firstName} #{props.lastName}" else me.get('name') ? ''
-    email = me.get('email') or props.email or ''
-    message = """
+    try
+      trialRequest = @trialRequests.first()
+      props = trialRequest?.get('properties') or {}
+      name = if props.firstName and props.lastName then "#{props.firstName} #{props.lastName}" else me.get('name') ? ''
+      email = me.get('email') or props.email or ''
+      message = """
         Hi CodeCombat! I want to learn more about the Classroom experience and get licenses so that my students can access Computer Science 2 and on.
 
         Name of School #{props.nces_name or props.organization or ''}
@@ -40,42 +44,95 @@ module.exports = class TeachersContactModal extends ModalView
         Role: #{props.role or ''}
         Phone Number: #{props.phoneNumber or ''}
       """
-    @state.set('formValues', { name, email, message })
+      @state.set('formValues', { name, email, message })
+      @slackLog({
+        event: 'Done loading',
+        message: "name: #{name}, email: #{email}, trialRequest: #{trialRequest._id}"
+      })
+    catch e
+      @slackLog({
+        event: 'Done loading',
+        error: e
+      })
+      console.error(e)
+
     super()
 
   onSubmitForm: (e) ->
-    e.preventDefault()
-    return if @state.get('sendingState') is 'sending'
+    try
+      @slackLog({
+        event: 'Submitting',
+        message: "Beginning. sendingState: #{@state.get('sendingState')}"
+      })
+      e.preventDefault()
+      return if @state.get('sendingState') is 'sending'
 
-    formValues = forms.formToObject @$el
-    @state.set('formValues', formValues)
+      formValues = forms.formToObject @$el
+      @state.set('formValues', formValues)
 
-    formErrors = {}
-    unless formValues.name
-      formErrors.name = 'Name required.'
-    unless forms.validateEmail(formValues.email)
-      formErrors.email = 'Invalid email.'
-    unless parseInt(formValues.licensesNeeded) > 0
-      formErrors.licensesNeeded = 'Licenses needed is required.'
-    unless formValues.message
-      formErrors.message = 'Message required.'
-    @state.set({ formErrors, formValues, sendingState: 'standby' })
-    return unless _.isEmpty(formErrors)
+      formErrors = {}
+      unless formValues.name
+        formErrors.name = 'Name required.'
+      unless forms.validateEmail(formValues.email)
+        formErrors.email = 'Invalid email.'
+      unless parseInt(formValues.licensesNeeded) > 0
+        formErrors.licensesNeeded = 'Licenses needed is required.'
+      unless formValues.message
+        formErrors.message = 'Message required.'
+      @state.set({ formErrors, formValues, sendingState: 'standby' })
 
-    @state.set('sendingState', 'sending')
-    data = _.extend({ country: me.get('country') }, formValues)
-    contact.send({
+      @slackLog({
+        event: 'Submitting',
+        message: "Validating. name: #{formErrors.name or formValues.name}, email: #{formErrors.email or formValues.email}, licensesNeeded: #{formErrors.licensesNeeded or formValues.licensesNeeded}, message: #{formErrors.message or formValues.message}"
+      })
+
+      return unless _.isEmpty(formErrors)
+
+      @state.set('sendingState', 'sending')
+      data = _.extend({ country: me.get('country') }, formValues)
+      @slackLog({
+        event: 'Submitting',
+        message: "Sending. email: #{formValues.email}"
+      })
+      contact.send({
+        data
+        context: @
+        success: ->
+          @slackLog({
+            event: 'Submitting',
+            message: "Successfully sent. email: #{formValues.email}"
+          })
+          window.tracker?.trackEvent 'Teacher Contact',
+            category: 'Contact',
+            licensesNeeded: formValues.licensesNeeded
+          @state.set({ sendingState: 'sent' })
+          setTimeout(=>
+            @hide?()
+          , 3000)
+        error: ->
+          @slackLog({
+            event: 'Submitting',
+            message: "Error sending! email: #{formValues.email}"
+          })
+          @state.set({ sendingState: 'error' })
+      })
+
+      @trigger('submit')
+    catch e
+      @slackLog({
+        event: 'Submitting',
+        message: "General error! error: #{e}"
+      })
+
+  slackLog: (data) ->
+    try
+      data.name = me.broadName()
+      data.email = me.get('email')
+    catch e
+      data.lookupError = e
+
+    $.ajax({
+      type: 'POST',
+      url: '/db/trial.request.slacklog',
       data
-      context: @
-      success: ->
-        window.tracker?.trackEvent 'Teacher Contact',
-          category: 'Contact',
-          licensesNeeded: formValues.licensesNeeded
-        @state.set({ sendingState: 'sent' })
-        setTimeout(=>
-          @hide?()
-        , 3000)
-      error: -> @state.set({ sendingState: 'error' })
     })
-    
-    @trigger('submit')
