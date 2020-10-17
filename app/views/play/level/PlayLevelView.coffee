@@ -263,12 +263,6 @@ module.exports = class PlayLevelView extends RootView
 
   isCourseMode: -> @courseID and @courseInstanceID
 
-  showAds: ->
-    return false # No ads for now.
-    if application.isProduction() && !me.isPremium() && !me.isTeacher() && !window.serverConfig.picoCTF && !@isCourseMode()
-      return me.getCampaignAdsGroup() is 'leaderboard-ads'
-    false
-
   # CocoView overridden methods ###############################################
 
   getRenderData: ->
@@ -501,7 +495,7 @@ module.exports = class PlayLevelView extends RootView
       @observing
       playerNames: @findPlayerNames()
       levelType: @level.get('type', true)
-      stayVisible: @showAds()
+      stayVisible: false
       @gameUIState
       @level # TODO: change from levelType to level
     }
