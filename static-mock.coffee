@@ -33,7 +33,6 @@ exports.me =
   hideFooter: -> false
   useGoogleAnalytics: -> true
   showChinaVideo: -> false
-  getHomePageTestGroup: -> undefined
   showForumLink: -> true
   showGithubLink: -> true
   showChinaResourceInfo: -> false
@@ -42,6 +41,5 @@ exports.me =
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'
   isMobile: () -> false
-  showAds: () -> false
   isOldBrowser: () -> false
   isIPadBrowser: () -> false

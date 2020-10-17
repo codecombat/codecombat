@@ -264,10 +264,6 @@ class PlayLevelView extends RootView {
     return this.courseID && this.courseInstanceID
   }
 
-  showAds () {
-    return false // No ads for now.
-  }
-
   // CocoView overridden methods ###############################################
 
   getRenderData () {
@@ -873,7 +869,7 @@ class PlayLevelView extends RootView {
       observing: this.observing,
       playerNames: this.findPlayerNames(),
       levelType: this.level.get('type', true),
-      stayVisible: this.showAds(),
+      stayVisible: false,
       gameUIState: this.gameUIState,
       level: this.level // TODO: change from levelType to level
     }
