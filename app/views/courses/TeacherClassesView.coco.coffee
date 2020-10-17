@@ -19,7 +19,6 @@ storage = require 'core/storage'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 co = require('co')
 OzariaEncouragementModal = require('app/views/teachers/OzariaEncouragementModal').default
-experiments = require('core/experiments')
 
 helper = require 'lib/coursesHelper'
 
