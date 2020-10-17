@@ -3,9 +3,6 @@ SuperModel = require 'models/SuperModel'
 utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
 api = require('core/api')
-experiments = require('core/experiments')
-
-# TODO: Intercom weirdly intertwined with @segmentLoaded, should refactor this
 
 debugAnalytics = false
 
@@ -88,13 +85,6 @@ module.exports = class Tracker extends CocoClass
         eventAction: action
       gaFieldObject.eventLabel = properties.label if properties.label?
       gaFieldObject.eventValue = properties.value if properties.value?
-
-      # NOTE these custom dimensions need to be configured in GA prior to being reported
-      try
-        gaFieldObject.dimension1 = experiments.getRequestAQuoteGroup(me)
-      catch e
-        # TODO handle_error_ozaria
-        console.error(e)
 
       ga? 'send', gaFieldObject
       ga? 'codeplay.send', gaFieldObject if features.codePlay

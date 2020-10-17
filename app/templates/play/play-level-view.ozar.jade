@@ -1,12 +1,3 @@
-if view.showAds()
-  // TODO: loading this multiple times yields script error:
-  // Uncaught TagError: adsbygoogle.push() error: All ins elements in the DOM with class=adsbygoogle already have ads in them.
-  .ad-container
-    script(async, src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
-    ins.adsbygoogle(style="display:inline-block;width:728px;height:90px", data-ad-client="ca-pub-6640930638193614", data-ad-slot="5527096883")
-    script.
-      (adsbygoogle = window.adsbygoogle || []).push({});
-
 include game-dev-goals.jade
 
 .game-container

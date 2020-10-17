@@ -458,8 +458,7 @@ module.exports = class CampaignView extends RootView
     context.campaign = @campaign
     context.levels = _.values($.extend true, {}, @getLevels() ? {})
     if me.level() < 12 and @terrain is 'dungeon' and not @editorMode
-      reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
-      context.levels = _.reject context.levels, slug: reject
+      context.levels = _.reject context.levels, slug: 'signs-and-portents'
     if me.freeOnly()
       context.levels = _.reject context.levels, (level) ->
         return false if features.codePlay and codePlay.canPlay(level.slug)
@@ -512,8 +511,7 @@ module.exports = class CampaignView extends RootView
         if @sessions?.loaded
           levels = _.values($.extend true, {}, campaign.get('levels') ? {})
           if me.level() < 12 and campaign.get('slug') is 'dungeon' and not @editorMode
-            reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
-            levels = _.reject levels, slug: reject
+            levels = _.reject levels, slug: 'signs-and-portents'
           if me.freeOnly()
             levels = _.reject levels, (level) ->
               return false if features.codePlay and codePlay.canPlay(level.slug)
@@ -643,12 +641,6 @@ module.exports = class CampaignView extends RootView
     return unless slug
     return false if 'hoc' in slug
     /campaign-(game|web)-dev-\d/.test slug
-
-  showAds: ->
-    return false # No ads for now.
-    if application.isProduction() && !me.isPremium() && !me.isTeacher() && !window.serverConfig.picoCTF
-      return me.getCampaignAdsGroup() is 'leaderboard-ads'
-    false
 
   annotateLevels: (orderedLevels) ->
     return if @isClassroom()
@@ -1041,7 +1033,6 @@ module.exports = class CampaignView extends RootView
 
     pageWidth = @$el.width()
     pageHeight = @$el.height()
-    pageHeight -= adContainerHeight if adContainerHeight = $('.ad-container').outerHeight()
     widthRatio = pageWidth / mapWidth
     heightRatio = pageHeight / mapHeight
     # Make sure we can see the whole map, fading to background in one dimension.
