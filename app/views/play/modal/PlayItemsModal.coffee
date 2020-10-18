@@ -263,7 +263,7 @@ module.exports = class PlayItemsModal extends ModalView
         popoverTemplate = subscribeForGemsPrompt {}
       else # user has subscription and yet not enough gems, just ask him to keep playing for more gems
         popoverTemplate = earnGemsPromptTemplate {}
-   
+
     unlockButton.popover(
       animation: true
       trigger: 'manual'
@@ -273,7 +273,7 @@ module.exports = class PlayItemsModal extends ModalView
       template: popoverTemplate
     ).popover 'show'
     popover = unlockButton.data('bs.popover')
-    popover?.$tip?.i18n()
+    popover?.$tip?.i18n()  # Doesn't work
     @applyRTLIfNeeded()
 
   onBuyGemsPromptButtonClicked: (e) ->
