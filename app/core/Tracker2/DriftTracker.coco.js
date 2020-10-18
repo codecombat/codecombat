@@ -67,6 +67,13 @@ export default class DriftTracker extends BaseTracker {
 
     this.watchForDisableAllTrackingChanges(this.store)
 
+    const isChina = (window.features || {}).china
+    if (isChina) {
+      this.enabled = false
+    }
+    else {
+      this.enabled = true
+    }
     await this.initializationComplete
     this.updateDriftConfiguration()
 
@@ -118,7 +125,7 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async identify (traits = {}) {
-    if (this.disableAllTracking) {
+    if (this.disableAllTracking || !this.enabled) {
       return
     }
 
@@ -152,7 +159,7 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async trackPageView (includeIntegrations = []) {
-    if (this.disableAllTracking) {
+    if (this.disableAllTracking || !this.enabled) {
       return
     }
 
@@ -163,7 +170,7 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async trackEvent (action, properties = {}) {
-    if (this.disableAllTracking) {
+    if (this.disableAllTracking || !this.enabled) {
       return
     }
 

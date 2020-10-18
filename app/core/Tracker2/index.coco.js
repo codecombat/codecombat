@@ -40,12 +40,20 @@ export default class Tracker2 extends BaseTracker {
     this.trackers = [
       this.legacyTracker,
       // this.googleAnalyticsTracker,
-      this.driftTracker,
       this.segmentTracker,
       this.fullStoryTracker,
-      this.googleOptimizeTracker,
-      this.facebookPixelTracker
     ]
+
+    const isGlobal = !(window.features || {}).china
+    if (isGlobal) {
+      // add trackers we don't want china to enable here.
+      this.trackers = [
+        ...this.trackers,
+        this.driftTracker,
+        this.googleOptimizeTracker,
+        this.facebookPixelTracker
+      ]
+    }
   }
 
   async _initializeTracker () {
