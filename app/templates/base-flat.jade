@@ -64,7 +64,7 @@ mixin accountLinks
                       -//   a.text-p(data-i18n="nav.blog", href="https://blog.koudashijie.com")
                       li
                         a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/contact-cn")
-                    else if me.isAnonymous() && require('app/core/experiments').getRequestAQuoteGroup(me) === 'request-a-quote-header'
+                    else if me.isAnonymous()
                       li
                         a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/teachers/quote")
                     li

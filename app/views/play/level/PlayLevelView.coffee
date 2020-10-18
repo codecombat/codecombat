@@ -263,12 +263,6 @@ module.exports = class PlayLevelView extends RootView
 
   isCourseMode: -> @courseID and @courseInstanceID
 
-  showAds: ->
-    return false # No ads for now.
-    if application.isProduction() && !me.isPremium() && !me.isTeacher() && !window.serverConfig.picoCTF && !@isCourseMode()
-      return me.getCampaignAdsGroup() is 'leaderboard-ads'
-    false
-
   # CocoView overridden methods ###############################################
 
   getRenderData: ->
@@ -390,13 +384,6 @@ module.exports = class PlayLevelView extends RootView
   initGoalManager: ->
     options = {}
 
-    # Add three lines to handle `int main() { return 0;}` in C++ for the linesOfCode goal.
-    if ((@session?.get('codeLanguage') is 'cpp' or me.get('aceConfig')?.language is 'cpp') and Array.isArray(@level.get('goals')))
-      @level.get('goals').forEach((goal) =>
-        if goal?.linesOfCode?.humans and typeof goal.linesOfCode.humans == 'number'
-          goal.linesOfCode.humans += 3
-      )
-
     if @level.get('assessment') is 'cumulative'
       options.minGoalsToComplete = 1
     @goalManager = new GoalManager(@world, @level.get('goals'), @team, options)
@@ -508,7 +495,7 @@ module.exports = class PlayLevelView extends RootView
       @observing
       playerNames: @findPlayerNames()
       levelType: @level.get('type', true)
-      stayVisible: @showAds()
+      stayVisible: false
       @gameUIState
       @level # TODO: change from levelType to level
     }
