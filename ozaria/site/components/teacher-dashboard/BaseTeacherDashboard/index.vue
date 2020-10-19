@@ -13,7 +13,12 @@
   import LoadingBar from 'ozaria/site/components/common/LoadingBar'
   import { COMPONENT_NAMES } from '../common/constants.js'
 
+  import storage from 'core/storage'
+
   import { mapMutations, mapGetters } from 'vuex'
+  import { FIRST_CLASS_STEPS, CREATE_CLASS_STEPS } from './teacherDashboardTours'
+
+  const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
 
   export default {
     components: {
@@ -38,7 +43,10 @@
         showAssignContentModal: false,
         showAddStudentsModal: false,
         showRemoveStudentsModal: false,
-        showOnboardingModal: !me.get('seenNewDashboardModal')
+        showOnboardingModal: !me.get('seenNewDashboardModal'),
+        // We may want to pull this out. For locality with dashboard this reduces abstraction.
+        runningTour: null,
+        createdFirstClass: false
       }
     },
 
@@ -121,6 +129,95 @@
         me.set('seenNewDashboardModal', true)
         me.save()
         this.showOnboardingModal = false
+        this.openNewClassModal()
+      },
+
+      openNewClassModal () {
+        if (this.showNewClassModal) {
+          return
+        }
+
+        // Handle tour accidentally obscuring user opening new class modal
+        this.runningTour?.complete?.()
+
+        this.showNewClassModal = true
+      },
+
+      /**
+       * When a user closes the show new modal there are 2 possible states.
+       * 1. They cancelled out and didn't create a class.
+       * 2. They created a class.
+       **/
+      closeShowNewModal () {
+        this.showNewClassModal = false
+
+        if (this.createdFirstClass) {
+          this.triggerFirstClassTour()
+          return
+        }
+
+        this.triggerCreateClassTour()
+      },
+
+      /**
+       * Track when a teacher has actively created their first class.
+       */
+      handleCreatedClass () {
+        if (this.activeClassrooms.length === 1) {
+          // Flag the first class created so we can run a tour later.
+          this.createdFirstClass = true
+        }
+      },
+
+      triggerCreateClassTour () {
+        if (this.loading || this.activeClassrooms.length !== 0) {
+          return
+        }
+
+        if (storage.load(`${SEEN_CREATE_CLASS_TOUR_KEY}-${me.get('_id')}`)) {
+          return
+        }
+
+        this.runningTour?.complete?.()
+
+        storage.save(`${SEEN_CREATE_CLASS_TOUR_KEY}-${me.get('_id')}`, true)
+
+        const tour = this.$shepherd({
+          useModalOverlay: true,
+          defaultStepOptions: {
+            classes: 'shepherd-dashboard-theme'
+          }
+        })
+
+        tour.addSteps(CREATE_CLASS_STEPS)
+        tour.start()
+
+        this.runningTour = tour
+      },
+
+      triggerFirstClassTour () {
+        if (!this.isAllClassesPage) {
+          return
+        }
+
+        if (this.loading || this.activeClassrooms.length !== 1) {
+          return
+        }
+
+        this.runningTour?.complete?.()
+
+        const tour = this.$shepherd({
+          useModalOverlay: true,
+          scrollTo: true,
+          defaultStepOptions: {
+            classes: 'shepherd-dashboard-theme'
+          }
+        })
+
+        tour.addSteps(FIRST_CLASS_STEPS)
+        tour.start()
+
+        this.runningTour = tour
       },
 
       onChangeCourse (courseId) {
@@ -149,7 +246,7 @@
       :selected-course-id="selectedCourseId"
       :all-classes-page="isAllClassesPage"
       @change-course="onChangeCourse"
-      @newClass="showNewClassModal = true"
+      @newClass="openNewClassModal"
     />
     <loading-bar
       :key="loading"
@@ -166,7 +263,8 @@
     />
     <modal-new-class
       v-if="showNewClassModal"
-      @close="showNewClassModal = false"
+      @close="closeShowNewModal"
+      @class-created="handleCreatedClass"
     />
     <modal-assign-content
       v-if="showAssignContentModal"
@@ -408,6 +506,65 @@
 
     .tooltip-arrow {
       border-color: #131b25;
+    }
+  }
+
+  .shepherd-dashboard-theme.shepherd-has-title .shepherd-content {
+    font-family: "Work Sans";
+    font-style: normal;
+    font-size: 14px;
+    letter-spacing: 0.26667px;
+
+    color: #131b25;
+    box-shadow: -2px -4px 20px rgba(0, 0, 0, 0.25), 2px 4px 20px rgba(0, 0, 0, 0.25);
+    padding: 22px 22px 10px 22px;
+
+    header.shepherd-header {
+      background: white;
+      padding: 0;
+    }
+
+    div.shepherd-text {
+      padding: 0;
+      font-family: "Work Sans";
+      font-style: normal;
+      font-size: 14px;
+      letter-spacing: 0.26667px;
+      margin-bottom: 16px;
+
+      ul {
+        padding-inline-start: 18px;
+      }
+    }
+
+    header h3 {
+      margin: 0;
+      color: #131b25;
+      font-family: "Work Sans";
+      font-style: bold;
+      font-size: 17px;
+      line-height: 22px;
+      margin-bottom: 10px;
+
+      font-variant: unset;
+    }
+
+    // Make the shepherd button look like a link
+    button.shepherd-button {
+      background: none!important;
+      border: none;
+      padding: 0!important;
+      /*optional*/
+      font-family: arial, sans-serif;
+      /*input has OS specific font-family*/
+      color: #069;
+      text-decoration: underline;
+      cursor: pointer;
+
+      font-family: "Work Sans";
+      font-style: normal;
+      font-size: 14px;
+      letter-spacing: 0.26667px;
     }
   }
 </style>
