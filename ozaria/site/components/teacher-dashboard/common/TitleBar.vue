@@ -44,10 +44,6 @@
       }
     },
 
-    data: () => ({
-      showNewClassTooltip: !me.get('closedNewTDGetStartedTooltip')
-    }),
-
     computed: {
       classroomCreationDate () {
         if ((this.classroom || {})._id) {
@@ -68,12 +64,6 @@
       ...mapActions({
         toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide'
       }),
-
-      dismissTooltip () {
-        this.showNewClassTooltip = false
-        me.set('closedNewTDGetStartedTooltip', true)
-        me.save()
-      },
 
       clickNewClass () {
         window.tracker?.trackEvent('Add New Class Clicked', { category: 'Teachers', label: this.$route.path })
@@ -109,45 +99,23 @@
         :selected-course-id="selectedCourseId"
         @change-course=" (courseId) => $emit('change-course', courseId)"
       />
-      <v-popover
-        popover-class="teacher-dashboard-tooltip lighter-p large-width getting-started-all-classes"
-        trigger="manual"
-        :open="allClassesPage && showNewClassTooltip"
-        :auto-hide="false"
-      >
-        <!-- Trigger Popover -->
-        <div style="display: flex;">
-          <primary-button
-            v-if="!showClassInfo"
-            class="btn-title-padding btn-margins-height"
-            @click="clickNewClass"
-          >
-            Add New Class
-          </primary-button>
-          <button-curriculum-guide
-            class="btn-margins-height"
 
-            @click="clickCurriculumGuide"
-          />
-        </div>
-        <template slot="popover">
-          <h3 style="margin-bottom: 15px;">Get Started</h3>
-          <p style="margin-bottom: 10px;">
-            <b>Add a New Class</b> to access updated in-game content, and get
-            your students started on playing Chapter 1 for free!
-          </p>
-          <p style="margin-bottom: 20px;">
-            Check out the <b>Curriculum Guide</b> for lesson plans and to learn
-            more about how to structure your class with Ozaria.
-          </p>
-          <a
-            style="text-decoration: underline;"
-            @click="dismissTooltip"
-          >
-            Click to Dismiss
-          </a>
-        </template>
-      </v-popover>
+      <div style="display: flex;">
+        <primary-button
+          v-if="!showClassInfo"
+          id="new-class-btn-shepherd"
+          class="btn-title-padding btn-margins-height"
+          @click="clickNewClass"
+        >
+          Add New Class
+        </primary-button>
+        <button-curriculum-guide
+          id="curriculum-guide-btn-shepherd"
+          class="btn-margins-height"
+
+          @click="clickCurriculumGuide"
+        />
+      </div>
     </div>
   </div>
 </template>

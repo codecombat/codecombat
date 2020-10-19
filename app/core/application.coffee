@@ -74,10 +74,6 @@ Application = {
       @gplusHandler = new GPlusHandler()
       @githubHandler = new GitHubHandler()
 
-    routerSync = require('vuex-router-sync')
-    vueRouter = require('app/core/vueRouter').default()
-    routerSync.sync(store, vueRouter)
-
     if me.showChinaRemindToast()
       setInterval ( -> noty {
         text: '你已经练习了一个小时了，建议休息一会儿哦'
@@ -117,6 +113,12 @@ Application = {
       #sendMissingTo: 'current'
       #resPostPath: '/languages/add/__lng__/__ns__'
     }, (t) =>
+      # We need i18n loaded before setting up router.
+      # Otherwise dependencies can't use i18n.
+      routerSync = require('vuex-router-sync')
+      vueRouter = require('app/core/vueRouter').default()
+      routerSync.sync(store, vueRouter)
+
       @router = new Router()
       @userIsIdle = false
       onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to

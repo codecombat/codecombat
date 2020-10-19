@@ -51,7 +51,7 @@
         <secondary-button
           @click="onClose"
         >
-          {{ $t("common.done") }}
+          {{ $t("common.next") }}
         </secondary-button>
       </div>
     </div>

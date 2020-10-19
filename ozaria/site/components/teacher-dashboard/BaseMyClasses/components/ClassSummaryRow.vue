@@ -61,12 +61,15 @@
     >
       <router-link
         v-if="!archived && !displayOnly"
+        id="class-header-shepherd"
         tag="a"
         :to="`/teachers/classes/${classId}`"
         class="flex-row clickable"
         @click.native="trackEvent('All Classes: Class Card Clicked')"
       >
-        <h2 class="padding-left"> {{ classroomName }} </h2>
+        <h2 class="padding-left">
+          {{ classroomName }}
+        </h2>
         <class-info-row
           :language="language"
           :num-students="numStudents"
@@ -77,7 +80,9 @@
         v-else
         class="flex-row"
       >
-        <h2 class="padding-left"> {{ classroomName }} </h2>
+        <h2 class="padding-left">
+          {{ classroomName }}
+        </h2>
         <class-info-row
           :language="language"
           :num-students="numStudents"
@@ -90,11 +95,11 @@
       </div>
       <div class="flex-row floaty-right">
         <icon-button-with-text
-            class="icon-with-text"
-            :icon-name="displayOnly ? 'IconAddStudents_Gray' : 'IconAddStudents'"
-            text="Add Students"
-            :inactive="displayOnly"
-            @click="$emit('clickAddStudentsModalButton')"
+          class="icon-with-text"
+          :icon-name="displayOnly ? 'IconAddStudents_Gray' : 'IconAddStudents'"
+          text="Add Students"
+          :inactive="displayOnly"
+          @click="$emit('clickAddStudentsModalButton')"
         />
       </div>
       <div

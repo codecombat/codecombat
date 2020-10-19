@@ -35,6 +35,7 @@
     methods: {
       classCreated (classroom) {
         this.classroomInfo = classroom
+        this.$emit('class-created')
       }
     }
   })

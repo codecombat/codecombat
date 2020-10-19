@@ -3191,4 +3191,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     lock: 'Lock'
     unlock: 'Unlock'
     teacher_locked_message: 'Your teacher has locked the next level'
-
+    plan_your_class_title: 'Plan your first class by'
+    plan_your_class1: 'Viewing course progression info'
+    plan_your_class2: 'Previewing lesson slides & extension activities'
+    plan_your_class3: 'Trying the first chapter for free'
+    click_dismiss: 'Click to Dismiss'
+    track_progress: 'Track Progress'
+    track_progress_desc: 'Click into the class you just created to view detailed student progress.'
+    add_classes_title: 'Add Classes Here'
+    add_classes: 'Add classes and get students started with the first free chapter!'
