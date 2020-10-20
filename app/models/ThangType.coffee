@@ -57,6 +57,14 @@ module.exports = class ThangType extends CocoModel
     @spriteSheets = {}
     @textureAtlases = new Map()
 
+    # Vue recursively traverses objects making them reactive.
+    # Our thangs are referenced from a reactive object somewhere in the
+    # codebase adding a large performance hit with no functional benefit. 
+    #
+    # This line tricks Vue into thinking it has already made this ThangType
+    # reactive.
+    Vue.nonreactive(@)
+
     ## Testing memory clearing
     #f = =>
     #  console.info 'resetting raw data'

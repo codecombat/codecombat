@@ -102,6 +102,9 @@ export class CinematicController {
     this.mode = FORWARD_MODE
     this.wasCancelled = false
 
+    // Explicitly setting class as non reactive for performance benefit.
+    Vue.nonreactive(this)
+
     this.startUp()
   }
 

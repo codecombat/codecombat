@@ -1,5 +1,5 @@
 <script>
-  import { createThang } from '../../../../engine/cinematic/CinematicLankBoss';
+  import { createThang } from '../../../../engine/cinematic/CinematicLankBoss'
   const createjs = require('lib/createjs-parts')
   const LayerAdapter = require('lib/surface/LayerAdapter')
   const Camera = require('lib/surface/Camera')
@@ -46,16 +46,19 @@
       currentLank: null
     }),
     mounted () {
+      // TODO: There is still a Vue reactivity leak in this file.
       const canvas = this.$refs['canvas']
       // TODO: Investigate why jquery is required
       const camera = new Camera($(canvas))
       this.stage = new createjs.StageGL(canvas)
+      Vue.nonreactive(this.stage)
 
       this.defaultLayer = new LayerAdapter({
         name: 'Default',
         webGL: true,
         camera: camera
       })
+      Vue.nonreactive(this.defaultLayer)
 
       this.defaultLayer.resolutionFactor = SURFACE_SPRITE_RESOLUTION_FACTOR
 
@@ -64,6 +67,7 @@
         webGL: true,
         camera: camera
       })
+      Vue.nonreactive(this.layerBackground)
 
       this.stage.addChild(this.layerBackground.container)
       this.stage.addChild(this.defaultLayer.container)
@@ -90,6 +94,7 @@
 
       this.defaultLayer.addLank(lank)
       this.currentLank = lank
+      Vue.nonreactive(this.currentLank)
 
       camera.zoomTo({ x: 0, y: 0 }, 1, 0)
     },
@@ -97,11 +102,15 @@
     destroyed () {
       createjs.Ticker.removeAllEventListeners()
     }
-  } 
+  }
 </script>
 
 <template>
-  <canvas  ref="canvas" :width="`${width}px`" :height="`${height}px`"></canvas>
+  <canvas
+    ref="canvas"
+    :width="`${width}px`"
+    :height="`${height}px`"
+  />
 </template>
 
 <style>
