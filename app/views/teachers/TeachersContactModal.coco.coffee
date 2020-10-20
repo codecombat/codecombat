@@ -13,9 +13,6 @@ module.exports = class TeachersContactModal extends ModalView
     'submit form': 'onSubmitForm'
 
   initialize: (options={}) ->
-    @slackLog({
-      event: 'Initialized'
-    })
     @state = new State({
       formValues: {
         name: ''
@@ -45,12 +42,12 @@ module.exports = class TeachersContactModal extends ModalView
         Phone Number: #{props.phoneNumber or ''}
       """
       @state.set('formValues', { name, email, message })
-      @slackLog({
+      @logContactFlowToSlack({
         event: 'Done loading',
         message: "name: #{name}, email: #{email}, trialRequest: #{trialRequest._id}"
       })
     catch e
-      @slackLog({
+      @logContactFlowToSlack({
         event: 'Done loading',
         error: e
       })
@@ -60,7 +57,7 @@ module.exports = class TeachersContactModal extends ModalView
 
   onSubmitForm: (e) ->
     try
-      @slackLog({
+      @logContactFlowToSlack({
         event: 'Submitting',
         message: "Beginning. sendingState: #{@state.get('sendingState')}"
       })
@@ -81,7 +78,7 @@ module.exports = class TeachersContactModal extends ModalView
         formErrors.message = 'Message required.'
       @state.set({ formErrors, formValues, sendingState: 'standby' })
 
-      @slackLog({
+      @logContactFlowToSlack({
         event: 'Submitting',
         message: "Validating. name: #{formErrors.name or formValues.name}, email: #{formErrors.email or formValues.email}, licensesNeeded: #{formErrors.licensesNeeded or formValues.licensesNeeded}, message: #{formErrors.message or formValues.message}"
       })
@@ -90,7 +87,7 @@ module.exports = class TeachersContactModal extends ModalView
 
       @state.set('sendingState', 'sending')
       data = _.extend({ country: me.get('country') }, formValues)
-      @slackLog({
+      @logContactFlowToSlack({
         event: 'Submitting',
         message: "Sending. email: #{formValues.email}"
       })
@@ -98,7 +95,7 @@ module.exports = class TeachersContactModal extends ModalView
         data
         context: @
         success: ->
-          @slackLog({
+          @logContactFlowToSlack({
             event: 'Submitting',
             message: "Successfully sent. email: #{formValues.email}"
           })
@@ -110,7 +107,7 @@ module.exports = class TeachersContactModal extends ModalView
             @hide?()
           , 3000)
         error: ->
-          @slackLog({
+          @logContactFlowToSlack({
             event: 'Submitting',
             message: "Error sending! email: #{formValues.email}"
           })
@@ -119,12 +116,17 @@ module.exports = class TeachersContactModal extends ModalView
 
       @trigger('submit')
     catch e
-      @slackLog({
+      @logContactFlowToSlack({
         event: 'Submitting',
         message: "General error! error: #{e}"
       })
 
-  slackLog: (data) ->
+  logContactFlowToSlack: (data) ->
+    logUrl = '/contact/slacklog'
+    # /teachers/licenses and /teachers/starter-licenses
+    if window?.location?.pathname?.endsWith('licenses')
+      logUrl = '/db/trial.request.slacklog'
+
     try
       data.name = me.broadName()
       data.email = me.get('email')
@@ -133,6 +135,6 @@ module.exports = class TeachersContactModal extends ModalView
 
     $.ajax({
       type: 'POST',
-      url: '/db/trial.request.slacklog',
+      url: logUrl,
       data
     })
