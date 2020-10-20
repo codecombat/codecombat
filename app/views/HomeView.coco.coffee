@@ -120,10 +120,11 @@ module.exports = class HomeView extends RootView
       @homePageEvent("Link:", properties, ['Google Analytics'])
 
   afterRender: ->
-    if !me.showChinaVideo()
+    vimeoPlayerIframe = @$('.vimeo-player')[0]
+    if !me.showChinaVideo() and vimeoPlayerIframe
       require.ensure(['@vimeo/player'], (require) =>
         Player = require('@vimeo/player').default
-        @vimeoPlayer = new Player(@$('.vimeo-player')[0])
+        @vimeoPlayer = new Player(vimeoPlayerIframe)
       , (e) =>
         console.error e
       , 'vimeo')
