@@ -810,6 +810,21 @@ videoLevels = {
   }
 }
 
+# Adds a `Vue.nonreactive` global method that can be used
+# to prevent Vue traversing our large and expensive game objects.
+# Reference Library: https://github.com/rpkilby/vue-nonreactive
+vueNonReactiveInstall = (Vue) ->
+    Observer = (new Vue())
+      .$data
+      .__ob__
+      .constructor
+
+    Vue.nonreactive = (value) ->
+      # Vue sees the noop Observer and stops traversing the structure.
+      value.__ob__ = new Observer({});
+      return value;
+
+
 module.exports = {
   addIntroLevelContent
   ageOfConsent
@@ -871,4 +886,5 @@ module.exports = {
   premiumContent
   isValidEmail
   videoLevels
+  vueNonReactiveInstall
 }

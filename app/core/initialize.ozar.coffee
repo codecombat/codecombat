@@ -19,6 +19,7 @@ Vue.use(VueMoment.default)
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
 Vue.use(VueShepherd);
+Vue.use(utils.vueNonReactiveInstall)
 Vue.directive('mask', VueMaskDirective)
 
 channelSchemas =

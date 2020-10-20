@@ -68,6 +68,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @updateLayerOrder = _.throttle @updateLayerOrder, 1000 / 30  # Don't call multiple times in one frame; 30 FPS is probably good enough
     @totalTimeSpentRendering = 0
 
+    # Explicitly setting class as non reactive for performance benefit.
+    Vue.nonreactive(@)
+
     @reportRenderTime = _.debounce(
       () =>
         if @totalTimeSpentRendering != 0 and Math.random() < 0.01
@@ -92,6 +95,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
     else
       @container = new createjs.Container()
+
+    # Explicitly setting class as non reactive for performance benefit.
+    Vue.nonreactive(@container)
 
   toString: -> "<Layer #{@layerPriority}: #{@name}>"
 
@@ -336,6 +342,10 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @spriteSheet.resolutionFactor = @resolutionFactor
     oldLayer = @container
     @container = new createjs.Container(@spriteSheet)
+
+    # Explicitly setting object as non reactive for performance benefit.
+    Vue.nonreactive(@container)
+
     for lank in @lanks
       console.log 'zombie sprite found on layer', @name if lank.destroyed
       continue if lank.destroyed
