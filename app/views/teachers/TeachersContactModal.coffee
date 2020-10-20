@@ -124,7 +124,7 @@ module.exports = class TeachersContactModal extends ModalView
   logContactFlowToSlack: (data) ->
     logUrl = '/contact/slacklog'
     # /teachers/licenses and /teachers/starter-licenses
-    if window?.location?.URL?.endsWith('licenses')
+    if window?.location?.pathname?.endsWith('licenses')
       logUrl = '/db/trial.request.slacklog'
 
     try
