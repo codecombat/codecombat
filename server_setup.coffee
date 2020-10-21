@@ -330,13 +330,13 @@ setupProxyMiddleware = (app) ->
 
   httpProxy = require 'http-proxy'
 
-  target = process.env.COCO_PROXY_TARGET or 'https://direct.production.ozaria.com'
+  target = process.env.COCO_PROXY_TARGET or 'https://direct.staging.ozaria.com'
   headers = {}
 
   proxy = httpProxy.createProxyServer({
-    target: target
-    secure: false,
-    headers: headers
+    target,
+    headers,
+    secure: false
   })
   log.info 'Using dev proxy server'
   app.use (req, res, next) ->
