@@ -242,7 +242,7 @@
             isEnrolled
           }
         })
-        
+
         // Sort based on table view options.
         // We count the number of completed sessions here before using the student list elsewhere.
         // The student array is a dependency for other functions, and needs to be ordered prior
