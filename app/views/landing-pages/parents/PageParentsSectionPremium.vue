@@ -62,6 +62,7 @@
                 ref="subscribeModal"
                 :modal-view="SubscribeModal"
                 :open="subscribeModalOpen"
+                :modal-options="{ hideMonthlySub: true }"
                 @close="subscribeModalClosed"
         />
     </div>

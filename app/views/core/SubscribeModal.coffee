@@ -27,6 +27,7 @@ module.exports = class SubscribeModal extends ModalView
     #  document.location.href = 'http://codecombat.net.br/'
 
     super(options)
+    @hideMonthlySub = options?.hideMonthlySub or null
     @state = 'standby'
     @couponID = utils.getQueryVariable('coupon')
     @subModalContinue = options.subModalContinue
