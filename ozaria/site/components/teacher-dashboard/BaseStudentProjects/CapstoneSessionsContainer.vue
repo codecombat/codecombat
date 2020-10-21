@@ -24,15 +24,19 @@
         default: () => []
       }
     },
-    data () {
-      return {
-        sortOptions: ['First Name']
-      }
-    },
     computed: {
       ...mapGetters({
         getTrackCategory: 'teacherDashboard/getTrackCategory'
       }),
+
+      sortedMembers () {
+        const sortedMembers = [...this.members]
+        sortedMembers.sort((a, b) => {
+          return broadName(a).localeCompare(broadName(b))
+        })
+        return sortedMembers
+      },
+
       capstoneSession () {
         return (member) => {
           return (this.levelSessionsByUser[member._id] || {})[this.capstoneLevel.original]
@@ -115,7 +119,7 @@
       <progress-labels class="progress-labels" />
     </div>
     <student-row
-      v-for="member in members"
+      v-for="member in sortedMembers"
       :key="member._id"
       :student-name="studentName(member)"
       :status="completionStatus(member)"
