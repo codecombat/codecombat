@@ -33,13 +33,7 @@
                 </div>
 
                 <div class="row premium-pricing">
-                    <div class="col-lg-3 col-lg-offset-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
-                        <h5>${{ basicSubAmount }}{{ $t('parents_landing_2.per_month') }}</h5>
-                        <h6>{{ $t('parents_landing_2.monthly_sub') }}</h6>
-
-                        <button @click="subscribeBasic">{{ $t('parents_landing_2.buy_now') }}</button>
-                    </div>
-                    <div class="col-lg-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
+                    <div class="col-lg-6 col-lg-offset-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
                         <h5>${{ lifetimeSubAmount }}</h5>
                         <h6>{{ $t('parents_landing_2.lifetime_access') }}</h6>
 
@@ -68,6 +62,7 @@
                 ref="subscribeModal"
                 :modal-view="SubscribeModal"
                 :open="subscribeModalOpen"
+                :modal-options="{ hideMonthlySub: true }"
                 @close="subscribeModalClosed"
         />
     </div>
@@ -165,22 +160,6 @@
        * be used.  Once it is ready to be used we manually trigger the proper subscribe flow
        * by grabbing a reference to the SubscribeModal instance and calling the method that
        * is normally called by the onclick listener.
-       */
-      subscribeBasic () {
-        if (!this.checkSubscribeAndShowError()) {
-          return
-        }
-
-        this.$refs.subscribeModal.$once('shown', () => {
-          const modal = this.$refs.subscribeModal.$data.modalViewInstance
-          modal.onClickPurchaseButton()
-        })
-
-        this.openPremiumSubscribeModal()
-      },
-
-      /**
-       * See subscribeBasic comments
        */
       subscribeLifetime () {
         if (!this.checkSubscribeAndShowError()) {
