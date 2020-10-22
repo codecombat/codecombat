@@ -95,6 +95,8 @@
 <style>
   #markdown-contents {
     font-size: 24px;
+    font-size: min(2vmax, 24px);
+
     line-height: 28px;
     font-weight: normal;
     padding: 0.2vh 0.2vw;
@@ -102,10 +104,6 @@
 
   #markdown-contents p {
       margin-bottom: 0;
-  }
-
-  #markdown-contents span {
-      font-size: min(2vmax, 24px);
   }
 </style>
 
