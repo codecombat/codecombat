@@ -11,13 +11,12 @@
   import User from 'models/User'
 
   import _ from 'lodash'
-  import TableStudentListVue from './table/TableStudentList.vue'
   import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
 
   export default {
     name: COMPONENT_NAMES.MY_CLASSES_SINGLE,
     components: {
-      'guidelines': Guidelines,
+      Guidelines,
       'view-and-manage': ViewAndMange,
       'table-class-frame': TableClassFrame,
       ModalEditStudent
@@ -72,7 +71,6 @@
 
         // Get the name and content list of a module.
         for (const [moduleNum, moduleContent] of Object.entries(modules)) {
-
           const moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
           const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, moduleContent, intros, moduleNum)
 
@@ -92,7 +90,7 @@
 
             moduleStatsForTable.studentSessions[student._id] = moduleContent.map((content) => {
               const { original, fromIntroLevelOriginal } = content
-              let normalizedOriginal = original || fromIntroLevelOriginal
+              const normalizedOriginal = original || fromIntroLevelOriginal
               const isLocked = ClassroomLib.isStudentOnLockedLevel(this.classroom, student._id, this.selectedCourseId, normalizedOriginal)
               const defaultProgressDot = {
                 status: 'assigned',
@@ -104,13 +102,13 @@
                 defaultProgressDot.normalizedType = 'capstone'
               } else if (content.type === undefined) {
                 defaultProgressDot.normalizedType = 'practicelvl'
-              } else if (content.type === 'course') {
+              } else if (content.type === 'course' || content.type === 'hero') {
                 defaultProgressDot.normalizedType = 'practicelvl'
               }
 
               if (!assignmentMap.get(selectedCourseId)?.has(student._id)) {
                 // Return unassigned progress dot if the student isn't in the course-instance.
-                defaultProgressDot.status = "unassigned"
+                defaultProgressDot.status = 'unassigned'
                 return defaultProgressDot
               }
 
@@ -178,11 +176,6 @@
                       defaultProgressDot.flag = 'concept'
                       classSummaryProgressMap.get(content._id).flagCount += 1
                     }
-                  } else {
-                    // If there are no interactive sessions we ensure no progress is shown.
-                    // This check is requires because with backwards compatibility we cannot have
-                    // an interactive without sessions be shown as assigned or complete.
-                    defaultProgressDot.status === 'assigned'
                   }
                 }
 
@@ -217,7 +210,7 @@
               status,
               border: flagCount >= (this.classroomMembers?.length || 1) / 2 ? 'red' : ''
             }))
-          
+
           modulesForTable.push(moduleStatsForTable)
         }
 
@@ -257,10 +250,10 @@
           const studentProgression = new Map(students.map(({ _id }) => ([_id, 0])))
 
           for (const { _id } of students) {
-            let completedCount = 0;
+            let completedCount = 0
             for (const original of originalsInModule) {
               if (this.levelSessionsMapByUser[_id]?.[original]?.state.complete === true) {
-                completedCount ++;
+                completedCount++
               }
             }
             studentProgression.set(_id, completedCount)
@@ -275,7 +268,6 @@
 
           return students
         }
-        return []
       }
     },
 
@@ -377,17 +369,17 @@
                 normalizedType = 'capstone'
               }
             } else {
-              normalizedType = type;
+              normalizedType = type
             }
 
             if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl'].includes(normalizedType)) {
               throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
             }
 
-            let description = (documentation?.specificArticles || []).find(({name}) => name === 'Learning Goals')?.body
+            let description = (documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals')?.body
             let contentLevelSlug = slug
             if (fromIntroLevelOriginal) {
-              description = (intros[fromIntroLevelOriginal]?.documentation?.specificArticles || []).find(({name}) => name === 'Learning Goals')?.body
+              description = (intros[fromIntroLevelOriginal]?.documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals')?.body
               contentLevelSlug = intros[fromIntroLevelOriginal]?.slug
             }
             let tooltipName = getGameContentDisplayNameWithType(content)
@@ -443,7 +435,6 @@
         // Unlocks the current level by locking the next level or next course.
         // Edge case is if you are unlocking the final level of the course.
         // In this case fetch the next course and lock it without a level set. (This locks the whole next course.)
-        const modules = (this.gameContent[this.selectedCourseId] || {}).modules
         const classLevels = this.classroom.courses.find(({_id}) => _id === this.selectedCourseId)?.levels || []
 
         const unlockLevelIdx = classLevels.findIndex(({ original }) => original === normalizedOriginal);
