@@ -260,6 +260,7 @@
 
 <style lang="sass" scoped>
   @import "ozaria/site/styles/common/variables.scss"
+  $topOffset: 25px
 
   .class-code-container
     height: 30px
@@ -335,7 +336,6 @@
       transform: translate(-50%, -50%)
 
   .chrome-border
-    $topOffset: 25px
     position: absolute
 
     top: 0
@@ -374,7 +374,6 @@
       background-position: center
       background-size: contain
       background-repeat: no-repeat
-
 
     #chrome-menu
       display: flex
@@ -503,6 +502,32 @@
       right: 0
       top: 50%
       transform: translate(0, -50%) translate(-4px, 60px) scale(0.5)
+
+  // Only prevent zooming at smaller screen sizes.
+  // Sets px sizes for larger screens.
+  @media only screen and (min-width: 1440px)
+    .chrome-border
+      &.chrome-off-slice, &.chrome-on-slice
+        border-image-width: 140px 148px 124px 90px
+
+      .side-center-off, .side-center-on
+        width: 75px
+        height: 100%
+        top: $topOffset
+
+      #chrome-menu
+        width: 58px
+
+        .button-flex-item
+          width: 58px
+          height: 58px
+          margin: 3px 0
+
+        .spacer
+          min-height: 224px
+
+        .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn
+          background-size: 45px
 
 </style>
 
