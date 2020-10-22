@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   server_error:
     email_taken: "电子邮件已注册。"
     username_taken: "用户名已注册。"
+    easy_password: "密码过于简单"
+    reused_password: "与原密码相同"
 
   esper:
     line_no: "第$1行: "
