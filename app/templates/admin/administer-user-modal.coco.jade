@@ -166,14 +166,11 @@ block modal-body-content
               label.license-type
                 input(type="radio", name="licenseType", value="all", checked=view.licenseType==='all')
                 span(data-i18n="admin.license_type_full")
-            .radio
-              label.license-type
-                input(type="radio", name="licenseType", value="preset1", checked=view.licenseType==='preset1')
-                span(data-i18n="admin.license_type_preset1")
-            .radio
-              label.license-type
-                input(type="radio", name="licenseType", value="preset2", checked=view.licenseType==='preset2')
-                span(data-i18n="admin.license_type_preset2")
+            each v, preset in view.licensePresets
+              .radio
+                label.license-type
+                  input(type="radio", name="licenseType", value=preset, checked=view.licenseType===preset)
+                  span=preset
             .radio
               label.license-type
                 input(type="radio", name="licenseType", value="customize", checked=view.licenseType==='customize')

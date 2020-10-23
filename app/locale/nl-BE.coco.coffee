@@ -3168,6 +3168,4 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"
