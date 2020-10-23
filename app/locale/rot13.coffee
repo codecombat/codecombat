@@ -3169,6 +3169,4 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   admin:
     license_type_full: 'Shyy Pbhefrf'
-    license_type_preset1: 'PF1+PF2+TQ1+JQ1'
-    license_type_preset2: 'PF1+PF2+PF3+PF4'
     license_type_customize: 'Phfgbzvmr Pbhefrf'
