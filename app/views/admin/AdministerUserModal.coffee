@@ -12,7 +12,7 @@ TrialRequests = require 'collections/TrialRequests'
 fetchJson = require('core/api/fetch-json')
 utils = require 'core/utils'
 api = require 'core/api'
-{ PRESET_1_COURSE_IDS, PRESET_2_COURSE_IDS } = require 'core/constants'
+{ LICENSE_PRESETS } = require 'core/constants'
 
 # TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
 # TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
@@ -62,6 +62,7 @@ module.exports = class AdministerUserModal extends ModalView
     @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle)
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
     @licenseType = 'all'
+    @licensePresets = LICENSE_PRESETS
     @utils = utils
 
   onLoaded: ->
@@ -143,9 +144,8 @@ module.exports = class AdministerUserModal extends ModalView
     attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
     attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
 
-    switch attrs.licenseType
-      when 'preset1' then attrs.includedCourseIDs = PRESET_1_COURSE_IDS
-      when 'preset2' then attrs.includedCourseIDs = PRESET_2_COURSE_IDS
+    if attrs.licenseType of @licensePresets
+      attrs.includedCourseIDs = @licensePresets[attrs.licenseType]
     return unless attrs.licenseType == 'all' or attrs.includedCourseIDs.length
     delete attrs.licenseType
 
