@@ -389,7 +389,7 @@ _.extend LevelSchema.properties,
   characterPortrait: c.shortString(
     title: 'Character Portrait'
     description: 'The character portrait to use for the say messages.'
-    enum: ['vega', 'blank', 'capella', 'octans', 'wise-capella']
+    enum: ['vega', 'blank', 'capella', 'octans', 'wise-capella', 'astra', 'snikrep']
     default: 'vega'
   )
 
