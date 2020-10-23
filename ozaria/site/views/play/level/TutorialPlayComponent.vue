@@ -890,6 +890,24 @@
   .shepherd-next-button-inactive:hover
     background-image: url('/images/ozaria/level/InactiveR.svg')
 
+  .shepherd-header-moving-astra
+    background-image: url('/images/ozaria/level/Moving_Astra.png')
+  .shepherd-header-moving-astra:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Moving_Astra.png')
+  .shepherd-header-stationary-astra
+    background-image: url('/images/ozaria/level/Static_Astra.png')
+  .shepherd-header-stationary-astra:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Static_Astra.png')
+
+  .shepherd-header-moving-snikrep
+    background-image: url('/images/ozaria/level/Moving_Snikrep.png')
+  .shepherd-header-moving-snikrep:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Moving_Snikrep.png')
+  .shepherd-header-stationary-snikrep
+    background-image: url('/images/ozaria/level/Static_Snikrep.png')
+  .shepherd-header-stationary-snikrep:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Static_Snikrep.png')
+
   .shepherd-header-moving-wise-capella
     background-image: url('/images/ozaria/level/Moving_WiseCapella.png')
   .shepherd-header-moving-wise-capella:not(:disabled):hover
