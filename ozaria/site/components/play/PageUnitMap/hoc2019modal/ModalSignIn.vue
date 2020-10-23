@@ -200,7 +200,7 @@ export default {
               required
             )
         .form-group
-          label.control-label(for="password")
+          label.control-label(for="password-input")
             span {{ $t("general.password") }}
           .input-border
             input#password-input.input-large.form-control(
