@@ -331,13 +331,13 @@ setupProxyMiddleware = (app) ->
   }
 
   if (process.env.COCO_PROXY_NEXT)
-    target = 'https://next.codecombat.com'
+    target = 'https://direct.next.codecombat.com'
     headers['Host'] = 'next.codecombat.com'
 
   proxy = httpProxy.createProxyServer({
-    target: target
-    secure: false,
-    headers: headers
+    target,
+    headers,
+    secure: false
   })
   log.info 'Using dev proxy server'
   app.use (req, res, next) ->

@@ -12,7 +12,7 @@ export default function getVueRouter () {
         {
           path: '/parents',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
-          props: { type: 'parents', showPremium: true }
+          props: (route) => ({ showPremium: true, type: route.query.type })
         },
         {
           path: '/live-classes',

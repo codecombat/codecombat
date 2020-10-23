@@ -22,6 +22,9 @@ UserLib = {
     return emailName if emailName
     return 'Anonymous'
   isSmokeTestUser: (user) -> utils.isSmokeTestEmail(user.email)
+  isTeacher: (user, includePossibleTeachers=false) ->
+    return true if includePossibleTeachers and user.role is 'possible teacher'  # They maybe haven't created an account but we think they might be a teacher based on behavior
+    return user.role in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 }
 
 module.exports = class User extends CocoModel
@@ -94,9 +97,7 @@ module.exports = class User extends CocoModel
 
   isCreatedByClient: -> @get('clientCreator')?
 
-  isTeacher: (includePossibleTeachers=false) ->
-    return true if includePossibleTeachers and @get('role') is 'possible teacher'  # They maybe haven't created an account but we think they might be a teacher based on behavior
-    return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
+  isTeacher: (includePossibleTeachers=false) -> User.isTeacher(@attributes, includePossibleTeachers)
 
   isPaidTeacher: ->
     return false unless @isTeacher()
