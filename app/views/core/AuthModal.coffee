@@ -53,8 +53,8 @@ module.exports = class AuthModal extends ModalView
     userObject = forms.formToObject @$el
     res = tv4.validateMultiple userObject, formSchema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
-    new Promise(me.loginPasswordUser(userObject.emailOrUsername, userObject.password).then)
     showingError = false
+    new Promise(me.loginPasswordUser(userObject.emailOrUsername, userObject.password).then)
     .catch((jqxhr) =>
       if jqxhr.status is 401
         errorID = jqxhr.responseJSON.errorID
