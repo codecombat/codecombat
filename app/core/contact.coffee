@@ -2,7 +2,7 @@ module.exports =
   sendContactMessage: (contactMessageObject, modal) ->
     # deprecated
     modal?.find('.sending-indicator').show()
-    return $.post '/contact', contactMessageObject, (response) ->
+    jqxhr = $.post '/contact', contactMessageObject, (response) ->
       return unless modal
       modal.find('.sending-indicator').hide()
       modal.find('#contact-message').val('Thanks!')
@@ -10,6 +10,11 @@ module.exports =
         modal.find('#contact-message').val('')
         modal.modal 'hide'
       , 1000
+    jqxhr.fail ->
+      return unless modal
+      if jqxhr.status is 500
+        modal.find('.sending-indicator').text $.i18n.t('loading_error.server_error')
+    return jqxhr
 
   send: (options={}) ->
     options.type = 'POST'
@@ -23,7 +28,7 @@ module.exports =
       data: {parentEmail}
     })
     return new Promise(jqxhr.then)
-  
+
   sendParentTeacherSignup: ({teacherEmail, parentEmail, parentName, customContent}) ->
     jqxhr = $.ajax('/contact/send-parent-refer-teacher', {
       method: 'POST'
@@ -44,4 +49,3 @@ module.exports =
       data: {teacherEmail, sessionId, levelName, codeLanguage: _.string.titleize(codeLanguage).replace('script', 'Script')}
     })
     return new Promise(jqxhr.then)
-
