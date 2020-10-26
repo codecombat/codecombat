@@ -56,7 +56,7 @@
     <div class="side-bar">
       <span class="side-bar-title"> {{ $t("common.help") }} </span>
       <div class="side-bar-text">
-        Have questions about applying or revoking licenses?
+        {{ $t('teacher_dashboard.license_questions') }}
       </div>
       <button-resource-icon
         class="pdf-btn"
@@ -67,7 +67,7 @@
         from="My Licenses"
       />
       <div class="side-bar-text">
-        Need more licenses? We'll help you build a solution that meets your needs.
+        {{ $t('teacher_dashboard.need_more_licenses') }}
       </div>
       <primary-button
         class="get-licenses-btn"

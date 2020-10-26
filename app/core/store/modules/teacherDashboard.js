@@ -61,7 +61,7 @@ export default {
       return getters.getActiveClassrooms.find((c) => c._id === state.classroomId) || {}
     },
     getPageTitle (state) {
-      return state.pageTitle
+      return Vue.t(`teacher_dashboard.${state.pageTitle}`) || state.pageTitle
     },
     getComponentName (state) {
       return state.componentName

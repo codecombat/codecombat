@@ -107,7 +107,7 @@
           class="btn-title-padding btn-margins-height"
           @click="clickNewClass"
         >
-          Add New Class
+          {{ $t('teacher_dashboard.add_class') }}
         </primary-button>
         <button-curriculum-guide
           id="curriculum-guide-btn-shepherd"

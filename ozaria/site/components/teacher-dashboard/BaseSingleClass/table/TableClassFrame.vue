@@ -108,7 +108,7 @@
                 :checked="selectedStudentIds.length > 0 && selectedStudentIds.length === students.length"
                 @change="e => $emit('toggle-all-students', e)"
               >
-              <p>All Students</p>
+              <p>{{ $t('teacher.all_students') }}</p>
             </div>
           </div>
 

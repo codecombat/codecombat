@@ -83,10 +83,10 @@
         <div class="contact-icon">
           <img src="/images/ozaria/teachers/dashboard/svg_icons/IconMail.svg">
           <a
-            href="mailto:support@ozaria.com"
+            :href="`mailto:${$t('teacher_dashboard.support_oz')}`"
             @click="trackEvent('Resource Hub: Support Email Clicked')"
           >
-            support@ozaria.com
+            {{ $t('teacher_dashboard.support_oz') }}
           </a>
         </div>
       </div>

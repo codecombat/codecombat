@@ -79,7 +79,7 @@
         aria-expanded="false"
       >
         <div id="IconMyClasses" />
-        <span>MY CLASSES</span>
+        <span>{{ $t('nav.my_classrooms') }}</span>
         <span class="caret" />
       </a>
       <ul
@@ -87,7 +87,9 @@
         aria-labelledby="ClassesDropdown"
       >
         <li :class="allClassesSelected ? 'selected': null">
-          <router-link tag="a" to="/teachers" class="dropdown-item underline-item" @click.native="trackEvent" data-action="All Classes: Nav Clicked">ALL CLASSES</router-link>
+          <router-link tag="a" to="/teachers" class="dropdown-item underline-item" @click.native="trackEvent" data-action="All Classes: Nav Clicked">
+            {{ $t('teacher_dashboard.all_classes') }}
+          </router-link>
         </li>
         <li
           v-for="classroom in classrooms"
@@ -121,7 +123,7 @@
         aria-expanded="false"
       >
         <div id="IconCapstone" />
-        <span>STUDENT PROJECTS</span>
+        <span>{{ $t('teacher_dashboard.student_projects') }}</span>
         <span class="caret" />
       </a>
       <ul
@@ -151,13 +153,23 @@
       >
         <li>
           <a class="dropdown-item disabled-item">
-            No classes yet
+            {{ $t('teacher_dashboard.no_classes_yet') }}
           </a>
         </li>
       </ul>
     </li>
-    <li><router-link to="/teachers/licenses" id="LicensesAnchor" :class="{ 'current-route': licensesSelected } " @click.native="trackEvent" data-action="My Licenses: Nav Clicked"><div id="IconLicense" />My Licenses</router-link></li>
-    <li><router-link to="/teachers/resources" id="ResourceAnchor" :class="{ 'current-route': resourceHubSelected }" @click.native="trackEvent" data-action="Resource Hub: Nav Clicked"><div id="IconResourceHub" />Resource Hub</router-link></li>
+    <li>
+      <router-link to="/teachers/licenses" id="LicensesAnchor" :class="{ 'current-route': licensesSelected } " @click.native="trackEvent" data-action="My Licenses: Nav Clicked">
+        <div id="IconLicense" />
+        {{ $t('teacher_dashboard.my_licenses') }}
+      </router-link>
+    </li>
+    <li>
+      <router-link to="/teachers/resources" id="ResourceAnchor" :class="{ 'current-route': resourceHubSelected }" @click.native="trackEvent" data-action="Resource Hub: Nav Clicked">
+        <div id="IconResourceHub" />
+        {{ $t('teacher_dashboard.resource_hub') }}
+      </router-link>
+    </li>
   </ul>
 </template>
 

@@ -25,7 +25,7 @@
 
 <template>
   <div v-if="shouldShow">
-    <h3>Standards Alignment</h3>
+    <h3>{{ $t('teacher_dashboard.standards_alignment') }}</h3>
     <div class="flex">
       <button-resource-icon
         :icon="cstaResourceData.icon"
@@ -34,7 +34,7 @@
         from="Curriculum Guide"
       />
     </div>
-    <p>A sample of the standards covered in this Chapter:</p>
+    <p>{{ $t('teacher_dashboard.standards_sample') }}</p>
     <ul>
       <li
         v-for="{ name, description } in cstaList"
@@ -55,6 +55,7 @@
     @include font-p-3-small-button-text-black;
     text-align: left;
     margin-bottom: 10px;
+    text-transform: capitalize;
   }
 
   ul {

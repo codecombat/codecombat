@@ -10,9 +10,9 @@ export const COMPONENT_NAMES = {
 }
 
 export const PAGE_TITLES = {
-  [COMPONENT_NAMES.MY_CLASSES_ALL]: 'All Classes',
-  [COMPONENT_NAMES.MY_LICENSES]: 'My Licenses',
-  [COMPONENT_NAMES.RESOURCE_HUB]: 'Resource Hub'
+  [COMPONENT_NAMES.MY_CLASSES_ALL]: 'all_classes',
+  [COMPONENT_NAMES.MY_LICENSES]: 'my_licenses',
+  [COMPONENT_NAMES.RESOURCE_HUB]: 'resource_hub'
 }
 
 export const resourceHubLinks = {

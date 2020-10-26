@@ -20,15 +20,15 @@
   <div class="progress-labels">
     <div class="img-subtext">
       <div class="dot-border"><div class="dot green-dot"></div></div>
-      <span>Complete</span>
+      <span>{{ $t('courses.complete') }}</span>
     </div>
     <div class="img-subtext">
       <div class="dot-border"><div class="dot teal-dot"></div></div>
-      <span>In Progress</span>
+      <span>{{ $t('teacher.in_progress') }}</span>
     </div>
     <div class="img-subtext">
       <div class="dot-border"><div class="dot assigned-dot"></div></div>
-      <span>Assigned</span>
+      <span>{{ $t('teacher.assigned') }}</span>
     </div>
     <div class="img-subtext" v-if="showReviewLabels">
       <progress-dot
@@ -39,7 +39,7 @@
     </div>
     <div class="img-subtext" v-if="showReviewLabels">
       <div class="dot-border concept-flag-border"><div class="dot green-dot"></div></div>
-      <span>Concept Flag</span>
+      <span>{{ $t('teacher_dashboard.concept_flag') }}</span>
     </div>
     <div v-if="showReviewLabels" class="help-container">
       <v-popover
@@ -51,25 +51,25 @@
         <!-- The tooltip -->
         <template slot="popover">
           <div>
-            <h3 style="margin-bottom: 15px;">Support Learning</h3>
+            <h3 style="margin-bottom: 15px;">{{ $t('teacher_dashboard.support_learning') }}</h3>
             <div class="supportGrid">
               <div class="top-row">
-                <p>All Students</p>
+                <p>{{ $t('teacher.all_students') }}</p>
               </div>
               <div class="top-row">
                 <div class="dot-border concept-flag-border"><div class="dot green-dot"></div></div>
               </div>
               <div class="description top-row">
-                <p>More than 50% of the class attempted a Concept Check 3 or more times.</p>
+                <p>{{ $t('teacher_dashboard.concept_flag_desc') }}</p>
               </div>
-              <div class="bottom-row"><p>Student</p></div>
+              <div class="bottom-row"><p> {{ $t('courses.student') }} </p></div>
               <div class="bottom-row"><div class="dot-border concept-flag-border"><div class="dot green-dot"></div></div></div>
               <div class="description bottom-row">
-                <p>Student attempted a Concept Check 3 or more times.</p>
+                <p> {{ $t('teacher_dashboard.concept_flag_desc2') }} </p>
               </div>
             </div>
             <p style="margin-top: 20px; font-family: Monaco, Menlo, Ubuntu Mono, Consolas, source-code-pro, monospace; font-size: 12px;">
-              Tip: Click on the progress bubbles for more details
+              {{ $t('teacher_dashboard.click_progress_dot_tip') }}
             </p>
           </div>
         </template>

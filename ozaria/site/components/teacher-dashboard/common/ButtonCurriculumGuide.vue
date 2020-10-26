@@ -1,6 +1,7 @@
 <template>
   <button @click="$emit('click')">
-    <div id="Curriculum" /><span>Curriculum Guide</span>
+    <div id="Curriculum" />
+    <span>{{ $t('teacher_dashboard.curriculum_guide') }}</span>
   </button>
 </template>
 

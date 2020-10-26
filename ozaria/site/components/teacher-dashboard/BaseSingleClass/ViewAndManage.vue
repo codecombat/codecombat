@@ -47,11 +47,11 @@
 <template>
   <div class="view-and-manage">
     <div class="title-card">
-      <span>View Options</span>
+      <span>{{ $t('teacher_dashboard.view_options') }}</span>
     </div>
     <div class="spacer align-section-left">
       <dropdown
-        label-text="Sort By"
+        :label-text="$t('teacher.sort_by')"
         class="dropdowns"
         :options="['Name', 'Progress', 'Progress (reversed)']"
 
@@ -62,7 +62,7 @@
       <!-- <dropdown label-text="Go To" class="dropdowns" /> -->
     </div>
     <div class="title-card">
-      <span style="width: 59px">Manage Class</span>
+      <span style="width: 59px">{{ $t('teacher_dashboard.manage_class') }}</span>
     </div>
     <div class="spacer">
       <div class="manage-container">
@@ -71,33 +71,33 @@
           :inactive="displayOnly"
           @click="$emit('assignContent')"
         >
-          Assign Content
+          {{ $t('teacher_dashboard.assign_content') }}
         </primary-button>
         <icon-button-with-text
           class="icon-with-text"
           :icon-name="displayOnly ? 'IconAddStudents_Gray' : 'IconAddStudents'"
-          text="Add Students"
+          :text="$t('courses.add_students')"
           :inactive="displayOnly"
           @click="$emit('addStudents')"
         />
         <icon-button-with-text
           class="icon-with-text"
           :icon-name="displayOnly ? 'IconRemoveStudents_Gray' : 'IconRemoveStudents'"
-          text="Remove Students"
+          :text="$t('teacher_dashboard.remove_students')"
           :inactive="displayOnly"
           @click="$emit('removeStudents')"
         />
         <icon-button-with-text
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseApply_Gray' : 'IconLicenseApply'"
-          text="Apply Licenses"
+          :text="$t('teacher.apply_licenses')"
           :inactive="displayOnly"
           @click="applyLicenses"
         />
         <icon-button-with-text
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseRevoke_Gray' : 'IconLicenseRevoke'"
-          text="Revoke Licenses"
+          :text="$t('teacher_dashboard.revoke_licenses')"
           :inactive="displayOnly"
           @click="revokeLicenses"
         />

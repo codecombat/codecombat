@@ -40,12 +40,12 @@
       v-if="totalSpots === 0"
       id="license-text"
     >
-      <span>No licenses yet</span>
-      <a @click="clickRequestLicenses">Request Licenses</a>
+      <span>{{ $t('teacher_dashboard.no_licenses_yet') }}</span>
+      <a @click="clickRequestLicenses">{{ $t('teacher_dashboard.req_licenses') }}</a>
     </div>
     <div v-else id="license-text">
-      <span>{{ totalUsedLicenses }} out of {{ totalSpots }}</span>
-      <span class="licenses-applied">Licenses Applied</span>
+      <span>{{ $t('teacher_dashboard.license_ratio_used', { totalUsedLicenses, totalSpots }) }}</span>
+      <span class="licenses-applied">{{ $t('teacher_dashboard.licenses_applied') }}</span>
     </div>
     <modal-get-licenses
       v-if="showModalGetLicenses"

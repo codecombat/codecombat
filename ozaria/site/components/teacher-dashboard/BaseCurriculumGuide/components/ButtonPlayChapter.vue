@@ -18,7 +18,7 @@
     <div
       id="PlayChapter"
     />
-    <span>Play Chapter</span>
+    <span>{{ $t('teacher_dashboard.play_chapter') }}</span>
   </button>
 </template>
 

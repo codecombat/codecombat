@@ -102,7 +102,7 @@
             class="project-icon"
             :src="'/images/ozaria/teachers/dashboard/svg_icons/'+viewProjectIconName+'.svg'"
           >
-          <span class="bottom-align view-project-text"> View Project </span>
+          <span class="bottom-align view-project-text"> {{ $t('courses.view_project') }} </span>
         </div>
         <div
           v-tooltip.top="{

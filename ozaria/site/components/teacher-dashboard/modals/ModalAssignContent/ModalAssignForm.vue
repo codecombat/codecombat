@@ -85,7 +85,7 @@
         class="form-group row select-chapter"
       >
         <div class="col-xs-12">
-          <span class="control-label">Select Chapter</span>
+          <span class="control-label">{{ $t('teacher_dashboard.select_chapter') }}</span>
           <select
             class="form-control"
             name="courseList"

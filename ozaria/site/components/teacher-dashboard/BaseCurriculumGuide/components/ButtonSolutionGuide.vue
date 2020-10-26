@@ -15,7 +15,7 @@
     :disabled="locked"
     @click="$emit('click')"
   >
-    <div id="IconSolution" /><span>Solution Guide</span>
+    <div id="IconSolution" /><span>{{ $t('teacher_dashboard.solution_guide') }}</span>
   </button>
 </template>
 

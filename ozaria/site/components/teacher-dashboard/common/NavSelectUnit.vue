@@ -21,7 +21,7 @@
 
 <template>
   <div>
-    <label>Select Chapter</label>
+    <label>{{ $t('teacher_dashboard.select_chapter') }}</label>
     <select @change="onChange($event)">
       <option
         v-for="course in courses"

@@ -45,7 +45,7 @@
     </div>
     <div class="learning-goals text">
       <div class="title">
-        Learning Goals
+        {{ $t('play_level.learning_goals') }}
       </div>
       <ul>
         <li
@@ -62,7 +62,7 @@
     </div>
     <div class="concepts text">
       <div class="title">
-        Concepts Covered
+        {{ $t('courses.concepts_covered') }}
       </div>
       <ul>
         <li
