@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
   server_error:
     email_taken: "El correo electrónico ya ha sido tomado"
     username_taken: "El nombre de usuario ya ha sido tomado"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
 #  esper:
 #    line_no: "Line $1: "

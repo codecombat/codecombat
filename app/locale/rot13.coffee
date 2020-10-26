@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   server_error:
     email_taken: 'Rznvy nyernql gnxra'
     username_taken: 'Hfreanzr nyernql gnxra'
+    easy_password: 'Cnffjbeq vf gbb rnfl gb thrff'
+    reused_password: 'Cnffjbeq pnaabg or erhfrq'
 
   esper:
     line_no: "Yvar $1: "

@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   server_error:
     email_taken: "כתובת הדואר האלקטרוני תפוסה"
     username_taken: "שם המשתמש כבר תפוס"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "שורה $1: "

@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
   server_error:
     email_taken: "И-мејл се већ користи"
     username_taken: "Корисничко име се већ користи"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Пасус $1:"

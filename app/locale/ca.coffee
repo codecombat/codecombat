@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   server_error:
     email_taken: "E-mail ja agafat"
     username_taken: "Usuari ja agafat"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Línia $1: "
