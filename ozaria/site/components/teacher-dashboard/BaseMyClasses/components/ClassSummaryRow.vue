@@ -97,7 +97,7 @@
         <icon-button-with-text
           class="icon-with-text"
           :icon-name="displayOnly ? 'IconAddStudents_Gray' : 'IconAddStudents'"
-          text="Add Students"
+          :text="$t('courses.add_students')"
           :inactive="displayOnly"
           @click="$emit('clickAddStudentsModalButton')"
         />

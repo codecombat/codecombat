@@ -144,7 +144,7 @@
           from="Admin Licenses"
         />
         <div class="side-bar-text">
-          Need more licenses? We'll help you build a solution that meets your needs.
+          {{ $t('teacher_dashboard.need_more_licenses') }}
         </div>
         <primary-button
           class="get-licenses-btn"

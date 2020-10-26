@@ -49,11 +49,11 @@
         const time = []
 
         if (this.getModuleInfo?.duration?.totalTimeRange) {
-          time.push(`<p><b>Class Time (Range):</b> ${this.getModuleInfo?.duration?.totalTimeRange}</p>`)
+          time.push(`<p><b>${this.$t('teacher_dashboard.class_time_range')}:</b> ${this.getModuleInfo?.duration?.totalTimeRange}</p>`)
         }
 
         if (this.getModuleInfo?.duration?.inGame) {
-          time.push(`<p><b>In-Game Play Time:</b> ${this.getModuleInfo?.duration?.inGame}</p>`)
+          time.push(`<p><b>${this.$t('teacher_dashboard.in_game_play_time')}:</b> ${this.getModuleInfo?.duration?.inGame}</p>`)
         }
 
         return time.join('')
@@ -61,16 +61,16 @@
 
       projectRubricTooltipContent () {
         if (this.isOnLockedCampaign) {
-          return `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`
+          return this.$t('teacher_dashboard.need_licenses_tooltip')
         }
-        return `<h3>Project Rubric</h3><p>Downloadable and modifiable scoring rubric for the Capstone Project</p>`
+        return this.$t('teacher_dashboard.project_rubric_tooltip')
       },
 
       exemplarProjectTooltipContent () {
         if (this.isOnLockedCampaign) {
-          return `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`
+          return this.$t('teacher_dashboard.need_licenses_tooltip')
         }
-        return `<h3>Exemplar Project</h3><p>Live view of the exemplar Capstone Project</p>`
+        return this.$t('teacher_dashboard.exemplar_projects_tooltip')
       },
 
       trackEvent (eventName) {
@@ -84,8 +84,8 @@
 <template>
   <div class="header">
     <div class="module-header">
-      <h3>Module {{ moduleNum }}: {{ getCurrentModuleNames(moduleNum) }}</h3>
-      <div v-if="getModuleTotalTimeInfo !== undefined" class="time-row"><p>Class Time: {{ getModuleTotalTimeInfo }}</p>
+      <h3>{{ $t('teacher_dashboard.module') }} {{ moduleNum }}: {{ getCurrentModuleNames(moduleNum) }}</h3>
+      <div v-if="getModuleTotalTimeInfo !== undefined" class="time-row"><p>{{ $t('teacher_dashboard.class_time') }}: {{ getModuleTotalTimeInfo }}</p>
         <icon-help
           v-if="tooltipTimeContent()"
           v-tooltip.top="{
@@ -103,7 +103,7 @@
         <span
           v-if="isOnLockedCampaign"
           v-tooltip.top="{
-            content: `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`,
+            content: $t('teacher_dashboard.need_licenses_tooltip'),
             classes: 'teacher-dashboard-tooltip lighter-p',
             autoHide: false
           }"
@@ -116,14 +116,14 @@
         </span>
         <button-slides
           v-else
+          v-tooltip.top="{
+            content: $t('teacher_dashboard.lesson_slides_tooltip'),
+            classes: 'teacher-dashboard-tooltip lighter-p'
+          }"
           class="margin-right"
           :link="getModuleInfo.lessonSlidesUrl"
           :locked="isOnLockedCampaign"
           @click.native="trackEvent('Curriculum Guide: Lesson Slides Clicked')"
-          v-tooltip.top="{
-            content: `<h3>Lesson Slides</h3><p>Downloadable, step-by-step presentation slides for guiding students through module learning objectives</p>`,
-            classes: 'teacher-dashboard-tooltip lighter-p'
-          }"
         />
       </template>
 

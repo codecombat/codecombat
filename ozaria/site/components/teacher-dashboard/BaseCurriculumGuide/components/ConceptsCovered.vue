@@ -16,7 +16,7 @@
 </script>
 <template>
   <div v-if="shouldShow">
-    <h3>Concepts Covered</h3>
+    <h3>{{ $t('teacher.concepts_covered') }}</h3>
     <ul>
       <li
         v-for="text in conceptList"
@@ -37,6 +37,7 @@
     @include font-p-3-small-button-text-black;
     text-align: left;
     margin-bottom: 10px;
+    text-transform: capitalize;
   }
 
   ul {

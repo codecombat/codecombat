@@ -75,11 +75,11 @@
         const time = []
 
         if (this.getCurrentCourse?.duration?.totalTimeRange) {
-          time.push(`<p><b>Class Time (Range):</b> ${this.getCurrentCourse?.duration?.totalTimeRange}</p>`)
+          time.push(`<p><b>${Vue.t('teacher_dashboard.class_time_range')}</b> ${this.getCurrentCourse?.duration?.totalTimeRange}</p>`)
         }
 
         if (this.getCurrentCourse?.duration?.inGame) {
-          time.push(`<p><b>In-Game Play Time:</b> ${this.getCurrentCourse?.duration?.inGame}</p>`)
+          time.push(`<p><b>${Vue.t('teacher_dashboard.in_game_play_time')}</b> ${this.getCurrentCourse?.duration?.inGame}</p>`)
         }
 
         return time.join('')
@@ -104,13 +104,13 @@
       </p>
       <div class="stats-and-btns">
         <div>
-          <p><b>Capstone Project</b>: {{ capstoneName }}</p>
+          <p><b>{{ $t('play_level.level_type_capstone_project') }}</b>: {{ capstoneName }}</p>
           <div
             v-if="totalCourseDuration"
             class="time-row"
           >
             <p>
-              <b>Class Time</b>: {{ totalCourseDuration }}
+              <b>{{ $t('teacher_dashboard.class_time') }}</b>: {{ totalCourseDuration }}
             </p>
             <icon-help
               v-if="tooltipTimeContent()"
@@ -126,7 +126,7 @@
             <button-play-chapter
               @click.native="trackEvent('Curriculum Guide: Play Chapter Clicked')"
               v-tooltip.top="{
-                content: `<h3>Want to save your progress?</h3><p>Please create a student account and play Ozaria as a student if you would like to save your progress.</p>`,
+                content: $t('teacher_dashboard.want_to_save_tooltip'),
                 classes: 'teacher-dashboard-tooltip lighter-p'
               }"
             />
@@ -136,7 +136,7 @@
         <div v-else class="btns">
           <span
             v-tooltip.top="{
-              content: `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`,
+              content: $t('teacher_dashboard.need_licenses_tooltip'),
               classes: 'teacher-dashboard-tooltip',
               autoHide: false
             }"
@@ -147,7 +147,7 @@
           </span>
           <span
             v-tooltip.top="{
-              content: `<h3>You need licenses to access this content!</h3><p>Please visit the <a href='/teachers/licenses'>My Licenses</a> page for more information.</p>`,
+              content: $t('teacher_dashboard.need_licenses_tooltip'),
               classes: 'teacher-dashboard-tooltip',
               autoHide: false
             }"

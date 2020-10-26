@@ -24,24 +24,24 @@
   <transition name="fade">
     <div class="guidelines-nav" v-show="visible">
       <div class="title-card">
-        <span>Color Code</span>
+        <span>{{ $t('teacher_dashboard.color_code') }}</span>
       </div>
       <progress-labels :show-review-labels="true" />
       <div class="title-card">
-        <span style="width: 59px">Content Guide</span>
+        <span style="width: 59px">{{ $t('teacher_dashboard.content_guide') }}</span>
       </div>
       <div class="spacer">
         <div class="grid-container">
-          <div class="story-title"><h3>Story</h3></div>
+          <div class="story-title"><h3>{{ $t('teacher_dashboard.story') }}</h3></div>
           <div
             v-tooltip.bottom="{
-              content: `<h3>Cutscene</h3><p>Short videos that explain parts of the epic Ozaria narrative.</p>`,
+              content: $t('teacher_dashboard.cutscenes_tooltip'),
               classes: 'teacher-dashboard-tooltip lighter-p'
             }"
             class="img-subtext cutscene-icon vertical-grid-divider"
           >
             <content-icon icon="cutscene" />
-            <span>Cutscenes</span>
+            <span>{{ $t('teacher_dashboard.cutscenes') }}</span>
           </div>
           <div
             v-tooltip.bottom="{
@@ -54,7 +54,7 @@
               icon="cinematic"
               style="width: 28px;"
             />
-            <span>Cinematics</span>
+            <span>{{ $t('teacher_dashboard.cinematics') }}</span>
           </div>
           <div
             v-tooltip.bottom="{
@@ -67,7 +67,7 @@
               icon="interactive"
               style="width: 28px;"
             />
-            <span>Concept Checks</span>
+            <span>{{ $t('teacher_dashboard.concept_checks') }}</span>
           </div>
           <div
             v-tooltip.bottom="{
@@ -77,7 +77,7 @@
             class="img-subtext practice-icon"
           >
             <content-icon icon="practicelvl" />
-            <span>Practice Levels</span>
+            <span>{{ $t('teacher_dashboard.practice_levels') }}</span>
           </div>
           <div
             v-tooltip.bottom="{
@@ -90,7 +90,7 @@
               icon="challengelvl"
               style="width: 22px;"
             />
-            <span>Challenge Levels</span>
+            <span>{{ $t('teacher_dashboard.challenge_levels') }}</span>
           </div>
           <div
             v-tooltip.bottom="{
@@ -103,11 +103,11 @@
               icon="capstone"
               style="width: 22px;"
             />
-            <span>Capstone Levels</span>
+            <span>{{ $t('teacher_dashboard.capstone_levels') }}</span>
           </div>
-          <div class="intro-title"><h3>Intro</h3></div>
-          <div class="practice-title"><h3>Practice</h3></div>
-          <div class="assess-title"><h3>Assess</h3></div>
+          <div class="intro-title"><h3>{{ $t('teacher_dashboard.intro') }}</h3></div>
+          <div class="practice-title"><h3>{{ $t('teacher_dashboard.practice') }}</h3></div>
+          <div class="assess-title"><h3>{{ $t('teacher_dashboard.assess') }}</h3></div>
         </div>
       </div>
       <div class="arrow-toggle" @click="clickArrow"><div class="arrow-icon"></div></div>

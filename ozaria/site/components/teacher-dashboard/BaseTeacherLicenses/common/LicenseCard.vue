@@ -91,15 +91,24 @@
       :class="{ 'expired': expired }"
     >
       <div class="used">
-        <div> {{ used }} out of {{ total }} </div>
-        <div class="sub-text"> licenses applied </div>
+        <div>
+          {{
+            $t('teacher_dashboard.license_ratio_used', {
+              totalUsedLicenses: used,
+              totalSpots: total
+            })
+          }}
+        </div>
+        <div class="sub-text">
+          {{ $t('teacher_dashboard.licenses_applied') }}
+        </div>
       </div>
       <div class="remaining">
-        {{ remaining }} license(s) remaining
+        {{ $t('teacher_dashboard.remaining_licenses', { remaining }) }}
       </div>
       <div class="dates">
-        <div> Start: {{ startDateFormat }} </div>
-        <div> End: {{ endDateFormat }} </div>
+        <div>{{ $t('teacher_dashboard.start_date', { date: startDateFormat }) }}</div>
+        <div>{{ $t('teacher_dashboard.end_date', { date: endDateFormat }) }}</div>
       </div>
     </div>
     <div
@@ -109,14 +118,14 @@
       <icon-button-with-text
         class="icn-button"
         :icon-name="applyLicensesIcon"
-        text="Apply Licenses"
+        :text="$t('teacher.apply_licenses')"
         :inactive="applyLicensesDisabled"
         @click="$emit('apply')"
       />
       <icon-button-with-text
         class="icn-button"
         :icon-name="shareLicensesIcon"
-        text="Share Licenses"
+        :text="$t('share_licenses.share_licenses')"
         :inactive="shareLicensesDisabled"
         @click="$emit('share')"
       />
@@ -125,7 +134,7 @@
       v-if="!isLicenseOwner"
       class="shared-by"
     >
-      Shared by: <a :href="'mailto:'+licenseOwnerEmail"> {{ licenseOwnerEmail }} </a>
+      {{ $t('share_licenses.shared_by') }} <a :href="'mailto:'+licenseOwnerEmail"> {{ licenseOwnerEmail }} </a>
     </div>
   </div>
 </template>

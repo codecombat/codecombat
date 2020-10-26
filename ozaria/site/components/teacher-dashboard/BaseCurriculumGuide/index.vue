@@ -75,13 +75,13 @@
         <div class="header">
           <div class="header-icon">
             <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg">
-            <h2>Curriculum Guide</h2>
+            <h2>{{ $t('teacher_dashboard.curriculum_guide') }}</h2>
           </div>
           <div
             class="header-right"
           >
             <div class="code-language-dropdown">
-              <span class="select-language"> Select Language </span>
+              <span class="select-language">{{ $t('courses.select_language') }}</span>
               <select @change="changeLanguage">
                 <option value="python" :selected="getSelectedLanguage === 'python'"> Python </option>
                 <option value="javascript" :selected="getSelectedLanguage === 'javascript'"> Javascript </option>

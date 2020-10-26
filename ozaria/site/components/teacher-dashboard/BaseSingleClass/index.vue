@@ -385,7 +385,7 @@
             let tooltipName = getGameContentDisplayNameWithType(content)
             if (fromIntroLevelOriginal) {
               const { name, displayName } = intros[fromIntroLevelOriginal] || {}
-              tooltipName = `Intro: ${displayName || name}`
+              tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${displayName || name}`
             }
 
             return ({

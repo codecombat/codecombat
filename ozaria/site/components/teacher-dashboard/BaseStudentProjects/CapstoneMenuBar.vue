@@ -47,11 +47,11 @@
   <div class="capstone-project-title-bar">
     <div class="sub-nav">
       <span class="capstone-title"> {{ title }} </span>
-      <span class="capstone-sub-title"> Capstone Project for {{ courseName }} </span>
+      <span class="capstone-sub-title"> {{ $t('teacher_dashboard.capstone_proj_for', { courseName }) }} </span>
     </div>
     <div class="sub-nav">
       <div class="exemplar-div">
-        <span class="text-margin"> Exemplar Project </span>
+        <span class="text-margin"> {{ $t('teacher_dashboard.exemplar_project') }} </span>
         <icon-button
           v-tooltip.top="{
             content: `Annotated solution code for the Exemplar Project`,
@@ -74,7 +74,7 @@
         />
       </div>
       <div class="project-rubric">
-        <span class="text-margin"> Project Rubric </span>
+        <span class="text-margin">{{ $t('teacher_dashboard.project_rubric') }}</span>
         <icon-button
           v-tooltip.top="{
             content: `View Project Rubric`,

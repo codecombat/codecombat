@@ -134,7 +134,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     real_code: "Erny, glcrq pbqr"
     from_the_first_level: "sebz gur svefg yriry"
     getting_students: "Trggvat fghqragf gb glcrq pbqr nf dhvpxyl nf cbffvoyr vf pevgvpny gb yrneavat cebtenzzvat flagnk naq cebcre fgehpgher."
-    educator_resources: "Rqhpngbe erfbheprf"
+    educator_resources: "Rqhpngbe Erfbheprf"
     course_guides: "naq pbhefr thvqrf"
     teaching_computer_science: "Grnpuvat pbzchgre fpvrapr qbrf abg erdhver n pbfgyl qrterr, orpnhfr jr cebivqr gbbyf gb fhccbeg rqhpngbef bs nyy onpxtebhaqf."
     accessible_to: "Npprffvoyr gb"
@@ -2860,7 +2860,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     third_party_description: "PbqrPbzong hfrf gur sbyybjvat guveq cnegl freivprf (nzbat bguref):"
     cookies_message: 'PbqrPbzong hfrf n srj rffragvny naq aba-rffragvny pbbxvrf.'
     cookies_deny: 'Qrpyvar aba-rffragvny pbbxvrf'
-    cookies_allow: 'Nyybj pbbxvrf' # {punatr}
+    cookies_allow: 'Nyybj pbbxvrf'
 
   ladder_prizes:
     title: "Gbheanzrag Cevmrf"  # Guvf frpgvba jnf sbe na byq gbheanzrag naq qbrfa'g arrq arj genafyngvbaf abj.
@@ -3110,6 +3110,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     save_progress: 'Fnir Cebterff'
     err_google_exists: "Na nppbhag nyernql rkvfgf sbe gur Tbbtyr nppbhag lbh'ir fryrpgrq. Cyrnfr pubbfr nabgure Tbbtyr nppbhag be fvta hc jvgu n hfreanzr naq cnffjbeq."
     err_username_taken: "Na nppbhag nyernql rkvfgf sbe gur hfreanzr lbh'ir ragrerq. Cyrnfr pubbfr nabgure hfreanzr."
+    enter_it_here: "Ragre vg urer gb fnir lbhe cebterff nf lbh cynl:"
+    have_a_class_code: "Unir n pynff pbqr?"
+    create_class_and_try_activity: "Perngr Pynff naq Gel Npgvivgl"
 
   hoc_2018:
     banner: "Unccl Pbzchgre Fpvrapr Rqhpngvba Jrrx 2018!"
@@ -3188,4 +3191,56 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     lock: 'Ybpx'
     unlock: 'Haybpx'
     teacher_locked_message: 'Lbhe grnpure unf ybpxrq gur arkg yriry'
-
+    plan_your_class_title: 'Cyna lbhe svefg pynff ol'
+    plan_your_class1: 'Ivrjvat pbhefr cebterffvba vasb'
+    plan_your_class2: 'Cerivrjvat yrffba fyvqrf & rkgrafvba npgvivgvrf'
+    plan_your_class3: 'Gelvat gur svefg puncgre sbe serr'
+    click_dismiss: 'Pyvpx gb Qvfzvff'
+    track_progress: 'Genpx Cebterff'
+    track_progress_desc: 'Pyvpx vagb gur pynff lbh whfg perngrq gb ivrj qrgnvyrq fghqrag cebterff.'
+    add_classes_title: 'Nqq Pynffrf Urer'
+    add_classes: 'Nqq pynffrf naq trg fghqragf fgnegrq jvgu gur svefg serr puncgre!'
+    all_classes: 'Nyy Pynffrf'
+    my_licenses: 'Zl Yvprafrf'
+    resource_hub: 'Erfbhepr Uho'
+    curriculum_guide: 'Pheevphyhz Thvqr'
+    add_class: 'Nqq Arj Pynff'
+    no_licenses_yet: 'Ab yvprafrf lrg'
+    req_licenses: 'Erdhrfg Yvprafrf'
+    license_ratio_used: '__gbgnyHfrqYvprafrf__ bhg bs __gbgnyFcbgf__'
+    licenses_applied: 'Yvprafrf Nccyvrq'
+    student_projects: 'Fghqrag Cebwrpgf'
+    no_classes_yet: 'Ab pynffrf lrg'
+    exemplar_project: 'Rkrzcyne Cebwrpg'
+    capstone_proj_for: 'Pncfgbar Cebwrpg sbe __pbhefrAnzr__'
+    project_rubric: 'Cebwrpg Ehoevp'
+    select_chapter: 'Fryrpg Puncgre'
+    concept_flag: 'Pbaprcg Synt'
+    support_learning: 'Fhccbeg Yrneavat'
+    concept_flag_desc: 'Zber guna 50% bs gur pynff nggrzcgrq n Pbaprcg Purpx 3 be zber gvzrf.'
+    concept_flag_desc2: 'Fghqrag nggrzcgrq n Pbaprcg Purpx 3 be zber gvzrf.'
+    click_progress_dot_tip: 'Gvc: Pyvpx ba gur cebterff ohooyrf sbe zber qrgnvyf'
+    color_code: 'Pbybe Pbqr'
+    content_guide: 'Pbagrag Thvqr'
+    story: 'Fgbel'
+    cutscenes: 'Phgfprarf'
+    cutscenes_tooltip: '<u3>Phgfprar</u3><c>Fubeg ivqrbf gung rkcynva cnegf bs gur rcvp Bmnevn aneengvir.</c>'
+    cinematics: 'Pvarzngvpf'
+    concept_checks: 'Pbaprcg Purpxf'
+    practice_levels: 'Cenpgvpr Yriryf'
+    challenge_levels: 'Punyyratr Yriryf'
+    capstone_levels: 'Pncfgbar Yriryf'
+    intro: 'Vageb'
+    practice: 'Cenpgvpr'
+    assess: 'Nffrff'
+    view_options: 'Ivrj Bcgvbaf'
+    manage_class: 'Znantr Pynff'
+    assign_content: 'Nffvta Pbagrag'
+    remove_students: 'Erzbir Fghqragf'
+    revoke_licenses: 'Eribxr Yvprafrf'
+    remaining_licenses: '__erznvavat__ yvprafr(f) erznvavat'
+    start_date: 'Fgneg: __qngr__'
+    end_date: 'Raq: __qngr__'
+    license_questions: 'Unir dhrfgvbaf nobhg nccylvat be eribxvat yvprafrf?'
+    need_more_licenses: "Arrq zber yvprafrf? Jr'yy uryc lbh ohvyq n fbyhgvba gung zrrgf lbhe arrqf."
+    support_oz: 'fhccbeg@bmnevn.pbz'
