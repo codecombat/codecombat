@@ -9,6 +9,7 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
+EducatorSignupOzariaEncouragementModal = require('app/views/teachers/EducatorSignupOzariaEncouragementModal').default
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -76,9 +77,31 @@ module.exports = class HomeView extends RootView
     @openModalView(new CreateAccountModal({startOnPath: 'student'}))
 
   onClickTeacherButton: (e) ->
-    @homePageEvent('Started Signup')
-    @homePageEvent($(e.target).data('event-action'))
-    @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+    @openEducatorSignupOzariaEncouragementModal(() =>
+      @homePageEvent('Started Signup')
+      @homePageEvent($(e.target).data('event-action'))
+      @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+    )
+
+  openEducatorSignupOzariaEncouragementModal: (onClosed) ->
+    # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
+    if @ozariaEncouragementModalContainer
+      @ozariaEncouragementModalContainer.remove()
+
+    @ozariaEncouragementModalContainer = document.createElement('div')
+    document.body.appendChild(@ozariaEncouragementModalContainer)
+
+    @ozariaEncouragementModal = new EducatorSignupOzariaEncouragementModal({
+      el: @ozariaEncouragementModalContainer,
+      propsData: {
+        onClose: onClosed
+      }
+    })
+
+  cleanupEncouragementModal: ->
+    if @ozariaEncouragementModal
+      @ozariaEncouragementModal.$destroy()
+      @ozariaEncouragementModalContainer.remove()
 
   onClickTrackEvent: (e) ->
     if $(e.target)?.hasClass('track-ab-result')
@@ -153,6 +176,10 @@ module.exports = class HomeView extends RootView
   logoutAccount: ->
     Backbone.Mediator.publish("auth:logging-out", {})
     logoutUser()
+
+  destroy: ->
+   @cleanupEncouragementModal()
+   super()
 
   mergeWithPrerendered: (el) ->
     true
