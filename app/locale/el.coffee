@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
   server_error:
     email_taken: "Το email χρησιμοποιείται"
     username_taken: "Το όνομα χρήστη χρησιμοποιείται"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Γραμμή $1: "

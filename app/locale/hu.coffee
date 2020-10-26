@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   server_error:
     email_taken: "Ezzel az e-mail címmel már regisztráltak."
     username_taken: "A felhasználó név már foglalt."
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Sorszám $1:"

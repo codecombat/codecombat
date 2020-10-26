@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   server_error:
     email_taken: "Данный емейл уже занят"
     username_taken: "Данное имя пользователя уже занято"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Строка $1: "

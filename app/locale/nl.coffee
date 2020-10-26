@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
   server_error:
     email_taken: "Dit e-mailadres is al in gebruik"
     username_taken: "Gebruikersnaam niet beschikbaar"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Regel $1: "

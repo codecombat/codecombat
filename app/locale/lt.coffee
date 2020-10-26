@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
   server_error:
     email_taken: "El. paštas užimtas"
     username_taken: "Slapyvardis užimtas"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
 #  esper:
 #    line_no: "Line $1: "
