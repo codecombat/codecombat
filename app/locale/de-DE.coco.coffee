@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   server_error:
     email_taken: "Diese E-Mail wird bereits verwendet"
     username_taken: "Benutzername ist bereits vergeben"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Zeile $1: "

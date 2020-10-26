@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   server_error:
     email_taken: "Epostadress redan taget"
     username_taken: "Användarnamn redan taget"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Rad $1: "

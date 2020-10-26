@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "Esperanto", englishDescription: "Esperanto"
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
 #  esper:
 #    line_no: "Line $1: "
