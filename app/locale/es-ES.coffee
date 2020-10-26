@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
   server_error:
     email_taken: "El correo electrónico ya ha sido tomado"
     username_taken: "El nombre de usuario ya ha sido tomado"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
 #  esper:
 #    line_no: "Line $1: "
@@ -3168,6 +3170,4 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

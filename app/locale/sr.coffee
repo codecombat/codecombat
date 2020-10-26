@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
   server_error:
     email_taken: "И-мејл се већ користи"
     username_taken: "Корисничко име се већ користи"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Пасус $1:"
@@ -3168,6 +3170,4 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

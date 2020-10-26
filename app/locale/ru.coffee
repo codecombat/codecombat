@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   server_error:
     email_taken: "Данный емейл уже занят"
     username_taken: "Данное имя пользователя уже занято"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Строка $1: "
@@ -3168,6 +3170,4 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

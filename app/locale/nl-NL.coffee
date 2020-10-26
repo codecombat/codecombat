@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   server_error:
     email_taken: "Dit e-mailadres is al in gebruik"
     username_taken: "Gebruikersnaam niet beschikbaar"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Regel $1: "
@@ -3168,6 +3170,4 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

@@ -2798,6 +2798,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   server_error:
     email_taken: "Diese E-Mail wird bereits verwendet"
     username_taken: "Benutzername ist bereits vergeben"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Zeile $1: "
@@ -3168,6 +3170,4 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"
