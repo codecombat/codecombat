@@ -18,12 +18,12 @@ module.exports = class I18NEditComponentView extends I18NEditModelView
         @wrapRow "#{propDoc.name} name value", ['name'], propDoc.name, i18n[lang]?.name, path
         if _.isObject propDoc.description
           for progLang, description of propDoc.description
-            @wrapRow "#{propDoc.name} description (#{progLang})", ['description', progLang], description, i18n[lang]?[progLang]?.description, path, 'markdown'
+            @wrapRow "#{propDoc.name} description (#{progLang})", ['description', progLang], description, i18n[lang]?.description?[progLang], path, 'markdown'
         else if _.isString propDoc.description
           @wrapRow "#{propDoc.name} description", ['description'], propDoc.description, i18n[lang]?.description, path, 'markdown'
         if _.isObject propDoc.shortDescription
           for progLang, shortDescription of propDoc.shortDescription
-            @wrapRow "#{propDoc.name} shortDescription (#{progLang})", ['shortDescription', progLang], shortDescription, i18n[lang]?[progLang]?.shortDescription, path, 'markdown'
+            @wrapRow "#{propDoc.name} shortDescription (#{progLang})", ['shortDescription', progLang], shortDescription, i18n[lang]?.shortDescription?[progLang], path, 'markdown'
         else if _.isString propDoc.shortDescription
           @wrapRow "#{propDoc.name} shortDescription", ['shortDescription'], propDoc.shortDescription, i18n[lang]?.shortDescription, path, 'markdown'
         if context = propDoc.context
@@ -36,7 +36,7 @@ module.exports = class I18NEditComponentView extends I18NEditModelView
         d = propDoc.returns.description
         if _.isObject d
           for progLang, description of d.description
-            @wrapRow "#{propDoc.name} return val (#{progLang})", ['description', progLang], description, i18n[lang]?[progLang]?.description, path, 'markdown'
+            @wrapRow "#{propDoc.name} return val (#{progLang})", ['description', progLang], description, i18n[lang].description?[progLang], path, 'markdown'
         else if _.isString d
           @wrapRow "#{propDoc.name} return val", ['description'], d, i18n[lang]?.description, path, 'markdown'
 
@@ -47,7 +47,7 @@ module.exports = class I18NEditComponentView extends I18NEditModelView
             path = ['propertyDocumentation', propDocIndex, 'args', argIndex]
             if _.isObject argDoc.description
               for progLang, description of argDoc.description
-                @wrapRow "#{propDoc.name} arg description #{argDoc.name} (#{progLang})", ['description', progLang], description, i18n[lang]?[progLang]?.description, path, 'markdown'
+                @wrapRow "#{propDoc.name} arg description #{argDoc.name} (#{progLang})", ['description', progLang], description, i18n[lang]?.description?[progLang], path, 'markdown'
             else if _.isString argDoc.description
               @wrapRow "#{propDoc.name} arg description #{argDoc.name}", ['description'], argDoc.description, i18n[lang]?.description, path, 'markdown'
 
