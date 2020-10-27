@@ -82,7 +82,7 @@ export default Vue.extend({
 <style scoped>
 
 #educator-signup-encouragement-modal .content {
-  min-height: min(80vh, 661px);
+  min-height: min(80vh, 600px);
   min-width: min(80vw, 1167px);
 }
 
@@ -111,7 +111,7 @@ export default Vue.extend({
 img.oz-logo {
   height: 78.75px;
   width: auto;
-  margin-bottom: 40px;
+  margin-bottom: 35px;
 }
 
 img.coco-logo {
@@ -142,7 +142,7 @@ img.coco-logo {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 0;
+  padding: 40px 0;
 
 }
 
@@ -173,13 +173,15 @@ img.coco-logo {
   font-family: Open Sans;
   font-style: normal;
   font-weight: bold;
-  font-size: 24px;
-  line-height: 33px;
+  font-size: 22px;
+  line-height: 30px;
   color: black;
+  margin: 2px 0;
+  font-variant: normal;
 }
 
 a.primary-oz-button {
-  margin-top: 40px;
+  margin-top: 35px;
 
   font-family: Open Sans;
   font-style: normal;
@@ -215,10 +217,11 @@ a.primary-oz-button {
 }
 
 .codecombat-continue-container h3 {
-  font-family: Arvo;
+  font-family: Open Sans;
   font-style: normal;
+  font-variant: normal;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 30px;
   color: white;
 }
@@ -250,6 +253,7 @@ a.primary-oz-button {
   background-color: unset;
   border: 1px solid;
   padding: 5px 15px;
+  height: 50px;
 
   text-transform: capitalize;
   border-radius: 4px;
