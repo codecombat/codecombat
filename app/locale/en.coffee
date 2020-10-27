@@ -1023,7 +1023,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     attack: "Damage"  # Can also translate as "Attack"
     health: "Health"
     speed: "Speed"
-    regeneration: "Regeneration"
+    regeneration: "Regen"
     range: "Range"  # As in "attack or visual range"
     blocks: "Blocks"  # As in "this shield blocks this much damage"
     backstab: "Backstab"  # As in "this dagger does this much backstab damage"
