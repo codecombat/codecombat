@@ -23,6 +23,7 @@ module.exports = class HomeView extends RootView
     'click .signup-home-btn': 'onClickTrackEvent'
     'click .student-btn': 'onClickStudentButton'
     'click .teacher-btn': 'onClickTeacherButton'
+    'click .parent-btn': 'onClickParentButton'
     'click .request-quote': 'onClickRequestQuote'
     'click .logout-btn': 'logoutAccount'
     'click .profile-btn': 'onClickTrackEvent'
@@ -77,11 +78,15 @@ module.exports = class HomeView extends RootView
     @openModalView(new CreateAccountModal({startOnPath: 'student'}))
 
   onClickTeacherButton: (e) ->
+    @homePageEvent($(e.target).data('event-action'))
     @openEducatorSignupOzariaEncouragementModal(() =>
       @homePageEvent('Started Signup')
-      @homePageEvent($(e.target).data('event-action'))
       @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
     )
+
+  onClickParentButton: (e) ->
+    @homePageEvent($(e.target).data('event-action'))
+    application.router.navigate '/parents', trigger: true
 
   openEducatorSignupOzariaEncouragementModal: (onClosed) ->
     # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element

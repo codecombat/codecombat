@@ -95,6 +95,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
     play_now: "Play Now"
+    im_a_parent: "I'm a Parent"
     im_an_educator: "I'm an Educator"
     im_a_teacher: "I'm a Teacher"
     im_a_student: "I'm a Student"
