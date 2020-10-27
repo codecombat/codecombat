@@ -1,5 +1,6 @@
 <script>
 import BaseModal from 'app/components/common/BaseModal'
+import OzariaCTA from 'app/components/teacher/OzariaCTA'
 export default Vue.extend({
   data: () => ({
     show: true
@@ -11,7 +12,8 @@ export default Vue.extend({
     }
   },
   components: {
-    BaseModal
+    BaseModal,
+    OzariaCTA
   },
   methods: {
     close () {
@@ -38,40 +40,24 @@ export default Vue.extend({
         <div class="modal-contents-container">
           <div class="ozaria-encourage-container">
             <img class="oz-logo" alt="Ozaria logo" src="/images/pages/home/logo_ozaria.png"/>
-            <div class="ozaria-row">
-              <img src="/images/ozaria/modal/encouragement-modal/Icon_StandardsAlignment.svg" />
-              <div>
-                <h4>Standards Aligned Core Curriculum</h4>
-                <p>Immersive, story based curriculum that meets all 6th-8th grade CSTA standards.</p>
-              </div>
-            </div>
-            <div class="ozaria-row">
-              <img src="/images/ozaria/modal/encouragement-modal/Icon_Turnkey.svg" />
-              <div>
-                <h4>Turnkey Lesson Plans</h4>
-                <p>In-depth presentations and worksheets for teachers to guide students through learning objectives.</p>
-              </div>
-            </div>
-            <div class="ozaria-row">
-              <img src="/images/ozaria/modal/encouragement-modal/Icon_NewTeacherDashboard.svg" />
-              <div>
-                <h4>Turnkey Lesson Plans</h4>
-                <p>All the actionable insights educators need at a glance, such as student progress and concept understanding.</p>
-              </div>
-            </div>
-            <a class="primary-oz-button" href="https://www.ozaria.com/sign-up/educator">Try Ozaria</a>
+            <OzariaCTA />
+            <a class="primary-oz-button" href="https://www.ozaria.com/sign-up/educator">
+              {{ $t('new_home.try_ozaria') }}
+            </a>
           </div>
           <div class="codecombat-continue-container">
             <img class="coco-logo" alt="CodeCombat logo" src="/images/pages/base/logo.png">
-            <h3>Recommended for:</h3>
+            <h3>{{ $t('educator_signup_ozaria_encouragement.recommended_for') }}</h3>
 
             <ul>
-              <li>Independent learners</li>
-              <li>Homeschoolers</li>
-              <li>Educators who want to continue using CodeCombat in their class</li>
+              <li>{{ $t('educator_signup_ozaria_encouragement.independent_learners') }}</li>
+              <li>{{ $t('educator_signup_ozaria_encouragement.homeschoolers') }}</li>
+              <li>{{ $t('educator_signup_ozaria_encouragement.educators_continue_coco') }}</li>
             </ul>
 
-            <button @click="close" class="continue-codecombat">Continue with CodeCombat</button>
+            <button @click="close" class="continue-codecombat">
+              {{ $t('educator_signup_ozaria_encouragement.continue_coco') }}
+            </button>
           </div>
         </div>
       </div>
@@ -146,39 +132,6 @@ img.coco-logo {
 
 }
 
-.ozaria-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 90%;
-  max-width: 520px;
-}
-
-.ozaria-row img {
-  width: 80px;
-  height: 80px;
-  margin-right: 30px;
-}
-
-.ozaria-row p {
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 18px;
-  line-height: 25px;
-  color: #232323;
-}
-
-.ozaria-row h4 {
-  font-family: Open Sans;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 22px;
-  line-height: 30px;
-  color: black;
-  margin: 2px 0;
-  font-variant: normal;
-}
 
 a.primary-oz-button {
   margin-top: 35px;

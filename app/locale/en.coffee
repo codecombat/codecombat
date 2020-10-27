@@ -2029,6 +2029,21 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bullet4: 'Support instructions through dedicated curriculum resources'
     you_can_return: 'You can always return to CodeCombat'
 
+  educator_signup_ozaria_encouragement:
+    recommended_for: 'Recommended for:'
+    independent_learners: 'Independent learners'
+    homeschoolers: 'Homeschoolers'
+    educators_continue_coco: 'Educators who want to continue using CodeCombat in their class'
+    continue_coco: 'Continue with CodeCombat'
+
+  ozaria_cta:
+    title1: 'Standards Aligned Core Curriculum'
+    description1: 'Immersive, story based curriculum that meets all 6th-8th grade CSTA standards.'
+    title2: 'Turnkey Lesson Plans'
+    description2: 'In-depth presentations and worksheets for teachers to guide students through learning objectives.'
+    title3: 'New Teacher & Admin Dashboards'
+    description3: 'All the actionable insights educators need at a glance, such as student progress and concept understanding.'
+
   share_licenses:
     share_licenses: "Share Licenses"
     shared_by: "Shared By:"
