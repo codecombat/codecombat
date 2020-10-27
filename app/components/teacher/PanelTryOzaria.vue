@@ -49,6 +49,8 @@ export default Vue.extend({
   background: linear-gradient(59.36deg, #D1B147 -5.07%, #D1B147 16.64%, #F7D047 93.04%, #F7D047 103.46%);
   padding: 4px;
   border-radius: 20px;
+
+  margin-bottom: 20px;
 }
 
 a.try-oz-btn {
