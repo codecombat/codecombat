@@ -48,11 +48,6 @@ module.exports = class PlayGameDevLevelView extends RootView
       isOwner: false
     })
 
-    $(window).keydown (event) ->
-      # prevent space from scrolling on the page since it can be used as a control in the game.
-      if (event.keyCode == 32 && event.target == document.body)
-        event.preventDefault()
-
     if utils.getQueryVariable 'dev'
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
@@ -152,7 +147,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       worldCreationOptions = {spells: @spells, preload: false, realTime: true, justBegin: false, keyValueDb: @session.get('keyValueDb') ? {}, synchronous: true}
       @god.createWorld(worldCreationOptions)
       @willUpdateFrontEnd = true
-
+      @subscribeShortcuts()
     .catch (e) =>
       throw e if e.stack
       @state.set('errorMessage', e.message)
@@ -249,12 +244,23 @@ module.exports = class PlayGameDevLevelView extends RootView
       @session.updateKeyValueDb(_.cloneDeep(@surface.world.keyValueDb))
       @session.saveKeyValueDb()
 
+  subscribeShortcuts: ->
+    # Prevent controls (space and arrow keys) from scrolling the page
+    # since they can be used controls when playing the game
+    key?('space, left, up, right, down', 'play-game-dev-level-view-shortcut-scope', (event) ->
+      if event.target == document.body
+        event.preventDefault()
+    )
+
+  unsubscribeShortcuts: ->
+    key?.deleteScope('play-game-dev-level-view-shortcut-scope')
+
   destroy: ->
+    @unsubscribeShortcuts()
     @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
     delete window.world # not sure where this is set, but this is one way to clean it up
-    $(window).off("keydown")
     super()
