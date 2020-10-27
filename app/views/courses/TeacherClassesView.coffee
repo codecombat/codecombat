@@ -19,6 +19,7 @@ storage = require 'core/storage'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 co = require('co')
 OzariaEncouragementModal = require('app/views/teachers/OzariaEncouragementModal').default
+PanelTryOzaria = require('app/components/teacher/PanelTryOzaria').default
 
 helper = require 'lib/coursesHelper'
 
@@ -171,6 +172,11 @@ module.exports = class TeacherClassesView extends RootView
     unless @courseNagSubview
       @courseNagSubview = new CourseNagSubview()
       @insertSubView(@courseNagSubview)
+
+    @panelTryOzaria = new PanelTryOzaria({
+      el: @$('.try-ozaria')[0]
+    })
+
     $('.progress-dot').each (i, el) ->
       dot = $(el)
       dot.tooltip({
