@@ -176,7 +176,12 @@
     },
 
     mounted () {
-      this.loadProducts()
+      try {
+        this.loadProducts()
+      } catch (e) {
+        // TODO - investigate where this throws an error. Logic seems to work.
+        console.error('loadProducts threw an error', e)
+      }
     }
   }
 </script>

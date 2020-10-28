@@ -98,8 +98,7 @@ h3 {
   text-align: center;
 
   color: #232323;
-  margin-bottom: 16px;
-  margin-top: 30px;
+  margin: 30px 70px 16px;
 }
 
 img {

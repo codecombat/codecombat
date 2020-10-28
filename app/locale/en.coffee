@@ -438,6 +438,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     password_requirements: "8 to 64 characters with no repeating"
     invalid: "Invalid"
     invalid_password: "Invalid password"
+    with: "with"
+    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+    have_a_classcode: "Have a Class Code?"
+    yes_i_have_classcode: "Yes, I have a Class Code!"
+    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Recover Account"

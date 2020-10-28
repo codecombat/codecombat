@@ -2,37 +2,56 @@ form.modal-body.segment-check
   .modal-body-content
     case view.signupState.get('path')
       when 'student'
-        span(data-i18n="signup.enter_class_code")
-        .class-code-input-group.form-group
-          input.class-code-input(name="classCode" value=view.signupState.get('classCode'))
-          .render
-            unless _.isEmpty(view.signupState.get('classCode'))
-              if state.get('classCodeValid')
-                span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
-              else
-                span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
-        
-        p.render
-          if _.isEmpty(view.signupState.get('classCode'))
-            span(data-i18n="signup.ask_teacher_1")
-          else if state.get('classCodeValid')
-            span.small(data-i18n="signup.about_to_join")
-            br
-            span.classroom-name= view.classroom.get('name')
-            br
-            if view.classroom.owner.get('firstName')
-              span.teacher-name= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
-            else if view.classroom.owner.get('name')
-              span.teacher-name= view.classroom.owner.get('name')
-          else
-            span(data-i18n="signup.classroom_not_found")
-          if me.showIndividualRegister() && (_.isEmpty(view.signupState.get('classCode')) || !state.get('classCodeValid'))
-            br
-            span.spr(data-i18n="signup.ask_teacher_2")
-            a.individual-path-button
-              span(data-i18n="signup.ask_teacher_3")
-            span.spl(data-i18n="signup.ask_teacher_4")
+        .modal-student-contents
+          .class-code-section
+            p(data-i18n="signup.yes_i_have_classcode")
+            label(for='classCode' data-i18n="signup.enter_it_here")
+
+            .class-code-input-group.form-group
+              .input-with-glyph
+                input.class-code-input(name="classCode" value=view.signupState.get('classCode'))
+                .render
+                  unless _.isEmpty(view.signupState.get('classCode'))
+                    if state.get('classCodeValid')
+                      span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
+                    else
+                      span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
+              button.primary-oz-button.next-button(type="submit")
+                span(data-i18n="common.continue")
           
+            div.render
+              if state.get('classCodeValid')
+                span.spr(data-i18n="signup.about_to_join")
+                span.spr= view.classroom.get('name')
+                if view.classroom.owner.get('firstName') || view.classroom.owner.get('name')
+                  span.spr(data-i18n="signup.with")
+                  if view.classroom.owner.get('firstName')
+                    span= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
+                  else if view.classroom.owner.get('name')
+                    span= view.classroom.owner.get('name')
+              else if !_.isEmpty(view.signupState.get('classCode'))
+                .ask-teacher
+                  span.spr(data-i18n="signup.classroom_not_found")
+                  span.spr(data-i18n="signup.ask_teacher_2")
+                  a.individual-path-button
+                    span(data-i18n="signup.ask_teacher_3")
+                  span.spl(data-i18n="signup.ask_teacher_4")
+
+          .divider-line
+
+          .play-now-section
+            div
+              p(data-i18n="signup.want_to_play_codecombat")
+            div
+              button.primary-oz-button.play-now
+                span(data-i18n="new_home.play_now")
+
+          .footer-signin
+            .small-details.rtl-allowed
+              span.spr(data-i18n="signup.login_switch")
+              a.login-link
+                span(data-i18n="signup.sign_in")
+
       when 'teacher'
         // TODO
       when 'individual'
@@ -65,12 +84,13 @@ form.modal-body.segment-check
           a(href="mailto:support@codecombat.com") support@codecombat.com
           | .
 
-  // In reverse order for tabbing purposes
-  .history-nav-buttons
-    //- disabled=!view.signupState.get('segmentCheckValid')
-    button.next-button.btn.btn-lg.btn-navy(type='submit')
-      span(data-i18n="common.continue")
+  if view.signupState.get('path') != 'student'
+    // In reverse order for tabbing purposes
+    .history-nav-buttons
+      //- disabled=!view.signupState.get('segmentCheckValid')
+      button.next-button.btn.btn-lg.btn-navy(type='submit')
+        span(data-i18n="common.continue")
 
-    if !view.signupState.get('subModalContinue')
-      button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
-        span(data-i18n="common.back")
+      if !view.signupState.get('subModalContinue')
+        button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
+          span(data-i18n="common.back")
