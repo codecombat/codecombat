@@ -88,7 +88,7 @@ module.exports = class HomeView extends RootView
     @homePageEvent($(e.target).data('event-action'))
     application.router.navigate '/parents', trigger: true
 
-  openEducatorSignupOzariaEncouragementModal: (onClosed) ->
+  openEducatorSignupOzariaEncouragementModal: (onNext) ->
     # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
     if @ozariaEncouragementModalContainer
       @ozariaEncouragementModalContainer.remove()
@@ -99,7 +99,7 @@ module.exports = class HomeView extends RootView
     @ozariaEncouragementModal = new EducatorSignupOzariaEncouragementModal({
       el: @ozariaEncouragementModalContainer,
       propsData: {
-        onClose: onClosed
+        onNext: onNext
       }
     })
 

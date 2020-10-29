@@ -6,7 +6,7 @@ export default Vue.extend({
     show: true
   }),
   props: {
-    onClose: {
+    onNext: {
       type: Function,
       default: () => {}
     }
@@ -16,10 +16,13 @@ export default Vue.extend({
     OzariaCTA
   },
   methods: {
+    next () {
+      this.show = false
+      this.onNext()
+    },
     close () {
       this.show = false
-      this.onClose()
-    },
+    }
   }
 })
 </script>
@@ -55,7 +58,7 @@ export default Vue.extend({
               <li>{{ $t('educator_signup_ozaria_encouragement.educators_continue_coco') }}</li>
             </ul>
 
-            <button @click="close" class="continue-codecombat">
+            <button @click="next" class="continue-codecombat">
               {{ $t('educator_signup_ozaria_encouragement.continue_coco') }}
             </button>
           </div>
