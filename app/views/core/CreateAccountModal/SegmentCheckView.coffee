@@ -26,7 +26,7 @@ module.exports = class SegmentCheckView extends CocoView
     if @signupState.get('classCode')
       @checkClassCode(@signupState.get('classCode'))
     @listenTo @state, 'all', _.debounce(->
-      @renderSelectors('.render')
+      @renderSelectors('.render, .next-button')
       @trigger 'special-render'
     )
 

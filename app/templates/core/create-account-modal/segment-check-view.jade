@@ -16,7 +16,7 @@ form.modal-body.segment-check
                       span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
                     else
                       span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
-              button.primary-oz-button.next-button(type="submit")
+              button.primary-oz-button.next-button(type="submit" disabled=!state.get('classCodeValid'))
                 span(data-i18n="common.continue")
           
             div.render
