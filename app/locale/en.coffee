@@ -95,6 +95,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
     play_now: "Play Now"
+    im_a_parent: "I'm a Parent"
     im_an_educator: "I'm an Educator"
     im_a_teacher: "I'm a Teacher"
     im_a_student: "I'm a Student"
@@ -437,6 +438,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     password_requirements: "8 to 64 characters with no repeating"
     invalid: "Invalid"
     invalid_password: "Invalid password"
+    with: "with"
+    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+    have_a_classcode: "Have a Class Code?"
+    yes_i_have_classcode: "Yes, I have a Class Code!"
+    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Recover Account"
@@ -2017,6 +2023,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     concept: "Concept"
     sync_google_classroom: "Sync Google Classroom"
     try_ozaria_footer: "Try our new adventure game, Ozaria!"
+    try_ozaria_free: "Try Ozaria for free"
+    ozaria_intro: "Introducing Our New Computer Science Program"
 
   teacher_ozaria_encouragement_modal:
     title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2036,21 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bullet3: 'Unlock creativity through capstone projects'
     bullet4: 'Support instructions through dedicated curriculum resources'
     you_can_return: 'You can always return to CodeCombat'
+
+  educator_signup_ozaria_encouragement:
+    recommended_for: 'Recommended for:'
+    independent_learners: 'Independent learners'
+    homeschoolers: 'Homeschoolers'
+    educators_continue_coco: 'Educators who want to continue using CodeCombat in their class'
+    continue_coco: 'Continue with CodeCombat'
+
+  ozaria_cta:
+    title1: 'Standards Aligned Core Curriculum'
+    description1: 'Immersive, story based curriculum that meets all 6th-8th grade CSTA standards.'
+    title2: 'Turnkey Lesson Plans'
+    description2: 'In-depth presentations and worksheets for teachers to guide students through learning objectives.'
+    title3: 'New Teacher & Admin Dashboards'
+    description3: 'All the actionable insights educators need at a glance, such as student progress and concept understanding.'
 
   share_licenses:
     share_licenses: "Share Licenses"
