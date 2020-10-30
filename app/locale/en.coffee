@@ -1029,7 +1029,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     attack: "Damage"  # Can also translate as "Attack"
     health: "Health"
     speed: "Speed"
-    regeneration: "Regeneration"
+    regeneration: "Regen"
     range: "Range"  # As in "attack or visual range"
     blocks: "Blocks"  # As in "this shield blocks this much damage"
     backstab: "Backstab"  # As in "this dagger does this much backstab damage"
@@ -3096,6 +3096,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     live_class_booked_thank_you: "Your live class has been booked, thank you!"
     book_your_class: "Book Your Class"
     call_to_book: "Call now to book"
+
+  modal_timetap_confirmation:
+    congratulations: "Congratulations!"
+    paragraph_1: "Your student’s coding adventure awaits."
+    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+    back_to_coco: "Back to CodeCombat"
 
   parent_modal:
     refer_teacher: "Refer Teacher"
