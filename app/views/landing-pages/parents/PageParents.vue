@@ -8,6 +8,11 @@
         @close="showTimetapModal = false"
         @booked="onClassBooked"
     />
+    <modal-timetap-confirmation
+      v-if="type === 'thank-you'"
+      :show="showTimetapConfirmationModal"
+      @close="showTimetapConfirmationModal = false"
+    />
 
     <div class="container-background gray-1-background">
       <div class="container">
@@ -454,6 +459,7 @@
 import PageParentsSectionPremium from './PageParentsSectionPremium'
 import PageParentsJumbotron from './PageParentsJumbotron'
 import ModalTimetapSchedule from './ModalTimetapSchedule'
+import ModalTimetapConfirmation from './ModalTimetapConfirmation'
 
 const DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID = 214809
 const DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID = 222065
@@ -462,7 +468,8 @@ export default {
   components: {
     ModalTimetapSchedule,
     PageParentsSectionPremium,
-    PageParentsJumbotron
+    PageParentsJumbotron,
+    ModalTimetapConfirmation
   },
 
   props: {
@@ -480,6 +487,7 @@ export default {
   data: () => ({
     timetapModalClassType: undefined,
     showTimetapModal: false,
+    showTimetapConfirmationModal: false,
     modalClassType: undefined
   }),
 
@@ -567,15 +575,10 @@ export default {
 
     onClassBooked () {
       this.showTimetapModal = false
+      this.showTimetapConfirmationModal = true
 
       application.tracker.trackEvent('CodeCombat live class booked', { parentsPageType: this.type }, ['facebook'])
 
-      noty({
-        text: this.$t('parents_landing_2.live_class_booked_thank_you'),
-        layout: 'topCenter',
-        type: 'success',
-        timeout: 10000
-      })
     }
   },
 
