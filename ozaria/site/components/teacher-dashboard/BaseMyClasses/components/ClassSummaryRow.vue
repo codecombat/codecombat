@@ -30,9 +30,10 @@
         type: String,
         required: true
       },
+      // TODO: CodeCamel isn't set when spying with administrator teacher.
       codeCamel: {
         type: String,
-        required: true
+        default: undefined
       },
       archived: {
         type: Boolean,
@@ -89,7 +90,10 @@
           :date-created="dateCreated"
         />
       </div>
-      <div class="flex-row class-code">
+      <div
+        v-if="!displayOnly && codeCamel"
+        class="flex-row class-code"
+      >
         <span class="class-code-title">{{ $t('teachers.class_code') }}</span>
         <span class="class-code-text">{{ codeCamel }}</span>
       </div>
