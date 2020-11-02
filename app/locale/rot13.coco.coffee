@@ -95,6 +95,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
     play_now: "Cynl Abj"
+    im_a_parent: "V'z n Cnerag"
     im_an_educator: "V'z na Rqhpngbe"
     im_a_teacher: "V'z n Grnpure"
     im_a_student: "V'z n Fghqrag"
@@ -437,6 +438,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     password_requirements: "8 gb 64 punenpgref jvgu ab ercrngvat"
     invalid: "Vainyvq"
     invalid_password: "Vainyvq cnffjbeq"
+    with: "jvgu"
+    want_to_play_codecombat: "Ab, V qba'g unir bar ohg jnag gb cynl PbqrPbzong!"
+    have_a_classcode: "Unir n Pynff Pbqr?"
+    yes_i_have_classcode: "Lrf, V unir n Pynff Pbqr!"
+    enter_it_here: "Ragre vg urer:"
 
   recover:
     recover_account_title: "Erpbire Nppbhag"
@@ -1023,7 +1029,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     attack: "Qnzntr"  # Pna nyfb genafyngr nf "Nggnpx"
     health: "Urnygu"
     speed: "Fcrrq"
-    regeneration: "Ertrarengvba"
+    regeneration: "Ertra"
     range: "Enatr"  # Nf va "nggnpx be ivfhny enatr"
     blocks: "Oybpxf"  # Nf va "guvf fuvryq oybpxf guvf zhpu qnzntr"
     backstab: "Onpxfgno"  # Nf va "guvf qnttre qbrf guvf zhpu onpxfgno qnzntr"
@@ -2017,6 +2023,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     concept: "Pbaprcg"
     sync_google_classroom: "Flap Tbbtyr Pynffebbz"
     try_ozaria_footer: "Gel bhe arj nqiragher tnzr, Bmnevn!"
+    try_ozaria_free: "Gel Bmnevn sbe serr"
+    ozaria_intro: "Vagebqhpvat Bhe Arj Pbzchgre Fpvrapr Cebtenz"
 
   teacher_ozaria_encouragement_modal:
     title: "Ohvyq Pbzchgre Fpvrapr Fxvyyf gb Fnir Bmnevn"
@@ -2028,6 +2036,21 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     bullet3: 'Haybpx perngvivgl guebhtu pncfgbar cebwrpgf'
     bullet4: 'Fhccbeg vafgehpgvbaf guebhtu qrqvpngrq pheevphyhz erfbheprf'
     you_can_return: 'Lbh pna nyjnlf erghea gb PbqrPbzong'
+
+  educator_signup_ozaria_encouragement:
+    recommended_for: 'Erpbzzraqrq sbe:'
+    independent_learners: 'Vaqrcraqrag yrnearef'
+    homeschoolers: 'Ubzrfpubbyref'
+    educators_continue_coco: 'Rqhpngbef jub jnag gb pbagvahr hfvat PbqrPbzong va gurve pynff'
+    continue_coco: 'Pbagvahr jvgu PbqrPbzong'
+
+  ozaria_cta:
+    title1: 'Fgnaqneqf Nyvtarq Pber Pheevphyhz'
+    description1: 'Vzzrefvir, fgbel onfrq pheevphyhz gung zrrgf nyy 6gu-8gu tenqr PFGN fgnaqneqf.'
+    title2: 'Gheaxrl Yrffba Cynaf'
+    description2: 'Va-qrcgu cerfragngvbaf naq jbexfurrgf sbe grnpuref gb thvqr fghqragf guebhtu yrneavat bowrpgvirf.'
+    title3: 'Arj Grnpure & Nqzva Qnfuobneqf'
+    description3: 'Nyy gur npgvbanoyr vafvtugf rqhpngbef arrq ng n tynapr, fhpu nf fghqrag cebterff naq pbaprcg haqrefgnaqvat.'
 
   share_licenses:
     share_licenses: "Funer Yvprafrf"
@@ -3073,6 +3096,15 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     live_class_booked_thank_you: "Lbhe yvir pynff unf orra obbxrq, gunax lbh!"
     book_your_class: "Obbx Lbhe Pynff"
     call_to_book: "Pnyy abj gb obbx"
+
+  modal_timetap_confirmation:
+    congratulations: "Pbatenghyngvbaf!"
+    paragraph_1: "Lbhe fghqrag’f pbqvat nqiragher njnvgf."
+    paragraph_2: "Jr unir lbhe puvyq obbxrq sbe na bayvar pynff naq jr’er fb rkpvgrq gb zrrg gurz!"
+    paragraph_3: "Fbba lbh fubhyq or erpvrivat na rznvy vaivgngvba jvgu gur pynff fpurqhyr qrgnvyf nf jryy nf lbhe pynff vafgehpgbe’f anzr naq pbagnpg vasbezngvba."
+    paragraph_4: "Vs sbe jungrire ernfba lbh arrq gb zbqvsl lbhe pynff fryrpgvbaf, erfpurqhyr be whfg jnag gb gnyx jvgu n phfgbzre pner fcrpvnyvfg, fvzcyl ernpu bhg hfvat gur pbagnpg vasbezngvba cebivqrq va lbhe rznvy vaivgngvba."
+    paragraph_5: "Gunax lbh sbe pubbfvat PbqrPbzong naq tbbq yhpx ba lbhe pbzchgre fpvrapr wbhearl!"
+    back_to_coco: "Onpx gb PbqrPbzong"
 
   parent_modal:
     refer_teacher: "Ersre Grnpure"
