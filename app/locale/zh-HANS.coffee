@@ -96,6 +96,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
     play_now: "开始游戏"
+#    im_a_parent: "I'm a Parent"
     im_an_educator: "我是老师"
     im_a_teacher: "我是老师"
     im_a_student: "我是学生"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "找回账户"
@@ -2017,6 +2023,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     concept: "概念"
     sync_google_classroom: "同步谷歌教室"
     try_ozaria_footer: "试试我们的新产品：奥佳睿！"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
   teacher_ozaria_encouragement_modal:
     title: "学习计算机科学技能，拯救奥佳睿世界"
@@ -2028,6 +2036,21 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     bullet3: "在顶点项目释放创意"
     bullet4: "提供教研资料指导"
     you_can_return: "您可以随时回到 CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
   share_licenses:
     share_licenses: "分配许可"
@@ -3072,6 +3095,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
   parent_modal:
     refer_teacher: "指导老师"
