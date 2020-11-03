@@ -17,7 +17,7 @@ module.exports = class TeachersContactModal extends ModalView
       formValues: {
         name: ''
         email: ''
-        licensesNeeded: ''
+        licensesNeeded: 0
         message: ''
       }
       formErrors: {}
