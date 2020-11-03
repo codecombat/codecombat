@@ -49,6 +49,7 @@ export default {
       return productsCollection.getBasicSubscriptionForUser(window.me).toJSON()
     },
 
+    // TODO - change name
     lifetimeSubscriptionForCurrentUser (state) {
       if (!Array.isArray(state.products) || state.products.length === 0) {
         return undefined
@@ -57,7 +58,7 @@ export default {
       const productsCollection = new Products()
       productsCollection.add(state.products)
 
-      return productsCollection.getLifetimeSubscriptionForUser(window.me).toJSON()
+      return productsCollection.getAnnualSubscriptionForUser(window.me).toJSON()
     }
   }
 }

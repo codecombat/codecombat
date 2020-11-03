@@ -57,7 +57,8 @@ mixin price(name, p)
                  .option-header.best-deal(data-i18n="subscribe.best_deal")
          .row
            - var secondRowClass = '.col-xs-5'
-           if view.basicProduct && !view.hideMonthlySub
+           //- Magic happens here
+           if view.basicProduct
              .col-xs-5.option-col.col-xs-offset-1
                +price("subscribe.month_price", view.basicProduct)
                .option-header.price-subtext.text-center(data-i18n="subscribe.stripe_description")
@@ -68,7 +69,7 @@ mixin price(name, p)
            else
              - var secondRowClass = '.col-xs-12'
 
-           if view.lifetimeProduct
+           if view.lifetimeProduct && !view.hideMonthlySub
              .option-col(class=secondRowClass)
                +price("subscribe.lifetime_price", view.lifetimeProduct)
                .option-header.price-subtext.text-center(data-i18n="subscribe.lifetime")

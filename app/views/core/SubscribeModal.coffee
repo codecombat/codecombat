@@ -49,12 +49,7 @@ module.exports = class SubscribeModal extends ModalView
     # Process basic product coupons unless custom region pricing
     if @couponID and @basicProduct.get('coupons')? and @basicProduct?.get('name') is 'basic_subscription'
       @basicCoupon = _.find(@basicProduct.get('coupons'), {code: @couponID})
-    @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
-    if @lifetimeProduct?.get('name') isnt 'lifetime_subscription'
-      # Use PayPal for international users with regional pricing
-      @paymentProcessor = 'PayPal'
-    else
-      @paymentProcessor = 'stripe'
+    @lifetimeProduct = @products.getAnnualSubscriptionForUser(me)
     @paymentProcessor = 'stripe' # Always use Stripe
     super()
     @render()
@@ -114,6 +109,7 @@ module.exports = class SubscribeModal extends ModalView
     #   @startStripeSubscribe()
     @startStripeSubscribe() # Always use Stripe
 
+  # DEPRECATED
   startPayPalSubscribe: ->
     application.tracker?.trackEvent 'Started subscription purchase', { service: 'paypal' }
     $('.purchase-button').addClass("disabled")
@@ -131,12 +127,15 @@ module.exports = class SubscribeModal extends ModalView
       $('.purchase-button').html($.i18n.t('premium_features.subscribe_now'))
       @onSubscriptionError(jqxhr)
 
+  # Where the magic happens
   startStripeSubscribe: ->
     application.tracker?.trackEvent 'Started subscription purchase', { service: 'stripe' }
     options = @stripeOptions {
       description: $.i18n.t('subscribe.stripe_description')
       amount: @basicProduct.adjustedPrice()
     }
+
+
 
     @purchasedAmount = options.amount
     stripeHandler.makeNewInstance().openAsync(options)
@@ -146,6 +145,7 @@ module.exports = class SubscribeModal extends ModalView
       jqxhr = if @basicCoupon?.code
         me.subscribe(token, {couponID: @basicCoupon.code})
       else
+        console.log('token!': token)
         me.subscribe(token)
       return Promise.resolve(jqxhr)
     .then =>

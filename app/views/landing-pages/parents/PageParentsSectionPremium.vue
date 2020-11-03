@@ -166,10 +166,11 @@
           return
         }
 
-        this.$refs.subscribeModal.$once('shown', () => {
-          const modal = this.$refs.subscribeModal.$data.modalViewInstance
-          modal.onClickStripeLifetimeButton()
-        })
+        // TODO - Fix this...
+        // this.$refs.subscribeModal.$once('shown', () => {
+        //   const modal = this.$refs.subscribeModal.$data.modalViewInstance
+        //   modal.onClickStripeLifetimeButton()
+        // })
 
         this.openPremiumSubscribeModal()
       },

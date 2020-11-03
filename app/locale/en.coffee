@@ -911,7 +911,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     thank_you: "Thank you for supporting CodeCombat."
     sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
     unsubscribe_feedback_placeholder: "O, what have we done?"
-    stripe_description: "Monthly Subscription"
+    stripe_description: "Yearly Subscription"
     buy_now: "Buy Now"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."

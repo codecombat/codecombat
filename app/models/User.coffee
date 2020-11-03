@@ -525,7 +525,7 @@ module.exports = class User extends CocoModel
 
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})
-    stripe.planID = 'basic'
+    stripe.planID = 'price_1HjAmFKaReE7xLUd6z4k5Xia'
     stripe.token = token.id
     stripe.couponID = options.couponID if options.couponID
     @set({stripe})
