@@ -277,7 +277,7 @@ _.extend UserSchema.properties,
 
   stripe: c.object {}, {
     customerID: { type: 'string' }
-    planID: { enum: ['basic', 'price_1HjXyXKaReE7xLUdLUN0RZgo', 'price_1Hja49KaReE7xLUdlPuATOvQ'], description: 'Determines if a user has or wants to subscribe' }
+    planID: { enum: ['basic', 'price_1Hja49KaReE7xLUdlPuATOvQ'], description: 'Determines if a user has or wants to subscribe. Matches subscription plan on stripe.' }
     subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
     token: { type: 'string' }
     couponID: { type: 'string' }
