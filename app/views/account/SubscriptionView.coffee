@@ -272,7 +272,7 @@ class PersonalSub
                 @cost = "$#{(sub.plan.amount/100).toFixed(2)}"
 
               # For the new yearly plan, use the stripe information as source of truth.
-              if me.get('stripe')?.planID is "price_1HjXyXKaReE7xLUdLUN0RZgo"
+              if me.get('stripe')?.planID is "price_1Hja49KaReE7xLUdlPuATOvQ"
                 if sub.discount?.coupon?.percent_off_precise
                   # Get percentage off from stripe data.
                   discount = sub.plan.amount * (sub.discount.coupon.percent_off_precise / 100)
