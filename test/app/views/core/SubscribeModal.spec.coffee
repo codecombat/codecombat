@@ -14,6 +14,14 @@ productList = [
   }
 
   {
+    _id: '2'
+    name: 'basic_subscription_yearly'
+    amount: 9900
+    gems: 3500
+    planID: 'price_123'
+  }
+
+  {
     _id: '3'
     name: 'lifetime_subscription'
     amount: 1000
@@ -96,6 +104,9 @@ describe 'SubscribeModal', ->
       @modal.render()
       jasmine.demoModal(@modal)
 
+    it 'expect yearly subscription button', ->
+      expect(@modal.$('.stripe-yearly-button').length).toBe(1)
+
     describe 'when the subscription succeeds', ->
       beforeEach ->
         @subscribeRequest.andReturn({status: 200, responseText: '{}'})
@@ -144,7 +155,8 @@ describe 'SubscribeModal', ->
           ["Started subscription purchase", "Failed to finish subscription purchase"])
         expect(console.error).toHaveBeenCalled()
 
-  describe 'onClickStripeLifetimeButton()', ->
+  # Migrated to using a yearly license instead
+  xdescribe 'onClickStripeLifetimeButton()', ->
     describe "when user's country does not have regional pricing", ->
       beforeEach ->
         me.set({_id: '1234', country: undefined})
