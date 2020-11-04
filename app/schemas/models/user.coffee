@@ -3,6 +3,15 @@ c = require './../schemas'
 
 emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'article_editor', 'translator', 'support', 'notification']
 
+###
+SCHEMA WARNING
+
+Any changes made to this schema need to be shared on the Ozaria user schema.
+Both products share the same database collection and currently duplicating
+changes is how we can avoid validation errors as the user traverses between
+the two products.
+###
+
 UserSchema = c.object
   title: 'User'
   default:
@@ -272,7 +281,7 @@ _.extend UserSchema.properties,
 
   stripe: c.object {}, {
     customerID: { type: 'string' }
-    planID: { enum: ['basic'], description: 'Determines if a user has or wants to subscribe' }
+    planID: { enum: ['basic', 'price_1Hja49KaReE7xLUdlPuATOvQ'], description: 'Determines if a user has or wants to subscribe. Matches subscription plan on stripe.' }
     subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
     token: { type: 'string' }
     couponID: { type: 'string' }
