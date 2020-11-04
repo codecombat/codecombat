@@ -51,6 +51,8 @@ module.exports = class SubscribeModal extends ModalView
     # Process basic product coupons unless custom region pricing
     if @couponID and @basicProduct.get('coupons')? and @basicProduct?.get('name') is 'basic_subscription'
       @basicCoupon = _.find(@basicProduct.get('coupons'), {code: @couponID})
+    if @couponID and @basicProductYearly.get('coupons')? and @basicProductYearly?.get('name') is 'basic_subscription_yearly'
+      @basicCouponYearly = _.find(@basicProductYearly.get('coupons'), {code: @couponID})
     @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
     if @lifetimeProduct?.get('name') isnt 'lifetime_subscription'
       # Use PayPal for international users with regional pricing
@@ -157,7 +159,7 @@ module.exports = class SubscribeModal extends ModalView
       jqxhr = if @basicCoupon?.code
         me.subscribe(token, {couponID: @basicCoupon.code})
       else if product.get('name') is 'basic_subscription_yearly'
-        me.subscribe(token, {planID: product.get('planID')})
+        me.subscribe(token, { planID: product.get('planID'), couponID: @basicCouponYearly?.code })
       else
         me.subscribe(token)
       return Promise.resolve(jqxhr)
