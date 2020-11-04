@@ -20,7 +20,7 @@ module.exports = class SubscribeModal extends ModalView
     'click #close-modal': 'hide'
     'click .purchase-button': 'onClickPurchaseButton'
     'click .stripe-lifetime-button': 'onClickStripeLifetimeButton'
-    'click .stripe-yearly-button': 'startYearlyStripeSubscription'
+    'click .stripe-yearly-button': 'onClickYearlyPurchaseButton'
     'click .back-to-products': 'onClickBackToProducts'
 
   constructor: (options={}) ->
@@ -28,7 +28,8 @@ module.exports = class SubscribeModal extends ModalView
     #  document.location.href = 'http://codecombat.net.br/'
 
     super(options)
-    @hideMonthlySub = options?.hideMonthlySub or null
+    # Path check due to modal refresh when user isn't signed in.
+    @hideMonthlySub = options?.hideMonthlySub or window.location.pathname.startsWith('/parents') or null
     @state = 'standby'
     @couponID = utils.getQueryVariable('coupon')
     @subModalContinue = options.subModalContinue
@@ -104,7 +105,6 @@ module.exports = class SubscribeModal extends ModalView
       alipayReusable: true
     }, options)
 
-  # For monthly subs
   onClickPurchaseButton: (e) ->
     return unless @basicProduct
     @playSound 'menu-button-click'
@@ -117,6 +117,15 @@ module.exports = class SubscribeModal extends ModalView
     # else
     #   @startStripeSubscribe()
     @startStripeSubscribe() # Always use Stripe
+
+  onClickYearlyPurchaseButton: (e) ->
+    return unless @basicProductYearly
+    @playSound 'menu-button-click'
+    if me.get('anonymous')
+      application.tracker?.trackEvent 'Started Signup from buy yearly', {service: 'stripe'}
+      return @openModalView new CreateAccountModal({startOnPath: 'individual', subModalContinue: 'yearly'})
+
+    @startYearlyStripeSubscription()
 
   startPayPalSubscribe: ->
     application.tracker?.trackEvent 'Started subscription purchase', { service: 'paypal' }

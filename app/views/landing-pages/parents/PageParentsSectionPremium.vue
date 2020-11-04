@@ -34,10 +34,10 @@
 
                 <div class="row premium-pricing">
                     <div class="col-lg-6 col-lg-offset-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
-                        <h5>${{ lifetimeSubAmount }}</h5>
-                        <h6>{{ $t('parents_landing_2.lifetime_access') }}</h6>
+                        <h5>${{ yearlySubAmount }}</h5>
+                        <h6>{{ $t('subscribe.stripe_yearly_description') }}</h6>
 
-                        <button @click="subscribeLifetime">{{ $t('parents_landing_2.buy_now') }}</button>
+                        <button @click="subscribeYearly">{{ $t('parents_landing_2.buy_now') }}</button>
                     </div>
                 </div>
 
@@ -91,7 +91,7 @@
 
       ...mapGetters('products', [
         'basicSubscriptionForCurrentUser',
-        'lifetimeSubscriptionForCurrentUser'
+        'basicYearlySubscriptionForCurrentUser'
       ]),
 
       ...mapGetters('me', [
@@ -106,9 +106,9 @@
         return (sub) ? sub.amount / 100 : 0
       },
 
-      lifetimeSubAmount() {
-        const sub = this.lifetimeSubscriptionForCurrentUser
-        return (sub) ? sub.amount / 100: 0
+      yearlySubAmount() {
+        const sub = this.basicYearlySubscriptionForCurrentUser
+        return (sub) ? sub.amount / 100 : 0
       }
     },
 
@@ -161,14 +161,16 @@
        * by grabbing a reference to the SubscribeModal instance and calling the method that
        * is normally called by the onclick listener.
        */
-      subscribeLifetime () {
+      subscribeYearly () {
         if (!this.checkSubscribeAndShowError()) {
           return
         }
 
         this.$refs.subscribeModal.$once('shown', () => {
           const modal = this.$refs.subscribeModal.$data.modalViewInstance
-          modal.onClickStripeLifetimeButton()
+          setTimeout(() => {
+            modal.onClickYearlyPurchaseButton()
+          }, 0)
         })
 
         this.openPremiumSubscribeModal()
