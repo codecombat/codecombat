@@ -369,6 +369,9 @@ _.extend UserSchema.properties,
   administratedTeachers: c.array {}, c.objectId()
   administratingTeachers: c.array {}, c.objectId()
 
+  seenNewDashboardModal: { type: 'boolean', description: 'OZARIA PROPERTY' }
+  closedNewTDGetStartedTooltip: { type: 'boolean', description: 'OZARIA PROPERTY' }
+
   features:
     type: 'object'
     title: 'Feature Flags'
