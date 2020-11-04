@@ -20,6 +20,7 @@ module.exports = class SubscribeModal extends ModalView
     'click #close-modal': 'hide'
     'click .purchase-button': 'onClickPurchaseButton'
     'click .stripe-lifetime-button': 'onClickStripeLifetimeButton'
+    'click .stripe-yearly-button': 'startYearlyStripeSubscription'
     'click .back-to-products': 'onClickBackToProducts'
 
   constructor: (options={}) ->
@@ -46,6 +47,7 @@ module.exports = class SubscribeModal extends ModalView
 
   onLoaded: ->
     @basicProduct = @products.getBasicSubscriptionForUser(me)
+    @basicProductYearly = @products.getBasicYearlySubscriptionForUser()
     # Process basic product coupons unless custom region pricing
     if @couponID and @basicProduct.get('coupons')? and @basicProduct?.get('name') is 'basic_subscription'
       @basicCoupon = _.find(@basicProduct.get('coupons'), {code: @couponID})
@@ -132,10 +134,19 @@ module.exports = class SubscribeModal extends ModalView
       @onSubscriptionError(jqxhr)
 
   startStripeSubscribe: ->
+    @startStripeSubscription(@basicProduct)
+
+  startYearlyStripeSubscription: ->
+    @startStripeSubscription(@basicProductYearly)
+
+  ###
+    Starts a stripe subscription based on the product passed in.
+  ###
+  startStripeSubscription: (product) ->
     application.tracker?.trackEvent 'Started subscription purchase', { service: 'stripe' }
     options = @stripeOptions {
-      description: $.i18n.t('subscribe.stripe_description')
-      amount: @basicProduct.adjustedPrice()
+      description: if product.get('name') is 'basic_subscription_yearly' then $.i18n.t('subscribe.stripe_yearly_description') else $.i18n.t('subscribe.stripe_description')
+      amount: product.adjustedPrice()
     }
 
     @purchasedAmount = options.amount
@@ -145,6 +156,8 @@ module.exports = class SubscribeModal extends ModalView
       @render()
       jqxhr = if @basicCoupon?.code
         me.subscribe(token, {couponID: @basicCoupon.code})
+      else if product.get('name') is 'basic_subscription_yearly'
+        me.subscribe(token, {planID: product.get('planID')})
       else
         me.subscribe(token)
       return Promise.resolve(jqxhr)
