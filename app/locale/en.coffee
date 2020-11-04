@@ -912,7 +912,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
     unsubscribe_feedback_placeholder: "O, what have we done?"
     stripe_description: "Monthly Subscription"
-    stripe_yearly_description: "Yearly Subscription"
+    stripe_yearly_description: "Annual Subscription"
     buy_now: "Buy Now"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -937,7 +937,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     first_month_price: "Only $__price__ for your first month!"
     lifetime: "Lifetime Access"
     lifetime_price: "$__price__"
-    year_subscription: "Yearly Subscription"
+    year_subscription: "Annual Subscription" # {change}
     year_price: "$__price__/year"
     support_part1: "Need help with payment or prefer PayPal? Email"
     support_part2: "support@codecombat.com"
