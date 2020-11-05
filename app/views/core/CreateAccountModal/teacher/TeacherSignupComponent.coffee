@@ -39,4 +39,5 @@ module.exports = TeacherSignupComponent = Vue.extend
       modal?.escape?()
 
   mounted: ->
-    window.localStorage.setItem('showOzariaEncouragementModal', true)
+    # 2020-11-05: Now that we have more Ozaria on the homepage, we don't want to pop it up by default; let them click the banner
+    #window.localStorage.setItem('showOzariaEncouragementModal', true)
