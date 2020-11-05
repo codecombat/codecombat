@@ -3,11 +3,8 @@
 
 name: Node.js CI
 
-on:
-  push:
-    branches: [ $default-branch ]
-  pull_request:
-    branches: [ $default-branch ]
+# Triggering workflow on all push
+on: [push]
 
 jobs:
   build:
@@ -16,18 +13,24 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.15.1, 10.x]
+        node-version: [8.15.1]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: export COCO_TRAVIS_TEST=1
-    - run: npm install --ignore-scripts
-    - run: npm install node-sass
-    - run: npm install
-    - run: export DISPLAY=:99.0
-    - run: ./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters dots
-    - run: npm run test-china
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      # We can skip webpack since we will build it for testing-ubuntu
+      - run: npm ci
+        env:
+          SKIP_WEBPACK: true
+      - run: npm run test-ubuntu
