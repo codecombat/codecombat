@@ -20,7 +20,7 @@ module.exports = class SubscribeModal extends ModalView
     'click #close-modal': 'hide'
     'click .purchase-button': 'onClickPurchaseButton'
     'click .stripe-lifetime-button': 'onClickStripeLifetimeButton'
-    'click .stripe-yearly-button': 'onClickYearlyPurchaseButton'
+    'click .stripe-annual-button': 'onClickAnnualPurchaseButton'
     'click .back-to-products': 'onClickBackToProducts'
 
   constructor: (options={}) ->
@@ -48,12 +48,12 @@ module.exports = class SubscribeModal extends ModalView
 
   onLoaded: ->
     @basicProduct = @products.getBasicSubscriptionForUser(me)
-    @basicProductYearly = @products.getBasicYearlySubscriptionForUser()
+    @basicProductAnnual = @products.getBasicAnnualSubscriptionForUser()
     # Process basic product coupons unless custom region pricing
     if @couponID and @basicProduct.get('coupons')? and @basicProduct?.get('name') is 'basic_subscription'
       @basicCoupon = _.find(@basicProduct.get('coupons'), {code: @couponID})
-    if @couponID and @basicProductYearly.get('coupons')? and @basicProductYearly?.get('name') is 'basic_subscription_yearly'
-      @basicCouponYearly = _.find(@basicProductYearly.get('coupons'), {code: @couponID})
+    if @couponID and @basicProductAnnual.get('coupons')? and @basicProductAnnual?.get('name') is 'basic_subscription_annual'
+      @basicCouponAnnual = _.find(@basicProductAnnual.get('coupons'), {code: @couponID})
     @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
     if @lifetimeProduct?.get('name') isnt 'lifetime_subscription'
       # Use PayPal for international users with regional pricing
@@ -118,8 +118,8 @@ module.exports = class SubscribeModal extends ModalView
     #   @startStripeSubscribe()
     @startStripeSubscribe() # Always use Stripe
 
-  onClickYearlyPurchaseButton: (e) ->
-    return unless @basicProductYearly
+  onClickAnnualPurchaseButton: (e) ->
+    return unless @basicProductAnnual
     @playSound 'menu-button-click'
     if me.get('anonymous')
       application.tracker?.trackEvent 'Started Signup from buy yearly', {service: 'stripe'}
@@ -148,7 +148,7 @@ module.exports = class SubscribeModal extends ModalView
     @startStripeSubscription(@basicProduct)
 
   startYearlyStripeSubscription: ->
-    @startStripeSubscription(@basicProductYearly)
+    @startStripeSubscription(@basicProductAnnual)
 
   ###
     Starts a stripe subscription based on the product passed in.
@@ -156,7 +156,7 @@ module.exports = class SubscribeModal extends ModalView
   startStripeSubscription: (product) ->
     application.tracker?.trackEvent 'Started subscription purchase', { service: 'stripe' }
     options = @stripeOptions {
-      description: if product.get('name') is 'basic_subscription_yearly' then $.i18n.t('subscribe.stripe_yearly_description') else $.i18n.t('subscribe.stripe_description')
+      description: if product.get('name') is 'basic_subscription_annual' then $.i18n.t('subscribe.stripe_yearly_description') else $.i18n.t('subscribe.stripe_description')
       amount: product.adjustedPrice()
     }
 
@@ -167,8 +167,8 @@ module.exports = class SubscribeModal extends ModalView
       @render()
       jqxhr = if @basicCoupon?.code
         me.subscribe(token, {couponID: @basicCoupon.code})
-      else if product.get('name') is 'basic_subscription_yearly'
-        me.subscribe(token, { planID: product.get('planID'), couponID: @basicCouponYearly?.code })
+      else if product.get('name') is 'basic_subscription_annual'
+        me.subscribe(token, { planID: product.get('planID'), couponID: @basicCouponAnnual?.code })
       else
         me.subscribe(token)
       return Promise.resolve(jqxhr)

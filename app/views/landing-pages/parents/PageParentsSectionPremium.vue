@@ -91,7 +91,7 @@
 
       ...mapGetters('products', [
         'basicSubscriptionForCurrentUser',
-        'basicYearlySubscriptionForCurrentUser'
+        'basicAnnualSubscriptionForCurrentUser'
       ]),
 
       ...mapGetters('me', [
@@ -107,7 +107,7 @@
       },
 
       yearlySubAmount() {
-        const sub = this.basicYearlySubscriptionForCurrentUser
+        const sub = this.basicAnnualSubscriptionForCurrentUser
         return (sub) ? sub.amount / 100 : 0
       }
     },
@@ -169,7 +169,7 @@
         this.$refs.subscribeModal.$once('shown', () => {
           const modal = this.$refs.subscribeModal.$data.modalViewInstance
           setTimeout(() => {
-            modal.onClickYearlyPurchaseButton()
+            modal.onClickAnnualPurchaseButton()
           }, 0)
         })
 

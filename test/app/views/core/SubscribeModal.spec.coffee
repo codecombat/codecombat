@@ -15,7 +15,7 @@ productList = [
 
   {
     _id: '2'
-    name: 'basic_subscription_yearly'
+    name: 'basic_subscription_annual'
     amount: 9900
     gems: 3500
     planID: 'price_123'
@@ -105,7 +105,7 @@ describe 'SubscribeModal', ->
       jasmine.demoModal(@modal)
 
     it 'expect yearly subscription button', ->
-      expect(@modal.$('.stripe-yearly-button').length).toBe(1)
+      expect(@modal.$('.stripe-annual-button').length).toBe(1)
 
     describe 'when the subscription succeeds', ->
       beforeEach ->

@@ -48,7 +48,7 @@ export default {
       return productsCollection.getBasicSubscriptionForUser(window.me).toJSON()
     },
 
-    basicYearlySubscriptionForCurrentUser (state) {
+    basicAnnualSubscriptionForCurrentUser (state) {
       if (!Array.isArray(state.products) || state.products.length === 0) {
         return undefined
       }
@@ -56,7 +56,7 @@ export default {
       const productsCollection = new Products()
       productsCollection.add(state.products)
 
-      return productsCollection.getBasicYearlySubscriptionForUser(window.me).toJSON()
+      return productsCollection.getBasicAnnualSubscriptionForUser(window.me).toJSON()
     },
 
     lifetimeSubscriptionForCurrentUser (state) {
