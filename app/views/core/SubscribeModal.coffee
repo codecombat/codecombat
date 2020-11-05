@@ -165,10 +165,10 @@ module.exports = class SubscribeModal extends ModalView
     .then ({token}) =>
       @state = 'purchasing'
       @render()
-      jqxhr = if @basicCoupon?.code
-        me.subscribe(token, {couponID: @basicCoupon.code})
-      else if product.get('name') is 'basic_subscription_annual'
+      jqxhr = if product.get('name') is 'basic_subscription_annual'
         me.subscribe(token, { planID: product.get('planID'), couponID: @basicCouponAnnual?.code })
+      else if @basicCoupon?.code
+        me.subscribe(token, {couponID: @basicCoupon.code})
       else
         me.subscribe(token)
       return Promise.resolve(jqxhr)
