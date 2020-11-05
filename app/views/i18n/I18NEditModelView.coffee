@@ -168,6 +168,11 @@ module.exports = class I18NEditModelView extends RootView
       return UNSAVED_CHANGES_MESSAGE
 
   onSubmitPatch: (e) ->
+    # Added due to high volume of translations getting set on english fields.
+    if @selectedLanguage in ['en-US', 'en-GB', 'en']
+      alert("Blocked change to #{@selectedLanguage} field. Please check your language setting.")
+      return
+
     delta = modelDeltas.getDeltaWith(@originalModel, @model)
     flattened = deltasLib.flattenDelta(delta)
     collection = _.string.underscored @model.constructor.className
