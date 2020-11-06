@@ -213,6 +213,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'parents': go('core/SingletonAppVueComponentView')
     'live-classes': go('core/SingletonAppVueComponentView')
 
+    # Warning: In production debugging of third party iframe!
+    'temporary-debug-timetap': go('core/SingletonAppVueComponentView')
+
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')
 

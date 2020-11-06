@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     classroom_edition: "Editar sala de aula:"
     learn_to_code: "Aprenda a programar:"
     play_now: "Jogue Agora"
+#    im_a_parent: "I'm a Parent"
     im_an_educator: "Eu sou um professor(a)"
     im_a_teacher: "Eu sou um professor(a)"
     im_a_student: "Eu sou um Aluno"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Recuperar Conta"
@@ -2017,6 +2023,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     concept: "Conceito"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2036,21 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
   share_licenses:
     share_licenses: "Compartilhar licenças"
@@ -2798,6 +2821,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
   server_error:
     email_taken: "Email já em uso"
     username_taken: "Nome do usuário já em uso"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Linha $1: "
@@ -3070,6 +3095,15 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
