@@ -13,17 +13,22 @@ function getDateString () {
   ].join('')
 }
 
-export function deterministicShuffleForUserAndDay (user, array) {
+export function deterministicShuffleForUserAndDay (user, originalArray) {
+  if (originalArray.length < 2) return originalArray
   const rand = new RandomSeed(`${getDateString()}${user.id}`)
 
-  const shuffledArray = []
-  while (array.length > 0) {
-    const element = rand.range(array.length)
+  let shuffledArray, array;
+  do {
+    shuffledArray = []
+    array = _.cloneDeep(originalArray)
+    while (array.length > 0) {
+      const element = rand.range(array.length)
 
-    shuffledArray.push(
-      array.splice(element, 1)[0]
-    )
-  }
+      shuffledArray.push(
+        array.splice(element, 1)[0]
+      )
+    }
+  } while (_.isEqual(shuffledArray, originalArray))
 
   return shuffledArray
 }
