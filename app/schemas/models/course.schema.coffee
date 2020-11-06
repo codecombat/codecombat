@@ -13,6 +13,9 @@ _.extend CourseSchema.properties,
     total: { type: 'string', title: 'Total class time (overall)' }
     inGame: { type: 'string', title: 'In-game time' }
     totalTimeRange: { type: 'string', title: 'Total class time (range)', description: 'Relevant for curriculum guides hover tooltip' }
+    i18n: {type: 'object', title: 'i18n', format: 'i18n', props: [
+      'total', 'inGame', 'totalTimeRange'
+    ]}
   }}
   pricePerSeat: {type: 'number', description: 'Price per seat in USD cents.'} # deprecated
   free: { type: 'boolean' }
@@ -26,6 +29,9 @@ _.extend CourseSchema.properties,
     type: 'object', title: 'CSTA standard', properties: {
       name: { type: 'string', title: 'Name' }
       description: { type: 'string', title: 'Description' }
+      i18n: {type: 'object', title: 'i18n', format: 'i18n', props: [
+        'name', 'description'
+      ]}
     }
   }
   modules: { title: 'Modules', type: "object", description: "Module information to be shown on the curriculum guide. Please use module number as key field.", additionalProperties:
