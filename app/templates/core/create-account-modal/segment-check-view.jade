@@ -2,26 +2,13 @@ form.modal-body.segment-check
   .modal-body-content
     case view.signupState.get('path')
       when 'student'
-        .modal-student-contents
-          .class-code-section
-            p(data-i18n="signup.yes_i_have_classcode")
-            label(for='classCode' data-i18n="signup.enter_it_here")
-
-            .class-code-input-group.form-group
-              .input-with-glyph
-                input.class-code-input(name="classCode" value=view.signupState.get('classCode'))
-                .render
-                  unless _.isEmpty(view.signupState.get('classCode'))
-                    if state.get('classCodeValid')
-                      span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
-                    else
-                      span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
-              button.primary-oz-button.next-button(type="submit" disabled=!state.get('classCodeValid'))
-                span(data-i18n="common.continue")
-          
-            div.render
+        span(data-i18n="signup.enter_class_code")
+        .class-code-input-group.form-group
+          input.class-code-input(name="classCode" value=view.signupState.get('classCode'))
+          .render
+            unless _.isEmpty(view.signupState.get('classCode'))
               if state.get('classCodeValid')
-q              span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
+                span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
               else
                 span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
         
@@ -81,13 +68,12 @@ q              span.glyphicon.glyphicon-ok-circle.class-code-valid-icon
           a(href="mailto:support@codecombat.com") support@codecombat.com
           | .
 
-  if view.signupState.get('path') != 'student'
-    // In reverse order for tabbing purposes
-    .history-nav-buttons
-      //- disabled=!view.signupState.get('segmentCheckValid')
-      button.next-button.btn.btn-lg.btn-navy(type='submit')
-        span(data-i18n="common.continue")
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    //- disabled=!view.signupState.get('segmentCheckValid')
+    button.next-button.btn.btn-lg.btn-navy(type='submit')
+      span(data-i18n="common.continue")
 
-      if !view.signupState.get('subModalContinue')
-        button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
-          span(data-i18n="common.back")
+    if !view.signupState.get('subModalContinue')
+      button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
+        span(data-i18n="common.back")

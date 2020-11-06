@@ -4,19 +4,9 @@ block modal-header
   //-
     This allows for the header color to switch without the subview templates
     needing to contain the header
-  if view.signupState.get('path') === 'student' && view.signupState.get('screen') === 'segment-check'
-    .modal-header.ozaria-modal-header
-      //- Spacer is used for flexbox simplicity
-      .spacer
-      div
-        h3(data-i18n="signup.have_a_classcode")
-      div
-        button.close(data-dismiss="modal", aria-hidden="true")
-          img(alt="close icon" src="/images/common/modal/Exit_Dusk.svg")
-  else
-    .modal-header(class=view.signupState.get('path'))
-      span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
-      +modal-header-content
+  .modal-header(class=view.signupState.get('path'))
+    span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
+    +modal-header-content
 
 mixin modal-header-content
   h3
@@ -41,7 +31,7 @@ block modal-body
     when 'choose-account-type'
       #choose-account-type-view
     when 'segment-check'
-      #segment-check-view(class=view.signupState.get('path'))
+      #segment-check-view
     when 'eu-confirmation'
       #eu-confirmation-view
     when 'basic-info'
@@ -63,11 +53,8 @@ block modal-footer
   //-
     This allows for the footer color to switch without the subview templates
     needing to contain the footer
-  //-
-    This check hides the footer in a single screen. The segment-check, student path.
-  if view.signupState.get('path') != 'student' || view.signupState.get('screen') !== 'segment-check'
-    .modal-footer(class=view.signupState.get('path'))
-      +modal-footer-content
+  .modal-footer(class=view.signupState.get('path'))
+    +modal-footer-content
 
 mixin modal-footer-content
   if view.signupState.get('screen') !== 'confirmation'

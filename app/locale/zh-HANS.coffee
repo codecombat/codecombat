@@ -99,7 +99,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
     play_now: "开始游戏"
-#    im_a_parent: "I'm a Parent"
+    im_a_parent: "我是家长"
     im_an_educator: "我是老师"
     im_a_teacher: "我是老师"
     im_a_student: "我是学生"
