@@ -68,14 +68,14 @@ mixin price(name, p)
            else
              - var secondRowClass = '.col-xs-12'
 
-           if view.lifetimeProduct
+           if view.basicProductAnnual
              .option-col(class=secondRowClass)
-               +price("subscribe.lifetime_price", view.lifetimeProduct)
-               .option-header.price-subtext.text-center(data-i18n="subscribe.lifetime")
+               +price("subscribe.lifetime_price", view.basicProductAnnual)
+               .option-header.price-subtext.text-center(data-i18n="subscribe.year_subscription")
                if view.paymentProcessor === 'PayPal'
                  #paypal-button-container
                else
-                 button.stripe-lifetime-button.btn.btn-lg.btn-illustrated
+                 button.stripe-annual-button.btn.btn-lg.btn-illustrated
                    span.buy-now-text(data-i18n="subscribe.buy_now")
                    span.buy-lock-icon &#x1F512;
 
