@@ -20,6 +20,7 @@ module.exports = class SubscribeModal extends ModalView
     'click #close-modal': 'hide'
     'click .purchase-button': 'onClickPurchaseButton'
     'click .stripe-lifetime-button': 'onClickStripeLifetimeButton'
+    'click .stripe-annual-button': 'onClickAnnualPurchaseButton'
     'click .back-to-products': 'onClickBackToProducts'
 
   constructor: (options={}) ->
@@ -27,7 +28,8 @@ module.exports = class SubscribeModal extends ModalView
     #  document.location.href = 'http://codecombat.net.br/'
 
     super(options)
-    @hideMonthlySub = options?.hideMonthlySub or null
+    # Path check due to modal refresh when user isn't signed in.
+    @hideMonthlySub = options?.hideMonthlySub or window.location.pathname.startsWith('/parents') or null
     @state = 'standby'
     @couponID = utils.getQueryVariable('coupon')
     @subModalContinue = options.subModalContinue
@@ -46,9 +48,12 @@ module.exports = class SubscribeModal extends ModalView
 
   onLoaded: ->
     @basicProduct = @products.getBasicSubscriptionForUser(me)
+    @basicProductAnnual = @products.getBasicAnnualSubscriptionForUser()
     # Process basic product coupons unless custom region pricing
     if @couponID and @basicProduct.get('coupons')? and @basicProduct?.get('name') is 'basic_subscription'
       @basicCoupon = _.find(@basicProduct.get('coupons'), {code: @couponID})
+    if @couponID and @basicProductAnnual.get('coupons')? and @basicProductAnnual?.get('name') is 'basic_subscription_annual'
+      @basicCouponAnnual = _.find(@basicProductAnnual.get('coupons'), {code: @couponID})
     @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
     if @lifetimeProduct?.get('name') isnt 'lifetime_subscription'
       # Use PayPal for international users with regional pricing
@@ -100,7 +105,6 @@ module.exports = class SubscribeModal extends ModalView
       alipayReusable: true
     }, options)
 
-  # For monthly subs
   onClickPurchaseButton: (e) ->
     return unless @basicProduct
     @playSound 'menu-button-click'
@@ -113,6 +117,15 @@ module.exports = class SubscribeModal extends ModalView
     # else
     #   @startStripeSubscribe()
     @startStripeSubscribe() # Always use Stripe
+
+  onClickAnnualPurchaseButton: (e) ->
+    return unless @basicProductAnnual
+    @playSound 'menu-button-click'
+    if me.get('anonymous')
+      application.tracker?.trackEvent 'Started Signup from buy yearly', {service: 'stripe'}
+      return @openModalView new CreateAccountModal({startOnPath: 'individual', subModalContinue: 'yearly'})
+
+    @startYearlyStripeSubscription()
 
   startPayPalSubscribe: ->
     application.tracker?.trackEvent 'Started subscription purchase', { service: 'paypal' }
@@ -132,10 +145,19 @@ module.exports = class SubscribeModal extends ModalView
       @onSubscriptionError(jqxhr)
 
   startStripeSubscribe: ->
+    @startStripeSubscription(@basicProduct)
+
+  startYearlyStripeSubscription: ->
+    @startStripeSubscription(@basicProductAnnual)
+
+  ###
+    Starts a stripe subscription based on the product passed in.
+  ###
+  startStripeSubscription: (product) ->
     application.tracker?.trackEvent 'Started subscription purchase', { service: 'stripe' }
     options = @stripeOptions {
-      description: $.i18n.t('subscribe.stripe_description')
-      amount: @basicProduct.adjustedPrice()
+      description: if product.get('name') is 'basic_subscription_annual' then $.i18n.t('subscribe.stripe_yearly_description') else $.i18n.t('subscribe.stripe_description')
+      amount: product.adjustedPrice()
     }
 
     @purchasedAmount = options.amount
@@ -143,7 +165,9 @@ module.exports = class SubscribeModal extends ModalView
     .then ({token}) =>
       @state = 'purchasing'
       @render()
-      jqxhr = if @basicCoupon?.code
+      jqxhr = if product.get('name') is 'basic_subscription_annual'
+        me.subscribe(token, { planID: product.get('planID'), couponID: @basicCouponAnnual?.code })
+      else if @basicCoupon?.code
         me.subscribe(token, {couponID: @basicCoupon.code})
       else
         me.subscribe(token)

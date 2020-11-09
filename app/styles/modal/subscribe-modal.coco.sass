@@ -1,0 +1,315 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#subscribe-modal
+
+  //- Clear modal defaults
+  .modal-dialog
+    margin: 60px auto 0 auto
+    padding: 0
+    width: 746px
+    height: 520px
+    background: none
+
+
+  //- Background
+  #subscribe-background
+    position: absolute
+    top: -61px
+    left: 0px
+
+  //- Header
+  h1
+    position: absolute
+    left: 170px
+    top: 25px
+    margin: 0
+    width: 410px
+    text-align: center
+    color: rgb(254,188,68)
+    font-size: 38px
+    text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0, black 6px 6px 6px
+    font-variant: normal
+    text-transform: uppercase
+    margin-left: -30px
+
+  //- Close modal button
+
+  #close-modal
+    position: absolute
+    left: 568px
+    top: 17px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 15px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+  //- Popovers
+
+  .popover
+    z-index: 1050
+    min-width: 400px
+
+    h3
+      background: transparent
+      border: 0
+      font-size: 30px
+      color: black
+
+  //- Sales image
+
+  .subscribe-image
+    position: absolute
+    top: 114px
+    right: 65px
+
+  //- Paper area
+
+  .paper-area
+    position: absolute
+    top: 114px
+    left: 31px
+    min-height: 370px
+    width: 684px
+    background: #d4c9b1
+    border: 3px solid black
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+
+    .benefits-header, .big-text
+      font-weight: bold
+      font-size: 20px
+      margin: 10px 40px 10px 0px
+
+    ul, .med-text
+      font-size: 16px
+      font-weight: bold
+
+    table
+      width: 100%
+      margin: 20px 0
+      text-align: center
+
+    ul
+      list-style: none
+      padding: 0
+
+      li::before
+        content: "• "
+
+    hr
+      border-top: 1px solid gray
+      margin: 10px 40px
+
+    th
+      font-size: 36px
+      text-align: center
+      line-height: 36px
+      color: #59882f
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.5)
+
+    .option-col
+      text-align: center
+
+    .option-header
+      font-weight: bold
+      font-size: 16px
+
+    .price
+      font-size: 50px
+
+    .price-subtext
+      margin-bottom: 5px
+
+    .old-price
+      text-decoration: line-through;
+      font-size: 20px
+      color: red
+      margin-left: -85px
+      margin-right: 10px
+
+    .new-price
+      font-size: 14px
+      margin-bottom: 6px
+      margin-right: 10px
+
+    .strike-price
+      text-decoration: line-through;
+      color: red
+      font-size: 30px
+
+    p
+      margin: 5px 0 0 20px
+
+    button
+      min-width: 250px
+
+    .short-row
+      margin-bottom: 0px
+
+    .best-deal
+      font-size: 15px
+      color: darkgreen
+      text-transform: uppercase
+
+    .buy-now-text
+      opacity: 1.0
+
+    .buy-lock-icon
+      opacity: 1.0
+      float: right
+
+    .left-image
+      width: 100%
+      margin-top: 10px
+      margin-left: 10px
+      height: 335px
+      padding: 20px
+
+    .features-list
+      padding-right: 20px
+
+  //- Feature comparison table
+
+  .comparison-blurb, .premium-pricing
+    position: absolute
+    left: 8.5%
+    top: 135px
+    width: 620px
+    background: rgba(0, 0, 0, 0.0)
+    font-weight: normal
+    line-height: 18px
+    color: black
+    font-family: $headings-font-family
+    font-size: 18px
+    text-align: center
+
+  .premium-pricing
+    top: 355px
+
+  .comparison-table
+    position: absolute
+    left: 8.5%
+    top: 160px
+    width: 620px
+    background: rgba(0, 0, 0, 0.0)
+    border-width: 0px
+    .free-cell
+      border-right-width: 1px
+      min-width: 40px
+    thead
+      tr
+        th
+          font-size: 24px
+          font-variant: small-caps
+          font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+          font-weight: 700
+          line-height: 1.1
+          color: #317EAC
+          padding: 4px
+          border-width: 0px
+          border-color: rgba(85, 85, 85, 0.1)
+          text-align: right
+    tbody
+      font-size: 14px
+      .center-ok
+        text-align: center
+      tr
+        td
+          padding: 2px
+          border-width: 0px
+          border-top-width: 1px
+          border-color: rgba(85, 85, 85, 0.1)
+
+  //- Payment methods info popover link
+
+  #payment-methods-info
+    position: absolute
+    right: 38px
+    top: 389px
+    text-decoration: underline
+    cursor: pointer
+    font-weight: bold
+    line-height: 18px
+    color: black
+    font-family: $headings-font-family
+    font-size: 18px
+
+  //- Action buttons
+
+  .subscribe-actions
+    position: absolute
+    top: 430px
+    left: 18px
+    right: 18px
+    display: flex
+
+    > button
+      height: 70px
+      margin: 0 5px
+
+  .purchase-button, .stripe-annual-button
+    font-size: 24px
+    line-height: 30px
+    border-style: solid
+    border-image: url(/images/common/button-background-success-active.png) 14 20 20 20 fill round
+    &:hover
+      border-image: url(/images/common/button-background-success-inactive.png) 14 20 20 20 fill round
+    &:active
+      border-image: url(/images/common/button-background-success-pressed.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+
+    span
+      pointer-events: none
+
+  #paypal-button-container
+    height: 45px
+    width: 250px
+    display: inline-block
+    margin: 5px auto 0px auto
+
+  //- Errors
+
+  .alert
+    position: absolute
+    left: 10%
+    width: 80%
+    top: 20px
+    border: 5px solid gray
+
+.support-blurb
+  margin-bottom: 10px
+  margin-top: 10px
+
+body[lang='fr']
+  #subscribe-modal
+    font-size: 21px
+
+  #subscribe-modal .comparison-table tbody
+    font-size: 13px
+
+body[lang='de-DE']
+  #subscribe-modal .comparison-blurb
+    font-size: 16px
+
+  #subscribe-modal .comparison-table tbody
+    font-size: 12px
+
+body[lang='pt-PT']
+  #subscribe-modal .comparison-blurb
+    font-size: 16px
+
+  #subscribe-modal .comparison-table tbody
+    font-size: 12px
+
+  #subscribe-modal
+    font-size: 18px
