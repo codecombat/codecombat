@@ -5,7 +5,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "プログラミングゲームを通してコードを学ぼう。Python、JavaScript、HTMLをパズルを解くように学んで、あなた自身のゲームやウェブサイト作りを学びましょう。"
 #    meta_og_url: "https://codecombat.com"
-#    become_investor: "to become an investor in CodeCombat"
+    become_investor: "CodeCombatの投資家になる"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -34,7 +34,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
 #    classroom_in_box_blurb4: ""
 #    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
-#    click_here: "Click here"
+    click_here: "ここをクリック"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
@@ -215,7 +215,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   modal:
     close: "閉じる"
     okay: "OK"
-#    cancel: "Cancel"
+    cancel: "取り消し"
 
   not_found:
     page_not_found: "ページが見つかりません"
@@ -867,9 +867,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     restricted: "(このレベルでは制限品)"
     equip: "装備する"
     unequip: "装備を外す"
-#    warrior_only: "Warrior Only"
-#    ranger_only: "Ranger Only"
-#    wizard_only: "Wizard Only"
+    warrior_only: "Warrior のみ"
+    ranger_only: "Ranger のみ"
+    wizard_only: "Wizard のみ"
 
   buy_gems:
     few_gems: "少し購入"
