@@ -15,94 +15,96 @@ export const PAGE_TITLES = {
   [COMPONENT_NAMES.RESOURCE_HUB]: 'resource_hub'
 }
 
+// TODO: Remove these once they are added to the database.
+// If you want to add a new resource please add it as a ResourceHubResource in the db.
 export const resourceHubLinks = {
   dashboardTutorial: {
     icon: 'Video',
-    label: 'Dashboard Tutorial',
-    resourceHubSection: 'gettingStarted'
+    name: 'Dashboard Tutorial',
+    section: 'gettingStarted'
   },
   howtoContentLocking: {
     icon: 'Slides',
-    label: 'How To: Control Student Pacing',
+    name: 'How To: Control Student Pacing',
     link: 'https://docs.google.com/presentation/d/1jAs_w8RjqbCtCQRGGI2_pRiZGar8rcNjEBcSFUYMF6c/edit?usp=sharing',
-    resourceHubSection: 'gettingStarted'
+    section: 'gettingStarted'
   },
   howtoCreateClass: {
     icon: 'Slides',
-    label: 'How To: Create Classes & Add Students',
+    name: 'How To: Create Classes & Add Students',
     link: 'https://docs.google.com/presentation/d/1ZmHMo_v7MenQ-LHnvG27dua7d8toBAvoJBwbS2ZN4jc/edit?usp=sharing',
-    resourceHubSection: 'gettingStarted'
+    section: 'gettingStarted'
   },
   howtoCurrGuide: {
     icon: 'Slides',
-    label: 'How To: Curriculum Guide',
+    name: 'How To: Curriculum Guide',
     link: 'https://docs.google.com/presentation/d/154Fo1d8nVWNBqxx7m_KFSmJ_zyDiMomxKBbK04lMZzg/edit?usp=sharing',
-    resourceHubSection: 'gettingStarted'
+    section: 'gettingStarted'
   },
   howToLicenses: {
     icon: 'Slides',
-    label: 'How To: Manage Licenses',
+    name: 'How To: Manage Licenses',
     link: 'https://docs.google.com/presentation/d/1SfM5ZMjae8wm8HESHoXXO0wBnKJmJD53BgtG9XwVW9k/edit?usp=sharing',
-    resourceHubSection: 'gettingStarted'
+    section: 'gettingStarted'
   },
   howToShareLesson: {
     icon: 'Doc',
-    label: 'How To: Share Lesson & Activity Slides',
+    name: 'How To: Share Lesson & Activity Slides',
     link: 'https://docs.google.com/document/d/1JTshzRvg_EGEDY7Kczb5T0X8WKmS0UXTdWZVmvzE9B0/edit?usp=sharing',
-    resourceHubSection: 'gettingStarted'
+    section: 'gettingStarted'
   },
   howToProjects: {
     icon: 'Slides',
-    label: 'How To: Student Projects',
+    name: 'How To: Student Projects',
     link: 'https://docs.google.com/presentation/d/1KzxUPJ8bbRVSLuesDmhJ22gtzJJ761vgJiZsbYms6oM/edit?usp=sharing',
-    resourceHubSection: 'gettingStarted'
+    section: 'gettingStarted'
   },
   howToProgress: {
     icon: 'Slides',
-    label: 'How To: Track Progress',
+    name: 'How To: Track Progress',
     link: 'https://docs.google.com/presentation/d/160gl6XT-B3_cd7iKkYOtPVJ2JxEspbenxJXAhqm_TFo/edit?usp=sharing',
-    resourceHubSection: 'gettingStarted'
+    section: 'gettingStarted'
   },
   faq: {
     icon: 'FAQ',
-    label: 'Frequently Asked Questions',
+    name: 'Frequently Asked Questions',
     link: '/teachers/resources/faq',
-    resourceHubSection: 'gettingStarted'
+    section: 'gettingStarted'
   },
   pathways: {
     icon: 'Doc',
-    label: 'Ozaria & CodeCombat Pathways',
+    name: 'Ozaria & CodeCombat Pathways',
     link: 'https://docs.google.com/drawings/d/1Py8lBN3uGjrvsHdm_2wnO7T0wLPYEW0PCJ7XsMVHEYo/edit?usp=sharing',
-    resourceHubSection: 'educatorResources'
+    section: 'educatorResources'
   },
   csta: {
     icon: 'Doc',
-    label: 'CSTA Standards Alignment',
+    name: 'CSTA Standards Alignment',
     link: 'https://docs.google.com/document/d/1sHP75V5WqdQBfavI792mswYDS67pSSf8otNM05Rma5A/edit?usp=sharing',
-    resourceHubSection: 'educatorResources'
+    section: 'educatorResources'
   },
   distanceLearning: {
     icon: 'Slides',
-    label: 'Distance Learning Strategies',
+    name: 'Distance Learning Strategies',
     link: 'https://docs.google.com/presentation/d/1-27EBwUUHn6YdzWzyb5LzZI6OfutxOVtbqEMB2Swbj0/edit?usp=sharing',
-    resourceHubSection: 'educatorResources'
+    section: 'educatorResources'
   },
   isteStandardsAlignment: {
     icon: 'Doc',
-    label: 'ISTE Standards Alignment',
+    name: 'ISTE Standards Alignment',
     link: 'https://docs.google.com/document/d/1Nx7lIXyI5mMU_tB9HgPOqdEtzMcpDgXZE_RGjVaMN5o/edit?usp=sharing',
-    resourceHubSection: 'educatorResources'
+    section: 'educatorResources'
   },
   pacingGuide: {
     icon: 'Spreadsheet',
-    label: 'Pacing Guide',
+    name: 'Pacing Guide',
     link: 'https://docs.google.com/spreadsheets/d/1EbWMXI1-0697csaM_NCZLUWvJKed5ayFGlC73I7rztk/edit?usp=sharing',
-    resourceHubSection: 'educatorResources'
+    section: 'educatorResources'
   },
   scopeSequence: {
     icon: 'Spreadsheet',
-    label: 'Scope & Sequence',
+    name: 'Scope & Sequence',
     link: 'https://docs.google.com/spreadsheets/d/1S7qS2zxVccBMVNUQ0Duh6ugyQfhqopGKaSXyhCf-5UA/edit?usp=sharing',
-    resourceHubSection: 'educatorResources'
+    section: 'educatorResources'
   }
 }

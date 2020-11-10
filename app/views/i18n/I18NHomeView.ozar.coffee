@@ -5,6 +5,7 @@ Courses = require 'collections/Courses'
 Article = require 'models/Article'
 Interactive = require 'ozaria/site/models/Interactive'
 Cutscene = require 'ozaria/site/models/Cutscene'
+ResourceHubResource = require 'ozaria/site/models/ResourceHubResource'
 
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
@@ -49,7 +50,8 @@ module.exports = class I18NHomeView extends RootView
     @articles = new CocoCollection([], { url: "/db/article#{QUERY_PARAMS}", project: project, model: Article })
     @interactive = new CocoCollection([], { url: "/db/interactive#{QUERY_PARAMS}", project: project, model: Interactive })
     @cutscene = new CocoCollection([], { url: "/db/cutscene#{QUERY_PARAMS}", project: project, model: Cutscene })
-    for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @interactive, @cinematics, @cutscene]
+    @resourceHubResource = new CocoCollection([], { url: "/db/resource_hub_resource#{QUERY_PARAMS}", project: project, model: ResourceHubResource })
+    for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @interactive, @cinematics, @cutscene, @resourceHubResource]
       c.skip = 0
 
       c.fetch({data: {skip: 0, limit: PAGE_SIZE}, cache:false})
@@ -72,6 +74,7 @@ module.exports = class I18NHomeView extends RootView
         when 'Interactive' then '/i18n/interactive/'
         when 'Cinematic' then '/i18n/cinematic/'
         when 'Cutscene' then '/i18n/cutscene/'
+        when 'ResourceHubResource' then '/i18n/resource_hub_resource/'
     getMore = collection.models.length is PAGE_SIZE
     @aggregateModels.add(collection.models)
     @render()
