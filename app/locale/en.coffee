@@ -232,7 +232,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     return_coco: "Return to CodeCombat"
     classes: "Classes"
     term_of_service: "Terms of Service"
-    privacy: "Privacy"
     admin: "Admin"
     teacher: "Teacher"
 
@@ -608,7 +607,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     warrior: "Warrior"
     ranger: "Ranger"
     wizard: "Wizard"
-    name: "Name"
     first_name: "First Name"
     last_name: "Last Name"
     last_initial: "Last Initial"
@@ -2723,7 +2721,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     math_operations: "Math Library Operations"
     math_proportions: "Proportion Math"
     math_trigonometry: "Trigonometry"
-    nesting: "Nested Loops and Conditionals"
     object_literals: "Object Literals"
     parameters: "Parameters"
     problem_solving: "Problem Solving"

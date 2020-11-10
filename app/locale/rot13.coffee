@@ -232,7 +232,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     return_coco: "Erghea gb PbqrPbzong"
     classes: "Pynffrf"
     term_of_service: "Grezf bs Freivpr"
-    privacy: "Cevinpl"
     admin: "Nqzva"
     teacher: "Grnpure"
 
@@ -608,7 +607,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     warrior: "Jneevbe"
     ranger: "Enatre"
     wizard: "Jvmneq"
-    name: "Anzr"
     first_name: "Svefg Anzr"
     last_name: "Ynfg Anzr"
     last_initial: "Ynfg Vavgvny"
@@ -2393,7 +2391,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     scribe_join_description: "gryy hf n yvggyr nobhg lbhefrys, lbhe rkcrevrapr jvgu cebtenzzvat naq jung fbeg bs guvatf lbh'q yvxr gb jevgr nobhg. Jr'yy tb sebz gurer!"
     scribe_subscribe_desc: "Trg rznvyf nobhg negvpyr jevgvat naabhaprzragf."
     diplomat_introduction_pref: "Fb, vs gurer'f bar guvat jr yrnearq sebz gur "
-    diplomat_launch_url: "ynhapu va Bpgbore"
+    diplomat_introduction_url: "bcra fbhepr pbzzhavgl"
     diplomat_introduction_suf: "vg'f gung gurer vf fvmrnoyr vagrerfg va PbqrPbzong va bgure pbhagevrf! Jr'er ohvyqvat n pbecf bs genafyngbef rntre gb ghea bar frg bs jbeqf vagb nabgure frg bs jbeqf gb trg PbqrPbzong nf npprffvoyr npebff gur jbeyq nf cbffvoyr. Vs lbh yvxr trggvat farnx crrxf ng hcpbzvat pbagrag naq trggvat gurfr yriryf gb lbhe sryybj angvbanyf NFNC, gura guvf pynff zvtug or sbe lbh."
     diplomat_attribute_1: "Syhrapl va Ratyvfu naq gur ynathntr lbh jbhyq yvxr gb genafyngr gb. Jura pbairlvat pbzcyvpngrq vqrnf, vg'f vzcbegnag gb unir n fgebat tenfc va obgu!"
     diplomat_i18n_page_prefix: "Lbh pna fgneg genafyngvat bhe yriryf ol tbvat gb bhe"
@@ -2406,8 +2404,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     ambassador_introduction: "Guvf vf n pbzzhavgl jr'er ohvyqvat, naq lbh ner gur pbaarpgvbaf. Jr'ir tbg sbehzf, rznvyf, naq fbpvny argjbexf jvgu ybgf bs crbcyr gb gnyx jvgu naq uryc trg npdhnvagrq jvgu gur tnzr naq yrnea sebz. Vs lbh jnag gb uryc crbcyr trg vaibyirq naq unir sha, naq trg n tbbq srry bs gur chyfr bs PbqrPbzong naq jurer jr'er tbvat, gura guvf pynff zvtug or sbe lbh."
     ambassador_attribute_1: "Pbzzhavpngvba fxvyyf. Or noyr gb vqragvsl gur ceboyrzf cynlref ner univat naq uryc gurz fbyir gurz. Nyfb, xrrc gur erfg bs hf vasbezrq nobhg jung cynlref ner fnlvat, jung gurl yvxr naq qba'g yvxr naq jnag zber bs!"
     ambassador_join_desc: "gryy hf n yvggyr nobhg lbhefrys, jung lbh'ir qbar naq jung lbh'q or vagrerfgrq va qbvat. Jr'yy tb sebz gurer!"
-    ambassador_join_note_strong: "Abgr"
-    ambassador_join_note_desc: "Bar bs bhe gbc cevbevgvrf vf gb ohvyq zhygvcynlre jurer cynlref univat qvssvphygl fbyivat yriryf pna fhzzba uvture yriry jvmneqf gb uryc gurz. Guvf jvyy or n terng jnl sbe nzonffnqbef gb qb gurve guvat. Jr'yy xrrc lbh cbfgrq!"
     ambassador_subscribe_desc: "Trg rznvyf ba fhccbeg hcqngrf naq zhygvcynlre qrirybczragf."
     teacher_subscribe_desc: "Trg rznvyf ba hcqngrf naq naabhaprzragf sbe grnpuref."
     changes_auto_save: "Punatrf ner fnirq nhgbzngvpnyyl jura lbh gbttyr purpxobkrf."
@@ -2725,7 +2721,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     math_operations: "Zngu Yvoenel Bcrengvbaf"
     math_proportions: "Cebcbegvba Zngu"
     math_trigonometry: "Gevtbabzrgel"
-    nesting: "Arfgrq Ybbcf naq Pbaqvgvbanyf"
     object_literals: "Bowrpg Yvgrenyf"
     parameters: "Cnenzrgref"
     problem_solving: "Ceboyrz Fbyivat"
@@ -3244,3 +3239,16 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     license_questions: 'Unir dhrfgvbaf nobhg nccylvat be eribxvat yvprafrf?'
     need_more_licenses: "Arrq zber yvprafrf? Jr'yy uryc lbh ohvyq n fbyhgvba gung zrrgf lbhe arrqf."
     support_oz: 'fhccbeg@bmnevn.pbz'
+    standards_alignment: 'Fgnaqneqf Nyvtazrag'
+    standards_sample: 'N fnzcyr bs gur fgnaqneqf pbirerq va guvf Puncgre:'
+    play_chapter: 'Cynl Puncgre'
+    class_time_range: 'Pynff Gvzr (Enatr):'
+    in_game_play_time: 'Va-Tnzr Cynl Gvzr:'
+    class_time: 'Pynff Gvzr'
+    solution_guide: 'Fbyhgvba Thvqr'
+    module: 'Zbqhyr'
+    need_licenses_tooltip: "<u3>Lbh arrq yvprafrf gb npprff guvf pbagrag!</u3><c>Cyrnfr ivfvg gur <n uers='/grnpuref/yvprafrf'>Zl Yvprafrf</n> cntr sbe zber vasbezngvba.</c>"
+    lesson_slides_tooltip: '<u3>Yrffba Fyvqrf</u3><c>Qbjaybnqnoyr, fgrc-ol-fgrc cerfragngvba fyvqrf sbe thvqvat fghqragf guebhtu zbqhyr yrneavat bowrpgvirf</c>'
+    project_rubric_tooltip: '<u3>Cebwrpg Ehoevp</u3><c>Qbjaybnqnoyr naq zbqvsvnoyr fpbevat ehoevp sbe gur Pncfgbar Cebwrpg</c>'
+    exemplar_projects_tooltip: '<u3>Rkrzcyne Cebwrpg</u3><c>Yvir ivrj bs gur rkrzcyne Pncfgbar Cebwrpg</c>'
+    want_to_save_tooltip: '<u3>Jnag gb fnir lbhe cebterff?</u3><c>Cyrnfr perngr n fghqrag nppbhag naq cynl Bmnevn nf n fghqrag vs lbh jbhyq yvxr gb fnir lbhe cebterff.</c>'
