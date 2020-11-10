@@ -3210,4 +3210,4 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bullet_1: 'How to keep learners engaged and motivated when they may face distractions and struggles at home'
     bullet_2: 'How to maintain high expectations for students and set boundaries for your own well-being'
     bullet_3: 'How to use the Ozaria curriculum to support effective hybrid and remote teaching practices'
-    learn_more: 'For additional information see <a href="https://blog.codecombat.com/webinar-time-for-empathy-remote-hybrid-learning/">here</a> or <a href="https://zoom.us/webinar/register/WN_iKcKekMjSAGJ7BQsCzFN0w">register now</a>.
+    learn_more: 'For additional information see <a href="https://blog.codecombat.com/webinar-time-for-empathy-remote-hybrid-learning/">here</a> or <a href="https://zoom.us/webinar/register/WN_iKcKekMjSAGJ7BQsCzFN0w">register now</a>.'
