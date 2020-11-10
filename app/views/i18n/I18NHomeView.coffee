@@ -44,7 +44,7 @@ module.exports = class I18NHomeView extends RootView
     @articles = new CocoCollection([], { url: '/db/article?view=i18n-coverage', project: project, model: Article })
     for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles]
       c.skip = 0
-      
+
       c.fetch({data: {skip: 0, limit: PAGE_SIZE}, cache:false})
       @supermodel.loadCollection(c, 'documents')
       @listenTo c, 'sync', @onCollectionSynced
@@ -78,8 +78,10 @@ module.exports = class I18NHomeView extends RootView
     c.collection = @aggregateModels
 
     covered = (m for m in @aggregateModels.models when m.specificallyCovered).length
+    coveredGenerally = (m for m in @aggregateModels.models when m.generallyCovered).length
     total = @aggregateModels.models.length
     c.progress = if total then parseInt(100 * covered / total) else 100
+    c.progressGeneral = if total then parseInt(100 * coveredGenerally / total) else 100
     c.showGeneralCoverage = /-/.test(@selectedLanguage ? 'en')  # Only relevant for languages with more than one family, like zh-HANS
 
     c
