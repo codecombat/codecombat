@@ -40,21 +40,19 @@ const BACKGROUND_VOLUME = 0.15
 
 const QUILL_CONFIG = {
   paragraphTag: 'div',
-  customTagAttributes: (op) => {
-    if (op.attributes.align) {
-      // Replace Quill align attribute with CSS text-align style attribute
-      return { 'style': `text-align: ${op.attributes.align};` }
-    } else if (op.attributes.size) {
-      switch (op.attributes.size) {
-        case 'small':
-          return { 'style': `font-size: 18px;` }
-        case 'large':
-          return { 'style': `font-size: 28px;` }
-        case 'huge':
-          return { 'style': `font-size: 32px;` }
-      }
-    } else if (op.attributes.font) {
-      return { 'style': `font-family: ${op.attributes.font};` }
+  // https://github.com/nozer/quill-delta-to-html/tree/68715d1948cf2eb4f5d6a41ec2e1181849ebaadd#rendering-inline-styles
+  // Map from custom stuff in the `new Quill` configuration to styles that work for us
+  // So far we only change font sizes, but we can change the following:
+  // indent
+  // align
+  // direction
+  // font
+  // size
+  inlineStyles: {
+    size: {
+      'small': 'font-size: 18px',
+      'large': 'font-size: 28px',
+      'huge': 'font-size: 32px'
     }
   }
 }
