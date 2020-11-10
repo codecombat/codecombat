@@ -2,9 +2,19 @@ Link to asana task:
 
 # Context
 
+
+
 # Why?
 
+
+
 # How?
+
+
+
+# i18n?
+
+
 
 # Testing
 
@@ -13,7 +23,11 @@ Link to asana task:
 - How can reviewer manually test changes?
 
 
+
 # Risks?
 
+
+
 # Screenshots or videos illustrating changes if relevant
+
 
