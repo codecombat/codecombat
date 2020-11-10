@@ -1,0 +1,80 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    .class_detail
+
+      img(src="/images/pages/contribute/class_detail_diplomat.png", alt="")
+
+    div.class-main#diplomat-main
+
+      h2
+        span(data-i18n="classes.diplomat_title") Diplomat
+        span  
+        span(data-i18n="classes.diplomat_title_description") (Translator)
+      p
+        span(data-i18n="contribute.diplomat_introduction_pref")
+          | So, if there's one thing we learned from the 
+        a(href="https://github.com/codecombat/codecombat", data-i18n="contribute.diplomat_introduction_url")
+        span , 
+        span(data-i18n="contribute.diplomat_introduction_suf")
+          | it's that there
+          | is sizeable interest in CodeCombat in other countries!
+          | We're building a corps of translators eager to turn one set of words into
+          | another set of words to get CodeCombat as accessible across the world as possible.
+          | If you like getting sneak peeks at upcoming content and getting these levels to
+          | your fellow nationals ASAP, then this class might be for you.
+  
+      h4(data-i18n="contribute.class_attributes") Class Attributes
+      ul
+        li(data-i18n="contribute.diplomat_attribute_1")
+          | Fluency in English and the language you would like to translate to.
+          | When conveying complicated ideas, it's important to have a strong grasp in both!
+      
+      h4(data-i18n="contribute.how_to_join") How to Join
+      p
+        a.strong.spr(data-i18n="contribute.diplomat_i18n_wiki" href="https://github.com/codecombat/codecombat/wiki/Diplomat-Home") See full translation instructions on our GitHub wiki
+      p
+        span.spr(data-i18n="contribute.diplomat_i18n_page_prefix") You can start translating our levels by going to our
+        a(href="/i18n")
+          strong(data-i18n="contribute.diplomat_i18n_page") translations page
+        span.spr(data-i18n="contribute.diplomat_i18n_page_suffix") , or our interface and website on GitHub.
+        span(data-i18n="contribute.diplomat_join_pref_github")
+          | Find your language locale file 
+        a(href='https://github.com/codecombat/codecombat/tree/master/app/locale')
+          strong(data-i18n="contribute.diplomat_github_url") on GitHub
+        span(data-i18n="contribute.diplomat_join_suf_github")
+          | , edit it online, and submit a pull request. Also, check this box below to 
+          | keep up-to-date on new internationalization developments!
+
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="translator", data-contributor-class-name="diplomat")
+
+
+      h3(data-i18n="contribute.translating_diplomats")
+        | Our Translating Diplomats:
+
+      //#contributor-list
+      // TODO: collect CodeCombat userids for these guys so we can include a tiled list
+      ul.diplomats
+        each stats, languageCode in view.languageStats
+          if (stats.completion >= 0.02 || (stats.diplomats || []).length > 0)
+            li
+              a(href=stats.githubURL)
+                span= stats.englishDescription
+                if stats.englishDescription != stats.nativeDescription
+                  span.spl.spr -
+                  span= stats.nativeDescription
+              if stats.diplomats.length
+                span.spl - #{stats.diplomats.join(', ')}
+              .progress
+                .progress-bar(style='width: ' + (100 * (stats.completion || 0)) + '%')
+                  span(style=(stats.completion < 0.06 || stats.loading) ? 'color: black; text-shadow: 0px 1px 0px white' : '')
+                    if stats.loading
+                      | Loading...
+                    else
+                      = Math.min(100, (100 * stats.completion).toFixed(1)) + '%'
+
+    div.clearfix
