@@ -937,7 +937,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     first_month_price: "Only $__price__ for your first month!"
     lifetime: "Lifetime Access"
     lifetime_price: "$__price__"
-    year_subscription: "Annual Subscription" # {change}
+    year_subscription: "Annual Subscription"
     year_price: "$__price__/year"
     support_part1: "Need help with payment or prefer PayPal? Email"
     support_part2: "support@codecombat.com"
