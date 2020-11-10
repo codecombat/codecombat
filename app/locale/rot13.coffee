@@ -546,7 +546,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     warrior: "Jneevbe"
     ranger: "Enatre"
     wizard: "Jvmneq"
-    name: "Anzr"
     first_name: "Svefg Anzr"
     last_name: "Ynfg Anzr"
     last_initial: "Ynfg Vavgvny"
@@ -937,7 +936,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     first_month_price: "Bayl $__cevpr__ sbe lbhe svefg zbagu!"
     lifetime: "Yvsrgvzr Npprff"
     lifetime_price: "$__cevpr__"
-    year_subscription: "Naahny Fhofpevcgvba" # {punatr}
+    year_subscription: "Naahny Fhofpevcgvba"
     year_price: "$__cevpr__/lrne"
     support_part1: "Arrq uryc jvgu cnlzrag be cersre CnlCny? Rznvy"
     support_part2: "fhccbeg@pbqrpbzong.pbz"
@@ -2993,7 +2992,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   parents_landing_2:
     splash_title: "Qvfpbire gur zntvp bs pbqvat ng ubzr."
     learn_with_instructor: "Yrnea jvgu na Vafgehpgbe"
-    learn_at_own_pace: "Yrnea ng lbhe bja cnpr"
     live_classes: "Yvir Bayvar Pynffrf"
     live_classes_offered: "PbqrPbzong abj bssref yvir bayvar pbzchgre fpvrapr pynffrf sbe fghqragf yrneavat ng ubzr. Terng sbe fghqragf jub jbex orfg va 1:1 be fznyy-tebhc frggvatf jurer yrneavat bhgpbzrf ner gnvyberq gb gurve arrqf."
     live_class_details_1: "Fznyy tebhc be cevingr yrffbaf"

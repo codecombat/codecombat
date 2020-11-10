@@ -546,7 +546,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     warrior: "Warrior"
     ranger: "Ranger"
     wizard: "Wizard"
-    name: "Name"
     first_name: "First Name"
     last_name: "Last Name"
     last_initial: "Last Initial"
@@ -2993,7 +2992,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   parents_landing_2:
     splash_title: "Discover the magic of coding at home."
     learn_with_instructor: "Learn with an Instructor"
-    learn_at_own_pace: "Learn at your own pace"
     live_classes: "Live Online Classes"
     live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
     live_class_details_1: "Small group or private lessons"
