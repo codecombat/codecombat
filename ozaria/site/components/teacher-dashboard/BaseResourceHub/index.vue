@@ -3,6 +3,11 @@
   import { COMPONENT_NAMES, PAGE_TITLES, resourceHubLinks } from '../common/constants.js'
   import ButtonResourceIcon from './components/ButtonResourceIcon'
   import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
+  import { createNewResourceHubResource, getResourceHubResources } from '../../../api/resource_hub_resource'
+  import utils from 'app/core/utils'
+
+  // Temporarily added this allowing us to create resources using the console (whilst logged in as admin).
+  window.createNewResourceHubResource = createNewResourceHubResource
 
   export default {
     name: COMPONENT_NAMES.RESOURCE_HUB,
@@ -13,7 +18,8 @@
 
     data () {
       return {
-        showVideoModal: false
+        showVideoModal: false,
+        resourceHubResources: resourceHubLinks
       }
     },
 
@@ -22,11 +28,13 @@
         loading: 'teacherDashboard/getLoadingState',
         activeClassrooms: 'teacherDashboard/getActiveClassrooms'
       }),
+
       gettingStartedLinks () {
-        return Object.values(resourceHubLinks).filter((r) => r.resourceHubSection === 'gettingStarted').sort((a, b) => (a.label > b.label) ? 1 : -1)
+        return Object.values(this.resourceHubResources).filter((r) => r.section === 'gettingStarted').sort((a, b) => (a.name > b.name) ? 1 : -1)
       },
+
       educatorResourcesLinks () {
-        return Object.values(resourceHubLinks).filter((r) => r.resourceHubSection === 'educatorResources').sort((a, b) => (a.label > b.label) ? 1 : -1)
+        return Object.values(this.resourceHubResources).filter((r) => r.section === 'educatorResources').sort((a, b) => (a.name > b.name) ? 1 : -1)
       }
     },
 
@@ -34,6 +42,33 @@
       this.setTeacherId(me.get('_id'))
       this.setPageTitle(PAGE_TITLES[this.$options.name])
       this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Resource Hub: Loaded' } })
+
+      // Replace hard coded resources with those in database.
+      getResourceHubResources().then(allResources => {
+        const fetchedResources = {}
+
+        if (!Array.isArray(allResources)) {
+          return
+        }
+        if (allResources.length === 0) {
+          return
+        }
+
+        for (const resource of allResources) {
+          if (resource.hidden) {
+            continue
+          }
+
+          resource.name = utils.i18n(resource, 'name')
+          resource.link = utils.i18n(resource, 'link')
+
+          fetchedResources[resource.slug] = {
+            ...resource
+          }
+        }
+
+        this.resourceHubResources = fetchedResources
+      })
     },
 
     destroyed () {
@@ -98,11 +133,11 @@
         <div class="resource-contents-row">
           <button-resource-icon
             v-for="resourceHubLink in gettingStartedLinks"
-            :key="resourceHubLink.label"
+            :key="resourceHubLink.name"
             :icon="resourceHubLink.icon"
-            :label="resourceHubLink.label"
+            :label="resourceHubLink.name"
             :link="resourceHubLink.link"
-            @click="() => { if (resourceHubLink.label === 'Dashboard Tutorial') { openVideoModal() } }"
+            @click="() => { if (resourceHubLink.slug === 'dashboard-tutorial') { openVideoModal() } }"
           />
         </div>
 
@@ -112,9 +147,9 @@
         <div class="resource-contents-row">
           <button-resource-icon
             v-for="resourceHubLink in educatorResourcesLinks"
-            :key="resourceHubLink.label"
+            :key="resourceHubLink.name"
             :icon="resourceHubLink.icon"
-            :label="resourceHubLink.label"
+            :label="resourceHubLink.name"
             :link="resourceHubLink.link"
           />
         </div>

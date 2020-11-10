@@ -86,6 +86,7 @@ module.exports = {
   'views/i18n/I18NEditArticleView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditArticleView') },
   'views/i18n/I18NEditInteractiveView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditInteractiveView') },
   'views/i18n/I18NEditCutsceneView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditCutsceneView') },
+  'views/i18n/I18NEditResourceHubResourceView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditResourceHubResourceView') },
   'views/user/IdentifyView': function () { return import(/* webpackChunkName: "user" */ 'views/user/IdentifyView') },
   'views/account/IsraelSignupView': function () { return import(/* webpackChunkName: "account" */ 'views/account/IsraelSignupView') },
   'views/LegalView': function () { return import(/* webpackChunkName: "LegalView" */ 'views/LegalView') },
