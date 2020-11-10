@@ -246,7 +246,7 @@
                 ['bold', 'italic', 'underline', 'strike'],
                 [{ 'color': ozariaChalkboardFontColors }, { 'background': ozariaChalkboardFontColors }],
                 ['image'],
-                [{ align: [false, 'center', 'right', 'center'] }],
+                [{ align: [false, 'center', 'right'] }],
                 ['clean']
               ]
             },
