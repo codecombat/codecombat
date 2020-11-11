@@ -2993,7 +2993,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3027,6 +3026,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"

@@ -90,7 +90,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
     teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
+    top_banner_blurb: "FRIDAY NOV. 17 AT 4:30 PM EST" # {change}
+    top_banner_blurb2: "Join our webinar! A Time for Empathy Remote & Hybrid Learning Strategies"
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -546,7 +547,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     warrior: "Warrior"
     ranger: "Ranger"
     wizard: "Wizard"
-    name: "Name"
     first_name: "First Name"
     last_name: "Last Name"
     last_initial: "Last Initial"
@@ -2993,7 +2993,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   parents_landing_2:
     splash_title: "Discover the magic of coding at home."
     learn_with_instructor: "Learn with an Instructor"
-    learn_at_own_pace: "Learn at your own pace"
     live_classes: "Live Online Classes"
     live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
     live_class_details_1: "Small group or private lessons"
@@ -3203,3 +3202,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   admin:
     license_type_full: 'Full Courses'
     license_type_customize: 'Customize Courses'
+
+  banner_webinar:
+    heading: '[WEBINAR] A Time for Empathy: Remote and Hybrid Learning'
+    time: 'November 17, 2020 at 4:30PM EST'
+    abstract: 'Join us for a 60-min discussion with special guests <b>Naomi Harm</b>, CEO of Innovative Educator Consulting and <b>Donna CasaGrande</b>, Mendham Township Middle School Computer Technology Educator, along with our Learning Design team, where we’ll cover:'
+    bullet_1: 'How to keep learners engaged and motivated when they may face distractions and struggles at home'
+    bullet_2: 'How to maintain high expectations for students and set boundaries for your own well-being'
+    bullet_3: 'How to use the Ozaria curriculum to support effective hybrid and remote teaching practices'
+    learn_more: 'For additional information see <a href="https://blog.codecombat.com/webinar-time-for-empathy-remote-hybrid-learning/">here</a> or <a href="https://zoom.us/webinar/register/WN_iKcKekMjSAGJ7BQsCzFN0w">register now</a>.'
