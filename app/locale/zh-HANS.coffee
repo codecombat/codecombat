@@ -91,7 +91,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teachers_love_codecombat_blurb2: "会向其他计算机科学教师推荐 CodeCombat"
     teachers_love_codecombat_blurb3: "认为 CodeCombat 帮助提高学生解决问题的能力"
     teachers_love_codecombat_subblurb: "数据来源于美国中洲国际教育研究院 (McREL International)，美国中洲国际教育研究院是教育技术研究指导和评估的领导者。"
-#    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
+#    top_banner_blurb: "FRIDAY NOV. 17 AT 4:30 PM EST" # {change}
+#    top_banner_blurb2: "Join our webinar! A Time for Empathy Remote & Hybrid Learning Strategies"
     try_the_game: "免费试玩"
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
@@ -3202,3 +3203,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   admin:
     license_type_full: "全课许可"
     license_type_customize: "可选课程"
+
+#  banner_webinar:
+#    heading: "[WEBINAR] A Time for Empathy: Remote and Hybrid Learning"
+#    time: "November 17, 2020 at 4:30PM EST"
+#    abstract: "Join us for a 60-min discussion with special guests <b>Naomi Harm</b>, CEO of Innovative Educator Consulting and <b>Donna CasaGrande</b>, Mendham Township Middle School Computer Technology Educator, along with our Learning Design team, where we’ll cover:"
+#    bullet_1: "How to keep learners engaged and motivated when they may face distractions and struggles at home"
+#    bullet_2: "How to maintain high expectations for students and set boundaries for your own well-being"
+#    bullet_3: "How to use the Ozaria curriculum to support effective hybrid and remote teaching practices"
+#    learn_more: "For additional information see <a href=\"https://blog.codecombat.com/webinar-time-for-empathy-remote-hybrid-learning/\">here</a> or <a href=\"https://zoom.us/webinar/register/WN_iKcKekMjSAGJ7BQsCzFN0w\">register now</a>."

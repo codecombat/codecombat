@@ -90,7 +90,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teachers_love_codecombat_blurb2: "Jbhyq erpbzzraq PbqrPbzong gb bgure pbzchgre fpvrapr grnpuref"
     teachers_love_codecombat_blurb3: "Fnl gung PbqrPbzong urycf gurz fhccbeg fghqragf’ ceboyrz fbyivat novyvgvrf"
     teachers_love_codecombat_subblurb: "Va cnegarefuvc jvgu ZpERY Vagreangvbany, n yrnqre va erfrnepu-onfrq thvqnapr naq rinyhngvbaf bs rqhpngvbany grpuabybtl."
-    top_banner_blurb: "Cneragf, obbx lbhe puvyq'f svefg yvir bayvar pbqvat pynff sbe serr!"
+    top_banner_blurb: "SEVQNL ABI. 17 NG 4:30 CZ RFG" # {punatr}
+    top_banner_blurb2: "Wbva bhe jrovane! N Gvzr sbe Rzcngul Erzbgr & Uloevq Yrneavat Fgengrtvrf"
     try_the_game: "Gel gur tnzr"
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
@@ -3201,3 +3202,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   admin:
     license_type_full: 'Shyy Pbhefrf'
     license_type_customize: 'Phfgbzvmr Pbhefrf'
+
+  banner_webinar:
+    heading: '[JROVANE] N Gvzr sbe Rzcngul: Erzbgr naq Uloevq Yrneavat'
+    time: 'Abirzore 17, 2020 ng 4:30CZ RFG'
+    abstract: 'Wbva hf sbe n 60-zva qvfphffvba jvgu fcrpvny thrfgf <o>Anbzv Unez</o>, PRB bs Vaabingvir Rqhpngbe Pbafhygvat naq <o>Qbaan PnfnTenaqr</o>, Zraqunz Gbjafuvc Zvqqyr Fpubby Pbzchgre Grpuabybtl Rqhpngbe, nybat jvgu bhe Yrneavat Qrfvta grnz, jurer jr’yy pbire:'
+    bullet_1: 'Ubj gb xrrc yrnearef ratntrq naq zbgvingrq jura gurl znl snpr qvfgenpgvbaf naq fgehttyrf ng ubzr'
+    bullet_2: 'Ubj gb znvagnva uvtu rkcrpgngvbaf sbe fghqragf naq frg obhaqnevrf sbe lbhe bja jryy-orvat'
+    bullet_3: 'Ubj gb hfr gur Bmnevn pheevphyhz gb fhccbeg rssrpgvir uloevq naq erzbgr grnpuvat cenpgvprf'
+    learn_more: 'Sbe nqqvgvbany vasbezngvba frr <n uers="uggcf://oybt.pbqrpbzong.pbz/jrovane-gvzr-sbe-rzcngul-erzbgr-uloevq-yrneavat/">urer</n> be <n uers="uggcf://mbbz.hf/jrovane/ertvfgre/JA_vXpXrxZwFNTW7ODfPmSA0j">ertvfgre abj</n>.'
