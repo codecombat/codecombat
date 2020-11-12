@@ -40,6 +40,13 @@ module.exports = class SubscribeModal extends ModalView
     else
       @products = new Products()
       data = {}
+
+      # Attempt to get the coupon associated with the user's country.
+      # If coupon doesn't exist nothing is returned.
+      @couponID ?= me?.get('country')
+      if @couponID is 'brazil'
+        @couponID = 'brazil-annual'
+
       if @couponID
         data.coupon = @couponID
       @supermodel.trackRequest @products.fetch {data}
