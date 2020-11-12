@@ -14,7 +14,7 @@ module.exports = class SimulateTabView extends CocoView
 
   initialize: ->
     @simulatedByYouCount = me.get('simulatedBy') or 0
-    @simulatorsLeaderboardData = new SimulatorsLeaderboardData(me)
+    @simulatorsLeaderboardData = new SimulatorsLeaderboardData(me, @options.level)
     @simulatorsLeaderboardDataRes = @supermodel.addModelResource(@simulatorsLeaderboardData, 'top_simulators', {cache: false})
     @simulatorsLeaderboardDataRes.load()
     Promise.all(
@@ -93,8 +93,8 @@ module.exports = class SimulateTabView extends CocoView
     link = if @simulationSpectateLink then "<a href=#{@simulationSpectateLink}>#{_.string.escapeHTML(@simulationMatchDescription)}</a>" else ''
     $('#simulation-status-text').html "<h3>#{@simulationStatus}</h3>#{link}"
     if simulationStatus is 'Results were successfully sent back to server!'
-      $('#games-in-queue').text --@simulatorsLeaderboardData.numberOfGamesInQueue
-      $('#simulated-by-you').text ++@simulatedByYouCount
+      $('#games-in-queue').text (--@simulatorsLeaderboardData.numberOfGamesInQueue).toLocaleString()
+      $('#simulated-by-you').text (++@simulatedByYouCount).toLocaleString()
 
 
   destroy: ->
@@ -107,17 +107,18 @@ class SimulatorsLeaderboardData extends CocoClass
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
-  constructor: (@me) ->
+  constructor: (@me, @level) ->
     super()
 
   fetch: ->
-    @topSimulators = new SimulatorsLeaderboardCollection({order: -1, scoreOffset: -1, limit: 20})
     promises = []
-    promises.push @topSimulators.fetch()
     unless @me.get('anonymous')
-      score = @me.get('simulatedBy') or 0
       queueSuccess = (@numberOfGamesInQueue) =>
       promises.push $.ajax '/queue/messagesInQueueCount', {success: queueSuccess, cache: false}
+    unless @level.isType 'ladder'
+      @topSimulators = new SimulatorsLeaderboardCollection({order: -1, scoreOffset: -1, limit: 20})
+      promises.push @topSimulators.fetch()
+      score = @me.get('simulatedBy') or 0
       @playersAbove = new SimulatorsLeaderboardCollection({order: 1, scoreOffset: score, limit: 4})
       promises.push @playersAbove.fetch()
       if score

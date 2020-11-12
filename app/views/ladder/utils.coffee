@@ -10,6 +10,10 @@ module.exports.teamDataFromLevel = (level) ->
   teams = []
   for team in teamNames or []
     otherTeam = if team is 'ogres' then 'humans' else 'ogres'
+    otherTeam
+    if level.isType 'ladder'
+      continue if team is 'ogres'
+      otherTeam = null
     color = teamConfigs[team].color
     bgColor = hslToHex([color.hue, color.saturation, color.lightness + (1 - color.lightness) * 0.5])
     primaryColor = hslToHex([color.hue, 0.5, 0.5])
@@ -22,7 +26,7 @@ module.exports.teamDataFromLevel = (level) ->
       name: _.string.titleize(team)
       displayName: displayName
       otherTeam: otherTeam
-      otherTeamDisplayName: $.i18n.t("ladder.#{otherTeam}")
+      otherTeamDisplayName: if otherTeam then $.i18n.t("ladder.#{otherTeam}") else ''
       bgColor: bgColor
       primaryColor: primaryColor
     })
