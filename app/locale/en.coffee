@@ -655,7 +655,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tome_cast_button_update: "Update"
     tome_submit_button: "Submit"
     tome_reload_method: "Reload original code to restart the level"
-    tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
     hints: "Hints"
     videos: "Videos"

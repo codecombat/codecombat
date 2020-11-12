@@ -138,7 +138,7 @@ module.exports = Surface = class Surface extends CocoClass
       choosing: @options.choosing
       navigateToSelection: @options.navigateToSelection
       showInvisible: @options.showInvisible
-      playerNames: if @options.levelType is 'course-ladder' then @options.playerNames else null
+      playerNames: if @options.levelType in ['course-ladder', 'ladder'] then @options.playerNames else null
       @gameUIState
       @handleEvents
     })

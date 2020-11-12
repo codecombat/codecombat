@@ -128,6 +128,7 @@ module.exports = class LadderPlayModal extends ModalView
     @$el.find('#noob-view').addClass('secret')
 
   checkTutorialLevelExists: (cb) ->
+    return  # We don't have any tutorials, currently. TODO: should remove this or update to create more tutorials.
     levelID = @level.get('slug') or @level.id
     tutorialLevelID = "#{levelID}-tutorial"
     success = => cb true

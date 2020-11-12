@@ -197,6 +197,7 @@ module.exports = class LadderTabView extends CocoView
   generateHistogram: (histogramElement, histogramData, teamName) ->
     #renders twice, hack fix
     if $('#' + histogramElement.attr('id')).has('svg').length then return
+    if not histogramData.length then return histogramElement.hide()
     histogramData = histogramData.map (d) -> scoreForDisplay d
 
     margin =
@@ -285,6 +286,8 @@ module.exports = class LadderTabView extends CocoView
       .attr('class', 'x axis')
       .attr('transform', 'translate(0, ' + height + ')')
       .call(xAxis)
+
+    histogramElement.show()
 
   consolidateFriends: ->
     allFriendSessions = (@facebookFriendSessions or []).concat(@gplusFriendSessions or [])

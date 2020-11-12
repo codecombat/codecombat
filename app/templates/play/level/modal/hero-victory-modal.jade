@@ -48,7 +48,7 @@ block modal-body-content
         textarea(data-i18n="[placeholder]play_level.victory_review_placeholder")
     .clearfix
 
-  if level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')
+  if level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev', 'ladder')
     for achievement in achievements
       if achievement.get('hidden')
         - continue;
@@ -168,7 +168,7 @@ block modal-footer-content
       button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="play_level.explore_codecombat")
     else if readyToRank
       .ladder-submission-view
-    else if level.isType('hero-ladder')
+    else if level.isType('hero-ladder', 'ladder')
       button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
     else
       button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue

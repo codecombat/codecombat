@@ -3,7 +3,7 @@ CocoClass = require 'core/CocoClass'
 LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
-{createAetherOptions} = require 'lib/aether_utils'
+{createAetherOptions, replaceSimpleLoops} = require 'lib/aether_utils'
 LZString = require 'lz-string'
 
 SIMULATOR_VERSION = 4
@@ -415,6 +415,7 @@ module.exports = class Simulator extends CocoClass
       submittedCodeLanguage = sessionInfo?.submittedCodeLanguage ? 'javascript'
       submittedCodeLanguage = 'javascript' if submittedCodeLanguage in ['clojure', 'io']  # No longer supported
       submittedCode = LZString.decompressFromUTF16 sessionInfo?.submittedCode?[_.string.slugify(hero)]?.plan ? ''
+      submittedCode = replaceSimpleLoops submittedCode, submittedCodeLanguage
       aether = new Aether createAetherOptions functionName: 'plan', codeLanguage: submittedCodeLanguage, skipProtectAPI: false
       spl = name: 'plan', team: team, thang: {thang: {id: hero}, aether: aether}, fullSpellName: fullSpellName
       promises.push(@fetchToken(submittedCode, submittedCodeLanguage, spl))
