@@ -382,10 +382,12 @@
               description = (intros[fromIntroLevelOriginal]?.documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals')?.body
               contentLevelSlug = intros[fromIntroLevelOriginal]?.slug
             }
+
             let tooltipName = getGameContentDisplayNameWithType(content)
             if (fromIntroLevelOriginal) {
-              const { name, displayName } = intros[fromIntroLevelOriginal] || {}
-              tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${displayName || name}`
+              const { name: introName, displayName: introDisplayName } = intros[fromIntroLevelOriginal] || {}
+              description = `<h3>${tooltipName}</h3><p>${content.description || (documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals')?.body || ''}</p>`
+              tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${introDisplayName || introName}`
             }
 
             return ({

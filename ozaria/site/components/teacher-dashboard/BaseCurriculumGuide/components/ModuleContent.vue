@@ -1,12 +1,15 @@
 <script>
   import ModuleHeader from './ModuleHeader'
   import ModuleRow from './ModuleRow'
+  import IntroModuleRow from './IntroModuleRow'
   import { mapGetters } from 'vuex'
+  import utils from 'core/utils'
 
   export default {
     components: {
       ModuleHeader,
-      ModuleRow
+      ModuleRow,
+      IntroModuleRow
     },
 
     props: {
@@ -23,6 +26,7 @@
     computed: {
       ...mapGetters({
         getModuleInfo: 'baseCurriculumGuide/getModuleInfo',
+        getModuleIntroLevels: 'baseCurriculumGuide/getModuleIntroLevels',
         getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
         getContentDescription: 'baseCurriculumGuide/getContentDescription',
         getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
@@ -35,16 +39,33 @@
       },
 
       getContentTypes () {
-        return (this.getModuleInfo?.[this.moduleNum] || []).map(({
+        const introLevels = this.getModuleIntroLevels
+        const curriculumGuideContentList = []
+        let lastIntroLevelSlug = null
+        for (const {
           name,
           displayName,
           type,
           ozariaType,
           introLevelSlug,
+          fromIntroLevelOriginal,
           slug,
           introContent,
           _id
-        }) => {
+        } of this.getModuleInfo?.[this.moduleNum] || []) {
+          // Potentially this intro doesn't have a header in the curriculum guide yet
+          if (introLevelSlug &&
+            type !== 'cutscene' &&
+            lastIntroLevelSlug !== introLevelSlug
+          ) {
+            curriculumGuideContentList.push({
+              isIntroHeadingRow: true,
+              name: utils.i18n(introLevels[fromIntroLevelOriginal], 'displayName'),
+              icon: 'intro'
+            })
+            lastIntroLevelSlug = introLevelSlug
+          }
+
           let icon, url
 
           // TODO: Where is the language chosen in the curriculum guide?
@@ -65,15 +86,19 @@
           if (!url || !icon) {
             console.error('missing url or icon in curriculum guide')
           }
-
-          return {
+          curriculumGuideContentList.push({
             icon,
             name: displayName || name,
             _id,
             description: this.getContentDescription(this.moduleNum, _id),
-            url
-          }
-        })
+            url,
+            // Handle edge case that cutscenes are always in their own one to one intro
+            isPartOfIntro: !!introLevelSlug && icon !== 'cutscene',
+            isIntroHeadingRow: false
+          })
+        }
+
+        return curriculumGuideContentList
       }
     },
 
@@ -96,28 +121,50 @@
 
     <div v-if="!isOnLockedCampaign" class="content-rows">
       <a
-        v-for="{ icon, name, _id, url, description } in getContentTypes"
+        v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow } in getContentTypes"
         :key="_id"
         :href="url"
         target="_blank"
         rel="noreferrer"
       >
+        <intro-module-row
+          v-if="isIntroHeadingRow"
+          :icon-type="icon"
+          :display-name="name"
+        />
         <module-row
+          v-else
           :icon-type="icon"
           :display-name="name"
           :description="description"
+          :is-part-of-intro="isPartOfIntro"
           @click.native="trackEvent('Curriculum Guide: Individual content row clicked')"
         />
       </a>
     </div>
-    <div v-else class="content-rows">
-      <module-row
-        v-for="{ icon, name, _id, url, description } in getContentTypes"
-        :key="_id"
-        :icon-type="icon"
-        :display-name="name"
-        :description="description"
-      />
+    <!-- If curriculum guide is locked -->
+    <div
+      v-else
+      class="content-rows"
+    >
+      <template
+        v-for="{ icon, name, _id, description, isPartOfIntro, isIntroHeadingRow } in getContentTypes"
+      >
+        <intro-module-row
+          v-if="isIntroHeadingRow"
+          :key="_id"
+          :icon-type="icon"
+          :display-name="name"
+        />
+        <module-row
+
+          :key="_id"
+          :icon-type="icon"
+          :display-name="name"
+          :description="description"
+          :is-part-of-intro="isPartOfIntro"
+        />
+      </template>
     </div>
   </div>
 </template>

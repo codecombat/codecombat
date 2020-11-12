@@ -24,6 +24,11 @@
         type: String,
         required: false,
         default: ''
+      },
+
+      isPartOfIntro: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -32,11 +37,18 @@
         isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
       }),
 
+      moduleRowClass () {
+        return {
+          locked: this.isOnLockedCampaign,
+          'part-of-intro': this.isPartOfIntro
+        }
+      },
+
       getContentTypeHeader () {
         if (this.iconType) {
           return getGameContentDisplayType(this.iconType, true, true)
         } else {
-          return ``
+          return ''
         }
       }
     }
@@ -45,12 +57,14 @@
 <template>
   <div
     class="module-row"
-    :class="isOnLockedCampaign ? 'locked' : null"
+    :class="moduleRowClass"
     @click="$emit('click')"
   >
-    <content-icon class="content-icon" :icon="iconType" />
-    <p class="content-heading"><b>{{ getContentTypeHeader }}: {{ displayName }}</b></p>
-    <p>{{ description }}</p>
+    <div>
+      <content-icon class="content-icon" :icon="iconType" />
+      <p class="content-heading"><b>{{ getContentTypeHeader }}: {{ displayName }}</b></p>
+      <p>{{ description }}</p>
+    </div>
   </div>
 </template>
 
@@ -61,13 +75,22 @@
 
   .module-row {
     min-width: 30px;
+    width: 100%;
+    height: 100%;
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    box-sizing: border-box;
 
-    padding-top: 5px;
-    padding-bottom: 5px;
+    & > div {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      padding-top: 5px;
+      padding-bottom: 5px;
+
+      width:100%;
+      height: 100%;
+    }
 
     cursor: pointer;
 
@@ -78,6 +101,21 @@
 
   .module-row:hover:not(.locked) {
     border: 1px solid #74C6DF;
+  }
+
+  .part-of-intro {
+    position: relative;
+    padding-left: 34px;
+  }
+
+  .part-of-intro::before {
+    position: absolute;
+    width: 8px;
+    height: 100%;
+    content: "";
+    margin-left: -34px;
+    background-color: rgba(153, 145, 185, 0.3);
+
   }
 
   .content-heading {
