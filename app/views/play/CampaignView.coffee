@@ -120,13 +120,6 @@ module.exports = class CampaignView extends RootView
     @terrain = 'picoctf' if window.serverConfig.picoCTF
     @editorMode = options?.editorMode
     @requiresSubscription = not me.isPremium()
-    # Allow only admins to view the ozaria campaign and only in editor mode
-    # New page for non-editor mode `/play-ozaria`
-    # Assuming, the ozaria placeholder campaigns will start with 'ozaria'
-    # TODO: Remove/update this check before final ozaria launch
-    if _.string.startsWith(@terrain, "ozaria") and (not me.showOzariaCampaign() or not @editorMode)
-      console.error("ozaria dummy campaign, only editor mode is available for admins!")
-      return
     if @editorMode
       @terrain ?= 'dungeon'
     @levelStatusMap = {}
