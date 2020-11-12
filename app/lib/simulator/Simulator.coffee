@@ -340,9 +340,6 @@ module.exports = class Simulator extends CocoClass
     #console.log "Task registration result: #{JSON.stringify result}"
     @trigger 'statusUpdate', 'Results were successfully sent back to server!'
     @simulatedByYou++
-    unless @options.headlessClient
-      simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
-      $('#simulated-by-you').text(simulatedBy)
 
   handleTaskResultsTransferError: (error) =>
     return if @destroyed

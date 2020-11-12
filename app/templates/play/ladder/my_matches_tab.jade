@@ -6,8 +6,9 @@
         tr
           th(colspan=5, style="color: #{team.primaryColor}")
             span(data-i18n="ladder.summary_your") Your 
-            |#{team.displayName}
-            |  
+            if !view.level.isType('ladder')
+              |#{team.displayName}
+              |  
             span(data-i18n="ladder.summary_matches") Matches - 
             |#{team.wins}
             span(data-i18n="ladder.summary_wins")  Wins, 

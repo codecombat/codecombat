@@ -2338,7 +2338,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tournament_ends: "Tournament ends"
     tournament_ended: "Tournament ended"
     tournament_rules: "Tournament Rules"
-    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
     tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
     tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
     tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2770,26 +2769,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cookies_message: 'CodeCombat uses a few essential and non-essential cookies.'
     cookies_deny: 'Decline non-essential cookies'
     cookies_allow: 'Allow cookies'
-
-  ladder_prizes:
-    title: "Tournament Prizes"  # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "These prizes will be awarded according to"
-    blurb_2: "the tournament rules"
-    blurb_3: "to the top human and ogre players."
-    blurb_4: "Two teams means double the prizes!"
-    blurb_5: "(There will be two first place winners, two second-place winners, etc.)"
-    rank: "Rank"
-    prizes: "Prizes"
-    total_value: "Total Value"
-    in_cash: "in cash"
-    custom_wizard: "Custom CodeCombat Wizard"
-    custom_avatar: "Custom CodeCombat avatar"
-    heap: "for six months of \"Startup\" access"
-    credits: "credits"
-    one_month_coupon: "coupon: choose either Rails or HTML"
-    one_month_discount: "discount, 30% off: choose either Rails or HTML"
-    license: "license"
-    oreilly: "ebook of your choice"
 
   calendar:
     year: "Year"
