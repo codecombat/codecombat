@@ -70,10 +70,16 @@
         this.$emit('unlock')
       },
 
+      classContentTooltip (type) {
+        return {
+          'intro-tooltip': type === 'cinematic' || type === 'interactive'
+        }
+      },
+
       classForContentIconHover (normalizedOriginal) {
         return {
           'hover-trigger-area': true,
-          'hoverState': this.showingTooltipOfThisOriginal === normalizedOriginal
+          hoverState: this.showingTooltipOfThisOriginal === normalizedOriginal
         }
       }
     }
@@ -135,8 +141,17 @@
         <!-- The tooltip -->
         <template slot="popover">
           <div class="level-popover-locking">
-            <h3 style="margin-bottom: 15px;">{{ tooltipName }}</h3>
-            <p style="margin-bottom: 15px;">{{ description }}</p>
+            <h3
+              v-if="type !== 'cutscene'"
+              style="margin-bottom: 15px;"
+              :class="classContentTooltip(type)"
+            >
+              {{ tooltipName }}
+            </h3>
+            <p
+              style="margin-bottom: 15px;"
+              v-html="description"
+            />
             <div
               v-if="!displayOnly"
               class="lock-btn-row"
@@ -268,4 +283,19 @@ h3 {
     background-color: #ADADAD;
   }
 }
+
+.tooltip.teacher-dashboard-tooltip .tooltip-inner h3.intro-tooltip {
+  margin: -17px -17px 0;
+  padding: 10px 15px;
+  background-color: #413C55;
+  border-radius: 5px 5px 0 0;
+  color: white;
+  font-size: 18px;
+
+  /* Selects element directly after this h3 to fix spacing */
+  & + * {
+    margin-top: -5px;
+  }
+}
+
 </style>

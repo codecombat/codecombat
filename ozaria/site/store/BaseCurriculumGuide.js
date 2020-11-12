@@ -63,8 +63,13 @@ export default {
       return gameContent?.modules
     },
 
+    getModuleIntroLevels (_state, getters, _rootState, rootGetters) {
+      const gameContent = rootGetters['gameContent/getContentForCampaign'](getters.selectedChapterId)
+      return gameContent?.introLevels
+    },
+
     getCurrentModuleNames (_state, getters, _rootState, _rootGetters) {
-      return  moduleNum => {
+      return moduleNum => {
         const course = getters.getCurrentCourse
         return utils.courseModules[course._id]?.[moduleNum]
       }

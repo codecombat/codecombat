@@ -5,6 +5,7 @@
   import IconInteractive from './IconInteractive'
   import IconPracticeLevel from './IconPracticeLevel'
   import IconChallengeLevel from './IconChallengeLevel'
+  import IconIntro from './IconIntro'
 
   export default {
     components: {
@@ -13,14 +14,15 @@
       IconCapstone,
       IconPracticeLevel,
       IconChallengeLevel,
-      IconInteractive
+      IconInteractive,
+      IconIntro
     },
 
     props: {
       icon: {
         type: String,
         required: true,
-        validator: value => ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl'].indexOf(value) !== -1
+        validator: value => ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro'].indexOf(value) !== -1
       }
     }
   }
@@ -34,6 +36,7 @@
     <IconInteractive v-if="icon=='interactive'" />
     <IconPracticeLevel v-if="icon=='practicelvl'" />
     <IconChallengeLevel v-if="icon=='challengelvl'" />
+    <IconIntro v-if="icon=='intro'" />
   </div>
 </template>
 
