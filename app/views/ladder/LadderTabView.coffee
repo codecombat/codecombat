@@ -188,8 +188,7 @@ module.exports = class LadderTabView extends CocoView
       team = _.find @teams, name: histogramWrapper.data('team-name')
       histogramData = null
       $.when(
-        level = "#{@level.get('original')}.#{@level.get('version').major}"
-        url = "/db/level/#{level}/histogram_data?team=#{team.name.toLowerCase()}&levelSlug=#{@level.get('slug')}"
+        url = "/db/level/#{@level.get('original')}/rankings-histogram?team=#{team.name.toLowerCase()}&levelSlug=#{@level.get('slug')}"
         url += '&leagues.leagueID=' + @options.league.id if @options.league
         $.get url, (data) -> histogramData = data
       ).then =>
@@ -360,9 +359,8 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
         promises.push @playersAbove.fetch cache: false
         @playersBelow = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
         promises.push @playersBelow.fetch cache: false
-        level = "#{@level.get('original')}.#{@level.get('version').major}"
         success = (@myRank) =>
-        loadURL = "/db/level/#{level}/leaderboard_rank?scoreOffset=#{score}&team=#{@team}&levelSlug=#{@level.get('slug')}"
+        loadURL = "/db/level/#{@level.get('original')}/rankings/#{@session.id}?scoreOffset=#{score}&team=#{@team}&levelSlug=#{@level.get('slug')}"
         loadURL += '&leagues.leagueID=' + @league.id if @league
         promises.push $.ajax(loadURL, cache: false, success: success)
     @promise = $.when(promises...)
