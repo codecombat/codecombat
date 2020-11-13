@@ -1,11 +1,11 @@
 <script>
-  import BaseModalTeacherDashboard from './BaseModalTeacherDashboard'
+  import Modal from '../../common/Modal'
   import SecondaryButton from '../common/buttons/SecondaryButton'
   import BaseCloudflareVideo from '../../common/BaseCloudflareVideo'
 
   export default Vue.extend({
     components: {
-      BaseModalTeacherDashboard,
+      Modal,
       BaseCloudflareVideo,
       SecondaryButton
     },
@@ -34,7 +34,7 @@
 </script>
 
 <template>
-  <base-modal-teacher-dashboard
+  <modal
     title="Welcome to the new Ozaria Teacher Dashboard"
     @close="onClose"
   >
@@ -55,7 +55,7 @@
         </secondary-button>
       </div>
     </div>
-  </base-modal-teacher-dashboard>
+  </modal>
 </template>
 
 <style lang="scss" scoped>

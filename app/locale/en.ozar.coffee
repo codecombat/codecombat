@@ -619,6 +619,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     fewer: "Fewer"
     with: "with"
     archived: "Archived"
+    chat: "Chat"
+    chat_with_us: "Chat with us"
+    email_us: "Send us an email"
 
   units:
     second: "second"

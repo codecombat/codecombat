@@ -4,7 +4,7 @@
   import { tryCopy } from 'ozaria/site/common/ozariaUtils'
 
   import ButtonGoogleClassroom from './common/ButtonGoogleClassroom'
-  import ModalDivider from './common/ModalDivider'
+  import ModalDivider from '../../common/ModalDivider'
 
   export default Vue.extend({
     components: {

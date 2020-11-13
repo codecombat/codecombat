@@ -5,7 +5,7 @@
 
   import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 
-  import ModalDivider from '../common/ModalDivider'
+  import ModalDivider from '../../../common/ModalDivider'
   import ButtonGoogleClassroom from '../common/ButtonGoogleClassroom'
   import SecondaryButton from '../../common/buttons/SecondaryButton'
   import TertiaryButton from '../../common/buttons/TertiaryButton'
