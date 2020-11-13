@@ -1,7 +1,12 @@
 <script>
   import ButtonResourceIcon from '../../BaseResourceHub/components/ButtonResourceIcon'
   import { resourceHubLinks } from '../../common/constants.js'
+  import utils from 'core/utils'
+
   export default {
+    components: {
+      ButtonResourceIcon
+    },
     props: {
       cstaList: {
         type: Array,
@@ -9,15 +14,20 @@
         default: () => ([])
       }
     },
-    components: {
-      ButtonResourceIcon
-    },
     computed: {
       shouldShow () {
         return this.cstaList?.length > 0
       },
+
       cstaResourceData () {
         return resourceHubLinks.csta
+      },
+
+      translatedCstaList () {
+        return this.cstaList.map(standard => ({
+          name: utils.i18n(standard, 'name'),
+          description: utils.i18n(standard, 'description')
+        }))
       }
     }
   }
@@ -37,7 +47,7 @@
     <p>{{ $t('teacher_dashboard.standards_sample') }}</p>
     <ul>
       <li
-        v-for="{ name, description } in cstaList"
+        v-for="{ name, description } in translatedCstaList"
         :key="name"
       >
         <b>{{ name }}</b>: {{ description }}
