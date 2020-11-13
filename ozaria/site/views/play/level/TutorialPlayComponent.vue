@@ -875,8 +875,17 @@
   .shepherd-back-button-inactive:hover
     background-image: url('/images/ozaria/level/InactiveL.svg')
 
+  @keyframes pulse-animation
+    0%
+      transform: scale(1)
+    50%
+      transform: scale(1.7)
+    100%
+      transform: scale(1)
+
   .shepherd-next-button-active
     background-image: url('/images/ozaria/level/ActiveR.svg')
+    animation: pulse-animation 3s infinite
   .shepherd-next-button-active:not(:disabled):hover
     background-image: url('/images/ozaria/level/HoverR.svg')
   .shepherd-next-button-active:hover
