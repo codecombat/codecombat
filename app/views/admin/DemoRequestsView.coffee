@@ -29,7 +29,7 @@ module.exports = class DemoRequestsView extends RootView
     sevenCounts = []
     for i in [@dayCounts.length - 1..0]
       dayCount = @dayCounts[i]
-      sevenCounts.push(dayCount.count)
+      sevenCounts.push(dayCount.count) if dayCount
       while sevenCounts.length > 7
         sevenCounts.shift()
       if sevenCounts.length is 7
