@@ -5,6 +5,7 @@
   import { getOzariaAssetUrl } from 'ozaria/site/common/ozariaUtils'
 
   import { mapGetters } from 'vuex'
+  import utils from 'app/core/utils'
 
   export default {
     components: {
@@ -24,19 +25,19 @@
       }),
 
       courseName () {
-        return this.getCurrentCourse?.name || ''
+        return utils.i18n(this.getCurrentCourse, 'name') || ''
       },
 
       courseShortName () {
-        return this.getCurrentCourse?.shortName || this.getCurrentCourse?.name || ''
+        return utils.i18n(this.getCurrentCourse, 'shortName') || this.courseName
       },
 
       courseDescription () {
-        return this.getCurrentCourse?.description || ''
+        return utils.i18n(this.getCurrentCourse, 'description') || ''
       },
 
       capstoneName () {
-        return this.getCapstoneInfo?.displayName || this.getCapstoneInfo?.name
+        return utils.i18n(this.getCapstoneInfo, 'displayName') || utils.i18n(this.getCapstoneInfo, 'name')
       },
 
       totalCourseDuration () {
@@ -75,11 +76,11 @@
         const time = []
 
         if (this.getCurrentCourse?.duration?.totalTimeRange) {
-          time.push(`<p><b>${Vue.t('teacher_dashboard.class_time_range')}</b> ${this.getCurrentCourse?.duration?.totalTimeRange}</p>`)
+          time.push(`<p><b>${Vue.t('teacher_dashboard.class_time_range')}</b> ${utils.i18n(this.getCurrentCourse?.duration, 'totalTimeRange')}</p>`)
         }
 
         if (this.getCurrentCourse?.duration?.inGame) {
-          time.push(`<p><b>${Vue.t('teacher_dashboard.in_game_play_time')}</b> ${this.getCurrentCourse?.duration?.inGame}</p>`)
+          time.push(`<p><b>${Vue.t('teacher_dashboard.in_game_play_time')}</b> ${utils.i18n(this.getCurrentCourse?.duration, 'inGame')}</p>`)
         }
 
         return time.join('')

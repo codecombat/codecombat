@@ -42,17 +42,17 @@
         const introLevels = this.getModuleIntroLevels
         const curriculumGuideContentList = []
         let lastIntroLevelSlug = null
-        for (const {
-          name,
-          displayName,
-          type,
-          ozariaType,
-          introLevelSlug,
-          fromIntroLevelOriginal,
-          slug,
-          introContent,
-          _id
-        } of this.getModuleInfo?.[this.moduleNum] || []) {
+        for (const content of this.getModuleInfo?.[this.moduleNum] || []) {
+          const {
+            type,
+            ozariaType,
+            introLevelSlug,
+            fromIntroLevelOriginal,
+            slug,
+            introContent,
+            _id
+          } = content
+
           // Potentially this intro doesn't have a header in the curriculum guide yet
           if (introLevelSlug &&
             type !== 'cutscene' &&
@@ -88,9 +88,9 @@
           }
           curriculumGuideContentList.push({
             icon,
-            name: displayName || name,
+            name: utils.i18n(content, 'displayName') || utils.i18n(content, 'name'),
             _id,
-            description: this.getContentDescription(this.moduleNum, _id),
+            description: this.getContentDescription(content),
             url,
             // Handle edge case that cutscenes are always in their own one to one intro
             isPartOfIntro: !!introLevelSlug && icon !== 'cutscene',
