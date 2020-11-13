@@ -1,20 +1,20 @@
 <script>
-  import BaseModalTeacherDashboard from '../BaseModalTeacherDashboard'
+  import Modal from '../../../common/Modal'
   import ModalAssignForm from './ModalAssignForm'
 
   export default Vue.extend({
     components: {
-      BaseModalTeacherDashboard,
+      Modal,
       ModalAssignForm
     }
   })
 </script>
 
 <template>
-  <base-modal-teacher-dashboard
+  <modal
     :title="'Assign Content'"
     @close="$emit('close')"
   >
     <modal-assign-form @close="$emit('close')" />
-  </base-modal-teacher-dashboard>
+  </modal>
 </template>

@@ -1,6 +1,10 @@
 <script>
   import BaseModal from 'ozaria/site/components/common/BaseModal'
 
+  // This is a dynamic modal that works in both Vue and Backbone views.
+  // How to handle modal closing:
+  // From Vue: use $emit('close') like usual
+  // From elsewhere: use backboneDismissModal prop to have data-dismiss='modal' close the modal for you
   export default Vue.extend({
     components: {
       BaseModal
@@ -9,6 +13,22 @@
       title: {
         type: String,
         default: ''
+      },
+      backboneDismissModal: {
+        type: Boolean,
+        default: false
+      }
+    },
+    computed: {
+      backboneClose () {
+        // Passing undefined as an attribute for Vue will simply remove it,
+        // meaning the :data-dismiss will not appear on the element
+        return this.backboneDismissModal ? 'modal' : undefined
+      },
+      vueClose () {
+        // In order to conditionally use @click, we can use the @[event] syntax.
+        // Writing @[null] (not undefined or false) safely does nothing.
+        return !this.backboneDismissModal ? 'click' : null
       }
     }
   })
@@ -19,10 +39,13 @@
     <template #header>
       <div class="teacher-modal-header">
         <span class="title"> {{ title }} </span>
+        <!-- NOTE: The ID #ozaria-modal-header-close-button may be used elsewhere to trigger closing from Backbone -->
         <img
+          id="ozaria-modal-header-close-button"
           class="close-icon"
           src="/images/ozaria/teachers/dashboard/svg_icons/IconClose.svg"
-          @click="$emit('close')"
+          :data-dismiss="backboneClose"
+          @[vueClose]="$emit('close')"
         >
       </div>
     </template>

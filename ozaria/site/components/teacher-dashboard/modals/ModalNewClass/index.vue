@@ -1,12 +1,12 @@
 <script>
-  import BaseModalTeacherDashboard from '../BaseModalTeacherDashboard'
+  import Modal from '../../../common/Modal'
   import ModalClassForm from './ModalClassForm'
   import ModalClassInfo from '../ModalClassInfo'
   import ModalInviteStudents from '../ModalInviteStudents'
 
   export default Vue.extend({
     components: {
-      BaseModalTeacherDashboard,
+      Modal,
       ModalClassForm,
       ModalClassInfo,
       ModalInviteStudents
@@ -42,7 +42,7 @@
 </script>
 
 <template>
-  <base-modal-teacher-dashboard
+  <modal
     :title="modalTitle"
     @close="$emit('close')"
   >
@@ -65,5 +65,5 @@
       @back="showInviteStudentsModal = false"
       @done="$emit('close')"
     />
-  </base-modal-teacher-dashboard>
+  </modal>
 </template>

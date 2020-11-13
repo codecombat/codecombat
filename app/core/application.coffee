@@ -69,6 +69,29 @@ Application = {
     @tracker = new Tracker(store)
     window.tracker = @tracker
 
+    # Load zendesk here instead of in layout.static.pug in order to make it properly global
+    if !me.showChinaResourceInfo()
+      zendeskElement = document.createElement('script')
+      zendeskElement.id ="ze-snippet"
+      zendeskElement.type = 'text/javascript'
+      zendeskElement.async = true
+      zendeskElement.onerror = (event) -> console.error('Zendesk failed to initialize: ', event)
+      zendeskElement.onload = ->
+        # zE is the global variable created by the script. We never want the floating button to show, so we:
+        # 1: Hide it right away
+        # 2: Bind showing it to opening it
+        # 3: Bind closing it to hiding it
+        zE('webWidget', 'hide')
+        zE('webWidget:on', 'userEvent', (event) ->
+          if event.action == 'Contact Form Shown'
+            zE('webWidget', 'open')
+        )
+        zE('webWidget:on', 'close', -> zE('webWidget', 'hide'))
+
+      zendeskElement.src = 'https://static.zdassets.com/ekr/snippet.js?key=ed461a46-91a6-430a-a09c-73c364e02ffe'
+      script = document.getElementsByTagName('script')[0]
+      script.parentNode.insertBefore(zendeskElement, script)
+
     if me.useSocialSignOn()
       @facebookHandler = new FacebookHandler()
       @gplusHandler = new GPlusHandler()

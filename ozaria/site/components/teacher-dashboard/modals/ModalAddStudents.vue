@@ -1,13 +1,13 @@
 <script>
   import { mapGetters } from 'vuex'
-  import BaseModalTeacherDashboard from './BaseModalTeacherDashboard'
+  import Modal from '../../common/Modal'
   import ModalClassInfo from './ModalClassInfo'
   import ModalInviteStudents from './ModalInviteStudents'
   import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 
   export default Vue.extend({
     components: {
-      BaseModalTeacherDashboard,
+      Modal,
       ModalClassInfo,
       ModalInviteStudents
     },
@@ -82,7 +82,7 @@
 </script>
 
 <template>
-  <base-modal-teacher-dashboard
+  <modal
     :title="modalTitle"
     @close="$emit('close')"
   >
@@ -105,5 +105,5 @@
       @back="showInviteStudentsModal = false"
       @done="$emit('close')"
     />
-  </base-modal-teacher-dashboard>
+  </modal>
 </template>

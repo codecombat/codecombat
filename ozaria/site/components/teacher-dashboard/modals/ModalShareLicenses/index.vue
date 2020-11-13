@@ -1,16 +1,16 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required, email } from 'vuelidate/lib/validators'
-  import BaseModalTeacherDashboard from '../BaseModalTeacherDashboard'
+  import Modal from '../../../common/Modal'
   import PrimaryButton from '../../common/buttons/PrimaryButton'
   import SecondaryButton from '../../common/buttons/SecondaryButton'
   import SharedPoolRow from './SharedPoolRow'
-  import ModalDivider from '../common/ModalDivider'
+  import ModalDivider from '../../../common/ModalDivider'
   import { mapActions, mapGetters } from 'vuex'
 
   export default Vue.extend({
     components: {
-      BaseModalTeacherDashboard,
+      Modal,
       PrimaryButton,
       SecondaryButton,
       SharedPoolRow,
@@ -89,7 +89,7 @@
 </script>
 
 <template>
-  <base-modal-teacher-dashboard
+  <modal
     title="Share Licenses"
     @close="$emit('close')"
   >
@@ -153,7 +153,7 @@
         </secondary-button>
       </div>
     </div>
-  </base-modal-teacher-dashboard>
+  </modal>
 </template>
 
 <style lang="scss" scoped>

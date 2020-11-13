@@ -143,6 +143,9 @@ mixin accountLinks
                   .col-md-6.col-md-offset-2.col-sm-12
                     h2.subtitile-moon(data-i18n="nav.general")
                     ul.list-unstyled
+                      if !me.showChinaResourceInfo()
+                        li
+                          a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                       li
                         a(href="/about", data-i18n="nav.about", data-event-action="Click: Footer About")
                       li
@@ -158,9 +161,6 @@ mixin accountLinks
                         a(href=faqURL data-i18n="nav.faq", data-event-action="Click: Footer FAQ")
                       li
                         a(href="http://press.ozaria.com" data-i18n="nav.press" data-event-action="Click: Footer Press")
-                      //- if !me.isStudent()
-                      //-   li
-                      //-     a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                       if me.showChinaResourceInfo()
                         li
                           a(href="https://ozaria.com") 奥佳睿全球官网
