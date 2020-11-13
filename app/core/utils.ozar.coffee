@@ -305,6 +305,9 @@ i18n = (say, target, language=me.get('preferredLanguage', true), fallback='en') 
   matches = (/\w+/gi).exec(language)
   generalName = matches[0] if matches
 
+  # Lets us safely attempt to translate undefined objects
+  return say?[target] unless say?.i18n
+
   for localeName, locale of say.i18n
     continue if localeName is '-'
     if target of locale

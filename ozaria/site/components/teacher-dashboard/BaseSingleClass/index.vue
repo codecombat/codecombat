@@ -13,6 +13,14 @@
   import _ from 'lodash'
   import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
 
+  function getLearningGoalsDocumentation (content) {
+    if (!content.documentation) {
+      return ''
+    }
+    const { documentation } = content
+    return utils.i18n((documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals'), 'body')
+  }
+
   export default {
     name: COMPONENT_NAMES.MY_CLASSES_SINGLE,
     components: {
@@ -71,11 +79,25 @@
 
         // Get the name and content list of a module.
         for (const [moduleNum, moduleContent] of Object.entries(modules)) {
+          // Because we are only reading the easiest way to propagate _most_
+          // i18n is by transforming the content linearly here.
+          const translatedModuleContent = moduleContent.map(content => {
+            console.log(content)
+
+            return {
+              ...content,
+              name: utils.i18n(content, 'name'),
+              displayName: utils.i18n(content, 'displayName'),
+              description: utils.i18n(content, 'description')
+            }
+          })
+
+          // Todo: Ozaria-i18n
           const moduleDisplayName = `${this.$t(`teacher.module${moduleNum}`)}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
-          const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, moduleContent, intros, moduleNum)
+          const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, translatedModuleContent, intros, moduleNum)
 
           // Track summary stats to display in the header of the table
-          const classSummaryProgressMap = new Map(moduleContent.map((content) => {
+          const classSummaryProgressMap = new Map(translatedModuleContent.map((content) => {
             return [content._id, { status: 'assigned', flagCount: 0 }]
           }))
 
@@ -88,7 +110,7 @@
               levelOriginalCompletionMap[session.level.original] = session.state
             }
 
-            moduleStatsForTable.studentSessions[student._id] = moduleContent.map((content) => {
+            moduleStatsForTable.studentSessions[student._id] = translatedModuleContent.map((content) => {
               const { original, fromIntroLevelOriginal } = content
               const normalizedOriginal = original || fromIntroLevelOriginal
               const isLocked = ClassroomLib.isStudentOnLockedLevel(this.classroom, student._id, this.selectedCourseId, normalizedOriginal)
@@ -357,7 +379,7 @@
           moduleNum,
           displayName: moduleDisplayName,
           contentList: moduleContent.map((content) => {
-            const { displayName, type, _id, name, ozariaType, documentation, original, fromIntroLevelOriginal, slug } = content
+            const { type, _id, ozariaType, original, fromIntroLevelOriginal, slug } = content
             const normalizedOriginal = original || fromIntroLevelOriginal
             let normalizedType = type
             if (ozariaType) {
@@ -376,22 +398,22 @@
               throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
             }
 
-            let description = (documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals')?.body
+            let description = getLearningGoalsDocumentation(content)
             let contentLevelSlug = slug
             if (fromIntroLevelOriginal) {
-              description = (intros[fromIntroLevelOriginal]?.documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals')?.body
+              description = getLearningGoalsDocumentation(intros[fromIntroLevelOriginal])
               contentLevelSlug = intros[fromIntroLevelOriginal]?.slug
             }
 
             let tooltipName = getGameContentDisplayNameWithType(content)
             if (fromIntroLevelOriginal) {
-              const { name: introName, displayName: introDisplayName } = intros[fromIntroLevelOriginal] || {}
-              description = `<h3>${tooltipName}</h3><p>${content.description || (documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals')?.body || ''}</p>`
-              tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${introDisplayName || introName}`
+              const introLevel = intros[fromIntroLevelOriginal] || {}
+              description = `<h3>${tooltipName}</h3><p>${utils.i18n(content, 'description') || getLearningGoalsDocumentation(content) || ''}</p>`
+              tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${utils.i18n(introLevel, 'displayName') || utils.i18n(introLevel, 'name')}`
             }
 
             return ({
-              displayName: displayName || name,
+              displayName: utils.i18n(content, 'displayName') || utils.i18n(content, 'name'),
               type: normalizedType,
               _id,
               normalizedOriginal,
