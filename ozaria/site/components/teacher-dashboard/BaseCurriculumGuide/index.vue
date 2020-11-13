@@ -105,7 +105,8 @@
                 v-for="num in moduleNumbers"
                 :key="num"
                 :module-num="num"
-                :is-capstone="isCapstoneModule(num)"/>
+                :is-capstone="isCapstoneModule(num)"
+              />
             </div>
             <div class="col-md-3">
               <concepts-covered :concept-list="conceptsCovered" />

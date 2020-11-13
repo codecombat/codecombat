@@ -101,17 +101,15 @@ export default {
       })
     },
 
-    getContentDescription (_state, getters, _rootState, _rootGetters) {
-      return (moduleNum, contentId) => {
-        const modules = getters.getModuleInfo
-        const moduleContent = modules[moduleNum] || []
-
-        const content = moduleContent.find(({ _id }) => _id === contentId);
+    getContentDescription () {
+      return (content) => {
         if (!content) {
           return ''
         }
 
-        return (content?.documentation?.specificArticles || []).find(({name}) => name === 'Learning Goals')?.body || content?.description || ''
+        return utils.i18n((content?.documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals'), 'body') ||
+          utils.i18n(content, 'description') ||
+          ''
       }
     },
 

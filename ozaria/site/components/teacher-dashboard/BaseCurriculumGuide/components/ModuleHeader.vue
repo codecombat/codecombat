@@ -5,6 +5,7 @@
 
   import IconHelp from '../../common/icons/IconHelp'
   import { mapGetters } from 'vuex'
+  import utils from 'core/utils'
   export default {
     components: {
       ButtonSlides,
@@ -40,7 +41,7 @@
       },
 
       getModuleTotalTimeInfo () {
-        return this.getModuleInfo?.duration?.total
+        return utils.i18n(this.getModuleInfo?.duration, 'total')
       }
     },
 
@@ -49,11 +50,11 @@
         const time = []
 
         if (this.getModuleInfo?.duration?.totalTimeRange) {
-          time.push(`<p><b>${this.$t('teacher_dashboard.class_time_range')}:</b> ${this.getModuleInfo?.duration?.totalTimeRange}</p>`)
+          time.push(`<p><b>${this.$t('teacher_dashboard.class_time_range')}</b> ${utils.i18n(this.getModuleInfo?.duration, 'totalTimeRange')}</p>`)
         }
 
         if (this.getModuleInfo?.duration?.inGame) {
-          time.push(`<p><b>${this.$t('teacher_dashboard.in_game_play_time')}:</b> ${this.getModuleInfo?.duration?.inGame}</p>`)
+          time.push(`<p><b>${this.$t('teacher_dashboard.in_game_play_time')}</b> ${utils.i18n(this.getModuleInfo?.duration, 'inGame')}</p>`)
         }
 
         return time.join('')
@@ -84,8 +85,12 @@
 <template>
   <div class="header">
     <div class="module-header">
-      <h3>{{ $t('teacher_dashboard.module') }} {{ moduleNum }}: {{ getCurrentModuleNames(moduleNum) }}</h3>
-      <div v-if="getModuleTotalTimeInfo !== undefined" class="time-row"><p>{{ $t('teacher_dashboard.class_time') }}: {{ getModuleTotalTimeInfo }}</p>
+      <h3>{{ $t('teacher_dashboard.module') }} {{ moduleNum }} {{ getCurrentModuleNames(moduleNum) }}</h3>
+      <div
+        v-if="getModuleTotalTimeInfo !== undefined"
+        class="time-row"
+      >
+        <p>{{ $t('teacher_dashboard.class_time') }} {{ getModuleTotalTimeInfo }}</p>
         <icon-help
           v-if="tooltipTimeContent()"
           v-tooltip.top="{
@@ -129,28 +134,28 @@
 
       <button-project-req
         v-if="isCapstone"
-        class="margin-right"
-        :link="getCapstoneInfo.projectRubricUrl"
-        :locked="isOnLockedCampaign"
-        @click.native="trackEvent('Curriculum Guide: Project Rubric Clicked')"
         v-tooltip.top="{
           content: projectRubricTooltipContent,
           classes: 'teacher-dashboard-tooltip lighter-p',
           autoHide: !isOnLockedCampaign
         }"
+        :locked="isOnLockedCampaign"
+        class="margin-right"
+        :link="getCapstoneInfo.projectRubricUrl"
+        @click.native="trackEvent('Curriculum Guide: Project Rubric Clicked')"
       />
 
       <button-exemplar
         v-if="isCapstone"
-        class="margin-right"
-        :link="getCapstoneInfo.exemplarProjectUrl"
-        :locked="isOnLockedCampaign"
-        @click.native="trackEvent('Curriculum Guide: Exemplar Project Clicked')"
         v-tooltip.top="{
           content: exemplarProjectTooltipContent,
           classes: 'teacher-dashboard-tooltip lighter-p',
           autoHide: !isOnLockedCampaign
         }"
+        class="margin-right"
+        :link="getCapstoneInfo.exemplarProjectUrl"
+        :locked="isOnLockedCampaign"
+        @click.native="trackEvent('Curriculum Guide: Exemplar Project Clicked')"
       />
     </div>
   </div>
