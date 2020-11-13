@@ -38,8 +38,11 @@ module.exports = class Simulator extends CocoClass
 
   fetchAndSimulateOneGame: (humanGameID, ogresGameID) =>
     return if @destroyed
+    url = '/queue/scoring/getTwoGames'
+    if @options.singleLadder
+      url = "/db/level/#{@options.levelOriginal}/next-ladder-match"
     $.ajax
-      url: '/queue/scoring/getTwoGames'
+      url: url
       type: 'POST'
       parse: true
       data:
@@ -70,11 +73,12 @@ module.exports = class Simulator extends CocoClass
         @simulatingPlayerStrings = {}
         for team in ['humans', 'ogres']
           session = _.find(taskData.sessions, {team: team})
+          teamName = $.i18n.t 'ladder.' + team
           unless session
             @trigger 'statusUpdate', "Error simulating game: didn't find both teams' sessions. Trying another game in #{@retryDelayInSeconds} seconds."
             @simulateAnotherTaskAfterDelay()
             return
-          @simulatingPlayerStrings[team] = "#{session.creatorName or session.creator} #{session.team}"
+          @simulatingPlayerStrings[team] = "#{session.creatorName or session.creator} #{teamName}"
         @trigger 'statusUpdate', "Setting up #{taskData.sessions[0].levelID} simulation between #{@simulatingPlayerStrings.humans} and #{@simulatingPlayerStrings.ogres}"
         #refactor this
         @task = new SimulationTask(taskData)

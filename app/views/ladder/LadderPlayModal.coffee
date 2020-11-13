@@ -27,6 +27,7 @@ module.exports = class LadderPlayModal extends ModalView
 
   initialize: (options, @level, @session, @team) ->
     @otherTeam = if @team is 'ogres' then 'humans' else 'ogres'
+    @otherTeam = 'humans' if @level.isType('ladder')
     @wizardType = ThangType.loadUniversalWizard()
     @startLoadingChallengersMaybe()
     @levelID = @level.get('slug') or @level.id
@@ -38,7 +39,7 @@ module.exports = class LadderPlayModal extends ModalView
       {id: 'lua', name: 'Lua'}
       # TODO: Bring java back once it's supported
       # {id: 'java', name: 'Java'}
-      # {id: 'cpp', name: 'C++'}
+      {id: 'cpp', name: 'C++'}
     ]
     @myName = me.get('name') || 'Newcomer'
 
@@ -84,6 +85,7 @@ module.exports = class LadderPlayModal extends ModalView
           {colorConfig: challenger.opponentWizard.colorConfig})
 
     success = (@nameMap) =>
+      return if @destroyed
       for challenger in _.values(@challengers)
         challenger.opponentName = @nameMap[challenger.opponentID]?.name or 'Anonymous'
         challenger.opponentWizard = @nameMap[challenger.opponentID]?.wizard or {}

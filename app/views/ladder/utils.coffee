@@ -10,7 +10,6 @@ module.exports.teamDataFromLevel = (level) ->
   teams = []
   for team in teamNames or []
     otherTeam = if team is 'ogres' then 'humans' else 'ogres'
-    otherTeam
     if level.isType 'ladder'
       continue if team is 'ogres'
       otherTeam = null
