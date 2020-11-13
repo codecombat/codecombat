@@ -3254,6 +3254,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     exemplar_projects_tooltip: '<h3>Exemplar Project</h3><p>Live view of the exemplar Capstone Project</p>'
     want_to_save_tooltip: '<h3>Want to save your progress?</h3><p>Please create a student account and play Ozaria as a student if you would like to save your progress.</p>'
     intro_explain_tooltip: '<b>"Intros"</b> introduce new concepts or further the storyline in a scaffolded way. They typically include Cinematics and/or Concept Checks.'
+    chapter_num: 'Chapter __num__'
 
   banner_webinar:
     heading: '[WEBINAR] A Time for Empathy: Remote and Hybrid Learning'

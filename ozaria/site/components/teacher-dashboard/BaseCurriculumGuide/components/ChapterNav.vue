@@ -14,14 +14,14 @@
           .map(({ campaignID, free }, idx) => {
             return ({
               campaignID,
-              heading: `Chapter ${idx + 1}`
+              heading: this.$t('teacher_dashboard.chapter_num', { num: idx + 1 })
             })
           })
       },
 
       courseName () {
         return this.getCurrentCourse?.name || ''
-      },
+      }
     },
 
     methods: {
