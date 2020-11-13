@@ -48,13 +48,11 @@
     @include scaleX(-1)
 
   .avatar-wrapper-container
-    position: absolute
+    position: relative
     width: 100px
     height: 100px
-    top: 0
-    left: 18%
-    left: -webkit-calc(50% - (560px - 100px) / 2 - 10px)
-    left: calc(50% - (560px - 100px) / 2 - 10px)
+    top: -35px
+    float: left
     z-index: 5
 
     .thang-canvas-wrapper
@@ -90,14 +88,12 @@
     top: 24px
 
   .center
-    width: 560px
+    width: 100%
+    max-width: 560px
     height: 166px
     position: absolute
     top: 24px
-    left: 13%
-    left: -webkit-calc(50% - 560px / 2)
-    left: calc(50% - 560px / 2)
-    padding: 10px 20px 0 145px
+    padding: 10px 20px 0 45px
     background-image: url(/images/level/hud_background.png)
     color: white
     text-transform: uppercase
@@ -106,6 +102,10 @@
     font-size: 16px
     z-index: 4
     @include transition(0.5s ease)
+    @media screen and (min-width: $screen-lg-min)
+      left: 13%
+      left: -webkit-calc(50% - 560px / 2)
+      left: calc(50% - 560px / 2)
 
     &:hover
       top: -36px
@@ -166,7 +166,7 @@
         font-size: 18px
 
         .prop-value.bar-prop
-          width: 150px
+          max-width: 150px
           margin: 1px 10px 0 0
           height: 16px
           background: rgb(32, 27, 21)
