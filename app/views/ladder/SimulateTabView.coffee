@@ -51,7 +51,7 @@ module.exports = class SimulateTabView extends CocoView
 
   simulateNextGame: ->
     unless @simulator
-      @simulator = new Simulator levelID: @options.level.get('slug'), leagueID: @options.leagueID
+      @simulator = new Simulator levelID: @options.level.get('slug'), leagueID: @options.leagueID, singleLadder: @options.level.isType('ladder'), levelOriginal: @options.level.get('original')
       @listenTo @simulator, 'statusUpdate', @updateSimulationStatus
       # Work around simulator getting super slow on Chrome
       fetchAndSimulateTaskOriginal = @simulator.fetchAndSimulateTask
