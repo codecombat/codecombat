@@ -1,0 +1,19 @@
+{
+    "name": "Ozaria",
+    "short_name": "Ozaria",
+    "icons": [
+        {
+            "src": "/images/favicon/android-chrome-192x192.png?v=2020-11-15",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/images/favicon/android-chrome-512x512.png?v=2020-11-15",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#29575a",
+    "background_color": "#29575a",
+    "display": "standalone"
+}
