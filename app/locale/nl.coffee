@@ -91,7 +91,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teachers_love_codecombat_blurb2: "Zouden CodeCombat aanraden aan andere informatica-docenten"
     teachers_love_codecombat_blurb3: "Zeggen dat CodeCombat hen helpt om de probleemoplossende vaardigheden van studenten te ondersteunen"
     teachers_love_codecombat_subblurb: "In samenwerking met McREL International, een leider in op onderzoek gebaseerde begeleiding en evaluaties van educatieve technologie."
-#    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
+#    top_banner_blurb: "TUESDAY NOV. 17 AT 4:30 PM EST"
+#    top_banner_blurb2: "Join our webinar! A Time for Empathy Remote & Hybrid Learning Strategies"
     try_the_game: "Probeer de game"
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
@@ -912,6 +913,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     sorry_to_see_you_go: "Jammer dat je weggaat! Laat ons alsjeblieft weten wat we beter hadden kunnen doen."
     unsubscribe_feedback_placeholder: "Oh, wat hebben we gedaan?"
     stripe_description: "Maandelijks abonnement"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "Koop Nu"
     subscription_required_to_play: "Je hebt een abonnement nodig om dit level te spelen."
     unlock_help_videos: "Abonneer om toegang te krijgen tot alle instructievideos."
@@ -936,7 +938,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     first_month_price: "Maar $__prijs__ voor je eerste maand!"
     lifetime: "Levenslang abonnement" # {change}
     lifetime_price: "$__price__"
-    year_subscription: "Jaarlijks abonnement"
+    year_subscription: "Jaarlijks abonnement" # {change}
     year_price: "$__price__/year"
     support_part1: "Hulp nodig met betalingsopties? Email" # {change}
     support_part2: "support@codecombat.com"
@@ -2264,7 +2266,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     scribe_join_description: "vertel ons wat over jezelf, je ervaring met programmeren en over wat voor soort dingen je graag zou schrijven. Verder zien we wel!"
     scribe_subscribe_desc: "Ontvang e-mails met aankondigingen over het schrijven van artikelen."
     diplomat_introduction_pref: "Dus, als er iets is wat we geleerd hebben van de "
-    diplomat_launch_url: "release in oktober"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "dan is het wel dat er een enorme belangstelling is voor CodeCombat in andere landen, vooral Brazilië! We zijn een groep van vertalers aan het creëren dat ijverig de ene set woorden in de andere omzet om CodeCombat zo toegankelijk mogelijk te maken in de hele wereld. Als jij het leuk vindt glimpen op te vangen van aankomende content en deze levels zo snel mogelijk naar je landgenoten te krijgen, dan is dit de klasse voor jou."
     diplomat_attribute_1: "Vloeiend Engels en de taal waar naar je wilt vertalen kunnen spreken. Wanneer je moeilijke ideeën wilt overbrengen, is het belangrijk beide talen goed te begrijpen!"
     diplomat_i18n_page_prefix: "Je kan beginnen met vertalen door te surfen naar"
@@ -2277,8 +2279,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     ambassador_introduction: "We zijn een gemeenschap aan het uitbouwen, en jij maakt er deel van uit. We hebben Olark chatkamers, e-mails, en sociale netwerken met veel andere mensen waarmee je kan praten en hulp aan kan vragen over het spel of om bij te leren. Als jij mensen wil helpen en te werken nabij de hartslag van CodeCombat in het bijsturen van onze toekomstvisie, dan is dit de geknipte klasse voor jou!"
     ambassador_attribute_1: "Communicatieskills. Problemen die spelers hebben kunnen identificeren en ze helpen deze op te lossen. Verder zul je ook de rest van ons geïnformeerd houden over wat de spelers zeggen, wat ze leuk vinden, wat ze minder vinden en waar er meer van moet zijn!"
     ambassador_join_desc: "vertel ons wat over jezelf, wat je hebt gedaan en wat je graag zou doen. We zien verder wel!"
-    ambassador_join_note_strong: "Opmerking"
-    ambassador_join_note_desc: "Een van onze topprioriteiten is om een multiplayer te bouwen waar spelers die moeite hebben een level op te lossen een tovenaar met een hoger level kunnen oproepen om te helpen. Dit zal een goede manier zijn voor ambassadeurs om hun ding te doen. We houden je op de hoogte!"
     ambassador_subscribe_desc: "Ontvang e-mails met updates over ondersteuning en multiplayer-ontwikkelingen."
     teacher_subscribe_desc: "Ontvang e-mails over updates en aankondigingen voor leraren."
     changes_auto_save: "Veranderingen worden automatisch opgeslagen wanneer je het vierkantje aan- of afvinkt."
@@ -2994,7 +2994,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3028,6 +3027,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3203,3 +3203,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #  admin:
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
+
+#  banner_webinar:
+#    heading: "[WEBINAR] A Time for Empathy: Remote and Hybrid Learning"
+#    time: "November 17, 2020 at 4:30PM EST"
+#    abstract: "Join us for a 60-min discussion with special guests <b>Naomi Harm</b>, CEO of Innovative Educator Consulting and <b>Donna CasaGrande</b>, Mendham Township Middle School Computer Technology Educator, along with our Learning Design team, where we’ll cover:"
+#    bullet_1: "How to keep learners engaged and motivated when they may face distractions and struggles at home"
+#    bullet_2: "How to maintain high expectations for students and set boundaries for your own well-being"
+#    bullet_3: "How to use the Ozaria curriculum to support effective hybrid and remote teaching practices"
+#    learn_more: "For additional information see <a href=\"https://blog.codecombat.com/webinar-time-for-empathy-remote-hybrid-learning/\">here</a> or <a href=\"https://zoom.us/webinar/register/WN_iKcKekMjSAGJ7BQsCzFN0w\">register now</a>."

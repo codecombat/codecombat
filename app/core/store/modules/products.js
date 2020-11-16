@@ -29,11 +29,10 @@ export default {
     loadProducts ({ commit }) {
       commit('toggleLoadingProducts')
 
-      return new Products()
-        .fetch()
-        .done(products => commit('addProducts', { products }))
-        .fail(() => noty({ text: 'Failed to load product pricing', type: 'error' }))
-        .always(() => commit('toggleLoadingProducts'))
+      const productsRequest = new Products().fetch()
+      productsRequest.done(products => commit('addProducts', { products }))
+      productsRequest.fail(() => noty({ text: 'Failed to load product pricing', type: 'error' }))
+      productsRequest.always(() => commit('toggleLoadingProducts'))
     }
   },
 
@@ -47,6 +46,17 @@ export default {
       productsCollection.add(state.products)
 
       return productsCollection.getBasicSubscriptionForUser(window.me).toJSON()
+    },
+
+    basicAnnualSubscriptionForCurrentUser (state) {
+      if (!Array.isArray(state.products) || state.products.length === 0) {
+        return undefined
+      }
+
+      const productsCollection = new Products()
+      productsCollection.add(state.products)
+
+      return productsCollection.getBasicAnnualSubscriptionForUser(window.me).toJSON()
     },
 
     lifetimeSubscriptionForCurrentUser (state) {

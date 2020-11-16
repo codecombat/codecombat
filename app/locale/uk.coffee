@@ -91,7 +91,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
+#    top_banner_blurb: "TUESDAY NOV. 17 AT 4:30 PM EST"
+#    top_banner_blurb2: "Join our webinar! A Time for Empathy Remote & Hybrid Learning Strategies"
     try_the_game: "Спробуй гру"
     classroom_edition: "Класна версія:"
     learn_to_code: "Вчитися кодувати:"
@@ -912,6 +913,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     sorry_to_see_you_go: "Шкода, що Ви йдете! Будь ласка, дайте нам знати, що ми могли б зробити краще."
     unsubscribe_feedback_placeholder: "О, що ж ми зробили?"
     stripe_description: "Щомісячний абонемент"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "Купити зараз"
     subscription_required_to_play: "Аби грати в цьому рівні потрібен абонемент."
     unlock_help_videos: "Підпишіться, щоб відкрити усі навчальні відео."
@@ -936,7 +938,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     first_month_price: "За перший місяц ви сплатита лише $__price__"
     lifetime: "Пожиттєва підписка" # {change}
     lifetime_price: "$__price__"
-    year_subscription: "Річна підписка"
+    year_subscription: "Річна підписка" # {change}
     year_price: "$__price__/рік"
     support_part1: "Потрібна допомога з опціями оплати? Напишіть на" # {change}
     support_part2: "support@codecombat.com"
@@ -2264,7 +2266,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     scribe_join_description: ", розкажіть нам трохи про себе, свій досвід програмування і про які речі Ви хотіли б писати. З цього ми почнемо!"
     scribe_subscribe_desc: "Отрумивати листи з анонсами щодо написання статтей."
     diplomat_introduction_pref: "Отож, якщо є одна річ, яку ми вивчили з часу "
-    diplomat_launch_url: "запуску в жовтні"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: ", то це те, що є значний інтерес до CodeCombat в інших країнах! Ми формуємо загін перекладачів, охочих до перетворення одного набору слів на інший набір слів, щоб CodeCombat став якнайдоступнішим в усьому світі. Якщо Вам подобається захоплено поглядати на майбутній зміст і якнайшвидше доносити його до своїх співвітчизників, тоді цей клас, напевно, для Вас."
     diplomat_attribute_1: "Вільне знання англійської та мови, на яку Ви хочете перекладати. При поясленні складних ідей важливо мати глибоке розуміння обох мов!"
     diplomat_i18n_page_prefix: "Ви можете почати переклад рівнів, перейшовши на нашу "
@@ -2277,8 +2279,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     ambassador_introduction: "Ми будуємо спільноту, а Ви - зв'язки. У нас є чати Olark, електронні скриньки і соціальні мережі з багатьма людьми для спілкування і допомоги у знайомстві з грою на навчанні. Якщо Ви хочете допомагати людям залучатися, веселитися і тримати руку на пульсі CodeCombat та його шляху, тоді цей клас, напевно, для Вас."
     ambassador_attribute_1: "Комунікативні навички. Могти ідентифікувати проблеми, з якими стикаються гравці, і могти допомогти з їх вирішенням. Також тримати решту з нас в курсі того, що кажуть гравці, що їм подобається, а що ні, і чого вони хочуть ще більше!"
     ambassador_join_desc: ", розкажіть нам трохи про себе, що Ви робили і що б Ви зацікавлені були робити. З цього й почнемо!"
-    ambassador_join_note_strong: "Примітка"
-    ambassador_join_note_desc: "Один з наших пріоритетів - розробити мультиплеєр, у якому гравці, що мають труднощі з проходженням рівнів, зможуть викликати чарівників вищого рівня собі на допомогу. Ось тут Посланці і зможуть виконувати свою роботу. Ми будемо на зв'язку!"
     ambassador_subscribe_desc: "Отримувати листи з новинами щодо підтримки користувачів та розробки мультиплеєра."
     teacher_subscribe_desc: "Отримуйте листи про оновлення та анонси для вчителів."
     changes_auto_save: "Зміни зберігаються автоматично, коли Ви ставите позначку у чекбоксі."
@@ -2994,7 +2994,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3028,6 +3027,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3203,3 +3203,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #  admin:
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
+
+#  banner_webinar:
+#    heading: "[WEBINAR] A Time for Empathy: Remote and Hybrid Learning"
+#    time: "November 17, 2020 at 4:30PM EST"
+#    abstract: "Join us for a 60-min discussion with special guests <b>Naomi Harm</b>, CEO of Innovative Educator Consulting and <b>Donna CasaGrande</b>, Mendham Township Middle School Computer Technology Educator, along with our Learning Design team, where we’ll cover:"
+#    bullet_1: "How to keep learners engaged and motivated when they may face distractions and struggles at home"
+#    bullet_2: "How to maintain high expectations for students and set boundaries for your own well-being"
+#    bullet_3: "How to use the Ozaria curriculum to support effective hybrid and remote teaching practices"
+#    learn_more: "For additional information see <a href=\"https://blog.codecombat.com/webinar-time-for-empathy-remote-hybrid-learning/\">here</a> or <a href=\"https://zoom.us/webinar/register/WN_iKcKekMjSAGJ7BQsCzFN0w\">register now</a>."

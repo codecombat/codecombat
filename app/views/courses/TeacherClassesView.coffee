@@ -20,6 +20,7 @@ GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 co = require('co')
 OzariaEncouragementModal = require('app/views/teachers/OzariaEncouragementModal').default
 PanelTryOzaria = require('app/components/teacher/PanelTryOzaria').default
+BannerWebinar = require('./BannerWebinar').default
 
 helper = require 'lib/coursesHelper'
 
@@ -175,6 +176,10 @@ module.exports = class TeacherClassesView extends RootView
 
     @panelTryOzaria = new PanelTryOzaria({
       el: @$('.try-ozaria')[0]
+    })
+
+    @bannerWebinar = new BannerWebinar({
+      el: @$('.banner-webinar')[0]
     })
 
     $('.progress-dot').each (i, el) ->
