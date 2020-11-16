@@ -49,6 +49,8 @@
               a(href="/play/level/#{levelID}?team=#{team.id}&opponent=#{match.sessionID}" + (league ? "&league=" + league.id : ""))
                 if (match.state === 'win')
                   span(data-i18n="ladder.watch_victory") Watch your victory
+                else if (view.level.isType('ladder'))
+                  span(data-i18n="ladder.fight") Fight!
                 else
                   span(data-i18n="ladder.defeat_the") Defeat the
                   |  
