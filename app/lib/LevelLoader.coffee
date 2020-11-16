@@ -197,6 +197,13 @@ module.exports = class LevelLoader extends CocoClass
         @listenToOnce @opponentSession, 'sync', @preloadTokenForOpponentSession
 
   preloadTokenForOpponentSession: (session) =>
+    if @level.isType('ladder') and session.get('team') is 'humans'
+      # Reassign our opponent to the ogres team. This might get dicey if we face off against ourselves, but appears to work.
+      session.set 'team', 'ogres'
+      code = session.get('code')
+      code['hero-placeholder-1'] = code['hero-placeholder']
+      delete code['hero-placeholder']
+      session.set 'code', code
     language = session.get('codeLanguage')
     compressed = session.get 'interpret'
     if language not in ['java', 'cpp'] or not compressed

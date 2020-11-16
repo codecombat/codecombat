@@ -37,7 +37,7 @@
               td(class='name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
               td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
               td.fight-cell
-                a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
+                a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam || 'humans'}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
                   span(data-i18n="ladder.fight") Fight!
               td.spectate-cell.iconic-cell
                 .glyphicon.glyphicon-eye-open
@@ -57,7 +57,7 @@
                 td(class='name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
                 td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
                 td.fight-cell
-                  a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
+                  a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam || 'humans'}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
                     span(data-i18n="ladder.fight") Fight!
                 td.spectate-cell.iconic-cell
                   .glyphicon.glyphicon-eye-open
@@ -90,7 +90,7 @@
             span : 
             span= friend.team
             br
-            a(href="/play/level/#{view.level.get('slug') || view.level.id}/?team=#{friend.otherTeam}&opponent=#{friend._id}" + (league ? "&league=" + league.id : ""))
+            a(href="/play/level/#{view.level.get('slug') || view.level.id}/?team=#{friend.otherTeam || 'humans'}&opponent=#{friend._id}" + (league ? "&league=" + league.id : ""))
               span(data-i18n="ladder.fight") Fight!
 
       else if onFacebook || onGPlus
