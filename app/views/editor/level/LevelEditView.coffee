@@ -38,7 +38,7 @@ LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
 storage = require 'core/storage'
 utils = require 'core/utils'
 loadAetherLanguage = require("lib/loadAetherLanguage");
-presenceApi = require('../../../../ozaria/site/api/presence')
+presenceApi = require('core/api/presence')
 
 require 'vendor/scripts/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
 require 'lib/setupTreema'
