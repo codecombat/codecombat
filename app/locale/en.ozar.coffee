@@ -116,8 +116,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
     teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-    top_banner_blurb: "TUESDAY NOV. 17 AT 4:30 PM EST" # {change}
-    top_banner_blurb2: "Join our webinar! A Time for Empathy Remote & Hybrid Learning Strategies"
+    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -3258,12 +3257,3 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     want_to_save_tooltip: '<h3>Want to save your progress?</h3><p>Please create a student account and play Ozaria as a student if you would like to save your progress.</p>'
     intro_explain_tooltip: '<b>"Intros"</b> introduce new concepts or further the storyline in a scaffolded way. They typically include Cinematics and/or Concept Checks.'
     chapter_num: 'Chapter __num__'
-
-  banner_webinar:
-    heading: '[WEBINAR] A Time for Empathy: Remote and Hybrid Learning'
-    time: 'November 17, 2020 at 4:30PM EST'
-    abstract: 'Join us for a 60-min discussion with special guests <b>Naomi Harm</b>, CEO of Innovative Educator Consulting and <b>Donna CasaGrande</b>, Mendham Township Middle School Computer Technology Educator, along with our Learning Design team, where we’ll cover:'
-    bullet_1: 'How to keep learners engaged and motivated when they may face distractions and struggles at home'
-    bullet_2: 'How to maintain high expectations for students and set boundaries for your own well-being'
-    bullet_3: 'How to use the Ozaria curriculum to support effective hybrid and remote teaching practices'
-    learn_more: 'For additional information see <a href="https://blog.codecombat.com/webinar-time-for-empathy-remote-hybrid-learning/">here</a> or <a href="https://zoom.us/webinar/register/WN_iKcKekMjSAGJ7BQsCzFN0w">register now</a>.'

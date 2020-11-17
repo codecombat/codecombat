@@ -6,8 +6,6 @@
   import ModalAddStudents from '../modals/ModalAddStudents'
   import moment from 'moment'
 
-  import BannerWebinar from './components/BannerWebinar'
-
   import ButtonsSchoolAdmin from './ButtonsSchoolAdmin'
 
   export default {
@@ -16,8 +14,7 @@
       ClassStatCalculator,
       ModalEditClass,
       ButtonsSchoolAdmin,
-      ModalAddStudents,
-      BannerWebinar
+      ModalAddStudents
     },
 
     props: {
@@ -107,8 +104,6 @@
 
 <template>
   <div>
-    <banner-webinar />
-
     <div id="class-stats-area">
       <div
         v-for="clas in sortedActiveClasses"
