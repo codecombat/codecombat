@@ -51,7 +51,6 @@ Application = {
 #    if features.codePlay and me.isAnonymous()
 #      document.location.href = '//lenovogamestate.com/login/'
     Router = require('core/Router')
-    @isProduction = -> document.location.href.search('https?://localhost') is -1
     Vue.config.devtools = not @isProduction()
     Vue.config.ignoredElements = ['stream'] # Used for Cloudflare Cutscene Player and would throw Vue warnings
 
@@ -170,6 +169,9 @@ Application = {
     useBrainPop: -> api.admin.setFeatureMode('brain-pop').then(-> document.location.reload())
     clear: -> api.admin.clearFeatureMode().then(-> document.location.reload())
   }
+
+  isProduction: ->
+    document.location.href.search('https?://localhost') is -1
 
   loadedStaticPage: window.alreadyLoadedView?
 

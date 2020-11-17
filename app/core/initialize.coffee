@@ -58,7 +58,7 @@ init = ->
   path = document.location.pathname
   app.testing = _.string.startsWith path, '/test'
   app.demoing = _.string.startsWith path, '/demo'
-  setUpBackboneMediator()
+  setUpBackboneMediator(app)
   app.initialize()
   loadOfflineFonts() unless app.isProduction()
   Backbone.history.start({ pushState: true })
@@ -94,10 +94,11 @@ handleNormalUrls = ->
 
     return false
 
-setUpBackboneMediator = ->
+setUpBackboneMediator = (app) ->
   Backbone.Mediator.addDefSchemas schemas for definition, schemas of definitionSchemas
   Backbone.Mediator.addChannelSchemas schemas for channel, schemas of channelSchemas
-  Backbone.Mediator.setValidationEnabled document.location.href.search(/codecombat.com/) is -1
+  # Major performance bottleneck if it is true in production
+  Backbone.Mediator.setValidationEnabled(not app.isProduction())
   if false  # Debug which events are being fired
     originalPublish = Backbone.Mediator.publish
     Backbone.Mediator.publish = ->
