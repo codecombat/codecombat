@@ -1,5 +1,6 @@
 const DEFAULT_TRACKING_DOMAINS = [
-  'codecombat.com'
+  'codecombat.com',
+  'ozaria.com'
 ];
 
 const COCO_ENABLE_TRACKING_OVERRIDE_QUERY_PARAM = 'coco_tracking'
