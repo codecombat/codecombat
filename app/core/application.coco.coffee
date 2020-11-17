@@ -48,7 +48,6 @@ console.debug ?= console.log  # Needed for IE10 and earlier
 Application = {
   initialize: ->
     Router = require('core/Router')
-    @isProduction = -> document.location.href.search('https?://localhost') is -1
     Vue.config.devtools = not @isProduction()
 
     # propagate changes from global 'me' User to 'me' vuex module
@@ -135,6 +134,8 @@ Application = {
     useBrainPop: -> api.admin.setFeatureMode('brain-pop').then(-> document.location.reload())
     clear: -> api.admin.clearFeatureMode().then(-> document.location.reload())
   }
+
+  isProduction: -> document.location.href.search('https?://localhost') is -1
 
   loadedStaticPage: window.alreadyLoadedView?
 
