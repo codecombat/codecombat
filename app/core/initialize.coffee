@@ -54,7 +54,7 @@ init = ->
   path = document.location.pathname
   app.testing = _.string.startsWith path, '/test'
   app.demoing = _.string.startsWith path, '/demo'
-  setUpBackboneMediator()
+  setUpBackboneMediator(app)
   app.initialize()
   loadOfflineFonts() unless app.isProduction()
   Backbone.history.start({ pushState: true })
@@ -88,7 +88,7 @@ handleNormalUrls = ->
 
     return false
 
-setUpBackboneMediator = ->
+setUpBackboneMediator = (app) ->
   Backbone.Mediator.addDefSchemas schemas for definition, schemas of definitionSchemas
   Backbone.Mediator.addChannelSchemas schemas for channel, schemas of channelSchemas
   Backbone.Mediator.setValidationEnabled(not app.isProduction())
