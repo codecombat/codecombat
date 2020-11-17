@@ -116,7 +116,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teachers_love_codecombat_blurb2: "Jbhyq erpbzzraq PbqrPbzong gb bgure pbzchgre fpvrapr grnpuref"
     teachers_love_codecombat_blurb3: "Fnl gung PbqrPbzong urycf gurz fhccbeg fghqragf’ ceboyrz fbyivat novyvgvrf"
     teachers_love_codecombat_subblurb: "Va cnegarefuvc jvgu ZpERY Vagreangvbany, n yrnqre va erfrnepu-onfrq thvqnapr naq rinyhngvbaf bs rqhpngvbany grpuabybtl."
-    top_banner_blurb: "Cneragf, obbx lbhe puvyq'f svefg yvir bayvar pbqvat pynff sbe serr!"
+    top_banner_blurb: "Cneragf, obbx lbhe puvyq'f svefg yvir bayvar pbqvat pynff sbe serr!" # {punatr}
     try_the_game: "Gel gur tnzr"
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
@@ -618,6 +618,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     fewer: "Srjre"
     with: "jvgu"
     archived: "Nepuvirq"
+    chat: "Pung"
+    chat_with_us: "Pung jvgu hf"
+    email_us: "Fraq hf na rznvy"
 
   units:
     second: "frpbaq"
@@ -3252,3 +3255,5 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     project_rubric_tooltip: '<u3>Cebwrpg Ehoevp</u3><c>Qbjaybnqnoyr naq zbqvsvnoyr fpbevat ehoevp sbe gur Pncfgbar Cebwrpg</c>'
     exemplar_projects_tooltip: '<u3>Rkrzcyne Cebwrpg</u3><c>Yvir ivrj bs gur rkrzcyne Pncfgbar Cebwrpg</c>'
     want_to_save_tooltip: '<u3>Jnag gb fnir lbhe cebterff?</u3><c>Cyrnfr perngr n fghqrag nppbhag naq cynl Bmnevn nf n fghqrag vs lbh jbhyq yvxr gb fnir lbhe cebterff.</c>'
+    intro_explain_tooltip: '<o>"Vagebf"</o> vagebqhpr arj pbaprcgf be shegure gur fgbelyvar va n fpnssbyqrq jnl. Gurl glcvpnyyl vapyhqr Pvarzngvpf naq/be Pbaprcg Purpxf.'
+    chapter_num: 'Puncgre __ahz__'
