@@ -189,10 +189,12 @@ export default {
   },
 
   actions: {
-    fetchClassroomsForTeacher: ({ commit }, teacherId) => {
+    fetchClassroomsForTeacher: ({ commit }, { teacherId, project }) => {
       commit('toggleLoadingForTeacher', teacherId)
 
-      return classroomsApi.fetchByOwner(teacherId)
+      return classroomsApi.fetchByOwner(teacherId, {
+        project: project || ['_id', 'name', 'slug', 'members', 'deletedMembers', 'ownerID', 'code', 'codeCamel', 'aceConfig', 'archived', 'googleClassroomId', 'settings', 'studentLockMap', 'courses._id', 'courses.levels', 'courses.levels.original']
+      })
         .then(res =>  {
           if (res) {
             commit('addClassroomsForTeacher', {
@@ -273,7 +275,7 @@ export default {
         removePromises.push(classroomsApi.removeMember({ classroomID: classroom._id, userId: mId }))
       })
       await Promise.all(removePromises).then(() => {
-        dispatch('fetchClassroomsForTeacher', classroom.ownerID)
+        dispatch('fetchClassroomsForTeacher', { teacherId: classroom.ownerID })
         commit('removeMembersForClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, memberIds: memberIds })
       })
     },

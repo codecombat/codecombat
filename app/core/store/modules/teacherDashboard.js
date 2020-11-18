@@ -201,7 +201,7 @@ export default {
 
       fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
-      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true }))
+      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true }))
 
       await Promise.all(fetchPromises)
     },
@@ -282,7 +282,7 @@ export default {
       const fetchPromises = []
 
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
-      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true }))
+      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true }))
 
       const licenses = getters['getActiveLicenses'].concat(getters['getExpiredLicenses'])
       const licenseIds = (licenses || []).map((l) => l._id)
@@ -299,7 +299,7 @@ export default {
       const fetchPromises = []
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
-      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true }))
+      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true }))
       await Promise.all(fetchPromises)
     },
 
@@ -327,7 +327,7 @@ export default {
         return
       }
 
-      await dispatch('classrooms/fetchClassroomsForTeacher', state.teacherId, { root: true })
+      await dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true })
 
       const fetchPromises = []
 
