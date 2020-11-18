@@ -495,7 +495,6 @@ module.exports = class PlayLevelView extends RootView
       @observing
       playerNames: @findPlayerNames()
       levelType: @level.get('type', true)
-      stayVisible: false
       @gameUIState
       @level # TODO: change from levelType to level
     }
