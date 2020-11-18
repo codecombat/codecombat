@@ -43,7 +43,7 @@
         <img
           id="ozaria-modal-header-close-button"
           class="close-icon"
-          src="/images/ozaria/teachers/dashboard/svg_icons/IconClose.svg"
+          src="/images/ozaria/common/IconClose.svg"
           :data-dismiss="backboneClose"
           @[vueClose]="$emit('close')"
         >
