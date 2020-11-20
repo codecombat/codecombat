@@ -912,6 +912,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     sorry_to_see_you_go: "Szkoda, że już się nie zobaczymy! Powiedz nam co moglibyśmy poprawić"
     unsubscribe_feedback_placeholder: "Och! Cóżeśmy ci takiego uczynili, że nas opuszczasz?"
     stripe_description: "Miesięczna subskrypcja"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "Kup teraz!"
     subscription_required_to_play: "Żeby zagrać w ten poziom musisz posiadać subskrypcję."
     unlock_help_videos: "Subskrybuj, aby odblokować wszystkie wideo tutoriale."
@@ -936,7 +937,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    first_month_price: "Only $__price__ for your first month!"
     lifetime: "Dożywotnia subskrypcja" # {change}
     lifetime_price: "$__price__"
-    year_subscription: "Roczna subskrypcja"
+    year_subscription: "Roczna subskrypcja" # {change}
     year_price: "$__price__/rok"
     support_part1: "Potrzebujesz pomocy? Jeśli masz jakieś pytania, to napisz do nas na" # {change}
     support_part2: "support@codecombat.com"
@@ -2264,7 +2265,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     scribe_join_description: "powiedz nam coś o sobie, swoim doświadczeniu w programowaniu i rzeczach, o których chciałbyś pisać, a chętnie to z tobą uzgodnimy!"
     scribe_subscribe_desc: "Otrzymuj e-maile na temat ogłoszeń dotyczących pisania artykułów."
     diplomat_introduction_pref: "Jeśli dowiedzieliśmy jednej rzeczy z naszego "
-    diplomat_launch_url: "otwarcia w październiku"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: ", to jest nią informacja o znacznym zainteresowaniu CodeCombat w innych krajach. Tworzymy zespół tłumaczy chętnych do przemieniania zestawów słów w inne zestawy słów, aby CodeCombat było tak dostępne dla całego świata, jak to tylko możliwe. Jeśli chciałbyś mieć wgląd w nadchodzącą zawartość i umożliwić swoim krajanom granie w najnowsze poziomy, ta klasa może być dla ciebie."
     diplomat_attribute_1: "Biegła znajomość angielskiego oraz języka, na który chciałbyś tłumaczyć. Kiedy przekazujesz skomplikowane idee, dobrze mieć płynność w obu z nich!"
     diplomat_i18n_page_prefix: "Możesz zacząć tłumaczyć nasze poziomy przechodząc na naszą"
@@ -2277,8 +2278,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     ambassador_introduction: "Oto społeczność, którą budujemy, a ty jesteś jej łącznikiem. Mamy czaty, e-maile i strony w sieciach społecznościowych oraz wielu ludzi potrzebujących pomocy w zapoznaniu się z grą oraz uczeniu się za jej pomocą. Jeśli chcesz pomóc ludziom, by do nas dołączyli i dobrze się bawili oraz mieć pełne poczucie tętna CodeCombat oraz kierunku, w którym zmierzamy, ta klasa może być dla ciebie."
     ambassador_attribute_1: "Umiejętność komunikacji. Musisz umieć rozpoznać problemy, które mają gracze i pomóc im je rozwiązać. Do tego, informuj resztę z nas, co mówią gracze - na co się skarżą, a czego chcą jeszcze więcej!"
     ambassador_join_desc: "powiedz nam coś o sobie, jakie masz doświadczenie i czym byłbyś zainteresowany. Chętnie z tobą porozmawiamy!"
-    ambassador_join_note_strong: "Uwaga"
-    ambassador_join_note_desc: "Jednym z naszych priorytetów jest zbudowanie trybu multiplayer, gdzie gracze mający problem z rozwiązywaniem poziomów będą mogli wezwać czarodziejów wyższego poziomu, by im pomogli. Będzie to świetna okazja dla Ambasadorów. Spodziewajcie się ogłoszenia w tej sprawie!"
     ambassador_subscribe_desc: "Otrzymuj e-maile dotyczące aktualizacji wsparcia oraz rozwoju trybu multiplayer."
     teacher_subscribe_desc: "Otrzymuj e-maile dotyczące aktualizacji wsparcia oraz rozwoju wersji dla nauczycieli."
     changes_auto_save: "Zmiany zapisują się automatycznie po kliknięci kratki."
@@ -2994,7 +2993,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3028,6 +3026,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"

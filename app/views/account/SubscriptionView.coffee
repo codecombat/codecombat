@@ -270,6 +270,19 @@ class PersonalSub
                 @cost = "$#{(product.get('amount')/100).toFixed(2)}"
               else
                 @cost = "$#{(sub.plan.amount/100).toFixed(2)}"
+
+              # For the new annual plan, use the stripe information as source of truth.
+              if me.get('stripe')?.planID is "price_1Hja49KaReE7xLUdlPuATOvQ"
+                if sub.discount?.coupon?.percent_off_precise
+                  # Get percentage off from stripe data.
+                  discount = sub.plan.amount * (sub.discount.coupon.percent_off_precise / 100)
+                  @cost = "$#{((sub.plan.amount - discount)/100).toFixed(2)}"
+                else if sub.discount?.coupon?.amount_off
+                  discount = sub.discount?.coupon?.amount_off
+                  @cost = "$#{((sub.plan.amount - discount)/100).toFixed(2)}"
+                else
+                  @cost = "$#{(sub.plan.amount/100).toFixed(2)}"
+
           else
             console.error "Could not find personal subscription #{me.get('stripe')?.customerID} #{me.get('stripe')?.subscriptionID}"
           delete @state

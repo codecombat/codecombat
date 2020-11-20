@@ -912,6 +912,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sorry_to_see_you_go: "Жаль, что вы уходите! Пожалуйста, расскажите нам, что мы можем сделать лучше."
     unsubscribe_feedback_placeholder: "О, что мы наделали?"
     stripe_description: "Месячная подписка"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "Купить сейчас"
     subscription_required_to_play: "Чтобы пройти этот уровень, нужна подписка."
     unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео."
@@ -936,7 +937,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     first_month_price: "Всего $__price__ за первый месяц!"
     lifetime: "Пожизненная подписка" # {change}
     lifetime_price: "$__price__"
-    year_subscription: "Годовая подписка"
+    year_subscription: "Годовая подписка" # {change}
     year_price: "$__price__/год"
     support_part1: "Нужна помощь по способах оплаты? Напишите на" # {change}
     support_part2: "support@codecombat.com"
@@ -2264,7 +2265,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     scribe_join_description: "расскажите нам немного о себе, вашем опыте в программировании и какие вещи вы хотели бы описывать. Отсюда и начнём!"
     scribe_subscribe_desc: "Получать e-mail с объявлениями о написании статей."
     diplomat_introduction_pref: "Так, одной из вещей, которую мы узнали из "
-    diplomat_launch_url: "запуска в октябре"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "было то, что есть значительная заинтересованность в CodeCombat в других странах! Мы создаём корпус переводчиков, стремящихся превратить один набор слов в другой набор слов для максимальной доступности CodeCombat по всему миру. Если вы любите видеть контент до официального выхода и получать эти уровни для ваших соотечественников как можно скорее, этот класс для вас."
     diplomat_attribute_1: "Свободное владение английским языком и языком, на который вы хотели бы переводить. При передаче сложных идей важно иметь сильную хватку в обоих!"
     diplomat_i18n_page_prefix: "Вы можете начать переводить уровни, посетив нашу"
@@ -2277,8 +2278,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     ambassador_introduction: "Это сообщество, которое мы создаём, а вы объединяете. У нас есть Olark чаты, электронная почта и социальные сети с уймой людей, с которыми нужно поговорить, помочь в ознакомлении с игрой и обучении из неё. Если вы хотите помочь людям втянуться, получать удовольствие, наслаждаться и и куда мы идём, этот класс для вас."
     ambassador_attribute_1: "Навыки общения. Уметь определять проблемы игроков и помогать решить их. Кроме того, держите всех нас в курсе о том, что игроки говорят, что им нравится, не нравится и чего хотят больше!"
     ambassador_join_desc: "расскажите нам немного о себе, чем вы занимались и чем хотели бы заниматься. Отсюда и начнём!"
-    ambassador_join_note_strong: "Примечание"
-    ambassador_join_note_desc: "Одним из наших главных приоритетов является создание мультиплеера, где игроки столкнутся с труднорешаемыми уровнями и могут призвать более высокоуровневых волшебников для помощи. Это будет отличным способом для послов делать свое дело. Мы будем держать вас в курсе!"
     ambassador_subscribe_desc: "Получать e-mail о разработке мультиплеера и обновлениях в системе поддержки."
     teacher_subscribe_desc: "Получать e-mail с новостями и объявлениями для учителей."
     changes_auto_save: "Изменения сохраняются автоматически при переключении флажков."
@@ -2994,7 +2993,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3028,6 +3026,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"

@@ -594,16 +594,16 @@ $gameControlMargin: 30px
     font-size: 24px
     color: white
     text-shadow: 0px 2px 1px black, 0px -2px 1px black, -2px 0px 1px black, 2px 0px 1px black
-    height: 32px
-    line-height: 32px
+    height: 33px
+    line-height: 33px
 
     .user-status-line
       position: relative
 
-      button.btn.btn-illustrated
+      .btn.btn-illustrated
         margin-left: 10px
         min-width: 90px
-        height: 32px
+        height: 33px
         color: white
 
       .rtl-allowed
@@ -989,3 +989,10 @@ body.ipad #campaign-view
 
 body[lang='ru'] .portals h2
   font-size: 26px
+
+body:not([lang*="-"]) #campaign-view .user-status .user-status-line .language-dropdown
+  width: 148px
+
+body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdown
+  width: 112px
+

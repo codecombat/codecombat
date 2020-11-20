@@ -912,6 +912,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     sorry_to_see_you_go: "חבל שאתם עוזבים! אנא ספרו לנו כיצד נוכל להשתפר."
     unsubscribe_feedback_placeholder: "אוי, מה עשינו?"
     stripe_description: "מנוי חודשי"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "קנה כעת"
     subscription_required_to_play: "נדרש מנוי כדי לשחק בשלב זה."
     unlock_help_videos: "הירשמו כמנוי כדי לפתוח את כל ההדרכות בווידאו."
@@ -936,7 +937,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    first_month_price: "Only $__price__ for your first month!"
     lifetime: "מנוי לכל החיים" # {change}
     lifetime_price: "$__price__"
-    year_subscription: "מנוי שנתי"
+    year_subscription: "מנוי שנתי" # {change}
     year_price: "$__price__ לשנה"
     support_part1: "זקוקים לעזרה עם אפשרויות התשלום? שלחו דואר אלקטרוני לכתובת" # {change}
     support_part2: "support@codecombat.com"
@@ -2264,7 +2265,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     scribe_join_description: "ספרו לנו קצת על עצמכם, על הניסיון שלכם בתכנות ועל הדברים שעליהם תרצו לכתוב. אנו נתקדם משם!"
     scribe_subscribe_desc: "קבלו בדואר אלקטרוני הודעות על כתיבת מאמרים."
     diplomat_introduction_pref: "אז אם למדנו דבר אחד "
-    diplomat_launch_url: "מההשקה באוקטובר"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "זה שקיים עניין ניכר ב-CodeCombat במדינות אחרות! אנו בונים נבחרת של מתרגמים שמשתוקקים להפוך אוסף של מילים לאוסף אחר של מילים, כדי להנגיש את CodeCombat לכמה שיותר אנשים ברחבי העולם. אם תרצו לקבל מבט מהיר בתוכן הצפוי בקרוב, ולהביא את השלבים האלה כמה שיותר מהר על אלה שגרים במדינה שלכם, אולי זה המקצוע שמתאים לכם."
     diplomat_attribute_1: "שליטה מצוינת באנגלית ובשפה שאליה תרצו לתרגם. בעת העברה של רעיונות מורכבים, חשוב להבין היטב את שתי השפות!"
     diplomat_i18n_page_prefix: "כדי להתחיל ולתרגם את השלבים שלנו, תוכלו לעבור אל"
@@ -2277,8 +2278,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     ambassador_introduction: "אנו בונים כאן קהילה, ואתם נקודות החיבור. יש לנו פורומים, דואר אלקטרוני ורשתות חברתיות עם הרבה אנשים לשוחח עמם, להכיר להם את המשחק וללמוד מהם. אם ברצונכם לעזור לאנשים לקחת חלק וליהנות, כמו גם להבין את הרוח של CodeCombat ואת מה שצפוי לו, אולי זה המקצוע שמתאים לכם."
     ambassador_attribute_1: "מיומנויות תקשורת. היכולת לזהות את הבעיות שבהן השחקנים נתקלים ולעזור להם לפתור אותן. בנוסף, המשיכו לעדכן אותנו במה ששחקנים אחרים עושים, מה הם אוהבים ולא אוהבים, וממה הם רוצים עוד!"
     ambassador_join_desc: "ספרו לנו קצת על עצמכם, מה שעשיתם עד כה ומה מעניין אתכם לעשות. אנו נתקדם משם!"
-    ambassador_join_note_strong: "הערה"
-    ambassador_join_note_desc: "אחת העדיפויות הראשונות שלנו היא בנייה של משחק מרובה משתתפים, אשר בו שחקנים שמתקשים בפתרון שלבים יכולים לזמן קוסמים בדרגה גבוהה יותר שיעזרו להם. זו תהיה דרך נהדרת שבה השגרירים יוכלו לעזור כמו שהם יודעים. אנו נעדכן אתכם!"
     ambassador_subscribe_desc: "קבלו בדואר אלקטרוני הודעות על עדכוני תמיכה והתפתחויות בתחום ריבוי השחקנים."
     teacher_subscribe_desc: "קבלו בדואר אלקטרוני הודעות על עדכונים והודעות למורים."
     changes_auto_save: "השינויים יישמרו באופן אוטומטי כאשר תשנו את הבחירה בתיבות הסימון."
@@ -2994,7 +2993,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3028,6 +3026,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"

@@ -2,16 +2,16 @@
   "short_name": "CodeCombat",
   "name": "CodeCombat",
   "icons": [
-    {
-      "src": "/images/pages/base/logo_square_120.png",
-      "type": "image/png",
-      "sizes": "120x120"
-    },
-    {
-      "src": "/images/pages/base/logo_square_250.png",
-      "type": "image/png",
-      "sizes": "250x250"
-    }
+      {
+          "src": "/images/android-chrome-192x192.png?v=2020-11-15",
+          "sizes": "192x192",
+          "type": "image/png"
+      },
+      {
+          "src": "/images/android-chrome-512x512.png?v=2020-11-15",
+          "sizes": "512x512",
+          "type": "image/png"
+      }
   ],
   "start_url": "/play",
   "display": "standalone",
