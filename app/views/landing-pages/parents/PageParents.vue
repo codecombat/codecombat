@@ -275,6 +275,16 @@
     </div>
 
     <button-schedule-free-class @click="onScheduleAFreeClass" />
+    <div class="container-course-offering-heading">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <a>Sign up for self-paced access to CodeCombat</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 
     <div class="container-graphic-spacer">
       <div class="container">
@@ -326,12 +336,11 @@
 
     <div class="container-student-outcomes">
       <div class="container">
-        <div class="row">
+        <div class="row carousel-row">
           <div class="col-lg-12 text-center">
             <h1>Student Outcomes</h1>
           </div>
-          <!-- Can set interval to make it automatic: data-interval=3000 -->
-          <div id="student-outcome-carousel" class="carousel slide">
+          <div id="student-outcome-carousel" class="carousel slide" data-interval=8000>
             <ol class="carousel-indicators">
               <li data-target="#student-outcome-carousel" data-slide-to="0" />
               <li data-target="#student-outcome-carousel" data-slide-to="1" />
@@ -373,8 +382,17 @@
               </div>
             </div>
           </div>
-          <a @click="onCarouselLeft">Left</a>
-          <a @click="onCarouselRight">Right</a>
+
+          <div class="col-lg-12 text-center">
+            <button-arrow
+              :point-left="true"
+              @click="onCarouselLeft"
+            />
+            <button-arrow
+              @click="onCarouselRight"
+            />
+          </div>
+
 
           <!-- TODO - TRICKY CAROUSEL!!!! -->
         </div>
@@ -452,6 +470,7 @@ import ModalTimetapSchedule from './ModalTimetapSchedule'
 import ModalTimetapConfirmation from './ModalTimetapConfirmation'
 import ButtonScheduleFreeClass from './ButtonScheduleFreeClass'
 import IconGem from './IconGem'
+import ButtonArrow from './ButtonArrow'
 
 const DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID = 214809
 const DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID = 222065
@@ -463,7 +482,8 @@ export default {
     PageParentsJumbotron,
     ModalTimetapConfirmation,
     ButtonScheduleFreeClass,
-    IconGem
+    IconGem,
+    ButtonArrow
   },
 
   props: {
@@ -857,6 +877,10 @@ export default {
   margin: 0 auto;
 }
 
+.container-pricing-table .text-below-pricing-table {
+  margin-top: 5px;
+}
+
 .text-below-pricing-table p {
   font-size: 12px;
   margin-bottom: 0;
@@ -886,6 +910,48 @@ export default {
 
 #student-outcome-carousel .row {
   padding: 60px;
+}
+
+.carousel-row {
+  /* Required for absolute borders to get positioned correctly */
+  position: relative;
+}
+
+.carousel-row > div:first-of-type {
+  transform: translateY(-32px);
+}
+
+.carousel-row > div:last-of-type {
+  transform: translateY(24px);
+}
+
+.carousel-row:before {
+  content: '';
+  border-top: 4px solid #6ae8e3;
+  border-left: 4px solid #6ae8e3;
+  border-bottom: 4px solid #6ae8e3;
+
+  position: absolute;
+  height: 100%;
+  width: 20%;
+  border-radius: 40px 0 0 40px;
+  pointer-events: none;
+}
+
+.carousel-row:after {
+  content: '';
+  border-top: 4px solid #6ae8e3;
+  border-right: 4px solid #6ae8e3;
+  border-bottom: 4px solid #6ae8e3;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 20%;
+
+  border-radius: 0 40px 40px 0;
+  pointer-events: none;
 }
 
 </style>
