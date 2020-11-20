@@ -480,23 +480,73 @@
       </div>
     </div>
 
-    <div class="container-background">
+    <div class="container-background-faq">
       <div class="container">
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-lg-12 text-center">
             <h1>FAQs</h1>
-            TODO - FAQ using css grids.
           </div>
+        </div>
+        <div class="row row-eq-height">
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <h4>
+              How are instructors matched with my child?
+            </h4>
+            <p>
+              After the initial trial class, our team carefully matches our online instructors to each student based on their experience level, personality, interests, and schedule. Our team will work with you to improve your experience if you or your child doesn’t love learning with your instructor.
+            </p>
+          </div>
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <h4>
+              What if I need to reschedule a class?
+            </h4>
+            <p>
+              We understand, and are happy to find a new date and time that works for you. Simply let your instructor or
+              <a href="#">Education Advisor</a> know you need to make a change. We greatly appreciate 24 hours notice for any scheduling changes.
+            </p>
+          </div>
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <h4>
+              What kind of technology do I need to join the class?
+            </h4>
+            <p>
+              Any internet-connected device with a full keyboard. Laptops, PCs, and Chromebooks are recommended, however iPads will work with an external keyboard.
+            </p>
+          </div>
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <h4>
+              What is the cancellation policy? 
+            </h4>
+            <p>
+              You can freeze your subscription at any time and re-activate when it works for you. If you want to cancel, we hate to see you go but will process your cancellation within 24 hours.
+            </p>
+          </div>
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <h4>
+              Are there any student age limits?
+            </h4>
+            <p>
+              We recommend our online classes for students aged 7 through 16. However, if your child can type, use a mouse, and is comfortable using a computer, they are welcome to join our class. If you are an adult, we simply ask you to join our private classes to ensure you get the most out of your experience.
+            </p>
+          </div>
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <h4>
+              Can I choose my child’s courses? I know where I want my child to start.
+            </h4>
+            <p>
+              Yes! When enrolling in classes, you can choose whether your child should be in the beginner, intermediate, or advanced class. If you’re not sure where to start, we recommend starting with the beginner course so that your child can master fundamental concepts before advancing to more difficult courses. After the first class, the instructor will confirm whether your child is in the appropriate course.
+            </p>
+          </div>
+        </div>
+        <div class="text-center">
+          <p>
+            If you have any other questions about our online classes, please <a href="#">contact us.</a>
+          </p>
         </div>
       </div>
     </div>
 
-    <div class="container-background">
-      <div class="container">
-        <div class="row">
-          bottom mountains...
-        </div>
-      </div>
+    <div class="container-footer-mountains">
     </div>
   </div>
 </template>
@@ -663,7 +713,7 @@ export default {
   background: linear-gradient(262.39deg, #D7EFF2 -1.56%, #FDFFFF 95.05%);
 }
 
-#parent-page h1, #parent-page h2, #parent-page h3, #parent-page p, #parent-page a {
+#parent-page h1, #parent-page h2, #parent-page h3, #parent-page h4, #parent-page p, #parent-page a {
   font-family: Work Sans;
   font-style: normal;
   color: #131B25;
@@ -1063,6 +1113,69 @@ export default {
   padding: 10px 20px;
   border: 4px dashed #F2D269;
   border-radius: 20px;
+}
+
+.container-background-faq .row h4 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.container-background-faq {
+  margin-bottom: 50px;
+}
+
+.container-background-faq > .container {
+  border: 4px solid #6ae8e3;
+  border-radius: 40px;
+  border-top: none;
+  position: relative;
+  padding: 30px;
+}
+
+
+.container-background-faq > .container > div:last-of-type {
+  margin: 32px 0 0;
+}
+
+.container-background-faq h1 {
+  transform: translateY(-64px);
+}
+
+/* These create the broken top border which FAQ sits between */
+/* Top left border */
+.container-background-faq > .container::after {
+  content: '';
+  position: absolute;
+  height: 100px;
+  width: 20%;
+  border-top: 4px solid #6ae8e3;
+  border-left: 4px solid #6ae8e3;
+  top: 0;
+  left: -4px;
+  border-radius: 40px 0 0 0;
+}
+
+/* Top right border */
+.container-background-faq > .container::before {
+  content: '';
+  position: absolute;
+  height: 100px;
+  width: 20%;
+  border-top: 4px solid #6ae8e3;
+  border-right: 4px solid #6ae8e3;
+  top: 0;
+  right: -4px;
+  border-radius: 0px 40px 0 0;
+}
+
+.container-footer-mountains {
+  width: 100%;
+  background: url(/images/pages/parents/parents_footer_mountain.svg);
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  height: 170px;
+  margin-bottom: -50px;
 }
 
 
