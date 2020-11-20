@@ -395,7 +395,7 @@
       </div>
     </div>
 
-    <div class="container-background">
+    <div class="container-graphic-spacer">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
@@ -405,22 +405,64 @@
       </div>
     </div>
 
-    <div class="container-background">
+    <div class="container-concepts-covered">
       <div class="container">
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-lg-12 text-center">
             <h1>Concepts Covered</h1>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-4">
-            TODO - Beginner panel
+        <div class="row row-eq-height">
+          <div class="col-sm-4 col-xs-12 concept-covered-tab">
+            <img src="/images/pages/parents/trophy_bronze.svg" />
+            <h3>Beginner</h3>
+            <p><b>For students with little to no text-based coding experience.</b></p>
+            <div>
+              <ul>
+                <li>Sequences</li>
+                <li>Algorithms</li>
+                <li>Syntax</li>
+                <li>Strings</li>
+                <li>Arguments</li>
+                <li>Loops</li>
+                <li>Variables</li>
+                <li>Cartesian coordinates</li>
+              </ul>
+            </div>
           </div>
-          <div class="col-lg-4">
-            TODO - Intermediate panel
+          <div class="col-sm-4 col-xs-12 concept-covered-tab">
+            <img src="/images/pages/parents/trophy_silver.svg" />
+            <h3>Intermediate</h3>
+            <p><b>For students with some text-based coding experience.</b></p>
+            <div>
+              <ul>
+                <li>Boolean logic</li>
+                <li>Properties</li>
+                <li>Advanced loops</li>
+                <li>Conditionals</li>
+                <li>Nested conditionals</li>
+                <li>Functions</li>
+                <li>Events</li>
+                <li>Basic game AI</li>
+              </ul>
+            </div>
           </div>
-          <div class="col-lg-4">
-            TODO - Advanced panel
+          <div class="col-sm-4 col-xs-12 concept-covered-tab">
+            <img src="/images/pages/parents/trophy_gold.svg" />
+            <h3>Advanced</h3>
+            <p><b>For students with substantial experience in text-based code and a good grasp of complex concepts.</b></p>
+            <div>
+              <ul>
+                <li>Advanced strings</li>
+                <li>Computer arithmetic</li>
+                <li>Functions with returns</li>
+                <li>Complex conditionals</li>
+                <li>Arrays</li>
+                <li>Break/continue statements</li>
+                <li>Recursion</li>
+                <li>Stacks and Queues</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -428,7 +470,7 @@
 
     <button-schedule-free-class @click="onScheduleAFreeClass" />
 
-    <div class="container-background">
+    <div class="container-graphic-spacer">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
@@ -973,5 +1015,55 @@ export default {
   border-radius: 0 40px 40px 0;
   pointer-events: none;
 }
+
+.concept-covered-tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 20px;
+}
+
+.container-concepts-covered {
+  margin: 32px 0 64px;
+}
+
+.container-concepts-covered h1 {
+  margin-bottom: 32px;
+}
+
+#parent-page .container-concepts-covered .concept-covered-tab h3 {
+  font-size: 22px;
+  background-color: #1FBAB4;
+  color: white;
+  padding: 0 10px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.container-concepts-covered .concept-covered-tab p {
+  text-align: center;
+  margin: 10px 0 20px;
+}
+
+.concept-covered-tab img {
+  max-width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.container-concepts-covered .concept-covered-tab div {
+  width: 100%;
+}
+
+.container-concepts-covered .concept-covered-tab ul {
+  list-style: none;
+
+  padding: 10px 20px;
+  border: 4px dashed #F2D269;
+  border-radius: 20px;
+}
+
 
 </style>
