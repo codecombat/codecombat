@@ -1,5 +1,21 @@
+<script>
+import ButtonScheduleFreeClass from './ButtonScheduleFreeClass'
+
+export default {
+  components: {
+    ButtonScheduleFreeClass
+  },
+
+  methods: {
+    onCtaClick () {
+      this.$emit('cta-clicked')
+    }
+  }
+}
+</script>
+
 <template>
-  <div class="jumbotron">
+  <div class="top-jumbotron">
     <div class="row">
       <div class="col-lg-12">
         <h1>Live Online Coding Classes</h1>
@@ -8,47 +24,36 @@
     </div>
     <div class="row">
       <div class="col-lg-12">
-        <a href="#" class="full-width button" @click="onCtaClick">
-          Schedule a Free Class
-        </a>
+        <button-schedule-free-class
+          @click="onCtaClick"
+        />
       </div>
     </div>
   </div>
 
 </template>
 
-<script>
-export default {
-  methods: {
-    onCtaClick (e) {
-      e.preventDefault()
-      this.$emit('cta-clicked')
-    }
-  }
-}
-</script>
-
 <style scoped>
-  .jumbotron {
-    padding: 70px;
+  .top-jumbotron {
     margin-bottom: 0;
     min-height: 580px;
 
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+    padding-top: 155px;
+
+    background-color: unset;
 
     position: relative;
     z-index: 2;
 
     text-align: center;
+    min-height: 628px;
   }
 
-  .jumbotron h1 {
-    margin-bottom: 10px;
+  .top-jumbotron h1 + h1 {
+    margin-bottom: 58px;
   }
 
-  .jumbotron .button {
+  .top-jumbotron .button {
     margin-top: 30px;
     max-width: 320px;
   }
