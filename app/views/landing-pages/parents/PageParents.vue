@@ -295,7 +295,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-lg-12 text-center">
             <img
               class="img-responsive"
               src="/images/pages/parents/learning_cycle.svg"
@@ -872,7 +872,7 @@ export default {
 }
 
 .container-our-curriculum img {
-  margin-bottom: 40px;
+  margin: 0 auto 40px;
 }
 
 .container-our-curriculum .container p {
