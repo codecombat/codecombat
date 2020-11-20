@@ -341,11 +341,6 @@
             <h1>Student Outcomes</h1>
           </div>
           <div id="student-outcome-carousel" class="carousel slide" data-interval=8000>
-            <ol class="carousel-indicators">
-              <li data-target="#student-outcome-carousel" data-slide-to="0" />
-              <li data-target="#student-outcome-carousel" data-slide-to="1" />
-              <li data-target="#student-outcome-carousel" data-slide-to="2" />
-            </ol>
             <div class="carousel-inner">
               <div class="item active">
                 <div class="row row-eq-height">
@@ -388,13 +383,14 @@
               :point-left="true"
               @click="onCarouselLeft"
             />
+            <!-- Reference https://getbootstrap.com/docs/3.4/javascript/ -->
+            <div class='carousel-dot' @click="() => onCarouselDirectMove(0)"></div>
+            <div class='carousel-dot' @click="() => onCarouselDirectMove(1)"></div>
+            <div class='carousel-dot' @click="() => onCarouselDirectMove(2)"></div>
             <button-arrow
               @click="onCarouselRight"
             />
           </div>
-
-
-          <!-- TODO - TRICKY CAROUSEL!!!! -->
         </div>
       </div>
     </div>
@@ -455,7 +451,7 @@
 
     <div class="container-background">
       <div class="container">
-        <div class="row">#student-outcome-carousel
+        <div class="row">
           bottom mountains...
         </div>
       </div>
@@ -546,6 +542,10 @@ export default {
 
     onCarouselRight () {
       $("#student-outcome-carousel").carousel('next')
+    },
+
+    onCarouselDirectMove(frameNum) {
+      $("#student-outcome-carousel").carousel(frameNum)
     },
 
     onScheduleAFreeClass () {
@@ -723,6 +723,7 @@ export default {
 
 .container-graphic-spacer {
   min-height: 270px;
+  pointer-events: none;
 }
 
 .container-background-invest-heading, .container-child-future {
@@ -904,7 +905,7 @@ export default {
   line-height: 30px;
 }
 
-#student-outcome-carousel .row > div:last-of-type {
+#student-outcome-carousel .row > div {
   justify-content: center;
 }
 
@@ -922,7 +923,26 @@ export default {
 }
 
 .carousel-row > div:last-of-type {
-  transform: translateY(24px);
+  transform: translateY(-24px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.carousel-row > div:last-of-type div {
+  margin: 0 15px;
+}
+
+.carousel-dot {
+  display: inline-block;
+  cursor: pointer;
+
+  width: 13px;
+  height: 13px;
+
+  background-color: #1FBAB4;
+  border-radius: 6.5px;
 }
 
 .carousel-row:before {
