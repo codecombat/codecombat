@@ -18,7 +18,7 @@
       },
       clickedChat () {
         try {
-          window.tracker.drift.widget.open()
+          window.tracker.drift.openChat()
           this.programaticallyClose()
         } catch (e) {
           console.error(e)
