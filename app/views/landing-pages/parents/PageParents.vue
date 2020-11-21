@@ -124,11 +124,12 @@
     <div class="container-graphic-spacer">
       <div class="container">
         <div class="row">
-          <div class="col-md-6">
-            Placeholder speech bubble graphic
-          </div>
-          <div class="col-md-6">
-            Hero walking along path graphic
+          <div class="col-xs-12" style="margin: 30px 0 20px;">
+            <img
+              class="img-responsive"
+              src="/images/pages/parents/graphic_03_speech.svg"
+              alt="hero moving along a path based on code commands"
+            />
           </div>
         </div>
       </div>
@@ -153,11 +154,19 @@
       </div>
     </div>
 
-    <div class="container-graphic-spacer">
+    <!-- Added some custom inline styles specific to this graphic -->
+    <div class="container-graphic-spacer"
+      style="margin-bottom: -35px"
+    >
       <div class="container">
         <div class="row">
-          <div class="col-lg-12">
-            TODO - Pet Running along trail Graphic
+          <div class="col-xs-12">
+            <img
+              class="img-responsive"
+              src="/images/pages/parents/graphic_04.svg"
+              alt="CodeCombat pet following yellow dotted path"
+              style="transform: translate(40%, -35px);"
+            />
           </div>
         </div>
       </div>
@@ -168,7 +177,7 @@
         <div class="row">
           <div class="col-lg-12 text-center">
             <h1>Course Offerings</h1>
-            <p>
+            <p style="margin: 0 auto;">
               With individual or small group class options and flexible scheduling available, this is the easiest way to get started in computer science.
             </p>
           </div>
@@ -276,22 +285,14 @@
     </div>
 
     <button-schedule-free-class @click="onScheduleAFreeClass" />
-    <div class="container-course-offering-heading">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12 text-center">
-            <a>Sign up for self-paced access to CodeCombat</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <page-parents-section-premium />
     
 
     <div class="container-graphic-spacer">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            TODO - hero walking graphic
+            <img class="img-responsive" src="/images/pages/parents/graphic_05.svg" style="margin: 0 auto;" />
           </div>
         </div>
       </div>
@@ -328,7 +329,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            TODO - hero walking graphic
+            <img class="img-responsive" src="/images/pages/parents/graphic_06.svg" style="margin: 0 auto; transform: translate(-47%, 0);" />
           </div>
         </div>
       </div>
@@ -400,7 +401,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            TODO - hero walking graphic
+            <img class="img-responsive" src="/images/pages/parents/graphic_07.svg" style="margin: 0 auto; transform: translate(-47%, 0);" />
           </div>
         </div>
       </div>
@@ -471,11 +472,11 @@
 
     <button-schedule-free-class @click="onScheduleAFreeClass" />
 
-    <div class="container-graphic-spacer">
+    <div class="container-graphic-spacer" style="margin: 20px;">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            TODO - hero walking graphic
+            <img class="img-responsive" src="/images/pages/parents/graphic_08.svg" style="margin: 0 auto;" />
           </div>
         </div>
       </div>
@@ -503,7 +504,7 @@
             </h4>
             <p>
               We understand, and are happy to find a new date and time that works for you. Simply let your instructor or
-              <a href="#">Education Advisor</a> know you need to make a change. We greatly appreciate 24 hours notice for any scheduling changes.
+              <a href="mailto:classes@codecombat.com">Education Advisor</a> know you need to make a change. We greatly appreciate 24 hours notice for any scheduling changes.
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
@@ -541,7 +542,7 @@
         </div>
         <div class="text-center">
           <p>
-            If you have any other questions about our online classes, please <a href="#">contact us.</a>
+            If you have any other questions about our online classes, please <a href="mailto:support@codecombat.com">contact us.</a>
           </p>
         </div>
       </div>
@@ -642,6 +643,7 @@ export default {
     },
 
     onScheduleAFreeClass () {
+      this.trackCtaClicked()
       this.showTimetapModal = true
     },
 
@@ -714,10 +716,16 @@ export default {
   background: linear-gradient(262.39deg, #D7EFF2 -1.56%, #FDFFFF 95.05%);
 }
 
-#parent-page h1, #parent-page h2, #parent-page h3, #parent-page h4, #parent-page p, #parent-page a {
+#parent-page h1, #parent-page h2, #parent-page h3, #parent-page h4, #parent-page p {
   font-family: Work Sans;
   font-style: normal;
   color: #131B25;
+}
+
+#parent-page a {
+  font-family: Work Sans;
+  font-style: normal;
+  text-decoration: underline;
 }
 
 .container-power-gameplay .row h2 {
@@ -735,6 +743,7 @@ export default {
   position: relative;
 }
 
+/* Attaches Anya graphic to the correct place on the left */
 .container-power-gameplay .container:before {
   content: "";
   background-image: url(/images/pages/parents/graphic_01_anya.svg);
@@ -859,6 +868,10 @@ export default {
   pointer-events: none;
 }
 
+.container-graphic-spacer img {
+  margin: 0 auto;
+}
+
 .container-background-invest-heading, .container-child-future {
   margin-bottom: 80px;
 }
@@ -915,19 +928,6 @@ export default {
 
 .container-parent-testimonial p:first-of-type {
   margin-top: 20px;
-}
-
-
-.container-course-offering-heading h1 {
-  margin-bottom: 20px;
-}
-
-.container-course-offering-heading p {
-  max-width: 828px;
-}
-
-.container-course-offering-heading {
-  margin-bottom: 28px;
 }
 
 .pricing-grid-container {
@@ -1006,6 +1006,13 @@ export default {
   margin-bottom: 48px;
 }
 
+@media screen and (max-width: 700px) {
+  .container-pricing-table {
+    padding: 0;
+    font-style: smaller;
+  }
+}
+
 .container-pricing-table > div {
   max-width: 1170px;
   margin: 0 auto;
@@ -1019,6 +1026,12 @@ export default {
   font-size: 12px;
   margin-bottom: 0;
   line-height: 1.1;
+}
+
+.self-sign-up a {
+  color: #545B64;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .text-below-pricing-table p:last-of-type {

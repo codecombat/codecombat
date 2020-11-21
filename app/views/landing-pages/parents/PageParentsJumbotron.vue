@@ -49,7 +49,7 @@ export default {
     min-height: 628px;
 
     background-image: url(/images/pages/parents/parent_hero_image.png),
-      url(/images/pages/parents/parent_hero_2.png),
+      url(/images/pages/parents/griffin_alejandro_feedback.png),
       url(/images/pages/parents/image_cloud_3.svg),
       url(/images/pages/parents/image_cloud_4.svg),
       url(/images/pages/parents/image_cloud_3.svg),
@@ -80,7 +80,7 @@ export default {
   @media (max-width: 1000px) {
     .top-jumbotron {
       /* Moves images out of the way of the heading to keep it legible */
-      background-position: bottom -40% left -5%,
+      background-position: bottom -74% left -5%,
         top -50% right -30%,
         top 50px left 30px,
         top 35px right 280px,
