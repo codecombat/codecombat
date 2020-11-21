@@ -16,11 +16,13 @@
     <!-- END Modals -->
 
     <page-parents-jumbotron :type="type" @cta-clicked="onScheduleAFreeClass"/>
+
     <div class="container-power-gameplay">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <div class="row">
+            <!-- Margin added quickly to line up graphics -->
+            <div class="row" style="margin-top: 90px;">
               <div class="col-lg-12 text-center">
                 <h2>
                   CodeCombat combines the power of gameplay and personalized instruction to deliver online coding classes that your child will look forward to every week!
@@ -65,7 +67,6 @@
     </div>
 
     <div class="container-graphic-spacer">
-      TODO - Graphic spacer
     </div>
 
     <div class="container-background-invest-heading">
@@ -730,6 +731,46 @@ export default {
   letter-spacing: 0.56px;
 }
 
+.container-power-gameplay .container {
+  position: relative;
+}
+
+.container-power-gameplay .container:before {
+  content: "";
+  background-image: url(/images/pages/parents/graphic_01_anya.svg);
+  background-repeat: no-repeat;
+  position: absolute;
+  background-size: 99%;
+  background-position: center;
+  width: 151px;
+  height: 227px;
+  top: -50px;
+}
+
+@media (max-width: 1200px) {
+  .container-power-gameplay .container:before {
+    display: none;
+  }
+}
+
+.container-power-gameplay .container:after {
+  content: "";
+  background-image: url(/images/pages/parents/graphic_02_tower.svg);
+  background-repeat: no-repeat;
+  position: absolute;
+  background-size: 99%;
+  background-position: center;
+  width: 561px;
+  height: 561px;
+  top: 0;
+  right: 0;
+}
+
+@media (max-width: 1200px) {
+  .container-power-gameplay .container:after {
+    display: none;
+  }
+}
 
 .trust-logos {
   margin-bottom: 40px;
