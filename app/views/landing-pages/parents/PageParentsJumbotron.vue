@@ -47,6 +47,46 @@ export default {
 
     text-align: center;
     min-height: 628px;
+
+    background-image: url(/images/pages/parents/parent_hero_image.png),
+      url(/images/pages/parents/parent_hero_2.png),
+      url(/images/pages/parents/image_cloud_3.svg),
+      url(/images/pages/parents/image_cloud_4.svg),
+      url(/images/pages/parents/image_cloud_3.svg),
+      url(/images/pages/parents/image_cloud_1.svg);
+
+    background-repeat: no-repeat,
+      no-repeat,
+      no-repeat,
+      no-repeat,
+      no-repeat,
+      no-repeat;
+
+    background-position: bottom left 5%,
+      center right 5%,
+      top 50px left 30px,
+      top 35px right 280px,
+      top 360px right 300px,
+      bottom 52px right 475px;
+
+    background-size: 500px,
+      350px,
+      260px,
+      90px,
+      260px,
+      250px;
+  }
+
+  @media (max-width: 1000px) {
+    .top-jumbotron {
+      /* Moves images out of the way of the heading to keep it legible */
+      background-position: bottom -40% left -5%,
+        top -50% right -30%,
+        top 50px left 30px,
+        top 35px right 280px,
+        top 360px right 300px,
+        bottom 52px right 475px;
+    }
   }
 
   .top-jumbotron h1 + h1 {
