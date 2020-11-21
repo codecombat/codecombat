@@ -263,7 +263,7 @@ module.exports = class CocoView extends Backbone.View
       DirectContactModal = require('ozaria/site/views/core/DirectContactModal').default
       @openModalView(new DirectContactModal())
 
-    if me.isTeacher(true) and window?.tracker?.drift?.widget?.open
+    if me.isTeacher(true) and window?.tracker?.drift?.openChat
       openDirectContactModal()
     else
       try
