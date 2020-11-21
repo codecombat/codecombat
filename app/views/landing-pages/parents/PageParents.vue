@@ -34,16 +34,6 @@
         <div class="row">
           <div class="col-lg-12 trust-logos">
             <div class="flex-spacer">
-              <div class="codie-logo-container">
-                <img srcset="/images/pages/parents/2017_codie_award@1x.png 1x,
-                                        /images/pages/parents/2017_codie_award@2x.png 2x,
-                                        /images/pages/parents/2017_codie_award@3x.png 3x"
-                    src="/images/pages/parents/2017_codie_award@1x.png"
-                />
-              </div>
-            </div>
-
-            <div class="flex-spacer">
               <img srcset="/images/pages/parents/cse_top_pick@1x.png 1x,
                                         /images/pages/parents/cse_top_pick@2x.png 2x,
                                         /images/pages/parents/cse_top_pick@3x.png 3x"
@@ -58,6 +48,16 @@
                                         /images/pages/parents/cs_for_all_member@2x.png 2x,
                                         /images/pages/parents/cs_for_all_member@3x.png 3x"
                     src="/images/pages/parents/cs_for_all_member@1x.png"
+                />
+              </div>
+            </div>
+
+            <div class="flex-spacer">
+              <div class="codie-logo-container">
+                <img srcset="/images/pages/parents/2017_codie_award@1x.png 1x,
+                                        /images/pages/parents/2017_codie_award@2x.png 2x,
+                                        /images/pages/parents/2017_codie_award@3x.png 3x"
+                    src="/images/pages/parents/2017_codie_award@1x.png"
                 />
               </div>
             </div>
@@ -596,6 +596,11 @@ export default {
   }),
 
   metaInfo () {
+    // HACK - Hides the Request a Quote icon on parent page.
+    //        Can't be put in mounted or created because it won't get
+    //        called once the page has been rendered once.
+    //        Request-class-list icon gets rendered back if the user navigates away.
+    $('.request-class-list').hide()
     return {
       title: (this.type === 'parents') ? undefined : this.$t('parents_landing_2.live_classes_title'),
       meta: [
@@ -930,6 +935,13 @@ export default {
   margin-top: 20px;
 }
 
+.container-course-offering-heading {
+  background-image: url(/images/pages/parents/image_cloud_4.svg);
+  background-repeat: no-repeat;
+  background-position: center right 5%;
+  background-size: 90px;
+}
+
 .pricing-grid-container {
   display: grid;
   grid-template-columns: 50% 12.5% 12.5% 12.5% 12.5%;
@@ -1004,6 +1016,23 @@ export default {
 .container-pricing-table {
   padding: 0 70px;
   margin-bottom: 48px;
+
+  /* Added some clouds to the pricing table */
+  background-image: url(/images/pages/parents/image_cloud_3.svg),
+    url(/images/pages/parents/image_cloud_3.svg),
+    url(/images/pages/parents/image_cloud_1.svg);
+
+  background-repeat: no-repeat,
+    no-repeat,
+    no-repeat;
+
+  background-position: top 50px left 30px,
+    top 360px right 300px,
+    bottom right 10%;
+
+  background-size: 260px,
+    260px,
+    250px;
 }
 
 @media screen and (max-width: 700px) {
