@@ -5,7 +5,10 @@ form#basic-info-form.modal-body.basic-info
       .auth-network-logins
         .gplus-login
           a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
-            img.gplus-logo(src="/images/ozaria/common/log-in-google-sso.svg", draggable="false")
+            - var buttonURL = "/images/ozaria/common/log-in-google-sso-generic.svg"
+            - if(view.signupState.get('path') == 'teacher')
+            -   imgURL = "/images/ozaria/common/log-in-google-sso.svg"
+            img.gplus-logo(src=buttonURL, draggable="false")
         //- TODO: Enable once we have Ozaria fb login working.
         //- .facebook-login
         //-   a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
