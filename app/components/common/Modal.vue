@@ -1,5 +1,5 @@
 <script>
-  import BaseModal from 'ozaria/site/components/common/BaseModal'
+  import BaseModal from 'app/components/common/BaseModal'
 
   // This is a dynamic modal that works in both Vue and Backbone views.
   // How to handle modal closing:
@@ -39,11 +39,11 @@
     <template #header>
       <div class="teacher-modal-header">
         <span class="title"> {{ title }} </span>
-        <!-- NOTE: The ID #ozaria-modal-header-close-button may be used elsewhere to trigger closing from Backbone -->
+        <!-- NOTE: The ID #coco-modal-header-close-button may be used elsewhere to trigger closing from Backbone -->
         <img
-          id="ozaria-modal-header-close-button"
+          id="coco-modal-header-close-button"
           class="close-icon"
-          src="/images/ozaria/common/IconClose.svg"
+          src="/images/common/IconClose.svg"
           :data-dismiss="backboneClose"
           @[vueClose]="$emit('close')"
         >
@@ -60,7 +60,7 @@
 .modal-container {
   border-radius: 10px;
 }
-.ozaria-modal-header {
+.coco-modal-header {
   background: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0.13);
   box-sizing: border-box;
@@ -71,9 +71,7 @@
 </style>
 
 <style lang="scss" scoped>
-@import "app/styles/bootstrap/variables";
-@import "ozaria/site/styles/common/variables.scss";
-@import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "app/styles/core/variables";
 
 .title {
   @include font-h-2-subtitle-black-24;
@@ -86,7 +84,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin: 0px 10px;
+  margin: 0 10px;
 }
 
 .close-icon {

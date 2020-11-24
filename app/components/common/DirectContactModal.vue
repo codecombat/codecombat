@@ -14,7 +14,7 @@
       programaticallyClose () {
         // Because this modal is created from Backbone, we don't have a clean way to
         // close the modal other than interacting with data-dismiss='modal' through clicking.
-        $('#ozaria-modal-header-close-button').click()
+        $('#coco-modal-header-close-button').click()
       },
       clickedChat () {
         try {
@@ -69,7 +69,7 @@
       <modal-divider />
 
       <div v-if="zendeskError">
-        {{ $t('general.email_us') }}: <a href="mailto:support@ozaria.com">support@ozaria.com</a>
+        {{ $t('general.email_us') }}: <a href="mailto:support@codecombat.com">support@codecombat.com</a>
       </div>
       <div v-else class="flex-container">
         <p>{{ $t("general.email_us") }}</p>
@@ -80,7 +80,8 @@
 </template>
 
 <style lang="scss" scoped>
-@import "ozaria/site/styles/common/variables.scss";
+@import "app/styles/style-flat-variables";
+@import "app/styles/core/variables";
 
 .flex-container {
   display: flex;
