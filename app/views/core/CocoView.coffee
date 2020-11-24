@@ -244,16 +244,39 @@ module.exports = class CocoView extends Backbone.View
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
 
   onClickContactModal: (e) ->
-    if me.isStudent()
-      console.error("Student clicked contact modal.")
+    if !application.isProduction()
+      noty({
+        text: 'Contact options are only available in production',
+        layout: 'center',
+        type: 'error',
+        timeout: 5000
+      })
       return
 
-    if me.isTeacher(true)
-      if application.isProduction()
-        application.tracker.drift.sidebar.open()
+    # If there is no way to open the chat, there's no point in giving the choice in the modal,
+    # so we go directly to zendesk. This could potentially be improved in the future by checking
+    # availability of support somehow, and going to zendesk if no one is there to answer drift chat.
+    openDirectContactModal = =>
+      DirectContactModal = require('ozaria/site/views/core/DirectContactModal').default
+      @openModalView(new DirectContactModal())
+
+    if me.isTeacher(true) and window?.tracker?.drift?.openChat
+      openDirectContactModal()
     else
-      ContactModal = require 'views/core/ContactModal'
-      @openModalView(new ContactModal())
+      try
+        if !me.isAnonymous()
+          zE('webWidget', 'prefill', {
+            email: {
+              value: me.get('email')
+            }
+          })
+        zE('webWidget', 'open')
+        zE('webWidget', 'show')
+      catch e
+        console.error('Error trying to open Zendesk widget: ', e)
+        # There's an unlikely case where both Drift and Zendesk are unavailable, or Zendesk exists but fails.
+        # Since the modal communicates errors better, and shows the direct support email, we still open it.
+        openDirectContactModal()
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
