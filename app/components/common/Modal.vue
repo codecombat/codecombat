@@ -1,5 +1,5 @@
 <script>
-  import BaseModal from './BaseModal'
+  import BaseModal from 'app/components/common/BaseModal'
 
   // This is a dynamic modal that works in both Vue and Backbone views.
   // How to handle modal closing:
@@ -67,6 +67,10 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.06);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+}
+// Turn off extra backdrop shadow
+.modal-backdrop {
+  display: none;
 }
 </style>
 

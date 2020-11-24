@@ -1,6 +1,6 @@
 <script>
-  import ModalDivider from './ModalDivider'
-  import Modal from './Modal'
+  import ModalDivider from 'app/components/common/ModalDivider'
+  import Modal from 'app/components/common/Modal'
 
   export default Vue.extend({
     components: {
