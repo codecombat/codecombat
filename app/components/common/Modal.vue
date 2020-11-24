@@ -1,5 +1,5 @@
 <script>
-  import BaseModal from 'app/components/common/BaseModal'
+  import BaseModal from './BaseModal'
 
   // This is a dynamic modal that works in both Vue and Backbone views.
   // How to handle modal closing:

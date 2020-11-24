@@ -24,6 +24,12 @@
   </base-modal-container>
 </template>
 
+<style lang="sass">
+// Turn off extra backdrop shadow
+.modal-backdrop
+  display: none
+</style>
+
 <style lang="sass" scoped>
   .modal
     ::v-deep .container
