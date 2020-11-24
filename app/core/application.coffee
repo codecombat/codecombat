@@ -105,10 +105,16 @@ Application = {
     if $.browser.msie and parseInt($.browser.version) is 10
       $("html").addClass("ie10")
 
-
+    @tracker = new Tracker(store)
+    window.tracker = @tracker
     locale.load(me.get('preferredLanguage', true))
       .then => @tracker.initialize()
       .catch((e) => console.error('Tracker initialization failed', e))
+
+    if me.useSocialSignOn()
+      @facebookHandler = new FacebookHandler()
+      @gplusHandler = new GPlusHandler()
+      @githubHandler = new GitHubHandler()
     $(document).bind 'keydown', preventBackspace
     preload(COMMON_FILES)
     moment.relativeTimeThreshold('ss', 1) # do not return 'a few seconds' when calling 'humanize'
