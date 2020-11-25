@@ -62,7 +62,7 @@ mixin accountLinks
                       li
                         a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/contact-cn")
                     else if me.isAnonymous()
-                      li
+                      li.request-class-list
                         a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/teachers/quote")
                     li
                       if document.location.href.search('/about') >= 0
