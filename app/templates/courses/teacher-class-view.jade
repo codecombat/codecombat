@@ -199,11 +199,14 @@ mixin courseOverview(course)
       span(data-i18n='teacher.course_overview')
     .course-overview-progress
       if state.get('progressData')
+        - var lockedFromHere = false;
+        - var courseInstance = view.getSelectedCourseInstance();
         each level, index in levels
           - if (level.get('assessment')) continue;
+          - if (courseInstance && level.get('slug') === courseInstance.get('startLockedLevel')) lockedFromHere = true;
           - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level })
           - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
-          +allStudentsLevelProgressDot(progress, level, levelNumber)
+          +allStudentsLevelProgressDot(progress, level, levelNumber, lockedFromHere)
 
 mixin studentLevelsRow(student)
   .student-levels-row.alternating-background
@@ -216,13 +219,16 @@ mixin studentLevelsRow(student)
         - var levels = view.classroom.getLevels({courseID: course.id}).models
         - var courseFinished = false;
         if state.get('progressData')
+          - var lockedFromHere = false;
+          - var courseInstance = view.getSelectedCourseInstance();
           each level, index in levels
             - if (level.get('assessment')) continue;
+            - if (courseInstance && level.get('slug') === courseInstance.get('startLockedLevel')) lockedFromHere = true;
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
             - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
             - if (!level.get('practice'))
               - courseFinished = progress.completed;
-            +studentLevelProgressDot(progress, level, levelNumber, student)
+            +studentLevelProgressDot(progress, level, levelNumber, student, lockedFromHere)
       div
         if courseFinished
           a.certificate-link.open-certificate-btn(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + state.get('selectedCourseInstance').id, data-event-action="Teachers Click Certificates - Progress tab")
@@ -246,10 +252,10 @@ mixin studentCourseProgressDot(progress, levelsTotal, label, student, course, co
     .progress-dot.has-tooltip(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
       +progressDotLabel(label)
 
-mixin allStudentsLevelProgressDot(progress, level, levelNumber)
+mixin allStudentsLevelProgressDot(progress, level, levelNumber, locked=false)
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = i18n(level.attributes, 'name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length, practice: level.get('practice') })
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length, practice: level.get('practice'), locked: locked })
   - link = null;
   - labelText = levelNumber;
   - var courseInstance = state.get('selectedCourseInstance');
@@ -269,6 +275,8 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
     if !(progress.completed || progress.started)
       - labelText = ''
       - dotClass += ' practice'
+  if locked && !progress.completed
+    - dotClass += ' locked'
 
   if link
     if state.get('readOnly')
@@ -280,11 +288,11 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
       +progressDotLabel(labelText)
 
 
-mixin studentLevelProgressDot(progress, level, levelNumber, student)
+mixin studentLevelProgressDot(progress, level, levelNumber, student, locked=false)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = i18n(level.attributes, 'name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')), topScore: topScore, translate: translate })
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')), topScore: topScore, translate: translate, locked: locked })
   - var link = null;
   if dotClass
     //- TODO: these anchor links do not navigate to the anchor in destination page
@@ -307,7 +315,8 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
     if !(progress.completed || progress.started)
       - labelText = ''
       - dotClass += ' practice'
-
+  if locked && !(progress.completed || progress.started)
+    - dotClass += ' locked'
 
   if link
     if state.get('readOnly')

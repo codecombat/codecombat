@@ -87,3 +87,8 @@ else
     .small-details.nowrap(data-i18n='teacher.not_required')
   else
     .small-details.nowrap(data-i18n='teacher.no_progress')
+    if locked
+      .small-details.nowrap
+        span  (
+        span(data-i18n='play.locked')
+        span )
