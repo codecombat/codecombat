@@ -98,8 +98,7 @@
 
         <div class="row row-eq-height">
           <div class="col-md-6 col-md-push-6 col-sm-12 ">
-            <!-- TODO: Replace with GIF and set background checkerboard -->
-            <img src="/images/pages/parents/capstone_gif_temp.png" />
+            <img src="/images/pages/parents/power_of_play_capstone.gif" />
           </div>
           <div class="col-md-6 col-sm-12 col-md-pull-6">
             <h3>The Power of Play</h3>
@@ -126,9 +125,9 @@
         <div class="row">
           <div class="col-xs-12" style="margin: 30px 0 20px;">
             <img
-              class="img-responsive"
-              src="/images/pages/parents/graphic_03_speech.svg"
-              alt="hero moving along a path based on code commands"
+                class="img-responsive"
+                src="/images/pages/parents/graphic_03_speech.svg"
+                alt="hero moving along a path based on code commands"
             />
           </div>
         </div>
@@ -145,9 +144,9 @@
           </div>
           <div class="col-md-6">
             <img
-              class="img-responsive"
-              src="/images/pages/parents/ten_testimonial.png"
-              alt="kid on computer playing codecombat looking at camera"
+                class="img-responsive"
+                src="/images/pages/parents/ten_testimonial.png"
+                alt="kid on computer playing codecombat looking at camera"
             />
           </div>
         </div>
@@ -156,16 +155,16 @@
 
     <!-- Added some custom inline styles specific to this graphic -->
     <div class="container-graphic-spacer"
-      style="margin-bottom: -35px"
+         style="margin-bottom: -35px"
     >
       <div class="container">
         <div class="row">
           <div class="col-xs-12">
             <img
-              class="img-responsive"
-              src="/images/pages/parents/graphic_04.svg"
-              alt="CodeCombat pet following yellow dotted path"
-              style="transform: translate(40%, -35px);"
+                class="img-responsive"
+                src="/images/pages/parents/graphic_04.svg"
+                alt="CodeCombat pet following yellow dotted path"
+                style="transform: translate(40%, -35px);"
             />
           </div>
         </div>
@@ -286,7 +285,7 @@
 
     <button-schedule-free-class @click="onScheduleAFreeClass" />
     <page-parents-section-premium />
-    
+
 
     <div class="container-graphic-spacer">
       <div class="container">
@@ -309,9 +308,9 @@
         <div class="row">
           <div class="col-lg-12 text-center">
             <img
-              class="img-responsive"
-              src="/images/pages/parents/learning_cycle.svg"
-              alt="Diagram showing the cycle of learning. Live instruction to engage, with live instruction to explore concepts. Then game time to extend and evaluate."
+                class="img-responsive"
+                src="/images/pages/parents/learning_cycle.svg"
+                alt="Diagram showing the cycle of learning. Live instruction to engage, with live instruction to explore concepts. Then game time to extend and evaluate."
             />
           </div>
         </div>
@@ -373,7 +372,7 @@
                   </div>
                   <div class="col-sm-5">
                     <h3>Technological Literacy</h3>
-                    <p>Students gain a deep understanding of Computer Science and will gain technological literacy skills that will transfer to other disciplines and future careers.</p>
+                    <p>Students gain a deep understanding of Computer Science and technological literacy skills that will transfer to other disciplines as well as future careers.</p>
                   </div>
                 </div>
               </div>
@@ -382,15 +381,15 @@
 
           <div class="col-lg-12 text-center">
             <button-arrow
-              :point-left="true"
-              @click="onCarouselLeft"
+                :point-left="true"
+                @click="onCarouselLeft"
             />
             <!-- Reference https://getbootstrap.com/docs/3.4/javascript/ -->
             <div class='carousel-dot' @click="() => onCarouselDirectMove(0)"></div>
             <div class='carousel-dot' @click="() => onCarouselDirectMove(1)"></div>
             <div class='carousel-dot' @click="() => onCarouselDirectMove(2)"></div>
             <button-arrow
-              @click="onCarouselRight"
+                @click="onCarouselRight"
             />
           </div>
         </div>
@@ -517,7 +516,7 @@
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              What is the cancellation policy? 
+              What is the cancellation policy?
             </h4>
             <p>
               You can freeze your subscription at any time and re-activate when it works for you. If you want to cancel, we hate to see you go but will process your cancellation within 24 hours.
@@ -623,7 +622,7 @@ export default {
 
   methods: {
     async trackCtaClicked () {
-     await application.tracker.trackEvent(
+      await application.tracker.trackEvent(
           (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
           { parentsPageType: this.type }
       )
@@ -1263,3 +1262,4 @@ export default {
 
 
 </style>
+
