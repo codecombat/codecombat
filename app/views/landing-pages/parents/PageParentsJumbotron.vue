@@ -11,32 +11,88 @@ export default {
       this.$emit('cta-clicked')
     }
   },
-  mounted () {
-    const animatingSvg = $('.animated-griffin')
-    const totalFrames = 20
-    const animationDuration = 1200
-    const timePerFrame = animationDuration / totalFrames
-    let timeWhenLastUpdate
-    let timeFromLastUpdate
-    let frameNumber = 1
+  mounted: function () {
+    // if (typeof Storage === 'undefined') {
+    //   console.error('Cannot load griffin animation without localStorage')
+    //   return
+    // }
 
-    function step (startTime) {
-      if (!timeWhenLastUpdate) {
-        timeWhenLastUpdate = startTime
+    function loadImage (frameNumber, onload, onerror) {
+      // eslint-disable-next-line no-undef
+      const img = new Image()
+      img.onload = () => {
+        onload(frameNumber, img)
+        // delete img
       }
-
-      timeFromLastUpdate = startTime - timeWhenLastUpdate
-
-      if (timeFromLastUpdate > timePerFrame) {
-        animatingSvg.attr('src', `/images/pages/parents/Griffin_and_Alejandro${frameNumber}.svg`)
-        timeWhenLastUpdate = startTime
-        frameNumber = (frameNumber >= totalFrames) ? 1 : frameNumber + 1
+      img.onerror = () => {
+        // TOD: Release img here?
+        onerror(frameNumber)
       }
-
-      window.requestAnimationFrame(step)
+      img.src = `/images/pages/parents/Griffin_and_Alejandro${frameNumber}.svg`
     }
 
-    step()
+    const firstFrame = 1 // Assume the initial SVG is rendered ok in the html
+    const totalFrames = 20
+    const loadedFrames = [firstFrame]
+    const maxRetries = 5
+    let loadErrors = []
+
+    // Start on frame 2, as the default picture is frame 1
+    for (let i = firstFrame + 1; i < totalFrames + 1; i++) {
+      const onload = (frameNumber, img) => {
+        // const canvas = document.createElement(`canvas-${frameNumber}`)
+        // document.body.appendChild(canvas)
+        // const context = canvas.getContext('2d')
+        // context.drawImage(img, 0, 0)
+        // window.localStorage.setItem('image', `${context.getImageData(0, 0, img.width, img.height).data}`)
+
+        // TODO: Is this useful?
+        // document.body.removeChild(canvas)
+
+        loadedFrames.push(frameNumber)
+        if (loadedFrames.length === totalFrames) {
+          startAnimating()
+        }
+      }
+      const onerror = (frameNumber) => {
+        // retry?
+        if (loadErrors.length < maxRetries) {
+          loadErrors.push(frameNumber)
+          loadImage(onload, onerror)
+        } else {
+          // abort the whole thing?
+          console.error(`cannot load griffon animation for frames: ${loadErrors}, cancelling`)
+        }
+      }
+      loadImage(i, onload, onerror)
+    }
+
+    function startAnimating () {
+      const animatingSvg = $('.animated-griffin')
+      const animationDuration = 1200
+      const timePerFrame = animationDuration / totalFrames
+      let timeWhenLastUpdate
+      let timeFromLastUpdate
+      let frameNumber = 1
+
+      function step (startTime) {
+        if (!timeWhenLastUpdate) {
+          timeWhenLastUpdate = startTime
+        }
+
+        timeFromLastUpdate = startTime - timeWhenLastUpdate
+
+        if (timeFromLastUpdate > timePerFrame) {
+          animatingSvg.attr('src', `/images/pages/parents/Griffin_and_Alejandro${frameNumber}.svg`)
+          timeWhenLastUpdate = startTime
+          frameNumber = (frameNumber >= totalFrames) ? 1 : frameNumber + 1
+        }
+
+        window.requestAnimationFrame(step)
+      }
+
+      step()
+    }
   }
 }
 </script>
@@ -45,7 +101,7 @@ export default {
   <div class="top-jumbotron">
     <img class="animated-griffin"
          src="/images/pages/parents/Griffin_and_Alejandro1.svg"
-         alt="blinking eye animation"/>
+         alt="flying griffin"/>
     <div class="row">
       <div class="col-lg-12">
         <h1>Live Online Coding Classes</h1>

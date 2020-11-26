@@ -503,7 +503,7 @@
             </h4>
             <p>
               We understand, and are happy to find a new date and time that works for you. Simply let your instructor or
-              <a href="mailto:classes@codecombat.com">Education Advisor</a> know you need to make a change. We greatly appreciate 24 hours notice for any scheduling changes.
+              <a href="mailto:sydney@codecombat.com">Education Advisor</a> know you need to make a change. We greatly appreciate 24 hours notice for any scheduling changes.
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
