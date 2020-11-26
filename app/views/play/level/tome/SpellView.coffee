@@ -160,8 +160,13 @@ module.exports = class SpellView extends CocoView
       bindKey: {win: 'Ctrl-S', mac: 'Command-S|Ctrl-S'}
       exec: ->  # just prevent page save call
     addCommand
+      name: 'previous-line'
+      bindKey: {mac: 'Ctrl-P'}
+      passEvent: true
+      exec: => @ace.execCommand 'golineup'  # stop trying to jump to matching paren, I want default Mac/Emacs previous line
+    addCommand
       name: 'toggle-playing'
-      bindKey: {win: 'Ctrl-P', mac: 'Command-P|Ctrl-P'}
+      bindKey: {win: 'Ctrl-P', mac: 'Command-P'}
       readOnly: true
       exec: -> Backbone.Mediator.publish 'level:toggle-playing', {}
     addCommand
