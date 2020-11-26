@@ -2644,6 +2644,21 @@
       "resolved": "https://registry.npmjs.org/acorn-jsx/-/acorn-jsx-5.0.1.tgz",
       "integrity": "sha512-HJ7CfNHrfJLlNTzIEUTj43LNWGkqpRLxm3YjAlcD0ACydk9XynzYsCBHxut+iqt+1aBXkx9UP/w/ZqMr13XIzg=="
     },
+    "acorn-loose": {
+      "version": "8.0.1",
+      "resolved": "https://registry.npmjs.org/acorn-loose/-/acorn-loose-8.0.1.tgz",
+      "integrity": "sha512-8fMxm/1uteix7z+FXiINxciDL0mTPS8ewCvMtHgA01QRXoLEt9EQkHKupa55sjFcyEnN8K8209yhL7KCeZhIiQ==",
+      "requires": {
+        "acorn": "^8.0.0"
+      },
+      "dependencies": {
+        "acorn": {
+          "version": "8.0.4",
+          "resolved": "https://registry.npmjs.org/acorn/-/acorn-8.0.4.tgz",
+          "integrity": "sha512-XNP0PqF1XD19ZlLKvB7cMmnZswW4C/03pRHgirB30uSJTaS3A3V1/P4sS3HPvFmjoriPCJQs+JDSbm4bL1TxGQ=="
+        }
+      }
+    },
     "address": {
       "version": "1.0.3",
       "resolved": "https://registry.npmjs.org/address/-/address-1.0.3.tgz",
