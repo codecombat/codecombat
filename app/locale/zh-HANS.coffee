@@ -232,8 +232,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     return_coco: "返回CodeCombat"
     classes: "我的课程"
     term_of_service: "服务条款"
-#    admin: "Admin"
-#    teacher: "Teacher"
+    admin: "管理员"
+    teacher: "教师"
 
   modal:
     close: "关闭"
