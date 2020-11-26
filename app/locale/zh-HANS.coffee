@@ -1270,6 +1270,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     select_class: "选择班级"
     programming_language: "编程语言"
     programming_language_edit_desc: "学生一旦加入班级，语言不能修改。推荐重新建一个班级。"
+    add_a_class: "添加一个新班级"
+    select_desired_lang: '选择一个编程语言'
+    elementary: '小学'
+    middle: '初中'
+    high_school: '高中及以上'
     class_name: "班级名称"
     grades: "年级"
     select_all_that_apply: "选择全部"

@@ -1268,6 +1268,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     select_class: "Select class"
     programming_language: "Programming language"
     programming_language_edit_desc: "Language cannot be changed once students join a class. We recommend creating a new class for the same students."
+    add_a_class: 'Add a new class'
+    select_desired_lang: 'Select desired language for your class'
+    elementary: 'Elementary'
+    middle: 'Middle'
+    high_school: 'High School'
     class_name: "Class Name"
     grades: "Grades"
     select_all_that_apply: "Select all that apply"
