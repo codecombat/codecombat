@@ -2177,9 +2177,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    peer_feedback: "Peer Feedback Form"
 #    presentation_checklist: "Presentation Checklist"
 
-#  teacher_licenses:
-#    active_licenses: "Active Licenses"
-#    expired_licenses: "Expired Licenses"
+  teacher_licenses:
+    active_licenses: "可用许可"
+    expired_licenses: "许可已用完"
 
   share_licenses:
     share_licenses: "分配许可"
