@@ -73,7 +73,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <h2 class="text-center">
+            <h2 class="text-center pixelated">
               Invest in Your Child’s Future While They Have Fun!
             </h2>
           </div>
@@ -175,7 +175,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h1>Course Offerings</h1>
+            <h1 class="pixelated">Course Offerings</h1>
             <p style="margin: 0 auto;">
               With individual or small group class options and flexible scheduling available, this is the easiest way to get started in computer science.
             </p>
@@ -302,7 +302,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h1>Our Curriculum</h1>
+            <h1 class="pixelated">Our Curriculum</h1>
           </div>
         </div>
         <div class="row">
@@ -339,7 +339,7 @@
       <div class="container">
         <div class="row carousel-row">
           <div class="col-lg-12 text-center">
-            <h1>Student Outcomes</h1>
+            <h1 class="pixelated">Student Outcomes</h1>
           </div>
           <div id="student-outcome-carousel" class="carousel slide" data-interval=8000>
             <div class="carousel-inner">
@@ -410,7 +410,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h1>Concepts Covered</h1>
+            <h1 class="pixelated">Concepts Covered</h1>
           </div>
         </div>
         <div class="row row-eq-height">
@@ -485,7 +485,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
-            <h1>FAQs</h1>
+            <h1 class="pixelated">FAQs</h1>
           </div>
         </div>
         <div class="row row-eq-height">
@@ -718,7 +718,6 @@ export default {
 </script>
 
 <style scoped>
-/* This makes lores12ot-bold and lores12ot-boldaltoakland available from the codecombat-css s3 bucket */
 @import 'https://dbbpm1bnahe9k.cloudfront.net/webfont.css';
 
 #parent-page {
@@ -726,9 +725,13 @@ export default {
 }
 
 #parent-page h1, #parent-page h2, #parent-page h3, #parent-page h4, #parent-page p {
-  font-family: "lores12ot-bold"; /* We can add fallbacks here in the future */
+  font-family: Work Sans;
   font-style: normal;
   color: #131B25;
+}
+
+.pixelated {
+  font-family: "lores12ot-bold"; /* We can add fallbacks here in the future */
 }
 
 #parent-page a {
