@@ -39,11 +39,9 @@ export default {
 </template>
 
 <style scoped>
-  /* This makes lores12ot-bold and lores12ot-boldaltoakland available from the codecombat-css s3 bucket */
   @import 'https://dbbpm1bnahe9k.cloudfront.net/webfont.css';
 
   .top-jumbotron {
-    font-family: "lores12ot-bold"; /* We can add fallbacks here in the future */
     font-style: normal;
 
     margin-bottom: 0;
@@ -93,6 +91,10 @@ export default {
         top 360px right 300px,
         bottom 52px right 475px;
     }
+  }
+
+  h1 {
+    font-family: "lores12ot-bold"; /* We can add fallbacks here in the future */
   }
 
   .top-jumbotron h1 + h1 {
