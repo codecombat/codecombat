@@ -20,8 +20,8 @@
 a {
   font-family: Work Sans;
   font-style: normal;
-  font-weight: bold;
-  font-size: 17.2452px;
+  font-weight: bolder;
+  font-size: 20px;
   line-height: 16px;
   color: #131B25;
 

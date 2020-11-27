@@ -10,33 +10,6 @@ export default {
     onCtaClick () {
       this.$emit('cta-clicked')
     }
-  },
-  mounted () {
-    const animatingSvg = $('.animated-griffin')
-    const totalFrames = 20
-    const animationDuration = 1200
-    const timePerFrame = animationDuration / totalFrames
-    let timeWhenLastUpdate
-    let timeFromLastUpdate
-    let frameNumber = 1
-
-    function step (startTime) {
-      if (!timeWhenLastUpdate) {
-        timeWhenLastUpdate = startTime
-      }
-
-      timeFromLastUpdate = startTime - timeWhenLastUpdate
-
-      if (timeFromLastUpdate > timePerFrame) {
-        animatingSvg.attr('src', `/images/pages/parents/Griffin_and_Alejandro${frameNumber}.svg`)
-        timeWhenLastUpdate = startTime
-        frameNumber = (frameNumber >= totalFrames) ? 1 : frameNumber + 1
-      }
-
-      window.requestAnimationFrame(step)
-    }
-
-    step()
   }
 }
 </script>
@@ -45,7 +18,7 @@ export default {
   <div class="top-jumbotron">
     <img class="animated-griffin"
          src="/images/pages/parents/Griffin_and_Alejandro1.svg"
-         alt="blinking eye animation"/>
+         alt="flying griffin"/>
     <div class="row">
       <div class="col-lg-12">
         <h1>Live Online Coding Classes</h1>
@@ -66,7 +39,13 @@ export default {
 </template>
 
 <style scoped>
+  /* This makes lores12ot-bold and lores12ot-boldaltoakland available from the codecombat-css s3 bucket */
+  @import 'http://dbbpm1bnahe9k.cloudfront.net/webfont.css';
+
   .top-jumbotron {
+    font-family: "lores12ot-bold"; /* We can add fallbacks here in the future */
+    font-style: normal;
+
     margin-bottom: 0;
     min-height: 580px;
 
