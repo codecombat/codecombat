@@ -98,7 +98,7 @@
 
         <div class="row row-eq-height">
           <div class="col-md-6 col-md-push-6 col-sm-12 ">
-            <img src="/images/pages/parents/power_of_play_capstone.gif" />
+            <img class="power-of-play-gif" src="/images/pages/parents/power_of_play_capstone.gif" />
           </div>
           <div class="col-md-6 col-sm-12 col-md-pull-6">
             <h3>The Power of Play</h3>
@@ -503,7 +503,7 @@
             </h4>
             <p>
               We understand, and are happy to find a new date and time that works for you. Simply let your instructor or
-              <a href="mailto:classes@codecombat.com">Education Advisor</a> know you need to make a change. We greatly appreciate 24 hours notice for any scheduling changes.
+              <a href="mailto:sydney@codecombat.com">Education Advisor</a> know you need to make a change. We greatly appreciate 24 hours notice for any scheduling changes.
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
@@ -540,6 +540,9 @@
           </div>
         </div>
         <div class="text-center">
+          <p>
+            View more frequently asked questions in our <a href="https://codecombat.zendesk.com/hc">help desk</a>.
+          </p>
           <p>
             If you have any other questions about our online classes, please <a href="mailto:support@codecombat.com">contact us.</a>
           </p>
@@ -703,31 +706,33 @@ export default {
       this.showTimetapConfirmationModal = true
 
       application.tracker.trackEvent('CodeCombat live class booked', { parentsPageType: this.type }, ['facebook'])
-
     }
   },
 
   computed: {
     isUs: function () {
       return window.me.get('country') === 'united-states'
-    },
+    }
   }
 }
 </script>
 
 <style scoped>
+/* This makes lores12ot-bold and lores12ot-boldaltoakland available from the codecombat-css s3 bucket */
+@import 'http://dbbpm1bnahe9k.cloudfront.net/webfont.css';
+
 #parent-page {
   background: linear-gradient(262.39deg, #D7EFF2 -1.56%, #FDFFFF 95.05%);
 }
 
 #parent-page h1, #parent-page h2, #parent-page h3, #parent-page h4, #parent-page p {
-  font-family: Work Sans;
+  font-family: "lores12ot-bold"; /* We can add fallbacks here in the future */
   font-style: normal;
   color: #131B25;
 }
 
 #parent-page a {
-  font-family: Work Sans;
+  font-family: Work Sans; /* We can add fallbacks here in the future */
   font-style: normal;
   text-decoration: underline;
 }
@@ -1260,6 +1265,10 @@ export default {
   margin-bottom: -50px;
 }
 
+.power-of-play-gif {
+  border: 10px solid #1FBAB4;
+  box-sizing: border-box;
+  border-radius: 20px;
+}
 
 </style>
-
