@@ -719,7 +719,7 @@ export default {
 
 <style scoped>
 /* This makes lores12ot-bold and lores12ot-boldaltoakland available from the codecombat-css s3 bucket */
-@import 'http://dbbpm1bnahe9k.cloudfront.net/webfont.css';
+@import 'https://dbbpm1bnahe9k.cloudfront.net/webfont.css';
 
 #parent-page {
   background: linear-gradient(262.39deg, #D7EFF2 -1.56%, #FDFFFF 95.05%);
