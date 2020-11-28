@@ -21,8 +21,8 @@ export default {
          alt="flying griffin"/>
     <div class="row">
       <div class="col-lg-12">
-        <h1>Live Online Coding Classes</h1>
-        <h1>Your Child Will Love</h1>
+        <h1 class="pixelated">Live Online Coding Classes</h1>
+        <h1 class="pixelated">Your Child Will Love</h1>
       </div>
     </div>
 
@@ -93,8 +93,9 @@ export default {
     }
   }
 
-  h1 {
-    font-family: "lores12ot-bold"; /* We can add fallbacks here in the future */
+  .pixelated {
+    font-family: "lores12ot-bold";
+    color: #0E4C60;
   }
 
   .top-jumbotron h1 + h1 {
