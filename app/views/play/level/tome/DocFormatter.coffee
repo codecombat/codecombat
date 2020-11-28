@@ -185,7 +185,7 @@ module.exports = class DocFormatter
       doc: @doc
       docName: docName
       language: @options.language
-      value: @formatValue()
+      value: @formatValue undefined, true
       marked: marked
       argumentExamples: argumentExamples
       writable: @options.writable
@@ -217,11 +217,11 @@ module.exports = class DocFormatter
       args.unshift '"' + _.string.dasherize(@doc.name).replace('cast-', '') + '"'
     [docName, args]
 
-  formatValue: (v) ->
+  formatValue: (v, isTopLevel=false) ->
     return null if @options.level.isType('web-dev')
     return null if @doc.type is 'snippet'
     return @options.thang.now() if @doc.name is 'now'
-    return '[Function]' if not v and @doc.type is 'function'
+    return '[Function]' if not v? and @doc.type is 'function' and isTopLevel
     unless v?
       if @doc.owner is 'this'
         v = @options.thang[@doc.name]
@@ -232,7 +232,7 @@ module.exports = class DocFormatter
         return v
       if _.isNumber v
         return v.toFixed 2
-      unless v
+      unless v?
         return 'null'
       return '' + v
     if _.isString v
