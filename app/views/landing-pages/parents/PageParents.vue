@@ -541,9 +541,6 @@
         </div>
         <div class="text-center">
           <p>
-            View more frequently asked questions in our <a href="https://codecombat.zendesk.com/hc">help desk</a>.
-          </p>
-          <p>
             If you have any other questions about our online classes, please <a href="mailto:support@codecombat.com">contact us.</a>
           </p>
         </div>
@@ -730,12 +727,13 @@ export default {
   color: #131B25;
 }
 
-.pixelated {
-  font-family: "lores12ot-bold"; /* We can add fallbacks here in the future */
+#parent-page .pixelated {
+  font-family: "lores12ot-bold";
+  color: #0E4C60;
 }
 
 #parent-page a {
-  font-family: Work Sans; /* We can add fallbacks here in the future */
+  font-family: Work Sans;
   font-style: normal;
   text-decoration: underline;
 }
@@ -808,26 +806,6 @@ export default {
 
 .trust-logos .flex-spacer:last-of-type {
   padding-right: 0;
-}
-
-@media (min-width: 375px) {
-  .jumbotron {
-    padding: 50px;
-  }
-}
-
-.full-phone-number {
-  display: block;
-  width: 100%;
-  max-width: 320px;
-  color: #000;
-  text-align: center;
-}
-
-@media (max-width: 500px) {
-  .full-phone-number {
-    display: none;
-  }
 }
 
 .codie-logo-container {
