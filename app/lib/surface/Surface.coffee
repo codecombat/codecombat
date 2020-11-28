@@ -536,11 +536,13 @@ module.exports = Surface = class Surface extends CocoClass
     return if @disabled
     cap = @camera.screenToCanvas({x: e.stageX, y: e.stageY})
     wop = @camera.screenToWorld x: e.stageX, y: e.stageY
+    event = { x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop }
     createjs.lastMouseWorldPos = wop
-    # getObject(s)UnderPoint is broken, so we have to use the private method to get what we want
-    onBackground = not @webGLStage._getObjectsUnderPoint(e.stageX, e.stageY, null, true)
+    if not @handleEvents
+      # getObject(s)UnderPoint is broken, so we have to use the private method to get what we want
+      # This is slow, so we only do it if we have to (for example, in the level editor.)
+      event.onBackground = not @webGLStage._getObjectsUnderPoint(e.stageX, e.stageY, null, true)
 
-    event = { onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop }
     Backbone.Mediator.publish 'surface:stage-mouse-down', event
     Backbone.Mediator.publish 'tome:focus-editor', {}
     @gameUIState.trigger('surface:stage-mouse-down', event)
@@ -566,8 +568,7 @@ module.exports = Surface = class Surface extends CocoClass
   onMouseUp: (e) =>
     return if @disabled
     createjs.lastMouseWorldPos = @camera.screenToWorld x: e.stageX, y: e.stageY
-    onBackground = not @webGLStage.hitTest e.stageX, e.stageY
-    event = { onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e }
+    event = { x: e.stageX, y: e.stageY, originalEvent: e }
     Backbone.Mediator.publish 'surface:stage-mouse-up', event
     Backbone.Mediator.publish 'tome:focus-editor', {}
     @gameUIState.trigger('surface:stage-mouse-up', event)
