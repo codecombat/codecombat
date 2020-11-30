@@ -1873,6 +1873,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     earliest_incomplete: "最近未完成关卡"
     latest_complete: "最近通关关卡"
     enroll_student: "注册学生"
+    apply_modal_subtitle: '您将跳转到"我的班级"页面, 在那儿您可以通过以下步骤为您的学生应用许可:'
+    apply_modal_list_item_1: '选择或者创建一个班级'
+    apply_modal_list_item_2: '选择一个您希望应用许可的学生'
+    apply_modal_list_item_3: ' 点击“应用许可”按钮'
     apply_license: "使用许可"
     revoke_license: "终止许可"
     revoke_licenses: "终止所有许可"

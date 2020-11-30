@@ -1871,6 +1871,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     earliest_incomplete: "Earliest incomplete level"
     latest_complete: "Latest completed level"
     enroll_student: "Enroll student"
+    apply_modal_subtitle: 'You will be redirected to your My Classes page, where you can apply licenses to your students by:'
+    apply_modal_list_item_1: 'Selecting or creating a class'
+    apply_modal_list_item_2: 'Selecting students you want to apply licenses to'
+    apply_modal_list_item_3: 'Clicking the “Apply Licenses” button'
     apply_license: "Apply License"
     revoke_license: "Revoke License"
     revoke_licenses: "Revoke All Licenses"

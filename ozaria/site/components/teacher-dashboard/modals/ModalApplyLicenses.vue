@@ -19,16 +19,16 @@
 
 <template>
   <base-modal-teacher-dashboard
-    title="Apply Licenses"
+    :title="$t('teacher.apply_licenses')"
     @close="$emit('close')"
   >
     <div class="apply-licenses">
       <div class="apply-licenses-info">
-        <span class="sub-title"> You will be redirected to your My Classes page, where you can apply licenses to your students by: </span>
+        <span class="sub-title"> {{$t('teacher.apply_modal_subtitle')}} </span>
         <ul class="info-list">
-          <li class="list-item"> Selecting or creating a class </li>
-          <li class="list-item"> Selecting students you want to apply licenses to </li>
-          <li class="list-item"> Clicking the “Apply Licenses” button </li>
+          <li class="list-item"> {{$t('teacher.apply_modal_list_item_1')}} </li>
+          <li class="list-item"> {{$t('teacher.apply_modal_list_item_2')}} </li>
+          <li class="list-item"> {{$t('teacher.apply_modal_list_item_3')}} </li>
         </ul>
       </div>
       <div class="apply-licenses-img">
