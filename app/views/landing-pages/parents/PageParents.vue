@@ -715,8 +715,6 @@ export default {
 </script>
 
 <style scoped>
-@import 'https://dbbpm1bnahe9k.cloudfront.net/webfont.css';
-
 #parent-page {
   background: linear-gradient(262.39deg, #D7EFF2 -1.56%, #FDFFFF 95.05%);
 }

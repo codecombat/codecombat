@@ -39,8 +39,6 @@ export default {
 </template>
 
 <style scoped>
-  @import 'https://dbbpm1bnahe9k.cloudfront.net/webfont.css';
-
   .top-jumbotron {
     font-style: normal;
 
