@@ -79,6 +79,7 @@ module.exports = class SpellView extends CocoView
     @highlightCurrentLine = _.throttle @highlightCurrentLine, 100
     $(window).on 'resize', @onWindowResize
     @observing = @session.get('creator') isnt me.id
+    @indentDivMarkers = []
 
   afterRender: ->
     super()
@@ -308,7 +309,8 @@ module.exports = class SpellView extends CocoView
       return /:\s*$/.test(match[1])
 
     @aceSession.addDynamicMarker
-      update: (html, markerLayer, session, config) =>
+      # First argument was changed to null: https://github.com/ajaxorg/ace/issues/3874
+      update: (_html, markerLayer, session, config) =>
         Range = ace.require('ace/range').Range
 
         foldWidgets = @aceSession.foldWidgets
@@ -321,6 +323,9 @@ module.exports = class SpellView extends CocoView
           ar.pop().length
 
         colors = [{border: '74,144,226', fill: '108,162,226'}, {border: '132,180,235', fill: '230,237,245'}]
+
+        @indentDivMarkers.forEach((node) -> node.remove())
+        @indentDivMarkers = []
 
         for row in [0..@aceSession.getLength()]
           foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
@@ -360,16 +365,27 @@ module.exports = class SpellView extends CocoView
           w = 4 * config.characterWidth
           fw = config.characterWidth * ( @aceSession.getScreenLastRowColumn(range.start.row) - xstart )
 
-          html.push """
-            <div style=
-              "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
-               border: #{bw}px solid rgba(#{color.border},1); border-left: none;"
-            ></div>
-            <div style=
-              "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
-               border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);"
-            ></div>
+          lineAbove = document.createElement "div"
+          lineAbove.setAttribute "style", """
+            position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
+            border: #{bw}px solid rgba(#{color.border},1); border-left: none;
           """
+
+          indentedBlock = document.createElement "div"
+          indentedBlock.setAttribute "style", """
+            position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
+            border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);
+          """
+
+          indentVisualMarker = document.createElement "div"
+          indentVisualMarker.appendChild(lineAbove)
+          indentVisualMarker.appendChild(indentedBlock)
+
+          @indentDivMarkers.push(indentVisualMarker)
+
+        markerLayer.elt("indent-highlight")
+        parentNode = markerLayer.element.childNodes[markerLayer.i - 1] or markerLayer.element.lastChild
+        parentNode.appendChild(indentVisualMarker) for indentVisualMarker in @indentDivMarkers
 
   fillACE: ->
     @ace.setValue @spell.source
