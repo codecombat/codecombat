@@ -70,6 +70,11 @@
     }),
     mounted () {
       window.addEventListener('resize', this.onResize)
+      // This is required for stationary vega to reappear when using touch devices.
+      // Scrolling on ipad/android causes shepherd to remove the message from our appended container.
+      // On a desktop this is a no-op.
+      window.addEventListener('scroll', this.onResize)
+      window.addEventListener('touchmove', this.onResize)
     },
     destroyed () {
       if (this.tour) {
@@ -79,6 +84,8 @@
       }
       this.clearAsyncTimers()
       window.removeEventListener('resize', this.onResize)
+      window.removeEventListener('scroll', this.onResize)
+      window.removeEventListener('touchmove', this.onResize)
 
       // NOTE: Yeah this is a nuclear option, but there tends to be "leftovers" spread around the DOM
       // after all the acrobatics we are doing to make the design of Vega messages fit within the Shepherd library:
@@ -117,7 +124,7 @@
     methods: {
       onResize: _.debounce(() => {
         $('.shepherd-stationary-text:visible').appendTo('#level-dialogue-view')
-      }, 100),
+      }, 200),
 
       onClose () {
         this.cleanUpRendering()
