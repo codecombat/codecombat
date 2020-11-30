@@ -552,7 +552,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     continue_editing: "继续编辑"
     logout: "退出登录"
 #    empty: "Empty"
-#    done: "Done"
+    done: "完成"
 #    remove: "Remove"
     locked: "已锁定"
 
@@ -2187,10 +2187,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     expired_licenses: "许可已用完"
 
   share_licenses:
-    share_licenses: "分配许可"
+    share_licenses: "分享许可"
     shared_by: "分享自："
     add_teacher_label: "请准确地输入老师的邮箱："
     add_teacher_button: "添加老师"
+    modal_subtitle: '您可以和其他老师共同使用一个共享池中的许可。'
+    modal_list_item_1: '每个许可每次只能给一位学生使用。'
+    modal_list_item_2: '当老师收回学习许可，许可会返回共享池供其他老师使用。'
 #    subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
     teacher_not_found: "没有找到教室。请确保教室已经创建了一个教师账户。"
     teacher_not_valid: "该教师账户无效，只有教师账户可以分享许可证。"
@@ -2200,9 +2203,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you: "（您）"
     one_license_used: "（1个许可证被使用）"
     licenses_used: "（__licensesUsed__个许可证被使用）"
-#    licenses_used_no_braces: "__licensesUsed__ licenses used"
+    licenses_used_no_braces: "__licensesUsed__个许可证被使用"
     more_info: "更多信息"
-#    shared_pool_label: "Teachers in your shared pool:"
+    shared_pool_label: "共享池中的老师列表:"
 
   sharing:
     game: "游戏"

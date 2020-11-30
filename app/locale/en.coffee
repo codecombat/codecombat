@@ -2189,6 +2189,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     shared_by: "Shared By:"
     add_teacher_label: "Enter exact teacher email:"
     add_teacher_button: "Add Teacher"
+    modal_subtitle: 'You can make your licenses available to other teachers in a shared pool.'
+    modal_list_item_1: 'Each license can only be used for one student at a time.'
+    modal_list_item_2: 'When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use.'
     subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
     teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
     teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
