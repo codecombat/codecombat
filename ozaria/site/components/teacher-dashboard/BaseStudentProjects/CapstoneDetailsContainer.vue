@@ -20,6 +20,9 @@
 
         return learningGoals
       },
+      utils () {
+        return utils
+      },
       conceptsCovered () {
         return this.course.concepts || []
       },
@@ -41,7 +44,7 @@
       :style="{'--capstoneImage': `url(${capstoneImageUrl})`}"
     />
     <div class="description text">
-      {{ capstoneLevel.description }}
+      {{ utils.i18n(capstoneLevel, 'description') }}
     </div>
     <div class="learning-goals text">
       <div class="title">
