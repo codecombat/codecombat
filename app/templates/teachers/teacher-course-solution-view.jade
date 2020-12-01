@@ -2,7 +2,7 @@ extends /templates/base-flat.jade
 
 block page_nav
   if view.showTeacherLegacyNav()
-    include ../courses/teacher-dashboard-nav.jade
+    include ../courses/teacher-dashboard-nav
   .do-not-print.container
     if view.showTeacherLegacyNav()
       span.backlink
@@ -49,7 +49,7 @@ block content
         - var levelName = i18n(level.attributes, 'displayName') || level.get('displayName') || i18n(level.attributes, 'name') || level.get('name')
         - var learningGoals = view.getLearningGoalsForLevel(level)
         h2.page-break-before(id=level.get('slug')) #{levelName}
-        a(href="/play/level/#{level.get('slug')}?course=#{view.courseID}&codeLanguage=#{view.language}").play-level-button.btn.btn-lg.btn-primary(disabled=disablePlayButtons)
+        a.play-level-button.btn.btn-lg.btn-primary(href="/play/level/#{level.get('slug')}?course=#{view.courseID}&codeLanguage=#{view.language}", disabled=disablePlayButtons)
           span(data-i18n="courses.play_level")
         h4(data-i18n="teacher.level_overview_solutions")
         i #{i18n(level.attributes, 'description')}

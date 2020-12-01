@@ -66,15 +66,12 @@ module.exports = class Tracker extends CocoClass
     # Google Analytics
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
     ga? 'send', 'pageview', url
-    ga?('codeplay.send', 'pageview', url) if features.codePlay
-    window.snowplow 'trackPageView'
 
   trackEvent: (action, properties={}, includeIntegrations=[]) =>
     console.log 'Tracking external analytics event:', action, properties, includeIntegrations if debugAnalytics
     return unless @shouldTrackExternalEvents()
 
     @trackEventInternal action, _.cloneDeep properties
-    @trackSnowplow action, _.cloneDeep properties
 
     unless action in ['View Load', 'Script Started', 'Script Ended', 'Heard Sprite']
       # Google Analytics
@@ -87,53 +84,6 @@ module.exports = class Tracker extends CocoClass
       gaFieldObject.eventValue = properties.value if properties.value?
 
       ga? 'send', gaFieldObject
-      ga? 'codeplay.send', gaFieldObject if features.codePlay
-
-  trackSnowplow: (event, properties) =>
-    return if @shouldBlockAllTracking()
-    return if event in [
-      'Simulator Result',
-      'Started Level Load', 'Finished Level Load',
-      'Start HoC Campaign', 'Show Amazon Modal Button', 'Click Amazon Modal Button', 'Click Amazon link',
-      'Error in ssoConfirmView'  # TODO: Event for only detecting an error in prod. Tracking this only via GA. Remove when not required.
-    ]
-    # Trimming properties we don't use internally
-    # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
-    if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Change Hero']
-      delete properties.label
-
-    if event is 'View Load' # TODO: Update snowplow schema to include these
-      delete properties.totalEssentialEncodedBodySize
-      delete properties.totalEssentialTransferSize
-      delete properties.cachedEssentialResources
-      delete properties.totalEssentialResources
-
-    # Remove personally identifiable data
-    delete properties.name
-    delete properties.email
-
-    # SnowPlow
-    snowplowAction = event.toLowerCase().replace(/[^a-z0-9]+/ig, '_')
-    properties.user = me.id
-    delete properties.category
-    #console.log "SnowPlow", snowplowAction, properties
-
-    try
-      schema = require("schemas/events/" + snowplowAction + ".json")
-    catch
-      console.warn('Schema not found for snowplow action: ', snowplowAction, properties)
-      return
-
-    unless @isProduction
-      result = tv4.validateResult(properties, schema)
-      if not result.valid
-        text = 'Snowplow event schema validation failed! See console'
-        console.log 'Snowplow event failure info:', {snowplowAction, properties, error: result.error}
-        noty {text, layout: 'center', type: 'error', killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3}
-
-    window.snowplow 'trackUnstructEvent',
-      schema: "iglu:com.codecombat/#{snowplowAction}/jsonschema/#{schema.self.version}"
-      data: properties
 
   trackEventInternal: (event, properties) =>
     return if @shouldBlockAllTracking()

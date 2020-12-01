@@ -17,9 +17,8 @@ mixin accountLinks
   if serverSession && serverSession.amActually
     li
       a.account-dropdown-item#nav-stop-spying-button Stop Spying
-  if !features.codePlay
-    li
-      a.account-dropdown-item#logout-button(data-i18n="login.log_out")
+  li
+    a.account-dropdown-item#logout-button(data-i18n="login.log_out")
 
 .style-flat
   block header
