@@ -46,6 +46,7 @@ export default {
     min-height: 580px;
 
     padding-top: 155px;
+    overflow-x: hidden;
 
     background-color: unset;
 
@@ -80,17 +81,6 @@ export default {
       250px;
   }
 
-  @media (max-width: 1000px) {
-    .top-jumbotron {
-      /* Moves images out of the way of the heading to keep it legible */
-      background-position: bottom -74% left -5%,
-        top 50px left 30px,
-        top 35px right 280px,
-        top 360px right 300px,
-        bottom 52px right 475px;
-    }
-  }
-
   .pixelated {
     font-family: "lores12ot-bold";
     color: #0E4C60;
@@ -109,6 +99,24 @@ export default {
     position: absolute;
     top: 30%;
     right: 6%;
+  }
+
+  @media (max-width: 1000px) {
+    .top-jumbotron {
+      /* Moves images out of the way of the heading to keep it legible */
+      background-position: bottom -74% left -5%,
+        top 50px left 30px,
+        top 35px right 280px,
+        top 360px right 300px,
+        bottom 52px right 475px;
+    }
+
+    .animated-griffin {
+      position: absolute;
+      top: -6%;
+      right: -10%;
+      overflow: hidden;
+    }
   }
 
 </style>
