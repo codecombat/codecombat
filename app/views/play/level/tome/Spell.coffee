@@ -120,7 +120,7 @@ module.exports = class Spell
 
     if /loop/.test(@originalSource) and @level.isType('course', 'course-ladder', 'hero', 'hero-ladder')
       # Temporary hackery to make it look like we meant while True: in our sample code until we can update everything
-      @originalSource = replaceSimpleLoops originalSource, @language
+      @originalSource = replaceSimpleLoops @originalSource, @language
 
   constructHTML: (source) ->
     @wrapperCode.replace '☃', source
