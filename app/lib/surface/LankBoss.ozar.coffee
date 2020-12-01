@@ -11,7 +11,6 @@ module.exports = class LankBoss extends CocoClass
   subscriptions:
     'level:set-debug': 'onSetDebug'
     'sprite:highlight-sprites': 'onHighlightSprites'
-    'surface:stage-mouse-down': 'onStageMouseDown'
     'level:select-sprite': 'onSelectSprite'
     'level:suppress-selection-sounds': 'onSuppressSelectionSounds'
     'level:lock-select': 'onSetLockSelect'
@@ -265,11 +264,6 @@ module.exports = class LankBoss extends CocoClass
     lank = if e.sprite?.thang?.isSelectable then e.sprite else null
     return if @flagCursorLank and lank?.thangType.get('name') is 'Flag'
     @selectLank e, lank
-
-  onStageMouseDown: (e) ->
-    return unless @handleEvents
-    return if key.shift #and @options.choosing
-    @selectLank e if e.onBackground
 
   onChangeSelected: (gameUIState, selected) ->
     oldLanks = (s.sprite for s in gameUIState.previousAttributes().selected or [])
