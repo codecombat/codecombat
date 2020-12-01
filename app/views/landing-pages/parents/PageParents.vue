@@ -938,6 +938,7 @@ export default {
   margin-bottom: 5px;
 }
 
+
 .pricing-grid-container > .grid-item {
   display: flex;
   align-items: center;
@@ -1019,6 +1020,11 @@ export default {
 }
 
 @media screen and (max-width: 700px) {
+  .pricing-grid-container {
+    grid-template-columns: 40% 15% 15% 15% 15%;
+    font-size: small;
+  }
+
   .container-pricing-table {
     padding: 0;
     font-style: smaller;
