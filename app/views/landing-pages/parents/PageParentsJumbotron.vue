@@ -104,6 +104,7 @@ export default {
   @media (max-width: 1000px) {
     .top-jumbotron {
       /* Moves images out of the way of the heading to keep it legible */
+      background-size: 443px, 260px, 90px, 260px, 250px;
       background-position: bottom -74% left -5%,
         top 50px left 30px,
         top 35px right 280px,
@@ -113,9 +114,10 @@ export default {
 
     .animated-griffin {
       position: absolute;
-      top: -6%;
-      right: -10%;
+      top: -1%;
+      right: -11%;
       overflow: hidden;
+      max-width: 50%;
     }
   }
 
