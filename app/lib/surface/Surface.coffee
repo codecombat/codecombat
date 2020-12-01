@@ -144,7 +144,7 @@ module.exports = Surface = class Surface extends CocoClass
       @handleEvents
     })
     @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer, showsCountdown: @world.showsCountdown
-    unless @options.levelType is 'game-dev'
+    if @options.levelType in ['ladder', 'hero-ladder', 'course-ladder']
       @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer, playerNames: @options.playerNames
       @normalStage.addChildAt @playbackOverScreen.dimLayer, 0  # Put this below the other layers, actually, so we can more easily read text on the screen.
     @initCoordinates()
@@ -341,11 +341,13 @@ module.exports = Surface = class Surface extends CocoClass
   setPaused: (paused) ->
     # We want to be able to essentially stop rendering the surface if it doesn't need to animate anything.
     # If pausing, though, we want to give it enough time to finish any tweens.
+    clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
+    clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
+    return if @options.levelType in ['game-dev']
+    return unless @handleEvents  # Don't do this within the level editor
     performToggle = =>
       createjs.Ticker.framerate = if paused then 1 else @options.frameRate
       @surfacePauseTimeout = null
-    clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
-    clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
     @surfacePauseTimeout = @surfaceZoomPauseTimeout = null
     if paused
       @surfacePauseTimeout = _.delay performToggle, 2000
@@ -375,10 +377,10 @@ module.exports = Surface = class Surface extends CocoClass
     )
 
     if (not @world.indefiniteLength) and @lastFrame < @world.frames.length and @currentFrame >= @world.totalFrames - 1
+      @updatePaths()  # TODO: this is a hack to make sure paths are on the first time the level loads
       @ended = true
       @setPaused true
       Backbone.Mediator.publish 'surface:playback-ended', {}
-      @updatePaths()  # TODO: this is a hack to make sure paths are on the first time the level loads
     else if @currentFrame < @world.totalFrames and @ended
       @ended = false
       @setPaused false
