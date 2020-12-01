@@ -232,6 +232,15 @@
 
   #course-progress-tab, #student-projects-tab
 
+    .course-progress-select-wrapper
+      label
+        min-width: 195px
+        display: inline-block
+        font-weight: normal
+
+      select
+        min-width: 306px
+
     .course-overview-row
       margin-top: 50px
       border: thin solid gray
@@ -372,12 +381,15 @@
         color: $gray-light
 
   .progress-dot.locked:not(.practice)
-    opacity: 0.5
+    opacity: 0.75
     background-image: url("/images/pages/game-menu/lock-processed.png")
     background-size: 34px
     background-position: center
     background-repeat: no-repeat
-    text-shadow: 0 1px 0 black, 0 -1px 0 black, 1px 0 0 black, -1px 0 0 black
+    text-shadow: 0 1px 0 white, 0 -1px 0 white, 1px 0 0 white, -1px 0 0 white
+
+    .dot-label-inner
+      color: black
 
   // Code copying buttons
 

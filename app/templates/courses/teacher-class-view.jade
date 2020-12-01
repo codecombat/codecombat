@@ -107,15 +107,34 @@ mixin studentRow(student)
 mixin courseProgressTab
   #course-progress-tab.m-t-3
     if view.courses
-      .text-center
-        span(data-i18n='teacher.select_course')
-        span.spr :
-        select.course-select
+      .course-progress-select-wrapper
+        label(for="course-select")
+          span(data-i18n='teacher.select_course')
+          span.spr :
+        select.course-select#course-select
           each course in view.latestReleasedCourses
             option(value=course.id selected=(course===state.get('selectedCourse')))
               = i18n(course.attributes, 'name')
               if !view.availableCourseMap[course.id]
                 = " " + translate('teacher.paren_new')
+
+    - var course = state.get('selectedCourse');
+    - var courseInstance = view.getSelectedCourseInstance()
+    if courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
+      .course-progress-select-wrapper(data-course-id=course.id)
+        label(for="locked-level-select")
+          span(data-i18n="courses.set_start_locked_level")
+          span.spr :
+        select#locked-level-select
+          option(data-i18n="courses.no_level_limit" value='none')
+          - var levels = view.classroom.getLevels({courseID: course.id}).models
+          each level, levelIndex in levels
+            unless level.get('assessment') || level.get('practice')
+              option(value=level.get('slug') selected=(level.get('slug') === courseInstance.get('startLockedLevel')))
+                span #{view.campaignLevelNumberMap[course.get('campaignID')][level.get('original')]}.
+                  = " "
+                span
+                  = i18n(level.attributes, 'name').replace('Course: ', '')
 
     h4.m-b-2.m-t-3(data-i18n="teacher.progress_color_key")
     #progress-color-key-row.row.m-b-3
@@ -139,22 +158,7 @@ mixin courseProgressTab
         .key-text
           span.small(data-i18n="teacher.level_not_started")
         .clearfix
-    - var course = state.get('selectedCourse');
-    - var courseInstance = view.getSelectedCourseInstance()
-    if courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
-      .text-center(data-course-id=course.id)
-        span(data-i18n="courses.set_start_locked_level")
-        span.spr :
-        select.locked-level-select
-          option(data-i18n="courses.no_level_limit" value='none')
-          - var levels = view.classroom.getLevels({courseID: course.id}).models
-          each level, levelIndex in levels
-            unless level.get('assessment') || level.get('practice')
-              option(value=level.get('slug') selected=(level.get('slug') === courseInstance.get('startLockedLevel')))
-                span #{view.campaignLevelNumberMap[course.get('campaignID')][level.get('original')]}.
-                  = " "
-                span
-                  = i18n(level.attributes, 'name').replace('Course: ', '')
+
     // TODO: Refactor this to use Vue components like in the assessments tab
     if course && view.availableCourseMap[course.id] && courseInstance && courseInstance.get('members').length > 0
       .render-on-course-sync
