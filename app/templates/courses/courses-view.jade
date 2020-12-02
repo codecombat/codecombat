@@ -39,7 +39,7 @@ block content
 
             if view.showTournament || view.awaitingTournament
               .tournament-logo
-                img(src="/images/pages/courses/codequestlogo1.png")
+                | "数字公民"科技月
               .text-center
                 h1#tournament-title(data-i18n="ladder.live_tournament")
                 -// a#tournament-rules(data-i18n="ladder.tournament_rules")
@@ -65,12 +65,13 @@ block content
                 br
             else if view.showTournament
               for level in view.tournamentArenas()
+                - console.log(level)
                 a(href=level.disabled ? "/play/ladder" : "/play/ladder/#{level.url}", disabled=level.disabled, title=level.description)
                   .level
                     if level.image
                       img.level-image(src="#{level.image}", alt="#{level.name}").img-rounded
                     else
-                      img.level-image(src="/images/pages/courses/battle-of-red-cliff.png", alt="#{level.name}").img-rounded
+                      img.level-image(src="/images/pages/courses/magic-rush.png", alt="#{level.name}").img-rounded
                       h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
                     .play-text-container
                       .overlay-text.play-text(data-i18n="common.play")

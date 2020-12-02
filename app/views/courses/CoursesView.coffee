@@ -129,13 +129,34 @@ module.exports = class CoursesView extends RootView
         @render()
       @supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: "original,primerLanguage,slug,i18n.#{me.get('preferredLanguage', true)}" }}))
 
-    if features.china and (@classrooms.find({id: '5f245089b2b044014e38ea9e'}) or @classrooms.find({id: '5f23c633a14c9100276c7f88'}))
-      if new Date() >= new Date(2020, 7, 1, 0) && new Date() <= new Date(2020, 8, 1, 0)
+    if features.china and (@classrooms.find({id: '5fc6f81b3abd920022058b8a'}) or @classrooms.find({id: '5fc6f7fe49a0990022a11c0a'}) or @classrooms.find({id: '5fc6f7ca4df2330028b27c76'})) #production classrooms
+      if new Date() >= new Date(2020, 11, 5, 0) && new Date() <= new Date(2020, 11, 6, 0)
         if window.serverConfig?.currentTournament
           @showTournament = true
+          if @classrooms.find({id: '5fc6f7fe49a0990022a11c0a'}) # out-classroom
+            @tournamentUrl = 'magic-rush/course/5fc6f800b8ecbd00224b5765'
+          if @classrooms.find({id: '5fc6f7ca4df2330028b27c76'}) # in-classroom
+            @tournamentUrl = 'magic-rush/course/5fc6f7ca172e5300273b2a5f'
+          if @classrooms.find({id: '5fc6f81b3abd920022058b8a'}) # 32-classroom
+            @tournamentUrl = 'magic-rush/course/5fc6f81c4df2330028b27c7d'
         else
           @awaitingTournament = true
           @checkForTournamentStart()
+     if features.china and (@classrooms.find({id: '5fc608d8ba24560022748949'}) or @classrooms.find({id: '5fc70027343b880027fadd05'}))#staging classrooms
+      console.log("in classroom")
+      if new Date() >= new Date(2020, 11, 1, 0) && new Date() <= new Date(2021, 0, 1, 0)
+        console.log('in date')
+        if window.serverConfig?.currentTournament
+          console.log(window.serverConfig.currentTournament)
+          @showTournament = true
+          if @classrooms.find({id: '5fc608d8ba24560022748949'})
+            @tournamentUrl = 'magic-rush/course/5fc608d8343b880027fadcfb'
+          if @classrooms.find({id: '5fc70027343b880027fadd05'})
+            @tournamentUrl = 'magic-rush/course/5fc70028ba2456002274895a'
+        else
+          @awaitingTournament = true
+          @checkForTournamentStart()
+
 
   checkForTournamentStart: =>
     return if @destroyed
@@ -310,19 +331,19 @@ module.exports = class CoursesView extends RootView
       if /^zh/.test me.get('preferredLanguage', true)
         [
           {
-            name: '赤壁之战'
-            id: 'battle-of-red-cliff'
-            url: 'battle-of-red-cliffs/course/5f24508ab2b044014e38eaa0'
-            image: '/images/pages/courses/battle-of-red-cliff.png'
+            name: '魔力冲刺'
+            id: 'magic-rush'
+            url: @tournamentUrl
+            image: '/images/pages/courses/magic-rush.png'
           }
         ]
       else
         [
           {
-            name: 'Battle of Red Cliff'
-            id: 'battle-of-red-cliff'
-            url: 'battle-of-red-cliffs/course/5f24508ab2b044014e38eaa0'
-            image: '/images/pages/courses/battle-of-red-cliff.png'
+            name: 'Magic Rush'
+            id: 'magic-rush'
+            url: @tournamentUrl
+            image: '/images/pages/courses/magic-rush.png'
           }
         ]
     else
