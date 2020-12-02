@@ -640,6 +640,33 @@ module.exports = class ThangTypeEditView extends RootView
     @showAnimation()
     @showingSelectedNode = false
 
+  #  Run this manually via the console. `currentView.fixCorruptContainerBounds()`
+  #  This script has been specifically tuned to fix cinematic-ghost-vega.
+  #  It is possible to verify this script worked by refreshing and then trying the
+  #  actions out manually. Look for the placeholder loading circles. There should be
+  #  no big ones.
+  #  When dryRun is true, no mutation takes place. Instead all containers with bounds
+  #  larger than the maxBounds are logged letting you find them.
+  fixCorruptContainerBounds: (boundsWidthToFix=400, dryRun=true) ->
+    # Fix all the messed up bounds
+    data = @thangType.attributes
+    fixCount = 0
+    for [key, container] in Object.entries(data.raw.containers)
+      if dryRun
+        if container.b?[2] >= boundsWidthToFix
+          console.log('found width:', container.b[2])
+      else
+        if container.c.length == 1 and container.b[2] == boundsWidthToFix
+          reference = container.c[0]
+          if data.raw.shapes[reference]
+            shape = data.raw.shapes[reference]
+            container.b = [shape.bounds[0] + shape.t[0] - 5, shape.bounds[1] + shape.t[1] - 5, shape.bounds[2] + 10, shape.bounds[3] + 10]
+            fixCount += 1
+            console.log('.')
+    console.log('Fixed:', fixCount)
+
+
+
   showVersionHistory: (e) ->
     @openModalView new ThangTypeVersionsModal thangType: @thangType, @thangTypeID
 
