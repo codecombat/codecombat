@@ -309,7 +309,7 @@
           <div class="col-lg-12 text-center">
             <img
                 class="img-responsive"
-                src="/images/pages/parents/learning_cycle.svg"
+                src="/images/pages/parents/learning_cycle.png"
                 alt="Diagram showing the cycle of learning. Live instruction to engage, with live instruction to explore concepts. Then game time to extend and evaluate."
             />
           </div>
