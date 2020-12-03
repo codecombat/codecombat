@@ -557,6 +557,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "שנייה"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    tome_cast_button_update: "Update"
     tome_submit_button: "שלח"
     tome_reload_method: "טען מחדש את הקוד המקורי כדי להתחיל את השלב מחדש"
-    tome_available_spells: "לחשים זמינים"
     tome_your_skills: "המיומנויות שלך"
     hints: "רמזים"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "פרסמו פרויקט בקורס זה לפני כולם!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tournament_ends: "הטורניר יסתיים"
     tournament_ended: "הטורניר הסתיים"
     tournament_rules: "כללי הטורניר"
-    tournament_blurb: "כתבו קוד, אספו זהב, בנו צבאות, מחצו את היריבים, זכו בפרסים, ושדרגו את הקריירה שלכם בטורניר תאוות הבצע שלנו על סך $40,000! ראו פרטים"
     tournament_blurb_criss_cross: "זכו במכירות פומביות, בנו נתיבים, הערימו על יריבכם, השיגו אבני חן, ושדרגו את הקריירה שלכם בטורניר השתי-וערב שלנו! ראו פרטים"
     tournament_blurb_zero_sum: "תנו חופש ליצירתיות שלכם בקידוד, בטקטיקות לאיסוף זהב ולקרבות, בקרב ראי הררי זה בין קוסמת אדומה לקוסמת כחולה. הטורניר התחיל ביום שישי, 27 במרץ, ויימשך עד יום שני, 6 באפריל, 17:00 שעון החוף המערבי. השתתפו בתחרות כדי ליהנות ולזכות בתהילה! ראו פרטים"
     tournament_blurb_ace_of_coders: "צאו לקרב בקרחון הקפוא במשחק ראי להשתלטות על המפה! הטורניר התחיל ביום רביעי, 16 בספטמבר, ויימשך עד יום רביעי, 14 באוקטובר, 17:00 שעון החוף המערבי. ראו פרטים"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     you_can1: "באפשרותך"
     you_can2: "לרכוש קוד בתשלום מראש"
     you_can3: "אשר ניתן להחיל על חשבונך או לתת למשתמשים אחרים."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "פרסי טורניר" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "פרסים אלה יוענקו לפי"
-    blurb_2: "חוקי הטורניר"
-    blurb_3: "לשחקנים האנושיים והענקיים המובילים."
-    blurb_4: "שתי קבוצות פירושם פרסים כפולים!"
-    blurb_5: "(יהיו שני זוכים במקום הראשון, שניים במקום השני וכן הלאה)"
-    rank: "דירוג"
-    prizes: "פרסים"
-    total_value: "ערך כספי"
-    in_cash: "כולל"
-    custom_wizard: "קוסם מותאם אישית של CodeCombat"
-    custom_avatar: "אוואטאר מותאם אישית של CodeCombat"
-    heap: "לשישה חודשים של גישה מסוג \"סטארטאפ\""
-    credits: "נקודות זכות"
-    one_month_coupon: "קופון: בחרו Rails או HTML"
-    one_month_discount: "30% הנחה: בחרו Rails או HTML"
-    license: "רישיון"
-    oreilly: "ספר אלקטרוני לבחירתכם"
 
   calendar:
     year: "שנה"

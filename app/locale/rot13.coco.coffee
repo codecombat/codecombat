@@ -556,6 +556,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     more: "Zber"
     fewer: "Srjre"
     with: "jvgu"
+    chat: "Pung"
+    chat_with_us: "Pung jvgu hf"
+    email_us: "Fraq hf na rznvy"
 
   units:
     second: "frpbaq"
@@ -655,7 +658,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     tome_cast_button_update: "Hcqngr"
     tome_submit_button: "Fhozvg"
     tome_reload_method: "Erybnq bevtvany pbqr gb erfgneg gur yriry"
-    tome_available_spells: "Ninvynoyr Fcryyf"
     tome_your_skills: "Lbhe Fxvyyf"
     hints: "Uvagf"
     videos: "Ivqrbf"
@@ -1670,8 +1672,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     certificate_btn_print: "Cevag"
     certificate_btn_toggle: "Gbttyr"
     ask_next_course: "Jnag gb cynl zber? Nfx lbhe grnpure sbe npprff gb gur arkg pbhefr."
-    set_start_locked_level: "Nffvta hc gb yriry"
-    no_level_limit: "--"
+    set_start_locked_level: "Ybpx yriryf fgnegvat ng" # {punatr}
+    no_level_limit: "-- (ab yriryf ybpxrq)" # {punatr}
 
   project_gallery:
     no_projects_published: "Or gur svefg gb choyvfu n cebwrpg va guvf pbhefr!"
@@ -2339,7 +2341,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     tournament_ends: "Gbheanzrag raqf"
     tournament_ended: "Gbheanzrag raqrq"
     tournament_rules: "Gbheanzrag Ehyrf"
-    tournament_blurb: "Jevgr pbqr, pbyyrpg tbyq, ohvyq nezvrf, pehfu sbrf, jva cevmrf, naq hctenqr lbhe pnerre va bhe $40,000 Terrq gbheanzrag! Purpx bhg gur qrgnvyf"
     tournament_blurb_criss_cross: "Jva ovqf, pbafgehpg cnguf, bhgjvg bccbaragf, teno trzf, naq hctenqr lbhe pnerre va bhe Pevff-Pebff gbheanzrag! Purpx bhg gur qrgnvyf"
     tournament_blurb_zero_sum: "Hayrnfu lbhe pbqvat perngvivgl va obgu tbyq tngurevat naq onggyr gnpgvpf va guvf nycvar zveebe zngpu orgjrra erq fbeprere naq oyhr fbeprere. Gur gbheanzrag ortna ba Sevqnl, Znepu 27 naq jvyy eha hagvy Zbaqnl, Ncevy 6 ng 5CZ CQG. Pbzcrgr sbe sha naq tybel! Purpx bhg gur qrgnvyf"
     tournament_blurb_ace_of_coders: "Onggyr vg bhg va gur sebmra tynpvre va guvf qbzvangvba-fglyr zveebe zngpu! Gur gbheanzrag ortna ba Jrqarfqnl, Frcgrzore 16 naq jvyy eha hagvy Jrqarfqnl, Bpgbore 14 ng 5CZ CQG. Purpx bhg gur qrgnvyf"
@@ -2469,13 +2470,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     you_can1: "Lbh pna"
     you_can2: "chepunfr n cercnvq pbqr"
     you_can3: "gung pna or nccyvrq gb lbhe bja nppbhag be tvira gb bguref."
-
-  ozaria_chrome:
-    sound_off: 'Fbhaq Bss',
-    sound_on: 'Fbhaq Ba',
-    back_to_map: 'Onpx gb Znc',
-    level_options: 'Yriry Bcgvbaf',
-    restart_level: 'Erfgneg Yriry'
 
   impact:
     hero_heading: 'Ohvyqvat N Jbeyq-Pynff Pbzchgre Fpvrapr Cebtenz'
@@ -2771,26 +2765,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     cookies_message: 'PbqrPbzong hfrf n srj rffragvny naq aba-rffragvny pbbxvrf.'
     cookies_deny: 'Qrpyvar aba-rffragvny pbbxvrf'
     cookies_allow: 'Nyybj pbbxvrf'
-
-  ladder_prizes:
-    title: "Gbheanzrag Cevmrf"  # Guvf frpgvba jnf sbe na byq gbheanzrag naq qbrfa'g arrq arj genafyngvbaf abj.
-    blurb_1: "Gurfr cevmrf jvyy or njneqrq nppbeqvat gb"
-    blurb_2: "gur gbheanzrag ehyrf"
-    blurb_3: "gb gur gbc uhzna naq bter cynlref."
-    blurb_4: "Gjb grnzf zrnaf qbhoyr gur cevmrf!"
-    blurb_5: "(Gurer jvyy or gjb svefg cynpr jvaaref, gjb frpbaq-cynpr jvaaref, rgp.)"
-    rank: "Enax"
-    prizes: "Cevmrf"
-    total_value: "Gbgny Inyhr"
-    in_cash: "va pnfu"
-    custom_wizard: "Phfgbz PbqrPbzong Jvmneq"
-    custom_avatar: "Phfgbz PbqrPbzong ningne"
-    heap: "sbe fvk zbaguf bs \"Fgneghc\" npprff"
-    credits: "perqvgf"
-    one_month_coupon: "pbhcba: pubbfr rvgure Envyf be UGZY"
-    one_month_discount: "qvfpbhag, 30% bss: pubbfr rvgure Envyf be UGZY"
-    license: "yvprafr"
-    oreilly: "robbx bs lbhe pubvpr"
 
   calendar:
     year: "Lrne"

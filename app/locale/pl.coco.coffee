@@ -557,6 +557,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     more: "Więcej"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "sekunda"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     tome_cast_button_update: "Aktualizuj"
     tome_submit_button: "Prześlij"
     tome_reload_method: "Wczytaj oryginalny kod i uruchom ponownie poziom"
-    tome_available_spells: "Dostępne czary"
     tome_your_skills: "Twoje umiejętności"
     hints: "Podpowiedzi"
     videos: "Filmiki"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     tournament_ends: "Turniej kończy się za"
     tournament_ended: "Turniej zakończył się"
     tournament_rules: "Zasady turnieju"
-    tournament_blurb: "Pisz kod, zbieraj złoto, buduj armię, miażdż przeciników, wygrywaj nagrody, oraz aktualizuj postęp w naszym Chciwym turnieju o $40,000! Sprawdź więcej informacji na"
 #    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     you_can1: "Możesz"
     you_can2: "kupić kod przedpłacony,"
     you_can3: "następnie wykorzystać go u siebie, albo dać komuś."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Nagrody w turnieju" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Nagrody zostaną rozdane zgodnie z"
-    blurb_2: "regulaminem turnieju"
-    blurb_3: "dla najlepszych ludzkich i ogrzych graczy."
-    blurb_4: "Dwa zespoły oznaczają podwójne nagrody!"
-    blurb_5: "(Będą dwa pierwsze miejsca, dwa drugie miejsca i tak dalej...)"
-    rank: "Ranking"
-    prizes: "Nagrody"
-    total_value: "Łączna wartość"
-    in_cash: "w gotówce"
-    custom_wizard: "Własny Bohater w CodeCombat"
-    custom_avatar: "Własny avatar w CodeCombat"
-    heap: "sześć miesięcy dostępu"
-    credits: "kredyty"
-    one_month_coupon: "kupon: wybierz między Rails, a HTML"
-    one_month_discount: "zniżka 30%: wybierz między Rails, a HTML"
-    license: "licencja"
-    oreilly: "dowolny ebook"
 
   calendar:
     year: "rok"

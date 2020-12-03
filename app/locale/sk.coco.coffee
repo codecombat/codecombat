@@ -557,6 +557,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "sekunda"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Odoslať"
     tome_reload_method: "Znovu načítať pôvodný kód pre túto metódu" # {change}
-    tome_available_spells: "Dostupné kúzla"
     tome_your_skills: "Tvoje schopnosti"
     hints: "Pomoc"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tournament_ends: "Turnaj končí"
     tournament_ended: "Turnaj skončil"
     tournament_rules: "Pravidlá turnaja"
-    tournament_blurb: "Píš kód, zbieraj mince, stavaj armády, rozdrv nepriateľov, vyhraj ceny v hodnote  40,000$. Greed tournament! Pozri sa na detaily."
     tournament_blurb_criss_cross: "Vyhraj ponuky, buduj cesty, preľsti súperov,zbieraj diamanty grab gems a vylepši svoju kariéru v našom Krížovkárskom turnaji ! Pozri sa na detaily"
     tournament_blurb_zero_sum: "Odviaž svoju kódovaciu kreativitu pri zbieraní mincí a bojovej taktike v spravodlivom vysokohorskom súboji medzi medzi červenou a modrou čarodejkou. Turnaj začal v piatok 27. marca 2015  a skončil 6. apríla 2015. Súťaž pre zábavu a slávu ! Pozri sa na detaily"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-#  ladder_prizes:
-#    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
-#    blurb_1: "These prizes will be awarded according to"
-#    blurb_2: "the tournament rules"
-#    blurb_3: "to the top human and ogre players."
-#    blurb_4: "Two teams means double the prizes!"
-#    blurb_5: "(There will be two first place winners, two second-place winners, etc.)"
-#    rank: "Rank"
-#    prizes: "Prizes"
-#    total_value: "Total Value"
-#    in_cash: "in cash"
-#    custom_wizard: "Custom CodeCombat Wizard"
-#    custom_avatar: "Custom CodeCombat avatar"
-#    heap: "for six months of \"Startup\" access"
-#    credits: "credits"
-#    one_month_coupon: "coupon: choose either Rails or HTML"
-#    one_month_discount: "discount, 30% off: choose either Rails or HTML"
-#    license: "license"
-#    oreilly: "ebook of your choice"
 
   calendar:
     year: "Rok"

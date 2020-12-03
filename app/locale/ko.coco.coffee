@@ -557,6 +557,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "초"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tome_cast_button_update: "업데이트"
     tome_submit_button: "적용"
     tome_reload_method: "원본 코드를 불러와 레벨 다시 시작하기" # {change}
-    tome_available_spells: "사용 가능한 마법"
     tome_your_skills: "당신의 스킬"
     hints: "힌트"
     videos: "비디오"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tournament_ends: "Tournament ends"
 #    tournament_ended: "Tournament ended"
 #    tournament_rules: "Tournament Rules"
-#    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
 #    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     you_can1: "가능하다"
     you_can2: "선불코드 구매"
     you_can3: "당신의 계정에 적용할 수 있고 다른 이에게 줄 수 있다."
-
-  ozaria_chrome:
-    sound_off: "소리끄기"
-    sound_on: "소리켜기"
-    back_to_map: "맵으로 돌아가기"
-    level_options: "레벨 옵션"
-    restart_level: "레벨 재시작"
 
   impact:
     hero_heading: "세계 수준의 컴퓨터 공학 프로그램을 만들어 나갑니다."
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-#    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
-#    blurb_1: "These prizes will be awarded according to"
-#    blurb_2: "the tournament rules"
-#    blurb_3: "to the top human and ogre players."
-#    blurb_4: "Two teams means double the prizes!"
-#    blurb_5: "(There will be two first place winners, two second-place winners, etc.)"
-#    rank: "Rank"
-#    prizes: "Prizes"
-#    total_value: "Total Value"
-#    in_cash: "in cash"
-#    custom_wizard: "Custom CodeCombat Wizard"
-#    custom_avatar: "Custom CodeCombat avatar"
-#    heap: "for six months of \"Startup\" access"
-#    credits: "credits"
-#    one_month_coupon: "coupon: choose either Rails or HTML"
-#    one_month_discount: "discount, 30% off: choose either Rails or HTML"
-    license: "라이센스"
-#    oreilly: "ebook of your choice"
 
   calendar:
     year: "년"

@@ -557,6 +557,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "giây"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Gửi"
     tome_reload_method: "Load lại đoạn code gốc cho method này" # {change}
-    tome_available_spells: "Pháp thuật hiện có"
     tome_your_skills: "Những Kĩ năng của bạn"
 #    hints: "Hints"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     tournament_ends: "Giải đấu kết thúc"
     tournament_ended: "Giải đấu đã kết thúc"
     tournament_rules: "Luật lệ giải đấu"
-#    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
 #    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     you_can1: "Bạn có thể"
     you_can2: "mua một mã trả trước"
     you_can3: "mà có thể áp dụng cho tài khoản của bạn hoặc gửi cho người khác."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Các giải thưởng của cuộc thi" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Những phần thưởng này sẽ được giao dựa trên"
-    blurb_2: "luật của cuộc thi"
-    blurb_3: "dành cho những người chơi giỏi nhất."
-    blurb_4: "Hai đội đồng nghĩa với gấp đôi giải thưởng!"
-    blurb_5: "(Có hai giải nhất, hai giải nhì, v.v.)"
-    rank: "Hạng"
-    prizes: "Giải thưởng"
-    total_value: "Tổng Giá Trị"
-    in_cash: "tiền mặt"
-#    custom_wizard: "Custom CodeCombat Wizard"
-#    custom_avatar: "Custom CodeCombat avatar"
-    heap: "trong 6 tháng cho quyền truy cập \"Startup\""
-#    credits: "credits"
-    one_month_coupon: "phiếu coupon: lụa chọn Rails hoặc HTML"
-    one_month_discount: "giảm giá, giảm 30%: lựa chọn Rails hoặc HTML"
-    license: "giấy phép"
-#    oreilly: "ebook of your choice"
 
   calendar:
     year: "Năm"

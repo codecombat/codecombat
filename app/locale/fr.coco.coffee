@@ -557,6 +557,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     more: "Plus"
     fewer: "Moins"
     with: "avec"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "seconde"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Envoyer"
     tome_reload_method: "Recharger le code original pour recommencer le niveau"
-    tome_available_spells: "Sorts diponibles"
     tome_your_skills: "Vos compétences"
     hints: "Aide"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "Soyez le premier à publier un projet dans ce cours !"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tournament_ends: "Fin du tournoi"
     tournament_ended: "Tournoi terminé"
     tournament_rules: "Règles du tournoi"
-    tournament_blurb: "Écrire du code, collecter de l'or, construire des armées, écraser les ennemis, gagner des prix, et mettre à jour votre carrière dans notre tournoi $ 40,000 Greed! Découvrez les détails"
     tournament_blurb_criss_cross: "Gagnez des offres, construisez des chemins, déjouez les adversaires, emparez-vous des gemmes, et améliorez votre carrière dans notre tournoi Criss-Cross! Découvrez les détails"
     tournament_blurb_zero_sum: "Libérez votre créativité en programmation dans l'accumulation d'or et de tactiques de combat dans ce combat épique entre le sorcier rouge et bleu. Le tournoi a commencé vendredi le 27 mars et se déroulera jusqu'à lundi le 6 avril à 5PM PDT. Battez-vous pour le plaisir et l'honneur! Aller voir les détails."
     tournament_blurb_ace_of_coders: "Combattez-les dans le glacier gelé dans ce match en miroir de style domination ! Le tournoi a débuté le mercredi 16 septembre et se poursuivra jusqu'au mercredi 14 octobre à 17h PDT. Voir les détails"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     you_can1: "Vous pouvez"
     you_can2: "achetez un code pré-payé"
     you_can3: "qui pourra être appliqué à votre compte ou donné à un autre."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     cookies_message: "CodeCombat utilise quelques cookies essentiels et non essentiels."
     cookies_deny: "Refuser les cookies non essentiels"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Prix du tournoi" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Ces prix seront décernés à"
-    blurb_2: "Régles du tournoi"
-    blurb_3: "aux meilleurs joueurs humains et ogre."
-    blurb_4: "Deux équipes, les prix doubles !"
-    blurb_5: "(Il y aura deux gagnants en première place, deux gagnants en deuxième place, etc.)"
-    rank: "Rang"
-    prizes: "Prix"
-    total_value: "Valeur totale"
-    in_cash: "en espèces"
-    custom_wizard: "Magicien CodeCombat personnalisé"
-    custom_avatar: "Avatar CodeCombat personnalisé"
-#    heap: "for six months of \"Startup\" access"
-    credits: "Crédits"
-    one_month_coupon: "coupon: choisir entre Rails ou HTML"
-    one_month_discount: "30% de réduction: choisir entre Rails ou HTML"
-    license: "Licence"
-    oreilly: "ebook de votre choix"
 
   calendar:
     year: "Année"

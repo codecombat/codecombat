@@ -557,6 +557,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "sekund"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Indsend"
     tome_reload_method: "Genindlæs den originale kode til denne metode" # {change}
-    tome_available_spells: "Tilgængelige trylleformularer"
     tome_your_skills: "Dine evner"
 #    hints: "Hints"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     tournament_ends: "Turnering afslutter"
     tournament_ended: "Turnering afsluttet"
     tournament_rules: "Turneringsregler"
-    tournament_blurb: "Skriv koden, samle guld, byg hære, knus fjender, vind præmier og opgrader din karriere i vores $ 40.000 Grådighedsturnering! Tjek detaljerne"
     tournament_blurb_criss_cross: "Vind bud, konstruer stier, overlist modstandere, snub ædelstene og opgrader din karriere i vores Criss-Cross turnering! Tjek detaljerne"
     tournament_blurb_zero_sum: "Slip din kodekreativitet løs i både guldindsamling og kamptaktik i denne alpine spejlkamp mellem rød troldmand og blå troldmand. Turneringen startede fredag ​​den 27. marts og den vil køre til mandag d. 6 april ved 05:00 PDT. Konkurrer om sjov og herlighed! Tjek detaljerne"
     tournament_blurb_ace_of_coders: "Kæmp løs på den frosne gletscher i en spejlkamp! Turneringen startede onsdag den 16. september og den løber til og med onsdag 14 oktober kl 05:00 PDT. Tjek detaljerne"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     you_can1: "Du kan"
     you_can2: "købe en forudbetalt kode"
     you_can3: "der kan anvendes på din egen konto eller gives til andre."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Turneringspræmier" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Disse præmier vil blive uddelt i henhold til"
-    blurb_2: "turneringsreglerne"
-    blurb_3: "til top menneskelige og kæmpe spillere."
-    blurb_4: "To hold betyder dobbelt så mange præmier!"
-    blurb_5: "(Der vil være to førstepladser, to andenpladser, osv.)"
-    rank: "Rang"
-    prizes: "Præmier"
-    total_value: "Totalværdi"
-    in_cash: "i kontanter"
-    custom_wizard: "Brugerdefineret CodeCombat Troldmand"
-    custom_avatar: "Brugerdefineret CodeCombat avatar"
-    heap: "for seks måneder \"Opstarts\"-adgang"
-    credits: "kredit"
-    one_month_coupon: "kupon: vælg enten Rails eller HTML"
-    one_month_discount: "rabat på 30%: vælg imellem Rails eller HTML"
-    license: "licens"
-    oreilly: "ebook efter eget valg"
 
 #  calendar:
 #    year: "Year"

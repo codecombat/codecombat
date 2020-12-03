@@ -557,6 +557,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     more: "Mais"
     fewer: "Menos"
     with: "com"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "segundo"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_cast_button_update: "Actualização"
     tome_submit_button: "Submeter"
     tome_reload_method: "Recarregar o código original para recomeçar o nível"
-    tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "As Tuas Habilidades"
     hints: "Dicas"
     videos: "Vídeos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "Sê o primeiro a publicar um projeto neste curso!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tournament_ends: "O Torneio acaba"
     tournament_ended: "O Torneio acabou"
     tournament_rules: "Regras do Torneio"
-    tournament_blurb: "Escreve código, recolhe ouro, constrói exércitos, esmaga inimigos, ganha prémios e melhora a tua carreira no nosso torneio $40,000 Greed! Confere os detalhes"
     tournament_blurb_criss_cross: "Ganha ofertas, constrói caminhos, supera os adversários, apanha gemas e melhore a tua carreira no nosso torneio Criss-Cross! Confere os detalhes"
     tournament_blurb_zero_sum: "Liberta a tua criatividade de programação tanto na recolha de ouro como em táticas de combate nesta batalha-espelhada na montanha, entre o feiticeiro vermelho e o feiticeiro azul. O torneio começou na Sexta-feira, 27 de Março, e decorrerá até às 00:00 de Terça-feira, 7 de Abril. Compete por diversão e glória! Confere os detalhes"
     tournament_blurb_ace_of_coders: "Luta no glaciar congelado nesta partida espelhada do estilo domínio! O torneio começou Quarta-feira, 16 de Setembro, e decorrerá até Quarta-feira, 14 de Outubro às 23:00. Confere os detalhes"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     you_can1: "Podes"
     you_can2: "adquirir um código pré-pago"
     you_can3: "que pode ser aplicado à tua conta ou dado a outros."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     cookies_message: "O CodeCombat usa alguns cookies essenciais e não-essenciais."
     cookies_deny: "Recusar cookies não-essenciais"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Prémios do Torneio" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Estes prémios serão entregues de acordo com"
-    blurb_2: "as regras do torneio"
-    blurb_3: "aos melhores jogadores humanos e ogres."
-    blurb_4: "Duas equipas significam o dobro dos prémios!"
-    blurb_5: "(Haverá dois vencedores em primeiro lugar, dois em segundo, etc.)"
-    rank: "Classificação"
-    prizes: "Prémios"
-    total_value: "Valor Total"
-    in_cash: "em dinheiro"
-    custom_wizard: "Um Feiticeiro do CodeCombat Personalizado"
-    custom_avatar: "Um Avatar do CodeCombat Personalizado"
-    heap: "para seis meses de acesso \"Startup\""
-    credits: "créditos"
-    one_month_coupon: "cupão: escolhe Rails ou HTML"
-    one_month_discount: "desconto de 30%: escolhe Rails ou HTML"
-    license: "licença"
-    oreilly: "ebook à tua escolha"
 
   calendar:
     year: "Ano"

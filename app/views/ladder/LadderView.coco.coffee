@@ -55,9 +55,6 @@ module.exports = class LadderView extends RootView
   initialize: (options, @levelID, @leagueType, @leagueID) ->
     super(options)
 
-    if features.china and @leagueType == 'course' and @leagueID == "5cb8403a60778e004634ee6e"   #just for china tarena hackthon 2019 classroom RestPoolLeaf
-      @leagueID = @leagueType = null
-
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
     @level.once 'sync', (level) =>
       @setMeta({ title: $.i18n.t 'ladder.arena_title', { arena: level.get('name') } })
@@ -164,9 +161,11 @@ module.exports = class LadderView extends RootView
   afterRender: ->
     super()
     return unless @supermodel.finished()
+    @$el.toggleClass 'single-ladder', @level.isType 'ladder'
     @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
-    @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
+    unless @level.isType('ladder') and me.isAnonymous()
+      @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
     @refreshDelay = switch
       when not application.isProduction() then 10  # Refresh very quickly in develompent.

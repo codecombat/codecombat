@@ -557,6 +557,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     more: "更多"
     fewer: "更少"
     with: "和"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "秒"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    tome_cast_button_update: "Update"
     tome_submit_button: "提交"
     tome_reload_method: "恢复关卡初始代码"
-    tome_available_spells: "可用的法术"
     tome_your_skills: "您的技能"
     hints: "提示"
     videos: "视频"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tournament_ends: "锦标赛结束"
     tournament_ended: "锦标赛已结束"
     tournament_rules: "锦标赛规则"
-    tournament_blurb: "写代码，收金币，建军队，碎敌军，赢奖品，以及在我们奖励多达$40,000的Greed tournament里升级您的事业！ 快去查阅详情！"
     tournament_blurb_criss_cross: "赢得竞拍，建造道路，智胜对手，夺取宝石，在纵横交错锦标赛中完成生涯晋级！ 现在就查看详情！"
     tournament_blurb_zero_sum: "在红方法师和蓝方法师的山峰对决中, 同时在收集金币和战术上发挥你的代码创造力。竞赛在3月27日开始, 在4月6日(星期一)的下午5点(PDT 太平洋时区)结束。为乐趣和荣耀竞赛吧！ 浏览了解更多"
     tournament_blurb_ace_of_coders: "我的主场我主宰，在天寒地冻的冰原上和自己的镜像大战一场吧！本次比赛将由9月16日星期三开办到10月14日下午5点PDT。详情请查看"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can1: "您可以"
     you_can2: "购买一个预购码"
     you_can3: "使用在您的账户或者给其他人。"
-
-  ozaria_chrome:
-    sound_off: "关闭声音"
-    sound_on: "开启声音"
-    back_to_map: "返回地图"
-    level_options: "关卡选项"
-    restart_level: "重新开始这个关卡"
 
   impact:
     hero_heading: "创建世界一流的计算机科学课程"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     cookies_message: "CodeCombat使用了必要和非必要的cookies."
     cookies_deny: "禁用非必要的cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "竞标赛奖项" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "这些奖项将会奖励，依据"
-    blurb_2: "锦标赛规则"
-    blurb_3: ", 给顶尖的人类和怪物玩家。"
-    blurb_4: "两队表示获得的奖励将会是两倍！"
-    blurb_5: "(将有两个第一名, 两个第二名, 以此类推。)"
-    rank: "排名"
-    prizes: "奖项"
-    total_value: "总价值"
-    in_cash: "现金"
-    custom_wizard: "定制CodeCombat巫师"
-    custom_avatar: "定制CodeCombat头像"
-    heap: "给六个月的\"Startup\"访问"
-    credits: "信用卡"
-    one_month_coupon: "优惠: 选择 Rails 或者 HTML"
-    one_month_discount: "折扣 30% : 选择 Rails 或者 HTML"
-    license: "许可证"
-    oreilly: "您选择的电子书"
 
   calendar:
     year: "年"
