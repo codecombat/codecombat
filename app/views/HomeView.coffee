@@ -2,9 +2,7 @@ require('app/styles/home-view.scss')
 RootView = require 'views/core/RootView'
 template = require 'templates/home-view'
 CocoCollection = require 'collections/CocoCollection'
-TrialRequest = require 'models/TrialRequest'
-TrialRequests = require 'collections/TrialRequests'
-Courses = require 'collections/Courses'
+
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
@@ -23,17 +21,6 @@ module.exports = class HomeView extends RootView
     'click a': 'onClickAnchor'
     'click #jumbotron-down-arrow': 'onClickJumbotronDownArrow'
 
-  initialize: (options) ->
-    super(options)
-
-    @courses = new Courses()
-    @supermodel.trackRequest @courses.fetchReleased()
-
-    if me.isTeacher()
-      @trialRequests = new TrialRequests()
-      @trialRequests.fetchOwn()
-      @supermodel.loadCollection(@trialRequests)
-
   getMeta: ->
     title: $.i18n.t 'new_home.title'
     meta: [
@@ -45,12 +32,6 @@ module.exports = class HomeView extends RootView
 
   onClickJumbotronDownArrow: ->
     @scrollToLink('#ozaria-summary', 200)
-
-  onLoaded: ->
-    @trialRequest = @trialRequests.first() if @trialRequests?.size()
-    @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
-
-    super()
 
   onClickRequestQuote: (e) ->
     @playSound 'menu-button-click'
@@ -130,6 +111,3 @@ module.exports = class HomeView extends RootView
   logoutAccount: ->
     Backbone.Mediator.publish("auth:logging-out", {})
     logoutUser()
-
-  mergeWithPrerendered: (el) ->
-    true
