@@ -25,8 +25,8 @@ module.exports = class SimulateTabView extends CocoView
 
   onLoaded: ->
     super()
-    @render()
-    if not @simulator and (document.location.hash is '#simulate' or @options.level.get('slug') not in ['ace-of-coders', 'zero-sum'])
+    @autoSimulates = @options.level.get('slug') not in ['ace-of-coders', 'zero-sum']
+    if not @simulator and (document.location.hash is '#simulate' or @autoSimulates)
       @startSimulating()
 
   afterRender: ->
@@ -36,6 +36,7 @@ module.exports = class SimulateTabView extends CocoView
 
   onSimulateButtonClick: (e) ->
     application.tracker?.trackEvent 'Simulate Button Click'
+    document.location.hash = '#simulate'
     @startSimulating()
 
   startSimulating: ->
@@ -46,7 +47,7 @@ module.exports = class SimulateTabView extends CocoView
 
   refreshAndContinueSimulating: =>
     # We refresh the page every now and again to make sure simulations haven't gotten derailed by bogus games, and that simulators don't hang on to old, stale code or data.
-    document.location.hash = '#simulate'
+    document.location.hash = '#simulate' unless @autoSimulates
     document.location.reload()
 
   simulateNextGame: ->
