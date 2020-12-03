@@ -557,6 +557,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     more: "Více"
     fewer: "Méně"
     with: "s"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "sekunda"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Odeslat"
     tome_reload_method: "Znovu načíst původní kód pro tuto metodu" # {change}
-    tome_available_spells: "Dostupná kouzla"
     tome_your_skills: "Vaše dovednosti"
     hints: "Nápověda"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tournament_ends: "Turnaj končí"
     tournament_ended: "Turnaj ukončen"
     tournament_rules: "Pravidla turnaje"
-    tournament_blurb: "Pište kód, sbírejte zlato, budujte armádu, zabijte nepřátele, vyhrajte ceny a vylepšte si svou kariéru v našem turnaji o $40,000 dolarů! Podívejte se na detaily"
     tournament_blurb_criss_cross: "Vyhrajte nabídky, budujte cesty, přelstěte nepřátele, seberte drahokamy a velepšte si svou kariéru v našem Křížovkářském turnaji! Podívejte se na detaily"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Ceny v turnaji" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Tyto ceny budou rozdány v souladu s"
-    blurb_2: "pravidly turnaje"
-    blurb_3: "nejlepším lidským a zlobřím hráčům."
-    blurb_4: "Dva týmy znamenají dvojnásobek cen!"
-    blurb_5: "(Budou dvě první místa, dvě druhá místa, atd.)"
-    rank: "Umístění"
-    prizes: "Ceny"
-    total_value: "Celková hodnota"
-    in_cash: "v penězích"
-    custom_wizard: "Vlastní CodeCombat Kouzelník"
-    custom_avatar: "Vlastní CodeCombat avatar"
-    heap: "na šest měsíců \"Startup\" přístupu"
-    credits: "tvůrci"
-    one_month_coupon: "kupon: vybrat buď Rails nebo HTML"
-    one_month_discount: "30% sleva: vybrat buď Rails nebo HTML"
-    license: "licence"
-    oreilly: "ebook vlastního výběru"
 
   calendar:
     year: "Rok"

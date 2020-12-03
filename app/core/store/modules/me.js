@@ -106,17 +106,6 @@ export default {
         })
     },
 
-    set1fhAvatar ({ state, commit }, { levelThangTypeId, cinematicThangTypeId }) {
-      if (!(levelThangTypeId && cinematicThangTypeId)) {
-        throw new Error('Require both a levelThangTypeId and cinematicThangTypeId')
-      }
-
-      const ozariaConfig = state.ozariaUserOptions || {}
-      commit('updateUser', { ozariaUserOptions:
-        { ...ozariaConfig, avatar: { levelThangTypeId, cinematicThangTypeId } }
-      })
-    },
-
     authenticated ({ commit }, user) {
       commit('updateUser', user)
     }

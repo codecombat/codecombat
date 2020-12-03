@@ -557,6 +557,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     more: "Περισσότερα"
     fewer: "Λιγότερα"
     with: "μαζί"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "δευτερόλεπτο"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Υποβολή"
     tome_reload_method: "Φόρτωσε ξανά τον αρχικό κώδικα για να επανεκκινήσεις το επίπεδο"
-    tome_available_spells: "Διαθέσιμα ξόρκια"
     tome_your_skills: "Οι Ικανότητες σου"
     hints: "Συμβουλές"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "Γίνε ο πρώτος που θα κοινοποιήσει ένα έργο σε αυτό το μάθημα!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     tournament_ends: "Το τουρνουά τελειώνει"
     tournament_ended: "Το τουρνουά τελείωσε"
     tournament_rules: "Κανόνες του τουρνουά"
-    tournament_blurb: "Γράψε κώδικα, μάζεψε χρυσό, φτιάξε στρατούς, σύντριψε τους εχθρούς, κέρδισε βραβεία, και αναβάθμισε την καριέρα σου με το αξίας $40,000 τουρνουά Greed! Δες τις λεπτομέρειες"
     tournament_blurb_criss_cross: "Κάνε τη νικητήρια προσφορά, κατασκεύασε μονοπάτια, ξεπέρασε σε εξυπνάδα τους αντιπάλους σου, άρπαξε πετράδια, και αναβάθμισε την καριέρα σου στο τουρνουά Criss-Cross! Δες τις λεπτομέρειες"
     tournament_blurb_zero_sum: "Άφησε ελεύθερη τη δημιουργικότητα σου στον προγραμματισμό και στο μάζεμα χρυσού και στις τακτικές μάχης σε αυτόν τον αγώνα στις Άλπεις ανάμεσα στον κόκκινο και στον μπλε μάγο. Το τουρνουά ξεκίνησε την Παρασκευή 27 Μαρτίου και θα συνεχίζεται μέχρι τη Δευτέρα 6 Απριλίου στις 5μμ ώρα Ειρηνικού (7 Απριλίου, 3πμ ώρα Ελλάδας). Συναγωνίσου για διασκέδαση και δόξα! Δες τις λεπτομέρειες"
     tournament_blurb_ace_of_coders: "Πολέμησε στον παγετώνα σε αυτό το παιχνίδι κυριαρχίας! Το τουρνουά ξεκίνησε την Τετάρτη 16 Σεπτεμβρίου θα συνεχιστεί μέχρι την Τετάρτη 14 Οκτωβρίου στις 5μμ ώρα Ειρηνικού (15 Οκτωβρίου, 3πμ ώρα Ελλάδας). Δες τις λεπτομέρειες"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     you_can1: "Μπορείτε"
     you_can2: "να αγοράσετε ένα προπληρωμένο κωδικό"
     you_can3: "που θα χρησιμοποιήσετε στο δικό σας λογαριασμό ή θα το δώσετε σε άλλους."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Βραβεία Τουρνουά" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Τα βραβεία θα απονεμηθούν σύμφωνα με τους"
-    blurb_2: "κανόνες του τουρνουά"
-    blurb_3: "στους κορυφαίους παίκτες των ανθρώπων και των ogres."
-    blurb_4: "Δύο ομάδες σημαίνει διπλή βραβεία!"
-    blurb_5: "(Θα υπάρχουν δύο 1οι νικητές, δύο δεύτεροι νικητές, κλπ.)"
-    rank: "Θέση"
-    prizes: "Βραβεία"
-    total_value: "Συνολική Αξία"
-    in_cash: "σε μετρητά"
-    custom_wizard: "Προσαρμοσμένος Μάγος CodeCombat"
-    custom_avatar: "Προσαρμοσμένα άβαταρ CodeCombat"
-    heap: "για έξι μήνες από την πρόσβαση στην \"Εκκίνηση\""
-    credits: "ευχαριστίες"
-    one_month_coupon: "κουπόνι: διάλεξε Rails ή HTML"
-    one_month_discount: "έκπτωση, μείον 30% : διάλεξε Rails ή HTML"
-    license: "άδεια"
-    oreilly: "ηλεκτρονικό βιβλίο της επιλογής σου"
 
   calendar:
     year: "Έτος"

@@ -557,6 +557,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "秒"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    tome_cast_button_update: "Update"
     tome_submit_button: "送出"
     tome_reload_method: "重新載入原始程式碼來重啟關卡"
-    tome_available_spells: "可用的法術"
     tome_your_skills: "您的技能"
     hints: "小提示"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tournament_ends: "錦標賽結束"
     tournament_ended: "錦標賽已結束"
     tournament_rules: "錦標賽規則"
-    tournament_blurb: "寫下程式碼，收集金幣，建立軍隊，粉碎敵人，贏得獎項，在我們價值$40,000的Greed錦標賽中升級您的職業！查看"
     tournament_blurb_criss_cross: "贏得競賽，建造道路，智勝對手，收集寶石，在我們的Criss-Crossand錦標賽中升級您的職業！查看"
     tournament_blurb_zero_sum: "在紅方法師和藍方法師的山峰對決中，同時在收集金幣和戰術上發揮你的程式碼創造力。競賽在3月27日開始，在4月6日（星期一）的下午5點（PDT太平洋時區）結束。為樂趣和榮耀競賽吧！瀏覽了解更多"
     tournament_blurb_ace_of_coders: "我的主場我主宰，在寒天雪地的冰原上和自己鏡像大戰一場吧！本次比賽將由9月16日星期三開辦到10月14日下午5點PDT。詳情請查看"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "錦標賽獎項" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "依據"
-    blurb_2: "錦標賽規則"
-    blurb_3: "，這些獎項將被頒發給頂尖的人類和怪物玩家。"
-    blurb_4: "兩隊意指獎項是兩倍！"
-    blurb_5: "(將有兩個第一名、兩個第二名，以此類推。)"
-    rank: "排名"
-    prizes: "獎項"
-    total_value: "總價值"
-    in_cash: "現金"
-    custom_wizard: "定制 CodeCombat 巫師"
-    custom_avatar: "定制 CodeCombat 頭像"
-    heap: "給六個月的\"Startup\"訪問"
-    credits: "信譽"
-    one_month_coupon: "優惠：選擇 Rails 或者 HTML"
-    one_month_discount: "折扣 30%：選擇 Rails 或者 HTML"
-    license: "許可證"
-    oreilly: "您選擇的電子書"
 
   calendar:
     year: "年"

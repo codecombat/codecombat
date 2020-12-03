@@ -557,6 +557,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "secondo"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Invia codice"
     tome_reload_method: "Ricarica codice originale per questo metodo" # {change}
-    tome_available_spells: "Incantesimi disponibili"
     tome_your_skills: "Le tue competenze"
     hints: "Suggerimenti"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tournament_ends: "Torneo conclude"
     tournament_ended: "Torneo concluso"
     tournament_rules: "Regole torneo"
-    tournament_blurb: "Scrivi codice, ricevi oro, costruisci armate, schiaccia i nemici, vinci premi, ed aggiona la tua carriera nel nostro torneo da $40,000 dollari! Leggi i dettagli"
     tournament_blurb_criss_cross: "Vinci aste, costruisci percorsi, vinci con astuzia gli avversari, afferra gemme, ed aggiorna la tua carriera nel nostro  torneo di Criss-Cross! Leggi i dettagli"
     tournament_blurb_zero_sum: "Scatena la tua creatività di programmazione sia nella raccolta di oro che nelle tattiche da battaglia in questo incontro alpino tra stregone rosso e stregone blu. Il torneo inizia venerdì 27 Marzo e continua fino a lunedì 6 Aprile, alle 17 PDT. Partecipa per divertimento e per la gloria. Leggi i dettagli"
     tournament_blurb_ace_of_coders: "Combatti nel glaciaio ghiacciato in questa sfida di dominazione! Il torneo inizia mercoledì 16 Settembre e continua fino a mercoledì 14 Ottobre, alle 17 PDT. Leggi i dettagli"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     you_can1: "Puoi"
     you_can2: "acquistare un codice prepagato"
     you_can3: "che può essere applciato al tuo account o dato ad un tuo amico."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Premi torneo" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Questi premi verranno consegnati in accordo con"
-    blurb_2: "le regole del torneo"
-    blurb_3: "ai migliori giocatori 'human' e 'ogre'."
-    blurb_4: "Due team significa il doppio dei premi!"
-    blurb_5: "(Ci saranno due vincitori al primo posto, due vincitori al secondo posto ecc.)"
-    rank: "Classifica"
-    prizes: "Premi"
-    total_value: "Valore totale"
-    in_cash: "in denaro"
-    custom_wizard: "Stregone CodeCombat personalizzato"
-    custom_avatar: "Avatar CodeCombat personalizzato"
-    heap: "per sei mesi di accesso \"Startup\""
-    credits: "crediti"
-    one_month_coupon: "coupon: scegli Rails o HTML"
-    one_month_discount: "sconto 30%: scegli Rails o HTML"
-    license: "licenza"
-    oreilly: "ebook a tua scelta"
 
   calendar:
     year: "Anno"

@@ -46,8 +46,7 @@ module.exports = class LevelThangEditView extends CocoView
       supermodel: @supermodel
       level: @level
       world: @world
-
-    if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') then options.thangType = thangType
+      thangType: thangType
 
     @thangComponentEditView = new ThangComponentsEditView options
     @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged

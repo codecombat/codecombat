@@ -197,9 +197,6 @@ courseIDs =
   COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
   COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
 
-# TODO add when final courses content created for ozaria
-ozariaCourseIDs = []
-
 orderedCourseIDs = [
   courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
   courseIDs.GAME_DEVELOPMENT_1
@@ -614,7 +611,7 @@ findNextLevel = (levels, currentIndex, needsPractice) ->
       # May leave earlier practice levels incomplete and reach end of course
       while index < levels.length and (levels[index].complete or levels[index].assessment)
         return -1 if levels[index].locked
-        index++ 
+        index++
     else
       # Needs practice, current level is required, next level is required or assessment; return the first incomplete level of previous practice chain
       index--
@@ -630,7 +627,7 @@ findNextLevel = (levels, currentIndex, needsPractice) ->
       index = currentIndex + 1
       while index < levels.length and (levels[index].complete or levels[index].assessment)
         return -1 if levels[index].locked
-        index++ 
+        index++
   else
     # No practice needed; return the next required incomplete level
     while index < levels.length and (levels[index].practice or levels[index].complete or levels[index].assessment)
@@ -884,7 +881,6 @@ module.exports = {
   premiumContent
   isValidEmail
   videoLevels
-  ozariaCourseIDs
   addressesIncludeAdministrativeRegion
   translatejs2cpp
 }

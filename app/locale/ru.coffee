@@ -557,6 +557,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     more: "Больше"
     fewer: "Меньше"
     with: "с"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "секунда"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_cast_button_update: "Обновление"
     tome_submit_button: "Завершить"
     tome_reload_method: "Загрузить оригинальный код, чтобы начать уровень заново"
-    tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
     hints: "Советы"
     videos: "Видео"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tournament_ends: "Турнир заканчивается"
     tournament_ended: "Турнир закончился"
     tournament_rules: "Правила турнира"
-    tournament_blurb: "Пишите код, собирайте золото, стройте армию, крушите противников, получайте призы и улучшайте вашу карьеру в нашем \"$40,000 турнире жадности\"! Узнайте больше"
     tournament_blurb_criss_cross: "Выигрывайте ставки, создавайте пути, перехитрите оппонентов, собирайте самоцветы и улучшайте вашу карьеру в нашем турнире Criss-Cross! Узнайте больше"
     tournament_blurb_zero_sum: "Дайте волю своей программистской фантазии в собирании золота и боевой тактике в этом высокогорном зеркальном матче между красным волшебником и синим волшебником. Турнир начался в пятницу, 27 марта, и продолжится до 17.00 PDT понедельника, 6 апреля. Участвуйте для веселья и славы! Посмотрите детали"
     tournament_blurb_ace_of_coders: "Сражайтесь в замороженном леднике в этом зеркальном матче, доминируйте над соперниками! Турнир начался в среду, 16 сентября и продлится до четверга, 15 октября до 3 утра МСК. Узнайте подробности"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     you_can1: "Вы можете"
     you_can2: "купить предоплаченный код"
     you_can3: "который можно применить к вашему аккаунту или передать другому."
-
-  ozaria_chrome:
-    sound_off: "Звук ВЫКЛ"
-    sound_on: "Звук ВКЛ"
-    back_to_map: "Назад к карте"
-    level_options: "Параметры уровня"
-    restart_level: "Перезапуск уровня"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     cookies_message: "CodeCombat использует постоянные и сеансовые куки."
     cookies_deny: "Отказаться от использования сеансовых куки"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Турнирные призы" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Призами будут награждены (согласно"
-    blurb_2: "турнирным правилам)"
-    blurb_3: "лучшие игроки команд \"Human\" и \"Ogres\"."
-    blurb_4: "Две команды - вдвое больше призов!"
-    blurb_5: "(Будет двое победителей, двое занявших второе место и т.д.)"
-    rank: "Ранг"
-    prizes: "Призы"
-    total_value: "Итоговое значение"
-    in_cash: "наличными"
-    custom_wizard: "Пользовательский волшебник CodeCombat"
-    custom_avatar: "Пользовательский аватар CodeCombat"
-    heap: "шесть месяцев доступа \"Startup\""
-    credits: "кредиты"
-    one_month_coupon: "купон: выберите Rails или HTML"
-    one_month_discount: "скидка 30%: выберите Rails или HTML"
-    license: "лицензия"
-    oreilly: "электронная книга на ваш выбор"
 
   calendar:
     year: "Год"
