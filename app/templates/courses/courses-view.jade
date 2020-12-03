@@ -39,7 +39,7 @@ block content
 
             if view.showTournament || view.awaitingTournament
               .tournament-logo
-                | "数字公民"科技月
+                | 苏州市青少年科技节 <br> "数字公民"AI编程赛决赛
               .text-center
                 h1#tournament-title(data-i18n="ladder.live_tournament")
                 -// a#tournament-rules(data-i18n="ladder.tournament_rules")
@@ -73,8 +73,8 @@ block content
                     else
                       img.level-image(src="/images/pages/courses/magic-rush.png", alt="#{level.name}").img-rounded
                       h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
-                    .play-text-container
-                      .overlay-text.play-text(data-i18n="common.play")
+                    -// .play-text-container
+                      -// .overlay-text.play-text(data-i18n="common.play")
 
             .text-center
               h1(data-i18n="courses.welcome_to_page")
