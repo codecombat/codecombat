@@ -1671,8 +1671,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"

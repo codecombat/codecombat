@@ -1671,8 +1671,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
     ask_next_course: "Wil je meer spelen? Vraag je docent om toegang tot de volgende cursus."
-#    set_start_locked_level: "Assign up to level"
-    no_level_limit: "Geen limiet"
+#    set_start_locked_level: "Lock levels starting at"
+    no_level_limit: "Geen limiet" # {change}
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
