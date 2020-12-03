@@ -43,7 +43,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     creativity_rigor_blurb3: "PbqrPbzong’f frys-cnprq, fgnaqneqf-nyvtarq pheevphyhz znxrf grnpuvat pbzchgre fpvrapr cbffvoyr sbe rirelbar. PbqrPbzong rdhvcf grnpuref jvgu gur genvavat, vafgehpgvbany erfbheprf, naq qrqvpngrq fhccbeg gb srry pbasvqrag naq fhpprffshy va gur pynffebbz."
     featured_partners_title1: "Srngherq Va"
     featured_partners_title2: "Njneqf & Cnegaref"
-    featured_partners_blurb1: "Pyrire Cnegare" #{punatr}
+    featured_partners_blurb1: "Pyrire Cnegare" #
     featured_partners_blurb2: "Orfg Perngvivgl Gbby sbe Fghqragf"
     featured_partners_blurb3: "Gbc Cvpx sbe Yrneavat"
     featured_partners_blurb4: "Pbqr.bet Bssvpvny Cnegare"
@@ -56,7 +56,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     for_leaders_subtitle2: "Shyy Pbqvat Pheevphyhz"
     for_leaders_subblurb2: "N fgnaqneqf-nyvtarq pheevphyhz jvgu vafgehpgvbany erfbheprf naq cebsrffvbany qrirybczrag gb ranoyr nal grnpure gb grnpu pbzchgre fpvrapr."
     for_leaders_subtitle3: "Syrkvoyr Hfr Pnfrf"
-    for_leaders_subblurb3: "Jurgure lbh jnag gb ohvyq n Zvqqyr Fpubby pbqvat ryrpgvir, n PGR cngujnl, be ner grnpuvat na Vageb gb PF pynff, PbqrPbzong vf gnvyberq gb fhvg lbhe arrqf." #{punatr}
+    for_leaders_subblurb3: "Jurgure lbh jnag gb ohvyq n Zvqqyr Fpubby pbqvat ryrpgvir, n PGR cngujnl, be ner grnpuvat na Vageb gb PF pynff, PbqrPbzong vf gnvyberq gb fhvg lbhe arrqf." #
     for_leaders_subtitle4: "Erny-Jbeyq Fxvyyf"
     for_leaders_subblurb4: "Fghqragf ohvyq tevg naq qrirybc n tebjgu zvaqfrg guebhtu pbqvat punyyratrf gung cercner gurz sbe gur 500X+ bcra pbzchgvat wbof."
     for_teachers_title: "Sbe Grnpuref"
@@ -95,6 +95,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
     play_now: "Cynl Abj"
+    im_a_parent: "V'z n Cnerag"
     im_an_educator: "V'z na Rqhpngbe"
     im_a_teacher: "V'z n Grnpure"
     im_a_student: "V'z n Fghqrag"
@@ -437,6 +438,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     password_requirements: "8 gb 64 punenpgref jvgu ab ercrngvat"
     invalid: "Vainyvq"
     invalid_password: "Vainyvq cnffjbeq"
+    with: "jvgu"
+    want_to_play_codecombat: "Ab, V qba'g unir bar ohg jnag gb cynl PbqrPbzong!"
+    have_a_classcode: "Unir n Pynff Pbqr?"
+    yes_i_have_classcode: "Lrf, V unir n Pynff Pbqr!"
+    enter_it_here: "Ragre vg urer:"
 
   recover:
     recover_account_title: "Erpbire Nppbhag"
@@ -540,7 +546,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     warrior: "Jneevbe"
     ranger: "Enatre"
     wizard: "Jvmneq"
-    name: "Anzr"
     first_name: "Svefg Anzr"
     last_name: "Ynfg Anzr"
     last_initial: "Ynfg Vavgvny"
@@ -551,6 +556,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     more: "Zber"
     fewer: "Srjre"
     with: "jvgu"
+    chat: "Pung"
+    chat_with_us: "Pung jvgu hf"
+    email_us: "Fraq hf na rznvy"
 
   units:
     second: "frpbaq"
@@ -650,7 +658,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     tome_cast_button_update: "Hcqngr"
     tome_submit_button: "Fhozvg"
     tome_reload_method: "Erybnq bevtvany pbqr gb erfgneg gur yriry"
-    tome_available_spells: "Ninvynoyr Fcryyf"
     tome_your_skills: "Lbhe Fxvyyf"
     hints: "Uvagf"
     videos: "Ivqrbf"
@@ -906,6 +913,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     sorry_to_see_you_go: "Fbeel gb frr lbh tb! Cyrnfr yrg hf xabj jung jr pbhyq unir qbar orggre."
     unsubscribe_feedback_placeholder: "B, jung unir jr qbar?"
     stripe_description: "Zbaguyl Fhofpevcgvba"
+    stripe_yearly_description: "Naahny Fhofpevcgvba"
     buy_now: "Ohl Abj"
     subscription_required_to_play: "Lbh'yy arrq n fhofpevcgvba gb cynl guvf yriry."
     unlock_help_videos: "Fhofpevor gb haybpx nyy ivqrb ghgbevnyf."
@@ -930,7 +938,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     first_month_price: "Bayl $__cevpr__ sbe lbhe svefg zbagu!"
     lifetime: "Yvsrgvzr Npprff"
     lifetime_price: "$__cevpr__"
-    year_subscription: "Lrneyl Fhofpevcgvba"
+    year_subscription: "Naahny Fhofpevcgvba"
     year_price: "$__cevpr__/lrne"
     support_part1: "Arrq uryc jvgu cnlzrag be cersre CnlCny? Rznvy"
     support_part2: "fhccbeg@pbqrpbzong.pbz"
@@ -1023,7 +1031,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     attack: "Qnzntr"  # Pna nyfb genafyngr nf "Nggnpx"
     health: "Urnygu"
     speed: "Fcrrq"
-    regeneration: "Ertrarengvba"
+    regeneration: "Ertra"
     range: "Enatr"  # Nf va "nggnpx be ivfhny enatr"
     blocks: "Oybpxf"  # Nf va "guvf fuvryq oybpxf guvf zhpu qnzntr"
     backstab: "Onpxfgno"  # Nf va "guvf qnttre qbrf guvf zhpu onpxfgno qnzntr"
@@ -1394,7 +1402,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     article_editor_suffix: "naq uryc PbqrPbzong cynlref trg gur zbfg bhg bs gurve cynlgvzr."
     find_us: "Svaq hf ba gurfr fvgrf"
     social_github: "Purpx bhg nyy bhe pbqr ba TvgUho"
-    social_blog: "Ernq gur PbqrPbzong oybt" # {punatr}
+    social_blog: "Ernq gur PbqrPbzong oybt"
     social_discource: "Wbva gur qvfphffvba ba bhe Qvfpbhefr sbehz"
     social_facebook: "Yvxr PbqrPbzong ba Snprobbx"
     social_twitter: "Sbyybj PbqrPbzong ba Gjvggre"
@@ -1664,8 +1672,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     certificate_btn_print: "Cevag"
     certificate_btn_toggle: "Gbttyr"
     ask_next_course: "Jnag gb cynl zber? Nfx lbhe grnpure sbe npprff gb gur arkg pbhefr."
-    set_start_locked_level: "Nffvta hc gb yriry"
-    no_level_limit: "--"
+    set_start_locked_level: "Ybpx yriryf fgnegvat ng" # {punatr}
+    no_level_limit: "-- (ab yriryf ybpxrq)" # {punatr}
 
   project_gallery:
     no_projects_published: "Or gur svefg gb choyvfu n cebwrpg va guvf pbhefr!"
@@ -2017,6 +2025,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     concept: "Pbaprcg"
     sync_google_classroom: "Flap Tbbtyr Pynffebbz"
     try_ozaria_footer: "Gel bhe arj nqiragher tnzr, Bmnevn!"
+    try_ozaria_free: "Gel Bmnevn sbe serr"
+    ozaria_intro: "Vagebqhpvat Bhe Arj Pbzchgre Fpvrapr Cebtenz"
 
   teacher_ozaria_encouragement_modal:
     title: "Ohvyq Pbzchgre Fpvrapr Fxvyyf gb Fnir Bmnevn"
@@ -2028,6 +2038,21 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     bullet3: 'Haybpx perngvivgl guebhtu pncfgbar cebwrpgf'
     bullet4: 'Fhccbeg vafgehpgvbaf guebhtu qrqvpngrq pheevphyhz erfbheprf'
     you_can_return: 'Lbh pna nyjnlf erghea gb PbqrPbzong'
+
+  educator_signup_ozaria_encouragement:
+    recommended_for: 'Erpbzzraqrq sbe:'
+    independent_learners: 'Vaqrcraqrag yrnearef'
+    homeschoolers: 'Ubzrfpubbyref'
+    educators_continue_coco: 'Rqhpngbef jub jnag gb pbagvahr hfvat PbqrPbzong va gurve pynff'
+    continue_coco: 'Pbagvahr jvgu PbqrPbzong'
+
+  ozaria_cta:
+    title1: 'Fgnaqneqf Nyvtarq Pber Pheevphyhz'
+    description1: 'Vzzrefvir, fgbel onfrq pheevphyhz gung zrrgf nyy 6gu-8gu tenqr PFGN fgnaqneqf.'
+    title2: 'Gheaxrl Yrffba Cynaf'
+    description2: 'Va-qrcgu cerfragngvbaf naq jbexfurrgf sbe grnpuref gb thvqr fghqragf guebhtu yrneavat bowrpgvirf.'
+    title3: 'Arj Grnpure & Nqzva Qnfuobneqf'
+    description3: 'Nyy gur npgvbanoyr vafvtugf rqhpngbef arrq ng n tynapr, fhpu nf fghqrag cebterff naq pbaprcg haqrefgnaqvat.'
 
   share_licenses:
     share_licenses: "Funer Yvprafrf"
@@ -2241,7 +2266,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     scribe_join_description: "gryy hf n yvggyr nobhg lbhefrys, lbhe rkcrevrapr jvgu cebtenzzvat naq jung fbeg bs guvatf lbh'q yvxr gb jevgr nobhg. Jr'yy tb sebz gurer!"
     scribe_subscribe_desc: "Trg rznvyf nobhg negvpyr jevgvat naabhaprzragf."
     diplomat_introduction_pref: "Fb, vs gurer'f bar guvat jr yrnearq sebz gur "
-    diplomat_launch_url: "ynhapu va Bpgbore"
+    diplomat_introduction_url: "bcra fbhepr pbzzhavgl"
     diplomat_introduction_suf: "vg'f gung gurer vf fvmrnoyr vagrerfg va PbqrPbzong va bgure pbhagevrf! Jr'er ohvyqvat n pbecf bs genafyngbef rntre gb ghea bar frg bs jbeqf vagb nabgure frg bs jbeqf gb trg PbqrPbzong nf npprffvoyr npebff gur jbeyq nf cbffvoyr. Vs lbh yvxr trggvat farnx crrxf ng hcpbzvat pbagrag naq trggvat gurfr yriryf gb lbhe sryybj angvbanyf NFNC, gura guvf pynff zvtug or sbe lbh."
     diplomat_attribute_1: "Syhrapl va Ratyvfu naq gur ynathntr lbh jbhyq yvxr gb genafyngr gb. Jura pbairlvat pbzcyvpngrq vqrnf, vg'f vzcbegnag gb unir n fgebat tenfc va obgu!"
     diplomat_i18n_page_prefix: "Lbh pna fgneg genafyngvat bhe yriryf ol tbvat gb bhe"
@@ -2254,8 +2279,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     ambassador_introduction: "Guvf vf n pbzzhavgl jr'er ohvyqvat, naq lbh ner gur pbaarpgvbaf. Jr'ir tbg sbehzf, rznvyf, naq fbpvny argjbexf jvgu ybgf bs crbcyr gb gnyx jvgu naq uryc trg npdhnvagrq jvgu gur tnzr naq yrnea sebz. Vs lbh jnag gb uryc crbcyr trg vaibyirq naq unir sha, naq trg n tbbq srry bs gur chyfr bs PbqrPbzong naq jurer jr'er tbvat, gura guvf pynff zvtug or sbe lbh."
     ambassador_attribute_1: "Pbzzhavpngvba fxvyyf. Or noyr gb vqragvsl gur ceboyrzf cynlref ner univat naq uryc gurz fbyir gurz. Nyfb, xrrc gur erfg bs hf vasbezrq nobhg jung cynlref ner fnlvat, jung gurl yvxr naq qba'g yvxr naq jnag zber bs!"
     ambassador_join_desc: "gryy hf n yvggyr nobhg lbhefrys, jung lbh'ir qbar naq jung lbh'q or vagrerfgrq va qbvat. Jr'yy tb sebz gurer!"
-    ambassador_join_note_strong: "Abgr"
-    ambassador_join_note_desc: "Bar bs bhe gbc cevbevgvrf vf gb ohvyq zhygvcynlre jurer cynlref univat qvssvphygl fbyivat yriryf pna fhzzba uvture yriry jvmneqf gb uryc gurz. Guvf jvyy or n terng jnl sbe nzonffnqbef gb qb gurve guvat. Jr'yy xrrc lbh cbfgrq!"
     ambassador_subscribe_desc: "Trg rznvyf ba fhccbeg hcqngrf naq zhygvcynlre qrirybczragf."
     teacher_subscribe_desc: "Trg rznvyf ba hcqngrf naq naabhaprzragf sbe grnpuref."
     changes_auto_save: "Punatrf ner fnirq nhgbzngvpnyyl jura lbh gbttyr purpxobkrf."
@@ -2318,7 +2341,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     tournament_ends: "Gbheanzrag raqf"
     tournament_ended: "Gbheanzrag raqrq"
     tournament_rules: "Gbheanzrag Ehyrf"
-    tournament_blurb: "Jevgr pbqr, pbyyrpg tbyq, ohvyq nezvrf, pehfu sbrf, jva cevmrf, naq hctenqr lbhe pnerre va bhe $40,000 Terrq gbheanzrag! Purpx bhg gur qrgnvyf"
     tournament_blurb_criss_cross: "Jva ovqf, pbafgehpg cnguf, bhgjvg bccbaragf, teno trzf, naq hctenqr lbhe pnerre va bhe Pevff-Pebff gbheanzrag! Purpx bhg gur qrgnvyf"
     tournament_blurb_zero_sum: "Hayrnfu lbhe pbqvat perngvivgl va obgu tbyq tngurevat naq onggyr gnpgvpf va guvf nycvar zveebe zngpu orgjrra erq fbeprere naq oyhr fbeprere. Gur gbheanzrag ortna ba Sevqnl, Znepu 27 naq jvyy eha hagvy Zbaqnl, Ncevy 6 ng 5CZ CQG. Pbzcrgr sbe sha naq tybel! Purpx bhg gur qrgnvyf"
     tournament_blurb_ace_of_coders: "Onggyr vg bhg va gur sebmra tynpvre va guvf qbzvangvba-fglyr zveebe zngpu! Gur gbheanzrag ortna ba Jrqarfqnl, Frcgrzore 16 naq jvyy eha hagvy Jrqarfqnl, Bpgbore 14 ng 5CZ CQG. Purpx bhg gur qrgnvyf"
@@ -2448,13 +2470,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     you_can1: "Lbh pna"
     you_can2: "chepunfr n cercnvq pbqr"
     you_can3: "gung pna or nccyvrq gb lbhe bja nppbhag be tvira gb bguref."
-
-  ozaria_chrome:
-    sound_off: 'Fbhaq Bss',
-    sound_on: 'Fbhaq Ba',
-    back_to_map: 'Onpx gb Znc',
-    level_options: 'Yriry Bcgvbaf',
-    restart_level: 'Erfgneg Yriry'
 
   impact:
     hero_heading: 'Ohvyqvat N Jbeyq-Pynff Pbzchgre Fpvrapr Cebtenz'
@@ -2751,26 +2766,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     cookies_deny: 'Qrpyvar aba-rffragvny pbbxvrf'
     cookies_allow: 'Nyybj pbbxvrf'
 
-  ladder_prizes:
-    title: "Gbheanzrag Cevmrf"  # Guvf frpgvba jnf sbe na byq gbheanzrag naq qbrfa'g arrq arj genafyngvbaf abj.
-    blurb_1: "Gurfr cevmrf jvyy or njneqrq nppbeqvat gb"
-    blurb_2: "gur gbheanzrag ehyrf"
-    blurb_3: "gb gur gbc uhzna naq bter cynlref."
-    blurb_4: "Gjb grnzf zrnaf qbhoyr gur cevmrf!"
-    blurb_5: "(Gurer jvyy or gjb svefg cynpr jvaaref, gjb frpbaq-cynpr jvaaref, rgp.)"
-    rank: "Enax"
-    prizes: "Cevmrf"
-    total_value: "Gbgny Inyhr"
-    in_cash: "va pnfu"
-    custom_wizard: "Phfgbz PbqrPbzong Jvmneq"
-    custom_avatar: "Phfgbz PbqrPbzong ningne"
-    heap: "sbe fvk zbaguf bs \"Fgneghc\" npprff"
-    credits: "perqvgf"
-    one_month_coupon: "pbhcba: pubbfr rvgure Envyf be UGZY"
-    one_month_discount: "qvfpbhag, 30% bss: pubbfr rvgure Envyf be UGZY"
-    license: "yvprafr"
-    oreilly: "robbx bs lbhe pubvpr"
-
   calendar:
     year: "Lrne"
     day: "Qnl"
@@ -2798,6 +2793,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   server_error:
     email_taken: 'Rznvy nyernql gnxra'
     username_taken: 'Hfreanzr nyernql gnxra'
+    easy_password: 'Cnffjbeq vf gbb rnfl gb thrff'
+    reused_password: 'Cnffjbeq pnaabg or erhfrq'
 
   esper:
     line_no: "Yvar $1: "
@@ -2969,7 +2966,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   parents_landing_2:
     splash_title: "Qvfpbire gur zntvp bs pbqvat ng ubzr."
     learn_with_instructor: "Yrnea jvgu na Vafgehpgbe"
-    learn_at_own_pace: "Yrnea ng lbhe bja cnpr"
     live_classes: "Yvir Bayvar Pynffrf"
     live_classes_offered: "PbqrPbzong abj bssref yvir bayvar pbzchgre fpvrapr pynffrf sbe fghqragf yrneavat ng ubzr. Terng sbe fghqragf jub jbex orfg va 1:1 be fznyy-tebhc frggvatf jurer yrneavat bhgpbzrf ner gnvyberq gb gurve arrqf."
     live_class_details_1: "Fznyy tebhc be cevingr yrffbaf"
@@ -3072,6 +3068,15 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     book_your_class: "Obbx Lbhe Pynff"
     call_to_book: "Pnyy abj gb obbx"
 
+  modal_timetap_confirmation:
+    congratulations: "Pbatenghyngvbaf!"
+    paragraph_1: "Lbhe fghqrag’f pbqvat nqiragher njnvgf."
+    paragraph_2: "Jr unir lbhe puvyq obbxrq sbe na bayvar pynff naq jr’er fb rkpvgrq gb zrrg gurz!"
+    paragraph_3: "Fbba lbh fubhyq or erpvrivat na rznvy vaivgngvba jvgu gur pynff fpurqhyr qrgnvyf nf jryy nf lbhe pynff vafgehpgbe’f anzr naq pbagnpg vasbezngvba."
+    paragraph_4: "Vs sbe jungrire ernfba lbh arrq gb zbqvsl lbhe pynff fryrpgvbaf, erfpurqhyr be whfg jnag gb gnyx jvgu n phfgbzre pner fcrpvnyvfg, fvzcyl ernpu bhg hfvat gur pbagnpg vasbezngvba cebivqrq va lbhe rznvy vaivgngvba."
+    paragraph_5: "Gunax lbh sbe pubbfvat PbqrPbzong naq tbbq yhpx ba lbhe pbzchgre fpvrapr wbhearl!"
+    back_to_coco: "Onpx gb PbqrPbzong"
+
   parent_modal:
     refer_teacher: "Ersre Grnpure"
     name: "Lbhe Anzr"
@@ -3082,7 +3087,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     send: "Fraq Rznvy"
 
   hoc_2018:
-    banner: "Jrypbzr gb Ubhe bs Pbqr 2020!" #{punatr}
+    banner: "Jrypbzr gb Ubhe bs Pbqr 2020!" #
     page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!"
     step_1: "Fgrc 1: Jngpu Ivqrb Bireivrj"
     step_2: "Fgrc 2: Gel vg Lbhefrys"
@@ -3107,11 +3112,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     point4: "✓ Cebwrpg-onfrq pbhefrf"
     point5: "✓ Fghqrag genpxvat"
     point6: "✓ Shyy yrffba cynaf"
-    title: "UBHE BS PBQR 2020" #{punatr}
+    title: "UBHE BS PBQR 2020" #
     acronym: "UBP"
 
   hoc_2018_interstitial:
-    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2020!" #{punatr}
+    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2020!" #
     educator: "V'z na rqhpngbe"
     show_resources: "Fubj zr grnpure erfbheprf!"
     student: "V'z n fghqrag"
@@ -3169,6 +3174,4 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   admin:
     license_type_full: 'Shyy Pbhefrf'
-    license_type_preset1: 'PF1+PF2+TQ1+JQ1'
-    license_type_preset2: 'PF1+PF2+PF3+PF4'
     license_type_customize: 'Phfgbzvmr Pbhefrf'

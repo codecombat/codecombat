@@ -96,6 +96,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     classroom_edition: "Издање учионице:"
     learn_to_code: "Научи да кодираш:"
     play_now: "Играј сад"
+#    im_a_parent: "I'm a Parent"
 #    im_an_educator: "I'm an Educator"
     im_a_teacher: "Ја сам наставник"
     im_a_student: "Ја сам ученик"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Поврати налог"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     more: "Више"
     fewer: "Мање"
     with: "са"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "секунда"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Потврди"
     tome_reload_method: "Поново учитај оригинални код за овај метод" # {change}
-    tome_available_spells: "Доступне чини"
     tome_your_skills: "Твоје вештине"
     hints: "Смернице"
 #    videos: "Videos"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     sorry_to_see_you_go: "Жао нам је што идеш! Дај нам до знања шта можемо боље да урадимо."
     unsubscribe_feedback_placeholder: "O, шта смо урадили?"
     stripe_description: "Месечна претплата"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "Купи сада"
     subscription_required_to_play: "Треба ти претплата да би играо овај ниво."
     unlock_help_videos: "Претплати се да откључаш све видео туторијале."
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     first_month_price: "Само $__price__ за први месец!"
     lifetime: "Доживотни приступ"
     lifetime_price: "$__price__"
-    year_subscription: "Годишња претплата"
+    year_subscription: "Годишња претплата" # {change}
     year_price: "$__price__/годишње"
     support_part1: "Треба ти помоћ око уплате или ти се више свиђа PayPal? И-мејл на"
     support_part2: "support@codecombat.com"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "Буди први који ће објавити пројекат у овом курсу!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     concept: "Концепт"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
   share_licenses:
     share_licenses: "Подели лиценце"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     scribe_join_description: "реци нам нешто о себи, о твом исксутву у програмирању и о каквим стварима би желео да пишеш. Почећемо одатле!"
     scribe_subscribe_desc: "Прими и-мејлове о обавештењима о написаном чланку."
     diplomat_introduction_pref: "Па, ако постоји једна ствар коју смо научили од"
-    diplomat_launch_url: "покретања у октобру"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "то је да постоји знатно интересовање за CodeCombat у другим земљама! Градимо скуп преводилаца који једва чекају да преокрену један пакет речи у други како би CodeCombat био доступан широм света. Ако желиш да примиш кратке увиде у предстојећи садржај и да твоји сународници добију ове нивое што је пре могуће, онда је овај час можда за тебе."
     diplomat_attribute_1: "Течност у енглеском језику и језику на који би желео да преводиш. Када преносиш компликоване идеје, важно је да имаш добро знање из оба језика! "
     diplomat_i18n_page_prefix: "Можеш да почнеш да преводиш наше нивое тако што ћеш отићи на"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     ambassador_introduction: "Ово је заједница коју градимо и ти си веза. Имамо форуме, и-мејлове и друштвене мреже са пуно људи са којима разговарамо и који нам помажу са игром. Ако желиш да помогнеш да се људи укључе и забаве и да осетиш импулс CodeCombat-а и шта нам је циљ, онда је овај час можда за тебе."
     ambassador_attribute_1: "Комуникацијске вештине. Буди у могућности да идентификујеш проблеме које играчи имају и да их решиш. Такође нас информиши о томе шта играчи говоре, шта воле и шта не и шта би желели да имају!"
     ambassador_join_desc: "реци нам нешто о себи, шта си урадио и шта би волео да урадиш. И од тога ћемо почети!"
-    ambassador_join_note_strong: "Напомена"
-    ambassador_join_note_desc: "Један од наших главних приоритета је да направимо игру за више играча где играчи који имају тешкоће при решавању нивоа могу да позову мађионичаре из вишег нивоа да им помогну. Ово ће бити одличан начин за амбасадоре да ураде свој посао. Обавестићемо те! "
     ambassador_subscribe_desc: "Прими и-мејлове о ажурирању подршке и развој за више играча."
     teacher_subscribe_desc: "Прими и-мејлове о ажурирањима и обавештењима за наставнике."
     changes_auto_save: "Промене су аутоматски сачуване када помериш квадратиће."
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     tournament_ends: "Турнир се окончава"
     tournament_ended: "Турнир се окончао"
     tournament_rules: "Правила турнира"
-    tournament_blurb: "Напиши код, сакупи злато, направи армију, победи непријатеље, освоји награде и надогради своју каријеру у нашем Greed турниру од 40.000 $! Погледај детаље"
     tournament_blurb_criss_cross: "Освоји бидове, конструиши путању, надмудри супарнике, ухвати драгуље и надогради своју каријеру у нашем Criss-Cross турниру! Погледај детаље"
     tournament_blurb_zero_sum: "Покажу своју креативност при кодирању и прикупљању злата и тактикама борбе у овом алпском мечу између црвеног чаробњака и плавог чаробњака. Турнир је почео у петак, 27. марта и трајаће до понедељка, 6. априла до 17:00 PDT. Такмичи се из забаве и славе! Погледај детаље"
     tournament_blurb_ace_of_coders: "Бори се у залеђеном глечеру у овом мечу доминације стила! Турнир је почео у среду, 16. септембра и трајаће до среде, 14. октобра до 17:00 PDT. Погледај детаље"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     you_can1: "Можеш  "
     you_can2: "да купиш припрејд код"
     you_can3: "који може да се примени на твој налог или да се поклони другоме."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     cookies_deny: "Одбиј не-основне колачиће"
 #    cookies_allow: "Allow cookies"
 
-  ladder_prizes:
-    title: "Турнирске награде" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Ове награде ће бити додељене према"
-    blurb_2: "правилима турнира"
-    blurb_3: "главним играчима у облику људи и џинова људождера."
-    blurb_4: "Два тима удвостручују награду!"
-    blurb_5: "(Биће два победника за прво место, два победника за друго место, итд.)"
-    rank: "Ранг"
-    prizes: "Награде"
-    total_value: "Укупна вредност"
-    in_cash: "у готовини"
-    custom_wizard: "Прилагођен CodeCombat мађионичар"
-    custom_avatar: "Прилагођен CodeCombat аватар"
-    heap: "шестомесечни \"Startup\" приступ"
-    credits: "заслуге"
-    one_month_coupon: "купон: изабери или Rails или HTML"
-    one_month_discount: "попуст, 30% попуста: изабери или Rails или HTML"
-    license: "лиценца  "
-    oreilly: "е-књига твог избора"
-
   calendar:
     year: "Година"
     day: "Дан"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
   server_error:
     email_taken: "И-мејл се већ користи"
     username_taken: "Корисничко име се већ користи"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Пасус $1:"
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

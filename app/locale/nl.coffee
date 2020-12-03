@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
     play_now: "Speel"
+#    im_a_parent: "I'm a Parent"
     im_an_educator: "Ik ben een onderwijzer"
     im_a_teacher: "Ik ben een leraar"
     im_a_student: "Ik ben een leerling"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     more: "Meer"
     fewer: "Minder"
     with: "met"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "seconde"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tome_cast_button_update: "Update"
     tome_submit_button: "Indienen"
     tome_reload_method: "Oorspronkelijke code voor deze methode herladen" # {change}
-    tome_available_spells: "Beschikbare spreuken"
     tome_your_skills: "Jouw Vaardigheden"
     hints: "Hints"
     videos: "Video's"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     sorry_to_see_you_go: "Jammer dat je weggaat! Laat ons alsjeblieft weten wat we beter hadden kunnen doen."
     unsubscribe_feedback_placeholder: "Oh, wat hebben we gedaan?"
     stripe_description: "Maandelijks abonnement"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "Koop Nu"
     subscription_required_to_play: "Je hebt een abonnement nodig om dit level te spelen."
     unlock_help_videos: "Abonneer om toegang te krijgen tot alle instructievideos."
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     first_month_price: "Maar $__prijs__ voor je eerste maand!"
     lifetime: "Levenslang abonnement" # {change}
     lifetime_price: "$__price__"
-    year_subscription: "Jaarlijks abonnement"
+    year_subscription: "Jaarlijks abonnement" # {change}
     year_price: "$__price__/year"
     support_part1: "Hulp nodig met betalingsopties? Email" # {change}
     support_part2: "support@codecombat.com"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
     ask_next_course: "Wil je meer spelen? Vraag je docent om toegang tot de volgende cursus."
-#    set_start_locked_level: "Assign up to level"
-    no_level_limit: "Geen limiet"
+#    set_start_locked_level: "Lock levels starting at"
+    no_level_limit: "Geen limiet" # {change}
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     concept: "Concept"
     sync_google_classroom: "Synchroniseer met Google Classroom"
     try_ozaria_footer: "Probeer ons nieuwe avonturenspel, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
   teacher_ozaria_encouragement_modal:
     title: "Werk aan je Computervaardigheden om Ozaria te redden"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     bullet3: "Ontgrendel creativiteit via capstone projecten"
     bullet4: "Ondersteun instructies via speciale leerplannen"
     you_can_return: "Je kunt altijd teruggaan naar CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
   share_licenses:
     share_licenses: "Deel licenties"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     scribe_join_description: "vertel ons wat over jezelf, je ervaring met programmeren en over wat voor soort dingen je graag zou schrijven. Verder zien we wel!"
     scribe_subscribe_desc: "Ontvang e-mails met aankondigingen over het schrijven van artikelen."
     diplomat_introduction_pref: "Dus, als er iets is wat we geleerd hebben van de "
-    diplomat_launch_url: "release in oktober"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "dan is het wel dat er een enorme belangstelling is voor CodeCombat in andere landen, vooral Brazilië! We zijn een groep van vertalers aan het creëren dat ijverig de ene set woorden in de andere omzet om CodeCombat zo toegankelijk mogelijk te maken in de hele wereld. Als jij het leuk vindt glimpen op te vangen van aankomende content en deze levels zo snel mogelijk naar je landgenoten te krijgen, dan is dit de klasse voor jou."
     diplomat_attribute_1: "Vloeiend Engels en de taal waar naar je wilt vertalen kunnen spreken. Wanneer je moeilijke ideeën wilt overbrengen, is het belangrijk beide talen goed te begrijpen!"
     diplomat_i18n_page_prefix: "Je kan beginnen met vertalen door te surfen naar"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     ambassador_introduction: "We zijn een gemeenschap aan het uitbouwen, en jij maakt er deel van uit. We hebben Olark chatkamers, e-mails, en sociale netwerken met veel andere mensen waarmee je kan praten en hulp aan kan vragen over het spel of om bij te leren. Als jij mensen wil helpen en te werken nabij de hartslag van CodeCombat in het bijsturen van onze toekomstvisie, dan is dit de geknipte klasse voor jou!"
     ambassador_attribute_1: "Communicatieskills. Problemen die spelers hebben kunnen identificeren en ze helpen deze op te lossen. Verder zul je ook de rest van ons geïnformeerd houden over wat de spelers zeggen, wat ze leuk vinden, wat ze minder vinden en waar er meer van moet zijn!"
     ambassador_join_desc: "vertel ons wat over jezelf, wat je hebt gedaan en wat je graag zou doen. We zien verder wel!"
-    ambassador_join_note_strong: "Opmerking"
-    ambassador_join_note_desc: "Een van onze topprioriteiten is om een multiplayer te bouwen waar spelers die moeite hebben een level op te lossen een tovenaar met een hoger level kunnen oproepen om te helpen. Dit zal een goede manier zijn voor ambassadeurs om hun ding te doen. We houden je op de hoogte!"
     ambassador_subscribe_desc: "Ontvang e-mails met updates over ondersteuning en multiplayer-ontwikkelingen."
     teacher_subscribe_desc: "Ontvang e-mails over updates en aankondigingen voor leraren."
     changes_auto_save: "Veranderingen worden automatisch opgeslagen wanneer je het vierkantje aan- of afvinkt."
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tournament_ends: "Toernooi eindigt"
     tournament_ended: "Toernooi geëindigd"
     tournament_rules: "Toernooiregels"
-    tournament_blurb: "Schrijf code, verzamel goud, bouw legers, verpletter je tegenstanders, win prijzen en verbeter je carrière in ons $40,000 Greed toernooi! Zie de details"
     tournament_blurb_criss_cross: "Win biedingen, bouw paden, wees je tegenstander te slim af, pak edelstenen en verbeter je carrière in ons Criss-Cross toernooi! Zie de details"
     tournament_blurb_zero_sum: "Ontketen je code-creativiteit in goud verzamelen en veldslag tactieken in deze Alpine Mirror wedstrijd tussen de rode tovenaar en de blauwe tovenaar. Het toernooi is gestart op Vrijdag 27 maart en loopt tot Maandag 6 April om 17:00 PDT. Doe mee voor plezier en overwinning! Check de details"
     tournament_blurb_ace_of_coders: "Vecht het uit in de bevroren gletsjer in deze Dominance Mirror wedstrijd! Het toernooi begint op Woensdag 16 September en loopt tot Woensdag 14 Oktober om 17:00 PDT. Check de details"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     you_can1: "Je kunt"
     you_can2: "een prepaidcode kopen"
     you_can3: "die je voor je eigen account kunt gebruiken of aan anderen kunt geven."
-
-  ozaria_chrome:
-    sound_off: "Geluid Uit"
-    sound_on: "Geluid Aan"
-    back_to_map: "Terug naar de Kaart"
-    level_options: "Levelopties"
-    restart_level: "Herstart Level"
 
   impact:
     hero_heading: "Werken aan een computerwetenschappelijk programma van wereldklasse"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     cookies_deny: "Wijs niet-essentiële cookies af"
     cookies_allow: "Laat cookies toe"
 
-  ladder_prizes:
-    title: "Toernooiprijzen" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Deze prijzen worden uitgereikt volgens de toernooiregels"
-    blurb_2: "De toernooiregels"
-    blurb_3: "voor de beste mensen en boemannen."
-    blurb_4: "Twee teams, dus dubbele prijzen!"
-    blurb_5: "(Er is een gedeelde eerste plek, een gedeelde tweede plek, enz.)"
-    rank: "Rang"
-    prizes: "Prijzen"
-    total_value: "Totale waarde"
-    in_cash: "contant"
-    custom_wizard: "Aangepaste CodeCombat Wizard"
-    custom_avatar: "Aangepaste CodeCombat avatar"
-    heap: "voor zes maanden \"opstart\" toegang"
-    credits: "credits"
-    one_month_coupon: "coupon: Kies Rails of HTML"
-    one_month_discount: "30% korting: Kies Rails of HTML"
-    license: "licentie"
-    oreilly: "ebook van je keuze"
-
   calendar:
     year: "Jaar"
     day: "Dag"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
   server_error:
     email_taken: "Dit e-mailadres is al in gebruik"
     username_taken: "Gebruikersnaam niet beschikbaar"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Regel $1: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
   parent_modal:
     refer_teacher: "Verwijs de leraar door"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

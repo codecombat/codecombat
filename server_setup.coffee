@@ -88,7 +88,7 @@ setupExpressMiddleware = (app) ->
 
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
-  app.use require('serve-favicon') path.join(__dirname, 'public', 'images', 'favicon.ico')
+  app.use require('serve-favicon') path.join(__dirname, 'public', 'images', 'favicon', 'favicon.ico')
   app.use require('cookie-parser')()
   app.use require('body-parser').json({limit: '25mb', strict: false, verify: (req, res, buf, encoding) ->
     if req.headers['x-hub-signature']
@@ -324,17 +324,17 @@ setupProxyMiddleware = (app) ->
   return unless config.proxy
   httpProxy = require 'http-proxy'
 
-  target = 'https://very.direct.codecombat.com'
+  target = 'https://direct.staging.codecombat.com'
   headers = {}
 
   if (process.env.COCO_PROXY_NEXT)
-    target = 'https://next.codecombat.com'
+    target = 'https://direct.next.codecombat.com'
     headers['Host'] = 'next.codecombat.com'
 
   proxy = httpProxy.createProxyServer({
-    target: target
-    secure: false,
-    headers: headers
+    target,
+    headers,
+    secure: false
   })
   log.info 'Using dev proxy server'
   app.use (req, res, next) ->

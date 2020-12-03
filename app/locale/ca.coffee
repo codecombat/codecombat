@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     classroom_edition: "Edició d'Aula:"
     learn_to_code: "Aprendre a programar:"
     play_now: "Juga Ara"
+#    im_a_parent: "I'm a Parent"
 #    im_an_educator: "I'm an Educator"
     im_a_teacher: "Sóc Docent"
     im_a_student: "Sóc Alumna/e"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Recuperar Compte"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     more: "Més"
     fewer: "Menys"
     with: "amb"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "segon"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Envia"
     tome_reload_method: "Recarrega el codi original per reiniciar el nivell"
-    tome_available_spells: "Encanteris disponibles"
     tome_your_skills: "Les teves habilitats"
     hints: "Consells"
 #    videos: "Videos"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     sorry_to_see_you_go: "Llàstima que te'n vagis! Deixa'ns saber què podríem haver fet millor."
     unsubscribe_feedback_placeholder: "Oh, què hem fet?"
     stripe_description: "Subscripció mensual"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "Compra ara"
     subscription_required_to_play: "Necessitarás una subscripció per jugar aquest nivell."
     unlock_help_videos: "Subscriu-te per desbloquejar tots els vídeo-tutorials."
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     first_month_price: "Només $__price__ pel teu primer mes!"
     lifetime: "Accés de per vida"
     lifetime_price: "$__price__"
-    year_subscription: "Subscripció anual"
+    year_subscription: "Subscripció anual" # {change}
     year_price: "$__price__/any"
     support_part1: "Necessites ajuda amb el pagament o prefereixes PayPal? Envia'ns un e-mail a"
     support_part2: "support@codecombat.com"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "Sigues el primer en publicar un projecte en aquest curs!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     concept: "Concepte"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
   share_licenses:
     share_licenses: "Compartir llicències"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     scribe_join_description: "Explica'ns una mica sobre tu mateix, la teva experiència amb la programació i sobre quin tipus de coses t'agradaria escriure. Començarem per això!"
     scribe_subscribe_desc: "Rep correus electrònics sobre anuncis d'escriptura d'articles."
     diplomat_introduction_pref: "Si alguna cosa vam aprendre del que vam "
-    diplomat_launch_url: "llançar a l'octubre"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "és que hi ha un gran interès en CodeCombat a altres països! Estem construint un cos de traductors per aconseguir que CodeCombat sigui tan accessible arreu del món com sigui possible. Si t'agrada aconseguir els nivells tan aviat com surten i poder-los oferir als teus compatriotes llavors aquesta classe és per tu."
     diplomat_attribute_1: "Fluïdesa en l'anglès i en l'idioma al que vulguis traduir. Al transmetre idees complicades és important tenir un gran coneixement dels dos idiomes!"
     diplomat_i18n_page_prefix: "Pots començar traduint els nostres nivells a la"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     ambassador_introduction: "Aquesta és una comunitat que estem construint, i tu ets les connexions. Tenim fòrums, correus electrònics i xarxes socials amb molta gent per parlar i ajudar-vos a conèixer el joc i aprendre-ne. Si voleu ajudar a la gent a participar-hi i divertir-se i tenir una bona idea del pols de CodeCombat i on anem, aquesta classe pot ser per a vosaltres."
     ambassador_attribute_1: "Habilitats comunicatives. Ser capaç d'identificar els problemes que tenen els jugadors i ajudar-los a resoldre'ls. A més, manten-nos informats sobre el que diuen els jugadors, el que els agrada i no els agrada i sobre què més volen!"
     ambassador_join_desc: "explica'ns una mica sobre tu mateix, què has fet i què t'interessaria fer. Començarem per això!"
-    ambassador_join_note_strong: "Nota"
-    ambassador_join_note_desc: "Una de les nostres principals prioritats és crear multijugador on els jugadors que tinguin dificultats per resoldre els nivells poden convocar assistents de nivell superior per ajudar-los. Serà una bona manera de fer la tasca d'Ambaixador. T'anirem informant!"
     ambassador_subscribe_desc: "Obteniu correus electrònics sobre actualitzacions de suport i desenvolupaments multijugador."
     teacher_subscribe_desc: "Obteniu correus electrònics sobre actualitzacions i anuncis per a professors."
     changes_auto_save: "Els canvis es desen automàticament quan canvieu les caselles de selecció."
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     tournament_ends: "El torneig acaba"
     tournament_ended: "El torneig ha acabat"
     tournament_rules: "Normes del torneig"
-    tournament_blurb: "Escriu codi, recull or, construeix exèrcits, enderroca enemics, guanya premis i millora el teu rànquing al nostre torneig Greed de $ 40,000! Consulteu els detalls"
     tournament_blurb_criss_cross: "Obté ofertes, construeix camins, reparteix opositors, agafa gemmes i actualitza el teu rànquing al nostre torneig Criss-Cross! Consulteu els detalls"
     tournament_blurb_zero_sum: "Allibera la teva creativitat de codificació tant en la trobada d'or i en les tàctiques de batalla en aquest joc de miralls alpins entre el bruixot i el bruixot blau. El torneig va començar el divendres 27 de març i tindrà lloc fins el dilluns 6 d'abril a les 5PM PDT. Competeix per diversió i glòria! Consulteu els detalls"
     tournament_blurb_ace_of_coders: "Treu-lo a la glacera congelada en aquest joc de mirall d'estil dominació! El torneig va començar el dimecres 16 de setembre i es disputarà fins el dimecres 14 d'octubre a les 5PM PDT. Consulteu els detalls"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     you_can1: "Pots"
     you_can2: "comprar un codi Prepagat"
     you_can3: "per aplicar al teu compte o donar a d'altres."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     cookies_deny: "Declareu les galetes no essencials"
 #    cookies_allow: "Allow cookies"
 
-  ladder_prizes:
-    title: "Premis del torneig" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Aquests premis seran guanyats d'acord amb"
-    blurb_2: "Les normes del torneig"
-    blurb_3: "els millors jugadors humans i ogres."
-    blurb_4: "Dos equips signifiquen el doble de premis!"
-    blurb_5: "(Hi haura dos guanyadors pel primer lloc, dos pels del segon lloc, etc.)"
-    rank: "Rang"
-    prizes: "Premis"
-    total_value: "Valor total"
-    in_cash: "en diners"
-    custom_wizard: "Personalitza el teu bruixot de CodeCombat"
-    custom_avatar: "Personalitza el teu avatar de CodeCombat"
-    heap: "per sis mesos d'acces \"Startup\" "
-    credits: "crèdits"
-    one_month_coupon: "cupó: trieu Rails o HTML"
-    one_month_discount: "descompte del 30%: seleccioneu Rails o HTML"
-    license: "llicencia"
-    oreilly: "ebook de la vostra elecció"
-
   calendar:
     year: "Any"
     day: "Dia"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   server_error:
     email_taken: "E-mail ja agafat"
     username_taken: "Usuari ja agafat"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Línia $1: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
   parent_modal:
     refer_teacher: "Consulteu al Professor"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

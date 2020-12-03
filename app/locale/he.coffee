@@ -96,6 +96,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     classroom_edition: "המהדורה הכיתתית:"
     learn_to_code: "למדו לכתוב קוד:"
     play_now: "שחק עכשיו"
+#    im_a_parent: "I'm a Parent"
 #    im_an_educator: "I'm an Educator"
     im_a_teacher: "אני מורה"
     im_a_student: "אני תלמיד"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "שחזור חשבון"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "שנייה"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    tome_cast_button_update: "Update"
     tome_submit_button: "שלח"
     tome_reload_method: "טען מחדש את הקוד המקורי כדי להתחיל את השלב מחדש"
-    tome_available_spells: "לחשים זמינים"
     tome_your_skills: "המיומנויות שלך"
     hints: "רמזים"
 #    videos: "Videos"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     sorry_to_see_you_go: "חבל שאתם עוזבים! אנא ספרו לנו כיצד נוכל להשתפר."
     unsubscribe_feedback_placeholder: "אוי, מה עשינו?"
     stripe_description: "מנוי חודשי"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "קנה כעת"
     subscription_required_to_play: "נדרש מנוי כדי לשחק בשלב זה."
     unlock_help_videos: "הירשמו כמנוי כדי לפתוח את כל ההדרכות בווידאו."
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    first_month_price: "Only $__price__ for your first month!"
     lifetime: "מנוי לכל החיים" # {change}
     lifetime_price: "$__price__"
-    year_subscription: "מנוי שנתי"
+    year_subscription: "מנוי שנתי" # {change}
     year_price: "$__price__ לשנה"
     support_part1: "זקוקים לעזרה עם אפשרויות התשלום? שלחו דואר אלקטרוני לכתובת" # {change}
     support_part2: "support@codecombat.com"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "פרסמו פרויקט בקורס זה לפני כולם!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
   share_licenses:
     share_licenses: "שיתוף רישיונות"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     scribe_join_description: "ספרו לנו קצת על עצמכם, על הניסיון שלכם בתכנות ועל הדברים שעליהם תרצו לכתוב. אנו נתקדם משם!"
     scribe_subscribe_desc: "קבלו בדואר אלקטרוני הודעות על כתיבת מאמרים."
     diplomat_introduction_pref: "אז אם למדנו דבר אחד "
-    diplomat_launch_url: "מההשקה באוקטובר"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "זה שקיים עניין ניכר ב-CodeCombat במדינות אחרות! אנו בונים נבחרת של מתרגמים שמשתוקקים להפוך אוסף של מילים לאוסף אחר של מילים, כדי להנגיש את CodeCombat לכמה שיותר אנשים ברחבי העולם. אם תרצו לקבל מבט מהיר בתוכן הצפוי בקרוב, ולהביא את השלבים האלה כמה שיותר מהר על אלה שגרים במדינה שלכם, אולי זה המקצוע שמתאים לכם."
     diplomat_attribute_1: "שליטה מצוינת באנגלית ובשפה שאליה תרצו לתרגם. בעת העברה של רעיונות מורכבים, חשוב להבין היטב את שתי השפות!"
     diplomat_i18n_page_prefix: "כדי להתחיל ולתרגם את השלבים שלנו, תוכלו לעבור אל"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     ambassador_introduction: "אנו בונים כאן קהילה, ואתם נקודות החיבור. יש לנו פורומים, דואר אלקטרוני ורשתות חברתיות עם הרבה אנשים לשוחח עמם, להכיר להם את המשחק וללמוד מהם. אם ברצונכם לעזור לאנשים לקחת חלק וליהנות, כמו גם להבין את הרוח של CodeCombat ואת מה שצפוי לו, אולי זה המקצוע שמתאים לכם."
     ambassador_attribute_1: "מיומנויות תקשורת. היכולת לזהות את הבעיות שבהן השחקנים נתקלים ולעזור להם לפתור אותן. בנוסף, המשיכו לעדכן אותנו במה ששחקנים אחרים עושים, מה הם אוהבים ולא אוהבים, וממה הם רוצים עוד!"
     ambassador_join_desc: "ספרו לנו קצת על עצמכם, מה שעשיתם עד כה ומה מעניין אתכם לעשות. אנו נתקדם משם!"
-    ambassador_join_note_strong: "הערה"
-    ambassador_join_note_desc: "אחת העדיפויות הראשונות שלנו היא בנייה של משחק מרובה משתתפים, אשר בו שחקנים שמתקשים בפתרון שלבים יכולים לזמן קוסמים בדרגה גבוהה יותר שיעזרו להם. זו תהיה דרך נהדרת שבה השגרירים יוכלו לעזור כמו שהם יודעים. אנו נעדכן אתכם!"
     ambassador_subscribe_desc: "קבלו בדואר אלקטרוני הודעות על עדכוני תמיכה והתפתחויות בתחום ריבוי השחקנים."
     teacher_subscribe_desc: "קבלו בדואר אלקטרוני הודעות על עדכונים והודעות למורים."
     changes_auto_save: "השינויים יישמרו באופן אוטומטי כאשר תשנו את הבחירה בתיבות הסימון."
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tournament_ends: "הטורניר יסתיים"
     tournament_ended: "הטורניר הסתיים"
     tournament_rules: "כללי הטורניר"
-    tournament_blurb: "כתבו קוד, אספו זהב, בנו צבאות, מחצו את היריבים, זכו בפרסים, ושדרגו את הקריירה שלכם בטורניר תאוות הבצע שלנו על סך $40,000! ראו פרטים"
     tournament_blurb_criss_cross: "זכו במכירות פומביות, בנו נתיבים, הערימו על יריבכם, השיגו אבני חן, ושדרגו את הקריירה שלכם בטורניר השתי-וערב שלנו! ראו פרטים"
     tournament_blurb_zero_sum: "תנו חופש ליצירתיות שלכם בקידוד, בטקטיקות לאיסוף זהב ולקרבות, בקרב ראי הררי זה בין קוסמת אדומה לקוסמת כחולה. הטורניר התחיל ביום שישי, 27 במרץ, ויימשך עד יום שני, 6 באפריל, 17:00 שעון החוף המערבי. השתתפו בתחרות כדי ליהנות ולזכות בתהילה! ראו פרטים"
     tournament_blurb_ace_of_coders: "צאו לקרב בקרחון הקפוא במשחק ראי להשתלטות על המפה! הטורניר התחיל ביום רביעי, 16 בספטמבר, ויימשך עד יום רביעי, 14 באוקטובר, 17:00 שעון החוף המערבי. ראו פרטים"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     you_can1: "באפשרותך"
     you_can2: "לרכוש קוד בתשלום מראש"
     you_can3: "אשר ניתן להחיל על חשבונך או לתת למשתמשים אחרים."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
 
-  ladder_prizes:
-    title: "פרסי טורניר" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "פרסים אלה יוענקו לפי"
-    blurb_2: "חוקי הטורניר"
-    blurb_3: "לשחקנים האנושיים והענקיים המובילים."
-    blurb_4: "שתי קבוצות פירושם פרסים כפולים!"
-    blurb_5: "(יהיו שני זוכים במקום הראשון, שניים במקום השני וכן הלאה)"
-    rank: "דירוג"
-    prizes: "פרסים"
-    total_value: "ערך כספי"
-    in_cash: "כולל"
-    custom_wizard: "קוסם מותאם אישית של CodeCombat"
-    custom_avatar: "אוואטאר מותאם אישית של CodeCombat"
-    heap: "לשישה חודשים של גישה מסוג \"סטארטאפ\""
-    credits: "נקודות זכות"
-    one_month_coupon: "קופון: בחרו Rails או HTML"
-    one_month_discount: "30% הנחה: בחרו Rails או HTML"
-    license: "רישיון"
-    oreilly: "ספר אלקטרוני לבחירתכם"
-
   calendar:
     year: "שנה"
     day: "יום"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   server_error:
     email_taken: "כתובת הדואר האלקטרוני תפוסה"
     username_taken: "שם המשתמש כבר תפוס"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "שורה $1: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

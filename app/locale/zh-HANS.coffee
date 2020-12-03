@@ -96,6 +96,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
     play_now: "开始游戏"
+#    im_a_parent: "I'm a Parent"
     im_an_educator: "我是老师"
     im_a_teacher: "我是老师"
     im_a_student: "我是学生"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "找回账户"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     more: "更多"
     fewer: "更少"
     with: "和"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "秒"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    tome_cast_button_update: "Update"
     tome_submit_button: "提交"
     tome_reload_method: "恢复关卡初始代码"
-    tome_available_spells: "可用的法术"
     tome_your_skills: "您的技能"
     hints: "提示"
     videos: "视频"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     sorry_to_see_you_go: "真舍不得亲离开啊！ 请一定要让我们知道哪里做的还不够好。"
     unsubscribe_feedback_placeholder: "噢, 我们做了神马?"
     stripe_description: "每月订阅"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "立即购买"
     subscription_required_to_play: "订阅后才可开始本关"
     unlock_help_videos: "订阅后才可以解锁视频教学哦！"
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     first_month_price: "第一个月仅需 $__price__！"
     lifetime: "终身订阅"
     lifetime_price: "$__price__"
-    year_subscription: "年度订阅"
+    year_subscription: "年度订阅" # {change}
     year_price: "$__price__/年"
     support_part1: "付款时需要帮助? Email" # {change}
     support_part2: "china@codecombat.com"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     concept: "概念"
     sync_google_classroom: "同步谷歌教室"
     try_ozaria_footer: "试试我们的新产品：奥佳睿！"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
   teacher_ozaria_encouragement_modal:
     title: "学习计算机科学技能，拯救奥佳睿世界"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     bullet3: "在顶点项目释放创意"
     bullet4: "提供教研资料指导"
     you_can_return: "您可以随时回到 CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
   share_licenses:
     share_licenses: "分配许可"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     scribe_join_description: "介绍下您自己, 比如您的编程经历和您喜欢的东西, 我们将会努力的去了解您！！"
     scribe_subscribe_desc: "通过电子邮件获得写作新文档的通知。"
     diplomat_introduction_pref: "如果说我们从"
-    diplomat_launch_url: "十月的发布"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "中得到了什么启发：那就是全世界的人都很喜欢CodeCombat。我们召集了一群翻译者，希望能尽快地把网站上的信息翻译成各国文字。如果您对CodeCombat的内容很感兴趣，想让世界上的每一个人都有机会一同体验，就快来成为外交官吧。"
     diplomat_attribute_1: "既会说流利的英语，也熟悉自己的语言。编程是一件很复杂的事情，而要翻译复杂的概念，您必须对两种语言都在行！"
     diplomat_i18n_page_prefix: "您可以在我们的"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ambassador_introduction: "这是一个正在成长的社区，而您将成为我们与世界的联结点。大家可以通过各种即时聊天平台、邮件、或是参与者众多的社交网络来认识及讨论我们的游戏。如果您喜欢帮助大家，一起参与各类项目，一起获得乐趣。与我们同行，一起感受CodeCombat的脉搏，绝对是一个适合您的职业。"
     ambassador_attribute_1: "具备出色的沟通能力。能够分辨出玩家遇到的问题并帮助他们解决问题。与此同时，和我们保持联系，帮助反馈玩家们的喜怒哀乐！"
     ambassador_join_desc: "介绍一下您自己：您做过什么？您喜欢做什么？我们将从这里开始了解您！"
-    ambassador_join_note_strong: "注意"
-    ambassador_join_note_desc: "我们其中一个想法是要制造一个当玩家们在解决问题上有难度时可以要求其他比较强的玩家来协助他们的多人游戏。这将会是一个很好的办法让使节们可以更容易地协助玩家！如有任何更新，我们会在第一时间通知您！"
     ambassador_subscribe_desc: "通过电子邮件获得支持系统的现状，以及多人游戏方面的新进展。"
     teacher_subscribe_desc: "接收针对老师的更新和公告邮件。"
     changes_auto_save: "在您勾选复选框后，更改将自动保存。"
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tournament_ends: "锦标赛结束"
     tournament_ended: "锦标赛已结束"
     tournament_rules: "锦标赛规则"
-    tournament_blurb: "写代码，收金币，建军队，碎敌军，赢奖品，以及在我们奖励多达$40,000的Greed tournament里升级您的事业！ 快去查阅详情！"
     tournament_blurb_criss_cross: "赢得竞拍，建造道路，智胜对手，夺取宝石，在纵横交错锦标赛中完成生涯晋级！ 现在就查看详情！"
     tournament_blurb_zero_sum: "在红方法师和蓝方法师的山峰对决中, 同时在收集金币和战术上发挥你的代码创造力。竞赛在3月27日开始, 在4月6日(星期一)的下午5点(PDT 太平洋时区)结束。为乐趣和荣耀竞赛吧！ 浏览了解更多"
     tournament_blurb_ace_of_coders: "我的主场我主宰，在天寒地冻的冰原上和自己的镜像大战一场吧！本次比赛将由9月16日星期三开办到10月14日下午5点PDT。详情请查看"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can1: "您可以"
     you_can2: "购买一个预购码"
     you_can3: "使用在您的账户或者给其他人。"
-
-  ozaria_chrome:
-    sound_off: "关闭声音"
-    sound_on: "开启声音"
-    back_to_map: "返回地图"
-    level_options: "关卡选项"
-    restart_level: "重新开始这个关卡"
 
   impact:
     hero_heading: "创建世界一流的计算机科学课程"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     cookies_deny: "禁用非必要的cookies"
 #    cookies_allow: "Allow cookies"
 
-  ladder_prizes:
-    title: "竞标赛奖项" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "这些奖项将会奖励，依据"
-    blurb_2: "锦标赛规则"
-    blurb_3: ", 给顶尖的人类和怪物玩家。"
-    blurb_4: "两队表示获得的奖励将会是两倍！"
-    blurb_5: "(将有两个第一名, 两个第二名, 以此类推。)"
-    rank: "排名"
-    prizes: "奖项"
-    total_value: "总价值"
-    in_cash: "现金"
-    custom_wizard: "定制CodeCombat巫师"
-    custom_avatar: "定制CodeCombat头像"
-    heap: "给六个月的\"Startup\"访问"
-    credits: "信用卡"
-    one_month_coupon: "优惠: 选择 Rails 或者 HTML"
-    one_month_discount: "折扣 30% : 选择 Rails 或者 HTML"
-    license: "许可证"
-    oreilly: "您选择的电子书"
-
   calendar:
     year: "年"
     day: "日"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   server_error:
     email_taken: "电子邮件已注册。"
     username_taken: "用户名已注册。"
+    easy_password: "密码过于简单"
+    reused_password: "与原密码相同"
 
   esper:
     line_no: "第$1行: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
   parent_modal:
     refer_teacher: "指导老师"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   admin:
     license_type_full: "全课许可"
-    license_type_preset1: "CS1+CS2+GD1+WD1"
-    license_type_preset2: "CS1+CS2+CS3+CS4"
     license_type_customize: "可选课程"

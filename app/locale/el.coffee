@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     classroom_edition: "Έκδοση Αίθουσας Διδασκαλίας:"
     learn_to_code: "Μάθε να προγραμματίζεις:"
     play_now: "Παίξε Τώρα"
+#    im_a_parent: "I'm a Parent"
 #    im_an_educator: "I'm an Educator"
     im_a_teacher: "Είμαι Δάσκαλος"
     im_a_student: "Είμαι Μαθητής"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Ανάκτηση λογαριασμού"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     more: "Περισσότερα"
     fewer: "Λιγότερα"
     with: "μαζί"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "δευτερόλεπτο"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Υποβολή"
     tome_reload_method: "Φόρτωσε ξανά τον αρχικό κώδικα για να επανεκκινήσεις το επίπεδο"
-    tome_available_spells: "Διαθέσιμα ξόρκια"
     tome_your_skills: "Οι Ικανότητες σου"
     hints: "Συμβουλές"
 #    videos: "Videos"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     sorry_to_see_you_go: "Λυπούμαστε που σε βλέπουμε να φεύγεις! Πες μας, σε παρακαλούμε, τι θα μπορούσαμε να κάνουμε καλύτερα."
     unsubscribe_feedback_placeholder: "Μα, τι κάναμε;"
     stripe_description: "Μηνιαία Συνδρομή"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "Αγορά Τώρα"
     subscription_required_to_play: "Πρέπει να είσαι συνδρομητής για να παίξεις αυτό το επίπεδο."
     unlock_help_videos: "Απέκτησε συνδρομή για να ξεκλειδώσεις όλα τα βίντεο βοηθήματα."
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     first_month_price: "Μόνο $__price__ για τον πρώτο μήνα!"
     lifetime: "Μόνιμη Πρόσβαση"
     lifetime_price: "$__price__"
-    year_subscription: "Ετήσια Συνδρομή"
+    year_subscription: "Ετήσια Συνδρομή" # {change}
     year_price: "$__price__/έτος"
     support_part1: "Χρειάζεστε βοήθεια με την πληρωμή ή προτιμάτε PayPal; Ηλεκτρονικό Ταχυδρομείο"
     support_part2: "support@codecombat.com"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "Γίνε ο πρώτος που θα κοινοποιήσει ένα έργο σε αυτό το μάθημα!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     concept: "Έννοια"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
   share_licenses:
     share_licenses: "Μοίρασμα Αδειών"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     scribe_join_description: "πες μας λίγα πράγματα για σένα, την εμπειρία σου με τον προγραμματισμό και για τι είδους πράγματα θα ήθελες να γράφεις. Εμείς θα αναλάβουμε από εκεί και μετά!"
     scribe_subscribe_desc: "Πάρτε μηνύματα σχετικά με ανακοινώσεις για τη συγγραφή άρθρων."
     diplomat_introduction_pref: "Λοιπόν, αν υπάρχει κάτι που μάθαμε από το "
-    diplomat_launch_url: "ξεκίνημά μας το Οκτώβρη"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "είναι ότι υπάρχει υπολογίσιμο ενδιαφέρον για το CodeCombat σε άλλα κράτη! Φτιάχνουμε μια ομάδα μεταφραστών, που να είναι πρόθυμοι να μεταφράζουν για να κάνουν το  CodeCombat όσο πιο προσβάσιμο στην υφήλιο γίνεται. Αν θέλεις να ρίχνεις κλεφτές ματιές σε μελλοντικό περιεχόμενο και να φέρνεις αυτά τα επίπεδα στους συμπατριώτες όσο το δυνατό γρηγορότερα, τότε αυτή η τάξη ίσως να είναι για σένα."
     diplomat_attribute_1: "Πρέπει να είσαι άριστος στα Αγγλικά και στη γλώσσα στην οποία θέλεις να μεταφράσεις. Όταν μεταφέρεις πολύπλοκες ιδέες, είναι σημαντικό να είσαι πολύ καλός και στις δύο!"
     diplomat_i18n_page_prefix: "Μπορείς να αρχίσεις να μεταφράζεις τα επίπεδα πηγαίνοντας"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     ambassador_introduction: "Κτίζουμε μια κοινότητα, και εσείς είστε ο συνδετικός κρίκος. Έχουμε φόρουμ, emails, και κοινωνικά δίκτυα με πολλούς ανθρώπους, με τους οποίους μπορείτε να μιλήσετε και να τους βοηθήσετε να γνωρίσουν το παιχνίδι και να μάθουν από αυτό. Αν θέλεις να βοηθήσεις ανθρώπους να μπουν στο παιχνίδι και να διασκεδάσουν, να αποκτήσεις μια καλή αίσθηση του παλμού του CodeCombat και του που πηγαίνουμε, τότε αυτή η τάξη μπορεί να είναι για σένα."
     ambassador_attribute_1: "Ικανότητες επικοινωνίας. Να μπορείς να αναγνωρίζεις τα προβλήματα των παικτών και να τους βοηθάς να τα λύνουν. Επίσης, να ενημερώνεις κι εμάς για το τι λένε οι παίκτες, τι τους αρέσει και τι όχι και τι άλλο χρειάζονται!"
     ambassador_join_desc: "πες μας λίγο για εσένα, τι έχεις κάνει μέχρι τώρα και τι σε ενδιαφέρει να κάνεις. Εμείς θα το συνεχίσουμε μετά!"
-    ambassador_join_note_strong: "Σημείωση"
-    ambassador_join_note_desc: "Μια από τις μεγαλύτερες προτεραιότητές μας είναι να φτιάχνουμε παιχνίδια πολλαπλών χρηστών όπου οι παίκτες που δυσκολεύονται στην επίλυση επιπέδων μπορούν να καλούν μάγους ανωτέρων επιπέδων για να τους βοηθήσουν. Αυτή θα είναι ένας φανταστικός τρόπος για τους Πρεσβευτές να λάμψουν. Θα σας ενημερώνουμε!"
     ambassador_subscribe_desc: "Πάρτε μηνύματα για ενημερώσεις υποστήριξης και τις εξελίξεις στα παιχνίδια με πολλούς παίχτες."
     teacher_subscribe_desc: "Λάβετε μηνύματα ηλεκτρονικού ταχυδρομείου σχετικά με ενημερώσεις και ανακοινώσεις για τους εκπαιδευτικούς."
     changes_auto_save: "Οι αλλαγές αποθηκεύονται αυτόματα όταν πατάτε τα κουμπιά επιλογής."
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     tournament_ends: "Το τουρνουά τελειώνει"
     tournament_ended: "Το τουρνουά τελείωσε"
     tournament_rules: "Κανόνες του τουρνουά"
-    tournament_blurb: "Γράψε κώδικα, μάζεψε χρυσό, φτιάξε στρατούς, σύντριψε τους εχθρούς, κέρδισε βραβεία, και αναβάθμισε την καριέρα σου με το αξίας $40,000 τουρνουά Greed! Δες τις λεπτομέρειες"
     tournament_blurb_criss_cross: "Κάνε τη νικητήρια προσφορά, κατασκεύασε μονοπάτια, ξεπέρασε σε εξυπνάδα τους αντιπάλους σου, άρπαξε πετράδια, και αναβάθμισε την καριέρα σου στο τουρνουά Criss-Cross! Δες τις λεπτομέρειες"
     tournament_blurb_zero_sum: "Άφησε ελεύθερη τη δημιουργικότητα σου στον προγραμματισμό και στο μάζεμα χρυσού και στις τακτικές μάχης σε αυτόν τον αγώνα στις Άλπεις ανάμεσα στον κόκκινο και στον μπλε μάγο. Το τουρνουά ξεκίνησε την Παρασκευή 27 Μαρτίου και θα συνεχίζεται μέχρι τη Δευτέρα 6 Απριλίου στις 5μμ ώρα Ειρηνικού (7 Απριλίου, 3πμ ώρα Ελλάδας). Συναγωνίσου για διασκέδαση και δόξα! Δες τις λεπτομέρειες"
     tournament_blurb_ace_of_coders: "Πολέμησε στον παγετώνα σε αυτό το παιχνίδι κυριαρχίας! Το τουρνουά ξεκίνησε την Τετάρτη 16 Σεπτεμβρίου θα συνεχιστεί μέχρι την Τετάρτη 14 Οκτωβρίου στις 5μμ ώρα Ειρηνικού (15 Οκτωβρίου, 3πμ ώρα Ελλάδας). Δες τις λεπτομέρειες"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     you_can1: "Μπορείτε"
     you_can2: "να αγοράσετε ένα προπληρωμένο κωδικό"
     you_can3: "που θα χρησιμοποιήσετε στο δικό σας λογαριασμό ή θα το δώσετε σε άλλους."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
 
-  ladder_prizes:
-    title: "Βραβεία Τουρνουά" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Τα βραβεία θα απονεμηθούν σύμφωνα με τους"
-    blurb_2: "κανόνες του τουρνουά"
-    blurb_3: "στους κορυφαίους παίκτες των ανθρώπων και των ogres."
-    blurb_4: "Δύο ομάδες σημαίνει διπλή βραβεία!"
-    blurb_5: "(Θα υπάρχουν δύο 1οι νικητές, δύο δεύτεροι νικητές, κλπ.)"
-    rank: "Θέση"
-    prizes: "Βραβεία"
-    total_value: "Συνολική Αξία"
-    in_cash: "σε μετρητά"
-    custom_wizard: "Προσαρμοσμένος Μάγος CodeCombat"
-    custom_avatar: "Προσαρμοσμένα άβαταρ CodeCombat"
-    heap: "για έξι μήνες από την πρόσβαση στην \"Εκκίνηση\""
-    credits: "ευχαριστίες"
-    one_month_coupon: "κουπόνι: διάλεξε Rails ή HTML"
-    one_month_discount: "έκπτωση, μείον 30% : διάλεξε Rails ή HTML"
-    license: "άδεια"
-    oreilly: "ηλεκτρονικό βιβλίο της επιλογής σου"
-
   calendar:
     year: "Έτος"
     day: "Ημέρα"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
   server_error:
     email_taken: "Το email χρησιμοποιείται"
     username_taken: "Το όνομα χρήστη χρησιμοποιείται"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Γραμμή $1: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

@@ -185,7 +185,7 @@ module.exports = class TomeView extends CocoView
     Backbone.Mediator.publish 'tome:focus-editor', {} unless $(e.target).parents('.popover').length
 
   onSpriteSelected: (e) ->
-    return if @spellView and @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev']  # Never deselect the hero in the Tome.
+    return if @spellView and @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder']  # Never deselect the hero in the Tome. TODO: remove entirely, as this is now all level types?
     spell = @spellFor e.thang, e.spellName
     if spell?.canRead()
       @setSpellView spell, e.thang

@@ -96,6 +96,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
 #    play_now: "Play Now"
+#    im_a_parent: "I'm a Parent"
 #    im_an_educator: "I'm an Educator"
 #    im_a_teacher: "I'm a Teacher"
 #    im_a_student: "I'm a Student"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "賬號尋轉"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "秒"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    tome_cast_button_update: "Update"
 #    tome_submit_button: "Submit"
 #    tome_reload_method: "Reload original code to restart the level"
-    tome_available_spells: "好用個法術"
 #    tome_your_skills: "Your Skills"
 #    hints: "Hints"
 #    videos: "Videos"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
 #    unsubscribe_feedback_placeholder: "O, what have we done?"
 #    stripe_description: "Monthly Subscription"
+#    stripe_yearly_description: "Annual Subscription"
 #    buy_now: "Buy Now"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    first_month_price: "Only $__price__ for your first month!"
 #    lifetime: "Lifetime Access"
 #    lifetime_price: "$__price__"
-#    year_subscription: "Yearly Subscription"
+#    year_subscription: "Annual Subscription"
 #    year_price: "$__price__/year"
 #    support_part1: "Need help with payment or prefer PayPal? Email"
 #    support_part2: "support@codecombat.com"
@@ -1023,7 +1032,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
-#    regeneration: "Regeneration"
+#    regeneration: "Regen"
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    backstab: "Backstab" # As in "this dagger does this much backstab damage"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     scribe_join_description: "爾自己介紹記, 比方爾個編程經歷搭中意寫個物事，我裏會從搭開始畀爾瞭解！"
     scribe_subscribe_desc: "用電子郵箱收寫新文檔個通知。"
     diplomat_introduction_pref: "空是講我裏從"
-    diplomat_launch_url: "十月個發佈"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "裏向得到解某啓發：佩是全世界個人都對 CodeCombat 興致頭高險。我裏籠來一陣翻譯人，儘話快速畀網站裏個訊息翻譯成各地文字。空是爾對發佈新個內容有興趣，想讓爾個國土裏個人也來攪，快點趒來當外交官。"
     diplomat_attribute_1: "英語順溜，自己個話也熟。編程是猴煩難個事幹，翻譯囉唆個概念，爾也喫得兩種話都內照！"
 #    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     ambassador_introduction: "箇是一個起頭個社區，爾也會變成我裏搭世界聯結個點。大家人都好用Olark隨底白嗒、發信、参加個人無數個社交網絡來認識瞭解討論我裏個遊戲。空是爾想幫助大家人快點加進來、攪攪意思、感受CodeCombat個脈搏、搭我裏聚隊，箇勿箇佩適合爾來做。"
     ambassador_attribute_1: "搭人家溝通本事好。識別得出攪個人碰着個問題，幫渠裏解決許問題。同時，搭我裏保持聯繫，及時反映攪個人哪搭中意弗中意、所望有解某！"
     ambassador_join_desc: "自己介紹記：爾解某做過爻？解某中意做？我裏從箇搭開始畀爾瞭解！"
-#    ambassador_join_note_strong: "Note"
-#    ambassador_join_note_desc: "One of our top priorities is to build multiplayer where players having difficulty solving levels can summon higher level wizards to help them. This will be a great way for ambassadors to do their thing. We'll keep you posted!"
     ambassador_subscribe_desc: "用電子郵箱收 支持系統個情況，搭多人遊戲方面個新情況。"
 #    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
     changes_auto_save: "多選框勾起之後，改動會自動存檔。"
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    tournament_ends: "Tournament ends"
 #    tournament_ended: "Tournament ended"
 #    tournament_rules: "Tournament Rules"
-#    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
 #    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
 
-#  ladder_prizes:
-#    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
-#    blurb_1: "These prizes will be awarded according to"
-#    blurb_2: "the tournament rules"
-#    blurb_3: "to the top human and ogre players."
-#    blurb_4: "Two teams means double the prizes!"
-#    blurb_5: "(There will be two first place winners, two second-place winners, etc.)"
-#    rank: "Rank"
-#    prizes: "Prizes"
-#    total_value: "Total Value"
-#    in_cash: "in cash"
-#    custom_wizard: "Custom CodeCombat Wizard"
-#    custom_avatar: "Custom CodeCombat avatar"
-#    heap: "for six months of \"Startup\" access"
-#    credits: "credits"
-#    one_month_coupon: "coupon: choose either Rails or HTML"
-#    one_month_discount: "discount, 30% off: choose either Rails or HTML"
-#    license: "license"
-#    oreilly: "ebook of your choice"
-
 #  calendar:
 #    year: "Year"
 #    day: "Day"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
 #  esper:
 #    line_no: "Line $1: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

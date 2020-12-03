@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     classroom_edition: "Phiên bản Lớp học:"
     learn_to_code: "Học lập trình:"
     play_now: "Chơi ngay"
+#    im_a_parent: "I'm a Parent"
 #    im_an_educator: "I'm an Educator"
     im_a_teacher: "Tôi là Giáo viên"
     im_a_student: "Tôi là Học viên"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Khôi phục tài khoản"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "giây"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Gửi"
     tome_reload_method: "Load lại đoạn code gốc cho method này" # {change}
-    tome_available_spells: "Pháp thuật hiện có"
     tome_your_skills: "Những Kĩ năng của bạn"
 #    hints: "Hints"
 #    videos: "Videos"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     sorry_to_see_you_go: "Thật đáng tiếc khi phải chia tay bạn! Hãy góp ý để chúng tôi có thể cái thiện tốt hơn."
     unsubscribe_feedback_placeholder: "Ồ, chúng tôi đã làm gì sai ư?"
     stripe_description: "Gói dịch vụ tháng"
+#    stripe_yearly_description: "Annual Subscription"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Bạn cần mua gói dịch vụ để được chơi cấp độ này."
     unlock_help_videos: "Subscribe để mở tất cả các video hướng dẫn."
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    first_month_price: "Only $__price__ for your first month!"
 #    lifetime: "Lifetime Access"
 #    lifetime_price: "$__price__"
-#    year_subscription: "Yearly Subscription"
+#    year_subscription: "Annual Subscription"
 #    year_price: "$__price__/year"
 #    support_part1: "Need help with payment or prefer PayPal? Email"
 #    support_part2: "support@codecombat.com"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     scribe_join_description: "kể cho chung tôi một chút về bạn, kinh nghiệm lập trình của bạn và bạn hứng thú viết về điều gì. Chúng ta sẽ cùng bắt đầu từ đó!"
     scribe_subscribe_desc: "Nhận email về những thông tin viết bài."
     diplomat_introduction_pref: "Nếu như bạn hỏi chúng tôi đã nhận được gì kể từ khi "
-    diplomat_launch_url: "bắt đầu vào tháng Mười"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "thì đó chính là niềm quan tâm rất lớn với CodeCombat đến từ nhiều quốc gia trên thế giới! Chúng tôi đang xây dựng một đội ngũ phiên dịch viên đầy nhiệt huyết để đưa CodeCombat đến với mọi nơi trên thế giới. Nếu bạn muốn cập nhật những nội dung mới nhất đồng thời muốn truyền tải chúng tới quốc gia của bạn, thì lớp nhân vật này có thể sẽ phù hợp với bạn."
     diplomat_attribute_1: "Thành thạo tiếng Anh và ngôn ngữ mà bạn muốn phiên dịch. Để truyền tải đầy đủ ý nghĩa nội dung, bạn cần thông dụng cả hai thứ tiếng!"
     diplomat_i18n_page_prefix: "Bạn có thể bắt đầu dịch thuật các màn chơi bằng cách truy cập vào"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     ambassador_introduction: "Đây là cộng đồng mà chúng tôi đang gây dựng, và bạn là những người kết nối. Chúng tôi có các diễn đàn, email, và các mạng xã hội với rất nhiêu người để nói chuyện và giúp đỡ làm quen và học từ game. Nếu bạn muốn giúp đỡ người khác tham gia chơi, và cùng tham gia CodeCombat trên con đường chúng tôi đang hướng đến, thì lớp nhân vật này có thể phù hợp với bạn."
     ambassador_attribute_1: "Kỹ năng giao tiếp. Có thể nhận định được vấn đề của người chơi đang gặp phải và giúp họ giải quyết. Đồng thời, thông báo cho chúng tôi biết ý kiến của người chơi, những gì họ thích và không thích và những điều họ mong muốn!"
     ambassador_join_desc: "kể cho chúng tôi một chút về bạn, bạn đã làm gì và bạn hứng thú làm gì. Chúng ta sẽ cùng bắt đầu từ đó!"
-    ambassador_join_note_strong: "Chú thích"
-    ambassador_join_note_desc: "Một trong những ưu tiên cao nhất đó là xây dựng tính năng thi đấu nơi mà người chơi nếu gặp phải khó khăn khi giải màn chơi có thể triều hồi những Phù Thủy cấp cao để giúp đỡ họ. Đây là cách tuyệt vời để bắt đầu công việc đại sứ. Chúng tôi sẽ thường xuyên thông tin cho bạn!"
     ambassador_subscribe_desc: "Nhận emai về cập nhật hỗ trợ và việc phát triển tính năng thi đấu."
     teacher_subscribe_desc: "Nhận email về thông tin và các cập nhật mới cho giáo viên."
     changes_auto_save: "Thay đổi sẽ tự động được lưu lại khi bạn thao tác trên các ô checkbox."
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     tournament_ends: "Giải đấu kết thúc"
     tournament_ended: "Giải đấu đã kết thúc"
     tournament_rules: "Luật lệ giải đấu"
-#    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
 #    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     you_can1: "Bạn có thể"
     you_can2: "mua một mã trả trước"
     you_can3: "mà có thể áp dụng cho tài khoản của bạn hoặc gửi cho người khác."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
 
-  ladder_prizes:
-    title: "Các giải thưởng của cuộc thi" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Những phần thưởng này sẽ được giao dựa trên"
-    blurb_2: "luật của cuộc thi"
-    blurb_3: "dành cho những người chơi giỏi nhất."
-    blurb_4: "Hai đội đồng nghĩa với gấp đôi giải thưởng!"
-    blurb_5: "(Có hai giải nhất, hai giải nhì, v.v.)"
-    rank: "Hạng"
-    prizes: "Giải thưởng"
-    total_value: "Tổng Giá Trị"
-    in_cash: "tiền mặt"
-#    custom_wizard: "Custom CodeCombat Wizard"
-#    custom_avatar: "Custom CodeCombat avatar"
-    heap: "trong 6 tháng cho quyền truy cập \"Startup\""
-#    credits: "credits"
-    one_month_coupon: "phiếu coupon: lụa chọn Rails hoặc HTML"
-    one_month_discount: "giảm giá, giảm 30%: lựa chọn Rails hoặc HTML"
-    license: "giấy phép"
-#    oreilly: "ebook of your choice"
-
   calendar:
     year: "Năm"
     day: "Ngày"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
 #  esper:
 #    line_no: "Line $1: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

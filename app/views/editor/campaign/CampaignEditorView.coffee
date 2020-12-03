@@ -145,7 +145,7 @@ module.exports = class CampaignEditorView extends RootView
       campaignLevel.rewards = @formatRewards level
       # Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
       # (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
-      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'hero' or @campaign.get('isOzaria')
+      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'hero'
       campaignLevels[levelOriginal] = campaignLevel
 
     @campaign.set('levels', campaignLevels)
@@ -243,7 +243,7 @@ module.exports = class CampaignEditorView extends RootView
       nodeClasses:
         levels: LevelsNode
         level: LevelNode
-        nextLevel: NextLevelNode 
+        nextLevel: NextLevelNode
         campaigns: CampaignsNode
         campaign: CampaignNode
         achievement: AchievementNode

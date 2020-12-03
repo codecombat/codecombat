@@ -58,7 +58,8 @@
     </template>
 
     <template slot="body">
-      <iframe ref="timetapIframe" src="https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal" sandbox="allow-same-origin allow-scripts" />
+      <!-- Temporarily removed 'sandbox="allow-same-origin allow-scripts"' for TimeTap to debug sessionStorage error -->
+      <iframe ref="timetapIframe" src="https://codecombat.timetap.com?utm_campaign=timetapliveclasses&utm_source=codecombat&utm_medium=modal" />
     </template>
   </base-modal>
 </template>

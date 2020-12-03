@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     classroom_edition: "Klassrumutgåven:"
     learn_to_code: "Lär dig koda:"
     play_now: "Spela nu"
+#    im_a_parent: "I'm a Parent"
 #    im_an_educator: "I'm an Educator"
     im_a_teacher: "Jag är lärare"
     im_a_student: "Jag är elev"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Återskapa ditt konto"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "sekund"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Lämna in"
     tome_reload_method: "Ladda om den ursprungliga koden för den här metoden" # {change}
-    tome_available_spells: "Tillgängliga förmågor"
     tome_your_skills: "Dina färdigheter"
     hints: "Ledtrådar"
 #    videos: "Videos"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
 #    unsubscribe_feedback_placeholder: "O, what have we done?"
 #    stripe_description: "Monthly Subscription"
+#    stripe_yearly_description: "Annual Subscription"
 #    buy_now: "Buy Now"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    first_month_price: "Only $__price__ for your first month!"
 #    lifetime: "Lifetime Access"
 #    lifetime_price: "$__price__"
-#    year_subscription: "Yearly Subscription"
+#    year_subscription: "Annual Subscription"
 #    year_price: "$__price__/year"
 #    support_part1: "Need help with payment or prefer PayPal? Email"
 #    support_part2: "support@codecombat.com"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "Var först med att publicera ett projekt i den här kursen!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     scribe_join_description: "Berätta lite om dig själv, din erfarenhet med programmering och vilka saker du skulle vilja skriva om. Vi går vidare därifrån!"
     scribe_subscribe_desc: "Få mail om tillkännagivanden om artiklar."
     diplomat_introduction_pref: "Om vi lärde oss någonting från "
-    diplomat_launch_url: "lanseringen i oktober"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "är det att det finns ett stort intresse för CodeCombat i andra länder! Vi bygger en kår av översättare ivriga att förvandla en samling ord till en annan samling ord för att få CodeCombat så tillgänglig i världen som möjligt. Om du gillar att få tjuvkikar på kommande innehåll och att få dessa nivåer till de andra i ditt land så snart som möjligt är det här kanske klassen för dig."
     diplomat_attribute_1: "Flytande engelska och språket du vill översätta till. När man förmedlar komplicerade idéer är det viktigt att ha ett starkt grepp om båda!"
     diplomat_i18n_page_prefix: "Du kan börja översätta nivåer genom att gå till vår"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     ambassador_introduction: "Det är en gemenskap vi bygger, och du är anslutningarna. Vi har Olark-chatter, mail och sociala nätverk med många människor att prata med och hjälpa bekanta sig med spelet och lära sig från. Om du vill hjälpa människor att bli involverade och ha kul, och ha bra koll på CodeCombats puls och var vi är på väg, kanske det här är klassen för dig."
     ambassador_attribute_1: "Kommunikationsfärdigheter. Kunna identifiera problemen spelarna har och hjälpa till att lösa dem. Också att hålla resten av oss informerade om vad spelarna säger, vad de gillar och vad de inte gillar och vad de vill ha mer av!"
     ambassador_join_desc: "berätta om dig själv, vad du har gjort och vad du skulle vara intresserad av att göra. Vi tar det därifrån!"
-    ambassador_join_note_strong: "Notera"
-    ambassador_join_note_desc: "En av våra högsta prioriteringar är att bygga ett flerspelarläge där spelare som har problem med att lösa nivåer kan kalla på trollkarlar av en högre nivå för att hjälpa dem. Det kommer att vara ett jättebra sätt för ambassadörer att göra sin grej. Vi håller dig informerad!"
     ambassador_subscribe_desc: "Få mail om supportuppdateringar och flerspelarutvecklingar"
 #    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
     changes_auto_save: "Förändringar sparas automatiskt när du ändrar kryssrutor."
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tournament_ends: "Turnering slutar"
     tournament_ended: "Turnering slutade"
     tournament_rules: "Turneringsregler"
-#    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
 #    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
 
-#  ladder_prizes:
-#    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
-#    blurb_1: "These prizes will be awarded according to"
-#    blurb_2: "the tournament rules"
-#    blurb_3: "to the top human and ogre players."
-#    blurb_4: "Two teams means double the prizes!"
-#    blurb_5: "(There will be two first place winners, two second-place winners, etc.)"
-#    rank: "Rank"
-#    prizes: "Prizes"
-#    total_value: "Total Value"
-#    in_cash: "in cash"
-#    custom_wizard: "Custom CodeCombat Wizard"
-#    custom_avatar: "Custom CodeCombat avatar"
-#    heap: "for six months of \"Startup\" access"
-#    credits: "credits"
-#    one_month_coupon: "coupon: choose either Rails or HTML"
-#    one_month_discount: "discount, 30% off: choose either Rails or HTML"
-#    license: "license"
-#    oreilly: "ebook of your choice"
-
   calendar:
     year: "År"
     day: "Dag"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   server_error:
     email_taken: "Epostadress redan taget"
     username_taken: "Användarnamn redan taget"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Rad $1: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

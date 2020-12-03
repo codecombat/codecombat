@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     classroom_edition: "Edição de Turma:"
     learn_to_code: "Aprender a programar:"
     play_now: "Jogar Agora"
+#    im_a_parent: "I'm a Parent"
     im_an_educator: "Sou Educador"
     im_a_teacher: "Sou um Professor"
     im_a_student: "Sou um Estudante"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Recuperar Conta"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     more: "Mais"
     fewer: "Menos"
     with: "com"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "segundo"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tome_cast_button_update: "Actualização"
     tome_submit_button: "Submeter"
     tome_reload_method: "Recarregar o código original para recomeçar o nível"
-    tome_available_spells: "Feitiços Disponíveis"
     tome_your_skills: "As Tuas Habilidades"
     hints: "Dicas"
     videos: "Vídeos"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     sorry_to_see_you_go: "Lamentamos ver-te partir! Por favor, diz-nos o que podíamos ter feito melhor."
     unsubscribe_feedback_placeholder: "Oh, o que fomos fazer?"
     stripe_description: "Subscrição Mensal"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "Comprar Agora"
     subscription_required_to_play: "Precisas de uma subscrição para jogares este nível."
     unlock_help_videos: "Subscreve-te para desbloqueares todos os tutoriais em vídeo."
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     first_month_price: "Apenas $__price__ pelo teu primeiro mês!"
     lifetime: "Acesso Vitalício"
     lifetime_price: "$__price__"
-    year_subscription: "Subscrição Anual"
+    year_subscription: "Subscrição Anual" # {change}
     year_price: "$__price__/ano"
     support_part1: "Precisas de ajuda com o pagamento ou preferes PayPal? Envia um e-mail para"
     support_part2: "support@codecombat.com"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "Sê o primeiro a publicar um projeto neste curso!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     concept: "Conceito"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
   share_licenses:
     share_licenses: "Partilhar Licenças"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     scribe_join_description: "fala-nos um bocado de ti, da tua experiência com a programação e do tipo de coisas sobre as quais gostarias de escrever. Começamos a partir daí!"
     scribe_subscribe_desc: "Receber e-mails sobre anúncios relativos à escrita de artigos."
     diplomat_introduction_pref: "Portanto, se há uma coisa que aprendemos com o nosso "
-    diplomat_launch_url: "lançamento em Outubro"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "é que há um interesse considerável no CodeCombat noutros países! Estamos a construir um exército de tradutores dispostos a transformar um conjunto de palavras num outro conjuto de palavras, para conseguir que o CodeCombat fique o mais acessível quanto posível em todo o mundo. Se gostas de dar espreitadelas a conteúdos futuros e disponibilizar os níveis para os teus colegas nacionais o mais depressa possível, então esta classe talvez seja para ti."
     diplomat_attribute_1: "Fluência em Inglês e no idioma para o qual gostarias de traduzir. Quando são tentadas passar ideias complicadas, é importante uma excelente compreensão das duas!"
     diplomat_i18n_page_prefix: "Podes começar a traduzir os nossos níveis se fores à nossa"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    ambassador_introduction: "This is a community we're building, and you are the connections. We've got forums, emails, and social networks with lots of people to talk with and help get acquainted with the game and learn from. If you want to help people get involved and have fun, and get a good feel of the pulse of CodeCombat and where we're going, then this class might be for you."
 #    ambassador_attribute_1: "Communication skills. Be able to identify the problems players are having and help them solve them. Also, keep the rest of us informed about what players are saying, what they like and don't like and want more of!"
 #    ambassador_join_desc: "tell us a little about yourself, what you've done and what you'd be interested in doing. We'll go from there!"
-    ambassador_join_note_strong: "Nota"
-    ambassador_join_note_desc: "Uma das nossas maiores prioridades é construir níveis multijogador onde os jogadores com dificuldade para passar níveis possam invocar feiticeiros mais experientes para os ajudarem. Esta será uma ótima forma de os embaixadores fazerem o que sabem. Vamos manter-te atualizado!"
     ambassador_subscribe_desc: "Receber e-mails relativos a novidades do suporte e desenvolvimentos do modo multijogador."
     teacher_subscribe_desc: "Receber e-mails sobre atualizações e anúncios para professores."
     changes_auto_save: "As alterações são guardadas automaticamente quando clicas nas caixas."
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tournament_ends: "O Torneio acaba"
     tournament_ended: "O Torneio acabou"
     tournament_rules: "Regras do Torneio"
-    tournament_blurb: "Escreve código, recolhe ouro, constrói exércitos, esmaga inimigos, ganha prémios e melhora a tua carreira no nosso torneio $40,000 Greed! Confere os detalhes"
     tournament_blurb_criss_cross: "Ganha ofertas, constrói caminhos, supera os adversários, apanha gemas e melhore a tua carreira no nosso torneio Criss-Cross! Confere os detalhes"
     tournament_blurb_zero_sum: "Liberta a tua criatividade de programação tanto na recolha de ouro como em táticas de combate nesta batalha-espelhada na montanha, entre o feiticeiro vermelho e o feiticeiro azul. O torneio começou na Sexta-feira, 27 de Março, e decorrerá até às 00:00 de Terça-feira, 7 de Abril. Compete por diversão e glória! Confere os detalhes"
     tournament_blurb_ace_of_coders: "Luta no glaciar congelado nesta partida espelhada do estilo domínio! O torneio começou Quarta-feira, 16 de Setembro, e decorrerá até Quarta-feira, 14 de Outubro às 23:00. Confere os detalhes"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     you_can1: "Podes"
     you_can2: "adquirir um código pré-pago"
     you_can3: "que pode ser aplicado à tua conta ou dado a outros."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     cookies_deny: "Recusar cookies não-essenciais"
 #    cookies_allow: "Allow cookies"
 
-  ladder_prizes:
-    title: "Prémios do Torneio" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Estes prémios serão entregues de acordo com"
-    blurb_2: "as regras do torneio"
-    blurb_3: "aos melhores jogadores humanos e ogres."
-    blurb_4: "Duas equipas significam o dobro dos prémios!"
-    blurb_5: "(Haverá dois vencedores em primeiro lugar, dois em segundo, etc.)"
-    rank: "Classificação"
-    prizes: "Prémios"
-    total_value: "Valor Total"
-    in_cash: "em dinheiro"
-    custom_wizard: "Um Feiticeiro do CodeCombat Personalizado"
-    custom_avatar: "Um Avatar do CodeCombat Personalizado"
-    heap: "para seis meses de acesso \"Startup\""
-    credits: "créditos"
-    one_month_coupon: "cupão: escolhe Rails ou HTML"
-    one_month_discount: "desconto de 30%: escolhe Rails ou HTML"
-    license: "licença"
-    oreilly: "ebook à tua escolha"
-
   calendar:
     year: "Ano"
     day: "Dia"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   server_error:
     email_taken: "E-mail já escolhido"
     username_taken: "Nome de utilizador já escolhido"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Linha $1: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

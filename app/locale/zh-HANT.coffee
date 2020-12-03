@@ -96,6 +96,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     classroom_edition: "教室版本"
     learn_to_code: "學習寫程式碼"
     play_now: "馬上玩"
+#    im_a_parent: "I'm a Parent"
     im_an_educator: "我是教學人員"
     im_a_teacher: "我是老師"
     im_a_student: "我是學生"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "復原帳號"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "秒"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    tome_cast_button_update: "Update"
     tome_submit_button: "送出"
     tome_reload_method: "重新載入原始程式碼來重啟關卡"
-    tome_available_spells: "可用的法術"
     tome_your_skills: "您的技能"
     hints: "小提示"
 #    videos: "Videos"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     sorry_to_see_you_go: "真捨不得您離開阿！請讓我們知道我們如何做得更好。"
     unsubscribe_feedback_placeholder: "我們做錯了哪些呢？"
     stripe_description: "每月訂閱"
+#    stripe_yearly_description: "Annual Subscription"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "您將需要訂閱來開啟這關。"
     unlock_help_videos: "訂閱後才可以解鎖教學影片喔！。"
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    first_month_price: "Only $__price__ for your first month!"
 #    lifetime: "Lifetime Access"
 #    lifetime_price: "$__price__"
-#    year_subscription: "Yearly Subscription"
+#    year_subscription: "Annual Subscription"
 #    year_price: "$__price__/year"
 #    support_part1: "Need help with payment or prefer PayPal? Email"
 #    support_part2: "support@codecombat.com"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     scribe_join_description: "告訴我們更多關於您的資訊，您的編程經驗和一些您喜歡寫下的東西。我們將從這些地方開始！"
     scribe_subscribe_desc: "取得公告關於寫作文章的郵件。"
     diplomat_introduction_pref: "所以，如果說我們從"
-    diplomat_launch_url: " 十月的那次上線 "
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "中得到了怎樣的啟發：那就是在許多國家有許多人對CodeCombat產生興趣！我們正在建立一群翻譯者，急於將一組組的英文翻譯成各國語言讓CodeCombat可以讓全世界更多人都可以接觸。如果您喜歡搶先閱讀新內容並且讓您的國人都可以儘速的擁有，那麼這職業也許適合您。"
     diplomat_attribute_1: "擁有流利的英文並且精通欲翻譯的語言。當傳遞複雜想法時，您必須融會貫通這兩種語言！"
     diplomat_i18n_page_prefix: "您可以從我們的"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     ambassador_introduction: "這是個我們正在建立的社群，您將是我們與世界的連接點。我們在論壇、郵件、社群網路上和許多人交談並且幫助彼此熟悉遊戲以及互相學習。如果您想要幫助其他人參與並且從中獲得許多樂趣，以及樂於感受CodeCombat的脈搏和我們將前往的地方，那麼這職業也許適合您。"
     ambassador_attribute_1: "溝通技巧。可以找到玩家正面臨的問題並且幫助他們解決。另外，保持與我們聯繫玩家們討論的、喜愛的、厭惡的以及想要的！"
     ambassador_join_desc: "告訴我們更多關於您的資訊，您已完成的事情和您喜歡做的事情。我們將從這些地方開始！"
-    ambassador_join_note_strong: "注意"
-    ambassador_join_note_desc: "其中一件我們優先要做的事情是建立多人連線，玩家將面臨難以獨自解決的關卡而且可以招喚更高等級的法師來幫助。這將對於使節是一個很棒的方式來完成自己的責任。我們會及時地向大家公佈！"
     ambassador_subscribe_desc: "取得更新和多人連線開發的郵件。"
     teacher_subscribe_desc: "取得給教師的更新以及消息。"
     changes_auto_save: "當您勾選後，改變將自動儲存。"
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tournament_ends: "錦標賽結束"
     tournament_ended: "錦標賽已結束"
     tournament_rules: "錦標賽規則"
-    tournament_blurb: "寫下程式碼，收集金幣，建立軍隊，粉碎敵人，贏得獎項，在我們價值$40,000的Greed錦標賽中升級您的職業！查看"
     tournament_blurb_criss_cross: "贏得競賽，建造道路，智勝對手，收集寶石，在我們的Criss-Crossand錦標賽中升級您的職業！查看"
     tournament_blurb_zero_sum: "在紅方法師和藍方法師的山峰對決中，同時在收集金幣和戰術上發揮你的程式碼創造力。競賽在3月27日開始，在4月6日（星期一）的下午5點（PDT太平洋時區）結束。為樂趣和榮耀競賽吧！瀏覽了解更多"
     tournament_blurb_ace_of_coders: "我的主場我主宰，在寒天雪地的冰原上和自己鏡像大戰一場吧！本次比賽將由9月16日星期三開辦到10月14日下午5點PDT。詳情請查看"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
 
-  ladder_prizes:
-    title: "錦標賽獎項" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "依據"
-    blurb_2: "錦標賽規則"
-    blurb_3: "，這些獎項將被頒發給頂尖的人類和怪物玩家。"
-    blurb_4: "兩隊意指獎項是兩倍！"
-    blurb_5: "(將有兩個第一名、兩個第二名，以此類推。)"
-    rank: "排名"
-    prizes: "獎項"
-    total_value: "總價值"
-    in_cash: "現金"
-    custom_wizard: "定制 CodeCombat 巫師"
-    custom_avatar: "定制 CodeCombat 頭像"
-    heap: "給六個月的\"Startup\"訪問"
-    credits: "信譽"
-    one_month_coupon: "優惠：選擇 Rails 或者 HTML"
-    one_month_discount: "折扣 30%：選擇 Rails 或者 HTML"
-    license: "許可證"
-    oreilly: "您選擇的電子書"
-
   calendar:
     year: "年"
     day: "日"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
 #  esper:
 #    line_no: "Line $1: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

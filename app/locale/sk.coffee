@@ -96,6 +96,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     classroom_edition: "Verzia pre triedy:"
     learn_to_code: "Nauč sa programovať:"
     play_now: "Hraj teraz"
+#    im_a_parent: "I'm a Parent"
 #    im_an_educator: "I'm an Educator"
     im_a_teacher: "Som učiteľ"
     im_a_student: "Som študent"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Obnov účet"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "sekunda"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Odoslať"
     tome_reload_method: "Znovu načítať pôvodný kód pre túto metódu" # {change}
-    tome_available_spells: "Dostupné kúzla"
     tome_your_skills: "Tvoje schopnosti"
     hints: "Pomoc"
 #    videos: "Videos"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     sorry_to_see_you_go: "Je nám ľúto, že odchádzaš. Čo sme mali urobiť lepšie?"
     unsubscribe_feedback_placeholder: "Ó, čo sme ti urobili?"
     stripe_description: "Mesačné predplatné"
+#    stripe_yearly_description: "Annual Subscription"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Potrebuješ predplatné, ak chceš hrať túto úroveň."
     unlock_help_videos: "Predplať si Codecombat a získaj prístup ku videonávodom."
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    first_month_price: "Only $__price__ for your first month!"
     lifetime: "Celoživotné predplatné" # {change}
     lifetime_price: "$__price__"
-    year_subscription: "Ročné predplatné"
+    year_subscription: "Ročné predplatné" # {change}
     year_price: "$__price__/rok"
     support_part1: "Potrebuješ pomoc s predplatným? Napíš email na" # {change}
     support_part2: "support@codecombat.com"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    scribe_join_description: "tell us a little about yourself, your experience with programming and what sort of things you'd like to write about. We'll go from there!"
 #    scribe_subscribe_desc: "Get emails about article writing announcements."
 #    diplomat_introduction_pref: "So, if there's one thing we learned from the "
-#    diplomat_launch_url: "launch in October"
+#    diplomat_introduction_url: "open source community"
 #    diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
 #    diplomat_attribute_1: "Fluency in English and the language you would like to translate to. When conveying complicated ideas, it's important to have a strong grasp in both!"
 #    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    ambassador_introduction: "This is a community we're building, and you are the connections. We've got forums, emails, and social networks with lots of people to talk with and help get acquainted with the game and learn from. If you want to help people get involved and have fun, and get a good feel of the pulse of CodeCombat and where we're going, then this class might be for you."
 #    ambassador_attribute_1: "Communication skills. Be able to identify the problems players are having and help them solve them. Also, keep the rest of us informed about what players are saying, what they like and don't like and want more of!"
 #    ambassador_join_desc: "tell us a little about yourself, what you've done and what you'd be interested in doing. We'll go from there!"
-#    ambassador_join_note_strong: "Note"
-#    ambassador_join_note_desc: "One of our top priorities is to build multiplayer where players having difficulty solving levels can summon higher level wizards to help them. This will be a great way for ambassadors to do their thing. We'll keep you posted!"
 #    ambassador_subscribe_desc: "Get emails on support updates and multiplayer developments."
 #    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
 #    changes_auto_save: "Changes are saved automatically when you toggle checkboxes."
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tournament_ends: "Turnaj končí"
     tournament_ended: "Turnaj skončil"
     tournament_rules: "Pravidlá turnaja"
-    tournament_blurb: "Píš kód, zbieraj mince, stavaj armády, rozdrv nepriateľov, vyhraj ceny v hodnote  40,000$. Greed tournament! Pozri sa na detaily."
     tournament_blurb_criss_cross: "Vyhraj ponuky, buduj cesty, preľsti súperov,zbieraj diamanty grab gems a vylepši svoju kariéru v našom Krížovkárskom turnaji ! Pozri sa na detaily"
     tournament_blurb_zero_sum: "Odviaž svoju kódovaciu kreativitu pri zbieraní mincí a bojovej taktike v spravodlivom vysokohorskom súboji medzi medzi červenou a modrou čarodejkou. Turnaj začal v piatok 27. marca 2015  a skončil 6. apríla 2015. Súťaž pre zábavu a slávu ! Pozri sa na detaily"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
 
-#  ladder_prizes:
-#    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
-#    blurb_1: "These prizes will be awarded according to"
-#    blurb_2: "the tournament rules"
-#    blurb_3: "to the top human and ogre players."
-#    blurb_4: "Two teams means double the prizes!"
-#    blurb_5: "(There will be two first place winners, two second-place winners, etc.)"
-#    rank: "Rank"
-#    prizes: "Prizes"
-#    total_value: "Total Value"
-#    in_cash: "in cash"
-#    custom_wizard: "Custom CodeCombat Wizard"
-#    custom_avatar: "Custom CodeCombat avatar"
-#    heap: "for six months of \"Startup\" access"
-#    credits: "credits"
-#    one_month_coupon: "coupon: choose either Rails or HTML"
-#    one_month_discount: "discount, 30% off: choose either Rails or HTML"
-#    license: "license"
-#    oreilly: "ebook of your choice"
-
   calendar:
     year: "Rok"
     day: "Deň"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
 #  esper:
 #    line_no: "Line $1: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

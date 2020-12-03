@@ -3,11 +3,16 @@ utils = require 'core/utils'
 ThangTypeLib =
   getPortraitURL: (thangTypeObj) ->
     return '' if application.testing
+    prefix = ''
+    if window.location.host is 'localhost:3000' and me.get('slug') is 'nick'
+      # Create a way to bypass local database portrait loading, since it slows down level editor
+      # TODO hack alert: is there a clean/general way to do this?
+      prefix = 'https://codecombat.com'
     if iconURL = thangTypeObj.rasterIcon
-      return "/file/#{iconURL}"
+      return "#{prefix}/file/#{iconURL}"
     if rasterURL = thangTypeObj.raster
-      return "/file/#{rasterURL}"
-    "/file/db/thang.type/#{thangTypeObj.original}/portrait.png"
+      return "#{prefix}/file/#{rasterURL}"
+    "#{prefix}/file/db/thang.type/#{thangTypeObj.original}/portrait.png"
 
   getHeroShortName: (thangTypeObj) ->
     # New way: moved into ThangType model

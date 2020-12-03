@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     classroom_edition: "Klas versie:"
     learn_to_code: "Leer programmeren:"
     play_now: "Speel"
+#    im_a_parent: "I'm a Parent"
     im_an_educator: "Ik ben een onderwijzer"
     im_a_teacher: "Ik ben een leraar"
     im_a_student: "Ik ben een leerling"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     more: "Meer"
     fewer: "Minder"
     with: "met"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "seconde"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     tome_cast_button_update: "Update"
     tome_submit_button: "Indienen"
     tome_reload_method: "Oorspronkelijke code voor deze methode herladen" # {change}
-    tome_available_spells: "Beschikbare spreuken"
     tome_your_skills: "Jouw Vaardigheden"
     hints: "Hints"
     videos: "Video's"
@@ -894,7 +902,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
 #    subscribe_modal_title: "CodeCombat Premium"
-#    comparison_blurb: "Become a Master Coder - subscribe to <b>Premium</b> today!" # {change}
+#    comparison_blurb: "Become a Master Coder - subscribe to <b>Premium</b> today!"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    subscribe_title: "Subscribe" # Actually used in subscribe buttons, too
 #    unsubscribe: "Unsubscribe"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
 #    unsubscribe_feedback_placeholder: "O, what have we done?"
 #    stripe_description: "Monthly Subscription"
+#    stripe_yearly_description: "Annual Subscription"
 #    buy_now: "Buy Now"
 #    subscription_required_to_play: "You'll need a subscription to play this level."
 #    unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -920,19 +929,19 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    managed_subs: "Managed Subscriptions"
 #    subscribing: "Subscribing..."
 #    current_recipients: "Current Recipients"
-#    unsubscribing: "Unsubscribing" # {change}
+#    unsubscribing: "Unsubscribing"
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
 #    feature_level_access: "Access 300+ levels available"
-#    feature_heroes: "Unlock exclusive heroes and pets" # {change}
+#    feature_heroes: "Unlock exclusive heroes and pets"
 #    feature_learn: "Learn to make games and websites"
-#    month_price: "$__price__" # {change}
+#    month_price: "$__price__"
 #    first_month_price: "Only $__price__ for your first month!"
-#    lifetime: "Lifetime Access" # {change}
+#    lifetime: "Lifetime Access"
 #    lifetime_price: "$__price__"
-#    year_subscription: "Yearly Subscription"
+#    year_subscription: "Annual Subscription"
 #    year_price: "$__price__/year"
-#    support_part1: "Need help with payment or prefer PayPal? Email" # {change}
+#    support_part1: "Need help with payment or prefer PayPal? Email"
 #    support_part2: "support@codecombat.com"
 
 #  announcement:
@@ -988,7 +997,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
 #    hero_caption: "Exciting new heroes!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!" # {change}
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -1023,7 +1032,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    attack: "Damage" # Can also translate as "Attack"
 #    health: "Health"
 #    speed: "Speed"
-#    regeneration: "Regeneration"
+#    regeneration: "Regen"
 #    range: "Range" # As in "attack or visual range"
 #    blocks: "Blocks" # As in "this shield blocks this much damage"
 #    backstab: "Backstab" # As in "this dagger does this much backstab damage"
@@ -1107,12 +1116,12 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    story_link: "Story"
 #    press_link: "Press"
 #    mission_title: "Our mission: make programming accessible to every student on Earth."
-#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>." # {change}
-#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming." # {change}
+#    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
+#    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
 #    team_title: "Meet the CodeCombat team"
 #    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
-#    nick_title: "Cofounder, CEO" # {change}
-#    matt_title: "Cofounder, CTO" # {change}
+#    nick_title: "Cofounder, CEO"
+#    matt_title: "Cofounder, CTO"
 #    lawrence_title: "Customer Success Manager"
 #    jane_title: "Account Executive"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
@@ -1134,12 +1143,12 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    retrostyle_title: "Illustration"
 #    retrostyle_blurb: "RetroStyle Games"
 #    community_title: "...and our open-source community"
-#    bryukh_title: "Senior Gameplay Developer" # {change}
+#    bryukh_title: "Senior Gameplay Developer"
 #    bryukh_blurb: "Constructs puzzles"
-#    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!" # {change}
+#    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
-#    community_description_1: "with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our" # {change}
+#    community_description_1: "with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our"
 #    community_description_link: "contribute page"
 #    community_description_2: "for more info."
 #    number_contributors: "Over 450 contributors have lent their support and time to this project."
@@ -1149,23 +1158,23 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    story_statistic_1b: "total players"
 #    story_statistic_1c: "have started their programming journey through CodeCombat"
 #    story_statistic_2a: "We’ve been translated into over 50 languages — our players hail from"
-#    story_statistic_2b: "190+ countries" # {change}
+#    story_statistic_2b: "190+ countries"
 #    story_statistic_3a: "Together, they have written"
 #    story_statistic_3b: "1 billion lines of code and counting"
-#    story_statistic_3c: "across many different programming languages" # {change}
+#    story_statistic_3c: "across many different programming languages"
 #    story_long_way_1: "Though we've come a long way..."
 #    story_sketch_caption: "Nick's very first sketch depicting a programming game in action."
 #    story_long_way_2: "we still have much to do before we complete our quest, so..."
 #    jobs_title: "Come work with us and help write CodeCombat history!"
 #    jobs_subtitle: "Don't see a good fit but interested in keeping in touch? See our \"Create Your Own\" listing."
 #    jobs_benefits: "Employee Benefits"
-#    jobs_benefit_4: "Unlimited vacation" # {change}
-#    jobs_benefit_5: "Professional development and continuing education support – free books and games!" # {change}
-#    jobs_benefit_6: "Medical (gold), dental, vision, commuter, 401K" # {change}
+#    jobs_benefit_4: "Unlimited vacation"
+#    jobs_benefit_5: "Professional development and continuing education support – free books and games!"
+#    jobs_benefit_6: "Medical (gold), dental, vision, commuter, 401K"
 #    jobs_benefit_7: "Sit-stand desks for all"
 #    jobs_benefit_9: "10-year option exercise window"
-#    jobs_benefit_10: "Maternity leave: 12 weeks paid, next 6 @ 55% salary" # {change}
-#    jobs_benefit_11: "Paternity leave: 12 weeks paid" # {change}
+#    jobs_benefit_10: "Maternity leave: 12 weeks paid, next 6 @ 55% salary"
+#    jobs_benefit_11: "Paternity leave: 12 weeks paid"
 #    jobs_custom_title: "Create Your Own"
 #    jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
 #    jobs_custom_contact_1: "Send us a note at"
@@ -1191,7 +1200,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
-#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." # {change}
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses."
 #    low_price_title: "Just __starterLicensePrice__ per student"
 #    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
 #    three_great_courses: "Three great courses included in the Starter License:"
@@ -1228,7 +1237,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    course_suffix: ""
 
 #  teachers_quote:
-#    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!" # {change}
+#    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
 #    phone_number_help: "What's the best number to reach you?"
@@ -1237,7 +1246,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    primary_role_default: "Select Primary Role"
 #    purchaser_role_default: "Select Purchaser Role"
 #    tech_coordinator: "Technology coordinator"
-#    advisor: "Curriculum Specialist/Advisor" # {change}
+#    advisor: "Curriculum Specialist/Advisor"
 #    principal: "Principal"
 #    superintendent: "Superintendent"
 #    parent: "Parent"
@@ -1249,12 +1258,12 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    district_label: "District"
 #    district_name: "District Name"
 #    district_na: "Enter N/A if not applicable"
-#    organization_label: "School" # {change}
+#    organization_label: "School"
 #    school_name: "School Name"
 #    city: "City"
-#    state: "State / Region" # {change}
+#    state: "State / Region"
 #    country: "Country / Region"
-#    num_students_help: "How many students will use CodeCombat?" # {change}
+#    num_students_help: "How many students will use CodeCombat?"
 #    num_students_default: "Select Range"
 #    education_level_label: "Education Level of Students"
 #    education_level_help: "Choose as many as apply."
@@ -1274,18 +1283,18 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    referrer_pd: "Professional trainings/workshops"
 #    referrer_web: "Google"
 #    referrer_other: "Other"
-#    anything_else: "What kind of class do you anticipate using CodeCombat for?" # {change}
+#    anything_else: "What kind of class do you anticipate using CodeCombat for?"
 #    anything_else_helper: ""
 #    thanks_header: "Request Received!"
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
-#    thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:" # {change}
+#    thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
 #    back_to_classes: "Back to Classes"
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
 #    signup_with: "Sign up with:"
 #    connect_with: "Connect with:"
 #    conversion_warning: "WARNING: Your current account is a <em>Student Account</em>. Once you submit this form, your account will be updated to a Teacher Account."
-#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign licenses and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account." # {change}
+#    learn_more_modal: "Teacher accounts on CodeCombat have the ability to monitor student progress, assign licenses and manage classrooms. Teacher accounts cannot be a part of a classroom - if you are currently enrolled in a class using this account, you will no longer be able to access it once you update to a Teacher Account."
 #    create_account: "Create a Teacher Account"
 #    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
 #    convert_account_title: "Update to Teacher Account"
@@ -1335,7 +1344,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    manage_subscription: "Click here to manage your subscription."
 #    new_password: "New Password"
 #    new_password_verify: "Verify"
-#    type_in_email: "Type in your email or username to confirm account deletion." # {change}
+#    type_in_email: "Type in your email or username to confirm account deletion."
 #    type_in_email_progress: "Type in your email to confirm deleting your progress."
 #    type_in_password: "Also, type in your password."
 #    email_subscriptions: "Email Subscriptions"
@@ -1394,7 +1403,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
 #    find_us: "Find us on these sites"
 #    social_github: "Check out all our code on GitHub"
-#    social_blog: "Read the CodeCombat blog" # {change}
+#    social_blog: "Read the CodeCombat blog"
 #    social_discource: "Join the discussion on our Discourse forum"
 #    social_facebook: "Like CodeCombat on Facebook"
 #    social_twitter: "Follow CodeCombat on Twitter"
@@ -1483,8 +1492,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    concepts: "Concepts"
 #    play_time: "Play time:"
 #    completed: "Completed:"
-#    enter_emails: "Separate each email address by a line break or commas" # {change}
-#    send_invites: "Invite Students" # {change}
+#    enter_emails: "Separate each email address by a line break or commas"
+#    send_invites: "Invite Students"
 #    number_programming_students: "Number of Programming Students"
 #    number_total_students: "Total Students in School/District"
 #    enroll: "Enroll"
@@ -1498,7 +1507,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    back_classroom: "Back to classroom"
 #    back_courses: "Back to my courses"
 #    edit_details: "Edit class details"
-#    purchase_enrollments: "Purchase Student Licenses" # {change}
+#    purchase_enrollments: "Purchase Student Licenses"
 #    remove_student: "remove student"
 #    assign: "Assign"
 #    to_assign: "to assign paid courses."
@@ -1518,8 +1527,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    play_now_learn_2: "while loops to solve pesky puzzles"
 #    play_now_learn_3: "strings & variables to customize actions"
 #    play_now_learn_4: "how to defeat an ogre (important life skills!)"
-#    welcome_to_page: "My Student Dashboard" # {change}
-#    my_classes: "Current Classes" # {change}
+#    welcome_to_page: "My Student Dashboard"
+#    my_classes: "Current Classes"
 #    class_added: "Class successfully added!"
 #    view_map: "view map"
 #    view_videos: "view videos"
@@ -1534,10 +1543,10 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    play_arena: "Play Arena"
 #    view_project: "View Project"
 #    start: "Start"
-#    last_level: "Last level played" # {change}
+#    last_level: "Last level played"
 #    not_you: "Not you?"
 #    continue_playing: "Continue Playing"
-#    option1_header: "Invite Students by Email" # {change}
+#    option1_header: "Invite Students by Email"
 #    remove_student1: "Remove Student"
 #    are_you_sure: "Are you sure you want to remove this student from this class?"
 #    remove_description1: "Student will lose access to this classroom and assigned classes. Progress and gameplay is NOT lost, and the student can be added back to the classroom at any time."
@@ -1545,15 +1554,15 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
 #    keep_student: "Keep Student"
 #    removing_user: "Removing user"
-#    subtitle: "Review course overviews and levels" # Flat style redesign {change}
+#    subtitle: "Review course overviews and levels" # Flat style redesign
 #    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
 #    concepts_covered: "Concepts covered"
-#    view_guide_online: "Level Overviews and Solutions" # {change}
-#    grants_lifetime_access: "Grants access to all Courses." # {change}
-#    enrollment_credits_available: "Licenses Available:" # {change}
+#    view_guide_online: "Level Overviews and Solutions"
+#    grants_lifetime_access: "Grants access to all Courses."
+#    enrollment_credits_available: "Licenses Available:"
 #    language_select: "Select a language" # ClassroomSettingsModal
 #    language_cannot_change: "Language cannot be changed once students join a class."
 #    avg_student_exp_label: "Average Student Programming Experience"
@@ -1574,7 +1583,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    minutes_per_class: "minutes per class"
 #    create_class: "Create Class"
 #    class_name: "Class Name"
-#    teacher_account_restricted: "Your account is a teacher account and cannot access student content." # {change}
+#    teacher_account_restricted: "Your account is a teacher account and cannot access student content."
 #    account_restricted: "A student account is required to access this page."
 #    update_account_login_title: "Log in to update your account"
 #    update_account_title: "Your account needs attention!"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1701,11 +1710,11 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    level_overview_solutions: "Level Overview and Solutions"
 #    no_student_assigned: "No students have been assigned this course."
 #    paren_new: "(new)"
-#    student_code: "__name__'s Student Code" # {change}
+#    student_code: "__name__'s Student Code"
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
 #    my_classes: "My Classes"
-#    courses: "Course Guides" # {change}
-#    enrollments: "Student Licenses" # {change}
+#    courses: "Course Guides"
+#    enrollments: "Student Licenses"
 #    resources: "Resources"
 #    help: "Help"
 #    language: "Language"
@@ -1714,7 +1723,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    teacher_account_required: "A teacher account is required to access this content."
 #    create_teacher_account: "Create Teacher Account"
 #    what_is_a_teacher_account: "What's a Teacher Account?"
-#    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building." # {change}
+#    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building."
 #    current_classes: "Current Classes"
 #    archived_classes: "Archived Classes"
 #    archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
@@ -1744,7 +1753,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    edit: "edit"
 #    edit_2: "Edit"
 #    remove: "remove"
-#    latest_completed: "Latest completed:" # {change}
+#    latest_completed: "Latest completed:"
 #    sort_by: "Sort by"
 #    progress: "Progress"
 #    concepts_used: "Concepts used by Student:"
@@ -1763,11 +1772,11 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    students_not_assigned: "Students who have not been assigned {{courseName}}"
 #    course_overview: "Course Overview"
 #    copy_class_code: "Copy Class Code"
-#    class_code_blurb: "Students can join your class using this Class Code. No email address is required when creating a Student account with this Class Code." # {change}
+#    class_code_blurb: "Students can join your class using this Class Code. No email address is required when creating a Student account with this Class Code."
 #    copy_class_url: "Copy Class URL"
-#    class_join_url_blurb: "You can also post this unique class URL to a shared webpage." # {change}
-#    add_students_manually: "Invite Students by Email" # {change}
-#    bulk_assign: "Select course" # {change}
+#    class_join_url_blurb: "You can also post this unique class URL to a shared webpage."
+#    add_students_manually: "Invite Students by Email"
+#    bulk_assign: "Select course"
 #    assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
 #    assigned_msg_2: "{{numberEnrolled}} licenses were applied."
 #    assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
@@ -1790,7 +1799,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    students_have_licenses: "The following students already have licenses applied:"
 #    all_students: "All Students"
 #    apply_licenses: "Apply Licenses"
-#    not_enough_enrollments: "Not enough licenses available." # {change}
+#    not_enough_enrollments: "Not enough licenses available."
 #    enrollments_blurb: "Students are required to have a license to access any content after the first course."
 #    how_to_apply_licenses: "How to Apply Licenses"
 #    export_student_progress: "Export Student Progress (CSV)"
@@ -1811,8 +1820,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
 #    enrollment_explanation_4: "Remember"
 #    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
-#    one_license_used: "1 out of __totalLicenses__ licenses has been used" # {change}
-#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used" # {change}
+#    one_license_used: "1 out of __totalLicenses__ licenses has been used"
+#    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
@@ -1894,7 +1903,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    gd3_curriculum_desc: "Lesson plans for Game Development 3."
 #    wd1: "Web Development 1"
 #    wd1_curriculum: "Web Development 1 - Curriculum Guide"
-#    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1." # {change}
+#    wd1_curriculum_desc: "Scope and sequence, lesson plans, activities, and more for Web Development 1."
 #    wd1_headlines: "Headlines & Headers Activity"
 #    wd1_headlines_example: "View sample solution"
 #    wd1_headlines_desc: "Why are paragraph and header tags important? Use this activity to show how well-chosen headers make web pages easier to read. There are many correct solutions to this!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2199,7 +2225,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 
 #  contribute:
 #    page_title: "Contributing"
-#    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!" # {change}
+#    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!"
 #    alert_account_message_intro: "Hey there!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
@@ -2237,11 +2263,11 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    scribe_introduction_url_mozilla: "Mozilla Developer Network"
 #    scribe_introduction_suf: " has built. If your idea of fun is articulating the concepts of programming in Markdown form, then this class might be for you."
 #    scribe_attribute_1: "Skill in words is pretty much all you need. Not only grammar and spelling, but able to convey complicated ideas to others."
-#    contact_us_url: "Contact Us" # {change}
+#    contact_us_url: "Contact Us"
 #    scribe_join_description: "tell us a little about yourself, your experience with programming and what sort of things you'd like to write about. We'll go from there!"
 #    scribe_subscribe_desc: "Get emails about article writing announcements."
 #    diplomat_introduction_pref: "So, if there's one thing we learned from the "
-#    diplomat_launch_url: "launch in October"
+#    diplomat_introduction_url: "open source community"
 #    diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
 #    diplomat_attribute_1: "Fluency in English and the language you would like to translate to. When conveying complicated ideas, it's important to have a strong grasp in both!"
 #    diplomat_i18n_page_prefix: "You can start translating our levels by going to our"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    ambassador_introduction: "This is a community we're building, and you are the connections. We've got forums, emails, and social networks with lots of people to talk with and help get acquainted with the game and learn from. If you want to help people get involved and have fun, and get a good feel of the pulse of CodeCombat and where we're going, then this class might be for you."
 #    ambassador_attribute_1: "Communication skills. Be able to identify the problems players are having and help them solve them. Also, keep the rest of us informed about what players are saying, what they like and don't like and want more of!"
 #    ambassador_join_desc: "tell us a little about yourself, what you've done and what you'd be interested in doing. We'll go from there!"
-#    ambassador_join_note_strong: "Note"
-#    ambassador_join_note_desc: "One of our top priorities is to build multiplayer where players having difficulty solving levels can summon higher level wizards to help them. This will be a great way for ambassadors to do their thing. We'll keep you posted!"
 #    ambassador_subscribe_desc: "Get emails on support updates and multiplayer developments."
 #    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
 #    changes_auto_save: "Changes are saved automatically when you toggle checkboxes."
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    tournament_ends: "Tournament ends"
 #    tournament_ended: "Tournament ended"
 #    tournament_rules: "Tournament Rules"
-#    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
 #    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2427,7 +2450,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 
 #  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
-#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat." # {change}
+#    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
 #    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
 #    purchase_code4: "Subscription Codes are for accounts playing the Home version of CodeCombat, they cannot be used in place of Student Licenses for the Classroom version."
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2510,23 +2526,23 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    continue_reading_blog: "Continue Reading on Blog..."
 
 #  loading_error:
-#    could_not_load: "Error loading from server. Try refreshing the page." # {change}
-#    connection_failure: "Connection Failed" # {change}
+#    could_not_load: "Error loading from server. Try refreshing the page."
+#    connection_failure: "Connection Failed"
 #    connection_failure_desc: "It doesn’t look like you’re connected to the internet! Check your network connection and then reload this page."
 #    login_required: "Login Required"
 #    login_required_desc: "You need to be logged in to access this page."
 #    unauthorized: "You need to be signed in. Do you have cookies disabled?"
-#    forbidden: "Forbidden" # {change}
+#    forbidden: "Forbidden"
 #    forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
 #    user_not_found: "User Not Found"
-#    not_found: "Not Found" # {change}
+#    not_found: "Not Found"
 #    not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
 #    not_allowed: "Method not allowed."
-#    timeout: "Server Timeout" # {change}
+#    timeout: "Server Timeout"
 #    conflict: "Resource conflict."
 #    bad_input: "Bad input."
 #    server_error: "Server error."
-#    unknown: "Unknown Error" # {change}
+#    unknown: "Unknown Error"
 #    error: "ERROR"
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 #    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
@@ -2604,7 +2620,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    if_else_if: "If/Else If Statements"
 #    if_else_statements: "If/Else Statements"
 #    if_statements: "If Statements"
-#    if_statements_nested: "Nested If Statements" # {change}
+#    if_statements_nested: "Nested If Statements"
 #    indexing: "Array Indexes"
 #    input_handling_flags: "Input Handling - Flags"
 #    input_handling_keyboard: "Input Handling - Keyboard"
@@ -2716,7 +2732,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"
 #    cla_url: "CLA"
 #    contributor_description_suffix: "to which you should agree before contributing."
-#    code_title: "Client-Side Code - MIT" # {change}
+#    code_title: "Client-Side Code - MIT"
 #    client_code_description_prefix: "All client-side code for codecombat.com in the public GitHub repository and in the codecombat.com database, is licensed under the"
 #    mit_license_url: "MIT license"
 #    code_description_suffix: "This includes all code in Systems and Components that are made available by CodeCombat for the purpose of creating levels."
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
 
-#  ladder_prizes:
-#    title: "Tournament Prizes" # This section was for an old tournament and doesn't need new translations now.
-#    blurb_1: "These prizes will be awarded according to"
-#    blurb_2: "the tournament rules"
-#    blurb_3: "to the top human and ogre players."
-#    blurb_4: "Two teams means double the prizes!"
-#    blurb_5: "(There will be two first place winners, two second-place winners, etc.)"
-#    rank: "Rank"
-#    prizes: "Prizes"
-#    total_value: "Total Value"
-#    in_cash: "in cash"
-#    custom_wizard: "Custom CodeCombat Wizard"
-#    custom_avatar: "Custom CodeCombat avatar"
-#    heap: "for six months of \"Startup\" access"
-#    credits: "credits"
-#    one_month_coupon: "coupon: choose either Rails or HTML"
-#    one_month_discount: "discount, 30% off: choose either Rails or HTML"
-#    license: "license"
-#    oreilly: "ebook of your choice"
-
 #  calendar:
 #    year: "Year"
 #    day: "Day"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
 #  esper:
 #    line_no: "Line $1: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3071,6 +3069,15 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
 
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
+
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
 #    name: "Your Name"
@@ -3081,8 +3088,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    send: "Send Email"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!" # {change}
-#    page_heading: "Your students will learn to code by building their own game!" # {change}
+#    banner: "Welcome to Hour of Code 2020!"
+#    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -3098,11 +3105,11 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    activity_label_2: " Beginner: Build a Game!"
 #    activity_label_3: "Advanced: Build an Arcade Game!"
 #    activity_button_1: "View Lesson"
-#    about: "About CodeCombat" # {change}
-#    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript." # {change}
+#    about: "About CodeCombat"
+#    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."
 #    point1: "✓ Scaffolded"
 #    point2: "✓ Differentiated"
-#    point3: "✓ Assessments" # {change}
+#    point3: "✓ Assessments"
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
@@ -3110,7 +3117,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!" # {change}
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

@@ -96,6 +96,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
 #    play_now: "Play Now"
+#    im_a_parent: "I'm a Parent"
 #    im_an_educator: "I'm an Educator"
     im_a_teacher: "Sunt Profesor"
     im_a_student: "Sunt Student"
@@ -438,6 +439,11 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    password_requirements: "8 to 64 characters with no repeating"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Recuperează Cont"
@@ -551,6 +557,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     more: "Mai mult"
     fewer: "Mai putin"
     with: "cu"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "secundă"
@@ -650,7 +659,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Trimite"
     tome_reload_method: "Reîncarcă cod original, pentru această metodă" # {change}
-    tome_available_spells: "Vrăji disponibile"
     tome_your_skills: "Skillurile tale"
 #    hints: "Hints"
 #    videos: "Videos"
@@ -906,6 +914,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     sorry_to_see_you_go: "Ne pare rău că pleci! Te rugăm să ne spui ce am fi putut face mai bine."
     unsubscribe_feedback_placeholder: "O, ce am făcut?"
     stripe_description: "Abonament Lunar"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "Cumpără acum"
     subscription_required_to_play: "Ai nevoie de abonament ca să joci acest nivel."
     unlock_help_videos: "Abonează-te pentru deblocarea tuturor tutorialelor video."
@@ -930,7 +939,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     first_month_price: "Doar $__price__ pentru prima luna!"
     lifetime: "Acces pe viață"
     lifetime_price: "$__price__"
-    year_subscription: "Abonament anual"
+    year_subscription: "Abonament anual" # {change}
     year_price: "$__price__/an"
     support_part1: "Ai nevoie de ajutor cu plata sau preferi PayPal? E-mail"
     support_part2: "support@codecombat.com"
@@ -1664,8 +1673,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2017,6 +2026,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2028,6 +2039,21 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2241,7 +2267,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     scribe_join_description: "spune-ne câte ceva despre tine, experiențele tale despre programare și ce fel de lucruri ți-ar place să scri despre. Vom începe de acolo!."
     scribe_subscribe_desc: "Primește mailuri despre scrisul de articole."
     diplomat_introduction_pref: "Dacă ar fi un lucru care l-am învățat din "
-    diplomat_launch_url: "lansarea din Octombire"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "acesta ar fi că: există un interes mare pentru CodeCombat și în alte țări! Încercăm sa adunăm cât mai mulți translatori care sunt pregătiți să transforme un set de cuvinte intr-un alt set de cuvinte ca să facă CodeCombat cât mai accesibil în toată lumea. Dacă vrei să tragi cu ochiul la conțintul ce va apărea și să aduci nivele cât mai repede pentru conaționali tăi, această clasă ți se potriveste."
     diplomat_attribute_1: "Fluență în Engleză și limba în care vrei să traduci. Când explici ideii complicate este important să întelegi bine ambele limbi!"
     diplomat_i18n_page_prefix: "Poți începe să traduci nivele accesând"
@@ -2254,8 +2280,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     ambassador_introduction: "Aceasta este o comunitate pe care o construim, iar voi sunteți conexiunile. Avem forumui, email-uri, si rețele sociale cu mulți oameni cu care se poate vorbi despre joc și de la care se poate învața. Dacă vrei să ajuți oameni să se implice și să se distreze această clasă este potrivită pentru tine."
     ambassador_attribute_1: "Abilități de comunicare. Abilitatea de a indentifica problemele pe care jucătorii le au si șa îi poti ajuta. De asemenea, trebuie să ne informezi cu părerile jucătoriilor, ce le place și ce vor mai mult!"
     ambassador_join_desc: "spune-ne câte ceva despre tine, ce ai făcut si ce te interesează să faci. Vom porni de acolo!."
-    ambassador_join_note_strong: "Notă"
-    ambassador_join_note_desc: "Una din prioritățile noaste este să constrruim un joc multiplayer unde jucători noștri, dacă au probleme pot să cheme un wizard cu un nivel ridicat să îi ajute."
     ambassador_subscribe_desc: "Primește mailuri despre support updates și dezvoltări multiplayer."
 #    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
     changes_auto_save: "Modificările sunt salvate automat când apeși checkbox-uri."
@@ -2318,7 +2342,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tournament_ends: "Turneul se termină"
     tournament_ended: "Turneul s-a terminat"
     tournament_rules: "Regulile Turneului"
-    tournament_blurb: "Scrie cod, colectează aur, construiește armate, distruge inamici, câștigă premii, si îmbunătățeșteți cariera în turneul Lăcomiei de $40,000! Află detalii"
     tournament_blurb_criss_cross: "Caștigă pariuri, creează căi, păcălește-ți oponenți, strâange Pietre Prețioase, si îmbunătățeșteți cariera in turneul Criss-Cross! Află detalii"
     tournament_blurb_zero_sum: "Dezlănțuie creativitatea de programare în strângerea de aur sau în tactici de bătălie în alpine mirror match dintre vrăitori roșii și cei albaștrii.Turneul începe Vineri, 27 Martie și se va desfăsura până Luni, 6 Aprilie la 5PM PDT. Află detalii"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2448,13 +2471,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2751,26 +2767,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
 
-  ladder_prizes:
-    title: "Premii Turnee" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Aceste premii se acordă în funcție de"
-    blurb_2: "Regulile Turneului"
-    blurb_3: "la jucători umani sau ogre de top."
-    blurb_4: "Două echipe înseamnă dublul premiilor!"
-    blurb_5: "(O să fie 2 câștigători pe primul loc, 2 pe locul 2, etc.)"
-    rank: "Rank"
-    prizes: "Premii"
-    total_value: "Valoare Totala"
-    in_cash: "în cash"
-    custom_wizard: "Wizard CodeCombat personalizat"
-    custom_avatar: "Avatar CodeCombat personalizat"
-    heap: "pentru 6 luni de acces \"Startup\""
-    credits: "credite"
-    one_month_coupon: "coupon: alege Rails sau HTML"
-    one_month_discount: "discount, 30% off: choose either Rails or HTML"
-    license: "licență"
-    oreilly: "ebook la alegere"
-
   calendar:
     year: "An"
     day: "Zi"
@@ -2798,6 +2794,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
 #  esper:
 #    line_no: "Line $1: "
@@ -2969,7 +2967,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -3003,6 +3000,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3070,6 +3068,15 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
 #  parent_modal:
 #    refer_teacher: "Refer Teacher"
@@ -3168,6 +3175,4 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
 #  admin:
 #    license_type_full: "Full Courses"
-#    license_type_preset1: "CS1+CS2+GD1+WD1"
-#    license_type_preset2: "CS1+CS2+CS3+CS4"
 #    license_type_customize: "Customize Courses"

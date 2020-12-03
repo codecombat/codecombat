@@ -31,11 +31,7 @@ store = new Vuex.Store({
     courseInstances: require('./modules/courseInstances').default
     levelSessions: require('./modules/levelSessions').default
     users: require('./modules/users').default
-    interactives: require('./modules/interactives').default
     campaigns: require('./modules/campaigns').default
-    tints: require('./modules/tints').default
-    layoutChrome: require('./modules/layoutChrome').default
-    unitMap: require('./modules/unitMap').default
     tracker: require('./modules/tracker').default
     products: require('./modules/products').default
   }
