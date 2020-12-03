@@ -557,6 +557,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     more: "Más"
     fewer: "Menos"
     with: "con"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "segundo"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tome_cast_button_update: "Actualizar"
     tome_submit_button: "Mandar"
     tome_reload_method: "Recargar código original para este método" # {change}
-    tome_available_spells: "Hechizos disponibles"
     tome_your_skills: "Tus Habilidades"
     hints: "Consejos"
     videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tournament_ends: "El torneo termina"
     tournament_ended: "El torneo ha terminado"
     tournament_rules: "Reglas del Torneo"
-    tournament_blurb: "Escribe código, recolecta oro, construye ejércitos, aplasta a los malos, gana premios, y sube en tu carrera en nuestro Torneo de la Avaricia con $40,000! Ver los detalles"
     tournament_blurb_criss_cross: "Gana pujas, construye caminos, aniquila a tus oponentes, recoge gemas, y mejora tu carrera en nuestro torneo Criss-Cross! Mira los  detalles"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Premios del Torneo" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Estos premios se entregarán acorde a"
-    blurb_2: "las reglas del torneo"
-    blurb_3: "A los primeros jugadores humanos y ogros."
-    blurb_4: "Dos equipos significa doble-premio!"
-    blurb_5: "(Habrá dos ganadores por puesto, dos en el primer puesto, dos en el segundo, etc.)"
-    rank: "Rango"
-    prizes: "Premios"
-    total_value: "Valor Total"
-    in_cash: "en dinero"
-    custom_wizard: "Personaliza tu Hechicero de CodeCombat"
-    custom_avatar: "Personaliza tu avatar de CoceCombat"
-    heap: "Por seis meses de acceso \"Startup\""
-    credits: "créditos"
-    one_month_coupon: "cupon: elige entre Rails o HTML"
-    one_month_discount: "descuento del 30%: elige entre Rails o HTML"
-    license: "licencia"
-    oreilly: "ebook de tu elección"
 
   calendar:
     year: "Año"

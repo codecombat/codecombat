@@ -557,6 +557,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     more: "Mai mult"
     fewer: "Mai putin"
     with: "cu"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "secundă"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Trimite"
     tome_reload_method: "Reîncarcă cod original, pentru această metodă" # {change}
-    tome_available_spells: "Vrăji disponibile"
     tome_your_skills: "Skillurile tale"
 #    hints: "Hints"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tournament_ends: "Turneul se termină"
     tournament_ended: "Turneul s-a terminat"
     tournament_rules: "Regulile Turneului"
-    tournament_blurb: "Scrie cod, colectează aur, construiește armate, distruge inamici, câștigă premii, si îmbunătățeșteți cariera în turneul Lăcomiei de $40,000! Află detalii"
     tournament_blurb_criss_cross: "Caștigă pariuri, creează căi, păcălește-ți oponenți, strâange Pietre Prețioase, si îmbunătățeșteți cariera in turneul Criss-Cross! Află detalii"
     tournament_blurb_zero_sum: "Dezlănțuie creativitatea de programare în strângerea de aur sau în tactici de bătălie în alpine mirror match dintre vrăitori roșii și cei albaștrii.Turneul începe Vineri, 27 Martie și se va desfăsura până Luni, 6 Aprilie la 5PM PDT. Află detalii"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Premii Turnee" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Aceste premii se acordă în funcție de"
-    blurb_2: "Regulile Turneului"
-    blurb_3: "la jucători umani sau ogre de top."
-    blurb_4: "Două echipe înseamnă dublul premiilor!"
-    blurb_5: "(O să fie 2 câștigători pe primul loc, 2 pe locul 2, etc.)"
-    rank: "Rank"
-    prizes: "Premii"
-    total_value: "Valoare Totala"
-    in_cash: "în cash"
-    custom_wizard: "Wizard CodeCombat personalizat"
-    custom_avatar: "Avatar CodeCombat personalizat"
-    heap: "pentru 6 luni de acces \"Startup\""
-    credits: "credite"
-    one_month_coupon: "coupon: alege Rails sau HTML"
-    one_month_discount: "discount, 30% off: choose either Rails or HTML"
-    license: "licență"
-    oreilly: "ebook la alegere"
 
   calendar:
     year: "An"
