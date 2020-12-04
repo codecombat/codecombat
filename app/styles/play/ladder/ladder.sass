@@ -136,34 +136,6 @@
   #must-log-in button
     margin-right: 10px
 
-  #prize_table
-    width: 960px
-    font-weight: bold
-
-    thead
-      font-size: 24px
-
-    tbody
-      tr:not(:first-child)
-        border-top: 10px solid #ddd
-  
-      td
-        vertical-align: middle
-        
-        &:nth-child(1), &:nth-child(3)
-          text-align: center
-          font-size: 24px
-  
-        li
-          list-style: none
-
-          &:not(:last-child)
-            margin-bottom: 10px
-            border-bottom: 1px solid #ddd
-  
-          img
-            margin-right: 10px
-
   #winners
     .win
       color: #172
@@ -173,6 +145,10 @@
       padding: 0 10px
       background: transparent url(/images/common/code_languages/javascript_icon.png) no-repeat center center
       height: 16px
+
+  &.single-ladder
+    .row:nth-child(1):after
+      clear: none
 
 #tournamentend
   width: 100%

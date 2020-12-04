@@ -557,6 +557,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     more: "Més"
     fewer: "Menys"
     with: "amb"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "segon"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Envia"
     tome_reload_method: "Recarrega el codi original per reiniciar el nivell"
-    tome_available_spells: "Encanteris disponibles"
     tome_your_skills: "Les teves habilitats"
     hints: "Consells"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "Sigues el primer en publicar un projecte en aquest curs!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     tournament_ends: "El torneig acaba"
     tournament_ended: "El torneig ha acabat"
     tournament_rules: "Normes del torneig"
-    tournament_blurb: "Escriu codi, recull or, construeix exèrcits, enderroca enemics, guanya premis i millora el teu rànquing al nostre torneig Greed de $ 40,000! Consulteu els detalls"
     tournament_blurb_criss_cross: "Obté ofertes, construeix camins, reparteix opositors, agafa gemmes i actualitza el teu rànquing al nostre torneig Criss-Cross! Consulteu els detalls"
     tournament_blurb_zero_sum: "Allibera la teva creativitat de codificació tant en la trobada d'or i en les tàctiques de batalla en aquest joc de miralls alpins entre el bruixot i el bruixot blau. El torneig va començar el divendres 27 de març i tindrà lloc fins el dilluns 6 d'abril a les 5PM PDT. Competeix per diversió i glòria! Consulteu els detalls"
     tournament_blurb_ace_of_coders: "Treu-lo a la glacera congelada en aquest joc de mirall d'estil dominació! El torneig va començar el dimecres 16 de setembre i es disputarà fins el dimecres 14 d'octubre a les 5PM PDT. Consulteu els detalls"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     you_can1: "Pots"
     you_can2: "comprar un codi Prepagat"
     you_can3: "per aplicar al teu compte o donar a d'altres."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     cookies_message: "CodeCombat utilitza unes quantes galetes essencials i no essencials."
     cookies_deny: "Declareu les galetes no essencials"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Premis del torneig" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Aquests premis seran guanyats d'acord amb"
-    blurb_2: "Les normes del torneig"
-    blurb_3: "els millors jugadors humans i ogres."
-    blurb_4: "Dos equips signifiquen el doble de premis!"
-    blurb_5: "(Hi haura dos guanyadors pel primer lloc, dos pels del segon lloc, etc.)"
-    rank: "Rang"
-    prizes: "Premis"
-    total_value: "Valor total"
-    in_cash: "en diners"
-    custom_wizard: "Personalitza el teu bruixot de CodeCombat"
-    custom_avatar: "Personalitza el teu avatar de CodeCombat"
-    heap: "per sis mesos d'acces \"Startup\" "
-    credits: "crèdits"
-    one_month_coupon: "cupó: trieu Rails o HTML"
-    one_month_discount: "descompte del 30%: seleccioneu Rails o HTML"
-    license: "llicencia"
-    oreilly: "ebook de la vostra elecció"
 
   calendar:
     year: "Any"

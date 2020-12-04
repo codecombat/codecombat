@@ -159,24 +159,6 @@ module.exports = class DocFormatter
         if @doc.args
           arg.example = arg.example.replace thisToken[@options.language], 'hero' for arg in @doc.args when arg.example
 
-    if @doc.shortName is 'loop' and @options.level.isType('course', 'course-ladder')
-      @replaceSimpleLoops()
-
-  replaceSimpleLoops: ->
-    # Temporary hackery to make it look like we meant while True: in our loop: docs until we can update everything
-    @doc.shortName = @doc.shorterName = @doc.title = @doc.name = switch @options.language
-      when 'coffeescript' then "loop"
-      when 'python' then "while True:"
-      when 'lua' then "while true do"
-      else "while (true)"
-    for field in ['example', 'description']
-      [simpleLoop, whileLoop] = switch @options.language
-        when 'coffeescript' then [/loop/g, "loop"]
-        when 'python' then [/loop:/g, "while True:"]
-        when 'lua' then [/loop/g, "while true do"]
-        else [/loop/g, "while (true)"]
-      @doc[field] = @doc[field].replace simpleLoop, whileLoop
-
   formatPopover: ->
     [docName, args] = @getDocNameAndArguments()
     argumentExamples = (arg.example or arg.default or arg.name for arg in @doc.args ? [])

@@ -557,6 +557,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     more: "Више"
     fewer: "Мање"
     with: "са"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "секунда"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Потврди"
     tome_reload_method: "Поново учитај оригинални код за овај метод" # {change}
-    tome_available_spells: "Доступне чини"
     tome_your_skills: "Твоје вештине"
     hints: "Смернице"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "Буди први који ће објавити пројекат у овом курсу!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     tournament_ends: "Турнир се окончава"
     tournament_ended: "Турнир се окончао"
     tournament_rules: "Правила турнира"
-    tournament_blurb: "Напиши код, сакупи злато, направи армију, победи непријатеље, освоји награде и надогради своју каријеру у нашем Greed турниру од 40.000 $! Погледај детаље"
     tournament_blurb_criss_cross: "Освоји бидове, конструиши путању, надмудри супарнике, ухвати драгуље и надогради своју каријеру у нашем Criss-Cross турниру! Погледај детаље"
     tournament_blurb_zero_sum: "Покажу своју креативност при кодирању и прикупљању злата и тактикама борбе у овом алпском мечу између црвеног чаробњака и плавог чаробњака. Турнир је почео у петак, 27. марта и трајаће до понедељка, 6. априла до 17:00 PDT. Такмичи се из забаве и славе! Погледај детаље"
     tournament_blurb_ace_of_coders: "Бори се у залеђеном глечеру у овом мечу доминације стила! Турнир је почео у среду, 16. септембра и трајаће до среде, 14. октобра до 17:00 PDT. Погледај детаље"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     you_can1: "Можеш  "
     you_can2: "да купиш припрејд код"
     you_can3: "који може да се примени на твој налог или да се поклони другоме."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     cookies_message: "CodeCombat користи неколико основних и не-основних колачића."
     cookies_deny: "Одбиј не-основне колачиће"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Турнирске награде" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Ове награде ће бити додељене према"
-    blurb_2: "правилима турнира"
-    blurb_3: "главним играчима у облику људи и џинова људождера."
-    blurb_4: "Два тима удвостручују награду!"
-    blurb_5: "(Биће два победника за прво место, два победника за друго место, итд.)"
-    rank: "Ранг"
-    prizes: "Награде"
-    total_value: "Укупна вредност"
-    in_cash: "у готовини"
-    custom_wizard: "Прилагођен CodeCombat мађионичар"
-    custom_avatar: "Прилагођен CodeCombat аватар"
-    heap: "шестомесечни \"Startup\" приступ"
-    credits: "заслуге"
-    one_month_coupon: "купон: изабери или Rails или HTML"
-    one_month_discount: "попуст, 30% попуста: изабери или Rails или HTML"
-    license: "лиценца  "
-    oreilly: "е-књига твог избора"
 
   calendar:
     year: "Година"

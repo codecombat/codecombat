@@ -557,6 +557,9 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "Sekunde"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Absenden"
     tome_reload_method: "Lade den ursprünglichen Code dieser Methode" # {change}
-    tome_available_spells: "Verfügbare Zauber"
     tome_your_skills: "Deine Fähigkeiten"
 #    hints: "Hints"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     tournament_ends: "Turnier endet"
     tournament_ended: "Turnier beendet"
     tournament_rules: "Turnier-Regeln"
-    tournament_blurb: "Schreibe Code, sammle Gold, erstelle Armeen, zerquetsche Feinde, gewinne Preis und verbessere deine Karriere in unserem 40.000 $ Greed-Turnier! Schau dir die Details"
     tournament_blurb_criss_cross: "Gewinne Gebote, konstruiere Pfade, trickse Feinde aus, greife Edelsteine ab und verbessere deine Karriere in unserem Criss-Cross-Turnier! Schau dir die Details"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Turnierpreise" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Die Preise werden verliehen nach"
-    blurb_2: "den Turnierregeln"
-    blurb_3: "and den Top Mensch und Oger-Spieler."
-    blurb_4: "Zwei Teams heißt die doppelte Anzahl zu gewinnender Preise!"
-    blurb_5: "(Es wird zwei Erstplazierte, zwei Zeitplatzierte, usw. geben)"
-    rank: "Rang"
-    prizes: "Gewinne"
-    total_value: "Gesamtwert"
-    in_cash: "in Bar"
-    custom_wizard: "Benutzerdefinierter CodeCombat Zauberer"
-    custom_avatar: "Benutzerdefinierter CodeCombat Avatar"
-#    heap: "for six months of \"Startup\" access"
-#    credits: "credits"
-    one_month_coupon: "Gutschein: Wähle entweder Rails oder HTML"
-    one_month_discount: "30% Rabatt: Wähle entweder Rails oder HTML"
-    license: "Lizenz"
-    oreilly: "Ebook deiner Wahl"
 
   calendar:
     year: "Jahr"

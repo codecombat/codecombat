@@ -14,7 +14,7 @@ module.exports = class SimulateTabView extends CocoView
 
   initialize: ->
     @simulatedByYouCount = me.get('simulatedBy') or 0
-    @simulatorsLeaderboardData = new SimulatorsLeaderboardData(me)
+    @simulatorsLeaderboardData = new SimulatorsLeaderboardData(me, @options.level)
     @simulatorsLeaderboardDataRes = @supermodel.addModelResource(@simulatorsLeaderboardData, 'top_simulators', {cache: false})
     @simulatorsLeaderboardDataRes.load()
     Promise.all(
@@ -25,8 +25,8 @@ module.exports = class SimulateTabView extends CocoView
 
   onLoaded: ->
     super()
-    @render()
-    if not @simulator and (document.location.hash is '#simulate' or @options.level.get('slug') not in ['ace-of-coders', 'zero-sum'])
+    @autoSimulates = @options.level.get('slug') not in ['ace-of-coders', 'zero-sum']
+    if not @simulator and (document.location.hash is '#simulate' or @autoSimulates)
       @startSimulating()
 
   afterRender: ->
@@ -36,6 +36,7 @@ module.exports = class SimulateTabView extends CocoView
 
   onSimulateButtonClick: (e) ->
     application.tracker?.trackEvent 'Simulate Button Click'
+    document.location.hash = '#simulate'
     @startSimulating()
 
   startSimulating: ->
@@ -46,12 +47,12 @@ module.exports = class SimulateTabView extends CocoView
 
   refreshAndContinueSimulating: =>
     # We refresh the page every now and again to make sure simulations haven't gotten derailed by bogus games, and that simulators don't hang on to old, stale code or data.
-    document.location.hash = '#simulate'
+    document.location.hash = '#simulate' unless @autoSimulates
     document.location.reload()
 
   simulateNextGame: ->
     unless @simulator
-      @simulator = new Simulator levelID: @options.level.get('slug'), leagueID: @options.leagueID
+      @simulator = new Simulator levelID: @options.level.get('slug'), leagueID: @options.leagueID, singleLadder: @options.level.isType('ladder'), levelOriginal: @options.level.get('original')
       @listenTo @simulator, 'statusUpdate', @updateSimulationStatus
       # Work around simulator getting super slow on Chrome
       fetchAndSimulateTaskOriginal = @simulator.fetchAndSimulateTask
@@ -93,8 +94,8 @@ module.exports = class SimulateTabView extends CocoView
     link = if @simulationSpectateLink then "<a href=#{@simulationSpectateLink}>#{_.string.escapeHTML(@simulationMatchDescription)}</a>" else ''
     $('#simulation-status-text').html "<h3>#{@simulationStatus}</h3>#{link}"
     if simulationStatus is 'Results were successfully sent back to server!'
-      $('#games-in-queue').text --@simulatorsLeaderboardData.numberOfGamesInQueue
-      $('#simulated-by-you').text ++@simulatedByYouCount
+      $('#games-in-queue').text (--@simulatorsLeaderboardData.numberOfGamesInQueue).toLocaleString()
+      $('#simulated-by-you').text (++@simulatedByYouCount).toLocaleString()
 
 
   destroy: ->
@@ -107,17 +108,18 @@ class SimulatorsLeaderboardData extends CocoClass
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
-  constructor: (@me) ->
+  constructor: (@me, @level) ->
     super()
 
   fetch: ->
-    @topSimulators = new SimulatorsLeaderboardCollection({order: -1, scoreOffset: -1, limit: 20})
     promises = []
-    promises.push @topSimulators.fetch()
     unless @me.get('anonymous')
-      score = @me.get('simulatedBy') or 0
       queueSuccess = (@numberOfGamesInQueue) =>
       promises.push $.ajax '/queue/messagesInQueueCount', {success: queueSuccess, cache: false}
+    unless @level.isType 'ladder'
+      @topSimulators = new SimulatorsLeaderboardCollection({order: -1, scoreOffset: -1, limit: 20})
+      promises.push @topSimulators.fetch()
+      score = @me.get('simulatedBy') or 0
       @playersAbove = new SimulatorsLeaderboardCollection({order: 1, scoreOffset: score, limit: 4})
       promises.push @playersAbove.fetch()
       if score
