@@ -1,0 +1,5 @@
+@font-face {
+  font-family: 'Space Mono';
+  font-style: 'normal';
+  src: local('Space Mono'), url(SpaceMono-Regular.ttf) format('truetype');
+}
