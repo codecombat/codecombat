@@ -1672,8 +1672,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     certificate_btn_print: "Cevag"
     certificate_btn_toggle: "Gbttyr"
     ask_next_course: "Jnag gb cynl zber? Nfx lbhe grnpure sbe npprff gb gur arkg pbhefr."
-    set_start_locked_level: "Ybpx yriryf fgnegvat ng" # {punatr}
-    no_level_limit: "-- (ab yriryf ybpxrq)" # {punatr}
+    set_start_locked_level: "Ybpx yriryf fgnegvat ng"
+    no_level_limit: "-- (ab yriryf ybpxrq)"
 
   project_gallery:
     no_projects_published: "Or gur svefg gb choyvfu n cebwrpg va guvf pbhefr!"
