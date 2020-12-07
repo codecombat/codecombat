@@ -73,7 +73,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <h2 class="text-center pixelated">
+            <h2 class="text-center pixelated invest-heading">
               Invest in Your Child’s Future While They Have Fun!
             </h2>
           </div>
@@ -728,6 +728,10 @@ export default {
 #parent-page .pixelated {
   font-family: "lores12ot-bold";
   color: #0E4C60;
+}
+
+.invest-heading {
+  font-size: 40px;
 }
 
 #parent-page a {
