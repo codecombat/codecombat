@@ -906,6 +906,24 @@
   .shepherd-next-button-inactive:hover
     background-image: url('/images/ozaria/level/InactiveR.svg')
 
+  .shepherd-header-moving-salazar
+    background-image: url('/images/ozaria/level/Moving_Salazar.png')
+  .shepherd-header-moving-salazar:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Moving_Salazar.png')
+  .shepherd-header-stationary-salazar
+    background-image: url('/images/ozaria/level/Static_Salazar.png')
+  .shepherd-header-stationary-salazar:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Static_Salazar.png')
+
+  .shepherd-header-moving-young-salazar
+    background-image: url('/images/ozaria/level/Moving_YoungSalazar.png')
+  .shepherd-header-moving-young-salazar:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Moving_YoungSalazar.png')
+  .shepherd-header-stationary-young-salazar
+    background-image: url('/images/ozaria/level/Static_YoungSalazar.png')
+  .shepherd-header-stationary-young-salazar:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Static_YoungSalazar.png')
+
   .shepherd-header-moving-astra
     background-image: url('/images/ozaria/level/Moving_Astra.png')
   .shepherd-header-moving-astra:not(:disabled):hover
