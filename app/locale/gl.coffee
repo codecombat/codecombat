@@ -557,6 +557,9 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    more: "More"
 #    fewer: "Fewer"
 #    with: "with"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "segundo"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Mandar"
     tome_reload_method: "Recargar código orixinal para este método" # {change}
-    tome_available_spells: "Feitizos dispoñibles"
     tome_your_skills: "As túas Habilidades"
 #    hints: "Hints"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     tournament_ends: "O torneo remata"
     tournament_ended: "O torneo rematou"
     tournament_rules: "Regras do Torneo"
-    tournament_blurb: "Escribe código, consigue ouro, constrúe exércitos, aplasta aos malos, gaña premios e sube na túa carreira no noso Torneo da Avaricia con $40,000! Mira os detalles"
     tournament_blurb_criss_cross: "Gaña puxas, constrúe camiños, aniquila aos teus opoñentes, recolle xemas, e mellora a túa carreira no noso torneo Criss-Cross! Mira os detalles"
 #    tournament_blurb_zero_sum: "Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details"
 #    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Premios do Torneo" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Estes premios entregaranse dacordo "
-    blurb_2: "as regras do torneo"
-    blurb_3: "Aos primeiros xogadores humanos e ogros."
-    blurb_4: "Dous equipos significa doble-premio!"
-    blurb_5: "(Haberá dous gañadores por posto, dous no primeiro posto, dous no segundo, etc.)"
-    rank: "Rango"
-    prizes: "Premios"
-    total_value: "Valor Total"
-    in_cash: "en diñeiro"
-    custom_wizard: "Persoaliza o teu Mago de CodeCombat"
-    custom_avatar: "Persoaliza o teu avatar de CodeCombat"
-    heap: "Por seis meses de acceso \"Startup\""
-    credits: "créditos"
-    one_month_coupon: "cupón: elixe entre Rails ou HTML"
-    one_month_discount: "desconto do 30%: elixe entre Rails ou HTML"
-    license: "licenza"
-    oreilly: "ebook da túa escolla"
 
 #  calendar:
 #    year: "Year"

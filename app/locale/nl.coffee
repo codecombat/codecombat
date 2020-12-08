@@ -557,6 +557,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     more: "Meer"
     fewer: "Minder"
     with: "met"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "seconde"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tome_cast_button_update: "Update"
     tome_submit_button: "Indienen"
     tome_reload_method: "Oorspronkelijke code voor deze methode herladen" # {change}
-    tome_available_spells: "Beschikbare spreuken"
     tome_your_skills: "Jouw Vaardigheden"
     hints: "Hints"
     videos: "Video's"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
     ask_next_course: "Wil je meer spelen? Vraag je docent om toegang tot de volgende cursus."
-#    set_start_locked_level: "Assign up to level"
-    no_level_limit: "Geen limiet"
+#    set_start_locked_level: "Lock levels starting at"
+    no_level_limit: "Geen limiet" # {change}
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tournament_ends: "Toernooi eindigt"
     tournament_ended: "Toernooi geëindigd"
     tournament_rules: "Toernooiregels"
-    tournament_blurb: "Schrijf code, verzamel goud, bouw legers, verpletter je tegenstanders, win prijzen en verbeter je carrière in ons $40,000 Greed toernooi! Zie de details"
     tournament_blurb_criss_cross: "Win biedingen, bouw paden, wees je tegenstander te slim af, pak edelstenen en verbeter je carrière in ons Criss-Cross toernooi! Zie de details"
     tournament_blurb_zero_sum: "Ontketen je code-creativiteit in goud verzamelen en veldslag tactieken in deze Alpine Mirror wedstrijd tussen de rode tovenaar en de blauwe tovenaar. Het toernooi is gestart op Vrijdag 27 maart en loopt tot Maandag 6 April om 17:00 PDT. Doe mee voor plezier en overwinning! Check de details"
     tournament_blurb_ace_of_coders: "Vecht het uit in de bevroren gletsjer in deze Dominance Mirror wedstrijd! Het toernooi begint op Woensdag 16 September en loopt tot Woensdag 14 Oktober om 17:00 PDT. Check de details"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     you_can1: "Je kunt"
     you_can2: "een prepaidcode kopen"
     you_can3: "die je voor je eigen account kunt gebruiken of aan anderen kunt geven."
-
-  ozaria_chrome:
-    sound_off: "Geluid Uit"
-    sound_on: "Geluid Aan"
-    back_to_map: "Terug naar de Kaart"
-    level_options: "Levelopties"
-    restart_level: "Herstart Level"
 
   impact:
     hero_heading: "Werken aan een computerwetenschappelijk programma van wereldklasse"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     cookies_message: "CodeCombat gebruikt een aantal essentiële en niet-essentiële cookies"
     cookies_deny: "Wijs niet-essentiële cookies af"
     cookies_allow: "Laat cookies toe"
-
-  ladder_prizes:
-    title: "Toernooiprijzen" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Deze prijzen worden uitgereikt volgens de toernooiregels"
-    blurb_2: "De toernooiregels"
-    blurb_3: "voor de beste mensen en boemannen."
-    blurb_4: "Twee teams, dus dubbele prijzen!"
-    blurb_5: "(Er is een gedeelde eerste plek, een gedeelde tweede plek, enz.)"
-    rank: "Rang"
-    prizes: "Prijzen"
-    total_value: "Totale waarde"
-    in_cash: "contant"
-    custom_wizard: "Aangepaste CodeCombat Wizard"
-    custom_avatar: "Aangepaste CodeCombat avatar"
-    heap: "voor zes maanden \"opstart\" toegang"
-    credits: "credits"
-    one_month_coupon: "coupon: Kies Rails of HTML"
-    one_month_discount: "30% korting: Kies Rails of HTML"
-    license: "licentie"
-    oreilly: "ebook van je keuze"
 
   calendar:
     year: "Jaar"

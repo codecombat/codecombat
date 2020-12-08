@@ -55,7 +55,7 @@ block content
           tr
             td
               if previousLevelCompleted || !passedLastCompletedLevel || levelStatus
-                - var i18nTag = level.isType('course-ladder') ? 'play.compete' : 'common.play';
+                - var i18nTag = level.isLadder() ? 'play.compete' : 'common.play';
                 button.btn.btn-forest.btn-play-level(data-level-slug=level.get('slug'), data-i18n=i18nTag, data-level-id=level.get('original'))
                 if level.get('shareable')
                   - var levelOriginal = level.get('original');

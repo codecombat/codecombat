@@ -557,6 +557,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     more: "Más"
     fewer: "Menos"
     with: "con"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "segundo"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tome_cast_button_update: "Actualizar"
     tome_submit_button: "Enviar"
     tome_reload_method: "Recargar código original para este método" # {change}
-    tome_available_spells: "Hechizos Disponibles"
     tome_your_skills: "Tus habilidades"
     hints: "Pistas"
     videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "¡Sé el primero en publicar un proyecto en este curso!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tournament_ends: "Final de Torneo"
     tournament_ended: "Finalizó el Torneo"
     tournament_rules: "Reglas del Torneo"
-    tournament_blurb: "Escribe código, recolecta oro, arma ejercitos, aplasta adversarios, gana premios, y asciende en tu carrera por $40,000 en el Torneo Codicia! Echa un vistazo a los detalles"
     tournament_blurb_criss_cross: "Gana apuestas, construye caminos, burla tus oponentes, agarra gemas, y asciende tu perfil en nuestro torneo Cruzado! Echa un vistazo a los detalles"
     tournament_blurb_zero_sum: "Suelta tus habilidades de código en recolección de oro y tácticas de batalla en este partido espejo alpino entre el hechicero rojo y el hechicero azul. El torneo comenzó el Viernes, 27 de Marzo y se extenderá hasta el Lunes, 6 de Abril a las 5PM PDT. Compite por la diversión y la gloria ! Echa un vistazo a los detalles:"
     tournament_blurb_ace_of_coders: "¡Lucha en el glaciar congelado en este encuentro con estilo dominación en espejo! El torneo comienza el Miércoles 16 de Septiembre, y se ejecutará hasta el Miércoles 14 de Octubre hasta las 5PM PDT. Revisa los detalles"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     you_can1: "Puedes"
     you_can2: "comprar un código prepagado"
     you_can3: "que puede ser aplicado a tu propia cuenta o regalado a otros."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     cookies_message: "CodeCombat utiliza algunas cookies esenciales y no esenciales."
     cookies_deny: "Rechazar las cookies no esenciales"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Premios de Torneos" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Estos premios seran dados de acuerdo a "
-    blurb_2: "las reglas del torneo"
-    blurb_3: "a los mejores jugadores humanos y ogros."
-    blurb_4: "Dos equipos significan el doble de premios!"
-    blurb_5: "(Habrán dos ganadores en el primer puesto, dos en el segundo puesto, etc.)"
-    rank: "Ranking"
-    prizes: "Premios"
-    total_value: "Valor Total"
-    in_cash: "en dinero"
-    custom_wizard: "CodeCombat Mago Personalizado"
-    custom_avatar: " CodeCombat Avatar Personalizado"
-    heap: "Por seis meses acceso \"Startup\"."
-    credits: "creditos"
-    one_month_coupon: "Cupón: elige entre Rails o HTML."
-    one_month_discount: "descuento del 30%: elige entre Rails o HTML"
-    license: "licencia"
-    oreilly: "ebook de su elección"
 
   calendar:
     year: "Año"

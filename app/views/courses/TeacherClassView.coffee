@@ -62,7 +62,7 @@ module.exports = class TeacherClassView extends RootView
     'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
     'click a.student-level-progress-dot': 'onClickStudentProgressDot'
     'click .sync-google-classroom-btn': 'onClickSyncGoogleClassroom'
-    'change .locked-level-select': 'onChangeLockedLevelSelect'
+    'change #locked-level-select': 'onChangeLockedLevelSelect'
     'click .student-details-row': 'trackClickEvent'
     'click .open-certificate-btn': 'trackClickEvent'
 

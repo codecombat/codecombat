@@ -160,8 +160,13 @@ module.exports = class SpellView extends CocoView
       bindKey: {win: 'Ctrl-S', mac: 'Command-S|Ctrl-S'}
       exec: ->  # just prevent page save call
     addCommand
+      name: 'previous-line'
+      bindKey: {mac: 'Ctrl-P'}
+      passEvent: true
+      exec: => @ace.execCommand 'golineup'  # stop trying to jump to matching paren, I want default Mac/Emacs previous line
+    addCommand
       name: 'toggle-playing'
-      bindKey: {win: 'Ctrl-P', mac: 'Command-P|Ctrl-P'}
+      bindKey: {win: 'Ctrl-P', mac: 'Command-P'}
       readOnly: true
       exec: -> Backbone.Mediator.publish 'level:toggle-playing', {}
     addCommand
@@ -300,8 +305,10 @@ module.exports = class SpellView extends CocoView
       return false if not match?
       return /:\s*$/.test(match[1])
 
+    @indentDivMarkers = []
+
     @aceSession.addDynamicMarker
-      update: (html, markerLayer, session, config) =>
+      update: (_, markerLayer, session, config) =>
         Range = ace.require('ace/range').Range
 
         foldWidgets = @aceSession.foldWidgets
@@ -314,6 +321,9 @@ module.exports = class SpellView extends CocoView
           ar.pop().length
 
         colors = [{border: '74,144,226', fill: '108,162,226'}, {border: '132,180,235', fill: '230,237,245'}]
+
+        @indentDivMarkers.forEach((node) -> node.remove())
+        @indentDivMarkers = []
 
         for row in [0..@aceSession.getLength()]
           foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
@@ -353,16 +363,27 @@ module.exports = class SpellView extends CocoView
           w = 4 * config.characterWidth
           fw = config.characterWidth * ( @aceSession.getScreenLastRowColumn(range.start.row) - xstart )
 
-          html.push """
-            <div style=
-              "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
-               border: #{bw}px solid rgba(#{color.border},1); border-left: none;"
-            ></div>
-            <div style=
-              "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
-               border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);"
-            ></div>
+          lineAbove = document.createElement "div"
+          lineAbove.setAttribute "style", """
+            position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
+            border: #{bw}px solid rgba(#{color.border},1); border-left: none;
           """
+
+          indentedBlock = document.createElement "div"
+          indentedBlock.setAttribute "style", """
+            position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
+            border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);
+          """
+
+          indentVisualMarker = document.createElement "div"
+          indentVisualMarker.appendChild(lineAbove)
+          indentVisualMarker.appendChild(indentedBlock)
+
+          @indentDivMarkers.push(indentVisualMarker)
+
+        markerLayer.elt("indent-highlight")
+        parentNode = markerLayer.element.childNodes[markerLayer.i - 1] ? markerLayer.element.lastChild
+        parentNode.appendChild(indentVisualMarker) for indentVisualMarker in @indentDivMarkers
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -569,7 +590,7 @@ module.exports = class SpellView extends CocoView
       @updateHTML create: true if @options.level.isType('web-dev')
 
   createDebugView: ->
-    return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # We'll turn this on later, maybe, but not yet.
+    return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
 

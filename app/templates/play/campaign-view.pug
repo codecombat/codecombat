@@ -101,7 +101,7 @@ if showGameDevAlert
           if !level.hidden && !level.noFlag
             if level.replayable
               img.banner(src="/images/pages/play/level-banner-replayable.png")
-            else if level.type === 'hero-ladder' || level.type === 'course-ladder'
+            else if level.type === 'hero-ladder' || level.type === 'course-ladder' || level.type === 'ladder'
               img.banner(src="/images/pages/play/level-banner-multiplayer.png")
             else if ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate', 'kithgard-mastery'].indexOf(level.slug) !== -1 && levelStatusMap[level.slug] !== 'complete'
               img.banner(src="/images/pages/play/level-banner-special.png")
@@ -134,7 +134,7 @@ if showGameDevAlert
           - var playCount = levelPlayCountMap[level.slug]
           .progress.progress-striped.active.hide
             .progress-bar(style="width: 100%")
-          - var showsLeaderboard = view.shouldShow('leaderboard') && (levelStatusMap[level.slug] === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder'].indexOf(level.type) !== -1));
+          - var showsLeaderboard = view.shouldShow('leaderboard') && (levelStatusMap[level.slug] === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder', 'ladder'].indexOf(level.type) !== -1));
 
           div(class="level-info rtl-allowed " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
             .level-status.rtl-allowed(dir="auto")

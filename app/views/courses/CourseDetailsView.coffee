@@ -82,7 +82,7 @@ module.exports = class CourseDetailsView extends RootView
       @levelConceptMap[level.get('original')] ?= {}
       for concept in level.get('concepts') or []
         @levelConceptMap[level.get('original')][concept] = true
-      if level.isType('course-ladder')
+      if level.isLadder()
         @arenaLevel = level
 
     # console.log 'onLevelSessionsSync'
@@ -126,7 +126,7 @@ module.exports = class CourseDetailsView extends RootView
     levelID = $(e.target).closest('.btn-play-level').data('level-id')
     level = @levels.findWhere({original: levelID})
     window.tracker?.trackEvent 'Students Class Course Play Level', category: 'Students', courseID: @courseID, courseInstanceID: @courseInstanceID, levelSlug: levelSlug, ['Mixpanel']
-    if level.isType('course-ladder')
+    if level.isLadder()
       viewClass = 'views/ladder/LadderView'
       viewArgs = [{supermodel: @supermodel}, levelSlug]
       route = '/play/ladder/' + levelSlug

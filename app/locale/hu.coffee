@@ -557,6 +557,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     more: "Több"
     fewer: "Kevesebb"
     with: "ezzel:"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "másodperc"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Beküldés"
     tome_reload_method: "Eredeti Eljárás újratöltése" # {change}
-    tome_available_spells: "Elérhető varázslatok"
     tome_your_skills: "Képességeid"
     hints: "Tippek"
 #    videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tournament_ends: "A torna vége"
     tournament_ended: "A torna véget ért"
     tournament_rules: "A torna szabályai"
-    tournament_blurb: "Kódolj, gyűjtsd az aranyakat, építs hadsereget, győzd le az ellenségeid, küzdj a jutalmakért és szállj be a 40 000 dolláros bajnokságunkba! Nézd meg a részleteket"
     tournament_blurb_criss_cross: "Köss fogadásokat, építs ösvényeket, járj túl az ellenségeid eszén, szerezd meg a drágaköveket és szállj be a Criss-Cross bajnokságba! Nézd meg a részleteket"
     tournament_blurb_zero_sum: "Engedd ki a kódot a palackból és gyűjtsd az aranyat vagy légy a legjobb stratéga a vörös és kék varázslók tükrözős csatájában. A bajnokság március 27-én, pénteken kezdődik és április 6-án, hétfőn, délután 5 órakor (PDT) zárul. Küzdj a dicsőségért! Nézd meg a részleteket"
     tournament_blurb_ace_of_coders: "Csatázz a fagyos gleccserek uralta tájon a tükrözős ütközetben! A bajnokság szeptember 16-án, szerdán kezdődik és október 14-én, szerdán, délután 5 órakor (PDT) zárul. Nézd meg a részleteket"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     you_can1: "Vásárolhatsz"
     you_can2: "egy fizetős kódot,"
     you_can3: "amelyet a saját fiókodban is beválthatsz vagy átadhatsz másoknak."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Bajnoksági díjak" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Ezeket a bajnoksági díjakat az alábbi módon ítéljük oda:"
-    blurb_2: "a torna szabályai"
-    blurb_3: "a legjobb játékosok számára, legyen az ember vagy ogre."
-    blurb_4: "Két csapat dupla esélyek!"
-    blurb_5: "(Két első, két második stb. helyezettet díjazunk)"
-    rank: "Rang"
-    prizes: "Díjak"
-    total_value: "Összérték"
-    in_cash: "készpénzben"
-    custom_wizard: "Egyedi CodeCombat Varázsló"
-    custom_avatar: "Egyedi CodeCombat avatar"
-    heap: "a létrehozástól számított hat hónapig"
-    credits: "kreditek"
-    one_month_coupon: "kupon: Railst vagy HTML-t választhatsz"
-    one_month_discount: "30% kedvezmény: Railst vagy HTML-t választhatsz"
-    license: "licenc"
-    oreilly: "szabadon választott e-könyv"
 
   calendar:
     year: "Év"

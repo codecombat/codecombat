@@ -39,26 +39,6 @@ _.extend ClassroomSchema.properties,
       name: {type: 'string'}
       slug: {type: 'string'}
       position: c.point2d()
-
-      # properties relevant for ozaria campaigns 
-      nextLevels: {
-        type: 'object'
-        description: 'object containing next levels original id and their details'
-        additionalProperties: { # key is the level original id
-          type: 'object'
-          properties: {
-            type: c.shortString()
-            original: c.objectId()
-            name: {type: 'string'}
-            slug: {type: 'string'}
-            nextLevelStage: {type: 'number', title: 'Next Level Stage', description: 'Which capstone stage is unlocked'}
-            conditions: c.object({}, {
-              afterCapstoneStage: {type: 'number', title: 'After Capstone Stage', description: 'What capstone stage needs to be completed to unlock this next level'}
-            })
-          }
-        }
-      }
-      first: {type: 'boolean', description: 'Is it the first level in the campaign' }
     }
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }

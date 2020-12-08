@@ -1,196 +1,124 @@
-<template>
-  <div class="jumbotron">
-    <div class="row">
-      <div class="col-lg-5 col-md-6 trust-logos">
-        <div class="flex-spacer">
-          <div class="codie-logo-container">
-            <img srcset="/images/pages/parents/2017_codie_award@1x.png 1x,
-                                     /images/pages/parents/2017_codie_award@2x.png 2x,
-                                     /images/pages/parents/2017_codie_award@3x.png 3x"
-                 src="/images/pages/parents/2017_codie_award@1x.png"
-            />
-          </div>
-        </div>
-
-        <div class="flex-spacer">
-          <img srcset="/images/pages/parents/cse_top_pick@1x.png 1x,
-                                     /images/pages/parents/cse_top_pick@2x.png 2x,
-                                     /images/pages/parents/cse_top_pick@3x.png 3x"
-               src="/images/pages/parents/cse_top_pick@1x.png"
-               class="cse-top-pick"
-          />
-        </div>
-
-        <div class="flex-spacer">
-          <div class="cs-for-all-container">
-            <img srcset="/images/pages/parents/cs_for_all_member@1x.png 1x,
-                                     /images/pages/parents/cs_for_all_member@2x.png 2x,
-                                     /images/pages/parents/cs_for_all_member@3x.png 3x"
-                 src="/images/pages/parents/cs_for_all_member@1x.png"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-5 col-md-6">
-        <h1>{{ $t('parents_landing_2.splash_title') }}</h1>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-4 col-md-5">
-        <a v-if="isParentsPage" href="#" class="full-width button" @click="onCtaClick">
-          {{ $t('parents_landing_2.learn_with_instructor') }}
-        </a>
-        <a v-else-if="type !== 'call'" href="#" class="full-width button" @click="onCtaClick">
-          {{ $t('parents_landing_2.start_free_trial_today') }}
-        </a>
-        <a v-else href="tel:818-873-2633" class="full-width button" @click="onCtaClick">
-          {{ $t('parents_landing_2.call_to_book') }}<br />
-          <span v-if="isUs">818-USE-CODE</span>
-          <span v-else>+1 818-873-2633</span>
-        </a>
-        <span v-if="isUs && type === 'call'" class="full-phone-number full-width">+1 818-873-2633</span>
-      </div>
-    </div>
-    <div class="row" v-if="isParentsPage">
-      <div class="col-lg-4 col-md-5">
-        <a href="#premium" class="full-width button">
-          {{ $t('parents_landing_2.learn_at_own_pace') }}
-        </a>
-      </div>
-    </div>
-  </div>
-
-</template>
-
 <script>
+import ButtonScheduleFreeClass from './ButtonScheduleFreeClass'
+
 export default {
-  props: {
-    type: {
-      type: String,
-      required: true
-    }
-  },
-
-  computed: {
-    isParentsPage: function () {
-      return this.type === 'parents'
-    },
-
-    isUs: function () {
-      return window.me.get('country') === 'united-states'
-    }
+  components: {
+    ButtonScheduleFreeClass
   },
 
   methods: {
-    onCtaClick (e) {
-      e.preventDefault()
+    onCtaClick () {
       this.$emit('cta-clicked')
     }
   }
 }
 </script>
 
+<template>
+  <div class="top-jumbotron">
+    <img class="animated-griffin"
+         src="/images/pages/parents/Griffin_and_Alejandro1.svg"
+         alt="flying griffin"/>
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="pixelated">Live Online Coding Classes</h1>
+        <h1 class="pixelated">Your Child Will Love</h1>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-lg-12">
+        <button-schedule-free-class
+          @click="onCtaClick"
+        />
+      </div>
+    </div>
+  </div>
+
+</template>
+
 <style scoped>
-  .jumbotron {
-    padding: 70px;
+  .top-jumbotron {
+    font-style: normal;
+
     margin-bottom: 0;
     min-height: 580px;
 
-    background-image: url("/images/pages/parents/jumbotron@1x.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+    padding-top: 155px;
+    overflow-x: hidden;
+
+    background-color: unset;
 
     position: relative;
     z-index: 2;
+
+    text-align: center;
+    min-height: 628px;
+
+    background-image: url(/images/pages/parents/parent_hero_image.png),
+      url(/images/pages/parents/image_cloud_3.svg),
+      url(/images/pages/parents/image_cloud_4.svg),
+      url(/images/pages/parents/image_cloud_3.svg),
+      url(/images/pages/parents/image_cloud_1.svg);
+
+    background-repeat: no-repeat,
+      no-repeat,
+      no-repeat,
+      no-repeat,
+      no-repeat;
+
+    background-position: bottom left 5%,
+      top 50px left 30px,
+      top 35px right 280px,
+      top 360px right 300px,
+      bottom 52px right 475px;
+
+    background-size: 500px,
+      260px,
+      90px,
+      260px,
+      250px;
   }
 
-  .jumbotron h1 {
-    margin-bottom: 10px;
+  .pixelated {
+    font-family: "lores12ot-bold";
+    color: #0E4C60;
   }
 
-  .jumbotron .button {
+  .top-jumbotron h1 + h1 {
+    margin-bottom: 58px;
+  }
+
+  .top-jumbotron .button {
     margin-top: 30px;
     max-width: 320px;
   }
 
-  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .jumbotron {
-      background-image: url("/images/pages/parents/jumbotron@2x.png");
+  .animated-griffin {
+    position: absolute;
+    top: 30%;
+    right: 6%;
+  }
+
+  @media (max-width: 1000px) {
+    .top-jumbotron {
+      /* Moves images out of the way of the heading to keep it legible */
+      background-size: 443px, 260px, 90px, 260px, 250px;
+      background-position: bottom -74% left -5%,
+        top 50px left 30px,
+        top 35px right 280px,
+        top 360px right 300px,
+        bottom 52px right 475px;
+    }
+
+    .animated-griffin {
+      position: absolute;
+      top: -1%;
+      right: -11%;
+      overflow: hidden;
+      max-width: 50%;
     }
   }
 
-  .trust-logos {
-    margin-bottom: 40px;
-
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  .trust-logos .flex-spacer {
-    padding-right: 23px;
-    flex-shrink: 1;
-  }
-
-  .trust-logos .flex-spacer:last-of-type {
-    padding-right: 0;
-  }
-
-  @media (min-width: 375px) {
-    .jumbotron {
-      padding: 50px;
-    }
-  }
-
-  .full-phone-number {
-    display: block;
-    width: 100%;
-    max-width: 320px;
-    color: #000;
-    text-align: center;
-  }
-
-  @media (max-width: 500px) {
-    .full-phone-number {
-      display: none;
-    }
-  }
-
-  .codie-logo-container {
-    background: #FFFFFF;
-
-    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.43), -10px -10px 30px rgba(0, 0, 0, 0.25);
-    border-radius: 6px;
-
-    padding: 3px 6px;
-  }
-
-  .codie-logo-container img {
-    width: 118px;
-    height: 42px;
-    max-width: 100%;
-  }
-
-  .cse-top-pick {
-    filter: drop-shadow(10px 10px 30px rgba(0, 0, 0, 0.43)) drop-shadow(-10px -10px 30px rgba(0, 0, 0, 0.25));
-    max-width: 100%;
-  }
-
-  .cs-for-all-container {
-    padding: 5px 16px;
-    background: #FFFFFF;
-
-    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.43), -10px -10px 30px rgba(0, 0, 0, 0.25);
-    border-radius: 6px;
-  }
-
-  .cs-for-all-container img {
-    width: 93px;
-    height: 40px;
-    max-width: 100%;
-    max-height: 100%;
-  }
 </style>

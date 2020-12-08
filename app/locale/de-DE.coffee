@@ -557,6 +557,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     more: "Mehr"
     fewer: "Fieber"
     with: "Mit"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "Sekunde"
@@ -656,7 +659,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Absenden"
     tome_reload_method: "Ursprünglichen Code laden zum Neustart"
-    tome_available_spells: "Verfügbare Zauber"
     tome_your_skills: "Deine Fähigkeiten"
     hints: "Tipps"
     videos: "Videos"
@@ -1671,8 +1673,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "Sei der oder die erste, die in diesem Kurs ein Projekt veröffentlicht"
@@ -2340,7 +2342,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tournament_ends: "Turnier endet"
     tournament_ended: "Turnier beendet"
     tournament_rules: "Turnier-Regeln"
-    tournament_blurb: "Schreibe Code, sammle Gold, erstelle Armeen, zerquetsche Feinde, gewinne Preis und verbessere deine Karriere in unserem 40.000 $ Greed-Turnier! Schau dir die Details"
     tournament_blurb_criss_cross: "Gewinne Gebote, konstruiere Pfade, trickse Feinde aus, greife Edelsteine ab und verbessere deine Karriere in unserem Criss-Cross-Turnier! Schau dir die Details"
     tournament_blurb_zero_sum: "Entfessle deine Coding-Kreativität, sowohl beim Goldsammeln als auch für Kampftaktiken in diesem Alpenspiegel-Match zwischen dem roten Zauberer und dem blauen Zauberer. Das Turnier hat am Freitag, den 27. März, begonnen, und läuft bis Dienstag, den 7. April um 2 Uhr Nachts mitteleuropäischer Zeit. Kämpfe um Spaß und Ruhm! Schau dir die Details an"
     tournament_blurb_ace_of_coders: "Kämpfe in diesem gefrorenen Gletscher um den Sieg in einem Domination-Style Spiegelmatch! Das Turnier hat am Mittwoch, den 16. September, begonnen, und läuft bis Donnerstag, den 15. Oktober um 2 Uhr Nachts mitteleuropäischer Zeit. Schau dir die Details an"
@@ -2470,13 +2471,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     you_can1: "Sie können"
     you_can2: "einen Prepaidcode kaufen"
     you_can3: "der ihrem Account hinzugefügt werden kann oder den Sie verschenken können."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2772,26 +2766,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     cookies_message: "CodeCombat nutzt essentielle und einige nicht-essentielle Cookies."
     cookies_deny: "Nicht-essentielle Cookies ablehnen"
 #    cookies_allow: "Allow cookies"
-
-  ladder_prizes:
-    title: "Turnierpreise" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Die Preise werden verliehen nach"
-    blurb_2: "den Turnierregeln"
-    blurb_3: "und dem Top Mensch und Oger-Spieler."
-    blurb_4: "Zwei Teams heißt die doppelte Anzahl zu gewinnender Preise!"
-    blurb_5: "(Es wird zwei Erstplazierte, zwei Zweitplatzierte, usw. geben)"
-    rank: "Rang"
-    prizes: "Gewinne"
-    total_value: "Gesamtwert"
-    in_cash: "in Bar"
-    custom_wizard: "Benutzerdefinierter CodeCombat Zauberer"
-    custom_avatar: "Benutzerdefinierter CodeCombat Avatar"
-    heap: "für sechs Monate \"Startup\" Zugriff"
-    credits: "Guthaben"
-    one_month_coupon: "Gutschein: Wähle entweder Rails oder HTML"
-    one_month_discount: "30% Rabatt: Wähle entweder Rails oder HTML"
-    license: "Lizenz"
-    oreilly: "Ebook deiner Wahl"
 
   calendar:
     year: "Jahr"
