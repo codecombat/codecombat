@@ -137,7 +137,7 @@ mixin accountLinks
             .row
               .col-md-12
                 .row
-                  img.img-responsive.ozaria-watermark(src="/images/ozaria/layout/footer/OzariaWordmark_White_325px.png")
+                  img.img-responsive.ozaria-watermark(src="/images/ozaria/layout/footer/OzariaWordmark_White_325px.png" alt="Ozaria by CodeCombat logo")
                 .row
                   .col-md-6.col-md-offset-2.col-sm-12
                     h2.subtitile-moon(data-i18n="nav.general")
@@ -175,14 +175,14 @@ mixin accountLinks
                     if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
                       h2.subtitile-moon(data-i18n="nav.follow_us")
                       div.social-buttons
-                        a(href="https://www.youtube.com/channel/UCU7Wh4ME_G-_C-8qrQuPNyA", target="_blank", data-event-action="Click: Footer Youtube")
-                          img(src="/images/pages/base/youtube_symbol_button.png", width="40")
-                        a(href="https://twitter.com/playozaria", target="_blank", data-event-action="Click: Footer Twitter")
-                          img(src="/images/pages/base/twitter_logo_btn.png", width="40")
-                        a(href="https://www.facebook.com/playozaria", target="_blank", data-event-action="Click: Footer Facebook")
-                          img(src="/images/pages/base/facebook_logo_btn.png", width="40")
-                        a(href="https://www.instagram.com/playozaria/", target="_blank", data-event-action="Click: Footer Instagram")
-                          img(src="/images/pages/base/instagram-logo.png", width="40")
+                        a(href="https://www.youtube.com/channel/UCU7Wh4ME_G-_C-8qrQuPNyA", target="_blank", data-event-action="Click: Footer Youtube" rel="noreferrer")
+                          img(src="/images/pages/base/youtube_symbol_button.png", width="40" alt="Youtube")
+                        a(href="https://twitter.com/playozaria", target="_blank", data-event-action="Click: Footer Twitter" rel="noreferrer")
+                          img(src="/images/pages/base/twitter_logo_btn.png", width="40" alt="Twitter")
+                        a(href="https://www.facebook.com/playozaria", target="_blank", data-event-action="Click: Footer Facebook" rel="noreferrer")
+                          img(src="/images/pages/base/facebook_logo_btn.png", width="40" alt="Facebook")
+                        a(href="https://www.instagram.com/playozaria/", target="_blank", data-event-action="Click: Footer Instagram" rel="noreferrer")
+                          img(src="/images/pages/base/instagram-logo.png", width="40" alt="Instagram")
 
       #final-footer
         if me.showChinaResourceInfo()
