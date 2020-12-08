@@ -6,7 +6,11 @@ import 'babel-polyfill';
 /**
  * Fonts dynamically imported based on infra location
  */
-import(/* webpackChunkName: "UsFont" */ 'app/styles/common/fontUS.sass');
+if (window.features && window.features.chinaUx) {
+  import(/* webpackChunkName: "ChinaFont" */ 'app/styles/common/fontChina.sass');
+} else {
+  import(/* webpackChunkName: "UsFont" */ 'app/styles/common/fontUS.sass');
+}
 
 require('app/vendor.js');
 
