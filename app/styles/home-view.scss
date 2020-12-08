@@ -137,20 +137,6 @@
     }
   }
 
-  #top-banner {
-    background-color: #355EA0;
-    color: #FFFFFF;
-    padding: 10px 0;
-    text-align: center;
-    overflow: hidden;
-
-    a {
-      margin-left: 10px;
-      color: #F7D047;
-      text-decoration: underline;
-    }
-  }
-
   // Most sections have a max width and are centered.
   & > section {
     max-width: 1366px;
@@ -174,6 +160,13 @@
     background: url(/images/ozaria/home/hero_image.png) no-repeat bottom 0 right 0;
     background-size: 45%;
     background-size: unquote('min(558px, 45%)');
+
+    @media screen and (max-width: 768px) {
+      // Adds space between image and text on mobile
+      & {
+        padding-bottom: 186px;
+      }
+    }
 
     img {
       width: 250px;
@@ -233,6 +226,15 @@
     background-size: cover;
   }
 
+  section#engaging {
+    @media screen and (max-width: 768px) {
+      // Adds space between image and text on mobile
+      .row > div {
+        padding-top: 32px;
+      }
+    }
+  }
+
   #speech-bubble-testimonial-1, #speech-bubble-testimonial-2 {
     blockquote {
       border-image: url(/images/ozaria/home/bubble1_down.svg);
@@ -263,6 +265,16 @@
       border-width: 30px 30px 70px;
       border-image-slice: 40 40 110;
       border-style: solid;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    #speech-bubble-testimonial-1 blockquote {
+      border-image-source: url(/images/ozaria/home/bubble1_down_mobile.svg)
+    }
+
+    #speech-bubble-testimonial-2 blockquote {
+      border-image-source: url(/images/ozaria/home/bubble2_down_mobile.svg)
     }
   }
 
@@ -312,19 +324,24 @@
       align-items: center;
       justify-content: center;
     }
+
+    @media screen and (max-width: 768px) {
+      .row > div {
+        padding-top: 32px;
+      }
+    }
   }
 
   #admin-dashboard {
     p {
       font-size: 20px;
     }
+
     p.color-change {
       color: white;
-    }
-    @media screen and (max-width: 768px) {
-      p.color-change {
-        color: black;
-      }
+      background-color: #476FB1;
+      border: 10px solid #476FB1;
+      margin: -10px;
     }
 
     .row.flex-row {
@@ -345,6 +362,16 @@
     .row.flex-row:nth-of-type(2) {
       background: url(/images/ozaria/home/admin_background_yellow.svg) no-repeat left 0;
       background-size: contain;
+    }
+
+    @media screen and (max-width: 768px) {
+      .row.flex-row:first-of-type, .row.flex-row:nth-of-type(2) {
+        background: unset;
+      }
+
+      p, p.color-change {
+          margin: 20px 0 0 0;
+      }
     }
   }
 
@@ -425,9 +452,22 @@
       align-items: center;
     }
 
-    .flex-row img {
-      max-height: 100px;
-      margin: 16px;
+    .acodus-transform {
+      transform: translateY(20%);
+    }
+
+    @media screen and (max-width: 768px) {
+      & {
+        background: unset;
+      }
+
+      .acodus-transform {
+        transform: unset;
+      }
+
+      .row > div {
+        padding-top: 32px;
+      }
     }
   }
 
