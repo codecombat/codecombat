@@ -87,7 +87,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     quotes_quote3: "CodeCombat 是教授学生编写真实代码的最佳途径。我的丈夫是一名软件工程师，他测试了我所有的计算机科学备选课程，CodeCombat 是他的首选。"
     quotes_quote4: "学生们的反馈非常积极，我们正在构建围绕 CodeCombat 的计算机科学课程。寓教于乐，真正让学生参与其中。再接再厉，CodeCombat！"
     see_example: "查看示例"
-    slogan: "AP认证世界名校编程平台"
+    slogan: "AP认证世界名校编程学习平台"
     teach_cs1_free: "免费教授计算机科学入门"
     teachers_love_codecombat_title: "教师们喜欢CodeCombat"
     teachers_love_codecombat_blurb1: "反馈学生们喜欢使用 CodeCombat 来学习编程"
