@@ -264,7 +264,7 @@ export default {
   position: relative
   .cinematic-speech-bubble-left, .cinematic-speech-bubble-right
     font-family: "Work Sans"
-    font-size: 3vmin
+    font-size: 2.6vmin
     line-height: 1.42
     color: #0e1111
     min-width: 4rem

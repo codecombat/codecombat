@@ -144,7 +144,7 @@ module.exports = Surface = class Surface extends CocoClass
       @handleEvents
     })
     @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer, showsCountdown: @world.showsCountdown
-    unless @options.levelType is 'game-dev'
+    if @options.levelType in ['ladder', 'hero-ladder', 'course-ladder']
       @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer, playerNames: @options.playerNames
       @normalStage.addChildAt @playbackOverScreen.dimLayer, 0  # Put this below the other layers, actually, so we can more easily read text on the screen.
     @initCoordinates()
@@ -341,11 +341,13 @@ module.exports = Surface = class Surface extends CocoClass
   setPaused: (paused) ->
     # We want to be able to essentially stop rendering the surface if it doesn't need to animate anything.
     # If pausing, though, we want to give it enough time to finish any tweens.
+    clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
+    clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
+    return if @options.levelType in ['game-dev']
+    return unless @handleEvents  # Don't do this within the level editor
     performToggle = =>
       createjs.Ticker.framerate = if paused then 1 else @options.frameRate
       @surfacePauseTimeout = null
-    clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
-    clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
     @surfacePauseTimeout = @surfaceZoomPauseTimeout = null
     if paused
       @surfacePauseTimeout = _.delay performToggle, 2000
@@ -375,10 +377,10 @@ module.exports = Surface = class Surface extends CocoClass
     )
 
     if (not @world.indefiniteLength) and @lastFrame < @world.frames.length and @currentFrame >= @world.totalFrames - 1
+      @updatePaths()  # TODO: this is a hack to make sure paths are on the first time the level loads
       @ended = true
       @setPaused true
       Backbone.Mediator.publish 'surface:playback-ended', {}
-      @updatePaths()  # TODO: this is a hack to make sure paths are on the first time the level loads
     else if @currentFrame < @world.totalFrames and @ended
       @ended = false
       @setPaused false
@@ -531,11 +533,13 @@ module.exports = Surface = class Surface extends CocoClass
     return if @disabled
     cap = @camera.screenToCanvas({x: e.stageX, y: e.stageY})
     wop = @camera.screenToWorld x: e.stageX, y: e.stageY
+    event = { x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop }
     createjs.lastMouseWorldPos = wop
-    # getObject(s)UnderPoint is broken, so we have to use the private method to get what we want
-    onBackground = not @webGLStage._getObjectsUnderPoint(e.stageX, e.stageY, null, true)
+    if not @handleEvents
+      # getObject(s)UnderPoint is broken, so we have to use the private method to get what we want
+      # This is slow, so we only do it if we have to (for example, in the level editor.)
+      event.onBackground = not @webGLStage._getObjectsUnderPoint(e.stageX, e.stageY, null, true)
 
-    event = { onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop }
     Backbone.Mediator.publish 'surface:stage-mouse-down', event
     Backbone.Mediator.publish 'tome:focus-editor', {}
     @gameUIState.trigger('surface:stage-mouse-down', event)
@@ -561,8 +565,7 @@ module.exports = Surface = class Surface extends CocoClass
   onMouseUp: (e) =>
     return if @disabled
     createjs.lastMouseWorldPos = @camera.screenToWorld x: e.stageX, y: e.stageY
-    onBackground = not @webGLStage.hitTest e.stageX, e.stageY
-    event = { onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e }
+    event = { x: e.stageX, y: e.stageY, originalEvent: e }
     Backbone.Mediator.publish 'surface:stage-mouse-up', event
     Backbone.Mediator.publish 'tome:focus-editor', {}
     @gameUIState.trigger('surface:stage-mouse-up', event)
@@ -621,23 +624,10 @@ module.exports = Surface = class Surface extends CocoClass
 
     #scaleFactor = if application.isIPadApp then 2 else 1  # Retina
     scaleFactor = 1
-    if @options.stayVisible or features.codePlay
-      availableHeight = window.innerHeight
-      availableHeight -= ($('.ad-container').outerHeight() or 0)
-      availableHeight -= ($('#game-area').outerHeight() or 0) - ($('#canvas-wrapper').outerHeight() or 0)
-      if features.codePlay
-        bannerHeight = ($('#codeplay-product-banner').height() or 0)
-        availableHeight -= bannerHeight
-        scaleFactor = availableHeight / newHeight if availableHeight < newHeight
-      scaleFactor = availableHeight / newHeight if availableHeight < newHeight
-
     newWidth *= scaleFactor
     newHeight *= scaleFactor
 
-    return @updateCodePlayMargin() if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
-    return @updateCodePlayMargin() if newWidth < 200 or newHeight < 200
     @normalCanvas.add(@webGLCanvas).attr width: newWidth, height: newHeight
-    @updateCodePlayMargin()
     @trigger 'resize', { width: newWidth, height: newHeight }
 
     # Cannot do this to the webGLStage because it does not use scaleX/Y.
@@ -650,13 +640,6 @@ module.exports = Surface = class Surface extends CocoClass
       # Since normalCanvas is absolutely positioned, it needs help aligning with webGLCanvas.
       offset = @webGLCanvas.offset().left - ($('#page-container').innerWidth() - $('#canvas-wrapper').innerWidth()) / 2
       @normalCanvas.css 'left', offset
-
-  updateCodePlayMargin: ->
-    return unless features.codePlay
-    availableWidth = (window.innerWidth * .57 - 200)
-    width = @normalCanvas.attr('width')
-    margin = Math.max(availableWidth - width, 0)
-    @normalCanvas.add(@webGLCanvas).css('margin-left', margin/2)
 
   #- Camera focus on hero
   focusOnHero: ->

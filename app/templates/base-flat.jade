@@ -17,9 +17,8 @@ mixin accountLinks
   if serverSession && serverSession.amActually
     li
       a.account-dropdown-item#nav-stop-spying-button Stop Spying
-  if !features.codePlay
-    li
-      a.account-dropdown-item#logout-button(data-i18n="login.log_out")
+  li
+    a.account-dropdown-item#logout-button(data-i18n="login.log_out")
 
 .style-flat
   block header
@@ -138,11 +137,14 @@ mixin accountLinks
             .row
               .col-md-12
                 .row
-                  img.img-responsive.ozaria-watermark(src="/images/ozaria/layout/footer/OzariaWordmark_White_325px.png")
+                  img.img-responsive.ozaria-watermark(src="/images/ozaria/layout/footer/OzariaWordmark_White_325px.png" alt="Ozaria by CodeCombat logo")
                 .row
                   .col-md-6.col-md-offset-2.col-sm-12
                     h2.subtitile-moon(data-i18n="nav.general")
                     ul.list-unstyled
+                      if !me.showChinaResourceInfo()
+                        li
+                          a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                       li
                         a(href="/about", data-i18n="nav.about", data-event-action="Click: Footer About")
                       li
@@ -158,9 +160,6 @@ mixin accountLinks
                         a(href=faqURL data-i18n="nav.faq", data-event-action="Click: Footer FAQ")
                       li
                         a(href="http://press.ozaria.com" data-i18n="nav.press" data-event-action="Click: Footer Press")
-                      //- if !me.isStudent()
-                      //-   li
-                      //-     a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                       if me.showChinaResourceInfo()
                         li
                           a(href="https://ozaria.com") 奥佳睿全球官网
@@ -176,14 +175,14 @@ mixin accountLinks
                     if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
                       h2.subtitile-moon(data-i18n="nav.follow_us")
                       div.social-buttons
-                        a(href="https://www.youtube.com/channel/UCU7Wh4ME_G-_C-8qrQuPNyA", target="_blank", data-event-action="Click: Footer Youtube")
-                          img(src="/images/pages/base/youtube_symbol_button.png", width="40")
-                        a(href="https://twitter.com/playozaria", target="_blank", data-event-action="Click: Footer Twitter")
-                          img(src="/images/pages/base/twitter_logo_btn.png", width="40")
-                        a(href="https://www.facebook.com/playozaria", target="_blank", data-event-action="Click: Footer Facebook")
-                          img(src="/images/pages/base/facebook_logo_btn.png", width="40")
-                        a(href="https://www.instagram.com/playozaria/", target="_blank", data-event-action="Click: Footer Instagram")
-                          img(src="/images/pages/base/instagram-logo.png", width="40")
+                        a(href="https://www.youtube.com/channel/UCU7Wh4ME_G-_C-8qrQuPNyA", target="_blank", data-event-action="Click: Footer Youtube" rel="noreferrer")
+                          img(src="/images/pages/base/youtube_symbol_button.png", width="40" alt="Youtube")
+                        a(href="https://twitter.com/playozaria", target="_blank", data-event-action="Click: Footer Twitter" rel="noreferrer")
+                          img(src="/images/pages/base/twitter_logo_btn.png", width="40" alt="Twitter")
+                        a(href="https://www.facebook.com/playozaria", target="_blank", data-event-action="Click: Footer Facebook" rel="noreferrer")
+                          img(src="/images/pages/base/facebook_logo_btn.png", width="40" alt="Facebook")
+                        a(href="https://www.instagram.com/playozaria/", target="_blank", data-event-action="Click: Footer Instagram" rel="noreferrer")
+                          img(src="/images/pages/base/instagram-logo.png", width="40" alt="Instagram")
 
       #final-footer
         if me.showChinaResourceInfo()

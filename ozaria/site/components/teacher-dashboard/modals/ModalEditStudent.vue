@@ -1,5 +1,5 @@
 <script>
-  import BaseModalTeacherDashboard from './BaseModalTeacherDashboard'
+  import Modal from '../../common/Modal'
   import PrimaryButton from '../common/buttons/PrimaryButton'
   import SecondaryButton from '../common/buttons/SecondaryButton'
   import User from 'models/User'
@@ -8,7 +8,7 @@
   import { mapMutations, mapGetters } from 'vuex'
   export default {
     components: {
-      BaseModalTeacherDashboard,
+      Modal,
       PrimaryButton,
       SecondaryButton
     },
@@ -90,7 +90,7 @@
 </script>
 
 <template>
-  <base-modal-teacher-dashboard
+  <modal
     title="Student Details"
     @close="closeModalEditStudent"
   >
@@ -144,7 +144,7 @@
         <b>Done</b>
       </secondary-button>
     </div>
-  </base-modal-teacher-dashboard>
+  </modal>
 </template>
 
 <style lang="scss" scoped>

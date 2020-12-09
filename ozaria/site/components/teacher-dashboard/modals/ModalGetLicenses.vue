@@ -2,14 +2,14 @@
   import { validationMixin } from 'vuelidate'
   import { required, email, numeric } from 'vuelidate/lib/validators'
   import SecondaryButton from '../common/buttons/SecondaryButton'
-  import BaseModalTeacherDashboard from './BaseModalTeacherDashboard'
+  import Modal from '../../common/Modal'
   import api from 'core/api'
   import contact from 'core/contact'
   import { mapGetters } from 'vuex'
 
   export default Vue.extend({
     components: {
-      BaseModalTeacherDashboard,
+      Modal,
       SecondaryButton
     },
     props: {
@@ -74,7 +74,7 @@
       this.email = me.get('email') || props.email
 
       this.message = this.emailMessage + `
-      
+
       Name of School: ${props.nces_name || props.organization || ''}
       Name of District: ${props.nces_district || props.district || ''}
       Role: ${props.role || ''}
@@ -116,7 +116,7 @@
 </script>
 
 <template>
-  <base-modal-teacher-dashboard
+  <modal
     title="Contact Our Classroom Team"
     @close="closeModal"
   >
@@ -224,7 +224,7 @@
         </div>
       </form>
     </div>
-  </base-modal-teacher-dashboard>
+  </modal>
 </template>
 
 <style lang="scss" scoped>

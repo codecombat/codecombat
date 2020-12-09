@@ -1,12 +1,12 @@
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
-  import BaseModalTeacherDashboard from './BaseModalTeacherDashboard'
+  import Modal from '../../common/Modal'
   import SecondaryButton from '../common/buttons/SecondaryButton'
   import TertiaryButton from '../common/buttons/TertiaryButton'
 
   export default Vue.extend({
     components: {
-      BaseModalTeacherDashboard,
+      Modal,
       SecondaryButton,
       TertiaryButton
     },
@@ -46,7 +46,7 @@
 </script>
 
 <template>
-  <base-modal-teacher-dashboard
+  <modal
     title="Remove Students from Class"
     @close="$emit('close')"
   >
@@ -72,7 +72,7 @@
         </secondary-button>
       </div>
     </div>
-  </base-modal-teacher-dashboard>
+  </modal>
 </template>
 
 <style lang="scss" scoped>

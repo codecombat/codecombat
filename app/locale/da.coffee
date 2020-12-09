@@ -618,6 +618,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    fewer: "Fewer"
 #    with: "with"
 #    archived: "Archived"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
 
   units:
     second: "sekund"
@@ -3252,3 +3255,5 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    project_rubric_tooltip: "<h3>Project Rubric</h3><p>Downloadable and modifiable scoring rubric for the Capstone Project</p>"
 #    exemplar_projects_tooltip: "<h3>Exemplar Project</h3><p>Live view of the exemplar Capstone Project</p>"
 #    want_to_save_tooltip: "<h3>Want to save your progress?</h3><p>Please create a student account and play Ozaria as a student if you would like to save your progress.</p>"
+#    intro_explain_tooltip: "<b>\"Intros\"</b> introduce new concepts or further the storyline in a scaffolded way. They typically include Cinematics and/or Concept Checks."
+#    chapter_num: "Chapter __num__"

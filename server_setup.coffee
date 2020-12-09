@@ -75,7 +75,7 @@ setupExpressMiddleware = (app) ->
 
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
-  app.use require('serve-favicon') path.join(__dirname, 'public', 'images', 'favicon_256.ico')
+  app.use require('serve-favicon') path.join(__dirname, 'public', 'images', 'favicon', 'favicon.ico')
   app.use require('cookie-parser')()
   app.use require('body-parser').json({limit: '25mb', strict: false, verify: (req, res, buf, encoding) ->
     if req.headers['x-hub-signature']
@@ -162,12 +162,6 @@ setupFeaturesMiddleware = (app) ->
       features.noAuth = true
       features.brainPop = true
       features.noAds = true
-
-    if req.headers.host is 'cp.codecombat.com' or req.session.featureMode is 'code-play'
-      features.freeOnly = true
-      features.campaignSlugs = ['dungeon', 'forest', 'desert']
-      features.playViewsOnly = true
-      features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
 
     if /aojiarui/.test(req.get('host')) or req.session.featureMode is 'china'
       features.china = true
@@ -275,8 +269,6 @@ setupQuickBailToMainHTML = (app) ->
         res.header 'Pragma', 'no-cache'
         res.header 'Expires', 0
 
-      if req.headers.host is 'cp.codecombat.com'
-        features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
       if /cn\.codecombat\.com/.test(req.get('host'))
         features.china = true
 

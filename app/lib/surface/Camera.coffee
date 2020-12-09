@@ -8,7 +8,7 @@ r2d = (radians) -> radians * 180 / Math.PI
 d2r = (degrees) -> degrees / 180 * Math.PI
 
 MAX_ZOOM = 8
-MIN_ZOOM = 0.1
+MIN_ZOOM = 0.25
 DEFAULT_ZOOM = 2.0
 DEFAULT_TARGET = {x: 0, y: 0}
 DEFAULT_TIME = 1000

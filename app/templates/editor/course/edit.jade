@@ -11,6 +11,7 @@ block content
         | #{view.course.get('name')}
 
   - var authorized = !me.get('anonymous');
+  button.course-tool-button(data-i18n="editor.pop_i18n", disabled=authorized === true ? undefined : "true").btn.btn-primary#i18n-button
   button.course-tool-button(data-i18n="common.save", disabled=authorized === true ? undefined : "true").btn.btn-primary#save-button Save
 
   h3(data-i18n="course.edit_course_title") Edit Course

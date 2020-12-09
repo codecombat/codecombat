@@ -16,15 +16,19 @@ html(lang='en')
     meta(name='twitter:card', content='summary')
     meta(name='twitter:title', content='Ozaria - Computer science that captivates')
     meta(name='twitter:url', content='https://www.ozaria.com')
-    meta(name='twitter:site', content='CodeCombat')
+    meta(name='twitter:site', content='Ozaria')
     meta(name='twitter:image:src', content='https://www.ozaria.com/images/pages/base/logo_square_250.png')
     meta(name='twitter:description', content='Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world.')
     meta(name="p:domain_verify", content="f5afcb2c36bb8b1cbd70c44b65e5ec75")
-    link(href='https://plus.google.com/115285980638641924488', rel='publisher')
-    link(rel='icon', href='/images/favicon_16.ico' sizes="16x16" type="image/png")
-    link(rel='icon', href='/images/favicon_32.ico' sizes="32x32" type="image/png")
-    link(rel='icon', href='/images/favicon_48.ico' sizes="48x48" type="image/png")
-    link(rel='icon', href='/images/favicon_256.ico' sizes="256x256" type="image/png")
+    link(rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=2020-11-15")
+    link(rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png?v=2020-11-15")
+    link(rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png?v=2020-11-15")
+    link(rel="mask-icon" href="/images/favicon/safari-pinned-tab.svg?v=2020-11-15" color="#5bbad5")
+    link(rel="shortcut icon" href="/images/favicon/favicon.ico?v=2020-11-15")
+    meta(name="msapplication-TileColor" content="#00a300")
+    meta(name="msapplication-config" content="/images/favicon/browserconfig.xml?v=2020-11-15")
+    meta(name="theme-color" content="#29575a")
+    link(rel='manifest', href='/images/favicon/manifest.json')
     link(rel='stylesheet', href='/' + shaTag + '/stylesheets/app.css')
     if me.useDexecure()
       script.
@@ -44,8 +48,6 @@ html(lang='en')
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
         ga('create', 'UA-146501339-1', 'auto');
-
-        if(features.codePlay) { ga('create', 'UA-80597440-3', {name: 'codeplay'}); }
 
       // Global site tag (gtag.js) - Google Ads: 811324643
       script(async src="https://www.googletagmanager.com/gtag/js?id=AW-811324643")
@@ -75,25 +77,10 @@ html(lang='en')
           forwardErrorsToLogs: true
         });
 
-    script(type='text/javascript').
-      ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
-      p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)
-      };p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;
-      n.src=w;g.parentNode.insertBefore(n,g)}}(window,document,"script","//d2sm9kaamnsba.cloudfront.net/0ykP68INoOVRZMi42LjI.js","snowplow"));
-      window.snowplow('newTracker', 'co', 'com-codecombat-main.collector.snplow.net', {
-        platform: 'web',
-        post: true,
-        contexts: {
-          webPage: true,
-          performanceTiming: true
-        }
-      });
-
     //- Removing this since stripe is not used for Ozaria currently
     //- This will help save some bandwidth and load time
     //- When required, please load stripe only on the relevant pages/scenarios instead of always for all users
     //- script(src='https://checkout.stripe.com/checkout.js')
-    // CodePlay Tags Header
 
     // Webpack-inserted CSS:
     //- (will be inserted at runtime)
@@ -127,4 +114,3 @@ html(lang='en')
     #fb-root
     block content
     #modal-wrapper.modal-content.hide
-    // CodePlay Tags Footer

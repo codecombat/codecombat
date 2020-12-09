@@ -70,6 +70,11 @@
     }),
     mounted () {
       window.addEventListener('resize', this.onResize)
+      // This is required for stationary vega to reappear when using touch devices.
+      // Scrolling on ipad/android causes shepherd to remove the message from our appended container.
+      // On a desktop this is a no-op.
+      window.addEventListener('scroll', this.onResize)
+      window.addEventListener('touchmove', this.onResize)
     },
     destroyed () {
       if (this.tour) {
@@ -79,6 +84,8 @@
       }
       this.clearAsyncTimers()
       window.removeEventListener('resize', this.onResize)
+      window.removeEventListener('scroll', this.onResize)
+      window.removeEventListener('touchmove', this.onResize)
 
       // NOTE: Yeah this is a nuclear option, but there tends to be "leftovers" spread around the DOM
       // after all the acrobatics we are doing to make the design of Vega messages fit within the Shepherd library:
@@ -117,7 +124,7 @@
     methods: {
       onResize: _.debounce(() => {
         $('.shepherd-stationary-text:visible').appendTo('#level-dialogue-view')
-      }, 100),
+      }, 200),
 
       onClose () {
         this.cleanUpRendering()
@@ -875,8 +882,17 @@
   .shepherd-back-button-inactive:hover
     background-image: url('/images/ozaria/level/InactiveL.svg')
 
+  @keyframes pulse-animation
+    0%
+      transform: scale(1)
+    50%
+      transform: scale(1.7)
+    100%
+      transform: scale(1)
+
   .shepherd-next-button-active
     background-image: url('/images/ozaria/level/ActiveR.svg')
+    animation: pulse-animation 3s infinite
   .shepherd-next-button-active:not(:disabled):hover
     background-image: url('/images/ozaria/level/HoverR.svg')
   .shepherd-next-button-active:hover
@@ -889,6 +905,24 @@
     background-image: url('/images/ozaria/level/InactiveR.svg')
   .shepherd-next-button-inactive:hover
     background-image: url('/images/ozaria/level/InactiveR.svg')
+
+  .shepherd-header-moving-salazar
+    background-image: url('/images/ozaria/level/Moving_Salazar.png')
+  .shepherd-header-moving-salazar:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Moving_Salazar.png')
+  .shepherd-header-stationary-salazar
+    background-image: url('/images/ozaria/level/Static_Salazar.png')
+  .shepherd-header-stationary-salazar:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Static_Salazar.png')
+
+  .shepherd-header-moving-young-salazar
+    background-image: url('/images/ozaria/level/Moving_YoungSalazar.png')
+  .shepherd-header-moving-young-salazar:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Moving_YoungSalazar.png')
+  .shepherd-header-stationary-young-salazar
+    background-image: url('/images/ozaria/level/Static_YoungSalazar.png')
+  .shepherd-header-stationary-young-salazar:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Static_YoungSalazar.png')
 
   .shepherd-header-moving-astra
     background-image: url('/images/ozaria/level/Moving_Astra.png')

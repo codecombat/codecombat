@@ -225,7 +225,7 @@ export default {
       const fetchPromises = []
       const teachers = getters['getAdministratedTeachers']
       teachers.forEach((t) => {
-        fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', t._id, { root: true })) // needed for breadcrumbs
+        fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: t._id }, { root: true })) // needed for breadcrumbs
       })
 
       await Promise.all(fetchPromises)

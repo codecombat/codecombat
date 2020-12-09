@@ -35,7 +35,7 @@
     created() {
       this.fetchCourses()
       this.fetchTeacher(this.$route.params.teacherId)
-      this.fetchClassroomsForTeacher(this.$route.params.teacherId)
+      this.fetchClassroomsForTeacher({ teacherId: this.$route.params.teacherId })
       this.fetchCourseInstancesForTeacher(this.$route.params.teacherId)
     },
 

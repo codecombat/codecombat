@@ -2,9 +2,7 @@ require('app/styles/home-view.scss')
 RootView = require 'views/core/RootView'
 template = require 'templates/home-view'
 CocoCollection = require 'collections/CocoCollection'
-TrialRequest = require 'models/TrialRequest'
-TrialRequests = require 'collections/TrialRequests'
-Courses = require 'collections/Courses'
+
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
@@ -20,19 +18,14 @@ module.exports = class HomeView extends RootView
     'click .request-quote': 'onClickRequestQuote'
     'click .logout-btn': 'logoutAccount'
     'click .setup-class-btn': 'onClickSetupClass'
+    'click .try-chapter-1': 'onClickGenericTryChapter1'
+    'click .contact-us': 'onClickContactUs'
     'click a': 'onClickAnchor'
-    'click #jumbotron-down-arrow': 'onClickJumbotronDownArrow'
-
-  initialize: (options) ->
-    super(options)
-
-    @courses = new Courses()
-    @supermodel.trackRequest @courses.fetchReleased()
-
-    if me.isTeacher()
-      @trialRequests = new TrialRequests()
-      @trialRequests.fetchOwn()
-      @supermodel.loadCollection(@trialRequests)
+    'click button.press-engage': ()->@onCarouselDirectMove(0)
+    'click button.press-explore': ()->@onCarouselDirectMove(1)
+    'click button.press-explain': ()->@onCarouselDirectMove(2)
+    'click button.press-elaborate': ()->@onCarouselDirectMove(3)
+    'click button.press-evaluate': ()->@onCarouselDirectMove(4)
 
   getMeta: ->
     title: $.i18n.t 'new_home.title'
@@ -42,15 +35,6 @@ module.exports = class HomeView extends RootView
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
     ]
-
-  onClickJumbotronDownArrow: ->
-    @scrollToLink('#ozaria-summary', 200)
-
-  onLoaded: ->
-    @trialRequest = @trialRequests.first() if @trialRequests?.size()
-    @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
-
-    super()
 
   onClickRequestQuote: (e) ->
     @playSound 'menu-button-click'
@@ -66,6 +50,10 @@ module.exports = class HomeView extends RootView
     @homePageEvent($(e.target).data('event-action'))
     application.router.navigate("/teachers/classes", { trigger: true })
 
+  onClickGenericTryChapter1: (e) ->
+    @homePageEvent($(e.target).data('event-action'))
+    window.open('/hoc', '_blank')
+
   onClickStudentButton: (e) ->
     @homePageEvent('Started Signup')
     @openModalView(new CreateAccountModal({startOnPath: 'student'}))
@@ -73,6 +61,10 @@ module.exports = class HomeView extends RootView
   onClickTeacherButton: (e) ->
     @homePageEvent('Started Signup')
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+
+  onClickContactUs: (e) ->
+    DirectContactModal = require('ozaria/site/views/core/DirectContactModal').default
+    @openModalView(new DirectContactModal())
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
@@ -127,9 +119,16 @@ module.exports = class HomeView extends RootView
         @scrollToLink(document.location.hash, 0)
     _.delay(f, 100)
 
+  onCarouselLeft: ->
+    $("#core-curriculum-carousel").carousel('prev')
+  onCarouselRight: ->
+    $("#core-curriculum-carousel").carousel('next')
+
+  onCarouselDirectMove: (frameNum) ->
+    $("#core-curriculum-carousel").carousel(frameNum)
+
+
+
   logoutAccount: ->
     Backbone.Mediator.publish("auth:logging-out", {})
     logoutUser()
-
-  mergeWithPrerendered: (el) ->
-    true

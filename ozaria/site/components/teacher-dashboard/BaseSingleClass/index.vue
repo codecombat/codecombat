@@ -82,8 +82,6 @@
           // Because we are only reading the easiest way to propagate _most_
           // i18n is by transforming the content linearly here.
           const translatedModuleContent = moduleContent.map(content => {
-            console.log(content)
-
             return {
               ...content,
               name: utils.i18n(content, 'name'),

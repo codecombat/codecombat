@@ -5,6 +5,82 @@
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 
 #home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  h1, h2, h3, p {
+    font-family: Work Sans, "Open Sans", sans-serif;
+  }
+
+  h1 {
+    font-weight: 600;
+    font-style: normal;
+    font-size: 46px;
+    line-height: 56px;
+    color: black;
+  }
+
+  h1.smaller-38 {
+    font-size: 38px;
+    line-height: 45px;
+  }
+
+  h1.heading-corner {
+    background: url(/images/ozaria/home/heading_corner.svg) no-repeat left 0 top 0;
+    background-size: 48px;
+    padding: 12px 0 12px 20px;
+  }
+
+  h2 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 38px;
+    letter-spacing: 0.56px;
+  }
+
+  .subtitle-mid {
+    max-width: 67%
+  }
+
+  p {
+    font-style: normal;
+    font-size: 24px;
+    line-height: 30px;
+    letter-spacing: 0.444px;
+    color: black;
+  }
+
+  blockquote {
+    font-family: "Space Mono";
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  blockquote footer {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .row.flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  @media screen and (max-width: 768px) {
+    .row.flex-row {
+      display: table;
+    }
+  }
+
+  background: linear-gradient(277.08deg, #FFF5D1 2.71%, #FFFFFF 41.36%);
+
   .btn-primary.btn-moon {
     background-color: $moon;
     border-radius: 1px;
@@ -20,11 +96,6 @@
       background-color: $goldenlight;
       transition: background-color .35s;
     }
-  }
-
-  .signup-home-btn {
-    min-width: unset;
-    width: 100%;
   }
 
   .btn-primary-alt, .btn-navy-alt, .btn-teal-alt {
@@ -66,340 +137,344 @@
     }
   }
 
-  .row {
-    margin-left: 0;
-    margin-right: 0;
+  // Most sections have a max width and are centered.
+  & > section {
+    max-width: 1366px;
+    width:100%;
+    padding: 0 70px;
+    position: relative;
+    z-index: 1;
   }
 
-  .arrow {
-    z-index: 2;
-    @supports not ((clip-path: polygon(50% 100%, 0 0, 100% 0) or (-webkit-clip-path: polygon(50% 100%, 0 0, 100% 0)))) {
-      /* We don't want to show an arrow if clip path is not supported */
-      /* Without a clip path a rectangle displays. */
-      display: none;
-    }
-    position: absolute;
-    height: 32px;
-    width: 100%;
-    display: flex;
-
-    /* Slightly bump up the arrow due to a join artifact */
-    margin-top: -1px;
-    .left-arrow-side, .right-arrow-side {
-      flex-grow: 1;
-    }
-
-    .arrow-down {
-      width: 60px;
-      height: 26px;
-      -webkit-clip-path: polygon(50% 100%, 0 0, 100% 0);
-      clip-path: polygon(50% 100%, 0 0, 100% 0);
-      background-image: linear-gradient(45.31deg, #476FB1 0%, #476FB1 20%, #5DB9AC 80%, #5DB9AC 100%);
-      background-attachment: fixed;
-    }
+  // This lets us have full width sections easily.
+  section.full-width {
+    max-width: unset;
+    padding: 0;
+    margin: 0;
   }
-}
 
+  #jumbotron-container-fluid {
+    position: relative;
+    margin-top: 55px;
+    padding-bottom: 36px;
+    background: url(/images/ozaria/home/hero_image.png) no-repeat bottom 0 right 0;
+    background-size: 45%;
+    background-size: unquote('min(558px, 45%)');
 
-  #home-page {
-    background-color: $mist;
-
-    .width-container {
-      max-width: 1170px;
-      float: unset;
-      margin: 0 auto;
-    }
-
-    & > .row {
-      padding-top: 62px;
-    }
-
-  .row-dark {
-      background-image: linear-gradient(45.31deg, #476FB1 0%, #476FB1 20%, #5DB9AC 80%, #5DB9AC 100%);
-      background-attachment: fixed;
-      padding-bottom: 62px;
-
-      .framed {
-        background-image: url(/images/ozaria/home/window-and-frame.png);
-        background-size: 100% 100%;
-        text-align: center;
-
-        h1 {
-          margin-bottom: 3px;
-        }
-
-        p {
-          margin-bottom: 0;
-        }
-
-        & > div {
-          padding: 60px;
-        }
-
-        .yellow-underline {
-          margin: 22px auto;
-
-        }
+    @media screen and (max-width: 768px) {
+      // Adds space between image and text on mobile
+      & {
+        padding-bottom: 186px;
       }
-  }
+    }
 
-  overflow: hidden;
-}
-
-#top-banner {
-  background-color: #355EA0;
-  color: #FFFFFF;
-  &.row {
-    padding: 10px 0px;
-    text-align: center;
-  }
-  a {
-    margin-left: 10px;
-    color: #F7D047;
-    text-decoration: underline;
-  }
-}
-
-#jumbotron-container-fluid {
-  &.row {
-    padding-top: 0;
-  }
-
-  width: 100%;
-  margin: auto;
-
-  position: relative;
-
-  @media (max-width: $screen-md-min) {
-    background-image: url(/images/ozaria/home/jumbotron.png);
-    background-position: center;
-    background-size: cover;
-    min-height: 550px;
-  }
-
-  & > img {
-    @media (max-width: $screen-md-min) {
-      display: none;
+    img {
+      width: 250px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    h2 {
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+    p, a {
+      margin-bottom: 20px;
     }
   }
 
-  .header-contents {
-    position: absolute;
-    top: 0;
+  #graphics-1 {
+    pointer-events: none;
 
-    width: 100%;
-    height: 100%;
+    .move-image {
+      display: flex;
+      justify-content: end;
+      justify-content: flex-end;
+      width: 100%;
+      transform: translate(-30%, -26%);
+      transform: translate(unquote('max(-360px, -30%)'), -26%);
+    }
 
-    padding-bottom: 62px;
+    img {
+      width: 45%;
+      height: auto;
+      width: unquote('min(505px, 45vw)');
+      height: unquote('min(340px, 30.2vw)');
+    }
+  }
+
+  #graphics-1-back {
+    background: url(/images/ozaria/home/graphic_1_background.svg) no-repeat center;
+    background-size: cover;
+    width: 100vw;
+    height: 45vw;
+    margin-bottom: -45vw;
+    transform: translateY(-48%);
+  }
+
+  #back_cta_1, #back_cta_2 {
+    background: url(/images/ozaria/home/background_cta_1.png) no-repeat center;
+    background-size: cover;
+    height: 56.4vw;
 
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
   }
 
-  img.top-arrow {
-    height: 21px;
-    width: 52px;
+  #back_cta_2 {
+    background: url(/images/ozaria/home/background_cta_2.png) no-repeat center;
+    background-size: cover;
   }
 
-  .header-flexbox {
+  section#engaging {
+    @media screen and (max-width: 768px) {
+      // Adds space between image and text on mobile
+      .row > div {
+        padding-top: 32px;
+      }
+    }
+  }
+
+  #speech-bubble-testimonial-1, #speech-bubble-testimonial-2 {
+    blockquote {
+      border-image: url(/images/ozaria/home/bubble1_down.svg);
+      border-width: 30px;
+      border-image-slice: 50 50 70 70;
+      border-style: solid;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    footer {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      text-align: right;
+    }
+
+    blockquote::before {
+      content: none !important;
+    }
+  }
+
+  #speech-bubble-testimonial-2 {
+    blockquote {
+      border-image: url(/images/ozaria/home/bubble2_down.svg);
+      border-width: 30px 30px 70px;
+      border-image-slice: 40 40 110;
+      border-style: solid;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    #speech-bubble-testimonial-1 blockquote {
+      border-image-source: url(/images/ozaria/home/bubble1_down_mobile.svg)
+    }
+
+    #speech-bubble-testimonial-2 blockquote {
+      border-image-source: url(/images/ozaria/home/bubble2_down_mobile.svg)
+    }
+  }
+
+  #core-curriculum {
+    margin-bottom: 147px;
+
+    a {
+      margin: 20px;
+      padding: 10px;
+      min-width: 320px;
+    }
+
+    .flex-row {
+      justify-content: center;
+    }
+  }
+
+  #global-community {
+    margin-bottom: 150px;
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 22px;
+      margin-bottom: 0;
+    }
+
+    .row {
+      padding: 30px;
+      border: 10px solid #3272DB;
+    }
+
+    img {
+      height: 90px;
+      width: auto;
+      margin-bottom: 6px;
+    }
+
+    .row > div {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media screen and (max-width: 768px) {
+      .row > div {
+        padding-top: 32px;
+      }
+    }
+  }
+
+  #admin-dashboard {
+    p {
+      font-size: 20px;
+    }
+
+    p.color-change {
+      color: white;
+      background-color: #476FB1;
+      border: 10px solid #476FB1;
+      margin: -10px;
+    }
+
+    .row.flex-row {
+      // Needs to be padding to background image uses it.
+      padding: 115px 0;
+    }
+
+    .row.flex-row:last-of-type {
+      justify-content: center;
+      padding: 0 0 200px 0;
+    }
+
+    .row.flex-row:first-of-type {
+      background: url(/images/ozaria/home/admin_background_blue.svg) no-repeat right 0;
+      background-size: contain;
+    }
+
+    .row.flex-row:nth-of-type(2) {
+      background: url(/images/ozaria/home/admin_background_yellow.svg) no-repeat left 0;
+      background-size: contain;
+    }
+
+    @media screen and (max-width: 768px) {
+      .row.flex-row:first-of-type, .row.flex-row:nth-of-type(2) {
+        background: unset;
+      }
+
+      p, p.color-change {
+          margin: 20px 0 0 0;
+      }
+    }
+  }
+
+  #core-curriculum-carousel {
+    // TODO - Make border a gradient.
+    // TODO - slight shake on moving carousel items, height changes.
+    border: 10px solid  #3272DB;
+    margin: 0 -70px -40px;
+    padding: 40px 70px;
+    pointer-events: none;
+
+    h2 {
+      margin-top: 18px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .control-buttons {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
 
-    a.btn {
-      margin-left: 0;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-    }
-  }
-
-  img.ozaria-logo {
-    max-width: 406px;
-    margin: 0 auto;
-
-    &:first-child {
-      margin-bottom: 15px;
-    }
-
-    &:last-child {
-      margin-top: 42px;
-    }
-  }
-
-}
-
-.yellow-underline {
-  margin: 0 auto;
-  height: 4px;
-  width: 150px;
-  border-radius: 1px;
-  background: linear-gradient(59.61deg, #D1B147 0%, #D1B147 20%, #F7D047 90.4%, #F7D047 100%);
-}
-
-#ozaria-summary {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  @media (max-width: $screen-sm-min) {
-    flex-direction: column;
-  }
-
-  padding-bottom: 98px;
-
-  .ozaria-logo {
-    max-width: 130px;
-    margin: 0 auto;
-  }
-
-  .yellow-underline {
-    margin: 14px auto;
-  }
-
-  h2 {
-    text-align: center;
-  }
-
-  .acodus-img {
-    @media (max-width: $screen-sm-min) {
-      padding-top: 62px;
-    }
-  }
-}
-
-#trailer-jumbotron {
-  &.row {
-    padding-top: 0;
-  }
-
-  .videoWrapper {
+    margin: 5px 0 70px;
     position: relative;
-    /* This should be 56.25% which is 9/16 * 100. But this */
-    padding-bottom: 52.25%; /* 16:9 */
-    @media (min-width: $screen-sm-min) {
-      padding-bottom: 54.25%;
+    z-index: 1;
+
+    button.press-engage, button.press-explore, button.press-explain, button.press-elaborate, button.press-evaluate {
+      background-image: url(/images/ozaria/home/carousel/button_1.svg);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      height: 60px;
+      width: 248px;
+      border: none;
+      -webkit-appearance: none;
+      background-color: unset;
+    }
+    button.press-engage:hover {
+      background-image: url(/images/ozaria/home/carousel/button_1_hover.svg);
     }
 
-    padding-top: 25px;
-    height: 0;
-
-    iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+    button.press-explore {
+      background-image: url(/images/ozaria/home/carousel/button_2.svg);
+    }
+    button.press-explore:hover {
+      background-image: url(/images/ozaria/home/carousel/button_2_hover.svg);
+    }
+    button.press-explain {
+      background-image: url(/images/ozaria/home/carousel/button_3.svg);
+    }
+    button.press-explain:hover {
+      background-image: url(/images/ozaria/home/carousel/button_3_hover.svg);
+    }
+    button.press-elaborate {
+      background-image: url(/images/ozaria/home/carousel/button_4.svg);
+    }
+    button.press-elaborate:hover {
+      background-image: url(/images/ozaria/home/carousel/button_4_hover.svg);
+    }
+    button.press-evaluate {
+      background-image: url(/images/ozaria/home/carousel/button_5.svg);
+    }
+    button.press-evaluate:hover {
+      background-image: url(/images/ozaria/home/carousel/button_5_hover.svg);
     }
   }
-}
 
-#cinematic-jumbotron {
-  &.row {
-    padding-top: 0;
-    position: relative;
-  }
-}
+  #acodus-awards {
+    background: url(/images/ozaria/home/acodus_awards_back.svg) no-repeat;
+    background-size: 75%;
+    background-position: top center;
 
-#start-journey.row {
-  .framed .row {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-
-    @media (max-width: $screen-sm-min) {
-      flex-direction: column;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      text-align: left;
-    }
-  }
-}
-
-#projects-inspire {
-  padding-bottom: 62px;
-
-  h1.text-pitch {
-    margin-bottom: 42px;
-  }
-
-  .inspire-tiles {
-    display: flex;
-    flex-direction: row;
-
-    @media (max-width: $screen-md-min) {
-      flex-direction: column;
+    .flex-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
       align-items: center;
     }
 
-    .tile {
-      background-color: #FCFEFF;
-      box-shadow: 2px 2px 10px 0 #BEBBBE;
-      padding: 0;
-      margin: 0 15px;
+    .acodus-transform {
+      transform: translateY(20%);
+    }
 
-      @media (max-width: $screen-md-min) {
-        &:first-child {
-          margin-bottom: 42px;
-        }
+    @media screen and (max-width: 768px) {
+      & {
+        background: unset;
       }
 
-      .tile-content {
-        padding: 30px 22px;
+      .acodus-transform {
+        transform: unset;
+      }
 
-        .yellow-underline {
-          margin: 11px auto 12px;
-        }
+      .row > div {
+        padding-top: 32px;
       }
     }
   }
-}
 
-#global {
-
-  &.row {
-    padding-top: 0;
-  }
-
-  .row {
-    padding: 62px 15px 0;
-
-    &.global-stats {
-      padding-top: 45px;
+  #faq {
+    p {
+      margin-bottom: 40px;
     }
-  }
-
-  .row.quote-call-to-action {
-      padding-top: 45px;
-      padding-bottom: 62px;
-
-      a {
-        padding-top: 15px;
-        padding-bottom: 15px;
-      }
-  }
-
-  img {
-    height: 82px;
-    }
-
-  h2.text-twilight {
-    margin-top: 14px;
-  }
-
-  p.large-gray {
-    margin-bottom: 0;
-    text-align: center;
-  }
-
-  .col-xs-6 {
-    padding: 10px 15px;
   }
 }
 

@@ -69,12 +69,12 @@
     ),
 
     created () {
-      this.fetchClassroomsForTeacher(this.$props.teacher._id)
+      this.fetchClassroomsForTeacher({ teacherId: this.$props.teacher._id })
     },
 
     methods: mapActions({
       fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher'
-    }),
+    })
   }
 </script>
 

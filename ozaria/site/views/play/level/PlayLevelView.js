@@ -869,7 +869,6 @@ class PlayLevelView extends RootView {
       observing: this.observing,
       playerNames: this.findPlayerNames(),
       levelType: this.level.get('type', true),
-      stayVisible: false,
       gameUIState: this.gameUIState,
       level: this.level // TODO: change from levelType to level
     }
