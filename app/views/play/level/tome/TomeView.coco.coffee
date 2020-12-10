@@ -201,7 +201,7 @@ module.exports = class TomeView extends CocoView
     @spellView?.setThang thang
 
   updateSpellPalette: (thang, spell) ->
-    @options.playLevelView.updateSpellPalette thang, spell
+    @options.playLevelView?.updateSpellPalette thang, spell
 
   spellFor: (thang, spellName) ->
     return null unless thang?.isProgrammable

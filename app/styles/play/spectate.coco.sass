@@ -1,0 +1,279 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#spectate-level-view
+  #playback-view
+    width: 100%
+  #restart-button
+    display: none
+  #multiplayer-button
+    display: none
+  #docs-button
+    display: none
+  #gold-view
+    right: 1%
+  #duel-stats-view
+    right: 115px
+    bottom: 80px
+    @include scale(1.5)
+  &.showing-code
+    #duel-stats-view
+      right: calc(47% - 200px)
+    #gold-view
+      min-width: 304px
+      right: calc(50% - 152px)
+      .team-gold
+        min-width: 144px
+        &.team-ogres
+          text-align: right
+
+  #control-bar-view
+    width: 100%
+
+    .title
+      position: absolute
+      display: inline-block
+      color: #BEBEBE
+      line-height: 15px
+      left: 20%
+      width: 60%
+      text-align: center
+
+  margin: 0 auto
+  @include user-select(none)
+
+  .level-content
+    position: relative
+    margin: 0px auto
+
+  #canvas-wrapper
+    top: 50px
+    width: 100%
+    position: relative
+    margin: 0 auto
+
+  canvas#webgl-surface, canvas#normal-surface
+    display: block
+    z-index: 1
+    margin: 0 auto
+
+  canvas#webgl-surface
+    background-color: #333
+
+  canvas#normal-surface
+    position: absolute
+    top: 0
+    pointer-events: none
+
+  min-width: 1024px
+  position: relative
+  overflow: hidden
+  #thang-hud
+    margin: 0 auto
+    display: none
+
+
+  #pointer
+    position: absolute
+    left: 0
+    top: 0
+    height: 100px
+    opacity: 0.0
+    pointer-events: none
+    z-index: 10
+
+  // Level Docs
+  .ui-effects-transfer
+    border: 2px dotted gray
+
+  .modal
+    img
+      float: right
+
+    img.diagram
+      float: none
+
+  #multiplayer-join-link
+    font-size: 12px
+
+  #level-done-button
+    position: absolute
+    right: 46%
+    top: 43px
+    @include box-shadow(4px 4px 15px black)
+
+  // Custom Buttons
+  .btn.banner
+    @include banner-button(#FFF, #333)
+    @include box-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))
+    border: 1px solid black
+    text-shadow: none
+
+    $buttonConfig: 'primary' #6CA8EA, 'info' #71AACC, 'success' #90B236, 'warning' #CD6800, 'danger' #B43C20, 'inverse' #3A537F
+    @each $tuple in $buttonConfig
+      &.btn-#{nth($tuple, 1)}
+        @include banner-button(nth($tuple, 2), #FFF)
+
+  $GI: 0.5  // gradient intensity; can tweak this 0-1
+
+  .gradient
+    position: absolute
+    z-index: 10
+
+  #code-area-gradient
+    top: 0px
+    width: 3px
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,$GI) 100%)
+    left: -3px
+    bottom: 0
+
+  #canvas-left-gradient
+    left: 0px
+    width: 5px
+    background: linear-gradient(to left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+    bottom: -30px
+    top: 0
+
+  #canvas-top-gradient
+    top: 0
+    height: 5px
+    left: 0
+    right: 0
+    background: linear-gradient(to top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+    z-index: 4
+
+  #hud-left-gradient
+    background: linear-gradient(to right, rgba(0,0,0,$GI) 0%,rgba(0,0,0,0) 100%)
+    left: 0
+    top: 0
+    height: 100%
+    width: 2%
+
+  #hud-right-gradient
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,$GI) 100%)
+    right: 0
+    position: absolute
+    top: 0
+    height: 100%
+    width: 2%
+
+  .spectate-code
+    position: absolute
+    //height: calc(100% - 30px)
+    // Some of these styles are only good for displaying inner window at 1920x1080px
+    // Could be made more general, but it's admin-only for now
+    height: 1040px
+    width: 205px
+    top: 63px
+    padding-top: 20px
+    padding-bottom: 100px
+    display: none
+    z-index: 2
+
+    transition: 0.25s ease-out
+
+    &:hover
+      width: 700px
+
+    &.team-humans
+      left: 0
+
+    &.team-ogres
+      right: 0
+
+    &.shown
+      display: block
+
+    .code-background
+      position: absolute
+      top: -68px
+      left: 0px
+      height: 100%
+      right: -10px
+      border: 1px solid transparent
+
+    span.code-background
+      border-width: 115px 76px 64px 40px
+      border-image: url(/images/level/code_editor_background_border.png) 124 76 64 40 fill stretch
+
+    img.code-background
+      display: none
+      width: 100%
+
+    .programming-language-container
+      position: absolute
+      top: 10px
+      right: 26px
+      z-index: 4
+      font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+      font-size: 10px
+      padding: 0px 10px
+      .programming-language-label
+        color: #6E654B
+        font-weight: bold
+        text-transform: uppercase
+      .programming-language
+        color: darkred
+
+    .ace_editor
+      margin-top: 10px
+      width: 94%
+      height: 100%
+      position: relative
+      background-color: transparent
+      overflow: visible
+      // https://github.com/codecombat/codecombat/issues/1411#issuecomment-60492750 -- trying to make sure system defaults don't mess up our monospace font.
+      font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+      @include transition(height 0.25s ease-in-out)
+
+      body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+        font-family: "Cousine", "Courier", "Courier New", monospace !important
+
+      .ace_gutter
+        background-color: transparent
+        border-right: 1px solid rgb(195, 178, 156)
+        width: 47px
+        margin-left: 4px
+
+      // override ace visible to get the experimental large current line executing arrow visible
+      .ace_gutter
+        overflow: visible
+        border-right: 0
+
+      .ace_layer
+        overflow: visible
+      // End experiment....
+
+      .ace_scroller
+        background-color: transparent
+        //padding-left: 10px  // Interrupts gutter and line highlighting
+
+      .ace_active-line, .ace_gutter-active-line
+        background-color: rgba(255, 255, 255, 0.4)
+
+      .ace_marker-layer
+        .ace_bracket
+          // Override faint gray
+          border-color: #BFF
+
+      .ace_text-layer .ace_comment
+        color: #1900AD
+
+      .ace_text-layer .ace_variable
+        // https://github.com/codecombat/codecombat/issues/6
+        color: rgb(145, 48, 50)
+
+      .ace_text-layer .ace_invisible_space
+        visibility: hidden
+
+      .ace_search
+        background-color: rgba(216, 187, 165, 1)
+        border: 0
+        @include box-shadow(1px 2px 1px #444)
+
+        .ace_search_field
+          width: 190px
+
+        .ace_searchbtn, .ace_replacebtn
+          padding: 0px 4px
+
