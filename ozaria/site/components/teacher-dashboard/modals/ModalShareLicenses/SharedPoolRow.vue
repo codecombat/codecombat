@@ -22,7 +22,7 @@
     computed: {
       nameWithSuffix () {
         if (this.email === me.get('email')) {
-          return this.name + ' (you)'
+          return this.name + ' ' + Vue.t('share_licenses.you')
         } else {
           return this.name
         }

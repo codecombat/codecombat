@@ -221,7 +221,7 @@
               selected
               value=""
             >
-              Select desired language for your class
+              {{ $t("teachers.select_desired_lang") }}
             </option>
             <option value="javascript">
               Javascript
@@ -274,7 +274,7 @@
               :class="{ selected: classGrades.includes('elementary')}"
               @click="updateGrades"
             >
-              Elementary
+              {{ $t('teachers.elementary') }}
             </button>
             <button
               type="button"
@@ -283,7 +283,7 @@
               :class="{ selected: classGrades.includes('middle')}"
               @click="updateGrades"
             >
-              Middle
+              {{ $t('teachers.middle') }}
             </button>
             <button
               type="button"
@@ -292,7 +292,7 @@
               :class="{ selected: classGrades.includes('high')}"
               @click="updateGrades"
             >
-              High School
+              {{ $t('teachers.high_school') }}
             </button>
           </div>
           <span

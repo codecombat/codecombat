@@ -90,15 +90,15 @@
 
 <template>
   <modal
-    title="Share Licenses"
+    :title="$t('share_licenses.share_licenses')"
     @close="$emit('close')"
   >
     <div class="share-licenses">
       <div class="share-licenses-info">
-        <span class="sub-title"> You can make your licenses available to other teachers in a shared pool. </span>
+        <span class="sub-title"> {{$t('share_licenses.modal_subtitle')}} </span>
         <ul class="info-list">
-          <li class="list-item"> Each license can only be used for one student at a time. </li>
-          <li class="list-item"> When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use. </li>
+          <li class="list-item"> {{$t('share_licenses.modal_list_item_1')}} </li>
+          <li class="list-item"> {{$t('share_licenses.modal_list_item_2')}} </li>
         </ul>
       </div>
       <div class="style-ozaria teacher-form">
