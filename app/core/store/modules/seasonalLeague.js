@@ -1,7 +1,7 @@
-import { getLeaderboard } from "../../api/leaderboard"
+import { getLeaderboard } from '../../api/leaderboard'
 
 // Level called: Void-Rush
-const currentSeasonalLevelOriginal = "5fad3d71bb7075d1dd20a1c0"
+const currentSeasonalLevelOriginal = '5fad3d71bb7075d1dd20a1c0'
 
 /**
  * We want to be able to fetch and store rankings for

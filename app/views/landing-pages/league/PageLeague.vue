@@ -21,8 +21,11 @@
       },
 
       created () {
+        this.fetchPublicClans();
+        this.fetchMyClans();
         if (this.$route.params.idOrSlug) {
-          alert(`Not implemented: Received clanID: ${this.$route.params.idOrSlug}`)
+          // alert(`Not implemented: Received clanID: ${this.$route.params.idOrSlug}`)
+          this.fetchGlobalLeaderboard()
         } else {
           this.fetchGlobalLeaderboard()
         }
@@ -36,7 +39,9 @@
 
       methods: {
         ...mapActions({
-          fetchGlobalLeaderboard: 'seasonalLeague/fetchGlobalLeaderboard'
+          fetchGlobalLeaderboard: 'seasonalLeague/fetchGlobalLeaderboard',
+          fetchPublicClans: 'clans/fetchPublicClans',
+          fetchMyClans: 'clans/fetchMyClans'
         })
       }
     }
