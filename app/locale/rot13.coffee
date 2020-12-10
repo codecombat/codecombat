@@ -90,7 +90,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teachers_love_codecombat_blurb2: "Jbhyq erpbzzraq PbqrPbzong gb bgure pbzchgre fpvrapr grnpuref"
     teachers_love_codecombat_blurb3: "Fnl gung PbqrPbzong urycf gurz fhccbeg fghqragf’ ceboyrz fbyivat novyvgvrf"
     teachers_love_codecombat_subblurb: "Va cnegarefuvc jvgu ZpERY Vagreangvbany, n yrnqre va erfrnepu-onfrq thvqnapr naq rinyhngvbaf bs rqhpngvbany grpuabybtl."
-    top_banner_blurb: "Cneragf, tvir lbhe puvyq gur tvsg bs pbqvat naq crefbanyvmrq vafgehpgvba guvf ubyvqnl frnfba!" # {punatr}
+    top_banner_blurb: "Cneragf, tvir lbhe puvyq gur tvsg bs pbqvat naq crefbanyvmrq vafgehpgvba guvf ubyvqnl frnfba!"
     try_the_game: "Gel gur tnzr"
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
@@ -1118,7 +1118,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     mission_description_1: "<fgebat>Cebtenzzvat vf zntvp</fgebat>. Vg'f gur novyvgl gb perngr guvatf sebz cher vzntvangvba. Jr fgnegrq PbqrPbzong gb tvir yrnearef gur srryvat bs jvmneqyl cbjre ng gurve svatregvcf ol hfvat <fgebat>glcrq pbqr</fgebat>."
     mission_description_2: "Nf vg gheaf bhg, gung ranoyrf gurz gb yrnea snfgre gbb. JNL snfgre. Vg'f yvxr univat n pbairefngvba vafgrnq bs ernqvat n znahny. Jr jnag gb oevat gung pbairefngvba gb rirel fpubby naq gb <fgebat>rirel fghqrag</fgebat>, orpnhfr rirelbar fubhyq unir gur punapr gb yrnea gur zntvp bs cebtenzzvat."
     team_title: "Zrrg gur PbqrPbzong grnz"
-    team_values: "Jr inyhr bcra naq erfcrpgshy qvnybt, jurer gur orfg vqrn jvaf. Bhe qrpvfvbaf ner tebhaqrq va phfgbzre erfrnepu naq bhe cebprff vf sbphfrq ba qryvirevat gnatvoyr erfhygf sbe gurz. Rirelbar vf unaqf-ba, sebz bhe PRB gb bhe TvgUho pbagevohgbef, orpnhfr jr inyhr tebjgu naq yrneavat va bhe grnz."
+    team_values: "Jr inyhr bcra naq erfcrpgshy qvnybthr, jurer gur orfg vqrn jvaf. Bhe qrpvfvbaf ner tebhaqrq va phfgbzre erfrnepu naq bhe cebprff vf sbphfrq ba qryvirevat gnatvoyr erfhygf sbe gurz. Rirelbar vf unaqf-ba, sebz bhe PRB gb bhe TvgUho pbagevohgbef, orpnhfr jr inyhr tebjgu naq yrneavat va bhe grnz."
     nick_title: "Pbsbhaqre, PRB"
     csm_title: "Phfgbzre Fhpprff Znantre"
     ae_title: "Nppbhag Rkrphgvir"
