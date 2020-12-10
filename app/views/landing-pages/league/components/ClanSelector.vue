@@ -20,7 +20,7 @@ export default {
   <div>
     <label for="clans">Clans:</label>
     <select name="clans" @change="e => $emit('change', e)">
-      <option value="" :selected="selected===''">--</option>
+      <option value="global" :selected="selected===''">--</option>
       <option  v-for="clan in clans" :key="clan._id" :value="clan._id" :selected="selected===clan._id">
         {{ clan.name }}
       </option>
