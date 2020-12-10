@@ -4,7 +4,6 @@
 <template>
     <div>
         <div class="container">
-            <h1>Loading: {{  isLoading }}</h1>
             <router-view></router-view>
         </div>
     </div>
@@ -22,7 +21,7 @@
 
       created () {
         this.fetchRequiredInitialData({ optionalIdOrSlug: this.$route.params.idOrSlug })
-        this.fetchGlobalLeaderboard()
+        this.loadGlobalRequiredData()
       },
 
       computed: {
@@ -33,7 +32,7 @@
 
       methods: {
         ...mapActions({
-          fetchGlobalLeaderboard: 'seasonalLeague/fetchGlobalLeaderboard',
+          loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
           fetchRequiredInitialData: 'clans/fetchRequiredInitialData'
         })
       }

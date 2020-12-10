@@ -10,3 +10,7 @@ import fetchJson from './fetch-json'
 export const getLeaderboard = (levelOriginal, options) => {
   return fetchJson(`/db/level/${levelOriginal}/rankings?${$.param(options)}`)
 }
+
+export const getMyRank = (levelOriginal, sessionId, options) => {
+  return fetchJson(`/db/level/${levelOriginal}/rankings/${sessionId}?${$.param(options)}`)
+}

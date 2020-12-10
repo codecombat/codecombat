@@ -18,6 +18,11 @@ export default {
 
     isMySession (session) {
       return session.creator == me.id
+    },
+
+    getClan (session) {
+      console.log(session)
+      return 'ClanName'
     }
   }
 }
@@ -40,14 +45,17 @@ export default {
         th(colspan=1)
 
     tbody
-      tr(v-for="session, rank in rankings" :key="rank" :class="isMySession(session) ? 'success' : ''", :data-player-id="session.creator", :data-session-id="session.id")
-        td.code-language-cell(:style="`background-image: url(/images/common/code_languages/${session.submittedCodeLanguage}_icon.png)`" :title="session.submittedCodeLanguage")
-        td.rank-cell {{ rank + 1 }}
-        td.score-cell {{ scoreForDisplay(session.totalScore / 2) }}
-        td(:class="'name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.creatorName) ? ' ai' : '')") {{ session.creatorName || "Anonymous" }}
-        td(colspan=4) ClanName
-        td 0-11
-        td 🇺🇸
+      tr(v-for="session, rank in rankings" :key="rank" :class="isMySession(session) ? 'success' : ''")
+        template(v-if="session.type==='BLANK_ROW'")
+          td(colspan=3) ...
+        template(v-else)
+          td.code-language-cell(:style="`background-image: url(/images/common/code_languages/${session.submittedCodeLanguage}_icon.png)`" :title="session.submittedCodeLanguage")
+          td.rank-cell {{ session.rank || rank + 1 }}
+          td.score-cell {{ scoreForDisplay(session.totalScore / 2) }}
+          td(:class="'name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.creatorName) ? ' ai' : '')") {{ session.creatorName || "Anonymous" }}
+          td(colspan=4) {{ getClan(session) }}
+          td 0-11
+          td 🇺🇸
 </template>
 
 <style scoped>
