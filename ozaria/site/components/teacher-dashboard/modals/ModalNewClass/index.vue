@@ -28,7 +28,7 @@
         if (this.showInviteStudentsModal) {
           return 'Invite Students by Email'
         } else {
-          return 'Add a new class'
+          return Vue.t('teachers.add_a_class')
         }
       }
     },

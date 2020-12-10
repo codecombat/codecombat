@@ -4,6 +4,7 @@
   import CapstoneMenuBar from './CapstoneMenuBar'
   import CapstoneDetailsContainer from './CapstoneDetailsContainer'
   import CapstoneSessionsContainer from './CapstoneSessionsContainer'
+  import utils from 'core/utils'
 
   const projectionData = {
     levelSessions: 'state.complete,state.goalStates,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code,codeLanguage'
@@ -41,6 +42,9 @@
       },
       capstoneLevel () {
         return (this.gameContent[this.selectedCourseId] || {}).capstone || {}
+      },
+      utils () {
+        return utils
       },
       exemplarProjectUrl () {
         return this.capstoneLevel.exemplarProjectUrl || ''
@@ -87,7 +91,7 @@
 <template>
   <div>
     <capstone-menu-bar
-      :title="capstoneLevel.displayName"
+      :title="utils.i18n(capstoneLevel, 'displayName')"
       :course-name="selectedCourse.name"
       :exemplar-project-url="exemplarProjectUrl"
       :exemplar-code-url="exemplarCodeUrl"

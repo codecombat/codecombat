@@ -1282,6 +1282,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     select_class: "Select class"
     programming_language: "Programming language"
     programming_language_edit_desc: "Language cannot be changed once students join a class. We recommend creating a new class for the same students."
+    add_a_class: 'Add a new class'
+    select_desired_lang: 'Select desired language for your class'
+    elementary: 'Elementary'
+    middle: 'Middle'
+    high_school: 'High School'
     class_name: "Class Name"
     grades: "Grades"
     select_all_that_apply: "Select all that apply"
@@ -1880,6 +1885,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     earliest_incomplete: "Earliest incomplete level"
     latest_complete: "Latest completed level"
     enroll_student: "Enroll student"
+    apply_modal_subtitle: 'You will be redirected to your My Classes page, where you can apply licenses to your students by:'
+    apply_modal_list_item_1: 'Selecting or creating a class'
+    apply_modal_list_item_2: 'Selecting students you want to apply licenses to'
+    apply_modal_list_item_3: 'Clicking the “Apply Licenses” button'
     apply_license: "Apply License"
     revoke_license: "Revoke License"
     revoke_licenses: "Revoke All Licenses"
@@ -2198,6 +2207,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     shared_by: "Shared By:"
     add_teacher_label: "Enter exact teacher email:"
     add_teacher_button: "Add Teacher"
+    modal_subtitle: 'You can make your licenses available to other teachers in a shared pool.'
+    modal_list_item_1: 'Each license can only be used for one student at a time.'
+    modal_list_item_2: 'When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use.'
     subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
     teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
     teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
@@ -3269,3 +3281,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     want_to_save_tooltip: '<h3>Want to save your progress?</h3><p>Please create a student account and play Ozaria as a student if you would like to save your progress.</p>'
     intro_explain_tooltip: '<b>"Intros"</b> introduce new concepts or further the storyline in a scaffolded way. They typically include Cinematics and/or Concept Checks.'
     chapter_num: 'Chapter __num__'
+
+  banner_webinar:
+    heading: '[WEBINAR] A Time for Empathy: Remote and Hybrid Learning'
+    time: 'November 17, 2020 at 4:30PM EST'
+    abstract: 'Join us for a 60-min discussion with special guests <b>Naomi Harm</b>, CEO of Innovative Educator Consulting and <b>Donna CasaGrande</b>, Mendham Township Middle School Computer Technology Educator, along with our Learning Design team, where we’ll cover:'
+    bullet_1: 'How to keep learners engaged and motivated when they may face distractions and struggles at home'
+    bullet_2: 'How to maintain high expectations for students and set boundaries for your own well-being'
+    bullet_3: 'How to use the Ozaria curriculum to support effective hybrid and remote teaching practices'
+    learn_more: 'For additional information see <a href="https://blog.codecombat.com/webinar-time-for-empathy-remote-hybrid-learning/">here</a> or <a href="https://zoom.us/webinar/register/WN_iKcKekMjSAGJ7BQsCzFN0w">register now</a>.'
