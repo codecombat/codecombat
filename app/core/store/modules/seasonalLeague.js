@@ -24,7 +24,7 @@ export default {
       playersBelow: []
     },
     // key is clan id. Returns objects with same structure.
-    rankingsForClan: {}
+    rankingsForLeague: {}
   },
 
   mutations: {
@@ -46,6 +46,10 @@ export default {
 
     setMySession (state, mySession) {
       state.mySession = mySession
+    },
+
+    setLeagueRanking (state, { leagueId, ranking }) {
+      Vue.set(state.rankingsForLeague, leagueId, ranking)
     }
   },
 
@@ -65,28 +69,51 @@ export default {
         return splitRankings
       }
       return state.globalRankings.globalTop
+    },
+
+    clanRankings (state) {
+      return (leagueId) => {
+        if (!state.rankingsForLeague[leagueId]) {
+          return []
+        }
+        const leagueRankings = state.rankingsForLeague[leagueId]
+        if (state.mySession && state.mySession.rank > 20) {
+          const splitRankings = []
+          splitRankings.push(...state.leagueRankings.top.slice(0, 10))
+          splitRankings.push({ type: 'BLANK_ROW' })
+          splitRankings.push(...state.leagueRankings.playersAbove)
+          splitRankings.push(state.mySession)
+          splitRankings.push(...state.leagueRankings.playersBelow)
+          return splitRankings
+        }
+        return leagueRankings.top
+      }
     }
   },
 
   actions: {
     async loadGlobalRequiredData ({ commit, dispatch }) {
       commit('setLoading', true)
+      const awaitPromises = [dispatch('fetchGlobalLeaderboard')]
       const sessionsData = await fetchMySessions(currentSeasonalLevelOriginal)
-      console.log({ sessionsData })
-      await dispatch('fetchGlobalLeaderboard')
 
       if (Array.isArray(sessionsData) && sessionsData.length > 0) {
         const teamSession = sessionsData.find((session) => session.team === 'humans')
+        if (!teamSession) {
+          commit('setLoading', false)
+          return
+        }
         const score = teamSession.totalScore
 
         if (score !== undefined) {
-          const playersAbove = await getLeaderboard(currentSeasonalLevelOriginal, { order: 1, scoreOffset: score, limit: 4 })
-          const playersBelow = await getLeaderboard(currentSeasonalLevelOriginal, { order: -1, scoreOffset: score, limit: 4 })
-
-          const myRank = await getMyRank(currentSeasonalLevelOriginal, teamSession._id, {
-            scoreOffset: score,
-            team: 'humans'
-          })
+          const [playersAbove, playersBelow, myRank] = await Promise.all([
+            getLeaderboard(currentSeasonalLevelOriginal, { order: 1, scoreOffset: score, limit: 4 }),
+            getLeaderboard(currentSeasonalLevelOriginal, { order: -1, scoreOffset: score, limit: 4 }),
+            getMyRank(currentSeasonalLevelOriginal, teamSession._id, {
+              scoreOffset: score,
+              team: 'humans'
+            })
+          ])
 
           let rank = parseInt(myRank, 10)
           for (const aboveSession of playersAbove) {
@@ -106,12 +133,72 @@ export default {
           commit('setGlobalBelow', playersBelow)
         }
       }
-
+      await Promise.all(awaitPromises)
       commit('setLoading', false)
     },
 
-    async loadLeagueRequiredData ({ commit, dispatch }) {
-      // TODO - Same as global path but with league specific...
+    async loadClanRequiredData ({ commit }, { leagueId }) {
+      const leagueRankingInfo = {
+        top: [],
+        playersAbove: [],
+        playersBelow: []
+      }
+
+      const topLeagueRankingPromise = getLeaderboard(currentSeasonalLevelOriginal, {
+        order: -1,
+        scoreOffset: 1000000,
+        limit: 20,
+        team: 'humans',
+        'leagues.leagueID': leagueId,
+        '_': Math.floor(Math.random() * 100000000)
+      }).then(ranking => {
+        leagueRankingInfo.top = ranking
+      })
+
+      const sessionsData = await fetchMySessions(currentSeasonalLevelOriginal)
+
+      if (Array.isArray(sessionsData) && sessionsData.length > 0) {
+        const teamSession = sessionsData.find((session) => session.team === 'humans')
+        if (!teamSession) {
+          commit('setLoading', false)
+          return
+        }
+        const score = (((teamSession.leagues || []).find(({ leagueID }) => leagueID === leagueId) || {}).stats || {}).totalScore;
+
+        if (score !== undefined) {
+          const [ playersAbove, playersBelow, myRank ] = await Promise.all([
+            getLeaderboard(currentSeasonalLevelOriginal, { order: 1, scoreOffset: score, limit: 4, 'leagues.leagueID': leagueId }),
+            getLeaderboard(currentSeasonalLevelOriginal, { order: -1, scoreOffset: score, limit: 4, 'leagues.leagueID': leagueId }),
+            getMyRank(currentSeasonalLevelOriginal, teamSession._id, {
+              scoreOffset: score,
+              team: 'humans',
+              'leagues.leagueID': leagueId
+            })
+          ])
+
+          let rank = parseInt(myRank, 10)
+          for (const aboveSession of playersAbove) {
+            rank -= 1
+            aboveSession.rank = rank
+          }
+          playersAbove.reverse()
+          rank = parseInt(myRank, 10)
+          for (const belowSession of playersBelow) {
+            rank += 1
+            belowSession.rank = rank
+          }
+
+          teamSession.rank = parseInt(myRank, 10)
+          leagueRankingInfo.playersAbove = playersAbove
+          leagueRankingInfo.playersBelow = playersBelow
+
+          commit('setMySession', teamSession)
+        }
+      }
+
+      await topLeagueRankingPromise
+
+      commit('setLeagueRanking', { leagueId: leagueId, ranking: leagueRankingInfo })
     },
 
     async fetchGlobalLeaderboard ({ commit }) {
@@ -123,12 +210,6 @@ export default {
         '_': Math.floor(Math.random() * 100000000)
       })
       commit('setGlobalRanking', ranking)
-    },
-
-    async fetchClanLeaderboard ({ commit }) {
-      // TODO: Load a leaderboard for the clan specifically.
-      //       By default show top 20.
-      //       If the user is in the rankings then show 10, and then ... row.
     }
   }
 }

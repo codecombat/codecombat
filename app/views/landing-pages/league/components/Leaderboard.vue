@@ -21,7 +21,7 @@ export default {
     },
 
     getClan (session) {
-      console.log(session)
+      // console.log(session)
       return 'ClanName'
     }
   }
