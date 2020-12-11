@@ -611,6 +611,10 @@ export default {
   mounted () {
     window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
 
+    console.log('>>>>>>>>>>>>>>>>>>>')
+    console.log(this.$router.currentRoute.query)
+    console.log('>>>>>>>>>>>>>>>>>>>')
+
     if (this.type === 'thank-you') {
       this.onClassBooked()
     }
