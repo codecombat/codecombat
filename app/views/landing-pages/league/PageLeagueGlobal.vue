@@ -14,7 +14,8 @@ export default {
   data: () => ({
     clanIdSelected: '',
     clanIdOrSlug: '',
-    leagueSignupModalOpen: false
+    leagueSignupModalOpen: false,
+    doneRegistering: false
   }),
 
   beforeRouteUpdate (to, from, next) {
@@ -36,7 +37,8 @@ export default {
   created () {
     this.clanIdOrSlug = this.$route.params.idOrSlug || null
     this.findIdOfParam()
-    this.leagueSignupModalOpen = this.$route.params.registering
+    // Would be odd to arrive here with ?registering=true and be logged out...
+    this.leagueSignupModalOpen = this.canRegister && !!this.$route.query.registering
   },
 
   methods: {
@@ -63,24 +65,19 @@ export default {
       application.router.navigate('?registering=true', { trigger: true })
     },
 
-    register () {
-      this.leagueSignupModalOpen = true
-    },
+    async submitRegistration (registration) {
+      // TODO: isRegistered is not reactive because we're not using Vuex :( Improve this
+      this.doneRegistering = true
 
-    leagueSignupModalClose () {
-      debugger
-      this.leagueSignupModalOpen = false
-    },
-
-    submitRegistration (registration) {
+      // TODO: Validate here too?
       me.set('firstName', registration.firstName)
       me.set('lastName', registration.lastName)
       me.set('name', registration.name)
       me.set('email', registration.email)
       me.set('emails', registration.emails)
-      me.save()
-      // TODO: Age
-      // TODO: Check values? Rely on vuex state?
+      me.set('birthday', registration.birthday)
+      me.set('unsubscribedFromMarketingEmails', registration.unsubscribedFromMarketingEmails)
+      await me.save()
     }
   },
 
@@ -92,32 +89,25 @@ export default {
       isLoading: 'clans/isLoading'
     }),
 
-    // NOTE: me is unavailable in the template for some reason - we can do this better
+    // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
     firstName () { return me.get('firstName') },
     lastName () { return me.get('lastName') },
     name () { return me.get('name') },
     email () { return me.get('email') },
     emails () { return me.get('emails') },
+    birthday () { return me.get('birthday') },
+    unsubscribedFromMarketingEmails () { return me.get('unsubscribedFromMarketingEmails') },
 
     currentSelectedClan () {
       return this.clanByIdOrSlug(this.clanIdSelected) || null
     },
     isRegistered () {
-      // const CURRENT_SEASON = '2021Q1'
-      // return typeof window.me.get('esports')?.registrations?.[CURRENT_SEASON] !== 'undefined'
-
-      // console.log(me.get('consentHistory'))
-      // return !me.get('unsubscribedFromMarketingEmails')
-      return false
+      const emails = me.get('emails') || {}
+      const unsubscribed = me.get('unsubscribedFromMarketingEmails')
+      return (emails.generalNews || {}).enabled && !unsubscribed
     },
     canRegister: function () {
-      return true
-      // return !this.isRegistered()
-      // return !this.isRegistered() &&
-      //     me.get('firstName') &&
-      //     me.get('lastName') &&
-      //     me.get('age') &&
-      //     me.get('age')
+      return !me.isAnonymous() && !this.isRegistered
     }
   }
 }
@@ -126,21 +116,24 @@ export default {
 <template>
   <div>
     <league-signup-modal
+        v-if="leagueSignupModalOpen"
+        @close="leagueSignupModalOpen = false"
+        @submit="submitRegistration"
         :first-name="firstName"
         :last-name="lastName"
         :name="name"
         :email="email"
-        :open="leagueSignupModalOpen"
-        @close="leagueSignupModalClose"
-        @submit="submitRegistration"
+        :birthday="birthday"
+        :emails="emails"
+        :unsubscribed-from-marketing-emails="unsubscribedFromMarketingEmails"
     >
     </league-signup-modal>
 
-    <div v-if="isRegistered" style="background-color: white; min-height: 300px; min-width: 300px;">,
-      <h1>Ready to esport!</h1>
+    <div v-if="isRegistered || doneRegistering" style="background-color: white; min-height: 300px; min-width: 300px;">,
+      <h1 style="color: green;">Registered and ready!</h1>
     </div>
     <div v-else-if="canRegister" style="background-color: white; min-height: 300px; min-width: 300px;">
-      <button @click="register" style="background-color: yellow; min-height: 100px; min-width: 100px; font-size: 40px">Register for tournament</button>
+      <button @click="leagueSignupModalOpen = true" style="background-color: yellow; min-height: 100px; min-width: 100px; font-size: 40px">Register for tournament</button>
     </div>
     <div v-else style="background-color: white; min-height: 300px; min-width: 300px;">
       <button @click="signupAndRegister" style="background-color: yellow; min-height: 100px; min-width: 100px; font-size: 40px">Register for tournament</button>

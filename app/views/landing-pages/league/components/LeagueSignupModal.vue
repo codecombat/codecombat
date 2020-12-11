@@ -18,109 +18,151 @@
       email: {
         type: String
       },
-      age: {
-        type: Number
+      // YYYY-MM
+      birthday: {
+        type: String
       },
+      // TODO: Check if user.ageRange is intended to be used for any of this
       emails: {
-        type: Object
+        type: Object,
+        default: { generalNews: { enabled: false } }
+      },
+      unsubscribedFromMarketingEmails: {
+        type: Boolean,
+        default: true
       }
     },
     mounted () {
-      this.userUpdates = _.pick(this, ['firstName', 'lastName', 'name', 'email', 'age', 'emails'])
-
-      // Marketing consent is mandatory for league sign ups:
-      const consent = { enabled: false }
-      if (!this.userUpdates.emails) {
-        this.userUpdates.emails = { generalNews: consent }
-      } else if (!(this.userUpdates.emails || {}).generalNews) {
-        this.userUpdates.emails.generalNews = consent
-      }
+      this.formValues = this.userToFormValues(this) // Extract props
     },
     data: () => ({
-      userUpdates: { emails: { generalNews: { enabled: false } } }
+      formValues: {
+        emails: { generalNews: { enabled: false } },
+        unsubscribedFromMarketingEmails: true,
+
+        // Split apart to handle month and year in a simple way
+        selectedMonth: 1,
+        selectedYear: 2020
+      }
     }),
     methods: {
+      // Form needs 0's and 1's for checkboxes
+      userToFormValues (userValues) {
+        const extracted = _.pick(userValues, ['firstName', 'lastName', 'name', 'email', 'birthday', 'emails', 'unsubscribedFromMarketingEmails'])
+
+        // if (!extracted.emails) {
+        //   extracted.emails = { generalNews: { enabled: 0 } }
+        // } else if (!extracted.emails.generalNews) {
+        //   extracted.emails.generalNews = { enabled: 0 }
+        // } else {
+        //   // TODO: Make these conversions more elegant
+        //   extracted.emails.generalNews.enabled = extracted.emails.generalNews.enabled ? 1 : 0
+        // }
+        debugger
+        if (!extracted.emails) {
+          extracted.emails = { generalNews: { enabled: false } }
+        } else if (!extracted.emails.generalNews) {
+          extracted.emails.generalNews = { enabled: false }
+        }
+
+        // The only way birthday has been set is to a YYYY-MM string with @signupState.get('birthday').toISOString().slice(0,7)
+        if (typeof extracted.birthday === 'string' && extracted.birthday.length === 7) {
+          extracted.selectedMonth = parseInt(extracted.birthday.slice(-2))
+          extracted.selectedYear = parseInt(extracted.birthday.slice(0, 4))
+        } else {
+          extracted.birthday = '2020-01'
+          extracted.selectedMonth = 1
+          extracted.selectedYear = 2020
+        }
+
+        return extracted
+      },
+      // User needs booleans and not 0's and 1's
+      formToUserValues (formValues) {
+        const extracted = _.pick(formValues, ['firstName', 'lastName', 'name', 'email', 'emails', 'unsubscribedFromMarketingEmails', 'selectedMonth', 'selectedYear'])
+
+        const zeroedMonth = extracted.selectedMonth < 10 ? `0${extracted.selectedMonth}` : extracted.selectedMonth
+        extracted.birthday = `${extracted.selectedYear}-${zeroedMonth}`
+        delete extracted.selectedMonth
+        delete extracted.selectedYear
+
+        return extracted
+      },
       submit () {
         if (!this.canSubmit) {
           // How did we even get here?
-          noty({ type: 'error', text: 'Must consent to sign up' })
+          noty({ type: 'error', text: 'Must receive emails to sign up' })
           return
         }
 
-        this.userUpdates.emails.generalNews.enabled = true // TODO: Handle mapping true to the 1 or 0 from a checkbox better
-        this.$emit('submit', _.pick(this.userUpdates, ['firstName', 'lastName', 'name', 'email', 'age', 'emails']))
+        this.$emit('submit', this.formToUserValues(this.formValues))
         this.$emit('close')
       }
     },
     computed: {
       canSubmit () {
-        // TODO: Check age?
-        return (this.userUpdates.emails.generalNews || {}).enabled
+        return this.formValues.emails.generalNews.enabled &&
+            !this.formValues.unsubscribedFromMarketingEmails
       }
     }
   })
 </script>
 
 <template>
-  <modal title="Register">
+  <modal @close="$emit('close')" title="Register">
     <div class="container">
-      <h1>This could use some design love... :)</h1>
-
       <div>
         <label for="input-firstname">First name:</label>
-        <input id="input-firstname" type="text" v-model="userUpdates.firstName" />
+        <input id="input-firstname" type="text" v-model="formValues.firstName" />
       </div>
 
       <div>
         <label for="input-lastname">Last name:</label>
-        <input id="input-lastname" type="text" v-model="userUpdates.lastName" />
+        <input id="input-lastname" type="text" v-model="formValues.lastName" />
       </div>
 
       <div>
         <label for="input-username">Username: </label>
-        <input id="input-username" type="text" v-model="userUpdates.name" />
+        <input id="input-username" type="text" v-model="formValues.name" />
       </div>
 
       <div>
         <label for="input-email">Email: </label>
-        <input id="input-email" type="email" v-model="userUpdates.email" />
+        <input id="input-email" type="email" v-model="formValues.email" />
       </div>
 
       <div>
-        <label for="input-consent">Consent to receive emails:</label>
-        <input id="input-consent" type="checkbox" v-model="userUpdates.emails.generalNews.enabled" />
+        <label for="input-emails">Receive general news:</label>
+        <input id="input-emails" type="checkbox" v-model="formValues.emails.generalNews.enabled" />
       </div>
 
-      <p style="color: red; font-size: 30px;" v-show="!canSubmit">
-        Leagues require marketing consent
+      <div>
+        <label for="input-consent">Unsubscribe from emails:</label>
+        <input id="input-consent" type="checkbox" v-model="formValues.unsubscribedFromMarketingEmails" />
+      </div>
+
+      <div>
+        <label for="input-month">Birth month:</label>
+        <input id="input-month" type="number" min="1" max="12" v-model="formValues.selectedMonth" />
+      </div>
+
+      <div>
+        <label for="input-year">Birth year:</label>
+        <!-- How early does someone really start coding...? :) -->
+        <input id="input-year" type="number" min="1920" :max="new Date().getFullYear() - 1" v-model="formValues.selectedYear" />
+      </div>
+
+      <p style="color: red; font-size: 20px;" v-show="!canSubmit">
+        Leagues require age, receiving emails and not being unsubscribed from emails
       </p>
 
       <button @click.prevent="submit" :disabled="!canSubmit">Register</button>
+      <!-- TODO: Make reactive -->
+<!--      <button @click.prevent="submit">Register</button>-->
     </div>
   </modal>
 </template>
 
-<style lang="scss" scoped>
-@import "app/styles/style-flat-variables";
-@import "app/styles/core/variables";
-
-// These types of buttons could be shared better
-.btn-primary.btn-moon {
-  background-color: $moon;
-  border-radius: 1px;
-  color: $gray;
-  text-shadow: unset;
-  font-weight: bold;
-  @include font-h-5-button-text-black;
-  min-width: 260px;
-  padding: 15px 0;
-  background-image: unset;
-  margin: 0 15px;
-
-  &:hover {
-    @include font-h-5-button-text-white;
-    background-color: $goldenlight;
-    transition: background-color .35s;
-  }
-}
+<style scoped>
+/* 1995 style look... :) */
 </style>
