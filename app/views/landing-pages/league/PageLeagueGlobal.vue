@@ -26,6 +26,7 @@ export default {
 
   watch: {
     isLoading (newLoading, _priorLoading) {
+      $('#main-nav').addClass('dark-mode')
       if (newLoading || !this.clanIdOrSlug) {
         return
       }
@@ -135,7 +136,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div id="page-league-global">
     <league-signup-modal
         v-if="leagueSignupModalOpen"
         @close="leagueSignupModalOpen = false"
@@ -150,13 +151,13 @@ export default {
     >
     </league-signup-modal>
 
-    <div v-if="isRegistered || doneRegistering" style="background-color: white; min-height: 300px; min-width: 300px;">,
+    <div v-if="isRegistered || doneRegistering">,
       <h1 style="color: green;">Registered and ready!</h1>
     </div>
-    <div v-else-if="canRegister" style="background-color: white; min-height: 300px; min-width: 300px;">
+    <div v-else-if="canRegister">
       <button @click="leagueSignupModalOpen = true" style="background-color: yellow; min-height: 100px; min-width: 100px; font-size: 40px">Register for tournament</button>
     </div>
-    <div v-else style="background-color: white; min-height: 300px; min-width: 300px;">
+    <div v-else>
       <button @click="signupAndRegister" style="background-color: yellow; min-height: 100px; min-width: 100px; font-size: 40px">Register for tournament</button>
     </div>
 
