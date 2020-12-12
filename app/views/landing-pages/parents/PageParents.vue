@@ -155,7 +155,7 @@
 
     <!-- Added some custom inline styles specific to this graphic -->
     <div class="container-graphic-spacer"
-         style="margin-bottom: -35px"
+         style="margin-bottom: -35px; overflow-x: hidden;"
     >
       <div class="container">
         <div class="row">
