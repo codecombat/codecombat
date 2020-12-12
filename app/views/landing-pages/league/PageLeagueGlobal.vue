@@ -258,13 +258,17 @@ export default {
         <img class="img-responsive" src="/images/pages/league/logo_season1_clash.png" />
       </div>
     </div>
-    <div class="row flex-row">
-      <p>
-        For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.
-      </p>
-      <p>
-        Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.
-      </p>
+    <div class="row">
+      <div class="col-xs-12">
+        <p>
+          For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.
+        </p>
+      </div>
+      <div class="col-xs-12">
+        <p>
+          Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.
+        </p>
+      </div>
     </div>
 
     <div class="row flex-row text-center">
