@@ -151,13 +151,13 @@ export default {
     >
     </league-signup-modal>
 
-    <section class="row flex-row">
+    <section class="row flex-row" style="margin-bottom: -100px;">
       <img src="/images/pages/league/logo_codecombat_blitz.png" width="234" height="197" />
     </section>
 
     <section class="row flex-row" style="min-height: 600px;">
       <div class="col-sm-5">
-        <h1>COMPETITIVE CODING HAS NEVER BEEN SO EPIC</h1>
+        <h1 style="transform: rotate(-10deg);"><span class="esports-pink">COMPETITIVE </span><span class="esports-green">CODING </span><span class="esports-aqua">HAS </span><span class="esports-purple">NEVER </span><span class="esports-pink">BEEN </span><span class="esports-aqua">SO </span><span class="esports-green">EPIC</span></h1>
       </div>
       <div class="col-sm-7">
         <img class="img-responsive" src="/images/pages/league/game_hero.png">
@@ -181,12 +181,12 @@ export default {
 
     <section class="row flex-row">
       <div class="col-sm-10">
-        <h2>FREE TO GET STARTED</h2>
-        <ul>
-          <li>Access competitive multiplayer arenas, leaderboard, and global coding championships</li>
-          <li>Earn points for completing practice levels and competing in head-to-head matches</li>
-          <li>Join competitive coding clans with friends, family, or classmates</li>
-          <li>Showcase your coding skills and take home great prizes</li>
+        <h1 style="margin-bottom: 20px;"><span class="esports-pink">FREE </span><span class="esports-aqua">TO </span><span class="esports-green">GET </span><span class="esports-purple">STARTED</span></h1>
+        <ul style="list-style-type: none; padding: 0;">
+          <li><span class="bullet-point" style="background-color: #bcff16;"/>Access competitive multiplayer arenas, leaderboard, and global coding championships</li>
+          <li><span class="bullet-point" style="background-color: #30EFD3;"/>Earn points for completing practice levels and competing in head-to-head matches</li>
+          <li><span class="bullet-point" style="background-color: #FF39A6;"/>Join competitive coding clans with friends, family, or classmates</li>
+          <li><span class="bullet-point" style="background-color: #9B83FF;"/>Showcase your coding skills and take home great prizes</li>
         </ul>
         <a class="btn btn-large btn-primary btn-moon">Join Now</a>
       </div>
@@ -198,22 +198,22 @@ export default {
     </div>
 
     <div class="row text-center">
-      <h1>GLOBAL STATS</h1>
+      <h1><span class="esports-aqua">GLOBAL </span><span class="esports-pink">STATS</span></h1>
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
       <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="clanIdSelected" style="color: black;" />
       <leaderboard v-else :rankings="globalRankings" style="color: black;" />
     </div>
     <div class="row text-center">
-      <a class="btn btn-large btn-primary btn-moon">Play Fire Towers Multiplayer Arena</a>
+      <a class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Fire Towers Multiplayer Arena</a>
     </div>
 
     <div class="row flex-row">
       <div class="col-sm-7">
-        <h2>GLOBAL FINAL ARENA</h2>
-        <p>
+        <h1 style="margin-bottom: 30px;"><span class="esports-goldenlight">GLOBAL </span><span class="esports-pink">FINAL </span><span class="esports-aqua">ARENA</span></h1>
+        <p style="margin-bottom: 30px;">
           Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.
         </p>
-        <a class="btn btn-large btn-primary btn-moon">Join Now</a>
+        <a style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon">Join Now</a>
       </div>
       <div class="col-sm-5">
         <img class="img-responsive" src="/images/pages/league/text_coming_april_2021.svg">
@@ -221,25 +221,25 @@ export default {
     </div>
 
     <div class="row flex-row">
-      <h1>HOW IT WORKS</h1>
+      <h1><span class="esports-purple">HOW </span><span class="esports-aqua">IT </span><span class="esports-pink">WORKS</span></h1>
     </div>
     <div class="row flex-row">
       <div class="col-sm-1"><img src="/images/pages/league/text_1.svg" class="img-responsive"></div>
-      <div class="col-sm-11"><p>Join a clan</p></div>
+      <div class="col-sm-11"><p>Join a <span class="esports-aqua">clan</span></p></div>
     </div>
 
     <div class="row flex-row">
       <div class="col-sm-1"><img src="/images/pages/league/text_2.svg" class="img-responsive"></div>
-      <div class="col-sm-11"><p>Complete the training levels and compete in the Season Arena</p></div>
+      <div class="col-sm-11"><p>Complete the training levels and compete in the <span class="esports-aqua">Season Arena</span></p></div>
     </div>
 
     <div class="row flex-row">
       <div class="col-sm-1"><img src="/images/pages/league/text_3.svg" class="img-responsive"></div>
-      <div class="col-sm-11"><p>Compete in the culminating Global Final Arena and push your coding skills to the test</p></div>
+      <div class="col-sm-11"><p>Compete in the culminating <span class="esports-aqua">Global Final Arena</span> and push your coding skills to the test</p></div>
     </div>
 
     <div class="row flex-row text-center">
-      <h1>SEASON ARENAS</h1>
+      <h1><span class="esports-goldenlight">SEASON </span><span class="esports-purple">ARENAS</span></h1>
     </div>
     <div id="season-arenas" class="row flex-row">
       <div class="col-sm-4 text-center">
@@ -284,9 +284,9 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row" style="justify-content: flex-start;">
+    <div class="row flex-row" style="justify-content: flex-start; margin-top: 200px;">
       <div class="col-xs-7">
-        <h1>ARE YOU AN EDUCATOR OR ESPORTS COACH?</h1>
+        <h1><span class="esports-pink">ARE YOU AN </span><span class="esports-green">EDUCATOR </span><span class="esports-pink">OR </span><span class="esports-aqua">ESPORTS COACH?</span></h1>
       </div>
     </div>
     <div class="row flex-row">
@@ -336,9 +336,65 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row">
+    <div class="row flex-row" style="margin-top: 70px; position: relative;">
+      <div class="col-xs-12">
+        <div style="border: 2.6px solid #FF39A6; border-left: unset;">
+          <div class="row flex-row" style="justify-content: flex-start;">
+            <div class="col-sm-6">
+              <img src="/images/pages/league/text_unlimited_potential.svg" height="71px" class="img-responsive" style="padding: 25px 100px 0px 0px; transform: translateY(-50px); background-color: #0C1016;">
+            </div>
+          </div>
+          <div class="row flex-row" style="justify-content: flex-start;">
+            <div class="col-sm-5">
+              <p style="margin-bottom: 70px; z-index: 1;">
+                Our tournament structure is adaptable to any environment or use case. Students can participate at a designated time during regular learning, play at home asynchronously, or participate on their own schedule.
+              </p>
+            </div>
+            <div class="col-sm-7">
+              <img class="img-responsive" src="/images/pages/league/graphic_hugging.png" style="margin: 0 0 -120px auto; z-index: 0; transform: translateY(-120px);" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="row flex-row text-center" style="margin-bottom: 300px;">
+      <a class="btn btn-large btn-primary btn-moon">Start a Clan</a>
+    </div>
+
+    <div id="features" class="row">
+      <h1 class="text-center esports-goldenlight" style='margin-bottom: 35px;'>FEATURES</h1>
+      <div class="col-sm-6 col-md-3 feature-pane">
+        <div class="img-container"><img src="/images/pages/league/icon_competition.svg" class="img-responsive" /></div>
+        <h4>Built-in Competitive Infrastructure</h4>
+        <p>Our platform hosts every element of the competitive process, from leaderboards to the game platform, assets, and tournament awards.</p>
+      </div>
+      <div class="col-sm-6 col-md-3 feature-pane">
+        <div class="img-container"><img src="/images/pages/league/icon_custom.png" class="img-responsive" /></div>
+        <h4>Custom Development</h4>
+        <p>Customization elements for your school or organization are included, plus options like branded landing pages and in-game characters.</p>
+      </div>
+      <div class="col-sm-6 col-md-3 feature-pane">
+        <div class="img-container"><img src="/images/pages/league/icon_curriculum.svg" class="img-responsive" /></div>
+        <h4>Comprehensive Curriculum</h4>
+        <p>CodeCombat is a standards-aligned CS solution that helps educators teach real coding in JavaScript and Python, no matter their experience.</p>
+      </div>
+      <div class="col-sm-6 col-md-3 feature-pane">
+        <div class="img-container"><img src="/images/pages/league/icon_roster.svg" class="img-responsive" /></div>
+        <h4>Roster Management Tools</h4>
+        <p>Track student performance within the curriculum and within the game, and easily add or remove students.</p>
+      </div>
+    </div>
+
     <div class="row flex-row">
+      <div class="col-sm-8">
+        <h1 style="margin-bottom: 50px;"><span class="esports-aqua">BRING </span><span class="esports-pink">COMPETITIVE CODING </span><span class="esports-aqua">TO YOUR </span><span class="esports-purple">SCHOOL</span></h1>
+        <p style="margin-bottom: 50px;">Share our AI League flyer with educators, administrators, parents, eSports coaches or others that may be interested.</p>
+        <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon">Download Flyer</a>
+      </div>
+      <div class="col-sm-4">
+        <img src="/images/pages/league/graphic_flyer.png" class="img-responsive" style="transform: translateY(100px);"/>
+      </div>
     </div>
 
 
@@ -373,8 +429,44 @@ export default {
     color: white;
   }
 
-  p {
+  p, h4 {
     color: white;
+  }
+
+  .esports-pink {
+    color: #ff39a6;
+  }
+
+  .esports-goldenlight {
+    color: #f7d047;
+  }
+
+  .esports-aqua {
+    color: #30efd3;
+  }
+
+  .esports-green {
+    color: #bcff16;
+  }
+
+  .esports-purple {
+    color: #9b83ff;
+  }
+
+  ul .bullet-point {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    margin-right: 20px;
+  }
+
+  ul li {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  ul {
+    margin-bottom: 50px;
   }
 
   // Most sections have a max width and are centered.
@@ -428,6 +520,36 @@ export default {
     img { 
       max-height: 250px;
       margin: 0 auto;
+    }
+  }
+
+  #features {
+    .img-container {
+      height: 90px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    h4 {
+      margin-bottom: 10px;
+      /* Always leave enough room for two rows */
+      min-height: 64px;
+    }
+
+    img {
+      margin: 0 auto;
+      max-height: 90px;
+    }
+
+    .feature-pane {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
     }
   }
 }
