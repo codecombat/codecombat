@@ -23,6 +23,10 @@ export default {
     getClan (session) {
       // console.log(session)
       return 'ClanName'
+    },
+
+    getAgeBracket (session) {
+      return $.i18n.t(`ladder.bracket_${(session.ageBracket || 'open').replace(/-/g, '_')}`)
     }
   }
 }
@@ -41,7 +45,8 @@ export default {
         th(data-i18n="general.score") Score
         th(data-i18n="general.name").name-col-cell Name
         th(colspan=4) Clan
-        th(colspan=1) Age
+        th(colspan=1 data-i18n="ladder.age") Age
+        // TODO: i18n doesn't work?
         th(colspan=1)
 
     tbody
@@ -51,10 +56,10 @@ export default {
         template(v-else)
           td.code-language-cell(:style="`background-image: url(/images/common/code_languages/${session.submittedCodeLanguage}_icon.png)`" :title="session.submittedCodeLanguage")
           td.rank-cell {{ session.rank || rank + 1 }}
-          td.score-cell {{ scoreForDisplay(session.totalScore / 2) }}
+          td.score-cell {{ scoreForDisplay(session.totalScore) }}
           td(:class="'name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.creatorName) ? ' ai' : '')") {{ session.creatorName || "Anonymous" }}
           td(colspan=4) {{ getClan(session) }}
-          td 0-11
+          td {{ getAgeBracket(session) }}
           td 🇺🇸
 </template>
 
