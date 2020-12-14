@@ -142,7 +142,7 @@
       </div>
 
       <p style="color: red; font-size: 20px;" v-show="!canSubmit">
-        Leagues require age, receiving emails and not being unsubscribed from emails
+        AI League requires age, receiving emails, and not being unsubscribed from emails
       </p>
 
       <button @click.prevent="submit" :disabled="!canSubmit">Register</button>
