@@ -346,9 +346,8 @@ _.extend LevelSessionSchema.properties,
   creatorAge:
     type: 'number'
     title: 'Creator Age'
-    description: 'Age of creator, in years (but with month precision), at time of last session.changed, or session.submitDate for ladder sessions'
+    description: 'Age of creator, in years (but with month precision), at time of session creation, or session.submitDate for ladder sessions'
     minimum: 0
-    # TODO: decide on when exactly we update (should ladder sessions update differently, just on submit, or all on change? maybe other sessions are only on first session creation, or first level win time?)
 
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 

@@ -839,6 +839,7 @@ yearsSinceMonth = (start) ->
   now = new Date()
   now.getFullYear() - start.getFullYear() + (now.getMonth() - start.getMonth()) / 12
 
+# Keep in sync with the copy in background-processor
 ageBrackets = [
   {slug: '0-11', max: 11.33}
   {slug: '11-14', max: 14.33}
