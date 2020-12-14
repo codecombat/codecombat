@@ -725,6 +725,10 @@ export default {
   color: #131B25;
 }
 
+#parent-page h1, #parent-page h4 {
+  font-weight: 700;
+}
+
 #parent-page .pixelated {
   font-family: "lores12ot-bold";
   color: #0E4C60;
@@ -892,8 +896,8 @@ export default {
 
 #parent-page .container-child-future h3, #student-outcome-carousel h3 {
   color: black;
-  font-weight: 600;
-  font-size: 28px;
+  font-weight: 800;
+  font-size: 30px;
   line-height: 38px;
   letter-spacing: 0.56px;
 
