@@ -1142,6 +1142,24 @@ export default {
   pointer-events: none;
 }
 
+@media screen and (min-width: 700px) {
+  .container-student-outcomes .carousel-row:before {
+    width: 33% !important;
+  }
+  .container-student-outcomes .carousel-row:after {
+    width: 33% !important;
+  }
+
+  .container-background-faq .container:before {
+    width: 43% !important;
+  }
+
+  .container-background-faq .container:after {
+    width: 43% !important;
+  }
+
+}
+
 .concept-covered-tab {
   display: flex;
   flex-direction: column;
