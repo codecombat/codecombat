@@ -254,7 +254,7 @@ export default {
       </div>
       <div class="col-sm-4 text-center">
         <h3>Colossus Clash</h3>
-        <p>May - Aug 2021</p>
+        <p>Sep - Dec 2021</p>
         <img class="img-responsive" src="/images/pages/league/logo_season1_clash.png" />
       </div>
     </div>
