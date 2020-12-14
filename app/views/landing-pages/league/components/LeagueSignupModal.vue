@@ -98,7 +98,7 @@
 </script>
 
 <template>
-  <modal @close="$emit('close')" title="Register">
+  <modal @close="$emit('close')" title="Register" id="league-signup-modal">
     <div class="container">
       <div>
         <label for="input-firstname">First name:</label>
@@ -152,4 +152,17 @@
 
 <style scoped>
 /* 1995 style look... :) */
+#league-signup-modal label {
+  color: black;
+  min-width: 20%;
+  padding-right: 20px;
+  margin-bottom: 10px;
+}
+
+#league-signup-modal .container > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 </style>

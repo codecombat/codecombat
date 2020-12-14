@@ -87,6 +87,19 @@ export default {
       me.set('birthday', registration.birthday)
       me.set('unsubscribedFromMarketingEmails', registration.unsubscribedFromMarketingEmails)
       await me.save()
+    },
+
+    onHandleJoinCTA () {
+      if (this.canRegister) {
+        this.leagueSignupModalOpen = true
+        try {
+          window.scrollTo(0, 0)
+        } catch (e) {
+          // TODO: Unhandled. Optimistically try and scroll to modal if supported by browser.
+        }
+      } else {
+        this.signupAndRegister();
+      }
     }
   },
 
@@ -98,6 +111,13 @@ export default {
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading'
     }),
+
+    clanInviteLink () {
+      if (this.currentSelectedClan !== null) {
+        return `${window.location.origin}/league/${this.currentSelectedClan.slug}`
+      }
+      return `${window.location.origin}/league/${this.clanIdOrSlug}`
+    },
 
     currentSelectedClan () {
       return this.clanByIdOrSlug(this.clanIdSelected) || null
@@ -113,8 +133,12 @@ export default {
       return (emails.generalNews || {}).enabled && !unsubscribed
     },
 
-    canRegister: function () {
+    canRegister () {
       return !me.isAnonymous() && !this.isRegistered
+    },
+
+    isAnonymous () {
+      return me.isAnonymous()
     },
 
     // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
@@ -173,7 +197,7 @@ export default {
       >The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.</p>
     </div>
     <div class="row flex-row text-center">
-      <a class="btn btn-large btn-primary btn-moon">Join Now</a>
+      <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
     <div class="graphic" style="width: 100%; overflow-x: hidden; display: flex; justify-content: flex-end;">
       <img src="/images/pages/league/text_2021.svg" width="501" height="147" />
@@ -188,12 +212,23 @@ export default {
           <li><span class="bullet-point" style="background-color: #FF39A6;"/>Join competitive coding clans with friends, family, or classmates</li>
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>Showcase your coding skills and take home great prizes</li>
         </ul>
-        <a class="btn btn-large btn-primary btn-moon">Join Now</a>
+        <a v-if="clanIdSelected === ''" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
     </section>
-    <div class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
+    <div v-if="clanIdSelected === ''" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
       <div class="col-sm-5 col-sm-push-2">
         <img class="img-responsive" src="/images/pages/league/graphic_1.png">
+      </div>
+    </div>
+    <div v-else id="clan-invite" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
+      <div class="col-sm-5">
+        <img class="img-responsive" src="/images/pages/league/graphic_1.png">
+      </div>
+      <div class="col-sm-7">
+        <p>Invite players to this clan by sending them this link:</p>
+        <input readonly :value="clanInviteLink" /><br />
+        <a v-if="!isAnonymous" class="btn btn-large btn-primary btn-moon">Join Clan</a>
+        <a v-else class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
     </div>
 
@@ -204,7 +239,7 @@ export default {
       <leaderboard v-else :rankings="globalRankings" style="color: black;" />
     </div>
     <div class="row text-center">
-      <a class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Fire Towers Multiplayer Arena</a>
+      <a href="/play/ladder/void-rush" class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Fire Towers Multiplayer Arena</a>
     </div>
 
     <div class="row flex-row">
@@ -213,7 +248,7 @@ export default {
         <p style="margin-bottom: 30px;">
           Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.
         </p>
-        <a style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon">Join Now</a>
+        <a style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
       <div class="col-sm-5">
         <img class="img-responsive" src="/images/pages/league/text_coming_april_2021.svg">
@@ -272,7 +307,7 @@ export default {
     </div>
 
     <div class="row flex-row text-center">
-      <a class="btn btn-large btn-primary btn-moon">Join Now</a>
+      <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
 
     <div class="row flex-row" style="justify-content: flex-end;">
@@ -397,20 +432,7 @@ export default {
       </div>
     </div>
 
-
-    <div v-if="isRegistered || doneRegistering">,
-      <h1 style="color: green;">Registered and ready!</h1>
-    </div>
-    <div v-else-if="canRegister">
-      <button @click="leagueSignupModalOpen = true" style="background-color: yellow; min-height: 100px; min-width: 100px; font-size: 40px">Register for tournament</button>
-    </div>
-    <div v-else>
-      <button @click="signupAndRegister" style="background-color: yellow; min-height: 100px; min-width: 100px; font-size: 40px">Register for tournament</button>
-    </div>
-
-    <h1>Stub Global Rankings for Seasonal Arena: </h1>
-    <p v-if="currentSelectedClan">Stub of current clan selected</p>
-    <p v-if="currentSelectedClan">{{JSON.stringify(currentSelectedClan)}}</p>
+    <!-- PLACEHOLDER -->
     <clan-selector v-if="!isLoading" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" />
   </main>
 </template>
@@ -508,6 +530,22 @@ export default {
     &:hover {
       background-color: #d1b147;
       transition: background-color .35s;
+    }
+  }
+
+  #clan-invite {
+    text-align: left;
+    img {
+      transform: scaleX(-1);
+    }
+
+    p {
+      margin-bottom: 22px;
+    }
+
+    input {
+      width: 100%;
+      margin-bottom: 26px;
     }
   }
 
