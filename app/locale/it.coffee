@@ -1119,7 +1119,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     mission_description_1: "<strong>La programmazione è magia!</strong>. E' l'abilità di creare cose a partire dalla pura immaginazione. Abbiamo creato CodeCombat per dare agli studenti la sensazione di avere dei poteri magici  <strong>scrivendo codice</strong>."
 #    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
     team_title: "Incontra il Team di CodeCombat"
-#    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
+#    team_values: "We value open and respectful dialogue, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
     nick_title: "Programmatore" # {change}
 #    csm_title: "Customer Success Manager"
 #    ae_title: "Account Executive"

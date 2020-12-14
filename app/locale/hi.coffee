@@ -1119,7 +1119,7 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
 #    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
 #    team_title: "Meet the CodeCombat team"
-#    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
+#    team_values: "We value open and respectful dialogue, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
 #    nick_title: "Cofounder, CEO"
 #    csm_title: "Customer Success Manager"
 #    ae_title: "Account Executive"
