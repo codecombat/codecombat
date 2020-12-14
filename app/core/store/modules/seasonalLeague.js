@@ -16,7 +16,7 @@ export default {
   namespaced: true,
   state: {
     loading: false,
-    mySession: [],
+    mySession: {},
     // level: {}, //Maybe level data is required?
     globalRankings: {
       globalTop: [],
@@ -149,8 +149,7 @@ export default {
         scoreOffset: 1000000,
         limit: 20,
         team: 'humans',
-        'leagues.leagueID': leagueId,
-        '_': Math.floor(Math.random() * 100000000)
+        'leagues.leagueID': leagueId
       }).then(ranking => {
         leagueRankingInfo.top = ranking
       })
@@ -163,7 +162,7 @@ export default {
           commit('setLoading', false)
           return
         }
-        const score = (((teamSession.leagues || []).find(({ leagueID }) => leagueID === leagueId) || {}).stats || {}).totalScore;
+        const score = (((teamSession.leagues || []).find(({ leagueID }) => leagueID === leagueId) || {}).stats || {}).totalScore
 
         if (score !== undefined) {
           const [ playersAbove, playersBelow, myRank ] = await Promise.all([
