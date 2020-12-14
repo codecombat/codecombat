@@ -157,7 +157,7 @@ export default {
 
     <section class="row flex-row" style="min-height: 600px;">
       <div class="col-sm-5">
-        <h1 style="transform: rotate(-10deg);"><span class="esports-pink">COMPETITIVE </span><span class="esports-green">CODING </span><span class="esports-aqua">HAS </span><span class="esports-purple">NEVER </span><span class="esports-pink">BEEN </span><span class="esports-aqua">SO </span><span class="esports-green">EPIC</span></h1>
+        <h1 style="transform: rotate(-10deg);"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
       <div class="col-sm-7">
         <img class="img-responsive" src="/images/pages/league/game_hero.png">
@@ -181,7 +181,7 @@ export default {
 
     <section class="row flex-row">
       <div class="col-sm-10">
-        <h1 style="margin-bottom: 20px;"><span class="esports-pink">FREE </span><span class="esports-aqua">TO </span><span class="esports-green">GET </span><span class="esports-purple">STARTED</span></h1>
+        <h1 style="margin-bottom: 20px;"><span class="esports-pink">Free </span><span class="esports-aqua">to </span><span class="esports-green">get </span><span class="esports-purple">started</span></h1>
         <ul style="list-style-type: none; padding: 0;">
           <li><span class="bullet-point" style="background-color: #bcff16;"/>Access competitive multiplayer arenas, leaderboard, and global coding championships</li>
           <li><span class="bullet-point" style="background-color: #30EFD3;"/>Earn points for completing practice levels and competing in head-to-head matches</li>
@@ -198,7 +198,7 @@ export default {
     </div>
 
     <div class="row text-center">
-      <h1><span class="esports-aqua">GLOBAL </span><span class="esports-pink">STATS</span></h1>
+      <h1><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
       <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="clanIdSelected" style="color: black;" />
       <leaderboard v-else :rankings="globalRankings" style="color: black;" />
@@ -209,7 +209,7 @@ export default {
 
     <div class="row flex-row">
       <div class="col-sm-7">
-        <h1 style="margin-bottom: 30px;"><span class="esports-goldenlight">GLOBAL </span><span class="esports-pink">FINAL </span><span class="esports-aqua">ARENA</span></h1>
+        <h1 style="margin-bottom: 30px;"><span class="esports-goldenlight">Global </span><span class="esports-pink">final </span><span class="esports-aqua">arena</span></h1>
         <p style="margin-bottom: 30px;">
           Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.
         </p>
@@ -221,7 +221,7 @@ export default {
     </div>
 
     <div class="row flex-row">
-      <h1><span class="esports-purple">HOW </span><span class="esports-aqua">IT </span><span class="esports-pink">WORKS</span></h1>
+      <h1><span class="esports-purple">How </span><span class="esports-aqua">it </span><span class="esports-pink">works</span></h1>
     </div>
     <div class="row flex-row">
       <div class="col-sm-1"><img src="/images/pages/league/text_1.svg" class="img-responsive"></div>
@@ -239,7 +239,7 @@ export default {
     </div>
 
     <div class="row flex-row text-center">
-      <h1><span class="esports-goldenlight">SEASON </span><span class="esports-purple">ARENAS</span></h1>
+      <h1><span class="esports-goldenlight">Season </span><span class="esports-purple">arenas</span></h1>
     </div>
     <div id="season-arenas" class="row flex-row">
       <div class="col-sm-4 text-center">
@@ -286,7 +286,7 @@ export default {
 
     <div class="row flex-row" style="justify-content: flex-start; margin-top: 200px;">
       <div class="col-xs-7">
-        <h1><span class="esports-pink">ARE YOU AN </span><span class="esports-green">EDUCATOR </span><span class="esports-pink">OR </span><span class="esports-aqua">ESPORTS COACH?</span></h1>
+        <h1><span class="esports-pink">Are you an </span><span class="esports-green">educator </span><span class="esports-pink">or </span><span class="esports-aqua">esports coach?</span></h1>
       </div>
     </div>
     <div class="row flex-row">
@@ -363,7 +363,7 @@ export default {
     </div>
 
     <div id="features" class="row">
-      <h1 class="text-center esports-goldenlight" style='margin-bottom: 35px;'>FEATURES</h1>
+      <h1 class="text-center esports-goldenlight" style='margin-bottom: 35px;'>Features</h1>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_competition.svg" class="img-responsive" /></div>
         <h4>Built-in Competitive Infrastructure</h4>
@@ -388,7 +388,7 @@ export default {
 
     <div class="row flex-row">
       <div class="col-sm-8">
-        <h1 style="margin-bottom: 50px;"><span class="esports-aqua">BRING </span><span class="esports-pink">COMPETITIVE CODING </span><span class="esports-aqua">TO YOUR </span><span class="esports-purple">SCHOOL</span></h1>
+        <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
         <p style="margin-bottom: 50px;">Share our AI League flyer with educators, administrators, parents, eSports coaches or others that may be interested.</p>
         <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon">Download Flyer</a>
       </div>
@@ -427,6 +427,10 @@ export default {
   h1, h2, h3 {
     font-family: "lores12ot-bold";
     color: white;
+  }
+
+  h1 {
+    text-transform: uppercase;
   }
 
   p, h4 {
