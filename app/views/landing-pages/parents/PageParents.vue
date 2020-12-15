@@ -725,10 +725,6 @@ export default {
   color: #131B25;
 }
 
-#parent-page h1, #parent-page h4 {
-  font-weight: 700;
-}
-
 #parent-page .pixelated {
   font-family: "lores12ot-bold";
   color: #0E4C60;
@@ -1264,4 +1260,10 @@ export default {
   border-radius: 20px;
 }
 
+</style>
+
+<style>
+  #parent-page h1, #parent-page h4 {
+    font-weight: 700 !important;
+  }
 </style>
