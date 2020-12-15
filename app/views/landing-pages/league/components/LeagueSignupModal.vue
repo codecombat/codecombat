@@ -30,7 +30,6 @@
         type: Boolean,
         default: true
       }
-      // TODO: Do we need user.ageRange for any of this?
     },
     mounted () {
       this.formValues = this.userToFormValues(this) // Extract props
@@ -99,6 +98,23 @@
 
 <template>
   <modal @close="$emit('close')" title="Register" id="league-signup-modal">
+    <div v-if="me.isStudent()">
+      <p>{{ $t('league.student_register_1') }}</p>
+      <p>{{ $t('league.student_register_2') }}</p>
+      <p>{{ $t('league.student_register_3') }}</p>
+    </div>
+    <div v-else-if="me.isTeacher()">
+      <p>{{ $t('league.teacher_register_1') }}</p>
+    </div>
+    <div>
+      <!--  How did we get here?  -->
+      Something went wrong - go back to the <a href="/league">league</a> page.
+    </div>
+
+    Sign up, create your own clan, or join other clans to start competing.
+
+    Provide the information below to be eligible for prizes.
+
     <div class="container">
       <div>
         <label for="input-firstname">First name:</label>
@@ -121,9 +137,10 @@
       </div>
 
       <div>
-        <label for="input-emails">Receive general news:</label>
+        <label for="input-emails"></label>
         <input id="input-emails" type="checkbox" v-model="formValues.emails.generalNews.enabled" />
       </div>
+      <i>{{ $t('league.general_news') }}</i>
 
       <div>
         <label for="input-consent">Unsubscribe from emails:</label>

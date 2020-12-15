@@ -62,7 +62,7 @@ export default {
       }
       this.findIdOfParam()
 
-      application.router.navigate(`league/${this.clanIdSelected}` , { trigger: true })
+      application.router.navigate(`league/${this.clanIdSelected}`, { trigger: true })
     },
 
     findIdOfParam () {
@@ -266,7 +266,7 @@ export default {
         style="max-width: 800px; margin-bottom: 50px;"
       >The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.</p>
     </div>
-    <div class="row flex-row text-center">
+    <div v-if="canRegister" class="row flex-row text-center">
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
     <div class="graphic" style="width: 100%; overflow-x: hidden; display: flex; justify-content: flex-end;">
@@ -282,7 +282,7 @@ export default {
           <li><span class="bullet-point" style="background-color: #FF39A6;"/>Join competitive coding clans with friends, family, or classmates</li>
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>Showcase your coding skills and take home great prizes</li>
         </ul>
-        <a v-if="clanIdSelected === ''" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+        <a v-if="clanIdSelected === '' && canRegister" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
     </section>
     <div v-if="clanIdSelected === ''" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
@@ -323,7 +323,7 @@ export default {
         <p style="margin-bottom: 30px;">
           Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.
         </p>
-        <a style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+        <a v-if="canRegister" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
       <div class="col-sm-5">
         <img class="img-responsive" src="/images/pages/league/text_coming_april_2021.svg">
@@ -381,7 +381,7 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row text-center">
+    <div v-if="canRegister" class="row flex-row text-center">
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
 
