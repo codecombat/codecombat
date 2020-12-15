@@ -75,7 +75,7 @@ export default {
     },
 
     signupAndRegister () {
-      window.nextURL = '/parents?registering=true'
+      window.nextURL = `${window.location.pathname}?registering=true`
       application.router.navigate('?registering=true', { trigger: true })
     },
 
