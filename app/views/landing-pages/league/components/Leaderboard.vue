@@ -21,7 +21,7 @@ export default {
     },
 
     getClan (session) {
-      // console.log(session)
+      console.log(session)
       return 'ClanName'
     },
 
@@ -45,8 +45,7 @@ export default {
         th(data-i18n="general.score") Score
         th(data-i18n="general.name").name-col-cell Name
         th(colspan=4) Clan
-        th(colspan=1 data-i18n="ladder.age") Age
-        // TODO: i18n doesn't work?
+        th(colspan=1) {{ $t('ladder.age') }}
         th(colspan=1)
 
     tbody

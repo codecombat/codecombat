@@ -2,10 +2,7 @@ import { getLeaderboard, getMyRank } from '../../api/leaderboard'
 import { fetchMySessions } from '../../api/level-sessions'
 
 // Level called: Void-Rush
-// const currentSeasonalLevelOriginal = '5fad3d71bb7075d1dd20a1c0'
-
-// Zero-sum for testing
-const currentSeasonalLevelOriginal = '550363b4ec31df9c691ab629'
+const currentSeasonalLevelOriginal = '5fad3d71bb7075d1dd20a1c0'
 
 /**
  * We want to be able to fetch and store rankings for

@@ -225,12 +225,9 @@ export default {
       <img src="/images/pages/league/logo_codecombat_blitz.png" width="234" height="197" />
     </section>
 
-    <section class="row flex-row" style="min-height: 600px;">
+    <section class="row esports-header" style="min-height: 600px;">
       <div class="col-sm-5">
         <h1 style="transform: rotate(-10deg);"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
-      </div>
-      <div class="col-sm-7">
-        <img class="img-responsive" src="/images/pages/league/game_hero.png">
       </div>
     </section>
     
@@ -271,6 +268,8 @@ export default {
         <img class="img-responsive" src="/images/pages/league/graphic_1.png">
       </div>
       <div class="col-sm-7">
+        <clan-selector v-if="!isLoading" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" />
+
         <p>Invite players to this clan by sending them this link:</p>
         <input readonly :value="clanInviteLink" /><br />
         <a v-if="isAnonymous" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
@@ -392,6 +391,9 @@ export default {
                 Unlike other eSports platforms serving schools, we own the structure top to bottom, which means we’re not tied to any game developer or have issues with licensing. That also means we can make custom modifications in-game for your school or organization.
               </p>
             </div>
+            <div class="col-sm-7">
+              <img class="img-responsive" src="/images/pages/league/amara.png" style="z-index: 0; transform: translateY(100px); padding: 60px; margin-top: -160px;" />
+            </div>
           </div>
         </div>
       </div>
@@ -479,9 +481,6 @@ export default {
         <img src="/images/pages/league/graphic_flyer.png" class="img-responsive" style="transform: translateY(100px);"/>
       </div>
     </div>
-
-    <!-- PLACEHOLDER -->
-    <clan-selector v-if="!isLoading" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" />
   </main>
 </template>
 
@@ -541,6 +540,12 @@ export default {
 
   ul {
     margin-bottom: 50px;
+  }
+
+  .esports-header {
+    background: url(/images/pages/league/game_hero.png) no-repeat;
+    background-size: contain;
+    background-position: right center;
   }
 
   // Most sections have a max width and are centered.
