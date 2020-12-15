@@ -61,7 +61,6 @@ export default {
       if (clan) {
         commit('setClan', clan)
       }
-      console.log('got my clan:', clan)
     },
 
     async fetchPublicClans ({ commit }) {

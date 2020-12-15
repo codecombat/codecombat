@@ -184,6 +184,10 @@ ageOfConsent = (countryName, defaultIfUnknown=0) ->
   return 16 if country.inEU
   return defaultIfUnknown
 
+countryCodeToFlagEmoji = (code) ->
+  return code unless code?.length is 2
+  (String.fromCodePoint(c.charCodeAt() + 0x1F1A5) for c in code.toUpperCase()).join('')
+
 courseIDs =
   INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
   GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
@@ -856,18 +860,22 @@ ageToBracket = (age) ->
   return 'open'
 
 module.exports = {
+  addressesIncludeAdministrativeRegion
+  ageBrackets
   ageOfConsent
+  ageToBracket
   capitalLanguages
   clone
   combineAncestralObject
   countries
+  countryCodeToFlagEmoji
   courseAcronyms
   courseIDs
   createLevelNumberMap
   extractPlayerCodeTag
   filterMarkdownCodeLanguages
-  findNextLevel
   findNextAssessmentForLevel
+  findNextLevel
   formatDollarValue
   formatStudentLicenseStatusDate
   functionCreators
@@ -885,12 +893,13 @@ module.exports = {
   hexToHSL
   hslToHex
   i18n
-  injectCSS
   inEU
+  injectCSS
   isID
   isIE
   isRegionalSubscription
   isSmokeTestEmail
+  isValidEmail
   keepDoingUntil
   kindaEqual
   needsPractice
@@ -898,20 +907,16 @@ module.exports = {
   objectIdToDate
   orderedCourseIDs
   pathToUrl
+  petThangIDs
+  premiumContent
   replaceText
   round
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
+  translatejs2cpp
   usStateCodes
   userAgent
-  petThangIDs
-  premiumContent
-  isValidEmail
   videoLevels
-  addressesIncludeAdministrativeRegion
-  translatejs2cpp
   yearsSinceMonth
-  ageBrackets
-  ageToBracket
 }
