@@ -268,8 +268,6 @@ export default {
         <img class="img-responsive" src="/images/pages/league/graphic_1.png">
       </div>
       <div class="col-sm-7">
-        <clan-selector v-if="!isLoading" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" />
-
         <p>Invite players to this clan by sending them this link:</p>
         <input readonly :value="clanInviteLink" /><br />
         <a v-if="isAnonymous" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
@@ -278,6 +276,9 @@ export default {
       </div>
     </div>
 
+    <!-- TODO - TEMPORARY PLACEMENT -->
+    <clan-selector v-if="!isLoading" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" />
+    
     <div class="row text-center">
       <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
       <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
