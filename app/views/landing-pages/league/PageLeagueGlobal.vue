@@ -94,19 +94,23 @@ export default {
       await me.save()
     },
 
+    scrollToModal () {
+      try {
+        // Potential alternatives here:
+        // - Move modal into view
+        // - Pass current position into modal
+        // - Wrap modal in backbone so it is of the old variety, which may handle always being visible/in view
+        // - Go to /league# because no anchor goes to the top
+        window.scrollTo(0, 0)
+      } catch (e) {
+        // TODO: Unhandled. Optimistically try and scroll to modal if supported by browser.
+      }
+    },
+
     onHandleJoinCTA () {
       if (this.canRegister) {
         this.leagueSignupModalOpen = true
-        try {
-          // Potential alternatives here:
-          // - Move modal into view
-          // - Pass current position into modal
-          // - Wrap modal in backbone so it is of the old variety, which may handle always being visible/in view
-          // - Go to /league# because no anchor goes to the top
-          window.scrollTo(0, 0)
-        } catch (e) {
-          // TODO: Unhandled. Optimistically try and scroll to modal if supported by browser.
-        }
+        this.scrollToModal()
       } else {
         this.signupAndRegister()
       }
@@ -143,6 +147,11 @@ export default {
       } finally {
         window.location.reload()
       }
+    },
+
+    openClanCreation () {
+      this.clanCreationModal = true
+      this.scrollToModal()
     }
   },
 
@@ -199,8 +208,9 @@ export default {
       return !me.isAnonymous() && !this.isRegistered
     },
 
+    // Assumption that anyone with an account can create a clan.
     canCreateClan () {
-      return (this.currentSelectedClan || {}).ownerID === me.id
+      return !me.isAnonymous()
     },
 
     isAnonymous () {
@@ -471,11 +481,10 @@ export default {
       </div>
     </div>
 
-    <div v-if="isClanCreator" class="row flex-row text-center" style="margin-bottom: 300px;">
-      <a class="btn btn-large btn-primary btn-moon" @click="clanCreationModal = true">Edit Clan</a>
-    </div>
-    <div v-else-if="!currentSelectedClan && canCreateClan" class="row flex-row text-center" style="margin-bottom: 300px;">
-      <a class="btn btn-large btn-primary btn-moon" @click="clanCreationModal = true">Start a Clan</a>
+    <div class="row flex-row text-center" style="margin-bottom: 300px;">
+      <a v-if="isClanCreator" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
+      <a v-else-if="!currentSelectedClan && canCreateClan" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Start a Clan</a>
+      <a v-else class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
 
     <div id="features" class="row">

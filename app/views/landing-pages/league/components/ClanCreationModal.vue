@@ -18,6 +18,25 @@
       description: '',
       isPublic: true
     }),
+
+    mounted () {
+      if (this.clan !== null) {
+        this.name = this.clan.name
+        this.description = this.clan.description
+        this.isPublic = this.clan.type === undefined ? true : this.clan.type === 'public'
+      }
+    },
+
+    computed: {
+      modalTitle() {
+        if (this.clan === null) {
+          return 'Create clan'
+        } else {
+          return 'Edit clan'
+        }
+      }
+    },
+
     methods: {
       async submit () {
         if (!this.isPublic && !me.isPremium()) {
@@ -83,7 +102,7 @@
 </script>
 
 <template>
-  <modal @close="$emit('close')" title="Create clan" id="clan-creation-modal">
+  <modal @close="$emit('close')" :title="modalTitle" id="clan-creation-modal">
     <div class="container">
       <div>
         <label for="input-name">Clan name:</label>
@@ -100,7 +119,7 @@
         <input id="input-is-public" type="checkbox" v-model="isPublic" />
       </div>
 
-      <button @click.prevent="submit">Create clan</button>
+      <button @click.prevent="submit">{{ modalTitle }}</button>
     </div>
   </modal>
 </template>
