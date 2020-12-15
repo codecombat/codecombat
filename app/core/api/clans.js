@@ -6,7 +6,10 @@ export const getMyClans = () => fetchJson(`/db/user/${me.id}/clans`)
 
 export const getClan = idOrSlug => fetchJson(`/db/clan/${idOrSlug}`)
 
-// TODO figure this POST request out?
-// export const getNamesInClan = () => fetchJson(`/db/user/-/names`, {
-//   data: { ids: clanIDs }
-// })
+export const joinClan = clanId => fetchJson(`/db/clan/${clanId}/join`, {
+  method: 'PUT'
+})
+
+export const leaveClan = clanId => fetchJson(`/db/clan/${clanId}/leave`, {
+  method: 'PUT'
+})

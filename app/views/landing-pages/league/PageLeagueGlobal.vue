@@ -3,6 +3,7 @@ import { mapGetters, mapActions } from 'vuex'
 import Leaderboard from './components/Leaderboard'
 import ClanSelector from './components/ClanSelector.vue'
 import LeagueSignupModal from './components/LeagueSignupModal'
+import { joinClan, leaveClan } from '../../../core/api/clans'
 
 export default {
   components: {
@@ -15,7 +16,8 @@ export default {
     clanIdSelected: '',
     clanIdOrSlug: '',
     leagueSignupModalOpen: false,
-    doneRegistering: false
+    doneRegistering: false,
+    joinOrLeaveClanLoading: false
   }),
 
   beforeRouteUpdate (to, from, next) {
@@ -100,6 +102,39 @@ export default {
       } else {
         this.signupAndRegister();
       }
+    },
+
+    async joinClan () {
+      if (this.clanIdSelected === '') {
+        return noty({ text: 'Make sure there is a clan selected', type: 'error' })
+      }
+      this.joinOrLeaveClanLoading = true
+
+      try {
+        await joinClan(this.clanIdSelected)
+      } catch (e) {
+        this.joinOrLeaveClanLoading = false
+        throw e
+      } finally {
+        window.location.reload()
+      }
+    },
+
+    async leaveClan () {
+      if (this.clanIdSelected === '') {
+        return noty({ text: 'Make sure there is a clan selected', type: 'error' })
+      }
+      this.joinOrLeaveClanLoading = true
+
+      try {
+        await leaveClan(this.clanIdSelected)
+      } catch (e) {
+        // TODO
+        this.joinOrLeaveClanLoading = false
+        throw e
+      } finally {
+        window.location.reload()
+      }
     }
   },
 
@@ -121,6 +156,17 @@ export default {
 
     currentSelectedClan () {
       return this.clanByIdOrSlug(this.clanIdSelected) || null
+    },
+
+    currentSelectedClanName () {
+      return (this.currentSelectedClan || {}).name || ""
+    },
+
+    inSelectedClan () {
+      if (!this.currentSelectedClan) {
+        return false
+      }
+      return (this.currentSelectedClan.members || []).indexOf(me.id) !== -1
     },
 
     selectedClanRankings () {
@@ -227,13 +273,15 @@ export default {
       <div class="col-sm-7">
         <p>Invite players to this clan by sending them this link:</p>
         <input readonly :value="clanInviteLink" /><br />
-        <a v-if="!isAnonymous" class="btn btn-large btn-primary btn-moon">Join Clan</a>
-        <a v-else class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+        <a v-if="isAnonymous" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+        <a v-else-if="inSelectedClan" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Clan</a>
+        <a v-else class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Clan</a>
       </div>
     </div>
 
     <div class="row text-center">
-      <h1><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
+      <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
+      <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
       <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="clanIdSelected" style="color: black;" />
       <leaderboard v-else :rankings="globalRankings" style="color: black;" />
