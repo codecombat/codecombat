@@ -3,19 +3,22 @@ import { mapGetters, mapActions } from 'vuex'
 import Leaderboard from './components/Leaderboard'
 import ClanSelector from './components/ClanSelector.vue'
 import LeagueSignupModal from './components/LeagueSignupModal'
+import ClanCreationModal from './components/ClanCreationModal'
 import { joinClan, leaveClan } from '../../../core/api/clans'
 
 export default {
   components: {
     Leaderboard,
     ClanSelector,
-    LeagueSignupModal
+    LeagueSignupModal,
+    ClanCreationModal
   },
 
   data: () => ({
     clanIdSelected: '',
     clanIdOrSlug: '',
     leagueSignupModalOpen: false,
+    clanCreationModal: false,
     doneRegistering: false,
     joinOrLeaveClanLoading: false
   }),
@@ -95,12 +98,17 @@ export default {
       if (this.canRegister) {
         this.leagueSignupModalOpen = true
         try {
+          // Potential alternatives here:
+          // - Move modal into view
+          // - Pass current position into modal
+          // - Wrap modal in backbone so it is of the old variety, which may handle always being visible/in view
+          // - Go to /league# because no anchor goes to the top
           window.scrollTo(0, 0)
         } catch (e) {
           // TODO: Unhandled. Optimistically try and scroll to modal if supported by browser.
         }
       } else {
-        this.signupAndRegister();
+        this.signupAndRegister()
       }
     },
 
@@ -159,7 +167,7 @@ export default {
     },
 
     currentSelectedClanName () {
-      return (this.currentSelectedClan || {}).name || ""
+      return (this.currentSelectedClan || {}).name || ''
     },
 
     inSelectedClan () {
@@ -167,6 +175,14 @@ export default {
         return false
       }
       return (this.currentSelectedClan.members || []).indexOf(me.id) !== -1
+    },
+
+    isClanCreator () {
+      return (this.currentSelectedClan || {}).ownerID === me.id
+    },
+
+    myCreatedClan () {
+      return this.isClanCreator ? this.currentSelectedClan : null
     },
 
     selectedClanRankings () {
@@ -181,6 +197,10 @@ export default {
 
     canRegister () {
       return !me.isAnonymous() && !this.isRegistered
+    },
+
+    canCreateClan () {
+      return (this.currentSelectedClan || {}).ownerID === me.id
     },
 
     isAnonymous () {
@@ -221,6 +241,13 @@ export default {
     >
     </league-signup-modal>
 
+    <clan-creation-modal
+        v-if="clanCreationModal"
+        :clan="myCreatedClan"
+        @close="clanCreationModal = false"
+    >
+    </clan-creation-modal>
+
     <section class="row flex-row" style="margin-bottom: -100px;">
       <img src="/images/pages/league/logo_codecombat_blitz.png" width="234" height="197" />
     </section>
@@ -230,7 +257,7 @@ export default {
         <h1 style="transform: rotate(-10deg);"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
     </section>
-    
+
     <div class="graphic" style="width: 100%; overflow-x: hidden;">
       <img src="/images/pages/league/text_code.svg" width="501" height="147" />
     </div>
@@ -278,7 +305,7 @@ export default {
 
     <!-- TODO - TEMPORARY PLACEMENT -->
     <clan-selector v-if="!isLoading" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" />
-    
+
     <div class="row text-center">
       <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
       <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
@@ -444,8 +471,11 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row text-center" style="margin-bottom: 300px;">
-      <a class="btn btn-large btn-primary btn-moon">Start a Clan</a>
+    <div v-if="isClanCreator" class="row flex-row text-center" style="margin-bottom: 300px;">
+      <a class="btn btn-large btn-primary btn-moon" @click="clanCreationModal = true">Edit Clan</a>
+    </div>
+    <div v-else-if="!currentSelectedClan && canCreateClan" class="row flex-row text-center" style="margin-bottom: 300px;">
+      <a class="btn btn-large btn-primary btn-moon" @click="clanCreationModal = true">Start a Clan</a>
     </div>
 
     <div id="features" class="row">
@@ -613,7 +643,7 @@ export default {
       line-height: 40px;
     }
 
-    img { 
+    img {
       max-height: 250px;
       margin: 0 auto;
     }
