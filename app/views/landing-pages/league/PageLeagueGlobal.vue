@@ -336,7 +336,7 @@ export default {
         <a style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
       <div class="col-sm-5">
-        <img class="img-responsive" src="/images/pages/league/text_coming_april_2021.svg">
+        <img class="img-responsive" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
       </div>
     </div>
 
@@ -344,17 +344,17 @@ export default {
       <h1><span class="esports-purple">How </span><span class="esports-aqua">it </span><span class="esports-pink">works</span></h1>
     </div>
     <div class="row flex-row">
-      <div class="col-sm-1"><img src="/images/pages/league/text_1.svg" class="img-responsive"></div>
+      <div class="col-sm-1"><img src="/images/pages/league/text_1.svg" class="img-responsive" loading="lazy"></div>
       <div class="col-sm-11"><p>Join a <span class="esports-aqua">clan</span></p></div>
     </div>
 
     <div class="row flex-row">
-      <div class="col-sm-1"><img src="/images/pages/league/text_2.svg" class="img-responsive"></div>
+      <div class="col-sm-1"><img src="/images/pages/league/text_2.svg" class="img-responsive" loading="lazy"></div>
       <div class="col-sm-11"><p>Complete the training levels and compete in the <span class="esports-aqua">Season Arena</span></p></div>
     </div>
 
     <div class="row flex-row">
-      <div class="col-sm-1"><img src="/images/pages/league/text_3.svg" class="img-responsive"></div>
+      <div class="col-sm-1"><img src="/images/pages/league/text_3.svg" class="img-responsive" loading="lazy"></div>
       <div class="col-sm-11"><p>Compete in the culminating <span class="esports-aqua">Global Final Arena</span> and push your coding skills to the test</p></div>
     </div>
 
@@ -365,17 +365,17 @@ export default {
       <div class="col-sm-4 text-center">
         <h3>Infinite Inferno Cup</h3>
         <p>Jan - April 2021</p>
-        <img class="img-responsive" src="/images/pages/league/logo_season1_cup.png" />
+        <img class="img-responsive" src="/images/pages/league/logo_season1_cup.png" loading="lazy"/>
       </div>
       <div class="col-sm-4 text-center">
         <h3>Sorcerer's Blitz</h3>
         <p>May - Aug 2021</p>
-        <img class="img-responsive" src="/images/pages/league/logo_codecombat_blitz.png" />
+        <img class="img-responsive" src="/images/pages/league/logo_codecombat_blitz.png" loading="lazy"/>
       </div>
       <div class="col-sm-4 text-center">
         <h3>Colossus Clash</h3>
         <p>Sep - Dec 2021</p>
-        <img class="img-responsive" src="/images/pages/league/logo_season1_clash.png" />
+        <img class="img-responsive" src="/images/pages/league/logo_season1_clash.png" loading="lazy"/>
       </div>
     </div>
     <div class="row">
@@ -399,8 +399,8 @@ export default {
       <img src="/images/pages/league/text_dont_just_play_code.svg" class="img-responsive" style="max-width: 410px; margin: 0 0 0 auto;" />
     </div>
     <div class="row flex-row" style="justify-content: flex-start; z-index: 0; margin-top: -120px;">
-      <div class="col-sm-10">
-        <img src="/images/pages/league/gif_placeholder.png" class="img-responsive" style="max-height: 600px; margin: 0 auto;" />
+      <div class="col-sm-10 video-backer">
+        <img src="/images/pages/league/placeholder_video.gif" class="img-responsive" loading="lazy"/>
       </div>
     </div>
 
@@ -515,7 +515,7 @@ export default {
       <div class="col-sm-8">
         <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
         <p style="margin-bottom: 50px;">Share our AI League flyer with educators, administrators, parents, eSports coaches or others that may be interested.</p>
-        <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon">Download Flyer</a>
+        <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">Download Flyer</a>
       </div>
       <div class="col-sm-4">
         <img src="/images/pages/league/graphic_flyer.png" class="img-responsive" style="transform: translateY(100px);"/>
@@ -685,6 +685,17 @@ export default {
       justify-content: space-between;
       align-items: center;
       text-align: center;
+    }
+  }
+
+  .video-backer {
+    background: url(/images/pages/league/gif_placeholder.png) no-repeat center center;
+    background-size: contain;
+
+    img {
+      padding: 100px 200px 100px 20px;
+      margin: 0 auto;
+      max-height: 600px;
     }
   }
 }
