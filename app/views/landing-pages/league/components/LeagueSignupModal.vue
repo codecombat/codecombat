@@ -32,10 +32,14 @@
       }
       // TODO: Do we need user.ageRange for any of this?
     },
+
     mounted () {
+      this.leagueEmail = !this.unsubscribedFromMarketingEmails
       this.formValues = this.userToFormValues(this) // Extract props
     },
+
     data: () => ({
+      leagueEmail: false,
       formValues: {
         emails: { generalNews: { enabled: false } },
         unsubscribedFromMarketingEmails: true,
@@ -77,21 +81,18 @@
 
         return extracted
       },
-      submit () {
-        if (!this.canSubmit) {
-          // How did we even get here?
-          noty({ type: 'error', text: 'Must receive emails to sign up' })
-          return
-        }
 
+      submit () {
+        this.formValues.emails.generalNews.enabled = this.leagueEmail
+        this.formValues.unsubscribedFromMarketingEmails = !this.leagueEmail
         this.$emit('submit', this.formToUserValues(this.formValues))
         this.$emit('close')
       }
     },
+
     computed: {
       canSubmit () {
-        return this.formValues.emails.generalNews.enabled &&
-            !this.formValues.unsubscribedFromMarketingEmails
+        return this.leagueEmail
       }
     }
   })
@@ -116,18 +117,8 @@
       </div>
 
       <div>
-        <label for="input-email">Email: </label>
-        <input id="input-email" type="email" v-model="formValues.email" />
-      </div>
-
-      <div>
-        <label for="input-emails">Receive general news:</label>
-        <input id="input-emails" type="checkbox" v-model="formValues.emails.generalNews.enabled" />
-      </div>
-
-      <div>
-        <label for="input-consent">Unsubscribe from emails:</label>
-        <input id="input-consent" type="checkbox" v-model="formValues.unsubscribedFromMarketingEmails" />
+        <label for="input-email">Receive AI league news and update emails: </label>
+        <input id="input-email" type="checkbox" v-model="leagueEmail" />
       </div>
 
       <div>
@@ -142,10 +133,10 @@
       </div>
 
       <p style="color: red; font-size: 20px;" v-show="!canSubmit">
-        AI League requires age, receiving emails, and not being unsubscribed from emails
+        AI League requires age, receiving emails, and not being unsubscribed from emails for prize eligibility.
       </p>
 
-      <button @click.prevent="submit" :disabled="!canSubmit">Register</button>
+      <button @click.prevent="submit">Register</button>
     </div>
   </modal>
 </template>
@@ -163,6 +154,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+p {
+  max-width: 450px;
 }
 
 </style>

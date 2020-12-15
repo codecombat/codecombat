@@ -44,7 +44,7 @@ export default {
     this.clanIdOrSlug = this.$route.params.idOrSlug || null
     this.findIdOfParam()
     // Would be odd to arrive here with ?registering=true and be logged out...
-    this.leagueSignupModalOpen = this.canRegister && !!this.$route.query.registering
+    this.leagueSignupModalOpen = this.canRegister() && !!this.$route.query.registering
   },
 
   methods: {
@@ -92,6 +92,9 @@ export default {
       me.set('birthday', registration.birthday)
       me.set('unsubscribedFromMarketingEmails', registration.unsubscribedFromMarketingEmails)
       await me.save()
+
+      // Required to refresh `me` object so that it looks like changes stick
+      location.reload()
     },
 
     scrollToModal () {
@@ -108,7 +111,7 @@ export default {
     },
 
     onHandleJoinCTA () {
-      if (this.canRegister) {
+      if (this.canRegister()) {
         this.leagueSignupModalOpen = true
         this.scrollToModal()
       } else {
@@ -152,6 +155,19 @@ export default {
     openClanCreation () {
       this.clanCreationModal = true
       this.scrollToModal()
+    },
+
+    canRegister () {
+      return !me.isAnonymous()
+    },
+
+    // Assumption that anyone with an account can create a clan.
+    canCreateClan () {
+      return !me.isAnonymous()
+    },
+
+    isAnonymous () {
+      return me.isAnonymous()
     }
   },
 
@@ -198,25 +214,6 @@ export default {
       return this.clanRankings(this.clanIdSelected)
     },
 
-    isRegistered () {
-      const emails = me.get('emails') || {}
-      const unsubscribed = me.get('unsubscribedFromMarketingEmails')
-      return (emails.generalNews || {}).enabled && !unsubscribed
-    },
-
-    canRegister () {
-      return !me.isAnonymous() && !this.isRegistered
-    },
-
-    // Assumption that anyone with an account can create a clan.
-    canCreateClan () {
-      return !me.isAnonymous()
-    },
-
-    isAnonymous () {
-      return me.isAnonymous()
-    },
-
     // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
     firstName () { return me.get('firstName') },
 
@@ -258,12 +255,9 @@ export default {
     >
     </clan-creation-modal>
 
-    <section class="row flex-row" style="margin-bottom: -100px;">
-      <img src="/images/pages/league/logo_codecombat_blitz.png" width="234" height="197" />
-    </section>
-
     <section class="row esports-header" style="min-height: 600px;">
       <div class="col-sm-5">
+        <clan-selector v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" style="margin-bottom: 40px;"/>
         <h1 style="transform: rotate(-10deg);"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
     </section>
@@ -279,8 +273,35 @@ export default {
     <div class="row flex-row text-center">
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
-    <div class="graphic" style="width: 100%; overflow-x: hidden; display: flex; justify-content: flex-end;">
+    <div class="graphic" style="width: 100%; overflow-x: hidden; display: flex; justify-content: flex-end; margin-bottom: 120px;">
       <img src="/images/pages/league/text_2021.svg" width="501" height="147" />
+    </div>
+
+    <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
+      <div class="col-sm-5">
+        <img class="img-responsive" src="/images/pages/league/graphic_1.png">
+      </div>
+      <div class="col-sm-7">
+        <h1><span class="esports-aqua">{{ currentSelectedClan.name }}</span></h1>
+        <h3 style="margin-bottom: 40px;">{{ currentSelectedClan.description }}</h3>
+        <p>Invite players to this clan by sending them this link:</p>
+        <input readonly :value="clanInviteLink" /><br />
+        <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+        <a v-else-if="isClanCreator" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
+        <a v-else-if="inSelectedClan" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Clan</a>
+        <a v-else class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Clan</a>
+      </div>
+    </div>
+
+    <div class="row text-center">
+      <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
+      <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
+      <p>Use your coding skills and battle strategies to rise up the ranks!</p>
+      <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="clanIdSelected" style="color: black;" />
+      <leaderboard v-else :rankings="globalRankings" style="color: black;" />
+    </div>
+    <div class="row text-center" style="margin-bottom: 50px;">
+      <a href="/play/ladder/void-rush" class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Fire Towers Multiplayer Arena</a>
     </div>
 
     <section class="row flex-row">
@@ -295,36 +316,11 @@ export default {
         <a v-if="clanIdSelected === ''" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
     </section>
+
     <div v-if="clanIdSelected === ''" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
       <div class="col-sm-5 col-sm-push-2">
         <img class="img-responsive" src="/images/pages/league/graphic_1.png">
       </div>
-    </div>
-    <div v-else id="clan-invite" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
-      <div class="col-sm-5">
-        <img class="img-responsive" src="/images/pages/league/graphic_1.png">
-      </div>
-      <div class="col-sm-7">
-        <p>Invite players to this clan by sending them this link:</p>
-        <input readonly :value="clanInviteLink" /><br />
-        <a v-if="isAnonymous" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
-        <a v-else-if="inSelectedClan" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Clan</a>
-        <a v-else class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Clan</a>
-      </div>
-    </div>
-
-    <!-- TODO - TEMPORARY PLACEMENT -->
-    <clan-selector v-if="!isLoading" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" />
-
-    <div class="row text-center">
-      <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
-      <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
-      <p>Use your coding skills and battle strategies to rise up the ranks!</p>
-      <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="clanIdSelected" style="color: black;" />
-      <leaderboard v-else :rankings="globalRankings" style="color: black;" />
-    </div>
-    <div class="row text-center">
-      <a href="/play/ladder/void-rush" class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Fire Towers Multiplayer Arena</a>
     </div>
 
     <div class="row flex-row">
@@ -483,7 +479,7 @@ export default {
 
     <div class="row flex-row text-center" style="margin-bottom: 300px;">
       <a v-if="isClanCreator" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
-      <a v-else-if="!currentSelectedClan && canCreateClan" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Start a Clan</a>
+      <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Start a Clan</a>
       <a v-else class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
 
@@ -511,14 +507,14 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row">
+    <div class="row flex-row" style="margin-bottom: 100px;">
       <div class="col-sm-8">
         <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
         <p style="margin-bottom: 50px;">Share our AI League flyer with educators, administrators, parents, eSports coaches or others that may be interested.</p>
         <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">Download Flyer</a>
       </div>
       <div class="col-sm-4">
-        <img src="/images/pages/league/graphic_flyer.png" class="img-responsive" style="transform: translateY(100px);"/>
+        <img src="/images/pages/league/esports_flyer_optimized.png" class="img-responsive" style="transform: translateY(100px);"/>
       </div>
     </div>
   </main>
