@@ -929,6 +929,12 @@ export default {
   background-size: 90px;
 }
 
+.container-course-offering-heading .container p {
+  font-size: 22px;
+  line-height: 30px;
+  max-width: 830px;
+}
+
 .pricing-grid-container {
   display: grid;
   grid-template-columns: 50% 12.5% 12.5% 12.5% 12.5%;
