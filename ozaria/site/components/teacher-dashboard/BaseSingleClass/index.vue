@@ -282,7 +282,7 @@
           students.sort((a, b) => {
             return studentProgression.get(b._id) - studentProgression.get(a._id)
           })
-          if (this.sortMethod === 'Progress (reversed)') {
+          if (this.sortMethod === 'Progress (Low to High)') {
             students.reverse()
           }
 
