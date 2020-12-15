@@ -396,7 +396,7 @@
       </div>
     </div>
 
-    <div class="container-graphic-spacer">
+    <div class="container-graphic-spacer outcome-to-concepts">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
@@ -728,6 +728,8 @@ export default {
 #parent-page .pixelated {
   font-family: "lores12ot-bold";
   color: #0E4C60;
+  padding-left: 20%;
+  padding-right: 20%;
 }
 
 .invest-heading {
@@ -1142,12 +1144,38 @@ export default {
   pointer-events: none;
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 768px) {
   .container-student-outcomes .carousel-row:before {
-    width: 33% !important;
+    width: 25% !important;
   }
   .container-student-outcomes .carousel-row:after {
-    width: 33% !important;
+    width: 25% !important;
+  }
+
+  .container-background-faq .container:before {
+    width: 40% !important;
+  }
+
+  .container-background-faq .container:after {
+    width: 40% !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .outcome-to-concepts img {
+    width: 50%;
+  }
+  .outcome-to-concepts {
+    min-height: 200px;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .container-student-outcomes .carousel-row:before {
+    width: 30% !important;
+  }
+  .container-student-outcomes .carousel-row:after {
+    width: 30% !important;
   }
 
   .container-background-faq .container:before {
@@ -1157,7 +1185,6 @@ export default {
   .container-background-faq .container:after {
     width: 43% !important;
   }
-
 }
 
 .concept-covered-tab {
