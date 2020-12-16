@@ -629,16 +629,19 @@ export default {
   }
 
   .btn-primary.btn-moon {
-    background-color: #f7d047;
-    border-radius: 1px;
-    color: black;
+    padding: 20px 100px;
+    background-color: #d1b147;
+    border-radius: 4px;
+    color: #232323;
     text-shadow: unset;
+    text-transform: uppercase;
     font-weight: bold;
-    min-width: 260px;
-    padding: 15px 0;
+    letter-spacing: 0.71px;
+    line-height: 24px;
+    font-size: 18px;
 
     &:hover {
-      background-color: #d1b147;
+      background-color: #f7d047;
       transition: background-color .35s;
     }
   }
@@ -715,5 +718,6 @@ export default {
       max-height: 600px;
     }
   }
+
 }
 </style>
