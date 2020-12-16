@@ -258,7 +258,7 @@ export default {
     <section class="row esports-header" style="min-height: 600px;">
       <div class="col-sm-5">
         <clan-selector v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" style="margin-bottom: 40px;"/>
-        <h1 style="transform: rotate(-10deg);"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
+        <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
     </section>
 
@@ -582,6 +582,15 @@ export default {
     background: url(/images/pages/league/game_hero.png) no-repeat;
     background-size: contain;
     background-position: right center;
+  }
+
+  .esports-header .esports-h1 {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 60px;
+    line-height: 80px;
+    text-transform: uppercase;
+    transform: rotate(-12deg);
   }
 
   // Most sections have a max width and are centered.
