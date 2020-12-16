@@ -69,6 +69,31 @@
     <div class="container-graphic-spacer">
     </div>
 
+    <div class="container">
+      <div class="row">
+        <h1 class="text-center" style="padding: 0 5px;">Remote Learning That Works</h1>
+        <div class="col-xs-12 video-container">
+          <div style="position: relative; padding-top: 56.25%;"><iframe src="https://iframe.videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e?preload=true" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true"></iframe></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-graphic-spacer">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12" style="margin: 30px 0 20px;">
+            <img
+                class="img-responsive"
+                src="/images/pages/parents/graphic_09.png"
+                alt="hero moving along a path"
+                loading="lazy"
+                style="max-width: 290px;"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container-background-invest-heading">
       <div class="container">
         <div class="row">
@@ -734,6 +759,14 @@ export default {
   color: #0E4C60;
 }
 
+.video-container {
+  margin-top: 50px;
+  padding: 45px;
+
+  background: url(/images/pages/parents/video_backer.png) no-repeat center;
+  background-size: contain;
+}
+
 .invest-heading {
   font-size: 40px;
 }
@@ -862,6 +895,7 @@ export default {
 .container-graphic-spacer {
   min-height: 270px;
   pointer-events: none;
+  overflow-x: hidden;
 }
 
 .container-graphic-spacer img {
