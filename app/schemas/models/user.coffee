@@ -259,6 +259,7 @@ _.extend UserSchema.properties,
     concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
     licenses: c.object { additionalProperties: true }
     students: c.object { additionalProperties: true }
+    codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'Total CodePoints earned'}
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'

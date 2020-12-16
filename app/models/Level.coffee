@@ -314,7 +314,7 @@ module.exports = class Level extends CocoModel
       try
         sampleCode[language] = _.template(code)(plan.context)
       catch e
-        console.error "Problem with template and solution comments for", @get('slug'), e
+        console.error "Problem with template and solution comments for '#{@get('slug') or @get('name')}'\n", e
     sampleCode
 
   @thresholdForScore: ({level, type, score}) ->
