@@ -158,7 +158,7 @@ module.exports = class HomeView extends RootView
       , 'vimeo')
 
     if me.isAnonymous()
-      if document.location.hash is '#create-account'
+      if document.location.hash is '#create-account' or utils.getQueryVariable('registering') == true
         @openModalView(new CreateAccountModal())
       if document.location.hash is '#create-account-individual'
         @openModalView(new CreateAccountModal({startOnPath: 'individual'}))
