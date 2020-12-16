@@ -286,7 +286,7 @@ export default {
     </div>
     <div class="row flex-row text-center">
       <p
-        style="max-width: 800px; margin-bottom: 50px;"
+        style="max-width: 800px;"
       >The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.</p>
     </div>
     <div v-if="!doneRegistering && !isClanCreator" class="row flex-row text-center">
