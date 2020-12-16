@@ -57,6 +57,8 @@ module.exports = class LadderSubmissionView extends CocoView
     return @showApologeticSignupModal() if me.get('anonymous')
     @playSound 'menu-button-click'
     @setRankingButtonText 'submitting'
+    if currentAge = me.age()
+      @session.set 'creatorAge', currentAge
     success = =>
       @setRankingButtonText 'submitted' unless @destroyed
       Backbone.Mediator.publish 'ladder:game-submitted', session: @session, level: @level
