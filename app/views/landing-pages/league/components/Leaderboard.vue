@@ -47,10 +47,10 @@ export default {
         th(colspan=1)
         th(colspan=1) {{ $t('general.rank') }}
         th {{ $t('general.score') }}
-        th.name-col-cell Name {{ $t('general.name') }}
+        th.name-col-cell {{ $t('general.name') }}
         th(colspan=4) {{ $t('clans.clan') }}
         th(colspan=1) {{ $t('ladder.age') }}
-        th(colspan=1)
+        th(colspan=1) 🏴‍☠️
 
     tbody
       tr(v-for="session, rank in rankings" :key="rank" :class="isMySession(session) ? 'success' : ''")
@@ -60,7 +60,7 @@ export default {
           td.code-language-cell(:style="`background-image: url(/images/common/code_languages/${session.submittedCodeLanguage}_small.png)`" :title="session.submittedCodeLanguage")
           td.rank-cell {{ session.rank || rank + 1 }}
           td.score-cell {{ scoreForDisplay(session.totalScore) }}
-          td(:class="'name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.creatorName) ? ' ai' : '')") {{ session.creatorName || "Anonymous" }}
+          td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(session.creatorName) ? ' ai' : '')") {{ session.creatorName || "Anonymous" }}
           td(colspan=4)
             a(:href="`/league/${getClan(session).slug || getClan(session)._id}`") {{ getClan(session).name }}
           td {{ getAgeBracket(session) }}
@@ -72,5 +72,9 @@ export default {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+.name-col-cell.ai {
+  color: #3f44bf;
 }
 </style>

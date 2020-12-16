@@ -349,6 +349,8 @@ _.extend LevelSessionSchema.properties,
     description: 'Age of creator, in years (but with month precision), at time of session creation, or session.submitDate for ladder sessions'
     minimum: 0
 
+  codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'CodePoints this user earned for completing this level'}
+
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'

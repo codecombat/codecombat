@@ -51,6 +51,7 @@ export default {
     ...mapActions({
       loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
       loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
+      loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
     }),
 
     changeClanSelected (e) {
@@ -69,8 +70,10 @@ export default {
       if (this.clanIdOrSlug) {
         this.clanIdSelected = (this.clanByIdOrSlug(this.clanIdOrSlug) || {})._id
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
+        this.loadCodePointsRequiredData({ leagueId: this.clanIdSelected })
       } else {
         this.loadGlobalRequiredData()
+        this.loadCodePointsRequiredData({ leagueId: '' })
       }
     },
 
@@ -175,6 +178,7 @@ export default {
     ...mapGetters({
       globalRankings: 'seasonalLeague/globalRankings',
       clanRankings: 'seasonalLeague/clanRankings',
+      codePointsRankings: 'seasonalLeague/codePointsRankings',
       myClans: 'clans/myClans',
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading'
@@ -195,6 +199,10 @@ export default {
       return (this.currentSelectedClan || {}).name || ''
     },
 
+    currentSelectedClanDescription () {
+      return (this.currentSelectedClan || {}).description || ''
+    },
+
     inSelectedClan () {
       if (!this.currentSelectedClan) {
         return false
@@ -212,6 +220,10 @@ export default {
 
     selectedClanRankings () {
       return this.clanRankings(this.clanIdSelected)
+    },
+
+    selectedClanCodePointsRankings () {
+      return this.codePointsRankings(this.clanIdSelected)
     },
 
     // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
@@ -282,8 +294,8 @@ export default {
         <img class="img-responsive" src="/images/pages/league/graphic_1.png">
       </div>
       <div class="col-sm-7">
-        <h1><span class="esports-aqua">{{ currentSelectedClan.name }}</span></h1>
-        <h3 style="margin-bottom: 40px;">{{ currentSelectedClan.description }}</h3>
+        <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
+        <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
         <p>Invite players to this clan by sending them this link:</p>
         <input readonly :value="clanInviteLink" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
@@ -299,9 +311,10 @@ export default {
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
       <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="clanIdSelected" style="color: black;" />
       <leaderboard v-else :rankings="globalRankings" style="color: black;" />
+      <leaderboard :rankings="selectedClanCodePointsRankings" :key="clanIdSelected" style="color: black;" />
     </div>
     <div class="row text-center" style="margin-bottom: 50px;">
-      <a href="/play/ladder/void-rush" class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Fire Towers Multiplayer Arena</a>
+      <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Blazing Battle Multiplayer Arena</a>
     </div>
 
     <section class="row flex-row">
