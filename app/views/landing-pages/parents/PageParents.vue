@@ -1260,10 +1260,8 @@ export default {
   border-radius: 20px;
 }
 
-</style>
+#parent-page h1, #parent-page h4 {
+  font-weight: 700 !important;
+}
 
-<style>
-  #parent-page h1, #parent-page h4 {
-    font-weight: 700 !important;
-  }
 </style>
