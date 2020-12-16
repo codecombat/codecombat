@@ -395,12 +395,12 @@ export default {
       <img src="/images/pages/league/text_dont_just_play_code.svg" class="img-responsive" style="max-width: 410px; margin: 0 0 0 auto;" />
     </div>
     <div class="row flex-row" style="justify-content: flex-start; z-index: 0; margin-top: -120px;">
-      <div class="col-sm-10 video-backer">
-        <img src="/images/pages/league/placeholder_video.gif" class="img-responsive" loading="lazy"/>
+      <div class="col-sm-10 video-backer video-iframe">
+        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/09166f0ec2f0a171dff6b220d466e4e1" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true"></iframe></div>
       </div>
     </div>
 
-    <div class="row flex-row" style="justify-content: flex-start; margin-top: 200px;">
+    <div class="row flex-row" style="justify-content: flex-start; margin-top: 100px;">
       <div class="col-xs-7">
         <h1><span class="esports-pink">Are you an </span><span class="esports-green">educator </span><span class="esports-pink">or </span><span class="esports-aqua">esports coach?</span></h1>
       </div>
@@ -438,12 +438,12 @@ export default {
         <div style="border: 2.6px solid #BCFF16; border-right: unset;">
           <div class="row flex-row" style="justify-content: flex-end;">
             <div class="col-sm-6">
-              <img src="/images/pages/league/text_pathway_success.svg" height="70px" class="img-responsive" style="padding: 25px 0 0 100px; transform: translateY(-50px); background-color: #0C1016;">
+              <img src="/images/pages/league/text_pathway_success.svg" alt="Pathway to success" height="70px" class="img-responsive" style="padding: 25px 0 0 100px; transform: translateY(-50px); background-color: #0C1016;">
             </div>
           </div>
           <div class="row flex-row" style="justify-content: flex-start;">
             <div class="col-sm-6">
-              <img class="img-responsive" src="/images/pages/league/graphic_success.png" />
+              <img class="img-responsive" src="/images/pages/league/graphic_success.png" alt="Kids holding awards" />
             </div>
             <div class="col-sm-6">
               <p style="margin-bottom: 70px;">
@@ -460,7 +460,7 @@ export default {
         <div style="border: 2.6px solid #FF39A6; border-left: unset;">
           <div class="row flex-row" style="justify-content: flex-start;">
             <div class="col-sm-6">
-              <img src="/images/pages/league/text_unlimited_potential.svg" height="71px" class="img-responsive" style="padding: 25px 100px 0px 0px; transform: translateY(-50px); background-color: #0C1016;">
+              <img src="/images/pages/league/text_unlimited_potential.svg" alt="Unlimited Potential" height="71px" class="img-responsive" style="padding: 25px 100px 0px 0px; transform: translateY(-50px); background-color: #0C1016;">
             </div>
           </div>
           <div class="row flex-row" style="justify-content: flex-start;">
@@ -470,7 +470,7 @@ export default {
               </p>
             </div>
             <div class="col-sm-7">
-              <img class="img-responsive" src="/images/pages/league/graphic_hugging.png" style="margin: 0 0 -120px auto; z-index: 0; transform: translateY(-120px);" />
+              <img class="img-responsive" src="/images/pages/league/graphic_hugging.png" alt="Kid hugging parents" style="margin: 0 0 -120px auto; z-index: 0; transform: translateY(-120px);" />
             </div>
           </div>
         </div>

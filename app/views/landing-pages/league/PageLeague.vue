@@ -13,7 +13,7 @@
     export default {
       metaInfo () {
         return {
-          title: 'League'
+          title: 'Competitive AI coding eSports from CodeCombat'
         }
       },
 
