@@ -65,9 +65,8 @@ export default {
       this.findIdOfParam()
 
       const leagueURL = this.clanIdSelected ? `league/${this.clanIdSelected}` : 'league'
-      application.router.navigate(leagueURL)
-      // { trigger: true } does not work here due to Vue routing weirdness, so we change URL and reload:
-      location.reload()
+
+      application.router.navigate(leagueURL, { trigger: true })
     },
 
     findIdOfParam () {
@@ -316,9 +315,9 @@ export default {
       <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
       <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
-      <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="clanIdSelected" style="color: black;" />
+      <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="`${clanIdSelected}-score`" style="color: black;" />
       <leaderboard v-else :rankings="globalRankings" style="color: black;" />
-      <leaderboard :rankings="selectedClanCodePointsRankings" :key="clanIdSelected" scoreType="codePoints" style="color: black;" />
+      <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" scoreType="codePoints" style="color: black;" />
     </div>
     <div class="row text-center" style="margin-bottom: 50px;">
       <!-- TODO: this CTA should be in the left column with the arena leaderboard, and there should be a separate CTA to play levels and earn CodePoints in the right column -->
