@@ -113,6 +113,7 @@
             <img
               src="/images/pages/parents/personal_learning.png"
               alt="teacher and student playing codecombat"
+              loading="lazy"
             />
           </div>
           <div class="col-md-6 col-sm-12">
@@ -123,7 +124,7 @@
 
         <div class="row row-eq-height">
           <div class="col-md-6 col-md-push-6 col-sm-12 ">
-            <img class="power-of-play-gif" src="/images/pages/parents/power_of_play_capstone.gif" />
+            <img class="power-of-play-gif" src="/images/pages/parents/power_of_play_capstone.gif" loading="lazy" />
           </div>
           <div class="col-md-6 col-sm-12 col-md-pull-6">
             <h3>The Power of Play</h3>
@@ -133,7 +134,7 @@
 
         <div class="row row-eq-height">
           <div class="col-md-6 col-sm-12">
-            <img src="/images/pages/parents/personal_learning_3.png" />
+            <img src="/images/pages/parents/personal_learning_3.png" loading="lazy" />
           </div>
           <div class="col-md-6 col-sm-12">
             <h3>Early Exposure to Coding</h3>
@@ -153,6 +154,7 @@
                 class="img-responsive"
                 src="/images/pages/parents/graphic_03_speech.svg"
                 alt="hero moving along a path based on code commands"
+                loading="lazy"
             />
           </div>
         </div>
@@ -163,7 +165,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <img src="/images/pages/parents/quote.svg" alt="quote" width=60 height=73/>
+            <img src="/images/pages/parents/quote.svg" alt="quote" width=60 height=73 loading="lazy"/>
             <p>Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills.</p>
             <p><b>Latthaphon Pohpon, Parent</b></p>
           </div>
@@ -172,6 +174,7 @@
                 class="img-responsive"
                 src="/images/pages/parents/ten_testimonial.png"
                 alt="kid on computer playing codecombat looking at camera"
+                loading="lazy"
             />
           </div>
         </div>
@@ -190,6 +193,7 @@
                 src="/images/pages/parents/graphic_04.svg"
                 alt="CodeCombat pet following yellow dotted path"
                 style="transform: translate(40%, -35px);"
+                loading="lazy"
             />
           </div>
         </div>
@@ -316,7 +320,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_05.svg" style="margin: 0 auto;" />
+            <img class="img-responsive" src="/images/pages/parents/graphic_05.svg" style="margin: 0 auto;" loading="lazy"/>
           </div>
         </div>
       </div>
@@ -336,6 +340,7 @@
                 class="img-responsive"
                 src="/images/pages/parents/learning_cycle.png"
                 alt="Diagram showing the cycle of learning. Live instruction to engage, with live instruction to explore concepts. Then game time to extend and evaluate."
+                loading="lazy"
             />
           </div>
         </div>
@@ -353,7 +358,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_06.svg" style="margin: 0 auto; transform: translate(-47%, 0);" />
+            <img class="img-responsive" src="/images/pages/parents/graphic_06.svg" style="margin: 0 auto; transform: translate(-47%, 0);" loading="lazy"/>
           </div>
         </div>
       </div>
@@ -371,7 +376,7 @@
               <div class="item active">
                 <div class="row row-eq-height">
                   <div class="col-sm-7">
-                    <img class="img-responsive" src="/images/pages/parents/grit_carousel.png" />
+                    <img class="img-responsive" src="/images/pages/parents/grit_carousel.png" loading="lazy"/>
                   </div>
                   <div class="col-sm-5">
                     <h3>Grit</h3>
@@ -382,7 +387,7 @@
               <div class="item">
                 <div class="row row-eq-height">
                   <div class="col-sm-7">
-                    <img class="img-responsive" src="/images/pages/parents/problem_solving_carousel.png" />
+                    <img class="img-responsive" src="/images/pages/parents/problem_solving_carousel.png" loading="lazy"/>
                   </div>
                   <div class="col-sm-5">
                     <h3>Problem Solving Skills</h3>
@@ -393,7 +398,7 @@
               <div class="item">
                 <div class="row row-eq-height">
                   <div class="col-sm-7">
-                    <img class="img-responsive" src="/images/pages/parents/tech_list_carousel1.png" />
+                    <img class="img-responsive" src="/images/pages/parents/tech_list_carousel1.png" loading="lazy"/>
                   </div>
                   <div class="col-sm-5">
                     <h3>Technological Literacy</h3>
@@ -425,7 +430,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_07.svg" style="margin: 0 auto; transform: translate(-47%, 0);" />
+            <img class="img-responsive" src="/images/pages/parents/graphic_07.svg" style="margin: 0 auto; transform: translate(-47%, 0);" loading="lazy"/>
           </div>
         </div>
       </div>
@@ -440,7 +445,7 @@
         </div>
         <div class="row row-eq-height">
           <div class="col-sm-4 col-xs-12 concept-covered-tab">
-            <img src="/images/pages/parents/trophy_bronze.svg" />
+            <img src="/images/pages/parents/trophy_bronze.svg" loading="lazy"/>
             <h3>Beginner</h3>
             <p><b>For students with little to no text-based coding experience.</b></p>
             <div>
@@ -457,7 +462,7 @@
             </div>
           </div>
           <div class="col-sm-4 col-xs-12 concept-covered-tab">
-            <img src="/images/pages/parents/trophy_silver.svg" />
+            <img src="/images/pages/parents/trophy_silver.svg" loading="lazy"/>
             <h3>Intermediate</h3>
             <p><b>For students with some text-based coding experience.</b></p>
             <div>
@@ -474,7 +479,7 @@
             </div>
           </div>
           <div class="col-sm-4 col-xs-12 concept-covered-tab">
-            <img src="/images/pages/parents/trophy_gold.svg" />
+            <img src="/images/pages/parents/trophy_gold.svg" loading="lazy"/>
             <h3>Advanced</h3>
             <p><b>For students with substantial experience in text-based code and a good grasp of complex concepts.</b></p>
             <div>
@@ -500,7 +505,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_08.svg" style="margin: 0 auto;" />
+            <img class="img-responsive" src="/images/pages/parents/graphic_08.svg" style="margin: 0 auto;" loading="lazy"/>
           </div>
         </div>
       </div>
