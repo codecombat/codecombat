@@ -716,7 +716,7 @@ export default {
     }
   }
 
-  .pb-200{
+  .pb-200 {
     padding-bottom: 200px;
   }
 }
