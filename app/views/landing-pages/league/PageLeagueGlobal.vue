@@ -370,7 +370,7 @@ export default {
       <div class="col-sm-11"><p>Complete the training levels and compete in the <span class="esports-aqua">Season Arena</span></p></div>
     </div>
 
-    <div class="row flex-row">
+    <div class="row flex-row pb-200">
       <div class="col-sm-1"><img src="/images/pages/league/text_3.svg" class="img-responsive" loading="lazy"></div>
       <div class="col-sm-11"><p>Compete in the culminating <span class="esports-aqua">Global Final Arena</span> and push your coding skills to the test</p></div>
     </div>
@@ -719,5 +719,8 @@ export default {
     }
   }
 
+  .pb-200 {
+    padding-bottom: 200px;
+  }
 }
 </style>
