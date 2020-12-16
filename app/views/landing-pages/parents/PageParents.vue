@@ -1144,49 +1144,6 @@ export default {
   pointer-events: none;
 }
 
-@media screen and (min-width: 768px) {
-  .container-student-outcomes .carousel-row:before {
-    width: 25% !important;
-  }
-  .container-student-outcomes .carousel-row:after {
-    width: 25% !important;
-  }
-
-  .container-background-faq .container:before {
-    width: 40% !important;
-  }
-
-  .container-background-faq .container:after {
-    width: 40% !important;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .outcome-to-concepts img {
-    width: 50%;
-  }
-  .outcome-to-concepts {
-    min-height: 200px;
-  }
-}
-
-@media screen and (min-width: 992px) {
-  .container-student-outcomes .carousel-row:before {
-    width: 30% !important;
-  }
-  .container-student-outcomes .carousel-row:after {
-    width: 30% !important;
-  }
-
-  .container-background-faq .container:before {
-    width: 43% !important;
-  }
-
-  .container-background-faq .container:after {
-    width: 43% !important;
-  }
-}
-
 .concept-covered-tab {
   display: flex;
   flex-direction: column;
@@ -1303,6 +1260,49 @@ export default {
   border: 10px solid #1FBAB4;
   box-sizing: border-box;
   border-radius: 20px;
+}
+
+@media screen and (max-width: 767px) {
+  .outcome-to-concepts img {
+    width: 50%;
+  }
+  .outcome-to-concepts {
+    min-height: 200px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container-student-outcomes .carousel-row:before {
+    width: 25%;
+  }
+  .container-student-outcomes .carousel-row:after {
+    width: 25%;
+  }
+
+  .container-background-faq .container:before {
+    width: 40%;
+  }
+
+  .container-background-faq .container:after {
+    width: 40%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .container-student-outcomes .carousel-row:before {
+    width: 30%;
+  }
+  .container-student-outcomes .carousel-row:after {
+    width: 30%;
+  }
+
+  .container-background-faq .container:before {
+    width: 43%;
+  }
+
+  .container-background-faq .container:after {
+    width: 43%;
+  }
 }
 
 </style>
