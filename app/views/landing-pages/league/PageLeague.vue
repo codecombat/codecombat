@@ -3,7 +3,8 @@
 
 <template>
     <div id="page-league">
-      <router-view></router-view>
+      <!-- Key ensures any change of url re-renders component -->
+      <router-view :key="$route.fullPath"></router-view>
     </div>
 </template>
 
