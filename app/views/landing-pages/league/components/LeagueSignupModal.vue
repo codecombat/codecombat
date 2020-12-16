@@ -87,6 +87,10 @@
         this.formValues.unsubscribedFromMarketingEmails = !this.leagueEmail
         this.$emit('submit', this.formToUserValues(this.formValues))
         this.$emit('close')
+      },
+
+      isTeacher () {
+        return me.isTeacher()
       }
     },
 
@@ -101,6 +105,15 @@
 <template>
   <modal @close="$emit('close')" title="Register" id="league-signup-modal">
     <div class="container">
+      <div v-if="isTeacher()" class="registration-description">
+        <p>{{ $t('league.teacher_register_1') }}</p>
+      </div>
+      <div v-else class="registration-description">
+        <p>{{ $t('league.student_register_1') }}</p>
+        <p>{{ $t('league.student_register_2') }}</p>
+        <p>{{ $t('league.student_register_3') }}</p>
+      </div>
+
       <div>
         <label for="input-firstname">First name:</label>
         <input id="input-firstname" type="text" v-model="formValues.firstName" />
@@ -117,11 +130,6 @@
       </div>
 
       <div>
-        <label for="input-email">Receive AI league news and update emails: </label>
-        <input id="input-email" type="checkbox" v-model="leagueEmail" />
-      </div>
-
-      <div>
         <label for="input-month">Birth month:</label>
         <input id="input-month" type="number" min="1" max="12" v-model="formValues.selectedMonth" />
       </div>
@@ -132,7 +140,12 @@
         <input id="input-year" type="number" min="1920" :max="new Date().getFullYear() - 1" v-model="formValues.selectedYear" />
       </div>
 
-      <p style="color: red; font-size: 20px;" v-show="!canSubmit">
+      <div>
+        <label for="input-email" style="max-width: 450px">{{ $t('league.general_news') }}</label>
+        <input id="input-email" type="checkbox" v-model="leagueEmail" />
+      </div>
+
+      <p style="color: red;" v-show="!canSubmit">
         AI League requires age, receiving emails, and not being unsubscribed from emails for prize eligibility.
       </p>
 
@@ -158,6 +171,11 @@
 
 p {
   max-width: 450px;
+}
+
+.registration-description {
+  display: flex;
+  flex-direction: column;
 }
 
 </style>

@@ -277,7 +277,7 @@ export default {
     <section class="row esports-header" style="min-height: 600px;">
       <div class="col-sm-5">
         <clan-selector v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" style="margin-bottom: 40px;"/>
-        <h1 style="transform: rotate(-10deg);"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
+        <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
     </section>
 
@@ -370,7 +370,7 @@ export default {
       <div class="col-sm-11"><p>Complete the training levels and compete in the <span class="esports-aqua">Season Arena</span></p></div>
     </div>
 
-    <div class="row flex-row">
+    <div class="row flex-row pb-200">
       <div class="col-sm-1"><img src="/images/pages/league/text_3.svg" class="img-responsive" loading="lazy"></div>
       <div class="col-sm-11"><p>Compete in the culminating <span class="esports-aqua">Global Final Arena</span> and push your coding skills to the test</p></div>
     </div>
@@ -605,6 +605,15 @@ export default {
     background-position: right center;
   }
 
+  .esports-header .esports-h1 {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 60px;
+    line-height: 80px;
+    text-transform: uppercase;
+    transform: rotate(-12deg);
+  }
+
   // Most sections have a max width and are centered.
   section, & > div {
     max-width: 1366px;
@@ -629,16 +638,19 @@ export default {
   }
 
   .btn-primary.btn-moon {
-    background-color: #f7d047;
-    border-radius: 1px;
-    color: black;
+    padding: 20px 100px;
+    background-color: #d1b147;
+    border-radius: 4px;
+    color: #232323;
     text-shadow: unset;
+    text-transform: uppercase;
     font-weight: bold;
-    min-width: 260px;
-    padding: 15px 0;
+    letter-spacing: 0.71px;
+    line-height: 24px;
+    font-size: 18px;
 
     &:hover {
-      background-color: #d1b147;
+      background-color: #f7d047;
       transition: background-color .35s;
     }
   }
@@ -714,6 +726,10 @@ export default {
       margin: 0 auto;
       max-height: 600px;
     }
+  }
+
+  .pb-200 {
+    padding-bottom: 200px;
   }
 }
 </style>
