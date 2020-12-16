@@ -65,9 +65,8 @@ export default {
       this.findIdOfParam()
 
       const leagueURL = this.clanIdSelected ? `league/${this.clanIdSelected}` : 'league'
-      application.router.navigate(leagueURL)
-      // { trigger: true } does not work here due to Vue routing weirdness, so we change URL and reload:
-      location.reload()
+
+      application.router.navigate(leagueURL, { trigger: true })
     },
 
     findIdOfParam () {
@@ -178,7 +177,26 @@ export default {
 
     isAnonymous () {
       return me.isAnonymous()
-    }
+    },
+
+    inSelectedClan () {
+      if (!this.currentSelectedClan) {
+        return false
+      }
+
+      return (me.get('clans') || []).indexOf(this.currentSelectedClan._id) !== -1
+    },
+
+    isClanCreator () {
+      return (this.currentSelectedClan || {}).ownerID === me.id
+    },
+
+    clanInviteLink () {
+      if (this.currentSelectedClan !== null) {
+        return `${window.location.origin}/league/${this.currentSelectedClan.slug}`
+      }
+      return `${window.location.origin}/league/${this.clanIdOrSlug}`
+    },
   },
 
   computed: {
@@ -190,13 +208,6 @@ export default {
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading'
     }),
-
-    clanInviteLink () {
-      if (this.currentSelectedClan !== null) {
-        return `${window.location.origin}/league/${this.currentSelectedClan.slug}`
-      }
-      return `${window.location.origin}/league/${this.clanIdOrSlug}`
-    },
 
     currentSelectedClan () {
       return this.clanByIdOrSlug(this.clanIdSelected) || null
@@ -210,19 +221,8 @@ export default {
       return (this.currentSelectedClan || {}).description || ''
     },
 
-    inSelectedClan () {
-      if (!this.currentSelectedClan) {
-        return false
-      }
-      return (this.currentSelectedClan.members || []).indexOf(me.id) !== -1
-    },
-
-    isClanCreator () {
-      return (this.currentSelectedClan || {}).ownerID === me.id
-    },
-
     myCreatedClan () {
-      return this.isClanCreator ? this.currentSelectedClan : null
+      return this.isClanCreator() ? this.currentSelectedClan : null
     },
 
     selectedClanRankings () {
@@ -289,7 +289,7 @@ export default {
         style="max-width: 800px; margin-bottom: 50px;"
       >The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.</p>
     </div>
-    <div v-if="!doneRegistering && !isClanCreator" class="row flex-row text-center">
+    <div v-if="!doneRegistering && !isClanCreator()" class="row flex-row text-center">
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
     <div class="graphic" style="width: 100%; overflow-x: hidden; display: flex; justify-content: flex-end; margin-bottom: 120px;">
@@ -304,10 +304,10 @@ export default {
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
         <p>Invite players to this clan by sending them this link:</p>
-        <input readonly :value="clanInviteLink" /><br />
+        <input readonly :value="clanInviteLink()" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
-        <a v-else-if="isClanCreator" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
-        <a v-else-if="inSelectedClan" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Clan</a>
+        <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
+        <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Clan</a>
         <a v-else class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Clan</a>
       </div>
     </div>
@@ -316,9 +316,9 @@ export default {
       <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
       <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
-      <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="clanIdSelected" style="color: black;" />
+      <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="`${clanIdSelected}-score`" style="color: black;" />
       <leaderboard v-else :rankings="globalRankings" style="color: black;" />
-      <leaderboard :rankings="selectedClanCodePointsRankings" :key="clanIdSelected" scoreType="codePoints" style="color: black;" />
+      <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" scoreType="codePoints" style="color: black;" />
     </div>
     <div class="row text-center" style="margin-bottom: 50px;">
       <!-- TODO: this CTA should be in the left column with the arena leaderboard, and there should be a separate CTA to play levels and earn CodePoints in the right column -->
@@ -350,7 +350,7 @@ export default {
         <p style="margin-bottom: 30px;">
           Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.
         </p>
-        <a v-if="!doneRegistering && !isClanCreator" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+        <a v-if="!doneRegistering && !isClanCreator()" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
       <div class="col-sm-5">
         <img class="img-responsive" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
@@ -408,7 +408,7 @@ export default {
       </div>
     </div>
 
-    <div v-if="!doneRegistering && !isClanCreator" class="row flex-row text-center">
+    <div v-if="!doneRegistering && !isClanCreator()" class="row flex-row text-center">
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
 
@@ -499,7 +499,7 @@ export default {
     </div>
 
     <div class="row flex-row text-center" style="margin-bottom: 300px;">
-      <a v-if="isClanCreator" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
+      <a v-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
       <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Start a Clan</a>
       <a v-else-if="!doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
