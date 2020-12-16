@@ -1144,7 +1144,7 @@ export default {
 .concept-covered-tab {
   display: flex;
   flex-direction: column;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
 
   padding: 0 20px;
@@ -1179,7 +1179,7 @@ export default {
 }
 
 .concept-covered-tab.beginner img{
-  max-width: 92px !important;
+  max-width: 92px;
 }
 
 @media screen and (min-width: 700px) {
