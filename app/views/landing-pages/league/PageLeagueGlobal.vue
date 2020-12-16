@@ -311,9 +311,10 @@ export default {
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
       <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="clanIdSelected" style="color: black;" />
       <leaderboard v-else :rankings="globalRankings" style="color: black;" />
-      <leaderboard :rankings="selectedClanCodePointsRankings" :key="clanIdSelected" style="color: black;" />
+      <leaderboard :rankings="selectedClanCodePointsRankings" :key="clanIdSelected" scoreType="codePoints" style="color: black;" />
     </div>
     <div class="row text-center" style="margin-bottom: 50px;">
+      <!-- TODO: this CTA should be in the left column with the arena leaderboard, and there should be a separate CTA to play levels and earn CodePoints in the right column -->
       <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Blazing Battle Multiplayer Arena</a>
     </div>
 
