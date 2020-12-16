@@ -44,13 +44,15 @@ export default {
     this.clanIdOrSlug = this.$route.params.idOrSlug || null
     this.findIdOfParam()
     // Would be odd to arrive here with ?registering=true and be logged out...
-    this.leagueSignupModalOpen = this.canRegister() && !!this.$route.query.registering
+    this.doneRegistering = !!this.$route.query.registered
+    this.leagueSignupModalOpen = !this.doneRegistering && this.canRegister() && !!this.$route.query.registering
   },
 
   methods: {
     ...mapActions({
       loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
       loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
+      loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
     }),
 
     changeClanSelected (e) {
@@ -62,15 +64,20 @@ export default {
       }
       this.findIdOfParam()
 
-      application.router.navigate(`league/${this.clanIdSelected}` , { trigger: true })
+      const leagueURL = this.clanIdSelected ? `league/${this.clanIdSelected}` : 'league'
+      application.router.navigate(leagueURL)
+      // { trigger: true } does not work here due to Vue routing weirdness, so we change URL and reload:
+      location.reload()
     },
 
     findIdOfParam () {
       if (this.clanIdOrSlug) {
         this.clanIdSelected = (this.clanByIdOrSlug(this.clanIdOrSlug) || {})._id
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
+        this.loadCodePointsRequiredData({ leagueId: this.clanIdSelected })
       } else {
         this.loadGlobalRequiredData()
+        this.loadCodePointsRequiredData({ leagueId: '' })
       }
     },
 
@@ -80,7 +87,8 @@ export default {
     },
 
     async submitRegistration (registration) {
-      // TODO: isRegistered is not reactive because we're not using Vuex :( Improve this
+      // This is useless here because of the forced reload - leaving this in to guide next
+      // step of improving this with the various states of a user on this and the sub pages.
       this.doneRegistering = true
 
       // TODO: Validate here too?
@@ -94,6 +102,8 @@ export default {
       await me.save()
 
       // Required to refresh `me` object so that it looks like changes stick
+      application.router.navigate(`${window.location.pathname}?registered=true`)
+      // { trigger: true } does not work here due to Vue routing weirdness, so we change URL and reload:
       location.reload()
     },
 
@@ -175,6 +185,7 @@ export default {
     ...mapGetters({
       globalRankings: 'seasonalLeague/globalRankings',
       clanRankings: 'seasonalLeague/clanRankings',
+      codePointsRankings: 'seasonalLeague/codePointsRankings',
       myClans: 'clans/myClans',
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading'
@@ -195,6 +206,10 @@ export default {
       return (this.currentSelectedClan || {}).name || ''
     },
 
+    currentSelectedClanDescription () {
+      return (this.currentSelectedClan || {}).description || ''
+    },
+
     inSelectedClan () {
       if (!this.currentSelectedClan) {
         return false
@@ -212,6 +227,10 @@ export default {
 
     selectedClanRankings () {
       return this.clanRankings(this.clanIdSelected)
+    },
+
+    selectedClanCodePointsRankings () {
+      return this.codePointsRankings(this.clanIdSelected)
     },
 
     // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
@@ -270,7 +289,7 @@ export default {
         style="max-width: 800px; margin-bottom: 50px;"
       >The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.</p>
     </div>
-    <div class="row flex-row text-center">
+    <div v-if="!doneRegistering && !isClanCreator" class="row flex-row text-center">
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
     <div class="graphic" style="width: 100%; overflow-x: hidden; display: flex; justify-content: flex-end; margin-bottom: 120px;">
@@ -282,8 +301,8 @@ export default {
         <img class="img-responsive" src="/images/pages/league/graphic_1.png">
       </div>
       <div class="col-sm-7">
-        <h1><span class="esports-aqua">{{ currentSelectedClan.name }}</span></h1>
-        <h3 style="margin-bottom: 40px;">{{ currentSelectedClan.description }}</h3>
+        <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
+        <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
         <p>Invite players to this clan by sending them this link:</p>
         <input readonly :value="clanInviteLink" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
@@ -299,9 +318,11 @@ export default {
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
       <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="clanIdSelected" style="color: black;" />
       <leaderboard v-else :rankings="globalRankings" style="color: black;" />
+      <leaderboard :rankings="selectedClanCodePointsRankings" :key="clanIdSelected" scoreType="codePoints" style="color: black;" />
     </div>
     <div class="row text-center" style="margin-bottom: 50px;">
-      <a href="/play/ladder/void-rush" class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Fire Towers Multiplayer Arena</a>
+      <!-- TODO: this CTA should be in the left column with the arena leaderboard, and there should be a separate CTA to play levels and earn CodePoints in the right column -->
+      <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Blazing Battle Multiplayer Arena</a>
     </div>
 
     <section class="row flex-row">
@@ -313,7 +334,7 @@ export default {
           <li><span class="bullet-point" style="background-color: #FF39A6;"/>Join competitive coding clans with friends, family, or classmates</li>
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>Showcase your coding skills and take home great prizes</li>
         </ul>
-        <a v-if="clanIdSelected === ''" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+        <a v-if="clanIdSelected === '' && !doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
     </section>
 
@@ -329,7 +350,7 @@ export default {
         <p style="margin-bottom: 30px;">
           Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.
         </p>
-        <a style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+        <a v-if="!doneRegistering && !isClanCreator" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
       <div class="col-sm-5">
         <img class="img-responsive" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
@@ -387,7 +408,7 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row text-center">
+    <div v-if="!doneRegistering && !isClanCreator" class="row flex-row text-center">
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
 
@@ -480,7 +501,7 @@ export default {
     <div class="row flex-row text-center" style="margin-bottom: 300px;">
       <a v-if="isClanCreator" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
       <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Start a Clan</a>
-      <a v-else class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+      <a v-else-if="!doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
 
     <div id="features" class="row">

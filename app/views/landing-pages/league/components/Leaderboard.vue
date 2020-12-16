@@ -9,68 +9,104 @@ export default {
     rankings: {
       type: Array,
       default: []
+    },
+    scoreType: {
+      type: String,
+      default: 'arena'
     }
   },
 
   methods: {
     scoreForDisplay (totalScore) {
-      return Math.round(totalScore * 100).toLocaleString()
+      if (this.scoreType == "codePoints")
+        return totalScore.toLocaleString()
+      else
+        return Math.round(totalScore * 100).toLocaleString()
     },
 
-    isMySession (session) {
-      return session.creator == me.id
+    isMyRow (row) {
+      return row.creator == me.id
     },
 
-    getClan (session) {
-      return (session.creatorClans || [])[0] || {}
+    getClan (row) {
+      return (row.creatorClans || [])[0] || {}
     },
 
-    getAgeBracket (session) {
-      return $.i18n.t(`ladder.bracket_${(session.ageBracket || 'open').replace(/-/g, '_')}`)
+    getAgeBracket (row) {
+      return $.i18n.t(`ladder.bracket_${(row.ageBracket || 'open').replace(/-/g, '_')}`)
     },
 
-    getCountry (session) {
-      return utils.countryCodeToFlagEmoji(session.creatorCountryCode)
+    getCountry (row) {
+      return utils.countryCodeToFlagEmoji(row.creatorCountryCode)
     }
   }
 }
 </script>
 
 <template lang="pug">
-  table.table.table-bordered.table-condensed.table-hover.ladder-table
-    thead
-      tr
-        th(colspan=12)
-          span {{ $t('ladder.leaderboard') }}
+  .col-lg-6
+    table.table.table-bordered.table-condensed.table-hover.ladder-table
+      thead
+        tr
+          th(colspan=12)
+            span(v-if="scoreType == 'codePoints'") CodePoints
+            span(v-else) Blazing Battle
+            span &nbsp;
+            span {{ $t('ladder.leaderboard') }}
 
-      tr
-        th(colspan=1)
-        th(colspan=1) {{ $t('general.rank') }}
-        th {{ $t('general.score') }}
-        th.name-col-cell Name {{ $t('general.name') }}
-        th(colspan=4) {{ $t('clans.clan') }}
-        th(colspan=1) {{ $t('ladder.age') }}
-        th(colspan=1)
+        tr
+          th(colspan=1)
+          th(colspan=1) {{ $t('general.rank') }}
+          th {{ $t('general.score') }}
+          th.name-col-cell {{ $t('general.name') }}
+          th(colspan=4) {{ $t('clans.clan') }}
+          th(colspan=1) {{ $t('ladder.age') }}
+          th(colspan=1) 🏴‍☠️
 
-    tbody
-      tr(v-for="session, rank in rankings" :key="rank" :class="isMySession(session) ? 'success' : ''")
-        template(v-if="session.type==='BLANK_ROW'")
-          td(colspan=3) ...
-        template(v-else)
-          td.code-language-cell(:style="`background-image: url(/images/common/code_languages/${session.submittedCodeLanguage}_small.png)`" :title="session.submittedCodeLanguage")
-          td.rank-cell {{ session.rank || rank + 1 }}
-          td.score-cell {{ scoreForDisplay(session.totalScore) }}
-          td(:class="'name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.creatorName) ? ' ai' : '')") {{ session.creatorName || "Anonymous" }}
-          td(colspan=4)
-            a(:href="`/league/${getClan(session).slug || getClan(session)._id}`") {{ getClan(session).name }}
-          td {{ getAgeBracket(session) }}
-          td {{ getCountry(session) }}
+      tbody
+        tr(v-for="row, rank in rankings" :key="rank" :class="isMyRow(row) ? 'success' : ''")
+          template(v-if="row.type==='BLANK_ROW'")
+            td(colspan=3) ...
+          template(v-else)
+            td.code-language-cell(:style="`background-image: url(/images/common/code_languages/${row.submittedCodeLanguage}_icon.png)`" :title="row.submittedCodeLanguage")
+            td.rank-cell {{ row.rank || rank + 1 }}
+            td.score-cell {{ scoreForDisplay(row.totalScore) }}
+            td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ row.creatorName || "Anonymous" }}
+            td(colspan=4).clan-col-cell
+              a(:href="`/league/${getClan(row).slug || getClan(row)._id}`") {{ getClan(row).name }}
+            td {{ getAgeBracket(row) }}
+            td {{ getCountry(row) }}
 </template>
 
 <style scoped>
-.code-language-cell {
+.ladder-table td {
+  padding: 2px 2px;
+}
+
+.ladder-table .code-language-cell {
+  height: 16px;
   background-position: center;
-  background-size: contain;
+  background-size: 16px;
   background-repeat: no-repeat;
+  padding: 0 10px
+}
+
+.ladder-table tr {
+  font-size: 16px;
+}
+
+.ladder-table th {
+  text-align: center;
+}
+
+.name-col-cell, .clan-col-cell {
+  max-width: 170px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.name-col-cell.ai {
+  color: #3f44bf;
 }
 </style>

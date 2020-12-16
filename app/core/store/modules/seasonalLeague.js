@@ -1,8 +1,8 @@
-import { getLeaderboard, getMyRank } from '../../api/leaderboard'
+import { getLeaderboard, getMyRank, getCodePointsLeaderboard, getCodePointsRankForUser } from '../../api/leaderboard'
 import { fetchMySessions } from '../../api/level-sessions'
 
-// Level called: Void-Rush
-const currentSeasonalLevelOriginal = '5fad3d71bb7075d1dd20a1c0'
+// Level called: Blazing Battle
+const currentSeasonalLevelOriginal = '5fca06dc8b4da8002889dbf1'
 
 /**
  * We want to be able to fetch and store rankings for
@@ -21,7 +21,8 @@ export default {
       playersBelow: []
     },
     // key is clan id. Returns objects with same structure.
-    rankingsForLeague: {}
+    rankingsForLeague: {},
+    codePointsRankingsForLeague: {}
   },
 
   mutations: {
@@ -47,6 +48,14 @@ export default {
 
     setLeagueRanking (state, { leagueId, ranking }) {
       Vue.set(state.rankingsForLeague, leagueId, ranking)
+    },
+
+    setCodePointsRanking (state, { leagueId, ranking }) {
+      Vue.set(state.codePointsRankingsForLeague, leagueId, ranking)
+    },
+
+    setMyCodePointsRank (state, myCodePointsRank) {
+      state.myCodePointsRank = myCodePointsRank
     }
   },
 
@@ -84,6 +93,25 @@ export default {
           return splitRankings
         }
         return leagueRankings.top
+      }
+    },
+
+    codePointsRankings (state) {
+      return (leagueId) => {
+        if (!state.codePointsRankingsForLeague[leagueId]) {
+          return []
+        }
+        const codePointsRankings = state.codePointsRankingsForLeague[leagueId]
+        if (state.mySession && state.mySession.rank > 20) {
+          const splitRankings = []
+          splitRankings.push(...state.codePointsRankings.top.slice(0, 10))
+          splitRankings.push({ type: 'BLANK_ROW' })
+          splitRankings.push(...state.codePointsRankings.playersAbove)
+          splitRankings.push(state.mySession)
+          splitRankings.push(...state.codePointsRankings.playersBelow)
+          return splitRankings
+        }
+        return codePointsRankings.top
       }
     }
   },
@@ -195,6 +223,52 @@ export default {
       await topLeagueRankingPromise
 
       commit('setLeagueRanking', { leagueId: leagueId, ranking: leagueRankingInfo })
+    },
+
+    async loadCodePointsRequiredData ({ commit }, { leagueId }) {
+      const codePointsRankingInfo = {
+        top: [],
+        playersAbove: [],
+        playersBelow: []
+      }
+
+      const topCodePointsRankingPromise = getCodePointsLeaderboard(leagueId, {
+        order: -1,
+        scoreOffset: 1000000,
+        limit: 20,
+      }).then(ranking => {
+        codePointsRankingInfo.top = ranking
+      })
+
+      if (me.get('stats') && me.get('stats').codePoints) {
+        const [ playersAbove, playersBelow, myRank ] = await Promise.all([
+          getCodePointsLeaderboard(leagueId, { order: 1, scoreOffset: me.get('stats').codePoints, limit: 4 }),
+          getCodePointsLeaderboard(leagueId, { order: -1, scoreOffset: me.get('stats').codePoints, limit: 4 }),
+          getCodePointsRankForUser(leagueId, me.id, { scoreOffset: me.get('stats').codePoints })
+        ])
+
+        let rank = parseInt(myRank, 10)
+        for (const abovePlayer of playersAbove) {
+          rank -= 1
+          abovePlayer.rank = rank
+        }
+        playersAbove.reverse()
+        rank = parseInt(myRank, 10)
+        for (const belowPlayer of playersBelow) {
+          rank += 1
+          belowPlayer.rank = rank
+        }
+
+        const myPlayerRow = {creatorName: me.broadName(), rank: parseInt(myRank, 10)}
+        codePointsRankingInfo.playersAbove = playersAbove
+        codePointsRankingInfo.playersBelow = playersBelow
+
+        commit('setMyCodePointsRank', myPlayerRow)
+      }
+
+      await topCodePointsRankingPromise
+
+      commit('setCodePointsRanking', { leagueId: leagueId, ranking: codePointsRankingInfo })
     },
 
     async fetchGlobalLeaderboard ({ commit }) {
