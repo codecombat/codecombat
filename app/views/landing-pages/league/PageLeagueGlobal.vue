@@ -64,7 +64,10 @@ export default {
       }
       this.findIdOfParam()
 
-      application.router.navigate(`league/${this.clanIdSelected}` , { trigger: true })
+      const leagueURL = this.clanIdSelected ? `league/${this.clanIdSelected}` : 'league'
+      application.router.navigate(leagueURL)
+      // { trigger: true } does not work here due to Vue routing weirdness, so we change URL and reload:
+      location.reload()
     },
 
     findIdOfParam () {
