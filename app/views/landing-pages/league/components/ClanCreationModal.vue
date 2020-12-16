@@ -63,8 +63,8 @@
           // Assume this will fail if the clan name exists
           const savedClan = await clan.save({})
 
-          application.router.navigate(`/league/${savedClan._id}`, { trigger: true })
           this.$emit('close')
+          application.router.navigate(`/league/${savedClan._id}`, { trigger: true })
         } catch (e) {
           if (e.errorName === 'Conflict' || e.code === 409) {
             noty({ type: 'error', text: 'Clan name already exists', timeout: 3000 })

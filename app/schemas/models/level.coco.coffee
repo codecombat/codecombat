@@ -385,6 +385,7 @@ _.extend LevelSchema.properties,
   picoCTFProblem: { type: 'string', description: 'Associated picoCTF problem ID, if this is a picoCTF level' }
   password: { type: 'string', description: 'The password required to create a session for this level' }
   mirrorMatch: { type: 'boolean', description: 'Whether a multiplayer ladder arena is a mirror match' }
+  codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'CodePoints that can be earned for completing this level'}
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema

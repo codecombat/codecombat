@@ -14,3 +14,11 @@ export const getLeaderboard = (levelOriginal, options) => {
 export const getMyRank = (levelOriginal, sessionId, options) => {
   return fetchJson(`/db/level/${levelOriginal}/rankings/${sessionId}?${$.param(options)}`)
 }
+
+export const getCodePointsLeaderboard = (clanId, options) => {
+  return fetchJson(`/db/clan/${clanId || '-'}/code-points?${$.param(options)}`)
+}
+
+export const getCodePointsRankForUser = (clanId, userId, options) => {
+  return fetchJson(`/db/clan/${clanId || '-'}/code-points/user/${userId || me.id}?${$.param(options)}`)
+}
