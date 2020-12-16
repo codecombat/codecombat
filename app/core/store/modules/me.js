@@ -97,6 +97,7 @@ export default {
 
   actions: {
     save ({ state }, updates) {
+      debugger
       // updates this module, Backbone me, and server
       const user = _.assign({}, state, updates)
       return api.users.put(user)
