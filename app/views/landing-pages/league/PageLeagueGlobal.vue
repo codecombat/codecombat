@@ -44,7 +44,8 @@ export default {
     this.clanIdOrSlug = this.$route.params.idOrSlug || null
     this.findIdOfParam()
     // Would be odd to arrive here with ?registering=true and be logged out...
-    this.leagueSignupModalOpen = this.canRegister() && !!this.$route.query.registering
+    this.doneRegistering = !!this.$route.query.registered
+    this.leagueSignupModalOpen = !this.doneRegistering && this.canRegister() && !!this.$route.query.registering
   },
 
   methods: {
@@ -83,7 +84,8 @@ export default {
     },
 
     async submitRegistration (registration) {
-      // TODO: isRegistered is not reactive because we're not using Vuex :( Improve this
+      // This is useless here because of the forced reload - leaving this in to guide next
+      // step of improving this with the various states of a user on this and the sub pages.
       this.doneRegistering = true
 
       // TODO: Validate here too?
@@ -97,6 +99,8 @@ export default {
       await me.save()
 
       // Required to refresh `me` object so that it looks like changes stick
+      application.router.navigate(`${window.location.pathname}?registered=true`)
+      // { trigger: true } does not work here due to Vue routing weirdness, so we change URL and reload:
       location.reload()
     },
 
@@ -282,7 +286,7 @@ export default {
         style="max-width: 800px; margin-bottom: 50px;"
       >The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.</p>
     </div>
-    <div class="row flex-row text-center">
+    <div v-if="!doneRegistering && !isClanCreator" class="row flex-row text-center">
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
     <div class="graphic" style="width: 100%; overflow-x: hidden; display: flex; justify-content: flex-end; margin-bottom: 120px;">
@@ -327,7 +331,7 @@ export default {
           <li><span class="bullet-point" style="background-color: #FF39A6;"/>Join competitive coding clans with friends, family, or classmates</li>
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>Showcase your coding skills and take home great prizes</li>
         </ul>
-        <a v-if="clanIdSelected === ''" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+        <a v-if="clanIdSelected === '' && !doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
     </section>
 
@@ -343,7 +347,7 @@ export default {
         <p style="margin-bottom: 30px;">
           Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.
         </p>
-        <a style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+        <a v-if="!doneRegistering && !isClanCreator" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
       <div class="col-sm-5">
         <img class="img-responsive" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
@@ -401,7 +405,7 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row text-center">
+    <div v-if="!doneRegistering && !isClanCreator" class="row flex-row text-center">
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
 
@@ -494,7 +498,7 @@ export default {
     <div class="row flex-row text-center" style="margin-bottom: 300px;">
       <a v-if="isClanCreator" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
       <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Start a Clan</a>
-      <a v-else class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+      <a v-else-if="!doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
 
     <div id="features" class="row">
