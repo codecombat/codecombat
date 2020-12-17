@@ -83,7 +83,7 @@
 
     <div class="container-child-future">
       <div class="container">
-        <div class="row row-eq-height">
+        <div class="row row-eq-height xs-pb-50">
           <div class="col-md-6 col-sm-12">
             <img
               src="/images/pages/parents/personal_learning.png"
@@ -96,7 +96,7 @@
           </div>
         </div>
 
-        <div class="row row-eq-height">
+        <div class="row row-eq-height xs-pb-50">
           <div class="col-md-6 col-md-push-6 col-sm-12 ">
             <img class="power-of-play-gif" src="/images/pages/parents/power_of_play_capstone.gif" />
           </div>
@@ -414,7 +414,7 @@
           </div>
         </div>
         <div class="row row-eq-height">
-          <div class="col-sm-4 col-xs-12 concept-covered-tab">
+          <div class="col-sm-4 col-xs-12 concept-covered-tab xs-pb-50">
             <img src="/images/pages/parents/trophy_bronze.svg" />
             <h3>Beginner</h3>
             <p><b>For students with little to no text-based coding experience.</b></p>
@@ -431,7 +431,7 @@
               </ul>
             </div>
           </div>
-          <div class="col-sm-4 col-xs-12 concept-covered-tab">
+          <div class="col-sm-4 col-xs-12 concept-covered-tab xs-pb-50">
             <img src="/images/pages/parents/trophy_silver.svg" />
             <h3>Intermediate</h3>
             <p><b>For students with some text-based coding experience.</b></p>
@@ -448,7 +448,7 @@
               </ul>
             </div>
           </div>
-          <div class="col-sm-4 col-xs-12 concept-covered-tab">
+          <div class="col-sm-4 col-xs-12 concept-covered-tab xs-pb-50">
             <img src="/images/pages/parents/trophy_gold.svg" />
             <h3>Advanced</h3>
             <p><b>For students with substantial experience in text-based code and a good grasp of complex concepts.</b></p>
@@ -1263,5 +1263,12 @@ export default {
   box-sizing: border-box;
   border-radius: 20px;
 }
+
+@media screen and (max-width: 768px) {
+  .xs-pb-50 {
+    padding-bottom: 50px;
+  }
+}
+
 
 </style>
