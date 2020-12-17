@@ -2363,6 +2363,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     awaiting_tournament_title: "比赛未开始"
     awaiting_tournament_blurb: "比赛将于6月22日下午开启，敬请期待"
     tournament_end_desc: "比赛暂未开放"
+#    age: "Age"
+#    bracket_0_11: "0-11"
+#    bracket_11_14: "11-14"
+#    bracket_14_18: "14-18"
+#    bracket_open: "Open"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -3181,3 +3186,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   admin:
     license_type_full: "全课许可"
     license_type_customize: "可选课程"
+
+#  league:
+#    student_register_1: "Become the next AI Champion!"
+#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_3: "Provide the information below to be eligible for prizes."
+#    teacher_register_1: "Sign up to access your class league profile page and get your class started."
+#    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
