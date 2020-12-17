@@ -12,6 +12,7 @@ module.exports = nativeDescription: "Монгол (Мон)", englishDescription:
     multiplayer: "Олон тоглогчид" # Not currently shown on home page
     for_developers: "Хөгжүүлэгчдэд" # Not currently shown on home page.
     or_ipad: "Эсвэл iPad-ны хувилбар татаж авах"
+    
   nav:
     play: "Үеүүд" # The top nav bar entry where players choose which levels to play
     community: "Групп"
@@ -457,7 +458,7 @@ module.exports = nativeDescription: "Монгол (Мон)", englishDescription:
     stripe_description_year_sale:   "1 жилийн захиалга (35% хөнгөлөлттэй)"
     subscription_required_to_play:   "Энэ түвшинг тоглуулахын тулд танд захиалга хэрэгтэй болно."
     unlock_help_videos:   "Бүх видео хичээлийн түгжээг тайлахын тулд захиалаарай."
-    personal_sub: # Accounts Subscription View below   "Хувийн захиалга" # Дансны захиалгын доор үзнэ үү
+    personal_sub: "Хувийн захиалга" # Дансны захиалгын доор үзнэ үү
     loading_info:   "Захиалгын мэдээллийг ачаалж байна ..."
     managed_by:   "Удирддаг"
     will_be_cancelled:   "Цуцлагдах хугацаа нь"
