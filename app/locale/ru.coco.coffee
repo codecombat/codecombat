@@ -2363,6 +2363,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     awaiting_tournament_title: "Турнир Неактивен"
     awaiting_tournament_blurb: "Турнирная арена пока не активна."
     tournament_end_desc: "Турнир окончен, спасибо за участие"
+#    age: "Age"
+#    bracket_0_11: "0-11"
+#    bracket_11_14: "11-14"
+#    bracket_14_18: "14-18"
+#    bracket_open: "Open"
 
   user:
     user_title: "__name__ - Изучи программирование с CodeCombat"
@@ -3181,3 +3186,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #  admin:
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
+
+#  league:
+#    student_register_1: "Become the next AI Champion!"
+#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_3: "Provide the information below to be eligible for prizes."
+#    teacher_register_1: "Sign up to access your class league profile page and get your class started."
+#    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."

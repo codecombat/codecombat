@@ -2362,6 +2362,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     awaiting_tournament_title: "Gbheanzrag Vanpgvir"
     awaiting_tournament_blurb: "Gur gbheanzrag neran vf abg pheeragyl npgvir."
     tournament_end_desc: "Gur gbheanzrag vf bire, gunaxf sbe cynlvat"
+    age: "Ntr"
+    bracket_0_11: "0-11"
+    bracket_11_14: "11-14"
+    bracket_14_18: "14-18"
+    bracket_open: "Bcra"
 
   user:
     user_title: '__anzr__ - Yrnea gb Pbqr jvgu PbqrPbzong'
@@ -3180,3 +3185,10 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   admin:
     license_type_full: 'Shyy Pbhefrf'
     license_type_customize: 'Phfgbzvmr Pbhefrf'
+
+  league:
+    student_register_1: "Orpbzr gur arkg NV Punzcvba!"
+    student_register_2: "Fvta hc, perngr lbhe bja pyna, be wbva bgure pynaf gb fgneg pbzcrgvat."
+    student_register_3: "Cebivqr gur vasbezngvba orybj gb or ryvtvoyr sbe cevmrf."
+    teacher_register_1: "Fvta hc gb npprff lbhe pynff yrnthr cebsvyr cntr naq trg lbhe pynff fgnegrq."
+    general_news: "Trg rznvyf ba gur yngrfg arjf naq hcqngrf ertneqvat bhe NV Yrnthrf naq gbheanzragf."
