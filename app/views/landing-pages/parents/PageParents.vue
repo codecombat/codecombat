@@ -71,7 +71,7 @@
 
     <div class="container">
       <div class="row">
-        <h1 class="text-center" style="padding: 0 5px;">Remote Learning That Works</h1>
+        <h1 class="text-center pixelated" style="padding: 0 5px;">Remote Learning That Works</h1>
         <div class="col-xs-12 video-container">
           <div style="position: relative; padding-top: 56.25%;"><iframe src="https://iframe.videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e?preload=true&poster=https://videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg%3Ftime%3D2s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true"></iframe></div>
         </div>
