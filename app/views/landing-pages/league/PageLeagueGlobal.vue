@@ -551,7 +551,7 @@ export default {
   font-family: Work Sans, "Sans Serif";
   color: white;
   h1, h2, h3 {
-    font-family: "lores12ot-bold";
+    font-family: "lores12ot-bold", "VT323";
     color: white;
   }
 

@@ -82,7 +82,7 @@ export default {
   }
 
   .pixelated {
-    font-family: "lores12ot-bold";
+    font-family: "lores12ot-bold", "VT323";
     color: #0E4C60;
   }
 
