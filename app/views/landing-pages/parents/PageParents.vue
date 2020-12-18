@@ -426,7 +426,7 @@
       </div>
     </div>
 
-    <div class="container-graphic-spacer">
+    <div class="container-graphic-spacer outcome-to-concepts">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
@@ -762,6 +762,8 @@ export default {
 #parent-page .pixelated {
   font-family: "lores12ot-bold", "VT323";
   color: #0E4C60;
+  padding-left: 20%;
+  padding-right: 20%;
 }
 
 .video-container {
@@ -1301,6 +1303,49 @@ export default {
   border: 10px solid #1FBAB4;
   box-sizing: border-box;
   border-radius: 20px;
+}
+
+@media screen and (max-width: 767px) {
+  .outcome-to-concepts img {
+    width: 50%;
+  }
+  .outcome-to-concepts {
+    min-height: 200px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container-student-outcomes .carousel-row:before {
+    width: 25%;
+  }
+  .container-student-outcomes .carousel-row:after {
+    width: 25%;
+  }
+
+  .container-background-faq .container:before {
+    width: 40%;
+  }
+
+  .container-background-faq .container:after {
+    width: 40%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .container-student-outcomes .carousel-row:before {
+    width: 30%;
+  }
+  .container-student-outcomes .carousel-row:after {
+    width: 30%;
+  }
+
+  .container-background-faq .container:before {
+    width: 43%;
+  }
+
+  .container-background-faq .container:after {
+    width: 43%;
+  }
 }
 
 </style>
