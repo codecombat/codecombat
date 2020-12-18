@@ -71,7 +71,7 @@
 
     <div class="container">
       <div class="row">
-        <h1 class="text-center" style="padding: 0 5px;">Remote Learning That Works</h1>
+        <h1 class="text-center pixelated" style="padding: 0 5px;">Remote Learning That Works</h1>
         <div class="col-xs-12 video-container">
           <div style="position: relative; padding-top: 56.25%;"><iframe src="https://iframe.videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e?preload=true&poster=https://videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg%3Ftime%3D2s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true"></iframe></div>
         </div>
@@ -108,7 +108,7 @@
 
     <div class="container-child-future">
       <div class="container">
-        <div class="row row-eq-height">
+        <div class="row row-eq-height xs-pb-50">
           <div class="col-md-6 col-sm-12">
             <img
               src="/images/pages/parents/personal_learning.png"
@@ -122,7 +122,7 @@
           </div>
         </div>
 
-        <div class="row row-eq-height">
+        <div class="row row-eq-height xs-pb-50">
           <div class="col-md-6 col-md-push-6 col-sm-12 ">
             <img class="power-of-play-gif" src="/images/pages/parents/power_of_play_capstone.gif" loading="lazy" />
           </div>
@@ -368,7 +368,7 @@
     <div class="container-student-outcomes">
       <div class="container">
         <div class="row carousel-row">
-          <div class="col-lg-12 text-center">
+          <div class="col-lg-12 text-center student-outcomes">
             <h1 class="pixelated">Student Outcomes</h1>
           </div>
           <div id="student-outcome-carousel" class="carousel slide" data-interval=8000>
@@ -426,7 +426,7 @@
       </div>
     </div>
 
-    <div class="container-graphic-spacer">
+    <div class="container-graphic-spacer outcome-to-concepts">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
@@ -444,11 +444,11 @@
           </div>
         </div>
         <div class="row row-eq-height">
-          <div class="col-sm-4 col-xs-12 concept-covered-tab">
+          <div class="col-sm-4 col-xs-12 concept-covered-tab beginner xs-pb-50">
             <img src="/images/pages/parents/trophy_bronze.svg" loading="lazy"/>
             <h3>Beginner</h3>
             <p><b>For students with little to no text-based coding experience.</b></p>
-            <div>
+            <div class="topics">
               <ul>
                 <li>Sequences</li>
                 <li>Algorithms</li>
@@ -461,11 +461,11 @@
               </ul>
             </div>
           </div>
-          <div class="col-sm-4 col-xs-12 concept-covered-tab">
+          <div class="col-sm-4 col-xs-12 concept-covered-tab intermediate xs-pb-50">
             <img src="/images/pages/parents/trophy_silver.svg" loading="lazy"/>
             <h3>Intermediate</h3>
             <p><b>For students with some text-based coding experience.</b></p>
-            <div>
+            <div class="topics">
               <ul>
                 <li>Boolean logic</li>
                 <li>Properties</li>
@@ -478,11 +478,11 @@
               </ul>
             </div>
           </div>
-          <div class="col-sm-4 col-xs-12 concept-covered-tab">
+          <div class="col-sm-4 col-xs-12 concept-covered-tab advanced xs-pb-50">
             <img src="/images/pages/parents/trophy_gold.svg" loading="lazy"/>
             <h3>Advanced</h3>
             <p><b>For students with substantial experience in text-based code and a good grasp of complex concepts.</b></p>
-            <div>
+            <div class="topics">
               <ul>
                 <li>Advanced strings</li>
                 <li>Computer arithmetic</li>
@@ -762,6 +762,8 @@ export default {
 #parent-page .pixelated {
   font-family: "lores12ot-bold", "VT323";
   color: #0E4C60;
+  padding-left: 20%;
+  padding-right: 20%;
 }
 
 .video-container {
@@ -972,6 +974,12 @@ export default {
   background-size: 90px;
 }
 
+.container-course-offering-heading .container p {
+  font-size: 22px;
+  line-height: 30px;
+  max-width: 830px;
+}
+
 .pricing-grid-container {
   display: grid;
   grid-template-columns: 50% 12.5% 12.5% 12.5% 12.5%;
@@ -1168,7 +1176,6 @@ export default {
   border-radius: 40px 0 0 40px;
   pointer-events: none;
 }
-
 .carousel-row:after {
   content: '';
   border-top: 4px solid #6ae8e3;
@@ -1188,7 +1195,7 @@ export default {
 .concept-covered-tab {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 
   padding: 0 20px;
@@ -1220,6 +1227,16 @@ export default {
   max-width: 100px;
   height: auto;
   margin-bottom: 20px;
+}
+
+.concept-covered-tab.beginner img{
+  max-width: 92px;
+}
+
+@media screen and (min-width: 700px) {
+  .concept-covered-tab.beginner .topics, .concept-covered-tab.intermediate .topics{
+    padding-top: 30px;
+  }
 }
 
 .container-concepts-covered .concept-covered-tab div {
@@ -1301,6 +1318,55 @@ export default {
   border: 10px solid #1FBAB4;
   box-sizing: border-box;
   border-radius: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .xs-pb-50 {
+    padding-bottom: 50px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .outcome-to-concepts img {
+    width: 50%;
+  }
+  .outcome-to-concepts {
+    min-height: 200px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container-student-outcomes .carousel-row:before {
+    width: 25%;
+  }
+  .container-student-outcomes .carousel-row:after {
+    width: 25%;
+  }
+
+  .container-background-faq .container:before {
+    width: 40%;
+  }
+
+  .container-background-faq .container:after {
+    width: 40%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .container-student-outcomes .carousel-row:before {
+    width: 30%;
+  }
+  .container-student-outcomes .carousel-row:after {
+    width: 30%;
+  }
+
+  .container-background-faq .container:before {
+    width: 43%;
+  }
+
+  .container-background-faq .container:after {
+    width: 43%;
+  }
 }
 
 </style>
