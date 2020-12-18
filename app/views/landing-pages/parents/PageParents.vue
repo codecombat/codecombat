@@ -1260,7 +1260,7 @@ export default {
   border-radius: 20px;
 }
 
-.top-jumbotron h1 {
+#parent-page h1, #parent-page h4 {
   font-weight: 700;
 }
 

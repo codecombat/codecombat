@@ -121,8 +121,8 @@ export default {
     }
   }
 
-  #parent-page h1, #parent-page h4 {
-    font-weight: 700 !important;
+  .top-jumbotron h1 {
+    font-weight: 700;
   }
 
 </style>
