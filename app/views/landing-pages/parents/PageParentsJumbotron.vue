@@ -126,7 +126,8 @@ export default {
 
   .top-jumbotron h1 {
     font-weight: 700;
-
+  }
+  
   @media (max-width: 767px) {
     .parents-header-text {
       font-size: 40px;
