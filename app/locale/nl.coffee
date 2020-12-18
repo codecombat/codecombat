@@ -1697,10 +1697,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     code: "Code van __name__"
     complete_solution: "Maak de oplossing af"
     course_not_started: "Leerling is nog niet met deze cursus begonnen"
-#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
-#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
-#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
-#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
     hoc_happy_ed_week: "Fijne Computer Science Education Week!"
     hoc_blurb1: "Lees meer over de gratis"
     hoc_blurb2: "Code, Speel, Deel"
@@ -2367,6 +2363,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     awaiting_tournament_title: "Tournament Inactief"
     awaiting_tournament_blurb: "De toernooi arena is op dit moment niet actief"
     tournament_end_desc: "Het toernooi is voorbij, bedankt voor het spelen"
+#    age: "Age"
+#    bracket_0_11: "0-11"
+#    bracket_11_14: "11-14"
+#    bracket_14_18: "14-18"
+#    bracket_open: "Open"
 
   user:
     user_title: "__name__ - Leer coderen met CodeCombat"
@@ -3185,3 +3186,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #  admin:
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
+
+#  league:
+#    student_register_1: "Become the next AI Champion!"
+#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_3: "Provide the information below to be eligible for prizes."
+#    teacher_register_1: "Sign up to access your class league profile page and get your class started."
+#    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."

@@ -21,8 +21,8 @@ export default {
          alt="flying griffin"/>
     <div class="row">
       <div class="col-lg-12">
-        <h1 class="pixelated">Live Online Coding Classes</h1>
-        <h1 class="pixelated">Your Child Will Love</h1>
+        <h1 class="pixelated parents-header-text">Live Online Coding Classes</h1>
+        <h1 class="pixelated parents-header-text">Your Child Will Love</h1>
       </div>
     </div>
 
@@ -82,7 +82,7 @@ export default {
   }
 
   .pixelated {
-    font-family: "lores12ot-bold";
+    font-family: "lores12ot-bold", "VT323";
     color: #0E4C60;
   }
 
@@ -102,10 +102,13 @@ export default {
   }
 
   @media (max-width: 1000px) {
+    .top-jumbotron h1 + h1 {
+      margin-bottom: 38px;
+    }
     .top-jumbotron {
       /* Moves images out of the way of the heading to keep it legible */
       background-size: 443px, 260px, 90px, 260px, 250px;
-      background-position: bottom -74% left -5%,
+      background-position: bottom -65% left -5%,
         top 50px left 30px,
         top 35px right 280px,
         top 360px right 300px,
@@ -123,6 +126,30 @@ export default {
 
   .top-jumbotron h1 {
     font-weight: 700;
+
+  @media (max-width: 767px) {
+    .parents-header-text {
+      font-size: 40px;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .parents-header-text {
+      font-size: 36px;
+      line-height: 48px;
+    }
+    .top-jumbotron h1 + h1 {
+      margin-bottom: 20px;
+    }
+    .top-jumbotron {
+      /* Moves images out of the way of the heading to keep it legible */
+      background-size: 443px, 260px, 90px, 260px, 250px;
+      background-position: bottom -40% left -5%,
+        top 50px left 30px,
+        top 35px right 280px,
+        top 360px right 300px,
+        bottom 52px right 475px;
+    }
   }
 
 </style>

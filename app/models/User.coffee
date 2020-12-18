@@ -547,6 +547,8 @@ module.exports = class User extends CocoModel
     options.method = 'DELETE'
     return $.ajax(options)
 
+  age: -> utils.yearsSinceMonth me.get('birthday')
+
   # Feature Flags
   # Abstract raw settings away from specific UX changes
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
