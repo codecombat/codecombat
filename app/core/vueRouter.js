@@ -15,6 +15,15 @@ export default function getVueRouter () {
           props: (route) => ({ showPremium: true, type: route.query.type })
         },
         {
+          path: '/league',
+          component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeague'),
+          children: [
+            // Stub pages
+            { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
+            { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') }
+          ]
+        },
+        {
           path: '/live-classes',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
           props: (route) => ({ showPremium: false, type: route.query.type })

@@ -179,6 +179,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'impact': () ->
       @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat' })
 
+    'league(/*subpath)': go('core/SingletonAppVueComponentView')
+
     'legal': go('LegalView')
 
     'logout': 'logout'

@@ -184,6 +184,10 @@ ageOfConsent = (countryName, defaultIfUnknown=0) ->
   return 16 if country.inEU
   return defaultIfUnknown
 
+countryCodeToFlagEmoji = (code) ->
+  return code unless code?.length is 2
+  (String.fromCodePoint(c.charCodeAt() + 0x1F1A5) for c in code.toUpperCase()).join('')
+
 courseIDs =
   INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
   GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
@@ -827,19 +831,51 @@ videoLevels = {
   }
 }
 
+yearsSinceMonth = (start) ->
+  return undefined unless start
+  # Should probably review this logic, written quickly and haven't tested any edge cases
+  if _.isString start
+    return undefined unless /\d{4}-\d{2}(-\d{2})?/.test start
+    if start.length is 7
+      start = start + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
+    start = new Date(start)
+  return undefined unless _.isDate start
+  now = new Date()
+  now.getFullYear() - start.getFullYear() + (now.getMonth() - start.getMonth()) / 12
+
+# Keep in sync with the copy in background-processor
+ageBrackets = [
+  {slug: '0-11', max: 11.33}
+  {slug: '11-14', max: 14.33}
+  {slug: '14-18', max: 18.99}
+  {slug: 'open', max: 9001}
+]
+
+ageToBracket = (age) ->
+  # Convert years to an age bracket
+  return 'open' unless age
+  for bracket in ageBrackets
+    if age < bracket.max
+      return bracket.slug
+  return 'open'
+
 module.exports = {
+  addressesIncludeAdministrativeRegion
+  ageBrackets
   ageOfConsent
+  ageToBracket
   capitalLanguages
   clone
   combineAncestralObject
   countries
+  countryCodeToFlagEmoji
   courseAcronyms
   courseIDs
   createLevelNumberMap
   extractPlayerCodeTag
   filterMarkdownCodeLanguages
-  findNextLevel
   findNextAssessmentForLevel
+  findNextLevel
   formatDollarValue
   formatStudentLicenseStatusDate
   functionCreators
@@ -857,12 +893,13 @@ module.exports = {
   hexToHSL
   hslToHex
   i18n
-  injectCSS
   inEU
+  injectCSS
   isID
   isIE
   isRegionalSubscription
   isSmokeTestEmail
+  isValidEmail
   keepDoingUntil
   kindaEqual
   needsPractice
@@ -870,17 +907,16 @@ module.exports = {
   objectIdToDate
   orderedCourseIDs
   pathToUrl
+  petThangIDs
+  premiumContent
   replaceText
   round
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
+  translatejs2cpp
   usStateCodes
   userAgent
-  petThangIDs
-  premiumContent
-  isValidEmail
   videoLevels
-  addressesIncludeAdministrativeRegion
-  translatejs2cpp
+  yearsSinceMonth
 }
