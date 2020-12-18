@@ -368,7 +368,7 @@
     <div class="container-student-outcomes">
       <div class="container">
         <div class="row carousel-row">
-          <div class="col-lg-12 text-center">
+          <div class="col-lg-12 text-center student-outcomes">
             <h1 class="pixelated">Student Outcomes</h1>
           </div>
           <div id="student-outcome-carousel" class="carousel slide" data-interval=8000>
@@ -444,11 +444,11 @@
           </div>
         </div>
         <div class="row row-eq-height">
-          <div class="col-sm-4 col-xs-12 concept-covered-tab xs-pb-50">
+          <div class="col-sm-4 col-xs-12 concept-covered-tab beginner xs-pb-50">
             <img src="/images/pages/parents/trophy_bronze.svg" loading="lazy"/>
             <h3>Beginner</h3>
             <p><b>For students with little to no text-based coding experience.</b></p>
-            <div>
+            <div class="topics">
               <ul>
                 <li>Sequences</li>
                 <li>Algorithms</li>
@@ -461,11 +461,11 @@
               </ul>
             </div>
           </div>
-          <div class="col-sm-4 col-xs-12 concept-covered-tab xs-pb-50">
+          <div class="col-sm-4 col-xs-12 concept-covered-tab intermediate xs-pb-50">
             <img src="/images/pages/parents/trophy_silver.svg" loading="lazy"/>
             <h3>Intermediate</h3>
             <p><b>For students with some text-based coding experience.</b></p>
-            <div>
+            <div class="topics">
               <ul>
                 <li>Boolean logic</li>
                 <li>Properties</li>
@@ -478,11 +478,11 @@
               </ul>
             </div>
           </div>
-          <div class="col-sm-4 col-xs-12 concept-covered-tab xs-pb-50">
+          <div class="col-sm-4 col-xs-12 concept-covered-tab advanced xs-pb-50">
             <img src="/images/pages/parents/trophy_gold.svg" loading="lazy"/>
             <h3>Advanced</h3>
             <p><b>For students with substantial experience in text-based code and a good grasp of complex concepts.</b></p>
-            <div>
+            <div class="topics">
               <ul>
                 <li>Advanced strings</li>
                 <li>Computer arithmetic</li>
@@ -1176,7 +1176,6 @@ export default {
   border-radius: 40px 0 0 40px;
   pointer-events: none;
 }
-
 .carousel-row:after {
   content: '';
   border-top: 4px solid #6ae8e3;
@@ -1196,7 +1195,7 @@ export default {
 .concept-covered-tab {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 
   padding: 0 20px;
@@ -1228,6 +1227,16 @@ export default {
   max-width: 100px;
   height: auto;
   margin-bottom: 20px;
+}
+
+.concept-covered-tab.beginner img{
+  max-width: 92px;
+}
+
+@media screen and (min-width: 700px) {
+  .concept-covered-tab.beginner .topics, .concept-covered-tab.intermediate .topics{
+    padding-top: 30px;
+  }
 }
 
 .container-concepts-covered .concept-covered-tab div {
