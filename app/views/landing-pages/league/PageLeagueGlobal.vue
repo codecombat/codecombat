@@ -286,6 +286,7 @@ export default {
     </div>
     <div class="row flex-row text-center">
       <p
+        class="subheader2"
         style="max-width: 800px;"
       >The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.</p>
     </div>
@@ -346,8 +347,8 @@ export default {
 
     <div class="row flex-row">
       <div class="col-sm-7">
-        <h1 style="margin-bottom: 30px;"><span class="esports-goldenlight">Global </span><span class="esports-pink">final </span><span class="esports-aqua">arena</span></h1>
-        <p style="margin-bottom: 30px;">
+        <h1 class="subheader1" style="margin-bottom: 30px;"><span class="esports-goldenlight">Global </span><span class="esports-pink">final </span><span class="esports-aqua">arena</span></h1>
+        <p class="subheader2" style="margin-bottom: 30px;">
           Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.
         </p>
         <a v-if="!doneRegistering && !isClanCreator()" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
@@ -358,21 +359,21 @@ export default {
     </div>
 
     <div class="row flex-row">
-      <h1><span class="esports-purple">How </span><span class="esports-aqua">it </span><span class="esports-pink">works</span></h1>
+      <h1 class="subheader1"><span class="esports-purple">How </span><span class="esports-aqua">it </span><span class="esports-pink">works</span></h1>
     </div>
     <div class="row flex-row">
       <div class="col-sm-1"><img src="/images/pages/league/text_1.svg" class="img-responsive" loading="lazy"></div>
-      <div class="col-sm-11"><p>Join a <span class="esports-aqua">clan</span></p></div>
+      <div class="col-sm-11"><p class="subheader2 mb-0">Join a <span class="esports-aqua">clan</span></p></div>
     </div>
 
     <div class="row flex-row">
       <div class="col-sm-1"><img src="/images/pages/league/text_2.svg" class="img-responsive" loading="lazy"></div>
-      <div class="col-sm-11"><p>Complete the training levels and compete in the <span class="esports-aqua">Season Arena</span></p></div>
+      <div class="col-sm-11"><p class="subheader2 mb-0">Complete the training levels and compete in the <span class="esports-aqua">Season Arena</span></p></div>
     </div>
 
     <div class="row flex-row pb-200">
       <div class="col-sm-1"><img src="/images/pages/league/text_3.svg" class="img-responsive" loading="lazy"></div>
-      <div class="col-sm-11"><p>Compete in the culminating <span class="esports-aqua">Global Final Arena</span> and push your coding skills to the test</p></div>
+      <div class="col-sm-11"><p class="subheader2 mb-0">Compete in the culminating <span class="esports-aqua">Global Final Arena</span> and push your coding skills to the test</p></div>
     </div>
 
     <div class="row flex-row text-center">
@@ -730,6 +731,19 @@ export default {
 
   .pb-200 {
     padding-bottom: 200px;
+  }
+
+  .mb-0 {
+    margin-bottom: 0px;
+  }
+
+  .subheader1 {
+    font-size: 72px;
+  }
+
+  .subheader2 {
+    font-size: 29px;
+    line-height: 40px;
   }
 }
 </style>
