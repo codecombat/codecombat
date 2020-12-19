@@ -365,7 +365,6 @@ module.exports = class Simulator extends CocoClass
       receiptHandle: @task.getReceiptHandle()
       originalSessionID: @task.getFirstSessionID()
       originalSessionRank: -1
-      calculationTime: 500
       sessions: []
       simulator: @simulator
       randomSeed: @task.world.randomSeed
