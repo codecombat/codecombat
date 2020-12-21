@@ -1154,6 +1154,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    mo_title: "Manager, Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "Més de 500 contribuents han ajudat a construir CodeCombat, amb més unió cada setmana."
     community_description_3: "CodeCombat és un"
     community_description_link_2: "projecte comunitari"
