@@ -787,7 +787,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   amazon_hoc:
     title: "与亚马逊一起不断学习！"
-    congrats: '恭喜你征服了具有挑战性的 "编码一小时"！'
+    congrats: "恭喜你征服了具有挑战性的 \"编码一小时\"！"
     educate_1: "现在，通过 AWS Educate 继续学习编码和云计算知识，AWS Educate 是亚马逊为学生和教师提供的一个令人兴奋的免费计划。通过 AWS Educate，您可以在学习云计算基础知识和游戏、虚拟现实和 Alexa 等前沿技术时获得酷炫的徽章。"
     educate_2: "了解更多并登陆"
     future_eng_1: "你也可以尝试为 Alexa 建立自己的学校事实技能。"
@@ -1154,6 +1154,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     mo_title: "业务经理"
     scd_title: "高级课程开发设计师"
     lcd_title: "首席课程开发设计师"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
     community_description_link_2: "开源的社区项目"
@@ -1820,7 +1821,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     license_remaining: "剩余许可证"
     licenses_remaining: "剩余许可证"
     student_enrollment_history: "学生入学历史"
-    enrollment_explanation_1: ""
+    enrollment_explanation_1: "The"
     enrollment_explanation_2: "学生入学历史"
     enrollment_explanation_3: "显示所有教师和教室的注册学生总数，并添加到您的仪表板。这包括存档和未存档教室中的学生，他们的建班日期在每个学年的7月1日至6月30日之间。"
     enrollment_explanation_4: "请记住"
@@ -2795,7 +2796,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     december: "十二月"
 
   code_play_create_account_modal:
-    title: "你做到了！”#只有美国、英国、墨西哥、印度和德国才需要此部分"
+    title: "你做到了！”#只有美国、英国、墨西哥、印度和德国才需要此部分" # This section is only needed in US, UK, Mexico, India, and Germany
     body: "你现在正在成为一名编码大师的路上，注册即可获得额外的<strong> 100 个宝石</strong>，还有机会获得<strong> 2500 美元和其他意想不到的奖品</strong>。"
     sign_up: "注册 & 继续编程 ▶"
     victory_sign_up_poke: "创建一个免费账户来保存您的代码，并有机会获得奖品！"
@@ -2977,7 +2978,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   parents_landing_2:
     splash_title: "在家发现编码的魔力。"
     learn_with_instructor: "跟随导师学习"
-    learn_at_own_pace: "按自己的节奏学习"
     live_classes: "在线直播课程"
     live_classes_offered: "CodeCombat 现在为在家学习的学生提供实时在线计算机科学课程，对于那些在 1:1 或小组环境中学习效果最好的学生来说，这是非常好的。"
     live_class_details_1: "小组或私人课程"
@@ -3011,6 +3011,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     best_seller: "畅销产品"
     best_value: "极具价值"
     codecombat_premium: "CodeCombat 高级版"
+    learn_at_own_pace: "按自己的节奏学习"
     monthly_sub: "按月订购"
     buy_now: "立即购买"
     per_month: " / 月"

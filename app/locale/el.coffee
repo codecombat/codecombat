@@ -1154,6 +1154,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    mo_title: "Manager, Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "Περισσότεροι από 500 συνεισφέροντες βοήθησαν στην οικοδόμηση του CodeCombat, με περισσότερες συμμετοχές κάθε εβδομάδα!"
     community_description_3: "Το CodeCombat είναι ένα"
     community_description_link_2: "έργο κοινότητας"
