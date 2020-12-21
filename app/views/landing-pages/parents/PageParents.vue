@@ -937,8 +937,8 @@ export default {
 
 #parent-page .container-child-future h3, #student-outcome-carousel h3 {
   color: black;
-  font-weight: 600;
-  font-size: 28px;
+  font-weight: 800;
+  font-size: 30px;
   line-height: 38px;
   letter-spacing: 0.56px;
 
@@ -1318,6 +1318,10 @@ export default {
   border: 10px solid #1FBAB4;
   box-sizing: border-box;
   border-radius: 20px;
+}
+
+#parent-page h1, #parent-page h4 {
+  font-weight: 700;
 }
 
 @media screen and (max-width: 768px) {

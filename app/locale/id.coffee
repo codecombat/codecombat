@@ -1154,6 +1154,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    mo_title: "Manager, Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "Lebih dari 500 kontributor telah membantu membangun CodeCombat, dengan lebih banyak lagi yang bergabung tiap minggunya!"
     community_description_3: "CodeCombat adalah"
     community_description_link_2: "proyek komunitas"

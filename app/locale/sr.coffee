@@ -1154,6 +1154,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    mo_title: "Manager, Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "Преко 450 сарадника је помогло да се изгради CodeCombat и још њих се придружује сваке недеље!" # {change}
     community_description_3: "CodeCombat је"
     community_description_link_2: "пројекат заједнице"

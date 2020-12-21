@@ -1154,6 +1154,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    mo_title: "Manager, Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "超過 500 位貢獻者協助建立 CodeCombat , 而且每週持續增加中！"
     community_description_3: "CodeCombat 是一個"
     community_description_link_2: "社群專案"

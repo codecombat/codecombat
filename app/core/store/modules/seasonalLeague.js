@@ -176,7 +176,8 @@ export default {
         team: 'humans',
         'leagues.leagueID': leagueId
       }).then(ranking => {
-        leagueRankingInfo.top = ranking
+        // Temporarily only choose unique sessions as duplicate AI sessions are returned.
+        leagueRankingInfo.top = _.uniq(ranking, true, session => session._id)
       })
 
       const sessionsData = await fetchMySessions(currentSeasonalLevelOriginal)

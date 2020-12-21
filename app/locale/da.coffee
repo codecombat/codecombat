@@ -1154,6 +1154,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    mo_title: "Manager, Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "Over 450 bidragydere har hjulpet med at bygge CodeCombat, flere kommer til hver uge!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"

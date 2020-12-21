@@ -1153,6 +1153,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     mo_title: "Znantre, Bcrengvbaf"
     scd_title: "Fravbe Pheevphyhz Qrirybcre"
     lcd_title: "Yrnq Pheevphyhz Qrirybcre"
+    vpm_title: "IC, Znexrgvat"
     community_subtitle: "Bire 500 pbagevohgbef unir urycrq ohvyq PbqrPbzong, jvgu zber wbvavat rirel jrrx!"
     community_description_3: "PbqrPbzong vf n"
     community_description_link_2: "pbzzhavgl cebwrpg"

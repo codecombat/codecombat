@@ -1154,6 +1154,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    mo_title: "Manager, Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "למעלה מ-500 תורמים כבר עוזרים לבנות את CodeCombat, ותורמים נוספים מצטרפים מדי שבוע!"
     community_description_3: "CodeCombat הוא"
     community_description_link_2: "פרויקט קהילתי"

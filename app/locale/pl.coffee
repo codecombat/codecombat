@@ -1154,6 +1154,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    mo_title: "Manager, Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "Ponad 500 kontrybutorów pomogło stworzyć CodeCombat i liczba ta cały czas rośnie!"
     community_description_3: "CodeCombat jest "
     community_description_link_2: "projektem społecznościowym"
