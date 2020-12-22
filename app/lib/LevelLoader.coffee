@@ -48,6 +48,7 @@ module.exports = class LevelLoader extends CocoClass
     @observing = options.observing
     @courseID = options.courseID
     @courseInstanceID = options.courseInstanceID
+    @league = utils.getQueryVariable 'league'
 
     @worldNecessities = []
     @listenTo @supermodel, 'resource-loaded', @onWorldNecessityLoaded
@@ -159,6 +160,8 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{@levelID}/session"
       if @team
         url += "?team=#{@team}"
+        if @level.isType('course-ladder') and @league and not @couseInstanceID
+          url += "&courseInstance=#{@league}"
       else if @courseID
         url += "?course=#{@courseID}"
         if @courseInstanceID
