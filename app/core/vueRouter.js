@@ -45,6 +45,18 @@ export default function getVueRouter () {
         }
       ]
     })
+
+    vueRouter.afterEach((to, from) => {
+      // Fixes issue of page not scrolling to top on navigation change
+      if (to.path !== from.path) {
+        // If the user has navigated within the router, try and reset the scroll position.
+        try {
+          window.scrollTo(0, 0)
+        } catch (e) {
+          // Can fail silently. Handling browser compatibility
+        }
+      }
+    })
   }
 
   return vueRouter
