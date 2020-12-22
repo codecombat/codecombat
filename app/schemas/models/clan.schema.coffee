@@ -11,6 +11,7 @@ _.extend ClanSchema.properties,
   ownerID: c.objectId()
   type: {type: 'string', 'enum': ['public', 'private'], description: 'Controls clan general visibility.'}
   dashboardType: {type: 'string', 'enum': ['basic', 'premium']}
+  kind: { type: 'string', 'enum': ['classroom', 'teacher', 'school', 'district', 'state', 'country'], description: 'Signals an autoclan that may use different logic to look up membership'}
 
 c.extendBasicProperties ClanSchema, 'Clan'
 
