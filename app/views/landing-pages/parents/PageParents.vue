@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <div class="container-graphic-spacer">
+    <div class="container-graphic-spacer sm-min-height-auto">
     </div>
 
     <div class="container">
@@ -182,9 +182,7 @@
     </div>
 
     <!-- Added some custom inline styles specific to this graphic -->
-    <div class="container-graphic-spacer"
-         style="margin-bottom: -35px; overflow-x: hidden;"
-    >
+    <div class="container-graphic-spacer pet-following-yellow-dotted">
       <div class="container">
         <div class="row">
           <div class="col-xs-12">
@@ -192,7 +190,6 @@
                 class="img-responsive"
                 src="/images/pages/parents/graphic_04.svg"
                 alt="CodeCombat pet following yellow dotted path"
-                style="transform: translate(40%, -35px);"
                 loading="lazy"
             />
           </div>
@@ -987,6 +984,7 @@ export default {
   text-align: center;
 
   margin-bottom: 5px;
+  margin-top: 20px;
 }
 
 
@@ -1320,6 +1318,11 @@ export default {
   font-weight: 700;
 }
 
+.pet-following-yellow-dotted img{
+  margin: 0px 30% 0px auto;
+  transform: rotate(-15deg);
+}
+
 @media screen and (max-width: 768px) {
   .xs-pb-50 {
     padding-bottom: 50px;
@@ -1332,6 +1335,23 @@ export default {
   }
   .outcome-to-concepts {
     min-height: 200px;
+  }
+  .sm-min-height-auto {
+    min-height: auto;
+  }
+  .pet-following-yellow-dotted {
+    margin-bottom: 0px; overflow-x: hidden;
+  }
+  .pet-following-yellow-dotted img{
+    margin: 0px 0px 0px auto;
+    transform: rotate(-30deg);
+    width: 75%;
+  }
+  .pricing-grid-container {
+    padding: 0 5px;
+  }
+  div.pricing-grid-container {
+    margin-top: 20px;
   }
 }
 
