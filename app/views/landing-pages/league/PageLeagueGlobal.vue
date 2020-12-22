@@ -326,7 +326,7 @@ export default {
       <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Blazing Battle Multiplayer Arena</a>
     </div>
 
-    <section class="row flex-row">
+    <section class="row flex-row free-to-get-start">
       <div class="col-sm-10">
         <h1 style="margin-bottom: 20px;"><span class="esports-pink">Free </span><span class="esports-aqua">to </span><span class="esports-green">get </span><span class="esports-purple">started</span></h1>
         <ul style="list-style-type: none; padding: 0;">
@@ -338,12 +338,6 @@ export default {
         <a v-if="clanIdSelected === '' && !doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
       </div>
     </section>
-
-    <div v-if="clanIdSelected === ''" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
-      <div class="col-sm-5 col-sm-push-2">
-        <img class="img-responsive" src="/images/pages/league/graphic_1.png">
-      </div>
-    </div>
 
     <div class="row flex-row">
       <div class="col-sm-7">
@@ -744,6 +738,11 @@ export default {
   .subheader2 {
     font-size: 29px;
     line-height: 40px;
+  }
+
+  section.free-to-get-start {
+    padding-bottom: 180px;
+    background: url(/images/pages/league/graphic_1.png) right 100% / 35% no-repeat;
   }
 }
 </style>
