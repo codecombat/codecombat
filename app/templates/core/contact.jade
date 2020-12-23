@@ -5,12 +5,12 @@ block modal-header-content
 
 block modal-body-content
   p
-    span(data-i18n="contact.welcome") Good to hear from you! Use this form to send us email. 
-    span.spl(data-i18n="contact.forum_prefix") For anything public, please try 
+    span(data-i18n="contact.welcome") Good to hear from you! Use this form to send us email.
+    span.spl(data-i18n="contact.forum_prefix") For anything public, please try
     a(href="http://discourse.codecombat.com/", data-i18n="contact.forum_page") our forum
     span(data-i18n="contact.forum_suffix")  instead.
     span.spl.spr(data-i18n="contact.faq_prefix") There's also a
-    a(data-i18n="contact.faq", href="http://discourse.codecombat.com/t/faq-check-before-posting/1027") FAQ
+    a(data-i18n="contact.faq", href="https://discourse.codecombat.com/t/18174") FAQ
     | .
   if me.isPremium()
     p(data-i18n="contact.subscriber_support") Since you're a CodeCombat subscriber, your email will get our priority support.
@@ -21,10 +21,10 @@ block modal-body-content
       span.spl(data-i18n="contact.subscribe_suffix") and we'll be happy to help you with your code.
   .form
     .form-group
-      label.control-label(for="contact-email", data-i18n="general.email") Email      
+      label.control-label(for="contact-email", data-i18n="general.email") Email
       input#contact-email.form-control(name="email", type="email", value="#{me.get('anonymous') ? '' : me.get('email')}", data-i18n="[placeholder]contact.where_reply", placeholder="Where should we reply?")
     .form-group
-      label.control-label(for="contact-message", data-i18n="general.message") Message      
+      label.control-label(for="contact-message", data-i18n="general.message") Message
       textarea#contact-message.form-control(name="message", rows=8)
 
   #contact-screenshot.secret

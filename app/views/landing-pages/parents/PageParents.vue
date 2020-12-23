@@ -764,10 +764,7 @@ export default {
 
 .video-container {
   margin-top: 50px;
-  padding: 45px;
 
-  background: url(/images/pages/parents/video_backer.png) no-repeat center;
-  background-size: contain;
 }
 
 .invest-heading {
