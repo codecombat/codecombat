@@ -1340,17 +1340,16 @@ export default {
     min-height: auto;
   }
   .pet-following-yellow-dotted {
-    margin-bottom: 0px; overflow-x: hidden;
+    margin-bottom: 0px;
+    overflow-x: hidden;
   }
   .pet-following-yellow-dotted img{
     margin: 0px 0px 0px auto;
     transform: rotate(-30deg);
     width: 75%;
   }
-  .pricing-grid-container {
-    padding: 0 5px;
-  }
   div.pricing-grid-container {
+    padding: 0 5px;
     margin-top: 20px;
   }
 }
