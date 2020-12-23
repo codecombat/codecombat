@@ -511,7 +511,7 @@
     <div class="container-background-faq">
       <div class="container">
         <div class="row">
-          <div class="col-lg-12 text-center">
+          <div class="col-lg-12 text-center container-background-header">
             <h1 class="pixelated">FAQs</h1>
           </div>
         </div>
@@ -1123,7 +1123,7 @@ export default {
 }
 
 #student-outcome-carousel .row {
-  padding: 60px;
+  padding: 0px 60px;
 }
 
 .carousel-row {
@@ -1267,8 +1267,10 @@ export default {
   margin: 32px 0 0;
 }
 
-.container-background-faq h1 {
-  transform: translateY(-64px);
+.container-background-header {
+  position: absolute;
+  transform: translateY(-60px);
+  width: calc(100% - 30px);
 }
 
 /* These create the broken top border which FAQ sits between */
