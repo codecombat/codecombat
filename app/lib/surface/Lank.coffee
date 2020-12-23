@@ -353,16 +353,8 @@ module.exports = Lank = class Lank extends CocoClass
     @sprite.scaleX = @sprite.baseScaleX * @scaleFactorX * scaleX
     @sprite.scaleY = @sprite.baseScaleY * @scaleFactorY * scaleY
 
-    newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
-    newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
-    if @layer?.name is 'Land' or @thang?.isLand or @thang?.spriteName is 'Beam' or @isCinematicLank
-      @scaleFactorX = newScaleFactorX
-      @scaleFactorY = newScaleFactorY
-    else if @thang and (newScaleFactorX isnt @targetScaleFactorX or newScaleFactorY isnt @targetScaleFactorY)
-      @targetScaleFactorX = newScaleFactorX
-      @targetScaleFactorY = newScaleFactorY
-      createjs.Tween.removeTweens(@)
-      createjs.Tween.get(@).to({scaleFactorX: @targetScaleFactorX, scaleFactorY: @targetScaleFactorY}, 2000, createjs.Ease.elasticOut)
+    @scaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
+    @scaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
 
   updateAlpha: ->
     @sprite.alpha = if @hiding then 0 else 1
