@@ -182,7 +182,7 @@
     </div>
 
     <!-- Added some custom inline styles specific to this graphic -->
-    <div class="container-graphic-spacer pet-following-yellow-dotted">
+    <div class="pet-following-yellow-dotted">
       <div class="container">
         <div class="row">
           <div class="col-xs-12">
@@ -351,11 +351,11 @@
       </div>
     </div>
 
-    <div class="container-graphic-spacer">
+    <div class="hero-for-student-outcomes">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_06.svg" style="margin: 0 auto; transform: translate(-47%, 0);" loading="lazy"/>
+            <img class="img-responsive" src="/images/pages/parents/graphic_06.svg" loading="lazy"/>
           </div>
         </div>
       </div>
@@ -1048,6 +1048,7 @@ export default {
 
 .container-pricing-table {
   padding: 0 70px;
+  margin-top: 20px;
   margin-bottom: 48px;
 
   /* Added some clouds to the pricing table */
@@ -1321,8 +1322,17 @@ export default {
 }
 
 .pet-following-yellow-dotted img{
-  margin: 0px 30% 0px auto;
-  transform: rotate(-15deg);
+  margin: 0px 25% 0px auto;
+}
+
+.hero-for-student-outcomes {
+  min-height: 270px;
+  pointer-events: none;
+  overflow-x: hidden;
+}
+
+.hero-for-student-outcomes img {
+  margin-left: 25%;
 }
 
 @media screen and (max-width: 768px) {
@@ -1344,15 +1354,22 @@ export default {
   .pet-following-yellow-dotted {
     margin-bottom: 0px;
     overflow-x: hidden;
+    min-height: auto;
   }
   .pet-following-yellow-dotted img{
-    margin: 0px 0px 0px auto;
-    transform: rotate(-30deg);
-    width: 75%;
+    margin-right: 10%;
+    width: 50%;
   }
-  div.pricing-grid-container {
+  .pricing-grid-container {
     padding: 0 5px;
-    margin-top: 20px;
+  }
+  .hero-for-student-outcomes {
+    margin-bottom: 50px;
+    min-height: auto;
+  }
+  .hero-for-student-outcomes img {
+    width: 50%;
+    margin-left: 10%;
   }
 }
 
