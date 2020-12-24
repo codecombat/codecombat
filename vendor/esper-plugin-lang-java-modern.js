@@ -1,13 +1,12 @@
 /*!
  * jaba
  * 
- * Compiled: Tue Sep 22 2020 10:33:53 GMT-0700 (PDT)
+ * Compiled: Wed Dec 23 2020 17:31:28 GMT-0800 (PST)
  * Target  : web (umd)
  * Profile : modern
- * Version : 5359afd-dirty
+ * Version : 8274075
  * 
  * 
- * Private
  * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -185,7 +184,7 @@ function skope(node) {
 
 	function process(node, parent) {
 		let next = (n) => process(n, node);
-		if ( !node.loc ) {
+		if ( !node.loc && node.node != "LineEmpty" ) {
 			console.log("Node of type `" + node.node + "` doesn't have loc.");
 		}
 		switch (node.node) {
@@ -307,6 +306,8 @@ function skope(node) {
 			case "FieldAccess":
 			case "TypeDeclarationStatement":
 			case "EmptyStatement":
+			case "InitializerList":
+			case "ThisExpression":
 
 				for ( var k in node ) {
 					if ( node[k] && node[k].node ) next(node[k]);
@@ -326,7 +327,10 @@ function skope(node) {
 
 
 function transpile(code, options) {
-	let iast = parser.parse(code, options);
+	let tcode = code.replace(/\/\*.*?\*\//g, function(m) {
+		return new Array(m.length - 1).join(' ');
+	})
+	let iast = parser.parse(tcode, options);
 	skope(iast);
 	let r = transform(iast)
 	//let src = generate(r).code;
@@ -392,7 +396,8 @@ class JavaPrimitiveValue extends esper.PrimitiveValue {
 	}
 
 	*add(other) {
-		if ( !this.boundType || this.boundType == "string"  ) return yield * super.add(other);
+		if ( !this.boundType ) return yield * super.add(other);
+		if ( this.boundType == "string" ) return yield * esper.StringValue.prototype.add.call(this, other);
 		let n = new JavaPrimitiveValue(this.native + (yield * other.toPrimitiveNative()), this.realm);
 		n.boundType = this.boundType;
 		return n;
@@ -598,7 +603,7 @@ class Integer extends EasyObjectValue {
 		return s.fromNative(thiz.native.toString());
 	}
 	*call(thiz, args, s) {
-		return Value.fromNative(7);
+		return thiz;
 	}
 }
 
@@ -608,6 +613,19 @@ class Double extends EasyObjectValue {
 	}
 	static *toString$(thiz, args, s) { 
 		return yield * thiz.toStringValue(); 
+	}
+}
+
+class InitializerList extends EasyObjectValue {
+	// Hack for CodeCombat x-y-z coordinate literals
+	*call(thiz, args, s) {
+		for ( let i = 0; i < args.length; ++i ) {
+			yield * thiz.set("" + i, args[i]);
+			if ( i == 0 ) yield * thiz.set("x", args[i]);
+			if ( i == 1 ) yield * thiz.set("y", args[i]);
+			if ( i == 2 ) yield * thiz.set("z", args[i]);
+		}
+		return thiz;
 	}
 }
 
@@ -789,7 +807,7 @@ class System extends EasyObjectValue {
 
 module.exports = { 
 	o: {JavaObject},
-	f:{Math:JavaMath, JavaCreateClass, JavaCreateDefault, JavaNewInstance, JavaString, Integer, Double, System} 
+	f:{Math:JavaMath, JavaCreateClass, JavaCreateDefault, JavaNewInstance, JavaString, Integer, Double, System, InitializerList} 
 }
 
 
