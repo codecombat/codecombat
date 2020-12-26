@@ -386,6 +386,8 @@ class LevelNode extends TreemaObjectNode
     name = data.name
     if data.requiresSubscription
       name = "[P] " + name
+    if data.displayName
+      name = name + " - " + data.displayName
 
     status = ''
     el = 'strong'
