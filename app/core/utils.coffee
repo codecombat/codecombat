@@ -61,9 +61,14 @@ translatejs2cpp = (jsCode, fullCode=true) ->
     jsCodes[i] = jsCodes[i].replace new RegExp(' !== ', 'g'), ' != '
     jsCodes[i] = jsCodes[i].replace new RegExp(' var ', 'g'), ' auto '
     jsCodes[i] = jsCodes[i].replace new RegExp(' = \\[(.*)\\]', 'g'), ' = {$1}'
+    jsCodes[i] = jsCodes[i].replace new RegExp('\\(var ', 'g'), '(auto '
+    jsCodes[i] = jsCodes[i].replace new RegExp(' return \\[(.*)\\]', 'g'), ' return {$1}'
+    jsCodes[i] = jsCodes[i].replace new RegExp('\{x:\\s*([^,]+), y:\\s*([^}]*)\}', 'g'), '{$1, $2}'  # {x:1, y:1} -> {1, 1}
     # Don't substitute these within comments
     noComment = '^ *([^/\\r\\n]*?)'
-    jsCodes[i] = jsCodes[i].replace new RegExp(noComment + "'(.*?)'", 'gm'), '$1"$2"'
+    quotesReg = new RegExp(noComment + "'(.*?)'", 'gm')
+    while quotesReg.test(jsCodes[i])
+      jsCodes[i] = jsCodes[i].replace quotesReg, '$1"$2"'
   unless fullCode
     lines = jsCodes[len-1].split '\n'
     jsCodes[len-1] = (lines.map (line) -> line.slice 1).join('\n')
