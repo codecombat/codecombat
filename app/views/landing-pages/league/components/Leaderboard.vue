@@ -44,7 +44,7 @@ export default {
 </script>
 
 <template lang="pug">
-  .col-lg-6
+  .col-lg-6.table-responsive
     table.table.table-bordered.table-condensed.table-hover.ladder-table
       thead
         tr
