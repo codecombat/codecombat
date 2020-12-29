@@ -536,7 +536,7 @@ export default {
         <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">Download Flyer</a>
       </div>
       <div class="col-sm-4">
-        <img src="/images/pages/league/esports_flyer_optimized.png" class="img-responsive" style="transform: translateY(100px);"/>
+        <img src="/images/pages/league/esports_flyer_optimized.png" class="img-responsive" />
       </div>
     </div>
   </main>
@@ -550,7 +550,6 @@ export default {
   position: relative;
   overflow-x: hidden;
   padding: 0 10px;
-  z-index: 9999;
 
   font-family: Work Sans, "Sans Serif";
   color: white;
