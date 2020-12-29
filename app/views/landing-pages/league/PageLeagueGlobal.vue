@@ -214,7 +214,7 @@ export default {
     },
 
     currentSelectedClanName () {
-      return (this.currentSelectedClan || {}).name || ''
+      return (this.currentSelectedClan || {}).displayName || (this.currentSelectedClan || {}).name || ''
     },
 
     currentSelectedClanDescription () {
