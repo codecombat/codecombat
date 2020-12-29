@@ -216,7 +216,7 @@ export default {
           teamSession.rank = parseInt(myRank, 10)
           leagueRankingInfo.playersAbove = playersAbove
           leagueRankingInfo.playersBelow = playersBelow
-          debugger
+
           commit('setMySession', teamSession)
         }
       }
