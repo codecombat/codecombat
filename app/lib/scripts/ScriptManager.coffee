@@ -329,7 +329,6 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
         note.event ? {}
       )
     else
-      console.log 'publishing script note', note
       Backbone.Mediator.publish note.channel, note.event ? {}
 
   # ENDING NOTES
