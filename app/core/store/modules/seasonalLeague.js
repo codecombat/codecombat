@@ -102,12 +102,17 @@ export default {
           return []
         }
         const codePointsRankings = state.codePointsRankingsForLeague[leagueId]
-        if (state.mySession && state.mySession.rank > 20) {
+
+        // TODO - Clean up this hack check. The returned codePointsRank is not
+        // guaranteed to return a rank. Thus we "guess" if the user is in the top by
+        // comparing returned totalScores.
+        if ((state.myCodePointsRank && state.myCodePointsRank.rank > 20) ||
+          ((codePointsRankings.top && !codePointsRankings.top.includes(({ totalScore }) => me.get('stats').codePoints === totalScore)))) {
           const splitRankings = []
           splitRankings.push(...codePointsRankings.top.slice(0, 10))
           splitRankings.push({ type: 'BLANK_ROW' })
           splitRankings.push(...codePointsRankings.playersAbove)
-          splitRankings.push(state.mySession)
+          splitRankings.push(state.myCodePointsRank)
           splitRankings.push(...codePointsRankings.playersBelow)
           return splitRankings
         }
@@ -236,7 +241,7 @@ export default {
       const topCodePointsRankingPromise = getCodePointsLeaderboard(leagueId, {
         order: -1,
         scoreOffset: 1000000,
-        limit: 20,
+        limit: 20
       }).then(ranking => {
         codePointsRankingInfo.top = ranking
       })
@@ -248,7 +253,9 @@ export default {
           getCodePointsRankForUser(leagueId, me.id, { scoreOffset: me.get('stats').codePoints })
         ])
 
+        // Returned by server when rank is unknown.
         let rank = parseInt(myRank, 10)
+
         for (const abovePlayer of playersAbove) {
           rank -= 1
           abovePlayer.rank = rank
@@ -260,9 +267,23 @@ export default {
           belowPlayer.rank = rank
         }
 
-        const myPlayerRow = {creatorName: me.broadName(), rank: parseInt(myRank, 10)}
+        const myPlayerRow = {
+          creatorName: me.broadName(),
+          rank: parseInt(myRank, 10),
+          totalScore: me.get('stats').codePoints,
+          creator: me.id
+        }
+
         codePointsRankingInfo.playersAbove = playersAbove
         codePointsRankingInfo.playersBelow = playersBelow
+
+        // This edge case happens when we don't know the rank of the user.
+        // In this case we want to wipe all rankings so we aren't guessing.
+        if (myRank === 'unknown') {
+          codePointsRankingInfo.playersAbove = playersAbove.map(session => { session.rank = ' '; return session })
+          codePointsRankingInfo.playersBelow = playersBelow.map(session => { session.rank = ' '; return session })
+          myPlayerRow.rank = ' '
+        }
 
         commit('setMyCodePointsRank', myPlayerRow)
       }
