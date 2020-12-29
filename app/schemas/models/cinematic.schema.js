@@ -145,7 +145,17 @@ const DialogNode = c.object({
       type: 'boolean',
       description: 'Show the visual chalkboard',
       default: true
-    }
+    },
+    fadeToBlack: c.object({
+      title: 'Fade To Black'
+    }, {
+      duration: c.int({ title: 'Duration(ms)', default: 400 })
+    }),
+    fadeFromBlack: c.object({
+      title: 'Fade From Black'
+    }, {
+      duration: c.int({ title: 'Duration(ms)', default: 400 })
+    })
   }),
   triggers: c.object({
     title: 'Triggers',

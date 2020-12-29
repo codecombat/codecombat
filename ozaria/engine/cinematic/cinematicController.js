@@ -9,6 +9,7 @@ import Autoplay from './systems/autoplay'
 import UndoSystem from './UndoSystem'
 import { SyncFunction } from './commands/commands'
 import VisualChalkboard from './systems/visualChalkboard'
+import FadeSystem from './systems/FadeSystem'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
@@ -69,6 +70,7 @@ export class CinematicController {
 
     this.systems.cameraSystem = new CameraSystem(camera)
     this.systems.loader = new Loader({ data: cinematicData })
+    this.systems.fadeSystem = new FadeSystem()
     this.systems.sound = new SoundSystem()
     this.systems.autoplay = new Autoplay()
     this.systems.visualChalkboard = new VisualChalkboard()

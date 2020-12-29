@@ -43,18 +43,25 @@
         ref="cinematic-canvas"
         :width="width"
         :height="height"
-        :style="{ width: width+'px', height: height+'px' }">
-      </canvas>
-      <div v-if="!loaded" id="cinematic-loading-pane">
+        :style="{ width: width+'px', height: height+'px' }"
+      />
+      <div id="fade-container" />
+      <div
+        v-if="!loaded"
+        id="cinematic-loading-pane"
+      >
         <div id="cinematic-loading-container">
           <div class="progress-or-start-container">
-            <img src="/images/ozaria/level/Logo_Bevelled@4x.png" alt="Ozaria logo">
+            <img
+              src="/images/ozaria/level/Logo_Bevelled@4x.png"
+              alt="Ozaria logo"
+            >
             <p>{{ $t("common.LOADING") }}</p>
             <div class="load-progress">
               <div class="progress">
-                <div class="progress-background"></div>
+                <div class="progress-background" />
                 <div class="progress-bar-container">
-                  <div class="progress-bar progress-bar-success"></div>
+                  <div class="progress-bar progress-bar-success" />
                 </div>
               </div>
             </div>
@@ -276,7 +283,7 @@ export default {
     width: 100%
     height: 100%
     position: absolute
-    z-index: 10
+    z-index: 25
 
     display: flex
     justify-content: center
@@ -356,6 +363,17 @@ export default {
 
         width: 23px
         height: 21px
+
+#fade-container
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  pointer-events: none
+  background-color: black
+  z-index: 22
+  opacity: 0
 
 #cinematic-loading-pane
   position: absolute
