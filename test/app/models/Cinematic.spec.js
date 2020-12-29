@@ -22,7 +22,9 @@ import {
   getWaitUserInput,
   getLanguageFilter,
   getHeroPet,
-  getPlayThangAnimations
+  getPlayThangAnimations,
+  getFadeFromBlack,
+  getFadeToBlack
 } from '../../../app/schemas/models/selectors/cinematic'
 import Cinematic from 'ozaria/site/models/Cinematic'
 
@@ -232,6 +234,16 @@ describe('Cinematic', () => {
       expect(result2).toBeUndefined()
     })
 
+    it('getFadeFromBlack', () => {
+      expect(getFadeFromBlack(shotFixture2.dialogNodes[1])).toEqual({ duration: 1500 })
+      expect(getFadeFromBlack(shotFixture2.dialogNodes[0])).toEqual(undefined)
+    })
+
+    it('getFadeToBlack', () => {
+      expect(getFadeToBlack(shotFixture2.dialogNodes[0])).toEqual({ duration: 2000 })
+      expect(getFadeToBlack(shotFixture1.dialogNodes[0])).toEqual(undefined)
+    })
+
     it('getWaitUserInput', () => {
       expect(getWaitUserInput({ waitUserInput: false })).toEqual(false)
       expect(getWaitUserInput({})).toEqual(true)
@@ -435,13 +447,23 @@ var shotFixture2 = {
           }
         ]
       },
+      mutators: {
+        fadeToBlack: {
+          duration: 2000
+        }
+      },
       textLocation: {
         x: 40,
         y: 10
       }
     },
     {
-      text: 'More spoken text'
+      text: 'More spoken text',
+      mutators: {
+        fadeFromBlack: {
+          duration: 1500
+        }
+      },
     }
   ]
 }

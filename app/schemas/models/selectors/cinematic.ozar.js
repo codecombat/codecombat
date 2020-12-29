@@ -389,6 +389,8 @@ export const getExitCharacter = dialogNode => dialogNode?.exitCharacter
  */
 export const triggers = dialogNode => dialogNode?.triggers
 
+export const mutators = dialogNode => dialogNode?.mutators
+
 const backgroundObject = triggers => {
   const bgObject = (triggers || {}).backgroundObject
   if (!(bgObject || {}).thangType) {
@@ -472,6 +474,10 @@ const soundEffects = triggers => {
       sound.triggerStart = sound.triggerStart || 0
       return sound
     })
+}
+
+const tryGetProperty = key => obj => {
+  return obj?.[key]
 }
 
 const playThangAnimations = triggers => {
@@ -617,3 +623,6 @@ export const getChangeDefaultIdles = dialogNode => (dialogNode?.mutators || {}).
  * @returns {boolean|undefined} Returns list of default idle action change objects or an empty array.
  */
 export const getShowVisualChalkboard = dialogNode => (dialogNode?.mutators || {}).showVisualChalkboard
+
+export const getFadeToBlack = compose(mutators, tryGetProperty('fadeToBlack'))
+export const getFadeFromBlack = compose(mutators, tryGetProperty('fadeFromBlack'))
