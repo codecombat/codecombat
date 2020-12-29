@@ -85,11 +85,11 @@ export default {
         const leagueRankings = state.rankingsForLeague[leagueId]
         if (state.mySession && state.mySession.rank > 20) {
           const splitRankings = []
-          splitRankings.push(...state.leagueRankings.top.slice(0, 10))
+          splitRankings.push(...leagueRankings.top.slice(0, 10))
           splitRankings.push({ type: 'BLANK_ROW' })
-          splitRankings.push(...state.leagueRankings.playersAbove)
+          splitRankings.push(...leagueRankings.playersAbove)
           splitRankings.push(state.mySession)
-          splitRankings.push(...state.leagueRankings.playersBelow)
+          splitRankings.push(...leagueRankings.playersBelow)
           return splitRankings
         }
         return leagueRankings.top
@@ -104,11 +104,11 @@ export default {
         const codePointsRankings = state.codePointsRankingsForLeague[leagueId]
         if (state.mySession && state.mySession.rank > 20) {
           const splitRankings = []
-          splitRankings.push(...state.codePointsRankings.top.slice(0, 10))
+          splitRankings.push(...codePointsRankings.top.slice(0, 10))
           splitRankings.push({ type: 'BLANK_ROW' })
-          splitRankings.push(...state.codePointsRankings.playersAbove)
+          splitRankings.push(...codePointsRankings.playersAbove)
           splitRankings.push(state.mySession)
-          splitRankings.push(...state.codePointsRankings.playersBelow)
+          splitRankings.push(...codePointsRankings.playersBelow)
           return splitRankings
         }
         return codePointsRankings.top
@@ -216,7 +216,7 @@ export default {
           teamSession.rank = parseInt(myRank, 10)
           leagueRankingInfo.playersAbove = playersAbove
           leagueRankingInfo.playersBelow = playersBelow
-
+          debugger
           commit('setMySession', teamSession)
         }
       }
