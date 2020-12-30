@@ -413,7 +413,7 @@ export default {
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
 
-    <div class="row flex-row text_dont_just_play_code" style="justify-content: flex-end;">
+    <div class="row flex-row text-dont-just-play-code" style="justify-content: flex-end;">
       <img src="/images/pages/league/text_dont_just_play_code.svg" class="img-responsive" />
     </div>
     <div class="row flex-row video-iframe-section">
@@ -721,7 +721,7 @@ export default {
     line-height: 40px;
   }
 
-  .text_dont_just_play_code img{
+  .text-dont-just-play-code img{
     max-width: 410px;
     margin: 0 0 0 auto;
   }
@@ -762,33 +762,33 @@ export default {
   .esports-flyer-optimized-section img {
     transform: translateY(100px);
   }
+  .btn-primary.btn-moon {
+    background-color: #d1b147;
+    border-radius: 4px;
+    color: #232323;
+    text-shadow: unset;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.71px;
+    line-height: 24px;
+    font-size: 18px;
+
+    &:hover {
+      background-color: #f7d047;
+      transition: background-color .35s;
+    }
+  }
 
   @media screen and (min-width: 768px) {
     .btn-primary.btn-moon, .blazing-battle {
       padding: 20px 100px;
-    }
-    .btn-primary.btn-moon {
-      background-color: #d1b147;
-      border-radius: 4px;
-      color: #232323;
-      text-shadow: unset;
-      text-transform: uppercase;
-      font-weight: bold;
-      letter-spacing: 0.71px;
-      line-height: 24px;
-      font-size: 18px;
-
-      &:hover {
-        background-color: #f7d047;
-        transition: background-color .35s;
-      }
     }
     .sm-pb-200 {
       padding-bottom: 200px;
     }
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
     .row.flex-row {
       display: table;
     }
@@ -798,14 +798,15 @@ export default {
     }
 
     .btn-primary.btn-moon {
-      background-color: #d1b147;
-      border-radius: 4px;
-      color: #232323;
-      text-shadow: unset;
-      text-transform: uppercase;
-      font-weight: bold;
-      line-height: 24px;
       font-size: 14px;
+      padding: 8px 24px;
+    }
+    .btn-primary.blazing-battle {
+      white-space: pre-wrap; /* CSS3 */    
+      white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+      white-space: -pre-wrap; /* Opera 4-6 */    
+      white-space: -o-pre-wrap; /* Opera 7 */    
+      word-wrap: break-word; /* Internet Explorer 5.5+ */
     }
 
     .esports-header .esports-h1 {
@@ -813,7 +814,7 @@ export default {
       line-height: 60px;
     }
 
-    .text_dont_just_play_code img{
+    .text-dont-just-play-code img{
       max-width: 100%;
     }
 
