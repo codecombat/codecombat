@@ -115,7 +115,9 @@ export default {
           }
 
           if (state.myCodePointsRank && typeof state.myCodePointsRank.rank === 'number' && state.myCodePointsRank.rank <= 20) {
+            // This patches in the correct name and id if you are in the top 20.
             codePointsRankings.top[state.myCodePointsRank.rank - 1].creator = me.id
+            codePointsRankings.top[state.myCodePointsRank.rank - 1].creatorName = me.broadName()
           }
 
           return codePointsRankings.top
