@@ -93,6 +93,9 @@ export default {
           splitRankings.push(...leagueRankings.playersBelow)
           return splitRankings
         }
+        // TODO: This uses `totalScore` which is possibly wrong if not global.
+        // As far as I can tell, if there are AI users they don't have the league Id.
+        // The server may already be normalizing this from the returned rankings.
         return leagueRankings.top
       }
     },
@@ -166,7 +169,11 @@ export default {
             belowSession.rank = rank
           }
 
+          // TODO - Maybe server can fill these in, or we can query
+          //        this more simply.
           teamSession.rank = parseInt(myRank, 10)
+          teamSession.creatorName = me.broadName()
+
           commit('setMySession', teamSession)
           commit('setGlobalAbove', playersAbove)
           commit('setGlobalBelow', playersBelow)
