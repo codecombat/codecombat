@@ -103,11 +103,7 @@ export default {
         }
         const codePointsRankings = state.codePointsRankingsForLeague[leagueId]
 
-        // TODO - Clean up this hack check. The returned codePointsRank is not
-        // guaranteed to return a rank. Thus we "guess" if the user is in the top by
-        // comparing totalScores.
-        if ((state.myCodePointsRank && state.myCodePointsRank.rank > 20) ||
-          ((codePointsRankings.top && !codePointsRankings.top.includes(({ totalScore }) => me.get('stats').codePoints === totalScore)))) {
+        if (state.myCodePointsRank && state.myCodePointsRank.rank > 20) {
           const splitRankings = []
           splitRankings.push(...codePointsRankings.top.slice(0, 10))
           splitRankings.push({ type: 'BLANK_ROW' })
@@ -116,6 +112,11 @@ export default {
           splitRankings.push(...codePointsRankings.playersBelow)
           return splitRankings
         }
+
+        if (state.myCodePointsRank && state.myCodePointsRank.rank <= 20) {
+          codePointsRankings.top[state.myCodePointsRank.rank - 1].creator = me.id
+        }
+
         return codePointsRankings.top
       }
     }
