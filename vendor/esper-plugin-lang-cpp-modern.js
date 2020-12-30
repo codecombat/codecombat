@@ -1,10 +1,10 @@
 /*!
  * jaba
  * 
- * Compiled: Wed Dec 23 2020 17:31:28 GMT-0800 (PST)
+ * Compiled: Wed Dec 30 2020 05:33:50 GMT-0800 (PST)
  * Target  : web (umd)
  * Profile : modern
- * Version : 8274075
+ * Version : 7a6844a
  * 
  * 
  * 
@@ -504,6 +504,7 @@ module.exports = {
 
 var esper = __webpack_require__(1);
 let EasyObjectValue = esper.EasyObjectValue;
+let EasyNativeFunction = esper.EasyNativeFunction
 let ArrayValue = esper.ArrayValue;
 let CompletionRecord = esper.CompletionRecord;
 let Value = esper.Value;
@@ -525,6 +526,9 @@ class JavaString extends EasyObjectValue {
 		return this.serial == o.serial;
 	}
 	static *length$(thiz, argz, s) { 
+		return s.fromNative(thiz.native.length, 'int'); 
+	}
+	static *size$(thiz, argz, s) {
 		return s.fromNative(thiz.native.length, 'int'); 
 	}
 	static *indexOf(thiz, argz, s) {
@@ -583,6 +587,8 @@ class InitializerList extends EasyObjectValue {
 			if ( i == 1 ) yield * thiz.set("y", args[i]);
 			if ( i == 2 ) yield * thiz.set("z", args[i]);
 		}
+		let len = args.length;
+		yield * thiz.set("size", EasyNativeFunction.makeForNative(thiz, () => len));
 		return thiz;
 	}
 }

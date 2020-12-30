@@ -102,15 +102,21 @@ export default {
           return []
         }
         const codePointsRankings = state.codePointsRankingsForLeague[leagueId]
-        if (state.mySession && state.mySession.rank > 20) {
+
+        if (state.myCodePointsRank && state.myCodePointsRank.rank > 20) {
           const splitRankings = []
           splitRankings.push(...codePointsRankings.top.slice(0, 10))
           splitRankings.push({ type: 'BLANK_ROW' })
           splitRankings.push(...codePointsRankings.playersAbove)
-          splitRankings.push(state.mySession)
+          splitRankings.push(state.myCodePointsRank)
           splitRankings.push(...codePointsRankings.playersBelow)
           return splitRankings
         }
+
+        if (state.myCodePointsRank && state.myCodePointsRank.rank <= 20) {
+          codePointsRankings.top[state.myCodePointsRank.rank - 1].creator = me.id
+        }
+
         return codePointsRankings.top
       }
     }
@@ -236,7 +242,7 @@ export default {
       const topCodePointsRankingPromise = getCodePointsLeaderboard(leagueId, {
         order: -1,
         scoreOffset: 1000000,
-        limit: 20,
+        limit: 20
       }).then(ranking => {
         codePointsRankingInfo.top = ranking
       })
@@ -260,9 +266,24 @@ export default {
           belowPlayer.rank = rank
         }
 
-        const myPlayerRow = {creatorName: me.broadName(), rank: parseInt(myRank, 10)}
+        // Required by the leaderboard to correctly show your user and highlight the row
+        const myPlayerRow = {
+          creatorName: me.broadName(),
+          rank: parseInt(myRank, 10),
+          totalScore: me.get('stats').codePoints,
+          creator: me.id
+        }
+
         codePointsRankingInfo.playersAbove = playersAbove
         codePointsRankingInfo.playersBelow = playersBelow
+
+        // This edge case happens when we don't know the rank of the user.
+        // In this case we want to wipe all rankings so we aren't guessing random ranks.
+        if (myRank === 'unknown') {
+          codePointsRankingInfo.playersAbove = playersAbove.map(session => { session.rank = ' '; return session })
+          codePointsRankingInfo.playersBelow = playersBelow.map(session => { session.rank = ' '; return session })
+          myPlayerRow.rank = ' '
+        }
 
         commit('setMyCodePointsRank', myPlayerRow)
       }
