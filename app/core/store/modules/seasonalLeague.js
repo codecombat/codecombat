@@ -114,7 +114,7 @@ export default {
             return splitRankings
           }
 
-          if (state.myCodePointsRank && state.myCodePointsRank.rank <= 20) {
+          if (state.myCodePointsRank && typeof state.myCodePointsRank.rank === 'number' && state.myCodePointsRank.rank <= 20) {
             codePointsRankings.top[state.myCodePointsRank.rank - 1].creator = me.id
           }
 
