@@ -62,10 +62,8 @@
 </template>
 
 <script>
- import BaseSchoolFacts from './BaseSchoolFacts'
  export default Vue.extend({
    components: {
-     'base-school-facts': BaseSchoolFacts
    },
    computed : {
      baseURI () {
@@ -171,7 +169,7 @@
          ctype: 'champion-group',
          bg: 'dark',
          title: '小初组（小学1-3年级）',
-         rank: [['袁梓程', '（中国）'],
+         rank: [['张芾', '（中国）'],
                 ['王楚烨', '（中国）'],
                 ['Homare Yamaguchi', '']],
          rewards: {title: '一等奖', members: [
