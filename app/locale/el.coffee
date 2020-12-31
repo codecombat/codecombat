@@ -210,6 +210,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     resource_hub: "Κέντρο Υλικού"
     apcsp: "Αρχές Πληροφορικής AP"
 #    parent: "Parents"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:

@@ -210,6 +210,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     resource_hub: "منبع های ما"
     apcsp: "اصول HubAP CS"
     parent: "خانواده"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:

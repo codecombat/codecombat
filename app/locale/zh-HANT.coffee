@@ -210,6 +210,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
     parent: "雙親"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
