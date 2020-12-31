@@ -26,21 +26,6 @@
         this.loadGlobalRequiredData()
       },
 
-      beforeRouteUpdate (to, from, next) {
-        $('#main-nav').addClass('dark-mode')
-        next()
-      },
-
-      beforeRouteEnter(to, from, next) {
-        $('#main-nav').addClass('dark-mode')
-        next()
-      },
-
-      beforeRouteLeave (to, from, next) {
-        $('#main-nav').removeClass('dark-mode')
-        next()
-      },
-
       computed: {
         ...mapGetters({
           isLoading: 'seasonalLeague/isLoading'

@@ -20,7 +20,7 @@ mixin accountLinks
 
 .style-flat
   block header
-    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center
+    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(class=!serverConfig.static && document.location.href.search('/league') >= 0 ? "dark-mode" : '')
       .container-fluid
         .row
           .col-md-12

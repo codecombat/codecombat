@@ -31,7 +31,6 @@ export default {
 
   watch: {
     isLoading (newLoading, _priorLoading) {
-      $('#main-nav').addClass('dark-mode')
       if (newLoading || !this.clanIdOrSlug) {
         return
       }
