@@ -187,6 +187,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     about: "About"
     events: "Events"
     impact: "Impact"
+    star: "CoCoStar"
     contact: "Contact"
     twitter_follow: "Follow"
     my_classrooms: "My Classes"

@@ -41,7 +41,7 @@ mixin accountLinks
                   img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
               else if me.showChinaResourceInfo()
                 a.navbar-brand(href="/home")
-                  img#logo-img(src="/images/pages/base/logo-en+cn.png")
+                  img#logo-img(src="/images/pages/base/logo-cn.png")
               else
                 a.navbar-brand(href="/home")
                   img#logo-img(src="/images/pages/base/logo.png")
@@ -83,10 +83,14 @@ mixin accountLinks
                     -//   else
                     -//     a.text-p(href="/parents", data-i18n="nav.parent")
                     li
-                      if document.location.href.search('/impact') >= 0
-                        a.text-p.text-teal(href="/impact", data-i18n="nav.impact")
+                      if document.location.href.search('/CoCoStar') >= 0
+                        a.text-p.text-teal(href="/CoCoStar", data-i18n="nav.star")
                       else
-                        a.text-p(href="/impact", data-i18n="nav.impact")
+                        a.text-p(href="/CoCoStar", data-i18n="nav.star")
+                      -// if document.location.href.search('/impact') >= 0
+                      -//   a.text-p.text-teal(href="/impact", data-i18n="nav.impact")
+                      -// else
+                      -//   a.text-p(href="/impact", data-i18n="nav.impact")
                     if me.isStudent()
                       li
                         if document.location.href.search('/students') >= 0
