@@ -88,10 +88,14 @@ export default {
           splitRankings.push(...leagueRankings.top.slice(0, 10))
           splitRankings.push({ type: 'BLANK_ROW' })
           splitRankings.push(...leagueRankings.playersAbove)
+          // TODO: This uses `totalScore` which is possibly wrong if not global.
           splitRankings.push(state.mySession)
           splitRankings.push(...leagueRankings.playersBelow)
           return splitRankings
         }
+        // TODO: This uses `totalScore` which is possibly wrong if not global.
+        // As far as I can tell, if there are AI users they don't have the league Id.
+        // The server may already be normalizing this from the returned rankings.
         return leagueRankings.top
       }
     },
@@ -102,22 +106,29 @@ export default {
           return []
         }
         const codePointsRankings = state.codePointsRankingsForLeague[leagueId]
+        try {
+          if (state.myCodePointsRank && state.myCodePointsRank.rank > 20) {
+            const splitRankings = []
+            splitRankings.push(...codePointsRankings.top.slice(0, 10))
+            splitRankings.push({ type: 'BLANK_ROW' })
+            splitRankings.push(...codePointsRankings.playersAbove)
+            splitRankings.push(state.myCodePointsRank)
+            splitRankings.push(...codePointsRankings.playersBelow)
+            return splitRankings
+          }
 
-        if (state.myCodePointsRank && state.myCodePointsRank.rank > 20) {
-          const splitRankings = []
-          splitRankings.push(...codePointsRankings.top.slice(0, 10))
-          splitRankings.push({ type: 'BLANK_ROW' })
-          splitRankings.push(...codePointsRankings.playersAbove)
-          splitRankings.push(state.myCodePointsRank)
-          splitRankings.push(...codePointsRankings.playersBelow)
-          return splitRankings
+          if (state.myCodePointsRank && typeof state.myCodePointsRank.rank === 'number' && state.myCodePointsRank.rank <= 20) {
+            // This patches in the correct name and id if you are in the top 20.
+            codePointsRankings.top[state.myCodePointsRank.rank - 1].creator = me.id
+            codePointsRankings.top[state.myCodePointsRank.rank - 1].creatorName = me.broadName()
+          }
+
+          return codePointsRankings.top
+        } catch (e) {
+          // TODO - handle correctly. This is a hack to avoid strange situations as we are going fast.
+          console.error(e)
         }
-
-        if (state.myCodePointsRank && state.myCodePointsRank.rank <= 20) {
-          codePointsRankings.top[state.myCodePointsRank.rank - 1].creator = me.id
-        }
-
-        return codePointsRankings.top
+        return []
       }
     }
   },
@@ -158,7 +169,11 @@ export default {
             belowSession.rank = rank
           }
 
+          // TODO - Maybe server can fill these in, or we can query
+          //        this more simply.
           teamSession.rank = parseInt(myRank, 10)
+          teamSession.creatorName = me.broadName()
+
           commit('setMySession', teamSession)
           commit('setGlobalAbove', playersAbove)
           commit('setGlobalBelow', playersBelow)
