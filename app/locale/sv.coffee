@@ -785,29 +785,29 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     number: "Nummer"
 #    webjavascript: "JavaScript"
 
-#  amazon_hoc:
-#    title: "Keep Learning with Amazon!"
-#    congrats: "Congratulations on conquering that challenging Hour of Code!"
-#    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
-#    educate_2: "Learn more and sign up here"
-#    future_eng_1: "You can also try to build your own school facts skill for Alexa"
-#    future_eng_2: "here"
-#    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
-#    future_eng_4: "Amazon Future Engineer"
-#    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
+  amazon_hoc:
+    title: "Fortsätt lära dig med Amazon!"
+    congrats: "Grattis till erövringen av den utmanande Hour of Code!"
+    educate_1: "Fortsätt lära dig mer om kodning och molntjänster med AWS Educate, ett spännande, gratis program från Amazon för både studenter och lärare. Med AWS Educate kan du få coola märken när du lär dig mer om grunderna i molnet och banbrytande teknik som spel, virtuell verklighet och Alexa."
+    educate_2: "Läs mer och registrera dig här"
+    future_eng_1: "Du kan också försöka bygga din egen skolfakta för Alexa"
+    future_eng_2: "här"
+    future_eng_3: "(enhet krävs inte). Denna Alexa-aktivitet får du av"
+    future_eng_4: "Amazon Future Engineer"
+    future_eng_5: "program som skapar inlärnings- och arbetsmöjligheter för alla K-12-studenter i USA som vill bedriva datavetenskap."
 
-#  live_class:
-#    title: "Thank you!"
-#    content: "Amazing! We just launched live online classes."
-#    link: "Ready to get ahead on your coding?"
+  live_class:
+    title: "Tack!"
+    content: "Fantastisk! Vi har precis lanserat live-onlinekurser."
+    link: "Är du redo att komma igång med din kodning?"
 
-#  code_quest:
-#    great: "Great!"
-#    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
-#    link: "Click here to register and learn more"
-#    global_tournament: "Global Tournament"
-#    register: "Register"
-#    date: "Aug 1 - Aug 31"
+  code_quest:
+    great: "Bra!"
+    join_paragraph: "Gå med i den största internationella Python AI-kodningsturneringen för alla åldrar och tävla om toppen på topplistan! Den här månadslånga globala striden börjar den 1 augusti och inkluderar 5 000 dollar i priser och en virtuell prisutdelning där vi tillkännager vinnare och ser dina kodningsförmåga."
+    link: "Klicka här för att registrera dig och lära dig mer"
+    global_tournament: "Global turnering"
+    register: "Registrera"
+    date: "1 Aug till 31 Aug"
 
   play_game_dev_level:
     created_by: "Skapad av {{name}}"
