@@ -159,6 +159,9 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{@levelID}/session"
       if @team
         url += "?team=#{@team}"
+        league = utils.getQueryVariable 'league'
+        if @level.isType('course-ladder') and league and not @courseInstanceID
+          url += "&courseInstance=#{league}"
       else if @courseID
         url += "?course=#{@courseID}"
         if @courseInstanceID

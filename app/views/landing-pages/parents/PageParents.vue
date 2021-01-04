@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <div class="container-graphic-spacer">
+    <div class="container-graphic-spacer sm-min-height-auto">
     </div>
 
     <div class="container">
@@ -182,9 +182,7 @@
     </div>
 
     <!-- Added some custom inline styles specific to this graphic -->
-    <div class="container-graphic-spacer"
-         style="margin-bottom: -35px; overflow-x: hidden;"
-    >
+    <div class="pet-following-yellow-dotted">
       <div class="container">
         <div class="row">
           <div class="col-xs-12">
@@ -192,7 +190,6 @@
                 class="img-responsive"
                 src="/images/pages/parents/graphic_04.svg"
                 alt="CodeCombat pet following yellow dotted path"
-                style="transform: translate(40%, -35px);"
                 loading="lazy"
             />
           </div>
@@ -354,11 +351,11 @@
       </div>
     </div>
 
-    <div class="container-graphic-spacer">
+    <div class="hero-for-student-outcomes">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_06.svg" style="margin: 0 auto; transform: translate(-47%, 0);" loading="lazy"/>
+            <img class="img-responsive" src="/images/pages/parents/graphic_06.svg" loading="lazy"/>
           </div>
         </div>
       </div>
@@ -514,7 +511,7 @@
     <div class="container-background-faq">
       <div class="container">
         <div class="row">
-          <div class="col-lg-12 text-center">
+          <div class="col-lg-12 text-center container-background-header">
             <h1 class="pixelated">FAQs</h1>
           </div>
         </div>
@@ -641,10 +638,6 @@ export default {
   mounted () {
     window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
 
-    console.log('>>>>>>>>>>>>>>>>>>>')
-    console.log(this.$router.currentRoute.query)
-    console.log('>>>>>>>>>>>>>>>>>>>')
-
     if (this.type === 'thank-you') {
       this.onClassBooked()
     }
@@ -768,10 +761,7 @@ export default {
 
 .video-container {
   margin-top: 50px;
-  padding: 45px;
 
-  background: url(/images/pages/parents/video_backer.png) no-repeat center;
-  background-size: contain;
 }
 
 .invest-heading {
@@ -991,6 +981,7 @@ export default {
   text-align: center;
 
   margin-bottom: 5px;
+  margin-top: 20px;
 }
 
 
@@ -1054,6 +1045,7 @@ export default {
 
 .container-pricing-table {
   padding: 0 70px;
+  margin-top: 20px;
   margin-bottom: 48px;
 
   /* Added some clouds to the pricing table */
@@ -1129,7 +1121,7 @@ export default {
 }
 
 #student-outcome-carousel .row {
-  padding: 60px;
+  padding: 0px 60px;
 }
 
 .carousel-row {
@@ -1273,8 +1265,10 @@ export default {
   margin: 32px 0 0;
 }
 
-.container-background-faq h1 {
-  transform: translateY(-64px);
+.container-background-header {
+  position: absolute;
+  transform: translateY(-60px);
+  width: calc(100% - 30px);
 }
 
 /* These create the broken top border which FAQ sits between */
@@ -1324,6 +1318,20 @@ export default {
   font-weight: 700;
 }
 
+.pet-following-yellow-dotted img{
+  margin: 0px 25% 0px auto;
+}
+
+.hero-for-student-outcomes {
+  min-height: 270px;
+  pointer-events: none;
+  overflow-x: hidden;
+}
+
+.hero-for-student-outcomes img {
+  margin-left: 25%;
+}
+
 @media screen and (max-width: 768px) {
   .xs-pb-50 {
     padding-bottom: 50px;
@@ -1336,6 +1344,29 @@ export default {
   }
   .outcome-to-concepts {
     min-height: 200px;
+  }
+  .sm-min-height-auto {
+    min-height: auto;
+  }
+  .pet-following-yellow-dotted {
+    margin-bottom: 0px;
+    overflow-x: hidden;
+    min-height: auto;
+  }
+  .pet-following-yellow-dotted img{
+    margin-right: 10%;
+    width: 50%;
+  }
+  .pricing-grid-container {
+    padding: 0 5px;
+  }
+  .hero-for-student-outcomes {
+    margin-bottom: 50px;
+    min-height: auto;
+  }
+  .hero-for-student-outcomes img {
+    width: 50%;
+    margin-left: 10%;
   }
 }
 

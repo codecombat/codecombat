@@ -210,6 +210,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     resource_hub: "Hulpmiddelen"
     apcsp: "AP CS Principes"
     parent: "Ouders"
+#    esports: "Esports"
     browser_recommendation: "Voor de beste ervaring raden we aan de nieuwste versie van Chrome te gebruiken. Download de browser hier!"
 
   modal:

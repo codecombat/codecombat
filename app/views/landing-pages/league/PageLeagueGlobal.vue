@@ -31,7 +31,6 @@ export default {
 
   watch: {
     isLoading (newLoading, _priorLoading) {
-      $('#main-nav').addClass('dark-mode')
       if (newLoading || !this.clanIdOrSlug) {
         return
       }
@@ -214,7 +213,7 @@ export default {
     },
 
     currentSelectedClanName () {
-      return (this.currentSelectedClan || {}).name || ''
+      return (this.currentSelectedClan || {}).displayName || (this.currentSelectedClan || {}).name || ''
     },
 
     currentSelectedClanDescription () {

@@ -210,6 +210,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     resource_hub: "Resource Hub"
     apcsp: "AP CS Principles"
     parent: "親"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:

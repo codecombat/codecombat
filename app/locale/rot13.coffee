@@ -209,6 +209,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     resource_hub: "Erfbhepr Uho"
     apcsp: "NC PF Cevapvcyrf"
     parent: "Cneragf"
+    esports: "Rfcbegf"
     browser_recommendation: "Sbe gur orfg rkcrevrapr jr erpbzzraq hfvat gur yngrfg irefvba bs Puebzr. Qbjaybnq gur oebjfre urer!"
 
   modal:
