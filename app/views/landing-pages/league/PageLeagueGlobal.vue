@@ -801,7 +801,7 @@ export default {
       padding: 8px 24px;
     }
     .btn-primary.blazing-battle {
-      white-space: pre-wrap;
+      white-space: normal;
     }
 
     .esports-header .esports-h1 {
