@@ -133,7 +133,6 @@
   border-bottom: 0.5px solid #d8d8d8;
 
   position: relative;
-  z-index: 11;
 }
 
 .story-title {
