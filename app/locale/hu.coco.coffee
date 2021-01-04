@@ -210,6 +210,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     resource_hub: "Segédanyag központ"
     apcsp: "Számítógép-tudományi alapelvek"
     parent: "Szülők"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:

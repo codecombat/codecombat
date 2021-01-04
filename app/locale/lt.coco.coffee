@@ -210,6 +210,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     resource_hub: "Išteklių centras"
 #    apcsp: "AP CS Principles"
     parent: "Tėvai"
+#    esports: "Esports"
     browser_recommendation: "Norėdami gauti geriausios patirties, rekomenduojame naudoti naujausią „Chrome“ versiją. Atsisiųskite naršyklę čia!"
 
   modal:
