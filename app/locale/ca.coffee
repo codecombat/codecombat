@@ -210,6 +210,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     resource_hub: "Centre de Recursos"
     apcsp: "Principis AP CS"
     parent: "Pares"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:

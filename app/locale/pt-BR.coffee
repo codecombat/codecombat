@@ -210,6 +210,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     resource_hub: "Central de Recursos"
     apcsp: "Princípios de Ciências da Computação"
     parent: "Pais"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
