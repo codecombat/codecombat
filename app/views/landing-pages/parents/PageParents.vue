@@ -1368,6 +1368,9 @@ export default {
     width: 50%;
     margin-left: 10%;
   }
+  #student-outcome-carousel {
+    padding-bottom: 20px;
+  }
 }
 
 @media screen and (min-width: 768px) {
