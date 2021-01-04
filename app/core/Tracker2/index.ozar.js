@@ -35,7 +35,7 @@ export default class Tracker2 extends BaseTracker {
     this.driftTracker = new DriftTracker(this.store)
     // this.proofTracker = new ProofTracker(this.store)
     this.fullStoryTracker = new FullStoryTracker(this.store, this)
-    this.googleOptimizeTracker = new GoogleOptimizeTracker();
+    this.googleOptimizeTracker = new GoogleOptimizeTracker(this.store)
     this.facebookPixelTracker = new FacebookPixelTracker(this.store)
 
     this.trackers = [
