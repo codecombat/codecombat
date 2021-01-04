@@ -210,6 +210,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    resource_hub: "Resource Hub"
     apcsp: "AP CS Principles"
     parent: "부모님들"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
