@@ -210,6 +210,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     resource_hub: "Pusat Sumber Daya"
     apcsp: "Fundamental AP CS"
     parent: "Orang Tua"
+#    esports: "Esports"
     browser_recommendation: "Untuk pengalaman yang lebih baik, kami merekomendasikan menggunakan browser chrome terbaru. Download browser disini"
 
   modal:

@@ -210,6 +210,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     resource_hub: "Resurssit"
 #    apcsp: "AP CS Principles"
     parent: "Vanhemmat"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:

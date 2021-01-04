@@ -210,6 +210,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     resource_hub: "Zdroje"
 #    apcsp: "AP CS Principles"
 #    parent: "Parents"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
