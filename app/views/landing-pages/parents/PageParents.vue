@@ -98,9 +98,9 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <h2 class="text-center pixelated invest-heading">
+            <h1 class="text-center pixelated">
               Invest in Your Child’s Future While They Have Fun!
-            </h2>
+            </h1>
           </div>
         </div>
       </div>
@@ -764,10 +764,6 @@ export default {
 
 }
 
-.invest-heading {
-  font-size: 40px;
-}
-
 #parent-page a {
   font-family: Work Sans;
   font-style: normal;
@@ -1370,6 +1366,12 @@ export default {
   }
   #student-outcome-carousel {
     padding-bottom: 20px;
+  }
+  .container-background-invest-heading, .container-child-future {
+    margin-bottom: 30px;
+  }
+  #parent-page .pixelated {
+    padding: 0px;
   }
 }
 
