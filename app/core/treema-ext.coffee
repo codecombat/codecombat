@@ -98,7 +98,7 @@ class RichTextTreema extends TreemaNode
     buttonRow = $('<div></div>')
     valEl.append(buttonRow)
     buttonRow.append($('<button>Edit Content</button>').addClass('btn btn-sm btn-primary').click(@editContent))
-    previewContainer = $('<div class="preview-container" style="width:100%; min-height: 80px; border:1px solid black; line-height: 16px; padding: 5px; white-space: pre"></div>')
+    previewContainer = $('<div class="preview-container" style="width:100%; min-height: 80px; border:1px solid black; line-height: 16px; padding: 5px; white-space: pre; font-size: calc(0.70em + 1vmin) !important;"></div>')
     previewContainer.html(@settings.callbacks.jsonToHtml(data))
     valEl.append(previewContainer)
 

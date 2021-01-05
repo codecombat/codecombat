@@ -50,9 +50,9 @@ const QUILL_CONFIG = {
   // size
   inlineStyles: {
     size: {
-      'small': 'font-size: 18px',
-      'large': 'font-size: 28px',
-      'huge': 'font-size: 32px'
+      small: 'font-size: 0.5em',
+      large: 'font-size: 1.1em',
+      huge: 'font-size: 1.5em'
     }
   }
 }
