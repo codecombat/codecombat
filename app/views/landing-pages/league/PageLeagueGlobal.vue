@@ -273,15 +273,15 @@ export default {
     >
     </clan-creation-modal>
 
-    <section class="row esports-header" style="min-height: 600px;">
+    <section class="row esports-header">
       <div class="col-sm-5">
         <clan-selector v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" style="margin-bottom: 40px;"/>
         <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
     </section>
 
-    <div class="graphic" style="width: 100%; overflow-x: hidden;">
-      <img src="/images/pages/league/text_code.svg" width="501" height="147" />
+    <div class="graphic text-code-section">
+      <img class="img-responsive" src="/images/pages/league/text_code.svg" width="501" height="147" />
     </div>
     <div class="row flex-row text-center">
       <p
@@ -292,8 +292,8 @@ export default {
     <div v-if="!doneRegistering && !isClanCreator()" class="row flex-row text-center">
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
-    <div class="graphic" style="width: 100%; overflow-x: hidden; display: flex; justify-content: flex-end; margin-bottom: 120px;">
-      <img src="/images/pages/league/text_2021.svg" width="501" height="147" />
+    <div class="graphic text-2021-section">
+      <img class="img-responsive" src="/images/pages/league/text_2021.svg" width="501" height="147" />
     </div>
 
     <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
@@ -316,13 +316,13 @@ export default {
       <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
       <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
-      <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="`${clanIdSelected}-score`" style="color: black;" />
-      <leaderboard v-else :rankings="globalRankings" style="color: black;" />
-      <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" scoreType="codePoints" style="color: black;" />
+      <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="`${clanIdSelected}-score`" class="leaderboard-component" style="color: black;" />
+      <leaderboard v-else :rankings="globalRankings" class="leaderboard-component" />
+      <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" scoreType="codePoints" class="leaderboard-component" />
     </div>
     <div class="row text-center" style="margin-bottom: 50px;">
       <!-- TODO: this CTA should be in the left column with the arena leaderboard, and there should be a separate CTA to play levels and earn CodePoints in the right column -->
-      <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Blazing Battle Multiplayer Arena</a>
+      <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon blazing-battle">Play Blazing Battle Multiplayer Arena</a>
     </div>
 
     <section class="row flex-row">
@@ -370,7 +370,7 @@ export default {
       <div class="col-sm-11"><p class="subheader2 mb-0">Complete the training levels and compete in the <span class="esports-aqua">Season Arena</span></p></div>
     </div>
 
-    <div class="row flex-row pb-200">
+    <div class="row flex-row sm-pb-200">
       <div class="col-sm-1"><img src="/images/pages/league/text_3.svg" class="img-responsive" loading="lazy"></div>
       <div class="col-sm-11"><p class="subheader2 mb-0">Compete in the culminating <span class="esports-aqua">Global Final Arena</span> and push your coding skills to the test</p></div>
     </div>
@@ -412,17 +412,17 @@ export default {
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
 
-    <div class="row flex-row" style="justify-content: flex-end;">
-      <img src="/images/pages/league/text_dont_just_play_code.svg" class="img-responsive" style="max-width: 410px; margin: 0 0 0 auto;" />
+    <div class="row flex-row text-dont-just-play-code" style="justify-content: flex-end;">
+      <img src="/images/pages/league/text_dont_just_play_code.svg" class="img-responsive" />
     </div>
-    <div class="row flex-row" style="justify-content: flex-start; z-index: 0; margin-top: -120px;">
+    <div class="row flex-row video-iframe-section">
       <div class="col-sm-10 video-backer video-iframe">
         <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/09166f0ec2f0a171dff6b220d466e4e1" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true"></iframe></div>
       </div>
     </div>
 
-    <div class="row flex-row" style="justify-content: flex-start; margin-top: 100px;">
-      <div class="col-xs-7">
+    <div class="row flex-row text-are-you-an-educator">
+      <div class="col-sm-7">
         <h1><span class="esports-pink">Are you an </span><span class="esports-green">educator </span><span class="esports-pink">or </span><span class="esports-aqua">esports coach?</span></h1>
       </div>
     </div>
@@ -498,7 +498,7 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row text-center" style="margin-bottom: 300px;">
+    <div class="row flex-row text-center clan-btn-section">
       <a v-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
       <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Start a Clan</a>
       <a v-else-if="!doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
@@ -528,14 +528,14 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row" style="margin-bottom: 100px;">
+    <div class="row flex-row esports-flyer-optimized-section">
       <div class="col-sm-8">
         <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
         <p style="margin-bottom: 50px;">Share our AI League flyer with educators, administrators, parents, eSports coaches or others that may be interested.</p>
         <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">Download Flyer</a>
       </div>
       <div class="col-sm-4">
-        <img src="/images/pages/league/esports_flyer_optimized.png" class="img-responsive" style="transform: translateY(100px);"/>
+        <img src="/images/pages/league/esports_flyer_optimized.png" class="img-responsive" />
       </div>
     </div>
   </main>
@@ -547,6 +547,8 @@ export default {
   flex-direction: column;
   align-items: center;
   position: relative;
+  overflow-x: hidden;
+  padding: 0 10px;
 
   font-family: Work Sans, "Sans Serif";
   color: white;
@@ -603,6 +605,7 @@ export default {
     background: url(/images/pages/league/game_hero.png) no-repeat;
     background-size: contain;
     background-position: right center;
+    min-height: 600px;
   }
 
   .esports-header .esports-h1 {
@@ -629,30 +632,6 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-  }
-
-  @media screen and (max-width: 768px) {
-    .row.flex-row {
-      display: table;
-    }
-  }
-
-  .btn-primary.btn-moon {
-    padding: 20px 100px;
-    background-color: #d1b147;
-    border-radius: 4px;
-    color: #232323;
-    text-shadow: unset;
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 0.71px;
-    line-height: 24px;
-    font-size: 18px;
-
-    &:hover {
-      background-color: #f7d047;
-      transition: background-color .35s;
-    }
   }
 
   #clan-invite {
@@ -728,10 +707,6 @@ export default {
     }
   }
 
-  .pb-200 {
-    padding-bottom: 200px;
-  }
-
   .mb-0 {
     margin-bottom: 0px;
   }
@@ -744,5 +719,139 @@ export default {
     font-size: 29px;
     line-height: 40px;
   }
+
+  .text-dont-just-play-code img{
+    max-width: 410px;
+    margin: 0 0 0 auto;
+  }
+
+  .video-iframe-section {
+    justify-content: flex-start;
+    z-index: 0;
+    margin-top: -120px;
+  }
+
+  .leaderboard-component {
+    color: #000;
+  }
+
+  .text-2021-section {
+    width: 100%;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 120px;
+  }
+
+  .clan-btn-section {
+    margin-bottom: 300px;
+  }
+
+  .text-are-you-an-educator {
+    justify-content: flex-start;
+    margin-top: 100px;
+  }
+  .text-code-section {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  .esports-flyer-optimized-section {
+    margin-bottom: 100px;
+  }
+  .esports-flyer-optimized-section img {
+    transform: translateY(100px);
+  }
+  .btn-primary.btn-moon {
+    background-color: #d1b147;
+    border-radius: 4px;
+    color: #232323;
+    text-shadow: unset;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.71px;
+    line-height: 24px;
+    font-size: 18px;
+
+    &:hover {
+      background-color: #f7d047;
+      transition: background-color .35s;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .btn-primary.btn-moon, .blazing-battle {
+      padding: 20px 100px;
+    }
+    .sm-pb-200 {
+      padding-bottom: 200px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .row.flex-row {
+      display: table;
+    }
+
+    section, & > div {
+      padding: 0px;
+    }
+
+    .btn-primary.btn-moon {
+      font-size: 14px;
+      padding: 8px 24px;
+    }
+    .btn-primary.blazing-battle {
+      white-space: normal;
+    }
+
+    .esports-header .esports-h1 {
+      font-size: 48px;
+      line-height: 60px;
+    }
+
+    .text-dont-just-play-code img{
+      max-width: 100%;
+    }
+
+    .video-iframe-section {
+      margin-top: 10px;
+    }
+
+    .esports-header{
+      background-position: bottom;
+      min-height: 360px;
+    }
+
+    .leaderboard-component {
+      color: #000;
+      border-color: #000;
+      padding: 0px;
+    }
+    .clan-btn-section {
+      margin-bottom: auto;
+    }
+    .text-2021-section {
+      margin-bottom: auto;
+      padding: 0 10px;
+    }
+    .text-are-you-an-educator {
+      margin-top: auto;
+      text-align: center;
+    }
+    .text-code-section {
+      padding: 0 10px;
+    }
+    .esports-flyer-optimized-section {
+      margin-bottom: 0px;
+    }
+    .esports-flyer-optimized-section img {
+      transform: none;
+    }
+
+  }
+
+
 }
 </style>
+
+
