@@ -74,6 +74,7 @@ export default {
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
         this.loadCodePointsRequiredData({ leagueId: this.clanIdSelected })
       } else {
+        this.clanIdSelected = ''
         this.loadGlobalRequiredData()
         this.loadCodePointsRequiredData({ leagueId: '' })
       }

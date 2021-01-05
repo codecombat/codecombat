@@ -46,6 +46,10 @@ export default {
       state.mySession = mySession
     },
 
+    clearMySession (state) {
+      state.mySession = {}
+    },
+
     setLeagueRanking (state, { leagueId, ranking }) {
       Vue.set(state.rankingsForLeague, leagueId, ranking)
     },
@@ -140,6 +144,7 @@ export default {
   actions: {
     async loadGlobalRequiredData ({ commit, dispatch }) {
       commit('setLoading', true)
+      commit('clearMySession')
       const awaitPromises = [dispatch('fetchGlobalLeaderboard')]
       const sessionsData = await fetchMySessions(currentSeasonalLevelOriginal)
 
@@ -193,6 +198,7 @@ export default {
         playersAbove: [],
         playersBelow: []
       }
+      commit('clearMySession')
 
       const topLeagueRankingPromise = getLeaderboard(currentSeasonalLevelOriginal, {
         order: -1,
