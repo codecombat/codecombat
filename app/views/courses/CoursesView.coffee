@@ -130,7 +130,7 @@ module.exports = class CoursesView extends RootView
       @supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: "original,primerLanguage,slug,i18n.#{me.get('preferredLanguage', true)}" }}))
 
     if features.china and @classrooms.find({id: '5fdc5d55f7e27e00402f9cab'})
-      if new Date() >= new Date(2021, 0, 4, 0) && new Date() <= new Date(2021, 0, 5, 0)  # new Date use month index from 0
+      if new Date() >= new Date(2021, 0, 4, 0) && new Date() <= new Date(2021, 0, 6, 0)  # new Date use month index from 0
         if window.serverConfig?.currentTournament
           @showTournament = true
           @tournamentUrl = 'magic-rush/course/5fdc5d56c4027d00464b7925'
