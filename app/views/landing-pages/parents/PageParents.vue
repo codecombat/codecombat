@@ -98,7 +98,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <h1 class="text-center pixelated invest-heading">
+            <h1 class="text-center pixelated">
               Invest in Your Child’s Future While They Have Fun!
             </h1>
           </div>
