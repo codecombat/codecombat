@@ -210,6 +210,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     resource_hub: "Resource Hub"
     apcsp: "AP CS Principles"
     parent: "Rodiče"
+#    esports: "Esports"
     browser_recommendation: "Pro nejlepší zkušenost doporučujeme použivat poslední verzi webového prohlížeče Chrome. Stáhněte si Chrome zde!"
 
   modal:

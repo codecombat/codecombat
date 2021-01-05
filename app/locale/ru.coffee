@@ -210,6 +210,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     resource_hub: "Ресурсы"
     apcsp: "AP CS Принципы"
     parent: "Родителям"
+#    esports: "Esports"
     browser_recommendation: "Для наилучшего опыта мы рекомендуем использоватеть последнюю версию Chrome. Скачай браузер здесь!"
 
   modal:

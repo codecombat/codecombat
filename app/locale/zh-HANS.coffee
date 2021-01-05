@@ -210,6 +210,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     resource_hub: "资源中心"
     apcsp: "AP计算机科学原理"
     parent: "家长参与"
+#    esports: "Esports"
     browser_recommendation: "推荐使用 chrome 浏览器访问获取最佳体验，点击此处前往下载"
 
   modal:
