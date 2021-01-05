@@ -1364,6 +1364,9 @@ export default {
     width: 50%;
     margin-left: 10%;
   }
+  #student-outcome-carousel {
+    padding-bottom: 20px;
+  }
   .container-background-invest-heading, .container-child-future {
     margin-bottom: 30px;
   }
