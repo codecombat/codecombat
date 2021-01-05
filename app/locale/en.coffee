@@ -764,6 +764,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     start: "Start"
     vega_character: "Vega Character"
     click_to_continue: "Click to Continue"
+    fill_in_solution: "Fill in solution"
 
   apis:
     methods: "Methods"

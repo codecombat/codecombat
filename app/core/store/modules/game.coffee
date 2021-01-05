@@ -13,6 +13,10 @@ module.exports = {
     timesCodeRun: 0
     timesAutocompleteUsed: 0
     playing: false
+    # Answer key for the current level.
+    levelSolution: ''
+    # Number of times state.levelSolution has been auto filled into the code editor.
+    autoFilled: 0
   }
   mutations: {
     setPlaying: (state, playing) ->
@@ -29,6 +33,20 @@ module.exports = {
       state.timesAutocompleteUsed += 1
     setTimesAutocompleteUsed: (state, times) ->
       state.timesAutocompleteUsed = times
+    setLevelSolution: (state, solution) ->
+      state.levelSolution = solution
+    autoFillSolution: (state) ->
+      state.autoFilled += 1
+  }
+  actions: {
+    setLevelSolution: ({ commit }, solution) ->
+      commit('setLevelSolution', solution)
+    autoFillSolution: ({ commit }) ->
+      commit('autoFillSolution')
+  }
+  getters: {
+    levelSolution: (state) -> state.levelSolution
+    autoFillSolution: (state) -> state.autoFilled
   }
 }
 
