@@ -70,7 +70,11 @@ export default {
         splitRankings.push(...state.globalRankings.globalTop.slice(0, 10))
         splitRankings.push({ type: 'BLANK_ROW' })
         splitRankings.push(...state.globalRankings.playersAbove)
-        splitRankings.push(state.mySession)
+        // This hack is due to a race condition where the server returns the player
+        // in the 4 above or 4 below. Thus we prevent player seeing duplicate of their result.
+        if (![...state.globalRankings.playersAbove, ...state.globalRankings.playersBelow].some(ranking => ranking.creator === me.id)) {
+          splitRankings.push(state.mySession)
+        }
         splitRankings.push(...state.globalRankings.playersBelow)
         return splitRankings
       }
