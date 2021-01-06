@@ -23,7 +23,6 @@
 
       created () {
         this.fetchRequiredInitialData({ optionalIdOrSlug: this.$route.params.idOrSlug })
-        this.loadGlobalRequiredData()
       },
 
       computed: {
@@ -34,7 +33,6 @@
 
       methods: {
         ...mapActions({
-          loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
           fetchRequiredInitialData: 'clans/fetchRequiredInitialData'
         })
       }

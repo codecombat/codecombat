@@ -46,6 +46,10 @@ export default {
       state.mySession = mySession
     },
 
+    clearMySession (state) {
+      state.mySession = {}
+    },
+
     setLeagueRanking (state, { leagueId, ranking }) {
       Vue.set(state.rankingsForLeague, leagueId, ranking)
     },
@@ -70,7 +74,11 @@ export default {
         splitRankings.push(...state.globalRankings.globalTop.slice(0, 10))
         splitRankings.push({ type: 'BLANK_ROW' })
         splitRankings.push(...state.globalRankings.playersAbove)
-        splitRankings.push(state.mySession)
+        // This hack is due to a race condition where the server returns the player
+        // in the 4 above or 4 below. Thus we prevent player seeing duplicate of their result.
+        if (![...state.globalRankings.playersAbove, ...state.globalRankings.playersBelow].some(ranking => ranking.creator === me.id)) {
+          splitRankings.push(state.mySession)
+        }
         splitRankings.push(...state.globalRankings.playersBelow)
         return splitRankings
       }
@@ -119,8 +127,14 @@ export default {
 
           if (state.myCodePointsRank && typeof state.myCodePointsRank.rank === 'number' && state.myCodePointsRank.rank <= 20) {
             // This patches in the correct name and id if you are in the top 20.
-            codePointsRankings.top[state.myCodePointsRank.rank - 1].creator = me.id
-            codePointsRankings.top[state.myCodePointsRank.rank - 1].creatorName = me.broadName()
+            const rankIdx = state.myCodePointsRank.rank - 1
+            const top = [...codePointsRankings.top]
+            top[rankIdx] = {
+              ...codePointsRankings.top[rankIdx],
+              creator: me.id,
+              creatorName: me.broadName()
+            }
+            return top
           }
 
           return codePointsRankings.top
@@ -136,6 +150,7 @@ export default {
   actions: {
     async loadGlobalRequiredData ({ commit, dispatch }) {
       commit('setLoading', true)
+      commit('clearMySession')
       const awaitPromises = [dispatch('fetchGlobalLeaderboard')]
       const sessionsData = await fetchMySessions(currentSeasonalLevelOriginal)
 
@@ -189,6 +204,7 @@ export default {
         playersAbove: [],
         playersBelow: []
       }
+      commit('clearMySession')
 
       const topLeagueRankingPromise = getLeaderboard(currentSeasonalLevelOriginal, {
         order: -1,
