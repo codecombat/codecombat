@@ -15,7 +15,6 @@ export default {
   },
 
   data: () => ({
-    clanIdSelected: '',
     clanIdOrSlug: '',
     leagueSignupModalOpen: false,
     clanCreationModal: false,
@@ -25,23 +24,19 @@ export default {
 
   beforeRouteUpdate (to, from, next) {
     this.clanIdOrSlug = to.params.idOrSlug || null
-    this.findIdOfParam()
     next()
   },
 
   watch: {
-    isLoading (newLoading, _priorLoading) {
-      if (newLoading || !this.clanIdOrSlug) {
-        return
+    clanIdOrSlug (newSelectedClan, lastSelectedClan) {
+      if (newSelectedClan !== lastSelectedClan) {
+        this.loadRequiredData()
       }
-      // This allows us to always use id to work with currently selected clan.
-      this.findIdOfParam()
     }
   },
 
   created () {
     this.clanIdOrSlug = this.$route.params.idOrSlug || null
-    this.findIdOfParam()
     // Would be odd to arrive here with ?registering=true and be logged out...
     this.doneRegistering = !!this.$route.query.registered
     this.leagueSignupModalOpen = !this.doneRegistering && this.canRegister() && !!this.$route.query.registering
@@ -52,29 +47,28 @@ export default {
       loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
       loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
       loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
+      fetchClan: 'clans/fetchClan',
     }),
 
     changeClanSelected (e) {
       if (e.target.value === 'global') {
         this.clanIdOrSlug = ''
-        this.clanIdSelected = ''
       } else {
         this.clanIdOrSlug = e.target.value
       }
-      this.findIdOfParam()
 
       const leagueURL = this.clanIdSelected ? `league/${this.clanIdSelected}` : 'league'
 
       application.router.navigate(leagueURL, { trigger: true })
     },
 
-    findIdOfParam () {
+    async loadRequiredData () {
       if (this.clanIdOrSlug) {
-        this.clanIdSelected = (this.clanByIdOrSlug(this.clanIdOrSlug) || {})._id
+        await this.fetchClan({ idOrSlug: this.clanIdOrSlug })
+
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
         this.loadCodePointsRequiredData({ leagueId: this.clanIdSelected })
       } else {
-        this.clanIdSelected = ''
         this.loadGlobalRequiredData()
         this.loadCodePointsRequiredData({ leagueId: '' })
       }
@@ -210,7 +204,11 @@ export default {
     }),
 
     currentSelectedClan () {
-      return this.clanByIdOrSlug(this.clanIdSelected) || null
+      return this.clanByIdOrSlug(this.clanIdOrSlug) || null
+    },
+
+    clanIdSelected () {
+      return (this.currentSelectedClan || {})._id || ''
     },
 
     currentSelectedClanName () {
