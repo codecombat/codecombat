@@ -51,20 +51,27 @@ export default {
     }),
 
     changeClanSelected (e) {
+      let newSelectedClan = ''
       if (e.target.value === 'global') {
-        this.clanIdOrSlug = ''
+        newSelectedClan = ''
       } else {
-        this.clanIdOrSlug = e.target.value
+        newSelectedClan = e.target.value
       }
 
-      const leagueURL = this.clanIdSelected ? `league/${this.clanIdSelected}` : 'league'
+      const leagueURL = newSelectedClan ? `league/${newSelectedClan}` : 'league'
 
       application.router.navigate(leagueURL, { trigger: true })
     },
 
     async loadRequiredData () {
       if (this.clanIdOrSlug) {
-        await this.fetchClan({ idOrSlug: this.clanIdOrSlug })
+        try {
+          await this.fetchClan({ idOrSlug: this.clanIdOrSlug })
+        } catch (e) {
+          // Default to global page
+          application.router.navigate('league', { trigger: true })
+          return
+        }
 
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
         this.loadCodePointsRequiredData({ leagueId: this.clanIdSelected })
