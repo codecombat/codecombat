@@ -611,8 +611,6 @@ module.exports = class CampaignView extends RootView
           storage.save "pointed-out-promotion", timesPointedOutPromotion + 1
     @applyCampaignStyles()
     @testParticles()
-    # just hiding it from play view for now. drift state is managed in vue so not possible to change its state here.
-    window.drift?.hide();
 
   onShiftS: (e) ->
     @generateCompletionRates() if @editorMode
