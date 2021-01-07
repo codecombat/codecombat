@@ -337,6 +337,9 @@ class PlayLevelView extends RootView {
     this.level = this.levelLoader.level
     this.updateCapstoneStage() // update this.capstoneStage based on session's state
     store.commit('game/setLevel', this.level.attributes)
+    if (me.canAutoFillCode()) {
+      store.dispatch('game/setLevelSolution', this.level.getSolutionFor(this.session.get('codeLanguage') || 'javascript'))
+    }
     // Set current campaign id and unit map URL details for acodus chrome
     const campaignID = this.campaignID || this.level.get('campaign')
     // This campaign ID will be wrong when the data is outdated, but the state for campaigns is fault tolerant:

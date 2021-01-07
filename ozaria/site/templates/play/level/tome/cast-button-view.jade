@@ -6,3 +6,7 @@ else
     span(data-i18n="play_level.tome_cast_button_update")
   div.play-button#next.active-button-text.inactive
     span(data-i18n="play.next")
+
+if me.canAutoFillCode()
+  div.play-button#fill-solution.active-button-text
+    span(data-i18n="common.solution")
