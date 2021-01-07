@@ -6,6 +6,7 @@ LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 LevelSession = require 'models/LevelSession'
 async = require('vendor/scripts/async.js')
 GoalManager = require('lib/world/GoalManager')
+store = require 'core/store'
 
 module.exports = class CastButtonView extends CocoView
   id: 'cast-button-view'
@@ -15,6 +16,7 @@ module.exports = class CastButtonView extends CocoView
     'click #run': 'onRunButtonClick'
     'click #update-game': 'onUpdateButtonClick'
     'click #next': 'onNextButtonClick'
+    'click #fill-solution': 'onFillSolution'
 
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
@@ -92,6 +94,10 @@ module.exports = class CastButtonView extends CocoView
         isCapstone: true
       }
       Backbone.Mediator.publish 'level:show-victory', args
+
+  onFillSolution: ->
+    return unless me.canAutoFillCode()
+    store.dispatch('game/autoFillSolution')
 
   onSpellChanged: (e) ->
     @updateCastButton()

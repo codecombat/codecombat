@@ -584,6 +584,7 @@ module.exports = class User extends CocoModel
   showIndividualRegister: -> not (features?.china ? false)
   hideDiplomatModal: -> features?.china ? false
   showChinaRemindToast: -> features?.china ? false
+  canAutoFillCode: -> @isAdmin() || @isTeacher() || @isInGodMode()
 
   # Ozaria flags
   hasCinematicEditorAccess: -> @isAdmin()

@@ -18,12 +18,18 @@ module.exports = {
     tutorialActive: false
     codeBankOpen: false
     clickedUpdateCapstoneCode: false
+    # Answer key for the current level.
+    levelSolution: ''
+    # Number of times state.levelSolution has been auto filled into the code editor.
+    autoFilled: 0
   }
   mutations: {
     setPlaying: (state, playing) ->
       state.playing = playing
     setLevel: (state, updates) ->
       state.level = $.extend(true, {}, updates)
+    setLevelSolution: (state, solution) ->
+      state.levelSolution = solution
     setHintsVisible: (state, visible) ->
       state.hintsVisible = visible
     incrementTimesCodeRun: (state) ->
@@ -57,6 +63,8 @@ module.exports = {
       state.codeBankOpen = open
     setClickedUpdateCapstoneCode: (state, clicked) ->
       state.clickedUpdateCapstoneCode = clicked
+    autoFillSolution: (state) ->
+      state.autoFilled += 1
   }
   actions: {
     # Idempotent, will not add the same step twice
@@ -105,12 +113,18 @@ module.exports = {
       commit('setCodeBankOpen', !rootState.game.codeBankOpen)
     setClickedUpdateCapstoneCode: ({ commit }, clicked) ->
       commit('setClickedUpdateCapstoneCode', clicked)
+    setLevelSolution: ({ commit }, solution) ->
+      commit('setLevelSolution', solution)
+    autoFillSolution: ({ commit }) ->
+      commit('autoFillSolution')
   }
   getters: {
     codeBankOpen: (state) -> state.codeBankOpen
     tutorialSteps: (state) -> state.tutorial
     tutorialActive: (state) -> state.tutorialActive
     clickedUpdateCapstoneCode: (state) -> state.clickedUpdateCapstoneCode
+    levelSolution: (state) -> state.levelSolution
+    autoFillSolution: (state) -> state.autoFilled
   }
 }
 
