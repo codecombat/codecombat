@@ -51,7 +51,7 @@ _.extend ClanSchema.properties,
   # Set only for auto clans, to the origins of the programmatic creation
   kind: {
     type: 'string',
-    enum: ['classroom', 'teacher', 'school', 'school-network', 'school-subnetwork', 'school-district', 'administrative-region', 'country'],
+    enum: ['classroom', 'teacher', 'school', 'school-subnetwork', 'school-network', 'school-district', 'administrative-region', 'country'],
     description: 'Signals an autoclan that may use different logic to look up membership'
   }
   metadata: c.object({
