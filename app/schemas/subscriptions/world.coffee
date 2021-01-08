@@ -45,3 +45,7 @@ module.exports =
   'world:lines-of-code-counted': c.object {required: ['thang', 'linesUsed']},
     thang: {type: 'object'}
     linesUsed: {type: 'integer'}
+
+  'world:update-key-value-db': c.object {
+    title: 'Update KeyValueDb',
+    description: 'The signal to update keyValueDb in a player level session from world' }

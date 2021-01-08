@@ -129,7 +129,8 @@ module.exports = class LevelSession extends CocoModel
     return if @isFake()
     for key, value of keyValueDb
       oldValue = @originalKeyValueDb[key]
-      if not oldValue or typeof(oldValue) is 'string' or typeof(value) is 'string'
+      continue if value is oldValue
+      if not oldValue? or typeof(oldValue) is 'string' or typeof(value) is 'string'
         api.levelSessions.setKeyValue({ sessionID: @id, key, value})
       else if typeof(oldValue) is 'number' and typeof(value) is 'number'
         increment = value - oldValue
