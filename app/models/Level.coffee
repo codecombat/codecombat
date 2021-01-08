@@ -293,13 +293,6 @@ module.exports = class Level extends CocoModel
   isType: (types...) ->
     return @get('type', true) in types
 
-  getSolutionFor: (language) ->
-    return unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
-    return unless plan = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)?.config.programmableMethods.plan
-    return unless solution = plan.solutions.find((s) -> s.language == language && s.succeeds == true)
-    return unless solution.source
-    return _.template(solution?.source)(utils.i18n(plan, 'context'))
-
   getSolutions: ->
     return [] unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
     return [] unless plan = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)?.config.programmableMethods.plan

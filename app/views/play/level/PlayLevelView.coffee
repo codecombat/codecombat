@@ -316,8 +316,6 @@ module.exports = class PlayLevelView extends RootView
     @session = @levelLoader.session
     @level = @levelLoader.level
     store.commit('game/setLevel', @level.attributes)
-    if me.canAutoFillCode()
-      store.dispatch('game/setLevelSolution', @level.getSolutionFor(@session.get('codeLanguage') or 'javascript'))
     if @level.isType('web-dev')
       @$el.addClass 'web-dev'  # Hide some of the elements we won't be using
       return

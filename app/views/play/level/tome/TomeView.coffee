@@ -49,8 +49,8 @@ module.exports = class TomeView extends CocoView
   constructor: (options) ->
     super options
     @unwatchFn = store.watch(
-      (state, getters) -> getters['game/autoFillSolution'],
-      => @onChangeMyCode(store.getters['game/levelSolution'])
+      (state, getters) -> getters['game/levelSolution'],
+      (solution) => @onChangeMyCode(solution.source)
     )
     unless options.god or options.level.get('type') is 'web-dev'
       console.error "TomeView created with no God!"
