@@ -378,6 +378,15 @@ module.exports = class World
     return unless @goalManager
     @goalManager.submitWorldGenerationEvent(channel, event, @frames.length)
 
+  # This can be used for arbitrary Backbone Mediator events tied to world frames.
+  # Example: publishWorldEvent('update-key-value-db', {})
+  # For new event types, add a subscription schema in app/schemas/subscriptions/world
+  publishWorldEvent: (channel, event) ->
+    event ?= {}
+    channel = 'world:' + channel
+    scriptNote = new WorldScriptNote({ channel: channel }, event)
+    @scriptNotes.push(scriptNote)
+
   publishCameraEvent: (eventName, event) ->
     return if not Backbone?.Mediator # headless mode don't have this
     event ?= {}

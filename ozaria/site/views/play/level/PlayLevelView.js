@@ -1435,7 +1435,7 @@ class PlayLevelView extends RootView {
       }
       AudioPlayer.preloadSoundReference(sound)
     }
-    if (this.level.isType('game-dev')) {
+    if (this.level.isType('game-dev', 'hero', 'course')) {
       this.session.updateKeyValueDb(e.keyValueDb)
     }
 
@@ -1480,6 +1480,13 @@ class PlayLevelView extends RootView {
     }
     this.renderSelectors('#how-to-play-game-dev-panel')
     return this.$('#how-to-play-game-dev-panel').removeClass('hide')
+  }
+
+  updateKeyValueDb () {
+    if (this.world.keyValueDb) {
+      this.session.updateKeyValueDb(_.cloneDeep(this.world.keyValueDb))
+      this.session.saveKeyValueDb()
+    }
   }
 
   updateLevelName () {
@@ -1669,6 +1676,7 @@ class PlayLevelView extends RootView {
   }
 
   onRunCode () {
+    this.updateKeyValueDb()
     return store.commit('game/incrementTimesCodeRun')
   }
 
@@ -1763,7 +1771,8 @@ PlayLevelView.prototype.subscriptions = {
   'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded',
   'store:item-purchased': 'onItemPurchased',
   'tome:manual-cast': 'onRunCode',
-  'tome:updateAetherRunning': 'updateAetherRunning'
+  'tome:updateAetherRunning': 'updateAetherRunning',
+  'world:update-key-value-db': 'updateKeyValueDb'
 }
 
 PlayLevelView.prototype.events = {
