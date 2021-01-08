@@ -18,10 +18,11 @@ module.exports = {
     tutorialActive: false
     codeBankOpen: false
     clickedUpdateCapstoneCode: false
-    # Answer key for the current level.
-    levelSolution: ''
-    # Number of times state.levelSolution has been auto filled into the code editor.
-    autoFilled: 0
+    # Source for solving the level, and number of times it has been used:
+    levelSolution: {
+      autoFillCount: 0,
+      source: ''
+    }
   }
   mutations: {
     setPlaying: (state, playing) ->
@@ -63,8 +64,6 @@ module.exports = {
       state.codeBankOpen = open
     setClickedUpdateCapstoneCode: (state, clicked) ->
       state.clickedUpdateCapstoneCode = clicked
-    autoFillSolution: (state) ->
-      state.autoFilled += 1
   }
   actions: {
     # Idempotent, will not add the same step twice
@@ -113,10 +112,30 @@ module.exports = {
       commit('setCodeBankOpen', !rootState.game.codeBankOpen)
     setClickedUpdateCapstoneCode: ({ commit }, clicked) ->
       commit('setClickedUpdateCapstoneCode', clicked)
-    setLevelSolution: ({ commit }, solution) ->
-      commit('setLevelSolution', solution)
-    autoFillSolution: ({ commit }) ->
-      commit('autoFillSolution')
+    autoFillSolution: ({ commit, rootState }) ->
+      try
+        hero = _.find (rootState.game.level?.thangs ? []), id: 'Hero Placeholder'
+        component = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)
+        plan = component.config?.programmableMethods?.plan
+        # This can live in Vuex at some point
+        codeLanguage = utils.getQueryVariable('codeLanguage') ? 'python'
+        rawSource = plan.solutions?.find((s) -> !s.testOnly && s.succeeds && s.language == codeLanguage)?.source
+        external_ch1_avatar = rootState.me.ozariaUserOptions?.avatar?.avatarCodeString ? 'crown'
+        context = _.merge({ external_ch1_avatar }, utils.i18n(plan, 'context'))
+        source = _.template(rawSource)(context)
+
+        unless _.isEmpty(source)
+          commit('setLevelSolution', {
+            autoFillCount: rootState.game.levelSolution.autoFillCount + 1,
+            source
+          })
+        else
+          noty({ text: "No solution available.", timeout: 3000 })
+          console.error("Could not find solution for #{rootState.game.level.name}")
+      catch e
+        text = "Cannot auto fill solution: #{e.message}"
+        console.error(text)
+        noty({ type: 'error', text })
   }
   getters: {
     codeBankOpen: (state) -> state.codeBankOpen
@@ -124,7 +143,6 @@ module.exports = {
     tutorialActive: (state) -> state.tutorialActive
     clickedUpdateCapstoneCode: (state) -> state.clickedUpdateCapstoneCode
     levelSolution: (state) -> state.levelSolution
-    autoFillSolution: (state) -> state.autoFilled
   }
 }
 
