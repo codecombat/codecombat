@@ -58,6 +58,11 @@ _.extend ClanSchema.properties,
     title: 'Metadata',
     description: 'Contains properties that help find autoclans'
     additionalProperties: true
+  }, {
+    networkClanId: c.stringID( title: 'Network Clan' )
+    subnetworkClanId: c.stringID( title: 'Sub-Network Clan' )
+    districtId: c.int( title: 'District Id', description: 'The unique district that the school is part of.' )
+    ncesId: c.float( title: 'NCES', description: 'The unique school NCES id. Should be a unique integer.')
   })
   # Set only for auto clans (yet), to display instead of Clan.name
   displayName: { type: 'string' }
