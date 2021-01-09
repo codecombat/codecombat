@@ -14,13 +14,15 @@
     export default {
       metaInfo () {
         return {
-          title: 'Competitive AI coding eSports from CodeCombat'
+          title: 'Competitive AI coding eSports from CodeCombat',
+          meta: [
+            { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+          ]
         }
       },
 
       created () {
         this.fetchRequiredInitialData({ optionalIdOrSlug: this.$route.params.idOrSlug })
-        this.loadGlobalRequiredData()
       },
 
       computed: {
@@ -31,7 +33,6 @@
 
       methods: {
         ...mapActions({
-          loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
           fetchRequiredInitialData: 'clans/fetchRequiredInitialData'
         })
       }

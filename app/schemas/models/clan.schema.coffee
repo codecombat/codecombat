@@ -49,7 +49,16 @@ _.extend ClanSchema.properties,
   # Set to 'basic' for auto clans
   dashboardType: {type: 'string', 'enum': ['basic', 'premium']}
   # Set only for auto clans, to the origins of the programmatic creation
-  kind: { type: 'string', 'enum': ['classroom', 'teacher', 'school', 'district', 'state', 'country'], description: 'Signals an autoclan that may use different logic to look up membership'}
+  kind: {
+    type: 'string',
+    enum: ['classroom', 'teacher', 'school', 'school-subnetwork', 'school-network', 'school-district', 'administrative-region', 'country'],
+    description: 'Signals an autoclan that may use different logic to look up membership'
+  }
+  metadata: c.object({
+    title: 'Metadata',
+    description: 'Contains properties that help find autoclans'
+    additionalProperties: true
+  })
   # Set only for auto clans (yet), to display instead of Clan.name
   displayName: { type: 'string' }
 
