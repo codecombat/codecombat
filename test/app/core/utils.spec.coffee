@@ -18,27 +18,27 @@ describe 'Utility library', ->
 
     describe 'add int main if fullCode set true', ->
       it 'if there is no patten need translate', ->
-        expect(utils.translatejs2cpp('hero.moveRight();')).toBe('int main() {\n    hero.moveRight();\nreturn 0;\n}')
+        expect(utils.translatejs2cpp('hero.moveRight();')).toBe('int main() {\n    hero.moveRight();\n    return 0;\n}')
       it 'if there is var x or var y', ->
-        expect(utils.translatejs2cpp('var x = 2;\nvar y = 3;')).toBe('int main() {\n    float x = 2;\n    float y = 3;\nreturn 0;\n}')
+        expect(utils.translatejs2cpp('var x = 2;\nvar y = 3;')).toBe('int main() {\n    float x = 2;\n    float y = 3;\n    return 0;\n}')
       it 'if there is ===/!==', ->
-        expect(utils.translatejs2cpp('while (a === 2 && b !== 1)')).toBe('int main() {\n    while (a == 2 && b != 1)\nreturn 0;\n}')
+        expect(utils.translatejs2cpp('while (a === 2 && b !== 1)')).toBe('int main() {\n    while (a == 2 && b != 1)\n    return 0;\n}')
       it 'if there is other var', ->
-        expect(utils.translatejs2cpp('var enemy = hero...')).toBe('int main() {\n    auto enemy = hero...\nreturn 0;\n}')
+        expect(utils.translatejs2cpp('var enemy = hero...')).toBe('int main() {\n    auto enemy = hero...\n    return 0;\n}')
       it 'if there is a function definition', ->
-        expect(utils.translatejs2cpp('function a() {}\n')).toBe('auto a() {}\nint main() {\n    \nreturn 0;\n}')
+        expect(utils.translatejs2cpp('function a() {}\n')).toBe('auto a() {}\nint main() {\n    \n    return 0;\n}')
       it 'if there is a function definition with parameter', ->
-        expect(utils.translatejs2cpp('function a(b) {}\n')).toBe('auto a(auto b) {}\nint main() {\n    \nreturn 0;\n}')
+        expect(utils.translatejs2cpp('function a(b) {}\n')).toBe('auto a(auto b) {}\nint main() {\n    \n    return 0;\n}')
       it 'if there is a function definition with parameters', ->
-        expect(utils.translatejs2cpp('function a(b, c) {}\na();')).toBe('auto a(auto b, auto c) {}\nint main() {\n    a();\nreturn 0;\n}')
+        expect(utils.translatejs2cpp('function a(b, c) {}\na();')).toBe('auto a(auto b, auto c) {}\nint main() {\n    a();\n    return 0;\n}')
 
     describe 'if there are start comments', ->
       it 'if there is no code', ->
-        expect(utils.translatejs2cpp('//abc\n//def\n')).toBe('//abc\n//def\nint main() {\n    \nreturn 0;\n}')
+        expect(utils.translatejs2cpp('//abc\n//def\n')).toBe('//abc\n//def\nint main() {\n    \n    return 0;\n}')
       it 'if there is code without function definition', ->
-        expect(utils.translatejs2cpp('//abc\nhero.moveRight()')).toBe('//abc\nint main() {\n    hero.moveRight()\nreturn 0;\n}')
+        expect(utils.translatejs2cpp('//abc\nhero.moveRight()')).toBe('//abc\nint main() {\n    hero.moveRight()\n    return 0;\n}')
       it 'if there is code with function definition', ->
-        expect(utils.translatejs2cpp('//abc\nfunction a(b, c) {}\nhero.moveRight()')).toBe('//abc\nauto a(auto b, auto c) {}\nint main() {\n    hero.moveRight()\nreturn 0;\n}')
+        expect(utils.translatejs2cpp('//abc\nfunction a(b, c) {}\nhero.moveRight()')).toBe('//abc\nauto a(auto b, auto c) {}\nint main() {\n    hero.moveRight()\n    return 0;\n}')
 
   describe 'getQueryVariable(param, defaultValue)', ->
     beforeEach ->
