@@ -627,11 +627,13 @@ export default {
     line-height: 80px;
     text-transform: uppercase;
     transform: rotate(-12deg);
+    max-width: 530px;
+    margin-top: 30px;
   }
 
   // Most sections have a max width and are centered.
   section, & > div {
-    max-width: 1366px;
+    max-width: 1920px;
     width:100%;
     padding: 0 70px;
     position: relative;
