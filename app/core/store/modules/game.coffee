@@ -40,27 +40,30 @@ module.exports = {
   }
   actions: {
     autoFillSolution: ({ commit, rootState }) ->
-      try
-        hero = _.find (rootState.game.level?.thangs ? []), id: 'Hero Placeholder'
-        component = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)
-        plan = component.config?.programmableMethods?.plan
-        # This can live in Vuex at some point
-        codeLanguage = utils.getQueryVariable('codeLanguage') ? 'python'
-        rawSource = plan.solutions?.find((s) -> !s.testOnly && s.succeeds && s.language == codeLanguage)?.source
-        source = _.template(rawSource)(utils.i18n(plan, 'context'))
+      return unless hero = _.find (rootState.game.level?.thangs ? []), id: 'Hero Placeholder'
+      return unless component = _.find(hero.components ? [], (c) -> c?.config?.programmableMethods?.plan)
+      plan = component.config.programmableMethods.plan
+      # This can live in Vuex at some point
+      codeLanguage = utils.getQueryVariable('codeLanguage') ? 'javascript'
+      return unless rawSource = plan.solutions?.find(
+        (s) -> !s.testOnly && s.succeeds && s.language == codeLanguage
+      )?.source
 
-        unless _.isEmpty(source)
-          commit('setLevelSolution', {
-            autoFillCount: rootState.game.levelSolution.autoFillCount + 1,
-            source
-          })
-        else
-          noty({ text: "No solution available.", timeout: 3000 })
-          console.error("Could not find solution for #{rootState.game.level.name}")
+      try
+        source = _.template(rawSource)(utils.i18n(plan, 'context'))
       catch e
         text = "Cannot auto fill solution: #{e.message}"
         console.error(text)
         noty({ type: 'error', text })
+
+      unless _.isEmpty(source)
+        commit('setLevelSolution', {
+          autoFillCount: rootState.game.levelSolution.autoFillCount + 1,
+          source
+        })
+      else
+        noty({ text: "No solution available.", timeout: 3000 })
+        console.error("Could not find solution for #{rootState.game.level.name}")
   }
   getters: {
     levelSolution: (state) -> state.levelSolution
