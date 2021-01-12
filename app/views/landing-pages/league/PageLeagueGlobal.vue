@@ -223,7 +223,18 @@ export default {
     },
 
     currentSelectedClanDescription () {
-      return (this.currentSelectedClan || {}).description || ''
+      const description = (this.currentSelectedClan || {}).description || ''
+      if (!description) {
+        return ''
+      }
+
+      // Hack - In the future we should autopopulate autoclan descriptions better server side.
+      //        Or alternatively populate client side with i18n enabled.
+      if (this.currentSelectedClan.kind) {
+        return description.replace('Clan', 'Team')
+      }
+
+      return description
     },
 
     myCreatedClan () {
