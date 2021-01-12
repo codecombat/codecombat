@@ -1,10 +1,10 @@
 /*!
  * jaba
  * 
- * Compiled: Wed Dec 23 2020 17:31:28 GMT-0800 (PST)
+ * Compiled: Tue Jan 12 2021 15:19:56 GMT-0800 (PST)
  * Target  : web (umd)
  * Profile : modern
- * Version : 8274075
+ * Version : ad6c740
  * 
  * 
  * 
@@ -363,6 +363,7 @@ module.exports = {transform:"redacted"};
 var esper = __webpack_require__(1);
 var Value = esper.Value;
 let stdlib = __webpack_require__(7);
+var ArrayValue = esper.ArrayValue
 let debug = () => {}
 
 
@@ -465,6 +466,30 @@ class JavaCast extends esper.ObjectValue {
 }
 
 function javaifyEngine(ev) {
+	let fpn = Value.fromPrimativeNative.bind(Value);
+	Value.fromPrimativeNative = (v) => {
+		let type = typeof(v)
+		let r = new JavaPrimitiveValue(v);
+		if (type == "int") {
+			r.boundType = "int";
+			return r;
+		}
+		if ( type == "double" ) {
+			r.boundType = "double";
+			return r;
+		}
+
+		if ( type == "string" ) {
+			r.boundType = "string";
+			return r;
+		}
+
+		if ( type == "number" ) {
+			r.boundType = "double";
+			return r;
+		}
+		return fpn(v)
+	}
 	let rev = ev.realm.fromNative.bind(ev.realm);
 	ev.realm.fromNative = (v,n) => {
 		let r = new JavaPrimitiveValue(v);
@@ -502,7 +527,6 @@ function javaifyEngine(ev) {
 			r.boundType = "double";
 			return r;
 		}
-		//console.log("Failed binding native", v, new Error().stack)
 		
 		return rev(v);
 	}
@@ -531,6 +555,19 @@ function javaifyEngine(ev) {
 		obj.setImmediate("prototype", ptype);
 		ev.realm.globalScope.add(k, obj);
 	}
+
+	let amake = ArrayValue.make.bind(ArrayValue);
+	ArrayValue.make = function(vals, realm) {
+		let av = amake(vals, realm);
+		av.setPrototype(new stdlib.p.CPPListProto(ev.realm));
+
+		let l = vals.length
+		if(l > 0) {av.setImmediate('x', vals[0]); av.properties.x.enumerable = false;}
+		if(l > 1) {av.setImmediate('y', vals[1]); av.properties.y.enumerable = false;}
+		if(l > 2) {av.setImmediate('z', vals[2]); av.properties.z.enumerable = false;}
+		return av;
+	}
+	
 }
 
 module.exports = {
@@ -546,6 +583,7 @@ module.exports = {
 
 var esper = __webpack_require__(1);
 let EasyObjectValue = esper.EasyObjectValue;
+let EasyNativeFunction = esper.EasyNativeFunction
 let ArrayValue = esper.ArrayValue;
 let CompletionRecord = esper.CompletionRecord;
 let Value = esper.Value;
@@ -563,10 +601,20 @@ class JavaObject extends EasyObjectValue {
 }
 
 class JavaString extends EasyObjectValue {
+	*get(name, thiz) {
+		let idx = Number(name);
+		if ( !isNaN(idx) ) {
+			return Value.fromNative(thiz.native[idx]);
+		}
+		return yield * super.get(name, thiz);
+	}
 	static *equals(o) {
 		return this.serial == o.serial;
 	}
 	static *length$(thiz, argz, s) { 
+		return s.fromNative(thiz.native.length, 'int'); 
+	}
+	static *size$(thiz, argz, s) {
 		return s.fromNative(thiz.native.length, 'int'); 
 	}
 	static *indexOf(thiz, argz, s) {
@@ -619,13 +667,13 @@ class Double extends EasyObjectValue {
 class InitializerList extends EasyObjectValue {
 	// Hack for CodeCombat x-y-z coordinate literals
 	*call(thiz, args, s) {
+		let result = ArrayValue.make(args, s.realm);
 		for ( let i = 0; i < args.length; ++i ) {
-			yield * thiz.set("" + i, args[i]);
-			if ( i == 0 ) yield * thiz.set("x", args[i]);
-			if ( i == 1 ) yield * thiz.set("y", args[i]);
-			if ( i == 2 ) yield * thiz.set("z", args[i]);
+			if ( i == 0 ) yield * result.set("x", args[i]);
+			if ( i == 1 ) yield * result.set("y", args[i]);
+			if ( i == 2 ) yield * result.set("z", args[i]);
 		}
-		return thiz;
+		return result;
 	}
 }
 
@@ -771,6 +819,53 @@ class JavaNewInstance extends EasyObjectValue {
 	}
 }
 
+function *getLength(v) {
+	let m = yield * v.get('length');
+	return yield * m.toUIntNative();
+}
+
+class CPPListProto extends EasyObjectValue {
+	constructor(realm) {
+		super(realm);
+	}
+
+	static *size$e(thiz) {
+		return yield * getLength(thiz);
+	}
+
+	static *push_back$e(thiz, args) {
+		let l = yield * getLength(thiz);
+		for ( let i = 0; i < args.length; ++i ) {
+			yield * thiz.set(l + i, args[i]);
+		}
+		let nl = Value.fromNative(l + args.length);
+		yield * thiz.set('length', nl);
+		return Value.fromNative(l + args.length);
+	}
+
+	static *pop$e(thiz) {
+		let l = yield * getLength(thiz);
+		if (l < 1) return Value.undef;
+		let poped = yield * thiz.get('0');
+		for( let i = 0; i < l-1; i++) {
+			let next = yield * thiz.get('' + (i+1));
+			yield * thiz.set(i, next);
+		}
+		delete thiz.properties[l-1];
+		yield * thiz.set('length', Value.fromNative(l-1))
+		return poped;
+	}
+
+	static *pop_back$e(thiz) {
+		let l = yield * getLength(thiz);
+		if (l < 1) return Value.undef;
+		let poped = yield * thiz.get('' + (l-1));
+		delete thiz.properties[l-1];
+		yield * thiz.set('length', Value.fromNative(l-1));
+		return poped;
+	}
+}
+CPPListProto.prototype.wellKnownName = '%CPPListPrototype%';
 
 class JavaMath extends EasyObjectValue {
 	static *random(thiz, args, s) { return s.fromNative(0, 'double'); }
@@ -805,8 +900,9 @@ class System extends EasyObjectValue {
 	static *out$g(thiz, argz, s) { return this.out; }
 }
 
-module.exports = { 
+module.exports = {
 	o: {JavaObject},
+	p: {CPPListProto},
 	f:{Math:JavaMath, JavaCreateClass, JavaCreateDefault, JavaNewInstance, JavaString, Integer, Double, System, InitializerList} 
 }
 
