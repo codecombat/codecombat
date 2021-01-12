@@ -3194,3 +3194,5 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     student_register_3: "Provide the information below to be eligible for prizes."
     teacher_register_1: "Sign up to access your class league profile page and get your class started."
     general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+    team: 'team'
+    how_it_works1: 'Join a __team__'

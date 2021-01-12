@@ -309,7 +309,7 @@ export default {
       <div class="col-sm-7">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
-        <p>Invite players to this clan by sending them this link:</p>
+        <p>Invite players to this team by sending them this link:</p>
         <input readonly :value="clanInviteLink()" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
         <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
@@ -337,7 +337,7 @@ export default {
         <ul style="list-style-type: none; padding: 0;">
           <li><span class="bullet-point" style="background-color: #bcff16;"/>Access competitive multiplayer arenas, leaderboard, and global coding championships</li>
           <li><span class="bullet-point" style="background-color: #30EFD3;"/>Earn points for completing practice levels and competing in head-to-head matches</li>
-          <li><span class="bullet-point" style="background-color: #FF39A6;"/>Join competitive coding clans with friends, family, or classmates</li>
+          <li><span class="bullet-point" style="background-color: #FF39A6;"/>Join competitive coding teams with friends, family, or classmates</li>
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>Showcase your coding skills and take home great prizes</li>
         </ul>
         <div class="xs-centered">
@@ -372,7 +372,7 @@ export default {
     </div>
     <div class="row flex-row">
       <div class="col-sm-1"><img src="/images/pages/league/text_1.svg" class="img-responsive" loading="lazy"></div>
-      <div class="col-sm-11"><p class="subheader2 mb-0">Join a <span class="esports-aqua">clan</span></p></div>
+      <div class="col-sm-11"><p class="subheader2 mb-0" v-html="$t('league.how_it_works1', { team: `<span class='esports-aqua'>${this.$t('league.team')}</span>` })"></p></div>
     </div>
 
     <div class="row flex-row">
@@ -585,7 +585,7 @@ export default {
     color: #f7d047;
   }
 
-  .esports-aqua {
+  /deep/ .esports-aqua {
     color: #30efd3;
   }
 
