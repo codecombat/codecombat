@@ -39,12 +39,12 @@ module.exports = {
       state.levelSolution = solution
   }
   actions: {
-    autoFillSolution: ({ commit, rootState }) ->
+    autoFillSolution: ({ commit, rootState }, codeLanguage) ->
       return unless hero = _.find (rootState.game.level?.thangs ? []), id: 'Hero Placeholder'
       return unless component = _.find(hero.components ? [], (c) -> c?.config?.programmableMethods?.plan)
       plan = component.config.programmableMethods.plan
       # This can live in Vuex at some point
-      codeLanguage = utils.getQueryVariable('codeLanguage') ? 'javascript'
+      codeLanguage ?= utils.getQueryVariable('codeLanguage') ? 'javascript'
       return unless rawSource = plan.solutions?.find(
         (s) -> !s.testOnly && s.succeeds && s.language == codeLanguage
       )?.source

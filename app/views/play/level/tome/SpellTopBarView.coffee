@@ -29,12 +29,12 @@ module.exports = class SpellTopBarView extends CocoView
     'click .videos-button': 'onClickVideosButton'
     'click #fill-solution': 'onFillSolution'
 
-  constructor: (options) ->
-    @hintsState = options.hintsState
-    @spell = options.spell
-    @courseInstanceID = options.courseInstanceID
-    @courseID = options.courseID
-    super(options)
+  constructor: (@options) ->
+    @hintsState = @options.hintsState
+    @spell = @options.spell
+    @courseInstanceID = @options.courseInstanceID
+    @courseID = @options.courseID
+    super(@options)
 
   getRenderData: (context={}) ->
     context = super context
@@ -70,7 +70,7 @@ module.exports = class SpellTopBarView extends CocoView
 
   onFillSolution: ->
     return unless me.canAutoFillCode()
-    store.dispatch('game/autoFillSolution')
+    store.dispatch('game/autoFillSolution', @options.codeLanguage)
 
   onCodeReload: (e) ->
     if key.shift
