@@ -4,27 +4,42 @@ Link to asana task:
 
 
 
-# Why?
+# Short summary of why this is needed
 
 
 
-# How?
+# Short summary of how changes were done
 
 
 
-# i18n?
+# Are we adding any new text that does not have i18n?
 
 
 
-# Testing
-
-- How has this been tested (unit, integration, manual)?
-- How can reviewer manually repro issue (if relevant)?
-- How can reviewer manually test changes?
+# Test summary
 
 
 
-# Risks?
+### As a reviewer, how do I reproduce the issue?
+
+
+
+### As a reviewer, how do I verify the fix?
+
+
+
+## If no tests
+
+
+### Is this a good candidate for [Preflight](https://app.preflight.com/tests/all)?
+
+
+
+### What would be necessary to make this testable?
+
+
+
+# Short summary of potential risks
 
 
 
