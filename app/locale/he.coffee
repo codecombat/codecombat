@@ -210,6 +210,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     resource_hub: "מרכז המשאבים"
 #    apcsp: "AP CS Principles"
 #    parent: "Parents"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
@@ -1154,6 +1155,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    mo_title: "Manager, Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "למעלה מ-500 תורמים כבר עוזרים לבנות את CodeCombat, ותורמים נוספים מצטרפים מדי שבוע!"
     community_description_3: "CodeCombat הוא"
     community_description_link_2: "פרויקט קהילתי"
@@ -1697,10 +1699,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    code: "__name__'s Code"
 #    complete_solution: "Complete Solution"
 #    course_not_started: "Student has not started this course yet."
-#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
-#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
-#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
-#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -2367,6 +2365,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    awaiting_tournament_title: "Tournament Inactive"
 #    awaiting_tournament_blurb: "The tournament arena is not currently active."
 #    tournament_end_desc: "The tournament is over, thanks for playing"
+#    age: "Age"
+#    bracket_0_11: "0-11"
+#    bracket_11_14: "11-14"
+#    bracket_14_18: "14-18"
+#    bracket_open: "Open"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -3185,3 +3188,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #  admin:
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
+
+#  league:
+#    student_register_1: "Become the next AI Champion!"
+#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_3: "Provide the information below to be eligible for prizes."
+#    teacher_register_1: "Sign up to access your class league profile page and get your class started."
+#    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."

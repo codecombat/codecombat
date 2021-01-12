@@ -192,6 +192,10 @@ formSchema = {
 }
 
 loginNavigate = (subModalContinue) ->
+  if window.nextURL?.startsWith('/league')
+    window.location.href = window.nextURL
+    return
+
   if not me.isAdmin()
     if me.isStudent()
       application.router.navigate('/students', { trigger: true })

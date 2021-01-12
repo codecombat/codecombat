@@ -34,5 +34,9 @@ a {
   border-radius: 9.5px;
 }
 
+a:hover {
+  background: #fcd200;
+  text-decoration: none;
+}
 
 </style>

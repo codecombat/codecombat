@@ -210,6 +210,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
 #    parent: "Parents"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
@@ -1119,7 +1120,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
 #    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
 #    team_title: "Meet the CodeCombat team"
-#    team_values: "We value open and respectful dialog, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
+#    team_values: "We value open and respectful dialogue, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
     nick_title: "Programmerer" # {change}
 #    csm_title: "Customer Success Manager"
 #    ae_title: "Account Executive"
@@ -1154,6 +1155,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    mo_title: "Manager, Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
 #    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
@@ -1697,10 +1699,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    code: "__name__'s Code"
 #    complete_solution: "Complete Solution"
 #    course_not_started: "Student has not started this course yet."
-#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
-#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
-#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
-#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -2367,6 +2365,11 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    awaiting_tournament_title: "Tournament Inactive"
 #    awaiting_tournament_blurb: "The tournament arena is not currently active."
 #    tournament_end_desc: "The tournament is over, thanks for playing"
+#    age: "Age"
+#    bracket_0_11: "0-11"
+#    bracket_11_14: "11-14"
+#    bracket_14_18: "14-18"
+#    bracket_open: "Open"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -3185,3 +3188,10 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #  admin:
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
+
+#  league:
+#    student_register_1: "Become the next AI Champion!"
+#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_3: "Provide the information below to be eligible for prizes."
+#    teacher_register_1: "Sign up to access your class league profile page and get your class started."
+#    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."

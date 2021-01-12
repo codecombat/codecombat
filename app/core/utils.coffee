@@ -9,7 +9,7 @@ translatejs2cpp = (jsCode, fullCode=true) ->
         cc -= 1
         return i+2 unless cc
   splitFunctions = (str) ->
-    creg = new RegExp '\n[ \t]*[^/]'
+    creg = /\n[ \t]*[^\/]/
     codeIndex = creg.exec(str)
     if str and str[0] != '/'
       startComments = ''
@@ -21,7 +21,7 @@ translatejs2cpp = (jsCode, fullCode=true) ->
       return [str, '']
 
     indices = []
-    reg = new RegExp '\nfunction ', 'gi'
+    reg = /\nfunction/gi
     indices.push 0 if str.startsWith("function ")
     while (result = reg.exec(str))
       indices.push result.index+1
@@ -42,7 +42,7 @@ translatejs2cpp = (jsCode, fullCode=true) ->
     jsCodes[len-1] = """
       int main() {
       #{(lines.map (line) -> '    ' + line).join '\n'}
-      return 0;
+          return 0;
       }
     """
   else
@@ -53,17 +53,29 @@ translatejs2cpp = (jsCode, fullCode=true) ->
       v = ''
       v = variables.split(', ').map((e) -> 'auto ' + e).join(', ') if variables
       jsCodes[i] = jsCodes[i].replace(/function(.*)\((.*)\)/, 'auto$1(' + v + ')')
-    jsCodes[i] = jsCodes[i].replace new RegExp('var x', 'g'), 'float x'
-    jsCodes[i] = jsCodes[i].replace new RegExp('var y', 'g'), 'float y'
-    jsCodes[i] = jsCodes[i].replace new RegExp('var dist', 'g'), 'float dist'
-    jsCodes[i] = jsCodes[i].replace new RegExp('var (\\w+)Index', 'g'), 'int $1Index'
-    jsCodes[i] = jsCodes[i].replace new RegExp(' === ', 'g'), ' == '
-    jsCodes[i] = jsCodes[i].replace new RegExp(' !== ', 'g'), ' != '
-    jsCodes[i] = jsCodes[i].replace new RegExp(' var ', 'g'), ' auto '
-    jsCodes[i] = jsCodes[i].replace new RegExp(' = \\[(.*)\\]', 'g'), ' = {$1}'
+    jsCodes[i] = jsCodes[i].replace /var x/g, 'float x'
+    jsCodes[i] = jsCodes[i].replace /var y/g, 'float y'
+    jsCodes[i] = jsCodes[i].replace /var dist/g, 'float dist'
+    jsCodes[i] = jsCodes[i].replace /var (\w+)Index/g, 'int $1Index'
+    jsCodes[i] = jsCodes[i].replace /\ ===\ /g, ' == '
+    jsCodes[i] = jsCodes[i].replace /\.length/g, '.size()'
+    jsCodes[i] = jsCodes[i].replace /\.push\(/g, '.push_back('
+    jsCodes[i] = jsCodes[i].replace /\.pop\(/g, '.pop_back('
+    jsCodes[i] = jsCodes[i].replace /\.shift\(/g, '.pop('
+    jsCodes[i] = jsCodes[i].replace /\ new /g, ' *new '
+    jsCodes[i] = jsCodes[i].replace /\ !== /g, ' != '
+    jsCodes[i] = jsCodes[i].replace /\ var /g, ' auto '
+    jsCodes[i] = jsCodes[i].replace /\ = \[(.*)\]/g, ' = {$1}'
+    jsCodes[i] = jsCodes[i].replace /\(var /g, '(auto '
+    jsCodes[i] = jsCodes[i].replace /\nvar /g, '\nauto '
+    jsCodes[i] = jsCodes[i].replace /\ return \[(.*)\]/g, ' return {$1}'
     # Don't substitute these within comments
     noComment = '^ *([^/\\r\\n]*?)'
-    jsCodes[i] = jsCodes[i].replace new RegExp(noComment + "'(.*?)'", 'gm'), '$1"$2"'
+    quotesReg = new RegExp(noComment + "'(.*?)'", 'gm')
+    while quotesReg.test(jsCodes[i])
+      jsCodes[i] = jsCodes[i].replace quotesReg, '$1"$2"'
+    # first replace ' to " then replace object
+    jsCodes[i] = jsCodes[i].replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, '{$1, $2}'  # {x:1, y:1} -> {1, 1}
   unless fullCode
     lines = jsCodes[len-1].split '\n'
     jsCodes[len-1] = (lines.map (line) -> line.slice 1).join('\n')
@@ -183,6 +195,10 @@ ageOfConsent = (countryName, defaultIfUnknown=0) ->
   return country.ageOfConsent if country.ageOfConsent
   return 16 if country.inEU
   return defaultIfUnknown
+
+countryCodeToFlagEmoji = (code) ->
+  return code unless code?.length is 2
+  (String.fromCodePoint(c.charCodeAt() + 0x1F1A5) for c in code.toUpperCase()).join('')
 
 courseIDs =
   INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
@@ -827,19 +843,51 @@ videoLevels = {
   }
 }
 
+yearsSinceMonth = (start) ->
+  return undefined unless start
+  # Should probably review this logic, written quickly and haven't tested any edge cases
+  if _.isString start
+    return undefined unless /\d{4}-\d{2}(-\d{2})?/.test start
+    if start.length is 7
+      start = start + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
+    start = new Date(start)
+  return undefined unless _.isDate start
+  now = new Date()
+  now.getFullYear() - start.getFullYear() + (now.getMonth() - start.getMonth()) / 12
+
+# Keep in sync with the copy in background-processor
+ageBrackets = [
+  {slug: '0-11', max: 11.33}
+  {slug: '11-14', max: 14.33}
+  {slug: '14-18', max: 18.99}
+  {slug: 'open', max: 9001}
+]
+
+ageToBracket = (age) ->
+  # Convert years to an age bracket
+  return 'open' unless age
+  for bracket in ageBrackets
+    if age < bracket.max
+      return bracket.slug
+  return 'open'
+
 module.exports = {
+  addressesIncludeAdministrativeRegion
+  ageBrackets
   ageOfConsent
+  ageToBracket
   capitalLanguages
   clone
   combineAncestralObject
   countries
+  countryCodeToFlagEmoji
   courseAcronyms
   courseIDs
   createLevelNumberMap
   extractPlayerCodeTag
   filterMarkdownCodeLanguages
-  findNextLevel
   findNextAssessmentForLevel
+  findNextLevel
   formatDollarValue
   formatStudentLicenseStatusDate
   functionCreators
@@ -857,12 +905,13 @@ module.exports = {
   hexToHSL
   hslToHex
   i18n
-  injectCSS
   inEU
+  injectCSS
   isID
   isIE
   isRegionalSubscription
   isSmokeTestEmail
+  isValidEmail
   keepDoingUntil
   kindaEqual
   needsPractice
@@ -870,17 +919,16 @@ module.exports = {
   objectIdToDate
   orderedCourseIDs
   pathToUrl
+  petThangIDs
+  premiumContent
   replaceText
   round
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
+  translatejs2cpp
   usStateCodes
   userAgent
-  petThangIDs
-  premiumContent
-  isValidEmail
   videoLevels
-  addressesIncludeAdministrativeRegion
-  translatejs2cpp
+  yearsSinceMonth
 }

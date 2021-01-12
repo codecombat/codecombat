@@ -210,6 +210,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     resource_hub: "Ресурсы"
     apcsp: "AP CS Принципы"
     parent: "Родителям"
+#    esports: "Esports"
     browser_recommendation: "Для наилучшего опыта мы рекомендуем использоватеть последнюю версию Chrome. Скачай браузер здесь!"
 
   modal:
@@ -1154,6 +1155,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    mo_title: "Manager, Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "Более 500 авторов помогли создать CodeCombat, и новые присоединяются к нам каждую неделю!"
     community_description_3: "CodeCombat – это"
     community_description_link_2: "проект сообщества"
@@ -1697,10 +1699,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     code: "Код, написанный __name__"
     complete_solution: "Полное решение"
     course_not_started: "Студент еще не начал этот курс."
-#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
-#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
-#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
-#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
     hoc_blurb2: "Программируй, играй, делись"
@@ -2367,6 +2365,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     awaiting_tournament_title: "Турнир Неактивен"
     awaiting_tournament_blurb: "Турнирная арена пока не активна."
     tournament_end_desc: "Турнир окончен, спасибо за участие"
+#    age: "Age"
+#    bracket_0_11: "0-11"
+#    bracket_11_14: "11-14"
+#    bracket_14_18: "14-18"
+#    bracket_open: "Open"
 
   user:
     user_title: "__name__ - Изучи программирование с CodeCombat"
@@ -3185,3 +3188,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #  admin:
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
+
+#  league:
+#    student_register_1: "Become the next AI Champion!"
+#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_3: "Provide the information below to be eligible for prizes."
+#    teacher_register_1: "Sign up to access your class league profile page and get your class started."
+#    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
