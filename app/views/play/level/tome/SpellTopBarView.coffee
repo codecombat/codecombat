@@ -70,7 +70,7 @@ module.exports = class SpellTopBarView extends CocoView
 
   onFillSolution: ->
     return unless me.canAutoFillCode()
-    store.dispatch('game/autoFillSolution', @options.codeLanguage)
+    store.dispatch('game/autoFillSolution', @options?.codeLanguage)
 
   onCodeReload: (e) ->
     if key.shift

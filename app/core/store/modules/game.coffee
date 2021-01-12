@@ -15,7 +15,7 @@ module.exports = {
     timesAutocompleteUsed: 0
     playing: false
     levelSolution: {
-    # Number of times state.levelSolution has been auto filled into the code editor.
+      # Number of times state.levelSolution has been auto filled into the code editor.
       autoFilled: 0
       source: ''
     }
@@ -40,7 +40,7 @@ module.exports = {
   }
   actions: {
     autoFillSolution: ({ commit, rootState }, codeLanguage) ->
-      codeLanguage ?= utils.getQueryVariable('codeLanguage') ? 'javascript' # This can live in Vuex at some point
+      codeLanguage ?= utils.getQueryVariable('codeLanguage') ? 'javascript' # Belongs in Vuex eventually
       noSolution = ->
         text = "No #{codeLanguage} solution available for #{rootState.game.level.name}."
         noty({ text, timeout: 3000 })
