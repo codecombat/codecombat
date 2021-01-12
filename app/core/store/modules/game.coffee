@@ -40,30 +40,38 @@ module.exports = {
   }
   actions: {
     autoFillSolution: ({ commit, rootState }, codeLanguage) ->
-      return unless hero = _.find (rootState.game.level?.thangs ? []), id: 'Hero Placeholder'
-      return unless component = _.find(hero.components ? [], (c) -> c?.config?.programmableMethods?.plan)
+      codeLanguage ?= utils.getQueryVariable('codeLanguage') ? 'javascript' # This can live in Vuex at some point
+      noSolution = ->
+        text = "No #{codeLanguage} solution available for #{rootState.game.level.name}."
+        noty({ text, timeout: 3000 })
+        console.error(text)
+
+      unless hero = _.find(rootState.game.level?.thangs ? [], id: 'Hero Placeholder')
+        noSolution()
+        return
+
+      unless component = _.find(hero.components ? [], (c) -> c?.config?.programmableMethods?.plan)
+        noSolution()
+        return
+
       plan = component.config.programmableMethods.plan
-      # This can live in Vuex at some point
-      codeLanguage ?= utils.getQueryVariable('codeLanguage') ? 'javascript'
-      return unless rawSource = plan.solutions?.find(
-        (s) -> !s.testOnly && s.succeeds && s.language == codeLanguage
-      )?.source
+      unless rawSource = plan.solutions?.find((s) -> !s.testOnly && s.succeeds && s.language == codeLanguage)?.source
+        noSolution()
+        return
 
       try
         source = _.template(rawSource)(utils.i18n(plan, 'context'))
       catch e
-        text = "Cannot auto fill solution: #{e.message}"
-        console.error(text)
-        noty({ type: 'error', text })
+        console.error("Cannot auto fill solution: #{e.message}")
 
-      unless _.isEmpty(source)
-        commit('setLevelSolution', {
-          autoFillCount: rootState.game.levelSolution.autoFillCount + 1,
-          source
-        })
-      else
-        noty({ text: "No solution available.", timeout: 3000 })
-        console.error("Could not find solution for #{rootState.game.level.name}")
+      if _.isEmpty(source)
+        noSolution()
+        return
+
+      commit('setLevelSolution', {
+        autoFillCount: rootState.game.levelSolution.autoFillCount + 1,
+        source
+      })
   }
   getters: {
     levelSolution: (state) -> state.levelSolution
