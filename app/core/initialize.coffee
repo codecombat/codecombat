@@ -7,7 +7,8 @@ if window.location.hostname == 'localhost'
     unless unwantedEventsRegex.test(channel)
       try
         filteredStack = (new Error()).stack.split("\n")[depth].trim().replace('.prototype', '')
-        unless unwantedStackRegex.test(filteredStack.substr(0, filteredStack.indexOf('@webpack-internal')))
+        filteredStack = filteredStack.substr(0, filteredStack.indexOf('@webpack-internal'))
+        unless unwantedStackRegex.test(filteredStack)
           console.log(">>> #{filteredStack} -> publishing #{channel}")
         else if depth < maxDepth
           attemptStackLog(channel, arg, depth + 1) # Down the rabbit hole...
