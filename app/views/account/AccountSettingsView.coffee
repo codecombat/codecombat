@@ -239,45 +239,6 @@ module.exports = class AccountSettingsView extends CocoView
 
     @onButtonBegan(e.target)
 
-
-  save: ->
-    $('#settings-tabs input').removeClass 'changed'
-    forms.clearFormAlerts(@$el)
-    @grabData()
-    res = @user.validate()
-    if res?
-      console.error 'Couldn\'t save because of validation errors:', res
-      forms.applyErrorsToForm(@$el, res)
-      $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
-      return
-
-    return unless @user.hasLocalChanges()
-
-    res = @user.patch()
-    return unless res
-
-    res.error =>
-      if res.responseJSON?.property
-        errors = res.responseJSON
-        forms.applyErrorsToForm(@$el, errors)
-        $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
-      else
-        noty
-          text: res.responseJSON?.message or res.responseText
-          type: 'error'
-          layout: 'topCenter'
-          timeout: 5000
-      @trigger 'save-user-error'
-    res.success (model, response, options) =>
-      me.set(model) # save changes to me
-      @trigger 'save-user-success'
-
-    @trigger 'save-user-began'
-
-  grabData: ->
-    @grabPasswordData()
-    @grabOtherData()
-
   grabPasswordData: ->
     password1 = $('#password', @$el).val()
     password2 = $('#password2', @$el).val()
@@ -295,26 +256,6 @@ module.exports = class AccountSettingsView extends CocoView
       err = [message: message, property: 'password2', formatted: true]
       forms.applyErrorsToForm(@$el, err)
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
-
-  grabOtherData: ->
-    @$el.find('#name-input').val @suggestedName if @suggestedName
-    @user.set 'name', @$el.find('#name-input').val()
-    @user.set 'firstName', @$el.find('#first-name-input').val()
-    @user.set 'lastName', @$el.find('#last-name-input').val()
-    @user.set 'email', @$el.find('#email').val()
-    for emailName, enabled of @getSubscriptions()
-      @user.setEmailSubscription emailName, enabled
-
-    permissions = []
-
-    unless application.isProduction()
-      adminCheckbox = @$el.find('#admin')
-      if adminCheckbox.length
-        permissions.push 'admin' if adminCheckbox.prop('checked')
-      godmodeCheckbox = @$el.find('#godmode')
-      if godmodeCheckbox.length
-        permissions.push 'godmode' if godmodeCheckbox.prop('checked')
-      @user.set('permissions', permissions)
 
   grabEmailData: ->
     for emailName, enabled of @getSubscriptions()
