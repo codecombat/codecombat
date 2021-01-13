@@ -64,7 +64,7 @@ export default {
           th(colspan=1) {{ $t('general.rank') }}
           th {{ $t('general.score') }}
           th.name-col-cell {{ $t('general.name') }}
-          th(colspan=4) {{ $t('clans.clan') }}
+          th(colspan=4 style="text-transform: capitalize;") {{ $t('league.team') }}
           th(colspan=1) {{ $t('ladder.age') }}
           th(colspan=1) 🏴‍☠️
 
