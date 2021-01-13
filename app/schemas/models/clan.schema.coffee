@@ -63,6 +63,7 @@ _.extend ClanSchema.properties,
     subnetworkClanId: c.stringID( title: 'Sub-Network Clan' )
     districtId: c.int( title: 'District Id', description: 'The unique district that the school is part of.' )
     ncesId: c.float( title: 'NCES', description: 'The unique school NCES id. Should be a unique integer.')
+    cleverSchoolId: c.shortString( title: 'Clever Unique School Id' )
   })
   # Set only for auto clans (yet), to display instead of Clan.name
   displayName: { type: 'string' }
