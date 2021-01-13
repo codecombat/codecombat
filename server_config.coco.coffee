@@ -144,10 +144,6 @@ if process.env.COCO_STATSD_HOST
 
 config.buildInfo = { sha: 'dev' }
 
-config.intercom =
-  accessToken: process.env.COCO_INTERCOM_ACCESS_TOKEN or 'dGVzdA==' #base64 "test"
-  webhookHubSecret: process.env.COCO_INTERCOM_WEBHOOK_HUB_SECRET or 'abcd'
-
 config.bitly =
   accessToken: process.env.COCO_BITLY_ACCESS_TOKEN or ''
 
