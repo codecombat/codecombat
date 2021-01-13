@@ -3193,7 +3193,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   events:
     main_title: 'CodeCombat Events'
-    main_description: 'The important events of codecombat China'>>>>>>> variant B
+    main_description: 'The important events of codecombat China'
 
   league:
     student_register_1: "Become the next AI Champion!"
