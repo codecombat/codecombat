@@ -1,6 +1,6 @@
 mixin accountLinks
   li
-    a.account-dropdown-item(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
+    a.account-dropdown-item(href=`/user/${me.getSlugOrID()}`, data-i18n="nav.profile")
   li
     a.account-dropdown-item(href="/account/settings", data-i18n="play.settings")
   if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())
@@ -111,7 +111,7 @@ mixin accountLinks
                           span.caret
                         ul.dropdown-menu
                           li.user-dropdown-header.text-center.hidden-xs.hidden-sm
-                            a(href="/user/#{me.getSlugOrID()}")
+                            a(href=`/user/${me.getSlugOrID()}`)
                               img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
                               h5=me.broadName()
                               //- span.text-p= me.broadName()
