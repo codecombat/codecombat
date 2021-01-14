@@ -764,6 +764,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     start: "Fgneg"
     vega_character: "Irtn Punenpgre"
     click_to_continue: "Pyvpx gb Pbagvahr"
+    fill_in_solution: "Svyy va fbyhgvba"
 
   apis:
     methods: "Zrgubqf"
@@ -3190,7 +3191,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   league:
     student_register_1: "Orpbzr gur arkg NV Punzcvba!"
-    student_register_2: "Fvta hc, perngr lbhe bja pyna, be wbva bgure pynaf gb fgneg pbzcrgvat."
+    student_register_2: "Fvta hc, perngr lbhe bja grnz, be wbva bgure grnzf gb fgneg pbzcrgvat." # {punatr}
     student_register_3: "Cebivqr gur vasbezngvba orybj gb or ryvtvoyr sbe cevmrf."
     teacher_register_1: "Fvta hc gb npprff lbhe pynff yrnthr cebsvyr cntr naq trg lbhe pynff fgnegrq."
     general_news: "Trg rznvyf ba gur yngrfg arjf naq hcqngrf ertneqvat bhe NV Yrnthrf naq gbheanzragf."
+    team: 'grnz'
+    how_it_works1: 'Wbva n __grnz__'

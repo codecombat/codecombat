@@ -765,6 +765,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     start: "시작"
     vega_character: "Vega 캐릭터"
     click_to_continue: "클릭해서 계속하기"
+#    fill_in_solution: "Fill in solution"
 
   apis:
     methods: "Methods"
@@ -3191,7 +3192,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
-#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_2: "Sign up, create your own team, or join other teams to start competing."
 #    student_register_3: "Provide the information below to be eligible for prizes."
 #    teacher_register_1: "Sign up to access your class league profile page and get your class started."
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+#    team: "team"
+#    how_it_works1: "Join a __team__"

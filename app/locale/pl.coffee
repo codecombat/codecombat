@@ -765,6 +765,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    start: "Start"
 #    vega_character: "Vega Character"
     click_to_continue: "Kliknij, aby kontynuować"
+#    fill_in_solution: "Fill in solution"
 
   apis:
     methods: "Medoty"
@@ -3191,7 +3192,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
-#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_2: "Sign up, create your own team, or join other teams to start competing."
 #    student_register_3: "Provide the information below to be eligible for prizes."
 #    teacher_register_1: "Sign up to access your class league profile page and get your class started."
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+#    team: "team"
+#    how_it_works1: "Join a __team__"
