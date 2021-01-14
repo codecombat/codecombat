@@ -179,6 +179,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'impact': () ->
       @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat' })
 
+    'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
     'league(/*subpath)': go('core/SingletonAppVueComponentView')
 
     'legal': go('LegalView')
