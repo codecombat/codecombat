@@ -121,13 +121,7 @@ export default class DriftTracker extends BaseTracker {
       enableWelcomeMessage: chatEnabled,
       enableCampaigns: chatEnabled,
       enableChatTargeting: chatEnabled,
-    });
-
-    if (chatEnabled) {
-      this.driftApi.widget.show();
-    } else {
-      this.driftApi.widget.hide();
-    }
+    })
   }
 
   async identify (traits = {}) {
