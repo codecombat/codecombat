@@ -74,11 +74,11 @@ mixin accountLinks
                         a.text-p.text-teal(href="/about", data-i18n="nav.about")
                       else
                         a.text-p(href="/about", data-i18n="nav.about")
-                    li
-                      if document.location.href.search('/league') >= 0
-                        a.text-p.text-teal(href="/league", data-i18n="nav.esports")
-                      else
-                        a.text-p(href="/league", data-i18n="nav.esports")
+                    -// li
+                    -//   if document.location.href.search('/league') >= 0
+                    -//     a.text-p.text-teal(href="/league", data-i18n="nav.esports")
+                    -//   else
+                    -//     a.text-p(href="/league", data-i18n="nav.esports")
                     -// li
                     -//   if document.location.href.search('/parents') >= 0
                     -//     a.text-p.text-teal(href="/parents", data-i18n="nav.parent")
@@ -179,7 +179,9 @@ mixin accountLinks
                         -// li
                         -//   a(href="/parents", data-i18n="nav.parent")
                         li
-                          a(href="http://blog.koudashijie.com/", data-i18n="nav.blog")
+                          a(href="/CoCoStar", data-i18n="nav.star")
+                        li
+                          a(href="/impact", data-i18n="nav.impact")
                     .col-lg-3
                       if !me.isStudent()
                         h3(data-i18n="nav.educators")
