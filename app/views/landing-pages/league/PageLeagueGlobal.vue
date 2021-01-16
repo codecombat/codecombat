@@ -643,7 +643,7 @@ export default {
 
   // Most sections have a max width and are centered.
   section, & > div {
-    max-width: 1920px;
+    max-width: 1820px;
     width:100%;
     padding: 0 70px;
     position: relative;
