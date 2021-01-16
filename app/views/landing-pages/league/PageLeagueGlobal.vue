@@ -342,7 +342,7 @@ export default {
       <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon blazing-battle">Play Blazing Battle Multiplayer Arena</a>
     </div>
 
-    <section class="row flex-row">
+    <section class="row">
       <div class="col-sm-10">
         <h1 style="margin-bottom: 20px;"><span class="esports-pink">Free </span><span class="esports-aqua">to </span><span class="esports-green">get </span><span class="esports-purple">started</span></h1>
         <ul style="list-style-type: none; padding: 0;">
@@ -357,8 +357,8 @@ export default {
       </div>
     </section>
 
-    <div v-if="clanIdSelected === ''" class="row flex-row text-center section-space" style="margin-top: -25px; z-index: 0;">
-      <div class="col-sm-5 col-sm-push-2">
+    <div v-if="clanIdSelected === ''" class="row flex-row text-center section-space free-to-get-started-image">
+      <div class="col-sm-5 col-sm-offset-7">
         <img class="img-responsive" src="/images/pages/league/graphic_1.png">
       </div>
     </div>
@@ -797,6 +797,10 @@ export default {
   .section-space {
     margin-bottom: 110px;
   }
+  .free-to-get-started-image {
+    margin-top: -250px;
+    z-index: 0;
+  }
 
   @media screen and (min-width: 768px) {
     .btn-primary.btn-moon, .blazing-battle {
@@ -872,6 +876,9 @@ export default {
     }
     .xs-pb-20 {
       padding-bottom: 20px;
+    }
+    .free-to-get-started-image {
+      margin-top: 0px;
     }
   }
 
