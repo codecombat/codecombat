@@ -363,7 +363,7 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row section-space">
+    <div class="row section-space">
       <div class="col-sm-7">
         <h1 class="subheader1" style="margin-bottom: 30px;"><span class="esports-goldenlight">Global </span><span class="esports-pink">final </span><span class="esports-aqua">arena</span></h1>
         <p class="subheader2" style="margin-bottom: 30px;">
@@ -374,11 +374,11 @@ export default {
         </div>
       </div>
       <div class="col-sm-5">
-        <img class="img-responsive" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
+        <img class="img-responsive w-100" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
       </div>
     </div>
 
-    <div class="row flex-row">
+    <div class="row">
       <h1 class="subheader1"><span class="esports-purple">How </span><span class="esports-aqua">it </span><span class="esports-pink">works</span></h1>
     </div>
     <div class="row flex-row">
@@ -442,7 +442,7 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row text-are-you-an-educator">
+    <div class="row text-are-you-an-educator">
       <div class="col-sm-7">
         <h1><span class="esports-pink">Are you an </span><span class="esports-green">educator </span><span class="esports-pink">or </span><span class="esports-aqua">esports coach?</span></h1>
       </div>
@@ -800,6 +800,9 @@ export default {
   .free-to-get-started-image {
     margin-top: -250px;
     z-index: 0;
+  }
+  .w-100 {
+    width: 100%;
   }
 
   @media screen and (min-width: 768px) {
