@@ -94,7 +94,7 @@ const DialogNode = c.object({
   description: 'A node of a shot. Contains dialog instructions.',
   format: 'cinematic-dialog'
 }, {
-  speaker: c.shortString({ enum: ['left', 'right'], title: 'Speaker', description: 'Which character is speaking. Used to select speech bubble.' }),
+  speaker: c.shortString({ enum: ['left', 'right', 'center'], title: 'Speaker', description: 'Which character is speaking. Used to select speech bubble.' }),
   text: { type: 'string', title: 'Text', description: 'html text', maxLength: 500 },
   voiceOver: c.voiceOver,
   widthOverride: c.int({ title: 'Text Width(%)', description: 'The percent width of the text dialogue box based on the users screen size. Default is 31.' }),

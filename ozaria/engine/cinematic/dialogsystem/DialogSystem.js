@@ -165,7 +165,9 @@ class SpeechBubble {
     y -= (height - BUBBLE_PADDING)
     if (side === 'right') {
       speechBubbleDiv.style.right = `${(WIDTH - x) / WIDTH * 100}%`
-    } else {
+    }else if(side === 'center'){
+      speechBubbleDiv.style.left = `calc( ${x / WIDTH * 100}% - 19vmin)`
+    }else {
       speechBubbleDiv.style.left = `${x / WIDTH * 100}%`
     }
 

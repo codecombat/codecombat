@@ -456,4 +456,12 @@ export default {
   border-image-width: 2vw
   border-image-outset: 4vh 3vw 4vh 3vw
 
+.cinematic-speech-bubble-center
+  border-image: url('/images/ozaria/cinematic/Speech_Bubble_Center.svg')
+  background-color: white
+  border-image-slice: 40 40 40 40 fill
+  border-image-width: 2vw
+  border-image-outset: 4vh 3vw 4vh 3vw
+  width: 100%
+
 </style>
