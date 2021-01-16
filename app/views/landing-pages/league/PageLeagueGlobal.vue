@@ -571,6 +571,7 @@ export default {
 
   h1 {
     text-transform: uppercase;
+    font-size: 70px;
   }
 
   p, h4 {
@@ -623,9 +624,7 @@ export default {
   .esports-header .esports-h1 {
     font-style: normal;
     font-weight: bold;
-    font-size: 60px;
     line-height: 80px;
-    text-transform: uppercase;
     transform: rotate(-12deg);
     max-width: 530px;
     margin-top: 30px;
