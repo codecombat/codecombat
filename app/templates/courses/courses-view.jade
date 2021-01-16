@@ -142,6 +142,13 @@ block content
                       +course-instance-body(courseInstance, classroom)
                       .clearfix
 
+            if me.isInAcademicaClan()
+              #announcement
+                h5 You can still learn and play without a classroom!
+                ul
+                  li Compete in the Blazing Battles esports arena by <a href='/play/ladder/blazing-battle'>clicking here</a>.
+                  li Play the free Hour of Code campaign <a href='/play/hoc-2018'>here</a>.
+
             h3.text-uppercase(data-i18n="courses.join_class")
             hr
 

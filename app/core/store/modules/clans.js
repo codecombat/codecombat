@@ -26,6 +26,12 @@ export default {
 
   mutations: {
     setClan (state, clan) {
+      // We do not want to overwrite a clan with a version of the clan with less fields.
+      // This can result in a clan losing a displayName and showing the slug as a result.
+      if (state.clans[clan._id] && Object.keys(state.clans[clan._id]).length > Object.keys(clan).length) {
+        return
+      }
+
       Vue.set(state.clans, clan._id, clan)
     },
 
