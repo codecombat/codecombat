@@ -2440,7 +2440,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     status_unsubscribed_active: "您还没有订阅所以不会被收费，但您的账号还可以正常使用"
     status_unsubscribed: "只要一个CodeCombat订阅，您就可以玩转全部新关卡，用遍全部英雄，物品，以及获得更多的宝石哦！"
     not_yet_verified: "尚未验证。"
-    resend_email: "重发验证邮件"
+    resend_email: "请先保存邮箱再重发验证邮件"
     email_sent: "邮件已发送！检查您的收件箱"
     verifying_email: "验证邮箱地址中..."
     successfully_verified: "验证成功！"
