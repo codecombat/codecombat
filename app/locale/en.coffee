@@ -3191,7 +3191,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   league:
     student_register_1: "Become the next AI Champion!"
-    student_register_2: "Sign up, create your own team, or join other teams to start competing." # {change}
+    student_register_2: "Sign up, create your own team, or join other teams to start competing."
     student_register_3: "Provide the information below to be eligible for prizes."
     teacher_register_1: "Sign up to access your class league profile page and get your class started."
     general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."

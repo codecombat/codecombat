@@ -765,6 +765,7 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    fill_in_solution: "Fill in solution"
 
 #  apis:
 #    methods: "Methods"
@@ -2440,7 +2441,7 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 #    not_yet_verified: "Not yet verified."
-#    resend_email: "Resend email"
+#    resend_email: "Please save first then Resend email"
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
@@ -3191,7 +3192,9 @@ module.exports = nativeDescription: "O'zbekcha", englishDescription: "Uzbek", tr
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
-#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_2: "Sign up, create your own team, or join other teams to start competing."
 #    student_register_3: "Provide the information below to be eligible for prizes."
 #    teacher_register_1: "Sign up to access your class league profile page and get your class started."
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+#    team: "team"
+#    how_it_works1: "Join a __team__"
