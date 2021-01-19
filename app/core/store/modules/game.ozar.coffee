@@ -18,6 +18,7 @@ module.exports = {
     tutorialActive: false
     codeBankOpen: false
     clickedUpdateCapstoneCode: false
+    hasPlayedGame: false
     # Source for solving the level, and number of times it has been used:
     levelSolution: {
       autoFillCount: 0,
@@ -64,6 +65,8 @@ module.exports = {
       state.codeBankOpen = open
     setClickedUpdateCapstoneCode: (state, clicked) ->
       state.clickedUpdateCapstoneCode = clicked
+    setHasPlayedGame: (state, hasPlayed) ->
+      state.hasPlayedGame = hasPlayed
   }
   actions: {
     # Idempotent, will not add the same step twice
@@ -80,7 +83,7 @@ module.exports = {
       commit('addTutorialStep', step)
     setTutorialActive: ({ commit, rootState }, tutorialActive) ->
       commit('setTutorialActive', tutorialActive)
-    restartTutorial: ({ commit, rootState }) ->
+    restartTutorial: ({ commit }) ->
       commit('setTutorialActive', false)
       # Give it a moment to react first...
       setTimeout(() ->
@@ -112,6 +115,8 @@ module.exports = {
       commit('setCodeBankOpen', !rootState.game.codeBankOpen)
     setClickedUpdateCapstoneCode: ({ commit }, clicked) ->
       commit('setClickedUpdateCapstoneCode', clicked)
+    setHasPlayedGame: ({ commit }, hasPlayed) ->
+      commit('setHasPlayedGame', hasPlayed)
     autoFillSolution: ({ commit, rootState }) ->
       try
         hero = _.find (rootState.game.level?.thangs ? []), id: 'Hero Placeholder'
@@ -142,6 +147,7 @@ module.exports = {
     tutorialSteps: (state) -> state.tutorial
     tutorialActive: (state) -> state.tutorialActive
     clickedUpdateCapstoneCode: (state) -> state.clickedUpdateCapstoneCode
+    hasPlayedGame: (state) -> state.hasPlayedGame
     levelSolution: (state) -> state.levelSolution
   }
 }
