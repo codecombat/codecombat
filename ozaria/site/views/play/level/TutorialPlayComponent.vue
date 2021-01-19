@@ -578,6 +578,7 @@
   @import "app/styles/mixins"
   @import "app/styles/bootstrap/variables"
   @import "ozaria/site/styles/play/variables"
+  @import "ozaria/site/styles/play/images"
   @import "ozaria/site/styles/common/variables"
 
   #learning-goals
@@ -807,10 +808,10 @@
     background-repeat: no-repeat !important
     background-size: contain
     background-color: unset
-    background-image: url('/images/ozaria/level/CloseButton.svg')
+    background-image: url($CloseButton)
 
     &:hover:not(:disabled)
-      background-image: url('/images/ozaria/level/CloseButton_Hover.svg')
+      background-image: url($CloseButton_Hover)
 
   .shepherd-close-button-intro
     right: 3px
@@ -859,28 +860,28 @@
     background-repeat: no-repeat !important
     background-size: contain !important
     background-color: unset !important
-    background-image: url('/images/ozaria/level/StartButton.svg')
+    background-image: url($StartButton)
 
     &:hover:not(:disabled)
-      background-image: url('/images/ozaria/level/StartButton_Hover.svg')
+      background-image: url($StartButton_Hover)
 
   .shepherd-back-button
     padding-right: 39px
 
   .shepherd-start-button:not(:disabled):hover
-    background-image: url('/images/ozaria/level/StartButton_Hover.svg')
+    background-image: url($StartButton_Hover)
 
   .shepherd-back-button-active
-    background-image: url('/images/ozaria/level/ActiveL.svg')
+    background-image: url($ActiveL)
   .shepherd-back-button-active:not(:disabled):hover
-    background-image: url('/images/ozaria/level/HoverL.svg')
+    background-image: url($HoverL)
 
   .shepherd-back-button-inactive
-    background-image: url('/images/ozaria/level/InactiveL.svg')
+    background-image: url($InactiveL)
   .shepherd-back-button-inactive:not(:disabled):hover
-    background-image: url('/images/ozaria/level/InactiveL.svg')
+    background-image: url($InactiveL)
   .shepherd-back-button-inactive:hover
-    background-image: url('/images/ozaria/level/InactiveL.svg')
+    background-image: url($InactiveL)
 
   @keyframes pulse-animation
     0%
@@ -891,20 +892,20 @@
       transform: scale(1)
 
   .shepherd-next-button-active
-    background-image: url('/images/ozaria/level/ActiveR.svg')
+    background-image: url($ActiveR)
     animation: pulse-animation 3s infinite
   .shepherd-next-button-active:not(:disabled):hover
-    background-image: url('/images/ozaria/level/HoverR.svg')
+    background-image: url($HoverR)
   .shepherd-next-button-active:hover
-    background-image: url('/images/ozaria/level/HoverR.svg')
+    background-image: url($HoverR)
 
   .shepherd-next-button-inactive
     cursor: initial
-    background-image: url('/images/ozaria/level/InactiveR.svg')
+    background-image: url($InactiveR)
   .shepherd-next-button-inactive:not(:disabled):hover
-    background-image: url('/images/ozaria/level/InactiveR.svg')
+    background-image: url($InactiveR)
   .shepherd-next-button-inactive:hover
-    background-image: url('/images/ozaria/level/InactiveR.svg')
+    background-image: url($InactiveR)
 
   .shepherd-header-moving-salazar
     background-image: url('/images/ozaria/level/Moving_Salazar.png')
@@ -1007,7 +1008,7 @@
     background-repeat: no-repeat
     background-size: cover
     border-color: transparent !important
-    background-image: url("/images/ozaria/level/PointerCenter.svg")
+    background-image: url($PointerCenter)
 
   .shepherd-element.shepherd-element-attached-middle.shepherd-element-attached-right .shepherd-arrow
     transform: rotate(270deg)
