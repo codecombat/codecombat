@@ -1815,6 +1815,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     certificate_btn_print: "Print"
     certificate_btn_toggle: "Toggle"
     module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
+    error_in_creating_data: "Error in creating data for intro level!"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -2653,6 +2654,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     error: "ERROR"
     general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
     too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
+    something_went_wrong: "Oops! Something went wrong"
 
   resources:
     level: "Level"

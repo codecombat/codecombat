@@ -9,6 +9,7 @@
   import modalTransition from 'ozaria/site/components/common/ModalTransition'
   import { mapMutations, mapGetters } from 'vuex'
   import { log } from 'ozaria/site/common/logger'
+  import { HTTP_STATUS_CODES } from 'core/constants'
 
   export default Vue.extend({
     components: {
@@ -110,16 +111,19 @@
           this.setUnitMapUrlDetails({ courseId: this.courseId, courseInstanceId: this.courseInstanceId })
         } catch (err) {
           console.error('Error in creating data for intro level', err)
-          // TODO handle_error_ozaria
-          noty({ text: 'Error in creating data for intro level', type: 'error', timeout: 2000 })
+          let textMessage = $.i18n.t('courses.error_in_creating_data')
+          if (err.code === HTTP_STATUS_CODES.PAYMENT_REQUIRED_CODE) {
+            textMessage = $.i18n.t('courses.license_required_to_play')
+          }
+          noty({ text: textMessage, type: 'error' })
           return
         }
         if (me.isSessionless()) {
           this.currentIndex = parseInt(utils.getQueryVariable('intro-content')) || 0
           if (this.currentIndex >= this.introContent.length) {
             console.error('Invalid content index')
-            // TODO handle_error_ozaria
-            noty({ text: 'Error in creating data for intro level', type: 'error', timeout: 2000 })
+            noty({ text: $.i18n.t('loading_error.something_went_wrong'), type: 'error', timeout: 2000 })
+            application.router.navigate(me.isTeacher() ? '/teachers' : '/students', { trigger: true })
             return
           }
         } else { // Assign first content in the sequence to this.currentContent
