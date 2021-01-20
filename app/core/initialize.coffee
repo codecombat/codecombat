@@ -1,25 +1,4 @@
 Backbone.Mediator.setValidationEnabled false
-if window.location.hostname == 'localhost'
-  unwantedEventsRegex = new RegExp('tick|mouse-moved|mouse-over|mouse-out|hover-line|check-away|new-thang-added|zoom-updated')
-  unwantedStackRegex = new RegExp('debounce|defer|delay')
-  maxDepth = 5
-  attemptStackLog = (channel, arg, depth) =>
-    unless unwantedEventsRegex.test(channel)
-      try
-        filteredStack = (new Error()).stack.split("\n")[depth].trim().replace('.prototype', '')
-        filteredStack = filteredStack.substr(0, filteredStack.indexOf('@webpack-internal'))
-        unless unwantedStackRegex.test(filteredStack)
-          console.log(">>> #{filteredStack} -> publishing #{channel}")
-        else if depth < maxDepth
-          attemptStackLog(channel, arg, depth + 1) # Down the rabbit hole...
-      catch
-        console.log(">>> ? -> publishing #{channel}")
-
-  Backbone.Mediator.originalPublish = Backbone.Mediator.publish
-  Backbone.Mediator.publish = (channel, arg) =>
-    Backbone.Mediator.originalPublish(channel, arg)
-    attemptStackLog(channel, arg, maxDepth)
-
 app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
@@ -120,10 +99,26 @@ setUpBackboneMediator = (app) ->
   Backbone.Mediator.addChannelSchemas schemas for channel, schemas of channelSchemas
   # Major performance bottleneck if it is true in production
   Backbone.Mediator.setValidationEnabled(not app.isProduction())
-  if false  # Debug which events are being fired
+
+  if window.location.hostname == 'localhost'
+    unwantedEventsRegex = new RegExp('tick|mouse-moved|mouse-over|mouse-out|hover-line|check-away|new-thang-added|zoom-updated')
+    unwantedStackRegex = new RegExp('eval|debounce|defer|delay|Backbone|Idle')
     originalPublish = Backbone.Mediator.publish
     Backbone.Mediator.publish = ->
-      console.log 'Publishing event:', arguments... unless /(tick|frame-changed)/.test(arguments[0])
+      unless unwantedEventsRegex.test(arguments[0])
+        try
+          splitStack = (new Error()).stack.split("\n").slice(1)
+          maxDepth = 5
+          for s, i in splitStack
+            break if i > maxDepth
+            filteredStack = s.trim().replace(/at\ |prototype|module|exports/gi, '').replace('..', '')
+            filteredStack = filteredStack.split('(webpack-internal')[0]
+            unless unwantedStackRegex.test(filteredStack)
+              console.log ">>> #{filteredStack}->", arguments...
+              break
+        catch
+          console.log ">>> ? -> ", arguments...
+
       originalPublish.apply Backbone.Mediator, arguments
 
 setUpMoment = ->
