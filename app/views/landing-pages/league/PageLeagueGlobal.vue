@@ -463,7 +463,7 @@ export default {
           </div>
           <div class="row flex-row" style="justify-content: flex-start;">
             <div class="col-sm-5">
-              <p class="subheader2" style="margin-bottom: 70px;">
+              <p style="margin-bottom: 70px;">
                 Unlike other esports platforms serving schools, we own the structure top to bottom, which means we’re not tied to any game developer or have issues with licensing. That also means we can make custom modifications in-game for your school or organization.
               </p>
             </div>
