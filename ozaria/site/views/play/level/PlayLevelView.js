@@ -1495,7 +1495,6 @@ class PlayLevelView extends RootView {
   onRealTimePlaybackEnded (e) {
     // TODO Improve later with GoalManger reworking
     // The game goal has a specific name, and we check if it exists in the goal states before changing
-    debugger
     if (this.level.get('ozariaType') === 'capstone' &&
       !this.updateAetherIsRunning &&
       store.getters['game/hasPlayedGame'] &&
