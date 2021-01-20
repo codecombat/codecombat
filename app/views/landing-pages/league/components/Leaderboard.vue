@@ -84,6 +84,9 @@ export default {
 </template>
 
 <style scoped>
+.ladder-table {
+  background-color: #808080;
+}
 .ladder-table td {
   padding: 2px 2px;
 }
