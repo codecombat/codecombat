@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import store from 'core/store'
+
 module.exports = Vue.extend({
   mounted() {
     Backbone.Mediator.subscribe('surface:frame-changed', this.onFrameChanged, this);
@@ -33,6 +35,7 @@ module.exports = Vue.extend({
   },
   methods: {
     clickedPlay() {
+      store.dispatch('game/setHasPlayedGame', true)
       Backbone.Mediator.publish('tome:manual-cast', { realTime: true });
       Backbone.Mediator.publish('level:set-playing', { playing: true });
     },

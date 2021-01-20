@@ -1494,9 +1494,11 @@ class PlayLevelView extends RootView {
 
   onRealTimePlaybackEnded (e) {
     // TODO Improve later with GoalManger reworking
-    // Mark the goal completed and prevent the goalmanager destroying
-    // The game goal should have the certain name
-    if (!this.updateAetherIsRunning && this.goalManager.goalStates['has-stopped-playing-game']) {
+    // The game goal has a specific name, and we check if it exists in the goal states before changing
+    if (this.level.get('ozariaType') === 'capstone' &&
+      !this.updateAetherIsRunning &&
+      store.getters['game/hasPlayedGame'] &&
+      this.goalManager.goalStates['has-stopped-playing-game']) {
       this.goalManager.setGoalState('has-stopped-playing-game', 'success')
     }
 
@@ -1677,6 +1679,17 @@ class PlayLevelView extends RootView {
     return store.commit('game/incrementTimesCodeRun')
   }
 
+  onSpellChanged () {
+    // This is triggered at very confusing times - for example when a capstone game is about to begin. At that
+    // time, the code has not actually changed, but it is being built.
+    if (this.level.get('ozariaType') === 'capstone' &&
+      !this.realTimePlaybackWaitingForFrames &&
+      this.goalManager.goalStates['has-stopped-playing-game']) {
+      store.dispatch('game/setHasPlayedGame', false)
+      this.goalManager.setGoalState('has-stopped-playing-game', 'incomplete')
+    }
+  }
+
   // Update the elements on the page without reloading the entire page.
   // This lets us progress to a new capstoneStage and update each element that needs this information.
   softReload () {
@@ -1768,6 +1781,7 @@ PlayLevelView.prototype.subscriptions = {
   'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded',
   'store:item-purchased': 'onItemPurchased',
   'tome:manual-cast': 'onRunCode',
+  'tome:spell-changed': 'onSpellChanged',
   'tome:updateAetherRunning': 'updateAetherRunning',
   'world:update-key-value-db': 'updateKeyValueDb'
 }
