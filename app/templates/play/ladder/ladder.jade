@@ -32,8 +32,9 @@ block content
 
       if view.leagueType === 'clan'
         h1.league-header
-          a(href="/clans/#{view.league.id}")= view.league.get('name')
-          span.spl(data-i18n="ladder.league") League
+          span= view.league.get('name')
+          -// a(href="/clans/#{view.league.id}")= view.league.get('name')
+          -// span.spl(data-i18n="ladder.league") League
 
     if view.level.get('name') == 'Greed'
       .tournament-blurb
