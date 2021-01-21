@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   diplomat_suggestion:
     title: "Hãy giúp chúng tôi phiên dịch CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Chúng tôi cần kỹ năng ngoại ngữ của bạn."
-    pitch_body: "Chúng tôi xây dựng Codecombat bằng Tiếng Anh, tuy nhiên có rất nhiều bạn trẻ trên toàn thế giới đều muốn tham gia. Các bạn trẻ Việt Nam cũng muốn chơi với nội dung Tiếng Việt, nếu như bạn có thể đọc và viết thành thạo cả 2 ngôn ngữ xin hãy đăng kí làm dịch thuật cho chúng tôi."
+    pitch_body: "Chúng tôi xây dựng CodeCombat bằng Tiếng Anh, tuy nhiên có rất nhiều bạn trẻ trên toàn thế giới đều muốn tham gia. Các bạn trẻ Việt Nam cũng muốn chơi với nội dung Tiếng Việt, nếu như bạn có thể đọc và viết thành thạo cả 2 ngôn ngữ xin hãy đăng kí làm dịch thuật cho chúng tôi."
     missing_translations: "Bạn sẽ tiếp tục thấy Tiếng Anh cho đến khi chúng tôi dịch tất cả nội dung qua Tiếng Việt."
     learn_more: "Tìm hiểu thêm để tham gia trở thành Phiên Dịch Viên"
     subscribe_as_diplomat: "Trở thành Phiên Dịch Viên"
@@ -1362,7 +1362,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     email_subscriptions: "Thuê bao Email"
 #    email_subscriptions_none: "No Email Subscriptions."
     email_announcements: "Thông báo"
-    email_announcements_description: "Nhận email về tin tức mới nhất và sự phát triển của Codecombat."
+    email_announcements_description: "Nhận email về tin tức mới nhất và sự phát triển của CodeCombat."
     email_notifications: "Thông báo"
     email_notifications_summary: "Kiểm soát các thông báo cá nhân tự động liên quan đến các hoạt động của CodeCombat."
     email_any_notes: "Bất kỳ thông báo nào"

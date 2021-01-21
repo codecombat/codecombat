@@ -919,7 +919,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    stripe_yearly_description: "Annual Subscription"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Potrebuješ predplatné, ak chceš hrať túto úroveň."
-    unlock_help_videos: "Predplať si Codecombat a získaj prístup ku videonávodom."
+    unlock_help_videos: "Predplať si CodeCombat a získaj prístup ku videonávodom."
     personal_sub: "Predplatné" # Accounts Subscription View below
     loading_info: "Nahrávam informácie o predplatnom..."
     managed_by: "Riadené"

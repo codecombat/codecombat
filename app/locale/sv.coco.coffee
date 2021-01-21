@@ -2239,7 +2239,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     archmage_introduction: "En av de bästa delarna med att bygga spel är att de syntetiserar så många olika saker. Grafik, ljud, realtidsnätverkande, socialt netvärkande och så klart många av de vanligare aspekterna av programmering, från databashantering och serveradministration på låg nivå till användargränssnitt och gränsnittsbyggande. Det finns mycket att göra, och om du är en erfaren programmerare som längtar efter att dyka ner i CodeCombats detaljer kan den här klassen vara för dig. Vi skulle älska din hjälp med att bygga det bästa programmeringsspelet någonsin."
     class_attributes: "Klassattribut"
     archmage_attribute_1_pref: "Kunskap om "
-    archmage_attribute_1_suf: ", eller en vilja att lära. Det mesta av vår kod är i det här språket. Är du ett fan av Ruby eller Python kommer du att känna dig hemma. Det är Javascript, men med en trevligare syntax."
+    archmage_attribute_1_suf: ", eller en vilja att lära. Det mesta av vår kod är i det här språket. Är du ett fan av Ruby eller Python kommer du att känna dig hemma. Det är JavaScript, men med en trevligare syntax."
     archmage_attribute_2: "Viss erfarenhet av programmering och personligt initiativ. Vi hjälper dig att bli orienterad, men kan inte lägga mycket tid på att träna dig."
     how_to_join: "Hur man går med"
     join_desc_1: "Alla kan hjälpa till! Kolla bara in vår "
