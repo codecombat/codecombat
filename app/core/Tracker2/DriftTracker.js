@@ -119,6 +119,8 @@ export default class DriftTracker extends BaseTracker {
     const chatEnabled = this.isChatEnabled
     if (chatEnabled && !this.driftApi && this.isInitialized !== false) {
       return this.initializeDrift()
+    } else if (!chatEnabled && !this.driftApi) {
+      return
     }
 
     window.drift.config({
