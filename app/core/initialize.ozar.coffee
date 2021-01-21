@@ -99,11 +99,30 @@ setUpBackboneMediator = (app) ->
   Backbone.Mediator.addChannelSchemas schemas for channel, schemas of channelSchemas
   # Major performance bottleneck if it is true in production
   Backbone.Mediator.setValidationEnabled(not app.isProduction())
-  if false  # Debug which events are being fired
-    originalPublish = Backbone.Mediator.publish
-    Backbone.Mediator.publish = ->
-      console.log 'Publishing event:', arguments... unless /(tick|frame-changed)/.test(arguments[0])
-      originalPublish.apply Backbone.Mediator, arguments
+
+  if window.location.hostname == 'localhost'
+    if window.sessionStorage?.getItem('COCO_DEBUG_LOGGING') == "1"
+      unwantedEventsRegex = new RegExp('tick|mouse-moved|mouse-over|mouse-out|hover-line|check-away|new-thang-added|zoom-updated|away-back')
+      unwantedStackRegex = new RegExp('eval|debounce|defer|delay|Backbone|Idle')
+      originalPublish = Backbone.Mediator.publish
+      Backbone.Mediator.publish = ->
+        unless unwantedEventsRegex.test(arguments[0])
+          try
+            splitStack = (new Error()).stack.split("\n").slice(1)
+            maxDepth = 5
+            for s, i in splitStack
+              break if i > maxDepth
+              filteredStack = s.trim().replace(/at\ |prototype|module|exports/gi, '').replace('..', '')
+              filteredStack = filteredStack.split('(webpack-internal')[0]
+              unless unwantedStackRegex.test(filteredStack)
+                console.log ">>> #{filteredStack}->", arguments...
+                break
+          catch
+            console.log ">>> ? -> ", arguments...
+
+        originalPublish.apply Backbone.Mediator, arguments
+    else
+      console.log("Not logging Backbone events. Turn on by typing this in your browser console: window.sessionStorage.setItem('COCO_DEBUG_LOGGING', 1)")
 
 setUpMoment = ->
   {me} = require 'core/auth'
