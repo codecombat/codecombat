@@ -84,7 +84,7 @@
               <span class="select-language">{{ $t('courses.select_language') }}</span>
               <select @change="changeLanguage">
                 <option value="python" :selected="getSelectedLanguage === 'python'"> Python </option>
-                <option value="javascript" :selected="getSelectedLanguage === 'javascript'"> Javascript </option>
+                <option value="javascript" :selected="getSelectedLanguage === 'javascript'"> JavaScript </option>
               </select>
             </div>
             <img

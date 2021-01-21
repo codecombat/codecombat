@@ -224,7 +224,7 @@
               {{ $t("teachers.select_desired_lang") }}
             </option>
             <option value="javascript">
-              Javascript
+              JavaScript
             </option>
             <option value="python">
               Python

@@ -422,7 +422,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     name_available: "사용 가능한 Username입니다!"
     name_is_email: "Username은 이메일 주소로 할 수 없습니다."
     choose_type: " 계정 유형을 선택하세요:"
-    teacher_type_1: "Codecombat을 이용하여 프로그래밍을 가르치세요!"
+    teacher_type_1: "CodeCombat을 이용하여 프로그래밍을 가르치세요!"
     teacher_type_2: " 클래스를 설정해주세요."
     teacher_type_3: " 가이드 보기"
     teacher_type_4: " 학생들의 진행 상황보기"

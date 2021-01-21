@@ -2358,7 +2358,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     archmage_introduction: "Una delle parti più divertenti della creazione di giochiè che sono in grado di unire tante cose insieme. Grafica, suono, connessioni in real time, social networks, ed ovviamente molti degli aspetti della programmazione, dall'amministazione di basso livello a quella dei server, passando per il design lato utente e lo sviluppo di interfacce. C'è un sacco da fare e, se sei un programmatore esperto con la voglia di immergerti nei meandri di CodeCombat, questo corso potrebbe essere per te. Ci piacerebbe poter avere il tuo aiuto per costruire il miglior gioco di programmazione mai realizzato finora."
     class_attributes: "Attributi di classe"
     archmage_attribute_1_pref: "Conoscenza di "
-    archmage_attribute_1_suf: ", o voglia di imparare. Gran parte del nostro codice è in questo linguaggio. Se sei un fan di Ruby o Python, ti sentirai a casa. E' come il Javascript, ma con una sintassi più carina."
+    archmage_attribute_1_suf: ", o voglia di imparare. Gran parte del nostro codice è in questo linguaggio. Se sei un fan di Ruby o Python, ti sentirai a casa. E' come il JavaScript, ma con una sintassi più carina."
     archmage_attribute_2: "Dell'esperienza nella programmazione ed un po' di iniziativa personale. Ti aiuteremo ad orientarti, ma non possiamo spender troppo tempo nella tua formazine."
     how_to_join: "Come unirsi"
     join_desc_1: "Tutti possono aiutare! Puoi dare un occhio al nostro "

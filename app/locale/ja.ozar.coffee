@@ -3130,7 +3130,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    activity_label_2: " Beginner: Build a Game!"
 #    activity_label_3: "Advanced: Build an Arcade Game!"
 #    activity_button_1: "View Lesson"
-    about: "Codecombatについて:" # {change}
+    about: "CodeCombatについて:" # {change}
     about_copy: "CodeCombatはゲームのようにCSを教えてくれるプログラムです。PythonとJavaScriptに対応しています。CodeCombatは、正しくプログラミングを学びながらみんなが楽しめるようにできています。1.2千万人以上がCodeCombatを使っています。" # {change}
     point1: "✓ ベースが分かりやすい"
     point2: "✓ 生徒に合うように調整する"
