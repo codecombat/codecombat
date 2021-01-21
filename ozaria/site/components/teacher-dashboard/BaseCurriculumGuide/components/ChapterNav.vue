@@ -10,8 +10,13 @@
       }),
 
       chapterNav () {
+        // This ensures released chapters are correctly placed, with internal chapters added after.
         return (this.chapterNavBar || [])
-          .map(({ campaignID, free }, idx) => {
+          .filter(({ releasePhase }) => releasePhase !== 'internalRelease')
+          .concat(
+            (this.chapterNavBar || [])
+              .filter(({ releasePhase }) => releasePhase === 'internalRelease')
+          ).map(({ campaignID, free }, idx) => {
             return ({
               campaignID,
               heading: this.$t('teacher_dashboard.chapter_num', { num: idx + 1 })

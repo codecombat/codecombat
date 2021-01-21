@@ -114,14 +114,14 @@ courseIDs =
   CHAPTER_TWO: '5d8a57abe8919b28d5113af1'
   CHAPTER_TWO_PLAYTEST: '5eb34fc8dc0fd35e8eae66b0'
   CHAPTER_THREE: '5e27600d1c9d440000ac3ee7'
-  CHAPTER_ONE_REVISION_PLAYTEST: '5f0cb0b7a2492bba0b3520df'
+  CHAPTER_FOUR: '5f0cb0b7a2492bba0b3520df'
 
 orderedCourseIDs = [
   courseIDs.CHAPTER_ONE
   courseIDs.CHAPTER_TWO
   courseIDs.CHAPTER_TWO_PLAYTEST
   courseIDs.CHAPTER_THREE
-  courseIDs.CHAPTER_ONE_REVISION_PLAYTEST
+  courseIDs.CHAPTER_FOUR
 ]
 
 courseAcronyms = {}
@@ -129,7 +129,7 @@ courseAcronyms[courseIDs.CHAPTER_ONE] = 'CH1'
 courseAcronyms[courseIDs.CHAPTER_TWO] = 'CH2'
 courseAcronyms[courseIDs.CHAPTER_TWO_PLAYTEST] = 'CH2P'
 courseAcronyms[courseIDs.CHAPTER_THREE] = 'CH3'
-courseAcronyms[courseIDs.CHAPTER_ONE_REVISION_PLAYTEST] = 'CH1P'
+courseAcronyms[courseIDs.CHAPTER_FOUR] = 'CH4'
 
 # Harcoding module names for simplicity
 # Use db to store these later when we add sophisticated module functionality, right now its only used for UI
@@ -160,8 +160,11 @@ courseModules[courseIDs.CHAPTER_THREE] = {
   '4': 'While Loops',
   '5': 'Capstone'
 }
-courseModules[courseIDs.CHAPTER_ONE_REVISION_PLAYTEST] = {
-  '1': 'Objects and Methods'
+courseModules[courseIDs.CHAPTER_FOUR] = {
+  '1': 'Compound Conditionals',
+  '2': 'Functions and Data Analysis',
+  '3': 'Writing Functions',
+  '4': 'Capstones'
 }
 
 hourOfCodeOptions = {
