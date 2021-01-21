@@ -1,4 +1,25 @@
 Backbone.Mediator.setValidationEnabled false
+if window.location.hostname == 'localhost'
+  unwantedEventsRegex = new RegExp('tick|mouse-moved|mouse-over|mouse-out|hover-line|check-away|new-thang-added|zoom-updated')
+  unwantedStackRegex = new RegExp('debounce|defer|delay')
+  maxDepth = 5
+  attemptStackLog = (channel, arg, depth) =>
+    unless unwantedEventsRegex.test(channel)
+      try
+        filteredStack = (new Error()).stack.split("\n")[depth].trim().replace('.prototype', '')
+        filteredStack = filteredStack.substr(0, filteredStack.indexOf('@webpack-internal'))
+        unless unwantedStackRegex.test(filteredStack)
+          console.log(">>> #{filteredStack} -> publishing #{channel}")
+        else if depth < maxDepth
+          attemptStackLog(channel, arg, depth + 1) # Down the rabbit hole...
+      catch
+        console.log(">>> ? -> publishing #{channel}")
+
+  Backbone.Mediator.originalPublish = Backbone.Mediator.publish
+  Backbone.Mediator.publish = (channel, arg) =>
+    Backbone.Mediator.originalPublish(channel, arg)
+    attemptStackLog(channel, arg, maxDepth)
+
 app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
