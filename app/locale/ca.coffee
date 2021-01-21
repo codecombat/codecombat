@@ -210,6 +210,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     resource_hub: "Centre de Recursos"
     apcsp: "Principis AP CS"
     parent: "Pares"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    fill_in_solution: "Fill in solution"
 
   apis:
     methods: "Mètodes"
@@ -2929,52 +2931,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     unit_10: "Unitat 10: Més enllà dels Fonaments"
     unit_10_activity_1: "Unitat 10 Activitat: Web Quiz"
 
-  parent_landing:
-    slogan_quote: "\"CodeCombat és realment difertit, i aprens molt.\""
-    quote_attr: "5è grau, Oakland, CA"
-    refer_teacher: "Consulteu al Professor"
-    focus_quote: "Desbloqueja el futur del teus fills"
-    value_head1: "La forma més atractiva d'aprendre codi escrit"
-    value_copy1: "CodeCombat és un tutor personal dels nens. Amb material de cobertura d'acord amb els estàndards curriculars nacionals, el vostre fill programarà algorismes, crearà llocs web i fins i tot dissenyarà els seus propis jocs."
-    value_head2: "Construint habilitats claus per al segle XXI"
-    value_copy2: "Els vostres fills aprendran a navegar i esdevenir ciutadans del món digital. CodeCombat és una solució que millora el pensament crític i la capacitat de recuperació del vostre fill."
-    value_head3: "Herois que els vostres fills estimaran"
-    value_copy3: "Sabem la importància que té divertir-se i implicar-se pel desenvolupament del cervell, per això hem encabit tant aprenentatge com hem pogut presentant-lo en un joc que els encantarà."
-    dive_head1: "No només per als enginyers de programació"
-    dive_intro: "Les habilitats informàtiques tenen una àmplia gamma d'aplicacions. Mireu alguns exemples a continuació!"
-    medical_flag: "Aplicacions Mèdiques"
-    medical_flag_copy: "Des del mapatge del genoma humà fins a les màquines de ressonància magnètica, la codificació ens permet comprendre el cos de maneres que mai no hem pogut fer."
-    explore_flag: "Exploració Espacial"
-    explore_flag_copy: "Apol·lo va arribar a la Lluna gràcies al treball humà amb ordinadors, i els científics utilitzen programes informàtics per analitzar la gravetat dels planetes i buscar noves estrelles."
-    filmaking_flag: "Producció de Vídeo i Animació"
-    filmaking_flag_copy: "Des de la robòtica del Jurassic Park fins a l'increïble animació de Dreamworks i Pixar, les pel·lícules no serien les mateixes sense les creacions digitals darrere de les escenes."
-    dive_head2: "Els jocs són importants per aprendre"
-    dive_par1: "Múltiples estudis han trobat que l'aprenentatge mitjançant jocs promou"
-    dive_link1: "el desenvolupament cognitiu"
-    dive_par2: "en els nens al mateix temps que demostra ser"
-    dive_link2: "més efectiu"
-    dive_par3: "ajudant els alumnes a"
-    dive_link3: "aprendre i retenir coneixements"
-    dive_par4: ","
-    dive_link4: "concentrar-se"
-    dive_par5: ", i aconseguir un major assoliment."
-    dive_par6: "L'aprenentatge basat en jocs també és bo per desenvolupar"
-    dive_link5: "resiliència"
-    dive_par7: ", raonament cognitiu, i"
-    dive_par8: ". Les Ciències només ens diuen què han de saber els nens. Aquests aprenen millor jugant."
-    dive_link6: "funcions executives"
-    dive_head3: "Fent Equip amb els Professors"
-    dive_3_par1: "En el futur, "
-    dive_3_link1: "codificar serà tan fonamental com aprendre a llegir i escriure"
-    dive_3_par2: ". Hem treballat estretament amb els professors per dissenyar i desenvolupar el nostre contingut, i estem ensiosos per ensenyar als vostres fills. Els programes de tecnologia educativa com CodeCombat funcionen millor quan els professors els implementen de forma coherent. Ajudeu-nos a fer aquesta connexió presentant-nos als professors del vostre fill."
-    mission: "La nostra missió: ensenyar i participar"
-    mission1_heading: "Codificant per la generació d'avui"
-    mission2_heading: "Preparant pel futur"
-    mission3_heading: "Recolzat per pares com tu"
-    mission1_copy: "Els nostres especialistes en educació treballen estretament amb els professors per conèixer els nens que es troben a l'entorn educatiu. Els nens aprenen habilitats que es poden aplicar fora del joc perquè aprenen a resoldre problemes, independentment del seu estil d'aprenentatge."
-    mission2_copy: "Una enquesta de 2016 va demostrar que el 64% de les noies de 3r a 5è grau volien aprendre a codificar. Es van crear 7 milions de llocs de treball al 2015 on es requerien habilitats en codificació. Hem construït CodeCombat perquè cada nen hauria de tenir l'oportunitat de crear el seu millor futur."
-    mission3_copy: "A CodeCombat, som pares. Som coders. Som educadors. Però, sobretot, som persones que creiem en donar als nostres fills la millor oportunitat per l'èxit en qualsevol cosa que decideixin fer."
-
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
@@ -3089,15 +3045,6 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
 #    back_to_coco: "Back to CodeCombat"
 
-  parent_modal:
-    refer_teacher: "Consulteu al Professor"
-    name: "El teu Nom"
-    parent_email: "El teu E-mail"
-    teacher_email: "E-mail del Professor"
-    message: "Missatge"
-    custom_message: "Acabo de trobar CodeCombat i vaig pensar que seria un gran programa per a la vostra aula! És una plataforma d'aprenentatge d'informàtica amb un pla d'estudis amb estàndards.\n\nL'alfabetització informàtica és tan important i crec que aquesta seria una gran manera d'aconseguir que els estudiants es dediquin a aprendre a codificar."
-    send: "E-mail enviat"
-
   hoc_2018:
 #    banner: "Welcome to Hour of Code 2020!"
     page_heading: "Ensenya als teus alumnes com construir el seu propi joc d'arcade!" # {change}
@@ -3190,7 +3137,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
-#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_2: "Sign up, create your own team, or join other teams to start competing."
 #    student_register_3: "Provide the information below to be eligible for prizes."
 #    teacher_register_1: "Sign up to access your class league profile page and get your class started."
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+#    team: "team"
+#    how_it_works1: "Join a __team__"

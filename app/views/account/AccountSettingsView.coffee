@@ -14,6 +14,7 @@ module.exports = class AccountSettingsView extends CocoView
   events:
     'change .panel input': 'onChangePanelInput'
     'change #name-input': 'onChangeNameInput'
+    'click .save-button': 'savePanel'
     'click #toggle-all-btn': 'onClickToggleAllButton'
     'click #delete-account-btn': 'onClickDeleteAccountButton'
     'click #reset-progress-btn': 'onClickResetProgressButton'
@@ -29,11 +30,33 @@ module.exports = class AccountSettingsView extends CocoView
     subs[sub] = 1 for sub in @user.getEnabledEmails()
     return subs
 
+  # button status updates
+
+  onButtonError: (e) ->
+    $(e).text($.i18n.t('account_settings.error_saving', defaultValue: 'Error Saving'))
+      .removeClass('btn-success')
+      .addClass('btn-danger', 500)
+
+  onButtonSuccess: (e) ->
+    $(e).text($.i18n.t('account_settings.saved', defaultValue: 'Changes Saved'))
+      .removeClass('btn-success btn-info', 1000)
+      .attr('disabled', 'true')
+
+  onButtonBegan: (e) ->
+    $(e).text($.i18n.t('common.saving', defaultValue: 'Saving...'))
+      .removeClass('btn-danger')
+      .addClass('btn-success').show()
+
+  onButtonActive: (e) ->
+    $(e).text($.i18n.t('common.save', defaultValue: 'Save'))
+      .removeClass 'disabled btn-danger'
+      .removeAttr 'disabled'
+
   #- Form input callbacks
   onChangePanelInput: (e) ->
     return if $(e.target).closest('.form').attr('id') in ['reset-progress-form', 'delete-account-form']
     $(e.target).addClass 'changed'
-    @trigger 'input-changed'
+    @onButtonActive($(e.target).closest(".form").siblings(".save-button"))
 
   onClickToggleAllButton: ->
     subs = @getSubscriptions()
@@ -174,11 +197,16 @@ module.exports = class AccountSettingsView extends CocoView
 
 
   #- Saving changes
+  savePanel: (e) ->
+    panel = $(e.target).closest(".panel")
+    forms.clearFormAlerts(panel)
+    if $(e.target).hasClass("me-btn")
+      @grabUserData()
+    else if $(e.target).hasClass("passwd-btn")
+      @grabPasswordData()
+    else if $(e.target).hasClass("email-btn")
+      @grabEmailData()
 
-  save: ->
-    $('#settings-tabs input').removeClass 'changed'
-    forms.clearFormAlerts(@$el)
-    @grabData()
     res = @user.validate()
     if res?
       console.error 'Couldn\'t save because of validation errors:', res
@@ -202,16 +230,14 @@ module.exports = class AccountSettingsView extends CocoView
           type: 'error'
           layout: 'topCenter'
           timeout: 5000
-      @trigger 'save-user-error'
+      @onButtonError(e.target)
+
     res.success (model, response, options) =>
       me.set(model) # save changes to me
-      @trigger 'save-user-success'
+      panel.find('input').removeClass 'changed'
+      @onButtonSuccess(e.target)
 
-    @trigger 'save-user-began'
-
-  grabData: ->
-    @grabPasswordData()
-    @grabOtherData()
+    @onButtonBegan(e.target)
 
   grabPasswordData: ->
     password1 = $('#password', @$el).val()
@@ -231,14 +257,16 @@ module.exports = class AccountSettingsView extends CocoView
       forms.applyErrorsToForm(@$el, err)
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
 
-  grabOtherData: ->
+  grabEmailData: ->
+    for emailName, enabled of @getSubscriptions()
+      @user.setEmailSubscription emailName, enabled
+
+  grabUserData: ->
     @$el.find('#name-input').val @suggestedName if @suggestedName
     @user.set 'name', @$el.find('#name-input').val()
     @user.set 'firstName', @$el.find('#first-name-input').val()
     @user.set 'lastName', @$el.find('#last-name-input').val()
     @user.set 'email', @$el.find('#email').val()
-    for emailName, enabled of @getSubscriptions()
-      @user.setEmailSubscription emailName, enabled
 
     permissions = []
 

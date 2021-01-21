@@ -14,28 +14,15 @@
     export default {
       metaInfo () {
         return {
-          title: 'Competitive AI coding eSports from CodeCombat'
+          title: 'Competitive AI coding esports from CodeCombat',
+          meta: [
+            { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+          ]
         }
       },
 
       created () {
         this.fetchRequiredInitialData({ optionalIdOrSlug: this.$route.params.idOrSlug })
-        this.loadGlobalRequiredData()
-      },
-
-      beforeRouteUpdate (to, from, next) {
-        $('#main-nav').addClass('dark-mode')
-        next()
-      },
-
-      beforeRouteEnter(to, from, next) {
-        $('#main-nav').addClass('dark-mode')
-        next()
-      },
-
-      beforeRouteLeave (to, from, next) {
-        $('#main-nav').removeClass('dark-mode')
-        next()
       },
 
       computed: {
@@ -46,7 +33,6 @@
 
       methods: {
         ...mapActions({
-          loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
           fetchRequiredInitialData: 'clans/fetchRequiredInitialData'
         })
       }

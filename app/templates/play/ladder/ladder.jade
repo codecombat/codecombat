@@ -172,7 +172,7 @@ block content
           a(href="#winners", data-toggle="tab", data-i18n="ladder.winners") Winners
 
   //don't render when tournament is ended in order to control page height
-  div.tab-content(style=view.displayTabContent)
+  div.row.tab-content(style="padding: 0 15px 0 15px;")
     if view.level.isType('ladder')
       if view.winners
         .tab-pane.active.well#ladder

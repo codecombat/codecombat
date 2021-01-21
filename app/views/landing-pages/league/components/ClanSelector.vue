@@ -18,11 +18,11 @@ export default {
 
 <template>
   <div>
-    <label for="clans">My Clans:</label>
+    <label for="clans">My Teams:</label>
     <select id="clans" name="clans" @change="e => $emit('change', e)">
       <option value="global" :selected="selected===''">--</option>
       <option  v-for="clan in clans" :key="clan._id" :value="clan._id" :selected="selected===clan._id">
-        {{ clan.name }}
+        {{ clan.displayName || clan.name }}
       </option>
     </select>
   </div>

@@ -210,6 +210,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     resource_hub: "Resource Hub"
     apcsp: "AP CS Prinzipien"
     parent: "Eltern"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    fill_in_solution: "Fill in solution"
 
   apis:
     methods: "Methoden"
@@ -2929,52 +2931,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
 
-  parent_landing:
-    slogan_quote: "\"CodeCombat macht eine Menge Spass und du wirst viel dabei lernen.\""
-    quote_attr: "5. Klässler, Oakland" # {change}
-    refer_teacher: "Empfehlen Sie einen Lehrer"
-    focus_quote: "Ermöglichen Sie eine noch bessere Zukunft Ihres Kindes"
-    value_head1: "Der engagierenste Weg, programmieren zu lernen"
-    value_copy1: "CodeCombat der persönliche Coach des Kindes. Indem es nationale Lehrplanstandards abdeckt, wird es Ihrem Kind auf spielerische Weise beibringen Algorithmen zu programmieren, Websiten zu erstellen und sogar ihre eigenen Spiele zu realisieren."
-    value_head2: "Baue wichtige Fähigkeiten für das 21 Jahrhundert aus"
-    value_copy2: "Ihre Kinder werden die Navigation in der digitalen Welt lernen und sich damit zurechtfinden können. CodeCombat ist ein Problemlöser, der das kritische Denken und die Belastbarkeit Ihres Kindes verbessern wird."
-    value_head3: "Helden, die Ihr Kind lieben wird"
-    value_copy3: "Wir wissen, wie wichtig Spaß und Engagement für das sich entwickelnde Hirn sind, also haben wir so viel Lernen wie wir können in ein Spiel verpackt, welches sie lieben werden."
-    dive_head1: "Nicht nur für Programmierer"
-    dive_intro: "Computerwissen hat eine weite Bandbreite an möglichen Anwendungen. Sehen Sie sich mal die unten aufgeführten Beispiele an!"
-    medical_flag: "Medizinische Anwendungen"
-    medical_flag_copy: "Vom Erforschen des Menschliches Genoms zu MRI-Maschinen, programmieren erlaubt es, den Körper wie noch nie zuvor zu sehen und zu erleben."
-    explore_flag: "Die Erkundung des Weltalls"
-    explore_flag_copy: "Apollo schaftte es nur dank hart arbeitenden Rechnern auf den Mond, und Wissenschaflter nutzen Computerprogramme, um (unter anderem) die Schwerkraft von Plantetn zu berechnen und neue Sterne zu finden."
-    filmaking_flag: "Filme und Animationen"
-    filmaking_flag_copy: "Von der Technik hinter Jurassic Park zu den unglaublichen Animationsfilmen von Dreamworks und Pixar, Filme wären nicht dasselbe ohne die digitale Kreativität dahinter."
-#    dive_head2: "Games are important for learning"
-#    dive_par1: "Multiple studies have found that game-based learning promotes"
-#    dive_link1: "cognitive development"
-#    dive_par2: "in kids while also proving to be"
-#    dive_link2: "more effective"
-#    dive_par3: "in helping students"
-#    dive_link3: "learn and retain knowledge"
-#    dive_par4: ","
-#    dive_link4: "concentrate"
-#    dive_par5: ", and perform at a higher level of achievement."
-#    dive_par6: "Game based learning is also good for developing"
-#    dive_link5: "resilience"
-#    dive_par7: ", cognitive reasoning, and"
-#    dive_par8: ". Science is just telling us what learners already know. Children learn best by playing."
-#    dive_link6: "executive functions"
-#    dive_head3: "Team up with teachers"
-#    dive_3_par1: "In the future, "
-#    dive_3_link1: "coding is going to be as fundamental as learning to read and write"
-#    dive_3_par2: ". We’ve worked closely with teachers to design and develop our content, and we can't wait to get your kids learning. Educational technology programs like CodeCombat work best when the teachers implement them consistently. Help us make that connection by introducing us to your child’s teachers!"
-#    mission: "Our mission: to teach and engage"
-#    mission1_heading: "Coding for today's generation"
-#    mission2_heading: "Preparing for the future"
-#    mission3_heading: "Supported by parents like you"
-#    mission1_copy: "Our education specialists work closely with teachers to meet children where they are in the educational landscape. Kids learn skills that can be applied outside of the game because they learn how to solve problems, no matter what their learning style is."
-#    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
-#    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
-
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
@@ -3089,15 +3045,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
 #    back_to_coco: "Back to CodeCombat"
 
-  parent_modal:
-    refer_teacher: "Lehrperson empfehlen"
-    name: "Ihr Name"
-    parent_email: "Ihre Emailadresse"
-    teacher_email: "Die Emailadresse der Lehrperson"
-    message: "Nachricht"
-    custom_message: "Ich habe gerade eben CodeCombat gefunden und dachte mir, dass es eine großartige Erweiterung für unseren Unterricht sein könte! Es ist eine Lernplattform für Computerwissen mit auf Standards ausgerichteten Lehrplänen.\n\n Computerkentnisse sind so wichtig und ich denke, es wäre ein guter Weg, um den Schülern das Programieren beizubringen."
-    send: "Email senden"
-
   hoc_2018:
 #    banner: "Welcome to Hour of Code 2020!"
 #    page_heading: "Your students will learn to code by building their own game!"
@@ -3190,7 +3137,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
-#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_2: "Sign up, create your own team, or join other teams to start competing."
 #    student_register_3: "Provide the information below to be eligible for prizes."
 #    teacher_register_1: "Sign up to access your class league profile page and get your class started."
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+#    team: "team"
+#    how_it_works1: "Join a __team__"

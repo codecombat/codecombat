@@ -32,6 +32,11 @@ export default {
       return (row.creatorClans || [])[0] || {}
     },
 
+    getClanName (row) {
+      const firstClan = (row.creatorClans || [])[0] || {}
+      return firstClan.displayName || firstClan.name || ""
+    },
+
     getAgeBracket (row) {
       return $.i18n.t(`ladder.bracket_${(row.ageBracket || 'open').replace(/-/g, '_')}`)
     },
@@ -44,7 +49,7 @@ export default {
 </script>
 
 <template lang="pug">
-  .col-lg-6
+  .col-lg-6.table-responsive
     table.table.table-bordered.table-condensed.table-hover.ladder-table
       thead
         tr
@@ -59,7 +64,7 @@ export default {
           th(colspan=1) {{ $t('general.rank') }}
           th {{ $t('general.score') }}
           th.name-col-cell {{ $t('general.name') }}
-          th(colspan=4) {{ $t('clans.clan') }}
+          th(colspan=4 style="text-transform: capitalize;") {{ $t('league.team') }}
           th(colspan=1) {{ $t('ladder.age') }}
           th(colspan=1) 🏴‍☠️
 
@@ -73,7 +78,7 @@ export default {
             td.score-cell {{ scoreForDisplay(row.totalScore) }}
             td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ row.creatorName || "Anonymous" }}
             td(colspan=4).clan-col-cell
-              a(:href="`/league/${getClan(row).slug || getClan(row)._id}`") {{ getClan(row).name }}
+              a(:href="`/league/${getClan(row).slug || getClan(row)._id}`") {{ getClanName(row) }}
             td {{ getAgeBracket(row) }}
             td {{ getCountry(row) }}
 </template>

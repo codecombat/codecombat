@@ -46,6 +46,10 @@ export default {
       state.mySession = mySession
     },
 
+    clearMySession (state) {
+      state.mySession = {}
+    },
+
     setLeagueRanking (state, { leagueId, ranking }) {
       Vue.set(state.rankingsForLeague, leagueId, ranking)
     },
@@ -70,7 +74,11 @@ export default {
         splitRankings.push(...state.globalRankings.globalTop.slice(0, 10))
         splitRankings.push({ type: 'BLANK_ROW' })
         splitRankings.push(...state.globalRankings.playersAbove)
-        splitRankings.push(state.mySession)
+        // This hack is due to a race condition where the server returns the player
+        // in the 4 above or 4 below. Thus we prevent player seeing duplicate of their result.
+        if (![...state.globalRankings.playersAbove, ...state.globalRankings.playersBelow].some(ranking => ranking.creator === me.id)) {
+          splitRankings.push(state.mySession)
+        }
         splitRankings.push(...state.globalRankings.playersBelow)
         return splitRankings
       }
@@ -85,13 +93,17 @@ export default {
         const leagueRankings = state.rankingsForLeague[leagueId]
         if (state.mySession && state.mySession.rank > 20) {
           const splitRankings = []
-          splitRankings.push(...state.leagueRankings.top.slice(0, 10))
+          splitRankings.push(...leagueRankings.top.slice(0, 10))
           splitRankings.push({ type: 'BLANK_ROW' })
-          splitRankings.push(...state.leagueRankings.playersAbove)
+          splitRankings.push(...leagueRankings.playersAbove)
+          // TODO: This uses `totalScore` which is possibly wrong if not global.
           splitRankings.push(state.mySession)
-          splitRankings.push(...state.leagueRankings.playersBelow)
+          splitRankings.push(...leagueRankings.playersBelow)
           return splitRankings
         }
+        // TODO: This uses `totalScore` which is possibly wrong if not global.
+        // As far as I can tell, if there are AI users they don't have the league Id.
+        // The server may already be normalizing this from the returned rankings.
         return leagueRankings.top
       }
     },
@@ -102,16 +114,35 @@ export default {
           return []
         }
         const codePointsRankings = state.codePointsRankingsForLeague[leagueId]
-        if (state.mySession && state.mySession.rank > 20) {
-          const splitRankings = []
-          splitRankings.push(...state.codePointsRankings.top.slice(0, 10))
-          splitRankings.push({ type: 'BLANK_ROW' })
-          splitRankings.push(...state.codePointsRankings.playersAbove)
-          splitRankings.push(state.mySession)
-          splitRankings.push(...state.codePointsRankings.playersBelow)
-          return splitRankings
+        try {
+          if (state.myCodePointsRank && state.myCodePointsRank.rank > 20) {
+            const splitRankings = []
+            splitRankings.push(...codePointsRankings.top.slice(0, 10))
+            splitRankings.push({ type: 'BLANK_ROW' })
+            splitRankings.push(...codePointsRankings.playersAbove)
+            splitRankings.push(state.myCodePointsRank)
+            splitRankings.push(...codePointsRankings.playersBelow)
+            return splitRankings
+          }
+
+          if (state.myCodePointsRank && typeof state.myCodePointsRank.rank === 'number' && state.myCodePointsRank.rank <= 20) {
+            // This patches in the correct name and id if you are in the top 20.
+            const rankIdx = state.myCodePointsRank.rank - 1
+            const top = [...codePointsRankings.top]
+            top[rankIdx] = {
+              ...codePointsRankings.top[rankIdx],
+              creator: me.id,
+              creatorName: me.broadName()
+            }
+            return top
+          }
+
+          return codePointsRankings.top
+        } catch (e) {
+          // TODO - handle correctly. This is a hack to avoid strange situations as we are going fast.
+          console.error(e)
         }
-        return codePointsRankings.top
+        return []
       }
     }
   },
@@ -119,6 +150,7 @@ export default {
   actions: {
     async loadGlobalRequiredData ({ commit, dispatch }) {
       commit('setLoading', true)
+      commit('clearMySession')
       const awaitPromises = [dispatch('fetchGlobalLeaderboard')]
       const sessionsData = await fetchMySessions(currentSeasonalLevelOriginal)
 
@@ -152,7 +184,11 @@ export default {
             belowSession.rank = rank
           }
 
+          // TODO - Maybe server can fill these in, or we can query
+          //        this more simply.
           teamSession.rank = parseInt(myRank, 10)
+          teamSession.creatorName = me.broadName()
+
           commit('setMySession', teamSession)
           commit('setGlobalAbove', playersAbove)
           commit('setGlobalBelow', playersBelow)
@@ -168,6 +204,7 @@ export default {
         playersAbove: [],
         playersBelow: []
       }
+      commit('clearMySession')
 
       const topLeagueRankingPromise = getLeaderboard(currentSeasonalLevelOriginal, {
         order: -1,
@@ -236,7 +273,7 @@ export default {
       const topCodePointsRankingPromise = getCodePointsLeaderboard(leagueId, {
         order: -1,
         scoreOffset: 1000000,
-        limit: 20,
+        limit: 20
       }).then(ranking => {
         codePointsRankingInfo.top = ranking
       })
@@ -260,9 +297,24 @@ export default {
           belowPlayer.rank = rank
         }
 
-        const myPlayerRow = {creatorName: me.broadName(), rank: parseInt(myRank, 10)}
+        // Required by the leaderboard to correctly show your user and highlight the row
+        const myPlayerRow = {
+          creatorName: me.broadName(),
+          rank: parseInt(myRank, 10),
+          totalScore: me.get('stats').codePoints,
+          creator: me.id
+        }
+
         codePointsRankingInfo.playersAbove = playersAbove
         codePointsRankingInfo.playersBelow = playersBelow
+
+        // This edge case happens when we don't know the rank of the user.
+        // In this case we want to wipe all rankings so we aren't guessing random ranks.
+        if (myRank === 'unknown') {
+          codePointsRankingInfo.playersAbove = playersAbove.map(session => { session.rank = ' '; return session })
+          codePointsRankingInfo.playersBelow = playersBelow.map(session => { session.rank = ' '; return session })
+          myPlayerRow.rank = ' '
+        }
 
         commit('setMyCodePointsRank', myPlayerRow)
       }

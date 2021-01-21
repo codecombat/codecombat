@@ -210,6 +210,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     resource_hub: "Hulpmiddelen"
     apcsp: "AP CS Principes"
     parent: "Ouders"
+#    esports: "Esports"
     browser_recommendation: "Voor de beste ervaring raden we aan de nieuwste versie van Chrome te gebruiken. Download de browser hier!"
 
   modal:
@@ -764,6 +765,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     start: "Start"
 #    vega_character: "Vega Character"
     click_to_continue: "Klik om verder te gaan"
+#    fill_in_solution: "Fill in solution"
 
   apis:
     methods: "Methodes"
@@ -2929,52 +2931,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    unit_10: "Unit 10: Post-AP"
     unit_10_activity_1: "Unit 10 Activiteit: Web Quiz"
 
-  parent_landing:
-    slogan_quote: "\"CodeCombat is erg leuk, en je leert veel.\""
-    quote_attr: "leerling 5e leerjaar, Oakland, CA"
-    refer_teacher: "Verwijs een leraar door"
-    focus_quote: "Ontgrendel de toekomst van uw kind"
-    value_head1: "De meest boeiende manier om getypte code te leren"
-    value_copy1: "CodeCombat is de persoonlijke privé-leraar van uw kind. Met behulp van materiaal dat is afgestemd op de nationale curriculumnormen, zal uw kind algoritmen programmeren, websites bouwen en zelfs zijn eigen spellen ontwerpen."
-    value_head2: "Bouwen aan belangrijke 21e-eeuwse vaardigheden"
-    value_copy2: "Uw kinderen zullen leren om te navigeren en in te burgeren in de digitale wereld. CodeCombat is een oplossing die het kritisch denken en de veerkracht van uw kind verbetert."
-    value_head3: "Helden waar uw kind gek op zal zijn"
-    value_copy3: "We weten hoe belangrijk plezier en betrokkenheid is voor de ontwikkelende hersenen, dus we hebben zoveel mogelijk kennis in een spel gepropt wat ze graag zullen spelen."
-    dive_head1: "Niet alleen voor software-engineers"
-    dive_intro: "Computerwetenschappen hebben een breed scala aan toepassingen. Bekijk hieronder een paar voorbeelden!"
-    medical_flag: "Medische toepassingen"
-    medical_flag_copy: "Van het in kaart brengen van het menselijk genoom tot MRI-machines, met behulp van codering kunnen we het lichaam begrijpen op manieren die we tot nu toe nooit hebben gekend."
-    explore_flag: "Ruimteonderzoek"
-    explore_flag_copy: "Apollo kwam op de maan dankzij hardwerkende menselijke computers, en wetenschappers gebruiken computerprogramma's om de zwaartekracht van planeten te analyseren en naar nieuwe sterren te zoeken."
-    filmaking_flag: "Het maken van films en animatie"
-    filmaking_flag_copy: "Van de robotica van Jurassic Park tot de ongelooflijke animatie van Dreamworks en Pixar, films zouden niet hetzelfde zijn zonder de digitale creatieven achter de schermen."
-    dive_head2: "Spellen zijn belangrijk voor leren"
-    dive_par1: "Meerdere studies hebben aangetoond dat spelgebaseerd leren bevorderlijk is voor"
-    dive_link1: "de cognitieve ontwikkeling"
-    dive_par2: "bij kinderen terwijl het ook"
-    dive_link2: "effectiever blijkt te zijn"
-    dive_par3: "om leerlingen te helpen effectiever"
-    dive_link3: "kennis te leren en te behouden"
-    dive_par4: ","
-    dive_link4: "te concentreren"
-    dive_par5: ", en te presteren op een hoger niveau van prestatie."
-    dive_par6: "Spel-gebaseerd leren is ook goed voor de ontwikkeling van"
-    dive_link5: "veerkracht"
-    dive_par7: ", cognitief redeneren, en"
-    dive_par8: ". De wetenschap vertelt ons gewoon wat leerlingen al weten: kinderen leren het beste door te spelen."
-    dive_link6: "uitvoerende functies"
-    dive_head3: "Sluit je aan bij leraren"
-    dive_3_par1: "In de toekomst "
-    dive_3_link1: "wordt coderen net zo fundamenteel als leren lezen en schrijven"
-    dive_3_par2: ". We hebben nauw samengewerkt met leraren om onze inhoud te ontwerpen en ontwikkelen, en we kunnen niet wachten om het aan je kinderen te leren. Educatieve programma's over technologie zoals CodeCombat werken het beste als leraren ze consequent gebruiken in hun lesprogramma. Help ons in contact te komen met hen door ons te introduceren bij de leraren van uw kind!"
-    mission: "Onze missie: lesgeven en betrokken zijn"
-    mission1_heading: "Programmeren voor de generatie van vandaag"
-    mission2_heading: "Voorbereiden op de toekomst"
-    mission3_heading: "Ondersteund door ouders zoals u"
-    mission1_copy: "Onze onderwijsspecialisten werken nauw samen met leraren om de kinderen te ontmoeten waar zij zijn in het educatieve landschap. Kinderen leren vaardigheden die ook buiten het spel om kunnen worden toegepast, omdat ze leren hoe ze problemen kunnen oplossen, ongeacht hun leerstijl."
-    mission2_copy: "Een enquête in 2016 toonde aan dat 64% van de meisjes in groep 5 t/m 7 willen leren programmeren. Er waren 7 miljoen vacatures die vroegen om programmeervaardigheden. We hebben CodeCombat gebouwd omdat we vinden dat elk kind de kans moet krijgen om hun beste toekomst te creëren."
-    mission3_copy: "Bij CodeCombat zijn we ouders. We zijn programmeurs. We zijn onderwijzers. Maar bovenal zijn we mensen die geloven dat we onze kinderen de beste kans op succes willen geven in wat ze ook besluiten te doen."
-
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
@@ -3089,15 +3045,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
 #    back_to_coco: "Back to CodeCombat"
 
-  parent_modal:
-    refer_teacher: "Verwijs de leraar door"
-    name: "Uw naam"
-    parent_email: "Uw e-mailadres"
-    teacher_email: "E-mailadres van de leraar"
-    message: "Bericht"
-    custom_message: "Ik heb net CodeCombat ontdekt en denk dat dit een geschikt programma voor uw klas is! Het is een computerwetenschappelijk leerplatform met een op standaarden afgestemd leerplan.\n\nMediawijsheid is zo belangrijk, en ik denk dat dit een geweldige manier is om leerlingen bezig te houden met leren programmeren."
-    send: "Verzend e-mail"
-
   hoc_2018:
     banner: "Fijne Computer Science Education Week 2018!" # {change}
     page_heading: "Leer je leerlingen hoe ze hun eigen arcadespel kunnen bouwen!" # {change}
@@ -3190,7 +3137,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
-#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_2: "Sign up, create your own team, or join other teams to start competing."
 #    student_register_3: "Provide the information below to be eligible for prizes."
 #    teacher_register_1: "Sign up to access your class league profile page and get your class started."
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+#    team: "team"
+#    how_it_works1: "Join a __team__"

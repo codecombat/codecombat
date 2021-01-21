@@ -209,6 +209,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     resource_hub: "Resource Hub"
     apcsp: "AP CS Principles"
     parent: "Parents"
+    esports: "Esports"
     browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
@@ -763,6 +764,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     start: "Start"
     vega_character: "Vega Character"
     click_to_continue: "Click to Continue"
+    fill_in_solution: "Fill in solution"
 
   apis:
     methods: "Methods"
@@ -2438,7 +2440,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
     status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
     not_yet_verified: "Not yet verified."
-    resend_email: "Resend email"
+    resend_email: "Please save first then Resend email"
     email_sent: "Email sent! Check your inbox."
     verifying_email: "Verifying your email address..."
     successfully_verified: "You've successfully verified your email address!"
@@ -2928,52 +2930,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unit_10: "Unit 10: Post-AP"
     unit_10_activity_1: "Unit 10 Activity: Web Quiz"
 
-  parent_landing:
-    slogan_quote: '"CodeCombat is really fun, and you learn a lot."'
-    quote_attr: "5th Grader, Oakland, CA"
-    refer_teacher: "Refer a Teacher"
-    focus_quote: "Unlock your child's future"
-    value_head1: "The most engaging way to learn typed code"
-    value_copy1: "CodeCombat is child’s personal tutor. Covering material aligned with national curriculum standards, your child will program algorithms, build websites and even design their own games."
-    value_head2: "Building critical skills for the 21st century"
-    value_copy2: "Your kids will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking and resilience."
-    value_head3: "Heroes that your child will love"
-    value_copy3: "We know how important fun and engagement is for the developing brain, so we’ve packed in as much learning as we can while wrapping it up in a game they'll love."
-    dive_head1: "Not just for software engineers"
-    dive_intro: "Computer science skills have a wide range of applications. Take a look at a few examples below!"
-    medical_flag: "Medical Applications"
-    medical_flag_copy: "From mapping of the human genome to MRI machines, coding allows us to understand the body in ways we’ve never been able to before."
-    explore_flag: "Space Exploration"
-    explore_flag_copy: "Apollo got to the Moon thanks to hardworking human computers, and scientists use computer programs to analyze the gravity of planets and search for new stars."
-    filmaking_flag: "Filmmaking and Animation"
-    filmaking_flag_copy: "From the robotics of Jurassic Park to the incredible animation of Dreamworks and Pixar, films wouldn’t be the same without the digital creatives behind the scenes."
-    dive_head2: "Games are important for learning"
-    dive_par1: "Multiple studies have found that game-based learning promotes"
-    dive_link1: "cognitive development"
-    dive_par2: "in kids while also proving to be"
-    dive_link2: "more effective"
-    dive_par3: "in helping students"
-    dive_link3: "learn and retain knowledge"
-    dive_par4: ","
-    dive_link4: "concentrate"
-    dive_par5: ", and perform at a higher level of achievement."
-    dive_par6: "Game based learning is also good for developing"
-    dive_link5: "resilience"
-    dive_par7: ", cognitive reasoning, and"
-    dive_par8: ". Science is just telling us what learners already know. Children learn best by playing."
-    dive_link6: "executive functions"
-    dive_head3: "Team up with teachers"
-    dive_3_par1: "In the future, "
-    dive_3_link1: "coding is going to be as fundamental as learning to read and write"
-    dive_3_par2: ". We’ve worked closely with teachers to design and develop our content, and we can't wait to get your kids learning. Educational technology programs like CodeCombat work best when the teachers implement them consistently. Help us make that connection by introducing us to your child’s teachers!"
-    mission: "Our mission: to teach and engage"
-    mission1_heading: "Coding for today's generation"
-    mission2_heading: "Preparing for the future"
-    mission3_heading: "Supported by parents like you"
-    mission1_copy: "Our education specialists work closely with teachers to meet children where they are in the educational landscape. Kids learn skills that can be applied outside of the game because they learn how to solve problems, no matter what their learning style is."
-    mission2_copy: "A 2016 survey showed that 64% of girls in 3-5th grade want to learn how to code. There were 7 million job openings in 2015 required coding skills. We built CodeCombat because every child should be given a chance to create their best future."
-    mission3_copy: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
-
   parents_landing_2:
     splash_title: "Discover the magic of coding at home."
     learn_with_instructor: "Learn with an Instructor"
@@ -3088,15 +3044,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
     back_to_coco: "Back to CodeCombat"
 
-  parent_modal:
-    refer_teacher: "Refer Teacher"
-    name: "Your Name"
-    parent_email: "Your Email"
-    teacher_email: "Teacher's Email"
-    message: "Message"
-    custom_message: "I just found CodeCombat and thought it'd be a great program for your classroom! It's a computer science learning platform with standards-aligned curriculum.\n\nComputer literacy is so important and I think this would be a great way to get students engaged in learning to code."
-    send: "Send Email"
-
   hoc_2018:
     banner: "Welcome to Hour of Code 2020!" #
     page_heading: "Your students will learn to code by building their own game!"
@@ -3189,7 +3136,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   league:
     student_register_1: "Become the next AI Champion!"
-    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+    student_register_2: "Sign up, create your own team, or join other teams to start competing."
     student_register_3: "Provide the information below to be eligible for prizes."
     teacher_register_1: "Sign up to access your class league profile page and get your class started."
     general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+    team: 'team'
+    how_it_works1: 'Join a __team__'
