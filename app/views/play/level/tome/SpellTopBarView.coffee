@@ -5,6 +5,7 @@ CocoView = require 'views/core/CocoView'
 ImageGalleryModal = require 'views/play/level/modal/ImageGalleryModal'
 utils = require 'core/utils'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
+store = require 'core/store'
 
 module.exports = class SpellTopBarView extends CocoView
   template: template
@@ -26,6 +27,7 @@ module.exports = class SpellTopBarView extends CocoView
     'click .hints-button': 'onClickHintsButton'
     'click .image-gallery-button': 'onClickImageGalleryButton'
     'click .videos-button': 'onClickVideosButton'
+    'click #fill-solution': 'onFillSolution'
 
   constructor: (options) ->
     @hintsState = options.hintsState
@@ -66,6 +68,10 @@ module.exports = class SpellTopBarView extends CocoView
 
   onClickVideosButton: ->
     @openModalView new CourseVideosModal({courseInstanceID: @courseInstanceID, courseID: @courseID})
+
+  onFillSolution: ->
+    return unless me.canAutoFillCode()
+    store.dispatch('game/autoFillSolution', @options.codeLanguage)
 
   onCodeReload: (e) ->
     if key.shift

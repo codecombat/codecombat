@@ -764,6 +764,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     start: "Fgneg"
     vega_character: "Irtn Punenpgre"
     click_to_continue: "Pyvpx gb Pbagvahr"
+    fill_in_solution: "Svyy va fbyhgvba"
 
   apis:
     methods: "Zrgubqf"
@@ -2929,52 +2930,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     unit_10: "Havg 10: Cbfg-NC"
     unit_10_activity_1: "Havg 10 Npgvivgl: Jro Dhvm"
 
-  parent_landing:
-    slogan_quote: '"PbqrPbzong vf ernyyl sha, naq lbh yrnea n ybg."'
-    quote_attr: "5gu Tenqre, Bnxynaq, PN"
-    refer_teacher: "Ersre n Grnpure"
-    focus_quote: "Haybpx lbhe puvyq'f shgher"
-    value_head1: "Gur zbfg ratntvat jnl gb yrnea glcrq pbqr"
-    value_copy1: "PbqrPbzong vf puvyq’f crefbany ghgbe. Pbirevat zngrevny nyvtarq jvgu angvbany pheevphyhz fgnaqneqf, lbhe puvyq jvyy cebtenz nytbevguzf, ohvyq jrofvgrf naq rira qrfvta gurve bja tnzrf."
-    value_head2: "Ohvyqvat pevgvpny fxvyyf sbe gur 21fg praghel"
-    value_copy2: "Lbhe xvqf jvyy yrnea ubj gb anivtngr naq orpbzr pvgvmraf va gur qvtvgny jbeyq. PbqrPbzong vf n fbyhgvba gung raunaprf lbhe puvyq’f pevgvpny guvaxvat naq erfvyvrapr."
-    value_head3: "Urebrf gung lbhe puvyq jvyy ybir"
-    value_copy3: "Jr xabj ubj vzcbegnag sha naq ratntrzrag vf sbe gur qrirybcvat oenva, fb jr’ir cnpxrq va nf zhpu yrneavat nf jr pna juvyr jenccvat vg hc va n tnzr gurl'yy ybir."
-    dive_head1: "Abg whfg sbe fbsgjner ratvarref"
-    dive_intro: "Pbzchgre fpvrapr fxvyyf unir n jvqr enatr bs nccyvpngvbaf. Gnxr n ybbx ng n srj rknzcyrf orybj!"
-    medical_flag: "Zrqvpny Nccyvpngvbaf"
-    medical_flag_copy: "Sebz znccvat bs gur uhzna trabzr gb ZEV znpuvarf, pbqvat nyybjf hf gb haqrefgnaq gur obql va jnlf jr’ir arire orra noyr gb orsber."
-    explore_flag: "Fcnpr Rkcybengvba"
-    explore_flag_copy: "Ncbyyb tbg gb gur Zbba gunaxf gb uneqjbexvat uhzna pbzchgref, naq fpvragvfgf hfr pbzchgre cebtenzf gb nanylmr gur tenivgl bs cynargf naq frnepu sbe arj fgnef."
-    filmaking_flag: "Svyzznxvat naq Navzngvba"
-    filmaking_flag_copy: "Sebz gur ebobgvpf bs Whenffvp Cnex gb gur vaperqvoyr navzngvba bs Qernzjbexf naq Cvkne, svyzf jbhyqa’g or gur fnzr jvgubhg gur qvtvgny perngvirf oruvaq gur fprarf."
-    dive_head2: "Tnzrf ner vzcbegnag sbe yrneavat"
-    dive_par1: "Zhygvcyr fghqvrf unir sbhaq gung tnzr-onfrq yrneavat cebzbgrf"
-    dive_link1: "pbtavgvir qrirybczrag"
-    dive_par2: "va xvqf juvyr nyfb cebivat gb or"
-    dive_link2: "zber rssrpgvir"
-    dive_par3: "va urycvat fghqragf"
-    dive_link3: "yrnea naq ergnva xabjyrqtr"
-    dive_par4: ","
-    dive_link4: "pbapragengr"
-    dive_par5: ", naq cresbez ng n uvture yriry bs npuvrirzrag."
-    dive_par6: "Tnzr onfrq yrneavat vf nyfb tbbq sbe qrirybcvat"
-    dive_link5: "erfvyvrapr"
-    dive_par7: ", pbtavgvir ernfbavat, naq"
-    dive_par8: ". Fpvrapr vf whfg gryyvat hf jung yrnearef nyernql xabj. Puvyqera yrnea orfg ol cynlvat."
-    dive_link6: "rkrphgvir shapgvbaf"
-    dive_head3: "Grnz hc jvgu grnpuref"
-    dive_3_par1: "Va gur shgher, "
-    dive_3_link1: "pbqvat vf tbvat gb or nf shaqnzragny nf yrneavat gb ernq naq jevgr"
-    dive_3_par2: ". Jr’ir jbexrq pybfryl jvgu grnpuref gb qrfvta naq qrirybc bhe pbagrag, naq jr pna'g jnvg gb trg lbhe xvqf yrneavat. Rqhpngvbany grpuabybtl cebtenzf yvxr PbqrPbzong jbex orfg jura gur grnpuref vzcyrzrag gurz pbafvfgragyl. Uryc hf znxr gung pbaarpgvba ol vagebqhpvat hf gb lbhe puvyq’f grnpuref!"
-    mission: "Bhe zvffvba: gb grnpu naq ratntr"
-    mission1_heading: "Pbqvat sbe gbqnl'f trarengvba"
-    mission2_heading: "Cercnevat sbe gur shgher"
-    mission3_heading: "Fhccbegrq ol cneragf yvxr lbh"
-    mission1_copy: "Bhe rqhpngvba fcrpvnyvfgf jbex pybfryl jvgu grnpuref gb zrrg puvyqera jurer gurl ner va gur rqhpngvbany ynaqfpncr. Xvqf yrnea fxvyyf gung pna or nccyvrq bhgfvqr bs gur tnzr orpnhfr gurl yrnea ubj gb fbyir ceboyrzf, ab znggre jung gurve yrneavat fglyr vf."
-    mission2_copy: "N 2016 fheirl fubjrq gung 64% bs tveyf va 3-5gu tenqr jnag gb yrnea ubj gb pbqr. Gurer jrer 7 zvyyvba wbo bcravatf va 2015 erdhverq pbqvat fxvyyf. Jr ohvyg PbqrPbzong orpnhfr rirel puvyq fubhyq or tvira n punapr gb perngr gurve orfg shgher."
-    mission3_copy: "Ng PbqrPbzong, jr’er cneragf. Jr’er pbqref. Jr’er rqhpngbef. Ohg zbfg bs nyy, jr’er crbcyr jub oryvrir va tvivat bhe xvqf gur orfg bccbeghavgl sbe fhpprff va jungrire vg vf gurl qrpvqr gb qb."
-
   parents_landing_2:
     splash_title: "Qvfpbire gur zntvp bs pbqvat ng ubzr."
     learn_with_instructor: "Yrnea jvgu na Vafgehpgbe"
@@ -3089,15 +3044,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     paragraph_5: "Gunax lbh sbe pubbfvat PbqrPbzong naq tbbq yhpx ba lbhe pbzchgre fpvrapr wbhearl!"
     back_to_coco: "Onpx gb PbqrPbzong"
 
-  parent_modal:
-    refer_teacher: "Ersre Grnpure"
-    name: "Lbhe Anzr"
-    parent_email: "Lbhe Rznvy"
-    teacher_email: "Grnpure'f Rznvy"
-    message: "Zrffntr"
-    custom_message: "V whfg sbhaq PbqrPbzong naq gubhtug vg'q or n terng cebtenz sbe lbhe pynffebbz! Vg'f n pbzchgre fpvrapr yrneavat cyngsbez jvgu fgnaqneqf-nyvtarq pheevphyhz.\a\aPbzchgre yvgrenpl vf fb vzcbegnag naq V guvax guvf jbhyq or n terng jnl gb trg fghqragf ratntrq va yrneavat gb pbqr."
-    send: "Fraq Rznvy"
-
   hoc_2018:
     banner: "Jrypbzr gb Ubhe bs Pbqr 2020!" #
     page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!"
@@ -3190,7 +3136,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   league:
     student_register_1: "Orpbzr gur arkg NV Punzcvba!"
-    student_register_2: "Fvta hc, perngr lbhe bja pyna, be wbva bgure pynaf gb fgneg pbzcrgvat."
+    student_register_2: "Fvta hc, perngr lbhe bja grnz, be wbva bgure grnzf gb fgneg pbzcrgvat." # {punatr}
     student_register_3: "Cebivqr gur vasbezngvba orybj gb or ryvtvoyr sbe cevmrf."
     teacher_register_1: "Fvta hc gb npprff lbhe pynff yrnthr cebsvyr cntr naq trg lbhe pynff fgnegrq."
     general_news: "Trg rznvyf ba gur yngrfg arjf naq hcqngrf ertneqvat bhe NV Yrnthrf naq gbheanzragf."
+    team: 'grnz'
+    how_it_works1: 'Wbva n __grnz__'

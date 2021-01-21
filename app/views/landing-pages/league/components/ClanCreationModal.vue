@@ -30,9 +30,9 @@
     computed: {
       modalTitle() {
         if (this.clan === null) {
-          return 'Create clan'
+          return 'Create team'
         } else {
-          return 'Edit clan'
+          return 'Edit team'
         }
       }
     },
@@ -40,10 +40,10 @@
     methods: {
       async submit () {
         if (!this.isPublic && !me.isPremium()) {
-          noty({ type: 'error', text: 'Must be a subscriber to create private clans', timeout: 3000 })
+          noty({ type: 'error', text: 'Must be a subscriber to create private teams', timeout: 3000 })
           return
         } else if (this.name.length < 2) {
-          noty({ type: 'error', text: 'Must have at least 2 letters for the clan name', timeout: 3000 })
+          noty({ type: 'error', text: 'Must have at least 2 letters for the team name', timeout: 3000 })
           return
         }
 
@@ -67,7 +67,7 @@
           application.router.navigate(`/league/${savedClan._id}`, { trigger: true })
         } catch (e) {
           if (e.errorName === 'Conflict' || e.code === 409) {
-            noty({ type: 'error', text: 'Clan name already exists', timeout: 3000 })
+            noty({ type: 'error', text: 'Team name already exists', timeout: 3000 })
             return
           } else {
             throw e
@@ -89,7 +89,7 @@
           this.$emit('close')
         } catch (e) {
           if (e.errorName === 'Conflict' || e.code === 409) {
-            noty({ type: 'error', text: 'Clan name already exists', timeout: 3000 })
+            noty({ type: 'error', text: 'Team name already exists', timeout: 3000 })
             return
           } else {
             throw e
@@ -105,7 +105,7 @@
   <modal @close="$emit('close')" :title="modalTitle" id="clan-creation-modal">
     <div class="container">
       <div>
-        <label for="input-name">Clan name:</label>
+        <label for="input-name">Team name:</label>
         <input id="input-name" type="text" v-model="name" />
       </div>
 

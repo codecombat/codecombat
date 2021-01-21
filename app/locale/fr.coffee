@@ -765,6 +765,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    fill_in_solution: "Fill in solution"
 
   apis:
     methods: "Méthodes"
@@ -2930,52 +2931,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    unit_10: "Unit 10: Post-AP"
     unit_10_activity_1: "Activité de l'unité 10 : Jeu-questionnaire en ligne"
 
-  parent_landing:
-    slogan_quote: "\"CodeCombat est vraiment amusant, et vous apprenez beaucoup.\""
-    quote_attr: "5th Grader, Oakland, CA" # {change}
-    refer_teacher: "Référer un enseignant"
-    focus_quote: "Déverrouillez l'avenir de votre enfant"
-    value_head1: "La façon la plus engageante d'apprendre le code dactylographié"
-    value_copy1: "CodeCombat est le tuteur personnel de l'enfant. En couvrant du matériel conforme aux normes nationales du curriculum, votre enfant programmera des algorithmes, construira des sites Web et concevra même ses propres jeux."
-    value_head2: "Développer les compétences essentielles pour le XXIe siècle"
-    value_copy2: "Vos enfants apprendront à naviguer et à devenir des citoyens dans le monde numérique. CodeCombat est une solution qui améliore la pensée critique et la résilience de votre enfant."
-    value_head3: "Des héros que votre enfant aimera"
-    value_copy3: "Nous savons à quel point le plaisir et l'engagement sont importants pour le développement du cerveau, alors nous avons fait le maximum d'apprentissage tout en l'enveloppant dans un jeu qu'ils vont adorer."
-    dive_head1: "Pas seulement pour les ingénieurs en logiciel"
-    dive_intro: "Les compétences en informatique ont un large éventail d'applications. Jetez un coup d'œil à quelques exemples ci-dessous !"
-    medical_flag: "Applications médicales"
-    medical_flag_copy: "De la cartographie du génome humain à l'IRM, le codage nous permet de comprendre le corps comme jamais auparavant."
-    explore_flag: "Exploration spatiale"
-    explore_flag_copy: "Apollo s'est rendu sur la Lune grâce à des ordinateurs humains laborieux, et les scientifiques utilisent des programmes informatiques pour analyser la gravité des planètes et rechercher de nouvelles étoiles."
-    filmaking_flag: "Cinéma et animation"
-    filmaking_flag_copy: "De la robotique de Jurassic Park à l'incroyable animation de Dreamworks et Pixar, les films ne seraient pas les mêmes sans les créateurs numériques en coulisses."
-    dive_head2: "Les jeux sont importants pour l'apprentissage"
-    dive_par1: "De nombreuses études ont montré que l'apprentissage basé sur le jeu favorise"
-    dive_link1: "développement cognitif"
-    dive_par2: "chez les enfants tout en s'avérant également être"
-    dive_link2: "plus efficace"
-    dive_par3: "pour aider les étudiants"
-    dive_link3: "apprendre et conserver les connaissances"
-    dive_par4: ","
-    dive_link4: "concentrateur"
-    dive_par5: ", et d'atteindre un niveau de performance plus élevé."
-    dive_par6: "L'apprentissage basé sur le jeu est également bon pour développe"
-    dive_link5: "persévérance"
-    dive_par7: ", le raisonnement cognitif, et"
-    dive_par8: ". La science ne fait que nous dire ce que les apprenants savent déjà. Les enfants apprennent mieux en jouant."
-    dive_link6: "fonctions exécutives"
-    dive_head3: "Faites équipe avec les enseignants"
-    dive_3_par1: "Dans le futur, "
-    dive_3_link1: "le codage sera aussi fondamental que l'apprentissage de la lecture et de l'écriture"
-    dive_3_par2: ". Nous avons travaillé en étroite collaboration avec les enseignants pour concevoir et développer notre contenu, et nous avons hâte que vos enfants apprennent. Les programmes de technologie éducative comme CodeCombat fonctionnent mieux lorsque les enseignants les mettent en œuvre de manière cohérente. Aidez-nous à établir ce lien en nous présentant aux enseignants de votre enfant !"
-    mission: "Notre mission : enseigner et engager"
-    mission1_heading: "Codage pour la génération actuelle"
-    mission2_heading: "Préparer l'avenir"
-    mission3_heading: "Soutenu par des parents comme vous"
-    mission1_copy: "Nos spécialistes de l'éducation travaillent en étroite collaboration avec les enseignants pour rencontrer les enfants là où ils se trouvent dans le paysage éducatif. Les enfants apprennent des compétences qui peuvent être appliquées à l'extérieur du jeu parce qu'ils apprennent à résoudre des problèmes, quel que soit leur style d'apprentissage."
-    mission2_copy: "Une enquête réalisée en 2016 a montré que 64% des filles de la 3ème à la 5ème année veulent apprendre à coder. En 2015, il y avait 7 millions d'emplois vacants qui nécessitaient des compétences en codage. Nous avons construit CodeCombat parce que chaque enfant devrait avoir une chance de créer son meilleur avenir."
-    mission3_copy: "Chez CodeCombat, on est parents. Nous sommes des codeurs. Nous sommes des éducateurs. Mais par-dessus tout, nous sommes des gens qui croient qu'il faut donner à nos enfants les meilleures chances de réussite dans tout ce qu'ils décident de faire."
-
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
@@ -3090,15 +3045,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
 #    back_to_coco: "Back to CodeCombat"
 
-  parent_modal:
-    refer_teacher: "Référence Enseignant"
-    name: "Votre nom"
-    parent_email: "Votre Email"
-    teacher_email: "Email de l'enseignant"
-    message: "Message"
-    custom_message: "Je viens de trouver CodeCombat et j'ai pensé que ce serait un excellent programme pour votre classe ! Il s'agit d'une plate-forme d'apprentissage de l'informatique avec un programme d'études aligné sur les normes.\n\nLes connaissances en informatique sont très importantes et je pense que ce serait un excellent moyen d'inciter les élèves à apprendre à coder."
-    send: "Envoyer un courriel"
-
   hoc_2018:
     banner: "Bonne Semaine de l'enseignement de l'informatique 2018 !" # {change}
     page_heading: "Apprenez à vos élèves à construire leur propre jeu d'arcade !" # {change}
@@ -3191,7 +3137,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
-#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_2: "Sign up, create your own team, or join other teams to start competing."
 #    student_register_3: "Provide the information below to be eligible for prizes."
 #    teacher_register_1: "Sign up to access your class league profile page and get your class started."
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+#    team: "team"
+#    how_it_works1: "Join a __team__"

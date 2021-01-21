@@ -26,6 +26,7 @@ Spell = require './Spell'
 SpellPaletteView = require './SpellPaletteView'
 CastButtonView = require './CastButtonView'
 utils = require 'core/utils'
+store = require 'core/store'
 
 module.exports = class TomeView extends CocoView
   id: 'tome-view'
@@ -47,6 +48,10 @@ module.exports = class TomeView extends CocoView
 
   constructor: (options) ->
     super options
+    @unwatchFn = store.watch(
+      (state, getters) -> getters['game/levelSolution'],
+      (solution) => @onChangeMyCode(solution.source)
+    )
     unless options.god or options.level.get('type') is 'web-dev'
       console.error "TomeView created with no God!"
 
@@ -78,6 +83,11 @@ module.exports = class TomeView extends CocoView
       spell.view.updateACEText commentedSource
       spell.view.recompile false
     @cast()
+
+  onChangeMyCode: (solution) ->
+    for spellKey, spell of @spells when spell.canWrite()
+      spell.view.updateACEText solution
+      spell.view.recompile false
 
   createWorker: ->
     return null unless Worker?
@@ -254,4 +264,5 @@ module.exports = class TomeView extends CocoView
   destroy: ->
     spell.destroy() for spellKey, spell of @spells
     @worker?.terminate()
+    @unwatchFn()
     super()

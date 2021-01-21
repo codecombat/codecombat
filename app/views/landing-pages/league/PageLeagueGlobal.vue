@@ -223,7 +223,18 @@ export default {
     },
 
     currentSelectedClanDescription () {
-      return (this.currentSelectedClan || {}).description || ''
+      const description = (this.currentSelectedClan || {}).description || ''
+      if (!description) {
+        return ''
+      }
+
+      // Hack - In the future we should autopopulate autoclan descriptions better server side.
+      //        Or alternatively populate client side with i18n enabled.
+      if (this.currentSelectedClan.kind) {
+        return description.replace('Clan', 'Team')
+      }
+
+      return description
     },
 
     myCreatedClan () {
@@ -309,12 +320,12 @@ export default {
       <div class="col-sm-7">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
-        <p>Invite players to this clan by sending them this link:</p>
+        <p>Invite players to this team by sending them this link:</p>
         <input readonly :value="clanInviteLink()" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
-        <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
-        <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Clan</a>
-        <a v-else class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Clan</a>
+        <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Team</a>
+        <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Team</a>
+        <a v-else class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Team</a>
       </div>
     </div>
 
@@ -331,13 +342,13 @@ export default {
       <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon blazing-battle">Play Blazing Battle Multiplayer Arena</a>
     </div>
 
-    <section class="row flex-row">
+    <section class="row">
       <div class="col-sm-10">
         <h1 style="margin-bottom: 20px;"><span class="esports-pink">Free </span><span class="esports-aqua">to </span><span class="esports-green">get </span><span class="esports-purple">started</span></h1>
         <ul style="list-style-type: none; padding: 0;">
           <li><span class="bullet-point" style="background-color: #bcff16;"/>Access competitive multiplayer arenas, leaderboard, and global coding championships</li>
           <li><span class="bullet-point" style="background-color: #30EFD3;"/>Earn points for completing practice levels and competing in head-to-head matches</li>
-          <li><span class="bullet-point" style="background-color: #FF39A6;"/>Join competitive coding clans with friends, family, or classmates</li>
+          <li><span class="bullet-point" style="background-color: #FF39A6;"/>Join competitive coding teams with friends, family, or classmates</li>
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>Showcase your coding skills and take home great prizes</li>
         </ul>
         <div class="xs-centered">
@@ -346,13 +357,13 @@ export default {
       </div>
     </section>
 
-    <div v-if="clanIdSelected === ''" class="row flex-row text-center section-space" style="margin-top: -25px; z-index: 0;">
-      <div class="col-sm-5 col-sm-push-2">
+    <div v-if="clanIdSelected === ''" class="row flex-row text-center section-space free-to-get-started-image">
+      <div class="col-sm-5 col-sm-offset-7">
         <img class="img-responsive" src="/images/pages/league/graphic_1.png">
       </div>
     </div>
 
-    <div class="row flex-row section-space">
+    <div class="row section-space">
       <div class="col-sm-7">
         <h1 class="subheader1" style="margin-bottom: 30px;"><span class="esports-goldenlight">Global </span><span class="esports-pink">final </span><span class="esports-aqua">arena</span></h1>
         <p class="subheader2" style="margin-bottom: 30px;">
@@ -363,16 +374,16 @@ export default {
         </div>
       </div>
       <div class="col-sm-5">
-        <img class="img-responsive" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
+        <img class="img-responsive w-100" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
       </div>
     </div>
 
-    <div class="row flex-row">
+    <div class="row">
       <h1 class="subheader1"><span class="esports-purple">How </span><span class="esports-aqua">it </span><span class="esports-pink">works</span></h1>
     </div>
     <div class="row flex-row">
       <div class="col-sm-1"><img src="/images/pages/league/text_1.svg" class="img-responsive" loading="lazy"></div>
-      <div class="col-sm-11"><p class="subheader2 mb-0">Join a <span class="esports-aqua">clan</span></p></div>
+      <div class="col-sm-11"><p class="subheader2 mb-0" v-html="$t('league.how_it_works1', { team: `<span class='esports-aqua'>${this.$t('league.team')}</span>` })"></p></div>
     </div>
 
     <div class="row flex-row">
@@ -431,14 +442,14 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row text-are-you-an-educator">
+    <div class="row text-are-you-an-educator">
       <div class="col-sm-7">
         <h1><span class="esports-pink">Are you an </span><span class="esports-green">educator </span><span class="esports-pink">or </span><span class="esports-aqua">esports coach?</span></h1>
       </div>
     </div>
     <div class="row flex-row">
       <div class="col-xs-12">
-        <p>The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other.</p>
+        <p class="subheader2">The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other.</p>
       </div>
     </div>
 
@@ -453,7 +464,7 @@ export default {
           <div class="row flex-row" style="justify-content: flex-start;">
             <div class="col-sm-5">
               <p style="margin-bottom: 70px;">
-                Unlike other eSports platforms serving schools, we own the structure top to bottom, which means we’re not tied to any game developer or have issues with licensing. That also means we can make custom modifications in-game for your school or organization.
+                Unlike other esports platforms serving schools, we own the structure top to bottom, which means we’re not tied to any game developer or have issues with licensing. That also means we can make custom modifications in-game for your school or organization.
               </p>
             </div>
             <div class="col-sm-7">
@@ -509,8 +520,8 @@ export default {
     </div>
 
     <div class="row flex-row text-center section-space">
-      <a v-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Clan</a>
-      <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Start a Clan</a>
+      <a v-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Team</a>
+      <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Start a Team</a>
       <a v-else-if="!doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
     </div>
 
@@ -518,22 +529,22 @@ export default {
       <h1 class="text-center esports-goldenlight" style='margin-bottom: 35px;'>Features</h1>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_competition.svg" class="img-responsive" /></div>
-        <h4>Built-in Competitive Infrastructure</h4>
+        <h4 class="subheader2">Built-in Competitive Infrastructure</h4>
         <p>Our platform hosts every element of the competitive process, from leaderboards to the game platform, assets, and tournament awards.</p>
       </div>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_custom.png" class="img-responsive" /></div>
-        <h4>Custom Development</h4>
+        <h4 class="subheader2">Custom Development</h4>
         <p>Customization elements for your school or organization are included, plus options like branded landing pages and in-game characters.</p>
       </div>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_curriculum.svg" class="img-responsive" /></div>
-        <h4>Comprehensive Curriculum</h4>
+        <h4 class="subheader2">Comprehensive Curriculum</h4>
         <p>CodeCombat is a standards-aligned CS solution that helps educators teach real coding in JavaScript and Python, no matter their experience.</p>
       </div>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_roster.svg" class="img-responsive" /></div>
-        <h4>Roster Management Tools</h4>
+        <h4 class="subheader2">Roster Management Tools</h4>
         <p>Track student performance within the curriculum and within the game, and easily add or remove students.</p>
       </div>
     </div>
@@ -541,7 +552,7 @@ export default {
     <div class="row esports-flyer-optimized-section">
       <div class="col-sm-8">
         <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
-        <p style="margin-bottom: 50px;">Share our AI League flyer with educators, administrators, parents, eSports coaches or others that may be interested.</p>
+        <p class="subheader2" style="margin-bottom: 50px;">Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested.</p>
         <div class="xs-centered">
           <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">Download Flyer</a>
         </div>
@@ -571,6 +582,7 @@ export default {
 
   h1 {
     text-transform: uppercase;
+    font-size: 70px;
   }
 
   p, h4 {
@@ -585,7 +597,7 @@ export default {
     color: #f7d047;
   }
 
-  .esports-aqua {
+  /deep/ .esports-aqua {
     color: #30efd3;
   }
 
@@ -623,15 +635,15 @@ export default {
   .esports-header .esports-h1 {
     font-style: normal;
     font-weight: bold;
-    font-size: 60px;
     line-height: 80px;
-    text-transform: uppercase;
     transform: rotate(-12deg);
+    max-width: 530px;
+    margin-top: 30px;
   }
 
   // Most sections have a max width and are centered.
   section, & > div {
-    max-width: 1366px;
+    max-width: 1820px;
     width:100%;
     padding: 0 70px;
     position: relative;
@@ -785,6 +797,13 @@ export default {
   .section-space {
     margin-bottom: 110px;
   }
+  .free-to-get-started-image {
+    margin-top: -250px;
+    z-index: 0;
+  }
+  .w-100 {
+    width: 100%;
+  }
 
   @media screen and (min-width: 768px) {
     .btn-primary.btn-moon, .blazing-battle {
@@ -860,6 +879,9 @@ export default {
     }
     .xs-pb-20 {
       padding-bottom: 20px;
+    }
+    .free-to-get-started-image {
+      margin-top: 0px;
     }
   }
 
