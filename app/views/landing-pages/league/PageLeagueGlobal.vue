@@ -326,7 +326,7 @@ export default {
       <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon" style="padding: 20px 100px;">Play Blazing Battle Multiplayer Arena</a>
     </div>
 
-    <section class="row flex-row free-to-get-start">
+    <section class="row flex-row free-to-get-start" :class="clanIdSelected === '' ? 'free-to-get-start-bg':''">
       <div class="col-sm-10">
         <h1 style="margin-bottom: 20px;"><span class="esports-pink">Free </span><span class="esports-aqua">to </span><span class="esports-green">get </span><span class="esports-purple">started</span></h1>
         <ul style="list-style-type: none; padding: 0;">
@@ -742,7 +742,10 @@ export default {
 
   section.free-to-get-start {
     padding-bottom: 180px;
+  }
+  section.free-to-get-start-bg {
     background: url(/images/pages/league/graphic_1.png) right 100% / 35% no-repeat;
   }
+
 }
 </style>
