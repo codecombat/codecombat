@@ -46,14 +46,11 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async _initializeTracker () {
-    loadDrift()
-
-    window.drift.on('ready', (api) => {
-      this.driftApi = api
-
-      this.initDriftOnLoad()
+    if (this.isChatEnabled) {
+      await this.initializeDrift()
+    } else {
       this.onInitializeSuccess()
-    })
+    }
 
     this.store.watch(
       (state) => state.route,
@@ -66,21 +63,25 @@ export default class DriftTracker extends BaseTracker {
     )
 
     this.watchForDisableAllTrackingChanges(this.store)
+  }
 
-    const isChina = (window.features || {}).china
-    if (isChina) {
-      this.enabled = false
-    }
-    else {
-      this.enabled = true
-    }
-    await this.initializationComplete
-    this.updateDriftConfiguration()
+  async initializeDrift () {
+    loadDrift()
 
-    const retries = await getPageUnloadRetriesForNamespace('drift')
-    for (const retry of retries) {
-      this[retry.identifier](...retry.args)
-    }
+    window.drift.on('ready', async (api) => {
+      this.driftApi = api
+
+      this.initDriftOnLoad()
+      if (!this.initializationComplete)
+        this.onInitializeSuccess()
+
+      this.updateDriftConfiguration()
+
+      const retries = await getPageUnloadRetriesForNamespace('drift')
+      for (const retry of retries) {
+        this[retry.identifier](...retry.args)
+      }
+    })
   }
 
   initDriftOnLoad () {
@@ -111,11 +112,14 @@ export default class DriftTracker extends BaseTracker {
   }
 
   get isChatEnabled () {
-    return !this.onPlayPage && !this.store.getters['me/isStudent']
+    return !this.onPlayPage && !this.store.getters['me/isStudent'] && !this.store.getters['me/isHomePlayer']  // && !this.disableAllTracking
   }
 
   updateDriftConfiguration () {
     const chatEnabled = this.isChatEnabled
+    if (chatEnabled && !this.driftApi && this.isInitialized !== false) {
+      return this.initializeDrift()
+    }
 
     window.drift.config({
       enableWelcomeMessage: chatEnabled,
@@ -131,7 +135,7 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async identify (traits = {}) {
-    if (this.disableAllTracking || !this.enabled) {
+    if (this.disableAllTracking) {
       return
     }
 
@@ -165,7 +169,7 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async trackPageView (includeIntegrations = []) {
-    if (this.disableAllTracking || !this.enabled) {
+    if (this.disableAllTracking) {
       return
     }
 
@@ -176,7 +180,7 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async trackEvent (action, properties = {}) {
-    if (this.disableAllTracking || !this.enabled) {
+    if (this.disableAllTracking) {
       return
     }
 
