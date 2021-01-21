@@ -79,7 +79,7 @@
 <!-- We are aiming for having 1-2 additional chapters (at 7-8 hours each) by January 2020, with the overall target of allowing any classroom that starts in January 2020 to not run out of Ozaria content for the remainder of the school year. -->
 
 ### 奥佳睿适合多大的孩子开始学习？
-和Codecombat一样，奥佳睿适合4-5年级无编程背景的小学生开始学习，学习内容可以一直覆盖到高中毕业甚至大学1-2年级左右。
+和CodeCombat一样，奥佳睿适合4-5年级无编程背景的小学生开始学习，学习内容可以一直覆盖到高中毕业甚至大学1-2年级左右。
 
 ### 如何开始使用奥佳睿？
 您可以按照以下步骤快速使用奥佳睿平台：

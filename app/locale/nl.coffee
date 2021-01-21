@@ -1753,7 +1753,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     select_this_hero: "Kies deze Held"
     current_hero: "Huidige Held:"
     current_hero_female: "Huidige Held:"
-    web_dev_language_transition: "Alle klassen programmeren in HTML / Javascript voor deze cursus. Klassen die eerder Python hebben gebruikt zullen beginnen met extra JavaScript intro levels om de overgang te vergemakkelijken. Klassen die al met JavaScript werken slaan deze intro lessen over."
+    web_dev_language_transition: "Alle klassen programmeren in HTML / JavaScript voor deze cursus. Klassen die eerder Python hebben gebruikt zullen beginnen met extra JavaScript intro levels om de overgang te vergemakkelijken. Klassen die al met JavaScript werken slaan deze intro lessen over."
     course_membership_required_to_play: "Je moet je bij een cursus aanmelden om dit level te spelen."
     license_required_to_play: "Vraag een leraar om je een licentie te geven zodat je verder kunt gaan met CodeCombat!" # {change}
     update_old_classroom: "Nieuw schooljaar, nieuwe levels!"
@@ -2074,7 +2074,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     hoc_group_desc_1: "Leraren kunnen de lessen samen gebruiken met onze Introductie tot Computer Wetenschap cursus om de voortgang van de leerlingen bij te houden. Bekijk onze"
     hoc_group_link: "Beginners Gids"
     hoc_group_desc_2: "voor meer details"
-    hoc_additional_desc1: "Voor meer Codecombat informatie en activiteiten, ga naar"
+    hoc_additional_desc1: "Voor meer CodeCombat informatie en activiteiten, ga naar"
     hoc_additional_desc2: "Vragen"
     hoc_additional_contact: "Neem contact op"
     revoke_confirm: "Weet je zeker dat je de licentie van {{student_name}} wilt intrekken? De licentie kan dan weer gebruikt worden voor een andere leerling."
