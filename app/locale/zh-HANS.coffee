@@ -230,9 +230,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subscribe_as_diplomat: "提交“外交官”申请"
 
   play:
-    title: "挑战CodeCombat关卡 - 学习Python，Javascript和C++"
+    title: "挑战CodeCombat关卡 - 学习Python，JavaScript和C++"
     meta_description: "通过场景化教学学习输入真实的代码。 在解决难题的同时掌握Python，JavaScript和C++，并学习制作自己的代码游戏和网站，在多人竞技场挑战你的同学们"
-    level_title: "__level__ - 学习Python，Javascript和C++编程"
+    level_title: "__level__ - 学习Python，JavaScript和C++编程"
     video_title: "__video__ | 观看教学视频"
     game_development_title: "__level__ | 游戏开发"
     web_development_title: "__level__ | 网页开发"
@@ -460,7 +460,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     books: "书籍"
 
   common:
-    default_title: "扣哒世界 - 在场景化编程中学习Python，Javascript和C++"
+    default_title: "扣哒世界 - 在场景化编程中学习Python，JavaScript和C++"
     default_meta_description: "通过场景化教学学习输入真实的代码。 在解决难题的同时掌握Python，JavaScript和C++，并学习制作自己的代码游戏和网站。"
     back: "返回" # When used as an action verb, like "Navigate backward"
     coming_soon: "敬请期待！"
@@ -686,7 +686,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_scrub_shortcut: "用 Ctrl+[ 和 Ctrl+] 来倒退和快进。"
     tip_guide_exists: "点击页面上方的指南, 可以获得更多有用信息。"
     tip_open_source: "「CodeCombat」青少年编程领导品牌！" # {change}
-    tip_tell_friends: "喜欢Codecombat？那就赶快把它安利给朋友！"
+    tip_tell_friends: "喜欢CodeCombat？那就赶快把它安利给朋友！"
     tip_beta_launch: "CodeCombat开始于2013的10月份。"
     tip_think_solution: "思考如何解决, 而不是思考问题。"
     tip_theory_practice: "在理论上，理论和实践之间是没有区别的。但在实践上，它们是有区别的。 - Yogi Berra"

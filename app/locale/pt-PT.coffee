@@ -1022,7 +1022,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     experimental: "Experimental"
     python_blurb: "Simples mas poderoso; ótimo para iniciantes e peritos."
     javascript_blurb: "A linguagem da web. (Não é o mesmo que Java.)"
-    coffeescript_blurb: "Javascript com sintaxe mais agradável."
+    coffeescript_blurb: "JavaScript com sintaxe mais agradável."
     lua_blurb: "Linguagem para scripts de jogos."
     java_blurb: "(Apenas para Subscritores) Android e empresas."
     cpp_blurb: "(Apenas para Subscritores) Criação de jogos e alto desempenho em computação."

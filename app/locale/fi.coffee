@@ -7,7 +7,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    meta_og_url: "https://codecombat.com"
 #    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "Ohjelmointipeli, joka on rakennettu opettajat mielessä pitäen"
-    built_for_teachers_blurb: "Ohjelmoinnin opettaminen lapsille voi usein tuntua ylivoimaiselta. CodeCombat auttaa kaikkia opettajia opettamaan oppilaitaan, miten ohjelmoida joko Javascriptilla tai Pythonilla, kahdella maailman suosituimmista ohjelmointikielistä. Kattava opetussuunnitelma sisältää kuusi tietotekniikan osa-aluetta ja vahvistaa oppimista projektipohjaisten peli- ja web-kehitysosioiden avulla, joten lapset etenevät matkalla perussyntaksista rekursioon saakka!"
+    built_for_teachers_blurb: "Ohjelmoinnin opettaminen lapsille voi usein tuntua ylivoimaiselta. CodeCombat auttaa kaikkia opettajia opettamaan oppilaitaan, miten ohjelmoida joko JavaScriptilla tai Pythonilla, kahdella maailman suosituimmista ohjelmointikielistä. Kattava opetussuunnitelma sisältää kuusi tietotekniikan osa-aluetta ja vahvistaa oppimista projektipohjaisten peli- ja web-kehitysosioiden avulla, joten lapset etenevät matkalla perussyntaksista rekursioon saakka!"
     built_for_teachers_subtitle1: "Tietotekniikka"
     built_for_teachers_subblurb1: "Maksuttomalla tietojenkäsittelyn johdantokurssilla osallistujat oppivat ohjelmoinnin peruskäsitteitä, kuten for/while -loopeja, funktioita ja algoritmeja."
     built_for_teachers_subtitle2: "Pelinkehitys"
