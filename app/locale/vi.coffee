@@ -2441,7 +2441,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     status_unsubscribed_active: "Hiện tại bạn không đăng kí subcribe và sẽ không bị tính phí, nhưng tài khoản của bạn vẫn trong trạng thái active."
     status_unsubscribed: "Tham gia những màn chơi mới, lựa chọn tướng mới, mặc những trang bị mới và nhận được ưu đãi gem hàng tháng bằng việc đăng kí CodeCombat subcription!"
 #    not_yet_verified: "Not yet verified."
-#    resend_email: "Resend email"
+#    resend_email: "Please save first then Resend email"
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
