@@ -393,7 +393,7 @@ export default {
     <div class="row flex-row text-center">
       <h1><span class="esports-goldenlight">Season </span><span class="esports-purple">arenas</span></h1>
     </div>
-    <div id="season-arenas" class="row flex-row section-space">
+    <div id="season-arenas" class="row flex-row">
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Infinite Inferno Cup</h3>
         <div>Jan - April 2021</div>
@@ -669,6 +669,7 @@ export default {
   }
 
   #season-arenas {
+    margin-bottom: 30px;
     h3, p {
       color: #30EFD3;
     }
