@@ -2440,7 +2440,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     status_unsubscribed_active: "Lbh'er abg fhofpevorq naq jba'g or ovyyrq, ohg lbhe nppbhag vf fgvyy npgvir sbe abj."
     status_unsubscribed: "Trg npprff gb arj yriryf, urebrf, vgrzf, naq obahf trzf jvgu n PbqrPbzong fhofpevcgvba!"
     not_yet_verified: "Abg lrg irevsvrq."
-    resend_email: "Erfraq rznvy"
+    resend_email: "Cyrnfr fnir svefg gura Erfraq rznvy"
     email_sent: "Rznvy frag! Purpx lbhe vaobk."
     verifying_email: "Irevslvat lbhe rznvy nqqerff..."
     successfully_verified: "Lbh'ir fhpprffshyyl irevsvrq lbhe rznvy nqqerff!"
@@ -3136,7 +3136,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   league:
     student_register_1: "Orpbzr gur arkg NV Punzcvba!"
-    student_register_2: "Fvta hc, perngr lbhe bja grnz, be wbva bgure grnzf gb fgneg pbzcrgvat." # {punatr}
+    student_register_2: "Fvta hc, perngr lbhe bja grnz, be wbva bgure grnzf gb fgneg pbzcrgvat."
     student_register_3: "Cebivqr gur vasbezngvba orybj gb or ryvtvoyr sbe cevmrf."
     teacher_register_1: "Fvta hc gb npprff lbhe pynff yrnthr cebsvyr cntr naq trg lbhe pynff fgnegrq."
     general_news: "Trg rznvyf ba gur yngrfg arjf naq hcqngrf ertneqvat bhe NV Yrnthrf naq gbheanzragf."

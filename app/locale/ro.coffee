@@ -2441,7 +2441,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     status_unsubscribed_active: "Nu ești abonat si nu vei fi facturat, contul tău este activ deocamdată."
     status_unsubscribed: "Primește access la nivele noi, eroi, iteme, și Pietre Prețioase bonus cu un abonament CodeCombat!"
 #    not_yet_verified: "Not yet verified."
-#    resend_email: "Resend email"
+#    resend_email: "Please save first then Resend email"
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
