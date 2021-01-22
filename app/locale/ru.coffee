@@ -2,7 +2,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   new_home:
     title: "CodeCombat - Игры с програмированнием для изучения Python и Java Script"
-    meta_keywords: "CodeCombat, Python, Javascript, Игры с програмированнием"
+    meta_keywords: "CodeCombat, Python, JavaScript, Игры с програмированнием"
     meta_description: "Учитесь писать код с помощью игр для програмирования.Изучайте Python, JavaScript и HTML, решая головоломки, и учитесь создавать собственные игры и сайты для написания кода."
     meta_og_url: "https://codecombat.com"
 #    become_investor: "to become an investor in CodeCombat"

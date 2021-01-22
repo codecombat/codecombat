@@ -686,7 +686,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tip_scrub_shortcut: "Ctrl+[ 快退；Ctrl+] 快進。"
     tip_guide_exists: "點擊頁面上方的指南，可獲得更多有用的訊息。"
     tip_open_source: "「CodeCombat」100% 開源！" # {change}
-    tip_tell_friends: "喜歡Codecombat？那就把它介紹給朋友！"
+    tip_tell_friends: "喜歡CodeCombat？那就把它介紹給朋友！"
     tip_beta_launch: "「CodeCombat」在2013年10月進入 BETA 測試。"
     tip_think_solution: "思考解決方法而不是問題。"
     tip_theory_practice: "理論上，理論和實作之間是沒有區別。但是實作上，這兩者是有區別的。 - Yogi Berra"
@@ -1022,7 +1022,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     experimental: "測試中"
     python_blurb: "簡單且強大，適合新手跟專家。"
     javascript_blurb: "網頁程式語言。(不是 Java 喔)"
-    coffeescript_blurb: "懶人版的 Javascript。"
+    coffeescript_blurb: "懶人版的 JavaScript。"
     lua_blurb: "許多遊戲引擎支援的程式語言。"
     java_blurb: "(訂閱者限定)Android和企業"
 #    cpp_blurb: "(Subscriber Only) Game development and high performance computing."

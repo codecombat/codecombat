@@ -2441,7 +2441,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     status_unsubscribed_active: "Du er ikke tilmeldt og vil ikke blive faktureret, men din konto er ligenu stadig aktiv."
     status_unsubscribed: "Få adgang til nye baner, helte, sager og bonus ædelstene med et CodeCombat-abonnement!"
 #    not_yet_verified: "Not yet verified."
-#    resend_email: "Resend email"
+#    resend_email: "Please save first then Resend email"
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"

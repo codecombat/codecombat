@@ -919,7 +919,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    stripe_yearly_description: "Annual Subscription"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Potrebuješ predplatné, ak chceš hrať túto úroveň."
-    unlock_help_videos: "Predplať si Codecombat a získaj prístup ku videonávodom."
+    unlock_help_videos: "Predplať si CodeCombat a získaj prístup ku videonávodom."
     personal_sub: "Predplatné" # Accounts Subscription View below
     loading_info: "Nahrávam informácie o predplatnom..."
     managed_by: "Riadené"
@@ -2441,7 +2441,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 #    not_yet_verified: "Not yet verified."
-#    resend_email: "Resend email"
+#    resend_email: "Please save first then Resend email"
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"

@@ -2441,7 +2441,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     status_unsubscribed_active: "No estás suscrito y no serás facturado, pero tu cuenta sigue activa por ahora."
     status_unsubscribed: "¡Obtén acceso a nuevos niveles, héroes, artículos, y joyas adicionales con una suscripción a CodeCombat!"
 #    not_yet_verified: "Not yet verified."
-#    resend_email: "Resend email"
+#    resend_email: "Please save first then Resend email"
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
