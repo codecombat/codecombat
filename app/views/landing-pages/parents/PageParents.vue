@@ -630,7 +630,9 @@ export default {
   },
 
   mounted () {
-    window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    if (window.drift) {
+      window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    }
 
     if (this.type === 'thank-you') {
       this.onClassBooked()
@@ -638,7 +640,9 @@ export default {
   },
 
   beforeDestroy () {
-    window.drift.off('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    if (window.drift) {
+      window.drift.off('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    }
   },
 
   methods: {
@@ -690,6 +694,11 @@ export default {
     async onCtaClicked (e) {
       if (e && e.preventDefault) {
         e.preventDefault()
+      }
+
+      if (!window.drift && (this.type === 'parents' || this.type === 'sales' || this.type == 'chat')) {
+        console.log('No Drift, resetting to self-serve')
+        this.type = 'self-serve'
       }
 
       this.trackCtaClicked()

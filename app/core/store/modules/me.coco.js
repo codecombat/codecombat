@@ -29,6 +29,10 @@ export default {
       return (state || {}).role === 'parent'
     },
 
+    isHomePlayer (state) {
+      return !(state || {}).role && state.anonymous === false
+    },
+
     forumLink (state) {
       let link = 'http://discourse.codecombat.com/'
       const lang = (state.preferredLanguage || 'en-US').split('-')[0]
