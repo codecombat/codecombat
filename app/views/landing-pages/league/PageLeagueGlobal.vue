@@ -342,7 +342,7 @@ export default {
       <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon blazing-battle">Play Blazing Battle Multiplayer Arena</a>
     </div>
 
-    <section class="row flex-row">
+    <section class="row flex-row free-to-get-start" :class="clanIdSelected === '' ? 'free-to-get-start-bg':''">
       <div class="col-sm-10">
         <h1 style="margin-bottom: 20px;"><span class="esports-pink">Free </span><span class="esports-aqua">to </span><span class="esports-green">get </span><span class="esports-purple">started</span></h1>
         <ul style="list-style-type: none; padding: 0;">
@@ -357,13 +357,7 @@ export default {
       </div>
     </section>
 
-    <div v-if="clanIdSelected === ''" class="row flex-row text-center section-space" style="margin-top: -25px; z-index: 0;">
-      <div class="col-sm-5 col-sm-push-2">
-        <img class="img-responsive" src="/images/pages/league/graphic_1.png">
-      </div>
-    </div>
-
-    <div class="row flex-row section-space">
+    <div class="row section-space">
       <div class="col-sm-7">
         <h1 class="subheader1" style="margin-bottom: 30px;"><span class="esports-goldenlight">Global </span><span class="esports-pink">final </span><span class="esports-aqua">arena</span></h1>
         <p class="subheader2" style="margin-bottom: 30px;">
@@ -374,11 +368,11 @@ export default {
         </div>
       </div>
       <div class="col-sm-5">
-        <img class="img-responsive" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
+        <img class="img-responsive w-100" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
       </div>
     </div>
 
-    <div class="row flex-row">
+    <div class="row">
       <h1 class="subheader1"><span class="esports-purple">How </span><span class="esports-aqua">it </span><span class="esports-pink">works</span></h1>
     </div>
     <div class="row flex-row">
@@ -399,7 +393,7 @@ export default {
     <div class="row flex-row text-center">
       <h1><span class="esports-goldenlight">Season </span><span class="esports-purple">arenas</span></h1>
     </div>
-    <div id="season-arenas" class="row flex-row section-space">
+    <div id="season-arenas" class="row flex-row">
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Infinite Inferno Cup</h3>
         <div>Jan - April 2021</div>
@@ -442,14 +436,14 @@ export default {
       </div>
     </div>
 
-    <div class="row flex-row text-are-you-an-educator">
+    <div class="row text-are-you-an-educator">
       <div class="col-sm-7">
         <h1><span class="esports-pink">Are you an </span><span class="esports-green">educator </span><span class="esports-pink">or </span><span class="esports-aqua">esports coach?</span></h1>
       </div>
     </div>
     <div class="row flex-row">
       <div class="col-xs-12">
-        <p>The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other.</p>
+        <p class="subheader2">The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other.</p>
       </div>
     </div>
 
@@ -529,22 +523,22 @@ export default {
       <h1 class="text-center esports-goldenlight" style='margin-bottom: 35px;'>Features</h1>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_competition.svg" class="img-responsive" /></div>
-        <h4>Built-in Competitive Infrastructure</h4>
+        <h4 class="subheader2">Built-in Competitive Infrastructure</h4>
         <p>Our platform hosts every element of the competitive process, from leaderboards to the game platform, assets, and tournament awards.</p>
       </div>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_custom.png" class="img-responsive" /></div>
-        <h4>Custom Development</h4>
+        <h4 class="subheader2">Custom Development</h4>
         <p>Customization elements for your school or organization are included, plus options like branded landing pages and in-game characters.</p>
       </div>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_curriculum.svg" class="img-responsive" /></div>
-        <h4>Comprehensive Curriculum</h4>
+        <h4 class="subheader2">Comprehensive Curriculum</h4>
         <p>CodeCombat is a standards-aligned CS solution that helps educators teach real coding in JavaScript and Python, no matter their experience.</p>
       </div>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_roster.svg" class="img-responsive" /></div>
-        <h4>Roster Management Tools</h4>
+        <h4 class="subheader2">Roster Management Tools</h4>
         <p>Track student performance within the curriculum and within the game, and easily add or remove students.</p>
       </div>
     </div>
@@ -552,7 +546,7 @@ export default {
     <div class="row esports-flyer-optimized-section">
       <div class="col-sm-8">
         <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
-        <p style="margin-bottom: 50px;">Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested.</p>
+        <p class="subheader2" style="margin-bottom: 50px;">Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested.</p>
         <div class="xs-centered">
           <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">Download Flyer</a>
         </div>
@@ -582,6 +576,7 @@ export default {
 
   h1 {
     text-transform: uppercase;
+    font-size: 70px;
   }
 
   p, h4 {
@@ -634,15 +629,15 @@ export default {
   .esports-header .esports-h1 {
     font-style: normal;
     font-weight: bold;
-    font-size: 60px;
     line-height: 80px;
-    text-transform: uppercase;
     transform: rotate(-12deg);
+    max-width: 530px;
+    margin-top: 30px;
   }
 
   // Most sections have a max width and are centered.
   section, & > div {
-    max-width: 1366px;
+    max-width: 1820px;
     width:100%;
     padding: 0 70px;
     position: relative;
@@ -674,6 +669,7 @@ export default {
   }
 
   #season-arenas {
+    margin-bottom: 30px;
     h3, p {
       color: #30EFD3;
     }
@@ -743,6 +739,12 @@ export default {
     line-height: 40px;
   }
 
+  section.free-to-get-start {
+    padding-bottom: 180px;
+  }
+  section.free-to-get-start-bg {
+    background: url(/images/pages/league/graphic_1.png) right 100% / 35% no-repeat;
+  }
   .text-dont-just-play-code img{
     max-width: 410px;
     margin: 0 0 0 auto;
@@ -795,6 +797,9 @@ export default {
 
   .section-space {
     margin-bottom: 110px;
+  }
+  .w-100 {
+    width: 100%;
   }
 
   @media screen and (min-width: 768px) {
