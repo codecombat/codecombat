@@ -1,4 +1,4 @@
-import { getLeaderboard, getMyRank, getCodePointsLeaderboard, getCodePointsRankForUser } from '../../api/leaderboard'
+import { getLeaderboard, getMyRank, getLeaderboardPlayerCount, getCodePointsLeaderboard, getCodePointsRankForUser } from '../../api/leaderboard'
 import { fetchMySessions } from '../../api/level-sessions'
 
 // Level called: Blazing Battle
@@ -18,7 +18,8 @@ export default {
     globalRankings: {
       globalTop: [],
       playersAbove: [],
-      playersBelow: []
+      playersBelow: [],
+      globalLeaderboardPlayerCount: 0
     },
     // key is clan id. Returns objects with same structure.
     rankingsForLeague: {},
@@ -40,6 +41,10 @@ export default {
 
     setGlobalBelow (state, below) {
       Vue.set(state.globalRankings, 'playersBelow', below)
+    },
+
+    setGlobalLeaderboardPlayerCount (state, count) {
+      Vue.set(state.globalRankings, 'globalLeaderboardPlayerCount', count)
     },
 
     setMySession (state, mySession) {
@@ -68,6 +73,10 @@ export default {
       return state.loading
     },
 
+    globalLeaderboardPlayerCount (state) {
+      return state.globalRankings.globalLeaderboardPlayerCount
+    },
+
     globalRankings (state) {
       if (state.mySession && state.mySession.rank > 20) {
         const splitRankings = []
@@ -83,6 +92,16 @@ export default {
         return splitRankings
       }
       return state.globalRankings.globalTop
+    },
+
+    clanLeaderboardPlayerCount (state) {
+      return (leagueId) => {
+        if (!state.rankingsForLeague[leagueId]) {
+          return 0
+        }
+        const leagueRankings = state.rankingsForLeague[leagueId]
+        return leagueRankings.leaderboardPlayerCount
+      }
     },
 
     clanRankings (state) {
@@ -151,7 +170,10 @@ export default {
     async loadGlobalRequiredData ({ commit, dispatch }) {
       commit('setLoading', true)
       commit('clearMySession')
-      const awaitPromises = [dispatch('fetchGlobalLeaderboard')]
+      const awaitPromises = [
+        dispatch('fetchGlobalLeaderboard'),
+        dispatch('fetchGlobalLeaderboardPlayerCount')
+      ]
       const sessionsData = await fetchMySessions(currentSeasonalLevelOriginal)
 
       if (Array.isArray(sessionsData) && sessionsData.length > 0) {
@@ -217,6 +239,18 @@ export default {
         leagueRankingInfo.top = _.uniq(ranking, true, session => session._id)
       })
 
+      const leagueLeaderboardPlayerCountPromise = getLeaderboardPlayerCount(currentSeasonalLevelOriginal, {
+        team: 'humans',
+        'leagues.leagueID': leagueId
+      }).then(playerCount => {
+        leagueRankingInfo.leaderboardPlayerCount = parseInt(playerCount, 10)
+      })
+
+      const awaitPromises = [
+        topLeagueRankingPromise,
+        leagueLeaderboardPlayerCountPromise
+      ]
+
       const sessionsData = await fetchMySessions(currentSeasonalLevelOriginal)
 
       if (Array.isArray(sessionsData) && sessionsData.length > 0) {
@@ -258,7 +292,7 @@ export default {
         }
       }
 
-      await topLeagueRankingPromise
+      await Promise.all(awaitPromises)
 
       commit('setLeagueRanking', { leagueId: leagueId, ranking: leagueRankingInfo })
     },
@@ -333,6 +367,11 @@ export default {
         '_': Math.floor(Math.random() * 100000000)
       })
       commit('setGlobalRanking', ranking)
+    },
+
+    async fetchGlobalLeaderboardPlayerCount ({ commit }) {
+      const playerCount = await getLeaderboardPlayerCount(currentSeasonalLevelOriginal, {})
+      commit('setGlobalLeaderboardPlayerCount', parseInt(playerCount, 10))
     }
   }
 }
