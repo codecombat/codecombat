@@ -342,7 +342,7 @@ export default {
       <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon blazing-battle">Play Blazing Battle Multiplayer Arena</a>
     </div>
 
-    <section class="row">
+    <section class="row flex-row free-to-get-start" :class="clanIdSelected === '' ? 'free-to-get-start-bg':''">
       <div class="col-sm-10">
         <h1 style="margin-bottom: 20px;"><span class="esports-pink">Free </span><span class="esports-aqua">to </span><span class="esports-green">get </span><span class="esports-purple">started</span></h1>
         <ul style="list-style-type: none; padding: 0;">
@@ -356,12 +356,6 @@ export default {
         </div>
       </div>
     </section>
-
-    <div v-if="clanIdSelected === ''" class="row flex-row text-center section-space free-to-get-started-image">
-      <div class="col-sm-5 col-sm-offset-7">
-        <img class="img-responsive" src="/images/pages/league/graphic_1.png">
-      </div>
-    </div>
 
     <div class="row section-space">
       <div class="col-sm-7">
@@ -399,7 +393,7 @@ export default {
     <div class="row flex-row text-center">
       <h1><span class="esports-goldenlight">Season </span><span class="esports-purple">arenas</span></h1>
     </div>
-    <div id="season-arenas" class="row flex-row section-space">
+    <div id="season-arenas" class="row flex-row">
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Infinite Inferno Cup</h3>
         <div>Jan - April 2021</div>
@@ -675,6 +669,7 @@ export default {
   }
 
   #season-arenas {
+    margin-bottom: 30px;
     h3, p {
       color: #30EFD3;
     }
@@ -744,6 +739,12 @@ export default {
     line-height: 40px;
   }
 
+  section.free-to-get-start {
+    padding-bottom: 180px;
+  }
+  section.free-to-get-start-bg {
+    background: url(/images/pages/league/graphic_1.png) right 100% / 35% no-repeat;
+  }
   .text-dont-just-play-code img{
     max-width: 410px;
     margin: 0 0 0 auto;
@@ -796,10 +797,6 @@ export default {
 
   .section-space {
     margin-bottom: 110px;
-  }
-  .free-to-get-started-image {
-    margin-top: -250px;
-    z-index: 0;
   }
   .w-100 {
     width: 100%;
@@ -879,9 +876,6 @@ export default {
     }
     .xs-pb-20 {
       padding-bottom: 20px;
-    }
-    .free-to-get-started-image {
-      margin-top: 0px;
     }
   }
 
