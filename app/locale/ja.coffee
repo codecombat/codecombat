@@ -2441,7 +2441,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 #    not_yet_verified: "Not yet verified."
-#    resend_email: "Resend email"
+#    resend_email: "Please save first then Resend email"
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
@@ -3063,7 +3063,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    activity_label_2: " Beginner: Build a Game!"
 #    activity_label_3: "Advanced: Build an Arcade Game!"
 #    activity_button_1: "View Lesson"
-    about: "Codecombatについて:" # {change}
+    about: "CodeCombatについて:" # {change}
     about_copy: "CodeCombatはゲームのようにCSを教えてくれるプログラムです。PythonとJavaScriptに対応しています。CodeCombatは、正しくプログラミングを学びながらみんなが楽しめるようにできています。1.2千万人以上がCodeCombatを使っています。" # {change}
     point1: "✓ ベースが分かりやすい"
     point2: "✓ 生徒に合うように調整する"

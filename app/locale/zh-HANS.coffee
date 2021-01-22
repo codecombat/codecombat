@@ -236,9 +236,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subscribe_as_diplomat: "提交“外交官”申请"
 
   play:
-    title: "挑战CodeCombat关卡 - 学习Python，Javascript和C++"
+    title: "挑战CodeCombat关卡 - 学习Python，JavaScript和C++"
     meta_description: "通过场景化教学学习输入真实的代码。 在解决难题的同时掌握Python，JavaScript和C++，并学习制作自己的代码游戏和网站，在多人竞技场挑战你的同学们"
-    level_title: "__level__ - 学习Python，Javascript和C++编程"
+    level_title: "__level__ - 学习Python，JavaScript和C++编程"
     video_title: "__video__ | 观看教学视频"
     game_development_title: "__level__ | 游戏开发"
     web_development_title: "__level__ | 网页开发"
@@ -253,7 +253,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     get_course_for_class: "分享游戏开发和更多细节"
     request_licenses: "联系我们获取详细信息"
     compete: "开战！" # Course details page
-    spectate: "旁观他人的游戏" # Ladder page
+    spectate: "观战" # Ladder page
     simulate_all: "创建全部对局"
     players: "玩家" # Hover over a level on /play
     hours_played: "游戏时长" # Hover over a level on /play
@@ -466,7 +466,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     books: "书籍"
 
   common:
-    default_title: "扣哒世界 - 在场景化编程中学习Python，Javascript和C++"
+    default_title: "扣哒世界 - 在场景化编程中学习Python，JavaScript和C++"
     default_meta_description: "通过场景化教学学习输入真实的代码。 在解决难题的同时掌握Python，JavaScript和C++，并学习制作自己的代码游戏和网站。"
     back: "返回" # When used as an action verb, like "Navigate backward"
     coming_soon: "敬请期待！"
@@ -692,7 +692,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_scrub_shortcut: "用 Ctrl+[ 和 Ctrl+] 来倒退和快进。"
     tip_guide_exists: "点击页面上方的指南, 可以获得更多有用信息。"
     tip_open_source: "「CodeCombat」青少年编程领导品牌！" # {change}
-    tip_tell_friends: "喜欢Codecombat？那就赶快把它安利给朋友！"
+    tip_tell_friends: "喜欢CodeCombat？那就赶快把它安利给朋友！"
     tip_beta_launch: "CodeCombat开始于2013的10月份。"
     tip_think_solution: "思考如何解决, 而不是思考问题。"
     tip_theory_practice: "在理论上，理论和实践之间是没有区别的。但在实践上，它们是有区别的。 - Yogi Berra"
@@ -2309,12 +2309,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     arena_title: "__arena__ | 多人竞技场"
     my_matches: "我的对手"
     simulate: "模拟"
-    simulation_explanation: "通过模拟游戏，您可以让您的游戏更快的得到评分。"
-    simulation_explanation_leagues: "你会主要给在你的部落或者课程的同伴帮忙模拟游戏。"
-    simulate_games: "模拟游戏！"
-    games_simulated_by: "由您模拟过的游戏数:"
-    games_simulated_for: "为您模拟过的游戏数:"
-    games_in_queue: "游戏正在列队中："
+    simulation_explanation: "通过模拟比赛，您可以让您的比赛更快的得到评分。"
+    simulation_explanation_leagues: "你会主要给在你的部落或者课程的同伴帮忙模拟比赛。"
+    simulate_games: "模拟比赛！"
+    games_simulated_by: "由您模拟过的比赛数:"
+    games_simulated_for: "为您模拟过的比赛数:"
+    games_in_queue: "比赛正在列队中："
     games_simulated: "模拟次数"
     games_played: "被模拟次数"
     ratio: "比率"
@@ -2325,16 +2325,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     summary_wins: " 胜利, "
     summary_losses: " 失败"
     rank_no_code: "没有新代码可供评分"
-    rank_my_game: "为我的游戏评分！"
+    rank_my_game: "为我的代码评分！"
     rank_submitting: "正在提交..."
     rank_submitted: "提交评分"
     rank_failed: "评分失败"
     rank_being_ranked: "已评价"
     rank_last_submitted: "已提交"
-    help_simulate: "模拟游戏需要帮助？"
+    help_simulate: "模拟比赛需要帮助？"
     code_being_simulated: "您的新代码正在被其他玩家模拟评分。排名将会在新对战结束后刷新。"
     no_ranked_matches_pre: "没有排名对决给 "
-    no_ranked_matches_post: " 啊哈哟！去和其他玩家打过再回来这里查看您游戏排名吧！"
+    no_ranked_matches_post: " 啊哈哟！去和其他玩家打过再回来这里查看您比赛排名吧！"
     choose_opponent: "选择一个对手"
     select_your_language: "选择您使用的语言！"
     tutorial_play: "玩教程"
