@@ -2441,7 +2441,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     status_unsubscribed_active: "Nejste předplatitel a nebude vám nic zaúčtováno, ale váš účet je pořád aktivní."
     status_unsubscribed: "Dostaňte přístup k novým úrovním, hrdinům, předmětům a bonusovým drahokamům s CodeCombat předplatným!"
 #    not_yet_verified: "Not yet verified."
-#    resend_email: "Resend email"
+#    resend_email: "Please save first then Resend email"
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
