@@ -203,7 +203,9 @@ export default {
   computed: {
     ...mapGetters({
       globalRankings: 'seasonalLeague/globalRankings',
+      globalLeaderboardPlayerCount: 'seasonalLeague/globalLeaderboardPlayerCount',
       clanRankings: 'seasonalLeague/clanRankings',
+      clanLeaderboardPlayerCount: 'seasonalLeague/clanLeaderboardPlayerCount',
       codePointsRankings: 'seasonalLeague/codePointsRankings',
       myClans: 'clans/myClans',
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
@@ -243,6 +245,10 @@ export default {
 
     selectedClanRankings () {
       return this.clanRankings(this.clanIdSelected)
+    },
+
+    selectedClanLeaderboardPlayerCount () {
+      return this.clanLeaderboardPlayerCount(this.clanIdSelected)
     },
 
     selectedClanCodePointsRankings () {
@@ -333,8 +339,8 @@ export default {
       <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
       <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
-      <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :key="`${clanIdSelected}-score`" class="leaderboard-component" style="color: black;" />
-      <leaderboard v-else :rankings="globalRankings" class="leaderboard-component" />
+  <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" class="leaderboard-component" style="color: black;" />
+      <leaderboard v-else :rankings="globalRankings" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
       <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" scoreType="codePoints" class="leaderboard-component" />
     </div>
     <div class="row text-center section-space">
