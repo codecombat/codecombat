@@ -798,10 +798,6 @@ export default {
   .section-space {
     margin-bottom: 110px;
   }
-  .free-to-get-started-image {
-    margin-top: -250px;
-    z-index: 0;
-  }
   .w-100 {
     width: 100%;
   }
@@ -880,9 +876,6 @@ export default {
     }
     .xs-pb-20 {
       padding-bottom: 20px;
-    }
-    .free-to-get-started-image {
-      margin-top: 0px;
     }
   }
 
