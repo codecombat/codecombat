@@ -13,6 +13,10 @@ export default {
     scoreType: {
       type: String,
       default: 'arena'
+    },
+    playerCount: {
+      type: Number,
+      default: 0
     }
   },
 
@@ -58,6 +62,10 @@ export default {
             span(v-else) Blazing Battle
             span &nbsp;
             span {{ $t('ladder.leaderboard') }}
+            span(v-if="playerCount > 1")
+              span  -&nbsp;
+              span {{ playerCount }}
+              span  players
 
         tr
           th(colspan=1)

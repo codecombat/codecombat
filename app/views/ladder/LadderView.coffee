@@ -185,7 +185,7 @@ module.exports = class LadderView extends RootView
     @lastRefreshTime = new Date()
     @ladderTab.refreshLadder()
     @myMatchesTab.refreshMatches @refreshDelay
-    @simulateTab.refresh()
+    @simulateTab?.refresh()
 
   onIdleChanged: (e) ->
     @fetchSessionsAndRefreshViews() unless e.idle

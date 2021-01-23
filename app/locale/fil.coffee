@@ -2441,7 +2441,7 @@ module.exports = nativeDescription: "Tagalog", englishDescription: "Filipino (Ph
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 #    not_yet_verified: "Not yet verified."
-#    resend_email: "Resend email"
+#    resend_email: "Please save first then Resend email"
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
