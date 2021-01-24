@@ -1,10 +1,10 @@
 /*!
  * jaba
  * 
- * Compiled: Tue Jan 12 2021 15:19:56 GMT-0800 (PST)
+ * Compiled: Sun Jan 24 2021 14:48:25 GMT-0800 (PST)
  * Target  : web (umd)
  * Profile : modern
- * Version : ad6c740
+ * Version : 4d9f913
  * 
  * 
  * 
@@ -184,7 +184,7 @@ function skope(node) {
 
 	function process(node, parent) {
 		let next = (n) => process(n, node);
-		if ( !node.loc && node.node != "LineEmpty" ) {
+		if ( !node.loc && node.node != "LineEmpty" && node.node != "TraditionalComment" ) {
 			console.log("Node of type `" + node.node + "` doesn't have loc.");
 		}
 		switch (node.node) {
@@ -558,14 +558,19 @@ function javaifyEngine(ev) {
 
 	let amake = ArrayValue.make.bind(ArrayValue);
 	ArrayValue.make = function(vals, realm) {
-		let av = amake(vals, realm);
-		av.setPrototype(new stdlib.p.CPPListProto(ev.realm));
+		if(realm.options.language == 'cpp') {
+			let av = amake(vals, realm);
+			av.setPrototype(new stdlib.p.CPPListProto(ev.realm));
 
-		let l = vals.length
-		if(l > 0) {av.setImmediate('x', vals[0]); av.properties.x.enumerable = false;}
-		if(l > 1) {av.setImmediate('y', vals[1]); av.properties.y.enumerable = false;}
-		if(l > 2) {av.setImmediate('z', vals[2]); av.properties.z.enumerable = false;}
-		return av;
+			let l = vals.length
+			if(l > 0) {av.setImmediate('x', vals[0]); av.properties.x.enumerable = false;}
+			if(l > 1) {av.setImmediate('y', vals[1]); av.properties.y.enumerable = false;}
+			if(l > 2) {av.setImmediate('z', vals[2]); av.properties.z.enumerable = false;}
+			return av;
+		}
+		else {
+			return amake(vals, realm);
+		}
 	}
 	
 }
