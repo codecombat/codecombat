@@ -39,9 +39,6 @@ export default class Tracker2 extends BaseTracker {
 
     this.trackers = [
       this.legacyTracker,
-      // this.googleAnalyticsTracker,
-      this.segmentTracker,
-      this.fullStoryTracker,
     ]
 
     const isGlobal = !(window.features || {}).china
@@ -49,7 +46,10 @@ export default class Tracker2 extends BaseTracker {
       // add trackers we don't want china to enable here.
       this.trackers = [
         ...this.trackers,
+        this.segmentTracker,
+        // this.googleAnalyticsTracker,
         this.driftTracker,
+        this.fullStoryTracker,
         this.googleOptimizeTracker,
         this.facebookPixelTracker
       ]
