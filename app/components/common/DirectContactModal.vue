@@ -80,7 +80,7 @@
       <modal-divider />
 
       <div v-if="zendeskError">
-        {{ $t('general.email_us') }}: <a href="mailto:support@ozaria.com">support@ozaria.com</a>
+        {{ $t('general.email_us') }}: <a href="mailto:support@codecombat.com">support@codecombat.com</a>
       </div>
       <div v-else class="flex-container column">
         <p>{{ $t("general.email_us") }}</p>
