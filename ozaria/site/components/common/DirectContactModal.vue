@@ -16,18 +16,30 @@
         // close the modal other than interacting with data-dismiss='modal' through clicking.
         $('#ozaria-modal-header-close-button').click()
       },
-      clickedChat () {
+      showError (error) {
+        console.error(error)
+        noty({
+          text: 'Unable to load chat (may be due to browser privacy features)',
+          layout: 'topCenter',
+          type: 'error',
+          timeout: 5000
+        })
+      },
+      clickedSalesChat () {
         try {
           window.tracker.drift.openChat()
           this.programaticallyClose()
         } catch (e) {
-          console.error(e)
-          noty({
-            text: 'Unable to load chat (may be due to browser privacy features)',
-            layout: 'topCenter',
-            type: 'error',
-            timeout: 5000
-          })
+          this.showError(e)
+        }
+      },
+      clickedSupportChat () {
+        try {
+          window.tracker.drift.startInteraction({ interactionId: 135698 })
+
+          this.programaticallyClose()
+        } catch (e) {
+          this.showError(e)
         }
       },
       clickedEmail () {
@@ -41,13 +53,7 @@
           zE('webWidget', 'show')
           this.programaticallyClose()
         } catch (e) {
-          console.error(e)
-          noty({
-            text: 'Unable to load message in browser (may be due to browser privacy features)',
-            layout: 'topCenter',
-            type: 'error',
-            timeout: 5000
-          })
+          this.showError(e)
           this.zendeskError = true
         }
       }
@@ -60,10 +66,16 @@
       :backbone-dismiss-modal="true"
       :title="$t('general.contact_us')"
   >
-    <div class="flex-container">
+    <div class="flex-container column">
+      <p>{{ $t("general.chat_with_us") }} (9am-6pm ET)</p>
       <div class="flex-container">
-        <p>{{ $t("general.chat_with_us") }} (9am-6pm ET)</p>
-        <button @click.prevent="clickedChat" class="btn btn-large btn-primary btn-moon">{{ $t("general.chat") }}</button>
+        <div class="flex-container column">
+          <button @click.prevent="clickedSupportChat" class="btn btn-large btn-primary btn-moon">{{ $t("general.support") }}</button>
+        </div>
+
+        <div class="flex-container column">
+          <button @click.prevent="clickedSalesChat" class="btn btn-large btn-primary btn-moon">{{ $t("general.sales") }}</button>
+        </div>
       </div>
 
       <modal-divider />
@@ -71,7 +83,7 @@
       <div v-if="zendeskError">
         {{ $t('general.email_us') }}: <a href="mailto:support@ozaria.com">support@ozaria.com</a>
       </div>
-      <div v-else class="flex-container">
+      <div v-else class="flex-container column">
         <p>{{ $t("general.email_us") }}</p>
         <button @click.prevent="clickedEmail" class="btn btn-large btn-primary btn-moon">{{ $t("general.email") }}</button>
       </div>
@@ -84,10 +96,13 @@
 
 .flex-container {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+}
+
+.column {
+  flex-direction: column;
 }
 
 // These types of buttons could be shared better
