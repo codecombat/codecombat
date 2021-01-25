@@ -90,7 +90,7 @@ export default class DriftTracker extends BaseTracker {
 
     // Show when a message is received
     window.drift.on('message', (e) => {
-      if (!e.data.sidebarOpen) {
+      if (!e?.data?.sidebarOpen) {
         if (this.isChatEnabled) {
           this.driftApi.widget.show()
         }
