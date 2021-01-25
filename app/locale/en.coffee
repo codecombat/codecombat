@@ -560,6 +560,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chat: "Chat"
     chat_with_us: "Chat with us"
     email_us: "Send us an email"
+    sales: "Sales"
+    support: "Support"
 
   units:
     second: "second"
