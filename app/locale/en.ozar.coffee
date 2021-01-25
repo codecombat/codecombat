@@ -2807,6 +2807,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     data_types: "Data Types"
     objects: "Objects"
     methods: "Methods"
+    compound_conditionals: 'Compound Conditionals'
+    comparators: 'Comparators'
+    data_and_analysis: 'Data & Analysis'
 
   anonymous_teacher:
     notify_teacher: "Notify Teacher"
