@@ -1,10 +1,10 @@
 /*!
  * jaba
  * 
- * Compiled: Sun Jan 24 2021 11:26:42 GMT+0800 (China Standard Time)
+ * Compiled: Mon Jan 25 2021 14:12:19 GMT+0800 (China Standard Time)
  * Target  : web (umd)
  * Profile : modern
- * Version : 5f571e2
+ * Version : 2c21d19
  * 
  * 
  * 
@@ -373,9 +373,11 @@ class JavaPrimitiveValue extends esper.PrimitiveValue {
 	}
 
 	derivePrototype(realm) {
-		if ( this.boundType == "int" ) return realm.globalScope.get('Integer');
-		if ( this.boundType == "double" ) return realm.globalScope.get('Double');
-		if ( this.boundType == "string" ) return realm.globalScope.get('JavaString');
+		if(['cpp', 'java'].indexOf(realm.options.language) != -1){
+			if ( this.boundType == "int" ) return realm.globalScope.get('Integer');
+			if ( this.boundType == "double" ) return realm.globalScope.get('Double');
+			if ( this.boundType == "string" ) return realm.globalScope.get('JavaString');
+		}
 
 		return super.derivePrototype(realm);
 	}
@@ -492,42 +494,43 @@ function javaifyEngine(ev) {
 	}
 	let rev = ev.realm.fromNative.bind(ev.realm);
 	ev.realm.fromNative = (v,n) => {
-		let r = new JavaPrimitiveValue(v);
-		r.realm = ev.realm;
-		let type = typeof(v);
-		if ( typeof(n) == 'string' ) type = n;
+		if(['cpp', 'java'].indexOf(ev.realm.options.language) != -1) {
+			let r = new JavaPrimitiveValue(v);
+			r.realm = ev.realm;
+			let type = typeof(v);
+			if ( typeof(n) == 'string' ) type = n;
 
-		if ( typeof(n) == 'object' ) {
-			if ( typeof(n.value) == "number" || n.type == "NumericLiteral" ) {
-				let raw = n.raw;
-				if ( raw && raw.indexOf(".") == -1 ) r.boundType = "int";
-				else r.boundType = "double";
-			} else if ( typeof(n.value) == "string" ) { 
-				r.boundType = "string";
+			if ( typeof(n) == 'object' ) {
+				if ( typeof(n.value) == "number" || n.type == "NumericLiteral" ) {
+					let raw = n.raw;
+					if ( raw && raw.indexOf(".") == -1 ) r.boundType = "int";
+					else r.boundType = "double";
+				} else if ( typeof(n.value) == "string" ) { 
+					r.boundType = "string";
+				}
+				return r;
 			}
-			return r;
-		}
 		
-		if ( type == "int" ) {
-			r.boundType = "int";
-			return r;
-		}
+			if ( type == "int" ) {
+				r.boundType = "int";
+				return r;
+			}
 
-		if ( type == "double" ) {
-			r.boundType = "double";
-			return r;
-		}
+			if ( type == "double" ) {
+				r.boundType = "double";
+				return r;
+			}
 
-		if ( type == "string" ) {
-			r.boundType = "string";
-			return r;
-		}
+			if ( type == "string" ) {
+				r.boundType = "string";
+				return r;
+			}
 
-		if ( type == "number" ) {
-			r.boundType = "double";
-			return r;
+			if ( type == "number" ) {
+				r.boundType = "double";
+				return r;
+			}	
 		}
-		
 		return rev(v);
 	}
 	ev.addGlobal('cashew', {
