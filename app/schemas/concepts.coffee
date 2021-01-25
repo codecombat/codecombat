@@ -21,6 +21,11 @@ concepts = [
   {concept: 'nesting', name: 'Nesting', description: '', automatic: false}
   {concept: 'data_types', name: 'Data Types', description: '', automatic: false}
 
+  # Ozaria CH4
+  {concept: 'compound_conditionals', name: 'Compound Conditionals', automatic: false}
+  {concept: 'comparators', name: 'Comparators', automatic: false}
+  {concept: 'data_and_analysis', name: 'Data & Analysis', automatic: false}
+
   # Deprecated
   {concept: 'advanced_strings', name: '', description: '', automatic: '??', deprecated: true}
   {concept: 'boolean_logic', name: '', description: '', automatic: '', deprecated: true}
