@@ -111,6 +111,7 @@ module.exports = class CampaignView extends RootView
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
     'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal'
     'click #videos-button': 'onClickVideosButton'
+    'click #esports-arena': 'onClickEsportsButton'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -372,6 +373,11 @@ module.exports = class CampaignView extends RootView
 
   onClickVideosButton: ->
     @openModalView(new CourseVideosModal({courseInstanceID: @courseInstanceID, courseID: @course.get('_id')}))
+
+  onClickEsportsButton: (e) ->
+    @$levelInfo?.hide()
+    @$levelInfo = @$el.find(".level-info-container.blazing-battle-tooltip").show()
+    @adjustLevelInfoPosition e
 
   getLevelPlayCounts: ->
     return unless me.isAdmin()
@@ -1466,5 +1472,8 @@ module.exports = class CampaignView extends RootView
 
     if what is 'amazon-campaign'
       return @campaign?.get('slug') is 'game-dev-hoc'
+
+    if what is 'blazing-battle'
+      return @campaign?.get('slug') in ['dungeon', 'intro']
 
     return true

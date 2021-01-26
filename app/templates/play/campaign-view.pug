@@ -16,11 +16,15 @@ if showGameDevAlert
       em.spr powered by
       img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
-  if view.shouldShow('back-to-classroom')
-    a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase.under-logo(href='/play', data-i18n="play.back_to_classroom")
+  div.under-logo.button-container
+    if view.shouldShow('back-to-classroom')
+      a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
 
-  if view.shouldShow('videos')
-    a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button(data-i18n="play_level.videos")
+    if view.shouldShow('videos')
+      a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button(data-i18n="play_level.videos")
+
+    if view.shouldShow('blazing-battle')
+      a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#esports-arena(class=`${(me.get('stats') || {}).codePoints > 30 ? 'btn-danger' : ''}`) Play Blazing Battle
 
   if serverConfig.codeNinjas
     a(href="https://code.ninja")
@@ -130,6 +134,16 @@ if showGameDevAlert
             else if level.unlocksHero
               img.treasure-chest(src="/images/pages/play/gold-chest.png")
         div(style="left: " + level.position.x + "%; bottom: " + level.position.y + "%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""))
+        if view.shouldShow('blazing-battle')
+          .level-info-container.rtl-allowed.blazing-battle-tooltip
+            //- TODO: don't hard code that the user has completed the level.
+            div(class="level-info rtl-allowed complete")
+              .level-status.rtl-allowed(dir="auto")
+              h3(dir="ltr") Blazing Battle
+              .level-description.rtl-allowed(dir="auto")
+                p Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season.
+
+              a.btn.btn-success.btn.btn-lg.btn-illustrated.start-esports(data-i18n="common.play" href="/play/ladder/blazing-battle") Play
         .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name, data-level-original=level.original)
           - var playCount = levelPlayCountMap[level.slug]
           .progress.progress-striped.active.hide
