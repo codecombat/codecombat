@@ -181,14 +181,14 @@ module.exports = TeacherSignupStoreModule = {
       return api.trialRequests.update(trialRequestUpdate)
 
     .then =>
-      trialRequestIntercomData = _.pick state.trialRequestProperties, ["siteOrigin", "marketingReferrer", "referrer", "notes", "numStudentsTotal", "numStudents", "purchaserRole", "role", "phoneNumber", "country", "state", "city", "district", "organization", "nces_students", "nces_name", "nces_id", "nces_phone", "nces_district_students", "nces_district_schools", "nces_district_id", "nces_district"]
-      trialRequestIntercomData.educationLevel_elementary = _.contains state.trialRequestProperties.educationLevel, "Elementary"
-      trialRequestIntercomData.educationLevel_middle = _.contains state.trialRequestProperties.educationLevel, "Middle"
-      trialRequestIntercomData.educationLevel_high = _.contains state.trialRequestProperties.educationLevel, "High"
-      trialRequestIntercomData.educationLevel_college = _.contains state.trialRequestProperties.educationLevel, "College+"
+      trialRequestIdentifyData = _.pick state.trialRequestProperties, ["siteOrigin", "marketingReferrer", "referrer", "notes", "numStudentsTotal", "numStudents", "purchaserRole", "role", "phoneNumber", "country", "state", "city", "district", "organization", "nces_students", "nces_name", "nces_id", "nces_phone", "nces_district_students", "nces_district_schools", "nces_district_id", "nces_district"]
+      trialRequestIdentifyData.educationLevel_elementary = _.contains state.trialRequestProperties.educationLevel, "Elementary"
+      trialRequestIdentifyData.educationLevel_middle = _.contains state.trialRequestProperties.educationLevel, "Middle"
+      trialRequestIdentifyData.educationLevel_high = _.contains state.trialRequestProperties.educationLevel, "High"
+      trialRequestIdentifyData.educationLevel_college = _.contains state.trialRequestProperties.educationLevel, "College+"
       unless User.isSmokeTestUser({ email: state.signupForm.email })
         # Delay auth flow until tracker call resolves so that we ensure any callbacks are fired but swallow errors
-        # so that we prevent the auth redirect from happning (we don't want to block auth because of tracking
+        # so that we prevent the auth redirect from happening (we don't want to block auth because of tracking
         # failures)
         return application.tracker.identify(trialRequestIdentifyData).catch(->)
 
