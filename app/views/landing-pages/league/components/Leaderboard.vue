@@ -92,6 +92,9 @@ export default {
 </template>
 
 <style scoped>
+.ladder-table {
+  background-color: #F2F2F2;
+}
 .ladder-table td {
   padding: 2px 2px;
 }
@@ -106,6 +109,9 @@ export default {
 
 .ladder-table tr {
   font-size: 16px;
+}
+.ladder-table tbody tr:hover td{
+  background-color: #FFFFFF;
 }
 
 .ladder-table th {
