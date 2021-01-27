@@ -51,6 +51,7 @@ store = new Vuex.Store({
     baseCurriculumGuide: require('ozaria/site/store/BaseCurriculumGuide').default
     teacherDashboardPanel: require('ozaria/site/store/TeacherDashboardPanel').default
     tracker: require('./modules/tracker').default
+    trialRequest: require('./modules/trialRequest').default
   }
 })
 
