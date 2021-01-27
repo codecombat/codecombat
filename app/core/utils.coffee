@@ -164,7 +164,7 @@ courseModules[courseIDs.CHAPTER_FOUR] = {
   '1': 'Compound Conditionals',
   '2': 'Functions and Data Analysis',
   '3': 'Writing Functions',
-  '4': 'Capstones'
+  '4': 'Capstone'
 }
 
 hourOfCodeOptions = {
