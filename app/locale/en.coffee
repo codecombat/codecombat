@@ -3147,3 +3147,5 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
     team: 'team'
     how_it_works1: 'Join a __team__'
+    seasonal_arena_name: 'Blazing Battle'
+    seasonal_arena_tooltip: 'Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season.'
