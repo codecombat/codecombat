@@ -1,5 +1,20 @@
 createjs = require 'lib/createjs-parts'
 
+DEFAULT_DISPLAY_OPTIONS = {
+  fontWeight: 'bold',
+  fontSize: '16px',
+  fontFamily: 'Arial',
+  fontColor: '#FFFFFF',
+  templateString: '{<%= x %>, <%= y %>}',
+  backgroundFillColor: 'rgba(0,0,0,0.4)',
+  backgroundStrokeColor: 'rgba(0,0,0,0.6)',
+  backgroundStroke: 1,
+  backgroundMargin: 3,
+  pointMarkerColor: 'rgb(255, 255, 255)',
+  pointMarkerLength: 8,
+  pointMarkerStroke: 2
+}
+
 module.exports = class CoordinateDisplay extends createjs.Container
   layerPriority: -10
   subscriptions:
@@ -15,6 +30,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @initialize()
     @camera = options.camera
     @layer = options.layer
+    @displayOptions = _.merge({}, DEFAULT_DISPLAY_OPTIONS, options.displayOptions or {})
     console.error @toString(), 'needs a camera.' unless @camera
     console.error @toString(), 'needs a layer.' unless @layer
     @build()
@@ -32,7 +48,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
   build: ->
     @mouseEnabled = @mouseChildren = false
     @addChild @background = new createjs.Shape()
-    @addChild @label = new createjs.Text('', 'bold 16px Arial', '#FFFFFF')
+    @addChild @label = new createjs.Text('', "#{@displayOptions.fontWeight} #{@displayOptions.fontSize} #{@displayOptions.fontFamily}", @displayOptions.fontColor)
     @addChild @pointMarker = new createjs.Shape()
     @label.name = 'Coordinate Display Text'
     @label.shadow = new createjs.Shadow('#000000', 1, 1, 0)
@@ -53,6 +69,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
       wop.y = Math.round(wop.y)
     return if wop.x is @lastPos?.x and wop.y is @lastPos?.y
     @lastPos = wop
+    @lastSurfacePos = @camera.worldToSurface(@lastPos)
     @lastScreenPos = x: e.x, y: e.y
     if key.alt
       @performShow()
@@ -86,15 +103,15 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @uncache()
 
   updateSize: ->
-    margin = 3
+    margin = @displayOptions.backgroundMargin
     contentWidth = @label.getMeasuredWidth() + (2 * margin)
     contentHeight = @label.getMeasuredHeight() + (2 * margin)
 
     # Shift pointmarker up so it centers at pointer (affects container cache position)
     @pointMarker.regY = contentHeight
 
-    pointMarkerStroke = 2
-    pointMarkerLength = 8
+    pointMarkerStroke = @displayOptions.pointMarkerStroke
+    pointMarkerLength = @displayOptions.pointMarkerLength
     fullPointMarkerLength = pointMarkerLength + (pointMarkerStroke / 2)
     contributionsToTotalSize = []
     contributionsToTotalSize = contributionsToTotalSize.concat @updateCoordinates contentWidth, contentHeight, fullPointMarkerLength
@@ -103,16 +120,16 @@ module.exports = class CoordinateDisplay extends createjs.Container
     totalWidth = contentWidth + contributionsToTotalSize.reduce (a, b) -> a + b
     totalHeight = contentHeight + contributionsToTotalSize.reduce (a, b) -> a + b
 
-    if @isNearTopEdge()
+    if @isNearTopEdge(totalHeight)
       verticalEdge =
         startPos: -fullPointMarkerLength
-        posShift: -contentHeight + 4
+        posShift: -2 * fullPointMarkerLength
     else
       verticalEdge =
         startPos: -totalHeight + fullPointMarkerLength
         posShift: contentHeight
 
-    if @isNearRightEdge()
+    if @isNearRightEdge(totalWidth)
       horizontalEdge =
         startPos: -totalWidth + fullPointMarkerLength
         posShift: totalWidth
@@ -123,14 +140,12 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
     @orient verticalEdge, horizontalEdge, totalHeight, totalWidth
 
-  isNearTopEdge: ->
-    yRatio = 1 - (@camera.worldViewport.y - @lastPos.y) / @camera.worldViewport.height
-    yRatio > 0.9
+  isNearTopEdge: (height) ->
+    height - @lastSurfacePos.y > @camera.surfaceViewport.height
 
-  isNearRightEdge: ->
-    xRatio = (@lastPos.x - @camera.worldViewport.x) / @camera.worldViewport.width
-    xRatio > 0.85
-
+  isNearRightEdge: (width) ->
+    @lastSurfacePos.x + width > @camera.surfaceViewport.width
+    
   orient: (verticalEdge, horizontalEdge, totalHeight, totalWidth) ->
     @label.regY = @background.regY = verticalEdge.posShift
     @label.regX = @background.regX = horizontalEdge.posShift
@@ -143,9 +158,9 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
     @background.graphics
       .clear()
-      .beginFill('rgba(0,0,0,0.4)')
-      .beginStroke('rgba(0,0,0,0.6)')
-      .setStrokeStyle(backgroundStroke = 1)
+      .beginFill(@displayOptions.backgroundFillColor)
+      .beginStroke(@displayOptions.backgroundStrokeColor)
+      .setStrokeStyle(backgroundStroke = @displayOptions.backgroundStroke)
       .drawRoundRect(offset, -offset, contentWidth, contentHeight, radius = 2.5)
       .endFill()
       .endStroke()
@@ -154,7 +169,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
   updatePointMarker: (centerX, centerY, length, strokeSize) ->
     strokeStyle = 'square'
     @pointMarker.graphics
-      .beginStroke('rgb(255, 255, 255)')
+      .beginStroke(@displayOptions.pointMarkerColor)
       .setStrokeStyle(strokeSize, strokeStyle)
       .moveTo(centerX, centerY - length)
       .lineTo(centerX, centerY + length)
@@ -165,11 +180,10 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
   show: =>
     return unless @mouseInBounds and @lastPos and not @destroyed
-    @label.text = "{x: #{@lastPos.x}, y: #{@lastPos.y}}"
+    @label.text = _.template(@displayOptions.templateString, {x: @lastPos.x, y: @lastPos.y})
     @updateSize()
-    sup = @camera.worldToSurface @lastPos
-    @x = sup.x
-    @y = sup.y
+    @x = @lastSurfacePos.x
+    @y = @lastSurfacePos.y
     @addChild @background
     @addChild @label
     @addChild @pointMarker unless @placingFlag
