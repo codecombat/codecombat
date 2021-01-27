@@ -46,14 +46,11 @@ export default class DriftTracker extends BaseTracker {
   }
 
   async _initializeTracker () {
-    loadDrift()
-
-    window.drift.on('ready', (api) => {
-      this.driftApi = api
-
-      this.initDriftOnLoad()
+    if (this.isChatEnabled) {
+      await this.initializeDrift()
+    } else {
       this.onInitializeSuccess()
-    })
+    }
 
     this.store.watch(
       (state) => state.route,
@@ -66,14 +63,25 @@ export default class DriftTracker extends BaseTracker {
     )
 
     this.watchForDisableAllTrackingChanges(this.store)
+  }
 
-    await this.initializationComplete
-    this.updateDriftConfiguration()
+  async initializeDrift () {
+    loadDrift()
 
-    const retries = await getPageUnloadRetriesForNamespace('drift')
-    for (const retry of retries) {
-      this[retry.identifier](...retry.args)
-    }
+    window.drift.on('ready', async (api) => {
+      this.driftApi = api
+
+      this.initDriftOnLoad()
+      if (!this.initializationComplete)
+        this.onInitializeSuccess()
+
+      this.updateDriftConfiguration()
+
+      const retries = await getPageUnloadRetriesForNamespace('drift')
+      for (const retry of retries) {
+        this[retry.identifier](...retry.args)
+      }
+    })
   }
 
   initDriftOnLoad () {
@@ -104,11 +112,19 @@ export default class DriftTracker extends BaseTracker {
   }
 
   get isChatEnabled () {
-    return !this.onPlayPage && !this.store.getters['me/isStudent']
+    return !this.onPlayPage && !this.store.getters['me/isStudent'] && !this.store.getters['me/isHomePlayer']  // && !this.disableAllTracking
   }
 
   updateDriftConfiguration () {
     const chatEnabled = this.isChatEnabled
+    if (this.isInitialized !== false) {
+      // Drift failed to load, let's not try again.
+      return
+    } else if (chatEnabled && !this.driftApi) {
+      return this.initializeDrift()
+    } else if (!chatEnabled && !this.driftApi) {
+      return
+    }
 
     window.drift.config({
       enableWelcomeMessage: chatEnabled,
