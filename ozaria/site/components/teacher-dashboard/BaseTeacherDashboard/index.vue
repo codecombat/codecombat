@@ -17,8 +17,10 @@
 
   import { mapMutations, mapGetters } from 'vuex'
   import { FIRST_CLASS_STEPS, CREATE_CLASS_STEPS } from './teacherDashboardTours'
+  import ModalTeacherDetails from "../modals/ModalTeacherDetails";
 
   const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
+  const SEEN_TEACHER_DETAILS_MODAL = 'seen-teacher-details-modal'
 
   export default {
     components: {
@@ -31,7 +33,8 @@
       ModalOnboardingVideo,
       SecondaryTeacherNavigation,
       TitleBar,
-      LoadingBar
+      LoadingBar,
+      ModalTeacherDetails,
     },
 
     data () {
@@ -43,10 +46,12 @@
         showAssignContentModal: false,
         showAddStudentsModal: false,
         showRemoveStudentsModal: false,
-        showOnboardingModal: !me.get('seenNewDashboardModal'),
-        // We may want to pull this out. For locality with dashboard this reduces abstraction.
+        showOnboardingModal: false,
+        showTeacherDetailsModal: false,
+        // // We may want to pull this out. For locality with dashboard this reduces abstraction.
         runningTour: null,
-        createdFirstClass: false
+        createdFirstClass: false,
+        trialRequestLoading: true,
       }
     },
 
@@ -58,7 +63,8 @@
         classroom: 'teacherDashboard/getCurrentClassroom',
         classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
         selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
-        componentName: 'teacherDashboard/getComponentName'
+        componentName: 'teacherDashboard/getComponentName',
+        trialRequest: 'trialRequest/properties'
       }),
 
       pageTitle () {
@@ -75,7 +81,7 @@
 
       showClassInfo () {
         return this.componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE || this.componentName === COMPONENT_NAMES.STUDENT_PROJECTS
-      }
+      },
     },
 
     watch: {
@@ -89,9 +95,11 @@
     created () {
       if (!me.isTeacher()) { // TODO Restrict this from Router itself similar to how `RestrictedToTeachersView` works
         this.showRestrictedDiv = true
+        this.showOnboardingModal = !me.get('seenNewDashboardModal');
       } else {
         this.showRestrictedDiv = false
         this.updateStoreOnNavigation()
+        this.handleTrialRequest();
       }
     },
 
@@ -222,7 +230,32 @@
 
       onChangeCourse (courseId) {
         this.setSelectedCourseId({ courseId: courseId })
-      }
+      },
+
+      closeTeacherDetailsModal() {
+        const HRS_12 = 60 * 12;
+        storage.save(this.teacherModalKey(), true, HRS_12);
+        this.showTeacherDetailsModal = false;
+      },
+      shouldShowTeacherDetailsModal() {
+        return !this.trialRequestLoading && !this.trialRequest?.organization && !storage.load(this.teacherModalKey())
+      },
+      teacherModalKey() {
+        return `${SEEN_TEACHER_DETAILS_MODAL}_${me.get('_id')}`;
+      },
+      handleTrialRequest() {
+        this.$store.dispatch('trialRequest/fetchCurrentTrialRequest')
+          .then((result) => {
+            this.trialRequestLoading = false;
+            this.showTeacherDetailsModal = this.shouldShowTeacherDetailsModal();
+          })
+          .catch((err) => {
+            console.error('teacherDetailsModal fetch failed', err);
+          })
+          .finally(() => {
+            this.showOnboardingModal = !me.get('seenNewDashboardModal');
+          });
+      },
     }
   }
 </script>
@@ -257,8 +290,17 @@
       @addStudents="showAddStudentsModal = true"
       @removeStudents="showRemoveStudentsModal = true"
     />
+    <modal-teacher-details
+      v-if="showTeacherDetailsModal"
+      @close="closeTeacherDetailsModal"
+      :initial-organization="trialRequest.organization"
+      :initial-district="trialRequest.district"
+      :initial-city="trialRequest.city"
+      :initial-state="trialRequest.state"
+      :initial-country="trialRequest.country"
+    />
     <modal-onboarding-video
-      v-if="showOnboardingModal"
+      v-else-if="showOnboardingModal"
       @close="closeOnboardingModal"
     />
     <modal-new-class
