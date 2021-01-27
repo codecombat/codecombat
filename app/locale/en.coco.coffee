@@ -90,7 +90,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
     teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction this holiday season!"
+    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!" # {change}
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
