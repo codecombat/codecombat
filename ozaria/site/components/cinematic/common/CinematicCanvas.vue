@@ -269,7 +269,7 @@ export default {
 
 #cinematic-div
   position: relative
-  .cinematic-speech-bubble-left, .cinematic-speech-bubble-right
+  .cinematic-speech-bubble-left, .cinematic-speech-bubble-right, .cinematic-speech-bubble-center
     font-family: "Work Sans"
     font-size: 2.6vmin
     line-height: 1.42
