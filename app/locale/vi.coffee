@@ -91,7 +91,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction this holiday season!"
+#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    try_the_game: "Try the game"
     classroom_edition: "Phiên bản Lớp học:"
     learn_to_code: "Học lập trình:"
@@ -561,6 +561,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    chat: "Chat"
 #    chat_with_us: "Chat with us"
 #    email_us: "Send us an email"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "giây"
@@ -2288,6 +2290,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     ambassador_introduction: "Đây là cộng đồng mà chúng tôi đang gây dựng, và bạn là những người kết nối. Chúng tôi có các diễn đàn, email, và các mạng xã hội với rất nhiêu người để nói chuyện và giúp đỡ làm quen và học từ game. Nếu bạn muốn giúp đỡ người khác tham gia chơi, và cùng tham gia CodeCombat trên con đường chúng tôi đang hướng đến, thì lớp nhân vật này có thể phù hợp với bạn."
     ambassador_attribute_1: "Kỹ năng giao tiếp. Có thể nhận định được vấn đề của người chơi đang gặp phải và giúp họ giải quyết. Đồng thời, thông báo cho chúng tôi biết ý kiến của người chơi, những gì họ thích và không thích và những điều họ mong muốn!"
     ambassador_join_desc: "kể cho chúng tôi một chút về bạn, bạn đã làm gì và bạn hứng thú làm gì. Chúng ta sẽ cùng bắt đầu từ đó!"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "Nhận emai về cập nhật hỗ trợ và việc phát triển tính năng thi đấu."
     teacher_subscribe_desc: "Nhận email về thông tin và các cập nhật mới cho giáo viên."
     changes_auto_save: "Thay đổi sẽ tự động được lưu lại khi bạn thao tác trên các ô checkbox."
@@ -3143,3 +3148,5 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
 #    team: "team"
 #    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."

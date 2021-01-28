@@ -91,7 +91,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teachers_love_codecombat_blurb2: "会向其他计算机科学教师推荐 CodeCombat"
     teachers_love_codecombat_blurb3: "认为 CodeCombat 帮助提高学生解决问题的能力"
     teachers_love_codecombat_subblurb: "数据来源于美国中洲国际教育研究院 (McREL International)，美国中洲国际教育研究院是教育技术研究指导和评估的领导者。"
-    top_banner_blurb: "家长们，在这个节日里，给孩子送上编程和个性化教学的礼物吧！"
+    top_banner_blurb: "家长们，在这个节日里，给孩子送上编程和个性化教学的礼物吧！" # {change}
     try_the_game: "免费试玩"
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
@@ -561,6 +561,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     chat: "聊天"
     chat_with_us: "与我们聊天"
     email_us: "给我们发邮件"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "秒"
@@ -2288,6 +2290,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ambassador_introduction: "这是一个正在成长的社区，而您将成为我们与世界的联结点。大家可以通过各种即时聊天平台、邮件、或是参与者众多的社交网络来认识及讨论我们的游戏。如果您喜欢帮助大家，一起参与各类项目，一起获得乐趣。与我们同行，一起感受CodeCombat的脉搏，绝对是一个适合您的职业。"
     ambassador_attribute_1: "具备出色的沟通能力。能够分辨出玩家遇到的问题并帮助他们解决问题。与此同时，和我们保持联系，帮助反馈玩家们的喜怒哀乐！"
     ambassador_join_desc: "介绍一下您自己：您做过什么？您喜欢做什么？我们将从这里开始了解您！"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "通过电子邮件获得支持系统的现状，以及多人游戏方面的新进展。"
     teacher_subscribe_desc: "接收针对老师的更新和公告邮件。"
     changes_auto_save: "在您勾选复选框后，更改将自动保存。"
@@ -3143,3 +3148,5 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
 #    team: "team"
 #    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
