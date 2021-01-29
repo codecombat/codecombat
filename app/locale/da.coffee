@@ -91,7 +91,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction this holiday season!"
+#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    try_the_game: "Try the game"
     classroom_edition: "Klasseværelse Udgave:"
     learn_to_code: "Lær at kode:"
@@ -561,6 +561,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    chat: "Chat"
 #    chat_with_us: "Chat with us"
 #    email_us: "Send us an email"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "sekund"
@@ -2288,6 +2290,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     ambassador_introduction: "Dette er et fællesskab, som vi er ved at bygge, og du har kontakterne. Vi har fora, emails og sociale netværk med masser af mennesker at tale med, at hjælpe med at bruge spillet og lære fra. Hvis du vil hjælpe med at få folk involveret og have det sjovt, og med at få en god fornemmelse af CodeCombat og hvor vi skal hen, så kan denne klasse være noget for dig."
     ambassador_attribute_1: "Kommunikationsevner. Vær i stand til at identificere de problemer, som spillerne har, og hjælpe dem med at løse dem. Hold også resten af ​​os informeret om, hvad spillerne siger, hvad de kan lide og ikke kan lide og hvad de ønsker sig mere af!"
     ambassador_join_desc: "fortæl os lidt mere om dig selv, hvad du har gjort, og hvad du ville være interesseret i at gøre. Så tager vi den derfra!"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "Få emails omkring supportopdateringer og udviklingen af multiplayer."
     teacher_subscribe_desc: "Få emails omkring opdateringer og meddelelser for lærere."
     changes_auto_save: "Ændringerne gemmes automatisk, når du skifter afkrydsningsfelter."
@@ -3143,3 +3148,5 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
 #    team: "team"
 #    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."

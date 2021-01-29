@@ -91,7 +91,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction this holiday season!"
+#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    try_the_game: "Try the game"
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
@@ -561,6 +561,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    chat: "Chat"
 #    chat_with_us: "Chat with us"
 #    email_us: "Send us an email"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "秒"
@@ -2288,6 +2290,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     ambassador_introduction: "箇是一個起頭個社區，爾也會變成我裏搭世界聯結個點。大家人都好用Olark隨底白嗒、發信、参加個人無數個社交網絡來認識瞭解討論我裏個遊戲。空是爾想幫助大家人快點加進來、攪攪意思、感受CodeCombat個脈搏、搭我裏聚隊，箇勿箇佩適合爾來做。"
     ambassador_attribute_1: "搭人家溝通本事好。識別得出攪個人碰着個問題，幫渠裏解決許問題。同時，搭我裏保持聯繫，及時反映攪個人哪搭中意弗中意、所望有解某！"
     ambassador_join_desc: "自己介紹記：爾解某做過爻？解某中意做？我裏從箇搭開始畀爾瞭解！"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "用電子郵箱收 支持系統個情況，搭多人遊戲方面個新情況。"
 #    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
     changes_auto_save: "多選框勾起之後，改動會自動存檔。"
@@ -3143,3 +3148,5 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
 #    team: "team"
 #    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
