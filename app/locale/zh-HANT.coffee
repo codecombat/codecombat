@@ -91,7 +91,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction this holiday season!"
+#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    try_the_game: "Try the game"
     classroom_edition: "教室版本"
     learn_to_code: "學習寫程式碼"
@@ -561,6 +561,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    chat: "Chat"
 #    chat_with_us: "Chat with us"
 #    email_us: "Send us an email"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "秒"
@@ -2288,6 +2290,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     ambassador_introduction: "這是個我們正在建立的社群，您將是我們與世界的連接點。我們在論壇、郵件、社群網路上和許多人交談並且幫助彼此熟悉遊戲以及互相學習。如果您想要幫助其他人參與並且從中獲得許多樂趣，以及樂於感受CodeCombat的脈搏和我們將前往的地方，那麼這職業也許適合您。"
     ambassador_attribute_1: "溝通技巧。可以找到玩家正面臨的問題並且幫助他們解決。另外，保持與我們聯繫玩家們討論的、喜愛的、厭惡的以及想要的！"
     ambassador_join_desc: "告訴我們更多關於您的資訊，您已完成的事情和您喜歡做的事情。我們將從這些地方開始！"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "取得更新和多人連線開發的郵件。"
     teacher_subscribe_desc: "取得給教師的更新以及消息。"
     changes_auto_save: "當您勾選後，改變將自動儲存。"
@@ -3143,3 +3148,5 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
 #    team: "team"
 #    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."

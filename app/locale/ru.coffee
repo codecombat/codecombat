@@ -91,7 +91,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teachers_love_codecombat_blurb2: "Рекомендую CodeCombat всем учителмя информатики"
     teachers_love_codecombat_blurb3: "Скажите, что CodeCombat помогает им поддерживать способности учащихся решать проблемы"
     teachers_love_codecombat_subblurb: "В партнерстве с McREL International, лидером в области основанного на исследованиях руководства и оценки образовательных технологий."
-#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction this holiday season!"
+#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
     try_the_game: "Попробуй игру"
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
@@ -561,6 +561,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    chat: "Chat"
 #    chat_with_us: "Chat with us"
 #    email_us: "Send us an email"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "секунда"
@@ -2288,6 +2290,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     ambassador_introduction: "Это сообщество, которое мы создаём, а вы объединяете. У нас есть Olark чаты, электронная почта и социальные сети с уймой людей, с которыми нужно поговорить, помочь в ознакомлении с игрой и обучении из неё. Если вы хотите помочь людям втянуться, получать удовольствие, наслаждаться и и куда мы идём, этот класс для вас."
     ambassador_attribute_1: "Навыки общения. Уметь определять проблемы игроков и помогать решить их. Кроме того, держите всех нас в курсе о том, что игроки говорят, что им нравится, не нравится и чего хотят больше!"
     ambassador_join_desc: "расскажите нам немного о себе, чем вы занимались и чем хотели бы заниматься. Отсюда и начнём!"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "Получать e-mail о разработке мультиплеера и обновлениях в системе поддержки."
     teacher_subscribe_desc: "Получать e-mail с новостями и объявлениями для учителей."
     changes_auto_save: "Изменения сохраняются автоматически при переключении флажков."
@@ -3143,3 +3148,5 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
 #    team: "team"
 #    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."

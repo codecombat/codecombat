@@ -91,7 +91,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction this holiday season!"
+#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    try_the_game: "Try the game"
     classroom_edition: "Tantermi változat:"
     learn_to_code: "Tanulj meg kódolni:"
@@ -561,6 +561,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    chat: "Chat"
 #    chat_with_us: "Chat with us"
 #    email_us: "Send us an email"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "másodperc"
@@ -2288,6 +2290,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     ambassador_introduction: "Egy közösséget építünk, aminek te építed a kapcsolatait. Van fórumunk, levelezőlistánk, és vannak közösségi hálóink, ahol beszélgethetsz sok emberrel, ismerkedhetsz a játékkal, és sokat tanulhatsz. Ha szívesen vonnál be másokat a játékba, te pedig szeretnél bekerülni a CodeCombat sodrásába hogy lásd, hogyan fejlődik a játék, ezt az osztályt válaszd!"
     ambassador_attribute_1: "Jó kommunikációs készség. Képesnek kell lenned beazonosítani a játékosok problémáit, és segíteni nekik a megoldásában. Rendszeresen okosíts minket ki, hogy miről beszélnek a játékosok - mi tetszik nekik, mi nem tetszik nekik, miből szeretnének többet!"
     ambassador_join_desc: "mesélj kicsit magadról, arról hogy miket csináltál eddig, és mi az, ami érdekelne! Kezdetnek ennyi!"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "Szeretnék e-mailt kapni a support frissítésekről és a többjátékos móddal kapcsolatos fejleményekről."
     teacher_subscribe_desc: "Szeretnék e-mailt kapni a tanárokat érintő frissítésekről és bejelentésekről."
     changes_auto_save: "Ha rákattintasz egy jelölőnégyzetre, a változásokat automatikusan elmentjük."
@@ -3143,3 +3148,5 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
 #    team: "team"
 #    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."

@@ -91,7 +91,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction this holiday season!"
+#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    try_the_game: "Try the game"
     classroom_edition: "Edició d'Aula:"
     learn_to_code: "Aprendre a programar:"
@@ -561,6 +561,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    chat: "Chat"
 #    chat_with_us: "Chat with us"
 #    email_us: "Send us an email"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "segon"
@@ -2288,6 +2290,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     ambassador_introduction: "Aquesta és una comunitat que estem construint, i tu ets les connexions. Tenim fòrums, correus electrònics i xarxes socials amb molta gent per parlar i ajudar-vos a conèixer el joc i aprendre-ne. Si voleu ajudar a la gent a participar-hi i divertir-se i tenir una bona idea del pols de CodeCombat i on anem, aquesta classe pot ser per a vosaltres."
     ambassador_attribute_1: "Habilitats comunicatives. Ser capaç d'identificar els problemes que tenen els jugadors i ajudar-los a resoldre'ls. A més, manten-nos informats sobre el que diuen els jugadors, el que els agrada i no els agrada i sobre què més volen!"
     ambassador_join_desc: "explica'ns una mica sobre tu mateix, què has fet i què t'interessaria fer. Començarem per això!"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "Obteniu correus electrònics sobre actualitzacions de suport i desenvolupaments multijugador."
     teacher_subscribe_desc: "Obteniu correus electrònics sobre actualitzacions i anuncis per a professors."
     changes_auto_save: "Els canvis es desen automàticament quan canvieu les caselles de selecció."
@@ -3143,3 +3148,5 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
 #    team: "team"
 #    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
