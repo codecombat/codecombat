@@ -91,7 +91,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction this holiday season!"
+#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    try_the_game: "Try the game"
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
@@ -561,6 +561,8 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    chat: "Chat"
 #    chat_with_us: "Chat with us"
 #    email_us: "Send us an email"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "segundo"
@@ -2288,6 +2290,9 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
     ambassador_introduction: "Esta é unha comunidade en construcción e ti es parte das conexións. Temos chat Olark, correos electrónicos e as redes sociais cunha gran cantidade de persoas con quen falar, axudar a familiarizarse co xogo e aprender. Se queres axudar á xente a que se involucre, se divirta e teña boas sensacións sobre CodeCombat e cara onde vamos, entón esta clase é para ti."
     ambassador_attribute_1: "Habilidades de comunicación. Ser capaz de identificar os problemas que os xogadores están tendo e axudarlles a resolvelos. Ademais, manter ao resto de nos informados sobre o que están dicindo os xogadores, o que lles gusta, o que non, e do que máis queren!"
     ambassador_join_desc: "contanos máis sobre ti, que fixeches e que estarías interesado en facer. E continuaremos a partir de ahí!"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "Recibe correos sobre actualizacións de soporte e desenvolvemento do multixogador."
 #    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
     changes_auto_save: "Os cambios son gardados automáticamente cando marcas as casillas de verificación."
@@ -3143,3 +3148,5 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
 #    team: "team"
 #    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."

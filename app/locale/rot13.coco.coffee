@@ -90,7 +90,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teachers_love_codecombat_blurb2: "Jbhyq erpbzzraq PbqrPbzong gb bgure pbzchgre fpvrapr grnpuref"
     teachers_love_codecombat_blurb3: "Fnl gung PbqrPbzong urycf gurz fhccbeg fghqragf’ ceboyrz fbyivat novyvgvrf"
     teachers_love_codecombat_subblurb: "Va cnegarefuvc jvgu ZpERY Vagreangvbany, n yrnqre va erfrnepu-onfrq thvqnapr naq rinyhngvbaf bs rqhpngvbany grpuabybtl."
-    top_banner_blurb: "Cneragf, tvir lbhe puvyq gur tvsg bs pbqvat naq crefbanyvmrq vafgehpgvba guvf ubyvqnl frnfba!"
+    top_banner_blurb: "Cneragf, tvir lbhe puvyq gur tvsg bs pbqvat naq crefbanyvmrq vafgehpgvba jvgu bhe yvir grnpuref!" # {punatr}
     try_the_game: "Gel gur tnzr"
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
@@ -560,6 +560,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     chat: "Pung"
     chat_with_us: "Pung jvgu hf"
     email_us: "Fraq hf na rznvy"
+    sales: "Fnyrf"
+    support: "Fhccbeg"
 
   units:
     second: "frpbaq"
@@ -2287,6 +2289,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     ambassador_introduction: "Guvf vf n pbzzhavgl jr'er ohvyqvat, naq lbh ner gur pbaarpgvbaf. Jr'ir tbg sbehzf, rznvyf, naq fbpvny argjbexf jvgu ybgf bs crbcyr gb gnyx jvgu naq uryc trg npdhnvagrq jvgu gur tnzr naq yrnea sebz. Vs lbh jnag gb uryc crbcyr trg vaibyirq naq unir sha, naq trg n tbbq srry bs gur chyfr bs PbqrPbzong naq jurer jr'er tbvat, gura guvf pynff zvtug or sbe lbh."
     ambassador_attribute_1: "Pbzzhavpngvba fxvyyf. Or noyr gb vqragvsl gur ceboyrzf cynlref ner univat naq uryc gurz fbyir gurz. Nyfb, xrrc gur erfg bs hf vasbezrq nobhg jung cynlref ner fnlvat, jung gurl yvxr naq qba'g yvxr naq jnag zber bs!"
     ambassador_join_desc: "gryy hf n yvggyr nobhg lbhefrys, jung lbh'ir qbar naq jung lbh'q or vagrerfgrq va qbvat. Jr'yy tb sebz gurer!"
+    ambassador_join_step1: "Ernq gur qbphzragngvba."
+    ambassador_join_step2: "Svaq hf va bhe choyvp Fynpx punaary."
+    ambassador_join_step3: "Uryc bguref va gur Nzonffnqbe pngrtbel."
     ambassador_subscribe_desc: "Trg rznvyf ba fhccbeg hcqngrf naq zhygvcynlre qrirybczragf."
     teacher_subscribe_desc: "Trg rznvyf ba hcqngrf naq naabhaprzragf sbe grnpuref."
     changes_auto_save: "Punatrf ner fnirq nhgbzngvpnyyl jura lbh gbttyr purpxobkrf."
@@ -3142,3 +3147,5 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     general_news: "Trg rznvyf ba gur yngrfg arjf naq hcqngrf ertneqvat bhe NV Yrnthrf naq gbheanzragf."
     team: 'grnz'
     how_it_works1: 'Wbva n __grnz__'
+    seasonal_arena_name: 'Oynmvat Onggyr'
+    seasonal_arena_tooltip: 'Onggyr ntnvafg lbhe grnzzngrf naq bguref nf lbh hfr lbhe orfg cebtenzzvat fxvyyf gb rnea cbvagf naq enax hc gur NV Yrnthr yrnqreobneq orsber gnxvat ba gur Punzcvbafuvc neran ng gur raq bs gur frnfba.'

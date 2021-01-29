@@ -91,7 +91,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teachers_love_codecombat_blurb2: "Zouden CodeCombat aanraden aan andere informatica-docenten"
     teachers_love_codecombat_blurb3: "Zeggen dat CodeCombat hen helpt om de probleemoplossende vaardigheden van studenten te ondersteunen"
     teachers_love_codecombat_subblurb: "In samenwerking met McREL International, een leider in op onderzoek gebaseerde begeleiding en evaluaties van educatieve technologie."
-#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction this holiday season!"
+#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
     try_the_game: "Probeer de game"
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
@@ -561,6 +561,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    chat: "Chat"
 #    chat_with_us: "Chat with us"
 #    email_us: "Send us an email"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "seconde"
@@ -2288,6 +2290,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     ambassador_introduction: "We zijn een gemeenschap aan het uitbouwen, en jij maakt er deel van uit. We hebben Olark chatkamers, e-mails, en sociale netwerken met veel andere mensen waarmee je kan praten en hulp aan kan vragen over het spel of om bij te leren. Als jij mensen wil helpen en te werken nabij de hartslag van CodeCombat in het bijsturen van onze toekomstvisie, dan is dit de geknipte klasse voor jou!"
     ambassador_attribute_1: "Communicatieskills. Problemen die spelers hebben kunnen identificeren en ze helpen deze op te lossen. Verder zul je ook de rest van ons geïnformeerd houden over wat de spelers zeggen, wat ze leuk vinden, wat ze minder vinden en waar er meer van moet zijn!"
     ambassador_join_desc: "vertel ons wat over jezelf, wat je hebt gedaan en wat je graag zou doen. We zien verder wel!"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "Ontvang e-mails met updates over ondersteuning en multiplayer-ontwikkelingen."
     teacher_subscribe_desc: "Ontvang e-mails over updates en aankondigingen voor leraren."
     changes_auto_save: "Veranderingen worden automatisch opgeslagen wanneer je het vierkantje aan- of afvinkt."
@@ -3143,3 +3148,5 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
 #    team: "team"
 #    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
