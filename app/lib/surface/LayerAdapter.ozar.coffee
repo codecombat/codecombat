@@ -336,10 +336,21 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       @totalTimeSpentRendering += performance?.now() - @renderNewSpriteSheetStartedTime
       @reportRenderTime()
     @asyncBuilder = null
+    builder?.removeAllEventListeners()
+
+    if @spriteSheet
+      # This is required for old canvas to be garbage collected.
+      for image, i in @spriteSheet._images
+        image.width = 0
+        image.height = 0
+        @spriteSheet._images[i] = null
 
     @spriteSheet = builder.spriteSheet
+    builder = null
     @spriteSheet.resolutionFactor = @resolutionFactor
     oldLayer = @container
+    oldLayer?.removeAllEventListeners()
+
     @container = new createjs.Container(@spriteSheet)
 
     # Explicitly setting object as non reactive for performance benefit.
