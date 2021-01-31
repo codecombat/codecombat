@@ -39,6 +39,8 @@ module.exports = class Level extends CocoModel
     tmap = {}
     tmap[t.thangType] = true for t in o.thangs ? []
     sessionHeroes = [session?.get('heroConfig')?.thangType, otherSession?.get('heroConfig')?.thangType]
+    if @isType('ladder')
+      sessionHeroes = []  # Don't load session heroes in straight ladder matches
     o.thangTypes = []
     for tt in supermodel.getModels 'ThangType'
       if tmap[tt.get('original')] or
@@ -68,7 +70,7 @@ module.exports = class Level extends CocoModel
 
   denormalize: (supermodel, session, otherSession) ->
     o = $.extend true, {}, @attributes
-    if o.thangs and @isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
+    if o.thangs
       thangTypesWithComponents = (tt for tt in supermodel.getModels('ThangType') when tt.get('components')?)
       thangTypesByOriginal = _.indexBy thangTypesWithComponents, (tt) -> tt.get('original')  # Optimization
       for levelThang in o.thangs
@@ -77,7 +79,7 @@ module.exports = class Level extends CocoModel
 
   denormalizeThang: (levelThang, supermodel, session, otherSession, thangTypesByOriginal) ->
     levelThang.components ?= []
-    if /Hero Placeholder/.test(levelThang.id) and @get('assessment') isnt 'open-ended' 
+    if /Hero Placeholder/.test(levelThang.id) and @get('assessment') isnt 'open-ended'
       if @isType('hero', 'hero-ladder', 'hero-coop') and !me.isStudent()
         isHero = true
       else if @isType('course') and me.showHeroAndInventoryModalsToStudents() and not @isAssessment()
@@ -312,7 +314,7 @@ module.exports = class Level extends CocoModel
       try
         sampleCode[language] = _.template(code)(plan.context)
       catch e
-        console.error "Problem with template and solution comments for", @get('slug'), e
+        console.error "Problem with template and solution comments for '#{@get('slug') or @get('name')}'\n", e
     sampleCode
 
   @thresholdForScore: ({level, type, score}) ->

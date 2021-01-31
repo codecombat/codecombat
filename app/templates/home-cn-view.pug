@@ -1,0 +1,509 @@
+extends /templates/base-flat.jade
+
+block content
+  .container-fluid
+    .row#jumbotron-container-fluid
+      .col-lg-6
+        h1.text-white(data-i18n="new_home.slogan")
+        div.button-section
+          if me.isAnonymous()
+            p
+              button.btn.btn-lg.btn-primary.teacher-btn(data-event-action="Homepage Click Teacher Button #1 CTA", data-i18n="new_home.im_an_educator", style="text-transform: none")
+            p
+              button.btn.btn-lg.btn-primary.student-btn(data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student", style="text-transform: none")
+            p
+              a.btn.btn-lg.btn-primary-alt.play-btn(href="/play", data-i18n="common.play", data-event-action="Homepage Play Now CTA", style="text-transform: none")
+          else
+            p
+              if me.isTeacher()
+                a.btn.btn-lg.btn-primary.my-classes-btn(href="/teachers/classes", data-event-action="Homepage Click My Classes CTA", data-i18n="new_home.go_to_my_classes")
+              else if me.isStudent()
+                a.btn.btn-lg.btn-primary.my-courses-btn(href="/students", data-event-action="Homepage Click My Courses CTA", data-i18n="new_home.go_to_courses")
+              else
+                a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
+      .col-lg-6.aiyouth
+        h1.gradient-title 奥佳睿-Ozaria
+        .subtitle 体验科幻冒险编程
+        a.btn.btn-lg.btn-primary.aiyouth-btn(href="https://aojiarui.com") 进入官网
+
+    .row#game-based.vertical-align
+        .col-md-5
+          .game-based-blurb
+            h3.text-navy(data-i18n="new_home.game_based_blurb")
+            if me.isAnonymous()
+              br
+              p
+                a.btn.btn-lg.btn-primary.play-btn(href="/play", data-event-action="Homepage Try The Game CTA", data-i18n="new_home.try_the_game")
+        .col-md-7
+          .game-based-image
+            img(src="/images/pages/home/type_real_code_logo.gif"
+              alt="CodeCombat character Anya follows typed code block to reach chest of gems")
+
+    if !me.showingStaticPagesWhileLoading()
+      .row.row-dark#classroom-in-box-row
+        .col-lg-12
+          .container
+            .row
+              .col-lg-7.col-md-12
+                .video-iframe
+                  video(controls width="640" height="350" poster="http://coco-assets.oss-cn-beijing.aliyuncs.com/videos/video_thumb.png" preload="metadata")
+                    source(src="http://coco-assets.oss-cn-beijing.aliyuncs.com/videos/%E6%96%AF%E5%9D%A6%E7%A6%8F%E6%AF%94%E8%B5%9B.mp4" type="video/mp4")
+                    a(href="http://coco-assets.oss-cn-beijing.aliyuncs.com/videos/%E6%96%AF%E5%9D%A6%E7%A6%8F%E6%AF%94%E8%B5%9B.mp4")
+                      img(src="http://coco-assets.oss-cn-beijing.aliyuncs.com/videos/video_thumb.png" style="width: 640px; height:350px")
+              .col-lg-5.col-md-12
+                h2(data-i18n="new_home.classroom_in_box_title")
+                img(src="/images/pages/home/pink_rectangle.png"
+                alt="")
+                ul
+                  li
+                    span.text-p(data-i18n="new_home.classroom_in_box_blurb1")
+                  li
+                    span.text-p(data-i18n="new_home.classroom_in_box_blurb2")
+                  li
+                    span.text-p(data-i18n="new_home.classroom_in_box_blurb3")
+                  li
+                    span.text-p(data-i18n="new_home.classroom_in_box_blurb4")
+            if me.isAnonymous()
+              .row.signup_btn
+                button.btn.btn-lg.btn-primary.signup-button.signup-home-btn(data-event-action="Homepage Sign Up #2 CTA", data-i18n="signup.sign_up")
+
+    .row#creativity-rigor
+      .col-lg-12
+        h1.text-center.text-navy(data-i18n="new_home.creativity_rigor_title")
+        .container
+          .row
+            .col-lg-4
+              img(src="http://coco-assets.oss-cn-beijing.aliyuncs.com/images/home/creativity_rigor1.jpg", width="363", height="204"
+                  alt="Girl plays CodeCombat on a computer while smiling")
+              .tile-shadow
+                h3.text-teal(data-i18n="new_home.creativity_rigor_subtitle1")
+                p.text-navy(data-i18n="new_home.creativity_rigor_blurb1")
+            .col-lg-4
+              img(src="/images/pages/home/creativity_rigor2.png", width="363", height="204"
+                  alt="Two girls share a computer with CodeCombat playing between them")
+              .tile-shadow
+                h3.text-teal(data-i18n="new_home.creativity_rigor_subtitle2")
+                p.text-navy(data-i18n="new_home.creativity_rigor_blurb2")
+            .col-lg-4
+              img(src="http://coco-assets.oss-cn-beijing.aliyuncs.com/images/home/creativity_rigor3.jpg", width="363", height="204"
+                  alt-="Smiling professional teacher")
+              .tile-shadow
+                h3.text-teal(data-i18n="new_home.creativity_rigor_subtitle3")
+                p.text-navy(data-i18n="new_home.creativity_rigor_blurb3")
+        if me.isAnonymous()
+          .text-center
+            button.btn.btn-lg.btn-primary.request-quote(data-event-action="Homepage Request Demo", data-i18n="new_home.request_quote")
+
+    .row.row-dark.text-center#built-for-teachers
+      .col-lg-12.width-container
+        h1.text-gold(data-i18n="new_home.built_for_teachers_title")
+        img(src="/images/pages/home/pink_rectangle.png")
+        .row
+          .col-lg-12
+              .for-teachers-blurb
+                p(data-i18n="new_home.built_for_teachers_blurb")
+              #built-for-teachers-carousel.carousel.text-left(data-interval=3000)
+                ol.carousel-indicators
+                  li(data-target="#built-for-teachers-carousel", data-slide-to="0").active
+                  li(data-target="#built-for-teachers-carousel", data-slide-to="1")
+                  li(data-target="#built-for-teachers-carousel", data-slide-to="2")
+                .carousel-inner
+                  .item.active
+                    .row.hidden-md.hidden-sm.hidden-xs
+                      .col-lg-6
+                        img.computer(src="/images/pages/home/built_for_teachers1.png")
+                      .col-lg-4.text-part-carousel
+                        h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle1")
+                        p.text-navy(data-i18n="[html]new_home.built_for_teachers_subblurb1")
+                        if me.isAnonymous()
+                          br
+                          button.btn.btn-lg.btn-primary-alt.teacher-btn(data-event-action="Homepage Click Teacher Button CTA", data-i18n="[html]new_home.teach_cs1_free")
+                      .col-lg-2
+                        p
+                          img(src="/images/pages/home/javascript_logo.png", height="60")
+                        p
+                          img(src="/images/pages/home/python_logo.png", height="60")
+                        p
+                          img(src="/images/pages/home/cpp_logo.jpg", height="60")
+                    .row.hidden-lg
+                      .col-lg-12.text-center
+                        img.computer(src="/images/pages/home/built_for_teachers1.png")
+                        br
+                        h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle1")
+                        p.text-navy.padding-sm(data-i18n="[html]new_home.built_for_teachers_subblurb1")
+                        if me.isAnonymous()
+                          br
+                          button.btn.btn-lg.btn-primary-alt.teacher-btn(data-event-action="Homepage Click Teacher Button CTA", data-i18n="[html]new_home.teach_cs1_free")
+                  .item
+                    .row.hidden-md.hidden-sm.hidden-xs
+                      .col-lg-6
+                        img.computer(src="/images/pages/home/built_for_teachers2.png"
+                                    alt="A CodeCombat level with gems and an exit with Anya announcing moveRight")
+                      .col-lg-4.text-part-carousel
+                        h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle2")
+                        p.text-navy(data-i18n="new_home.built_for_teachers_subblurb2")
+                        br
+                        a.btn.btn-lg.btn-primary-alt.example-gd-btn(href="https://koudashijie.com/play/game-dev-level/5d31d9bf8c97660021d6bfe1", target="_blank", data-event-action="Homepage See Example Game Dev CTA", data-i18n="new_home.see_example")
+                      .col-lg-2
+                        p
+                          img(src="/images/pages/home/javascript_logo.png", height="60")
+                        p
+                          img(src="/images/pages/home/python_logo.png", height="60")
+                        p
+                          img(src="/images/pages/home/cpp_logo.jpg", height="60")
+                    .row.hidden-lg
+                      .col-lg-12.text-center
+                        img.computer(src="/images/pages/home/built_for_teachers2.png"
+                                      alt="Maze style game, with Anya dodging fireballs, a red cross marking the exit and an ogre blocking the route")
+                        h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle2")
+                        p.text-navy.padding-sm(data-i18n="new_home.built_for_teachers_subblurb2")
+                        br
+                        a.btn.btn-lg.btn-primary-alt.example-gd-btn(href="https://koudashijie.com/play/game-dev-level/5d31d9bf8c97660021d6bfe1", target="_blank", data-event-action="Homepage See Example Game Dev CTA", data-i18n="new_home.see_example")
+                  .item
+                    .row.hidden-md.hidden-sm.hidden-xs
+                      .col-lg-6
+                        img.computer(src="/images/pages/home/built_for_teachers3.png"
+                                      alt="Wanted poster style web page with an image of a cute cow")
+                      .col-lg-4.text-part-carousel
+                        h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle3")
+                        p.text-navy(data-i18n="new_home.built_for_teachers_subblurb3")
+                        br
+                        a.btn.btn-lg.btn-primary-alt.example-wd-btn(href="https://koudashijie.com/play/web-dev-level/5cf0d615820c47003a17542d", target="_blank", data-event-action="Homepage See Example Web Dev CTA", data-i18n="new_home.see_example")
+                      .col-lg-2
+                        p
+                          img(src="/images/pages/home/html_logo.png", height="60")
+                        p
+                          img(src="/images/pages/home/css_logo.png", height="60")
+                        p
+                          img(src="/images/pages/home/jquery_logo.png", height="60")
+                    .row.hidden-lg
+                      .col-lg-12.text-center
+                        img.computer(src="/images/pages/home/built_for_teachers3.png")
+                        h3.text-teal(data-i18n="new_home.built_for_teachers_subtitle3")
+                        p.text-navy.padding-sm(data-i18n="new_home.built_for_teachers_subblurb3")
+                        br
+                        a.btn.btn-lg.btn-primary-alt.example-wd-btn(href="https://koudashijie.com/play/web-dev-level/5cf0d615820c47003a17542d", target="_blank", data-event-action="Homepage See Example Web Dev CTA", data-i18n="new_home.see_example")
+                a.left.carousel-control(href="#built-for-teachers-carousel", role="button", data-slide="prev")
+                  span(aria-hidden="true")
+                    img(src="/images/pages/home/arrow_teal_left.png")
+                  span.sr-only(data-i18n="about.previous")
+                a.right.carousel-control(href="#built-for-teachers-carousel", role="button", data-slide="next")
+                  span(aria-hidden="true")
+                    img(src="/images/pages/home/arrow_teal_right.png")
+                  span.sr-only(data-i18n="play.next")
+
+    .row.text-center#for-teachers
+      .col-lg-12
+        h1.text-navy(data-i18n="new_home.for_teachers_title")
+        img(src="/images/pages/home/pink_rectangle.png")
+        h5.text-gray(data-i18n="new_home.for_teachers_blurb")
+        .container
+          .row.first_row
+            .col-lg-6
+              .tile-shadow
+                img(src="/images/pages/home/project_based_learning.png"
+                    alt="Cartoon hands holding world drawn as a blue network")
+                h3.text-teal(data-i18n="new_home.for_teachers_subtitle1")
+                p.text-navy(data-i18n="new_home.for_teachers_subblurb1")
+            .col-lg-6
+              .tile-shadow
+                img(src="/images/pages/home/teacher_dashboard.png"
+                    alt="Increasing graph")
+                h3.text-teal(data-i18n="new_home.for_teachers_subtitle2")
+                p.text-navy(data-i18n="new_home.for_teachers_subblurb2")
+          .row.second_row
+            .col-lg-6
+              .tile-shadow
+                img(src="/images/pages/home/built_in_assessments.png"
+                    alt="Magnifying glass on cartoon report")
+                h3.text-teal(data-i18n="new_home.for_teachers_subtitle3")
+                p.text-navy(data-i18n="new_home.for_teachers_subblurb3")
+            .col-lg-6
+              .tile-shadow
+                img(src="/images/pages/home/automatic_differentiation.png"
+                    alt="Blue, green and orange arrow pointing in different directions")
+                h3.text-teal(data-i18n="new_home.for_teachers_subtitle4")
+                p.text-navy(data-i18n="new_home.for_teachers_subblurb4")
+        if me.isAnonymous()
+          .text-center
+            button.btn.btn-lg.btn-primary.teacher-btn(data-event-action="Homepage Sign Up #3 CTA", data-i18n="signup.sign_up")
+
+    .row.row-dark.text-center#teachers-love-codecombat
+      .col-lg-12
+        h1.text-white(data-i18n="new_home.teachers_love_codecombat_title")
+        .container
+          .row
+            .col-xs-4
+              .width-320
+                h1.text-gold 99%
+                img(src="/images/pages/home/pink_rectangle.png")
+                h4.text-white(data-i18n="new_home.teachers_love_codecombat_blurb1")
+            .col-xs-4
+              .width-320
+                h1.text-gold 95%
+                img(src="/images/pages/home/pink_rectangle.png")
+                h4.text-white(data-i18n="new_home.teachers_love_codecombat_blurb2")
+            .col-xs-4
+              .width-320
+                h1.text-gold 94%
+                img(src="/images/pages/home/pink_rectangle.png")
+                h4.text-white(data-i18n="new_home.teachers_love_codecombat_blurb3")
+          p.mcrel-blurb(data-i18n="new_home.teachers_love_codecombat_subblurb")
+
+    //- TODO: this is really similar to quad above
+    .row.text-center#for-leaders
+      .col-lg-12
+        h1.text-navy(data-i18n="new_home.for_leaders_title")
+        img(src="/images/pages/home/pink_rectangle.png")
+        h5.text-gray(data-i18n="new_home.for_leaders_blurb")
+        .container
+          .row.first_row
+            .col-lg-6
+              .tile-shadow
+                img(src="/images/pages/home/easy_implementation.png"
+                    alt="Cartoon hand tapping on cartoon sky")
+                h3.text-teal(data-i18n="new_home.for_leaders_subtitle1")
+                p.text-navy(data-i18n="new_home.for_leaders_subblurb1")
+            .col-lg-6
+              .tile-shadow
+                img(src="/images/pages/home/comprehensive_curriculum.png"
+                    alt="Cartoon classroom")
+                h3.text-teal(data-i18n="new_home.for_leaders_subtitle2")
+                p.text-navy(data-i18n="new_home.for_leaders_subblurb2")
+          .row.second_row
+            .col-lg-6
+              .tile-shadow
+                img(src="/images/pages/home/flexible_use_cases.png"
+                    alt="Graph like diagram with CC logo in the center")
+                h3.text-teal(data-i18n="new_home.for_leaders_subtitle3")
+                p.text-navy(data-i18n="new_home.for_leaders_subblurb3")
+            .col-lg-6
+              .tile-shadow
+                img(src="/images/pages/home/real_world_skills.png"
+                    alt="Cartoon girl rolling huge stone up a mountain")
+                h3.text-teal(data-i18n="new_home.for_leaders_subtitle4")
+                p.text-navy(data-i18n="new_home.for_leaders_subblurb4")
+        if me.isAnonymous()
+          .text-center
+            button.btn.btn-lg.btn-primary.request-quote(data-event-action="Homepage Request Demo Page Bottom", data-i18n="new_home.request_quote")
+
+    .row#quotes
+      .col-lg-12
+        .text-center
+          img(src="/images/pages/home/teal_quote.png")
+        .container
+          .row
+            .col-lg-12
+              #quotes-carousel.carousel.text-left(data-interval=3000)
+                ol.carousel-indicators
+                  li(data-target="#quotes-carousel", data-slide-to="0").active
+                  li(data-target="#quotes-carousel", data-slide-to="1")
+                  li(data-target="#quotes-carousel", data-slide-to="2")
+                  li(data-target="#quotes-carousel", data-slide-to="2")
+                .carousel-inner
+                  .item.active
+                    .text-center
+                      h4.text-white(data-i18n="new_home.quotes_quote1")
+                      div
+                        .thumbnail
+                          span
+                            img(src="http://coco-assets.oss-cn-beijing.aliyuncs.com/images/home/quotes_carousel1.png", style="border: #F2BE19 3px solid; border-radius: 50%")
+                          span.quote-user-info
+                            h3.text-teal 魏文斌老师
+                            p.text-white 华中师大一附中
+                  .item
+                    .text-center
+                      h4.text-white(data-i18n="new_home.quotes_quote2")
+                      div
+                        .thumbnail
+                          span
+                            img(src="/images/pages/home/quotes_carousel2.png")
+                          span.quote-user-info
+                            h3.text-teal Andrew Forseman
+                            p.text-white River Ridge High School, Florida
+                  .item
+                    .text-center
+                      h4.text-white(data-i18n="new_home.quotes_quote3")
+                      div
+                        .thumbnail
+                          span
+                            img(src="/images/pages/home/quotes_carousel3.png")
+                          span.quote-user-info
+                            h3.text-teal Holly Ades
+                            p.text-white Riverdale High School, Florida
+                  .item
+                    .text-center
+                      h4.text-white.wider(data-i18n="new_home.quotes_quote4")
+                      div
+                        .thumbnail
+                          span
+                            img(src="/images/pages/home/quotes_carousel4.png")
+                          span.quote-user-info
+                            h3.text-teal Robert Gower
+                            p.text-white  John Page Middle School, Michigan
+                a.left.carousel-control(href="#quotes-carousel", role="button", data-slide="prev")
+                  span(aria-hidden="true")
+                    img(src="/images/pages/home/arrow_gold_left.png")
+                  span.sr-only(data-i18n="about.previous")
+                a.right.carousel-control(href="#quotes-carousel", role="button", data-slide="next")
+                  span(aria-hidden="true")
+                    img(src="/images/pages/home/arrow_gold_right.png")
+                  span.sr-only(data-i18n="play.next")
+
+    .row.text-center#century-skills
+      .col-lg-12.width-container
+        h1.text-navy(data-i18n="new_home.century_skills_title")
+        img(src="/images/pages/home/pink_rectangle.png")
+        .row
+          .col-lg-12
+            h5.text-center(data-i18n="new_home.century_skills_blurb1")
+            br
+            #century-skills-carousel.carousel.text-left(data-interval=3000)
+              ol.carousel-indicators
+                li(data-target="#century-skills-carousel", data-slide-to="0").active
+                li(data-target="#century-skills-carousel", data-slide-to="1")
+                li(data-target="#century-skills-carousel", data-slide-to="2")
+                li(data-target="#century-skills-carousel", data-slide-to="3")
+              .carousel-inner
+                .item.active
+                  .row.carousel-body
+                    .col-lg-8
+                      .quote.quote-1.text-center
+                        br
+                        img(src="/images/pages/home/teal_quote.png")
+                        h4.text-white(data-i18n="new_home.century_skills_quote1")
+                        h3.text-teal 隋顺意，六年级
+                    .col-lg-4
+                      h3.text-teal(data-i18n="new_home.century_skills_subtitle1")
+                      br
+                      p.text-white(data-i18n="new_home.century_skills_subblurb1")
+                .item
+                  .row.carousel-body
+                    .col-lg-8
+                      .quote.quote-2.text-center
+                        br
+                        img(src="/images/pages/home/teal_quote.png")
+                        h4.text-white(data-i18n="new_home.century_skills_quote2")
+                        h3.text-teal Sam, 4th Grade
+                    .col-lg-4
+                      h3.text-teal(data-i18n="new_home.century_skills_subtitle2")
+                      br
+                      p.text-white(data-i18n="new_home.century_skills_subblurb2")
+                .item
+                  .row.carousel-body
+                    .col-lg-8
+                      .quote.quote-3.text-center
+                        br
+                        img(src="/images/pages/home/teal_quote.png")
+                        h4.text-white(data-i18n="new_home.century_skills_quote3")
+                        h3.text-teal Jake, 10th Grade
+                    .col-lg-4
+                      h3.text-teal(data-i18n="new_home.century_skills_subtitle3")
+                      br
+                      p.text-white(data-i18n="new_home.century_skills_subblurb3")
+                .item
+                  .row.carousel-body
+                    .col-lg-8
+                      .quote.quote-4.text-center
+                        br
+                        img(src="/images/pages/home/teal_quote.png")
+                        h4.text-white(data-i18n="new_home.century_skills_quote4")
+                        h3.text-teal Joey, 10th Grade
+                    .col-lg-4
+                      h3.text-teal(data-i18n="new_home.century_skills_subtitle4")
+                      br
+                      p.text-white(data-i18n="new_home.century_skills_subblurb4")
+              a.left.carousel-control(href="#century-skills-carousel", role="button", data-slide="prev")
+                span(aria-hidden="true")
+                  img(src="/images/pages/home/arrow_pink_left.png")
+                span.sr-only(data-i18n="about.previous")
+              a.right.carousel-control(href="#century-skills-carousel", role="button", data-slide="next")
+                span(aria-hidden="true")
+                  img(src="/images/pages/home/arrow_pink_right.png")
+                span.sr-only(data-i18n="play.next")
+
+    .row.row-dark.text-center#global
+      .col-lg-12
+        h2.text-white(data-i18n="new_home.global_title")
+        .container
+          .row
+            .col-md-3.col-xs-6
+              img(src="/images/pages/home/global_learners.png")
+              h2.text-gold 12 Million
+              h5.text-white(data-i18n="new_home.global_subtitle1")
+            .col-md-3.col-xs-6
+              img(src="/images/pages/home/global_code.png")
+              h2.text-gold 1 Billion
+              h5.text-white(data-i18n="new_home.global_subtitle2")
+            .col-md-3.col-xs-6
+              img(src="/images/pages/home/global_teachers.png")
+              h2.text-gold 82,000
+              h5.text-white(data-i18n="new_home.global_subtitle3")
+            .col-md-3.col-xs-6
+              img(src="/images/pages/home/global_countries.png")
+              h2.text-gold 190
+              h5.text-white(data-i18n="new_home.global_subtitle4")
+
+    .row.text-center#featured-partners
+      .col-lg-12
+        .container.inner-container
+          .row
+            .col-lg-4.col-xs-12
+              .container-fluid.featured-section
+                .row
+                  .col-xs-12
+                    h2.text-navy(data-i18n="new_home.featured_partners_title1") 
+                    .pink-bar
+                      img(src="/images/pages/home/pink_rectangle.png")
+                .row
+                  .tile-row
+                    .col-xs-6.tile-shadow
+                      a.featured-partners-tile-logo.logo-pcmag(href="http://www.pcmag.com/article2/0,2817,2493689,00.asp", target="_blank")
+                        img(src="/images/pages/home/logo_pcmag.png")
+                    .col-xs-6.tile-shadow
+                      a.featured-partners-tile-logo.logo-sohu
+                        img(src="/images/pages/home/logo_sohu.png")
+                .row
+                  .tile-row
+                    .col-xs-6.tile-shadow
+                      a.featured-partners-tile-logo.logo-sina
+                        img(src="/images/pages/home/logo_sina.png")
+                    .col-xs-6.tile-shadow
+                      a.featured-partners-tile-logo.logo-jiemodui
+                        img(src="/images/pages/home/logo_jiemodui.png")
+            .col-lg-1.col-xs-0
+            .col-lg-7.col-xs-12
+              .container-fluid.partners-section
+                .row
+                  .col-xs-12
+                    h2.text-navy(data-i18n="new_home.featured_partners_title2") 
+                    .pink-bar
+                      img(src="/images/pages/home/pink_rectangle.png")
+                .row
+                  .tile-row
+                    .col-sm-12.tile-shadow
+                      a.featured-partners-tile-logo.logo-apcsp(href="https://clever.com/", target="_blank", rel="noopener noreferrer")
+                        img(src="/images/pages/home/logo_clever.png")
+                      .logo-blurb(data-i18n="new_home.featured_partners_blurb1")
+                    .col-sm-12.tile-shadow
+                      a.featured-partners-tile-logo.logo-codie(href="http://www.siia.net/codie/About-the-Awards/Past-Winners/2017-Winners/Details/nID/486", target="_blank", rel="noopener noreferrer")
+                        img(src="/images/pages/home/logo_codie.png")
+                      .logo-blurb(data-i18n="new_home.featured_partners_blurb2")
+                    .col-sm-12.tile-shadow
+                      a.featured-partners-tile-logo.logo-cse-picks(href="https://www.commonsense.org/education/game/codecombat", target="_blank", rel="noopener noreferrer")
+                        img(src="/images/pages/home/logo_cse_picks.png")
+                      .logo-blurb(data-i18n="new_home.featured_partners_blurb3")
+                .row
+                  .tile-row
+                    .col-sm-12.tile-shadow
+                      a.featured-partners-tile-logo.logo-code-org(href="https://code.org/educate/curriculum/middle-school", target="_blank", rel="noopener noreferrer")
+                        img(src="/images/pages/home/logo_code_org.png")
+                      .logo-blurb(data-i18n="new_home.featured_partners_blurb4")
+                    .col-sm-12.tile-shadow
+                      a.featured-partners-tile-logo.logo-csforall(href="https://www.csforall.org/projects_and_programs/member_directory/members/codecombat/", target="_blank", rel="noopener noreferrer")
+                        img(src="/images/pages/home/logo_csforall.png")
+                      .logo-blurb(data-i18n="new_home.featured_partners_blurb5")
+                    .col-sm-12.tile-shadow
+                      a.featured-partners-tile-logo.logo-amazon-future-engineer(href="https://aws.amazon.com/blogs/publicsector/aws-educate-and-amazon-future-engineer-teamed-with-codecombat-to-create-a-new-game-for-the-hour-of-code/", target="_blank", rel="noopener noreferrer")
+                        img(src="/images/pages/home/logo_amazon_future_engineer.png")
+                      .logo-blurb(data-i18n="new_home.featured_partners_blurb6")

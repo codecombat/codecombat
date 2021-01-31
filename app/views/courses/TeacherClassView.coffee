@@ -62,7 +62,7 @@ module.exports = class TeacherClassView extends RootView
     'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
     'click a.student-level-progress-dot': 'onClickStudentProgressDot'
     'click .sync-google-classroom-btn': 'onClickSyncGoogleClassroom'
-    'change .locked-level-select': 'onChangeLockedLevelSelect'
+    'change #locked-level-select': 'onChangeLockedLevelSelect'
     'click .student-details-row': 'trackClickEvent'
     'click .open-certificate-btn': 'trackClickEvent'
 
@@ -631,10 +631,10 @@ module.exports = class TeacherClassView extends RootView
       canAssignCourses = totalSpotsAvailable >= _.size(unenrolledStudents)
       if not canAssignCourses
         # These ones just matter for display
-        availableFullLicenses = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.get('type') is 'course')
+        availableFullLicenses = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.get('type') is 'course' and not prepaid.get('includedCourseIDs'))
         numStudentsWithoutFullLicenses = _(members)
           .map((userID) => @students.get(userID))
-          .filter((user) => user.prepaidType() isnt 'course' or not user.isEnrolled())
+          .filter((user) => user.prepaidType('includedCourseIDs') isnt 'course' or not user.isEnrolled())
           .size()
         numFullLicensesAvailable = _.reduce(prepaid.openSpots() for prepaid in availableFullLicenses, (val, total) -> val + total) or 0
         modal = new CoursesNotAssignedModal({
@@ -701,6 +701,8 @@ module.exports = class TeacherClassView extends RootView
       return if e.handled
       throw e if e instanceof Error and not application.isProduction()
       text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown')
+      if e.responseJSON?.errorName == 'PaymentRequired'
+        text = $.i18n.t('teacher.not_assigned_msg_1')
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 
   removeCourse: (courseID, members) ->

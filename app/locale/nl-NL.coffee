@@ -44,7 +44,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
 #    featured_partners_title1: "Featured In"
 #    featured_partners_title2: "Awards & Partners"
-#    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+#    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or an AP Computer Science Principles class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -91,11 +91,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
+#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    try_the_game: "Try the game"
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
     play_now: "Speel"
+#    im_a_parent: "I'm a Parent"
 #    im_an_educator: "I'm an Educator"
     im_a_teacher: "Ik ben een leraar"
     im_a_student: "Ik ben een leerling"
@@ -209,6 +210,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     resource_hub: "Hulpmiddelen"
     apcsp: "AP CS Principes"
     parent: "Ouders"
+#    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
 
   modal:
@@ -246,6 +248,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     request_licenses: "Neem contact met ons op voor meer informatie."
     compete: "Compleet!" # Course details page
     spectate: "Toeschouwen" # Ladder page
+#    simulate_all: "Simulate All"
     players: "Spelers" # Hover over a level on /play
     hours_played: "Speeltijd" # Hover over a level on /play
     items: "Items" # Tooltip on item shop button from /play
@@ -434,6 +437,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     eu_confirmation_place_of_processing: "Lees meer over mogelijke risico's."
     eu_confirmation_student: "Als je het niet zeker weet, vraag het dan aan je leraar."
     eu_confirmation_individual: "Als je niet wilt dat we je data op US servers bewaren, kun je altijd anoniem spelen zonder je code te bewaren."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -547,6 +558,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     more: "Meer"
     fewer: "Minder"
     with: "met"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "seconde"
@@ -646,7 +662,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Indienen"
     tome_reload_method: "Oorspronkelijke code voor deze methode herladen" # {change}
-    tome_available_spells: "Beschikbare spreuken"
     tome_your_skills: "Jouw Vaardigheden"
     hints: "Hints"
 #    videos: "Videos"
@@ -752,6 +767,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    fill_in_solution: "Fill in solution"
 
   apis:
     methods: "Methodes"
@@ -902,6 +918,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     sorry_to_see_you_go: "Jammer dat je weggaat! Laat ons alsjeblieft weten wat we beter hadden kunnen doen."
     unsubscribe_feedback_placeholder: "Oh, wat hebben we gedaan?"
     stripe_description: "Maandelijks abonnement"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "Koop Nu"
     subscription_required_to_play: "Je hebt een abonnement nodig om dit level te spelen."
     unlock_help_videos: "Abonneer om toegang te krijgen tot alle instructievideos."
@@ -926,7 +943,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     first_month_price: "Maar $__prijs__ voor je eerste maand!"
     lifetime: "Levenslang abonnement" # {change}
     lifetime_price: "$__price__"
-    year_subscription: "Jaarlijks abonnement"
+    year_subscription: "Jaarlijks abonnement" # {change}
     year_price: "$__price__/year"
     support_part1: "Hulp nodig met betalingsopties? Email" # {change}
     support_part2: "product@codecombat.eu"
@@ -1108,30 +1125,40 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     team_title: "Ontmoet het CodeCombat team"
     team_values: "We waarderen een open en respectvolle dialoog, waar het beste idee wint. Onze keuzes zijn onderbouwd door bezoekersonderzoek en onze werkwijze is gefocust op het leveren van tastbare resultaten. Iedereen doet mee, van onze CEO tot onze Github bijdragers, omdat we groei en leren waarderen in ons team."
     nick_title: "Programmeur" # {change}
-    matt_title: "Programmeur" # {change}
-#    lawrence_title: "Customer Success Manager"
-#    jane_title: "Account Executive"
+#    csm_title: "Customer Success Manager"
+#    ae_title: "Account Executive"
+#    sae_title: "Senior Account Executive"
+#    sism_title: "Senior Inside Sales Manager"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
 #    run_title: "Head of Operations, CodeCombat Greater China"
 #    lance_title: "Head of Technology, CodeCombat Greater China"
 #    zhiran_title: "Head of Curriculum, CodeCombat Greater China"
 #    yuqiang_title: "Head of Innovation, CodeCombat Greater China"
-#    matias_title: "Senior Software Engineer"
-#    ryan_title: "Customer Support Specialist"
+#    swe_title: "Software Engineer"
+#    sswe_title: "Senior Software Engineer"
+#    css_title: "Customer Support Specialist"
+#    css_qa_title: "Customer Support / QA Specialist"
 #    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, CodeCombat Greater China"
-#    shasha_title: "Product and Visual Designer"
+#    pvd_title: "Product and Visual Designer"
+#    spvd_title: "Senior Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
 #    bobby_title: "Game Designer"
 #    brian_title: "Senior Game Design Manager"
 #    stephanie_title: "Customer Support Specialist"
-#    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Senior Software Engineer"
+#    sdr_title: "Sales Development Representative"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
-    bryukh_title: "Speldesigner" # {change}
-    bryukh_blurb: "Maakt puzzels"
     community_title: "...en onze open-source gemeenschap"
+    bryukh_title: "Speldesigner" # {change}
+#    oa_title: "Operations Associate"
+#    ac_title: "Administrative Coordinator"
+#    ea_title: "Executive Assistant"
+#    om_title: "Operations Manager"
+#    mo_title: "Manager, Operations"
+#    scd_title: "Senior Curriculum Developer"
+#    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
     community_description_link_2: "gemeenschapsproject"
@@ -1141,11 +1168,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     number_contributors: "Meer dan 450 bijdragers hebben hun hulp en tijd verleend aan dit project."
     story_title: "Ons verhaal tot nu toe"
     story_subtitle: "Sinds 2013, is CodeCombat gegroeid van een paar schetsen naar een levend, bloeiend spel."
-    story_statistic_1a: "5,000,000+"
+    story_statistic_1a: "20,000,000+"
     story_statistic_1b: "totale spelers"
     story_statistic_1c: "zijn hun programmeerreis begonnen door CodeCombat"
     story_statistic_2a: "We zijn vertaald in meer dan 50 talen - waar onze spelers vandaan komen"
-    story_statistic_2b: "200+ landen" # {change}
+    story_statistic_2b: "190+ landen" # {change}
     story_statistic_3a: "Samen schreven zij meer dan"
     story_statistic_3b: "1 miljard regels code en de teller loopt door"
     story_statistic_3c: "over zes verschillende programmeertalen" # {change}
@@ -1390,7 +1417,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     article_editor_suffix: "en help CodeCombat spelers meer uit hun speeltijd te halen."
     find_us: "vind ons op de volgende sites:"
     social_github: "Bekijk al onze code op GitHub"
-    social_blog: "Lees onze blog op Sett"
+    social_blog: "Lees onze blog op Sett" # {change}
     social_discource: "Doe mee aan discussies op ons Discourse forum"
     social_facebook: "Like CodeCombat op Facebook"
     social_twitter: "Volg CodeCombat op Twitter"
@@ -1616,7 +1643,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     select_this_hero: "Kies deze Held"
     current_hero: "Huidige Held:"
     current_hero_female: "Huidige Held:"
-    web_dev_language_transition: "Alle klassen programmeren in HTML / Javascript voor deze cursus. Klassen die eerder Python hebben gebruikt zullen beginnen met extra JavaScript intro levels om de overgang te vergemakkelijken. Klassen die al met JavaScript werken slaan deze intro lessen over."
+    web_dev_language_transition: "Alle klassen programmeren in HTML / JavaScript voor deze cursus. Klassen die eerder Python hebben gebruikt zullen beginnen met extra JavaScript intro levels om de overgang te vergemakkelijken. Klassen die al met JavaScript werken slaan deze intro lessen over."
     course_membership_required_to_play: "Je moet je bij een cursus aanmelden om dit level te spelen."
     license_required_to_play: "Vraag een leraar om je een licentie te geven zodat je verder kunt gaan met CodeCombat!"
     update_old_classroom: "Nieuw schooljaar, nieuwe levels!"
@@ -1660,8 +1687,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -1675,10 +1702,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     code: "Code van __name__"
     complete_solution: "Maak de oplossing af"
     course_not_started: "Leerling is nog niet met deze cursus begonnen"
-#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
-#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
-#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
-#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
 #    hoc_blurb2: "Code, Play, Share"
@@ -1770,6 +1793,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     assign_course: "Cursus toewijzen"
     removed_course_msg: "{{numberRemoved}} leerlingen zijn verwijderd van {{courseName}}."
     remove_course: "Verwijder Cursus"
+#    not_assigned_msg_1: "Cannot add users to a course instance until they are added to a prepaid that includes this course"
     not_assigned_modal_title: "Cursussen zijn niet toegewezen"
     not_assigned_modal_starter_body_1: "Voor deze cursus is een Starter Licentie nodig. U heeft niet genoeg Volledige Licenties beschikbaar om deze curus toe te wijzen aan de __selected__ geselecteerde leerlingen."
     not_assigned_modal_starter_body_2: "Schaf Starter Licenties aan om toegang te verlenen tot deze cursus."
@@ -1781,6 +1805,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     no_students_selected: "Er waren geen leerlingen geselecteerd."
     show_students_from: "Toon leerlingen vanaf" # Enroll students modal
     apply_licenses_to_the_following_students: "Pas licenties toe op deze leeringen"
+#    select_license_type: "Select License Type to Apply"
     students_have_licenses: "De volgende leeringen hebben al licenties:"
     all_students: "Alle leerlingen"
     apply_licenses: "Pas licenties toe"
@@ -1839,6 +1864,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     teacher_getting_started_desc: "Nieuw bij CodeCombat? Download de Leraar Startgids om een account op te zetten, een klas te creëren en leerlingen uit te nodigen voor hun eerste cursus."
     student_getting_started: "Leerlingen Startgids"
     student_getting_started_desc: "Leerlingen kunnen deze gids bekijken voordat ze met CodeCombat beginnen zodat ze alvast vertrouwd raken met de code editor. Deze gids kan gebruikt worden in Python en JavaScript klassen."
+#    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "AP Computerwetenschap Principes"
     ap_cs_principles_desc: "AP Computerwetenschap Principes geven leerlingen een brede introductie tot de kracht,impact en mogelijkheden van de Computerwetenschap. De cursus benadrukt 'computational thinking' and probleemoplossend vermogen terwijl ook de basis van het programmeren wordt geleerd."
     cs1: "Computer Science introductie"
@@ -1925,6 +1951,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     student_great_detail: "Deze leerling kan misschien andere leerlingen helpen met het doorlopen van deze cursus."
     full_license: "Volledige Licentie"
     starter_license: "Starter Licentie"
+#    customized_license: "Customized License"
     trial: "Uitproberen"
     hoc_welcome: "Fijne Computer Wetenschap Educatie Week!"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -1943,7 +1970,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     hoc_group_desc_1: "Leraren kunnen de lessen samen gebruiken met onze Introductie tot Computer Wetenschap cursus om de voortgang van de leerlingen bij te houden. Bekijk onze"
     hoc_group_link: "Beginners Gids"
     hoc_group_desc_2: "voor meer details"
-    hoc_additional_desc1: "Voor meer Codecombat informatie en activiteiten, ga naar"
+    hoc_additional_desc1: "Voor meer CodeCombat informatie en activiteiten, ga naar"
     hoc_additional_desc2: "Vragen"
     hoc_additional_contact: "Neem contact op"
     revoke_confirm: "Weet je zeker dat je de licentie van {{student_name}} wilt intrekken? De licentie kan dan weer gebruikt worden voor een andere leerling."
@@ -2009,6 +2036,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2020,6 +2049,21 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
   share_licenses:
     share_licenses: "Deel licenties"
@@ -2233,7 +2277,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     scribe_join_description: "vertel ons wat over jezelf, je ervaring met programmeren en over wat voor soort dingen je graag zou schrijven. Verder zien we wel!"
     scribe_subscribe_desc: "Ontvang e-mails met aankondigingen over het schrijven van artikelen."
     diplomat_introduction_pref: "Dus, als er iets is wat we geleerd hebben van de "
-    diplomat_launch_url: "release in oktober"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "dan is het wel dat er een enorme belangstelling is voor CodeCombat in andere landen, vooral Brazilië! We zijn een groep van vertalers aan het creëren dat ijverig de ene set woorden in de andere omzet om CodeCombat zo toegankelijk mogelijk te maken in de hele wereld. Als jij het leuk vindt glimpen op te vangen van aankomende content en deze levels zo snel mogelijk naar je landgenoten te krijgen, dan is dit de klasse voor jou."
     diplomat_attribute_1: "Vloeiend Engels en de taal waar naar je wilt vertalen kunnen spreken. Wanneer je moeilijke ideeën wilt overbrengen, is het belangrijk beide talen goed te begrijpen!"
     diplomat_i18n_page_prefix: "Je kan beginnen met vertalen door te surfen naar"
@@ -2246,8 +2290,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     ambassador_introduction: "We zijn een gemeenschap aan het uitbouwen, en jij maakt er deel van uit. We hebben Olark chatkamers, e-mails, en sociale netwerken met veel andere mensen waarmee je kan praten en hulp aan kan vragen over het spel of om bij te leren. Als jij mensen wil helpen en te werken nabij de hartslag van CodeCombat in het bijsturen van onze toekomstvisie, dan is dit de geknipte klasse voor jou!"
     ambassador_attribute_1: "Communicatieskills. Problemen die spelers hebben kunnen identificeren en ze helpen deze op te lossen. Verder zul je ook de rest van ons geïnformeerd houden over wat de spelers zeggen, wat ze leuk vinden, wat ze minder vinden en waar er meer van moet zijn!"
     ambassador_join_desc: "vertel ons wat over jezelf, wat je hebt gedaan en wat je graag zou doen. We zien verder wel!"
-    ambassador_join_note_strong: "Opmerking"
-    ambassador_join_note_desc: "Een van onze topprioriteiten is om een multiplayer te bouwen waar spelers die moeite hebben een level op te lossen een tovenaar met een hoger level kunnen oproepen om te helpen. Dit zal een goede manier zijn voor ambassadeurs om hun ding te doen. We houden je op de hoogte!"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "Ontvang e-mails met updates over ondersteuning en multiplayer-ontwikkelingen."
     teacher_subscribe_desc: "Ontvang e-mails over updates en aankondigingen voor leraren."
     changes_auto_save: "Veranderingen worden automatisch opgeslagen wanneer je het vierkantje aan- of afvinkt."
@@ -2310,7 +2355,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tournament_ends: "Toernooi eindigt"
     tournament_ended: "Toernooi geeindigd"
     tournament_rules: "Toernooi regels"
-    tournament_blurb: "Schrijf code, verzamel goud, bouw legers, verpletter je tegenstanders, win prijzen en verbeter je carrière in ons $40,000 Greed toernooi! Zie de details"
     tournament_blurb_criss_cross: "Win biedingen, bouw paden, wees je tegenstander te slim af, pak edelstenen en verbeter je carrière in ons Criss-Cross toernooi! Zie de details"
     tournament_blurb_zero_sum: "Ontketen je code creativiteit in goud verzamelen en veldslag tactieken in deze alpine spiegel wedstrijd tussen de rode tovenaar en de blauwe tovenaar. Het tournament is gestart op Vrijdag 27 maart en loopt tot Maandag 6 April om 17:00 PDT. Doe mee voor plezier en overwinning! Check de details"
     tournament_blurb_ace_of_coders: "Vecht het uit in de bevroren gletsjer in deze dominatie spiegel wedstrijd! Het tournament begon op Woensdag 16 September en loopt tot Woensdag 14 Oktober om 17:00 PDT. Check de details"
@@ -2327,6 +2371,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    awaiting_tournament_title: "Tournament Inactive"
 #    awaiting_tournament_blurb: "The tournament arena is not currently active."
 #    tournament_end_desc: "The tournament is over, thanks for playing"
+#    age: "Age"
+#    bracket_0_11: "0-11"
+#    bracket_11_14: "11-14"
+#    bracket_14_18: "14-18"
+#    bracket_open: "Open"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -2440,13 +2489,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     you_can1: "Je kunt"
     you_can2: "een prepaidcode kopen"
     you_can3: "die je voor je eigen account kunt gebruiken of aan anderen kunt geven."
-
-#  ozaria_chrome:
-#    sound_off: "Sound Off"
-#    sound_on: "Sound On"
-#    back_to_map: "Back to Map"
-#    level_options: "Level Options"
-#    restart_level: "Restart Level"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2743,26 +2785,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     cookies_deny: "Wijs niet-essentiële cookies af"
 #    cookies_allow: "Allow cookies"
 
-  ladder_prizes:
-    title: "Toernooiprijzen" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Deze prijzen worden uitgereikt volgens de toernooiregels"
-    blurb_2: "De toernooiregels"
-    blurb_3: "voor de beste mensen en boemannen."
-    blurb_4: "Twee teams, dus dubbele prijzen!"
-    blurb_5: "(Er is een gedeelde eerste plek, een gedeelde tweede plek, enz.)"
-    rank: "Rang"
-    prizes: "Prijzen"
-    total_value: "Totale waarde"
-    in_cash: "contant"
-    custom_wizard: "Aangepaste CodeCombat Wizard"
-    custom_avatar: "Aangepaste CodeCombat avatar"
-    heap: "voor zes maanden \"opstart\" toegang"
-    credits: "credits"
-    one_month_coupon: "coupon: Kies Rails of HTML"
-    one_month_discount: "30% korting: Kies Rails of HTML"
-    license: "licentie"
-    oreilly: "ebook van je keuze"
-
   calendar:
     year: "Jaar"
     day: "Dag"
@@ -2790,6 +2812,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   server_error:
     email_taken: "Dit e-mailadres is al in gebruik"
     username_taken: "Gebruikersnaam niet beschikbaar"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Regel $1: "
@@ -2912,56 +2936,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
 
-  parent_landing:
-    slogan_quote: "\"CodeCombat is erg leuk, en je leert veel.\""
-    quote_attr: "Student 5e leerjaar, Oakland, CA"
-    refer_teacher: "Verwijs een leraar door"
-    focus_quote: "Ontgrendel de toekomst van uw kind"
-    value_head1: "De meest boeiende manier om getypte code te leren"
-    value_copy1: "CodeCombat is de persoonlijke privé-leraar van uw kind. Met behulp van materiaal dat is afgestemd op de nationale curriculumnormen, zal uw kind algoritmen programmeren, websites bouwen en zelfs zijn eigen spellen ontwerpen."
-    value_head2: "Bouwen aan belangrijke 21e-eeuwse vaardigheden"
-    value_copy2: "Uw kinderen zullen leren om te navigeren en in te burgeren in de digitale wereld. CodeCombat is een oplossing die het kritisch denken en de veerkracht van uw kind verbetert."
-    value_head3: "Helden waar uw kind gek op zal zijn"
-    value_copy3: "We weten hoe belangrijk plezier en betrokkenheid is voor de ontwikkelende hersenen, dus we hebben zoveel mogelijk kennis in een spel gepropt wat ze graag zullen spelen."
-    dive_head1: "Niet alleen voor software-engineers"
-    dive_intro: "Computerwetenschappen hebben een breed scala aan toepassingen. Bekijk hieronder een paar voorbeelden!"
-    medical_flag: "Medische toepassingen"
-    medical_flag_copy: "Van het in kaart brengen van het menselijk genoom tot MRI-machines, met behulp van codering kunnen we het lichaam begrijpen op manieren die we tot nu toe nooit hebben gekend."
-    explore_flag: "Ruimteonderzoek"
-    explore_flag_copy: "Apollo kwam op de maan dankzij hardwerkende menselijke computers, en wetenschappers gebruiken computerprogramma's om de zwaartekracht van planeten te analyseren en naar nieuwe sterren te zoeken."
-    filmaking_flag: "Het maken van films en animatie"
-    filmaking_flag_copy: "Van de robotica van Jurassic Park tot de ongelooflijke animatie van Dreamworks en Pixar, films zouden niet hetzelfde zijn zonder de digitale creatieven achter de schermen."
-    dive_head2: "Spellen zijn belangrijk voor leren"
-    dive_par1: "Meerdere studies hebben aangetoond dat spelgebaseerd leren bevorderlijk is voor"
-    dive_link1: "de cognitieve ontwikkeling"
-    dive_par2: "bij kinderen terwijl het ook"
-    dive_link2: "effectiever blijkt te zijn"
-    dive_par3: "om studenten te helpen effectiever"
-    dive_link3: "kennis te leren en te behouden"
-    dive_par4: ","
-    dive_link4: "te concentreren"
-    dive_par5: ", en te presteren op een hoger niveau van prestatie."
-    dive_par6: "Spel-gebaseerd leren is ook goed voor de ontwikkeling van"
-    dive_link5: "veerkracht"
-    dive_par7: ", cognitief redeneren, en"
-    dive_par8: ". De wetenschap vertelt ons gewoon wat leerlingen al weten: kinderen leren het beste door te spelen."
-    dive_link6: "uitvoerende functies"
-    dive_head3: "Sluit je aan bij leraren"
-    dive_3_par1: "In de toekomst "
-    dive_3_link1: "wordt coderen net zo fundamenteel als leren lezen en schrijven"
-    dive_3_par2: ". We hebben nauw samengewerkt met docenten om onze inhoud te ontwerpen en ontwikkelen, en we kunnen niet wachten om het aan je kinderen te leren. Educatieve programma's over technologie zoals CodeCombat werken het beste als docenten ze consequent gebruiken in hun lesprogramma. Help ons in contact te komen met hen door ons te introduceren bij de leraren van uw kind!"
-    mission: "Onze missie: lesgeven en betrokken zijn"
-    mission1_heading: "Programmeren voor de generatie van vandaag"
-    mission2_heading: "Voorbereiden op de toekomst"
-    mission3_heading: "Ondersteund door ouders zoals u"
-    mission1_copy: "Onze onderwijsspecialisten werken nauw samen met leraren om de kinderen te ontmoeten waar zij zijn in het educatieve landschap. Kinderen leren vaardigheden die ook buiten het spel om kunnen worden toegepast, omdat ze leren hoe ze problemen kunnen oplossen, ongeacht hun leerstijl."
-    mission2_copy: "Een enquête in 2016 toonde aan dat 64% van de meisjes in groep 5 t/m 7 willen leren programmeren. Er waren 7 miljoen vacatures die vroegen om programmeervaardigheden. We hebben CodeCombat gebouwd omdat we vinden dat elk kind de kans moet krijgen om hun beste toekomst te creëren."
-    mission3_copy: "Bij CodeCombat zijn we ouders. We zijn programmeurs. We zijn onderwijzers. Maar bovenal zijn we mensen die geloven dat we onze kinderen de beste kans op succes willen geven in wat ze ook besluiten te doen."
-
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -2995,6 +2972,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3061,18 +3039,19 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
-  parent_modal:
-    refer_teacher: "Verwijs de leraar door"
-    name: "Uw naam"
-    parent_email: "Uw e-mailadres"
-    teacher_email: "E-mailadres van de leraar"
-    message: "Bericht"
-    custom_message: "Ik heb net CodeCombat ontdekt en denk dat dit een geschikt programma voor uw klas is! Het is een computerwetenschappelijk leerplatform met een op standaarden afgestemd leerplan.\n\nMediawijsheid is zo belangrijk, en ik denk dat dit een geweldige manier is om studenten bezig te houden met leren programmeren."
-    send: "Verzend e-mail"
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
   hoc_2018:
-#    banner: "Welcome to Hour of Code 2019!"
+#    banner: "Welcome to Hour of Code 2020!"
     page_heading: "Leer je leerlingen hoe ze hun eigen arcadespel kunnen bouwen!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3097,11 +3076,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     point4: "✓ Projectgebaseerde lessen"
     point5: "✓ Leerling-volgsysteem"
     point6: "✓ Volledige lesplannen"
-#    title: "HOUR OF CODE 2019"
+#    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3156,3 +3135,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
 #    download: "Download Chrome"
 #    ignore: "Ignore"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_customize: "Customize Courses"
+
+#  league:
+#    student_register_1: "Become the next AI Champion!"
+#    student_register_2: "Sign up, create your own team, or join other teams to start competing."
+#    student_register_3: "Provide the information below to be eligible for prizes."
+#    teacher_register_1: "Sign up to access your class league profile page and get your class started."
+#    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+#    team: "team"
+#    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."

@@ -7732,23 +7732,6 @@ createjs.deprecate = function(fallbackMethod, name) {
 		var mtx, ctx = createjs.DisplayObject._hitTestContext;
 		activeListener = activeListener || (mouse&&this._hasMouseEventListener());
 		
-		if (createjs.lastMouseWorldPos) {
-			// CodeCombat monkey patch to improve performance when we know a Thang is too far away to be clicked.
-			var lank = this.lank || (this.parent ? (this.parent.lank || this.parent.parent ? this.parent.parent.lank : null) : null);
-			if (lank && lank.thang && lank.thang.pos && lank.thang.pos.distanceSquared) {
-				var thangWorldPos = lank.thang.pos;
-				// 2019-11-12: Chrome regression in hit testing performance makes us more aggressive on this check with some heuristics as to how big a Thang could be
-				var xDist = Math.abs(thangWorldPos.x - createjs.lastMouseWorldPos.x);
-				var yDist = Math.abs(thangWorldPos.y + ((lank.thang.depth || 1) / 2 + (lank.thang.height || 1) / 2) - createjs.lastMouseWorldPos.y);
-				var xDistThreshold = Math.min(10, 1.25 * Math.max(lank.thang.width || 1) + 1);
-				var yDistThreshold = Math.min(10, 1.25 * Math.max((lank.thang.height || 1) + (lank.thang.depth || 1), 1) + 1);
-				if (xDist > xDistThreshold || yDist > yDistThreshold) {
-					// Not worth testing, too far.
-					return null;
-				}
-			}
-		}
-		
 		// draw children one at a time, and check if we get a hit:
 		var children = this.children, l = children.length;
 		for (var i=l-1; i>=0; i--) {
@@ -7757,13 +7740,36 @@ createjs.deprecate = function(fallbackMethod, name) {
 			if (!child.visible || (!hitArea && !child.isVisible()) || (mouse && !child.mouseEnabled)) { continue; }
 			if (!hitArea && !this._testMask(child, x, y)) { continue; }
 			
+			// CodeCombat monkey patch to improve performance when we know a Thang is too far away to be clicked.
+			if (createjs.lastMouseWorldPos && child.lank && child.lank.thang && child.lank.thang.pos && child.lank.thang.pos.distanceSquared) {
+				var thang = child.lank.thang;
+				var thangWorldPos = thang.pos;
+				var xDist = Math.abs(thangWorldPos.x - createjs.lastMouseWorldPos.x);
+				var yDist = Math.abs(thangWorldPos.y + ((thang.depth || 1) / 2 * 0.88 + (thang.height || 1) / 2) - createjs.lastMouseWorldPos.y);
+				var xDistThreshold = Math.min(10, 1.25 * Math.max(thang.width || 1) + 1);
+				var yDistThreshold = 1.25 * Math.max((thang.height || 1) + (thang.depth || 1) * 0.88, 1) + 1;
+				var scaleFactorX = (thang.scaleFactorX || thang.scaleFactor);
+				var scaleFactorY = (thang.scaleFactorY || thang.scaleFactor);
+				if (scaleFactorX > 1) xDistThreshold *= scaleFactorX;
+				if (scaleFactorY > 1) yDistThreshold *= scaleFactorY;
+				yDistThreshold += (thang.pos.z - (thang.depth || 1) / 2) * 0.88;
+				yDistThreshold += (2 * thang.bobHeight || 0) * 0.88;
+				if (xDist > xDistThreshold || yDist > yDistThreshold) {
+					// Not worth testing, too far.
+					//console.log('          not testing', thang.id);
+					continue;
+				}
+				else {
+					//console.log('----------testing', thang.id);
+				}
+			}
+			
 			// if a child container has a hitArea then we only need to check its hitAre2a, so we can treat it as a normal DO:
 			if (!hitArea && child instanceof Container) {
-			    var result = child._getObjectsUnderPoint(x, y, arr, mouse, activeListener, currentDepth+1);
+				var result = child._getObjectsUnderPoint(x, y, arr, mouse, activeListener, currentDepth+1);
 				if (!arr && result) { return (mouse && !this.mouseChildren) ? this : result; }
 			} else {
 				if (mouse && !activeListener && !child._hasMouseEventListener()) { continue; }
-				
 				// TODO: can we pass displayProps forward, to avoid having to calculate this backwards every time? It's kind of a mixed bag. When we're only hunting for DOs with event listeners, it may not make sense.
 				var props = child.getConcatenatedDisplayProps(child._props);
 				mtx = props.matrix;

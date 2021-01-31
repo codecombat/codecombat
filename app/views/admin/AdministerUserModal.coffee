@@ -10,7 +10,9 @@ Prepaids = require 'collections/Prepaids'
 Classrooms = require 'collections/Classrooms'
 TrialRequests = require 'collections/TrialRequests'
 fetchJson = require('core/api/fetch-json')
+utils = require 'core/utils'
 api = require 'core/api'
+{ LICENSE_PRESETS } = require 'core/constants'
 
 # TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
 # TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
@@ -40,6 +42,7 @@ module.exports = class AdministerUserModal extends ModalView
     'click #clear-teacher-search-button': 'onClearTeacherSearchResults'
     'click #teacher-search-button': 'onSubmitTeacherSearchForm'
     'click .remove-teacher-button': 'onClickRemoveAdministeredTeacher'
+    'click #license-type-select>.radio': 'onSelectLicenseType'
 
   initialize: (options, @userHandle) ->
     @user = new User({_id:@userHandle})
@@ -58,6 +61,9 @@ module.exports = class AdministerUserModal extends ModalView
     @trialRequests = new TrialRequests()
     @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle)
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
+    @licenseType = 'all'
+    @licensePresets = LICENSE_PRESETS
+    @utils = utils
 
   onLoaded: ->
     # TODO: Figure out a better way to expose this info, perhaps User methods?
@@ -137,6 +143,12 @@ module.exports = class AdministerUserModal extends ModalView
     attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
     attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
     attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
+
+    if attrs.licenseType of @licensePresets
+      attrs.includedCourseIDs = @licensePresets[attrs.licenseType]
+    return unless attrs.licenseType == 'all' or attrs.includedCourseIDs.length
+    delete attrs.licenseType
+
     _.extend(attrs, {
       type: 'course'
       creator: @user.id
@@ -422,6 +434,10 @@ module.exports = class AdministerUserModal extends ModalView
 
     result = "<table class=\"table\">#{result.join('\n')}</table>"
     @$el.find('#school-admin-result').html(result)
+
+  onSelectLicenseType: (e) ->
+    @licenseType = $(e.target).parent().children('input').val()
+    @renderSelectors("#license-type-select")
 
   administratedSchools: (teachers) ->
     schools = {}

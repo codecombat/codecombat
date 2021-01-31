@@ -226,7 +226,7 @@ particleKinds['level-dungeon-gate'] = ext particleKinds['level-dungeon-premium']
     colorMiddleSpread: vec 1.5, 1.5, 1.5
     colorEndSpread: vec 2.5, 2.5, 2.5
 
-particleKinds['level-dungeon-hero-ladder'] = particleKinds['level-dungeon-course-ladder'] = ext particleKinds['level-dungeon-premium'],
+particleKinds['level-dungeon-hero-ladder'] = particleKinds['level-dungeon-course-ladder'] = particleKinds['level-dungeon-ladder'] = ext particleKinds['level-dungeon-premium'],
   emitter:
     particleCount: 200
     acceleration: vec 0, 3, 0
@@ -287,7 +287,7 @@ particleKinds['level-forest-gate'] = ext particleKinds['level-forest-premium'],
     colorMiddleSpread: vec 1.5, 1.5, 1.5
     colorEndSpread: vec 2.5, 2.5, 2.5
 
-particleKinds['level-forest-hero-ladder'] = particleKinds['level-forest-course-ladder'] = ext particleKinds['level-forest-premium'],
+particleKinds['level-forest-hero-ladder'] = particleKinds['level-forest-course-ladder'] = particleKinds['level-forest-ladder'] = ext particleKinds['level-forest-premium'],
   emitter:
     particleCount: 90
     velocity: vec 0, 4, 0
@@ -348,7 +348,7 @@ particleKinds['level-desert-gate'] = ext particleKinds['level-desert-premium'],
     colorMiddleSpread: vec 1.5, 1.5, 1.5
     colorEndSpread: vec 2.5, 2.5, 2.5
 
-particleKinds['level-desert-hero-ladder'] = particleKinds['level-desert-course-ladder'] = ext particleKinds['level-desert-premium'],
+particleKinds['level-desert-hero-ladder'] = particleKinds['level-desert-course-ladder'] = particleKinds['level-desert-ladder'] = ext particleKinds['level-desert-premium'],
   emitter:
     particleCount: 90
     velocity: vec 0, 4, 0
@@ -394,7 +394,7 @@ particleKinds['level-mountain-gate'] = ext particleKinds['level-mountain-premium
     colorMiddleSpread: vec 1.5, 1.5, 1.5
     colorEndSpread: vec 2.5, 2.5, 2.5
 
-particleKinds['level-mountain-hero-ladder'] = particleKinds['level-mountain-course-ladder'] = ext particleKinds['level-mountain-premium'],
+particleKinds['level-mountain-hero-ladder'] = particleKinds['level-mountain-course-ladder'] = particleKinds['level-mountain-ladder'] = ext particleKinds['level-mountain-premium'],
   emitter:
     particleCount: 90
     velocity: vec 0, 4, 0
@@ -440,7 +440,7 @@ particleKinds['level-glacier-gate'] = ext particleKinds['level-glacier-premium']
     colorMiddleSpread: vec 1.5, 1.5, 1.5
     colorEndSpread: vec 2.5, 2.5, 2.5
 
-particleKinds['level-glacier-hero-ladder'] = particleKinds['level-glacier-course-ladder'] = ext particleKinds['level-glacier-premium'],
+particleKinds['level-glacier-hero-ladder'] = particleKinds['level-glacier-course-ladder'] = particleKinds['level-glacier-ladder'] = ext particleKinds['level-glacier-premium'],
   emitter:
     particleCount: 90
     velocity: vec 0, 4, 0
@@ -486,7 +486,7 @@ particleKinds['level-volcano-gate'] = ext particleKinds['level-volcano-premium']
     colorMiddleSpread: vec 1.5, 1.5, 1.5
     colorEndSpread: vec 2.5, 2.5, 2.5
 
-particleKinds['level-volcano-hero-ladder'] = ext particleKinds['level-volcano-premium'],
+particleKinds['level-volcano-hero-ladder'] = particleKinds['level-volcano-course-ladder'] = particleKinds['level-volcano-ladder'] = ext particleKinds['level-volcano-premium'],
   emitter:
     particleCount: 90
     velocity: vec 0, 4, 0

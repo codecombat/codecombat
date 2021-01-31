@@ -50,12 +50,10 @@ module.exports = class LadderView extends RootView
     'click .play-button': 'onClickPlayButton'
     'click a:not([data-toggle])': 'onClickedLink'
     'click .spectate-button': 'onClickSpectateButton'
+    'click .simulate-all-button': 'onClickSimulateAllButton'
 
   initialize: (options, @levelID, @leagueType, @leagueID) ->
     super(options)
-
-    if features.china and @leagueType == 'course' and @leagueID == "5cb8403a60778e004634ee6e"   #just for china tarena hackthon 2019 classroom RestPoolLeaf
-      @leagueID = @leagueType = null
 
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
     @level.once 'sync', (level) =>
@@ -74,8 +72,6 @@ module.exports = class LadderView extends RootView
       @tournamentTimeLeft = moment(new Date(tournamentEndDate)).fromNow()
     if tournamentStartDate = {'zero-sum': 1427472000000, 'ace-of-coders': 1442417400000, 'battle-of-red-cliffs': 1596295800000}[@levelID]
       @tournamentTimeElapsed = moment(new Date(tournamentStartDate)).fromNow()
-
-    @displayTabContent = 'display: block'
 
     @calcTimeOffset()
     @mandate = @supermodel.loadModel(new Mandate()).model
@@ -163,9 +159,11 @@ module.exports = class LadderView extends RootView
   afterRender: ->
     super()
     return unless @supermodel.finished()
+    @$el.toggleClass 'single-ladder', @level.isType 'ladder'
     @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
-    @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
+    unless @level.isType('ladder') and me.isAnonymous()
+      @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
     @refreshDelay = switch
       when not application.isProduction() then 10  # Refresh very quickly in develompent.
@@ -187,7 +185,7 @@ module.exports = class LadderView extends RootView
     @lastRefreshTime = new Date()
     @ladderTab.refreshLadder()
     @myMatchesTab.refreshMatches @refreshDelay
-    @simulateTab.refresh()
+    @simulateTab?.refresh()
 
   onIdleChanged: (e) ->
     @fetchSessionsAndRefreshViews() unless e.idle
@@ -206,6 +204,22 @@ module.exports = class LadderView extends RootView
     url += '&autoplay=false' if key.command
     window.open url, if key.command then '_blank' else 'spectate'  # New tab for spectating specific matches
     #Backbone.Mediator.publish 'router:navigate', route: url
+
+  onClickSimulateAllButton: (e) ->
+    $.ajax
+      url: '/queue/scoring/loadTournamentSimulationTasks'
+      data:
+        originalLevelID: @level.get('original'),
+        levelMajorVersion: 0,
+        leagueID: @leagueID
+        mirrorMatch: @level.get('mirrorMatch') ? false
+        sessionLimit: 750
+      type: 'POST'
+      parse: true
+      success: (res)->
+        console.log res
+      error: (err) ->
+        console.error err
 
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]

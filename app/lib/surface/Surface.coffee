@@ -138,12 +138,12 @@ module.exports = Surface = class Surface extends CocoClass
       choosing: @options.choosing
       navigateToSelection: @options.navigateToSelection
       showInvisible: @options.showInvisible
-      playerNames: if @options.levelType is 'course-ladder' then @options.playerNames else null
+      playerNames: if @options.levelType in ['course-ladder', 'ladder'] then @options.playerNames else null
       @gameUIState
       @handleEvents
     })
     @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer, showsCountdown: @world.showsCountdown
-    unless @options.levelType is 'game-dev'
+    if @options.levelType in ['ladder', 'hero-ladder', 'course-ladder']
       @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer, playerNames: @options.playerNames
       @normalStage.addChildAt @playbackOverScreen.dimLayer, 0  # Put this below the other layers, actually, so we can more easily read text on the screen.
     @initCoordinates()
@@ -346,11 +346,13 @@ module.exports = Surface = class Surface extends CocoClass
   setPaused: (paused) ->
     # We want to be able to essentially stop rendering the surface if it doesn't need to animate anything.
     # If pausing, though, we want to give it enough time to finish any tweens.
+    clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
+    clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
+    return if @options.levelType in ['game-dev']
+    return unless @handleEvents  # Don't do this within the level editor
     performToggle = =>
       createjs.Ticker.framerate = if paused then 1 else @options.frameRate
       @surfacePauseTimeout = null
-    clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
-    clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
     @surfacePauseTimeout = @surfaceZoomPauseTimeout = null
     if paused
       @surfacePauseTimeout = _.delay performToggle, 2000
@@ -380,10 +382,10 @@ module.exports = Surface = class Surface extends CocoClass
     )
 
     if (not @world.indefiniteLength) and @lastFrame < @world.frames.length and @currentFrame >= @world.totalFrames - 1
+      @updatePaths()  # TODO: this is a hack to make sure paths are on the first time the level loads
       @ended = true
       @setPaused true
       Backbone.Mediator.publish 'surface:playback-ended', {}
-      @updatePaths()  # TODO: this is a hack to make sure paths are on the first time the level loads
     else if @currentFrame < @world.totalFrames and @ended
       @ended = false
       @setPaused false
@@ -536,11 +538,13 @@ module.exports = Surface = class Surface extends CocoClass
     return if @disabled
     cap = @camera.screenToCanvas({x: e.stageX, y: e.stageY})
     wop = @camera.screenToWorld x: e.stageX, y: e.stageY
+    event = { x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop }
     createjs.lastMouseWorldPos = wop
-    # getObject(s)UnderPoint is broken, so we have to use the private method to get what we want
-    onBackground = not @webGLStage._getObjectsUnderPoint(e.stageX, e.stageY, null, true)
+    if not @handleEvents
+      # getObject(s)UnderPoint is broken, so we have to use the private method to get what we want
+      # This is slow, so we only do it if we have to (for example, in the level editor.)
+      event.onBackground = not @webGLStage._getObjectsUnderPoint(e.stageX, e.stageY, null, true)
 
-    event = { onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop }
     Backbone.Mediator.publish 'surface:stage-mouse-down', event
     Backbone.Mediator.publish 'tome:focus-editor', {}
     @gameUIState.trigger('surface:stage-mouse-down', event)
@@ -566,8 +570,7 @@ module.exports = Surface = class Surface extends CocoClass
   onMouseUp: (e) =>
     return if @disabled
     createjs.lastMouseWorldPos = @camera.screenToWorld x: e.stageX, y: e.stageY
-    onBackground = not @webGLStage.hitTest e.stageX, e.stageY
-    event = { onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e }
+    event = { x: e.stageX, y: e.stageY, originalEvent: e }
     Backbone.Mediator.publish 'surface:stage-mouse-up', event
     Backbone.Mediator.publish 'tome:focus-editor', {}
     @gameUIState.trigger('surface:stage-mouse-up', event)

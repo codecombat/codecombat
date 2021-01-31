@@ -84,8 +84,12 @@ module.exports = class LevelSystemEditView extends CocoView
     @editor = ace.edit(editorEl[0])
     @editor.setReadOnly(me.get('anonymous'))
     session = @editor.getSession()
-    session.setMode 'ace/mode/coffee'
-    session.setTabSize 2
+    if @levelSystem.get('codeLanguage') is 'javascript'
+      session.setMode 'ace/mode/javascript'
+      session.setTabSize 4
+    else
+      session.setMode 'ace/mode/coffee'
+      session.setTabSize 2
     session.setNewLineMode = 'unix'
     session.setUseSoftTabs true
     @editor.on('change', @onEditorChange)

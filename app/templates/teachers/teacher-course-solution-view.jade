@@ -1,7 +1,7 @@
 extends /templates/base-flat.jade
 
 block page_nav
-  include ../courses/teacher-dashboard-nav.jade
+  include ../courses/teacher-dashboard-nav
   .do-not-print.container
     span.backlink
       a(href='/teachers/courses')
@@ -84,12 +84,7 @@ block content
                   li.nav-item(class=(index === 0 ? 'active' : ''))
                     - var target = level.get('original') + index;
                     a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
-                      if solution.capstoneStage
-                        .text-center
-                          span(data-i18n="teacher.capstone_solution")
-                          =" "
-                          span= solution.capstoneStage
-                      else if index === 0
+                      if index === 0
                         strong.text-center(data-i18n="teacher.complete_solution")
                       else
                         .text-center
