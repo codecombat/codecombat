@@ -1223,7 +1223,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    course_prefix: "Course"
 #    course_suffix: ""
 
-#  teachers_quote:
+  teachers_quote:
 #    subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
 #    email_exists: "User exists with this email."
 #    phone_number: "Phone number"
