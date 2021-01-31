@@ -40,6 +40,7 @@ module.exports = class LadderTabView extends CocoView
     @refreshLadder()
 
     @capitalize = _.string.capitalize
+    @selectedTeam = 'humans'
 
     # Trying not loading the FP/G+ stuff for now to see if anyone complains they were using it so we can have just two columns.
     #@socialNetworkRes = @supermodel.addSomethingResource('social_network_apis', 0)
@@ -188,8 +189,7 @@ module.exports = class LadderTabView extends CocoView
       team = _.find @teams, name: histogramWrapper.data('team-name')
       histogramData = null
       $.when(
-        level = "#{@level.get('original')}.#{@level.get('version').major}"
-        url = "/db/level/#{level}/histogram_data?team=#{team.name.toLowerCase()}&levelSlug=#{@level.get('slug')}"
+        url = "/db/level/#{@level.get('original')}/rankings-histogram?team=#{team.name.toLowerCase()}&levelSlug=#{@level.get('slug')}"
         url += '&leagues.leagueID=' + @options.league.id if @options.league
         $.get url, (data) -> histogramData = data
       ).then =>
@@ -198,6 +198,7 @@ module.exports = class LadderTabView extends CocoView
   generateHistogram: (histogramElement, histogramData, teamName) ->
     #renders twice, hack fix
     if $('#' + histogramElement.attr('id')).has('svg').length then return
+    if not histogramData.length then return histogramElement.hide()
     histogramData = histogramData.map (d) -> scoreForDisplay d
 
     margin =
@@ -287,6 +288,8 @@ module.exports = class LadderTabView extends CocoView
       .attr('transform', 'translate(0, ' + height + ')')
       .call(xAxis)
 
+    histogramElement.show()
+
   consolidateFriends: ->
     allFriendSessions = (@facebookFriendSessions or []).concat(@gplusFriendSessions or [])
     sessions = _.uniq allFriendSessions, false, (session) -> session._id
@@ -302,21 +305,42 @@ module.exports = class LadderTabView extends CocoView
     return unless me.isAdmin()
     row = $(e.target).parent()
     player = new User _id: row.data 'player-id'
+    playerName = row.find('.name-col-cell').text()
     session = new LevelSession _id: row.data 'session-id'
-    @openModalView new ModelModal models: [session, player]
+    if /^cq/.test(playerName) and not features.china
+      # CodeQuest users use cq name prefix and don't exist on global server; hack around this
+      models = [session]
+    else
+      models = [session, player]
+    @openModalView new ModelModal models: models
 
   onClickSpectateCell: (e) ->
     cell = $(e.target).closest '.spectate-cell'
     row = cell.parent()
     table = row.closest('table')
     wasSelected = cell.hasClass 'selected'
-    table.find('.spectate-cell.selected').removeClass 'selected'
-    cell = $(e.target).closest('.spectate-cell').toggleClass 'selected', not wasSelected
-    sessionID = row.data 'session-id'
-    teamID = table.data 'team'
-    @spectateTargets ?= {}
-    @spectateTargets[teamID] = if wasSelected then null else sessionID
-    console.log @spectateTargets, cell, row, table
+    if @teams.length == 2
+      table.find('.spectate-cell.selected').removeClass 'selected'
+      cell = $(e.target).closest('.spectate-cell').toggleClass 'selected', not wasSelected
+      sessionID = row.data 'session-id'
+      teamID = table.data 'team'
+      @spectateTargets ?= {}
+      @spectateTargets[teamID] = if wasSelected then null else sessionID
+      console.log @spectateTargets, cell, row, table
+    else
+      if wasSelected
+        removeClass = if cell.hasClass('selected-humans') then 'selected-humans' else 'selected-ogres'
+        cell = $(e.target).closest('.spectate-cell').removeClass ('selected '+removeClass)
+        teamID = @selectedTeam = if removeClass is 'selected-humans' then 'humans' else 'ogres'
+      else
+        table.find('.spectate-cell.selected.selected-' + @selectedTeam).removeClass ('selected selected-'+@selectedTeam)
+        cell = $(e.target).closest('.spectate-cell').addClass 'selected selected-'+@selectedTeam
+        teamID = @selectedTeam
+        @selectedTeam = if @selectedTeam is 'humans' then 'ogres' else 'humans'
+      sessionID = row.data 'session-id'
+      @spectateTargets ?= {}
+      @spectateTargets[teamID] = if wasSelected then null else sessionID
+      console.log @spectateTargets, cell, row, table
 
   onLoadMoreLadderEntries: (e) ->
     @ladderLimit ?= 100
@@ -354,9 +378,8 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
         promises.push @playersAbove.fetch cache: false
         @playersBelow = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
         promises.push @playersBelow.fetch cache: false
-        level = "#{@level.get('original')}.#{@level.get('version').major}"
         success = (@myRank) =>
-        loadURL = "/db/level/#{level}/leaderboard_rank?scoreOffset=#{score}&team=#{@team}&levelSlug=#{@level.get('slug')}"
+        loadURL = "/db/level/#{@level.get('original')}/rankings/#{@session.id}?scoreOffset=#{score}&team=#{@team}&levelSlug=#{@level.get('slug')}"
         loadURL += '&leagues.leagueID=' + @league.id if @league
         promises.push $.ajax(loadURL, cache: false, success: success)
     @promise = $.when(promises...)

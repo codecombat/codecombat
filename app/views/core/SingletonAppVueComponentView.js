@@ -18,13 +18,32 @@ export default class SingletonAppVueComponentView extends VueComponentView {
   buildVueComponent () {
     this.router = cocoVueRouter()
 
+    this.router.afterEach((to, from) => {
+      // Fixes issue of page not scrolling to top on navigation change
+      if (to.path !== from.path) {
+        // If the user has navigated within the router, try and reset the scroll position.
+        try {
+          // Required so that jade recompiles with new variables.
+          this.render()
+          window.scrollTo(0, 0)
+        } catch (e) {
+          // Can fail silently. Handling browser compatibility
+        }
+      }
+    })
+
     return new Vue({
       el: this.$el.find('#site-content-area')[0],
 
       store,
       router: this.router,
 
-      render: (h) => h(Root)
+      render: (h) => h(Root),
+
+      provide: {
+        openLegacyModal: this.openModalView.bind(this),
+        legacyModalClosed: this.modalClosed.bind(this)
+      }
     })
   }
 }

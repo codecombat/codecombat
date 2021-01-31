@@ -134,7 +134,7 @@ module.exports = class TasksTabView extends CocoView
 
 notWebDev = ['hero', 'course', 'hero-ladder', 'course-ladder', 'game-dev']
 heroBased = ['hero', 'course', 'hero-ladder', 'course-ladder']
-ladder = ['hero-ladder', 'course-ladder']
+ladder = ['hero-ladder', 'course-ladder', 'ladder']
 
 defaultTasks = [
   {name: 'Set level type.', complete: (level) -> level.get('type')}

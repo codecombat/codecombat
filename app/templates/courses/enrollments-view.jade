@@ -1,7 +1,7 @@
 extends /templates/base-flat.jade
 
 block page_nav
-  include ./teacher-dashboard-nav.jade
+  include ./teacher-dashboard-nav
 
 block content
   if me.isAnonymous() || (!me.isTeacher() && !view.classrooms.size())
@@ -56,20 +56,18 @@ block content
 
     .container.m-t-5(dir="auto")
       h3(data-i18n='teacher.enrollments')
-      h4#enrollments-blurb(data-i18n="teacher.enrollments_blurb")  
+      h4#enrollments-blurb(data-i18n="teacher.enrollments_blurb")
       - var available = view.state.get('prepaidGroups').available
       - var pending = view.state.get('prepaidGroups').pending
       - var empty = view.state.get('prepaidGroups').empty
       - var anyPrepaids = available || pending ||  empty
-      
+
       .text-center.m-t-3
-        span.glyphicon.glyphicon-question-sign
-        =' '
         a#how-to-enroll-link(data-i18n="teacher.how_to_apply_licenses")
 
       .row.m-t-3
         if anyPrepaids
-          #prepaids-col.col-md-9.rtl-allowed
+          #prepaids-col.col-md-8.rtl-allowed
             if _.size(available) > 0
               h5.m-b-1(data-i18n="teacher.available_credits")
               .row
@@ -91,7 +89,7 @@ block content
                   .prepaid-card-container.col-sm-4.col-xs-6.rtl-allowed
                     +prepaidCard(prepaid, 'empty-prepaid-card')
 
-          #actions-col.col-md-3
+          #actions-col.col-md-4
             +addCredits
 
         else
@@ -102,10 +100,16 @@ block content
 mixin prepaidCard(prepaid, className)
   .prepaid-card.bg-navy.text-center.p-a-2.rtl-allowed(class=className)
     h1.m-t-2.m-b-0= prepaid.openSpots()
+    - var includedCourseIDs = prepaid.get('includedCourseIDs')
     if prepaid.get('type') === 'starter_license'
       div.rtl-allowed(data-i18n="teacher.starter_licenses")
+    else if includedCourseIDs
+      div.rtl-allowed(data-i18n="teacher.customized_license")
     else
-      div.rtl-allowed(data-i18n="teacher.licenses_remaining")
+      div.rtl-allowed(data-i18n="teacher.full_license")
+    div.includedCourses
+      each id in (includedCourseIDs || [])
+        i.course-acronym=view.utils.courseAcronyms[id]
     div.m-t-1.rtl-allowed(dir="auto")
       i.small-details
         if prepaid.usedSpots() === 1
@@ -150,3 +154,15 @@ mixin addCredits
         p= "电话："+COCO_CHINA_CONST.CONTACT_PHONE
       else
         button#contact-us-btn.btn-lg.btn.btn-forest(data-i18n="contribute.contact_us_url")
+        br
+
+  - var uniqueStudentsPerYear = view.state.get('uniqueStudentsPerYear')
+    if _.size(uniqueStudentsPerYear) > 0
+      h5.text-center(data-toggle="tooltip" title="#{view.getEnrollmentExplanation()}")
+        span(data-i18n="teacher.student_enrollment_history")
+        =' '
+        span.glyphicon.glyphicon-question-sign
+      p.m-y-2.unique-students
+        each year in Object.keys(uniqueStudentsPerYear).sort().reverse()
+          | #{year}: #{uniqueStudentsPerYear[year].size} #{$.i18n.t('courses.students').toLowerCase()}
+          br

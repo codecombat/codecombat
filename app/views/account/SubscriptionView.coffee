@@ -180,34 +180,30 @@ class PersonalSub
     me.patch({headers: {'X-Change-Plan': 'true'}})
 
   unsubscribe: (message, render) ->
-    removeSub = =>
-      payPalInfo = me.get('payPal')
-      stripeInfo = _.clone(me.get('stripe'))
-      if payPalInfo?.billingAgreementID
-        api.users.cancelBillingAgreement({userID: me.id, billingAgreementID: payPalInfo?.billingAgreementID})
-        .then (response) =>
-          window.tracker?.trackEvent 'Unsubscribe End', message: message
-          document.location.reload()
-        .catch (jqxhr) =>
-          console.error('PayPal unsubscribe', jqxhr)
-      else if stripeInfo
-        delete stripeInfo.planID
-        me.set('stripe', stripeInfo)
-        me.once 'sync', ->
-          window.tracker?.trackEvent 'Unsubscribe End', message: message
-          document.location.reload()
-        me.patch({headers: {'X-Change-Plan': 'true'}})
+    payPalInfo = me.get('payPal')
+    stripeInfo = _.clone(me.get('stripe'))
+    if payPalInfo?.billingAgreementID
+      api.users.cancelBillingAgreement({userID: me.id, billingAgreementID: payPalInfo?.billingAgreementID})
+      .then (response) =>
+        window.tracker?.trackEvent 'Unsubscribe End', message: message
+        document.location.reload()
+      .catch (jqxhr) =>
+        console.error('PayPal unsubscribe', jqxhr)
+    else if stripeInfo
+      delete stripeInfo.planID
+      me.set('stripe', stripeInfo)
+      me.once 'sync', ->
+        window.tracker?.trackEvent 'Unsubscribe End', message: message
+        document.location.reload()
+      me.patch({headers: {'X-Change-Plan': 'true'}})
 
-      else
-        console.error "Tried to unsubscribe without PayPal or Stripe user info."
-        @state = 'unknown_error'
-        @stateMessage = "You do not appear to be subscribed."
-        render()
-    if message
-      $.post '/contact', message: message, subject: 'Cancellation', (response) ->
-        removeSub()
     else
-      removeSub()
+      console.error "Tried to unsubscribe without PayPal or Stripe user info."
+      @state = 'unknown_error'
+      @stateMessage = "You do not appear to be subscribed."
+      render()
+    if message
+      $.post '/contact', message: message, subject: 'Cancellation'
 
   update: (render) ->
     stripeInfo = me.get('stripe')
@@ -274,6 +270,19 @@ class PersonalSub
                 @cost = "$#{(product.get('amount')/100).toFixed(2)}"
               else
                 @cost = "$#{(sub.plan.amount/100).toFixed(2)}"
+
+              # For the new annual plan, use the stripe information as source of truth.
+              if me.get('stripe')?.planID is "price_1Hja49KaReE7xLUdlPuATOvQ"
+                if sub.discount?.coupon?.percent_off_precise
+                  # Get percentage off from stripe data.
+                  discount = sub.plan.amount * (sub.discount.coupon.percent_off_precise / 100)
+                  @cost = "$#{((sub.plan.amount - discount)/100).toFixed(2)}"
+                else if sub.discount?.coupon?.amount_off
+                  discount = sub.discount?.coupon?.amount_off
+                  @cost = "$#{((sub.plan.amount - discount)/100).toFixed(2)}"
+                else
+                  @cost = "$#{(sub.plan.amount/100).toFixed(2)}"
+
           else
             console.error "Could not find personal subscription #{me.get('stripe')?.customerID} #{me.get('stripe')?.subscriptionID}"
           delete @state

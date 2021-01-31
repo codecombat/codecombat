@@ -50,6 +50,7 @@ module.exports = (env) => {
         ], (regex) => { return regex.test(name) })
       },
       rules: [
+        { test: require.resolve('cookieconsent'), use: 'exports-loader?cookieconsent' },
         { test: /\.vue$/, use: [{ loader: 'vue-loader' }] },
         { test: /vendor\/scripts\/async.js/, use: [ { loader: 'imports-loader?root=>window' } ] },
         { test: /\.js$/,
@@ -121,7 +122,7 @@ module.exports = (env) => {
     resolve: {
       modules: [ // This section denotes what folders you can use as a root in a require statement
         path.resolve('./app'), // eg require('vendor.js') gets /app/vendor.js
-        path.resolve('./app/assets'), // eg require('images/favicon.ico') gets /app/assets/images/favicon.ico
+        path.resolve('./app/assets'), // eg require('images/favicon/favicon.ico') gets /app/assets/images/favicon/favicon.ico
         path.resolve('./'), // Or you can use the full path /app/whatever
         'node_modules' // Or maybe require('foo') for the Node module "foo".
       ],

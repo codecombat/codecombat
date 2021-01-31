@@ -152,12 +152,16 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
       @media (max-width: $screen-md-min)
         display: inline-block
         margin: 2px 10px 29.5px
+      @media (max-width: $wider-breakpoint)
+        margin-right: 10px
       & li
         display: inline-block
 
     a.navbar-brand
       padding: 14px 0 16px 70px
       margin: 0px
+      @media (max-width: $wider-breakpoint)
+        padding-left: 10px
 
       #logo-img
         height: 40px
@@ -176,6 +180,8 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
       color: black
       margin: 30px 70px 0
       border-color: $navy
+      @media (max-width: 767px)
+        margin: 15px 10px 0
 
       .icon-bar
         background-color: $navy
@@ -206,6 +212,8 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
       font-family: $body-font
       text-shadow: unset
       padding: 10px 15px
+      @media (max-width: $wider-breakpoint)
+        padding: 10px 10px
       color: $navy
       &:hover
         color: $teal

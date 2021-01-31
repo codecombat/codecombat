@@ -138,9 +138,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/article': go('editor/article/ArticleSearchView')
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')
-    'editor/cinematic(/*subpath)': go('core/SingletonAppVueComponentView')
-    'editor/cutscene(/*subpath)': go('core/SingletonAppVueComponentView')
-    'editor/interactive(/*subpath)': go('core/SingletonAppVueComponentView')
     'editor/level': go('editor/level/LevelSearchView')
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')
@@ -162,6 +159,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'github/*path': 'routeToServer'
 
     'hoc': -> @navigate "/play/hoc-2018", {trigger: true, replace: true}
+    'play/hoc-2020': -> @navigate "/play/hoc-2018", {trigger: true, replace: true} # Added to handle HoC PDF
     'home': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'i18n': go('i18n/I18NHomeView')
@@ -181,37 +179,20 @@ module.exports = class CocoRouter extends Backbone.Router
     'impact': () ->
       @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat' })
 
+    'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
+    'league(/*subpath)': go('core/SingletonAppVueComponentView')
+
     'legal': go('LegalView')
 
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
-    'ozaria/play/level/:levelID': (levelID) ->
-      props = {
-        levelID: levelID
-      }
-      @routeDirectly('ozaria/site/play/PagePlayLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-    # TODO move to vue router after support for empty template is added there
-    'ozaria/play/:campaign(?course-instance=:courseInstanceId)': (campaign, courseInstanceId) ->
-      props = {
-        campaign: campaign,
-        courseInstanceId: courseInstanceId
-      }
-      @routeDirectly('ozaria/site/play/PageUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
 
-    'ozaria/play/intro/:introLevelIdOrSlug': (introLevelIdOrSlug) ->
-      props = {
-        introLevelIdOrSlug: introLevelIdOrSlug
-      }
-      @routeDirectly('introLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+    'parents': go('core/SingletonAppVueComponentView')
+    'live-classes': go('core/SingletonAppVueComponentView')
 
-    'ozaria/character-customization': () ->
-      @routeDirectly('ozaria/site/characterCustomization', [], { vueRoute: true, baseTemplate: 'base-empty' })
-
-    'ozaria/avatar-selector': () ->
-      @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' })
-
-    'parents': go('ParentsView')
+    # Warning: In production debugging of third party iframe!
+    'temporary-debug-timetap': go('core/SingletonAppVueComponentView')
 
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')
@@ -230,27 +211,6 @@ module.exports = class CocoRouter extends Backbone.Router
       @navigate("play/web-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView')
-    
-    # Adding this route to test interactives until we have the intro levels implemented
-    # TODO: remove this route when intro level is ready to test the interactives.
-    'interactive/:interactiveIdOrSlug(?code-language=:codeLanguage)': (interactiveIdOrSlug, codeLanguage) ->
-      props = {
-        interactiveIdOrSlug: interactiveIdOrSlug,
-        codeLanguage: codeLanguage # This will also come from intro level page later
-      }
-      @routeDirectly('interactive', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-
-    'cinematic/:cinematicIdOrSlug': (cinematicIdOrSlug) ->
-      props = {
-        cinematicIdOrSlug: cinematicIdOrSlug,
-      }
-      @routeDirectly('cinematic', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-
-    'cutscene/:cutsceneId': (cutsceneId) ->
-      props = {
-        cutsceneId: cutsceneId,
-      }
-      @routeDirectly('cutscene', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
 
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
     'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })

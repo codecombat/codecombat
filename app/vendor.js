@@ -19,8 +19,6 @@ import 'bower_components/treema/treema.css'
 window.moment = require('bower_components/moment/min/moment-with-locales.min.js');
 window.moment.timezone = require('moment-timezone');
 window.$.i18n = window.i18n = require('bower_components/i18next/i18next.js');
-require('bower_components/cookieconsent/build/cookieconsent.min.js')// TODO webpack: Try to extract this
-import 'bower_components/cookieconsent/build/cookieconsent.min.css'// TODO webpack: Try to extract this
 require('vendor/scripts/idle.js').createjs;
 window.key = require('../vendor/scripts/keymaster.js');
 require('vendor/scripts/jquery.noty.packaged.min.js');
@@ -72,22 +70,6 @@ if (!String.prototype.includes) {
     })
   })
 })([Element.prototype, CharacterData.prototype, DocumentType.prototype])
-
-function loadScript (url) {
-  var script = document.createElement('script');
-  script.src = url;
-  document.head.appendChild(script);
-}
-try {
-  //Detect very modern javascript support.
-  (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
-  console.log("Modern javascript detected, aw yeah!");
-  loadScript(window.javascriptsPath + 'esper.modern.js')
-  
-} catch (e) {
-  console.log("Legacy javascript detected, falling back...", e.message);
-  loadScript(window.javascriptsPath + 'esper.js');
-}
 
 // All the rest of Vendor...
 require('vendor/scripts/css.js')

@@ -59,7 +59,7 @@ $gameControlMargin: 30px
 
   .map
     position: relative
-    
+
     #brain-pop-done-banner-wrapper
       position: absolute
       top: 20%
@@ -408,7 +408,7 @@ $gameControlMargin: 30px
         &.complete.premium .level-status
           background-position: -180px 0
 
-        .start-level
+        .start-level, .start-esports
           min-width: 200px
           display: block
           margin: 10px auto 0 auto
@@ -442,7 +442,7 @@ $gameControlMargin: 30px
 
         .course-version
           text-align: center
-          
+
         .threshold-icon
           height: 40px
           filter: drop-shadow(2px 2px 0px #222)
@@ -594,16 +594,16 @@ $gameControlMargin: 30px
     font-size: 24px
     color: white
     text-shadow: 0px 2px 1px black, 0px -2px 1px black, -2px 0px 1px black, 2px 0px 1px black
-    height: 32px
-    line-height: 32px
+    height: 33px
+    line-height: 33px
 
     .user-status-line
       position: relative
 
-      button.btn.btn-illustrated
+      .btn.btn-illustrated
         margin-left: 10px
         min-width: 90px
-        height: 32px
+        height: 33px
         color: white
 
       .rtl-allowed
@@ -938,13 +938,6 @@ $gameControlMargin: 30px
     z-index: 1
     width: 193px
 
-  #videos-button
-    position: absolute
-    top: calc(1% + 128px)
-    left: 1%
-    z-index: 1
-    width: 193px
-
   .picoctf-powered-by
     color: rgb(227, 173, 53)
     top: calc(1% + 90px)
@@ -956,29 +949,12 @@ $gameControlMargin: 30px
   .code-ninjas-logo
     top: calc(1% + 5px)
     left: calc(1% + 200px)
-    
-  .codeplay-logo
-    top: calc(1% + 5px)
-    left: calc(1% + 5px)
-    height: 100px
-
-  .ad-container
-    width: 100%
-    height: 90px
-    text-align: center
 
   .gameplay-container
     position: absolute
     height: 100%
     width: 100%
-    
-  #codeplay-ad
-    position: absolute
-    right: 10px
-    top: 60px
-    height: calc(100% - 160px)
-    z-index: 2
-    
+
   #amazon-campaign-container
     width: 200px
     position: absolute
@@ -989,7 +965,7 @@ $gameControlMargin: 30px
 
     #amazon-campaign-logo
       width: 200px
-    
+
   #game-dev-hoc-license-alert
     position: absolute
     z-index: 1
@@ -1006,3 +982,10 @@ body.ipad #campaign-view
 
 body[lang='ru'] .portals h2
   font-size: 26px
+
+body:not([lang*="-"]) #campaign-view .user-status .user-status-line .language-dropdown
+  width: 148px
+
+body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdown
+  width: 112px
+

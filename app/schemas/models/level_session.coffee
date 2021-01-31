@@ -140,10 +140,6 @@ _.extend LevelSessionSchema.properties,
         date: c.date
           description: 'When the submission achieving this score happened.'
         score: {type: 'number'}  # Store 'time', 'damage-taken', etc. as negative numbers so the index works.
-    capstoneStage:
-      type: 'number'
-      title: 'Capstone Stage'
-      description: 'Current capstone stage of the level. If, say, stage 7 is yet incomplete, capstoneStage will be 7. If stage 7 is complete, capstoneStage will be 8. When a capstone level is complete, capstoneStage will be 1 higher than the final stage number.'
 
   code:
     type: 'object'
@@ -159,27 +155,27 @@ _.extend LevelSessionSchema.properties,
 
   codeLanguage:
     type: 'string'
-    
+
   codeConcepts:
     type: 'array'
     items:
-      type: 'string'    
+      type: 'string'
 
   playtime:
     type: 'number'
     title: 'Playtime'
     description: 'The total playtime on this session in seconds'
-    
+
   hintTime:
     type: 'number'
     title: 'Hint Time'
     description: 'The total time hints viewed in seconds'
-    
+
   timesCodeRun:
     type: 'number'
     title: 'Times Code Run'
     description: 'The total times the code has been run'
-    
+
   timesAutocompleteUsed:
     type: 'number'
     title: 'Times Autocomplete Used'
@@ -339,6 +335,21 @@ _.extend LevelSessionSchema.properties,
     type: 'object'
     title: 'Key Value DB'
     description: 'Simplified key-value database for game-dev levels'
+
+  source: c.object {},
+    id: c.objectId({})
+    name:
+      type: 'string'
+      title: 'Level session source'
+      description: 'Source of the level session, if present level session was added from an external source'
+
+  creatorAge:
+    type: 'number'
+    title: 'Creator Age'
+    description: 'Age of creator, in years (but with month precision), at time of session creation, or session.submitDate for ladder sessions'
+    minimum: 0
+
+  codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'CodePoints this user earned for completing this level'}
 
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 

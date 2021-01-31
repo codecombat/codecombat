@@ -19,7 +19,7 @@ storage = require 'core/storage'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 co = require('co')
 OzariaEncouragementModal = require('app/views/teachers/OzariaEncouragementModal').default
-experiments = require('core/experiments')
+PanelTryOzaria = require('app/components/teacher/PanelTryOzaria').default
 
 helper = require 'lib/coursesHelper'
 
@@ -162,9 +162,6 @@ module.exports = class TeacherClassesView extends RootView
       req = @administratingTeachers.fetchByIds(administratingTeacherIds)
       @supermodel.trackRequest req
 
-    # TODO: Any reference to paidTeacher can be cleaned up post Teacher Appreciation week (after 2019-05-03)
-    @paidTeacher = me.isAdmin() or me.isPaidTeacher()
-
     # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
 
   afterRender: ->
@@ -172,6 +169,11 @@ module.exports = class TeacherClassesView extends RootView
     unless @courseNagSubview
       @courseNagSubview = new CourseNagSubview()
       @insertSubView(@courseNagSubview)
+
+    @panelTryOzaria = new PanelTryOzaria({
+      el: @$('.try-ozaria')[0]
+    })
+
     $('.progress-dot').each (i, el) ->
       dot = $(el)
       dot.tooltip({
@@ -229,7 +231,6 @@ module.exports = class TeacherClassesView extends RootView
   onLoaded: ->
     helper.calculateDots(@classrooms, @courses, @courseInstances)
     @calculateQuestCompletion()
-    @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
 
     showOzariaEncouragementModal = window.localStorage.getItem('showOzariaEncouragementModal')
     if showOzariaEncouragementModal

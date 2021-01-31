@@ -170,7 +170,7 @@ extractTranspileErrorDetails = (options) ->
       options.hint = error.message
     when 'cpp'
       if error.location
-        options.range = [error.location.start.offset, error.location.end.offset]
+        options.range = [ranges.offsetToPos(error.location.start.offset, code, codePrefix), ranges.offsetToPos(error.location.end.offset, code, codePrefix)]
       else
         console.error "C++ error with no location information:", error
       #options.hint = error.message
@@ -202,7 +202,7 @@ getTranspileHint = (msg, context, languageID, code, range, simpleLoops=false) ->
         return "You are missing a ':' after 'else'. Try `else:`"
     return "Code needs to line up."
 
-  else if ((msg.indexOf("Unexpected token") >= 0) or (msg.indexOf("Unexpected identifier") >= 0)) and context?
+  else if ((msg?.indexOf("Unexpected token") >= 0) or (msg?.indexOf("Unexpected identifier") >= 0)) and context?
     codeSnippet = code.substring range[0].ofs, range[1].ofs
     lineStart = code.substring range[0].ofs - range[0].col, range[0].ofs
     lineStartLow = lineStart.toLowerCase()
@@ -278,7 +278,7 @@ extractRuntimeErrorDetails = (options) ->
     loc = options.aether?.esperEngine?.evaluator?.topFrame?.ast?.loc
     options.range ?= esperLocToAetherLoc loc
 
-  if options.error.name?
+  if options.error?.name?
     options.message = "#{options.error.name}: #{options.message}"
 
   if options.range?

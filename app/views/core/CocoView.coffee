@@ -74,6 +74,7 @@ module.exports = class CocoView extends Backbone.View
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
+    $('#modal-wrapper .modal').off 'shown.bs.modal', @modalShown
     @$el.find('.has-tooltip, [data-original-title]').tooltip 'destroy'
     @endHighlight()
     @getPointer(false).remove()
@@ -243,17 +244,39 @@ module.exports = class CocoView extends Backbone.View
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
 
   onClickContactModal: (e) ->
-    if me.isStudent()
-      console.error("Student clicked contact modal.")
+    if !application.isProduction()
+      noty({
+        text: 'Contact options are only available in production',
+        layout: 'center',
+        type: 'error',
+        timeout: 5000
+      })
       return
-    if me.isTeacher(true)
-      if application.isProduction()
-        window.Intercom?('show')
-      else
-        alert('Teachers, Intercom widget only available in production.')
+
+    # If there is no way to open the chat, there's no point in giving the choice in the modal,
+    # so we go directly to zendesk. This could potentially be improved in the future by checking
+    # availability of support somehow, and going to zendesk if no one is there to answer drift chat.
+    openDirectContactModal = =>
+      DirectContactModal = require('app/views/core/DirectContactModal').default
+      @openModalView(new DirectContactModal())
+
+    if me.isTeacher(true) and window?.tracker?.drift?.openChat
+      openDirectContactModal()
     else
-      ContactModal = require 'views/core/ContactModal'
-      @openModalView(new ContactModal())
+      try
+        if !me.isAnonymous()
+          zE('webWidget', 'prefill', {
+            email: {
+              value: me.get('email')
+            }
+          })
+        zE('webWidget', 'open')
+        zE('webWidget', 'show')
+      catch e
+        console.error('Error trying to open Zendesk widget: ', e)
+        # There's an unlikely case where both Drift and Zendesk are unavailable, or Zendesk exists but fails.
+        # Since the modal communicates errors better, and shows the direct support email, we still open it.
+        openDirectContactModal()
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
@@ -281,25 +304,23 @@ module.exports = class CocoView extends Backbone.View
     viewLoad = new ViewLoadTimer(modalView)
     modalView.render()
 
-    # Redirect to the woo when trying to log in or signup
-    if features.codePlay
-      if modalView.id is 'create-account-modal'
-        return document.location.href = '//lenovogamestate.com/register/?cocoId='+me.id
-      if modalView.id is 'auth-modal'
-        return document.location.href = '//lenovogamestate.com/login/?cocoId='+me.id
-
     $('#modal-wrapper').removeClass('hide').empty().append modalView.el
     modalView.afterInsert()
     visibleModal = modalView
     modalOptions = {show: true, backdrop: if modalView.closesOnClickOutside then true else 'static'}
     if typeof modalView.closesOnEscape is 'boolean' and modalView.closesOnEscape is false # by default, closes on escape, i.e. if modalView.closesOnEscape = undefined
       modalOptions.keyboard = false
-    $('#modal-wrapper .modal').modal(modalOptions).on 'hidden.bs.modal', @modalClosed
+    modalRef = $('#modal-wrapper .modal').modal(modalOptions)
+    modalRef.on 'hidden.bs.modal', @modalClosed
+    modalRef.on 'shown.bs.modal', @modalShown
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
     Backbone.Mediator.publish 'modal:opened', {}
     viewLoad.record()
     return modalView
+
+  modalShown: =>
+    visibleModal.trigger('shown')
 
   modalClosed: =>
     visibleModal.willDisappear() if visibleModal
@@ -569,9 +590,11 @@ module.exports = class CocoView extends Backbone.View
   tryCopy: ->
     try
       document.execCommand('copy')
+      message = 'Copied to clipboard'
+      noty text: message, layout: 'topCenter', type: 'info', killer: false, timeout: 2000
     catch err
       message = 'Oops, unable to copy'
-      noty text: message, layout: 'topCenter', type: 'error', killer: false
+      noty text: message, layout: 'topCenter', type: 'error', killer: false, timeout: 3000
 
   wait: (event) -> new Promise((resolve) => @once(event, resolve))
 

@@ -1,6 +1,7 @@
 _ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
 
 jshintHolder = {}
+acorn_loose = require 'acorn-loose'
 escodegen = require 'escodegen'
 
 Language = require './language'
@@ -41,8 +42,8 @@ module.exports = class JavaScript extends Language
       return not _.isEqual(aAST.body, bAST.body)
     # Esprima couldn't parse either ASTs, so let's fall back to acorn_loose
     options = {locations: false, tabSize: 4, ecmaVersion: 5}
-    aAST = acorn_loose.parse_dammit a, options
-    bAST = acorn_loose.parse_dammit b, options
+    aAST = acorn_loose.parse a, options
+    bAST = acorn_loose.parse b, options
     unless aAST and bAST
       console.log "Couldn't even loosely parse; are you sure #{a} and #{b} are #{@name}?"
       return true
@@ -62,7 +63,7 @@ module.exports = class JavaScript extends Language
     # Run it through JSHint first, because that doesn't rely on Esprima
     # See also how ACE does it: https://github.com/ajaxorg/ace/blob/master/lib/ace/mode/javascript_worker.js
     # TODO: make JSHint stop providing these globals somehow; the below doesn't work
-    jshintOptions = browser: false, couch: false, devel: false, dojo: false, jquery: false, mootools: false, node: false, nonstandard: false, phantom: false, prototypejs: false, rhino: false, worker: false, wsh: false, yui: false
+    jshintOptions = browser: false, couch: false, devel: false, dojo: false, jquery: false, mootools: false, node: false, nonstandard: false, phantom: false, prototypejs: false, rhino: false, worker: false, wsh: false, yui: false, iterator: true, esnext: true
     jshintGlobals = _.zipObject jshintGlobals, (false for g in aether.allGlobals)  # JSHint expects {key: writable} globals
     # Doesn't work; can't find a way to skip warnings from JSHint programmatic options instead of in code comments.
     #for problemID, problem of @originalOptions.problems when problem.level is 'ignore' and /jshint/.test problemID
@@ -121,7 +122,7 @@ module.exports = class JavaScript extends Language
       ast = escodegen.attachComments ast, ast.comments, ast.tokens
     catch e
       console.log 'got error beautifying', e
-      ast = acorn_loose.parse_dammit rawCode, {tabSize: 4, ecmaVersion: 5}
+      ast = acorn_loose.parse rawCode, {tabSize: 4, ecmaVersion: 5}
     beautified = escodegen.generate ast, {comment: true, parse: esprima.parse}
     beautified
 
@@ -152,7 +153,7 @@ module.exports = class JavaScript extends Language
   # Useful for parsing incomplete code as it is being written without giving up.
   # This should never throw an error and should always return some sort of AST, even if incomplete or empty.
   parseDammit: (code, aether) ->
-    ast = acorn_loose.parse_dammit code, {locations: true, tabSize: 4, ecmaVersion: 5}
+    ast = acorn_loose.parse code, {locations: true, tabSize: 4, ecmaVersion: 5}
 
     if ast? and ast.body.length isnt 1
       ast.body = ast.body.slice(0,0)

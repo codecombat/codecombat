@@ -188,7 +188,6 @@ module.exports = class RootView extends CocoView
     @saveLanguage(newLang)
     locale.load(me.get('preferredLanguage', true)).then =>
       @onLanguageLoaded()
-      window.tracker.promptForCookieConsent()
 
   onLanguageLoaded: ->
     @render()
@@ -213,8 +212,6 @@ module.exports = class RootView extends CocoView
       return true if $.browser.mozilla && majorVersion < 25
       return true if $.browser.chrome && majorVersion < 72  # forbid some chinese browser
       return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
-    else
-      console.warn 'no more jquery browser version...'
     return false
 
   logoutRedirectURL: '/'

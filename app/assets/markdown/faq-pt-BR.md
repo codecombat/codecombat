@@ -60,7 +60,7 @@ Publicamos um conjunto de recursos curriculares em nossa página [Recursos do Pr
 
 ### Quanto custa acessar todos os cursos e recursos disponíveis?
 
-Nós personalizamos soluções para escolas e distritos e trabalhamos com você para entender seu caso de uso, contexto e orçamento. Entre em contato com vendas@enlixeducacional.com.br para mais detalhes!
+Nós personalizamos soluções para escolas e distritos e trabalhamos com você para entender seu caso de uso, contexto e orçamento. Entre em contato com schools@codecombat.com para mais detalhes!
 
 ### O que uma licença fornece?
 Uma licença fornece a um único aluno acesso a todo o currículo além do curso de avaliação (Introdução à Ciência da Computação).

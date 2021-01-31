@@ -53,9 +53,8 @@ block header
                 if serverSession && serverSession.amActually
                   li
                     a#nav-stop-spying-button Stop Spying
-                if !features.codePlay
-                  li
-                    a#logout-button(data-i18n="login.log_out")
+                li
+                  a#logout-button(data-i18n="login.log_out")
 
           else
             button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
@@ -76,7 +75,7 @@ block footer
 
     #footer-links(class=features.playViewsOnly ? 'hide' : '')
       a(href="/about", data-i18n="nav.about")
-      if !me.isStudent()
+      if me.isTeacher(true)
         a.contact-modal(tabindex=-1, data-i18n="nav.contact")
       if me.showOpenResourceLink()
         a(href='http://blog.codecombat.com/', data-i18n="nav.blog")
@@ -102,7 +101,7 @@ block footer
     #footer-credits
       span
         span(data-i18n="nav.copyright_prefix")
-        span= ' ©2019 CodeCombat'
+        span= ' ©2020 CodeCombat'
         br
         span(data-i18n="nav.copyright_suffix")
       img#footer-logo(src="/images/pages/base/logo.png", alt="CodeCombat")

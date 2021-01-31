@@ -53,12 +53,9 @@ module.exports = class AuthModal extends ModalView
     userObject = forms.formToObject @$el
     res = tv4.validateMultiple userObject, formSchema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
+    showingError = false
     new Promise(me.loginPasswordUser(userObject.emailOrUsername, userObject.password).then)
-    .then(=>
-      if window.nextURL then window.location.href = window.nextURL else loginNavigate(@subModalContinue)
-    )
     .catch((jqxhr) =>
-      showingError = false
       if jqxhr.status is 401
         errorID = jqxhr.responseJSON.errorID
         if errorID is 'not-found'
@@ -67,9 +64,23 @@ module.exports = class AuthModal extends ModalView
         if errorID is 'wrong-password'
           forms.setErrorToProperty(@$el, 'password', $.i18n.t('account_settings.wrong_password'))
           showingError = true
+      else if jqxhr.status is 429
+        showingError = true
+        forms.setErrorToProperty(@$el, 'emailOrUsername', $.i18n.t('loading_error.too_many_login_failures'))
 
       if not showingError
         @$('#unknown-error-alert').removeClass('hide')
+    )
+    .then(=>
+      application.tracker.identifyAfterNextPageLoad()
+      return application.tracker.identify()
+    )
+    .finally(=>
+      unless showingError
+        if window.nextURL
+          window.location.href = window.nextURL
+        else
+          loginNavigate(@subModalContinue)
     )
 
 
@@ -86,13 +97,34 @@ module.exports = class AuthModal extends ModalView
           context: @
           success: (gplusAttrs) ->
             existingUser = new User()
-            existingUser.fetchGPlusUser(gplusAttrs.gplusID, {
+            existingUser.fetchGPlusUser(gplusAttrs.gplusID, gplusAttrs.email, {
               success: =>
                 me.loginGPlusUser(gplusAttrs.gplusID, {
-                  success: => loginNavigate(@subModalContinue)
+                  success: =>
+                    application.tracker.identifyAfterNextPageLoad()
+                    application.tracker.identify().finally(=>
+                      loginNavigate(@subModalContinue)
+                    )
                   error: @onGPlusLoginError
                 })
-              error: @onGPlusLoginError
+              error: (res, jqxhr) =>
+                if jqxhr.status is 409 and jqxhr.responseJSON.errorID and jqxhr.responseJSON.errorID is 'account-with-email-exists'
+                  noty({ text: $.i18n.t('login.accounts_merge_confirmation'), layout: 'topCenter', type: 'info', buttons: [
+                    { text: 'Yes', onClick: ($noty) ->
+                      $noty.close()
+                      me.loginGPlusUser(gplusAttrs.gplusID, {
+                        data: { merge: true, email: gplusAttrs.email }
+                        success: =>
+                          application.tracker.identifyAfterNextPageLoad()
+                          application.tracker.identify().finally(=>
+                            loginNavigate(@subModalContinue)
+                          )
+                        error: @onGPlusLoginError
+                      })
+                    }, { text: 'No', onClick: ($noty) -> $noty.close() }]
+                  })
+                else
+                  @onGPlusLoginError(res, jqxhr)
             })
         })
     })
@@ -120,7 +152,11 @@ module.exports = class AuthModal extends ModalView
             existingUser.fetchFacebookUser(facebookAttrs.facebookID, {
               success: =>
                 me.loginFacebookUser(facebookAttrs.facebookID, {
-                  success: => loginNavigate(@subModalContinue)
+                  success: =>
+                    application.tracker.identifyAfterNextPageLoad()
+                    application.tracker.identify().then(=>
+                      loginNavigate(@subModalContinue)
+                    )
                   error: @onFacebookLoginError
                 })
               error: @onFacebookLoginError
@@ -151,18 +187,21 @@ formSchema = {
         User.schema.properties.email
       ]
     }
-    password: User.schema.properties.password
   }
   required: ['emailOrUsername', 'password']
 }
 
 loginNavigate = (subModalContinue) ->
+  if window.nextURL?.startsWith('/league')
+    window.location.href = window.nextURL
+    return
+
   if not me.isAdmin()
     if me.isStudent()
       application.router.navigate('/students', { trigger: true })
     else if me.isTeacher()
       if me.isSchoolAdmin()
-        application.router.navigate('/school-administrator', { trigger: true })
+        application.router.navigate('/teachers/licenses', { trigger: true })
       else
         application.router.navigate('/teachers/classes', { trigger: true })
   else if subModalContinue

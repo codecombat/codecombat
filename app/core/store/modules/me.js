@@ -1,21 +1,36 @@
 import _ from 'lodash'
 const userSchema = require('schemas/models/user')
+const User = require('app/models/User')
 const api = require('core/api')
+const utils = require('core/utils')
 
 const emptyUser = _.zipObject((_.keys(userSchema.properties).map((key) => [key, null])))
 
 export default {
   namespaced: true,
-  state: emptyUser,
+  state: _.cloneDeep(emptyUser),
+
   getters: {
+    isInGodMode (state) {
+      return ((state || {}).permissions || []).indexOf('godmode') > -1
+    },
+
     isAnonymous (state) { return state.anonymous === true },
 
     isStudent (state) {
-      return (state != null ? state.role : undefined) === 'student'
+      return (state || {}).role === 'student'
     },
 
-    isTeacher (state) {
-      return (state != null ? state.role : undefined) === 'teacher'
+    isTeacher (state, includePossibleTeachers) {
+      return User.isTeacher(state, includePossibleTeachers)
+    },
+
+    isParent (state) {
+      return (state || {}).role === 'parent'
+    },
+
+    isHomePlayer (state) {
+      return !(state || {}).role && state.anonymous === false
     },
 
     forumLink (state) {
@@ -41,7 +56,39 @@ export default {
     },
 
     preferredLocale (state) {
-      return state.preferredLanguage
+      return state.preferredLanguage || 'en-US'
+    },
+
+    inEU (state) {
+      if (!state.country) {
+        return undefined
+      }
+
+      return utils.inEU(state.country)
+    },
+
+    isSmokeTestUser (state) {
+      return utils.isSmokeTestEmail(state.email)
+    },
+
+    hasSubscription (state) {
+      if (state.payPal && state.payPal.billingAgreementID) {
+        return true
+      }
+
+      if (state.stripe && (state.stripe.sponsorID || state.stripe.subscriptionID || state.stripe.free === true)) {
+        return true
+      }
+
+      if (state.stripe && typeof state.stripe.free === 'string') {
+        return new Date() < new Date(state.stripe.free)
+      }
+
+      return false
+    },
+
+    isPremium (state, getters) {
+      return getters.isAdmin || getters.hasSubscription || getters.isInGodMode
     }
   },
 
@@ -63,15 +110,8 @@ export default {
         })
     },
 
-    set1fhAvatar ({ state, commit }, { levelThangTypeId, cinematicThangTypeId }) {
-      if (!(levelThangTypeId && cinematicThangTypeId)) {
-        throw new Error('Require both a levelThangTypeId and cinematicThangTypeId')
-      }
-
-      const ozariaConfig = state.ozariaUserOptions || {}
-      commit('updateUser', { ozariaUserOptions:
-        { ...ozariaConfig, avatar: { levelThangTypeId, cinematicThangTypeId } }
-      })
+    authenticated ({ commit }, user) {
+      commit('updateUser', user)
     }
   }
 }

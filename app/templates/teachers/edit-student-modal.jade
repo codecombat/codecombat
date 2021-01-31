@@ -4,11 +4,11 @@ block modal-header-content
   h3
     span.spr(data-i18n="teacher.edit_2")
     span=view.user.broadName()
-    
+
 block modal-body-content
 
   - var status = view.user.prepaidStatus()
-  - var prepaidType = view.user.prepaidType()
+  - var prepaidType = view.user.prepaidType('includeCourseIDs')
 
   .text-center
     .license-details
@@ -23,6 +23,8 @@ block modal-body-content
             span.spr(data-i18n="teacher.full_license")
           else if prepaidType === 'starter_license'
             span.spr(data-i18n="teacher.starter_license")
+          else
+            span.spr=prepaidType
           span (
           span(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString()
           span )
@@ -40,22 +42,22 @@ block modal-body-content
     .edit-student-details
       strong(data-i18n="teacher.student_details")
       span.spr :
-      .small-details 
+      .small-details
         span(data-i18n="teacher.student_name")
         span.spr :
         if (view.user.get('firstName') && view.user.get('lastName'))
           span= view.user.get('firstName')
           span.spl= view.user.get('lastName')
-        else 
+        else
           i(data-i18n="teacher.no_name")
-      .small-details 
+      .small-details
         span(data-i18n="general.username")
         span.spr :
         if (view.user.get('name'))
           span= view.user.get('name')
-        else 
+        else
           i(data-i18n="teacher.no_username")
-      .small-details  
+      .small-details
         span(data-i18n="general.email")
         span.spr :
         if (view.user.get('email'))
@@ -79,6 +81,8 @@ block modal-body-content
         strong(data-i18n="teacher.enter_new_password_below")
       div.m-b-2.form-group(class=(state.get('errorMessage') ? 'has-error' : ''))
         input.new-password-input(placeholder="type a new password here" value=state.get('newPassword'))
+        br
+        small.form-text.text-muted(data-i18n="signup.password_requirements")
         div.help-block.error-help-block.m-t-1.small
           span=state.get('errorMessage')
       if state.get('passwordChanged')
@@ -87,7 +91,7 @@ block modal-body-content
       else
         button.change-password-btn.btn.btn-lg.btn-primary.uppercase
           span(data-i18n="teacher.change_password")
-      
+
 
 block modal-footer-content
   button.btn.btn-primary(type="button", data-dismiss="modal", aria-hidden="true")

@@ -159,24 +159,6 @@ module.exports = class DocFormatter
         if @doc.args
           arg.example = arg.example.replace thisToken[@options.language], 'hero' for arg in @doc.args when arg.example
 
-    if @doc.shortName is 'loop' and @options.level.isType('course', 'course-ladder')
-      @replaceSimpleLoops()
-
-  replaceSimpleLoops: ->
-    # Temporary hackery to make it look like we meant while True: in our loop: docs until we can update everything
-    @doc.shortName = @doc.shorterName = @doc.title = @doc.name = switch @options.language
-      when 'coffeescript' then "loop"
-      when 'python' then "while True:"
-      when 'lua' then "while true do"
-      else "while (true)"
-    for field in ['example', 'description']
-      [simpleLoop, whileLoop] = switch @options.language
-        when 'coffeescript' then [/loop/g, "loop"]
-        when 'python' then [/loop:/g, "while True:"]
-        when 'lua' then [/loop/g, "while true do"]
-        else [/loop/g, "while (true)"]
-      @doc[field] = @doc[field].replace simpleLoop, whileLoop
-
   formatPopover: ->
     [docName, args] = @getDocNameAndArguments()
     argumentExamples = (arg.example or arg.default or arg.name for arg in @doc.args ? [])
@@ -185,7 +167,7 @@ module.exports = class DocFormatter
       doc: @doc
       docName: docName
       language: @options.language
-      value: @formatValue()
+      value: @formatValue undefined, true
       marked: marked
       argumentExamples: argumentExamples
       writable: @options.writable
@@ -217,11 +199,11 @@ module.exports = class DocFormatter
       args.unshift '"' + _.string.dasherize(@doc.name).replace('cast-', '') + '"'
     [docName, args]
 
-  formatValue: (v) ->
+  formatValue: (v, isTopLevel=false) ->
     return null if @options.level.isType('web-dev')
     return null if @doc.type is 'snippet'
     return @options.thang.now() if @doc.name is 'now'
-    return '[Function]' if not v and @doc.type is 'function'
+    return '[Function]' if not v? and @doc.type is 'function' and isTopLevel
     unless v?
       if @doc.owner is 'this'
         v = @options.thang[@doc.name]
@@ -232,7 +214,7 @@ module.exports = class DocFormatter
         return v
       if _.isNumber v
         return v.toFixed 2
-      unless v
+      unless v?
         return 'null'
       return '' + v
     if _.isString v

@@ -3,7 +3,7 @@ CocoClass = require 'core/CocoClass'
 LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
-{createAetherOptions} = require 'lib/aether_utils'
+{createAetherOptions, replaceSimpleLoops} = require 'lib/aether_utils'
 LZString = require 'lz-string'
 
 SIMULATOR_VERSION = 4
@@ -38,8 +38,11 @@ module.exports = class Simulator extends CocoClass
 
   fetchAndSimulateOneGame: (humanGameID, ogresGameID) =>
     return if @destroyed
+    url = '/queue/scoring/getTwoGames'
+    if @options.singleLadder
+      url = "/db/level/#{@options.levelOriginal}/next-ladder-match"
     $.ajax
-      url: '/queue/scoring/getTwoGames'
+      url: url
       type: 'POST'
       parse: true
       data:
@@ -49,14 +52,17 @@ module.exports = class Simulator extends CocoClass
         background: Boolean(@options.background)
         levelID: @options.levelID
         leagueID: @options.leagueID
-      error: (errorData) ->
+      error: (errorData) =>
+        return if @destroyed
         console.warn "There was an error fetching two games! #{JSON.stringify errorData}"
         if errorData?.responseText?.indexOf("Old simulator") isnt -1
           noty {
-            text: errorData.responseText
+            text: errorData.responseText or "Error fetching games to simulate"
             layout: 'center'
             type: 'error'
+            timeout: 5000
           }
+          @simulateAnotherTaskAfterDelay()
       success: (taskData) =>
         return if @destroyed
         unless taskData
@@ -67,15 +73,27 @@ module.exports = class Simulator extends CocoClass
         @simulatingPlayerStrings = {}
         for team in ['humans', 'ogres']
           session = _.find(taskData.sessions, {team: team})
-          @simulatingPlayerStrings[team] = "#{session.creatorName or session.creator} #{session.team}"
+          teamName = $.i18n.t 'ladder.' + team
+          unless session
+            @trigger 'statusUpdate', "Error simulating game: didn't find both teams' sessions. Trying another game in #{@retryDelayInSeconds} seconds."
+            @simulateAnotherTaskAfterDelay()
+            return
+          @simulatingPlayerStrings[team] = "#{session.creatorName or session.creator} #{teamName}"
         @trigger 'statusUpdate', "Setting up #{taskData.sessions[0].levelID} simulation between #{@simulatingPlayerStrings.humans} and #{@simulatingPlayerStrings.ogres}"
         #refactor this
         @task = new SimulationTask(taskData)
+        try
+          levelID = @task.getLevelName()
+        catch err
+          console.error err
+          @trigger 'statusUpdate', "Error simulating game: #{err}. Trying another game in #{@retryDelayInSeconds} seconds."
+          @simulateAnotherTaskAfterDelay()
+          return
 
         @supermodel ?= new SuperModel()
         @supermodel.resetProgress()
         @stopListening @supermodel, 'loaded-all'
-        @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), opponentSessionID: @task.getSecondSessionID(), headless: true
+        @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), opponentSessionID: @task.getSecondSessionID(), headless: true
 
         if @supermodel.finished()
           @simulateSingleGame()
@@ -95,7 +113,8 @@ module.exports = class Simulator extends CocoClass
   commenceSingleSimulation: ->
     @listenToOnce @god, 'infinite-loop', @handleSingleSimulationInfiniteLoop
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
-    @god.createWorld {spells: @generateSpellsObject()}
+    @generateSpellsObject()
+        .then (spell) => @god.createWorld {spells: spell}
 
   handleSingleSimulationError: (error) ->
     console.error 'There was an error simulating a single game!', error
@@ -238,11 +257,7 @@ module.exports = class Simulator extends CocoClass
     @god.setLevel @level.serialize {@supermodel, @session, @otherSession, headless: true, sessionless: false}
     @god.setLevelSessionIDs (session.sessionID for session in @task.getSessions())
     @god.setWorldClassMap @world.classMap
-    @god.setGoalManager new GoalManager @world, @level.get('goals'), null, {
-      headless: true
-      additionalGoals: @level.additionalGoals
-      session: @session
-    }
+    @god.setGoalManager new GoalManager @world, @level.get('goals'), null, {headless: true}
     humanFlagHistory = _.filter @session.get('state')?.flagHistory ? [], (event) => event.source isnt 'code' and event.team is (@session.get('team') ? 'humans')
     ogreFlagHistory = _.filter @otherSession.get('state')?.flagHistory ? [], (event) => event.source isnt 'code' and event.team is (@otherSession.get('team') ? 'ogres')
     @god.lastFlagHistory = humanFlagHistory.concat ogreFlagHistory
@@ -253,7 +268,8 @@ module.exports = class Simulator extends CocoClass
   commenceSimulationAndSetupCallback: ->
     @listenToOnce @god, 'infinite-loop', @onInfiniteLoop
     @listenToOnce @god, 'goals-calculated', @processResults
-    @god.createWorld {spells: @generateSpellsObject()}
+    @generateSpellsObject()
+        .then (spell) => @god.createWorld {spells: spell}
 
     # Search for leaks, headless-client only.
     # NOTE: Memwatch currently being ignored by Webpack, because it's only used by the server.
@@ -324,9 +340,6 @@ module.exports = class Simulator extends CocoClass
     #console.log "Task registration result: #{JSON.stringify result}"
     @trigger 'statusUpdate', 'Results were successfully sent back to server!'
     @simulatedByYou++
-    unless @options.headlessClient
-      simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
-      $('#simulated-by-you').text(simulatedBy)
 
   handleTaskResultsTransferError: (error) =>
     return if @destroyed
@@ -352,7 +365,6 @@ module.exports = class Simulator extends CocoClass
       receiptHandle: @task.getReceiptHandle()
       originalSessionID: @task.getFirstSessionID()
       originalSessionRank: -1
-      calculationTime: 500
       sessions: []
       simulator: @simulator
       randomSeed: @task.world.randomSeed
@@ -392,20 +404,41 @@ module.exports = class Simulator extends CocoClass
 
   generateSpellsObject: ->
     spells = {}
+    promises = []
     for {hero, team} in [{hero: 'Hero Placeholder', team: 'humans'}, {hero: 'Hero Placeholder 1', team: 'ogres'}]
       sessionInfo = _.filter(@task.getSessions(), {team: team})[0]
       fullSpellName = _.string.slugify(hero) + '/plan'
       submittedCodeLanguage = sessionInfo?.submittedCodeLanguage ? 'javascript'
       submittedCodeLanguage = 'javascript' if submittedCodeLanguage in ['clojure', 'io']  # No longer supported
       submittedCode = LZString.decompressFromUTF16 sessionInfo?.submittedCode?[_.string.slugify(hero)]?.plan ? ''
+      submittedCode = replaceSimpleLoops submittedCode, submittedCodeLanguage
       aether = new Aether createAetherOptions functionName: 'plan', codeLanguage: submittedCodeLanguage, skipProtectAPI: false
-      try
-        aether.transpile submittedCode
-      catch e
-        console.log "Couldn't transpile #{fullSpellName}:\n#{submittedCode}\n", e
-        aether.transpile ''
-      spells[fullSpellName] = name: 'plan', team: team, thang: {thang: {id: hero}, aether: aether}
-    spells
+      spl = name: 'plan', team: team, thang: {thang: {id: hero}, aether: aether}, fullSpellName: fullSpellName
+      promises.push(@fetchToken(submittedCode, submittedCodeLanguage, spl))
+    Promise.all(promises)
+      .then((values) =>
+           for res in values
+             spl = res.spell
+             source = res.source
+             fullSpellName = spl.fullSpellName
+             try
+               spl.thang.aether.transpile source
+             catch e
+               console.log "Couldn't transpile #{fullSpellName}:\n#{source}\n", e
+             delete spl.fullSpellName
+             spells[fullSpellName] = spl)
+      .then(() => spells)
+
+  fetchToken: (source, language, spell) =>
+    if language not in ['java', 'cpp'] or /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
+      return Promise.resolve({source: source, spell: spell})
+
+    headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
+    service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
+    fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
+    .then (x) => x.json()
+    .then (x) => {source: x.token, spell: spell}
 
 
 class SimulationTask
