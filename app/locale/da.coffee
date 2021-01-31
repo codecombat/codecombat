@@ -264,9 +264,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     poll: "Meningsmåling" # Tooltip on poll button from /play
     next: "Næste" # Go from choose hero to choose inventory before playing a level
     change_hero: "Skift helt" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
+    change_hero_or_language: "Skift helt eller sprog"
     buy_gems: "Køb diamanter"
-#    subscribers_only: "Subscribers Only!"
+    subscribers_only: "Kun med abonnement!"
 #    subscribe_unlock: "Subscribe to Unlock!"
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
 #    subscriber_gems: "Subscribe today to purchase this hero with gems!"
