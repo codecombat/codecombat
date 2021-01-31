@@ -57,6 +57,7 @@ else
                 span.spr= '.'
                 // TODO: show better summary states, like active, subscribed, free, and active until.
                 a(href="/account/subscription", data-i18n="account_settings.manage_subscription")
+          button.save-button.me-btn.form-control.btn.btn-primary.disabled(data-i18n="delta.no_changes" disabled="true")
 
       // TODO: allow users to pick their avatars from our preset list now that we killed Gravatar and file uploads
       //.panel.panel-default
@@ -81,6 +82,7 @@ else
               .form-group
                 label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
                 input#password2.form-control(name="password2", type="password")
+            button.save-button.passwd-btn.btn.btn-primary.form-control.disabled(data-i18n="delta.no_changes" disabled="true")
 
       if me.canDeleteAccount()
         .panel.panel-default
@@ -128,6 +130,8 @@ else
                 input#email_recruitNotes(name="email_recruitNotes", type="checkbox", checked=subs.recruitNotes)
                 span.help-block(data-i18n="account_settings.email_recruit_notes_description") If you play really well, we may contact you about getting you a (better) job.
       
+          button.save-button.email-btn.form-control.btn.btn-primary.disabled(data-i18n="delta.no_changes" disabled="true")
+
           hr
       
           if me.showOpenResourceLink()

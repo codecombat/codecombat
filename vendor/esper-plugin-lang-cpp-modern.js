@@ -1,10 +1,10 @@
 /*!
  * jaba
  * 
- * Compiled: Tue Jan 12 2021 15:19:56 GMT-0800 (PST)
+ * Compiled: Mon Jan 25 2021 06:27:45 GMT-0800 (PST)
  * Target  : web (umd)
  * Profile : modern
- * Version : ad6c740
+ * Version : 7d9aa3c
  * 
  * 
  * 
@@ -142,7 +142,7 @@ function skope(node) {
 
 	function process(node, parent) {
 		let next = (n) => process(n, node);
-		if ( !node.loc && node.node != "LineEmpty" ) {
+		if ( !node.loc && node.node != "LineEmpty" && node.node != "TraditionalComment" ) {
 			console.log("Node of type `" + node.node + "` doesn't have loc.");
 		}
 		switch (node.node) {
@@ -331,9 +331,11 @@ class JavaPrimitiveValue extends esper.PrimitiveValue {
 	}
 
 	derivePrototype(realm) {
-		if ( this.boundType == "int" ) return realm.globalScope.get('Integer');
-		if ( this.boundType == "double" ) return realm.globalScope.get('Double');
-		if ( this.boundType == "string" ) return realm.globalScope.get('JavaString');
+		if(['cpp', 'java'].indexOf(realm.options.language) != -1){
+			if ( this.boundType == "int" ) return realm.globalScope.get('Integer');
+			if ( this.boundType == "double" ) return realm.globalScope.get('Double');
+			if ( this.boundType == "string" ) return realm.globalScope.get('JavaString');
+		}
 
 		return super.derivePrototype(realm);
 	}
@@ -450,42 +452,43 @@ function javaifyEngine(ev) {
 	}
 	let rev = ev.realm.fromNative.bind(ev.realm);
 	ev.realm.fromNative = (v,n) => {
-		let r = new JavaPrimitiveValue(v);
-		r.realm = ev.realm;
-		let type = typeof(v);
-		if ( typeof(n) == 'string' ) type = n;
+		if(['cpp', 'java'].indexOf(ev.realm.options.language) != -1) {
+			let r = new JavaPrimitiveValue(v);
+			r.realm = ev.realm;
+			let type = typeof(v);
+			if ( typeof(n) == 'string' ) type = n;
 
-		if ( typeof(n) == 'object' ) {
-			if ( typeof(n.value) == "number" || n.type == "NumericLiteral" ) {
-				let raw = n.raw;
-				if ( raw && raw.indexOf(".") == -1 ) r.boundType = "int";
-				else r.boundType = "double";
-			} else if ( typeof(n.value) == "string" ) { 
-				r.boundType = "string";
+			if ( typeof(n) == 'object' ) {
+				if ( typeof(n.value) == "number" || n.type == "NumericLiteral" ) {
+					let raw = n.raw;
+					if ( raw && raw.indexOf(".") == -1 ) r.boundType = "int";
+					else r.boundType = "double";
+				} else if ( typeof(n.value) == "string" ) { 
+					r.boundType = "string";
+				}
+				return r;
 			}
-			return r;
-		}
 		
-		if ( type == "int" ) {
-			r.boundType = "int";
-			return r;
-		}
+			if ( type == "int" ) {
+				r.boundType = "int";
+				return r;
+			}
 
-		if ( type == "double" ) {
-			r.boundType = "double";
-			return r;
-		}
+			if ( type == "double" ) {
+				r.boundType = "double";
+				return r;
+			}
 
-		if ( type == "string" ) {
-			r.boundType = "string";
-			return r;
-		}
+			if ( type == "string" ) {
+				r.boundType = "string";
+				return r;
+			}
 
-		if ( type == "number" ) {
-			r.boundType = "double";
-			return r;
+			if ( type == "number" ) {
+				r.boundType = "double";
+				return r;
+			}	
 		}
-		
 		return rev(v);
 	}
 	ev.addGlobal('cashew', {
@@ -516,14 +519,19 @@ function javaifyEngine(ev) {
 
 	let amake = ArrayValue.make.bind(ArrayValue);
 	ArrayValue.make = function(vals, realm) {
-		let av = amake(vals, realm);
-		av.setPrototype(new stdlib.p.CPPListProto(ev.realm));
+		if(realm.options.language == 'cpp') {
+			let av = amake(vals, realm);
+			av.setPrototype(new stdlib.p.CPPListProto(ev.realm));
 
-		let l = vals.length
-		if(l > 0) {av.setImmediate('x', vals[0]); av.properties.x.enumerable = false;}
-		if(l > 1) {av.setImmediate('y', vals[1]); av.properties.y.enumerable = false;}
-		if(l > 2) {av.setImmediate('z', vals[2]); av.properties.z.enumerable = false;}
-		return av;
+			let l = vals.length
+			if(l > 0) {av.setImmediate('x', vals[0]); av.properties.x.enumerable = false;}
+			if(l > 1) {av.setImmediate('y', vals[1]); av.properties.y.enumerable = false;}
+			if(l > 2) {av.setImmediate('z', vals[2]); av.properties.z.enumerable = false;}
+			return av;
+		}
+		else {
+			return amake(vals, realm);
+		}
 	}
 	
 }

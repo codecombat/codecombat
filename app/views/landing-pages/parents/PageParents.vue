@@ -34,30 +34,24 @@
         <div class="row">
           <div class="col-lg-12 trust-logos">
             <div class="flex-spacer">
-              <img srcset="/images/pages/parents/cse_top_pick@1x.png 1x,
-                                        /images/pages/parents/cse_top_pick@2x.png 2x,
-                                        /images/pages/parents/cse_top_pick@3x.png 3x"
-                  src="/images/pages/parents/cse_top_pick@1x.png"
+              <img
+                  src="/images/pages/parents/cse_top_pick.png"
                   class="cse-top-pick"
               />
             </div>
 
             <div class="flex-spacer">
               <div class="cs-for-all-container">
-                <img srcset="/images/pages/parents/cs_for_all_member@1x.png 1x,
-                                        /images/pages/parents/cs_for_all_member@2x.png 2x,
-                                        /images/pages/parents/cs_for_all_member@3x.png 3x"
-                    src="/images/pages/parents/cs_for_all_member@1x.png"
+                <img 
+                  src="/images/pages/parents/cs_for_all_member.png"
                 />
               </div>
             </div>
 
             <div class="flex-spacer">
               <div class="codie-logo-container">
-                <img srcset="/images/pages/parents/2017_codie_award@1x.png 1x,
-                                        /images/pages/parents/2017_codie_award@2x.png 2x,
-                                        /images/pages/parents/2017_codie_award@3x.png 3x"
-                    src="/images/pages/parents/2017_codie_award@1x.png"
+                <img
+                    src="/images/pages/parents/2017_codie_award.png"
                 />
               </div>
             </div>
@@ -636,7 +630,9 @@ export default {
   },
 
   mounted () {
-    window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    if (window.drift) {
+      window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    }
 
     if (this.type === 'thank-you') {
       this.onClassBooked()
@@ -644,7 +640,9 @@ export default {
   },
 
   beforeDestroy () {
-    window.drift.off('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    if (window.drift) {
+      window.drift.off('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    }
   },
 
   methods: {
@@ -696,6 +694,11 @@ export default {
     async onCtaClicked (e) {
       if (e && e.preventDefault) {
         e.preventDefault()
+      }
+
+      if (!window.drift && (this.type === 'parents' || this.type === 'sales' || this.type == 'chat')) {
+        console.log('No Drift, resetting to self-serve')
+        this.type = 'self-serve'
       }
 
       this.trackCtaClicked()
@@ -841,11 +844,6 @@ export default {
 }
 
 .codie-logo-container {
-  background: #FFFFFF;
-
-  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.43), -10px -10px 30px rgba(0, 0, 0, 0.25);
-  border-radius: 6px;
-
   padding: 3px 6px;
 }
 
@@ -856,21 +854,14 @@ export default {
 }
 
 .cse-top-pick {
-  filter: drop-shadow(10px 10px 30px rgba(0, 0, 0, 0.43)) drop-shadow(-10px -10px 30px rgba(0, 0, 0, 0.25));
   max-width: 100%;
 }
 
 .cs-for-all-container {
   padding: 5px 16px;
-  background: #FFFFFF;
-
-  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.43), -10px -10px 30px rgba(0, 0, 0, 0.25);
-  border-radius: 6px;
 }
 
 .cs-for-all-container img {
-  width: 93px;
-  height: 40px;
   max-width: 100%;
   max-height: 100%;
 }

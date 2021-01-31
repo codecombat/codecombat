@@ -73,8 +73,6 @@ module.exports = class LadderView extends RootView
     if tournamentStartDate = {'zero-sum': 1427472000000, 'ace-of-coders': 1442417400000, 'battle-of-red-cliffs': 1596295800000}[@levelID]
       @tournamentTimeElapsed = moment(new Date(tournamentStartDate)).fromNow()
 
-    @displayTabContent = 'display: block'
-
     @calcTimeOffset()
     @mandate = @supermodel.loadModel(new Mandate()).model
 
@@ -187,7 +185,7 @@ module.exports = class LadderView extends RootView
     @lastRefreshTime = new Date()
     @ladderTab.refreshLadder()
     @myMatchesTab.refreshMatches @refreshDelay
-    @simulateTab.refresh()
+    @simulateTab?.refresh()
 
   onIdleChanged: (e) ->
     @fetchSessionsAndRefreshViews() unless e.idle
