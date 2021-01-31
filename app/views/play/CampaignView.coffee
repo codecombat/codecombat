@@ -111,6 +111,8 @@ module.exports = class CampaignView extends RootView
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
     'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal'
     'click #videos-button': 'onClickVideosButton'
+    'click #esports-arena': 'onClickEsportsButton'
+    'click a.start-esports': 'onClickEsportsLink'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -372,6 +374,15 @@ module.exports = class CampaignView extends RootView
 
   onClickVideosButton: ->
     @openModalView(new CourseVideosModal({courseInstanceID: @courseInstanceID, courseID: @course.get('_id')}))
+
+  onClickEsportsButton: (e) ->
+    @$levelInfo?.hide()
+    window.tracker?.trackEvent 'Click LevelInfo AI League Button', { category: 'World Map', label: 'blazing-battle' }
+    @$levelInfo = @$el.find(".level-info-container.league-arena-tooltip").show()
+    @adjustLevelInfoPosition e
+
+  onClickEsportsLink: ->
+    window.tracker?.trackEvent 'Click Play AI League Button', { category: 'World Map', label: 'blazing-battle' }
 
   getLevelPlayCounts: ->
     return unless me.isAdmin()
@@ -1466,5 +1477,8 @@ module.exports = class CampaignView extends RootView
 
     if what is 'amazon-campaign'
       return @campaign?.get('slug') is 'game-dev-hoc'
+
+    if what is 'league-arena'
+      return @campaign?.get('slug') in ['dungeon', 'intro']
 
     return true

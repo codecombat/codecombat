@@ -40,6 +40,7 @@ module.exports = class LadderTabView extends CocoView
     @refreshLadder()
 
     @capitalize = _.string.capitalize
+    @selectedTeam = 'humans'
 
     # Trying not loading the FP/G+ stuff for now to see if anyone complains they were using it so we can have just two columns.
     #@socialNetworkRes = @supermodel.addSomethingResource('social_network_apis', 0)
@@ -318,13 +319,28 @@ module.exports = class LadderTabView extends CocoView
     row = cell.parent()
     table = row.closest('table')
     wasSelected = cell.hasClass 'selected'
-    table.find('.spectate-cell.selected').removeClass 'selected'
-    cell = $(e.target).closest('.spectate-cell').toggleClass 'selected', not wasSelected
-    sessionID = row.data 'session-id'
-    teamID = table.data 'team'
-    @spectateTargets ?= {}
-    @spectateTargets[teamID] = if wasSelected then null else sessionID
-    console.log @spectateTargets, cell, row, table
+    if @teams.length == 2
+      table.find('.spectate-cell.selected').removeClass 'selected'
+      cell = $(e.target).closest('.spectate-cell').toggleClass 'selected', not wasSelected
+      sessionID = row.data 'session-id'
+      teamID = table.data 'team'
+      @spectateTargets ?= {}
+      @spectateTargets[teamID] = if wasSelected then null else sessionID
+      console.log @spectateTargets, cell, row, table
+    else
+      if wasSelected
+        removeClass = if cell.hasClass('selected-humans') then 'selected-humans' else 'selected-ogres'
+        cell = $(e.target).closest('.spectate-cell').removeClass ('selected '+removeClass)
+        teamID = @selectedTeam = if removeClass is 'selected-humans' then 'humans' else 'ogres'
+      else
+        table.find('.spectate-cell.selected.selected-' + @selectedTeam).removeClass ('selected selected-'+@selectedTeam)
+        cell = $(e.target).closest('.spectate-cell').addClass 'selected selected-'+@selectedTeam
+        teamID = @selectedTeam
+        @selectedTeam = if @selectedTeam is 'humans' then 'ogres' else 'humans'
+      sessionID = row.data 'session-id'
+      @spectateTargets ?= {}
+      @spectateTargets[teamID] = if wasSelected then null else sessionID
+      console.log @spectateTargets, cell, row, table
 
   onLoadMoreLadderEntries: (e) ->
     @ladderLimit ?= 100

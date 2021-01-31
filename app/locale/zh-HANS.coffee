@@ -91,7 +91,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teachers_love_codecombat_blurb2: "会向其他计算机科学教师推荐 CodeCombat"
     teachers_love_codecombat_blurb3: "认为 CodeCombat 帮助提高学生解决问题的能力"
     teachers_love_codecombat_subblurb: "数据来源于美国中洲国际教育研究院 (McREL International)，美国中洲国际教育研究院是教育技术研究指导和评估的领导者。"
-    top_banner_blurb: "家长们，在这个节日里，给孩子送上编程和个性化教学的礼物吧！"
+    top_banner_blurb: "家长们，在这个节日里，给孩子送上编程和个性化教学的礼物吧！" # {change}
     try_the_game: "免费试玩"
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
@@ -230,9 +230,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subscribe_as_diplomat: "提交“外交官”申请"
 
   play:
-    title: "挑战CodeCombat关卡 - 学习Python，Javascript和C++"
+    title: "挑战CodeCombat关卡 - 学习Python，JavaScript和C++"
     meta_description: "通过场景化教学学习输入真实的代码。 在解决难题的同时掌握Python，JavaScript和C++，并学习制作自己的代码游戏和网站，在多人竞技场挑战你的同学们"
-    level_title: "__level__ - 学习Python，Javascript和C++编程"
+    level_title: "__level__ - 学习Python，JavaScript和C++编程"
     video_title: "__video__ | 观看教学视频"
     game_development_title: "__level__ | 游戏开发"
     web_development_title: "__level__ | 网页开发"
@@ -460,7 +460,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     books: "书籍"
 
   common:
-    default_title: "扣哒世界 - 在场景化编程中学习Python，Javascript和C++"
+    default_title: "扣哒世界 - 在场景化编程中学习Python，JavaScript和C++"
     default_meta_description: "通过场景化教学学习输入真实的代码。 在解决难题的同时掌握Python，JavaScript和C++，并学习制作自己的代码游戏和网站。"
     back: "返回" # When used as an action verb, like "Navigate backward"
     coming_soon: "敬请期待！"
@@ -561,6 +561,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     chat: "聊天"
     chat_with_us: "与我们聊天"
     email_us: "给我们发邮件"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "秒"
@@ -686,7 +688,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_scrub_shortcut: "用 Ctrl+[ 和 Ctrl+] 来倒退和快进。"
     tip_guide_exists: "点击页面上方的指南, 可以获得更多有用信息。"
     tip_open_source: "「CodeCombat」青少年编程领导品牌！" # {change}
-    tip_tell_friends: "喜欢Codecombat？那就赶快把它安利给朋友！"
+    tip_tell_friends: "喜欢CodeCombat？那就赶快把它安利给朋友！"
     tip_beta_launch: "CodeCombat开始于2013的10月份。"
     tip_think_solution: "思考如何解决, 而不是思考问题。"
     tip_theory_practice: "在理论上，理论和实践之间是没有区别的。但在实践上，它们是有区别的。 - Yogi Berra"
@@ -765,6 +767,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     start: "开始"
     vega_character: "Vega 字符"
     click_to_continue: "点击继续"
+#    fill_in_solution: "Fill in solution"
 
   apis:
     methods: "函数"
@@ -2287,6 +2290,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ambassador_introduction: "这是一个正在成长的社区，而您将成为我们与世界的联结点。大家可以通过各种即时聊天平台、邮件、或是参与者众多的社交网络来认识及讨论我们的游戏。如果您喜欢帮助大家，一起参与各类项目，一起获得乐趣。与我们同行，一起感受CodeCombat的脉搏，绝对是一个适合您的职业。"
     ambassador_attribute_1: "具备出色的沟通能力。能够分辨出玩家遇到的问题并帮助他们解决问题。与此同时，和我们保持联系，帮助反馈玩家们的喜怒哀乐！"
     ambassador_join_desc: "介绍一下您自己：您做过什么？您喜欢做什么？我们将从这里开始了解您！"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "通过电子邮件获得支持系统的现状，以及多人游戏方面的新进展。"
     teacher_subscribe_desc: "接收针对老师的更新和公告邮件。"
     changes_auto_save: "在您勾选复选框后，更改将自动保存。"
@@ -2440,7 +2446,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     status_unsubscribed_active: "您还没有订阅所以不会被收费，但您的账号还可以正常使用"
     status_unsubscribed: "只要一个CodeCombat订阅，您就可以玩转全部新关卡，用遍全部英雄，物品，以及获得更多的宝石哦！"
     not_yet_verified: "尚未验证。"
-    resend_email: "重发验证邮件"
+    resend_email: "请先保存邮箱再重发验证邮件"
     email_sent: "邮件已发送！检查您的收件箱"
     verifying_email: "验证邮箱地址中..."
     successfully_verified: "验证成功！"
@@ -2930,52 +2936,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     unit_10: "第十单元：Post-AP"
     unit_10_activity_1: "第10单元活动：网络测验"
 
-  parent_landing:
-    slogan_quote: "\"扣哒世界真的非常有意思，我在这个平台学习了Python, JavaScript 和 C++，在Code Quest全球决赛我和来自美国的小朋友一起开发程序项目并获得全球银奖，非常开心。\""
-    quote_attr: " 王奕宁，\n北京西马金润小学五年级"
-    refer_teacher: "扣哒学堂"
-    focus_quote: "成就孩子的未来"
-    value_head1: "学习真实代码最互动的方式"
-    value_copy1: "扣哒世界把孩子们引入了计算机世界，和中小学阶段计算机课程标准接轨，你的孩子将学习编程、算法、数学和英语，开发网站和游戏程序。"
-    value_head2: "掌握21世纪必备技能"
-    value_copy2: "扣哒世界帮助孩子们提高逻辑思维能力、应变能力和动手能力，教会你的孩子如何打开计算机技术世界的钥匙。"
-    value_head3: "孩子们喜欢的卡通人物"
-    value_copy3: "知之者不如好之者，好之者不如乐之者。寓教于乐和及时奖励对初学者非常重要，所以我们尽可能把知识融入到孩子们喜欢的沉浸式互动游戏环境中。"
-    dive_head1: "不仅仅是成为软件工程师"
-    dive_intro: "计算机科学技能应用广泛，看看下面的例子吧"
-    medical_flag: "医学应用"
-    medical_flag_copy: "从人类基因组的映射到核磁共振，代码让我们以前所未有的方式，了解身体。"
-    explore_flag: "太空探索"
-    explore_flag_copy: "由于人类计算机的辛勤工作，阿波罗登上了月球。科学家们利用计算机程序分析行星的引力并寻找新恒星。"
-    filmaking_flag: "制作电影和动画"
-    filmaking_flag_copy: "从《侏罗纪公园》的机器人到梦工厂和皮克斯令人难以置信的动画，没有幕后的数字创意，电影就没有那样精彩了。"
-    dive_head2: "游戏对于学习很重要"
-    dive_par1: "多项研究发现，基于互动的学习能够促进知识的吸收。"
-    dive_link1: "如认识发展的行业报告，"
-    dive_par2: "在孩子证明了这一点。"
-    dive_link2: "这种高效的方法"
-    dive_par3: "使孩子们在学习过程中"
-    dive_link3: "对知识点的掌握更加扎实"
-    dive_par4: "，"
-    dive_link4: "精力更加集中"
-    dive_par5: "，更能收获成就感。"
-    dive_par6: "基于游戏的学习对培养孩子们的抗压性也有好处。"
-    dive_link5: "不怕失败"
-    dive_par7: "，解决问题，和"
-    dive_par8: "。科学就是告诉我们已经知道了的道理，孩子们在游戏互动中学习效率最高。"
-    dive_link6: "管理协作能力"
-    dive_head3: "和老师一起组队"
-    dive_3_par1: "在人工智能的时代，"
-    dive_3_link1: "编程会和阅读和写作一样成为一种基本的学习技能"
-    dive_3_par2: "。我们会和老师密切配合，开发适合孩子们学习的编程和人工智能内容。我们热烈欢迎你的孩子参与扣哒世界的学习和AI世青赛! 如果你的孩子老师还没有在学校开设编程课程，建议孩子的老师和我们取得联系！我们的电子邮件是china@codecombat.com。"
-    mission: "我们的使命是教学与参与"
-    mission1_heading: "为今天的一代而编程"
-    mission2_heading: "为未来而准备"
-    mission3_heading: "来自家长的支持"
-    mission1_copy: "我们的教育专家与教师紧密合作，以满足孩子们在教育领域的需求。孩子们所学技能可以在游戏之外应用，因为他们掌握了解决问题的能力，不管他们的学习方式是什么。"
-    mission2_copy: "2020年的一项调查显示，3-6年级中有84%的小学生希望学习编程。2019年国内需要编程相关技能的工作岗位超过1000万个，通过扣哒世界，每一个孩子们都能学习编程技能创造美好未来。"
-    mission3_copy: "扣哒世界的员工中，有一些是父母，有一些是程序员，有一些是教育工作者。我们的使命是创造学习平台，面向世界、面向未来，给我们的下一代创造最好的学习条件。"
-
   parents_landing_2:
     splash_title: "在家发现编码的魔力。"
     learn_with_instructor: "跟随导师学习"
@@ -3090,15 +3050,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     paragraph_5: "感谢你选择 CodeCombat，并祝你在计算机科学的旅途中好运!"
     back_to_coco: "返回 CodeCombat"
 
-  parent_modal:
-    refer_teacher: "指导老师"
-    name: "你的名字"
-    parent_email: "你的邮箱"
-    teacher_email: "你的老师的邮箱"
-    message: "消息"
-    custom_message: "我刚刚找到了CodeCombat，我想它对你的教室来说是个很棒的程序!它是一个符合标准课程的计算机科学学习平台。计算机知识是非常重要的，我认为这将是一个让学生学习编码的好方法。"
-    send: "发送邮件"
-
   hoc_2018:
     banner: "欢迎来到“2020 编码一小时”！"
     page_heading: "教你的学生如何建立自己的街机游戏!" # {change}
@@ -3191,7 +3142,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
-#    student_register_2: "Sign up, create your own clan, or join other clans to start competing."
+#    student_register_2: "Sign up, create your own team, or join other teams to start competing."
 #    student_register_3: "Provide the information below to be eligible for prizes."
 #    teacher_register_1: "Sign up to access your class league profile page and get your class started."
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+#    team: "team"
+#    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."

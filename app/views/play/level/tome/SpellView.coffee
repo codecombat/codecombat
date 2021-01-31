@@ -1081,7 +1081,7 @@ module.exports = class SpellView extends CocoView
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
       return if hasChanged
       if e.problem.type is 'runtime'
-        @spellThang.castAether?.addProblem e.problem
+        @spellThang?.castAether?.addProblem e.problem
       else
         @spell.thang.aether.addProblem e.problem
       @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile

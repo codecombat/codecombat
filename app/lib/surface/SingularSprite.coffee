@@ -12,6 +12,7 @@ module.exports = class SingularSprite extends createjs.Sprite
     super(@spriteSheet)
 
   destroy: ->
+    delete @spriteSheet
     @removeAllEventListeners()
 
   gotoAndPlay: (actionName) -> @goto(actionName, false)
