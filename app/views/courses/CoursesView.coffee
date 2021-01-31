@@ -42,6 +42,7 @@ module.exports = class CoursesView extends RootView
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
     'click .view-challenges-link': 'onClickViewChallengesLink'
     'click .view-videos-link': 'onClickViewVideosLink'
+    'click .esports-arena-link': 'onClickEsportsArena'
 
   getMeta: ->
     return {
@@ -299,6 +300,10 @@ module.exports = class CoursesView extends RootView
     courseName = $(e.target).data('course-name')
     window.tracker?.trackEvent 'Students View To Videos View', category: 'Students', courseID: courseID, classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/students/videos/#{courseID}/#{courseName}", { trigger: true })
+  
+  onClickEsportsArena: (e) ->
+    window.tracker?.trackEvent 'Click Play AI League Button', { category: 'Students', label: 'blazing-battle' }
+    application.router.navigate('/play/ladder/blazing-battle', { trigger: true })
 
   afterRender: ->
     super()

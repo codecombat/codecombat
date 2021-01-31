@@ -8,7 +8,7 @@ block modal-header-content
 
 block modal-body-content
   - var numToEnroll = state.get('visibleSelectedUsers').length
-  - var unusedEnrollments = view.prepaids.totalMaxRedeemers() - view.prepaids.totalRedeemers()
+  - var unusedEnrollments = view.prepaidByGroup[view.selectedPrepaidType]
   - var tooManySelected = numToEnroll > unusedEnrollments
   - var noneSelected = numToEnroll == 0
   
@@ -51,7 +51,21 @@ block modal-body-content
           label
             input.user-checkbox(type="checkbox", disabled=true, checked=true, data-user-id=user.id, name='user')
             span.spr= user.broadName()
-    
+  form.form.m-t-3
+    .prepaid-type-line
+      span(data-i18n="teacher.select_license_type")
+        span :
+      span(data-i18n="inventory.available_item")
+    #selectPrepaidType.well.form-group
+      - var prepaids = view.prepaidByGroup
+      each value, key in prepaids
+        - var selected = view.selectedPrepaidType == key
+        .radio.prepaid-type-line
+          label
+            input(type="radio", disabled=false, checked=selected, name="licenseType", value=key)
+            span=key
+          span.prepaid-number=value
+
     if state.get('error')
       .alert.alert-danger
         = state.get('error')

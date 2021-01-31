@@ -136,15 +136,14 @@ module.exports =  # /app/lib/surface
     x: {type: 'number'}
     y: {type: 'number'}
 
-  'surface:stage-mouse-down': c.object {required: ['onBackground', 'x', 'y', 'originalEvent']},
+  'surface:stage-mouse-down': c.object {required: ['x', 'y', 'originalEvent']},
     onBackground: {type: 'boolean'}
     x: {type: 'number'}
     y: {type: 'number'}
     originalEvent: {type: 'object'}
     worldPos: {type: ['object', 'null', 'undefined']}
 
-  'surface:stage-mouse-up': c.object {required: ['onBackground', 'originalEvent']},
-    onBackground: {type: 'boolean'}
+  'surface:stage-mouse-up': c.object {required: ['originalEvent']},
     x: {type: ['number', 'undefined']}
     y: {type: ['number', 'undefined']}
     originalEvent: {type: 'object'}

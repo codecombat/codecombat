@@ -36,7 +36,6 @@ module.exports = {
   'views/admin/DesignElementsView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/DesignElementsView') },
   'views/teachers/DynamicAPCSPView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/DynamicAPCSPView') },
   'views/minigames/ConditionalMinigameView': function() { return import(/* webpackChunkName: "artisans" */ 'views/minigames/ConditionalMinigameView') },
-  'views/ParentsView': function () { return import(/* webpackChunkName: "ParentsView" */ 'views/ParentsView') },
   'views/artisans/ArtisansView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ArtisansView') },
   'views/artisans/LevelTasksView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelTasksView') },
   'views/artisans/SolutionProblemsView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/SolutionProblemsView') },
@@ -135,16 +134,6 @@ module.exports = {
   // All Vue app components will be loaded via a vue chunk.  Eventually we will integrate webpack loading with Vue and
   // at that time we can remove this dynamic import and instead include SingletonAppVueComponentView in the main bundle
   'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) },
-
-  // TODO: Why does chunk name `ozariaPlay` not work sporadically?
-  'views/ozaria/site/play/PageUnitMap': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageUnitMap') },
-  'views/ozaria/site/characterCustomization': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/char-customization/PageCharCustomization') },
-  'views/ozaria/site/avatarSelector': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/avatar-selector/PageAvatarSelector') },
-  'views/ozaria/site/play/PagePlayLevel': function () { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PagePlayLevel') },
-  'views/cinematic': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cinematic/PageCinematic') },
-  'views/cutscene': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cutscene/PageCutscene') },
-  'views/interactive': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/interactive/PageInteractive') },
-  'views/introLevel': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageIntroLevel') },
 
   // Temporary
   'views/courses/StudentRankingView': function() { return import(/* webpackChunkName: "StudentRankingView" */ 'views/courses/StudentRankingView')}

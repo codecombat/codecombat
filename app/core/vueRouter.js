@@ -12,7 +12,16 @@ export default function getVueRouter () {
         {
           path: '/parents',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
-          props: { type: 'parents', showPremium: true }
+          props: (route) => ({ showPremium: true, type: route.query.type })
+        },
+        {
+          path: '/league',
+          component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeague'),
+          children: [
+            // Stub pages
+            { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
+            { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') }
+          ]
         },
         {
           path: '/live-classes',
@@ -28,6 +37,11 @@ export default function getVueRouter () {
             { path: 'teacher/:teacherId/classroom/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/courses/TeacherClassView.vue') },
             { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/classes/TeacherStudentView.vue') }
           ]
+        },
+        // Warning: In production debugging of third party iframe!
+        {
+          path: '/temporary-debug-timetap',
+          component: () => import(/* webpackChunkName: "thirdPartyDebugging" */ 'app/components/timetap/TimeTapDebugPage')
         }
       ]
     })

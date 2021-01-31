@@ -1,7 +1,7 @@
 extends /templates/base-flat.jade
 
 block page_nav
-  include ./teacher-dashboard-nav.jade
+  include ./teacher-dashboard-nav
 
 block content
   if me.isAnonymous() || (!me.isTeacher() && !view.classrooms.size())
@@ -100,10 +100,16 @@ block content
 mixin prepaidCard(prepaid, className)
   .prepaid-card.bg-navy.text-center.p-a-2.rtl-allowed(class=className)
     h1.m-t-2.m-b-0= prepaid.openSpots()
+    - var includedCourseIDs = prepaid.get('includedCourseIDs')
     if prepaid.get('type') === 'starter_license'
       div.rtl-allowed(data-i18n="teacher.starter_licenses")
+    else if includedCourseIDs
+      div.rtl-allowed(data-i18n="teacher.customized_license")
     else
-      div.rtl-allowed(data-i18n="teacher.licenses_remaining")
+      div.rtl-allowed(data-i18n="teacher.full_license")
+    div.includedCourses
+      each id in (includedCourseIDs || [])
+        i.course-acronym=view.utils.courseAcronyms[id]
     div.m-t-1.rtl-allowed(dir="auto")
       i.small-details
         if prepaid.usedSpots() === 1

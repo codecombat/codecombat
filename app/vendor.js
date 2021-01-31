@@ -71,22 +71,6 @@ if (!String.prototype.includes) {
   })
 })([Element.prototype, CharacterData.prototype, DocumentType.prototype])
 
-function loadScript (url) {
-  var script = document.createElement('script');
-  script.src = url;
-  document.head.appendChild(script);
-}
-try {
-  //Detect very modern javascript support.
-  (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
-  console.log("Modern javascript detected, aw yeah!");
-  loadScript(window.javascriptsPath + 'esper.modern.js')
-
-} catch (e) {
-  console.log("Legacy javascript detected, falling back...", e.message);
-  loadScript(window.javascriptsPath + 'esper.js');
-}
-
 // All the rest of Vendor...
 require('vendor/scripts/css.js')
 require('vendor/scripts/flying-focus.js')

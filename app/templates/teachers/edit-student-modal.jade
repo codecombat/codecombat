@@ -8,7 +8,7 @@ block modal-header-content
 block modal-body-content
 
   - var status = view.user.prepaidStatus()
-  - var prepaidType = view.user.prepaidType()
+  - var prepaidType = view.user.prepaidType('includeCourseIDs')
 
   .text-center
     .license-details
@@ -23,6 +23,8 @@ block modal-body-content
             span.spr(data-i18n="teacher.full_license")
           else if prepaidType === 'starter_license'
             span.spr(data-i18n="teacher.starter_license")
+          else
+            span.spr=prepaidType
           span (
           span(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString()
           span )

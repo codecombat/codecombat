@@ -11,8 +11,10 @@ module.exports = class Component
 
   attach: (thang) ->
     # Optimize; this is much of the World constructor time
-    for key, value of @ when key not in componentKeywords and key[0] isnt '_'
+    keys = (Object.getOwnPropertyNames(@.__proto__) or []).concat(Object.getOwnPropertyNames(@))
+    for key in keys when key not in componentKeywords and key[0] isnt '_'
       oldValue = thang[key]
+      value = @[key]
       if typeof oldValue is 'function'
         thang.appendMethod key, value
       else

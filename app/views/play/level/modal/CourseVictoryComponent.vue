@@ -112,17 +112,14 @@
   Level = require 'models/Level'
   LevelSession = require 'models/LevelSession'
   heroMap = _.invert(thangTypeConstants.heroes)
-  { getNextLevelLink } = require 'ozaria/site/common/ozariaUtils'
   
   module.exports = Vue.extend({
     # TODO: Move these props to vuex
-    props: ['nextLevel', 'nextLevelStage', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats', 'supermodel', 'parent', 'codeLanguage'],
+    props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats', 'supermodel', 'parent', 'codeLanguage'],
     components: {
       PieChart
     }
     computed: {
-      ozariaCourse: ->
-        return utils.ozariaCourseIDs.includes(@course._id)
       challengeLink: ->
         if me.isSessionless()
           link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
@@ -133,22 +130,12 @@
       mapLink: ->
         if me.isSessionless()
           link = "/teachers/courses"
-        else if this.ozariaCourse
-          link = "/ozaria/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
         else
           link = "/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
         return link
       nextLevelLink: ->
         if !me.showHeroAndInventoryModalsToStudents()
-          if this.ozariaCourse
-            linkOptions = {
-              courseId: @course._id,
-              courseInstanceId: @courseInstanceID,
-              codeLanguage: utils.getQueryVariable('codeLanguage', 'python'),
-              nextLevelStage: @nextLevelStage
-            }
-            link = getNextLevelLink(@nextLevel, linkOptions)
-          else if me.isSessionless()
+          if me.isSessionless()
             link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
           else
             link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"

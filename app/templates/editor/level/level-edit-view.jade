@@ -42,6 +42,13 @@ block header
         li
           a(href="#level-feedback-view", data-toggle="tab")
             .glyphicon.glyphicon-star
+        li#presence-counter
+          .dropdown
+            button#dropdownPresence.btn.btn-info(data-toggle="dropdown" aria-expanded="false")
+              span 👁️
+              span#presence-number ?
+            ul.dropdown-menu#dropdownPresenceMenu(aria-labelledby="dropdownPresence")
+
       .navbar-header
         span.navbar-brand
           | #{level.attributes.name}
@@ -66,7 +73,7 @@ block header
             a
               span.glyphicon-floppy-disk.glyphicon
 
-        if level.isType('ladder')
+        if level.isType('hero-ladder', 'course-ladder')
           li.dropdown
             a(data-toggle='dropdown').play-with-team-parent
               span.glyphicon-play.glyphicon

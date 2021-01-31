@@ -118,6 +118,13 @@ PropertyDocumentationSchema = c.object {
         title: 'Variable Name'
         description: 'Variable name this property is autocompleted into.'
         default: 'result'
+      type:
+        type: 'object'
+        title: 'Variable Type'
+        description: 'Variable return types by code language. Can usually leave blank. Fill in if it is a primitive type and not auto in C++.'
+        additionalProperties: {type: 'string', description: 'Description of the return value.', maxLength: 1000}
+        format: 'code-languages-object'
+        default: {cpp: 'auto'}
 
 DependencySchema = c.object {
   title: 'Component Dependency'
@@ -165,10 +172,10 @@ _.extend LevelComponentSchema.properties,
     type: 'string'
     title: 'Language'
     description: 'Which programming language this Component is written in.'
-    'enum': ['coffeescript']
+    'enum': ['coffeescript', 'javascript']
   code:
     title: 'Code'
-    description: 'The code for this Component, as a CoffeeScript class. TODO: add link to documentation for how to write these.'
+    description: 'The code for this Component, as a CoffeeScript/JavaScript class. TODO: add link to documentation for how to write these.'
     type: 'string'
     format: 'coffee'
   js:
