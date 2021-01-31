@@ -1,73 +1,22 @@
 <template>
     <div>
-        <section id="premium" class="container-background coco-premium">
-            <div class="container">
-                <div class="row title-row">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h1>{{ $t('parents_landing_2.codecombat_premium') }}</h1>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <hr />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h3>{{ $t('parents_landing_2.learn_at_own_pace') }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-12 character-images">
-                        <img srcset="/images/pages/parents/characters@1x.png 1x,
-                                     /images/pages/parents/characters@2x.png 2x,
-                                     /images/pages/parents/characters@3x.png 3x"
-                             src="/images/pages/parents/characters@1x.png"
-                        />
-                    </div>
-                </div>
-
-                <div class="row premium-pricing">
-                    <div class="col-lg-3 col-lg-offset-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
-                        <h5>${{ basicSubAmount }}{{ $t('parents_landing_2.per_month') }}</h5>
-                        <h6>{{ $t('parents_landing_2.monthly_sub') }}</h6>
-
-                        <button @click="subscribeBasic">{{ $t('parents_landing_2.buy_now') }}</button>
-                    </div>
-                    <div class="col-lg-3" :style="{ visibility: (productsLoading) ? 'hidden': 'visible' }">
-                        <h5>${{ lifetimeSubAmount }}</h5>
-                        <h6>{{ $t('parents_landing_2.lifetime_access') }}</h6>
-
-                        <button @click="subscribeLifetime">{{ $t('parents_landing_2.buy_now') }}</button>
-                    </div>
-                </div>
-
-                <div class="row premium-details">
-                    <div class="col-lg-10 col-lg-offset-1">
-                        <h5>{{ $t('parents_landing_2.premium_details_title') }}</h5>
-                        <ul>
-                            <li>{{ $t('parents_landing_2.premium_details_1') }}</li>
-                            <li>{{ $t('parents_landing_2.premium_details_2') }}</li>
-                            <li>{{ $t('parents_landing_2.premium_details_3') }}</li>
-                            <li>{{ $t('parents_landing_2.premium_details_4') }}</li>
-                            <li>{{ $t('parents_landing_2.premium_details_5') }}</li>
-                        </ul>
-
-                        <div class="buy-now-note" v-html="$t('parents_landing_2.premium_need_help')"></div>
-                    </div>
-                </div>
+        <section class="container-course-offering-heading">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-12 text-center self-sign-up">
+                <a @click="subscribeYearly">
+                  Sign up for self-paced access to CodeCombat
+                </a>
+              </div>
             </div>
+          </div>
         </section>
 
         <backbone-modal-harness
                 ref="subscribeModal"
                 :modal-view="SubscribeModal"
                 :open="subscribeModalOpen"
+                :modal-options="{ hideMonthlySub: true }"
                 @close="subscribeModalClosed"
         />
     </div>
@@ -96,7 +45,7 @@
 
       ...mapGetters('products', [
         'basicSubscriptionForCurrentUser',
-        'lifetimeSubscriptionForCurrentUser'
+        'basicAnnualSubscriptionForCurrentUser'
       ]),
 
       ...mapGetters('me', [
@@ -111,9 +60,9 @@
         return (sub) ? sub.amount / 100 : 0
       },
 
-      lifetimeSubAmount() {
-        const sub = this.lifetimeSubscriptionForCurrentUser
-        return (sub) ? sub.amount / 100: 0
+      yearlySubAmount() {
+        const sub = this.basicAnnualSubscriptionForCurrentUser
+        return (sub) ? sub.amount / 100 : 0
       }
     },
 
@@ -166,30 +115,16 @@
        * by grabbing a reference to the SubscribeModal instance and calling the method that
        * is normally called by the onclick listener.
        */
-      subscribeBasic () {
+      subscribeYearly () {
         if (!this.checkSubscribeAndShowError()) {
           return
         }
 
         this.$refs.subscribeModal.$once('shown', () => {
           const modal = this.$refs.subscribeModal.$data.modalViewInstance
-          modal.onClickPurchaseButton()
-        })
-
-        this.openPremiumSubscribeModal()
-      },
-
-      /**
-       * See subscribeBasic comments
-       */
-      subscribeLifetime () {
-        if (!this.checkSubscribeAndShowError()) {
-          return
-        }
-
-        this.$refs.subscribeModal.$once('shown', () => {
-          const modal = this.$refs.subscribeModal.$data.modalViewInstance
-          modal.onClickStripeLifetimeButton()
+          setTimeout(() => {
+            modal.onClickAnnualPurchaseButton()
+          }, 0)
         })
 
         this.openPremiumSubscribeModal()
@@ -197,107 +132,38 @@
     },
 
     mounted () {
-      this.loadProducts()
+      try {
+        this.loadProducts()
+      } catch (e) {
+        // TODO - investigate where this throws an error. Logic seems to work.
+        console.error('loadProducts threw an error', e)
+      }
     }
   }
 </script>
 
 <style scoped>
-    .coco-premium {
-        background-color: #0E4C60;
-        color: #FFF;
-    }
+.container-course-offering-heading h1 {
+  margin-bottom: 20px;
+}
 
-    .coco-premium .title-row h1 {
-        color: #1FBAB4;
-    }
+.container-course-offering-heading p {
+  max-width: 828px;
+}
 
-    .coco-premium .title-row h3 {
-        color: #FFF;
-    }
+.container-course-offering-heading {
+  margin-bottom: 28px;
+  margin-top: 20px;
+}
 
-    .coco-premium .character-images img {
-        margin: 40px auto 20px;
+a {
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration: underline;
+  color: #545B64;
+}
 
-        width: 100%;
-        max-width: 676px;
-        display: block;
-    }
-
-    .coco-premium h5 {
-        font-family: Open Sans, sans-serif;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 24px;
-        line-height: 33px;
-
-        text-align: center;
-
-        color: #FFFFFF;
-    }
-
-    .coco-premium ul li {
-        font-style: normal;
-        font-weight: 300;
-        font-size: 18px;
-        line-height: 25px;
-        color: #FFF;
-    }
-
-    .coco-premium .premium-pricing {
-        color: #1FBAB4;
-        text-align: center;
-    }
-
-    .coco-premium .premium-pricing h5, .coco-premium .premium-pricing h6 {
-        font-family: Open Sans, sans-serif;
-        font-style: normal;
-        font-weight: bold;
-        text-align: center;
-
-        color: #1FBAB4;
-    }
-
-    .coco-premium .premium-pricing h5 {
-        font-size: 36px;
-        line-height: 49px;
-    }
-
-    .coco-premium .premium-pricing h6 {
-        font-size: 24px;
-        line-height: 33px;
-    }
-
-    .coco-premium .premium-pricing button {
-        margin-top: 15px;
-        width: 100%;
-        margin-bottom: 52px;
-    }
-
-    .coco-premium .premium-details h5 {
-        margin-bottom: 10px;
-    }
-
-    .coco-premium .buy-now-note {
-        margin-top: 35px;
-        margin-bottom: 60px;
-
-        font-style: normal;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 19px;
-
-        text-align: center;
-
-        color: #FFFFFF;
-    }
-
-    .buy-now-note >>> a {
-        color: #FFF;
-        text-decoration: none;
-    }
-
-    .buy-now-note >>> a:hover {
-        text-decoration: none;
-    }
 </style>

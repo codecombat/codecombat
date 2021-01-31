@@ -170,6 +170,13 @@ module.exports = class BasicInfoView extends CocoView
       return false
 
     res = tv4.validateMultiple data, @formSchema()
+    if res.errors and res.errors.some((err) -> err.dataPath == '/password')
+      res.errors = res.errors.filter((err) -> err.dataPath != '/password')
+      res.errors.push({
+        dataPath: '/password',
+        message: $.i18n.t('signup.invalid')
+      })
+
     forms.applyErrorsToForm(@$('form'), res.errors) unless res.valid
     return res.valid
 
@@ -312,7 +319,10 @@ module.exports = class BasicInfoView extends CocoView
         return
       else
         console.error 'BasicInfoView form submission Promise error:', e
-        @state.set('error', e.responseJSON?.message or 'Unknown Error')
+        if e.responseJSON?.i18n
+          @state.set('error', $.i18n.t(e.responseJSON?.i18n) or 'Unknown Error')
+        else
+          @state.set('error', e.responseJSON?.message or 'Unknown Error')
         # Adding event to detect if the error occurs in prod since it is not reproducible (https://app.asana.com/0/654820789891907/1113232508815667)
         # TODO: Remove when not required.
         if @id == 'single-sign-on-confirm-view' and @signupState.get('path') is 'teacher'

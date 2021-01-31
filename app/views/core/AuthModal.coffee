@@ -53,9 +53,9 @@ module.exports = class AuthModal extends ModalView
     userObject = forms.formToObject @$el
     res = tv4.validateMultiple userObject, formSchema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
+    showingError = false
     new Promise(me.loginPasswordUser(userObject.emailOrUsername, userObject.password).then)
     .catch((jqxhr) =>
-      showingError = false
       if jqxhr.status is 401
         errorID = jqxhr.responseJSON.errorID
         if errorID is 'not-found'
@@ -76,10 +76,11 @@ module.exports = class AuthModal extends ModalView
       return application.tracker.identify()
     )
     .finally(=>
-      if window.nextURL
-        window.location.href = window.nextURL
-      else
-        loginNavigate(@subModalContinue)
+      unless showingError
+        if window.nextURL
+          window.location.href = window.nextURL
+        else
+          loginNavigate(@subModalContinue)
     )
 
 
@@ -186,12 +187,15 @@ formSchema = {
         User.schema.properties.email
       ]
     }
-    password: User.schema.properties.password
   }
   required: ['emailOrUsername', 'password']
 }
 
 loginNavigate = (subModalContinue) ->
+  if window.nextURL?.startsWith('/league')
+    window.location.href = window.nextURL
+    return
+
   if not me.isAdmin()
     if me.isStudent()
       application.router.navigate('/students', { trigger: true })

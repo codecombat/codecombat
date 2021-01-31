@@ -111,6 +111,8 @@ module.exports = class CampaignView extends RootView
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
     'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal'
     'click #videos-button': 'onClickVideosButton'
+    'click #esports-arena': 'onClickEsportsButton'
+    'click a.start-esports': 'onClickEsportsLink'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -120,13 +122,6 @@ module.exports = class CampaignView extends RootView
     @terrain = 'picoctf' if window.serverConfig.picoCTF
     @editorMode = options?.editorMode
     @requiresSubscription = not me.isPremium()
-    # Allow only admins to view the ozaria campaign and only in editor mode
-    # New page for non-editor mode `/play-ozaria`
-    # Assuming, the ozaria placeholder campaigns will start with 'ozaria'
-    # TODO: Remove/update this check before final ozaria launch
-    if _.string.startsWith(@terrain, "ozaria") and (not me.showOzariaCampaign() or not @editorMode)
-      console.error("ozaria dummy campaign, only editor mode is available for admins!")
-      return
     if @editorMode
       @terrain ?= 'dungeon'
     @levelStatusMap = {}
@@ -380,6 +375,15 @@ module.exports = class CampaignView extends RootView
   onClickVideosButton: ->
     @openModalView(new CourseVideosModal({courseInstanceID: @courseInstanceID, courseID: @course.get('_id')}))
 
+  onClickEsportsButton: (e) ->
+    @$levelInfo?.hide()
+    window.tracker?.trackEvent 'Click LevelInfo AI League Button', { category: 'World Map', label: 'blazing-battle' }
+    @$levelInfo = @$el.find(".level-info-container.league-arena-tooltip").show()
+    @adjustLevelInfoPosition e
+
+  onClickEsportsLink: ->
+    window.tracker?.trackEvent 'Click Play AI League Button', { category: 'World Map', label: 'blazing-battle' }
+
   getLevelPlayCounts: ->
     return unless me.isAdmin()
     return  # TODO: get rid of all this? It's redundant with new campaign editor analytics, unless we want to show player counts on leaderboards buttons.
@@ -503,8 +507,7 @@ module.exports = class CampaignView extends RootView
     context.campaign = @campaign
     context.levels = _.values($.extend true, {}, @getLevels() ? {})
     if me.level() < 12 and @terrain is 'dungeon' and not @editorMode
-      reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
-      context.levels = _.reject context.levels, slug: reject
+      context.levels = _.reject context.levels, slug: 'signs-and-portents'
     if me.freeOnly()
       context.levels = _.reject context.levels, (level) ->
         return level.requiresSubscription
@@ -556,8 +559,7 @@ module.exports = class CampaignView extends RootView
         if @sessions?.loaded
           levels = _.values($.extend true, {}, campaign.get('levels') ? {})
           if me.level() < 12 and campaign.get('slug') is 'dungeon' and not @editorMode
-            reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
-            levels = _.reject levels, slug: reject
+            levels = _.reject levels, slug: 'signs-and-portents'
           if me.freeOnly()
             levels = _.reject levels, (level) ->
               return level.requiresSubscription
@@ -695,12 +697,6 @@ module.exports = class CampaignView extends RootView
     return unless slug
     return false if 'hoc' in slug
     /campaign-(game|web)-dev-\d/.test slug
-
-  showAds: ->
-    return false # No ads for now.
-    if application.isProduction() && !me.isPremium() && !me.isTeacher() && !window.serverConfig.picoCTF
-      return me.getCampaignAdsGroup() is 'leaderboard-ads'
-    false
 
   annotateLevels: (orderedLevels) ->
     return if @isClassroom()
@@ -913,7 +909,7 @@ module.exports = class CampaignView extends RootView
       particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
       #particleKey.push 'item' if level.slug is 'robot-ragnarok'  # TODO: generalize
       continue if particleKey.length is 2  # Don't show basic levels
-      continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'replayable']).length
+      continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'ladder', 'replayable']).length
       @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
 
   onMouseEnterPortals: (e) ->
@@ -1091,7 +1087,6 @@ module.exports = class CampaignView extends RootView
     aspectRatio = mapWidth / mapHeight
     pageWidth = @$el.width()
     pageHeight = @$el.height()
-    pageHeight -= adContainerHeight if adContainerHeight = $('.ad-container').outerHeight()
     widthRatio = pageWidth / mapWidth
     heightRatio = pageHeight / mapHeight
     # Make sure we can see the whole map, fading to background in one dimension.
@@ -1482,5 +1477,8 @@ module.exports = class CampaignView extends RootView
 
     if what is 'amazon-campaign'
       return @campaign?.get('slug') is 'game-dev-hoc'
+
+    if what is 'league-arena'
+      return @campaign?.get('slug') in ['dungeon', 'intro']
 
     return true
