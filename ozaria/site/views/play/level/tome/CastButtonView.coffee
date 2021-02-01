@@ -81,18 +81,19 @@ module.exports = class CastButtonView extends CocoView
     Backbone.Mediator.publish 'tome:updateAether'
 
   onNextButtonClick: (e) ->
-    if @winnable and @options.level.get('ozariaType') == 'capstone'
+    if @winnable
       @options.session.recordScores @world?.scores, @options.level
-      # Passed in from PlayLevelView->TomeView, it is the Capstone Stage that has been just completed,
-      # or updated in softReloadCapstoneStage
-      capstoneStage = @options.capstoneStage
-      finalStage = GoalManager.maxCapstoneStage(@options.level.get('additionalGoals'))
       args = {
         showModal: true
         manual: true
-        capstoneInProgress: capstoneStage < finalStage
-        isCapstone: true
       }
+      if @options.level.get('ozariaType') == 'capstone'
+        # Passed in from PlayLevelView->TomeView, it is the Capstone Stage that has been just completed,
+        # or updated in softReloadCapstoneStage
+        capstoneStage = @options.capstoneStage
+        finalStage = GoalManager.maxCapstoneStage(@options.level.get('additionalGoals'))
+        args['capstoneInProgress'] = capstoneStage < finalStage
+        args['isCapstone'] = true
       Backbone.Mediator.publish 'level:show-victory', args
 
   onFillSolution: ->

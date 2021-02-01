@@ -78,13 +78,15 @@
 </script>
 
 <style lang="sass">
+  @import "ozaria/site/styles/play/images"
+
   #hud-component
     position: absolute
     top: 20%
     min-width: 96px
     min-height: 50px
     color: white
-    background-image: url('/images/ozaria/level/ThangTypeHUD_Container.svg')
+    background-image: url($ThangTypeHUD_Container)
     background-size: auto 106%
     background-repeat: no-repeat
     background-position: right
