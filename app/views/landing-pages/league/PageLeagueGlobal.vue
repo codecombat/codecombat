@@ -311,10 +311,10 @@ export default {
       <p
         class="subheader2"
         style="max-width: 800px;"
-      >The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.</p>
+      >{{ $t('league.summary') }}</p>
     </div>
     <div v-if="!doneRegistering && !isClanCreator()" class="row flex-row text-center xs-m-0">
-      <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+      <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
     </div>
     <div class="graphic text-2021-section section-space">
       <img class="img-responsive" src="/images/pages/league/text_2021.svg" width="501" height="147" />
@@ -329,7 +329,7 @@ export default {
         <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
         <p>Invite players to this team by sending them this link:</p>
         <input readonly :value="clanInviteLink()" /><br />
-        <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+        <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
         <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Team</a>
         <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Team</a>
         <a v-else class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Team</a>
@@ -362,7 +362,7 @@ export default {
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>Showcase your coding skills and take home great prizes</li>
         </ul>
         <div class="xs-centered">
-          <a v-if="clanIdSelected === '' && !doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+          <a v-if="clanIdSelected === '' && !doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
         </div>
       </div>
     </section>
@@ -374,7 +374,7 @@ export default {
           Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.
         </p>
         <div class="xs-centered">
-          <a v-if="!doneRegistering && !isClanCreator()" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+          <a v-if="!doneRegistering && !isClanCreator()" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
         </div>
       </div>
       <div class="col-sm-5">
@@ -434,7 +434,7 @@ export default {
     </div>
 
     <div v-if="!doneRegistering && !isClanCreator()" class="row flex-row text-center section-space xs-mt-0">
-      <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+      <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
     </div>
 
     <div class="row flex-row text-dont-just-play-code" style="justify-content: flex-end;">
@@ -526,7 +526,7 @@ export default {
     <div class="row flex-row text-center section-space">
       <a v-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Team</a>
       <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Start a Team</a>
-      <a v-else-if="!doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+      <a v-else-if="!doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
     </div>
 
     <div id="features" class="row section-space">
