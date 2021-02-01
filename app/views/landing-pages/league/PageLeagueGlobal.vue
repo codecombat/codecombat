@@ -209,7 +209,8 @@ export default {
       codePointsRankings: 'seasonalLeague/codePointsRankings',
       myClans: 'clans/myClans',
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
-      isLoading: 'clans/isLoading'
+      isLoading: 'clans/isLoading',
+      isStudent: 'me/isStudent'
     }),
 
     currentSelectedClan () {
@@ -310,10 +311,10 @@ export default {
       <p
         class="subheader2"
         style="max-width: 800px;"
-      >The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.</p>
+      >{{ $t('league.summary') }}</p>
     </div>
     <div v-if="!doneRegistering && !isClanCreator()" class="row flex-row text-center xs-m-0">
-      <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+      <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
     </div>
     <div class="graphic text-2021-section section-space">
       <img class="img-responsive" src="/images/pages/league/text_2021.svg" width="501" height="147" />
@@ -328,7 +329,7 @@ export default {
         <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
         <p>Invite players to this team by sending them this link:</p>
         <input readonly :value="clanInviteLink()" /><br />
-        <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+        <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
         <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Team</a>
         <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Team</a>
         <a v-else class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Team</a>
@@ -339,13 +340,16 @@ export default {
       <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
       <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
-  <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" class="leaderboard-component" style="color: black;" />
-      <leaderboard v-else :rankings="globalRankings" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
-      <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" scoreType="codePoints" class="leaderboard-component" />
-    </div>
-    <div class="row text-center section-space">
-      <!-- TODO: this CTA should be in the left column with the arena leaderboard, and there should be a separate CTA to play levels and earn CodePoints in the right column -->
-      <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon blazing-battle">Play Blazing Battle Multiplayer Arena</a>
+      <div class="col-lg-6 section-space">
+        <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-else :rankings="globalRankings" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
+        <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Blazing Battle Multiplayer Arena</a>
+      </div>
+      <div class="col-lg-6 section-space">
+        <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" scoreType="codePoints" class="leaderboard-component" />
+        <a v-if="isStudent" href="/students" class="btn btn-large btn-primary btn-moon play-btn-cta">Earn CodePoints by completing levels</a>
+        <a v-else href="/play" class="btn btn-large btn-primary btn-moon play-btn-cta">Earn CodePoints by completing levels</a>
+      </div>
     </div>
 
     <section class="row flex-row free-to-get-start" :class="clanIdSelected === '' ? 'free-to-get-start-bg':''">
@@ -358,7 +362,7 @@ export default {
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>Showcase your coding skills and take home great prizes</li>
         </ul>
         <div class="xs-centered">
-          <a v-if="clanIdSelected === '' && !doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+          <a v-if="clanIdSelected === '' && !doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
         </div>
       </div>
     </section>
@@ -370,7 +374,7 @@ export default {
           Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.
         </p>
         <div class="xs-centered">
-          <a v-if="!doneRegistering && !isClanCreator()" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+          <a v-if="!doneRegistering && !isClanCreator()" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
         </div>
       </div>
       <div class="col-sm-5">
@@ -430,7 +434,7 @@ export default {
     </div>
 
     <div v-if="!doneRegistering && !isClanCreator()" class="row flex-row text-center section-space xs-mt-0">
-      <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+      <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
     </div>
 
     <div class="row flex-row text-dont-just-play-code" style="justify-content: flex-end;">
@@ -522,7 +526,7 @@ export default {
     <div class="row flex-row text-center section-space">
       <a v-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Team</a>
       <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Start a Team</a>
-      <a v-else-if="!doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">Join Now</a>
+      <a v-else-if="!doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
     </div>
 
     <div id="features" class="row section-space">
@@ -794,6 +798,7 @@ export default {
     letter-spacing: 0.71px;
     line-height: 24px;
     font-size: 18px;
+    white-space: unset;
 
     &:hover {
       background-color: #f7d047;
@@ -809,7 +814,7 @@ export default {
   }
 
   @media screen and (min-width: 768px) {
-    .btn-primary.btn-moon, .blazing-battle {
+    .btn-primary.btn-moon, .play-btn-cta {
       padding: 20px 100px;
     }
     .section-space {
