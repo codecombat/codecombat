@@ -102,6 +102,7 @@ module.exports = Vue.extend({
 @import "app/styles/mixins";
 @import "app/styles/bootstrap/variables";
 @import "ozaria/site/styles/play/variables";
+@import "ozaria/site/styles/play/images";
 
 #capstone-playback-view {
   width: $game-view-width;
@@ -114,7 +115,7 @@ module.exports = Vue.extend({
   text-align: center;
 
   button {
-    background-image: url("/images/ozaria/level/Button.svg");
+    background-image: url($Button);
     text-align: center;
     background-position: center;
     margin: 1% 0;
@@ -132,7 +133,7 @@ module.exports = Vue.extend({
     color: #215055;
 
     &:hover:not(:disabled) {
-      background-image: url("/images/ozaria/level/ButtonHover.svg");
+      background-image: url($ButtonHover);
     }
   }
 }

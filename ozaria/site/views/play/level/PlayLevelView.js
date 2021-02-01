@@ -634,7 +634,7 @@ class PlayLevelView extends RootView {
     })
     this.insertSubView(this.tome)
 
-    if (this.level.get('ozariaType') === 'capstone') {
+    if (this.level.isType('game-dev')) {
       // TODO: Is this a memory leak?
       new CapstonePlaybackView({
         el: this.$el.find('#playback-view')[0]
@@ -669,10 +669,6 @@ class PlayLevelView extends RootView {
       })
     }
 
-    if (this.level.isType('game-dev')) {
-      this.insertSubView(new GameDevTrackView({}))
-      this.$('#game-dev-track-view').addClass('hide')
-    }
     if (!this.level.isType('web-dev')) {
       this.insertSubView(new LevelHUDView({ level: this.level }))
     }
@@ -1447,9 +1443,6 @@ class PlayLevelView extends RootView {
     this.updateLevelName()
     this.onWindowResize()
     this.realTimePlaybackWaitingForFrames = true
-    if (this.level.isType('game-dev')) {
-      this.$('#game-dev-track-view').removeClass('hide')
-    }
   }
 
   updateStudentGoals () {
@@ -1495,7 +1488,7 @@ class PlayLevelView extends RootView {
   onRealTimePlaybackEnded (e) {
     // TODO Improve later with GoalManger reworking
     // The game goal has a specific name, and we check if it exists in the goal states before changing
-    if (this.level.get('ozariaType') === 'capstone' &&
+    if (this.level.isType('game-dev') &&
       !this.updateAetherIsRunning &&
       store.getters['game/hasPlayedGame'] &&
       this.goalManager.goalStates['has-stopped-playing-game']) {
@@ -1513,7 +1506,6 @@ class PlayLevelView extends RootView {
     }
     if (this.level.isType('game-dev')) {
       this.$('#how-to-play-game-dev-panel').addClass('hide')
-      this.$('#game-dev-track-view').addClass('hide')
     }
     this.$el.removeClass('real-time')
     this.onWindowResize()
@@ -1682,7 +1674,7 @@ class PlayLevelView extends RootView {
   onSpellChanged () {
     // This is triggered at very confusing times - for example when a capstone game is about to begin. At that
     // time, the code has not actually changed, but it is being built.
-    if (this.level.get('ozariaType') === 'capstone' &&
+    if (this.level.isType('game-dev') &&
       !this.realTimePlaybackWaitingForFrames &&
       this.goalManager.goalStates['has-stopped-playing-game']) {
       store.dispatch('game/setHasPlayedGame', false)

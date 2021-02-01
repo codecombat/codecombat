@@ -2,6 +2,7 @@
 @import "app/styles/bootstrap/variables"
 @import "ozaria/site/styles/play/variables"
 @import "ozaria/site/styles/common/variables.scss"
+@import "ozaria/site/styles/play/images"
 
 body
   height: 100vh
@@ -83,7 +84,7 @@ $level-resize-transition-time: 0.5s
     #stop-real-time-playback-button
       display: block
       z-index: 20
-      background-image: url(/images/ozaria/level/Button.svg)
+      background-image: url($Button)
       text-align: center
       background-position: center
       padding: 10px 25px
@@ -100,7 +101,7 @@ $level-resize-transition-time: 0.5s
       text-transform: uppercase
 
       &:hover:not(:disabled)
-        background-image: url('/images/ozaria/level/ButtonHover.svg')
+        background-image: url($ButtonHover)
 
   &.cinematic
     #playback-view
