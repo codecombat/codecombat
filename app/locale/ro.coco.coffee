@@ -1,17 +1,17 @@
 module.exports = nativeDescription: "limba română", englishDescription: "Romanian", translation:
 
   new_home:
-#    title: "CodeCombat - Jocuri de coding pentru a învăța Python și JavaScript"
+#    title: "CodeCombat - Coding games to learn Python and JavaScript"
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
-#    meta_description: "Învață să scrii cod printr-un joc de programare. Învață Python, JavaScript și HTML pe măsură ce rezolvi puzzle-uri și înveți să îți programezi propriile tale jocuri și site-uri."
+#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    meta_og_url: "https://codecombat.com"
-#    become_investor: "pentru a deveni un investitor în CodeCombat"
+#    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "Un joc de programare dezvoltat cu gândul la profesori."
-#    built_for_teachers_blurb: "Să înveți copiii să programeze poate deseori să pară covârșitor. CodeCombat ajută toți educatorii să își învețe elevii cum să codeze în JavaScript sau Python, două dintre cele mai populare limbaje de programare. Cu o curriculă cuprinzătoare ce include 6 capitole de computer science și încurajează învățarea prin capitole de dezvoltare de jocuri bazată pe proiecte și capitole de dezvoltare web, copiii vor avansa într-o călătorie de la sintaxă de bază la recursivitate!"
+#    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
     built_for_teachers_subtitle1: "Informatică"
     built_for_teachers_subblurb1: "Începând de la cursul nostru gratuit de Introducere în Informatică, studenții își însușesc concepte de bază în programare, cum ar fi bucle while/for, funcții și algoritmi."
     built_for_teachers_subtitle2: "Dezvoltare de jocuri"
-#    built_for_teachers_subblurb2: "Învățăceii construiesc labirinturi și folosesc o manevrare de bază a input-urilor pentru a își crea propriile jocuri care pot fi împărtășite cu prietenii și familia."
+#    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
     built_for_teachers_subtitle3: "Dezvoltare Web"
 #    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates."
 #    century_skills_title: "21st Century Skills"
@@ -3150,3 +3150,5 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    how_it_works1: "Join a __team__"
 #    seasonal_arena_name: "Blazing Battle"
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
+#    seasonal_play_cta: "Play Blazing Battle Multiplayer Arena"
+#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
