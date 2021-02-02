@@ -90,7 +90,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
     teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction this holiday season!"
+    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -3147,3 +3147,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
     team: 'team'
     how_it_works1: 'Join a __team__'
+    seasonal_arena_name: 'Blazing Battle'
+    seasonal_arena_tooltip: 'Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season.'
+    seasonal_play_cta: 'Play Blazing Battle Multiplayer Arena'
+    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
+    summary: 'The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.'
+    join_now: 'Join Now'

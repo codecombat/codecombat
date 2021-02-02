@@ -146,8 +146,24 @@ block content
               #announcement
                 h5 You can still learn and play without a classroom!
                 ul
-                  li Compete in the Blazing Battles esports arena by <a href='/play/ladder/blazing-battle'>clicking here</a>.
-                  li Play the free Hour of Code campaign <a href='/play/hoc-2018'>here</a>.
+                  li
+                    b Start by playing the free Hour of Code campaign by <a href='/play/hoc-2018'>clicking here</a>.
+                  li Then compete in the Blazing Battles esports arena <a href='/play/ladder/blazing-battle'>here</a>.
+            
+            if (!me.isInAcademicaClan() && ((me.get('stats') || {}).codePoints || 0) > 30)
+              #esports-announcement.flex-container
+                .row.flex-row
+                  .col-md-5
+                    h1
+                      span(class="esports-aqua") Code
+                      span(class="esports-pink") Combat
+                      span(class="esports-green")  AI
+                      span(class="esports-purple")  League
+                    p(data-i18n="league.unlocked_seasonal_arena") You've unlocked our multiplayer Esports arena!
+
+                  .col-md-7
+                    a.btn.btn-primary.btn-moon.esports-arena-link(data-i18n="league.seasonal_play_cta") Play Blazing Battle Multiplayer Arena
+
 
             h3.text-uppercase(data-i18n="courses.join_class")
             hr
