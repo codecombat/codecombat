@@ -72,8 +72,7 @@ export default class DriftTracker extends BaseTracker {
       this.driftApi = api
 
       this.initDriftOnLoad()
-      if (!this.initializationComplete)
-        this.onInitializeSuccess()
+      this.onInitializeSuccess()
 
       this.updateDriftConfiguration()
 
@@ -145,6 +144,9 @@ export default class DriftTracker extends BaseTracker {
     }
 
     await this.initializationComplete
+    if (!window.drift) {
+      return;
+    }
 
     const { me } = this.store.state
 
@@ -163,15 +165,13 @@ export default class DriftTracker extends BaseTracker {
     }, {})
 
     retryOnPageUnload('drift', 'identify', [ traits ], () => {
-      if (window.drift) {
-        window.drift.identify(
-          _id.toString(),
-          {
-            ...filteredMeAttributes,
-            ...traits
-          }
-          )
+      window.drift.identify(
+        _id.toString(),
+        {
+          ...filteredMeAttributes,
+          ...traits
         }
+      )
     })
   }
 
