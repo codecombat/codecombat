@@ -14,7 +14,7 @@ _.extend TournamentMatchSchema.properties,
     type: 'string'
   type:
     type: 'string'
-    enum: ['global']    # maybe more in the future
+    enum: ['round-robin']    # maybe more in the future
   date:
     type: c.date {description: 'The Simulation Date'}
   simulator: {type: 'object', description: 'Holds info on who simulated the match, and with what tools.'}
