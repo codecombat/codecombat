@@ -163,13 +163,15 @@ export default class DriftTracker extends BaseTracker {
     }, {})
 
     retryOnPageUnload('drift', 'identify', [ traits ], () => {
-      window.drift.identify(
-        _id.toString(),
-        {
-          ...filteredMeAttributes,
-          ...traits
+      if (window.drift) {
+        window.drift.identify(
+          _id.toString(),
+          {
+            ...filteredMeAttributes,
+            ...traits
+          }
+          )
         }
-      )
     })
   }
 
