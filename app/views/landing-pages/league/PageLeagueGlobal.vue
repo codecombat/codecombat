@@ -210,7 +210,8 @@ export default {
       myClans: 'clans/myClans',
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading',
-      isStudent: 'me/isStudent'
+      isStudent: 'me/isStudent',
+      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
     }),
 
     currentSelectedClan () {
@@ -346,7 +347,10 @@ export default {
         <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Blazing Battle Multiplayer Arena</a>
       </div>
       <div class="col-lg-6 section-space">
-        <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" scoreType="codePoints" class="leaderboard-component" />
+        <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" scoreType="codePoints"
+          class="leaderboard-component"
+          :player-count="codePointsPlayerCount"
+        />
         <a v-if="isStudent" href="/students" class="btn btn-large btn-primary btn-moon play-btn-cta">Earn CodePoints by completing levels</a>
         <a v-else href="/play" class="btn btn-large btn-primary btn-moon play-btn-cta">Earn CodePoints by completing levels</a>
       </div>
