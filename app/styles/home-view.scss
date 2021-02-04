@@ -9,7 +9,7 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-
+  overflow-x: hidden;
   h1, h2, h3, p {
     font-family: Work Sans, "Open Sans", sans-serif;
   }
@@ -71,6 +71,87 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+  }
+
+  
+  .tree-art-asset {
+    position: absolute;
+    left: -90px;
+    top: -5%;
+  }
+  .frame-art-asset {
+    position: absolute;
+    right: 0;
+    top: 17%;
+  }
+  .chris-image {
+    transform: translateY(-40%);
+  }
+
+  @media (min-width: 769px) {
+    #speech-bubble-testimonial-1 {
+      .crystal-art {
+        transform: translate(-25%,-50%);
+        z-index: 1;
+        img{
+          max-width: 170px;
+        }
+      }
+    }
+    #global-community .tree-art-asset {
+      left: -90px;
+      img{
+        width: 60%;
+      }
+    }
+
+    #global-community .frame-art-asset img{
+      width: 60%;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    #global-community .tree-art-asset img{
+      width: 100%;
+    }
+    #global-community .frame-art-asset img{
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .tree-art-asset {
+      top: 5%;
+      left: -90px;
+    }
+    .frame-art-asset {
+      top: 6%;
+      right: -2%;
+    }
+    #speech-bubble-testimonial-1 {
+      .crystal-art {
+        z-index: 1;
+        width: 100%;
+        position: absolute;
+        transform: translate(-10%, -100%);
+        img{
+          max-width: 100px;
+        }
+      }
+    }
+    #speech-bubble-testimonial-2 {
+      .crystal-art {
+        position: absolute;
+        right: 15%;
+        bottom: 12%;
+        img{
+          max-width: 100px;
+        }
+      }
+    }
+    .chris-image {
+      transform: translateY(-20%);
+    }
   }
 
   @media screen and (max-width: 768px) {
@@ -238,8 +319,8 @@
   #speech-bubble-testimonial-1, #speech-bubble-testimonial-2 {
     blockquote {
       border-image: url(/images/ozaria/home/bubble1_down.svg);
-      border-width: 30px;
-      border-image-slice: 50 50 70 70;
+      border-width: 40px;
+      border-image-slice: 60 50 67 60;
       border-style: solid;
 
       display: flex;
@@ -262,9 +343,15 @@
   #speech-bubble-testimonial-2 {
     blockquote {
       border-image: url(/images/ozaria/home/bubble2_down.svg);
-      border-width: 30px 30px 70px;
+      border-width: 25px 30px 70px;
       border-image-slice: 40 40 110;
       border-style: solid;
+    }
+    .crystal-art {
+      z-index: 1;
+      max-width: 170px;
+      transform: rotate(180deg) translate(-60%,60%);
+      float: right;
     }
   }
 
