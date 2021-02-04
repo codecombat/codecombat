@@ -19,7 +19,7 @@ _.extend TournamentSchema.properties,
   endDate: c.stringDate()
   state:
     type: 'string'
-    'enum': ['Init', 'Strating', 'Ended', 'Disabled']
+    enum: ['Init', 'Starting', 'Ended', 'Disabled']
   clanID:
     type: 'string'
 

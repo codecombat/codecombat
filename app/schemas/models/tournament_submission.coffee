@@ -14,9 +14,9 @@ _.extend TournamentSubmissionSchema.properties,
     type: 'string'
   playerID:
     type: 'string'
-  code:
+  submittedCode:
     type: 'string'
-  codeLanguage:
+  submittedCodeLanguage:
     type: 'string'
   wins:
     type: 'number'
@@ -24,8 +24,16 @@ _.extend TournamentSubmissionSchema.properties,
     type: 'number'
   ties:
     type: 'number'
-  score:
+  totalScore:
     type: 'number'
+  originalRank:             # for randomsimulation rank
+    type: 'number'
+  standardDeviation:
+    type: 'number'
+    minimum: 0
+  meanStrength:
+    type: 'number'
+  
 
 
 module.exports = TournamentSubmissionSchema
