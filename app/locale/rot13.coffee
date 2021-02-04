@@ -3151,3 +3151,5 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     seasonal_arena_tooltip: 'Onggyr ntnvafg lbhe grnzzngrf naq bguref nf lbh hfr lbhe orfg cebtenzzvat fxvyyf gb rnea cbvagf naq enax hc gur NV Yrnthr yrnqreobneq orsber gnxvat ba gur Punzcvbafuvc neran ng gur raq bs gur frnfba.'
     seasonal_play_cta: 'Cynl Oynmvat Onggyr Zhygvcynlre Neran'
     unlocked_seasonal_arena: "Lbh'ir haybpxrq bhe zhygvcynlre rfcbegf neran!"
+    summary: 'Gur PbqrPbzong NV Yrnthr vf havdhryl obgu n pbzcrgvgvir NV onggyr fvzhyngbe naq tnzr ratvar sbe yrneavat erny Clguba naq WninFpevcg pbqr.'
+    join_now: 'Wbva Abj'
