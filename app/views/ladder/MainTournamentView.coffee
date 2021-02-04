@@ -41,7 +41,6 @@ module.exports = class MainLadderView extends RootView
     @tournaments = []
     tournaments = new CocoCollection([], {url: "/db/tournaments?clanID=#{@clanID}", model: Tournament})
     @listenTo tournaments, 'sync', =>
-      console.log(tournaments.models)
       @tournaments = (t.toJSON() for t in tournaments.models)
       @render?()
     @supermodel.loadCollection(tournaments, 'tournaments', {cache: false})
@@ -64,7 +63,6 @@ module.exports = class MainLadderView extends RootView
   onSubmitEditing: (e) ->
     attrs = forms.formToObject($(e.target).closest('.editable-tournament-form'))
     Object.assign(@editableTournament, attrs)
-    console.log(@editableTournament)
     if @editableTournament.editing is 'new'
       $.ajax({
         method: 'POST'
@@ -105,7 +103,6 @@ module.exports = class MainLadderView extends RootView
 
   onLaddersLoaded: (e) ->
     levels = []
-    console.log('ladders is', @ladders.models)
     for ladder in @ladders.models
       levels.push({
         name: ladder.get('name'),

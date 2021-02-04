@@ -377,7 +377,6 @@ module.exports = class Simulator extends CocoClass
       simulator: @simulator
       randomSeed: @task.world.randomSeed
 
-    console.log('task sessions', @task.getSessions())
     for session in @task.getSessions()
       sessionResult =
         sessionID: session.sessionID
