@@ -12,6 +12,7 @@ utils = require 'core/utils'
 LadderTabView = require './LadderTabView'
 MyMatchesTabView = require './MyMatchesTabView'
 SimulateTabView = require './SimulateTabView'
+SimulateTournamentTabView = require './SimulateTournamentTabView'
 LadderPlayModal = require './LadderPlayModal'
 CocoClass = require 'core/CocoClass'
 
@@ -53,9 +54,9 @@ module.exports = class LadderView extends RootView
     'click .spectate-button': 'onClickSpectateButton'
     'click .simulate-all-button': 'onClickSimulateAllButton'
 
-  initialize: (options, @levelID, @leagueType, @leagueID) ->
+  initialize: (options, @levelID, @leagueID, @tournamentID) ->
     super(options)
-
+    @leagueType = 'clan'
     @level = @supermodel.loadModel(new Level(_id: @levelID)).model
     @level.once 'sync', (level) =>
       @setMeta({ title: $.i18n.t 'ladder.arena_title', { arena: level.get('name') } })
@@ -165,10 +166,11 @@ module.exports = class LadderView extends RootView
     super()
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
-    @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions))
+    @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions, @tournamentID))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
-    unless @level.isType('ladder') and me.isAnonymous()
-      @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
+    # unless @level.isType('ladder') and me.isAnonymous()
+    #   @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
+    @insertSubView(@simulateTab = new SimulateTournamentTabView(league: @league, level: @level, leagueID: @leagueID, tournamentID: @tournamentID))
     highLoad = true
     @refreshDelay = switch
       when not application.isProduction() then 10  # Refresh very quickly in develompent.
@@ -212,16 +214,9 @@ module.exports = class LadderView extends RootView
 
   onClickSimulateAllButton: (e) ->
     $.ajax
-      url: '/queue/scoring/loadTournamentSimulationTasks'
-      data:
-        originalLevelID: @level.get('original'),
-        levelMajorVersion: 0,
-        leagueID: @leagueID
-        mirrorMatch: @level.get('mirrorMatch') ? false
-        sessionLimit: 750
+      url: "/db/tournament/#{@tournamentID}/end"
       type: 'POST'
-      parse: true
-      success: (res)->
+      success: (res) ->
         console.log res
       error: (err) ->
         console.error err

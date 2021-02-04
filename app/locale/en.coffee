@@ -2375,6 +2375,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bracket_11_14: "11-14"
     bracket_14_18: "14-18"
     bracket_open: "Open"
+    create_tournament: "Create a Tournament"
 
   user:
     user_title: '__name__ - Learn to Code with CodeCombat'

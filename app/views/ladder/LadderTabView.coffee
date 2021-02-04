@@ -5,6 +5,7 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 User = require 'models/User'
+Tournament = require 'models/Tournament'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel, scoreForDisplay} = require './utils'
 ModelModal = require 'views/modal/ModelModal'
@@ -13,6 +14,14 @@ CreateAccountModal = require 'views/core/CreateAccountModal'
 utils = require 'core/utils'
 
 HIGHEST_SCORE = 1000000
+
+class TournamentLeaderboardCollection extends CocoCollection
+  url: ''
+  model: Tournament
+
+  constructor: (tournamentID, options) ->
+    super()
+    @url = "/db/tournament/#{tournamentID}/rankings?#{$.param(options)}"
 
 module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
@@ -34,7 +43,7 @@ module.exports = class LadderTabView extends CocoView
 #    'auth:logged-in-with-facebook': 'onConnectedWithFacebook'
 #    'auth:logged-in-with-gplus': 'onConnectedWithGPlus'
 
-  initialize: (options, @level, @sessions) ->
+  initialize: (options, @level, @sessions, @tournamentID) ->
     @teams = teamDataFromLevel @level
     @leaderboards = []
     @refreshLadder()
@@ -176,7 +185,7 @@ module.exports = class LadderTabView extends CocoView
         @supermodel.removeModelResource oldLeaderboard
         oldLeaderboard.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
-      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit, @options.league)
+      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit, @options.league, @tournamentID)
       team.leaderboard = @leaderboards[team.id]
       @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', {cache: false}, 3)
       @leaderboardRes.load()
@@ -353,7 +362,7 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
-  constructor: (@level, @team, @session, @limit, @league) ->
+  constructor: (@level, @team, @session, @limit, @league, @tournamentID) ->
     super()
 
   collectionParameters: (parameters) ->
@@ -364,7 +373,11 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
   fetch: ->
     console.warn 'Already have top players on', @ if @topPlayers
 
-    @topPlayers = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit))
+    params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
+    if @tournamentID?
+      @topPlayers = new TournamentLeaderboardCollection(@tournamentID, params)
+    else
+      @topPlayers = new LeaderboardCollection(@level, params)
     promises = []
     promises.push @topPlayers.fetch cache: false
 
@@ -374,13 +387,21 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
       else
         score = @session.get('totalScore')
       if score
-        @playersAbove = new LeaderboardCollection(@level, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
-        promises.push @playersAbove.fetch cache: false
-        @playersBelow = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
-        promises.push @playersBelow.fetch cache: false
+        if @tournamentID?
+          @playersAbove = new TournamentLeaderboardCollection(@tournamentID, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
+          promises.push @playersAbove.fetch cache: false
+          @playersBelow = new TournamentLeaderboardCollection(@tournamentID, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
+          promises.push @playersBelow.fetch cache: false
+        else
+          @playersAbove = new LeaderboardCollection(@level, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
+          promises.push @playersAbove.fetch cache: false
+          @playersBelow = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
+          promises.push @playersBelow.fetch cache: false
         success = (@myRank) =>
         loadURL = "/db/level/#{@level.get('original')}/rankings/#{@session.id}?scoreOffset=#{score}&team=#{@team}&levelSlug=#{@level.get('slug')}"
         loadURL += '&leagues.leagueID=' + @league.id if @league
+        if @tournamentID?
+          loadURL = "/db/tournament/#{@tournamentID}/rankings?scoreOffset=#{score}&team=#{@team}"
         promises.push $.ajax(loadURL, cache: false, success: success)
     @promise = $.when(promises...)
     @promise.then @onLoad

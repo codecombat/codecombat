@@ -41,6 +41,8 @@ module.exports = class Simulator extends CocoClass
     url = '/queue/scoring/getTwoGames'
     if @options.singleLadder
       url = "/db/level/#{@options.levelOriginal}/next-ladder-match"
+    if @options.tournament
+      url = "/db/tournament/#{@options.tournamentID}/next-match"
     $.ajax
       url: url
       type: 'POST'
@@ -159,8 +161,14 @@ module.exports = class Simulator extends CocoClass
     console.log status
     @trigger 'statusUpdate', status
 
+    if @options.tournament?
+      url = '/db/tournament/match/record'
+      results.tournamentID = @options.tournamentID
+      results.matchType = 'round-robin'  # for now we just use 'round-robin'
+    else
+      url = '/queue/scoring/recordTwoGames'
     $.ajax
-      url: '/queue/scoring/recordTwoGames'
+      url: url
       data: results
       type: 'PUT'
       parse: true
@@ -369,6 +377,7 @@ module.exports = class Simulator extends CocoClass
       simulator: @simulator
       randomSeed: @task.world.randomSeed
 
+    console.log('task sessions', @task.getSessions())
     for session in @task.getSessions()
       sessionResult =
         sessionID: session.sessionID
@@ -379,6 +388,8 @@ module.exports = class Simulator extends CocoClass
         metrics:
           rank: @calculateSessionRank session.sessionID, simulationResults.goalStates, @task.generateTeamToSessionMap()
         shouldUpdateLastOpponentSubmitDateForLeague: session.shouldUpdateLastOpponentSubmitDateForLeague
+      if @options.tournament?
+        sessionResult.submissionID = session.submissionID
       if session.sessionID is taskResults.originalSessionID
         taskResults.originalSessionRank = sessionResult.metrics.rank
         taskResults.originalSessionTeam = session.team

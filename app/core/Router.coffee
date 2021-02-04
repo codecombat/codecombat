@@ -106,6 +106,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'clans': go('clans/ClansView')
     'clans/:clanID': go('clans/ClanDetailsView')
+    'clans/:clanID/tournaments': go('ladder/MainTournamentView')
 
     'community': go('CommunityView')
 
@@ -199,6 +200,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }) # extra slash is to get Facebook app to work
     'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
+    'play/ladder/:levelID/clan/:leagueID/tournament/:tournamentID': go('ladder/TestTournamentView')
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')

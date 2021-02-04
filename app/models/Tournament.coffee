@@ -1,7 +1,7 @@
 CocoModel = require './CocoModel'
 
 
-mmodule.exports = class Tournament extends CocoModel
+module.exports = class Tournament extends CocoModel
   @className: 'Tournament'
   @schema: require 'schemas/models/tournament'
   urlRoot: '/db/tournament'
