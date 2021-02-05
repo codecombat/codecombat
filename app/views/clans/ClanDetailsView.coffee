@@ -211,7 +211,7 @@ module.exports = class ClanDetailsView extends RootView
       title: $.i18n.t('clans.clan_title', { clan: @clan.get('name') })
     })
 
-    unless @owner?
+    if @clan.get('ownerID') and not @owner?
       @owner = new User _id: @clan.get('ownerID')
       @listenTo @owner, 'sync', => @render?()
       @supermodel.loadModel @owner, cache: false

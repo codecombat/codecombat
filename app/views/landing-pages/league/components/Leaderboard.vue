@@ -64,7 +64,7 @@ export default {
             span {{ $t('ladder.leaderboard') }}
             span(v-if="playerCount > 1")
               span  -&nbsp;
-              span {{ playerCount }}
+              span {{ playerCount.toLocaleString() }}
               span  players
 
         tr

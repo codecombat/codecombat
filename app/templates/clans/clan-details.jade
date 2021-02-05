@@ -29,7 +29,7 @@ block content
   .row
     .col-lg-6
       if clan
-        h1 #{clan.get('name')}
+        h1 #{clan.get('displayName') || clan.get('name')}
           if clan.get('type') === 'private'
             small(data-i18n="clans.private") (private)
           if clan.get('ownerID') === me.id
