@@ -33,13 +33,13 @@ module.exports = class MainLadderView extends RootView
     'click .create-button': 'onCreateTournament'
     'click .input-submit': 'onSubmitEditing'
 
-  initialize: (options, @clanID)->
+  initialize: (options, @clan)->
     super()
     @levelStatusMap = []
     @levelPlayCountMap = []
     @campaigns = campaigns
     @tournaments = []
-    tournaments = new CocoCollection([], {url: "/db/tournaments?clanID=#{@clanID}", model: Tournament})
+    tournaments = new CocoCollection([], {url: "/db/tournaments?clan=#{@clan}", model: Tournament})
     @listenTo tournaments, 'sync', =>
       @tournaments = (t.toJSON() for t in tournaments.models)
       @render?()
@@ -62,6 +62,8 @@ module.exports = class MainLadderView extends RootView
 
   onSubmitEditing: (e) ->
     attrs = forms.formToObject($(e.target).closest('.editable-tournament-form'))
+    attrs.startDate = moment(attrs.startDate).toDate()
+    attrs.endDate = moment(attrs.endDate).toDate()
     Object.assign(@editableTournament, attrs)
     if @editableTournament.editing is 'new'
       $.ajax({
@@ -81,15 +83,15 @@ module.exports = class MainLadderView extends RootView
       })
   onCreateTournament: (e) ->
     level = $(e.target).data('level')
-    if @editableTournament.levelOriginalID?
-      # TODO alert
+    if @editableTournament.levelOriginal?
+      # TODO alert do not create multiple tournament at the same time
       return
     @editableTournament = {
       name: level.name,
-      levelOriginalID: level.original,
+      levelOriginal: level.original,
       slug: level.id
-      clanID: @clanID,
-      startDate: moment().format(HTML5_FMT_DATETIME_LOCAL),
+      clan: @clan,
+      startDate: new Date(),
       endDate: undefined,
       editing: 'new'
     }
@@ -130,6 +132,11 @@ module.exports = class MainLadderView extends RootView
       success: success
     }, 0
     levelPlayCountsRequest.load()
+
+  formatTime: (time) ->
+    if time?
+      return moment(time).format(HTML5_FMT_DATETIME_LOCAL)
+    return time
 
 ladders = [
   {

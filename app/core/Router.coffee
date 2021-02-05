@@ -106,7 +106,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'clans': go('clans/ClansView')
     'clans/:clanID': go('clans/ClanDetailsView')
-    'clans/:clanID/tournaments': go('ladder/MainTournamentView')
+    'clans/:clan/tournaments': go('ladder/MainTournamentView')
 
     'community': go('CommunityView')
 

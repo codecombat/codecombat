@@ -137,13 +137,13 @@ module.exports = class LadderView extends RootView
     ]
 
   loadLeague: ->
-    @leagueID = @leagueType = null unless @leagueType in ['clan', 'course', 'tournament']
+    @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']
     return unless @leagueID
+
+    if @leagueType is 'clan'
+      @tournamentId = utils.getQueryVariable 'tournament'
+
     modelClass = if @leagueType is 'clan' then Clan else CourseInstance
-    modelClass = switch @leagueType
-      when 'clan' then Clan
-      when 'course' then CourseInstance
-      when 'tournament' then Tournament
     @league = @supermodel.loadModel(new modelClass(_id: @leagueID)).model
     if @leagueType is 'course'
       if @league.loaded
@@ -165,7 +165,7 @@ module.exports = class LadderView extends RootView
     super()
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
-    @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions))
+    @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions, @tournamentId))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
@@ -211,20 +211,29 @@ module.exports = class LadderView extends RootView
     #Backbone.Mediator.publish 'router:navigate', route: url
 
   onClickSimulateAllButton: (e) ->
-    $.ajax
-      url: '/queue/scoring/loadTournamentSimulationTasks'
-      data:
-        originalLevelID: @level.get('original'),
-        levelMajorVersion: 0,
-        leagueID: @leagueID
-        mirrorMatch: @level.get('mirrorMatch') ? false
-        sessionLimit: 750
-      type: 'POST'
-      parse: true
-      success: (res)->
-        console.log res
-      error: (err) ->
-        console.error err
+    if @tournamentId
+      $.ajax
+        url: "/db/tournament/#{@tournamentID}/end"
+        type: 'POST'
+        success: (res) ->
+          console.log res
+        error: (err) ->
+          alert('tournament end failed')
+    else
+      $.ajax
+        url: '/queue/scoring/loadTournamentSimulationTasks'
+        data:
+          originalLevelID: @level.get('original'),
+          levelMajorVersion: 0,
+          leagueID: @leagueID
+          mirrorMatch: @level.get('mirrorMatch') ? false
+          sessionLimit: 750
+        type: 'POST'
+        parse: true
+        success: (res)->
+          console.log res
+        error: (err) ->
+          console.error err
 
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]

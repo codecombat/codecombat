@@ -19,6 +19,8 @@ module.exports = class Simulator extends CocoClass
   constructor: (@options) ->
     @options ?= {}
     simulatorType = if @options.headlessClient then 'headless' else 'browser'
+    @simulateTournamentRatio = 0.5
+    @tounament = false
     @simulator =
       type: simulatorType
       version: SIMULATOR_VERSION
@@ -41,8 +43,14 @@ module.exports = class Simulator extends CocoClass
     url = '/queue/scoring/getTwoGames'
     if @options.singleLadder
       url = "/db/level/#{@options.levelOriginal}/next-ladder-match"
-    if @options.tournament
-      url = "/db/tournament/#{@options.tournamentID}/next-match"
+
+    simulateTournament = Math.random()
+    if simulateTournament < @simulateTournamentRatio
+      @tournament = true
+      url = "/db/tournament/-/next-match"
+    else
+      @tournament = false
+
     $.ajax
       url: url
       type: 'POST'
@@ -68,10 +76,17 @@ module.exports = class Simulator extends CocoClass
       success: (taskData) =>
         return if @destroyed
         unless taskData
-          @retryDelayInSeconds = 10
+          if @tournament
+            @simulateTournamentRatio = 0.1 # scale down the ratio of simulate tournament
+            @retryDelayInSeconds = 2
+          else
+            @retryDelayInSeconds = 10
           @trigger 'statusUpdate', "No games to simulate. Trying another game in #{@retryDelayInSeconds} seconds."
           @simulateAnotherTaskAfterDelay()
           return
+        if @tournament
+          @simulateTournamentRatio = 0.9  # scal up the ratio of simulate tournament
+          @tournamentId = taskData.tournamentId
         @simulatingPlayerStrings = {}
         for team in ['humans', 'ogres']
           session = _.find(taskData.sessions, {team: team})
@@ -161,9 +176,9 @@ module.exports = class Simulator extends CocoClass
     console.log status
     @trigger 'statusUpdate', status
 
-    if @options.tournament?
+    if @tournament?
       url = '/db/tournament/match/record'
-      results.tournamentID = @options.tournamentID
+      results.tournament = @tournamentId
       results.matchType = 'round-robin'  # for now we just use 'round-robin'
     else
       url = '/queue/scoring/recordTwoGames'

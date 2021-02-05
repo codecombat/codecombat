@@ -21,4 +21,5 @@ _.extend TournamentMatchSchema.properties,
   randomSeed: {description: 'Stores the random seed that was used during this match.'}
 
 
+c.extendBasicProperties TournamentMatchSchema, 'tournament.match'
 module.exports = TournamentMatchSchema

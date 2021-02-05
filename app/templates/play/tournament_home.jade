@@ -10,7 +10,7 @@ block content
         | Tournaments
       each tournament in view.tournaments
         .level-row
-          a(href="/play/ladder/#{tournament.slug}/clan/#{view.clanID}/tournament/#{tournament._id}", title=tournament.description)
+          a(href="/play/ladder/#{tournament.slug}/clan/#{view.clan}/tournament/#{tournament._id}", title=tournament.description)
             span.level
               img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg").img-rounded
               span.dynamic-level-name= tournament.name
@@ -21,10 +21,10 @@ block content
                 input.form-control.input-description(type='text', style='width:300px;', value=view.editableTournament.description, name='description')
               label.tournament-startDate
                 span startDate
-              input.form-control.input-startDate(type='datetime-local', style='width:300px;', value=view.editableTournament.startDate, name='startDate')
+              input.form-control.input-startDate(type='datetime-local', style='width:300px;', value=view.formatTime(view.editableTournament.startDate), name='startDate')
               label.tournament-endDate
                 span endDate
-              input.form-control.input-endDate(type='datetime-local', style='width:300px;', value=view.editableTournament.endDate, name='endDate')
+              input.form-control.input-endDate(type='datetime-local', style='width:300px;', value=view.formatTime(view.editableTournament.endDate), name='endDate')
               input.form-control.input-submit(type='button', value='Submit')
   if me.isAdmin()
     each campaign in view.campaigns

@@ -4,16 +4,13 @@ TournamentSubmissionSchema = c.object
   title: 'Submission'
   description: 'A single submission for a given tournament.'
   default:
-    codeLanguage: 'python'
-    score: 1000
+    submittedCodeLanguage: 'python'
+    totalScore: 10
 
 _.extend TournamentSubmissionSchema.properties,
-  tournamentID:
-    type: 'string'
-  levelSessionID:
-    type: 'string'
-  playerID:
-    type: 'string'
+  tournament: c.objectId()
+  levelSession: c.objectId()
+  owner: c.objectId()
   submittedCode:
     type: 'string'
   submittedCodeLanguage:
@@ -22,9 +19,7 @@ _.extend TournamentSubmissionSchema.properties,
     type: 'number'
   losses:
     type: 'number'
-  ties:
-    type: 'number'
-  totalScore:
+  totalScore:               # bayesian calculation of strength
     type: 'number'
   originalRank:             # for randomsimulation rank
     type: 'number'
@@ -36,4 +31,5 @@ _.extend TournamentSubmissionSchema.properties,
   
 
 
+c.extendBasicProperties TournamentSubmissionSchema, 'tournament.submission'
 module.exports = TournamentSubmissionSchema

@@ -2,8 +2,8 @@ c = require './../schemas'
 
 TournamentSchema = c.object
   title: 'Tournament'
-  description: 'A scheduled tournament with certain date and level'
-  required: ['levelOriginalID', 'name']
+  description: 'A scheduled tournament with certain date, level and clan'
+  required: ['levelOriginal', 'name']
 
 c.extendNamedProperties TournamentSchema
 
@@ -13,15 +13,13 @@ _.extend TournamentSchema.properties,
   created: c.date
     title: 'Created'
     readOnly: true
-  levelOriginalID:
-    type: 'string' 
+  levelOriginal: c.objectId()
   startDate: c.stringDate()
   endDate: c.stringDate()
   state:
     type: 'string'
-    enum: ['Init', 'Starting', 'Ended', 'Disabled']
-  clanID:
-    type: 'string'
+    enum: ['initializing', 'starting', 'ended', 'disabled']
+  clan: c.objectId({links: [{rel: 'db', href: '/db/clan/{($)}'}]})
 
-c.extendBasicProperties TournamentSchema, 'Tournament'
+c.extendBasicProperties TournamentSchema, 'tournament'
 module.exports = TournamentSchema
