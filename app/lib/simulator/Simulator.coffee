@@ -20,7 +20,6 @@ module.exports = class Simulator extends CocoClass
     @options ?= {}
     simulatorType = if @options.headlessClient then 'headless' else 'browser'
     @simulateTournamentRatio = 0.5
-    @tounament = false
     @simulator =
       type: simulatorType
       version: SIMULATOR_VERSION
@@ -46,10 +45,7 @@ module.exports = class Simulator extends CocoClass
 
     simulateTournament = Math.random()
     if simulateTournament < @simulateTournamentRatio
-      @tournament = true
       url = "/db/tournament/-/next-match"
-    else
-      @tournament = false
 
     $.ajax
       url: url
@@ -73,20 +69,19 @@ module.exports = class Simulator extends CocoClass
             timeout: 5000
           }
           @simulateAnotherTaskAfterDelay()
-      success: (taskData) =>
+      success: (taskData, textStatus, xhr) =>
         return if @destroyed
         unless taskData
-          if @tournament
-            @simulateTournamentRatio = 0.1 # scale down the ratio of simulate tournament
-            @retryDelayInSeconds = 2
+          if xhr.status is 205
+            @retryDelayInSeconds = 5
+            @simulateTournamentRatio = 0.1  # scal down the ratio of simulate tournament
           else
             @retryDelayInSeconds = 10
           @trigger 'statusUpdate', "No games to simulate. Trying another game in #{@retryDelayInSeconds} seconds."
           @simulateAnotherTaskAfterDelay()
           return
-        if @tournament
+        if taskData.tournamentId
           @simulateTournamentRatio = 0.9  # scal up the ratio of simulate tournament
-          @tournamentId = taskData.tournamentId
         @simulatingPlayerStrings = {}
         for team in ['humans', 'ogres']
           session = _.find(taskData.sessions, {team: team})
@@ -176,9 +171,8 @@ module.exports = class Simulator extends CocoClass
     console.log status
     @trigger 'statusUpdate', status
 
-    if @tournament?
-      url = '/db/tournament/match/record'
-      results.tournament = @tournamentId
+    if results.tournament?
+      url = '/db/tournament.match/record'
       results.matchType = 'round-robin'  # for now we just use 'round-robin'
     else
       url = '/queue/scoring/recordTwoGames'
@@ -385,6 +379,7 @@ module.exports = class Simulator extends CocoClass
   formTaskResultsObject: (simulationResults) ->
     taskResults =
       taskID: @task.getTaskID()
+      tournament: @task.getTournamentId()
       receiptHandle: @task.getReceiptHandle()
       originalSessionID: @task.getFirstSessionID()
       originalSessionRank: -1
@@ -402,8 +397,8 @@ module.exports = class Simulator extends CocoClass
         metrics:
           rank: @calculateSessionRank session.sessionID, simulationResults.goalStates, @task.generateTeamToSessionMap()
         shouldUpdateLastOpponentSubmitDateForLeague: session.shouldUpdateLastOpponentSubmitDateForLeague
-      if @options.tournament?
-        sessionResult.submissionID = session.submissionID
+      if @task.tournamentId?
+        sessionResult.submissionId = session.submissionID
       if session.sessionID is taskResults.originalSessionID
         taskResults.originalSessionRank = sessionResult.metrics.rank
         taskResults.originalSessionTeam = session.team
@@ -488,8 +483,9 @@ class SimulationTask
   getFirstSessionID: -> @rawData.sessions[0].sessionID
 
   getSecondSessionID: -> @rawData.sessions[1].sessionID
-
   getTaskID: -> @rawData.taskID
+
+  getTournamentId: -> @rawData.tournamentId
 
   getReceiptHandle: -> @rawData.receiptHandle
 

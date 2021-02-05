@@ -213,7 +213,7 @@ module.exports = class LadderView extends RootView
   onClickSimulateAllButton: (e) ->
     if @tournamentId
       $.ajax
-        url: "/db/tournament/#{@tournamentID}/end"
+        url: "/db/tournament/#{@tournamentId}/end"
         type: 'POST'
         success: (res) ->
           console.log res

@@ -22,7 +22,7 @@ class LadderCollection extends CocoCollection
 
   constructor: (model) ->
     super()
-    @url = "/db/level/ladders"
+    @url = "/db/level/-/arenas"
 
 
 module.exports = class MainLadderView extends RootView
@@ -39,7 +39,7 @@ module.exports = class MainLadderView extends RootView
     @levelPlayCountMap = []
     @campaigns = campaigns
     @tournaments = []
-    tournaments = new CocoCollection([], {url: "/db/tournaments?clan=#{@clanId}", model: Tournament})
+    tournaments = new CocoCollection([], {url: "/db/tournaments?clanId=#{@clanId}", model: Tournament})
     @listenTo tournaments, 'sync', =>
       @tournaments = (t.toJSON() for t in tournaments.models)
       @render?()
@@ -52,7 +52,6 @@ module.exports = class MainLadderView extends RootView
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @listenToOnce @ladders, 'sync', @onLaddersLoaded
 
-    alert('hhaaha')
     # TODO: Make sure this is also enabled server side.
     # Disabled due to high load on database.
     # @getLevelPlayCounts()
@@ -71,7 +70,7 @@ module.exports = class MainLadderView extends RootView
         url: '/db/tournament'
         data: @editableTournament
         success: =>
-          document.location.reload()
+          # document.location.reload()
       })
     else if @editableTournament.editing is 'edit'
       $.ajax({
@@ -79,7 +78,7 @@ module.exports = class MainLadderView extends RootView
         url: "/db/tournament/#{@editableTournament._id}"
         data: @editableTournament
         success: =>
-          document.lodaction.reload()
+          # document.lodaction.reload()
       })
   onCreateTournament: (e) ->
     level = $(e.target).data('level')

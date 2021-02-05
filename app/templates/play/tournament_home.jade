@@ -10,7 +10,7 @@ block content
         | Tournaments
       each tournament in view.tournaments
         .level-row
-          a(href="/play/ladder/#{tournament.slug}/clan/#{view.clan}/tournament/#{tournament._id}", title=tournament.description)
+          a(href="/play/ladder/#{tournament.slug}/clan/#{view.clanId}?tournament=#{tournament._id}", title=tournament.description)
             span.level
               img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg").img-rounded
               span.dynamic-level-name= tournament.name

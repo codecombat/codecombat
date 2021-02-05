@@ -5,8 +5,7 @@ TournamentMatchSchema = c.object
   description: 'A single match for a given tournament.'
 
 _.extend TournamentMatchSchema.properties,
-  tournamentID:
-    type: 'string'
+  tournament: c.objectId()
   opponents:
     type: 'array'
     items: 'string'
