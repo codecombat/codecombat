@@ -4,6 +4,8 @@ import Leaderboard from './components/Leaderboard'
 import ClanSelector from './components/ClanSelector.vue'
 import LeagueSignupModal from './components/LeagueSignupModal'
 import ClanCreationModal from './components/ClanCreationModal'
+import ChildClanDetailDropdown from './components/ChildClanDetailDropdown'
+
 import { joinClan, leaveClan } from '../../../core/api/clans'
 
 export default {
@@ -11,7 +13,8 @@ export default {
     Leaderboard,
     ClanSelector,
     LeagueSignupModal,
-    ClanCreationModal
+    ClanCreationModal,
+    ChildClanDetailDropdown
   },
 
   data: () => ({
@@ -48,6 +51,7 @@ export default {
       loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
       loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
       fetchClan: 'clans/fetchClan',
+      fetchChildClanDetails: 'clans/fetchChildClanDetails'
     }),
 
     changeClanSelected (e) {
@@ -71,6 +75,10 @@ export default {
           // Default to global page
           application.router.navigate('league', { trigger: true })
           return
+        }
+
+        if (this.currentSelectedClan?.kind === 'school-network') {
+          this.fetchChildClanDetails({ id: this.currentSelectedClan._id })
         }
 
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
@@ -208,6 +216,7 @@ export default {
       clanLeaderboardPlayerCount: 'seasonalLeague/clanLeaderboardPlayerCount',
       codePointsRankings: 'seasonalLeague/codePointsRankings',
       myClans: 'clans/myClans',
+      childClanDetails: 'clans/childClanDetails',
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading',
       isStudent: 'me/isStudent',
@@ -216,6 +225,15 @@ export default {
 
     currentSelectedClan () {
       return this.clanByIdOrSlug(this.clanIdOrSlug) || null
+    },
+
+    currentSelectedClanChildDetails () {
+      const selectedId = this.clanIdSelected
+      if (selectedId === '') {
+        return []
+      }
+      const result = this.childClanDetails(selectedId)
+      return result
     },
 
     clanIdSelected () {
@@ -328,8 +346,9 @@ export default {
       <div class="col-sm-7">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
-        <p>Invite players to this team by sending them this link:</p>
-        <input readonly :value="clanInviteLink()" /><br />
+        <ChildClanDetailDropdown v-if="currentSelectedClanChildDetails.length > 0" :childClans="currentSelectedClanChildDetails"/>
+        <p style="margin-bottom: 14px;">Invite players to this team by sending them this link:</p>
+        <input readonly style="margin-bottom: 40px;" :value="clanInviteLink()" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
         <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Team</a>
         <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Team</a>
