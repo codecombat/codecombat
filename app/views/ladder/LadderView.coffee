@@ -90,6 +90,7 @@ module.exports = class LadderView extends RootView
         @timeOffset = new Date(xhr.getResponseHeader("Date")).getTime() - Date.now()
 
   checkTournamentEnd: ->
+    @checkTournamentClose()
     return unless @timeOffset
     return unless @mandate.loaded
     return unless @level.loaded
@@ -151,6 +152,21 @@ module.exports = class LadderView extends RootView
       else
         @listenToOnce @league, 'sync', @onCourseInstanceLoaded
 
+  checkTournamentClose: () ->
+    return unless @tournamentId?
+    $.ajax
+      url: "/db/tournament/#{@tournamentId}/state"
+      success: (res) =>
+        if res is 'starting'
+          @tournamentEnd = false
+        else
+          @tournamentEnd = true
+          if res is 'ended' and @tournamentState != 'ended'
+            @tournamentState = 'ended'
+          @render()
+
+
+
   onCourseInstanceLoaded: co.wrap (@courseInstance) ->
     return if @destroyed
     @classroomID = @courseInstance.get('classroomID')
@@ -165,8 +181,13 @@ module.exports = class LadderView extends RootView
     super()
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
-    @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions, @tournamentId))
-    @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
+    unless @tournamentState is 'ended'
+      @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions))
+      @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
+    else
+      # @removeSubView(@ladderTab)
+      # @removeSubView(@myMatchesTab)
+      @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions, @tournamentId))
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
@@ -189,7 +210,8 @@ module.exports = class LadderView extends RootView
     return if @destroyed or application.userIsIdle
     @lastRefreshTime = new Date()
     @ladderTab.refreshLadder()
-    @myMatchesTab.refreshMatches @refreshDelay
+    if @myMatchesTab?.refreshMatches?
+      @myMatchesTab.refreshMatches @refreshDelay
     @simulateTab?.refresh()
 
   onIdleChanged: (e) ->
@@ -237,7 +259,7 @@ module.exports = class LadderView extends RootView
 
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
-    modal = new LadderPlayModal({league: @league}, @level, session, teamID)
+    modal = new LadderPlayModal({league: @league, tournament: @tournamentId}, @level, session, teamID)
     @openModalView modal
 
   onClickedLink: (e) ->
