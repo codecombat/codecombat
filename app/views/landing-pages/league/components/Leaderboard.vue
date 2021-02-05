@@ -13,6 +13,10 @@ export default {
     scoreType: {
       type: String,
       default: 'arena'
+    },
+    playerCount: {
+      type: Number,
+      default: 0
     }
   },
 
@@ -49,7 +53,7 @@ export default {
 </script>
 
 <template lang="pug">
-  .col-lg-6.table-responsive
+  .table-responsive
     table.table.table-bordered.table-condensed.table-hover.ladder-table
       thead
         tr
@@ -58,6 +62,10 @@ export default {
             span(v-else) Blazing Battle
             span &nbsp;
             span {{ $t('ladder.leaderboard') }}
+            span(v-if="playerCount > 1")
+              span  -&nbsp;
+              span {{ playerCount.toLocaleString() }}
+              span  players
 
         tr
           th(colspan=1)
@@ -84,6 +92,9 @@ export default {
 </template>
 
 <style scoped>
+.ladder-table {
+  background-color: #F2F2F2;
+}
 .ladder-table td {
   padding: 2px 2px;
 }
@@ -98,6 +109,9 @@ export default {
 
 .ladder-table tr {
   font-size: 16px;
+}
+.ladder-table tbody tr:hover td{
+  background-color: #FFFFFF;
 }
 
 .ladder-table th {

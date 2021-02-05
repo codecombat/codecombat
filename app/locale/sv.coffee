@@ -91,7 +91,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     teachers_love_codecombat_blurb2: "Skulle rekommendera CodeCombat till andra datavetenskapslärare"
     teachers_love_codecombat_blurb3: "Säger att CodeCombat hjälper dem att stödja elevernas förmåga att lösa problem"
     teachers_love_codecombat_subblurb: "I samarbete med McREL International, en ledare inom forskningsbaserad vägledning och utvärderingar av utbildningsteknik."
-    top_banner_blurb: "Föräldrar, ge ditt barn kodning och personlig instruktion som en present under ledigheten!"
+    top_banner_blurb: "Föräldrar, ge ditt barn kodning och personlig instruktion som en present under ledigheten!" # {change}
     try_the_game: "Prova spelet"
     classroom_edition: "Klassrumutgåven:"
     learn_to_code: "Lär dig koda:"
@@ -561,6 +561,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     chat: "Chat"
     chat_with_us: "Chatta med oss"
     email_us: "Skicka oss ett e-mail"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "sekund"
@@ -2288,6 +2290,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     ambassador_introduction: "Det är en gemenskap vi bygger, och du är anslutningarna. Vi har Olark-chatter, mail och sociala nätverk med många människor att prata med och hjälpa bekanta sig med spelet och lära sig från. Om du vill hjälpa människor att bli involverade och ha kul, och ha bra koll på CodeCombats puls och var vi är på väg, kanske det här är klassen för dig."
     ambassador_attribute_1: "Kommunikationsfärdigheter. Kunna identifiera problemen spelarna har och hjälpa till att lösa dem. Också att hålla resten av oss informerade om vad spelarna säger, vad de gillar och vad de inte gillar och vad de vill ha mer av!"
     ambassador_join_desc: "berätta om dig själv, vad du har gjort och vad du skulle vara intresserad av att göra. Vi tar det därifrån!"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "Få mail om supportuppdateringar och flerspelarutvecklingar"
 #    teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
     changes_auto_save: "Förändringar sparas automatiskt när du ändrar kryssrutor."
@@ -3143,3 +3148,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
 #    team: "team"
 #    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
+#    seasonal_play_cta: "Play Blazing Battle Multiplayer Arena"
+#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
+#    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
+#    join_now: "Join Now"

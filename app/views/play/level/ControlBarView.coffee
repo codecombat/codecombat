@@ -122,6 +122,8 @@ module.exports = class ControlBarView extends CocoView
         @homeViewArgs.push leagueType
         @homeViewArgs.push leagueID
         @homeLink += "/#{leagueType}/#{leagueID}"
+        if tournamentId = utils.getQueryVariable('tournament')
+          @homeLink += "?tournament=#{tournamentId}"
     else if @level.isType('course') or @courseID
       @homeLink = "/play"
       if @course?

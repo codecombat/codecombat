@@ -142,7 +142,7 @@ function skope(node) {
 
 	function process(node, parent) {
 		let next = (n) => process(n, node);
-		if ( !node.loc && node.node != "LineEmpty" ) {
+		if ( !node.loc && node.node != "LineEmpty" && node.node != "TraditionalComment" ) {
 			console.log("Node of type `" + node.node + "` doesn't have loc.");
 		}
 		switch (node.node) {
@@ -529,7 +529,7 @@ function javaifyEngine(ev) {
 			if(l > 2) {av.setImmediate('z', vals[2]); av.properties.z.enumerable = false;}
 			return av;
 		}
-		else{
+		else {
 			return amake(vals, realm);
 		}
 	}

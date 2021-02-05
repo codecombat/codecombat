@@ -82,6 +82,12 @@ Application = {
             zE('webWidget', 'open')
         )
         zE('webWidget:on', 'close', -> zE('webWidget', 'hide'))
+        zE('webWidget', 'updateSettings', {
+          webWidget: {
+            offset: { horizontal: '100px', vertical: '20px' }
+          }
+        })
+
 
       zendeskElement.src = 'https://static.zdassets.com/ekr/snippet.js?key=ed461a46-91a6-430a-a09c-73c364e02ffe'
       script = document.getElementsByTagName('script')[0]

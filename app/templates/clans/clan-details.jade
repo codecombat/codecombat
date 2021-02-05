@@ -29,7 +29,7 @@ block content
   .row
     .col-lg-6
       if clan
-        h1 #{clan.get('name')}
+        h1 #{clan.get('displayName') || clan.get('name')}
           if clan.get('type') === 'private'
             small(data-i18n="clans.private") (private)
           if clan.get('ownerID') === me.id
@@ -76,12 +76,16 @@ block content
         .small(data-i18n="clans.invite_2") *Invite players to this Clan by sending them this link.
 
     if arenas && arenas.length
-      .col-lg-6
+      .col-lg-4
         h2(data-i18n="play.campaign_multiplayer")
         p(data-i18n="clans.leagues_explanation")
         for arena in arenas
           h3
             a(href="/play/ladder/#{arena.slug}/clan/#{clan.id}")= i18n(arena, 'name')
+    .col-lg-2
+      h2 Tournament
+      a(href="/clans/#{clan.id}/tournaments")
+        | Go tournaments
 
   if members
     h3

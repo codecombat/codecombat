@@ -1,10 +1,22 @@
 /*!
  * jaba
  * 
+<<<<<<< variant A
  * Compiled: Mon Jan 25 2021 14:12:19 GMT+0800 (China Standard Time)
+>>>>>>> variant B
+ * Compiled: Mon Jan 25 2021 06:27:45 GMT-0800 (PST)
+####### Ancestor
+ * Compiled: Tue Jan 12 2021 15:19:56 GMT-0800 (PST)
+======= end
  * Target  : web (umd)
  * Profile : modern
+<<<<<<< variant A
  * Version : 2c21d19
+>>>>>>> variant B
+ * Version : 7d9aa3c
+####### Ancestor
+ * Version : ad6c740
+======= end
  * 
  * 
  * 
@@ -184,7 +196,7 @@ function skope(node) {
 
 	function process(node, parent) {
 		let next = (n) => process(n, node);
-		if ( !node.loc && node.node != "LineEmpty" ) {
+		if ( !node.loc && node.node != "LineEmpty" && node.node != "TraditionalComment" ) {
 			console.log("Node of type `" + node.node + "` doesn't have loc.");
 		}
 		switch (node.node) {
@@ -571,7 +583,7 @@ function javaifyEngine(ev) {
 			if(l > 2) {av.setImmediate('z', vals[2]); av.properties.z.enumerable = false;}
 			return av;
 		}
-		else{
+		else {
 			return amake(vals, realm);
 		}
 	}

@@ -92,6 +92,7 @@ module.exports = {
   'views/play/CampaignView': function () { return import(/* webpackChunkName: "play" */ 'views/play/CampaignView') },
   'views/ladder/LadderView': function () { return import(/* webpackChunkName: "ladder" */ 'views/ladder/LadderView') },
   'views/ladder/MainLadderView': function () { return import(/* webpackChunkName: "ladder" */ 'views/ladder/MainLadderView') },
+  'views/ladder/MainTournamentView': function () { return import(/* webpackChunkName: "tournament" */ 'views/ladder/MainTournamentView') },
   'views/play/level/PlayLevelView': function () { return import(/* webpackChunkName: "play" */ 'views/play/level/PlayLevelView') },
   'views/play/level/PlayLevelVideoView': function () { return import(/* webpackChunkName: "play" */ 'views/play/level/PlayLevelVideoView') },
   'views/play/level/PlayGameDevLevelView': function () { return import(/* webpackChunkName: "play" */ 'views/play/level/PlayGameDevLevelView') },
