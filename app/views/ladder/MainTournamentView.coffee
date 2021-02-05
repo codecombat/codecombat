@@ -33,13 +33,13 @@ module.exports = class MainLadderView extends RootView
     'click .create-button': 'onCreateTournament'
     'click .input-submit': 'onSubmitEditing'
 
-  initialize: (options, @clan)->
+  initialize: (options, @clanId)->
     super()
     @levelStatusMap = []
     @levelPlayCountMap = []
     @campaigns = campaigns
     @tournaments = []
-    tournaments = new CocoCollection([], {url: "/db/tournaments?clan=#{@clan}", model: Tournament})
+    tournaments = new CocoCollection([], {url: "/db/tournaments?clan=#{@clanId}", model: Tournament})
     @listenTo tournaments, 'sync', =>
       @tournaments = (t.toJSON() for t in tournaments.models)
       @render?()
@@ -90,7 +90,7 @@ module.exports = class MainLadderView extends RootView
       name: level.name,
       levelOriginal: level.original,
       slug: level.id
-      clan: @clan,
+      clan: @clanId,
       startDate: new Date(),
       endDate: undefined,
       editing: 'new'
