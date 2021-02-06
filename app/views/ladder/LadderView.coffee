@@ -182,12 +182,12 @@ module.exports = class LadderView extends RootView
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
     unless @tournamentState is 'ended'
-      @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions))
+      @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
       @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
     else
       # @removeSubView(@ladderTab)
       # @removeSubView(@myMatchesTab)
-      @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions, @tournamentId))
+      @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions, @tournamentId))
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
@@ -236,6 +236,8 @@ module.exports = class LadderView extends RootView
     if @tournamentId
       $.ajax
         url: "/db/tournament/#{@tournamentId}/end"
+        data:
+          sessionLimit: 500
         type: 'POST'
         success: (res) ->
           console.log res
