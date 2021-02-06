@@ -61,8 +61,8 @@ module.exports = class MainLadderView extends RootView
 
   onSubmitEditing: (e) ->
     attrs = forms.formToObject($(e.target).closest('.editable-tournament-form'))
-    attrs.startDate = moment(attrs.startDate).toDate()
-    attrs.endDate = moment(attrs.endDate).toDate()
+    attrs.startDate = moment(attrs.startDate).toISOString()
+    attrs.endDate = moment(attrs.endDate).toISOString()
     Object.assign(@editableTournament, attrs)
     if @editableTournament.editing is 'new'
       $.ajax({
