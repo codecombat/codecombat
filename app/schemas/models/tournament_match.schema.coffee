@@ -7,8 +7,7 @@ TournamentMatchSchema = c.object
 _.extend TournamentMatchSchema.properties,
   tournament: c.objectId()
   opponents:
-    type: 'array'
-    items: 'string'
+    type: 'string'   # use id1:id2 here to avoid mongo cannot unique index on array
   winner:
     type: 'string'
   type:

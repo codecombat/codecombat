@@ -397,7 +397,7 @@ module.exports = class Simulator extends CocoClass
         metrics:
           rank: @calculateSessionRank session.sessionID, simulationResults.goalStates, @task.generateTeamToSessionMap()
         shouldUpdateLastOpponentSubmitDateForLeague: session.shouldUpdateLastOpponentSubmitDateForLeague
-      if @task.tournamentId?
+      if @task.getTournamentId()?
         sessionResult.submissionId = session.submissionID
       if session.sessionID is taskResults.originalSessionID
         taskResults.originalSessionRank = sessionResult.metrics.rank
