@@ -10,7 +10,7 @@ else
     span(data-i18n="play_level.tome_cast_button_ran") Ran
 
   if !view.observing
-    if view.mirror 
+    if view.mirror || view.options.level.isType('ladder')
       .ladder-submission-view
     else
       button.btn.btn-lg.btn-illustrated.submit-button(title=view.castRealTimeVerbose())
