@@ -386,6 +386,7 @@ _.extend LevelSchema.properties,
   password: { type: 'string', description: 'The password required to create a session for this level' }
   mirrorMatch: { type: 'boolean', description: 'Whether a multiplayer ladder arena is a mirror match' }
   codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'CodePoints that can be earned for completing this level'}
+  clans: c.array {description: 'if set, only allow the users in these clans to access the level', format: 'clans-list'}, c.objectId()
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema

@@ -16,7 +16,7 @@ module.exports = class SettingsTabView extends CocoView
 
   # not thangs or scripts or the backend stuff
   editableSettings: [
-    'name', 'description', 'documentation', 'nextLevel', 'victory', 'i18n', 'goals',
+    'name', 'description', 'documentation', 'nextLevel', 'victory', 'i18n', 'goals', 'clans',
     'type', 'kind', 'terrain', 'banner', 'loadingTip', 'requiresSubscription', 'adventurer', 'adminOnly',
     'helpVideos', 'replayable', 'scoreTypes', 'concepts', 'primaryConcepts', 'picoCTFProblem', 'practice', 'assessment',
     'practiceThresholdMinutes', 'primerLanguage', 'shareable', 'studentPlayInstructions', 'requiredCode', 'suspectCode',
@@ -56,6 +56,7 @@ module.exports = class SettingsTabView extends CocoView
         'solution-stats': SolutionStatsNode
         concept: ConceptNode
         'concepts-list': ConceptsListNode
+        'clans-list': ClansListNode
       solutions: @level.getSolutions()
 
     @settingsTreema = @$el.find('#settings-treema').treema treemaOptions
@@ -184,3 +185,6 @@ class ConceptsListNode extends TreemaNode.nodeMap.array
     return -1 if aAutomatic and not bAutomatic  # Auto before manual
     return 0 if not aAutomatic and not bAutomatic  # No ordering within manual
     super a, b  # Alpha within auto
+
+class ClansListNode extends TreemaNode.nodeMap.array
+  nodeDescription: 'ClansList'
