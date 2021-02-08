@@ -1479,6 +1479,7 @@ module.exports = class CampaignView extends RootView
       return @campaign?.get('slug') is 'game-dev-hoc'
 
     if what is 'league-arena'
+      return false if me.showChinaResourceInfo()
       return @campaign?.get('slug') in ['dungeon', 'intro']
 
     return true
