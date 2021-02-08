@@ -190,9 +190,8 @@ module.exports = class PlayLevelView extends RootView
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
 
-  checkInClan: (clans) ->
-    return false unless clans
-    return true in (id in clans for id in me.get('clans'))
+  hasAccessThroughClan: (level) ->
+    _.intersection(level.get('clans') ? [], me.get('clans') ? []).length
 
   onLevelLoaded: (e) ->
     return if @destroyed
@@ -202,7 +201,7 @@ module.exports = class PlayLevelView extends RootView
       not e.level.isType('course-ladder', 'ladder')
 
       # TODO: Add a general way for standalone levels to be accessed by students, teachers
-      not @checkInClan(e.level.get('clans'))
+      not @hasAccessThroughClan(e.level)
       e.level.get('slug') not in ['peasants-and-munchkins',
                                   'game-dev-2-tournament-project',
                                   'game-dev-3-tournament-project']
