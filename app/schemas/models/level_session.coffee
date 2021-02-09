@@ -71,6 +71,14 @@ _.extend LevelSessionSchema.properties,
       additionalProperties: c.object {},
         contentType: c.shortString { enum: ['cinematic', 'cutscene-video', 'interactive'] }
         complete: { type: 'boolean' }
+        cinematicActionLog:
+          description: 'tracks action log of user - how much time user spent, did user skip prompt'
+          type: 'array'
+          items: c.object {},
+            skip: { type: 'boolean', description: 'did user skip prompt before it got played till completion?' }
+            prompt: { type: 'string', description: 'hash of text shown in prompt' }
+            spent: { type: 'integer', description: 'time spent on prompt in seconds' }
+            next: { type: 'string', enum: ['F', 'B'], description: 'did user go Forward(F) or Backward(B)?' }
     scripts: c.object {},
       ended:
         type: 'object'
@@ -165,27 +173,27 @@ _.extend LevelSessionSchema.properties,
 
   codeLanguage:
     type: 'string'
-    
+
   codeConcepts:
     type: 'array'
     items:
-      type: 'string'    
+      type: 'string'
 
   playtime:
     type: 'number'
     title: 'Playtime'
     description: 'The total playtime on this session in seconds'
-    
+
   hintTime:
     type: 'number'
     title: 'Hint Time'
     description: 'The total time hints viewed in seconds'
-    
+
   timesCodeRun:
     type: 'number'
     title: 'Times Code Run'
     description: 'The total times the code has been run'
-    
+
   timesAutocompleteUsed:
     type: 'number'
     title: 'Times Autocomplete Used'
