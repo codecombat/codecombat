@@ -5,7 +5,7 @@ DEFAULT_DISPLAY_OPTIONS = {
   fontSize: '16px',
   fontFamily: 'Arial',
   fontColor: '#FFFFFF',
-  templateString: '{<%= x %>, <%= y %>}',
+  templateString: '<%= x %>, <%= y %>',
   backgroundFillColor: 'rgba(0,0,0,0.4)',
   backgroundStrokeColor: 'rgba(0,0,0,0.6)',
   backgroundStroke: 1,
@@ -24,6 +24,8 @@ module.exports = class CoordinateDisplay extends createjs.Container
     'surface:stage-mouse-down': 'onMouseDown'
     'camera:zoom-updated': 'onZoomUpdated'
     'level:flag-color-selected': 'onFlagColorSelected'
+    'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
+    'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
 
   constructor: (options) ->
     super()
@@ -34,6 +36,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     console.error @toString(), 'needs a camera.' unless @camera
     console.error @toString(), 'needs a layer.' unless @layer
     @build()
+    @disabled = false
     @performShow = @show
     @show = _.debounce @show, 125
     Backbone.Mediator.subscribe(channel, @[func], @) for channel, func of @subscriptions
@@ -60,6 +63,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
   onMouseOut: (e) -> @mouseInBounds = false
 
   onMouseMove: (e) ->
+    return if @disabled
     wop = @camera.screenToWorld x: e.x, y: e.y
     if key.alt
       wop.x = Math.round(wop.x * 1000) / 1000
@@ -94,6 +98,14 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
   onFlagColorSelected: (e) ->
     @placingFlag = Boolean e.color
+
+  onRealTimePlaybackStarted: (e) ->
+    return if @disabled
+    @disabled = true
+    @hide()
+
+  onRealTimePlaybackEnded: (e) ->
+    @disabled = false
 
   hide: ->
     return unless @label.parent
