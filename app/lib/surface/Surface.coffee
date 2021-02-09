@@ -163,7 +163,8 @@ module.exports = Surface = class Surface extends CocoClass
     @coordinateGrid.showGrid() if @world.showGrid or @options.grid
     @showCoordinates = if @options.coords? then @options.coords else @world.showCoordinates
     if @showCoordinates
-      @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer, displayOptions: @world.showCoordinatesOptions
+      coordinateOptions = if @options.showInvisible then {} else @world.showCoordinatesOptions
+      @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer, displayOptions: coordinateOptions
 
   hookUpChooseControls: ->
     chooserOptions = stage: @webGLStage, surfaceLayer: @surfaceTextLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
