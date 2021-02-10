@@ -925,6 +925,15 @@
   .shepherd-header-stationary-young-salazar:not(:disabled):hover
     background-image: url('/images/ozaria/level/Static_YoungSalazar.png')
 
+  .shepherd-header-moving-dragon-salazar
+    background-image: url('/images/ozaria/level/Moving_Dragon.png')
+  .shepherd-header-moving-dragon-salazar:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Moving_Dragon.png')
+  .shepherd-header-stationary-dragon-salazar
+    background-image: url('/images/ozaria/level/Static_Dragon.png')
+  .shepherd-header-stationary-dragon-salazar:not(:disabled):hover
+    background-image: url('/images/ozaria/level/Static_Dragon.png')
+
   .shepherd-header-moving-astra
     background-image: url('/images/ozaria/level/Moving_Astra.png')
   .shepherd-header-moving-astra:not(:disabled):hover
