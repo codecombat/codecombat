@@ -8,6 +8,12 @@ export default {
       required: false,
       default: () => ([])
     },
+
+    label: {
+      type: String,
+      required: false,
+      default: 'Search teams'
+    }
   },
 
   data: () => ({
@@ -18,21 +24,14 @@ export default {
 
   watch: {
     childClans (newVal) {
-      if (!this.flexsearch) {
-        this.flexsearch = new FlexSearch()
-      }
-
-      this.flexsearch.destroy().init({
-        tokenize: 'full',
-        depth: 3,
-        doc: {
-          id: '_id',
-          field: 'displayName'
-        }
-      })
-
+      this.createNewFlexSearch()
       this.flexsearch.add(newVal)
     }
+  },
+
+  created () {
+    this.createNewFlexSearch()
+    this.flexsearch.add(this.childClans)
   },
 
   computed: {
@@ -59,6 +58,30 @@ export default {
       setTimeout(() => {
         this.suggestions = []
       }, 150)
+    },
+
+    getClanKindDisplay (clan) {
+      if (clan.kind === 'school') {
+        return 'School:'
+      } else if (clan.kind === 'school-subnetwork') {
+        return 'SubNetwork:'
+      }
+      return ''
+    },
+
+    createNewFlexSearch () {
+      if (!this.flexsearch) {
+        this.flexsearch = new FlexSearch()
+      }
+
+      this.flexsearch.destroy().init({
+        tokenize: 'full',
+        depth: 3,
+        doc: {
+          id: '_id',
+          field: 'displayName'
+        }
+      })
     }
   }
 }
@@ -66,8 +89,7 @@ export default {
 
 <template>
   <div class="form-group child-clan-search">
-    <p class="control-label">Search School teams:</p>
-    <input class="form-control" v-model="inputVal" name="child-clan-search" autocomplete="off" placeholder="School Name" @focus="handleFocusInput" @blur="handleBlurInput"/>
+    <input class="form-control" v-model="inputVal" name="child-clan-search" autocomplete="off" :placeholder="label || 'Search School teams'" @focus="handleFocusInput" @blur="handleBlurInput"/>
     <div class="suggestion-wrapper">
       <div class="list-group">
         <div
@@ -75,7 +97,7 @@ export default {
           :key="child._id"
           class="list-group-item"
         >
-          <div><a :href="`/league/${child._id}`">{{child.displayName}}</a></div>
+          <div><a :href="`/league/${child._id}`">{{`${getClanKindDisplay(child)} ${child.displayName}`}}</a></div>
           <div>{{child.memberCount}}</div>
         </div>
       </div>
@@ -86,7 +108,7 @@ export default {
 
 <style lang="scss" scoped>
 .child-clan-search {
-  margin-bottom: 30px;
+  margin: 0;
 }
 
 .form-control {
@@ -118,5 +140,6 @@ export default {
   width: 100%;
   max-height: 40vh;
   overflow-y: scroll;
+  z-index: 10;
 }
 </style>

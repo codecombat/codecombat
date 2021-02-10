@@ -14,4 +14,4 @@ export const leaveClan = clanId => fetchJson(`/db/clan/${clanId}/leave`, {
   method: 'PUT'
 })
 
-export const getChildClanDetails = idOrSlug => fetchJson(`/db/clan/${idOrSlug}/children`)
+export const getChildClanDetails = idOrSlug => fetchJson(`/db/clan/${idOrSlug}/subclans`)
