@@ -346,7 +346,6 @@ export default {
       <div class="col-sm-7">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
-        <ChildClanDetailDropdown v-if="currentSelectedClanChildDetails.length > 0" :childClans="currentSelectedClanChildDetails"/>
         <p style="margin-bottom: 14px;">Invite players to this team by sending them this link:</p>
         <input readonly style="margin-bottom: 40px;" :value="clanInviteLink()" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
@@ -357,8 +356,17 @@ export default {
     </div>
 
     <div class="row text-center">
-      <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
-      <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
+      <div class="team-banner-container">
+        <div class="flex-spacer" />
+        <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
+        <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
+        <ChildClanDetailDropdown
+           v-if="currentSelectedClanChildDetails.length > 0"
+          :label="`Search ${currentSelectedClanName} teams`"
+          :childClans="currentSelectedClanChildDetails"
+        />
+        <div v-else class="flex-spacer" />
+      </div>
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
       <div class="col-lg-6 section-space">
         <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" class="leaderboard-component" style="color: black;" />
@@ -834,6 +842,16 @@ export default {
   }
   .w-100 {
     width: 100%;
+  }
+
+  .team-banner-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    & > * {
+      flex: 1;
+    }
   }
 
   @media screen and (min-width: 768px) {
