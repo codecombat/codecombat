@@ -77,7 +77,7 @@ export default {
           return
         }
 
-        if (this.currentSelectedClan?.kind === 'school-network') {
+        if (['school-network', 'school-subnetwork'].includes(this.currentSelectedClan?.kind)) {
           this.fetchChildClanDetails({ id: this.currentSelectedClan._id })
         }
 
