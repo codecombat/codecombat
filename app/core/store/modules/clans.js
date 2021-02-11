@@ -90,7 +90,6 @@ export default {
 
     async fetchChildClanDetails ({ commit }, { id }) {
       const childClans = await getChildClanDetails(id)
-      console.log(childClans)
       commit('setClanDetails', { clanId: id, childClans })
     }
   }
