@@ -65,6 +65,11 @@ export default {
       this.suggestions = this.childClans
     },
 
+    clearInput () {
+      this.suggestions = []
+      this.inputVal = ""
+    },
+
     handleBlurInput () {
       // Needs to take some time in case the user has clicked a suggestion in the dropdown.
       setTimeout(() => {
@@ -103,7 +108,12 @@ export default {
         </svg>
       </span>
       <input class="form-control" v-model="inputVal" name="child-clan-search" autocomplete="off" :placeholder="label || 'Search School teams'" @focus="handleFocusInput" @blur="handleBlurInput"/>
-      <span class="input-group-addon">
+      <div v-if="this.inputVal !== ''" class="input-group-btn input-group-addon" style="cursor: pointer;" @click="clearInput">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+        </svg>
+      </div>
+      <span v-else class="input-group-addon">
         {{`${childClans.length} teams`}}
       </span>
     </div>
@@ -120,7 +130,7 @@ export default {
           class="list-group-item school-subnetwork"
           @click="() => navigateToTeamLeaguePage(child.slug)"
         >
-          <div><span>{{ child.displayName }}</span></div>
+          <div class="name-style"><span>{{ child.displayName }}</span></div>
           <div class="member-counts">
             <span>{{child.memberCount}}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
@@ -140,7 +150,7 @@ export default {
           class="list-group-item school"
           @click="() => navigateToTeamLeaguePage(child.slug)"
         >
-          <div><span>{{ child.displayName }}</span></div>
+          <div class="name-style"><span>{{ child.displayName }}</span></div>
           <div class="member-counts">
             <span>{{child.memberCount}}</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
@@ -229,6 +239,14 @@ export default {
   svg {
     margin-left: 12px;
   }
+}
+
+.name-style {
+  flex: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
 }
 
 .list-group {

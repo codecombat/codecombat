@@ -356,17 +356,14 @@ export default {
     </div>
 
     <div class="row text-center">
-      <div class="team-banner-container">
-        <div class="flex-spacer" />
-        <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
-        <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
-        <ChildClanDetailDropdown
-           v-if="currentSelectedClanChildDetails.length > 0"
-          :label="`Search ${currentSelectedClanName} teams`"
-          :childClans="currentSelectedClanChildDetails"
-        />
-        <div v-else class="flex-spacer" />
-      </div>
+      <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
+      <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
+      <ChildClanDetailDropdown
+        v-if="currentSelectedClanChildDetails.length > 0"
+        :label="`Search ${currentSelectedClanName} teams`"
+        :childClans="currentSelectedClanChildDetails"
+        class="clan-search"
+      />
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
       <div class="col-lg-6 section-space">
         <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" class="leaderboard-component" style="color: black;" />
@@ -844,14 +841,10 @@ export default {
     width: 100%;
   }
 
-  .team-banner-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    & > * {
-      flex: 1;
-    }
+  .clan-search {
+    margin: 12px auto;
+    width: 90%;
+    max-width: 510px;
   }
 
   @media screen and (min-width: 768px) {
