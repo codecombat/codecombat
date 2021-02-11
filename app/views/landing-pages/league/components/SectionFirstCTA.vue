@@ -36,6 +36,9 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+p {
+  color: white;
+}
 
 .text-code-section {
   width: 100%;

@@ -614,7 +614,7 @@ export default {
     font-size: 70px;
   }
 
-  ::v-deep p, h4 {
+  p, h4 {
     color: white;
   }
 
