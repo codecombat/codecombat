@@ -124,6 +124,7 @@ module.exports = class SegmentedSprite extends createjs.Container
 
   buildMovieClip: (animationName, mode, startPosition, loops) ->
     key = JSON.stringify([@spriteSheetPrefix].concat(arguments))
+    @spriteSheet.mcPool ?= {}
     @spriteSheet.mcPool[key] ?= []
     for mc in @spriteSheet.mcPool[key]
       if not mc.inUse
