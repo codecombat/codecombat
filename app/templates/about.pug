@@ -352,7 +352,7 @@ block content
 
           li
             .profile-pic
-              a(href="https://www.linkedin.com/in/saurabh-patel/" rel="external")
+              a(href="https://www.linkedin.com/in/saurabh-patel/" rel="external" target="_blank")
                 //img(src="/images/pages/about/team-avatars/saurabh-avatar.png").img-thumbnail.avatar
                 img(src="/images/pages/about/placeholder.png").img-thumbnail.avatar
                 img(src="/images/pages/about/team-headshots/saurabh-headshot.jpeg").img-thumbnail.headshot
@@ -473,10 +473,21 @@ block content
                 li.small(data-i18n="about.jobs_benefit_4")
                 li.small(data-i18n="about.jobs_benefit_5")
 
-          .col-sm-6.col-md-5.col-lg-4
+
+          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
-              h5 (No Open Roles)
-              p.small Check back later for updates on new positions at CodeCombat.
+              h5 Sales Development Representative
+                .text-center
+                  small.label
+                    | Remote
+                p.small CodeCombat is hiring sales development representatives to introduce our computer science education products to educators across the world.
+                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/96aeca22-63a8-491e-83b0-499af3f9b006?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
+                  span(data-i18n="about.learn_more")
+
+          //.col-sm-6.col-md-5.col-lg-4
+          //  .job-listing
+          //    h5 (No Open Roles)
+          //    p.small Check back later for updates on new positions at CodeCombat.
 
       #contact.anchor
         .text-center
