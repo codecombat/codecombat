@@ -43,8 +43,8 @@ export default {
       if (this.inputVal === '') {
         return this.suggestions
       }
-
-      return this.flexsearch.search({ query: this.inputVal, suggest: true })
+      // Sometimes flexsearch returns duplicates breaking unique key invariant in UI.
+      return _.unique(this.flexsearch.search({ query: this.inputVal, suggest: true }) || [], '_id')
     },
 
     subNetworkSuggestions () {
