@@ -4,6 +4,9 @@ import Leaderboard from './components/Leaderboard'
 import ClanSelector from './components/ClanSelector.vue'
 import LeagueSignupModal from './components/LeagueSignupModal'
 import ClanCreationModal from './components/ClanCreationModal'
+import ChildClanDetailDropdown from './components/ChildClanDetailDropdown'
+import SectionFirstCTA from './components/SectionFirstCTA'
+
 import { joinClan, leaveClan } from '../../../core/api/clans'
 
 export default {
@@ -11,7 +14,9 @@ export default {
     Leaderboard,
     ClanSelector,
     LeagueSignupModal,
-    ClanCreationModal
+    ClanCreationModal,
+    ChildClanDetailDropdown,
+    SectionFirstCTA
   },
 
   data: () => ({
@@ -48,6 +53,7 @@ export default {
       loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
       loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
       fetchClan: 'clans/fetchClan',
+      fetchChildClanDetails: 'clans/fetchChildClanDetails'
     }),
 
     changeClanSelected (e) {
@@ -71,6 +77,13 @@ export default {
           // Default to global page
           application.router.navigate('league', { trigger: true })
           return
+        }
+
+        if (['school-network', 'school-subnetwork'].includes(this.currentSelectedClan?.kind)) {
+          this.fetchChildClanDetails({ id: this.currentSelectedClan._id })
+            .catch(() => {
+              console.error('Failed to retrieve child clans.')
+            })
         }
 
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
@@ -208,6 +221,7 @@ export default {
       clanLeaderboardPlayerCount: 'seasonalLeague/clanLeaderboardPlayerCount',
       codePointsRankings: 'seasonalLeague/codePointsRankings',
       myClans: 'clans/myClans',
+      childClanDetails: 'clans/childClanDetails',
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading',
       isStudent: 'me/isStudent',
@@ -216,6 +230,19 @@ export default {
 
     currentSelectedClan () {
       return this.clanByIdOrSlug(this.clanIdOrSlug) || null
+    },
+
+    isGlobalPage () {
+      return this.clanIdSelected === ''
+    },
+
+    currentSelectedClanChildDetails () {
+      const selectedId = this.clanIdSelected
+      if (selectedId === '') {
+        return []
+      }
+      const result = this.childClanDetails(selectedId)
+      return result
     },
 
     clanIdSelected () {
@@ -305,21 +332,7 @@ export default {
       </div>
     </section>
 
-    <div class="graphic text-code-section">
-      <img class="img-responsive" src="/images/pages/league/text_code.svg" width="501" height="147" />
-    </div>
-    <div class="row flex-row text-center">
-      <p
-        class="subheader2"
-        style="max-width: 800px;"
-      >{{ $t('league.summary') }}</p>
-    </div>
-    <div v-if="!doneRegistering && !isClanCreator()" class="row flex-row text-center xs-m-0">
-      <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
-    </div>
-    <div class="graphic text-2021-section section-space">
-      <img class="img-responsive" src="/images/pages/league/text_2021.svg" width="501" height="147" />
-    </div>
+    <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
 
     <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
       <div class="col-sm-5">
@@ -340,6 +353,12 @@ export default {
     <div class="row text-center">
       <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
       <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
+      <ChildClanDetailDropdown
+        v-if="currentSelectedClanChildDetails.length > 0"
+        :label="`Search ${currentSelectedClanName} teams`"
+        :childClans="currentSelectedClanChildDetails"
+        class="clan-search"
+      />
       <p>Use your coding skills and battle strategies to rise up the ranks!</p>
       <div class="col-lg-6 section-space">
         <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" class="leaderboard-component" style="color: black;" />
@@ -355,6 +374,8 @@ export default {
         <a v-else href="/play" class="btn btn-large btn-primary btn-moon play-btn-cta">Earn CodePoints by completing levels</a>
       </div>
     </div>
+
+    <SectionFirstCTA v-if="!isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
 
     <section class="row flex-row free-to-get-start" :class="clanIdSelected === '' ? 'free-to-get-start-bg':''">
       <div class="col-sm-10">
@@ -605,7 +626,7 @@ export default {
     color: #f7d047;
   }
 
-  /deep/ .esports-aqua {
+  ::v-deep .esports-aqua {
     color: #30efd3;
   }
 
@@ -659,7 +680,7 @@ export default {
     margin: 25px 0;
   }
 
-  .row.flex-row {
+  ::v-deep .row.flex-row {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -748,7 +769,7 @@ export default {
     font-size: 72px;
   }
 
-  .subheader2 {
+  ::v-deep .subheader2 {
     font-size: 29px;
     line-height: 40px;
   }
@@ -774,25 +795,16 @@ export default {
     color: #000;
   }
 
-  .text-2021-section {
-    width: 100%;
-    overflow-x: hidden;
-    display: flex;
-    justify-content: flex-end;
-  }
-
   .text-are-you-an-educator {
     justify-content: flex-start;
     margin-top: 100px;
   }
-  .text-code-section {
-    width: 100%;
-    overflow-x: hidden;
-  }
+
   .esports-flyer-optimized-section {
     margin-bottom: 100px;
   }
-  .btn-primary.btn-moon {
+
+  ::v-deep .btn-primary.btn-moon {
     background-color: #d1b147;
     border-radius: 4px;
     color: #232323;
@@ -810,24 +822,30 @@ export default {
     }
   }
 
-  .section-space {
+  ::v-deep .section-space {
     margin-bottom: 110px;
   }
   .w-100 {
     width: 100%;
   }
 
+  .clan-search {
+    margin: 12px auto;
+    width: 90%;
+    max-width: 510px;
+  }
+
   @media screen and (min-width: 768px) {
-    .btn-primary.btn-moon, .play-btn-cta {
+    ::v-deep .btn-primary.btn-moon, .play-btn-cta {
       padding: 20px 100px;
     }
-    .section-space {
+    ::v-deep .section-space {
       margin-bottom: 200px;
     }
   }
 
   @media screen and (max-width: 767px) {
-    .row.flex-row {
+    ::v-deep .row.flex-row {
       display: table;
     }
 
@@ -835,7 +853,7 @@ export default {
       padding: 0px;
     }
 
-    .btn-primary.btn-moon {
+    ::v-deep .btn-primary.btn-moon {
       font-size: 14px;
       padding: 8px 24px;
     }
@@ -866,24 +884,19 @@ export default {
       border-color: #000;
       padding: 0px;
     }
-    .text-2021-section {
-      margin-bottom: auto;
-      padding: 0 10px;
-    }
+
     .text-are-you-an-educator {
       margin-top: auto;
       text-align: center;
     }
-    .text-code-section {
-      padding: 0 10px;
-    }
+
     .esports-flyer-optimized-section {
       margin-bottom: 0px;
     }
     .xs-centered {
       text-align: center;
     }
-    .xs-m-0 {
+    ::v-deep .xs-m-0 {
       margin: 0px;
     }
     .xs-mt-0 {
