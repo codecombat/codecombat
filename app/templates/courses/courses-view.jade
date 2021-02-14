@@ -143,7 +143,7 @@ block content
                       +course-instance-body(courseInstance, classroom)
                       .clearfix
 
-            if me.isInAcademicaClan()
+            if me.isInAcademicaClan() && !me.showChinaResourceInfo()
               #announcement
                 h5 You can still learn and play without a classroom!
                 ul
@@ -151,7 +151,7 @@ block content
                     b Start by playing the free Hour of Code campaign by <a href='/play/hoc-2018'>clicking here</a>.
                   li Then compete in the Blazing Battles esports arena <a href='/play/ladder/blazing-battle'>here</a>.
             
-            if (!me.isInAcademicaClan() && ((me.get('stats') || {}).codePoints || 0) > 30)
+            if (!me.isInAcademicaClan() && ((me.get('stats') || {}).codePoints || 0) > 30 && !me.showChinaResourceInfo())
               #esports-announcement.flex-container
                 .row.flex-row
                   .col-md-5
