@@ -67,11 +67,9 @@ You have a few options when transitioning back to CodeCombat, depending on how y
 Fundamental programming concepts that are introduced in Ozaria will be used in CodeCombat, including variables, conditionals, and debugging. Students will be able to practice and expand on these skills with CodeCombat levels that vary in design and gameplay from Ozaria levels.
 
 ### How much Ozaria content is there?
-We estimate that Chapter 1 (free unit) will take around 1-2 hours, and that all subsequent chapters will take around 7-8 hours.
+We estimate that the in-game and lesson slide content for Chapter 1: Sky Mountain (free unit) can take up to 10 class sessions* and Chapters 1-4 can take up to 85 class sessions. However, we've developed our content so that that it's flexible so that you can adjust the duration of Ozaria to fit your classroom's needs. For example, here is a [pacing guide](https://docs.google.com/spreadsheets/d/1EbWMXI1-0697csaM_NCZLUWvJKed5ayFGlC73I7rztk/edit#gid=0) that breaks up Ozaria content into weeks. 
 
-**For teachers with licenses, once Ozaria content is finished, teachers can create a CodeCombat classroom and have their students continue to learn CS skills using CodeCombat material new Ozaria content is developed.**
-
-<!-- We are aiming for having 1-2 additional chapters (at 7-8 hours each) by January 2020, with the overall target of allowing any classroom that starts in January 2020 to not run out of Ozaria content for the remainder of the school year. -->
+*We approximate one class session as a standard 50 minute class. You can also find more time estimates in the Curriculum Guide section of your teacher dashboard.
 
 ### What ages or grades are appropriate for Ozaria?
 Ozaria, like CodeCombat, is recommended for middle and high schools, or elementary students in 4th or 5th grade.
@@ -103,9 +101,9 @@ We currently support Python and JavaScript.
 JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python.
 
 ### Can I use Ozaria as the class’s main curriculum?
-Absolutely! Ozaria is built by former educators and with feedback from current educators to craft the classroom curriculum and teacher resources. The tools and resources are built for all educators, even those who are using Ozaria without any prior computer science experience themselves.
+Absolutely! Ozaria's in-game content and lesson slides meet every middle school Computer Science Teacher Association (CSTA) standard. Built by educators, our turnkey tools and resources are comprehensive so that educators can use Ozaria without any prior computer science experience themselves. We've also included distance learning strategies and ensured that all of our lesson slide activities can be completed via distance learning.
 
-We’ve published a set of curriculum resources in our [Resource Hub](/teachers/resources), which includes lesson plans, best practices for implementation, and rubrics for projects. In addition, we provide level and interactives solutions for Chapter 1 and all subsequent chapters so teachers can help spot and correct errors in student work as they come up.
+Each chapter and module comes with [lesson slides](https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing) that you can use to guide students through their Ozaria journey while showcasing real-world connections. There are also additional curriculum resources in our [Resource Hub](/teachers/resources), which includes best practices for implementation, pacing guides, standards alignment, and tutorials. Last but not least, we provide solutions for every chapter so teachers can help spot and correct errors in student work as they come up.
 
 ### What sort of teacher support will be provided in Ozaria?
 Teachers will have lesson plans similar to the curriculum guides for CodeCombat, with less focus on specific concept activities, since students will be learning most of the content inside the game itself. We also aim to create supplemental materials like PowerPoints and additional guides sometime after initial launch.
@@ -132,15 +130,15 @@ These are the formative checks for student knowledge presented in a 'multiple-ch
 Each Ozaria unit/chapter will also conclude with an opportunity for students to create their own project. Since these opportunities will now be built into every chapter, we anticipate that they will do a much better job of demonstrating to students the real-world opportunities that computer science can open up for them. Capstone projects will feature more structural support in the form of the in-game helper and Intros, which will guide the students through high-level steps to complete each project.
 
 ### Will there be Challenge Levels?
-Challenge levels will not be part of the Chapter 1: Up The Mountain. However, there will be challenge levels in Chapter 2: The Moon Dancers and all subsequent chapters.
-
-<!-- Students will know when they are working through a challenge level. The first submission of student code will be taken for assessment to the teacher. This will be stated clearly to students. If their submission is incorrect, they will be able to retry and the number of subsequent submissions will be recorded until they reach the correct level goals. -->
+Challenge levels are introduced in Chapter 2: The Moon Dancers and used throughout all subsequent chapters.
 
 There may be multiple solutions to a given challenge level, but they will be evaluated based on:
+
 1. Completing the game goals
 2. Including any required game constructs
 
 Challenge levels will communicate to teachers how individual students did on given topics and how best to give feedback based on those topics. For example, if a challenge level assesses if statements, the challenge level might break down into three key skills:
+
 1. Writing an if/else conditional with proper syntax
 2. Choosing the correct condition to test
 3. Meeting all goals of the level
@@ -148,9 +146,13 @@ Challenge levels will communicate to teachers how individual students did on giv
 The teacher will receive feedback on whether students reached some or all of these goals.
 
 ### How do I assess my students’ grasp of concepts?
-Challenge levels will be in Chapter 2: The Moon Dancers and all subsequent chapters (there are no challenge levels in Chapter 1: Up The Mountain). We'll also be formatively assessing students via Interactives with teacher dashboard support for viewing that data to be developed post-launch. Interactives will provide frequent formative assessments as students will be presented with introductory content and then their understanding will be checked through pop-up windows that they will have to complete before moving onto the level.
+In Ozaria, students are presented with introductory content and then their understanding is checked through frequent formative assessment activities that they will have to complete before moving onto the level. The teacher dashboard lets you check each student's performance on these concept checks including the number of attempts to get to the correct answer.
 
-Also, we will be providing rubrics for Capstone projects alongside the launch of each chapter. There will be one Capstone project at the end of every chapter, including the Chapter 1: Up The Mountain. Capstones will serve as the initial primary summative assessments, and we will support teachers with clear rubrics on assessing student performance for these levels.
+The lesson slides also contain unplugged coding concept checks and project-based assessments that you can use via whole classroom, small group, or distance learning instruction.
+
+As students develop mastery in specific coding concepts, they complete open-ended challenge levels where they can apply their knowledge. Challenge levels are found in Chapter 2: The Moon Dancers and all subsequent chapters (there are no challenge levels in Chapter 1: Sky Mountain). The teacher dashboard then lets you compare each student's solution against a suggested solution to help you evaluate their coding abilities.
+
+Additionally, there is one Capstone coding project at the end of every chapter, where students create their own game. We provide evaluation rubrics so that you can use Capstone projects as your primary summative assessments.
 
 ### Can students skip earlier levels if they already understand the concepts?
 No. We strongly encourage that all students play every level even if they already know the concepts, so that they can reinforce their knowledge. The levels are carefully planned out to build confidence and progress student’s knowledge of core concepts in a scaffolded way that prepares them for harder, more advanced units.
@@ -166,7 +168,7 @@ Teachers can compare each student’s level code to the Ozaria suggested solutio
 ### Where can I find the solutions to all levels?
 Solutions to each level can be found in the [Unit Guides](/teachers/units) page -- to view the solutions, navigate to a unit, then click the Level Solutions guide for either JavaScript or Python.
 
-All teachers have access to solutions for Chapter 1: Up The Mountain. Teachers who have paid student licenses have access to solutions for all chapters.
+All teachers have access to solutions for Chapter 1: Sky Mountain. Teachers who have paid student licenses have access to solutions for all chapters.
 
 ### How much does it cost to access all of the available units and resources?
 We customize solutions for schools and districts and work with you to understand your use case, context, and budget. Contact schools@ozaria.com for further details!
@@ -175,10 +177,18 @@ We customize solutions for schools and districts and work with you to understand
 No. Teachers can preview and play all game levels by going to the [Unit Guides](/teachers/units) page and selecting a level from the dropdown menus.
 
 ### What does a license provide?
-A license provides a single student access to the entire curriculum beyond the free unit, which is Chapter 1: Up The Mountain. For students starting out in Ozaria, once Chapter 1 is complete, a license will grant access to the next available chapters and all paid CodeCombat content. As we continue to develop more of Ozaria, it will become the primary content for classrooms that start with Chapter 1: Up The Mountain.
+A license provides a single student access to the entire curriculum beyond the free unit, which is Chapter 1: Sky Mountain. For students starting out in Ozaria, once Chapter 1 is complete, a license will grant access to the next available chapters and all paid CodeCombat content. As we continue to develop more of Ozaria, it will become the primary content for classrooms that start with Chapter 1: Sky Mountain.
 
 ### Do you have any free units for educators to try before they make their purchasing decision?
-Yes! Chapter 1: Up The Mountain is free and does not require student licenses. It takes 1-2 hours depending on your students' ages and prior experience. Please feel free to try it out in your school or district. There is no limit to the amount of students who can participate!
+Yes! We have a free course in CodeCombat and a free chapter in Ozaria. 
+**Ozaria - Chapter 1: The Sky Mountain** is free and does not require student licenses. It takes 1-2 hours depending on your students' ages and prior experience. The including lesson slides lets you extend your students' experience and can take up to 10 class sessions*, using unplugged activities and exploration projects.
+
+**CodeCombat** - Our **Introduction to Computer Science** course does not require a purchase. It contains 44 levels and takes 1-3 hours depending on your students' ages and experience. 
+
+*We approximate one class session as a standard 50 minute class. You can also find more time estimates in the Curriculum Guide section of your teacher dashboard.
+
+There is no limit to the amount of students who can participate!
+Please feel free to try it out in your school or district. 
 
 ### What if I need licenses that only last a semester instead of a full year?
 The standard Student License term is for one year, but it can be broken into semesters as needed. Just talk to one of our [School Specialists](mailto:schools@ozaria.com) to discuss your needs.
