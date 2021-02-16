@@ -133,15 +133,19 @@
         this.setCurrentContentId(this.currentContent)
         this.dataLoaded = true
       },
-      onContentCompleted: async function (data) {
+      onContentCompleted: async function (data, cinematicActionLog) {
         this.currentContentData = data || {}
         this.currentContentData.contentType = this.currentContent.type
         if (this.currentIndex + 1 === this.introContent.length) {
           this.introLevelComplete = true
           this.setContentSessionComplete()
           await this.setIntroLevelComplete()
+          this.updateCinematicActionLog(cinematicActionLog);
+          await this.saveLevelSession()
         } else {
-          if (this.setContentSessionComplete()) {
+          const isContentSessionComplete = this.setContentSessionComplete();
+          const hasUpdatedCinematicActionLog = this.updateCinematicActionLog(cinematicActionLog);
+          if (isContentSessionComplete || hasUpdatedCinematicActionLog) {
             await this.saveLevelSession()
           }
         }
@@ -220,7 +224,6 @@
           this.introLevelSession.state = this.introLevelSession.state || {}
           this.introLevelSession.state.complete = true
         }
-        await this.saveLevelSession()
       },
       updateContentPlaytime: function () {
         // Add 1 second to current content intro level session playtime count
@@ -242,7 +245,18 @@
         } else {
           log(`No current content or levelSession for intro level ${this.introLevelIdOrSlug}`, { currentContent: this.currentContent, introLevelSession: this.introLevelSession }, 'error')
         }
-      }
+      },
+      updateCinematicActionLog: function (actionLog) {
+        const { contentId, type } = this.currentContent;
+        if (type !== 'cinematic') {
+          return false;
+        }
+        if (this.introLevelSession?.state?.introContentSessionComplete?.[contentId]) {
+          this.introLevelSession.state.introContentSessionComplete[contentId].cinematicActionLog = actionLog;
+          return true;
+        }
+        return false;
+      },
     }
   })
 </script>

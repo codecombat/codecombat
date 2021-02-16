@@ -14,11 +14,19 @@ import { WIDTH, HEIGHT, LETTER_ANIMATE_TIME } from '../constants'
 const BUBBLE_PADDING = 10
 const SPEECH_BUBBLE_MAX_WIDTH = `37vmin`
 const SPEECH_BUBBLE_ZOOMED_MAX_WIDTH = `68vmin`
+import store from 'app/core/store'
 
 /**
  * This system coordinates drawing HTML and SVG to the screen.
  * It is also responsible for localization and interpolation of the speech bubbles.
  */
+
+let _id = 0;
+const idTextMap = {};
+const getIdFromElementId = (id) => {
+  return parseInt(id.split('-').pop(), 10);
+}
+
 export default class DialogSystem {
   constructor ({ canvasDiv }) {
     const div = this.div = document.createElement('div')
@@ -33,6 +41,7 @@ export default class DialogSystem {
 
     this.shownDialogBubbles = []
     this._templateDataParameters = {}
+    _id = 0;
   }
 
   /**
@@ -70,6 +79,8 @@ export default class DialogSystem {
       const { zoom } = getCamera(shot)
       const { x, y } = getTextPosition(dialogNode) || getDefaultTextPosition(side, zoom)
       const width = getTextWidth(dialogNode)
+      const id = ++_id;
+      idTextMap[id] = this.getHashFromText(dialogNode.text);
       commands.push((new SpeechBubble({
         div: this.div,
         htmlString: text,
@@ -79,7 +90,8 @@ export default class DialogSystem {
         side,
         textDuration: getTextAnimationLength(dialogNode),
         zoom,
-        width
+        width,
+        id,
       })).createBubbleCommand())
     }
     return commands
@@ -107,15 +119,21 @@ export default class DialogSystem {
       return new SyncFunction(() => {
         scopedArrayOfHiddenElements.forEach(el => {
           el.style.display = 'inline-block'
+          const numericalId = getIdFromElementId(el.id);
+          store.dispatch('cinematicActionLog/changeCurrentPrompt', idTextMap[numericalId]);
         })
       })
     }
 
     return hideDialogueBubbleCommand
   }
+
+  // since prompts dont have unique id - hashing the text to create a sort of uniqueId
+  getHashFromText(text) {
+    return Buffer.from(text || '').toString('base64').slice(0, 20);
+  }
 }
 
-let _id = 0
 /**
  * Creates a speech bubble eagerly.
  * Can return a command to display the speech bubble when called.
@@ -132,9 +150,10 @@ class SpeechBubble {
     side,
     textDuration,
     zoom,
-    width
+    width,
+    id
   }) {
-    this.id = `speech-${_id++}`
+    this.id = `speech-${id}`
     const parser = new DOMParser()
     const html = parser.parseFromString(htmlString, 'text/html')
 
@@ -192,6 +211,8 @@ class SpeechBubble {
     // array for future cleanup.
     this.resetSpeechBubble()
     this.animationFn = () => {
+      const numericalId = getIdFromElementId(this.id);
+      store.dispatch('cinematicActionLog/changeCurrentPrompt', idTextMap[numericalId]);
       shownDialogBubbles.push(speechBubbleDiv)
       this.resetSpeechBubble()
       return anime
@@ -223,7 +244,9 @@ class SpeechBubble {
   createBubbleCommand () {
     const animBubbleCommand = new AnimeCommand(this.animationFn)
     animBubbleCommand.undoCommandFactory = () => {
-      return new SyncFunction(() => this.resetSpeechBubble())
+      return new SyncFunction(() => {
+        this.resetSpeechBubble()
+      })
     }
 
     return animBubbleCommand

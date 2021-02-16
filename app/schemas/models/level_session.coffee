@@ -77,7 +77,7 @@ _.extend LevelSessionSchema.properties,
           items: c.object {},
             skip: { type: 'boolean', description: 'did user skip prompt before it got played till completion?' }
             prompt: { type: 'string', description: 'hash of text shown in prompt' }
-            spent: { type: 'integer', description: 'time spent on prompt in seconds' }
+            spent: { type: 'integer', description: 'time spent on prompt in milli-seconds' }
             next: { type: 'string', enum: ['F', 'B'], description: 'did user go Forward(F) or Backward(B)?' }
     scripts: c.object {},
       ended:
