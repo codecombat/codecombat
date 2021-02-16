@@ -81,6 +81,9 @@ import { CinematicController } from '../../../../engine/cinematic/cinematicContr
 import { WIDTH, HEIGHT, CINEMATIC_ASPECT_RATIO } from '../../../../engine/cinematic/constants'
 import Chalkboard from './Chalkboard'
 import _ from 'lodash'
+import store from 'app/core/store'
+import cinematicActionLogModule from "./cinematicActionLogModule";
+import {mapGetters} from "vuex";
 
 const BACK_INTERACTION = 'backInteraction'
 const FORWARD_INTERACTION = 'forwardInteraction'
@@ -130,7 +133,7 @@ export default {
         onPlay: this.handlePlay,
         onPause: this.handleWait,
         onCompletion: () => {
-          this.$emit('completed')
+          this.$emit('completed', this.cinematicLogs);
           this.cinematicCompleted = true
           window.tracker.trackEvent('Completed Cinematic', { cinematicId: (this.cinematicData || {})._id }, ['Google Analytics'])
         },
@@ -138,6 +141,9 @@ export default {
       }})
     window.addEventListener('resize', this.onResize)
     this.onResize()
+    store.registerModule('cinematicActionLog', cinematicActionLogModule);
+    // hasModule func is available in vue3 not in vue2 so just resetting state for now, if mounted again on replay of cinematic
+    store.dispatch('cinematicActionLog/resetState');
   },
 
   computed: {
@@ -149,7 +155,10 @@ export default {
         return false
       }
       return this.controller.undoCommands.canUndo
-    }
+    },
+    ...mapGetters({
+      'cinematicLogs': 'cinematicActionLog/logs',
+    }),
   },
 
   methods: {
@@ -182,7 +191,8 @@ export default {
 
     pressBackwardsNavigation: function () {
       if (this.canUndo && this.controller) {
-        this.controller.undoShot()
+        this.controller.undoShot();
+        store.dispatch('cinematicActionLog/addLog', { skip: this.cinematicPlaying, next: 'B' });
       }
     },
 
@@ -199,6 +209,7 @@ export default {
         this.handleWait()
       }
 
+      store.dispatch('cinematicActionLog/addLog', { skip: this.cinematicPlaying, next: 'F' });
       if (this.cinematicPlaying) {
         this.controller.cancelShot()
       } else {
@@ -257,6 +268,7 @@ export default {
     window.removeEventListener('keydown', this.handleKeyboard)
     window.removeEventListener('resize', this.onResize)
     window.tracker.trackEvent('Unloaded Cinematic', {cinematicId: (this.cinematicData || {})._id}, ['Google Analytics'])
+    store.unregisterModule('cinematicActionLog');
   }
 }
 </script>

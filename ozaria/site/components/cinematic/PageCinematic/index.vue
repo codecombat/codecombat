@@ -48,8 +48,8 @@ module.exports = Vue.extend({
   },
 
   methods: {
-    completedHandler () {
-      this.$emit('completed', this.cinematicData)
+    completedHandler (cinematicTracking) {
+      this.$emit('completed', this.cinematicData, cinematicTracking)
     },
 
     async getCinematicData() {
