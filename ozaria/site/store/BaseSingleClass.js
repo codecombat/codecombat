@@ -178,6 +178,8 @@ export default {
       { root: true })
     },
 
+    // Unlocks locked level original in the currentCourseId.
+    // If called without a currentCourseId and original will entirely unlock student.
     async unlockSelectedStudents ({ rootGetters, getters, dispatch }, {
       classroom,
       currentCourseId,
@@ -203,7 +205,8 @@ export default {
         // like locking instead of unlocking.
         if (
           (original && ClassroomLib.isStudentOnLockedLevel(clonedClass, _id, currentCourseId, original)) ||
-          (!original && ClassroomLib.isStudentOnLockedCourse(clonedClass, _id, currentCourseId))
+          (!original && ClassroomLib.isStudentOnLockedCourse(clonedClass, _id, currentCourseId)) ||
+          (!original && !currentCourseId) // completely unlock student
         ) {
           numberStudentsLockChanged += 1
           ClassroomLib.setStudentLockLevel(clonedClass, _id, currentCourseId, original)
