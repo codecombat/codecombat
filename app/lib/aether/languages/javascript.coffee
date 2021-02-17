@@ -131,8 +131,8 @@ module.exports = class JavaScript extends Language
   # Hacky McHack step for things we can't easily change via AST transforms (which preserve statement ranges).
   # TODO: Should probably refactor and get rid of this soon.
   hackCommonMistakes: (code, aether) ->
-    # Stop this.\n from failing on the next weird line, unless it's in a comment
-    code = code.replace /(?<!\/\/.*?)this\.\s*?\n/g, "this.IncompleteThisReference;"
+    # Stop this.\n from failing on the next weird line
+    code = code.replace /this\.\s*?\n/g, "this.IncompleteThisReference;"
     # If we wanted to do it just when it would hit the ending } but allow multiline this refs:
     #code = code.replace /this.(\s+})$/, "this.IncompleteThisReference;$1"
     code
