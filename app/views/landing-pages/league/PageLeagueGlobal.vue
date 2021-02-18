@@ -268,6 +268,21 @@ export default {
       return description
     },
 
+    currentSelectedClanEsportsImage () {
+      const image = this.currentSelectedClan?.esportsImage
+      if (image) {
+        return `/file/${image}`
+      }
+      return `/images/pages/league/graphic_1.png`
+    },
+
+    customEsportsImageClass () {
+      return {
+        'img-responsive': true,
+        'unset-flip': typeof this.currentSelectedClan?.esportsImage === 'string'
+      }
+    },
+
     myCreatedClan () {
       return this.isClanCreator() ? this.currentSelectedClan : null
     },
@@ -336,7 +351,7 @@ export default {
 
     <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
       <div class="col-sm-5">
-        <img class="img-responsive" src="/images/pages/league/graphic_1.png">
+        <img :class="customEsportsImageClass" :src="currentSelectedClanEsportsImage">
       </div>
       <div class="col-sm-7">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
@@ -691,6 +706,10 @@ export default {
     text-align: left;
     img {
       transform: scaleX(-1);
+    }
+
+    img.unset-flip {
+      transform: unset;
     }
 
     p {
