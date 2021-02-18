@@ -75,7 +75,7 @@ export default {
         <li>censoring a name or description on a team</li>
         <li>changing or adding an owner user to a team</li>
         <li>adding a custom image for a team</li>
-        <li>editting any other data of a team</li>
+        <li>editing any other data of a team</li>
       </ul>
 
       <p><a :href="`/league/${clan.slug}`">Esports page</a></p>
