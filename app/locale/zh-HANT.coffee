@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     student_state: "如何"
     student_state_2: "運作?"
     student_good: "做得不錯在"
-    student_good_detail: "這個學生有跟上班級步調。"
+    student_good_detail: "這個學生有跟上班級步調。" # {change}
     student_warn: "可能需要一些幫助在"
-    student_warn_detail: "這個學生可能需要一些幫助來學習這個課程中的新內容"
+    student_warn_detail: "這個學生可能需要一些幫助來學習這個課程中的新內容" # {change}
     student_great: "做得很好在"
-    student_great_detail: "這個學生可能可以幫助其他人學習這個課程"
+    student_great_detail: "這個學生可能可以幫助其他人學習這個課程" # {change}
     full_license: "完整註冊碼"
     starter_license: "起始註冊碼Starter License"
 #    customized_license: "Customized License"
