@@ -4,7 +4,6 @@ import CocoCollection from 'app/collections/CocoCollection'
 import Clan from 'app/models/Clan'
 
 const api = require('core/api')
-require('core/services/filepicker')()
 require('lib/setupTreema')
 
 export default {
