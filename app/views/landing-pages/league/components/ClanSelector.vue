@@ -15,7 +15,7 @@ export default {
   },
 
   computed: {
-    clanSanitized () {
+    clansSanitized () {
       return this.clans.filter(v => v !== undefined)
     }
   }
