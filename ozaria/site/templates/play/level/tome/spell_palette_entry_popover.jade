@@ -40,10 +40,9 @@ mixin argumentEntry(arg)
 div.popover-header.closeBtn(role="button" dir="ltr")
   span.prop-name= doc.shortName
   if doc.translatedShortName
-    span.translated-name (
-      =doc.translatedShortName
-      | )
-  div.glyphicon.glyphicon-chevron-left(style="float: right;")
+    div
+      span.translated-name
+        =doc.translatedShortName
 
 .popover-body
   .short-description.rtl-allowed.rtl-right-aligned(dir="auto")
