@@ -20,15 +20,11 @@ module.exports = class SpellPaletteView extends CocoView
     'surface:frame-changed': 'onFrameChanged'
     'tome:change-language': 'onTomeChangedLanguage'
     'tome:palette-clicked': 'onPaletteClick'
-    'surface:stage-mouse-down': 'closeCommandBank'
 
 
   events:
-    'click .command-bank-header': 'onClickHeader'
-    'click .closeBtn': 'onClickClose'
     'click .sub-section-header': 'onSubSectionHeaderClick'
-    'click': 'onClick'
-    'mousemove': 'onMouseMove'
+    'click .code-bank-close-btn': 'onCodeBankCloseBtnClick'
     'transitionend': 'onTransitionEnd'
 
   initialize: (options) ->
@@ -53,7 +49,7 @@ module.exports = class SpellPaletteView extends CocoView
         if subGroup != 'none'
           header = $("<div class='sub-section-header' data-panel='#sub-section-#{subGroup}-#{group}'>
               <span>#{subGroup}</span>
-              <div style='float: right; padding-top: 3px; cursor: pointer' class='glyphicon glyphicon-chevron-down blue-glyphicon'></div>
+              <button tabindex='0' style='float:right;animation: none;position:absolute;right:10px;transform: rotate(90deg);' class='shepherd-next-button-active shepherd-button'></button>
             </a>").appendTo itemGroup
           itemSubGroup = $("<div class='property-entry-item-sub-group collapse' id='sub-section-#{subGroup}-#{group}'></div>").appendTo itemGroup
         for entry, entryIndex in entries
@@ -218,35 +214,17 @@ module.exports = class SpellPaletteView extends CocoView
     @createPalette()
     @render()
 
-  checkCommandBankClickedTab: (e) ->
-    # These numbers assume that the css returned is in pixels.
-    rightBorderWidth = parseFloat(@$el.css('borderRightWidth'))
-    leftPanelWidth = parseFloat(@$el.find('.left').css('width'))
-    rightPanelWidth = parseFloat(@$el.find('.right').css('width'))
-    viewWidth = parseFloat(@$el.css('width'))
-    viewWidthOpen = rightBorderWidth + leftPanelWidth # when only left panel is open
-    viewWidthExpanded = rightBorderWidth + leftPanelWidth + rightPanelWidth # when completely open with left and right panel
-    # When zooming the browser we get numbers that are approximate and not equal.
-    # Using a huge epsilon of 1 ensures correct behavior when comparing the px numbers.
-    tolerance = 1
-    if Math.abs(viewWidth - rightBorderWidth) <= tolerance
-      clickedHalfOpenTab = true
-    else if (Math.abs(viewWidth - viewWidthOpen) <= tolerance && e.offsetX > leftPanelWidth) || (Math.abs(viewWidth - viewWidthExpanded) <= tolerance && e.offsetX > leftPanelWidth + rightPanelWidth)
-      clickedFullOpenTab = true
-    {clickedHalfOpenTab, clickedFullOpenTab}
-
-  onClick: (e) ->
-    {clickedHalfOpenTab, clickedFullOpenTab} = @checkCommandBankClickedTab(e)
-    if clickedHalfOpenTab then @$el.addClass('open')
-    else if clickedFullOpenTab then @closeCommandBank()
-
-  onMouseMove:  (e) ->
-    {clickedHalfOpenTab, clickedFullOpenTab} = @checkCommandBankClickedTab(e)
-    if clickedHalfOpenTab or clickedFullOpenTab then @$el.css('cursor', 'pointer')
-    else @$el.css('cursor', 'default')
-
-  onClickHeader: (e) ->
-    @closeCommandBank()
+  onCodeBankCloseBtnClick: () ->
+    $('.code-bank-left-arrow,.code-bank-right-arrow').toggleClass('hide')
+    if $('#spell-palette-view').hasClass('open')
+      $('#spell-palette-view').removeClass('open expand')
+      $('#spell-palette-view .container').css('display','none')
+    else
+      $('#spell-palette-view').addClass('open expand')
+      $('#spell-palette-view .container').css('display','block')
+      if !$('.sub-section-header.selected').length
+        $('.sub-section-header').first().click()
+        $('.spell-palette-entry-view').first().click()
 
   onSubSectionHeaderClick: (e) ->
     $et = @$(e.currentTarget)
@@ -254,28 +232,17 @@ module.exports = class SpellPaletteView extends CocoView
     isCollapsed = !target.hasClass('in')
     if isCollapsed
       target.collapse 'show'
-      $et.find('.glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up')
+      $et.find('.shepherd-button').removeClass('shepherd-next-button-active').addClass('shepherd-back-button-active')
       $et.toggleClass('selected', true)
     else
       target.collapse 'hide'
-      $et.find('.glyphicon').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down')
+      $et.find('.shepherd-button').removeClass('shepherd-next-back-active').addClass('shepherd-next-button-active')
       $et.toggleClass('selected', false)
 
     setTimeout () =>
       @$('.nano').nanoScroller alwaysVisible: true
     , 200
     e.preventDefault()
-
-  onClickClose: (e) ->
-    @closeRightPanel()
-
-  closeRightPanel: () =>
-    @$el.find('.left .selected').removeClass 'selected'
-    @$el.removeClass('expand')
-
-  closeCommandBank: () =>
-    @closeRightPanel()
-    @$el.removeClass('open')
 
   onPaletteClick: (e) ->
     @$el.addClass('expand')

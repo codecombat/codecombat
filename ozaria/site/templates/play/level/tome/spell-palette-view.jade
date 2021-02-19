@@ -3,9 +3,6 @@ mixin header(label, name)
     span= name
 div.container
   div.left.nano
-    div.command-bank-header
-      span(data-i18n="play_level.command_bank")
-      div.glyphicon.glyphicon-chevron-left.white-glyphicon(style="float: right; padding-top: 3px;")
     div.nano-content.panel-group#spell-palette-api-bar
       if entryGroups
         each entries, group in entryGroups
@@ -23,3 +20,7 @@ div.container
       .scrollArea
         .scrollableArea
           .rightContentTarget.content
+div.code-bank-close-btn
+  div.code-bank-arrow.code-bank-right-arrow
+  span(data-i18n="play_level.command_bank")
+  div.code-bank-arrow.code-bank-left-arrow.hide

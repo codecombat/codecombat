@@ -5,20 +5,18 @@
 @import "ozaria/site/styles/common/variables"
 
 #spell-palette-view
+  transition: all 0.5s ease 0s
   position: absolute
   left: $spell-palette-left
-  width: $api-bar-width
-  bottom: 53px
-  max-height: 504px
-  top: 30%
-  z-index: 11
+  width: 0
+  bottom: 0
+  top: 0
+  z-index: 9999
   @include transition(top 0.25s ease-in-out, width 0.25s ease-in-out)
-  border: solid transparent
-  border-width: 11px $api-bar-width 12px 0px
-  border-image: url('/images/ozaria/level/code_bank_arrow_right.png') 5% fill stretch
-  overflow: hidden
-  #spell-palette-api-bar
-    top: 40px
+  height: calc(80% - 14px)
+  top: calc(20% + 14px)
+  .shepherd-button
+    top: 8px
   #spell-palette-api-bar[disabled=disabled]
     pointer-events: none
     #palette-tab-api-area
@@ -28,17 +26,73 @@
     visibility: hidden
   &.open, &.expand
     border-width: 11px $api-bar-width 12px 0px
-    border-image: url('/images/ozaria/level/code_bank_arrow_left.png') 6% fill stretch
+    left: 0
+    width: 0
   &.open
-    width: $api-bar-width + $spell-palette-left-width
+    width: $api-bar-width + $spell-palette-right-width
     background-size: 376px 108%
+    background-color: #fff
+    .code-bank-close-btn
+      right: -102px
   &.expand
+    border: 14px solid #57B7B3
     width: $api-bar-width + $spell-palette-right-width + $spell-palette-left-width
-    border-image: url('/images/ozaria/level/code_bank_arrow_left.png') 6% fill stretch
+  .code-bank-close-btn
+    display: flex
+    align-items: center
+    justify-content: center
+    cursor: pointer
+    position: absolute
+    right: -92px
+    top: calc(50% - 18px)
+    transform: rotate(90deg)
+    min-width: 140px
+    background-repeat: no-repeat
+    background-image: url(/images/ozaria/level/Button.svg)
+    border: none
+    background-size: cover
+    padding: 2px
+    background-color: transparent
+    outline: none
+    span
+      color: #215055
+      font-family: "Work Sans"
+      font-size: 17px
+      font-weight: bold
+      letter-spacing: 0.77px
+      line-height: 20px
+      text-transform: uppercase
+      padding: 6px
+      width: 90%
+      text-align: center
+    .code-bank-arrow
+      background-position: center
+      background-repeat: no-repeat
+      width: 25px
+      position: absolute
+      height: 60px
+      transform: rotate(-90deg)
+    .code-bank-right-arrow
+      background-image: url(/images/ozaria/level/code_bank_right_arrow.svg)
+      top: -39px
+    .code-bank-left-arrow
+      bottom: -38px
+      background-image: url(/images/ozaria/level/code_bank_left_arrow.svg)
+    &:hover
+      .code-bank-left-arrow
+        background-image: url(/images/ozaria/level/code_bank_left_arrow_dark.svg)
+      .code-bank-right-arrow
+        background-image: url(/images/ozaria/level/code_bank_right_arrow_dark.svg)
+      span
+        background-color: #57B7B3
   .container
-    width: $api-bar-width + $spell-palette-right-width + $spell-palette-left-width
+    transition: all 0.5s ease 0s
+    overflow: hidden
+    padding: 0
     height: 100%
     position: relative
+    width: auto
+    display: none
     .left
       position: absolute
       left: 0
@@ -47,10 +101,10 @@
       height: auto
       width: $spell-palette-left-width
       background-color: #f7f9f9
+
       .command-bank-header, .section-header, .sub-section-header
         display: block
         color: #000000
-        cursor: pointer
         margin-right: 10px
         width: $spell-palette-left-width
 
@@ -58,7 +112,6 @@
           color: #ffffff
 
       .command-bank-header
-        background-color: #b5b4b4
         height: 44px
         font-family: $body-font
         font-size: 20px
@@ -69,31 +122,31 @@
       
       .section-header
         height: 35px
-        background-color: #d8d8d8
-        box-shadow: 2px 2px 2px 0 rgba(93,115,225,0.32)
-        font-family: $body-font
+        box-shadow: inset 10px 0 0 0 rgb(84, 91, 100), inset 0 -1px 0 0 #e8e3e7
+        font-family: "Work Sans"
         font-size: 16px
         font-weight: bold
         letter-spacing: 0.55px
-        line-height: 22px
-        padding: 5px 6px 0px 15px
+        padding: 0px 0px 0px 25px
+        background-color: #ffffff
+        span
+          line-height: 35px
 
       .sub-section-header
         height: 35px
+        line-height: 35px
         background-color: #ffffff
-        box-shadow: inset 0 1px 3px 0 rgba(93,115,225,0.5), 2px 2px 2px 0 rgba(93,115,225,0.32)
         font-family: $code-font-style !important
         font-size: 16px
-        line-height: 19px
-        padding: 7px 6px 0px 30px
-
+        padding: 0px 6px 0px 40px
+        box-shadow: inset 10px 0 0 0 rgba(84, 91, 100, 0.6), inset 0 -1px 0 0 #e8e3e7
+        cursor: pointer
+        position: relative
+        &:hover
+          background-color: #E8FFFC
         .blue-glyphicon
           color: #5d73e1
 
-        &.selected
-          box-shadow: 2px 2px 2px 0 rgba(93,115,225,0.32)
-          background-color: #e9ebeb
-          border-left: 5px solid #5d73e1
 
       .spell-palette-thang-entry-view
         display: inline-block
@@ -118,13 +171,15 @@
     .right
       position: absolute
       right: 20px
-      width: $spell-palette-right-width
+      width: $spell-palette-right-width + 28
       left: $spell-palette-left-width
       top: 0px
       bottom: 0px
       background-color: #ffffff
       //width: calc(100% - #{$api-bar-width + 50px})
       @include box-shadow(0 0 0 #000)
+      border-left: 1px solid #E8E3E7
+      padding-right: 5px
       .scrollArea
         max-height: calc(100% - 20px)
         width: 100%
@@ -139,19 +194,18 @@
             float: left
 
       .popover-header
-        background-color: #5d73e1
-        height: 44px
-        color: #ffffff
-        cursor: pointer
+        background-color: #B6FFF7
         font-family: $code-font-style !important
         font-size: 18px
         line-height: 21px
-        padding: 11px 6px 0px 15px
+        padding: 8px
+        text-align: center
+        color: #232323
       
       .popover-body
-        font-family: $body-font
+        font-family: "Work Sans"
         color: $gray
-        padding: 5px 6px 0px 14px
+        padding: 5px 14px 0px 14px
 
         .short-description, .example, .args, .returns
           font-size: 18px
@@ -298,12 +352,24 @@
   &.shortenize.hero .properties
     .property-entry-item-group, .property-entry-item-sub-group
       width: $spell-palette-left-width
-
       .spell-palette-entry-view
         width: 100%
         height: 35px
-        padding: 5px 6px 0px 45px
+        line-height: 35px
+        position: relative
+        padding: 0px 6px 0px 55px
         cursor: pointer
+        box-shadow: inset 10px 0 0 0 rgba(84, 91, 100, 0.3), inset 0 -1px 0 0 #e8e3e7
+        padding-right: 27px
+        &:hover
+          background-color: #E8FFFC
+          &.selected
+            background-color: #B6FFF7
+        &.selected, &.selected span
+          cursor: default
+        &.selected .shepherd-button
+          cursor: default
+          background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBoZWlnaHQ9IjE5IiB3aWR0aD0iMTkiPjxkZWZzPjxtYXNrIGlkPSJiIiBtYXNrVW5pdHM9InVzZXJTcGFjZU9uVXNlIiBtYXNrQ29udGVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeD0iMCIgeT0iMCI+PHBhdGggZD0iTTAgMGgxOXYxOUgweiIvPjx1c2UgeGxpbms6aHJlZj0iI2EiIGZpbGw9IiNmZmYiLz48L21hc2s+PG1hc2sgaWQ9ImMiIG1hc2tVbml0cz0idXNlclNwYWNlT25Vc2UiIG1hc2tDb250ZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMCAwaDE5djE5SDB6Ii8+PHVzZSB4bGluazpocmVmPSIjYSIgZmlsbD0iI2ZmZiIvPjwvbWFzaz48Y2lyY2xlIGlkPSJhIiBvcGFjaXR5PSIxIiBjeD0iOS41IiBjeT0iOS41IiByPSI5LjUiLz48L2RlZnM+PHVzZSB4bGluazpocmVmPSIjYSIgZmlsbD0iIzQwRjNFNCIvPjx1c2UgeGxpbms6aHJlZj0iI2EiIGZpbGwtb3BhY2l0eT0iMCIgc3Ryb2tlPSIjMUZCQUI0IiBzdHJva2Utd2lkdGg9IjMiIG1hc2s9InVybCgjYikiLz48ZyBtYXNrPSJ1cmwoI2MpIj48cGF0aCBzdHJva2U9IiMxRkJBQjQiIHN0cm9rZS13aWR0aD0iMyIgZD0iTS44ODItM2wxMiAxMS45NzdMLjg4MiAyMSIgZmlsbD0ibm9uZSIvPjwvZz48L3N2Zz4=")
   //Fixes punctuation but puts comment marker on right, which is apparently worse.
   //body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
   //  .ace_text-layer .ace_comment
@@ -313,3 +379,26 @@
   body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
     .rtl-right-aligned
       text-align: right
+
+body[lang^='es']
+  #spell-palette-view
+    .code-bank-close-btn
+      right: -138px
+      width: 234px
+    &.open
+      .code-bank-close-btn
+        right: -148px
+body[lang='RU']
+  #spell-palette-view
+    .code-bank-close-btn
+      .code-bank-left-arrow
+        bottom: -38px
+    .code-bank-close-btn
+      .code-bank-right-arrow
+        top: -39px
+    .code-bank-close-btn
+      right: -104px
+      width: 164px
+    &.open
+      .code-bank-close-btn
+        right: -114px
