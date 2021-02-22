@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     student_state: "Hoe"
     student_state_2: "het doet"
     student_good: "doet het goed bij"
-    student_good_detail: "Deze leerling houdt de rest van de klas bij."
+    student_good_detail: "Deze leerling houdt de rest van de klas bij." # {change}
     student_warn: "heeft misschien hulp nodig met"
-    student_warn_detail: "Deze leerling heeft misschien hulp nodig met nieuwe concepten die in deze cursus aan bod zijn gekomen."
+    student_warn_detail: "Deze leerling heeft misschien hulp nodig met nieuwe concepten die in deze cursus aan bod zijn gekomen." # {change}
     student_great: "doet het heel goed in"
-    student_great_detail: "Deze leerling kan misschien andere leerlingen helpen met het doorlopen van deze cursus."
+    student_great_detail: "Deze leerling kan misschien andere leerlingen helpen met het doorlopen van deze cursus." # {change}
     full_license: "Volledige Licentie"
     starter_license: "Starter Licentie"
 #    customized_license: "Customized License"
