@@ -142,18 +142,7 @@ if process.env.COCO_STATSD_HOST
     port: process.env.COCO_STATSD_PORT or 8125
     prefix: process.env.COCO_STATSD_PREFIX or ''
 
-config.snowplow =
-  user: process.env.COCO_SNOWPLOW_USER or 'user'
-  database: process.env.COCO_SNOWPLOW_DATABASE or 'database'
-  password: process.env.COCO_SNOWPLOW_PASSWORD or 'password'
-  host: process.env.COCO_SNOWPLOW_HOST or 'host'
-  port: process.env.COCO_SNOWPLOW_PORT or 1
-
 config.buildInfo = { sha: 'dev' }
-
-config.intercom =
-  accessToken: process.env.COCO_INTERCOM_ACCESS_TOKEN or 'dGVzdA==' #base64 "test"
-  webhookHubSecret: process.env.COCO_INTERCOM_WEBHOOK_HUB_SECRET or 'abcd'
 
 config.bitly =
   accessToken: process.env.COCO_BITLY_ACCESS_TOKEN or ''

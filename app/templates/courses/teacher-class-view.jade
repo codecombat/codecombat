@@ -107,15 +107,34 @@ mixin studentRow(student)
 mixin courseProgressTab
   #course-progress-tab.m-t-3
     if view.courses
-      .text-center
-        span(data-i18n='teacher.select_course')
-        span.spr :
-        select.course-select
+      .course-progress-select-wrapper
+        label(for="course-select")
+          span(data-i18n='teacher.select_course')
+          span.spr :
+        select.course-select#course-select
           each course in view.latestReleasedCourses
             option(value=course.id selected=(course===state.get('selectedCourse')))
               = i18n(course.attributes, 'name')
               if !view.availableCourseMap[course.id]
                 = " " + translate('teacher.paren_new')
+
+    - var course = state.get('selectedCourse');
+    - var courseInstance = view.getSelectedCourseInstance()
+    if courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
+      .course-progress-select-wrapper(data-course-id=course.id)
+        label(for="locked-level-select")
+          span(data-i18n="courses.set_start_locked_level")
+          span.spr :
+        select#locked-level-select
+          option(data-i18n="courses.no_level_limit" value='none')
+          - var levels = view.classroom.getLevels({courseID: course.id}).models
+          each level, levelIndex in levels
+            unless level.get('assessment') || level.get('practice')
+              option(value=level.get('slug') selected=(level.get('slug') === courseInstance.get('startLockedLevel')))
+                span #{view.campaignLevelNumberMap[course.get('campaignID')][level.get('original')]}.
+                  = " "
+                span
+                  = i18n(level.attributes, 'name').replace('Course: ', '')
 
     h4.m-b-2.m-t-3(data-i18n="teacher.progress_color_key")
     #progress-color-key-row.row.m-b-3
@@ -139,22 +158,7 @@ mixin courseProgressTab
         .key-text
           span.small(data-i18n="teacher.level_not_started")
         .clearfix
-    - var course = state.get('selectedCourse');
-    - var courseInstance = view.getSelectedCourseInstance()
-    if courseInstance && course && view.campaignLevelNumberMap[course.get('campaignID')]
-      .text-center(data-course-id=course.id)
-        span(data-i18n="courses.set_start_locked_level")
-        span.spr :
-        select.locked-level-select
-          option(data-i18n="courses.no_level_limit" value='none')
-          - var levels = view.classroom.getLevels({courseID: course.id}).models
-          each level, levelIndex in levels
-            unless level.get('assessment') || level.get('practice')
-              option(value=level.get('slug') selected=(level.get('slug') === courseInstance.get('startLockedLevel')))
-                span #{view.campaignLevelNumberMap[course.get('campaignID')][level.get('original')]}.
-                  = " "
-                span
-                  = i18n(level.attributes, 'name').replace('Course: ', '')
+
     // TODO: Refactor this to use Vue components like in the assessments tab
     if course && view.availableCourseMap[course.id] && courseInstance && courseInstance.get('members').length > 0
       .render-on-course-sync
@@ -199,11 +203,14 @@ mixin courseOverview(course)
       span(data-i18n='teacher.course_overview')
     .course-overview-progress
       if state.get('progressData')
+        - var lockedFromHere = false;
+        - var courseInstance = view.getSelectedCourseInstance();
         each level, index in levels
           - if (level.get('assessment')) continue;
+          - if (courseInstance && level.get('slug') === courseInstance.get('startLockedLevel')) lockedFromHere = true;
           - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level })
           - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
-          +allStudentsLevelProgressDot(progress, level, levelNumber)
+          +allStudentsLevelProgressDot(progress, level, levelNumber, lockedFromHere)
 
 mixin studentLevelsRow(student)
   .student-levels-row.alternating-background
@@ -216,13 +223,16 @@ mixin studentLevelsRow(student)
         - var levels = view.classroom.getLevels({courseID: course.id}).models
         - var courseFinished = false;
         if state.get('progressData')
+          - var lockedFromHere = false;
+          - var courseInstance = view.getSelectedCourseInstance();
           each level, index in levels
             - if (level.get('assessment')) continue;
+            - if (courseInstance && level.get('slug') === courseInstance.get('startLockedLevel')) lockedFromHere = true;
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
             - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
             - if (!level.get('practice'))
               - courseFinished = progress.completed;
-            +studentLevelProgressDot(progress, level, levelNumber, student)
+            +studentLevelProgressDot(progress, level, levelNumber, student, lockedFromHere)
       div
         if courseFinished
           a.certificate-link.open-certificate-btn(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + state.get('selectedCourseInstance').id, data-event-action="Teachers Click Certificates - Progress tab")
@@ -246,10 +256,10 @@ mixin studentCourseProgressDot(progress, levelsTotal, label, student, course, co
     .progress-dot.has-tooltip(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
       +progressDotLabel(label)
 
-mixin allStudentsLevelProgressDot(progress, level, levelNumber)
+mixin allStudentsLevelProgressDot(progress, level, levelNumber, locked=false)
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = i18n(level.attributes, 'name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length, practice: level.get('practice') })
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length, practice: level.get('practice'), locked: locked })
   - link = null;
   - labelText = levelNumber;
   - var courseInstance = state.get('selectedCourseInstance');
@@ -269,6 +279,8 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
     if !(progress.completed || progress.started)
       - labelText = ''
       - dotClass += ' practice'
+  if locked && !progress.completed
+    - dotClass += ' locked'
 
   if link
     if state.get('readOnly')
@@ -280,11 +292,11 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
       +progressDotLabel(labelText)
 
 
-mixin studentLevelProgressDot(progress, level, levelNumber, student)
+mixin studentLevelProgressDot(progress, level, levelNumber, student, locked=false)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = i18n(level.attributes, 'name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')), topScore: topScore, translate: translate })
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')), topScore: topScore, translate: translate, locked: locked })
   - var link = null;
   if dotClass
     //- TODO: these anchor links do not navigate to the anchor in destination page
@@ -307,7 +319,8 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
     if !(progress.completed || progress.started)
       - labelText = ''
       - dotClass += ' practice'
-
+  if locked && !(progress.completed || progress.started)
+    - dotClass += ' locked'
 
   if link
     if state.get('readOnly')
@@ -350,7 +363,7 @@ mixin bulkAssignControls
       span :
     select.bulk-course-select.form-control
       each course in _.rest(view.latestReleasedCourses)
-        if classroom.language != 'cpp' || (course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_2 || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_3)
+        if classroom.language !== 'cpp' || (view.utils.CSCourseIDs.indexOf(course.id) !== -1) 
           option(value=course.id selected=(course===state.get('selectedCourse')))
             = i18n(course.attributes, 'name')
             if !view.availableCourseMap[course.id]

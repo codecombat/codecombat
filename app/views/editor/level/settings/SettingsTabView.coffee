@@ -21,8 +21,7 @@ module.exports = class SettingsTabView extends CocoView
     'helpVideos', 'replayable', 'scoreTypes', 'concepts', 'primaryConcepts', 'picoCTFProblem', 'practice', 'assessment',
     'practiceThresholdMinutes', 'primerLanguage', 'shareable', 'studentPlayInstructions', 'requiredCode', 'suspectCode',
     'requiredGear', 'restrictedGear', 'requiredProperties', 'restrictedProperties', 'recommendedHealth', 'allowedHeroes',
-    'maximumHealth', 'assessmentPlacement', 'password', 'mirrorMatch', 'autocompleteReplacement', 'introContent',
-    'additionalGoals', 'isPlayedInStages', 'ozariaType', 'methodsBankList'
+    'maximumHealth', 'assessmentPlacement', 'password', 'mirrorMatch', 'autocompleteReplacement'
   ]
 
   subscriptions:
@@ -63,6 +62,7 @@ module.exports = class SettingsTabView extends CocoView
     @settingsTreema.build()
     @settingsTreema.open()
     @lastTerrain = data.terrain
+    @lastType = data.type
 
   getThangIDs: ->
     (t.id for t in @level.get('thangs') ? [])
@@ -74,6 +74,8 @@ module.exports = class SettingsTabView extends CocoView
     if (terrain = @settingsTreema.data.terrain) isnt @lastTerrain
       @lastTerrain = terrain
       Backbone.Mediator.publish 'editor:terrain-changed', terrain: terrain
+    if (type = @settingsTreema.data.type) isnt @lastType
+      @onTypeChanged type
     for goal, index in @settingsTreema.data.goals ? []
       continue if goal.id
       goalIndex = index
@@ -91,6 +93,17 @@ module.exports = class SettingsTabView extends CocoView
 
   onRandomTerrainGenerated: (e) ->
     @settingsTreema.set '/terrain', e.terrain
+
+  onTypeChanged: (type) ->
+    @lastType = type
+    if type is 'ladder' and @settingsTreema.get('/mirrorMatch') isnt false
+      @settingsTreema.set '/mirrorMatch', false
+      noty {
+        text: "Type updated to 'ladder', so mirrorMatch has been updated to false."
+        layout: 'topCenter'
+        timeout: 5000
+        type: 'information'
+      }
 
   destroy: ->
     @settingsTreema?.destroy()

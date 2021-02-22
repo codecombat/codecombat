@@ -10,13 +10,111 @@
       width: 0
       line-height: 40px
       font-size: 30px
-  
-  .classroom-name
-    font-size: 26pt
-  
-  .teacher-name
-    font-size: 14pt
 
   .parent_birthdate
     font-size: 11pt
     margin-top: 20px
+
+  &.student
+    .modal-body-content
+      padding: 0
+
+    .modal-student-contents
+      display: flex
+      flex-direction: column
+      justify-content: space-around
+      align-items: center
+      height: 440px // Hack: Hard code due to Chrome flexbox 100% height propagation.
+      width: 100%
+
+    .class-code-section
+      width: 80%
+      text-align: left
+      font-family: Open Sans
+      font-style: normal
+      font-weight: bold
+      font-size: 22px
+      line-height: 30px
+      color: #232323
+      
+      label
+        font-weight: 300
+        font-size: 18px
+        line-height: 25px
+      
+      .render
+        font-weight: normal
+        font-size: 24px
+        line-height: 33px
+
+      .ask-teacher
+        font-size: 16px
+        line-height: 22px
+      
+      input
+        width: 300px
+        text-align: left
+
+      .class-code-input-group
+        justify-content: space-between
+    
+    .input-with-glyph
+      display: flex
+
+    .input-with-glyph input
+      margin-right: 10px
+
+    .divider-line
+      border: 2px solid #ff6978
+      width: 85%
+
+    .play-now-section
+      display: flex
+      flex-direction: row
+      align-items: center
+      justify-content: space-between
+      width: 80%
+
+      & > *
+        flex: 1
+
+      & > :first-child
+        flex: 2
+        padding-right: 100px
+        text-align: left
+        font-family: Open Sans
+        font-style: normal
+        font-weight: bold
+        font-size: 22px
+        line-height: 30px
+        color: #232323
+
+    button.primary-oz-button
+      font-family: Open Sans
+      font-style: normal
+      font-weight: bold
+      font-size: 18px
+      line-height: 38px
+
+      color: black
+      text-transform: capitalize
+      background-color: #1FBAB4
+      border: 0
+      padding: 5px 15px
+      border-radius: 4px
+      text-align: center
+
+      min-width: 220px
+      min-height: 50px
+
+      &[disabled]
+        cursor: not-allowed
+
+    .footer-signin
+      font-family: Open Sans
+      font-size: 16px
+      color: #232323
+      margin-bottom: -20px
+      & a
+        color: #232323
+        text-decoration: underline

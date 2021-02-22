@@ -27,17 +27,15 @@ store = new Vuex.Store({
     courses: require('./modules/courses'),
     game: require('./modules/game'),
     schoolAdministrator: require('./modules/schoolAdministrator').default
+    clans: require('./modules/clans').default
     classrooms: require('./modules/classrooms').default
     courseInstances: require('./modules/courseInstances').default
     levelSessions: require('./modules/levelSessions').default
     users: require('./modules/users').default
-    interactives: require('./modules/interactives').default
     campaigns: require('./modules/campaigns').default
-    tints: require('./modules/tints').default
-    layoutChrome: require('./modules/layoutChrome').default
-    unitMap: require('./modules/unitMap').default
     tracker: require('./modules/tracker').default
     products: require('./modules/products').default
+    seasonalLeague: require('./modules/seasonalLeague').default
   }
 })
 

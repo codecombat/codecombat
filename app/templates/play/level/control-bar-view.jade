@@ -1,4 +1,4 @@
-- var includeHomeLink = application.getHocCampaign() || !((me.isStudent() || me.isTeacher()) && !view.course) || view.level.isType('course-ladder');
+- var includeHomeLink = application.getHocCampaign() || !((me.isStudent() || me.isTeacher()) && !view.course) || view.level.isType('course-ladder', 'ladder');
 // No "Done" button for standalone tournament game-dev project levels outside of a campaign
 - if (['resource-tycoon'].indexOf(view.level.get('slug')) != -1)
 -   includeHomeLink = false;

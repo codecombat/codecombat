@@ -22,6 +22,9 @@ UserLib = {
     return emailName if emailName
     return 'Anonymous'
   isSmokeTestUser: (user) -> utils.isSmokeTestEmail(user.email)
+  isTeacher: (user, includePossibleTeachers=false) ->
+    return true if includePossibleTeachers and user.role is 'possible teacher'  # They maybe haven't created an account but we think they might be a teacher based on behavior
+    return user.role in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 }
 
 module.exports = class User extends CocoModel
@@ -94,9 +97,7 @@ module.exports = class User extends CocoModel
 
   isCreatedByClient: -> @get('clientCreator')?
 
-  isTeacher: (includePossibleTeachers=false) ->
-    return true if includePossibleTeachers and @get('role') is 'possible teacher'  # They maybe haven't created an account but we think they might be a teacher based on behavior
-    return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
+  isTeacher: (includePossibleTeachers=false) -> User.isTeacher(@attributes, includePossibleTeachers)
 
   isPaidTeacher: ->
     return false unless @isTeacher()
@@ -250,55 +251,6 @@ module.exports = class User extends CocoModel
         return
     return errors
 
-  # TODO move to app/core/experiments when updated
-  getCampaignAdsGroup: ->
-    return @campaignAdsGroup if @campaignAdsGroup
-    # group = me.get('testGroupNumber') % 2
-    # @campaignAdsGroup = switch group
-    #   when 0 then 'no-ads'
-    #   when 1 then 'leaderboard-ads'
-    @campaignAdsGroup = 'leaderboard-ads'
-    @campaignAdsGroup = 'no-ads' if me.isAdmin()
-    application.tracker.identify campaignAdsGroup: @campaignAdsGroup unless me.isAdmin()
-    @campaignAdsGroup
-
-  # TODO: full removal of sub modal test
-  # TODO move to app/core/experiments when updated
-  getSubModalGroup: () ->
-    return @subModalGroup if @subModalGroup
-    @subModalGroup = 'both-subs'
-    @subModalGroup
-  setSubModalGroup: (val) ->
-    @subModalGroup = if me.isAdmin() then 'both-subs' else val
-    @subModalGroup
-
-  # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
-  # ... and stopped working well until another update on March 10, so maybe March 11+...
-  # ... and another round, and then basically it just isn't completing well, so we pause the test until we can fix it.
-  # TODO move to app/core/experiments when updated
-  getFourthLevelGroup: ->
-    return 'forgetful-gemsmith'
-    return @fourthLevelGroup if @fourthLevelGroup
-    group = me.get('testGroupNumber') % 8
-    @fourthLevelGroup = switch group
-      when 0, 1, 2, 3 then 'signs-and-portents'
-      when 4, 5, 6, 7 then 'forgetful-gemsmith'
-    @fourthLevelGroup = 'signs-and-portents' if me.isAdmin()
-    application.tracker.identify fourthLevelGroup: @fourthLevelGroup unless me.isAdmin()
-    @fourthLevelGroup
-
-  getVideoTutorialStylesIndex: (numVideos=0)->
-    # A/B Testing video tutorial styles
-    # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)
-    return 0 unless numVideos > 0
-    return me.get('testGroupNumber') % numVideos
-
-  # TODO move to app/core/experiments when updated
-  getHomePageTestGroup: () ->
-    return  # ending A/B test on homepage for now.
-    return unless me.get('country') == 'united-states'
-    # testGroupNumberUS is a random number from 0-255, use it to run A/B tests for US users.
-
   hasSubscription: ->
     return false if me.isStudent() or me.isTeacher()
     if payPal = @get('payPal')
@@ -381,7 +333,7 @@ module.exports = class User extends CocoModel
         return (courses.map (id) -> utils.courseAcronyms[id]).join('+')
     # NOTE: Default type is 'course' if no type is marked on the user's copy
     return type or 'course'
-    
+
   prepaidIncludesCourse: (course) ->
     return false unless @get('coursePrepaid') or @get('coursePrepaidID')
     includedCourseIDs = @get('coursePrepaid')?.includedCourseIDs
@@ -573,7 +525,7 @@ module.exports = class User extends CocoModel
 
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})
-    stripe.planID = 'basic'
+    stripe.planID = options.planID || 'basic'
     stripe.token = token.id
     stripe.couponID = options.couponID if options.couponID
     @set({stripe})
@@ -594,6 +546,11 @@ module.exports = class User extends CocoModel
     options.url = _.result(@, 'url') + "/stripe/recipients/#{id}"
     options.method = 'DELETE'
     return $.ajax(options)
+
+  age: -> utils.yearsSinceMonth me.get('birthday')
+
+  isInAcademicaClan: ->
+    return Array.isArray(@get('clans')) and @get('clans')?.indexOf('5ff88bcdfe17d7bb1c7d2d00') isnt -1
 
   # Feature Flags
   # Abstract raw settings away from specific UX changes
@@ -635,16 +592,7 @@ module.exports = class User extends CocoModel
   showOpenResourceLink: -> not (features?.china ? false)
   useStripe: -> (not ((features?.china ? false) or (features?.chinaInfra ? false))) and (@get('preferredLanguage') isnt 'nl-BE')
   canDeleteAccount: -> not (features?.china ? false)
-
-  # Ozaria flags
-  showOzariaCampaign: -> @isAdmin()
-  hasCinematicAccess: -> @isAdmin()
-  hasCharCustomizationAccess: -> @isAdmin()
-  hasAvatarSelectorAccess: -> @isAdmin()
-  hasCutsceneAccess: -> @isAdmin()
-  hasInteractiveAccess: -> @isAdmin()
-  hasIntroLevelAccess: -> @isAdmin()
-
+  canAutoFillCode: -> @isAdmin() || @isTeacher() || @isInGodMode()
 
 tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
   5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15
@@ -652,4 +600,3 @@ tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04
 
 # Make UserLib accessible via eg. User.broadName(userObj)
 _.assign(User, UserLib)
-

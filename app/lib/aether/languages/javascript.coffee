@@ -1,6 +1,7 @@
 _ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
 
 jshintHolder = {}
+acorn_loose = require 'acorn-loose'
 escodegen = require 'escodegen'
 
 Language = require './language'
@@ -41,8 +42,8 @@ module.exports = class JavaScript extends Language
       return not _.isEqual(aAST.body, bAST.body)
     # Esprima couldn't parse either ASTs, so let's fall back to acorn_loose
     options = {locations: false, tabSize: 4, ecmaVersion: 5}
-    aAST = acorn_loose.parse_dammit a, options
-    bAST = acorn_loose.parse_dammit b, options
+    aAST = acorn_loose.parse a, options
+    bAST = acorn_loose.parse b, options
     unless aAST and bAST
       console.log "Couldn't even loosely parse; are you sure #{a} and #{b} are #{@name}?"
       return true
@@ -121,7 +122,7 @@ module.exports = class JavaScript extends Language
       ast = escodegen.attachComments ast, ast.comments, ast.tokens
     catch e
       console.log 'got error beautifying', e
-      ast = acorn_loose.parse_dammit rawCode, {tabSize: 4, ecmaVersion: 5}
+      ast = acorn_loose.parse rawCode, {tabSize: 4, ecmaVersion: 5}
     beautified = escodegen.generate ast, {comment: true, parse: esprima.parse}
     beautified
 
@@ -130,8 +131,8 @@ module.exports = class JavaScript extends Language
   # Hacky McHack step for things we can't easily change via AST transforms (which preserve statement ranges).
   # TODO: Should probably refactor and get rid of this soon.
   hackCommonMistakes: (code, aether) ->
-    # Stop this.\n from failing on the next weird line
-    code = code.replace /this\.\s*?\n/g, "this.IncompleteThisReference;"
+    # Stop standalone this.\n from failing on the next weird line
+    code = code.replace /\n\s*this\.\s*?\n/g, "\nthis.IncompleteThisReference;"
     # If we wanted to do it just when it would hit the ending } but allow multiline this refs:
     #code = code.replace /this.(\s+})$/, "this.IncompleteThisReference;$1"
     code
@@ -152,7 +153,7 @@ module.exports = class JavaScript extends Language
   # Useful for parsing incomplete code as it is being written without giving up.
   # This should never throw an error and should always return some sort of AST, even if incomplete or empty.
   parseDammit: (code, aether) ->
-    ast = acorn_loose.parse_dammit code, {locations: true, tabSize: 4, ecmaVersion: 5}
+    ast = acorn_loose.parse code, {locations: true, tabSize: 4, ecmaVersion: 5}
 
     if ast? and ast.body.length isnt 1
       ast.body = ast.body.slice(0,0)
