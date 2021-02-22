@@ -2082,7 +2082,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    licenses_used: "(__licensesUsed__ licenses used)"
 #    more_info: "More info"
 
-#  sharing:
+  sharing:
     game: "Spiel"
     webpage: "Webseite"
 #    your_students_preview: "Your students will click here to see their finished projects! Unavailable in teacher preview."
@@ -2104,7 +2104,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #  game_dev:
 #    creator: "Creator"
 
-#  web_dev:
+  web_dev:
 #    image_gallery_title: "Image Gallery"
 #    select_an_image: "Select an image you want to use"
 #    scroll_down_for_more_images: "(Scroll down for more images)"
@@ -2704,7 +2704,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    basic_event_handling: "Basic Event Handling"
 #    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
-#  anonymous_teacher:
+  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
 #    create_teacher_account: "Create free teacher account"
     enter_student_name: "Dein Name:"
@@ -3124,7 +3124,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    totals_explanation_9: "Counts total games and web pages created."
 #    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
-#  interactives:
+  interactives:
 #    phenomenal_job: "Phenomenal Job!"
     try_again: "Ups, probier's nochmal!"
 #    select_statement_left: "Ups, select a statement from the left before hitting \"Submit.\""
