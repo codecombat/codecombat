@@ -159,7 +159,7 @@ module.exports = class HomeView extends RootView
 
     if me.isAnonymous()
       if document.location.hash is '#create-account' or utils.getQueryVariable('registering') == true
-        @openModalView(new CreateAccountModal())
+        @openModalView(new CreateAccountModal({ origin: 'esports' }))
       if document.location.hash is '#create-account-individual'
         @openModalView(new CreateAccountModal({startOnPath: 'individual'}))
       if document.location.hash is '#create-account-student'

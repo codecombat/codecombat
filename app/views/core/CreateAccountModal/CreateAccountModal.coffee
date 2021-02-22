@@ -87,7 +87,7 @@ module.exports = class CreateAccountModal extends ModalView
       wantInSchool: false
     }
 
-    { startOnPath } = options
+    { startOnPath, origin } = options
     switch startOnPath
       when 'student' then @signupState.set({ path: 'student', screen: 'segment-check' })
       when 'individual' then @signupState.set({ path: 'individual', screen: 'segment-check' })
@@ -150,7 +150,10 @@ module.exports = class CreateAccountModal extends ModalView
         else if @signupState.get('path') is 'teacher'
           store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
           store.commit('modal/updateSignupForm', @signupState.get('signupForm'))
-          store.commit('modal/updateTrialRequestProperties', _.pick(@signupState.get('signupForm'), 'firstName', 'lastName'))
+          trialRequestProperties = _.pick(@signupState.get('signupForm'), 'firstName', 'lastName')
+          if origin
+            trialRequestProperties.siteOrigin = origin
+          store.commit('modal/updateTrialRequestProperties', trialRequestProperties)
           @signupState.set { screen: 'teacher-signup-component' }
         else if @signupState.get('subModalContinue')
           storage.save('sub-modal-continue', @signupState.get('subModalContinue'))
