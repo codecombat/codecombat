@@ -647,10 +647,31 @@ module.exports = class ThangTypeEditView extends RootView
   #  no big ones.
   #  When dryRun is true, no mutation takes place. Instead all containers with bounds
   #  larger than the maxBounds are logged letting you find them.
-  fixCorruptContainerBounds: (boundsWidthToFix=400, dryRun=true) ->
+  fixCorruptContainerBounds: (boundsWidthToFix=400, dryRun=true, backupBounds=undefined) ->
+    console.log("""
+      Running fixCorruptContainerBounds.
+        First argument is size of bounds to fix.
+        Second argument is whether or not to fix the container.
+      
+      To find the numbers of large bounds, run the script:
+        `currentView.fixCorruptContainerBounds()`
+      To run a test run without making changes to bounds of size 700 run:
+        `currentView.fixCorruptContainerBounds(700, true)`
+      And to make changes:
+        `currentView.fixCorruptContainerBounds(700, false)`
+      You can always revert the changes from the editor if the animation is broken.
+
+      Finally if there are no shape bounds present you can pass in your own with the format of [x, y, width, height]
+      i.e.
+        `currentView.fixCorruptContainerBounds(700, false, [0, 0, 50, 100])`
+      This will cut out a 50px wide and 100px tall container around the sprite.
+      Incorrect settings of custom bounds will cut the artwork.
+    """)
     # Fix all the messed up bounds
     data = @thangType.attributes
     fixCount = 0
+    failCount = 0
+    backupBoundsCount = 0
     for [key, container] in Object.entries(data.raw.containers)
       if dryRun
         if container.b?[2] >= boundsWidthToFix
@@ -660,10 +681,16 @@ module.exports = class ThangTypeEditView extends RootView
           reference = container.c[0]
           if data.raw.shapes[reference]
             shape = data.raw.shapes[reference]
-            container.b = [shape.bounds[0] + shape.t[0] - 5, shape.bounds[1] + shape.t[1] - 5, shape.bounds[2] + 10, shape.bounds[3] + 10]
-            fixCount += 1
+            if shape.bounds is undefined and Array.isArray(backupBounds)
+              backupBoundsCount += 1
+              shape.bounds ?= backupBounds # Lets user pass in backup bounds with options: [x, y, width, height]
+            try
+              container.b = [shape.bounds[0] + shape.t[0] - 5, shape.bounds[1] + shape.t[1] - 5, shape.bounds[2] + 10, shape.bounds[3] + 10]
+              fixCount += 1
+            catch e
+              failCount += 1
             console.log('.')
-    console.log('Fixed:', fixCount)
+    console.log('Fixed:', fixCount, 'Failed:', failCount, 'Used backup bounds:', backupBoundsCount)
 
 
 
