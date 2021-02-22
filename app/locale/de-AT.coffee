@@ -1695,7 +1695,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    view_project: "View Project"
 #    edit_project: "Edit Project"
 
-#  teacher:
+  teacher:
 #    assigning_course: "Assigning course"
 #    back_to_top: "Back to Top"
 #    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
@@ -2456,7 +2456,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     unsubscribe_failed: "Gescheitert"
     unsubscribe_success: "Erfolg"
 
-#  account_invoices:
+  account_invoices:
 #    amount: "Amount in US dollars"
 #    declined: "Your card was declined"
 #    invalid_amount: "Please enter a US dollar amount."
@@ -2466,7 +2466,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    retrying: "Server error, retrying."
     success: "Erfolgreich bezahlt. Danke!"
 
-#  account_prepaid:
+  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
 #    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
