@@ -37,14 +37,14 @@ block content
               tr
                 td
                   if clan.get('ownerID') === me.id
-                    a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('name')
+                    a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('displayName') || clan.get('name')
                   else
-                    a(href="/clans/#{clan.id}")= clan.get('name')
+                    a(href="/clans/#{clan.id}")= clan.get('displayName') || clan.get('name')
                 td= clan.get('memberCount')
                 td 
                   if view.idNameMap && view.idNameMap[clan.get('ownerID')]
                     a(href="/user/#{clan.get('ownerID')}")= view.idNameMap[clan.get('ownerID')]
-                  else
+                  else if clan.get('ownerID')
                     a(href="/user/#{clan.get('ownerID')}") Anonymous
                 td
                   if view.myClanIDs.indexOf(clan.id) < 0
@@ -74,7 +74,7 @@ block content
                 td 
                   if view.idNameMap && view.idNameMap[clan.get('ownerID')]
                     a(href="/user/#{clan.get('ownerID')}")= view.idNameMap[clan.get('ownerID')]
-                  else
+                  else if clan.get('ownerID')
                     a(href="/user/#{clan.get('ownerID')}") Anonymous
                 td= clan.get('type')
                 td

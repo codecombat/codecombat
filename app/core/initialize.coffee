@@ -54,9 +54,11 @@ init = ->
   path = document.location.pathname
   app.testing = _.string.startsWith path, '/test'
   app.demoing = _.string.startsWith path, '/demo'
-  setUpBackboneMediator()
+  setUpBackboneMediator(app)
   app.initialize()
   loadOfflineFonts() unless app.isProduction()
+  # We always want to load this font.
+  $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/vt323.css">'
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
@@ -88,10 +90,10 @@ handleNormalUrls = ->
 
     return false
 
-setUpBackboneMediator = ->
+setUpBackboneMediator = (app) ->
   Backbone.Mediator.addDefSchemas schemas for definition, schemas of definitionSchemas
   Backbone.Mediator.addChannelSchemas schemas for channel, schemas of channelSchemas
-  Backbone.Mediator.setValidationEnabled document.location.href.search(/codecombat.com/) is -1
+  Backbone.Mediator.setValidationEnabled(not app.isProduction())
   if false  # Debug which events are being fired
     originalPublish = Backbone.Mediator.publish
     Backbone.Mediator.publish = ->

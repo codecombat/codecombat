@@ -140,10 +140,6 @@ _.extend LevelSessionSchema.properties,
         date: c.date
           description: 'When the submission achieving this score happened.'
         score: {type: 'number'}  # Store 'time', 'damage-taken', etc. as negative numbers so the index works.
-    capstoneStage:
-      type: 'number'
-      title: 'Capstone Stage'
-      description: 'Current capstone stage of the level. If, say, stage 7 is yet incomplete, capstoneStage will be 7. If stage 7 is complete, capstoneStage will be 8. When a capstone level is complete, capstoneStage will be 1 higher than the final stage number.'
 
   code:
     type: 'object'
@@ -346,6 +342,14 @@ _.extend LevelSessionSchema.properties,
       type: 'string'
       title: 'Level session source'
       description: 'Source of the level session, if present level session was added from an external source'
+
+  creatorAge:
+    type: 'number'
+    title: 'Creator Age'
+    description: 'Age of creator, in years (but with month precision), at time of session creation, or session.submitDate for ladder sessions'
+    minimum: 0
+
+  codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'CodePoints this user earned for completing this level'}
 
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 

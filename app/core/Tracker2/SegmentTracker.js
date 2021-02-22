@@ -94,10 +94,7 @@ export function loadSegment () {
   // analytics.page();
 }
 
-const DEFAULT_SEGMENT_OPTIONS = {
-  // TODO remove after intercom disabled in segment
-  Intercom: { hideDefaultLauncher: true }
-}
+const DEFAULT_SEGMENT_OPTIONS = {};
 
 export default class SegmentTracker extends BaseTracker {
   constructor (store) {

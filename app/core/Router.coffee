@@ -83,6 +83,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/skipped-contacts': go('admin/SkippedContactsView')
     'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
     'admin/outcomes-report': go('admin/OutcomesReportView')
+    'admin/clan/:clanID': go('core/SingletonAppVueComponentView')
 
     'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
@@ -179,38 +180,20 @@ module.exports = class CocoRouter extends Backbone.Router
     'impact': () ->
       @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat' })
 
+    'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
+    'league(/*subpath)': go('core/SingletonAppVueComponentView')
+
     'legal': go('LegalView')
 
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
-    'ozaria/play/level/:levelID': (levelID) ->
-      props = {
-        levelID: levelID
-      }
-      @routeDirectly('ozaria/site/play/PagePlayLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-    # TODO move to vue router after support for empty template is added there
-    'ozaria/play/:campaign(?course-instance=:courseInstanceId)': (campaign, courseInstanceId) ->
-      props = {
-        campaign: campaign,
-        courseInstanceId: courseInstanceId
-      }
-      @routeDirectly('ozaria/site/play/PageUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-
-    'ozaria/play/intro/:introLevelIdOrSlug': (introLevelIdOrSlug) ->
-      props = {
-        introLevelIdOrSlug: introLevelIdOrSlug
-      }
-      @routeDirectly('introLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-
-    'ozaria/character-customization': () ->
-      @routeDirectly('ozaria/site/characterCustomization', [], { vueRoute: true, baseTemplate: 'base-empty' })
-
-    'ozaria/avatar-selector': () ->
-      @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' })
 
     'parents': go('core/SingletonAppVueComponentView')
     'live-classes': go('core/SingletonAppVueComponentView')
+
+    # Warning: In production debugging of third party iframe!
+    'temporary-debug-timetap': go('core/SingletonAppVueComponentView')
 
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')

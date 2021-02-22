@@ -36,7 +36,7 @@ module.exports = class CastButtonView extends CocoView
     # Keep server/middleware/levels.coffee mirror list in sync with this one
     @loadMirrorSession() if @options.level.get('mirrorMatch')
     @mirror = @mirrorSession?
-    @autoSubmitsToLadder = @options.level.isType('course-ladder')
+    @autoSubmitsToLadder = @options.level.isType('course-ladder')  # type 'ladder' will do a lot of work on submit, so don't auto-submit
     # Show publish CourseVictoryModal if they've already published
     if options.session.get('published')
       Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: false }

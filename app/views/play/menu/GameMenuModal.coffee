@@ -43,7 +43,7 @@ module.exports = class GameMenuModal extends ModalView
     context
 
   showsChooseHero: ->
-    return false if @level?.isType('course', 'course-ladder', 'game-dev', 'web-dev')
+    return false if @level?.isType('course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')
     return false if @level?.get('assessment') is 'open-ended'
     return false if @level?.usesConfiguredMultiplayerHero()
     return true

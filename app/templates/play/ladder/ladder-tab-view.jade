@@ -12,8 +12,9 @@
           tr
             th(colspan=levelType == 'hero-ladder' ? 3 : 2)
             th(colspan=4, style="color: #{team.primaryColor}")
-              span= team.displayName
-              span.spl(data-i18n="ladder.leaderboard") Leaderboard
+              if levelType != 'ladder'
+                span= team.displayName + ' '
+              span(data-i18n="ladder.leaderboard") Leaderboard
           tr
             th(colspan=levelType == 'hero-ladder' ? 3 : 2)
             th(data-i18n="general.score") Score
@@ -32,11 +33,11 @@
               if levelType == 'hero-ladder'
                 td.hero-portrait-cell(style="background-image: url(/file/db/thang.type/#{(session.get('heroConfig') || {}).thangType || '529ffbf1cf1818f2be000001'}/portrait.png)")
               td.rank-cell= rank + 1
-              td.score-cell= Math.round(view.scoreForDisplay(sessionStats.totalScore || session.get('totalScore') / 2))
-              td(class='name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
+              td.score-cell= Math.round(view.scoreForDisplay(sessionStats.totalScore || session.get('totalScore') / 2)).toLocaleString()
+              td(class='name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
               td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
               td.fight-cell
-                a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
+                a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam || 'humans'}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
                   span(data-i18n="ladder.fight") Fight!
               td.spectate-cell.iconic-cell
                 .glyphicon.glyphicon-eye-open
@@ -52,15 +53,15 @@
                 if levelType == 'hero-ladder'
                   td.hero-portrait-cell(style="background-image: url(/file/db/thang.type/#{(session.get('heroConfig') || {}).thangType || '529ffbf1cf1818f2be000001'}/portrait.png)")
                 td.rank-cell= session.rank
-                td.score-cell= Math.round(view.scoreForDisplay(sessionStats.totalScore || session.get('totalScore') / 2))
-                td(class='name-col-cell' + ((new RegExp('(Simple|Shaman|Brawler|Chieftain|Thoktar) CPU')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
+                td.score-cell= Math.round(view.scoreForDisplay(sessionStats.totalScore || session.get('totalScore') / 2)).toLocaleString()
+                td(class='name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
                 td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
                 td.fight-cell
-                  a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
+                  a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam || 'humans'}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
                     span(data-i18n="ladder.fight") Fight!
                 td.spectate-cell.iconic-cell
                   .glyphicon.glyphicon-eye-open
-      if teamIndex == 1
+      if teamIndex == view.teams.length - 1
         .btn.btn-sm.load-more-ladder-entries(data-i18n="editor.more") More
 
   div.column.col-md-4.secret
@@ -85,11 +86,11 @@
             img(src=friend.imageSource).img-thumbnail
             span= friend.creatorName + ' (' + friend.name + ')'
             br
-            span= Math.round(view.scoreForDisplay(friend.totalScore))
+            span= Math.round(view.scoreForDisplay(friend.totalScore)).toLocaleString()
             span : 
             span= friend.team
             br
-            a(href="/play/level/#{view.level.get('slug') || view.level.id}/?team=#{friend.otherTeam}&opponent=#{friend._id}" + (league ? "&league=" + league.id : ""))
+            a(href="/play/level/#{view.level.get('slug') || view.level.id}/?team=#{friend.otherTeam || 'humans'}&opponent=#{friend._id}" + (league ? "&league=" + league.id : ""))
               span(data-i18n="ladder.fight") Fight!
 
       else if onFacebook || onGPlus

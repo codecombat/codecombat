@@ -4,8 +4,6 @@ Classroom = require 'models/Classroom'
 forms = require 'core/forms'
 factories = require 'test/app/factories'
 
-Tracker = require('app/core/Tracker')
-
 SchoolInfoPanel = Vue.extend(require 'views/core/CreateAccountModal/teacher/SchoolInfoPanel')
 TeacherSignupStoreModule = require 'views/core/CreateAccountModal/teacher/TeacherSignupStoreModule'
 

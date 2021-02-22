@@ -201,7 +201,7 @@ module.exports = class ClanDetailsView extends RootView
         if level.concepts?
           for concept in level.concepts
             @conceptsProgression.push concept unless concept in @conceptsProgression
-        if level.type is 'hero-ladder' and level.slug not in ['capture-their-flag']  # Would use isType, but it's not a Level model
+        if level.type in ['hero-ladder', 'ladder'] and level.slug not in ['capture-their-flag']  # Would use isType, but it's not a Level model
           @arenas.push level
       @campaignLevelProgressions.push campaignLevelProgression
     @render?()
@@ -211,7 +211,7 @@ module.exports = class ClanDetailsView extends RootView
       title: $.i18n.t('clans.clan_title', { clan: @clan.get('name') })
     })
 
-    unless @owner?
+    if @clan.get('ownerID') and not @owner?
       @owner = new User _id: @clan.get('ownerID')
       @listenTo @owner, 'sync', => @render?()
       @supermodel.loadModel @owner, cache: false

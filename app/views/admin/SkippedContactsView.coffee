@@ -33,9 +33,6 @@ SkippedContactInfo =
         for prop in props
           continue if (['email', 'educationLevel', 'created'].indexOf(prop) >= 0)
           noteData += "demo_#{prop}: #{props[prop]}\n"
-      noteData += "intercom_url: #{@skippedContact.intercomUrl}\n" if (@skippedContact.intercomUrl)
-      noteData += "intercom_lastSeen: #{@skippedContact.intercomLastSeen}\n" if (@skippedContact.intercomLastSeen)
-      noteData += "intercom_sessionCount: #{@skippedContact.intercomSessionCount}\n" if (@skippedContact.intercomSessionCount)
 
       if @user
         noteData += "coco_userID: #{@user._id}\n"

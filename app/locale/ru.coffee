@@ -2,7 +2,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   new_home:
     title: "CodeCombat - Игры с програмированнием для изучения Python и Java Script"
-    meta_keywords: "CodeCombat, Python, Javascript, Игры с програмированнием"
+    meta_keywords: "CodeCombat, Python, JavaScript, Игры с програмированнием"
     meta_description: "Учитесь писать код с помощью игр для програмирования.Изучайте Python, JavaScript и HTML, решая головоломки, и учитесь создавать собственные игры и сайты для написания кода."
     meta_og_url: "https://codecombat.com"
 #    become_investor: "to become an investor in CodeCombat"
@@ -44,7 +44,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     creativity_rigor_blurb3: "Самостоятельная, стандартизированная учебная программа CodeCombat делает преподавание информатики возможным для всех. CodeCombat предоставляет учителям учебные, учебные ресурсы и специальную поддержку, чтобы чувствовать себя уверенно и успешно в классе."
     featured_partners_title1: "Зарекомендован в"
     featured_partners_title2: "Награды и Партнеры"
-    featured_partners_blurb1: "Совет колледжа одобрил провайдера"
+    featured_partners_blurb1: "Совет колледжа одобрил провайдера" # {change}
     featured_partners_blurb2: "Лучшая креативная вещь для студентов"
     featured_partners_blurb3: "Лучший выбор для обучения"
     featured_partners_blurb4: "Code.org Официальный партнер"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     for_leaders_subtitle2: "Программа полная кодирования"
     for_leaders_subblurb2: "Соответствующая стандартам учебная программа с учебными ресурсами и профессиональным развитием, позволяющая любому преподавателю преподавать информатику."
     for_leaders_subtitle3: "Гибкие варианты использования"
-    for_leaders_subblurb3: "Независимо от того, хотите ли вы создать факультатив по кодированию в средней школе, курс CTE или класс AP Computer Science Principles, CodeCombat разработан с учетом ваших потребностей."
+    for_leaders_subblurb3: "Независимо от того, хотите ли вы создать факультатив по кодированию в средней школе, курс CTE или класс AP Computer Science Principles, CodeCombat разработан с учетом ваших потребностей." # {change}
     for_leaders_subtitle4: "Навыки реального мира"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
     for_teachers_title: "Для учителей"
@@ -91,11 +91,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teachers_love_codecombat_blurb2: "Рекомендую CodeCombat всем учителмя информатики"
     teachers_love_codecombat_blurb3: "Скажите, что CodeCombat помогает им поддерживать способности учащихся решать проблемы"
     teachers_love_codecombat_subblurb: "В партнерстве с McREL International, лидером в области основанного на исследованиях руководства и оценки образовательных технологий."
-#    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
+#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
     try_the_game: "Попробуй игру"
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
     play_now: "Играть сейчас"
+#    im_a_parent: "I'm a Parent"
     im_an_educator: "Я преподаватель"
     im_a_teacher: "Я учитель"
     im_a_student: "Я ученик"
@@ -209,6 +210,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     resource_hub: "Ресурсы"
     apcsp: "AP CS Принципы"
     parent: "Родителям"
+#    esports: "Esports"
     browser_recommendation: "Для наилучшего опыта мы рекомендуем использоватеть последнюю версию Chrome. Скачай браузер здесь!"
 
   modal:
@@ -246,6 +248,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     request_licenses: "Связаться с нашими специалистами и узнать больше."
     compete: "Соревноваться!" # Course details page
     spectate: "Наблюдать" # Ladder page
+#    simulate_all: "Simulate All"
     players: "игроки" # Hover over a level on /play
     hours_played: "часов сыграно" # Hover over a level on /play
     items: "Предметы" # Tooltip on item shop button from /play
@@ -434,6 +437,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     eu_confirmation_place_of_processing: "Узнайте больше о возможных рискахs"
     eu_confirmation_student: "Если вы не уверены, спросите своего учителя."
     eu_confirmation_individual: "Если вы не хотите хранить данные на американских серверах, вы всегда можете играть анонимно, не сохраняя ваш код."
+#    password_requirements: "8 to 64 characters with no repeating"
+#    invalid: "Invalid"
+#    invalid_password: "Invalid password"
+#    with: "with"
+#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+#    have_a_classcode: "Have a Class Code?"
+#    yes_i_have_classcode: "Yes, I have a Class Code!"
+#    enter_it_here: "Enter it here:"
 
   recover:
     recover_account_title: "Восстановить учётную запись"
@@ -547,6 +558,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     more: "Больше"
     fewer: "Меньше"
     with: "с"
+#    chat: "Chat"
+#    chat_with_us: "Chat with us"
+#    email_us: "Send us an email"
+#    sales: "Sales"
+#    support: "Support"
 
   units:
     second: "секунда"
@@ -646,7 +662,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_cast_button_update: "Обновление"
     tome_submit_button: "Завершить"
     tome_reload_method: "Загрузить оригинальный код, чтобы начать уровень заново"
-    tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
     hints: "Советы"
     videos: "Видео"
@@ -752,6 +767,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    start: "Start"
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
+#    fill_in_solution: "Fill in solution"
 
   apis:
     methods: "Методы"
@@ -902,6 +918,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sorry_to_see_you_go: "Жаль, что вы уходите! Пожалуйста, расскажите нам, что мы можем сделать лучше."
     unsubscribe_feedback_placeholder: "О, что мы наделали?"
     stripe_description: "Месячная подписка"
+#    stripe_yearly_description: "Annual Subscription"
     buy_now: "Купить сейчас"
     subscription_required_to_play: "Чтобы пройти этот уровень, нужна подписка."
     unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео."
@@ -926,7 +943,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     first_month_price: "Всего $__price__ за первый месяц!"
     lifetime: "Пожизненная подписка" # {change}
     lifetime_price: "$__price__"
-    year_subscription: "Годовая подписка"
+    year_subscription: "Годовая подписка" # {change}
     year_price: "$__price__/год"
     support_part1: "Нужна помощь по способах оплаты? Напишите на" # {change}
     support_part2: "support@codecombat.com"
@@ -1108,30 +1125,40 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     team_title: "Присоединяйтесь к команде CodeCombat"
     team_values: "Мы ценим открытый и вежливый диалог, где побеждают лучшие идеи. Наши решения основаны на исследовании пожеланий клиентов, а наш процесс направлен на то, чтобы приносить осязаемые результаты. У нас все при деле, от CEO до контрибьютеров на GitHub, потому что мы ценим рост и обучение в своей команде."
     nick_title: "Сооснователь, CEO"
-    matt_title: "Сооснователь, CTO"
-#    lawrence_title: "Customer Success Manager"
-#    jane_title: "Account Executive"
+#    csm_title: "Customer Success Manager"
+#    ae_title: "Account Executive"
+#    sae_title: "Senior Account Executive"
+#    sism_title: "Senior Inside Sales Manager"
 #    shan_title: "Head of Marketing, CodeCombat Greater China"
 #    run_title: "Head of Operations, CodeCombat Greater China"
 #    lance_title: "Head of Technology, CodeCombat Greater China"
 #    zhiran_title: "Head of Curriculum, CodeCombat Greater China"
 #    yuqiang_title: "Head of Innovation, CodeCombat Greater China"
-#    matias_title: "Senior Software Engineer"
-#    ryan_title: "Customer Support Specialist"
+#    swe_title: "Software Engineer"
+#    sswe_title: "Senior Software Engineer"
+#    css_title: "Customer Support Specialist"
+#    css_qa_title: "Customer Support / QA Specialist"
 #    maya_title: "Senior Curriculum Developer"
 #    bill_title: "General Manager, CodeCombat Greater China"
-#    shasha_title: "Product and Visual Designer"
+#    pvd_title: "Product and Visual Designer"
+#    spvd_title: "Senior Product and Visual Designer"
 #    daniela_title: "Marketing Manager"
 #    bobby_title: "Game Designer"
 #    brian_title: "Senior Game Design Manager"
 #    stephanie_title: "Customer Support Specialist"
-#    rob_title: "Sales Development Representative"
-#    shubhangi_title: "Senior Software Engineer"
+#    sdr_title: "Sales Development Representative"
     retrostyle_title: "Иллюстрации"
     retrostyle_blurb: "RetroStyle Games"
     community_title: "...и наше open-source сообщество"
 #    bryukh_title: "Senior Gameplay Developer"
-#    bryukh_blurb: "Constructs puzzles"
+#    oa_title: "Operations Associate"
+#    ac_title: "Administrative Coordinator"
+#    ea_title: "Executive Assistant"
+#    om_title: "Operations Manager"
+#    mo_title: "Manager, Operations"
+#    scd_title: "Senior Curriculum Developer"
+#    lcd_title: "Lead Curriculum Developer"
+#    vpm_title: "VP, Marketing"
     community_subtitle: "Более 500 авторов помогли создать CodeCombat, и новые присоединяются к нам каждую неделю!"
     community_description_3: "CodeCombat – это"
     community_description_link_2: "проект сообщества"
@@ -1141,7 +1168,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     number_contributors: "Более 450 участников потратили свои силы и время на поддержку проекта."
     story_title: "Наша история"
     story_subtitle: "Начиная с 2013 года, CodeCombat вырос от простого набора эскизов в живую и растущую игровую платформу."
-    story_statistic_1a: "5,000,000+"
+    story_statistic_1a: "20,000,000+"
     story_statistic_1b: "всего игроков"
     story_statistic_1c: "начали путешествие в мир программирования с помощью CodeCombat"
     story_statistic_2a: "Мы переведены более чем на 50 языков — наши игроки приходят из"
@@ -1390,7 +1417,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     article_editor_suffix: "и помогите игрокам CodeCombat получить максимум от их времяпрепровождения."
     find_us: "Найдите нас на этих сайтах"
     social_github: "Посмотрите код нашего проекта на GitHub"
-    social_blog: "Читайте блог CodeCombat на Sett"
+    social_blog: "Читайте блог CodeCombat на Sett" # {change}
     social_discource: "Присоединяйтесь к обсуждению на нашем форуме"
     social_facebook: "Оцените CodeCombat на Facebook"
     social_twitter: "Следуйте за CodeCombat на Twitter"
@@ -1660,8 +1687,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    certificate_btn_print: "Print"
 #    certificate_btn_toggle: "Toggle"
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Assign up to level"
-#    no_level_limit: "--"
+#    set_start_locked_level: "Lock levels starting at"
+#    no_level_limit: "-- (no levels locked)"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1675,10 +1702,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     code: "Код, написанный __name__"
     complete_solution: "Полное решение"
     course_not_started: "Студент еще не начал этот курс."
-#    appreciation_week_blurb1: "For <strong>Teacher Appreciation Week 2019</strong>, we are offering free 1-week licenses!<br />Email Rob Arevalo (<a href=\"mailto:robarev@codecombat.com?subject=Teacher Appreciation Week\">robarev@codecombat.com</a>) with subject line \"<strong>Teacher Appreciation Week</strong>\", and include:"
-#    appreciation_week_blurb2: "the quantity of 1-week licenses you'd like (1 per student)"
-#    appreciation_week_blurb3: "the email address of your CodeCombat teacher account"
-#    appreciation_week_blurb4: "whether you'd like licenses for Week 1 (May 6-10) or Week 2 (May 13-17)"
 #    hoc_happy_ed_week: "Happy Computer Science Education Week!"
 #    hoc_blurb1: "Learn about the free"
     hoc_blurb2: "Программируй, играй, делись"
@@ -1770,6 +1793,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     assign_course: "Назначить курс"
     removed_course_msg: "{{numberRemoved}} учеников были исключены с курса {{courseName}}."
     remove_course: "Удалить курс"
+#    not_assigned_msg_1: "Cannot add users to a course instance until they are added to a prepaid that includes this course"
     not_assigned_modal_title: "Курсы не были назначены"
     not_assigned_modal_starter_body_1: "Этот курс требует Стартовую Лицензию. У Вас нет Стартовой Лицензии для назначения всех __selected__ выбранных учеников на курс."
     not_assigned_modal_starter_body_2: "Купите Стартовую Лицензию для предоставления доступа к этому курсу."
@@ -1781,6 +1805,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     no_students_selected: "Не выбрано ни одного ученика."
     show_students_from: "Показать учеников из" # Enroll students modal
     apply_licenses_to_the_following_students: "Применить Лицензии для следующих учеников"
+#    select_license_type: "Select License Type to Apply"
     students_have_licenses: "Ученики, у которых есть лицензии:"
     all_students: "Все ученики"
     apply_licenses: "Применить Лицензию"
@@ -1839,6 +1864,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teacher_getting_started_desc: "Вы новичок на CodeCombat? Загрузите учительское руководство начинающего, чтобы настроить свою учетную запись, создать свой первый класс и пригласить учеников на первый курс."
     student_getting_started: "Ученическое руководство начинающего"
     student_getting_started_desc: "Вы можете показать это руководство ученикам перед началом урока на CodeCombat, чтобы они могли ознакомиться с редактором кода. Это руководство может использоваться как для Python, так и для JavaScript классов."
+#    standardized_curricula: "Standardized Curricula"
 #    ap_cs_principles: "AP Computer Science Principles"
 #    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
     cs1: "Введение в информатику"
@@ -1918,13 +1944,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    student_state: "How is"
 #    student_state_2: "doing?"
 #    student_good: "is doing well in"
-#    student_good_detail: "This student is keeping pace with the class."
+#    student_good_detail: "This student is keeping pace with the class's average level completion times."
 #    student_warn: "might need some help in"
-#    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
+#    student_warn_detail: "This student's average level completion times suggest they might need some help with new concepts that have been introduced in this course."
 #    student_great: "is doing great in"
-#    student_great_detail: "This student might be a good candidate to help other students working through this course."
+#    student_great_detail: "This student might be a good candidate to help other students working through this course, based on average level completion times."
     full_license: "Полная лицензия"
     starter_license: "Начальная лицензия"
+#    customized_license: "Customized License"
     trial: "Триал"
 #    hoc_welcome: "Happy Computer Science Education Week"
 #    hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
@@ -2009,6 +2036,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    concept: "Concept"
 #    sync_google_classroom: "Sync Google Classroom"
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+#    try_ozaria_free: "Try Ozaria for free"
+#    ozaria_intro: "Introducing Our New Computer Science Program"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2020,6 +2049,21 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    bullet3: "Unlock creativity through capstone projects"
 #    bullet4: "Support instructions through dedicated curriculum resources"
 #    you_can_return: "You can always return to CodeCombat"
+
+#  educator_signup_ozaria_encouragement:
+#    recommended_for: "Recommended for:"
+#    independent_learners: "Independent learners"
+#    homeschoolers: "Homeschoolers"
+#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
+#    continue_coco: "Continue with CodeCombat"
+
+#  ozaria_cta:
+#    title1: "Standards Aligned Core Curriculum"
+#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
+#    title2: "Turnkey Lesson Plans"
+#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
+#    title3: "New Teacher & Admin Dashboards"
+#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2233,7 +2277,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     scribe_join_description: "расскажите нам немного о себе, вашем опыте в программировании и какие вещи вы хотели бы описывать. Отсюда и начнём!"
     scribe_subscribe_desc: "Получать e-mail с объявлениями о написании статей."
     diplomat_introduction_pref: "Так, одной из вещей, которую мы узнали из "
-    diplomat_launch_url: "запуска в октябре"
+#    diplomat_introduction_url: "open source community"
     diplomat_introduction_suf: "было то, что есть значительная заинтересованность в CodeCombat в других странах! Мы создаём корпус переводчиков, стремящихся превратить один набор слов в другой набор слов для максимальной доступности CodeCombat по всему миру. Если вы любите видеть контент до официального выхода и получать эти уровни для ваших соотечественников как можно скорее, этот класс для вас."
     diplomat_attribute_1: "Свободное владение английским языком и языком, на который вы хотели бы переводить. При передаче сложных идей важно иметь сильную хватку в обоих!"
     diplomat_i18n_page_prefix: "Вы можете начать переводить уровни, посетив нашу"
@@ -2246,8 +2290,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     ambassador_introduction: "Это сообщество, которое мы создаём, а вы объединяете. У нас есть Olark чаты, электронная почта и социальные сети с уймой людей, с которыми нужно поговорить, помочь в ознакомлении с игрой и обучении из неё. Если вы хотите помочь людям втянуться, получать удовольствие, наслаждаться и и куда мы идём, этот класс для вас."
     ambassador_attribute_1: "Навыки общения. Уметь определять проблемы игроков и помогать решить их. Кроме того, держите всех нас в курсе о том, что игроки говорят, что им нравится, не нравится и чего хотят больше!"
     ambassador_join_desc: "расскажите нам немного о себе, чем вы занимались и чем хотели бы заниматься. Отсюда и начнём!"
-    ambassador_join_note_strong: "Примечание"
-    ambassador_join_note_desc: "Одним из наших главных приоритетов является создание мультиплеера, где игроки столкнутся с труднорешаемыми уровнями и могут призвать более высокоуровневых волшебников для помощи. Это будет отличным способом для послов делать свое дело. Мы будем держать вас в курсе!"
+#    ambassador_join_step1: "Read the documentation."
+#    ambassador_join_step2: "Find us in our public Slack channel."
+#    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "Получать e-mail о разработке мультиплеера и обновлениях в системе поддержки."
     teacher_subscribe_desc: "Получать e-mail с новостями и объявлениями для учителей."
     changes_auto_save: "Изменения сохраняются автоматически при переключении флажков."
@@ -2310,7 +2355,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tournament_ends: "Турнир заканчивается"
     tournament_ended: "Турнир закончился"
     tournament_rules: "Правила турнира"
-    tournament_blurb: "Пишите код, собирайте золото, стройте армию, крушите противников, получайте призы и улучшайте вашу карьеру в нашем \"$40,000 турнире жадности\"! Узнайте больше"
     tournament_blurb_criss_cross: "Выигрывайте ставки, создавайте пути, перехитрите оппонентов, собирайте самоцветы и улучшайте вашу карьеру в нашем турнире Criss-Cross! Узнайте больше"
     tournament_blurb_zero_sum: "Дайте волю своей программистской фантазии в собирании золота и боевой тактике в этом высокогорном зеркальном матче между красным волшебником и синим волшебником. Турнир начался в пятницу, 27 марта, и продолжится до 17.00 PDT понедельника, 6 апреля. Участвуйте для веселья и славы! Посмотрите детали"
     tournament_blurb_ace_of_coders: "Сражайтесь в замороженном леднике в этом зеркальном матче, доминируйте над соперниками! Турнир начался в среду, 16 сентября и продлится до четверга, 15 октября до 3 утра МСК. Узнайте подробности"
@@ -2327,6 +2371,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     awaiting_tournament_title: "Турнир Неактивен"
     awaiting_tournament_blurb: "Турнирная арена пока не активна."
     tournament_end_desc: "Турнир окончен, спасибо за участие"
+#    age: "Age"
+#    bracket_0_11: "0-11"
+#    bracket_11_14: "11-14"
+#    bracket_14_18: "14-18"
+#    bracket_open: "Open"
 
   user:
     user_title: "__name__ - Изучи программирование с CodeCombat"
@@ -2440,13 +2489,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     you_can1: "Вы можете"
     you_can2: "купить предоплаченный код"
     you_can3: "который можно применить к вашему аккаунту или передать другому."
-
-  ozaria_chrome:
-    sound_off: "Звук ВЫКЛ"
-    sound_on: "Звук ВКЛ"
-    back_to_map: "Назад к карте"
-    level_options: "Параметры уровня"
-    restart_level: "Перезапуск уровня"
 
 #  impact:
 #    hero_heading: "Building A World-Class Computer Science Program"
@@ -2743,26 +2785,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     cookies_deny: "Отказаться от использования сеансовых куки"
 #    cookies_allow: "Allow cookies"
 
-  ladder_prizes:
-    title: "Турнирные призы" # This section was for an old tournament and doesn't need new translations now.
-    blurb_1: "Призами будут награждены (согласно"
-    blurb_2: "турнирным правилам)"
-    blurb_3: "лучшие игроки команд \"Human\" и \"Ogres\"."
-    blurb_4: "Две команды - вдвое больше призов!"
-    blurb_5: "(Будет двое победителей, двое занявших второе место и т.д.)"
-    rank: "Ранг"
-    prizes: "Призы"
-    total_value: "Итоговое значение"
-    in_cash: "наличными"
-    custom_wizard: "Пользовательский волшебник CodeCombat"
-    custom_avatar: "Пользовательский аватар CodeCombat"
-    heap: "шесть месяцев доступа \"Startup\""
-    credits: "кредиты"
-    one_month_coupon: "купон: выберите Rails или HTML"
-    one_month_discount: "скидка 30%: выберите Rails или HTML"
-    license: "лицензия"
-    oreilly: "электронная книга на ваш выбор"
-
   calendar:
     year: "Год"
     day: "День"
@@ -2790,6 +2812,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   server_error:
     email_taken: "Данный емейл уже занят"
     username_taken: "Данное имя пользователя уже занято"
+#    easy_password: "Password is too easy to guess"
+#    reused_password: "Password cannot be reused"
 
   esper:
     line_no: "Строка $1: "
@@ -2912,56 +2936,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    unit_10: "Unit 10: Post-AP"
 #    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
 
-  parent_landing:
-    slogan_quote: "\"CodeCombat это действительно весело и познавательно.\""
-    quote_attr: "Пятиклассник, Окленд" # {change}
-    refer_teacher: "Уведомить учителя"
-    focus_quote: "Раскройте потенциал вашего ребёнка"
-    value_head1: "Самый увлекательный способ познать основы программирования"
-    value_copy1: "CodeCombat - персональный учитель ребёнка. Охватывая материал в соответствии с национальными стандартами учебных программ, ребенок будет программировать алгоритмы, создавать веб-сайты и даже разрабатывать свои собственные игры."
-    value_head2: "Формирование важнейших навыков для 21 века"
-    value_copy2: "Ваши дети научатся ориентироваться в цифровом мире и станут его гражданами. CodeCombat улучшит критическое мышление вашего ребёнка и его устойчивость."
-    value_head3: "Герои, которых полюбит ваш ребенок"
-    value_copy3: "Мы знаем, насколько важна вовлечённость для развивающегося мозга, поэтому мы собрали в данной игре столько знаний, сколько смогли, и при этом сделали данную игру весёлой!"
-    dive_head1: "Не только разработчики ПО"
-    dive_intro: "Владение навыками информатики помогает во многих областях. Взгляните на несколько примеров ниже!"
-    medical_flag: "В медицине"
-    medical_flag_copy: "От отображения человеческого генома до аппаратов МРТ, программирование помогает изучать нас теми путями, которые не были доступны ранее."
-    explore_flag: "Исследование космоса"
-    explore_flag_copy: "Корабль Восток взлетел в космос благодаря трудолюбивым человеческим программам, а также ученые используют компьютерные программы для анализа гравитации планет и поиска новых звезд."
-    filmaking_flag: "В кино и анимации"
-    filmaking_flag_copy: "Как робототехника в парке юрского периода, так и неверятная анимация Dreamworks и Pixar, созданы за кулисами нашими цифровыми друзьями."
-    dive_head2: "Игры важны для обучения"
-    dive_par1: "Многочисленные исследования показали, что обучение на основе игр способствует"
-    dive_link1: "умственному развитию"
-    dive_par2: "у детей, также доказано"
-    dive_link2: "улучшение эффективности"
-    dive_par3: "учеников"
-    dive_link3: "в изучении и сохранении знаний"
-    dive_par4: ","
-    dive_link4: "концентрации"
-    dive_par5: ", и выполнении более сложных заданий."
-    dive_par6: "Обучение на основе игр также полезно для развития"
-    dive_link5: "устойчивости"
-    dive_par7: ", умственного мышления, и"
-    dive_par8: ". Наука просто говорит нам то, что ученики уже знают. Дети учатся лучше всего, играя."
-    dive_link6: "исполнительных функций"
-    dive_head3: "Объединяйтесь с учителями"
-    dive_3_par1: "В будущем, "
-    dive_3_link1: "программирование станет стольже фундаментальным, как обучение чтению и письму."
-    dive_3_par2: ". Мы работали в тесном сотрудничестве с учителями, чтобы улучшать и развивать наш контент, и мы ждём не дождёмся пока ваши дети научнут обучаться. Образовательные технологические программы, такие как CodeCombat, лучше всего работают, когда учителя помогают в их реализации. Помогите нам улучшить образовательный процесс, познакомив нас с учителями вашего ребенка!"
-    mission: "Наша миссия: обучать и увлекать"
-    mission1_heading: "Программирование для нынешнего поколения"
-    mission2_heading: "Подготовка к будущему"
-    mission3_heading: "Поддержка от родителей, таких как вы"
-    mission1_copy: "Наши специалисты в области образования работают в тесном сотрудничестве с учителями, чтобы встретиться с детьми, которые находятся в образовательном ландшафте. Дети получают навыки, которые могут быть применены вне игры, потому что они учатся решать проблемы, независимо от их стиля обучения."
-    mission2_copy: "Опрос 2016 года показал, что 64% девочек, обучающихся в 3-5-м классе, хотят научиться программировать.  В 2015 году было открыто 7 миллионов вакансий, требующих навыков программирования. Мы создали CodeCombat, потому что каждому ребенку нужно дать шанс создать свое лучшее будущее."
-    mission3_copy: "В CodeCombat мы родители, такие же как вы. Мы программисты. Мы педагоги. Но главное, что мы люди, которые хотят предоставления нашим детям наилучших возможностей для успеха в том, что они решат сделать."
-
 #  parents_landing_2:
 #    splash_title: "Discover the magic of coding at home."
 #    learn_with_instructor: "Learn with an Instructor"
-#    learn_at_own_pace: "Learn at Your Own Pace"
 #    live_classes: "Live Online Classes"
 #    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
 #    live_class_details_1: "Small group or private lessons"
@@ -2995,6 +2972,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    best_seller: "Best Seller"
 #    best_value: "Best Value"
 #    codecombat_premium: "CodeCombat Premium"
+#    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
 #    per_month: " / mo"
@@ -3061,18 +3039,19 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    live_classes_title: "Live coding classes from CodeCombat!"
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
+#    call_to_book: "Call now to book"
 
-  parent_modal:
-    refer_teacher: "Уведомить учителя"
-    name: "Ваше имя"
-    parent_email: "Ваш Email"
-    teacher_email: "Email учителя"
-    message: "Сообщение"
-    custom_message: "Я только что нашел CodeCombat и подумал, что это будет отличная программа для вашего класса! Это платформа для обучения информатике с учебной программой, соответствующей образовательным стандартам..\n\nКомпьютерная грамотность очень важна, и я думаю, что это был бы отличный способ привлечь учеников к обучению программированию."
-    send: "Отправить"
+#  modal_timetap_confirmation:
+#    congratulations: "Congratulations!"
+#    paragraph_1: "Your student’s coding adventure awaits."
+#    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+#    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+#    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+#    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+#    back_to_coco: "Back to CodeCombat"
 
   hoc_2018:
-    banner: "Добро пожаловать в час кода 2019!"
+    banner: "Добро пожаловать в час кода 2019!" # {change}
     page_heading: "Ваши ученики будут учиться программировать, создавая свою собственную игру"
     step_1: "Шаг 1: Посмотри вводное видео"
     step_2: "Шаг 2: Попробуй сам"
@@ -3097,11 +3076,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     point4: "✓ Курсы, основаны на проектах"
     point5: "✓ Отслеживай процесс студентов"
     point6: "✓ Полный учебный план"
-    title: "Час кода 2019"
+    title: "Час кода 2019" # {change}
     acronym: "ЧК"
 
   hoc_2018_interstitial:
-    welcome: "Добро пожаловать в час кода 2019 на CodeCombat!"
+    welcome: "Добро пожаловать в час кода 2019 на CodeCombat!" # {change}
     educator: "Я педагог"
     show_resources: "Покажите мне информацию для учителя!"
     student: "Я ученик"
@@ -3156,3 +3135,22 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     pitch_body: "Для лучшей работы CodeCombat используй последнюю версию Chrome. Загрузи последнюю версию Chrome, нажав кнопку ниже!"
     download: "Скачай Chrome"
     ignore: "Игнорирую"
+
+#  admin:
+#    license_type_full: "Full Courses"
+#    license_type_customize: "Customize Courses"
+
+#  league:
+#    student_register_1: "Become the next AI Champion!"
+#    student_register_2: "Sign up, create your own team, or join other teams to start competing."
+#    student_register_3: "Provide the information below to be eligible for prizes."
+#    teacher_register_1: "Sign up to access your class league profile page and get your class started."
+#    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+#    team: "team"
+#    how_it_works1: "Join a __team__"
+#    seasonal_arena_name: "Blazing Battle"
+#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
+#    seasonal_play_cta: "Play Blazing Battle Multiplayer Arena"
+#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
+#    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
+#    join_now: "Join Now"

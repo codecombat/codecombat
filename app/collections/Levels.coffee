@@ -32,7 +32,7 @@ module.exports = class LevelCollection extends CocoCollection
           return unless s.language is 'html'
           strippedSource = utils.extractPlayerCodeTag(s.source or '')
           s.source = strippedSource if strippedSource
-      map[level.get('original')] = solutions?.map((s) => {source: @fingerprint(s.source, s.language), description: s.description, capstoneStage: s.capstoneStage})
+      map[level.get('original')] = solutions?.map((s) => {source: @fingerprint(s.source, s.language), description: s.description})
       map
     , {})
 

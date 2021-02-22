@@ -8,7 +8,7 @@ NcesSearchInput = require './teacher/NcesSearchInput'
 module.exports = class ConfirmationView extends CocoView
   id: 'confirmation-view'
   template: template
-  
+
   events:
     'click #start-btn': 'onClickStartButton'
 
@@ -17,6 +17,11 @@ module.exports = class ConfirmationView extends CocoView
 
   onClickStartButton: ->
     @saveUserPromise.then =>
+      # Defensively handle league redirects
+      if window.nextURL?.startsWith('/league')
+        window.location.href = window.nextURL
+        return
+
       classroom = @signupState.get('classroom')
       if @signupState.get('path') is 'student'
         # force clearing of _cc GET param from url if on /students
