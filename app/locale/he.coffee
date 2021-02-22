@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     student_state: "איך"
     student_state_2: "מתקדם/ת?"
     student_good: "מתקדם/ת היטב"
-    student_good_detail: "התלמיד/ה עומד/ת בקצב של הכיתה."
+    student_good_detail: "התלמיד/ה עומד/ת בקצב של הכיתה." # {change}
     student_warn: "ייתכן שיש צורך לעזור קצת ב:"
-    student_warn_detail: "ייתכן שלתלמיד/ה זה/ו דרושה מעט עזרה בעקרונות החדשים שהוצגו בקורס זה."
+    student_warn_detail: "ייתכן שלתלמיד/ה זה/ו דרושה מעט עזרה בעקרונות החדשים שהוצגו בקורס זה." # {change}
     student_great: "מסתדר/ת מצוין עם"
-    student_great_detail: "ייתכן שתלמיד או תלמידה זו הם מועמדים טובים לעזור לתלמידים אחרים במהלך קורס זה."
+    student_great_detail: "ייתכן שתלמיד או תלמידה זו הם מועמדים טובים לעזור לתלמידים אחרים במהלך קורס זה." # {change}
     full_license: "רישיון מלא"
     starter_license: "רישיון למתחילים"
 #    customized_license: "Customized License"

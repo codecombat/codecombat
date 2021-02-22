@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     student_state: "Bagaimana"
     student_state_2: "melakukannya?"
     student_good: "melakukannya dengan baik"
-    student_good_detail: "Siswa ini mampu mengikuti dengan kelas."
+    student_good_detail: "Siswa ini mampu mengikuti dengan kelas." # {change}
     student_warn: "mungkin membutuhkan bantuan"
-    student_warn_detail: "Siswa ini mungkin membutuhkan bantuan dalam konsep baru yang sudah diperkenalkan di kursus ini."
+    student_warn_detail: "Siswa ini mungkin membutuhkan bantuan dalam konsep baru yang sudah diperkenalkan di kursus ini." # {change}
     student_great: "sangat bagus"
-    student_great_detail: "Siswa ini mungkin mampu menjadi kandidat yang baik dalam membantu siswa lainnya mengerjakan di kursus ini."
+    student_great_detail: "Siswa ini mungkin mampu menjadi kandidat yang baik dalam membantu siswa lainnya mengerjakan di kursus ini." # {change}
     full_license: "Lisensi Penuh"
     starter_license: "Lisensi Awal"
 #    customized_license: "Customized License"
