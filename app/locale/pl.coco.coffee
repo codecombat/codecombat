@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     student_state: "Jak"
     student_state_2: "sobie radzi?"
     student_good: "radzi sobie dobrze w"
-    student_good_detail: "Ten uczeń utrzymuje tempo klasy."
+    student_good_detail: "Ten uczeń utrzymuje tempo klasy." # {change}
     student_warn: "może potrzebować pomocy w"
-    student_warn_detail: "Ten uczeń może potrzebować trochę pomocy z nowymi zagadnieniami."
+    student_warn_detail: "Ten uczeń może potrzebować trochę pomocy z nowymi zagadnieniami." # {change}
     student_great: "radzi sobie świetnie w"
-    student_great_detail: "Ten uczeń może być dobrym kandydatem do pomocy innym osobom z tego kursu."
+    student_great_detail: "Ten uczeń może być dobrym kandydatem do pomocy innym osobom z tego kursu." # {change}
     full_license: "Pełna licencja"
     starter_license: "Licencja startowa"
 #    customized_license: "Customized License"

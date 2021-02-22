@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     student_state: "Como"
     student_state_2: " está indo?"
     student_good: "está indo bem em"
-    student_good_detail: "Este aluno está acompanhando a turma."
+    student_good_detail: "Este aluno está acompanhando a turma." # {change}
     student_warn: "pode precisar de alguma ajuda"
-    student_warn_detail: "Este aluno pode precisar de alguma ajuda com novos conceitos que foram introduzidos neste curso."
+    student_warn_detail: "Este aluno pode precisar de alguma ajuda com novos conceitos que foram introduzidos neste curso." # {change}
     student_great: "está indo muito bem em"
-    student_great_detail: "Este aluno pode ser um bom candidato para ajudar outros alunos que trabalham neste curso."
+    student_great_detail: "Este aluno pode ser um bom candidato para ajudar outros alunos que trabalham neste curso." # {change}
     full_license: "Licença Completa"
     starter_license: "Licença de Iniciante"
 #    customized_license: "Customized License"
