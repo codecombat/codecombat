@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription: "German (Austria)", translation:
 
-#  new_home:
+  new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
