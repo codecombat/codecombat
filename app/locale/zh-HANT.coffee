@@ -5,7 +5,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "通過遊戲來學習程式編碼。 學習 Python、JavaScript 和 HTML，解決其中的難題並學會製作自己的遊戲和網站。"
 #    meta_og_url: "https://codecombat.com"
-#    become_investor: "to become an investor in CodeCombat"
+    become_investor: "成為CodeCombat的投資人"
     built_for_teachers_title: "一個由教師建構的編碼遊戲"
     built_for_teachers_blurb: "教孩子們編寫代碼往往會令人感到招架不住。 透過 CodeCombat 可以幫助所有教育工作者教授學生如何使用 JavaScript 或 Python（兩種最流行的編程語言）進行編碼。 透過包含六個計算機科學的綜合課程，以及遊戲開發和 Web 開發專題來進行加強學習，孩子們將在從基本語法往遞迴程式設計中前進！"
     built_for_teachers_subtitle1: "電腦科學"
