@@ -27,6 +27,7 @@ store = new Vuex.Store({
     courses: require('./modules/courses'),
     game: require('./modules/game'),
     schoolAdministrator: require('./modules/schoolAdministrator').default
+    clans: require('./modules/clans').default
     classrooms: require('./modules/classrooms').default
     courseInstances: require('./modules/courseInstances').default
     levelSessions: require('./modules/levelSessions').default
@@ -34,6 +35,7 @@ store = new Vuex.Store({
     campaigns: require('./modules/campaigns').default
     tracker: require('./modules/tracker').default
     products: require('./modules/products').default
+    seasonalLeague: require('./modules/seasonalLeague').default
   }
 })
 

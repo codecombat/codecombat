@@ -57,6 +57,8 @@ init = ->
   setUpBackboneMediator(app)
   app.initialize()
   loadOfflineFonts() unless app.isProduction()
+  # We always want to load this font.
+  $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/vt323.css">'
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment

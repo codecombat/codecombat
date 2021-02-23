@@ -34,30 +34,24 @@
         <div class="row">
           <div class="col-lg-12 trust-logos">
             <div class="flex-spacer">
-              <img srcset="/images/pages/parents/cse_top_pick@1x.png 1x,
-                                        /images/pages/parents/cse_top_pick@2x.png 2x,
-                                        /images/pages/parents/cse_top_pick@3x.png 3x"
-                  src="/images/pages/parents/cse_top_pick@1x.png"
+              <img
+                  src="/images/pages/parents/cse_top_pick.png"
                   class="cse-top-pick"
               />
             </div>
 
             <div class="flex-spacer">
               <div class="cs-for-all-container">
-                <img srcset="/images/pages/parents/cs_for_all_member@1x.png 1x,
-                                        /images/pages/parents/cs_for_all_member@2x.png 2x,
-                                        /images/pages/parents/cs_for_all_member@3x.png 3x"
-                    src="/images/pages/parents/cs_for_all_member@1x.png"
+                <img 
+                  src="/images/pages/parents/cs_for_all_member.png"
                 />
               </div>
             </div>
 
             <div class="flex-spacer">
               <div class="codie-logo-container">
-                <img srcset="/images/pages/parents/2017_codie_award@1x.png 1x,
-                                        /images/pages/parents/2017_codie_award@2x.png 2x,
-                                        /images/pages/parents/2017_codie_award@3x.png 3x"
-                    src="/images/pages/parents/2017_codie_award@1x.png"
+                <img
+                    src="/images/pages/parents/2017_codie_award.png"
                 />
               </div>
             </div>
@@ -66,16 +60,41 @@
       </div>
     </div>
 
+    <div class="container-graphic-spacer sm-min-height-auto">
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <h1 class="text-center pixelated" style="padding: 0 5px;">Remote Learning That Works</h1>
+        <div class="col-xs-12 video-container">
+          <div style="position: relative; padding-top: 56.25%;"><iframe src="https://iframe.videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e?preload=true&poster=https://videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg%3Ftime%3D2s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true"></iframe></div>
+        </div>
+      </div>
+    </div>
+
     <div class="container-graphic-spacer">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12" style="margin: 30px 0 20px;">
+            <img
+                class="img-responsive"
+                src="/images/pages/parents/graphic_09.png"
+                alt="hero moving along a path"
+                loading="lazy"
+                style="max-width: 290px;"
+            />
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="container-background-invest-heading">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <h2 class="text-center pixelated">
+            <h1 class="text-center pixelated">
               Invest in Your Child’s Future While They Have Fun!
-            </h2>
+            </h1>
           </div>
         </div>
       </div>
@@ -83,11 +102,12 @@
 
     <div class="container-child-future">
       <div class="container">
-        <div class="row row-eq-height">
+        <div class="row row-eq-height xs-pb-50">
           <div class="col-md-6 col-sm-12">
             <img
               src="/images/pages/parents/personal_learning.png"
               alt="teacher and student playing codecombat"
+              loading="lazy"
             />
           </div>
           <div class="col-md-6 col-sm-12">
@@ -96,9 +116,9 @@
           </div>
         </div>
 
-        <div class="row row-eq-height">
+        <div class="row row-eq-height xs-pb-50">
           <div class="col-md-6 col-md-push-6 col-sm-12 ">
-            <img class="power-of-play-gif" src="/images/pages/parents/power_of_play_capstone.gif" />
+            <img class="power-of-play-gif" src="/images/pages/parents/power_of_play_capstone.gif" loading="lazy" />
           </div>
           <div class="col-md-6 col-sm-12 col-md-pull-6">
             <h3>The Power of Play</h3>
@@ -108,7 +128,7 @@
 
         <div class="row row-eq-height">
           <div class="col-md-6 col-sm-12">
-            <img src="/images/pages/parents/personal_learning_3.png" />
+            <img src="/images/pages/parents/personal_learning_3.png" loading="lazy" />
           </div>
           <div class="col-md-6 col-sm-12">
             <h3>Early Exposure to Coding</h3>
@@ -128,6 +148,7 @@
                 class="img-responsive"
                 src="/images/pages/parents/graphic_03_speech.svg"
                 alt="hero moving along a path based on code commands"
+                loading="lazy"
             />
           </div>
         </div>
@@ -138,7 +159,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <img src="/images/pages/parents/quote.svg" alt="quote" width=60 height=73/>
+            <img src="/images/pages/parents/quote.svg" alt="quote" width=60 height=73 loading="lazy"/>
             <p>Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills.</p>
             <p><b>Latthaphon Pohpon, Parent</b></p>
           </div>
@@ -147,6 +168,7 @@
                 class="img-responsive"
                 src="/images/pages/parents/ten_testimonial.png"
                 alt="kid on computer playing codecombat looking at camera"
+                loading="lazy"
             />
           </div>
         </div>
@@ -154,9 +176,7 @@
     </div>
 
     <!-- Added some custom inline styles specific to this graphic -->
-    <div class="container-graphic-spacer"
-         style="margin-bottom: -35px"
-    >
+    <div class="pet-following-yellow-dotted">
       <div class="container">
         <div class="row">
           <div class="col-xs-12">
@@ -164,7 +184,7 @@
                 class="img-responsive"
                 src="/images/pages/parents/graphic_04.svg"
                 alt="CodeCombat pet following yellow dotted path"
-                style="transform: translate(40%, -35px);"
+                loading="lazy"
             />
           </div>
         </div>
@@ -291,7 +311,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_05.svg" style="margin: 0 auto;" />
+            <img class="img-responsive" src="/images/pages/parents/graphic_05.svg" style="margin: 0 auto;" loading="lazy"/>
           </div>
         </div>
       </div>
@@ -311,6 +331,7 @@
                 class="img-responsive"
                 src="/images/pages/parents/learning_cycle.png"
                 alt="Diagram showing the cycle of learning. Live instruction to engage, with live instruction to explore concepts. Then game time to extend and evaluate."
+                loading="lazy"
             />
           </div>
         </div>
@@ -324,11 +345,11 @@
       </div>
     </div>
 
-    <div class="container-graphic-spacer">
+    <div class="hero-for-student-outcomes">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_06.svg" style="margin: 0 auto; transform: translate(-47%, 0);" />
+            <img class="img-responsive" src="/images/pages/parents/graphic_06.svg" loading="lazy"/>
           </div>
         </div>
       </div>
@@ -338,7 +359,7 @@
     <div class="container-student-outcomes">
       <div class="container">
         <div class="row carousel-row">
-          <div class="col-lg-12 text-center">
+          <div class="col-lg-12 text-center student-outcomes">
             <h1 class="pixelated">Student Outcomes</h1>
           </div>
           <div id="student-outcome-carousel" class="carousel slide" data-interval=8000>
@@ -346,7 +367,7 @@
               <div class="item active">
                 <div class="row row-eq-height">
                   <div class="col-sm-7">
-                    <img class="img-responsive" src="/images/pages/parents/grit_carousel.png" />
+                    <img class="img-responsive" src="/images/pages/parents/grit_carousel.png" loading="lazy"/>
                   </div>
                   <div class="col-sm-5">
                     <h3>Grit</h3>
@@ -357,7 +378,7 @@
               <div class="item">
                 <div class="row row-eq-height">
                   <div class="col-sm-7">
-                    <img class="img-responsive" src="/images/pages/parents/problem_solving_carousel.png" />
+                    <img class="img-responsive" src="/images/pages/parents/problem_solving_carousel.png" loading="lazy"/>
                   </div>
                   <div class="col-sm-5">
                     <h3>Problem Solving Skills</h3>
@@ -368,7 +389,7 @@
               <div class="item">
                 <div class="row row-eq-height">
                   <div class="col-sm-7">
-                    <img class="img-responsive" src="/images/pages/parents/tech_list_carousel1.png" />
+                    <img class="img-responsive" src="/images/pages/parents/tech_list_carousel1.png" loading="lazy"/>
                   </div>
                   <div class="col-sm-5">
                     <h3>Technological Literacy</h3>
@@ -396,11 +417,11 @@
       </div>
     </div>
 
-    <div class="container-graphic-spacer">
+    <div class="container-graphic-spacer outcome-to-concepts">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_07.svg" style="margin: 0 auto; transform: translate(-47%, 0);" />
+            <img class="img-responsive" src="/images/pages/parents/graphic_07.svg" style="margin: 0 auto; transform: translate(-47%, 0);" loading="lazy"/>
           </div>
         </div>
       </div>
@@ -414,11 +435,11 @@
           </div>
         </div>
         <div class="row row-eq-height">
-          <div class="col-sm-4 col-xs-12 concept-covered-tab">
-            <img src="/images/pages/parents/trophy_bronze.svg" />
+          <div class="col-sm-4 col-xs-12 concept-covered-tab beginner xs-pb-50">
+            <img src="/images/pages/parents/trophy_bronze.svg" loading="lazy"/>
             <h3>Beginner</h3>
             <p><b>For students with little to no text-based coding experience.</b></p>
-            <div>
+            <div class="topics">
               <ul>
                 <li>Sequences</li>
                 <li>Algorithms</li>
@@ -431,11 +452,11 @@
               </ul>
             </div>
           </div>
-          <div class="col-sm-4 col-xs-12 concept-covered-tab">
-            <img src="/images/pages/parents/trophy_silver.svg" />
+          <div class="col-sm-4 col-xs-12 concept-covered-tab intermediate xs-pb-50">
+            <img src="/images/pages/parents/trophy_silver.svg" loading="lazy"/>
             <h3>Intermediate</h3>
             <p><b>For students with some text-based coding experience.</b></p>
-            <div>
+            <div class="topics">
               <ul>
                 <li>Boolean logic</li>
                 <li>Properties</li>
@@ -448,11 +469,11 @@
               </ul>
             </div>
           </div>
-          <div class="col-sm-4 col-xs-12 concept-covered-tab">
-            <img src="/images/pages/parents/trophy_gold.svg" />
+          <div class="col-sm-4 col-xs-12 concept-covered-tab advanced xs-pb-50">
+            <img src="/images/pages/parents/trophy_gold.svg" loading="lazy"/>
             <h3>Advanced</h3>
             <p><b>For students with substantial experience in text-based code and a good grasp of complex concepts.</b></p>
-            <div>
+            <div class="topics">
               <ul>
                 <li>Advanced strings</li>
                 <li>Computer arithmetic</li>
@@ -475,7 +496,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <img class="img-responsive" src="/images/pages/parents/graphic_08.svg" style="margin: 0 auto;" />
+            <img class="img-responsive" src="/images/pages/parents/graphic_08.svg" style="margin: 0 auto;" loading="lazy"/>
           </div>
         </div>
       </div>
@@ -484,7 +505,7 @@
     <div class="container-background-faq">
       <div class="container">
         <div class="row">
-          <div class="col-lg-12 text-center">
+          <div class="col-lg-12 text-center container-background-header">
             <h1 class="pixelated">FAQs</h1>
           </div>
         </div>
@@ -609,7 +630,9 @@ export default {
   },
 
   mounted () {
-    window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    if (window.drift) {
+      window.drift.on('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    }
 
     if (this.type === 'thank-you') {
       this.onClassBooked()
@@ -617,7 +640,9 @@ export default {
   },
 
   beforeDestroy () {
-    window.drift.off('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    if (window.drift) {
+      window.drift.off('scheduling:meetingBooked', this.onDriftMeetingBooked)
+    }
   },
 
   methods: {
@@ -669,6 +694,11 @@ export default {
     async onCtaClicked (e) {
       if (e && e.preventDefault) {
         e.preventDefault()
+      }
+
+      if (!window.drift && (this.type === 'parents' || this.type === 'sales' || this.type == 'chat')) {
+        console.log('No Drift, resetting to self-serve')
+        this.type = 'self-serve'
       }
 
       this.trackCtaClicked()
@@ -726,8 +756,15 @@ export default {
 }
 
 #parent-page .pixelated {
-  font-family: "lores12ot-bold";
+  font-family: "lores12ot-bold", "VT323";
   color: #0E4C60;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
+.video-container {
+  margin-top: 50px;
+
 }
 
 #parent-page a {
@@ -807,11 +844,6 @@ export default {
 }
 
 .codie-logo-container {
-  background: #FFFFFF;
-
-  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.43), -10px -10px 30px rgba(0, 0, 0, 0.25);
-  border-radius: 6px;
-
   padding: 3px 6px;
 }
 
@@ -822,21 +854,14 @@ export default {
 }
 
 .cse-top-pick {
-  filter: drop-shadow(10px 10px 30px rgba(0, 0, 0, 0.43)) drop-shadow(-10px -10px 30px rgba(0, 0, 0, 0.25));
   max-width: 100%;
 }
 
 .cs-for-all-container {
   padding: 5px 16px;
-  background: #FFFFFF;
-
-  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.43), -10px -10px 30px rgba(0, 0, 0, 0.25);
-  border-radius: 6px;
 }
 
 .cs-for-all-container img {
-  width: 93px;
-  height: 40px;
   max-width: 100%;
   max-height: 100%;
 }
@@ -854,6 +879,7 @@ export default {
 .container-graphic-spacer {
   min-height: 270px;
   pointer-events: none;
+  overflow-x: hidden;
 }
 
 .container-graphic-spacer img {
@@ -888,8 +914,8 @@ export default {
 
 #parent-page .container-child-future h3, #student-outcome-carousel h3 {
   color: black;
-  font-weight: 600;
-  font-size: 28px;
+  font-weight: 800;
+  font-size: 30px;
   line-height: 38px;
   letter-spacing: 0.56px;
 
@@ -925,6 +951,12 @@ export default {
   background-size: 90px;
 }
 
+.container-course-offering-heading .container p {
+  font-size: 22px;
+  line-height: 30px;
+  max-width: 830px;
+}
+
 .pricing-grid-container {
   display: grid;
   grid-template-columns: 50% 12.5% 12.5% 12.5% 12.5%;
@@ -936,6 +968,7 @@ export default {
   text-align: center;
 
   margin-bottom: 5px;
+  margin-top: 20px;
 }
 
 
@@ -999,6 +1032,7 @@ export default {
 
 .container-pricing-table {
   padding: 0 70px;
+  margin-top: 20px;
   margin-bottom: 48px;
 
   /* Added some clouds to the pricing table */
@@ -1074,7 +1108,7 @@ export default {
 }
 
 #student-outcome-carousel .row {
-  padding: 60px;
+  padding: 0px 60px;
 }
 
 .carousel-row {
@@ -1121,7 +1155,6 @@ export default {
   border-radius: 40px 0 0 40px;
   pointer-events: none;
 }
-
 .carousel-row:after {
   content: '';
   border-top: 4px solid #6ae8e3;
@@ -1141,7 +1174,7 @@ export default {
 .concept-covered-tab {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 
   padding: 0 20px;
@@ -1173,6 +1206,16 @@ export default {
   max-width: 100px;
   height: auto;
   margin-bottom: 20px;
+}
+
+.concept-covered-tab.beginner img{
+  max-width: 92px;
+}
+
+@media screen and (min-width: 700px) {
+  .concept-covered-tab.beginner .topics, .concept-covered-tab.intermediate .topics{
+    padding-top: 30px;
+  }
 }
 
 .container-concepts-covered .concept-covered-tab div {
@@ -1209,8 +1252,10 @@ export default {
   margin: 32px 0 0;
 }
 
-.container-background-faq h1 {
-  transform: translateY(-64px);
+.container-background-header {
+  position: absolute;
+  transform: translateY(-60px);
+  width: calc(100% - 30px);
 }
 
 /* These create the broken top border which FAQ sits between */
@@ -1254,6 +1299,105 @@ export default {
   border: 10px solid #1FBAB4;
   box-sizing: border-box;
   border-radius: 20px;
+}
+
+#parent-page h1, #parent-page h4 {
+  font-weight: 700;
+}
+
+.pet-following-yellow-dotted img{
+  margin: 0px 25% 0px auto;
+}
+
+.hero-for-student-outcomes {
+  min-height: 270px;
+  pointer-events: none;
+  overflow-x: hidden;
+}
+
+.hero-for-student-outcomes img {
+  margin-left: 25%;
+}
+
+@media screen and (max-width: 768px) {
+  .xs-pb-50 {
+    padding-bottom: 50px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .outcome-to-concepts img {
+    width: 50%;
+  }
+  .outcome-to-concepts {
+    min-height: 200px;
+  }
+  .sm-min-height-auto {
+    min-height: auto;
+  }
+  .pet-following-yellow-dotted {
+    margin-bottom: 0px;
+    overflow-x: hidden;
+    min-height: auto;
+  }
+  .pet-following-yellow-dotted img{
+    margin-right: 10%;
+    width: 50%;
+  }
+  .pricing-grid-container {
+    padding: 0 5px;
+  }
+  .hero-for-student-outcomes {
+    margin-bottom: 50px;
+    min-height: auto;
+  }
+  .hero-for-student-outcomes img {
+    width: 50%;
+    margin-left: 10%;
+  }
+  #student-outcome-carousel {
+    padding-bottom: 20px;
+  }
+  .container-background-invest-heading, .container-child-future {
+    margin-bottom: 30px;
+  }
+  #parent-page .pixelated {
+    padding: 0px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container-student-outcomes .carousel-row:before {
+    width: 25%;
+  }
+  .container-student-outcomes .carousel-row:after {
+    width: 25%;
+  }
+
+  .container-background-faq .container:before {
+    width: 40%;
+  }
+
+  .container-background-faq .container:after {
+    width: 40%;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .container-student-outcomes .carousel-row:before {
+    width: 30%;
+  }
+  .container-student-outcomes .carousel-row:after {
+    width: 30%;
+  }
+
+  .container-background-faq .container:before {
+    width: 43%;
+  }
+
+  .container-background-faq .container:after {
+    width: 43%;
+  }
 }
 
 </style>

@@ -36,7 +36,6 @@ module.exports = class ThangTypeColorsTabView extends CocoView
     super()
     return unless @supermodel.finished()
     @createShapeButtons()
-    @createColorGroupTintButtons()
     @initStage()
     @initSliders()
     @tryToBuild()

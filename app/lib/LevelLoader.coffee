@@ -159,6 +159,9 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{@levelID}/session"
       if @team
         url += "?team=#{@team}"
+        league = utils.getQueryVariable 'league'
+        if @level.isType('course-ladder') and league and not @courseInstanceID
+          url += "&courseInstance=#{league}"
       else if @courseID
         url += "?course=#{@courseID}"
         if @courseInstanceID
@@ -512,6 +515,8 @@ module.exports = class LevelLoader extends CocoClass
       'levelID': @level.get('slug') or @level.id
     if me.id is @session.get 'creator'
       patch.creatorName = me.get('name')
+      if currentAge = me.age()
+        patch.creatorAge = currentAge
     for key, value of patch
       if @session.get(key) is value
         delete patch[key]

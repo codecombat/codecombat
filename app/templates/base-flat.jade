@@ -1,6 +1,6 @@
 mixin accountLinks
   li
-    a.account-dropdown-item(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
+    a.account-dropdown-item(href=`/user/${me.getSlugOrID()}`, data-i18n="nav.profile")
   li
     a.account-dropdown-item(href="/account/settings", data-i18n="play.settings")
   if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())
@@ -20,7 +20,7 @@ mixin accountLinks
 
 .style-flat
   block header
-    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center
+    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(class=!serverConfig.static && document.location.href.search('/league') >= 0 ? "dark-mode" : '')
       .container-fluid
         .row
           .col-md-12
@@ -61,14 +61,11 @@ mixin accountLinks
                         a.text-p(data-i18n="nav.blog", href="https://blog.koudashijie.com")
                       li
                         a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/contact-cn")
-                    else if me.isAnonymous()
-                      li.request-class-list
-                        a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/teachers/quote")
                     li
-                      if document.location.href.search('/about') >= 0
-                        a.text-p.text-teal(href="/about", data-i18n="nav.about")
+                      if document.location.href.search('/league') >= 0
+                        a.text-p.text-teal(href="/league", data-i18n="nav.esports")
                       else
-                        a.text-p(href="/about", data-i18n="nav.about")
+                        a.text-p(href="/league", data-i18n="nav.esports")
                     li
                       if document.location.href.search('/parents') >= 0
                         a.text-p.text-teal(href="/parents", data-i18n="nav.parent")
@@ -114,7 +111,7 @@ mixin accountLinks
                           span.caret
                         ul.dropdown-menu
                           li.user-dropdown-header.text-center.hidden-xs.hidden-sm
-                            a(href="/user/#{me.getSlugOrID()}")
+                            a(href=`/user/${me.getSlugOrID()}`)
                               img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
                               h5=me.broadName()
                               //- span.text-p= me.broadName()

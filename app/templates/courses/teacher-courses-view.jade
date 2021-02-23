@@ -50,7 +50,7 @@ block content
                         | Python
                       option(value="javascript")
                         | JavaScript
-                      if view.enableCpp && (course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_2 || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_3)
+                      if view.enableCpp && (view.utils.CSCourseIDs.indexOf(course.id) !== -1)
                         option(value="cpp")
                           | C++
               .form-group
@@ -120,7 +120,7 @@ mixin course-info(course)
           |  &mdash; Python
         a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span JavaScript
-        if view.enableCpp && (course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_2 || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_3)
+        if view.enableCpp && (view.utils.CSCourseIDs.indexOf(course.id) !== -1)
           a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/cpp") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide C++" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
             span C++
 

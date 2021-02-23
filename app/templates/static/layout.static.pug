@@ -23,13 +23,13 @@ html(lang='en')
     meta(name='twitter:description', content='Learn programming with a multiplayer live coding strategy game for beginners. Learn Python or JavaScript as you defeat ogres, solve mazes, and level up. Open source HTML5 game!')
     meta(name="p:domain_verify", content="f5afcb2c36bb8b1cbd70c44b65e5ec75")
     meta(name='fb:app_id', content='148832601965463')
-    link(rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=2020-11-15")
-    link(rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png?v=2020-11-15")
-    link(rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png?v=2020-11-15")
-    link(rel="mask-icon" href="/images/favicon/safari-pinned-tab.svg?v=2020-11-15" color="#5bbad5")
-    link(rel="shortcut icon" href="/images/favicon/favicon.ico?v=2020-11-15")
+    link(rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png")
+    link(rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png")
+    link(rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png")
+    link(rel="mask-icon" href="/images/favicon/safari-pinned-tab.svg" color="#5bbad5")
+    link(rel="shortcut icon" href="/images/favicon/favicon.ico")
     meta(name="msapplication-TileColor" content="#da532c")
-    meta(name="msapplication-config" content="/images/favicon/browserconfig.xml?v=2020-11-15")
+    meta(name="msapplication-config" content="/images/favicon/browserconfig.xml")
     link(rel='manifest', href='/pwa/manifest.json')
     link(rel='stylesheet', href='/' + shaTag + '/stylesheets/app.css')
     if me.useDexecure()
@@ -58,6 +58,13 @@ html(lang='en')
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'AW-811324643');
+      // Google Optimize
+      style.
+        .async-hide {
+          opacity: 0 !important;
+        }
+      script.
+        (function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};(a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;})(window,document.documentElement,'async-hide','dataLayer',4000,{'OPT-K2B6W8Q':true});
     else
       // Baidu Analytics
       script.

@@ -57,7 +57,7 @@ block content
             .profile-pic
               a(href="http://www.nickwinter.net" rel="external")
                 img(src="/images/pages/about/team-avatars/nick-avatar.png").img-thumbnail.avatar
-                img(src="/images/pages/about/team-headshots/nick-headshot.png").img-thumbnail.headshot
+                img(src="/images/pages/about/team-headshots/nick-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name
                 a(href="http://www.nickwinter.net" rel="external") Nick Winter
@@ -77,31 +77,11 @@ block content
 
           li
             .profile-pic
-              img(src="/images/pages/about/team-avatars/sean-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/sean-headshot.png").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Sean McNulty
-              small Inside Sales Manager
-              br
-
-          li
-            .profile-pic
               img(src="/images/pages/about/team-avatars/liz-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/liz-headshot.png").img-thumbnail.headshot
+              img(src="/images/pages/about/team-headshots/liz-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Liz Coluni
-              small Inside Sales Manager
-              br
-
-          li
-            .profile-pic
-              a(href="https://www.linkedin.com/in/jane-park-90bb11b/" rel="external")
-                img(src="/images/pages/about/team-avatars/jane-avatar.png").img-thumbnail.avatar
-                img(src="/images/pages/about/team-headshots/jane-headshot.png").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name
-                a(href="https://www.linkedin.com/in/jane-park-90bb11b/" rel="external") Jane Park
-              small Product Manager
+              small(data-i18n="about.sism_title")
               br
 
           li
@@ -110,7 +90,7 @@ block content
               img(src="/images/pages/about/team-headshots/robarev-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Rob Arevalo
-              small Account Executive
+              small(data-i18n="about.ae_title")
               br
 
           li
@@ -119,36 +99,36 @@ block content
               img(src="/images/pages/about/team-headshots/lawrence-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Lawrence Kotovets
-              small(data-i18n="about.lawrence_title")
+              small(data-i18n="about.csm_title")
               br
 
           li
             .profile-pic
               a(href="https://www.linkedin.com/in/stephanie-rockett-phd-b63a0464/" rel="external")
                 img(src="/images/pages/about/team-avatars/stephanie-avatar.png").img-thumbnail.avatar
-                img(src="/images/pages/about/team-headshots/stephanie-headshot.png").img-thumbnail.headshot
+                img(src="/images/pages/about/team-headshots/stephanie-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name
                 a(href="https://www.linkedin.com/in/stephanie-rockett-phd-b63a0464/" rel="external") Stephanie Rockett
-              small(data-i18n="about.stephanie_title")
+              small(data-i18n="about.css_qa_title")
               br
 
           li
             .profile-pic
               a(href="https://andrewjakubowicz.me" rel="external")
                 img(src="/images/pages/about/team-avatars/andrew-avatar.png").img-thumbnail.avatar
-                img(src="/images/pages/about/team-headshots/andrew-headshot.png").img-thumbnail.headshot
+                img(src="/images/pages/about/team-headshots/andrew-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name
                 a(href="https://andrewjakubowicz.me" rel="external") Andrew Jakubowicz
-              small Senior Software Engineer
+              small(data-i18n="about.sswe_title")
               br
 
           li
             .profile-pic
               a(href="http://www.magicalunderworld.com/" rel="external")
                 img(src="/images/pages/about/team-avatars/brian-avatar.png").img-thumbnail.avatar
-                img(src="/images/pages/about/team-headshots/brian-headshot.png").img-thumbnail.headshot
+                img(src="/images/pages/about/team-headshots/brian-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name
                 a(href="http://www.magicalunderworld.com/" rel="external") Brian Freyermuth
@@ -158,7 +138,7 @@ block content
           li
             .profile-pic
               img(src="/images/pages/about/team-avatars/bobby-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/bobby-headshot.png").img-thumbnail.headshot
+              img(src="/images/pages/about/team-headshots/bobby-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Bobby Lockhart
               small(data-i18n="about.bobby_title")
@@ -167,10 +147,13 @@ block content
           li
             .profile-pic
               img(src="/images/pages/about/team-avatars/claire-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/claire-headshot.jpg").img-thumbnail.headshot
+              img(src="/images/pages/about/team-headshots/claire-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Claire Armstrong
-              small Executive Assistant / Operations Manager
+              small
+                span(data-i18n="about.ea_title")
+                span= " / "
+                span(data-i18n="about.om_title")
               br
 
           li
@@ -179,7 +162,7 @@ block content
               img(src="/images/pages/about/team-headshots/chelsea-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Chelsea Johnson
-              small Senior Operations Manager
+              small(data-i18n="about.mo_title")
               br
 
           li
@@ -199,7 +182,7 @@ block content
             .team-bio
               h6.label.team-name
                 a(href="http://www.shashaxdu.com/" rel="external") Shasha Du
-              small(data-i18n="about.shasha_title")
+              small(data-i18n="about.spvd_title")
               br
 
           li
@@ -235,30 +218,12 @@ block content
               img(src="/images/pages/about/team-headshots/matias-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Matias Forbord
-              small(data-i18n="about.matias_title")
+              small(data-i18n="about.sswe_title")
               br
 
           li
             .profile-pic
-              img(src="/images/pages/about/team-avatars/ryan-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/ryan-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Ryan Bousquet
-              small(data-i18n="about.ryan_title")
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/jonathan-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/jonathan-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Jonathan Timmmons
-              small Director of Inside Sales
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-headshots/yuqiang-headshot.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-avatars/yuqiang-avatar.png").img-thumbnail.avatar
               img(src="/images/pages/about/team-headshots/yuqiang-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Yuqiang Tong
@@ -267,7 +232,7 @@ block content
 
           li
             .profile-pic
-              img(src="/images/pages/about/team-headshots/zhiran-headshot.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-avatars/zhiran-avatar.png").img-thumbnail.avatar
               img(src="/images/pages/about/team-headshots/zhiran-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Zhiran Chen
@@ -276,29 +241,11 @@ block content
 
           li
             .profile-pic
-              img(src="/images/pages/about/team-headshots/lance-headshot.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/lance-headshot.png").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Lance Wu
-              small(data-i18n="about.lance_title")
-              br
-
-          li
-            .profile-pic
               img(src="/images/pages/about/team-avatars/lizb-avatar.png").img-thumbnail.avatar
               img(src="/images/pages/about/team-headshots/lizb-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Liz Bush
-              small Sales Development Representative
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/emilia-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/emilia-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Emilia Pasquetti
-              small Senior Account Executive
+              small(data-i18n="about.sdr_title")
               br
 
           li
@@ -307,62 +254,112 @@ block content
               img(src="/images/pages/about/team-headshots/becky-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Becky Haghighi
-              small Senior Account Executive
+              small(data-i18n="about.sae_title")
               br
 
-          //- li
-          //-   .profile-pic
-          //-     img(src="/images/pages/about/team-avatars/heather-avatar.png").img-thumbnail.avatar
-          //-     img(src="/images/pages/about/team-headshots/heather-headshot.jpg").img-thumbnail.headshot
-          //-   .team-bio
-          //-     h6.label.team-name Heather Fish
-          //-     small Sales Development Representative
-          //-     br
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/steven-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/steven-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Steven Adkins
+              small(data-i18n="about.sdr_title")
+              br
 
-          //- li
-          //-   .profile-pic
-          //-     img(src="/images/pages/about/team-avatars/steven-avatar.png").img-thumbnail.avatar
-          //-     img(src="/images/pages/about/team-headshots/steven-headshot.jpg").img-thumbnail.headshot
-          //-   .team-bio
-          //-     h6.label.team-name Steven Adkins
-          //-     small Sales Development Representative
-          //-     br
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/julie-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/julie-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Julie Molnar
+              small(data-i18n="about.lcd_title")
+              br
 
-          //- li
-          //-   .profile-pic
-          //-     img(src="/images/pages/about/team-avatars/lynn-avatar.png").img-thumbnail.avatar
-          //-     img(src="/images/pages/about/team-headshots/lynn-headshot.jpg").img-thumbnail.headshot
-          //-   .team-bio
-          //-     h6.label.team-name Lynn Owens
-          //-     small Sales Development Representative
-          //-     br
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/charlotte-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/charlotte-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Charlotte Cheng
+              small(data-i18n="about.scd_title")
+              br
 
-          //- li
-          //-   .profile-pic
-          //-     img(src="/images/pages/about/team-avatars/brandon-avatar.png").img-thumbnail.avatar
-          //-     img(src="/images/pages/about/team-headshots/brandon-headshot.jpg").img-thumbnail.headshot
-          //-   .team-bio
-          //-     h6.label.team-name Brandon Esse
-          //-     small Account Executive
-          //-     br
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/taylor-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/taylor-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Taylor Sobha
+              small(data-i18n="about.ae_title")
+              br
 
-          //- li
-          //-   .profile-pic
-          //-     img(src="/images/pages/about/team-avatars/shannon-avatar.png").img-thumbnail.avatar
-          //-     img(src="/images/pages/about/team-headshots/shannon-headshot.jpg").img-thumbnail.headshot
-          //-   .team-bio
-          //-     h6.label.team-name Shannon Alves
-          //-     small Senior Account Executive
-          //-     br
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/maria-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/maria-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Maria Quinones
+              small(data-i18n="about.csm_title")
+              br
 
-          //- li
-          //-   .profile-pic
-          //-     img(src="/images/pages/about/team-avatars/juan-avatar.png").img-thumbnail.avatar
-          //-     img(src="/images/pages/about/team-headshots/juan-headshot.jpg").img-thumbnail.headshot
-          //-   .team-bio
-          //-     h6.label.team-name Juan Benitez
-          //-     small Account Executive
-          //-     br
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/becky-white-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/becky-white-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Becky White
+              small(data-i18n="about.ae_title")
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/chris-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/chris-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Chris Kaimmer
+              small(data-i18n="about.oa_title")
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/sydney-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/sydney-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Sydney Olejnik
+              small(data-i18n="about.ac_title")
+              br
+
+          li
+            .profile-pic
+              //img(src="/images/pages/about/team-avatars/brehan-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/placeholder.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/brehan-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Brehan Maul
+              small(data-i18n="about.vpm_title")
+              br
+
+          li
+            .profile-pic
+              //img(src="/images/pages/about/team-avatars/mohit-avatar.png").img-thumbnail.avatar
+              //img(src="/images/pages/about/team-headshots/mohit-headshot.jpg").img-thumbnail.headshot
+              img(src="/images/pages/about/placeholder.png").img-thumbnail.avatar
+              img(src="/images/pages/about/placeholder.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Mohit Bumb
+              small(data-i18n="about.swe_title")
+              br
+
+          li
+            .profile-pic
+              a(href="https://www.linkedin.com/in/saurabh-patel/" rel="external" target="_blank")
+                //img(src="/images/pages/about/team-avatars/saurabh-avatar.png").img-thumbnail.avatar
+                img(src="/images/pages/about/placeholder.png").img-thumbnail.avatar
+                img(src="/images/pages/about/team-headshots/saurabh-headshot.jpeg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Saurabh Patel
+              small(data-i18n="about.swe_title")
+              br
 
         ul
           li
@@ -476,40 +473,21 @@ block content
                 li.small(data-i18n="about.jobs_benefit_4")
                 li.small(data-i18n="about.jobs_benefit_5")
 
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            .job-listing
-              h5 Software Engineer
-                  .text-center
-                    small.label
-                      | Remote • Full-time
-                  p.small CodeCombat is looking for a Software Engineer to join our game-based education startup. We want to hear from you!
-                  a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/7a4db25a-174f-40bd-866a-7c99f42b02b9?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
-                    span(data-i18n="about.learn_more")
 
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
-              h5 Lead Artist
-                  .text-center
-                    small.label
-                      | Remote • Part-time
-                  p.small Help build amazing new game-based learning experiences for students around the world!
-                  a.job-link.btn.btn-lg.btn-navy(href=" https://jobs.lever.co/codecombat/941360c0-c1ce-47cf-b1ca-7a6fcab61185?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
-                    span(data-i18n="about.learn_more")
+              h5 Sales Development Representative
+                .text-center
+                  small.label
+                    | Remote
+                p.small CodeCombat is hiring sales development representatives to introduce our computer science education products to educators across the world.
+                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/96aeca22-63a8-491e-83b0-499af3f9b006?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
+                  span(data-i18n="about.learn_more")
 
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            .job-listing
-              h5 Online Coding Instructor
-                  .text-center
-                    small.label
-                      | Remote • Part-time/Contractor
-                  p.small CodeCombat is searching for coding instructors to teach CodeCombat Online Classes to our at-home learners.
-                  a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/31c86619-fb29-4d21-9e0a-e31e76247986?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
-                    span(data-i18n="about.learn_more")
-
-          //- .col-sm-6.col-md-5.col-lg-4
-          //-   .job-listing
-          //-     h5 (No Open Roles)
-          //-     p.small Check back later for updates on new positions at CodeCombat.
+          //.col-sm-6.col-md-5.col-lg-4
+          //  .job-listing
+          //    h5 (No Open Roles)
+          //    p.small Check back later for updates on new positions at CodeCombat.
 
       #contact.anchor
         .text-center

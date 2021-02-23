@@ -41,7 +41,10 @@ module.exports = class Spell
     p = programmableMethod
     @commentI18N = p.i18n
     @commentContext = p.context
-    @languages = p.languages ? {}
+    if p.sourceVariants
+      @languages = _.clone _.sample p.sourceVariants
+    else
+      @languages = p.languages ? {}
     @languages.javascript ?= p.source
     @name = p.name
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? ['humans']  # teams

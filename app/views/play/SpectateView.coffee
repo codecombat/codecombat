@@ -20,6 +20,7 @@ Article = require 'models/Article'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 createjs = require 'lib/createjs-parts'
+aceUtils = require 'core/aceUtils'
 
 # subviews
 LoadingView = require './level/LevelLoadingView'
@@ -52,6 +53,10 @@ module.exports = class SpectateLevelView extends RootView
     'level:next-game-pressed': 'onNextGamePressed'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
+
+  events:
+    'mouseenter .spectate-code': 'onMouseEnterSpectateCode'
+    'mouseleave .spectate-code': 'onMouseLeaveSpectateCode'
 
   constructor: (options, @levelID) ->
     console.profile?() if PROFILE_ME
@@ -128,6 +133,7 @@ module.exports = class SpectateLevelView extends RootView
     @initScriptManager()
     @insertSubviews()
     @initVolume()
+    @initSpectateCode()
 
     @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
@@ -243,6 +249,42 @@ module.exports = class SpectateLevelView extends RootView
     volume = 1.0 unless volume?
     Backbone.Mediator.publish 'level:set-volume', volume: volume
 
+  initSpectateCode: ->
+    return @$el.find('.spectate-code').remove() unless me.isAdmin()
+    @editors = {}
+    for team in ['humans', 'ogres']
+      session = if team is 'humans' then @session else @otherSession
+      @$el.find('.spectate-code.team-' + team + ' .programming-language').text utils.capitalLanguages[session.get('codeLanguage')]
+      editor = @editors[team] = ace.edit @$el.find('.spectate-code.team-' + team + ' .ace')[0]
+      aceSession = editor.getSession()
+      editorDoc = aceSession.getDocument()
+      aceSession.setMode aceUtils.aceEditModes[session.get('submittedCodeLanguage')]
+      aceSession.setWrapLimitRange null
+      aceSession.setUseWrapMode false
+      aceSession.setNewLineMode 'unix'
+      aceSession.setUseSoftTabs true
+      editor.setFontSize '10px'
+      editor.setTheme 'ace/theme/textmate'
+      editor.setDisplayIndentGuides false
+      editor.setShowPrintMargin false
+      editor.setShowInvisibles false
+      editor.setAnimatedScroll true
+      editor.setShowFoldWidgets true
+      editor.$blockScrolling = Infinity
+      editor.setReadOnly true
+      editor.setValue session.get('code')?['hero-placeholder' + if team is 'ogres' then '-1' else '']?.plan ? ''
+      editor.clearSelection()
+    @$el.find('.spectate-code').addClass 'shown'
+    @$el.addClass 'showing-code'
+
+  onMouseEnterSpectateCode: (e) ->
+    team = if $(e.target).closest('.spectate-code').hasClass 'team-humans' then 'humans' else 'ogres'
+    @editors[team].setFontSize '16px'
+
+  onMouseLeaveSpectateCode: (e) ->
+    team = if $(e.target).closest('.spectate-code').hasClass 'team-humans' then 'humans' else 'ogres'
+    @editors[team].setFontSize '10px'
+
   register: -> return
 
   onSessionWillSave: (e) ->
@@ -283,15 +325,6 @@ module.exports = class SpectateLevelView extends RootView
   setSessions: (sessionOne, sessionTwo) ->
     @sessionOne = sessionOne
     @sessionTwo = sessionTwo
-    # The order of the sessions depends on the playable teams. The API endpoint always returns
-    # the human team as session 1 and the ogre team as session 2.
-    # However the playable team order defined in the level editor must match the sessions.
-    # Zero Sum has specified Ogres before Humans, thus causing the wrong sessions to be placed.
-    # This can be confirmed in the level editor: zero sum -> Systems -> Alliance -> config -> teams.
-    # TODO: Investigate if there is a cleaner fix, maybe by modifying Zero Sum config.
-    if @levelID == "zero-sum"
-      @sessionOne = sessionTwo
-      @sessionTwo = sessionOne
 
   onNextGamePressed: (e) ->
     @fetchRandomSessionPair (err, data) =>
@@ -336,5 +369,6 @@ module.exports = class SpectateLevelView extends RootView
     @goalManager?.destroy()
     @scriptManager?.destroy()
     delete window.world # not sure where this is set, but this is one way to clean it up
+    @destroyAceEditor(editor) for team, editor of @editors ? {}
     console.profileEnd?() if PROFILE_ME
     super()

@@ -15,6 +15,15 @@ export default function getVueRouter () {
           props: (route) => ({ showPremium: true, type: route.query.type })
         },
         {
+          path: '/league',
+          component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeague'),
+          children: [
+            // Stub pages
+            { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
+            { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') }
+          ]
+        },
+        {
           path: '/live-classes',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
           props: (route) => ({ showPremium: false, type: route.query.type })
@@ -28,6 +37,11 @@ export default function getVueRouter () {
             { path: 'teacher/:teacherId/classroom/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/courses/TeacherClassView.vue') },
             { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/classes/TeacherStudentView.vue') }
           ]
+        },
+        {
+          path: '/admin/clan/:clanId',
+          component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanEdit'),
+          props: (route) => ({clanId: route.params.clanId})
         },
         // Warning: In production debugging of third party iframe!
         {
