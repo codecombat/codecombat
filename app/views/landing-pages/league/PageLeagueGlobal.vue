@@ -95,8 +95,8 @@ export default {
     },
 
     signupAndRegister () {
-      window.nextURL = `${window.location.pathname}?registering=true`
-      application.router.navigate('?registering=true', { trigger: true })
+      window.nextURL = `${window.location.pathname}?origin=esportsSignup`
+      application.router.navigate('?origin=esportsSignup', { trigger: true })
     },
 
     async submitRegistration (registration) {
