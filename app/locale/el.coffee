@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     student_state: "Πως"
     student_state_2: "τα πάει;"
     student_good: "πάει καλά σε"
-    student_good_detail: "Αυτός ο σπουδαστής συμβαδίζει με την τάξη."
+    student_good_detail: "Αυτός ο σπουδαστής συμβαδίζει με την τάξη." # {change}
     student_warn: "ίσως χρειαστεί κάποια βοήθεια στο"
-    student_warn_detail: "Αυτός ο μαθητής μπορεί να χρειαστεί κάποια βοήθεια με τις νέες έννοιες που έχουν εισαχθεί σε αυτό το μάθημα."
+    student_warn_detail: "Αυτός ο μαθητής μπορεί να χρειαστεί κάποια βοήθεια με τις νέες έννοιες που έχουν εισαχθεί σε αυτό το μάθημα." # {change}
     student_great: "κάνει πολλή δουλειά"
-    student_great_detail: "Αυτός ο μαθητής μπορεί να γίνει ένας καλός υποψήφιος για να βοηθήσει άλλους μαθητές που εργάζονται σε αυτού το μαθήματα."
+    student_great_detail: "Αυτός ο μαθητής μπορεί να γίνει ένας καλός υποψήφιος για να βοηθήσει άλλους μαθητές που εργάζονται σε αυτού το μαθήματα." # {change}
     full_license: "Πλήρη Άδεια"
     starter_license: "Άδεια Εκκίνησης"
 #    customized_license: "Customized License"

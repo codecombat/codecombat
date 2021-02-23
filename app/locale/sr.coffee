@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     student_state: "Како  "
     student_state_2: "ради?"
     student_good: "добро ради у"
-    student_good_detail: "Овај ученик је у току са часом."
+    student_good_detail: "Овај ученик је у току са часом." # {change}
     student_warn: "можда му треба помоћ у"
-    student_warn_detail: "Овом ученику можда треба помоћ са новим концептима који су уведени у овом курсу. "
+    student_warn_detail: "Овом ученику можда треба помоћ са новим концептима који су уведени у овом курсу. " # {change}
     student_great: "је одличан у"
-    student_great_detail: "Овај ученик је можда добар кандидат да помогне другим ученицима да пређу овај курс."
+    student_great_detail: "Овај ученик је можда добар кандидат да помогне другим ученицима да пређу овај курс." # {change}
     full_license: "Пуна лиценца"
     starter_license: "Почетна лиценца"
 #    customized_license: "Customized License"
