@@ -1,4 +1,6 @@
-import { getLeaderboard, getMyRank, getLeaderboardPlayerCount, getCodePointsLeaderboard, getCodePointsRankForUser } from '../../api/leaderboard'
+import { getLeaderboard, getMyRank, getLeaderboardPlayerCount,
+  getCodePointsLeaderboard, getCodePointsRankForUser,
+  getCodePointsPlayerCount } from '../../api/leaderboard'
 import { fetchMySessions } from '../../api/level-sessions'
 
 // Level called: Blazing Battle
@@ -61,6 +63,10 @@ export default {
 
     setCodePointsRanking (state, { leagueId, ranking }) {
       Vue.set(state.codePointsRankingsForLeague, leagueId, ranking)
+    },
+
+    setCodePointsPlayerCount(state, playerCount) {
+      Vue.set(state.codePointsRankingsForLeague, 'playerCount', playerCount);
     },
 
     setMyCodePointsRank (state, myCodePointsRank) {
@@ -163,7 +169,10 @@ export default {
         }
         return []
       }
-    }
+    },
+    codePointsPlayerCount(state) {
+      return state.codePointsRankingsForLeague.playerCount;
+    },
   },
 
   actions: {
@@ -356,6 +365,12 @@ export default {
       await topCodePointsRankingPromise
 
       commit('setCodePointsRanking', { leagueId: leagueId, ranking: codePointsRankingInfo })
+
+      getCodePointsPlayerCount(leagueId)
+          .then((playerCount) => {
+            commit('setCodePointsPlayerCount', Number(playerCount));
+          })
+          .catch(err => console.error(err));
     },
 
     async fetchGlobalLeaderboard ({ commit }) {

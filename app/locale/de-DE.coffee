@@ -66,7 +66,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     for_teachers_subblurb1: "Fördern Sie Kreativität, Problemlösungskompetenzen und Selbstvertrauen in Projektkursen, in denen Schüler ihre eigenen Spiele und Webseiten entwickeln."
     for_teachers_subtitle2: "Lehrer Dashboard"
     for_teachers_subblurb2: "Sehen Sie, welche Fortschritte Ihre Schülerinnen und Schüler machen, entdecken Sie Unterichtsmaterialien und greifen Sie auf direkte Unterstützung zu, um Ihren Schülerinnen und Schüler erfolgreiches Lernen zu ermöglichen."
-#View data on student progress, discover curriculum resources, and access real-time support to empower student learning."
     for_teachers_subtitle3: "Vorgefertigte Prüfungen"
     for_teachers_subblurb3: "Passen Sie die Aufgabenstellungen individuell an und stellen Sie mit formativer und summativer Beurteilung sicher, dass die Schülerinnen und Schüler die Grundkonzepte wirklich verstehen."
     for_teachers_subtitle4: "Individuelle Differenzierung"
@@ -186,7 +185,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     legal: "Rechtliches"
     privacy: "Datenschutz"
     about: "Über"
-    impact: "Referenzen" #impact - oder Leuchtturm-Projekte
+    impact: "Referenzen"
     contact: "Kontakt"
     twitter_follow: "Folge uns auf Twitter"
     my_classrooms: "Meine Klassen"
@@ -1945,11 +1944,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     student_state: "Wie geht es"
     student_state_2: "?"
     student_good: "geht es gut in"
-    student_good_detail: "Dieser Schüler kommt mit der Klasse mit."
+    student_good_detail: "Dieser Schüler kommt mit der Klasse mit." # {change}
     student_warn: "könnte Hilfe gebrauchen in"
-    student_warn_detail: "Diese Schüler könnte etwas Hilfe mit neuen Konzepten gebrauchen, die in diesem Kurs eingeführt wurden."
+    student_warn_detail: "Diese Schüler könnte etwas Hilfe mit neuen Konzepten gebrauchen, die in diesem Kurs eingeführt wurden." # {change}
     student_great: "hat viel Erfolg mit"
-    student_great_detail: "Dieser Schüler ist möglicherweise ein guter Kandidat, um andere Schülern beim Bearbeiten dieses Kurses zu helfen."
+    student_great_detail: "Dieser Schüler ist möglicherweise ein guter Kandidat, um andere Schülern beim Bearbeiten dieses Kurses zu helfen." # {change}
     full_license: "Volllizenz"
     starter_license: "Starterlizenz"
 #    customized_license: "Customized License"
@@ -3151,3 +3150,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    how_it_works1: "Join a __team__"
 #    seasonal_arena_name: "Blazing Battle"
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
+#    seasonal_play_cta: "Play Blazing Battle Multiplayer Arena"
+#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
+#    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
+#    join_now: "Join Now"

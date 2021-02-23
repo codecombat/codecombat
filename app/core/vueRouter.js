@@ -38,6 +38,11 @@ export default function getVueRouter () {
             { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/classes/TeacherStudentView.vue') }
           ]
         },
+        {
+          path: '/admin/clan/:clanId',
+          component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanEdit'),
+          props: (route) => ({clanId: route.params.clanId})
+        },
         // Warning: In production debugging of third party iframe!
         {
           path: '/temporary-debug-timetap',

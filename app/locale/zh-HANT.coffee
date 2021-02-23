@@ -766,7 +766,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
-#    click_to_continue: "Click to Continue"
+    click_to_continue: "點擊繼續"
 #    fill_in_solution: "Fill in solution"
 
 #  apis:
@@ -1403,8 +1403,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     beautify: "利用標準格式來美化您的程式碼"
     maximize_editor: "最大化/最小化程式碼編輯器"
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "點擊任意區域繼續"
 
   community:
     main_title: "CodeCombat社群"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     student_state: "如何"
     student_state_2: "運作?"
     student_good: "做得不錯在"
-    student_good_detail: "這個學生有跟上班級步調。"
+    student_good_detail: "這個學生有跟上班級步調。" # {change}
     student_warn: "可能需要一些幫助在"
-    student_warn_detail: "這個學生可能需要一些幫助來學習這個課程中的新內容"
+    student_warn_detail: "這個學生可能需要一些幫助來學習這個課程中的新內容" # {change}
     student_great: "做得很好在"
-    student_great_detail: "這個學生可能可以幫助其他人學習這個課程"
+    student_great_detail: "這個學生可能可以幫助其他人學習這個課程" # {change}
     full_license: "完整註冊碼"
     starter_license: "起始註冊碼Starter License"
 #    customized_license: "Customized License"
@@ -3150,3 +3150,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    how_it_works1: "Join a __team__"
 #    seasonal_arena_name: "Blazing Battle"
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
+#    seasonal_play_cta: "Play Blazing Battle Multiplayer Arena"
+#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
+#    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
+#    join_now: "Join Now"

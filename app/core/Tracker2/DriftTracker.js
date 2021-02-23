@@ -70,12 +70,10 @@ export default class DriftTracker extends BaseTracker {
 
     window.drift.on('ready', async (api) => {
       this.driftApi = api
-
       this.initDriftOnLoad()
-      if (!this.initializationComplete)
-        this.onInitializeSuccess()
-
       this.updateDriftConfiguration()
+
+      this.onInitializeSuccess()
 
       const retries = await getPageUnloadRetriesForNamespace('drift')
       for (const retry of retries) {
@@ -85,8 +83,9 @@ export default class DriftTracker extends BaseTracker {
   }
 
   initDriftOnLoad () {
-    // Hide by default
-    this.driftApi.widget.hide()
+    if (!this.isChatEnabled) {
+      this.driftApi.widget.hide()
+    }
 
     // Show when a message is received
     window.drift.on('message', (e) => {
@@ -115,9 +114,11 @@ export default class DriftTracker extends BaseTracker {
     return !this.onPlayPage && !this.store.getters['me/isStudent'] && !this.store.getters['me/isHomePlayer']  // && !this.disableAllTracking
   }
 
-  updateDriftConfiguration () {
+  async updateDriftConfiguration () {
+    await this.initializationComplete
+
     const chatEnabled = this.isChatEnabled
-    if (this.isInitialized !== false) {
+    if (!this.isInitialized) {
       // Drift failed to load, let's not try again.
       return
     } else if (chatEnabled && !this.driftApi) {
@@ -145,6 +146,9 @@ export default class DriftTracker extends BaseTracker {
     }
 
     await this.initializationComplete
+    if (!window.drift) {
+      return;
+    }
 
     const { me } = this.store.state
 

@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription: "German (Austria)", translation:
 
-#  new_home:
+  new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
@@ -8,11 +8,11 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    become_investor: "to become an investor in CodeCombat"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
-#    built_for_teachers_subtitle1: "Computer Science"
+    built_for_teachers_subtitle1: "Informatik"
 #    built_for_teachers_subblurb1: "Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms."
-#    built_for_teachers_subtitle2: "Game Development"
+    built_for_teachers_subtitle2: "Spielentwicklung"
 #    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
-#    built_for_teachers_subtitle3: "Web Development"
+    built_for_teachers_subtitle3: "Webentwicklung"
 #    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates."
 #    century_skills_title: "21st Century Skills"
 #    century_skills_blurb1: "Students Don't Just Level Up Their Hero, They Level Up Themselves"
@@ -20,13 +20,13 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    century_skills_subtitle1: "Critical Thinking"
 #    century_skills_subblurb1: "With coding puzzles that are naturally scaffolded into increasingly challenging levels, CodeCombat's programming game ensures kids are always practicing critical thinking."
 #    century_skills_quote2: "Everyone else was making mazes, so I thought, ‘capture the flag’ and that’s what I did."
-#    century_skills_subtitle2: "Creativity"
+    century_skills_subtitle2: "Kreativität"
 #    century_skills_subblurb2: "CodeCombat encourages students to showcase their creativity by building and sharing their own games and webpages."
 #    century_skills_quote3: "If I got stuck on a level. I would work with people around me until we were all able to figure it out."
 #    century_skills_subtitle3: "Collaboration"
 #    century_skills_subblurb3: "Throughout the game, there are opportunities for students to collaborate when they get stuck and to work together using our pair programming guide."
 #    century_skills_quote4: "I’ve always had aspirations of designing video games and learning how to code ... this is giving me a great starting point."
-#    century_skills_subtitle4: "Communication"
+    century_skills_subtitle4: "Kommunikation"
 #    century_skills_subblurb4: "Coding requires kids to practice new forms of communication, including communicating with the computer itself and conveying their ideas using the most efficient code."
 #    classroom_in_box_title: "We Strive To:"
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
@@ -1695,7 +1695,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    view_project: "View Project"
 #    edit_project: "Edit Project"
 
-#  teacher:
+  teacher:
 #    assigning_course: "Assigning course"
 #    back_to_top: "Back to Top"
 #    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    student_state: "How is"
 #    student_state_2: "doing?"
 #    student_good: "is doing well in"
-#    student_good_detail: "This student is keeping pace with the class."
+#    student_good_detail: "This student is keeping pace with the class's average level completion times."
 #    student_warn: "might need some help in"
-#    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
+#    student_warn_detail: "This student's average level completion times suggest they might need some help with new concepts that have been introduced in this course."
 #    student_great: "is doing great in"
-#    student_great_detail: "This student might be a good candidate to help other students working through this course."
+#    student_great_detail: "This student might be a good candidate to help other students working through this course, based on average level completion times."
 #    full_license: "Full License"
 #    starter_license: "Starter License"
 #    customized_license: "Customized License"
@@ -2026,7 +2026,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    end_course: "End of Course"
 #    none: "None detected yet"
 #    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
-#    level_label: "Level:"
+    level_label: "Level:"
 #    time_played_label: "Time Played:"
 #    back_to_resource_hub: "Back to Resource Hub"
 #    back_to_course_guides: "Back to Course Guides"
@@ -2082,13 +2082,13 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    licenses_used: "(__licensesUsed__ licenses used)"
 #    more_info: "More info"
 
-#  sharing:
-#    game: "Game"
-#    webpage: "Webpage"
+  sharing:
+    game: "Spiel"
+    webpage: "Webseite"
 #    your_students_preview: "Your students will click here to see their finished projects! Unavailable in teacher preview."
 #    unavailable: "Link sharing not available in teacher preview."
-#    share_game: "Share This Game"
-#    share_web: "Share This Webpage"
+    share_game: "Dieses Spiel teilen"
+    share_web: "Diese Webseite teilen"
 #    victory_share_prefix: "Share this link to invite your friends & family to"
 #    victory_share_prefix_short: "Invite people to"
 #    victory_share_game: "play your game level"
@@ -2098,13 +2098,13 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    victory_course_share_game: "play the game"
 #    victory_course_share_web: "view the webpage"
 #    victory_course_share_suffix: "you just created."
-#    copy_url: "Copy URL"
+    copy_url: "URL kopieren"
 #    share_with_teacher_email: "Send to your teacher"
 
 #  game_dev:
 #    creator: "Creator"
 
-#  web_dev:
+  web_dev:
 #    image_gallery_title: "Image Gallery"
 #    select_an_image: "Select an image you want to use"
 #    scroll_down_for_more_images: "(Scroll down for more images)"
@@ -2112,11 +2112,11 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    copy_the_url_description: "Useful if you want to replace an existing image."
 #    copy_the_img_tag: "Copy the <img> tag"
 #    copy_the_img_tag_description: "Useful if you want to insert a new image."
-#    copy_url: "Copy URL"
-#    copy_img: "Copy <img>"
+    copy_url: "URL kopieren"
+    copy_img: "<img> kopieren"
 #    how_to_copy_paste: "How to Copy/Paste"
-#    copy: "Copy"
-#    paste: "Paste"
+    copy: "Kopieren"
+    paste: "Einfügen"
 #    back_to_editing: "Back to Editing"
 
   classes:
@@ -2138,28 +2138,28 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     ambassador_title: "Botschafter"
     ambassador_title_description: "(Support)"
 #    ambassador_summary: "Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world."
-#    teacher_title: "Teacher"
+    teacher_title: "Lehrer"
 
   editor:
     main_title: "CodeCombat Editoren"
     article_title: "Artikel Editor"
     thang_title: "Thang Editor"
     level_title: "Level Editor"
-#    course_title: "Course Editor"
+    course_title: "Kurs Editor"
     achievement_title: "Achievement Editor"
-#    poll_title: "Poll Editor"
+    poll_title: "Abstimmung Editor"
     back: "Zurück"
     revert: "Zurücksetzen"
     revert_models: "Models zurücksetzen."
     pick_a_terrain: "Wähle ein Terrain"
-#    dungeon: "Dungeon"
-#    indoor: "Indoor"
-#    desert: "Desert"
+    dungeon: "Verlies"
+    indoor: "Drinnen"
+    desert: "Wüste"
     grassy: "Grasig"
-#    mountain: "Mountain"
-#    glacier: "Glacier"
+    mountain: "Berg"
+    glacier: "Gletscher"
     small: "Klein"
-#    large: "Large"
+    large: "Groß"
     fork_title: "Forke neue Version"
     fork_creating: "Erzeuge Fork..."
     generate_terrain: "Generiere Terrain"
@@ -2168,7 +2168,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     live_chat: "Live Chat"
 #    thang_main: "Main"
 #    thang_spritesheets: "Spritesheets"
-#    thang_colors: "Colors"
+    thang_colors: "Farben"
     level_some_options: "Einige Einstellungsmöglichkeiten?"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "Skripte"
@@ -2208,13 +2208,13 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     new_level_title_login: "Melde dich an um ein neues Level zu erstellen"
     new_achievement_title: "Erstelle ein neues Achievement"
     new_achievement_title_login: "Melde dich an um ein neues Achievement zu erstellen"
-#    new_poll_title: "Create a New Poll"
+    new_poll_title: "Erstelle eine neue Abstimmung"
 #    new_poll_title_login: "Log In to Create a New Poll"
     article_search_title: "Durchsuche Artikel hier"
     thang_search_title: "Durchsuche Thang-Typen hier"
     level_search_title: "Durchsuche Levels hier"
     achievement_search_title: "Durchsuche Achievements"
-#    poll_search_title: "Search Polls"
+    poll_search_title: "Durchsuche Abstimmungen"
     read_only_warning2: "Warnung: Du kannst hier keine Änderungen speichern, weil du nicht angemeldet bist."
     no_achievements: "Es wurden noch keine Achievements zu diesem Level hinzugefügt."
 #    achievement_query_misc: "Key achievement off of miscellanea"
@@ -2230,8 +2230,8 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     edit_btn_preview: "Vorschau"
     edit_article_title: "Artikel bearbeiten"
 
-#  polls:
-#    priority: "Priority"
+  polls:
+    priority: "Priorität"
 
   contribute:
 #    page_title: "Contributing"
@@ -2361,12 +2361,12 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     tournament_blurb_blog: "auf unserem Blog an"
     rules: "Regeln"
     winners: "Gewinner"
-#    league: "League"
+    league: "Liga"
 #    red_ai: "Red CPU" # "Red AI Wins", at end of multiplayer match playback
 #    blue_ai: "Blue CPU"
 #    wins: "Wins" # At end of multiplayer match playback
 #    humans: "Red" # Ladder page display team name
-#    ogres: "Blue"
+    ogres: "Blau"
 #    live_tournament: "Live Tournament"
 #    awaiting_tournament_title: "Tournament Inactive"
 #    awaiting_tournament_blurb: "The tournament arena is not currently active."
@@ -2401,7 +2401,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    certificate_stats: "Course Stats"
 #    certificate_lines_of: "lines of"
 #    certificate_levels_completed: "levels completed"
-#    certificate_for: "For"
+    certificate_for: "Für"
 #    certificate_number: "No."
 
   achievements:
@@ -2416,33 +2416,33 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    left_xp_infix: " until level "
 #    left_xp_postfix: ""
 
-#  account:
-#    title: "Account"
+  account:
+    title: "Account"
 #    settings_title: "Account Settings"
 #    unsubscribe_title: "Unsubscribe"
-#    payments_title: "Payments"
+    payments_title: "Zahlungen"
 #    subscription_title: "Subscription"
 #    invoices_title: "Invoices"
 #    prepaids_title: "Prepaids"
-#    payments: "Payments"
+    payments: "Zahlungen"
 #    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
 #    subscribe_for_gems: "Subscribe for gems"
 #    subscription: "Subscription"
 #    invoices: "Invoices"
 #    service_apple: "Apple"
-#    service_web: "Web"
+    service_web: "Web"
 #    paid_on: "Paid On"
-#    service: "Service"
-#    price: "Price"
-#    gems: "Gems"
-#    active: "Active"
+    service: "Service"
+    price: "Preis"
+    gems: "Edelsteine"
+    active: "Aktiv"
 #    subscribed: "Subscribed"
 #    unsubscribed: "Unsubscribed"
-#    active_until: "Active Until"
-#    cost: "Cost"
-#    next_payment: "Next Payment"
-#    card: "Card"
+    active_until: "Aktiv bis"
+    cost: "Kosten"
+    next_payment: "Nächste Zahlung"
+    card: "Karte"
 #    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
 #    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
 #    not_yet_verified: "Not yet verified."
@@ -2453,10 +2453,10 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    verify_error: "Something went wrong when verifying your email :("
 #    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?"
 #    unsubscribe_button: "Yes, unsubscribe"
-#    unsubscribe_failed: "Failed"
-#    unsubscribe_success: "Success"
+    unsubscribe_failed: "Gescheitert"
+    unsubscribe_success: "Erfolg"
 
-#  account_invoices:
+  account_invoices:
 #    amount: "Amount in US dollars"
 #    declined: "Your card was declined"
 #    invalid_amount: "Please enter a US dollar amount."
@@ -2464,17 +2464,17 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    pay: "Pay Invoice"
 #    purchasing: "Purchasing..."
 #    retrying: "Server error, retrying."
-#    success: "Successfully paid. Thanks!"
+    success: "Erfolgreich bezahlt. Danke!"
 
-#  account_prepaid:
+  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
 #    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat."
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
 #    purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
 #    purchase_code4: "Subscription Codes are for accounts playing the Home version of CodeCombat, they cannot be used in place of Student Licenses for the Classroom version."
 #    purchase_code5: "For more information on Student Licenses, reach out to"
-#    users: "Users"
-#    months: "Months"
+    users: "Benutzer"
+    months: "Monate"
 #    purchase_total: "Total"
 #    purchase_button: "Submit Purchase"
 #    your_codes: "Your Codes"
@@ -2486,7 +2486,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    quantity: "Quantity"
 #    redeemed: "Redeemed"
 #    no_codes: "No codes yet!"
-#    you_can1: "You can"
+    you_can1: "Du kannst"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
@@ -2561,7 +2561,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     bad_input: "Falsche Eingabe."
     server_error: "Server Fehler."
     unknown: "Unbekannter Fehler." # {change}
-#    error: "ERROR"
+    error: "ERROR"
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 #    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
@@ -2573,7 +2573,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
     systems: "Systeme"
     component: "Komponente"
     components: "Komponenten"
-#    hero: "Hero"
+    hero: "Held"
 #    campaigns: "Campaigns"
 
 #  concepts:
@@ -2704,15 +2704,15 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    basic_event_handling: "Basic Event Handling"
 #    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
-#  anonymous_teacher:
+  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
 #    create_teacher_account: "Create free teacher account"
-#    enter_student_name: "Your name:"
-#    enter_teacher_email: "Your teacher's email:"
+    enter_student_name: "Dein Name:"
+    enter_teacher_email: "Email-Adresse deines Lehrers/deiner Lehrerin:"
 #    teacher_email_placeholder: "teacher.email@example.com"
 #    student_name_placeholder: "type your name here"
-#    teachers_section: "Teachers:"
-#    students_section: "Students:"
+    teachers_section: "Lehrer/innen:"
+    students_section: "Schüler/innen:"
 #    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
@@ -2777,7 +2777,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
     nutshell_title: "Zusammenfassung"
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for."
-#    nutshell_see_also: "See also:"
+    nutshell_see_also: "Siehe auch:"
     canonical: "Die englische Version dieses Dokuments ist die definitive, kanonische Version. Sollte es Unterschiede zwischen den Übersetzungen geben, dann hat das englische Dokument Vorrang."
 #    third_party_title: "Third Party Services"
 #    third_party_description: "CodeCombat uses the following third party services (among others):"
@@ -2809,9 +2809,9 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
-#  server_error:
-#    email_taken: "Email already taken"
-#    username_taken: "Username already taken"
+  server_error:
+    email_taken: "Email schon vergeben"
+    username_taken: "Username schon vergeben"
 #    easy_password: "Password is too easy to guess"
 #    reused_password: "Password cannot be reused"
 
@@ -3079,32 +3079,32 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    title: "HOUR OF CODE 2020"
 #    acronym: "HOC"
 
-#  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
-#    educator: "I'm an educator"
-#    show_resources: "Show me teacher resources!"
-#    student: "I'm a student"
-#    ready_to_code: "I'm ready to code!"
+  hoc_2018_interstitial:
+#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+    educator: "Ich bin Lehrer/in"
+    show_resources: "Zeig mir den Inhalt für Lehrer/innen!"
+    student: "Ich bin Schüler/in"
+    ready_to_code: "Ich bin bereit zu programmieren!"
 
-#  hoc_2018_completion:
+  hoc_2018_completion:
 #    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
 #    send: "Send your Hour of Code game to friends and family!"
-#    copy: "Copy URL"
-#    get_certificate: "Get a certificate of completion to celebrate with your class!"
-#    get_cert_btn: "Get Certificate"
-#    first_name: "First Name"
-#    last_initial: "Last Initial"
-#    teacher_email: "Teacher's email address"
+    copy: "URL kopieren"
+    get_certificate: "Erhalte ein Zertifikat für die Fertigstellung, das du mit deiner Klasse feiern kannst!"
+    get_cert_btn: "Zertifikat bekommen"
+    first_name: "Vorname"
+    last_initial: "Letze Initiale"
+    teacher_email: "E-mail-Addresse Lehrer/in"
 
-#  school_administrator:
-#    title: "School Administrator Dashboard"
-#    my_teachers: "My Teachers"
-#    last_login: "Last Login"
-#    licenses_used: "licenses used"
-#    total_students: "total students"
-#    active_students: "active students"
-#    projects_created: "projects created"
-#    other: "Other"
+  school_administrator:
+    title: "Schuladministratoren-Dashboard"
+    my_teachers: "Meine Lehrer/innen"
+    last_login: "Letzter Login"
+    licenses_used: "verwendete Lizenzen"
+    total_students: "Schüler/innen insgesamt"
+    active_students: "aktive Schüler"
+    projects_created: "erstellte Projekte"
+    other: "Andere"
 #    notice: "The following school administrators have view-only access to your classroom data:"
 #    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
 #    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
@@ -3124,17 +3124,17 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    totals_explanation_9: "Counts total games and web pages created."
 #    date_thru_date: "__startDateRange__ thru __endDateRange__"
 
-#  interactives:
+  interactives:
 #    phenomenal_job: "Phenomenal Job!"
-#    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
+    try_again: "Ups, probier's nochmal!"
+#    select_statement_left: "Ups, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
 
-#  browser_recommendation:
-#    title: "CodeCombat works best on Chrome!"
-#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
-#    download: "Download Chrome"
-#    ignore: "Ignore"
+  browser_recommendation:
+    title: "CodeCombat funktioniert am besten in Chrome!"
+    pitch_body: "Für das beste CodeCombat-Erlebnis empfehlen wir, die neueste Version von Chrome zu nutzen. Downloade die aktuelle Version indem du auf den Button unten klickst."
+    download: "Chrome downloaden"
+    ignore: "Ignorieren"
 
 #  admin:
 #    license_type_full: "Full Courses"
@@ -3150,3 +3150,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    how_it_works1: "Join a __team__"
 #    seasonal_arena_name: "Blazing Battle"
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
+#    seasonal_play_cta: "Play Blazing Battle Multiplayer Arena"
+#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
+#    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
+#    join_now: "Join Now"

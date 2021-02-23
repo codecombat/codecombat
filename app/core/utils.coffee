@@ -213,6 +213,14 @@ courseIDs =
   COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
   COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
 
+CSCourseIDs = [
+  courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+  courseIDs.COMPUTER_SCIENCE_2
+  courseIDs.COMPUTER_SCIENCE_3
+  courseIDs.COMPUTER_SCIENCE_4
+  courseIDs.COMPUTER_SCIENCE_5
+  courseIDs.COMPUTER_SCIENCE_6
+]
 orderedCourseIDs = [
   courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
   courseIDs.GAME_DEVELOPMENT_1
@@ -883,6 +891,7 @@ module.exports = {
   countryCodeToFlagEmoji
   courseAcronyms
   courseIDs
+  CSCourseIDs
   createLevelNumberMap
   extractPlayerCodeTag
   filterMarkdownCodeLanguages

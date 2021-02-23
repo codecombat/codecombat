@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     student_state: "Πως"
     student_state_2: "τα πάει;"
     student_good: "πάει καλά σε"
-    student_good_detail: "Αυτός ο σπουδαστής συμβαδίζει με την τάξη."
+    student_good_detail: "Αυτός ο σπουδαστής συμβαδίζει με την τάξη." # {change}
     student_warn: "ίσως χρειαστεί κάποια βοήθεια στο"
-    student_warn_detail: "Αυτός ο μαθητής μπορεί να χρειαστεί κάποια βοήθεια με τις νέες έννοιες που έχουν εισαχθεί σε αυτό το μάθημα."
+    student_warn_detail: "Αυτός ο μαθητής μπορεί να χρειαστεί κάποια βοήθεια με τις νέες έννοιες που έχουν εισαχθεί σε αυτό το μάθημα." # {change}
     student_great: "κάνει πολλή δουλειά"
-    student_great_detail: "Αυτός ο μαθητής μπορεί να γίνει ένας καλός υποψήφιος για να βοηθήσει άλλους μαθητές που εργάζονται σε αυτού το μαθήματα."
+    student_great_detail: "Αυτός ο μαθητής μπορεί να γίνει ένας καλός υποψήφιος για να βοηθήσει άλλους μαθητές που εργάζονται σε αυτού το μαθήματα." # {change}
     full_license: "Πλήρη Άδεια"
     starter_license: "Άδεια Εκκίνησης"
 #    customized_license: "Customized License"
@@ -3150,3 +3150,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    how_it_works1: "Join a __team__"
 #    seasonal_arena_name: "Blazing Battle"
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
+#    seasonal_play_cta: "Play Blazing Battle Multiplayer Arena"
+#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
+#    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
+#    join_now: "Join Now"

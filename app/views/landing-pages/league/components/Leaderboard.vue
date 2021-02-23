@@ -53,7 +53,7 @@ export default {
 </script>
 
 <template lang="pug">
-  .col-lg-6.table-responsive
+  .table-responsive
     table.table.table-bordered.table-condensed.table-hover.ladder-table
       thead
         tr
@@ -64,7 +64,7 @@ export default {
             span {{ $t('ladder.leaderboard') }}
             span(v-if="playerCount > 1")
               span  -&nbsp;
-              span {{ playerCount }}
+              span {{ playerCount.toLocaleString() }}
               span  players
 
         tr

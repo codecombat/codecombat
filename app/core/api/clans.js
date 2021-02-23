@@ -13,3 +13,5 @@ export const joinClan = clanId => fetchJson(`/db/clan/${clanId}/join`, {
 export const leaveClan = clanId => fetchJson(`/db/clan/${clanId}/leave`, {
   method: 'PUT'
 })
+
+export const getChildClanDetails = idOrSlug => fetchJson(`/db/clan/${idOrSlug}/subclans`)
