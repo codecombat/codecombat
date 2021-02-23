@@ -3136,21 +3136,22 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    download: "Download Chrome"
 #    ignore: "Ignore"
 
-#  admin:
-#    license_type_full: "Full Courses"
-#    license_type_customize: "Customize Courses"
+  admin:
+    license_type_full: "全部課程"
+    license_type_customize: "自訂課程"
 
-#  league:
-#    student_register_1: "Become the next AI Champion!"
-#    student_register_2: "Sign up, create your own team, or join other teams to start competing."
-#    student_register_3: "Provide the information below to be eligible for prizes."
-#    teacher_register_1: "Sign up to access your class league profile page and get your class started."
-#    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
-#    team: "team"
-#    how_it_works1: "Join a __team__"
-#    seasonal_arena_name: "Blazing Battle"
-#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
-#    seasonal_play_cta: "Play Blazing Battle Multiplayer Arena"
-#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
-#    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
+  league:
+    student_register_1: "成為下一個 AI 冠軍！"
+    student_register_2: "註冊，建立自己的團隊或加入其他團隊開始競爭。"
+    student_register_3: "提供以下資訊以確認獲獎資格。"
+    teacher_register_1: "註冊以取得您的班級聯賽資料頁面並開始上課。"
+    general_news: "經由電子郵件取得最新資訊並更新 AI 相關賽事。"
+    team: "團隊"
+    how_it_works1: "加入 __團隊__"
+    seasonal_arena_name: "激烈賽事"
+    seasonal_arena_tooltip: "您將使用自己最好的編程技能來與隊友和其他人作戰，以賺取積分並提升 AI 聯賽排行，以期在賽季結束前進入冠軍賽。"
+    seasonal_play_cta: "在多玩家區域進行激烈賽事。"
+    unlocked_seasonal_arena: "您已解鎖我們的多人電競競技場！"
+    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
 #    join_now: "Join Now"
+
