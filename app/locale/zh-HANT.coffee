@@ -5,7 +5,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "通過遊戲來學習程式編碼。 學習 Python、JavaScript 和 HTML，解決其中的難題並學會製作自己的遊戲和網站。"
 #    meta_og_url: "https://codecombat.com"
-#    become_investor: "to become an investor in CodeCombat"
+    become_investor: "成為CodeCombat的投資人"
     built_for_teachers_title: "一個由教師建構的編碼遊戲"
     built_for_teachers_blurb: "教孩子們編寫代碼往往會令人感到招架不住。 透過 CodeCombat 可以幫助所有教育工作者教授學生如何使用 JavaScript 或 Python（兩種最流行的編程語言）進行編碼。 透過包含六個計算機科學的綜合課程，以及遊戲開發和 Web 開發專題來進行加強學習，孩子們將在從基本語法往遞迴程式設計中前進！"
     built_for_teachers_subtitle1: "電腦科學"
@@ -34,7 +34,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     classroom_in_box_blurb3: "激勵更多的學校來創造出世界一流的電腦科學課程。"
 #    classroom_in_box_blurb4: ""
 #    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
-#    click_here: "Click here"
+    click_here: "點擊這裡"
     creativity_rigor_title: "創造力與邏輯相遇的地方"
     creativity_rigor_subtitle1: "讓編碼變得有趣並學習到現實世界共通的技能"
     creativity_rigor_blurb1: "學生在玩遊戲時學會輸入真正的 Python 和 JavaScript 代碼，鼓勵反複試驗、批判性思考和創造力。然後讓學生通過在專題課程中開發自己的遊戲和網站，應用他們學到的編碼技能。"
@@ -766,7 +766,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    learning_goals: "Learning Goals"
 #    start: "Start"
 #    vega_character: "Vega Character"
-#    click_to_continue: "Click to Continue"
+    click_to_continue: "點擊繼續"
 #    fill_in_solution: "Fill in solution"
 
 #  apis:
@@ -1403,8 +1403,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     beautify: "利用標準格式來美化您的程式碼"
     maximize_editor: "最大化/最小化程式碼編輯器"
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "點擊任意區域繼續"
 
   community:
     main_title: "CodeCombat社群"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     student_state: "如何"
     student_state_2: "運作?"
     student_good: "做得不錯在"
-    student_good_detail: "這個學生有跟上班級步調。"
+    student_good_detail: "這個學生有跟上班級步調。" # {change}
     student_warn: "可能需要一些幫助在"
-    student_warn_detail: "這個學生可能需要一些幫助來學習這個課程中的新內容"
+    student_warn_detail: "這個學生可能需要一些幫助來學習這個課程中的新內容" # {change}
     student_great: "做得很好在"
-    student_great_detail: "這個學生可能可以幫助其他人學習這個課程"
+    student_great_detail: "這個學生可能可以幫助其他人學習這個課程" # {change}
     full_license: "完整註冊碼"
     starter_license: "起始註冊碼Starter License"
 #    customized_license: "Customized License"
@@ -3136,11 +3136,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    download: "Download Chrome"
 #    ignore: "Ignore"
 
-#  admin:
+  admin:
     license_type_full: "全部課程"
     license_type_customize: "自訂課程"
 
-#  league:
+  league:
     student_register_1: "成為下一個 AI 冠軍！"
     student_register_2: "註冊，建立自己的團隊或加入其他團隊開始競爭。"
     student_register_3: "提供以下資訊以確認獲獎資格。"
@@ -3152,3 +3152,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     seasonal_arena_tooltip: "您將使用自己最好的編程技能來與隊友和其他人作戰，以賺取積分並提升 AI 聯賽排行，以期在賽季結束前進入冠軍賽。"
     seasonal_play_cta: "在多玩家區域進行激烈賽事。"
     unlocked_seasonal_arena: "您已解鎖我們的多人電競競技場！"
+    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
+#    join_now: "Join Now"
+

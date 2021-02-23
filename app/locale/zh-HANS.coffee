@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     student_state: "看看"
     student_state_2: "的情况?"
     student_good: "表现得很好，课程"
-    student_good_detail: "这个学生的进度达到了班级的平均进度。"
+    student_good_detail: "这个学生的进度达到了班级的平均进度。" # {change}
     student_warn: "可能需要一些帮助"
-    student_warn_detail: "这个学生可能需要一些帮助，在本课程中介绍的新概念。"
+    student_warn_detail: "这个学生可能需要一些帮助，在本课程中介绍的新概念。" # {change}
     student_great: "做得太好了，关卡"
-    student_great_detail: "这个学生可能是一个很好的候选人，帮助其他学生通过这门课程。"
+    student_great_detail: "这个学生可能是一个很好的候选人，帮助其他学生通过这门课程。" # {change}
     full_license: "全课许可"
     starter_license: "入门许可"
     customized_license: "定制许可"
@@ -3152,3 +3152,5 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
 #    seasonal_play_cta: "Play Blazing Battle Multiplayer Arena"
 #    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
+#    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
+#    join_now: "Join Now"

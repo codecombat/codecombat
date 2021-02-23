@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     student_state: "Comment est"
     student_state_2: "action?"
     student_good: "se porte bien en"
-    student_good_detail: "Cet étudiant est dans le rythme de sa casse."
+    student_good_detail: "Cet étudiant est dans le rythme de sa casse." # {change}
     student_warn: "pourrait avoir besoin d'aide pour"
-    student_warn_detail: "Cet étudiant devrait être aidé par les nouveaux concepts introduits dans ce cours."
+    student_warn_detail: "Cet étudiant devrait être aidé par les nouveaux concepts introduits dans ce cours." # {change}
     student_great: "s'en sort très bien en"
-    student_great_detail: "Cet étudiant pourrait être un bon candidat pour aider d'autres étudiants à suivre ce cours."
+    student_great_detail: "Cet étudiant pourrait être un bon candidat pour aider d'autres étudiants à suivre ce cours." # {change}
     full_license: "Licence complète"
     starter_license: "Licence de débutant"
 #    customized_license: "Customized License"
@@ -3152,3 +3152,5 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
 #    seasonal_play_cta: "Play Blazing Battle Multiplayer Arena"
 #    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
+#    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
+#    join_now: "Join Now"
