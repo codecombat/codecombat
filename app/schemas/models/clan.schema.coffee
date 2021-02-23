@@ -42,7 +42,7 @@ _.extend ClanSchema.properties,
   description: {type: 'string'}
   # Empty for auto clans
   members: c.array {title: 'Members'}, c.objectId()
-  # Set to Nick's user (512ef4805a67a8c507000001) for auto clans
+  # Optional property
   ownerID: c.objectId()
   # Set to 'public' for auto clans
   type: {type: 'string', 'enum': ['public', 'private'], description: 'Controls clan general visibility.'}
@@ -59,8 +59,8 @@ _.extend ClanSchema.properties,
     description: 'Contains properties that help find autoclans'
     additionalProperties: true
   })
-  # Set only for auto clans (yet), to display instead of Clan.name
-  displayName: { type: 'string' }
+  displayName: { type: 'string', description: 'overwrites visual visual name of clan - used as name is tied to the slug' }
+  esportsImage: { type: 'string', format: 'image-file', title: 'Esports Image', description: 'Image to show for this team on league page.' }
 
 c.extendBasicProperties ClanSchema, 'Clan'
 

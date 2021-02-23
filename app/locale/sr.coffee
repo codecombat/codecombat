@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     student_state: "Како  "
     student_state_2: "ради?"
     student_good: "добро ради у"
-    student_good_detail: "Овај ученик је у току са часом."
+    student_good_detail: "Овај ученик је у току са часом." # {change}
     student_warn: "можда му треба помоћ у"
-    student_warn_detail: "Овом ученику можда треба помоћ са новим концептима који су уведени у овом курсу. "
+    student_warn_detail: "Овом ученику можда треба помоћ са новим концептима који су уведени у овом курсу. " # {change}
     student_great: "је одличан у"
-    student_great_detail: "Овај ученик је можда добар кандидат да помогне другим ученицима да пређу овај курс."
+    student_great_detail: "Овај ученик је можда добар кандидат да помогне другим ученицима да пређу овај курс." # {change}
     full_license: "Пуна лиценца"
     starter_license: "Почетна лиценца"
 #    customized_license: "Customized License"
@@ -3150,3 +3150,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    how_it_works1: "Join a __team__"
 #    seasonal_arena_name: "Blazing Battle"
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
+#    seasonal_play_cta: "Play Blazing Battle Multiplayer Arena"
+#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
+#    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
+#    join_now: "Join Now"

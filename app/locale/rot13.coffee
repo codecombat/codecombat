@@ -90,7 +90,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teachers_love_codecombat_blurb2: "Jbhyq erpbzzraq PbqrPbzong gb bgure pbzchgre fpvrapr grnpuref"
     teachers_love_codecombat_blurb3: "Fnl gung PbqrPbzong urycf gurz fhccbeg fghqragf’ ceboyrz fbyivat novyvgvrf"
     teachers_love_codecombat_subblurb: "Va cnegarefuvc jvgu ZpERY Vagreangvbany, n yrnqre va erfrnepu-onfrq thvqnapr naq rinyhngvbaf bs rqhpngvbany grpuabybtl."
-    top_banner_blurb: "Cneragf, tvir lbhe puvyq gur tvsg bs pbqvat naq crefbanyvmrq vafgehpgvba jvgu bhe yvir grnpuref!" # {punatr}
+    top_banner_blurb: "Cneragf, tvir lbhe puvyq gur tvsg bs pbqvat naq crefbanyvmrq vafgehpgvba jvgu bhe yvir grnpuref!"
     try_the_game: "Gel gur tnzr"
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
@@ -1943,11 +1943,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     student_state: "Ubj vf"
     student_state_2: "qbvat?"
     student_good: "vf qbvat jryy va"
-    student_good_detail: "Guvf fghqrag vf xrrcvat cnpr jvgu gur pynff."
+    student_good_detail: "Guvf fghqrag vf xrrcvat cnpr jvgu gur pynff'f nirentr yriry pbzcyrgvba gvzrf." # {punatr}
     student_warn: "zvtug arrq fbzr uryc va"
-    student_warn_detail: "Guvf fghqrag zvtug arrq fbzr uryc jvgu arj pbaprcgf gung unir orra vagebqhprq va guvf pbhefr."
+    student_warn_detail: "Guvf fghqrag'f nirentr yriry pbzcyrgvba gvzrf fhttrfg gurl zvtug arrq fbzr uryc jvgu arj pbaprcgf gung unir orra vagebqhprq va guvf pbhefr." # {punatr}
     student_great: "vf qbvat terng va"
-    student_great_detail: "Guvf fghqrag zvtug or n tbbq pnaqvqngr gb uryc bgure fghqragf jbexvat guebhtu guvf pbhefr."
+    student_great_detail: "Guvf fghqrag zvtug or n tbbq pnaqvqngr gb uryc bgure fghqragf jbexvat guebhtu guvf pbhefr, onfrq ba nirentr yriry pbzcyrgvba gvzrf." # {punatr}
     full_license: "Shyy Yvprafr"
     starter_license: "Fgnegre Yvprafr"
     customized_license: "Phfgbzvmrq Yvprafr"
@@ -3149,3 +3149,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     how_it_works1: 'Wbva n __grnz__'
     seasonal_arena_name: 'Oynmvat Onggyr'
     seasonal_arena_tooltip: 'Onggyr ntnvafg lbhe grnzzngrf naq bguref nf lbh hfr lbhe orfg cebtenzzvat fxvyyf gb rnea cbvagf naq enax hc gur NV Yrnthr yrnqreobneq orsber gnxvat ba gur Punzcvbafuvc neran ng gur raq bs gur frnfba.'
+    seasonal_play_cta: 'Cynl Oynmvat Onggyr Zhygvcynlre Neran'
+    unlocked_seasonal_arena: "Lbh'ir haybpxrq bhe zhygvcynlre rfcbegf neran!"
+    summary: 'Gur PbqrPbzong NV Yrnthr vf havdhryl obgu n pbzcrgvgvir NV onggyr fvzhyngbe naq tnzr ratvar sbe yrneavat erny Clguba naq WninFpevcg pbqr.'
+    join_now: 'Wbva Abj'
