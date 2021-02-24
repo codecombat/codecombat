@@ -5,7 +5,7 @@ block content
     section.row#jumbotron-container-fluid
       .item-list
         img(src="/images/ozaria/home/ozaria_logo_sun.png" alt="Ozaria branding logo")
-        h1(data-i18n="ozaria_home.subtitle")
+        h1(data-i18n="ozaria_home.subtitle" style="margin-bottom:15px;")
         h2.subtitle-mid A coding adventure for students and your turnkey solution for teaching Computer Science.
         if me.isTeacher()
           a.btn.btn-primary.btn-large.btn-moon(href="/teachers/classes", data-i18n="new_home.go_to_my_classes")
@@ -20,10 +20,11 @@ block content
 
     section#graphics-1
       .move-image
-        img(src="/images/ozaria/home/code_graphic_1.png" loading="lazy" alt="hero and pet dog walking along grid with hero.moveLeft() code in speech bubble")
+        img.code-graphic(src="/images/ozaria/home/code_graphic_1.png" loading="lazy" alt="hero and pet dog walking along grid with hero.moveLeft() code in speech bubble")
+        img.code-graphic-mobile(src="/images/ozaria/home/code_graphic_1_mobile_new.png" loading="lazy" alt="hero and pet dog walking along grid with hero.moveLeft() code in speech bubble")
     #graphics-1-back
 
-    section#engaging
+    section.section-spacer#engaging
       h1.heading-corner(style="max-width: 727px; margin-bottom: 60px;") A solution to Engage Students and Support Teachers
 
       .row.flex-row
@@ -45,10 +46,10 @@ block content
           h2(style="margin-bottom: 20px;") Standards-Aligned Curriculum
           p Ozaria meets CSTA and ISTE standards, enabling you to teach with confidence as your students master core Computer Science concepts, develop computational thinking skills, and learn about the relevance of Computer Science to their daily lives.
 
-    section.full-width#back_cta_1
+    section.full-width.section-spacer#back_cta_1
       a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-event-action="Click: Try Chapter 1 CTA 1") Try Chapter 1 for Free
 
-    section#speech-bubble-testimonial-1
+    section.section-spacer#speech-bubble-testimonial-1(style="padding-top:130px;")
       .row
         blockquote.col-sm-8(style="z-index: 1;") Once again, your team has managed to accomplish the Holy Grail of Edutainment. In my opinion as a 26-year veteran Middle School educator, there is no more engaging resource for teaching coding.
           footer
@@ -111,11 +112,11 @@ block content
           button.press-elaborate(aria-label="Carousel Elaborate Item")
           button.press-evaluate(aria-label="Carousel Evaluate Item")
 
-      .row.flex-row.text-center
+      .row.flex-row.text-center.sm-mt-50(style="padding-top:20px;")
         a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: View Scope and Sequence" href="https://docs.google.com/spreadsheets/d/1S7qS2zxVccBMVNUQ0Duh6ugyQfhqopGKaSXyhCf-5UA/edit#gid=137569977" target="_blank" rel="noopener") View Scope & Sequence
         a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: View Sample Lesson Slides" href="https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing" target="_blank" rel="noopener") View Sample Lesson Slides
 
-    section#global-community
+    section.section-spacer#global-community
       h1.smaller-38 Join Our Global Community
       .row
         div(class="tree-art-asset")
@@ -163,7 +164,7 @@ block content
         .col-sm-5.acodus-transform
           img(src="/images/ozaria/home/acodus_with_code.png" class="img-responsive" alt="Fantasy laptop with code written on it to help hero traverse gap shown in the animation image.")
         .col-sm-7
-          .row(style="text-align: center;")
+          .row(style="text-align: center;padding-bottom:20px;")
             img(src="/images/ozaria/home/gifs/crumble.gif" class="img-responsive" loading="lazy" style="border: 10px solid #5DB9AC;" alt="Animation of hero traversing a puzzle using the code in the previous image.")
           .flex-row.row
             .col-md-4
@@ -172,7 +173,7 @@ block content
               img(src="/images/ozaria/home/award_2.png" class="img-responsive" alt="2018 Top Pick for Learning award")
             .col-md-4
               img(src="/images/ozaria/home/award_3.png" class="img-responsive" alt="Member CS for All consortium")
-      .row.flex-row(style="margin: 160px 0 60px;")
+      .row.flex-row(style="margin: 85px 0 130px;")
         a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-event-action="Click: Try Chapter 1 CTA 2") Try Chapter 1 for Free
 
 
@@ -200,7 +201,7 @@ block content
     section.full-width#back_cta_2
       a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-event-action="Click: Try Chapter 1 CTA 3") Try Chapter 1 for Free
 
-    section#faq(style="margin-top: 32px")
+    section#faq(style="padding-top: 130px;")
       h1.heading-corner(style="margin-bottom: 60px;") Frequently Asked Questions
       .row
         .col-sm-6
