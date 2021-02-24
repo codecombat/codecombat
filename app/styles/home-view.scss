@@ -42,7 +42,7 @@
   }
 
   .subtitle-mid {
-    max-width: 67%
+    max-width: 67%;
   }
 
   p {
@@ -87,6 +87,9 @@
   .chris-image {
     transform: translateY(-40%);
   }
+  .code-graphic-mobile {
+    display: none;
+  }
 
   @media (min-width: 769px) {
     #speech-bubble-testimonial-1 {
@@ -129,6 +132,7 @@
       right: -2%;
     }
     #speech-bubble-testimonial-1 {
+      margin-bottom: -10%;
       .crystal-art {
         z-index: 1;
         width: 100%;
@@ -151,6 +155,33 @@
     }
     .chris-image {
       transform: translateY(-20%);
+    }
+    .subtitle-mid {
+      max-width: 100%;
+    }
+    .section-spacer{
+      padding-bottom: 130px;
+    }
+    .control-buttons {
+      position: absolute;
+      width: 90%;
+      left: 5%;
+    }
+    .sm-mt-50 {
+      margin-top: 50px;
+    }
+    .code-graphic {
+      display: none;
+    }
+    .code-graphic-mobile {
+      display: block;
+      margin-right: 70px;
+    }
+    #graphics-1 .code-graphic-mobile {
+      width: 45%;
+    }
+    #graphics-1 {
+      padding-top: 20px;
     }
   }
 
@@ -241,14 +272,6 @@
     background: url(/images/ozaria/home/hero_image.png) no-repeat bottom 0 right 0;
     background-size: 45%;
     background-size: unquote('min(558px, 45%)');
-
-    @media screen and (max-width: 768px) {
-      // Adds space between image and text on mobile
-      & {
-        padding-bottom: 186px;
-      }
-    }
-
     img {
       width: 250px;
       height: auto;
@@ -261,6 +284,18 @@
     p, a {
       margin-bottom: 20px;
     }
+    @media screen and (max-width: 768px) {
+      // Adds space between image and text on mobile
+      & {
+        padding-bottom: 50%;
+      }
+      .item-list{
+        text-align: center;
+      }
+    }
+    background: url(/images/ozaria/home/hero_image.png) no-repeat bottom 0 right 33px;
+    background-size: 65%;
+    background-size: unquote('min(558px, 65%)');
   }
 
   #graphics-1 {
@@ -416,6 +451,7 @@
       .row > div {
         padding-top: 32px;
       }
+      margin-bottom: 0px;
     }
   }
 
@@ -459,6 +495,13 @@
       p, p.color-change {
           margin: 20px 0 0 0;
       }
+
+      .row.flex-row {
+        padding: 85px 0 0 0;
+      }
+      .row.flex-row:last-child {
+        padding: 85px 0;
+      }
     }
   }
 
@@ -469,7 +512,7 @@
     margin: 0 -70px -40px;
     padding: 40px 70px;
     pointer-events: none;
-
+    z-index: -1;
     h2 {
       margin-top: 18px;
       margin-bottom: 20px;
@@ -481,9 +524,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-
     margin: 5px 0 70px;
-    position: relative;
     z-index: 1;
 
     button.press-engage, button.press-explore, button.press-explain, button.press-elaborate, button.press-evaluate {
@@ -550,10 +591,6 @@
 
       .acodus-transform {
         transform: unset;
-      }
-
-      .row > div {
-        padding-top: 32px;
       }
     }
   }
