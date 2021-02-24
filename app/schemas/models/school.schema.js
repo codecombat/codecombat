@@ -4,7 +4,6 @@ const SchoolSchema = schema.object({
   title: 'School',
   description: 'Represents a school in our database'
 }, {
-  name: schema.shortString(),
   district: schema.objectId({ links: [ { rel: 'extra', href: '/db/district/{($)}' } ] }),
   city: schema.shortString(),
   state: schema.shortString(),
@@ -28,5 +27,6 @@ const SchoolSchema = schema.object({
 })
 
 schema.extendBasicProperties(SchoolSchema, 'school')
+schema.extendNamedProperties(SchoolSchema)
 
 module.exports = SchoolSchema

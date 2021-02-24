@@ -1,7 +1,6 @@
 const schema = require('./../schemas')
 
 const DistrictSchema = schema.object({}, {
-  name: schema.shortString(),
   properties: schema.object({
     title: 'District properties',
     additionalProperties: true
@@ -14,5 +13,6 @@ const DistrictSchema = schema.object({}, {
 })
 
 schema.extendBasicProperties(DistrictSchema, 'district')
+schema.extendNamedProperties(DistrictSchema)
 
 module.exports = DistrictSchema
