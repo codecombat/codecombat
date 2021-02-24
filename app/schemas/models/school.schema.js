@@ -8,21 +8,16 @@ const SchoolSchema = schema.object({
   city: schema.shortString(),
   state: schema.shortString(),
   countryName: schema.shortString(),
-  properties: schema.object({
-    title: 'School properties',
-    additionalProperties: true
+  county: schema.shortString(),
+  phone: schema.shortString(),
+  ncesId: schema.shortString(),
+  students: schema.int(),
+  zip: schema.shortString(),
+  geoloc: schema.object({
+    title: 'Geolog'
   }, {
-    county: schema.shortString(),
-    phone: schema.shortString(),
-    ncesId: schema.shortString(),
-    students: schema.int(),
-    zip: schema.shortString(),
-    geoloc: schema.object({
-      title: 'Geolog'
-    }, {
-      lat: schema.float({ title: 'lat' }),
-      lng: schema.float({ title: 'lng' })
-    })
+    lat: schema.float({ title: 'lat' }),
+    lng: schema.float({ title: 'lng' })
   })
 })
 
