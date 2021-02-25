@@ -26,7 +26,7 @@ export default function getVueRouter () {
         {
           path: '/live-classes',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
-          props: (route) => ({ showPremium: false, type: route.query.type })
+          props: (route) => ({ showPremium: false, type: route.query.type || 'live-classes' })
         },
         {
           path: '/school-administrator',
