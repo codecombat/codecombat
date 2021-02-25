@@ -15,6 +15,14 @@
     />
     <!-- END Modals -->
 
+    <div class="row" id="top-banner" v-if="type === 'live-classes'">
+      <div class="row">
+        <div class="col-xs-12">
+          <span>Kids: show this to your parents to get your free coding class and premium heroes!</span>
+        </div>
+      </div>
+    </div>
+
     <page-parents-jumbotron :type="type" @cta-clicked="onScheduleAFreeClass"/>
 
     <div class="container-power-gameplay">
@@ -1398,6 +1406,36 @@ export default {
   .container-background-faq .container:after {
     width: 43%;
   }
+}
+
+@media screen and (max-width: 1000px) {
+  #top-banner {
+    display: none
+  }
+}
+
+#top-banner {
+  background-color: #1FBAB4;
+  padding: 10px 0px;
+  text-align: center;
+  color: #0E4C60;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  right: 0;
+}
+
+#top-banner .row {
+  max-width: 1170px;
+  float: unset;
+  margin: 0 auto;
+  padding: 0px;
+}
+
+#top-banner a {
+  margin-left: 10px;
+  color: #FFFFFF;
+  text-decoration: underline;
 }
 
 </style>
