@@ -3080,7 +3080,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    acronym: "HOC"
 
   hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
     educator: "Ich bin Lehrer/in"
     show_resources: "Zeig mir den Inhalt für Lehrer/innen!"
     student: "Ich bin Schüler/in"
@@ -3127,7 +3127,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
   interactives:
 #    phenomenal_job: "Phenomenal Job!"
     try_again: "Ups, probier's nochmal!"
-#    select_statement_left: "Ups, select a statement from the left before hitting \"Submit.\""
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
 
   browser_recommendation:

@@ -3154,4 +3154,3 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     unlocked_seasonal_arena: "您已解鎖我們的多人電競競技場！"
     summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
 #    join_now: "Join Now"
-
