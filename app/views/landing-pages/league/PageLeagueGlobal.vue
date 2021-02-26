@@ -207,7 +207,12 @@ export default {
 
     clanInviteLink () {
       if (this.currentSelectedClan !== null) {
-        return `${window.location.origin}/league/${this.currentSelectedClan.slug}`
+        const rewrites = {
+          'autoclan-school-network-academica': 'academica',
+          'autoclan-school-network-kipp': 'kipp'
+        }
+        const clanSlug = rewrites[this.currentSelectedClan.slug] || this.currentSelectedClan.slug
+        return `${window.location.origin}/league/${clanSlug}`
       }
       return `${window.location.origin}/league/${this.clanIdOrSlug}`
     },
