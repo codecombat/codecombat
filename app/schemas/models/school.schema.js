@@ -12,6 +12,12 @@ const SchoolSchema = schema.object(
     }),
     name: schema.shortString(),
     ncesId: { type: 'string', minLength: 12, maxLength: 12 },
+    type: schema.shortString({ description: 'Type of school' }),
+    phone: schema.shortString({ description: 'Phone number' }),
+    students: schema.int({ description: 'Total students all grades' }),
+    teachers: schema.int({ description: 'Full-Time equivalent teachers' }),
+    level: schema.shortString({ description: 'School Level' }),
+    website: schema.shortString({ description: 'Website' }),
     geo: schema.object(
       {},
       {
@@ -30,13 +36,7 @@ const SchoolSchema = schema.object(
         address: schema.shortString({ description: 'Address of school' }),
         localeCode: schema.shortString({ description: 'The Urban Centric Locale code for a school' })
       }
-    ),
-    type: schema.shortString({ description: 'Type of school' }),
-    phone: schema.shortString(),
-    students: schema.int({ description: 'Total students all grades' }),
-    teachers: schema.int({ description: 'Full-Time equivalent teachers' }),
-    level: schema.shortString({ description: 'School Level' }),
-    website: schema.shortString({ description: 'Website' })
+    )
   }
 )
 

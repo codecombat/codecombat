@@ -3,6 +3,12 @@ const schema = require('./../schemas')
 const DistrictSchema = schema.object({}, {
   name: schema.shortString(),
   ncesId: { type: 'string', minLength: 7, maxLength: 7 },
+  type: schema.shortString({ description: 'Type of district' }),
+  schools: schema.int({ description: 'Total operational schools' }),
+  students: schema.int({ description: 'Total students' }),
+  teachers: schema.int({ description: 'Total full time equivalent teachers' }),
+  phone: schema.shortString({ description: 'Phone number' }),
+  website: schema.shortString({ description: 'Website' }),
   geo: schema.object(
     {},
     {
@@ -16,13 +22,7 @@ const DistrictSchema = schema.object({}, {
       address: schema.shortString({ description: 'Address of district' }),
       localeCode: schema.shortString({ description: 'The Urban Centric Locale code for a school' })
     }
-  ),
-  type: schema.shortString({ description: 'Type of district' }),
-  schools: schema.int({ description: 'Total operational schools' }),
-  students: schema.int({ description: 'Total students' }),
-  teachers: schema.int({ description: 'Total full time equivalent teachers' }),
-  phone: schema.shortString(),
-  website: schema.shortString({ description: 'Website' })
+  )
 })
 
 schema.extendBasicProperties(DistrictSchema, 'district')
