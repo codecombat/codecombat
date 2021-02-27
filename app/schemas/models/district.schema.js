@@ -4,7 +4,7 @@ const DistrictSchema = schema.object({}, {
   countryName: schema.shortString(),
   ncesId: schema.shortString(),
   district_schools: schema.int(),
-  district_students: schema.int()
+  students: schema.int()
 })
 
 schema.extendBasicProperties(DistrictSchema, 'district')
