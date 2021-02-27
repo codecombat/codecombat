@@ -3,7 +3,7 @@ const schema = require('./../schemas')
 const DistrictSchema = schema.object({}, {
   countryName: schema.shortString(),
   ncesId: schema.shortString(),
-  district_schools: schema.int(),
+  schools: schema.int(),
   students: schema.int()
 })
 
