@@ -18,7 +18,7 @@ const DistrictSchema = schema.object({}, {
       regionName: { description: 'Full region name -- use for full state name' },
       county: { description: 'County Name' },
       city: { description: 'Full city name' },
-      zip: { type: 'string', description: 'Postal code' }, // Has leading 0's
+      zip: { type: 'string', description: 'Postal code' }, // Can have leading 0's
       address: schema.shortString({ description: 'Address of district' }),
       localeCode: schema.shortString({ description: 'The Urban Centric Locale code for a school' })
     }
