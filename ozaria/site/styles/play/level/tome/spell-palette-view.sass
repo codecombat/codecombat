@@ -38,20 +38,21 @@
     border: 14px solid #57B7B3
     width: $api-bar-width + $spell-palette-right-width + $spell-palette-left-width
   .code-bank-close-btn
-    display: flex
-    align-items: center
-    justify-content: center
     cursor: pointer
     position: absolute
     right: -92px
     top: calc(50% - 18px)
     transform: rotate(90deg)
+    .rotated-spell-btn
+      display: flex
+      align-items: center
+      justify-content: center
+      background-repeat: no-repeat
+      background-image: url(/images/ozaria/level/Button.svg)
+      background-size: cover
+      padding: 2px
     min-width: 140px
-    background-repeat: no-repeat
-    background-image: url(/images/ozaria/level/Button.svg)
     border: none
-    background-size: cover
-    padding: 2px
     background-color: transparent
     outline: none
     span

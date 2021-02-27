@@ -37,7 +37,7 @@
     'Play Button': { element: '#capstone-playback-view > button:nth-child(1)', on: 'top' },
     'Update Button': { element: '#update-game', on: 'top' },
     'Goal List': { element: '#goals-view', on: 'bottom' },
-    'Code Bank Button': { element: '#spell-palette-view', on: 'right' },
+    'Code Bank Button': { element: '#spell-palette-view .code-bank-close-btn .rotated-spell-btn', on: 'right' },
     'Code Editor Window': { element: '.ace_editor', on: 'left' }
   }
 
@@ -613,7 +613,7 @@
     10%
       transform: translate(0px, 20px)
     20%
-      transform: translate(0px, -20px)
+      transform: translate(0px, -10px)
     30%
       transform: translate(0px)
     50%
@@ -621,7 +621,7 @@
     60%
       transform: translate(0px, 20px)
     70%
-      transform: translate(0px, -20px)
+      transform: translate(0px, -10px)
     80%
       transform: translate(0px)
     100%
