@@ -1,27 +1,44 @@
 const schema = require('./../schemas')
 
-const SchoolSchema = schema.object({
-  title: 'School',
-  description: 'A school or school-level educational institution or business location, potentially belonging to a school district or other educational network'
-}, {
-  district: schema.objectId({ links: [ { rel: 'extra', href: '/db/district/{($)}' } ] }),
-  city: schema.shortString(),
-  state: schema.shortString(),
-  countryName: schema.shortString(),
-  county: schema.shortString(),
-  phone: schema.shortString(),
-  ncesId: schema.shortString(),
-  students: schema.int(),
-  zip: schema.shortString(),
-  geoloc: schema.object({
-    title: 'Geolog'
-  }, {
-    lat: schema.float({ title: 'lat' }),
-    lng: schema.float({ title: 'lng' })
-  })
-})
+const SchoolSchema = schema.object(
+  {
+    title: 'School',
+    description:
+      'A school or school-level educational institution or business location, potentially belonging to a school district or other educational network'
+  },
+  {
+    district: schema.objectId({
+      links: [{ rel: 'extra', href: '/db/district/{($)}' }]
+    }),
+    name: schema.shortString(),
+    geo: schema.object(
+      {},
+      {
+        country: { description: '2 letter ISO-3166-1 country code' },
+        countryName: { description: 'Full country name' },
+        region: { description: '2 character region code' },
+        regionName: { description: 'Full region name -- use for full state name' },
+        city: { description: 'Full city name' },
+        ll: schema.array(
+          {},
+          { description: 'Latitude and longitude of the city' }
+        ),
+        metro: { description: 'Metro code' },
+        zip: { description: 'Postal code' },
+        address: schema.shortString({ description: 'Address of school' }),
+        localeCode: schema.shortString({ description: 'The Urban Centric Locale code for a school' })
+      }
+    ),
+    type: schema.shortString({ description: 'Type of school' }),
+    phone: schema.shortString(),
+    ncesId: { type: 'string', minLength: 12, maxLength: 12 },
+    students: schema.int({ description: 'Total students all grades' }),
+    teachers: schema.int({ description: 'Full-Time equivalent teachers' }),
+    level: schema.shortString({ description: 'School Level' }),
+    website: schema.shortString({ description: 'Website' })
+  }
+)
 
 schema.extendBasicProperties(SchoolSchema, 'school')
-schema.extendNamedProperties(SchoolSchema)
 
 module.exports = SchoolSchema
