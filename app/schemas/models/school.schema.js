@@ -11,6 +11,7 @@ const SchoolSchema = schema.object(
       links: [{ rel: 'extra', href: '/db/district/{($)}' }]
     }),
     name: schema.shortString(),
+    ncesId: { type: 'string', minLength: 12, maxLength: 12 },
     geo: schema.object(
       {},
       {
@@ -18,20 +19,20 @@ const SchoolSchema = schema.object(
         countryName: { description: 'Full country name' },
         region: { description: '2 character region code' },
         regionName: { description: 'Full region name -- use for full state name' },
+        county: { description: 'County Name' },
         city: { description: 'Full city name' },
         ll: schema.array(
           {},
           { description: 'Latitude and longitude of the city' }
         ),
         metro: { description: 'Metro code' },
-        zip: { description: 'Postal code' },
+        zip: { type: 'string', description: 'Postal code' },
         address: schema.shortString({ description: 'Address of school' }),
         localeCode: schema.shortString({ description: 'The Urban Centric Locale code for a school' })
       }
     ),
     type: schema.shortString({ description: 'Type of school' }),
     phone: schema.shortString(),
-    ncesId: { type: 'string', minLength: 12, maxLength: 12 },
     students: schema.int({ description: 'Total students all grades' }),
     teachers: schema.int({ description: 'Full-Time equivalent teachers' }),
     level: schema.shortString({ description: 'School Level' }),
