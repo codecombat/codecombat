@@ -350,6 +350,7 @@ export default {
         <clan-selector v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" style="margin-bottom: 40px;"/>
         <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
+      <img class="ai-league-logo" src="/images/pages/league/logo_badge.png">
     </section>
 
     <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
@@ -452,17 +453,17 @@ export default {
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Infinite Inferno Cup</h3>
         <div>Jan - April 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_season1_cup.png" loading="lazy"/>
+        <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy"/>
       </div>
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Sorcerer's Blitz</h3>
         <div>May - Aug 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_codecombat_blitz.png" loading="lazy"/>
+        <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy"/>
       </div>
       <div class="col-sm-4 text-center">
         <h3>Colossus Clash</h3>
         <div>Sep - Dec 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_season1_clash.png" loading="lazy"/>
+        <img class="img-responsive" src="/images/pages/league/logo_clash.png" loading="lazy"/>
       </div>
     </div>
     <div class="row">
@@ -690,6 +691,20 @@ export default {
     margin-top: 30px;
   }
 
+  .esports-header .ai-league-logo {
+    width: 15vw;
+    max-width: 296px;
+  }
+
+  @media screen and (max-width: 767px) {
+    .esports-header .ai-league-logo {
+      position: relative;
+      top: 170px;
+      left: calc(50% - 10vw);
+      width: 20vw;
+    }
+  }
+
   // Most sections have a max width and are centered.
   section, & > div {
     max-width: 1820px;
@@ -740,7 +755,7 @@ export default {
 
     img {
       max-height: 250px;
-      margin: 0 auto;
+      margin: 15px auto 0 auto;
     }
   }
 
