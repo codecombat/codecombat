@@ -17,15 +17,24 @@ export default {
     playerCount: {
       type: Number,
       default: 0
+    },
+    clanId: {
+      type: String,
+      default: '_global'
     }
   },
 
   methods: {
-    scoreForDisplay (totalScore) {
-      if (this.scoreType == "codePoints")
-        return totalScore.toLocaleString()
-      else
-        return Math.round(totalScore * 100).toLocaleString()
+    scoreForDisplay (row) {
+      if (this.scoreType === 'codePoints') {
+        return row.totalScore.toLocaleString()
+      }
+      let score = (((row.leagues || []).find(({ leagueID }) => leagueID === this.clanId) || {}).stats || {}).totalScore || row.totalScore
+      if (/(Bronze|Silver|Gold|Platinum|Diamond) AI/.test(row.creatorName) && score == row.totalScore) {
+        // Hack: divide display score by 2, since the AI doesn't have league-specific score
+        score /= 2
+      }
+      return Math.round(score * 100).toLocaleString()
     },
 
     isMyRow (row) {
@@ -83,7 +92,7 @@ export default {
           template(v-else)
             td.code-language-cell(:style="`background-image: url(/images/common/code_languages/${row.submittedCodeLanguage}_icon.png)`" :title="row.submittedCodeLanguage")
             td.rank-cell {{ row.rank || rank + 1 }}
-            td.score-cell {{ scoreForDisplay(row.totalScore) }}
+            td.score-cell {{ scoreForDisplay(row) }}
             td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ row.creatorName || $t("play.anonymous") }}
             td(colspan=4).clan-col-cell
               a(:href="`/league/${getClan(row).slug || getClan(row)._id}`") {{ getClanName(row) }}
