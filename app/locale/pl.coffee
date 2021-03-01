@@ -224,7 +224,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
   diplomat_suggestion:
     title: "Pomóż w tłumaczeniu CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Potrzebujemy twoich zdolności językowych."
-    pitch_body: "Tworzymy CodeCombat w języku angielskim, jednak nasi gracze pochodzą z całego świata. Wielu z nich chciałoby zagrać w swoim języku, ponieważ nie znają angielskiego, więc jeśli znasz oba języki zostań Dyplomatą i pomóż w tłumaczeniu strony CodeCombat, jak i samej gry."
+    pitch_body: "Tworzymy CodeCombat w języku angielskim, jednak nasi gracze pochodzą z całego świata. Wielu z nich chciałoby zagrać w swoim języku, ponieważ nie znają angielskiego, więc jeśli znasz oba języki zostań Dyplomatą i pomóż w tłumaczeniu strony CodeCombat, jak i samej gry." # {change}
     missing_translations: "Dopóki nie przetłumaczymy wszystkiego na polski, będziesz widział niektóre napisy w języku angielskim."
     learn_more: "Dowiedz się więcej o Dyplomatach"
     subscribe_as_diplomat: "Dołącz do Dyplomatów"

@@ -224,7 +224,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
   diplomat_suggestion:
     title: "Hjælp med at oversætte CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Vi har brug for dine sprogfærdigheder."
-    pitch_body: "Vi udvikler CodeCombat på engelsk, men vi har allerede spillere over hele verden. Mange af dem vil gerne spille på dansk, men taler ikke engelsk, så hvis du kan begge, så overvej gerne at melde dig som Diplomat og hjælp med at oversætte både CodeCombat hjemmesiden og alle niveauer til dansk."
+    pitch_body: "Vi udvikler CodeCombat på engelsk, men vi har allerede spillere over hele verden. Mange af dem vil gerne spille på dansk, men taler ikke engelsk, så hvis du kan begge, så overvej gerne at melde dig som Diplomat og hjælp med at oversætte både CodeCombat hjemmesiden og alle niveauer til dansk." # {change}
     missing_translations: "Indtil vi har alting oversat til dansk, vil du se engelsk, når dansk ikke er tilgængeligt."
     learn_more: "Lær mere om at være Diplomat"
     subscribe_as_diplomat: "Meld dig som Diplomat"

@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
   diplomat_suggestion:
     title: "Hilf CodeCombat zu übersetzen!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Wir brauchen Deine Sprachfähigkeiten."
-    pitch_body: "Wir entwickeln CodeCombat in Englisch, aber wir haben Spieler in der ganzen Welt. Viele von ihnen wollen in Deutsch (Österreich) spielen, sprechen aber kein Englisch. Wenn Du also beide Sprachen beherrscht, melde Dich an um ein Diplomat zu werden und hilf die Website und die Levels zu Deutsch (Österreich) zu übersetzen."
+    pitch_body: "Wir entwickeln CodeCombat in Englisch, aber wir haben Spieler in der ganzen Welt. Viele von ihnen wollen in Deutsch (Österreich) spielen, sprechen aber kein Englisch. Wenn Du also beide Sprachen beherrscht, melde Dich an um ein Diplomat zu werden und hilf die Website und die Levels zu Deutsch (Österreich) zu übersetzen." # {change}
     missing_translations: "Solange wir nicht alles ins Deutsche (Österreich) übesetzt haben, siehst Du die englische Übersetzung, wo Deutsch (Österreich) leider noch nicht zur Verfügung steht."
     learn_more: "Finde heraus, wie Du ein Diplomat werden kannst"
     subscribe_as_diplomat: "Schreibe dich als Diplomat ein"
@@ -3080,7 +3080,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    acronym: "HOC"
 
   hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2019!"
+#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
     educator: "Ich bin Lehrer/in"
     show_resources: "Zeig mir den Inhalt für Lehrer/innen!"
     student: "Ich bin Schüler/in"
@@ -3127,7 +3127,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
   interactives:
 #    phenomenal_job: "Phenomenal Job!"
     try_again: "Ups, probier's nochmal!"
-#    select_statement_left: "Ups, select a statement from the left before hitting \"Submit.\""
+#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
 
   browser_recommendation:

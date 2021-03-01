@@ -224,7 +224,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
   diplomat_suggestion:
     title: "幫我裏翻譯 CodeCombat" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "我裏需要爾個語言能力"
-    pitch_body: "我裏開發 CodeCombat 個英文版，不過能界我裏個玩家徠整個世界。無數人英語弗懂弗熟，猴想攪吳語版個遊戲，假使爾吳英文都要得懂險，考虑記加進來搭我裏聚隊翻譯，幫忙畀 CodeCombat 網站搭遊戲關加關都翻成吳語。"
+    pitch_body: "我裏開發 CodeCombat 個英文版，不過能界我裏個玩家徠整個世界。無數人英語弗懂弗熟，猴想攪吳語版個遊戲，假使爾吳英文都要得懂險，考虑記加進來搭我裏聚隊翻譯，幫忙畀 CodeCombat 網站搭遊戲關加關都翻成吳語。" # {change}
     missing_translations: "嘸翻個字都會用英文寫起。"
     learn_more: "望望湊當翻譯人個說明"
     subscribe_as_diplomat: "提交翻譯人員申請"
