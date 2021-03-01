@@ -11,6 +11,7 @@ if lastSubmitted
     span(data-i18n="ladder.rank_last_submitted") submitted 
     | #{lastSubmitted}
 
--// a(href=simulateURL, data-i18n="ladder.help_simulate").help-simulate.secret Help simulate games?
+if view.level && view.level.isType('hero-ladder')
+  a(href=simulateURL, data-i18n="ladder.help_simulate").help-simulate.secret Help simulate games?
 
 .clearfix

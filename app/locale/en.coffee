@@ -226,7 +226,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   diplomat_suggestion:
     title: "Help translate CodeCombat!"  # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
+    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both and are a native speaker of {English}, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}." # {change}
     missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
     learn_more: "Learn more about being a Diplomat"
     subscribe_as_diplomat: "Subscribe as a Diplomat"
