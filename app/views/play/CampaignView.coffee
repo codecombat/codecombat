@@ -1006,7 +1006,11 @@ module.exports = class CampaignView extends RootView
     levelOriginal = levelElement.data('level-original')
     level = _.find _.values(@getLevels()), slug: levelSlug
 
-    freeAccessLevels =  ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'cell-commentary', 'kithgard-librarian', 'the-prisoner', 'fire-dancing', 'haunted-kithmaze', 'signs-and-portents', 'true-names']
+    if me.showChinaResourceInfo()
+      freeAccessLevels =  ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'cell-commentary', 'true-names']
+    else
+      freeAccessLevels =  ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'cell-commentary', 'kithgard-librarian', 'the-prisoner', 'fire-dancing', 'haunted-kithmaze', 'signs-and-portents', 'true-names']
+
     requiresSubscription = level.requiresSubscription or (me.isOnPremiumServer() and not (level.slug in freeAccessLevels))
     canPlayAnyway = _.any([
       not @requiresSubscription
