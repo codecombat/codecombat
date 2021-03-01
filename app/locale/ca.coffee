@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   diplomat_suggestion:
     title: "Ajuda a traduir CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Neccesitem les teves habilitats lingüístiques."
-    pitch_body: "Hem desenvolupat CodeCombat en anglès, però tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdues llengües, siusplau considereu iniciar sessió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivells en Català."
+    pitch_body: "Hem desenvolupat CodeCombat en anglès, però tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdues llengües, siusplau considereu iniciar sessió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivells en Català." # {change}
     missing_translations: "Fins que puguem traduir-ho tot en català, ho veuràs en anglès quant no estigui en català."
     learn_more: "Aprèn més sobre ser un diplomàtic"
     subscribe_as_diplomat: "Subscriu-te com a diplomàtic"

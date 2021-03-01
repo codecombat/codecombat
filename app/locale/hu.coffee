@@ -224,7 +224,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   diplomat_suggestion:
     title: "Segítsd lefordítani a CodeCombat-ot!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Szükségünk van a segítségedre!"
-    pitch_body: "Az oldalt angol nyelven fejlesztettük, de máris rengeteg játékosunk van szerte a világban. Nagyon sokan szeretnének közülük magyarul játszani, de nem beszélnek angolul. Ha te beszélsz angolul is, magyarul is, kérlek jelentkezz Diplomatának, s segíts lefordítani mind a honlapot, mind a pályákat magyarra."
+    pitch_body: "Az oldalt angol nyelven fejlesztettük, de máris rengeteg játékosunk van szerte a világban. Nagyon sokan szeretnének közülük magyarul játszani, de nem beszélnek angolul. Ha te beszélsz angolul is, magyarul is, kérlek jelentkezz Diplomatának, s segíts lefordítani mind a honlapot, mind a pályákat magyarra." # {change}
     missing_translations: "Addig, amíg nincs minden lefordítva magyarra, angol szöveget fogsz látni ott, ahol még nincs fordítás."
     learn_more: "Tudj meg többet a Diplomatákról!"
     subscribe_as_diplomat: "Jelentkezz Diplomatának"

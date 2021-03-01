@@ -224,7 +224,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
   diplomat_suggestion:
     title: "Auta CodeCombatin kääntämisessä!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Tarvitsemme apuasi käännöksessä."
-    pitch_body: "CodeCombat:ia kehitetään englanniksi mutta pelaajia on jo ympäri maailmaa. Monet haluavat pelata peliä omalla kielellään, joten jos haluat osallistua kääntämiseen, ilmoittaudu Diplomaatiksi ja anna panoksesi."
+    pitch_body: "CodeCombat:ia kehitetään englanniksi mutta pelaajia on jo ympäri maailmaa. Monet haluavat pelata peliä omalla kielellään, joten jos haluat osallistua kääntämiseen, ilmoittaudu Diplomaatiksi ja anna panoksesi." # {change}
     missing_translations: "Siihen asti kunnes koko peli on käännetty suomeksi näet joitain tekstejä edelleen englanniksi."
     learn_more: "Ota selvää mitä tarkoitta olla Diplomaatti"
     subscribe_as_diplomat: "Tilaa Diplomaatin uutiskirje"
