@@ -45,6 +45,18 @@ export default {
     // Would be odd to arrive here with ?registering=true and be logged out...
     this.doneRegistering = !!this.$route.query.registered
     this.leagueSignupModalOpen = !this.doneRegistering && this.canRegister() && !!this.$route.query.registering
+    let rotatingHeroes = ['hero_okar.png','hero_anya.png','hero_lady_ida.png']
+    let rotaionCount = 0;
+    setInterval(function () {
+      let rotationIndex = (rotaionCount%3)
+      let rotationImage = rotatingHeroes[rotationIndex]
+      rotaionCount++
+      $('.rotating-esports-header')
+        .animate({opacity: 1}, {duration:300})
+        .attr('src',`/images/pages/league/${rotationImage}`)
+        .delay(2000)
+        .animate({opacity: 0}, {duration:0});
+    },3000)
   },
 
   methods: {
@@ -278,7 +290,7 @@ export default {
       if (image) {
         return `/file/${image}`
       }
-      return `/images/pages/league/graphic_1.png`
+      return `/images/pages/league/student_hugging.png`
     },
 
     customEsportsImageClass () {
@@ -349,6 +361,10 @@ export default {
       <div class="col-sm-5">
         <clan-selector v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" style="margin-bottom: 40px;"/>
         <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
+      </div>
+      <div class="hero-rotation">
+        <img class="img-responsive" src="/images/pages/league/hero_background_pink.png" />
+        <img class="rotating-esports-header hero-image-animate img-responsive" src="/images/pages/league/hero_okar.png" />
       </div>
     </section>
 
@@ -561,7 +577,7 @@ export default {
               </p>
             </div>
             <div class="col-sm-7">
-              <img class="img-responsive" src="/images/pages/league/graphic_hugging.png" alt="Kid hugging parents" style="margin: 0 0 -120px auto; z-index: 0; transform: translateY(-120px);" />
+              <img class="img-responsive" src="/images/pages/league/graphic_cleaned.png" alt="Kid hugging parents" style="margin: 0 0 -120px auto; z-index: 0; transform: translateY(-120px);" />
             </div>
           </div>
         </div>
@@ -672,13 +688,6 @@ export default {
 
   ul {
     margin-bottom: 50px;
-  }
-
-  .esports-header {
-    background: url(/images/pages/league/game_hero.png) no-repeat;
-    background-size: contain;
-    background-position: right center;
-    min-height: 600px;
   }
 
   .esports-header .esports-h1 {
@@ -802,7 +811,7 @@ export default {
     padding-bottom: 180px;
   }
   section.free-to-get-start-bg {
-    background: url(/images/pages/league/graphic_1.png) right 100% / 35% no-repeat;
+    background: url(/images/pages/league/student_hugging.png) right 100% / 35% no-repeat;
   }
   .text-dont-just-play-code img{
     max-width: 410px;
@@ -858,6 +867,15 @@ export default {
     width: 90%;
     max-width: 510px;
   }
+  .hero-rotation {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position:absolute;
+    img{
+      position: absolute;
+    }
+  }
 
   @media screen and (min-width: 768px) {
     ::v-deep .btn-primary.btn-moon, .play-btn-cta {
@@ -865,6 +883,9 @@ export default {
     }
     ::v-deep .section-space {
       margin-bottom: 200px;
+    }
+    .esports-header {
+      margin-bottom: 400px;
     }
   }
 
