@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
   diplomat_suggestion:
     title: "Kami perlu menterjemahkan CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Kami memerlukan kemahiran bahasa anda."
-    pitch_body: "Kami membina CodeCombat dalam Bahasa Inggeris, tetapi kami sudah ada pemain dari seluruh dunia. Kebanyakan mereka mahu bermain dalam Bahasa Melayu dan tidak memahami Bahasa Inggeris, jikalau anda boleh tertutur dalam kedua-dua bahasa, harap anda boleh daftar untuk menjadi Diplomat dan menolong menterjemahkan laman CodeCombat dan kesemua level kepada Bahasa Melayu."
+    pitch_body: "Kami membina CodeCombat dalam Bahasa Inggeris, tetapi kami sudah ada pemain dari seluruh dunia. Kebanyakan mereka mahu bermain dalam Bahasa Melayu dan tidak memahami Bahasa Inggeris, jikalau anda boleh tertutur dalam kedua-dua bahasa, harap anda boleh daftar untuk menjadi Diplomat dan menolong menterjemahkan laman CodeCombat dan kesemua level kepada Bahasa Melayu." # {change}
     missing_translations: "Sehingga kami dapat menterjemahkan kesemua kepada Bahasa Melayu, anda akan melihat Bahasa Inggeris apabila Bahasa Melayu tiada dalam penterjemahan."
     learn_more: "Ketahui lebih lanjut untuk menjadi ahli Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
