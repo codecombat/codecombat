@@ -47,7 +47,7 @@
 
     data: () => ({
       isGuidelinesVisible: true,
-      sortMethod: 'Name'
+      sortMethod: 'Last Name'
     }),
 
     computed: {
@@ -249,10 +249,13 @@
 
         const students = this.classroomMembers.map(userObj => {
           const isEnrolled = (new User(userObj)).isEnrolled()
+          const displayName = User.broadName(userObj)
           return {
-            displayName: User.broadName(userObj),
+            displayName,
             _id: userObj._id,
-            isEnrolled
+            isEnrolled,
+            firstName: userObj.firstName || displayName,
+            lastName: userObj.lastName || displayName
           }
         })
 
@@ -260,10 +263,16 @@
         // We count the number of completed sessions here before using the student list elsewhere.
         // The student array is a dependency for other functions, and needs to be ordered prior
         // to other calculations occuring.
-        if (this.sortMethod === 'Name') {
-          students.sort((a, b) => {
-            return a.displayName.localeCompare(b.displayName)
-          })
+        if (this.sortMethod === 'First Name' || this.sortMethod === 'Last Name') {
+          const compareFunc = (s1, s2) => {
+            if (this.sortMethod === 'First Name') {
+              // compare by firstName, if they are same use lastName
+              return s1.firstName.localeCompare(s2.firstName) || s1.lastName.localeCompare(s2.lastName)
+            } else {
+              return s1.lastName.localeCompare(s2.lastName) || s1.firstName.localeCompare(s2.firstName)
+            }
+          }
+          students.sort(compareFunc)
           return students
         } else {
           const originalsInModule = Object.values(modules).flat().map(({ fromIntroLevelOriginal, original }) => fromIntroLevelOriginal || original)
