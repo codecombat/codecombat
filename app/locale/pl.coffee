@@ -14,7 +14,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    built_for_teachers_subblurb2: "Studenci tworzą labirynty i używają klawiatury, aby zaprogramować własne gry i dzielić się nimi ze znajomymi i rodziną."
     built_for_teachers_subtitle3: "Tworzenie stron internetowych"
     built_for_teachers_subblurb3: "Używając HTML, CSS i jQuery, uczniowie wykazują się kreatywnością abt stworzyć ich własne strony internetowe z ustalonym adresem URL, który mogą udostępnić go swoim kolegom/koleżankom z klasy."
-#    century_skills_title: "Kompetencje 21-ego wieku"
+#    century_skills_title: "Umiejętności 21-ego wieku"
 #    century_skills_blurb1: "Students Don't Just Level Up Their Hero, They Level Up Themselves"
 #    century_skills_quote1: "You mess up…so then you think about all of the possible ways to fix it, and then try again. I wouldn't be able to get here without trying hard."
 #    century_skills_subtitle1: "Myślenie krytyczne"
