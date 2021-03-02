@@ -46,23 +46,17 @@ export default {
     this.doneRegistering = !!this.$route.query.registered
     this.leagueSignupModalOpen = !this.doneRegistering && this.canRegister() && !!this.$route.query.registering
     let rotatingHeroes = ['hero_okar.png','hero_anya.png','hero_lady_ida.png']
-    let rotaionCount = 0;
+    let rotaionCount = 1;
     setInterval( function () {
-      rotaionCount++
       let rotationImage = rotatingHeroes[rotaionCount%3]
-      let rotationImage2 = rotatingHeroes[rotaionCount%3]
-      console.log(`/images/pages/league/${rotationImage}`);
+      rotaionCount++
       $('.rotating-esports-header')
-        .animate({opacity: 1}, {duration:0})
+        .removeClass('fade-in')
         .attr('src',`/images/pages/league/${rotationImage}`)
+        .addClass('fade-in')
       setTimeout( function () {
         $('.rotating-esports-header')
-        .animate({opacity: 0}, {duration:500});
-        $('.rotating-esports-header-2')
-          .animate({opacity: 1}, {duration:0})
-          .attr('src',`/images/pages/league/${rotationImage2}`)
-          .delay(1000)
-          .animate({opacity: 0}, {duration:500})
+        .removeClass('fade-in')
       }, 1000)
     },2000)
   },
@@ -370,10 +364,9 @@ export default {
         <clan-selector v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" style="margin-bottom: 40px;"/>
         <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
-      <div class="hero-rotation">
+      <div class="hero-rotation fade-in">
         <img class="img-responsive" src="/images/pages/league/hero_background_pink.png" />
         <img class="rotating-esports-header img-responsive" src="/images/pages/league/hero_okar.png" />
-        <img style="opacity:0;" class="rotating-esports-header-2 img-responsive" src="/images/pages/league/hero_okar.png" />
       </div>
     </section>
 
@@ -883,6 +876,21 @@ export default {
     position:absolute;
     img{
       position: absolute;
+    }
+  }
+  .fade-in {
+    animation: fadeIn ease 2s;
+    -webkit-animation: fadeIn ease 2s;
+    -moz-animation: fadeIn ease 2s;
+    -o-animation: fadeIn ease 2s;
+    -ms-animation: fadeIn ease 2s;
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity:0.3;
+    }
+    100% {
+      opacity:1;
     }
   }
 
