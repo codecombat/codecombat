@@ -47,16 +47,24 @@ export default {
     this.leagueSignupModalOpen = !this.doneRegistering && this.canRegister() && !!this.$route.query.registering
     let rotatingHeroes = ['hero_okar.png','hero_anya.png','hero_lady_ida.png']
     let rotaionCount = 0;
-    setInterval(function () {
-      let rotationIndex = (rotaionCount%3)
-      let rotationImage = rotatingHeroes[rotationIndex]
+    setInterval( function () {
       rotaionCount++
+      let rotationImage = rotatingHeroes[rotaionCount%3]
+      let rotationImage2 = rotatingHeroes[rotaionCount%3]
+      console.log(`/images/pages/league/${rotationImage}`);
       $('.rotating-esports-header')
-        .animate({opacity: 1}, {duration:300})
+        .animate({opacity: 1}, {duration:0})
         .attr('src',`/images/pages/league/${rotationImage}`)
-        .delay(2000)
-        .animate({opacity: 0}, {duration:0});
-    },3000)
+      setTimeout( function () {
+        $('.rotating-esports-header')
+        .animate({opacity: 0}, {duration:500});
+        $('.rotating-esports-header-2')
+          .animate({opacity: 1}, {duration:0})
+          .attr('src',`/images/pages/league/${rotationImage2}`)
+          .delay(1000)
+          .animate({opacity: 0}, {duration:500})
+      }, 1000)
+    },2000)
   },
 
   methods: {
@@ -364,7 +372,8 @@ export default {
       </div>
       <div class="hero-rotation">
         <img class="img-responsive" src="/images/pages/league/hero_background_pink.png" />
-        <img class="rotating-esports-header hero-image-animate img-responsive" src="/images/pages/league/hero_okar.png" />
+        <img class="rotating-esports-header img-responsive" src="/images/pages/league/hero_okar.png" />
+        <img style="opacity:0;" class="rotating-esports-header-2 img-responsive" src="/images/pages/league/hero_okar.png" />
       </div>
     </section>
 
