@@ -1,6 +1,6 @@
 const schema = require('./../schemas')
 
-const DistrictSchema = schema.object({}, {
+const DistrictSchema = schema.object({ required: ['name'] }, {
   name: schema.shortString(),
   ncesId: { type: 'string', minLength: 7, maxLength: 7 },
   type: schema.shortString({ description: 'Type of district' }),
