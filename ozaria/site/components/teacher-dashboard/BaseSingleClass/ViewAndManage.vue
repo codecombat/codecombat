@@ -53,7 +53,7 @@
       <dropdown
         :label-text="$t('teacher.sort_by')"
         class="dropdowns"
-        :options="['Name', 'Progress (High to Low)', 'Progress (Low to High)']"
+        :options="['Last Name', 'First Name', 'Progress (High to Low)', 'Progress (Low to High)']"
 
         @change="changeSortBy"
       />
