@@ -224,7 +224,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
   diplomat_suggestion:
     title: "Padėkite išversti CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Mums reikia jūsų kalbos įgudžių."
-    pitch_body: "Mes kuriame CodeCombat Angliškai, bet mes turime žaidėjų visame pasaulyje. Daugelis jų norėtų žaisti Lietuvoje, tačiau nesupranta Angliškai. Jei tu gerai moki abi kalbas, prašom užsiregistruoti ir tapti Diplomatu. Taip galėsi padėti išversti CodeCombat interneto svetainę ir visus lygius į Lietuvių kalbą."
+    pitch_body: "Mes kuriame CodeCombat Angliškai, bet mes turime žaidėjų visame pasaulyje. Daugelis jų norėtų žaisti Lietuvoje, tačiau nesupranta Angliškai. Jei tu gerai moki abi kalbas, prašom užsiregistruoti ir tapti Diplomatu. Taip galėsi padėti išversti CodeCombat interneto svetainę ir visus lygius į Lietuvių kalbą." # {change}
     missing_translations: "Kol viską išversime į Lietuvių kalbą, dar neišverstą tekstą matysite užrašytą Anglų kalba."
     learn_more: "Sužinoti daugiau apie tapimą Diplomatu"
     subscribe_as_diplomat: "Noriu tapti Diplomatu"

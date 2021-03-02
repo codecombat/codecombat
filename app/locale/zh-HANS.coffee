@@ -224,7 +224,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   diplomat_suggestion:
     title: "请帮助我们完善翻译" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "运用您的语言技能"
-    pitch_body: "我们开发了英文版的CodeCombat，但是CodeCombat学习者遍布全球。对于不熟悉英语的中文玩家，他们希望能使用简体中文版本；如果您中英文都很熟练，请考虑加入我们的“外交官”团队，汉化CodeCombat网站和所有关卡。感谢！"
+    pitch_body: "我们开发了英文版的CodeCombat，但是CodeCombat学习者遍布全球。对于不熟悉英语的中文玩家，他们希望能使用简体中文版本；如果您中英文都很熟练，请考虑加入我们的“外交官”团队，汉化CodeCombat网站和所有关卡。感谢！" # {change}
     missing_translations: "没有翻译的文字将以英文显示。"
     learn_more: "了解更多成为“外交官”的说明"
     subscribe_as_diplomat: "提交“外交官”申请"

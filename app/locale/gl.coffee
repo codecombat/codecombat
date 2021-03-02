@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Galego", englishDescription: "Galician", tr
   diplomat_suggestion:
     title: "Axuda a traducir CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Necesitamos das túas habilidades lingüisticas."
-    pitch_body: "Nós desenvolvemos CodeCombat en inglés, pero xa temos xogadores de todo o mundo. Moitos deles queren xogar en galego porque non falan inglés, así que si falas ambos idiomas, inscríbete como Diplomático e axuda a traducir a web e todos os niveis de CodeCombat ao galego."
+    pitch_body: "Nós desenvolvemos CodeCombat en inglés, pero xa temos xogadores de todo o mundo. Moitos deles queren xogar en galego porque non falan inglés, así que si falas ambos idiomas, inscríbete como Diplomático e axuda a traducir a web e todos os niveis de CodeCombat ao galego." # {change}
     missing_translations: "Mentras terminamos a traducción ao galego, verás en castelán ou en inglés as partes que non estén ainda dispoñibles."
     learn_more: "Aprende máis sobre o que é ser un Diplomático"
     subscribe_as_diplomat: "Suscríbete como Diplomático"

@@ -224,7 +224,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   diplomat_suggestion:
     title: "CodeCombatの翻訳にご協力ください！" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "あなたの言語力が必要です。"
-    pitch_body: "CodeCombatは英語で開発されています。日本語でプレイしたい方がたくさんいますが、ゲームの多くはまだ英語のままです。なのでもし両方話せるなら、外交官（翻訳者）として登録し、CodeCombatのwebサイト等を日本語に翻訳するのを手伝ってください！"
+    pitch_body: "CodeCombatは英語で開発されています。日本語でプレイしたい方がたくさんいますが、ゲームの多くはまだ英語のままです。なのでもし両方話せるなら、外交官（翻訳者）として登録し、CodeCombatのwebサイト等を日本語に翻訳するのを手伝ってください！" # {change}
     missing_translations: "翻訳が完了していない部分は、英語で表示されます。"
     learn_more: "外交官について情報"
     subscribe_as_diplomat: "外交官登録"

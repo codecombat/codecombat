@@ -368,6 +368,7 @@ export default {
         <img class="img-responsive" src="/images/pages/league/hero_background_pink.png" />
         <img class="rotating-esports-header img-responsive" src="/images/pages/league/hero_okar.png" />
       </div>
+      <img class="ai-league-logo" src="/images/pages/league/logo_badge.png">
     </section>
 
     <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
@@ -470,17 +471,17 @@ export default {
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Infinite Inferno Cup</h3>
         <div>Jan - April 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_season1_cup.png" loading="lazy"/>
+        <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy"/>
       </div>
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Sorcerer's Blitz</h3>
         <div>May - Aug 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_codecombat_blitz.png" loading="lazy"/>
+        <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy"/>
       </div>
       <div class="col-sm-4 text-center">
         <h3>Colossus Clash</h3>
         <div>Sep - Dec 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_season1_clash.png" loading="lazy"/>
+        <img class="img-responsive" src="/images/pages/league/logo_clash.png" loading="lazy"/>
       </div>
     </div>
     <div class="row">
@@ -701,6 +702,20 @@ export default {
     margin-top: 30px;
   }
 
+  .esports-header .ai-league-logo {
+    width: 15vw;
+    max-width: 296px;
+  }
+
+  @media screen and (max-width: 767px) {
+    .esports-header .ai-league-logo {
+      position: relative;
+      top: 170px;
+      left: calc(50% - 10vw);
+      width: 20vw;
+    }
+  }
+
   // Most sections have a max width and are centered.
   section, & > div {
     max-width: 1820px;
@@ -751,7 +766,7 @@ export default {
 
     img {
       max-height: 250px;
-      margin: 0 auto;
+      margin: 15px auto 0 auto;
     }
   }
 
@@ -872,7 +887,7 @@ export default {
   .hero-rotation {
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     position:absolute;
     img{
       position: absolute;
