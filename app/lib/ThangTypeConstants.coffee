@@ -20,8 +20,9 @@ ThangTypeConstants =
     champion: '575848b522179b2800efbfbf'
     'code-ninja': '58192d484954d56144a7062f'
     stalwart: '5a576ec52db68a00269b7a08'
+    'armando-hoyos': '6037ed81ad0ac000f5e9f0b5'
   heroClasses:
-    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja', 'stalwart']
+    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja', 'stalwart', 'armando-hoyos']
     Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
     Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
   items:

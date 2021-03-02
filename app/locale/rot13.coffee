@@ -223,7 +223,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   diplomat_suggestion:
     title: "Uryc genafyngr PbqrPbzong!"  # Guvf fubjf hc jura n cynlre fjvgpurf gb n aba-Ratyvfu ynathntr hfvat gur ynathntr fryrpgbe.
     sub_heading: "Jr arrq lbhe ynathntr fxvyyf."
-    pitch_body: "Jr qrirybc PbqrPbzong va Ratyvfu, ohg jr nyernql unir cynlref nyy bire gur jbeyq. Znal bs gurz jnag gb cynl va {Ratyvfu} ohg qba'g fcrnx Ratyvfu, fb vs lbh pna fcrnx obgu, cyrnfr pbafvqre fvtavat hc gb or n Qvcybzng naq uryc genafyngr obgu gur PbqrPbzong jrofvgr naq nyy gur yriryf vagb {Ratyvfu}."
+    pitch_body: "Jr qrirybc PbqrPbzong va Ratyvfu, ohg jr nyernql unir cynlref nyy bire gur jbeyq. Znal bs gurz jnag gb cynl va {Ratyvfu} ohg qba'g fcrnx Ratyvfu, fb vs lbh pna fcrnx obgu naq ner n angvir fcrnxre bs {Ratyvfu}, cyrnfr pbafvqre fvtavat hc gb or n Qvcybzng naq uryc genafyngr obgu gur PbqrPbzong jrofvgr naq nyy gur yriryf vagb {Ratyvfu}." # {punatr}
     missing_translations: "Hagvy jr pna genafyngr rirelguvat vagb {Ratyvfu}, lbh'yy frr Ratyvfu jura {Ratyvfu} vfa'g ninvynoyr."
     learn_more: "Yrnea zber nobhg orvat n Qvcybzng"
     subscribe_as_diplomat: "Fhofpevor nf n Qvcybzng"
@@ -1943,11 +1943,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     student_state: "Ubj vf"
     student_state_2: "qbvat?"
     student_good: "vf qbvat jryy va"
-    student_good_detail: "Guvf fghqrag vf xrrcvat cnpr jvgu gur pynff'f nirentr yriry pbzcyrgvba gvzrf." # {punatr}
+    student_good_detail: "Guvf fghqrag vf xrrcvat cnpr jvgu gur pynff'f nirentr yriry pbzcyrgvba gvzrf."
     student_warn: "zvtug arrq fbzr uryc va"
-    student_warn_detail: "Guvf fghqrag'f nirentr yriry pbzcyrgvba gvzrf fhttrfg gurl zvtug arrq fbzr uryc jvgu arj pbaprcgf gung unir orra vagebqhprq va guvf pbhefr." # {punatr}
+    student_warn_detail: "Guvf fghqrag'f nirentr yriry pbzcyrgvba gvzrf fhttrfg gurl zvtug arrq fbzr uryc jvgu arj pbaprcgf gung unir orra vagebqhprq va guvf pbhefr."
     student_great: "vf qbvat terng va"
-    student_great_detail: "Guvf fghqrag zvtug or n tbbq pnaqvqngr gb uryc bgure fghqragf jbexvat guebhtu guvf pbhefr, onfrq ba nirentr yriry pbzcyrgvba gvzrf." # {punatr}
+    student_great_detail: "Guvf fghqrag zvtug or n tbbq pnaqvqngr gb uryc bgure fghqragf jbexvat guebhtu guvf pbhefr, onfrq ba nirentr yriry pbzcyrgvba gvzrf."
     full_license: "Shyy Yvprafr"
     starter_license: "Fgnegre Yvprafr"
     customized_license: "Phfgbzvmrq Yvprafr"
