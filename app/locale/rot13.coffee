@@ -223,7 +223,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   diplomat_suggestion:
     title: "Uryc genafyngr PbqrPbzong!"  # Guvf fubjf hc jura n cynlre fjvgpurf gb n aba-Ratyvfu ynathntr hfvat gur ynathntr fryrpgbe.
     sub_heading: "Jr arrq lbhe ynathntr fxvyyf."
-    pitch_body: "Jr qrirybc PbqrPbzong va Ratyvfu, ohg jr nyernql unir cynlref nyy bire gur jbeyq. Znal bs gurz jnag gb cynl va {Ratyvfu} ohg qba'g fcrnx Ratyvfu, fb vs lbh pna fcrnx obgu naq ner n angvir fcrnxre bs {Ratyvfu}, cyrnfr pbafvqre fvtavat hc gb or n Qvcybzng naq uryc genafyngr obgu gur PbqrPbzong jrofvgr naq nyy gur yriryf vagb {Ratyvfu}." # {punatr}
+    pitch_body: "Jr qrirybc PbqrPbzong va Ratyvfu, ohg jr nyernql unir cynlref nyy bire gur jbeyq. Znal bs gurz jnag gb cynl va {Ratyvfu} ohg qba'g fcrnx Ratyvfu, fb vs lbh pna fcrnx obgu naq ner n angvir fcrnxre bs {Ratyvfu}, cyrnfr pbafvqre fvtavat hc gb or n Qvcybzng naq uryc genafyngr obgu gur PbqrPbzong jrofvgr naq nyy gur yriryf vagb {Ratyvfu}."
     missing_translations: "Hagvy jr pna genafyngr rirelguvat vagb {Ratyvfu}, lbh'yy frr Ratyvfu jura {Ratyvfu} vfa'g ninvynoyr."
     learn_more: "Yrnea zber nobhg orvat n Qvcybzng"
     subscribe_as_diplomat: "Fhofpevor nf n Qvcybzng"
