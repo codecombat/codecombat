@@ -371,7 +371,7 @@ export default {
       <div class="col-sm-7">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
-        <p>Invite players to this team by sending them this link:</p>
+        <p>{{showJoinTeamBtn ? 'Invite players to this team by sending them this link:': 'Share this team leaderboard with its public link:'}}</p>
         <input readonly :value="clanInviteLink()" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
         <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Team</a>
