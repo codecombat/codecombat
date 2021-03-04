@@ -318,6 +318,15 @@ export default {
       return this.codePointsRankings(this.clanIdSelected)
     },
 
+    showJoinTeamBtn () {
+      if (!this.currentSelectedClan) {
+        return false
+      }
+      // We don't want to show this button if the team is a classroom or teacher.
+      // Those students are populated automatically.
+      return ['teacher', 'classroom'].indexOf(this.currentSelectedClan?.kind) === -1
+    },
+
     // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
     firstName () { return me.get('firstName') },
 
@@ -380,12 +389,12 @@ export default {
       <div class="col-sm-7">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
-        <p>Invite players to this team by sending them this link:</p>
+        <p>{{showJoinTeamBtn ? 'Invite players to this team by sending them this link:': 'Share this team leaderboard with its public link:'}}</p>
         <input readonly :value="clanInviteLink()" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
         <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Team</a>
         <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Team</a>
-        <a v-else class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Team</a>
+        <a v-else v-show="showJoinTeamBtn" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Team</a>
       </div>
     </div>
 
