@@ -91,10 +91,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-#    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction this holiday season!"
-    try_the_game: "Oyunu Dene"
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
-#    try_the_game: "Try the game"
+    try_the_game: "Oyunu Dene"
     classroom_edition: "Sınıf Sürümü:"
     learn_to_code: "Kodlama öğren:"
     play_now: "Şimdi Oyna"
@@ -226,7 +224,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
   diplomat_suggestion:
     title: "CodeCombat'in tercüme edilmesine yardımcı olabilirsiniz!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Dil yeteneklerinize ihtiyacımız var."
-    pitch_body: "Biz her ne kadar CodeCombat'i İngilizce olarak geliştirsek de, dünyanın her yerinden oyunculara sahibiz. Oyuncuların bir kısmı oyunu Türkçe oynamak istiyor ve İngilizce bilmiyor. Bu yüzden, eğer her iki dili de biliyorsanız, lütfen kaydolup bir Diplomat olmayı ve CodeCombat ile tüm seviyeleri Türkçe diline çevirmeyi göz önünde bulundurun."
+    pitch_body: "Biz her ne kadar CodeCombat'i İngilizce olarak geliştirsek de, dünyanın her yerinden oyunculara sahibiz. Oyuncuların bir kısmı oyunu Türkçe oynamak istiyor ve İngilizce bilmiyor. Bu yüzden, eğer her iki dili de biliyorsanız, lütfen kaydolup bir Diplomat olmayı ve CodeCombat ile tüm seviyeleri Türkçe diline çevirmeyi göz önünde bulundurun." # {change}
     missing_translations: "Biz her şeyi Türkçe diline tercüme edene kadar, Türkçe diline tercüme edilemeyen her şey İngilizce olarak gözükecek."
     learn_more: "Diplomat olmakla ilgili dahası için..."
     subscribe_as_diplomat: "Diplomat olarak katkıda bulun"

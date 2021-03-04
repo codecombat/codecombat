@@ -224,7 +224,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
   diplomat_suggestion:
     title: "Pomozte přeložit CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Potřebujeme vaše jazykové znalosti."
-    pitch_body: "Přestože vyvíjíme CodeCombat v angličtině, máme spoustu hráčů z celého světa a mnozí z nich by si rádi zahráli česky, neboť anglicky neumí. Pokud anglicky umíte, přihlaste se prosím jako Diplomat a pomozte nám v překladu webu i jednotlivých úrovní."
+    pitch_body: "Přestože vyvíjíme CodeCombat v angličtině, máme spoustu hráčů z celého světa a mnozí z nich by si rádi zahráli česky, neboť anglicky neumí. Pokud anglicky umíte, přihlaste se prosím jako Diplomat a pomozte nám v překladu webu i jednotlivých úrovní." # {change}
     missing_translations: "Dokud nebude vše přeloženo, bude se vám na zatím nepřeložených místech zobrazovat text anglicky."
     learn_more: "Dozvědět se více o Diplomatech"
     subscribe_as_diplomat: "Přihlásit se jako Diplomat"

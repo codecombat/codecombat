@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Esperanto", englishDescription: "Esperanto"
   diplomat_suggestion:
     title: "Helpu traduki CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Ni bezonas vian lingvokapabloj."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. There's got to be at least one of them who wants to play in Esperanto! So if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Esperanto."
+    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. There's got to be at least one of them who wants to play in Esperanto! So if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Esperanto." # {change}
     missing_translations: "Until we can translate everything into Esperanto, you'll see English when Esperanto isn't available."
     learn_more: "Eksciu pli pri esti Diplomato"
     subscribe_as_diplomat: "Aboni kiel Diplomato"

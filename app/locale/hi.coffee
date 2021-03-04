@@ -224,7 +224,7 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
   diplomat_suggestion:
     title: "CodeCombat अनुवाद में मदद करें!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "हमें आपके भाषा कौशल की जरूरत है|"
-    pitch_body: "हम CodeCombat को अंग्रेजी में डेवेलोप करते हैं परन्तु हमारे पास दुनिया भर से लोग CodeCombat खेलते हैं| उनमें से कई हिंदी में खेलना चाहते हैं लेकिन नहीं खेल पातें है, इसलिए अगर आप दोनों भाषाओँ को जानते हैं, कृपया राजनयिक बन कर हमारी मदद करें|"
+    pitch_body: "हम CodeCombat को अंग्रेजी में डेवेलोप करते हैं परन्तु हमारे पास दुनिया भर से लोग CodeCombat खेलते हैं| उनमें से कई हिंदी में खेलना चाहते हैं लेकिन नहीं खेल पातें है, इसलिए अगर आप दोनों भाषाओँ को जानते हैं, कृपया राजनयिक बन कर हमारी मदद करें|" # {change}
     missing_translations: "जब तक हम हिंदी में सब कुछ अनुवाद ना कर सकें आपको अंग्रेजी में ही खेलना पड़ेगा|"
     learn_more: "एक राजनयिक होने के बारे में और अधिक जानें"
     subscribe_as_diplomat: "एक राजनयिक के रूप में सदस्यता लें"

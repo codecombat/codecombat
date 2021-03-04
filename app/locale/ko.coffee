@@ -224,7 +224,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   diplomat_suggestion:
     title: "코드 컴뱃 번역을 도와주세요!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "저희는 당신의 언어 능력이 필요합니다."
-    pitch_body: "저희는 영어로 코드 컴뱃을 개발하기 시작했지만, 이미 전세계의 유저들이 코드 컴뱃을 이용하고 있습니다. 그 중 많은 사람들이 한국어로 플레이하기를 바랍니다. 혹시 당신이 영어/한국어에 모두 능숙하다면, 외교관(Diplomate)으로 코드 컴뱃에 참여해서 모든 레벨 뿐만 아니라 웹사이트를 한국어로 번역할 수 있습니다."
+    pitch_body: "저희는 영어로 코드 컴뱃을 개발하기 시작했지만, 이미 전세계의 유저들이 코드 컴뱃을 이용하고 있습니다. 그 중 많은 사람들이 한국어로 플레이하기를 바랍니다. 혹시 당신이 영어/한국어에 모두 능숙하다면, 외교관(Diplomate)으로 코드 컴뱃에 참여해서 모든 레벨 뿐만 아니라 웹사이트를 한국어로 번역할 수 있습니다." # {change}
     missing_translations: "저희가 모든 내용을 한국어로 번역할 때까지 기본은 영어로 제공됩니다."
     learn_more: "외교관에 대해서 좀 더 자세히 알아보기"
     subscribe_as_diplomat: "외교관을 위한 정기 구독"
