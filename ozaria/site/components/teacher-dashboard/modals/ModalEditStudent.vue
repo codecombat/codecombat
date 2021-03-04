@@ -91,7 +91,7 @@
 
 <template>
   <modal
-    title="Student Details"
+    :title="$t('teacher.student_details')"
     @close="closeModalEditStudent"
   >
     <div
@@ -99,12 +99,12 @@
       class="style-ozaria teacher-form"
     >
       <div>
-        <p><b>Student Name:</b> {{ studentName }}</p>
-        <p><b>Username:</b> {{ username }}</p>
+        <p><b>{{ $t('teacher.student_name') }}:</b> {{ studentName }}</p>
+        <p><b>{{ $t('general.username') }}:</b> {{ username }}</p>
         <p
           v-if="email"
         >
-          <b>Email:</b> {{ email }}
+          <b>{{ $t('general.email') }}:</b> {{ email }}
         </p>
 
         <form
@@ -116,7 +116,7 @@
               <label
                 class="control-label"
                 for="changePassword"
-              >Change Password</label>
+              >{{ $t('teacher.change_password') }}</label>
               <input
                 v-model="newPassword"
                 :disabled="displayOnly"
@@ -131,7 +131,7 @@
                 :inactive="displayOnly"
                 @click="changePassword"
               >
-                Change Password
+                {{ $t('teacher.change_password') }}
               </primary-button>
             </div>
           </div>
@@ -141,7 +141,7 @@
         class="right-button"
         @click="closeModalEditStudent"
       >
-        <b>Done</b>
+        <b>{{ $t('common.done') }}</b>
       </secondary-button>
     </div>
   </modal>

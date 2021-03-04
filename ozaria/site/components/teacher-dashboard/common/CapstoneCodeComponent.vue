@@ -1,5 +1,6 @@
 <script>
   import CodeArea from './CodeArea'
+  import utils from 'core/utils'
 
   export default {
     components: {
@@ -19,18 +20,22 @@
         type: String,
         required: true
       }
+    },
+    created() {
+      this.utils = utils
     }
+
   }
 </script>
 
 <template>
   <div class="flex-row">
     <div>
-      <h4>Game Goals</h4>
+      <h4>{{ $t('concepts.game_goals') }}</h4>
       <ul>
         <li
-          v-for="{ description, completed } in gameGoals"
-          :key="description"
+          v-for="{ goal, completed } in gameGoals"
+          :key="goal.name"
           class="flex-row pushed-left"
         >
           <img v-if="completed" src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Checkbox_Checked.svg">
@@ -40,12 +45,12 @@
           >
             <div />
           </div>
-          <p>{{ description }}</p>
+          <p>{{ utils.i18n(goal, 'name') }}</p>
         </li>
       </ul>
     </div>
     <div>
-      <h4>Student Code</h4>
+      <h4>{{ $t('concepts.student_code') }}</h4>
       <code-area
         :code="capstoneSessionCode"
         :language="capstoneSessionLanguage"

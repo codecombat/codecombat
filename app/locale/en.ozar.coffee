@@ -2770,6 +2770,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     strings: "Strings"
     strings_concatenation: "String Concatenation"
     strings_substrings: "Substring"
+    student_code: "Student Code"
     syntax: "Syntax"
     trees: "Data Structures - Trees"
     variables: "Variables"
