@@ -63,7 +63,7 @@
             const goalStatusList = []
             this.levelGoals.forEach((goal) => {
               const goalStatus = {
-                description: goal.name,
+                goal: goal,
                 completed: (capstoneSession.state.goalStates[goal.id] || {}).status === 'success'
               }
               goalStatusList.push(goalStatus)

@@ -2753,6 +2753,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     strings: "字符串"
     strings_concatenation: "连接字符串"
     strings_substrings: "子串"
+    student_code: "学生代码"
     syntax: "语法"
     trees: "数据结构 - 树"
     variables: "变量"
