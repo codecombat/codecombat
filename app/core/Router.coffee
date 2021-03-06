@@ -106,7 +106,6 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'clans': go('clans/ClansView')
     'clans/:clanID': go('clans/ClanDetailsView')
-    'clans/:clanId/tournaments': go('ladder/MainTournamentView')
 
     'community': go('CommunityView')
 
@@ -197,6 +196,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')
+
+    'tournaments/:pageType/:objectId': go('ladder/MainTournamentView')
 
     'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }) # extra slash is to get Facebook app to work
     'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')

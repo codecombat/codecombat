@@ -283,6 +283,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     back_to_classroom: "Back to Classroom"
     teacher_button: "For Teachers"
     get_more_codecombat: "Get More CodeCombat"
+    no_tournaments: "There is no tournament now, please create one"
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)

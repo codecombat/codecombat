@@ -76,16 +76,14 @@ block content
         .small(data-i18n="clans.invite_2") *Invite players to this Clan by sending them this link.
 
     if arenas && arenas.length
-      .col-lg-4
+      .col-lg-6
         h2(data-i18n="play.campaign_multiplayer")
         p(data-i18n="clans.leagues_explanation")
         for arena in arenas
           h3
             a(href="/play/ladder/#{arena.slug}/clan/#{clan.id}")= i18n(arena, 'name')
-    .col-lg-2
-      h2 Tournament
-      a(href="/clans/#{clan.id}/tournaments")
-        | Go tournaments
+      
+        a.btn.btn-illustrated.btn-lg.text-uppercase#make-tournament(href='/tournaments/clan/#{clan.id}') Make a mini-tournament
 
   if members
     h3

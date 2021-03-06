@@ -30,16 +30,22 @@ module.exports = class MainLadderView extends RootView
   template: template
 
   events:
-    'click .create-button': 'onCreateTournament'
-    'click .input-submit': 'onSubmitEditing'
+    'click .create-button': 'createTournament'
+    'click .input-submit': 'submitEditing'
+    'click .input-cancel': 'cancelEditing'
 
-  initialize: (options, @clanId)->
+  initialize: (options, @pageType, @objectId)->
     super()
     @levelStatusMap = []
     @levelPlayCountMap = []
     @campaigns = campaigns
     @tournaments = []
-    tournaments = new CocoCollection([], {url: "/db/tournaments?clanId=#{@clanId}", model: Tournament})
+
+    if @pageType == 'clan'
+      url = "/db/tournaments?clanId=#{@objectId}"
+    else if @pageType == 'student'
+      url = "/db/tournaments?memberId=#{@objectId}"
+    tournaments = new CocoCollection([], {url, model: Tournament})
     @listenTo tournaments, 'sync', =>
       @tournaments = (t.toJSON() for t in tournaments.models)
       @render?()
@@ -59,7 +65,12 @@ module.exports = class MainLadderView extends RootView
   getMeta: ->
     title: $.i18n.t 'ladder.title'
 
-  onSubmitEditing: (e) ->
+  cancelEditing: (e) ->
+    @tournaments.pop()
+    @editableTournament = {}
+    @renderSelectors('.tournament-container')
+
+  submitEditing: (e) ->
     attrs = forms.formToObject($(e.target).closest('.editable-tournament-form'))
     attrs.startDate = moment(attrs.startDate).toISOString()
     attrs.endDate = moment(attrs.endDate).toISOString()
@@ -70,7 +81,7 @@ module.exports = class MainLadderView extends RootView
         url: '/db/tournament'
         data: @editableTournament
         success: =>
-          # document.location.reload()
+          document.location.reload()
       })
     else if @editableTournament.editing is 'edit'
       $.ajax({
@@ -78,9 +89,10 @@ module.exports = class MainLadderView extends RootView
         url: "/db/tournament/#{@editableTournament._id}"
         data: @editableTournament
         success: =>
-          # document.lodaction.reload()
+          document.lodaction.reload()
       })
-  onCreateTournament: (e) ->
+
+  createTournament: (e) ->
     level = $(e.target).data('level')
     if @editableTournament.levelOriginal?
       # TODO alert do not create multiple tournament at the same time
@@ -88,6 +100,7 @@ module.exports = class MainLadderView extends RootView
     @editableTournament = {
       name: level.name,
       levelOriginal: level.original,
+      image: level.image,
       slug: level.id
       clan: @clanId,
       startDate: new Date(),
@@ -109,6 +122,7 @@ module.exports = class MainLadderView extends RootView
         name: ladder.get('name'),
         difficulty: 1,
         id: ladder.get('slug'),
+        image: ladder.get('image'),
         original: ladder.get('original')
       })
     @campaigns[0].levels = levels
