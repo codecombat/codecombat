@@ -203,7 +203,7 @@ module.exports = class CampaignView extends RootView
       @courseLevelsFake = {}
       @courseInstanceID = utils.getQueryVariable('course-instance')
       @courseInstance = new CourseInstance(_id: @courseInstanceID)
-      jqxhr = @courseInstance.fetch()
+      jqxhr = @courseInstance.fetch({ data: $.param({time: + new Date()})})
       @supermodel.trackRequest(jqxhr)
       new Promise(jqxhr.then).then(=>
         courseID = @courseInstance.get('courseID')
