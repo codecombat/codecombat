@@ -21,7 +21,7 @@
       const styleEl = document.createElement('style')
       styleEl.type = "text/css"
       let styleText = '';
-      if (parent.features && parent.features.chinaUx) {
+      if (new URLSearchParams(window.location.search).get('chinaUx')) {
         styleText = `@import 'https://fonts.loli.net/css?family=Holtwood+One+SC';`
       } else {
         styleText = `@import 'https://fonts.googleapis.com/css?family=Holtwood+One+SC';`
