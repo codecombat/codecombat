@@ -68,7 +68,7 @@ module.exports = class TeacherClassView extends RootView
 
   getInitialState: ->
     {
-      sortValue: 'name'
+      sortValue: 'last-name'
       sortDirection: 1
       activeTab: '#' + (Backbone.history.getHash() or 'students-tab')
       students: new Users()
@@ -133,26 +133,31 @@ module.exports = class TeacherClassView extends RootView
       @fetchSessions()
       @classroom.language = @classroom.get('aceConfig')?.language
 
-    @students.comparator = (student1, student2) =>
+    @students.comparator = (s1, s2) =>
       dir = @state.get('sortDirection')
       value = @state.get('sortValue')
-      if value is 'name'
-        return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
+      s1LastName = s1.get('lastName') or s1.broadName()
+      s2LastName = s2.get('lastName') or s2.broadName()
+      if value is 'first-name'
+        return (if s1.broadName().toLowerCase() < s2.broadName().toLowerCase() then -dir else dir)
+
+      if value is 'last-name'
+        return (if s1LastName.toLowerCase() < s2LastName.toLowerCase() then -dir else dir)
 
       if value is 'progress'
         # TODO: I would like for this to be in the Level model,
         #   but it doesn't know about its own courseNumber.
-        level1 = student1.latestCompleteLevel
-        level2 = student2.latestCompleteLevel
+        level1 = s1.latestCompleteLevel
+        level2 = s2.latestCompleteLevel
         return -dir if not level1
         return dir if not level2
         return dir * (level1.courseNumber - level2.courseNumber or level1.levelNumber - level2.levelNumber)
 
       if value is 'status'
         statusMap = { expired: 0, 'not-enrolled': 1, enrolled: 2 }
-        diff = statusMap[student1.prepaidStatus()] - statusMap[student2.prepaidStatus()]
+        diff = statusMap[s1.prepaidStatus()] - statusMap[s2.prepaidStatus()]
         return dir * diff if diff
-        return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
+        return (if s1LastName.toLowerCase() < s2LastName.toLowerCase() then -dir else dir)
 
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetch()

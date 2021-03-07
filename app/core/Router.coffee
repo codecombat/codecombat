@@ -106,9 +106,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'cla': go('CLAView')
 
-    'clans': go('clans/ClansView')
-    'clans/:clanID': go('clans/ClanDetailsView')
-    'clans/:clanId/tournaments': go('ladder/MainTournamentView')
+    'clans': go('clans/ClansView', { redirectStudents: true })
+    'clans/:clanID': go('clans/ClanDetailsView', { redirectStudents: true })
 
     'community': go('CommunityView')
 

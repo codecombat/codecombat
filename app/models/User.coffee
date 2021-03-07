@@ -311,6 +311,15 @@ module.exports = class User extends CocoModel
         @trigger 'user-no-delete-eu-error'
     })
 
+  trackActivity: (activityName, increment=1) ->
+    $.ajax({
+      method: 'POST'
+      url: "/db/user/#{@id}/track/#{activityName}/#{increment}"
+      success: (attributes) =>
+        @set attributes
+      error: ->
+        console.error "Couldn't save activity #{activityName}"
+    })
 
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
