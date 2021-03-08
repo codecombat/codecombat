@@ -9,7 +9,10 @@ block content
       h1
         | Tournaments
       if !view.tournaments.length
-        p.campaign-description(data-i18n="play.no_tournaments")
+        if view.hasControlOfTheClan()
+          p.campaign-description(data-i18n="play.no_tournaments_owner")
+        else
+          p.campaign-description(data-i18n="play.no_tournaments")
         
       each tournament in view.tournaments
         .level-row
@@ -20,32 +23,14 @@ block content
                   img.level-image(src="#{tournament.image}", alt="#{tournament.name}").img-rounded
                 else
                   img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt="#{tournament.name}").img-rounded
-                  span.dynamic-level-name= tournament.name
-          if tournament.editing
-            .form.editable-tournament-form
-              .input-group
-                span.input-group-addon Ladder
-                input.form-control(type=text, value=view.editableTournament.name, disabled=true)
-              .input-group
-                span.input-group-addon Description
-                input.form-control.input-description(type='text', style='width:300px;', value=view.editableTournament.description, name='description')
+                  span.dynamic-level-name=tournament.name
+          +edit-tournament-body(tournament)
 
-              .input-group
-                span.input-group-addon Start Date
-                input.form-control.input-startDate(type='datetime-local', style='width:300px;', value=view.formatTime(view.editableTournament.startDate), name='startDate')
-              .input-group
-                span.input-group-addon End Date
-                input.form-control.input-endDate(type='datetime-local', style='width:300px;', value=view.formatTime(view.editableTournament.endDate), name='endDate')
-              .input-group.btn-group
-                input.form-control.input-cancel(type='button', value='Cancel')
-                input.form-control.input-submit(type='button', value='Submit')
-  if me.isAdmin()
-    each campaign in view.campaigns
+  #ladder-list
+   if view.hasControlOfTheClan()
       .campaign-container
-        h1
-          a(href="/play/#{campaign.levels[0].levelPath || 'level'}/#{campaign.levels[0].id}", data-i18n="play.campaign_#{campaign.id}")= campaign.name
-        p.campaign-description(data-i18n="[html]play.campaign_#{campaign.id}_description")!= campaign.description
-        each level in campaign.levels
+        h1 all useable ladders
+        each level in view.ladderLevels
           .level-row
             a(href=level.disabled ? "/play/ladder" : "/play/ladder/#{level.id}", disabled=level.disabled, class=view.levelStatusMap[level.id] || '', title=level.description)
               span.level
@@ -60,3 +45,23 @@ block content
                     | ★
             span.create-text-container
               a.btn.btn-illustrated.btn-lg.text-uppercase.create-button(data-level=level, data-i18n="ladder.create_tournament")
+
+mixin edit-tournament-body(tournament)
+  if tournament.editing
+    .form.editable-tournament-form
+      .input-group
+        span.input-group-addon Ladder
+        input.form-control(type=text, value=view.editableTournament.name, disabled=true)
+      .input-group
+        span.input-group-addon Description
+        input.form-control.input-description(type='text', style='width:300px;', value=view.editableTournament.description, name='description')
+      .input-group
+        span.input-group-addon Start Date
+        input.form-control.input-startDate(type='datetime-local', style='width:300px;', value=view.formatTime(view.editableTournament.startDate), name='startDate')
+      .input-group
+        span.input-group-addon End Date
+        input.form-control.input-endDate(type='datetime-local', style='width:300px;', value=view.formatTime(view.editableTournament.endDate), name='endDate')
+      .input-group.btn-group
+        input.form-control.input-cancel(type='button', value='Cancel')
+        input.form-control.input-submit(type='button', value='Submit')
+ 

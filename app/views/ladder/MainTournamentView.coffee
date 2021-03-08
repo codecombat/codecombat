@@ -3,6 +3,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/play/tournament_home'
 LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
+Clan = require 'models/Clan'
 Tournament = require 'models/Tournament'
 forms = require 'core/forms'
 CocoCollection = require 'collections/CocoCollection'
@@ -38,11 +39,14 @@ module.exports = class MainLadderView extends RootView
     super()
     @levelStatusMap = []
     @levelPlayCountMap = []
-    @campaigns = campaigns
+    @ladderLevels = []
     @tournaments = []
 
     if @pageType == 'clan'
       url = "/db/tournaments?clanId=#{@objectId}"
+      @clan = @supermodel.loadModel(new Clan(_id: @objectId)).model
+      @clan.once 'sync', (clan) =>
+        @renderSelectors('#ladder-list')
     else if @pageType == 'student'
       url = "/db/tournaments?memberId=#{@objectId}"
     tournaments = new CocoCollection([], {url, model: Tournament})
@@ -102,7 +106,7 @@ module.exports = class MainLadderView extends RootView
       levelOriginal: level.original,
       image: level.image,
       slug: level.id
-      clan: @clanId,
+      clan: @objectId,
       startDate: new Date(),
       endDate: undefined,
       editing: 'new'
@@ -125,7 +129,7 @@ module.exports = class MainLadderView extends RootView
         image: ladder.get('image'),
         original: ladder.get('original')
       })
-    @campaigns[0].levels = levels
+    @ladderLevels = levels
 
   getLevelPlayCounts: ->
     success = (levelPlayCounts) =>
@@ -135,9 +139,8 @@ module.exports = class MainLadderView extends RootView
       @render() if @supermodel.finished()
 
     levelIDs = []
-    for campaign in campaigns
-      for level in campaign.levels
-        levelIDs.push level.id
+    for level in @ladderLevels
+      levelIDs.push level.id
     levelPlayCountsRequest = @supermodel.addRequestResource 'play_counts', {
       url: '/db/level/-/play_counts'
       data: {ids: levelIDs}
@@ -145,6 +148,9 @@ module.exports = class MainLadderView extends RootView
       success: success
     }, 0
     levelPlayCountsRequest.load()
+
+  hasControlOfTheClan: () ->
+    return me.isAdmin() || (@clan?.ownerId + '' == me.get('_id') + '')
 
   formatTime: (time) ->
     if time?
@@ -162,7 +168,4 @@ ladders = [
 ]
 
 tournaments = [
-]
-campaigns = [
-  {id: 'multiplayer', name: 'Multiplayer Arenas', description: '... in which you code head-to-head against other players.', levels: ladders}
 ]
