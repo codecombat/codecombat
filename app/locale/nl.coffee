@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
   diplomat_suggestion:
     title: "Help CodeCombat vertalen!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "We hebben je taalvaardigheden nodig."
-    pitch_body: "We ontwikkelen CodeCombat in het Engels, maar we hebben al spelers van over de hele wereld. Veel van hen willen in het Nederlands spelen, maar kunnen geen Engels. Dus als je beiden talen spreekt, overweeg a.u.b. om je aan te melden als Diplomaat en help zowel de CodeCombat website als alle levels te vertalen naar het Nederlands."
+    pitch_body: "We ontwikkelen CodeCombat in het Engels, maar we hebben al spelers van over de hele wereld. Veel van hen willen in het Nederlands spelen, maar kunnen geen Engels. Dus als je beiden talen spreekt, overweeg a.u.b. om je aan te melden als Diplomaat en help zowel de CodeCombat website als alle levels te vertalen naar het Nederlands." # {change}
     missing_translations: "Totdat we alles hebben vertaald naar het Nederlands zul je Engels zien waar Nederlands niet beschikbaar is."
     learn_more: "Meer informatie over Diplomaat zijn"
     subscribe_as_diplomat: "Abonneren als Diplomaat"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     student_state: "Hoe"
     student_state_2: "het doet"
     student_good: "doet het goed bij"
-    student_good_detail: "Deze leerling houdt de rest van de klas bij."
+    student_good_detail: "Deze leerling houdt de rest van de klas bij." # {change}
     student_warn: "heeft misschien hulp nodig met"
-    student_warn_detail: "Deze leerling heeft misschien hulp nodig met nieuwe concepten die in deze cursus aan bod zijn gekomen."
+    student_warn_detail: "Deze leerling heeft misschien hulp nodig met nieuwe concepten die in deze cursus aan bod zijn gekomen." # {change}
     student_great: "doet het heel goed in"
-    student_great_detail: "Deze leerling kan misschien andere leerlingen helpen met het doorlopen van deze cursus."
+    student_great_detail: "Deze leerling kan misschien andere leerlingen helpen met het doorlopen van deze cursus." # {change}
     full_license: "Volledige Licentie"
     starter_license: "Starter Licentie"
 #    customized_license: "Customized License"

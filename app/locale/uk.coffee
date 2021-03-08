@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   diplomat_suggestion:
     title: "Допоможіть перекласти CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Нам потрібні Ваші мовні таланти."
-    pitch_body: "Ми створюємо CodeCombat англійською, але в нас уже є гравці зі всього світу. Багато хто з них хоче грати українською, але не говорить англійською, тому, якщо Ви знаєте обидві мови, обміркуйте можливість стати Дипломатом і допомогти перекласти сайт CodeCombat та всі рівні українською."
+    pitch_body: "Ми створюємо CodeCombat англійською, але в нас уже є гравці зі всього світу. Багато хто з них хоче грати українською, але не говорить англійською, тому, якщо Ви знаєте обидві мови, обміркуйте можливість стати Дипломатом і допомогти перекласти сайт CodeCombat та всі рівні українською." # {change}
     missing_translations: "Поки ми не переклали все українською, Ви бачитимете англійський текст там, де українська ще не доступна."
     learn_more: "Дізнатися, як стати Дипломатом"
     subscribe_as_diplomat: "Записатися в Дипломати"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     student_state: "Як справляється"
     student_state_2: "?"
     student_good: "справляється добре з"
-    student_good_detail: "Цей учень встигає за класом."
+    student_good_detail: "Цей учень встигає за класом." # {change}
     student_warn: "можливо потребує допомоги з"
-    student_warn_detail: "Цей учень можливо потребує допомоги з новими концепціями, які були представлені в цьому курсі."
+    student_warn_detail: "Цей учень можливо потребує допомоги з новими концепціями, які були представлені в цьому курсі." # {change}
     student_great: "чудово справляється з"
-    student_great_detail: "Цей учень може бути хорошим кандидатом, щоб допомагати іншим учням в опрацюванні цього курсу."
+    student_great_detail: "Цей учень може бути хорошим кандидатом, щоб допомагати іншим учням в опрацюванні цього курсу." # {change}
     full_license: "Повна ліцензія"
     starter_license: "Початкова ліцензія"
 #    customized_license: "Customized License"

@@ -224,7 +224,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
   diplomat_suggestion:
     title: "Помози нам у превођењу CodeCombat-а!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Потребне су нам твоје језичке способности."
-    pitch_body: "Развијамо CodeCombat на енглеском језику, али већ имамо играче из целог света. Многи од њих желе да играју на српском језику јер не говоре енглески, па ако говориш оба, молимо те да размислиш о томе да нам помогнеш да преведемо CodeCombat сајт, као и све нивое на српски."
+    pitch_body: "Развијамо CodeCombat на енглеском језику, али већ имамо играче из целог света. Многи од њих желе да играју на српском језику јер не говоре енглески, па ако говориш оба, молимо те да размислиш о томе да нам помогнеш да преведемо CodeCombat сајт, као и све нивое на српски." # {change}
     missing_translations: "Док не преведемо све на српски језик видећеш све на енглеском, док српски не буде доступан."
     learn_more: "Информиши се више о Дипломатама"
     subscribe_as_diplomat: "Претплати се као Дипломата"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     student_state: "Како  "
     student_state_2: "ради?"
     student_good: "добро ради у"
-    student_good_detail: "Овај ученик је у току са часом."
+    student_good_detail: "Овај ученик је у току са часом." # {change}
     student_warn: "можда му треба помоћ у"
-    student_warn_detail: "Овом ученику можда треба помоћ са новим концептима који су уведени у овом курсу. "
+    student_warn_detail: "Овом ученику можда треба помоћ са новим концептима који су уведени у овом курсу. " # {change}
     student_great: "је одличан у"
-    student_great_detail: "Овај ученик је можда добар кандидат да помогне другим ученицима да пређу овај курс."
+    student_great_detail: "Овај ученик је можда добар кандидат да помогне другим ученицима да пређу овај курс." # {change}
     full_license: "Пуна лиценца"
     starter_license: "Почетна лиценца"
 #    customized_license: "Customized License"

@@ -224,7 +224,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
   diplomat_suggestion:
     title: "ช่วยเหลือการแปล CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "พวกเราต้องการทักษะภาษาของคุณ"
-    pitch_body: "เราพัฒนา CodeCombat เป็นภาษาอังกฤษ แต่เรามีผู้เล่นอยู่ทั่วโลกแล้ว หลายคนอยากเล่นภาษาไทย แต่ไม่พูดภาษาอังกฤษดังนั้นถ้าคุณสามารถพูดได้ทั้งสองอย่างโปรดพิจารณาลงทะเบียนเพื่อเป็น Diplomat และช่วยแปลเว็บไซต์ CodeCombat และทุกด่านเป็นภาษาไทย"
+    pitch_body: "เราพัฒนา CodeCombat เป็นภาษาอังกฤษ แต่เรามีผู้เล่นอยู่ทั่วโลกแล้ว หลายคนอยากเล่นภาษาไทย แต่ไม่พูดภาษาอังกฤษดังนั้นถ้าคุณสามารถพูดได้ทั้งสองอย่างโปรดพิจารณาลงทะเบียนเพื่อเป็น Diplomat และช่วยแปลเว็บไซต์ CodeCombat และทุกด่านเป็นภาษาไทย" # {change}
     missing_translations: "จนกว่าเราจะสามารถแปลทุกสิ่งทุกอย่างเป็นภาษาไทยได้คุณจะเห็นภาษาอังกฤษเมื่อภาษาไทยไม่สามารถใช้ได้"
     learn_more: "เรียนรู้เพิ่มเติมเกี่ยวกับการเป็น Diplomat"
     subscribe_as_diplomat: "สมัครเป็น Diplomat"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    student_state: "How is"
 #    student_state_2: "doing?"
 #    student_good: "is doing well in"
-#    student_good_detail: "This student is keeping pace with the class."
+#    student_good_detail: "This student is keeping pace with the class's average level completion times."
 #    student_warn: "might need some help in"
-#    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
+#    student_warn_detail: "This student's average level completion times suggest they might need some help with new concepts that have been introduced in this course."
 #    student_great: "is doing great in"
-#    student_great_detail: "This student might be a good candidate to help other students working through this course."
+#    student_great_detail: "This student might be a good candidate to help other students working through this course, based on average level completion times."
 #    full_license: "Full License"
 #    starter_license: "Starter License"
 #    customized_license: "Customized License"

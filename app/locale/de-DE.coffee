@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   diplomat_suggestion:
     title: "Hilf mit, CodeCombat zu übersetzen!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Wir brauchen deine Sprachfähigkeiten."
-    pitch_body: "Wir entwickeln CodeCombat in Englisch, aber wir haben Spieler in der ganzen Welt. Viele von ihnen wollen auf Deutsch spielen, sprechen aber kein Englisch. Wenn du also beide Sprachen beherrschst, melde dich an, um ein Diplomat zu werden und hilf, die Website und die Levels ins Deutsche zu übersetzen."
+    pitch_body: "Wir entwickeln CodeCombat in Englisch, aber wir haben Spieler in der ganzen Welt. Viele von ihnen wollen auf Deutsch spielen, sprechen aber kein Englisch. Wenn du also beide Sprachen beherrschst, melde dich an, um ein Diplomat zu werden und hilf, die Website und die Levels ins Deutsche zu übersetzen." # {change}
     missing_translations: "Solange wir nicht alles ins Deutsche übersetzt haben, siehst du die englische Übersetzung dort, wo Deutsch leider noch nicht zur Verfügung steht."
     learn_more: "Mehr über Diplomaten:"
     subscribe_as_diplomat: "Schreibe dich als Diplomat ein."
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     student_state: "Wie geht es"
     student_state_2: "?"
     student_good: "geht es gut in"
-    student_good_detail: "Dieser Schüler kommt mit der Klasse mit."
+    student_good_detail: "Dieser Schüler kommt mit der Klasse mit." # {change}
     student_warn: "könnte Hilfe gebrauchen in"
-    student_warn_detail: "Diese Schüler könnte etwas Hilfe mit neuen Konzepten gebrauchen, die in diesem Kurs eingeführt wurden."
+    student_warn_detail: "Diese Schüler könnte etwas Hilfe mit neuen Konzepten gebrauchen, die in diesem Kurs eingeführt wurden." # {change}
     student_great: "hat viel Erfolg mit"
-    student_great_detail: "Dieser Schüler ist möglicherweise ein guter Kandidat, um andere Schülern beim Bearbeiten dieses Kurses zu helfen."
+    student_great_detail: "Dieser Schüler ist möglicherweise ein guter Kandidat, um andere Schülern beim Bearbeiten dieses Kurses zu helfen." # {change}
     full_license: "Volllizenz"
     starter_license: "Starterlizenz"
 #    customized_license: "Customized License"

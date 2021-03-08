@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   diplomat_suggestion:
     title: "Bantu menerjemahkan CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Kami membutuhkan kemampuan berbahasamu."
-    pitch_body: "Kami mengembangkan CodeCombat dalam bahasa Inggris, tapi kami sudah memiliki pemain di seluruh dunia. Banyak dari mereka ingin bermain di Indonesia, tetapi tidak berbicara bahasa Inggris, jadi jika Anda dapat menguasai kedua bahasa tersebut, silakan mempertimbangkan untuk mendaftar untuk menjadi Diplomat dan membantu menerjemahkan kedua situs CodeCombat dan semua tingkatan ke Indonesia."
+    pitch_body: "Kami mengembangkan CodeCombat dalam bahasa Inggris, tapi kami sudah memiliki pemain di seluruh dunia. Banyak dari mereka ingin bermain di Indonesia, tetapi tidak berbicara bahasa Inggris, jadi jika Anda dapat menguasai kedua bahasa tersebut, silakan mempertimbangkan untuk mendaftar untuk menjadi Diplomat dan membantu menerjemahkan kedua situs CodeCombat dan semua tingkatan ke Indonesia." # {change}
     missing_translations: "Hingga kami bisa menerjemahkan semuanya ke dalam bahasa Indonesia, Anda akan melihat bahasa Inggris ketika bahasa Indonesia belum tersedia."
     learn_more: "Pelajari lebih lanjut tentang menjadi seorang Diplomat"
     subscribe_as_diplomat: "Berlangganan sebagai seorang Diplomat"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     student_state: "Bagaimana"
     student_state_2: "melakukannya?"
     student_good: "melakukannya dengan baik"
-    student_good_detail: "Siswa ini mampu mengikuti dengan kelas."
+    student_good_detail: "Siswa ini mampu mengikuti dengan kelas." # {change}
     student_warn: "mungkin membutuhkan bantuan"
-    student_warn_detail: "Siswa ini mungkin membutuhkan bantuan dalam konsep baru yang sudah diperkenalkan di kursus ini."
+    student_warn_detail: "Siswa ini mungkin membutuhkan bantuan dalam konsep baru yang sudah diperkenalkan di kursus ini." # {change}
     student_great: "sangat bagus"
-    student_great_detail: "Siswa ini mungkin mampu menjadi kandidat yang baik dalam membantu siswa lainnya mengerjakan di kursus ini."
+    student_great_detail: "Siswa ini mungkin mampu menjadi kandidat yang baik dalam membantu siswa lainnya mengerjakan di kursus ini." # {change}
     full_license: "Lisensi Penuh"
     starter_license: "Lisensi Awal"
 #    customized_license: "Customized License"

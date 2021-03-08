@@ -224,7 +224,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   diplomat_suggestion:
     title: "请帮助我们完善翻译" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "运用您的语言技能"
-    pitch_body: "我们开发了英文版的CodeCombat，但是CodeCombat学习者遍布全球。对于不熟悉英语的中文玩家，他们希望能使用简体中文版本；如果您中英文都很熟练，请考虑加入我们的“外交官”团队，汉化CodeCombat网站和所有关卡。感谢！"
+    pitch_body: "我们开发了英文版的CodeCombat，但是CodeCombat学习者遍布全球。对于不熟悉英语的中文玩家，他们希望能使用简体中文版本；如果您中英文都很熟练，请考虑加入我们的“外交官”团队，汉化CodeCombat网站和所有关卡。感谢！" # {change}
     missing_translations: "没有翻译的文字将以英文显示。"
     learn_more: "了解更多成为“外交官”的说明"
     subscribe_as_diplomat: "提交“外交官”申请"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     student_state: "看看"
     student_state_2: "的情况?"
     student_good: "表现得很好，课程"
-    student_good_detail: "这个学生的进度达到了班级的平均进度。"
+    student_good_detail: "这个学生的进度达到了班级的平均进度。" # {change}
     student_warn: "可能需要一些帮助"
-    student_warn_detail: "这个学生可能需要一些帮助，在本课程中介绍的新概念。"
+    student_warn_detail: "这个学生可能需要一些帮助，在本课程中介绍的新概念。" # {change}
     student_great: "做得太好了，关卡"
-    student_great_detail: "这个学生可能是一个很好的候选人，帮助其他学生通过这门课程。"
+    student_great_detail: "这个学生可能是一个很好的候选人，帮助其他学生通过这门课程。" # {change}
     full_license: "全课许可"
     starter_license: "入门许可"
     customized_license: "定制许可"

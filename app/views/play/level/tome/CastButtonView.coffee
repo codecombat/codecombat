@@ -113,7 +113,10 @@ module.exports = class CastButtonView extends CocoView
       @playSound 'cast-end', 0.5 unless @options.level.isType('game-dev')
       # Worked great for live beginner tournaments, but probably annoying for asynchronous tournament mode.
       myHeroID = if me.team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
-      if @autoSubmitsToLadder and not e.world.thangMap[myHeroID]?.errorsOut and not me.get('anonymous')
+      shouldAutoSubmit = @autoSubmitsToLadder or (@options.level.isType('ladder') and not @options.session.get('submitDate') and not @autosubmittedOnce)
+      shouldAutoSubmit &&= not e.world.thangMap[myHeroID]?.errorsOut and not me.get('anonymous')
+      if shouldAutoSubmit
+        @autosubmittedOnce = true
         _.delay (=> @ladderSubmissionView?.rankSession()), 1000 if @ladderSubmissionView
     @hasCastOnce = true
     @updateCastButton()

@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
   diplomat_suggestion:
     title: "Hilf, CodeCombat z übersetze!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Mir bruuched dini Sprochfähigkeite."
-    pitch_body: "Mir entwickled CodeCombat in Englisch, aber mir hend scho Spieler uf de ganze Welt. Vieli devo würed gern uf Schwiizerdütsch spiele, aber chönd kei Englisch. Wenn du beides chasch, denk doch mol drüber noh, dich bi üs als Diplomat izträge und z helfe, d CodeCombat Websiite und alli Level uf Schwiizerdütsch z übersetze."
+    pitch_body: "Mir entwickled CodeCombat in Englisch, aber mir hend scho Spieler uf de ganze Welt. Vieli devo würed gern uf Schwiizerdütsch spiele, aber chönd kei Englisch. Wenn du beides chasch, denk doch mol drüber noh, dich bi üs als Diplomat izträge und z helfe, d CodeCombat Websiite und alli Level uf Schwiizerdütsch z übersetze." # {change}
     missing_translations: "Bis mir alles chönd uf Schwiizerdütsch übersetze wirsch du döt generisches Dütsch oder Englisch gseh, wo Schwiizerdütsch nid verfüegbar isch."
     learn_more: "Lern meh drüber, en Diplomat zsii"
     subscribe_as_diplomat: "Abonnier als en Diplomat"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    student_state: "How is"
 #    student_state_2: "doing?"
 #    student_good: "is doing well in"
-#    student_good_detail: "This student is keeping pace with the class."
+#    student_good_detail: "This student is keeping pace with the class's average level completion times."
 #    student_warn: "might need some help in"
-#    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
+#    student_warn_detail: "This student's average level completion times suggest they might need some help with new concepts that have been introduced in this course."
 #    student_great: "is doing great in"
-#    student_great_detail: "This student might be a good candidate to help other students working through this course."
+#    student_great_detail: "This student might be a good candidate to help other students working through this course, based on average level completion times."
 #    full_license: "Full License"
 #    starter_license: "Starter License"
 #    customized_license: "Customized License"

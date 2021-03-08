@@ -49,7 +49,8 @@ mixin sortButtons
   .sort-buttons.small.rtl-allowed
     span(data-i18n='teacher.sort_by')
     span.spr :
-    button.sort-button.sort-by-name(data-i18n='general.name', value='name')
+    button.sort-button.sort-by-last-name(data-i18n='general.last_name', value='last-name')
+    button.sort-button.sort-by-first-name(data-i18n='general.first_name', value='first-name')
     button.sort-button.sort-by-progress(data-i18n='teacher.progress', value='progress')
 
 mixin studentRow(student)
@@ -363,7 +364,7 @@ mixin bulkAssignControls
       span :
     select.bulk-course-select.form-control
       each course in _.rest(view.latestReleasedCourses)
-        if classroom.language != 'cpp' || (course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_2 || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_3)
+        if classroom.language !== 'cpp' || (view.utils.CSCourseIDs.indexOf(course.id) !== -1) 
           option(value=course.id selected=(course===state.get('selectedCourse')))
             = i18n(course.attributes, 'name')
             if !view.availableCourseMap[course.id]
@@ -431,7 +432,8 @@ mixin enrollmentStatusTab
         .sort-buttons.small
           span(data-i18n='teacher.sort_by')
           span.spr :
-          button.sort-button.sort-by-name(data-i18n='general.name', value='name')
+          button.sort-button.sort-by-last-name(data-i18n='general.last_name', value='last-name')
+          button.sort-button.sort-by-first-name(data-i18n='general.first_name', value='first-name')
           button.sort-button.sort-by-status(data-i18n='user.status', value='status')
       th
       th

@@ -83,6 +83,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/skipped-contacts': go('admin/SkippedContactsView')
     'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
     'admin/outcomes-report': go('admin/OutcomesReportView')
+    'admin/clan/:clanID': go('core/SingletonAppVueComponentView')
 
     'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
@@ -104,8 +105,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'cla': go('CLAView')
 
-    'clans': go('clans/ClansView')
-    'clans/:clanID': go('clans/ClanDetailsView')
+    'clans': go('clans/ClansView', { redirectStudents: true })
+    'clans/:clanID': go('clans/ClanDetailsView', { redirectStudents: true })
 
     'community': go('CommunityView')
 
@@ -180,6 +181,7 @@ module.exports = class CocoRouter extends Backbone.Router
       @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat' })
 
     'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
+    'league/kipp': redirect('/league/autoclan-school-network-kipp') # Redirect for KIPP.
     'league(/*subpath)': go('core/SingletonAppVueComponentView')
 
     'legal': go('LegalView')

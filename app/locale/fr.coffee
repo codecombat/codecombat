@@ -224,7 +224,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   diplomat_suggestion:
     title: "Aidez à traduire CodeCombat !" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Nous avons besoin de vos compétences linguistiques."
-    pitch_body: "Nous développons CodeCombat en anglais, mais nous avons déjà des joueurs partout dans le monde. Beaucoup d'entre eux veulent jouer en français mais ne parlent pas anglais, donc si vous parlez aussi bien l'anglais que le français, aidez-nous en devenant traducteur et aidez à traduire aussi bien le site que tous les niveaux en français."
+    pitch_body: "Nous développons CodeCombat en anglais, mais nous avons déjà des joueurs partout dans le monde. Beaucoup d'entre eux veulent jouer en français mais ne parlent pas anglais, donc si vous parlez aussi bien l'anglais que le français, aidez-nous en devenant traducteur et aidez à traduire aussi bien le site que tous les niveaux en français." # {change}
     missing_translations: "Jusqu'à ce que nous ayons tout traduit en français, vous verrez de l'anglais quand le français ne sera pas disponible."
     learn_more: "Apprenez-en plus sur les traducteurs"
     subscribe_as_diplomat: "S'inscrire en tant que traducteur"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     student_state: "Comment est"
     student_state_2: "action?"
     student_good: "se porte bien en"
-    student_good_detail: "Cet étudiant est dans le rythme de sa casse."
+    student_good_detail: "Cet étudiant est dans le rythme de sa casse." # {change}
     student_warn: "pourrait avoir besoin d'aide pour"
-    student_warn_detail: "Cet étudiant devrait être aidé par les nouveaux concepts introduits dans ce cours."
+    student_warn_detail: "Cet étudiant devrait être aidé par les nouveaux concepts introduits dans ce cours." # {change}
     student_great: "s'en sort très bien en"
-    student_great_detail: "Cet étudiant pourrait être un bon candidat pour aider d'autres étudiants à suivre ce cours."
+    student_great_detail: "Cet étudiant pourrait être un bon candidat pour aider d'autres étudiants à suivre ce cours." # {change}
     full_license: "Licence complète"
     starter_license: "Licence de débutant"
 #    customized_license: "Customized License"

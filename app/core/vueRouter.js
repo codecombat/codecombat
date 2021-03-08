@@ -26,7 +26,7 @@ export default function getVueRouter () {
         {
           path: '/live-classes',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
-          props: (route) => ({ showPremium: false, type: route.query.type })
+          props: (route) => ({ showPremium: false, type: route.query.type || 'live-classes' })
         },
         {
           path: '/school-administrator',
@@ -37,6 +37,11 @@ export default function getVueRouter () {
             { path: 'teacher/:teacherId/classroom/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/courses/TeacherClassView.vue') },
             { path: 'teacher/:teacherId/classroom/:classroomId/:studentId', component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/classes/TeacherStudentView.vue') }
           ]
+        },
+        {
+          path: '/admin/clan/:clanId',
+          component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanEdit'),
+          props: (route) => ({clanId: route.params.clanId})
         },
         // Warning: In production debugging of third party iframe!
         {

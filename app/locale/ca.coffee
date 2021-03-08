@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   diplomat_suggestion:
     title: "Ajuda a traduir CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Neccesitem les teves habilitats lingüístiques."
-    pitch_body: "Hem desenvolupat CodeCombat en anglès, però tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdues llengües, siusplau considereu iniciar sessió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivells en Català."
+    pitch_body: "Hem desenvolupat CodeCombat en anglès, però tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdues llengües, siusplau considereu iniciar sessió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivells en Català." # {change}
     missing_translations: "Fins que puguem traduir-ho tot en català, ho veuràs en anglès quant no estigui en català."
     learn_more: "Aprèn més sobre ser un diplomàtic"
     subscribe_as_diplomat: "Subscriu-te com a diplomàtic"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     student_state: "Com està "
     student_state_2: " fent?"
     student_good: "ho està fent bé a"
-    student_good_detail: "Aquest alumne manté el ritme de la classe."
+    student_good_detail: "Aquest alumne manté el ritme de la classe." # {change}
     student_warn: "podria necessitar ajuda en"
-    student_warn_detail: "Aquest estudiant pot necessitar ajuda amb els nous conceptes que s'han introduït en aquest curs."
+    student_warn_detail: "Aquest estudiant pot necessitar ajuda amb els nous conceptes que s'han introduït en aquest curs." # {change}
     student_great: "ho està fent molt bé a"
-    student_great_detail: "Aquest estudiant pot ser un bon candidat per ajudar altres estudiants que iintentin fer aquest curs."
+    student_great_detail: "Aquest estudiant pot ser un bon candidat per ajudar altres estudiants que iintentin fer aquest curs." # {change}
     full_license: "Llicència Total"
     starter_license: "Llicència Inicial"
 #    customized_license: "Customized License"

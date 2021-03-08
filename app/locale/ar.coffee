@@ -224,7 +224,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
   diplomat_suggestion:
     title: "مساعدة في ترجمة كودكومبات!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "نحتاج مهاراتك اللّغويّة."
-    pitch_body: "نحن نطوّر كودكومبات باللّغة الإنجليزيّة، ولكن لدينا بالفعل لاعبين في جميع أنحاء العالم. كثير منهم يريدون اللّعب باللّغة العربيّة ولكن لا يتحدثون الإنجليزيّة، حتى إذا كنت أستطيع أن أتكلّم على حد سواء، يرجى النّظر في التوقيع على أن يكون دبلوماسيّا والمساعدة في ترجمة كل من موقع كودكومبات وجميع المستويات إلى العربيّة."
+    pitch_body: "نحن نطوّر كودكومبات باللّغة الإنجليزيّة، ولكن لدينا بالفعل لاعبين في جميع أنحاء العالم. كثير منهم يريدون اللّعب باللّغة العربيّة ولكن لا يتحدثون الإنجليزيّة، حتى إذا كنت أستطيع أن أتكلّم على حد سواء، يرجى النّظر في التوقيع على أن يكون دبلوماسيّا والمساعدة في ترجمة كل من موقع كودكومبات وجميع المستويات إلى العربيّة." # {change}
     missing_translations: "حتى يمكننا ترجمة كلّ شيء إلى اللّغة العربيّة، سترى الإنجليزيّة عندما تكون العربيّة غير متوفر."
     learn_more: "معرفة المزيد عن كونك دبلوماسي"
     subscribe_as_diplomat: "الاشتراك كدبلوماسي"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    student_state: "How is"
 #    student_state_2: "doing?"
 #    student_good: "is doing well in"
-#    student_good_detail: "This student is keeping pace with the class."
+#    student_good_detail: "This student is keeping pace with the class's average level completion times."
 #    student_warn: "might need some help in"
-#    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
+#    student_warn_detail: "This student's average level completion times suggest they might need some help with new concepts that have been introduced in this course."
 #    student_great: "is doing great in"
-#    student_great_detail: "This student might be a good candidate to help other students working through this course."
+#    student_great_detail: "This student might be a good candidate to help other students working through this course, based on average level completion times."
 #    full_license: "Full License"
 #    starter_license: "Starter License"
 #    customized_license: "Customized License"

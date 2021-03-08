@@ -75,7 +75,7 @@ module.exports = class CertificatesView extends RootView
     @thangType = new ThangType()
     @supermodel.trackRequest @thangType.fetchLatestVersion(heroOriginal, {data: {project:'slug,version,original,extendedName,heroClass'}})
     @thangType.once 'sync', (thangType) =>
-      if @thangType.get('heroClass') isnt 'Warrior' or @thangType.get('slug') is 'code-ninja'
+      if @thangType.get('heroClass') isnt 'Warrior' or @thangType.get('slug') in ['code-ninja', 'armando-hoyos']
         # We only have basic warrior poses and signatures for now
         @setHero ThangTypeConstants.heroes.captain
 

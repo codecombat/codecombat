@@ -224,7 +224,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   diplomat_suggestion:
     title: "עזרו לתרגם את CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "אנו זקוקים לכישורי השפה שלכם"
-    pitch_body: "אנו מפתחים את CodeCombat בשפה האנגלית, אך כבר יש לנו שחקנים בכל העולם. רבים מהם רוצים לשחק בשפה English אך אינם דוברים אנגלית. לכן, אם אתם דוברים את שתי השפות, אנא שקלו להירשם בתור דיפלומט ולעזור לתרגם את אתר האינטרנט ואת כל השלבים של CodeCombat לשפה English."
+    pitch_body: "אנו מפתחים את CodeCombat בשפה האנגלית, אך כבר יש לנו שחקנים בכל העולם. רבים מהם רוצים לשחק בשפה English אך אינם דוברים אנגלית. לכן, אם אתם דוברים את שתי השפות, אנא שקלו להירשם בתור דיפלומט ולעזור לתרגם את אתר האינטרנט ואת כל השלבים של CodeCombat לשפה English." # {change}
     missing_translations: "עד שנצליח לתרגם הכול לשפה English, יופיע בפניכם תוכן באנגלית כאשר השפה English אינה זמינה."
     learn_more: "למידע נוסף על הצטרפות כדיפלומט"
     subscribe_as_diplomat: "הירשם כמנוי דיפלומט"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     student_state: "איך"
     student_state_2: "מתקדם/ת?"
     student_good: "מתקדם/ת היטב"
-    student_good_detail: "התלמיד/ה עומד/ת בקצב של הכיתה."
+    student_good_detail: "התלמיד/ה עומד/ת בקצב של הכיתה." # {change}
     student_warn: "ייתכן שיש צורך לעזור קצת ב:"
-    student_warn_detail: "ייתכן שלתלמיד/ה זה/ו דרושה מעט עזרה בעקרונות החדשים שהוצגו בקורס זה."
+    student_warn_detail: "ייתכן שלתלמיד/ה זה/ו דרושה מעט עזרה בעקרונות החדשים שהוצגו בקורס זה." # {change}
     student_great: "מסתדר/ת מצוין עם"
-    student_great_detail: "ייתכן שתלמיד או תלמידה זו הם מועמדים טובים לעזור לתלמידים אחרים במהלך קורס זה."
+    student_great_detail: "ייתכן שתלמיד או תלמידה זו הם מועמדים טובים לעזור לתלמידים אחרים במהלך קורס זה." # {change}
     full_license: "רישיון מלא"
     starter_license: "רישיון למתחילים"
 #    customized_license: "Customized License"

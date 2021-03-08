@@ -109,6 +109,7 @@ module.exports = class I18NHomeView extends RootView
     super()
     @addLanguagesToSelect(@$el.find('#language-select'), @selectedLanguage)
     @$el.find('option[value="en-US"]').remove()
+    @$el.find('option[value="en-GB"]').remove()
 
   onLanguageSelectChanged: (e) ->
     @selectedLanguage = $(e.target).val()

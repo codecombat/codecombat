@@ -224,7 +224,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   diplomat_suggestion:
     title: "CodeCombatの翻訳にご協力ください！" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "あなたの言語力が必要です。"
-    pitch_body: "CodeCombatは英語で開発されています。日本語でプレイしたい方がたくさんいますが、ゲームの多くはまだ英語のままです。なのでもし両方話せるなら、外交官（翻訳者）として登録し、CodeCombatのwebサイト等を日本語に翻訳するのを手伝ってください！"
+    pitch_body: "CodeCombatは英語で開発されています。日本語でプレイしたい方がたくさんいますが、ゲームの多くはまだ英語のままです。なのでもし両方話せるなら、外交官（翻訳者）として登録し、CodeCombatのwebサイト等を日本語に翻訳するのを手伝ってください！" # {change}
     missing_translations: "翻訳が完了していない部分は、英語で表示されます。"
     learn_more: "外交官について情報"
     subscribe_as_diplomat: "外交官登録"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    student_state: "How is"
 #    student_state_2: "doing?"
 #    student_good: "is doing well in"
-#    student_good_detail: "This student is keeping pace with the class."
+#    student_good_detail: "This student is keeping pace with the class's average level completion times."
 #    student_warn: "might need some help in"
-#    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
+#    student_warn_detail: "This student's average level completion times suggest they might need some help with new concepts that have been introduced in this course."
 #    student_great: "is doing great in"
-#    student_great_detail: "This student might be a good candidate to help other students working through this course."
+#    student_great_detail: "This student might be a good candidate to help other students working through this course, based on average level completion times."
 #    full_license: "Full License"
 #    starter_license: "Starter License"
 #    customized_license: "Customized License"

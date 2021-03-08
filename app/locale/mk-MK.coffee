@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
   diplomat_suggestion:
     title: "Помогни да се преведе CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Ни требаат твоите јазични вештини."
-    pitch_body: "Ние ја развиваме CodeCombat на англиски, но веќе имаме играчи низ целиот свет. Многу од нив сакаат да играат на македонски, а не разбираат англиски, па ако ги зборуваш и двата јазика, размисли дали би сакал/а да се зачлениш како Дипломат и да помогнеш да се преведат на македонски CodeCombat веб сајтот и сите нивоа од играта."
+    pitch_body: "Ние ја развиваме CodeCombat на англиски, но веќе имаме играчи низ целиот свет. Многу од нив сакаат да играат на македонски, а не разбираат англиски, па ако ги зборуваш и двата јазика, размисли дали би сакал/а да се зачлениш како Дипломат и да помогнеш да се преведат на македонски CodeCombat веб сајтот и сите нивоа од играта." # {change}
     missing_translations: "Додека не преведеме сè на македонски, содржината ќе биде на англиски каде што македонскиот не е достапен."
     learn_more: "Научи повеќе за тоа како е да се биде Дипломат"
     subscribe_as_diplomat: "Зачлени се како Дипломат"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    student_state: "How is"
 #    student_state_2: "doing?"
 #    student_good: "is doing well in"
-#    student_good_detail: "This student is keeping pace with the class."
+#    student_good_detail: "This student is keeping pace with the class's average level completion times."
 #    student_warn: "might need some help in"
-#    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
+#    student_warn_detail: "This student's average level completion times suggest they might need some help with new concepts that have been introduced in this course."
 #    student_great: "is doing great in"
-#    student_great_detail: "This student might be a good candidate to help other students working through this course."
+#    student_great_detail: "This student might be a good candidate to help other students working through this course, based on average level completion times."
 #    full_license: "Full License"
 #    starter_license: "Starter License"
 #    customized_license: "Customized License"

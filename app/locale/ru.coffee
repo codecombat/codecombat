@@ -224,7 +224,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   diplomat_suggestion:
     title: "Помогите перевести CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Нам нужны ваши языковые навыки."
-    pitch_body: "Мы создаём CodeCombat на английском, но у нас есть игроки со всего мира. Многие из них хотели бы играть на русском, но не знают английского, так что если вы знаете оба языка - зарегистрируйтесь как Дипломат и помогите перевести сайт и все уровни CodeCombat на русский язык."
+    pitch_body: "Мы создаём CodeCombat на английском, но у нас есть игроки со всего мира. Многие из них хотели бы играть на русском, но не знают английского, так что если вы знаете оба языка - зарегистрируйтесь как Дипломат и помогите перевести сайт и все уровни CodeCombat на русский язык." # {change}
     missing_translations: "Пока мы не перевели всё на русский язык, в непереведённых частях игры вы будете видеть английский текст."
     learn_more: "Узнайте о том, как стать Дипломатом"
     subscribe_as_diplomat: "Зарегистрируйтесь как Дипломат"
@@ -1944,11 +1944,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    student_state: "How is"
 #    student_state_2: "doing?"
 #    student_good: "is doing well in"
-#    student_good_detail: "This student is keeping pace with the class."
+#    student_good_detail: "This student is keeping pace with the class's average level completion times."
 #    student_warn: "might need some help in"
-#    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
+#    student_warn_detail: "This student's average level completion times suggest they might need some help with new concepts that have been introduced in this course."
 #    student_great: "is doing great in"
-#    student_great_detail: "This student might be a good candidate to help other students working through this course."
+#    student_great_detail: "This student might be a good candidate to help other students working through this course, based on average level completion times."
     full_license: "Полная лицензия"
     starter_license: "Начальная лицензия"
 #    customized_license: "Customized License"
