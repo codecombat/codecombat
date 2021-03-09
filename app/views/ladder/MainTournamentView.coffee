@@ -40,18 +40,20 @@ module.exports = class MainLadderView extends RootView
     @levelStatusMap = []
     @levelPlayCountMap = []
     @ladderLevels = []
+    @ladderImageMap = {}
     @tournaments = []
 
     if @pageType == 'clan'
       url = "/db/tournaments?clanId=#{@objectId}"
       @clan = @supermodel.loadModel(new Clan(_id: @objectId)).model
       @clan.once 'sync', (clan) =>
+        console.log(clan, @clan)
         @renderSelectors('#ladder-list')
     else if @pageType == 'student'
       url = "/db/tournaments?memberId=#{@objectId}"
     tournaments = new CocoCollection([], {url, model: Tournament})
     @listenTo tournaments, 'sync', =>
-      @tournaments = (t.toJSON() for t in tournaments.models)
+      @tournaments = (t.toJSON() for t in tournaments.models)[0]
       @render?()
     @supermodel.loadCollection(tournaments, 'tournaments', {cache: false})
 
@@ -70,7 +72,7 @@ module.exports = class MainLadderView extends RootView
     title: $.i18n.t 'ladder.title'
 
   cancelEditing: (e) ->
-    @tournaments.pop()
+    @tournaments[@clan.get('name')].pop()
     @editableTournament = {}
     @renderSelectors('.tournament-container')
 
@@ -107,11 +109,12 @@ module.exports = class MainLadderView extends RootView
       image: level.image,
       slug: level.id
       clan: @objectId,
+      state: 'disabled',
       startDate: new Date(),
       endDate: undefined,
       editing: 'new'
     }
-    @tournaments.push(@editableTournament)
+    @tournaments[@clan.get('name')].push(@editableTournament)
     @renderSelectors('.tournament-container')
 
   onSessionsLoaded: (e) ->
@@ -129,6 +132,7 @@ module.exports = class MainLadderView extends RootView
         image: ladder.get('image'),
         original: ladder.get('original')
       })
+      @ladderImageMap[ladder.get('original')] = ladder.get('image')
     @ladderLevels = levels
 
   getLevelPlayCounts: ->
@@ -150,7 +154,7 @@ module.exports = class MainLadderView extends RootView
     levelPlayCountsRequest.load()
 
   hasControlOfTheClan: () ->
-    return me.isAdmin() || (@clan?.ownerId + '' == me.get('_id') + '')
+    return me.isAdmin() || (@clan?.get('ownerID') + '' == me.get('_id') + '')
 
   formatTime: (time) ->
     if time?
