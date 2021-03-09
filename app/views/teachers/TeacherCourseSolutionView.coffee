@@ -3,6 +3,7 @@ utils = require 'core/utils'
 RootView = require 'views/core/RootView'
 Course = require 'models/Course'
 Level = require 'models/Level'
+LevelComponent = require 'models/LevelComponent'
 Prepaids = require 'collections/Prepaids'
 Levels = require 'collections/Levels'
 utils = require 'core/utils'
@@ -93,7 +94,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
         intro = articles.filter((x) => x.name == "Intro").pop()
         level.set 'intro', marked(@hideWrongLanguage(utils.i18n(intro, 'body'))) if intro
       heroPlaceholder = level.get('thangs').filter((x) => x.id == 'Hero Placeholder').pop()
-      comp = heroPlaceholder?.components.filter((x) => x.original.toString() == '524b7b5a7fc0f6d51900000e' ).pop()
+      comp = heroPlaceholder?.components.filter((x) => LevelComponent.ProgrammableIDs.includes(x.original.toString())).pop()
       programmableMethod = comp?.config.programmableMethods.plan
       if programmableMethod
         try

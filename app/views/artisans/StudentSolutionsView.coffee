@@ -8,6 +8,7 @@ Campaign = require 'models/Campaign'
 Levels = require 'collections/Levels'
 Level = require 'models/Level'
 LevelSessions = require 'collections/LevelSessions'
+LevelComponent = require 'models/LevelComponent'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
 {createAetherOptions} = require 'lib/aether_utils'
@@ -152,9 +153,8 @@ module.exports = class StudentSolutionsView extends RootView
         return src
 
     # TODO: put this into Level? if so, also use it in TeacherCourseSolutionView
-    programmableComponentOriginal = '524b7b5a7fc0f6d51900000e'
     heroPlaceholder = _.find level.get('thangs'), id: 'Hero Placeholder'
-    comp = _.find heroPlaceholder?.components, original: programmableComponentOriginal
+    comp = _.find heroPlaceholder?.components, (c) => c in LevelComponent.ProgrammableIDs
     programmableMethod = comp?.config.programmableMethods.plan
     result = {}
 
