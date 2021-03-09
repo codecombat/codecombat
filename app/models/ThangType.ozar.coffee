@@ -387,7 +387,7 @@ module.exports = class ThangType extends CocoModel
       return console.warn @get('name'), 'is not an equipping hero, but you are asking for its hero stats. (Did you project away components?)'
     unless movesConfig = _.find(components, original: LevelComponent.MovesID)?.config
       return console.warn @get('name'), 'is not a moving hero, but you are asking for its hero stats.'
-    unless programmableConfig = _.find(components, original: LevelComponent.ProgrammableID)?.config
+    unless programmableConfig = _.find(components, (c) => c.original in LevelComponent.ProgrammableIDs)?.config
       return console.warn @get('name'), 'is not a Programmable hero, but you are asking for its hero stats.'
     @classStatAverages ?=
       attack: {Warrior: 7.5, Ranger: 5, Wizard: 2.5}

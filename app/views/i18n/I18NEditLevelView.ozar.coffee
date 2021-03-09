@@ -67,7 +67,7 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
     # code comments
     for thang, thangIndex in @model.get('thangs') ? []
       for component, componentIndex in thang.components ? []
-        continue unless component.original is LevelComponent.ProgrammableID
+        continue unless component.original in LevelComponent.ProgrammableIDs
         for methodName, method of component.config?.programmableMethods ? {}
           if (i18n = method.i18n) and (context = method.context)
             for key, value of context
