@@ -15,11 +15,12 @@ block content
           p.campaign-description(data-i18n="play.no_tournaments")
         
       each val, cluster in view.tournaments
-        - console.log(val)
         - tournamentsByState = _.groupBy(val, 'state')
-        - console.log(tournamentsByState)
+        h2=cluster
         each state in ['starting', 'initializing', 'ended', 'disabled']
           - tournaments = tournamentsByState[state]
+          if tournaments
+            h3=state
           each tournament in tournaments || []
             .level-row
               .tournament-image
@@ -30,6 +31,8 @@ block content
                   else
                     img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt=tournament.name).img-rounded
                     span.dynamic-level-name=tournament.name
+              if view.clan && view.hasControlOfTheClan() && !tournament.editing
+                a.btn.btn-illustrated.btn-lg.text-uppercase.edit-button(data-tournament=tournament, data-i18n="ladder.edit_tournament") edit tournament
               +edit-tournament-body(tournament)
 
   #ladder-list

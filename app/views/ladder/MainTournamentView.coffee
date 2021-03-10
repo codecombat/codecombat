@@ -32,6 +32,7 @@ module.exports = class MainLadderView extends RootView
 
   events:
     'click .create-button': 'createTournament'
+    'click .edit-button': 'editTournament'
     'click .input-submit': 'submitEditing'
     'click .input-cancel': 'cancelEditing'
 
@@ -59,9 +60,9 @@ module.exports = class MainLadderView extends RootView
 
     @editableTournament = {}
 
-    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
+    # @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
     @ladders = @supermodel.loadCollection(new LadderCollection()).model
-    @listenToOnce @sessions, 'sync', @onSessionsLoaded
+    # @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @listenToOnce @ladders, 'sync', @onLaddersLoaded
 
     # TODO: Make sure this is also enabled server side.
@@ -72,7 +73,11 @@ module.exports = class MainLadderView extends RootView
     title: $.i18n.t 'ladder.title'
 
   cancelEditing: (e) ->
-    @tournaments[@clan.get('name')].pop()
+    if @editableTournament.editing is 'new'
+      @tournaments[@clan.get('name')].pop()
+    else
+      index = _.findIndex(@tournaments[@clan.get('name')], (t) => t.editing == 'edit')
+      delete @tournaments[@clan.get('name')][index].editing
     @editableTournament = {}
     @renderSelectors('.tournament-container')
 
@@ -95,8 +100,18 @@ module.exports = class MainLadderView extends RootView
         url: "/db/tournament/#{@editableTournament._id}"
         data: @editableTournament
         success: =>
-          document.lodaction.reload()
+          document.location.reload()
       })
+
+  editTournament: (e) ->
+    tournament = $(e.target).data('tournament')
+    if @editableTournament.levelOriginal?
+      return
+
+    index = _.findIndex(@tournaments[@clan.get('name')], (t) => t._id == tournament._id)
+    @tournaments[@clan.get('name')][index].editing = 'edit'
+    @editableTournament = @tournaments[@clan.get('name')][index]
+    @renderSelectors('.tournament-container')
 
   createTournament: (e) ->
     level = $(e.target).data('level')
