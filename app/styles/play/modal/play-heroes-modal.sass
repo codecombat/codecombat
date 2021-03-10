@@ -88,8 +88,8 @@ $heroCanvasHeight: 275px
         white-space: nowrap
 
         .hero-indicator
-          width: 97px
-          height: 98px
+          width: 90px
+          height: 91px
           margin: 0 -11px -20px -11px
           position: relative
           background: url(/images/pages/play/modal/hero-portrait.png)
@@ -103,8 +103,8 @@ $heroCanvasHeight: 275px
               float: left
 
           &.active
-            background: url(/images/pages/play/modal/hero-portrait-selected.png)
-            z-index: 5
+            background-image: url(/images/pages/play/modal/hero-portrait-selected.png)
+            z-index: 6
 
           .hero-avatar
             width: 61px
@@ -115,12 +115,12 @@ $heroCanvasHeight: 275px
             top: 18px
 
           &.subscribe-unlock
-            background: url(/images/pages/play/modal/hero-portrait-silver.png)
+            background-image: url(/images/pages/play/modal/hero-portrait-silver.png)
             background-size: 100% 100%
             z-index: 5
 
             &.active
-              background: url(/images/pages/play/modal/hero-portrait-silver-selected.png)
+              background-image: url(/images/pages/play/modal/hero-portrait-silver-selected.png)
               z-index: 6
 
             .hero-avatar
@@ -128,25 +128,25 @@ $heroCanvasHeight: 275px
               background-size: 100% 100%
               width: 54px
               height: 54px
-              left: 25px
-              top: 25px
+              left: 22px
+              top: 22px
 
           &.premium
-            background: url(/images/pages/play/modal/hero-portrait-gem.png)
+            background-image: url(/images/pages/play/modal/hero-portrait-gem.png)
             background-size: 100% 100%
             z-index: 5
 
             &.active
-              background: url(/images/pages/play/modal/hero-portrait-gem-selected.png)
+              background-image: url(/images/pages/play/modal/hero-portrait-gem-selected.png)
               z-index: 6
 
             .hero-avatar
               background-color: rgb(0,119,168)
               background-size: 100% 100%
-              width: 56px
-              height: 58px
-              left: 23px
-              top: 20px
+              width: 52px
+              height: 54px
+              left: 21px
+              top: 19px
 
               &.ie
                 @include opacity(0.35)

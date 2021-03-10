@@ -224,7 +224,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
   diplomat_suggestion:
     title: "Помози нам у превођењу CodeCombat-а!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Потребне су нам твоје језичке способности."
-    pitch_body: "Развијамо CodeCombat на енглеском језику, али већ имамо играче из целог света. Многи од њих желе да играју на српском језику јер не говоре енглески, па ако говориш оба, молимо те да размислиш о томе да нам помогнеш да преведемо CodeCombat сајт, као и све нивое на српски."
+    pitch_body: "Развијамо CodeCombat на енглеском језику, али већ имамо играче из целог света. Многи од њих желе да играју на српском језику јер не говоре енглески, па ако говориш оба, молимо те да размислиш о томе да нам помогнеш да преведемо CodeCombat сајт, као и све нивое на српски." # {change}
     missing_translations: "Док не преведемо све на српски језик видећеш све на енглеском, док српски не буде доступан."
     learn_more: "Информиши се више о Дипломатама"
     subscribe_as_diplomat: "Претплати се као Дипломата"

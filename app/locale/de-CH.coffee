@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
   diplomat_suggestion:
     title: "Hilf, CodeCombat z übersetze!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Mir bruuched dini Sprochfähigkeite."
-    pitch_body: "Mir entwickled CodeCombat in Englisch, aber mir hend scho Spieler uf de ganze Welt. Vieli devo würed gern uf Schwiizerdütsch spiele, aber chönd kei Englisch. Wenn du beides chasch, denk doch mol drüber noh, dich bi üs als Diplomat izträge und z helfe, d CodeCombat Websiite und alli Level uf Schwiizerdütsch z übersetze."
+    pitch_body: "Mir entwickled CodeCombat in Englisch, aber mir hend scho Spieler uf de ganze Welt. Vieli devo würed gern uf Schwiizerdütsch spiele, aber chönd kei Englisch. Wenn du beides chasch, denk doch mol drüber noh, dich bi üs als Diplomat izträge und z helfe, d CodeCombat Websiite und alli Level uf Schwiizerdütsch z übersetze." # {change}
     missing_translations: "Bis mir alles chönd uf Schwiizerdütsch übersetze wirsch du döt generisches Dütsch oder Englisch gseh, wo Schwiizerdütsch nid verfüegbar isch."
     learn_more: "Lern meh drüber, en Diplomat zsii"
     subscribe_as_diplomat: "Abonnier als en Diplomat"

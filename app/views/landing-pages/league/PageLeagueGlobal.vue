@@ -304,6 +304,15 @@ export default {
       return this.codePointsRankings(this.clanIdSelected)
     },
 
+    showJoinTeamBtn () {
+      if (!this.currentSelectedClan) {
+        return false
+      }
+      // We don't want to show this button if the team is a classroom or teacher.
+      // Those students are populated automatically.
+      return ['teacher', 'classroom'].indexOf(this.currentSelectedClan?.kind) === -1
+    },
+
     // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
     firstName () { return me.get('firstName') },
 
@@ -350,6 +359,7 @@ export default {
         <clan-selector v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" style="margin-bottom: 40px;"/>
         <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
+      <img class="ai-league-logo" src="/images/pages/league/logo_badge.png">
     </section>
 
     <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
@@ -361,12 +371,12 @@ export default {
       <div class="col-sm-7">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
-        <p>Invite players to this team by sending them this link:</p>
+        <p>{{showJoinTeamBtn ? 'Invite players to this team by sending them this link:': 'Share this team leaderboard with its public link:'}}</p>
         <input readonly :value="clanInviteLink()" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
         <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Team</a>
         <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Team</a>
-        <a v-else class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Team</a>
+        <a v-else v-show="showJoinTeamBtn" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Team</a>
       </div>
     </div>
 
@@ -379,14 +389,14 @@ export default {
         :childClans="currentSelectedClanChildDetails"
         class="clan-search"
       />
-      <p>Use your coding skills and battle strategies to rise up the ranks!</p>
+      <p class="subheader2">Use your coding skills and battle strategies to rise up the ranks!</p>
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
         <leaderboard v-else :rankings="globalRankings" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
         <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Blazing Battle Multiplayer Arena</a>
       </div>
       <div class="col-lg-6 section-space">
-        <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" scoreType="codePoints"
+        <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
           class="leaderboard-component"
           :player-count="codePointsPlayerCount"
         />
@@ -452,17 +462,17 @@ export default {
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Infinite Inferno Cup</h3>
         <div>Jan - April 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_season1_cup.png" loading="lazy"/>
+        <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy"/>
       </div>
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Sorcerer's Blitz</h3>
         <div>May - Aug 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_codecombat_blitz.png" loading="lazy"/>
+        <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy"/>
       </div>
       <div class="col-sm-4 text-center">
         <h3>Colossus Clash</h3>
         <div>Sep - Dec 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_season1_clash.png" loading="lazy"/>
+        <img class="img-responsive" src="/images/pages/league/logo_clash.png" loading="lazy"/>
       </div>
     </div>
     <div class="row">
@@ -512,7 +522,7 @@ export default {
           </div>
           <div class="row flex-row" style="justify-content: flex-start;">
             <div class="col-sm-5">
-              <p style="margin-bottom: 70px;">
+              <p class="league-block-description">
                 Unlike other esports platforms serving schools, we own the structure top to bottom, which means we’re not tied to any game developer or have issues with licensing. That also means we can make custom modifications in-game for your school or organization.
               </p>
             </div>
@@ -537,7 +547,7 @@ export default {
               <img class="img-responsive" src="/images/pages/league/graphic_success.png" alt="Kids holding awards" />
             </div>
             <div class="col-sm-6">
-              <p style="margin-bottom: 70px;">
+              <p class="league-block-description">
                 The game platform fits into a regular Computer Science curriculum, so as students play through the game levels, they’re completing course work. Students learn coding and computer science while they play, then use these skills in arena battles as they practice and play on the same platform.
               </p>
             </div>
@@ -556,7 +566,7 @@ export default {
           </div>
           <div class="row flex-row" style="justify-content: flex-start;">
             <div class="col-sm-5">
-              <p style="margin-bottom: 70px; z-index: 1;">
+              <p class="league-block-description">
                 Our tournament structure is adaptable to any environment or use case. Students can participate at a designated time during regular learning, play at home asynchronously, or participate on their own schedule.
               </p>
             </div>
@@ -690,6 +700,20 @@ export default {
     margin-top: 30px;
   }
 
+  .esports-header .ai-league-logo {
+    width: 15vw;
+    max-width: 296px;
+  }
+
+  @media screen and (max-width: 767px) {
+    .esports-header .ai-league-logo {
+      position: relative;
+      top: 170px;
+      left: calc(50% - 10vw);
+      width: 20vw;
+    }
+  }
+
   // Most sections have a max width and are centered.
   section, & > div {
     max-width: 1820px;
@@ -740,7 +764,7 @@ export default {
 
     img {
       max-height: 250px;
-      margin: 0 auto;
+      margin: 15px auto 0 auto;
     }
   }
 
@@ -857,6 +881,12 @@ export default {
     margin: 12px auto;
     width: 90%;
     max-width: 510px;
+  }
+
+  .league-block-description {
+    font-size: 26px;
+    line-height: 32px;
+    margin-bottom: 70px;
   }
 
   @media screen and (min-width: 768px) {
