@@ -24,13 +24,13 @@ block content
           each tournament in tournaments || []
             .level-row
               .tournament-image
-                a(href=`/play/ladder/${tournament.slug}/clan/${view.clanId}?tournament=${tournament._id}`, title=tournament.description)
-                span.level
-                  if view.ladderImageMap[tournament.levelOriginal]
-                    img.level-image(src=view.ladderImageMap[tournament.levelOriginal], alt=tournament.name).img-rounded
-                  else
-                    img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt=tournament.name).img-rounded
-                    span.dynamic-level-name=tournament.name
+                a(href=`/play/ladder/${tournament.slug}/clan/${tournament.clan}?tournament=${tournament._id}`, title=tournament.description)
+                  span.level
+                    if view.ladderImageMap[tournament.levelOriginal]
+                      img.level-image(src=view.ladderImageMap[tournament.levelOriginal], alt=tournament.name).img-rounded
+                    else
+                      img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt=tournament.name).img-rounded
+                      span.dynamic-level-name=tournament.name
               if view.clan && view.hasControlOfTheClan() && !tournament.editing
                 a.btn.btn-illustrated.btn-lg.text-uppercase.edit-button(data-tournament=tournament, data-i18n="ladder.edit_tournament") edit tournament
               +edit-tournament-body(tournament)
