@@ -283,8 +283,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     back_to_classroom: "Back to Classroom"
     teacher_button: "For Teachers"
     get_more_codecombat: "Get More CodeCombat"
-    no_tournaments_owner: "There is no tournament now, please create one"
-    no_tournaments: "There is no tournament now"
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -2377,7 +2375,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bracket_11_14: "11-14"
     bracket_14_18: "14-18"
     bracket_open: "Open"
-    create_tournament: "Create a Tournament"
 
   user:
     user_title: '__name__ - Learn to Code with CodeCombat'
@@ -3156,3 +3153,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
     summary: 'The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.'
     join_now: 'Join Now'
+
+  tournament:
+    mini_tournaments: "Mini Tournaments"
+    useable_ladders: "All Useable Ladders"
+    make_tournament: "Make a mini-tournament"
+    go_tournaments: "Goto mini-tournaments"
+    class_tournaments: "Class mini-tournaments"
+    no_tournaments_owner: "There is no tournament now, please create one"
+    no_tournaments: "There is no tournament now"
+    edit_tournament: "Edit Tournament"
+    create_tournament: "Create a Tournament"

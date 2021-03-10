@@ -6,13 +6,12 @@ block content
     h3 Login is required
   else
     .tournament-container
-      h1
-        | Tournaments
+      h1(data-i18n="tournament.mini_tournaments")
       if !Object.keys(view.tournaments).length
         if view.hasControlOfTheClan()
-          p.campaign-description(data-i18n="play.no_tournaments_owner")
+          p.campaign-description(data-i18n="tournament.no_tournaments_owner")
         else
-          p.campaign-description(data-i18n="play.no_tournaments")
+          p.campaign-description(data-i18n="tournament.no_tournaments")
         
       each val, cluster in view.tournaments
         - tournamentsByState = _.groupBy(val, 'state')
@@ -32,13 +31,13 @@ block content
                       img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt=tournament.name).img-rounded
                       span.dynamic-level-name=tournament.name
               if view.clan && view.hasControlOfTheClan() && !tournament.editing
-                a.btn.btn-illustrated.btn-lg.text-uppercase.edit-button(data-tournament=tournament, data-i18n="ladder.edit_tournament") edit tournament
+                a.btn.btn-illustrated.btn-lg.text-uppercase.edit-button(data-tournament=tournament, data-i18n="tournament.edit_tournament") edit tournament
               +edit-tournament-body(tournament)
 
   #ladder-list
    if view.clan && view.hasControlOfTheClan()
       .campaign-container
-        h1 all useable ladders
+        h1(data-i18n="tournament.useable_ladders")
         each level in view.ladderLevels
           .level-row
             a(href=level.disabled ? "/play/ladder" : `/play/ladder/${level.id}`, disabled=level.disabled, class=view.levelStatusMap[level.id] || '', title=level.description)
@@ -53,7 +52,7 @@ block content
                   each i in Array(level.difficulty)
                     | ★
             span.create-text-container
-              a.btn.btn-illustrated.btn-lg.text-uppercase.create-button(data-level=level, data-i18n="ladder.create_tournament")
+              a.btn.btn-illustrated.btn-lg.text-uppercase.create-button(data-level=level, data-i18n="tournament.create_tournament")
 
 mixin edit-tournament-body(tournament)
   if tournament.editing
