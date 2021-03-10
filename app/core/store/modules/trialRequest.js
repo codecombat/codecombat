@@ -4,7 +4,7 @@ const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 const ROOT_LEVEL_KEYS = ['_id', 'type', 'status', 'reviewer', 'applicant'];
 
 function getNcesData() {
-  return SCHOOL_NCES_KEYS.reduce((prev, curr) => setAndReturn(prev, `nces_${key}`, ''), {})
+  return SCHOOL_NCES_KEYS.reduce((prev, curr) => setAndReturn(prev, `nces_${curr}`, ''), {})
 }
 
 function getRootLevelData() {
