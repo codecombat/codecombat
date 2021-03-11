@@ -1216,6 +1216,7 @@ module.exports = class CampaignView extends RootView
       return @promptForSubscription campaignSlug, 'premium campaign switch clicked'
 
   loadUserPollsRecord: ->
+    return if storage.load 'ignored-poll'
     url = "/db/user.polls.record/-/user/#{me.id}"
     @userPollsRecord = new UserPollsRecord().setURL url
     onRecordSync = ->
@@ -1238,7 +1239,8 @@ module.exports = class CampaignView extends RootView
       return if @destroyed
       tempLoadingPoll.url = -> '/db/poll/' + @id
       @poll = tempLoadingPoll
-      _.delay (=> @activatePoll?(forceShowPoll)), 1000
+      delay = if forceShowPoll then 1000 else 5000  # Wait a little bit before showing the poll
+      _.delay (=> @activatePoll?(forceShowPoll)), delay
     onPollError = (poll, response, request) ->
       if response.status is 404
         console.log 'There are no more polls left.'
@@ -1259,6 +1261,11 @@ module.exports = class CampaignView extends RootView
       @showPoll()
     else
       $pollButton.tooltip 'show'
+      _.delay (=>
+        $pollButton?.tooltip 'hide'
+        unless @destroyed
+          storage.save 'ignored-poll', true, 5  #  Don't show again in next N minutes
+      ), 20000  # Don't leave the poll open forever
 
   showPoll: ->
     return false unless @shouldShow 'poll'
