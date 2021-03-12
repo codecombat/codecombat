@@ -83,7 +83,7 @@ export default {
       }
 
       const coupon = _.find(getters.basicAnnualSubscriptionForCurrentUser.coupons, { code: getters.activeCouponID })
-      if (coupon !== null) {
+      if (coupon && typeof coupon.amount === 'number') {
         return (coupon.amount / 100).toFixed(2)
       }
 
