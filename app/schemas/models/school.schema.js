@@ -4,7 +4,8 @@ const SchoolSchema = schema.object(
   {
     title: 'School',
     description:
-      'A school or school-level educational institution or business location, potentially belonging to a school district or other educational network'
+      'A school or school-level educational institution or business location, potentially belonging to a school district or other educational network',
+    required: ['name']
   },
   {
     district: schema.objectId({
