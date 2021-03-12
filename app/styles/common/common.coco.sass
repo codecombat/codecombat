@@ -1,0 +1,404 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+
+// https://github.com/twbs/bootstrap/issues/9237 -- need a version that's not !important
+.secret
+  display: none
+
+h1, h2, h3, h4, h5, h6
+  font-variant: small-caps
+
+a
+  cursor: pointer
+
+iframe
+  border: none
+
+.error
+  left: 8px
+
+.selectable
+  cursor: pointer
+
+.modal-dialog.game
+  padding: 5px
+  margin-top: 30px
+  margin-bottom: 0px
+  padding-top: 30px
+  .background-wrapper
+    background: url("/images/pages/base/modal_background.png")
+    background-size: 100% 100%
+    border: 0
+    @include box-shadow(0 0 0 #000)
+    //position: absolute
+    width: 99%
+    
+  .background-wrapper.plain
+    background: white
+    
+  .plain
+    h1, h2, h3, h4, h5, h6
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important
+
+  .modal-content
+    @include box-shadow(none)
+  
+  .modal-header
+    margin: 0 14px
+    padding: 8px 0
+    border-bottom-color: #ccc
+
+    .close
+      font-size: 28px
+      padding: 15px
+      margin-right: -15px
+      margin-top: -15px
+      @include opacity(0.60)
+      &:hover
+        @include opacity(1)
+
+  .modal-footer
+    background-color: transparent
+    margin: 0 14px
+    border-bottom-color: #ccc
+  .modal-footer.linkedin
+    text-align: center
+    .signin-text
+      font-size: 15px
+      padding-bottom: 10px
+  .login-link
+    cursor: pointer
+      
+
+// loading screens for everything but the play view
+.loading-screen
+  .progress
+    width: 50%
+    margin: 0 25%
+  margin-bottom: 20px
+    
+// all loading screens
+.loading-container
+  text-align: center
+  .progress-bar
+    width: 0%
+    transition: width 0.1s ease
+  .errors .alert
+    padding: 5px
+    display: block
+    margin: 10px auto
+    .btn
+      margin-left: 10px
+
+
+.modal
+  overflow-y: auto !important
+  .wait
+    h3
+      text-align: center
+    .progress
+      width: 50%
+      margin: 10px auto
+    .progress-bar
+      width: 100%
+
+table.table
+  background-color: white
+
+//.ui-autocomplete
+//  z-index: $zindexAutocomplete
+  
+.ui-slider
+  border: 1px solid black
+.ui-slider-handle
+  border: 1px solid black !important
+
+// Override jQuery UI widget images that we don't use
+.ui-widget-content, .ui-widget-header, .ui-widget-overlay, .ui-widget-shadow
+  background-image: none
+
+.ui-widget-content, .ui-state-default, .ui-widget-header
+  .ui-state-default, .ui-state-focus, .ui-state-active, .ui-state-highlight, .ui-state-error
+    background-image: none
+
+// DOM highlight pointer arrow
+
+.highlight-pointer
+  position: absolute
+  left: 0
+  top: 0
+  height: 100px
+  opacity: 0.0
+  pointer-events: none
+  z-index: 10
+
+// Fonts
+
+.header-font
+  font-family: $headings-font-family
+  font-variant: small-caps
+
+body[lang='ja']
+  h1, h2, h3, h4, h5, h6
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", 'Open Sans Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif
+    font-variant: small-caps
+    letter-spacing: -1px !important
+
+  .header-font
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", 'Open Sans Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif
+    font-variant: small-caps
+    letter-spacing: -1px !important
+
+  #top-nav
+    .navbar-nav
+      li
+        a.header-font
+          font-size: 16px
+   
+@media only screen and (max-width: 800px)
+  .main-content-area
+    width: 100%
+  .content
+    width: 100%
+    
+  .footer-link-text a
+    font-size: 17px
+    margin-left: 3px
+    margin-right: 3px
+    
+  .share-buttons
+    margin-bottom: 20px
+  .partner-badges
+    display: none
+
+// point the new glyphicons to the fonts in public
+  
+@font-face
+  font-family: 'Glyphicons Halflings'
+  src: url("/fonts/glyphicons-halflings-regular.eot")
+  src: url("/fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("/fonts/glyphicons-halflings-regular.woff") format("woff"), url("/fonts/glyphicons-halflings-regular.ttf") format("truetype"), url("/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular") format("svg")
+
+.spr:after
+  content: " "
+.spl:before
+  content: " "
+
+a[data-toggle="coco-modal"]
+  cursor: pointer
+
+.achievement-corner
+  position: fixed
+  bottom: 0px
+  right: 0px
+  z-index: 1001
+
+kbd
+  padding: 2px 4px
+  font-size: 90%
+  color: #fff
+  background-color: #333
+  border-radius: 3px
+  @include box-shadow(inset 0 -1px 0 rgba(0, 0, 0, .25))
+
+.gem
+  display: inline-block
+  background: transparent url(/images/common/gem.png) no-repeat center
+  background-size: contain
+  width: 80px
+  height: 80px
+  margin: 0px 2px
+
+  &.gem-20
+    width: 20px
+    height: 20px
+
+  &.gem-25
+    width: 25px
+    height: 25px
+
+  &.gem-30
+    width: 30px
+    height: 30px
+
+  &.gem-40
+    width: 40px
+    height: 40px
+
+  &.gem-60
+    width: 60px
+    height: 60px
+
+.popover
+  border-style: solid
+  border-image: url(/images/level/popover_border_background.png) 16 12 fill stretch
+  border-width: 16px 12px
+  .arrow
+    display: none
+  .btn
+    font-size: 20px
+    width: 100%
+
+.btn.btn-illustrated
+  background: 0
+  border: 0
+  border-radius: 0
+  @include box-shadow(none)
+  border-style: solid
+  border-image: url(/images/common/button-background-active-border.png) 14 20 20 20 fill round
+  border-width: 7px 10px 10px 10px
+  padding: 0
+  font-family: $headings-font-family
+  text-transform: uppercase
+  font-weight: bold
+  color: rgb(248, 197, 146)
+
+  &.btn-lg
+    border-width: 14px 20px 20px 20px
+    height: 60px
+    line-height: 34px
+
+  &.btn-primary
+    border-image-source: url(/images/common/button-background-primary-active-border.png)
+  &.btn-success
+    border-image-source: url(/images/common/button-background-success-active-border.png)
+    color: darken(white, 5%)
+  &.btn-warning
+    border-image-source: url(/images/common/button-background-warning-active-border.png)
+    color: darken(white, 5%)
+  &.btn-danger
+    border-image-source: url(/images/common/button-background-danger-active-border.png)
+
+  &:hover
+    color: lighten(rgb(248, 197, 146), 5%)
+    &.btn-success
+      color: white
+    &.btn-warning
+      color: white
+
+  &:active
+    &.btn-lg
+      border-image-source: url(/images/common/button-background-pressed-border.png)
+    &:not(.btn-lg)
+      border-image: url(/images/common/button-background-pressed-border.png) 14 16 16 20 fill round
+      padding: 2px 0 0 2px
+      border-width: 7px 8px 8px 10px
+
+    &.btn-primary
+      border-image-source: url(/images/common/button-background-primary-pressed-border.png)
+    &.btn-success
+      border-image-source: url(/images/common/button-background-success-pressed-border.png)
+    &.btn-warning
+      border-image-source: url(/images/common/button-background-warning-pressed-border.png)
+    &.btn-danger
+      border-image-source: url(/images/common/button-background-danger-pressed-border.png)
+
+  &.disabled, &:disabled
+    border-image: url(/images/common/button-background-disabled-border.png) 14 20 20 20 fill round
+    @include opacity(1)
+
+    &.btn-primary
+      border-image-source: url(/images/common/button-background-primary-disabled-border.png)
+    &.btn-success
+      border-image-source: url(/images/common/button-background-success-inactive-border.png)
+    &.btn-warning
+      border-image-source: url(/images/common/button-background-warning-disabled-border.png)
+    &.btn-danger
+      border-image-source: url(/images/common/button-background-danger-disabled-border.png)
+
+    > *
+      @include opacity(0.5)
+
+  > *
+    @include opacity(0.75)
+
+  &:hover > *
+    @include opacity(1)
+
+
+html.no-borderimage
+  .popover
+    border: 0
+    background: transparent url(/images/level/popover_background.png)
+    background-size: 100% 100%
+    padding: 10px 20px
+
+  .btn.btn-illustrated
+    border: 0
+    background-image: url(/images/common/button-background-active.png)
+    background-size: 100% 100%
+    padding: 7px 10px 10px 10px
+    
+    &.btn-primary
+      background-image: url(/images/common/button-background-primary-active.png)
+    &.btn-success
+      background-image: url(/images/common/button-background-success-active.png)
+    &.btn-warning
+      background-image: url(/images/common/button-background-warning-active.png)
+    &.btn-danger
+      background-image: url(/images/common/button-background-danger-active.png)
+
+    &:active
+      background-image: url(/images/common/button-background-pressed.png)
+      padding: 9px 8px 8px 12px
+      border: 0
+
+      &.btn-primary
+        background-image: url(/images/common/button-background-primary-pressed.png)
+      &.btn-success
+        background-image: url(/images/common/button-background-success-pressed.png)
+      &.btn-warning
+        background-image: url(/images/common/button-background-warning-pressed.png)
+      &.btn-danger
+        background-image: url(/images/common/button-background-danger-pressed.png)
+
+    &.disabled, &:disabled
+      background-image: url(/images/common/button-background-disabled.png)
+
+      &.btn-primary
+        background-image: url(/images/common/button-background-primary-disabled.png)
+      &.btn-success
+        background-image: url(/images/common/button-background-success-inactive.png)
+      &.btn-warning
+        background-image: url(/images/common/button-background-warning-disabled.png)
+      &.btn-danger
+        background-image: url(/images/common/button-background-danger-disabled.png)
+
+
+body > iframe[src^="https://apis.google.com"]
+  display: none
+
+.treema-node input[type='checkbox']
+  @include scale(1.25)
+  width: auto
+  margin: 8px 15px 8px 15px
+
+// TODO: update Bootstrap, remove this
+.text-uppercase
+  text-transform: uppercase
+  
+.text-capitalize
+  text-transform: capitalize
+
+  
+// Made for new victory modal as temp features. TODO: Replace with static art or make general, sprite versions
+.well-parchment
+  border: 2px solid #14110e
+  background: #c2b695
+  color: #282116
+
+.img-prize
+  border: 4px solid #fef9a3
+  padding: 2px
+  background: #693415
+  
+.label-banner
+  border: 2px solid #350f0d
+  background: #e6251c
+  color: white
+  padding: 0.0em 0.6em 0.1em
+
+body.picoctf .picoctf-hide
+  display: none
+
+body:not(.picoctf) .picoctf-show
+  display: none
