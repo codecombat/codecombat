@@ -3140,7 +3140,7 @@
       "optional": true
     },
     "adobe-animate-parser": {
-      "version": "github:codecombat/adobe-animate-parser#2f5bffaed594ddf84686f23210853367a5680ed2",
+      "version": "github:codecombat/adobe-animate-parser#02d6048a15b4adf881e88f023eeb8527a3c7f16e",
       "from": "github:codecombat/adobe-animate-parser#master",
       "requires": {
         "lodash.clone": "^4.5.0",
@@ -4447,12 +4447,6 @@
       "version": "1.13.1",
       "resolved": "https://registry.npmjs.org/binary-extensions/-/binary-extensions-1.13.1.tgz",
       "integrity": "sha512-Un7MIEDdUC5gNpcGDV97op1Ywk748MpHcFTHoYs6qnj1Z3j7I53VG3nwZhKzoBZmbdRNnb6WRdFlwl7tSDuZGw=="
-    },
-    "bindings": {
-      "version": "1.2.1",
-      "resolved": "https://registry.npmjs.org/bindings/-/bindings-1.2.1.tgz",
-      "integrity": "sha1-FK1hE4EtLTfXLme0ystLtyZQXxE=",
-      "optional": true
     },
     "bit-vector": {
       "version": "0.1.6",
@@ -6735,7 +6729,7 @@
     "doctrine": {
       "version": "3.0.0",
       "resolved": "https://registry.npmjs.org/doctrine/-/doctrine-3.0.0.tgz",
-      "integrity": "sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==",
+      "integrity": "sha1-rd6+rXKmV023g2OdyHoSF3OXOWE=",
       "requires": {
         "esutils": "^2.0.2"
       }
@@ -14597,7 +14591,7 @@
     "os-locale": {
       "version": "2.1.0",
       "resolved": "https://registry.npmjs.org/os-locale/-/os-locale-2.1.0.tgz",
-      "integrity": "sha512-3sslG3zJbEYcaC4YVAvDorjGxc7tv6KVATnLPZONiljsUncvihe9BQoVCEs0RZ1kmf4Hk9OBqlZfJZWI4GanKA==",
+      "integrity": "sha1-QrwpAKa1uL0XN2yOiCtlr8zyS/I=",
       "requires": {
         "execa": "^0.7.0",
         "lcid": "^1.0.0",
@@ -21605,24 +21599,6 @@
       "resolved": "https://registry.npmjs.org/websocket-extensions/-/websocket-extensions-0.1.3.tgz",
       "integrity": "sha512-nqHUnMXmBzT0w570r2JpJxfiSD1IzoI+HGVdd3aZ0yNi3ngvQ4jv1dtHt5VGxfI2yj5yqImPhOK4vmIh2xMbGg==",
       "dev": true
-    },
-    "webworker-threads": {
-      "version": "0.6.4",
-      "resolved": "https://registry.npmjs.org/webworker-threads/-/webworker-threads-0.6.4.tgz",
-      "integrity": "sha1-nVkZAsBZcUnLI0e7Cl5gHZj51Gc=",
-      "optional": true,
-      "requires": {
-        "bindings": "1.2.x",
-        "nan": "2.1.x"
-      },
-      "dependencies": {
-        "nan": {
-          "version": "2.1.0",
-          "resolved": "https://registry.npmjs.org/nan/-/nan-2.1.0.tgz",
-          "integrity": "sha1-Agp8ztxj/e6F+Fln1WB4SedKu+g=",
-          "optional": true
-        }
-      }
     },
     "whatwg-fetch": {
       "version": "3.0.0",
