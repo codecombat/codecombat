@@ -249,9 +249,7 @@
     "webpack-livereload-plugin": "https://github.com/codecombat/webpack-livereload-plugin/tarball/master",
     "worker-loader": "^1.1.1"
   },
-  "optionalDependencies": {
-    "webworker-threads": "~0.6.2"
-  },
+  "optionalDependencies": {},
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
