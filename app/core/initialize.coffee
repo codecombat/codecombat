@@ -217,6 +217,7 @@ window.serializeForIOS = serializeForIOS = (obj, depth=3) ->
 window.onbeforeunload = (e) ->
   leavingMessage = _.result(window.currentView, 'onLeaveMessage')
   if leavingMessage
+    # Custom messages don't work any more, main browsers just show generic ones. So, this could be refactored.
     return leavingMessage
   else
     return
