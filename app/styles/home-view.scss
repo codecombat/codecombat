@@ -125,11 +125,16 @@
   @media (max-width: 768px) {
     .tree-art-asset {
       top: 5%;
-      left: -90px;
+      left: -40px;
+      width: 160px;
     }
     .frame-art-asset {
       top: 6%;
-      right: -2%;
+      right: -40px;
+      width: 160px;
+      img {
+        max-height: 100px;
+      }
     }
     #speech-bubble-testimonial-1 {
       margin-bottom: -10%;
@@ -142,6 +147,9 @@
           max-width: 100px;
         }
       }
+      blockquote {
+        font-size: 20px;
+      }
     }
     #speech-bubble-testimonial-2 {
       .crystal-art {
@@ -151,6 +159,9 @@
         img{
           max-width: 100px;
         }
+      }
+      blockquote {
+        font-size: 20px;
       }
     }
     .chris-image {
@@ -181,7 +192,10 @@
       width: 45%;
     }
     #graphics-1 {
-      padding-top: 20px;
+      padding-top: 10px;
+    }
+    .xs-marg-15 {
+      margin: 0 15px;
     }
   }
 
@@ -256,6 +270,12 @@
     padding: 0 70px;
     position: relative;
     z-index: 1;
+  }
+
+  @media screen and (max-width: 768px) {
+    & > section {
+      padding: 0 20px;
+    }
   }
 
   // This lets us have full width sections easily.
@@ -591,6 +611,7 @@
 
       .acodus-transform {
         transform: unset;
+        padding-bottom: 20px;
       }
     }
   }
@@ -598,6 +619,12 @@
   #faq {
     p {
       margin-bottom: 40px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    #core-curriculum-carousel {
+      margin: 0 -20px -40px;
     }
   }
 }
