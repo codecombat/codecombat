@@ -6,13 +6,13 @@ block content
       .item-list
         img(src="/images/ozaria/home/ozaria_logo_sun.png" alt="Ozaria branding logo")
         h1(data-i18n="ozaria_home.subtitle" style="margin-bottom:15px;")
-        h2.subtitle-mid A coding adventure for students and your turnkey solution for teaching Computer Science.
+        h2.subtitle-mid(data-i18n="ozaria_home.heading_subtitle")
         if me.isTeacher()
           a.btn.btn-primary.btn-large.btn-moon(href="/teachers/classes", data-i18n="new_home.go_to_my_classes")
         else if me.isStudent()
           a.btn.btn-primary.btn-large.btn-moon(href="/students", data-i18n="new_home.go_to_my_dashboard")
         else
-          p Try Chapter 1 for Free Today!
+          p(data-i18n="ozaria_home.item_list_p")
           div
             a.btn.btn-primary.btn-large.btn-moon.teacher-btn(data-i18n="ozaria_home.im_an_educator" data-event-action="Click: I'm an Educator")
           div
@@ -25,33 +25,34 @@ block content
     #graphics-1-back
 
     section.section-spacer#engaging
-      h1.heading-corner(style="max-width: 727px; margin-bottom: 60px;") A solution to Engage Students and Support Teachers
+      h1.heading-corner(data-i18n="ozaria_home.engaging_heading_corner" style="max-width: 727px; margin-bottom: 60px;")
 
       .row.flex-row
         .col-sm-7
           img(src="/images/ozaria/home/easy_implementation_graphic.png" class="img-responsive" alt="teacher using Ozaria teacher dashboard")
         .col-sm-4.col-sm-offset-1
-          h2(style="margin-bottom: 20px;") Easy Implementation
-          p Even with no coding experience, you can teach a full Computer Science curriculum with Ozaria. Our ready-to-go lesson plans and intuitive dashboard will provide you with the tools you need to be ready to teach on day one.
+          h2(data-i18n="ozaria_home.engaging_row1_h2" style="margin-bottom: 20px;")
+          p(data-i18n="ozaria_home.engaging_row1_p")
       .row.flex-row(style="padding: 60px 0;")
         .col-sm-7.col-sm-push-5
           img(src="/images/ozaria/home/gifs/gameplay_1.gif" class="img-responsive" loading="lazy" style="border: 10px solid #F7D047;" alt="animation of gameplay. Hero casting illusion mist on an enemy")
         .col-sm-4.col-sm-offset-1.col-sm-pull-7
-          h2(style="margin-bottom: 20px;") Immersive Gameplay
-          p Students are immersed in an adventure game in which their knowledge of Computer Science advances with the storyline. In this engaging learning environment, students build real-world skills through the power of play.
+          h2(data-i18n="ozaria_home.engaging_row2_h2" style="margin-bottom: 20px;")
+          p(data-i18n="ozaria_home.engaging_row2_p")
       .row.flex-row
         .col-sm-7
           img(src="/images/ozaria/home/standards_aligned_graphic.png" class="img-responsive" alt="student doing an encoding schemes puzzle in online classroom")
         .col-sm-4.col-sm-offset-1
-          h2(style="margin-bottom: 20px;") Standards-Aligned Curriculum
-          p Ozaria meets CSTA and ISTE standards, enabling you to teach with confidence as your students master core Computer Science concepts, develop computational thinking skills, and learn about the relevance of Computer Science to their daily lives.
+          h2(data-i18n="ozaria_home.engaging_row3_h2" style="margin-bottom: 20px;")
+          p(data-i18n="ozaria_home.engaging_row3_p")
 
     section.full-width.section-spacer#back_cta_1
-      a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-event-action="Click: Try Chapter 1 CTA 1") Try Chapter 1 for Free
+      a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-i18n="ozaria_home.back_cta_1_a" data-event-action="Click: Try Chapter 1 CTA 1")
 
     section.section-spacer#speech-bubble-testimonial-1(style="padding-top:130px;")
       .row.xs-marg-15
-        blockquote.col-sm-8(style="z-index: 1;") Once again, your team has managed to accomplish the Holy Grail of Edutainment. In my opinion as a 26-year veteran Middle School educator, there is no more engaging resource for teaching coding.
+        blockquote.col-sm-8(style="z-index: 1;")
+          div(data-i18n="ozaria_home.speech_bubble_testimonial_1_blockquote")
           footer
             cite(class="name") Chris Beckwith
             cite(class="position") Technology Instructor, Reeds Brook Middle School
@@ -62,8 +63,8 @@ block content
           img(src="/images/ozaria/home/testimonial_1.png" class="img-responsive" style="z-index: 0;" alt="Headshot of Technology Instructor")
 
     section#core-curriculum
-      h1.heading-corner Core Computer Science Curriculum
-      p(style="margin-bottom: 40px;") We have developed our instructional model based on proven theories and extensive evidence around how students learn best.
+      h1.heading-corner(data-i18n="ozaria_home.core_curriculum_header")
+      p(data-i18n="ozaria_home.core_curriculum_p" style="margin-bottom: 40px;")
 
       .carousel-row
         #core-curriculum-carousel.carousel.slide(data-interval=8000)
@@ -73,36 +74,36 @@ block content
                 .col-sm-7
                   img(src="/images/ozaria/home/carousel/carousel_1.png" class="img-responsive" loading="lazy" alt="Slideshow image with heading text: Algorithms. Beneath heading a picture of baking ingredients and a maze.")
                 .col-sm-5
-                  h2 Make Connections
-                  p At the start of every module, use our turnkey lesson slides to help your students make the connection between new Computer Science concepts and relevant examples from their daily lives.
+                  h2(data-i18n="ozaria_home.core_curriculum_carousel_item1_header")
+                  p(data-i18n="ozaria_home.core_curriculum_carousel_item1_p")
             .item
               .row
                 .col-sm-7
                   img(src="/images/ozaria/home/carousel/carousel_2.png" class="img-responsive" loading="lazy" alt="Example lesson slide. Text says 'Map Design. Use the objects on the map & below to design your own maze.' Image of a blank grassy map with trees and rocks for student to place.")
                 .col-sm-5
-                  h2 Construct Own Meaning
-                  p Next, guide your students in constructing a deeper understanding of new concepts through extension activities that are built into our lesson plans.
+                  h2(data-i18n="ozaria_home.core_curriculum_carousel_item2_header")
+                  p(data-i18n="ozaria_home.core_curriculum_carousel_item2_p")
             .item
               .row
                 .col-sm-7
                   img(src="/images/ozaria/home/carousel/carousel_3.png" class="img-responsive" loading="lazy" alt="Example of cinematic. Close up of Vega character with speech bubble that says 'A sequence of code is what's called an algorithm. It's a bunch of steps that need to be completed in order.'")
                 .col-sm-5
-                  h2 Learn New Concepts
-                  p In the third stage of the learning cycle, your students will learn new concepts through expositional dialogue between characters in the Ozaria story. Voice-over, graphics, and animations make absorbing new information even more accessible and fun.
+                  h2(data-i18n="ozaria_home.core_curriculum_carousel_item3_header")
+                  p(data-i18n="ozaria_home.core_curriculum_carousel_item3_p")
             .item
               .row
                 .col-sm-7
                   img(src="/images/ozaria/home/carousel/carousel_4.png" class="img-responsive" loading="lazy" alt="Screenshot of a practicel level. Level on the left with student's code on the right.")
                 .col-sm-5
-                  h2 Apply New Knowledge
-                  p Next, your students will put what they learned into practice by typing real Python or JavaScript to solve a variety of challenges in scaffolded game levels. Built-in hints help students identify and fix bugs, leading to greater coding confidence.
+                  h2(data-i18n="ozaria_home.core_curriculum_carousel_item4_header")
+                  p(data-i18n="ozaria_home.core_curriculum_carousel_item4_p")
             .item
               .row
                 .col-sm-7
                   img(src="/images/ozaria/home/carousel/carousel_5.png" class="img-responsive" loading="lazy" alt="Screenshot of a capstone level. Story maker capstone where students construct a dialogue between characters.")
                 .col-sm-5
-                  h2 Summative Project
-                  p At the end of each chapter, your students will be challenged to showcase their new skills and express their creativity through summative projects in which they build their own games, stories, and more.
+                  h2(data-i18n="ozaria_home.core_curriculum_carousel_item5_header")
+                  p(data-i18n="ozaria_home.core_curriculum_carousel_item5_p")
 
 
         .control-buttons
@@ -113,11 +114,11 @@ block content
           button.press-evaluate(aria-label="Carousel Evaluate Item")
 
       .row.flex-row.text-center.sm-mt-50(style="padding-top:20px;")
-        a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: View Scope and Sequence" href="https://docs.google.com/spreadsheets/d/1S7qS2zxVccBMVNUQ0Duh6ugyQfhqopGKaSXyhCf-5UA/edit#gid=137569977" target="_blank" rel="noopener") View Scope & Sequence
-        a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: View Sample Lesson Slides" href="https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing" target="_blank" rel="noopener") View Sample Lesson Slides
+        a.btn.btn-primary.btn-large.btn-moon(data-i18n="ozaria_home.core_curriculum_scope_sequence" data-event-action="Click: View Scope and Sequence" href="https://docs.google.com/spreadsheets/d/1S7qS2zxVccBMVNUQ0Duh6ugyQfhqopGKaSXyhCf-5UA/edit#gid=137569977" target="_blank" rel="noopener")
+        a.btn.btn-primary.btn-large.btn-moon(data-i18n="ozaria_home.core_curriculum_sample_lesson_slides" data-event-action="Click: View Sample Lesson Slides" href="https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing" target="_blank" rel="noopener")
 
     section.section-spacer#global-community
-      h1.smaller-38 Join Our Global Community
+      h1.smaller-38(data-i18n="ozaria_home.global_community_header") 
       .row.xs-marg-15
         div(class="tree-art-asset")
           img(src="/images/ozaria/home/tree_art_asset.svg"  style="height: fit-content;" class="img-responsive" alt="Tree Art Asset")
@@ -126,38 +127,38 @@ block content
         .col-xs-12.col-sm-3
           img(src="/images/ozaria/home/global_img_1.svg" class="img-responsive" alt="Graphic of a graduate cap")
           h2 20 Million
-          p Learners
+          p(data-i18n="ozaria_home.global_community_row1_p")
         .col-xs-12.col-sm-3
           img(src="/images/ozaria/home/global_img_2.svg" class="img-responsive" alt="Graphic of computer")
           h2 1 Billion
-          p Lines of Code
+          p(data-i18n="ozaria_home.global_community_row2_p")
         .col-xs-12.col-sm-3
           img(src="/images/ozaria/home/global_img_3.svg" class="img-responsive" alt="Graphic of an apple")
           h2 140,000
-          p Teachers
+          p(data-i18n="ozaria_home.global_community_row3_p")
         .col-xs-12.col-sm-3
           img(src="/images/ozaria/home/global_img_4.svg" class="img-responsive" alt="Graphic of the earth")
           h2 190
-          p Countries
+          p(data-i18n="ozaria_home.global_community_row4_p")
 
     section#admin-dashboard
-      h1.heading-corner Comprehensive Teacher & Admin Dashboards
-      p Designed with feedback from our community of over 140,000 educators, Ozaria addresses the challenges of teaching Computer Science by providing tools and resources that work.
+      h1.heading-corner(data-i18n="ozaria_home.admin_dashboard_header")
+      p(data-i18n="ozaria_home.admin_dashboard_p")
 
       .row.flex-row
         .col-sm-7
           img(src="/images/ozaria/home/gifs/curriculum_guide.gif" class="img-responsive" loading="lazy" style="border: 10px solid #476FB1;" alt="Screen capture of teacher dashboard curriculum guide. Shows levels, lessons slides, project rubric and chapters.")
         .col-sm-4
-          p.color-change The intuitive Teacher Dashboard provides access to student-facing lesson plans, pacing guides, distance learning strategies, and other resources to support your needs.
+          p.color-change(data-i18n="ozaria_home.admin_dashboard_row1_p")
 
       .row.flex-row
         .col-sm-7.col-sm-push-5
           img(src="/images/ozaria/home/gifs/track_progress.gif" class="img-responsive" loading="lazy" style="border: 10px solid #F7D047;" alt="Screen capture of classroom track progress table. Teacher is clicking on student's progress and seeing their solutions.")
         .col-sm-4.col-sm-pull-6
-          p The Track Progress page allows you to monitor student progress on an ongoing basis, get valuable information on their performance, and immediately identify whether interventions are needed.
+          p(data-i18n="ozaria_home.admin_dashboard_row2_p")
 
       .row.flex-row.text-center(style="width: 100%;")
-        a.btn.btn-primary.btn-large.btn-moon.request-quote(data-event-action="Click: Request a Quote") Request a Quote
+        a.btn.btn-primary.btn-large.btn-moon.request-quote(data-i18n="ozaria_home.admin_dashboard_row3_a" data-event-action="Click: Request a Quote")
 
     section#acodus-awards
       .row
@@ -174,12 +175,13 @@ block content
             .col-md-4
               img(src="/images/ozaria/home/award_3.png" class="img-responsive" alt="Member CS for All consortium")
       .row.flex-row(style="margin: 85px 0 130px;")
-        a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-event-action="Click: Try Chapter 1 CTA 2") Try Chapter 1 for Free
+        a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-i18n="ozaria_home.acodus_awards_a" data-event-action="Click: Try Chapter 1 CTA 2")
 
 
     section#speech-bubble-testimonial-2
       .row.xs-marg-15
-        blockquote.col-sm-8.col-sm-offset-4 It’s the most accessible programming site I’ve seen as of yet. I appreciate the story that goes with Ozaria, as it aligns with a mission my students can empathize with. Frankly, I love it. In fact, I found myself playing for far longer than I wish to admit last weekend!
+        blockquote.col-sm-8.col-sm-offset-4
+          div(data-i18n="ozaria_home.speech_bubble_testimonial_2_blockquote")
           footer
             cite(class="name") Alecia Nachtigal
             cite(class="position") Educator, Victoria School for Ideal Education
@@ -190,40 +192,40 @@ block content
           img(src="/images/ozaria/home/crystal-art.png" class="img-responsive" loading="lazy")          
 
     section
-      h1.heading-corner Shareable Resources
-      p Share the resources below with teachers, administrators, and others involved in bringing Computer Science to your school or expanding offerings already in place.
+      h1.heading-corner(data-i18n="ozaria_home.shareable_resources_header")
+      p(data-i18n="ozaria_home.shareable_resources_p")
 
       img(src="/images/ozaria/home/shareable_resource.png" class="img-responsive" loading="lazy" alt="Slide with following text. What is Ozaria? Flexible and personalized core computer science curriculum. Teaches authentic text-based coding in Python and Javascript. Highly engaging game-based learning. Self-paced and scaffolded instruction. Real world project-based applications. Promotes 21st Century Skills and lifelong learning behaviors.")
       .row.flex-row.text-center(style="justify-content: center; margin: 70px 0 100px;")
         a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Presentation" style="margin: 20px;" href="https://docs.google.com/presentation/d/1ezuQZJMvb7IUHxvrYgihIbcTsbyhyKac8FgS30rVd_k/copy" target="_blank" rel="noopener") Download Presentation
-        a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Flyer" style="margin: 20px;" href="https://drive.google.com/file/d/1T_UNIAN7v3gMJzOyyYAdbBoRTea1wkRp/view" target="_blank" rel="noopener") Download Flyer
+        a.btn.btn-primary.btn-large.btn-moon(data-i18n="ozaria_home.shareable_resources_a" data-event-action="Click: Download Flyer" style="margin: 20px;" href="https://drive.google.com/file/d/1T_UNIAN7v3gMJzOyyYAdbBoRTea1wkRp/view" target="_blank" rel="noopener")
 
     section.full-width#back_cta_2
-      a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-event-action="Click: Try Chapter 1 CTA 3") Try Chapter 1 for Free
+      a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-i18n="ozaria_home.back_cta_2_a" data-event-action="Click: Try Chapter 1 CTA 3")
 
     section#faq(style="padding-top: 130px;")
-      h1.heading-corner(style="margin-bottom: 60px;") Frequently Asked Questions
+      h1.heading-corner(data-i18n="ozaria_home.faq_header" style="margin-bottom: 60px;")
       .row
         .col-sm-6
-          h2 How is Ozaria related to CodeCombat?
-          p Ozaria is the classroom-centered evolution of CodeCombat, one of the most popular coding games in history. We built Ozaria based off the insights gained from teaching over 20 million learners Python and JavaScript. Ozaria incorporates new pedagogical models, an immersive story-driven narrative, and was designed to be implemented in classrooms, for both in-person and remote learning settings.
+          h2(data-i18n="ozaria_home.faq_row1_header")
+          p(data-i18n="ozaria_home.faq_row1_p")
         .col-sm-6
-          h2 What ages or grades are appropriate for Ozaria?
-          p Ozaria is aligned to the CSTA and ISTE middle school CS standards, but has been practiced and enjoyed by students ranging from upper elementary through high school.
+          h2(data-i18n="ozaria_home.faq_row2_header")
+          p(data-i18n="ozaria_home.faq_row2_p")
         .col-sm-6
-          h2 How much does it cost to access all of the available units and resources?
+          h2(data-i18n="ozaria_home.faq_row3_header")
           p
-            | We customize solutions for schools and districts and work with you to understand your use case, context, and budget.&nbsp;
+            span(data-i18n="ozaria_home.faq_row3_p_part1")
             a.contact-us(data-i18n="general.contact_us")
-            | &nbsp;for further details!
+            span(data-i18n="ozaria_home.faq_row3_p_part2")
         .col-sm-6
-          h2 Does Ozaria have project-based learning?
-          p Yes. Ozaria incorporates shareable Capstone Projects at the end of each Chapter, where students create their own games. These projects serve as summative assessments and are great ways for students to express themselves and demonstrate their learnings to classmates, friends, and family.
+          h2(data-i18n="ozaria_home.faq_row4_header")
+          p(data-i18n="ozaria_home.faq_row4_p")
         .col-sm-6
-          h2 Can I use Ozaria as my class’s main curriculum?
-          p Absolutely! Ozaria has everything you need to run a full Computer Science class, even if you don't have a Computer Science background. From lesson plans and solution guides to project rubrics and built-in standards alignment, it's all here.
+          h2(data-i18n="ozaria_home.faq_row5_header")
+          p(data-i18n="ozaria_home.faq_row5_p")
       .row.text-center(style="margin: 60px 0 100px;")
         p
-          | If you have any other questions, please&nbsp;
+          span(data-i18n="ozaria_home.faq_row6_p_part1")
           a.contact-us(data-i18n="general.contact_us")
           | .
