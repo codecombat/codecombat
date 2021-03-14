@@ -721,7 +721,7 @@ export default {
     height: 20vw;
     min-height: 100px;
     max-height: 350px;
-    transform: scaleX(-1);
+    transform: scaleX(1);
   }
 
   @media screen and (max-width: 1000px) {
