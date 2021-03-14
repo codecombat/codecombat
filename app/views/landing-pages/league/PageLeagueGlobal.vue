@@ -716,20 +716,6 @@ export default {
     }
   }
 
-  .custom-esports-image-2 {
-    float: right;
-    height: 20vw;
-    min-height: 100px;
-    max-height: 350px;
-    transform: scaleX(1);
-  }
-
-  @media screen and (max-width: 1000px) {
-    .custom-esports-image-2 {
-      display: none
-    }
-  }
-
   // Most sections have a max width and are centered.
   section, & > div {
     max-width: 1820px;
@@ -764,6 +750,20 @@ export default {
     input {
       width: 100%;
       margin-bottom: 26px;
+    }
+
+    .custom-esports-image-2 {
+      float: right;
+      height: 20vw;
+      min-height: 100px;
+      max-height: 350px;
+      transform: scaleX(1);
+    }
+
+    @media screen and (max-width: 1000px) {
+      .custom-esports-image-2 {
+        display: none
+      }
     }
   }
 
