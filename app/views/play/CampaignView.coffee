@@ -1007,7 +1007,7 @@ module.exports = class CampaignView extends RootView
     level = _.find _.values(@getLevels()), slug: levelSlug
 
     if me.showChinaResourceInfo()
-      freeAccessLevels =  ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'cell-commentary', 'true-names']
+      freeAccessLevels =  ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'cell-commentary', 'true-names', 'kounter-kithwise', 'crawlways-of-kithgard', 'forgetful-gemsmith', 'illusory-interruption', 'favorable-odds', 'the-raised-sword', 'careful-steps', 'long-steps']
     else
       freeAccessLevels =  ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'cell-commentary', 'kithgard-librarian', 'the-prisoner', 'fire-dancing', 'haunted-kithmaze', 'signs-and-portents', 'true-names']
 
