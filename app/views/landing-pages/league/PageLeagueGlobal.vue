@@ -369,8 +369,10 @@ export default {
         <img :class="customEsportsImageClass" :src="currentSelectedClanEsportsImage">
       </div>
       <div class="col-sm-7">
+        <img v-if="currentSelectedClanName === 'Team DerBezt'" class="custom-esports-image-2" alt="" src="/file/db/thang.type/6037ed81ad0ac000f5e9f0b5/armando-pose.png">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
+        <p v-if="currentSelectedClanName === 'Team DerBezt'">Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.</p>
         <p>{{showJoinTeamBtn ? 'Invite players to this team by sending them this link:': 'Share this team leaderboard with its public link:'}}</p>
         <input readonly :value="clanInviteLink()" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
@@ -708,7 +710,7 @@ export default {
   @media screen and (max-width: 767px) {
     .esports-header .ai-league-logo {
       position: relative;
-      top: 170px;
+      top: 120px;
       left: calc(50% - 10vw);
       width: 20vw;
     }
@@ -748,6 +750,20 @@ export default {
     input {
       width: 100%;
       margin-bottom: 26px;
+    }
+
+    .custom-esports-image-2 {
+      float: right;
+      height: 20vw;
+      min-height: 100px;
+      max-height: 350px;
+      transform: scaleX(1);
+    }
+
+    @media screen and (max-width: 1000px) {
+      .custom-esports-image-2 {
+        display: none
+      }
     }
   }
 
