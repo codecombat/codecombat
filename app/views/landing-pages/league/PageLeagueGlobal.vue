@@ -710,7 +710,7 @@ export default {
   @media screen and (max-width: 767px) {
     .esports-header .ai-league-logo {
       position: relative;
-      top: 120px;
+      top: 90px;
       left: calc(50% - 10vw);
       width: 20vw;
     }
