@@ -99,10 +99,6 @@ module.exports = class LevelEditView extends RootView
   getMeta: ->
     title: 'Level Editor'
 
-  onLeaveMessage: ->
-    if @level.hasLocalChanges() and me.isAdmin()
-      return 'Leave without reverting changes? Your presence will remain for 24 hours.'
-
   destroy: ->
     # Currently only check presence on the level.
     # TODO: Should this system also handle other models with local backups: 'LevelComponent', 'LevelSystem', 'ThangType'

@@ -154,10 +154,10 @@ module.exports.thangNames = thangNames =
   'Raven Pet': ['Nevermore']
   'Cougar Pet': ['Kitty']
   'Frog Pet': ['Hypnotoad']
-  'Griffin Pet': ['']
-  'Pugicorn Pet': ['']
+  'Baby Griffin Pet': ['Griffin']
+  'Pugicorn Pet': ['Peggy']
   'Polar Bear Pet': ['Klondike']
-  'Wolf Pet': ['']
+  'Wolf Pup Pet': ['Wolf']
   'Horse': [
     # Animal
     'Abby'

@@ -16,8 +16,6 @@ SubscribeModal = require 'views/core/SubscribeModal'
 LeaderboardModal = require 'views/play/modal/LeaderboardModal'
 Level = require 'models/Level'
 utils = require 'core/utils'
-require 'three'
-ParticleMan = require 'core/ParticleMan'
 ShareProgressModal = require 'views/play/modal/ShareProgressModal'
 UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
@@ -310,7 +308,6 @@ module.exports = class CampaignView extends RootView
       createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()
     @musicPlayer?.destroy()
     clearTimeout @playMusicTimeout
-    @particleMan?.destroy()
     clearInterval @portalScrollInterval
     super()
 
@@ -621,7 +618,6 @@ module.exports = class CampaignView extends RootView
           @$el.find('button.promotion-menu-icon').addClass('highlighted').tooltip 'show'
           storage.save "pointed-out-promotion", timesPointedOutPromotion + 1
     @applyCampaignStyles()
-    @testParticles()
 
   onShiftS: (e) ->
     @generateCompletionRates() if @editorMode
@@ -892,26 +888,6 @@ module.exports = class CampaignView extends RootView
         @$el.find(".#{pos}-gradient").css 'background-image', "linear-gradient(to #{pos}, #{backgroundColorTransparent} 0%, #{backgroundColor} 100%)"
     @playAmbientSound()
 
-  testParticles: ->
-    return unless @campaign?.loaded and $.browser.chrome  # Sometimes this breaks in non-Chrome browsers, according to A/B tests.
-    return if @campaign.get('type') is 'hoc'
-    @particleMan ?= new ParticleMan()
-    @particleMan.removeEmitters()
-    @particleMan.attach @$el.find('.map')
-    for level in @campaign.renderedLevels ? {}
-      continue if level.hidden and (@campaign.levelIsPractice(level) or @campaign.levelIsAssessment(level) or not level.unlockedInSameCampaign)
-      terrain = @terrain.replace('-branching-test', '').replace(/(campaign-)?(game|web)-dev-\d/, 'forest').replace(/(intro|game-dev-hoc)/, 'dungeon')
-      particleKey = ['level', terrain]
-      particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])  # Would use isType, but it's not a Level model
-      particleKey.push 'replayable' if level.replayable
-      particleKey.push 'premium' if level.requiresSubscription
-      particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate']
-      particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
-      #particleKey.push 'item' if level.slug is 'robot-ragnarok'  # TODO: generalize
-      continue if particleKey.length is 2  # Don't show basic levels
-      continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'ladder', 'replayable']).length
-      @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
-
   onMouseEnterPortals: (e) ->
     return unless @campaigns?.loaded and @sessions?.loaded
     @portalScrollInterval = setInterval @onMouseMovePortals, 100
@@ -1105,7 +1081,6 @@ module.exports = class CampaignView extends RootView
     resultingMarginX = (pageWidth - resultingWidth) / 2
     resultingMarginY = (pageHeight - resultingHeight) / 2
     @$el.find('.map').css(width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY)
-    @testParticles() if @particleMan
 
   playAmbientSound: ->
     return unless me.get 'volume'
@@ -1220,6 +1195,7 @@ module.exports = class CampaignView extends RootView
       return @promptForSubscription campaignSlug, 'premium campaign switch clicked'
 
   loadUserPollsRecord: ->
+    return if storage.load 'ignored-poll'
     url = "/db/user.polls.record/-/user/#{me.id}"
     @userPollsRecord = new UserPollsRecord().setURL url
     onRecordSync = ->
@@ -1242,7 +1218,8 @@ module.exports = class CampaignView extends RootView
       return if @destroyed
       tempLoadingPoll.url = -> '/db/poll/' + @id
       @poll = tempLoadingPoll
-      _.delay (=> @activatePoll?(forceShowPoll)), 1000
+      delay = if forceShowPoll then 1000 else 5000  # Wait a little bit before showing the poll
+      _.delay (=> @activatePoll?(forceShowPoll)), delay
     onPollError = (poll, response, request) ->
       if response.status is 404
         console.log 'There are no more polls left.'
@@ -1263,6 +1240,11 @@ module.exports = class CampaignView extends RootView
       @showPoll()
     else
       $pollButton.tooltip 'show'
+      _.delay (=>
+        $pollButton?.tooltip 'hide'
+        unless @destroyed
+          storage.save 'ignored-poll', true, 5  #  Don't show again in next N minutes
+      ), 20000  # Don't leave the poll open forever
 
   showPoll: ->
     return false unless @shouldShow 'poll'

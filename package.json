@@ -159,7 +159,6 @@
     "stripe": "~2.9.0",
     "style-loader": "^0.13.1",
     "swagger-ui-express": "^1.0.0",
-    "three": "^0.71.0",
     "tmpl": "github:codecombat/JavaScript-Templates#remove-load",
     "treema": "git+https://github.com/codecombat/treema.git",
     "tv4": "~1.0.16",
@@ -249,9 +248,7 @@
     "webpack-livereload-plugin": "https://github.com/codecombat/webpack-livereload-plugin/tarball/master",
     "worker-loader": "^1.1.1"
   },
-  "optionalDependencies": {
-    "webworker-threads": "~0.6.2"
-  },
+  "optionalDependencies": {},
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
