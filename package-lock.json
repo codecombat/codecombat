@@ -19313,11 +19313,6 @@
       "resolved": "https://registry.npmjs.org/text-table/-/text-table-0.2.0.tgz",
       "integrity": "sha1-f17oI66AUgfACvLfSoTsP8+lcLQ="
     },
-    "three": {
-      "version": "0.71.1",
-      "resolved": "https://registry.npmjs.org/three/-/three-0.71.1.tgz",
-      "integrity": "sha1-kBDH0qt/8zACFuX/ILKubdQD/Xs="
-    },
     "through": {
       "version": "2.3.8",
       "resolved": "https://registry.npmjs.org/through/-/through-2.3.8.tgz",
