@@ -935,6 +935,7 @@ export default {
   .two-pixel-star img{
     position: absolute;
     bottom: -200px;
+    width: 25%;
   }
   .two-pixel-star, .three-shooting-star, .four-shooting-star {
     width: 100%;
@@ -1029,12 +1030,18 @@ export default {
       background-position: center bottom;
       padding-bottom: 350px;
     }
-    .two-pixel-star {
-      left: 0px;
-      bottom: -150px;
+    .two-pixel-star img{
+      width: 50%;
+      bottom: -100px;
     }
-    #features .three-shooting-star img{
+    #features .three-shooting-star img {
+      top: -125px;
+      width: 100%;
+      max-height: 100%;
+    }
+    .four-shooting-star img {
       top: -150px;
+      width: 100%;
     }
   }
 
