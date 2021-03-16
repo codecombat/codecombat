@@ -108,6 +108,18 @@
         color: #FFFFFF
         text-decoration: underline
 
+      .top-banner-img
+        position: absolute
+        height: 120px
+        left: -20px
+        transform: scaleX(-1)
+
+        @media (max-width: 768px)
+          display: none
+
+        @media (max-width: 1100px)
+          left: 0px
+
     #jumbotron-container-fluid
       background-image: url("/images/pages/home/jumbotron.png")
       background-size: cover

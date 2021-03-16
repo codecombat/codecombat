@@ -43,6 +43,8 @@ mixin price(name, p)
                li(data-i18n="subscribe.feature_level_access")
                li(data-i18n="subscribe.feature_heroes")
                li(data-i18n="subscribe.feature_learn")
+               if view.basicProduct
+                 li(data-i18n="subscribe.feature_gems", data-i18n-options={gems: view.basicProduct.get('gems')})
 
          hr
 
