@@ -44,7 +44,7 @@ export default Vue.extend({
           <div class="ozaria-encourage-container">
             <img class="oz-logo" alt="Ozaria logo" src="/images/pages/home/logo_ozaria.png"/>
             <OzariaCTA />
-            <a class="primary-oz-button" href="https://www.ozaria.com/sign-up/educator">
+            <a class="primary-oz-button" href="https://www.aojiarui.com/sign-up/educator">
               {{ $t('new_home.try_ozaria') }}
             </a>
           </div>
