@@ -414,7 +414,7 @@ export default {
         <h1 style="margin-bottom: 20px;"><span class="esports-pink">Free </span><span class="esports-aqua">to </span><span class="esports-green">get </span><span class="esports-purple">started</span></h1>
         <ul style="list-style-type: none; padding: 0;">
           <li><span class="bullet-point" style="background-color: #bcff16;"/>Access competitive multiplayer arenas, leaderboard, and global coding championships</li>
-          <li><span class="bullet-point" style="background-color: #30EFD3;"/>Earn points for completing practice levels and competing in head-to-head matches</li>
+          <li><span class="bullet-point shooting-star" style="background-color: #30EFD3;"/>Earn points for completing practice levels and competing in head-to-head matches</li>
           <li><span class="bullet-point" style="background-color: #FF39A6;"/>Join competitive coding teams with friends, family, or classmates</li>
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>Showcase your coding skills and take home great prizes</li>
         </ul>
@@ -436,6 +436,9 @@ export default {
       </div>
       <div class="col-sm-5">
         <img class="img-responsive w-100" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
+      </div>
+      <div class="two-pixel-star">
+        <img class="img-responsive" src="/images/pages/league/two_pixel_star.png">
       </div>
     </div>
 
@@ -587,6 +590,9 @@ export default {
     </div>
 
     <div id="features" class="row section-space">
+      <div class="three-shooting-star">
+        <img class="img-responsive three-shooting-star" src="/images/pages/league/three_shooting_star.png">
+      </div>
       <h1 class="text-center esports-goldenlight" style='margin-bottom: 35px;'>Features</h1>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_competition.svg" class="img-responsive" /></div>
@@ -611,6 +617,9 @@ export default {
     </div>
 
     <div class="row esports-flyer-optimized-section">
+      <div class="four-shooting-star">
+        <img class="img-responsive four-shooting-star" src="/images/pages/league/four_shooting_star.png">
+      </div>
       <div class="col-sm-8">
         <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
         <p class="subheader2" style="margin-bottom: 50px;">Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested.</p>
@@ -839,10 +848,12 @@ export default {
   }
 
   section.free-to-get-start {
-    padding-bottom: 180px;
+    padding-bottom: 250px;
   }
   section.free-to-get-start-bg {
     background: url(/images/pages/league/graphic_1.png) right 100% / 35% no-repeat;
+    background-size: 65%;
+    background-position: right bottom;
   }
   .text-dont-just-play-code img{
     max-width: 410px;
@@ -903,6 +914,44 @@ export default {
     font-size: 26px;
     line-height: 32px;
     margin-bottom: 70px;
+  }
+
+  .shooting-star {
+    position: relative;
+  }
+  .shooting-star::after {
+    content: "";
+    background-image: url(/images/pages/league/bullet_shooting_star.png);
+    display: block;
+    width: 214px;
+    height: 200px;
+    position: absolute;
+    bottom: 0px;
+    left: -203px;
+    background-size: 55%;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+  }
+  .two-pixel-star img{
+    position: absolute;
+    bottom: -200px;
+  }
+  .two-pixel-star, .three-shooting-star, .four-shooting-star {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  #features .three-shooting-star img{
+    position: absolute;
+    width: 72%;
+    max-height: 72%;
+    top: -250px;
+  }
+
+  .four-shooting-star img {
+    position: absolute;
+    top: -300px;
+    width: 72%;
   }
 
   @media screen and (min-width: 768px) {
@@ -974,6 +1023,18 @@ export default {
     }
     .xs-pb-20 {
       padding-bottom: 20px;
+    }
+    section.free-to-get-start-bg {
+      background-size: 100%;
+      background-position: center bottom;
+      padding-bottom: 350px;
+    }
+    .two-pixel-star {
+      left: 0px;
+      bottom: -150px;
+    }
+    #features .three-shooting-star img{
+      top: -150px;
     }
   }
 
