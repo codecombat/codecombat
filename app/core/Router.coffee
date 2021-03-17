@@ -298,6 +298,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('courses/RestrictedToStudentsView')
     leavingMessage = _.result(window.currentView, 'onLeaveMessage')
     if leavingMessage
+      # Custom messages don't work any more, main browsers just show generic ones. So, this could be refactored.
       if not confirm(leavingMessage)
         return @navigate(this.path, {replace: true})
       else

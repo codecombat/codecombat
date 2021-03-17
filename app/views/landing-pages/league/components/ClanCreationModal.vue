@@ -21,7 +21,7 @@
 
     mounted () {
       if (this.clan !== null) {
-        this.name = this.clan.name
+        this.name = this.clan.displayName || this.clan.name
         this.description = this.clan.description
         this.isPublic = this.clan.type === undefined ? true : this.clan.type === 'public'
       }
@@ -60,6 +60,7 @@
           clan.set('type', this.isPublic ? 'public' : 'private')
           clan.set('name', this.name)
           clan.set('description', this.description)
+          clan.set('displayName', this.name)
           // Assume this will fail if the clan name exists
           const savedClan = await clan.save({})
 
@@ -77,16 +78,15 @@
 
       async updateClan () {
         try {
-          const clan = new Clan({ _id: this.clan._id })
-          clan.set('type', this.isPublic ? 'public' : 'private')
-          clan.set('name', this.name)
+          const clan = new Clan(this.clan)
+          // TODO: Cannot edit privacy from client side
+          // clan.set('type', this.isPublic ? 'public' : 'private')
+          clan.set('displayName', this.name)
           clan.set('description', this.description)
 
-          // NOTE: May not not need to set these. Would prefer to move these to Vuex:
-          clan.set('ownerID', this.clan.ownerID)
-          clan.set('dashboardType', this.clan.dashboardType)
           await clan.save({})
           this.$emit('close')
+          document.location.reload()
         } catch (e) {
           if (e.errorName === 'Conflict' || e.code === 409) {
             noty({ type: 'error', text: 'Team name already exists', timeout: 3000 })
@@ -114,7 +114,7 @@
         <textarea id="input-description" type="text" rows=2 v-model="description" />
       </div>
 
-      <div>
+      <div v-if="!clan">
         <label for="input-is-public">Public:</label>
         <input id="input-is-public" type="checkbox" v-model="isPublic" />
       </div>

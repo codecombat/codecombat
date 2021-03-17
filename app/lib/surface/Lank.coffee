@@ -762,7 +762,7 @@ module.exports = Lank = class Lank extends CocoClass
   playSound: (sound, withDelay=true, volume=1.0) ->
     if _.isString sound
       soundTriggers = utils.i18n @thangType.attributes, 'soundTriggers'
-      sound = soundTriggers?[sound]
+      sound = soundTriggers?[sound] or @thangType.get('soundTriggers')?[sound]  # Check localized triggers first, then root sound triggers in case of incomplete localization
     if _.isArray sound
       sound = sound[Math.floor Math.random() * sound.length]
     return null unless sound
