@@ -373,11 +373,11 @@ export default {
         <clan-selector v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" style="margin-bottom: 40px;"/>
         <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
+      <img class="ai-league-logo" src="/images/pages/league/logo_badge.png">
       <div class="hero-rotation fade-in">
         <img class="img-responsive" src="/images/pages/league/hero_background_pink.png" />
         <img class="rotating-esports-header img-responsive" src="/images/pages/league/hero_okar.png" />
       </div>
-      <img class="ai-league-logo" src="/images/pages/league/logo_badge.png">
     </section>
 
     <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
@@ -910,10 +910,12 @@ export default {
     max-width: 510px;
   }
   .hero-rotation {
-    width: 100%;
     display: flex;
     justify-content: flex-end;
     position:absolute;
+    top: 0px;
+    width: 65%;
+    right: 0px;
     img{
       position: absolute;
     }
@@ -985,6 +987,7 @@ export default {
     .esports-header{
       background-position: bottom;
       min-height: 360px;
+      margin-bottom: 50%;
     }
 
     .leaderboard-component {
@@ -1012,6 +1015,11 @@ export default {
     }
     .xs-pb-20 {
       padding-bottom: 20px;
+    }
+    .hero-rotation {
+      position: relative;
+      width: 100%;
+      margin-top: 150px;
     }
   }
 
