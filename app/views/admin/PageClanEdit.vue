@@ -1,19 +1,11 @@
 <script>
-import { getClan } from 'core/api/clans'
 import CocoCollection from 'app/collections/CocoCollection'
+import { getClan } from 'core/api/clans'
 import Clan from 'app/models/Clan'
-
 const api = require('core/api')
 require('lib/setupTreema')
 
 export default {
-  props: {
-    clanId: {
-      type: String,
-      required: true
-    }
-  },
-
   data: () => ({
     clan: null,
     treema: null
@@ -24,7 +16,7 @@ export default {
         alert('You must be logged in as an admin to use this page.')
         return application.router.navigate('/', { trigger: true })
       }
-      this.clan = await getClan(this.clanId)
+      this.clan = await getClan(this.$route.params.clanId)
     
       const data = $.extend(true, {}, this.clan)
       const el = $(`<div></div>`)
@@ -65,6 +57,8 @@ export default {
 <template>
   <div>
     <h1>Internal Admin Team/Clan edit tool</h1>
+
+    <p>Search for school and district <a href="/admin/clan">clans here.</a></p>
     <div v-if="clan !== null">
       <p>This internal tool lets admin and internal accounts customize teams.
         For engineers - 'team' refers to a 'clan' in the code and database.
@@ -79,6 +73,11 @@ export default {
 
       <p><a :href="`/league/${clan.slug}`">Esports page</a></p>
       <p><a :href="`/clan/${clan.slug}`">Legacy clan page</a></p>
+
+      <h2>Clan Stats</h2>
+      <ul>
+        <li>{{(clan.members || []).length}} members</li>
+      </ul>
 
       <div
             v-once
