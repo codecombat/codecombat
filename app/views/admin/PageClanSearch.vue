@@ -1,10 +1,10 @@
 <script>
-import { getClan, getClanBySchool, getClanByDistrict } from 'core/api/clans'
+import { getClanBySchool, getClanByDistrict } from 'core/api/clans'
 import Clan from 'app/models/Clan'
 const algolia = require('core/services/algolia')
 
 export default {
-  data: (() => {
+  data:() => ({
     foundClans: []
   }),
   mounted() {
