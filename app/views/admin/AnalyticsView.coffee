@@ -126,14 +126,19 @@ module.exports = class AnalyticsView extends RootView
       method: 'GET'
       success: (data) =>
 
-        revenueGroupFromPayment = (payment) ->
+        revenueGroupFromPayment = (payment, price) ->
           product = payment.productID or payment.service
+          lifetimeToAnnualChange = '2020-11-09'
           if payment.productID is 'lifetime_subscription'
             product = "usa lifetime"
           else if /_lifetime_subscription/.test(payment.productID)
             product = "intl lifetime"
+          else if (payment.productID is 'basic_subscription' or not payment.productID) and price is 9900 and payment.created > lifetimeToAnnualChange
+            product = "usa annual"
           else if payment.productID is 'basic_subscription'
             product = "usa monthly"
+          else if (/_basic_subscription/.test(payment.productID) or not payment.productID) and (price in [3960, 3999]) and payment.created > lifetimeToAnnualChange
+            product = "intl annual"
           else if /_basic_subscription/.test(payment.productID)
             product = "intl monthly"
           else if /gems/.test(payment.productID)
@@ -149,13 +154,19 @@ module.exports = class AnalyticsView extends RootView
           else if payment.service is 'stripe' && (price is 999 || price is 799)
             product = "usa monthly"
           else if price is 9900 || price >= 5999 && payment.gems is 42000
-            product = "usa lifetime"
+            if payment.created > lifetimeToAnnualChange
+              product = "usa annual"
+            else
+              product = "usa lifetime"
           else if price is 0
             product = "free"
           else if payment.service is 'stripe' && price is 599 && payment.gems is 3500
             product = 'intl monthly'
           else if payment.service is 'paypal' && payment.gems is 42000 && price < 5999
-            product = "intl lifetime"
+            if payment.created > lifetimeToAnnualChange
+              product = "intl annual"
+            else
+              product = "intl lifetime"
           else if payment.service is 'paypal' && payment.gems is 10500 && price is 2997
             product = "usa monthly"
 
@@ -164,7 +175,7 @@ module.exports = class AnalyticsView extends RootView
 
           product = 'gems' if product is 'ios'
           # product = 'usa lifetime' if product is 'stripe'
-          product = 'unknown' if product in ['external', 'bitcoin', 'iem', 'paypal']
+          product = 'unknown' if product in ['external', 'bitcoin', 'iem', 'paypal', 'stripe']
 
           return product
 
@@ -181,7 +192,7 @@ module.exports = class AnalyticsView extends RootView
           price = parseInt(payment.amount)
           dayGroupCountMap[day] ?= {'DRR Total': 0}
           dayGroupCountMap[day]['DRR Total'] ?= 0
-          group = revenueGroupFromPayment(payment)
+          group = revenueGroupFromPayment(payment, price)
           continue if group in ['free', 'classroom', 'unknown']
           group = 'DRR ' + group
           groupMap[group] = true
@@ -207,9 +218,14 @@ module.exports = class AnalyticsView extends RootView
               if dayGroupCountMap[day][group]
                 serviceCarryForwardMap[group].push({remaining: lifetimeDaySplit, value: (dayGroupCountMap[day][group] ? 0) / lifetimeDurationMonths})
               data.groups.push(0)
+            else if group in ['DRR intl annual', 'DRR usa annual']
+              serviceCarryForwardMap[group] ?= []
+              if dayGroupCountMap[day][group]
+                serviceCarryForwardMap[group].push({remaining: 12 * 30, value: (dayGroupCountMap[day][group] ? 0) / 12})
+              data.groups.push(0)
             else if group is 'DRR Total'
-              # Add total, minus deferred lifetime values for this day
-              data.groups.push((dayGroupCountMap[day][group] ? 0) - (dayGroupCountMap[day]['DRR intl lifetime'] ? 0) - (dayGroupCountMap[day]['DRR usa lifetime'] ? 0))
+              # Add total, minus deferred lifetime/annual values for this day
+              data.groups.push((dayGroupCountMap[day][group] ? 0) - (dayGroupCountMap[day]['DRR intl lifetime'] ? 0) - (dayGroupCountMap[day]['DRR usa lifetime'] ? 0) - (dayGroupCountMap[day]['DRR intl annual'] ? 0) - (dayGroupCountMap[day]['DRR usa annual'] ? 0))
             else
               data.groups.push(dayGroupCountMap[day][group] ? 0)
 
@@ -260,7 +276,7 @@ module.exports = class AnalyticsView extends RootView
               @monthMrrMap[month].gems += revenue.groups[i]
             else if group in ['DRR usa monthly', 'DRR intl monthly']
               @monthMrrMap[month].monthly += revenue.groups[i]
-            else if group in ['DRR usa lifetime', 'DRR intl lifetime']
+            else if group in ['DRR usa lifetime', 'DRR intl lifetime', 'DRR usa annual', 'DRR intl annual']
               @monthMrrMap[month].yearly += revenue.groups[i]
             else if group is 'DRR Total'
               @monthMrrMap[month].total += revenue.groups[i]

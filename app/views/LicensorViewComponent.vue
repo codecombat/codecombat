@@ -2,129 +2,113 @@
 div.licensor.container(v-if="!$store.getters['me/isAdmin'] && !$store.getters['me/isLicensor']")
   h4 You must be logged in as a licensor or admin to view this page.
 div.licensor.container(v-else)
-  h3 Create New License
-  form#prepaid-form
-    h4.small(style="max-width: 700px" v-if="timeZone == 'Asia/Shanghai'") *All licenses granted after Oct 29, 2018 start at 12am CT on the start date and end at 11:59pm CT on the end date listed. All licenses that were granted before that date start and end at 3pm CT on the date listed.
-    h4.small(style="max-width: 700px" v-else) *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
-    .form-group
-      label.small
-      | Teacher email or Comma separated list of emails
-      =" "
-      input.form-control(type="text", name="email")
-    .form-group
-      label.small
-      span Number of Licenses
-      =" "
-      input(type="number", min="1", name="maxRedeemers")
-    .form-group
-      label.small
-      span Start Date
-      =" "
-      input(type="date", v-bind:value="timestampStart", name="startDate")
-    .form-group
-      label.small
-      span End Date
-      =" "
-      input(type="date", v-bind:value="timestampEnd", name="endDate")
-    .form-group
-      div
-        label.small(v-if="createLicenseIsLoading")
-        span(v-if="createLicenseIsLoading") {{ createLicenseProgress.done }} / {{ createLicenseProgress.total }} emails processed
-      button.btn.btn-primary(v-on:click.prevent="onCreateLicense", name="addLicense" v-bind:class="{'disabled' : !!createLicenseIsLoading}") Add Licenses
+  form#prepaid-form.form
+    h3 Create New License
+    .row
+      .col-sm-6
+        .form-group
+          label(for="email") Teacher email
+          em.small  (or comma separated list of emails)
+          input.form-control(type="text" id="email" name="email" placeholder="demo@example.com demo2@example.com")
+        .form-group
+          label(for="maxRedeemers") Number of Licenses
+          input.form-control(type="number" min="1" name="maxRedeemers" id="maxRedeemers")
+        .form-group
+          label(for="startDate") Start Date
+          input.form-control(type="date" v-bind:value="timestampStart" name="startDate" id="startDate")
+        .form-group
+          label(for="endDate") End Date
+          input.form-control(type="date" v-bind:value="timestampEnd" name="endDate" id="endDate")
+          h4.small(v-if="timeZone == 'Asia/Shanghai'") *All licenses granted after Oct 29, 2018 start at 12am CT on the start date and end at 11:59pm CT on the end date listed. All licenses that were granted before that date start and end at 3pm CT on the date listed.
+          h4.small(v-else) *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
+        .form-group
+          div
+            label(v-if="createLicenseIsLoading")
+            span(v-if="createLicenseIsLoading") {{ createLicenseProgress.done }} / {{ createLicenseProgress.total }} emails processed
+          button.btn.btn-primary.form-control(v-on:click.prevent="onCreateLicense" name="addLicense" id="addLicense" v-bind:class="{'disabled' : !!createLicenseIsLoading}") Add Licenses
 
-  h3 Show Licenses
-  form#prepaid-show-form
-    .form-group
-      label.small
-      | Teacher email
-      =" "
-      input.form-control(type="email", name="getEmail")
-    .form-group
-      button.btn.btn-primary(v-on:click.prevent="onShowLicense", name="showLicense") Show Licenses
-  table.table.table-condensed#prepaid-table(v-if="prepaids.length > 0")
-    tr
-      th.border ID
-      th.border Creator
-      th.border Type
-      th.border(v-if="timeZone == 'Asia/Shanghai'") Start (CT)
-      th.border(v-else) Start (PT)
-      th.border(v-if="timeZone == 'Asia/Shanghai'") End (CT)
-      th.border(v-else) End (PT)
-      th.border Used
-    tr(v-for="prepaid in prepaids")
-      td.border {{prepaid._id}}
-      td.border {{prepaid.creator}}
-      td.border {{prepaid.type}}
-      td.border {{prepaid.startDate}}
-      td.border {{prepaid.endDate}}
-      td.border {{prepaid.used}} / {{prepaid.maxRedeemers || 0}}
+  form#prepaid-show-form.form
+    h3 Show Licenses
+    .row
+      .col-sm-6
+        .form-group
+          label(for="getEmail") Teacher Email
+          input.form-control(type="email" name="getEmail" id="getEmail" placeholder="demo@example.com")
+        .form-group
+          button.btn.btn-primary.form-control(v-on:click.prevent="onShowLicense" name="showLicense" id="showLicense") Show Licenses
+    table.table.table-condensed#prepaid-table(v-if="prepaids.length > 0")
+      tr
+        th.border ID
+        th.border Creator
+        th.border Type
+        th.border(v-if="timeZone == 'Asia/Shanghai'") Start (CT)
+        th.border(v-else) Start (PT)
+        th.border(v-if="timeZone == 'Asia/Shanghai'") End (CT)
+        th.border(v-else) End (PT)
+        th.border Used
+      tr(v-for="prepaid in prepaids")
+        td.border {{prepaid._id}}
+        td.border {{prepaid.creator}}
+        td.border {{prepaid.type}}
+        td.border {{prepaid.startDate}}
+        td.border {{prepaid.endDate}}
+        td.border {{prepaid.used}} / {{prepaid.maxRedeemers || 0}}
 
-  h3 Create/Edit API Client
-  form#client-form
+  form#client-form.form
+    h3 Create/Edit API Client
+    .row
+      .col-sm-4
+        .form-group
+          label(for="clientName") Client name
+          input.form-control(type="text" name="clientName" id="clientName" placeholder="Acme Dev")
+        .form-group
+          label(for="licenseDaysGranted") licenseDaysGranted
+          input.form-control(type="number" :value="defaultClientVal.licenseDaysGranted.default" name="licenseDaysGranted" id="licenseDaysGranted")
+        .form-group
+          label(for="minimumLicenseDays") minimumLicenseDays
+          input.form-control(type="number" :value="defaultClientVal.minimumLicenseDays.default" name="minimumLicenseDays" id="minimumLicenseDays")
+      .col-sm-4
+        .form-group
+          label(for="manageLicensesViaUI") manageLicensesViaUI
+          select.form-control(name="manageLicensesViaUI" id="manageLicensesViaUI")
+            option(:value="defaultClientVal.permissions.properties.manageLicensesViaUI.default") {{defaultClientVal.permissions.properties.manageLicensesViaUI.default}}
+            option(:value="!defaultClientVal.permissions.properties.manageLicensesViaUI.default") {{!defaultClientVal.permissions.properties.manageLicensesViaUI.default}}
+        .form-group
+          label(for="manageLicensesViaAPI") manageLicensesViaAPI
+          select.form-control(name="manageLicensesViaAPI" id="manageLicensesViaAPI")
+            option(:value="defaultClientVal.permissions.properties.manageLicensesViaAPI.default") {{defaultClientVal.permissions.properties.manageLicensesViaAPI.default}}
+            option(:value="!defaultClientVal.permissions.properties.manageLicensesViaAPI.default") {{!defaultClientVal.permissions.properties.manageLicensesViaAPI.default}}
+        .form-group
+          label(for="revokeLicensesViaUI") revokeLicensesViaUI
+          select.form-control(name="revokeLicensesViaUI" id="revokeLicensesViaUI")
+            option(:value="defaultClientVal.permissions.properties.revokeLicensesViaUI.default") {{defaultClientVal.permissions.properties.revokeLicensesViaUI.default}}
+            option(:value="!defaultClientVal.permissions.properties.revokeLicensesViaUI.default") {{!defaultClientVal.permissions.properties.revokeLicensesViaUI.default}}
+      .col-sm-4
+        .form-group
+          label(for="revokeLicensesViaAPI") revokeLicensesViaAPI
+          select.form-control(name="revokeLicensesViaAPI" id="revokeLicensesViaAPI")
+            option(:value="defaultClientVal.permissions.properties.revokeLicensesViaAPI.default") {{defaultClientVal.permissions.properties.revokeLicensesViaAPI.default}}
+            option(:value="!defaultClientVal.permissions.properties.revokeLicensesViaAPI.default") {{!defaultClientVal.permissions.properties.revokeLicensesViaAPI.default}}
+        .form-group
+          label(for="manageSubscriptionViaAPI") manageSubscriptionViaAPI
+          select.form-control(name="manageSubscriptionViaAPI" id="manageSubscriptionViaAPI")
+            option(:value="defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default") {{defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default}}
+            option(:value="!defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default") {{!defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default}}
+        .form-group
+          label(for="revokeSubscriptionViaAPI") revokeSubscriptionViaAPI
+          select.form-control(name="revokeSubscriptionViaAPI" id="revokeSubscriptionViaAPI")
+            option(:value="defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default") {{defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default}}
+            option(:value="!defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default") {{!defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default}}
     .form-group
-      label.small
-      | Client name
-      =" "
-      input(type="text", name="clientName")
-    .form-group
-      label.small
-      | licenseDaysGranted
-      =" "
-      input(type="number", :value="defaultClientVal.licenseDaysGranted.default", name="licenseDaysGranted")
-    .form-group
-      label.small
-      | minimumLicenseDays
-      =" "
-      input(type="number", :value="defaultClientVal.minimumLicenseDays.default", name="minimumLicenseDays")
-    .form-group
-      label.small
-      | manageLicensesViaUI
-      =" "
-      select(name="manageLicensesViaUI")
-        option(:value="defaultClientVal.permissions.properties.manageLicensesViaUI.default") {{defaultClientVal.permissions.properties.manageLicensesViaUI.default}}
-        option(:value="!defaultClientVal.permissions.properties.manageLicensesViaUI.default") {{!defaultClientVal.permissions.properties.manageLicensesViaUI.default}}
-    .form-group
-      label.small
-      | manageLicensesViaAPI
-      =" "
-      select(name="manageLicensesViaAPI")
-        option(:value="defaultClientVal.permissions.properties.manageLicensesViaAPI.default") {{defaultClientVal.permissions.properties.manageLicensesViaAPI.default}}
-        option(:value="!defaultClientVal.permissions.properties.manageLicensesViaAPI.default") {{!defaultClientVal.permissions.properties.manageLicensesViaAPI.default}}
-    .form-group
-      label.small
-      | revokeLicensesViaUI
-      =" "
-      select(name="revokeLicensesViaUI")
-        option(:value="defaultClientVal.permissions.properties.revokeLicensesViaUI.default") {{defaultClientVal.permissions.properties.revokeLicensesViaUI.default}}
-        option(:value="!defaultClientVal.permissions.properties.revokeLicensesViaUI.default") {{!defaultClientVal.permissions.properties.revokeLicensesViaUI.default}}
-    .form-group
-      label.small
-      | revokeLicensesViaAPI
-      =" "
-      select(name="revokeLicensesViaAPI")
-        option(:value="defaultClientVal.permissions.properties.revokeLicensesViaAPI.default") {{defaultClientVal.permissions.properties.revokeLicensesViaAPI.default}}
-        option(:value="!defaultClientVal.permissions.properties.revokeLicensesViaAPI.default") {{!defaultClientVal.permissions.properties.revokeLicensesViaAPI.default}}
-    .form-group
-      label.small
-      | manageSubscriptionViaAPI
-      =" "
-      select(name="manageSubscriptionViaAPI")
-        option(:value="defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default") {{defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default}}
-        option(:value="!defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default") {{!defaultClientVal.permissions.properties.manageSubscriptionViaAPI.default}}
-    .form-group
-      label.small
-      | revokeSubscriptionViaAPI
-      =" "
-      select(name="revokeSubscriptionViaAPI")
-        option(:value="defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default") {{defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default}}
-        option(:value="!defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default") {{!defaultClientVal.permissions.properties.revokeSubscriptionViaAPI.default}}
-    .form-group
-      button.btn.btn-primary(v-on:click.prevent="onCreateApiClient", name="createClient") Create API Client
-      button.btn.btn-primary(v-on:click.prevent="onEditApiClient", name="editClient") Edit API Client
-      h4.small *It will create a new API client and generate its secret
+      .row
+        .col-xs-4
+          button.btn.btn-primary.form-control(v-on:click.prevent="onCreateApiClient" name="createClient" id="createClient") Create API Client
+          h4.small *It will create a new API client and generate its secret
+        .col-xs-4
+          button.btn.btn-primary.form-control(v-on:click.prevent="onEditApiClient" name="editClient" id="editClient") Edit API Client
 
-  h3 Toggle API Client Feature Flags
-  form#client-features-form
+  form#client-features-form.form
+    h3 Toggle API Client Feature Flags
     .form-group
       table.table.table-condensed#features-table(v-for="client in ownedClients")
         tr.border
@@ -139,134 +123,124 @@ div.licensor.container(v-else)
           td.center {{feature.name}}
           td.center {{feature.type}}
     .form-group
-      button.btn.btn-primary(v-on:click.prevent="onUpdateApiClientFeatures", name="updateClientFeatures") Update Client Feature Flags
+      button.btn.btn-primary.form-control(v-on:click.prevent="onUpdateApiClientFeatures" name="updateClientFeatures" id="updateClientFeatures") Update Client Feature Flags
       h4.small *Users created by this API Client will have this feature flag applied on their browser refresh or login
 
-  h3 Show API Client
-  form#client-show-form
-    .form-group
-      label.small
-      | Client name
+  form#client-show-form.form
+    h3 Show API Client
+    .row
+      .col-sm-4
+        .form-group
+          label(for="clientNameShow") Client Name
+          input.form-control(type="text" name="clientNameShow" id="clientNameShow")
+        .form-group
+          button.btn.btn-primary(v-on:click.prevent="onShowApiClient" name="showClient" id="showClient") Show API Client
+          button.btn.btn-primary(v-on:click.prevent="onShowAllApiClient" name="showAllClient" id="showAllClient") Show All API Clients
+    table.table.table-condensed#client-table(v-if="clients.length == 1")
+      tr
+        th.border ID
+        th.border Slug
+        th.border Name
+        th.border License days granted to client
+        th.border minimumLicenseDays
+        th.border License days used by client
+        th.border License days remaining
+        th.border Users having active licenses
+      tr(v-for="client in clients")
+        td.border {{client._id}}
+        td.border {{client.slug}}
+        td.border {{client.name}}
+        td.border {{client.licenseDaysGranted}}
+        td.border {{client.minimumLicenseDays}}
+        td.border {{client.licenseDaysUsed}}
+        td.border {{client.licenseDaysRemaining}}
+        td.border {{client.activeLicenses}}
+    label.border(v-if = "clients.length == 1" v-for = "client in clients")
+      | Client permissions:
       =" "
-      input(type="text", name="clientNameShow")
-    .form-group
-      button.btn.btn-primary(v-on:click.prevent="onShowApiClient", name="showClient") Show API Client
-      button.btn.btn-primary(v-on:click.prevent="onShowAllApiClient", name="showAllClient") Show All API Clients
-  table.table.table-condensed#client-table(v-if="clients.length == 1")
-    tr
-      th.border ID
-      th.border Slug
-      th.border Name
-      th.border License days granted to client
-      th.border minimumLicenseDays
-      th.border License days used by client
-      th.border License days remaining
-      th.border Users having active licenses
-    tr(v-for="client in clients")
-      td.border {{client._id}}
-      td.border {{client.slug}}
-      td.border {{client.name}}
-      td.border {{client.licenseDaysGranted}}
-      td.border {{client.minimumLicenseDays}}
-      td.border {{client.licenseDaysUsed}}
-      td.border {{client.licenseDaysRemaining}}
-      td.border {{client.activeLicenses}}
-  label.border(v-if = "clients.length == 1" v-for = "client in clients")
-    | Client permissions:
-    =" "
-    h4.small(v-for = "(value, key) in client.permissions")
-      | {{key}}: {{value}}
-  label.border(v-if="clients.length == 1" v-for="client in clients")
-    | Client secret:
-    =" "
-    h4.small
-      | {{client.secret}}
-  table.table.table-condensed#client-table(v-if="clients.length > 1")
-    tr
-      th.border ID
-      th.border Name
-    tr(v-for="client in clients")
-      td.border {{client._id}}
-      td.border {{client.name}}
+      h4.small(v-for = "(value, key) in client.permissions")
+        | {{key}}: {{value}}
+    label.border(v-if="clients.length == 1" v-for="client in clients")
+      | Client secret:
+      =" "
+      h4.small
+        | {{client.secret}}
+    table.table.table-condensed#client-table(v-if="clients.length > 1")
+      tr
+        th.border ID
+        th.border Name
+      tr(v-for="client in clients")
+        td.border {{client._id}}
+        td.border {{client.name}}
 
-  h3 Create/Edit OAuth Provider
   #oauth-form.form
+    h3 Create/Edit OAuth Provider
+    .row
+      .col-sm-6
+        h4 Required
+        .form-group
+          label(for="oauthname") Provider Name
+          input.form-control(type="text" name="oauthName" id="oauthName" placeholder="Acme Dev")
+        .form-group
+          label(for="lookupUrlTemplate") Lookup URL Template
+          input.form-control(type="text" name="lookupUrlTemplate" id="lookupUrlTemplate" placeholder="https://api.acme.com/v1/auth/coco/userinfo/?token=<%= accessToken %>")
+        .form-group
+          label(for="tokenUrl") Token URL
+          input.form-control(type="text" name="tokenUrl" id="tokenUrl" placeholder="https://api.acme.com/v1/auth/coco/token/")
+      .col-sm-6
+        h4 Optional
+        .form-group
+          label(for="lookupIdProperty") Lookup Id Property
+          input.form-control(type="text" name="lookupIdProperty" id="lookupIdProperty")
+        .form-group
+          label(for="tokenMethod") Token Method
+          select.form-control(name="tokenMethod" id="tokenMethod")
+            option(value='') None
+            option(value="get") GET
+            option(value="post") POST
+        .form-group
+          label(for="tokenAuthUser") Token Auth User
+          em.small  (our client ID to access token url)
+          input.form-control(type="text" name="tokenAuthUser" id="tokenAuthUser")
+        .form-group
+          label(for="tokenAuthPass") Token Auth Password
+          em.small  (our client password to access token url)
+          input.form-control(type="text" name="tokenAuthPass" id="tokenAuthPass")
+        .form-group
+          label(for="strictSSL") Strict SSL
+          em.small  (usually false for dev, optionally true for prod; "None" is false)
+          select.form-control(name="strictSSL" id="strictSSL")
+            option(value='') None
+            option(value="true") True
+            option(value="false") False
+        .form-group
+          label(for="redirectAfterLogin") Redirect URL After Login
+          input.form-control(type="text" name="redirectAfterLogin" id="redirectAfterLogin")
     .form-group
-      label.small
-      | Provider Name
-      =" "
-      input(type="text", name="oauthName")
-    .form-group
-      label.small
-      | Lookup Url Template
-      =" "
-      input(type="text", name="lookupUrlTemplate")
-    .form-group
-      label.small
-      | Lookup Id Property
-      =" "
-      input(type="text" name="lookupIdProperty")
-    .form-group
-      label.small
-      | Token Url
-      =" "
-      input(type="text" name="tokenUrl")
-    .form-group
-      label.small
-      | Token Method
-      =" "
-      select(name="tokenMethod")
-        option(value='') None
-        option(value="get") GET
-        option(value="post") POST
-    .form-group
-      label.small
-      | Token Auth User (Our client ID to access token url)
-      =" "
-      input(type="text" name="tokenAuthUser")
-    .form-group
-      label.small
-      | Token Auth Password (Our client password to access token url)
-      =" "
-      input(type="text" name="tokenAuthPass")
-    .form-group
-      label.small
-      | Strict SSL
-      =" "
-      select(name="strictSSL")
-        option(value='') None
-        option(value="true") True
-        option(value="false") False
-    .form-group
-      label.small
-      | Redirect Url After Login
-      =" "
-      input(type="text" name="redirectAfterLogin")
-    .form-group
-      button.btn.btn-primary(v-on:click.prevent="onCreateOauth", name="createProvider") Create Provider
-      button.btn.btn-primary(v-on:click.prevent="onEditOauth", name="editProvider") Edit Provider
+      button.btn.btn-primary(v-on:click.prevent="onCreateOauth" name="createProvider" id="createProvider") Create Provider
+      button.btn.btn-primary(v-on:click.prevent="onEditOauth" name="editProvider" id="editProvider") Edit Provider
       h4.small *Edit will not remove any values that you leave blank here, it will only update if you populate any field
 
-  h3 Show OAuthProvider
-  form#oauth-show-form
-    .form-group
-      label.small
-      | Provider name
-      =" "
-      input(type="text", name="oauthNameShow")
-    .form-group
-      button.btn.btn-primary(v-on:click.prevent="onShowOauth", name="showProvider") Show Provider
-      button.btn.btn-primary(v-on:click.prevent="onShowAllOauth", name="showAllProvider") Show All Providers
-  table.table.table-condensed#o-auth-table(v-if="oauthProvider.length == 1" v-for="oauth in oauthProvider")
-    tr
-      th.border(v-for="(value, key) in oauth") {{key}}
-    tr
-      td.border(v-for="(value, key) in oauth") {{value}}
-  table.table.table-condensed#o-auth-table(v-if="oauthProvider.length > 1")
-    tr
-      th.border Name
-    tr(v-for="oauth in oauthProvider")
-      td.border {{oauth.name}}
+  form#oauth-show-form.form
+    h3 Show OAuthProvider
+    .row
+      .col-sm-4
+        .form-group
+          label(for="oauthNameShow") Provider Name
+          input.form-control(type="text" name="oauthNameShow" id="oauthNameShow")
+        .form-group
+          button.btn.btn-primary(v-on:click.prevent="onShowOauth" name="showProvider" id="showProvider") Show Provider
+          button.btn.btn-primary(v-on:click.prevent="onShowAllOauth" name="showAllProvider" id="showAllProvider") Show All Providers
+    table.table.table-condensed#o-auth-table(v-if="oauthProvider.length == 1" v-for="oauth in oauthProvider")
+      tr
+        th.border(v-for="(value, key) in oauth") {{key}}
+      tr
+        td.border(v-for="(value, key) in oauth") {{value}}
+    table.table.table-condensed#o-auth-table(v-if="oauthProvider.length > 1")
+      tr
+        th.border Name
+      tr(v-for="oauth in oauthProvider")
+        td.border {{oauth.name}}
 </template>
 
 <script lang="coffee">
@@ -628,4 +602,9 @@ module.exports = Vue.extend({
 <style lang="sass">
 .border
   border: thin solid grey
+.form
+  border: 1px solid grey
+  margin-top: 20px
+  margin-bottom: 20px
+  padding: 20px
 </style>

@@ -49,7 +49,8 @@ mixin sortButtons
   .sort-buttons.small.rtl-allowed
     span(data-i18n='teacher.sort_by')
     span.spr :
-    button.sort-button.sort-by-name(data-i18n='general.name', value='name')
+    button.sort-button.sort-by-last-name(data-i18n='general.last_name', value='last-name')
+    button.sort-button.sort-by-first-name(data-i18n='general.first_name', value='first-name')
     button.sort-button.sort-by-progress(data-i18n='teacher.progress', value='progress')
 
 mixin studentRow(student)
@@ -431,7 +432,8 @@ mixin enrollmentStatusTab
         .sort-buttons.small
           span(data-i18n='teacher.sort_by')
           span.spr :
-          button.sort-button.sort-by-name(data-i18n='general.name', value='name')
+          button.sort-button.sort-by-last-name(data-i18n='general.last_name', value='last-name')
+          button.sort-button.sort-by-first-name(data-i18n='general.first_name', value='first-name')
           button.sort-button.sort-by-status(data-i18n='user.status', value='status')
       th
       th
@@ -494,8 +496,9 @@ if classroom.loaded
     - var today = new Date()
     - var created = classroom.created()
     - var elapsed = today.getTime()-created.getTime()
+    - var lastBigCampaignChange = new Date(2018, 0, 1)
 
-    if !state.get('readOnly') && elapsed / (1000*60*60*24) > 180
+    if !state.get('readOnly') && elapsed / (1000*60*60*24) > 180 && created < lastBigCampaignChange && classroom.get('name') != 'Demo Class'
       .update-class.rtl-allowed
         .alert.alert-info.text-center.rtl-allowed
           strong(data-i18n='courses.update_old_classroom')
