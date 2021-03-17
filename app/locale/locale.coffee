@@ -17,7 +17,7 @@ module.exports =
   'es-419': { nativeDescription: 'español (América Latina)', englishDescription: 'Spanish (Latin America)' }
   'fr': { nativeDescription: 'français', englishDescription: 'French' }
   'pt-PT': { nativeDescription: 'Português (Portugal)', englishDescription: 'Portuguese (Portugal)' }
-  'pt-BR': { nativeDescription: 'Português (Brasil)', englishDescription: 'Portuguese (Brazil)' }
+  
   # Begin alphabetized list: https://github.com/codecombat/codecombat/issues/2329#issuecomment-74630546
   'ar': { nativeDescription: 'العربية', englishDescription: 'Arabic' }
   'az': { nativeDescription: 'azərbaycan dili', englishDescription: 'Azerbaijani' }

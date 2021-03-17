@@ -44,9 +44,6 @@ module.exports = class SubscribeModal extends ModalView
       # Attempt to get the coupon associated with the user's country.
       # If coupon doesn't exist nothing is returned.
       @couponID ?= me?.get('country')
-      if @couponID is 'brazil'
-        # Edge case due to misconfigured brazil coupon in stripe that is immutable
-        @couponID = 'brazil-annual'
 
       if @couponID
         data.coupon = @couponID

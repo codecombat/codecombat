@@ -29,8 +29,6 @@ productList = [
   }
 ]
 
-productListInternational = _.map(productList, (p) -> _.assign({}, p, {name: 'brazil_' + p.name}))
-
 # Make a fake button for testing, used by calling ".click()"
 makeFakePayPalButton = (options) ->
   { buttonContainerID, product, onPaymentStarted, onPaymentComplete, description } = options
@@ -192,19 +190,3 @@ describe 'SubscribeModal', ->
           expect(@modal.state).toBe('declined')
           expect(@getTrackerEventNames()).toDeepEqual(
             [ "Start Lifetime Purchase", "Fail Lifetime Purchase" ])
-
-    describe "when user's country has regional pricing", ->
-      beforeEach ->
-        me.set({_id: '1234', country: 'brazil'})
-        @purchaseRequest = jasmine.Ajax.stubRequest('/db/products/3/purchase')
-        @modal = new SubscribeModal({products: new Products(productListInternational)})
-        @modal.render()
-        jasmine.demoModal(@modal)
-        @openAsync.and.returnValue(tokenSuccess)
-      afterEach ->
-        me.set({country: undefined})
-
-      it 'uses Stripe', ->
-        expect(@modal.$('.stripe-lifetime-button').length).toBe(1)
-        expect(@modal.$('#paypal-button-container').length).toBe(0)
-        expect(@payPalButton).toBeUndefined()

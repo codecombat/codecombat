@@ -111,7 +111,6 @@ combineAncestralObject = (obj, propertyName) ->
 countries = [
   {country: 'united-states', countryCode: 'US', ageOfConsent: 13, addressesIncludeAdministrativeRegion:true}
   {country: 'china', countryCode: 'CN', addressesIncludeAdministrativeRegion:true}
-  {country: 'brazil', countryCode: 'BR'}
 
   # Loosely ordered by decreasing traffic as measured 2016-09-01 - 2016-11-07
   # TODO: switch to alphabetical ordering
