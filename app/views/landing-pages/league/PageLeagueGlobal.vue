@@ -45,20 +45,24 @@ export default {
     // Would be odd to arrive here with ?registering=true and be logged out...
     this.doneRegistering = !!this.$route.query.registered
     this.leagueSignupModalOpen = !this.doneRegistering && this.canRegister() && !!this.$route.query.registering
-    let rotatingHeroes = ['hero_okar.png','hero_anya.png','hero_lady_ida.png']
-    let rotaionCount = 1;
-    setInterval( function () {
-      let rotationImage = rotatingHeroes[rotaionCount%3]
-      rotaionCount++
-      $('.rotating-esports-header')
-        .removeClass('fade-in')
-        .attr('src',`/images/pages/league/${rotationImage}`)
-        .addClass('fade-in')
-      setTimeout( function () {
-        $('.rotating-esports-header')
-        .removeClass('fade-in')
-      }, 1000)
-    },2000)
+  },
+
+  mounted () {
+    let rotationCount = 0
+    const rotateHero = () => {
+      if (!$('.rotating-esports-header').length) return clearInterval(this.heroRotationInterval) // Temp TODO: remove if we can get beforeUnmount working
+      $('.rotating-esports-header-background.fade-out').removeClass('fade-out').addClass('fade-in')
+      $(`.rotating-esports-header.fade-in`).removeClass('fade-in').addClass('fade-out')
+      $($(`.rotating-esports-header`)[rotationCount]).removeClass('fade-out').addClass('fade-in')
+      rotationCount = (rotationCount + 1) % 3
+    }
+    this.heroRotationInterval = setInterval(rotateHero, 5000)
+    _.defer(rotateHero)
+  },
+
+  beforeUnmount () {
+    // TODO: doesn't get called?
+    clearInterval(this.heroRotationInterval)
   },
 
   methods: {
@@ -374,9 +378,11 @@ export default {
         <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
       <img class="ai-league-logo" src="/images/pages/league/logo_badge.png">
-      <div class="hero-rotation fade-in">
-        <img class="img-responsive" src="/images/pages/league/hero_background_pink.png" />
-        <img class="rotating-esports-header img-responsive" src="/images/pages/league/hero_okar.png" />
+      <div class="hero-rotation">
+        <img class="rotating-esports-header-background img-responsive fade-out" src="/images/pages/league/hero_background_pink.png" />
+        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_anya.png" />
+        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_okar.png" loading="lazy" />
+        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_lady_ida.png" loading="lazy" />
       </div>
     </section>
 
@@ -921,19 +927,12 @@ export default {
     }
   }
   .fade-in {
-    animation: fadeIn ease 2s;
-    -webkit-animation: fadeIn ease 2s;
-    -moz-animation: fadeIn ease 2s;
-    -o-animation: fadeIn ease 2s;
-    -ms-animation: fadeIn ease 2s;
+    opacity: 1;
+    transition: opacity ease-in 2s;
   }
-  @keyframes fadeIn {
-    0% {
-      opacity:0.3;
-    }
-    100% {
-      opacity:1;
-    }
+  .fade-out {
+    opacity: 0;
+    transition: opacity ease-out 1.2s;
   }
 
   .league-block-description {
