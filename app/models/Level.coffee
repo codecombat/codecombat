@@ -102,7 +102,8 @@ module.exports = class Level extends CocoModel
         heroThangType = me.get('ozariaUserOptions')?.isometricThangTypeOriginal
       else
         heroThangType = session?.get('heroConfig')?.thangType
-      levelThang.thangType = heroThangType or ThangTypeConstants.ozariaHeroes['hero-b']
+      if heroThangType
+        levelThang.thangType = heroThangType
 
   sortSystems: (levelSystems, systemModels) ->
     [sorted, originalsSeen] = [[], {}]
