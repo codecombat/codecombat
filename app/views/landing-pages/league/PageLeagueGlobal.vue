@@ -50,7 +50,6 @@ export default {
   mounted () {
     let rotationCount = 0
     const rotateHero = () => {
-      if (!$('.rotating-esports-header').length) return clearInterval(this.heroRotationInterval) // Temp TODO: remove if we can get beforeUnmount working
       $('.rotating-esports-header-background.fade-out').removeClass('fade-out').addClass('fade-in')
       $(`.rotating-esports-header.fade-in`).removeClass('fade-in').addClass('fade-out')
       $($(`.rotating-esports-header`)[rotationCount]).removeClass('fade-out').addClass('fade-in')
@@ -59,9 +58,7 @@ export default {
     this.heroRotationInterval = setInterval(rotateHero, 5000)
     _.defer(rotateHero)
   },
-
-  beforeUnmount () {
-    // TODO: doesn't get called?
+  beforeDestroy() {
     clearInterval(this.heroRotationInterval)
   },
 
