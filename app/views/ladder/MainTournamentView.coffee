@@ -38,8 +38,6 @@ module.exports = class MainLadderView extends RootView
 
   initialize: (options, @pageType, @objectId)->
     super()
-    @levelStatusMap = []
-    @levelPlayCountMap = []
     @ladderLevels = []
     @ladderImageMap = {}
     @tournaments = []
@@ -60,14 +58,8 @@ module.exports = class MainLadderView extends RootView
 
     @editableTournament = {}
 
-    # @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
     @ladders = @supermodel.loadCollection(new LadderCollection()).model
-    # @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @listenToOnce @ladders, 'sync', @onLaddersLoaded
-
-    # TODO: Make sure this is also enabled server side.
-    # Disabled due to high load on database.
-    # @getLevelPlayCounts()
 
   getMeta: ->
     title: $.i18n.t 'ladder.title'
@@ -132,41 +124,17 @@ module.exports = class MainLadderView extends RootView
     @tournaments[@clan.get('name')].push(@editableTournament)
     @renderSelectors('.tournament-container')
 
-  onSessionsLoaded: (e) ->
-    for session in @sessions.models
-      @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
-    @render()
-
   onLaddersLoaded: (e) ->
     levels = []
     for ladder in @ladders.models
       levels.push({
         name: ladder.get('name'),
-        difficulty: 1,
         id: ladder.get('slug'),
         image: ladder.get('image'),
         original: ladder.get('original')
       })
       @ladderImageMap[ladder.get('original')] = ladder.get('image')
     @ladderLevels = levels
-
-  getLevelPlayCounts: ->
-    success = (levelPlayCounts) =>
-      return if @destroyed
-      for level in levelPlayCounts
-        @levelPlayCountMap[level._id] = playtime: level.playtime, sessions: level.sessions
-      @render() if @supermodel.finished()
-
-    levelIDs = []
-    for level in @ladderLevels
-      levelIDs.push level.id
-    levelPlayCountsRequest = @supermodel.addRequestResource 'play_counts', {
-      url: '/db/level/-/play_counts'
-      data: {ids: levelIDs}
-      method: 'POST'
-      success: success
-    }, 0
-    levelPlayCountsRequest.load()
 
   hasControlOfTheClan: () ->
     return me.isAdmin() || (@clan?.get('ownerID') + '' == me.get('_id') + '')
@@ -175,16 +143,3 @@ module.exports = class MainLadderView extends RootView
     if time?
       return moment(time).format(HTML5_FMT_DATETIME_LOCAL)
     return time
-
-ladders = [
-  {
-    name: 'Counter Attack'
-    difficulty: 3
-    id: 'counter-attack'
-    image: '/file/db/level/550363b4ec31df9c691ab629/MAR26-Banner_Zero%20Sum.png'
-    description: 'a test ladder'
-  }
-]
-
-tournaments = [
-]

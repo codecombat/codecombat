@@ -3156,10 +3156,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   tournament:
     mini_tournaments: "Mini Tournaments"
-    useable_ladders: "All Useable Ladders"
-    make_tournament: "Make a mini-tournament"
-    go_tournaments: "Goto mini-tournaments"
-    class_tournaments: "Class mini-tournaments"
+    usable_ladders: "All Usable Ladders"
+    make_tournament: "Make a mini tournament"
+    go_tournaments: "Go to mini tournaments"
+    class_tournaments: "Class mini tournaments"
     no_tournaments_owner: "There is no tournament now, please create one"
     no_tournaments: "There is no tournament now"
     edit_tournament: "Edit Tournament"

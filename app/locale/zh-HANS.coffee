@@ -3157,7 +3157,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   tournament:
     mini_tournaments: "迷你锦标赛"
-    useable_ladders: "所有可用的关卡"
+    usable_ladders: "所有可用的关卡"
     make_tournament: "创建迷你锦标赛"
     go_tournaments: "查看迷你锦标赛"
     class_tournaments: "查看迷你锦标赛"
