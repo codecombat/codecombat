@@ -385,7 +385,7 @@ export default {
 
     <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
 
-    <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
+    <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center">
       <div class="col-sm-5">
         <img :class="customEsportsImageClass" :src="currentSelectedClanEsportsImage">
       </div>
@@ -724,7 +724,7 @@ export default {
   @media screen and (max-width: 767px) {
     .esports-header .ai-league-logo {
       position: relative;
-      top: 90px;
+      top: 40px;
       left: calc(50% - 10vw);
       width: 20vw;
     }
@@ -749,6 +749,8 @@ export default {
 
   #clan-invite {
     text-align: left;
+    margin-top: -25px;
+    z-index: 0;
     img {
       transform: scaleX(-1);
     }
@@ -777,6 +779,12 @@ export default {
     @media screen and (max-width: 1000px) {
       .custom-esports-image-2 {
         display: none
+      }
+    }
+    @media screen and (max-width: 767px) {
+      margin-top: 25px;
+      h1 {
+        text-align: center;
       }
     }
   }
@@ -983,7 +991,7 @@ export default {
     .esports-header{
       background-position: bottom;
       min-height: 360px;
-      margin-bottom: 50%;
+      margin-bottom: 30%;
     }
 
     .leaderboard-component {
@@ -1013,9 +1021,14 @@ export default {
       padding-bottom: 20px;
     }
     .hero-rotation {
+      display: flex;
+      justify-content: center;
       position: relative;
       width: 100%;
-      margin-top: 150px;
+      margin-top: 70px;
+      img {
+        width: 70%;
+      }
     }
   }
 
