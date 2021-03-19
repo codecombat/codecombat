@@ -47,6 +47,21 @@ export default {
     this.leagueSignupModalOpen = !this.doneRegistering && this.canRegister() && !!this.$route.query.registering
   },
 
+  mounted () {
+    let rotationCount = 0
+    const rotateHero = () => {
+      $('.rotating-esports-header-background.fade-out').removeClass('fade-out').addClass('fade-in')
+      $(`.rotating-esports-header.fade-in`).removeClass('fade-in').addClass('fade-out')
+      $($(`.rotating-esports-header`)[rotationCount]).removeClass('fade-out').addClass('fade-in')
+      rotationCount = (rotationCount + 1) % 3
+    }
+    this.heroRotationInterval = setInterval(rotateHero, 5000)
+    _.defer(rotateHero)
+  },
+  beforeDestroy() {
+    clearInterval(this.heroRotationInterval)
+  },
+
   methods: {
     ...mapActions({
       loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
@@ -278,7 +293,7 @@ export default {
       if (image) {
         return `/file/${image}`
       }
-      return `/images/pages/league/graphic_1.png`
+      return `/images/pages/league/student_hugging.png`
     },
 
     customEsportsImageClass () {
@@ -360,11 +375,17 @@ export default {
         <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
       <img class="ai-league-logo" src="/images/pages/league/logo_badge.png">
+      <div class="hero-rotation">
+        <img class="rotating-esports-header-background img-responsive fade-out" src="/images/pages/league/hero_background_pink.png" />
+        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_anya.png" />
+        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_okar.png" loading="lazy" />
+        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_lady_ida.png" loading="lazy" />
+      </div>
     </section>
 
     <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
 
-    <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
+    <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center">
       <div class="col-sm-5">
         <img :class="customEsportsImageClass" :src="currentSelectedClanEsportsImage">
       </div>
@@ -573,7 +594,7 @@ export default {
               </p>
             </div>
             <div class="col-sm-7">
-              <img class="img-responsive" src="/images/pages/league/graphic_hugging.png" alt="Kid hugging parents" style="margin: 0 0 -120px auto; z-index: 0; transform: translateY(-120px);" />
+              <img class="img-responsive" src="/images/pages/league/graphic_cleaned.png" alt="Kid hugging parents" style="margin: 0 0 -120px auto; z-index: 0; transform: translateY(-120px);" />
             </div>
           </div>
         </div>
@@ -686,13 +707,6 @@ export default {
     margin-bottom: 50px;
   }
 
-  .esports-header {
-    background: url(/images/pages/league/game_hero.png) no-repeat;
-    background-size: contain;
-    background-position: right center;
-    min-height: 600px;
-  }
-
   .esports-header .esports-h1 {
     font-style: normal;
     font-weight: bold;
@@ -710,7 +724,7 @@ export default {
   @media screen and (max-width: 767px) {
     .esports-header .ai-league-logo {
       position: relative;
-      top: 90px;
+      top: 40px;
       left: calc(50% - 10vw);
       width: 20vw;
     }
@@ -735,6 +749,8 @@ export default {
 
   #clan-invite {
     text-align: left;
+    margin-top: -25px;
+    z-index: 0;
     img {
       transform: scaleX(-1);
     }
@@ -763,6 +779,12 @@ export default {
     @media screen and (max-width: 1000px) {
       .custom-esports-image-2 {
         display: none
+      }
+    }
+    @media screen and (max-width: 767px) {
+      margin-top: 25px;
+      h1 {
+        text-align: center;
       }
     }
   }
@@ -842,7 +864,7 @@ export default {
     padding-bottom: 180px;
   }
   section.free-to-get-start-bg {
-    background: url(/images/pages/league/graphic_1.png) right 100% / 35% no-repeat;
+    background: url(/images/pages/league/student_hugging.png) right 100% / 35% no-repeat;
   }
   .text-dont-just-play-code img{
     max-width: 410px;
@@ -898,6 +920,25 @@ export default {
     width: 90%;
     max-width: 510px;
   }
+  .hero-rotation {
+    display: flex;
+    justify-content: flex-end;
+    position:absolute;
+    top: 0px;
+    width: 65%;
+    right: 0px;
+    img {
+      position: absolute;
+    }
+  }
+  .fade-in {
+    opacity: 1;
+    transition: opacity ease-in 2s;
+  }
+  .fade-out {
+    opacity: 0;
+    transition: opacity ease-out 1.2s;
+  }
 
   .league-block-description {
     font-size: 26px;
@@ -911,6 +952,9 @@ export default {
     }
     ::v-deep .section-space {
       margin-bottom: 200px;
+    }
+    .esports-header {
+      margin-bottom: 400px;
     }
   }
 
@@ -947,6 +991,7 @@ export default {
     .esports-header{
       background-position: bottom;
       min-height: 360px;
+      margin-bottom: 30%;
     }
 
     .leaderboard-component {
@@ -975,10 +1020,19 @@ export default {
     .xs-pb-20 {
       padding-bottom: 20px;
     }
+    .hero-rotation {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      width: 100%;
+      margin-top: 70px;
+      img {
+        width: 70%;
+      }
+    }
   }
 
 
 }
 </style>
-
 
