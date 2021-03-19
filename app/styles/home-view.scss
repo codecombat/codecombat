@@ -289,9 +289,9 @@
     position: relative;
     margin-top: 55px;
     padding-bottom: 36px;
-    background: url(/images/ozaria/home/hero_image.png) no-repeat bottom 0 right 0;
-    background-size: 45%;
-    background-size: unquote('min(558px, 45%)');
+    background: url(/images/ozaria/home/hero_image.png) no-repeat bottom 0 right 33px;
+    background-size: 65%;
+    background-size: unquote('min(558px, 65%)');
     img {
       width: 250px;
       height: auto;
@@ -313,9 +313,10 @@
         text-align: center;
       }
     }
-    background: url(/images/ozaria/home/hero_image.png) no-repeat bottom 0 right 33px;
-    background-size: 65%;
-    background-size: unquote('min(558px, 65%)');
+    @media screen and (max-width: 1300px) {
+      background-size: 50%;
+      background-size: unquote('min(450px, 50%)');
+    }
   }
 
   #graphics-1 {
@@ -328,6 +329,9 @@
       width: 100%;
       transform: translate(-30%, -26%);
       transform: translate(unquote('max(-360px, -30%)'), -26%);
+      @media screen and (max-width: 1300px) {
+        transform: translate(unquote('max(-360px, -24%)'), -26%);
+      }
     }
 
     img {
