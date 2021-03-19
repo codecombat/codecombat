@@ -927,7 +927,7 @@ export default {
     top: 0px;
     width: 65%;
     right: 0px;
-    img{
+    img {
       position: absolute;
     }
   }
@@ -1035,5 +1035,4 @@ export default {
 
 }
 </style>
-
 
