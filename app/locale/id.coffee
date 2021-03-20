@@ -224,7 +224,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   diplomat_suggestion:
     title: "Bantu menerjemahkan CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Kami membutuhkan kemampuan berbahasamu."
-    pitch_body: "Kami mengembangkan CodeCombat dalam bahasa Inggris, tapi kami sudah memiliki pemain di seluruh dunia. Banyak dari mereka ingin bermain di Indonesia, tetapi tidak berbicara bahasa Inggris, jadi jika Anda dapat menguasai kedua bahasa tersebut, silakan mempertimbangkan untuk mendaftar untuk menjadi Diplomat dan membantu menerjemahkan kedua situs CodeCombat dan semua tingkatan ke Indonesia." # {change}
+    pitch_body: "Kami mengembangkan CodeCombat dalam bahasa Inggris, tapi kami sudah memiliki pemain di seluruh dunia. Banyak dari mereka ingin bermain di Indonesia, tetapi tidak berbicara bahasa Inggris, jadi jika Anda dapat menguasai kedua bahasa tersebut, silakan mempertimbangkan untuk mendaftar untuk menjadi Diplomat dan membantu menerjemahkan kedua situs CodeCombat dan semua tingkatan ke Bahasa Indonesia." # {synch}
     missing_translations: "Hingga kami bisa menerjemahkan semuanya ke dalam bahasa Indonesia, Anda akan melihat bahasa Inggris ketika bahasa Indonesia belum tersedia."
     learn_more: "Pelajari lebih lanjut tentang menjadi seorang Diplomat"
     subscribe_as_diplomat: "Berlangganan sebagai seorang Diplomat"
@@ -687,7 +687,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     tip_toggle_play: "Beralih mulai/berhenti dengan Ctrl+P"
     tip_scrub_shortcut: "Gunakan Ctrl+[ dan Ctrl+] untuk memutar ulang dan mempercepat."
     tip_guide_exists: "Klik panduan, di dalam menu (di bagian atas halaman), untuk info yang bermanfaat."
-    tip_open_source: "CodeCombat 100% sumber terbuka!" # {change}
+    tip_open_source: "CodeCombat adalah bagian dari komunitas sumber terbuka!" # {synch}
     tip_tell_friends: "Menikmati CodeCombat? Ceritakan kepada temanmu mengenai kami!"
     tip_beta_launch: "CodeCombat diluncurkan beta di Oktober 2013."
     tip_think_solution: "Pikirkan solusinya, bukan masalahnya."
@@ -944,7 +944,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     first_month_price: "Hanya $__price__ untuk bulan pertamamu!"
     lifetime: "Akses Seumur Hidup"
     lifetime_price: "$__price__"
-    year_subscription: "Berlangganan Tahunan" # {change}
+    year_subscription: "Berlangganan Tahunan" # {synch}
     year_price: "$__price__/year"
     support_part1: "Membutuhkan bantuan pembayaran atau memilih PayPal? Email"
     support_part2: "support@codecombat.com"
@@ -1000,7 +1000,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     paypal_redirect: "Kamu akan dialihkan ke PayPal untuk menyelesaikan proses berlanggangan."
     subscribe_now: "Berlangganan Sekarang"
     hero_blurb_1: "Dapatkan akses ke __premiumHeroesCount__ jagoan pengisian-super khusus-pelanggan! Manfaatkan kekuatan tak terbendung dari Okar Stompfoot, keakuratan yang mematikan dari Naria si Daun, atau memanggil \"menggemaskan\" kerangka oleh Nalfar Cryptor."
-    hero_blurb_2: "Kesatria Premium membuka kemampuan beladiri yang menakjubkan seperti Warcry, Stomp, dan Hurl Enemy. Atau, bermain sebagai Pemanah, menggunakan panah dan tidak terdeteksi, melempar pisau, jebakan! Coba kemampuanmu sebagai Penyihir sejati, dan melepaskan susunan Primodial yang kuat, Ilmu Nujum ataupun Sihir Elemen!"
+    hero_blurb_2: "Kesatria Premium membuka kemampuan beladiri yang menakjubkan seperti Warcry, Stomp, dan Hurl Enemy. Atau, bermain sebagai Pemanah, menggunakan panah dan tidak terdeteksi, melempar pisau, jebakan! Coba kemampuanmu sebagai Penyihir sejati, dan melepaskan susunan Primodial yang kuat, Ilmu Nujum ataupun Elemen Ajaib!"
     hero_caption: "Hero baru yang menarik!"
     pet_blurb_1: "Peliharaan tidak hanya sebagai teman yang menggemaskan, tetapi mereka juga menyediakan fungsionalitas dan metode unik. Bayi Grifon dapat membawa unit melalui udara, Anak Serigala bermain tangkap dengan panah musuh, Puma suka mengejar raksasa, dan Mimic menarik koin seperti magnet!"
     pet_blurb_2: "Koleksi semua peliharaan untuk mengetahui kemampuan unik mereka!"
@@ -1122,8 +1122,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     story_link: "Cerita"
     press_link: "Pers"
     mission_title: "Misi kami: membuat pemrogramman dapat diakses oleh semua siswa di Bumi."
-    mission_description_1: "<strong>Pemrograman adalah sihir</strong>. Kemampuannya untuk membuat sesuatu dari imajinasi murni. Kami memulai CodeCombat untuk memberikan para pelajar rasa kekuatan ajaib berada di ujung jemari dengan menggunakan <strong>kode diketik</strong>."
-    mission_description_2: "Ternyata, membuat mereka belajar lebih cepat pula. JAUH lebih cepat. Seperti bercakap-cakap daripada membaca buku petunjuk. Kami ingin membawa percakapan tersebut ke setiap sekolah dan ke <strong>semua siswa</strong>, karena semuanya harus memiliki kesempatan untuk belajar keajaiban pemrograman."
+    mission_description_1: "<strong>Pemrograman itu ajaib!</strong>. Kemampuannya untuk membuat sesuatu dari imajinasi. Kami memulai CodeCombat untuk memberikan para pelajar kekuatan ajaib yang berada di ujung jemari dengan menggunakan <strong>kode yang ditulis</strong>."
+    mission_description_2: "Metode ini membuat siswa belajar lebih cepat. JAUH lebih cepat. Seperti sedang bercakap-cakap, bukan seperti membaca buku petunjuk. Kami ingin membawa percakapan tersebut ke setiap sekolah dan ke <strong>semua siswa</strong>, karena semuanya harus memiliki kesempatan untuk belajar keajaiban pemrograman."
     team_title: "Bertemu dengan tim CodeCombat"
     team_values: "Kami menghargai dialog terbuka dan sopan, dimana ide terbaiklah yang menang. Keputusan kami didasari dari riset pelanggan dan proses kami berfokus pada penyerahan hasil yang jelas kepada mereka. Semuanya turut serta mulai dari CEO sampai ke kontributor Github, karena kami menghargai perkembangan dan pembelajaran dalam tim kami."
     nick_title: "Cofounder, CEO"
@@ -1162,10 +1162,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     scd_title: "Pengembang Kurikulum Senior"
     lcd_title: "Pimpinan Pengembang Kurikulum"
     vpm_title: "Wakil Presiden, Pemasaran"
-    community_subtitle: "Lebih dari 500 kontributor telah membantu membangun CodeCombat, dengan lebih banyak lagi yang bergabung tiap minggunya!"
+    community_subtitle: "Lebih dari 500 kontributor telah membantu membangun CodeCombat, dan lebih banyak lagi yang bergabung tiap minggunya!"
     community_description_3: "CodeCombat adalah"
     community_description_link_2: "proyek komunitas"
-    community_description_1: "dengan ratusan jumlah pemain suka rela membuat level, berkontribusi dengan kode kami dan menambahkan fitur, memperbaiki bugs, mengetes, dan juga mengalihbahasakan game kedalam 50 bahasa sampai saat ini. Karyawan, kontributor dan perolehan situs dari berbagi ide dan usaha bersama, sebagaimana komunitas sumber terbuka umumnya. Situs ini dibuat dari proyek sumber terbuka yang banyak, dan kami membuka sumber untuk diberikan kembali kepada komunitas dan menyediakan pemain yang penasaran proyek yang lazim, untuk dieksplorasi dan dieksperimen. Semua dapat bergabung di komunitas CodeCombat! Cek "
+    community_description_1: " dengan ratusan jumlah pemain suka rela membuat level, berkontribusi dengan kode kami dan menambahkan fitur, memperbaiki bugs, mengetes, dan juga mengalihbahasakan game ke dalam 50 bahasa sampai saat ini. Karyawan, kontributor dan perolehan situs dari berbagi ide dan usaha bersama, sebagaimana komunitas sumber terbuka umumnya. Situs ini dibuat dari berbagai proyek sumber terbuka, dan kami membuka sumber untuk diberikan kembali kepada komunitas dan menyediakan pemain yang penasaran-dengan-kode proyek yang mudah untuk dieksplorasi dan dijadikan eksperimen. Semua dapat bergabung di komunitas CodeCombat! Cek "
     community_description_link: "halaman kontribusi"
     community_description_2: "untuk info lebih lanjut."
     number_contributors: "Lebih dri 450 kontributor telah meminjamkan dukungan dan waktu untuk proyek ini."
@@ -1174,24 +1174,24 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     story_statistic_1a: "20,000,000+"
     story_statistic_1b: "total pemain"
     story_statistic_1c: "telah memulai perjalanan pemrograman mereka melalui CodeCombat"
-    story_statistic_2a: "Kami telah menerjemahkan menjadi lebih dari 50 bahasa - pemain kami berasal"
+    story_statistic_2a: "Kami telah menerjemahkan ke lebih dari 50 bahasa - pemain kami berasal"
     story_statistic_2b: "190+ negara"
     story_statistic_3a: "Bersama, mereka telah menulis"
     story_statistic_3b: "1 miliar baris kode dan terus bertambah"
     story_statistic_3c: "di banyak bahasa pemrograman yang berbeda"
     story_long_way_1: "Kami melalui perjalanan yang panjang..."
-    story_sketch_caption: "Sketsa paling pertama milik Nick menggambarkan permainan pemrograman beraksi."
+    story_sketch_caption: "Sketsa paling pertama milik Nick menggambarkan permainan pemrograman sedang beraksi."
     story_long_way_2: "masih banyak yang harus kami lakukan sebelum menyelesaikan pencarian kami, jadi..."
     jobs_title: "Mari bekerja bersama kami dan membantu menulis sejarah CodeCombat!"
     jobs_subtitle: "Tidak cocok tetapi berminat untuk tetap berhubungan? Lihat daftar \"Buat Sendiri\" kami"
     jobs_benefits: "Keuntungan Karyawan"
     jobs_benefit_4: "Liburan tanpa batas"
     jobs_benefit_5: "Pengembangan profesional dan dukungan melanjutkan pendidikan - buku gratis dan permainan!"
-    jobs_benefit_6: "Pengobatan (emas), perawatan gigi, perawatan mata, perjalanan" # {change}
+    jobs_benefit_6: "Pengobatan (level emas), perawatan gigi, perawatan mata, perjalanan, 401K" # {synch}
     jobs_benefit_7: "Meja duduk-berdiri untuk semua"
     jobs_benefit_9: "Jendela latihan opsional 10 tahun"
-    jobs_benefit_10: "Cuti Kelahiran (Wanita): 10 minggu dibayar, 6 berikutnya @ 55% gaji" # {change}
-    jobs_benefit_11: "Cuti Kelahiran (Pria): 10 minggu dibayar" # {change}
+    jobs_benefit_10: "Cuti Kelahiran (Wanita): 12 minggu dibayar, 6 berikutnya @ 55% gaji" # {synch}
+    jobs_benefit_11: "Cuti Kelahiran (Pria): 12 minggu dibayar" # {synch}
     jobs_custom_title: "Buat Sendiri"
     jobs_custom_description: "Apakah kamu berhasrat dengan CodeCombat tetapi tidka melihat daftar pekerjaan yang sesuai dengan kualifikasimu? Tulis dan tunjukkan kami, bagaimana kamu pikir kamu dapat berkontribusi di tim kami. Kami ingin mendengarnya darimu!"
     jobs_custom_contact_1: "Kirim kami catatan di"
@@ -1254,7 +1254,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Ajak siswa-siswamu mulai dalam kurang dari satu jam. Kamu dapat <strong>membuat kelas, menambahkan siswa, dan mengawasi perkembangan mereka</strong> selagi mereka belajar ilmu komputer." # {change}
+    subtitle: "Pelajari lebih lanjut tentang CodeCombat dengan panduan interaktif tentang produk, harga, dan implementasi!" # {synch}
     email_exists: "User telah ada dengan email ini."
     phone_number: "Nomor telepon"
     phone_number_help: "Dimanakah kami dapat menjangkau kamu ketika hari bekerja?"
@@ -1278,7 +1278,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     organization_label: "Sekolah"
     school_name: "Nama Sekolah"
     city: "Kota"
-    state: "Provinsi" # {change}
+    state: "Provinsi / Wilayah" # {synch}
     country: "Negara"
     num_students_help: "Berapa banyak siswa yang akan menggunakan CodeCombat"
     num_students_default: "Pilih Jumlah"
@@ -1420,7 +1420,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     article_editor_suffix: "dan bantu pemain CodeCombat untuk mendapatkan hasil maksimal dari waktu bermain mereka."
     find_us: "Temukan kami di situs-situs berikut"
     social_github: "Lihat semua kode kami di Github"
-    social_blog: "Baca blog CodeCombat di Sett" # {change}
+    social_blog: "Baca blog CodeCombat" # {synch}
     social_discource: "Bergabung dalam diskusi di forum Discourse kami"
     social_facebook: "Like CodeCombat di Facebook"
     social_twitter: "Follow CodeCombat di Twitter"
@@ -1834,8 +1834,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     enrollment_explanation_3: "menampilkan jumlah total siswa unik yang terdaftar di semua guru dan ruang kelas yang ditambahkan ke dasbor Anda. Ini termasuk siswa di ruang kelas yang diarsipkan dan yang tidak diarsipkan dengan tanggal pembuatan kelas antara tanggal 1- Juli 30 setiap tahun sekolah masing-masing. "
     enrollment_explanation_4: "Ingat"
     enrollment_explanation_5: "kelas dapat diarsipkan dan lisensi dapat digunakan kembali sepanjang tahun ajaran, jadi tampilan ini memungkinkan administrator untuk memahami berapa banyak siswa yang benar-benar berpartisipasi dalam program secara keseluruhan."
-    one_license_used: "1 lisensi telah dipakai" # {change}
-    num_licenses_used: "__numLicensesUsed__ lisensi telah terpakai" # {change}
+    one_license_used: "1 dari __totalLicenses__ lisensi telah digunakan" # {synch}
+    num_licenses_used: "__numLicensesUsed__ dari __totalLicenses__ lisensi telah digunakan" # {synch}
     starter_licenses: "lisensi awal"
     start_date: "tanggal mulai:"
     end_date: "tanggal berakhir:"
@@ -1917,7 +1917,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     gd3_curriculum_desc: "Rencana belajar untuk Pengembangan Permainan 3."
     wd1: "Pengembangan Web 1"
     wd1_curriculum: "Pengembangan Web 1 - Panduan Kurikulum"
-    wd1_curriculum_desc: "Rencana pembelajaran untuk Pengembangan Web 1." # {change}
+    wd1_curriculum_desc: "Lingkup dan urutan, rencana pelajaran, aktivitas, dan lainnya untuk Pengembangan Web 1." # {synch}
     wd1_headlines: "Aktivitas Pokok Bahasan dan Header"
     wd1_headlines_example: "Lihat contoh solusi"
     wd1_headlines_desc: "Mengapa paragraf dan tag header sangat penting? Gunakan aktivitas ini untuk menunjukkan header yang terpilih dengan baik membuat halaman web lebih mudah dibaca. Ada banyak solusi tepat untuk ini!"
@@ -1948,11 +1948,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     student_state: "Bagaimana"
     student_state_2: "melakukannya?"
     student_good: "melakukannya dengan baik"
-    student_good_detail: "Siswa ini mampu mengikuti dengan kelas." # {change}
+    student_good_detail: "Siswa ini mampu mengikuti kecepatan waktu penyelesaian level rata-rata kelas." # {synch}
     student_warn: "mungkin membutuhkan bantuan"
-    student_warn_detail: "Siswa ini mungkin membutuhkan bantuan dalam konsep baru yang sudah diperkenalkan di kursus ini." # {change}
+    student_warn_detail: "Waktu penyelesaian level rata-rata siswanya menunjukkan bahwa mereka mungkin memerlukan bantuan dengan konsep baru yang telah diperkenalkan dalam kursus ini." # {synch}
     student_great: "sangat bagus"
-    student_great_detail: "Siswa ini mungkin mampu menjadi kandidat yang baik dalam membantu siswa lainnya mengerjakan di kursus ini." # {change}
+    student_great_detail: "Siswa ini mungkin merupakan kandidat yang baik untuk membantu siswa lain mengerjakan kursus ini, berdasarkan waktu penyelesaian level rata-rata." # {synch}
     full_license: "Lisensi Penuh"
     starter_license: "Lisensi Awal"
     customized_license: "Lisensi Khusus"
@@ -2550,7 +2550,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 
 
   loading_error:
-    could_not_load: "Kesalahan memuat dari server" # {change}
+    could_not_load: "Kesalahan memuat dari server. Coba segarkan halaman." # {synch}
     connection_failure: "Koneksi Gagal"
     connection_failure_desc: "Sepertinya kamu tidak terhubung dengan internet! Periksa jaringan kamu dan muat ulang halaman ini."
     login_required: "Wajib Masuk"
