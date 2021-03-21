@@ -3109,49 +3109,49 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teacher_email: "Alamat email guru"
 
   school_administrator:
-    title: "Dasbor Administrator Sekolah"
-    my_teachers: "Guru Saya"
-    last_login: "Login Terakhir"
-    licenses_used: "lisensi yang digunakan"
-    total_students: "total students"
-    active_students: "siswa aktif"
-    projects_created: "proyek dibuat"
-    other: "Lainnya"
-    notice: "Administrator sekolah berikut memiliki akses hanya lihat ke data kelas Anda:"
-    add_additional_teacher: "Perlu menambah pengajar tambahan? Hubungi Manajer Akun CodeCombat Anda atau kirim email ke support@codecombat.com."
-    license_stat_description: "Lisensi akun yang tersedia untuk jumlah lisensi yang tersedia untuk guru, termasuk Lisensi Bersama."
-    students_stat_description: "Total akun siswa untuk semua siswa di semua ruang kelas, terlepas dari apakah mereka memiliki lisensi yang diterapkan."
-    active_students_stat_description: "Siswa aktif menghitung jumlah siswa yang login ke CodeCombat dalam 60 hari terakhir."
-    project_stat_description: "Proyek yang dibuat menghitung jumlah total proyek pengembangan Game dan Web yang telah dibuat."
-    no_teachers: "Anda tidak membina guru."
-    totals_calculated: "Bagaimana cara menghitung total ini?"
-    totals_explanation_1: "Bagaimana cara menghitung total ini?"
-    totals_explanation_2: "Lisensi yang digunakan"
-    totals_explanation_3: "Menghitung total lisensi yang diterapkan ke siswa dari total lisensi yang tersedia."
-    totals_explanation_4: "Jumlah siswa"
-    totals_explanation_5: "Menghitung jumlah siswa guru di semua kelas aktif mereka. Untuk melihat total siswa yang terdaftar di kelas aktif dan yang diarsipkan, buka halaman Lisensi Siswa".
-    totals_explanation_6: "Siswa aktif"
-    totals_explanation_7: "Menghitung terakhir semua siswa yang aktif dalam 60 hari."
-    totals_explanation_8: "Proyek dibuat"
-    totals_explanation_9: "Menghitung total game dan halaman web yang dibuat."
-    date_thru_date: "__startDateRange__ thru __endDateRange__"
+    title: 'Dasbor Administrator Sekolah'
+    my_teachers: 'Guru Saya'
+    last_login: 'Login Terakhir'
+    licenses_used: 'lisensi yang digunakan'
+    total_students: 'total students'
+    active_students: 'siswa aktif'
+    projects_created: 'proyek dibuat'
+    other: 'Lainnya'
+    notice: 'Administrator sekolah berikut memiliki akses hanya lihat ke data kelas Anda:'
+    add_additional_teacher: 'Perlu menambah pengajar tambahan? Hubungi Manajer Akun CodeCombat Anda atau kirim email ke support@codecombat.com.'
+    license_stat_description: 'Lisensi akun yang tersedia untuk jumlah lisensi yang tersedia untuk guru, termasuk Lisensi Bersama.'
+    students_stat_description: 'Total akun siswa untuk semua siswa di semua ruang kelas, terlepas dari apakah mereka memiliki lisensi yang diterapkan.'
+    active_students_stat_description: 'Siswa aktif menghitung jumlah siswa yang login ke CodeCombat dalam 60 hari terakhir.'
+    project_stat_description: 'Proyek yang dibuat menghitung jumlah total proyek pengembangan Game dan Web yang telah dibuat.'
+    no_teachers: 'Anda tidak membina guru.'
+    totals_calculated: 'Bagaimana cara menghitung total ini?'
+    totals_explanation_1: 'Bagaimana cara menghitung total ini?'
+    totals_explanation_2: 'Lisensi yang digunakan'
+    totals_explanation_3: 'Menghitung total lisensi yang diterapkan ke siswa dari total lisensi yang tersedia.'
+    totals_explanation_4: 'Jumlah siswa'
+    totals_explanation_5: 'Menghitung jumlah siswa guru di semua kelas aktif mereka. Untuk melihat total siswa yang terdaftar di kelas aktif dan yang diarsipkan, buka halaman Lisensi Siswa'.
+    totals_explanation_6: 'Siswa aktif'
+    totals_explanation_7: 'Menghitung terakhir semua siswa yang aktif dalam 60 hari.'
+    totals_explanation_8: 'Proyek dibuat'
+    totals_explanation_9: 'Menghitung total game dan halaman web yang dibuat.'
+    date_thru_date: '__startDateRange__ thru __endDateRange__'
 
 
   interactives:
-    phenomenal_job: "Pekerjaan Fenomenal!"
-    try_again: "Ups, coba lagi!"
-    select_statement_left: "Ups, pilih pernyataan dari kiri sebelum menekan \" Kirim. \ ""
-    fill_boxes: "Ups, pastikan untuk mengisi semua kotak sebelum menekan \" Kirim. \ ""
+    phenomenal_job: 'Pekerjaan Fenomenal!'
+    try_again: 'Ups, coba lagi!'
+    select_statement_left: 'Ups, pilih pernyataan dari kiri sebelum menekan \"Kirim.\"'
+    fill_boxes: 'Ups, pastikan untuk mengisi semua kotak sebelum menekan \"Kirim.\"'
 
   browser_recommendation:
-    title: "CodeCombat bekerja paling baik di Chrome!"
-    pitch_body: "Untuk pengalaman CodeCombat terbaik, sebaiknya gunakan Chrome versi terbaru. Unduh versi terbaru chrome dengan mengeklik tombol di bawah!"
-    download: "Unduh Chrome"
-    ignore: "Abaikan"
+    title: 'CodeCombat bekerja paling baik di Chrome!'
+    pitch_body: 'Untuk pengalaman CodeCombat terbaik, sebaiknya gunakan Chrome versi terbaru. Unduh versi terbaru chrome dengan mengeklik tombol di bawah!'
+    download: 'Unduh Chrome'
+    ignore: 'Abaikan'
 
   admin:
-    license_type_full: "Kursus Lengkap"
-    license_type_customize: "Sesuaikan Kursus"
+    license_type_full: 'Kursus Lengkap'
+    license_type_customize: 'Sesuaikan Kursus'
 
   league:
     student_register_1: 'Menjadi Juara AI berikutnya!'
