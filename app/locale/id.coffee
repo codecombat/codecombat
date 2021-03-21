@@ -26,7 +26,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     century_skills_subtitle3: "Kolaborasi"
     century_skills_subblurb3: "Sepanjang permainan, ada peluang bagi siswa untuk berkolaborasi saat mereka mengalami kebuntuan dan untuk bekerja sama menggunakan panduan pemrograman berpasangan."
     century_skills_quote4: "Saya selalu memiliki aspirasi untuk mendesain video game dan mempelajari cara membuat kode ... ini memberi saya titik awal yang bagus."
-    century_skills_subtitle4: "Komunikasi"
+    century_skills_subtitle4: "Komunikasi" 
     century_skills_subblurb4: "Coding mengharuskan anak-anak untuk mempraktikkan bentuk komunikasi baru, termasuk berkomunikasi dengan komputer itu sendiri dan menyampaikan ide-ide mereka menggunakan kode yang paling efisien."
     classroom_in_box_title: "Kami Berusaha Untuk:"
     classroom_in_box_blurb1: "Libatkan setiap siswa sehingga mereka yakin bahwa kemampuan coding bermanfaat untuk mereka."
@@ -3098,9 +3098,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     student: "Saya seorang siswa"
     ready_to_code: "Saya siap membuat kode!"
 
-
   hoc_2018_completion:
-    congratulations: "Selamat, Anda telah menyelesaikan <b>Kode, Mainkan, Bagikan!</b>"
+    congratulations: "Selamat, Anda telah menyelesaikan tantangan <b>Code, Play, Share!</b>"
     send: "Kirim game Hour of Code Anda ke teman dan keluarga!"
     copy: "Salin URL"
     get_certificate: "Dapatkan sertifikat kelulusan untuk merayakan bersama kelas Anda!"
