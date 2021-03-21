@@ -3164,6 +3164,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     seasonal_arena_name: "Pertempuran Berkobar"
     seasonal_arena_tooltip: "Bertarung melawan rekan satu tim dan orang lain saat Anda menggunakan keterampilan pemrograman terbaik untuk mendapatkan poin dan peringkat papan peringkat Liga AI sebelum menghadapi arena Kejuaraan di akhir musim."
     seasonal_play_cta: "Mainkan Blazing Battle Multiplayer Arena"
-    unlocked_seasonal_arena: "Anda telah membuka arena esports multipemain kami!"
+    unlocked_seasonal_arena: 'Anda telah membuka arena esports multipemain kami!'
     summary: 'CodeCombat AI League secara unik merupakan simulator pertarungan AI yang kompetitif dan mesin game untuk mempelajari kode Python dan JavaScript yang sebenarnya.'
     join_now: 'Gabung Sekarang'
