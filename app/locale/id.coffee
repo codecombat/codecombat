@@ -3099,7 +3099,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     ready_to_code: "Saya siap membuat kode!"
 
   hoc_2018_completion:
-    congratulations: "Selamat, Anda telah menyelesaikan tantangan <b>Code, Play, Share!</b>"
+    congratulations: "Selamat, Anda telah menyelesaikan tantangan Code, Play, Share!"
     send: "Kirim game Hour of Code Anda ke teman dan keluarga!"
     copy: "Salin URL"
     get_certificate: "Dapatkan sertifikat kelulusan untuk merayakan bersama kelas Anda!"
