@@ -3154,11 +3154,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     license_type_customize: "Sesuaikan Kursus"
 
   league:
-    student_register_1: "Menjadi Juara AI berikutnya!"
-    student_register_2: "Daftar, buat tim Anda sendiri, atau gabung dengan tim lain untuk mulai berkompetisi."
-    student_register_3: "Berikan informasi di bawah ini agar memenuhi syarat untuk mendapatkan hadiah."
-    teacher_register_1: "Daftar untuk mengakses halaman profil liga kelas Anda dan mulai kelas Anda."
-    general_news: "Dapatkan email tentang berita terbaru dan pembaruan tentang Liga AI dan turnamen kami."
+    student_register_1: 'Menjadi Juara AI berikutnya!'
+    student_register_2: 'Daftar, buat tim Anda sendiri, atau gabung dengan tim lain untuk mulai berkompetisi.'
+    student_register_3: 'Berikan informasi di bawah ini agar memenuhi syarat untuk mendapatkan hadiah.'
+    teacher_register_1: 'Daftar untuk mengakses halaman profil liga kelas Anda dan mulai kelas Anda.'
+    general_news: 'Dapatkan email tentang berita terbaru dan pembaruan tentang Liga AI dan turnamen kami.'
     team: 'tim'
     how_it_works1: 'Gabung dengan __team__'
     seasonal_arena_name: 'Pertempuran Berkobar'
