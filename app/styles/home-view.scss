@@ -454,7 +454,9 @@
 
     .row {
       padding: 30px;
-      border: 10px solid #3272DB;
+      border: 10px solid;
+      border-image-source: linear-gradient(90deg, rgba(50,114,219,1) 0%, rgba(82,178,209,1) 55%, rgba(124,238,201,1) 100%);
+      border-image-slice: 1;
     }
 
     img {
@@ -530,13 +532,14 @@
   }
 
   #core-curriculum-carousel {
-    // TODO - Make border a gradient.
     // TODO - slight shake on moving carousel items, height changes.
-    border: 10px solid  #3272DB;
+    border: 10px solid;
     margin: 0 -70px -40px;
     padding: 40px 70px;
     pointer-events: none;
     z-index: -1;
+    border-image-source: linear-gradient(90deg, rgba(50,114,219,1) 0%, rgba(82,178,209,1) 55%, rgba(124,238,201,1) 100%);
+    border-image-slice: 1;
     h2 {
       margin-top: 18px;
       margin-bottom: 20px;
