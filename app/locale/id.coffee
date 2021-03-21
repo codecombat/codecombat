@@ -3086,8 +3086,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     point4: "✓ Kursus berbasis proyek"
     point5: "✓ Pelacakan siswa"
     point6: "✓ Rencana pelajaran lengkap"
-
-
     title: "HOUR OF CODE 2020"
     acronym: "HOC"
 
@@ -3099,14 +3097,14 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     ready_to_code: "Saya siap membuat kode!"
 
   hoc_2018_completion:
-    congratulations: "Selamat, Anda telah menyelesaikan tantangan Code, Play, Share!"
-    send: "Kirim game Hour of Code Anda ke teman dan keluarga!"
-    copy: "Salin URL"
-    get_certificate: "Dapatkan sertifikat kelulusan untuk merayakan bersama kelas Anda!"
-    get_cert_btn: "Dapatkan Sertifikat"
-    first_name: "Nama depan"
-    last_initial: "Inisial Terakhir"
-    teacher_email: "Alamat email guru"
+    congratulations: 'Selamat, Anda telah menyelesaikan tantangan Code, Play, Share!'
+    send: 'Kirim game Hour of Code Anda ke teman dan keluarga!'
+    copy: 'Salin URL'
+    get_certificate: 'Dapatkan sertifikat kelulusan untuk merayakan bersama kelas Anda!'
+    get_cert_btn: 'Dapatkan Sertifikat'
+    first_name: 'Nama depan'
+    last_initial: 'Inisial Terakhir'
+    teacher_email: 'Alamat email guru'
 
   school_administrator:
     title: 'Dasbor Administrator Sekolah'
