@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-  - 8.15.1
+  - 10.24.0
 env:
   - CXX=g++-4.8
 services:
@@ -23,7 +23,7 @@ before_install:
   - export COCO_TRAVIS_TEST=1
   - npm install -g npm@6.x
 before_script:
-  - npm install --ignore-scripts 
+  - npm install --ignore-scripts
   - npm install node-sass
   - npm install
   - export DISPLAY=:99.0
