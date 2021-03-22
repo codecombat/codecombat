@@ -2895,7 +2895,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     missing_a_quotation_mark: "Tanda petik tidak ada."
     missing_var_use_var: "Tidak ada `$1`. Gunakan `$2` untuk membuat variabel baru."
     you_do_not_have: "Anda tidak memiliki item yang dilengkapi dengan keahlian $1."
-
     put_each_command_on: "Tempatkan setiap perintah pada baris terpisah"
     are_you_missing_a: "Apakah Anda kehilangan '$1' setelah '$2'?"
     your_parentheses_must_match: "Tanda kurung Anda harus cocok."
@@ -2941,7 +2940,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     unit_9: "Unit 9: Ulasan AP"
     unit_10: "Unit 10: Pasca-AP"
     unit_10_activity_1: "Aktivitas Unit 10: Kuis Web"
-
 
   parents_landing_2:
     splash_title: "Temukan keajaiban coding di rumah."
