@@ -2035,39 +2035,39 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     back_to_resource_hub: "Kembali ke Pusat Sumber Daya"
     back_to_course_guides: "Kembali ke Panduan Kursus"
     print_guide: "Cetak panduan ini"
-    combo: "Combo"
+    combo: "Kombo"
     combo_explanation: "Siswa melewati tantangan level Combo dengan menggunakan salah satu konsep yang terdaftar. Tinjau kode siswa dengan mengklik titik perkembangan."
     concept: "Konsep"
-#    sync_google_classroom: "Sync Google Classroom"
-#    try_ozaria_footer: "Try our new adventure game, Ozaria!"
-#    try_ozaria_free: "Try Ozaria for free"
-#    ozaria_intro: "Introducing Our New Computer Science Program"
+    sync_google_classroom: "Sinkronkan Google Kelas"
+    try_ozaria_footer: "Coba game petualangan baru kami, Ozaria!"
+    try_ozaria_free: "Coba Ozaria gratis"
+    ozaria_intro: "Memperkenalkan Program Ilmu Komputer Baru Kami"
 
-#  teacher_ozaria_encouragement_modal:
-#    title: "Build Computer Science Skills to Save Ozaria"
-#    sub_title: "You are invited to try the new adventure game from CodeCombat"
-#    cancel: "Back to CodeCombat"
-#    accept: "Try First Unit Free"
-#    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay"
-#    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills"
-#    bullet3: "Unlock creativity through capstone projects"
-#    bullet4: "Support instructions through dedicated curriculum resources"
-#    you_can_return: "You can always return to CodeCombat"
+  teacher_ozaria_encouragement_modal:
+    title: "Membangun Keterampilan Ilmu Komputer untuk Menyelamatkan Ozaria"
+    sub_title: "Anda diundang untuk mencoba game petualangan baru dari CodeCombat"
+    cancel: "Kembali ke CodeCombat"
+    accept: "Coba Unit Pertama Gratis"
+    bullet1: "Mempererat hubungan siswa untuk belajar melalui kisah epik dan alur game yang imersif"
+    bullet2: "Ajarkan dasar-dasar Ilmu Komputer, Python atau JavaScript, dan keterampilan abad ke-21"
+    bullet3: "Buka kreativitas melalui proyek batu penjuru"
+    bullet4: "Mendukung petunjuk melalui sumber daya kurikulum khusus"
+    you_can_return: "Anda selalu dapat kembali ke CodeCombat"
 
-#  educator_signup_ozaria_encouragement:
-#    recommended_for: "Recommended for:"
-#    independent_learners: "Independent learners"
-#    homeschoolers: "Homeschoolers"
-#    educators_continue_coco: "Educators who want to continue using CodeCombat in their class"
-#    continue_coco: "Continue with CodeCombat"
+  educator_signup_ozaria_encouragement:
+    recommended_for: "Direkomendasikan untuk:"
+    independent_learners: "Pembelajar mandiri"
+    homeschoolers: "homeschooler"
+    educators_continue_coco: "Pengajar yang ingin terus menggunakan CodeCombat di kelasnya"
+    continue_coco: "Lanjutkan dengan CodeCombat"
 
-#  ozaria_cta:
-#    title1: "Standards Aligned Core Curriculum"
-#    description1: "Immersive, story based curriculum that meets all 6th-8th grade CSTA standards."
-#    title2: "Turnkey Lesson Plans"
-#    description2: "In-depth presentations and worksheets for teachers to guide students through learning objectives."
-#    title3: "New Teacher & Admin Dashboards"
-#    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding."
+  ozaria_cta:
+    title1: "Standar Kurikulum Inti yang Disejajarkan"
+    description1: "Kurikulum berbasis cerita yang imersif yang memenuhi semua standar CSTA kelas 6 - 8".
+    title2: "Rencana Pelajaran Turnkey"
+    description2: "Presentasi dan lembar kerja mendalam bagi guru untuk membimbing siswa melalui tujuan pembelajaran."
+    title3: "Dasbor Admin & Guru Baru"
+    description3: "Semua wawasan yang dapat ditindaklanjuti yang dibutuhkan pengajar dalam sekejap, seperti kemajuan siswa dan pemahaman konsep."
 
   share_licenses:
     share_licenses: "Bagikan Lisensi"
