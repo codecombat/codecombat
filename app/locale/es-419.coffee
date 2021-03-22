@@ -941,6 +941,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     feature_level_access: "Accede a 300+ niveles disponibles"
     feature_heroes: "Desbloquea héroes y mascotas exclusivas"
     feature_learn: "Aprende a crear juegos y páginas web"
+#    feature_gems: "Receive __gems__ gems per month"
     month_price: "$__price__"
     first_month_price: "¡Sólo $__price__ en tu primer mes!"
     lifetime: "Acceso de por vida"

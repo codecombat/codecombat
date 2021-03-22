@@ -92,6 +92,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
+#    top_banner_blurb_team_derbezt_link: "Join Team DerBezt in the CodeCombat AI League"
+#    top_banner_blurb_team_derbezt_suffix: "to get the exclusive Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
 #    try_the_game: "Try the game"
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
@@ -939,6 +941,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     feature_level_access: "Toegang tot 300+ levels beschikbaar"
     feature_heroes: "Krijg toegang tot speciale helden" # {change}
     feature_learn: "Leer games en websites te maken"
+#    feature_gems: "Receive __gems__ gems per month"
     month_price: "$__price__/mo" # {change}
     first_month_price: "Maar $__prijs__ voor je eerste maand!"
     lifetime: "Levenslang abonnement" # {change}
