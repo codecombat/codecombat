@@ -2848,7 +2848,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     too_much_indentation: "Terlalu banyak indentasi di awal baris ini."
     missing_hero: "Kata kunci `$1` tidak ada; seharusnya `$2`."
     takes_no_arguments: "`$1` tidak membutuhkan argumen. "
-    no_one_named: "Tidak ada yang bernama \"$1\ "untuk ditargetkan."
+    no_one_named: "Tidak ada yang bernama \"$1\" untuk ditargetkan."
     separated_by_comma: "Pemanggilan fungsi paramaters harus dipisahkan oleh `,`s"
     protected_property: "Tidak dapat membaca properti yang dilindungi: $1"
     need_parens_to_call: "Jika Anda ingin memanggil `$1` sebagai fungsi, Anda memerlukan `()`'s "
