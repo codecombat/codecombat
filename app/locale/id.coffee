@@ -773,7 +773,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     methods: "Metode"
     events: "Event"
     handlers: "Penangan"
-    properti: "Properti"
+    properties: "Properti"
     snippets: "Cuplikan"
     spawnable: "Spawnable"
     html: "HTML"
