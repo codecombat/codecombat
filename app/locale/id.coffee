@@ -398,7 +398,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     student_type_4: "Pilih jagoanmu!"
     student_type_5: "Persiapkan Kode Kelasmu!"
     signup_as_student: "Masuk sebagai siswa"
-    individual_or_parents: "Individu dan Orang Tua"
+    individuals_or_parents: "Individu dan Orang Tua"
     individual_type: "Untuk pemain yang belajar kode di luar kelas. Para orang tua harus mendaftar akun di sini"
     signup_as_individual: "Daftar sebagai individu"
     enter_class_code: "Masukkan Kode Kelas kamu"
