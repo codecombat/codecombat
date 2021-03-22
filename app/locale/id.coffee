@@ -2870,7 +2870,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     you_need_a_string: "Anda memerlukan string untuk membuat; salah satu dari $1"
     unable_to_get_property: "Tidak bisa mendapatkan properti '$1' dari referensi tidak terdefinisi atau null" # TODO: Apakah kita menerjemahkan undefined / null?
     code_never_finished_its: "Kode tidak pernah selesai. Bisa sangat lambat atau memiliki putaran tak terbatas."
-    unclosed_string: "String tidak tertutup".
+    unclosed_string: "String tidak tertutup"
     unmatched: "Tidak ada yang cocok '$1'."
     error_you_said_achoo: "Anda mengatakan: $1, tetapi sandinya adalah: $2. (Huruf kapital penting.)"
     indentation_error_unindent_does: "Kesalahan Indentasi: unindent tidak cocok dengan tingkat indentasi luar mana pun"
