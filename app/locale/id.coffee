@@ -168,7 +168,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     try_ozaria: "Coba Ozaria"
 
   nav:
-#    educators: "Educators"
+    educators: "Pendidik"
     follow_us: "Ikuti Kami"
     general: "Utama"
     map: "Peta"
@@ -182,10 +182,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     profile: "Profil"
     home: "Beranda"
     contribute: "Kontribusi"
-    legal: "Legal"
+    legal: "Hukum"
     privacy: "Pemberitahuan Privasi"
     about: "Tentang"
-#    impact: "Impact"
+    impact: "Pengaruh"
     contact: "Kontak"
     twitter_follow: "Ikuti"
     my_classrooms: "Kelasku"
@@ -210,7 +210,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     resource_hub: "Pusat Sumber Daya"
     apcsp: "Fundamental AP CS"
     parent: "Orang Tua"
-#    esports: "Esports"
+    esports: "Esports"
     browser_recommendation: "Untuk pengalaman yang lebih baik, kami merekomendasikan menggunakan browser chrome terbaru. Download browser disini"
 
   modal:
@@ -224,31 +224,31 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   diplomat_suggestion:
     title: "Bantu menerjemahkan CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Kami membutuhkan kemampuan berbahasamu."
-    pitch_body: "Kami mengembangkan CodeCombat dalam bahasa Inggris, tapi kami sudah memiliki pemain di seluruh dunia. Banyak dari mereka ingin bermain di Indonesia, tetapi tidak berbicara bahasa Inggris, jadi jika Anda dapat menguasai kedua bahasa tersebut, silakan mempertimbangkan untuk mendaftar untuk menjadi Diplomat dan membantu menerjemahkan kedua situs CodeCombat dan semua tingkatan ke Indonesia." # {change}
+    pitch_body: "Kami mengembangkan CodeCombat dalam bahasa Inggris, tapi kami sudah memiliki pemain di seluruh dunia. Banyak dari mereka ingin bermain di Indonesia, tetapi tidak berbicara bahasa Inggris, jadi jika Anda dapat menguasai kedua bahasa tersebut, silakan mempertimbangkan untuk mendaftar untuk menjadi Diplomat dan membantu menerjemahkan kedua situs CodeCombat dan semua tingkatan ke Bahasa Indonesia."
     missing_translations: "Hingga kami bisa menerjemahkan semuanya ke dalam bahasa Indonesia, Anda akan melihat bahasa Inggris ketika bahasa Indonesia belum tersedia."
     learn_more: "Pelajari lebih lanjut tentang menjadi seorang Diplomat"
     subscribe_as_diplomat: "Berlangganan sebagai seorang Diplomat"
 
   play:
-#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
-#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
-#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
-#    video_title: "__video__ | Video Level"
-#    game_development_title: "__level__ | Game Development"
-#    web_development_title: "__level__ | Web Development"
-#    anon_signup_title_1: "CodeCombat has a"
-#    anon_signup_title_2: "Classroom Version!"
-#    anon_signup_enter_code: "Enter Class Code:"
-#    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
-#    anon_signup_create_class: "Want to create a class?"
-#    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
-#    anon_signup_create_teacher: "Create free teacher account"
+    title: "Mainkan Level CodeCombat - Pelajari Python, JavaScript, dan HTML"
+    meta_description: "Pelajari pemrograman dengan permainan pengkodean untuk pemula. Pelajari Python atau JavaScript saat Anda memecahkan labirin, membuat game Anda sendiri, dan naik level. Tantang teman Anda di level arena multipemain!"
+    level_title: "__level__ - Belajar Membuat Kode dengan Python, JavaScript, HTML"
+    video_title: "__video__ | Tingkat Video"
+    game_development_title: "__level__ | Pengembangan Game"
+    web_development_title: "__level__ | Pengembangan Web"
+    anon_signup_title_1: "CodeCombat memiliki"
+    anon_signup_title_2: "Versi Ruang Kelas!"
+    anon_signup_enter_code: "Masukkan Kode Kelas:"
+    anon_signup_ask_teacher: "Belum punya? Tanya guru Anda!"
+    anon_signup_create_class: "Ingin membuat kelas?"
+    anon_signup_setup_class: "Siapkan kelas, tambahkan siswa Anda, dan pantau kemajuan!"
+    anon_signup_create_teacher: "Buat akun guru gratis"
     play_as: "Main sebagai" # Ladder page
     get_course_for_class: "Berikan Pengembangan Game dan lainnya ke kelasmu!"
     request_licenses: "Hubungi spesialis sekolah kami untuk rinciannya"
     compete: "Bertanding!" # Course details page
     spectate: "Tonton" # Ladder page
-#    simulate_all: "Simulate All"
+    simulate_all: "Simulasikan Semua"
     players: "pemain" # Hover over a level on /play
     hours_played: "jam bermain" # Hover over a level on /play
     items: "Barang" # Tooltip on item shop button from /play
