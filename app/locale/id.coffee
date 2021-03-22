@@ -2248,7 +2248,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     archmage_attribute_1_suf: ", atau keinginan untuk belajar. Sebagian besar kode kami dalam bahasa ini. Jika Anda penggemar Ruby atau Python, Anda akan merasa seperti di rumah sendiri. Ini JavaScript, tetapi dengan sintaks yang lebih baik."
     archmage_attribute_2: "Beberapa pengalaman dalam pemrograman dan inisiatif pribadi. Kami akan membantu Anda berorientasi, tetapi kami tidak dapat menghabiskan banyak waktu untuk melatih Anda."
     how_to_join: "Cara Bergabung"
-    join_desc_1: "Siapa pun dapat membantu! Lihat saja" kami
+    join_desc_1: "Siapa pun dapat membantu! Lihat saja di "
     join_desc_2: "untuk memulai, dan centang kotak di bawah ini untuk menandai diri Anda sebagai Archmage pemberani dan mendapatkan berita terbaru melalui email. Ingin mengobrol tentang apa yang harus dilakukan atau bagaimana cara untuk terlibat lebih dalam?"
     join_desc_3: ", atau temukan kami di"
     join_desc_4: "dan kita akan pergi dari sana!"
