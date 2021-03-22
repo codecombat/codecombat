@@ -63,7 +63,7 @@ block modal-body-content
         .radio.prepaid-type-line
           label
             input(type="radio", disabled=false, checked=selected, name="licenseType", value=key)
-            span=key
+            span!=key
           span.prepaid-number=value
 
     if state.get('error')

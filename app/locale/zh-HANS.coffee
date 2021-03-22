@@ -2038,6 +2038,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     try_ozaria_footer: "试试我们的新产品：奥佳睿！"
     try_ozaria_free: "免费试用 Ozaria"
     ozaria_intro: "介绍我们新的计算机科学课程"
+    license_expire_at: "有效期至"
 
   teacher_ozaria_encouragement_modal:
     title: "学习计算机科学技能，拯救奥佳睿世界"
