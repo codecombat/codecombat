@@ -317,7 +317,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     "!=": "tidak sama dengan"
     "!==": "tidak sama persis"
     ">": "lebih besar dari"
-    "> =": "lebih besar dari atau sama dengan"
+    ">=": "lebih besar dari atau sama dengan"
     "<": "kurang dari"
     "<=": "kurang dari atau sama"
     "*": "dikalikan dengan"
