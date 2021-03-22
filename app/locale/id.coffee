@@ -1084,7 +1084,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     ex: "contoh" # Abbreviation of "example"
     current_value: "Nilai Saat Ini"
     default_value: "Nilai default"
-    parameters: "Parameter" 
+    parameters: "Parameter"
     required_parameters: "Parameter Wajib"
     optional_parameters: "Parameter Opsional"
     returns: "Mengembalikan"
@@ -1254,7 +1254,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Ajak siswa-siswamu mulai dalam kurang dari satu jam. Kamu dapat <strong>membuat kelas, menambahkan siswa, dan mengawasi perkembangan mereka</strong> selagi mereka belajar ilmu komputer." # {change}
+    subtitle: "Pelajari lebih lanjut tentang CodeCombat dengan panduan interaktif tentang produk, harga, dan implementasi!" # {synch}
     email_exists: "User telah ada dengan email ini."
     phone_number: "Nomor telepon"
     phone_number_help: "Dimanakah kami dapat menjangkau kamu ketika hari bekerja?"
@@ -1278,7 +1278,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     organization_label: "Sekolah"
     school_name: "Nama Sekolah"
     city: "Kota"
-    state: "Provinsi" # {change}
+    state: "Provinsi / Wilayah" 
     country: "Negara"
     num_students_help: "Berapa banyak siswa yang akan menggunakan CodeCombat"
     num_students_default: "Pilih Jumlah"
@@ -1292,16 +1292,16 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     referrer: "Bagaimana kamu mengetahui mengenai kami?"
     referrer_help: "Sebagai contoh: dari guru lain, dari konferensi, dari siswa anda, Code.org, dsb."
     referrer_default: "Pilih Salah Satu"
-#    referrer_conference: "Conference (e.g. ISTE)"
+    referrer_conference: "Konferensi (misalnya ISTE)"
     referrer_hoc: "Code.org/Hour of Code"
     referrer_teacher: "Guru"
-    referrer_admin: "Adminstrator"
+    referrer_admin: "Administrator"
     referrer_student: "Siswa"
     referrer_pd: "Pelatihan profesional/workshops"
     referrer_web: "Google"
     referrer_other: "Lainnya"
     anything_else: "Kelas yang seperti apa yang kamu perkirakan untuk menggunakan CodeCombat?"
-#    anything_else_helper: ""
+    anything_else_helper: ""
     thanks_header: "Permintaan Diterima!"
     thanks_sub_header: "Terima kasih telah menyatakan ketertarikan dalam CodeCombat untuk sekolahmu."
     thanks_p: "Kamu akan menghubungi segera! Jika kamu membutuhkan kontak, kamu bisa menghubungi di:"
@@ -1316,7 +1316,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     create_account_subtitle: "Dapatkan akses peralatan hanya untuk guru jika menggunakan CodeCombat di ruang kelas. <strong>Mempersiapkan kelas</strong>, menambah siswamu, dan <strong>mengawasi perkembangan mereka</strong>!"
     convert_account_title: "Ubah ke Akun Guru"
     not: "Tidak"
-#    full_name_required: "First and last name required"
+    full_name_required: "Diperlukan nama depan dan belakang"
 
   versions:
     save_version_title: "Simpan Versi Baru"
@@ -1340,7 +1340,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     subscribe: "beli langganan CodeCombat"
     subscribe_suffix: "dan kamu akan dengan senang membantu kamu dengan kodemu."
     subscriber_support: "Karena kamu adalah seorang pelanggan CodeCombat, emailmu akan menerima dukungan prioritas dari kami."
-    screenshot_included: "Screenshot termasuk."
+    screenshot_included: "Tangkapan layar termasuk."
     where_reply: "Dimanakah kamu harus membalas?"
     send: "Kirim Umpan Balik"
 
@@ -1406,8 +1406,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     beautify: "Percantik kodemu dengan menstandarisasi formatnya."
     maximize_editor: "Memaksimalkan/meminimalisasi editor kode."
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "klik di mana saja untuk melanjutkan"
 
   community:
     main_title: "Komunitas CodeCombat"
@@ -1420,7 +1420,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     article_editor_suffix: "dan bantu pemain CodeCombat untuk mendapatkan hasil maksimal dari waktu bermain mereka."
     find_us: "Temukan kami di situs-situs berikut"
     social_github: "Lihat semua kode kami di Github"
-    social_blog: "Baca blog CodeCombat di Sett" # {change}
+    social_blog: "Baca blog CodeCombat"
     social_discource: "Bergabung dalam diskusi di forum Discourse kami"
     social_facebook: "Like CodeCombat di Facebook"
     social_twitter: "Follow CodeCombat di Twitter"
@@ -1428,9 +1428,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     contribute_to_the_project: "Berkontribusi pada proyek"
 
   clans:
-#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
-#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
-#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
+    title: "Bergabung dengan Klan CodeCombat - Belajar Membuat Kode dengan Python, JavaScript, dan HTML"
+    clan_title: "__clan__ - Bergabung dengan Klan CodeCombat dan Belajar Membuat Kode"
+    meta_description: "Bergabunglah dengan Klan atau bangun komunitas pembuat kode Anda sendiri. Mainkan level arena multipemain dan tingkatkan pahlawan serta keterampilan pengkodean Anda."
     clan: "Klan"
     clans: "Klan"
     new_name: "Nama baru klan"
@@ -1491,9 +1491,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 
   courses:
     create_new_class: "Buat Kelas Baru"
-#    hoc_blurb1: "Try the"
-#    hoc_blurb2: "Code, Play, Share"
-#    hoc_blurb3: "activity! Construct four different minigames to learn the basics of game development, then make your own!"
+    hoc_blurb1: "Coba"
+    hoc_blurb2: "Kode, Mainkan, Bagikan"
+    hoc_blurb3: "aktivitas! Buat empat game mini yang berbeda untuk mempelajari dasar-dasar pengembangan game, lalu buat sendiri!"
     solutions_require_licenses: "Solusi level akan tersedia bagi guru yang memiliki lisensi"
     unnamed_class: "Kelas Tanpa Nama"
     edit_settings1: "Ubah Pengaturan Kelas"
@@ -1547,8 +1547,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     welcome_to_page: "Beranda Siswaku"
     my_classes: "Kelas Saat Ini"
     class_added: "Kelas berhasil ditambahkan!"
-#    view_map: "view map"
-#    view_videos: "view videos"
+    view_map: "lihap peta"
+    view_videos: "lihat video"
     view_project_gallery: "lihat proyek teman kelasku"
     join_class: "Bergabung Ke Kelas"
     join_class_2: "Ikut Kelas"
@@ -1594,10 +1594,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     student_age_range_younger: "Lebih muda dari 6"
     student_age_range_older: "Lebih tua dari 18"
     student_age_range_to: "sampai"
-#    estimated_class_dates_label: "Estimated Class Dates"
-#    estimated_class_frequency_label: "Estimated Class Frequency"
-#    classes_per_week: "classes per week"
-#    minutes_per_class: "minutes per class"
+    estimated_class_dates_label: "Perkiraan Tanggal Kelas"
+    estimated_class_frequency_label: "Estimasi Frekuensi Kelas"
+    classes_per_week: "kelas per minggu"
+    minutes_per_class: "menit per kelas"
     create_class: "Buat Kelas"
     class_name: "Nama Kelas"
     teacher_account_restricted: "Akun kamu adalah akun guru dan tidak dapat mengakses konten siswa."
