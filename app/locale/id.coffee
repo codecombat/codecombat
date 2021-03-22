@@ -2817,8 +2817,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   server_error:
     email_taken: "Email telah diambil"
     username_taken: "Username telah diambil"
-#    easy_password: "Password is too easy to guess"
-#    reused_password: "Password cannot be reused"
+    easy_password: "Kata sandi terlalu mudah ditebak"
+    reused_password: "Kata sandi tidak dapat digunakan kembali"
 
 #  esper:
 #    line_no: "Line $1: "
