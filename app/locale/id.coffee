@@ -1084,7 +1084,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     ex: "contoh" # Abbreviation of "example"
     current_value: "Nilai Saat Ini"
     default_value: "Nilai default"
-    parameters: "Parameter"
+    parameters: "Parameter" 
     required_parameters: "Parameter Wajib"
     optional_parameters: "Parameter Opsional"
     returns: "Mengembalikan"
