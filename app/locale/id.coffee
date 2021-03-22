@@ -1061,7 +1061,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     hair_label: "Warna Rambut"
     skin_label: "Warna Kulit"
 
-    skill_docs:
+  skill_docs:
     function: "fungsi" # skill types
     method: "metode"
     snippet: "snippet"
