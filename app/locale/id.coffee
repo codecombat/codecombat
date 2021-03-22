@@ -2844,7 +2844,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     attack_capitalization: "Serang $1, bukan $2. (Huruf kapital penting.)"
     empty_while: "Statement while kosong. Letakkan 4 spasi di depan pernyataan di dalam pernyataan while."
     line_of_site: "Argumen `$1` `$2` bermasalah. Apakah masih ada musuh dalam garis pandang Anda?"
-    need_a_after_ while: "Membutuhkan`$1` setelah `$2`."
+    need_a_after_while: "Membutuhkan`$1` setelah `$2`."
     too_much_indentation: "Terlalu banyak indentasi di awal baris ini."
     missing_hero: "Kata kunci `$1` tidak ada; seharusnya `$2`."
     takes_no_arguments: "`$1` tidak membutuhkan argumen. "
