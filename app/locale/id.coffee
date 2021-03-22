@@ -2630,7 +2630,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     for_loops: "For Loop"
     for_loops_nested: "For Loops Bersarang"
     for_loops_range: "Untuk Rentang Pengulangan"
-    funnctions: "Fungsi"
+    functions: "Fungsi"
     functions_parameters: "Parameter"
     functions_multiple_parameters: "Beberapa Parameter"
     game_ai: "Game AI"
