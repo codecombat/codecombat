@@ -2823,28 +2823,28 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   esper:
     line_no: "Baris $1:"
     uncaught: "Tidak tertangkap $1" # $1 will be an error type, eg "Uncaught SyntaxError"
-    reference_error: "Kesalahan Referensi:"
-    argument_error: "Kesalahan Argumen:"
-    type_error: "Kesalahan Tipe:"
-    syntax_error: "Kesalahan Sintaks:"
-    error: "Kesalahan:"
+    reference_error: "Kesalahan Referensi: "
+    argument_error: "Kesalahan Argumen: "
+    type_error: "Kesalahan Tipe: "
+    syntax_error: "Kesalahan Sintaks: "
+    error: "Kesalahan: "
     x_not_a_function: "$1 bukan fungsi"
     x_not_defined: "$1 tidak ditentukan"
     spelling_issues: "Waspadai masalah ejaan: apakah yang Anda maksud adalah `$1`, bukan `$2`?"
     capitalization_issues: "Perhatikan kapitalisasi: `$1` seharusnya `$2`."
     py_empty_block: "Kosongkan $1. Letakkan 4 spasi di depan pernyataan di dalam pernyataan $2."
     fx_missing_paren: "Jika Anda ingin memanggil `$1` sebagai fungsi, Anda memerlukan `()`'s "
-    unmatched_token: "Unmatched`$1`. Setiap pembukaan `$2` membutuhkan penutup `$3` untuk mencocokkannya. "
+    unmatched_token: "Tidak cocok `$1`. Setiap pembukaan `$2` membutuhkan penutup `$3` untuk mencocokkannya. "
     unterminated_string: "String tidak diakhiri. Tambahkan `\"` yang cocok di akhir string Anda. "
     missing_semicolon: "Titik koma tidak ada."
     missing_quotes: "Kutipan tidak ada. Coba `$1` "
-    argument_type: "Argumen `$1` `$2` seharusnya memiliki jenis `$3`, tetapi mendapatkan `$4`:`$5`. "
+    argument_type: "Argumen `$1` `$2` seharusnya memiliki jenis `$3`, tetapi mendapatkan `$4`: `$5`. "
     argument_type2: "Argumen `$1` `$2` seharusnya memiliki jenis `$3`, tetapi mendapatkan `$4`."
     target_a_unit: "Targetkan sebuah unit."
     attack_capitalization: "Serang $1, bukan $2. (Huruf kapital penting.)"
     empty_while: "Statement while kosong. Letakkan 4 spasi di depan pernyataan di dalam pernyataan while."
     line_of_site: "Argumen `$1` `$2` bermasalah. Apakah masih ada musuh dalam garis pandang Anda?"
-    need_a_after_while: "Membutuhkan`$1` setelah `$2`."
+    need_a_after_while: "Membutuhkan `$1` setelah `$2`."
     too_much_indentation: "Terlalu banyak indentasi di awal baris ini."
     missing_hero: "Kata kunci `$1` tidak ada; seharusnya `$2`."
     takes_no_arguments: "`$1` tidak membutuhkan argumen. "
@@ -2868,7 +2868,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     attempted_to_assign: "Mencoba menugaskan ke properti hanya-baca."
     unexpected_early_end: "Akhir program yang tidak terduga."
     you_need_a_string: "Anda memerlukan string untuk membuat; salah satu dari $1"
-    unable_to_get_property: "Tidak bisa mendapatkan properti '$1' dari referensi tidak terdefinisi atau null"     TODO: Apakah kita menerjemahkan undefined / null?
+    unable_to_get_property: "Tidak bisa mendapatkan properti '$1' dari referensi tidak terdefinisi atau null" # TODO: Apakah kita menerjemahkan undefined / null?
     code_never_finished_its: "Kode tidak pernah selesai. Bisa sangat lambat atau memiliki putaran tak terbatas."
     unclosed_string: "String tidak tertutup".
     unmatched: "Tidak ada yang cocok '$1'."
@@ -3038,7 +3038,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     quote_3: "\"Oliver’s Python akan segera hadir. Dia menggunakan CodeCombat untuk membuat gim videonya sendiri. Dia menantang saya untuk memainkan permainannya, lalu tertawa ketika saya kalah. \ ""
     quote_4: "\"Ini adalah salah satu hal favorit saya untuk dilakukan. Setiap pagi saya bangun dan bermain CodeCombat. Jika saya harus memberi CodeCombat peringkat dari 1 sampai 10, saya akan memberikannya 10! \ ""
     parent: "Orang Tua"
-
     student: "Siswa"
     grade: "Tingkat"
     subscribe_error_user_type: "Sepertinya Anda sudah mendaftar untuk sebuah akun. Jika Anda tertarik dengan CodeCombat Premium, silakan hubungi kami di team@codecombat.com."
@@ -3048,7 +3047,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     live_class_booked_thank_you: "Kelas langsung Anda telah dipesan, terima kasih!"
     book_your_class: "Pesan Kelas Anda"
     call_to_book: "Telepon sekarang untuk memesan"
-
 
   modal_timetap_confirmation:
     congratulations: "Selamat!"
