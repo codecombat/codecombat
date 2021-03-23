@@ -3091,71 +3091,72 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     student: "Saya seorang siswa"
     ready_to_code: "Saya siap membuat kode!"
 
-#  hoc_2018_completion:
-#    congratulations: "Congratulations on completing <b>Code, Play, Share!</b>"
-#    send: "Send your Hour of Code game to friends and family!"
-#    copy: "Copy URL"
-#    get_certificate: "Get a certificate of completion to celebrate with your class!"
-#    get_cert_btn: "Get Certificate"
-#    first_name: "First Name"
-#    last_initial: "Last Initial"
-#    teacher_email: "Teacher's email address"
+  hoc_2018_completion:
+    congratulations: 'Selamat, Anda telah menyelesaikan tantangan Code, Play, Share!'
+    send: 'Kirim game Hour of Code Anda ke teman dan keluarga!'
+    copy: 'Salin URL'
+    get_certificate: 'Dapatkan sertifikat kelulusan untuk merayakan bersama kelas Anda!'
+    get_cert_btn: 'Dapatkan Sertifikat'
+    first_name: 'Nama depan'
+    last_initial: 'Inisial Terakhir'
+    teacher_email: 'Alamat email guru'
 
-#  school_administrator:
-#    title: "School Administrator Dashboard"
-#    my_teachers: "My Teachers"
-#    last_login: "Last Login"
-#    licenses_used: "licenses used"
-#    total_students: "total students"
-#    active_students: "active students"
-#    projects_created: "projects created"
-#    other: "Other"
-#    notice: "The following school administrators have view-only access to your classroom data:"
-#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
-#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
-#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
-#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
-#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
-#    no_teachers: "You are not administrating any teachers."
-#    totals_calculated: "How are these totals calculated?"
-#    totals_explanation_1: "How are these totals calculated?"
-#    totals_explanation_2: "Licenses used"
-#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
-#    totals_explanation_4: "Total students"
-#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
-#    totals_explanation_6: "Active students"
-#    totals_explanation_7: "Counts all students who were active within the past 60 days."
-#    totals_explanation_8: "Projects created"
-#    totals_explanation_9: "Counts total games and web pages created."
-#    date_thru_date: "__startDateRange__ thru __endDateRange__"
+  school_administrator:
+    title: 'Dasbor Administrator Sekolah'
+    my_teachers: 'Guru Saya'
+    last_login: 'Login Terakhir'
+    licenses_used: 'lisensi yang digunakan'
+    total_students: 'total students'
+    active_students: 'siswa aktif'
+    projects_created: 'proyek dibuat'
+    other: 'Lainnya'
+    notice: 'Administrator sekolah berikut memiliki akses hanya lihat ke data kelas Anda:'
+    add_additional_teacher: 'Perlu menambah pengajar tambahan? Hubungi Manajer Akun CodeCombat Anda atau kirim email ke support@codecombat.com.'
+    license_stat_description: 'Lisensi akun yang tersedia untuk jumlah lisensi yang tersedia untuk guru, termasuk Lisensi Bersama.'
+    students_stat_description: 'Total akun siswa untuk semua siswa di semua ruang kelas, terlepas dari apakah mereka memiliki lisensi yang diterapkan.'
+    active_students_stat_description: 'Siswa aktif menghitung jumlah siswa yang login ke CodeCombat dalam 60 hari terakhir.'
+    project_stat_description: 'Proyek yang dibuat menghitung jumlah total proyek pengembangan Game dan Web yang telah dibuat.'
+    no_teachers: 'Anda tidak mengadminkan guru.'
+    totals_calculated: 'Bagaimana cara menghitung total ini?'
+    totals_explanation_1: 'Bagaimana cara menghitung total ini?'
+    totals_explanation_2: 'Lisensi yang digunakan'
+    totals_explanation_3: 'Menghitung total lisensi yang diterapkan ke siswa dari total lisensi yang tersedia.'
+    totals_explanation_4: 'Jumlah siswa'
+    totals_explanation_5: 'Menghitung jumlah siswa guru di semua kelas aktif mereka. Untuk melihat total siswa yang terdaftar di kelas aktif dan yang diarsipkan, buka halaman Lisensi Siswa'.
+    totals_explanation_6: 'Siswa aktif'
+    totals_explanation_7: 'Menghitung terakhir semua siswa yang aktif dalam 60 hari.'
+    totals_explanation_8: 'Proyek dibuat'
+    totals_explanation_9: 'Menghitung total game dan halaman web yang dibuat.'
+    date_thru_date: '__startDateRange__ thru __endDateRange__'
 
-#  interactives:
-#    phenomenal_job: "Phenomenal Job!"
-#    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
-#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
 
-#  browser_recommendation:
-#    title: "CodeCombat works best on Chrome!"
-#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
-#    download: "Download Chrome"
-#    ignore: "Ignore"
+  interactives:
+    phenomenal_job: 'Pekerjaan Fenomenal!'
+    try_again: 'Ups, coba lagi!'
+    select_statement_left: 'Ups, pilih pernyataan dari kiri sebelum menekan \"Kirim.\"'
+    fill_boxes: 'Ups, pastikan untuk mengisi semua kotak sebelum menekan \"Kirim.\"'
 
-#  admin:
-#    license_type_full: "Full Courses"
-#    license_type_customize: "Customize Courses"
+  browser_recommendation:
+    title: 'CodeCombat bekerja paling baik di Chrome!'
+    pitch_body: 'Untuk pengalaman CodeCombat terbaik, sebaiknya gunakan Chrome versi terbaru. Unduh versi terbaru chrome dengan mengeklik tombol di bawah!'
+    download: 'Unduh Chrome'
+    ignore: 'Abaikan'
 
-#  league:
-#    student_register_1: "Become the next AI Champion!"
-#    student_register_2: "Sign up, create your own team, or join other teams to start competing."
-#    student_register_3: "Provide the information below to be eligible for prizes."
-#    teacher_register_1: "Sign up to access your class league profile page and get your class started."
-#    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
-#    team: "team"
-#    how_it_works1: "Join a __team__"
-#    seasonal_arena_name: "Blazing Battle"
-#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
-#    seasonal_play_cta: "Play Blazing Battle Multiplayer Arena"
-#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
-#    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
-#    join_now: "Join Now"
+  admin:
+    license_type_full: 'Kursus Lengkap'
+    license_type_customize: 'Sesuaikan Kursus'
+
+  league:
+    student_register_1: 'Menjadi Juara AI berikutnya!'
+    student_register_2: 'Daftar, buat tim Anda sendiri, atau gabung dengan tim lain untuk mulai berkompetisi.'
+    student_register_3: 'Berikan informasi di bawah ini agar memenuhi syarat untuk mendapatkan hadiah.'
+    teacher_register_1: 'Daftar untuk mengakses halaman profil liga kelas Anda dan mulai kelas Anda.'
+    general_news: 'Dapatkan email tentang berita terbaru dan pembaruan tentang Liga AI dan turnamen kami.'
+    team: 'tim'
+    how_it_works1: 'Gabung dengan __team__'
+    seasonal_arena_name: 'Pertempuran Berkobar'
+    seasonal_arena_tooltip: 'Bertarung melawan rekan satu tim dan orang lain saat Anda menggunakan keterampilan pemrograman terbaik untuk mendapatkan poin dan peringkat papan peringkat Liga AI sebelum menghadapi arena Kejuaraan di akhir musim.'
+    seasonal_play_cta: 'Mainkan Blazing Battle Multiplayer Arena'
+    unlocked_seasonal_arena: 'Anda telah membuka arena esports multipemain kami!'
+    summary: 'CodeCombat AI League secara unik merupakan simulator pertarungan AI yang kompetitif dan mesin game untuk mempelajari kode Python dan JavaScript yang sebenarnya.'
+    join_now: 'Gabung Sekarang'
