@@ -39,9 +39,12 @@ export default function getVueRouter () {
           ]
         },
         {
+          path: '/admin/clan',
+          component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanSearch'),
+        },
+        {
           path: '/admin/clan/:clanId',
           component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanEdit'),
-          props: (route) => ({clanId: route.params.clanId})
         },
         // Warning: In production debugging of third party iframe!
         {
