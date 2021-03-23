@@ -2040,7 +2040,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     try_ozaria_footer: "Try our new adventure game, Ozaria!"
     try_ozaria_free: "Try Ozaria for free"
     ozaria_intro: "Introducing Our New Computer Science Program"
-    license_expire_at: "Expire At"
 
   teacher_ozaria_encouragement_modal:
     title: "Build Computer Science Skills to Save Ozaria"

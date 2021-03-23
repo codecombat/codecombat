@@ -56,8 +56,9 @@ module.exports = class Prepaid extends CocoModel
 
   typeDescriptionWithTime: ->
     type = @get('type')
-    endDate = @get('endDate').split('T')[0]
-    endAt = "<br>#{i18n.translate('teacher.license_expire_at')}: #{endDate}"
+    endDate = moment(@get('endDate')).utc().format('ll')
+    endAt = "<br>#{i18n.translate('teacher.status_enrolled')}"
+    endAt = endAt.replace('{{date}}', endDate)
     if type == 'starter_license'
       return i18n.translate('teacher.starter_license') + endAt
     includedCourseIDs = @get('includedCourseIDs')
