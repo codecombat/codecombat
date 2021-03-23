@@ -565,7 +565,7 @@ module.exports = class User extends CocoModel
   # Feature Flags
   # Abstract raw settings away from specific UX changes
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
-  canBuyGems: -> not (features?.chinaUx ? false)
+  canBuyGems: -> false  # Disabled direct buying of gems around 2021-03-16
   constrainHeroHealth: -> features?.classroomItems ? false and @isStudent()
   promptForClassroomSignup: -> not ((features?.chinaUx ? false) or (window.serverConfig?.codeNinjas ? false) or (features?.brainPop ? false))
   showAvatarOnStudentDashboard: -> not (features?.classroomItems ? false) and @isStudent()

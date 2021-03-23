@@ -92,6 +92,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
+    top_banner_blurb_team_derbezt_link: "¡Únete al equipo DerBezt en CodeCombat AI League"
+    top_banner_blurb_team_derbezt_suffix: "para obtener el héroe exclusivo Armando Hoyos de la superestrella mexicano Eugenio Derbez!"
 #    try_the_game: "Try the game"
     classroom_edition: "Edición para aulas:"
     learn_to_code: "Aprende a programar:"
