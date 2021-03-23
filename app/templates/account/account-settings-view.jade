@@ -32,7 +32,7 @@ else
             .row
               .form-group.col-sm-6
                 label.control-label(for="firstName", data-i18n="general.first_name")
-                input#first-name-input.form-control(name="firstName", type="text", value="#{firstName}")
+                input#first-name-input.form-control(name="firstName", type="text", value="#{firstName}", disabled=!(me.isAdmin() || (serverSession && serverSession.amActually)))
               if !me.showChinaRegistration()
                 .form-group.col-sm-6
                   if me.isStudent()
