@@ -3122,7 +3122,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     totals_explanation_2: 'Lisensi yang digunakan'
     totals_explanation_3: 'Menghitung total lisensi yang diterapkan ke siswa dari total lisensi yang tersedia.'
     totals_explanation_4: 'Jumlah siswa'
-    totals_explanation_5: 'Menghitung jumlah siswa guru di semua kelas aktif mereka. Untuk melihat total siswa yang terdaftar di kelas aktif dan yang diarsipkan, buka halaman Lisensi Siswa'.
+    totals_explanation_5: 'Menghitung jumlah siswa guru di semua kelas aktif mereka. Untuk melihat total siswa yang terdaftar di kelas aktif dan yang diarsipkan, buka halaman Lisensi Siswa'
     totals_explanation_6: 'Siswa aktif'
     totals_explanation_7: 'Menghitung terakhir semua siswa yang aktif dalam 60 hari.'
     totals_explanation_8: 'Proyek dibuat'
