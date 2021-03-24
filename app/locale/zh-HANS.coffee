@@ -162,13 +162,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     want_coco: "把 CodeCombat 带到您的学校？"
     educator: "教育工作者"
     student: "学生"
-    our_coding_programs: "我们的代码程序"
+    our_coding_programs: "我们的课程"
     codecombat: "扣哒世界 (CodeCombat) "
-    ozaria: "奥佳瑞 (Ozaria) "
+    ozaria: "奥佳睿 (Ozaria) "
     codecombat_blurb: "我们原创的编程游戏，推荐给家长、个人、教育工作者和学生，让他们体验世界上最受欢迎的编程游戏之一。"
     ozaria_blurb: "一个冒险游戏和计算机科学程序，学生寻回遗失的编程魔法，以拯救他们的世界。推荐给教育工作者和学生。"
+    ozaria_china_blurb: "奥佳睿是斯坦福大学和MIT教授亲自指导、中美两国计算机专家共同开发的计算机编程教学平台。它集AI编程、算法、天文、物理、数学和中西文化为一体，是全球“编程一小时”最受青少年欢迎学习平台之一。"
     try_codecombat: "试试扣哒世界"
-    try_ozaria: "试试奥佳瑞"
+    try_ozaria: "试试奥佳睿"
 
   nav:
     aiyouth: "AI世青赛"

@@ -24,6 +24,8 @@ block content
       .col-lg-6.aiyouth
         h1.gradient-title 奥佳睿-Ozaria
         .subtitle 体验科幻冒险编程
+        br
+        .sub2title 第一章免费试用
         a.btn.btn-lg.btn-primary.aiyouth-btn(href="https://aojiarui.com") 进入官网
 
     .row.text-center#game-based
@@ -35,7 +37,7 @@ block content
                 .tile-shadow
                   img(src="/images/pages/home/type_real_code.png")
                   h2.text-teal(data-i18n="new_home.codecombat")
-                  p.text-left.text-navy(data-i18n="new_home.codecombat_blurb")
+                  p.text-left.text-navy(data-i18n="new_home.game_based_blurb")
                   if me.isAnonymous()
                     button.btn.btn-lg.btn-primary.signup-button(data-event-action="Homepage Click Try CodeCombat CTA", data-i18n="new_home.try_codecombat")
                   else
@@ -49,8 +51,8 @@ block content
                 .tile-shadow
                   img(src="/images/pages/home/ozaria_acodus.png")
                   h2.text-teal(data-i18n="new_home.ozaria")
-                  p.text-left.text-navy(data-i18n="new_home.ozaria_blurb")
-                  a.btn.btn-lg.btn-primary.try-ozaria(href="https://ozaria.com", data-event-action="Homepage Click Try Ozaria CTA", data-i18n="new_home.try_ozaria")
+                  p.text-left.text-navy(data-i18n="new_home.ozaria_china_blurb")
+                  a.btn.btn-lg.btn-primary.try-ozaria(href="https://aojiarui.com", data-event-action="Homepage Click Try Ozaria CTA", data-i18n="new_home.try_ozaria")
 
 
     if !me.showingStaticPagesWhileLoading()

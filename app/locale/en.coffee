@@ -165,6 +165,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ozaria: "Ozaria"
     codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
     ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+    ozaria_china_blurb: ""
     try_codecombat: "Try CodeCombat"
     try_ozaria: "Try Ozaria"
 
