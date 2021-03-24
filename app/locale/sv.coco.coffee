@@ -92,6 +92,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     teachers_love_codecombat_blurb3: "Säger att CodeCombat hjälper dem att stödja elevernas förmåga att lösa problem"
     teachers_love_codecombat_subblurb: "I samarbete med McREL International, en ledare inom forskningsbaserad vägledning och utvärderingar av utbildningsteknik."
     top_banner_blurb: "Föräldrar, ge ditt barn kodning och personlig instruktion som en present under ledigheten!" # {change}
+#    top_banner_blurb_team_derbezt_link: "Join Team DerBezt in the CodeCombat AI League"
+#    top_banner_blurb_team_derbezt_suffix: "to get the exclusive Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
     try_the_game: "Prova spelet"
     classroom_edition: "Klassrumutgåven:"
     learn_to_code: "Lär dig koda:"
@@ -939,6 +941,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     feature_level_access: "Få tillgång till mer än 300 nivåer"
     feature_heroes: "Lås upp exklusiva hjältar och husdjur"
     feature_learn: "Lär dig att skapa spel och webbplatser"
+#    feature_gems: "Receive __gems__ gems per month"
     month_price: "$__price__"
     first_month_price: "Endast $__price__ för din första månad!"
     lifetime: "Livstidsåtkomst"

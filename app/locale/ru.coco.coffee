@@ -92,6 +92,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teachers_love_codecombat_blurb3: "Скажите, что CodeCombat помогает им поддерживать способности учащихся решать проблемы"
     teachers_love_codecombat_subblurb: "В партнерстве с McREL International, лидером в области основанного на исследованиях руководства и оценки образовательных технологий."
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
+#    top_banner_blurb_team_derbezt_link: "Join Team DerBezt in the CodeCombat AI League"
+#    top_banner_blurb_team_derbezt_suffix: "to get the exclusive Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
     try_the_game: "Попробуй игру"
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
@@ -939,6 +941,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     feature_level_access: "Доступ к более чем трёхстам уровням"
     feature_heroes: "Разблокируй эксклюзивных героев и компаньонов"
     feature_learn: "Учись создавать игры и веб-сайты"
+#    feature_gems: "Receive __gems__ gems per month"
     month_price: "$__price__/мес" # {change}
     first_month_price: "Всего $__price__ за первый месяц!"
     lifetime: "Пожизненная подписка" # {change}
