@@ -45,11 +45,7 @@ module.exports = class SolutionProblemsView extends RootView
     'goals'
   ]
   includedLanguages = [
-    'python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript'
-  ]
-  # TODO: Phase the following out:
-  excludedLanguages = [
-    'lua', 'coffeescript'
+    'python', 'javascript'
   ]
   excludedLevelSnippets = [
     'treasure', 'brawl', 'siege'
@@ -142,8 +138,7 @@ module.exports = class SolutionProblemsView extends RootView
     problems = []
     for lang in includedLanguages
       if _.findWhere(solutions, (elem) -> return elem.language is lang)
-      # TODO: Phase the following out:
-      else if lang not in excludedLanguages
+      else
         problems.push
           type: 'Missing solution language'
           value: lang

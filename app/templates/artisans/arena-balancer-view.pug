@@ -1,0 +1,25 @@
+//- DNT
+extends /templates/base-flat.jade
+
+block content
+  .container
+    a(href="/artisans")
+      span.glyphicon.glyphicon-chevron-left
+      span Artisans Home
+    h1= "Arena Balancer - " + view.levelSlug
+
+    if view.errorMessage
+      .row
+        div.col-xs-6.col-xs-offset-3
+          span.center-block Error: #{view.errorMessage}
+
+    if view.solution
+      .row.solution
+        .col-xs-12
+          .ace(data-language=view.solution.language)= view.solution.source
+
+      #variables-treema
+
+      .row
+        .col-xs-3.col-xs-offset-8.go-button
+          button.btn.btn-primary.btn-lg#go-button Loading variants...
