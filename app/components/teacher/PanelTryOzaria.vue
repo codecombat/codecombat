@@ -21,7 +21,7 @@ export default Vue.extend({
         </div>
         <OzariaCTA />
       </div>
-      <a class="try-oz-btn" href="https://aojiarui.com/teachers" rel="external" target="_blank">
+      <a class="try-oz-btn" href="https://aojiarui.com" rel="external" target="_blank">
         {{ $t("teacher.try_ozaria_free") }}
       </a>
     </div>
