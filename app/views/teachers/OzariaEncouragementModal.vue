@@ -3,9 +3,7 @@
 
     export default Vue.extend({
       data: () => ({
-        show: true,
-
-        hasPlayed: false,
+        show: true, hasPlayed: false,
         playerVars: {
           rel: 0
         }

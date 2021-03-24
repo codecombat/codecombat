@@ -59,6 +59,11 @@ mixin accountLinks
                   ul.nav.navbar-nav
                     if me.showChinaResourceInfo()
                       li
+                        if document.location.href.search('/CoCoStar') >= 0
+                          a.text-p.text-teal(href="/CoCoStar", data-i18n="nav.star")
+                        else
+                          a.text-p(href="/CoCoStar", data-i18n="nav.star")
+                      li
                         a.text-p(data-i18n="nav.aiyouth", href="http://aiyouth.koudashijie.com")
                       -// li
                       -//   a.text-p(data-i18n="nav.blog", href="https://blog.koudashijie.com")
@@ -84,11 +89,6 @@ mixin accountLinks
                     -//     a.text-p.text-teal(href="/parents", data-i18n="nav.parent")
                     -//   else
                     -//     a.text-p(href="/parents", data-i18n="nav.parent")
-                    li
-                      if document.location.href.search('/CoCoStar') >= 0
-                        a.text-p.text-teal(href="/CoCoStar", data-i18n="nav.star")
-                      else
-                        a.text-p(href="/CoCoStar", data-i18n="nav.star")
                       -// if document.location.href.search('/impact') >= 0
                       -//   a.text-p.text-teal(href="/impact", data-i18n="nav.impact")
                       -// else

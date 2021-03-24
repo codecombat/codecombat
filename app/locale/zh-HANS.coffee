@@ -164,11 +164,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     student: "学生"
     our_coding_programs: "我们的代码程序"
     codecombat: "扣哒世界 (CodeCombat) "
-    ozaria: "Ozaria"
+    ozaria: "奥佳瑞 (Ozaria) "
     codecombat_blurb: "我们原创的编程游戏，推荐给家长、个人、教育工作者和学生，让他们体验世界上最受欢迎的编程游戏之一。"
     ozaria_blurb: "一个冒险游戏和计算机科学程序，学生寻回遗失的编程魔法，以拯救他们的世界。推荐给教育工作者和学生。"
-    try_codecombat: "试试扣哒世界 (CodeCombat) "
-    try_ozaria: "试试 Ozaria"
+    try_codecombat: "试试扣哒世界"
+    try_ozaria: "试试奥佳瑞"
 
   nav:
     aiyouth: "AI世青赛"
@@ -1766,7 +1766,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     revoke_licenses: "终止所有许可"
     course_progress: "课程进度"
     not_applicable: "N/A"
-    edit: "修改"
+    edit: "修改密码"
     edit_2: "修改"
     remove: "移除"
     latest_completed: "最近通关" # {change}
