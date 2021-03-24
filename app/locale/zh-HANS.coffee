@@ -73,7 +73,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     for_teachers_subblurb3: "个性化教学，确保学生通过全面具体的评估来理解核心概念。"
     for_teachers_subtitle4: "智能配置"
     for_teachers_subblurb4: "智能化配置每个学生的练习关卡，让不同水平的学生都能参与的多元化课程学习。"
-    game_based_blurb: "扣哒世界 (CodeCombat) 是全球广受欢迎的青少年人工智能代码编程学习平台，以PBL场景化和游戏化为特色。平台有6个等级和11个学习模块(含国际等级证书) ，支持Python, C++、JavaScript等程序语言教学和学习。美国大学理事会AP权威认证， AI世青赛全球编程挑战活动指定竞赛平台。"
+    game_based_blurb: "扣哒世界是全球广受欢迎的青少年人工智能代码编程学习平台，以PBL场景化和游戏化为特色。平台有6个等级和11个学习模块(含国际等级证书) ，支持Python, C++、JavaScript等程序语言教学和学习。美国大学理事会AP权威认证， AI世青赛全球编程挑战活动指定竞赛平台。"
     get_started: "开启编程"
     global_title: "加入我们的全球学习者和教育者社区"
     global_subtitle1: "学习者"
