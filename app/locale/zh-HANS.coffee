@@ -3157,3 +3157,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
 #    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
 #    join_now: "Join Now"
+
+  tournament:
+    mini_tournaments: "迷你锦标赛"
+    usable_ladders: "所有可用的关卡"
+    make_tournament: "创建迷你锦标赛"
+    go_tournaments: "查看迷你锦标赛"
+    class_tournaments: "查看迷你锦标赛"
+    no_tournaments_owner: "目前没有锦标赛, 情先创建"
+    no_tournaments: "目前没有锦标赛"
+    edit_tournament: " 修改"
+    create_tournament: " 创建锦标赛"

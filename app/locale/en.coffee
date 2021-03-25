@@ -3187,3 +3187,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     roster_management_subheader: 'Track student performance within the curriculum and within the game, and easily add or remove students.'
     share_flyer: 'Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested.'
     download_flyer: 'Download Flyer'
+
+  tournament:
+    mini_tournaments: "Mini Tournaments"
+    usable_ladders: "All Usable Ladders"
+    make_tournament: "Make a mini tournament"
+    go_tournaments: "Go to mini tournaments"
+    class_tournaments: "Class mini tournaments"
+    no_tournaments_owner: "There is no tournament now, please create one"
+    no_tournaments: "There is no tournament now"
+    edit_tournament: "Edit Tournament"
+    create_tournament: "Create a Tournament"

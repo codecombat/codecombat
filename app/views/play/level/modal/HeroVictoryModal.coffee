@@ -420,6 +420,8 @@ module.exports = class HeroVictoryModal extends ModalView
       viewArgs.push leagueType
       viewArgs.push leagueID
       ladderURL += "/#{leagueType}/#{leagueID}"
+      if tournamentId = utils.getQueryVariable('tournament')
+        ladderURL += "?tournament=#{tournamentId}"
     ladderURL += '#my-matches'
     @hide()
     Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs
