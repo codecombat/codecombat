@@ -589,7 +589,7 @@ module.exports = class User extends CocoModel
   showChinaResourceInfo: -> features?.china ? false
   useChinaHomeView: -> features?.china ? false
   showChinaRegistration: -> features?.china ? false
-  enableCpp: -> false # me.hasSubscription() || me.isStudent() || me.isTeacher()
+  enableCpp: -> me.hasSubscription() || me.isStudent() || me.isTeacher()
   useQiyukf: -> features?.china ? false
   useChinaServices: -> features?.china ? false
   useGeneralArticle: -> not (features?.china ? false)
