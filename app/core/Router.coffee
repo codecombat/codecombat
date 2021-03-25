@@ -83,7 +83,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/skipped-contacts': go('admin/SkippedContactsView')
     'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
     'admin/outcomes-report': go('admin/OutcomesReportView')
-    'admin/clan/:clanID': go('core/SingletonAppVueComponentView')
+    'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView')
 
     'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
@@ -99,6 +99,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/bulk-level-editor': go('artisans/BulkLevelEditView')
     'artisans/sandbox': go('artisans/SandboxView')
     'artisans/bulk-level-editor/:campaign': go('artisans/BulkLevelEditView')
+    'artisans/arena-balancer(/:levelSlug)': go('artisans/ArenaBalancerView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
     'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
@@ -300,6 +301,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('courses/RestrictedToStudentsView')
     leavingMessage = _.result(window.currentView, 'onLeaveMessage')
     if leavingMessage
+      # Custom messages don't work any more, main browsers just show generic ones. So, this could be refactored.
       if not confirm(leavingMessage)
         return @navigate(this.path, {replace: true})
       else

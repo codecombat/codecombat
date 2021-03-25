@@ -96,10 +96,6 @@ app/views/editor/cinematic/CinematicEditorComponent.vue
 scripts/github-translation-import.js
 scripts/copy-i18n-tags.js
 
-stories/Welcome.js
-stories/MyButton.js
-stories/index.stories.js
-
 test/app/core/social-handlers/GoogleClassroomHandler.spec.js
 test/app/models/Cinematic.spec.js
 test/app/lib/cinematic/AbstractCommand.spec.js
