@@ -1,4 +1,5 @@
 - var league = view.options.league
+- var tournament = view.options.tournament
 .row
   for team, teamIndex in view.teams
     div.column.col-md-6
@@ -37,7 +38,7 @@
               td(class='name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
               td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
               td.fight-cell
-                a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam || 'humans'}&opponent=#{session.id}" + (league ? "&league=" + league.id : ""))
+                a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam || 'humans'}&opponent=#{session.id}" + (league ? "&league=" + league.id : "") + (tournament? "&tournament="+tournament:""))
                   span(data-i18n="ladder.fight") Fight!
               td.spectate-cell.iconic-cell
                 .glyphicon.glyphicon-eye-open

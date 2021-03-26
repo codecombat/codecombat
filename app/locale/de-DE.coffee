@@ -92,6 +92,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
     top_banner_blurb: "Eltern können hier die ersten Online-Kurse kostenfrei buchen."
+#    top_banner_blurb_team_derbezt_link: "Join Team DerBezt in the CodeCombat AI League"
+#    top_banner_blurb_team_derbezt_suffix: "to get the exclusive Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
     try_the_game: "Das Spiel ausprobieren"
     classroom_edition: "Klassenraum Edition:"
     learn_to_code: "Lerne zu Programmieren:"
@@ -939,6 +941,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    feature_level_access: "Access 300+ levels available"
     feature_heroes: "Schalte exklusive Helden frei" # {change}
     feature_learn: "Lerne die Erstellung von Websiten und Spielen"
+#    feature_gems: "Receive __gems__ gems per month"
     month_price: "$__price__/Mon" # {change}
     first_month_price: "Nur $__price__ für deinen ersten Monat!"
     lifetime: "Lebenslanges Abonnement" # {change}
