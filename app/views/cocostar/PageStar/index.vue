@@ -6,7 +6,10 @@
     h5.text-white.col-md-8
       | 为鼓励广大青少年学习计算机编程，扣哒世界每年同权威学术机构和技术机构开展面向青少年的人工智能创意和算法公益竞赛。本栏目收集从2019年开始历届比赛的扣哒之星获奖者，作为榜样的力量激励更多的青少年投入到代码编程、算法设计和人工智能学习中来，自强不息、精益求精、追求卓越！
 
-
+  .part
+    .width-container
+      a(href="https://appkgnjywge8466.h5.xiaoeknow.com/v1/course/text/i_605c3fc1e4b09f6eae88c7df?type=2&ref_id=r_605c3fc1e4b09f6eae88c7e0" target="_blank")
+        img.camp(src="/images/pages/cocostar/cocostar_camp.png")
   .part(v-for="event in events")
     .bobby-duke.row.width-container(v-if="event.ctype=='title'")
       h1.text-teal.title {{ event.title }}
@@ -54,7 +57,7 @@
             div.flex-center(v-for="team in cp")
               h4.text-teal {{team.t}}
               div(v-for="m in team.n") {{m}}
-       
+
       .row-dark(v-if="event.ctype == 'split-bar'", style="height: 60px; color:transparent;")
       .scroll-arrow(v-if="event.bg=='dark'")
         .left-arrow
@@ -62,29 +65,132 @@
 </template>
 
 <script>
- export default Vue.extend({
-   components: {
-   },
-   computed : {
-     baseURI () {
-       return 'https://assets.koudashijie.com/images/cocostar/';
-     },
-     rankImgs () {
-       return ['champ1.png', 'champ2.png', 'champ3.png']
-     },
-     champImgs () {
-       return ['champgold.png', 'champsli.png', 'champcop.png']
-     },
-     events() { return [
-       {
-         ctype: 'title',
-         title: '苏州科技节暨AI世青赛苏州决赛',
-         data: [['2020年11-12月', '比赛时间'],
-                ['苏州教育局', '主办单位'],
-                ['2049人', '参数人数'],
-                ['<div class="margin-left" style="font-size: 22px;">苏州中学园区校 “数字公民”课程基地联盟校</div>', '协办单位'],
-                ['扣哒世界', '技术支持']],
-       },
+  export default Vue.extend({
+    components: {
+    },
+    computed: {
+      baseURI () {
+        return 'https://assets.koudashijie.com/images/cocostar/';
+      },
+      rankImgs () {
+        return ['champ1.png', 'champ2.png', 'champ3.png']
+      },
+      champImgs () {
+        return ['champgold.png', 'champsli.png', 'champcop.png']
+      },
+      events () {
+        return [
+          {
+            ctype: 'title',
+            title: '第二届AI世青赛2020',
+            data: [['2020年7月-2021年2月', '比赛时间'],
+                   ['CodeCombat', '技术支持'],
+                   ['65,332人', '参数人数'],
+                   ['扣哒人工智能学院、CodeCombat、网易伏羲人工智能实验室', '主办单位']]
+          },
+          {
+            ctype: 'group-desc',
+            bg: 'dark',
+            title: '全国一等奖(小学组)',
+            members: [
+              ['王奕宁', '北京市西马金润小学'],
+              ['周晋宋', '苏州市沧浪区实验小学校'],
+              ['陈雨翔', '北京市西马金润小学'],
+              ['周游', '苏州工业园区第二小学'],
+              ['宋思飞', '扣哒学堂花儿实验班'],
+              ['强昕越', '苏州科技城外国语学校'],
+              ['杨澍年', '扣哒学堂花儿实验班'],
+              ['王竞扬', '苏州工业园青少年活动中心'],
+              ['曹儒林', '昂立STEM'],
+              ['房雨萱', '苏州工业园青少年活动中心'],
+              ['陆胤辰', '昂立STEM'],
+              ['陈道涵', '苏州工业园区蒌葑实验小学'],
+              ['霍然', '上海嘉定新城实验学校'],
+              ['景子珑', '扣哒学堂花儿实验班'],
+              ['梁天营', '深圳市坪山实验学校'],
+              ['赵诣', '杭州码爸爸编程创客中心'],
+              ['崔铧为', '未提供'],
+              ['于浩铭', '杭州码爸爸编程创客中心'],
+              ['蒲思行', '重庆宣谷科技'],
+              ['宋杭原', '扣哒学堂花儿实验班'],
+              ['任西铭', '重庆宣谷科技'],
+              ['陈奕帆', '兰州博佳机器人'],
+              ['罗晨', '苏州市高新区实验小学'],
+              ['程子墨', '兰州博佳机器人'],
+              ['马致远', '苏州市高新区实验小学'],
+              ['曹杨梓涵', '银川市兴庆区第十六小学'],
+              ['李梓豪', '苏州市工业园区翰林小学'],
+              ['惠颖轩', '银川市兴庆区回民第三小学'],
+              ['钱明远', '苏州市工业园区翰林小学'],
+              ['温承轩', '银川市第二十一小学'],
+              ['章柴君', '苏州市沧浪区实验小学校'],
+              ['龚敬之', '银川市西夏区实验小学'],
+              ['范中涵', '苏州市沧浪区实验小学校'],
+              ['解淳然', '银川市金凤区第十一小学'],
+              ['于哲钧', '苏州市沧浪区实验小学校'],
+              ['侯恩宇', '中卫市中宁县大战场镇完全小学']
+            ]
+          },
+          {
+            ctype: 'group-desc',
+            title: '全国一等奖(中学组)',
+            members: [
+              ['隋顺意', '扣哒学堂花儿实验班'],
+              ['刘岳杭', '码爸爸编程创客中心'],
+              ['康景程', '重庆宣谷科技'],
+              ['张恩彬', '山西省孝义中学校'],
+              ['陈司旭', '广州市执信中学'],
+              ['姚渊', '银川市唐徕回民中学南校区'],
+              ['李杭臻', '未提供'],
+              ['张晁铭', '银川市唐徕回民中学西校区'],
+              ['王芊羽', '深圳大学附属中学/自学'],
+              ['刘子皓', '银川市唐徕回民中学西校区'],
+              ['许嘉航', '苏州中学园区校'],
+              ['万好', '银川市唐徕回民中学西校区'],
+              ['冯天祺', '苏州中学园区校'],
+              ['李保淋', '宁夏长庆初级中学'],
+              ['高致渊', '苏州市景范中学校'],
+              ['吴锦诺', '宁夏长庆高级中学'],
+              ['严子文', '苏州市景范中学校'],
+              ['李炤彤', '宁夏长庆高级中学'],
+              ['吴闻禹', '苏州市工业园区星湾学校'],
+              ['许家凯', '银川市景博中学'],
+              ['赵恒毅', '苏州市工业园区东沙湖实验中学'],
+              ['陈子墨', '银川市第二十四中学 '],
+              ['尤俊皓', '苏州中学相城实验项目'],
+              ['邱怡欣', '银川市第二十四中学'],
+              ['刘泽辛', '苏州工业园区星海实验中学'],
+              ['邓毅飞', '银川市第三中学'],
+              ['束欣铭', '西安交通大学苏州附属初级中学'],
+              ['张祐畅', '银川市第十二中学'],
+              ['高殊荣', '苏州大学实验学校'],
+              ['包梓文', '银川市阅海中学'],
+              ['陈元邦', '海宁市第一初级中学'],
+              ['梁跃民', '银川市中关村中学'],
+              ['许云开', '浙江省建兰中学'],
+              ['王佳豪', '北京师范大学银川学校'],
+              ['罗昕睿', '浙江省建兰中学']
+            ]
+          },
+          {
+            ctype: 'group-desc',
+            bg: 'dark',
+            title: '全国一等奖(教师组)',
+            members: [
+              ['闫晓迪', 'FunCoding'],
+              ['林剑辉', '广州市执信中学']
+            ]
+          },
+          {
+            ctype: 'title',
+            title: '苏州科技节暨AI世青赛苏州决赛',
+            data: [['2020年11-12月', '比赛时间'],
+                   ['苏州教育局', '主办单位'],
+                   ['2049人', '参数人数'],
+                   ['<div class="margin-left" style="font-size: 22px;">苏州中学园区校 “数字公民”课程基地联盟校</div>', '协办单位'],
+                   ['扣哒世界', '技术支持']],
+          },
+      
        {
          ctype: 'rank',
          bg: 'dark',
@@ -309,6 +415,10 @@
    line-height: 62px;
    letter-spacing: 2px;
    margin-bottom: -6px;
+ }
+
+ .part .camp{
+   margin-top: 20px;
  }
 
  h2, .text-h2 {
