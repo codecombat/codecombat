@@ -419,6 +419,7 @@
 
  .part .camp{
    margin-top: 20px;
+   width: 900px;
  }
 
  h2, .text-h2 {
