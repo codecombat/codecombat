@@ -209,7 +209,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    copyright_suffix: "All Rights Reserved."
     help_pref: "需要協助嗎? 寫封Email給我們"
     help_suff: "然後我們會與您接觸!"
-    resource_hub: "Resource Hub"
+#    resource_hub: "Resource Hub"
 #    apcsp: "AP CS Principles"
     parent: "雙親"
 #    esports: "Esports"
