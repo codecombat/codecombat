@@ -3148,6 +3148,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_type_customize: 'Customize Courses'
 
   events:
+    title: 'CodeCombat Events'
     main_title: 'CodeCombat Events'
     main_description: 'The important events of codecombat China'
 

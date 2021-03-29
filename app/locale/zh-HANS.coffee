@@ -3148,7 +3148,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     license_type_customize: "可选课程"
 
   events:
-    main_title: ' 扣哒大事记'
+    title: '扣哒大事记'
+    main_title: '扣哒大事记'
     main_description: '扣哒世界是创建于首都教育腹地中关村的中小学科创教育项目。团队成员来自清华大学、北京大学、哈佛大学、斯坦福大学、耶鲁大学等全国及世界顶级名校以及谷歌、微软、宝洁、麦肯锡等世界级名企，硕士及以上学历占90% 以上，部分成员在ACM、ICM、NOIP和全国数学联赛上取得优异成绩。学高为师、行正致远，这是一支积极向上、兼容并包、业务精湛的队伍，致力于为国内青少年创建世界一流的计算机科学和人工智能通识课程，面向世界，成就未来。'
 
 #  league:
