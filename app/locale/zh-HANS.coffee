@@ -92,6 +92,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teachers_love_codecombat_blurb3: "认为 CodeCombat 帮助提高学生解决问题的能力"
     teachers_love_codecombat_subblurb: "数据来源于美国中洲国际教育研究院 (McREL International)，美国中洲国际教育研究院是教育技术研究指导和评估的领导者。"
     top_banner_blurb: "家长们，在这个节日里，给孩子送上编程和个性化教学的礼物吧！" # {change}
+#    top_banner_blurb_team_derbezt_link: "Join Team DerBezt in the CodeCombat AI League"
+#    top_banner_blurb_team_derbezt_suffix: "to get the exclusive Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
     try_the_game: "免费试玩"
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
@@ -939,6 +941,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     feature_level_access: "可获得 300+ 关卡的使用权"
     feature_heroes: "解锁独家英雄" # {change}
     feature_learn: "学习制作游戏和网页" # {change}
+#    feature_gems: "Receive __gems__ gems per month"
     month_price: "$__price__/月" # {change}
     first_month_price: "第一个月仅需 $__price__！"
     lifetime: "终身订阅"
@@ -3154,3 +3157,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
 #    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
 #    join_now: "Join Now"
+
+  tournament:
+    mini_tournaments: "迷你锦标赛"
+    usable_ladders: "所有可用的关卡"
+    make_tournament: "创建迷你锦标赛"
+    go_tournaments: "查看迷你锦标赛"
+    class_tournaments: "查看迷你锦标赛"
+    no_tournaments_owner: "目前没有锦标赛, 情先创建"
+    no_tournaments: "目前没有锦标赛"
+    edit_tournament: " 修改"
+    create_tournament: " 创建锦标赛"

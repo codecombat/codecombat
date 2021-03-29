@@ -19,6 +19,7 @@ Clan = require 'models/Clan'
 CourseInstance = require 'models/CourseInstance'
 Course = require 'models/Course'
 Mandate = require 'models/Mandate'
+Tournament = require 'models/Tournament'
 
 HIGHEST_SCORE = 1000000
 
@@ -79,6 +80,8 @@ module.exports = class LadderView extends RootView
     @loadLeague()
     @urls = require('core/urls')
 
+    if @tournamentId
+      @checkTournamentCloseInterval = setInterval @checkTournamentClose.bind(@), 3000
     if features.china
       @checkTournamentEndInterval = setInterval @checkTournamentEnd.bind(@), 3000
 
@@ -138,6 +141,10 @@ module.exports = class LadderView extends RootView
   loadLeague: ->
     @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']
     return unless @leagueID
+
+    if @leagueType is 'clan'
+      @tournamentId = utils.getQueryVariable 'tournament'
+
     modelClass = if @leagueType is 'clan' then Clan else CourseInstance
     @league = @supermodel.loadModel(new modelClass(_id: @leagueID)).model
     if @leagueType is 'course'
@@ -145,6 +152,22 @@ module.exports = class LadderView extends RootView
         @onCourseInstanceLoaded @league
       else
         @listenToOnce @league, 'sync', @onCourseInstanceLoaded
+
+  checkTournamentClose: () ->
+    return unless @tournamentId?
+    $.ajax
+      url: "/db/tournament/#{@tournamentId}/state"
+      success: (res) =>
+        if res.state is 'starting'
+          @tournamentEnd = false
+        else
+          @tournamentEnd = true
+          if res.state is 'ended' and @tournamentState != 'ended'
+            clearInterval @checkTournamentCloseInterval
+            @tournamentState = 'ended'
+            @render()
+
+
 
   onCourseInstanceLoaded: co.wrap (@courseInstance) ->
     return if @destroyed
@@ -160,8 +183,13 @@ module.exports = class LadderView extends RootView
     super()
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
-    @insertSubView(@ladderTab = new LadderTabView({league: @league}, @level, @sessions))
-    @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
+    unless @tournamentState is 'ended'
+      @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
+      @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
+    else
+      # @removeSubView(@ladderTab)
+      # @removeSubView(@myMatchesTab)
+      @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions, @tournamentId))
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
@@ -184,7 +212,8 @@ module.exports = class LadderView extends RootView
     return if @destroyed or application.userIsIdle
     @lastRefreshTime = new Date()
     @ladderTab.refreshLadder()
-    @myMatchesTab.refreshMatches @refreshDelay
+    if @myMatchesTab?.refreshMatches?
+      @myMatchesTab.refreshMatches @refreshDelay
     @simulateTab?.refresh()
 
   onIdleChanged: (e) ->
@@ -206,24 +235,35 @@ module.exports = class LadderView extends RootView
     #Backbone.Mediator.publish 'router:navigate', route: url
 
   onClickSimulateAllButton: (e) ->
-    $.ajax
-      url: '/queue/scoring/loadTournamentSimulationTasks'
-      data:
-        originalLevelID: @level.get('original'),
-        levelMajorVersion: 0,
-        leagueID: @leagueID
-        mirrorMatch: @level.get('mirrorMatch') ? false
-        sessionLimit: 750
-      type: 'POST'
-      parse: true
-      success: (res)->
-        console.log res
-      error: (err) ->
-        console.error err
+    if @tournamentId
+      $.ajax
+        url: "/db/tournament/#{@tournamentId}/end"
+        data:
+          sessionLimit: 500
+        type: 'POST'
+        success: (res) ->
+          console.log res
+        error: (err) ->
+          alert('tournament end failed')
+    else
+      $.ajax
+        url: '/queue/scoring/loadTournamentSimulationTasks'
+        data:
+          originalLevelID: @level.get('original'),
+          levelMajorVersion: 0,
+          leagueID: @leagueID
+          mirrorMatch: @level.get('mirrorMatch') ? false
+          sessionLimit: 750
+        type: 'POST'
+        parse: true
+        success: (res)->
+          console.log res
+        error: (err) ->
+          console.error err
 
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
-    modal = new LadderPlayModal({league: @league}, @level, session, teamID)
+    modal = new LadderPlayModal({league: @league, tournament: @tournamentId}, @level, session, teamID)
     @openModalView modal
 
   onClickedLink: (e) ->
