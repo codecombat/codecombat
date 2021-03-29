@@ -6,6 +6,7 @@ import LeagueSignupModal from './components/LeagueSignupModal'
 import ClanCreationModal from './components/ClanCreationModal'
 import ChildClanDetailDropdown from './components/ChildClanDetailDropdown'
 import SectionFirstCTA from './components/SectionFirstCTA'
+import InputClanSearch from './components/InputClanSearch'
 
 import { joinClan, leaveClan } from '../../../core/api/clans'
 
@@ -16,7 +17,8 @@ export default {
     LeagueSignupModal,
     ClanCreationModal,
     ChildClanDetailDropdown,
-    SectionFirstCTA
+    SectionFirstCTA,
+    InputClanSearch
   },
 
   data: () => ({
@@ -412,6 +414,7 @@ export default {
         :childClans="currentSelectedClanChildDetails"
         class="clan-search"
       />
+      <InputClanSearch v-if="isGlobalPage" max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
         <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />

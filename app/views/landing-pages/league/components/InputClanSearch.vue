@@ -88,7 +88,7 @@ export default {
 
 <style lang="scss" scoped>
 .input-clan-search {
-  margin: 0;
+  margin: 0 auto;
 }
 
 .form-control {

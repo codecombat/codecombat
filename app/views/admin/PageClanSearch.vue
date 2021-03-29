@@ -1,5 +1,5 @@
 <script>
-import InputClanSearch from './InputClanSearch'
+import InputClanSearch from 'app/views/landing-pages/league/components/InputClanSearch'
 
 export default {
   components: {
