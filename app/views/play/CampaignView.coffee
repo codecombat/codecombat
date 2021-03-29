@@ -604,6 +604,8 @@ module.exports = class CampaignView extends RootView
 
   afterInsert: ->
     super()
+    preloadImages = ['/images/pages/base/modal_background.png', '/images/level/popover_background.png', '/images/level/code_palette_wood_background.png', '/images/level/code_editor_background_border.png']
+    _.delay (-> $('<img/>')[0].src = img for img in preloadImages), 2000
     if utils.getQueryVariable('signup') and not me.get('email')
       return @promptForSignup()
     if not me.isPremium() and (@isPremiumCampaign() or (@options.worldComplete and not features.noAuth and not me.get('hourOfCode')))
