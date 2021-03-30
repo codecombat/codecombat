@@ -200,6 +200,15 @@ countryCodeToFlagEmoji = (code) ->
   return code unless code?.length is 2
   (String.fromCodePoint(c.charCodeAt() + 0x1F1A5) for c in code.toUpperCase()).join('')
 
+countryCodeToName = (code) ->
+  return code unless code?.length is 2
+  return code unless country = _.find countries, countryCode: code.toUpperCase()
+  titleize country.country
+
+titleize = (s) ->
+  # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
+  _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
+
 courseIDs =
   INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
   GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
@@ -889,6 +898,7 @@ module.exports = {
   combineAncestralObject
   countries
   countryCodeToFlagEmoji
+  countryCodeToName
   courseAcronyms
   courseIDs
   CSCourseIDs

@@ -200,6 +200,7 @@ module.exports = class LevelBus extends Bus
   onVictory: (e) ->
     return unless @onPoint()
     state = @session.get('state')
+    return if state.complete
     state.complete = true
     @session.set('state', state)
     @changedSessionProperties.state = true
