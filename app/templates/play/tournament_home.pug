@@ -1,0 +1,70 @@
+extends /templates/base.jade
+
+block content
+  
+  if me.isAnonymous()
+    h3 Login is required
+  else
+    .tournament-container
+      h1(data-i18n="tournament.mini_tournaments")
+      if !Object.keys(view.tournaments).length
+        if view.hasControlOfTheClan()
+          p.campaign-description(data-i18n="tournament.no_tournaments_owner")
+        else
+          p.campaign-description(data-i18n="tournament.no_tournaments")
+        
+      each val, cluster in view.tournaments
+        - tournamentsByState = _.groupBy(val, 'state')
+        h2=cluster
+        each state in ['starting', 'initializing', 'ended', 'disabled']
+          - tournaments = tournamentsByState[state]
+          if tournaments
+            h3=state
+          each tournament in tournaments || []
+            .level-row
+              .tournament-image
+                a(href=`/play/ladder/${tournament.slug}/clan/${tournament.clan}?tournament=${tournament._id}`, title=tournament.description)
+                  span.level
+                    if view.ladderImageMap[tournament.levelOriginal]
+                      img.level-image(src=view.ladderImageMap[tournament.levelOriginal], alt=tournament.name).img-rounded
+                    else
+                      img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt=tournament.name).img-rounded
+                      span.dynamic-level-name=tournament.name
+              if view.clan && view.hasControlOfTheClan() && !tournament.editing
+                a.btn.btn-illustrated.btn-lg.text-uppercase.edit-button(data-tournament=tournament, data-i18n="tournament.edit_tournament") edit tournament
+              +edit-tournament-body(tournament)
+
+  #ladder-list
+   if view.clan && view.hasControlOfTheClan()
+      .campaign-container
+        h1(data-i18n="tournament.usable_ladders")
+        each level in view.ladderLevels
+          .level-row
+            a(href=level.disabled ? "/play/ladder" : `/play/ladder/${level.id}`, disabled=level.disabled, title=level.description)
+              span.level
+                if level.image
+                  img.level-image(src=level.image, alt=level.name).img-rounded
+                else
+                  img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt=level.name).img-rounded
+                  span.dynamic-level-name= level.name
+            span.create-text-container
+              a.btn.btn-illustrated.btn-lg.text-uppercase.create-button(data-level=level, data-i18n="tournament.create_tournament")
+
+mixin edit-tournament-body(tournament)
+  if tournament.editing
+    .form.editable-tournament-form
+      .input-group
+        span.input-group-addon Ladder
+        input.form-control(type=text, value=view.editableTournament.name, disabled=true)
+      .input-group
+        span.input-group-addon Description
+        input.form-control.input-description(type='text', style='width:300px;', value=view.editableTournament.description, name='description')
+      .input-group
+        span.input-group-addon Start Date
+        input.form-control.input-startDate(type='datetime-local', style='width:300px;', value=view.formatTime(view.editableTournament.startDate), name='startDate')
+      .input-group
+        span.input-group-addon End Date
+        input.form-control.input-endDate(type='datetime-local', style='width:300px;', value=view.formatTime(view.editableTournament.endDate), name='endDate')
+      .input-group.btn-group
+        input.form-control.input-cancel(type='button', value='Cancel')
+        input.form-control.input-submit(type='button', value='Submit')

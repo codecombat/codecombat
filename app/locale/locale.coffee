@@ -56,7 +56,7 @@ module.exports =
   'nb': { nativeDescription: 'Norsk Bokmål', englishDescription: 'Norwegian (Bokmål)' }
   'nn': { nativeDescription: 'Norsk Nynorsk', englishDescription: 'Norwegian (Nynorsk)' }
   'uz': { nativeDescription: "O'zbekcha", englishDescription: 'Uzbek' }
-  'pl': { nativeDescription: 'język polski', englishDescription: 'Polish' }
+  'pl': { nativeDescription: 'Polski', englishDescription: 'Polish' }
   'ro': { nativeDescription: 'limba română', englishDescription: 'Romanian' }
   'sr': { nativeDescription: 'српски', englishDescription: 'Serbian' }
   'sk': { nativeDescription: 'slovenčina', englishDescription: 'Slovak' }

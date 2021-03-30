@@ -37,8 +37,8 @@ SystemsDocumentationView = require 'views/editor/docs/SystemsDocumentationView'
 LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
 storage = require 'core/storage'
 utils = require 'core/utils'
-loadAetherLanguage = require("lib/loadAetherLanguage");
-presenceApi = require('core/api/presence')
+loadAetherLanguage = require 'lib/loadAetherLanguage'
+presenceApi = require 'core/api/presence'
 
 require 'vendor/scripts/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
 require 'lib/setupTreema'

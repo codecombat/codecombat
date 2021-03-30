@@ -65,6 +65,10 @@ export default {
       return utils.countryCodeToFlagEmoji(row.creatorCountryCode)
     },
 
+    getCountryName (row) {
+      return utils.countryCodeToName(row.creatorCountryCode)
+    },
+
     getStudentName (row) {
       return this.studentNames[row.creatorName]
     }
@@ -110,7 +114,7 @@ export default {
             td(colspan=4).clan-col-cell
               a(:href="`/league/${getClan(row).slug || getClan(row)._id}`") {{ getClanName(row) }}
             td {{ getAgeBracket(row) }}
-            td {{ getCountry(row) }}
+            td(:title="getCountryName(row)") {{ getCountry(row) }}
 </template>
 
 <style scoped>

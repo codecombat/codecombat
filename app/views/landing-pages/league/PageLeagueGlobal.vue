@@ -6,6 +6,7 @@ import LeagueSignupModal from './components/LeagueSignupModal'
 import ClanCreationModal from './components/ClanCreationModal'
 import ChildClanDetailDropdown from './components/ChildClanDetailDropdown'
 import SectionFirstCTA from './components/SectionFirstCTA'
+import InputClanSearch from './components/InputClanSearch'
 
 import { joinClan, leaveClan } from '../../../core/api/clans'
 
@@ -16,7 +17,8 @@ export default {
     LeagueSignupModal,
     ClanCreationModal,
     ChildClanDetailDropdown,
-    SectionFirstCTA
+    SectionFirstCTA,
+    InputClanSearch
   },
 
   data: () => ({
@@ -45,6 +47,21 @@ export default {
     // Would be odd to arrive here with ?registering=true and be logged out...
     this.doneRegistering = !!this.$route.query.registered
     this.leagueSignupModalOpen = !this.doneRegistering && this.canRegister() && !!this.$route.query.registering
+  },
+
+  mounted () {
+    let rotationCount = 0
+    const rotateHero = () => {
+      $('.rotating-esports-header-background.fade-out').removeClass('fade-out').addClass('fade-in')
+      $(`.rotating-esports-header.fade-in`).removeClass('fade-in').addClass('fade-out')
+      $($(`.rotating-esports-header`)[rotationCount]).removeClass('fade-out').addClass('fade-in')
+      rotationCount = (rotationCount + 1) % 3
+    }
+    this.heroRotationInterval = setInterval(rotateHero, 5000)
+    _.defer(rotateHero)
+  },
+  beforeDestroy() {
+    clearInterval(this.heroRotationInterval)
   },
 
   methods: {
@@ -279,7 +296,7 @@ export default {
       if (image) {
         return `/file/${image}`
       }
-      return `/images/pages/league/graphic_1.png`
+      return `/images/pages/league/student_hugging.png`
     },
 
     customEsportsImageClass () {
@@ -361,11 +378,17 @@ export default {
         <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
       <img class="ai-league-logo" src="/images/pages/league/logo_badge.png">
+      <div class="hero-rotation">
+        <img class="rotating-esports-header-background img-responsive fade-out" src="/images/pages/league/hero_background_pink.png" />
+        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_anya.png" />
+        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_okar.png" loading="lazy" />
+        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_lady_ida.png" loading="lazy" />
+      </div>
     </section>
 
     <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
 
-    <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center" style="margin-top: -25px; z-index: 0;">
+    <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center">
       <div class="col-sm-5">
         <img :class="customEsportsImageClass" :src="currentSelectedClanEsportsImage">
       </div>
@@ -373,13 +396,13 @@ export default {
         <img v-if="currentSelectedClanName === 'Team DerBezt'" class="custom-esports-image-2" alt="" src="/file/db/thang.type/6037ed81ad0ac000f5e9f0b5/armando-pose.png">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
-        <p v-if="currentSelectedClanName === 'Team DerBezt'">Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.</p>
-        <p>{{showJoinTeamBtn ? 'Invite players to this team by sending them this link:': 'Share this team leaderboard with its public link:'}}</p>
+        <p v-if="currentSelectedClanName === 'Team DerBezt'">{{ $t('league.team_derbezt') }}</p>
+        <p>{{showJoinTeamBtn ? $t('league.invite_link') : $t('league.public_link') }}</p>
         <input readonly :value="clanInviteLink()" /><br />
         <a v-if="isAnonymous()" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
-        <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Team</a>
-        <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">Leave Team</a>
-        <a v-else v-show="showJoinTeamBtn" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">Join Team</a>
+        <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.edit_team') }}</a>
+        <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">{{ $t('league.leave_team') }}</a>
+        <a v-else v-show="showJoinTeamBtn" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">{{ $t('league.join_team') }}</a>
       </div>
     </div>
 
@@ -392,11 +415,14 @@ export default {
         :childClans="currentSelectedClanChildDetails"
         class="clan-search"
       />
-      <p class="subheader2">Use your coding skills and battle strategies to rise up the ranks!</p>
+      <InputClanSearch v-if="isGlobalPage" max-width="510" style="margin: 10px auto"/>
+      <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
         <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" :student-names="studentNames" class="leaderboard-component" style="color: black;" />
         <leaderboard v-else :rankings="globalRankings" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
-        <a href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Blazing Battle Multiplayer Arena</a>
+        <!-- TODO: Localize with templated arena name -->
+        <a v-if="currentSelectedClan" :href="`/play/ladder/blazing-battle/clan/${clanIdSelected}`" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Blazing Battle Multiplayer Arena</a>
+        <a v-else href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Blazing Battle Multiplayer Arena</a>
       </div>
       <div class="col-lg-6 section-space">
         <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
@@ -404,8 +430,8 @@ export default {
           :player-count="codePointsPlayerCount"
           :student-names="studentNames"
         />
-        <a v-if="isStudent" href="/students" class="btn btn-large btn-primary btn-moon play-btn-cta">Earn CodePoints by completing levels</a>
-        <a v-else href="/play" class="btn btn-large btn-primary btn-moon play-btn-cta">Earn CodePoints by completing levels</a>
+        <a v-if="isStudent" href="/students" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.earn_codepoints') }}</a>
+        <a v-else href="/play" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.earn_codepoints') }}</a>
       </div>
     </div>
 
@@ -415,10 +441,10 @@ export default {
       <div class="col-sm-10">
         <h1 style="margin-bottom: 20px;"><span class="esports-pink">Free </span><span class="esports-aqua">to </span><span class="esports-green">get </span><span class="esports-purple">started</span></h1>
         <ul style="list-style-type: none; padding: 0;">
-          <li><span class="bullet-point" style="background-color: #bcff16;"/>Access competitive multiplayer arenas, leaderboard, and global coding championships</li>
-          <li><span class="bullet-point" style="background-color: #30EFD3;"/>Earn points for completing practice levels and competing in head-to-head matches</li>
-          <li><span class="bullet-point" style="background-color: #FF39A6;"/>Join competitive coding teams with friends, family, or classmates</li>
-          <li><span class="bullet-point" style="background-color: #9B83FF;"/>Showcase your coding skills and take home great prizes</li>
+          <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.free_1') }}</li>
+          <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.free_2') }}</li>
+          <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.free_3') }}</li>
+          <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.free_4') }}</li>
         </ul>
         <div class="xs-centered">
           <a v-if="clanIdSelected === '' && !doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
@@ -430,7 +456,7 @@ export default {
       <div class="col-sm-7">
         <h1 class="subheader1" style="margin-bottom: 30px;"><span class="esports-goldenlight">Global </span><span class="esports-pink">final </span><span class="esports-aqua">arena</span></h1>
         <p class="subheader2" style="margin-bottom: 30px;">
-          Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.
+          {{ $t('league.compete_season') }}
         </p>
         <div class="xs-centered">
           <a v-if="!doneRegistering && !isClanCreator()" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
@@ -482,12 +508,12 @@ export default {
     <div class="row">
       <div class="col-xs-12">
         <p>
-          For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.
+          {{ $t('league.season_subheading1') }}
         </p>
       </div>
       <div class="col-xs-12">
         <p>
-          Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.
+          {{ $t('league.season_subheading2') }}
         </p>
       </div>
     </div>
@@ -512,7 +538,7 @@ export default {
     </div>
     <div class="row flex-row">
       <div class="col-xs-12">
-        <p class="subheader2">The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other.</p>
+        <p class="subheader2">{{ $t('league.tagline') }}</p>
       </div>
     </div>
 
@@ -527,7 +553,7 @@ export default {
           <div class="row flex-row" style="justify-content: flex-start;">
             <div class="col-sm-5">
               <p class="league-block-description">
-                Unlike other esports platforms serving schools, we own the structure top to bottom, which means we’re not tied to any game developer or have issues with licensing. That also means we can make custom modifications in-game for your school or organization.
+                {{ $t('league.end_to_end') }}
               </p>
             </div>
             <div class="col-sm-7">
@@ -552,7 +578,7 @@ export default {
             </div>
             <div class="col-sm-6">
               <p class="league-block-description">
-                The game platform fits into a regular Computer Science curriculum, so as students play through the game levels, they’re completing course work. Students learn coding and computer science while they play, then use these skills in arena battles as they practice and play on the same platform.
+                {{ $t('league.path_success') }}
               </p>
             </div>
           </div>
@@ -571,11 +597,11 @@ export default {
           <div class="row flex-row" style="justify-content: flex-start;">
             <div class="col-sm-5">
               <p class="league-block-description">
-                Our tournament structure is adaptable to any environment or use case. Students can participate at a designated time during regular learning, play at home asynchronously, or participate on their own schedule.
+                {{ $t('league.unlimited_potential') }}
               </p>
             </div>
             <div class="col-sm-7">
-              <img class="img-responsive" src="/images/pages/league/graphic_hugging.png" alt="Kid hugging parents" style="margin: 0 0 -120px auto; z-index: 0; transform: translateY(-120px);" />
+              <img class="img-responsive" src="/images/pages/league/graphic_cleaned.png" alt="Kid hugging parents" style="margin: 0 0 -120px auto; z-index: 0; transform: translateY(-120px);" />
             </div>
           </div>
         </div>
@@ -583,41 +609,41 @@ export default {
     </div>
 
     <div class="row flex-row text-center section-space">
-      <a v-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Edit Team</a>
-      <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">Start a Team</a>
+      <a v-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.edit_team') }}</a>
+      <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.start_team') }}</a>
       <a v-else-if="!doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
     </div>
 
     <div id="features" class="row section-space">
-      <h1 class="text-center esports-goldenlight" style='margin-bottom: 35px;'>Features</h1>
+      <h1 class="text-center esports-goldenlight" style='margin-bottom: 35px;'>{{ $t('league.features') }}</h1>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_competition.svg" class="img-responsive" /></div>
-        <h4 class="subheader2">Built-in Competitive Infrastructure</h4>
-        <p>Our platform hosts every element of the competitive process, from leaderboards to the game platform, assets, and tournament awards.</p>
+        <h4 class="subheader2">{{ $t('league.built_in') }}</h4>
+        <p>{{ $t('league.built_in_subheader') }}</p>
       </div>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_custom.png" class="img-responsive" /></div>
-        <h4 class="subheader2">Custom Development</h4>
-        <p>Customization elements for your school or organization are included, plus options like branded landing pages and in-game characters.</p>
+        <h4 class="subheader2">{{ $t('league.custom_dev') }}</h4>
+        <p>{{ $t('league.custom_dev_subheader') }}</p>
       </div>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_curriculum.svg" class="img-responsive" /></div>
-        <h4 class="subheader2">Comprehensive Curriculum</h4>
-        <p>CodeCombat is a standards-aligned CS solution that helps educators teach real coding in JavaScript and Python, no matter their experience.</p>
+        <h4 class="subheader2">{{ $t('league.comprehensive_curr') }}</h4>
+        <p>{{ $t('league.comprehensive_curr_subheader') }}</p>
       </div>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_roster.svg" class="img-responsive" /></div>
-        <h4 class="subheader2">Roster Management Tools</h4>
-        <p>Track student performance within the curriculum and within the game, and easily add or remove students.</p>
+        <h4 class="subheader2">{{ $t('league.roster_management') }}</h4>
+        <p>{{ $t('league.roster_management_subheader') }}</p>
       </div>
     </div>
 
     <div class="row esports-flyer-optimized-section">
       <div class="col-sm-8">
         <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
-        <p class="subheader2" style="margin-bottom: 50px;">Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested.</p>
+        <p class="subheader2" style="margin-bottom: 50px;">{{ $t('league.share_flyer') }}</p>
         <div class="xs-centered">
-          <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">Download Flyer</a>
+          <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">{{ $t('league.download_flyer') }}</a>
         </div>
       </div>
       <div class="col-sm-4">
@@ -688,13 +714,6 @@ export default {
     margin-bottom: 50px;
   }
 
-  .esports-header {
-    background: url(/images/pages/league/game_hero.png) no-repeat;
-    background-size: contain;
-    background-position: right center;
-    min-height: 600px;
-  }
-
   .esports-header .esports-h1 {
     font-style: normal;
     font-weight: bold;
@@ -712,7 +731,7 @@ export default {
   @media screen and (max-width: 767px) {
     .esports-header .ai-league-logo {
       position: relative;
-      top: 90px;
+      top: 40px;
       left: calc(50% - 10vw);
       width: 20vw;
     }
@@ -737,6 +756,8 @@ export default {
 
   #clan-invite {
     text-align: left;
+    margin-top: -25px;
+    z-index: 0;
     img {
       transform: scaleX(-1);
     }
@@ -765,6 +786,12 @@ export default {
     @media screen and (max-width: 1000px) {
       .custom-esports-image-2 {
         display: none
+      }
+    }
+    @media screen and (max-width: 767px) {
+      margin-top: 25px;
+      h1 {
+        text-align: center;
       }
     }
   }
@@ -844,7 +871,7 @@ export default {
     padding-bottom: 180px;
   }
   section.free-to-get-start-bg {
-    background: url(/images/pages/league/graphic_1.png) right 100% / 35% no-repeat;
+    background: url(/images/pages/league/student_hugging.png) right 100% / 35% no-repeat;
   }
   .text-dont-just-play-code img{
     max-width: 410px;
@@ -900,6 +927,25 @@ export default {
     width: 90%;
     max-width: 510px;
   }
+  .hero-rotation {
+    display: flex;
+    justify-content: flex-end;
+    position:absolute;
+    top: 0px;
+    width: 65%;
+    right: 0px;
+    img {
+      position: absolute;
+    }
+  }
+  .fade-in {
+    opacity: 1;
+    transition: opacity ease-in 2s;
+  }
+  .fade-out {
+    opacity: 0;
+    transition: opacity ease-out 1.2s;
+  }
 
   .league-block-description {
     font-size: 26px;
@@ -913,6 +959,9 @@ export default {
     }
     ::v-deep .section-space {
       margin-bottom: 200px;
+    }
+    .esports-header {
+      margin-bottom: 400px;
     }
   }
 
@@ -949,6 +998,7 @@ export default {
     .esports-header{
       background-position: bottom;
       min-height: 360px;
+      margin-bottom: 30%;
     }
 
     .leaderboard-component {
@@ -977,10 +1027,19 @@ export default {
     .xs-pb-20 {
       padding-bottom: 20px;
     }
+    .hero-rotation {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      width: 100%;
+      margin-top: 70px;
+      img {
+        width: 70%;
+      }
+    }
   }
 
 
 }
 </style>
-
 

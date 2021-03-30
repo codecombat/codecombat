@@ -32,11 +32,6 @@ elementAcceptsKeystrokes = (el) ->
   # not radio, checkbox, range, or color
   return (tag is 'textarea' or (tag is 'input' and type in textInputTypes) or el.contentEditable in ['', 'true']) and not (el.readOnly or el.disabled)
 
-COMMON_FILES = ['/images/pages/base/modal_background.png', '/images/level/popover_background.png', '/images/level/code_palette_wood_background.png', '/images/level/code_editor_background_border.png']
-preload = (arrayOfImages) ->
-  $(arrayOfImages).each ->
-    $('<img/>')[0].src = @
-
 # IE9 doesn't expose console object unless debugger tools are loaded
 window.console ?=
   info: ->
@@ -122,7 +117,6 @@ Application = {
       @gplusHandler = new GPlusHandler()
       @githubHandler = new GitHubHandler()
     $(document).bind 'keydown', preventBackspace
-    preload(COMMON_FILES)
     moment.relativeTimeThreshold('ss', 1) # do not return 'a few seconds' when calling 'humanize'
     CocoModel.pollAchievements()
     unless me.get('anonymous')
