@@ -11,7 +11,7 @@ module.exports = class Prepaid extends CocoModel
   openSpots: ->
     return @get('maxRedeemers') - @get('redeemers')?.length if @get('redeemers')?
     @get('maxRedeemers')
-  
+
   usedSpots: ->
     _.size(@get('redeemers'))
 
@@ -29,7 +29,7 @@ module.exports = class Prepaid extends CocoModel
       if _.isString(maxRedeemers)
         @set 'maxRedeemers', parseInt(maxRedeemers)
     super(arguments...)
-        
+
   status: ->
     endDate = @get('endDate')
     if endDate and new Date(endDate) < new Date()
@@ -38,21 +38,21 @@ module.exports = class Prepaid extends CocoModel
     startDate = @get('startDate')
     if startDate and new Date(startDate) > new Date()
       return 'pending'
-      
+
     if @openSpots() <= 0
       return 'empty'
-      
+
     return 'available'
 
   typeDescription: ->
     type = @get('type')
     if type == 'starter_license'
-      return i18n.translate('teacher.starter_license')
+      return i18n.t('teacher.starter_license')
     includedCourseIDs = @get('includedCourseIDs')
     if includedCourseIDs
-      return i18n.translate('teacher.customized_license')+ ': '+ (includedCourseIDs.map (id) -> utils.courseAcronyms[id]).join('+')
+      return i18n.t('teacher.customized_license')+ ': '+ (includedCourseIDs.map (id) -> utils.courseAcronyms[id]).join('+')
     else
-      return i18n.translate('teacher.full_license')
+      return i18n.t('teacher.full_license')
 
   typeDescriptionWithTime: ->
     type = @get('type')
