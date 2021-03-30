@@ -1,4 +1,4 @@
-import teacherApi from 'app/core/api/teacher'
+import * as teacherApi from 'app/core/api/teacher'
 
 export default {
   namespaced: true,
@@ -8,24 +8,26 @@ export default {
 
     studentNames: {
       byId: {}
+      // byName: []
     }
   },
 
   mutations: {
-    toggleLoading: (state, loading) => {
+    setLoading: (state, loading) => {
       state.loading = loading
     },
 
     addStudentNames: (state, students) => {
-      for (const student of students) {
+      students.forEach((student, index) => {
         Vue.set(state.studentNames.byId, student._id, student.name)
-      }
+        // Vue.set(state.studentNames.byName, index, student.name)
+      })
     }
   },
 
   actions: {
     fetchStudentNamesForTeacher: ({ commit }, teacherId) => {
-      commit('toggleLoading', true)
+      commit('setLoading', true)
 
       return teacherApi.fetchAllStudentNames(teacherId)
         .then(res => {
@@ -36,7 +38,19 @@ export default {
           }
         })
         .catch((e) => noty({ text: 'Fetch student names failure' + e, type: 'error' }))
-        .finally(() => commit('toggleLoading', false))
+        .finally(() => commit('setLoading', false))
+    }
+  },
+
+  getters: {
+    studentNames (state) {
+      return state.studentNames.byId
+    },
+    // studentNames (state) {
+    //   return state.studentNames.byName
+    // },
+    isLoading (state) {
+      return state.loading
     }
   }
 }

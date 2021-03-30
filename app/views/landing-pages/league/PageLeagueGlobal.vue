@@ -70,7 +70,8 @@ export default {
       loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
       loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
       fetchClan: 'clans/fetchClan',
-      fetchChildClanDetails: 'clans/fetchChildClanDetails'
+      fetchChildClanDetails: 'clans/fetchChildClanDetails',
+      fetchStudentNamesForTeacher: 'teacher/fetchStudentNamesForTeacher'
     }),
 
     changeClanSelected (e) {
@@ -96,6 +97,10 @@ export default {
           return
         }
 
+        if (this.isClanCreator()) {
+          this.fetchStudentNamesForTeacher(me.id)
+        }
+
         if (['school-network', 'school-subnetwork'].includes(this.currentSelectedClan?.kind)) {
           this.fetchChildClanDetails({ id: this.currentSelectedClan._id })
             .catch(() => {
@@ -106,6 +111,9 @@ export default {
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
         this.loadCodePointsRequiredData({ leagueId: this.clanIdSelected })
       } else {
+        if (!this.isStudent) {
+          this.fetchStudentNamesForTeacher(me.id)
+        }
         this.loadGlobalRequiredData()
         this.loadCodePointsRequiredData({ leagueId: '' })
       }
@@ -247,8 +255,7 @@ export default {
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading',
       isStudent: 'me/isStudent',
-      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
-      studentNames: 'classrooms/studentNames'
+      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount'
     }),
 
     currentSelectedClan () {

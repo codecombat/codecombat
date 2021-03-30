@@ -4,10 +4,12 @@
  * TODO: This leaderboard is not only shown on the league url but also the ladder url.
  */
 import utils from 'core/utils'
+import { mapGetters } from 'vuex'
 export default {
   props: {
     rankings: {
       type: Array,
+      // @matias: Does this need a factory function?
       default: []
     },
     scoreType: {
@@ -21,18 +23,11 @@ export default {
     clanId: {
       type: String,
       default: '_global'
-    },
-    studentNames: {
-      type: Object,
-      default: {}
     }
   },
 
   methods: {
     scoreForDisplay (row) {
-      debugger
-      console.log(row)
-
       if (this.scoreType === 'codePoints') {
         return row.totalScore.toLocaleString()
       }
@@ -42,10 +37,6 @@ export default {
         score /= 2
       }
       return Math.round(score * 100).toLocaleString()
-    },
-
-    isMyRow (row) {
-      return row.creator == me.id
     },
 
     getClan (row) {
@@ -67,10 +58,33 @@ export default {
 
     getCountryName (row) {
       return utils.countryCodeToName(row.creatorCountryCode)
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      isTeacher: 'me/isTeacher',
+      studentNames: 'teacher/studentNames',
+      studentNamesLoading: 'teacher/isLoading'
+    }),
+
+    showStudentNames () {
+      return this.isTeacher && !this.studentNamesLoading
     },
 
-    getStudentName (row) {
-      return this.studentNames[row.creatorName]
+    rowClass () {
+      return (creator) => {
+        let className = ''
+        if (creator === me.id) {
+          className = 'my-row'
+        }
+
+        if (this.showStudentNames && this.studentNames[creator]) {
+          className = 'student-row'
+        }
+
+        return className
+      }
     }
   }
 }
@@ -102,7 +116,7 @@ export default {
           th(colspan=1) 🏴‍☠️
 
       tbody
-        tr(v-for="row, rank in rankings" :key="rank" :class="isMyRow(row) ? 'success' : ''")
+        tr(v-for="row, rank in rankings" :key="rank" :class="rowClass(row.creator)")
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)
@@ -110,7 +124,7 @@ export default {
             td.rank-cell {{ row.rank || rank + 1 }}
             td.score-cell {{ scoreForDisplay(row) }}
             td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ row.creatorName || $t("play.anonymous") }}
-            td.name-col-cell(v-if="showStudentNames") {{ getStudentName(row) || $t("teacher.not_applicable") }}
+            td.name-col-cell(v-if="showStudentNames") {{ studentNames[row.creator] || $t("teacher.not_applicable") }}
             td(colspan=4).clan-col-cell
               a(:href="`/league/${getClan(row).slug || getClan(row)._id}`") {{ getClanName(row) }}
             td {{ getAgeBracket(row) }}
@@ -154,4 +168,13 @@ export default {
 .name-col-cell.ai {
   color: #3f44bf;
 }
+
+.my-row {
+  background-color: #d1b147;
+}
+
+.student-row {
+  background-color: rgb(188, 255, 22);
+}
+
 </style>
