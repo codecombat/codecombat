@@ -1050,7 +1050,7 @@ class PlayLevelView extends RootView {
   onLevelReloadFromData (e) {
     const isReload = Boolean(this.world)
     if (isReload) {
-      // Make sure to share any models we loaded that the parent didn't, like hero equipment, in case the parent relodaed
+      // Make sure to share any models we loaded that the parent didn't, like hero equipment, in case the parent reloaded
       for (let url in this.supermodel.models) {
         const model = this.supermodel.models[url]
         if (!e.supermodel.models[url]) {

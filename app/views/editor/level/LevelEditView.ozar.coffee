@@ -195,6 +195,9 @@ module.exports = class LevelEditView extends RootView
     else
       newClassMode = @lastNewClassMode
     newClassLanguage = @lastNewClassLanguage = ($(e.target).data('code-language') ? @lastNewClassLanguage) or undefined
+    if @childWindow and (@childWindow.closed or not @childWindow.onPlayLevelViewLoaded)
+      @childWindow?.close?()
+      return noty timeout: 4000, text: 'Error: child window disconnected, you will have to reload this page to preview.', type: 'error', layout: 'top'
     sendLevel = =>
       @childWindow.Backbone.Mediator.publish 'level:reload-from-data', level: @level, supermodel: @supermodel
     if @childWindow and not @childWindow.closed and @playClassMode is newClassMode and @playClassLanguage is newClassLanguage
@@ -210,10 +213,7 @@ module.exports = class LevelEditView extends RootView
       if @playClassMode
         scratchLevelID += "&course=#{@courseID}"
         scratchLevelID += "&codeLanguage=#{@playClassLanguage}"
-      if me.get('name') is 'Nick'
-        @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=2560,height=1080,left=0,top=-1600,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)
-      else
-        @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1280,height=640,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
+      @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window')
       @childWindow.onPlayLevelViewLoaded = (e) => sendLevel()  # still a hack
     @childWindow.focus()
 
