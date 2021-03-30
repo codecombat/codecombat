@@ -986,6 +986,10 @@ export default {
     bottom: -200px;
     width: 25%;
   }
+  .five-four-shooting-star {
+    position: absolute;
+    z-index: -1
+  }
   .two-pixel-star, .three-shooting-star, .four-shooting-star {
     width: 100%;
     display: flex;
@@ -1001,18 +1005,24 @@ export default {
     position: absolute;
     width: 72%;
     max-height: 72%;
-    top: -250px;
+    top: -220px;
   }
 
   .four-shooting-star img {
     position: absolute;
-    top: -300px;
+    top: -235px;
     width: 72%;
   }
 
   .five-four-shooting-star img {
     position: absolute;
     width: 72%;
+  }
+
+  @media screen and (min-width: 1700px) {
+    .five-four-shooting-star img {
+      top: -100px;
+    }
   }
 
   @media screen and (min-width: 768px) {
