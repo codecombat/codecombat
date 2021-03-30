@@ -61,14 +61,13 @@ module.exports = class LevelPlaybackView extends CocoView
     if /safari/.test(ua) and not /chrome/.test(ua)
       @$el.find('.toggle-fullscreen').hide()
     @timePopup ?= new HoverPopup
-    t = $.i18n.t
-    @second = t 'units.second'
-    @seconds = t 'units.seconds'
-    @minute = t 'units.minute'
-    @minutes = t 'units.minutes'
-    @goto = t 'play_level.time_goto'
-    @current = t 'play_level.time_current'
-    @total = t 'play_level.time_total'
+    @second = $.i18n.t 'units.second'
+    @seconds = $.i18n.t 'units.seconds'
+    @minute = $.i18n.t 'units.minute'
+    @minutes = $.i18n.t 'units.minutes'
+    @goto = $.i18n.t 'play_level.time_goto'
+    @current = $.i18n.t 'play_level.time_current'
+    @total = $.i18n.t 'play_level.time_total'
     @$el.find('#play-button').css('visibility', 'hidden') if @options.level.get 'hidesPlayButton'  # Don't show for first few levels, confuses new players.
 
   updatePopupContent: ->
