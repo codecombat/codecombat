@@ -10,7 +10,7 @@ module.exports = class Prepaid extends CocoModel
   openSpots: ->
     return @get('maxRedeemers') - @get('redeemers')?.length if @get('redeemers')?
     @get('maxRedeemers')
-  
+
   usedSpots: ->
     _.size(@get('redeemers'))
 
@@ -28,7 +28,7 @@ module.exports = class Prepaid extends CocoModel
       if _.isString(maxRedeemers)
         @set 'maxRedeemers', parseInt(maxRedeemers)
     super(arguments...)
-        
+
   status: ->
     endDate = @get('endDate')
     if endDate and new Date(endDate) < new Date()
@@ -37,10 +37,10 @@ module.exports = class Prepaid extends CocoModel
     startDate = @get('startDate')
     if startDate and new Date(startDate) > new Date()
       return 'pending'
-      
+
     if @openSpots() <= 0
       return 'empty'
-      
+
     return 'available'
 
   redeem: (user, options={}) ->
