@@ -422,21 +422,40 @@ export default {
         :childClans="currentSelectedClanChildDetails"
         class="clan-search"
       />
-      <InputClanSearch v-if="isGlobalPage" max-width="510" style="margin: 10px auto"/>
+      <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" :student-names="studentNames" class="leaderboard-component" style="color: black;" />
-        <leaderboard v-else :rankings="globalRankings" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
+
+        <Leaderboard
+            v-if="currentSelectedClan"
+            :rankings="selectedClanRankings"
+            :playerCount="selectedClanLeaderboardPlayerCount"
+            :key="`${clanIdSelected}-score`"
+            :clanId="clanIdSelected"
+            class="leaderboard-component"
+            style="color: black;"
+        />
+        <Leaderboard
+            v-else
+            :rankings="globalRankings"
+            :playerCount="globalLeaderboardPlayerCount"
+            class="leaderboard-component"
+        />
+
         <!-- TODO: Localize with templated arena name -->
         <a v-if="currentSelectedClan" :href="`/play/ladder/blazing-battle/clan/${clanIdSelected}`" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Blazing Battle Multiplayer Arena</a>
         <a v-else href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Blazing Battle Multiplayer Arena</a>
       </div>
       <div class="col-lg-6 section-space">
-        <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
-          class="leaderboard-component"
-          :player-count="codePointsPlayerCount"
-          :student-names="studentNames"
+        <Leaderboard
+            :rankings="selectedClanCodePointsRankings"
+            :key="`${clanIdSelected}-codepoints`"
+            :clanId="clanIdSelected"
+            scoreType="codePoints"
+            class="leaderboard-component"
+            :player-count="codePointsPlayerCount"
         />
+
         <a v-if="isStudent" href="/students" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.earn_codepoints') }}</a>
         <a v-else href="/play" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.earn_codepoints') }}</a>
       </div>
