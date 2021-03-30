@@ -34,17 +34,20 @@ describe 'esper error messages', ->
               """
 
 describe 'Check keys', ->
+  enKeysFlattened = _.flatten (section + '.' + key for key of english.translation[section] for section of english.translation)
   langs.forEach (language) =>
+    langKeysFlattened = _.flatten (section + '.' + key for key of language.translation[section] for section of language.translation)
+    diff = _.difference langKeysFlattened, enKeysFlattened
     describe "when language is #{language.englishDescription}", ->
-      en = english.translation
-      Object.keys(language.translation or {}).forEach (key) ->
-        Object.keys(language.translation[key] or {}).forEach (keyChild) ->
-          it 'should have the same keys in each entry as in English', ->
-            if en[key][keyChild] == undefined
-              return fail """
-                Expected english to have translation '#{key}.#{keyChild}'
-                This can occur when:
-                  * Parent key for '#{keyChild}' is accidentally commented.
-                  * English translation for '#{key}.#{keyChild}' has been deleted.
-                You may need to run copy-i18n-tags.js
-              """
+      it 'should have the same keys in each entry as in English', ->
+        if diff.length
+          diff.slice(0, 100).forEach (key) ->
+            return fail """
+              Expected english to have translation '#{key}'
+              This can occur when:
+                * Parent key for '#{key.split('.')[0]}' is accidentally commented.
+                * English translation for '#{key}' has been deleted.
+              You may need to run copy-i18n-tags.js
+            """
+        else
+          expect(diff.length).toBe(0)
