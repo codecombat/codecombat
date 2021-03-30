@@ -1,3 +1,5 @@
+i18next = require('i18next')
+jqueryI18next = require('jquery-i18next')
 FacebookHandler = require 'core/social-handlers/FacebookHandler'
 GPlusHandler = require 'core/social-handlers/GPlusHandler'
 GitHubHandler = require 'core/social-handlers/GitHubHandler'
@@ -31,11 +33,6 @@ elementAcceptsKeystrokes = (el) ->
   textInputTypes = ['text', 'password', 'file', 'number', 'search', 'url', 'tel', 'email', 'date', 'month', 'week', 'time', 'datetimelocal']
   # not radio, checkbox, range, or color
   return (tag is 'textarea' or (tag is 'input' and type in textInputTypes) or el.contentEditable in ['', 'true']) and not (el.readOnly or el.disabled)
-
-COMMON_FILES = ['/images/pages/base/modal_background.png', '/images/level/popover_background.png', '/images/level/code_palette_wood_background.png', '/images/level/code_editor_background_border.png']
-preload = (arrayOfImages) ->
-  $(arrayOfImages).each ->
-    $('<img/>')[0].src = @
 
 # IE9 doesn't expose console object unless debugger tools are loaded
 window.console ?=
@@ -122,31 +119,38 @@ Application = {
       @gplusHandler = new GPlusHandler()
       @githubHandler = new GitHubHandler()
     $(document).bind 'keydown', preventBackspace
-    preload(COMMON_FILES)
     moment.relativeTimeThreshold('ss', 1) # do not return 'a few seconds' when calling 'humanize'
     CocoModel.pollAchievements()
     unless me.get('anonymous')
       @checkForNewAchievement()
-    $.i18n.init {
+    window.i18n = i18nextInstance = i18next.default.createInstance {
       lng: me.get('preferredLanguage', true)
-      fallbackLng: 'en'
-      resStore: locale
-      useDataAttrOptions: true
+      fallbackLng: locale.mapFallbackLanguages()
+      resources: locale
+      interpolation: {prefix: '__', suffix: '__'}
       #debug: true
-      #sendMissing: true
-      #sendMissingTo: 'current'
-      #resPostPath: '/languages/add/__lng__/__ns__'
-    }, (t) =>
-      @router = new Router()
-      @userIsIdle = false
-      onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
-      @idleTracker = new Idle
-        onAway: onIdleChanged true
-        onAwayBack: onIdleChanged false
-        onHidden: onIdleChanged true
-        onVisible: onIdleChanged false
-        awayTimeout: 5 * 60 * 1000
-      @idleTracker.start()
+    }
+    i18nextInstance.init()
+    i18nextInstance.services.languageUtils.__proto__.formatLanguageCode = (code) -> code  # Hack so that it doesn't turn zh-HANS into zh-Hans
+    jqueryI18next.init i18nextInstance, $,
+      tName: 't'  # --> appends $.t = i18next.t
+      i18nName: 'i18n'  # --> appends $.i18n = i18next
+      handleName: 'i18n'  # --> appends $(selector).i18n(opts)
+      selectorAttr: 'data-i18n'  # selector for translating elements
+      targetAttr: 'i18n-target'  # data-() attribute to grab target element to translate (if different than itself)
+      optionsAttr: 'i18n-options'  # data-() attribute that contains options, will load/set if useOptionsAttr = true
+      useOptionsAttr: true  # see optionsAttr
+      parseDefaultValueFromContent: true  # parses default values from content ele.val or ele.text
+    @router = new Router()
+    @userIsIdle = false
+    onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
+    @idleTracker = new Idle
+      onAway: onIdleChanged true
+      onAwayBack: onIdleChanged false
+      onHidden: onIdleChanged true
+      onVisible: onIdleChanged false
+      awayTimeout: 5 * 60 * 1000
+    @idleTracker.start()
 
   checkForNewAchievement: ->
     if me.get('lastAchievementChecked')
