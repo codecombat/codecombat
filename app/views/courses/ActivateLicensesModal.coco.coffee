@@ -61,7 +61,7 @@ module.exports = class ActivateLicensesModal extends ModalView
     @listenTo @prepaids, 'sync add remove reset', ->
         @prepaidByGroup = {}
         @prepaids.each (prepaid) => 
-          type = prepaid.typeDescription()
+          type = prepaid.typeDescriptionWithTime()
           @prepaidByGroup[type] = @prepaidByGroup?[type] || 0
           @prepaidByGroup[type] += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0)
 
@@ -133,7 +133,7 @@ module.exports = class ActivateLicensesModal extends ModalView
       return
 
     user = usersToRedeem.first()
-    prepaid = @prepaids.find((prepaid) => prepaid.status() is 'available' and prepaid.typeDescription() == @selectedPrepaidType)
+    prepaid = @prepaids.find((prepaid) => prepaid.status() is 'available' and prepaid.typeDescriptionWithTime() == @selectedPrepaidType)
     prepaid.redeem(user, {
       success: (prepaid) =>
         user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))
