@@ -54,6 +54,20 @@ module.exports = class Prepaid extends CocoModel
     else
       return i18n.translate('teacher.full_license')
 
+  typeDescriptionWithTime: ->
+    type = @get('type')
+    endDate = moment(@get('endDate')).utc().format('ll')
+    endAt = "<br>#{i18n.translate('teacher.status_enrolled')}"
+    endAt = endAt.replace('{{date}}', endDate)
+    if type == 'starter_license'
+      return i18n.translate('teacher.starter_license') + endAt
+    includedCourseIDs = @get('includedCourseIDs')
+    if includedCourseIDs
+      return i18n.translate('teacher.customized_license') + ': ' + (includedCourseIDs.map (id) -> utils.courseAcronyms[id]).join('+') + endAt
+    else
+      return i18n.translate('teacher.full_license') + endAt
+
+
   redeem: (user, options={}) ->
     options.url = _.result(@, 'url')+'/redeemers'
     options.type = 'POST'

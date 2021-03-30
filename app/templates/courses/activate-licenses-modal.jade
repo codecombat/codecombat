@@ -60,10 +60,12 @@ block modal-body-content
       - var prepaids = view.prepaidByGroup
       each value, key in prepaids
         - var selected = view.selectedPrepaidType == key
+        - var desc = key.split('<br>')
         .radio.prepaid-type-line
           label
             input(type="radio", disabled=false, checked=selected, name="licenseType", value=key)
-            span=key
+            p.prepaid-type=desc[0]
+            p.prepaid-end-date=desc[1]
           span.prepaid-number=value
 
     if state.get('error')
