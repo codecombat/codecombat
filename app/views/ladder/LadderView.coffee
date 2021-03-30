@@ -80,6 +80,8 @@ module.exports = class LadderView extends RootView
     @loadLeague()
     @urls = require('core/urls')
 
+    if @tournamentId
+      @checkTournamentCloseInterval = setInterval @checkTournamentClose.bind(@), 3000
     if features.china
       @checkTournamentEndInterval = setInterval @checkTournamentEnd.bind(@), 3000
 
@@ -157,13 +159,14 @@ module.exports = class LadderView extends RootView
     $.ajax
       url: "/db/tournament/#{@tournamentId}/state"
       success: (res) =>
-        if res is 'starting'
+        if res.state is 'starting'
           @tournamentEnd = false
         else
           @tournamentEnd = true
-          if res is 'ended' and @tournamentState != 'ended'
+          if res.state is 'ended' and @tournamentState != 'ended'
+            clearInterval @checkTournamentCloseInterval
             @tournamentState = 'ended'
-          @render()
+            @render()
 
 
 

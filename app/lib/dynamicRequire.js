@@ -47,6 +47,7 @@ module.exports = {
   'views/artisans/BulkLevelEditView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/BulkLevelEditView') },
   'views/artisans/SandboxView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/SandboxView') },
   'views/artisans/ThangTasksView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ThangTasksView') },
+  'views/artisans/ArenaBalancerView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ArenaBalancerView') },
   'views/CLAView': function () { return import(/* webpackChunkName: "CLAView" */ 'views/CLAView') },
   'views/clans/ClansView': function () { return import(/* webpackChunkName: "clans" */ 'views/clans/ClansView') },
   'views/clans/ClanDetailsView': function () { return import(/* webpackChunkName: "clans" */ 'views/clans/ClanDetailsView') },

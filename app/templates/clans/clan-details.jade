@@ -87,6 +87,13 @@ block content
       a(href="/clans/#{clan.id}/tournaments")
         | Go tournaments
 
+        if me.isAdmin()
+          // We should move this to /league/<clan> page instead, as we are phasing out the /clan UI
+          if isOwner
+            a.btn.btn-illustrated.btn-lg.text-uppercase#make-tournament(href='/tournaments/clan/#{clan.id}', data-i18n="tournament.make_tournament")
+          else if isMember
+            a.btn.btn-illustrated.btn-lg.text-uppercase#view-tournament(href='/tournaments/clan/#{clan.id}', data-i18n="tournament.go_tournaments")
+
   if members
     h3
       span.spr(data-i18n="clans.members") Members

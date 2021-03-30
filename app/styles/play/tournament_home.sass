@@ -4,6 +4,19 @@
 #main-ladder-view
   .level-row
     position: relative
+    margin-top: 10px
+    margin-bottom: 10px
+    display: flex
+
+    .edit-button
+      margin-top: 40px
+      
+    .btn-group
+      display: flex
+
+    .tournament-image
+      .level-image
+        width: 100%
 
   .level
     width: 100%
@@ -64,15 +77,9 @@
     left: 60%
     bottom: 20px
 
-    .create-button
-      font-size: 28px
 
+  .input-group-addon
+    min-width: 10em
 
   a[disabled] .level
     opacity: 0.7
-
-  a .level-difficulty .level-status-complete
-    color: $yellow
-
-  a .level-difficulty .level-status-started
-    color: desaturate($yellow, 50%)
