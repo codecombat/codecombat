@@ -62,7 +62,9 @@ mixin accountLinks
                         if document.location.href.search('/CoCoStar') >= 0
                           a.text-p.text-teal(href="/CoCoStar", data-i18n="nav.star")
                         else
-                          a.text-p(href="/CoCoStar", data-i18n="nav.star")
+                          - lastViewed = window.localStorage.getItem('lastViewedCocoStarPage')
+                          - lastUpdated = window.localStorage.getItem('lastUpdatedCocoStarPage')
+                          a.text-p(href="/CoCoStar", data-i18n="nav.star", class=(!lastViewed || lastViewed < lastUpdated) ? 'notify-new' : '')
                       li
                         a.text-p(data-i18n="nav.aiyouth", href="http://aiyouth.koudashijie.com")
                       -// li
@@ -74,7 +76,9 @@ mixin accountLinks
                         if document.location.href.search('/events') >= 0
                           a.text-p.text-teal(href="/events", data-i18n="nav.events")
                         else
-                          a.text-p(href="/events", data-i18n="nav.events")
+                          - lastViewed = window.localStorage.getItem('lastViewedEventPage')
+                          - lastUpdated = window.localStorage.getItem('lastUpdatedEventPage')
+                          a.text-p(href="/events", data-i18n="nav.events", class=(!lastViewed || lastViewed < lastUpdated) ? 'notify-new' : '')
                       else if document.location.href.search('/about') >= 0
                         a.text-p.text-teal(href="/about", data-i18n="nav.about")
                       else

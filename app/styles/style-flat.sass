@@ -204,6 +204,20 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
       .text-teal
         color: $teal
 
+      .notify-new
+        position: relative
+
+        &:after
+          content: ''
+          border-radius: 50%
+          width: 6px
+          height: 6px
+          background-color: $gold
+          box-shadow: 0 0 6px 0 $gold
+          position: absolute
+          right: 8px
+          top: 8px
+
 
     .nav > li > a
       // TODO: Move this to bootstrap variables for navbars

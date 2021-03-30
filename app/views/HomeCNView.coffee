@@ -36,6 +36,9 @@ module.exports = class HomeCNView extends RootView
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetchReleased()
 
+    window.localStorage.setItem('lastUpdatedCocoStarPage', +new Date('2021-3-30 18:00:00'))
+    window?.localStorage?.setItem('lastUpdatedEventPage', +new Date('2021-3-30 18:00:00'))
+
     if me.isTeacher()
       @trialRequests = new TrialRequests()
       @trialRequests.fetchOwn()

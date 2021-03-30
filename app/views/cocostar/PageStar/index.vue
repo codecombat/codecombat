@@ -68,6 +68,7 @@
   export default Vue.extend({
     components: {
     },
+    
     computed: {
       baseURI () {
         return 'https://assets.koudashijie.com/images/cocostar/';
@@ -394,7 +395,10 @@
        },
      ];
      }
-   }
+   },
+    mounted () {
+      window.localStorage.setItem('lastViewedCocoStarPage', Date.now())
+    }
  })
 </script>
 
