@@ -1657,7 +1657,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     current_hero_female: "当前英雄:"
     web_dev_language_transition: "在本课中，所有的编程语言都是使用HTML和JavaScript编写。之前使用Python语言学习的班级会有额外的JavaScript编程介绍关卡来过渡。已经选择JavaScript编程语言的班级将会跳过这些介绍关卡。 "
     course_membership_required_to_play: "你将需要加入一个课程来玩这个关卡"
-    license_required_to_play: "询问你的老师来注册一个许可证，之后你可以继续玩CodeCombat游戏！"
+    license_required_to_play: "请询问老师分配后续课程，或者联系客服购买课程或学习许可，以便继续学习。"
     update_old_classroom: "新学年, 新关卡!"
     update_old_classroom_detail: "为确保您获得最新关卡，请您尽量在本学期创建新的班级，方法是单击"
     teacher_dashboard: "老师面板"
