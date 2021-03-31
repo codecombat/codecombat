@@ -228,7 +228,7 @@
         <!-- End First Row -->
         <!-- Second Row -->
         <div class="grid-item">Subscription plan</div>
-        <div class="grid-item">$99 per year per student</div>
+        <div class="grid-item">${{ basicAnnualSubscriptionPrice }} per year per student</div>
         <div class="grid-item">$159 per month per student</div>
         <div class="grid-item">$219 per month per student</div>
         <div class="grid-item">$399 per month per student</div>
@@ -589,6 +589,7 @@ import ModalTimetapConfirmation from './ModalTimetapConfirmation'
 import ButtonScheduleFreeClass from './ButtonScheduleFreeClass'
 import IconGem from './IconGem'
 import ButtonArrow from './ButtonArrow'
+import { mapGetters } from 'vuex'
 
 const DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID = 214809
 const DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID = 222065
@@ -745,6 +746,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters('products', [
+      'basicAnnualSubscriptionPrice'
+    ]),
+
     isUs: function () {
       return window.me.get('country') === 'united-states'
     }

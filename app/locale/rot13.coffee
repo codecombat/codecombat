@@ -91,6 +91,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teachers_love_codecombat_blurb3: "Fnl gung PbqrPbzong urycf gurz fhccbeg fghqragf’ ceboyrz fbyivat novyvgvrf"
     teachers_love_codecombat_subblurb: "Va cnegarefuvc jvgu ZpERY Vagreangvbany, n yrnqre va erfrnepu-onfrq thvqnapr naq rinyhngvbaf bs rqhpngvbany grpuabybtl."
     top_banner_blurb: "Cneragf, tvir lbhe puvyq gur tvsg bs pbqvat naq crefbanyvmrq vafgehpgvba jvgu bhe yvir grnpuref!"
+    top_banner_blurb_team_derbezt_link: "Wbva Grnz QreOrmg va gur PbqrPbzong NV Yrnthr"
+    top_banner_blurb_team_derbezt_suffix: "gb trg gur rkpyhfvir Neznaqb Ublbf ureb sebz Zrkvpna fhcrefgne Rhtravb Qreorm!"
     try_the_game: "Gel gur tnzr"
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
@@ -938,6 +940,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     feature_level_access: "Npprff 300+ yriryf ninvynoyr"
     feature_heroes: "Haybpx rkpyhfvir urebrf naq crgf"
     feature_learn: "Yrnea gb znxr tnzrf naq jrofvgrf"
+    feature_gems: "Erprvir __trzf__ trzf cre zbagu"
     month_price: "$__cevpr__"
     first_month_price: "Bayl $__cevpr__ sbe lbhe svefg zbagu!"
     lifetime: "Yvsrgvzr Npprff"
@@ -1125,6 +1128,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     team_values: "Jr inyhr bcra naq erfcrpgshy qvnybthr, jurer gur orfg vqrn jvaf. Bhe qrpvfvbaf ner tebhaqrq va phfgbzre erfrnepu naq bhe cebprff vf sbphfrq ba qryvirevat gnatvoyr erfhygf sbe gurz. Rirelbar vf unaqf-ba, sebz bhe PRB gb bhe TvgUho pbagevohgbef, orpnhfr jr inyhr tebjgu naq yrneavat va bhe grnz."
     nick_title: "Pbsbhaqre, PRB"
     csm_title: "Phfgbzre Fhpprff Znantre"
+    scsm_title: "Fravbe Phfgbzre Fhpprff Znantre"
     ae_title: "Nppbhag Rkrphgvir"
     sae_title: "Fravbe Nppbhag Rkrphgvir"
     sism_title: "Fravbe Vafvqr Fnyrf Znantre"
@@ -1155,6 +1159,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     ea_title: "Rkrphgvir Nffvfgnag"
     om_title: "Bcrengvbaf Znantre"
     mo_title: "Znantre, Bcrengvbaf"
+    smo_title: "Fravbe Znantre, Bcrengvbaf"
     scd_title: "Fravbe Pheevphyhz Qrirybcre"
     lcd_title: "Yrnq Pheevphyhz Qrirybcre"
     vpm_title: "IC, Znexrgvat"
@@ -3153,3 +3158,45 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     unlocked_seasonal_arena: "Lbh'ir haybpxrq bhe zhygvcynlre rfcbegf neran!"
     summary: 'Gur PbqrPbzong NV Yrnthr vf havdhryl obgu n pbzcrgvgvir NV onggyr fvzhyngbe naq tnzr ratvar sbe yrneavat erny Clguba naq WninFpevcg pbqr.'
     join_now: 'Wbva Abj'
+    tagline: 'Gur PbqrPbzong NV Yrnthr pbzovarf bhe cebwrpg-onfrq fgnaqneqf-nyvtarq pheevphyhz, ratntvat nqiragher-onfrq pbqvat tnzr, naq bhe naahny NV pbqvat tybony gbheanzrag vagb na betnavmrq npnqrzvp pbzcrgvgvba hayvxr nal bgure.'
+    ladder_subheader: 'Hfr lbhe pbqvat fxvyyf naq onggyr fgengrtvrf gb evfr hc gur enaxf!'
+    earn_codepoints: 'Rnea PbqrCbvagf ol pbzcyrgvat yriryf'
+    free_1: 'Npprff pbzcrgvgvir zhygvcynlre neranf, yrnqreobneq, naq tybony pbqvat punzcvbafuvcf'
+    free_2: 'Rnea cbvagf sbe pbzcyrgvat cenpgvpr yriryf naq pbzcrgvat va urnq-gb-urnq zngpurf'
+    free_3: 'Wbva pbzcrgvgvir pbqvat grnzf jvgu sevraqf, snzvyl, be pynffzngrf'
+    free_4: 'Fubjpnfr lbhe pbqvat fxvyyf naq gnxr ubzr terng cevmrf'
+    compete_season: 'Chg nyy gur fxvyyf lbh’ir yrnearq gb gur grfg! Pbzcrgr ntnvafg fghqragf naq cynlref sebz npebff gur jbeyq va guvf rkpvgvat phyzvangvba gb gur frnfba.'
+    season_subheading1: 'Sbe obgu Frnfba naq Punzcvbafuvc neranf, rnpu cynlre cebtenzf gurve grnz bs “NV Urebrf” jvgu pbqr jevggra va Clguba, WninFpevcg, P++, Yhn, be PbssrrFpevcg.'
+    season_subheading2: 'Gurve pbqr vasbezf gur fgengrtvrf gurve NV Urebrf jvyy rkrphgr va n urnq-gb-urnq onggyr ntnvafg bgure pbzcrgvgbef.'
+    team_derbezt: 'Yrnea pbqvat naq jva cevmrf fcbafberq ol fhcrefgne Zrkvpna npgbe, pbzrqvna, naq svyzznxre Rhtravb Qreorm.'
+    invite_link: 'Vaivgr cynlref gb guvf grnz ol fraqvat gurz guvf yvax:'
+    public_link: 'Funer guvf grnz yrnqreobneq jvgu vgf choyvp yvax:'
+    end_to_end: 'Hayvxr bgure rfcbegf cyngsbezf freivat fpubbyf, jr bja gur fgehpgher gbc gb obggbz, juvpu zrnaf jr’er abg gvrq gb nal tnzr qrirybcre be unir vffhrf jvgu yvprafvat. Gung nyfb zrnaf jr pna znxr phfgbz zbqvsvpngvbaf va-tnzr sbe lbhe fpubby be betnavmngvba.'
+    path_success: 'Gur tnzr cyngsbez svgf vagb n erthyne Pbzchgre Fpvrapr pheevphyhz, fb nf fghqragf cynl guebhtu gur tnzr yriryf, gurl’er pbzcyrgvat pbhefr jbex. Fghqragf yrnea pbqvat naq pbzchgre fpvrapr juvyr gurl cynl, gura hfr gurfr fxvyyf va neran onggyrf nf gurl cenpgvpr naq cynl ba gur fnzr cyngsbez.'
+    unlimited_potential: 'Bhe gbheanzrag fgehpgher vf nqncgnoyr gb nal raivebazrag be hfr pnfr. Fghqragf pna cnegvpvcngr ng n qrfvtangrq gvzr qhevat erthyne yrneavat, cynl ng ubzr nflapuebabhfyl, be cnegvpvcngr ba gurve bja fpurqhyr.'
+    edit_team: 'Rqvg Grnz'
+    start_team: 'Fgneg n Grnz'
+    leave_team: 'Yrnir Grnz'
+    join_team: 'Wbva Grnz'
+    features: 'Srngherf'
+    built_in: 'Ohvyg-va Pbzcrgvgvir Vasenfgehpgher'
+    built_in_subheader: 'Bhe cyngsbez ubfgf rirel ryrzrag bs gur pbzcrgvgvir cebprff, sebz yrnqreobneqf gb gur tnzr cyngsbez, nffrgf, naq gbheanzrag njneqf.'
+    custom_dev: 'Phfgbz Qrirybczrag'
+    custom_dev_subheader: 'Phfgbzvmngvba ryrzragf sbe lbhe fpubby be betnavmngvba ner vapyhqrq, cyhf bcgvbaf yvxr oenaqrq ynaqvat cntrf naq va-tnzr punenpgref.'
+    comprehensive_curr: 'Pbzcerurafvir Pheevphyhz'
+    comprehensive_curr_subheader: 'PbqrPbzong vf n fgnaqneqf-nyvtarq PF fbyhgvba gung urycf rqhpngbef grnpu erny pbqvat va WninFpevcg naq Clguba, ab znggre gurve rkcrevrapr.'
+    roster_management: 'Ebfgre Znantrzrag Gbbyf'
+    roster_management_subheader: 'Genpx fghqrag cresbeznapr jvguva gur pheevphyhz naq jvguva gur tnzr, naq rnfvyl nqq be erzbir fghqragf.'
+    share_flyer: 'Funer bhe NV Yrnthr sylre jvgu rqhpngbef, nqzvavfgengbef, cneragf, rfcbegf pbnpurf be bguref gung znl or vagrerfgrq.'
+    download_flyer: 'Qbjaybnq Sylre'
+
+  tournament:
+    mini_tournaments: "Zvav Gbheanzragf"
+    usable_ladders: "Nyy Hfnoyr Ynqqref"
+    make_tournament: "Znxr n zvav gbheanzrag"
+    go_tournaments: "Tb gb zvav gbheanzragf"
+    class_tournaments: "Pynff zvav gbheanzragf"
+    no_tournaments_owner: "Gurer vf ab gbheanzrag abj, cyrnfr perngr bar"
+    no_tournaments: "Gurer vf ab gbheanzrag abj"
+    edit_tournament: "Rqvg Gbheanzrag"
+    create_tournament: "Perngr n Gbheanzrag"
