@@ -476,7 +476,7 @@ export default {
     </div>
     <div class="row flex-row">
       <div class="col-sm-1"><img src="/images/pages/league/text_1.svg" class="img-responsive" loading="lazy"></div>
-      <div class="col-sm-11"><p class="subheader2 mb-0" v-html="$t('league.how_it_works1', { team: `<span class='esports-aqua'>${this.$t('league.team')}</span>` })"></p></div>
+      <div class="col-sm-11"><p class="subheader2 mb-0" v-html="$t('league.how_it_works1', { team: `<span class='esports-aqua'>${this.$t('league.team')}</span>`, interpolation: { escapeValue: false } })"></p></div>
     </div>
 
     <div class="row flex-row">
