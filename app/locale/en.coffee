@@ -3152,9 +3152,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
     team: 'team'
     how_it_works1: 'Join a __team__'
-    seasonal_arena_name: 'Blazing Battle'
     seasonal_arena_tooltip: 'Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season.'
-    seasonal_play_cta: 'Play Blazing Battle Multiplayer Arena'
+    seasonal_play_cta: 'Play __arenaName__ Multiplayer Arena'
     unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
     summary: 'The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.'
     join_now: 'Join Now'
@@ -3189,6 +3188,19 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     roster_management_subheader: 'Track student performance within the curriculum and within the game, and easily add or remove students.'
     share_flyer: 'Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested.'
     download_flyer: 'Download Flyer'
+    championship_summary: 'The __championshipArena__ championship arena is now open! Battle it out for the month of __championshipMonth__ for to win prizes in the __championshipArena__ __championshipType__.'
+    play_arena: "Play __arenaName__ __arenaType__"
+    arena_type_championship: "Championship Arena"
+    arena_type_regular: "Multiplayer Arena"
+    blazing_battle: "Blazing Battle"
+    infinite_inferno: "Infinite Inferno"
+    mages_might: "Mages' Might"
+    sorcerers: "Sorcerers"
+    giants_gate: "Giants' Gate"
+    colossus: "Colossus"
+    cup: "Cup"
+    blitz: "Blitz"
+    clash: "Clash"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
