@@ -3183,7 +3183,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     built_in: "Infrastruktur Kompetitif yang Terpasang"
     built_in_subheader: "Platform kami menampung setiap elemen dari proses kompetitif, dari papan peringkat hingga platform game, aset, dan penghargaan turnamen."
     custom_dev: "Pengembangan Kustom"
-    custom_dev_subheader: "Elemen kustomisasi untuk sekolah atau organisasi Anda disertakan, ditambah opsi seperti halaman arahan bermerek dan karakter dalam game."
+    custom_dev_subheader: "Elemen kustomisasi untuk sekolah atau organisasi Anda telah disertakan, ditambah opsi seperti halaman arahan bermerek dan karakter dalam game."
     comprehensive_curr: "Kurikulum Komprehensif"
     comprehensive_curr_subheader: "CodeCombat adalah solusi Ilmu Komputer yang selaras dengan standar yang membantu pengajar mengajarkan pengkodean nyata dalam JavaScript dan Python, apa pun pengalaman mereka."
     roster_management: "Alat Manajemen Daftar"
