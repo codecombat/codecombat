@@ -92,6 +92,7 @@ module.exports = class I18NEditModelView extends RootView
       session.setMode 'ace/mode/markdown'
       session.setNewLineMode = 'unix'
       session.setUseSoftTabs true
+      session.setUseWrapMode true
       editor.setOptions({ maxLines: Infinity })
 
   onEditorChange: (event, editor) =>
