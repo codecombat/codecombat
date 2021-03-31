@@ -240,6 +240,9 @@
       .ace_searchbtn, .ace_replacebtn
         padding: 0px 4px
 
+.ace_autocomplete .ace_line:not(.ace_selected) .ace_completion-meta
+  // Don't show "press enter" on lines that aren't currently selected
+  display: none
 
 html.no-borderimage
   #spell-view
