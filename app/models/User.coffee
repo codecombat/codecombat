@@ -559,9 +559,6 @@ module.exports = class User extends CocoModel
 
   age: -> utils.yearsSinceMonth me.get('birthday')
 
-  isInAcademicaClan: ->
-    return Array.isArray(@get('clans')) and @get('clans')?.indexOf('5ff88bcdfe17d7bb1c7d2d00') isnt -1
-
   # Feature Flags
   # Abstract raw settings away from specific UX changes
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()

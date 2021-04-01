@@ -24,7 +24,11 @@ if showGameDevAlert
       a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button(data-i18n="play_level.videos")
 
     if view.shouldShow('league-arena')
-      a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#esports-arena(class=`${(me.get('stats') || {}).codePoints > 30 ? 'btn-danger' : ''}`) Play Blazing Battle
+      - var codePoints = (me.get('stats') || {}).codePoints
+      - var arenaSlug = codePoints > 100 ? 'infinite-inferno' : 'blazing-battle'
+      - var playArenaText = $.t('league.play_arena_short', {arenaName: $.t('league.' + arenaSlug.replace('-', '_'))})
+      - var emphasisClass = codePoints > 100 ? 'btn-primary' : codePoints > 30 ? 'btn-danger' : ''
+      a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#esports-arena(class=emphasisClass)= playArenaText
 
   if serverConfig.codeNinjas
     a(href="https://code.ninja")

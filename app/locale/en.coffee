@@ -3190,7 +3190,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share_flyer: 'Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested.'
     download_flyer: 'Download Flyer'
     championship_summary: 'The __championshipArena__ championship arena is now open! Battle it out for the month of __championshipMonth__ to win prizes in the __championshipArena__ __championshipType__.'
-    play_arena: "Play __arenaName__ __arenaType__"
+    play_arena_full: "Play __arenaName__ __arenaType__"
+    play_arena_short: "Play __arenaName__"
     arena_type_championship: "Championship Arena"
     arena_type_regular: "Multiplayer Arena"
     blazing_battle: "Blazing Battle"
