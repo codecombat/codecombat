@@ -3188,7 +3188,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     roster_management_subheader: 'Track student performance within the curriculum and within the game, and easily add or remove students.'
     share_flyer: 'Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested.'
     download_flyer: 'Download Flyer'
-    championship_summary: 'The __championshipArena__ championship arena is now open! Battle it out for the month of __championshipMonth__ for to win prizes in the __championshipArena__ __championshipType__.'
+    championship_summary: 'The __championshipArena__ championship arena is now open! Battle it out for the month of __championshipMonth__ to win prizes in the __championshipArena__ __championshipType__.'
     play_arena: "Play __arenaName__ __arenaType__"
     arena_type_championship: "Championship Arena"
     arena_type_regular: "Multiplayer Arena"
@@ -3201,6 +3201,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season1_announcement_1: "Time to put your coding skills to the test in our season 1 final arena. The Infinite Inferno Cup is live and offers a new challenge and new leaderboard to climb."
+    season1_announcement_2: "Need more practice? Stick with the Blazing Battle Arena to refine your skills. You have until April 30th to play both arenas."
+    season1_announcement_3: "Great prizes available for top performers in the Infinite Inferno Cup:"
+    season1_prize_1: "$1,000 Scholarship"
+    season1_prize_2: "RESPAWN Gaming Chair"
+    season1_prize_3: "Custom CodeCombat Avatar"
+    season1_prize_4: "And more!"
 
   tournament:
     mini_tournaments: "Mini Tournaments"

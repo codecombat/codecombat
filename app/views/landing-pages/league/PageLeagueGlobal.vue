@@ -404,7 +404,7 @@ export default {
       </div>
     </section>
 
-    <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" :championshipActive="championshipActive" />
+    <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" :championshipActive="championshipActive" class="section-space" />
 
     <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center">
       <div class="col-sm-5">
@@ -421,6 +421,27 @@ export default {
         <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.edit_team') }}</a>
         <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">{{ $t('league.leave_team') }}</a>
         <a v-else v-show="showJoinTeamBtn" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">{{ $t('league.join_team') }}</a>
+      </div>
+    </div>
+
+    <div class="row text-center">
+      <div class="col-lg-6 section-space">
+        <!-- TODO: NEW ARENA LEADERBOARD -->
+      </div>
+      <div class="col-lg-6 section-space" style="text-align: left;">
+        <div>
+          <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
+          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 1 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
+        </div>
+        <p>{{ $t('league.season1_announcement_1') }}</p>
+        <p>{{ $t('league.season1_announcement_2') }}</p>
+        <p>{{ $t('league.season1_announcement_3') }}</p>
+        <ul style="list-style-type: none; padding: 0px;">
+          <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_1') }}</li>
+          <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_2') }}</li>
+          <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_3') }}</li>
+          <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_4') }}</li>
+        </ul>
       </div>
     </div>
 
@@ -480,10 +501,10 @@ export default {
         </div>
         <div class="col-md-7">
           <ul style="list-style-type: none; padding: 0px; margin-top: 74px;">
-            <li><span class="bullet-point" style="background-color: #bcff16;"/>$1,000 Scholarship</li>
-            <li><span class="bullet-point" style="background-color: #30EFD3;"/>RESPAWN Gaming Chair</li>
-            <li><span class="bullet-point" style="background-color: #FF39A6;"/>Custom CodeCombat Avatar</li>
-            <li><span class="bullet-point" style="background-color: #9B83FF;"/>And more!</li>
+            <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_1') }}</li>
+            <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_2') }}</li>
+            <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_3') }}</li>
+            <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_4') }}</li>
           </ul>
           <img src="/images/pages/league/respawn-logo.png" alt="RESPAWN company logo" class="responsive-img" style="max-width: 160px; margin-bottom: 64px;"/>
           <p>Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena.  Some prizes are limited to US participants only.
@@ -1065,11 +1086,13 @@ export default {
     ::v-deep .btn-primary.btn-moon, .play-btn-cta {
       padding: 20px 100px;
     }
+
     ::v-deep .section-space {
       margin-bottom: 200px;
     }
+
     .esports-header {
-      margin-bottom: 400px;
+      margin-bottom: 300px;
     }
   }
 
@@ -1100,10 +1123,9 @@ export default {
       margin-top: 10px;
     }
 
-    .esports-header{
+    .esports-header {
       background-position: bottom;
       min-height: 360px;
-      margin-bottom: 30%;
     }
 
     .leaderboard-component {
