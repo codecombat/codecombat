@@ -440,10 +440,11 @@ export default {
       </div>
     </div>
 
-    <div class="row text-center">
+    <div v-if="championshipActive" class="row text-center">
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :title="$t('league.infinite_inferno')" :rankings="selectedClanChampionshipRankings" :playerCount="selectedClanChampionshipLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
-        <leaderboard v-else :title="$t('league.infinite_inferno')" :rankings="globalChampionshipRankings" :playerCount="globalChampionshipLeaderboardPlayerCount" class="leaderboard-component" />
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${championshipArenaSlug.replace('-', '_')}`)" :rankings="selectedClanChampionshipRankings" :playerCount="selectedClanChampionshipLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-else :title="$t(`league.${championshipArenaSlug.replace('-', '_')}`)" :rankings="globalChampionshipRankings" :playerCount="globalChampionshipLeaderboardPlayerCount" class="leaderboard-component" />
+        <a :href="championshipArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena', { arenaName: $t(`league.${championshipArenaSlug.replace('-', '_')}`), arenaType: $t('league.arena_type_championship') }) }}</a>
       </div>
       <div class="col-lg-6 section-space" style="text-align: left;">
         <div>
@@ -474,9 +475,9 @@ export default {
       <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :title="$t('league.blazing_battle')" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
-        <leaderboard v-else :rankings="globalRankings" :title="$t('league.blazing_battle')" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
-        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena', { arenaName: $t('league.blazing_battle'), arenaType: $t('league.arena_type_regular') }) }}</a>
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace('-', '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace('-', '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
+        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena', { arenaName: $t(`league.${regularArenaSlug.replace('-', '_')}`), arenaType: $t('league.arena_type_regular') }) }}</a>
       </div>
       <div class="col-lg-6 section-space">
         <leaderboard :title="$t('league.codepoints')" :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
@@ -1194,8 +1195,7 @@ export default {
       width: 100%;
     }
     .five-four-shooting-star img {
-      bottom: -75px;
-      width: 100%;
+      display: none;
     }
     .hero-rotation {
       display: flex;
