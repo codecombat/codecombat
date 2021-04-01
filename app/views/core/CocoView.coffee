@@ -7,6 +7,7 @@ require('app/styles/core/loading-error.sass')
 auth = require 'core/auth'
 ViewVisibleTimer = require 'core/ViewVisibleTimer'
 storage = require 'core/storage'
+zendesk = require 'core/services/zendesk'
 
 visibleModal = null
 waitingModal = null
@@ -263,23 +264,14 @@ module.exports = class CocoView extends Backbone.View
       DirectContactModal = require('ozaria/site/views/core/DirectContactModal').default
       @openModalView(new DirectContactModal())
 
-    if me.isTeacher(true) and window?.tracker?.drift?.openChat
+    if (me.isTeacher(true) and window?.tracker?.drift?.openChat) or me.showChinaResourceInfo()
       openDirectContactModal()
     else
-      try
-        if !me.isAnonymous()
-          zE('webWidget', 'prefill', {
-            email: {
-              value: me.get('email')
-            }
-          })
-        zE('webWidget', 'open')
-        zE('webWidget', 'show')
-      catch e
-        console.error('Error trying to open Zendesk widget: ', e)
-        # There's an unlikely case where both Drift and Zendesk are unavailable, or Zendesk exists but fails.
-        # Since the modal communicates errors better, and shows the direct support email, we still open it.
-        openDirectContactModal()
+      # There's an unlikely case where both Drift and Zendesk are unavailable, or Zendesk exists but fails.
+      # Since the modal communicates errors better, and shows the direct support email, we still open it.
+      zendesk.loadZendesk()
+        .then(-> if not zendesk.openZendesk() then openDirectContactModal())
+        .catch(-> openDirectContactModal())
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
