@@ -3153,7 +3153,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     general_news: "經由電子郵件取得最新資訊並更新 AI 相關賽事。"
     team: "團隊"
     how_it_works1: "加入 __團隊__"
-    seasonal_arena_name: "激烈賽事"
+    blazing_battle: "激烈賽事"
     seasonal_arena_tooltip: "您將使用自己最好的編程技能來與隊友和其他人作戰，以賺取積分並提升 AI 聯賽排行，以期在賽季結束前進入冠軍賽。"
     seasonal_play_cta: "在多玩家區域進行激烈賽事。"
     unlocked_seasonal_arena: "您已解鎖我們的多人電競競技場！"
