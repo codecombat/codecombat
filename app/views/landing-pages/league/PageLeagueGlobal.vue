@@ -433,7 +433,7 @@ export default {
         :childClans="currentSelectedClanChildDetails"
         class="clan-search"
       />
-      <InputClanSearch v-if="isGlobalPage" max-width="510" style="margin: 10px auto"/>
+      <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
         <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
@@ -452,7 +452,7 @@ export default {
 
     <SectionFirstCTA v-if="!isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
 
-    <section class="row flex-row free-to-get-start" :class="clanIdSelected === '' ? 'free-to-get-start-bg':''">
+    <section class="row flex-row free-to-get-start section-space" :class="clanIdSelected === '' ? 'free-to-get-start-bg':''">
       <div class="col-sm-10">
         <div class="five-four-shooting-star">
           <img class="img-responsive" src="/images/pages/league/five_four_shooting_star.png">
@@ -471,17 +471,27 @@ export default {
     </section>
 
     <div class="row section-space">
-      <div class="col-sm-7">
-        <h1 class="subheader1" style="margin-bottom: 30px;"><span class="esports-goldenlight">Global </span><span class="esports-pink">final </span><span class="esports-aqua">arena</span></h1>
-        <p class="subheader2" style="margin-bottom: 30px;">
-          {{ $t('league.compete_season') }}
-        </p>
-        <div class="xs-centered">
-          <a v-if="!doneRegistering && !isClanCreator()" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
+      <div class="row">
+        <h1 class="subheader1 text-center" style="margin-bottom: 64px;"><span class="esports-pink">Compete </span><span class="esports-green">in </span><span class="esports-aqua">the </span><span class="esports-purple">Infinite Inferno Cup </span><span class="esports-aqua">for </span><span class="esports-green">a </span><span class="esports-pink">chance </span><span class="esports-purple">to </span><span class="esports-aqua">win!</span></h1>
+      </div>
+      <div class="row">
+        <div class="col-md-5 text-center">
+          <img src="/images/pages/league/respawn-gaming-chair.png" alt="RESPAWN Gaming Chair" class="responsive-img" style="max-width: 450px;"/>
+        </div>
+        <div class="col-md-7">
+          <ul style="list-style-type: none; padding: 0px; margin-top: 32px;">
+            <li><span class="bullet-point" style="background-color: #bcff16;"/>$1,000 Scholarship</li>
+            <li><span class="bullet-point" style="background-color: #30EFD3;"/>RESPAWN Gaming Chair</li>
+            <li><span class="bullet-point" style="background-color: #FF39A6;"/>Custom CodeCombat Avatar</li>
+            <li><span class="bullet-point" style="background-color: #9B83FF;"/>And more!</li>
+          </ul>
+          <img src="/images/pages/league/respawn-logo.png" alt="RESPAWN company logo" class="responsive-img" style="max-width: 160px; margin-bottom: 64px;"/>
+          <p>Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena.  Some prizes are limited to US participants only.
+            <a href="https://docs.google.com/document/d/1cy4bKe_c0pl6mxLWnbp6R7PxHoDwHzNlBHWALODdey4/edit?usp=sharing">CodeCombat reserves</a> the right to determine in its sole discretion if a player qualifies and will receive a prize.</p>
         </div>
       </div>
-      <div class="col-sm-5">
-        <img class="img-responsive w-100" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
+      <div class="text-center" style="margin: 32px 0;">
+        <a href="/play/ladder/infinite-inferno" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Now</a>
       </div>
       <div class="two-pixel-star">
         <img class="img-responsive" src="/images/pages/league/two_pixel_star.png">
