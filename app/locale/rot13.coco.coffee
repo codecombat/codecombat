@@ -3152,7 +3152,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     general_news: "Trg rznvyf ba gur yngrfg arjf naq hcqngrf ertneqvat bhe NV Yrnthrf naq gbheanzragf."
     team: 'grnz'
     how_it_works1: 'Wbva n __grnz__'
-    seasonal_arena_name: 'Oynmvat Onggyr'
+    blazing_battle: 'Oynmvat Onggyr'
     seasonal_arena_tooltip: 'Onggyr ntnvafg lbhe grnzzngrf naq bguref nf lbh hfr lbhe orfg cebtenzzvat fxvyyf gb rnea cbvagf naq enax hc gur NV Yrnthr yrnqreobneq orsber gnxvat ba gur Punzcvbafuvc neran ng gur raq bs gur frnfba.'
     seasonal_play_cta: 'Cynl Oynmvat Onggyr Zhygvcynlre Neran'
     unlocked_seasonal_arena: "Lbh'ir haybpxrq bhe zhygvcynlre rfcbegf neran!"
