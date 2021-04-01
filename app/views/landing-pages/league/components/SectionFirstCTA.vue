@@ -10,11 +10,11 @@ export default {
     },
     onHandleJoinCTA: {
       required: true
+    },
+    championshipActive: {
+      type: Boolean
     }
   },
-  data: () => ({
-    championshipActive: true
-  })
 }
 </script>
 

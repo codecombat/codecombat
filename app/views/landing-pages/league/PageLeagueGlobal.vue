@@ -26,7 +26,10 @@ export default {
     leagueSignupModalOpen: false,
     clanCreationModal: false,
     doneRegistering: false,
-    joinOrLeaveClanLoading: false
+    joinOrLeaveClanLoading: false,
+    regularArenaSlug: 'blazing-battle',
+    championshipArenaSlug: 'infinite-inferno',
+    championshipActive: true
   }),
 
   beforeRouteUpdate (to, from, next) {
@@ -330,6 +333,22 @@ export default {
       return ['teacher', 'classroom'].indexOf(this.currentSelectedClan?.kind) === -1
     },
 
+    regularArenaUrl () {
+      let url = `/play/ladder/${this.regularArenaSlug}`
+      if (this.clanIdSelected) {
+        url += '/clan/' + this.clanIdSelected
+      }
+      return url
+    },
+
+    championshipArenaUrl () {
+      let url = `/play/ladder/${this.championshipArenaSlug}`
+      if (this.clanIdSelected) {
+        url += '/clan/' + this.clanIdSelected
+      }
+      return url
+    },
+
     // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
     firstName () { return me.get('firstName') },
 
@@ -385,7 +404,7 @@ export default {
       </div>
     </section>
 
-    <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
+    <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" :championshipActive="championshipActive" />
 
     <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center">
       <div class="col-sm-5">
@@ -419,8 +438,7 @@ export default {
       <div class="col-lg-6 section-space">
         <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
         <leaderboard v-else :rankings="globalRankings" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
-        <a v-if="currentSelectedClan" :href="`/play/ladder/blazing-battle/clan/${clanIdSelected}`" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena', { arenaName: $t('league.blazing_battle'), arenaType: $t('league.arena_type_regular') }) }}</a>
-        <a v-else href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena', { arenaName: $t('league.blazing_battle'), arenaType: $t('league.arena_type_regular') }) }}</a>
+        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena', { arenaName: $t('league.blazing_battle'), arenaType: $t('league.arena_type_regular') }) }}</a>
       </div>
       <div class="col-lg-6 section-space">
         <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
@@ -1048,9 +1066,6 @@ export default {
     ::v-deep .btn-primary.btn-moon {
       font-size: 14px;
       padding: 8px 24px;
-    }
-    .btn-primary.blazing-battle {
-      white-space: normal;
     }
 
     .esports-header .esports-h1 {
