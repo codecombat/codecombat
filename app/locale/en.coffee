@@ -3160,6 +3160,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tagline: 'The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other.'
     ladder_subheader: 'Use your coding skills and battle strategies to rise up the ranks!'
     earn_codepoints: 'Earn CodePoints by completing levels'
+    codepoints: 'CodePoints'
     free_1: 'Access competitive multiplayer arenas, leaderboard, and global coding championships'
     free_2: 'Earn points for completing practice levels and competing in head-to-head matches'
     free_3: 'Join competitive coding teams with friends, family, or classmates'

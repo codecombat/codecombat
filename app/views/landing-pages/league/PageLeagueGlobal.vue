@@ -71,6 +71,7 @@ export default {
     ...mapActions({
       loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
       loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
+      loadChampionshipGlobalRequiredData: 'seasonalLeague/loadChampionshipGlobalRequiredData',
       loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
       fetchClan: 'clans/fetchClan',
       fetchChildClanDetails: 'clans/fetchChildClanDetails'
@@ -110,6 +111,7 @@ export default {
         this.loadCodePointsRequiredData({ leagueId: this.clanIdSelected })
       } else {
         this.loadGlobalRequiredData()
+        this.loadChampionshipGlobalRequiredData()
         this.loadCodePointsRequiredData({ leagueId: '' })
       }
     },
@@ -241,7 +243,9 @@ export default {
   computed: {
     ...mapGetters({
       globalRankings: 'seasonalLeague/globalRankings',
+      globalChampionshipRankings: 'seasonalLeague/globalChampionshipRankings',
       globalLeaderboardPlayerCount: 'seasonalLeague/globalLeaderboardPlayerCount',
+      globalChampionshipLeaderboardPlayerCount: 'seasonalLeague/globalChampionshipLeaderboardPlayerCount',
       clanRankings: 'seasonalLeague/clanRankings',
       clanLeaderboardPlayerCount: 'seasonalLeague/clanLeaderboardPlayerCount',
       codePointsRankings: 'seasonalLeague/codePointsRankings',
@@ -426,7 +430,8 @@ export default {
 
     <div class="row text-center">
       <div class="col-lg-6 section-space">
-        <!-- TODO: NEW ARENA LEADERBOARD -->
+        <!-- <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" /> -->
+        <leaderboard :title="$t('league.infinite_inferno')" :rankings="globalChampionshipRankings" :playerCount="globalChampionshipLeaderboardPlayerCount" class="leaderboard-component" />
       </div>
       <div class="col-lg-6 section-space" style="text-align: left;">
         <div>
@@ -457,12 +462,12 @@ export default {
       <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
-        <leaderboard v-else :rankings="globalRankings" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
+        <leaderboard v-if="currentSelectedClan" :title="$t('league.blazing_battle')" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-else :rankings="globalRankings" :title="$t('league.blazing_battle')" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
         <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena', { arenaName: $t('league.blazing_battle'), arenaType: $t('league.arena_type_regular') }) }}</a>
       </div>
       <div class="col-lg-6 section-space">
-        <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
+        <leaderboard :title="$t('league.codepoints')" :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
           class="leaderboard-component"
           :player-count="codePointsPlayerCount"
         />
@@ -792,6 +797,10 @@ export default {
       top: 40px;
       left: calc(50% - 10vw);
       width: 20vw;
+    }
+
+    .esports-header.section-space {
+      margin-bottom: 40%;
     }
   }
 

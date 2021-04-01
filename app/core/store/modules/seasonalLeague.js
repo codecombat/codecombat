@@ -6,6 +6,9 @@ import { fetchMySessions } from '../../api/level-sessions'
 // Level called: Blazing Battle
 const currentSeasonalLevelOriginal = '5fca06dc8b4da8002889dbf1'
 
+// Infinite Inferno
+const currentChampionshipLevelOriginal = '602cdc204ef0480075fbd954'
+
 /**
  * We want to be able to fetch and store rankings for
  * various levels. I.e.
@@ -16,6 +19,7 @@ export default {
   state: {
     loading: false,
     mySession: {},
+    myChampionshipSession: {},
     // level: {}, //Maybe level data is required?
     globalRankings: {
       globalTop: [],
@@ -23,6 +27,13 @@ export default {
       playersBelow: [],
       globalLeaderboardPlayerCount: 0
     },
+    championshipGlobalRankings: {
+      globalTop: [],
+      playersAbove: [],
+      playersBelow: [],
+      globalLeaderboardPlayerCount: 0
+    },
+    championshipRankingsForLeague: {},
     // key is clan id. Returns objects with same structure.
     rankingsForLeague: {},
     codePointsRankingsForLeague: {}
@@ -49,12 +60,36 @@ export default {
       Vue.set(state.globalRankings, 'globalLeaderboardPlayerCount', count)
     },
 
+    setChampionshipGlobalRanking (state, rankingsList) {
+      Vue.set(state.championshipGlobalRankings, 'globalTop', rankingsList)
+    },
+
+    setChampionshipGlobalAbove (state, above) {
+      Vue.set(state.championshipGlobalRankings, 'playersAbove', above)
+    },
+
+    setChampionshipGlobalBelow (state, below) {
+      Vue.set(state.championshipGlobalRankings, 'playersBelow', below)
+    },
+
+    setChampionshipGlobalLeaderboardPlayerCount (state, count) {
+      Vue.set(state.championshipGlobalRankings, 'globalLeaderboardPlayerCount', count)
+    },
+
     setMySession (state, mySession) {
       state.mySession = mySession
     },
 
     clearMySession (state) {
       state.mySession = {}
+    },
+
+    setMyChampionshipSession (state, mySession) {
+      state.myChampionshipSession = mySession
+    },
+
+    clearMyChampionshipSession (state) {
+      state.myChampionshipSession = {}
     },
 
     setLeagueRanking (state, { leagueId, ranking }) {
@@ -65,7 +100,7 @@ export default {
       Vue.set(state.codePointsRankingsForLeague, leagueId, ranking)
     },
 
-    setCodePointsPlayerCount(state, playerCount) {
+    setCodePointsPlayerCount (state, playerCount) {
       Vue.set(state.codePointsRankingsForLeague, 'playerCount', playerCount);
     },
 
@@ -83,6 +118,10 @@ export default {
       return state.globalRankings.globalLeaderboardPlayerCount
     },
 
+    globalChampionshipLeaderboardPlayerCount (state) {
+      return state.championshipGlobalRankings.globalLeaderboardPlayerCount
+    },
+
     globalRankings (state) {
       if (state.mySession && state.mySession.rank > 20) {
         const splitRankings = []
@@ -98,6 +137,23 @@ export default {
         return splitRankings
       }
       return state.globalRankings.globalTop
+    },
+
+    globalChampionshipRankings (state) {
+      if (state.myChampionshipSession && state.myChampionshipSession.rank > 20) {
+        const splitRankings = []
+        splitRankings.push(...state.championshipGlobalRankings.globalTop.slice(0, 10))
+        splitRankings.push({ type: 'BLANK_ROW' })
+        splitRankings.push(...state.championshipGlobalRankings.playersAbove)
+        // This hack is due to a race condition where the server returns the player
+        // in the 4 above or 4 below. Thus we prevent player seeing duplicate of their result.
+        if (![...state.championshipGlobalRankings.playersAbove, ...state.championshipGlobalRankings.playersBelow].some(ranking => ranking.creator === me.id)) {
+          splitRankings.push(state.myChampionshipSession)
+        }
+        splitRankings.push(...state.championshipGlobalRankings.playersBelow)
+        return splitRankings
+      }
+      return state.championshipGlobalRankings.globalTop
     },
 
     clanLeaderboardPlayerCount (state) {
@@ -170,9 +226,9 @@ export default {
         return []
       }
     },
-    codePointsPlayerCount(state) {
-      return state.codePointsRankingsForLeague.playerCount;
-    },
+    codePointsPlayerCount (state) {
+      return state.codePointsRankingsForLeague.playerCount
+    }
   },
 
   actions: {
@@ -227,6 +283,58 @@ export default {
       }
       await Promise.all(awaitPromises)
       commit('setLoading', false)
+    },
+
+    async loadChampionshipGlobalRequiredData ({ commit, dispatch }) {
+      commit('clearMyChampionshipSession')
+      const awaitPromises = [
+        dispatch('fetchChampionshipGlobalLeaderboard'),
+        dispatch('fetchChampionshipGlobalLeaderboardPlayerCount')
+      ]
+      const sessionsData = await fetchMySessions(currentChampionshipLevelOriginal)
+
+      if (Array.isArray(sessionsData) && sessionsData.length > 0) {
+        const teamSession = sessionsData.find((session) => session.team === 'humans')
+
+        if (!teamSession) {
+          return
+        }
+        const score = teamSession.totalScore
+        console.log('my score is:', score)
+
+        if (score !== undefined) {
+          const [playersAbove, playersBelow, myRank] = await Promise.all([
+            getLeaderboard(currentChampionshipLevelOriginal, { order: 1, scoreOffset: score, limit: 4 }),
+            getLeaderboard(currentChampionshipLevelOriginal, { order: -1, scoreOffset: score, limit: 4 }),
+            getMyRank(currentChampionshipLevelOriginal, teamSession._id, {
+              scoreOffset: score,
+              team: 'humans'
+            })
+          ])
+
+          let rank = parseInt(myRank, 10)
+          for (const aboveSession of playersAbove) {
+            rank -= 1
+            aboveSession.rank = rank
+          }
+          playersAbove.reverse()
+          rank = parseInt(myRank, 10)
+          for (const belowSession of playersBelow) {
+            rank += 1
+            belowSession.rank = rank
+          }
+
+          // TODO - Maybe server can fill these in, or we can query
+          //        this more simply.
+          teamSession.rank = parseInt(myRank, 10)
+          teamSession.creatorName = me.broadName()
+
+          commit('setMyChampionshipSession', teamSession)
+          commit('setChampionshipGlobalAbove', playersAbove)
+          commit('setChampionshipGlobalBelow', playersBelow)
+        }
+      }
+      await Promise.all(awaitPromises)
     },
 
     async loadClanRequiredData ({ commit }, { leagueId }) {
@@ -367,10 +475,10 @@ export default {
       commit('setCodePointsRanking', { leagueId: leagueId, ranking: codePointsRankingInfo })
 
       getCodePointsPlayerCount(leagueId)
-          .then((playerCount) => {
-            commit('setCodePointsPlayerCount', Number(playerCount));
-          })
-          .catch(err => console.error(err));
+        .then((playerCount) => {
+          commit('setCodePointsPlayerCount', Number(playerCount))
+        })
+        .catch(err => console.error(err))
     },
 
     async fetchGlobalLeaderboard ({ commit }) {
@@ -384,9 +492,25 @@ export default {
       commit('setGlobalRanking', ranking)
     },
 
+    async fetchChampionshipGlobalLeaderboard ({ commit }) {
+      const ranking = await getLeaderboard(currentChampionshipLevelOriginal, {
+        order: -1,
+        scoreOffset: 1000000,
+        limit: 20,
+        team: 'humans',
+        '_': Math.floor(Math.random() * 100000000)
+      })
+      commit('setChampionshipGlobalRanking', ranking)
+    },
+
     async fetchGlobalLeaderboardPlayerCount ({ commit }) {
       const playerCount = await getLeaderboardPlayerCount(currentSeasonalLevelOriginal, {})
       commit('setGlobalLeaderboardPlayerCount', parseInt(playerCount, 10))
+    },
+
+    async fetchChampionshipGlobalLeaderboardPlayerCount ({ commit }) {
+      const playerCount = await getLeaderboardPlayerCount(currentChampionshipLevelOriginal, {})
+      commit('setChampionshipGlobalLeaderboardPlayerCount', parseInt(playerCount, 10))
     }
   }
 }
