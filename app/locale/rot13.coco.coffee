@@ -3152,15 +3152,15 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     general_news: "Trg rznvyf ba gur yngrfg arjf naq hcqngrf ertneqvat bhe NV Yrnthrf naq gbheanzragf."
     team: 'grnz'
     how_it_works1: 'Wbva n __grnz__'
-    blazing_battle: 'Oynmvat Onggyr'
     seasonal_arena_tooltip: 'Onggyr ntnvafg lbhe grnzzngrf naq bguref nf lbh hfr lbhe orfg cebtenzzvat fxvyyf gb rnea cbvagf naq enax hc gur NV Yrnthr yrnqreobneq orsber gnxvat ba gur Punzcvbafuvc neran ng gur raq bs gur frnfba.'
-    seasonal_play_cta: 'Cynl Oynmvat Onggyr Zhygvcynlre Neran'
+    seasonal_play_cta: 'Cynl __neranAnzr__ Zhygvcynlre Neran'
     unlocked_seasonal_arena: "Lbh'ir haybpxrq bhe zhygvcynlre rfcbegf neran!"
     summary: 'Gur PbqrPbzong NV Yrnthr vf havdhryl obgu n pbzcrgvgvir NV onggyr fvzhyngbe naq tnzr ratvar sbe yrneavat erny Clguba naq WninFpevcg pbqr.'
     join_now: 'Wbva Abj'
     tagline: 'Gur PbqrPbzong NV Yrnthr pbzovarf bhe cebwrpg-onfrq fgnaqneqf-nyvtarq pheevphyhz, ratntvat nqiragher-onfrq pbqvat tnzr, naq bhe naahny NV pbqvat tybony gbheanzrag vagb na betnavmrq npnqrzvp pbzcrgvgvba hayvxr nal bgure.'
     ladder_subheader: 'Hfr lbhe pbqvat fxvyyf naq onggyr fgengrtvrf gb evfr hc gur enaxf!'
     earn_codepoints: 'Rnea PbqrCbvagf ol pbzcyrgvat yriryf'
+    codepoints: 'PbqrCbvagf'
     free_1: 'Npprff pbzcrgvgvir zhygvcynlre neranf, yrnqreobneq, naq tybony pbqvat punzcvbafuvcf'
     free_2: 'Rnea cbvagf sbe pbzcyrgvat cenpgvpr yriryf naq pbzcrgvat va urnq-gb-urnq zngpurf'
     free_3: 'Wbva pbzcrgvgvir pbqvat grnzf jvgu sevraqf, snzvyl, be pynffzngrf'
@@ -3189,6 +3189,27 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     roster_management_subheader: 'Genpx fghqrag cresbeznapr jvguva gur pheevphyhz naq jvguva gur tnzr, naq rnfvyl nqq be erzbir fghqragf.'
     share_flyer: 'Funer bhe NV Yrnthr sylre jvgu rqhpngbef, nqzvavfgengbef, cneragf, rfcbegf pbnpurf be bguref gung znl or vagrerfgrq.'
     download_flyer: 'Qbjaybnq Sylre'
+    championship_summary: 'Gur __punzcvbafuvcNeran__ punzcvbafuvc neran vf abj bcra! Onggyr vg bhg sbe gur zbagu bs __punzcvbafuvcZbagu__ gb jva cevmrf va gur __punzcvbafuvcNeran__ __punzcvbafuvcGlcr__.'
+    play_arena_full: "Cynl __neranAnzr__ __neranGlcr__"
+    play_arena_short: "Cynl __neranAnzr__"
+    arena_type_championship: "Punzcvbafuvc Neran"
+    arena_type_regular: "Zhygvcynlre Neran"
+    blazing_battle: "Oynmvat Onggyr"
+    infinite_inferno: "Vasvavgr Vasreab"
+    mages_might: "Zntrf' Zvtug"
+    sorcerers: "Fbepreref"
+    giants_gate: "Tvnagf' Tngr"
+    colossus: "Pbybffhf"
+    cup: "Phc"
+    blitz: "Oyvgm"
+    clash: "Pynfu"
+    season1_announcement_1: "Gvzr gb chg lbhe pbqvat fxvyyf gb gur grfg va bhe frnfba 1 svany neran. Gur Vasvavgr Vasreab Phc vf yvir naq bssref n arj punyyratr naq n arj yrnqreobneq gb pyvzo."
+    season1_announcement_2: "Arrq zber cenpgvpr? Fgvpx jvgu gur Oynmvat Onggyr Neran gb ersvar lbhe fxvyyf. Lbh unir hagvy Ncevy 30gu gb cynl obgu neranf. Abgr: neran onynapr nqwhfgzragf znl bpphe hagvy Ncevy 23."
+    season1_announcement_3: "Terng cevmrf ninvynoyr sbe gbc cresbezref va gur Vasvavgr Vasreab Phc:"
+    season1_prize_1: "$1,000 Fpubynefuvc"
+    season1_prize_2: "ERFCNJA Tnzvat Punve"
+    season1_prize_3: "Phfgbz PbqrPbzong Ningne"
+    season1_prize_4: "Naq zber!"
 
   tournament:
     mini_tournaments: "Zvav Gbheanzragf"
