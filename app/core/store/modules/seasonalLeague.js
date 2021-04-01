@@ -96,6 +96,10 @@ export default {
       Vue.set(state.rankingsForLeague, leagueId, ranking)
     },
 
+    setChampionshipLeagueRanking (state, { leagueId, ranking }) {
+      Vue.set(state.championshipRankingsForLeague, leagueId, ranking)
+    },
+
     setCodePointsRanking (state, { leagueId, ranking }) {
       Vue.set(state.codePointsRankingsForLeague, leagueId, ranking)
     },
@@ -166,6 +170,16 @@ export default {
       }
     },
 
+    clanChampionshipLeaderboardPlayerCount (state) {
+      return (leagueId) => {
+        if (!state.championshipRankingsForLeague[leagueId]) {
+          return 0
+        }
+        const leagueRankings = state.championshipRankingsForLeague[leagueId]
+        return leagueRankings.leaderboardPlayerCount
+      }
+    },
+
     clanRankings (state) {
       return (leagueId) => {
         if (!state.rankingsForLeague[leagueId]) {
@@ -179,6 +193,29 @@ export default {
           splitRankings.push(...leagueRankings.playersAbove)
           // TODO: This uses `totalScore` which is possibly wrong if not global.
           splitRankings.push(state.mySession)
+          splitRankings.push(...leagueRankings.playersBelow)
+          return splitRankings
+        }
+        // TODO: This uses `totalScore` which is possibly wrong if not global.
+        // As far as I can tell, if there are AI users they don't have the league Id.
+        // The server may already be normalizing this from the returned rankings.
+        return leagueRankings.top
+      }
+    },
+
+    clanChampionshipRankings (state) {
+      return (leagueId) => {
+        if (!state.championshipRankingsForLeague[leagueId]) {
+          return []
+        }
+        const leagueRankings = state.championshipRankingsForLeague[leagueId]
+        if (state.myChampionshipSession && state.myChampionshipSession.rank > 20) {
+          const splitRankings = []
+          splitRankings.push(...leagueRankings.top.slice(0, 10))
+          splitRankings.push({ type: 'BLANK_ROW' })
+          splitRankings.push(...leagueRankings.playersAbove)
+          // TODO: This uses `totalScore` which is possibly wrong if not global.
+          splitRankings.push(state.myChampionshipSession)
           splitRankings.push(...leagueRankings.playersBelow)
           return splitRankings
         }
@@ -412,6 +449,82 @@ export default {
       await Promise.all(awaitPromises)
 
       commit('setLeagueRanking', { leagueId: leagueId, ranking: leagueRankingInfo })
+    },
+
+    async loadChampionshipClanRequiredData ({ commit }, { leagueId }) {
+      const leagueRankingInfo = {
+        top: [],
+        playersAbove: [],
+        playersBelow: []
+      }
+      commit('clearMyChampionshipSession')
+
+      const topLeagueRankingPromise = getLeaderboard(currentChampionshipLevelOriginal, {
+        order: -1,
+        scoreOffset: 1000000,
+        limit: 20,
+        team: 'humans',
+        'leagues.leagueID': leagueId
+      }).then(ranking => {
+        // Temporarily only choose unique sessions as duplicate AI sessions are returned.
+        leagueRankingInfo.top = _.uniq(ranking, true, session => session._id)
+      })
+
+      const leagueLeaderboardPlayerCountPromise = getLeaderboardPlayerCount(currentChampionshipLevelOriginal, {
+        team: 'humans',
+        'leagues.leagueID': leagueId
+      }).then(playerCount => {
+        leagueRankingInfo.leaderboardPlayerCount = parseInt(playerCount, 10)
+      })
+
+      const awaitPromises = [
+        topLeagueRankingPromise,
+        leagueLeaderboardPlayerCountPromise
+      ]
+
+      const sessionsData = await fetchMySessions(currentChampionshipLevelOriginal)
+
+      if (Array.isArray(sessionsData) && sessionsData.length > 0) {
+        const teamSession = sessionsData.find((session) => session.team === 'humans')
+        if (!teamSession) {
+          return
+        }
+        const score = (((teamSession.leagues || []).find(({ leagueID }) => leagueID === leagueId) || {}).stats || {}).totalScore
+
+        if (score !== undefined) {
+          const [ playersAbove, playersBelow, myRank ] = await Promise.all([
+            getLeaderboard(currentChampionshipLevelOriginal, { order: 1, scoreOffset: score, limit: 4, 'leagues.leagueID': leagueId }),
+            getLeaderboard(currentChampionshipLevelOriginal, { order: -1, scoreOffset: score, limit: 4, 'leagues.leagueID': leagueId }),
+            getMyRank(currentChampionshipLevelOriginal, teamSession._id, {
+              scoreOffset: score,
+              team: 'humans',
+              'leagues.leagueID': leagueId
+            })
+          ])
+
+          let rank = parseInt(myRank, 10)
+          for (const aboveSession of playersAbove) {
+            rank -= 1
+            aboveSession.rank = rank
+          }
+          playersAbove.reverse()
+          rank = parseInt(myRank, 10)
+          for (const belowSession of playersBelow) {
+            rank += 1
+            belowSession.rank = rank
+          }
+
+          teamSession.rank = parseInt(myRank, 10)
+          leagueRankingInfo.playersAbove = playersAbove
+          leagueRankingInfo.playersBelow = playersBelow
+
+          commit('setMyChampionshipSession', teamSession)
+        }
+      }
+
+      await Promise.all(awaitPromises)
+
+      commit('setChampionshipLeagueRanking', { leagueId: leagueId, ranking: leagueRankingInfo })
     },
 
     async loadCodePointsRequiredData ({ commit }, { leagueId }) {

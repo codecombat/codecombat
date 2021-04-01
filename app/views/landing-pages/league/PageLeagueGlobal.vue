@@ -70,6 +70,7 @@ export default {
   methods: {
     ...mapActions({
       loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
+      loadChampionshipClanRequiredData: 'seasonalLeague/loadChampionshipClanRequiredData',
       loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
       loadChampionshipGlobalRequiredData: 'seasonalLeague/loadChampionshipGlobalRequiredData',
       loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
@@ -108,6 +109,7 @@ export default {
         }
 
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
+        this.loadChampionshipClanRequiredData({ leagueId: this.clanIdSelected })
         this.loadCodePointsRequiredData({ leagueId: this.clanIdSelected })
       } else {
         this.loadGlobalRequiredData()
@@ -248,6 +250,8 @@ export default {
       globalChampionshipLeaderboardPlayerCount: 'seasonalLeague/globalChampionshipLeaderboardPlayerCount',
       clanRankings: 'seasonalLeague/clanRankings',
       clanLeaderboardPlayerCount: 'seasonalLeague/clanLeaderboardPlayerCount',
+      clanChampionshipRankings: 'seasonalLeague/clanChampionshipRankings',
+      clanChampionshipLeaderboardPlayerCount: 'seasonalLeague/clanChampionshipLeaderboardPlayerCount',
       codePointsRankings: 'seasonalLeague/codePointsRankings',
       myClans: 'clans/myClans',
       childClanDetails: 'clans/childClanDetails',
@@ -322,6 +326,14 @@ export default {
 
     selectedClanLeaderboardPlayerCount () {
       return this.clanLeaderboardPlayerCount(this.clanIdSelected)
+    },
+
+    selectedClanChampionshipRankings () {
+      return this.clanChampionshipRankings(this.clanIdSelected)
+    },
+
+    selectedClanChampionshipLeaderboardPlayerCount () {
+      return this.clanChampionshipLeaderboardPlayerCount(this.clanIdSelected)
     },
 
     selectedClanCodePointsRankings () {
@@ -410,7 +422,7 @@ export default {
 
     <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" :championshipActive="championshipActive" class="section-space" />
 
-    <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center">
+    <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center section-space">
       <div class="col-sm-5">
         <img :class="customEsportsImageClass" :src="currentSelectedClanEsportsImage">
       </div>
@@ -430,8 +442,8 @@ export default {
 
     <div class="row text-center">
       <div class="col-lg-6 section-space">
-        <!-- <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" /> -->
-        <leaderboard :title="$t('league.infinite_inferno')" :rankings="globalChampionshipRankings" :playerCount="globalChampionshipLeaderboardPlayerCount" class="leaderboard-component" />
+        <leaderboard v-if="currentSelectedClan" :title="$t('league.infinite_inferno')" :rankings="selectedClanChampionshipRankings" :playerCount="selectedClanChampionshipLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-else :title="$t('league.infinite_inferno')" :rankings="globalChampionshipRankings" :playerCount="globalChampionshipLeaderboardPlayerCount" class="leaderboard-component" />
       </div>
       <div class="col-lg-6 section-space" style="text-align: left;">
         <div>
