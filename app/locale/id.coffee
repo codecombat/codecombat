@@ -3167,7 +3167,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     free_3: "Bergabunglah dengan tim coding kompetitif dengan teman, keluarga, atau teman sekelas"
     free_4: "Tunjukkan keahlian coding Anda dan bawa pulang hadiah menarik"
     compete_season: "Uji semua keterampilan yang telah Anda pelajari! Bersainglah melawan siswa dan pemain dari seluruh dunia dalam puncak musim yang menarik ini."
-    season_subheading1: "Untuk arena Season dan Championship, setiap pemain memprogram tim" AI Heroes "mereka dengan kode yang ditulis dalam Python, JavaScript, C ++, Lua, atau CoffeeScript."
+    season_subheading1: "Untuk arena Season dan Championship, setiap pemain memprogram tim “AI Heroes” mereka dengan kode yang ditulis dalam Python, JavaScript, C ++, Lua, atau CoffeeScript."
     season_subheading2: "Kode mereka menginformasikan strategi yang akan dijalankan Pahlawan AI mereka dalam pertarungan head-to-head melawan pesaing lain."
     team_derbezt: "Pelajari coding dan menangkan hadiah yang disponsori oleh aktor superstar Meksiko, komedian, dan pembuat film Eugenio Derbez."
     invite_link: "Undang pemain ke tim ini dengan mengirimkan link ini:"
