@@ -476,10 +476,10 @@ export default {
       </div>
       <div class="row">
         <div class="col-md-5 text-center">
-          <img src="/images/pages/league/respawn-gaming-chair.png" alt="RESPAWN Gaming Chair" class="responsive-img" style="max-width: 450px;"/>
+          <img src="/images/pages/league/respawn-gaming-chair.png" alt="RESPAWN Gaming Chair" class="responsive-img" style="max-width: 525px;"/>
         </div>
         <div class="col-md-7">
-          <ul style="list-style-type: none; padding: 0px; margin-top: 32px;">
+          <ul style="list-style-type: none; padding: 0px; margin-top: 74px;">
             <li><span class="bullet-point" style="background-color: #bcff16;"/>$1,000 Scholarship</li>
             <li><span class="bullet-point" style="background-color: #30EFD3;"/>RESPAWN Gaming Chair</li>
             <li><span class="bullet-point" style="background-color: #FF39A6;"/>Custom CodeCombat Avatar</li>
@@ -491,7 +491,7 @@ export default {
         </div>
       </div>
       <div class="text-center" style="margin: 32px 0;">
-        <a href="/play/ladder/infinite-inferno" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Now</a>
+        <a :href="championshipArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Now</a>
       </div>
       <div class="two-pixel-star">
         <img class="img-responsive" src="/images/pages/league/two_pixel_star.png">
@@ -995,6 +995,7 @@ export default {
   .shooting-star {
     position: relative;
   }
+
   .shooting-star::after {
     content: "";
     background-image: url(/images/pages/league/bullet_shooting_star.png);
@@ -1008,42 +1009,50 @@ export default {
     background-repeat: no-repeat;
     background-position: right bottom;
   }
+
   .two-pixel-star img{
     position: absolute;
     bottom: -200px;
     width: 25%;
+    pointer-events: none;
   }
+
   .five-four-shooting-star {
     position: absolute;
     z-index: -1
   }
+
   .two-pixel-star, .three-shooting-star, .four-shooting-star {
     width: 100%;
     display: flex;
     justify-content: center;
   }
+
   .five-four-shooting-star {
     width: 100%;
     display: flex;
     justify-content: flex-end;
   }
 
-  #features .three-shooting-star img{
+  #features .three-shooting-star img {
     position: absolute;
     width: 72%;
     max-height: 72%;
     top: -220px;
+    pointer-events: none;
   }
 
   .four-shooting-star img {
     position: absolute;
     top: -235px;
     width: 72%;
+    pointer-events: none;
   }
 
   .five-four-shooting-star img {
     position: absolute;
     width: 72%;
+    pointer-events: none;
   }
 
   @media screen and (min-width: 1700px) {
