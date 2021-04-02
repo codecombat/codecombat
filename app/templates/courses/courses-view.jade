@@ -39,7 +39,7 @@ block content
 
             if view.showTournament || view.awaitingTournament
               .tournament-logo
-                | 执信中学魔力冲刺竞技场
+                img(src="/images/pages/courses/tarena-discovery-cup-tournament-logo.png")
               .text-center
                 h1#tournament-title(data-i18n="ladder.live_tournament")
                 -// a#tournament-rules(data-i18n="ladder.tournament_rules")
@@ -151,7 +151,6 @@ block content
                 ul
                   li
                     b Start by playing the free Hour of Code campaign by <a href='/play/hoc-2018'>clicking here</a>.
-                  li Then compete in the Blazing Battles esports arena <a href='/play/ladder/blazing-battle'>here</a>.
             
             if (!me.isInAcademicaClan() && ((me.get('stats') || {}).codePoints || 0) > 30 && !me.showChinaResourceInfo())
               #esports-announcement.flex-container
@@ -162,11 +161,13 @@ block content
                       span(class="esports-pink") Combat
                       span(class="esports-green")  AI
                       span(class="esports-purple")  League
-                    p(data-i18n="league.unlocked_seasonal_arena") You've unlocked our multiplayer Esports arena!
+                    p(data-i18n="league.unlocked_seasonal_arena")
 
                   .col-md-7
-                    a.btn.btn-primary.btn-moon.esports-arena-link(data-i18n="league.seasonal_play_cta") Play Blazing Battle Multiplayer Arena
-
+                    for arena in [{slug: 'blazing-battle', type: 'regular'}, {slug: 'infinite-inferno', type: 'championship'}]
+                      p
+                        - var playArenaText = $.t('league.play_arena_full', {arenaName: $.t('league.' + arena.slug.replace('-', '_')), arenaType: $.t('league.arena_type_' + arena.type)})
+                        a.btn.btn-primary.btn-moon.esports-arena-link(href='/play/ladder/' + arena.slug, data-slug=arena.slug)= playArenaText
 
             h3.text-uppercase(data-i18n="courses.join_class")
             hr

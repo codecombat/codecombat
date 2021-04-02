@@ -26,7 +26,10 @@ export default {
     leagueSignupModalOpen: false,
     clanCreationModal: false,
     doneRegistering: false,
-    joinOrLeaveClanLoading: false
+    joinOrLeaveClanLoading: false,
+    regularArenaSlug: 'blazing-battle',
+    championshipArenaSlug: 'infinite-inferno',
+    championshipActive: true
   }),
 
   beforeRouteUpdate (to, from, next) {
@@ -67,7 +70,9 @@ export default {
   methods: {
     ...mapActions({
       loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
+      loadChampionshipClanRequiredData: 'seasonalLeague/loadChampionshipClanRequiredData',
       loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
+      loadChampionshipGlobalRequiredData: 'seasonalLeague/loadChampionshipGlobalRequiredData',
       loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
       fetchClan: 'clans/fetchClan',
       fetchChildClanDetails: 'clans/fetchChildClanDetails'
@@ -104,9 +109,11 @@ export default {
         }
 
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
+        this.loadChampionshipClanRequiredData({ leagueId: this.clanIdSelected })
         this.loadCodePointsRequiredData({ leagueId: this.clanIdSelected })
       } else {
         this.loadGlobalRequiredData()
+        this.loadChampionshipGlobalRequiredData()
         this.loadCodePointsRequiredData({ leagueId: '' })
       }
     },
@@ -238,9 +245,13 @@ export default {
   computed: {
     ...mapGetters({
       globalRankings: 'seasonalLeague/globalRankings',
+      globalChampionshipRankings: 'seasonalLeague/globalChampionshipRankings',
       globalLeaderboardPlayerCount: 'seasonalLeague/globalLeaderboardPlayerCount',
+      globalChampionshipLeaderboardPlayerCount: 'seasonalLeague/globalChampionshipLeaderboardPlayerCount',
       clanRankings: 'seasonalLeague/clanRankings',
       clanLeaderboardPlayerCount: 'seasonalLeague/clanLeaderboardPlayerCount',
+      clanChampionshipRankings: 'seasonalLeague/clanChampionshipRankings',
+      clanChampionshipLeaderboardPlayerCount: 'seasonalLeague/clanChampionshipLeaderboardPlayerCount',
       codePointsRankings: 'seasonalLeague/codePointsRankings',
       myClans: 'clans/myClans',
       childClanDetails: 'clans/childClanDetails',
@@ -317,6 +328,14 @@ export default {
       return this.clanLeaderboardPlayerCount(this.clanIdSelected)
     },
 
+    selectedClanChampionshipRankings () {
+      return this.clanChampionshipRankings(this.clanIdSelected)
+    },
+
+    selectedClanChampionshipLeaderboardPlayerCount () {
+      return this.clanChampionshipLeaderboardPlayerCount(this.clanIdSelected)
+    },
+
     selectedClanCodePointsRankings () {
       return this.codePointsRankings(this.clanIdSelected)
     },
@@ -328,6 +347,22 @@ export default {
       // We don't want to show this button if the team is a classroom or teacher.
       // Those students are populated automatically.
       return ['teacher', 'classroom'].indexOf(this.currentSelectedClan?.kind) === -1
+    },
+
+    regularArenaUrl () {
+      let url = `/play/ladder/${this.regularArenaSlug}`
+      if (this.clanIdSelected) {
+        url += '/clan/' + this.clanIdSelected
+      }
+      return url
+    },
+
+    championshipArenaUrl () {
+      let url = `/play/ladder/${this.championshipArenaSlug}`
+      if (this.clanIdSelected) {
+        url += '/clan/' + this.clanIdSelected
+      }
+      return url
     },
 
     // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
@@ -385,9 +420,9 @@ export default {
       </div>
     </section>
 
-    <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
+    <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" :championshipActive="championshipActive" class="section-space" />
 
-    <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center">
+    <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center section-space">
       <div class="col-sm-5">
         <img :class="customEsportsImageClass" :src="currentSelectedClanEsportsImage">
       </div>
@@ -405,6 +440,29 @@ export default {
       </div>
     </div>
 
+    <div v-if="championshipActive" class="row text-center">
+      <div class="col-lg-6 section-space">
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${championshipArenaSlug.replace('-', '_')}`)" :rankings="selectedClanChampionshipRankings" :playerCount="selectedClanChampionshipLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-else :title="$t(`league.${championshipArenaSlug.replace('-', '_')}`)" :rankings="globalChampionshipRankings" :playerCount="globalChampionshipLeaderboardPlayerCount" class="leaderboard-component" />
+        <a :href="championshipArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${championshipArenaSlug.replace('-', '_')}`), arenaType: $t('league.arena_type_championship') }) }}</a>
+      </div>
+      <div class="col-lg-6 section-space" style="text-align: left;">
+        <div>
+          <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
+          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 1 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
+        </div>
+        <p>{{ $t('league.season1_announcement_1') }}</p>
+        <p>{{ $t('league.season1_announcement_2') }}</p>
+        <p>{{ $t('league.season1_announcement_3') }}</p>
+        <ul style="list-style-type: none; padding: 0px;">
+          <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_1') }}</li>
+          <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_2') }}</li>
+          <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_3') }}</li>
+          <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_4') }}</li>
+        </ul>
+      </div>
+    </div>
+
     <div class="row text-center">
       <h1 v-if="currentSelectedClan"><span class="esports-aqua">{{ currentSelectedClanName }} </span><span class="esports-pink">stats</span></h1>
       <h1 v-else><span class="esports-aqua">Global </span><span class="esports-pink">stats</span></h1>
@@ -414,17 +472,15 @@ export default {
         :childClans="currentSelectedClanChildDetails"
         class="clan-search"
       />
-      <InputClanSearch v-if="isGlobalPage" max-width="510" style="margin: 10px auto"/>
+      <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
-        <leaderboard v-else :rankings="globalRankings" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
-        <!-- TODO: Localize with templated arena name -->
-        <a v-if="currentSelectedClan" :href="`/play/ladder/blazing-battle/clan/${clanIdSelected}`" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Blazing Battle Multiplayer Arena</a>
-        <a v-else href="/play/ladder/blazing-battle" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Blazing Battle Multiplayer Arena</a>
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace('-', '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace('-', '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
+        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace('-', '_')}`), arenaType: $t('league.arena_type_regular') }) }}</a>
       </div>
       <div class="col-lg-6 section-space">
-        <leaderboard :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
+        <leaderboard :title="$t('league.codepoints')" :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
           class="leaderboard-component"
           :player-count="codePointsPlayerCount"
         />
@@ -435,12 +491,15 @@ export default {
 
     <SectionFirstCTA v-if="!isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" />
 
-    <section class="row flex-row free-to-get-start" :class="clanIdSelected === '' ? 'free-to-get-start-bg':''">
+    <section class="row flex-row free-to-get-start section-space" :class="clanIdSelected === '' ? 'free-to-get-start-bg':''">
       <div class="col-sm-10">
+        <div class="five-four-shooting-star">
+          <img class="img-responsive" src="/images/pages/league/five_four_shooting_star.png">
+        </div>
         <h1 style="margin-bottom: 20px;"><span class="esports-pink">Free </span><span class="esports-aqua">to </span><span class="esports-green">get </span><span class="esports-purple">started</span></h1>
         <ul style="list-style-type: none; padding: 0;">
           <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.free_1') }}</li>
-          <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.free_2') }}</li>
+          <li><span class="bullet-point shooting-star" style="background-color: #30EFD3;"/>{{ $t('league.free_2') }}</li>
           <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.free_3') }}</li>
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.free_4') }}</li>
         </ul>
@@ -451,17 +510,30 @@ export default {
     </section>
 
     <div class="row section-space">
-      <div class="col-sm-7">
-        <h1 class="subheader1" style="margin-bottom: 30px;"><span class="esports-goldenlight">Global </span><span class="esports-pink">final </span><span class="esports-aqua">arena</span></h1>
-        <p class="subheader2" style="margin-bottom: 30px;">
-          {{ $t('league.compete_season') }}
-        </p>
-        <div class="xs-centered">
-          <a v-if="!doneRegistering && !isClanCreator()" style="margin-bottom: 30px;" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
+      <div class="row">
+        <h1 class="subheader1 text-center" style="margin-bottom: 64px;"><span class="esports-pink">Compete </span><span class="esports-green">in </span><span class="esports-aqua">the </span><span class="esports-purple">Infinite Inferno Cup </span><span class="esports-aqua">for </span><span class="esports-green">a </span><span class="esports-pink">chance </span><span class="esports-purple">to </span><span class="esports-aqua">win!</span></h1>
+      </div>
+      <div class="row">
+        <div class="col-md-5 text-center">
+          <img src="/images/pages/league/respawn-gaming-chair.png" alt="RESPAWN Gaming Chair" class="responsive-img" style="max-width: 525px;"/>
+        </div>
+        <div class="col-md-7">
+          <ul style="list-style-type: none; padding: 0px; margin-top: 74px;">
+            <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_1') }}</li>
+            <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_2') }}</li>
+            <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_3') }}</li>
+            <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_4') }}</li>
+          </ul>
+          <img src="/images/pages/league/respawn-logo.png" alt="RESPAWN company logo" class="responsive-img" style="max-width: 160px; margin-bottom: 64px;"/>
+          <p>Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena.  Some prizes are limited to US participants only.
+            <a href="https://docs.google.com/document/d/1cy4bKe_c0pl6mxLWnbp6R7PxHoDwHzNlBHWALODdey4/edit?usp=sharing">CodeCombat reserves</a> the right to determine in its sole discretion if a player qualifies and will receive a prize.</p>
         </div>
       </div>
-      <div class="col-sm-5">
-        <img class="img-responsive w-100" src="/images/pages/league/text_coming_april_2021.svg" loading="lazy">
+      <div class="text-center" style="margin: 32px 0;">
+        <a :href="championshipArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Now</a>
+      </div>
+      <div class="two-pixel-star">
+        <img class="img-responsive" src="/images/pages/league/two_pixel_star.png">
       </div>
     </div>
 
@@ -470,7 +542,7 @@ export default {
     </div>
     <div class="row flex-row">
       <div class="col-sm-1"><img src="/images/pages/league/text_1.svg" class="img-responsive" loading="lazy"></div>
-      <div class="col-sm-11"><p class="subheader2 mb-0" v-html="$t('league.how_it_works1', { team: `<span class='esports-aqua'>${this.$t('league.team')}</span>` })"></p></div>
+      <div class="col-sm-11"><p class="subheader2 mb-0" v-html="$t('league.how_it_works1', { team: `<span class='esports-aqua'>${this.$t('league.team')}</span>`, interpolation: { escapeValue: false } })"></p></div>
     </div>
 
     <div class="row flex-row">
@@ -613,6 +685,9 @@ export default {
     </div>
 
     <div id="features" class="row section-space">
+      <div class="three-shooting-star">
+        <img class="img-responsive three-shooting-star" src="/images/pages/league/three_shooting_star.png">
+      </div>
       <h1 class="text-center esports-goldenlight" style='margin-bottom: 35px;'>{{ $t('league.features') }}</h1>
       <div class="col-sm-6 col-md-3 feature-pane">
         <div class="img-container"><img src="/images/pages/league/icon_competition.svg" class="img-responsive" /></div>
@@ -637,6 +712,9 @@ export default {
     </div>
 
     <div class="row esports-flyer-optimized-section">
+      <div class="four-shooting-star">
+        <img class="img-responsive four-shooting-star" src="/images/pages/league/four_shooting_star.png">
+      </div>
       <div class="col-sm-8">
         <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
         <p class="subheader2" style="margin-bottom: 50px;">{{ $t('league.share_flyer') }}</p>
@@ -732,6 +810,10 @@ export default {
       top: 40px;
       left: calc(50% - 10vw);
       width: 20vw;
+    }
+
+    .esports-header.section-space {
+      margin-bottom: 40%;
     }
   }
 
@@ -866,9 +948,11 @@ export default {
   }
 
   section.free-to-get-start {
-    padding-bottom: 180px;
+    padding-bottom: 250px;
   }
   section.free-to-get-start-bg {
+    background-size: 65%;
+    background-position: right bottom;
     background: url(/images/pages/league/student_hugging.png) right 100% / 35% no-repeat;
   }
   .text-dont-just-play-code img{
@@ -951,15 +1035,86 @@ export default {
     margin-bottom: 70px;
   }
 
+  .shooting-star {
+    position: relative;
+  }
+
+  .shooting-star::after {
+    content: "";
+    background-image: url(/images/pages/league/bullet_shooting_star.png);
+    display: block;
+    width: 214px;
+    height: 200px;
+    position: absolute;
+    bottom: 0px;
+    left: -203px;
+    background-size: 55%;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+  }
+
+  .two-pixel-star img{
+    position: absolute;
+    bottom: -200px;
+    width: 25%;
+    pointer-events: none;
+  }
+
+  .five-four-shooting-star {
+    position: absolute;
+    z-index: -1
+  }
+
+  .two-pixel-star, .three-shooting-star, .four-shooting-star {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .five-four-shooting-star {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  #features .three-shooting-star img {
+    position: absolute;
+    width: 72%;
+    max-height: 72%;
+    top: -220px;
+    pointer-events: none;
+  }
+
+  .four-shooting-star img {
+    position: absolute;
+    top: -235px;
+    width: 72%;
+    pointer-events: none;
+  }
+
+  .five-four-shooting-star img {
+    position: absolute;
+    width: 72%;
+    pointer-events: none;
+  }
+
+  @media screen and (min-width: 1700px) {
+    .five-four-shooting-star img {
+      top: -100px;
+    }
+  }
+
   @media screen and (min-width: 768px) {
     ::v-deep .btn-primary.btn-moon, .play-btn-cta {
       padding: 20px 100px;
     }
+
     ::v-deep .section-space {
       margin-bottom: 200px;
     }
+
     .esports-header {
-      margin-bottom: 400px;
+      margin-bottom: 300px;
     }
   }
 
@@ -976,9 +1131,6 @@ export default {
       font-size: 14px;
       padding: 8px 24px;
     }
-    .btn-primary.blazing-battle {
-      white-space: normal;
-    }
 
     .esports-header .esports-h1 {
       font-size: 48px;
@@ -993,10 +1145,9 @@ export default {
       margin-top: 10px;
     }
 
-    .esports-header{
+    .esports-header {
       background-position: bottom;
       min-height: 360px;
-      margin-bottom: 30%;
     }
 
     .leaderboard-component {
@@ -1024,6 +1175,27 @@ export default {
     }
     .xs-pb-20 {
       padding-bottom: 20px;
+    }
+    section.free-to-get-start-bg {
+      background-size: 100%;
+      background-position: center bottom;
+      padding-bottom: 350px;
+    }
+    .two-pixel-star img{
+      width: 50%;
+      bottom: -100px;
+    }
+    #features .three-shooting-star img {
+      top: -125px;
+      width: 100%;
+      max-height: 100%;
+    }
+    .four-shooting-star img {
+      top: -150px;
+      width: 100%;
+    }
+    .five-four-shooting-star img {
+      display: none;
     }
     .hero-rotation {
       display: flex;

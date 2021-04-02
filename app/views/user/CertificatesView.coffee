@@ -117,9 +117,9 @@ module.exports = class CertificatesView extends RootView
     if @currentLang.split('-')[0] == 'en'
       newLang = me.get('preferredLanguage', true)
     @currentLang = newLang
-    $.i18n.setLng(newLang, {})
-    locale.load(newLang).then =>
-      @render()
+    $.i18n.changeLanguage newLang, =>
+      locale.load(newLang).then =>
+        @render()
 
 
   afterRender: ->

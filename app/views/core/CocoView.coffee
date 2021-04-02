@@ -7,6 +7,7 @@ require('app/styles/core/loading-error.sass')
 auth = require 'core/auth'
 ViewVisibleTimer = require 'core/ViewVisibleTimer'
 storage = require 'core/storage'
+zendesk = require 'core/services/zendesk'
 
 visibleModal = null
 waitingModal = null
@@ -198,7 +199,7 @@ module.exports = class CocoView extends Backbone.View
     context.isMobile = @isMobile()
     context.isIE = @isIE()
     context.moment = moment
-    context.translate = $.i18n.t
+    context.translate = $.t
     context.view = @
     context._ = _
     context.document = document
@@ -253,25 +254,24 @@ module.exports = class CocoView extends Backbone.View
       })
       return
 
-    if me.isTeacher(true)
-      if application.isProduction()
-#        application.tracker.drift.sidebar.open()
-        console.log("drift removed in China")
-    else
-      try
-        if !me.isAnonymous()
-          zE('webWidget', 'prefill', {
-            email: {
-              value: me.get('email')
-            }
-          })
-        zE('webWidget', 'open')
-        zE('webWidget', 'show')
-      catch e
-        console.error('Error trying to open Zendesk widget: ', e)
-        # There's an unlikely case where both Drift and Zendesk are unavailable, or Zendesk exists but fails.
-        # Since the modal communicates errors better, and shows the direct support email, we still open it.
+    # If there is no way to open the chat, there's no point in giving the choice in the modal,
+    # so we go directly to zendesk. This could potentially be improved in the future by checking
+    # availability of support somehow, and going to zendesk if no one is there to answer drift chat.
+    openDirectContactModal = =>
+      DirectContactModal = require('app/views/core/DirectContactModal').default
+      @openModalView(new DirectContactModal())
+
+    if (me.isTeacher(true) and window?.tracker?.drift?.openChat)
+      if me.showChinaResourceInfo()
+        console.log("drift removed in china")
+      else
         openDirectContactModal()
+    else
+      # There's an unlikely case where both Drift and Zendesk are unavailable, or Zendesk exists but fails.
+      # Since the modal communicates errors better, and shows the direct support email, we still open it.
+      zendesk.loadZendesk()
+        .then(-> if not zendesk.openZendesk() then openDirectContactModal())
+        .catch(-> openDirectContactModal())
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise

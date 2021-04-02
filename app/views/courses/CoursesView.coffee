@@ -302,10 +302,12 @@ module.exports = class CoursesView extends RootView
     courseName = $(e.target).data('course-name')
     window.tracker?.trackEvent 'Students View To Videos View', category: 'Students', courseID: courseID, classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/students/videos/#{courseID}/#{courseName}", { trigger: true })
-  
+
   onClickEsportsArena: (e) ->
-    window.tracker?.trackEvent 'Click Play AI League Button', { category: 'Students', label: 'blazing-battle' }
-    application.router.navigate('/play/ladder/blazing-battle', { trigger: true })
+    url = $(e.target).attr('href')
+    slug = $(e.target).data('slug')
+    window.tracker?.trackEvent 'Click Play AI League Button', { category: 'Students', label: slug, '' }
+    application.router.navigate(url, { trigger: true })
 
   afterRender: ->
     super()
