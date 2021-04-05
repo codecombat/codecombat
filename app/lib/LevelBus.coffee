@@ -202,14 +202,19 @@ module.exports = class LevelBus extends Bus
     return unless @onPoint()
     return if e and e.capstoneInProgress
     state = @session.get('state')
-    state.complete = true
-    @session.set('state', state)
-    @changedSessionProperties.state = true
-    # publish the capstone level if it is completed
-    if (e.isCapstone)
-      @session.set('published', true)
-    @changedSessionProperties.published = true
-    @reallySaveSession()  # Make sure it saves right away; don't debounce it.
+    needsImmediateSave = false
+    if not state.complete
+      state.complete = true
+      @session.set('state', state)
+      @changedSessionProperties.state = true
+      needsImmediateSave = true
+    if e.isCapstone and not @session.get 'published'
+      # Publish the capstone level if it is completed
+      @session.set 'published', true
+      @changedSessionProperties.published = true
+      needsImmediateSave = true
+    if needsImmediateSave
+      @reallySaveSession()  # Make sure it saves right away; don't debounce it.
 
   onNewGoalStates: (e) ->
     # TODO: this log doesn't capture when null-status goals are being set during world streaming. Where can they be coming from?
