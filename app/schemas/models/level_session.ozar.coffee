@@ -354,6 +354,14 @@ _.extend LevelSessionSchema.properties,
     title: 'Key Value DB'
     description: 'Simplified key-value database for game-dev levels'
 
+  creatorAge:
+    type: 'number'
+    title: 'Creator Age'
+    description: 'Age of creator, in years (but with month precision), at time of session creation, or session.submitDate for ladder sessions'
+    minimum: 0
+
+  codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'CodePoints this user earned for completing this level'}
+
   contentPlaytimes:
     c.array {description: 'List of content playtimes, similar to intro level content lists'},
       c.object {},

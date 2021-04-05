@@ -2571,6 +2571,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     awaiting_tournament_title: "Tournament Inactive"
     awaiting_tournament_blurb: "The tournament arena is not currently active."
     tournament_end_desc: "The tournament is over, thanks for playing"
+    age: "Age"
+    bracket_0_11: "0-11"
+    bracket_11_14: "11-14"
+    bracket_14_18: "14-18"
+    bracket_open: "Open"
 
   user:
     user_title: '__name__ - Learn to Code with CodeCombat'
