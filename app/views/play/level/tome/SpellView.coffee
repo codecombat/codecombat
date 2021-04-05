@@ -1008,7 +1008,7 @@ module.exports = class SpellView extends CocoView
       @fetchTokenForSource().then (token) =>
         # TODO: This is janky for those languages with a delay
         @spell.transpile token
-      @cast(false, false, true)
+        @cast(false, false, true)
     else if (endOfLine or beginningOfLine) and not incompleteThis
       @preload()
 
