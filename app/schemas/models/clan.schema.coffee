@@ -58,6 +58,12 @@ _.extend ClanSchema.properties,
     title: 'Metadata',
     description: 'Contains properties that help find autoclans'
     additionalProperties: true
+  }, {
+    networkClanId: c.stringID( title: 'Network Clan' )
+    subnetworkClanId: c.stringID( title: 'Sub-Network Clan' )
+    districtId: c.int( title: 'District Id', description: 'The unique district that the school is part of.' )
+    ncesId: c.float( title: 'NCES', description: 'The unique school NCES id. Should be a unique integer.')
+    cleverSchoolId: c.shortString( title: 'Clever Unique School Id' )
   })
   displayName: { type: 'string', description: 'overwrites visual visual name of clan - used as name is tied to the slug' }
   esportsImage: { type: 'string', format: 'image-file', title: 'Esports Image', description: 'Image to show for this team on league page.' }
