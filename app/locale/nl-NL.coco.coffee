@@ -3205,7 +3205,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    blitz: "Blitz"
 #    clash: "Clash"
 #    season1_announcement_1: "Time to put your coding skills to the test in our season 1 final arena. The Infinite Inferno Cup is live and offers a new challenge and a new leaderboard to climb."
-#    season1_announcement_2: "Need more practice? Stick with the Blazing Battle Arena to refine your skills. You have until April 30th to play both arenas. Note: arena balance adjustments may occur until April 23."
+#    season1_announcement_2: "Need more practice? Stick with the Blazing Battle Arena to refine your skills. You have until April 30th to play both arenas. Note: arena balance adjustments may occur until April 23rd."
 #    season1_announcement_3: "Great prizes available for top performers in the Infinite Inferno Cup:"
 #    season1_prize_1: "$1,000 Scholarship"
 #    season1_prize_2: "RESPAWN Gaming Chair"
