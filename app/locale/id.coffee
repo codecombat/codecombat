@@ -1830,7 +1830,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     license_remaining: "lisensi yang tersisa"
     licenses_remaining: "lisensi yang tersisa"
     student_enrollment_history: "Riwayat Pendaftaran Siswa"
-    enrollment_explanation_1: "" # Indonesian does not have "the" determiner. The translated to blank string.  
+    enrollment_explanation_1: "The"
     enrollment_explanation_2: "Riwayat Pendaftaran Siswa"
     enrollment_explanation_3: "menampilkan jumlah total siswa unik yang terdaftar di semua guru dan ruang kelas yang ditambahkan ke dasbor Anda. Ini termasuk siswa di ruang kelas yang diarsipkan dan yang tidak diarsipkan dengan tanggal pembuatan kelas antara tanggal 1- Juli 30 setiap tahun sekolah masing-masing. "
     enrollment_explanation_4: "Ingat"
