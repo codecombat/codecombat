@@ -374,12 +374,15 @@ module.exports = class CampaignView extends RootView
 
   onClickEsportsButton: (e) ->
     @$levelInfo?.hide()
-    window.tracker?.trackEvent 'Click LevelInfo AI League Button', { category: 'World Map', label: 'blazing-battle' }
-    @$levelInfo = @$el.find(".level-info-container.league-arena-tooltip").show()
+    arenaSlug = $(e.target).data 'arena'
+    window.tracker?.trackEvent 'Click LevelInfo AI League Button', { category: 'World Map', label: arenaSlug }
+    @$levelInfo = @$el.find(".level-info-container.league-arena-tooltip[data-arena='#{arenaSlug}']").show()
+    console.log @$levelInfo, 'click it', arenaSlug
     @adjustLevelInfoPosition e
 
-  onClickEsportsLink: ->
-    window.tracker?.trackEvent 'Click Play AI League Button', { category: 'World Map', label: 'blazing-battle' }
+  onClickEsportsLink: (e) ->
+    arenaSlug = $(e.target).data 'arena'
+    window.tracker?.trackEvent 'Click Play AI League Button', { category: 'World Map', label: arenaSlug }
 
   getLevelPlayCounts: ->
     return unless me.isAdmin()
@@ -1463,6 +1466,18 @@ module.exports = class CampaignView extends RootView
       return @campaign?.get('slug') is 'game-dev-hoc'
 
     if what is 'league-arena'
-      return @campaign?.get('slug') in ['dungeon', 'intro']
+      return not me.isAnonymous()
 
     return true
+
+  arenas: [
+    {slug: 'blazing-battle'   , type: 'regular',      start: new Date(2021, 0,  1), end: new Date(2021, 4, 1)}
+    {slug: 'infinite-inferno' , type: 'championship', start: new Date(2021, 3,  1), end: new Date(2021, 4, 1)}
+    {slug: 'mages-might'      , type: 'regular',      start: new Date(2021, 4,  1), end: new Date(2021, 8, 1)}
+    {slug: 'sorcerers'        , type: 'championship', start: new Date(2021, 7,  1), end: new Date(2021, 8, 1)}
+    {slug: 'giants-gate'      , type: 'regular',      start: new Date(2021, 8,  1), end: new Date(2022, 0, 1)}
+    {slug: 'colossus'         , type: 'championship', start: new Date(2021, 11, 1), end: new Date(2022, 0, 1)}
+  ]
+
+  activeArenas: ->
+    (a for a in @arenas when a.start <= new Date() < a.end)
