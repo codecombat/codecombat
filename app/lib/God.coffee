@@ -75,7 +75,7 @@ module.exports = class God extends CocoClass
     @lastFixedSeed = e.fixedSeed
     @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
     @lastDifficulty = e.difficulty
-    @createWorld e
+    _.delay (=>@createWorld e), 100 # delay this function to wait spells update
 
   createWorld: ({spells, preload, realTime, justBegin, keyValueDb, synchronous}) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
