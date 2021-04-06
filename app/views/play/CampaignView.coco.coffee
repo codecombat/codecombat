@@ -1466,7 +1466,8 @@ module.exports = class CampaignView extends RootView
       return @campaign?.get('slug') is 'game-dev-hoc'
 
     if what is 'league-arena'
-      return not me.isAnonymous()
+      # Note: Currently the tooltips don't work in the campaignView overworld.
+      return not me.isAnonymous() and @campaign?.get('slug')
 
     return true
 
