@@ -3204,7 +3204,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     blitz: "Oyvgm"
     clash: "Pynfu"
     season1_announcement_1: "Gvzr gb chg lbhe pbqvat fxvyyf gb gur grfg va bhe frnfba 1 svany neran. Gur Vasvavgr Vasreab Phc vf yvir naq bssref n arj punyyratr naq n arj yrnqreobneq gb pyvzo."
-    season1_announcement_2: "Arrq zber cenpgvpr? Fgvpx jvgu gur Oynmvat Onggyr Neran gb ersvar lbhe fxvyyf. Lbh unir hagvy Ncevy 30gu gb cynl obgu neranf. Abgr: neran onynapr nqwhfgzragf znl bpphe hagvy Ncevy 23."
+    season1_announcement_2: "Arrq zber cenpgvpr? Fgvpx jvgu gur Oynmvat Onggyr Neran gb ersvar lbhe fxvyyf. Lbh unir hagvy Ncevy 30gu gb cynl obgu neranf. Abgr: neran onynapr nqwhfgzragf znl bpphe hagvy Ncevy 23eq."
     season1_announcement_3: "Terng cevmrf ninvynoyr sbe gbc cresbezref va gur Vasvavgr Vasreab Phc:"
     season1_prize_1: "$1,000 Fpubynefuvc"
     season1_prize_2: "ERFCNJA Tnzvat Punve"
