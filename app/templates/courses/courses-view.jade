@@ -93,8 +93,9 @@ block content
                   button.change-hero-btn.btn.btn-lg.btn-forest
                     span(data-i18n="play.change_hero")
 
-            .text-center.row
-              a.btn.btn-navy.btn-lg.text-uppercase(href='/tournaments/student/#{me.id}', data-i18n="tournament.class_tournaments") class mini-tournaments
+            .text-center.row#tournament-btn
+              if view.hasActiveTournaments
+                a.btn.btn-navy.btn-lg.text-uppercase(href='/tournaments/student/#{me.id}', data-i18n="tournament.class_tournaments") class mini-tournaments
             if view.classrooms.size()
               br
               h3(data-i18n="courses.my_classes")
