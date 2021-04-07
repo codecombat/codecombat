@@ -258,7 +258,7 @@ export default {
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading',
       isStudent: 'me/isStudent',
-      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount'
+      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
     }),
 
     currentSelectedClan () {
@@ -475,38 +475,15 @@ export default {
       <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
-        <Leaderboard
-            v-if="currentSelectedClan"
-            :title="$t(`league.${regularArenaSlug.replace('-', '_')}`)"
-            :rankings="selectedClanRankings"
-            :playerCount="selectedClanLeaderboardPlayerCount"
-            :key="`${clanIdSelected}-score`"
-            :clanId="clanIdSelected"
-            class="leaderboard-component"
-            style="color: black;"
-        />
-        <Leaderboard
-            v-else
-            :rankings="globalRankings"
-            :title="$t(`league.${regularArenaSlug.replace('-', '_')}`)"
-            :playerCount="globalLeaderboardPlayerCount"
-            class="leaderboard-component"
-        />
-        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">
-          {{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace('-', '_')}`), arenaType: $t('league.arena_type_regular') }) }}
-        </a>
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace('-', '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace('-', '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
+        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace('-', '_')}`), arenaType: $t('league.arena_type_regular') }) }}</a>
       </div>
       <div class="col-lg-6 section-space">
-        <Leaderboard
-            :title="$t('league.codepoints')"
-            :rankings="selectedClanCodePointsRankings"
-            :key="`${clanIdSelected}-codepoints`"
-            :clanId="clanIdSelected"
-            scoreType="codePoints"
-            class="leaderboard-component"
-            :player-count="codePointsPlayerCount"
+        <leaderboard :title="$t('league.codepoints')" :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
+          class="leaderboard-component"
+          :player-count="codePointsPlayerCount"
         />
-
         <a v-if="isStudent" href="/students" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.earn_codepoints') }}</a>
         <a v-else href="/play" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.earn_codepoints') }}</a>
       </div>

@@ -69,19 +69,16 @@ export default {
       return this.rankings.find(r => r.fullName)
     },
 
-    rowClass () {
-      return (row) => {
-        let className = ''
-        if (row.creator === me.id) {
-          className = 'my-row'
-        }
-
-        if (row.fullName) {
-          className = 'student-row'
-        }
-
-        return className
+    classForRow: () => (row) => {
+      if (row.creator === me.id) {
+        return 'my-row'
       }
+
+      if (row.fullName) {
+        return 'student-row'
+      }
+
+      return ''
     }
   }
 }
@@ -113,7 +110,7 @@ export default {
           th(colspan=1) 🏴‍☠️
 
       tbody
-        tr(v-for="row, rank in rankings" :key="rank" :class="rowClass(row)")
+        tr(v-for="row, rank in rankings" :key="rank" :class="classForRow(row)")
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)

@@ -36,7 +36,6 @@ store = new Vuex.Store({
     tracker: require('./modules/tracker').default
     products: require('./modules/products').default
     seasonalLeague: require('./modules/seasonalLeague').default
-    teacher: require('./modules/teacher').default
   }
 })
 
