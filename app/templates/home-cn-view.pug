@@ -39,7 +39,7 @@ block content
                   h2.text-teal(data-i18n="new_home.codecombat")
                   p.text-left.text-navy(data-i18n="new_home.game_based_blurb")
                   if me.isAnonymous()
-                    button.btn.btn-lg.btn-primary.signup-button(data-event-action="Homepage Click Try CodeCombat CTA", data-i18n="new_home.try_codecombat")
+                    a.btn.btn-lg.btn-primary(href='/play', data-i18n="new_home.try_codecombat")
                   else
                     if me.isTeacher()
                       a.btn.btn-lg.btn-primary.my-classes-btn(href="/teachers/classes", data-event-action="Homepage Click My Classes CTA #2", data-i18n="new_home.go_to_my_classes")
