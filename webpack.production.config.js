@@ -81,7 +81,9 @@ module.exports = (env) => {
           info = {
             sha: process.env.GIT_SHA || 'production'
           }
-          fs.writeFile('.build_info.json', JSON.stringify(info, null, '  '))
+          fs.writeFile('.build_info.json', JSON.stringify(info, null, '  '), (err) => {
+            console.error(err);
+          })
           console.log("\nWrote build information file");
         })
       })
