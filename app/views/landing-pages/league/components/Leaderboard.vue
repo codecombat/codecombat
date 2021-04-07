@@ -4,12 +4,11 @@
  * TODO: This leaderboard is not only shown on the league url but also the ladder url.
  */
 import utils from 'core/utils'
-import { mapGetters } from 'vuex'
+
 export default {
   props: {
     rankings: {
       type: Array,
-      // @matias: Does this need a factory function?
       default: []
     },
     scoreType: {
@@ -62,24 +61,18 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      isTeacher: 'me/isTeacher',
-      studentNames: 'teacher/studentNames',
-      studentNamesLoading: 'teacher/isLoading'
-    }),
-
     showStudentNames () {
-      return this.isTeacher && !this.studentNamesLoading
+      return this.rankings.find(r => r.fullName)
     },
 
     rowClass () {
-      return (creator) => {
+      return (row) => {
         let className = ''
-        if (creator === me.id) {
+        if (row.creator === me.id) {
           className = 'my-row'
         }
 
-        if (this.showStudentNames && this.studentNames[creator]) {
+        if (row.fullName) {
           className = 'student-row'
         }
 
@@ -109,14 +102,15 @@ export default {
           th(colspan=1)
           th(colspan=1) {{ $t('general.rank') }}
           th {{ $t('general.score') }}
-          th.name-col-cell {{ $t('general.name') }}
+          th.name-col-cell(v-if="showStudentNames") {{ $t('general.username') }}
+          th.name-col-cell(v-else) {{ $t('general.name') }}
           th.name-col-cell(v-if="showStudentNames") {{ $t('teacher.student_name') }}
           th(colspan=4 style="text-transform: capitalize;") {{ $t('league.team') }}
           th(colspan=1) {{ $t('ladder.age') }}
           th(colspan=1) 🏴‍☠️
 
       tbody
-        tr(v-for="row, rank in rankings" :key="rank" :class="rowClass(row.creator)")
+        tr(v-for="row, rank in rankings" :key="rank" :class="rowClass(row)")
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)
@@ -124,7 +118,7 @@ export default {
             td.rank-cell {{ row.rank || rank + 1 }}
             td.score-cell {{ scoreForDisplay(row) }}
             td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ row.creatorName || $t("play.anonymous") }}
-            td.name-col-cell(v-if="showStudentNames") {{ studentNames[row.creator] || $t("teacher.not_applicable") }}
+            td.name-col-cell(v-if="showStudentNames") {{ row.fullName || $t("teacher.not_applicable") }}
             td(colspan=4).clan-col-cell
               a(:href="`/league/${getClan(row).slug || getClan(row)._id}`") {{ getClanName(row) }}
             td {{ getAgeBracket(row) }}
