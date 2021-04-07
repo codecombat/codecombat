@@ -263,14 +263,14 @@ esperLocToAetherLoc = (loc) ->
 extractRuntimeErrorDetails = (options) ->
   if error = options.error
     options.kind ?= error.name  # I think this will pick up [Error, EvalError, RangeError, ReferenceError, SyntaxError, TypeError, URIError, DOMException]
-
-    if options.aether.options.useInterpreter
-      options.message = error.toString()
-    else
-      options.message = error.message or error.toString()
+    options.message = error.message or error.toString()
     options.hint = error.hint or getRuntimeHint options
     options.level ?= error.level
     options.userInfo ?= error.userInfo
+    if error.range and not options.range
+      if _.isNumber(error.range[0]) and _.isNumber(error.range[1]) and error.range[0] < options.aether.raw.length  # Lua doesn't have good range info for some reason
+        range = ranges.offsetsToRange(error.range[0], error.range[1], options.aether.raw or '')
+        options.range = [range.start, range.end]  # We expect array instead of object in options.range below
 
   # NOTE: lastStatementRange set via instrumentation.logStatementStart(originalNode.originalRange)
   options.range ?= options.aether?.lastStatementRange
@@ -278,7 +278,7 @@ extractRuntimeErrorDetails = (options) ->
     loc = options.aether?.esperEngine?.evaluator?.topFrame?.ast?.loc
     options.range ?= esperLocToAetherLoc loc
 
-  if options.error?.name?
+  if options.error?.name? and not ///^#{options.error.name}///.test options.message
     options.message = "#{options.error.name}: #{options.message}"
 
   if options.range?

@@ -164,5 +164,5 @@ mixin addCredits
         span.glyphicon.glyphicon-question-sign
       p.m-y-2.unique-students
         each year in Object.keys(uniqueStudentsPerYear).sort().reverse()
-          | #{year}: #{uniqueStudentsPerYear[year].size} #{$.i18n.t('courses.students').toLowerCase()}
+          | !{year}: #{uniqueStudentsPerYear[year].size} #{$.i18n.t('courses.students').toLowerCase()}
           br

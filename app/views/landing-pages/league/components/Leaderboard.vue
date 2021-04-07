@@ -22,6 +22,10 @@ export default {
     clanId: {
       type: String,
       default: '_global'
+    },
+    title: {
+      type: String,
+      default: ""
     }
   },
 
@@ -89,8 +93,7 @@ export default {
       thead
         tr
           th(colspan=12)
-            span(v-if="scoreType == 'codePoints'") CodePoints
-            span(v-else) Blazing Battle
+            span {{ title }}
             span &nbsp;
             span {{ $t('ladder.leaderboard') }}
             span(v-if="playerCount > 1")

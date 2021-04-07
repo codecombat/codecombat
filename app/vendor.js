@@ -18,7 +18,6 @@ window.TreemaUtils = require('exports-loader?TreemaUtils!bower_components/treema
 import 'bower_components/treema/treema.css'
 window.moment = require('bower_components/moment/min/moment-with-locales.min.js');
 window.moment.timezone = require('moment-timezone');
-window.$.i18n = window.i18n = require('bower_components/i18next/i18next.js');
 require('vendor/scripts/idle.js').createjs;
 window.key = require('../vendor/scripts/keymaster.js');
 require('vendor/scripts/jquery.noty.packaged.min.js');

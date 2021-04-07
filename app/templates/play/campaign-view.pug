@@ -24,7 +24,11 @@ if showGameDevAlert
       a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button(data-i18n="play_level.videos")
 
     if view.shouldShow('league-arena')
-      a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#esports-arena(class=`${(me.get('stats') || {}).codePoints > 30 ? 'btn-danger' : ''}`) Play Blazing Battle
+      for arena in view.activeArenas()
+        - var codePoints = (me.get('stats') || {}).codePoints
+        - var playArenaText = $.t('league.play_arena_short', {arenaName: $.t('league.' + arena.slug.replace('-', '_')), interpolation: {escapeValue: false}})
+        - var emphasisClass = codePoints > 100 ? 'btn-primary' : codePoints > 30 ? 'btn-danger' : ''
+        a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#esports-arena(class=emphasisClass data-arena=arena.slug)= playArenaText
 
   if serverConfig.codeNinjas
     a(href="https://code.ninja")
@@ -134,16 +138,6 @@ if showGameDevAlert
             else if level.unlocksHero
               img.treasure-chest(src="/images/pages/play/gold-chest.png")
         div(style="left: " + level.position.x + "%; bottom: " + level.position.y + "%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""))
-        if view.shouldShow('league-arena')
-          .level-info-container.rtl-allowed.league-arena-tooltip
-            //- TODO: don't hard code that the user has completed the level.
-            div(class="level-info rtl-allowed complete")
-              .level-status.rtl-allowed(dir="auto")
-              h3(dir="ltr" data-i18n="league.seasonal_arena_name")
-              .level-description.rtl-allowed(dir="auto")
-                p(data-i18n="league.seasonal_arena_tooltip")
-
-              a.btn.btn-success.btn.btn-lg.btn-illustrated.start-esports(data-i18n="common.play" href="/play/ladder/blazing-battle")
         .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name, data-level-original=level.original)
           - var playCount = levelPlayCountMap[level.slug]
           .progress.progress-striped.active.hide
@@ -189,6 +183,16 @@ if showGameDevAlert
               else
                 button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
 
+      if view.shouldShow('league-arena')
+        for arena in view.activeArenas()
+          .level-info-container.rtl-allowed.league-arena-tooltip(data-arena=arena.slug)
+            //- TODO: don't hard code that the user has completed the level.
+            div(class="level-info rtl-allowed complete")
+              .level-status.rtl-allowed(dir="auto")
+              h3(dir="ltr" data-i18n="league." + arena.slug.replace("-", "_"))
+              .level-description.rtl-allowed(dir="auto")
+                p(data-i18n="league.seasonal_arena_tooltip")
+              a.btn.btn-success.btn.btn-lg.btn-illustrated.start-esports(data-i18n="common.play" href="/play/ladder/" + arena.slug data-arena=arena.slug)
 
       for adjacentCampaign in adjacentCampaigns
         a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
