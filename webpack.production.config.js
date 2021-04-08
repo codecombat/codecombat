@@ -79,7 +79,7 @@ module.exports = (env) => {
       new EventHooksWebpackPlugin({
         done: _.once(() => {
           info = {
-            sha: process.env.GIT_SHA || 'production'
+            sha: process.env.GIT_SHA
           }
           fs.writeFile('.build_info.json', JSON.stringify(info, null, '  '), (err) => {
             console.error(err);
