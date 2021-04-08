@@ -4,6 +4,7 @@
  * TODO: This leaderboard is not only shown on the league url but also the ladder url.
  */
 import utils from 'core/utils'
+
 export default {
   props: {
     rankings: {
@@ -41,10 +42,6 @@ export default {
       return Math.round(score * 100).toLocaleString()
     },
 
-    isMyRow (row) {
-      return row.creator == me.id
-    },
-
     getClan (row) {
       return (row.creatorClans || [])[0] || {}
     },
@@ -64,6 +61,24 @@ export default {
 
     getCountryName (row) {
       return utils.countryCodeToName(row.creatorCountryCode)
+    }
+  },
+
+  computed: {
+    showStudentNames () {
+      return this.rankings.find(r => r.fullName)
+    },
+
+    classForRow: () => (row) => {
+      if (row.creator === me.id) {
+        return 'my-row'
+      }
+
+      if (row.fullName) {
+        return 'student-row'
+      }
+
+      return ''
     }
   }
 }
@@ -87,13 +102,15 @@ export default {
           th(colspan=1)
           th(colspan=1) {{ $t('general.rank') }}
           th {{ $t('general.score') }}
-          th.name-col-cell {{ $t('general.name') }}
+          th.name-col-cell(v-if="showStudentNames") {{ $t('general.username') }}
+          th.name-col-cell(v-else) {{ $t('general.name') }}
+          th.name-col-cell(v-if="showStudentNames") {{ $t('teacher.student_name') }}
           th(colspan=4 style="text-transform: capitalize;") {{ $t('league.team') }}
           th(colspan=1) {{ $t('ladder.age') }}
           th(colspan=1) 🏴‍☠️
 
       tbody
-        tr(v-for="row, rank in rankings" :key="rank" :class="isMyRow(row) ? 'success' : ''")
+        tr(v-for="row, rank in rankings" :key="rank" :class="classForRow(row)")
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)
@@ -101,6 +118,7 @@ export default {
             td.rank-cell {{ row.rank || rank + 1 }}
             td.score-cell {{ scoreForDisplay(row) }}
             td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ row.creatorName || $t("play.anonymous") }}
+            td.name-col-cell(v-if="showStudentNames") {{ row.fullName || $t("teacher.not_applicable") }}
             td(colspan=4).clan-col-cell
               a(:href="`/league/${getClan(row).slug || getClan(row)._id}`") {{ getClanName(row) }}
             td {{ getAgeBracket(row) }}
@@ -144,4 +162,13 @@ export default {
 .name-col-cell.ai {
   color: #3f44bf;
 }
+
+.my-row {
+  background-color: #d1b147;
+}
+
+.student-row {
+  background-color: rgb(188, 255, 22);
+}
+
 </style>
