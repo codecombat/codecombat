@@ -10610,6 +10610,14 @@
         }
       }
     },
+    "i18next": {
+      "version": "20.1.0",
+      "resolved": "https://registry.npmjs.org/i18next/-/i18next-20.1.0.tgz",
+      "integrity": "sha512-sV+ZwTM4Ik4d6wKdwNS/ocKmvXi6DFA/YHMgdQX3i4L5993jnbo1/j1pK/c4+zBOjexer4dt+c5JHsFj4CUoXQ==",
+      "requires": {
+        "@babel/runtime": "^7.12.0"
+      }
+    },
     "iconv-lite": {
       "version": "0.4.24",
       "resolved": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.24.tgz",
@@ -10680,14 +10688,6 @@
             "has-flag": "^3.0.0"
           }
         }
-      }
-    },
-    "i18next": {
-      "version": "20.1.0",
-      "resolved": "https://registry.npmjs.org/i18next/-/i18next-20.1.0.tgz",
-      "integrity": "sha512-sV+ZwTM4Ik4d6wKdwNS/ocKmvXi6DFA/YHMgdQX3i4L5993jnbo1/j1pK/c4+zBOjexer4dt+c5JHsFj4CUoXQ==",
-      "requires": {
-        "@babel/runtime": "^7.12.0"
       }
     },
     "ieee754": {
@@ -15097,12 +15097,6 @@
       "requires": {
         "split": "^1.0.0"
       }
-    },
-    "picomatch": {
-      "version": "2.2.2",
-      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-2.2.2.tgz",
-      "integrity": "sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==",
-      "dev": true
     },
     "pify": {
       "version": "3.0.0",
