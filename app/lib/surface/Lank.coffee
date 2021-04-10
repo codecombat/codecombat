@@ -634,9 +634,11 @@ module.exports = Lank = class Lank extends CocoClass
     @marks[effects[@effectIndex]].show()
 
   setHighlight: (to, delay) ->
+    highlightExisted = @marks.highlight?
     @addMark 'highlight', @options.floatingLayer, 'highlight' if to
     @marks.highlight?.highlightDelay = delay
     @marks.highlight?.toggle to and not @dimmed
+    @marks.highlight.update() if highlightExisted and to
 
   setDimmed: (@dimmed) ->
     @marks.highlight?.toggle @marks.highlight.on and not @dimmed
