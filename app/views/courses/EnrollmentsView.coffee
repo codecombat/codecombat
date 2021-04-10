@@ -81,7 +81,7 @@ module.exports = class EnrollmentsView extends RootView
     COURSE_IDS = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS)
     starterLicenseCourseList = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS).map (_id) =>
       utils.i18n(@courses.findWhere({_id})?.attributes or {}, 'name')
-    starterLicenseCourseList.push($.t('general.and') + ' ' + starterLicenseCourseList.pop())
+    starterLicenseCourseList.push($.i18n.t('general.and') + ' ' + starterLicenseCourseList.pop())
     starterLicenseCourseList.join(', ')
 
   onceClassroomsSync: ->

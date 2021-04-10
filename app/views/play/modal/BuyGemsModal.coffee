@@ -71,7 +71,7 @@ module.exports = class BuyGemsModal extends ModalView
 #      newProducts.push localProduct
 #    @products = _.sortBy newProducts, 'gems'
 #    @render()
-    
+
   getProductDescription: (productName) ->
     return switch productName
       when 'gems_5' then 'buy_gems.few_gems'
@@ -94,7 +94,7 @@ module.exports = class BuyGemsModal extends ModalView
     else
       application.tracker?.trackEvent 'Started gem purchase', { productID: productID }
       stripeHandler.open({
-        description: $.t(@getProductDescription(product.get('name')))
+        description: $.i18n.t(@getProductDescription(product.get('name')))
         amount: product.get('amount')
         bitcoin: true
         alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'

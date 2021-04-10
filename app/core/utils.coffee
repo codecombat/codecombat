@@ -592,7 +592,7 @@ createLevelNumberMap = (levels) ->
     else if level.assessment
       practiceLevelTotalCount++
       practiceLevelCurrentCount++
-      levelNumber = $.t('play_level.challenge')
+      levelNumber = $.i18n.t('play_level.challenge')
     else
       practiceLevelCurrentCount = 0
     levelNumberMap[level.key] = levelNumber
