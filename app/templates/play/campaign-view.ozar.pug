@@ -73,9 +73,9 @@ if showGameDevAlert
         - var levelNumber = '';
         if view.shouldShow('back-to-classroom') && view.classroom
           if level.assessment === 'cumulative'
-            - levelNumber = $.t('play_level.combo_challenge') + ': '
+            - levelNumber = $.i18n.t('play_level.combo_challenge') + ': '
           else if level.assessment
-            - levelNumber = $.t('play_level.concept_challenge') + ': '
+            - levelNumber = $.i18n.t('play_level.concept_challenge') + ': '
           else
             - levelNumber = view.classroom.getLevelNumber(level.original, '');
             if (levelNumber)

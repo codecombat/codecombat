@@ -7,19 +7,19 @@ const PLAN_FIRST_CLASS_STEP = {
     const planYourClassDiv = document.createElement('div')
     planYourClassDiv.innerHTML = `
       <ul>
-        <li>${$.t('teacher_dashboard.plan_your_class1')}</li>
-        <li>${$.t('teacher_dashboard.plan_your_class2')}</li>
-        <li>${$.t('teacher_dashboard.plan_your_class3')}</li>
+        <li>${$.i18n.t('teacher_dashboard.plan_your_class1')}</li>
+        <li>${$.i18n.t('teacher_dashboard.plan_your_class2')}</li>
+        <li>${$.i18n.t('teacher_dashboard.plan_your_class3')}</li>
       </ul>
       `
     return planYourClassDiv
   },
-  title: `${$.t('teacher_dashboard.plan_your_class_title')}:`,
+  title: `${$.i18n.t('teacher_dashboard.plan_your_class_title')}:`,
   buttons: [{
     action () {
       return this.next()
     },
-    text: $.t('teacher_dashboard.click_dismiss')
+    text: $.i18n.t('teacher_dashboard.click_dismiss')
   }]
 }
 
@@ -32,13 +32,13 @@ const CLICK_INTO_CLASS_STEP = {
     selector: '#class-header-shepherd',
     event: 'click'
   },
-  text: $.t('teacher_dashboard.track_progress_desc'),
-  title: $.t('teacher_dashboard.track_progress'),
+  text: $.i18n.t('teacher_dashboard.track_progress_desc'),
+  title: $.i18n.t('teacher_dashboard.track_progress'),
   buttons: [{
     action () {
       return this.next()
     },
-    text: $.t('common.next')
+    text: $.i18n.t('common.next')
   }]
 }
 
@@ -47,13 +47,13 @@ const CREATE_CLASS_STEP = {
     element: '#new-class-btn-shepherd',
     on: 'top'
   },
-  text: $.t('teacher_dashboard.add_classes'),
-  title: $.t('teacher_dashboard.add_classes_title'),
+  text: $.i18n.t('teacher_dashboard.add_classes'),
+  title: $.i18n.t('teacher_dashboard.add_classes_title'),
   buttons: [{
     action () {
       return this.next()
     },
-    text: $.t('common.next')
+    text: $.i18n.t('common.next')
   }]
 }
 

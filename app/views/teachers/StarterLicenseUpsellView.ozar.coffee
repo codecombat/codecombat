@@ -22,7 +22,7 @@ module.exports = class StarterLicenseUpsellView extends RootView
     maxQuantityStarterLicenses: MAX_STARTER_LICENSES
     starterLicenseLengthMonths: STARTER_LICENCE_LENGTH_MONTHS
     starterLicenseCourseList: @state.get('starterLicenseCourseList')
-    
+
   events:
     'click .purchase-btn': 'onClickPurchaseButton'
     'click .contact-us-btn': 'onClickContactUsButton'
@@ -47,17 +47,17 @@ module.exports = class StarterLicenseUpsellView extends RootView
     @listenTo me, 'change:preferredLanguage', ->
       @state.set { starterLicenseCourseList: @getStarterLicenseCourseList() }
     me.getClientCreatorPermissions()?.then(() => @render?())
-      
+
   onLoaded: ->
     @state.set { starterLicenseCourseList: @getStarterLicenseCourseList() }
     null
-      
+
   getStarterLicenseCourseList: ->
     return if !@courses.loaded
     COURSE_IDS = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS)
     starterLicenseCourseList = _.difference(STARTER_LICENSE_COURSE_IDS, FREE_COURSE_IDS).map (_id) =>
       utils.i18n(@courses.findWhere({_id})?.attributes, 'name')
-    starterLicenseCourseList.push($.t('general.and') + ' ' + starterLicenseCourseList.pop())
+    starterLicenseCourseList.push($.i18n.t('general.and') + ' ' + starterLicenseCourseList.pop())
     starterLicenseCourseList.join(', ')
 
   onClickPurchaseButton: ->

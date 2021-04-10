@@ -130,7 +130,7 @@ module.exports = class CoursesView extends RootView
         else
           @awaitingTournament = true
           @checkForTournamentStart()
-    
+
     if @showHocProgress()
       @calculateHocStats()
 
@@ -242,7 +242,7 @@ module.exports = class CoursesView extends RootView
     if jqxhr.status is 422
       @errorMessage = 'Please enter a code.'
     else if jqxhr.status is 404
-      @errorMessage = $.t('signup.classroom_not_found')
+      @errorMessage = $.i18n.t('signup.classroom_not_found')
     else
       @errorMessage = "#{jqxhr.responseText}"
     @renderSelectors '#join-class-form'
