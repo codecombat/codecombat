@@ -2,7 +2,7 @@
   import { mapGetters } from 'vuex'
   import DialogueAnimator from 'ozaria/site/views/play/level/DialogueAnimator'
 
-  function buildStepPositionalDetails ({ intro, position, animation, targetElement, targetLine }) {
+  function buildStepPositionalDetails ({ intro, position, animation, targetElement, targetLine, targetThangs }) {
     if (!intro && !position && !animation && !targetElement && !targetLine) {
       return {}
     }
@@ -401,6 +401,9 @@
         if (tutorialStep.targetLine) {
           this.delayedLineHighlight(tutorialStep.targetLine)
         }
+
+        // Reset targetThangs highlights to only those specified (usually [])
+        Backbone.Mediator.publish('sprite:highlight-sprites', { thangIDs: tutorialStep.targetThangs || [] })
       },
 
       delayedLineHighlight (targetLine) {

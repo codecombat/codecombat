@@ -105,6 +105,7 @@ module.exports = {
           targetElement: tutorial?.targetElement
           animation: tutorial?.animation
           targetLine: tutorial?.targetLine
+          targetThangs: tutorial?.targetThangs
           grayOverlay: tutorial?.grayOverlay
           advanceOnTarget: tutorial?.advanceOnTarget
           internalRelease: tutorial?.internalRelease

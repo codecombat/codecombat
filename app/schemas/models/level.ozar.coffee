@@ -151,6 +151,7 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
       default: true
     }
     advanceOnTarget: {title: 'Advance On Target', description: 'Go to next step when clicking the target element (requires Target Element to be set)', type: 'boolean'}
+    targetThangs: c.array {title: 'Target Thangs', description: 'Thang IDs of target Sprites to highlight.'}, thang
 
 NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes that should be sent out as a result of this script triggering.', displayProperty: 'name'},
   name: {title: 'Name', description: 'Short name describing the script, like \"Anya greets the player\", for your convenience.', type: 'string'}
