@@ -19,7 +19,7 @@ module.exports = class HomeView extends RootView
     'click .logout-btn': 'logoutAccount'
     'click .setup-class-btn': 'onClickSetupClass'
     'click .try-chapter-1': 'onClickGenericTryChapter1'
-    'click .contact-us': 'onClickContactUs'
+    'click .contact-us': 'onClickContactModal'
     'click a': 'onClickAnchor'
     'click button.press-engage': ()->@onCarouselDirectMove(0)
     'click button.press-explore': ()->@onCarouselDirectMove(1)
@@ -62,10 +62,6 @@ module.exports = class HomeView extends RootView
   onClickTeacherButton: (e) ->
     @homePageEvent('Started Signup')
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
-
-  onClickContactUs: (e) ->
-    DirectContactModal = require('ozaria/site/views/core/DirectContactModal').default
-    @openModalView(new DirectContactModal())
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
