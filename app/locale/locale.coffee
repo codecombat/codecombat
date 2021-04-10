@@ -131,7 +131,7 @@ Object.defineProperties module.exports,
           if typeof lng == 'string' and lng != ''
             opts.lng = lng
           Vue.util.extend opts, options
-          i18n.t key, opts
+          $.i18n.t key, opts
 
         ###  expose a local API method  ###
 
@@ -146,7 +146,7 @@ Object.defineProperties module.exports,
           if typeof ns == 'string' and ns != ''
             opts.ns = ns
           Vue.util.extend opts, options
-          i18n.t key, opts
+          $.i18n.t key, opts
 
         Vue::$dbt = (source, key, options) ->
           options ?= {}
@@ -155,3 +155,22 @@ Object.defineProperties module.exports,
         return
 
       Vue.use(VueI18Next)
+
+  mapFallbackLanguages:
+    enumerable: false
+    value: ->
+      fallbacksByCode = default: ['en']
+      for code of module.exports when code isnt 'en'
+        fallbacks = []
+        parts = code.split '-'
+        while parts.length > 1
+          parent = parts.slice(0, parts.length - 1).join('-')
+          fallbacks.push parent if module.exports[parent] and parent not in fallbacks
+          for c2 of module.exports when c2 isnt code and c2.split('-').slice(0, parts.length - 1).join('-') is parent and c2 not in fallbacks
+            fallbacks.push c2  # Sibling, uncle, or niece
+          parts.pop()
+        fallbacks.push 'en' unless _.string.startsWith code, 'en'
+        fallbacksByCode[code] = fallbacks
+      fallbacksByCode['zh-WUU-HANS'] = ['zh-WUU-HANT', 'zh-HANS', 'zh-HANT', 'en']
+      fallbacksByCode['zh-WUU-HANT'] = ['zh-WUU-HANS', 'zh-HANT', 'zh-HANS', 'en']
+      fallbacksByCode

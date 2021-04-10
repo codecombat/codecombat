@@ -203,10 +203,10 @@ module.exports = class RootView extends CocoView
       @$el.find('.language-dropdown-current')?.text(locale[newLang].nativeDescription)
     else # base template
       newLang = $('.language-dropdown').val()
-    $.i18n.setLng(newLang, {})
-    @saveLanguage(newLang)
-    locale.load(me.get('preferredLanguage', true)).then =>
-      @onLanguageLoaded()
+    $.i18n.changeLanguage newLang, =>
+      @saveLanguage(newLang)
+      locale.load(me.get('preferredLanguage', true)).then =>
+        @onLanguageLoaded()
 
   onLanguageLoaded: ->
     @render()
