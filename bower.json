@@ -37,7 +37,8 @@
     "algolia-autocomplete.js": "^0.17.0",
     "algolia-autocomplete-no-conflict": "1.0.0",
     "font-awesome": "fontawesome#^4.7.0",
-    "fetch": "^2.0.2"
+    "fetch": "^2.0.2",
+    "waypoints": "^4.0.1"
   },
   "overrides": {
     "algolia-autocomplete.js": {

@@ -45,7 +45,8 @@
 
       ...mapGetters('products', [
         'basicSubscriptionForCurrentUser',
-        'basicAnnualSubscriptionForCurrentUser'
+        'basicAnnualSubscriptionForCurrentUser',
+        'lifetimeSubscriptionForCurrentUser'
       ]),
 
       ...mapGetters('me', [
@@ -63,6 +64,11 @@
       yearlySubAmount() {
         const sub = this.basicAnnualSubscriptionForCurrentUser
         return (sub) ? sub.amount / 100 : 0
+      },
+
+      lifetimeSubAmount() {
+        const sub = this.lifetimeSubscriptionForCurrentUser
+        return (sub) ? sub.amount / 100: 0
       }
     },
 
@@ -123,6 +129,7 @@
         this.$refs.subscribeModal.$once('shown', () => {
           const modal = this.$refs.subscribeModal.$data.modalViewInstance
           setTimeout(() => {
+            // TODO: differentiate by lifetime vs. annual
             modal.onClickAnnualPurchaseButton()
           }, 0)
         })
