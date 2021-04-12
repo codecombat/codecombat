@@ -25,7 +25,7 @@ export default {
     },
     title: {
       type: String,
-      default: ""
+      default: ''
     }
   },
 
@@ -102,9 +102,7 @@ export default {
           th(colspan=1)
           th(colspan=1) {{ $t('general.rank') }}
           th {{ $t('general.score') }}
-          th.name-col-cell(v-if="showStudentNames") {{ $t('general.username') }}
-          th.name-col-cell(v-else) {{ $t('general.name') }}
-          th.name-col-cell(v-if="showStudentNames") {{ $t('teacher.student_name') }}
+          th.name-col-cell {{ $t('general.name') }}
           th(colspan=4 style="text-transform: capitalize;") {{ $t('league.team') }}
           th(colspan=1) {{ $t('ladder.age') }}
           th(colspan=1) 🏴‍☠️
@@ -117,8 +115,7 @@ export default {
             td.code-language-cell(:style="`background-image: url(/images/common/code_languages/${row.submittedCodeLanguage}_icon.png)`" :title="row.submittedCodeLanguage")
             td.rank-cell {{ row.rank || rank + 1 }}
             td.score-cell {{ scoreForDisplay(row) }}
-            td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ row.creatorName || $t("play.anonymous") }}
-            td.name-col-cell(v-if="showStudentNames") {{ row.fullName || $t("teacher.not_applicable") }}
+            td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ row.fullName || row.creatorName || $t("play.anonymous") }}
             td(colspan=4).clan-col-cell
               a(:href="`/league/${getClan(row).slug || getClan(row)._id}`") {{ getClanName(row) }}
             td {{ getAgeBracket(row) }}
