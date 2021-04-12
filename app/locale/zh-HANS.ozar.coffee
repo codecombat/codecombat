@@ -1638,7 +1638,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     edit_details: "编辑课程详情"
     purchase_enrollments: "购买学生许可"
     remove_student: "删除学生"
-    assign: "分派"
+    assign: '分配'
     to_assign: "去分派付费课程。"
     student: "学生"
     teacher: "老师"
@@ -3201,6 +3201,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   teacher_dashboard:
     lock: "锁定"
     unlock: "解锁"
+    assign: '分配'
+    unassign: '撤销'
+    choose_course: '点击选择课程'
     teacher_locked_message: "老师锁定了下一个关卡"
     plan_your_class_title: "计划您的课程"
     plan_your_class1: "查看课程进度"
