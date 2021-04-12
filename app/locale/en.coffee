@@ -3283,6 +3283,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   teacher_dashboard:
     lock: 'Lock'
     unlock: 'Unlock'
+    unassign: 'Unassign'
+    choose_course: 'Click to Select from Dropdown'
     teacher_locked_message: 'Your teacher has locked the next level'
     plan_your_class_title: 'Plan your first class by'
     plan_your_class1: 'Viewing course progression info'

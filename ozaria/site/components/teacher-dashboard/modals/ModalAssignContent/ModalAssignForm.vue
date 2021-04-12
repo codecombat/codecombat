@@ -96,7 +96,7 @@
               selected
               value=""
             >
-              Click to Select from Dropdown
+              {{ $t("teacher_dashboard.choose_course") }}
             </option>
             <option
               v-for="course in filteredCourses"
@@ -116,11 +116,11 @@
       <div class="form-group row buttons-container">
         <div class="col-xs-12 buttons">
           <tertiary-button @click="handleClickedUnassign">
-            Unassign
+            {{ $t('teacher_dashboard.unassign') }}
           </tertiary-button>
-          <span class="or-text">or</span>
+          <span class="or-text">{{ $t('general.or') }}</span>
           <secondary-button @click="handleClickedAssign">
-            Assign
+            {{ $t('courses.assign') }}
           </secondary-button>
         </div>
       </div>
