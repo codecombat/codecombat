@@ -648,13 +648,13 @@ export default {
       this.onClassBooked()
     }
 
-    const pricingWaypoint = $('.pricing-grid-container').waypoint({
+    $('.pricing-grid-container').waypoint({
       offset: '85%',
-      handler: (direction) => {
-        pricingWaypoint.disable()
+      handler: function (direction) {
+        this.disable()
         window.me.trackActivity('viewed-parents-pricing')
       }
-    })[0]
+    })
   },
 
   beforeDestroy () {
