@@ -152,7 +152,7 @@ block content
                   li
                     b Start by playing the free Hour of Code campaign by <a href='/play/hoc-2018'>clicking here</a>.
             
-            if ((me.get('stats') || {}).codePoints || 0) > 30
+            if me.level() >= 6
               #esports-announcement.flex-container
                 .row.flex-row
                   .col-md-5
