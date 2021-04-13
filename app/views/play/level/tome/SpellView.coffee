@@ -813,6 +813,8 @@ module.exports = class SpellView extends CocoView
     headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
     m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
     service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
+    if me.useChinaServices()
+      service = window?.localStorage?.kodeKeeperService or "http://kodekeeper.koudashijie.com/parse-code-kodekeeper"
     fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
     .then (x) => x.json()
     .then (x) => x.token
