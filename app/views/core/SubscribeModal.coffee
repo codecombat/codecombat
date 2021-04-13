@@ -63,11 +63,6 @@ module.exports = class SubscribeModal extends ModalView
     if @couponID and @basicProductAnnual?.get('coupons')? and @basicProductAnnual?.get('name') is 'basic_subscription_annual'
       @basicCouponAnnual = _.find(@basicProductAnnual.get('coupons'), {code: @couponID})
     @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
-    #if @lifetimeProduct?.get('name') isnt 'lifetime_subscription'
-    #  # Use PayPal for international users with regional pricing
-    #  @paymentProcessor = 'PayPal'
-    #else
-    #  @paymentProcessor = 'stripe'
     @paymentProcessor = 'stripe' # Always use Stripe
     super()
     @render()
