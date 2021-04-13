@@ -9,6 +9,11 @@ module.exports = class Products extends CocoCollection
   model: Product
   url: '/db/products'
 
+  initialize: (models, options) ->
+    options ?= {}
+    options.url ?= '/db/products?path=' + window.location.pathname if window?.location?.pathname
+    super models, options
+
   getByName: (name) -> @findWhere { name: name }
 
   getBasicSubscriptionForUser: (user) ->

@@ -18,7 +18,6 @@ window.TreemaUtils = require('exports-loader?TreemaUtils!bower_components/treema
 import 'bower_components/treema/treema.css'
 window.moment = require('bower_components/moment/min/moment-with-locales.min.js');
 window.moment.timezone = require('moment-timezone');
-window.$.i18n = window.i18n = require('bower_components/i18next/i18next.js');
 require('vendor/scripts/idle.js').createjs;
 window.key = require('../vendor/scripts/keymaster.js');
 require('vendor/scripts/jquery.noty.packaged.min.js');
@@ -29,6 +28,7 @@ require('imports-loader?this=>window!../vendor/scripts/fancy_select.js');// TODO
 import 'vendor/styles/fancy_select.css'// TODO webpack: Try to extract this
 window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js');// TODO webpack: Try to extract this
 require('vendor/scripts/fuzzaldrin')// TODO webpack: Try to extract this
+require('bower_components/waypoints/lib/jquery.waypoints.min.js')
 
 require('imports-loader?this=>window!npm-modernizr');
 
