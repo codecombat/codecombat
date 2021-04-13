@@ -60,45 +60,6 @@ Application = {
     store.commit('me/updateUser', me.attributes)
     store.commit('updateFeatures', features)
 
-    # Load zendesk here instead of in layout.static.pug in order to make it properly global
-    if !me.showChinaResourceInfo()
-      zendeskElement = document.createElement('script')
-      zendeskElement.id ="ze-snippet"
-      zendeskElement.type = 'text/javascript'
-      zendeskElement.async = true
-      zendeskElement.onerror = (event) -> console.error('Zendesk failed to initialize: ', event)
-      zendeskElement.onload = ->
-        # zE is the global variable created by the script. We never want the floating button to show, so we:
-        # 1: Hide it right away
-        # 2: Bind showing it to opening it
-        # 3: Bind closing it to hiding it
-        zE('webWidget', 'hide')
-        zE('webWidget:on', 'userEvent', (event) ->
-          if event.action == 'Contact Form Shown'
-            zE('webWidget', 'open')
-        )
-        zE('webWidget:on', 'close', -> zE('webWidget', 'hide'))
-        zE('webWidget', 'updateSettings', {
-          webWidget: {
-            offset: { horizontal: '100px', vertical: '20px' }
-          }
-        })
-
-
-      zendeskElement.src = 'https://static.zdassets.com/ekr/snippet.js?key=ed461a46-91a6-430a-a09c-73c364e02ffe'
-      script = document.getElementsByTagName('script')[0]
-      script.parentNode.insertBefore(zendeskElement, script)
-
-    if me.showChinaRemindToast()
-      setInterval ( -> noty {
-        text: '你已经练习了一个小时了，建议休息一会儿哦'
-        layout: 'topRight'
-        type:'warning'
-        killer: false
-        timeout: 5000
-        }), 3600000  # one hour
-
-
     @store = store
     @api = api
 
@@ -123,6 +84,7 @@ Application = {
     CocoModel.pollAchievements()
     unless me.get('anonymous')
       @checkForNewAchievement()
+    @remindPlayerToTakeBreaks()
     window.i18n = i18nextInstance = i18next.default.createInstance {
       lng: me.get('preferredLanguage', true)
       fallbackLng: locale.mapFallbackLanguages()
@@ -176,6 +138,15 @@ Application = {
   setHocCampaign: (campaignSlug) -> storage.save('hoc-campaign', campaignSlug)
   getHocCampaign: -> storage.load('hoc-campaign')
 
+  remindPlayerToTakeBreaks: ->
+    return unless me.showChinaRemindToast()
+    setInterval ( -> noty {
+      text: '你已经练习了一个小时了，建议休息一会儿哦'
+      layout: 'topRight'
+      type:'warning'
+      killer: false
+      timeout: 5000
+      }), 3600000  # one hour
 }
 
 module.exports = Application
