@@ -105,6 +105,7 @@ describe 'SubscribeModal', ->
       jasmine.demoModal(@modal)
 
     it 'expect yearly subscription button', ->
+      # TODO: update this to handle more complex logic (either annual or lifetime)
       expect(@modal.$('.stripe-annual-button').length).toBe(1)
 
     describe 'when the subscription succeeds', ->
@@ -156,6 +157,7 @@ describe 'SubscribeModal', ->
         expect(console.error).toHaveBeenCalled()
 
   # Migrated to using a yearly license instead
+  # TODO: bring this test back and make it better (able to handle lifetime or annual)
   xdescribe 'onClickStripeLifetimeButton()', ->
     describe "when user's country does not have regional pricing", ->
       beforeEach ->

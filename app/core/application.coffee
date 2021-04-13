@@ -61,16 +61,6 @@ Application = {
     store.commit('me/updateUser', me.attributes)
     store.commit('updateFeatures', features)
 
-    if me.showChinaRemindToast()
-      setInterval ( -> noty {
-        text: '你已经练习了一个小时了，建议休息一会儿哦'
-        layout: 'topRight'
-        type:'warning'
-        killer: false
-        timeout: 5000
-        }), 3600000  # one hour
-
-
     @store = store
     @api = api
 
@@ -95,6 +85,7 @@ Application = {
     CocoModel.pollAchievements()
     unless me.get('anonymous')
       @checkForNewAchievement()
+    @remindPlayerToTakeBreaks()
     window.i18n = i18nextInstance = i18next.default.createInstance {
       lng: me.get('preferredLanguage', true)
       fallbackLng: locale.mapFallbackLanguages()
@@ -148,6 +139,15 @@ Application = {
   setHocCampaign: (campaignSlug) -> storage.save('hoc-campaign', campaignSlug)
   getHocCampaign: -> storage.load('hoc-campaign')
 
+  remindPlayerToTakeBreaks: ->
+    return unless me.showChinaRemindToast()
+    setInterval ( -> noty {
+      text: '你已经练习了一个小时了，建议休息一会儿哦'
+      layout: 'topRight'
+      type:'warning'
+      killer: false
+      timeout: 5000
+      }), 3600000  # one hour
 }
 
 module.exports = Application

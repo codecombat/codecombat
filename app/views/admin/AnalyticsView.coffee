@@ -202,8 +202,9 @@ module.exports = class AnalyticsView extends RootView
         @revenueGroups = Object.keys(groupMap)
         @revenueGroups.push 'DRR Total'
 
-        # Split lifetime values across 8 months based on 12% monthly churn
-        lifetimeDurationMonths = 8 # Needs to be an integer
+        # Used to split lifetime values across 8 months; now 12 for easy comparison to annual, unless we pass ?bookings=true (hack)
+        annualDurationMonths = if utils.getQueryVariable('bookings') then 1 else 12 # Needs to be an integer
+        lifetimeDurationMonths = annualDurationMonths  # Easy comparison
         daysPerMonth = 30 #Close enough (needs to be an integer)
         lifetimeDaySplit = lifetimeDurationMonths * daysPerMonth
 
@@ -221,7 +222,7 @@ module.exports = class AnalyticsView extends RootView
             else if group in ['DRR intl annual', 'DRR usa annual']
               serviceCarryForwardMap[group] ?= []
               if dayGroupCountMap[day][group]
-                serviceCarryForwardMap[group].push({remaining: 12 * 30, value: (dayGroupCountMap[day][group] ? 0) / 12})
+                serviceCarryForwardMap[group].push({remaining: annualDurationMonths * daysPerMonth, value: (dayGroupCountMap[day][group] ? 0) / annualDurationMonths})
               data.groups.push(0)
             else if group is 'DRR Total'
               # Add total, minus deferred lifetime/annual values for this day

@@ -72,15 +72,16 @@ module.exports = class CoursesView extends RootView
     @originalLevelMap = {}
     @urls = require('core/urls')
 
-    @hasActiveTournaments = false
-    tournaments = new CocoCollection([], { url: "/db/tournaments?memberId=#{me.id}", model: Tournament})
-    @listenToOnce tournaments, 'sync', =>
-      tournamentsByClass = (t.toJSON() for t in tournaments.models)[0]
-      tournaments = _.flatten _.values tournamentsByClass
-      @hasActiveTournaments = _.some tournaments, (t) =>
-        t.state == 'starting'
-      @renderSelectors('#tournament-btn')
-    @supermodel.loadCollection(tournaments, 'tournaments', {cache: false})
+    if me.get('role') is 'student'
+      @hasActiveTournaments = false
+      tournaments = new CocoCollection([], { url: "/db/tournaments?memberId=#{me.id}", model: Tournament})
+      @listenToOnce tournaments, 'sync', =>
+        tournamentsByClass = (t.toJSON() for t in tournaments.models)[0]
+        tournaments = _.flatten _.values tournamentsByClass
+        @hasActiveTournaments = _.some tournaments, (t) =>
+          t.state == 'starting'
+        @renderSelectors('#tournament-btn')
+      @supermodel.loadCollection(tournaments, 'tournaments', {cache: false})
 
     # TODO: Trim this section for only what's necessary
     @hero = new ThangType
