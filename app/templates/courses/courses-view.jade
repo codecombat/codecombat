@@ -100,9 +100,6 @@ block content
                           if view.showVideosLinkForCourse(course._id)
                             = " "
                             a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
-                          // the ranking will only be visible in this class
-                          if (courseInstance.id=="5cd4352deed476002dd14019" || courseInstance.id=="5cd57c5216f64600245afedd" || courseInstance.id=='5ce01f45da3b2900357d7ed7')
-                            a.view-ranking-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_ranking")
                       +course-instance-body(courseInstance, classroom)
                       .clearfix
 

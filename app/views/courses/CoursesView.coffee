@@ -36,7 +36,6 @@ module.exports = class CoursesView extends RootView
     'click .play-btn': 'onClickPlay'
     'click .view-class-btn': 'onClickViewClass'
     'click .view-levels-btn': 'onClickViewLevels'
-    'click .view-ranking-link': 'onClickViewRanking'
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
     'click .view-challenges-link': 'onClickViewChallengesLink'
     'click .view-videos-link': 'onClickViewVideosLink'
@@ -262,15 +261,6 @@ module.exports = class CoursesView extends RootView
     courseInstance = @courseInstances.get(courseInstanceID)
     levelsUrl = @urls.courseWorldMap({course, courseInstance})
     application.router.navigate(levelsUrl, { trigger: true })
-
-  onClickViewRanking: (e) ->
-    courseID = $(e.target).data('course-id')
-    courseInstanceID = $(e.target).data('courseinstance-id')
-    #window.tracker?.trackEvent 'Students View Ranking', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
-    course = store.state.courses.byId[courseID]
-    courseInstance = @courseInstances.get(courseInstanceID)
-    rankingUrl = @urls.courseRanking({course, courseInstance})
-    application.router.navigate(rankingUrl, { trigger: true })
 
   onClickViewProjectGalleryLink: (e) ->
     courseID = $(e.target).data('course-id')
