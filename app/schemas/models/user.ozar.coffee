@@ -142,6 +142,11 @@ _.extend UserSchema.properties,
   anonymous: {type: 'boolean' }
   testGroupNumber: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
   testGroupNumberUS: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
+  experiments: c.array {description: 'A/B tests this user is a part of'},
+    name: c.shortString {description: 'Experiment name, like "long-subscription-choice"', pattern: '^[a-z][\-a-z0-9]*$'}  # Slug-like
+    value: {description: 'The experiment value/group that this user is assigned to', additionalProperties: true}  # Data type is flexible depending on experiment needs
+    probability: c.pct {description: 'Probability of being assigned to this experiment value'}
+    startDate: c.date {description: 'When this user first started the experiment'}
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCode2019: {type: 'boolean'} # adding for hoc 2019, TODO refactor into a reusable property if needed
