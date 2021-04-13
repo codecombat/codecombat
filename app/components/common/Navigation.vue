@@ -7,6 +7,7 @@
       this.me = me
       this.document = window.document
       this.serverConfig = window.serverConfig
+      this.serverSession = window.serverSession
     },
     methods: {
       checkLocation (route) {
@@ -16,7 +17,7 @@
         let link = 'http://discourse.codecombat.com/'
         let lang = (me.get('preferredLanguage') || 'en-US').split('-')[0]
         if (lang in ['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt']) {
-          link += "c/other-languages/#{lang}"
+          link += `c/other-languages/${lang}`
         }
         return link
       }

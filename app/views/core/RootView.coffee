@@ -135,6 +135,9 @@ module.exports = class RootView extends CocoView
     #location.hash = hash
     @renderScrollbar()
 
+    # Ensure navigation displays when visting SingletonAppVueComponentView.
+    @initializeNavigation()
+
   afterRender: ->
     if @$el.find('#site-nav').length # hack...
       @$el.addClass('site-chrome')
@@ -258,11 +261,14 @@ module.exports = class RootView extends CocoView
   
   # Attach the navigation Vue component to the page
   initializeNavigation: ->
-    if @navigation
-      @navigation.$destroy()
     staticNav = document.querySelector('#main-nav')
 
+    if @navigation and staticNav
+      staticNav.replaceWith(@navigation.$el)
+      return
+
     return unless staticNav
+
     @navigation = new Navigation({
       el: staticNav
     })
@@ -288,3 +294,7 @@ module.exports = class RootView extends CocoView
     if @metaBinding
       @metaBinding.$destroy()
       delete @metaBinding
+
+    if @navigation
+      @navigation.$destroy()
+      delete @navigation
