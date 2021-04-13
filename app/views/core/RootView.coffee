@@ -14,6 +14,7 @@ errors = require 'core/errors'
 utils = require 'core/utils'
 
 BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
+Navigation = require('app/components/common/Navigation.vue').default
 
 # TODO remove
 
@@ -145,6 +146,8 @@ module.exports = class RootView extends CocoView
     @buildLanguages()
     $('body').removeClass('is-playing')
 
+    @initializeNavigation()
+
   chooseTab: (category) ->
     $("a[href='##{category}']", @$el).tab('show')
 
@@ -251,6 +254,17 @@ module.exports = class RootView extends CocoView
         baseMeta: @getMeta(),
         legacyTitle: legacyTitle
       }
+    })
+  
+  # Attach the navigation Vue component to the page
+  initializeNavigation: ->
+    if @navigation
+      @navigation.$destroy()
+    staticNav = document.querySelector('#main-nav')
+
+    return unless staticNav
+    @navigation = new Navigation({
+      el: staticNav
     })
 
   # Set the page title when the view is loaded.  This value is merged into the
