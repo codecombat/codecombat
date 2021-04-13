@@ -36,45 +36,6 @@ block content
               li(data-i18n="courses.play_now_learn_4")
 
           else
-
-            if view.showTournament || view.awaitingTournament
-              .tournament-logo
-                img(src="/images/pages/courses/tarena-discovery-cup-tournament-logo.png")
-              .text-center
-                h1#tournament-title(data-i18n="ladder.live_tournament")
-                a#tournament-rules(data-i18n="ladder.tournament_rules")
-                #tournament-rules-content.hide.rtl-allowed
-                  if /^zh/.test(me.get('preferredLanguage', true))
-                    p 欢迎参加童程童美 CodeCombat 现场锦标赛，争夺前全国决赛的席位。
-
-                    p 评分规则如下：你提交的代码将在后台持续与其他玩家对战，每一次对战获得或者失去的积分将会基于贝叶斯定理所预测的获胜概率。当你击败排名比你高的玩家或者被排名比你低的玩家击败时，你会相应地获得或者失去较多的积分。而当你击败排名比你低的玩家或被排名比你高的玩家击败时，你只会获得或失去少量的积分；你应该将你的代码分别提交到红方和蓝方，比赛最终将取较高一方的分数作为最终排名的依据。
-
-                    p 你可以挑选任何玩家来测试你的代码，并改进你的策略直到获胜。但请记住：只有在你点击"为我的游戏评分"按钮之后，你的代码才会自动与其他玩家进行比赛之后，从而开始计算得分。
-                  else
-                    p Welcome to the Tarena CodeCombat live tournament! Compete for a seat in the national finals.
-
-                    p Scoring is as follows: your code will play constantly in the background against other players to determine how strong it is. The number of points you earn for a match are determined by a Bayesian calculation predicting how likely you were to win that match. So if you beat a player ranked more highly than you, you gain more points. Beat a player lower than you, gain fewer points. Lose to a weaker player, lose more points. Lose to a stronger player, lose fewer points. Your code will play on both the red and blue teams, and scoring will be based on your higher score of the two teams.
-
-                    p You can test your code against any player and improve your strategy until you win, but remember: no points are scored until you submit your latest code and it starts to automatically plays matches against other players.
-
-            if view.awaitingTournament
-              .text-center
-                h2(data-i18n="ladder.awaiting_tournament_title")
-                p(data-i18n="ladder.awaiting_tournament_blurb")
-                br
-                br
-            else if view.showTournament
-              for level in view.tournamentArenas()
-                a(href=level.disabled ? "/play/ladder" : "/play/ladder/#{level.id}", disabled=level.disabled, title=level.description)
-                  .level
-                    if level.image
-                      img.level-image(src="#{level.image}", alt="#{level.name}").img-rounded
-                    else
-                      img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt="#{level.name}").img-rounded
-                      h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
-                    .play-text-container
-                      .overlay-text.play-text(data-i18n="common.play")
-
             .text-center
               h1(data-i18n="courses.welcome_to_page")
 

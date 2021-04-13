@@ -20,11 +20,8 @@ Levels = require 'collections/Levels'
 NameLoader = require 'core/NameLoader'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
-Mandate = require 'models/Mandate'
 utils = require 'core/utils'
 store = require 'core/store'
-
-# TODO: Test everything
 
 module.exports = class CoursesView extends RootView
   id: 'courses-view'
@@ -141,25 +138,6 @@ module.exports = class CoursesView extends RootView
         @originalLevelMap[level.get('original')] = level for level in levels.models
         @render()
       @supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: "original,primerLanguage,slug,i18n.#{me.get('preferredLanguage', true)}" }}))
-
-    if features.china and @classrooms.find {id: '5d0082964ebb960059fc40b2'}
-      if new Date() >= new Date(2019, 5, 19, 12) && new Date() <= new Date(2019, 5, 25, 0)
-        if window.serverConfig?.currentTournament
-          @showTournament = true
-        else
-          @awaitingTournament = true
-          @checkForTournamentStart()
-
-  checkForTournamentStart: =>
-    return if @destroyed
-    $.get '/db/mandate', (data) =>
-      return if @destroyed
-      if data?[0]?.currentTournament
-        @showTournament = true
-        @awaitingTournament = false
-        @render()
-      else
-        setTimeout @checkForTournamentStart, 60 * 1000
 
   courseInstanceHasProject: (courseInstance) ->
     classroom = @classrooms.get(courseInstance.get('classroomID'))
@@ -318,29 +296,3 @@ module.exports = class CoursesView extends RootView
     slug = $(e.target).data('slug')
     window.tracker?.trackEvent 'Click Play AI League Button', { category: 'Students', label: slug, '' }
     application.router.navigate(url, { trigger: true })
-
-  afterRender: ->
-    super()
-    rulesContent = @$el.find('#tournament-rules-content').html()
-    @$el.find('#tournament-rules').popover(placement: 'bottom', trigger: 'hover', container: '#site-content-area', content: rulesContent, html: true)
-
-  tournamentArenas: ->
-    if @showTournament
-      if /^zh/.test me.get('preferredLanguage', true)
-        [
-          {
-            name: '魔力冲刺'
-            id: 'magic-rush'
-            image: '/file/db/level/5b3c9e7259cae7002f0a3980/magic-rush-zh-HANS.jpg'
-          }
-        ]
-      else
-        [
-          {
-            name: 'Magic Rush'
-            id: 'magic-rush'
-            image: '/file/db/level/5b3c9e7259cae7002f0a3980/magic-rush.jpg'
-          }
-        ]
-    else
-      []
