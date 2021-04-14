@@ -89,6 +89,13 @@ module.exports = (env) => {
         })
       })
     ])
+    .concat([
+      new webpack.DefinePlugin({
+        // Required for vue to be built in production mode.
+        // Reference: https://vuejs.org/v2/guide/deployment.html#With-Build-Tools
+        'process.env.NODE_ENV': JSON.stringify('production')
+      })
+    ])
     .concat(!env.analyzeBundles ? [] : // Analyze the bundles with --env.analyzeBundles
       new BundleAnalyzerPlugin({
         analyzerMode: 'static',

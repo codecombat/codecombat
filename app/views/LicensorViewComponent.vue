@@ -136,7 +136,7 @@ div.licensor.container(v-else)
         .form-group
           button.btn.btn-primary(v-on:click.prevent="onShowApiClient" name="showClient" id="showClient") Show API Client
           button.btn.btn-primary(v-on:click.prevent="onShowAllApiClient" name="showAllClient" id="showAllClient") Show All API Clients
-    table.table.table-condensed#client-table(v-if="clients.length == 1")
+    table.table.table-condensed(v-if="clients.length == 1")
       tr
         th.border ID
         th.border Slug
@@ -145,7 +145,7 @@ div.licensor.container(v-else)
         th.border minimumLicenseDays
         th.border License days used by client
         th.border License days remaining
-        th.border Users having active licenses
+        th.border Users with active licenses
       tr(v-for="client in clients")
         td.border {{client._id}}
         td.border {{client.slug}}
@@ -155,6 +155,29 @@ div.licensor.container(v-else)
         td.border {{client.licenseDaysUsed}}
         td.border {{client.licenseDaysRemaining}}
         td.border {{client.activeLicenses}}
+
+    table.table.table-condensed(v-if="clients.length == 1 && clients[0].licenseDaysByMonth")
+      tr
+        th.border Month
+        th.border License days used by {{clients[0].name}}
+        th.border Users with active licenses
+      tr(v-for="(stats, month) in clients[0].licenseDaysByMonth")
+        td.border {{month}}
+        td.border {{stats.daysUsed}}
+        td.border {{stats.noOfRedeemers}}
+
+    table.table.table-condensed(v-if="clients.length == 1 && clients[0].licenseDaysByMonthAndTeacher")
+      tr
+        th.border Month
+        th.border Teacher or classroom name
+        th.border License days used
+        th.border Users with active licenses
+      tr(v-for="stats in clients[0].licenseDaysByMonthAndTeacher")
+        td.border {{stats.month}}
+        td.border {{stats.teacher}}
+        td.border {{stats.licenseDaysUsed}}
+        td.border {{stats.activeLicenses}}
+
     label.border(v-if = "clients.length == 1" v-for = "client in clients")
       | Client permissions:
       =" "
@@ -165,7 +188,7 @@ div.licensor.container(v-else)
       =" "
       h4.small
         | {{client.secret}}
-    table.table.table-condensed#client-table(v-if="clients.length > 1")
+    table.table.table-condensed(v-if="clients.length > 1")
       tr
         th.border ID
         th.border Name
@@ -480,13 +503,20 @@ module.exports = Vue.extend({
       try
         this.clients = yield api.apiClients.getByName(data.clientNameShow)
         unless this.clients.length > 0
-          forms.setErrorToProperty(el, 'showClient', 'No API CLient found')
+          forms.setErrorToProperty(el, 'showClient', 'No API Client found')
           return 
         for client in this.clients
           stats = yield api.apiClients.getLicenseStats(client._id)
           Vue.set(client, 'licenseDaysUsed', stats.licenseDaysUsed)
           Vue.set(client, 'activeLicenses', stats.activeLicenses)
           Vue.set(client, 'licenseDaysRemaining', stats.licenseDaysRemaining)
+          Vue.set(client, 'licenseDaysByMonth', stats.licenseDaysByMonth)
+          byMonthAndTeacher = []
+          for month of stats.licenseDaysByMonth
+            for teacher of stats.licenseDaysByMonth[month].teachers
+              s = stats.licenseDaysByMonth[month].teachers[teacher]
+              byMonthAndTeacher.push {month, teacher, licenseDaysUsed: s.daysUsed, activeLicenses: s.noOfRedeemers}
+          Vue.set(client, 'licenseDaysByMonthAndTeacher', byMonthAndTeacher)
       catch err
         console.log(err)
         forms.setErrorToProperty(el, 'showClient', 'Something went wrong')

@@ -217,7 +217,7 @@ module.exports = class LevelLoader extends CocoClass
 
       headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
       m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
-      service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
+      service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
       fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: uncompressed, language: language})}
       .then (x) => x.json()
       .then (x) =>

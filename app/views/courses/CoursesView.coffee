@@ -11,6 +11,7 @@ CourseInstance = require 'models/CourseInstance'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 Classroom = require 'models/Classroom'
+Tournament = require 'models/Tournament'
 Classrooms = require 'collections/Classrooms'
 Courses = require 'collections/Courses'
 CourseInstances = require 'collections/CourseInstances'
@@ -70,6 +71,17 @@ module.exports = class CoursesView extends RootView
     @store = store
     @originalLevelMap = {}
     @urls = require('core/urls')
+
+    if me.get('role') is 'student'
+      @hasActiveTournaments = false
+      tournaments = new CocoCollection([], { url: "/db/tournaments?memberId=#{me.id}", model: Tournament})
+      @listenToOnce tournaments, 'sync', =>
+        tournamentsByClass = (t.toJSON() for t in tournaments.models)[0]
+        tournaments = _.flatten _.values tournamentsByClass
+        @hasActiveTournaments = _.some tournaments, (t) =>
+          t.state == 'starting'
+        @renderSelectors('#tournament-btn')
+      @supermodel.loadCollection(tournaments, 'tournaments', {cache: false})
 
     # TODO: Trim this section for only what's necessary
     @hero = new ThangType
