@@ -9,6 +9,13 @@ FREE_COURSE_IDS = [
   "560f1a9f22961295f9427742" # Introduction to Computer Science
 ]
 
+OZARIA_COURSE_IDS = [
+  "5d41d731a8d1836b5aa3cba1" # chapter 1
+  "5d8a57abe8919b28d5113af1" # chapter 2
+  "5e27600d1c9d440000ac3ee7" # chapter 3
+  "5f0cb0b7a2492bba0b3520df" # chapter 4
+]
+
 MAX_STARTER_LICENSES = 75
 
 STARTER_LICENCE_LENGTH_MONTHS = 3
