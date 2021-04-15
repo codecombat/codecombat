@@ -211,7 +211,7 @@
                     img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
                     span {{ $t('nav.my_account') }}
                     span.caret
-                  ul.dropdown-menu
+                  ul.dropdown-menu.pull-right
                     li.user-dropdown-header.text-center.hidden-xs.hidden-sm
                       a(:href="`/user/${me.getSlugOrID()}`")
                         img.img-circle(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
@@ -446,6 +446,11 @@
 
     .dropdown-hover .dropdown-menu li a {
       justify-content: center;
+    }
+
+    .dropdown-menu.pull-right {
+      /* Important required for bootstrap overwriting */
+      float: unset !important;
     }
   }
 
