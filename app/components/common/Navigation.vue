@@ -1,6 +1,11 @@
 <script>
+
   /**
    * Unified navigation bar component between CodeCombat and Ozaria.
+   * This must be copied exactly to the Ozaria repo.
+   * 
+   * Current issues are:
+   *  - Assets such as brand logo needs to be in the same asset path.
    */
   export default Vue.extend({
     created() {
@@ -29,6 +34,16 @@
           }
         }
         return false
+      },
+
+      isCodeCombat () {
+        // TODO - handle china host
+        return document.location.host.includes('codecombat')
+      },
+
+      isOzaria () {
+        // TODO - handle china host
+        return document.location.host.includes('ozaria')
       }
     },
 
@@ -44,6 +59,10 @@
           link += `c/other-languages/${lang}`
         }
         return link
+      },
+
+      isAnonymous () {
+        return me.isAnonymous()
       }
     }
   })
@@ -69,7 +88,8 @@
               a.navbar-brand(v-else-if="me.showChinaResourceInfo()" href="/home")
                 img#logo-img(src="/images/pages/base/logo-en+cn.png")
               a.navbar-brand(v-else href="/home")
-                img#logo-img(src="/images/pages/base/logo.png")
+                img#logo-img(v-if="isOzaria" src="/images/pages/home/logo_ozaria.png")
+                img#logo-img(v-else src="/images/pages/base/logo.png")
 
             .navbar-browser-recommendation.navbar-header(v-if="isOldBrowser")
               .nav-spacer
@@ -100,16 +120,16 @@
                 li(v-if="me.isSchoolAdmin()")
                   a.text-p(href="/school-administrator") {{ $t('nav.my_teachers') }}
 
-                li(v-if="!me.isAnonymous() && me.isTeacher()")
+                li(v-if="!isAnonymous() && me.isTeacher()")
                   a.text-p(:class="checkLocation('/teachers/classes') && 'text-teal'" href="/teachers/classes") {{ $t('nav.my_classrooms') }}
 
-                li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
+                li(v-if="!isAnonymous() && !me.isStudent() && !me.isTeacher()")
                   a.text-p(href="/play") {{ $t('common.play') }}
 
                 li(v-if="me.showForumLink()")
                   a.text-p(:href="forumLink()") {{ $t('nav.forum') }}
 
-              ul.nav.navbar-nav(v-if="!me.isAnonymous()")
+              ul.nav.navbar-nav(v-if="!isAnonymous()")
                 li(v-if="me.isTarena()")
                   a.text-p#logout-button {{ $t('login.log_out') }}
                 li.dropdown(v-else)
@@ -144,9 +164,9 @@
                     //- string replaced in RootView
                     span.language-dropdown-current Language
                     span.caret
-                  ul(class="dropdown-menu language-dropdown" :class="!me.isAnonymous() ? 'pull-right' : ''")
+                  ul(class="dropdown-menu language-dropdown" :class="!isAnonymous() ? 'pull-right' : ''")
 
-              ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous()")
+              ul.nav.navbar-nav.text-p.login-buttons(v-if="isAnonymous()")
                 li
                   a#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
                 li
