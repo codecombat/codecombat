@@ -1,4 +1,9 @@
 <script>
+  const CODECOMBAT = 'codecombat'
+  const OZARIA = 'ozaria'
+
+  // Use in local development to inform which repo you are in
+  const LOCALHOST_FAKE_HOST = () =>  application.isProduction() ? null : CODECOMBAT // 'codecombat' | 'ozaria'
 
   /**
    * Unified navigation bar component between CodeCombat and Ozaria.
@@ -14,6 +19,8 @@
       this.document = window.document
       this.serverConfig = window.serverConfig
       this.serverSession = window.serverSession
+      this.CODECOMBAT = CODECOMBAT
+      this.OZARIA = OZARIA
     },
 
     computed: {
@@ -38,18 +45,30 @@
 
       isCodeCombat () {
         // TODO - handle china host
-        return document.location.host.includes('codecombat')
+        if (LOCALHOST_FAKE_HOST() === CODECOMBAT) {
+          return true
+        }
+        return document.location.host.includes(CODECOMBAT)
       },
 
       isOzaria () {
         // TODO - handle china host
-        return document.location.host.includes('ozaria')
+        if (LOCALHOST_FAKE_HOST() === OZARIA) {
+          return true
+        }
+        return document.location.host.includes(OZARIA)
       }
     },
 
     methods: {
-      checkLocation (route) {
-        return document.location.href.search(route) >= 0
+      checkLocation (route, host = undefined) {
+        let hostCheck = true
+        if (host === CODECOMBAT) {
+          hostCheck = this.isCodeCombat
+        } else if (host === OZARIA) {
+          hostCheck = this.isOzaria
+        }
+        return hostCheck && document.location.href.search(route) >= 0
       },
 
       forumLink () {
@@ -69,6 +88,7 @@
         if (this.isCodeCombat) {
           return relativePath
         }
+        // TODO - ensure environments are handled. i.e. staging etc.
         return `https://codecombat.com${relativePath}`
       },
 
@@ -76,6 +96,7 @@
         if (this.isOzaria) {
           return relativePath
         }
+        // TODO - ensure environments are handled. i.e. staging etc.
         return `https://ozaria.com${relativePath}`
       }
     }
@@ -140,29 +161,30 @@
                       span.caret
                     ul(class="dropdown-menu")
                       li
-                        a.text-p Ozaria Classroom
+                        a.text-p
+                          span Ozaria Classroom
+                          span.new-pill New!
                       li
                         a.text-p CodeCombat Classroom
 
-                ul.nav.navbar-nav(v-else-if="me.isStudent()")
+                li(v-if="!me.isStudent() && !me.isTeacher()")
+                  a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
+
+                li
+                  a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
+
+                ul.nav.navbar-nav(v-if="me.isStudent()")
                   li.dropdown.dropdown-hover
                     a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                       span Dashboard
                       span.caret
                     ul(class="dropdown-menu")
                       li
-                        a.text-p Ozaria Classroom
+                        a.text-p(:class="checkLocation('/students', OZARIA) && 'text-teal'" :href="ozPath('/students')")
+                          span Ozaria Dashboard
+                          span.new-pill New!
                       li
-                        a.text-p CodeCombat Classroom
-
-                li
-                  a.text-p(:class="checkLocation('/parents') && 'text-teal'" href="/parents") {{ $t('nav.parent') }}
-
-                li
-                  a.text-p(:class="checkLocation('/league') && 'text-teal'" href="/league") {{ $t('nav.esports') }}
-
-                li(v-if="me.isStudent()")
-                  a.text-p(:class="checkLocation('/students') && 'text-teal'" href="/students") {{ $t('nav.my_courses') }}
+                        a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") CodeCombat Classroom
 
                 li(v-if="me.isSchoolAdmin()")
                   a.text-p(href="/school-administrator") {{ $t('nav.my_teachers') }}
@@ -172,6 +194,14 @@
 
                 li(v-if="!isAnonymous() && !me.isStudent() && !me.isTeacher()")
                   a.text-p(href="/play") {{ $t('common.play') }}
+
+              ul.nav.navbar-nav
+                li.dropdown
+                  a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                    //- string replaced in RootView
+                    span.language-dropdown-current Language
+                    span.caret
+                  ul(class="dropdown-menu language-dropdown")
 
               ul.nav.navbar-nav(v-if="!isAnonymous()")
                 li(v-if="me.isTarena()")
@@ -201,14 +231,6 @@
                       a.account-dropdown-item#nav-stop-spying-button Stop Spying
                     li
                       a.account-dropdown-item#logout-button {{ $t('login.log_out') }}
-
-              ul.nav.navbar-nav
-                li.dropdown
-                  a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                    //- string replaced in RootView
-                    span.language-dropdown-current Language
-                    span.caret
-                  ul(class="dropdown-menu language-dropdown")
 
               ul.nav.navbar-nav.text-p.login-buttons(v-if="isAnonymous()")
                 li
