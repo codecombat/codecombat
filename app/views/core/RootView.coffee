@@ -273,6 +273,11 @@ module.exports = class RootView extends CocoView
       el: staticNav
     })
 
+    # Hack - It would be better for the Navigation component to manage the language dropdown.
+    setTimeout(() =>
+      @buildLanguages()
+    , 0)
+
   # Set the page title when the view is loaded.  This value is merged into the
   # result of getMeta.  It will override any title specified in getMeta.  Kept
   # for backwards compatibility

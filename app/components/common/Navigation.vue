@@ -63,6 +63,20 @@
 
       isAnonymous () {
         return me.isAnonymous()
+      },
+
+      cocoPath (relativePath) {
+        if (this.isCodeCombat) {
+          return relativePath
+        }
+        return `https://codecombat.com${relativePath}`
+      },
+
+      ozPath (relativePath) {
+        if (this.isOzaria) {
+          return relativePath
+        }
+        return `https://ozaria.com${relativePath}`
       }
     }
   })
@@ -102,17 +116,50 @@
                 template(v-if="me.showChinaResourceInfo()")
                   li
                     a.text-p(href="https://blog.koudashijie.com") {{ $t('nav.blog') }}
+
                   li
                     a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
 
-                li
-                  a.text-p(:class="checkLocation('/league') && 'text-teal'" href="/league") {{ $t('nav.esports') }}
+                ul.nav.navbar-nav(v-if="isAnonymous()")
+                  li.dropdown.dropdown-hover
+                    a.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
+                      span Educators
+                      span.caret
+                    ul(class="dropdown-menu")
+                      li
+                        a.text-p(:href="ozPath('/')")
+                          span Ozaria Classroom
+                          span.new-pill New!
+                      li
+                        a.text-p(:href="cocoPath('/impact')") CodeCombat Classroom
+
+                ul.nav.navbar-nav(v-else-if="me.isTeacher()")
+                  li.dropdown.dropdown-hover
+                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                      span Educators
+                      span.caret
+                    ul(class="dropdown-menu")
+                      li
+                        a.text-p Ozaria Classroom
+                      li
+                        a.text-p CodeCombat Classroom
+
+                ul.nav.navbar-nav(v-else-if="me.isStudent()")
+                  li.dropdown.dropdown-hover
+                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                      span Dashboard
+                      span.caret
+                    ul(class="dropdown-menu")
+                      li
+                        a.text-p Ozaria Classroom
+                      li
+                        a.text-p CodeCombat Classroom
 
                 li
                   a.text-p(:class="checkLocation('/parents') && 'text-teal'" href="/parents") {{ $t('nav.parent') }}
 
                 li
-                  a.text-p(:class="checkLocation('/impact') && 'text-teal'" href="/impact") {{ $t('nav.impact') }}
+                  a.text-p(:class="checkLocation('/league') && 'text-teal'" href="/league") {{ $t('nav.esports') }}
 
                 li(v-if="me.isStudent()")
                   a.text-p(:class="checkLocation('/students') && 'text-teal'" href="/students") {{ $t('nav.my_courses') }}
@@ -125,9 +172,6 @@
 
                 li(v-if="!isAnonymous() && !me.isStudent() && !me.isTeacher()")
                   a.text-p(href="/play") {{ $t('common.play') }}
-
-                li(v-if="me.showForumLink()")
-                  a.text-p(:href="forumLink()") {{ $t('nav.forum') }}
 
               ul.nav.navbar-nav(v-if="!isAnonymous()")
                 li(v-if="me.isTarena()")
@@ -164,7 +208,7 @@
                     //- string replaced in RootView
                     span.language-dropdown-current Language
                     span.caret
-                  ul(class="dropdown-menu language-dropdown" :class="!isAnonymous() ? 'pull-right' : ''")
+                  ul(class="dropdown-menu language-dropdown")
 
               ul.nav.navbar-nav.text-p.login-buttons(v-if="isAnonymous()")
                 li
@@ -337,6 +381,35 @@
     }
   }
 
+  .new-pill {
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #ff76c1;
+    border-radius: 14px;
+    padding: 4px;
+    margin-left: 5px;
+  }
+
+  .dropdown-hover .dropdown-menu {
+    padding: 0;
+  }
+
+  @media (min-width: $grid-float-breakpoint) {
+    .dropdown-hover:hover {
+      & > ul {
+        /* Allows for mouse over to expand dropdown */
+        display: unset;
+      }
+    }
+  }
+
+  .dropdown-hover .dropdown-menu li a {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    color: #0E4C60;
+  }
+
   @media (max-width: $grid-float-breakpoint) {
     .nav > li > a {
       padding: 10px 20px;
@@ -347,6 +420,10 @@
     }
     .account-dropdown-item {
       color: $navy;
+    }
+
+    .dropdown-hover .dropdown-menu li a {
+      justify-content: center;
     }
   }
 
