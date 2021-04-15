@@ -947,7 +947,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     lifetime: "Пожизненная подписка" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Годовая подписка" # {change}
-    year_price: "$__price__/год"
+    year_price: "$__price__/год" # {change}
     support_part1: "Нужна помощь по способах оплаты? Напишите на" # {change}
     support_part2: "support@codecombat.com"
 

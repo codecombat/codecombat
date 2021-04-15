@@ -942,12 +942,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     feature_heroes: "Membuka jagoan dan peliharaan ekslusif"
     feature_learn: "Belajar membuat permainan dan situs web"
     feature_gems: "Terima permata __gems__ per bulan"
-    month_price: "$__price__"
+    month_price: "$__price__" # {change}
     first_month_price: "Hanya $__price__ untuk bulan pertamamu!"
     lifetime: "Akses Seumur Hidup"
     lifetime_price: "$__price__"
     year_subscription: "Berlangganan Tahunan"
-    year_price: "$__price__/year"
+    year_price: "$__price__/year" # {change}
     support_part1: "Membutuhkan bantuan pembayaran atau memilih PayPal? Email"
     support_part2: "support@codecombat.com"
 

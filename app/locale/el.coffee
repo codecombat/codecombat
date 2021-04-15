@@ -942,12 +942,12 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     feature_heroes: "Ξεκλείδωμα μοναδικών ηρώων και ζώων"
     feature_learn: "Μάθε να φτιάχνεις παιχνίδια και ιστοσελίδες"
 #    feature_gems: "Receive __gems__ gems per month"
-    month_price: "$__price__"
+    month_price: "$__price__" # {change}
     first_month_price: "Μόνο $__price__ για τον πρώτο μήνα!"
     lifetime: "Μόνιμη Πρόσβαση"
     lifetime_price: "$__price__"
     year_subscription: "Ετήσια Συνδρομή" # {change}
-    year_price: "$__price__/έτος"
+    year_price: "$__price__/έτος" # {change}
     support_part1: "Χρειάζεστε βοήθεια με την πληρωμή ή προτιμάτε PayPal; Ηλεκτρονικό Ταχυδρομείο"
     support_part2: "support@codecombat.com"
 
