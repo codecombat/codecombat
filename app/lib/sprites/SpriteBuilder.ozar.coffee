@@ -188,7 +188,7 @@ module.exports = class SpriteBuilder
     colors = {}
     for shapeKey in shapes
       shape = @shapeStore[shapeKey]
-      continue if (not shape.fc?) or colors[shape.fc]
+      continue if (not shape?.fc?) or colors[shape.fc]
       hsl = hexToHSL(shape.fc)
       colors[shape.fc] = hsl
     colors
@@ -218,7 +218,7 @@ module.exports = class SpriteBuilder
   applyColorMap: (shapes, colors) ->
     for shapeKey in shapes
       shape = @shapeStore[shapeKey]
-      continue if (not shape.fc?) or not(colors[shape.fc])
+      continue if (not shape?.fc?) or not(colors[shape.fc])
       @colorMap[shapeKey] = hslToHex(colors[shape.fc])
 
 sum = (nums) -> _.reduce(nums, (s, num) -> s + num)
