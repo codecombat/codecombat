@@ -1,6 +1,8 @@
 <script>
   const CODECOMBAT = 'codecombat'
+  const CODECOMBAT_CHINA = 'koudashijie'
   const OZARIA = 'ozaria'
+  const OZARIA_CHINA = 'aojiarui'
 
   // Use in local development to inform which repo you are in
   const LOCALHOST_FAKE_HOST = () =>  application.isProduction() ? null : CODECOMBAT // 'codecombat' | 'ozaria'
@@ -8,9 +10,6 @@
   /**
    * Unified navigation bar component between CodeCombat and Ozaria.
    * This must be copied exactly to the Ozaria repo.
-   * 
-   * Current issues are:
-   *  - Assets such as brand logo needs to be in the same asset path.
    */
   export default Vue.extend({
     created() {
@@ -44,23 +43,55 @@
       },
 
       isCodeCombat () {
-        // TODO - handle china host
         if (LOCALHOST_FAKE_HOST() === CODECOMBAT) {
           return true
         }
-        return document.location.host.includes(CODECOMBAT)
+        return document.location.host.includes(CODECOMBAT) || document.location.host.includes(CODECOMBAT_CHINA)
       },
 
       isOzaria () {
-        // TODO - handle china host
         if (LOCALHOST_FAKE_HOST() === OZARIA) {
           return true
         }
-        return document.location.host.includes(OZARIA)
+        return document.location.host.includes(OZARIA) || document.location.host.includes(OZARIA_CHINA)
+      },
+
+      cocoBaseURL () {
+        if (this.isCodeCombat) {
+          return ''
+        }
+
+        if (!application.isProduction()) {
+          return `${document.location.protocol}//codecombat.com`
+        }
+
+        // We are on ozaria domain.
+        return `${document.location.protocol}//${document.location.host}`
+          .replace(OZARIA, CODECOMBAT)
+          .replace(OZARIA_CHINA, CODECOMBAT_CHINA)
+      },
+
+      ozBaseURL () {
+        if (this.isOzaria) {
+          return ''
+        }
+
+        if (!application.isProduction()) {
+          return `${document.location.protocol}//ozaria.com`
+        }
+
+        // We are on codecombat domain.
+        return `${document.location.protocol}//${document.location.host}`
+          .replace(CODECOMBAT, OZARIA)
+          .replace(CODECOMBAT_CHINA, OZARIA_CHINA)
       }
     },
 
     methods: {
+      /**
+       * This is used to highlight nav routes we are currently on.
+       * It can optionally also check if the user is on codecombat or ozaria.
+       */
       checkLocation (route, host = undefined) {
         let hostCheck = true
         if (host === CODECOMBAT) {
@@ -84,20 +115,22 @@
         return me.isAnonymous()
       },
 
+      /**
+       * Returns a codecombat url for a relative path.
+       * If the user is already on codecombat, will return a relative URL.
+       * If the user is on ozaria, will return an absolute url to codecombat.com
+       * 
+       * Handles subdomains such as staging.ozaria.com, will return absolute path
+       * to staging.codecombat.com
+       * 
+       * The domains used in China are also handled, i.e. koudashijie
+       */
       cocoPath (relativePath) {
-        if (this.isCodeCombat) {
-          return relativePath
-        }
-        // TODO - ensure environments are handled. i.e. staging etc.
-        return `https://codecombat.com${relativePath}`
+        return `${this.cocoBaseURL}${relativePath}`
       },
 
       ozPath (relativePath) {
-        if (this.isOzaria) {
-          return relativePath
-        }
-        // TODO - ensure environments are handled. i.e. staging etc.
-        return `https://ozaria.com${relativePath}`
+        return `${this.ozBaseURL}${relativePath}`
       }
     }
   })
