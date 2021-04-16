@@ -123,8 +123,7 @@
               a.navbar-brand(v-else-if="me.showChinaResourceInfo()" href="/home")
                 img#logo-img(src="/images/pages/base/logo-en+cn.png")
               a.navbar-brand(v-else href="/home")
-                img#logo-img(v-if="isOzaria" src="/images/pages/home/logo_ozaria.png")
-                img#logo-img(v-else src="/images/pages/base/logo.png")
+                img#logo-img(src="/images/pages/base/logo.png")
 
             .navbar-browser-recommendation.navbar-header(v-if="isOldBrowser")
               .nav-spacer
@@ -149,23 +148,10 @@
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/')")
-                          span Ozaria Classroom
+                          span Ozaria Dashboard
                           span.new-pill New!
                       li
-                        a.text-p(:href="cocoPath('/impact')") CodeCombat Classroom
-
-                ul.nav.navbar-nav(v-else-if="me.isTeacher()")
-                  li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span Educators
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p
-                          span Ozaria Classroom
-                          span.new-pill New!
-                      li
-                        a.text-p CodeCombat Classroom
+                        a.text-p(:href="cocoPath('/impact')") CodeCombat Dashboard
 
                 li(v-if="!me.isStudent() && !me.isTeacher()")
                   a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
@@ -173,24 +159,38 @@
                 li
                   a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
 
-                ul.nav.navbar-nav(v-if="me.isStudent()")
+                ul.nav.navbar-nav(v-if="me.isTeacher()")
                   li.dropdown.dropdown-hover
                     a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span Dashboard
+                      span Educators
+                      span.caret
+                    ul(class="dropdown-menu")
+                      li
+                        a.text-p(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'" :href="ozPath('/teachers/classes')")
+                          span Ozaria Dashboard
+                          span.new-pill New!
+                      li
+                        a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") CodeCombat Dashboard
+
+                ul.nav.navbar-nav(v-else-if="me.isStudent()")
+                  li.dropdown.dropdown-hover
+                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                      span My Courses
                       span.caret
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:class="checkLocation('/students', OZARIA) && 'text-teal'" :href="ozPath('/students')")
-                          span Ozaria Dashboard
+                          span Ozaria Classrooms
                           span.new-pill New!
                       li
-                        a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") CodeCombat Classroom
+                        a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") CodeCombat Classrooms
 
-                li(v-if="me.isSchoolAdmin()")
-                  a.text-p(href="/school-administrator") {{ $t('nav.my_teachers') }}
-
-                li(v-if="!isAnonymous() && me.isTeacher()")
-                  a.text-p(:class="checkLocation('/teachers/classes') && 'text-teal'" href="/teachers/classes") {{ $t('nav.my_classrooms') }}
+                li.dashboard-toggle(v-if="me.isSchoolAdmin()")
+                  //- Only show divider if neither side is toggled.
+                  .dashboard-button(:class="checkLocation('/school-administrator') ? 'active': !checkLocation('/teachers') && 'show-divider'")
+                    a.school-admin-dashboard-button.dashboard-toggle-link(href="/school-administrator") Admin
+                  .dashboard-button(:class="checkLocation('/teachers') && 'active'")
+                    a.teacher-dashboard-button.dashboard-toggle-link(href="/teachers") Teacher
 
                 li(v-if="!isAnonymous() && !me.isStudent() && !me.isTeacher()")
                   a.text-p(href="/play") {{ $t('common.play') }}
@@ -474,6 +474,39 @@
 
   .border-navy {
     border-color: $navy;
+  }
+
+  .dashboard-toggle {
+    border-radius: 8px;
+    margin: 8px 15px;
+    border: 1px solid #131b25;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    .dashboard-button {
+      padding: 6px 15px;
+      margin: 0px;
+
+      a {
+        color: #131b25;
+        text-decoration: none;
+      }
+    }
+
+    .active {
+      border-radius: 8px;
+      background: #f7d047;
+
+      a {
+        color: #131b25;
+      }
+    }
+
+    .show-divider:not(:last-child) {
+      border-right: 1px solid #131b25;
+    }
+
   }
 }
 </style>
