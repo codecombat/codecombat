@@ -74,6 +74,10 @@
     color: #9b83ff
 
   #main-content
+    max-width: 1000px
+    margin: 0 auto
+
+  .classes-area
     max-width: 720px
     margin: 0 auto
 
@@ -125,23 +129,32 @@
       margin-top: 20px
 
   // Hero display
-  .current-hero-container
-    display: flex
-    justify-content: center
+  .current-hero
+    cursor: pointer
 
     .current-hero-text
-      font-size: 16pt
+      font-size: 16px
+      line-height: 16px
+      margin-top: 5px
 
     .hero-avatar
-      background-color: #f8f8f8
-      box-shadow: 0 0 0 1px gray
-      margin-right: 25px
+      margin-right: 10px
 
-    .current-hero-right-col
-      display: flex
-      flex-direction: column
-      justify-content: space-between
-      align-items: flex-start
+      img
+        max-width: 100%
+        max-height: 220px
+
+        &.hero-captain
+          transform: scaleX(-1)
+
+    .change-hero-btn
+      font-size: 13px
+      text-transform: lowercase
+      font-weight: regular
+
+  .student-stats
+    a
+      padding-left: 10px
 
   .certificate-link
     text-align: left

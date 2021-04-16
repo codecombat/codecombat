@@ -888,11 +888,25 @@ ageToBracket = (age) ->
       return bracket.slug
   return 'open'
 
+arenas = [
+  {slug: 'blazing-battle'   , type: 'regular',      start: new Date(2021, 0,  1), end: new Date(2021, 4, 1), levelOriginal: '5fca06dc8b4da8002889dbf1'}
+  {slug: 'infinite-inferno' , type: 'championship', start: new Date(2021, 3,  1), end: new Date(2021, 4, 1), levelOriginal: '602cdc204ef0480075fbd954'}
+  {slug: 'mages-might'      , type: 'regular',      start: new Date(2021, 4,  1), end: new Date(2021, 8, 1), levelOriginal: '6066f956ddfd6f003d1ed6bb'}
+  {slug: 'sorcerers'        , type: 'championship', start: new Date(2021, 7,  1), end: new Date(2021, 8, 1)}
+  {slug: 'giants-gate'      , type: 'regular',      start: new Date(2021, 8,  1), end: new Date(2022, 0, 1)}
+  {slug: 'colossus'         , type: 'championship', start: new Date(2021, 11, 1), end: new Date(2022, 0, 1)}
+]
+
+activeArenas = ->
+  (a for a in arenas when a.start <= new Date() < a.end)
+
 module.exports = {
+  activeArenas
   addressesIncludeAdministrativeRegion
   ageBrackets
   ageOfConsent
   ageToBracket
+  arenas
   capitalLanguages
   clone
   combineAncestralObject
@@ -945,6 +959,7 @@ module.exports = {
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
+  titleize
   translatejs2cpp
   usStateCodes
   userAgent

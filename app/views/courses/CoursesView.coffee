@@ -16,12 +16,15 @@ Classrooms = require 'collections/Classrooms'
 Courses = require 'collections/Courses'
 CourseInstances = require 'collections/CourseInstances'
 LevelSession = require 'models/LevelSession'
+LevelSessions = require 'collections/LevelSessions'
 Levels = require 'collections/Levels'
 NameLoader = require 'core/NameLoader'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 store = require 'core/store'
+leaderboardApi = require 'core/api/leaderboard'
+clansApi = require 'core/api/clans'
 
 module.exports = class CoursesView extends RootView
   id: 'courses-view'
@@ -30,10 +33,11 @@ module.exports = class CoursesView extends RootView
   events:
     'click #log-in-btn': 'onClickLogInButton'
     'click #start-new-game-btn': 'openSignUpModal'
-    'click .change-hero-btn': 'onClickChangeHeroButton'
+    'click .current-hero': 'onClickChangeHeroButton'
     'click #join-class-btn': 'onClickJoinClassButton'
     'submit #join-class-form': 'onSubmitJoinClassForm'
     'click .play-btn': 'onClickPlay'
+    'click .play-next-level-btn': 'onClickPlayNextLevel'
     'click .view-class-btn': 'onClickViewClass'
     'click .view-levels-btn': 'onClickViewLevels'
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
@@ -86,7 +90,101 @@ module.exports = class CoursesView extends RootView
     @hero.url = "/db/thang.type/#{heroOriginal}/version"
     # @hero.setProjection ['name','slug','soundTriggers','featureImages','gems','heroClass','description','components','extendedName','shortName','unlockLevelName','i18n']
     @supermodel.loadModel(@hero, 'hero')
-    @listenTo @hero, 'change', -> @render() if @supermodel.finished()
+    @listenTo @hero, 'change', -> @renderSelectors('.current-hero') if @supermodel.finished()
+    @loadAILeagueStats()
+
+  loadAILeagueStats: ->
+    @aiLeagueStats ?= {}
+    age = utils.ageToBracket me.age()
+    @ageBracketDisplay = $.i18n.t "ladder.bracket_#{(age ? 'open').replace(/-/g, '_')}"
+
+    fetches = []
+    if me.get('clans')?.length
+      fetches.push clansApi.getMyClans()
+
+    myArenaSessionsCollections = {}
+    @activeArenas = utils.activeArenas()
+    for arena in @activeArenas
+      myArenaSessionsCollections[arena.levelOriginal] = sessions = new LevelSessions()
+      fetches.push sessions.fetchForLevelSlug arena.slug
+
+    Promise.all(fetches).then (results) =>
+      return if @destroyed
+      if me.get('clans')?.length
+        @myClans = @removeRedundantClans results.shift()  # Generic Objects, not Clan models
+        for clan in @myClans when clan.displayName and not /a-z/.test(clan.displayName)
+          clan.displayName = utils.titleize clan.displayName  # Convert any all-uppercase clan names to title-case
+      else
+        @myClans = []
+      @myArenaSessions = {}
+      for levelOriginal, sessionsCollection of myArenaSessionsCollections
+        if session = sessionsCollection.models[0]  # Should only be zero or one; pick first one if multiple
+          @myArenaSessions[levelOriginal] = session
+
+      for clan in [null].concat @myClans
+        continue if clan and clan.members?.length <= 1  # Skip one-person clans to reduce fetches and useless data.
+        do (clan) =>
+          # TODO: differentiate codePoints by age once more users have age set
+          leaderboardApi.getCodePointsPlayerCount(clan?._id, {}).then (count) =>
+            return if @destroyed
+            @setAILeagueStat 'codePoints', clan?._id ? '_global', 'playerCount', count
+            @sortMyClans()
+          if me.get('stats')?.codePoints
+            leaderboardApi.getCodePointsRankForUser(clan?._id, me.get('_id'), {}).then (rank) =>
+              return if @destroyed
+              @setAILeagueStat 'codePoints', clan?._id ? '_global', 'rank', rank
+          for arena in @activeArenas
+            session = @myArenaSessions[arena.levelOriginal]
+            do (arena, session) =>
+              leaderboardApi.getLeaderboardPlayerCount(arena.levelOriginal, {'leagues.leagueID': clan?._id, age}).then (count) =>
+                return if @destroyed
+                @setAILeagueStat 'arenas', arena.levelOriginal, clan?._id ? '_global', 'playerCount', count
+              if session?.get('totalScore')?
+                if clan
+                  @setAILeagueStat 'arenas', arena.levelOriginal, clan._id, 'score', _.find(session.get('leagues'), (l) -> l.leagueID is clan._id)?.stats?.totalScore
+                else
+                  @setAILeagueStat 'arenas', arena.levelOriginal, '_global', 'score', session.get('totalScore')
+                leaderboardApi.getMyRank(arena.levelOriginal, session.get('_id'), {'leagues.leagueID': clan?._id, age}).then (rank) =>
+                  return if @destroyed
+                  @setAILeagueStat 'arenas', arena.levelOriginal, clan?._id ? '_global', 'rank', rank
+
+  setAILeagueStat: (keys..., val) ->
+    # Convenience method for setting nested properties even if intermediate objects haven't been initialized
+    object = @aiLeagueStats
+    finalKey = keys.pop()
+    for key in keys
+      object[key] ?= {}
+      object = object[key]
+    if finalKey in ['rank', 'playerCount']
+      val = if val is 'unknown' then null else parseInt val, 10
+    object[finalKey] = val
+    (@renderStatsDebounced ?= _.debounce @renderStats, 250)()
+    val
+
+  getAILeagueStat: (keys...) ->
+    val = @aiLeagueStats
+    for key in keys
+      val = val?[key]
+      return null unless val?
+    val
+
+  renderStats: =>
+    return if @destroyed
+    @renderSelectors('.student-stats', '.school-stats')
+
+  removeRedundantClans: (clans) ->
+    # Don't show low-level clans that have same members as higher-level clans (ex.: the class for a teacher with one class)
+    relevantClans = []
+    clansByMembers = _.groupBy clans, (c) -> (c.members ? []).sort().join(',')
+    kindHierarchy = ['school-network', 'school-subnetwork', 'district', 'school', 'teacher', 'class']
+    for members, clans of clansByMembers
+      relevantClans.push _.sortBy(clans, (c) -> kindHierarchy.indexOf(c.kind))[0]
+    relevantClans
+
+  sortMyClans: ->
+    @myClans = _.sortBy @myClans, (clan) =>
+      playerCount = @getAILeagueStat('codePoints', clan._id, 'playerCount') ? 0
+      -playerCount
 
   afterInsert: ->
     super()
@@ -126,6 +224,10 @@ module.exports = class CoursesView extends RootView
       _.some @courseInstances.where({classroomID: classroom.id}), ((courseInstance) ->
         course = @store.state.courses.byId[courseInstance.get('courseID')]
         stats = classroom.statsForSessions(courseInstance.sessions, course._id)
+        if stats.levels?.next
+          # This could be made smarter than just picking the first one
+          @nextLevel ?= stats.levels.next
+          @nextLevelCourseInstance ?= courseInstance
         not stats.courseComplete
         ), this
       ), this
@@ -242,6 +344,16 @@ module.exports = class CoursesView extends RootView
       # TODO: Smoother system for joining a classroom and course instances, without requiring page reload,
       # and showing which class was just joined.
       document.location.search = '' # Using document.location.reload() causes an infinite loop of reloading
+
+  nextLevelUrl: ->
+    return null unless @nextLevel
+    urlFn = if @nextLevel.isLadder() then @urls.courseArenaLadder else @urls.courseLevel
+    urlFn level: @originalLevelMap[@nextLevel.get('original')] or @nextLevel, courseInstance: @nextLevelCourseInstance
+
+  onClickPlayNextLevel: (e) ->
+    url = @nextLevelUrl @nextLevel
+    window.tracker?.trackEvent 'Students Play Next Level', category: 'Students', levelSlug: @nextLevel.get('slug'), ['Mixpanel']
+    application.router.navigate(url, { trigger: true })
 
   onClickPlay: (e) ->
     levelSlug = $(e.currentTarget).data('level-slug')

@@ -587,7 +587,7 @@ export default {
 
       commit('setCodePointsRanking', { leagueId: leagueId, ranking: codePointsRankingInfo })
 
-      getCodePointsPlayerCount(leagueId)
+      getCodePointsPlayerCount(leagueId, {})
         .then((playerCount) => {
           commit('setCodePointsPlayerCount', Number(playerCount))
         })

@@ -1545,7 +1545,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     play_now_learn_2: "while loops to solve pesky puzzles"
     play_now_learn_3: "strings & variables to customize actions"
     play_now_learn_4: "how to defeat an ogre (important life skills!)"
-    welcome_to_page: "My Student Dashboard"
     my_classes: "Current Classes"
     class_added: "Class successfully added!"
     view_map: "view map"

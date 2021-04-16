@@ -40,3 +40,9 @@ module.exports = class LevelSessionCollection extends CocoCollection
       url: "/db/level.session/-/recent"
     }, options)
     @fetch(options)
+
+  fetchForLevelSlug: (levelSlug, options={}) ->
+    options = _.extend({
+      url: "/db/level/#{levelSlug}/my_sessions"
+    }, options)
+    @fetch options

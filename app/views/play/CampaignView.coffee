@@ -41,7 +41,6 @@ AmazonHocModal = require 'views/play/modal/AmazonHocModal'
 PromotionModal = require 'views/play/modal/PromotionModal'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
-fetchJson = require 'core/api/fetch-json'
 HoCModal = require 'views/special_event/HoC2018InterstitialModal.coffee'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
 
@@ -1471,14 +1470,4 @@ module.exports = class CampaignView extends RootView
 
     return true
 
-  arenas: [
-    {slug: 'blazing-battle'   , type: 'regular',      start: new Date(2021, 0,  1), end: new Date(2021, 4, 1)}
-    {slug: 'infinite-inferno' , type: 'championship', start: new Date(2021, 3,  1), end: new Date(2021, 4, 1)}
-    {slug: 'mages-might'      , type: 'regular',      start: new Date(2021, 4,  1), end: new Date(2021, 8, 1)}
-    {slug: 'sorcerers'        , type: 'championship', start: new Date(2021, 7,  1), end: new Date(2021, 8, 1)}
-    {slug: 'giants-gate'      , type: 'regular',      start: new Date(2021, 8,  1), end: new Date(2022, 0, 1)}
-    {slug: 'colossus'         , type: 'championship', start: new Date(2021, 11, 1), end: new Date(2022, 0, 1)}
-  ]
-
-  activeArenas: ->
-    (a for a in @arenas when a.start <= new Date() < a.end)
+  activeArenas: utils.activeArenas
