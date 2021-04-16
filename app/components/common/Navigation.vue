@@ -172,10 +172,10 @@
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/')")
-                          span Ozaria Dashboard
+                          span(:class="isOzaria && 'text-teal'") Ozaria Classroom
                           span.new-pill New!
                       li
-                        a.text-p(:href="cocoPath('/impact')") CodeCombat Dashboard
+                        a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") CodeCombat Classroom
 
                 li(v-if="!me.isStudent() && !me.isTeacher()")
                   a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
@@ -190,8 +190,8 @@
                       span.caret
                     ul(class="dropdown-menu")
                       li
-                        a.text-p(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'" :href="ozPath('/teachers/classes')")
-                          span Ozaria Dashboard
+                        a.text-p(:href="ozPath('/teachers/classes')")
+                          span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") Ozaria Dashboard
                           span.new-pill New!
                       li
                         a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") CodeCombat Dashboard
@@ -203,8 +203,8 @@
                       span.caret
                     ul(class="dropdown-menu")
                       li
-                        a.text-p(:class="checkLocation('/students', OZARIA) && 'text-teal'" :href="ozPath('/students')")
-                          span Ozaria Classrooms
+                        a.text-p(:href="ozPath('/students')")
+                          span(:class="checkLocation('/students', OZARIA) && 'text-teal'") Ozaria Classrooms
                           span.new-pill New!
                       li
                         a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") CodeCombat Classrooms
@@ -217,7 +217,7 @@
                     a.teacher-dashboard-button.dashboard-toggle-link(href="/teachers") Teacher
 
                 li(v-if="!isAnonymous() && !me.isStudent() && !me.isTeacher()")
-                  a.text-p(href="/play") {{ $t('common.play') }}
+                  a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
 
               ul.nav.navbar-nav
                 li.dropdown
@@ -237,17 +237,17 @@
                     span.caret
                   ul.dropdown-menu.pull-right
                     li.user-dropdown-header.text-center.hidden-xs.hidden-sm
-                      a(:href="`/user/${me.getSlugOrID()}`")
+                      a(:href="cocoPath(`/user/${me.getSlugOrID()}`)")
                         img.img-circle(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
                         h5 {{ me.broadName() }}
                     //- Account links
-                    li
-                      a.account-dropdown-item(:href="`/user/${me.getSlugOrID()}`") {{ $t('nav.profile') }}
+                    li(v-if="isCodeCombat")
+                      a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                    li(v-if="me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())")
+                    li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
-                    li(v-if="me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()")
+                    li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
                       a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
                     li(v-if="me.isAdmin()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
