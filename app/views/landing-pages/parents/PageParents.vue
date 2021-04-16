@@ -227,6 +227,7 @@
         <div class="grid-item">Private</div>
         <!-- End First Row -->
         <!-- Second Row -->
+        <!-- TODO: differentiate between annual and lifetime -->
         <div class="grid-item">Subscription plan</div>
         <div class="grid-item">${{ basicAnnualSubscriptionPrice }} per year per student</div>
         <div class="grid-item">$159 per month per student</div>
@@ -646,6 +647,14 @@ export default {
     if (this.type === 'thank-you') {
       this.onClassBooked()
     }
+
+    $('.pricing-grid-container').waypoint({
+      offset: '85%',
+      handler: function (direction) {
+        this.disable()
+        window.me.trackActivity('viewed-parents-pricing')
+      }
+    })
   },
 
   beforeDestroy () {
@@ -747,6 +756,7 @@ export default {
 
   computed: {
     ...mapGetters('products', [
+      'lifetimeSubscriptionPrice',
       'basicAnnualSubscriptionPrice'
     ]),
 

@@ -13,7 +13,7 @@ module.exports = class LegalView extends RootView
 
   afterRender: ->
     super()
-    basicSub = @products.findWhere({name: 'basic_subscription'})
+    basicSub = @products.getBasicSubscriptionForUser me
     return unless basicSub
     text = $.i18n.t('legal.cost_description')
     text = text.replace('{{price}}', (basicSub.get('amount') / 100).toFixed(2))
