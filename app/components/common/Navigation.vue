@@ -5,34 +5,24 @@
   const OZARIA_CHINA = 'aojiarui'
 
   // Use in local development to inform which repo you are in
-  const LOCALHOST_FAKE_HOST = () =>  application.isProduction() ? null : CODECOMBAT // 'codecombat' | 'ozaria'
+  const LOCALHOST_FAKE_HOST = () => application.isProduction() ? null : CODECOMBAT // 'codecombat' | 'ozaria'
 
   /**
    * Unified navigation bar component between CodeCombat and Ozaria.
    * This must be copied exactly to the Ozaria repo.
    */
   export default Vue.extend({
-    created() {
-      // Bind the global values to the vue component.
-      this.me = me
-      this.document = window.document
-      this.serverConfig = window.serverConfig
-      this.serverSession = window.serverSession
-      this.CODECOMBAT = CODECOMBAT
-      this.OZARIA = OZARIA
-    },
-
     computed: {
       isOldBrowser () {
-        if (features.china && $.browser) {
+        if (window.features.china && $.browser) {
           if (!($.browser.webkit || $.browser.mozilla || $.browser.msedge)) {
-            return true 
+            return true
           }
           const majorVersion = $.browser.versionNumber
           if ($.browser.mozilla && majorVersion < 25) {
-            return true 
+            return true
           }
-          if ($.browser.chrome && majorVersion < 72) {  // forbid some chinese browser
+          if ($.browser.chrome && majorVersion < 72) { // forbid some chinese browser
             return true
           }
           if ($.browser.safari && majorVersion < 6) { // 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
@@ -87,6 +77,16 @@
       }
     },
 
+    created () {
+      // Bind the global values to the vue component.
+      this.me = me
+      this.document = window.document
+      this.serverConfig = window.serverConfig
+      this.serverSession = window.serverSession
+      this.CODECOMBAT = CODECOMBAT
+      this.OZARIA = OZARIA
+    },
+
     methods: {
       /**
        * This is used to highlight nav routes we are currently on.
@@ -102,15 +102,6 @@
         return hostCheck && document.location.href.search(route) >= 0
       },
 
-      forumLink () {
-        let link = 'http://discourse.codecombat.com/'
-        let lang = (me.get('preferredLanguage') || 'en-US').split('-')[0]
-        if (lang in ['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt']) {
-          link += `c/other-languages/${lang}`
-        }
-        return link
-      },
-
       isAnonymous () {
         return me.isAnonymous()
       },
@@ -119,10 +110,10 @@
        * Returns a codecombat url for a relative path.
        * If the user is already on codecombat, will return a relative URL.
        * If the user is on ozaria, will return an absolute url to codecombat.com
-       * 
+       *
        * Handles subdomains such as staging.ozaria.com, will return absolute path
        * to staging.codecombat.com
-       * 
+       *
        * The domains used in China are also handled, i.e. koudashijie
        */
       cocoPath (relativePath) {
@@ -277,7 +268,6 @@
 @import "app/styles/bootstrap/variables";
 @import "app/styles/mixins";
 @import "app/styles/style-flat-variables";
-
 
 #main-nav.navbar {
   background: white;
@@ -539,7 +529,6 @@
     .show-divider:not(:last-child) {
       border-right: 1px solid #131b25;
     }
-
   }
 }
 </style>
