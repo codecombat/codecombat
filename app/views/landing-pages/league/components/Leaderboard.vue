@@ -61,20 +61,14 @@ export default {
 
     getCountryName (row) {
       return utils.countryCodeToName(row.creatorCountryCode)
-    }
-  },
-
-  computed: {
-    showStudentNames () {
-      return this.rankings.find(r => r.fullName)
     },
 
-    classForRow: () => (row) => {
+    classForRow (row) {
       if (row.creator === me.id) {
         return 'my-row'
       }
 
-      if (row.fullName) {
+      if (window.location.pathname === '/league' && row.fullName) {
         return 'student-row'
       }
 
@@ -165,7 +159,7 @@ export default {
 }
 
 .student-row {
-  background-color: rgb(188, 255, 22);
+  background-color: #bcff16;
 }
 
 </style>
