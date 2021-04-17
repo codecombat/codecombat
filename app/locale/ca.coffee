@@ -942,12 +942,12 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     feature_heroes: "Desbloqueja herois exclusius i mascotes"
     feature_learn: "Aprèn a fer jocs i llocs web"
 #    feature_gems: "Receive __gems__ gems per month"
-    month_price: "$__price__"
+    month_price: "$__price__" # {change}
     first_month_price: "Només $__price__ pel teu primer mes!"
     lifetime: "Accés de per vida"
     lifetime_price: "$__price__"
     year_subscription: "Subscripció anual" # {change}
-    year_price: "$__price__/any"
+    year_price: "$__price__/any" # {change}
     support_part1: "Necessites ajuda amb el pagament o prefereixes PayPal? Envia'ns un e-mail a"
     support_part2: "support@codecombat.com"
 
