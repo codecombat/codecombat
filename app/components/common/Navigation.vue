@@ -1,11 +1,13 @@
 <script>
-  const CODECOMBAT = 'codecombat'
-  const CODECOMBAT_CHINA = 'koudashijie'
-  const OZARIA = 'ozaria'
-  const OZARIA_CHINA = 'aojiarui'
-
-  // Use in local development to inform which repo you are in
-  const LOCALHOST_FAKE_HOST = () => application.isProduction() ? null : CODECOMBAT // 'codecombat' | 'ozaria'
+  import {
+    CODECOMBAT,
+    CODECOMBAT_CHINA,
+    OZARIA,
+    OZARIA_CHINA,
+    isOldBrowser,
+    isCodeCombat,
+    isOzaria
+  } from 'core/utils'
 
   /**
    * Unified navigation bar component between CodeCombat and Ozaria.
@@ -14,36 +16,15 @@
   export default Vue.extend({
     computed: {
       isOldBrowser () {
-        if (window.features.china && $.browser) {
-          if (!($.browser.webkit || $.browser.mozilla || $.browser.msedge)) {
-            return true
-          }
-          const majorVersion = $.browser.versionNumber
-          if ($.browser.mozilla && majorVersion < 25) {
-            return true
-          }
-          if ($.browser.chrome && majorVersion < 72) { // forbid some chinese browser
-            return true
-          }
-          if ($.browser.safari && majorVersion < 6) { // 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
-            return true
-          }
-        }
-        return false
+        return isOldBrowser()
       },
 
       isCodeCombat () {
-        if (LOCALHOST_FAKE_HOST() === CODECOMBAT) {
-          return true
-        }
-        return document.location.host.includes(CODECOMBAT) || document.location.host.includes(CODECOMBAT_CHINA)
+        return isCodeCombat
       },
 
       isOzaria () {
-        if (LOCALHOST_FAKE_HOST() === OZARIA) {
-          return true
-        }
-        return document.location.host.includes(OZARIA) || document.location.host.includes(OZARIA_CHINA)
+        return isOzaria
       },
 
       cocoBaseURL () {
@@ -100,10 +81,6 @@
           hostCheck = this.isOzaria
         }
         return hostCheck && document.location.href.search(route) >= 0
-      },
-
-      isAnonymous () {
-        return me.isAnonymous()
       },
 
       /**
@@ -164,7 +141,7 @@
                   li
                     a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
 
-                ul.nav.navbar-nav(v-if="isAnonymous()")
+                ul.nav.navbar-nav(v-if="me.isAnonymous()")
                   li.dropdown.dropdown-hover
                     a.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
                       span Educators
@@ -216,7 +193,7 @@
                   .dashboard-button(:class="checkLocation('/teachers') && 'active'")
                     a.teacher-dashboard-button.dashboard-toggle-link(href="/teachers") Teacher
 
-                li(v-if="!isAnonymous() && !me.isStudent() && !me.isTeacher()")
+                li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
                   a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
 
               ul.nav.navbar-nav
@@ -227,7 +204,7 @@
                     span.caret
                   ul(class="dropdown-menu language-dropdown")
 
-              ul.nav.navbar-nav(v-if="!isAnonymous()")
+              ul.nav.navbar-nav(v-if="!me.isAnonymous()")
                 li(v-if="me.isTarena()")
                   a.text-p#logout-button {{ $t('login.log_out') }}
                 li.dropdown(v-else)
@@ -256,7 +233,7 @@
                     li
                       a.account-dropdown-item#logout-button {{ $t('login.log_out') }}
 
-              ul.nav.navbar-nav.text-p.login-buttons(v-if="isAnonymous()")
+              ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous()")
                 li
                   a#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
                 li
