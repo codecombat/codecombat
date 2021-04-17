@@ -144,15 +144,15 @@
                 ul.nav.navbar-nav(v-if="me.isAnonymous()")
                   li.dropdown.dropdown-hover
                     a.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
-                      span Educators
+                      span {{ $t('nav.educators') }}
                       span.caret
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/')")
-                          span(:class="isOzaria && 'text-teal'") Ozaria Classroom
-                          span.new-pill New!
+                          span(:class="isOzaria && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
+                          span.new-pill {{ $t('nav.new') }}
                       li
-                        a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") CodeCombat Classroom
+                        a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
 
                 li(v-if="!me.isStudent() && !me.isTeacher()")
                   a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
@@ -163,35 +163,35 @@
                 ul.nav.navbar-nav(v-if="me.isTeacher()")
                   li.dropdown.dropdown-hover
                     a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span Educators
+                      span {{ $t('nav.educators') }}
                       span.caret
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/teachers/classes')")
-                          span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") Ozaria Dashboard
-                          span.new-pill New!
+                          span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_dashboard') }}
+                          span.new-pill {{ $t('nav.new') }}
                       li
-                        a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") CodeCombat Dashboard
+                        a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t('nav.codecombat_dashboard') }}
 
                 ul.nav.navbar-nav(v-else-if="me.isStudent()")
                   li.dropdown.dropdown-hover
                     a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span My Courses
+                      span {{ $t('nav.my_courses') }}
                       span.caret
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/students')")
-                          span(:class="checkLocation('/students', OZARIA) && 'text-teal'") Ozaria Classrooms
-                          span.new-pill New!
+                          span(:class="checkLocation('/students', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
+                          span.new-pill {{ $t('nav.new') }}
                       li
-                        a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") CodeCombat Classrooms
+                        a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") {{ $t('nav.codecombat_classroom') }}
 
                 li.dashboard-toggle(v-if="me.isSchoolAdmin()")
                   //- Only show divider if neither side is toggled.
                   .dashboard-button(:class="checkLocation('/school-administrator') ? 'active': !checkLocation('/teachers') && 'show-divider'")
-                    a.school-admin-dashboard-button.dashboard-toggle-link(href="/school-administrator") Admin
+                    a.school-admin-dashboard-button.dashboard-toggle-link(href="/school-administrator") {{ $t('nav.admin') }}
                   .dashboard-button(:class="checkLocation('/teachers') && 'active'")
-                    a.teacher-dashboard-button.dashboard-toggle-link(href="/teachers") Teacher
+                    a.teacher-dashboard-button.dashboard-toggle-link(href="/teachers") {{ $t('nav.teacher') }}
 
                 li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
                   a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
