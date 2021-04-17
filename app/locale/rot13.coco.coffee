@@ -941,12 +941,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     feature_heroes: "Haybpx rkpyhfvir urebrf naq crgf"
     feature_learn: "Yrnea gb znxr tnzrf naq jrofvgrf"
     feature_gems: "Erprvir __trzf__ trzf cre zbagu"
-    month_price: "$__cevpr__"
+    month_price: "$__cevpr__/zb" # {punatr}
     first_month_price: "Bayl $__cevpr__ sbe lbhe svefg zbagu!"
     lifetime: "Yvsrgvzr Npprff"
     lifetime_price: "$__cevpr__"
     year_subscription: "Naahny Fhofpevcgvba"
-    year_price: "$__cevpr__/lrne"
+    year_price: "$__cevpr__/le" # {punatr}
     support_part1: "Arrq uryc jvgu cnlzrag be cersre CnlCny? Rznvy"
     support_part2: "fhccbeg@pbqrpbzong.pbz"
 

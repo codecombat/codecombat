@@ -942,12 +942,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     feature_heroes: "Desbloquea héroes y mascotas exclusivas"
     feature_learn: "Aprende a crear juegos y páginas web"
 #    feature_gems: "Receive __gems__ gems per month"
-    month_price: "$__price__"
+    month_price: "$__price__" # {change}
     first_month_price: "¡Sólo $__price__ en tu primer mes!"
     lifetime: "Acceso de por vida"
     lifetime_price: "$__price__"
     year_subscription: "Suscripción anual" # {change}
-    year_price: "$__price__/por año"
+    year_price: "$__price__/por año" # {change}
     support_part1: "¿Necesitas ayuda con el pago o prefieres Paypal? Correo electrónico"
     support_part2: "support@codecombat.com"
 
