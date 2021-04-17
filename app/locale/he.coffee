@@ -947,7 +947,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     lifetime: "מנוי לכל החיים" # {change}
     lifetime_price: "$__price__"
     year_subscription: "מנוי שנתי" # {change}
-    year_price: "$__price__ לשנה"
+    year_price: "$__price__ לשנה" # {change}
     support_part1: "זקוקים לעזרה עם אפשרויות התשלום? שלחו דואר אלקטרוני לכתובת" # {change}
     support_part2: "support@codecombat.com"
 

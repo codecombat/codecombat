@@ -947,7 +947,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     lifetime: "Assinatura Vitalícia" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Assinatura Anual" # {change}
-    year_price: "$__price__/ano"
+    year_price: "$__price__/ano" # {change}
     support_part1: "Precisa de ajuda com o pagamento ou prefere PayPal? Envie um email para" # {change}
     support_part2: "support@codecombat.com"
 
