@@ -205,14 +205,14 @@
     "vue-loader": "^15.x.x",
     "vue-template-compiler": "^2.6.10",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-livereload-plugin": "github:codecombat/webpack-livereload-plugin#master",
+    "webpack-livereload-plugin": "https://github.com/codecombat/webpack-livereload-plugin/tarball/master",
     "worker-loader": "^1.1.1"
   },
   "optionalDependencies": {},
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
-    "node": "10.24.0",
-    "npm": "6.14.11"
+    "node": "12.22.1",
+    "npm": "6.14.12"
   }
 }
