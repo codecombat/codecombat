@@ -4,6 +4,7 @@
  * TODO: This leaderboard is not only shown on the league url but also the ladder url.
  */
 import utils from 'core/utils'
+
 export default {
   props: {
     rankings: {
@@ -21,6 +22,10 @@ export default {
     clanId: {
       type: String,
       default: '_global'
+    },
+    title: {
+      type: String,
+      default: ''
     }
   },
 
@@ -35,10 +40,6 @@ export default {
         score /= 2
       }
       return Math.round(score * 100).toLocaleString()
-    },
-
-    isMyRow (row) {
-      return row.creator == me.id
     },
 
     getClan (row) {
@@ -60,6 +61,18 @@ export default {
 
     getCountryName (row) {
       return utils.countryCodeToName(row.creatorCountryCode)
+    },
+
+    classForRow (row) {
+      if (row.creator === me.id) {
+        return 'my-row'
+      }
+
+      if (window.location.pathname === '/league' && row.fullName) {
+        return 'student-row'
+      }
+
+      return ''
     }
   }
 }
@@ -71,8 +84,7 @@ export default {
       thead
         tr
           th(colspan=12)
-            span(v-if="scoreType == 'codePoints'") CodePoints
-            span(v-else) Blazing Battle
+            span {{ title }}
             span &nbsp;
             span {{ $t('ladder.leaderboard') }}
             span(v-if="playerCount > 1")
@@ -90,14 +102,14 @@ export default {
           th(colspan=1) 🏴‍☠️
 
       tbody
-        tr(v-for="row, rank in rankings" :key="rank" :class="isMyRow(row) ? 'success' : ''")
+        tr(v-for="row, rank in rankings" :key="rank" :class="classForRow(row)")
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)
             td.code-language-cell(:style="`background-image: url(/images/common/code_languages/${row.submittedCodeLanguage}_icon.png)`" :title="row.submittedCodeLanguage")
             td.rank-cell {{ row.rank || rank + 1 }}
             td.score-cell {{ scoreForDisplay(row) }}
-            td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ row.creatorName || $t("play.anonymous") }}
+            td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ row.fullName || row.creatorName || $t("play.anonymous") }}
             td(colspan=4).clan-col-cell
               a(:href="`/league/${getClan(row).slug || getClan(row)._id}`") {{ getClanName(row) }}
             td {{ getAgeBracket(row) }}
@@ -141,4 +153,13 @@ export default {
 .name-col-cell.ai {
   color: #3f44bf;
 }
+
+.my-row {
+  background-color: #d1b147;
+}
+
+.student-row {
+  background-color: #bcff16;
+}
+
 </style>

@@ -35,7 +35,7 @@
     "test-china": "COCO_CHINA_INFRASTRUCTURE=true npm run test",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
-    "postinstall": "bower install && npm run build-aether && node ./runWebpack.js",
+    "build": "bower install && npm run build-aether && node ./runWebpack.js",
     "build-aether": "node setup-aether.js",
     "webpack": "webpack",
     "bower": "bower",
@@ -235,14 +235,14 @@
     "vue-loader": "^15.x.x",
     "vue-template-compiler": "^2.6.10",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-livereload-plugin": "https://github.com/codecombat/webpack-livereload-plugin/tarball/master",
+    "webpack-livereload-plugin": "github:codecombat/webpack-livereload-plugin#master",
     "worker-loader": "^1.1.1"
   },
   "optionalDependencies": {},
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
-    "node": "8.15.1",
-    "npm": "6.13.2"
+    "node": "10.24.0",
+    "npm": "6.14.11"
   }
 }

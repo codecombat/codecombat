@@ -58,16 +58,11 @@ module.exports = class SubscribeModal extends ModalView
     @basicProduct = @products.getBasicSubscriptionForUser(me)
     @basicProductAnnual = @products.getBasicAnnualSubscriptionForUser()
     # Process basic product coupons unless custom region pricing
-    if @couponID and @basicProduct.get('coupons')? and @basicProduct?.get('name') is 'basic_subscription'
+    if @couponID and @basicProduct?.get('coupons')? and @basicProduct?.get('name') is 'basic_subscription'
       @basicCoupon = _.find(@basicProduct.get('coupons'), {code: @couponID})
-    if @couponID and @basicProductAnnual.get('coupons')? and @basicProductAnnual?.get('name') is 'basic_subscription_annual'
+    if @couponID and @basicProductAnnual?.get('coupons')? and @basicProductAnnual?.get('name') is 'basic_subscription_annual'
       @basicCouponAnnual = _.find(@basicProductAnnual.get('coupons'), {code: @couponID})
     @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
-    if @lifetimeProduct?.get('name') isnt 'lifetime_subscription'
-      # Use PayPal for international users with regional pricing
-      @paymentProcessor = 'PayPal'
-    else
-      @paymentProcessor = 'stripe'
     @paymentProcessor = 'stripe' # Always use Stripe
     super()
     @render()
