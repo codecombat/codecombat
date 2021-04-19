@@ -15,7 +15,7 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
 .style-flat
   background: white
   color: black
-  padding-top: 61px
+  padding-top: 70px
 
   // Fonts
   h1, h2, h3, h4, h5, h6, .text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6
@@ -95,108 +95,6 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
 
   hr
     border-top: 1px solid gray
-
-  // Navbar
-
-  #main-nav.navbar
-    background: $pitch
-    margin-bottom: 0
-    box-shadow: unset
-    height: 61px
-
-    @media (min-width: $screen-md-min)
-      display: flex
-      flex-direction: column
-      justify-content: center
-
-      padding-left: 50px
-      padding-right: 50px
-
-    #home-link
-      max-width: 200px
-
-    p, .text-p
-      @include font-h-4-navbar-uppercase-white
-
-    .navbar-toggle
-      color: black
-      border-color: $teal
-
-    #navbar-collapse
-      max-height: 100vh
-      background-color: $pitch
-
-    .nav > li > a
-      // TODO: Move this to bootstrap variables for navbars
-
-      // TODO: getting overridden by .navbar .nav > li > a for some reason
-      text-shadow: unset
-      padding: 10px 15px
-
-      &.text-moon
-        color: $moon
-
-      &:hover
-        color: $moon
-        text-decoration: underline
-
-    // TODO: what is this for?
-    .nav > li.disabled > a
-      color: black
-      &:hover
-        background: white
-        color: black
-        cursor: default
-
-    @media (max-width: $grid-float-breakpoint)
-      .nav > li > a
-        padding: 10px 20px
-        height: 45px
-      .language-dropdown-item
-        color: $navy
-      .account-dropdown-item
-        color: $navy
-
-    // TODO: still used?
-    .img-circle
-      border: $gold 8px solid
-      width: 98px
-      height: 98px // Includes the border
-    .img-circle-small
-      border: $gold 3px solid
-      width: 33px
-      height: 33px
-
-    // For teacher avatars
-    .border-burgundy
-      border-color: $navy
-
-    .border-navy
-      border-color: $navy
-
-    .dashboard-toggle
-      border-radius: 8px
-      margin: 8px 15px
-      border: 1px solid #FFFFFF
-      display: inline-flex
-      align-items: center
-      justify-content: center
-      .dashboard-button
-        padding: 6px 15px
-        margin: 0px
-        a
-          @include font-p-3-small-button-text-black
-          letter-spacing: 0.333333px
-          text-transform: uppercase
-          color: #FFFFFF
-          text-decoration: none
-      .active
-        border-radius: 8px
-        background: $moon
-        a
-          color: $pitch
-      .show-divider:not(:last-child)
-        border-right: 1px solid #FFFFFF
 
   // Reference: https://stackoverflow.com/a/25517025
   .vertical-align
@@ -303,7 +201,9 @@ body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='
   .language-dropdown-item
     height: 33px
     background-color: white
-    color: $navy
+    // This color is being overwritten by a default option to white.
+    // !important to circumvent white on white issue.
+    color: $navy !important
     // TODO: Font size 18? Inconsistent with buttons on teacher-class-view bulk assign
 
   // Tooltips

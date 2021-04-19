@@ -124,7 +124,10 @@
 
 .school-admin-title-bar {
   height: 60px;
-  background-color: white;
+  background-color: #F2F2F2;
+  border: 1px solid #d8d8d8;
+  border-left: unset;
+  border-right: unset;
   min-width: 1260px;
 
   display: flex;
