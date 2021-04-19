@@ -888,6 +888,23 @@ ageToBracket = (age) ->
       return bracket.slug
   return 'open'
 
+CODECOMBAT = 'codecombat'
+CODECOMBAT_CHINA = 'koudashijie'
+OZARIA = 'ozaria'
+OZARIA_CHINA = 'aojiarui'
+
+isOldBrowser = () ->
+  if features.china and $.browser
+    return true if not ($.browser.webkit or $.browser.mozilla or $.browser.msedge)
+    majorVersion = $.browser.versionNumber
+    return true if $.browser.mozilla && majorVersion < 25
+    return true if $.browser.chrome && majorVersion < 72  # forbid some chinese browser
+    return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
+  return false
+
+isCodeCombat = true
+isOzaria = false
+
 arenas = [
   {slug: 'blazing-battle'   , type: 'regular',      start: new Date(2021, 0,  1), end: new Date(2021, 4, 1), levelOriginal: '5fca06dc8b4da8002889dbf1'}
   {slug: 'infinite-inferno' , type: 'championship', start: new Date(2021, 3,  1), end: new Date(2021, 4, 1), levelOriginal: '602cdc204ef0480075fbd954'}
@@ -965,4 +982,11 @@ module.exports = {
   userAgent
   videoLevels
   yearsSinceMonth
+  CODECOMBAT
+  OZARIA
+  CODECOMBAT_CHINA
+  OZARIA_CHINA
+  isOldBrowser
+  isCodeCombat
+  isOzaria
 }
