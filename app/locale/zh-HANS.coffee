@@ -954,7 +954,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     lifetime: "终身订阅"
     lifetime_price: "$__price__"
     year_subscription: "年度订阅" # {change}
-    year_price: "$__price__/年"
+    year_price: "$__price__/年" # {change}
     support_part1: "付款时需要帮助? Email" # {change}
     support_part2: "china@codecombat.com"
 

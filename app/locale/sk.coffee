@@ -947,7 +947,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     lifetime: "Celoživotné predplatné" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Ročné predplatné" # {change}
-    year_price: "$__price__/rok"
+    year_price: "$__price__/rok" # {change}
     support_part1: "Potrebuješ pomoc s predplatným? Napíš email na" # {change}
     support_part2: "support@codecombat.com"
 

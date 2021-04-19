@@ -945,12 +945,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     feature_heroes: "Unlock exclusive heroes and pets"
     feature_learn: "Learn to make games and websites"
     feature_gems: "Receive __gems__ gems per month"
-    month_price: "$__price__/mo" # {change}
+    month_price: "$__price__/mo"
     first_month_price: "Only $__price__ for your first month!"
     lifetime: "Lifetime Access"
     lifetime_price: "$__price__"
     year_subscription: "Annual Subscription"
-    year_price: "$__price__/yr" # {change}
+    year_price: "$__price__/yr"
     support_part1: "Need help with payment or prefer PayPal? Email"
     support_part2: "support@codecombat.com"
 

@@ -947,7 +947,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     lifetime: "Levenslang abonnement" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Jaarlijks abonnement" # {change}
-    year_price: "$__price__/year"
+    year_price: "$__price__/year" # {change}
     support_part1: "Hulp nodig met betalingsopties? Email" # {change}
     support_part2: "support@codecombat.com"
 

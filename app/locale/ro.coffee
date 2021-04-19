@@ -942,12 +942,12 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     feature_heroes: "Deblochează eroi exclusivi și personaje"
     feature_learn: "Învață să creezi jocuri și site-uri web"
 #    feature_gems: "Receive __gems__ gems per month"
-    month_price: "$__price__"
+    month_price: "$__price__" # {change}
     first_month_price: "Doar $__price__ pentru prima luna!"
     lifetime: "Acces pe viață"
     lifetime_price: "$__price__"
     year_subscription: "Abonament anual" # {change}
-    year_price: "$__price__/an"
+    year_price: "$__price__/an" # {change}
     support_part1: "Ai nevoie de ajutor cu plata sau preferi PayPal? E-mail"
     support_part2: "support@codecombat.com"
 
