@@ -14,6 +14,7 @@ errors = require 'core/errors'
 utils = require 'core/utils'
 
 BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
+Navigation = require('app/components/common/Navigation.vue').default
 
 # TODO remove
 
@@ -116,19 +117,6 @@ module.exports = class RootView extends CocoView
     $(e.target)?.parent('.dashboard-button')?.addClass('active')
     $(e.target)?.parent('.dashboard-button')?.siblings('.dashboard-button')?.removeClass('active')
 
-  initializeDashboardToggleState: () ->
-    teacherDashboardButton = @$el?.find('.teacher-dashboard-button')?.parent('.dashboard-button')
-    schoolAdminDashboardButton = @$el?.find('.school-admin-dashboard-button')?.parent('.dashboard-button')
-    if document.location.href.search('/school-administrator') >= 0
-      teacherDashboardButton?.removeClass('active')
-      schoolAdminDashboardButton?.addClass('active')
-    else if document.location.href.search('/teachers') >= 0
-      teacherDashboardButton?.addClass('active')
-      schoolAdminDashboardButton?.removeClass('active')
-    else
-      teacherDashboardButton?.removeClass('active')
-      schoolAdminDashboardButton?.removeClass('active').addClass('show-divider')
-
   showLoading: ($el) ->
     $el ?= @$el.find('#site-content-area')
     super($el)
@@ -142,6 +130,9 @@ module.exports = class RootView extends CocoView
     #location.hash = hash
     @renderScrollbar()
 
+    # Unsure why this is required. Without this call, navbar doesn't work on homepage.
+    @initializeNavigation()
+
   afterRender: ->
     if @$el.find('#site-nav').length # hack...
       @$el.addClass('site-chrome')
@@ -152,8 +143,7 @@ module.exports = class RootView extends CocoView
     @chooseTab(location.hash.replace('#', '')) if location.hash
     @buildLanguages()
     $('body').removeClass('is-playing')
-    if me.isSchoolAdmin()
-      @initializeDashboardToggleState()
+    @initializeNavigation()
 
   chooseTab: (category) ->
     $("a[href='##{category}']", @$el).tab('show')
@@ -221,15 +211,7 @@ module.exports = class RootView extends CocoView
     res.success (model, response, options) ->
       #console.log 'Saved language:', newLang
 
-  isOldBrowser: ->
-    if $.browser
-      majorVersion = $.browser.versionNumber
-      return true if $.browser.mozilla && majorVersion < 25
-      return true if $.browser.chrome && majorVersion < 31  # Noticed Gems in the Deep not loading with 30
-      return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
-    else
-      console.warn 'no more jquery browser version...'
-    return false
+  isOldBrowser: utils.isOldBrowser
 
   logoutRedirectURL: '/'
 
@@ -270,6 +252,25 @@ module.exports = class RootView extends CocoView
       }
     })
 
+  # Attach the navigation Vue component to the page
+  initializeNavigation: ->
+    staticNav = document.querySelector('#main-nav')
+
+    if @navigation and staticNav
+      staticNav.replaceWith(@navigation.$el)
+      return
+
+    return unless staticNav
+
+    @navigation = new Navigation({
+      el: staticNav
+    })
+
+    # Hack - It would be better for the Navigation component to manage the language dropdown.
+    setTimeout(() =>
+      @buildLanguages()
+    , 0)
+
   # Set the page title when the view is loaded.  This value is merged into the
   # result of getMeta.  It will override any title specified in getMeta.  Kept
   # for backwards compatibility
@@ -286,8 +287,6 @@ module.exports = class RootView extends CocoView
     @metaBinding.setMeta(meta)
 
   destroy: ->
+    @metaBinding?.$destroy()
+    @navigation?.$destroy()
     super()
-
-    if @metaBinding
-      @metaBinding.$destroy()
-      delete @metaBinding

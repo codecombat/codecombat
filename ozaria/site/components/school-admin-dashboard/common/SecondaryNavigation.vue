@@ -111,8 +111,6 @@
   height: 35px;
   min-height: 35px;
 
-  background-color: $pitch;
-
   & > li {
     height: 35px;
     width: 230px;
@@ -126,14 +124,11 @@
     background-color: $twilight;
     border-radius: 10px 10px 0 0;
 
-    a.current-route {
-      background-color: $white;
+    a.current-route, & > a:hover {
+      background-color: #F2F2F2;
       color: $twilight;
-    }
-
-    & > a:hover {
-      background-color: $white;
-      color: $twilight;
+      border: 1px solid #d8d8d8;
+      border-bottom: unset;
     }
 
     a {
