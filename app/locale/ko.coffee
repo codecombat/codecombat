@@ -942,12 +942,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     feature_heroes: "특전 영웅과 펫을 해금하세요!"
     feature_learn: "게임과 웹 사이트를 만드는 법을 배우세요"
 #    feature_gems: "Receive __gems__ gems per month"
-    month_price: "$__가격__"
+    month_price: "$__가격__" # {change}
     first_month_price: "오직 $__가격__ 첫 달을 위해서!"
     lifetime: "평생 접근"
     lifetime_price: "$__가격__"
     year_subscription: "1년 구독" # {change}
-    year_price: "$__가격__/년"
+    year_price: "$__가격__/년" # {change}
     support_part1: "결제에 도움이 필요하거나 PayPal을 선호하세요? Email"
     support_part2: "support@codecombat.com"
 

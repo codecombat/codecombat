@@ -942,12 +942,12 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     feature_heroes: "Lås upp exklusiva hjältar och husdjur"
     feature_learn: "Lär dig att skapa spel och webbplatser"
 #    feature_gems: "Receive __gems__ gems per month"
-    month_price: "$__price__"
+    month_price: "$__price__" # {change}
     first_month_price: "Endast $__price__ för din första månad!"
     lifetime: "Livstidsåtkomst"
     lifetime_price: "$__price__"
     year_subscription: "Årlig prenumeration"
-    year_price: "$__price__/år"
+    year_price: "$__price__/år" # {change}
     support_part1: "Behöver du hjälp med betalning eller föredrar PayPal? E-post"
     support_part2: "support@codecombat.com"
 

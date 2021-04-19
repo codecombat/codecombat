@@ -942,12 +942,12 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     feature_heroes: "Откључај ексклузивне хероје и љубимце"
     feature_learn: "Научи да правиш игрице и вебсајтове"
 #    feature_gems: "Receive __gems__ gems per month"
-    month_price: "$__price__"
+    month_price: "$__price__" # {change}
     first_month_price: "Само $__price__ за први месец!"
     lifetime: "Доживотни приступ"
     lifetime_price: "$__price__"
     year_subscription: "Годишња претплата" # {change}
-    year_price: "$__price__/годишње"
+    year_price: "$__price__/годишње" # {change}
     support_part1: "Треба ти помоћ око уплате или ти се више свиђа PayPal? И-мејл на"
     support_part2: "support@codecombat.com"
 
