@@ -14,6 +14,7 @@ errors = require 'core/errors'
 utils = require 'core/utils'
 
 BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
+Navigation = require('app/components/common/Navigation.vue').default
 
 # TODO remove
 
@@ -134,6 +135,9 @@ module.exports = class RootView extends CocoView
     #location.hash = hash
     @renderScrollbar()
 
+    # Ensure navigation displays when visting SingletonAppVueComponentView.
+    @initializeNavigation()
+
   afterRender: ->
     if @$el.find('#site-nav').length # hack...
       @$el.addClass('site-chrome')
@@ -144,6 +148,8 @@ module.exports = class RootView extends CocoView
     @chooseTab(location.hash.replace('#', '')) if location.hash
     @buildLanguages()
     $('body').removeClass('is-playing')
+
+    @initializeNavigation()
 
   chooseTab: (category) ->
     $("a[href='##{category}']", @$el).tab('show')
@@ -205,14 +211,7 @@ module.exports = class RootView extends CocoView
     res.success (model, response, options) ->
       #console.log 'Saved language:', newLang
 
-  isOldBrowser: ->
-    if features.china and $.browser
-      return true if not ($.browser.webkit or $.browser.mozilla or $.browser.msedge)
-      majorVersion = $.browser.versionNumber
-      return true if $.browser.mozilla && majorVersion < 25
-      return true if $.browser.chrome && majorVersion < 72  # forbid some chinese browser
-      return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
-    return false
+  isOldBrowser: utils.isOldBrowser
 
   logoutRedirectURL: '/'
 
@@ -252,6 +251,23 @@ module.exports = class RootView extends CocoView
         legacyTitle: legacyTitle
       }
     })
+  
+  # Attach the navigation Vue component to the page
+  initializeNavigation: ->
+    staticNav = document.querySelector('#main-nav')
+
+    if @navigation and staticNav
+      staticNav.replaceWith(@navigation.$el)
+      return
+
+    return unless staticNav
+
+    @navigation = new Navigation({
+      el: staticNav
+    })
+
+    # Hack - It would be better for the Navigation component to manage the language dropdown.
+    _.defer => @buildLanguages?()
 
   # Set the page title when the view is loaded.  This value is merged into the
   # result of getMeta.  It will override any title specified in getMeta.  Kept
@@ -269,8 +285,6 @@ module.exports = class RootView extends CocoView
     @metaBinding.setMeta(meta)
 
   destroy: ->
+    @metaBinding?.$destroy()
+    @navigation?.$destroy()
     super()
-
-    if @metaBinding
-      @metaBinding.$destroy()
-      delete @metaBinding

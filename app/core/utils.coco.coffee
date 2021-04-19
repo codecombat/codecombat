@@ -888,6 +888,23 @@ ageToBracket = (age) ->
       return bracket.slug
   return 'open'
 
+CODECOMBAT = 'codecombat'
+CODECOMBAT_CHINA = 'koudashijie'
+OZARIA = 'ozaria'
+OZARIA_CHINA = 'aojiarui'
+
+isOldBrowser = () ->
+  if features.china and $.browser
+    return true if not ($.browser.webkit or $.browser.mozilla or $.browser.msedge)
+    majorVersion = $.browser.versionNumber
+    return true if $.browser.mozilla && majorVersion < 25
+    return true if $.browser.chrome && majorVersion < 72  # forbid some chinese browser
+    return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
+  return false
+
+isCodeCombat = true
+isOzaria = false
+
 module.exports = {
   addressesIncludeAdministrativeRegion
   ageBrackets
@@ -950,4 +967,11 @@ module.exports = {
   userAgent
   videoLevels
   yearsSinceMonth
+  CODECOMBAT
+  OZARIA
+  CODECOMBAT_CHINA
+  OZARIA_CHINA
+  isOldBrowser
+  isCodeCombat
+  isOzaria
 }
