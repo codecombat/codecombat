@@ -285,12 +285,6 @@ module.exports = class RootView extends CocoView
     @metaBinding.setMeta(meta)
 
   destroy: ->
+    @metaBinding?.$destroy()
+    @navigation?.$destroy()
     super()
-
-    if @metaBinding
-      @metaBinding.$destroy()
-      delete @metaBinding
-
-    if @navigation
-      @navigation.$destroy()
-      delete @navigation

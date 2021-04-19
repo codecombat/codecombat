@@ -191,7 +191,7 @@
                   .dashboard-button(:class="checkLocation('/school-administrator') ? 'active': !checkLocation('/teachers') && 'show-divider'")
                     a.school-admin-dashboard-button.dashboard-toggle-link(href="/school-administrator") {{ $t('nav.admin') }}
                   .dashboard-button(:class="checkLocation('/teachers') && 'active'")
-                    a.teacher-dashboard-button.dashboard-toggle-link(href="/teachers") {{ $t('nav.teacher') }}
+                    a.teacher-dashboard-button.dashboard-toggle-link(href="/teachers") {{ $t('classes.teacher') }}
 
                 li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
                   a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}

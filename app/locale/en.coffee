@@ -219,7 +219,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     codecombat_dashboard: "CodeCombat Dashboard"
     new: "New!"
     admin: "Admin"
-    teacher: "Teacher"
 
   modal:
     close: "Close"
