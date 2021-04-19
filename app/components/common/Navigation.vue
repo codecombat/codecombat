@@ -69,6 +69,31 @@
     },
 
     methods: {
+      navEvent (e) {
+        // Only track if user has clicked a link on the nav bar
+        if (!e || !e.target || e.target.tagName !== 'A') {
+          return
+        }
+
+        if (!window.tracker) {
+          return
+        }
+
+        const clickedAnchorTag = e.target
+        const action = `Link: ${clickedAnchorTag.getAttribute('href') || clickedAnchorTag.getAttribute('data-event-action')}`
+        const properties = {
+          category: 'Nav',
+          // Inspired from the HomeView homePageEvent method
+          user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
+        }
+
+        window.tracker.trackEvent(
+          action,
+          properties,
+          ['Google Analytics']
+        )
+      },
+
       /**
        * This is used to highlight nav routes we are currently on.
        * It can optionally also check if the user is on codecombat or ozaria.
@@ -105,7 +130,7 @@
 </script>
 
 <template lang="pug">
-    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="document.location.href.search('/league') >= 0 ? 'dark-mode' : ''")
+    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="document.location.href.search('/league') >= 0 ? 'dark-mode' : ''" @click="navEvent")
       .container-fluid
         .row
           .col-md-12
