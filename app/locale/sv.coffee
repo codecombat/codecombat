@@ -33,7 +33,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     classroom_in_box_blurb2: "Ge varje lärare möjlighet att känna sig säker när han/hon undervisar i kodning."
     classroom_in_box_blurb3: "Inspirera alla rektorer att skapa ett datavetenskapsprogram i världsklass."
     classroom_in_box_blurb4: ""
-    covid19_banner_blurb: "Vi erbjuder gratis tillgång till vår fullständiga läroplan för lärare och skolor som påverkas av skolstängningar."
     click_here: "Klicka här"
     creativity_rigor_title: "Där kreativitet möter stränghet"
     creativity_rigor_subtitle1: "Gör kodning roligt och lär ut färdigheter för livet"
@@ -214,6 +213,12 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     parent: "Föräldrar"
     esports: "E-sporter"
     browser_recommendation: "För bästa upplevelse rekommenderar vi att du använder den senaste versionen av Chrome. Ladda ner webbläsaren här!"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "Stäng"

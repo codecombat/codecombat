@@ -33,7 +33,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     classroom_in_box_blurb2: "Elke leraar in staat te stellen zich zeker van zichzelf te voelen wanneer ze lesgeven in programmeren."
     classroom_in_box_blurb3: "Inspireer alle bestuurders binnen het onderwijs om een computerwetenschappelijk leerprogramma van wereldklasse te creëren."
 #    classroom_in_box_blurb4: ""
-#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
     click_here: "Klik hier"
     creativity_rigor_title: "Waar Creativiteit en Structuur Samenkomen"
     creativity_rigor_subtitle1: "Programmeren leuk te maken en real-world-skills te leren"
@@ -214,6 +213,12 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     parent: "Ouders"
 #    esports: "Esports"
     browser_recommendation: "Voor de beste ervaring raden we aan de nieuwste versie van Chrome te gebruiken. Download de browser hier!"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "Sluiten"

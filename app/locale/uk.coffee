@@ -33,7 +33,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
 #    classroom_in_box_blurb4: ""
-#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
     click_here: "Тиснить тут"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
@@ -214,6 +213,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     parent: "Батьки"
 #    esports: "Esports"
     browser_recommendation: "Щоб найкраще все працювало, рекомендумо використовувати останню версію Chrome. Завантажте цій браузер тут!"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "Закрити"

@@ -33,7 +33,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     classroom_in_box_blurb2: "Дайте возможность любому преподавателю чувствовать себя уверенно при обучении программированию."
     classroom_in_box_blurb3: "Вдохновите всех школьных лидеров создать программу компьютерных наук мирового класса."
 #    classroom_in_box_blurb4: ""
-    covid19_banner_blurb: "Мы предлагаем бесплатный доступ для педагогов и школ на которых повлияла пандемия и закрытия."
 #    click_here: "Click here"
     creativity_rigor_title: "Где творчество встречается со строгостью"
     creativity_rigor_subtitle1: "Занимайтесь программированием и обучайтесь реальным навыкам"
@@ -214,6 +213,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     parent: "Родителям"
 #    esports: "Esports"
     browser_recommendation: "Для наилучшего опыта мы рекомендуем использоватеть последнюю версию Chrome. Скачай браузер здесь!"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "Закрыть"

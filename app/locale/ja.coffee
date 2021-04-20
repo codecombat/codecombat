@@ -33,7 +33,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
 #    classroom_in_box_blurb4: ""
-#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
     click_here: "ここをクリック"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
@@ -214,6 +213,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     parent: "親"
 #    esports: "Esports"
 #    browser_recommendation: "For the best experience we recommend using the latest version of Chrome. Download the browser here!"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "閉じる"

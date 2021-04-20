@@ -32,7 +32,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     classroom_in_box_blurb2: "Rzcbjre nal rqhpngbe gb srry pbasvqrag jura grnpuvat pbqvat."
     classroom_in_box_blurb3: "Vafcver nyy fpubby yrnqref gb perngr n jbeyq-pynff pbzchgre fpvrapr cebtenz."
     classroom_in_box_blurb4: "" # bayl sbe xbhqnfuvwvr.pbz
-    covid19_banner_blurb: "Jr ner bssrevat serr npprff gb bhe shyy pheevphyhz gb rqhpngbef naq fpubbyf nssrpgrq ol fpubby pybfherf."
     click_here: "Pyvpx urer"
     creativity_rigor_title: "Jurer Perngvivgl Zrrgf Evtbe"
     creativity_rigor_subtitle1: "Znxr pbqvat sha naq grnpu erny-jbeyq fxvyyf"
@@ -213,6 +212,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     parent: "Cneragf"
     esports: "Rfcbegf"
     browser_recommendation: "Sbe gur orfg rkcrevrapr jr erpbzzraq hfvat gur yngrfg irefvba bs Puebzr. Qbjaybnq gur oebjfre urer!"
+    ozaria_classroom: "Bmnevn Pynffebbz"
+    codecombat_classroom: "PbqrPbzong Pynffebbz"
+    ozaria_dashboard: "Bmnevn Qnfuobneq"
+    codecombat_dashboard: "PbqrPbzong Qnfuobneq"
+    new: "Arj!"
+    admin: "Nqzva"
 
   modal:
     close: "Pybfr"
