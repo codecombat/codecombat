@@ -62,6 +62,22 @@ nav#main-nav.navbar.dark-mode {
     }
   }
 
+  .dashboard-toggle {
+    border: 1px solid #FCBB00;
+
+    & > .show-divider {
+      border-right: 1px solid #FCBB00 !important;
+    }
+  }
+
+  .dashboard-toggle .dashboard-button a {
+    color: #FCBB00;
+  }
+
+  .dropdown-menu {
+    background-color: white;
+  }
+
   #create-account-link {
     background-color: #FCBB00;
     border: 1px solid #FCBB00;
