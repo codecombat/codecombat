@@ -262,6 +262,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     press: "Press"
     twitter_follow: "Follow"
     my_classrooms: "My Classes"
+    my_courses: "My Courses"
     my_units: "My Units"
     my_teachers: "My Teachers"
     careers: "Careers"
