@@ -2,283 +2,277 @@ extends /templates/base-flat.jade
 
 block content
   .container
-    .row.m-y-3
-      .col-xs-12
-        #main-content(dir="auto")
-          if me.isAnonymous()
-            +anonymous-welcome-message()
-          else
-            .student-profile-area
-              .row
-                .current-hero.col-md-2.text-center
-                  .hero-avatar
-                    if view.hero.get('poseImage')
-                      img(src='/file/' + view.hero.get('poseImage') class='hero-' + view.hero.get('slug'))
-                  .current-hero-right-col.rtl-allowed
-                    .semibold.current-hero-text
-                      span.current-hero-name= view.hero.getHeroShortName()
-                    a.change-hero-btn
-                      |  (
-                      span(data-i18n="play.change_hero")
-                      | )
-                .student-stats.col-md-6
-                  h2= me.broadName()
+    #main-content(dir="auto")
+      if me.isAnonymous()
+        +anonymous-welcome-message()
+      else
+        .student-profile-area
+          .row
+            .current-hero.col-md-2.text-center
+              h2
+                if view.hero.getHeroShortName()
+                  span.spr Hero:
+                  span= view.hero.getHeroShortName()
+              hr
 
-                  a.play-next-level-btn.tile(disabled=!view.nextLevel, title="TODO: play next level")
-                    // TODO: handle locked status, other cases
-                    - var level = {name: 'CS2 L13: Winding Trail'}
-                    - var levelImage = level.image || "/images/pages/play/ladder/multiplayer_notext.jpg"
-                    img(src=levelImage, alt=level.name, class="level-image" + (level.image ? "" : " placeholder"))
-                    h3.dynamic-level-name.overlay-text= level.name + (level.disabled ? " (locked)" : "")
-                    .tile-text-backdrop
-                    .stats-text-container
-                      .overlay-text.stats-text
-                        // TODO: do a single i18n key with the levels completed interpolated, handle 0 and 1 levels case
-                        span.spr Levels Completed:
-                        span= me.get('stats').gamesCompleted
-                    .play-text-container
-                      .overlay-text.play-text Play Next Level
+              .hero-avatar
+                if view.hero.get('poseImage')
+                  img(src='/file/' + view.hero.get('poseImage') class='hero-' + view.hero.get('slug'))
+              if view.hero.get('name')
+                h2.current-hero-text
+                  // TODO: i18n, maybe remove 'the' when not in English
+                  span.current-hero-name= 'The ' + view.hero.get('name')
+              .rtl-allowed
+                a.change-hero-btn(data-i18n="play.change_hero")
 
-                  for arena in view.activeArenas || []
-                    a.play-arena-btn.tile(href="/play/ladder/#{arena.slug}", title="TODO: Play Arena/Tournament")
-                      - var arenaImage = arena.image || "/images/pages/play/ladder/multiplayer_notext.jpg"
-                      - var arenaName = $.i18n.t('league.' + arena.slug.replace(/-/g, '_'))
-                      - var stats = view.getAILeagueStat('arenas', arena.levelOriginal, '_global')
-                      img(src=arenaImage, alt=arenaName, class="level-image" + (arena.image ? "" : " placeholder"))
-                      if !arena.image
-                        // TODO: figure out when we are showing internationalized/placeholder arena image
-                        h3.dynamic-level-name= arenaName
-                      .tile-text-backdrop
-                      .stats-text-container
-                        .overlay-text.stats-text
-                          if stats && stats.score
-                            //span.spr Score:
-                            //span= Math.round(100 * stats.score).toLocaleString()
-                            if stats.rank
-                              span.spr  Rank:
-                              span #
-                              span= stats.rank.toLocaleString()
-                              if stats.playerCount
-                                span= ' / '
-                                span= stats.playerCount.toLocaleString()
-                          else if view.myArenaSessions
-                            span Not Started
-                      .play-text-container
-                        .overlay-text.play-text
-                          //.btn.btn-illustrated.btn-success
-                          if arena.type == 'championship'
-                            span Play Tournament
-                          else
-                            span Play Arena
+            .student-stats.col-md-5
+              h2
+                span.spr Player:
+                span= me.broadName()
+              hr
 
-                  a.ai-league-btn.tile(href=me.isRegisteredForAILeague() ? "/league" : "/league?registering=true", title="TODO: AI League")
-                    img.level-image(src="/images/pages/league/hero_lady_ida.png" alt="CodeCombat AI League")
-                    h3.dynamic-level-name.overlay-text CodeCombat AI League
-                    .tile-text-backdrop
-                    .stats-text-container
-                      .overlay-text.stats-text
-                        if me.isRegisteredForAILeague()
-                          span.spr Bracket:
-                          span= view.ageBracketDisplay
-                        else
-                          span Unregistered
-                        //if me.get('stats') && me.get('stats').codePoints
-                        //  span.spr  CodePoints:
-                        //  span= me.get('stats').codePoints
-                    .play-text-container
-                      .overlay-text.play-text
-                        if me.isRegisteredForAILeague()
-                          span View Standings
-                        else
-                          span Register
- 
-                .school-stats.col-md-4
-                  if view.myClans
-                    h2 AI League Teams
-                    if me.get('stats') && me.get('stats').codePoints
-                      .stat
-                        span.spr CodePoints:
-                        span.spr= me.get('stats').codePoints
-                    for clan in ['_global'].concat(view.myClans)
-                      - var stats = view.getAILeagueStat('codePoints', clan == '_global' ? clan : clan._id)
-                      if stats && stats.playerCount > 1
-                        .team
-                          a(href="/league/#{clan == '_global' ? '' : clan.slug + '#team-info'}")
-                            span.spr= clan == '_global' ? 'Worldwide' : clan.displayName || clan.name
-                          if stats.rank
-                            span #
-                            span= stats.rank.toLocaleString()
-                            span= ' / '
-                          span= stats.playerCount.toLocaleString()
-                          span  players
+              a.play-next-level-btn.tile(disabled=!view.nextLevel, title="TODO: play next level")
+                // TODO: course acronym, level number, level name, handle locked status, other cases
+                - var level = {name: 'CS2 L13: Winding Trail'}
+                - var levelImage = level.image || "/images/pages/play/ladder/multiplayer_notext.jpg"
+                img(src=levelImage, alt=level.name, class="level-image" + (level.image ? "" : " placeholder"))
+                h3.dynamic-level-name.overlay-text= level.name + (level.disabled ? " (locked)" : "")
+                .tile-text-backdrop
+                .stats-text-container
+                  .overlay-text.stats-text
+                    // TODO: do a single i18n key with the levels completed interpolated, handle 0 and 1 levels case
+                    span.spr Levels Completed:
+                    span= me.get('stats').gamesCompleted
+                .play-text-container
+                  .overlay-text.play-text Play Next Level
 
-            .student-profile-area.v0
-              .row
-                .current-hero.col-md-2.text-center
-                  .hero-avatar
-                    if view.hero.get('poseImage')
-                      img(src='/file/' + view.hero.get('poseImage') class='hero-' + view.hero.get('slug'))
-                  .current-hero-right-col.rtl-allowed
-                    .semibold.current-hero-text
-                      span.current-hero-name= view.hero.getHeroShortName()
-                    a.change-hero-btn
-                      |  (
-                      span(data-i18n="play.change_hero")
-                      | )
-                .student-stats.col-md-5.v0
-                  h2= me.broadName()
-                  if me.get('stats') && me.get('stats').gamesCompleted
-                    .stat
-                      span.spr Levels:
-                      span= me.get('stats').gamesCompleted
-                      if view.nextLevel
-                        a.play-next-level-btn play next level
-                  else if view.nextLevel
-                    a.play-next-level-btn play next level
-                  .stat
-                    if me.isRegisteredForAILeague()
-                      span.spr AI League:
-                      span= view.ageBracketDisplay
-                      span.spr  Bracket
-                      a(href="/league?registering=true") change
-                    else
-                      span.spr AI League: unregistered
-                      a(href="/league?registering=true") register
-                  if me.get('stats') && me.get('stats').codePoints
-                    .stat
-                      span.spr CodePoints:
-                      span.spr= me.get('stats').codePoints
-                  for arena in view.activeArenas || []
-                    .stat
-                      span= $.i18n.t('league.' + arena.slug.replace(/-/g, '_'))
-                      span= ': '
-                      - var stats = view.getAILeagueStat('arenas', arena.levelOriginal, '_global')
+              for arena in view.activeArenas || []
+                a.play-arena-btn.tile(href="/play/ladder/#{arena.slug}", title="TODO: Play Arena/Tournament")
+                  - var arenaImage = arena.image || "/images/pages/play/ladder/multiplayer_notext.jpg"
+                  - var arenaName = $.i18n.t('league.' + arena.slug.replace(/-/g, '_'))
+                  - var stats = view.getAILeagueStat('arenas', arena.levelOriginal, '_global')
+                  // TODO: link to team-specific arena by default if there are enough arena players in a team?
+                  img(src=arenaImage, alt=arenaName, class="level-image" + (arena.image ? "" : " placeholder"))
+                  if !arena.image
+                    // TODO: figure out when we are showing internationalized/placeholder arena image
+                    h3.dynamic-level-name= arenaName
+                  .tile-text-backdrop
+                  .stats-text-container
+                    .overlay-text.stats-text
                       if stats && stats.score
-                        span= Math.round(100 * stats.score).toLocaleString()
+                        //span.spr Score:
+                        //span= Math.round(100 * stats.score).toLocaleString()
                         if stats.rank
-                          |  (
+                          span.spr  Rank:
                           span #
                           span= stats.rank.toLocaleString()
                           if stats.playerCount
                             span= ' / '
                             span= stats.playerCount.toLocaleString()
-                          | )
                       else if view.myArenaSessions
-                        span not started
+                        span Not Started
+                  .play-text-container
+                    .overlay-text.play-text
+                      //.btn.btn-illustrated.btn-success
+                      if arena.type == 'championship'
+                        span Play Tournament
                       else
-                        span ...
-                      a(href="/play/ladder/#{arena.slug}")
-                        if arena.type == 'championship'
-                          span play tournament
-                        else
-                          span play arena
+                        span Play Arena
 
-                .school-stats.col-md-5
-                  if view.myClans
-                    h2 AI League Teams
-                    for clan in ['_global'].concat(view.myClans)
-                      - var stats = view.getAILeagueStat('codePoints', clan == '_global' ? clan : clan._id)
-                      if stats && stats.playerCount > 1
-                        .team
-                          a(href="/league/#{clan == '_global' ? '' : clan.slug + '#team-info'}")
-                            span.spr= clan == '_global' ? 'Worldwide' : clan.displayName || clan.name
-                          if stats.rank
-                            span #
-                            span= stats.rank.toLocaleString()
-                            span= ' / '
-                          span= stats.playerCount.toLocaleString()
-                          span  players
+              a.ai-league-btn.tile(href=me.isRegisteredForAILeague() ? "/league" : "/league?registering=true", title="TODO: AI League")
+                - var bannerHero = ['anya', 'ida', 'okar'][Math.floor(Math.random() * 3)];
+                img.level-image(src="/images/pages/courses/ai_league_banner_#{bannerHero}.png" alt="CodeCombat AI League")
+                //h3.dynamic-level-name.overlay-text CodeCombat AI League
+                .tile-text-backdrop
+                .stats-text-container
+                  .overlay-text.stats-text
+                    if me.isRegisteredForAILeague()
+                      span.spr Age Bracket:
+                      span= view.ageBracketDisplay
+                    else
+                      span Unregistered
+                    //if me.get('stats') && me.get('stats').codePoints
+                    //  span.spr  CodePoints:
+                    //  span= me.get('stats').codePoints
+                .play-text-container
+                  .overlay-text.play-text
+                    if me.isRegisteredForAILeague()
+                      span View Standings
+                    else
+                      span Register
 
-            .text-center.row#tournament-btn
-              if view.hasActiveTournaments
-                a.btn.btn-navy.btn-lg.text-uppercase(href='/tournaments/student/#{me.id}', data-i18n="tournament.class_tournaments") class mini-tournaments
-            if view.classrooms.size()
-              .classes-area
-                br
-                h3(data-i18n="courses.my_classes")
-  
-                if view.allCompleted
-                  p.alert.alert-success
-                    span(data-i18n="courses.ask_next_course")
-  
-                for classroom in view.classrooms.models
-                  hr.class-break
-                  - var justAdded = classroom.id === view.classroomJustAdded;
-                  - var classroomClass = justAdded ? 'just-added' : '';
-                  if justAdded
-                    #just-added-text.text-center(data-i18n="courses.class_added")
-  
-                  div(class=classroomClass).rtl-allowed
-                    h5(dir="auto")
-                      span.spr= classroom.get('name')
-                      - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++'}
-                      span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
-                    p
-                      span(data-i18n="courses.teacher")
-                      span :
-                      if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
-                        span.spl= view.ownerNameMap[classroom.get('ownerID')]
-  
-                    - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
-                    for courseInstance in courseInstances
-  
-                      .course-instance-entry.rtl-allowed
-                        - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
-                        h6
-                          span.spr= i18n(course, 'name')
-                          small
-                            a.view-levels-btn(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
-                            if view.courseInstanceHasProject(courseInstance)
-                              a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
-                            if classroom.hasAssessments({courseId: course._id})
-                              =" "
-                              a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course._id)
-                            if view.showVideosLinkForCourse(course._id)
-                              = " "
-                              a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
-                        +course-instance-body(courseInstance, classroom)
-                        .clearfix
+            .school-stats.col-md-5
+              if view.myClans
+                h2
+                  span AI League Team Rankings
+                  if me.get('stats') && me.get('stats').codePoints
+                    span= ': ' + me.get('stats').codePoints.toLocaleString() + ' CodePoints'
+                hr
 
-            else
-              #announcement
-                h5 You can still learn and play without a classroom!
-                ul
-                  li
-                    b Start by playing the free Hour of Code campaign by <a href='/play/hoc-2018'>clicking here</a>.
-            
-            if me.level() >= 6
-              #esports-announcement.flex-container
-                .row.flex-row
-                  .col-md-5
-                    h1
-                      span(class="esports-aqua") Code
-                      span(class="esports-pink") Combat
-                      span(class="esports-green")  AI
-                      span(class="esports-purple")  League
-                    p(data-i18n="league.unlocked_seasonal_arena")
+                for clan in ['_global'].concat(view.myClans)
+                  - var stats = view.getAILeagueStat('codePoints', clan == '_global' ? clan : clan._id)
+                  if stats && stats.playerCount > 1
+                    a.team(href="/league/#{clan == '_global' ? '' : clan.slug + '#team-info'}")
+                      .team-name= clan == '_global' ? 'Worldwide' : clan.displayName || clan.name
+                      .team-stats
+                        if stats.rank
+                          span #
+                          span= stats.rank.toLocaleString()
+                          span= ' / '
+                        span= stats.playerCount.toLocaleString()
+                        span  players
 
-                  .col-md-7
-                    for arena in [{slug: 'blazing-battle', type: 'regular'}, {slug: 'infinite-inferno', type: 'championship'}]
-                      p
-                        - var playArenaText = $.t('league.play_arena_full', {arenaName: $.t('league.' + arena.slug.replace(/-/g, '_')), arenaType: $.t('league.arena_type_' + arena.type)})
-                        a.btn.btn-primary.btn-moon.esports-arena-link(href='/play/ladder/' + arena.slug, data-slug=arena.slug)= playArenaText
+        .student-profile-area.v0
+          .row
+            .current-hero.col-md-2.text-center
+              .hero-avatar
+                if view.hero.get('poseImage')
+                  img(src='/file/' + view.hero.get('poseImage') class='hero-' + view.hero.get('slug'))
+              .current-hero-right-col.rtl-allowed
+                .semibold.current-hero-text
+                  span.current-hero-name= view.hero.getHeroShortName()
+                a.change-hero-btn
+                  |  (
+                  span(data-i18n="play.change_hero")
+                  | )
+            .student-stats.col-md-5.v0
+              h2= me.broadName()
+              if me.get('stats') && me.get('stats').gamesCompleted
+                .stat
+                  span.spr Levels:
+                  span= me.get('stats').gamesCompleted
+                  if view.nextLevel
+                    a.play-next-level-btn play next level
+              else if view.nextLevel
+                a.play-next-level-btn play next level
+              .stat
+                if me.isRegisteredForAILeague()
+                  span.spr AI League:
+                  span= view.ageBracketDisplay
+                  span.spr  Bracket
+                  a(href="/league?registering=true") change
+                else
+                  span.spr AI League: unregistered
+                  a(href="/league?registering=true") register
+              if me.get('stats') && me.get('stats').codePoints
+                .stat
+                  span.spr CodePoints:
+                  span.spr= me.get('stats').codePoints
+              for arena in view.activeArenas || []
+                .stat
+                  span= $.i18n.t('league.' + arena.slug.replace(/-/g, '_'))
+                  span= ': '
+                  - var stats = view.getAILeagueStat('arenas', arena.levelOriginal, '_global')
+                  if stats && stats.score
+                    span= Math.round(100 * stats.score).toLocaleString()
+                    if stats.rank
+                      |  (
+                      span #
+                      span= stats.rank.toLocaleString()
+                      if stats.playerCount
+                        span= ' / '
+                        span= stats.playerCount.toLocaleString()
+                      | )
+                  else if view.myArenaSessions
+                    span not started
+                  else
+                    span ...
+                  a(href="/play/ladder/#{arena.slug}")
+                    if arena.type == 'championship'
+                      span play tournament
+                    else
+                      span play arena
 
-            h3.text-uppercase(data-i18n="courses.join_class")
-            hr
+            .school-stats.col-md-5
+              if view.myClans
+                h2 AI League Teams
+                for clan in ['_global'].concat(view.myClans)
+                  - var stats = view.getAILeagueStat('codePoints', clan == '_global' ? clan : clan._id)
+                  if stats && stats.playerCount > 1
+                    .team
+                      a(href="/league/#{clan == '_global' ? '' : clan.slug + '#team-info'}")
+                        span.spr= clan == '_global' ? 'Worldwide' : clan.displayName || clan.name
+                      if stats.rank
+                        span #
+                        span= stats.rank.toLocaleString()
+                        span= ' / '
+                      span= stats.playerCount.toLocaleString()
+                      span  players
 
-            form#join-class-form.form-inline
-              .help-block
-                em(data-i18n="courses.ask_teacher_for_code")
-              .form-group
-                input#class-code-input.form-control(data-i18n="[placeholder]courses.enter_c_code", placeholder="<Enter Class Code>", value=view.classCode)
-              input#join-class-button.btn.btn-navy(type="submit", data-i18n="[value]courses.join", value="Join")
+        .text-center.row#tournament-btn
+          if view.hasActiveTournaments
+            a.btn.btn-navy.btn-lg.text-uppercase(href='/tournaments/student/#{me.id}', data-i18n="tournament.class_tournaments") class mini-tournaments
+        if view.classrooms.size()
+          .classes-area
+            br
+            h3(data-i18n="courses.my_classes")
 
-              if view.state === 'enrolling'
-                .progress.progress-striped.active
-                  .progress-bar(style="width: 100%", data-i18n="courses.joining") Joining class
+            if view.allCompleted
+              p.alert.alert-success
+                span(data-i18n="courses.ask_next_course")
 
-              if view.errorMessage
-                .alert.alert-danger= view.errorMessage
+            for classroom in view.classrooms.models
+              hr.class-break
+              - var justAdded = classroom.id === view.classroomJustAdded;
+              - var classroomClass = justAdded ? 'just-added' : '';
+              if justAdded
+                #just-added-text.text-center(data-i18n="courses.class_added")
+
+              div(class=classroomClass).rtl-allowed
+                h5(dir="auto")
+                  span.spr= classroom.get('name')
+                  - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++'}
+                  span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
+                p
+                  span(data-i18n="courses.teacher")
+                  span :
+                  if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
+                    span.spl= view.ownerNameMap[classroom.get('ownerID')]
+
+                - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
+                for courseInstance in courseInstances
+
+                  .course-instance-entry.rtl-allowed
+                    - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
+                    if course
+                      h6
+                        span.spr= i18n(course, 'name')
+                        small
+                          a.view-levels-btn(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
+                          if view.courseInstanceHasProject(courseInstance)
+                            a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
+                          if classroom.hasAssessments({courseId: course._id})
+                            =" "
+                            a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course._id)
+                          if view.showVideosLinkForCourse(course._id)
+                            = " "
+                            a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
+                      +course-instance-body(courseInstance, classroom)
+                      .clearfix
+
+        else
+          #announcement
+            h5 You can still learn and play without a classroom!
+            ul
+              li
+                b Start by playing the free Hour of Code campaign by <a href='/play/hoc-2018'>clicking here</a>.
+
+        h3.text-uppercase(data-i18n="courses.join_class")
+        hr
+
+        form#join-class-form.form-inline
+          .help-block
+            em(data-i18n="courses.ask_teacher_for_code")
+          .form-group
+            input#class-code-input.form-control(data-i18n="[placeholder]courses.enter_c_code", placeholder="<Enter Class Code>", value=view.classCode)
+          input#join-class-button.btn.btn-navy(type="submit", data-i18n="[value]courses.join", value="Join")
+
+          if view.state === 'enrolling'
+            .progress.progress-striped.active
+              .progress-bar(style="width: 100%", data-i18n="courses.joining") Joining class
+
+          if view.errorMessage
+            .alert.alert-danger= view.errorMessage
 
 
 mixin course-instance-body(courseInstance, classroom)

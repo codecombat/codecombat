@@ -13,69 +13,13 @@
     p
       margin-bottom: 7px
 
-  #esports-announcement
-    padding: 65px 45px
-    background: url(/images/pages/courses/pixel-starts-background.png) right -150px bottom no-repeat
-    background-size: cover
-    background-color: #0C1016
-
-    .flex-row
-      display: flex
-      align-items: center
-      align-items: center
-      justify-content: center
-
-    h1, p
-      color: white
-
-    h1
-      font-family: "lores12ot-bold", "VT323"
-      text-transform: uppercase
-      line-height: 53px
-      margin-bottom: 2px
-
-    p, a
-      font-family: Work Sans, "Open Sans", sans-serif
-
-    p
-      font-style: normal
-      font-weight: normal
-
-    .btn-primary.btn-moon
-      background-color: #FCBB00
-      border-radius: 4px
-      color: #232323
-      text-shadow: unset
-      text-transform: uppercase
-      font-weight: bold
-      letter-spacing: 0.71px
-      line-height: 24px
-      font-size: 18px
-      padding: 12px 20px
-      white-space: unset
-
-      &:hover
-        background-color: #Fedd10
-        transition: background-color .35s
-
-  .esports-pink
-    color: #ff39a6
-
-  .esports-goldenlight
-    color: #f7d047
-
-  /deep/ .esports-aqua
-    color: #30efd3
-
-  .esports-green
-    color: #bcff16
-
-  .esports-purple
-    color: #9b83ff
-
   #main-content
-    max-width: 1000px
+    max-width: 720px
+    padding: 0 20px
     margin: 0 auto
+    background: linear-gradient(to top, #cabea1, #d6cab3)
+    border-left: 1px solid #314545
+    border-right: 1px solid #314545
 
   .classes-area
     max-width: 720px
@@ -119,27 +63,59 @@
 
     .progress-bar
       min-width: 15%
+      background-color: #21572b
 
     .btn
       margin-left: 20px
       min-width: 180px
 
   #join-class-form
+    padding-bottom: 30px
+
     .alert, .progress
       margin-top: 20px
 
-  //.student-profile-area:not(.v0)
-  //  width: 100%
-  //  background-color: #28190B
+  .style-flat
+    background-color: transparent
+
+  #site-content-area
+    background: transparent url(/images/pages/play/portal-background.png)
+    border: 1px solid #314545
+
+  #footer
+    margin-top: 0
+
+  .student-profile-area.v0
+    display: none
+
+  .student-profile-area:not(.v0)
+    width: 1210px
+    padding: 10px 60px 60px 60px
+    margin-left: calc(0px - (1210px - 720px) / 2)
+    background: #d6cab3 url(/images/pages/play/modal/parental_prompt_modal_background.png) no-repeat
+    //background-size: cover
+    // Doesn't work because rough transparent edge shows background color below; gotta make image a bit bigger than pre-image-load solid fill
+    background-size: 100.4% auto
+    background-position: bottom
+    border-radius: 6px
+
+    h2
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      text-shadow: 0px 1px 1px black, -1px 0px 1px black, 1px 0px 1px black, 0px -1px 1px black
+      font-size: 24px
+      text-align: center
 
   // Hero display
   .current-hero
     cursor: pointer
 
-    .current-hero-text
-      font-size: 16px
-      line-height: 16px
-      margin-top: 5px
+    h2.current-hero-text
+      line-height: 24px
+      margin: 15px 0 5px 0
+      color: black
+      text-shadow: none
 
     .hero-avatar
       margin-right: 10px
@@ -149,6 +125,7 @@
         max-height: 220px
 
         &.hero-captain
+          // Captain faces left normally, others face right
           transform: scaleX(-1)
 
     .change-hero-btn
@@ -183,7 +160,7 @@
     background-color: black
 
     @media only screen and (min-width: 1200px)
-      height: 85px
+      height: 76px
 
     .level-image
       @include transition(filter .10s linear)
@@ -247,7 +224,73 @@
 
       .stats-text
         font-size: 18px
+        line-height: 24px
 
     &[disabled]
       opacity: 0.7
 
+  &:not(.v0) .school-stats
+    font-family: $headings-font-family
+    font-variant: small-caps
+
+    .stat
+      width: 100%
+      height: 38px
+      margin: 4px 0
+      padding: 0 8px
+      line-height: 32px
+      background: rgb(58,47,38)
+      color: rgb(195,153,124)
+      border: 2px solid rgb(85,70,57)
+      text-align: center
+
+      &:hover
+        background: rgb(33,28,21)
+        border: 2px solid rgb(64,53,41)
+        color: white
+
+    .team
+      padding: 0
+      border-radius: 2px
+      margin: 4px 0
+      height: 38px
+      cursor: pointer
+
+      .team-name, .team-stats
+        display: inline-block
+        margin: 0
+        padding: 0 8px
+        width: 50%
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+        height: 38px
+        line-height: 32px
+
+      .team-name
+        background: rgb(58,47,38)
+        color: rgb(195,153,124)
+        border: 2px solid rgb(85,70,57)
+
+        &:hover
+          background: rgb(33,28,21)
+          border: 2px solid rgb(64,53,41)
+          color: white
+
+      .team-stats
+        color: black
+        background-color: #D0C4AC
+        border: 2px solid #B5AA8F
+
+        &:hover
+          background: darken(#D0C4AC, 10%)
+          border: 2px solid darken(#B5AA8F, 10%)
+          color: lighten(black, 10%)
+
+  .loading-screen
+    background-color: white
+    margin: 0
+    padding-bottom: 20px
+
+  .help-block
+    color: #333
