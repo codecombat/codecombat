@@ -21,7 +21,111 @@ block content
                       |  (
                       span(data-i18n="play.change_hero")
                       | )
-                .student-stats.col-md-5
+                .student-stats.col-md-6
+                  h2= me.broadName()
+
+                  a.play-next-level-btn.tile(disabled=!view.nextLevel, title="TODO: play next level")
+                    // TODO: handle locked status, other cases
+                    - var level = {name: 'CS2 L13: Winding Trail'}
+                    - var levelImage = level.image || "/images/pages/play/ladder/multiplayer_notext.jpg"
+                    img(src=levelImage, alt=level.name, class="level-image" + (level.image ? "" : " placeholder"))
+                    h3.dynamic-level-name.overlay-text= level.name + (level.disabled ? " (locked)" : "")
+                    .tile-text-backdrop
+                    .stats-text-container
+                      .overlay-text.stats-text
+                        // TODO: do a single i18n key with the levels completed interpolated, handle 0 and 1 levels case
+                        span.spr Levels Completed:
+                        span= me.get('stats').gamesCompleted
+                    .play-text-container
+                      .overlay-text.play-text Play Next Level
+
+                  for arena in view.activeArenas || []
+                    a.play-arena-btn.tile(href="/play/ladder/#{arena.slug}", title="TODO: Play Arena/Tournament")
+                      - var arenaImage = arena.image || "/images/pages/play/ladder/multiplayer_notext.jpg"
+                      - var arenaName = $.i18n.t('league.' + arena.slug.replace(/-/g, '_'))
+                      - var stats = view.getAILeagueStat('arenas', arena.levelOriginal, '_global')
+                      img(src=arenaImage, alt=arenaName, class="level-image" + (arena.image ? "" : " placeholder"))
+                      if !arena.image
+                        // TODO: figure out when we are showing internationalized/placeholder arena image
+                        h3.dynamic-level-name= arenaName
+                      .tile-text-backdrop
+                      .stats-text-container
+                        .overlay-text.stats-text
+                          if stats && stats.score
+                            //span.spr Score:
+                            //span= Math.round(100 * stats.score).toLocaleString()
+                            if stats.rank
+                              span.spr  Rank:
+                              span #
+                              span= stats.rank.toLocaleString()
+                              if stats.playerCount
+                                span= ' / '
+                                span= stats.playerCount.toLocaleString()
+                          else if view.myArenaSessions
+                            span Not Started
+                      .play-text-container
+                        .overlay-text.play-text
+                          //.btn.btn-illustrated.btn-success
+                          if arena.type == 'championship'
+                            span Play Tournament
+                          else
+                            span Play Arena
+
+                  a.ai-league-btn.tile(href=me.isRegisteredForAILeague() ? "/league" : "/league?registering=true", title="TODO: AI League")
+                    img.level-image(src="/images/pages/league/hero_lady_ida.png" alt="CodeCombat AI League")
+                    h3.dynamic-level-name.overlay-text CodeCombat AI League
+                    .tile-text-backdrop
+                    .stats-text-container
+                      .overlay-text.stats-text
+                        if me.isRegisteredForAILeague()
+                          span.spr Bracket:
+                          span= view.ageBracketDisplay
+                        else
+                          span Unregistered
+                        //if me.get('stats') && me.get('stats').codePoints
+                        //  span.spr  CodePoints:
+                        //  span= me.get('stats').codePoints
+                    .play-text-container
+                      .overlay-text.play-text
+                        if me.isRegisteredForAILeague()
+                          span View Standings
+                        else
+                          span Register
+ 
+                .school-stats.col-md-4
+                  if view.myClans
+                    h2 AI League Teams
+                    if me.get('stats') && me.get('stats').codePoints
+                      .stat
+                        span.spr CodePoints:
+                        span.spr= me.get('stats').codePoints
+                    for clan in ['_global'].concat(view.myClans)
+                      - var stats = view.getAILeagueStat('codePoints', clan == '_global' ? clan : clan._id)
+                      if stats && stats.playerCount > 1
+                        .team
+                          a(href="/league/#{clan == '_global' ? '' : clan.slug + '#team-info'}")
+                            span.spr= clan == '_global' ? 'Worldwide' : clan.displayName || clan.name
+                          if stats.rank
+                            span #
+                            span= stats.rank.toLocaleString()
+                            span= ' / '
+                          span= stats.playerCount.toLocaleString()
+                          span  players
+
+            .student-profile-area.v0
+              .row
+                .current-hero.col-md-2.text-center
+                  .hero-avatar
+                    if view.hero.get('poseImage')
+                      img(src='/file/' + view.hero.get('poseImage') class='hero-' + view.hero.get('slug'))
+                  .current-hero-right-col.rtl-allowed
+                    .semibold.current-hero-text
+                      span.current-hero-name= view.hero.getHeroShortName()
+                    a.change-hero-btn
+                      |  (
+                      span(data-i18n="play.change_hero")
+                      | )
+                .student-stats.col-md-5.v0
                   h2= me.broadName()
                   if me.get('stats') && me.get('stats').gamesCompleted
                     .stat

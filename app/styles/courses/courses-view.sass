@@ -128,6 +128,10 @@
     .alert, .progress
       margin-top: 20px
 
+  //.student-profile-area:not(.v0)
+  //  width: 100%
+  //  background-color: #28190B
+
   // Hero display
   .current-hero
     cursor: pointer
@@ -152,7 +156,7 @@
       text-transform: lowercase
       font-weight: regular
 
-  .student-stats
+  .student-stats.v0
     a
       padding-left: 10px
 
@@ -167,3 +171,83 @@
       margin-right: 15px
     div
       display: inline
+
+  a.tile
+    display: block
+    width: 100%
+    position: relative
+    margin-bottom: 6px
+    text-shadow: 2px 2px 5px black
+    border-radius: 6px
+    overflow: hidden
+    background-color: black
+
+    @media only screen and (min-width: 1200px)
+      height: 85px
+
+    .level-image
+      @include transition(filter .10s linear)
+      width: 100%
+      height: 100%
+      // Need to set an explicit height on .tile parent for this to work
+      object-fit: cover
+
+      &.placeholder
+        filter: brightness(75%)
+
+    &:hover div, &:hover .dynamic-level-name
+      color: lighten($yellow, 20%)
+
+    &:hover img.level-image
+      filter: brightness(1.2)
+      -webkit-filter: brightness(1.2)
+      box-shadow: 0 0 5px black
+
+    .dynamic-level-name
+      position: absolute
+      z-index: 1
+      top: calc(37% - 23px)
+      width: 100%
+      text-align: center
+      font-size: 24px
+
+    .overlay-text
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      @include transition(color .10s linear)
+      text-shadow: 0px 1px 1px black, -1px 0px 1px black, 1px 0px 1px black, 0px -1px 1px black
+
+    .tile-text-backdrop
+      position: absolute
+      bottom: 0
+      left: 0
+      right: 0
+      height: 25px
+      background-color: black
+      opacity: 50%
+      @include transition(opacity .10s linear)
+
+    &:hover .tile-text-backdrop
+      opacity: 75%
+
+    .play-text-container, .stats-text-container
+      position: absolute
+
+    .play-text-container
+      right: 5px
+      bottom: 0
+
+      .play-text
+        font-size: 24px
+
+    .stats-text-container
+      left: 5px
+      bottom: 0
+
+      .stats-text
+        font-size: 18px
+
+    &[disabled]
+      opacity: 0.7
+
