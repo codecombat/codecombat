@@ -148,15 +148,6 @@ module.exports = class HomeView extends RootView
       @homePageEvent("Link:", properties, ['Google Analytics'])
 
   afterRender: ->
-    vimeoPlayerIframe = @$('.vimeo-player')[0]
-    if !me.showChinaVideo() and vimeoPlayerIframe
-      require.ensure(['@vimeo/player'], (require) =>
-        Player = require('@vimeo/player').default
-        @vimeoPlayer = new Player(vimeoPlayerIframe)
-      , (e) =>
-        console.error e
-      , 'vimeo')
-
     if me.isAnonymous()
       if document.location.hash is '#create-account' or utils.getQueryVariable('registering') == true
         @openModalView(new CreateAccountModal())
