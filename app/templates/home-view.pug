@@ -13,8 +13,8 @@ block content
           img.top-banner-img(src="/file/db/thang.type/6037ed81ad0ac000f5e9f0b5/armando-pose.png" alt="Armando Hoyos")
 
     .row#jumbotron-container-fluid
-      .col-lg-6
-        h1.text-white(data-i18n="new_home.slogan")
+      .col-md-8
+        h1(data-i18n="new_home.slogan")
         div.button-section
           if me.isAnonymous()
             p
@@ -32,3 +32,193 @@ block content
               else
                 a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
 
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-right
+            img.img-responsive(src="/images/pages/home-v2/graphic-1.png" loading="lazy" style="max-width: 290px;")
+
+    section.container
+      .row.text-center
+        .col-xs-1.col-xs-offset-1
+          img.img-responsive(src="/images/pages/home-v2/tent.png" loading="lazy")
+        .col-xs-9
+          h3 Our innovative game-based learning technology has transformed the way students learn to code.
+    
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-2.png" loading="lazy" style="max-width: 290px; transform: translateX(-50%);")
+
+    //- TODO - Carousel
+
+    section.container
+      .row.text-center
+        .col-xs-12
+          //- TODO - add functionality
+          button.btn.btn-lg.btn-primary.btn-gold.get-started-btn Get Started
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-3.png" loading="lazy" style="max-width: 640px;")
+
+    .container
+      .row.text-center
+        .col-xs-12
+          h1 For Educators
+
+    section.container
+      .row(style="padding-bottom: 0;")
+        .col-md-5
+          .row
+            img.img-responsive(src="/images/pages/home-v2/ozaria-logo-bevelled.png" loading="lazy" style="max-width: 100px;")
+            h4 Ozaria Classroom
+            p Ozaria is our brand new adventure game and your turnkey solution for teaching Computer science. Our student-facing lesson slides and teacher-facing notes make planning and delivering lessons easier and faster.
+            button.btn.btn-lg.btn-primary.btn-gold.get-started-btn Explore Ozaria
+        .col-md-6.col-md-offset-1
+          img.img-responsive(src="/images/pages/home-v2/oz-class-image.png" loading="lazy")
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-4.png" loading="lazy" style="max-width: 240px; transform: translateX(-50%);")
+
+    section.container
+      .row(style="padding-bottom: 0;")
+        .col-md-6
+          img.img-responsive(src="/images/pages/home-v2/codecombat-classroom.png" loading="lazy")
+        .col-md-5.col-md-offset-1
+          .row
+            img.img-responsive(src="/images/pages/home-v2/coco_square_logo.png" loading="lazy" style="max-width: 80px;")
+            h4 CodeCombat Classroom
+            p Our original game teaches real-world skills through the power of play. The scaffolded curriculum systematically builds on student’s experiences and knowledge as they progress.
+            button.btn.btn-lg.btn-primary.btn-gold.get-started-btn Explore CodeCombat
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-5.png" loading="lazy" style="max-width: 240px; transform: translateX(50%);")
+
+
+    .container
+      .row.text-center
+        .col-xs-12
+          h1 For Parents
+
+    section.container
+      .row(style="padding-bottom: 0;")
+        .col-md-5
+          .row
+            h4 CodeCombat Live Online Classes
+            p Our online coding classes combine the power of gameplay and personalized instruction for an experience your child will love. With both private or group options available, this is remote learning that works.
+            button.btn.btn-lg.btn-primary.btn-gold.get-started-btn Explore Online Classes
+        .col-md-6.col-md-offset-1
+          img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy")
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" style="max-width: 240px;")
+
+    .container
+      .row.text-center
+        .col-xs-12
+          h1 For Everyone
+
+    section.container
+      .row(style="padding-bottom: 0;")
+        .col-md-6
+          img.img-responsive(src="/images/pages/home-v2/league-image.png" loading="lazy")
+        .col-md-5.col-md-offset-1
+          .row
+            img.img-responsive(src="/images/pages/league/logo_badge.png" loading="lazy" style="max-width: 130px;")
+            h4 CodeCombat AI League
+            p Competitive coding has never been so epic with this educational esports league, uniquely both an AI battle simulator and game engine for learning real code.
+            button.btn.btn-lg.btn-primary.btn-gold.get-started-btn Explore AI League
+
+    .container
+      .row.text-center(style="padding-bottom: 0;")
+        .col-xs-12
+          h1 Join Our Global Community
+    section.container
+      .row(style="padding-bottom: 0;")
+        .col-xs-6.col-md-3.text-center
+          .centered-flex(style="height: 100px;")
+            img.img-reponsive(src="/images/pages/home-v2/cap.png" loading="lazy" style="max-width: 99px;")
+          h4 20 Million
+          p Learners
+        .col-xs-6.col-md-3.text-center
+          .centered-flex(style="height: 100px;")
+            img.img-reponsive(src="/images/pages/home-v2/monitor.png" loading="lazy" style="max-width: 80px;")
+          h4 1 Billion
+          p Lines of Code
+        .col-xs-6.col-md-3.text-center
+          .centered-flex(style="height: 100px;")
+            img.img-reponsive(src="/images/pages/home-v2/apple.png" loading="lazy" style="max-width: 82px;")
+          h4 140,000
+          p Teachers
+        .col-xs-6.col-md-3.text-center
+          .centered-flex(style="height: 100px;")
+            img.img-reponsive(src="/images/pages/home-v2/worldwide.png" loading="lazy" style="max-width: 82px;")
+          h4 190
+          p Countries
+
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/ice-island.png" loading="lazy" style="max-height: 274px;")
+
+    //- TODO - Carousel
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-7.png" loading="lazy" style="max-width: 240px;")
+
+    .container
+      .row.text-center(style="padding-bottom: 0;")
+        .col-xs-12
+          h1 What Our Customers Are Saying
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-height: 236px; transform: translateX(50%);")
+
+    #featured-in.container
+      .row
+        .col-xs-12.col-md-4.text-center
+          h1 Featured In
+          .row
+            .col-xs-3.col-md-6
+              img.img-responsive(src="/images/pages/home-v2/forbes-logo.png" loading="lazy" style="max-height: 60px;")
+            .col-xs-3.col-md-6
+              img.img-responsive(src="/images/pages/home-v2/edsurge-logo.png" loading="lazy" style="max-height: 60px;")
+            .col-xs-3.col-md-6
+              img.img-responsive(src="/images/pages/home-v2/wsj-logo.png" loading="lazy" style="max-height: 60px;")
+            .col-xs-3.col-md-6
+              img.img-responsive(src="/images/pages/home-v2/techcrunch-logo.png" loading="lazy" style="max-height: 60px;")
+
+        .col-md-8.text-center
+          h1 Awards & Partners
+          .row
+            .col-xs-3.col-md-4
+              img.img-responsive(src="/images/pages/home-v2/csforall-member-logo.png" loading="lazy" style="max-height: 60px;")
+            .col-xs-3.col-md-4
+              img.img-responsive(src="/images/pages/home-v2/codie-award.png" loading="lazy" style="max-height: 60px;")
+            .col-xs-3.col-md-4
+              img.img-responsive(src="/images/pages/home-v2/commonsense-logo.png" loading="lazy" style="max-height: 60px;")
+            .col-xs-3.col-md-4
+              img.img-responsive(src="/images/pages/home-v2/code-org-logo.png" loading="lazy" style="max-height: 60px;")
+            .col-xs-3.col-md-4
+              img.img-responsive(src="/images/pages/home-v2/afe-logo.png" loading="lazy" style="max-height: 60px;")

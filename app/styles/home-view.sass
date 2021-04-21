@@ -8,8 +8,8 @@
   h1, .text-h1
     font-family: $pixel-headline-font
     font-weight: bold
-    font-size: 46px
-    line-height: 62px
+    font-size: 56px
+    line-height: 64px
     letter-spacing: 2px
     margin-bottom: -6px
     color: $navy
@@ -48,6 +48,7 @@
     font-weight: 300
     letter-spacing: 0.75px
     line-height: 26px
+    color: #131b25
 
   .btn-primary, .btn-navy, .btn-teal
     background-color: $teal
@@ -58,7 +59,7 @@
     font-weight: bold
     letter-spacing: 0.71px
     line-height: 24px
-    width: 247px
+    min-width: 247px
     &:hover
       background-color: #2DCEC8
       transition: background-color .35s
@@ -73,7 +74,7 @@
     font-weight: bold
     letter-spacing: 0.71px
     line-height: 24px
-    width: 247px
+    min-width: 247px
     &:hover
       background-color: $teal
       box-shadow: unset
@@ -86,6 +87,8 @@
 
   #site-content-area
     background: linear-gradient(262.39deg, #D7EFF2 -1.56%, #FDFFFF 95.05%)
+    // For joining with footer seamlessly
+    margin-bottom: -50px
 
     .row
       padding: 62px 0px
@@ -121,8 +124,17 @@
         @media (max-width: 1100px)
           left: 0px
 
+    .btn-gold
+      background-color: $gold
+      &:hover
+        background-color: #FDD147
+
     #jumbotron-container-fluid
-      // TODO - Add the pixelated header image.
+      background-image: url(/images/pages/home-v2/hero-image.png)
+      background-repeat: no-repeat
+      background-size: 50%
+      // TODO - make responsive
+      background-position: 100% 50%
       height: 627px
       width: 100%
       margin: auto
@@ -142,6 +154,22 @@
           &:hover
             background-color: $gold
             color: $gray
+
+    .container-graphic-spacer
+      pointer-events: none
+      overflow-x: hidden
+
+      .row
+        padding: 5px 0
+
+    .container-graphic-spacer img
+      margin: 0 auto
+
+    .centered-flex
+      display: flex
+      align-items: center
+      justify-content: center
+
 
 body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='sr'], body[lang='pl'], body[lang='lt'], body[lang='sl'], body[lang='tr'], body[lang='vi']
   #home-view
