@@ -139,7 +139,7 @@ module.exports = class RootView extends CocoView
     @initializeNavigation()
 
   afterRender: ->
-    if @$el.find('#site-nav').length # hack...
+    if @$el.find('#main-nav.legacy').length # hack...
       @$el.addClass('site-chrome')
       if @showBackground
         @$el.addClass('show-background')

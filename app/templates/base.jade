@@ -1,5 +1,7 @@
 block header
-  #site-nav
+  //- Add 'legacy' class to support some old hacky workarounds for adding site-chrome
+  //- without breaking new pages.
+  #main-nav.legacy
     block site_nav
       a(href="/")
         img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
