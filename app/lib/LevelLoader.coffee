@@ -3,7 +3,6 @@ LevelComponent = require 'models/LevelComponent'
 LevelSystem = require 'models/LevelSystem'
 Article = require 'models/Article'
 LevelSession = require 'models/LevelSession'
-TournamentSubmission = require 'models/TournamentSubmission'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 ThangNamesCollection = require 'collections/ThangNamesCollection'
@@ -172,20 +171,18 @@ module.exports = class LevelLoader extends CocoClass
         delimiter = if /\?/.test(url) then '&' else '?'
         url += delimiter + 'password=' + password
 
+    if @tournament
+      url = "/db/level.session/#{@sessionID}/tournament-snapshot/#{@tournament}"
     session = new LevelSession().setURL url
     if @headless and not @level.isType('web-dev')
       session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state', 'submittedCode', 'submitted']
-    if @tournament
-      url = "/db/tournament.submission/with/session/#{@tournament}/#{@sessionID}?interpret=true"
-      session = new TournamentSubmission().setURL url
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
     if @opponentSessionID
       opponentURL = "/db/level.session/#{@opponentSessionID}?interpret=true"
-      opponentSession = new LevelSession().setURL opponentURL
       if @tournament
-        url = "/db/tournament.submission/with/session/#{@tournament}/#{@opponentSessionID}?interpret=true"
-        opponentSession = new TournamentSubmission().setURL url
+        opponentURL = "/db/level.session/#{@opponentSessionID}/tournament-snapshot/#{@tournament}"
+      opponentSession = new LevelSession().setURL opponentURL
       opponentSession.project = session.project if @headless
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
       @opponentSession = @opponentSessionResource.model
