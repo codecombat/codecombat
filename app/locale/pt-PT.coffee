@@ -214,6 +214,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     parent: "Educadores"
 #    esports: "Esports"
     browser_recommendation: "Para a melhor experiência, recomendamos a utilização da última versão do Chrome. Descarregue o navegador aqui!"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "Fechar"
