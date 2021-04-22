@@ -39,6 +39,7 @@ module.exports = class LevelLoader extends CocoClass
     @levelID = options.levelID
     @sessionID = options.sessionID
     @opponentSessionID = options.opponentSessionID
+    @tournament = options.tournament ? false
     @team = options.team
     @headless = options.headless
     @loadArticles = options.loadArticles
@@ -170,6 +171,8 @@ module.exports = class LevelLoader extends CocoClass
         delimiter = if /\?/.test(url) then '&' else '?'
         url += delimiter + 'password=' + password
 
+    if @tournament
+      url = "/db/level.session/#{@sessionID}/tournament-snapshot/#{@tournament}"
     session = new LevelSession().setURL url
     if @headless and not @level.isType('web-dev')
       session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state', 'submittedCode', 'submitted']
@@ -177,6 +180,8 @@ module.exports = class LevelLoader extends CocoClass
     @session = @sessionResource.model
     if @opponentSessionID
       opponentURL = "/db/level.session/#{@opponentSessionID}?interpret=true"
+      if @tournament
+        opponentURL = "/db/level.session/#{@opponentSessionID}/tournament-snapshot/#{@tournament}"
       opponentSession = new LevelSession().setURL opponentURL
       opponentSession.project = session.project if @headless
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
