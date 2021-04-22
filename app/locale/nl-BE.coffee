@@ -214,6 +214,12 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     parent: "Ouders"
 #    esports: "Esports"
     browser_recommendation: "Voor de beste ervaring raden we aan de nieuwste versie van Chrome te gebruiken. Download de browser hier!"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "Sluiten"
