@@ -220,6 +220,7 @@ module.exports = class PlayLevelView extends RootView
     return unless @timeOffset
     return unless @mandate.loaded
     return unless @levelSlug
+    return unless @level.get('type') is 'course-ladder'
     courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
     mandate = @mandate.get('0')
 
