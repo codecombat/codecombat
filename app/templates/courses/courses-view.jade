@@ -31,12 +31,24 @@ block content
                 span= me.broadName()
               hr
 
-              a.play-next-level-btn.tile(disabled=!view.nextLevel, title="TODO: play next level")
-                // TODO: course acronym, level number, level name, handle locked status, other cases
-                - var level = {name: 'CS2 L13: Winding Trail'}
-                - var levelImage = level.image || "/images/pages/play/ladder/multiplayer_notext.jpg"
-                img(src=levelImage, alt=level.name, class="level-image" + (level.image ? "" : " placeholder"))
-                h3.dynamic-level-name.overlay-text= level.name + (level.disabled ? " (locked)" : "")
+              a.play-next-level-btn.tile(disabled=!view.nextLevelInfo, title="TODO: play next level")
+                // TODO: handle locked status, other cases
+                - var levelInfo = view.nextLevelInfo || {}
+                - var level = levelInfo.level
+                - var levelName = level ? i18n(level.attributes, 'name') : ''
+                - if (levelInfo.number && levelInfo.number > 0)
+                -   // Prepend level number, like "Level 1: Dungeons of Kithgard"
+                -   levelName = $.i18n.t('play_level.level') + ' ' + levelInfo.number + ': ' + levelName
+                - else if (levelInfo.number)
+                -   // Prepend level type and name, like "Concept Challenge: Long Steps"
+                -   levelName = levelInfo.number + ': ' + levelName
+                - if (levelInfo.courseAcronym)
+                -   // Prepend course acronym, like "CS1 Level 1: Dungeons of Kithgard"
+                -   levelName = levelInfo.courseAcronym + ' ' + levelName
+                - var levelImage = view.nextLevelImage()
+                img(src=levelImage, alt=levelName, class="level-image" + (levelImage ? "" : " placeholder"))
+                // TODO: disabled case
+                h3.dynamic-level-name.overlay-text= levelName + ((level && level.disabled) ? " (locked)" : "")
                 .tile-text-backdrop
                 .stats-text-container
                   .overlay-text.stats-text
@@ -60,8 +72,6 @@ block content
                   .stats-text-container
                     .overlay-text.stats-text
                       if stats && stats.score
-                        //span.spr Score:
-                        //span= Math.round(100 * stats.score).toLocaleString()
                         if stats.rank
                           span.spr  Rank:
                           span #
@@ -80,8 +90,7 @@ block content
                         span Play Arena
 
               a.ai-league-btn.tile(href=me.isRegisteredForAILeague() ? "/league" : "/league?registering=true", title="TODO: AI League")
-                - var bannerHero = ['anya', 'ida', 'okar'][Math.floor(Math.random() * 3)];
-                img.level-image(src="/images/pages/courses/ai_league_banner_#{bannerHero}.png" alt="CodeCombat AI League")
+                img.level-image(src="/images/pages/courses/banners/ai-league-banner-#{view.randomAILeagueBannerHero}.png" alt="CodeCombat AI League")
                 //h3.dynamic-level-name.overlay-text CodeCombat AI League
                 .tile-text-backdrop
                 .stats-text-container
@@ -91,9 +100,6 @@ block content
                       span= view.ageBracketDisplay
                     else
                       span Unregistered
-                    //if me.get('stats') && me.get('stats').codePoints
-                    //  span.spr  CodePoints:
-                    //  span= me.get('stats').codePoints
                 .play-text-container
                   .overlay-text.play-text
                     if me.isRegisteredForAILeague()
@@ -141,9 +147,9 @@ block content
                 .stat
                   span.spr Levels:
                   span= me.get('stats').gamesCompleted
-                  if view.nextLevel
+                  if view.nextLevelInfo
                     a.play-next-level-btn play next level
-              else if view.nextLevel
+              else if view.nextLevelInfo
                 a.play-next-level-btn play next level
               .stat
                 if me.isRegisteredForAILeague()

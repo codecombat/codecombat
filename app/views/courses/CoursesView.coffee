@@ -93,6 +93,7 @@ module.exports = class CoursesView extends RootView
     @loadAILeagueStats()
 
   loadAILeagueStats: ->
+    @randomAILeagueBannerHero = _.sample ['anya', 'ida', 'okar']
     @aiLeagueStats ?= {}
     age = utils.ageToBracket me.age()
     @ageBracketDisplay = $.i18n.t "ladder.bracket_#{(age ? 'open').replace(/-/g, '_')}"
@@ -223,10 +224,19 @@ module.exports = class CoursesView extends RootView
       _.some @courseInstances.where({classroomID: classroom.id}), ((courseInstance) ->
         course = @store.state.courses.byId[courseInstance.get('courseID')]
         stats = classroom.statsForSessions(courseInstance.sessions, course._id)
+        console.log course, stats, stats.levels?.next, stats.courseComplete
         if stats.levels?.next
-          # This could be made smarter than just picking the first one
-          @nextLevel ?= stats.levels.next
-          @nextLevelCourseInstance ?= courseInstance
+          # This could be made smarter than just picking the next level from the first incomplete course
+          # It will suggest redoing a course arena level, like Wakka Maul, if all courses are complete
+          @nextLevelInfo =
+            level: stats.levels.next
+            courseInstance: courseInstance
+            course: course
+            courseAcronym: utils.courseAcronyms[course._id]
+            number: stats.levels.nextNumber
+          ## In progress
+          #if stats.levels.next.get('slug') is courseInstance.get('startLockedLevel') # lock level begin from startLockedLevel
+          #  @nextLevelInfo.locked = true # what
         not stats.courseComplete
         ), this
       ), this
@@ -237,7 +247,7 @@ module.exports = class CoursesView extends RootView
         return if @destroyed
         @originalLevelMap[level.get('original')] = level for level in levels.models
         @render()
-      @supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: "original,primerLanguage,slug,i18n.#{me.get('preferredLanguage', true)}" }}))
+      @supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: "original,primerLanguage,slug,name,i18n.#{me.get('preferredLanguage', true)}" }}))
 
   courseInstanceHasProject: (courseInstance) ->
     classroom = @classrooms.get(courseInstance.get('classroomID'))
@@ -345,13 +355,13 @@ module.exports = class CoursesView extends RootView
       document.location.search = '' # Using document.location.reload() causes an infinite loop of reloading
 
   nextLevelUrl: ->
-    return null unless @nextLevel
-    urlFn = if @nextLevel.isLadder() then @urls.courseArenaLadder else @urls.courseLevel
-    urlFn level: @originalLevelMap[@nextLevel.get('original')] or @nextLevel, courseInstance: @nextLevelCourseInstance
+    return null unless @nextLevelInfo
+    urlFn = if @nextLevelInfo.level.isLadder() then @urls.courseArenaLadder else @urls.courseLevel
+    urlFn level: @originalLevelMap[@nextLevelInfo.level.get('original')] or @nextLevelInfo.level, courseInstance: @nextLevelInfo.courseInstance
 
   onClickPlayNextLevel: (e) ->
-    url = @nextLevelUrl @nextLevel
-    window.tracker?.trackEvent 'Students Play Next Level', category: 'Students', levelSlug: @nextLevel.get('slug'), ['Mixpanel']
+    url = @nextLevelUrl()
+    window.tracker?.trackEvent 'Students Play Next Level', category: 'Students', levelSlug: @nextLevelInfo.level.get('slug'), ['Mixpanel']
     application.router.navigate(url, { trigger: true })
 
   onClickPlay: (e) ->
@@ -391,3 +401,53 @@ module.exports = class CoursesView extends RootView
     courseName = $(e.target).data('course-name')
     window.tracker?.trackEvent 'Students View To Videos View', category: 'Students', courseID: courseID, classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/students/videos/#{courseID}/#{courseName}", { trigger: true })
+
+  nextLevelImage: ->
+    # Prioritize first by level-specific, then course-specific and hero-specific together
+    return @_nextLevelImage if @_nextLevelImage
+    return unless level = @nextLevelInfo?.level?.get 'slug'
+    return unless course = @nextLevelInfo?.courseAcronym
+    return unless hero = @hero.get('slug')
+    levelChoices = []
+    courseChoices = []
+    heroChoices = []
+    for image, criteria of nextLevelBannerImages
+      levelChoices.push image if level in (criteria.levels ? [])
+      courseChoices.push image if course in (criteria.courses ? [])
+      heroChoices.push image if hero in (criteria.heroes ? [])
+    image = _.sample(levelChoices) or _.sample(heroChoices.concat(courseChoices))
+    @_nextLevelImage = '/images/pages/courses/banners/' + image
+
+nextLevelBannerImages = {
+  'arena-ace-of-coders.png': {heroes: ['goliath'], courses: ['CS5', 'CS6']}
+  'arena-cavern-survival.png': {heroes: ['knight', 'master-wizard'], courses: ['CS1']}
+  'arena-dueling-grounds.png': {heroes: ['raider', 'necromancer'], courses: ['CS2', 'CS3', 'GD1', 'GD2']}
+  'arena-gold-rush.png': {heroes: ['knight'], courses: ['CS2', 'CS3', 'GD1', 'GD2']}
+  'arena-greed.png': {courses: ['CS2', 'CS3', 'GD1', 'GD2']}
+  'arena-harrowlands.png': {heroes: ['ninja', 'forest-archer'], courses: ['CS3', 'CS4', 'GD3']}
+  'arena-sky-span.png': {courses: ['CS4', 'CS5', 'CS6']}
+  'arena-summation-summit.png': {levels: ['summation-summit']}
+  'arena-treasure-grove.png': {heroes: ['samurai', 'trapper'], courses: ['CS2', 'CS3', 'GD1', 'GD2']}
+  'arena-wakka-maul-dynamic.png': {levels: ['wakka-maul']}
+  #'arena-wakka-maul.png': {levels: ['wakka-maul']}
+  'battle-anya.png': {heroes: ['captain']}
+  'battle-tharin-ogre.png': {heroes: ['knight']}
+  'battle-tharin.png': {heroes: ['knight']}
+  'contributor-adventurer.png': {courses: ['CS1']}
+  'contributor-ambassador.png': {courses: ['CS2', 'CS3', 'CS4', 'CS5', 'CS6', 'GD1', 'GD2', 'GD3']}
+  'contributor-archmage.png': {courses: ['CS2', 'CS3', 'CS4', 'CS5', 'CS6', 'GD1', 'GD2', 'GD3']}
+  'contributor-artisan.png': {courses: ['CS2', 'CS3', 'GD1', 'GD2', 'WD1', 'WD2']}
+  'contributor-diplomat.png': {courses: ['WD1', 'WD2']}
+  'contributor-scribe.png': {courses: ['WD1', 'WD2']}
+  'desert-omarn.png': {heroes: ['potion-master'], courses: ['CS3', 'CS4', 'GD3']}
+  'dungeon-heroes.png': {heroes: ['samurai', 'ninja', 'librarian'], courses: ['CS1']}
+  'forest-alejandro.png': {heroes: ['duelist'], courses: ['CS2', 'CS3', 'GD1', 'GD2']}
+  'forest-anya.png': {heroes: ['captain'], courses: ['CS2', 'CS3', 'GD1', 'GD2']}
+  'forest-heroes.png': {heroes: ['trapper', 'potion-master', 'forest-archer'], courses: ['CS2', 'CS3', 'GD1', 'GD2']}
+  'forest-hunting.png': {heroes: ['forest-archer'], courses: ['CS2', 'CS3', 'GD1', 'GD2']}
+  'forest-pets.png': {courses: ['CS2', 'CS3', 'GD1', 'GD2'], levels: ['backwoods-buddy', 'buddys-name', 'buddys-name-a', 'buddys-name-b', 'phd-kitty', 'pet-quiz', 'timely-word', 'go-fetch', 'guard-dog', 'fast-and-furry-ous', 'chain-of-command', 'pet-engineer', 'pet-translator', 'pet-adjutant', 'alchemic-power', 'dangerous-key']}
+  'game-dev.png': {courses: ['GD1', 'GD2', 'GD3']}
+  'heroes-vs-ogres.png': {heroes: ['raider', 'champion', 'captain', 'ninja'], courses: ['CS1', 'CS2', 'CS3', 'CS4', 'CS5', 'CS6', 'GD1', 'GD2', 'GD3']}
+  'mountain-heroes.png': {heroes: ['goliath', 'guardian', 'knight', 'stalwart', 'duelist'], courses: ['CS4', 'CS5', 'CS6']}
+  'wizard-heroes.png': {heroes: ['potion-master', 'master-wizard', 'librarian', 'sorcerer', 'necromancer'], courses: ['CS1'], levels: ['the-wizards-door', 'the-wizards-haunt', 'the-wizards-plane']}
+}

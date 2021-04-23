@@ -29,7 +29,8 @@
     margin-top: 60px
 
   #benefits-ul
-    margin: 0 auto 40px
+    margin: 0 auto
+    padding-bottom: 40px
     width: 360px
 
   hr
@@ -164,35 +165,45 @@
 
     .level-image
       @include transition(filter .10s linear)
+      filter: brightness(80%) contrast(80%)
       width: 100%
       height: 100%
       // Need to set an explicit height on .tile parent for this to work
       object-fit: cover
 
       &.placeholder
-        filter: brightness(75%)
+        filter: brightness(50%) contrast(80%)
 
     &:hover div, &:hover .dynamic-level-name
       color: lighten($yellow, 20%)
 
     &:hover img.level-image
-      filter: brightness(1.2)
-      -webkit-filter: brightness(1.2)
+      filter: brightness(120%) contrast(100%)
       box-shadow: 0 0 5px black
 
-    .dynamic-level-name
+    .overlay-text.dynamic-level-name
       position: absolute
       z-index: 1
       top: calc(37% - 23px)
       width: 100%
       text-align: center
       font-size: 24px
+      color: $yellow
+      text-shadow: 0px 1px 1px black, -1px 0px 1px black, 1px 0px 1px black, 0px -1px 1px black
+
+    &:hover .overlay-text.dynamic-level-name
+      text-shadow: 0px 2px 2px black, -2px 0px 2px black, 2px 0px 2px black, 0px -2px 2px black
 
     .overlay-text
-      color: $yellow
       font-family: $headings-font-family
       font-variant: small-caps
-      @include transition(color .10s linear)
+      @include transition(color .10s linear, text-shadow .10s linear)
+
+      color: black
+      text-shadow: none
+
+    &:hover .overlay-text
+      color: $yellow
       text-shadow: 0px 1px 1px black, -1px 0px 1px black, 1px 0px 1px black, 0px -1px 1px black
 
     .tile-text-backdrop
@@ -200,13 +211,17 @@
       bottom: 0
       left: 0
       right: 0
-      height: 25px
-      background-color: black
-      opacity: 50%
-      @include transition(opacity .10s linear)
+      height: 23px
+      opacity: 90%
+      background-color: #D0C4AC
+      border: 2px solid #B5AA8F
+      border-top: 0
+      @include transition(opacity .10s linear, background-color .10s linear, border-color .10s linear)
 
     &:hover .tile-text-backdrop
       opacity: 75%
+      background-color: darken(#D0C4AC, 10%)
+      border-color: darken(#B5AA8F, 10%)
 
     .play-text-container, .stats-text-container
       position: absolute
@@ -216,7 +231,8 @@
       bottom: 0
 
       .play-text
-        font-size: 24px
+        font-size: 18px
+        line-height: 24px
 
     .stats-text-container
       left: 5px
