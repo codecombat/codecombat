@@ -189,36 +189,120 @@ block content
         .col-xs-12
           h1 What Our Customers Are Saying
 
+      .row
+        #curator-feed-default-feed-layout.col-xs-12
+          a(href="https://curator.io" target="_blank" class="crt-logo crt-tag") Powered by Curator.io
+
     .container-graphic-spacer
       .container
         .row
           .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-height: 236px; transform: translateX(50%);")
+            img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-height: 236px; transform: translateX(20%);")
 
-    #featured-in.container
+    #featured-in-awards.container
       .row
-        .col-xs-12.col-md-4.text-center
+        .col-xs-12.col-md-4.text-center.featured-in
           h1 Featured In
           .row
-            .col-xs-3.col-md-6
-              img.img-responsive(src="/images/pages/home-v2/forbes-logo.png" loading="lazy" style="max-height: 60px;")
-            .col-xs-3.col-md-6
-              img.img-responsive(src="/images/pages/home-v2/edsurge-logo.png" loading="lazy" style="max-height: 60px;")
-            .col-xs-3.col-md-6
-              img.img-responsive(src="/images/pages/home-v2/wsj-logo.png" loading="lazy" style="max-height: 60px;")
-            .col-xs-3.col-md-6
-              img.img-responsive(src="/images/pages/home-v2/techcrunch-logo.png" loading="lazy" style="max-height: 60px;")
+            .col-xs-6
+              .centered-flex
+                img.img-responsive(src="/images/pages/home-v2/forbes-logo.png" loading="lazy" style="max-height: 60px;")
+            .col-xs-6
+              .centered-flex
+                img.img-responsive(src="/images/pages/home-v2/edsurge-logo.png" loading="lazy" style="max-height: 60px;")
+            .col-xs-6
+              .centered-flex
+                img.img-responsive(src="/images/pages/home-v2/wsj-logo.png" loading="lazy" style="max-height: 60px;")
+            .col-xs-6
+              .centered-flex
+                img.img-responsive(src="/images/pages/home-v2/techcrunch-logo.png" loading="lazy" style="max-height: 60px;")
 
-        .col-md-8.text-center
+        .col-md-8.text-center.awards-partners
           h1 Awards & Partners
           .row
-            .col-xs-3.col-md-4
-              img.img-responsive(src="/images/pages/home-v2/csforall-member-logo.png" loading="lazy" style="max-height: 60px;")
-            .col-xs-3.col-md-4
-              img.img-responsive(src="/images/pages/home-v2/codie-award.png" loading="lazy" style="max-height: 60px;")
-            .col-xs-3.col-md-4
-              img.img-responsive(src="/images/pages/home-v2/commonsense-logo.png" loading="lazy" style="max-height: 60px;")
-            .col-xs-3.col-md-4
-              img.img-responsive(src="/images/pages/home-v2/code-org-logo.png" loading="lazy" style="max-height: 60px;")
-            .col-xs-3.col-md-4
-              img.img-responsive(src="/images/pages/home-v2/afe-logo.png" loading="lazy" style="max-height: 60px;")
+            .col-xs-6.col-md-4
+              .centered-flex
+                img.img-responsive(src="/images/pages/home-v2/csforall-member-logo.png" loading="lazy" style="max-height: 60px;")
+                p CSforAll Official Member
+            .col-xs-6.col-md-4
+              .centered-flex
+                img.img-responsive(src="/images/pages/home-v2/codie-award.png" loading="lazy" style="max-height: 60px;")
+                p Best Creativity Tool for Students
+            .col-xs-6.col-md-4
+              .centered-flex
+                img.img-responsive(src="/images/pages/home-v2/commonsense-logo.png" loading="lazy" style="max-height: 80px;")
+                p Top Pick for Learning
+            .col-xs-6.col-md-4.col-md-offset-2
+              .centered-flex
+                img.img-responsive(src="/images/pages/home-v2/code-org-logo.png" loading="lazy" style="max-height: 60px;")
+                p Code.org Official Partner
+            .col-xs-6.col-md-4.col-md-offset-0.col-xs-offset-3
+              .centered-flex
+                img.img-responsive(src="/images/pages/home-v2/afe-logo.png" loading="lazy" style="max-height: 50px;")
+                p Hour of Code Activity Partner
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-50%);")
+
+    .container-background-faq
+      .container
+        .row.row-eq-height
+          .col-lg-12.text-center.container-background-header
+            h1.pixelated FAQs
+        .row.row-eq-height
+          .col-md-4.col-sm-6.col-xs-12
+            h4 What programming languages are available?
+            p We currently support Python and JavaScript.
+            p
+              b Why should you choose Python? 
+              span Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python.
+            p
+              b Why should you choose JavaScript? 
+              span JavaScript is the language of the web and is used across nearly every website. You may prefer to choose JavaScript if you are planning to also study web development. We’ve also made it easy for students to transition from Python to JavaScript-based web development.
+            p JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python.
+          .col-md-4.col-sm-6.col-xs-12
+            //- Cheating to make tall columns
+            div
+              h4 How do I get started?
+              ol
+                li Create your Teacher Account
+                li Create a class
+                li Add Students
+                li Sit back and watch your students have fun learning to code
+            div
+              h4 Can I use CodeCombat or Ozaria as my main curriculum?
+              p Absolutely! We’ve spent time consulting with education specialists to craft classroom curriculum and materials specifically for teachers who are using CodeCombat or Ozaria without any prior computer science experience themselves. Many schools are implementing CodeCombat and/or Ozaria as the main computer science curriculum.
+          .col-md-4.col-sm-6.col-xs-12
+            div
+              h4 Is there a recommended browser and operating system?
+              p CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended.
+            div
+              h4 Does CodeCombat support Clever Instant Logins?
+              p Yes! Check out our 
+                a(href="/teachers/resources/clever-faq") Clever Integration FAQ 
+                | for more details on how to get started.
+          .col-md-4.col-sm-6.col-xs-12
+            h4 How much does it cost to access all of the available courses and resources?
+            p We customize solutions for schools and districts and work with you to understand your use case, context, and budget. Contact 
+              a(href="mailto:schools@codecombat.com") schools@codecombat.com 
+              | for further details!
+          .col-md-4.col-sm-6.col-xs-12
+            h4 Do we link to Google Classroom?
+            p Yes! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time.
+            p
+              b Note: 
+              span You must use Google SSO to sign up or log-in at least once in order to see the Google Classroom integration option.
+        .text-center
+          p If you have any other questions about our online classes, please 
+            a(href="mailto:support@codecombat.com") contact us.
+
+    script.
+      /* curator-feed-default-feed-layout */
+      (function(){
+      var i, e, d = document, s = "script";i = d.createElement("script");i.async = 1;
+      i.src = "https://cdn.curator.io/published/4b3b9f97-3241-43b3-934e-f5a1eea5ae5e.js";
+      e = d.getElementsByTagName(s)[0];e.parentNode.insertBefore(i, e);
+      })();

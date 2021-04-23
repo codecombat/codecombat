@@ -169,6 +169,91 @@
       display: flex
       align-items: center
       justify-content: center
+    
+    #featured-in-awards
+      .row
+        min-height: 457px
+
+      .centered-flex
+        height: 200px
+        padding: 0 20px
+
+      .featured-in, .awards-partners
+        border: 4px dashed #F2D269
+        padding: 62px 0 0 0
+
+      .featured-in
+        border-radius: 20px 0 0 20px
+        border-right: unset
+
+      .awards-partners
+        border-radius: 0 20px 20px 0
+        .centered-flex
+          flex-direction: column
+          color: #0E4C60
+          p
+            margin-top: 10px
+
+      @media screen and (max-width: 991px)
+        .featured-in, .awards-partners
+          border: unset
+
+    .row.row-eq-height
+      display: flex
+      flex-wrap: wrap
+
+    .row.row-eq-height > [class*='col-']
+      display: flex
+      flex-direction: column
+
+    .container-background-faq
+      margin-top: 50px
+      margin-bottom: 50px
+      .row.row-eq-height
+        padding: 0
+
+      .row h4
+        margin-top: 30px
+        margin-bottom: 10px
+      & > .container
+        border: 4px solid #6ae8e3
+        border-radius: 40px
+        border-top: none
+        position: relative
+        padding: 30px
+
+        & > div:last-of-type
+          margin: 32px 0 0
+
+    .container-background-header
+      position: absolute
+      transform: translateY(-60px)
+      width: calc(100% - 30px)
+
+    /* These create the broken top border which FAQ sits between */
+    /* Top left border */
+    .container-background-faq > .container::after
+      content: ''
+      position: absolute
+      height: 100px
+      width: 20%
+      border-top: 4px solid #6ae8e3
+      border-left: 4px solid #6ae8e3
+      top: 0
+      left: -4px
+      border-radius: 40px 0 0 0
+
+    /* Top right border */
+    .container-background-faq > .container::before
+      content: ''
+      position: absolute
+      height: 100px
+      width: 20%
+      border-top: 4px solid #6ae8e3
+      border-right: 4px solid #6ae8e3
+      top: 0
+      right: -4px
+      border-radius: 0px 40px 0 0
 
 
 body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='sr'], body[lang='pl'], body[lang='lt'], body[lang='sl'], body[lang='tr'], body[lang='vi']
