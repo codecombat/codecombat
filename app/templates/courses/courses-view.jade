@@ -31,8 +31,8 @@ block content
                 span= me.broadName()
               hr
 
-              a.play-next-level-btn.tile(disabled=!view.nextLevelInfo, title="TODO: play next level")
-                // TODO: handle locked status, other cases
+              a.play-next-level-btn.tile(disabled=!view.nextLevelInfo || view.nextLevelInfo.locked, title="TODO: play next level, or ask teacher to unlock if locked")
+                // TODO: handle being in no courses and playing free course (start/middle/end)
                 - var levelInfo = view.nextLevelInfo || {}
                 - var level = levelInfo.level
                 - var levelName = level ? i18n(level.attributes, 'name') : ''
@@ -48,7 +48,7 @@ block content
                 - var levelImage = view.nextLevelImage()
                 img(src=levelImage, alt=levelName, class="level-image" + (levelImage ? "" : " placeholder"))
                 // TODO: disabled case
-                h3.dynamic-level-name.overlay-text= levelName + ((level && level.disabled) ? " (locked)" : "")
+                h3.dynamic-level-name.overlay-text= levelName + (levelInfo.locked ? " (locked)" : "")
                 .tile-text-backdrop
                 .stats-text-container
                   .overlay-text.stats-text
@@ -56,7 +56,11 @@ block content
                     span.spr Levels Completed:
                     span= me.get('stats').gamesCompleted
                 .play-text-container
-                  .overlay-text.play-text Play Next Level
+                  .overlay-text.play-text
+                    if levelInfo.locked
+                      span Ask Teacher To Unlock
+                    else
+                      span Play Next Level
 
               for arena in view.activeArenas || []
                 a.play-arena-btn.tile(href="/play/ladder/#{arena.slug}", title="TODO: Play Arena/Tournament")

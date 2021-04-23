@@ -234,9 +234,15 @@ module.exports = class CoursesView extends RootView
             course: course
             courseAcronym: utils.courseAcronyms[course._id]
             number: stats.levels.nextNumber
-          ## In progress
-          #if stats.levels.next.get('slug') is courseInstance.get('startLockedLevel') # lock level begin from startLockedLevel
-          #  @nextLevelInfo.locked = true # what
+          if startLockedLevelSlug = courseInstance.get 'startLockedLevel'
+            courseLevels = classroom.getLevels courseID: course._id
+            hasLocked = false
+            for level in courseLevels.models
+              if level.get('slug') is startLockedLevelSlug
+                hasLocked = true
+              if level.get('slug') is @nextLevelInfo.level.get('slug')
+                @nextLevelInfo.locked = true if hasLocked
+                break
         not stats.courseComplete
         ), this
       ), this
@@ -360,6 +366,8 @@ module.exports = class CoursesView extends RootView
     urlFn level: @originalLevelMap[@nextLevelInfo.level.get('original')] or @nextLevelInfo.level, courseInstance: @nextLevelInfo.courseInstance
 
   onClickPlayNextLevel: (e) ->
+    if @nextLevelInfo?.locked
+      return noty text: 'To play the next level, ask your teacher to unlock it in their Course Progress tab', timeout: 5000, type: 'warning', layout: 'topCenter', killer: true  # TODO: i18n
     url = @nextLevelUrl()
     window.tracker?.trackEvent 'Students Play Next Level', category: 'Students', levelSlug: @nextLevelInfo.level.get('slug'), ['Mixpanel']
     application.router.navigate(url, { trigger: true })
