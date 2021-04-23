@@ -214,6 +214,12 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     parent: "Rodiče"
 #    esports: "Esports"
     browser_recommendation: "Pro nejlepší zkušenost doporučujeme použivat poslední verzi webového prohlížeče Chrome. Stáhněte si Chrome zde!"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "Zavřít"

@@ -65,6 +65,7 @@ module.exports = class SpectateLevelView extends RootView
     @isEditorPreview = utils.getQueryVariable 'dev'
     @sessionOne = utils.getQueryVariable 'session-one'
     @sessionTwo = utils.getQueryVariable 'session-two'
+    @tournament = utils.getQueryVariable 'tournament'
     if options.spectateSessions
       @sessionOne = options.spectateSessions.sessionOne
       @sessionTwo = options.spectateSessions.sessionTwo
@@ -100,6 +101,7 @@ module.exports = class SpectateLevelView extends RootView
       levelID: @levelID
       sessionID: @sessionOne
       opponentSessionID: @sessionTwo
+      tournament: @tournament
       spectateMode: true
       team: utils.getQueryVariable('team')
     @god = new God maxAngels: 1, spectate: true
