@@ -33,7 +33,6 @@ block content
               hr
 
               a.play-next-level-btn.tile(disabled=!view.nextLevelInfo || view.nextLevelInfo.locked, title="TODO: play next level, or ask teacher to unlock if locked")
-                // TODO: handle being in no courses and playing free course (start/middle/end)
                 - var levelInfo = view.nextLevelInfo || {}
                 - var level = levelInfo.level
                 - var levelName = level ? i18n(level.attributes, 'name') : ''
@@ -48,7 +47,6 @@ block content
                 -   levelName = levelInfo.courseAcronym + ' ' + levelName
                 - var levelImage = view.nextLevelImage()
                 img(src=levelImage, alt=levelName, class="level-image" + (levelImage ? "" : " placeholder"))
-                // TODO: disabled case
                 h3.dynamic-level-name.overlay-text= levelName + (levelInfo.locked ? " (locked)" : "")
                 .tile-text-backdrop
                 .stats-text-container
@@ -134,83 +132,6 @@ block content
                           span= ' / '
                         span= stats.playerCount.toLocaleString()
                         span  players
-
-        .student-profile-area.v0
-          .row
-            .current-hero.col-md-2.text-center
-              .hero-avatar
-                if view.hero.get('poseImage')
-                  img(src='/file/' + view.hero.get('poseImage') class='hero-' + view.hero.get('slug'))
-              .current-hero-right-col.rtl-allowed
-                .semibold.current-hero-text
-                  span.current-hero-name= view.hero.getHeroShortName()
-                a.change-hero-btn
-                  |  (
-                  span(data-i18n="play.change_hero")
-                  | )
-            .student-stats.col-md-5.v0
-              h2= me.broadName()
-              if me.get('stats') && me.get('stats').gamesCompleted
-                .stat
-                  span.spr Levels:
-                  span= me.get('stats').gamesCompleted
-                  if view.nextLevelInfo
-                    a.play-next-level-btn play next level
-              else if view.nextLevelInfo
-                a.play-next-level-btn play next level
-              .stat
-                if me.isRegisteredForAILeague()
-                  span.spr AI League:
-                  span= view.ageBracketDisplay
-                  span.spr  Bracket
-                  a(href="/league?registering=true") change
-                else
-                  span.spr AI League: unregistered
-                  a(href="/league?registering=true") register
-              if me.get('stats') && me.get('stats').codePoints
-                .stat
-                  span.spr CodePoints:
-                  span.spr= me.get('stats').codePoints
-              for arena in view.activeArenas || []
-                .stat
-                  span= $.i18n.t('league.' + arena.slug.replace(/-/g, '_'))
-                  span= ': '
-                  - var stats = view.getAILeagueStat('arenas', arena.levelOriginal, '_global')
-                  if stats && stats.score
-                    span= Math.round(100 * stats.score).toLocaleString()
-                    if stats.rank
-                      |  (
-                      span #
-                      span= stats.rank.toLocaleString()
-                      if stats.playerCount
-                        span= ' / '
-                        span= stats.playerCount.toLocaleString()
-                      | )
-                  else if view.myArenaSessions
-                    span not started
-                  else
-                    span ...
-                  a(href="/play/ladder/#{arena.slug}")
-                    if arena.type == 'championship'
-                      span play tournament
-                    else
-                      span play arena
-
-            .school-stats.col-md-5
-              if view.myClans
-                h2 AI League Teams
-                for clan in ['_global'].concat(view.myClans)
-                  - var stats = view.getAILeagueStat('codePoints', clan == '_global' ? clan : clan._id)
-                  if stats && stats.playerCount > 1
-                    .team
-                      a(href="/league/#{clan == '_global' ? '' : clan.slug + '#team-info'}")
-                        span.spr= clan == '_global' ? 'Worldwide' : clan.displayName || clan.name
-                      if stats.rank
-                        span #
-                        span= stats.rank.toLocaleString()
-                        span= ' / '
-                      span= stats.playerCount.toLocaleString()
-                      span  players
 
         .text-center.row#tournament-btn
           // TODO: move this into a tile
