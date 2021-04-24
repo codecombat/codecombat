@@ -455,6 +455,7 @@ export default {
       </div>
     </div>
 
+    <a id="standings"></a>
     <div v-if="championshipActive" class="row text-center">
       <div class="col-lg-6 section-space">
         <leaderboard v-if="currentSelectedClan" :title="$t(`league.${championshipArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanChampionshipRankings" :playerCount="selectedClanChampionshipLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />

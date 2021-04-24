@@ -96,7 +96,7 @@ block content
                       else
                         span Play Arena
 
-              a.ai-league-btn.tile(href=me.isRegisteredForAILeague() ? "/league" : "/league?registering=true", title="TODO: AI League")
+              a.ai-league-btn.tile(href=me.isRegisteredForAILeague() ? "/league#standings" : "/league?registering=true", title="TODO: AI League")
                 img.level-image(src="/images/pages/courses/banners/ai-league-banner-#{view.randomAILeagueBannerHero}.png" alt="CodeCombat AI League")
                 //h3.dynamic-level-name.overlay-text CodeCombat AI League
                 .tile-text-backdrop
