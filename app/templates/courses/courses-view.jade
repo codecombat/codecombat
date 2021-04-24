@@ -88,7 +88,9 @@ block content
                   .play-text-container
                     .overlay-text.play-text
                       //.btn.btn-illustrated.btn-success
-                      if arena.type == 'championship'
+                      if arena.ended
+                        span View Winners
+                      else if arena.type == 'championship'
                         span Play Tournament
                       else
                         span Play Arena
@@ -265,7 +267,7 @@ block content
             h5 You can still learn and play without a classroom!
             ul
               li
-                b Start by playing the free Hour of Code campaign by <a href='/play/hoc-2018'>clicking here</a>.
+                b Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>.
 
         h3.text-uppercase(data-i18n="courses.join_class")
         hr

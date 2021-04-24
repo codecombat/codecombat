@@ -5,6 +5,7 @@ LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
 co = require 'co'
+storage = require 'core/storage'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -370,11 +371,13 @@ module.exports = class User extends CocoModel
     options.type = 'POST'
     options.data ?= {}
     options.data.user = user
+    @clearUserSpecificLocalStorage()
     @fetch(options)
 
   stopSpying: (options={}) ->
     options.url = '/auth/stop-spying'
     options.type = 'POST'
+    @clearUserSpecificLocalStorage()
     @fetch(options)
 
   logout: (options={}) ->
@@ -385,12 +388,16 @@ module.exports = class User extends CocoModel
       window.application.tracker.identifyAfterNextPageLoad()
       window.application.tracker.resetIdentity().finally =>
         location = _.result(window.currentView, 'logoutRedirectURL')
+        @clearUserSpecificLocalStorage()
         if location
           window.location = location
         else
           window.location.reload()
 
     @fetch(options)
+
+  clearUserSpecificLocalStorage: ->
+    storage.remove key for key in ['hoc-campaign']
 
   signupWithPassword: (name, email, password, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-password'
@@ -533,7 +540,7 @@ module.exports = class User extends CocoModel
   setToSpanish: -> _.string.startsWith((@get('preferredLanguage') or ''), 'es')
 
   freeOnly: ->
-    return features.freeOnly and not me.isPremium()
+    return me.isStudent() or (features.freeOnly and not me.isPremium())
 
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})

@@ -209,6 +209,9 @@ titleize = (s) ->
   # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
   _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
 
+campaignIDs =
+  INTRO: '55b29efd1cd6abe8ce07db0d'
+
 courseIDs =
   INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
   GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
@@ -915,7 +918,8 @@ arenas = [
 ]
 
 activeArenas = ->
-  (a for a in arenas when a.start <= new Date() < a.end)
+  daysActiveAfterEnd = regular: 7, championship: 14
+  (_.clone(a) for a in arenas when a.start <= new Date() < a.end.getTime() + daysActiveAfterEnd[a.type] * 86400 * 1000)
 
 module.exports = {
   activeArenas
@@ -924,6 +928,7 @@ module.exports = {
   ageOfConsent
   ageToBracket
   arenas
+  campaignIDs
   capitalLanguages
   clone
   combineAncestralObject

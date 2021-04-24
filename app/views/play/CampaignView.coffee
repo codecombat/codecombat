@@ -418,7 +418,10 @@ module.exports = class CampaignView extends RootView
 
     @buildLevelScoreMap() unless @editorMode
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
-    application.setHocCampaign(if @campaign?.get('type') is 'hoc' then @campaign.get('slug') else '')
+    if @campaign?.get('type') is 'hoc' or (me.isStudent() and not @courseInstance and not me.get('courseInstances')?.length and @campaign?.get('slug') is 'intro')
+      application.setHocCampaign @campaign.get 'slug'
+    else
+      application.setHocCampaign ''
 
     return if @fullyRendered
     @fullyRendered = true
@@ -509,6 +512,7 @@ module.exports = class CampaignView extends RootView
       context.levels = _.reject context.levels, slug: 'signs-and-portents'
     if me.freeOnly()
       context.levels = _.reject context.levels, (level) ->
+        return true if (level.type in ['course', 'course-ladder']) and me.isStudent() and not @courseInstance  # Too much hassle to get Wakka Maul working for CS1 with no classroom
         return level.requiresSubscription
     if features.brainPop
       context.levels = _.filter context.levels, (level) ->
@@ -1447,7 +1451,7 @@ module.exports = class CampaignView extends RootView
       return !isStudentOrTeacher
 
     if what in ['back-to-classroom']
-      return isStudentOrTeacher and not application.getHocCampaign()
+      return isStudentOrTeacher and (not application.getHocCampaign() or @terrain is 'intro')
 
     if what in ['videos']
       return me.isStudent() and @course?.get('_id') == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE

@@ -105,6 +105,7 @@ module.exports = class CoursesView extends RootView
     myArenaSessionsCollections = {}
     @activeArenas = utils.activeArenas()
     for arena in @activeArenas
+      arena.ended = new Date() > arena.end
       myArenaSessionsCollections[arena.levelOriginal] = sessions = new LevelSessions()
       fetches.push sessions.fetchForLevelSlug arena.slug
 
@@ -219,6 +220,11 @@ module.exports = class CoursesView extends RootView
       @ownerNameMap[ownerID] = NameLoader.getName(ownerID) for ownerID in ownerIDs
       @render?()
     )
+
+    if not @classrooms.models.length
+      @nextLevelInfo = courseAcronym: 'CS1'  # Don't both trying to figure out the next level for edge case of student with no classrooms
+      @allCompleted = false
+      return
 
     @allCompleted = not _.some @classrooms.models, ((classroom) ->
       _.some @courseInstances.where({classroomID: classroom.id}), ((courseInstance) ->
@@ -362,6 +368,7 @@ module.exports = class CoursesView extends RootView
 
   nextLevelUrl: ->
     return null unless @nextLevelInfo
+    return '/play/intro' unless @nextLevelInfo.level
     urlFn = if @nextLevelInfo.level.isLadder() then @urls.courseArenaLadder else @urls.courseLevel
     urlFn level: @originalLevelMap[@nextLevelInfo.level.get('original')] or @nextLevelInfo.level, courseInstance: @nextLevelInfo.courseInstance
 
@@ -369,7 +376,7 @@ module.exports = class CoursesView extends RootView
     if @nextLevelInfo?.locked
       return noty text: 'To play the next level, ask your teacher to unlock it in their Course Progress tab', timeout: 5000, type: 'warning', layout: 'topCenter', killer: true  # TODO: i18n
     url = @nextLevelUrl()
-    window.tracker?.trackEvent 'Students Play Next Level', category: 'Students', levelSlug: @nextLevelInfo.level.get('slug'), ['Mixpanel']
+    window.tracker?.trackEvent 'Students Play Next Level', category: 'Students', levelSlug: @nextLevelInfo.level?.get('slug'), ['Mixpanel']
     application.router.navigate(url, { trigger: true })
 
   onClickPlay: (e) ->
@@ -413,9 +420,9 @@ module.exports = class CoursesView extends RootView
   nextLevelImage: ->
     # Prioritize first by level-specific, then course-specific and hero-specific together
     return @_nextLevelImage if @_nextLevelImage
-    return unless level = @nextLevelInfo?.level?.get 'slug'
     return unless course = @nextLevelInfo?.courseAcronym
     return unless hero = @hero.get('slug')
+    level = @nextLevelInfo?.level?.get 'slug'
     levelChoices = []
     courseChoices = []
     heroChoices = []
