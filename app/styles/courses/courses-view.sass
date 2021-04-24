@@ -6,32 +6,43 @@
     margin-bottom: 30px
 
   #announcement
-    background-color: #cff2fc
-    border-radius: 10px
-    padding: 20px
-    margin: 20px 80px 40px 80px
+    margin: 20px 60px
     p
       margin-bottom: 7px
 
   #main-content
-    max-width: 720px
+    max-width: 816px
     padding: 0 20px
     margin: 0 auto
-    background: linear-gradient(to top, #cabea1, #d6cab3)
-    border-left: 1px solid #314545
-    border-right: 1px solid #314545
+    border-style: solid
+    border-image: url(/images/level/code_palette_wood_background.png) 118 48 110 48 fill round
+    border-width: 118px 48px 110px 48px
+    border-top-width: 0
+    position: relative
 
-  .classes-area
-    max-width: 720px
-    margin: 0 auto
+    .main-content-preload-backdrop
+      // Nice background contrast before image loads so contrast doesn't get crazy
+      background: linear-gradient(to top, #cabea1, #d6cab3)
+      position: absolute
+      top: 0px
+      left: 20px
+      bottom: 0px
+      right: 20px
+      z-index: -1
+
+    h3
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      text-shadow: 0px 1px 1px black, -1px 0px 1px black, 1px 0px 1px black, 0px -1px 1px black
 
   #play-now-to-learn-header
-    margin-top: 60px
+    margin-top: 50px
 
   #benefits-ul
     margin: 0 auto
-    padding-bottom: 40px
-    width: 360px
+    padding-bottom: 20px
+    width: 420px
 
   hr
     border-top: 1px solid grey
@@ -52,12 +63,22 @@
     margin-top: 40px
 
   #just-added-text
-    color: #009999
+    text-align: right
 
-  .just-added
-    border: 1px solid #009999
-    margin: 0 -20px
-    padding: 0 20px
+  .classroom, #join-class-form, .anonymous-welcome-message, #announcement
+    border-style: solid
+    border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+    padding: 0 5px
+    border-width: 16px 12px
+
+  .classroom.just-added
+    box-shadow: $yellow 0 0 10px
+
+  .anonymous-welcome-message
+    padding-top: 20px
+
+  .class-break
+    border-top: 0
 
   .course-instance-entry
     padding-bottom: 10px
@@ -183,7 +204,7 @@
         line-height: 24px
 
     .level-image
-      @include transition(filter .10s linear)
+      @include transition(filter .10s linear, opacity .10s linear)
       filter: brightness(80%) contrast(80%)
       width: 100%
       height: 100%
@@ -219,6 +240,7 @@
       opacity: 90%
       background-color: #D0C4AC
       border: 2px solid #B5AA8F
+      color: #B5AA8F
       border-top: 0
       @include transition(opacity .10s linear, background-color .10s linear, border-color .10s linear)
 
@@ -246,6 +268,18 @@
         opacity: 75%
         background-color: darken(#D0C4AC, 10%)
         border-color: darken(#B5AA8F, 10%)
+
+  .student-stats.deemphasize-ai-league
+    .tile.play-arena-btn
+      .level-image
+        opacity: 20%
+
+      &:hover
+        .level-image
+          opacity: 100%
+
+        .dynamic-level-name
+          display: none
 
   &:not(.v0) .school-stats
     font-family: $headings-font-family

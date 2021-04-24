@@ -384,11 +384,11 @@ module.exports = class User extends CocoModel
     options.type = 'POST'
     options.url = '/auth/logout'
     FB?.logout?()
-    options.success ?= ->
+    options.success ?= =>
       window.application.tracker.identifyAfterNextPageLoad()
       window.application.tracker.resetIdentity().finally =>
         location = _.result(window.currentView, 'logoutRedirectURL')
-        @clearUserSpecificLocalStorage()
+        @clearUserSpecificLocalStorage?()
         if location
           window.location = location
         else

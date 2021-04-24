@@ -3,6 +3,7 @@ extends /templates/base-flat.jade
 block content
   .container
     #main-content(dir="auto")
+      .main-content-preload-backdrop
       if me.isAnonymous()
         +anonymous-welcome-message()
       else
@@ -25,7 +26,7 @@ block content
               .rtl-allowed
                 a.change-hero-btn(data-i18n="play.change_hero")
 
-            .student-stats.col-md-5
+            div(class='student-stats col-md-5' + (view.shouldEmphasizeAILeague() ? '' : ' deemphasize-ai-league'))
               h2
                 span.spr Player:
                 span= me.broadName()
@@ -69,9 +70,9 @@ block content
                   - var stats = view.getAILeagueStat('arenas', arena.levelOriginal, '_global')
                   // TODO: link to team-specific arena by default if there are enough arena players in a team?
                   img(src=arenaImage, alt=arenaName, class="level-image" + (arena.image ? "" : " placeholder"))
-                  if !arena.image
+                  if !arena.image || !view.shouldEmphasizeAILeague()
                     // TODO: figure out when we are showing internationalized/placeholder arena image
-                    h3.dynamic-level-name= arenaName
+                    h3.dynamic-level-name.overlay-text= arenaName
                   .tile-text-backdrop
                   .stats-text-container
                     .overlay-text.stats-text
@@ -212,6 +213,7 @@ block content
                       span  players
 
         .text-center.row#tournament-btn
+          // TODO: move this into a tile
           if view.hasActiveTournaments
             a.btn.btn-navy.btn-lg.text-uppercase(href='/tournaments/student/#{me.id}', data-i18n="tournament.class_tournaments") class mini-tournaments
         if view.classrooms.size()
@@ -226,11 +228,10 @@ block content
             for classroom in view.classrooms.models
               hr.class-break
               - var justAdded = classroom.id === view.classroomJustAdded;
-              - var classroomClass = justAdded ? 'just-added' : '';
-              if justAdded
-                #just-added-text.text-center(data-i18n="courses.class_added")
-
+              - var classroomClass = 'classroom' + (justAdded ? ' just-added' : '')
               div(class=classroomClass).rtl-allowed
+                if justAdded
+                  #just-added-text.text-center(data-i18n="courses.class_added")
                 h5(dir="auto")
                   span.spr= classroom.get('name')
                   - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++'}
@@ -269,8 +270,9 @@ block content
               li
                 b Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>.
 
-        h3.text-uppercase(data-i18n="courses.join_class")
-        hr
+        hr.class-break
+        h3(data-i18n="courses.join_class")
+        hr.class-break
 
         form#join-class-form.form-inline
           .help-block
@@ -347,23 +349,24 @@ mixin anonymous-welcome-message()
   // This shows when user has no account and arrives via ?_cc=SomeClassCode
   // Normally it's behind a modal, but they can close the modal and get it back
 
-  h1.text-center(data-i18n="courses.welcome_to_courses")
-
-  .text-center
-    p
-      h2(data-i18n="courses.ready_to_play")
-    p
-      button#start-new-game-btn.btn.btn-navy.btn-lg(data-i18n="courses.start_new_game")
-    p
-      span.spr -
-      span.text-uppercase(data-i18n="general.or")
-      span.spl -
-    p
-      button#log-in-btn.btn.btn-forest.btn-lg(data-i18n="login.log_in")
-
-  h2#play-now-to-learn-header.text-center.text-uppercase(data-i18n="courses.play_now_learn_header")
-  ul#benefits-ul
-    li(data-i18n="courses.play_now_learn_1")
-    li(data-i18n="courses.play_now_learn_2")
-    li(data-i18n="courses.play_now_learn_3")
-    li(data-i18n="courses.play_now_learn_4")
+  .anonymous-welcome-message
+    h1.text-center(data-i18n="courses.welcome_to_courses")
+  
+    .text-center
+      p
+        h2(data-i18n="courses.ready_to_play")
+      p
+        button#start-new-game-btn.btn.btn-navy.btn-lg(data-i18n="courses.start_new_game")
+      p
+        span.spr -
+        span.text-uppercase(data-i18n="general.or")
+        span.spl -
+      p
+        button#log-in-btn.btn.btn-forest.btn-lg(data-i18n="login.log_in")
+  
+    h2#play-now-to-learn-header.text-center.text-uppercase(data-i18n="courses.play_now_learn_header")
+    ul#benefits-ul
+      li(data-i18n="courses.play_now_learn_1")
+      li(data-i18n="courses.play_now_learn_2")
+      li(data-i18n="courses.play_now_learn_3")
+      li(data-i18n="courses.play_now_learn_4")

@@ -1556,7 +1556,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_map: "view map"
     view_videos: "view videos"
     view_project_gallery: "view my classmates' projects"
-    join_class: "Join A Class"
+    join_class: "Join a Class"
     join_class_2: "Join class"
     ask_teacher_for_code: "Ask your teacher if you have a CodeCombat class code! If so, enter it below:"
     enter_c_code: "<Enter Class Code>"

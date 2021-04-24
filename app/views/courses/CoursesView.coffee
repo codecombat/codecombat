@@ -187,6 +187,14 @@ module.exports = class CoursesView extends RootView
       playerCount = @getAILeagueStat('codePoints', clan._id, 'playerCount') ? 0
       -playerCount
 
+  shouldEmphasizeAILeague: ->
+    return true if _.size @myArenaSessions
+    return true if me.isRegisteredForAILeague()
+    return true if me.get('stats')?.gamesCompleted >= 6
+    return true if (me.get('courseInstances') ? []).length is 0
+    return true if @nextLevelInfo?.locked
+    false
+
   afterInsert: ->
     super()
     unless me.isStudent() or (@classCodeQueryVar and not me.isTeacher())
