@@ -147,6 +147,9 @@ module.exports = class HomeView extends RootView
       })
       @homePageEvent("Link:", properties, ['Google Analytics'])
 
+  onCarouselDirectMove: (selector, frameNum) ->
+    $(selector).carousel(frameNum)
+
   afterRender: ->
     if me.isAnonymous()
       if document.location.hash is '#create-account' or utils.getQueryVariable('registering') == true

@@ -51,7 +51,37 @@ block content
           .col-xs-12.text-center
             img.img-responsive(src="/images/pages/home-v2/graphic-2.png" loading="lazy" style="max-width: 290px; transform: translateX(-50%);")
 
-    //- TODO - Carousel
+    #game-based-carousel
+      .container
+        #game-based.carousel.carousel.slide(data-interval=8000)
+          .carousel-inner
+            .item.active
+              .row
+                .col-sm-7
+                  img.img-responsive(src="/images/pages/home-v2/carousel-1-1.png" loading="lazy")
+                .col-sm-5
+                  h2 Game-Based Learning
+                  p With our unique approach, students embrace learning as they play and write code from the very start of their adventure, promoting active learning and a growth mindset.
+            .item
+              .row
+                .col-sm-7
+                  img.img-responsive(src="/images/pages/parents/grit_carousel.png" loading="lazy")
+                .col-sm-5
+                  h2 Text-Based Coding
+                  p Our custom code engine and interpreter is designed for beginners, teaching true Python, JavaScript, and C++ programming languages using human, beginner-friendly terms.
+            .item
+              .row
+                .col-sm-7
+                  img.img-responsive(src="/images/pages/home-v2/carousel-1-3.png" loading="lazy")
+                .col-sm-5
+                  h2 Student Impact
+                  p Our products have helped over 20 million students enjoy learning Computer Science, teaching them to be critical, confident, and creative learners. We engage all students, regardless of experience, helping them to realize a pathway to success in Computer Science.
+        .col-lg-12.text-center
+          //- Reference https://getbootstrap.com/docs/3.4/javascript/
+          //- The onclick usage here is a hack. Modeled from PageParents.vue page
+          .carousel-dot(onclick="currentView.onCarouselDirectMove('#game-based', 0)")
+          .carousel-dot(onclick="currentView.onCarouselDirectMove('#game-based', 1)")
+          .carousel-dot(onclick="currentView.onCarouselDirectMove('#game-based', 2)")
 
     section.container
       .row.text-center
@@ -176,7 +206,46 @@ block content
           .col-xs-12.text-center
             img.img-responsive(src="/images/pages/home-v2/ice-island.png" loading="lazy" style="max-height: 274px;")
 
-    //- TODO - Carousel
+    #container-student-quotes
+      .container
+        .row.carousel-row
+          .col-lg-12.text-center
+            h1 Student Outcomes
+        #student-quotes.carousel.carousel.slide(data-interval=8000)
+          .carousel-inner
+            .item.active
+              .row
+                .col-sm-5
+                  img(src="/images/pages/home-v2/quotes.png" style="margin-bottom: 20px;")
+                  p Name any program online, I’ve tried it. None of them match up to CodeCombat & Ozaria. Any teacher who wants their students to learn how to code... start here!
+                  p
+                    b Scott Baily, Bobby Duke Middle School
+                .col-sm-7
+                  img.img-responsive(src="/images/pages/home-v2/carousel-2-1.png" loading="lazy")
+            .item
+              .row
+                .col-sm-5
+                  img(src="/images/pages/home-v2/quotes.png" style="margin-bottom: 20px;")
+                  p Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills.
+                  p
+                    b Latthaphon Pohpon, Parent
+                .col-sm-7
+                  img.img-responsive(src="/images/pages/home-v2/carousel-2-2.png" loading="lazy")
+            .item
+              .row
+                .col-sm-5
+                  img(src="/images/pages/home-v2/quotes.png" style="margin-bottom: 20px;")
+                  p I’ve always had aspirations of designing video games and learning how to code ... this is giving me a great starting point.
+                  p
+                    b Joey, 10th Grade
+                .col-sm-7
+                  img.img-responsive(src="/images/pages/home-v2/carousel-2-3.png" loading="lazy")
+        .col-lg-12.text-center
+          //- Reference https://getbootstrap.com/docs/3.4/javascript/
+          //- The onclick usage here is a hack. Modeled from PageParents.vue page
+          .carousel-dot(onclick="currentView.onCarouselDirectMove('#student-quotes', 0)")
+          .carousel-dot(onclick="currentView.onCarouselDirectMove('#student-quotes', 1)")
+          .carousel-dot(onclick="currentView.onCarouselDirectMove('#student-quotes', 2)")
 
     .container-graphic-spacer
       .container
