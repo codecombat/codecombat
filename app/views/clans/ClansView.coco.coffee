@@ -52,7 +52,7 @@ module.exports = class ClansView extends RootView
         if a.get('memberCount') < b.get('memberCount') then 1 else -1
       else
         b.id.localeCompare(a.id)
-    @publicClans = new CocoCollection([], { url: '/db/clan/-/public', model: Clan, comparator: sortClanList })
+    @publicClans = new CocoCollection([], { url: '/db/clan/-/public?excludeAutoclans=true', model: Clan, comparator: sortClanList })
     @listenTo @publicClans, 'sync', =>
       @refreshNames @publicClans.models
       @render?()
