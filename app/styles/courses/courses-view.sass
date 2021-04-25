@@ -20,6 +20,15 @@
     border-top-width: 0
     position: relative
 
+    @media only screen and (max-width: 991px)
+      .student-profile-area
+        width: 100%
+        margin-left: auto
+        background-image: none
+
+        .current-hero
+          display: none
+
     .main-content-preload-backdrop
       // Nice background contrast before image loads so contrast doesn't get crazy
       background: linear-gradient(to top, #cabea1, #d6cab3)
