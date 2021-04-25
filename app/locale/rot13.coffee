@@ -1543,7 +1543,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     complete: "pbzcyrgr"
     practice: "cenpgvpr"
     required: "erdhverq"
-    welcome_to_courses: "Nqiraghere, jrypbzr gb PbqrPbzong!" # {punatr}
+    welcome_to_courses: "Nqiraghere, jrypbzr gb PbqrPbzong!"
     ready_to_play: "Ernql gb cynl?"
     start_new_game: "Fgneg Arj Tnzr"
     play_now_learn_header: "Cynl abj gb yrnea"
@@ -1578,12 +1578,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     keep_student: "Xrrc Fghqrag"
     removing_user: "Erzbivat hfre"
     subtitle: "Erivrj pbhefr bireivrjf naq yriryf" # Syng fglyr erqrfvta
-    changelog: "Ivrj yngrfg punatrf gb pbhefr yriryf."
     select_language: "Fryrpg ynathntr"
     select_level: "Fryrpg yriry"
     play_level: "Cynl Yriry"
     concepts_covered: "Pbaprcgf pbirerq"
     view_guide_online: "Yriry Bireivrjf naq Fbyhgvbaf"
+    lesson_slides: "Yrffba Fyvqrf"
     grants_lifetime_access: "Tenagf npprff gb nyy Pbhefrf."
     enrollment_credits_available: "Yvprafrf Ninvynoyr:"
     language_select: "Fryrpg n ynathntr" # PynffebbzFrggvatfZbqny

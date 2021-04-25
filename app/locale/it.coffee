@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    keep_student: "Keep Student"
 #    removing_user: "Removing user"
 #    subtitle: "Review course overviews and levels" # Flat style redesign
-#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
     select_level: "Seleziona livello"
     play_level: "Gioca Livello"
     concepts_covered: "Concetti Approfonditi"
 #    view_guide_online: "Level Overviews and Solutions"
+#    lesson_slides: "Lesson Slides"
 #    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Licenses Available:"
     language_select: "Seleziona una lingua" # ClassroomSettingsModal

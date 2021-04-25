@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     keep_student: "Manter Estudante"
     removing_user: "A remover utilizador"
     subtitle: "Revê visões gerais de cursos e níveis" # Flat style redesign
-#    changelog: "View latest changes to course levels."
     select_language: "Selecionar linguagem"
     select_level: "Selecionar nível"
     play_level: "Jogar Nível"
     concepts_covered: "Conceitos Abordados"
     view_guide_online: "Visões Gerais e Soluções do Nível"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Garante acesso a todos os Cursos."
     enrollment_credits_available: "Licenças Disponíveis:"
     language_select: "Seleciona uma linguagem" # ClassroomSettingsModal

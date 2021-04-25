@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     keep_student: "Behold Student"
     removing_user: "Fjerner bruker"
 #    subtitle: "Review course overviews and levels" # Flat style redesign
-#    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
 #    concepts_covered: "Concepts covered"
 #    view_guide_online: "Level Overviews and Solutions"
+#    lesson_slides: "Lesson Slides"
 #    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Licenses Available:"
 #    language_select: "Select a language" # ClassroomSettingsModal

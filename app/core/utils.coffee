@@ -260,6 +260,14 @@ courseAcronyms[courseIDs.COMPUTER_SCIENCE_4] = 'CS4'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
 
+courseLessonSlidesURLs = {}
+unless features?.china
+  courseLessonSlidesURLs[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'https://drive.google.com/drive/folders/1YU7LEZ6TLQzbAsSMw90nNJfvU7gDrcid?usp=sharing'
+  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_2] = 'https://drive.google.com/drive/folders/1x24P6ZY_MBOBoHvlikbDr7jvMPYVRVkJ?usp=sharing'
+  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_3] = 'https://drive.google.com/drive/folders/1hBl-h5Xvo5chYH4q9e6IEo42JozlrTG9?usp=sharing'
+  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_4] = 'https://drive.google.com/drive/folders/1tbuE4Xn0ahJ0xcF1-OaiPs9lHeIs9zqG?usp=sharing'
+  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_5] = 'https://drive.google.com/drive/folders/1ThxWFZjoXzU5INtMzlqKEn8xkgHhVnl4?usp=sharing'
+
 petThangIDs = [
   '578d320d15e2501f00a585bd' # Wolf Pup
   '5744e3683af6bf590cd27371' # Cougar
@@ -937,6 +945,7 @@ module.exports = {
   countryCodeToName
   courseAcronyms
   courseIDs
+  courseLessonSlidesURLs
   CSCourseIDs
   createLevelNumberMap
   extractPlayerCodeTag

@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     keep_student: "Mantenir l'alumne"
     removing_user: "Esborrant l'usuari"
     subtitle: "Reviseu els detalls i nivells del curs" # Flat style redesign
-    changelog: "Veure els darrers canvis als nivells del curs."
     select_language: "Seleccionar idioma"
     select_level: "Seleccionar nivell"
     play_level: "Jugar Nivell"
     concepts_covered: "Conceptes treballats"
     view_guide_online: "Visions i solucions de nivell"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Concedeix accés a tots els cursos."
     enrollment_credits_available: "Llicències Disponibles:"
     language_select: "Tria un idioma" # ClassroomSettingsModal

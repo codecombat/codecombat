@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     keep_student: "Παραμονή Μαθητή"
     removing_user: "Διαγραφή χρήστη"
     subtitle: "Ελέγξτε τις επισκοπήσεις των μαθημάτων και τα επίπεδα" # Flat style redesign
-    changelog: "Προβολή προσφάτων αλλαγών στα επίπεδα του μαθήματος."
     select_language: "Επιλογή γλώσσας"
     select_level: "Επιλογή επιπέδου"
     play_level: "Παίξε το Επίπεδο"
     concepts_covered: "Θέματα που καλύφθηκαν"
     view_guide_online: "Επισκόπηση και Λύση Επιπέδου"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Πλήρης πρόσβαση σε όλα τα Μαθήματα."
     enrollment_credits_available: "Διαθέσιμες Άδειες:"
     language_select: "Επιλογή μίας γλώσσας" # ClassroomSettingsModal

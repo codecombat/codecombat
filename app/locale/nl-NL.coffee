@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     keep_student: "bewaar leerling"
     removing_user: "Verwijder gebruiker"
     subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels" # Flat style redesign {change}
-    changelog: "Bekijk recente aanpassingen aan cursuslevels."
     select_language: "Selecteer taal"
     select_level: "Selecteer level"
     play_level: "Speel Level"
     concepts_covered: "Behandelde concepten"
     view_guide_online: "Bekijk Handleiding Online (PDF)" # {change}
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Verschaft levenslange toegang tot alle cursusmodules." # {change}
     enrollment_credits_available: "Beschikbaar inschrijf-krediet:" # {change}
     language_select: "Selecteer een taal" # ClassroomSettingsModal

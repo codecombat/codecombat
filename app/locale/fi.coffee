@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     keep_student: "Pidä Oppilas"
     removing_user: "Poistetaan käyttäjää"
 #    subtitle: "Review course overviews and levels" # Flat style redesign
-#    changelog: "View latest changes to course levels."
     select_language: "Valitse kieli"
     select_level: "Valitse taso"
     play_level: "Pelaa taso"
 #    concepts_covered: "Concepts covered"
 #    view_guide_online: "Level Overviews and Solutions"
+#    lesson_slides: "Lesson Slides"
 #    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Licenses Available:"
     language_select: "Valitse kieli" # ClassroomSettingsModal
