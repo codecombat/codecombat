@@ -76,7 +76,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @playSound 'victory'
     if @level.isType('course', 'course-ladder')
       @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
-      @loadExistingFeedback()
+      #@loadExistingFeedback()
 
     if @level.get('shareable') is 'project'
       @shareURL = "#{window.location.origin}/play/#{@level.get('type')}-level/#{@session.id}"
@@ -207,7 +207,7 @@ module.exports = class HeroVictoryModal extends ModalView
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     if me.get 'hourOfCode'
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
-      gameDevHoc = application.getHocCampaign()
+      gameDevHoc = application.getHocCampaign() and application.getHocCampaign() isnt 'intro'
       lastLevelOriginal = switch gameDevHoc
         when 'game-dev-hoc' then '57ee6f5786cf4e1f00afca2c' # game grove
         when 'game-dev-hoc-2' then '57b71dce7a14ff35003a8f71' # palimpsest
