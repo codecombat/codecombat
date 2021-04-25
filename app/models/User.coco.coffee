@@ -5,6 +5,7 @@ LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
 co = require 'co'
+storage = require 'core/storage'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -15,6 +16,8 @@ UserLib = {
     name = _.filter([user.firstName, user.lastName]).join(' ')
     if features?.china
       name = user.firstName
+    unless /a-z/.test name
+      name = _.string.titleize name  # Rewrite all-uppercase names to title-case for display
     return name if name
     name = user.name
     return name if name
@@ -368,27 +371,33 @@ module.exports = class User extends CocoModel
     options.type = 'POST'
     options.data ?= {}
     options.data.user = user
+    @clearUserSpecificLocalStorage()
     @fetch(options)
 
   stopSpying: (options={}) ->
     options.url = '/auth/stop-spying'
     options.type = 'POST'
+    @clearUserSpecificLocalStorage()
     @fetch(options)
 
   logout: (options={}) ->
     options.type = 'POST'
     options.url = '/auth/logout'
     FB?.logout?()
-    options.success ?= ->
+    options.success ?= =>
       window.application.tracker.identifyAfterNextPageLoad()
       window.application.tracker.resetIdentity().finally =>
         location = _.result(window.currentView, 'logoutRedirectURL')
+        @clearUserSpecificLocalStorage?()
         if location
           window.location = location
         else
           window.location.reload()
 
     @fetch(options)
+
+  clearUserSpecificLocalStorage: ->
+    storage.remove key for key in ['hoc-campaign']
 
   signupWithPassword: (name, email, password, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-password'
@@ -531,7 +540,7 @@ module.exports = class User extends CocoModel
   setToSpanish: -> _.string.startsWith((@get('preferredLanguage') or ''), 'es')
 
   freeOnly: ->
-    return features.freeOnly and not me.isPremium()
+    return me.isStudent() or (features.freeOnly and not me.isPremium())
 
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})
@@ -559,13 +568,20 @@ module.exports = class User extends CocoModel
 
   age: -> utils.yearsSinceMonth me.get('birthday')
 
+  isRegisteredForAILeague: ->
+    # TODO: This logic could use some thinking about, and maybe an explicit field for when we want to be sure they have registered on purpose instead of happening to have these properties.
+    return false unless me.get 'birthday'
+    return false unless me.get 'email'
+    return false if me.get 'unsubscribedFromMarketingEmails'
+    return false unless me.get('emails')?.generalNews?.enabled
+    true
+
   # Feature Flags
   # Abstract raw settings away from specific UX changes
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
   canBuyGems: -> false  # Disabled direct buying of gems around 2021-03-16
   constrainHeroHealth: -> features?.classroomItems ? false and @isStudent()
   promptForClassroomSignup: -> not ((features?.chinaUx ? false) or (window.serverConfig?.codeNinjas ? false) or (features?.brainPop ? false))
-  showAvatarOnStudentDashboard: -> not (features?.classroomItems ? false) and @isStudent()
   showGearRestrictionsInClassroom: -> features?.classroomItems ? false and @isStudent()
   showGemsAndXp: -> features?.classroomItems ? false and @isStudent()
   showHeroAndInventoryModalsToStudents: -> features?.classroomItems and @isStudent()

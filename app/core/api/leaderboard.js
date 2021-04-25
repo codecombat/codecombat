@@ -27,6 +27,6 @@ export const getCodePointsRankForUser = (clanId, userId, options) => {
   return fetchJson(`/db/clan/${clanId || '-'}/code-points/user/${userId || me.id}?${$.param(options)}`)
 }
 
-export const getCodePointsPlayerCount = (clanId) => {
-  return fetchJson(`/db/clan/${clanId || '-'}/code-points-member-count`);
+export const getCodePointsPlayerCount = (clanId, options) => {
+  return fetchJson(`/db/clan/${clanId || '-'}/code-points-member-count?${$.param(options)}`);
 };

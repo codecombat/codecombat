@@ -209,6 +209,9 @@ titleize = (s) ->
   # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
   _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
 
+campaignIDs =
+  INTRO: '55b29efd1cd6abe8ce07db0d'
+
 courseIDs =
   INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
   GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
@@ -905,11 +908,27 @@ isOldBrowser = () ->
 isCodeCombat = true
 isOzaria = false
 
+arenas = [
+  {slug: 'blazing-battle'   , type: 'regular',      start: new Date(2021, 0,  1), end: new Date(2021, 4, 1), levelOriginal: '5fca06dc8b4da8002889dbf1', image: '/file/db/level/5fca06dc8b4da8002889dbf1/Blazing Battle Final cut.jpg'}
+  {slug: 'infinite-inferno' , type: 'championship', start: new Date(2021, 3,  1), end: new Date(2021, 4, 1), levelOriginal: '602cdc204ef0480075fbd954', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
+  {slug: 'mages-might'      , type: 'regular',      start: new Date(2021, 4,  1), end: new Date(2021, 8, 1), levelOriginal: '6066f956ddfd6f003d1ed6bb'}
+  {slug: 'sorcerers'        , type: 'championship', start: new Date(2021, 7,  1), end: new Date(2021, 8, 1)}
+  {slug: 'giants-gate'      , type: 'regular',      start: new Date(2021, 8,  1), end: new Date(2022, 0, 1)}
+  {slug: 'colossus'         , type: 'championship', start: new Date(2021, 11, 1), end: new Date(2022, 0, 1)}
+]
+
+activeArenas = ->
+  daysActiveAfterEnd = regular: 7, championship: 14
+  (_.clone(a) for a in arenas when a.start <= new Date() < a.end.getTime() + daysActiveAfterEnd[a.type] * 86400 * 1000)
+
 module.exports = {
+  activeArenas
   addressesIncludeAdministrativeRegion
   ageBrackets
   ageOfConsent
   ageToBracket
+  arenas
+  campaignIDs
   capitalLanguages
   clone
   combineAncestralObject
@@ -962,6 +981,7 @@ module.exports = {
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
+  titleize
   translatejs2cpp
   usStateCodes
   userAgent
