@@ -9,6 +9,7 @@ import SectionFirstCTA from './components/SectionFirstCTA'
 import InputClanSearch from './components/InputClanSearch'
 
 import { joinClan, leaveClan } from '../../../core/api/clans'
+import { titleize } from '../../../core/utils'
 
 export default {
   components: {
@@ -62,6 +63,17 @@ export default {
     }
     this.heroRotationInterval = setInterval(rotateHero, 5000)
     _.defer(rotateHero)
+
+    // Scroll to the current hash, once everything in the browser is set up
+    // TODO: Should this be a general thing we do in all top-level Vue views, like it is on CocoViews?
+    let scrollTo = () => {
+      let link = $(document.location.hash)
+      if (link.length) {
+        let scrollTo = link.offset().top - 100
+        $('html, body').animate({ scrollTop: scrollTo }, 300)
+      }
+    }
+    _.delay(scrollTo, 1000)
   },
   beforeDestroy() {
     clearInterval(this.heroRotationInterval)
@@ -283,7 +295,10 @@ export default {
     },
 
     currentSelectedClanName () {
-      return (this.currentSelectedClan || {}).displayName || (this.currentSelectedClan || {}).name || ''
+      let name = (this.currentSelectedClan || {}).displayName || (this.currentSelectedClan || {}).name || ''
+      if (!/a-z/.test(name))
+        name = titleize(name)  // Convert any all-uppercase clan names to title-case
+      return name
     },
 
     currentSelectedClanDescription () {
@@ -423,7 +438,7 @@ export default {
     <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" :championshipActive="championshipActive" class="section-space" />
 
     <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center section-space">
-      <div class="col-sm-5">
+      <div class="col-sm-5" id="team-info">
         <img :class="customEsportsImageClass" :src="currentSelectedClanEsportsImage">
       </div>
       <div class="col-sm-7">
@@ -440,11 +455,12 @@ export default {
       </div>
     </div>
 
+    <a id="standings"></a>
     <div v-if="championshipActive" class="row text-center">
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${championshipArenaSlug.replace('-', '_')}`)" :rankings="selectedClanChampionshipRankings" :playerCount="selectedClanChampionshipLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
-        <leaderboard v-else :title="$t(`league.${championshipArenaSlug.replace('-', '_')}`)" :rankings="globalChampionshipRankings" :playerCount="globalChampionshipLeaderboardPlayerCount" class="leaderboard-component" />
-        <a :href="championshipArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${championshipArenaSlug.replace('-', '_')}`), arenaType: $t('league.arena_type_championship') }) }}</a>
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${championshipArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanChampionshipRankings" :playerCount="selectedClanChampionshipLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-else :title="$t(`league.${championshipArenaSlug.replace(/-/g, '_')}`)" :rankings="globalChampionshipRankings" :playerCount="globalChampionshipLeaderboardPlayerCount" class="leaderboard-component" />
+        <a :href="championshipArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${championshipArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_championship') }) }}</a>
       </div>
       <div class="col-lg-6 section-space" style="text-align: left;">
         <div>
@@ -475,9 +491,9 @@ export default {
       <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace('-', '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
-        <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace('-', '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
-        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace('-', '_')}`), arenaType: $t('league.arena_type_regular') }) }}</a>
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
+        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular') }) }}</a>
       </div>
       <div class="col-lg-6 section-space">
         <leaderboard :title="$t('league.codepoints')" :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"

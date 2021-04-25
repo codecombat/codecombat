@@ -1544,7 +1544,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     complete: "完成"
     practice: "练习"
     required: "必需的"
-    welcome_to_courses: "探险者，欢迎来到课程中！"
+    welcome_to_courses: "探险者，欢迎来到课程中！" # {change}
     ready_to_play: "准备玩了吗？"
     start_new_game: "开始新游戏"
     play_now_learn_header: "开始学习"
@@ -1552,7 +1552,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     play_now_learn_2: "解决麻烦谜题的while循环"
     play_now_learn_3: "自定义动作的字符串和变量"
     play_now_learn_4: "如何打败食人魔（重要生存技巧！）"
-    welcome_to_page: "欢迎来到你的课程页面！" # {change}
     my_classes: "我的课程" # {change}
     class_added: "成功添加课程！"
     view_map: "查看地图"
@@ -1663,10 +1662,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     update_old_classroom_detail_2: "创建新班级，并为学生提供出现的新班级代码。"
     view_assessments: "查看评估"
     view_challenges: "查看挑战关卡"
-    view_ranking: "查看排名"
-    ranking_position: "位置"
-    ranking_players: "玩家"
-    ranking_completed_leves: "已完成的级别"
     challenge: "挑战"
     challenge_level: "挑战关卡:"
     status: "状态"
@@ -1700,6 +1695,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ask_next_course: "想继续学习下一个课程？请联系老师或家长获取帮助"
     set_start_locked_level: "设置要锁定的起始关卡" # {change}
     no_level_limit: "无限制" # {change}
+#    ask_teacher_to_unlock: "Ask Teacher To Unlock"
+#    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen"
+#    play_next_level: "Play Next Level"
+#    play_tournament: "Play Tournament"
+#    levels_completed: "Levels Completed: __count__"
+#    ai_league_team_rankings: "AI League Team Rankings"
+#    view_standings: "View Standings"
+#    view_winners: "View Winners"
 
   project_gallery:
     no_projects_published: "成为第一个在这个课程中发布项目的人吧！"
@@ -2378,11 +2381,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     wins: "胜利" # At end of multiplayer match playback
     humans: "红方" # Ladder page display team name
     ogres: "蓝方"
-    live_tournament: "最近的比赛"
-    awaiting_tournament_title: "比赛未开始"
-    awaiting_tournament_blurb: "比赛将于6月22日下午开启，敬请期待"
     tournament_end_desc: "比赛暂未开放"
 #    age: "Age"
+#    age_bracket: "Age Bracket"
 #    bracket_0_11: "0-11"
 #    bracket_11_14: "11-14"
 #    bracket_14_18: "14-18"
@@ -3151,7 +3152,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     license_type_full: "全课许可"
     license_type_customize: "可选课程"
 
-#  league:
+  league:
 #    student_register_1: "Become the next AI Champion!"
 #    student_register_2: "Sign up, create your own team, or join other teams to start competing."
 #    student_register_3: "Provide the information below to be eligible for prizes."
@@ -3160,8 +3161,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    team: "team"
 #    how_it_works1: "Join a __team__"
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
-#    seasonal_play_cta: "Play __arenaName__ Multiplayer Arena"
-#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
 #    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
 #    join_now: "Join Now"
 #    tagline: "The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other."
@@ -3217,6 +3216,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    season1_prize_2: "RESPAWN Gaming Chair"
 #    season1_prize_3: "Custom CodeCombat Avatar"
 #    season1_prize_4: "And more!"
+#    codecombat_ai_league: "CodeCombat AI League"
+    register: "注册"
+#    not_registered: "Not Registered"
+#    world: "World"
 
   tournament:
     mini_tournaments: "迷你锦标赛"

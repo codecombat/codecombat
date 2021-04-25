@@ -1543,7 +1543,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     complete: "pbzcyrgr"
     practice: "cenpgvpr"
     required: "erdhverq"
-    welcome_to_courses: "Nqiragheref, jrypbzr gb Pbhefrf!"
+    welcome_to_courses: "Nqiraghere, jrypbzr gb PbqrPbzong!" # {punatr}
     ready_to_play: "Ernql gb cynl?"
     start_new_game: "Fgneg Arj Tnzr"
     play_now_learn_header: "Cynl abj gb yrnea"
@@ -1551,13 +1551,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     play_now_learn_2: "juvyr ybbcf gb fbyir crfxl chmmyrf"
     play_now_learn_3: "fgevatf & inevnoyrf gb phfgbzvmr npgvbaf"
     play_now_learn_4: "ubj gb qrsrng na bter (vzcbegnag yvsr fxvyyf!)"
-    welcome_to_page: "Zl Fghqrag Qnfuobneq"
     my_classes: "Pheerag Pynffrf"
     class_added: "Pynff fhpprffshyyl nqqrq!"
     view_map: "ivrj znc"
     view_videos: "ivrj ivqrbf"
     view_project_gallery: "ivrj zl pynffzngrf' cebwrpgf"
-    join_class: "Wbva N Pynff"
+    join_class: "Wbva n Pynff"
     join_class_2: "Wbva pynff"
     ask_teacher_for_code: "Nfx lbhe grnpure vs lbh unir n PbqrPbzong pynff pbqr! Vs fb, ragre vg orybj:"
     enter_c_code: "<Ragre Pynff Pbqr>"
@@ -1662,10 +1661,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     update_old_classroom_detail_2: "naq tvivat fghqragf gur arj Pynff Pbqr gung nccrnef."
     view_assessments: "Ivrj Nffrffzragf"
     view_challenges: "ivrj punyyratr yriryf"
-    view_ranking: "ivrj enaxvat"
-    ranking_position: "Cbfvgvba"
-    ranking_players: "Cynlref"
-    ranking_completed_leves: "Pbzcyrgrq yriryf"
     challenge: "Punyyratr:"
     challenge_level: "Punyyratr Yriry:"
     status: "Fgnghf:"
@@ -1699,6 +1694,14 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     ask_next_course: "Jnag gb cynl zber? Nfx lbhe grnpure sbe npprff gb gur arkg pbhefr."
     set_start_locked_level: "Ybpx yriryf fgnegvat ng"
     no_level_limit: "-- (ab yriryf ybpxrq)"
+    ask_teacher_to_unlock: "Nfx Grnpure Gb Haybpx"
+    ask_teacher_to_unlock_instructions: "Gb cynl gur arkg yriry, nfx lbhe grnpure gb haybpx vg ba gurve Pbhefr Cebterff fperra"
+    play_next_level: "Cynl Arkg Yriry"
+    play_tournament: "Cynl Gbheanzrag"
+    levels_completed: "Yriryf Pbzcyrgrq: __pbhag__"
+    ai_league_team_rankings: "NV Yrnthr Grnz Enaxvatf"
+    view_standings: "Ivrj Fgnaqvatf"
+    view_winners: "Ivrj Jvaaref"
 
   project_gallery:
     no_projects_published: "Or gur svefg gb choyvfu n cebwrpg va guvf pbhefr!"
@@ -2377,11 +2380,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     wins: "Jvaf"  # Ng raq bs zhygvcynlre zngpu cynlonpx
     humans: "Erq"  # Ynqqre cntr qvfcynl grnz anzr
     ogres: "Oyhr"
-    live_tournament: "Yvir Gbheanzrag"
-    awaiting_tournament_title: "Gbheanzrag Vanpgvir"
-    awaiting_tournament_blurb: "Gur gbheanzrag neran vf abg pheeragyl npgvir."
     tournament_end_desc: "Gur gbheanzrag vf bire, gunaxf sbe cynlvat"
     age: "Ntr"
+    age_bracket: "Ntr Oenpxrg"
     bracket_0_11: "0-11"
     bracket_11_14: "11-14"
     bracket_14_18: "14-18"
@@ -3159,8 +3160,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     team: 'grnz'
     how_it_works1: 'Wbva n __grnz__'
     seasonal_arena_tooltip: 'Onggyr ntnvafg lbhe grnzzngrf naq bguref nf lbh hfr lbhe orfg cebtenzzvat fxvyyf gb rnea cbvagf naq enax hc gur NV Yrnthr yrnqreobneq orsber gnxvat ba gur Punzcvbafuvc neran ng gur raq bs gur frnfba.'
-    seasonal_play_cta: 'Cynl __neranAnzr__ Zhygvcynlre Neran'
-    unlocked_seasonal_arena: "Lbh'ir haybpxrq bhe zhygvcynlre rfcbegf neran!"
     summary: 'Gur PbqrPbzong NV Yrnthr vf havdhryl obgu n pbzcrgvgvir NV onggyr fvzhyngbe naq tnzr ratvar sbe yrneavat erny Clguba naq WninFpevcg pbqr.'
     join_now: 'Wbva Abj'
     tagline: 'Gur PbqrPbzong NV Yrnthr pbzovarf bhe cebwrpg-onfrq fgnaqneqf-nyvtarq pheevphyhz, ratntvat nqiragher-onfrq pbqvat tnzr, naq bhe naahny NV pbqvat tybony gbheanzrag vagb na betnavmrq npnqrzvp pbzcrgvgvba hayvxr nal bgure.'
@@ -3216,6 +3215,10 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     season1_prize_2: "ERFCNJA Tnzvat Punve"
     season1_prize_3: "Phfgbz PbqrPbzong Ningne"
     season1_prize_4: "Naq zber!"
+    codecombat_ai_league: 'PbqrPbzong NV Yrnthr'
+    register: "Ertvfgre"
+    not_registered: "Abg Ertvfgrerq"
+    world: "Jbeyq"
 
   tournament:
     mini_tournaments: "Zvav Gbheanzragf"
