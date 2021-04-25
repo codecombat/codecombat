@@ -1694,6 +1694,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ask_next_course: "Want to play more? Ask your teacher for access to the next course."
     set_start_locked_level: "Lock levels starting at"
     no_level_limit: "-- (no levels locked)"
+    ask_teacher_to_unlock: "Ask Teacher To Unlock"
+    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen"
+    play_next_level: "Play Next Level"
+    play_tournament: "Play Tournament"
+    levels_completed: "Levels Completed: __count__"
+    ai_league_team_rankings: "AI League Team Rankings"
+    view_standings: "View Standings"
+    view_winners: "View Winners"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -2374,6 +2382,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ogres: "Blue"
     tournament_end_desc: "The tournament is over, thanks for playing"
     age: "Age"
+    age_bracket: "Age Bracket"
     bracket_0_11: "0-11"
     bracket_11_14: "11-14"
     bracket_14_18: "14-18"
@@ -3206,6 +3215,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     season1_prize_2: "RESPAWN Gaming Chair"
     season1_prize_3: "Custom CodeCombat Avatar"
     season1_prize_4: "And more!"
+    codecombat_ai_league: 'CodeCombat AI League'
+    register: "Register"
+    not_registered: "Not Registered"
+    world: "World"
 
   tournament:
     mini_tournaments: "Mini Tournaments"

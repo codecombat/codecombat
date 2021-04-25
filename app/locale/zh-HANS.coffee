@@ -3145,7 +3145,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     license_type_full: "全课许可"
     license_type_customize: "可选课程"
 
-#  league:
+  league:
 #    student_register_1: "Become the next AI Champion!"
 #    student_register_2: "Sign up, create your own team, or join other teams to start competing."
 #    student_register_3: "Provide the information below to be eligible for prizes."
@@ -3211,6 +3211,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    season1_prize_2: "RESPAWN Gaming Chair"
 #    season1_prize_3: "Custom CodeCombat Avatar"
 #    season1_prize_4: "And more!"
+    register: "注册"
+
 
   tournament:
     mini_tournaments: "迷你锦标赛"

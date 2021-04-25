@@ -238,7 +238,6 @@ module.exports = class CoursesView extends RootView
       _.some @courseInstances.where({classroomID: classroom.id}), ((courseInstance) ->
         course = @store.state.courses.byId[courseInstance.get('courseID')]
         stats = classroom.statsForSessions(courseInstance.sessions, course._id)
-        console.log course, stats, stats.levels?.next, stats.courseComplete
         if stats.levels?.next
           # This could be made smarter than just picking the next level from the first incomplete course
           # It will suggest redoing a course arena level, like Wakka Maul, if all courses are complete
@@ -382,7 +381,7 @@ module.exports = class CoursesView extends RootView
 
   onClickPlayNextLevel: (e) ->
     if @nextLevelInfo?.locked
-      return noty text: 'To play the next level, ask your teacher to unlock it in their Course Progress tab', timeout: 5000, type: 'warning', layout: 'topCenter', killer: true  # TODO: i18n
+      return noty text: $.i18n.t('courses.ask_teacher_to_unlock_instructions'), timeout: 5000, type: 'warning', layout: 'topCenter', killer: true
     url = @nextLevelUrl()
     window.tracker?.trackEvent 'Students Play Next Level', category: 'Students', levelSlug: @nextLevelInfo.level?.get('slug'), ['Mixpanel']
     application.router.navigate(url, { trigger: true })
