@@ -1543,7 +1543,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     complete: "complete"
     practice: "practice"
     required: "required"
-    welcome_to_courses: "Adventurer, welcome to CodeCombat!" # {change}
+    welcome_to_courses: "Adventurer, welcome to CodeCombat!"
     ready_to_play: "Ready to play?"
     start_new_game: "Start New Game"
     play_now_learn_header: "Play now to learn"

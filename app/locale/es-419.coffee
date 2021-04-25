@@ -1544,7 +1544,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     complete: "completado"
     practice: "práctica"
     required: "obligatorio"
-    welcome_to_courses: "Aventureros, Bienvenidos a los Cursos!"
+    welcome_to_courses: "Aventureros, Bienvenidos a los Cursos!" # {change}
     ready_to_play: "¿Estás listo?"
     start_new_game: "Iniciar un Nuevo Juego"
     play_now_learn_header: "Juega y Aprende"
@@ -1552,7 +1552,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     play_now_learn_2: "bucles while para resolver rompecabezas molestos"
     play_now_learn_3: "cadenas y variables para personalizar acciones"
     play_now_learn_4: "como vencer a un ogro (¡habilidades importantes en la vida!)"
-    welcome_to_page: "¡Bienvenido a tu página de cursos!" # {change}
     my_classes: "Mis Clases" # {change}
     class_added: "¡Clase añadida satisfactoriamente!"
     view_map: "ver mapa"
@@ -1663,10 +1662,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     update_old_classroom_detail_2: "y entregando a los estudiantes el nuevo Código de Clase que aparecerá."
     view_assessments: "Ver evaluaciones"
     view_challenges: "ver niveles de desafío"
-#    view_ranking: "view ranking"
-#    ranking_position: "Position"
-#    ranking_players: "Players"
-#    ranking_completed_leves: "Completed levels"
     challenge: "Desafío:"
     challenge_level: "Nivel de Desafío:"
     status: "Estado:"
@@ -1700,6 +1695,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
 #    set_start_locked_level: "Lock levels starting at"
 #    no_level_limit: "-- (no levels locked)"
+#    ask_teacher_to_unlock: "Ask Teacher To Unlock"
+#    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen"
+#    play_next_level: "Play Next Level"
+#    play_tournament: "Play Tournament"
+#    levels_completed: "Levels Completed: __count__"
+#    ai_league_team_rankings: "AI League Team Rankings"
+#    view_standings: "View Standings"
+#    view_winners: "View Winners"
 
   project_gallery:
     no_projects_published: "¡Sé el primero en publicar un proyecto en este curso!"
@@ -2378,11 +2381,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     wins: "Gana" # At end of multiplayer match playback
     humans: "Rojo" # Ladder page display team name
     ogres: "Azul"
-#    live_tournament: "Live Tournament"
-#    awaiting_tournament_title: "Tournament Inactive"
-#    awaiting_tournament_blurb: "The tournament arena is not currently active."
 #    tournament_end_desc: "The tournament is over, thanks for playing"
 #    age: "Age"
+#    age_bracket: "Age Bracket"
 #    bracket_0_11: "0-11"
 #    bracket_11_14: "11-14"
 #    bracket_14_18: "14-18"
@@ -3160,8 +3161,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    team: "team"
 #    how_it_works1: "Join a __team__"
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
-#    seasonal_play_cta: "Play __arenaName__ Multiplayer Arena"
-#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
 #    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
 #    join_now: "Join Now"
 #    tagline: "The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other."
@@ -3217,6 +3216,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    season1_prize_2: "RESPAWN Gaming Chair"
 #    season1_prize_3: "Custom CodeCombat Avatar"
 #    season1_prize_4: "And more!"
+#    codecombat_ai_league: "CodeCombat AI League"
+#    register: "Register"
+#    not_registered: "Not Registered"
+#    world: "World"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"
