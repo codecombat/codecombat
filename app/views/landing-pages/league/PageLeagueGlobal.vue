@@ -359,9 +359,9 @@ export default {
       if (!this.currentSelectedClan) {
         return false
       }
-      // We don't want to show this button if the team is a classroom or teacher.
+      // We don't want to show this button if the team is an autoclan.
       // Those students are populated automatically.
-      return ['teacher', 'classroom'].indexOf(this.currentSelectedClan?.kind) === -1
+      return !this.currentSelectedClan?.kind
     },
 
     regularArenaUrl () {
