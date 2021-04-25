@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     keep_student: "Tanuló megtartása"
     removing_user: "Felhasználó eltávolítása"
     subtitle: "Kurzusleírások és pályák áttekintése" # Flat style redesign
-    changelog: "Tekintsd meg a kurzus részét képező pályákkal kapcsolatos módosításokat."
     select_language: "Válassz nyelvet"
     select_level: "Válassz egy pályát"
     play_level: "Pálya indítása"
     concepts_covered: "Tárgyalt fogalmak"
     view_guide_online: "Pályaleírások és megoldókulcs"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Minden kurzushoz hozzáférést biztosít."
     enrollment_credits_available: "Elérhető licencek:"
     language_select: "Válassz egy nyelvet" # ClassroomSettingsModal

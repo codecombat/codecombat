@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     keep_student: "Zachowaj ucznia"
     removing_user: "Usuwanie użytkownika"
     subtitle: "Zobacz opisy kursów i poziomy" # Flat style redesign
-    changelog: "Pokaż ostatnie zmiany w poziomach kursu."
     select_language: "Wybierz język"
     select_level: "Wybierz poziom"
     play_level: "Zagraj poziom"
     concepts_covered: "Omówione tematy"
     view_guide_online: "Opisy i rozwiązania poziomów"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Przyznaj dostęp do wszystkich kursów."
     enrollment_credits_available: "Dostępne licencje:"
     language_select: "Wybierz język" # ClassroomSettingsModal

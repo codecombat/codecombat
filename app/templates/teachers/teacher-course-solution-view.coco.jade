@@ -9,11 +9,14 @@ block page_nav
         span= ' '
         spna(data-i18n="teacher.back_to_course_guides")
     if view.paidTeacher || view.course.get('free')
-      .print
-        .btn.btn-md.btn-navy
-          a.print-btn(href='javascript:window.print()')
-            span.glyphicon.glyphicon-print &#160;
-            span(data-i18n="teacher.print_guide")
+      .quick-actions-container
+        a.print-btn.btn.btn-md.btn-navy(href='javascript:window.print()')
+          span.glyphicon.glyphicon-print &#160;
+          span(data-i18n="teacher.print_guide")
+        if view.courseLessonSlidesURLs[view.courseID]
+          a.lesson-slides-btn.btn.btn-md.btn-navy(href=view.courseLessonSlidesURLs[view.courseID])
+            span.glyphicon.glyphicon-folder-open &#160;
+            span(data-i18n="courses.lesson_slides")
 
 block content
 

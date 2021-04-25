@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     keep_student: "Conserver l'élève"
     removing_user: "Suppression de l'utilisateur"
     subtitle: "Revoir les aperçus et les niveaux des cours" # Flat style redesign
-    changelog: "Consultez les dernières modifications apportées aux niveaux des cours."
     select_language: "Selectionner langue"
     select_level: "Selectionner niveau"
     play_level: "Jouer le niveau"
     concepts_covered: "Conceptes Couverts"
     view_guide_online: "Voir Guide En Ligne (PDF)" # {change}
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Donne accès à tous les cours."
     enrollment_credits_available: "Licences disponibles :"
     language_select: "Sélectionnez une langue" # ClassroomSettingsModal

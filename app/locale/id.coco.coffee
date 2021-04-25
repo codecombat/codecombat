@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     keep_student: "Simpan Siswa"
     removing_user: "Menghapus siswa"
     subtitle: "Mengulas ikhtisar kursus dan level" # Flat style redesign
-    changelog: "Melihat perubahan terakhir level kursus."
     select_language: "Pilih bahasa"
     select_level: "Pilih level"
     play_level: "Mainkan Level"
     concepts_covered: "Konsep tercakup"
     view_guide_online: "Level Ikhtisar dan Solusi"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Berikan akses ke semua Kursus."
     enrollment_credits_available: "Lisensi Tersedia:"
     language_select: "Pilih bahasa" # ClassroomSettingsModal

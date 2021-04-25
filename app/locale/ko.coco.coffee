@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     keep_student: "학생 유지"
     removing_user: "유저 삭제"
     subtitle: "수업 복습" # Flat style redesign
-    changelog: "수업의 레벨 최신 변경 보기"
     select_language: "언어 선택 "
     select_level: "레벨 선택"
     play_level: "레벨 플레이"
     concepts_covered: "수업 내용"
     view_guide_online: "레벨 개요 및 해답"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "모든 수업에 대한 액세스 획득."
     enrollment_credits_available: "가능한 라이선스:"
     language_select: "언어 선택" # ClassroomSettingsModal
