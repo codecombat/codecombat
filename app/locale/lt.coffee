@@ -214,6 +214,12 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     parent: "Tėvai"
 #    esports: "Esports"
     browser_recommendation: "Norėdami gauti geriausios patirties, rekomenduojame naudoti naujausią „Chrome“ versiją. Atsisiųskite naršyklę čia!"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "Uždaryti"

@@ -214,6 +214,12 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     parent: "Föräldrar"
     esports: "E-sporter"
     browser_recommendation: "För bästa upplevelse rekommenderar vi att du använder den senaste versionen av Chrome. Ladda ner webbläsaren här!"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "Stäng"

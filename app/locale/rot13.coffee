@@ -213,6 +213,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     parent: "Cneragf"
     esports: "Rfcbegf"
     browser_recommendation: "Sbe gur orfg rkcrevrapr jr erpbzzraq hfvat gur yngrfg irefvba bs Puebzr. Qbjaybnq gur oebjfre urer!"
+    ozaria_classroom: "Bmnevn Pynffebbz"
+    codecombat_classroom: "PbqrPbzong Pynffebbz"
+    ozaria_dashboard: "Bmnevn Qnfuobneq"
+    codecombat_dashboard: "PbqrPbzong Qnfuobneq"
+    new: "Arj!"
+    admin: "Nqzva"
 
   modal:
     close: "Pybfr"

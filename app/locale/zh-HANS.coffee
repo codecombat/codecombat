@@ -214,6 +214,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     parent: "家长参与"
 #    esports: "Esports"
     browser_recommendation: "推荐使用 chrome 浏览器访问获取最佳体验，点击此处前往下载"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "关闭"

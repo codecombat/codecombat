@@ -214,6 +214,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     parent: "Родителям"
 #    esports: "Esports"
     browser_recommendation: "Для наилучшего опыта мы рекомендуем использоватеть последнюю версию Chrome. Скачай браузер здесь!"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "Закрыть"
