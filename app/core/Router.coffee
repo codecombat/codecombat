@@ -273,6 +273,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
     'user/:userID/opt-in/:verificationCode': go('user/UserOptInView')
 
+    'payments/*path': go('core/SingletonAppVueComponentView')
+
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
 
@@ -287,7 +289,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView
-
+    console.log('path', path)
     @viewLoad = new ViewLoadTimer() unless options.recursive
     if options.redirectStudents and me.isStudent() and not me.isAdmin()
       return @redirectHome()
