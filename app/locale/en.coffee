@@ -3229,3 +3229,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_tournaments: "There is no tournament now"
     edit_tournament: "Edit Tournament"
     create_tournament: "Create a Tournament"
+
+  payments:
+    student_licenses: 'Student Licenses'
+    computer_science: 'Computer Science'
+    web_development: 'Web Development'
+    game_development: 'Game Development'
+    per_student: 'Per Student'
+    just: 'Just'
+    teachers_upto: 'Teacher can purchase upto'
+    great_courses: 'Great Courses included for'
+
+

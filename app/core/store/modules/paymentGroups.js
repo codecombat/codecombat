@@ -8,6 +8,7 @@ export default {
 	},
 	mutations: {
 		setPaymentGroup(state, paymentGroup) {
+			console.log('mutating')
 			state.paymentGroup = { ...paymentGroup };
 		},
 		setLoading(state, loading) {
