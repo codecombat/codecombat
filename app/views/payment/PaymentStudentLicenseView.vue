@@ -1,9 +1,9 @@
 <template>
-	<div>
-		<div class="container text-center">
-			<h1>{{$t('payments.student_licenses')}}</h1>
-			<h2>{{$t('payments.great_courses')}}:</h2>
-			<div class="row">
+	<div class="container text-center">
+		<div class="top-section">
+			<h1>{{$t(`payments.${this.i18nName}`)}}</h1>
+			<h4>{{$t('payments.great_courses')}}:</h4>
+			<div class="row info-row">
 				<div class="col-xs-4">
 					<div class="text-center">
 						<img src='/images/pages/home/computer-science-2.png' />
@@ -23,15 +23,13 @@
 					</div>
 				</div>
 			</div>
-			<div>
-				<h3>{{$t('payments.just')}} {{this.getCurrency()}}{{this.getUnitPrice()}} {{$t('payments.per_student')}}</h3>
-			</div>
-			<div>
-				<p>{{$t('payments.teachers_upto')}} {{this.licenseCap}} {{$t('payments.student_licenses')}}</p>
-				<p>If you want to purchase more, <a href="#">Contact Us</a></p>
-			</div>
 		</div>
-<!--		<p>Price: {{this.getCurrency()}} {{this.getUnitPrice()}}</p>-->
+		<div class="middle-section">
+			<h3>{{$t('payments.just')}} {{this.getCurrency()}}{{this.getUnitPrice()}} {{$t('payments.per_student')}}</h3>
+			<p class="light-text">*{{$t('payments.teachers_upto')}} {{this.licenseCap}} {{$t('payments.student_licenses')}}</p>
+			<p class="light-text">*This licenses are active for {{this.licenseValidityPeriodInDays}} days from the day of purchase</p>
+			<p>If you want to purchase more,<a href="#">Contact Us</a></p>
+		</div>
 	</div>
 </template>
 
@@ -59,6 +57,7 @@ export default {
 			type: Number,
 			required: true,
 		},
+		i18nName: String,
 	},
 	methods: {
 		getUnitPrice() {

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="student-licenses">
 		<payment-student-license-view
 			v-for="price in priceData"
 			:currency="price.currency"
@@ -7,10 +7,11 @@
 			:price-id="price.id"
 			:license-cap="parseInt(price.metadata.licenseCap)"
 			:license-validity-period-in-days="parseInt(price.metadata.licenseValidityPeriodInDays)"
+			:i18n-name="price.metadata.i18nName"
 		/>
 		<div class="text-center">
-			<a class="btn btn-forest">Buy Now</a>
-			<p>*Teacher License are free</p>
+			<button type="button" class="btn btn-success btn-lg" @click="onBuyNow()">Buy Now</button>
+			<p class="light-text">*Teacher License are free</p>
 		</div>
 	</div>
 </template>
@@ -29,6 +30,12 @@ export default {
 	components: {
 		'payment-student-license-view': PaymentStudentLicenseView,
 	},
+	methods: {
+		onBuyNow() {
+			console.log('cliecked')
+			this.$emit('buyNow');
+		},
+	}
 }
 </script>
 
