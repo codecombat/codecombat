@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     keep_student: "Задржи ученика"
     removing_user: "Уклањање корисника"
     subtitle: "Види преглед курса и нивое" # Flat style redesign
-    changelog: "Види најновије измене у нивоима курса. "
     select_language: "Изабери језик"
     select_level: "Изабери ниво"
     play_level: "Играј ниво"
     concepts_covered: "Концепти су покривени"
     view_guide_online: "Види водич на мрежи (PDF)" # {change}
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Даје приступ свим курсевима."
     enrollment_credits_available: "Доступне лиценце:"
     language_select: "Изабери језик" # ClassroomSettingsModal

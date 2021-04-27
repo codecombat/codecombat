@@ -116,6 +116,8 @@ module.exports = class CampaignView extends RootView
 
   constructor: (options, @terrain) ->
     super options
+    if /^classCode/.test @terrain
+      @terrain = ''  # Stop /play?classCode= from making us try to play a classCode campaign
     @terrain = 'picoctf' if window.serverConfig.picoCTF
     @editorMode = options?.editorMode
     @requiresSubscription = not me.isPremium()

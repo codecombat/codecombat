@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     keep_student: "保留学生"
     removing_user: "删除用户"
     subtitle: "复习课程指导、解法和关卡" # Flat style redesign
-    changelog: "查看课程关卡的最新改动。"
     select_language: "选择语言"
     select_level: "选择关卡"
     play_level: "开始关卡"
     concepts_covered: "内容涵盖"
     view_guide_online: "关卡概览和解法"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "取得所有关卡权限。"
     enrollment_credits_available: "可用许可："
     language_select: "选择语言" # ClassroomSettingsModal

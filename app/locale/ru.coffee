@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     keep_student: "Оставить ученика"
     removing_user: "Удаление пользователя"
     subtitle: "Посмотреть описание и уровни курса" # Flat style redesign
-    changelog: "Посмотреть последние изменения уровней курса."
     select_language: "Выбрать язык"
     select_level: "Выбрать уровень"
     play_level: "Играть Уровень"
     concepts_covered: "Концептов покрыто"
     view_guide_online: "Описание и прохождение уровня"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Предоставляет доступ ко всем курсам."
     enrollment_credits_available: "Доступно лицензий:"
     language_select: "Выберите язык" # ClassroomSettingsModal

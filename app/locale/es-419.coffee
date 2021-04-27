@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     keep_student: "Mantener alumno"
     removing_user: "Eliminando usuario"
     subtitle: "Revisar guías del curso, soluciones y niveles." # Flat style redesign {change}
-    changelog: "Ver los últimos cambios en los niveles del curso."
     select_language: "Seleccionar lenguaje"
     select_level: "Seleccionar nivel"
     play_level: "Jugar Nivel"
     concepts_covered: "Conceptos Cubiertos"
     view_guide_online: "Ver Guía En Línea(PDF)" # {change}
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Otorgar derecho de acceso a todos los cursos."
     enrollment_credits_available: "Créditos de Inscripción Disponibles :" # {change}
     language_select: "Seleccionar Lenguaje" # ClassroomSettingsModal

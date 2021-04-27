@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     keep_student: "保留學生"
     removing_user: "移除使用者中"
     subtitle: "回顧課程的總覽以及關卡" # Flat style redesign
-    changelog: "觀看課程關卡的最後編輯。"
     select_language: "選擇語言"
     select_level: "選擇關卡"
     play_level: "進入關卡"
     concepts_covered: "課目覆蓋"
     view_guide_online: "關卡總覽以及解決方法"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "允許取得所有課程。"
     enrollment_credits_available: "可用的註冊碼:"
     language_select: "選擇一個語言" # ClassroomSettingsModal

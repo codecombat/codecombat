@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     keep_student: "Зберегти учня"
     removing_user: "Видалення користувача"
     subtitle: "Переглянути опис та рівні курсу" # Flat style redesign
-    changelog: "Переглянути останні зміни до рівнів курсу."
     select_language: "Обрати мову"
     select_level: "Обрати рівень"
     play_level: "Грати рівень"
     concepts_covered: "Концептів покрито"
     view_guide_online: "Переглянути огляд та рішення"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Надає доступ до всіх курсів."
     enrollment_credits_available: "Доступно ліцензій:"
     language_select: "Оберіть мову" # ClassroomSettingsModal

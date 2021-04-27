@@ -47,6 +47,7 @@ module.exports = class TeacherCoursesView extends RootView
     @campaignLevelNumberMap = {}
     @courseChangeLog = {}
     @videoLevels = utils.videoLevels || {}
+    @courseLessonSlidesURLs = utils.courseLessonSlidesURLs
     window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
 
   onLoaded: ->
@@ -60,12 +61,13 @@ module.exports = class TeacherCoursesView extends RootView
     @render?()
 
   fetchChangeLog: ->
+    return  # 2021-04-25: Haven't been any relevant changes for a while, so disable fetching this; can re-enable and filter to only recent-ish changes if we get back on the course change wagon someday
     api.courses.fetchChangeLog().then((changeLogInfo) =>
       @courses.models.forEach (course) =>
         changeLog = _.filter(changeLogInfo, { 'id' : course.get('_id') })
         changeLog = _.sortBy(changeLog, 'date')
         @courseChangeLog[course.id] = _.mapValues(_.groupBy(changeLog, 'date'))
-      @render?()  
+      @render?()
     )
     .catch((e) =>
       console.error(e)

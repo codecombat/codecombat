@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    keep_student: "Keep Student"
 #    removing_user: "Removing user"
     subtitle: "Xem giáo án của các khóa học, lời giải và các màn chơi" # Flat style redesign {change}
-    changelog: "Xem những thay đổi mới nhất về các khóa học."
     select_language: "Chọn ngôn ngữ"
     select_level: "Chọn màn chơi"
     play_level: "Chơi Màn Chơi"
     concepts_covered: "Bao gồm các khái niệm"
     view_guide_online: "Xem Hướng Dẫn Online (PDF)" # {change}
+#    lesson_slides: "Lesson Slides"
 #    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Licenses Available:"
     language_select: "Lựa chọn một ngôn ngữ" # ClassroomSettingsModal

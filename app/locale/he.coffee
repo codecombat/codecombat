@@ -1579,12 +1579,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     keep_student: "שמור תלמיד"
     removing_user: "מסיר משתמש"
     subtitle: "עיינו בסקירה כללית של הקורסים ובשלביהם" # Flat style redesign
-    changelog: "עיינו בשינויים האחרונים בשלבי הקורסים."
     select_language: "בחירת שפה"
     select_level: "בחירת שלב"
     play_level: "שחקו בשלב"
     concepts_covered: "עקרונות לכיסוי"
     view_guide_online: "סקירות כלליות ופתרונות לשלבים"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "מעניק גישה לכל הקורסים."
     enrollment_credits_available: "רישיונות זמינים:"
     language_select: "בחרו שפה" # ClassroomSettingsModal
