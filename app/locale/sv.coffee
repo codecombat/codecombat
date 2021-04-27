@@ -92,8 +92,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     teachers_love_codecombat_blurb3: "Säger att CodeCombat hjälper dem att stödja elevernas förmåga att lösa problem"
     teachers_love_codecombat_subblurb: "I samarbete med McREL International, en ledare inom forskningsbaserad vägledning och utvärderingar av utbildningsteknik."
     top_banner_blurb: "Föräldrar, ge ditt barn kodning och personlig instruktion som en present under ledigheten!" # {change}
-#    top_banner_blurb_team_derbezt_link: "Join Team DerBezt in the CodeCombat AI League"
-#    top_banner_blurb_team_derbezt_suffix: "to get the exclusive Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
     try_the_game: "Prova spelet"
     classroom_edition: "Klassrumutgåven:"
     learn_to_code: "Lär dig koda:"

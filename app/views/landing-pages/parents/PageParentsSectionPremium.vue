@@ -4,8 +4,9 @@
           <div class="container">
             <div class="row">
               <div class="col-sm-12 text-center self-sign-up">
+                Or, 
                 <a @click="subscribeYearly">
-                  Sign up for self-paced access to CodeCombat
+                  sign up for self-paced access to CodeCombat
                 </a>
               </div>
             </div>
@@ -163,12 +164,15 @@
   margin-top: 20px;
 }
 
-a {
+.self-sign-up {
   font-family: Work Sans;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   line-height: 24px;
+}
+
+a {
   text-decoration: underline;
   color: #545B64;
 }
