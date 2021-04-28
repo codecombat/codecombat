@@ -39,6 +39,7 @@ module.exports = class LevelLoader extends CocoClass
     @levelID = options.levelID
     @sessionID = options.sessionID
     @opponentSessionID = options.opponentSessionID
+    @tournament = options.tournament ? false
     @team = options.team
     @headless = options.headless
     @loadArticles = options.loadArticles
@@ -170,6 +171,8 @@ module.exports = class LevelLoader extends CocoClass
         delimiter = if /\?/.test(url) then '&' else '?'
         url += delimiter + 'password=' + password
 
+    if @tournament
+      url = "/db/level.session/#{@sessionID}/tournament-snapshot/#{@tournament}"
     session = new LevelSession().setURL url
     if @headless and not @level.isType('web-dev')
       session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state', 'submittedCode', 'submitted']
@@ -177,6 +180,8 @@ module.exports = class LevelLoader extends CocoClass
     @session = @sessionResource.model
     if @opponentSessionID
       opponentURL = "/db/level.session/#{@opponentSessionID}?interpret=true"
+      if @tournament
+        opponentURL = "/db/level.session/#{@opponentSessionID}/tournament-snapshot/#{@tournament}"
       opponentSession = new LevelSession().setURL opponentURL
       opponentSession.project = session.project if @headless
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
@@ -228,8 +233,8 @@ module.exports = class LevelLoader extends CocoClass
 
   loadDependenciesForSession: (session) ->
     console.debug "Loading dependencies for session: ", session if LOG
-    if me.id isnt session.get 'creator'
-      session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
+    if me.id isnt session.get('creator') or @spectateMode
+      session.patch = session.save = session.put = -> console.error "Not saving session, since we didn't create it."
     else if codeLanguage = utils.getQueryVariable 'codeLanguage'
       session.set 'codeLanguage', codeLanguage
     @worldNecessities = @worldNecessities.concat(@loadCodeLanguagesForSession session)
@@ -311,13 +316,16 @@ module.exports = class LevelLoader extends CocoClass
   addSessionBrowserInfo: (session) ->
     return unless me.id is session.get 'creator'
     return unless $.browser?
+    return if @spectateMode
+    return if session.fake
     browser = {}
     browser['desktop'] = $.browser.desktop if $.browser.desktop
     browser['name'] = $.browser.name if $.browser.name
     browser['platform'] = $.browser.platform if $.browser.platform
     browser['version'] = $.browser.version if $.browser.version
+    return if _.isEqual session.get('browser'), browser
     session.set 'browser', browser
-    session.patch() unless session.fake
+    session.patch()
 
   consolidateFlagHistory: ->
     state = @session.get('state') ? {}
