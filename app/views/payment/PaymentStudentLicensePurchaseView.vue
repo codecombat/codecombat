@@ -36,10 +36,15 @@
 </template>
 
 <script>
+import { loadStripe } from '@stripe/stripe-js'
+const stripePromise = loadStripe('pk_test_BqKtc6bIKPn6FeSA4GhuRrwT');
+import { createPaymentSession } from '../../core/api/payment-session';
+
 export default {
 	name: "PaymentStudentLicensePurchaseView",
 	props: {
 		priceData: Array,
+		paymentGroupId: String,
 	},
 	data() {
 		return {
@@ -76,9 +81,27 @@ export default {
 		getSelectedPrice() {
 			return this.priceData.find((p) => p.id === this.selectedPrice)
 		},
-		onPurchaseNow(e) {
+		async onPurchaseNow(e) {
 			e.preventDefault();
 			console.log('redirect to stripe');
+			const stripe = await stripePromise
+			const sessionOptions = {
+				stripePriceId: this.selectedPrice,
+				paymentGroupId: this.paymentGroupId,
+				numberOfLicenses: this.licenseNum,
+				email: me.get('email'),
+				userId: me.get('_id')
+			}
+			console.log('sessionOptions', sessionOptions)
+			const session = await createPaymentSession(sessionOptions);
+			console.log('resp', session);
+			const sessionId = session.data.sessionId;
+			const result = await stripe.redirectToCheckout({ sessionId });
+			if (result.error) {
+				console.error('resErr', result.error);
+			} else {
+				console.log('res', result);
+			}
 		}
 	},
 	computed: {

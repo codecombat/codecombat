@@ -3,7 +3,8 @@
 		<template v-if="loading">
 			<h2 >Loading</h2>
 		</template>
-		<template v-else-if="paymentGroup">
+		<template v-else-if="paymentGroup && paymentGroup.groupType==='studentLicenses' &&
+			me && !me.anonymous">
 			<payment-student-licenses-view
 				:price-data="paymentGroup.priceData"
 				:slug="paymentGroup.slug"
@@ -11,11 +12,12 @@
 			/>
 		</template>
 		<template v-else>
-			<h2>{{paymentGroup._id}}</h2>
+			<h2 class="text-center">You must be logged in to view this page</h2>
 		</template>
 		<payment-student-license-purchase-view
-				v-if="isPurchaseViewEnabled"
-				:price-data="paymentGroup.priceData"
+			v-if="isPurchaseViewEnabled"
+			:price-data="paymentGroup.priceData"
+			:payment-group-id="paymentGroup._id"
 		/>
   </div>
 </template>
@@ -30,8 +32,10 @@ export default {
 		'payment-student-license-purchase-view': PaymentStudentLicensePurchaseView,
 	},
 	data() {
+		console.log('a', me.attributes)
 		return {
 			isPurchaseViewEnabled: false,
+			me: me.attributes,
 		};
 	},
 	created() {

@@ -1,4 +1,4 @@
-import { getPaymentGroup } from '../../api/paymentGroup'
+import { getPaymentGroup } from '../../api/payment-group'
 
 export default {
 	namespaced: true,
