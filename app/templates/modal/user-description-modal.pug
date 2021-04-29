@@ -1,0 +1,23 @@
+extends /templates/core/modal-base.jade
+
+
++
+
+block modal-body-content
+  .student-profile-area
+    .row
+      .current-hero.col-md-2.text-center
+        h2
+          if view.hero.getHeroShortName()
+            span.spr(data-i18n="code.hero"):
+            span= view.hero.getHeroShortName()
+        hr
+
+        .hero-avatar
+          if view.hero.get('poseImage')
+            img(src='/file/' + view.hero.get('poseImage') class='hero-' + view.hero.get('slug'))
+        if view.hero.get('name')
+          h2.current-hero-text
+            span.current-hero-name= view.hero.get('name')
+
+      .student-stats.col-md-5
