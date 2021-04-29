@@ -11,6 +11,7 @@ createjs = require 'lib/createjs-parts'
 LZString = require 'lz-string'
 initSlider = require 'lib/initSlider'
 replaceRgbaWithCustomizableHex = require('./replaceRgbaWithCustomizableHex.js').default
+SpriteOptimizer = require('lib/sprites/SpriteOptimizer')
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'
@@ -172,6 +173,7 @@ module.exports = class ThangTypeEditView extends RootView
     'mouseup #canvas': 'onCanvasMouseUp'
     'mousemove #canvas': 'onCanvasMouseMove'
     'click #export-sprite-sheet-btn': 'onClickExportSpriteSheetButton'
+    'click .reoptimize-btn': 'onClickReoptimizeButton'
     'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
 
   openRevertModal: (e) ->
@@ -210,6 +212,7 @@ module.exports = class ThangTypeEditView extends RootView
     context.authorized = not me.get('anonymous')
     context.recentlyPlayedLevels = storage.load('recently-played-levels') ? ['items']
     context.fileSizeString = @fileSizeString
+    context.spriteSheetSizeString = @spriteSheetSizeString
     context
 
   getAnimationNames: ->
@@ -408,6 +411,15 @@ module.exports = class ThangTypeEditView extends RootView
     @fileSizeString = "Size: #{size} (~#{compressedSize} gzipped)"
     @$el.find('#thang-type-file-size').text @fileSizeString
 
+  updateSpriteSheetSize: ->
+    memoryMax = 0
+    memoryMax += (4 * s.width * s.height / 1024 / 1024) for s in @layerAdapter.spriteSheet._images
+    memoryMin = 0
+    memoryMin += (4 * frame.rect.width * frame.rect.height / 1024 / 1024) for frame in @layerAdapter.spriteSheet._frames
+    spriteSheetCount = @layerAdapter.spriteSheet._images.length
+    @spriteSheetSizeString = "Sprite sheets: #{spriteSheetCount} (#{memoryMax}MB max, #{memoryMin.toFixed(1)}MB min)"
+    @$el.find('#thang-type-sprite-sheet-size').text @spriteSheetSizeString
+
   # animation select
 
   refreshAnimation: =>
@@ -430,6 +442,7 @@ module.exports = class ThangTypeEditView extends RootView
     @layerAdapter.container.x = CENTER.x
     @layerAdapter.container.y = CENTER.y
     @updateScale()
+    @updateSpriteSheetSize()
 
   showAnimation: (animationName) ->
     animationName = @$el.find('#animations-select').val() unless _.isString animationName
@@ -452,7 +465,11 @@ module.exports = class ThangTypeEditView extends RootView
       movieClip.scaleX = movieClip.scaleY = scale
     @showSprite(movieClip)
 
-  getLankOptions: -> {resolutionFactor: @resolution, thang: @mockThang, preloadSounds: false}
+  getLankOptions: ->
+    options = {resolutionFactor: @resolution, thang: @mockThang, preloadSounds: false}
+    if /cinematic/i.test @thangType.get('name')
+      options.isCinematic = true  # Don't render extra default actions, because the CinematicLankBoss won't
+    options
 
   showAction: (actionName) ->
     options = @getLankOptions()
@@ -641,6 +658,60 @@ module.exports = class ThangTypeEditView extends RootView
     @showAnimation()
     @showingSelectedNode = false
 
+  #  Run this manually via the console. `currentView.fixCorruptContainerBounds()`
+  #  This script has been specifically tuned to fix cinematic-ghost-vega.
+  #  It is possible to verify this script worked by refreshing and then trying the
+  #  actions out manually. Look for the placeholder loading circles. There should be
+  #  no big ones.
+  #  When dryRun is true, no mutation takes place. Instead all containers with bounds
+  #  larger than the maxBounds are logged letting you find them.
+  fixCorruptContainerBounds: (boundsWidthToFix=400, dryRun=true, backupBounds=undefined) ->
+    console.log("""
+      Running fixCorruptContainerBounds.
+        First argument is size of bounds to fix.
+        Second argument is whether or not to fix the container.
+
+      To find the numbers of large bounds, run the script:
+        `currentView.fixCorruptContainerBounds()`
+      To run a test run without making changes to bounds of size 700 run:
+        `currentView.fixCorruptContainerBounds(700, true)`
+      And to make changes:
+        `currentView.fixCorruptContainerBounds(700, false)`
+      You can always revert the changes from the editor if the animation is broken.
+
+      Finally if there are no shape bounds present you can pass in your own with the format of [x, y, width, height]
+      i.e.
+        `currentView.fixCorruptContainerBounds(700, false, [0, 0, 50, 100])`
+      This will cut out a 50px wide and 100px tall container around the sprite.
+      Incorrect settings of custom bounds will cut the artwork.
+    """)
+    # Fix all the messed up bounds
+    data = @thangType.attributes
+    fixCount = 0
+    failCount = 0
+    backupBoundsCount = 0
+    for [key, container] in Object.entries(data.raw.containers)
+      if dryRun
+        if container.b?[2] >= boundsWidthToFix
+          console.log('found width:', container.b[2])
+      else
+        if container.c.length == 1 and container.b[2] == boundsWidthToFix
+          reference = container.c[0]
+          if data.raw.shapes[reference]
+            shape = data.raw.shapes[reference]
+            if shape.bounds is undefined and Array.isArray(backupBounds)
+              backupBoundsCount += 1
+              shape.bounds ?= backupBounds # Lets user pass in backup bounds with options: [x, y, width, height]
+            try
+              container.b = [shape.bounds[0] + shape.t[0] - 5, shape.bounds[1] + shape.t[1] - 5, shape.bounds[2] + 10, shape.bounds[3] + 10]
+              fixCount += 1
+            catch e
+              failCount += 1
+            console.log('.')
+    console.log('Fixed:', fixCount, 'Failed:', failCount, 'Used backup bounds:', backupBoundsCount)
+
+
+
   showVersionHistory: (e) ->
     @openModalView new ThangTypeVersionsModal thangType: @thangType, @thangTypeID
 
@@ -718,6 +789,17 @@ module.exports = class ThangTypeEditView extends RootView
   onClickExportSpriteSheetButton: ->
     modal = new ExportThangTypeModal({}, @thangType)
     @openModalView(modal)
+
+  onClickReoptimizeButton: (e) ->
+    options = aggressiveShapes: $(e.target).data('shapes'), aggressiveContainers: $(e.target).data('containers')
+    oldSize = @fileSizeString + ' ' + @spriteSheetSizeString
+    optimizer = new SpriteOptimizer @thangType, options
+    optimizer.optimize()
+    @treema.set '/', @getThangData()
+    @updateFileSize()
+    @listenToOnce @layerAdapter, 'new-spritesheet', =>
+      newSize = @fileSizeString + ' ' + @spriteSheetSizeString
+      noty text: "Was: #{oldSize}.<br>Now: #{newSize}", timeout: 5000, layout: 'topCenter'
 
   # Run it in the editor/thang/<thang-type> view by inputting the following:
   # ```
