@@ -2387,9 +2387,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     wins: "胜利" # At end of multiplayer match playback
     humans: "红方" # Ladder page display team name
     ogres: "蓝方"
-    live_tournament: "比赛关卡"
-    awaiting_tournament_title: "比赛未开始"
-    awaiting_tournament_blurb: "比赛将于6月22日下午开启，敬请期待"
     tournament_end_desc: "比赛暂未开放"
 #    age: "Age"
 #    age_bracket: "Age Bracket"
