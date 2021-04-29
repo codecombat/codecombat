@@ -147,7 +147,7 @@
                 img#logo-img.powered-by(src="/images/pages/base/logo.png")
                 img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
               a.navbar-brand(v-else-if="me.showChinaResourceInfo()" href="/home")
-                img#logo-img(src="/images/pages/base/logo-en+cn.png")
+                img#logo-img(src="/images/pages/base/logo-cn.png")
               a.navbar-brand(v-else href="/home")
                 img#logo-img(src="/images/pages/base/logo.png")
 
@@ -161,29 +161,33 @@
               ul.nav.navbar-nav(v-if="!me.hideTopRightNav()")
                 template(v-if="me.showChinaResourceInfo()")
                   li
-                    a.text-p(href="https://blog.koudashijie.com") {{ $t('nav.blog') }}
-
+                    a.text-p(href="/CoCoStar", data-i18n="nav.star", class='')
+                  li
+                    a.text-p(data-i18n="nav.aiyouth", href="http://aiyouth.koudashijie.com")
                   li
                     a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
+                  li
+                    a.text-p(href="/events", data-i18n="nav.events", class='')
 
-                ul.nav.navbar-nav(v-if="me.isAnonymous()")
-                  li.dropdown.dropdown-hover
-                    a.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
-                      span {{ $t('nav.educators') }}
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/')")
-                          span(:class="isOzaria && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                          span.new-pill {{ $t('nav.new') }}
-                      li
-                        a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
+                template(v-if="!me.showChinaResourceInfo()")
+                  ul.nav.navbar-nav(v-if="me.isAnonymous()")
+                    li.dropdown.dropdown-hover
+                      a.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
+                        span {{ $t('nav.educators') }}
+                        span.caret
+                      ul(class="dropdown-menu")
+                        li
+                          a.text-p(:href="ozPath('/')")
+                            span(:class="isOzaria && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
+                            span.new-pill {{ $t('nav.new') }}
+                        li
+                          a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
 
-                li(v-if="!me.isStudent() && !me.isTeacher()")
-                  a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
+                  li(v-if="!me.isStudent() && !me.isTeacher()")
+                    a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
 
-                li
-                  a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
+                  li
+                    a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
 
                 ul.nav.navbar-nav(v-if="me.isTeacher()")
                   li.dropdown.dropdown-hover

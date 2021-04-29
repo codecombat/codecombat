@@ -9,7 +9,7 @@ block content
       else
         .student-profile-area
           .row
-            .current-hero.col-md-2.text-center
+            .current-hero.col-md-4.text-center
               h2
                 if view.hero.getHeroShortName()
                   span(data-i18n='resources.hero')
@@ -29,7 +29,7 @@ block content
               .rtl-allowed
                 a.change-hero-btn(data-i18n="play.change_hero")
 
-            div(class='student-stats col-md-5' + (view.shouldEmphasizeAILeague() ? '' : ' deemphasize-ai-league'))
+            div(class='student-stats col-md-6' + (view.shouldEmphasizeAILeague() ? '' : ' deemphasize-ai-league'))
               h2
                 span(data-i18n='general.player')
                 span= ': '
@@ -69,8 +69,9 @@ block content
                     else
                       span(data-i18n="courses.play_next_level")
 
-              for arena in view.activeArenas || []
-                a.play-arena-btn.tile(href="/play/ladder/#{arena.slug}", data-i18n=arena.type == 'championship' ? '[title]courses.play_tournament' : '[title]courses.play_arena')
+              for arena in view.activeLadders || []
+                //view.activeArenas || []
+                a.play-arena-btn.tile(href="/play/ladder/#{arena.slug}/clan/#{arena.clan}", data-i18n='[title]courses.play_tournament')
                   - var arenaImage = arena.image || "/images/pages/play/ladder/multiplayer_notext.jpg"
                   - var arenaName = $.i18n.t('league.' + arena.slug.replace(/-/g, '_'))
                   - var stats = view.getAILeagueStat('arenas', arena.levelOriginal, '_global')
@@ -79,18 +80,6 @@ block content
                   if !arena.image || !view.shouldEmphasizeAILeague()
                     h3(class="dynamic-level-name overlay-text" + (arena.image ? " optional" : ""))= arenaName
                   .tile-text-backdrop
-                  .stats-text-container
-                    .overlay-text.stats-text
-                      if stats && stats.score
-                        if stats.rank
-                          span(data-i18n='general.rank')
-                          span= ': #'
-                          span= stats.rank.toLocaleString()
-                          if stats.playerCount
-                            span= ' / '
-                            span= stats.playerCount.toLocaleString()
-                      else if view.myArenaSessions
-                        span(data-i18n='teacher.not_started')
                   .play-text-container
                     .overlay-text.play-text
                       //.btn.btn-illustrated.btn-success
@@ -101,27 +90,32 @@ block content
                       else
                         span(data-i18n='courses.play_arena')
 
-              a.ai-league-btn.tile(href=me.isRegisteredForAILeague() ? "/league#standings" : "/league?registering=true", data-i18n="[title]league.codecombat_ai_league")
-                img.level-image(src="/images/pages/courses/banners/ai-league-banner-#{view.randomAILeagueBannerHero}.png" data-i18n="[alt]league.codecombat_ai_league")
+              if view.activeTournaments.length > 0
+                a.play-arena-btn.tile(href='/tournaments/student/#{me.id}')
+                  img(src="/images/pages/play/ladder/multiplayer_notext.jpg", class="level-image placeholder")
+                  h3(class="dynamic-level-name overlay-text optional"  data-i18n="tournament.class_tournaments") 
+              if !me.showChinaResourceInfo()
+                a.ai-league-btn.tile(href=me.isRegisteredForAILeague() ? "/league#standings" : "/league?registering=true", data-i18n="[title]league.codecombat_ai_league")
+                  img.level-image(src="/images/pages/courses/banners/ai-league-banner-#{view.randomAILeagueBannerHero}.png" data-i18n="[alt]league.codecombat_ai_league")
                 //h3.dynamic-level-name.overlay-text CodeCombat AI League  // Someday: use different background and i18n the name
-                .tile-text-backdrop
-                .stats-text-container
-                  .overlay-text.stats-text
-                    if me.isRegisteredForAILeague()
-                      span(data-i18n="ladder.age_bracket")
-                      span= ': '
-                      span= view.ageBracketDisplay
-                    else
-                      span(data-i18n='league.not_registered')
-                .play-text-container
-                  .overlay-text.play-text
-                    if me.isRegisteredForAILeague()
-                      span(data-i18n='courses.view_standings')
-                    else
-                      span(data-i18n='league.register')
+                  .tile-text-backdrop
+                  .stats-text-container
+                    .overlay-text.stats-text
+                      if me.isRegisteredForAILeague()
+                        span(data-i18n="ladder.age_bracket")
+                        span= ': '
+                        span= view.ageBracketDisplay
+                      else
+                        span(data-i18n='league.not_registered')
+                  .play-text-container
+                    .overlay-text.play-text
+                      if me.isRegisteredForAILeague()
+                        span(data-i18n='courses.view_standings')
+                      else
+                        span(data-i18n='league.register')
 
             .school-stats.col-md-5
-              if view.myClans
+              if !features.china && view.myClans
                 h2
                   span(data-i18n="courses.ai_league_team_rankings")
                   if me.get('stats') && me.get('stats').codePoints
@@ -142,10 +136,6 @@ block content
                         span= ' '
                         span(data-i18n='play.players')
 
-        .text-center.row#tournament-btn
-          // TODO: move this into a tile
-          if view.hasActiveTournaments
-            a.btn.btn-navy.btn-lg.text-uppercase(href='/tournaments/student/#{me.id}', data-i18n="tournament.class_tournaments") class mini-tournaments
         if view.classrooms.size()
           .classes-area
             br

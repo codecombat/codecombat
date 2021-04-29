@@ -3235,6 +3235,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     make_tournament: "Make a mini tournament"
     go_tournaments: "Go to mini tournaments"
     class_tournaments: "Class mini tournaments"
+    class_tournaments_more: "More Class mini tournaments"
     no_tournaments_owner: "There is no tournament now, please create one"
     no_tournaments: "There is no tournament now"
     edit_tournament: "Edit Tournament"
