@@ -11,6 +11,7 @@ createjs = require 'lib/createjs-parts'
 LZString = require 'lz-string'
 initSlider = require 'lib/initSlider'
 replaceRgbaWithCustomizableHex = require('./replaceRgbaWithCustomizableHex.js').default
+SpriteOptimizer = require('lib/sprites/SpriteOptimizer')
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'
@@ -173,6 +174,7 @@ module.exports = class ThangTypeEditView extends RootView
     'mouseup #canvas': 'onCanvasMouseUp'
     'mousemove #canvas': 'onCanvasMouseMove'
     'click #export-sprite-sheet-btn': 'onClickExportSpriteSheetButton'
+    'click .reoptimize-btn': 'onClickReoptimizeButton'
     'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
 
   openRevertModal: (e) ->
@@ -211,6 +213,7 @@ module.exports = class ThangTypeEditView extends RootView
     context.authorized = not me.get('anonymous')
     context.recentlyPlayedLevels = storage.load('recently-played-levels') ? ['items']
     context.fileSizeString = @fileSizeString
+    context.spriteSheetSizeString = @spriteSheetSizeString
     context
 
   getAnimationNames: ->
@@ -409,6 +412,15 @@ module.exports = class ThangTypeEditView extends RootView
     @fileSizeString = "Size: #{size} (~#{compressedSize} gzipped)"
     @$el.find('#thang-type-file-size').text @fileSizeString
 
+  updateSpriteSheetSize: ->
+    memoryMax = 0
+    memoryMax += (4 * s.width * s.height / 1024 / 1024) for s in @layerAdapter.spriteSheet._images
+    memoryMin = 0
+    memoryMin += (4 * frame.rect.width * frame.rect.height / 1024 / 1024) for frame in @layerAdapter.spriteSheet._frames
+    spriteSheetCount = @layerAdapter.spriteSheet._images.length
+    @spriteSheetSizeString = "Sprite sheets: #{spriteSheetCount} (#{memoryMax}MB max, #{memoryMin.toFixed(1)}MB min)"
+    @$el.find('#thang-type-sprite-sheet-size').text @spriteSheetSizeString
+
   # animation select
 
   refreshAnimation: =>
@@ -431,6 +443,7 @@ module.exports = class ThangTypeEditView extends RootView
     @layerAdapter.container.x = CENTER.x
     @layerAdapter.container.y = CENTER.y
     @updateScale()
+    @updateSpriteSheetSize()
 
   showAnimation: (animationName) ->
     animationName = @$el.find('#animations-select').val() unless _.isString animationName
@@ -453,7 +466,11 @@ module.exports = class ThangTypeEditView extends RootView
       movieClip.scaleX = movieClip.scaleY = scale
     @showSprite(movieClip)
 
-  getLankOptions: -> {resolutionFactor: @resolution, thang: @mockThang, preloadSounds: false}
+  getLankOptions: ->
+    options = {resolutionFactor: @resolution, thang: @mockThang, preloadSounds: false}
+    if /cinematic/i.test @thangType.get('name')
+      options.isCinematic = true  # Don't render extra default actions, because the CinematicLankBoss won't
+    options
 
   showAction: (actionName) ->
     options = @getLankOptions()
@@ -652,7 +669,7 @@ module.exports = class ThangTypeEditView extends RootView
       Running fixCorruptContainerBounds.
         First argument is size of bounds to fix.
         Second argument is whether or not to fix the container.
-      
+
       To find the numbers of large bounds, run the script:
         `currentView.fixCorruptContainerBounds()`
       To run a test run without making changes to bounds of size 700 run:
@@ -779,6 +796,17 @@ module.exports = class ThangTypeEditView extends RootView
   onClickExportSpriteSheetButton: ->
     modal = new ExportThangTypeModal({}, @thangType)
     @openModalView(modal)
+
+  onClickReoptimizeButton: (e) ->
+    options = aggressiveShapes: $(e.target).data('shapes'), aggressiveContainers: $(e.target).data('containers')
+    oldSize = @fileSizeString + ' ' + @spriteSheetSizeString
+    optimizer = new SpriteOptimizer @thangType, options
+    optimizer.optimize()
+    @treema.set '/', @getThangData()
+    @updateFileSize()
+    @listenToOnce @layerAdapter, 'new-spritesheet', =>
+      newSize = @fileSizeString + ' ' + @spriteSheetSizeString
+      noty text: "Was: #{oldSize}.<br>Now: #{newSize}", timeout: 5000, layout: 'topCenter'
 
   # Run it in the editor/thang/<thang-type> view by inputting the following:
   # ```

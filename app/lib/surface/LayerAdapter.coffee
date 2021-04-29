@@ -388,7 +388,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     # TODO: Experiment with this. Perhaps have rectangles if default layer is obstacle or floor,
     # and different colors for different layers.
     g = new createjs.Graphics()
-    g.setStrokeStyle(5)
+    g.setStrokeStyle(1)
     color = {
       'Land': [0, 50, 0]
       'Ground': [230, 230, 230]
@@ -401,7 +401,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     color.push 0.7
     g.beginFill(createjs.Graphics.getRGB(color...))
     width = @resolutionFactor * SPRITE_PLACEHOLDER_WIDTH
-    bounds = [0, 0, width, width]
+    bounds = [1, 1, width - 2, width - 2]
     if @name in ['Default', 'Ground', 'Floating', 'Path']
       g.drawEllipse(bounds...)
     else
