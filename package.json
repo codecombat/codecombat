@@ -67,6 +67,7 @@
     "multiplayer"
   ],
   "dependencies": {
+    "@stripe/stripe-js": "^1.14.0",
     "@vimeo/player": "^2.9.1",
     "acorn-loose": "^8.0.1",
     "adobe-animate-parser": "github:codecombat/adobe-animate-parser#master",
