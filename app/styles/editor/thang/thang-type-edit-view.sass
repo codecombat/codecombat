@@ -4,6 +4,12 @@
     margin: 5px
     width: 100px
     height: 100px
+
+  #archived-header
+    position: absolute
+    z-index: 1
+    left: 200px
+    top: -33px
   
   #settings-col
     width: 560px
@@ -19,13 +25,22 @@
       left: 5px
       button
         margin-left: 5px
+
+      .btn-group button:not(:first-child)
+        margin-left: 0
+
     input[type="file"]
       display: none
 
     #thang-type-file-size
       width: 350px
       float: left
-      margin: 20px 10px
+      margin: 10px 10px 0 10px
+
+    #thang-type-sprite-sheet-size
+      width: 350px
+      float: left
+      margin: 0px 10px 20px 10px
     
     .treema-row img
       max-width: 100%
