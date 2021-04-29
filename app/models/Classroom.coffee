@@ -172,6 +172,8 @@ module.exports = class Classroom extends CocoModel
     nextLevel = courseLevels.models[nextIndex]
     nextLevel = arena if levelsLeft is 0
     nextLevel ?= _.find courseLevels.models, (level) -> not levelSessionMap[level.get('original')]?.get('state')?.complete
+    if nextLevel
+      nextLevelNumber = @getLevelNumber(nextLevel.get('original'), nextIndex + 1)
     [_userStarted, courseComplete, _totalComplete] = coursesHelper.hasUserCompletedCourse(userLevels, levelsInCourse)
 
     stats =
@@ -184,6 +186,7 @@ module.exports = class Classroom extends CocoModel
         lastPlayed: lastPlayed
         lastPlayedNumber: lastPlayedNumber
         next: nextLevel
+        nextNumber: nextLevelNumber
         first: courseLevels.first()
         arena: arena
         project: project

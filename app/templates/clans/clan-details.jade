@@ -66,10 +66,11 @@ block content
           button.btn.btn-xs.btn-warning.delete-clan-btn(data-i18n="clans.delete_clan") Delete Clan
         else if isMember
           button.btn.btn-xs.btn-warning.leave-clan-btn(data-i18n="clans.leave_clan") Leave Clan
-        else
+        else if !clan.get('kind')
+          // Can't manually join autoclans, have to get in from automatic logic
           button.btn.btn-lg.btn-success.join-clan-btn(data-i18n="clans.join_clan") Join Clan
     
-      if clan.get('ownerID') === me.id || clan.get('type') === 'public'
+      if (clan.get('ownerID') === me.id || clan.get('type') === 'public') && !clan.get('kind')
         div
           span.spl.spr.join-link-prompt(data-i18n="clans.invite_1") Invite:
           input.join-clan-link(type="text", readonly, value="#{joinClanLink}")

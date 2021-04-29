@@ -100,28 +100,6 @@ block content
           a.spl(href="http://discourse.codecombat.com/") the forum
           span.spl and discuss your strategies, your triumphs, and your turmoils.
 
-    if view.level.get('name') == 'Ace of Coders'
-      .tournament-blurb
-        h2
-          //span(data-i18n="ladder.tournament_ends") Tournament ends
-          span(data-i18n="ladder.tournament_ended") Tournament ended
-          span.spl= view.tournamentTimeLeft
-          span(data-i18n="ladder.tournament_started") , started
-          span.spl= view.tournamentTimeElapsed
-        p
-          span(data-i18n="ladder.tournament_blurb_ace_of_coders") Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details
-          a.spl(href="http://blog.codecombat.com/the-true-ace-of-coders", data-i18n="ladder.tournament_blurb_blog") on our blog
-          span .
-        p
-          strong Tournament ended!
-          a.spl(href="#winners") Behold the winners
-          | . Thanks for playing! You can
-          strong.spl still play
-          |  Ace of Coders as long as you like.
-        p
-          | Want to commiserate? Head over to
-          a.spl(href="http://discourse.codecombat.com/") the forum
-          |  and discuss your strategies, your triumphs, and your turmoils.
 
     div#columns.row
       div.column.col-md-2

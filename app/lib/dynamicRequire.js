@@ -137,8 +137,5 @@ module.exports = {
 
   // All Vue app components will be loaded via a vue chunk.  Eventually we will integrate webpack loading with Vue and
   // at that time we can remove this dynamic import and instead include SingletonAppVueComponentView in the main bundle
-  'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) },
-
-  // Temporary
-  'views/courses/StudentRankingView': function() { return import(/* webpackChunkName: "StudentRankingView" */ 'views/courses/StudentRankingView')}
+  'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) }
 }

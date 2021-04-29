@@ -53,6 +53,7 @@ module.exports = class SpectateLevelView extends RootView
     'level:next-game-pressed': 'onNextGamePressed'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
+    'level:session-will-save': 'onSessionWillSave'
 
   events:
     'mouseenter .spectate-code': 'onMouseEnterSpectateCode'
@@ -65,6 +66,7 @@ module.exports = class SpectateLevelView extends RootView
     @isEditorPreview = utils.getQueryVariable 'dev'
     @sessionOne = utils.getQueryVariable 'session-one'
     @sessionTwo = utils.getQueryVariable 'session-two'
+    @tournament = utils.getQueryVariable 'tournament'
     if options.spectateSessions
       @sessionOne = options.spectateSessions.sessionOne
       @sessionTwo = options.spectateSessions.sessionTwo
@@ -100,6 +102,7 @@ module.exports = class SpectateLevelView extends RootView
       levelID: @levelID
       sessionID: @sessionOne
       opponentSessionID: @sessionTwo
+      tournament: @tournament
       spectateMode: true
       team: utils.getQueryVariable('team')
     @god = new God maxAngels: 1, spectate: true
@@ -288,8 +291,7 @@ module.exports = class SpectateLevelView extends RootView
   register: -> return
 
   onSessionWillSave: (e) ->
-    # Something interesting has happened, so (at a lower frequency), we'll save a screenshot.
-    console.log 'Session is saving but shouldn\'t save!!!!!!!'
+    console.warn 'Session is saving but shouldn\'t save!!!!!!!'
 
   # Throttled
   saveScreenshot: (session) =>

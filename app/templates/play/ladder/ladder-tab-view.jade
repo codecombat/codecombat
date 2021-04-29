@@ -1,5 +1,6 @@
 - var league = view.options.league
 - var tournament = view.options.tournament
+- var tournamentId = view.tournamentId
 .row
   for team, teamIndex in view.teams
     div.column.col-md-6
@@ -29,7 +30,7 @@
           for session, rank in topSessions
             - var myRow = session.get('creator') == me.id
             - var sessionStats = league ? (_.find(session.get('leagues') || [], {leagueID: league.id}) || {}).stats || {} : session.attributes;
-            tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=session.id)
+            tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=(tournamentId ? session.get('levelSession'):session.id))
               td.code-language-cell(style="background-image: url(/images/common/code_languages/" + session.get('submittedCodeLanguage') + "_icon.png)" title=view.capitalize(session.get('submittedCodeLanguage')))
               if levelType == 'hero-ladder'
                 td.hero-portrait-cell(style="background-image: url(/file/db/thang.type/#{(session.get('heroConfig') || {}).thangType || '529ffbf1cf1818f2be000001'}/portrait.png)")
@@ -38,7 +39,7 @@
               td(class='name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(session.get('creatorName')) ? ' ai' : ''))= session.get('creatorName') || "Anonymous"
               td.age-cell= moment(session.get('submitDate')).fromNow().replace('a few ', '')
               td.fight-cell
-                a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam || 'humans'}&opponent=#{session.id}" + (league ? "&league=" + league.id : "") + (tournament? "&tournament="+tournament:""))
+                a(href="/play/level/#{view.level.get('slug') || view.level.id}?team=#{team.otherTeam || 'humans'}&opponent=#{session.id}" + (league ? "&league=" + league.id : "") + (tournamentId? "&tournament="+tournament:""))
                   span(data-i18n="ladder.fight") Fight!
               td.spectate-cell.iconic-cell
                 .glyphicon.glyphicon-eye-open
@@ -49,7 +50,7 @@
             for session in team.leaderboard.nearbySessions()
               - var myRow = session.get('creator') == me.id
               - var sessionStats = league ? (_.find(session.get('leagues'), {leagueID: league.id}) || {}).stats || {} : session.attributes;
-              tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=session.id)
+              tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=(tournamentId? session.get('levelSession') : session.id))
                 td.code-language-cell(style="background-image: url(/images/common/code_languages/" + session.get('submittedCodeLanguage') + "_icon.png)")
                 if levelType == 'hero-ladder'
                   td.hero-portrait-cell(style="background-image: url(/file/db/thang.type/#{(session.get('heroConfig') || {}).thangType || '529ffbf1cf1818f2be000001'}/portrait.png)")

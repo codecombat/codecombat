@@ -161,6 +161,7 @@ module.exports = class LadderView extends RootView
       success: (res) =>
         if res.state is 'starting'
           @tournamentEnd = false
+          @tournamentState = 'starting'
         else
           @tournamentEnd = true
           if res.state is 'ended' and @tournamentState != 'ended'
@@ -232,6 +233,7 @@ module.exports = class LadderView extends RootView
     url = "/play/spectate/#{@level.get('slug')}?session-one=#{humanSession}&session-two=#{ogreSession}"
     url += '&league=' + @league.id if @league
     url += '&autoplay=false' if key.command
+    url += '&tournament=' + @tournamentId if @tournamentState is 'ended'
     window.open url, if key.command then '_blank' else 'spectate'  # New tab for spectating specific matches
     #Backbone.Mediator.publish 'router:navigate', route: url
 
