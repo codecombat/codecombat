@@ -95,7 +95,8 @@ block content
                     .overlay-text.play-text
                       //.btn.btn-illustrated.btn-success
                       if arena.ended
-                        span(data-i18n='courses.view_winners')
+                        //span(data-i18n='courses.view_winners')  // Gonna take us a while to crown winners. Can go back to this if we get it to go faster.
+                        span(data-i18n='courses.view_standings')
                       else if arena.type == 'championship'
                         span(data-i18n='courses.play_tournament')
                       else
