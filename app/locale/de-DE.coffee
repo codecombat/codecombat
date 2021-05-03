@@ -92,8 +92,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
     top_banner_blurb: "Eltern können hier die ersten Online-Kurse kostenfrei buchen."
-#    top_banner_blurb_team_derbezt_link: "Join Team DerBezt in the CodeCombat AI League"
-#    top_banner_blurb_team_derbezt_suffix: "to get the exclusive Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
     try_the_game: "Das Spiel ausprobieren"
     classroom_edition: "Klassenraum Edition:"
     learn_to_code: "Lerne zu Programmieren:"
@@ -214,6 +213,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     parent: "Eltern"
 #    esports: "Esports"
     browser_recommendation: "Für die beste Funktionalität empfehlen wir als Browser die aktuelle Version von Chrome. Hier herunterladen!"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "Schließen"
@@ -947,7 +952,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     lifetime: "Lebenslanges Abonnement" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Jahresabonnement" # {change}
-    year_price: "$__price__/Jahr"
+    year_price: "$__price__/Jahr" # {change}
     support_part1: "Brauchst du Hilfe bei den Zahlungsoptionen? Schicke eine E-Mail an" # {change}
     support_part2: "support@codecombat.com"
 
@@ -1538,7 +1543,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     complete: "abgeschlossen"
     practice: "Übung"
     required: "benötigt"
-    welcome_to_courses: "Abenteurer, willkomen zu den Kursen!"
+    welcome_to_courses: "Abenteurer, willkomen zu den Kursen!" # {change}
     ready_to_play: "Bereit zum Spielen?"
     start_new_game: "Starten Sie ein neues Spiel"
     play_now_learn_header: "Jetzt spielen um folgendes zu lernen"
@@ -1546,7 +1551,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     play_now_learn_2: "while-Schleifen um nervtötende Rätsel zu lösen"
     play_now_learn_3: "Strings & Variablen um Aktionen anzupassen"
     play_now_learn_4: "Wie man einen Oger besiegt (wichtige Lebensfähigkeit!)"
-    welcome_to_page: "Mein Schüler-Dashboard"
     my_classes: "Meine Klassen"
     class_added: "Klasse erfolgreich hinzugefügt!"
 #    view_map: "view map"
@@ -1574,12 +1578,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     keep_student: "Schüler behalten"
     removing_user: "Benutzer entfernen"
     subtitle: "Kursübersichten und Level anzeigen" # Flat style redesign
-    changelog: "Letzte Änderungen an Kurs-Leveln anzeigen."
     select_language: "Sprache auswählen"
     select_level: "Level auswählen"
     play_level: "Level spielen"
     concepts_covered: "Abgedeckte Konzepte"
     view_guide_online: "Levelübersichten und Lösungen"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Ermöglicht Zugriff auf alle Kurse."
     enrollment_credits_available: "Verfügbare Lizenzen:"
     language_select: "Sprache auswählen" # ClassroomSettingsModal
@@ -1657,10 +1661,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 #    view_assessments: "View Assessments"
 #    view_challenges: "view challenge levels"
-#    view_ranking: "view ranking"
-#    ranking_position: "Position"
-#    ranking_players: "Players"
-#    ranking_completed_leves: "Completed levels"
     challenge: "Aufgabe:"
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
@@ -1694,6 +1694,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
 #    set_start_locked_level: "Lock levels starting at"
 #    no_level_limit: "-- (no levels locked)"
+#    ask_teacher_to_unlock: "Ask Teacher To Unlock"
+#    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen"
+#    play_next_level: "Play Next Level"
+#    play_tournament: "Play Tournament"
+#    levels_completed: "Levels Completed: __count__"
+#    ai_league_team_rankings: "AI League Team Rankings"
+#    view_standings: "View Standings"
+#    view_winners: "View Winners"
 
   project_gallery:
     no_projects_published: "Sei der oder die erste, die in diesem Kurs ein Projekt veröffentlicht"
@@ -2372,11 +2380,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     wins: "gewinnt" # At end of multiplayer match playback
     humans: "Rot" # Ladder page display team name
     ogres: "Blau"
-#    live_tournament: "Live Tournament"
-#    awaiting_tournament_title: "Tournament Inactive"
-#    awaiting_tournament_blurb: "The tournament arena is not currently active."
 #    tournament_end_desc: "The tournament is over, thanks for playing"
 #    age: "Age"
+#    age_bracket: "Age Bracket"
 #    bracket_0_11: "0-11"
 #    bracket_11_14: "11-14"
 #    bracket_14_18: "14-18"
@@ -3154,8 +3160,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    team: "team"
 #    how_it_works1: "Join a __team__"
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
-#    seasonal_play_cta: "Play __arenaName__ Multiplayer Arena"
-#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
 #    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
 #    join_now: "Join Now"
 #    tagline: "The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other."
@@ -3211,6 +3215,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    season1_prize_2: "RESPAWN Gaming Chair"
 #    season1_prize_3: "Custom CodeCombat Avatar"
 #    season1_prize_4: "And more!"
+#    codecombat_ai_league: "CodeCombat AI League"
+#    register: "Register"
+#    not_registered: "Not Registered"
+#    world: "World"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"

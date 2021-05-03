@@ -92,8 +92,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teachers_love_codecombat_blurb3: "Katakan bahwa CodeCombat membantu mereka mendukung kemampuan pemecahan masalah siswa"
     teachers_love_codecombat_subblurb: "Bekerja sama dengan McREL International, pemimpin dalam panduan berbasis penelitian dan evaluasi teknologi pendidikan."
     top_banner_blurb: "Para orang tua, berikan anak Anda hadiah coding dan pengajaran yang dipersonalisasi dengan pengajar langsung kami!"
-    top_banner_blurb_team_derbezt_link: "Bergabunglah dengan Tim DerBezt di CodeCombat AI League"
-    top_banner_blurb_team_derbezt_suffix: "untuk mendapatkan pahlawan Armando Hoyos eksklusif dari superstar Meksiko Eugenio Derbez!"
+#    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
     try_the_game: "Coba permainan"
     classroom_edition: "Edisi Ruang Kelas:"
     learn_to_code: "Belajar membuat kode:"
@@ -214,6 +213,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     parent: "Orang Tua"
     esports: "Esports"
     browser_recommendation: "Untuk pengalaman yang lebih baik, kami merekomendasikan menggunakan browser chrome terbaru. Download browser disini"
+#    ozaria_classroom: "Ozaria Classroom"
+#    codecombat_classroom: "CodeCombat Classroom"
+#    ozaria_dashboard: "Ozaria Dashboard"
+#    codecombat_dashboard: "CodeCombat Dashboard"
+#    new: "New!"
+#    admin: "Admin"
 
   modal:
     close: "Tutup"
@@ -942,12 +947,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     feature_heroes: "Membuka jagoan dan peliharaan ekslusif"
     feature_learn: "Belajar membuat permainan dan situs web"
     feature_gems: "Terima permata __gems__ per bulan"
-    month_price: "$__price__"
+    month_price: "$__price__" # {change}
     first_month_price: "Hanya $__price__ untuk bulan pertamamu!"
     lifetime: "Akses Seumur Hidup"
     lifetime_price: "$__price__"
     year_subscription: "Berlangganan Tahunan"
-    year_price: "$__price__/year"
+    year_price: "$__price__/year" # {change}
     support_part1: "Membutuhkan bantuan pembayaran atau memilih PayPal? Email"
     support_part2: "support@codecombat.com"
 
@@ -1538,7 +1543,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     complete: "selesai"
     practice: "latihan"
     required: "wajib"
-    welcome_to_courses: "Para petualang, selamat datang di Kursus!"
+    welcome_to_courses: "Para petualang, selamat datang di Kursus!" # {change}
     ready_to_play: "Siap untuk bermain?"
     start_new_game: "Memulai Permainan Baru"
     play_now_learn_header: "Bermain sekarang untuk belajar"
@@ -1546,7 +1551,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     play_now_learn_2: "perulangan untuk memecahkan puzzle yang menganggu"
     play_now_learn_3: "strings & variabel-variabel untuk mengatur tindakan-tindakan"
     play_now_learn_4: "bagaimana cara mengalahkan raksasa (keahlian hidup yang penting!)"
-    welcome_to_page: "Beranda Siswaku"
     my_classes: "Kelas Saat Ini"
     class_added: "Kelas berhasil ditambahkan!"
     view_map: "lihap peta"
@@ -1574,12 +1578,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     keep_student: "Simpan Siswa"
     removing_user: "Menghapus siswa"
     subtitle: "Mengulas ikhtisar kursus dan level" # Flat style redesign
-    changelog: "Melihat perubahan terakhir level kursus."
     select_language: "Pilih bahasa"
     select_level: "Pilih level"
     play_level: "Mainkan Level"
     concepts_covered: "Konsep tercakup"
     view_guide_online: "Level Ikhtisar dan Solusi"
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Berikan akses ke semua Kursus."
     enrollment_credits_available: "Lisensi Tersedia:"
     language_select: "Pilih bahasa" # ClassroomSettingsModal
@@ -1657,10 +1661,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     update_old_classroom_detail_2: "dan berikan siswa-siswa Kelas Kode yang baru muncul"
     view_assessments: "Lihat Penilaian"
     view_challenges: "lihat level tantangan"
-    view_ranking: "Lihat Peringkat"
-    ranking_position: "Posisi"
-    ranking_players: "Pemain"
-    ranking_completed_leves: "Peringkat Diselesaikan "
     challenge: "Tantangan:"
     challenge_level: "Level Tantangan:"
     status: "Status:"
@@ -1694,6 +1694,14 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     ask_next_course: "Ingin bermain lebih banyak? Minta akses guru Anda ke kursus berikutnya."
     set_start_locked_level: "Kunci level dimulai dari"
     no_level_limit: "- (tidak ada level yang dikunci)"
+#    ask_teacher_to_unlock: "Ask Teacher To Unlock"
+#    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen"
+#    play_next_level: "Play Next Level"
+#    play_tournament: "Play Tournament"
+#    levels_completed: "Levels Completed: __count__"
+#    ai_league_team_rankings: "AI League Team Rankings"
+#    view_standings: "View Standings"
+#    view_winners: "View Winners"
 
   project_gallery:
     no_projects_published: "Jadilah yang pertama mempublikasi proyek di kursus ini!"
@@ -2372,11 +2380,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     wins: "Menang" # At end of multiplayer match playback
     humans: "Merah" # Ladder page display team name
     ogres: "Biru"
-    live_tournament: "Turnamen Live"
-    awaiting_tournament_title: "Turnamen Tidak Aktif"
-    awaiting_tournament_blurb: "Arena turnamen saat ini tidak aktif."
     tournament_end_desc: "Turnamen selesai, terima kasih sudah bermain"
     age: "Usia"
+#    age_bracket: "Age Bracket"
     bracket_0_11: "0-11"
     bracket_11_14: "11-14"
     bracket_14_18: "14-18"
@@ -3154,8 +3160,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     team: "tim"
     how_it_works1: "Gabung dengan __team__"
     seasonal_arena_tooltip: "Bertarung melawan rekan satu tim dan orang lain saat Anda menggunakan keterampilan pemrograman terbaik untuk mendapatkan poin dan peringkat papan peringkat Liga AI sebelum menghadapi arena Kejuaraan di akhir musim."
-    seasonal_play_cta: "Mainkan Blazing Battle Multiplayer Arena"
-    unlocked_seasonal_arena: "Anda telah membuka arena esports multipemain kami!"
     summary: "CodeCombat AI League secara unik merupakan simulator pertarungan AI yang kompetitif dan mesin game untuk mempelajari kode Python dan JavaScript yang sebenarnya."
     join_now: "Gabung Sekarang"
     tagline: "CodeCombat AI League menggabungkan kurikulum yang disesuaikan dengan standar berbasis proyek kami, game coding berbasis petualangan yang menarik, dan turnamen global pengkodean AI tahunan kami ke dalam kompetisi akademik terorganisir yang tidak seperti yang lain."
@@ -3211,6 +3215,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     season1_prize_2: "RESPAWN Kursi Permainan"
     season1_prize_3: "Avatar CodeCombat Khusus"
     season1_prize_4: "Dan banyak lagi!"
+#    codecombat_ai_league: "CodeCombat AI League"
+#    register: "Register"
+#    not_registered: "Not Registered"
+#    world: "World"
 
   tournament:
     mini_tournaments: "Turname Mini"

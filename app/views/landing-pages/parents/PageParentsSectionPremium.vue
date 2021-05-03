@@ -4,8 +4,9 @@
           <div class="container">
             <div class="row">
               <div class="col-sm-12 text-center self-sign-up">
+                Or, 
                 <a @click="subscribeYearly">
-                  Sign up for self-paced access to CodeCombat
+                  sign up for self-paced access to CodeCombat
                 </a>
               </div>
             </div>
@@ -45,7 +46,8 @@
 
       ...mapGetters('products', [
         'basicSubscriptionForCurrentUser',
-        'basicAnnualSubscriptionForCurrentUser'
+        'basicAnnualSubscriptionForCurrentUser',
+        'lifetimeSubscriptionForCurrentUser'
       ]),
 
       ...mapGetters('me', [
@@ -63,6 +65,11 @@
       yearlySubAmount() {
         const sub = this.basicAnnualSubscriptionForCurrentUser
         return (sub) ? sub.amount / 100 : 0
+      },
+
+      lifetimeSubAmount() {
+        const sub = this.lifetimeSubscriptionForCurrentUser
+        return (sub) ? sub.amount / 100: 0
       }
     },
 
@@ -123,6 +130,7 @@
         this.$refs.subscribeModal.$once('shown', () => {
           const modal = this.$refs.subscribeModal.$data.modalViewInstance
           setTimeout(() => {
+            // TODO: differentiate by lifetime vs. annual
             modal.onClickAnnualPurchaseButton()
           }, 0)
         })
@@ -156,12 +164,15 @@
   margin-top: 20px;
 }
 
-a {
+.self-sign-up {
   font-family: Work Sans;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   line-height: 24px;
+}
+
+a {
   text-decoration: underline;
   color: #545B64;
 }

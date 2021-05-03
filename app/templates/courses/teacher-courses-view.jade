@@ -17,8 +17,6 @@ block content
   .container(dir="auto")
     h1(data-i18n="nav.courses")
     h2(data-i18n="courses.subtitle")
-    //- p
-    //-   a(href="https://discourse.codecombat.com/t/course-level-changelog/7352" data-i18n="courses.changelog")
 
   .courses.container(dir="auto")
     - var courses = view.courses.models;
@@ -88,6 +86,7 @@ block content
 
 mixin course-info(course)
   - var campaign = view.campaigns.get(course.get('campaignID'));
+  - var courseLessonSlidesURL = view.courseLessonSlidesURLs[course.id]
   .course-info
     .text-h4.semibold
       = i18n(course.attributes, 'name')
@@ -123,6 +122,9 @@ mixin course-info(course)
         if view.enableCpp && (view.utils.CSCourseIDs.indexOf(course.id) !== -1)
           a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/cpp") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide C++" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
             span C++
+      if courseLessonSlidesURL
+        a.guide-btn.btn.btn-primary(disabled=disableButtons href=(courseLessonSlidesURL) data-course-id=course.id data-course-name=course.get('name') data-event-action="Lesson Slides" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+          span(data-i18n="courses.lesson_slides")
 
     if course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && Object.keys(view.videoLevels || {}).length > 0
       - var levelNameMap = campaign.getLevelNameMap()

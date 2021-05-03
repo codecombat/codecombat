@@ -209,6 +209,9 @@ titleize = (s) ->
   # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
   _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
 
+campaignIDs =
+  INTRO: '55b29efd1cd6abe8ce07db0d'
+
 courseIDs =
   INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
   GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
@@ -256,6 +259,14 @@ courseAcronyms[courseIDs.GAME_DEVELOPMENT_3] = 'GD3'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_4] = 'CS4'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
+
+courseLessonSlidesURLs = {}
+unless features?.china
+  courseLessonSlidesURLs[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'https://drive.google.com/drive/folders/1YU7LEZ6TLQzbAsSMw90nNJfvU7gDrcid?usp=sharing'
+  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_2] = 'https://drive.google.com/drive/folders/1x24P6ZY_MBOBoHvlikbDr7jvMPYVRVkJ?usp=sharing'
+  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_3] = 'https://drive.google.com/drive/folders/1hBl-h5Xvo5chYH4q9e6IEo42JozlrTG9?usp=sharing'
+  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_4] = 'https://drive.google.com/drive/folders/1tbuE4Xn0ahJ0xcF1-OaiPs9lHeIs9zqG?usp=sharing'
+  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_5] = 'https://drive.google.com/drive/folders/1ThxWFZjoXzU5INtMzlqKEn8xkgHhVnl4?usp=sharing'
 
 petThangIDs = [
   '578d320d15e2501f00a585bd' # Wolf Pup
@@ -888,11 +899,44 @@ ageToBracket = (age) ->
       return bracket.slug
   return 'open'
 
+CODECOMBAT = 'codecombat'
+CODECOMBAT_CHINA = 'koudashijie'
+OZARIA = 'ozaria'
+OZARIA_CHINA = 'aojiarui'
+
+isOldBrowser = () ->
+  if features.china and $.browser
+    return true if not ($.browser.webkit or $.browser.mozilla or $.browser.msedge)
+    majorVersion = $.browser.versionNumber
+    return true if $.browser.mozilla && majorVersion < 25
+    return true if $.browser.chrome && majorVersion < 72  # forbid some chinese browser
+    return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
+  return false
+
+isCodeCombat = true
+isOzaria = false
+
+arenas = [
+  {slug: 'blazing-battle'   , type: 'regular',      start: new Date(2021, 0,  1), end: new Date(2021, 4, 1), levelOriginal: '5fca06dc8b4da8002889dbf1', image: '/file/db/level/5fca06dc8b4da8002889dbf1/Blazing Battle Final cut.jpg'}
+  {slug: 'infinite-inferno' , type: 'championship', start: new Date(2021, 3,  1), end: new Date(2021, 4, 1), levelOriginal: '602cdc204ef0480075fbd954', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
+  {slug: 'mages-might'      , type: 'regular',      start: new Date(2021, 4,  11), end: new Date(2021, 8, 1), levelOriginal: '6066f956ddfd6f003d1ed6bb'}
+  {slug: 'sorcerers'        , type: 'championship', start: new Date(2021, 7,  1), end: new Date(2021, 8, 1)}
+  {slug: 'giants-gate'      , type: 'regular',      start: new Date(2021, 8,  1), end: new Date(2022, 0, 1)}
+  {slug: 'colossus'         , type: 'championship', start: new Date(2021, 11, 1), end: new Date(2022, 0, 1)}
+]
+
+activeArenas = ->
+  daysActiveAfterEnd = regular: 7, championship: 14
+  (_.clone(a) for a in arenas when a.start <= new Date() < a.end.getTime() + daysActiveAfterEnd[a.type] * 86400 * 1000)
+
 module.exports = {
+  activeArenas
   addressesIncludeAdministrativeRegion
   ageBrackets
   ageOfConsent
   ageToBracket
+  arenas
+  campaignIDs
   capitalLanguages
   clone
   combineAncestralObject
@@ -901,6 +945,7 @@ module.exports = {
   countryCodeToName
   courseAcronyms
   courseIDs
+  courseLessonSlidesURLs
   CSCourseIDs
   createLevelNumberMap
   extractPlayerCodeTag
@@ -945,9 +990,17 @@ module.exports = {
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
+  titleize
   translatejs2cpp
   usStateCodes
   userAgent
   videoLevels
   yearsSinceMonth
+  CODECOMBAT
+  OZARIA
+  CODECOMBAT_CHINA
+  OZARIA_CHINA
+  isOldBrowser
+  isCodeCombat
+  isOzaria
 }
