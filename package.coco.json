@@ -212,7 +212,7 @@
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
-    "node": "12.22.1",
-    "npm": "6.14.12"
+    "node": "10.24.0",
+    "npm": "6.14.11"
   }
 }
