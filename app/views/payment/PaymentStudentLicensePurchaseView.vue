@@ -90,7 +90,8 @@ export default {
 				paymentGroupId: this.paymentGroupId,
 				numberOfLicenses: this.licenseNum,
 				email: me.get('email'),
-				userId: me.get('_id')
+				userId: me.get('_id'),
+				totalAmount: this.totalPrice
 			}
 			console.log('sessionOptions', sessionOptions)
 			const session = await createPaymentSession(sessionOptions);
@@ -107,7 +108,7 @@ export default {
 	computed: {
 		totalPrice() {
 			const price = this.getSelectedPrice();
-			return this.getUnitPrice(price) * this.licenseNum
+			return (this.getUnitPrice(price) * this.licenseNum).toFixed(2)
 		},
 	}
 }
