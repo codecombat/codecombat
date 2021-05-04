@@ -203,6 +203,13 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
+            <img
+              class="img-responsive money-back-guarantee"
+              src="/images/pages/parents/money_back_guarantee.png"
+              title="30-day money-back guarantee"
+              alt='"30 Day Money back Guarantee Transparent" by transparentpng.com is licensed under CC BY 4.0 - source: https://www.transparentpng.com/details/30-day-money-back-guarantee-transparent_15977.html'
+              loading="lazy"
+            />
             <h1 class="pixelated">Course Offerings</h1>
             <p style="margin: 0 auto;">
               With individual or small group class options and flexible scheduling available, this is the easiest way to get started in computer science.
@@ -222,34 +229,34 @@
         <!-- First Row -->
         <div class="grid-item"></div>
         <div class="grid-item">Self-Paced</div>
-        <div class="grid-item">Small-Group</div>
+        <div class="grid-item">Summer Camp</div>
         <div class="grid-item">Private</div>
         <div class="grid-item">Private</div>
         <!-- End First Row -->
         <!-- Second Row -->
         <!-- TODO: differentiate between annual and lifetime -->
         <div class="grid-item">Subscription plan</div>
-        <div class="grid-item">${{ basicAnnualSubscriptionPrice }} per year per student</div>
-        <div class="grid-item">$159 per month per student</div>
-        <div class="grid-item">$219 per month per student</div>
-        <div class="grid-item">$399 per month per student</div>
+        <div class="grid-item">${{ basicAnnualSubscriptionPrice }} per year</div>
+        <div class="grid-item">$199 (1 week)<sup>*</sup></div>
+        <div class="grid-item">$219 per month</div>
+        <div class="grid-item">$399 per month</div>
         <!-- End Second Row -->
         <!-- Third Row -->
         <div class="grid-item">60-minute sessions via Zoom</div>
         <div class="grid-item">N/A</div>
-        <div class="grid-item">1 Group session per week</div>
-        <div class="grid-item">1 Private session per week</div>
-        <div class="grid-item">2 Private sessions per week</div>
+        <div class="grid-item">5 group sessions per week</div>
+        <div class="grid-item">1 private session per week</div>
+        <div class="grid-item">2 private sessions per week</div>
         <!-- End Third Row -->
         <!-- Fourth Row -->
         <div class="grid-item">Student to Instructor Ratio</div>
         <div class="grid-item">N/A</div>
-        <div class="grid-item">4:1<sup>*</sup></div>
+        <div class="grid-item">4:1</div>
         <div class="grid-item">1:1</div>
         <div class="grid-item">1:1</div>
         <!-- End Fourth Row -->
         <!-- Fifth Row -->
-        <div class="grid-item">CodeCombat premium license for the duration of online classes</div>
+        <div class="grid-item">CodeCombat premium license included</div>
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
@@ -263,14 +270,7 @@
         <div class="grid-item"><icon-gem /></div>
         <!-- End Sixth Row -->
         <!-- Seventh Row -->
-        <div class="grid-item">Monthly progress updates from instructor</div>
-        <div class="grid-item"></div>
-        <div class="grid-item"><icon-gem /></div>
-        <div class="grid-item"><icon-gem /></div>
-        <div class="grid-item"><icon-gem /></div>
-        <!-- End Seventh Row -->
-        <!-- Eighth Row -->
-        <div class="grid-item">Weekly bonus activities, rewards, and course completion certificates</div>
+        <div class="grid-item">Bonus activities, rewards, and course completion certificates</div>
         <div class="grid-item"></div>
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
@@ -283,6 +283,13 @@
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
         <!-- End Ninth Row -->
+        <!-- Ninth Row -->
+        <div class="grid-item">Monthly progress updates from instructor</div>
+        <div class="grid-item"></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"><icon-gem /></div>
+        <div class="grid-item"><icon-gem /></div>
+        <!-- End Ninth Row -->
         <!-- Tenth Row -->
         <div class="grid-item">Flexible schedule adapted to each student's learning needs</div>
         <div class="grid-item"></div>
@@ -291,14 +298,14 @@
         <div class="grid-item"><icon-gem /></div>
         <!-- End Tenth Row -->
         <!-- Eleventh Row -->
-        <div class="grid-item">One-on-one engagement to help students stay motivated through difficult concepts</div>
+        <div class="grid-item">1:1 support in tackling difficult coding concepts</div>
         <div class="grid-item"></div>
         <div class="grid-item"></div>
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
         <!-- End Eleventh Row -->
         <!-- Twelth Row -->
-        <div class="grid-item">Automatic qualification into CodeCombat's AI League along with coding tournaments</div>
+        <div class="grid-item">Automatic qualification into AI League coding tournaments</div>
         <div class="grid-item"></div>
         <div class="grid-item"></div>
         <div class="grid-item"></div>
@@ -307,8 +314,8 @@
       </div>
 
       <div class="text-below-pricing-table">
-        <p><sup>*</sup>Maximum 4 students per small group session.</p>
-        <p>All subscriptions are billed on a monthly basis and may be paused, cancelled, or resumed with no fees.</p>
+        <p><sup>*</sup>We also offer summer camps of 2 weeks (10 classes) for $389 or 3 weeks (15 classes) for $569.</p>
+        <p>Except for summer camp, all subscriptions are billed on a monthly basis and may be paused, cancelled, or resumed with no fees. Your subscription purchase is 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">contact us</a> within 30 days of purchase and we will promptly refund 100% of your payment, no questions asked. All plans are automatically renewed at the same level and billing cycle unless otherwise changed or canceled.</p>
       </div>
     </div>
 
@@ -533,7 +540,7 @@
             </h4>
             <p>
               We understand, and are happy to find a new date and time that works for you. Simply let your instructor or
-              <a href="mailto:sydney@codecombat.com">Education Advisor</a> know you need to make a change. We greatly appreciate 24 hours notice for any scheduling changes.
+              <a href="mailto:classes@codecombat.com">Education Advisor</a> know you need to make a change. We greatly appreciate 24 hours' notice for any scheduling changes.
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
@@ -549,7 +556,7 @@
               What is the cancellation policy?
             </h4>
             <p>
-              You can freeze your subscription at any time and re-activate when it works for you. If you want to cancel, we hate to see you go but will process your cancellation within 24 hours.
+              Apart from summer camps, your subscription purchase is 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">contact us</a> within 30 days of purchase and we will promptly refund 100% of your purchase, no questions asked. You can also freeze your subscription at any time and re-activate when it works for you.
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
@@ -571,7 +578,7 @@
         </div>
         <div class="text-center">
           <p>
-            If you have any other questions about our online classes, please <a href="mailto:support@codecombat.com">contact us.</a>
+            If you have any other questions about our online classes, please <a href="mailto:classes@codecombat.com">contact us.</a>
           </p>
         </div>
       </div>
@@ -980,9 +987,14 @@ export default {
   max-width: 830px;
 }
 
+#parent-page .money-back-guarantee {
+  width: 10%;
+  float: right;
+}
+
 .pricing-grid-container {
   display: grid;
-  grid-template-columns: 50% 12.5% 12.5% 12.5% 12.5%;
+  grid-template-columns: 46% 12.5% 13.5% 13.5% 14.5%;
   grid-template-rows: repeat(2, minmax(32px, max-content));
   grid-auto-rows: minmax(40px, max-content);
 

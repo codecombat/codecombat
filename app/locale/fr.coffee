@@ -91,8 +91,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
-#    top_banner_blurb_team_derbezt_link: "Join Team DerBezt in the CodeCombat AI League"
-#    top_banner_blurb_team_derbezt_suffix: "to get the exclusive Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
     try_the_game: "Essayez le jeu"
     classroom_edition: "Édition Salle de Classe:"
     learn_to_code: "Apprendre à programmer:"
@@ -1543,7 +1542,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     complete: "fini"
     practice: "entraînement"
     required: "requis"
-    welcome_to_courses: "Aventurier, bienvenu dans les leçons !"
+    welcome_to_courses: "Aventurier, bienvenu dans les leçons !" # {change}
     ready_to_play: "Prêt à jouer ?"
     start_new_game: "Nouvelle Partie"
     play_now_learn_header: "Jouer pour apprendre"
@@ -1551,7 +1550,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     play_now_learn_2: "les boucles while pour résoudre des problèmes complexes"
     play_now_learn_3: "des chaines de caractères & des variables pour personnaliser des actions"
     play_now_learn_4: "comment battre un ogre (compétence importante dans la vie !)"
-    welcome_to_page: "Bienvenu sur la page des Cours !" # {change}
     my_classes: "Mes Classes"
     class_added: "Classe ajoutée avec succès !"
 #    view_map: "view map"
@@ -1579,12 +1577,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     keep_student: "Conserver l'élève"
     removing_user: "Suppression de l'utilisateur"
     subtitle: "Revoir les aperçus et les niveaux des cours" # Flat style redesign
-    changelog: "Consultez les dernières modifications apportées aux niveaux des cours."
     select_language: "Selectionner langue"
     select_level: "Selectionner niveau"
     play_level: "Jouer le niveau"
     concepts_covered: "Conceptes Couverts"
     view_guide_online: "Voir Guide En Ligne (PDF)" # {change}
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Donne accès à tous les cours."
     enrollment_credits_available: "Licences disponibles :"
     language_select: "Sélectionnez une langue" # ClassroomSettingsModal
@@ -1662,10 +1660,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     update_old_classroom_detail_2: "et en donnant aux élèves le nouveau code de classe qui apparaît."
     view_assessments: "Voir les évaluations"
     view_challenges: "voir les niveaux de défi"
-#    view_ranking: "view ranking"
-#    ranking_position: "Position"
-#    ranking_players: "Players"
-#    ranking_completed_leves: "Completed levels"
     challenge: "Défi:"
     challenge_level: "Niveau de défi :"
     status: "Statut:"
@@ -1699,6 +1693,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
 #    set_start_locked_level: "Lock levels starting at"
 #    no_level_limit: "-- (no levels locked)"
+#    ask_teacher_to_unlock: "Ask Teacher To Unlock"
+#    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen"
+#    play_next_level: "Play Next Level"
+#    play_tournament: "Play Tournament"
+#    levels_completed: "Levels Completed: __count__"
+#    ai_league_team_rankings: "AI League Team Rankings"
+#    view_standings: "View Standings"
+#    view_winners: "View Winners"
 
   project_gallery:
     no_projects_published: "Soyez le premier à publier un projet dans ce cours !"
@@ -2377,11 +2379,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     wins: "Victoires" # At end of multiplayer match playback
     humans: "Rouge" # Ladder page display team name
     ogres: "Bleue"
-#    live_tournament: "Live Tournament"
-#    awaiting_tournament_title: "Tournament Inactive"
-#    awaiting_tournament_blurb: "The tournament arena is not currently active."
 #    tournament_end_desc: "The tournament is over, thanks for playing"
 #    age: "Age"
+#    age_bracket: "Age Bracket"
 #    bracket_0_11: "0-11"
 #    bracket_11_14: "11-14"
 #    bracket_14_18: "14-18"
@@ -3159,8 +3159,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    team: "team"
 #    how_it_works1: "Join a __team__"
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
-#    seasonal_play_cta: "Play __arenaName__ Multiplayer Arena"
-#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
 #    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
 #    join_now: "Join Now"
 #    tagline: "The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other."
@@ -3216,6 +3214,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    season1_prize_2: "RESPAWN Gaming Chair"
 #    season1_prize_3: "Custom CodeCombat Avatar"
 #    season1_prize_4: "And more!"
+#    codecombat_ai_league: "CodeCombat AI League"
+#    register: "Register"
+#    not_registered: "Not Registered"
+#    world: "World"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"

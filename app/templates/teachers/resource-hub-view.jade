@@ -163,7 +163,14 @@ block content
           -     cs1URL += '-pt-BR'
           a.resource-link(href=cs1URL)
             span(data-i18n="teacher.cs1_curriculum")
-          p(data-i18n="teacher.cs1_curriculum_desc")
+          p
+            span(data-i18n="teacher.cs1_curriculum_desc")
+            - var lessonSlidesURL = view.lessonSlidesURLsByCourse.cs1
+            if lessonSlidesURL
+              span= ' '
+              span(data-i18n="legal.nutshell_see_also")
+              span= ' '
+              a(href=lessonSlidesURL, data-i18n="courses.lesson_slides")
         li
           - var pythonURL = "http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf";
           - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
@@ -301,7 +308,14 @@ block content
           -     cs2URL += '-zh-HANS'
           a.resource-link(href=cs2URL)
             span(data-i18n="teacher.cs2_curriculum")
-          p(data-i18n="teacher.cs2_curriculum_desc")
+          p
+            span(data-i18n="teacher.cs2_curriculum_desc")
+            - var lessonSlidesURL = view.lessonSlidesURLsByCourse.cs2
+            if lessonSlidesURL
+              span= ' '
+              span(data-i18n="legal.nutshell_see_also")
+              span= ' '
+              a(href=lessonSlidesURL, data-i18n="courses.lesson_slides")
           
       h4(data-i18n="teacher.gd2")
       ul
@@ -337,7 +351,14 @@ block content
           -     cs3URL += '-pt-BR'
           a.resource-link(href=cs3URL)
             span(data-i18n="teacher.cs3_curriculum")
-          p(data-i18n="teacher.cs3_curriculum_desc")
+          p
+            span(data-i18n="teacher.cs3_curriculum_desc")
+            - var lessonSlidesURL = view.lessonSlidesURLsByCourse.cs3
+            if lessonSlidesURL
+              span= ' '
+              span(data-i18n="legal.nutshell_see_also")
+              span= ' '
+              a(href=lessonSlidesURL, data-i18n="courses.lesson_slides")
 
       h4(data-i18n="teacher.gd3")
       ul
@@ -357,7 +378,14 @@ block content
           -     cs4URL += '-pt-BR'
           a.resource-link(href=cs4URL)
             span(data-i18n="teacher.cs4_curriculum")
-          p(data-i18n="teacher.cs4_curriculum_desc")
+          p
+            span(data-i18n="teacher.cs4_curriculum_desc")
+            - var lessonSlidesURL = view.lessonSlidesURLsByCourse.cs4
+            if lessonSlidesURL
+              span= ' '
+              span(data-i18n="legal.nutshell_see_also")
+              span= ' '
+              a(href=lessonSlidesURL, data-i18n="courses.lesson_slides")
 
       h4(data-i18n="teacher.cs5")
       ul
@@ -374,7 +402,14 @@ block content
           -     cs5JSURL += '-pt-BR'
           a.resource-link(href=cs5JSURL)
             span(data-i18n="teacher.cs5_curriculum_js")
-          p(data-i18n="teacher.cs5_curriculum_desc_js")
+          p
+            span(data-i18n="teacher.cs5_curriculum_desc_js")
+            - var lessonSlidesURL = view.lessonSlidesURLsByCourse.cs5
+            if lessonSlidesURL
+              span= ' '
+              span(data-i18n="legal.nutshell_see_also")
+              span= ' '
+              a(href=lessonSlidesURL, data-i18n="courses.lesson_slides")
 
       h4.coming-soon
         i(data-i18n="teacher.coming_soon")

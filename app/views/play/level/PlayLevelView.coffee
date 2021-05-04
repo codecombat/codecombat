@@ -220,6 +220,7 @@ module.exports = class PlayLevelView extends RootView
     return unless @timeOffset
     return unless @mandate.loaded
     return unless @levelSlug
+    return unless @level.get('type') is 'course-ladder'
     courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
     mandate = @mandate.get('0')
 
@@ -457,14 +458,14 @@ module.exports = class PlayLevelView extends RootView
     if e.level.isType('hero', 'hero-ladder', 'hero-coop') and not _.size(e.session.get('heroConfig')?.inventory ? {}) and e.level.get('assessment') isnt 'open-ended'
       # Delaying this check briefly so LevelLoader.loadDependenciesForSession has a chance to set the heroConfig on the level session
       _.defer =>
-        return if _.size(e.session.get('heroConfig')?.inventory ? {})
+        return if @destroyed or _.size(e.session.get('heroConfig')?.inventory ? {})
         # TODO: which scenario is this executed for?
         @setupManager?.destroy()
         @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID})
         @setupManager.open()
 
   onLoaded: ->
-    _.defer => @onLevelLoaderLoaded()
+    _.defer => @onLevelLoaderLoaded?()
 
   onLevelLoaderLoaded: ->
     # Everything is now loaded
