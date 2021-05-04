@@ -36,7 +36,6 @@ export default {
 		'payment-student-license-purchase-view': PaymentStudentLicensePurchaseView,
 	},
 	data() {
-		console.log('a', me.attributes)
 		return {
 			isPurchaseViewEnabled: false,
 			me: me.attributes,
@@ -55,7 +54,6 @@ export default {
 	},
 	methods: {
 		showPurchaseView() {
-			console.log('show')
 			this.isPurchaseViewEnabled = true;
 		},
 	}

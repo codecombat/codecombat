@@ -32,7 +32,6 @@ export default {
 	},
 	methods: {
 		onBuyNow() {
-			console.log('cliecked')
 			this.$emit('buyNow');
 		},
 	}

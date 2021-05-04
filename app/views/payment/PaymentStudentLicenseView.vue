@@ -84,7 +84,6 @@ export default {
 			return this.currency === 'usd' ? '$' : this.currency;
 		},
 		enableContactModal(e) {
-			console.log('contact modal clicked')
 			e.preventDefault()
 			this.showContactModal = true
 		}
