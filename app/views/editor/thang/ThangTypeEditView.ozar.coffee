@@ -227,7 +227,7 @@ module.exports = class ThangTypeEditView extends RootView
     @buildTreema()
     @initSliders()
     @initComponents()
-    @insertSubView(new ThangTypeColorsTabView(@thangType))
+    @colorsView = @insertSubView(new ThangTypeColorsTabView(@thangType))
     @patchesView = @insertSubView(new PatchesView(@thangType), @$el.find('.patches-view'))
     @showReadOnly() if me.get('anonymous')
     @updatePortrait()
@@ -803,6 +803,9 @@ module.exports = class ThangTypeEditView extends RootView
     optimizer = new SpriteOptimizer @thangType, options
     optimizer.optimize()
     @treema.set '/', @getThangData()
+    if _.size @thangType.get('colorGroups')
+      @colorsView.destroy()
+      @colorsView = @insertSubView(new ThangTypeColorsTabView(@thangType))
     @updateFileSize()
     @listenToOnce @layerAdapter, 'new-spritesheet', =>
       newSize = @fileSizeString + ' ' + @spriteSheetSizeString
