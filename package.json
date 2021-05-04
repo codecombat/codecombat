@@ -149,7 +149,8 @@
     "vuex": "^2.4.0",
     "vuex-router-sync": "^5.0.0",
     "webpack": "git://github.com/codecombat/webpack.git#webpack-3",
-    "webpack-shell-plugin": "^0.5.0"
+    "webpack-shell-plugin": "^0.5.0",
+    "vuelidate": "^0.7.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
