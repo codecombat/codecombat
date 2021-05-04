@@ -9,6 +9,7 @@ module.exports = class SpriteOptimizer
     @raw.shapes ?= {}
     @raw.containers ?= {}
     @raw.animations ?= {}
+    @colorGroups = $.extend(true, {}, @thangTypeModel.attributes.colorGroups)
     @actions = $.extend(true, {}, @thangTypeModel.attributes.actions)
 
   optimize: ->
@@ -16,6 +17,8 @@ module.exports = class SpriteOptimizer
       console.log 'Got shapes to optimize:', @raw.shapes, JSON.stringify(@raw.shapes, null, 0).length, "chars", _.size(@raw.shapes), "shapes"
       console.log 'Got containers to optimize:', @raw.containers, JSON.stringify(@raw.containers, null, 0).length, "chars", _.size(@raw.containers), "containers"
       console.log 'Got animations to optimize:', @raw.animations, JSON.stringify(@raw.animations, null, 0).length, "chars", _.size(@raw.animations), "animations"
+      if _.size @colorGroups
+        console.log 'Got colors to optimize:', @colorGroups, JSON.stringify(@colorGroups, null, 0).length, "chars", _.flatten(_.values(@colorGroups)).length, "colored shapes"
       console.log "Total:", JSON.stringify(@raw, null, 0).length, "chars"
 
     for round in [1 .. 3]
@@ -34,6 +37,8 @@ module.exports = class SpriteOptimizer
           console.log "Culled shapes, round #{round}:", @raw.shapes, JSON.stringify(@raw.shapes, null, 0).length, "chars", _.size(@raw.shapes), "shapes"
           console.log "Culled containers, round #{round}:", @raw.containers, JSON.stringify(@raw.containers, null, 0).length, "chars", _.size(@raw.containers), "containers"
           console.log "Culled animations, round #{round}:", @raw.animations, JSON.stringify(@raw.animations, null, 0).length, "chars", _.size(@raw.animations), "animations"
+          if _.size @colorGroups
+            console.log "Culled colors, round #{round}:", @colorGroups, JSON.stringify(@colorGroups, null, 0).length, "chars", _.flatten(_.values(@colorGroups)).length, "colored shapes"
           console.log "Total:", JSON.stringify(@raw, null, 0).length, "chars"
 
     @sortBySize()
@@ -43,6 +48,8 @@ module.exports = class SpriteOptimizer
   saveToModel: ->
     @thangTypeModel.set('raw', @raw)
     @thangTypeModel.set('actions', @actions)
+    if _.size @colorGroups
+      @thangTypeModel.set('colorGroups', @colorGroups)
 
   keyForShape: (shape) ->
     shape = _.omit shape, 't' if @aggressiveShapes  # Sometimes transform doesn't matter as far as unique shapes go (ex.: Hero A Cinematic), but sometimes it does (ex.: Hero B)
@@ -183,6 +190,12 @@ module.exports = class SpriteOptimizer
       for relatedActionName, relatedAction of action.relatedActions ? {}
         if relatedAction.container and renamedTarget = containerRenamings[relatedAction.container]
           relatedAction.container = renamedTarget
+
+    # Also rename shapes within color groups
+    for group, shapes of @colorGroups
+      for oldShapeName, index in shapes
+        if newShapeName = shapeRenamings[oldShapeName]
+          shapes[index] = newShapeName
 
     if @debug
       console.log shapeRenamings
