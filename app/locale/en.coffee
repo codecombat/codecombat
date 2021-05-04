@@ -3239,5 +3239,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     just: 'Just'
     teachers_upto: 'Teacher can purchase upto'
     great_courses: 'Great Courses included for'
+    successful: 'Your payment was successful'
+    failed: 'Your payment failed, please try again'
 
 

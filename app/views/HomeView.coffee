@@ -166,6 +166,15 @@ module.exports = class HomeView extends RootView
         @openModalView(new CreateAccountModal({startOnPath: 'student'}))
       if document.location.hash is '#create-account-teacher'
         @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+
+    if utils.getQueryVariable('payment') in ['success', 'failed'] and document.getElementById('payments')
+      paymentResult = utils.getQueryVariable('payment')
+      if paymentResult is 'success'
+        title = $.i18n.t 'payments.successful'
+        document.getElementById('payments').innerHTML = '<h4 class="payment-success">' + title + '</h4>';
+      else
+        title = $.i18n.t 'payments.failed'
+        document.getElementById('payments').innerHTML = '<h4 class="payment-failure">' + title + '</h4>';
     super()
 
   afterInsert: ->
