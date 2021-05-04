@@ -1,7 +1,9 @@
 <template>
-  <div id="payment-view">
+  <div id="payment-view" class="p-y-2">
 		<template v-if="loading">
-			<h2 >Loading</h2>
+			<div>
+				<h2 class="text-center">Loading...</h2>
+			</div>
 		</template>
 		<template v-else-if="paymentGroup && paymentGroup.groupType==='studentLicenses' &&
 			me && !me.anonymous">
@@ -12,7 +14,9 @@
 			/>
 		</template>
 		<template v-else>
-			<h2 class="text-center">You must be logged in to view this page</h2>
+			<div>
+				<h2 class="text-center">You must be logged in to view this page</h2>
+			</div>
 		</template>
 		<payment-student-license-purchase-view
 			v-if="isPurchaseViewEnabled"

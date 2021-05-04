@@ -19,7 +19,7 @@
 		<div class="form-group">
 			<label for="licenseNum">Number of Licenses</label>
 			<input type="text" class="form-control" id="licenseNum" @keydown="updateLicenseNum" @keyup="updateLicenseNum">
-			<p v-if="licenseNum && !errMsg">Total price: {{totalPrice}}</p>
+			<p v-if="licenseNum && !errMsg" class="total-price">Total price: {{selectedCurrency}}{{totalPrice}}</p>
 			<p class="error">{{errMsg}}</p>
 		</div>
 		<div class="form-group">
@@ -110,6 +110,10 @@ export default {
 			const price = this.getSelectedPrice();
 			return (this.getUnitPrice(price) * this.licenseNum).toFixed(2)
 		},
+		selectedCurrency() {
+			const price = this.getSelectedPrice();
+			return this.getCurrency(price);
+		}
 	}
 }
 </script>

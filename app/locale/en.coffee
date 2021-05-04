@@ -3242,4 +3242,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     successful: 'Your payment was successful'
     failed: 'Your payment failed, please try again'
 
-
+  form_validation_errors:
+    required: 'Field is required'
+    invalidEmail: 'Invalid email'
+    invalidPhone: 'Invalid phone number'
+    emailExists: 'Email already exists'
+    numberGreaterThanZero: 'Should be a number greater than 0'

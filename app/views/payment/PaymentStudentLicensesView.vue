@@ -9,9 +9,9 @@
 			:license-validity-period-in-days="parseInt(price.metadata.licenseValidityPeriodInDays)"
 			:i18n-name="price.metadata.i18nName"
 		/>
-		<div class="text-center">
+		<div class="text-center footer">
 			<button type="button" class="btn btn-success btn-lg" @click="onBuyNow()">Buy Now</button>
-			<p class="light-text">*Teacher License are free</p>
+			<p class="light-text">*Teacher Licenses are free</p>
 		</div>
 	</div>
 </template>
