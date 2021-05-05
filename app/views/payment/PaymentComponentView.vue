@@ -5,9 +5,15 @@
 				<h2 class="text-center">Loading...</h2>
 			</div>
 		</template>
-		<template v-else-if="paymentGroup && paymentGroup.groupType==='studentLicenses' &&
+		<template v-else-if="paymentGroup && paymentGroup.groupType ==='studentLicenses' &&
 			me && !me.anonymous">
 			<payment-student-licenses-view
+				:price-data="paymentGroup.priceData"
+				:payment-group-id="paymentGroup._id"
+			/>
+		</template>
+		<template v-else-if="paymentGroup && paymentGroup.groupType ==='onlineClasses'">
+			<payment-online-classes-view
 				:price-data="paymentGroup.priceData"
 				:payment-group-id="paymentGroup._id"
 			/>
@@ -22,10 +28,12 @@
 
 <script>
 import PaymentStudentLicensesView from "./PaymentStudentLicensesView";
+import PaymentOnlineClassesView from "./PaymentOnlineClassesView";
 export default {
 	name: "PaymentComponentView",
 	components: {
 		'payment-student-licenses-view': PaymentStudentLicensesView,
+		'payment-online-classes-view': PaymentOnlineClassesView
 	},
 	data() {
 		return {
@@ -47,5 +55,5 @@ export default {
 </script>
 
 <style scoped>
-
+/* add css here */
 </style>
