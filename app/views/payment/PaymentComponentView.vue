@@ -9,8 +9,7 @@
 			me && !me.anonymous">
 			<payment-student-licenses-view
 				:price-data="paymentGroup.priceData"
-				:slug="paymentGroup.slug"
-				@buyNow="showPurchaseView"
+				:payment-group-id="paymentGroup._id"
 			/>
 		</template>
 		<template v-else>
@@ -18,26 +17,18 @@
 				<h2 class="text-center">You must be logged in to view this page</h2>
 			</div>
 		</template>
-		<payment-student-license-purchase-view
-			v-if="isPurchaseViewEnabled"
-			:price-data="paymentGroup.priceData"
-			:payment-group-id="paymentGroup._id"
-		/>
   </div>
 </template>
 
 <script>
 import PaymentStudentLicensesView from "./PaymentStudentLicensesView";
-import PaymentStudentLicensePurchaseView from "./PaymentStudentLicensePurchaseView";
 export default {
 	name: "PaymentComponentView",
 	components: {
 		'payment-student-licenses-view': PaymentStudentLicensesView,
-		'payment-student-license-purchase-view': PaymentStudentLicensePurchaseView,
 	},
 	data() {
 		return {
-			isPurchaseViewEnabled: false,
 			me: me.attributes,
 		};
 	},
@@ -51,11 +42,6 @@ export default {
 		loading() {
 			return this.$store.getters['paymentGroups/loading'];
 		}
-	},
-	methods: {
-		showPurchaseView() {
-			this.isPurchaseViewEnabled = true;
-		},
 	}
 }
 </script>

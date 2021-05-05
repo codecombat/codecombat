@@ -1,4 +1,5 @@
 <template>
+	<span>
 	<div class="student-licenses">
 		<payment-student-license-view
 			v-for="price in priceData"
@@ -14,10 +15,17 @@
 			<p class="light-text">*Teacher Licenses are free</p>
 		</div>
 	</div>
+	<payment-student-license-purchase-view
+			v-if="isPurchaseViewEnabled"
+			:price-data="priceData"
+			:payment-group-id="paymentGroupId"
+	/>
+	</span>
 </template>
 
 <script>
 import PaymentStudentLicenseView from "./PaymentStudentLicenseView";
+import PaymentStudentLicensePurchaseView from "./PaymentStudentLicensePurchaseView";
 export default {
 	name: "PaymentStudentLicensesView",
 	props: {
@@ -25,14 +33,23 @@ export default {
 			type: Array,
 			required: true,
 		},
-		slug: String,
+		paymentGroupId: {
+			type: String,
+			required: true,
+		},
+	},
+	data () {
+		return {
+			isPurchaseViewEnabled: false,
+		}
 	},
 	components: {
 		'payment-student-license-view': PaymentStudentLicenseView,
+		'payment-student-license-purchase-view': PaymentStudentLicensePurchaseView,
 	},
 	methods: {
 		onBuyNow() {
-			this.$emit('buyNow');
+			this.isPurchaseViewEnabled = true
 		},
 	}
 }
