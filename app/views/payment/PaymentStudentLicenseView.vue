@@ -91,6 +91,31 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.container-fluid {
+	background-color: aliceblue;
+}
 
+.top-section {
+	.info-row {
+		padding-top: 10px;
+	}
+}
+
+.middle-section {
+	padding-top: 10px;
+	.purchase-more {
+		padding-top: 10px;
+	}
+}
+
+.light-text {
+	font-weight: 200!important;
+	margin: 0;
+	font-size: small;
+}
+
+h1, h3 {
+	font-weight: bold;
+}
 </style>

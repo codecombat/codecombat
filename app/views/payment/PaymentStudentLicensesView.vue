@@ -55,6 +55,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.light-text {
+	font-weight: 200!important;
+	margin: 0;
+	font-size: small;
+}
 
+.footer {
+	padding-top: 15px;
+}
 </style>

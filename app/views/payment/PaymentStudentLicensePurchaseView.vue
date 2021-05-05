@@ -118,6 +118,24 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.purchase-form {
+	width: 60%;
+	padding-left: 40%;
+	padding-top: 10px;
 
+}
+.purchase-btn {
+	color: #fff;
+	background-color: #007bff;
+	border-color: #007bff;
+}
+
+.total-price {
+	padding-top: 5px
+}
+
+.error {
+	color: red;
+}
 </style>
