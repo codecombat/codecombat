@@ -3241,6 +3241,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     great_courses: 'Great Courses included for'
     successful: 'Your payment was successful'
     failed: 'Your payment failed, please try again'
+    session_week_1: '1 session/week'
+    session_week_2: '2 session/week'
+    month_1: 'Monthly'
+    month_3: 'Quarterly'
+    month_6: 'Half-yearly'
+    year_1: 'Yearly'
 
   form_validation_errors:
     required: 'Field is required'
