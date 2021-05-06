@@ -3,7 +3,7 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th v-for="col in getColumns" :key="col">
+					<th class="heading" v-for="col in getColumns" :key="col">
 						{{getI18n(col)}}
 					</th>
 				</tr>
@@ -14,7 +14,7 @@
 						<div class="interval" v-if="index === 0">
 							{{getI18n(elem)}}
 						</div>
-						<div v-else>
+						<div class="price-box" v-else>
 							<p class="display-price price">{{getDisplayPrice(elem)}}</p>
 							<p class="comparing-price price" v-if="getComparingPrice(elem, index)">{{getComparingPrice(elem, index)}}</p>
 						</div>
@@ -95,16 +95,30 @@ export default {
 <style lang="scss" scoped>
 .comparing-price {
 	text-decoration: line-through;
+	padding-top: 5%;
 }
 .price {
-	padding-left: 15%;
-	padding-right: 15%;
-	font-size: 120%;
+	font-size: 130%;
+	font-weight: 500;
 }
 th {
-	font-size: 25px;
+	font-size: 150%;
+}
+.heading {
+	text-align: center;
 }
 .interval {
 	font-size: 120%;
+	text-align: center;
+	padding: 10%;
+}
+.price-box {
+	border: 1px solid lightgrey;
+	margin: 2% 32% 2% 32%;
+	padding: 5%;
+	text-align: center;
+}
+p {
+	margin: 0;
 }
 </style>

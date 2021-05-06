@@ -34,11 +34,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .container-fluid {
 	background-color: aliceblue;
 }
 .header {
-	padding-bottom: 20px;
+	padding-bottom: 25px;
+	padding-top: 10px;
+	h2 {
+		font-weight: bolder;
+	}
+	h4 {
+		font-weight: bold;
+	}
 }
 </style>
