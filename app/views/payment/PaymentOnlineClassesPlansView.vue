@@ -10,7 +10,7 @@
 			</thead>
 			<tbody>
 				<tr v-for="row in getRows" :key="row[0]">
-					<td v-for="(elem, index) in row" :key="index === 0 ? elem : elem.id">
+					<td class="data-row" v-for="(elem, index) in row" :key="index === 0 ? elem : elem.id">
 						<div class="interval" v-if="index === 0">
 							{{getI18n(elem)}}
 						</div>
@@ -110,15 +110,18 @@ th {
 .interval {
 	font-size: 120%;
 	text-align: center;
-	padding: 10%;
+	padding: 8%;
 }
 .price-box {
 	border: 1px solid lightgrey;
-	margin: 2% 32% 2% 32%;
-	padding: 5%;
+	margin: 1% 32% 1% 32%;
+	padding: 2%;
 	text-align: center;
 }
 p {
 	margin: 0;
+}
+.data-row {
+	padding: 1px;
 }
 </style>
