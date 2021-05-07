@@ -11,8 +11,7 @@
 			:i18n-name="price.metadata.i18nName"
 		/>
 		<div class="text-center footer">
-			<button type="button" class="btn btn-success btn-lg" @click="onBuyNow()">Buy Now</button>
-			<p class="light-text">*Teacher Licenses are free</p>
+			<button type="button" class="btn btn-success btn-lg btn-buy-now" @click="onBuyNow()">Buy Now</button>
 		</div>
 	</div>
 	<payment-student-license-purchase-view
@@ -64,5 +63,10 @@ export default {
 
 .footer {
 	padding-top: 15px;
+}
+
+.btn-buy-now {
+	padding: 15px 25px;
+	font-size: 25px;
 }
 </style>

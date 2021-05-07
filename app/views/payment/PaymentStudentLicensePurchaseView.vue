@@ -83,7 +83,6 @@ export default {
 		},
 		async onPurchaseNow(e) {
 			e.preventDefault();
-			console.log('redirect to stripe');
 			const stripe = await stripePromise
 			const sessionOptions = {
 				stripePriceId: this.selectedPrice,
@@ -93,15 +92,11 @@ export default {
 				userId: me.get('_id'),
 				totalAmount: this.totalPrice
 			}
-			console.log('sessionOptions', sessionOptions)
 			const session = await createPaymentSession(sessionOptions);
-			console.log('resp', session);
 			const sessionId = session.data.sessionId;
 			const result = await stripe.redirectToCheckout({ sessionId });
 			if (result.error) {
 				console.error('resErr', result.error);
-			} else {
-				console.log('res', result);
 			}
 		}
 	},
@@ -122,8 +117,7 @@ export default {
 .purchase-form {
 	width: 60%;
 	padding-left: 40%;
-	padding-top: 10px;
-
+	padding-top: 15px;
 }
 .purchase-btn {
 	color: #fff;

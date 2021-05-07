@@ -28,9 +28,11 @@
 			</div>
 			<div class="middle-section">
 				<h3>{{$t('payments.just')}} {{this.getCurrency()}}{{this.getUnitPrice()}} {{$t('payments.per_student')}}</h3>
-				<p class="light-text">*{{$t('payments.teachers_upto')}} {{this.licenseCap}} {{$t('payments.student_licenses')}}</p>
-				<p class="light-text">**These licenses are active for {{this.licenseValidityPeriodInDays}} days from the day of purchase</p>
-				<p class="purchase-more">If you want to purchase more, <button type="button" class="btn btn-primary" @click="this.enableContactModal">Contact Us</button></p>
+				<ul class="information">
+					<li class="light-text">Upto {{this.licenseCap}} student licenses, <a href="#" @click="this.enableContactModal">Contact Us</a> to purchase more</li>
+					<li class="light-text">Licenses are active for {{this.licenseValidityPeriodInDays}} days from the day of purchase</li>
+					<li class="light-text">Teacher account licenses are free with purchase</li>
+				</ul>
 			</div>
 			</div>
 		</div>
@@ -117,5 +119,10 @@ export default {
 
 h1, h3 {
 	font-weight: bold;
+}
+.information {
+	list-style-position: inside;
+	text-align: initial;
+	padding-left: 35%;
 }
 </style>

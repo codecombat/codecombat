@@ -169,15 +169,15 @@ module.exports = class HomeView extends RootView
       if document.location.hash is '#create-account-teacher'
         @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
-    if utils.getQueryVariable('payment') in ['success', 'failed'] and not @renderedPaymentNoty
-      paymentResult = utils.getQueryVariable('payment')
+    if utils.getQueryVariable('payment-studentLicenses') in ['success', 'failed'] and not @renderedPaymentNoty
+      paymentResult = utils.getQueryVariable('payment-studentLicenses')
       if paymentResult is 'success'
-        title = $.i18n.t 'payments.successful'
+        title = $.i18n.t 'payments.studentLicense_successful'
         type = 'success'
       else
         title = $.i18n.t 'payments.failed'
         type = 'error'
-      noty({ text: title, type: type, timeout: 5000, killer: true })
+      noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
     super()
 
