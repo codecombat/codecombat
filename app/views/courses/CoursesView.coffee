@@ -98,7 +98,7 @@ module.exports = class CoursesView extends RootView
           {slug: 'blazing-battle', type: 'regular', start: new Date(2021, 4,  8), end: new Date(2021, 4, 22), levelOriginal: '5fca06dc8b4da8002889dbf1', image: 'https://assets.koudashijie.com/turingyouth-2021/images/turing-blazing-battle.jpg', clan: '60891dd4f650de008061724e'},
           {slug: 'ace-of-coders', type: 'regular', start: new Date(2021, 4,  23), end: new Date(2021, 5, 8), levelOriginal: '55de80407a57948705777e89', image: 'https://assets.koudashijie.com/turingyouth-2021/images/turing-ace-of-coders.jpg', clan: '608ab3ba79be2000892ea216'}
     ]
-    if true or (features.china and (@classrooms.find({id: '60891d7d72cf8300801d10f3'}) or @classrooms.find({id: '6066e7cba0b48200280f16f1'})))
+    if (features.china and (@classrooms.find({id: '60891d7d72cf8300801d10f3'}) or @classrooms.find({id: '6066e7cba0b48200280f16f1'})))
       for ladder in turingLadders
         if new Date() >= ladder.start && new Date() <= ladder.end
           return [ ladder ]
