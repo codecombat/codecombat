@@ -2,7 +2,6 @@ express = require 'express'
 path = require 'path'
 useragent = require 'express-useragent'
 fs = require 'graceful-fs'
-log = require 'winston'
 compressible = require 'compressible'
 compression = require 'compression'
 
@@ -10,10 +9,7 @@ crypto = require 'crypto'
 config = require './server_config'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
 global.jsondiffpatch = require('jsondiffpatch')
-global.stripe = require('stripe')(config.stripe.secretKey)
-request = require 'request'
 Promise = require 'bluebird'
-Promise.promisifyAll(request, {multiArgs: true})
 Promise.promisifyAll(fs)
 wrap = require 'co-express'
 morgan = require 'morgan'
@@ -123,7 +119,7 @@ setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
     try
       v = parseInt ua.Version.split('.')[0], 10
     catch TypeError
-      log.error('ua.Version does not have a split function.', JSON.stringify(ua, null, '  '))
+      console.error('ua.Version does not have a split function.', JSON.stringify(ua, null, '  '))
       return false
     return true if b is 'Chrome' and v < 17
     return true if b is 'Safari' and v < 6
@@ -280,13 +276,6 @@ setupQuickBailToMainHTML = (app) ->
   app.get '/play/level/:slug', fast('main.html')
   app.get '/play/:slug', fast('main.html')
 
-# Mongo-cache doesnt support the .exec() promise, so we manually wrap it.
-# getMandate = (app) ->
-#   return new Promise (res, rej) ->
-#     Mandate.findOne({}).cache(5 * 60 * 1000).exec (err, data) ->
-#       return rej(err) if err
-#       res(data)
-
 ###Miscellaneous configuration functions###
 
 exports.setExpressConfigurationOptions = (app) ->
@@ -317,7 +306,7 @@ setupProxyMiddleware = (app) ->
     headers,
     secure: false
   })
-  log.info 'Using dev proxy server'
+  console.info 'Using dev proxy server'
   app.use (req, res, next) ->
     req.proxied = true
     proxy.web req, res, (e) ->

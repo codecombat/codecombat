@@ -919,7 +919,7 @@ isOzaria = false
 arenas = [
   {slug: 'blazing-battle'   , type: 'regular',      start: new Date(2021, 0,  1), end: new Date(2021, 4, 1), levelOriginal: '5fca06dc8b4da8002889dbf1', image: '/file/db/level/5fca06dc8b4da8002889dbf1/Blazing Battle Final cut.jpg'}
   {slug: 'infinite-inferno' , type: 'championship', start: new Date(2021, 3,  1), end: new Date(2021, 4, 1), levelOriginal: '602cdc204ef0480075fbd954', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
-  {slug: 'mages-might'      , type: 'regular',      start: new Date(2021, 4,  1), end: new Date(2021, 8, 1), levelOriginal: '6066f956ddfd6f003d1ed6bb'}
+  {slug: 'mages-might'      , type: 'regular',      start: new Date(2021, 4,  11), end: new Date(2021, 8, 1), levelOriginal: '6066f956ddfd6f003d1ed6bb'}
   {slug: 'sorcerers'        , type: 'championship', start: new Date(2021, 7,  1), end: new Date(2021, 8, 1)}
   {slug: 'giants-gate'      , type: 'regular',      start: new Date(2021, 8,  1), end: new Date(2022, 0, 1)}
   {slug: 'colossus'         , type: 'championship', start: new Date(2021, 11, 1), end: new Date(2022, 0, 1)}
