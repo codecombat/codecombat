@@ -13,6 +13,7 @@
 			<label for="parent-lastname">Last Name</label>
 			<input type="text" class="form-control" id="parent-lastname" placeholder="Enter Last Name" @keydown="updateLastName" @keyup="updateLastName" />
 		</div>
+		<hr />
 	</div>
 </template>
 

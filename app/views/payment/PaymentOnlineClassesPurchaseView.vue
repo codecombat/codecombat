@@ -33,7 +33,7 @@
 			</select>
 		</div>
 		<div class="form-group">
-			<label for="licenseNum">Number of Children</label>
+			<label for="licenseNum">Number of Students</label>
 			<input type="text" class="form-control" id="licenseNum" @keydown="updateLicenseNum" @keyup="updateLicenseNum">
 			<div class="price-info-view">
 				<p v-if="licenseNum && !errMsg" class="total-price">Total price: {{selectedCurrency}}{{totalPrice}}</p>
@@ -46,16 +46,25 @@
 				@updateParentDetails="updateParentDetails"
 			/>
 		</div>
+		<div class="form-group">
+			<payment-online-classes-student-details-component
+				:num-of-students="licenseNum"
+				v-if="licenseNum > 0"
+				@updateStudentDetails="updateStudentDetails"
+			/>
+		</div>
 	</form>
 </template>
 
 <script>
 import _ from "lodash";
 import PaymentOnlineClassesParentDetailsComponent from "./PaymentOnlineClassesParentDetailsComponent";
+import PaymentOnlineClassesStudentDetailsComponent from "./PaymentOnlineClassesStudentDetailsComponent";
 export default {
 	name: "PaymentOnlineClassesPurchaseView",
 	components: {
-		PaymentOnlineClassesParentDetailsComponent
+		PaymentOnlineClassesParentDetailsComponent,
+		PaymentOnlineClassesStudentDetailsComponent,
 	},
 	props: {
 		priceData: {
@@ -74,6 +83,7 @@ export default {
 			selectedPlan: null,
 			selectedInterval: null,
 			parentDetails: null,
+			studentDetails: null,
 		};
 	},
 	computed: {
@@ -99,7 +109,7 @@ export default {
 					selectedTier = tier;
 				}
 			})
-			return this.licenseNum * (selectedTier.unit_amount / 100);
+			return (this.licenseNum * (selectedTier.unit_amount / 100)).toFixed(2);
 		},
 		selectedCurrency() {
 			const price = this.selectedPrice;
@@ -147,6 +157,9 @@ export default {
 		updateParentDetails(details) {
 			this.parentDetails = details;
 		},
+		updateStudentDetails(details) {
+			this.studentDetails = details;
+		}
 	}
 }
 </script>
