@@ -16,21 +16,33 @@
 			</div>
 		</div>
 		<div class="buy-now-view text-center">
-			<button type="button" class="btn btn-success btn-lg" @click="">Buy Now</button>
+			<button type="button" class="btn btn-success btn-buy-now" @click="enablePurchaseView">Buy Now</button>
 			<div class="info-view">
 				<p>*All plans are automatically renewed at the same level and billing cycle unless otherwise changed or cancelled.</p>
 				<p>**Your purchase is 100% risk free within the first 30 days. If for any reason you decide not to continue, simply <a>Contact Us</a> within 30 days of purchase and we will promptly refund 100% of your payment, no questions asked.</p>
 			</div>
 		</div>
+		<payment-online-classes-purchase-view
+			v-if="showPurchaseView"
+			:price-data="priceData"
+			:payment-group-id="paymentGroupId"
+		/>
 	</div>
 </template>
 
 <script>
 import PaymentOnlineClassesPlansView from "./PaymentOnlineClassesPlansView";
+import PaymentOnlineClassesPurchaseView from "./PaymentOnlineClassesPurchaseView";
 export default {
 	name: "PaymentOnlineClassesView",
 	components: {
 		'payment-online-classes-plans-view': PaymentOnlineClassesPlansView,
+		'payment-online-classes-purchase-view': PaymentOnlineClassesPurchaseView,
+	},
+	data () {
+		return {
+			showPurchaseView: false,
+		}
 	},
 	props: {
 		priceData: {
@@ -41,6 +53,11 @@ export default {
 			type: String,
 			required: true,
 		},
+	},
+	methods: {
+		enablePurchaseView() {
+			this.showPurchaseView = true;
+		}
 	}
 }
 </script>
@@ -64,13 +81,19 @@ export default {
 
 	.info-view {
 		padding-top: 5px;
-		padding-left: 25%;
-		padding-right: 25%;
+		padding-left: 20%;
+		padding-right: 20%;
 		font-size: small;
+		text-align: initial;
 
 		p {
 			margin: 0;
 		}
+	}
+
+	.btn-buy-now {
+		padding: 15px 25px;
+		font-size: 25px;
 	}
 }
 </style>
