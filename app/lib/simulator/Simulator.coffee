@@ -173,7 +173,7 @@ module.exports = class Simulator extends CocoClass
 
     if results.tournament?
       url = '/db/tournament.match/record'
-      results.matchType = 'round-robin'  # for now we just use 'round-robin'
+      results.matchType = results.tournamentType
     else
       url = '/queue/scoring/recordTwoGames'
     $.ajax
@@ -380,6 +380,7 @@ module.exports = class Simulator extends CocoClass
     taskResults =
       taskID: @task.getTaskID()
       tournament: @task.getTournamentId()
+      tournamentType: @task.getTournamentType()
       receiptHandle: @task.getReceiptHandle()
       originalSessionID: @task.getFirstSessionID()
       originalSessionRank: -1
@@ -486,6 +487,8 @@ class SimulationTask
   getTaskID: -> @rawData.taskID
 
   getTournamentId: -> @rawData.tournamentId
+
+  getTournamentType: -> @rawData.tournamentType
 
   getReceiptHandle: -> @rawData.receiptHandle
 
