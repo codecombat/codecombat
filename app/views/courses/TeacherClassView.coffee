@@ -33,6 +33,8 @@ TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default
 PieChart = require('core/components/PieComponent').default
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 
+DOMPurify = require 'dompurify'
+
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
 module.exports = class TeacherClassView extends RootView
@@ -896,3 +898,6 @@ module.exports = class TeacherClassView extends RootView
     .then () =>
       $('.sync-google-classroom-btn').text($.i18n.t('teacher.sync_google_classroom'))
       $('.sync-google-classroom-btn').attr('disabled', false)
+
+  markdownIt: (content) ->
+    return DOMPurify.sanitize marked(content)

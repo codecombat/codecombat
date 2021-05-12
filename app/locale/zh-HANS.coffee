@@ -503,6 +503,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     submit: "提交"
     replay: "重新开始"
     complete: "完成"
+    pick_image: "插入图片"
 
   general:
     and: "与"

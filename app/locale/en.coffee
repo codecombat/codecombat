@@ -502,6 +502,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     submit: "Submit"
     replay: "Replay"
     complete: "Complete"
+    pick_image: "Pick Image"
 
   general:
     and: "and"
