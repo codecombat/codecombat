@@ -428,7 +428,6 @@ module.exports = class CoursesView extends RootView
 
   onClickAnnouncementLink: (e) ->
     classroomId = $(e.target).data('classroom-id')
-    console.log @classrooms.models
     classroom = _.find @classrooms.models, { 'id': classroomId }
     modal = new ClassroomAnnouncementModal({ announcement: classroom.get('description')})
     @openModalView modal

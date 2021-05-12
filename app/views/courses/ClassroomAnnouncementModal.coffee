@@ -13,13 +13,3 @@ module.exports = class ClassroomAnnouncementModal extends ModalView
   constructor: (options) ->
     super(options)
     @announcement = DOMPurify.sanitize marked(options.announcement)
-
-  onLoaded: ->
-    super()
-
-  afterRender: ->
-    super()
-
-  onHidden: ->
-    super()
-

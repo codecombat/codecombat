@@ -131,15 +131,15 @@ module.exports = class ClassroomSettingsModal extends ModalView
   onPickImage: ->
     filepicker.pick @onFileChosen
 
-  onFileChosen: (InkBlob) =>
+  onFileChosen: (inkBlob) =>
     body =
-      url: InkBlob.url
-      filename: InkBlob.filename
-      mimetype: InkBlob.mimetype
+      url: inkBlob.url
+      filename: inkBlob.filename
+      mimetype: inkBlob.mimetype
       path: @uploadFilePath
       force: true
 
-    @uploadingPath = [@uploadFilePath, InkBlob.filename].join('/')
+    @uploadingPath = [@uploadFilePath, inkBlob.filename].join('/')
     $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
 
   onFileUploaded: (e) =>
