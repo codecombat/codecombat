@@ -50,11 +50,9 @@ export default {
 				const rowWithSameIntervalSorted = _.sortBy(rowWithSameInterval, function (row) {
 					return row.metadata.groupKey;
 				})
-				// const intervalDuration = rowWithSameIntervalSorted[0].recurring.interval
 				const row = [interval, ...rowWithSameIntervalSorted]
 				rows.push(row)
 			})
-			// console.log(intervals);
 			return rows;
 		}
 	},
