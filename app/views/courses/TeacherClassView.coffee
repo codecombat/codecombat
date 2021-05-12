@@ -900,4 +900,5 @@ module.exports = class TeacherClassView extends RootView
       $('.sync-google-classroom-btn').attr('disabled', false)
 
   markdownIt: (content) ->
+    return '' unless content
     return DOMPurify.sanitize marked(content)
