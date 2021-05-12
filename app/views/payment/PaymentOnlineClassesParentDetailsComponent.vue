@@ -56,6 +56,8 @@ export default {
 					firstName: this.firstName,
 					lastName: this.lastName
 				});
+			} else {
+				this.$emit('updateParentDetails', null);
 			}
 		},
 		validateEmail(email) {

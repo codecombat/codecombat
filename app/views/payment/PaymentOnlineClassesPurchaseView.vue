@@ -49,9 +49,19 @@
 		<div class="form-group">
 			<payment-online-classes-student-details-component
 				:num-of-students="licenseNum"
-				v-if="licenseNum > 0"
+				v-if="licenseNum && !errMsg"
 				@updateStudentDetails="updateStudentDetails"
 			/>
+		</div>
+		<div class="form-group">
+			<button
+					type="submit"
+					class="btn btn-primary btn-lg purchase-btn"
+					:class="isDataValid ? '' : 'disabled'"
+					@click="onPurchaseNow"
+			>
+				Purchase Now
+			</button>
 		</div>
 	</form>
 </template>
@@ -121,6 +131,9 @@ export default {
 						this.getIntervalKey(price) === this.selectedInterval;
 			})
 		},
+		isDataValid() {
+			return this.licenseNum > 0 && this.parentDetails && this.studentDetails && !this.errMsg;
+		},
 	},
 	methods: {
 		getI18n(key) {
@@ -159,6 +172,10 @@ export default {
 		},
 		updateStudentDetails(details) {
 			this.studentDetails = details;
+		},
+		onPurchaseNow(e) {
+			e.preventDefault();
+			console.log('clicked purchased now');
 		}
 	}
 }

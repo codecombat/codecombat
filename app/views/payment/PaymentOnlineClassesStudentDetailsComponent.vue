@@ -76,6 +76,7 @@ export default {
 			})
 			if (err) {
 				this.errorMsg = err;
+				this.$emit('updateStudentDetails', null);
 				return;
 			}
 			this.$emit('updateStudentDetails', this.students);
