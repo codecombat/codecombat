@@ -783,18 +783,18 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     properties: "Eigenschappen"
 #    snippets: "Snippets"
     spawnable: "Genereerbaar"
-#    html: "HTML"
+    html: "HTML"
     math: "Wiskunde"
     array: "Reeks"
-#    object: "Object"
-#    string: "String"
+    object: "Object"
+    string: "String"
     function: "Functie"
-#    vector: "Vector"
+    vector: "Vector"
     date: "Datum"
-#    jquery: "jQuery"
-#    json: "JSON"
+    jquery: "jQuery"
+    json: "JSON"
     number: "Nummer"
-#    webjavascript: "JavaScript"
+    webjavascript: "JavaScript"
 
   amazon_hoc:
     title: "Blijf leren met Amazon!"
@@ -807,12 +807,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    future_eng_4: "Amazon Future Engineer"
     future_eng_5: "programma wat leer-en werkmogelijkheden creëert voor alle K-12 leerlingen in de Verenigde Staten die verder willen gaan in computer science."
 
-#  live_class:
+  live_class:
     title: "Bedankt!"
     content: "Geweldig! We zijn gestart met online klassen."
     link: "Klaar om verder te gaan met programmeren?"
 
-#  code_quest:
+  code_quest:
     great: "Super!"
     join_paragraph: "Doe mee aan de grootste international Python AI coding wedstrijd voor alle leeftijden en strijd voor een plek op het leaderboard! Deze maand-lang durende wedstrijd start 1 Augustus en heeft $5k aan prijzen en een virtuele prijsuitrijking, waar we de winnaars uitroepen en jouw programmeer talent de erkenning geven die het verdient."
     link: "Klik hier voor meer informatie en registratie"
