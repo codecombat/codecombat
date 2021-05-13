@@ -503,6 +503,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     submit: "提交"
     replay: "重新开始"
     complete: "完成"
+    pick_image: "插入图片"
 
   general:
     and: "与"
@@ -1694,6 +1695,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ask_next_course: "想继续学习下一个课程？请联系老师或家长获取帮助"
     set_start_locked_level: "设置要锁定的起始关卡" # {change}
     no_level_limit: "无限制" # {change}
+    classroom_announcement: "班级公告"
+
 #    ask_teacher_to_unlock: "Ask Teacher To Unlock"
 #    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen"
 #    play_next_level: "Play Next Level"
