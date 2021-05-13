@@ -14,6 +14,7 @@ MyMatchesTabView = require './MyMatchesTabView'
 SimulateTabView = require './SimulateTabView'
 LadderPlayModal = require './LadderPlayModal'
 CocoClass = require 'core/CocoClass'
+AuthModal = require 'views/core/AuthModal'
 
 Clan = require 'models/Clan'
 CourseInstance = require 'models/CourseInstance'
@@ -52,6 +53,7 @@ module.exports = class LadderView extends RootView
     'click a:not([data-toggle])': 'onClickedLink'
     'click .spectate-button': 'onClickSpectateButton'
     'click .simulate-all-button': 'onClickSimulateAllButton'
+    'click #join-clan': 'onClickJoinClanLink'
 
   initialize: (options, @levelID, @leagueType, @leagueID) ->
     super(options)
@@ -184,6 +186,10 @@ module.exports = class LadderView extends RootView
   afterRender: ->
     super()
     return unless @supermodel.finished()
+
+    if me.isAnonymous() and utils.getQueryVariable('requireLogin') == true
+      modal = new AuthModal()
+      @openModalView(modal)
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
     unless @tournamentState is 'ended'
       @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
@@ -286,6 +292,16 @@ module.exports = class LadderView extends RootView
       @$el.find('a[href="#prizes"]').tab('show')
     if link and /#winners/.test link
       @$el.find('a[href="#winners"]').tab('show')
+
+  onClickJoinClanLink: (e) ->
+    console.log(@leagueID)
+    $.ajax
+      url: "/db/clan/#{@leagueID}/join"
+      method: 'PUT'
+      success: (res) =>
+        me.fetch cache: false
+        @render()
+
 
   destroy: ->
     clearInterval @refreshInterval

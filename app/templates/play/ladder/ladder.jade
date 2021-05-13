@@ -122,6 +122,11 @@ block content
     .spectate-button-container
       a(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : "")).spectate-button.btn.btn-illustrated.btn-info.center
         span(data-i18n="play.spectate") Spectate
+  
+    if (!me.isAnonymous()) && (view.leagueID == '608b8841f650de008061d31b') && (me.get('clans') || []).indexOf(view.leagueID) == -1
+      .join-clan-tips
+        span#join-clan
+          | 看不到自己的排名？点击这里
 
     if me.isAdmin() && (me.get('slug') == 'nick' || features.china)
       // This button could consume a lot of server resources
