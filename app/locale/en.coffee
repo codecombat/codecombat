@@ -506,6 +506,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     submit: "Submit"
     replay: "Replay"
     complete: "Complete"
+    pick_image: "Pick Image"
 
   general:
     and: "and"
@@ -1705,6 +1706,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ai_league_team_rankings: "AI League Team Rankings"
     view_standings: "View Standings"
     view_winners: "View Winners"
+    classroom_announcement: "Classroom Announcement"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -3240,3 +3242,28 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_tournaments: "There is no tournament now"
     edit_tournament: "Edit Tournament"
     create_tournament: "Create a Tournament"
+
+  payments:
+    student_licenses: 'Student Licenses'
+    computer_science: 'Computer Science'
+    web_development: 'Web Development'
+    game_development: 'Game Development'
+    per_student: 'Per Student'
+    just: 'Just'
+    teachers_upto: 'Teacher can purchase upto'
+    great_courses: 'Great Courses included for'
+    studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students.'
+    failed: 'Your payment failed, please try again'
+    session_week_1: '1 session/week'
+    session_week_2: '2 session/week'
+    month_1: 'Monthly'
+    month_3: 'Quarterly'
+    month_6: 'Half-yearly'
+    year_1: 'Yearly'
+
+  form_validation_errors:
+    required: 'Field is required'
+    invalidEmail: 'Invalid email'
+    invalidPhone: 'Invalid phone number'
+    emailExists: 'Email already exists'
+    numberGreaterThanZero: 'Should be a number greater than 0'

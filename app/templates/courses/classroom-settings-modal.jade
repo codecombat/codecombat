@@ -30,9 +30,10 @@ block modal-body-content
 
     .form-group
       label
-        span(data-i18n="general.description")
+        span(data-i18n="courses.classroom_announcement")
         i.spl.text-muted(data-i18n="signup.optional")
-      textarea.form-control(name="description" rows=2)= view.classroom.get('description')
+        .pick-image-button.btn.btn-middle.btn-forest(data-i18n="common.pick_image")
+      textarea#classroom-announcement.form-control(name="description" rows=2)= view.classroom.get('description')
 
     .form-group
       label(data-i18n="choose_hero.programming_language")

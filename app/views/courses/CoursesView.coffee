@@ -6,6 +6,7 @@ CreateAccountModal = require 'views/core/CreateAccountModal'
 ChangeCourseLanguageModal = require 'views/courses/ChangeCourseLanguageModal'
 HeroSelectModal = require 'views/courses/HeroSelectModal'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
+ClassroomAnnouncementModal = require 'views/courses/ClassroomAnnouncementModal'
 JoinClassModal = require 'views/courses/JoinClassModal'
 CourseInstance = require 'models/CourseInstance'
 CocoCollection = require 'collections/CocoCollection'
@@ -43,6 +44,7 @@ module.exports = class CoursesView extends RootView
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
     'click .view-challenges-link': 'onClickViewChallengesLink'
     'click .view-videos-link': 'onClickViewVideosLink'
+    'click .view-announcement-link': 'onClickAnnouncementLink'
 
   getMeta: ->
     return {
@@ -79,7 +81,8 @@ module.exports = class CoursesView extends RootView
       @listenToOnce tournaments, 'sync', =>
         tournamentsByClass = (t.toJSON() for t in tournaments.models)[0]
         tournaments = _.flatten _.values tournamentsByClass
-        @activeTournaments = _.filter(tournaments, (t) => t.state == 'starting')
+        @hasActiveTournaments = _.some tournaments, (t) =>
+          t.state in ['starting', 'active']
         @renderSelectors('#tournament-btn')
       @supermodel.loadCollection(tournaments, 'tournaments', {cache: false})
 
@@ -457,39 +460,11 @@ module.exports = class CoursesView extends RootView
     window.tracker?.trackEvent 'Students View To Videos View', category: 'Students', courseID: courseID, classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/students/videos/#{courseID}/#{courseName}", { trigger: true })
 
-  onClickEsportsArena: (e) ->
-    url = $(e.target).attr('href')
-    slug = $(e.target).data('slug')
-    window.tracker?.trackEvent 'Click Play AI League Button', { category: 'Students', label: slug, '' }
-    application.router.navigate(url, { trigger: true })
-
-  afterRender: ->
-    super()
-    rulesContent = @$el.find('#tournament-rules-content').html()
-    @$el.find('#tournament-rules').popover(placement: 'bottom', trigger: 'hover', container: '#site-content-area', content: rulesContent, html: true)
-
-  tournamentArenas: ->
-    if @showTournament
-      if /^zh/.test me.get('preferredLanguage', true)
-        [
-          {
-            name: '魔力冲刺'
-            id: 'magic-rush'
-            url: @tournamentUrl
-            image: '/images/pages/courses/magic-rush.png'
-          }
-        ]
-      else
-        [
-          {
-            name: 'Magic Rush'
-            id: 'magic-rush'
-            url: @tournamentUrl
-            image: '/images/pages/courses/magic-rush.png'
-          }
-        ]
-    else
-      []
+  onClickAnnouncementLink: (e) ->
+    classroomId = $(e.target).data('classroom-id')
+    classroom = _.find @classrooms.models, { 'id': classroomId }
+    modal = new ClassroomAnnouncementModal({ announcement: classroom.get('description')})
+    @openModalView modal
 
   nextLevelImage: ->
     # Prioritize first by level-specific, then course-specific and hero-specific together

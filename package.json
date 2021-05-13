@@ -67,6 +67,7 @@
     "multiplayer"
   ],
   "dependencies": {
+    "@stripe/stripe-js": "^1.14.0",
     "@vimeo/player": "^2.9.1",
     "acorn-loose": "^8.0.1",
     "adobe-animate-parser": "github:codecombat/adobe-animate-parser#master",
@@ -97,6 +98,7 @@
     "css-loader": "^0.25.0",
     "d3": "~3.5.17",
     "deku": "^2.0.0-rc16",
+    "dompurify": "^2.2.8",
     "event-hooks-webpack-plugin": "^1.0.0",
     "express": "^4.14.0",
     "express-useragent": "^1.0.4",
@@ -148,7 +150,8 @@
     "vuex": "^2.4.0",
     "vuex-router-sync": "^5.0.0",
     "webpack": "git://github.com/codecombat/webpack.git#webpack-3",
-    "webpack-shell-plugin": "^0.5.0"
+    "webpack-shell-plugin": "^0.5.0",
+    "vuelidate": "^0.7.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -208,7 +211,6 @@
     "webpack-livereload-plugin": "github:codecombat/webpack-livereload-plugin#master",
     "worker-loader": "^1.1.1"
   },
-  "optionalDependencies": {},
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
