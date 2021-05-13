@@ -3229,3 +3229,28 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     no_tournaments: "Gurer vf ab gbheanzrag abj"
     edit_tournament: "Rqvg Gbheanzrag"
     create_tournament: "Perngr n Gbheanzrag"
+
+  payments:
+    student_licenses: 'Fghqrag Yvprafrf'
+    computer_science: 'Pbzchgre Fpvrapr'
+    web_development: 'Jro Qrirybczrag'
+    game_development: 'Tnzr Qrirybczrag'
+    per_student: 'Cre Fghqrag'
+    just: 'Whfg'
+    teachers_upto: 'Grnpure pna chepunfr hcgb'
+    great_courses: 'Terng Pbhefrf vapyhqrq sbe'
+    studentLicense_successful: 'Pbatenghyngvbaf! Lbhe yvprafrf jvyy or ernql gb hfr va n zva. Pyvpx ba gur Trggvat Fgnegrq Thvqr va gur Erfbhepr Uho gb yrnea ubj gb nccyl gurz gb lbhe fghqragf.'
+    failed: 'Lbhe cnlzrag snvyrq, cyrnfr gel ntnva'
+    session_week_1: '1 frffvba/jrrx'
+    session_week_2: '2 frffvba/jrrx'
+    month_1: 'Zbaguyl'
+    month_3: 'Dhnegreyl'
+    month_6: 'Unys-lrneyl'
+    year_1: 'Lrneyl'
+
+  form_validation_errors:
+    required: 'Svryq vf erdhverq'
+    invalidEmail: 'Vainyvq rznvy'
+    invalidPhone: 'Vainyvq cubar ahzore'
+    emailExists: 'Rznvy nyernql rkvfgf'
+    numberGreaterThanZero: 'Fubhyq or n ahzore terngre guna 0'
