@@ -974,4 +974,5 @@ module.exports = {
   isOldBrowser
   isCodeCombat
   isOzaria
+  titleize
 }

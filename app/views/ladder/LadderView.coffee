@@ -14,6 +14,7 @@ MyMatchesTabView = require './MyMatchesTabView'
 SimulateTabView = require './SimulateTabView'
 LadderPlayModal = require './LadderPlayModal'
 CocoClass = require 'core/CocoClass'
+TournamentLeaderboard = require './components/Leaderboard.coffee'
 
 Clan = require 'models/Clan'
 CourseInstance = require 'models/CourseInstance'
@@ -184,15 +185,28 @@ module.exports = class LadderView extends RootView
     super()
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
-    unless @tournamentState is 'ended'
+    unless true#@tournamentState is 'ended'
       @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
       @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
     else
       # @removeSubView(@ladderTab)
       # @removeSubView(@myMatchesTab)
-      @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions, @tournamentId))
+      tableTitles = [
+        {slug: 'rank', title: 'Rank'},
+        {slug: 'name', title: 'Name'}
+      ]
+      rankings = [
+        [1, 'Nick'],
+        [2, 'Tong']
+      ]
+      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId}, ))
+      console.log(@ladderTab)
+      @myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions)
+      console.log(@myMatchesTab)
+      # @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions, @tournamentId))
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
+      console.log(@simulateTab)
     highLoad = true
     @refreshDelay = switch
       when not application.isProduction() then 10  # Refresh very quickly in develompent.
