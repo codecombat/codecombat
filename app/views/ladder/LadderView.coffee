@@ -188,6 +188,7 @@ module.exports = class LadderView extends RootView
     return unless @supermodel.finished()
 
     if me.isAnonymous() and utils.getQueryVariable('requireLogin') == true
+      window.nextURL=window.location.href
       modal = new AuthModal()
       @openModalView(modal)
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
