@@ -44,6 +44,8 @@ module.exports = class HomeView extends RootView
       @trialRequests.fetchOwn()
       @supermodel.loadCollection(@trialRequests)
 
+    @renderedPaymentNoty = false
+
   getMeta: ->
     title: $.i18n.t 'new_home.title'
     meta: [
@@ -160,6 +162,17 @@ module.exports = class HomeView extends RootView
         @openModalView(new CreateAccountModal({startOnPath: 'student'}))
       if document.location.hash is '#create-account-teacher'
         @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+
+    if utils.getQueryVariable('payment-studentLicenses') in ['success', 'failed'] and not @renderedPaymentNoty
+      paymentResult = utils.getQueryVariable('payment-studentLicenses')
+      if paymentResult is 'success'
+        title = $.i18n.t 'payments.studentLicense_successful'
+        type = 'success'
+      else
+        title = $.i18n.t 'payments.failed'
+        type = 'error'
+      noty({ text: title, type: type, timeout: 10000, killer: true })
+      @renderedPaymentNoty = true
     super()
 
   afterInsert: ->

@@ -35,7 +35,8 @@ store = new Vuex.Store({
     campaigns: require('./modules/campaigns').default
     tracker: require('./modules/tracker').default
     products: require('./modules/products').default
-    seasonalLeague: require('./modules/seasonalLeague').default
+    seasonalLeague: require('./modules/seasonalLeague').default,
+    paymentGroups: require('./modules/paymentGroups').default,
   }
 })
 
