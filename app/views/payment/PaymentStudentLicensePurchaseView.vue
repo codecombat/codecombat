@@ -94,11 +94,16 @@ export default {
 				userId: me.get('_id'),
 				totalAmount: this.totalPrice
 			}
-			const session = await createPaymentSession(sessionOptions);
-			const sessionId = session.data.sessionId;
-			const result = await stripe.redirectToCheckout({ sessionId });
-			if (result.error) {
-				console.error('resErr', result.error);
+			try {
+				const session = await createPaymentSession(sessionOptions);
+				const sessionId = session.data.sessionId;
+				const result = await stripe.redirectToCheckout({ sessionId });
+				if (result.error) {
+					console.error('resErr', result.error);
+				}
+			} catch (err) {
+				this.errMsg = err.message;
+				console.error('paymentSession creation failed', err);
 			}
 		}
 	},
