@@ -502,6 +502,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     submit: "Submit"
     replay: "Replay"
     complete: "Complete"
+    pick_image: "Pick Image"
 
   general:
     and: "and"
@@ -1701,6 +1702,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ai_league_team_rankings: "AI League Team Rankings"
     view_standings: "View Standings"
     view_winners: "View Winners"
+    classroom_announcement: "Classroom Announcement"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
