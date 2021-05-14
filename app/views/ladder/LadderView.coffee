@@ -189,24 +189,10 @@ module.exports = class LadderView extends RootView
       @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
       @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
     else
-      # @removeSubView(@ladderTab)
-      # @removeSubView(@myMatchesTab)
-      tableTitles = [
-        {slug: 'rank', title: 'Rank'},
-        {slug: 'name', title: 'Name'}
-      ]
-      rankings = [
-        [1, 'Nick'],
-        [2, 'Tong']
-      ]
-      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId}, ))
-      console.log(@ladderTab)
-      @myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions)
-      console.log(@myMatchesTab)
+      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId}, @level, @sessions ))
       # @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions, @tournamentId))
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
-      console.log(@simulateTab)
     highLoad = true
     @refreshDelay = switch
       when not application.isProduction() then 10  # Refresh very quickly in develompent.

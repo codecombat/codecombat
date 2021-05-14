@@ -8,13 +8,7 @@ import utils from 'core/utils'
 export default Vue.extend({
   name: 'leaderboard-component',
   props: {
-    rankings: {
-      type: Array,
-      default() {
-        return []
-      }
-    },
-    scoreType: {
+   scoreType: {
       type: String,
       default: 'arena'
     },
@@ -72,7 +66,6 @@ export default Vue.extend({
     },
 
     getClanName (row) {
-      console.log(this.utils)
       const firstClan = (row.creatorClans || [])[0] || {}
       let name = firstClan.displayName || firstClan.name || ""
       if (!/a-z/.test(name))
