@@ -211,7 +211,6 @@
     "webpack-livereload-plugin": "github:codecombat/webpack-livereload-plugin#master",
     "worker-loader": "^1.1.1"
   },
-  "optionalDependencies": {},
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {

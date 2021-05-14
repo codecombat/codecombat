@@ -173,6 +173,8 @@ block content
                   if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
                     span.spl= view.ownerNameMap[classroom.get('ownerID')]
 
+                  if classroom.get('description')
+                    a.view-announcement-link(data-classroom-id=classroom.get('_id'), data-i18n="courses.classroom_announcement")
                 - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
                 for courseInstance in courseInstances
 
