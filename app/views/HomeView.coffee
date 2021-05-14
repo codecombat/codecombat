@@ -32,9 +32,19 @@ module.exports = class HomeView extends RootView
     'click .my-courses-btn': 'onClickTrackEvent'
     'click .try-ozaria': 'onClickTrackEvent'
     'click a': 'onClickAnchor'
+    # TODO: New modal for "get
+    'click .get-started-btn': 'onClickGetStarted'
 
   initialize: (options) ->
     super(options)
+
+    # NOTE: The [html] way does not work in this template for some reason?
+    # When fixed, use this for en.coffee:
+    # new_adventure_game_blurb: "Ozaria is our brand new adventure game and your turnkey solution for teaching Computer science. Our student-facing __slides__ and teacher-facing notes make planning and delivering lessons easier and faster."
+    #
+    # @i18nData = {
+    #   slides: "<a href='https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'>#{$.i18n.t('new_home.lesson_slides')}</a>"
+    # }
 
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetchReleased()
@@ -57,7 +67,6 @@ module.exports = class HomeView extends RootView
 
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
-    @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
     super()
 
   onClickRequestQuote: (e) ->
