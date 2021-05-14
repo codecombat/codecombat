@@ -70,6 +70,9 @@
 import _ from "lodash";
 import PaymentOnlineClassesParentDetailsComponent from "./PaymentOnlineClassesParentDetailsComponent";
 import PaymentOnlineClassesStudentDetailsComponent from "./PaymentOnlineClassesStudentDetailsComponent";
+import { getStripeLib } from '../../lib/stripeUtil';
+import { createPaymentSession } from '../../core/api/payment-session';
+
 export default {
 	name: "PaymentOnlineClassesPurchaseView",
 	components: {
@@ -173,9 +176,34 @@ export default {
 		updateStudentDetails(details) {
 			this.studentDetails = details;
 		},
-		onPurchaseNow(e) {
+		async onPurchaseNow(e) {
 			e.preventDefault();
-			console.log('clicked purchased now');
+			const stripe = await getStripeLib();
+			const stripePriceId = this.selectedPrice.id;
+			const onlineClassesDetails = {
+				purchaser: this.parentDetails,
+				students: this.studentDetails
+			};
+			const sessionOptions = {
+				stripePriceId,
+				paymentGroupId: this.paymentGroupId,
+				numberOfLicenses: this.licenseNum,
+				email: this.parentDetails.email,
+				userId: me.get('_id'),
+				totalAmount: this.totalPrice,
+				onlineClassesDetails
+			};
+			try {
+				const session = await createPaymentSession(sessionOptions);
+				const sessionId = session.data.sessionId;
+				const result = await stripe.redirectToCheckout({ sessionId });
+				if (result.error) {
+					console.error('resErr', result.error);
+				}
+			} catch (err) {
+				this.errMsg = err.message;
+				console.error('paymentSession creation failed', err);
+			}
 		}
 	}
 }
