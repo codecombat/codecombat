@@ -28,9 +28,14 @@ module.exports = class LeaderboardView extends CocoView
     # params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
     super options
     @tableTitles = [
+      {slug: 'language', col: 1, title: ''},
+      {slug: 'rank', col: 1, title: 'Rank'},
       {slug: 'name', col: 3, title: 'Name'},
-      {slug: 'wins', col: 3, title: 'Wins'},
-      {slug: 'losses', col: 3, title: 'Losses'}
+      {slug: 'wins', col: 1, title: 'Wins'},
+      {slug: 'losses', col: 1, title: 'Losses'},
+      {slug: 'clan', col: 3, title: 'Clan'},
+      {slug: 'age', col: 1, title: 'Age'},
+      {slug: 'country', col:1, title: '🏴‍☠️'}
     ]
     @rankings = []
     @dataObj = { rankings: @rankings }
@@ -42,7 +47,15 @@ module.exports = class LeaderboardView extends CocoView
     super()
     if @leaderboards
       @rankings = _.map @leaderboards.topPlayers.models, (model) =>
-        return [model.get('creatorName'), model.get('wins'), model.get('losses')]
+        return [
+          'cpp',
+          1,
+          (model.get('fullName') || model.get('creatorName') || $t("play.anonymouse")),
+          model.get('wins'),
+          model.get('losses'),
+          @getClanName(model),
+          5,
+        ]
 
     @afterRender()
     @
@@ -92,3 +105,15 @@ module.exports = class LeaderboardView extends CocoView
     @leaderboards = new LeaderboardData(@level, 'humans', teamSession, @ladderLimit, @league, @tournament)
     @leaderboardRes = @supermodel.addModelResource(@leaderboards, 'leaderboard', {cache: false}, 3)
     @leaderboardRes.load()
+
+
+  getClanName: (model) ->
+    firstClan = (model.get('creatorClans') ? [])[0] ? {}
+    name = firstClan.displayName ? firstClan.name ? ""
+    if (!/a-z/.test(name))
+      name = utils.titleize(name)  # Convert any all-uppercase clan names to title-case
+    name
+ 
+  getAgeBracket: (model) ->
+    $.i18n.t("ladder.bracket_#{(model.get('ageBracket') || 'open').replace(/-/g, '_')}")
+

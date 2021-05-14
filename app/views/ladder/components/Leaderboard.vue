@@ -65,14 +65,6 @@ export default Vue.extend({
       return (row.creatorClans || [])[0] || {}
     },
 
-    getClanName (row) {
-      const firstClan = (row.creatorClans || [])[0] || {}
-      let name = firstClan.displayName || firstClan.name || ""
-      if (!/a-z/.test(name))
-        name = utils.titleize(name)  // Convert any all-uppercase clan names to title-case
-      return name
-    },
-
     getAgeBracket (row) {
       return $.i18n.t(`ladder.bracket_${(row.ageBracket || 'open').replace(/-/g, '_')}`)
     },
@@ -123,13 +115,7 @@ export default Vue.extend({
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)
-            td(v-for="item, index in row" :key="'' + rank + index" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" v-html="item")
-
-            td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ row.fullName || row.creatorName || $t("play.anonymous") }}
-
-            td(colspan=4).clan-col-cell
-              a(:href="`/league/${getClan(row).slug || getClan(row)._id}`") {{ getClanName(row) }}
-            td {{ getAgeBracket(row) }}
+            td(v-for="item, index in row" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" v-html="index != 0 ? item: ''")
             td(:title="getCountryName(row)") {{ getCountry(row) }}
 </template>
 
