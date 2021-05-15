@@ -64,9 +64,6 @@ module.exports = class OptionsView extends CocoView
   updateMusic: ->
     me.set 'music', @$el.find('#option-music').prop('checked')
 
-  updateKeyBindings: ->
-    @aceConfig.keyBindings = @$el.find('#option-key-bindings').val()
-
   updateBehaviors: ->
     @aceConfig.behaviors = @$el.find('#option-behaviors').prop('checked')
 
