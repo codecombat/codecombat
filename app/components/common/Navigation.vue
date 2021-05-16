@@ -169,20 +169,20 @@
                   li
                     a.text-p(href="/events", data-i18n="nav.events", class='')
 
-                template(v-if="!me.showChinaResourceInfo()")
-                  ul.nav.navbar-nav(v-if="me.isAnonymous()")
-                    li.dropdown.dropdown-hover
-                      a.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
-                        span {{ $t('nav.educators') }}
-                        span.caret
-                      ul(class="dropdown-menu")
-                        li
-                          a.text-p(:href="ozPath('/')")
-                            span(:class="isOzaria && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                            span.new-pill {{ $t('nav.new') }}
-                        li
-                          a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
+                ul.nav.navbar-nav(v-if="me.isAnonymous()")
+                  li.dropdown.dropdown-hover
+                    a.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
+                      span {{ $t('nav.educators') }}
+                      span.caret
+                    ul(class="dropdown-menu")
+                      li
+                        a.text-p(:href="ozPath('/')")
+                          span(:class="isOzaria && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
+                          span.new-pill {{ $t('nav.new') }}
+                      li
+                        a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
 
+                template(v-if="!me.showChinaResourceInfo()")
                   li(v-if="!me.isStudent() && !me.isTeacher()")
                     a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
 

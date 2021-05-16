@@ -225,7 +225,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ozaria_dashboard: "奥佳睿班级"
     codecombat_dashboard: "扣哒世界班级"
 #    new: "New!"
-#    admin: "Admin"
+    admin: "管理员"
 
   modal:
     close: "关闭"
