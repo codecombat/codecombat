@@ -29,8 +29,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      # We can skip webpack since we will build it for testing-ubuntu
       - run: npm ci
+      # We can skip webpack since we will build it for testing-ubuntu
+      - run: npm run build
         env:
           SKIP_WEBPACK: true
       - run: npm run test-ubuntu
