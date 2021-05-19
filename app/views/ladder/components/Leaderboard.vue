@@ -137,6 +137,7 @@ export default Vue.extend({
 
 .ladder-table tr {
   font-size: 16px;
+  text-align: center;
 }
 .ladder-table tbody tr:hover td{
   background-color: #FFFFFF;
