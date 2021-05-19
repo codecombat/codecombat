@@ -554,7 +554,7 @@ export default {
       </div>
       <div class="row">
         <div class="col-sm-4 text-center">
-          <a href="https://respawnproducts.com/collections/chairs" target="_blank">
+          <a href="https://respawnproducts.com/products/respawn-110-racing-style-gaming-chair" target="_blank">
             <img src="/images/pages/league/respawn-logo.png" alt="RESPAWN company logo" class="responsive-img" style="max-width: 160px; margin-bottom: 64px;"/>
             <br />
             <img src="/images/pages/league/respawn-gaming-chair.png" alt="RESPAWN Gaming Chair" class="responsive-img" style="max-width: 525px; width: 100%"/>
