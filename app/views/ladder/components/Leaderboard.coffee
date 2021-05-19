@@ -50,7 +50,7 @@ module.exports = class LeaderboardView extends CocoView
         return [
           'cpp',
           1,
-          (model.get('fullName') || model.get('creatorName') || $t("play.anonymouse")),
+          (model.get('fullName') || model.get('creatorName') || $t("play.anonymous")),
           model.get('wins'),
           model.get('losses'),
           @getClanName(model),
@@ -116,4 +116,3 @@ module.exports = class LeaderboardView extends CocoView
  
   getAgeBracket: (model) ->
     $.i18n.t("ladder.bracket_#{(model.get('ageBracket') || 'open').replace(/-/g, '_')}")
-
