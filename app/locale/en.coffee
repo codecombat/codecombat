@@ -91,8 +91,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
     top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
-    top_banner_blurb_team_derbezt_link: "Join Team DerBezt in the CodeCombat AI League"
-    top_banner_blurb_team_derbezt_suffix: "to get the exclusive Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -503,6 +502,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     submit: "Submit"
     replay: "Replay"
     complete: "Complete"
+    pick_image: "Pick Image"
 
   general:
     and: "and"
@@ -1543,7 +1543,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     complete: "complete"
     practice: "practice"
     required: "required"
-    welcome_to_courses: "Adventurers, welcome to Courses!"
+    welcome_to_courses: "Adventurer, welcome to CodeCombat!"
     ready_to_play: "Ready to play?"
     start_new_game: "Start New Game"
     play_now_learn_header: "Play now to learn"
@@ -1551,13 +1551,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     play_now_learn_2: "while loops to solve pesky puzzles"
     play_now_learn_3: "strings & variables to customize actions"
     play_now_learn_4: "how to defeat an ogre (important life skills!)"
-    welcome_to_page: "My Student Dashboard"
     my_classes: "Current Classes"
     class_added: "Class successfully added!"
     view_map: "view map"
     view_videos: "view videos"
     view_project_gallery: "view my classmates' projects"
-    join_class: "Join A Class"
+    join_class: "Join a Class"
     join_class_2: "Join class"
     ask_teacher_for_code: "Ask your teacher if you have a CodeCombat class code! If so, enter it below:"
     enter_c_code: "<Enter Class Code>"
@@ -1579,12 +1578,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     keep_student: "Keep Student"
     removing_user: "Removing user"
     subtitle: "Review course overviews and levels" # Flat style redesign
-    changelog: "View latest changes to course levels."
     select_language: "Select language"
     select_level: "Select level"
     play_level: "Play Level"
     concepts_covered: "Concepts covered"
     view_guide_online: "Level Overviews and Solutions"
+    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Grants access to all Courses."
     enrollment_credits_available: "Licenses Available:"
     language_select: "Select a language" # ClassroomSettingsModal
@@ -1662,10 +1661,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     update_old_classroom_detail_2: "and giving students the new Class Code that appears."
     view_assessments: "View Assessments"
     view_challenges: "view challenge levels"
-    view_ranking: "view ranking"
-    ranking_position: "Position"
-    ranking_players: "Players"
-    ranking_completed_leves: "Completed levels"
     challenge: "Challenge:"
     challenge_level: "Challenge Level:"
     status: "Status:"
@@ -1699,6 +1694,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ask_next_course: "Want to play more? Ask your teacher for access to the next course."
     set_start_locked_level: "Lock levels starting at"
     no_level_limit: "-- (no levels locked)"
+    ask_teacher_to_unlock: "Ask Teacher To Unlock"
+    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen"
+    play_next_level: "Play Next Level"
+    play_tournament: "Play Tournament"
+    levels_completed: "Levels Completed: __count__"
+    ai_league_team_rankings: "AI League Team Rankings"
+    view_standings: "View Standings"
+    view_winners: "View Winners"
+    classroom_announcement: "Classroom Announcement"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -2377,11 +2381,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     wins: "Wins"  # At end of multiplayer match playback
     humans: "Red"  # Ladder page display team name
     ogres: "Blue"
-    live_tournament: "Live Tournament"
-    awaiting_tournament_title: "Tournament Inactive"
-    awaiting_tournament_blurb: "The tournament arena is not currently active."
     tournament_end_desc: "The tournament is over, thanks for playing"
     age: "Age"
+    age_bracket: "Age Bracket"
     bracket_0_11: "0-11"
     bracket_11_14: "11-14"
     bracket_14_18: "14-18"
@@ -3159,8 +3161,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     team: 'team'
     how_it_works1: 'Join a __team__'
     seasonal_arena_tooltip: 'Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season.'
-    seasonal_play_cta: 'Play __arenaName__ Multiplayer Arena'
-    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
     summary: 'The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.'
     join_now: 'Join Now'
     tagline: 'The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other.'
@@ -3198,6 +3198,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     championship_summary: 'The __championshipArena__ championship arena is now open! Battle it out for the month of __championshipMonth__ to win prizes in the __championshipArena__ __championshipType__.'
     play_arena_full: "Play __arenaName__ __arenaType__"
     play_arena_short: "Play __arenaName__"
+    view_arena_winners: "View __arenaName__ __arenaType__ winners"
     arena_type_championship: "Championship Arena"
     arena_type_regular: "Multiplayer Arena"
     blazing_battle: "Blazing Battle"
@@ -3216,6 +3217,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     season1_prize_2: "RESPAWN Gaming Chair"
     season1_prize_3: "Custom CodeCombat Avatar"
     season1_prize_4: "And more!"
+    season1_prize_hyperx: "HyperX Premium Peripherals"
+    codecombat_ai_league: 'CodeCombat AI League'
+    register: "Register"
+    not_registered: "Not Registered"
+    world: "World"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
@@ -3227,3 +3233,28 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_tournaments: "There is no tournament now"
     edit_tournament: "Edit Tournament"
     create_tournament: "Create a Tournament"
+
+  payments:
+    student_licenses: 'Student Licenses'
+    computer_science: 'Computer Science'
+    web_development: 'Web Development'
+    game_development: 'Game Development'
+    per_student: 'Per Student'
+    just: 'Just'
+    teachers_upto: 'Teacher can purchase upto'
+    great_courses: 'Great Courses included for'
+    studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students.'
+    failed: 'Your payment failed, please try again'
+    session_week_1: '1 session/week'
+    session_week_2: '2 session/week'
+    month_1: 'Monthly'
+    month_3: 'Quarterly'
+    month_6: 'Half-yearly'
+    year_1: 'Yearly'
+
+  form_validation_errors:
+    required: 'Field is required'
+    invalidEmail: 'Invalid email'
+    invalidPhone: 'Invalid phone number'
+    emailExists: 'Email already exists'
+    numberGreaterThanZero: 'Should be a number greater than 0'

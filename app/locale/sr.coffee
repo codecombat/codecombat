@@ -92,8 +92,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
-#    top_banner_blurb_team_derbezt_link: "Join Team DerBezt in the CodeCombat AI League"
-#    top_banner_blurb_team_derbezt_suffix: "to get the exclusive Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    try_the_game: "Try the game"
     classroom_edition: "Издање учионице:"
     learn_to_code: "Научи да кодираш:"
@@ -1544,7 +1543,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     complete: "завршено "
     practice: "вежба"
     required: "захтевано"
-    welcome_to_courses: "Авантуристи, добродошли у курсеве!"
+    welcome_to_courses: "Авантуристи, добродошли у курсеве!" # {change}
     ready_to_play: "Спреман да играш?"
     start_new_game: "Почни нову игру"
     play_now_learn_header: "Играј сада да научиш"
@@ -1552,7 +1551,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     play_now_learn_2: "петље да решиш заморне слагалице"
     play_now_learn_3: "стрингове и променљиве да подесиш акције"
     play_now_learn_4: "како да победиш џина људождера (важне животне вештине!)"
-    welcome_to_page: "Добродошао на твоју Курсеви страницу!" # {change}
     my_classes: "Моји разреди"
     class_added: "Разред успешно додат!"
 #    view_map: "view map"
@@ -1580,12 +1578,12 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     keep_student: "Задржи ученика"
     removing_user: "Уклањање корисника"
     subtitle: "Види преглед курса и нивое" # Flat style redesign
-    changelog: "Види најновије измене у нивоима курса. "
     select_language: "Изабери језик"
     select_level: "Изабери ниво"
     play_level: "Играј ниво"
     concepts_covered: "Концепти су покривени"
     view_guide_online: "Види водич на мрежи (PDF)" # {change}
+#    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Даје приступ свим курсевима."
     enrollment_credits_available: "Доступне лиценце:"
     language_select: "Изабери језик" # ClassroomSettingsModal
@@ -1663,10 +1661,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     update_old_classroom_detail_2: "и да ћеш дати ученицима нови код за час који се буде појавио."
     view_assessments: "Прегледај процене"
     view_challenges: "прегледај изазовне нивое"
-#    view_ranking: "view ranking"
-#    ranking_position: "Position"
-#    ranking_players: "Players"
-#    ranking_completed_leves: "Completed levels"
     challenge: "Изазов:"
     challenge_level: "Ниво изазова:"
     status: "Статус:"
@@ -1700,6 +1694,14 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
 #    set_start_locked_level: "Lock levels starting at"
 #    no_level_limit: "-- (no levels locked)"
+#    ask_teacher_to_unlock: "Ask Teacher To Unlock"
+#    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen"
+#    play_next_level: "Play Next Level"
+#    play_tournament: "Play Tournament"
+#    levels_completed: "Levels Completed: __count__"
+#    ai_league_team_rankings: "AI League Team Rankings"
+#    view_standings: "View Standings"
+#    view_winners: "View Winners"
 
   project_gallery:
     no_projects_published: "Буди први који ће објавити пројекат у овом курсу!"
@@ -2378,11 +2380,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     wins: "Победе " # At end of multiplayer match playback
     humans: "Црвено" # Ladder page display team name
     ogres: "Плато"
-#    live_tournament: "Live Tournament"
-#    awaiting_tournament_title: "Tournament Inactive"
-#    awaiting_tournament_blurb: "The tournament arena is not currently active."
 #    tournament_end_desc: "The tournament is over, thanks for playing"
 #    age: "Age"
+#    age_bracket: "Age Bracket"
 #    bracket_0_11: "0-11"
 #    bracket_11_14: "11-14"
 #    bracket_14_18: "14-18"
@@ -3160,8 +3160,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    team: "team"
 #    how_it_works1: "Join a __team__"
 #    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
-#    seasonal_play_cta: "Play __arenaName__ Multiplayer Arena"
-#    unlocked_seasonal_arena: "You've unlocked our multiplayer esports arena!"
 #    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
 #    join_now: "Join Now"
 #    tagline: "The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other."
@@ -3217,6 +3215,10 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    season1_prize_2: "RESPAWN Gaming Chair"
 #    season1_prize_3: "Custom CodeCombat Avatar"
 #    season1_prize_4: "And more!"
+#    codecombat_ai_league: "CodeCombat AI League"
+#    register: "Register"
+#    not_registered: "Not Registered"
+#    world: "World"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"

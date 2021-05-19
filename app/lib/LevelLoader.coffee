@@ -233,8 +233,8 @@ module.exports = class LevelLoader extends CocoClass
 
   loadDependenciesForSession: (session) ->
     console.debug "Loading dependencies for session: ", session if LOG
-    if me.id isnt session.get 'creator'
-      session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
+    if me.id isnt session.get('creator') or @spectateMode
+      session.patch = session.save = session.put = -> console.error "Not saving session, since we didn't create it."
     else if codeLanguage = utils.getQueryVariable 'codeLanguage'
       session.set 'codeLanguage', codeLanguage
     @worldNecessities = @worldNecessities.concat(@loadCodeLanguagesForSession session)
@@ -316,13 +316,16 @@ module.exports = class LevelLoader extends CocoClass
   addSessionBrowserInfo: (session) ->
     return unless me.id is session.get 'creator'
     return unless $.browser?
+    return if @spectateMode
+    return if session.fake
     browser = {}
     browser['desktop'] = $.browser.desktop if $.browser.desktop
     browser['name'] = $.browser.name if $.browser.name
     browser['platform'] = $.browser.platform if $.browser.platform
     browser['version'] = $.browser.version if $.browser.version
+    return if _.isEqual session.get('browser'), browser
     session.set 'browser', browser
-    session.patch() unless session.fake
+    session.patch()
 
   consolidateFlagHistory: ->
     state = @session.get('state') ? {}

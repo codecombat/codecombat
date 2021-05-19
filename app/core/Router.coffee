@@ -228,8 +228,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'seen': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
     'SEEN': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
-    'students/ranking/:courseID?:courseInstanceID': go('courses/StudentRankingView')
-
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
     'students/project-gallery/:courseInstanceID': go('courses/ProjectGalleryView')
@@ -275,6 +273,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
     'user/:userID/opt-in/:verificationCode': go('user/UserOptInView')
 
+    'payments/*path': go('core/SingletonAppVueComponentView')
+
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
 
@@ -289,7 +289,6 @@ module.exports = class CocoRouter extends Backbone.Router
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView
-
     @viewLoad = new ViewLoadTimer() unless options.recursive
     if options.redirectStudents and me.isStudent() and not me.isAdmin()
       return @redirectHome()

@@ -238,10 +238,19 @@ module.exports = class LadderView extends RootView
 
   onClickSimulateAllButton: (e) ->
     if @tournamentId
+      if key.shift
+        # TODO: make this configurable
+        options =
+          sessionLimit: 50000
+          matchLimit: 1e6
+          matchmakingType: 'king-of-the-hill'
+          minPlayerMatches: 20
+          topN: 10
+      else
+        options = sessionLimit: 500
       $.ajax
         url: "/db/tournament/#{@tournamentId}/end"
-        data:
-          sessionLimit: 500
+        data: options
         type: 'POST'
         success: (res) ->
           console.log res

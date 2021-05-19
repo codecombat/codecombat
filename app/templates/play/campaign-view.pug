@@ -26,9 +26,14 @@ if showGameDevAlert
     if view.shouldShow('league-arena')
       for arena in view.activeArenas()
         - var codePoints = (me.get('stats') || {}).codePoints
-        - var playArenaText = $.t('league.play_arena_short', {arenaName: $.t('league.' + arena.slug.replace('-', '_')), interpolation: {escapeValue: false}})
-        - var emphasisClass = codePoints > 100 ? 'btn-primary' : codePoints > 30 ? 'btn-danger' : ''
+        // TODO: change from play to view standings if new Date() > arena.end
+        - var playArenaText = $.t('league.play_arena_short', {arenaName: $.t('league.' + arena.slug.replace(/-/g, '_')), interpolation: {escapeValue: false}})
+        - var emphasisClass = me.level() >= 12 ? 'btn-primary' : me.level() >= 6 ? 'btn-danger' : ''
         a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#esports-arena(class=emphasisClass data-arena=arena.slug)= playArenaText
+
+    if view.shouldShow('amazon-campaign')
+      #amazon-campaign-container
+        img#amazon-campaign-logo(src="/images/pages/play/amazon_vert_lockup.png")
 
   if serverConfig.codeNinjas
     a(href="https://code.ninja")
@@ -54,10 +59,6 @@ if showGameDevAlert
         button#anon-classroom-signup-btn.btn.btn-sm.btn-navy(data-i18n="play.anon_signup_create_teacher")
 
   if campaign
-    if view.shouldShow('amazon-campaign')
-      #amazon-campaign-container
-        img#amazon-campaign-logo(src="/images/pages/play/amazon_vert_lockup.png")
-
     .map
       if features.brainPop && levelsCompleted && levelsCompleted === levelsTotal
         #brain-pop-done-banner-wrapper
@@ -189,7 +190,7 @@ if showGameDevAlert
             //- TODO: don't hard code that the user has completed the level.
             div(class="level-info rtl-allowed complete")
               .level-status.rtl-allowed(dir="auto")
-              h3(dir="ltr" data-i18n="league." + arena.slug.replace("-", "_"))
+              h3(dir="ltr" data-i18n="league." + arena.slug.replace(/-/g, '_'))
               .level-description.rtl-allowed(dir="auto")
                 p(data-i18n="league.seasonal_arena_tooltip")
               a.btn.btn-success.btn.btn-lg.btn-illustrated.start-esports(data-i18n="common.play" href="/play/ladder/" + arena.slug data-arena=arena.slug)
