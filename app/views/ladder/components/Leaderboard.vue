@@ -35,7 +35,7 @@ export default Vue.extend({
 
     computeClass (slug, item='') {
       if (slug == 'name') {
-        return {'name-col-cell': 1, ai: /(Bronze|Sliver|Gold|Platinum|Diamond) AI/.test(item)}
+        return {'name-col-cell': 1, ai: /(Bronze|Silver|Gold|Platinum|Diamond) AI/.test(item)}
       }
       if (slug == 'team') {
         return {capitalize: 1, 'clan-col-cell': 1}
