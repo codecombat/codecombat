@@ -17,7 +17,7 @@ else
             - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
             .form-group
               label.control-label(for="name", data-i18n="general.username")
-              input#name-input.form-control(name="name", type="text", value="#{name}")
+              input#name-input.form-control(name="name", type="text", value="#{name}", disabled=!(me.isAdmin() || (serverSession && serverSession.amActually)))
             .form-group
               label.control-label(for="email")
                 span(data-i18n="general.email")
