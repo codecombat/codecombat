@@ -9,9 +9,9 @@
 				<payment-online-classes-plans-view
 						:price-data="priceData"
 					/>
-				<div class="offer-view text-center">
-					<h3>OFFER: Get extra 15% off on purchase of sibling accounts</h3>
-					<p>Select for more than one student after clicking Buy Now to automatically get 15% discount</p>
+				<div v-if="getPercentageOff() > 0" class="offer-view text-center">
+					<h3>OFFER: Get extra {{this.getPercentageOff()}}% off on purchase of sibling accounts</h3>
+					<p>Select for more than one student after clicking Buy Now to automatically get {{this.getPercentageOff()}}% discount</p>
 				</div>
 			</div>
 		</div>
@@ -19,7 +19,7 @@
 			<button type="button" class="btn btn-success btn-buy-now" @click="enablePurchaseView">Buy Now</button>
 			<div class="info-view">
 				<p>*All plans are automatically renewed at the same level and billing cycle unless otherwise changed or cancelled.</p>
-				<p>**Your purchase is 100% risk free within the first 30 days. If for any reason you decide not to continue, simply <a>Contact Us</a> within 30 days of purchase and we will promptly refund 100% of your payment, no questions asked.</p>
+				<p>**Your purchase is 100% risk free within the first 30 days. If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">Contact Us</a> within 30 days of purchase and we will promptly refund 100% of your payment, no questions asked.</p>
 			</div>
 		</div>
 		<payment-online-classes-purchase-view
@@ -57,6 +57,11 @@ export default {
 	methods: {
 		enablePurchaseView() {
 			this.showPurchaseView = true;
+		},
+		getPercentageOff() {
+			const tiers = [...this.priceData[0].tiers]
+			tiers.sort((a, b) => b - a)
+			return Math.round(((tiers[0].unit_amount - tiers[1].unit_amount) / tiers[0].unit_amount) * 100)
 		}
 	}
 }
