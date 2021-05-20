@@ -65,10 +65,10 @@ translatejs2cpp = (jsCode, fullCode=true) ->
     jsCodes[i] = jsCodes[i].replace /\ new /g, ' *new '
     jsCodes[i] = jsCodes[i].replace /\ !== /g, ' != '
     jsCodes[i] = jsCodes[i].replace /\ var /g, ' auto '
-    jsCodes[i] = jsCodes[i].replace /\ = \[(.*)\]/g, ' = {$1}'
+    jsCodes[i] = jsCodes[i].replace /\ = \[([^;]*)\];/g, ' = {$1};'
     jsCodes[i] = jsCodes[i].replace /\(var /g, '(auto '
     jsCodes[i] = jsCodes[i].replace /\nvar /g, '\nauto '
-    jsCodes[i] = jsCodes[i].replace /\ return \[(.*)\]/g, ' return {$1}'
+    jsCodes[i] = jsCodes[i].replace /\ return \[([^;]*)\];/g, ' return {$1};'
     # Don't substitute these within comments
     noComment = '^ *([^/\\r\\n]*?)'
     quotesReg = new RegExp(noComment + "'(.*?)'", 'gm')
