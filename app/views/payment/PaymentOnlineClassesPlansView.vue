@@ -38,7 +38,6 @@ export default {
 	computed: {
 		getColumns() {
 			const colKeys = _.uniq(this.priceData.map((price) => price.metadata.groupKey)).sort()
-			console.log(colKeys)
 			return ['#', ...colKeys];
 		},
 		getRows() {
