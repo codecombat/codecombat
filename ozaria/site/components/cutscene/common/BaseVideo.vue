@@ -1,7 +1,7 @@
 <script>
-const Plyr = require('plyr')
+const Plyr = require('vendor/scripts/plyr')
 const VimeoPlayer = require('@vimeo/player').default
-import 'plyr/dist/plyr.css'
+import 'vendor/styles/plyr.css'
 import BaseModal from 'ozaria/site/components/common/BaseModal'
 import { cutsceneEvent } from './cutsceneUtil'
 
