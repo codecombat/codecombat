@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.15.1]
+        node-version: [10.24.0]
 
     steps:
       - uses: actions/checkout@v2
@@ -33,4 +33,5 @@ jobs:
       - run: npm ci
         env:
           SKIP_WEBPACK: true
+      - run: npm run build
       - run: npm run test-ubuntu
