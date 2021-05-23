@@ -193,7 +193,7 @@ export default {
       commit('toggleLoadingForTeacher', teacherId)
 
       return classroomsApi.fetchByOwner(teacherId, {
-        project: project || ['_id', 'name', 'slug', 'members', 'deletedMembers', 'ownerID', 'code', 'codeCamel', 'aceConfig', 'archived', 'googleClassroomId', 'settings', 'studentLockMap', 'courses._id', 'courses.levels', 'courses.levels.original']
+        project: project || ['_id', 'name', 'slug', 'members', 'deletedMembers', 'ownerID', 'code', 'codeCamel', 'aceConfig', 'archived', 'googleClassroomId', 'settings', 'studentLockMap', 'courses._id', 'courses.levels']
       })
         .then(res =>  {
           if (res) {
