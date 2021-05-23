@@ -235,7 +235,6 @@ module.exports = class CocoRouter extends Backbone.Router
       @navigate("play/game-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
     # 'play/web-dev-level/:levelID/:sessionID': (levelID, sessionID, queryString) ->
     #   @navigate("play/web-dev-level/#{sessionID}?#{queryString}", { trigger: true, replace: true })
-    # 'play/spectate/:levelID': go('play/SpectateView')
     # 'play/:map': go('play/CampaignView')
 
     # These are admin-only routes since they are only used internally for testing -> interactive/, cinematic/, cutscene/, ozaria/avatar-selector
@@ -260,9 +259,6 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'ozaria/avatar-selector': () ->
       @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' }) if me.isAdmin()
-
-    'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
-    'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
 
     'preview': go('HomeView')
 
