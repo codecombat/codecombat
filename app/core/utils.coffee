@@ -875,7 +875,7 @@ yearsSinceMonth = (start) ->
   return undefined unless start
   # Should probably review this logic, written quickly and haven't tested any edge cases
   if _.isString start
-    return undefined unless /\d{4}-\d{2}(-\d{2})?/.test start
+    return undefined unless /^\d{4}-\d{2}(-\d{2})?$/.test start
     if start.length is 7
       start = start + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
     start = new Date(start)
@@ -883,19 +883,83 @@ yearsSinceMonth = (start) ->
   now = new Date()
   now.getFullYear() - start.getFullYear() + (now.getMonth() - start.getMonth()) / 12
 
+daysBetween = (date1, date2) ->
+  differenceInTime = date1.getTime() - date2.getTime()
+  differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24))
+  return differenceInDays
+
 # Keep in sync with the copy in background-processor
 ageBrackets = [
-  {slug: '0-11', max: 11.33}
-  {slug: '11-14', max: 14.33}
-  {slug: '14-18', max: 18.99}
+  {slug: '0-11', max: 4140 / 365.5}
+  {slug: '11-14', max: 5236 / 365.5}
+  {slug: '14-18', max: 6940 / 365.5}
   {slug: 'open', max: 9001}
 ]
 
+seasons = [
+  {
+    name: 'Season 1',
+    start:'01-01',
+    end: '04-30',
+    ageBrackets: [
+      {slug: '0-11', max: 4140 / 365.5}
+      {slug: '11-14', max: 5236 / 365.5}
+      {slug: '14-18', max: 6940 / 365.5}
+      {slug: 'open', max: 9001}
+    ]
+  }
+  {
+    name: 'Season 2',
+    start:'05-01',
+    end: '08-31',
+    ageBrackets: [
+      {slug: '0-11', max: 4260 / 365.5}
+      {slug: '11-14', max: 5356 / 365.5}
+      {slug: '14-18', max: 6940 / 365.5}
+      {slug: 'open', max: 9001}
+    ]
+  }
+  {
+    name: 'Season 3',
+    start:'09-01',
+    end: '12-31',
+    ageBrackets: [
+      {slug: '0-11', max: 4018 / 365.5}
+      {slug: '11-14', max: 5114 / 365.5}
+      {slug: '14-18', max: 6940 / 365.5}
+      {slug: 'open', max: 9001}
+    ]
+  }
+]
+
+currentSeason = () ->
+  now = new Date()
+  year = now.getFullYear()
+  return seasons.find((season) -> now <= new Date("#{year}-#{season.end}"))
+
+isInBracket = (age,bracket,season) ->
+  age = Math.round(age * 365.5)
+  bracketMax = bracket.max * 365.5
+  now = new Date()
+  seasonStart = new Date("#{now.getFullYear()}-#{season.start}")
+  seasonEnd = new Date("#{now.getFullYear()}-#{season.end}")
+  daysLeftFromSeason = daysBetween(now, seasonEnd) * -1
+  daysElapsedFromSeason = daysBetween(now, seasonStart)
+
+  seasonLength = daysLeftFromSeason + daysElapsedFromSeason
+  daysOlderThanBracketMax = age - bracketMax
+
+  willAgeIn = daysOlderThanBracketMax < seasonLength
+  notAgedIn = daysOlderThanBracketMax > daysElapsedFromSeason
+
+  return age < bracketMax || ( willAgeIn && notAgedIn)
+
 ageToBracket = (age) ->
-  # Convert years to an age bracket
+# Convert years to an age bracket
   return 'open' unless age
-  for bracket in ageBrackets
-    if age < bracket.max
+  season = currentSeason()
+  for bracket in season.ageBrackets
+    if isInBracket(age,bracket,season)
       return bracket.slug
   return 'open'
 
@@ -948,6 +1012,7 @@ module.exports = {
   courseLessonSlidesURLs
   CSCourseIDs
   createLevelNumberMap
+  daysBetween
   extractPlayerCodeTag
   filterMarkdownCodeLanguages
   findNextAssessmentForLevel
