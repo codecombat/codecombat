@@ -3,23 +3,22 @@
 		<div class="container-fluid">
 			<div class="container">
 				<div class="text-center header">
-					<h2>Live Online Coding Classes Plans</h2>
-					<h4>Invest in your child's future while they have fun</h4>
+					<h2>LIVE ONLINE CODING CLASSES PLANS & PAYMENT OPTIONS</h2>
+					<h4>Your subscription purchase is risk-free within the first 30 days!</h4>
 				</div>
 				<payment-online-classes-plans-view
 						:price-data="priceData"
 					/>
 				<div v-if="getPercentageOff() > 0" class="offer-view text-center">
-					<h3>OFFER: Get extra {{this.getPercentageOff()}}% off on purchase of sibling accounts</h3>
-					<p>Select for more than one student after clicking Buy Now to automatically get {{this.getPercentageOff()}}% discount</p>
+					<h3>OFFER: Get an extra {{this.getPercentageOff()}}% off on purchase of sibling accounts</h3>
+					<p>Applied at checkout automatically when selecting more than one student</p>
 				</div>
 			</div>
 		</div>
 		<div class="buy-now-view text-center">
 			<button type="button" class="btn btn-success btn-buy-now" @click="enablePurchaseView">Buy Now</button>
 			<div class="info-view">
-				<p>*All plans are automatically renewed at the same level and billing cycle unless otherwise changed or cancelled.</p>
-				<p>**Your purchase is 100% risk free within the first 30 days. If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">Contact Us</a> within 30 days of purchase and we will promptly refund 100% of your payment, no questions asked.</p>
+				<p>If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">Contact Us</a> within 30 days of purchase and we will promptly refund 100% of your payment, no questions asked. All plans are automatically renewed at the same level and billing cycle unless otherwise changed or cancelled.</p>
 			</div>
 		</div>
 		<payment-online-classes-purchase-view
@@ -85,7 +84,7 @@ export default {
 	padding-top: 10px;
 
 	.info-view {
-		padding-top: 5px;
+		padding-top: 15px;
 		padding-left: 20%;
 		padding-right: 20%;
 		font-size: small;
@@ -93,6 +92,7 @@ export default {
 
 		p {
 			margin: 0;
+			line-height: 150%;
 		}
 	}
 
