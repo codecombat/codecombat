@@ -11,7 +11,7 @@
 					/>
 				<div v-if="getPercentageOff() > 0" class="offer-view text-center">
 					<h3>OFFER: Get an extra {{this.getPercentageOff()}}% off on purchase of sibling accounts</h3>
-					<p>Applied at checkout automatically when selecting more than one student</p>
+					<p class="auto-text">Applied at checkout automatically when selecting more than one student</p>
 				</div>
 			</div>
 		</div>
@@ -100,5 +100,8 @@ export default {
 		padding: 15px 25px;
 		font-size: 25px;
 	}
+}
+.auto-text {
+	font-size: small;
 }
 </style>

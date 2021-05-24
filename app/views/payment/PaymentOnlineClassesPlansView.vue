@@ -18,7 +18,18 @@
 						</div>
 						<div class="price-box" v-else>
 							<p class="display-price price">{{getDisplayPrice(elem)}}</p>
-							<p class="comparing-price price" v-if="getComparingPrice(elem, index)">{{getComparingPrice(elem, index)}}</p>
+							<p
+								class="comparing-price price"
+								v-if="getComparingPrice(elem, index)"
+							>
+								{{getComparingPrice(elem, index)}}
+							</p>
+							<p
+								class="sub-label"
+								v-if="elem.metadata.subLabel"
+							>
+								{{getI18n(elem.metadata.subLabel)}}
+							</p>
 						</div>
 					</td>
 				</tr>
@@ -165,17 +176,22 @@ th {
 	margin: 2% 32% 2% 32%;
 	padding: 3%;
 	text-align: center;
+	background-color: white;
 }
 p {
 	margin: 0;
 }
 .data-row {
 	padding: 1px;
+	background-color: floralwhite;
 }
 .percent-off {
 	color: goldenrod;
 }
 .recurring-interval {
 	font-size: small;
+}
+.sub-label {
+	color: goldenrod;
 }
 </style>

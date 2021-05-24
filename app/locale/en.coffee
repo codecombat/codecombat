@@ -3250,6 +3250,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     month_3: 'Quarterly'
     month_6: 'Half-yearly'
     year_1: 'Yearly'
+    most_popular: 'Most Popular'
+    best_value: 'Best Value'
 
     recurring:
       month_1: 'Recurring billing every month'
