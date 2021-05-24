@@ -175,9 +175,10 @@ module.exports = class TeacherClassesView extends RootView
       el: @$('.try-ozaria')[0]
     })
 
-    @bannerWebinar = new BannerWebinar({
-      el: @$('.banner-webinar')[0]
-    })
+    if not me.showChinaResourceInfo()
+      @bannerWebinar = new BannerWebinar({
+        el: @$('.banner-webinar')[0]
+      })
 
     $('.progress-dot').each (i, el) ->
       dot = $(el)
