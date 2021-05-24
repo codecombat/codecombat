@@ -10,6 +10,7 @@ storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 EducatorSignupOzariaEncouragementModal = require('app/views/teachers/EducatorSignupOzariaEncouragementModal').default
+GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').default
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -32,7 +33,6 @@ module.exports = class HomeView extends RootView
     'click .my-courses-btn': 'onClickTrackEvent'
     'click .try-ozaria': 'onClickTrackEvent'
     'click a': 'onClickAnchor'
-    # TODO: New modal for "get
     'click .get-started-btn': 'onClickGetStarted'
 
   initialize: (options) ->
@@ -114,10 +114,13 @@ module.exports = class HomeView extends RootView
       }
     })
 
-  cleanupEncouragementModal: ->
+  cleanupModals: ->
     if @ozariaEncouragementModal
       @ozariaEncouragementModal.$destroy()
       @ozariaEncouragementModalContainer.remove()
+    if @getStartedSignupContainer
+      @getStartedSignupContainer.$destroy()
+      @getStartedSignupModal.remove()
 
   onClickTrackEvent: (e) ->
     if $(e.target)?.hasClass('track-ab-result')
@@ -157,6 +160,17 @@ module.exports = class HomeView extends RootView
         clicked: e?.currentTarget?.host or "unknown"
       })
       @homePageEvent("Link:", properties, ['Google Analytics'])
+
+  onClickGetStarted: (e) ->
+    # TODO: Add event tracking here
+    # @homePageEvent($(e.target).data('event-action'))
+    if @getStartedSignupContainer
+      @getStartedSignupContainer.remove()
+
+    @getStartedSignupContainer = document.createElement('div')
+    document.body.appendChild(@getStartedSignupContainer)
+
+    @getStartedSignupModal = new GetStartedSignupModal({ el: @getStartedSignupContainer })
 
   onCarouselDirectMove: (selector, frameNum) ->
     $(selector).carousel(frameNum)
