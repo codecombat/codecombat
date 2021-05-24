@@ -9,8 +9,8 @@
 				<payment-online-classes-plans-view
 						:price-data="priceData"
 					/>
-				<div v-if="getPercentageOff() > 0" class="offer-view text-center">
-					<h3>OFFER: Get an extra {{this.getPercentageOff()}}% off on purchase of sibling accounts</h3>
+				<div v-if="getSiblingPercentageOff() > 0" class="offer-view text-center">
+					<h3>Get an extra {{ this.getSiblingPercentageOff() }}% off on purchase of sibling accounts</h3>
 					<p class="auto-text">Applied at checkout automatically when selecting more than one student</p>
 				</div>
 			</div>
@@ -25,6 +25,7 @@
 			v-if="showPurchaseView"
 			:price-data="priceData"
 			:payment-group-id="paymentGroupId"
+			:sibling-percentage-off="getSiblingPercentageOff()"
 		/>
 	</div>
 </template>
@@ -57,7 +58,7 @@ export default {
 		enablePurchaseView() {
 			this.showPurchaseView = true;
 		},
-		getPercentageOff() {
+		getSiblingPercentageOff() {
 			const tiers = [...this.priceData[0].tiers]
 			tiers.sort((a, b) => b - a)
 			return Math.round(((tiers[0].unit_amount - tiers[1].unit_amount) / tiers[0].unit_amount) * 100)
