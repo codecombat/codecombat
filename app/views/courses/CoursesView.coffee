@@ -6,6 +6,7 @@ CreateAccountModal = require 'views/core/CreateAccountModal'
 ChangeCourseLanguageModal = require 'views/courses/ChangeCourseLanguageModal'
 HeroSelectModal = require 'views/courses/HeroSelectModal'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
+ClassroomAnnouncementModal = require 'views/courses/ClassroomAnnouncementModal'
 JoinClassModal = require 'views/courses/JoinClassModal'
 CourseInstance = require 'models/CourseInstance'
 CocoCollection = require 'collections/CocoCollection'
@@ -43,6 +44,7 @@ module.exports = class CoursesView extends RootView
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
     'click .view-challenges-link': 'onClickViewChallengesLink'
     'click .view-videos-link': 'onClickViewVideosLink'
+    'click .view-announcement-link': 'onClickAnnouncementLink'
 
   getMeta: ->
     return {
@@ -423,6 +425,12 @@ module.exports = class CoursesView extends RootView
     courseName = $(e.target).data('course-name')
     window.tracker?.trackEvent 'Students View To Videos View', category: 'Students', courseID: courseID, classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/students/videos/#{courseID}/#{courseName}", { trigger: true })
+
+  onClickAnnouncementLink: (e) ->
+    classroomId = $(e.target).data('classroom-id')
+    classroom = _.find @classrooms.models, { 'id': classroomId }
+    modal = new ClassroomAnnouncementModal({ announcement: classroom.get('description')})
+    @openModalView modal
 
   nextLevelImage: ->
     # Prioritize first by level-specific, then course-specific and hero-specific together

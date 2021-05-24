@@ -29,7 +29,7 @@
 			<div class="middle-section">
 				<h3>{{$t('payments.just')}} {{this.getCurrency()}}{{this.getUnitPrice()}} {{$t('payments.per_student')}}</h3>
 				<ul class="information">
-					<li class="light-text">Upto {{this.licenseCap}} student licenses, <a href="#" @click="this.enableContactModal">Contact Us</a> to purchase more</li>
+					<li class="light-text">Up to {{this.licenseCap}} student licenses, <a href="#" @click="this.enableContactModal">Contact Us</a> to purchase more</li>
 					<li class="light-text">Licenses are active for {{this.licenseValidityPeriodInDays}} days from the day of purchase</li>
 					<li class="light-text">Teacher account licenses are free with purchase</li>
 				</ul>

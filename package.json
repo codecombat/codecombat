@@ -32,6 +32,7 @@
   "scripts": {
     "start": "node ./index.js",
     "test": "COCO_TRAVIS_TEST=1 npm run webpack && ./node_modules/.bin/karma start --single-run --reporters dots",
+    "test-ubuntu": "(Xvfb :99 &) && COCO_TRAVIS_TEST=1 npm run webpack && DISPLAY=:99.0 ./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters dots",
     "test-china": "COCO_CHINA_INFRASTRUCTURE=true npm run test",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
@@ -211,7 +212,6 @@
     "webpack-livereload-plugin": "github:codecombat/webpack-livereload-plugin#master",
     "worker-loader": "^1.1.1"
   },
-  "optionalDependencies": {},
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {

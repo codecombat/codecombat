@@ -520,6 +520,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     submit: "Submit"
     replay: "Replay"
     complete: "Complete"
+    pick_image: "Pick Image"
 
   general:
     and: "and"
@@ -1719,6 +1720,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ai_league_team_rankings: "AI League Team Rankings"
     view_standings: "View Standings"
     view_winners: "View Winners"
+    classroom_announcement: "Classroom Announcement"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -3214,6 +3216,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     championship_summary: 'The __championshipArena__ championship arena is now open! Battle it out for the month of __championshipMonth__ to win prizes in the __championshipArena__ __championshipType__.'
     play_arena_full: "Play __arenaName__ __arenaType__"
     play_arena_short: "Play __arenaName__"
+    view_arena_winners: "View __arenaName__ __arenaType__ winners"
     arena_type_championship: "Championship Arena"
     arena_type_regular: "Multiplayer Arena"
     blazing_battle: "Blazing Battle"
@@ -3232,6 +3235,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     season1_prize_2: "RESPAWN Gaming Chair"
     season1_prize_3: "Custom CodeCombat Avatar"
     season1_prize_4: "And more!"
+    season1_prize_hyperx: "HyperX Premium Peripherals"
     codecombat_ai_league: 'CodeCombat AI League'
     register: "Register"
     not_registered: "Not Registered"
