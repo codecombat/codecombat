@@ -3251,6 +3251,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     month_6: 'Half-yearly'
     year_1: 'Yearly'
 
+    recurring:
+      month_1: 'Recurring billing every month'
+      month_3: 'Recurring billing every 3 months'
+      month_6: 'Recurring billing every 6 months'
+      year_1: 'Recurring billing every year'
+
   form_validation_errors:
     required: 'Field is required'
     invalidEmail: 'Invalid email'
