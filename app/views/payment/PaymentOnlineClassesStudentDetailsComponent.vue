@@ -18,6 +18,7 @@
 			<div class="form-group">
 				<label :for="`student-email-${index}`">Email</label>
 				<input type="text" class="form-control" :id="`student-email-${index}`" placeholder="Enter Email" @keydown="updateEmail($event, index)" @keyup="updateEmail($event, index)" />
+				<div class="small-tip">*Enter student's CodeCombat account email if they have an account on CodeCombat</div>
 			</div>
 		</div>
 		<p class="error">{{errorMsg}}</p>
@@ -103,5 +104,9 @@ export default {
 }
 .required-field {
 	color: red;
+}
+.small-tip {
+	font-size: x-small;
+	color: grey;
 }
 </style>

@@ -37,6 +37,8 @@
 			<input type="text" class="form-control" id="licenseNum" @keydown="updateLicenseNum" @keyup="updateLicenseNum">
 			<div class="price-info-view">
 				<p v-if="licenseNum && !errMsg" class="total-price">Total price: {{selectedCurrency}}{{totalPrice}}</p>
+				<p class="selected-price-text" v-if="getSelectedUnitPriceAmount && licenseNum">Selected product with price: {{selectedCurrency}}{{getSelectedUnitPriceAmount}}</p>
+				<p class="sibling-discount-text" v-if="getSiblingPercentageText">{{getSiblingPercentageText}} Price Without Sibling Discount: {{selectedCurrency}}{{getPriceWithoutSiblingDiscount}}</p>
 				<p class="error">{{errMsg}}</p>
 			</div>
 		</div>
@@ -70,6 +72,9 @@
 import _ from "lodash";
 import PaymentOnlineClassesParentDetailsComponent from "./PaymentOnlineClassesParentDetailsComponent";
 import PaymentOnlineClassesStudentDetailsComponent from "./PaymentOnlineClassesStudentDetailsComponent";
+import { getStripeLib } from '../../lib/stripeUtil';
+import { createPaymentSession } from '../../core/api/payment-session';
+
 export default {
 	name: "PaymentOnlineClassesPurchaseView",
 	components: {
@@ -85,6 +90,9 @@ export default {
 			type: String,
 			required: true,
 		},
+		siblingPercentageOff: {
+			type: Number,
+		}
 	},
 	data () {
 		return {
@@ -108,6 +116,13 @@ export default {
 			return intervals;
 		},
 		totalPrice() {
+			const selectedTier = this.getSelectedTier
+			return (this.licenseNum * (selectedTier.unit_amount / 100)).toFixed(2);
+		},
+		getSelectedUnitPriceAmount() {
+			return this.getSingleUnitPriceTier.unit_amount / 100;
+		},
+		getSelectedTier() {
 			const price = this.selectedPrice;
 			const tiers = price.tiers;
 			const reverseTiers = [...tiers].reverse();
@@ -119,7 +134,17 @@ export default {
 					selectedTier = tier;
 				}
 			})
-			return (this.licenseNum * (selectedTier.unit_amount / 100)).toFixed(2);
+			return selectedTier
+		},
+		getPriceWithoutSiblingDiscount() {
+			const tier = this.getSingleUnitPriceTier
+			if (tier) {
+				return (this.licenseNum * (tier.unit_amount / 100)).toFixed(2);
+			}
+		},
+		getSingleUnitPriceTier() {
+			const price = this.selectedPrice;
+			return price.tiers.find((tier) => tier.up_to === 1);
 		},
 		selectedCurrency() {
 			const price = this.selectedPrice;
@@ -134,6 +159,11 @@ export default {
 		isDataValid() {
 			return this.licenseNum > 0 && this.parentDetails && this.studentDetails && !this.errMsg;
 		},
+		getSiblingPercentageText() {
+			if (this.licenseNum > 1 && this.siblingPercentageOff > 0) {
+				return `EXTRA ${this.siblingPercentageOff}% OFF APPLIED!!`
+			}
+		}
 	},
 	methods: {
 		getI18n(key) {
@@ -173,9 +203,34 @@ export default {
 		updateStudentDetails(details) {
 			this.studentDetails = details;
 		},
-		onPurchaseNow(e) {
+		async onPurchaseNow(e) {
 			e.preventDefault();
-			console.log('clicked purchased now');
+			const stripe = await getStripeLib();
+			const stripePriceId = this.selectedPrice.id;
+			const onlineClassesDetails = {
+				purchaser: this.parentDetails,
+				students: this.studentDetails
+			};
+			const sessionOptions = {
+				stripePriceId,
+				paymentGroupId: this.paymentGroupId,
+				numberOfLicenses: this.licenseNum,
+				email: this.parentDetails.email,
+				userId: me.get('_id'),
+				totalAmount: this.totalPrice,
+				onlineClassesDetails
+			};
+			try {
+				const session = await createPaymentSession(sessionOptions);
+				const sessionId = session.data.sessionId;
+				const result = await stripe.redirectToCheckout({ sessionId });
+				if (result.error) {
+					console.error('resErr', result.error);
+				}
+			} catch (err) {
+				this.errMsg = err.message;
+				console.error('paymentSession creation failed', err);
+			}
 		}
 	}
 }
@@ -192,5 +247,19 @@ export default {
 }
 .price-info-view {
 	padding-top: 5px;
+}
+p {
+	margin: 0;
+}
+.sibling-discount-text {
+	color: limegreen;
+	font-size: small;
+}
+.selected-price-text {
+	color: darkgrey;
+	font-size: small;
+}
+.total-price {
+	font-weight: bold;
 }
 </style>
