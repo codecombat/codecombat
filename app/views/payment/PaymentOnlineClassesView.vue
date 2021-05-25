@@ -4,7 +4,7 @@
 			<div class="container">
 				<div class="text-center header">
 					<h2>LIVE ONLINE CODING CLASSES PLANS & PAYMENT OPTIONS</h2>
-					<h4>Your subscription purchase is risk-free within the first 30 days!</h4>
+					<h4>Your subscription purchase is <u>100% risk-free</u> within the first 30 days!</h4>
 				</div>
 				<payment-online-classes-plans-view
 						:price-data="priceData"
