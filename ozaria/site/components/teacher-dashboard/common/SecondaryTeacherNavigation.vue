@@ -30,6 +30,10 @@
         return this.$route.path.startsWith('/teachers/resources')
       },
 
+      pdSelected () {
+        return this.$route.path.startsWith('/teachers/professional-development')
+      },
+
       // Check for the "All Classes" dropdown menu button in the classesTab.
       allClassesSelected () {
         return this.$route.path === '/teachers' || this.$route.path === '/teachers/classes'
@@ -170,6 +174,13 @@
         {{ $t('teacher_dashboard.resource_hub') }}
       </router-link>
     </li>
+    <li>
+      <router-link to="/teachers/professional-development" id="PDAnchor" :class="{ 'current-route': pdSelected }" @click.native="trackEvent" data-action="PD: Nav Clicked">
+        <div id="IconPD" />
+        <div id="IconNew">New!</div>
+        {{ $t('teacher_dashboard.pd_short') }}
+      </router-link>
+    </li>
   </ul>
 </template>
 
@@ -213,17 +224,42 @@
   }
 }
 
+#PDAnchor:hover, #PDAnchor.current-route {
+  #IconPD {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_Blue.svg);
+  }
+}
+
 #IconLicense {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense.svg);
   margin-top: -2px;
 }
 
-#IconResourceHub{
+#IconResourceHub {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_White.svg);
   margin-top: -3px;
 }
 
-#IconCapstone, #IconMyClasses, #IconLicense, #IconResourceHub {
+#IconPD {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_White.svg);
+  margin-top: -3px;
+}
+
+#IconNew {
+  height: 32px;
+  width: 32px;
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  border-radius: 32px;
+  background-color: #e83027;
+  color: white;
+  font-size: 12px;
+  transform: rotate(-20deg);
+  text-transform: capitalize;
+}
+
+#IconCapstone, #IconMyClasses, #IconLicense, #IconResourceHub, #IconPD {
   height: 23px;
   width: 23px;
   display: inline-block;

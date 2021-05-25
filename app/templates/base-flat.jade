@@ -43,7 +43,8 @@
                         li
                           a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                       li
-                        a(href="/about", data-i18n="nav.about", data-event-action="Click: Footer About")
+                        - var aboutURL = me.showChinaResourceInfo() ? 'https://koudashijie.com/about' : 'https://codecombat.com/about';
+                        a(href=aboutURL, data-i18n="nav.about", data-event-action="Click: Footer About")
                       li
                         - var faqURL = "/teachers/resources/faq";
                         - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')

@@ -1,6 +1,7 @@
 <script>
   import ModalDivider from './ModalDivider'
   import Modal from './Modal'
+  const zendesk = require('core/services/zendesk')
 
   export default Vue.extend({
     components: {
@@ -43,19 +44,21 @@
         }
       },
       clickedEmail () {
-        try {
-          zE('webWidget', 'prefill', {
-            email: {
-              value: me.get('email')
-            }
-          })
-          zE('webWidget', 'open')
-          zE('webWidget', 'show')
-          this.programaticallyClose()
-        } catch (e) {
-          this.showError(e)
-          this.zendeskError = true
-        }
+        zendesk.loadZendesk().then(() => {
+          try {
+            zE('webWidget', 'prefill', {
+              email: {
+                value: me.get('email')
+              }
+            })
+            zE('webWidget', 'open')
+            zE('webWidget', 'show')
+            this.programaticallyClose()
+          } catch (e) {
+            this.showError(e)
+            this.zendeskError = true
+          }
+        })
       }
     }
   })

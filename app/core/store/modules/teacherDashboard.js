@@ -181,6 +181,9 @@ export default {
         } else if (componentName === COMPONENT_NAMES.RESOURCE_HUB) {
           // Resource Hub page
           dispatch('fetchDataResourceHubAsync', options) // does not block loading indicator
+        } else if (componentName === COMPONENT_NAMES.PD) {
+          // PD page
+          await dispatch('fetchDataPDAsync', options)
         }
       } catch (err) {
         console.error('Error in fetching data:', err)
@@ -301,6 +304,13 @@ export default {
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       // Note: Why do we need all the classes on the resource page?
       fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true }))
+      await Promise.all(fetchPromises)
+    },
+
+    // PD Page
+    async fetchDataPDAsync ({ state, dispatch }, options = {}) {
+      const fetchPromises = []
+      // TODO: do we need to fetch any data?
       await Promise.all(fetchPromises)
     },
 
