@@ -400,6 +400,8 @@ _.extend UserSchema.properties,
         # key is the feature id
         additionalProperties: FeatureRecipientSchema
 
+  archived: c.date {description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'}
+
 c.extendBasicProperties UserSchema, 'user'
 
 UserSchema.definitions =
