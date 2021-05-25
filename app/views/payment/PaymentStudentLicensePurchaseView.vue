@@ -36,10 +36,7 @@
 </template>
 
 <script>
-import { loadStripe } from '@stripe/stripe-js'
-const isProd = document.location.href.includes('codecombat.com')
-const STRIPE_PUBLISHABLE_KEY = isProd ? 'pk_live_27jQZozjDGN1HSUTnSuM578g' : 'pk_test_BqKtc6bIKPn6FeSA4GhuRrwT'
-const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
+import { getStripeLib } from '../../lib/stripeUtil';
 import { createPaymentSession } from '../../core/api/payment-session';
 
 export default {
@@ -85,7 +82,7 @@ export default {
 		},
 		async onPurchaseNow(e) {
 			e.preventDefault();
-			const stripe = await stripePromise
+			const stripe = await getStripeLib()
 			const sessionOptions = {
 				stripePriceId: this.selectedPrice,
 				paymentGroupId: this.paymentGroupId,
