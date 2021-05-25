@@ -369,6 +369,8 @@ _.extend LevelSessionSchema.properties,
         contentId: c.stringID(title: 'Content id for same language as level session codeLanguage')
         playtime: {type: 'number', description: 'Total seconds of playtime for this piece of content'}
 
+  archived: c.date {description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'}
+
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
