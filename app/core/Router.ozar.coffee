@@ -264,6 +264,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'privacy': go('PrivacyView')
 
+    'professional-development': go('core/SingletonAppVueComponentView')
+    'pd': go('core/SingletonAppVueComponentView')
+
     'schools': go('HomeView')
     'seen': go('HomeView')
     'SEEN': go('HomeView')
@@ -297,6 +300,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/resources': teacherProxyRoute(go('teachers/ResourceHubView', { redirectStudents: true }))
+    'teachers/professional-development': teacherProxyRoute(go('pd/PDView', { redirectStudents: true }))
     # Removing route, leaving plumbing.  Unclear how much we'd rewrite this, given a new endorsement.
     # 'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
     'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })

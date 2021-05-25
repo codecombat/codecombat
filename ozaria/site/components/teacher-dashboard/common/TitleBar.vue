@@ -81,7 +81,7 @@
 <template>
   <div class="teacher-title-bar">
     <div class="sub-nav">
-      <h1>{{ title }}</h1>
+      <h1 :class="showClassInfo ? 'short' : 'long'">{{ title }}</h1>
       <class-info-row
         v-if="showClassInfo"
         class="class-info-row"
@@ -184,10 +184,14 @@
 
 h1 {
   @include font-h-2-subtitle-twilight;
-  max-width: 290px;
+  max-width: calc(100vw - 650px);
   overflow-y: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  &.short {
+    max-width: calc(100vw - 1000px);
+  }
 }
 
 </style>

@@ -5,14 +5,16 @@ export const COMPONENT_NAMES = {
   MY_CLASSES_SINGLE: 'BaseSingleClass',
   STUDENT_PROJECTS: 'BaseStudentProjects',
   MY_LICENSES: 'BaseTeacherLicenses',
-  RESOURCE_HUB: 'BaseResourceHub'
+  RESOURCE_HUB: 'BaseResourceHub',
+  PD: 'PD'
   // CURRICULUM_GUIDE: 'BaseCurriculumGuide'
 }
 
 export const PAGE_TITLES = {
   [COMPONENT_NAMES.MY_CLASSES_ALL]: 'all_classes',
   [COMPONENT_NAMES.MY_LICENSES]: 'my_licenses',
-  [COMPONENT_NAMES.RESOURCE_HUB]: 'resource_hub'
+  [COMPONENT_NAMES.RESOURCE_HUB]: 'resource_hub',
+  [COMPONENT_NAMES.PD]: 'pd'
 }
 
 // TODO: Remove these once they are added to the database.

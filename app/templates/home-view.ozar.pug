@@ -2,6 +2,13 @@ extends /templates/base-flat.jade
 
 block content
   main.container-fluid#home-page
+    section#top-banner.full-width
+      .row
+        .col-xs-12
+          span(data-i18n="new_home.top_banner_blurb_pd")
+          a(href="/professional-development", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner PD Page" target="_blank")
+          // TODO: remove target="_blank" once we figure out why it adds an extra history entry and thus doesn't allow one to navigate back
+
     section.row#jumbotron-container-fluid
       .item-list
         img(src="/images/ozaria/home/ozaria_logo_sun.png" alt="Ozaria branding logo")

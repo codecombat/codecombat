@@ -10,7 +10,8 @@ block header
           span.glyphicon.glyphicon-home
 
         if !features.playViewsOnly
-          a(href="/about", data-i18n="nav.about")
+          - var aboutURL = me.showChinaResourceInfo() ? 'https://koudashijie.com/about' : 'https://codecombat.com/about';
+          a(href=aboutURL, data-i18n="nav.about")
           if me.isStudent()
             a(href="/students", data-i18n="nav.my_courses")
           if me.isTeacher()

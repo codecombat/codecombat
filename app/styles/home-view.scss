@@ -263,6 +263,20 @@
     }
   }
 
+  #top-banner {
+    background-color: #355EA0;
+    color: #FFFFFF;
+    padding: 10px 0;
+    text-align: center;
+    overflow: hidden;
+
+    a {
+      margin-left: 10px;
+      color: #F7D047;
+      text-decoration: underline;
+    }
+  }
+
   // Most sections have a max width and are centered.
   & > section {
     max-width: 1366px;
@@ -637,6 +651,6 @@
 }
 
 /* Global style to override style-flat footer gap */
-.style-flat #footer {
+.style-flat div#footer {
   margin-top: 0;
 }
