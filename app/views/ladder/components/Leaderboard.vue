@@ -31,6 +31,11 @@ export default Vue.extend({
       }
     }
   },
+   data() {
+     return {
+       selectedRow: []
+     }
+   },
   methods: {
 
     computeClass (slug, item='') {
@@ -65,18 +70,33 @@ export default Vue.extend({
       return (row.creatorClans || [])[0] || {}
     },
 
-    getAgeBracket (row) {
-      return $.i18n.t(`ladder.bracket_${(row.ageBracket || 'open').replace(/-/g, '_')}`)
+    getAgeBracket (item) {
+      return $.i18n.t(`ladder.bracket_${(item || 'open').replace(/-/g, '_')}`)
     },
 
-    getCountry (row) {
-      return utils.countryCodeToFlagEmoji(row.creatorCountryCode)
+    getCountry (code) {
+      return utils.countryCodeToFlagEmoji(code)
     },
 
-    getCountryName (row) {
-      return utils.countryCodeToName(row.creatorCountryCode)
+    getCountryName (code) {
+      return utils.countryCodeToName(code)
     },
 
+    computeTitle (slug, item) {
+      if(slug == 'country') {
+        return this.getCountryName(item)
+      }
+      else {
+        return ''
+      }
+    },
+    computeBody  (slug, item) {
+      if(slug == 'country') {
+        return this.getCountry(item)
+      } else {
+        return item
+      }
+    },
     classForRow (row) {
       if (row.creator === me.id) {
         return 'my-row'
@@ -87,7 +107,18 @@ export default Vue.extend({
       }
 
       return ''
+    },
+    onClickSpectateCell (rank) {
+      let index = this.selectedRow.indexOf(rank)
+      if (index != -1) {
+        this.$delete(this.selectedRow, index)
+      }
+      else {
+        this.selectedRow = Array.concat(this.selectedRow, [rank]).slice(-2)
+      }
+      this.$emit('spectate', this.selectedRow)
     }
+
   }
 });
 </script>
@@ -97,7 +128,7 @@ export default Vue.extend({
     table.table.table-bordered.table-condensed.table-hover.ladder-table
       thead
         tr
-          th(colspan=12)
+          th(colspan=13)
             span {{ title }}
             span &nbsp;
             span {{ $t('ladder.leaderboard') }}
@@ -109,14 +140,17 @@ export default Vue.extend({
         tr
           th(v-for="t in tableTitles" :key="t.title" :colspan="t.col" :class="computeClass(t.slug)")
             | {{ t.title }}
+          th.iconic-cell
+            .glyphicon.glyphicon-eye-open
 
       tbody
         tr(v-for="row, rank in rankings" :key="rank" :class="classForRow(row)")
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)
-            td(v-for="item, index in row" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" v-html="index != 0 ? item: ''")
-            td(:title="getCountryName(row)") {{ getCountry(row) }}
+            td(v-for="item, index in row" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 0 ? computeBody(tableTitles[index].slug, item): ''")
+            td.spectate-cell.iconic-cell(@click="onClickSpectateCell(rank)")
+              .glyphicon(:class="{'glyphicon-eye-open': selectedRow.indexOf(rank) != -1}")
 </template>
 
 <style scoped>

@@ -408,6 +408,7 @@ module.exports = class CocoView extends Backbone.View
     # used to insert views with ids
     key = @makeSubViewKey(view)
     @subviews[key].destroy() if key of @subviews
+    console.log(view.id)
     elToReplace ?= @$el.find('#'+view.id)
     if @retainSubviews
       @registerSubView(view, key)

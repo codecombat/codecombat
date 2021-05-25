@@ -1,4 +1,5 @@
 LeaderboardComponent = require('./Leaderboard.vue').default
+require('app/styles/play/ladder/new-leaderboard-view.sass')
 CocoView = require('views/core/CocoView')
 Tournament = require 'models/Tournament'
 store = require('core/store')
@@ -9,18 +10,9 @@ utils = require 'core/utils'
 
 HIGHEST_SCORE = 1000000
 
-class TournamentLeaderboardCollection extends CocoCollection
-  url: ''
-  model: Tournament
-
-  constructor: (tournamentId, options) ->
-    super()
-    @url = "/db/tournament/#{tournamentId}/rankings?#{$.param(options)}"
-
-
 
 module.exports = class LeaderboardView extends CocoView
-  id: 'ladder-tab-view'
+  id: 'new-leaderboard-view'
   template: require('templates/play/ladder/leaderboard-view')
   VueComponent: LeaderboardComponent
   constructor: (options, @level, @sessions) ->
@@ -42,19 +34,22 @@ module.exports = class LeaderboardView extends CocoView
     @propsData = { @tableTitles }
     @refreshLadder()
 
+  events:
+    'click #load-more': 'onClickLoadMore'
 
   render: ->
     super()
     if @leaderboards
-      @rankings = _.map @leaderboards.topPlayers.models, (model) =>
+      @rankings = _.map @leaderboards.topPlayers.models, (model, index) =>
         return [
-          'cpp',
-          1,
+          model.get('submittedCodeLanguage'),
+          index+1,
           (model.get('fullName') || model.get('creatorName') || $t("play.anonymous")),
           model.get('wins'),
           model.get('losses'),
           @getClanName(model),
-          5,
+          model.get('ageBracket') || 'open',
+          model.get('creatorCountryCode')
         ]
 
     @afterRender()
@@ -65,7 +60,7 @@ module.exports = class LeaderboardView extends CocoView
   afterRender: ->
     if @vueComponent
       @dataObj.rankings = @rankings
-      @$el.find('#ladder-tab-view').replaceWith(@vueComponent.$el)
+      @$el.find('#new-leaderboard-view').replaceWith(@vueComponent.$el)
     else
       if @vuexModule
         unless _.isFunction(@vuexModule)
@@ -74,12 +69,15 @@ module.exports = class LeaderboardView extends CocoView
 
       dataFunction = () => @dataObj
       @vueComponent = new @VueComponent({
-        el: @$el.find('#ladder-tab-view')[0]
+        el: @$el.find('new-leaderboard-view')[0]
         propsData: @propsData,
         data: dataFunction,
         store
       })
       @vueComponent.$mount()
+      @vueComponent.$on('spectate', (data) =>
+        @handleClickSpectateCell(data)
+      )
 
     super(arguments...)
 
@@ -106,6 +104,18 @@ module.exports = class LeaderboardView extends CocoView
     @leaderboardRes = @supermodel.addModelResource(@leaderboards, 'leaderboard', {cache: false}, 3)
     @leaderboardRes.load()
 
+  onClickLoadMore: ->
+    @ladderLimit ?= 100
+    @ladderLimit += 100
+    @lastRefreshTime = null
+    @refreshLadder()
+
+  handleClickSpectateCell: (data) ->
+    return unless data.length is 2
+    @spectateTargets ?= {}
+    leaderboards = @leaderboards.topPlayers.models
+    @spectateTargets.humans = leaderboards[data[0]].get('_id')
+    @spectateTargets.ogres = leaderboards[data[1]].get('_id')
 
   getClanName: (model) ->
     firstClan = (model.get('creatorClans') ? [])[0] ? {}
