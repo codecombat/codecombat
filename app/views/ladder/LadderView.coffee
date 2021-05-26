@@ -185,7 +185,7 @@ module.exports = class LadderView extends RootView
     super()
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
-    unless true#@tournamentState is 'ended'
+    unless @tournamentState is 'ended'
       @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
       @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
     else
