@@ -1695,8 +1695,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ask_next_course: "想继续学习下一个课程？请联系老师或家长获取帮助"
     set_start_locked_level: "设置要锁定的起始关卡" # {change}
     no_level_limit: "无限制" # {change}
-    classroom_announcement: "班级公告"
-
 #    ask_teacher_to_unlock: "Ask Teacher To Unlock"
 #    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen"
 #    play_next_level: "Play Next Level"
@@ -1705,6 +1703,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    ai_league_team_rankings: "AI League Team Rankings"
 #    view_standings: "View Standings"
 #    view_winners: "View Winners"
+    classroom_announcement: "班级公告"
 
   project_gallery:
     no_projects_published: "成为第一个在这个课程中发布项目的人吧！"
@@ -3200,6 +3199,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    championship_summary: "The __championshipArena__ championship arena is now open! Battle it out for the month of __championshipMonth__ to win prizes in the __championshipArena__ __championshipType__."
 #    play_arena_full: "Play __arenaName__ __arenaType__"
 #    play_arena_short: "Play __arenaName__"
+#    view_arena_winners: "View __arenaName__ __arenaType__ winners"
 #    arena_type_championship: "Championship Arena"
 #    arena_type_regular: "Multiplayer Arena"
 #    blazing_battle: "Blazing Battle"
@@ -3218,6 +3218,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    season1_prize_2: "RESPAWN Gaming Chair"
 #    season1_prize_3: "Custom CodeCombat Avatar"
 #    season1_prize_4: "And more!"
+#    season1_prize_hyperx: "HyperX Premium Peripherals"
 #    codecombat_ai_league: "CodeCombat AI League"
     register: "注册"
 #    not_registered: "Not Registered"
@@ -3233,3 +3234,32 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_tournaments: "目前没有锦标赛"
     edit_tournament: " 修改"
     create_tournament: " 创建锦标赛"
+
+#  payments:
+#    student_licenses: "Student Licenses"
+#    computer_science: "Computer Science"
+#    web_development: "Web Development"
+#    game_development: "Game Development"
+#    per_student: "Per Student"
+#    just: "Just"
+#    teachers_upto: "Teacher can purchase upto"
+#    great_courses: "Great Courses included for"
+#    studentLicense_successful: "Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students."
+#    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
+#    failed: "Your payment failed, please try again"
+#    session_week_1: "1 session/week"
+#    session_week_2: "2 session/week"
+#    month_1: "Monthly"
+#    month_3: "Quarterly"
+#    month_6: "Half-yearly"
+#    year_1: "Yearly"
+#    most_popular: "Most Popular"
+#    best_value: "Best Value"
+#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+
+#  form_validation_errors:
+#    required: "Field is required"
+#    invalidEmail: "Invalid email"
+#    invalidPhone: "Invalid phone number"
+#    emailExists: "Email already exists"
+#    numberGreaterThanZero: "Should be a number greater than 0"

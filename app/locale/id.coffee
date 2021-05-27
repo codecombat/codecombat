@@ -503,6 +503,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     submit: "Kirim"
     replay: "Ulangi"
     complete: "Selesai"
+#    pick_image: "Pick Image"
 
   general:
     and: "dan"
@@ -1702,6 +1703,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    ai_league_team_rankings: "AI League Team Rankings"
 #    view_standings: "View Standings"
 #    view_winners: "View Winners"
+#    classroom_announcement: "Classroom Announcement"
 
   project_gallery:
     no_projects_published: "Jadilah yang pertama mempublikasi proyek di kursus ini!"
@@ -3197,6 +3199,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     championship_summary: "Arena kejuaraan __championshipArena__ sekarang dibuka! Bertarunglah di bulan __championshipMonth__ untuk memenangkan hadiah di __championshipArena__ __championshipType__."
     play_arena_full: "Mainkan __arenaName__ __arenaType__"
     play_arena_short: "Mainkan __arenaName__"
+#    view_arena_winners: "View __arenaName__ __arenaType__ winners"
     arena_type_championship: "Arena Kejuaraan"
     arena_type_regular: "Arena Multiplayer (Banyak Pemain)"
     blazing_battle: "Pertempuran Berkobar"
@@ -3215,6 +3218,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     season1_prize_2: "RESPAWN Kursi Permainan"
     season1_prize_3: "Avatar CodeCombat Khusus"
     season1_prize_4: "Dan banyak lagi!"
+#    season1_prize_hyperx: "HyperX Premium Peripherals"
 #    codecombat_ai_league: "CodeCombat AI League"
 #    register: "Register"
 #    not_registered: "Not Registered"
@@ -3230,3 +3234,32 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     no_tournaments: "Tidak ada turnamen sekarang"
     edit_tournament: "Edit Turnamen"
     create_tournament: "Buat Turnamen"
+
+#  payments:
+#    student_licenses: "Student Licenses"
+#    computer_science: "Computer Science"
+#    web_development: "Web Development"
+#    game_development: "Game Development"
+#    per_student: "Per Student"
+#    just: "Just"
+#    teachers_upto: "Teacher can purchase upto"
+#    great_courses: "Great Courses included for"
+#    studentLicense_successful: "Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students."
+#    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
+#    failed: "Your payment failed, please try again"
+#    session_week_1: "1 session/week"
+#    session_week_2: "2 session/week"
+#    month_1: "Monthly"
+#    month_3: "Quarterly"
+#    month_6: "Half-yearly"
+#    year_1: "Yearly"
+#    most_popular: "Most Popular"
+#    best_value: "Best Value"
+#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+
+#  form_validation_errors:
+#    required: "Field is required"
+#    invalidEmail: "Invalid email"
+#    invalidPhone: "Invalid phone number"
+#    emailExists: "Email already exists"
+#    numberGreaterThanZero: "Should be a number greater than 0"
