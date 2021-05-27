@@ -2467,6 +2467,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unsubscribe_button: "Yes, unsubscribe"
     unsubscribe_failed: "Failed"
     unsubscribe_success: "Success"
+    manage_billing: "Manage Billing"
 
   account_invoices:
     amount: "Amount in US dollars"
