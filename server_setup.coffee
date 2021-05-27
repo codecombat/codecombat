@@ -5,7 +5,6 @@ fs = require 'graceful-fs'
 compressible = require 'compressible'
 compression = require 'compression'
 
-geoip = require '@basicer/geoip-lite'
 crypto = require 'crypto'
 config = require './server_config'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
@@ -79,16 +78,6 @@ setupExpressMiddleware = (app) ->
   app.use require('cookie-session')
     key: 'codecombat.sess'
     secret: config.cookie_secret
-
-setupCountryTaggingMiddleware = (app) ->
-  app.use (req, res, next) ->
-    return next() if req.country or req.user?.get('country')
-    return next() unless ip = req.headers['x-forwarded-for'] or req.ip or req.connection.remoteAddress
-    ip = ip.split(/,? /)[0]  # If there are two IP addresses, say because of CloudFlare, we just take the first.
-    geo = geoip.lookup(ip)
-    if countryInfo = _.find(countries, countryCode: geo?.country)
-      req.country = countryInfo.country
-    next()
 
 setupCountryRedirectMiddleware = (app, country='china', host='cn.codecombat.com') ->
   hosts = host.split /;/g
@@ -194,9 +183,6 @@ exports.setupMiddleware = (app) ->
   setupSecureMiddleware app
 
   setupQuickBailToMainHTML app
-
-
-  setupCountryTaggingMiddleware app
 
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
