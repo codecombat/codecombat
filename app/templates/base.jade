@@ -47,6 +47,9 @@ block header
                 if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()
                   li
                     a(href="/account/subscription", data-i18n="account.subscription")
+                if me.get('emailVerified') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous()))
+                  li
+                    a(href="/payments/manage-billing", data-i18n="account.manage_billing")
                 if me.isAdmin()
                   li
                     a(href="/admin", data-i18n="account_settings.admin")
