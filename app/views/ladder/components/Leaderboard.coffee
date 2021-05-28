@@ -120,8 +120,8 @@ module.exports = class LeaderboardView extends CocoView
     return unless data.length is 2
     @spectateTargets ?= {}
     leaderboards = @leaderboards.topPlayers.models
-    @spectateTargets.humans = leaderboards[data[0]].get('_id')
-    @spectateTargets.ogres = leaderboards[data[1]].get('_id')
+    @spectateTargets.humans = leaderboards[data[0]].get('levelSession')
+    @spectateTargets.ogres = leaderboards[data[1]].get('levelSession')
 
   handleClickAgeFilter: (ageBracket) ->
     @ageBracket = ageBracket
