@@ -9,7 +9,12 @@ import SectionFirstCTA from './components/SectionFirstCTA'
 import InputClanSearch from './components/InputClanSearch'
 
 import { joinClan, leaveClan } from '../../../core/api/clans'
-import { titleize } from '../../../core/utils'
+import { titleize, arenas, activeArenas } from '../../../core/utils'
+
+const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular'))
+const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type === 'championship'))
+const previousRegularArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'regular' && a.slug !== currentRegularArena.slug))
+const previousChampionshipArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'championship' && (!currentChampionshipArena || a.slug !== currentChampionshipArena.slug)))
 
 export default {
   components: {
@@ -29,11 +34,11 @@ export default {
     doneRegistering: false,
     joinOrLeaveClanLoading: false,
     // TODO: Get these automatically from core/utils/arenas
-    previousRegularArenaSlug: 'blazing-battle',
-    previousChampionshipArenaSlug: 'infinite-inferno',
-    regularArenaSlug: 'mages-might',
-    championshipArenaSlug: 'sorcerers',
-    championshipActive: false
+    previousRegularArenaSlug: previousRegularArena ? previousRegularArena.slug : null,
+    previousChampionshipArenaSlug: previousChampionshipArena ? previousChampionshipArena.slug : null,
+    regularArenaSlug: currentRegularArena ? currentRegularArena.slug : 'mages-might',
+    championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
+    championshipActive: !!currentChampionshipArena
   }),
 
   beforeRouteUpdate (to, from, next) {
@@ -554,7 +559,7 @@ export default {
       </div>
       <div class="row">
         <div class="col-sm-4 text-center">
-          <a href="https://respawnproducts.com/collections/chairs" target="_blank">
+          <a href="https://respawnproducts.com/products/respawn-110-racing-style-gaming-chair" target="_blank">
             <img src="/images/pages/league/respawn-logo.png" alt="RESPAWN company logo" class="responsive-img" style="max-width: 160px; margin-bottom: 64px;"/>
             <br />
             <img src="/images/pages/league/respawn-gaming-chair.png" alt="RESPAWN Gaming Chair" class="responsive-img" style="max-width: 525px; width: 100%"/>
