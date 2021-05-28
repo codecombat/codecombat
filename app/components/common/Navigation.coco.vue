@@ -251,7 +251,7 @@
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
                       a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
-                    li(v-if="me.get('emailVerified') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous()))")
+                    li(v-if="me.isAdmin() || (me.get('emailVerified') && me.get('email').includes('@codecombat.com') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous())))")
                       a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") Manage Billing
                     li(v-if="me.isAdmin()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
