@@ -78,6 +78,7 @@ module.exports = class LadderView extends RootView
     @calcTimeOffset()
     @mandate = @supermodel.loadModel(new Mandate()).model
 
+    @tournamentId = utils.getQueryVariable 'tournament'
     @loadLeague()
     @urls = require('core/urls')
 
@@ -142,9 +143,6 @@ module.exports = class LadderView extends RootView
   loadLeague: ->
     @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']
     return unless @leagueID
-
-    if @leagueType is 'clan'
-      @tournamentId = utils.getQueryVariable 'tournament'
 
     modelClass = if @leagueType is 'clan' then Clan else CourseInstance
     @league = @supermodel.loadModel(new modelClass(_id: @leagueID)).model

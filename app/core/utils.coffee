@@ -900,7 +900,6 @@ ageToBracket = (age) ->
   return 'open'
 
 bracketToAge = (slug) ->
-  console.log(slug, typeof(slug))
   for i in [0...ageBrackets.length]
     if ageBrackets[i].slug == slug
       lowerBound = if i == 0 then 0 else ageBrackets[i-1].max

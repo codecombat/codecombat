@@ -25,7 +25,8 @@ module.exports = class LeaderboardView extends CocoView
       {slug: 'name', col: 3, title: 'Name'},
       {slug: 'wins', col: 1, title: 'Wins'},
       {slug: 'losses', col: 1, title: 'Losses'},
-      {slug: 'clan', col: 3, title: 'Clan'},
+      {slug: 'win-rate', col: 1, title: 'Win %'},
+      {slug: 'clan', col: 2, title: 'Clan'},
       {slug: 'age', col: 1, title: 'Age'},
       {slug: 'country', col:1, title: '🏴‍☠️'}
     ]
@@ -44,9 +45,10 @@ module.exports = class LeaderboardView extends CocoView
         return [
           model.get('submittedCodeLanguage'),
           index+1,
-          (model.get('fullName') || model.get('creatorName') || $t("play.anonymous")),
+          (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
           model.get('wins'),
           model.get('losses'),
+          ((model.get('wins') or 0) / (((model.get('wins') or 0) + (model.get('losses') or 0)) or 1) * 100).toFixed(2) + '%',
           @getClanName(model),
           model.get('ageBracket') || 'open',
           model.get('creatorCountryCode')
@@ -92,8 +94,8 @@ module.exports = class LeaderboardView extends CocoView
     # ignore all further changes to the store, since the module has been unregistered.
     # may later want to just ignore mutations and actions to the page module.
 
-  refreshLadder: ->
-    return if not @league and (new Date() - 2*60*1000 < @lastRefreshTime)
+  refreshLadder: (force) ->
+    return if not force and not @league and (new Date() - 2*60*1000 < @lastRefreshTime)
     @lastRefreshTime = new Date()
 
     @supermodel.resetProgress()
@@ -112,7 +114,7 @@ module.exports = class LeaderboardView extends CocoView
     @ladderLimit ?= 100
     @ladderLimit += 100
     @lastRefreshTime = null
-    @refreshLadder()
+    @refreshLadder true
 
   handleClickSpectateCell: (data) ->
     return unless data.length is 2
@@ -123,7 +125,7 @@ module.exports = class LeaderboardView extends CocoView
 
   handleClickAgeFilter: (ageBracket) ->
     @ageBracket = ageBracket
-    @refreshLadder()
+    @refreshLadder true
 
   getClanName: (model) ->
     firstClan = (model.get('creatorClans') ? [])[0] ? {}
@@ -131,6 +133,6 @@ module.exports = class LeaderboardView extends CocoView
     if (!/a-z/.test(name))
       name = utils.titleize(name)  # Convert any all-uppercase clan names to title-case
     name
- 
+
   getAgeBracket: (model) ->
     $.i18n.t("ladder.bracket_#{(model.get('ageBracket') || 'open').replace(/-/g, '_')}")
