@@ -19,6 +19,9 @@ _.extend TournamentSubmissionSchema.properties,
     type: 'number'
   losses:
     type: 'number'
+  creatorAge:
+    type: 'number'
+    minimum: 0
   totalScore:               # bayesian calculation of strength
     type: 'number'
   originalRank:             # for randomsimulation rank
