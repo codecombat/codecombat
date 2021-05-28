@@ -78,6 +78,9 @@ module.exports = class LeaderboardView extends CocoView
       @vueComponent.$on('spectate', (data) =>
         @handleClickSpectateCell(data)
       )
+      @vueComponent.$on('filter-age', (data) =>
+        @handleClickAgeFilter(data)
+      )
 
     super(arguments...)
 
@@ -95,12 +98,13 @@ module.exports = class LeaderboardView extends CocoView
 
     @supermodel.resetProgress()
     @ladderLimit ?= parseInt utils.getQueryVariable('top_players', 100)
+    @ageBracket ?= null
     if oldLeaderboard = @leaderboards
       @supermodel.removeModelResource oldLeaderboard
       oldLeaderboard.destroy()
 
     teamSession = _.find @sessions.models, (session) -> session.get('team') is 'humans'
-    @leaderboards = new LeaderboardData(@level, 'humans', teamSession, @ladderLimit, @league, @tournament)
+    @leaderboards = new LeaderboardData(@level, 'humans', teamSession, @ladderLimit, @league, @tournament, @ageBracket)
     @leaderboardRes = @supermodel.addModelResource(@leaderboards, 'leaderboard', {cache: false}, 3)
     @leaderboardRes.load()
 
@@ -116,6 +120,10 @@ module.exports = class LeaderboardView extends CocoView
     leaderboards = @leaderboards.topPlayers.models
     @spectateTargets.humans = leaderboards[data[0]].get('_id')
     @spectateTargets.ogres = leaderboards[data[1]].get('_id')
+
+  handleClickAgeFilter: (ageBracket) ->
+    @ageBracket = ageBracket
+    @refreshLadder()
 
   getClanName: (model) ->
     firstClan = (model.get('creatorClans') ? [])[0] ? {}

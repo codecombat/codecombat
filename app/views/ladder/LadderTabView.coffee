@@ -366,7 +366,7 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
-  constructor: (@level, @team, @session, @limit, @league, @tournamentId) ->
+  constructor: (@level, @team, @session, @limit, @league, @tournamentId, @ageBracket) ->
     super()
 
   collectionParameters: (parameters) ->
@@ -379,6 +379,8 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
 
     params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
     if @tournamentId?
+      if @ageBracket?
+        params.bracket = @ageBracket
       @topPlayers = new TournamentLeaderboardCollection(@tournamentId, params)
     else
       @topPlayers = new LeaderboardCollection(@level, params)

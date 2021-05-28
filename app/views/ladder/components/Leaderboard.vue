@@ -33,11 +33,21 @@ export default Vue.extend({
   },
    data() {
      return {
-       selectedRow: []
+       selectedRow: [],
+       ageFilter: false
      }
    },
+   created () {
+     this.ageBrackets = utils.ageBrackets
+   },
   methods: {
-
+    toggleAgeFilter () {
+      this.ageFilter = !this.ageFilter
+    },
+    filterAge (slug) {
+      this.$emit('filter-age', slug)
+      this.ageFilter = false
+    },
     computeClass (slug, item='') {
       if (slug == 'name') {
         return {'name-col-cell': 1, ai: /(Bronze|Silver|Gold|Platinum|Diamond) AI/.test(item)}
@@ -140,6 +150,12 @@ export default Vue.extend({
         tr
           th(v-for="t in tableTitles" :key="t.title" :colspan="t.col" :class="computeClass(t.slug)")
             | {{ t.title }}
+            span.age-filter(v-if="t.slug == 'age'")
+              .glyphicon.glyphicon-filter(@click="toggleAgeFilter")
+              #age-filter(:class="{display: ageFilter}")
+                .slug(v-for="bracket in ageBrackets" @click="filterAge(bracket.slug)")
+                  span {{bracket.slug}}
+
           th.iconic-cell
             .glyphicon.glyphicon-eye-open
 
@@ -153,7 +169,7 @@ export default Vue.extend({
               .glyphicon(:class="{'glyphicon-eye-open': selectedRow.indexOf(rank) != -1}")
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .ladder-table {
   background-color: #F2F2F2;
 }
@@ -203,5 +219,33 @@ export default Vue.extend({
 .student-row {
   background-color: #bcff16;
 }
+
+ .age-filter {
+   position: relative;
+
+   .glyphicon {
+     cursor: pointer;
+   }
+
+   #age-filter {
+     position: absolute;
+     display: none;
+     background-color: #fcf8f2;
+     border: 1px solid #ddd;
+     border-radius: 5px;
+     right: 0;
+     width: 5em;
+
+
+     &.display {
+       display: block;
+     }
+
+     .slug {
+       margin: 5px 10px;
+       cursor: pointer;
+     }
+   }
+ }
 
 </style>
