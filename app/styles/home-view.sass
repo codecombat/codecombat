@@ -111,6 +111,9 @@
       &.product-row
         padding: 0 31px
 
+        &.codecombat-classroom-row
+          padding-top: 70px
+
         .row
           padding: 0
 
@@ -196,6 +199,21 @@
         p
           margin-bottom: 20px
 
+      @media screen and (max-width: 991px)
+        background-size: 50%
+        background-position: 100% 100%
+
+      @media screen and (max-width: 600px)
+        background-size: 100%
+        background-position: 100% 25%
+
+        h1
+          text-shadow: 2px 0 0 white, -2px 0 0 white, 0 -2px 0 white, 0 2px 0 white
+          text-align: center
+
+        .button-section
+          margin: 0 auto
+
     .container-graphic-spacer
       pointer-events: none
       overflow-x: hidden
@@ -209,6 +227,9 @@
     #tent-img
       position: absolute
       top: -70px
+
+      @media screen and (max-width: 1200px)
+        display: none
 
     #ozaria-spacer-img
       position: relative
@@ -234,6 +255,17 @@
     .product-logo
       margin-bottom: 20px
 
+      @media screen and (max-width: 600px)
+        margin: 0px auto 20px auto
+
+    .product-title
+      @media screen and (max-width: 600px)
+        text-align: center
+
+    .product-btn
+      @media screen and (max-width: 600px)
+        text-align: center
+
     .centered-flex
       display: flex
       align-items: center
@@ -255,6 +287,13 @@
       background-repeat: no-repeat, no-repeat, no-repeat, no-repeat
       background-position: top 0px left 30px, top 40px right -50px, bottom right 10%, bottom left 17%
       background-size: 300px, 260px, 250px, 150px
+
+    .testimonials-container
+      @media screen and (max-width:700px)
+        display: none
+
+        & + .container-graphic-spacer
+          display: none
 
     .crt-widget-waterfall
       padding-bottom: 0
@@ -383,7 +422,7 @@
       content: ''
       position: absolute
       height: 100px
-      width: 40%
+      width: 37%
       border-top: 4px solid $teal-light-2
       border-left: 4px solid $teal-light-2
       top: 0
@@ -395,7 +434,7 @@
       content: ''
       position: absolute
       height: 100px
-      width: 40%
+      width: 37%
       border-top: 4px solid $teal-light-2
       border-right: 4px solid $teal-light-2
       top: 0
@@ -480,6 +519,9 @@
 
             h2
               color: $teal-dark
+
+      @media screen and (max-width: 1200px)
+        display: none
 
   .container-footer-mountains
     width: 100%;

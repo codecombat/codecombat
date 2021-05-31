@@ -18,7 +18,7 @@ block content
             p
               button.btn.btn-lg.btn-primary.parent-btn(data-event-action="Homepage Click Parent Button CTA", data-i18n="new_home.im_a_parent", style="text-transform: none")
             p
-              button.btn.btn-lg.btn-primary-alt.student-btn(data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student", style="text-transform: none")
+              button.btn.btn-lg.btn-primary.student-btn(data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student", style="text-transform: none")
           else
             p
               if me.isTeacher()
@@ -109,7 +109,7 @@ block content
         .col-md-5
           .row
             img.img-responsive.product-logo(src="/images/pages/home-v2/ozaria-logo-bevelled.png" loading="lazy" style="max-width: 100px")
-            h4(data-i18n="nav.ozaria_classroom")
+            h4.product-title(data-i18n="nav.ozaria_classroom")
 
             // NOTE: The [html] way does not work in this template for some reason?
             // p(data-i18n="[html]new_home.new_adventure_game_blurb", data-i18n-options=JSON.stringify(view.i18nData))
@@ -117,23 +117,25 @@ block content
             p Ozaria is our brand new adventure game and your turnkey solution for teaching Computer science. Our student-facing&nbsp;
               a(href="https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing") lesson slides&nbsp;
               | and teacher-facing notes make planning and delivering lessons easier and faster.
-            a.btn.btn-lg.btn-primary.btn-gold.get-started-btn(href="https://www.ozaria.com/" data-i18n="new_home.explore_ozaria")
+            .product-btn
+              a.btn.btn-lg.btn-primary.btn-gold(href="https://www.ozaria.com/" data-i18n="new_home.explore_ozaria")
         .col-md-6.col-md-offset-1
           img.img-responsive(src="/images/pages/home-v2/oz-class-image.png" loading="lazy")
       img#ozaria-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-4.png" loading="lazy")
 
     section.container
-      .row.product-row
+      .row.product-row.codecombat-classroom-row
         .col-md-6
           img.img-responsive(src="/images/pages/home-v2/codecombat-classroom.png" loading="lazy")
         .col-md-5.col-md-offset-1
           .row
             img.img-responsive.product-logo(src="/images/pages/home-v2/coco_square_logo.png" loading="lazy" style="max-width: 80px;")
-            h4(data-i18n="nav.codecombat_classroom")
+            h4.product-title(data-i18n="nav.codecombat_classroom")
             p(data-i18n="new_home.learning_technology_blurb")
-            // TODO: make new /classroom or /schools page for this out of old homepage and maybe /impact page
-            //a.btn.btn-lg.btn-primary.btn-gold(href="/impact" data-i18n="new_home.explore_codecombat")
-            button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.explore_codecombat")
+            .product-btn
+              // TODO: make new /classroom or /schools page for this out of old homepage and maybe /impact page
+              //a.btn.btn-lg.btn-primary.btn-gold(href="/impact" data-i18n="new_home.explore_codecombat")
+              button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.explore_codecombat")
       img#codecombat-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-5.png" loading="lazy")
 
     .container
@@ -145,9 +147,10 @@ block content
       .row.product-row
         .col-md-5
           .row
-            h4(data-i18n="new_home.codecombat_live_online_classes")
+            h4.product-title(data-i18n="new_home.codecombat_live_online_classes")
             p(data-i18n="new_home.online_classes_blurb")
-            a.btn.btn-lg.btn-primary.btn-gold.get-started-btn(href="/parents" data-i18n="new_home.explore_online_classes")
+            .product-btn
+              a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes")
         .col-md-6.col-md-offset-1
           img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy")
       img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy")
@@ -164,9 +167,10 @@ block content
         .col-md-5.col-md-offset-1
           .row
             img.img-responsive.product-logo(src="/images/pages/league/logo_badge.png" loading="lazy" style="max-width: 118px;")
-            h4(data-i18n="league.codecombat_ai_league")
+            h4.product-title(data-i18n="league.codecombat_ai_league")
             p(data-i18n="new_home.ai_league_blurb")
-            a.btn.btn-lg.btn-primary.btn-gold.get-started-btn(href="/league" data-i18n="new_home.explore_ai_league")
+            .product-btn
+              a.btn.btn-lg.btn-primary.btn-gold(href="/league" data-i18n="new_home.explore_ai_league")
 
     .container
       .row.text-center.community-row
@@ -246,7 +250,7 @@ block content
           .col-xs-12.text-center
             img.img-responsive(src="/images/pages/home-v2/graphic-7.png" loading="lazy" style="max-width: 321px;")
 
-    .container
+    .container.testimonials-container
       .row.text-center.testimonials-row
         .col-xs-12
           h1(data-i18n="new_home.what_our_customers_are_saying")
