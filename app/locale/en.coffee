@@ -83,6 +83,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
     see_example: "See example"
     slogan: "The most engaging way to learn computer science"
+    slogan_power_of_play: "Learn to Code Through the Power of Play"
     teach_cs1_free: "Teach CS1 Free"
     teachers_love_codecombat_title: "Teachers Love CodeCombat"
     teachers_love_codecombat_blurb1: "Report that their students enjoy using CodeCombat to learn how to code"

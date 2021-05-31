@@ -3,6 +3,12 @@
 @import "app/styles/style-flat-variables"
 
 #home-view
+  $sub-headline-font: "Work Sans", "Open Sans", "sans serif"
+  $body-font: "Work Sans", "Open Sans", "sans serif"
+  $pitch: #131B25
+  $teal-light-1: #1FBAB4
+  $teal-light-2: #6AE8E3
+  $teal-dark: #0E4C60
 
   // style-flat overwrites
   h1, .text-h1
@@ -10,7 +16,6 @@
     font-weight: bold
     font-size: 56px
     line-height: 64px
-    letter-spacing: 2px
     margin-bottom: -6px
     color: $navy
 
@@ -22,18 +27,21 @@
     letter-spacing: 2.58px
 
   h3, .text-h3
-    font-family: $headline-font
-    font-weight: bold
-    font-size: 24px
+    font-family: $sub-headline-font
+    font-weight: normal
+    font-size: 26px
     line-height: 32px
-    letter-spacing: 0.52px
+    letter-spacing: 0.56px
+    color: #131825
 
   h4, .text-h4
-    font-family: $body-font
-    font-weight: bold
-    font-size: 24px
-    line-height: 40px
+    font-family: $sub-headline-font
+    font-weight: 600
+    font-size: 28px
+    line-height: 38px
     letter-spacing: 0.56px
+    color: black
+    margin-bottom: 14px
 
   h5, .text-h5
     font-family: $body-font
@@ -44,18 +52,17 @@
 
   p, .text-p
     font-family: $body-font
-    font-size: 18px
-    font-weight: 300
-    letter-spacing: 0.75px
-    line-height: 26px
-    color: #131b25
+    font-size: 22px
+    font-weight: normal
+    letter-spacing: 0
+    line-height: 30px
+    color: $pitch
 
-  .btn-primary, .btn-navy, .btn-teal
+  .btn-primary, .btn-navy, .btn-teal, .crt-widget-waterfall button.crt-load-more
     background-color: $teal
     border-radius: 4px
     color: $gray
     text-shadow: unset
-    text-transform: uppercase
     font-weight: bold
     letter-spacing: 0.71px
     line-height: 24px
@@ -70,7 +77,6 @@
     color: $teal
     border-radius: 4px
     text-shadow: unset
-    text-transform: uppercase
     font-weight: bold
     letter-spacing: 0.71px
     line-height: 24px
@@ -92,16 +98,47 @@
 
     .row
       padding: 62px 0px
+
+      &.subhead-row
+        padding: 17px 0 24px 0
+
+      &.get-started-row
+        padding: 72px 0 15px 0
+        
+      &.for-educators-row
+        padding: 10px 0 50px 0
+
+      &.product-row
+        padding: 0 31px
+
+        .row
+          padding: 0
+
+      &.for-parents-row
+        padding: 0 0 50px 0
+
+      &.for-everyone-row
+        padding: 0 0 50px 0
+
+      &.community-row
+        padding: 91px 0 10px 0
+
+      &.testimonials-row
+        padding: 20px 0 0 0
+
+      &.curator-row
+        padding: 58px 0 10px 0
+
     .width-container
       max-width: 1170px
       float: unset
       margin: 0 auto
 
     #top-banner
-      background-color: #1FBAB4
+      background-color: $teal-light-1
       padding: 10px 0px
       text-align: center
-      color: #0E4C60
+      color: $teal-dark
       .row
         max-width: 1170px
         float: unset
@@ -132,18 +169,20 @@
     #jumbotron-container-fluid
       background-image: url(/images/pages/home-v2/hero-image.png)
       background-repeat: no-repeat
-      background-size: 50%
+      background-size: 616px
       // TODO - make responsive
-      background-position: 100% 50%
-      height: 627px
-      width: 100%
+      background-position: 100% 86px
+      height: 591px
+      max-width: 1226px
       margin: auto
+      padding-bottom: 0
       h1
-        margin: 54px 64px 30px
+        margin: 54px 64px 50px 0
       .button-section
-        margin-left: 64px
         width: 250px
         text-transform: uppercase
+        .btn-lg
+          font-size: 20px
         .btn-primary
           background-color: $gold
           &:hover
@@ -154,6 +193,8 @@
           &:hover
             background-color: $gold
             color: $gray
+        p
+          margin-bottom: 20px
 
     .container-graphic-spacer
       pointer-events: none
@@ -165,22 +206,108 @@
     .container-graphic-spacer img
       margin: 0 auto
 
+    #tent-img
+      position: absolute
+      top: -70px
+
+    #ozaria-spacer-img
+      position: relative
+      max-width: 287px
+      left: 27%
+      top: -85px
+      margin-bottom: -160px
+
+    #codecombat-spacer-img
+      position: relative
+      max-width: 262px
+      left: 49.8%
+      top: -15px
+      margin-bottom: 0
+
+    #online-classes-spacer-img
+      position: relative
+      max-width: 289px
+      left: 43%
+      top: -15px
+      margin-bottom: -15px
+
+    .product-logo
+      margin-bottom: 20px
+
     .centered-flex
       display: flex
       align-items: center
       justify-content: center
+
+    .community-container
+      .row
+        padding: 50px 0 10px 0
+      
+      h4
+        margin-bottom: 0
+      
+      p
+        font-size: 18px
+        line-height: 22px
+
+    .community-graphics
+      background-image: url(/images/pages/parents/image_cloud_3.svg), url(/images/pages/parents/image_cloud_3.svg), url(/images/pages/parents/image_cloud_1.svg), url(/images/pages/parents/image_cloud_4.svg)
+      background-repeat: no-repeat, no-repeat, no-repeat, no-repeat
+      background-position: top 0px left 30px, top 40px right -50px, bottom right 10%, bottom left 17%
+      background-size: 300px, 260px, 250px, 150px
+
+    .crt-widget-waterfall
+      padding-bottom: 0
+
+      // Tighten the spacing on these up
+      .crt-post-header
+        padding-top: 10px
+        margin-bottom: 10px
+        text-align: left
+
+        .crt-social-icon
+          float: right
+
+      .crt-post-text
+        text-align: left
+
+      .crt-load-more
+        text-transform: capitalize
+
+    // If we wanted to define the element height and bottom edge ourselves (conflicts with their Load More), we could do something like this.
+    //  .crt-feed
+    //    transition: max-height .5s
+    //    max-height: 600px
+    //    overflow: hidden
+    //
+    //  &.extended .crt-feed
+    //    max-height: initial
+    //
+    //  &:not(.extended) .crt-feed::after
+    //    width: 100%
+    //    height: 50px
+    //    bottom: 100px
+    //    position: absolute
+    //    z-index: 1
+    //    background: linear-gradient(rgba(0, 0, 0, 0) 0%, rgb(255, 255, 255) 100%)
     
     #featured-in-awards
+      margin-top: 10px
+
+      h1
+        font-size: 40px
+        line-height: 43px
+
       .row
-        min-height: 457px
+        min-height: 316px
+        padding: 33px 0 0 0
 
       .centered-flex
-        height: 200px
-        padding: 0 20px
+        height: 150px
 
       .featured-in, .awards-partners
         border: 4px dashed #F2D269
-        padding: 62px 0 0 0
+        padding: 50px 0 20px 0
 
       .featured-in
         border-radius: 20px 0 0 20px
@@ -190,9 +317,13 @@
         border-radius: 0 20px 20px 0
         .centered-flex
           flex-direction: column
-          color: #0E4C60
+          color: $teal-dark
+
           p
             margin-top: 10px
+            font-size: 13px
+            line-height: 17px
+            letter-spacing: 0.25px
 
       @media screen and (max-width: 991px)
         .featured-in, .awards-partners
@@ -214,9 +345,9 @@
 
       .row h4
         margin-top: 30px
-        margin-bottom: 10px
+
       & > .container
-        border: 4px solid #6ae8e3
+        border: 4px solid $teal-light-2
         border-radius: 40px
         border-top: none
         position: relative
@@ -224,6 +355,22 @@
 
         & > div:last-of-type
           margin: 32px 0 0
+
+      h4
+        font-size: 16px
+        line-height: 17px
+        letter-spacing: 0.333px
+
+      p, ol
+        font-size: 14px
+        line-height: 18px
+        letter-spacing: 0.267px
+        color: $pitch
+
+      p.contact-us
+        font-size: 18px
+        line-height: 22px
+        color: black
 
     .container-background-header
       position: absolute
@@ -236,9 +383,9 @@
       content: ''
       position: absolute
       height: 100px
-      width: 20%
-      border-top: 4px solid #6ae8e3
-      border-left: 4px solid #6ae8e3
+      width: 40%
+      border-top: 4px solid $teal-light-2
+      border-left: 4px solid $teal-light-2
       top: 0
       left: -4px
       border-radius: 40px 0 0 0
@@ -248,36 +395,97 @@
       content: ''
       position: absolute
       height: 100px
-      width: 20%
-      border-top: 4px solid #6ae8e3
-      border-right: 4px solid #6ae8e3
+      width: 40%
+      border-top: 4px solid $teal-light-2
+      border-right: 4px solid $teal-light-2
       top: 0
       right: -4px
       border-radius: 0px 40px 0 0
 
     .carousel-dot
       display: inline-block
-      cursor: pointer
-
       width: 13px
       height: 13px
-
-      background-color: #1FBAB4
       border-radius: 6.5px
-
       margin: 5px
+      background-color: #C4C4C4
 
-    #game-based-carousel > .container, #container-student-quotes > .container
+      &:not(.active)
+        cursor: pointer
+
+      &.active
+        background-color: $teal-light-1
+        cursor: default
+
+    #game-based-carousel > .carousel-container.container, #student-quotes-carousel > .container
       border-radius: 38px
-      border: 4px solid #6AE8E3
-
+      border: 4px solid $teal-light-2
       padding: 16px
 
+      .carousel-inner
+        height: 521px
 
-body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='sr'], body[lang='pl'], body[lang='lt'], body[lang='sl'], body[lang='tr'], body[lang='vi']
-  #home-view
-    // Google Fonts version of Arvo only has Latin glyphs, not Cyrillic
-    // TODO: figure out font fallbacks for other languages not covered by Arvo
-    //$headline-font: 'Open Sans', serif  // Doesn't work
-    h1, h2, h3, h4, h5, .text-h1, .text-h2, .text-h3, .text-h4, .text-h5
-      font-family: 'Open Sans', serif
+        .row
+          padding: 32px 0 0
+          display: flex
+          align-items: center
+
+          p
+            font-family: $body-font
+
+            b
+              font-size: 17px
+              line-height: 21px
+
+    #student-quotes-carousel
+      margin-top: 146px
+
+      > .container .carousel-inner
+        height: 406px
+
+        p
+          b
+            font-size: 
+
+    #game-based-carousel > .carousel-tabs-container.container
+      margin-top: 15px
+      padding: 0 30px
+
+      ul
+        border: 0
+
+        li
+          margin: 0 10px
+          width: 350px
+          padding: 16px 0 0 0
+          height: 60px
+          border-radius: 10px 10px 0 0
+          background-color: $teal-dark
+          text-align: center
+
+          h2
+            font-size: 26px
+            line-height: 28px
+            letter-spacing: 0.005em
+            text-overflow: ellipsis
+            white-space: nowrap
+            overflow: hidden
+            color: white
+
+          &:not(.active)
+            cursor: pointer
+
+          &.active
+            background-color: $teal-light-2
+
+            h2
+              color: $teal-dark
+
+  .container-footer-mountains
+    width: 100%;
+    background: url(/images/pages/parents/parents_footer_mountain.svg);
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+    height: 170px;
+    margin-bottom: -50px;

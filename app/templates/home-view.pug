@@ -10,13 +10,13 @@ block content
 
     .row#jumbotron-container-fluid
       .col-md-8
-        h1(data-i18n="new_home.slogan")
+        h1(data-i18n="new_home.slogan_power_of_play")
         div.button-section
           if me.isAnonymous()
             p
-              button.btn.btn-lg.btn-primary.parent-btn(data-event-action="Homepage Click Parent Button CTA", data-i18n="new_home.im_a_parent", style="text-transform: none")
-            p
               button.btn.btn-lg.btn-primary.teacher-btn(data-event-action="Homepage Click Teacher Button #1 CTA", data-i18n="new_home.im_an_educator", style="text-transform: none")
+            p
+              button.btn.btn-lg.btn-primary.parent-btn(data-event-action="Homepage Click Parent Button CTA", data-i18n="new_home.im_a_parent", style="text-transform: none")
             p
               button.btn.btn-lg.btn-primary-alt.student-btn(data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student", style="text-transform: none")
           else
@@ -31,56 +31,65 @@ block content
     .container-graphic-spacer
       .container
         .row
-          .col-xs-12.text-right
-            img.img-responsive(src="/images/pages/home-v2/graphic-1.png" loading="lazy" style="max-width: 290px;")
+          .col-xs-offset-3.col-xs-9.text-right
+            img.img-responsive(src="/images/pages/home-v2/graphic-1.png" loading="lazy" style="max-width: 296px;")
 
     section.container
-      .row.text-center
+      .row.text-center.subhead-row
         .col-xs-1.col-xs-offset-1
-          img.img-responsive(src="/images/pages/home-v2/tent.png" loading="lazy")
+          img.img-responsive#tent-img(src="/images/pages/home-v2/tent.png" loading="lazy" style="max-width: 143px;")
         .col-xs-9
           h3(data-i18n="new_home.learning_technology_blurb_short")
 
     .container-graphic-spacer
       .container
         .row
-          .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-2.png" loading="lazy" style="max-width: 290px; transform: translateX(-50%);")
+          .col-xs-offset-2.col-xs-4
+            img.img-responsive(src="/images/pages/home-v2/graphic-2.png" loading="lazy" style="max-width: 402px")
 
     #game-based-carousel
-      .container
-        #game-based.carousel.carousel.slide(data-interval=8000)
+      .container.carousel-tabs-container
+        ul.carousel-tabs.nav.nav-tabs(role="tablist")
+          li.carousel-tab.active(onclick="currentView.onCarouselDirectMove('#game-based', 0)")
+            h2(data-i18n="new_home.game_based_learning")
+          li.carousel-tab(onclick="currentView.onCarouselDirectMove('#game-based', 1)")
+            h2(data-i18n="new_home.text_based_coding")
+          li.carousel-tab(onclick="currentView.onCarouselDirectMove('#game-based', 2)")
+            h2(data-i18n="new_home.student_impact")
+      .container.carousel-container
+        #game-based.carousel.slide(data-interval=8000)
           .carousel-inner
-            .item.active
+            .item.active(data-slide=0)
               .row
                 .col-sm-7
                   img.img-responsive(src="/images/pages/home-v2/carousel-1-1.png" loading="lazy")
                 .col-sm-5
-                  h2(data-i18n="new_home.game_based_learning")
+                  h4(data-i18n="new_home.game_based_learning")
                   p(data-i18n="new_home.unique_approach_blurb")
-            .item
+            .item(data-slide=1)
               .row
                 .col-sm-7
                   img.img-responsive(src="/images/pages/parents/grit_carousel.png" loading="lazy")
                 .col-sm-5
-                  h2(data-i18n="new_home.text_based_coding")
+                  h4(data-i18n="new_home.text_based_coding")
                   p(data-i18n="new_home.custom_code_engine_blurb")
-            .item
+            .item(data-slide=2)
               .row
                 .col-sm-7
                   img.img-responsive(src="/images/pages/home-v2/carousel-1-3.png" loading="lazy")
                 .col-sm-5
-                  h2(data-i18n="new_home.student_impact")
+                  h4(data-i18n="new_home.student_impact")
                   p(data-i18n="new_home.help_enjoy_learning_blurb")
         .col-lg-12.text-center
           //- Reference https://getbootstrap.com/docs/3.4/javascript/
           //- The onclick usage here is a hack. Modeled from PageParents.vue page
-          .carousel-dot(onclick="currentView.onCarouselDirectMove('#game-based', 0)")
+          // TODO: adapt arrow button carousel elements from PageParents.vue for prev/next
+          .carousel-dot.active(onclick="currentView.onCarouselDirectMove('#game-based', 0)")
           .carousel-dot(onclick="currentView.onCarouselDirectMove('#game-based', 1)")
           .carousel-dot(onclick="currentView.onCarouselDirectMove('#game-based', 2)")
 
     section.container
-      .row.text-center
+      .row.text-center.get-started-row
         .col-xs-12
           button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.get_started")
 
@@ -88,18 +97,18 @@ block content
       .container
         .row
           .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-3.png" loading="lazy" style="max-width: 640px;")
+            img.img-responsive(src="/images/pages/home-v2/graphic-3.png" loading="lazy" style="max-width: 640px; margin-left: calc(50% - 640px / 2 - 24px);")
 
     .container
-      .row.text-center
+      .row.text-center.for-educators-row
         .col-xs-12
-          h1(data-i18n="nwe_home.for_educators")
+          h1(data-i18n="new_home.for_educators")
 
     section.container
-      .row(style="padding-bottom: 0;")
+      .row.product-row
         .col-md-5
           .row
-            img.img-responsive(src="/images/pages/home-v2/ozaria-logo-bevelled.png" loading="lazy" style="max-width: 100px;")
+            img.img-responsive.product-logo(src="/images/pages/home-v2/ozaria-logo-bevelled.png" loading="lazy" style="max-width: 100px")
             h4(data-i18n="nav.ozaria_classroom")
 
             // NOTE: The [html] way does not work in this template for some reason?
@@ -108,77 +117,64 @@ block content
             p Ozaria is our brand new adventure game and your turnkey solution for teaching Computer science. Our student-facing&nbsp;
               a(href="https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing") lesson slides&nbsp;
               | and teacher-facing notes make planning and delivering lessons easier and faster.
-            a.btn.btn-lg.btn-primary.btn-gold.get-started-btn(href="https://ozaria.com" data-i18n="new_home.explore_ozaria")
+            a.btn.btn-lg.btn-primary.btn-gold.get-started-btn(href="https://www.ozaria.com/" data-i18n="new_home.explore_ozaria")
         .col-md-6.col-md-offset-1
           img.img-responsive(src="/images/pages/home-v2/oz-class-image.png" loading="lazy")
-
-    .container-graphic-spacer
-      .container
-        .row
-          .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-4.png" loading="lazy" style="max-width: 240px; transform: translateX(-50%);")
+      img#ozaria-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-4.png" loading="lazy")
 
     section.container
-      .row(style="padding-bottom: 0;")
+      .row.product-row
         .col-md-6
           img.img-responsive(src="/images/pages/home-v2/codecombat-classroom.png" loading="lazy")
         .col-md-5.col-md-offset-1
           .row
-            img.img-responsive(src="/images/pages/home-v2/coco_square_logo.png" loading="lazy" style="max-width: 80px;")
+            img.img-responsive.product-logo(src="/images/pages/home-v2/coco_square_logo.png" loading="lazy" style="max-width: 80px;")
             h4(data-i18n="nav.codecombat_classroom")
             p(data-i18n="new_home.learning_technology_blurb")
+            // TODO: make new /classroom or /schools page for this out of old homepage and maybe /impact page
+            //a.btn.btn-lg.btn-primary.btn-gold(href="/impact" data-i18n="new_home.explore_codecombat")
             button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.explore_codecombat")
-
-    .container-graphic-spacer
-      .container
-        .row
-          .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-5.png" loading="lazy" style="max-width: 240px; transform: translateX(50%);")
-
+      img#codecombat-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-5.png" loading="lazy")
 
     .container
-      .row.text-center
+      .row.text-center.for-parents-row
         .col-xs-12
           h1(data-i18n="new_home.for_parents")
 
     section.container
-      .row(style="padding-bottom: 0;")
+      .row.product-row
         .col-md-5
           .row
             h4(data-i18n="new_home.codecombat_live_online_classes")
             p(data-i18n="new_home.online_classes_blurb")
-            a.btn.btn-lg.btn-primary.btn-gold.get-started-btn(href="https://codecombat.com/parents" data-i18n="new_home.explore_online_classes")
+            a.btn.btn-lg.btn-primary.btn-gold.get-started-btn(href="/parents" data-i18n="new_home.explore_online_classes")
         .col-md-6.col-md-offset-1
           img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy")
-
-    .container-graphic-spacer
-      .container
-        .row
-          .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" style="max-width: 240px;")
+      img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy")
 
     .container
-      .row.text-center
+      .row.text-center.for-everyone-row
         .col-xs-12
           h1(data-i18n="new_home.for_everyone")
 
     section.container
-      .row(style="padding-bottom: 0;")
+      .row.product-row
         .col-md-6
           img.img-responsive(src="/images/pages/home-v2/league-image.png" loading="lazy")
         .col-md-5.col-md-offset-1
           .row
-            img.img-responsive(src="/images/pages/league/logo_badge.png" loading="lazy" style="max-width: 130px;")
+            img.img-responsive.product-logo(src="/images/pages/league/logo_badge.png" loading="lazy" style="max-width: 118px;")
             h4(data-i18n="league.codecombat_ai_league")
             p(data-i18n="new_home.ai_league_blurb")
-            a.btn.btn-lg.btn-primary.btn-gold.get-started-btn(href="https://codecombat.com/league" data-i18n="new_home.explore_ai_league")
+            a.btn.btn-lg.btn-primary.btn-gold.get-started-btn(href="/league" data-i18n="new_home.explore_ai_league")
 
     .container
-      .row.text-center(style="padding-bottom: 0;")
+      .row.text-center.community-row
         .col-xs-12
           h1 Join Our Global Community
-    section.container
-      .row(style="padding-bottom: 0;")
+
+    section.container.community-container
+      .row
         .col-xs-6.col-md-3.text-center
           .centered-flex(style="height: 100px;")
             img.img-reponsive(src="/images/pages/home-v2/cap.png" loading="lazy" style="max-width: 99px;")
@@ -200,111 +196,106 @@ block content
           h4 190
           p Countries
 
-
-    .container-graphic-spacer
+    .container-graphic-spacer.community-graphics
       .container
         .row
           .col-xs-12.text-center
             img.img-responsive(src="/images/pages/home-v2/ice-island.png" loading="lazy" style="max-height: 274px;")
 
-    #container-student-quotes
+    #student-quotes-carousel
       .container
-        .row.carousel-row
-          .col-lg-12.text-center
-            h1 Student Outcomes
-        #student-quotes.carousel.carousel.slide(data-interval=8000)
+        #student-quotes.carousel.slide(data-interval=8000)
           .carousel-inner
-            .item.active
+            .item.active(data-slide=0)
               .row
-                .col-sm-5
+                .col-sm-4.col-sm-offset-1
                   img(src="/images/pages/home-v2/quotes.png" style="margin-bottom: 20px;")
                   p Name any program online, I’ve tried it. None of them match up to CodeCombat & Ozaria. Any teacher who wants their students to learn how to code... start here!
                   p
                     b Scott Baily, Bobby Duke Middle School
-                .col-sm-7
+                .col-sm-6.col-sm-offset-1
                   img.img-responsive(src="/images/pages/home-v2/carousel-2-1.png" loading="lazy")
-            .item
+            .item(data-slide=1)
               .row
-                .col-sm-5
+                .col-sm-4.col-sm-offset-1
                   img(src="/images/pages/home-v2/quotes.png" style="margin-bottom: 20px;")
                   p Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills.
                   p
                     b Latthaphon Pohpon, Parent
-                .col-sm-7
+                .col-sm-6.col-sm-offset-1
                   img.img-responsive(src="/images/pages/home-v2/carousel-2-2.png" loading="lazy")
-            .item
+            .item(data-slide=2)
               .row
-                .col-sm-5
+                .col-sm-4.col-sm-offset-1
                   img(src="/images/pages/home-v2/quotes.png" style="margin-bottom: 20px;")
                   p I’ve always had aspirations of designing video games and learning how to code ... this is giving me a great starting point.
                   p
                     b Joey, 10th Grade
-                .col-sm-7
+                .col-sm-6.col-sm-offset-1
                   img.img-responsive(src="/images/pages/home-v2/carousel-2-3.png" loading="lazy")
         .col-lg-12.text-center
           //- Reference https://getbootstrap.com/docs/3.4/javascript/
           //- The onclick usage here is a hack. Modeled from PageParents.vue page
-          .carousel-dot(onclick="currentView.onCarouselDirectMove('#student-quotes', 0)")
+          .carousel-dot.active(onclick="currentView.onCarouselDirectMove('#student-quotes', 0)")
           .carousel-dot(onclick="currentView.onCarouselDirectMove('#student-quotes', 1)")
           .carousel-dot(onclick="currentView.onCarouselDirectMove('#student-quotes', 2)")
 
-    .container-graphic-spacer
+    .container-graphic-spacer(style="margin-top: 33px;")
       .container
         .row
           .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-7.png" loading="lazy" style="max-width: 240px;")
+            img.img-responsive(src="/images/pages/home-v2/graphic-7.png" loading="lazy" style="max-width: 321px;")
 
     .container
-      .row.text-center(style="padding-bottom: 0;")
+      .row.text-center.testimonials-row
         .col-xs-12
           h1(data-i18n="new_home.what_our_customers_are_saying")
 
-      .row
+      .row.curator-row
         #curator-feed-default-feed-layout.col-xs-12
-          a(href="https://curator.io" target="_blank" class="crt-logo crt-tag") Powered by Curator.io
 
     .container-graphic-spacer
       .container
         .row
           .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-height: 236px; transform: translateX(20%);")
+            img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-width: 416px; transform: translateX(30%);")
 
     #featured-in-awards.container
-      .col-xs-12.col-md-4.text-center.featured-in
+      .col-xs-12.col-md-5.text-center.featured-in
         h1 Featured In
         .row
-          a.col-xs-6(href="https://www.bbc.co.uk/programmes/articles/56ZcVFcY47vkvnFphmNhRd3/hour-of-code-2016" target="_blank" rel="noopener noreferrer")
+          a.col-xs-5.col-xs-offset-1(href="https://www.bbc.co.uk/programmes/articles/56ZcVFcY47vkvnFphmNhRd3/hour-of-code-2016" target="_blank" rel="noopener noreferrer")
             .centered-flex
-              img.img-responsive(src="/images/pages/home-v2/bbc-logo.png" loading="lazy" style="max-height: 60px;")
-          a.col-xs-6(href="https://www.wsj.com/articles/codecombat-uses-fantasy-games-to-teach-coding-in-schools-1462188602" target="_blank" rel="noopener noreferrer")
+              img.img-responsive(src="/images/pages/home-v2/bbc-logo.png" loading="lazy" style="max-height: 120px;")
+          a.col-xs-5(href="https://www.edsurge.com/news/2016-05-02-codecombat-scores-2-million-seed-round-to-bring-programming-adventure-to-schools" target="_blank" rel="noopener noreferrer")
+            .centered-flex
+              img.img-responsive(src="/images/pages/home-v2/edsurge-logo.png" loading="lazy" style="height: 39px; max-width: 158px;")
+          a.col-xs-5.col-xs-offset-1(href="https://www.wsj.com/articles/codecombat-uses-fantasy-games-to-teach-coding-in-schools-1462188602" target="_blank" rel="noopener noreferrer")
             .centered-flex
               img.img-responsive(src="/images/pages/home-v2/wsj-logo.png" loading="lazy" style="max-height: 60px;")
-          a.col-xs-6(href="https://techcrunch.com/2014/03/19/yc-backed-codecombat-wants-you-to-learn-to-code-by-playing-games/" target="_blank" rel="noopener noreferrer")
+          a.col-xs-5(href="https://techcrunch.com/2014/03/19/yc-backed-codecombat-wants-you-to-learn-to-code-by-playing-games/" target="_blank" rel="noopener noreferrer")
             .centered-flex
               img.img-responsive(src="/images/pages/home-v2/techcrunch-logo.png" loading="lazy" style="max-height: 60px;")
-          a.col-xs-6(href="https://www.edsurge.com/news/2016-05-02-codecombat-scores-2-million-seed-round-to-bring-programming-adventure-to-schools" target="_blank" rel="noopener noreferrer")
-            .centered-flex
-              img.img-responsive(src="/images/pages/home-v2/edsurge-logo.png" loading="lazy" style="max-height: 60px;")
-      .col-md-8.text-center.awards-partners
+      .col-xs-12.col-md-7.text-center.awards-partners
         h1 Awards & Partners
         .row
-          a.col-xs-6(href="https://history.siia.net/codie/About/Past-Winners/Past/pID/2017" target="_blank" rel="noopener noreferrer")
-            .centered-flex
-              img.img-responsive(src="/images/pages/home-v2/codie-award.png" loading="lazy" style="max-height: 60px;")
-              p Best Creativity Tool for Students
-          a.col-xs-6(href="https://www.csforall.org/projects_and_programs/member_directory/members/codecombat/" target="_blank" rel="noopener noreferrer")
+          a.col-xs-3.col-xs-offset-1(href="https://www.csforall.org/projects_and_programs/member_directory/members/codecombat/" target="_blank" rel="noopener noreferrer")
             .centered-flex
               img.img-responsive(src="/images/pages/home-v2/csforall-member-logo.png" loading="lazy" style="max-height: 60px;")
               p CSforAll Official Member
-          a.col-xs-6(href="https://www.commonsense.org/education/game/codecombat" target="_blank" rel="noopener noreferrer")
+          a.col-xs-4(href="https://history.siia.net/codie/About/Past-Winners/Past/pID/2017" target="_blank" rel="noopener noreferrer")
+            .centered-flex
+              img.img-responsive(src="/images/pages/home-v2/codie-award.png" loading="lazy" style="max-height: 60px;")
+              p Best Creativity Tool for Students
+          a.col-xs-3(href="https://www.commonsense.org/education/game/codecombat" target="_blank" rel="noopener noreferrer")
             .centered-flex
               img.img-responsive(src="/images/pages/home-v2/commonsense-logo.png" loading="lazy" style="max-height: 80px;")
               p Top Pick for Learning
-          a.col-xs-6.col-md-4.col-md-offset-2(href="https://code.org/educate/curriculum/middle-school" target="_blank" rel="noopener noreferrer")
+          a.col-xs-3.col-xs-offset-2(href="https://code.org/educate/curriculum/middle-school" target="_blank" rel="noopener noreferrer")
             .centered-flex
               img.img-responsive(src="/images/pages/home-v2/code-org-logo.png" loading="lazy" style="max-height: 60px;")
               p Code.org Official Partner
-          a.col-xs-6.col-md-4.col-md-offset-0.col-xs-offset-3(href="https://aws.amazon.com/blogs/publicsector/aws-educate-and-amazon-future-engineer-teamed-with-codecombat-to-create-a-new-game-for-the-hour-of-code/" target="_blank" rel="noopener noreferrer")
+          a.col-xs-4.col-xs-offset-1(href="https://aws.amazon.com/blogs/publicsector/aws-educate-and-amazon-future-engineer-teamed-with-codecombat-to-create-a-new-game-for-the-hour-of-code/" target="_blank" rel="noopener noreferrer")
             .centered-flex
               img.img-responsive(src="/images/pages/home-v2/afe-logo.png" loading="lazy" style="max-height: 50px;")
               p Hour of Code Activity Partner
@@ -313,7 +304,7 @@ block content
       .container
         .row
           .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-50%);")
+            img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-50%); margin-top: 12px;")
 
     .container-background-faq
       .container
@@ -326,46 +317,56 @@ block content
             p We currently support Python and JavaScript.
             p
               b Why should you choose Python?
+              br
               span Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python.
             p
               b Why should you choose JavaScript?
+              br
               span JavaScript is the language of the web and is used across nearly every website. You may prefer to choose JavaScript if you are planning to also study web development. We’ve also made it easy for students to transition from Python to JavaScript-based web development.
             p JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python.
           .col-md-4.col-sm-6.col-xs-12
             //- Cheating to make tall columns
-            div
-              h4 How do I get started?
-              ol
-                li Create your Teacher Account
-                li Create a class
-                li Add Students
-                li Sit back and watch your students have fun learning to code
-            div
-              h4 Can I use CodeCombat or Ozaria as my main curriculum?
-              p Absolutely! We’ve spent time consulting with education specialists to craft classroom curriculum and materials specifically for teachers who are using CodeCombat or Ozaria without any prior computer science experience themselves. Many schools are implementing CodeCombat and/or Ozaria as the main computer science curriculum.
+            h4 How do I get started?
+            ol
+              li Create your Teacher Account
+              li Create a class
+              li Add students
+              li Sit back and watch your students have fun learning to code
+            h4 Can I use CodeCombat or Ozaria as my main curriculum?
+            p Absolutely! We’ve spent time consulting with education specialists to craft classroom curriculum and materials specifically for teachers who are using CodeCombat or Ozaria without any prior computer science experience themselves. Many schools are implementing CodeCombat and/or Ozaria as the main computer science curriculum.
           .col-md-4.col-sm-6.col-xs-12
-            div
-              h4 Is there a recommended browser and operating system?
-              p CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended.
-            div
-              h4 Does CodeCombat support Clever Instant Logins?
-              p Yes! Check out our
-                a(href="/teachers/resources/clever-faq") Clever Integration FAQ
-                | for more details on how to get started.
-          .col-md-4.col-sm-6.col-xs-12
-            h4 How much does it cost to access all of the available courses and resources?
-            p We customize solutions for schools and districts and work with you to understand your use case, context, and budget. Contact
-              a(href="mailto:schools@codecombat.com") schools@codecombat.com
-              | for further details!
-          .col-md-4.col-sm-6.col-xs-12
-            h4 Do we link to Google Classroom?
-            p Yes! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time.
+            h4 Does CodeCombat and Ozaria support Clever Instant Login?
+            p
+              | Yes! Check out our
+              span= ' '
+              a(href="/teachers/resources/clever-faq") Clever Integration FAQ
+              span= ' '
+              | for more details on how to get started.
+            h4 What about Google Classroom?
+            p Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time.
             p
               b Note:
-              span You must use Google SSO to sign up or log-in at least once in order to see the Google Classroom integration option.
+              span= ' '
+              span You must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option.
+          .col-md-4.col-sm-6.col-xs-12
+            h4 How much does it cost to access all of the available courses and resources?
+            p
+              | We customize solutions for schools and districts and work with you to understand your use case, context, and budget. Contact
+              span= ' '
+              a(href="mailto:schools@codecombat.com") schools@codecombat.com
+              span= ' '
+              | for further details!
+          .col-md-4.col-sm-6.col-xs-12
+            h4 Is there a recommended browser and operating system?
+            p CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended.
         .text-center
-          p If you have any other questions about our online classes, please
-            a(href="mailto:support@codecombat.com") contact us.
+          p.contact-us
+            | If you have any other questions, please
+            span= ' '
+            a(href="mailto:support@codecombat.com") contact us
+            | .
+
+    .container-footer-mountains
 
     script.
       /* curator-feed-default-feed-layout */

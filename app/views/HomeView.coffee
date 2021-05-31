@@ -2,9 +2,6 @@ require('app/styles/home-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/home-view'
 CocoCollection = require 'collections/CocoCollection'
-TrialRequest = require 'models/TrialRequest'
-TrialRequests = require 'collections/TrialRequests'
-Courses = require 'collections/Courses'
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
@@ -18,17 +15,9 @@ module.exports = class HomeView extends RootView
 
   events:
     'click .continue-playing-btn': 'onClickTrackEvent'
-    'click .example-gd-btn': 'onClickTrackEvent'
-    'click .example-wd-btn': 'onClickTrackEvent'
-    'click .play-btn': 'onClickTrackEvent'
-    'click .signup-home-btn': 'onClickTrackEvent'
     'click .student-btn': 'onClickStudentButton'
     'click .teacher-btn': 'onClickTeacherButton'
     'click .parent-btn': 'onClickParentButton'
-    'click .request-quote': 'onClickRequestQuote'
-    'click .logout-btn': 'logoutAccount'
-    'click .profile-btn': 'onClickTrackEvent'
-    'click .setup-class-btn': 'onClickSetupClass'
     'click .my-classes-btn': 'onClickTrackEvent'
     'click .my-courses-btn': 'onClickTrackEvent'
     'click .try-ozaria': 'onClickTrackEvent'
@@ -46,14 +35,6 @@ module.exports = class HomeView extends RootView
     #   slides: "<a href='https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'>#{$.i18n.t('new_home.lesson_slides')}</a>"
     # }
 
-    @courses = new Courses()
-    @supermodel.trackRequest @courses.fetchReleased()
-
-    if me.isTeacher()
-      @trialRequests = new TrialRequests()
-      @trialRequests.fetchOwn()
-      @supermodel.loadCollection(@trialRequests)
-
     @renderedPaymentNoty = false
 
   getMeta: ->
@@ -64,24 +45,6 @@ module.exports = class HomeView extends RootView
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
     ]
-
-  onLoaded: ->
-    @trialRequest = @trialRequests.first() if @trialRequests?.size()
-    super()
-
-  onClickRequestQuote: (e) ->
-    @playSound 'menu-button-click'
-    e.preventDefault()
-    e.stopImmediatePropagation()
-    @homePageEvent($(e.target).data('event-action'))
-    if me.isTeacher()
-      application.router.navigate '/teachers/update-account', trigger: true
-    else
-      application.router.navigate '/teachers/quote', trigger: true
-
-  onClickSetupClass: (e) ->
-    @homePageEvent($(e.target).data('event-action'))
-    application.router.navigate("/teachers/classes", { trigger: true })
 
   onClickStudentButton: (e) ->
     @homePageEvent('Started Signup')
@@ -134,11 +97,7 @@ module.exports = class HomeView extends RootView
       category: 'Homepage'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
     properties = _.merge(defaults, extraproperties)
-
-    window.tracker?.trackEvent(
-        action,
-        properties,
-        includeIntegrations )
+    window.tracker?.trackEvent(action, properties, includeIntegrations)
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget
@@ -164,16 +123,26 @@ module.exports = class HomeView extends RootView
   onClickGetStarted: (e) ->
     # TODO: Add event tracking here
     # @homePageEvent($(e.target).data('event-action'))
-    if @getStartedSignupContainer
-      @getStartedSignupContainer.remove()
-
+    @getStartedSignupContainer?.remove()
     @getStartedSignupContainer = document.createElement('div')
     document.body.appendChild(@getStartedSignupContainer)
-
     @getStartedSignupModal = new GetStartedSignupModal({ el: @getStartedSignupContainer })
 
-  onCarouselDirectMove: (selector, frameNum) ->
-    $(selector).carousel(frameNum)
+  onCarouselDirectMove: (selector, slideNum) ->
+    @$(selector).carousel(slideNum)
+
+  onCarouselSlide: (e) =>
+    $carousel = $(e.currentTarget).closest('.carousel')
+    $carouselContainer = @$("##{$carousel.attr('id')}-carousel")
+    slideNum = parseInt($(e.relatedTarget).data('slide'), 10)
+    $carouselContainer.find(".carousel-tabs li:not(:nth-child(#{slideNum + 1}))").removeClass 'active'
+    $carouselContainer.find(".carousel-tabs li:nth-child(#{slideNum + 1})").addClass 'active'
+    $carouselContainer.find(".carousel-dot:not(:nth-child(#{slideNum + 1}))").removeClass 'active'
+    $carouselContainer.find(".carousel-dot:nth-child(#{slideNum + 1})").addClass 'active'
+
+  activateCarousels: =>
+    return if @destroyed
+    @$('.carousel').carousel().on 'slide.bs.carousel', @onCarouselSlide
 
   afterRender: ->
     if me.isAnonymous()
@@ -207,14 +176,11 @@ module.exports = class HomeView extends RootView
       if link.length
         @scrollToLink(document.location.hash, 0)
     _.delay(f, 100)
-
-  logoutAccount: ->
-    Backbone.Mediator.publish("auth:logging-out", {})
-    logoutUser()
+    _.delay(@activateCarousels, 1000)
 
   destroy: ->
-   @cleanupEncouragementModal()
-   super()
+    @cleanupModals()
+    super()
 
   mergeWithPrerendered: (el) ->
     true
