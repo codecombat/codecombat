@@ -22,7 +22,8 @@ module.exports = class HomeView extends RootView
     'click .my-courses-btn': 'onClickTrackEvent'
     'click .try-ozaria': 'onClickTrackEvent'
     'click a': 'onClickAnchor'
-    'click .get-started-btn': 'onClickGetStarted'
+    'click .get-started-btn': 'onClickGetStartedButton'
+    'click .create-account-teacher-btn': 'onClickCreateAccountTeacherButton'
 
   initialize: (options) ->
     super(options)
@@ -61,6 +62,10 @@ module.exports = class HomeView extends RootView
   onClickParentButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
     application.router.navigate '/parents', trigger: true
+
+  onClickCreateAccountTeacherButton: (e) ->
+    @homePageEvent('Started Signup')
+    @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
   openEducatorSignupOzariaEncouragementModal: (onNext) ->
     # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
@@ -120,7 +125,7 @@ module.exports = class HomeView extends RootView
       })
       @homePageEvent("Link:", properties, ['Google Analytics'])
 
-  onClickGetStarted: (e) ->
+  onClickGetStartedButton: (e) ->
     # TODO: Add event tracking here
     # @homePageEvent($(e.target).data('event-action'))
     @getStartedSignupContainer?.remove()
