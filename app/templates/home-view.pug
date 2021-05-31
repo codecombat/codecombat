@@ -111,13 +111,7 @@ block content
           .row
             img.img-responsive.product-logo(src="/images/pages/home-v2/ozaria-logo-bevelled.png" loading="lazy" style="max-width: 100px")
             h4.product-title(data-i18n="nav.ozaria_classroom")
-
-            // NOTE: The [html] way does not work in this template for some reason?
-            // p(data-i18n="[html]new_home.new_adventure_game_blurb", data-i18n-options=JSON.stringify(view.i18nData))
-
-            p Ozaria is our brand new adventure game and your turnkey solution for teaching Computer science. Our student-facing&nbsp;
-              a(href="https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing") lesson slides&nbsp;
-              | and teacher-facing notes make planning and delivering lessons easier and faster.
+            p(data-i18n="[html]new_home.new_adventure_game_blurb", data-i18n-options=JSON.stringify(i18nData))
             .product-btn
               a.btn.btn-lg.btn-primary.btn-gold(href="https://www.ozaria.com/" data-i18n="new_home.explore_ozaria")
         .col-md-6.col-md-offset-1
@@ -178,30 +172,30 @@ block content
     .container
       .row.text-center.community-row
         .col-xs-12
-          h1 Join Our Global Community
+          h1(data-i18n="new_home.global_community")
 
     section.container.community-container
       .row
         .col-xs-6.col-md-3.text-center
           .centered-flex(style="height: 100px;")
             img.img-reponsive(src="/images/pages/home-v2/cap.png" loading="lazy" style="max-width: 99px;")
-          h4 20 Million
-          p Learners
+          h4(data-i18n="new_home.million" data-i18n-options={num: 20})
+          p(data-i18n="new_home.global_subtitle1")
         .col-xs-6.col-md-3.text-center
           .centered-flex(style="height: 100px;")
             img.img-reponsive(src="/images/pages/home-v2/monitor.png" loading="lazy" style="max-width: 80px;")
-          h4 1 Billion
-          p Lines of Code
+          h4(data-i18n="new_home.billion" data-i18n-options={num: 1})
+          p(data-i18n="new_home.global_subtitle2")
         .col-xs-6.col-md-3.text-center
           .centered-flex(style="height: 100px;")
             img.img-reponsive(src="/images/pages/home-v2/apple.png" loading="lazy" style="max-width: 82px;")
           h4 140,000
-          p Teachers
+          p(data-i18n="new_home.global_subtitle3")
         .col-xs-6.col-md-3.text-center
           .centered-flex(style="height: 100px;")
             img.img-reponsive(src="/images/pages/home-v2/worldwide.png" loading="lazy" style="max-width: 82px;")
           h4 190
-          p Countries
+          p(data-i18n="new_home.global_subtitle4")
 
     .container-graphic-spacer.community-graphics
       .container
@@ -217,27 +211,30 @@ block content
               .row
                 .col-sm-4.col-sm-offset-1
                   img(src="/images/pages/home-v2/quotes.png" style="margin-bottom: 20px;")
-                  p Name any program online, I’ve tried it. None of them match up to CodeCombat & Ozaria. Any teacher who wants their students to learn how to code... start here!
+                  p(data-i18n="new_home.quotes_quote1")
                   p
-                    b Scott Baily, Bobby Duke Middle School
+                    b
+                      span(data-i18n="impact.featured_teacher")
+                      span= ", "
+                      span(data-i18n="impact.partner_school")
                 .col-sm-6.col-sm-offset-1
                   img.img-responsive(src="/images/pages/home-v2/carousel-2-1.png" loading="lazy")
             .item(data-slide=1)
               .row
                 .col-sm-4.col-sm-offset-1
                   img(src="/images/pages/home-v2/quotes.png" style="margin-bottom: 20px;")
-                  p Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills.
+                  p(data-i18n="new_home.quotes_quote5")
                   p
-                    b Latthaphon Pohpon, Parent
+                    b(data-i18n="new_home.quotes_quote5_author")
                 .col-sm-6.col-sm-offset-1
                   img.img-responsive(src="/images/pages/home-v2/carousel-2-2.png" loading="lazy")
             .item(data-slide=2)
               .row
                 .col-sm-4.col-sm-offset-1
                   img(src="/images/pages/home-v2/quotes.png" style="margin-bottom: 20px;")
-                  p I’ve always had aspirations of designing video games and learning how to code ... this is giving me a great starting point.
+                  p(data-i18n="new_home.century_skills_quote4")
                   p
-                    b Joey, 10th Grade
+                    b(data-i18n="new_home.century_skills_quote4_author")
                 .col-sm-6.col-sm-offset-1
                   img.img-responsive(src="/images/pages/home-v2/carousel-2-3.png" loading="lazy")
         .col-lg-12.text-center
@@ -269,7 +266,7 @@ block content
 
     #featured-in-awards.container
       .col-xs-12.col-md-5.text-center.featured-in
-        h1 Featured In
+        h1(data-i18n="new_home.featured_partners_title1")
         .row
           a.col-xs-5.col-xs-offset-1(href="https://www.bbc.co.uk/programmes/articles/56ZcVFcY47vkvnFphmNhRd3/hour-of-code-2016" target="_blank" rel="noopener noreferrer")
             .centered-flex
@@ -284,28 +281,28 @@ block content
             .centered-flex
               img.img-responsive(src="/images/pages/home-v2/techcrunch-logo.png" loading="lazy" style="max-height: 60px;")
       .col-xs-12.col-md-7.text-center.awards-partners
-        h1 Awards & Partners
+        h1(data-i18n="new_home.featured_partners_title2")
         .row
           a.col-xs-3.col-xs-offset-1(href="https://www.csforall.org/projects_and_programs/member_directory/members/codecombat/" target="_blank" rel="noopener noreferrer")
             .centered-flex
               img.img-responsive(src="/images/pages/home-v2/csforall-member-logo.png" loading="lazy" style="max-height: 60px;")
-              p CSforAll Official Member
+              p(data-i18n="new_home.featured_partners_blurb5")
           a.col-xs-4(href="https://history.siia.net/codie/About/Past-Winners/Past/pID/2017" target="_blank" rel="noopener noreferrer")
             .centered-flex
               img.img-responsive(src="/images/pages/home-v2/codie-award.png" loading="lazy" style="max-height: 60px;")
-              p Best Creativity Tool for Students
+              p(data-i18n="new_home.featured_partners_blurb2")
           a.col-xs-3(href="https://www.commonsense.org/education/game/codecombat" target="_blank" rel="noopener noreferrer")
             .centered-flex
               img.img-responsive(src="/images/pages/home-v2/commonsense-logo.png" loading="lazy" style="max-height: 80px;")
-              p Top Pick for Learning
+              p(data-i18n="new_home.featured_partners_blurb3")
           a.col-xs-3.col-xs-offset-2(href="https://code.org/educate/curriculum/middle-school" target="_blank" rel="noopener noreferrer")
             .centered-flex
               img.img-responsive(src="/images/pages/home-v2/code-org-logo.png" loading="lazy" style="max-height: 60px;")
-              p Code.org Official Partner
+              p(data-i18n="new_home.featured_partners_blurb4")
           a.col-xs-4.col-xs-offset-1(href="https://aws.amazon.com/blogs/publicsector/aws-educate-and-amazon-future-engineer-teamed-with-codecombat-to-create-a-new-game-for-the-hour-of-code/" target="_blank" rel="noopener noreferrer")
             .centered-flex
               img.img-responsive(src="/images/pages/home-v2/afe-logo.png" loading="lazy" style="max-height: 50px;")
-              p Hour of Code Activity Partner
+              p(data-i18n="new_home.featured_partners_blurb6")
 
     .container-graphic-spacer
       .container
@@ -320,58 +317,41 @@ block content
             h1.pixelated FAQs
         .row.row-eq-height
           .col-md-4.col-sm-6.col-xs-12
-            h4 What programming languages are available?
-            p We currently support Python and JavaScript.
+            h4(data-i18n="new_home_faq.what_programming_languages")
+            p(data-i18n="new_home_faq.python_and_javascript")
             p
-              b Why should you choose Python?
+              b(data-i18n="new_home_faq.why_python")
               br
-              span Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python.
+              span(data-i18n="new_home_faq.why_python_blurb")
             p
-              b Why should you choose JavaScript?
+              b(data-i18n="new_home_faq.why_javascript")
               br
-              span JavaScript is the language of the web and is used across nearly every website. You may prefer to choose JavaScript if you are planning to also study web development. We’ve also made it easy for students to transition from Python to JavaScript-based web development.
-            p JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python.
+              span(data-i18n="new_home_faq.why_javascript_blurb")
+            p(data-i18n="new_home_faq.javascript_versus_python")
           .col-md-4.col-sm-6.col-xs-12
             //- Cheating to make tall columns
-            h4 How do I get started?
+            h4(data-i18n="new_home_faq.how_do_i_get_started")
             ol
-              li Create your Teacher Account
-              li Create a class
-              li Add students
-              li Sit back and watch your students have fun learning to code
-            h4 Can I use CodeCombat or Ozaria as my main curriculum?
-            p Absolutely! We’ve spent time consulting with education specialists to craft classroom curriculum and materials specifically for teachers who are using CodeCombat or Ozaria without any prior computer science experience themselves. Many schools are implementing CodeCombat and/or Ozaria as the main computer science curriculum.
+              li(data-i18n="new_home_faq.getting_started_1")
+              li(data-i18n="new_home_faq.getting_started_2")
+              li(data-i18n="new_home_faq.getting_started_3")
+              li(data-i18n="new_home_faq.getting_started_4")
+            h4(data-i18n="new_home_faq.main_curriculum")
+            p(data-i18n="new_home_faq.main_curriculum_blurb")
           .col-md-4.col-sm-6.col-xs-12
-            h4 Does CodeCombat and Ozaria support Clever Instant Login?
-            p
-              | Yes! Check out our
-              span= ' '
-              a(href="/teachers/resources/clever-faq") Clever Integration FAQ
-              span= ' '
-              | for more details on how to get started.
-            h4 What about Google Classroom?
-            p Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time.
-            p
-              b Note:
-              span= ' '
-              span You must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option.
+            h4(data-i18n="new_home_faq.clever_instant_login")
+            p(data-i18n="[html]new_home_faq.clever_instant_login_blurb", data-i18n-options=JSON.stringify(i18nData))
+            h4(data-i18n="new_home_faq.google_classroom")
+            p(data-i18n="new_home_faq.google_classroom_blurb1")
+            p(data-i18n="new_home_faq.google_classroom_blurb2")
           .col-md-4.col-sm-6.col-xs-12
-            h4 How much does it cost to access all of the available courses and resources?
-            p
-              | We customize solutions for schools and districts and work with you to understand your use case, context, and budget. Contact
-              span= ' '
-              a(href="mailto:schools@codecombat.com") schools@codecombat.com
-              span= ' '
-              | for further details!
+            h4(data-i18n="new_home_faq.how_much_does_it_cost")
+            p(data-i18n="[html]new_home_faq.how_much_does_it_cost_blurb", data-i18n-options=JSON.stringify(i18nData))
           .col-md-4.col-sm-6.col-xs-12
-            h4 Is there a recommended browser and operating system?
-            p CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended.
+            h4(data-i18n="new_home_faq.recommended_systems")
+            p(data-i18n="new_home_faq.recommended_systems_blurb")
         .text-center
-          p.contact-us
-            | If you have any other questions, please
-            span= ' '
-            a(href="mailto:support@codecombat.com") contact us
-            | .
+          p.contact-us(data-i18n="[html]new_home_faq.other_questions", data-i18n-options=JSON.stringify(i18nData))
 
     .container-footer-mountains
 

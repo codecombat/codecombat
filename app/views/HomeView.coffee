@@ -27,16 +27,16 @@ module.exports = class HomeView extends RootView
 
   initialize: (options) ->
     super(options)
-
-    # NOTE: The [html] way does not work in this template for some reason?
-    # When fixed, use this for en.coffee:
-    # new_adventure_game_blurb: "Ozaria is our brand new adventure game and your turnkey solution for teaching Computer science. Our student-facing __slides__ and teacher-facing notes make planning and delivering lessons easier and faster."
-    #
-    # @i18nData = {
-    #   slides: "<a href='https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'>#{$.i18n.t('new_home.lesson_slides')}</a>"
-    # }
-
     @renderedPaymentNoty = false
+
+  getRenderData: (context={}) ->
+    context = super context
+    context.i18nData =
+      slides: "<a href='https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'>#{$.i18n.t('new_home.lesson_slides')}</a>"
+      clever: "<a href='/teachers/resources/clever-faq'>#{$.i18n.t('new_home_faq.clever_integration_faq')}</a>"
+      contact: "<a class='contact-modal'>#{$.i18n.t('general.contact_us')}</a>"
+      interpolation: { escapeValue: false }
+    context
 
   getMeta: ->
     title: $.i18n.t 'new_home.title'
