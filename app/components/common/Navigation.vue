@@ -141,15 +141,15 @@
                 span.icon-bar
                 span.icon-bar
               a.navbar-brand(v-if="me.useTarenaLogo()" href="http://kidtts.tmooc.cn/ttsPage/login.html")
-                img#logo-img.powered-by(src="/images/pages/base/logo.png")
-                img#tarena-logo(src="/images/pages/base/logo-tarena.png")
+                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
               a.navbar-brand(v-else-if="serverConfig.codeNinjas" href="/home")
-                img#logo-img.powered-by(src="/images/pages/base/logo.png")
-                img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
+                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
               a.navbar-brand(v-else-if="me.showChinaResourceInfo()" href="/home")
-                img#logo-img(src="/images/pages/base/logo-en+cn.png")
+                img#logo-img(src="/images/pages/base/logo-en+cn.png" alt="CodeCombat logo")
               a.navbar-brand(v-else href="/home")
-                img#logo-img(src="/images/pages/base/logo.png")
+                img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
 
             .navbar-browser-recommendation.navbar-header(v-if="isOldBrowser")
               .nav-spacer
