@@ -14,6 +14,7 @@ MyMatchesTabView = require './MyMatchesTabView'
 SimulateTabView = require './SimulateTabView'
 LadderPlayModal = require './LadderPlayModal'
 CocoClass = require 'core/CocoClass'
+TournamentLeaderboard = require './components/Leaderboard.coffee'
 
 Clan = require 'models/Clan'
 CourseInstance = require 'models/CourseInstance'
@@ -77,6 +78,7 @@ module.exports = class LadderView extends RootView
     @calcTimeOffset()
     @mandate = @supermodel.loadModel(new Mandate()).model
 
+    @tournamentId = utils.getQueryVariable 'tournament'
     @loadLeague()
     @urls = require('core/urls')
 
@@ -142,9 +144,6 @@ module.exports = class LadderView extends RootView
     @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']
     return unless @leagueID
 
-    if @leagueType is 'clan'
-      @tournamentId = utils.getQueryVariable 'tournament'
-
     modelClass = if @leagueType is 'clan' then Clan else CourseInstance
     @league = @supermodel.loadModel(new modelClass(_id: @leagueID)).model
     if @leagueType is 'course'
@@ -188,9 +187,8 @@ module.exports = class LadderView extends RootView
       @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
       @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
     else
-      # @removeSubView(@ladderTab)
-      # @removeSubView(@myMatchesTab)
-      @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions, @tournamentId))
+      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId}, @level, @sessions ))
+      # @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions, @tournamentId))
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
