@@ -2,6 +2,7 @@ Backbone.Mediator.setValidationEnabled false
 app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
+globalVar = require 'core/globalVar'
 
 VueRouter = require 'vue-router'
 Vuex = require 'vuex'
@@ -63,6 +64,7 @@ init = ->
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
   installVueI18n()
+  window.globalVar = globalVar unless app.isProduction()
 
 module.exports.init = init
 
@@ -215,7 +217,7 @@ window.serializeForIOS = serializeForIOS = (obj, depth=3) ->
   clone
 
 window.onbeforeunload = (e) ->
-  leavingMessage = _.result(window.currentView, 'onLeaveMessage')
+  leavingMessage = _.result(globalVar.currentView, 'onLeaveMessage')
   if leavingMessage
     # Custom messages don't work any more, main browsers just show generic ones. So, this could be refactored.
     return leavingMessage

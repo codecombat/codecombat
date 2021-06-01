@@ -1,3 +1,4 @@
+globalVar = require 'core/globalVar'
 
 class Agent
   constructor: () ->
@@ -99,7 +100,7 @@ module.exports = class PerfTester extends Backbone.View
      @$logout.prepend('<div>[<span style="color: cyan">' + ts + '</span> ms] '  + what + '</div>')
 
   initialize: () ->
-    window.currentView = @
+    globalVar.currentView = @
     @agent = new Agent
     @$iframe = @agent.$iframe
     @iframe = @agent.iframe
