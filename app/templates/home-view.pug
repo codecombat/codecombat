@@ -92,7 +92,7 @@ block content
     //section.container
     //  .row.text-center.get-started-row
     //    .col-xs-12
-    //      button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.get_started")
+    //      button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.get_started" data-event-action="Homepage Click Get Started Button #1 CTA")
 
     .container-graphic-spacer
       .container
@@ -113,7 +113,7 @@ block content
             h4.product-title(data-i18n="nav.ozaria_classroom")
             p(data-i18n="[html]new_home.new_adventure_game_blurb", data-i18n-options=JSON.stringify(i18nData))
             .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="https://www.ozaria.com/" data-i18n="new_home.explore_ozaria")
+              a.btn.btn-lg.btn-primary.btn-gold(href="https://www.ozaria.com/" data-i18n="new_home.explore_ozaria" data-event-action="Homepage Click Ozaria Classroom Button CTA")
         .col-md-6.col-md-offset-1
           img.img-responsive(src="/images/pages/home-v2/oz-class-image.png" loading="lazy" alt="Ozaria classroom scene")
       img#ozaria-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-4.png" loading="lazy" alt="")
@@ -129,10 +129,10 @@ block content
             p(data-i18n="new_home.learning_technology_blurb")
             .product-btn
               // TODO: make new /classroom or /schools page for this out of old homepage and maybe /impact page
-              //a.btn.btn-lg.btn-primary.btn-gold(href="/impact" data-i18n="new_home.explore_codecombat")
+              //a.btn.btn-lg.btn-primary.btn-gold(href="/impact" data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
               // TODO: alternately, finish the GetStartedSignupModal
-              //button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.explore_codecombat")
-              button.btn.btn-lg.btn-primary.btn-gold.create-account-teacher-btn(data-i18n="new_home.explore_codecombat")
+              //button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
+              button.btn.btn-lg.btn-primary.btn-gold.create-account-teacher-btn(data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
       img#codecombat-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-5.png" loading="lazy" alt="")
 
     .container
@@ -147,7 +147,7 @@ block content
             h4.product-title(data-i18n="new_home.codecombat_live_online_classes")
             p(data-i18n="new_home.online_classes_blurb")
             .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes")
+              a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
         .col-md-6.col-md-offset-1
           img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
       img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
@@ -167,7 +167,7 @@ block content
             h4.product-title(data-i18n="league.codecombat_ai_league")
             p(data-i18n="new_home.ai_league_blurb")
             .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="/league" data-i18n="new_home.explore_ai_league")
+              a.btn.btn-lg.btn-primary.btn-gold(href="/league" data-i18n="new_home.explore_ai_league" data-event-action="Homepage Click AI League Button CTA")
 
     .container
       .row.text-center.community-row
@@ -308,7 +308,13 @@ block content
       .container
         .row
           .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-50%); margin-top: 12px;" alt="")
+            img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-40%); margin-top: 12px;" alt="")
+
+    //// TODO: finish the GetStartedSignupModal
+    //section.container
+    //  .row.text-center.get-started-row(style="margin-top: -204px;")
+    //    .col-xs-12
+    //      button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.get_started" data-event-action="Homepage Click Get Started Button #2 CTA")
 
     .container-background-faq
       .container

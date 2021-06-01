@@ -21,6 +21,8 @@ module.exports = class HomeView extends RootView
     'click .my-classes-btn': 'onClickTrackEvent'
     'click .my-courses-btn': 'onClickTrackEvent'
     'click .try-ozaria': 'onClickTrackEvent'
+    'click .product-btn a': 'onClickTrackEvent'
+    'click .product-btn button': 'onClickTrackEvent'
     'click a': 'onClickAnchor'
     'click .get-started-btn': 'onClickGetStartedButton'
     'click .create-account-teacher-btn': 'onClickCreateAccountTeacherButton'
@@ -91,9 +93,7 @@ module.exports = class HomeView extends RootView
       @getStartedSignupModal.remove()
 
   onClickTrackEvent: (e) ->
-    if $(e.target)?.hasClass('track-ab-result')
-      properties = {trackABResult: true}
-    @homePageEvent($(e.target).data('event-action'), properties || {})
+    @homePageEvent($(e.target).data('event-action'), {})
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
@@ -114,20 +114,15 @@ module.exports = class HomeView extends RootView
     else
       anchorText = anchor.text
 
-    if $(e.target)?.hasClass('track-ab-result')
-      properties = {trackABResult: true}
-
+    properties = {}
     if anchorText
-      @homePageEvent("Link: #{anchorText}", properties || {}, ['Google Analytics'])
+      @homePageEvent("Link: #{anchorText}", properties, ['Google Analytics'])
     else
-      _.extend(properties || {}, {
-        clicked: e?.currentTarget?.host or "unknown"
-      })
+      properties.clicked = e?.currentTarget?.host or "unknown"
       @homePageEvent("Link:", properties, ['Google Analytics'])
 
   onClickGetStartedButton: (e) ->
-    # TODO: Add event tracking here
-    # @homePageEvent($(e.target).data('event-action'))
+    @homePageEvent($(e.target).data('event-action'))
     @getStartedSignupContainer?.remove()
     @getStartedSignupContainer = document.createElement('div')
     document.body.appendChild(@getStartedSignupContainer)
