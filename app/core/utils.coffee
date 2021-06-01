@@ -964,10 +964,14 @@ ageToBracket = (age) ->
   return 'open'
 
 bracketToAge = (slug) ->
-  for i in [0...ageBrackets.length]
-    if ageBrackets[i].slug == slug
-      lowerBound = if i == 0 then 0 else ageBrackets[i-1].max
-      higherBound = ageBrackets[i].max
+  season = currentSeason()
+  now = new Date()
+  seasonStart = new Date("#{now.getFullYear()}-#{season.start}")
+  daysElapsedFromSeason = daysBetween(now, seasonStart)
+  for i in [0...season.ageBrackets.length]
+    if season.ageBrackets[i].slug == slug
+      lowerBound = if i == 0 then 0 else (season.ageBrackets[i-1].max + daysElapsedFromSeason)
+      higherBound = season.ageBrackets[i].max + daysElapsedFromSeason
       return { $gt: lowerBound, $lte: higherBound }
 
 CODECOMBAT = 'codecombat'
