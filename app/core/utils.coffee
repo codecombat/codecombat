@@ -949,10 +949,10 @@ isInBracket = (age,bracket,season) ->
   seasonLength = daysLeftFromSeason + daysElapsedFromSeason
   daysOlderThanBracketMax = age - bracketMax
 
-  willAgeIn = daysOlderThanBracketMax < seasonLength
-  notAgedIn = daysOlderThanBracketMax > daysElapsedFromSeason
+  willAgeInToCurrentBracket = daysOlderThanBracketMax < seasonLength
+  agedInToNextBracket = daysElapsedFromSeason >= daysOlderThanBracketMax
 
-  return age < bracketMax || ( willAgeIn && notAgedIn)
+  return age < bracketMax || ( willAgeInToCurrentBracket && !agedInToNextBracket)
 
 ageToBracket = (age) ->
 # Convert years to an age bracket

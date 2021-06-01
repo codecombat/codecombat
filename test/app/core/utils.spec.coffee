@@ -58,6 +58,25 @@ describe 'Utility library', ->
         jasmine.clock().install()
       afterEach ->
         jasmine.clock().uninstall()
+      describe 'older than bracketMax', ->
+        it 'will age in to current bracket AND not aged in to the next one', ->
+          now = new Date('2021-02-25')
+          jasmine.clock().mockDate(now)
+          birthDate = '2009-08-31'
+          age = getAge(now,birthDate)
+          # SEASON 1:
+          # age: 4196, seasonLength: 119, bracketMax: 4140, daysOlderThanBracketMax: 56, daysElapsedFromSeason: 55
+          expect(utils.ageToBracket(age)).toBe('0-11')
+        it 'will age in to current bracket BUT already aged in to the next one', ->
+          now = new Date('2021-02-25')
+          jasmine.clock().mockDate(now)
+          birthDate = '2009-09-01'
+          age = getAge(now,birthDate)
+          # SEASON 1:
+          # age: 4195, seasonLength: 119, bracketMax: 4140, daysOlderThanBracketMax: 55, daysElapsedFromSeason: 55}
+          # SEASON 2:
+          # age: 4195, seasonLength: 119, bracketMax: 5236, daysOlderThanBracketMax: -1041, daysElapsedFromSeason: 55}
+          expect(utils.ageToBracket(age)).toBe('11-14')
       describe 'should be in 0-11 bracket', ->
         it 'if born at 9/1/2014', ->
           birthDate = '2014-09-01'
