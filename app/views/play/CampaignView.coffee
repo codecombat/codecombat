@@ -43,6 +43,7 @@ require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 HoCModal = require 'views/special_event/HoC2018InterstitialModal.coffee'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
+{currentView} = require 'core/globalVar'
 
 require 'lib/game-libraries'
 

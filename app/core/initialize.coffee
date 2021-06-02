@@ -65,6 +65,7 @@ init = ->
   setUpMoment() # Set up i18n for moment
   installVueI18n()
   window.globalVar = globalVar if me.isAdmin() or !app.isProduction()
+  parent.globalVar = globalVar if self != parent
 
 module.exports.init = init
 

@@ -18,7 +18,8 @@ class Agent
   waitForCodeCombatLoaded: () ->
     new Promise (res, rej) =>
       console.log "Hooking Router"
-      @iframe.contentWindow.globalVar.application.router.once 'did-load-route', () ->
+      # @iframe.contentWindow.globalVar.application.router.once 'did-load-route', () ->
+      @globalVar.application.router.once 'did-load-route', () ->
         #TODO: Wait for supermodel to be loaded.
         res()
 
@@ -55,7 +56,7 @@ class Agent
     @findAndWait(what).then (target) =>
       new Promise (res, rej) =>
         target.click()
-        @iframe.contentWindow.globalVar.application.router.once 'did-load-route', () ->
+        @globalVar.application.router.once 'did-load-route', () ->
           #TODO: Wait for supermodel to be loaded.
           res()
         target.click()
