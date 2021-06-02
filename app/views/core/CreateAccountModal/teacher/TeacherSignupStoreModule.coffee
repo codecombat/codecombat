@@ -4,6 +4,7 @@ SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 ncesData = _.zipObject(['nces_'+key, ''] for key in SCHOOL_NCES_KEYS)
 User = require('models/User')
 store = require('core/store')
+globalVar = require 'core/globalVar'
 
 module.exports = TeacherSignupStoreModule = {
   namespaced: true
@@ -126,7 +127,7 @@ module.exports = TeacherSignupStoreModule = {
           )
 
         trackerCalls.push(
-          window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
+          globalVar.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
         )
 
         return Promise.all(trackerCalls).catch(->)

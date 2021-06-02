@@ -12,6 +12,7 @@ Achievement = require 'models/Achievement'
 AchievementPopup = require 'views/core/AchievementPopup'
 errors = require 'core/errors'
 utils = require 'core/utils'
+globalVar = require 'core/globalVar'
 
 BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
 Navigation = require('app/components/common/Navigation.vue').default
@@ -70,7 +71,7 @@ module.exports = class RootView extends CocoView
         cache: false
 
   logoutAccount: ->
-    window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
+    window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if globalVar.application.isIPadApp
     Backbone.Mediator.publish("auth:logging-out", {})
     window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
     if me.isTarena()

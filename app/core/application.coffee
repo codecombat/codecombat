@@ -9,6 +9,7 @@ storage = require 'core/storage'
 Tracker = require('core/Tracker2').default
 CocoModel = require 'models/CocoModel'
 api = require 'core/api'
+globalVar = require 'core/globalVar'
 
 marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
 
@@ -150,4 +151,4 @@ Application = {
 }
 
 module.exports = Application
-window.application = Application
+globalVar.application = Application

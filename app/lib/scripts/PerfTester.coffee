@@ -1,5 +1,3 @@
-globalVar = require 'core/globalVar'
-
 class Agent
   constructor: () ->
     @$iframe = $('<iframe id="frame" src="/nothing.html"></iframe>')
@@ -20,7 +18,7 @@ class Agent
   waitForCodeCombatLoaded: () ->
     new Promise (res, rej) =>
       console.log "Hooking Router"
-      @iframe.contentWindow.application.router.once 'did-load-route', () ->
+      @iframe.contentWindow.globalVar.application.router.once 'did-load-route', () ->
         #TODO: Wait for supermodel to be loaded.
         res()
 
@@ -57,7 +55,7 @@ class Agent
     @findAndWait(what).then (target) =>
       new Promise (res, rej) =>
         target.click()
-        @iframe.contentWindow.application.router.once 'did-load-route', () ->
+        @iframe.contentWindow.globalVar.application.router.once 'did-load-route', () ->
           #TODO: Wait for supermodel to be loaded.
           res()
         target.click()
@@ -100,7 +98,7 @@ module.exports = class PerfTester extends Backbone.View
      @$logout.prepend('<div>[<span style="color: cyan">' + ts + '</span> ms] '  + what + '</div>')
 
   initialize: () ->
-    globalVar.currentView = @
+    window.currentView = @
     @agent = new Agent
     @$iframe = @agent.$iframe
     @iframe = @agent.iframe
