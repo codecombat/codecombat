@@ -2,7 +2,7 @@
   <div id="manage-billing-view" class="container-fluid">
     <div class="container">
       <div class="text-center">
-        <h2>Customer Billing Portal</h2>
+        <h2 class="billing-portal">Customer Billing Portal</h2>
         <div class="form-group manage-billing-section">
           <button
               type="submit"
@@ -13,7 +13,7 @@
             Manage Stripe Billing
           </button>
           <div class="extra-data">
-            <p class="extra-p">*This will redirect you to Stripe Portal where you can view your transactions, change credit card for future transactions.</p>
+            <p class="extra-p">*This will redirect you to Stripe to view your billing history and make changes to your form of payment.</p>
           </div>
           <div class="error-info">
             <p
@@ -42,13 +42,13 @@ export default {
   },
   async created() {
     if (!me || !me.get('email')) {
-    this.errMsg = 'You must be logged-in to manage billing info';
+      this.errMsg = 'You must be logged-in to manage billing info';
     } else if (me.isStudent()) {
-    this.errMsg = 'Students dont have access to billing';
+      this.errMsg = 'Students dont have access to billing';
     } else if (!me.get('emailVerified')) {
-    this.errMsg = 'Email is not verified, please verify and refresh';
+      this.errMsg = 'Email is not verified, please verify and refresh';
     } else {
-    await this.fetchCustomerPortalUrl();
+      await this.fetchCustomerPortalUrl();
     }
   },
   methods: {
@@ -81,12 +81,15 @@ export default {
   color: grey;
 }
 .extra-data {
-  padding-top: 5px;
+  padding-top: 10px;
 }
 .manage-billing-section {
   padding-top: 15px;
 }
 .error {
   color: red;
+}
+.billing-portal {
+  font-weight: bold;
 }
 </style>
