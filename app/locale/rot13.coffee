@@ -502,6 +502,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     submit: "Fhozvg"
     replay: "Ercynl"
     complete: "Pbzcyrgr"
+    pick_image: "Cvpx Vzntr"
 
   general:
     and: "naq"
@@ -1701,6 +1702,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     ai_league_team_rankings: "NV Yrnthr Grnz Enaxvatf"
     view_standings: "Ivrj Fgnaqvatf"
     view_winners: "Ivrj Jvaaref"
+    classroom_announcement: "Pynffebbz Naabhaprzrag"
 
   project_gallery:
     no_projects_published: "Or gur svefg gb choyvfu n cebwrpg va guvf pbhefr!"
@@ -2465,6 +2467,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     unsubscribe_button: "Lrf, hafhofpevor"
     unsubscribe_failed: "Snvyrq"
     unsubscribe_success: "Fhpprff"
+    manage_billing: "Znantr Ovyyvat"
 
   account_invoices:
     amount: "Nzbhag va HF qbyynef"
@@ -3196,6 +3199,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     championship_summary: 'Gur __punzcvbafuvcNeran__ punzcvbafuvc neran vf abj bcra! Onggyr vg bhg sbe gur zbagu bs __punzcvbafuvcZbagu__ gb jva cevmrf va gur __punzcvbafuvcNeran__ __punzcvbafuvcGlcr__.'
     play_arena_full: "Cynl __neranAnzr__ __neranGlcr__"
     play_arena_short: "Cynl __neranAnzr__"
+    view_arena_winners: "Ivrj __neranAnzr__ __neranGlcr__ jvaaref"
     arena_type_championship: "Punzcvbafuvc Neran"
     arena_type_regular: "Zhygvcynlre Neran"
     blazing_battle: "Oynmvat Onggyr"
@@ -3214,6 +3218,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     season1_prize_2: "ERFCNJA Tnzvat Punve"
     season1_prize_3: "Phfgbz PbqrPbzong Ningne"
     season1_prize_4: "Naq zber!"
+    season1_prize_hyperx: "UlcreK Cerzvhz Crevcurenyf"
     codecombat_ai_league: 'PbqrPbzong NV Yrnthr'
     register: "Ertvfgre"
     not_registered: "Abg Ertvfgrerq"
@@ -3229,3 +3234,37 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     no_tournaments: "Gurer vf ab gbheanzrag abj"
     edit_tournament: "Rqvg Gbheanzrag"
     create_tournament: "Perngr n Gbheanzrag"
+
+  payments:
+    student_licenses: 'Fghqrag Yvprafrf'
+    computer_science: 'Pbzchgre Fpvrapr'
+    web_development: 'Jro Qrirybczrag'
+    game_development: 'Tnzr Qrirybczrag'
+    per_student: 'Cre Fghqrag'
+    just: 'Whfg'
+    teachers_upto: 'Grnpure pna chepunfr hcgb'
+    great_courses: 'Terng Pbhefrf vapyhqrq sbe'
+    studentLicense_successful: 'Pbatenghyngvbaf! Lbhe yvprafrf jvyy or ernql gb hfr va n zva. Pyvpx ba gur Trggvat Fgnegrq Thvqr va gur Erfbhepr Uho gb yrnea ubj gb nccyl gurz gb lbhe fghqragf.'
+    onlineClasses_successful: 'Pbatenghyngvbaf! Lbhe cnlzrag jnf fhpprffshy. Bhe grnz jvyy ernpu bhg gb lbh jvgu gur arkg fgrcf.'
+    failed: 'Lbhe cnlzrag snvyrq, cyrnfr gel ntnva'
+    session_week_1: '1 frffvba/jrrx'
+    session_week_2: '2 frffvba/jrrx'
+    month_1: 'Zbaguyl'
+    month_3: 'Dhnegreyl'
+    month_6: 'Unys-lrneyl'
+    year_1: 'Lrneyl'
+    most_popular: 'Zbfg Cbchyne'
+    best_value: 'Orfg Inyhr'
+
+    recurring:
+      month_1: 'Erpheevat ovyyvat rirel zbagu'
+      month_3: 'Erpheevat ovyyvat rirel 3 zbaguf'
+      month_6: 'Erpheevat ovyyvat rirel 6 zbaguf'
+      year_1: 'Erpheevat ovyyvat rirel lrne'
+
+  form_validation_errors:
+    required: 'Svryq vf erdhverq'
+    invalidEmail: 'Vainyvq rznvy'
+    invalidPhone: 'Vainyvq cubar ahzore'
+    emailExists: 'Rznvy nyernql rkvfgf'
+    numberGreaterThanZero: 'Fubhyq or n ahzore terngre guna 0'
