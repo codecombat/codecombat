@@ -64,7 +64,7 @@ init = ->
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
   installVueI18n()
-  window.globalVar = globalVar unless app.isProduction()
+  window.globalVar = globalVar if me.isAdmin() or !app.isProduction()
 
 module.exports.init = init
 
