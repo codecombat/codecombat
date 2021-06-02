@@ -139,7 +139,9 @@ Application = {
     storage = require 'core/storage'
     storage.save('hoc-campaign', campaignSlug)
 
-  getHocCampaign: -> storage.load('hoc-campaign')
+  getHocCampaign: ->
+    storage = require 'core/storage'
+    storage.load('hoc-campaign')
 
   remindPlayerToTakeBreaks: ->
     return unless me.showChinaRemindToast()
