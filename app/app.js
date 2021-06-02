@@ -21,3 +21,4 @@ require('app/vendor.js');
 // require.context('app/views/core', true, /.*\.(coffee|jade)/)
 
 require('core/initialize');
+const {application} = require('core/globalVar')
