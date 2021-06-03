@@ -33,7 +33,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     classroom_in_box_blurb2: "Outiller tous les professeurs pour qu'ils se sentent en confiance dans l'apprentissage du codage."
     classroom_in_box_blurb3: "Inspirer tous les chefs d'établissement afin qu'ils créent un programme d'informatique de renommée mondiale."
     classroom_in_box_blurb4: ""
-    covid19_banner_blurb: "Nous offrons un accès gratuit à tout notre programme pour les éducateurs et les écoles affectées par les fermetures d'établissement."
     click_here: "Cliquez ici"
     creativity_rigor_title: "Quand la créativité rencontre la rigueur"
     creativity_rigor_subtitle1: "Rendre le codage amusant et apprendre des compétences du monde réel"

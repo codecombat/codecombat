@@ -33,7 +33,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     classroom_in_box_blurb2: "培养下一代青少年计算机科学英才"
     classroom_in_box_blurb3: "赋能学校和培训机构开设精品编程课"
     classroom_in_box_blurb4: "打造具有全球影响力的编程竞赛平台"
-    covid19_banner_blurb: "我们为受学校停课影响的教育工作者和学校免费提供完整的课程。"
     click_here: "点击这里"
     creativity_rigor_title: "扣哒世界与众不同"
     creativity_rigor_subtitle1: "寓教于乐，轻松入门"

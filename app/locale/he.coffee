@@ -33,7 +33,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
 #    classroom_in_box_blurb4: ""
-#    covid19_banner_blurb: "We are offering free access to our full curriculum to educators and schools affected by school closures."
 #    click_here: "Click here"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"

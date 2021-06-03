@@ -33,7 +33,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     classroom_in_box_blurb2: "讓每位老師在授課時更有自信。"
     classroom_in_box_blurb3: "激勵更多的學校來創造出世界一流的電腦科學課程。"
 #    classroom_in_box_blurb4: ""
-    covid19_banner_blurb: "我們為受學校停課影響的教育者和學校免費提供完整課程。"
     click_here: "點擊這裡"
     creativity_rigor_title: "創造力與邏輯相遇的地方"
     creativity_rigor_subtitle1: "讓編碼變得有趣並學習到現實世界共通的技能"
