@@ -3248,7 +3248,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     onlineClasses_successful: 'Pbatenghyngvbaf! Lbhe cnlzrag jnf fhpprffshy. Bhe grnz jvyy ernpu bhg gb lbh jvgu gur arkg fgrcf.'
     failed: 'Lbhe cnlzrag snvyrq, cyrnfr gel ntnva'
     session_week_1: '1 frffvba/jrrx'
-    session_week_2: '2 frffvba/jrrx'
+    session_week_2: '2 frffvbaf/jrrx'
     month_1: 'Zbaguyl'
     month_3: 'Dhnegreyl'
     month_6: 'Unys-lrneyl'

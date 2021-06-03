@@ -3249,7 +3249,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
 #    failed: "Your payment failed, please try again"
 #    session_week_1: "1 session/week"
-#    session_week_2: "2 session/week"
+#    session_week_2: "2 sessions/week"
 #    month_1: "Monthly"
 #    month_3: "Quarterly"
 #    month_6: "Half-yearly"
