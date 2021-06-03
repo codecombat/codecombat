@@ -175,9 +175,12 @@
                       li
                         a.text-p(:href="ozPath('/')")
                           span(:class="isOzaria && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                          span.new-pill {{ $t('nav.new') }}
                       li
                         a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
+                      li
+                        a.text-p(:href="ozPath('/professional-development')")
+                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
+                          span.new-pill {{ $t('nav.new') }}
 
                 li(v-if="!me.isStudent() && !me.isTeacher()")
                   a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
@@ -194,9 +197,12 @@
                       li
                         a.text-p(:href="ozPath('/teachers/classes')")
                           span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_dashboard') }}
-                          span.new-pill {{ $t('nav.new') }}
                       li
                         a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t('nav.codecombat_dashboard') }}
+                      li
+                        a.text-p(:href="ozPath('/professional-development')")
+                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
+                          span.new-pill {{ $t('nav.new') }}
 
                 ul.nav.navbar-nav(v-else-if="me.isStudent()")
                   li.dropdown.dropdown-hover
