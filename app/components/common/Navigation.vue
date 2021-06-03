@@ -168,7 +168,7 @@
 
                 ul.nav.navbar-nav(v-if="me.isAnonymous()")
                   li.dropdown.dropdown-hover
-                    a.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
+                    a.text-p(:href="isCodeCombat ? '/impact' : '#'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
                       span {{ $t('nav.educators') }}
                       span.caret
                     ul(class="dropdown-menu")
@@ -190,7 +190,7 @@
 
                 ul.nav.navbar-nav(v-if="me.isTeacher()")
                   li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                    a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                       span {{ $t('nav.educators') }}
                       span.caret
                     ul(class="dropdown-menu")
