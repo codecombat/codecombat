@@ -39,6 +39,10 @@ export default function getVueRouter () {
           ]
         },
         {
+          path: '/api-administrator',
+          component: () => import(/* webpackChunkName: "apiViews" */ 'app/views/api/components/ApiDashboard')
+        },
+        {
           path: '/admin/clan',
           component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanSearch'),
         },
