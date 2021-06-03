@@ -4,15 +4,15 @@
 		<h4 class="parent-details-text">Parent Details</h4>
 		<div class="form-group">
 			<label for="parent-email">Email<span class="required-field"> *</span></label>
-			<input type="text" :class="`form-control ${this.emailErrorClass}`" id="parent-email" placeholder="Enter Email" @keydown="updateEmail" @keyup="updateEmail" />
+			<input type="text" :class="`form-control ${this.emailErrorClass}`" id="parent-email" placeholder="Enter Email" @keydown="updateEmail" @keyup="updateEmail" :value="email" />
 		</div>
 		<div class="form-group">
 			<label for="parent-firstname">First Name<span class="required-field"> *</span></label>
-			<input type="text" class="form-control" id="parent-firstname" placeholder="Enter First Name" @keydown="updateFirstName" @keyup="updateFirstName" />
+			<input type="text" class="form-control" id="parent-firstname" placeholder="Enter First Name" @keydown="updateFirstName" @keyup="updateFirstName" :value="firstName" />
 		</div>
 		<div class="form-group">
 			<label for="parent-lastname">Last Name</label>
-			<input type="text" class="form-control" id="parent-lastname" placeholder="Enter Last Name" @keydown="updateLastName" @keyup="updateLastName" />
+			<input type="text" class="form-control" id="parent-lastname" placeholder="Enter Last Name" @keydown="updateLastName" @keyup="updateLastName" :value="lastName" />
 		</div>
 		<hr />
 	</div>
@@ -22,14 +22,20 @@
 export default {
 	name: "PaymentOnlineClassesParentDetailsView",
 	data () {
-		return {
-			email: null,
-			firstName: null,
-			lastName: null,
+	  return {
+			email: me.get('email'),
+			firstName: me.get('firstName'),
+			lastName: me.get('lastName'),
 			emailErrorClass: null,
 		};
 	},
-	methods: {
+  created() {
+	  // update parent details if user is logged in
+	  if (me.get('email')) {
+	    this.updateParentDetails()
+    }
+  },
+  methods: {
 		updateEmail(e) {
 			this.emailErrorClass = '';
 			const val = e.target.value;
@@ -51,7 +57,7 @@ export default {
 		updateParentDetails() {
 			// maybe use watch or something better to trigger this method
 			if (this.email && this.firstName) {
-				this.$emit('updateParentDetails', {
+			  this.$emit('updateParentDetails', {
 					email: this.email,
 					firstName: this.firstName,
 					lastName: this.lastName
