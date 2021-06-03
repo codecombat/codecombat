@@ -33,7 +33,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     classroom_in_box_blurb2: "Permitir a qualquer professor sentir-se confiante quando ensina a programar."
     classroom_in_box_blurb3: "Inspirar todos os líderes escolares a criar um programa de ciências da computação de classe mundial."
 #    classroom_in_box_blurb4: ""
-    covid19_banner_blurb: "Estamos a oferecer acesso gratuíto ao nosso currículo completo a professores e escolas afetadas pelos encerramentos obrigatórios."
     click_here: "Clique aqui"
     creativity_rigor_title: "Onde a Criatividade Encontra o Rigor"
     creativity_rigor_subtitle1: "Tornar a programação divertida e ensinar habilidades do mundo real"

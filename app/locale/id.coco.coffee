@@ -33,7 +33,6 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     classroom_in_box_blurb2: "Berdayakan semua pendidik untuk merasa percaya diri saat mengajar coding."
     classroom_in_box_blurb3: "Menginspirasi semua pimpinan sekolah untuk membuat program ilmu komputer kelas dunia."
     classroom_in_box_blurb4: ""
-    covid19_banner_blurb: "Kami menawarkan akses gratis ke kurikulum lengkap kami untuk pendidik dan sekolah yang terkena dampak penutupan sekolah."
     click_here: "Klik di sini"
     creativity_rigor_title: "Di Mana Kreativitas Bertemu dengan Ketelitian"
     creativity_rigor_subtitle1: "Jadikan coding menyenangkan dan ajarkan keterampilan dunia nyata"
