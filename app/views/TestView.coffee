@@ -3,6 +3,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/test-view'
 requireUtils = require 'lib/requireUtils'
 storage = require 'core/storage'
+{currentView} = require 'core/globalVar'
 loadAetherLanguage = require("lib/loadAetherLanguage")
 
 require('vendor/styles/jasmine.css')

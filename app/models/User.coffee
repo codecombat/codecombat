@@ -6,6 +6,7 @@ utils = require 'core/utils'
 api = require 'core/api'
 co = require 'co'
 storage = require 'core/storage'
+globalVar = require 'core/globalVar'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -385,9 +386,9 @@ module.exports = class User extends CocoModel
     options.url = '/auth/logout'
     FB?.logout?()
     options.success ?= =>
-      window.application.tracker.identifyAfterNextPageLoad()
-      window.application.tracker.resetIdentity().finally =>
-        location = _.result(window.currentView, 'logoutRedirectURL')
+      globalVar.application.tracker.identifyAfterNextPageLoad()
+      globalVar.application.tracker.resetIdentity().finally =>
+        location = _.result(globalVar.currentView, 'logoutRedirectURL')
         @clearUserSpecificLocalStorage?()
         if location
           window.location = location

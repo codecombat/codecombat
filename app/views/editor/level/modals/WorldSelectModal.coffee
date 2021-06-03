@@ -3,6 +3,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/modal/world-select-modal'
 Surface = require 'lib/surface/Surface'
 ThangType = require 'models/ThangType'
+{currentView} = require 'core/globalVar'
 
 module.exports = class WorldSelectModal extends ModalView
   id: 'world-select-modal'

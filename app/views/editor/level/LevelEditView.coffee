@@ -39,6 +39,7 @@ storage = require 'core/storage'
 utils = require 'core/utils'
 loadAetherLanguage = require 'lib/loadAetherLanguage'
 presenceApi = require 'core/api/presence'
+{currentView} = require 'core/globalVar'
 
 require 'vendor/scripts/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
 require 'lib/setupTreema'
