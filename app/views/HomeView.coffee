@@ -192,5 +192,5 @@ module.exports = class HomeView extends RootView
     @cleanupModals()
     super()
 
-  mergeWithPrerendered: (el) ->
-    true
+  #mergeWithPrerendered: (el) ->
+  #  true
