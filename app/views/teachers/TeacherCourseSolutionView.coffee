@@ -46,7 +46,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @prepaids = new Prepaids()
       @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @paidTeacher = me.isAdmin() or me.isPaidTeacher()
-    @courseLessonSlidesURLs = utils.courseLessonSlidesURLs
+    @courseLessonSlidesURLs = utils.courseLessonSlidesURLs()
     me.getClientCreatorPermissions()?.then(() => @render?())
     super(options)
 

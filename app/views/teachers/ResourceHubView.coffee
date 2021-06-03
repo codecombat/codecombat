@@ -20,8 +20,8 @@ module.exports = class ResourceHubView extends RootView
     window.tracker?.trackEvent 'Teachers Click Resource Hub Link', { category: 'Teachers', label: link }
 
   organizeLessonSlides: ->
-    courseLessonSlidesURLs = utils.courseLessonSlidesURLs
+    courseLessonSlidesURLs = utils.courseLessonSlidesURLs()
     @lessonSlidesURLsByCourse = {}
     for courseID, acronym of utils.courseAcronyms
-      if url = utils.courseLessonSlidesURLs[courseID]
+      if url = courseLessonSlidesURLs[courseID]
         @lessonSlidesURLsByCourse[acronym.toLowerCase()] = url

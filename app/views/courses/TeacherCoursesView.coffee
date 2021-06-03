@@ -47,7 +47,7 @@ module.exports = class TeacherCoursesView extends RootView
     @campaignLevelNumberMap = {}
     @courseChangeLog = {}
     @videoLevels = utils.videoLevels || {}
-    @courseLessonSlidesURLs = utils.courseLessonSlidesURLs
+    @courseLessonSlidesURLs = utils.courseLessonSlidesURLs()
     window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
 
   onLoaded: ->
