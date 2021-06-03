@@ -142,7 +142,7 @@ module.exports = class HomeView extends RootView
 
   activateCarousels: =>
     return if @destroyed
-    @$('.carousel').carousel().on 'slide.bs.carousel', @onCarouselSlide
+    @$('.carousel').carousel().off().on 'slide.bs.carousel', @onCarouselSlide
 
   afterRender: ->
     if me.isAnonymous()
@@ -165,6 +165,7 @@ module.exports = class HomeView extends RootView
         type = 'error'
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
+    _.delay(@activateCarousels, 1000)
     super()
 
   afterInsert: ->
@@ -176,7 +177,6 @@ module.exports = class HomeView extends RootView
       if link.length
         @scrollToLink(document.location.hash, 0)
     _.delay(f, 100)
-    _.delay(@activateCarousels, 1000)
 
   destroy: ->
     @cleanupModals()
