@@ -165,6 +165,16 @@ module.exports = class HomeView extends RootView
         type = 'error'
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
+    else if utils.getQueryVariable('payment-onlineClasses') in ['success', 'failed'] and not @renderedPaymentNoty
+      paymentResult = utils.getQueryVariable('payment-onlineClasses')
+      if paymentResult is 'success'
+        title = $.i18n.t 'payments.onlineClasses_successful'
+        type = 'success'
+      else
+        title = $.i18n.t 'payments.failed'
+        type = 'error'
+      noty({ text: title, type: type, timeout: 10000, killer: true })
+      @renderedPaymentNoty = true
     _.delay(@activateCarousels, 1000)
     super()
 

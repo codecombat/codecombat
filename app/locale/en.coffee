@@ -2524,6 +2524,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unsubscribe_button: "Yes, unsubscribe"
     unsubscribe_failed: "Failed"
     unsubscribe_success: "Success"
+    manage_billing: "Manage Billing"
 
   account_invoices:
     amount: "Amount in US dollars"
@@ -3301,6 +3302,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_upto: 'Teacher can purchase upto'
     great_courses: 'Great Courses included for'
     studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students.'
+    onlineClasses_successful: 'Congratulations! Your payment was successful. Our team will reach out to you with the next steps.'
     failed: 'Your payment failed, please try again'
     session_week_1: '1 session/week'
     session_week_2: '2 session/week'
@@ -3308,6 +3310,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     month_3: 'Quarterly'
     month_6: 'Half-yearly'
     year_1: 'Yearly'
+    most_popular: 'Most Popular'
+    best_value: 'Best Value'
+
+    recurring:
+      month_1: 'Recurring billing every month'
+      month_3: 'Recurring billing every 3 months'
+      month_6: 'Recurring billing every 6 months'
+      year_1: 'Recurring billing every year'
 
   form_validation_errors:
     required: 'Field is required'
