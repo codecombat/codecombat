@@ -2,15 +2,28 @@
 	<div>
 		<div class="container-fluid">
 			<div class="container">
-				<div class="text-center header">
-					<h2>LIVE ONLINE CODING CLASSES PLANS & PAYMENT OPTIONS</h2>
+				<div class="text-center header row">
+          <div class="col-md-1"></div>
+          <div class="col-md-9">
+					<h2>LIVE ONLINE CODING CLASSES</h2>
+          <h2>PLANS & PAYMENT OPTIONS</h2>
 					<h4>Your subscription purchase is <u>100% risk-free</u> within the first 30 days!</h4>
+          </div>
+          <div class="col-md-2">
+            <img
+              class="img-responsive money-back-guarantee"
+              src="/images/pages/parents/money_back_guarantee.png"
+              title="30-day money-back guarantee"
+              alt='"30 Day Money back Guarantee Transparent" by transparentpng.com is licensed under CC BY 4.0 - source: https://www.transparentpng.com/details/30-day-money-back-guarantee-transparent_15977.html'
+              loading="lazy"
+            />
+          </div>
 				</div>
 				<payment-online-classes-plans-view
 						:price-data="priceData"
 					/>
 				<div v-if="getSiblingPercentageOff() > 0" class="offer-view text-center">
-					<h3>Get an extra {{ this.getSiblingPercentageOff() }}% off on purchase of sibling accounts</h3>
+					<h5>Get an extra {{ this.getSiblingPercentageOff() }}% off on purchase of sibling accounts</h5>
 					<p class="auto-text">Applied at checkout automatically when selecting more than one student</p>
 				</div>
 			</div>
@@ -70,6 +83,7 @@ export default {
 <style lang="scss" scoped>
 .container-fluid {
 	background-color: aliceblue;
+  font-family: "Work Sans",sans-serif;
 }
 .header {
 	padding-bottom: 20px;
@@ -104,5 +118,8 @@ export default {
 }
 .auto-text {
 	font-size: small;
+}
+.money-back-guarantee {
+  width: 70%;
 }
 </style>
