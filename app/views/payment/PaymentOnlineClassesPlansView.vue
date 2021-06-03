@@ -54,11 +54,11 @@ export default {
 			if (this.shouldChangeOrderOfData) {
 				return [
 						...colKeys.slice(0, parseInt(colKeys.length / 2)),
-						'#',
+						'',
 						...colKeys.slice(parseInt(colKeys.length / 2))
 				]
 			} else {
-				return ['#', ...colKeys];
+				return ['', ...colKeys];
 			}
 		},
 		getRows() {
@@ -91,7 +91,7 @@ export default {
 	},
 	methods: {
 		getDisplayPrice(price) {
-			return `${this.getCurrency(price)}${this.getTieredPrice(price)}`
+			return `${this.getCurrency(price)}${this.getTieredPrice(price).toLocaleString()}`
 		},
 		getCurrency(price) {
 			return price.currency === 'usd' ? '$' : price.currency;
@@ -104,7 +104,7 @@ export default {
 			const priceStr = this.getComparingNumber(currentPrice, index)
 			if (!priceStr)
 				return
-			return `${this.getCurrency(currentPrice)}${priceStr}`
+			return `${this.getCurrency(currentPrice)}${priceStr.toLocaleString()}`
 		},
 		getComparingNumber(currentPrice, index) {
 			const firstPrice = this.getRows[0][index]
@@ -152,13 +152,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.comparing-price {
-	text-decoration: line-through;
-	padding-top: 5%;
-}
 .price {
 	font-size: 130%;
 	font-weight: 500;
+}
+.comparing-price {
+  text-decoration: line-through;
+  padding-top: 5%;
+  font-size: 110%;
 }
 th {
 	font-size: 150%;
@@ -173,7 +174,7 @@ th {
 }
 .price-box {
 	border: 1px solid lightgrey;
-	margin: 2% 32% 2% 32%;
+	margin: 2% 30% 2% 30%;
 	padding: 3%;
 	text-align: center;
 	background-color: white;
@@ -193,5 +194,6 @@ p {
 }
 .sub-label {
 	color: goldenrod;
+  font-size: 95%;
 }
 </style>
