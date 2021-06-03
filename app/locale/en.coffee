@@ -173,8 +173,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     explore_ai_league: "Explore AI League"
     explore_ozaria: "Explore Ozaria"
     explore_online_classes: "Explore Online Classes"
+    explore_pd: "Explore Professional Development"
     new_adventure_game_blurb: "Ozaria is our brand new adventure game and your turnkey solution for teaching Computer science. Our student-facing __slides__ and teacher-facing notes make planning and delivering lessons easier and faster."
     lesson_slides: "lesson slides"
+    pd_blurb: "Learn the skills to effectively teach computer science with our self-directed, CSTA-accredited professional development course. Earn up to 40 credit hours any time, from any device. Pairs well with Ozaria Classroom."
     ai_league_blurb: "Competitive coding has never been so epic with this educational esports league, uniquely both an AI battle simulator and game engine for learning real code."
     codecombat_live_online_classes: "CodeCombat Live Online Classes"
     learning_technology_blurb: "Our original game teaches real-world skills through the power of play. The scaffolded curriculum systematically builds on student’s experiences and knowledge as they progress."
@@ -243,6 +245,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     codecombat_classroom: "CodeCombat Classroom"
     ozaria_dashboard: "Ozaria Dashboard"
     codecombat_dashboard: "CodeCombat Dashboard"
+    professional_development: "Professional Development"
     new: "New!"
     admin: "Admin"
 
