@@ -78,7 +78,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     global_subtitle4: "Countries"
     go_to_my_classes: "Go to my classes"
     go_to_my_courses: "Go to my courses"
-    quotes_quote1: "Name any program online, I’ve tried it. None of them match up to CodeCombat & Ozaria. Any teacher who wants their students to learn how to code... start here!" # {change}
+    quotes_quote1: "Name any program online, I’ve tried it. None of them match up to CodeCombat & Ozaria. Any teacher who wants their students to learn how to code... start here!"
     quotes_quote2: " I was surprised about how easy and intuitive CodeCombat makes learning computer science. The scores on the AP exam were much higher than I expected and I believe CodeCombat is the reason why this was the case."
     quotes_quote3: "CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice."
     quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
