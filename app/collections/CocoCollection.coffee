@@ -1,5 +1,4 @@
 CocoModel = require 'models/CocoModel'
-globalVar = require 'core/globalVar'
 
 module.exports = class CocoCollection extends Backbone.Collection
   loaded: false
@@ -16,7 +15,7 @@ module.exports = class CocoCollection extends Backbone.Collection
     @once 'sync', =>
       @loaded = true
       model.loaded = true for model in @models
-    if globalVar.application?.testing
+    if window.application?.testing
       @fakeRequests = []
       @on 'request', -> @fakeRequests.push jasmine.Ajax.requests.mostRecent()
     if options.saveBackups
