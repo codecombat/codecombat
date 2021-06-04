@@ -39,7 +39,7 @@ storage = require 'core/storage'
 utils = require 'core/utils'
 loadAetherLanguage = require 'lib/loadAetherLanguage'
 presenceApi = require 'core/api/presence'
-{currentView} = require 'core/globalVar'
+globalVar = require 'core/globalVar'
 
 require 'vendor/scripts/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
 require 'lib/setupTreema'
@@ -267,7 +267,7 @@ module.exports = class LevelEditView extends RootView
   onPopulateI18N: ->
     totalChanges = @level.populateI18N()
 
-    levelComponentMap = _(currentView.supermodel.getModels(LevelComponent))
+    levelComponentMap = _(globalVar.currentView.supermodel.getModels(LevelComponent))
       .map((c) -> [c.get('original'), c])
       .object()
       .value()

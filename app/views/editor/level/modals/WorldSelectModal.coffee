@@ -3,7 +3,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/modal/world-select-modal'
 Surface = require 'lib/surface/Surface'
 ThangType = require 'models/ThangType'
-{currentView} = require 'core/globalVar'
+globalVar = require 'core/globalVar'
 
 module.exports = class WorldSelectModal extends ModalView
   id: 'world-select-modal'
@@ -46,8 +46,8 @@ module.exports = class WorldSelectModal extends ModalView
     webGLCanvas = @$el.find('.webgl-canvas')
     normalCanvas = @$el.find('.normal-canvas')
     canvases = webGLCanvas.add(normalCanvas)
-    canvases.attr('width', currentView.$el.width()*.8-70)
-    canvases.attr('height', currentView.$el.height()*.6)
+    canvases.attr('width', globalVar.currentView.$el.width()*.8-70)
+    canvases.attr('height', globalVar.currentView.$el.height()*.6)
     @surface = new Surface @world, normalCanvas, webGLCanvas, {
       paths: false
       grid: true

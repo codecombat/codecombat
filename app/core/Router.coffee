@@ -384,7 +384,7 @@ module.exports = class CocoRouter extends Backbone.Router
   closeCurrentView: ->
     if globalVar.currentView?.reloadOnClose
       return document.location.reload()
-    globalVar.currentModal?.hide?()
+    currentModal?.hide?()
     return unless globalVar.currentView?
     globalVar.currentView.modalClosed()
     globalVar.currentView.destroy()
