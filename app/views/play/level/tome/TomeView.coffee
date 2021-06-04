@@ -27,7 +27,6 @@ SpellPaletteView = require './SpellPaletteView'
 CastButtonView = require './CastButtonView'
 utils = require 'core/utils'
 store = require 'core/store'
-globalVar = require 'core/globalVar'
 
 module.exports = class TomeView extends CocoView
   id: 'tome-view'
@@ -92,7 +91,7 @@ module.exports = class TomeView extends CocoView
 
   createWorker: ->
     return null unless Worker?
-    return null if globalVar.application.isIPadApp  # Save memory!
+    return null if window.application.isIPadApp  # Save memory!
     return new Worker('/javascripts/workers/aether_worker.js')
 
   generateTeamSpellMap: (spellObject) ->

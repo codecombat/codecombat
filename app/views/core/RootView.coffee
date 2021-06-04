@@ -70,7 +70,7 @@ module.exports = class RootView extends CocoView
         cache: false
 
   logoutAccount: ->
-    window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if application.isIPadApp
+    window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
     Backbone.Mediator.publish("auth:logging-out", {})
     window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
     if me.isTarena()

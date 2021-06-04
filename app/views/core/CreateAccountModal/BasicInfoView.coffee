@@ -7,7 +7,6 @@ errors = require 'core/errors'
 User = require 'models/User'
 State = require 'models/State'
 store = require 'core/store'
-globalVar = require 'core/globalVar'
 
 ###
 This view handles the primary form for user details — name, email, password, etc,
@@ -254,7 +253,7 @@ module.exports = class BasicInfoView extends CocoView
 
     .then (newUser) =>
       # More data will be added by the server so make sure to trigger an identify call after page reload
-      globalVar.application.tracker.identifyAfterNextPageLoad()
+      window.application.tracker.identifyAfterNextPageLoad()
 
       # Don't sign up, kick to TeacherComponent instead
       if @signupState.get('path') is 'teacher'
@@ -268,7 +267,7 @@ module.exports = class BasicInfoView extends CocoView
       unless User.isSmokeTestUser({ email: @signupState.get('signupForm').email })
         # Set new user data and call initial identify
         store.dispatch('me/authenticated', newUser)
-        globalVar.application.tracker.identify()
+        window.application.tracker.identify()
 
       switch @signupState.get('ssoUsed')
         when 'gplus'
@@ -301,7 +300,7 @@ module.exports = class BasicInfoView extends CocoView
         )
 
       trackerCalls.push(
-        globalVar.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
+        window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
       )
 
       return Promise.all(trackerCalls).catch(->)

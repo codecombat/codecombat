@@ -43,7 +43,6 @@ require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 HoCModal = require 'views/special_event/HoC2018InterstitialModal.coffee'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
-globalVar = require 'core/globalVar'
 
 require 'lib/game-libraries'
 
@@ -235,7 +234,7 @@ module.exports = class CampaignView extends RootView
             @listenToOnce @courseLevels, 'sync', =>
               existing = @campaign.get('levels')
               courseLevels = @courseLevels.toArray()
-              classroomCourse = _.find(globalVar.currentView.classroom.get('courses'), {_id:globalVar.currentView.course.id})
+              classroomCourse = _.find(currentView.classroom.get('courses'), {_id:currentView.course.id})
               levelPositions = {}
               for level in classroomCourse.levels
                 levelPositions[level.original] = level.position if level.position
@@ -1278,7 +1277,7 @@ module.exports = class CampaignView extends RootView
     true
 
   checkForUnearnedAchievements: ->
-    return unless @campaign and globalVar.currentView.sessions
+    return unless @campaign and currentView.sessions
 
     # Another layer attempting to make sure users unlock levels properly.
 
@@ -1296,7 +1295,7 @@ module.exports = class CampaignView extends RootView
 
     .done((achievements) =>
       return if @destroyed
-      sessionsComplete = _(globalVar.currentView.sessions.models)
+      sessionsComplete = _(currentView.sessions.models)
         .filter (s) => s.get('levelID')
         .filter (s) => s.get('state') && s.get('state').complete
         .map (s) => [s.get('levelID'), s.id]

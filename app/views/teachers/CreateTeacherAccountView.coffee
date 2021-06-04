@@ -10,7 +10,6 @@ algolia = require 'core/services/algolia'
 State = require 'models/State'
 countryList = require('country-list')()
 UsaStates = require('usa-states').UsaStates
-globalVar = require 'core/globalVar'
 
 
 SIGNUP_REDIRECT = '/teachers/classes'
@@ -294,7 +293,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       trialRequestIdentifyData.educationLevel_college = _.contains @trialRequest.attributes.properties.educationLevel, "College+"
 
       application.tracker.identifyAfterNextPageLoad()
-      return globalVar.application.tracker.identify trialRequestIdentifyData
+      return window.application.tracker.identify trialRequestIdentifyData
 
     .then =>
       trackerCalls = []
@@ -312,7 +311,7 @@ module.exports = class CreateTeacherAccountView extends RootView
         )
 
       trackerCalls.push(
-        globalVar.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
+        window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
       )
 
       return Promise.all(trackerCalls).catch(->)
