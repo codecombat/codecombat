@@ -10,6 +10,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     engaging_row2_p: "Students are immersed in an adventure game in which their knowledge of Computer Science advances with the storyline. In this engaging learning environment, students build real-world skills through the power of play."
     engaging_row3_h2: "Standards-Aligned Curriculum"
     engaging_row3_p: "Ozaria meets CSTA and ISTE standards, enabling you to teach with confidence as your students master core Computer Science concepts, develop computational thinking skills, and learn about the relevance of Computer Science to their daily lives."
+    pd_blurb: "Learn the skills to effectively teach computer science with our self-directed, CSTA-accredited __pd__ course. Earn up to 40 credit hours any time, from any device."
     back_cta_1_a: "Try Chapter 1 for Free"
     speech_bubble_testimonial_1_blockquote: "Once again, your team has managed to accomplish the Holy Grail of Edutainment. In my opinion as a 26-year veteran Middle School educator, there is no more engaging resource for teaching coding."
     core_curriculum_header: "Core Computer Science Curriculum"
@@ -295,6 +296,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     codecombat_classroom: "CodeCombat Classroom"
     ozaria_dashboard: "Ozaria Dashboard"
     codecombat_dashboard: "CodeCombat Dashboard"
+    professional_development: "Professional Development"
     new: "New!"
     admin: "Admin"
 

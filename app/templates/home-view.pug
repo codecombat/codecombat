@@ -31,6 +31,12 @@ block content
         img.code-graphic-mobile(src="/images/ozaria/home/code_graphic_1_mobile_new.png" loading="lazy" alt="hero and pet dog walking along grid with hero.moveLeft() code in speech bubble")
     #graphics-1-back
 
+    .container
+      .row.video-row
+        .col-xs-12
+          div.video-container
+            iframe(src="https://iframe.videodelivery.net/4a2dba0208d65e1362fca88a5935b740?preload=true&poster=https://videodelivery.net/4a2dba0208d65e1362fca88a5935b740/thumbnails/thumbnail.jpg%3Ftime%3D1s&defaultTextTrack=en" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" allowfullscreen="true" title="Ozaria Classroom product overview video")
+
     section.section-spacer#engaging
       h1.heading-corner(data-i18n="ozaria_home.engaging_heading_corner" style="max-width: 727px; margin-bottom: 60px;")
 
@@ -52,6 +58,12 @@ block content
         .col-sm-4.col-sm-offset-1
           h2(data-i18n="ozaria_home.engaging_row3_h2" style="margin-bottom: 20px;")
           p(data-i18n="ozaria_home.engaging_row3_p")
+      .row.flex-row(style="padding: 60px 0;")
+        .col-sm-7.col-sm-push-5
+          img(src="/images/pages/pd/pd-if-then.png" class="img-responsive" loading="lazy" style="border: 10px solid #476FB1;" alt="")
+        .col-sm-4.col-sm-offset-1.col-sm-pull-7
+          h2(style="margin-bottom: 20px;") Professional Development
+          p(data-i18n="[html]ozaria_home.pd_blurb", data-i18n-options=JSON.stringify(i18nData))
 
     section.full-width.section-spacer#back_cta_1
       a.btn.btn-primary.btn-large.btn-moon.try-chapter-1(data-i18n="ozaria_home.back_cta_1_a" data-event-action="Click: Try Chapter 1 CTA 1")
@@ -65,7 +77,7 @@ block content
             cite(class="position") Technology Instructor, Reeds Brook Middle School
       .row
         .col-sm-6.crystal-art
-          img(src="/images/ozaria/home/crystal-art.png" class="img-responsive")
+          img(src="/images/ozaria/home/crystal-art.png" class="img-responsive" alt="")
         .col-sm-6.chris-image
           img(src="/images/ozaria/home/testimonial_1.png" class="img-responsive" style="z-index: 0;" alt="Headshot of Technology Instructor")
 
@@ -196,7 +208,7 @@ block content
         .col-sm-6
           img(src="/images/ozaria/home/testimonial_2.png" class="img-responsive" style="z-index: -1;transform: translateY(-40%);position: relative;" loading="lazy" alt="Headshot of Educator")
         .col-sm-6.crystal-art
-          img(src="/images/ozaria/home/crystal-art.png" class="img-responsive" loading="lazy")          
+          img(src="/images/ozaria/home/crystal-art.png" class="img-responsive" loading="lazy" alt="")
 
     section
       h1.heading-corner(data-i18n="ozaria_home.shareable_resources_header")
