@@ -141,15 +141,15 @@
                 span.icon-bar
                 span.icon-bar
               a.navbar-brand(v-if="me.useTarenaLogo()" href="http://kidtts.tmooc.cn/ttsPage/login.html")
-                img#logo-img.powered-by(src="/images/pages/base/logo.png")
-                img#tarena-logo(src="/images/pages/base/logo-tarena.png")
+                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
               a.navbar-brand(v-else-if="serverConfig.codeNinjas" href="/home")
-                img#logo-img.powered-by(src="/images/pages/base/logo.png")
-                img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
+                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
               a.navbar-brand(v-else-if="me.showChinaResourceInfo()" href="/home")
-                img#logo-img(src="/images/pages/base/logo-en+cn.png")
+                img#logo-img(src="/images/pages/base/logo-en+cn.png" alt="CodeCombat logo")
               a.navbar-brand(v-else href="/home")
-                img#logo-img(src="/images/pages/base/logo.png")
+                img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
 
             .navbar-browser-recommendation.navbar-header(v-if="isOldBrowser")
               .nav-spacer
@@ -168,16 +168,19 @@
 
                 ul.nav.navbar-nav(v-if="me.isAnonymous()")
                   li.dropdown.dropdown-hover
-                    a.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
+                    a.text-p(:href="isCodeCombat ? '/impact' : '#'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
                       span {{ $t('nav.educators') }}
                       span.caret
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/')")
-                          span(:class="isOzaria && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                          span.new-pill {{ $t('nav.new') }}
+                          span(:class="isOzaria && !checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
                       li
                         a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
+                      li
+                        a.text-p(:href="ozPath('/professional-development')")
+                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
+                          span.new-pill {{ $t('nav.new') }}
 
                 li(v-if="!me.isStudent() && !me.isTeacher()")
                   a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
@@ -187,16 +190,19 @@
 
                 ul.nav.navbar-nav(v-if="me.isTeacher()")
                   li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                    a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                       span {{ $t('nav.educators') }}
                       span.caret
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/teachers/classes')")
                           span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_dashboard') }}
-                          span.new-pill {{ $t('nav.new') }}
                       li
                         a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t('nav.codecombat_dashboard') }}
+                      li
+                        a.text-p(:href="ozPath('/professional-development')")
+                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
+                          span.new-pill {{ $t('nav.new') }}
 
                 ul.nav.navbar-nav(v-else-if="me.isStudent()")
                   li.dropdown.dropdown-hover

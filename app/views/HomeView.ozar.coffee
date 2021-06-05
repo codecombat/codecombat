@@ -27,6 +27,13 @@ module.exports = class HomeView extends RootView
     'click button.press-elaborate': ()->@onCarouselDirectMove(3)
     'click button.press-evaluate': ()->@onCarouselDirectMove(4)
 
+  getRenderData: (context={}) ->
+    context = super context
+    context.i18nData =
+      pd: "<a href='/professional-development'>#{$.i18n.t('nav.professional_development')}</a>"
+      interpolation: { escapeValue: false }
+    context
+
   getMeta: ->
     title: $.i18n.t 'new_home.title'
     meta: [

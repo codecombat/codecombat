@@ -365,6 +365,16 @@
     transform: translateY(-48%);
   }
 
+  .row.video-row {
+    margin-bottom: 90px
+  }
+
+  .video-container {
+    position: relative;
+    padding-top: 56.25%;
+    box-shadow: 0 0 30px $teal;
+  }
+
   #back_cta_1, #back_cta_2 {
     background: url(/images/ozaria/home/background_cta_1.png) no-repeat center;
     background-size: cover;
