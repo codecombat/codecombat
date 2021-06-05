@@ -174,7 +174,7 @@
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/')")
-                          span(:class="isOzaria && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
+                          span(:class="isOzaria && !checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
                       li
                         a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
                       li
