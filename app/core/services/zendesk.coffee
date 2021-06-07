@@ -33,13 +33,13 @@ loadZendesk = _.once () ->
     script.parentNode.insertBefore(zendeskElement, script)
 
 openZendesk = ->
+  prefillOptions = {}
+  prefillOptions.email = value: me.get('email') if me.get('email')
+  prefillOptions.name = value: me.broadName() if me.get('firstName')
+
   try
-    if !me.isAnonymous()
-      zE('webWidget', 'prefill', {
-        email: {
-          value: me.get('email')
-        }
-      })
+    if _.size prefillOptions
+      zE('webWidget', 'prefill', prefillOptions)
     zE('webWidget', 'open')
     zE('webWidget', 'show')
   catch e
