@@ -78,7 +78,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     global_subtitle4: "Pbhagevrf"
     go_to_my_classes: "Tb gb zl pynffrf"
     go_to_my_courses: "Tb gb zl pbhefrf"
-    quotes_quote1: "Anzr nal cebtenz bayvar, V’ir gevrq vg. Abar bs gurz zngpu hc gb PbqrPbzong & Bmnevn. Nal grnpure jub jnagf gurve fghqragf gb yrnea ubj gb pbqr... fgneg urer!" # {punatr}
+    quotes_quote1: "Anzr nal cebtenz bayvar, V’ir gevrq vg. Abar bs gurz zngpu hc gb PbqrPbzong & Bmnevn. Nal grnpure jub jnagf gurve fghqragf gb yrnea ubj gb pbqr... fgneg urer!"
     quotes_quote2: " V jnf fhecevfrq nobhg ubj rnfl naq vaghvgvir PbqrPbzong znxrf yrneavat pbzchgre fpvrapr. Gur fpberf ba gur NC rknz jrer zhpu uvture guna V rkcrpgrq naq V oryvrir PbqrPbzong vf gur ernfba jul guvf jnf gur pnfr."
     quotes_quote3: "PbqrPbzong unf orra gur zbfg orarsvpvny sbe grnpuvat zl fghqragf erny-yvsr pbqvat pncnovyvgvrf. Zl uhfonaq vf n fbsgjner ratvarre naq ur unf grfgrq bhg nyy bs zl cebtenzf. Ur chg guvf nf uvf gbc pubvpr."
     quotes_quote4: "Gur srrqonpx … unf orra fb cbfvgvir gung jr ner fgehpghevat n pbzchgre fpvrapr pynff nebhaq PbqrPbzong. Gur cebtenz ernyyl ratntrf gur fghqragf jvgu n tnzvat fglyr cyngsbez gung vf ragregnvavat naq vafgehpgvbany ng gur fnzr gvzr. Xrrc hc gur tbbq jbex, PbqrPbzong!"
