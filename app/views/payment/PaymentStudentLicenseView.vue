@@ -1,8 +1,8 @@
 <template>
-	<span>
-		<div class="container-fluid text-center p-t-2">
-			<div class="container">
-			<div class="top-section">
+  <span>
+    <div class="container-fluid text-center p-t-2">
+      <div class="container">
+      <div class="top-section">
         <div class="heading-row">
           <h1>{{$t(`payments.${this.i18nName}`)}}</h1>
           <h5>{{$t('payments.great_courses')}}</h5>
@@ -34,13 +34,13 @@
             </ul>
           </div>
         </div>
-			</div>
-			</div>
-		</div>
-		<modal-get-licenses
-				v-if="showContactModal"
-				@close="showContactModal = false"
-		/>
+      </div>
+      </div>
+    </div>
+    <modal-get-licenses
+        v-if="showContactModal"
+        @close="showContactModal = false"
+    />
     <div class="middle-section">
       <h3 class="per-student text-center">{{$t('payments.just')}} {{this.getCurrency()}}{{this.getUnitPrice()}} {{$t('payments.per_student')}}</h3>
       <ul class="information">
@@ -49,56 +49,56 @@
         <li class="light-text">Teacher account licenses are free with purchase</li>
       </ul>
     </div>
-	</span>
+  </span>
 </template>
 
 <script>
 import ModalGetLicenses from "../../components/common/ModalGetLicenses";
 export default {
-	name: "PaymentStudentLicenseView",
-	data () {
-		return {
-			showContactModal: false
-		}
-	},
-	components: {
-		ModalGetLicenses
-	},
-	props: {
-		currency: {
-			type: String,
-			required: true,
-		},
-		unitAmount: {
-			type: Number,
-			required: true,
-		},
-		priceId: {
-			type: String,
-			required: true,
-		},
-		licenseCap: {
-			type: Number,
-			required: true,
-		},
-		licenseValidityPeriodInDays: {
-			type: Number,
-			required: true,
-		},
-		i18nName: String,
-	},
-	methods: {
-		getUnitPrice() {
-			return this.unitAmount / 100;
-		},
-		getCurrency() {
-			return this.currency === 'usd' ? '$' : this.currency;
-		},
-		enableContactModal(e) {
-			e.preventDefault()
-			this.showContactModal = true
-		}
-	}
+  name: "PaymentStudentLicenseView",
+  data () {
+    return {
+      showContactModal: false
+    }
+  },
+  components: {
+    ModalGetLicenses
+  },
+  props: {
+    currency: {
+      type: String,
+      required: true,
+    },
+    unitAmount: {
+      type: Number,
+      required: true,
+    },
+    priceId: {
+      type: String,
+      required: true,
+    },
+    licenseCap: {
+      type: Number,
+      required: true,
+    },
+    licenseValidityPeriodInDays: {
+      type: Number,
+      required: true,
+    },
+    i18nName: String,
+  },
+  methods: {
+    getUnitPrice() {
+      return this.unitAmount / 100;
+    },
+    getCurrency() {
+      return this.currency === 'usd' ? '$' : this.currency;
+    },
+    enableContactModal(e) {
+      e.preventDefault()
+      this.showContactModal = true
+    }
+  }
 }
 </script>
 
@@ -110,17 +110,17 @@ export default {
 
 .top-section {
   .info-row {
-		padding-top: 20px;
-	}
+    padding-top: 20px;
+  }
   padding: 20px 20px 50px;
 }
 
 .middle-section {
-	padding-top: 15px;
-	
+  padding-top: 15px;
+
   .purchase-more {
-		padding-top: 10px;
-	}
+    padding-top: 10px;
+  }
   
   .information {
     list-style-position: inside;
@@ -134,9 +134,9 @@ export default {
 }
 
 .light-text {
-	font-weight: 200!important;
-	margin: 0;
-	font-size: small;
+  font-weight: 200!important;
+  margin: 0;
+  font-size: small;
 }
 
 .top-section {
