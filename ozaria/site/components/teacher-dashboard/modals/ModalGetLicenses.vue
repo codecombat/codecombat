@@ -195,7 +195,7 @@
             <span class="control-label"> {{ $t("general.message") }} </span>
             <textarea
               v-model="$v.message.$model"
-              rows="10"
+              rows="8"
               class="form-control"
             />
             <span

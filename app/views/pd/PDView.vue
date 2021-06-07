@@ -1,11 +1,12 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { COMPONENT_NAMES, PAGE_TITLES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
+import ModalGetLicenses from '../../../ozaria/site/components/teacher-dashboard/modals/ModalGetLicenses'
 
 export default {
   name: COMPONENT_NAMES.PD,
   components: {
-
+    ModalGetLicenses
   },
 
   state: {
@@ -13,7 +14,7 @@ export default {
   },
 
   data: () => ({
-
+    showModalGetLicenses: false,
   }),
 
   beforeRouteUpdate (to, from, next) {
@@ -76,7 +77,8 @@ export default {
     },
 
     onClickSalesCTA (e) {
-      window.currentView.onClickContactModal(e)
+      window.tracker?.trackEvent('Request PD Clicked', { category: 'Teachers', label: `${this.$route.path}` })
+      this.showModalGetLicenses = true
     },
 
     onIframeMessage (e) {
@@ -113,7 +115,7 @@ export default {
         const salesBtn = $('#pd-trial-section .sales-btn')
         $('html, body').animate({scrollTop: salesBtn.offset().top - 60 - (window.innerHeight - 60) / 2 + salesBtn.outerHeight() / 2}, 1000)
         me.trackActivity('complete-pd-trial')
-        // TODO: start a Drift chat in 30s if they haven't clicked Talk to Sales?
+        // TODO: start a Drift chat in 30s if they haven't clicked the sales CTA
       } else {
         // slide-completed, slide-rendered, view, thomas-ready
         console.log('Ignored EdApp iframe action:', action, data)
@@ -153,7 +155,7 @@ export default {
       .row.flex-row.text-center(style="justify-content: center")
         #slide-indicator
       .row.flex-row.text-center(style="justify-content: center")
-        a.btn.btn-primary.btn-large.btn-moon.sales-btn(@click="onClickSalesCTA") Talk to Sales
+        a.btn.btn-primary.btn-large.btn-moon.sales-btn(@click="onClickSalesCTA") Get the Full Course
 
     section.section-spacer#benefits
       // TODO: replace images with representative ones
@@ -176,13 +178,13 @@ export default {
           img(src="/images/pages/pd/pd-if-then.png" class="img-responsive" loading="lazy" style="border: 10px solid #476FB1;" alt="")
         .col-sm-4.col-sm-offset-1
           h2(style="margin-bottom: 20px;") Valuable Credit Hours
-          p Earn 40 hours of professional development credit while developing your teaching practices and improving the learning experience for your students.
+          p Earn 40 hours of professional development credit while developing your teaching practices and improving the learning experience for your students. Our course is <a href="https://www.csteachers.org/page/quality-pd">accredited by the Computer Science Teacher's Association (CSTA)</a> as a high-quality PD opportunity.
 
     section.full-width.section-spacer#back_cta_1
       .row#essa
         .col-xs-8.col-xs-offset-2
           h2 Meets ESSA Criteria
-          p Our PD was designed to meet the 6 criteria established by the ESSA Act for exemplary professional learning.
+          p Our PD was designed to meet the 6 criteria for exemplary professional learning established by the Every Student Succeeds Act.
           br
           a.btn.btn-primary.btn-large.btn-moon.try-pd-btn(@click="onClickMainCTA") Try Sample Lesson
 
@@ -250,8 +252,8 @@ export default {
 
     section.full-width#back_cta_2
       .row.flex-row.text-center(style="justify-content: center; margin: 70px 0 100px;")
-        a.btn.btn-primary.btn-large.btn-moon.try-pd-btn(@click="onClickMainCTA") Try Sample Lesson
-        a.btn.btn-primary.btn-large.btn-moon.sales-btn(@click="onClickSalesCTA") Talk to Sales
+        a.btn.btn-primary.btn-large.btn-moon.try-pd-btn(@click="onClickMainCTA" style="margin: 20px;") Try Sample Lesson
+        a.btn.btn-primary.btn-large.btn-moon.sales-btn(@click="onClickSalesCTA" style="margin: 20px;") Get the Full Course
 
     //section#faq(style="padding-top: 130px;")
     //  h1.heading-corner(style="margin-bottom: 60px;") Frequently Asked Questions
@@ -271,6 +273,8 @@ export default {
     //    .col-sm-6
     //      h2 How can I get it approved?
     //      p We will help you!
+
+    modal-get-licenses(v-if="showModalGetLicenses" @close="showModalGetLicenses = false" subtitle="To get licenses for our professional development course, send us a message and our classroom success team will be in touch!" email-message="Hi Ozaria! I'm interested in learning more about your professional development course and discussing pricing options.")
 </template>
 
 <style lang="scss" scoped>
