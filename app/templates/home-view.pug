@@ -8,25 +8,35 @@ block content
           span(data-i18n="new_home.top_banner_summer_camp")
           a(href="/parents", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Parents Page")
 
-    .row#jumbotron-container-fluid
-      .col-md-8
-        h1(data-i18n="new_home.slogan_power_of_play")
-        div.button-section
-          if me.isAnonymous()
-            p
-              button.btn.btn-lg.btn-primary.teacher-btn(data-event-action="Homepage Click Teacher Button #1 CTA", data-i18n="new_home.im_an_educator", style="text-transform: none")
-            p
-              button.btn.btn-lg.btn-primary.parent-btn(data-event-action="Homepage Click Parent Button CTA", data-i18n="new_home.im_a_parent", style="text-transform: none")
-            p
-              button.btn.btn-lg.btn-primary.student-btn(data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student", style="text-transform: none")
-          else
-            p
-              if me.isTeacher()
-                a.btn.btn-lg.btn-primary.my-classes-btn(href="/teachers/classes", data-event-action="Homepage Click My Classes CTA", data-i18n="new_home.go_to_my_classes")
-              else if me.isStudent()
-                a.btn.btn-lg.btn-primary.my-courses-btn(href="/students", data-event-action="Homepage Click My Courses CTA", data-i18n="new_home.go_to_courses")
-              else
-                a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
+    .cloud-wrapper
+      .row#jumbotron-container-fluid
+        .col-md-8
+          h1(data-i18n="new_home.slogan_power_of_play")
+          div.button-section
+            if me.isAnonymous()
+              p
+                button.btn.btn-lg.btn-primary.teacher-btn(data-event-action="Homepage Click Teacher Button #1 CTA", data-i18n="new_home.im_an_educator", style="text-transform: none")
+              p
+                button.btn.btn-lg.btn-primary.parent-btn(data-event-action="Homepage Click Parent Button CTA", data-i18n="new_home.im_a_parent", style="text-transform: none")
+              p
+                button.btn.btn-lg.btn-primary.student-btn(data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student", style="text-transform: none")
+            else
+              p
+                if me.isTeacher()
+                  a.btn.btn-lg.btn-primary.my-classes-btn(href="/teachers/classes", data-event-action="Homepage Click My Classes CTA", data-i18n="new_home.go_to_my_classes")
+                else if me.isStudent()
+                  a.btn.btn-lg.btn-primary.my-courses-btn(href="/students", data-event-action="Homepage Click My Courses CTA", data-i18n="new_home.go_to_courses")
+                else
+                  a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
+
+        .col-xs-12.text-center
+          img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-width: 416px; transform: translateX(12%); margin-bottom: 40px" alt="")
+
+    .container
+      .row.video-row
+        .col-xs-12
+          div.video-container
+            iframe(src="https://iframe.videodelivery.net/86b43ba87b804883d9c5027782aabff3?preload=true&poster=https://videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg%3Ftime%3D2s&defaultTextTrack=en" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" allowfullscreen="true" title="CodeCombat Classroom product overview video")
 
     .container-graphic-spacer
       .container

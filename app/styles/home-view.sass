@@ -99,6 +99,9 @@
     .row
       padding: 62px 0px
 
+      &.video-row
+        padding: 0 0 40px 0
+
       &.subhead-row
         padding: 17px 0 24px 0
 
@@ -169,11 +172,19 @@
       &:hover
         background-color: #FDD147
 
+    .cloud-wrapper
+      background-image: url(/images/pages/parents/image_cloud_3.svg), url(/images/pages/parents/image_cloud_4.svg), url(/images/pages/parents/image_cloud_3.svg), url(/images/pages/parents/image_cloud_1.svg)
+      background-repeat: no-repeat, no-repeat, no-repeat, no-repeat
+      background-size: 260px, 90px, 260px, 150px
+      background-position: top 10px left 1%, top 17px right 50%, top 335px left 37%, top 33px right calc(10px + 2%)
+
+      @media screen and (max-width: 991px)
+        background: transparent
+
     #jumbotron-container-fluid
       background-image: url(/images/pages/home-v2/hero-image.png)
       background-repeat: no-repeat
       background-size: 616px
-      // TODO - make responsive
       background-position: 100% 86px
       height: 591px
       max-width: 1226px
@@ -213,6 +224,11 @@
 
         .button-section
           margin: 0 auto
+
+    .video-container
+      position: relative
+      padding-top: 56.25%
+      box-shadow: 0 0 30px $teal-dark
 
     .container-graphic-spacer
       pointer-events: none
@@ -297,6 +313,10 @@
 
     .crt-widget-waterfall
       padding-bottom: 0
+
+      .crt-feed-scroll:nth-child(2)
+        // Some sort of inclusion error is making this show up twice sometimes, only in production. Until we figure it out, hide the second copy.
+        display: none
 
       // Tighten the spacing on these up
       .crt-post-header
