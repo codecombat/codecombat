@@ -6,7 +6,7 @@
   </a>
 </div>
 
-[![Buildarte Status](https://travis-ci.org/codecombat/codecombat.png?branch=master)](https://travis-ci.org/codecombat/codecombat)
+[![Build Status](https://github.com/codecombat/codecombat/actions/workflows/node.js.yml/badge.svg)](https://github.com/codecombat/codecombat/actions)
 [![Coverage Status](https://coveralls.io/repos/github/codecombat/codecombat/badge.svg)](https://coveralls.io/github/codecombat/codecombat)
 
 CodeCombat now runs in Docker! You can easily get up and running with CodeCombat in your local environment by following the [Docker guide](../../wiki/Dev-Setup:-General-Information).
