@@ -192,5 +192,7 @@ module.exports = class HomeView extends RootView
     @cleanupModals()
     super()
 
-  mergeWithPrerendered: (el) ->
-    true
+  # 2021-06-08: currently causing issues with i18n interpolation, disabling for now
+  # TODO: understand cause, performance impact
+  #mergeWithPrerendered: (el) ->
+  #  true
