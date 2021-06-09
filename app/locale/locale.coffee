@@ -10,11 +10,11 @@ module.exports =
   'en': require('./en') # Include these in the main bundle
   'en-US': require('./en-US')
   'en-GB': { nativeDescription: 'English (UK)', englishDescription: 'English (UK)' }
-  'zh-HANS': require('./zh-HANS')
+  'zh-HANS': { nativeDescription: '简体中文', englishDescription: 'Chinese (Simplified)' }
   'zh-HANT': { nativeDescription: '繁體中文', englishDescription: 'Chinese (Traditional)' }
-  'ru': require('./ru')
+  'ru': { nativeDescription: 'русский', englishDescription: 'Russian' }
   'es-ES': { nativeDescription: 'español (ES)', englishDescription: 'Spanish (Spain)' }
-  'es-419': require('./es-419')
+  'es-419': { nativeDescription: 'español (América Latina)', englishDescription: 'Spanish (Latin America)' }
   'fr': { nativeDescription: 'français', englishDescription: 'French' }
   'pt-PT': { nativeDescription: 'Português (Portugal)', englishDescription: 'Portuguese (Portugal)' }
   'pt-BR': { nativeDescription: 'Português (Brasil)', englishDescription: 'Portuguese (Brazil)' }
