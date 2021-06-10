@@ -1,6 +1,7 @@
 <script>
   import { createCinematic, getAllCinematics } from '../../../api/cinematic'
   import ListItem from '../../common/BaseListItem'
+  const globalVar = require('core/globalVar')
 
   module.exports = Vue.extend({
     components: {
@@ -37,7 +38,7 @@
       },
 
       navigateToCinematic (cinematicSlug) {
-        return () => window.application.router.navigate(`/editor/cinematic/${cinematicSlug}`, { trigger: true })
+        return () => globalVar.application.router.navigate(`/editor/cinematic/${cinematicSlug}`, { trigger: true })
       }
     }
   })

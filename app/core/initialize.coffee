@@ -3,6 +3,7 @@ app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
 { log } = require 'ozaria/site/common/logger'
+globalVar = require 'core/globalVar'
 
 VueRouter = require 'vue-router'
 Vuex = require 'vuex'
@@ -53,6 +54,7 @@ init = ->
       init()
     return
 
+  marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
   app = require 'core/application'
   setupConsoleLogging()
   watchForErrors()
@@ -69,6 +71,8 @@ init = ->
   installVueI18n()
   checkAndLogBrowserCrash()
   checkAndRegisterHocModalInterval()
+  window.globalVar = globalVar if me.isAdmin() or !app.isProduction()
+  parent.globalVar = globalVar if self != parent
 
 module.exports.init = init
 
@@ -256,7 +260,7 @@ checkAndLogBrowserCrash = ->
 
 window.onbeforeunload = (e) ->
   window.sessionStorage?.setItem('oz_exit', 'true')
-  leavingMessage = _.result(window.currentView, 'onLeaveMessage')
+  leavingMessage = _.result(globalVar.currentView, 'onLeaveMessage')
   if leavingMessage
     # Custom messages don't work any more, main browsers just show generic ones. So, this could be refactored.
     return leavingMessage

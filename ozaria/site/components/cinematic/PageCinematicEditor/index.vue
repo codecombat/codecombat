@@ -10,6 +10,7 @@
   const FlexSearch = require('flexsearch')
   const api = require('core/api')
   const Quill = require('quill')
+  const globalVar = require('core/globalVar')
   require('core/services/filepicker')()
 
   require('lib/setupTreema')
@@ -200,7 +201,7 @@
       },
 
       navigateToList () {
-        window.application.router.navigate(`/editor/cinematic/`, { trigger: true })
+        globalVar.application.router.navigate(`/editor/cinematic/`, { trigger: true })
       },
 
       searchDialogText () {
@@ -281,7 +282,7 @@
           const imageUploadedCallback = (url) => {
             this.quill.insertEmbed(this.quill.getSelection().index, 'image', url)
           }
-          if (window.application.isProduction()) {
+          if (globalVar.application.isProduction()) {
             $.ajax('/file', { type: 'POST', data: body, success: () => imageUploadedCallback(`/file/${uploadingPath}`) })
           } else {
             setTimeout(() => imageUploadedCallback('https://www.ozaria.com/images/pages/not_found/404_1.png'), 500)

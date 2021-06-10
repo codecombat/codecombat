@@ -1,3 +1,5 @@
+const globalVar = require('core/globalVar')
+
 const getMsTime = () => ((window.performance || {}).now() || Date.now())
 
 /**
@@ -15,7 +17,7 @@ export const log = (action, options = {}, status = 'info') => {
   }
 
   try {
-    if (window.application && !window.application.isProduction() || window.location.hostname === 'localhost') {
+    if (globalVar.application && !globalVar.application.isProduction() || window.location.hostname === 'localhost') {
       window.DD_LOGS.logger.setHandler('console')
     }
   

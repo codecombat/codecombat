@@ -6,6 +6,7 @@ utils = require 'core/utils'
 api = require 'core/api'
 co = require 'co'
 storage = require 'core/storage'
+globalVar = require 'core/globalVar'
 fetchJson = require 'core/api/fetch-json'
 
 # Pure functions for use in Vue
@@ -488,10 +489,10 @@ module.exports = class User extends CocoModel
     options.type = 'POST'
     options.url = '/auth/logout'
     FB?.logout?()
-    options.success ?= ->
-      window.application.tracker.identifyAfterNextPageLoad()
-      window.application.tracker.resetIdentity().finally =>
-        location = _.result(window.currentView, 'logoutRedirectURL')
+    options.success ?= =>
+      globalVar.application.tracker.identifyAfterNextPageLoad()
+      globalVar.application.tracker.resetIdentity().finally =>
+        location = _.result(globalVar.currentView, 'logoutRedirectURL')
         @clearUserSpecificLocalStorage?()
         if location
           window.location = location

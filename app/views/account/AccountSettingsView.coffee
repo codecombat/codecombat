@@ -7,7 +7,7 @@ ConfirmModal = require 'views/core/ConfirmModal'
 {logoutUser, me} = require('core/auth')
 RootView = require 'views/core/RootView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
-
+globalVar = require 'core/globalVar'
 
 module.exports = class AccountSettingsView extends RootView
   id: 'account-settings-view'
@@ -174,7 +174,7 @@ module.exports = class AccountSettingsView extends RootView
           type: 'success'
           layout: 'topCenter'
         _.delay ->
-          window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
+          window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if globalVar.application.isIPadApp
           Backbone.Mediator.publish("auth:logging-out", {})
           logoutUser()
         , 500
