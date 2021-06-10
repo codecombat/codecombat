@@ -121,6 +121,15 @@ block content
                     else
                       span(data-i18n='league.register')
 
+              if view.hasActiveTournaments
+                a.ai-league-btn.tile(href='/tournaments/student/#{me.id}', data-i18n="[title]tournament.class_tournaments")
+                  img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg" data-i18n="[alt]tournament.class_tournaments")
+                  h3.dynamic-level-name.overlay-text(data-i18n="tournament.class_tournaments")
+                  .tile-text-backdrop
+                  .play-text-container
+                    .overlay-text.play-text
+                      span(data-i18n='tournament.go_tournaments')
+
             .school-stats.col-md-5
               if view.myClans
                 h2
@@ -143,10 +152,6 @@ block content
                         span= ' '
                         span(data-i18n='play.players')
 
-        .text-center.row#tournament-btn
-          // TODO: move this into a tile
-          if view.hasActiveTournaments
-            a.btn.btn-navy.btn-lg.text-uppercase(href='/tournaments/student/#{me.id}', data-i18n="tournament.class_tournaments") class mini-tournaments
         if view.classrooms.size()
           .classes-area
             br

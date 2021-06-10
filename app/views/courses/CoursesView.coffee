@@ -80,7 +80,7 @@ module.exports = class CoursesView extends RootView
         tournamentsByClass = (t.toJSON() for t in tournaments.models)[0]
         tournaments = _.flatten _.values tournamentsByClass
         @hasActiveTournaments = _.some tournaments, (t) =>
-          t.state in ['starting', 'active']
+          t.state in ['starting', 'active', 'ended']
         @renderSelectors('#tournament-btn')
       @supermodel.loadCollection(tournaments, 'tournaments', {cache: false})
 

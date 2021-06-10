@@ -16,6 +16,17 @@ const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type ===
 const previousRegularArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'regular' && a.slug !== currentRegularArena.slug))
 const previousChampionshipArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'championship' && (!currentChampionshipArena || a.slug !== currentChampionshipArena.slug)))
 
+const tournamentsByLeague = {
+  _global: {
+    'blazing-battle': '608cea0f8f2b971478556ac6',
+    'infinite-inferno': '608cd3f814fa0bf9f1c1f928'
+  },
+  '5ff88bcdfe17d7bb1c7d2d00': {  // autoclan-school-network-academica
+    'blazing-battle': '60c159f8a78b083f4205cbf7',
+    'infinite-inferno': '60c15b1fa78b083f4205cdc1'
+  }
+}
+
 export default {
   components: {
     Leaderboard,
@@ -376,11 +387,30 @@ export default {
 
     regularArenaUrl () { return `/play/ladder/${this.regularArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
 
-    previousRegularArenaUrl () { return `/play/ladder/${this.previousRegularArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
+    previousRegularArenaUrl () {
+      let url = `/play/ladder/${this.previousRegularArenaSlug}`
+      const tournaments = tournamentsByLeague[this.clanIdSelected || '_global']
+      const tournament = tournaments ? tournaments[this.previousRegularArenaSlug] : null
+      console.log(this.clanIdSelected)
+      if (this.clanIdSelected)
+        url += `/clan/${this.clanIdSelected}`
+      if (tournament)
+        url += `?tournament=${tournament}`
+      return url
+    },
 
     championshipArenaUrl () { return `/play/ladder/${this.championshipArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
 
-    previousChampionshipArenaUrl () { return `/play/ladder/${this.previousChampionshipArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
+    previousChampionshipArenaUrl () {
+      let url = `/play/ladder/${this.previousChampionshipArenaSlug}`
+      const tournaments = tournamentsByLeague[this.clanIdSelected || '_global']
+      const tournament = tournaments ? tournaments[this.previousChampionshipArenaSlug] : null
+      if (this.clanIdSelected)
+        url += `/clan/${this.clanIdSelected}`
+      if (tournament)
+        url += `?tournament=${tournament}`
+      return url
+    },
 
     // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
     firstName () { return me.get('firstName') },
@@ -520,11 +550,18 @@ export default {
       </div>
     </div>
 
-    <div class="row text-center">
+    <div class="row text-center" id="winners">
       <h1><span class="esports-aqua">Previous </span><span class="esports-pink">Season</span></h1>
       <p class="subheader2">Results from the Infinite Inferno Cup</p>
-      <!-- awards video will go here -->
-      <!-- top winners may also go here -->
+    </div>
+
+    <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0">
+      <div class="col-sm-10 video-backer video-iframe">
+        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/1422969c8f5fbee2a62ee60021becfb4?poster=https://videodelivery.net/1422969c8f5fbee2a62ee60021becfb4/thumbnails/thumbnail.jpg%3Ftime%3D1584s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 1 - Forged in Flame"></iframe></div>
+      </div>
+    </div>
+
+    <div class="row text-center">
       <div class="col-lg-6 section-space">
         <a :href="previousRegularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.${previousRegularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
       </div>
@@ -777,6 +814,7 @@ export default {
         <p class="subheader2" style="margin-bottom: 50px;">{{ $t('league.share_flyer') }}</p>
         <div class="xs-centered">
           <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">{{ $t('league.download_flyer') }}</a>
+          <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon" href="https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit?usp=sharing" target="_blank" rel="noopener noreferrer">{{ $t('teacher.teacher_getting_started') }}</a>
         </div>
       </div>
       <div class="col-sm-4">
