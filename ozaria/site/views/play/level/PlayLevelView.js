@@ -1039,7 +1039,7 @@ class PlayLevelView extends RootView {
   }
 
   onEscapePressed (e) {
-    if (me.isAdmin() || me.isTeacher() || !window.application.isProduction()) {
+    if (me.isAdmin() || me.isTeacher() || !application.isProduction()) {
       // Allow admins, teachers, and local devs to skip tutorials
       store.dispatch('game/setTutorialActive', false)
     }

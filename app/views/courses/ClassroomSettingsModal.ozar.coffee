@@ -5,6 +5,10 @@ template = require 'app/templates/courses/classroom-settings-modal'
 forms = require 'core/forms'
 errors = require 'core/errors'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
+globalVar = require 'core/globalVar'
+
+initializeFilePicker = ->
+  require('core/services/filepicker')() unless globalVar.application.isIPadApp
 
 module.exports = class ClassroomSettingsModal extends ModalView
   id: 'classroom-settings-modal'
@@ -17,12 +21,15 @@ module.exports = class ClassroomSettingsModal extends ModalView
     'submit form': 'onSubmitForm'
     'click #link-google-classroom-btn': 'onClickLinkGoogleClassroom'
     'click .create-manually': 'onClickCreateManually'
+    'click .pick-image-button': 'onPickImage'
 
   initialize: (options={}) ->
     @classroom = options.classroom or new Classroom()
     @googleClassrooms = me.get('googleClassrooms') || []
     @isGoogleClassroom = false
     @enableCpp = me.enableCpp()
+    @uploadFilePath = "db/classroom/#{@classroom.id}"
+    initializeFilePicker()
 
   afterRender: ->
     super()
@@ -68,7 +75,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
       button.text(@oldButtonText).attr('disabled', false)
       errors.showNotyNetworkError(jqxhr)
     @listenToOnce @classroom, 'sync', @hide
-    window.tracker?.trackEvent "Teachers Edit Class Saved", category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent "Teachers Edit Class Saved", category: 'Teachers', classroomID: @classroom.id
 
   onClickUpdateCoursesButton: ->
     @$('#update-courses-btn').attr('disabled', true)
@@ -109,7 +116,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
       $('.class-name').hide()
       $('#link-google-classroom-btn').hide()
     )
-    .catch((e) => 
+    .catch((e) =>
       noty { text: e or "Error in importing classrooms", layout: 'topCenter', type: 'error', timeout: 3000 }
       @render()
     )
@@ -121,3 +128,21 @@ module.exports = class ClassroomSettingsModal extends ModalView
     $('.google-class-name').hide()
     $('.class-name').show()
     $('#link-google-classroom-btn').show()
+
+  onPickImage: ->
+    filepicker.pick @onFileChosen
+
+  onFileChosen: (inkBlob) =>
+    body =
+      url: inkBlob.url
+      filename: inkBlob.filename
+      mimetype: inkBlob.mimetype
+      path: @uploadFilePath
+      force: true
+
+    @uploadingPath = [@uploadFilePath, inkBlob.filename].join('/')
+    $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
+
+  onFileUploaded: (e) =>
+    textarea = $('textarea#classroom-announcement')
+    textarea.append "![#{e.metadata.name}](/file/#{@uploadingPath})"
