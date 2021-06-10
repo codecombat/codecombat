@@ -1,5 +1,6 @@
 dynamicRequire = require('lib/dynamicRequire')
 locale = require 'locale/locale'
+globalVar = require 'core/globalVar'
 
 go = (path, options) -> -> @routeDirectly path, arguments, options
 
@@ -298,13 +299,13 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('teachers/RestrictedToTeachersView')
     if options.studentsOnly and not (me.isStudent() or me.isAdmin())
       return @routeDirectly('courses/RestrictedToStudentsView')
-    leavingMessage = _.result(window.currentView, 'onLeaveMessage')
+    leavingMessage = _.result(globalVar.currentView, 'onLeaveMessage')
     if leavingMessage
       # Custom messages don't work any more, main browsers just show generic ones. So, this could be refactored.
       if not confirm(leavingMessage)
         return @navigate(this.path, {replace: true})
       else
-        window.currentView.onLeaveMessage = _.noop # to stop repeat confirm calls
+        globalVar.currentView.onLeaveMessage = _.noop # to stop repeat confirm calls
 
     # TODO: Combine these two?
     if features.playViewsOnly and not (_.string.startsWith(document.location.pathname, '/play') or document.location.pathname is '/admin')
@@ -323,7 +324,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return go('NotFoundView') if not ViewClass
 
       SingletonAppVueComponentView = require('views/core/SingletonAppVueComponentView').default
-      if ViewClass == SingletonAppVueComponentView && window.currentView instanceof SingletonAppVueComponentView
+      if ViewClass == SingletonAppVueComponentView && globalVar.currentView instanceof SingletonAppVueComponentView
         # The SingletonAppVueComponentView maintains its own Vue app with its own routing layer.  If it
         # is already routed we do not need to route again
         console.debug("Skipping route in Backbone - delegating to Vue app")
@@ -373,7 +374,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @didOpenView view
 
   didOpenView: (view) ->
-    window.currentView = view
+    globalVar.currentView = view
     view.afterInsert()
     view.didReappear()
     @path = document.location.pathname + document.location.search
@@ -381,12 +382,12 @@ module.exports = class CocoRouter extends Backbone.Router
     @trigger 'did-load-route'
 
   closeCurrentView: ->
-    if window.currentView?.reloadOnClose
+    if globalVar.currentView?.reloadOnClose
       return document.location.reload()
-    window.currentModal?.hide?()
-    return unless window.currentView?
-    window.currentView.modalClosed()
-    window.currentView.destroy()
+    currentModal?.hide?()
+    return unless globalVar.currentView?
+    globalVar.currentView.modalClosed()
+    globalVar.currentView.destroy()
     $('.popover').popover 'hide'
     $('#flying-focus').css({top: 0, left: 0}) # otherwise it might make the page unnecessarily tall
     _.delay (->

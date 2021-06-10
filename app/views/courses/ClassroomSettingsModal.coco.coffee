@@ -5,9 +5,10 @@ template = require 'templates/courses/classroom-settings-modal'
 forms = require 'core/forms'
 errors = require 'core/errors'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
+globalVar = require 'core/globalVar'
 
 initializeFilePicker = ->
-  require('core/services/filepicker')() unless window.application.isIPadApp
+  require('core/services/filepicker')() unless globalVar.application.isIPadApp
 
 module.exports = class ClassroomSettingsModal extends ModalView
   id: 'classroom-settings-modal'
