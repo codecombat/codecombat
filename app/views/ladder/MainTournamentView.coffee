@@ -66,10 +66,10 @@ module.exports = class MainLadderView extends RootView
 
   cancelEditing: (e) ->
     if @editableTournament.editing is 'new'
-      @tournaments[@clan.get('name')].pop()
+      @tournaments[@clan.get('displayName') or @clan.get('name')].pop()
     else
-      index = _.findIndex(@tournaments[@clan.get('name')], (t) => t.editing == 'edit')
-      delete @tournaments[@clan.get('name')][index].editing
+      index = _.findIndex(@tournaments[@clan.get('displayName') or @clan.get('name')], (t) => t.editing == 'edit')
+      delete @tournaments[@clan.get('displayName') or @clan.get('name')][index].editing
     @editableTournament = {}
     @renderSelectors('.tournament-container')
 
@@ -100,9 +100,9 @@ module.exports = class MainLadderView extends RootView
     if @editableTournament.levelOriginal?
       return
 
-    index = _.findIndex(@tournaments[@clan.get('name')], (t) => t._id == tournament._id)
-    @tournaments[@clan.get('name')][index].editing = 'edit'
-    @editableTournament = @tournaments[@clan.get('name')][index]
+    index = _.findIndex(@tournaments[@clan.get('displayName') or @clan.get('name')], (t) => t._id == tournament._id)
+    @tournaments[@clan.get('displayName') or @clan.get('name')][index].editing = 'edit'
+    @editableTournament = @tournaments[@clan.get('displayName') or @clan.get('name')][index]
     @renderSelectors('.tournament-container')
 
   createTournament: (e) ->
@@ -121,7 +121,7 @@ module.exports = class MainLadderView extends RootView
       endDate: undefined,
       editing: 'new'
     }
-    @tournaments[@clan.get('name')].push(@editableTournament)
+    @tournaments[@clan.get('displayName') or @clan.get('name')].push(@editableTournament)
     @renderSelectors('.tournament-container')
 
   onLaddersLoaded: (e) ->

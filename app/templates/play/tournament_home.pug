@@ -15,7 +15,8 @@ block content
         
       each val, cluster in view.tournaments
         - tournamentsByState = _.groupBy(val, 'state')
-        h2=cluster
+        if cluster && cluster !== 'undefined'
+          h2= cluster
         each state in ['starting', 'initializing', 'ended', 'disabled']
           - tournaments = tournamentsByState[state]
           if tournaments
