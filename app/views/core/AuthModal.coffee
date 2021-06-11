@@ -6,6 +6,7 @@ User = require 'models/User'
 errors = require 'core/errors'
 RecoverModal = require 'views/core/RecoverModal'
 storage = require 'core/storage'
+globalVar = require 'core/globalVar'
 
 module.exports = class AuthModal extends ModalView
   id: 'auth-modal'
@@ -43,7 +44,7 @@ module.exports = class AuthModal extends ModalView
   onSignupInstead: (e) ->
     CreateAccountModal = require('./CreateAccountModal')
     modal = new CreateAccountModal({initialValues: forms.formToObject @$el, @subModalContinue})
-    currentView.openModalView(modal)
+    globalVar.currentView.openModalView(modal)
 
   onSubmitForm: (e) ->
     @playSound 'menu-button-click'

@@ -3,6 +3,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/test-view'
 requireUtils = require 'lib/requireUtils'
 storage = require 'core/storage'
+globalVar = require 'core/globalVar'
 loadAetherLanguage = require("lib/loadAetherLanguage")
 
 require('vendor/styles/jasmine.css')
@@ -124,7 +125,7 @@ module.exports = TestView = class TestView extends RootView
       jasmine.demoEl = _.once ($el) ->
         $('#demo-area').append($el)
       jasmine.demoModal = _.once (modal) ->
-        currentView.openModalView(modal)
+        globalVar.currentView.openModalView(modal)
     else
       jasmine.demoEl = _.noop
       jasmine.demoModal = _.noop

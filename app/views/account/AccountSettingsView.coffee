@@ -5,6 +5,7 @@ forms = require 'core/forms'
 User = require 'models/User'
 ConfirmModal = require 'views/core/ConfirmModal'
 {logoutUser, me} = require('core/auth')
+globalVar = require 'core/globalVar'
 
 module.exports = class AccountSettingsView extends CocoView
   id: 'account-settings-view'
@@ -151,7 +152,7 @@ module.exports = class AccountSettingsView extends CocoView
           type: 'success'
           layout: 'topCenter'
         _.delay ->
-          window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
+          window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if globalVar.application.isIPadApp
           Backbone.Mediator.publish("auth:logging-out", {})
           window.tracker?.trackEvent 'Log Out', category:'Homepage' if @id is 'home-view'
           logoutUser()

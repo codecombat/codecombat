@@ -1,6 +1,7 @@
 storage = require 'core/storage'
 locale = require 'locale/locale'
 utils = require 'core/utils'
+globalVar = require 'core/globalVar'
 
 class CocoModel extends Backbone.Model
   idAttribute: '_id'
@@ -21,7 +22,7 @@ class CocoModel extends Backbone.Model
     @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
     @usesVersions = @schema()?.properties?.version?
-    if window.application?.testing
+    if globalVar.application?.testing
       @fakeRequests = []
       @on 'request', -> @fakeRequests.push jasmine.Ajax.requests.mostRecent()
 
