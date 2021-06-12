@@ -49,7 +49,7 @@ export default {
     getClanName (row) {
       const firstClan = (row.creatorClans || [])[0] || {}
       let name = firstClan.displayName || firstClan.name || ""
-      if (!/a-z/.test(name))
+      if (!/[a-z]/.test(name))
         name = utils.titleize(name)  // Convert any all-uppercase clan names to title-case
       return name
     },

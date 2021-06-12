@@ -17,7 +17,7 @@ UserLib = {
     name = _.filter([user.firstName, user.lastName]).join(' ')
     if features?.china
       name = user.firstName
-    unless /a-z/.test name
+    unless /[a-z]/.test name
       name = _.string.titleize name  # Rewrite all-uppercase names to title-case for display
     return name if name
     name = user.name
