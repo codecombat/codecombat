@@ -209,6 +209,7 @@
               title="30-day money-back guarantee"
               alt='"30 Day Money back Guarantee Transparent" by transparentpng.com is licensed under CC BY 4.0 - source: https://www.transparentpng.com/details/30-day-money-back-guarantee-transparent_15977.html'
               loading="lazy"
+              v-if="showPricing"
             />
             <h1 class="pixelated">Course Offerings</h1>
             <p style="margin: 0 auto;">
@@ -221,11 +222,11 @@
 
     <div class="container-pricing-table">
       <div class="pricing-grid-container">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div class="value-topper">Most popular</div>
-        <div class="value-topper">Best Value</div>
+        <div v-if="showPricing"></div>
+        <div v-if="showPricing"></div>
+        <div v-if="showPricing"></div>
+        <div v-if="showPricing" class="value-topper">Most popular</div>
+        <div v-if="showPricing" class="value-topper">Best Value</div>
         <!-- First Row -->
         <div class="grid-item"></div>
         <div class="grid-item">Self-Paced</div>
@@ -235,11 +236,11 @@
         <!-- End First Row -->
         <!-- Second Row -->
         <!-- TODO: differentiate between annual and lifetime -->
-        <div class="grid-item">Subscription plan</div>
-        <div class="grid-item">${{ basicAnnualSubscriptionPrice }} per year</div>
-        <div class="grid-item">$199 (1 week)<sup>*</sup></div>
-        <div class="grid-item">$219 per month</div>
-        <div class="grid-item">$399 per month</div>
+        <div class="grid-item" v-if="showPricing">Subscription plan</div>
+        <div class="grid-item" v-if="showPricing">${{ basicAnnualSubscriptionPrice }} per year</div>
+        <div class="grid-item" v-if="showPricing">$199 (1 week)<sup>*</sup></div>
+        <div class="grid-item" v-if="showPricing">$219 per month</div>
+        <div class="grid-item" v-if="showPricing">$399 per month</div>
         <!-- End Second Row -->
         <!-- Third Row -->
         <div class="grid-item">60-minute sessions via Zoom</div>
@@ -313,14 +314,14 @@
         <!-- End Twelth Row -->
       </div>
 
-      <div class="text-below-pricing-table">
+      <div class="text-below-pricing-table" v-if="showPricing">
         <p><sup>*</sup>We also offer summer camps of 2 weeks (10 classes) for $389 or 3 weeks (15 classes) for $569.</p>
         <p>Except for summer camp, all subscriptions are billed on a monthly basis and may be paused, cancelled, or resumed with no fees. Your subscription purchase is 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">contact us</a> within 30 days of purchase and we will promptly refund 100% of your payment, no questions asked. All plans are automatically renewed at the same level and billing cycle unless otherwise changed or canceled.</p>
       </div>
     </div>
 
     <button-schedule-free-class @click="onScheduleAFreeClass" />
-    <page-parents-section-premium />
+    <page-parents-section-premium v-if="showPricing" />
 
 
     <div class="container-graphic-spacer">
@@ -767,8 +768,10 @@ export default {
       'basicAnnualSubscriptionPrice'
     ]),
 
-    isUs: function () {
-      return window.me.get('country') === 'united-states'
+    showPricing: () => {
+      if (/^zh/.test(me.get('preferredLanguage')) && me.get('country') == 'australia')
+        return false  // Australia partner offering extended services for Chinese-language students
+      return true
     }
   }
 }
