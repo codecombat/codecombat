@@ -130,7 +130,7 @@ module.exports = class LeaderboardView extends CocoView
   getClanName: (model) ->
     firstClan = (model.get('creatorClans') ? [])[0] ? {}
     name = firstClan.displayName ? firstClan.name ? ""
-    if (!/a-z/.test(name))
+    if (!/[a-z]/.test(name))
       name = utils.titleize(name)  # Convert any all-uppercase clan names to title-case
     name
 
