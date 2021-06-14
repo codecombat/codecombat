@@ -176,9 +176,16 @@ module.exports = class AuthModal extends ModalView
   # Clever
 
   onClickCleverSignupButton: ->
-    cleverClientId = 'ffce544a7e02c0daabf2'
-    redirectTo = 'https://codecombat.com/auth/login-clever'
+    if window.location.hostname in ['next.codecombat.com', 'localhost']
+      cleverClientId = '943ece596555cac13fcc'
+      redirectTo = 'https://next.codecombat.com/auth/login-clever'
+      districtId = '5b2ad81a709e300001e2cd7a'  # Clever Library test district
+    else  # prod
+      cleverClientId = 'ffce544a7e02c0daabf2'
+      redirectTo = 'https://codecombat.com/auth/login-clever'
     url = "https://clever.com/oauth/authorize?response_type=code&redirect_uri=#{encodeURIComponent(redirectTo)}&client_id=#{cleverClientId}"
+    if districtId
+      url += '&district_id=' + districtId
     window.open url, '_blank'
 
 
