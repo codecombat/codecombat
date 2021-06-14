@@ -1191,6 +1191,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     team_title: "与CodeCombat团队见面"
     team_values: "我们期待开放的、互相尊敬的对话，好点子会得到采纳。我们决定深入市场调研，我们集中于提供实际性的结果。从我们的 CEO 到 Github 上的贡献者，每个人都亲力亲为，因为在团队中我们收获了成长与经验。"
     nick_title: "联合创始人、CEO"
+#    csr_title: "Customer Success Representative"
     csm_title: "客户经理"
 #    scsm_title: "Senior Customer Success Manager"
     ae_title: "客户经理"
@@ -1227,6 +1228,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     scd_title: "高级课程开发设计师"
     lcd_title: "首席课程开发设计师"
 #    vpm_title: "VP, Marketing"
+#    oi_title: "Online Instructor"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
     community_description_link_2: "开源的社区项目"

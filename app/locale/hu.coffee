@@ -1191,6 +1191,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     team_title: "Ismerd meg a CodeCombat csapatát"
     team_values: "A nyitott párbeszédben, az egymás iránti tiszteletben hiszünk, ahol a legjobb ötlet a nyerő. A döntéseink piackutatáson alapulnak, a folyamataink kialakítása pedig a kézzelfogható eredmények létrehozását célozza meg. Mindenki együttműködő és az ügyvezetőtől a GitHub fejlesztőkig mindenki aktívan részt vesz a munkában. Nagyrértékeljük a növekedést és készek vagyunk tanulni egymástól."
     nick_title: "Programozó" # {change}
+#    csr_title: "Customer Success Representative"
 #    csm_title: "Customer Success Manager"
 #    scsm_title: "Senior Customer Success Manager"
 #    ae_title: "Account Executive"
@@ -1227,6 +1228,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
 #    vpm_title: "VP, Marketing"
+#    oi_title: "Online Instructor"
     community_subtitle: "Eddig több mint 450 támogató járult hozzá a CodeCombat építéséhez, és minden héten egyre többen csatlakoznak!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
