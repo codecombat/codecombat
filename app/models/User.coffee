@@ -590,14 +590,16 @@ module.exports = class User extends CocoModel
   useSocialSignOn: -> not ((features?.chinaUx ? false) or (features?.china ? false))
   isTarena: -> features?.Tarena ? false
   useTarenaLogo: -> @isTarena()
-  hideTopRightNav: -> @isTarena()
-  hideFooter: -> @isTarena()
+  hideTopRightNav: -> @isTarena() or @isILK()
+  hideFooter: -> @isTarena() or @isILK()
+  hideOtherProductCTAs: -> @isTarena() or @isILK()
   useGoogleClassroom: -> not (features?.chinaUx ? false) and me.get('gplusID')?   # if signed in using google SSO
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" # teacher can only access CS1 freely in China
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
+  isILK: -> @get('clientCreator') is '6082ec9996895d00a9b96e90'
   showForumLink: -> not (features?.china ? false)
   showChinaResourceInfo: -> features?.china ? false
   useChinaHomeView: -> features?.china ? false
