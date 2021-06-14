@@ -612,7 +612,7 @@ export default {
           </ul>
           <p>
             <em>Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena.  Some prizes are limited to US participants only.
-            <a href="https://docs.google.com/document/d/1cy4bKe_c0pl6mxLWnbp6R7PxHoDwHzNlBHWALODdey4/edit?usp=sharing">CodeCombat reserves</a> the right to determine in its sole discretion if a player qualifies and will receive a prize.</em>
+            <a href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view?usp=sharing">CodeCombat reserves</a> the right to determine in its sole discretion if a player qualifies and will receive a prize.</em>
           </p>
         </div>
         <div class="col-sm-4 text-center">
