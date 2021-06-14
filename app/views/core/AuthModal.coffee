@@ -18,6 +18,7 @@ module.exports = class AuthModal extends ModalView
     'keyup #name': 'onNameChange'
     'click #gplus-login-btn': 'onClickGPlusLoginButton'
     'click #facebook-login-btn': 'onClickFacebookLoginButton'
+    'click #clever-signup-btn': 'onClickCleverSignupButton'
     'click #close-modal': 'hide'
     'click [data-toggle="coco-modal"][data-target="core/RecoverModal"]': 'openRecoverModal'
 
@@ -170,6 +171,16 @@ module.exports = class AuthModal extends ModalView
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_facebook'))
     btn.attr('disabled', false)
     errors.showNotyNetworkError(arguments...)
+
+
+  # Clever
+
+  onClickCleverSignupButton: ->
+    cleverClientId = 'ffce544a7e02c0daabf2'
+    redirectTo = 'https://codecombat.com/auth/login-clever'
+    url = "https://clever.com/oauth/authorize?response_type=code&redirect_uri=#{encodeURIComponent(redirectTo)}&client_id=#{cleverClientId}"
+    window.open url, '_blank'
+
 
   openRecoverModal: (e) ->
     e.stopPropagation()

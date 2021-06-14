@@ -37,6 +37,7 @@ module.exports = class BasicInfoView extends CocoView
     'click .use-suggested-name-link': 'onClickUseSuggestedNameLink'
     'click #facebook-signup-btn': 'onClickSsoSignupButton'
     'click #gplus-signup-btn': 'onClickSsoSignupButton'
+    'click #clever-signup-btn': 'onClickSsoSignupButton'
 
   initialize: ({ @signupState } = {}) ->
     @state = new State {
@@ -351,7 +352,18 @@ module.exports = class BasicInfoView extends CocoView
   onClickSsoSignupButton: (e) ->
     e.preventDefault()
     ssoUsed = $(e.currentTarget).data('sso-used')
-    handler = if ssoUsed is 'facebook' then application.facebookHandler else application.gplusHandler
+    handler = switch ssoUsed
+      when 'facebook' then application.facebookHandler
+      when 'gplus' then application.gplusHandler
+      when 'clever' then 'clever'
+
+    if handler is 'clever'
+      cleverClientId = 'ffce544a7e02c0daabf2'
+      redirectTo = 'https://codecombat.com/auth/login-clever'
+      url = "https://clever.com/oauth/authorize?response_type=code&redirect_uri=#{encodeURIComponent(redirectTo)}&client_id=#{cleverClientId}"
+      window.open url, '_blank'
+      return
+
     handler.connect({
       context: @
       success: ->
