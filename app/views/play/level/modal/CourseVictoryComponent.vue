@@ -26,7 +26,7 @@
               h3.text-uppercase {{ $t('play_level.concept_challenge_complete') }}
               img(:src="heroImage").hero-img
               div {{ $t('play_level.combo_challenge_complete_body', { concept: primaryConcept }) }}
-                  
+              
             div.clearfix.well.well-sm.well-parchment(v-else-if="assessmentNext")
               img.lock-banner(src="/images/pages/play/modal/unlocked_banner.png")
               h5.text-uppercase
@@ -37,7 +37,7 @@
               h3.text-uppercase
                 | {{ $dbt(nextAssessment, 'name') }}
               div.no-imgs(v-html="marked($dbt(nextAssessment, 'description'))")
-                
+              
             div#level-status.clearfix.well.well-sm.well-parchment(v-else)
               h3.text-uppercase
                 | {{ $t('play_level.level_complete') }}: {{ $dbt(level, 'name')}}
@@ -185,14 +185,14 @@
       allConceptsUsed: ->
         @conceptGoalsCompleted is @conceptGoals.length
       level: -> @$store.state.game.level
-      heroImage: -> 
+      heroImage: ->
         unless @$store.state.me.heroConfig?.thangType
           return "/images/pages/play/modal/captain.png"
         else
           slug = heroMap[@$store.state.me.heroConfig.thangType]
           if !slug?
             return "/images/pages/play/modal/captain.png"
-          else if slug in thangTypeConstants.heroClasses.Warrior 
+          else if slug in thangTypeConstants.heroClasses.Warrior
             return "/images/pages/play/modal/#{slug}.png"
       comboImage: ->
         if @allConceptsUsed
@@ -210,7 +210,7 @@
           'Play Level Victory Modal Start Challenge',
             {
               category: 'Students',
-              levelSlug: @level.slug, 
+              levelSlug: @level.slug,
               nextAssessmentSlug: @nextAssessment.slug
             },
             []
@@ -221,7 +221,7 @@
             {
               category: 'Students',
               levelSlug: @level.slug
-            }, 
+            },
             []
         )
       
@@ -252,7 +252,7 @@
             @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextLevel.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID, codeLanguage:@codeLanguage
             unless @setupManager?.navigatingToPlay
               @setupManager.open()
-                 
+              
       onReplayLevel: ->
         window.tracker?.trackEvent(
                 'Play Level Victory Modal Replay',
@@ -269,7 +269,7 @@
   })
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 
   @import "app/styles/mixins"
   @import "app/styles/bootstrap/variables"
@@ -348,7 +348,7 @@
     .combo-results
       display: flex
     
-    .no-imgs  
+    .no-imgs
       // they are not necessarily built for the provided space, eg Wakka Maul
       img
         display: none

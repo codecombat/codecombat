@@ -62,7 +62,7 @@
                     input(type="radio", name="currentlyTeaching" value="no", v-model="currentlyTeaching" v-bind:value="false")
                     | No
               .form-group
-                label Will you be teaching AP<sup>®</sup> CSP in the 2019-2020 school year? 
+                label Will you be teaching AP<sup>®</sup> CSP in the 2019-2020 school year?
                 .radio-inline
                   label
                     input(type="radio", name="willTeachNextYear" value="yes", v-model="willTeachNextYear" v-bind:value="true")
@@ -72,7 +72,7 @@
                     input(type="radio", name="willTeachNextYear" value="no", v-model="willTeachNextYear" v-bind:value="false")
                     | No
               .form-group
-                label(for="apcsp-experience") Which AP<sup>®</sup> CSP resources have you used in the past? 
+                label(for="apcsp-experience") Which AP<sup>®</sup> CSP resources have you used in the past?
                 textarea#apcsp-experience.form-control(v-model="apcspResourcesUsedPreviously")
 
           .modal-footer(v-if='state === "entering"')
@@ -187,7 +187,7 @@
 
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   #apcsp-landing
     max-width: 800px
     margin: 0 auto

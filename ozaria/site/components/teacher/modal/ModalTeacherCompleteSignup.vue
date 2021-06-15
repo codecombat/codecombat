@@ -114,13 +114,11 @@
 
 <template lang="pug">
   base-modal#complete-signup-modal.style-ozaria.style-flat
-    <template #close-icon>
+    div
       span.glyphicon.glyphicon-remove.close(data-dismiss="modal", aria-hidden="true")
-    </template>
-    <template #header>
+    div
       h2 {{ $t("teachers_quote.finish_signup") }}
-    </template>
-    <template #body>
+    div
       div.teacher-info-panel
         .container-fluid.text-left
           .row.m-y-2
@@ -189,10 +187,8 @@
                   option(value="Principal") {{ $t("teachers_quote.principal") }}
                   option(value="Superintendent") {{ $t("teachers_quote.superintendent") }}
                   option(value="Parent") {{ $t("teachers_quote.parent") }}
-    </template>
-    <template #footer>
+    div
       button#update-account-btn.save-button.ozaria-button.ozaria-primary-button(v-on:click="clickSave") {{ $t("common.save") }}
-    </template>
 </template>
 
 <style lang="sass" scoped>

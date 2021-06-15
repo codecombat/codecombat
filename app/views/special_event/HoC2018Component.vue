@@ -115,7 +115,7 @@ module.exports = Vue.extend({
 });
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import "../../styles/style-flat-variables"
 
 #hoc-2018-page
