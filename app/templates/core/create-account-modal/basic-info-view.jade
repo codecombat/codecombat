@@ -98,7 +98,7 @@ form#basic-info-form.modal-body.basic-info
         .gplus-login
           a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
             img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.svg", draggable="false")
-        if view.signupState.get('path') !== 'teacher'
+        if !/(teacher|student)/.test(view.signupState.get('path'))
           .facebook-login
             a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
               img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
