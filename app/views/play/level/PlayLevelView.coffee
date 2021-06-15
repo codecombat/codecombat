@@ -161,6 +161,9 @@ module.exports = class PlayLevelView extends RootView
     if features.china
       @checkTournamentEndInterval = setInterval @checkTournamentEnd.bind(@), 3000
 
+    preloadImages = ['/images/level/code_palette_wood_background.png', '/images/level/code_editor_background_border.png']
+    _.delay (-> $('<img/>')[0].src = img for img in preloadImages), 1000
+
   getMeta: ->
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', content: '/play' }

@@ -315,7 +315,7 @@ export default {
 
     currentSelectedClanName () {
       let name = (this.currentSelectedClan || {}).displayName || (this.currentSelectedClan || {}).name || ''
-      if (!/a-z/.test(name))
+      if (!/[a-z]/.test(name))
         name = titleize(name)  // Convert any all-uppercase clan names to title-case
       return name
     },
@@ -474,7 +474,7 @@ export default {
         <img :class="customEsportsImageClass" :src="currentSelectedClanEsportsImage">
       </div>
       <div class="col-sm-7">
-        <img v-if="currentSelectedClanName === 'Team Der Bezt'" class="custom-esports-image-2" alt="" src="/file/db/thang.type/6037ed81ad0ac000f5e9f0b5/armando-pose.png">
+        <img v-if="currentSelectedClanName === 'Team DerBezt'" class="custom-esports-image-2" alt="" src="/file/db/thang.type/6037ed81ad0ac000f5e9f0b5/armando-pose.png">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <div class="clan-description" style="margin-bottom: 40px;" v-html="currentSelectedClanDescription"></div>
         <p v-if="currentSelectedClanName === 'Team DerBezt'">{{ $t('league.team_derbezt') }}</p>
@@ -488,13 +488,13 @@ export default {
       </div>
     </div>
 
-    <section v-if="currentSelectedClanName === 'Hyper X'"  class="row text-center partner-banner">
+    <section v-if="currentSelectedClanName === 'HyperX'"  class="row text-center partner-banner">
       <div class="col-sm-12">
-        <h1>Deal: 15% off with code <a href="http://hyperx.gg/codecombathxrevolver"><strong>HXCOMBAT</strong></a></h1>
+        <h1>Deal: 15% off with code <a href="http://hyperx.gg/codecombathxrevolver" target="_blank"><strong>HXCOMBAT</strong></a></h1>
         <p>
           <em>Valid through 2021. Standard shipping options/rates and quantity limits apply. Cannot be combined with other discount code/sale promotions.</em>
         </p>
-        <a href="http://hyperx.gg/codecombathxrevolver">
+        <a href="http://hyperx.gg/codecombathxrevolver" target="_blank">
           <img class="custom-esports-image-banner" alt="" src="/images/pages/league/hyperx-banner.jpg">
         </a>
       </div>
@@ -606,13 +606,13 @@ export default {
           <ul style="list-style-type: none; padding: 0px; margin-top: 74px;">
             <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_1') }}</li>
             <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_2') }}</li>
-            <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_hyperx') }}</li>
+            <li><span class="bullet-point" style="background-color: #30EFD3;"/><a href="http://hyperx.gg/codecombathxrevolver" target="_blank">{{ $t('league.season1_prize_hyperx') }}</a> - <a href="/league/hyperx">{{ $t('league.join_team') }}</a></li>
             <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_3') }}</li>
             <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_4') }}</li>
           </ul>
           <p>
             <em>Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena.  Some prizes are limited to US participants only.
-            <a href="https://docs.google.com/document/d/1cy4bKe_c0pl6mxLWnbp6R7PxHoDwHzNlBHWALODdey4/edit?usp=sharing">CodeCombat reserves</a> the right to determine in its sole discretion if a player qualifies and will receive a prize.</em>
+            <a href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view?usp=sharing">CodeCombat reserves</a> the right to determine in its sole discretion if a player qualifies and will receive a prize.</em>
           </p>
         </div>
         <div class="col-sm-4 text-center">
@@ -1089,6 +1089,16 @@ export default {
 
     img {
       max-width: 100%;
+    }
+
+    .custom-esports-image-banner {
+      transition: filter .10s linear, box-shadow 0.10s linear;
+      filter: brightness(100%);
+
+      &:hover {
+        filter: brightness(125%);
+        box-shadow: 0 0 25px #d1b147;
+      }
     }
   }
 
