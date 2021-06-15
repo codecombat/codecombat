@@ -59,7 +59,7 @@ module.exports = Vue.extend({
 
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 
 #files-view
   table

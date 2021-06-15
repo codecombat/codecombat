@@ -481,7 +481,7 @@ module.exports = Vue.extend({
         this.clients = yield api.apiClients.getByName(data.clientNameShow)
         unless this.clients.length > 0
           forms.setErrorToProperty(el, 'showClient', 'No API CLient found')
-          return 
+          return
         for client in this.clients
           stats = yield api.apiClients.getLicenseStats(client._id)
           Vue.set(client, 'licenseDaysUsed', stats.licenseDaysUsed)
@@ -599,7 +599,7 @@ module.exports = Vue.extend({
 
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .border
   border: thin solid grey
 .form

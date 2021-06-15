@@ -96,7 +96,7 @@ export default {
         this.lessonReady = true;
       } else if (!this.lessonReady) {
         // Ignore messages before the lesson is ready (like unloading of old lesson)
-        return 
+        return
       } else if (action === 'slide-start') {
         const currentSlide = data.slideId
         this.slidesSeen[currentSlide] = new Date()
@@ -239,7 +239,7 @@ export default {
     //    .col-sm-6
     //      img(src="/images/pages/pd/pd-teacher-image-2.png" class="img-responsive" style="z-index: -1;transform: translateY(-40%);position: relative;" loading="lazy" alt="Headshot of Educator")
     //    .col-sm-6.crystal-art
-    //      img(src="/images/ozaria/home/crystal-art.png" class="img-responsive" loading="lazy")          
+    //      img(src="/images/ozaria/home/crystal-art.png" class="img-responsive" loading="lazy")
 
     section
       h1.heading-corner Shareable Resources

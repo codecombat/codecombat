@@ -77,7 +77,7 @@
   })
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   @import "ozaria/site/styles/play/images"
 
   #hud-component

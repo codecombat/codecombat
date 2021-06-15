@@ -401,7 +401,7 @@ OutcomesReportComponent = {
 
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 
 #outcomes-report-view
   textarea
