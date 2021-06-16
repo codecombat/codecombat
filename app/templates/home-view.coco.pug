@@ -60,11 +60,11 @@ block content
     #game-based-carousel
       .container.carousel-tabs-container
         ul.carousel-tabs.nav.nav-tabs(role="tablist")
-          li.carousel-tab.active(onclick="currentView.onCarouselDirectMove('#game-based', 0)")
+          li.carousel-tab.active(data-selector="#game-based", data-slide-num="0")
             h2(data-i18n="new_home.game_based_learning")
-          li.carousel-tab(onclick="currentView.onCarouselDirectMove('#game-based', 1)")
+          li.carousel-tab(data-selector="#game-based", data-slide-num="1")
             h2(data-i18n="new_home.text_based_coding")
-          li.carousel-tab(onclick="currentView.onCarouselDirectMove('#game-based', 2)")
+          li.carousel-tab(data-selector="#game-based", data-slide-num="2")
             h2(data-i18n="new_home.student_impact")
       .container.carousel-container
         #game-based.carousel.slide(data-interval=8000)
@@ -94,9 +94,9 @@ block content
           //- Reference https://getbootstrap.com/docs/3.4/javascript/
           //- The onclick usage here is a hack. Modeled from PageParents.vue page
           // TODO: adapt arrow button carousel elements from PageParents.vue for prev/next
-          .carousel-dot.active(onclick="currentView.onCarouselDirectMove('#game-based', 0)")
-          .carousel-dot(onclick="currentView.onCarouselDirectMove('#game-based', 1)")
-          .carousel-dot(onclick="currentView.onCarouselDirectMove('#game-based', 2)")
+          .carousel-dot.active(data-selector="#game-based", data-slide-num="0")
+          .carousel-dot(data-selector="#game-based", data-slide-num="1")
+          .carousel-dot(data-selector="#game-based", data-slide-num="2")
 
     // TODO: finish the GetStartedSignupModal
     //section.container
@@ -267,9 +267,9 @@ block content
         .col-lg-12.text-center
           //- Reference https://getbootstrap.com/docs/3.4/javascript/
           //- The onclick usage here is a hack. Modeled from PageParents.vue page
-          .carousel-dot.active(onclick="currentView.onCarouselDirectMove('#student-quotes', 0)")
-          .carousel-dot(onclick="currentView.onCarouselDirectMove('#student-quotes', 1)")
-          .carousel-dot(onclick="currentView.onCarouselDirectMove('#student-quotes', 2)")
+          .carousel-dot.active(data-selector="#student-quotes", data-slide-num="0")
+          .carousel-dot(data-selector="#student-quotes", data-slide-num="1")
+          .carousel-dot(data-selector="#student-quotes", data-slide-num="2")
 
     .container-graphic-spacer(style="margin-top: 33px;")
       .container
