@@ -147,13 +147,13 @@ module.exports = class HomeView extends RootView
   afterRender: ->
     if me.isAnonymous()
       if document.location.hash is '#create-account' or utils.getQueryVariable('registering') == true
-        @openModalView(new CreateAccountModal())
+        _.defer => @openModalView(new CreateAccountModal()) unless @destroyed
       if document.location.hash is '#create-account-individual'
-        @openModalView(new CreateAccountModal({startOnPath: 'individual'}))
+        _.defer => @openModalView(new CreateAccountModal({startOnPath: 'individual'})) unless @destroyed
       if document.location.hash is '#create-account-student'
-        @openModalView(new CreateAccountModal({startOnPath: 'student'}))
+        _.defer => @openModalView(new CreateAccountModal({startOnPath: 'student'})) unless @destroyed
       if document.location.hash is '#create-account-teacher'
-        @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+        _.defer => @openModalView(new CreateAccountModal({startOnPath: 'teacher'})) unless @destroyed
 
     if utils.getQueryVariable('payment-studentLicenses') in ['success', 'failed'] and not @renderedPaymentNoty
       paymentResult = utils.getQueryVariable('payment-studentLicenses')
