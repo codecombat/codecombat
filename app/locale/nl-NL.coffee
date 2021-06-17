@@ -1191,6 +1191,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     team_title: "Ontmoet het CodeCombat team"
     team_values: "We waarderen een open en respectvolle dialoog, waar het beste idee wint. Onze keuzes zijn onderbouwd door bezoekersonderzoek en onze werkwijze is gefocust op het leveren van tastbare resultaten. Iedereen doet mee, van onze CEO tot onze Github bijdragers, omdat we groei en leren waarderen in ons team."
     nick_title: "Programmeur" # {change}
+#    csr_title: "Customer Success Representative"
 #    csm_title: "Customer Success Manager"
 #    scsm_title: "Senior Customer Success Manager"
 #    ae_title: "Account Executive"
@@ -1227,6 +1228,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
 #    vpm_title: "VP, Marketing"
+#    oi_title: "Online Instructor"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
     community_description_link_2: "gemeenschapsproject"

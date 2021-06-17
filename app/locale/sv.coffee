@@ -1191,6 +1191,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     team_title: "Möt CodeCombat-teamet"
     team_values: "Vi värdesätter en öppen och respektfull dialog där den bästa idén vinner. Våra beslut bygger på kundundersökningar och vår process är inriktad på att leverera konkreta resultat för dem. Alla medverkar, från vår VD till våra GitHub-bidragsgivare, eftersom vi värdesätter tillväxt och lärande i vårt team."
     nick_title: "Medgrundare" # {change}
+#    csr_title: "Customer Success Representative"
     csm_title: "Kundframgångschef"
 #    scsm_title: "Senior Customer Success Manager"
     ae_title: "Kontoansvarig"
@@ -1227,6 +1228,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     scd_title: "Senior kursplanutvecklare"
     lcd_title: "Huvud kursplanutvecklare"
     vpm_title: "VP, marknadsföring"
+#    oi_title: "Online Instructor"
     community_subtitle: "Över 500 bidragsgivare har hjälpt till att bygga CodeCombat, med fler som ansluter varje vecka!"
     community_description_3: "CodeCombat är ett"
     community_description_link_2: "community projekt"
