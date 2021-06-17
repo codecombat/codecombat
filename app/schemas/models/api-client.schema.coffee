@@ -38,6 +38,10 @@ APIClientSchema = {
       type: 'integer'
       description: 'The APIClient can grant licenses to its users for this number of days'
       default: 0
+    },
+    owner: {
+      type: 'object',
+      cescription: 'Id of user who own the api-client-auto-clan'
     }
   }
 }
