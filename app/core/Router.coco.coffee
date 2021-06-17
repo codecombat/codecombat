@@ -378,7 +378,6 @@ module.exports = class CocoRouter extends Backbone.Router
     view.afterInsert()
     view.didReappear()
     @path = document.location.pathname + document.location.search
-    console.log "Did-Load-Route"
     @trigger 'did-load-route'
 
   closeCurrentView: ->
