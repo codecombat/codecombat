@@ -121,6 +121,7 @@ Application = {
     @idleTracker.start()
 
   checkForNewAchievement: ->
+    return  # Not needed until/unlesss we start using achievements in Ozaria
     if me.get('lastAchievementChecked')
       startFrom = new Date(me.get('lastAchievementChecked'))
     else
