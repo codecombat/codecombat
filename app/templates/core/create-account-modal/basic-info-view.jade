@@ -98,9 +98,14 @@ form#basic-info-form.modal-body.basic-info
         .gplus-login
           a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
             img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.svg", draggable="false")
-        .facebook-login
-          a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
-            img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+        if !/(teacher|student)/.test(view.signupState.get('path'))
+          .facebook-login
+            a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
+              img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+        if /(teacher|student)/.test(view.signupState.get('path'))
+          .clever-login
+            a#clever-signup-btn.network-login(data-sso-used="clever")
+              img.clever-logo(src="/images/pages/modal/auth/clever_sso_button@2x.png", draggable="false")
 
     // TODO: turn on once we can ask about school inside ConfirmationView
     //if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')

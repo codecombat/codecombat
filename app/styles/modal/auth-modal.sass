@@ -162,13 +162,29 @@
 
   .auth-network-logins
     position: absolute
-    top: 358px
-    width: 580px
-    left: 48px
-    padding-left: 29px
+
+    &.two-choices
+      top: 364px
+      width: 580px
+      left: 48px
+      padding-left: 29px
+
+      .network-login
+        width: 251px
+
+        img
+          width: 251px
+
+    &.three-choices
+      top: 369px
+
+      .network-login
+        width: 207px
+
+        img
+          width: 207px
 
     .network-login
-      width: 251px
       height: 60px
       float: left
       text-align: center
@@ -205,12 +221,13 @@
         transform: scale($scaleX, $scaleY)
         @include opacity(0.01)
 
-      .google-login-img
-        width: 251px
-
       .fb-login-img
         width: 251px
-        margin-top: 8px
+        margin-top: 5px
+        border-radius: 3px
+
+      .clever-login-img
+        height: 43px
 
     #github-login-button
       position: relative

@@ -26,6 +26,8 @@ module.exports = class HomeView extends RootView
     'click a': 'onClickAnchor'
     'click .get-started-btn': 'onClickGetStartedButton'
     'click .create-account-teacher-btn': 'onClickCreateAccountTeacherButton'
+    'click .carousel-dot': 'onCarouselDirectMove'
+    'click .carousel-tab': 'onCarouselDirectMovev2'
 
   initialize: (options) ->
     super(options)
@@ -128,7 +130,14 @@ module.exports = class HomeView extends RootView
     document.body.appendChild(@getStartedSignupContainer)
     @getStartedSignupModal = new GetStartedSignupModal({ el: @getStartedSignupContainer })
 
-  onCarouselDirectMove: (selector, slideNum) ->
+  onCarouselDirectMovev2: (e) ->
+    selector = $(e.target).closest('.carousel-tab').data('selector')
+    slideNum = $(e.target).closest('.carousel-tab').data('slide-num')
+    @$(selector).carousel(slideNum)
+
+  onCarouselDirectMove: (e) ->
+    selector = $(e.target).closest('.carousel-dot').data('selector')
+    slideNum = $(e.target).closest('.carousel-dot').data('slide-num')
     @$(selector).carousel(slideNum)
 
   onCarouselSlide: (e) =>
@@ -147,13 +156,13 @@ module.exports = class HomeView extends RootView
   afterRender: ->
     if me.isAnonymous()
       if document.location.hash is '#create-account' or utils.getQueryVariable('registering') == true
-        @openModalView(new CreateAccountModal())
+        _.defer => @openModalView(new CreateAccountModal()) unless @destroyed
       if document.location.hash is '#create-account-individual'
-        @openModalView(new CreateAccountModal({startOnPath: 'individual'}))
+        _.defer => @openModalView(new CreateAccountModal({startOnPath: 'individual'})) unless @destroyed
       if document.location.hash is '#create-account-student'
-        @openModalView(new CreateAccountModal({startOnPath: 'student'}))
+        _.defer => @openModalView(new CreateAccountModal({startOnPath: 'student'})) unless @destroyed
       if document.location.hash is '#create-account-teacher'
-        @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+        _.defer => @openModalView(new CreateAccountModal({startOnPath: 'teacher'})) unless @destroyed
 
     if utils.getQueryVariable('payment-studentLicenses') in ['success', 'failed'] and not @renderedPaymentNoty
       paymentResult = utils.getQueryVariable('payment-studentLicenses')

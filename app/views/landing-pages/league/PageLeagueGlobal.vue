@@ -132,7 +132,7 @@ export default {
           return
         }
 
-        if (['school-network', 'school-subnetwork'].includes(this.currentSelectedClan?.kind)) {
+        if (['school-network', 'school-subnetwork', 'school-district'].includes(this.currentSelectedClan?.kind)) {
           this.fetchChildClanDetails({ id: this.currentSelectedClan._id })
             .catch(() => {
               console.error('Failed to retrieve child clans.')

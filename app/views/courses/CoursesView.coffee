@@ -179,7 +179,7 @@ module.exports = class CoursesView extends RootView
     # Don't show low-level clans that have same members as higher-level clans (ex.: the class for a teacher with one class)
     relevantClans = []
     clansByMembers = _.groupBy clans, (c) -> (c.members ? []).sort().join(',')
-    kindHierarchy = ['school-network', 'school-subnetwork', 'district', 'school', 'teacher', 'class']
+    kindHierarchy = ['school-network', 'school-subnetwork', 'school-district', 'school', 'teacher', 'class']
     for members, clans of clansByMembers
       relevantClans.push _.sortBy(clans, (c) -> kindHierarchy.indexOf(c.kind))[0]
     relevantClans
