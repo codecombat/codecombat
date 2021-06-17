@@ -325,6 +325,7 @@ class CocoModel extends Backbone.Model
     return if _.isString @url then @url else @url()
 
   @pollAchievements: ->
+    return  # Not needed until/unlesss we start using achievements in Ozaria
     return if application?.testing
 
     CocoCollection = require 'collections/CocoCollection'
@@ -343,7 +344,7 @@ class CocoModel extends Backbone.Model
         console.error 'Miserably failed to fetch unnotified achievements', arguments
       cache: false
 
-  CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 500
+  CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 3000
 
 
   #- Internationalization
