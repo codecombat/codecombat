@@ -344,7 +344,7 @@ class CocoModel extends Backbone.Model
         console.error 'Miserably failed to fetch unnotified achievements', arguments
       cache: false
 
-  CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 500
+  CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 3000
 
 
   #- Internationalization

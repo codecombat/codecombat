@@ -188,6 +188,7 @@ module.exports = class CampaignView extends RootView
     @earnedAchievements = new CocoCollection([], {url: '/db/earned_achievement', model:EarnedAchievement, project: ['earnedRewards']})
     @listenToOnce @earnedAchievements, 'sync', ->
       earned = me.get('earned')
+      hadMissedAny = false
       for m in @earnedAchievements.models
         continue unless loadedEarned = m.get('earnedRewards')
         for group in ['heroes', 'levels', 'items']
@@ -196,6 +197,9 @@ module.exports = class CampaignView extends RootView
             if reward not in earned[group]
               console.warn 'Filling in a gap for reward', group, reward
               earned[group].push(reward)
+              hadMissedAny = true
+      if hadMissedAny
+        window.tracker?.trackEvent 'Fixed Missing Achievement Reward', category: 'World Map', label: @terrain
 
     @supermodel.loadCollection(@earnedAchievements, 'achievements', {cache: false})
 
@@ -1320,6 +1324,7 @@ module.exports = class CampaignView extends RootView
       levelAchievements = _.filter(achievements,
         (a) -> a.rewards && a.rewards.levels && a.rewards.levels.length)
 
+      hadMissedAny = false
       for achievement in levelAchievements
         continue unless campaignLevels[achievement.related]
         relatedLevelSlug = campaignLevels[achievement.related].slug
@@ -1332,10 +1337,13 @@ module.exports = class CampaignView extends RootView
               triggeredBy: sessionsCompleteMap[relatedLevelSlug],
               collection: 'level.sessions'
             })
+            hadMissedAny = true
             ea.notyErrors = false
             ea.save()
             .error ->
               console.warn 'Achievement NOT complete:', achievement.name
+      if hadMissedAny
+        window.tracker?.trackEvent 'Fixed Unearned Achievement', category: 'World Map', label: @terrain
     )
 
   maybeShowPendingAnnouncement: () ->
