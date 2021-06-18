@@ -7,6 +7,12 @@ module.exports = {
       json: options
     })
 
+  createAutoClanOwner: ({clientID}, options={}) ->
+    fetchJson("/db/api-clients/#{clientID}/create-auto-clan-owner", _.assign {}, {
+      method: 'POST'
+      json: options
+    })
+
   getByName: (clientName, options={}) ->
     options.data ?= {}
     options.data.name = clientName

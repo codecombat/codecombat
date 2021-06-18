@@ -39,9 +39,15 @@ APIClientSchema = {
       description: 'The APIClient can grant licenses to its users for this number of days'
       default: 0
     },
-    owner: {
+    autoClanOwner: {
+      type: c.objectId(),
+      description: 'owner(user) of apiclient auto clan'
+    },
+    accessPermissions: c.array { description: 'list users who have the access permission to the api-client-auto-clan'}, {
       type: 'object',
-      cescription: 'Id of user who own the api-client-auto-clan'
+      properties: {
+        target: c.objectId(), access: {type: 'string', enum: ['read', 'write']}
+      }
     }
   }
 }

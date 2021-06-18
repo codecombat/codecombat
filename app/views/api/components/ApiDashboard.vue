@@ -9,6 +9,17 @@
         td.border {{month}}
         td.border {{stats.daysUsed}}
         td.border {{stats.noOfRedeemers}}
+   table.table.table-condensed(v-if="licenseDaysByMonthAndTeacher")
+      tr
+        th.border Month
+        th.border Teacher or classroom name
+        th.border License days used
+        th.border Users with active licenses
+      tr(v-for="stats in licenseDaysByMonthAndTeacher")
+        td.border {{stats.month}}
+        td.border {{stats.teacher}}
+        td.border {{stats.licenseDaysUsed}}
+        td.border {{stats.activeLicenses}}
 </template>
 
 <script>
@@ -37,6 +48,9 @@
      ),
      licenseDaysByMonth() {
        return this.licenseStats.licenseDaysByMonth
+     },
+     licenseDaysByMonthAndTeacher() {
+       return this.licenseStats.licenseDaysByMonthAndTeacher
      }
    },
    methods: {

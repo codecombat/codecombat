@@ -426,6 +426,7 @@ module.exports = Vue.extend({
         }
         apiCLient = yield api.apiClients.post(attrs)
         yield api.apiClients.createSecret({clientID: apiCLient._id})
+        yield api.apiClients.createAutoClanOwner({clientID: apiCLient._id})
         noty text: 'Client created', timeout: 3000, type: 'success'
       catch err
         console.log(err)
