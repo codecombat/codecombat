@@ -39,7 +39,7 @@ c.extendNamedProperties ClanSchema
 # displayName: 'Computer Science 1'
 
 _.extend ClanSchema.properties,
-  description: {type: 'string'}
+  description: {type: 'string', format: 'markdown'}
   # Empty for auto clans
   members: c.array {title: 'Members'}, c.objectId()
   # Optional property

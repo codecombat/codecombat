@@ -50,7 +50,15 @@ export default function getVueRouter () {
         {
           path: '/temporary-debug-timetap',
           component: () => import(/* webpackChunkName: "thirdPartyDebugging" */ 'app/components/timetap/TimeTapDebugPage')
-        }
+        },
+        {
+          path: '/payments/manage-billing',
+          component: () => import(/* webpackChunkName: "manageBillingComponent"  */'app/views/payment/ManageBillingView'),
+        },
+        {
+          path: '/payments/:slug',
+          component: () => import(/* webpackChunkName: "paymentComponent" */'app/views/payment/PaymentComponentView'),
+        },
       ]
     })
   }

@@ -6,6 +6,7 @@ CreateAccountModal = require 'views/core/CreateAccountModal'
 ChangeCourseLanguageModal = require 'views/courses/ChangeCourseLanguageModal'
 HeroSelectModal = require 'views/courses/HeroSelectModal'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
+ClassroomAnnouncementModal = require 'views/courses/ClassroomAnnouncementModal'
 JoinClassModal = require 'views/courses/JoinClassModal'
 CourseInstance = require 'models/CourseInstance'
 CocoCollection = require 'collections/CocoCollection'
@@ -43,6 +44,7 @@ module.exports = class CoursesView extends RootView
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
     'click .view-challenges-link': 'onClickViewChallengesLink'
     'click .view-videos-link': 'onClickViewVideosLink'
+    'click .view-announcement-link': 'onClickAnnouncementLink'
 
   getMeta: ->
     return {
@@ -78,7 +80,7 @@ module.exports = class CoursesView extends RootView
         tournamentsByClass = (t.toJSON() for t in tournaments.models)[0]
         tournaments = _.flatten _.values tournamentsByClass
         @hasActiveTournaments = _.some tournaments, (t) =>
-          t.state in ['starting', 'active']
+          t.state in ['starting', 'active', 'ended']
         @renderSelectors('#tournament-btn')
       @supermodel.loadCollection(tournaments, 'tournaments', {cache: false})
 
@@ -113,7 +115,7 @@ module.exports = class CoursesView extends RootView
       return if @destroyed
       if me.get('clans')?.length
         @myClans = @removeRedundantClans results.shift()  # Generic Objects, not Clan models
-        for clan in @myClans when clan.displayName and not /a-z/.test(clan.displayName)
+        for clan in @myClans when clan.displayName and not /[a-z]/.test(clan.displayName)
           clan.displayName = utils.titleize clan.displayName  # Convert any all-uppercase clan names to title-case
       else
         @myClans = []
@@ -177,7 +179,7 @@ module.exports = class CoursesView extends RootView
     # Don't show low-level clans that have same members as higher-level clans (ex.: the class for a teacher with one class)
     relevantClans = []
     clansByMembers = _.groupBy clans, (c) -> (c.members ? []).sort().join(',')
-    kindHierarchy = ['school-network', 'school-subnetwork', 'district', 'school', 'teacher', 'class']
+    kindHierarchy = ['school-network', 'school-subnetwork', 'school-district', 'school', 'teacher', 'class']
     for members, clans of clansByMembers
       relevantClans.push _.sortBy(clans, (c) -> kindHierarchy.indexOf(c.kind))[0]
     relevantClans
@@ -423,6 +425,12 @@ module.exports = class CoursesView extends RootView
     courseName = $(e.target).data('course-name')
     window.tracker?.trackEvent 'Students View To Videos View', category: 'Students', courseID: courseID, classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/students/videos/#{courseID}/#{courseName}", { trigger: true })
+
+  onClickAnnouncementLink: (e) ->
+    classroomId = $(e.target).data('classroom-id')
+    classroom = _.find @classrooms.models, { 'id': classroomId }
+    modal = new ClassroomAnnouncementModal({ announcement: classroom.get('description')})
+    @openModalView modal
 
   nextLevelImage: ->
     # Prioritize first by level-specific, then course-specific and hero-specific together

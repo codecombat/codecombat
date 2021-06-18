@@ -351,6 +351,8 @@ _.extend LevelSessionSchema.properties,
 
   codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'CodePoints this user earned for completing this level'}
 
+  archived: c.date {description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'}
+
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'

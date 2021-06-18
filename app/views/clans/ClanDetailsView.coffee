@@ -57,6 +57,7 @@ module.exports = class ClanDetailsView extends RootView
     if /^[a-f0-9]{24}$/.test @clanID
       # We have the clan's actual ID
       @listenTo @clan, 'sync', @onClanSync
+      @loadPostClanData()
     else
       # We have slug, need to get the actual ID before we load the rest
       @listenTo @clan, 'sync', =>
