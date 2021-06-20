@@ -98,8 +98,8 @@ module.exports = class CoursesView extends RootView
 
   loadActiveLadders: ->
     turingLadders = [
-          {slug: 'blazing-battle', type: 'regular', start: new Date(2021, 6,  15), end: new Date(2021, 6, 29), levelOriginal: '5fca06dc8b4da8002889dbf1', image: 'https://assets.koudashijie.com/turingyouth-2021/images/turing-blazing-battle.jpg', clan: '60891dd4f650de008061724e'},
-          {slug: 'ace-of-coders', type: 'regular', start: new Date(2021, 6,  30), end: new Date(2021, 6, 15), levelOriginal: '55de80407a57948705777e89', image: 'https://assets.koudashijie.com/turingyouth-2021/images/turing-ace-of-coders.jpg', clan: '608ab3ba79be2000892ea216'}
+          {slug: 'blazing-battle', type: 'regular', start: new Date('2021-6-15'), end: new Date('2021-6-30'), levelOriginal: '5fca06dc8b4da8002889dbf1', image: 'https://assets.koudashijie.com/turingyouth-2021/images/turing-blazing-battle.jpg', clan: '60891dd4f650de008061724e'},
+          {slug: 'ace-of-coders', type: 'regular', start: new Date('2021-7-1'), end: new Date('2021-7-15'), levelOriginal: '55de80407a57948705777e89', image: 'https://assets.koudashijie.com/turingyouth-2021/images/turing-ace-of-coders.jpg', clan: '608ab3ba79be2000892ea216'}
     ]
     if (features.china and (@classrooms.find({id: '60891d7d72cf8300801d10f3'}) or @classrooms.find({id: '6066e7cba0b48200280f16f1'})))
       for ladder in turingLadders
