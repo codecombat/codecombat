@@ -1191,6 +1191,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     team_title: "Zoznám sa s tímom CodeCombat"
     team_values: "Ceníme si otvorený a zdvorilý dialóg, v ktorom vyhrá najlepšia myšlienka. Naše rozhodnutia sú založené na prieskume užívateľov. Všetci sú zainteresovaní na výsledku, od výkonného riaditeľa až po prispievateľov na  GitHube."
     nick_title: "Spoluzakladateľ" # {change}
+#    csr_title: "Customer Success Representative"
 #    csm_title: "Customer Success Manager"
 #    scsm_title: "Senior Customer Success Manager"
 #    ae_title: "Account Executive"
@@ -1227,6 +1228,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
 #    vpm_title: "VP, Marketing"
+#    oi_title: "Online Instructor"
     community_subtitle: "Vyše  500 spolupracovníkov pomohlo s tvorbou CodeCombatu. Každý týždeň pribúdajú ďalší."
     community_description_3: "CodeCombat je"
     community_description_link_2: "komunitný projekt"

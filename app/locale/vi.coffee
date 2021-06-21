@@ -1191,6 +1191,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     team_title: "Đội ngũ của CodeCombat"
     team_values: "Chúng tôi chân trọng những cuộc đối thoại mở và có sự tôn trọng lẫn nhau, nơi mà những ý tưởng tốt nhất giành chiến thắng. Những quyết định của chúng tôi được đưa ra hoàn toàn dựa trên những báo cáo nghiên cứu ý kiến khách hàng và quy trình của chúng tôi chú trọng vào mục tiêu đưa đến những giá trị hữu hình cho cho khách hàng. Mọi người đều có vai trò của mình, từ CEO của chúng tôi cho đến những người tham gia công đồng trên Github, bởi vì chúng tôi chân trọng sự phát triển và học hỏi của từng thành viên trong nhóm."
     nick_title: "Đồng Sáng Lập, CEO" # {change}
+#    csr_title: "Customer Success Representative"
 #    csm_title: "Customer Success Manager"
 #    scsm_title: "Senior Customer Success Manager"
 #    ae_title: "Account Executive"
@@ -1227,6 +1228,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
 #    vpm_title: "VP, Marketing"
+#    oi_title: "Online Instructor"
     community_subtitle: "Trên 450 người đã tham gia đóng góp cho CodeCombat, và con số này tiếp tục tăng lên hàng tuần!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
