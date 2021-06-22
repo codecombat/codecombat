@@ -1191,6 +1191,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     team_title: "Mød CodeCombat teamet"
     team_values: "Vi værdsætter åben og respektfuld dialog, hvor den bedste idé vinder. Vores beslutninger er funderet med undersøgelser af kundernes oplevelser og vores proces er fokuseret på at levere konkrete resultater til dem. Alle er inddraget, fra vores CEO til vores GitHub bidragsydere, fordi vi værdsætter vækst og læring i vores team."
     nick_title: "Medstifter, CEO"
+#    csr_title: "Customer Success Representative"
 #    csm_title: "Customer Success Manager"
 #    scsm_title: "Senior Customer Success Manager"
 #    ae_title: "Account Executive"
@@ -1227,6 +1228,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
 #    vpm_title: "VP, Marketing"
+#    oi_title: "Online Instructor"
     community_subtitle: "Over 450 bidragydere har hjulpet med at bygge CodeCombat, flere kommer til hver uge!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"

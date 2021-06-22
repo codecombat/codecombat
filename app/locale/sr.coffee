@@ -1191,6 +1191,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     team_title: "Упознај CodeCombat тим"
     team_values: "Ми ценимо отворен дијалог пун поштовања, где најбоља идеја побеђује. Наше одлуке су засноване на истраживању потрошача и наш процес је фокусиран на достављање опипљивих резултата за њих. Свако је практичан, од нашег генералног директора до наших Github сарадника, јер ми ценимо раст и учење у нашем тиму."
     nick_title: "Кооснивач, генерални директор"
+#    csr_title: "Customer Success Representative"
 #    csm_title: "Customer Success Manager"
 #    scsm_title: "Senior Customer Success Manager"
 #    ae_title: "Account Executive"
@@ -1227,6 +1228,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
 #    vpm_title: "VP, Marketing"
+#    oi_title: "Online Instructor"
     community_subtitle: "Преко 450 сарадника је помогло да се изгради CodeCombat и још њих се придружује сваке недеље!" # {change}
     community_description_3: "CodeCombat је"
     community_description_link_2: "пројекат заједнице"

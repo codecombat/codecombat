@@ -1191,6 +1191,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     team_title: "Conoce al equipo de CodeCombat"
     team_values: "Valoramos el diálogo abierto y respetuoso, donde gana la mejor idea. Nuestras decisiones se basan en la investigación del cliente y nuestro método se centra en obtener resultados tangibles para ellas. Todos están echando una mano, desde nuestro CEO hasta nuestros contribuidores en GitHub, porque en nuestro equipo valoramos el crecimiento y el aprendizaje. "
     nick_title: "Cofundador, CEO"
+#    csr_title: "Customer Success Representative"
 #    csm_title: "Customer Success Manager"
 #    scsm_title: "Senior Customer Success Manager"
 #    ae_title: "Account Executive"
@@ -1227,6 +1228,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
 #    vpm_title: "VP, Marketing"
+#    oi_title: "Online Instructor"
     community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
     community_description_3: "CodeCombat es un"
     community_description_link_2: "proyecto comunitario"
