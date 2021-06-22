@@ -258,7 +258,9 @@
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
                       a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
                     li(v-if="me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous())))")
-                      a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") Manage Billing
+                      a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
+                    li(v-if="me.isAPIClient()")
+                      a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                     li(v-if="me.isAdmin()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                     li(v-if="serverSession && serverSession.amActually")

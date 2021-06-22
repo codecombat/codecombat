@@ -19,7 +19,6 @@ export default {
       if (state.loading[type]) {
         loading = false
       }
-      console.log('toggle loading', loading)
       Vue.set(state.loading, type, loading)
     },
 
@@ -38,10 +37,9 @@ export default {
     fetchClientId: ({ commit }) => {
       apiclientsApi.getApiClientId().then(res => {
         commit('setClientId', {id: res})
-        console.log('set clientid', res)
       })
     },
-    fetchLicenseStats : ({ commit }, clientId) => {
+    fetchLicenseStats: ({ commit }, clientId) => {
       commit('toggleLoading', 'byLicense')
 
       return apiclientsApi

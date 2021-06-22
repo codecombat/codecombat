@@ -50,6 +50,7 @@ module.exports = class User extends CocoModel
   isArtisan: -> @PERMISSIONS.ARTISAN in @get('permissions', true)
   isInGodMode: -> @PERMISSIONS.GOD_MODE in @get('permissions', true)
   isSchoolAdmin: -> @PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
+  isAPIClient: -> @PERMISSIONS.API_CLIENT in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
 

@@ -39,7 +39,7 @@ export default function getVueRouter () {
           ]
         },
         {
-          path: '/api-administrator',
+          path: '/api-dashboard',
           component: () => import(/* webpackChunkName: "apiViews" */ 'app/views/api/components/ApiDashboard')
         },
         {

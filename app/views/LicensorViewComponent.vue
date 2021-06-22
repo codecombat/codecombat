@@ -424,9 +424,9 @@ module.exports = Vue.extend({
             revokeSubscriptionViaAPI: (data.revokeSubscriptionViaAPI == 'true')
           }
         }
-        apiCLient = yield api.apiClients.post(attrs)
-        yield api.apiClients.createSecret({clientID: apiCLient._id})
-        yield api.apiClients.createAutoClanOwner({clientID: apiCLient._id})
+        apiClient = yield api.apiClients.post(attrs)
+        yield api.apiClients.createSecret({clientID: apiClient._id})
+        yield api.apiClients.createAutoClanOwner({clientID: apiClient._id})
         noty text: 'Client created', timeout: 3000, type: 'success'
       catch err
         console.log(err)
