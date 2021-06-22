@@ -1,21 +1,14 @@
 <template lang="pug">
   #api-dashboard
-   table.table.table-condensed(v-if="licenseDaysByMonth")
-      tr
-        th.border Month
-        th.border License days used by {{clients[0].name}}
-        th.border Users with active licenses
-      tr(v-for="(stats, month) in licenseDaysByMonth")
-        td.border {{month}}
-        td.border {{stats.daysUsed}}
-        td.border {{stats.noOfRedeemers}}
+   h1
+     | api-dashboard
    table.table.table-condensed(v-if="licenseDaysByMonthAndTeacher")
-      tr
+      tr(class="odd")
         th.border Month
         th.border Teacher or classroom name
         th.border License days used
         th.border Users with active licenses
-      tr(v-for="stats in licenseDaysByMonthAndTeacher")
+      tr(v-for="(stats, row) in licenseDaysByMonthAndTeacher" :class="{odd: row % 2 == 1, even: row % 2 == 0, sum: stats.teacher == '--sum--'}")
         td.border {{stats.month}}
         td.border {{stats.teacher}}
         td.border {{stats.licenseDaysUsed}}
@@ -25,49 +18,76 @@
 <script>
  import { mapActions, mapState, mapGetters } from 'vuex'
  module.exports = Vue.extend({
-   props: {
-   },
-   data() {
-     return {
-       ...mapState('licenseStats', {
+   computed: {
+       ...mapState('apiClient', {
          licenseStatsLoading: function (s) {
            return s.loading.byLicense
          },
          licenseStats: function (s) {
            return s.licenseStats
+         },
+           clientId: function (s) {
+               return s.clientId
          }
        }),
-     }
-   },
-   computed: {
      ...mapGetters(
        'me', [
          'isAnonymous',
-         'isLicensor'
+         'isAPIClient'
        ]
      ),
      licenseDaysByMonth() {
-       return this.licenseStats.licenseDaysByMonth
+         let lbm = this.licenseDaysByMonth
+         _.sort(lbm)
+       return lbm
      },
      licenseDaysByMonthAndTeacher() {
-       return this.licenseStats.licenseDaysByMonthAndTeacher
+       let byMonthAndTeacher = []
+       for(let month in this.licenseStats.licenseDaysByMonth) {
+         let stat = this.licenseStats.licenseDaysByMonth[month]
+         for(let teacher in stat.teachers) {
+           let s = stat.teachers[teacher]
+           byMonthAndTeacher.push({month, teacher, licenseDaysUsed: s.daysUsed, activeLicenses: s.noOfRedeemers})
+         }
+         byMonthAndTeacher.push({month, teacher: '--sum--', licenseDaysUsed: stat.daysUsed, activeLicenses: stat.noOfRedeemers})
+       }
+       return byMonthAndTeacher
      }
    },
    methods: {
      ...mapActions({
-       fetchLicenseStats: 'apiClient/fetchLicenseStats'
+         fetchLicenseStats: 'apiClient/fetchLicenseStats',
+         fetchPlayTimeStats: 'apiClient/fetchPlayTimeStats',
+         fetchClientId: 'apiClient/fetchClientId'
      })
    },
    components: {
    },
-   mounted() {
-     if(this.isAnonymous || !this.isLicensor) {
-       /* window.location.href = '/' */
+     watch: {
+         clientId: function (id) {
+             if(id != '') {
+                 this.fetchLicenseStats(id)
+             }
+         }
+     },
+   created() {
+     if(this.isAnonymous || !this.isAPIClient) {
+         window.location.href = '/'
      }
-     this.fetchLicenseStats('57fff652b0783842003fed00')
+       this.fetchClientId()
+       // current play time for apiclient is the total time of all students so i think
+       // we doesn't need it now
+       /* this.fetchPlayTimeStats() */
    }
  })
 </script>
 
-<style lang="sass">
+<style lang="scss">
+ tr.odd {
+   background-color: rgba(255, 196, 8, 0.1);
+ }
+ tr.sum {
+   background-color:(rgba(31, 186, 180, 0.2) !important);
+ }
+ 
 </style>

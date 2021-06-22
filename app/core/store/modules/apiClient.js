@@ -5,9 +5,12 @@ export default {
 
   state: {
     loading: {
-      byLicense: {}
+      byLicense: false,
+      byPlayTime: false,
     },
-    licenseStats: {}
+    clientId: '',
+    licenseStats: {},
+    playTimeStats: {}
   },
 
   mutations: {
@@ -16,15 +19,28 @@ export default {
       if (state.loading[type]) {
         loading = false
       }
-
+      console.log('toggle loading', loading)
       Vue.set(state.loading, type, loading)
     },
 
-    addLicenseStats: (state, { stats }) =>
-      Vue.set(state.licenseStats, stats)
+    setClientId: (state, { id }) => {
+      state.clientId = id
+    },
+    addLicenseStats: (state, { stats }) => {
+      state.licenseStats = stats
+    },
+    addPlayTimeStats: (state, { stats }) => {
+      state.playTimeStats = stats
+    }
   },
 
   actions: {
+    fetchClientId: ({ commit }) => {
+      apiclientsApi.getApiClientId().then(res => {
+        commit('setClientId', {id: res})
+        console.log('set clientid', res)
+      })
+    },
     fetchLicenseStats : ({ commit }, clientId) => {
       commit('toggleLoading', 'byLicense')
 
@@ -33,7 +49,7 @@ export default {
         .then(res =>  {
           if (res) {
             commit('addLicenseStats', {
-              res
+              stats: res
             })
           } else {
             throw new Error('Unexpected response from license stats by owner API.')
@@ -42,5 +58,21 @@ export default {
         .catch((e) => noty({ text: 'Fetch license stats failure: ' + e, type: 'error' }))
         .finally(() => commit('toggleLoading', 'byLicense'))
     },
+    fetchPlayTimeStats: ({ commit }) => {
+      commit('toggleLoading', 'byPlayTime')
+      return apiclientsApi
+        .getPlayTimeStats()
+        .then(res => {
+          if (res) {
+            commit('addPlayTimeStats', {
+              stats: res
+            })
+          } else {
+            throw new Error('Unexpected response from play-time stats by owner API.')
+          }
+        })
+        .catch((e) => noty({ text: 'Fetch play time stats failure: ' + e, type: 'error' }))
+        .finally(() => commit('toggleLoading', 'byPlayTime'))
+    }
   }
 }

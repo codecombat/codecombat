@@ -45,4 +45,10 @@ module.exports = {
   getLicenseStats: (clientID, options={}) ->
     fetchJson("/db/api-clients/#{clientID}/license-stats", options)
 
+  getPlayTimeStats: (options={}) ->
+    fetchJson("/api/playtime-stats", options)
+
+  getApiClientId: () ->
+    fetchJson("/api/get-id")
+
 }
