@@ -54,12 +54,22 @@
           </option>
         </select>
       </div>
+      <div class="form-group"
+        v-for="ind in getNumOfSessions()"
+        :key="ind"
+      >
+        <day-time-input-component
+          :label="`Preferred time for session ${ind}`"
+          @updateDayTime="(data) => updateDayTime(index, ind, data)"
+        />
+      </div>
     </div>
     <p class="error">{{errorMsg}}</p>
   </div>
 </template>
 
 <script>
+import DayTimeInputComponent from "./DayTimeInputComponent";
 export default {
   name: "PaymentOnlineClassesStudentDetailsComponent",
   props: {
@@ -67,6 +77,13 @@ export default {
       type: Number,
       required: true,
     },
+    selectedPlan: {
+      type: String,
+      required: true,
+    }
+  },
+  components: {
+    DayTimeInputComponent,
   },
   data() {
     const initial = [...Array(this.numOfStudents).keys()].map(_k => new Object())
@@ -104,6 +121,12 @@ export default {
       student.programmingLanguage = e.target.value;
       this.updateStudentDetails();
     },
+    updateDayTime(studentIndex, sessionNum, data) {
+      const student = this.getStudent(studentIndex);
+      if (!student.dayTime)
+        student.dayTime = [];
+      student.dayTime[sessionNum - 1] = data;
+    },
     getStudent(index) {
       return this.students[index - 1];
     },
@@ -139,6 +162,9 @@ export default {
     getLanguages() {
       return ['JavaScript', 'Python'];
     },
+    getNumOfSessions() {
+      return parseInt(this.selectedPlan.split('_').pop(), 10);
+    }
   },
 }
 </script>

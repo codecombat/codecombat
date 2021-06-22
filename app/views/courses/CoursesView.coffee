@@ -80,7 +80,7 @@ module.exports = class CoursesView extends RootView
         tournamentsByClass = (t.toJSON() for t in tournaments.models)[0]
         tournaments = _.flatten _.values tournamentsByClass
         @hasActiveTournaments = _.some tournaments, (t) =>
-          t.state in ['starting', 'active']
+          t.state in ['starting', 'active', 'ended']
         @renderSelectors('#tournament-btn')
       @supermodel.loadCollection(tournaments, 'tournaments', {cache: false})
 
@@ -115,7 +115,7 @@ module.exports = class CoursesView extends RootView
       return if @destroyed
       if me.get('clans')?.length
         @myClans = @removeRedundantClans results.shift()  # Generic Objects, not Clan models
-        for clan in @myClans when clan.displayName and not /a-z/.test(clan.displayName)
+        for clan in @myClans when clan.displayName and not /[a-z]/.test(clan.displayName)
           clan.displayName = utils.titleize clan.displayName  # Convert any all-uppercase clan names to title-case
       else
         @myClans = []
@@ -179,7 +179,7 @@ module.exports = class CoursesView extends RootView
     # Don't show low-level clans that have same members as higher-level clans (ex.: the class for a teacher with one class)
     relevantClans = []
     clansByMembers = _.groupBy clans, (c) -> (c.members ? []).sort().join(',')
-    kindHierarchy = ['school-network', 'school-subnetwork', 'district', 'school', 'teacher', 'class']
+    kindHierarchy = ['school-network', 'school-subnetwork', 'school-district', 'school', 'teacher', 'class']
     for members, clans of clansByMembers
       relevantClans.push _.sortBy(clans, (c) -> kindHierarchy.indexOf(c.kind))[0]
     relevantClans

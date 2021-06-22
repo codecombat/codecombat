@@ -625,7 +625,7 @@ module.exports = Surface = class Surface extends CocoClass
     else
       newWidth = 0.55 * pageWidth
       newHeight = newWidth / aspectRatio
-    return unless newWidth > 0 and newHeight > 0
+    return unless newWidth > 100 and newHeight > 100
 
     #scaleFactor = if application.isIPadApp then 2 else 1  # Retina
     scaleFactor = 1

@@ -12,18 +12,18 @@
                 span.icon-bar
               if me.useTarenaLogo()
                 a.navbar-brand(href="http://kidtts.tmooc.cn/ttsPage/login.html")
-                  img#logo-img.powered-by(src="/images/pages/base/logo.png")
-                  img#tarena-logo(src="/images/pages/base/logo-tarena.png")
+                  img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                  img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
               else if serverConfig.codeNinjas
                 a.navbar-brand(href="/home")
-                  img#logo-img.powered-by(src="/images/pages/base/logo.png")
-                  img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
+                  img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                  img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
               else if me.showChinaResourceInfo()
                 a.navbar-brand(href="/home")
-                  img#logo-img(src="/images/pages/base/logo-en+cn.png")
+                  img#logo-img(src="/images/pages/base/logo-en+cn.png" alt="CodeCombat logo")
               else
                 a.navbar-brand(href="/home")
-                  img#logo-img(src="/images/pages/base/logo.png")
+                  img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
 
             if view.isOldBrowser()
               .navbar-browser-recommendation.navbar-header
@@ -39,8 +39,8 @@
         p If this is showing, you dun goofed
 
   block footer
-    if !me.hideFooter()
-      #footer.small
+    #footer.small
+      if !me.hideFooter()
         .container
           .row
             if me.showChinaResourceInfo()
@@ -157,15 +157,15 @@
                         a(href="https://www.facebook.com/codecombat", target="_blank")
                           img(src="/images/pages/base/facebook_logo_btn.png", width="40")
 
-      #final-footer(dir="ltr")
-        img(src="/images/pages/base/logo.png" alt="CodeCombat")
-        .float-right
-          if me.showChinaResourceInfo()
-            - var {COCO_CHINA_CONST} = require('core/constants')
-            span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
-            span.contact= "业务咨询："+COCO_CHINA_CONST.CONTACT_PHONE
-          span(data-i18n="nav.copyright_prefix")
-          span= ' ©2021 CodeCombat Inc. '
-          span.spl(data-i18n="nav.copyright_suffix")
-          a.small(href="/legal") Terms of Service
-          a.small(href="/privacy") Privacy
+        #final-footer(dir="ltr")
+          img(src="/images/pages/base/logo.png" alt="CodeCombat")
+          .float-right
+            if me.showChinaResourceInfo()
+              - var {COCO_CHINA_CONST} = require('core/constants')
+              span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
+              span.contact= "业务咨询："+COCO_CHINA_CONST.CONTACT_PHONE
+            span(data-i18n="nav.copyright_prefix")
+            span= ' ©2021 CodeCombat Inc. '
+            span.spl(data-i18n="nav.copyright_suffix")
+            a.small(href="/legal") Terms of Service
+            a.small(href="/privacy") Privacy

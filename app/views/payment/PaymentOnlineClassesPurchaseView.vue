@@ -51,7 +51,8 @@
 		<div class="form-group">
 			<payment-online-classes-student-details-component
 				:num-of-students="licenseNum"
-				v-if="licenseNum && !errMsg"
+        :selected-plan="selectedPlan"
+        v-if="licenseNum && !errMsg && selectedPlan"
 				@updateStudentDetails="updateStudentDetails"
 			/>
 		</div>
@@ -108,7 +109,7 @@ export default {
 		getPlans() {
 			const plans = _.uniq(this.priceData.map(this.getPlanKey)).sort()
 			this.selectedPlan = plans[0]
-			return plans;
+      return plans;
 		},
 		getIntervals() {
 			const intervals = _.uniq(this.priceData.map(this.getIntervalKey))
@@ -174,7 +175,7 @@ export default {
 			return data;
 		},
 		updateLicenseNum(e) {
-			this.errMsg = '';
+		  this.errMsg = '';
 			const licenseVal = parseInt(e.target.value)
 			if (isNaN(licenseVal)) {
 				this.errMsg = 'Invalid value';
