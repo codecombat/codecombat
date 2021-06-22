@@ -1191,6 +1191,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     team_title: "CodeCombat team을 만나보세요!"
     team_values: "우리는 최고의 아이디어가 승리하는 개방적이고 서로 존중하는 대화를 중요시합니다. 우리의 결정은 고객 조사에 기초하고 있으며, 우리의 프로세스는 고객들에게 가시적인 결과를 제공하는 데 초점이 맞춰져 있습니다. CEO부터 GitHub 기여자까지 모두가 직접 참여합니다. 우리는 우리 팀의 성장과 학습을 중요시하기 때문입니다."
     nick_title: "프로그래머" # {change}
+#    csr_title: "Customer Success Representative"
     csm_title: "고객 성공 관리자"
 #    scsm_title: "Senior Customer Success Manager"
     ae_title: "광고기획자"
@@ -1227,6 +1228,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
 #    vpm_title: "VP, Marketing"
+#    oi_title: "Online Instructor"
     community_subtitle: "500명이 넘는 Contributor분들이 CodeCombat 개발을 도와주고 계십니다, 매주 새로운 분들이 저희 프로젝트에 참여해주시고 계십니다!!"
     community_description_3: "CodeCombat 은"
     community_description_link_2: "커뮤니티 프로젝트입니다"
