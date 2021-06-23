@@ -24,7 +24,7 @@ const aether_webpack_config = {
     html: "./app/lib/aether/html.coffee"
   },
   output: {
-    filename: "./bower_components/aether/build/[name].js",
+    filename: "./aether/build/[name].js",
     path: path.resolve(__dirname, 'bower_components'),
   },
   module: {
