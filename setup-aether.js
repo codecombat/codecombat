@@ -24,13 +24,25 @@ const aether_webpack_config = {
     html: "./app/lib/aether/html.coffee"
   },
   output: {
-    filename: "./bower_components/aether/build/[name].js"
+    filename: "./bower_components/aether/build/[name].js",
+    path: path.resolve(__dirname, 'bower_components'),
   },
   module: {
     rules: [
       {
         test: /\.coffee$/,
         use: ["coffee-loader"]
+      },
+      {
+        test: /\.mjs$/, // https://github.com/formatjs/formatjs/issues/1395#issuecomment-518823361
+        include: /node_modules/,
+        type: "javascript/auto"
+      },
+      { test: /\.js$/,
+        exclude: /(node_modules|bower_components|vendor)/,
+        use: [{
+          loader: 'babel-loader'
+        }]
       }
     ]
   },
@@ -45,7 +57,8 @@ const aether_webpack_config = {
 
   node: {
     fs: "empty"
-  }
+  },
+  mode: process.env.BRUNCH_ENV === "production" ? 'production' : 'development'
 };
 
 webpack(aether_webpack_config, function(err, stats) {
