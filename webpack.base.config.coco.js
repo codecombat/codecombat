@@ -4,7 +4,7 @@ const _ = require('lodash')
 const path = require('path')
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const glob = require('glob')
 require('coffee-script')
 require('coffee-script/register')
@@ -94,29 +94,38 @@ module.exports = (env) => {
           ]
         },
         { test: /\.sass$/,
-          enforce: 'pre',
-          use: [ // Allow importing * in app.sass
-            { loader: 'import-glob-loader' }
-          ] },
-        { test: /\.sass$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
-              { loader: 'css-loader' },
-              {
-                loader: 'sass-loader',
-                options: {
-                  indentedSyntax: true
-                }
+          use: [
+            'vue-style-loader',
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                esModule: false,
               }
-            ]
-          }) },
+            },
+            {
+              loader: "css-loader",
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                indentedSyntax: true
+              }
+            },
+            { loader: 'import-glob-loader' }
+          ]
+        },
         { test: /\.scss$/,
           use: [
             { loader: 'vue-style-loader' },
             { loader: 'css-loader' },
             { loader: 'sass-loader' }
-          ] }
+          ]
+        },
+        {
+          test: /\.mjs$/, // https://github.com/formatjs/formatjs/issues/1395#issuecomment-518823361
+          include: /node_modules/,
+          type: "javascript/auto"
+        }
       ]
     },
     resolve: {
@@ -131,18 +140,14 @@ module.exports = (env) => {
         'underscore': 'lodash'
       }
     },
-    node: {
-      fs: 'empty',
-      child_process: 'empty',
-      request: 'empty'
-    },
     externals: {
       'esper.js': 'esper'
     },
     plugins: [
       new webpack.ProgressPlugin({ profile: false }), // Always show build progress
-      new ExtractTextPlugin({ // Move CSS into external file
-        filename: 'stylesheets/[name].css'
+      new MiniCssExtractPlugin({ // Move CSS into external file
+        filename: 'stylesheets/[name].css',
+        chunkFilename: '[id].css'
       }),
       new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
         $: 'jquery',
