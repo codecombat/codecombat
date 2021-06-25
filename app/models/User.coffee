@@ -5,6 +5,7 @@ LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
 co = require 'co'
+moment = require 'moment'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
 paymentUtils = require 'app/lib/paymentUtils'
@@ -369,32 +370,44 @@ module.exports = class User extends CocoModel
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
-    coursePrepaid = @get('coursePrepaid')
-    return 'not-enrolled' unless coursePrepaid
-    return 'enrolled' unless coursePrepaid.endDate
-    return if coursePrepaid.endDate > new Date().toISOString() then 'enrolled' else 'expired'
+    coursePrepaids = _.filter(@get('products'), {product: 'course'})
+    return 'not-enrolled' unless coursePrepaids.length
+    return 'enrolled' if _.some(coursePrepaids, {endDate: null})
+    return 'enrolled' if _.some(coursePrepaids, (p) => moment().isBefore(p.endDate))
+    return 'expired'
 
   prepaidType: (includeCourseIDs) =>
-    # TODO: remove once legacy prepaidIDs are migrated to objects
-    return undefined unless @get('coursePrepaid') or @get('coursePrepaidID')
-    type = @get('coursePrepaid')?.type
+    coursePrepaids = _.filter @get('products'), (product) ->
+      return false if product.product != 'course'
+      return false if moment().isAfter(product.endDate)
+      return true
+    return undefined unless coursePrepaids.length
+ 
+    return 'course' if _.any(coursePrepaids, (p) => !p.productOptions?.includedCourseIDs?)
     # Note: currently includeCourseIDs is a argument only used when displaying
     # customized license's course names.
     # Be careful to match the returned string EXACTLY to avoid comparison issues
+
     if includeCourseIDs
-      courses = @get('coursePrepaid')?.includedCourseIDs
+      union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
+      courses = _.reduce(coursePrepaids, union, [])
       # return all courses names join with + as customized licenses's name
-      if type == 'course' and Array.isArray(courses)
-        return (courses.map (id) -> utils.courseAcronyms[id]).join('+')
+      return (courses.map (id) -> utils.courseAcronyms[id]).join('+')
     # NOTE: Default type is 'course' if no type is marked on the user's copy
-    return type or 'course'
+    return 'course'
 
   prepaidIncludesCourse: (course) ->
-    return false unless @get('coursePrepaid') or @get('coursePrepaidID')
-    includedCourseIDs = @get('coursePrepaid')?.includedCourseIDs
-    courseID = course.id or course
+    coursePrepaids = _.filter @get('products'), (product) ->
+      return false if product.product != 'course'
+      return false if moment().isAfter(product.endDate)
+      return true
+    return false unless coursePrepaids.length
     # NOTE: Full licenses implicitly include all courses
-    return !includedCourseIDs or courseID in includedCourseIDs
+    return true if _.any(coursePrepaids, (p) => !p.productOptions?.includedCourseIDs?)
+    union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
+    includedCourseIDs = _.reduce(coursePrepaids, union, [])
+    courseID = course.id or course
+    return courseID in includedCourseIDs
 
   fetchCreatorOfPrepaid: (prepaid) ->
     @fetch({url: "/db/prepaid/#{prepaid.id}/creator"})
