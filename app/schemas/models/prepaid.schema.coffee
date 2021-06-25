@@ -11,6 +11,10 @@ PrepaidSchema = c.object({title: 'Prepaid', required: ['type']}, {
         description: 'userID of teacher that applied the license, if not the creator')
   maxRedeemers: { type: 'integer' }
   code: c.shortString(title: "Unique code to redeem")
+  activateCodes: c.array({ description: 'concat code with activateCode.code to make a 12 char string as our activateCode'}, c.object {},
+    code: c.shortString({description: '4 char string (Четырехбуквенное слово from Valentin) to distinguish different code in same prepaid'})
+    expires: c.stringDate({description: 'Date the activateCode expires or be used'})
+  )
   type: { type: 'string' }
   properties: { type: 'object' }
   exhausted: { type: 'boolean' }
