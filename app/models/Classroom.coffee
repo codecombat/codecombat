@@ -29,6 +29,10 @@ module.exports = class Classroom extends CocoModel
     @capitalLanguage = utils.capitalLanguages[language]
 
   joinWithCode: (code, opts) ->
+    if code.length == 14 and code.split('-').length == 3
+      url = @urlRoot + '/members/activate'
+    else
+      url = @urlRoot + '/~/members'
     options = {
       url: @urlRoot + '/~/members'
       type: 'POST'
