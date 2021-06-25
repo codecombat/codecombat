@@ -1811,6 +1811,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     archived_classes: "Archived Classes"
     archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
     view_class: "view class"
+    view_ai_league_team: "View AI League team"
     archive_class: "archive class"
     unarchive_class: "unarchive class"
     unarchive_this_class: "Unarchive this class"
@@ -3282,6 +3283,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     register: "Register"
     not_registered: "Not Registered"
     world: "World"
+    quickstart_video: "Quickstart Video"
 
   tournament:
     mini_tournaments: "Mini Tournaments"

@@ -17,3 +17,5 @@ export const leaveClan = clanId => fetchJson(`/db/clan/${clanId}/leave`, {
 })
 
 export const getChildClanDetails = idOrSlug => fetchJson(`/db/clan/${idOrSlug}/subclans`)
+
+export const getAILeagueStats = clanId => fetchJson(`/db/clan/${clanId}/league-stats`)
