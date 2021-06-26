@@ -1,0 +1,121 @@
+mixin clanLeagueStatsMixin(stats, clanId, showIfEmpty)
+  .ai-league-stats
+    if stats && stats.totalPlayers > 1
+      .container
+        .row
+          .col-xs-12
+            h3
+              span(data-i18n='courses.ai_league_team_rankings')
+              if stats.totalPlayers
+                span= ' (' + stats.totalPlayers.toLocaleString() + ' ' + $.i18n.t('play.players') + ')'
+              span= ' '
+              a.view-ai-league.text-h6(data-i18n='teacher.view_ai_league_team' data-clan-level='teacher' data-clan-source-object-id=me.id data-event-action="Teachers Classes View AI League Team")
+              span= ' '
+              //a.ai-league-quickstart-video.text-h6(data-i18n='league.quickstart_video' data-event-action="Teachers Classes View AI League Quickstart video")  // TODO: add video when it's ready
+        .row
+          if stats.arenas && _.some(stats.arenas, ageStat => _.some(ageStat, stat => stat.clanPlayers > 1 || (stat.topPlayer && stat.topPlayer.percentileRank < 0.2)))
+            .col-md-7.stats-col
+              h4(data-i18n='league.arena_rankings')
+              span.small.has-tooltip(data-toggle='tooltip' data-i18n='[title]league.arena_rankings_title;league.arena_rankings_blurb')
+              each ageStat, arenaSlug in stats.arenas
+                  each stat, age in ageStat
+                    if stat.clanPlayers > 1 || (stat.topPlayer && stat.topPlayer.percentileRank < 0.2)
+                      h5
+                        a(href='/play/ladder/' + arenaSlug + '/clan/' + clanId)
+                          span= $.i18n.t('league.' + arenaSlug.replace(/-/g, '_'))
+                        //span= ' - ' + $.i18n.t('ladder.bracket_' + age.replace(/-/g, '_'))  // No age bracket display for now
+                      .stat
+                        span(data-i18n="league.competing")
+                        strong
+                          span= ' ' + stat.clanPlayers.toLocaleString() + ' '
+                          span(data-i18n=stat.clanPlayers == 1 ? 'league.count_student' : 'league.count_students')
+                      if stat.topPlayer
+                        .stat
+                          span(data-i18n='league.top_student')
+                          - var percentile = stat.topPlayer.percentileRank * 100;
+                          - if      (percentile < .1) percentile = percentile.toFixed(2);
+                          - else if (percentile <  1) percentile = percentile.toFixed(1);
+                          - else if (percentile < 10) percentile = percentile.toFixed(0);
+                          - else if (percentile < 25) percentile = (Math.ceil(percentile / 5) * 5).toFixed(0);
+                          - else if (percentile < 50) percentile = (Math.ceil(percentile / 10) * 10).toFixed(0);
+                          - else                      percentile = null;
+                          strong= ' ' + stat.topPlayer.name
+                          span.stat-details
+                            span= ' (#' + stat.topPlayer.globalRank.toLocaleString() + ' '
+                            span(data-i18n='league.top_of')
+                            span= ' ' + stat.totalPlayers.toLocaleString() + ' '
+                            span(data-i18n='play.players')
+                            if percentile
+                              span= ' - '
+                              span(data-i18n='league.top_percent')
+                              span= ' ' + percentile + '%)'
+                            else
+                              span )
+
+          .col-md-5.stats-col
+            if stats.wins && (stats.wins.over100 || stats.wins.over50)
+              h4(data-i18n='league.arena_victories')
+              span.small.has-tooltip(data-toggle='tooltip' data-i18n='[title]league.arena_victories_title;league.arena_victories_blurb')
+              if !stats.wins.topPlayer || stats.wins.total > stats.wins.topPlayer.wins
+                .stat
+                  span(data-i18n="league.count_total")
+                  strong
+                    span= ' ' + stats.wins.total.toLocaleString() + ' '
+                    span(data-i18n='league.count_wins')
+              if stats.wins.over100 > 1 || stats.wins.over50 > 1
+                .stat
+                  if stats.wins.over100 && stats.wins.over100 > stats.wins.over50 - 2 && stats.wins.over100 > 1
+                    span= '100+ '
+                    span(data-i18n='league.count_wins')
+                    span :
+                    strong
+                      span= ' ' + stats.wins.over100 + ' '
+                      span(data-i18n='league.count_students')
+                  else if stats.wins.over50 > 1
+                    span= '50+ '
+                    span(data-i18n='league.count_wins')
+                    span :
+                    strong
+                      span= ' ' + stats.wins.over50 + ' '
+                      span(data-i18n='league.count_students')
+              if stats.wins.topPlayer && stats.wins.topPlayer.name
+                .stat
+                  span(data-i18n='league.top_student')
+                  strong= ' ' + stats.wins.topPlayer.name
+                  span.stat-details
+                    span= ' (' + stats.wins.topPlayer.wins + ' '
+                    span(data-i18n='league.count_wins')
+                    span )
+
+            if stats.codePoints && stats.codePoints.total
+              h4(data-i18n='league.codepoints')
+              span.small.has-tooltip(data-toggle='tooltip' data-i18n='[title]league.codepoints_title;league.codepoints_blurb')
+              .stat
+                span(data-i18n="league.count_total")
+                strong
+                  span= ' ' + stats.codePoints.total.toLocaleString() + ' '
+                  span(data-i18n='league.codepoints')
+              if stats.codePoints.over100 > 1
+                .stat
+                  span= '100+ '
+                  span(data-i18n='league.codepoints')
+                  span :
+                  strong
+                    span= ' ' + stats.codePoints.over100.toLocaleString() + ' '
+                    span(data-i18n='league.count_students')
+              if stats.codePoints.topPlayer && stats.codePoints.topPlayer.name
+                .stat
+                  span(data-i18n='league.top_student')
+                  strong= ' ' + stats.codePoints.topPlayer.name
+                  span.stat-details
+                    span= ' (' + stats.codePoints.topPlayer.codePoints.toLocaleString() + ' '
+                    span(data-i18n='league.codepoints')
+                    span )
+    else if showIfEmpty
+      .container
+        .row
+          .col-xs-12
+            if !stats
+              h3(data-i18n="common.loading")
+            else
+              h3 No AI League stats yet.

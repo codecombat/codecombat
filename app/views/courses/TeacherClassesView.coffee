@@ -244,8 +244,9 @@ module.exports = class TeacherClassesView extends RootView
     @myClans = clans
     return unless @teacherClan = _.find (clans ? []), (c) -> /teacher/.test c.name
     clansApi.getAILeagueStats(@teacherClan._id).then (stats) =>
-      @aiLeagueStats = stats
+      @aiLeagueStats = JSON.parse(stats)
       @renderSelectors '.ai-league-stats'
+      @$('.ai-league-stats [data-toggle="tooltip"]').tooltip()
 
   onLoaded: ->
     helper.calculateDots(@classrooms, @courses, @courseInstances)
@@ -380,7 +381,7 @@ module.exports = class TeacherClassesView extends RootView
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID, ['Mixpanel']
     application.router.navigate("/league/#{clanID}", { trigger: true })
 
-  onClickViewAILeague: (e) ->
+  onClickViewAILeagueQuickstartVideo: (e) ->
     noty text: 'AI League quickstart video coming soon', layout: 'topCenter', timeout: 3000, type: 'warning'
 
   addFreeCourseInstances: co.wrap ->

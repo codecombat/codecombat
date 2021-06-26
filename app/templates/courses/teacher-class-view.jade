@@ -1,3 +1,5 @@
+include ./clan-league-stats-mixin
+
 mixin longLevelName(data)
   if data
     div.level-name
@@ -635,6 +637,10 @@ if classroom.loaded
         li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
           a.course-progress-tab-btn(href='#license-status-tab')
             .small-details.text-center(data-i18n='teacher.license_status')
+        .tab-spacer
+        li(class=(activeTab === "#ai-league-stats-tab" ? 'active' : ''))
+          a.course-progress-tab-btn(href='#ai-league-stats-tab')
+            .small-details.text-center AI League
         .tab-filler
 
       .tab-content
@@ -646,6 +652,8 @@ if classroom.loaded
           +assessmentsTab
         else if activeTab === '#license-status-tab'
           +enrollmentStatusTab
+        else if activeTab === '#ai-league-stats-tab'
+          +clanLeagueStatsMixin(view.aiLeagueStats, view.classClan ? view.classClan._id : null, true)
 
     else
       .text-center.m-t-5.m-b-5

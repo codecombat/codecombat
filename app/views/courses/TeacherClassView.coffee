@@ -60,6 +60,7 @@ module.exports = class TeacherClassView extends RootView
     'click .remove-from-selected-students': 'onClickBulkRemoveCourse'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
     'click .view-ai-league': 'onClickViewAILeague'
+    'click .ai-league-quickstart-video': 'onClickAILeagueQuickstartVideo'
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
     'keyup #student-search': 'onKeyPressStudentSearch'
@@ -253,6 +254,11 @@ module.exports = class TeacherClassView extends RootView
 
   onMyClansLoaded: (clans) =>
     @myClans = clans
+    return unless @classClan = _.find((@myClans ? []), (clan) => clan.name is "autoclan-classroom-#{@classroom.id}")
+    clansApi.getAILeagueStats(@classClan._id).then (stats) =>
+      @aiLeagueStats = JSON.parse(stats)
+      @renderSelectors '.ai-league-stats'
+      @$('.ai-league-stats [data-toggle="tooltip"]').tooltip()
 
   onLoaded: ->
     # Get latest courses for student assignment dropdowns
@@ -584,11 +590,13 @@ module.exports = class TeacherClassView extends RootView
     window.saveAs(file, 'CodeCombat.csv')
 
   onClickViewAILeague: (e) ->
-    clanID = _.find((@myClans ? []), (clan) => clan.name is "autoclan-classroom-#{@classroom.id}")?._id ? ''
-    unless clanID
+    unless @classClan
       console.error "Couldn't find autoclan for classroom #{@classroom.id} out of", @myClans
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
-    application.router.navigate("/league/#{clanID}", { trigger: true })
+    application.router.navigate("/league/#{classClan?._id ? ''}", { trigger: true })
+
+  onClickViewAILeagueQuickstartVideo: (e) ->
+    noty text: 'AI League quickstart video coming soon', layout: 'topCenter', timeout: 3000, type: 'warning'
 
   onClickAssignStudentButton: (e) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
