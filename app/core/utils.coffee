@@ -936,7 +936,11 @@ activeArenas = ->
   daysActiveAfterEnd = regular: 7, championship: 14
   (_.clone(a) for a in arenas when a.start <= new Date() < a.end.getTime() + daysActiveAfterEnd[a.type] * 86400 * 1000)
 
+activeAndPastArenas = -> (_.clone(a) for a in arenas when a.start <= new Date())
+
+
 module.exports = {
+  activeAndPastArenas
   activeArenas
   addressesIncludeAdministrativeRegion
   ageBrackets
