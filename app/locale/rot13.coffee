@@ -1811,6 +1811,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     archived_classes: "Nepuvirq Pynffrf"
     archived_classes_blurb: "Pynffrf pna or nepuvirq sbe shgher ersrerapr. Hanepuvir n pynff gb ivrj vg va gur Pheerag Pynffrf yvfg ntnva."
     view_class: "ivrj pynff"
+    view_ai_league_team: "Ivrj NV Yrnthr grnz"
     archive_class: "nepuvir pynff"
     unarchive_class: "hanepuvir pynff"
     unarchive_this_class: "Hanepuvir guvf pynff"
@@ -2420,7 +2421,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     log_in_for_friends: "Ybt va gb cynl jvgu lbhe sevraqf!"
     social_connect_blurb: "Pbaarpg naq cynl ntnvafg lbhe sevraqf!"
     invite_friends_to_battle: "Vaivgr lbhe sevraqf gb wbva lbh va onggyr!"
-    fight: "Onggyr!" # {punatr}
+    fight: "Onggyr!"
     watch_victory: "Jngpu lbhe ivpgbel"
     defeat_the: "Qrsrng gur"
     watch_battle: "Jngpu gur onggyr"
@@ -3282,6 +3283,23 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     register: "Ertvfgre"
     not_registered: "Abg Ertvfgrerq"
     world: "Jbeyq"
+    quickstart_video: "Dhvpxfgneg Ivqrb"
+    arena_rankings: "Neran Enaxvatf"
+    arena_rankings_blurb: "Tybony NV Yrnthr neran enaxvatf"
+    arena_rankings_title: "Tybony yrnqreobneq enax sbe nyy cynlref va guvf grnz npebff NV Yrnthr neranf va gur bcra ntr oenpxrg."
+    competing: "Pbzcrgvat:" # Pbzcrgvat: 3 fghqragf
+    count_student: "fghqrag"  # 1 fghqrag
+    count_students: "fghqragf"  # 2 fghqragf
+    top_student: "Gbc:" # Gbc: Wnar Q
+    top_percent: "gbc" # - gbc 3%)
+    top_of: "bs" # (#8 bs 35). Creuncf whfg hfr "/" vs guvf qbrfa'g genafyngr anghenyyl.
+    arena_victories: "Neran Ivpgbevrf"
+    arena_victories_blurb: "Tybony NV Yrnthr neran erprag jvaf"
+    arena_victories_title: "Jva pbhag vf onfrq ba gur ynfg 1000 zngpurf cynlrq nflapuebabhfyl ol rnpu cynlre va rnpu bs gurve NV Yrnthr neranf."
+    count_wins: "jvaf" # 100+ jvaf be 974 jvaf
+    codepoints_blurb: "1 PbqrCbvag = 1 yvar bs pbqr jevggra"
+    codepoints_title: "Bar PbqrCbvag vf rnearq sbe rirel aba-juvgrfcnpr yvar bs pbqr arrqrq gb orng gur yriry. Rnpu yriry vf jbegu gur fnzr nzbhag bs PbqrCbvagf nppbeqvat gb vgf fgnaqneq fbyhgvba, ertneqyrff bs jurgure gur fghqrag jebgr zber be srjre yvarf bs pbqr."
+    count_total: "Gbgny:" # Gbgny: 300 PbqrCbvagf, be Gbgny: 300 jvaf
 
   tournament:
     mini_tournaments: "Zvav Gbheanzragf"
