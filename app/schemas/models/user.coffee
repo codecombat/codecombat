@@ -411,6 +411,14 @@ _.extend UserSchema.properties,
         additionalProperties: FeatureRecipientSchema
 
   archived: c.date {description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'}
+  products: c.array {title: 'Products purchased or used by this user'},
+    c.object { required: ['productID', 'purchaser', 'recipient', 'startDate', 'paymentService', 'paymentDetails'] },
+      product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'ai-league', 'online-classes'], decription: 'The "name" field for the product purchased' }  # And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
+      productOptions: {
+      }
+      startDate: c.date()
+      endDate: c.date()  # TODO: optional indication of no end date (lasts forever) - or do we just leave unset?
+ 
 
 c.extendBasicProperties UserSchema, 'user'
 
