@@ -352,7 +352,7 @@ module.exports = class User extends CocoModel
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
     coursePrepaids = _.filter(@get('products'), {product: 'course'})
-    return 'not-enrolled' unless coursePrepaid.length
+    return 'not-enrolled' unless coursePrepaids.length
     return 'enrolled' if _.some(coursePrepaids, {endDate: null})
     return 'enrolled' if _.some(coursePrepaids, (p) => moment().isBefore(p.endDate))
     return 'expired'
@@ -370,7 +370,8 @@ module.exports = class User extends CocoModel
     # Be careful to match the returned string EXACTLY to avoid comparison issues
 
     if includeCourseIDs
-      courses = _.reduce(coursePrepaids, (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? []), [])
+      union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
+      courses = _.reduce(coursePrepaids, union, [])
       # return all courses names join with + as customized licenses's name
       return (courses.map (id) -> utils.courseAcronyms[id]).join('+')
     # NOTE: Default type is 'course' if no type is marked on the user's copy
@@ -384,7 +385,8 @@ module.exports = class User extends CocoModel
     return false unless coursePrepaids.length
     # NOTE: Full licenses implicitly include all courses
     return true if _.any(coursePrepaids, (p) => !p.productOptions?.includedCourseIDs?)
-    includedCourseIDs = _.reduce(coursePrepaids, (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? []), [])
+    union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
+    includedCourseIDs = _.reduce(coursePrepaids, union, [])
     courseID = course.id or course
     return courseID in includedCourseIDs
 
