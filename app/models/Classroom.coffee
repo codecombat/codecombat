@@ -34,7 +34,7 @@ module.exports = class Classroom extends CocoModel
     else
       url = @urlRoot + '/~/members'
     options = {
-      url: @urlRoot + '/~/members'
+      url: url
       type: 'POST'
       data: { code: code }
       success: => @trigger 'join:success'

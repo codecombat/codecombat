@@ -585,6 +585,7 @@ if classroom.loaded
         if view.students && view.students.models.length > 0
           button.export-student-progress-btn.btn.btn-lg.btn-primary(disabled=!view.allStatsLoaded())
             span(data-i18n='teacher.export_student_progress')
+  
 
         //- .concepts.small-details
         //-   if state.get('progressData')
@@ -622,6 +623,9 @@ if classroom.loaded
             span(data-i18n='teacher.latest_complete')
             span :
             div(data-i18n='common.loading')
+        if me.isAdmin()
+          button.create-activate-codes-btn.btn.btn-lg.btn-primary(disabled=!view.allStatsLoaded())
+            span(data-i18n='admin.create_activate_codes') activate codes
 
       .adding-students.col-md-5
         h4.m-b-2
