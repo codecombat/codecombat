@@ -6,6 +6,7 @@ utils = require 'core/utils'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
+PrepaidActivateCodesModal = require 'views/courses/PrepaidActivateCodesModal'
 EditStudentModal = require 'views/teachers/EditStudentModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
 CoursesNotAssignedModal = require './CoursesNotAssignedModal'
@@ -61,6 +62,7 @@ module.exports = class TeacherClassView extends RootView
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
     'click .view-ai-league': 'onClickViewAILeague'
     'click .ai-league-quickstart-video': 'onClickAILeagueQuickstartVideo'
+    'click .create-activate-codes-btn': 'onClickCreateActivateCodes'
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
     'keyup #student-search': 'onKeyPressStudentSearch'
@@ -600,6 +602,10 @@ module.exports = class TeacherClassView extends RootView
     clanSourceObjectID = $(e.target).data('clan-source-object-id')
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID, ['Mixpanel']
 
+  onClickCreateActivateCodes: (e) ->
+    modal = new PrepaidActivateCodesModal({}, @classroom.get('_id'))
+    @openModalView(modal)
+       
   onClickAssignStudentButton: (e) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
