@@ -162,6 +162,20 @@ orderedCourseIDs = [
   courseIDs.COMPUTER_SCIENCE_6
 ]
 
+courseNumericalStatus = {}
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 128
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 64
+courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 32
+courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 16
+courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 8
+courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 4
+courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 2
+courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 1
+
+ 
 courseAcronyms = {}
 courseAcronyms[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
 courseAcronyms[courseIDs.GAME_DEVELOPMENT_1] = 'GD1'
@@ -952,6 +966,7 @@ module.exports = {
   courseAcronyms
   courseIDs
   courseLessonSlidesURLs
+  courseNumericalStatus
   CSCourseIDs
   createLevelNumberMap
   extractPlayerCodeTag
