@@ -118,6 +118,12 @@ module.exports = class PreapidActivateCodesModal extends ModalView
     @state = 'creating-prepaid'
     @renderSelectors('#prepaid-form')
     @listenTo prepaid, 'sync', ->
+      csvContent = 'Code,Expires\n'
+      ocode = prepaid.get('code').toUpperCase()
+      for code in prepaid.get('activateCodes')
+        csvContent += "#{ocode.slice(0, 4)}-#{code.code.toUpperCase()}-#{ocode.slice(4)},#{code.expires}\n"
+      file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
+      window.saveAs(file, 'ActivateCodes.csv')
       @state = 'made-prepaid'
       @renderSelectors('#prepaid-form')
 
