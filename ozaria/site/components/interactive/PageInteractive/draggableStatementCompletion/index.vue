@@ -343,7 +343,7 @@
     &.answer-slot-row {
       margin-bottom: $height + 15px;
 
-      /deep/ .slot {
+      ::v-deep(.slot) {
         ul:empty {
           border: 1.17px dashed #ACB9FC;
         }
@@ -398,7 +398,7 @@
     }
   }
 
-  /deep/ .slot {
+  ::v-deep(.slot) {
     height: 35px;
 
     ul {

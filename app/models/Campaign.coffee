@@ -5,6 +5,7 @@ Levels = require 'collections/Levels'
 CocoCollection = require 'collections/CocoCollection'
 utils = require '../core/utils'
 api = require 'core/api'
+levelUtils = require '../core/levelUtils'
 
 module.exports = class Campaign extends CocoModel
   @className: 'Campaign'
@@ -38,7 +39,7 @@ module.exports = class Campaign extends CocoModel
     levels = @getLevels().models
     campaignLevels = {}
     campaignLevels[campaignId] = {
-      modules: utils.buildLevelsListByModule(levels, isCh1)
+      modules: levelUtils.buildLevelsListByModule(levels, isCh1)
     }
     return campaignLevels
 

@@ -182,7 +182,7 @@
 <style lang="sass">
     .level-dot-tooltip
         padding: 0
-        box-shadow: 4px 4px 15px 0 rgba(0,0,0,0.5);
+        box-shadow: 4px 4px 15px 0 rgba(0,0,0,0.5)
 
         &:before
             content: ""

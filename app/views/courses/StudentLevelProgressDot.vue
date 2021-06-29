@@ -48,11 +48,11 @@
     components: {
       PieChart
     }
-    computed: { 
-      progressAttribute: -> 
+    computed: {
+      progressAttribute: ->
         return 'complete' if @progress.completed
         return 'started' if @progress.started
-        return 'not started' 
+        return 'not started'
       dotClass: ->
         classes = {}
         if @progress.completed
@@ -98,7 +98,7 @@
       titleTemplate: ->
         context = _.merge(
           @progress,
-          { 
+          {
             @levelName,
             moment,
             practice: @level.practice
@@ -126,7 +126,7 @@
 
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   .student-level-progress-dot-link
     display: inline-block
     position: relative

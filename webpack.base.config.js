@@ -10,7 +10,6 @@ require('coffee-script')
 require('coffee-script/register')
 const CompileStaticTemplatesPlugin = require('./compile-static-templates')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const TerserPlugin = require("terser-webpack-plugin")
 
 console.log('Starting Webpack...')
 
@@ -96,7 +95,6 @@ module.exports = (env) => {
         },
         { test: /\.sass$/,
           use: [
-            'vue-style-loader',
             {
               loader: MiniCssExtractPlugin.loader,
               options: {
@@ -109,17 +107,30 @@ module.exports = (env) => {
             {
               loader: 'sass-loader',
               options: {
-                indentedSyntax: true
+                implementation: require("sass"),
+                sassOptions: {
+                  indentedSyntax: true
+                }
               }
             },
-            { loader: 'import-glob-loader' }
           ]
         },
         { test: /\.scss$/,
           use: [
-            { loader: 'vue-style-loader' },
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                esModule: false,
+              }
+            },
             { loader: 'css-loader' },
-            { loader: 'sass-loader' }
+            // { loader: 'vue-style-loader' },
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: require("sass"),
+              }
+            }
           ] },
         {
           test: /\.mjs$/, // https://github.com/formatjs/formatjs/issues/1395#issuecomment-518823361
@@ -147,7 +158,8 @@ module.exports = (env) => {
       new webpack.ProgressPlugin({ profile: false }), // Always show build progress
       new MiniCssExtractPlugin({ // Move CSS into external file
         filename: 'stylesheets/[name].css',
-        chunkFilename: '[id].css'
+        chunkFilename: '[id].css',
+        ignoreOrder: true, // too many conflict warnings because of TestView, ignoring till those conflicts are fixed or that route is disabled
       }),
       new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
         $: 'jquery',
@@ -195,6 +207,7 @@ module.exports = (env) => {
       }),
       new VueLoaderPlugin()
     ],
-    optimization: {}
+    optimization: {},
+    stats: 'minimal'
   }
 }
