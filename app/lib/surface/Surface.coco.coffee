@@ -750,8 +750,9 @@ module.exports = Surface = class Surface extends CocoClass
     if @showingPathFinding then @showPathFinding() else @hidePathFinding()
 
   hidePathFinding: ->
-    @surfaceLayer.removeChild @navRectangles if @navRectangles
-    @surfaceLayer.removeChild @navPaths if @navPaths
+    surfaceLayer = @gridLayer
+    surfaceLayer.removeChild @navRectangles if @navRectangles
+    surfaceLayer.removeChild @navPaths if @navPaths
     @navRectangles = @navPaths = null
 
   showPathFinding: ->
@@ -759,19 +760,18 @@ module.exports = Surface = class Surface extends CocoClass
 
     mesh = _.values(@world.navMeshes or {})[0]
     return unless mesh
-    @navRectangles = new createjs.Container()
-    @navRectangles.layerPriority = -1
+    surfaceLayer = @gridLayer
+    @navRectangles = new createjs.Container(surfaceLayer.spriteSheet)
     @addMeshRectanglesToContainer mesh, @navRectangles
-    @surfaceLayer.addChild @navRectangles
-    @surfaceLayer.updateLayerOrder()
+    surfaceLayer.addChild @navRectangles
+    surfaceLayer.updateLayerOrder()
 
     graph = _.values(@world.graphs or {})[0]
-    return @surfaceLayer.updateLayerOrder() unless graph
-    @navPaths = new createjs.Container()
-    @navPaths.layerPriority = -1
+    return surfaceLayer.updateLayerOrder() unless graph
+    @navPaths = new createjs.Container(surfaceLayer.spriteSheet)
     @addNavPathsToContainer graph, @navPaths
-    @surfaceLayer.addChild @navPaths
-    @surfaceLayer.updateLayerOrder()
+    surfaceLayer.addChild @navPaths
+    surfaceLayer.updateLayerOrder()
 
   addMeshRectanglesToContainer: (mesh, container) ->
     for rect in mesh
@@ -796,10 +796,12 @@ module.exports = Surface = class Surface extends CocoClass
     v2 = @camera.worldToSurface v2
     shape.graphics
     .setStrokeStyle(1)
-    .moveTo(v1.x, v1.y)
     .beginStroke('rgba(128,0,0,0.4)')
-    .lineTo(v2.x, v2.y)
+    .moveTo(0, 0)
+    .lineTo(v2.x - v1.x, v2.y - v1.y)
     .endStroke()
+    shape.x = v1.x
+    shape.y = v1.y
     container.addChild shape
 
 
