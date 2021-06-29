@@ -1,3 +1,4 @@
+@use 'sass:math';
 // a flag to toggle asset pipeline / compass integration
 // defaults to true if twbs-font-path function is present (no function => twbs-font-path('') parsed as string == right side)
 // in Sass 3.3 this can be improved with: function-exists(twbs-font-path)
@@ -284,8 +285,8 @@ $grid-float-breakpoint-max: ($grid-float-breakpoint - 1) !default;
 $navbar-height:                    50px !default;
 $navbar-margin-bottom:             $line-height-computed !default;
 $navbar-border-radius:             $border-radius-base !default;
-$navbar-padding-horizontal:        floor($grid-gutter-width / 2) !default;
-$navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2) !default;
+$navbar-padding-horizontal:        floor(math.div($grid-gutter-width, 2)) !default;
+$navbar-padding-vertical:          (math.div($navbar-height - $line-height-computed, 2)) !default;
 
 $navbar-default-color:             #777 !default;
 $navbar-default-bg:                #2f261d;

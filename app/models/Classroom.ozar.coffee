@@ -1,6 +1,7 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/classroom.schema'
 utils = require '../core/utils'
+levelUtils = require '../core/levelUtils'
 { findNextLevelsBySession, getLevelsDataByOriginals } = require 'ozaria/site/common/ozariaUtils'
 coursesHelper = require '../lib/coursesHelper'
 User = require 'models/User'
@@ -118,7 +119,7 @@ module.exports = class Classroom extends CocoModel
       isCh1 = course._id == utils.courseIDs.CHAPTER_ONE
       courseLevels = @getLevels({courseID: course._id}).models
       courseModuleLevelsMap[course._id] = {
-        modules: utils.buildLevelsListByModule(courseLevels, isCh1)
+        modules: levelUtils.buildLevelsListByModule(courseLevels, isCh1)
       }
       if capstoneLevel = courseLevels.find((l) => l.isCapstone())
         courseModuleLevelsMap[course._id].capstone = capstoneLevel

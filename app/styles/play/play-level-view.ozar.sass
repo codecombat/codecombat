@@ -1,12 +1,7 @@
 @use "sass:math"
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
-@import "ozaria/site/styles/play/variables"
-@import "ozaria/site/styles/common/variables.scss"
-@import "ozaria/site/styles/play/images"
-
-body
-  height: 100vh
+@import "app/styles/play/variables"
 
 body.is-playing
   background-color: black
@@ -15,10 +10,13 @@ $level-resize-transition-time: 0.5s
 // TODO: use this for real-time playback but not cinematic playback
 
 #level-view
+  margin: 0 auto
   position: absolute
   overflow: hidden
-  width: 100%
-  height: 100%
+  left: 0
+  right: 0
+  bottom: 10px
+  top: 0
   @include user-select(none)
 
   &.real-time, &.cinematic
@@ -41,7 +39,7 @@ $level-resize-transition-time: 0.5s
       width: 100%
       button, h4
         display: none
-    #code-area, #thang-hud
+    #code-area, #thang-hud, #goals-view
       display: none
       visibility: hidden
     #gold-view
@@ -62,12 +60,16 @@ $level-resize-transition-time: 0.5s
       left: 20%
       width: 60%
       text-align: center
+    #level-dialogue-view
+      display: none
 
     .level-content
       margin: 0px auto
 
   .level-content
     position: relative
+    min-height: 555px
+    //background-color: black
 
   &.real-time
     &:not(.flags)
@@ -85,24 +87,6 @@ $level-resize-transition-time: 0.5s
     #stop-real-time-playback-button
       display: block
       z-index: 20
-      background-image: url($Button)
-      text-align: center
-      background-position: center
-      padding: 10px 25px
-      background-size: contain
-      background-color: transparent
-      background-repeat: no-repeat
-      border: none
-      color: #215055
-      font-family: "Work Sans"
-      font-size: 17px
-      font-weight: bold
-      letter-spacing: 0.77px
-      line-height: 20px
-      text-transform: uppercase
-
-      &:hover:not(:disabled)
-        background-image: url($ButtonHover)
 
   &.cinematic
     #playback-view
@@ -125,10 +109,8 @@ $level-resize-transition-time: 0.5s
       top: 0
 
   #canvas-wrapper
-    top: $goals-vega-height
-    &.undo-vega-spacing
-      top: 7.3%
-    width: $game-view-width
+    top: 50px
+    width: calc(#{$game-view-width} - #{$api-bar-width})
     position: relative
     overflow: hidden
     background-color: black
@@ -137,6 +119,8 @@ $level-resize-transition-time: 0.5s
 
     &.preview-overlay
       z-index: 20
+      #goals-view
+        visibility: hidden
 
   canvas#webgl-surface
     background-color: #333
@@ -180,10 +164,13 @@ $level-resize-transition-time: 0.5s
     transform-origin: 0 0 0
     line-height: 15px
 
+  min-width: 1024px
 
   #code-area
     @include box-sizing(border-box)
-    width: $code-area-width
+    padding: 0px 0.9% 10px 0
+    width: 43.5%
+    background: transparent url(/images/level/wood_texture.png)
     background-size: 100% 100%
     position: absolute
     right: 0
@@ -195,7 +182,6 @@ $level-resize-transition-time: 0.5s
   #game-area
     position: relative
     overflow: hidden
-    height: 100%
 
   // Level Docs
   .ui-effects-transfer
@@ -359,11 +345,6 @@ $level-resize-transition-time: 0.5s
     .code-line-0, .code-line-6
       opacity: 0.5
 
-  .ad-container
-    width: 100%
-    height: 90px
-    text-align: center
-
   .hints-view
     position: absolute
     top: 10px
@@ -388,7 +369,7 @@ $level-resize-transition-time: 0.5s
     left: 0
     right: 0
 
-    #playback-view, #thang-hud, #play-footer, #level-footer-background, #level-footer-shadow
+    #playback-view, #thang-hud, #level-dialogue-view, #play-footer, #level-footer-background, #level-footer-shadow
       display: none
 
     .game-container, .level-content, #game-area, #canvas-wrapper
@@ -412,7 +393,7 @@ $level-resize-transition-time: 0.5s
     right: 0
     top: 52px
     width: 20%
-    bottom: -22px
+    bottom: 38px
 
 html.fullscreen-editor
   #level-view
@@ -466,4 +447,3 @@ body.ipad #level-view
   background-size: 100% 400px
   height: 400px
   z-index: -9001
-
