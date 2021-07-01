@@ -185,7 +185,7 @@ module.exports = class TeacherClassView extends RootView
       clansApi.getMyClans().then @onMyClansLoaded
 
   fetchStudents: ->
-    Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'}}))
+    Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted,products'}}))
     .then =>
       return if @destroyed
       @removeDeletedStudents() # TODO: Move this to mediator listeners?

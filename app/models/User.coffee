@@ -357,6 +357,15 @@ module.exports = class User extends CocoModel
     return 'enrolled' if _.some(coursePrepaids, (p) => moment().isBefore(p.endDate))
     return 'expired'
 
+  prepaidNumericalStatus: ->
+    coursePrepaids = _.filter(@get('products'), {product: 'course'})
+    return 0 unless coursePrepaids.length
+    return 2047 if _.some coursePrepaids, (p) => !p.productOptions?.includedCourseIDs?
+    union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
+    courses = _.reduce(coursePrepaids, union, [])
+    fun = (s, k) => s + utils.courseNumericalStatus[k]
+    return _.reduce(courses, fun, 0)
+
   prepaidType: (includeCourseIDs) =>
     coursePrepaids = _.filter @get('products'), (product) ->
       return false if product.product != 'course'
