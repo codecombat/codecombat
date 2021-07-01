@@ -1811,6 +1811,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     archived_classes: "Archived Classes"
     archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
     view_class: "view class"
+    view_ai_league_team: "View AI League team"
     archive_class: "archive class"
     unarchive_class: "unarchive class"
     unarchive_this_class: "Unarchive this class"
@@ -2063,22 +2064,22 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_create_classroom: "Create Classroom"
     teacher_quest_add_students: "Add Students"
     teacher_quest_teach_methods: "Help your students learn how to `call methods`."
-    teacher_quest_teach_methods_step1: "Get 75% of at least one class through the first level, __Dungeons of Kithgard__"
+    teacher_quest_teach_methods_step1: "Get 75% of at least one class through the first level, Dungeons of Kithgard"
     teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
     teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
-    teacher_quest_teach_strings_step1: "Get 75% of at least one class through __True Names__"
-    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview __True Names__."
+    teacher_quest_teach_strings_step1: "Get 75% of at least one class through True Names"
+    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview True Names."
     teacher_quest_teach_loops: "Keep your students in the loop about `loops`."
-    teacher_quest_teach_loops_step1: "Get 75% of at least one class through __Fire Dancing__."
-    teacher_quest_teach_loops_step2: "Use the __Loops Activity__ in the [CS1 Curriculum guide](/teachers/resources/cs1) to reinforce this concept."
+    teacher_quest_teach_loops_step1: "Get 75% of at least one class through Fire Dancing."
+    teacher_quest_teach_loops_step2: "Use the Loops Activity in the [CS1 Curriculum guide](/teachers/resources/cs1) to reinforce this concept."
     teacher_quest_teach_variables: "Vary it up with `variables`."
-    teacher_quest_teach_variables_step1: "Get 75% of at least one class through __Known Enemy__."
+    teacher_quest_teach_variables_step1: "Get 75% of at least one class through Known Enemy."
     teacher_quest_teach_variables_step2: "Encourage collaboration by using the [Pair Programming Activity](/teachers/resources/pair-programming)."
     teacher_quest_kithgard_gates_100: "Escape the Kithgard Gates with your class."
-    teacher_quest_kithgard_gates_100_step1: "Get 75% of at least one class through __Kithgard Gates__."
+    teacher_quest_kithgard_gates_100_step1: "Get 75% of at least one class through Kithgard Gates."
     teacher_quest_kithgard_gates_100_step2: "Guide students to think through hard problems using the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)."
     teacher_quest_wakka_maul_100: "Prepare to duel in Wakka Maul."
-    teacher_quest_wakka_maul_100_step1: "Get 75% of at least one class to __Wakka Maul__."
+    teacher_quest_wakka_maul_100_step1: "Get 75% of at least one class to Wakka Maul."
     teacher_quest_wakka_maul_100_step2: "See the [Arena Guide](/teachers/resources/arenas) in the [Resource Hub](/teachers/resources) for tips on how to run a successful arena day."
     teacher_quest_reach_gamedev: "Explore new worlds!"
     teacher_quest_reach_gamedev_step1: "[Get licenses](/teachers/licenses) so that your students can explore new worlds, like Game Development and Web Development!"
@@ -2420,7 +2421,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     log_in_for_friends: "Log in to play with your friends!"
     social_connect_blurb: "Connect and play against your friends!"
     invite_friends_to_battle: "Invite your friends to join you in battle!"
-    fight: "Fight!"
+    fight: "Battle!"
     watch_victory: "Watch your victory"
     defeat_the: "Defeat the"
     watch_battle: "Watch the battle"
@@ -3282,6 +3283,23 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     register: "Register"
     not_registered: "Not Registered"
     world: "World"
+    quickstart_video: "Quickstart Video"
+    arena_rankings: "Arena Rankings"
+    arena_rankings_blurb: "Global AI League arena rankings"
+    arena_rankings_title: "Global leaderboard rank for all players in this team across AI League arenas in the open age bracket."
+    competing: "Competing:" # Competing: 3 students
+    count_student: "student"  # 1 student
+    count_students: "students"  # 2 students
+    top_student: "Top:" # Top: Jane D
+    top_percent: "top" # - top 3%)
+    top_of: "of" # (#8 of 35). Perhaps just use "/" if this doesn't translate naturally.
+    arena_victories: "Arena Victories"
+    arena_victories_blurb: "Global AI League arena recent wins"
+    arena_victories_title: "Win count is based on the last 1000 matches played asynchronously by each player in each of their AI League arenas."
+    count_wins: "wins" # 100+ wins or 974 wins
+    codepoints_blurb: "1 CodePoint = 1 line of code written"
+    codepoints_title: "One CodePoint is earned for every non-whitespace line of code needed to beat the level. Each level is worth the same amount of CodePoints according to its standard solution, regardless of whether the student wrote more or fewer lines of code."
+    count_total: "Total:" # Total: 300 CodePoints, or Total: 300 wins
 
   tournament:
     mini_tournaments: "Mini Tournaments"

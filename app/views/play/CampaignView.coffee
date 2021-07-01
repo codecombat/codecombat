@@ -523,7 +523,7 @@ module.exports = class CampaignView extends RootView
         return level.requiresSubscription
     if features.brainPop
       context.levels = _.filter context.levels, (level) ->
-        level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'true-names']
+        level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'true-names']
     @annotateLevels(context.levels)
     count = @countLevels context.levels
     if @courseStats?
