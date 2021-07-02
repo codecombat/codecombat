@@ -458,7 +458,7 @@ mixin enrollmentStatusTab
     tbody
       - var searchTerm = state.get('searchTerm');
       each student in state.get('students').search(searchTerm)
-        - var status = student.prepaidNumericalStatus()
+        - var status = student.prepaidNumericalCourses()
         - console.log('student status',student,  status)
         tr.student-row.alternating-background
           //td.checkbox-col.student-checkbox
@@ -623,8 +623,8 @@ if classroom.loaded
             span :
             div(data-i18n='common.loading')
         if me.isAdmin()
-          button.create-activate-codes-btn.btn.btn-lg.btn-primary(disabled=!view.allStatsLoaded())
-            span(data-i18n='admin.create_activate_codes') activate codes
+          button.create-activation-codes-btn.btn.btn-lg.btn-primary(disabled=!view.allStatsLoaded())
+            span(data-i18n='admin.create_activate_codes') activation codes
 
       .adding-students.col-md-5
         h4.m-b-2

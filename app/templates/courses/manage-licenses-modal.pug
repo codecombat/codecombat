@@ -19,30 +19,29 @@ mixin applyPage
           label
             input(type="radio", disabled=false, checked=selected, name="licenseType", value=key)
             p.prepaid-type=desc[0]
-            p.prepaid-end-date=desc[1]
-          span.prepaid-number=value
+          p.prepaid-end-date=desc[1]
+          span.prepaid-number=value.num
 
   form.form.m-t-3
     span(data-i18n="teacher.apply_licenses_to_the_following_students")
     span :
     .well.form-group
       - var enrolledUsers = view.enrolledUsers()
+      - console.log(enrolledUsers)
       - var unenrolledUsers = view.unenrolledUsers()
+      - console.log(unenrolledUsers)
       - var areAllSelected = view.areAllSelected()
       .checkbox
         label
           input.select-all-users-checkbox(type="checkbox", disabled=false, checked=areAllSelected)
           span.spr(data-i18n="teacher.select_all")
-      for user in unenrolledUsers
-        - var selected = state.get('selectedUsers').get(user.id)
+      for student in unenrolledUsers
+        - var selected = state.get('selectedUsers').get(student.id)
+        - var status = student.prepaidNumericalCourses()
         td.checkbox
           label
-            input.user-checkbox(type="checkbox", disabled=false, checked=selected, data-user-id=user.id, name='user')
-            span.spr= user.broadName()
-        td.student-info-col
-        .student-info
-            div.student-name= student.broadName()
-            div.student-email.small-details= student.get('email') || student.get('name')
+            input.user-checkbox(type="checkbox", disabled=false, checked=selected, data-user-id=student.id, name='user')
+            span.spr= student.broadName()
         td.status-col
         - for(var index = 5; index < 11; index ++)
             input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
@@ -89,6 +88,7 @@ mixin applyPage
 
 
 mixin revokePage
+  p
 
 
 block modal-header-content
@@ -114,10 +114,11 @@ block modal-body-content
                 = classroom.get('name')
             option(selected=(!view.classroom), value='' data-i18n='teacher.all_students')
  
-  if activeTab === 'apply'
-    +applyPage
-  else if activeTab === 'revoke'
-    +revokePage
+  .modal-body-content
+    if activeTab === 'apply'
+      +applyPage
+    else if activeTab === 'revoke'
+      +revokePage
 
 
 block modal-footer-content

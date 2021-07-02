@@ -80,7 +80,7 @@ block modal-body-content
         h4.small(style="max-width: 700px") *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
       .form-group
         label
-          span Number of Activate Codes
+          span Number of Activation Codes
           =" "
           input#seats-input(type="number", name="maxRedeemers", min="1")
       .form-group
@@ -109,20 +109,16 @@ block modal-body-content
                     span=view.utils.courseAcronyms[courseID]
       .form-group
         label
-          span Start Date
+          span Duration
           =" "
-          input(type="date" name="startDate" value=moment.timezone().tz(view.timeZone).format('YYYY-MM-DD'))
-      .form-group
-        label
-          span End Date
-          =" "
-          input(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
+          input(type="number" name="duration" value=365)
+          | Days
       .form-group
         label
           span Expire Date
           =" "
-          input(type="date" name="expireDate" value=moment.timezone().tz(view.timeZone).add(6, 'month').format('YYYY-MM-DD'))
-      
+          input(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
+
       .form-group
         button#add-seats-btn.btn.btn-primary Add Licenses
     hr
