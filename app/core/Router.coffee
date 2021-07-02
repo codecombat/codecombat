@@ -358,6 +358,7 @@ module.exports = class CocoRouter extends Backbone.Router
   redirectHome: ->
     delete window.alreadyLoadedView
     homeUrl = switch
+      when me.isAPIClient() then '/league'
       when me.isStudent() then '/students'
       when me.isTeacher() then '/teachers'
       else '/'

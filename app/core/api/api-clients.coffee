@@ -49,6 +49,6 @@ module.exports = {
     fetchJson("/api/playtime-stats", options)
 
   getApiClientId: () ->
-    fetchJson("/api/get-id")
+    fetchJson("/api/get-client-id")
 
 }
