@@ -1,7 +1,7 @@
 _ = require 'lodash'
 require('app/styles/admin/administer-user-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/courses/prepaid-activate-codes-modal.pug'
+template = require 'templates/courses/prepaid-activation-codes-modal.pug'
 User = require 'models/User'
 Prepaid = require 'models/Prepaid'
 StripeCoupons = require 'collections/StripeCoupons'
@@ -17,7 +17,7 @@ api = require 'core/api'
 # TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
 # TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
 
-module.exports = class PreapidActivateCodesModal extends ModalView
+module.exports = class PreapidActivationCodesModal extends ModalView
   id: 'administer-user-modal'
   template: template
 
@@ -60,7 +60,6 @@ module.exports = class PreapidActivateCodesModal extends ModalView
 
   onClickSavePrepaidInfo: (e) ->
     prepaidId= @$(e.target).data('prepaid-id')  
-    prepaidStartDate= @$el.find('#'+'startDate-'+prepaidId).val()
     prepaidEndDate= @$el.find('#'+'endDate-'+prepaidId).val()
     prepaidTotalLicenses=@$el.find('#'+'totalLicenses-'+prepaidId).val()
     @prepaids.each (prepaid) =>
@@ -90,16 +89,17 @@ module.exports = class PreapidActivateCodesModal extends ModalView
     @renderSelectors("#license-type-select")
 
   onClickAddSeatsButton: ->
+    console.log('click')
     attrs = forms.formToObject(@$('#prepaid-form'))
     attrs.maxRedeemers = parseInt(attrs.maxRedeemers)
     return unless _.all(_.values(attrs))
     return unless attrs.maxRedeemers > 0
-    return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
+    return unless attrs.duration > 0
+    return unless attrs.endDate and moment().isBefore(attrs.endDate)
     attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-    attrs.expireDate = attrs.expireDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-    attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
+    attrs.startDate = moment.timezone.tz(@timeZone ).toISOString()
     attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
-    attrs.expireDate = moment.timezone.tz(attrs.expireDate, @timeZone).toISOString()
+    attrs.duration = attrs.duration * 86400000 # milliseconds of 1 day
 
     if attrs.licenseType of @licensePresets
       attrs.includedCourseIDs = @licensePresets[attrs.licenseType]
@@ -109,6 +109,7 @@ module.exports = class PreapidActivateCodesModal extends ModalView
     _.extend(attrs, {
       type: 'course'
       creator: @user.id
+      activationMode: true
       properties:
         adminAdded: me.id
         classroom: @classroom
@@ -120,10 +121,10 @@ module.exports = class PreapidActivateCodesModal extends ModalView
     @listenTo prepaid, 'sync', ->
       csvContent = 'Code,Expires\n'
       ocode = prepaid.get('code').toUpperCase()
-      for code in prepaid.get('activateCodes')
-        csvContent += "#{ocode.slice(0, 4)}-#{code.code.toUpperCase()}-#{ocode.slice(4)},#{code.expires}\n"
+      for code in prepaid.get('redeemers')
+        csvContent += "#{ocode.slice(0, 4)}-#{code.code.toUpperCase()}-#{ocode.slice(4)},#{code.date}\n"
       file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
-      window.saveAs(file, 'ActivateCodes.csv')
+      window.saveAs(file, 'ActivationCodes.csv')
       @state = 'made-prepaid'
       @renderSelectors('#prepaid-form')
 

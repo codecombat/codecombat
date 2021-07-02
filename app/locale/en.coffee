@@ -2133,6 +2133,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     permission: 'Permission'
     not_write_permission: "You don't have write permission to the class"
     not_read_permission: "You don't have read permission to the class"
+    owned_license: "Owned License"
 
   teacher_ozaria_encouragement_modal:
     title: "Build Computer Science Skills to Save Ozaria"

@@ -370,51 +370,51 @@ module.exports = class User extends CocoModel
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
-    coursePrepaids = _.filter(@get('products'), {product: 'course'})
-    return 'not-enrolled' unless coursePrepaids.length
-    return 'enrolled' if _.some(coursePrepaids, {endDate: null})
-    return 'enrolled' if _.some(coursePrepaids, (p) => moment().isBefore(p.endDate))
+    courseProducts = _.filter(@get('products'), {product: 'course'})
+    return 'not-enrolled' unless courseProducts.length
+    return 'enrolled' if _.some(courseProducts, {endDate: null})
+    return 'enrolled' if _.some(courseProducts, (p) => moment().isBefore(p.endDate))
     return 'expired'
 
-  prepaidNumericalStatus: ->
-    coursePrepaids = _.filter(@get('products'), {product: 'course'})
-    return 0 unless coursePrepaids.length
-    return 2047 if _.some coursePrepaids, (p) => !p.productOptions?.includedCourseIDs?
+  prepaidNumericalCourses: ->
+    courseProducts = _.filter(@get('products'), {product: 'course'})
+    return 0 unless courseProducts.length
+    return 2047 if _.some courseProducts, (p) => !p.productOptions?.includedCourseIDs?
     union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
-    courses = _.reduce(coursePrepaids, union, [])
+    courses = _.reduce(courseProducts, union, [])
     fun = (s, k) => s + utils.courseNumericalStatus[k]
     return _.reduce(courses, fun, 0)
 
   prepaidType: (includeCourseIDs) =>
-    coursePrepaids = _.filter @get('products'), (product) ->
+    courseProducts = _.filter @get('products'), (product) ->
       return false if product.product != 'course'
       return false if moment().isAfter(product.endDate)
       return true
-    return undefined unless coursePrepaids.length
+    return undefined unless courseProducts.length
  
-    return 'course' if _.any(coursePrepaids, (p) => !p.productOptions?.includedCourseIDs?)
+    return 'course' if _.any(courseProducts, (p) => !p.productOptions?.includedCourseIDs?)
     # Note: currently includeCourseIDs is a argument only used when displaying
     # customized license's course names.
     # Be careful to match the returned string EXACTLY to avoid comparison issues
 
     if includeCourseIDs
       union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
-      courses = _.reduce(coursePrepaids, union, [])
+      courses = _.reduce(courseProducts, union, [])
       # return all courses names join with + as customized licenses's name
       return (courses.map (id) -> utils.courseAcronyms[id]).join('+')
     # NOTE: Default type is 'course' if no type is marked on the user's copy
     return 'course'
 
   prepaidIncludesCourse: (course) ->
-    coursePrepaids = _.filter @get('products'), (product) ->
+    courseProducts = _.filter @get('products'), (product) ->
       return false if product.product != 'course'
       return false if moment().isAfter(product.endDate)
       return true
-    return false unless coursePrepaids.length
+    return false unless courseProducts.length
     # NOTE: Full licenses implicitly include all courses
-    return true if _.any(coursePrepaids, (p) => !p.productOptions?.includedCourseIDs?)
+    return true if _.any(courseProducts, (p) => !p.productOptions?.includedCourseIDs?)
     union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
-    includedCourseIDs = _.reduce(coursePrepaids, union, [])
+    includedCourseIDs = _.reduce(courseProducts, union, [])
     courseID = course.id or course
     return courseID in includedCourseIDs
 
@@ -551,11 +551,11 @@ module.exports = class User extends CocoModel
     options.data.provider = provider
     @fetch(options)
 
-  makeCoursePrepaid: ->
-    coursePrepaid = @get('coursePrepaid')
-    return null unless coursePrepaid
+  makeCourseProduct: (productId) ->
+    courseProduct = _.find @get('products'), { productId, type: 'course' }
+    return null unless courseProduct
     Prepaid = require 'models/Prepaid'
-    return new Prepaid(coursePrepaid)
+    return new Prepaid(courseProduct)
 
   # TODO: Probably better to denormalize this into the user
   getLeadPriority: ->

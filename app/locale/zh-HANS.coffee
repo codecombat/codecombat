@@ -2134,6 +2134,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    permission: "Permission"
 #    not_write_permission: "You don't have write permission to the class"
 #    not_read_permission: "You don't have read permission to the class"
+    owned_license: "已有许可"
 
   teacher_ozaria_encouragement_modal:
     title: "学习计算机科学技能，拯救奥佳睿世界"

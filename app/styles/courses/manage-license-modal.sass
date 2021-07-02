@@ -1,0 +1,83 @@
+#manage-license-modal
+
+  .modal-dialog
+    width: 80vw
+
+  select
+    min-width: 80%
+    
+  .checkbox
+    margin: 0
+    display: flex
+  
+    input[type='checkbox']
+      margin-top: 8px
+
+    label
+      flex-basis: 20vw
+
+    .note
+      display: flex
+      position: relative
+
+      span.spr
+        position: absolute
+        left: -4.2em
+
+      .course-upper
+        position: absolute
+        top: -1em
+
+      .course-span
+        display: flex
+
+        .course-number
+          margin-left: 5px
+          margin-right: 5px
+          width: 13px
+    .status-col
+
+      .checkbox-course
+        float: none
+        margin-left: 5px
+        margin-right: 5px
+
+  .well
+    max-height: 284px
+    overflow: scroll
+    padding-top: 20px
+
+  .prepaid-type-line
+    display: flex
+    align-items: center
+    justify-content: flex-start
+
+    label
+      flex-basis: 25vw
+
+    .prepaid-end-date
+      flex-basis: 25vw
+
+
+  .not-enough-enrollments
+    color: red
+    visibility: hidden
+    &.visible
+      visibility: visible
+
+  #tab-nav
+    .change-tab
+      padding: 0.5em 1em 3px 1em
+      cursor: pointer
+    
+    .col-sm-2
+      border-bottom: 1px solid black
+      color: white
+
+    .col-sm-4
+      border-bottom: 1px solid black
+
+    .focus
+
+      border: 1px solid black
+      border-bottom: 1px solid white

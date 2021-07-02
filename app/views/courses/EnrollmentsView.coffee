@@ -177,7 +177,7 @@ module.exports = class EnrollmentsView extends RootView
   decideUpsell: ->
     # There are also non classroom prepaids.  We only use the course or starter_license prepaids to determine
     # if we should skip upsell (we ignore the others).
-
+    # product TODO
     coursePrepaids = @prepaids.filter((p) => p.get('type') == 'course')
 
     skipUpsellDueToExistingLicenses = coursePrepaids.length > 0
