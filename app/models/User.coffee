@@ -41,7 +41,8 @@ module.exports = class User extends CocoModel
     SCHOOL_ADMINISTRATOR: 'schoolAdministrator',
     ARTISAN: 'artisan',
     GOD_MODE: 'godmode',
-    LICENSOR: 'licensor'
+    LICENSOR: 'licensor',
+    API_CLIENT: 'apiclient'
   }
 
   isAdmin: -> @PERMISSIONS.COCO_ADMIN in @get('permissions', true)
@@ -49,6 +50,7 @@ module.exports = class User extends CocoModel
   isArtisan: -> @PERMISSIONS.ARTISAN in @get('permissions', true)
   isInGodMode: -> @PERMISSIONS.GOD_MODE in @get('permissions', true)
   isSchoolAdmin: -> @PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
+  isAPIClient: -> @PERMISSIONS.API_CLIENT in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
 

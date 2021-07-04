@@ -216,7 +216,9 @@ loginNavigate = (subModalContinue) ->
     return
 
   if not me.isAdmin()
-    if me.isStudent()
+    if me.isAPIClient()
+        application.router.navigate('/api-dashboard', { trigger: true })
+    else if me.isStudent()
       application.router.navigate('/students', { trigger: true })
     else if me.isTeacher()
       if me.isSchoolAdmin()
