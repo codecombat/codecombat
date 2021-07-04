@@ -51,6 +51,10 @@ export default {
       return ((state != null ? state.permissions : undefined) || []).indexOf('licensor') > -1
     },
 
+    isAPIClient (state) {
+      return ((state != null ? state.permissions : undefined) || []).indexOf('apiclient') > -1
+    },
+
     isSchoolAdmin (state) {
       return ((state != null ? state.permissions : undefined) || []).indexOf('schoolAdministrator') > -1
     },

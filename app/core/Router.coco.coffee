@@ -37,9 +37,13 @@ module.exports = class CocoRouter extends Backbone.Router
       if utils.getQueryVariable 'hour_of_code'
         delete window.alreadyLoadedView
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
-      unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription()
+      unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient()
         delete window.alreadyLoadedView
         return @navigate "/premium", {trigger: true, replace: true}
+      if me.isAPIClient()
+        delete window.alreadyLoadedView
+        #return @navigate "/league/#{me.get('clans')?[0] ? ''}apiclient-data", {trigger: true, replace: true}  # Once we make sure all students have been associated with their API creators
+        return @navigate "/api-dashboard", {trigger: true, replace: true}
       if me.useChinaHomeView()
         delete window.alreadyLoadedView
         return @routeDirectly('HomeCNView', [])
@@ -87,6 +91,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView')
 
     'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
+
+    'api-dashboard': go('core/SingletonAppVueComponentView')
 
     'artisans': go('artisans/ArtisansView')
 
@@ -353,6 +359,8 @@ module.exports = class CocoRouter extends Backbone.Router
   redirectHome: ->
     delete window.alreadyLoadedView
     homeUrl = switch
+      #when me.isAPIClient() then "/league/#{me.get('clans')?[0] ? ''}#apiclient-data"  # Once we make sure all students have been associated with their API creators
+      when me.isAPIClient() then "/api-dashboard"
       when me.isStudent() then '/students'
       when me.isTeacher() then '/teachers'
       else '/'
