@@ -248,6 +248,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     professional_development: "Professional Development"
     new: "New!"
     admin: "Admin"
+    api_dashboard: "API Dashboard"
 
   modal:
     close: "Close"

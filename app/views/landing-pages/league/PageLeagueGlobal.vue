@@ -7,6 +7,7 @@ import ClanCreationModal from './components/ClanCreationModal'
 import ChildClanDetailDropdown from './components/ChildClanDetailDropdown'
 import SectionFirstCTA from './components/SectionFirstCTA'
 import InputClanSearch from './components/InputClanSearch'
+import ApiData from '../../api/components/ApiData'
 
 import { joinClan, leaveClan } from '../../../core/api/clans'
 import { titleize, arenas, activeArenas } from '../../../core/utils'
@@ -35,7 +36,8 @@ export default {
     ClanCreationModal,
     ChildClanDetailDropdown,
     SectionFirstCTA,
-    InputClanSearch
+    InputClanSearch,
+    ApiData
   },
 
   data: () => ({
@@ -289,6 +291,7 @@ export default {
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading',
       isStudent: 'me/isStudent',
+      isAPIClient: 'me/isAPIClient',
       codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
     }),
 
@@ -549,7 +552,12 @@ export default {
         <a v-else href="/play" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.earn_codepoints') }}</a>
       </div>
     </div>
-
+    <div class="row text-center" v-if="isAPIClient" id="apiclient-data">
+      <h1><span class="esports-aqua">License </span><span class="esports-pink">stats</span></h1>
+      <p class="subheader2"> License Days by Teacher/Classroom in Last Month</p>
+      <ApiData viewport="simple"></ApiData>
+      <a href="/api-dashboard" class="btn btn-large btn-primary btn-moon play-btn-cta"> See Full Stats</a>
+    </div>
     <div class="row text-center" id="winners">
       <h1><span class="esports-aqua">Previous </span><span class="esports-pink">Season</span></h1>
       <p class="subheader2">Results from the Infinite Inferno Cup</p>
