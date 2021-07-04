@@ -54,7 +54,7 @@
       licenseDaysByMonth() {
         let byMonth = []
         let totalUsed = 0
-        let months = _.keys(this.licenseStats.licenseDaysByMonth).sort()
+        let months = _.keys(this.licenseStats.licenseDaysByMonth).sort().reverse()
         for(let month of months) {
           let stat = this.licenseStats.licenseDaysByMonth[month]
           byMonth.push({month, licenseDaysUsed: stat.daysUsed, activeLicenses: stat.noOfRedeemers})
@@ -68,9 +68,9 @@
       licenseDaysByMonthAndTeacher() {
         let byMonthAndTeacher = []
         let hadMoreThanOne = false
-        let months = _.keys(this.licenseStats.licenseDaysByMonth).sort()
+        let months = _.keys(this.licenseStats.licenseDaysByMonth).sort().reverse()
         if(this.viewport != 'full') {
-          months = months.slice(-1)
+          months = months.slice(0, 1)
         }
         for(let month of months) {
           let stat = this.licenseStats.licenseDaysByMonth[month]
