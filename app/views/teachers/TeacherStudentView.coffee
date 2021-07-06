@@ -440,6 +440,7 @@ module.exports = class TeacherStudentView extends RootView
 
   studentStatusString: () ->
     status = @user.prepaidStatus()
+    # product TODO
     return "" unless @user.get('coursePrepaid')
     expires = @user.get('coursePrepaid')?.endDate
     date = if expires? then moment(expires).utc().format('l') else ''

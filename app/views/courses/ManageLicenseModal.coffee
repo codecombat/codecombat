@@ -20,6 +20,9 @@ module.exports = class ManageLicenseModal extends ModalView
     'submit form': 'onSubmitForm'
     'click #get-more-licenses-btn': 'onClickGetMoreLicensesButton'
     'click #selectPrepaidType .radio': 'onSelectPrepaidType'
+    'click .change-tab': 'onChangeTab'
+    'click #selectUser .radio': 'onSelectUser'
+    'click .revoke-student-button': 'onClickRevokeStudentButton'
 
   getInitialState: (options) ->
     selectedUsers = options.selectedUsers or options.users
@@ -40,7 +43,9 @@ module.exports = class ManageLicenseModal extends ModalView
     @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @classrooms = new Classrooms()
     @selectedPrepaidType = null
+    @selectedUser = null
     @prepaidByGroup = {}
+    @teacherPrepaidIds = []
     @activeTab = 'apply'
     @supermodel.trackRequest @classrooms.fetchMine({
       data: {archived: false}
@@ -62,6 +67,7 @@ module.exports = class ManageLicenseModal extends ModalView
     @listenTo @prepaids, 'sync add remove reset', ->
         @prepaidByGroup = {}
         @prepaids.each (prepaid) => 
+          @teacherPrepaidIds.push(prepaid.get('_id'))
           type = prepaid.typeDescriptionWithTime()
           @prepaidByGroup[type] = @prepaidByGroup?[type] || {num: 0, prepaid}
           @prepaidByGroup[type].num += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0)
@@ -69,6 +75,8 @@ module.exports = class ManageLicenseModal extends ModalView
   onLoaded: ->
     @prepaids.reset(@prepaids.filter((prepaid) -> prepaid.status() is 'available'))
     @selectedPrepaidType = Object.keys(@prepaidByGroup)[0]
+    if(@users.length)
+       @selectedUser = @users.models[0].id
     super()
   
   afterRender: ->
@@ -84,6 +92,12 @@ module.exports = class ManageLicenseModal extends ModalView
       @state.get('selectedUsers').add(user)
     @$(".select-all-users-checkbox").prop('checked', @areAllSelected())
     # @render() # TODO: Have @state automatically listen to children's change events?
+
+  studentsPrepaidsFromTeacher: () ->
+    user = @users.get(@selectedUser)
+    return user.get('products').filter((p) =>
+      p.product == 'course' && _.contains @teacherPrepaidIds, p.productId
+    )
 
   enrolledUsers: ->
     prepaid = @prepaidByGroup[@selectedPrepaidType]?.prepaid
@@ -149,7 +163,7 @@ module.exports = class ManageLicenseModal extends ModalView
     prepaid = @prepaids.find((prepaid) => prepaid.status() is 'available' and prepaid.typeDescriptionWithTime() == @selectedPrepaidType)
     prepaid.redeem(user, {
       success: (prepaid) =>
-        user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))
+        user.set('products', user.get('products').concat(prepaid.convertToProduct()))
         usersToRedeem.remove(user)
         @state.get('selectedUsers').remove(user)
         @updateVisibleSelectedUsers()
@@ -173,3 +187,33 @@ module.exports = class ManageLicenseModal extends ModalView
 
   onClickGetMoreLicensesButton: ->
     @hide?() # In case this is opened in /teachers/licenses itself, otherwise the button does nothing
+
+  onSelectUser: (e) -> 
+    @selectedUser= $(e.target).parent().children('input').val()
+    @renderSelectors("#student-licenses")
+
+
+  onChangeTab: (e) ->
+    @activeTab = $(e.target).data('tab')
+    @renderSelectors('.modal-body-content')
+    @renderSelectors('#tab-nav')
+
+  onClickRevokeStudentButton: (e) ->
+    button = $(e.currentTarget)
+    prepaidId = button.data('prepaid-id')
+    user = @students.get(@selectedUser)
+    s = $.i18n.t('teacher.revoke_confirm').replace('{{student_name}}', user.broadName())
+    return unless confirm(s)
+    #product TODO
+    prepaid = user.makeCourseProduct(prepaidId)
+    button.text($.i18n.t('teacher.revoking'))
+    prepaid.revoke(user, {
+      success: =>
+        user.unset('coursePrepaid')
+      error: (prepaid, jqxhr) =>
+        msg = jqxhr.responseJSON.message
+        noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+      complete: => @debouncedRender()
+    })
+
+

@@ -55,6 +55,7 @@ module.exports = class EditStudentModal extends ModalView
     return unless confirm(s)
     prepaid = @user.makeCoursePrepaid()
     button.text($.i18n.t('teacher.revoking'))
+    # product TODO
     prepaid.revoke(@user, {
       success: =>
         @user.unset('coursePrepaid')
@@ -66,6 +67,7 @@ module.exports = class EditStudentModal extends ModalView
 
   studentStatusString: ->
     status = @user.prepaidStatus()
+    #product TODO
     expires = @user.get('coursePrepaid')?.endDate
     date = if expires? then moment(expires).utc().format('ll') else ''
     utils.formatStudentLicenseStatusDate(status, date)
@@ -73,6 +75,7 @@ module.exports = class EditStudentModal extends ModalView
   onClickEnrollStudentButton: ->
     return unless me.id is @classroom.get('ownerID')
     prepaid = @prepaids.find((prepaid) -> prepaid.status() is 'available')
+    #product TODO
     prepaid.redeem(@user, {
       success: (prepaid) =>
         @user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))

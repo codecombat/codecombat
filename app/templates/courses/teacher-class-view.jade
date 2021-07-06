@@ -437,7 +437,10 @@ mixin enrollmentStatusTab
           button.sort-button.sort-by-last-name(data-i18n='general.last_name', value='last-name')
           button.sort-button.sort-by-first-name(data-i18n='general.first_name', value='first-name')
           button.sort-button.sort-by-status(data-i18n='user.status', value='status')
-      th(width='20%')
+      th(width='22%')
+        .note.small
+          span(data-i18n='teacher.owned_license')
+          span.spr :
         .course-upper CS
         .course-span
           - for(var i = 1; i < 7; i++)
@@ -447,7 +450,7 @@ mixin enrollmentStatusTab
         .course-span
           - for(var i = 1; i < 4; i++)
             .course-number=i
-      th(width='20%')
+      th(width='13%')
         .course-upper WD
         .course-span
           - for(var i = 1; i < 3; i++)
@@ -459,7 +462,6 @@ mixin enrollmentStatusTab
       - var searchTerm = state.get('searchTerm');
       each student in state.get('students').search(searchTerm)
         - var status = student.prepaidNumericalCourses()
-        - console.log('student status',student,  status)
         tr.student-row.alternating-background
           //td.checkbox-col.student-checkbox
             .checkbox-flat

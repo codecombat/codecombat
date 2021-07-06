@@ -56,7 +56,6 @@ module.exports = class TeacherClassView extends RootView
     'click .remove-student-link': 'onClickRemoveStudentLink'
     'click .assign-student-button': 'onClickAssignStudentButton'
     'click .enroll-student-button': 'onClickEnrollStudentButton'
-    'click .revoke-student-button': 'onClickRevokeStudentButton'
     'click .revoke-all-students-button': 'onClickRevokeAllStudentsButton'
     'click .assign-to-selected-students': 'onClickBulkAssign'
     'click .remove-from-selected-students': 'onClickBulkRemoveCourse'
@@ -186,7 +185,7 @@ module.exports = class TeacherClassView extends RootView
       clansApi.getMyClans().then @onMyClansLoaded
 
   fetchStudents: ->
-    Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted,products'}}))
+    Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,products,deleted'}}))
     .then =>
       return if @destroyed
       @removeDeletedStudents() # TODO: Move this to mediator listeners?
@@ -783,44 +782,32 @@ module.exports = class TeacherClassView extends RootView
       @calculateProgressAndLevels()
       @classroom.fetch()
 
-  onClickRevokeStudentButton: (e) ->
-    button = $(e.currentTarget)
-    userID = button.data('user-id')
-    user = @students.get(userID)
-    s = $.i18n.t('teacher.revoke_confirm').replace('{{student_name}}', user.broadName())
-    return unless confirm(s)
-    prepaid = user.makeCoursePrepaid()
-    button.text($.i18n.t('teacher.revoking'))
-    prepaid.revoke(user, {
-      success: =>
-        user.unset('coursePrepaid')
-      error: (prepaid, jqxhr) =>
-        msg = jqxhr.responseJSON.message
-        noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-      complete: => @debouncedRender()
-    })
-
   onClickRevokeAllStudentsButton: ->
     s = $.i18n.t('teacher.revoke_all_confirm')
     return unless confirm(s)
     for student in @students.models
       status = student.prepaidStatus()
       if status is 'enrolled' and student.prepaidType() is 'course'
-        prepaid = student.makeCoursePrepaid()
-        prepaid.revoke(student, {
-          # The for loop completes before the success callback for the first student executes.
-          # So, the `student` will be the last student when the callback executes.
-          # Therefore, using a self calling anonymous function for the success callback
-          # to retain the student data for each iteration.
-          # Reference: https://www.pluralsight.com/guides/javascript-callbacks-variable-scope-problem
-          success: (() ->
-            st = student
-            return -> st.unset('coursePrepaid')
-          )()
-          error: (prepaid, jqxhr) =>
-            msg = jqxhr.responseJSON.message
-            noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-          complete: => @debouncedRender()
+        courseProducts = _.filter student.get('products'), { type: 'course' }
+        Prepaid = require 'models/Prepaid'
+        for product of courseProducts
+          prepaid = new Prepaid(product)
+          prepaid.revoke(student, {
+            # The for loop completes before the success callback for the first student executes.
+            # So, the `student` will be the last student when the callback executes.
+            # Therefore, using a self calling anonymous function for the success callback
+            # to retain the student data for each iteration.
+            # Reference: https://www.pluralsight.com/guides/javascript-callbacks-variable-scope-problem
+            success: (() ->
+              st = student
+              return -> st.set('products', _.filter st.get('products'), (p) ->
+                p.productId != product.productId
+              )
+            )()
+            error: (prepaid, jqxhr) =>
+              msg = jqxhr.responseJSON.message
+              noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+            complete: => @debouncedRender()
         })
 
   onClickSelectAll: (e) ->
@@ -879,6 +866,7 @@ module.exports = class TeacherClassView extends RootView
 
   studentStatusString: (student) ->
     status = student.prepaidStatus()
+    # product TODO
     expires = student.get('coursePrepaid')?.endDate
     date = if expires? then moment(expires).utc().format('ll') else ''
     utils.formatStudentLicenseStatusDate(status, date)

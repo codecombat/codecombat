@@ -95,6 +95,17 @@ module.exports = class Prepaid extends CocoModel
     options.data.userID = user.id or user
     @fetch(options)
 
+  convertToProduct: ->
+    return {
+      product: 'course'
+      productId: @get('_id')
+      startDate: @get('startDate')
+      endDate: @get('endDate')
+      productOptions: {
+        includedCourseIDs: @get('includedCourseIDs')
+      }
+    }
+
   hasBeenUsedByTeacher: (userID) ->
     if @get('creator') is userID and _.detect(@get('redeemers'), { teacherID: undefined })
       return true
