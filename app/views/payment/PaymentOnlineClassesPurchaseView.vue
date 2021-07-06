@@ -212,6 +212,9 @@ export default {
 				purchaser: this.parentDetails,
 				students: this.studentDetails
 			};
+			const additionalInfo = {
+        selectedPlan: this.getI18n(this.selectedPlan),
+      }
 			const sessionOptions = {
 				stripePriceId,
 				paymentGroupId: this.paymentGroupId,
@@ -219,7 +222,8 @@ export default {
 				email: this.parentDetails.email,
 				userId: me.get('_id'),
 				totalAmount: this.totalPrice,
-				onlineClassesDetails
+				onlineClassesDetails,
+        additionalInfo
 			};
 			try {
 				const session = await createPaymentSession(sessionOptions);
