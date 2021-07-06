@@ -61,7 +61,7 @@ export default function getVueRouter () {
         },
         {
           path: '/payments/online-classes-success',
-          component: () => import(/* webpackChunkName: "manageBillingComponent" */'app/views/payment/PaymentOnlineClassesSuccessView'),
+          component: () => import(/* webpackChunkName: "onlineClassesSuccessComponent" */'app/views/payment/PaymentOnlineClassesSuccessView'),
         },
         {
           path: '/payments/:slug',
