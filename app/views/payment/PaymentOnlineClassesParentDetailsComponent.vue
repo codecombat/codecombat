@@ -39,11 +39,11 @@ export default {
     updateEmail(e) {
       this.emailErrorClass = '';
       const val = e.target.value;
+      this.email = val;
       if (!this.validateEmail(val)) {
         this.emailErrorClass = 'error-border';
         return;
       }
-      this.email = val;
       this.updateParentDetails();
     },
     updateFirstName(e) {
@@ -56,7 +56,7 @@ export default {
     },
     updateParentDetails() {
       // maybe use watch or something better to trigger this method
-      if (this.email && this.firstName) {
+      if (this.email && this.firstName && !this.emailErrorClass) {
         this.$emit('updateParentDetails', {
           email: this.email,
           firstName: this.firstName,
