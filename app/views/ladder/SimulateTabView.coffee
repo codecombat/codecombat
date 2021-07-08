@@ -25,7 +25,7 @@ module.exports = class SimulateTabView extends CocoView
 
   onLoaded: ->
     super()
-    @autoSimulates = @options.level.get('slug') not in ['ace-of-coders', 'zero-sum']
+    @autoSimulates = @options.level.get('slug') not in ['zero-sum']
     if not @simulator and (document.location.hash is '#simulate' or @autoSimulates)
       @startSimulating()
 
