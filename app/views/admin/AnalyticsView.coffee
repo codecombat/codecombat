@@ -419,6 +419,7 @@ module.exports = class AnalyticsView extends RootView
           teacherStudentsMap[teacherID].push(studentID)
 
       # Find paid students
+      # product TODO
       prepaidUserMap = {}
       for user in data.students
         continue unless studentPaidStatusMap[user._id]

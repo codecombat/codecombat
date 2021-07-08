@@ -5,6 +5,7 @@ helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
+# product TODO
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 ManageLicenseModal = require 'views/courses/ManageLicenseModal'
 PrepaidActivationCodesModal = require 'views/courses/PrepaidActivationCodesModal'

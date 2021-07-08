@@ -4,6 +4,7 @@ State = require 'models/State'
 template = require 'templates/courses/manage-licenses-modal'
 CocoCollection = require 'collections/CocoCollection'
 Prepaids = require 'collections/Prepaids'
+Prepaid = require 'models/Prepaid'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 User = require 'models/User'
@@ -67,7 +68,7 @@ module.exports = class ManageLicenseModal extends ModalView
     @listenTo @prepaids, 'sync add remove reset', ->
         @prepaidByGroup = {}
         @prepaids.each (prepaid) => 
-          @teacherPrepaidIds.push(prepaid.get('_id'))
+          @teacherPrepaidIds.push prepaid.get('_id')
           type = prepaid.typeDescriptionWithTime()
           @prepaidByGroup[type] = @prepaidByGroup?[type] || {num: 0, prepaid}
           @prepaidByGroup[type].num += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0)
@@ -94,9 +95,19 @@ module.exports = class ManageLicenseModal extends ModalView
     # @render() # TODO: Have @state automatically listen to children's change events?
 
   studentsPrepaidsFromTeacher: () ->
-    user = @users.get(@selectedUser)
-    return user.get('products').filter((p) =>
-      p.product == 'course' && _.contains @teacherPrepaidIds, p.productId
+    # user = @users.get(@selectedUser)
+    allPrepaids = []
+    @users.each (user) =>
+      allPrepaids = _.union(allPrepaids, user.get('products').filter((p) =>
+        p.product == 'course' && _.contains @teacherPrepaidIds, p.productId
+      ))
+    console.log(allPrepaids)
+    return allPrepaids.map((p) ->
+      product = new Prepaid({
+        includedCourseIDs: p.productOptions.includedCourseIDs
+        type: 'course'
+      })
+      return {id: p.productId, name: product.typeDescription()}
     )
 
   enrolledUsers: ->
@@ -205,7 +216,7 @@ module.exports = class ManageLicenseModal extends ModalView
     s = $.i18n.t('teacher.revoke_confirm').replace('{{student_name}}', user.broadName())
     return unless confirm(s)
     #product TODO
-    prepaid = user.makeCourseProduct(prepaidId)
+    prepaid = ueer.makeCourseProduct(prepaidId)
     button.text($.i18n.t('teacher.revoking'))
     prepaid.revoke(user, {
       success: =>

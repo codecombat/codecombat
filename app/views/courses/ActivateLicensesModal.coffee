@@ -1,3 +1,4 @@
+# this file is deprecated
 require('app/styles/courses/activate-licenses-modal.sass')
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'

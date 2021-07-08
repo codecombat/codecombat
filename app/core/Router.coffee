@@ -245,7 +245,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'students/project-gallery/:courseInstanceID': go('courses/ProjectGalleryView')
     'students/assessments/:classroomID': go('courses/StudentAssessmentsView')
     'students/videos/:courseID/:courseName': go('courses/CourseVideosView')
-    'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
+    # 'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true }) # deprecated view
     'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
 
     'teachers': redirect('/teachers/classes')
