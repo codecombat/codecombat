@@ -321,8 +321,7 @@
     padding: $chromeTopPadding $chromeRightPadding $chromeBottomPadding $chromeLeftPadding
 
     .background-img
-      // TODO: Swap out with higher resolution image.
-      background-image: url(/images/ozaria/layout/chrome/AC_backer.png)
+      background-image: url(/images/ozaria/layout/chrome/AC_backer.jpg)
       background-position: center center
       background-size: cover
       background-repeat: no-repeat
