@@ -399,6 +399,12 @@ module.exports = class User extends CocoModel
     courseID = course.id or course
     return courseID in includedCourseIDs
 
+  findCourseProduct: (prepaidId) ->
+    products = _.filter @get('products'), (product) ->
+      return product.product == 'course' && product.productId == prepaidId
+    return undefined unless products.length
+    return products[0]
+
   fetchCreatorOfPrepaid: (prepaid) ->
     @fetch({url: "/db/prepaid/#{prepaid.id}/creator"})
 

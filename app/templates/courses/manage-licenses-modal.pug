@@ -102,30 +102,33 @@ mixin applyPage
 
 mixin revokePage
   form.form.m-t-3
-    span(data-i18n="teacher.apply_licenses_to_the_following_students")
+    span
+      | revoke those license
     span :
-    .well.form-group#selectUser
+    .well.form-group#revoke-student-page
       - var allUsers = view.users.models
-      if allUsers.length > 0
-        .small-details.m-t-3
-          span(data-i18n='teacher.students_have_licenses')
-      each user in allUsers
-        - var selected = view.selectedUser == user.id
-        .radio
-          label
-            input.user-radio(type="radio", disabled=false, checked=selected, data-user-id=user.id, name='user', value=user.id)
-            span.spr= user.broadName()
+      - var teacherPrepaids = view.studentsPrepaidsFromTeacher()
+      table.overflow
+        thead
+          th
+          each p in teacherPrepaids
+            th= p.name
 
-    .well.form-group#student-licenses
-      - var prepaids = view.studentsPrepaidsFromTeacher()
-      each p in prepaids
-        - var prepaid = view.prepaids.get(p.productId)
-        - console.log(prepaid)
-        - var desc = prepaid.typeDescription()
-        .radio.prepaid-type-line
-          label
-            p.prepaid-type=desc
-          button.revoke-student-button.btn.btn-navy(data-i18n="teacher.revoke_license", data-prepaid-id=value)
+        tbody
+          each user in allUsers
+            tr
+              td= user.broadName()
+              each p in teacherPrepaids
+                - var product = user.findCourseProduct(p.id)
+                if product
+                  td=moment(product.endDate).utc().format('ll')
+                else
+                  td
+          tr
+            td
+            each p in teacherPrepaids
+              td
+                button.revoke-student-button.btn.btn-navy(data-i18n="teacher.revoke_license", data-prepaid-id=value)
 
 
     if state.get('error')
