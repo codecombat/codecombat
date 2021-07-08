@@ -48,17 +48,18 @@
       },
       // Count total students in classrooms (both active and archived) created between
       // July 1-June 30 as the cut off for each school year (e.g. July 1, 2019-June 30, 2020)
-      enrollmentHistory () { // similar to logic in coco
+      membershipHistory () { // similar to logic in coco
         const history = {}
-        this.classroomsWithPaidCourses.forEach(({ _id, members }) => {
-          if (members?.length > 0) {
+        this.allAdministratedClassrooms.forEach(({ _id, members, deletedMembers }) => {
+          const allMembers = [...members, ...deletedMembers]
+          if (allMembers?.length > 0) {
             const creationDate = moment(this.dateFromObjectId(_id))
             const year = this.yearRangeForClassroom(creationDate)
             if (!history[year]) {
-              history[year] = new Set(members)
+              history[year] = new Set(allMembers)
             } else {
               const yearSet = history[year]
-              members.forEach(yearSet.add, yearSet)
+              allMembers.forEach(yearSet.add, yearSet)
             }
           }
         })
@@ -69,8 +70,8 @@
         })
         return sortedHistory
       },
-      showEnrollmentHistory () {
-        return Object.keys(this.enrollmentHistory).length > 0
+      showMembershipHistory () {
+        return Object.keys(this.membershipHistory).length > 0
       }
     },
     methods: {
@@ -112,18 +113,18 @@
 <template>
   <div class="licenses-page">
     <div class="side-bar">
-      <div class="student-enrollment-history" v-if="showEnrollmentHistory">
-        <span class="side-bar-title"> Student Enrollment History </span>
+      <div class="classroom-membership-history" v-if="showMembershipHistory">
+        <span class="side-bar-title"> Classroom Membership History </span>
         <icon-help
           v-tooltip.bottom="{
-            content: `<p><b>The Student Enrollment History</b> displays the total number of unique students who were enrolled across all classrooms.</p>
+            content: `<p><b>The Classroom Membership History</b> displays the total number of unique students who were enrolled across all classrooms.</p>
                       <p><b>Remember:</b> Classes may be archived and licenses may be reused throughout the school year, so these numbers represent how many students truly participated in the program.</p>`,
             classes: 'teacher-dashboard-tooltip'
           }"
         />
-        <ul class="enrollment-history-list">
+        <ul class="membership-history-list">
           <li
-            v-for="(members, year) in enrollmentHistory"
+            v-for="(members, year) in membershipHistory"
             :key="year"
           >
             <b> {{ year }}: </b> {{ members.size }} {{ members.size > 1 ? "students" : "student" }}
@@ -223,11 +224,11 @@
   margin: 15px 0px;
 }
 
-.student-enrollment-history {
+.classroom-membership-history {
   margin-bottom: 40px;
 }
 
-.enrollment-history-list {
+.membership-history-list {
   padding: 0;
   list-style: none;
   margin-top: 20px;

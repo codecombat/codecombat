@@ -239,7 +239,7 @@ export default {
     async fetchDataMyLicenses ({ state, dispatch }, options = {}) {
       const fetchPromises = []
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.schoolAdminId, { root: true }))
-      fetchPromises.push(dispatch('fetchDataAdministratedTeachers', options)) // needed for student-enrollment-history
+      fetchPromises.push(dispatch('fetchDataAdministratedTeachers', options)) // needed for classroom-membership-history
 
       await Promise.all(fetchPromises)
 
