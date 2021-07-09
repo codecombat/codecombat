@@ -105,14 +105,15 @@ mixin revokePage
     span
       | revoke those license
     span :
-    .well.form-group#revoke-student-page
+    #revoke-student-page
       - var allUsers = view.users.models
       - var teacherPrepaids = view.studentsPrepaidsFromTeacher()
       table.overflow
         thead
-          th
-          each p in teacherPrepaids
-            th= p.name
+          tr
+            th
+            each p in teacherPrepaids
+              th= p.name
 
         tbody
           each user in allUsers
