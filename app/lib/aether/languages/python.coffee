@@ -1,6 +1,7 @@
 ﻿_ = window?._ ? self?._ ? global?._ ? require 'lodash'  # rely on lodash existing, since it busts CodeCombat to browserify it--TODO
 
 Language = require './language'
+ranges = require '../ranges'
 
 module.exports = class Python extends Language
   name: 'Python'
@@ -19,6 +20,26 @@ module.exports = class Python extends Language
   hasChangedASTs: (a, b) -> true
 
   usesFunctionWrapping: () -> false
+
+  # Return an array of UserCodeProblems detected during linting.
+  lint: (rawCode, aether) ->
+    problems = []
+    problems = problems.concat @lintUncalledMethods(rawCode, aether)
+    problems
+
+  lintUncalledMethods: (rawCode, aether) ->
+    return [] unless match = rawCode.match /^ *hero\.[^\d\W]\w*$/mi
+    problem =
+      type: 'transpile'
+      reporter: 'aether'
+      level: 'warning'
+      message: "`#{match[0]}` doesn't do anything without `()`"
+      hint: "Missing parentheses? Try `#{match[0]}()`"
+      range: [
+        ranges.offsetToPos(match.index, rawCode, ''),
+        ranges.offsetToPos(match.index + match[0].length, rawCode, '')
+      ]
+    return [problem]
 
   # Sets up middleware for the python execution context.
   setupInterpreter: (esper) ->
