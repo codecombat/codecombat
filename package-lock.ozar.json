@@ -3602,8 +3602,7 @@
     "compressible": {
       "version": "1.0.1",
       "resolved": "https://registry.npmjs.org/compressible/-/compressible-1.0.1.tgz",
-      "integrity": "sha1-jtgiSCLGDDyNq8rTTpE+0pUq0XA=",
-      "dev": true
+      "integrity": "sha1-jtgiSCLGDDyNq8rTTpE+0pUq0XA="
     },
     "compression": {
       "version": "1.7.4",
