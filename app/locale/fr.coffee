@@ -249,6 +249,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    professional_development: "Professional Development"
 #    new: "New!"
 #    admin: "Admin"
+#    api_dashboard: "API Dashboard"
 
   modal:
     close: "Fermer"
@@ -1812,6 +1813,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     archived_classes: "Cours Archivés"
     archived_classes_blurb: "Les cours peuvent être archivés pour référence ultérieure. Désarchiver une classe pour la visualiser à nouveau dans la liste Classes en cours."
     view_class: "Voir Cours"
+#    view_ai_league_team: "View AI League team"
     archive_class: "Archiver Cours"
     unarchive_class: "Désarchiver cours"
     unarchive_this_class: "Désarchiver ce cours"
@@ -3283,6 +3285,23 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    register: "Register"
 #    not_registered: "Not Registered"
 #    world: "World"
+#    quickstart_video: "Quickstart Video"
+#    arena_rankings: "Arena Rankings"
+#    arena_rankings_blurb: "Global AI League arena rankings"
+#    arena_rankings_title: "Global leaderboard rank for all players in this team across AI League arenas in the open age bracket."
+#    competing: "Competing:" # Competing: 3 students
+#    count_student: "student" # 1 student
+#    count_students: "students" # 2 students
+#    top_student: "Top:" # Top: Jane D
+#    top_percent: "top" # - top 3%)
+#    top_of: "of" # (#8 of 35). Perhaps just use "/" if this doesn't translate naturally.
+#    arena_victories: "Arena Victories"
+#    arena_victories_blurb: "Global AI League arena recent wins"
+#    arena_victories_title: "Win count is based on the last 1000 matches played asynchronously by each player in each of their AI League arenas."
+#    count_wins: "wins" # 100+ wins or 974 wins
+#    codepoints_blurb: "1 CodePoint = 1 line of code written"
+#    codepoints_title: "One CodePoint is earned for every non-whitespace line of code needed to beat the level. Each level is worth the same amount of CodePoints according to its standard solution, regardless of whether the student wrote more or fewer lines of code."
+#    count_total: "Total:" # Total: 300 CodePoints, or Total: 300 wins
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"
