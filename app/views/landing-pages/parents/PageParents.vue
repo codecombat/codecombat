@@ -983,7 +983,7 @@ export default {
 
 .pricing-grid-container {
   display: grid;
-  grid-template-columns: 46% 12.5% 13.5% 13.5% 14.5%;
+  grid-template-columns: 46% 13% 20% 21%;
   grid-template-rows: repeat(2, minmax(32px, max-content));
   grid-auto-rows: minmax(40px, max-content);
 
@@ -1003,7 +1003,7 @@ export default {
   padding: 4px;
 }
 
-.pricing-grid-container > .grid-item:nth-child(5n + 1) {
+.pricing-grid-container > .grid-item:nth-child(4n + 1) {
   justify-content: start;
   text-align: left;
   padding: 4px 10px;
@@ -1015,23 +1015,21 @@ export default {
   background-color: #F4F5F6;
 }
 
-.grid-item:nth-child(10n+1),
-.grid-item:nth-child(10n+2),
-.grid-item:nth-child(10n+3),
-.grid-item:nth-child(10n+4),
-.grid-item:nth-child(10n+5) {
+.grid-item:nth-child(8n+1),
+.grid-item:nth-child(8n+2),
+.grid-item:nth-child(8n+3),
+.grid-item:nth-child(8n+4) {
   background-color: white;
 }
 
-.grid-item:nth-child(5n + 4) {
+.grid-item:nth-child(4n + 3) {
   background-color: #F4FBFC;
 }
 
-.grid-item:nth-child(10n+1):nth-child(5n + 4),
-.grid-item:nth-child(10n+2):nth-child(5n + 4),
-.grid-item:nth-child(10n+3):nth-child(5n + 4),
-.grid-item:nth-child(10n+4):nth-child(5n + 4),
-.grid-item:nth-child(10n+5):nth-child(5n + 4) {
+.grid-item:nth-child(8n+1):nth-child(4n + 3),
+.grid-item:nth-child(8n+2):nth-child(4n + 3),
+.grid-item:nth-child(8n+3):nth-child(4n + 3),
+.grid-item:nth-child(8n+4):nth-child(4n + 3) {
   background-color: #C7EBF2;
 }
 
@@ -1079,7 +1077,7 @@ export default {
 
 @media screen and (max-width: 700px) {
   .pricing-grid-container {
-    grid-template-columns: 40% 15% 15% 15% 15%;
+    grid-template-columns: 40% 15% 15% 15%;
     font-size: small;
   }
 
