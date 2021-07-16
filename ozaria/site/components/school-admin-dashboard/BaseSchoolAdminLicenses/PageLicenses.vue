@@ -49,7 +49,7 @@
       // Count total students in classrooms (both active and archived) created between
       // July 1-June 30 as the cut off for each school year (e.g. July 1, 2019-June 30, 2020)
       membershipHistory () { // similar to logic in coco
-        const history = {}
+        const history = {};
         (this.allAdministratedClassrooms || []).forEach(({ _id, members = [], deletedMembers = [] }) => {
           const allMembers = [...members, ...deletedMembers]
           if (allMembers?.length > 0) {
