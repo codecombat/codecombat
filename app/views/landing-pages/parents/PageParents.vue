@@ -224,13 +224,11 @@
       <div class="pricing-grid-container">
         <div v-if="showPricing"></div>
         <div v-if="showPricing"></div>
-        <div v-if="showPricing"></div>
         <div v-if="showPricing" class="value-topper">Most popular</div>
         <div v-if="showPricing" class="value-topper">Best Value</div>
         <!-- First Row -->
         <div class="grid-item"></div>
         <div class="grid-item">Self-Paced</div>
-        <div class="grid-item">Summer Camp</div>
         <div class="grid-item">Private</div>
         <div class="grid-item">Private</div>
         <!-- End First Row -->
@@ -238,27 +236,23 @@
         <!-- TODO: differentiate between annual and lifetime -->
         <div class="grid-item" v-if="showPricing">Subscription plan</div>
         <div class="grid-item" v-if="showPricing">${{ basicAnnualSubscriptionPrice }} per year</div>
-        <div class="grid-item" v-if="showPricing">$199 (1 week)<sup>*</sup></div>
         <div class="grid-item" v-if="showPricing">$219 per month</div>
         <div class="grid-item" v-if="showPricing">$399 per month</div>
         <!-- End Second Row -->
         <!-- Third Row -->
         <div class="grid-item">60-minute sessions via Zoom</div>
         <div class="grid-item">N/A</div>
-        <div class="grid-item">5 group sessions per week</div>
         <div class="grid-item">1 private session per week</div>
         <div class="grid-item">2 private sessions per week</div>
         <!-- End Third Row -->
         <!-- Fourth Row -->
         <div class="grid-item">Student to Instructor Ratio</div>
         <div class="grid-item">N/A</div>
-        <div class="grid-item">4:1</div>
         <div class="grid-item">1:1</div>
         <div class="grid-item">1:1</div>
         <!-- End Fourth Row -->
         <!-- Fifth Row -->
         <div class="grid-item">CodeCombat premium license included</div>
-        <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
@@ -268,12 +262,10 @@
         <div class="grid-item"></div>
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
-        <div class="grid-item"><icon-gem /></div>
         <!-- End Sixth Row -->
         <!-- Seventh Row -->
         <div class="grid-item">Bonus activities, rewards, and course completion certificates</div>
         <div class="grid-item"></div>
-        <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
         <!-- End Eighth Row -->
@@ -282,11 +274,9 @@
         <div class="grid-item"></div>
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
-        <div class="grid-item"><icon-gem /></div>
         <!-- End Ninth Row -->
         <!-- Ninth Row -->
         <div class="grid-item">Monthly progress updates from instructor</div>
-        <div class="grid-item"></div>
         <div class="grid-item"></div>
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
@@ -294,13 +284,11 @@
         <!-- Tenth Row -->
         <div class="grid-item">Flexible schedule adapted to each student's learning needs</div>
         <div class="grid-item"></div>
-        <div class="grid-item"></div>
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
         <!-- End Tenth Row -->
         <!-- Eleventh Row -->
         <div class="grid-item">1:1 support in tackling difficult coding concepts</div>
-        <div class="grid-item"></div>
         <div class="grid-item"></div>
         <div class="grid-item"><icon-gem /></div>
         <div class="grid-item"><icon-gem /></div>
@@ -309,14 +297,12 @@
         <div class="grid-item">Automatic qualification into AI League coding tournaments</div>
         <div class="grid-item"></div>
         <div class="grid-item"></div>
-        <div class="grid-item"></div>
         <div class="grid-item"><icon-gem /></div>
         <!-- End Twelth Row -->
       </div>
 
       <div class="text-below-pricing-table" v-if="showPricing">
-        <p><sup>*</sup>We also offer summer camps of 2 weeks (10 classes) for $389 or 3 weeks (15 classes) for $569.</p>
-        <p>Except for summer camp, all subscriptions are billed on a monthly basis and may be paused, cancelled, or resumed with no fees. Your subscription purchase is 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">contact us</a> within 30 days of purchase and we will promptly refund 100% of your payment, no questions asked. All plans are automatically renewed at the same level and billing cycle unless otherwise changed or canceled.</p>
+        <p>All subscriptions are billed on a monthly basis and may be paused, cancelled, or resumed with no fees. Your subscription purchase is 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">contact us</a> within 30 days of purchase and we will promptly refund 100% of your payment, no questions asked. All plans are automatically renewed at the same level and billing cycle unless otherwise changed or canceled.</p>
       </div>
     </div>
 
@@ -557,7 +543,7 @@
               What is the cancellation policy?
             </h4>
             <p>
-              Apart from summer camps, your subscription purchase is 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">contact us</a> within 30 days of purchase and we will promptly refund 100% of your purchase, no questions asked. You can also freeze your subscription at any time and re-activate when it works for you.
+              Your subscription purchase is 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">contact us</a> within 30 days of purchase and we will promptly refund 100% of your purchase, no questions asked. You can also freeze your subscription at any time and re-activate when it works for you.
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
