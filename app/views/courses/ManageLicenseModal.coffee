@@ -17,17 +17,21 @@ module.exports = class ManageLicenseModal extends ModalView
   events:
     'change input[type="checkbox"][name="user"]': 'updateSelectedStudents'
     'change .select-all-users-checkbox': 'toggleSelectAllStudents'
+    'change .select-all-users-revoke-checkbox': 'toggleSelectAllStudentsRevoke'
     'change select.classroom-select': 'replaceStudentList'
     'submit form': 'onSubmitForm'
     'click #get-more-licenses-btn': 'onClickGetMoreLicensesButton'
     'click #selectPrepaidType .radio': 'onSelectPrepaidType'
     'click .change-tab': 'onChangeTab'
-    'click #selectUser .radio': 'onSelectUser'
     'click .revoke-student-button': 'onClickRevokeStudentButton'
 
   getInitialState: (options) ->
     selectedUsers = options.selectedUsers or options.users
-    selectedUserModels = _.filter(selectedUsers.models, (user) -> not user.isEnrolled())
+    @activeTab = options.tab ? 'apply'
+    if @activeTab == 'apply'
+      selectedUserModels = _.filter(selectedUsers.models, (user) -> not user.isEnrolled())
+    else
+      selectedUserModels = selectedUsers.models
     {
       selectedUsers: new Users(selectedUserModels)
       visibleSelectedUsers: new Users(selectedUserModels)
@@ -44,10 +48,8 @@ module.exports = class ManageLicenseModal extends ModalView
     @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @classrooms = new Classrooms()
     @selectedPrepaidType = null
-    @selectedUser = null
     @prepaidByGroup = {}
     @teacherPrepaidIds = []
-    @activeTab = 'apply'
     @supermodel.trackRequest @classrooms.fetchMine({
       data: {archived: false}
       success: =>
@@ -92,16 +94,17 @@ module.exports = class ManageLicenseModal extends ModalView
     else
       @state.get('selectedUsers').add(user)
     @$(".select-all-users-checkbox").prop('checked', @areAllSelected())
+    @$(".select-all-users-revoke-checkbox").prop('checked', @areAllSelectedRevoke())
     # @render() # TODO: Have @state automatically listen to children's change events?
 
   studentsPrepaidsFromTeacher: () ->
     # user = @users.get(@selectedUser)
     allPrepaids = []
     @users.each (user) =>
+      allPrepaidKeys = _.pluck(allPrepaids, 'productId')
       allPrepaids = _.union(allPrepaids, user.get('products').filter((p) =>
-        p.product == 'course' && _.contains @teacherPrepaidIds, p.productId
+        p.productId not in allPrepaidKeys && p.product == 'course' && _.contains @teacherPrepaidIds, p.productId
       ))
-    console.log(allPrepaids)
     return allPrepaids.map((p) ->
       product = new Prepaid({
         includedCourseIDs: p.productOptions.includedCourseIDs
@@ -128,8 +131,15 @@ module.exports = class ManageLicenseModal extends ModalView
       p ^ s
     )
 
+  allUsers: -> @users.toJSON()
+
   areAllSelected: ->
     return _.all(@unenrolledUsers(), (user) => @state.get('selectedUsers').get(user.id))
+
+  areAllSelectedRevoke: ->
+    return _.all(@allUsers(), (user) =>
+      @state.get('selectedUsers').get(user._id)
+    )
 
   toggleSelectAllStudents: (e) ->
     if @areAllSelected()
@@ -142,7 +152,19 @@ module.exports = class ManageLicenseModal extends ModalView
         if not @state.get('selectedUsers').findWhere({ _id: user.id })
           @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', true)
           @state.get('selectedUsers').add(user)
-  
+
+  toggleSelectAllStudentsRevoke: (e) ->
+    if @areAllSelectedRevoke()
+      @users.forEach (user, index) =>
+        if @state.get('selectedUsers').findWhere({ _id: user.id })
+          @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', false)
+          @state.get('selectedUsers').remove(user.id)
+    else
+      @users.forEach (user, index) =>
+        if not @state.get('selectedUsers').findWhere({ _id: user.id })
+          @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', true)
+          @state.get('selectedUsers').add(user)
+
   replaceStudentList: (e) ->
     selectedClassroomID = $(e.currentTarget).val()
     @classroom = @classrooms.get(selectedClassroomID)
@@ -199,11 +221,6 @@ module.exports = class ManageLicenseModal extends ModalView
   onClickGetMoreLicensesButton: ->
     @hide?() # In case this is opened in /teachers/licenses itself, otherwise the button does nothing
 
-  onSelectUser: (e) -> 
-    @selectedUser= $(e.target).parent().children('input').val()
-    @renderSelectors("#student-licenses")
-
-
   onChangeTab: (e) ->
     @activeTab = $(e.target).data('tab')
     @renderSelectors('.modal-body-content')
@@ -212,19 +229,33 @@ module.exports = class ManageLicenseModal extends ModalView
   onClickRevokeStudentButton: (e) ->
     button = $(e.currentTarget)
     prepaidId = button.data('prepaid-id')
-    user = @students.get(@selectedUser)
-    s = $.i18n.t('teacher.revoke_confirm').replace('{{student_name}}', user.broadName())
+
+    usersToRedeem = @state.get('visibleSelectedUsers')
+    s = $.i18n.t('teacher.revoke_selected_confirm')
     return unless confirm(s)
-    #product TODO
-    prepaid = ueer.makeCourseProduct(prepaidId)
     button.text($.i18n.t('teacher.revoking'))
+    @revokeUsers(usersToRedeem, prepaidId)
+
+  revokeUsers: (usersToRedeem, prepaidId) ->
+    if not usersToRedeem.size()
+      @finishRedeemUsers()
+      @hide()
+      return
+
+    user = usersToRedeem.first()
+    prepaid = user.makeCourseProduct(prepaidId)
     prepaid.revoke(user, {
       success: =>
-        user.unset('coursePrepaid')
+        user.set('products', user.get('products').filter((p) ->
+          p.productId != prepaidId
+        ))
+        usersToRedeem.remove(user)
+        @state.get('selectedUsers').remove(user)
+        @updateVisibleSelectedUsers()
+        application.tracker?.trackEvent 'Revoke modal finished revoke student', category: 'Courses', userID: user.id
+        @revokeUsers(usersToRedeem, prepaidId)
       error: (prepaid, jqxhr) =>
-        msg = jqxhr.responseJSON.message
-        noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-      complete: => @debouncedRender()
+        @state.set { error: jqxhr.responseJSON.message }
     })
 
 

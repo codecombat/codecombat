@@ -358,7 +358,10 @@ module.exports = class User extends CocoModel
     return 'expired'
 
   prepaidNumericalCourses: ->
-    courseProducts = _.filter(@get('products'), {product: 'course'})
+    now = new Date()
+    courseProducts = _.filter(@get('products'), (p) ->
+      return p.product == 'course' && new Date(p.endDate) > now
+    )
     return 0 unless courseProducts.length
     return 2047 if _.some courseProducts, (p) => !p.productOptions?.includedCourseIDs?
     union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
@@ -539,10 +542,16 @@ module.exports = class User extends CocoModel
     @fetch(options)
 
   makeCourseProduct: (productId) ->
-    courseProduct = _.find @get('products'), { productId, type: 'course' }
+    courseProduct = _.find @get('products'), { productId, product: 'course' }
     return null unless courseProduct
     Prepaid = require 'models/Prepaid'
-    return new Prepaid(courseProduct)
+    return new Prepaid({
+      _id: courseProduct.productId,
+      type: 'course',
+      includedCourseIDs: courseProduct.productOptions.includedCourseIDs
+      startDate: courseProduct.startDate,
+      endDate: courseProduct.endDate
+    })
 
   # TODO: Probably better to denormalize this into the user
   getLeadPriority: ->

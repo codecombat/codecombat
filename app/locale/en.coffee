@@ -2054,6 +2054,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     hoc_additional_desc2: "Questions"
     hoc_additional_contact: "Get in touch"
     revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
     revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
     revoking: "Revoking..."
     unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they're ready to learn more!"
