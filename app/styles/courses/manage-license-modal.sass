@@ -5,42 +5,42 @@
 
   select
     min-width: 80%
-    
-  .checkbox
-    margin: 0
-    display: flex
-  
-    input[type='checkbox']
-      margin-top: 8px
-
-    label
-      flex-basis: 20vw
-
-    .note
+  #apply-page
+    .checkbox
+      margin: 0
       display: flex
-      position: relative
 
-      span.spr
-        position: absolute
-        left: -4.2em
+      input[type='checkbox']
+        margin-top: 8px
 
-      .course-upper
-        position: absolute
-        top: -1em
+      label
+        flex-basis: 20vw
 
-      .course-span
+      .note
         display: flex
+        position: relative
 
-        .course-number
+        span.spr
+          position: absolute
+          left: -4.2em
+
+        .course-upper
+          position: absolute
+          top: -1em
+
+        .course-span
+          display: flex
+
+          .course-number
+            margin-left: 5px
+            margin-right: 5px
+            width: 13px
+      .status-col
+
+        .checkbox-course
+          float: none
           margin-left: 5px
           margin-right: 5px
-          width: 13px
-    .status-col
-
-      .checkbox-course
-        float: none
-        margin-left: 5px
-        margin-right: 5px
 
   .well
     max-height: 284px
@@ -90,7 +90,10 @@
       tbody
         tr
           &:nth-child(2n+1)
-            background-color: #ebebeb;
+            background-color: #ebebeb
 
           &:nth-child(2n)
-            background-color: #f5f5f5;
+            background-color: #f5f5f5
+
+        td.expired
+          color: red

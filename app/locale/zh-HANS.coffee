@@ -2066,6 +2066,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    regenerate_class_code_tooltip: "Generate a new Class Code"
 #    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
     revoke_confirm: "您确定要撤销{{student_name}}的完整许可证吗？该许可证将可以分配给其他学生。"
+    revoke_selected_confirm: "你确定要撤销所有选择的学生的许可证吗？"
     revoke_all_confirm: "你确定要撤销所有这个班级的所有学生的许可证吗？"
     revoking: "撤销中"
     unused_licenses: "您有未使用的学生许可,当学生准备学习更多课程时您可以分配给他们!"

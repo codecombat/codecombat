@@ -5,8 +5,6 @@ helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
-# product TODO
-ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 ManageLicenseModal = require 'views/courses/ManageLicenseModal'
 PrepaidActivationCodesModal = require 'views/courses/PrepaidActivationCodesModal'
 EditStudentModal = require 'views/teachers/EditStudentModal'
@@ -454,7 +452,7 @@ module.exports = class TeacherClassView extends RootView
     return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     user = @students.get($(e.currentTarget).data('student-id'))
-    modal = new EditStudentModal({ user, @classroom })
+    modal = new EditStudentModal({ user, @classroom, @students })
     @openModalView(modal)
 
   onClickRemoveStudentLink: (e) ->
@@ -884,13 +882,6 @@ module.exports = class TeacherClassView extends RootView
     stats.enrolledUsers = _.size(enrolledUsers)
 
     return stats
-
-  studentStatusString: (student) ->
-    status = student.prepaidStatus()
-    # product TODO
-    expires = student.get('coursePrepaid')?.endDate
-    date = if expires? then moment(expires).utc().format('ll') else ''
-    utils.formatStudentLicenseStatusDate(status, date)
 
   getTopScore: ({level, session}) ->
     return unless level and session
