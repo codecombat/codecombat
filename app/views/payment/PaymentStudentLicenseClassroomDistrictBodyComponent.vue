@@ -1,9 +1,9 @@
 <template>
   <div class="container-fluid classroom-district-body">
     <div class="container">
-      <div class="tabs center">
+      <div class="tabs">
         <div
-          :class="['classroom', 'common-tab', (isClassroomSelected ? 'selected-tab' : 'unselected-tab')]"
+          :class="['classroom', 'common-tab', (isSmallClassroomSelected ? 'selected-tab' : 'unselected-tab')]"
           @click="() => setClassroomSelected(true)"
         >
           <h2 class="title">Small Classroom</h2>
@@ -12,30 +12,37 @@
           </div>
         </div>
         <div
-          :class="['district', 'common-tab', (!isClassroomSelected ? 'selected-tab' : 'unselected-tab')]"
+          :class="['district', 'common-tab', (!isSmallClassroomSelected ? 'selected-tab' : 'unselected-tab')]"
           @click="() => setClassroomSelected(false)"
         >
           <h2 class="title">Schools & Districts</h2>
           <div>
-            For classrooms, schools and districts with over 10 students and test
+            For classrooms, schools and districts with over 10 students
           </div>
         </div>
       </div>
+      <payment-school-district-body-view
+        v-if="!isSmallClassroomSelected"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import PaymentSchoolDistrictBodyView from "./PaymentSchoolDistrictBodyView";
 export default {
   name: "PaymentStudentLicenseClassroomDistrictBodyComponent",
+  components: {
+    PaymentSchoolDistrictBodyView,
+  },
   data() {
     return {
-      isClassroomSelected: true,
+      isSmallClassroomSelected: false,
     }
   },
   methods: {
     setClassroomSelected(value) {
-      this.isClassroomSelected = value
+      this.isSmallClassroomSelected = value
     },
   }
 }
