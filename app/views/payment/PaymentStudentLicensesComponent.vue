@@ -2,13 +2,13 @@
   <div>
     <template v-if="this.paymentGroup.subType === 'classroom-and-school-district'">
       <payment-student-license-classroom-district-view
+        :price-info="paymentGroup.priceData[0]"
       />
     </template>
     <template v-else>
       <payment-student-licenses-view
         :price-data="paymentGroup.priceData"
         :payment-group-id="paymentGroup._id"
-        :sub-type="paymentGroup.subType"
       />
     </template>
   </div>

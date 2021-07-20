@@ -35,8 +35,7 @@ export default {
     paymentGroupId: {
       type: String,
       required: true,
-    },
-    subType: String,
+    }
   },
   data () {
     return {
