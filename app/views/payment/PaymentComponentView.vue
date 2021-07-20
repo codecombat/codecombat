@@ -7,9 +7,8 @@
     </template>
     <template v-else-if="paymentGroup && paymentGroup.groupType ==='studentLicenses' &&
       me && !me.anonymous">
-      <payment-student-licenses-view
-        :price-data="paymentGroup.priceData"
-        :payment-group-id="paymentGroup._id"
+      <payment-student-licenses-component
+        :payment-group="paymentGroup"
       />
     </template>
     <template v-else-if="paymentGroup && paymentGroup.groupType ==='onlineClasses'">
@@ -27,13 +26,13 @@
 </template>
 
 <script>
-import PaymentStudentLicensesView from "./PaymentStudentLicensesView";
 import PaymentOnlineClassesView from "./PaymentOnlineClassesView";
+import PaymentStudentLicensesComponent from './PaymentStudentLicensesComponent'
 export default {
   name: "PaymentComponentView",
   components: {
-    'payment-student-licenses-view': PaymentStudentLicensesView,
-    'payment-online-classes-view': PaymentOnlineClassesView
+    PaymentOnlineClassesView,
+    PaymentStudentLicensesComponent,
   },
   data() {
     return {

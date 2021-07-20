@@ -13,12 +13,12 @@
     <div class="text-center footer">
       <button type="button" class="btn btn-success btn-lg btn-buy-now" @click="onBuyNow()">Buy Now</button>
     </div>
-  </div>
-  <payment-student-license-purchase-view
+    <payment-student-license-purchase-view
       v-if="isPurchaseViewEnabled"
       :price-data="priceData"
       :payment-group-id="paymentGroupId"
-  />
+    />
+  </div>
   </span>
 </template>
 
@@ -35,7 +35,7 @@ export default {
     paymentGroupId: {
       type: String,
       required: true,
-    },
+    }
   },
   data () {
     return {
