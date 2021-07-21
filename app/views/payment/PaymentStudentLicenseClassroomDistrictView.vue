@@ -4,6 +4,7 @@
       :i18n-heading-name="priceInfo.metadata.i18nName"
     />
     <payment-student-license-classroom-district-body-component
+      :price-info="priceInfo"
     />
   </div>
 </template>

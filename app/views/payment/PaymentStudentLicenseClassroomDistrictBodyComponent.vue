@@ -24,16 +24,28 @@
       <payment-school-district-body-view
         v-if="!isSmallClassroomSelected"
       />
+      <payment-small-classroom-body-view
+        v-if="isSmallClassroomSelected"
+        :price-info="priceInfo"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import PaymentSchoolDistrictBodyView from "./PaymentSchoolDistrictBodyView";
+import PaymentSmallClassroomBodyView from "./PaymentSmallClassroomBodyView";
 export default {
   name: "PaymentStudentLicenseClassroomDistrictBodyComponent",
   components: {
     PaymentSchoolDistrictBodyView,
+    PaymentSmallClassroomBodyView,
+  },
+  props: {
+    priceInfo: {
+      type: Object,
+      required: true,
+    }
   },
   data() {
     return {

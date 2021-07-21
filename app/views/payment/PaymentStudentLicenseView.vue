@@ -21,6 +21,10 @@
 <script>
 import ModalGetLicenses from "../../components/common/ModalGetLicenses";
 import PaymentStudentLicenseHeadComponent from "./PaymentStudentLicenseHeadComponent"
+import {
+  getDisplayUnitPrice,
+  getDisplayCurrency
+} from './paymentPriceHelper'
 export default {
   name: "PaymentStudentLicenseView",
   data () {
@@ -57,10 +61,10 @@ export default {
   },
   methods: {
     getUnitPrice() {
-      return this.unitAmount / 100;
+      return getDisplayUnitPrice(this.unitAmount);
     },
     getCurrency() {
-      return this.currency === 'usd' ? '$' : this.currency;
+      return getDisplayCurrency(this.currency);
     },
     enableContactModal(e) {
       e.preventDefault()
