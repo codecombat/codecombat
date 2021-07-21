@@ -36,8 +36,6 @@
 </template>
 
 <script>
-import { getStripeLib } from '../../lib/stripeUtil';
-import { createPaymentSession } from '../../core/api/payment-session';
 import { handleStudentLicenseCheckoutSession } from './paymentPriceHelper'
 
 export default {
@@ -72,8 +70,13 @@ export default {
       }
       const price = this.getSelectedPrice();
       const licenseCap = price.metadata.licenseCap
-      if (licenseNum > licenseCap) {
+      if (licenseCap && licenseNum > licenseCap) {
         this.errMsg = `Sorry, you cannot purchase more than ${licenseCap} licenses`;
+        return;
+      }
+      const minLicenses = price.metadata.minLicenses;
+      if (minLicenses && licenseNum < minLicenses) {
+        this.errMsg = `Sorry, you cannot purchase less than ${minLicenses} licenses`;
         return;
       }
       this.licenseNum = licenseNum;

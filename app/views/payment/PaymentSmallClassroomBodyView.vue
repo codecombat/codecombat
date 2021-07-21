@@ -4,16 +4,10 @@
       <h2 class="price">{{this.getDisplayCurrency()}}{{this.getUnitPrice()}}</h2>
       <p class="bold">Per Student Per Year</p>
       <div class="license-range-text">
-        <template
-          v-if="this.getMinimumLicenses() && this.getMaximumLicenses()"
-        >
-          Between {{this.getMinimumLicenses()}} - {{this.getMaximumLicenses()}} Licenses
-        </template>
-        <template
-          v-else-if="this.getMaximumLicenses()"
-        >
-          Upto {{this.getMaximumLicenses()}} can be purchased
-        </template>
+        <payment-license-min-max-text-component
+          :min-licenses="this.getMinimumLicenses()"
+          :max-licenses="this.getMaximumLicenses()"
+        />
       </div>
       <div class="license-number form-group">
         <select
@@ -52,8 +46,12 @@ import {
   getDisplayCurrency,
   handleStudentLicenseCheckoutSession,
 } from './paymentPriceHelper'
+import PaymentLicenseMinMaxTextComponent from "./PaymentLicenseMinMaxTextComponent";
 export default {
   name: "PaymentSmallClassroomBodyView",
+  components: {
+    PaymentLicenseMinMaxTextComponent,
+  },
   data() {
     return {
       numOfLicenses: null,
