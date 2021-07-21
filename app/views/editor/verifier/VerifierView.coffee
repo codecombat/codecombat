@@ -1,6 +1,7 @@
 require('app/styles/editor/verifier/verifier-view.sass')
 async = require('vendor/scripts/async.js')
 utils = require 'core/utils'
+aetherUtils = require 'lib/aether_utils'
 
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/verifier/verifier-view'
@@ -109,11 +110,11 @@ module.exports = class VerifierView extends RootView
       for codeLanguage in @testLanguages
         solutions = _.filter level?.getSolutions() ? [], language: codeLanguage
         # If there are no C++ solutions yet, generate them from JavaScript.
-        if codeLanguage is 'cpp' and solutions.length is 0
+        if codeLanguage in ['cpp', 'java', 'python', 'lua', 'coffeescript'] and solutions.length is 0
           transpiledSolutions = _.filter level?.getSolutions() ? [], language: 'javascript'
           transpiledSolutions.forEach((s) =>
-            s.language = 'cpp'
-            s.source = utils.translatejs2cpp(s.source)
+            s.language = codeLanguage
+            s.source = aetherUtils.translateJS(s.source, codeLanguage)
           )
           solutions = transpiledSolutions
         if solutions.length

@@ -8,6 +8,7 @@ Levels = require 'collections/Levels'
 utils = require 'core/utils'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
+aetherUtils = require 'lib/aether_utils'
 
 module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
@@ -59,9 +60,10 @@ module.exports = class TeacherCourseSolutionView extends RootView
   hideWrongLanguage: (s) ->
     return '' unless s
     s.replace /```([a-z]+)[^`]+```/gm, (a, l) =>
-      return """```cpp
-       #{utils.translatejs2cpp(a[13..a.length-4], false)}
-       ```""" if @language is 'cpp' and l is 'javascript'
+      # TODO: test this
+      return """```#{@language}
+       #{aetherUtils.translateJS(a[13..a.length-4], @language, false)}
+       ```""" if @language in ['cpp', 'java', 'python', 'lua', 'coffeescript'] and l is 'javascript' and not ///```#{@language}///.test(s)
       return '' if l isnt @language
       a
 
@@ -88,7 +90,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
         solutionLanguage = level.get('primerLanguage') or @language
         solutionLanguage = 'html' if @isWebDev and not level.get('primerLanguage')
         try
-          defaultCode = programmableMethod.languages[solutionLanguage] or (@language == 'cpp' and utils.translatejs2cpp(programmableMethod.source)) or programmableMethod.source
+          defaultCode = programmableMethod.languages[solutionLanguage] or (@language == 'cpp' and aetherUils.translateJS(programmableMethod.source, 'cpp')) or programmableMethod.source
           translatedDefaultCode = _.template(defaultCode)(utils.i18n(programmableMethod, 'context'))
         catch e
           console.error('Broken solution for level:', level.get('name'))

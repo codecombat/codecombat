@@ -187,14 +187,6 @@ defaultTasks = [
   {name: 'Release to adventurers.'}
   {name: 'Release to everyone.'}
   {name: 'Create two sample projects.', types: ['game-dev', 'web-dev']}
-  {name: 'Write Lua sample code.', types: notWebDev, optional: true, complete: (level) -> level.getSampleCode().lua}
-  {name: 'Write Java sample code.', types: notWebDev, optional: true, complete: (level) -> level.getSampleCode().java}
-  {name: 'Write C++ sample code.', types: notWebDev, optional: true, complete: (level) -> level.getSampleCode().cpp}
-  {name: 'Write CoffeeScript sample code.', types: notWebDev, optional: true, complete: (level) -> level.getSampleCode().coffeescript}
-  {name: 'Write Lua solution.', types: notWebDev, optional: true, complete: (level) -> _.find(level.getSolutions(), language: 'lua')}
-  {name: 'Write Java solution.', types: notWebDev, optional: true, complete: (level) -> _.find(level.getSolutions(), language: 'java')}
-  {name: 'Write C++ solution.', types: notWebDev, optional: true, complete: (level) -> _.find(level.getSolutions(), language: 'cpp')}
-  {name: 'Write CoffeeScript solution.', types: notWebDev, optional: true, complete: (level) -> _.find(level.getSolutions(), language: 'coffeescript')}
 ]
 
 deprecatedTaskNames = [
@@ -206,6 +198,14 @@ deprecatedTaskNames = [
   'Add a walkthrough video.'
   'Do any custom scripting, if needed.'
   'Write a really awesome description.'
+  'Write Lua sample code.'
+  'Write Java sample code.'
+  'Write C++ sample code.'
+  'Write CoffeeScript sample code.'
+  'Write Lua solution.'
+  'Write Java solution.'
+  'Write C++ solution.'
+  'Write CoffeeScript solution.'
 ]
 
 renamedTaskNames = {
