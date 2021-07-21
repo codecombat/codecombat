@@ -21,17 +21,19 @@ module.exports = class LevelCollection extends CocoCollection
   getSolutionsMap: (languages) ->
     @models.reduce((map, level) =>
       targetLangs = if level.get('primerLanguage') then [level.get('primerLanguage')] else languages
-      solutions = level.getSolutions().filter((s) => s.language in targetLangs or ('cpp' in targetLangs and s.language == 'javascript'))
-      if 'cpp' in targetLangs
-        solutions?.forEach (s) =>
-          return unless s.language is 'javascript'
-          s.language = 'cpp'
-          s.source = utils.translatejs2cpp(s.source)
-      if 'html' in targetLangs
-        solutions?.forEach (s) =>
-          return unless s.language is 'html'
-          strippedSource = utils.extractPlayerCodeTag(s.source or '')
-          s.source = strippedSource if strippedSource
+      solutions = level.getSolutions()
+      # TODO: this doesn't work yet
+      for lang in targetLangs
+        if lang is 'html'
+          for s in solutions ? []
+            return unless s.language is 'html'
+            strippedSource = utils.extractPlayerCodeTag(s.source or '')
+            s.source = strippedSource if strippedSource
+        else if lang isnt 'javascript' and not _.find(solutions, language: lang)
+          for s in solutions ? []
+            return unless s.language is 'javascript'
+            s.language = lang
+            s.source = aetherUtils.translateJS(s.source, lang)
       map[level.get('original')] = solutions?.map((s) => {source: @fingerprint(s.source, s.language), description: s.description})
       map
     , {})
