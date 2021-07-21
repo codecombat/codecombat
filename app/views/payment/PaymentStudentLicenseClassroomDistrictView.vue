@@ -5,6 +5,7 @@
     />
     <payment-student-license-classroom-district-body-component
       :price-info="priceInfo"
+      :payment-group-id="paymentGroupId"
     />
   </div>
 </template>
@@ -23,6 +24,10 @@ export default {
       type: Object,
       required: true,
     },
+    paymentGroupId: {
+      type: String,
+      required: true,
+    }
   }
 }
 </script>

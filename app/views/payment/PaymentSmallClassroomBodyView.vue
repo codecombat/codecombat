@@ -33,6 +33,7 @@
       <div class="buy-now">
         <button type="button" class="btn btn-success btn-lg buy-now-btn" @click="onBuyNow">Buy Now</button>
         <p class="buy-now-help-text">Available for purchase one time annually</p>
+        <p class="error">{{errMsg}}</p>
       </div>
       <div class="features">
         <p class="include">Includes</p>
@@ -49,6 +50,7 @@
 import {
   getDisplayUnitPrice,
   getDisplayCurrency,
+  handleStudentLicenseCheckoutSession,
 } from './paymentPriceHelper'
 export default {
   name: "PaymentSmallClassroomBodyView",
@@ -56,11 +58,16 @@ export default {
     return {
       numOfLicenses: null,
       licenseSelectErrorClass: '',
+      errMsg: '',
     }
   },
   props: {
     priceInfo: {
       type: Object,
+      required: true,
+    },
+    paymentGroupId: {
+      type: String,
       required: true,
     },
   },
@@ -85,7 +92,7 @@ export default {
     },
     getLicenseDropdownRange() {
       const range = []
-      for (let i = this.getLicenseDropdownStart(); i < this.getLicenseDropdownEnd(); i++) {
+      for (let i = this.getLicenseDropdownStart(); i <= this.getLicenseDropdownEnd(); i++) {
         range.push(i)
       }
       return range
@@ -97,12 +104,22 @@ export default {
       this.numOfLicenses = parseInt(e.target.value)
       this.licenseSelectErrorClass = ''
     },
-    onBuyNow(e) {
+    async onBuyNow(e) {
       e.preventDefault()
       if (!this.numOfLicenses) {
         this.licenseSelectErrorClass = 'dropdown-error'
         return
       }
+      const options = {
+        stripePriceId: this.priceInfo.id,
+        paymentGroupId: this.paymentGroupId,
+        numberOfLicenses: this.numOfLicenses,
+        email: me.get('email'),
+        userId: me.get('_id'),
+        totalAmount: this.getPriceBasedOnAmount(this.numOfLicenses),
+      }
+      const { errMsg } = await handleStudentLicenseCheckoutSession(options)
+      this.errMsg = errMsg
     }
   },
 }
@@ -159,5 +176,8 @@ p {
 }
 .dropdown-error {
   border-color: red;
+}
+.error {
+  color: red;
 }
 </style>

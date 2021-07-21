@@ -27,6 +27,7 @@
       <payment-small-classroom-body-view
         v-if="isSmallClassroomSelected"
         :price-info="priceInfo"
+        :payment-group-id="paymentGroupId"
       />
     </div>
   </div>
@@ -44,6 +45,10 @@ export default {
   props: {
     priceInfo: {
       type: Object,
+      required: true,
+    },
+    paymentGroupId: {
+      type: String,
       required: true,
     }
   },
