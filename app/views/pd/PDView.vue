@@ -148,7 +148,7 @@ export default {
         h1(style="margin-bottom:15px;") Teacher-Driven Professional Development to Improve Your CS Instruction
         h2.subtitle-mid Built to empower all teachers with the skills, knowledge, and confidence to effectively teach computer science
         div
-          a.btn.btn-primary.btn-large.btn-moon.try-pd-btn(@click="onClickMainCTA") Try Sample Lesson
+          a.btn.btn-primary.btn-large.btn-moon.sales-btn(@click="onClickSalesCTA") Get the Full Course
 
     section#pd-trial-section
       iframe#pd-trial-embed(src="https://web.edapp.com/lessons/6047c494b8c984000128e504/")
@@ -169,13 +169,13 @@ export default {
           p Learn the skills and knowledge to teach CS concepts through teacher-driven modules and hands-on activities. Submit your own lessons to receive feedback from our team of instructional designers.
       .row.flex-row(style="padding: 60px 0;")
         .col-sm-7.col-sm-push-5
-          img(src="/images/pages/pd/pd-cinematic-image-3.png" class="img-responsive" loading="lazy" style="border: 10px solid #F7D047;" alt="")
+          img(src="/images/pages/pd/pd-self-paced-learning.jpg" class="img-responsive" loading="lazy" style="border: 10px solid #F7D047;" alt="")
         .col-sm-4.col-sm-offset-1.col-sm-pull-7
           h2(style="margin-bottom: 20px;") Self-Paced Learning
           p Self-directed, web-based, and on-demand learning designed to fit your schedule. Learn strategies specific to your introductory computer science course or Ozaria class from any device with Wi-Fi access.
       .row.flex-row
         .col-sm-7
-          img(src="/images/pages/pd/pd-if-then.png" class="img-responsive" loading="lazy" style="border: 10px solid #476FB1;" alt="")
+          img(src="/images/pages/pd/pd-teacher-image-2.jpg" class="img-responsive" loading="lazy" style="border: 10px solid #476FB1;" alt="")
         .col-sm-4.col-sm-offset-1
           h2(style="margin-bottom: 20px;") Valuable Credit Hours
           p Earn 40 hours of professional development credit while developing your teaching practices and improving the learning experience for your students. Our course is <a href="https://www.csteachers.org/page/quality-pd">accredited by the Computer Science Teacher's Association (CSTA)</a> as a high-quality PD opportunity.
@@ -185,8 +185,9 @@ export default {
         .col-xs-8.col-xs-offset-2
           h2 Meets ESSA Criteria
           p Our PD was designed to meet the 6 criteria for exemplary professional learning established by the Every Student Succeeds Act.
-          br
-          a.btn.btn-primary.btn-large.btn-moon.try-pd-btn(@click="onClickMainCTA") Try Sample Lesson
+          .row.flex-row.text-center(style="justify-content: center; margin: 30px 0 0;")
+            a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Presentation" style="margin: 20px; padding: 15px;" href="https://files.ozaria.com/pd/Ozaria+Professional+Development+Table+of+Contents.pdf" target="_blank" rel="noopener") Download Table of Contents
+            a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Flyer" style="margin: 20px;" href="https://files.ozaria.com/pd/Ozaria+Professional+Development+Overview.pdf" target="_blank" rel="noopener") Download Flyer
 
     //section.section-spacer#speech-bubble-testimonial-1(style="padding-top:130px;")
     //  .row
@@ -207,7 +208,7 @@ export default {
 
       .row.flex-row
         .col-sm-7
-          img(src="/images/pages/pd/pd-cinematic-image-2.png" class="img-responsive" loading="lazy" style="border: 10px solid #476FB1;" alt="")
+          img(src="/images/pages/pd/pd-teacher-image-3.jpg" class="img-responsive" loading="lazy" style="border: 10px solid #476FB1;" alt="")
         .col-sm-4
           h2.color-change Teaching Computer Science Concepts & Practical Classroom Applications
           p.color-change Grow or improve your skills by learning specific computer science concepts and suggested activities you can implement in your classroom.
@@ -221,13 +222,13 @@ export default {
 
       .row.flex-row
         .col-sm-7
-          img(src="/images/pages/pd/pd-cinematic-image-0.png" class="img-responsive" loading="lazy" style="border: 10px solid #77b7ac;" alt="")
+          img(src="/images/pages/pd/pd-student-image-0.jpg" class="img-responsive" loading="lazy" style="border: 10px solid #77b7ac;" alt="")
         .col-sm-4
           h2.color-change.teal Differentiated Instruction in the STEM Classroom
           p.color-change.teal Learn to incorporate essential 21st century skills and teaching techniques such as computational thinking and inquiry-based learning into your class.
 
       .row.flex-row.text-center(style="width: 100%;")
-        a.btn.btn-primary.btn-large.btn-moon.try-pd-btn(@click="onClickMainCTA") Try Sample Lesson
+        a.btn.btn-primary.btn-large.btn-moon.sales-btn(@click="onClickSalesCTA") Get the Full Course
 
     //section#speech-bubble-testimonial-2
     //  .row
@@ -245,15 +246,18 @@ export default {
       h1.heading-corner Shareable Resources
       p Share the resources below with teachers, administrators, and others involved in developing teachers and Computer Science at your school or district.
 
-      img(src="/images/ozaria/home/shareable_resource.png" class="img-responsive" loading="lazy" alt="Slide with following text. What is Ozaria? Flexible and personalized core computer science curriculum. Teaches authentic text-based coding in Python and Javascript. Highly engaging game-based learning. Self-paced and scaffolded instruction. Real world project-based applications. Promotes 21st Century Skills and lifelong learning behaviors.")
-      .row.flex-row.text-center(style="justify-content: center; margin: 70px 0 100px;")
+      img(src="/images/pages/pd/pd-shareable-resources.png" class="img-responsive" loading="lazy" alt="Slide with following text. What is Ozaria? Flexible and personalized core computer science curriculum. Teaches authentic text-based coding in Python and Javascript. Highly engaging game-based learning. Self-paced and scaffolded instruction. Real world project-based applications. Promotes 21st Century Skills and lifelong learning behaviors." style="display: block; margin: 15px auto 0 auto;")
+      .row.flex-row.text-center(style="justify-content: center; margin: 30px 0 100px;")
         a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Presentation" style="margin: 20px; padding: 15px;" href="https://files.ozaria.com/pd/Ozaria+Professional+Development+Table+of+Contents.pdf" target="_blank" rel="noopener") Download Table of Contents
         a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Flyer" style="margin: 20px;" href="https://files.ozaria.com/pd/Ozaria+Professional+Development+Overview.pdf" target="_blank" rel="noopener") Download Flyer
 
     section.full-width#back_cta_2
-      .row.flex-row.text-center(style="justify-content: center; margin: 70px 0 100px;")
-        a.btn.btn-primary.btn-large.btn-moon.try-pd-btn(@click="onClickMainCTA" style="margin: 20px;") Try Sample Lesson
-        a.btn.btn-primary.btn-large.btn-moon.sales-btn(@click="onClickSalesCTA" style="margin: 20px;") Get the Full Course
+      .row#sample-lesson-header
+        .col-xs-8.col-xs-offset-2
+          h2 Try a Sample Lesson
+          p Click here to preview a portion of one of our interactive content modules
+          .row.flex-row.text-center(style="justify-content: center; margin: 30px 0 0;")
+            a.btn.btn-primary.btn-large.btn-moon.try-pd-btn(@click="onClickMainCTA" style="margin: 20px;") Try Sample Lesson
 
     //section#faq(style="padding-top: 130px;")
     //  h1.heading-corner(style="margin-bottom: 60px;") Frequently Asked Questions
@@ -500,16 +504,25 @@ export default {
   }
 
   #back_cta_1, #back_cta_2 {
-    background: url(/images/ozaria/home/background_cta_2.png) no-repeat center;
-    background-size: cover;
     height: 56.4vw;
-
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    &::before {
+      content: "";
+      background: url(/images/ozaria/home/background_cta_2.png) no-repeat center;
+      background-size: cover;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      filter: brightness(0.6);
+    }
   }
 
-  #back_cta_2 {
+  #back_cta_2::before {
     background: url(/images/ozaria/home/background_cta_1.png) no-repeat center;
     background-size: cover;
   }
@@ -523,11 +536,10 @@ export default {
     }
   }
 
-  #essa {
+  #essa, #sample-lesson-header {
     text-align: center;
     h2, p {
       color: white;
-      text-shadow: 0 -1px 0 black, 0 1px 0 black, -1px 0 0 black, 1px 0 0 black;
     }
   }
 
