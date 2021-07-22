@@ -6,19 +6,20 @@
       :currency="price.currency"
       :unit-amount="price.unit_amount"
       :price-id="price.id"
-      :license-cap="parseInt(price.metadata.licenseCap)"
+      :license-cap="getLicenseCap(price)"
       :license-validity-period-in-days="parseInt(price.metadata.licenseValidityPeriodInDays)"
       :i18n-name="price.metadata.i18nName"
+      :min-licenses="getMinLicenses(price)"
     />
     <div class="text-center footer">
       <button type="button" class="btn btn-success btn-lg btn-buy-now" @click="onBuyNow()">Buy Now</button>
     </div>
-  </div>
-  <payment-student-license-purchase-view
+    <payment-student-license-purchase-view
       v-if="isPurchaseViewEnabled"
       :price-data="priceData"
       :payment-group-id="paymentGroupId"
-  />
+    />
+  </div>
   </span>
 </template>
 
@@ -35,7 +36,7 @@ export default {
     paymentGroupId: {
       type: String,
       required: true,
-    },
+    }
   },
   data () {
     return {
@@ -50,6 +51,12 @@ export default {
     onBuyNow() {
       this.isPurchaseViewEnabled = true
     },
+    getMinLicenses(price) {
+      return price.metadata.minLicenses ? parseInt(price.metadata.minLicenses) : null
+    },
+    getLicenseCap(price) {
+      return price.metadata.licenseCap ? parseInt(price.metadata.licenseCap) : null
+    }
   }
 }
 </script>
