@@ -140,12 +140,14 @@ export default {
 }
 .price {
   color: #1FBAB4;
+  font-weight: bold;
 }
 .features {
   text-align: initial;
 }
 .include {
-  padding-left: 10px;
+  padding-left: 15px;
+  font-weight: bold;
 }
 .features-list li {
   font-size: small;
