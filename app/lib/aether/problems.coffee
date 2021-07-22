@@ -165,9 +165,12 @@ extractTranspileErrorDetails = (options) ->
     when 'jaba'
       if error.location
         options.range = [error.location.start.offset, error.location.end.offset]
+        # TODO: see if we need to do offsetToPos like with cpp
+        #options.range = [ranges.offsetToPos(error.location.start.offset, code, codePrefix), ranges.offsetToPos(error.location.end.offset, code, codePrefix)]
       else
         console.error "Jaba error with no location information:", error
       options.hint = error.message
+      # TODO: see if we need to hide the hint like with cpp
     when 'cpp'
       if error.location
         options.range = [ranges.offsetToPos(error.location.start.offset, code, codePrefix), ranges.offsetToPos(error.location.end.offset, code, codePrefix)]
