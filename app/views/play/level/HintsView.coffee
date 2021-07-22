@@ -3,6 +3,7 @@ State = require 'models/State'
 ace = require('lib/aceContainer')
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
+aetherUtils = require 'lib/aether_utils'
 
 module.exports = class HintsView extends CocoView
   template: require('templates/play/level/hints-view')
@@ -58,7 +59,7 @@ module.exports = class HintsView extends CocoView
 
     # process
     translated = utils.i18n(hint, 'body')
-    filtered = utils.filterMarkdownCodeLanguages(translated, language)
+    filtered = aetherUtils.filterMarkdownCodeLanguages(translated, language)
     markedUp = marked(filtered)
 
     return markedUp

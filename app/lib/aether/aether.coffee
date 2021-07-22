@@ -51,7 +51,7 @@ module.exports = class Aether
     #  aether.lastStatementRange = [rng.start, rng.end] if rng
 
     Object.defineProperty @, 'lastStatementRange',
-      get: () -> 
+      get: () ->
         rng = @esperEngine?.evaluator?.lastASTNodeProcessed?.originalRange
         return [rng.start, rng.end] if rng
 
@@ -130,6 +130,8 @@ module.exports = class Aether
         @pure = token.src
         @ast = token.ast
     else
+      if @language.id in ['cpp', 'java']
+        throw new Error('C++/Java code cannot be transpiled client side, needs server transpilation.')
       @problems = @lint rawCode
       @pure = @purifyCode rawCode
     @pure
@@ -207,7 +209,7 @@ module.exports = class Aether
       problemOptions = error: error, code: wrappedCode, codePrefix: @language.wrappedCodePrefix, reporter: @language.parserID, kind: error.index or error.id, type: 'transpile'
       @addProblem @createUserCodeProblem problemOptions
       return ''
-    
+
     return wrappedCode
 
 
@@ -229,7 +231,7 @@ module.exports = class Aether
   getStatementCount: ->
     # esper = window?.esper ? self?.esper ? global?.esper ? require 'esper.js'
     esper.plugin 'lang-' + @language.id
-    
+
     count = 0
     if @language.usesFunctionWrapping()
       root = @ast.body[0].body # We assume the 'code' is one function hanging inside the program.
@@ -245,6 +247,13 @@ module.exports = class Aether
         'IfStatement', 'SwitchStatement', 'ThrowStatement', 'ContinueStatement', 'BreakStatement'
       ]
         ++count
+    # for minus `int main() { return 0;}` 3 lines for cpp
+    if @language.id == 'cpp'
+      count -= 3
+    # offset the `public class AI` and the `public static void main(String[] args) {`
+    if @language.id == 'java'
+      count -= 2
+
     return count
 
 self.Aether = Aether if self?

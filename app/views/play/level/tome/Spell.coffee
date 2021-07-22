@@ -1,7 +1,7 @@
 SpellView = require 'ozaria/site/views/play/level/tome/SpellView'
 SpellTopBarView = require './SpellTopBarView'
 {me} = require 'core/auth'
-{createAetherOptions} = require 'lib/aether_utils'
+{createAetherOptions, replaceSimpleLoops, translateJS} = require 'lib/aether_utils'
 utils = require 'core/utils'
 store = require 'core/store'
 
@@ -82,8 +82,8 @@ module.exports = class Spell
           }
         }
       """
-    if @language is 'cpp' and not @languages[@language]
-      @languages.cpp = utils.translatejs2cpp @languages.javascript
+    if @language in ['cpp', 'java', 'lua', 'coffeescript', 'python'] and not @languages[@language]
+      @languages[@language] = translateJS @languages.javascript, @language
     @originalSource = @languages[@language] ? @languages.javascript
     @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
 
