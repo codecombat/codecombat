@@ -2,6 +2,7 @@ popoverTemplate = require 'templates/play/level/tome/spell_palette_entry_popover
 {downTheChain} = require 'lib/world/world_utils'
 window.Vector = require 'lib/world/vector'  # So we can document it
 utils = require 'core/utils'
+aetherUtils = require 'lib/aether_utils'
 
 safeJSONStringify = (input, maxDepth) ->
   recursion = (input, path, depth) ->
@@ -108,13 +109,18 @@ module.exports = class DocFormatter
     if @doc.returns
       toTranslate.push {obj: @doc.returns, prop: 'example'}, {obj: @doc.returns, prop: 'description'}
     for {obj, prop} in toTranslate
-      # Translate into chosen code language.
-      if @options.language in ['java', 'cpp'] and not obj[prop]?[@options.language] and obj[prop]?.javascript
-        # These are mostly the same, so use the JavaScript ones if language-specific ones aren't available
-        obj[prop][@options.language] = obj[prop].javascript
-      if @options.language in ['lua', 'coffeescript', 'python'] and not obj[prop]?[@options.language] and (obj[prop]?.python or obj[prop]?.javascript)
-        # These are mostly the same, so use the Python or JavaScript ones if language-specific ones aren't available
-        obj[prop][@options.language] = obj[prop].python ? obj[prop].javascript
+      if not obj[prop]?[@options.language] and obj[prop]?.javascript
+        # Translate into chosen code language.
+        if prop is 'example'
+          # Try to autogenerate the language-specific code example
+          obj[prop][@options.language] = aetherUtils.translateJS(obj[prop].javascript, @options.language, false)
+        else
+          if @options.language in ['lua', 'coffeescript', 'python']
+            # These are mostly the same, so use the Python or JavaScript ones if language-specific ones aren't available
+            obj[prop][@options.language] = obj[prop].python ? obj[prop].javascript
+          else if @options.language in ['java', 'cpp']
+            # These are mostly the same, so use the JavaScript ones if language-specific ones aren't available
+            obj[prop][@options.language] = obj[prop].javascript
       if val = obj[prop]?[@options.language]
         obj[prop] = val
       else unless _.isString obj[prop]
@@ -185,7 +191,6 @@ module.exports = class DocFormatter
     content = content.replace /{([a-z]+)}([^]*?){\/\1}/g, (s, language, text) =>
       if language is @options.language then return text
       if language is 'javascript' and @options.language in ['java', 'cpp'] then return text
-      # TODO: how to handle manually created Java/C++-specific content, or automatically create Python/Lua/CoffeeScript-specific content? Maybe like in TeacherCourseSolutionView?
       return ''
 
   replaceSpriteName: (s) ->
