@@ -94,8 +94,7 @@ export default {
   display: inline-block;
   text-align: initial;
   width: 30%;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  vertical-align: top;
 }
 .quote-column {
   width: 32%;
@@ -138,5 +137,6 @@ export default {
 }
 .pd-training {
   margin-right: 15px;
+  padding-top: 10px;
 }
 </style>
