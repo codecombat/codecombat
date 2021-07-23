@@ -382,9 +382,7 @@ module.exports = class TeacherClassesView extends RootView
     application.router.navigate("/league/#{clanID}", { trigger: true })
 
   onClickViewAILeagueQuickstartVideo: (e) ->
-    clanLevel = $(e.target).data('clan-level')
-    clanSourceObjectID = $(e.target).data('clan-source-object-id')
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID, ['Mixpanel']
+    noty text: 'AI League quickstart video coming soon', layout: 'topCenter', timeout: 3000, type: 'warning'
 
   addFreeCourseInstances: co.wrap ->
     # so that when students join the classroom, they can automatically get free courses
