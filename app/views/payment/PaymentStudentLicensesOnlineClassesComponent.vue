@@ -25,6 +25,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.online-classes {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 15px;
+}
 .learning {
   width: 60%;
   display: table-cell;

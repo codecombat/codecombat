@@ -95,7 +95,6 @@ export default {
   width: 35%;
   background-color: white;
   vertical-align: top;
-  padding: 5px 5px 15px;
 }
 .body-content {
   padding-top: 20px;
