@@ -6,6 +6,12 @@
         :payment-group-id="paymentGroup._id"
       />
     </template>
+    <template v-else-if="this.paymentGroup.subType === 'home-school'">
+      <payment-student-license-home-school-view
+        :price-info="paymentGroup.priceData[0]"
+        :payment-group-id="paymentGroup._id"
+      />
+    </template>
     <template v-else>
       <payment-student-licenses-view
         :price-data="paymentGroup.priceData"
@@ -18,11 +24,13 @@
 <script>
 import PaymentStudentLicensesView from './PaymentStudentLicensesView'
 import PaymentStudentLicenseClassroomDistrictView from './PaymentStudentLicenseClassroomDistrictView'
+import PaymentStudentLicenseHomeSchoolView from "./PaymentStudentLicenseHomeSchoolView";
 export default {
   name: "PaymentStudentLicensesComponent",
   components: {
     PaymentStudentLicensesView,
     PaymentStudentLicenseClassroomDistrictView,
+    PaymentStudentLicenseHomeSchoolView,
   },
   props: {
     paymentGroup: {
