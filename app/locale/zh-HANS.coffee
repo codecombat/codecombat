@@ -3,7 +3,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   new_home:
     title: "扣哒世界|CodeCombat|AI世青赛|少儿编程等级认证"
     meta_keywords: "扣哒世界, 青少年编程, 少儿编程, 信息学奥赛, CodeCombat官网,CodeCombat中文,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,CodeCombat"
-    meta_description: "扣哒世界，CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, 美国大学理事会（AP)认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。"
+    meta_description: "扣哒世界，CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, AP认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。"
     meta_og_url: "https://koudashijie.com"
     built_for_teachers_title: "赋能编程教师的专业课程体系"
     built_for_teachers_blurb: "扣哒世界提供专业、丰富的编程教案和教学活动设计、大数据教学管理平台和学生知识评估体系，可以帮助无计算机专业背景的教师轻松掌握Python, C++, JavaScript等代码编程入门和进阶阶段教学。扣哒世界和著名师资培训中心共同设置“扣哒名师奖”，培养中小学阶段编程和人工智能专业师资。"
@@ -46,7 +46,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     creativity_rigor_blurb3: "扣哒世界自带竞赛系统(多人算法编程竞技场和创意编程顶峰项目)。已被中国、美国、新加坡、以色列等多个国家采用，是多个知名青少年编程竞赛指定平台。"
     featured_partners_title1: "媒体报道"
     featured_partners_title2: "荣誉及合作伙伴"
-    featured_partners_blurb1: "美国大学理事会认证" # {change}
+    featured_partners_blurb1: "AP认证" # {change}
     featured_partners_blurb2: "学生最佳创造力工具"
     featured_partners_blurb3: "学习的最优选择"
     featured_partners_blurb4: "Code.org 官方合作伙伴"
@@ -73,7 +73,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     for_teachers_subblurb3: "个性化教学，确保学生通过全面具体的评估来理解核心概念。"
     for_teachers_subtitle4: "智能配置"
     for_teachers_subblurb4: "智能化配置每个学生的练习关卡，让不同水平的学生都能参与的多元化课程学习。"
-    game_based_blurb: "扣哒世界是全球广受欢迎的青少年人工智能代码编程学习平台，以PBL场景化和游戏化为特色。平台有6个等级和11个学习模块(含国际等级证书) ，支持Python, C++、JavaScript等程序语言教学和学习。美国大学理事会AP权威认证， AI世青赛全球编程挑战活动指定竞赛平台。"
+    game_based_blurb: "扣哒世界是全球广受欢迎的青少年人工智能代码编程学习平台，以PBL场景化和游戏化为特色。平台有6个等级和11个学习模块(含国际等级证书) ，支持Python, C++、JavaScript等程序语言教学和学习。AP权威认证， AI世青赛全球编程挑战活动指定竞赛平台。"
     get_started: "开启编程"
     global_title: "加入我们的全球学习者和教育者社区"
     global_subtitle1: "学习者"
@@ -93,7 +93,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teachers_love_codecombat_blurb1: "反馈学生们喜欢使用 CodeCombat 来学习编程"
     teachers_love_codecombat_blurb2: "会向其他计算机科学教师推荐 CodeCombat"
     teachers_love_codecombat_blurb3: "认为 CodeCombat 帮助提高学生解决问题的能力"
-    teachers_love_codecombat_subblurb: "数据来源于美国中洲国际教育研究院 (McREL International)，美国中洲国际教育研究院是教育技术研究指导和评估的领导者。"
+    teachers_love_codecombat_subblurb: "数据来源于中洲国际教育研究院，中洲国际教育研究院是教育技术研究指导和评估的领导者。"
     top_banner_blurb: "家长们，在这个节日里，给孩子送上编程和个性化教学的礼物吧！" # {change}
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
     try_the_game: "免费试玩"
@@ -447,7 +447,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_additional_questions: "如果需要额外帮助或遇到问题，请联系 china@codecombat.com。"
     dont_use_our_email_silly: "请填写家长的邮箱地址。"
     want_codecombat_in_school: "想接着玩CodeCombat?"
-    eu_confirmation: "我同意 CodeCombat 在美国的服务器上存储我的数据"
+    eu_confirmation: "我同意 Koudashijie 在中国的服务器上存储我的数据"
     eu_confirmation_place_of_processing: "获取更多相关信息"
     eu_confirmation_student: "如果你确定，询问你的老师"
     eu_confirmation_individual: "如果不愿让我们存储你的数据，你可以一直匿名玩游戏（但不能保存你的代码和进度）"
@@ -813,7 +813,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     future_eng_2: "这里"
     future_eng_3: "(不需要设备)。这个 Alexa 活动是由"
     future_eng_4: "亚马逊未来的工程师"
-    future_eng_5: "计划带来的，该计划为美国所有希望从事计算机科学的 K-12 学生创造学习和工作机会。"
+    future_eng_5: "计划带来的，该计划为全球所有希望从事计算机科学的 K-12 学生创造学习和工作机会。"
 
   live_class:
     title: "谢谢你！"
@@ -2824,7 +2824,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     december: "十二月"
 
   code_play_create_account_modal:
-    title: "你做到了！”#只有美国、英国、墨西哥、印度和德国才需要此部分" # This section is only needed in US, UK, Mexico, India, and Germany
+    title: "你做到了！" # This section is only needed in US, UK, Mexico, India, and Germany
     body: "你现在正在成为一名编码大师的路上，注册即可获得额外的<strong> 100 个宝石</strong>，还有机会获得<strong> 2500 美元和其他意想不到的奖品</strong>。"
     sign_up: "注册 & 继续编程 ▶"
     victory_sign_up_poke: "创建一个免费账户来保存您的代码，并有机会获得奖品！"
