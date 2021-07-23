@@ -596,7 +596,9 @@ module.exports = class TeacherClassView extends RootView
     application.router.navigate("/league/#{classClan?._id ? ''}", { trigger: true })
 
   onClickViewAILeagueQuickstartVideo: (e) ->
-    noty text: 'AI League quickstart video coming soon', layout: 'topCenter', timeout: 3000, type: 'warning'
+    clanLevel = $(e.target).data('clan-level')
+    clanSourceObjectID = $(e.target).data('clan-source-object-id')
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID, ['Mixpanel']
 
   onClickAssignStudentButton: (e) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
