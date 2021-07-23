@@ -91,7 +91,7 @@ block content
                       else
                         span(data-i18n='courses.play_arena')
 
-              if view.activeTournaments.length > 0
+              if view.hasActiveTournaments
                 a.play-arena-btn.tile(href='/tournaments/student/#{me.id}')
                   img(src="/images/pages/play/ladder/multiplayer_notext.jpg", class="level-image placeholder")
                   h3(class="dynamic-level-name overlay-text optional"  data-i18n="tournament.class_tournaments") 
