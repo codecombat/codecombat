@@ -5,7 +5,7 @@
         <div
           :class="['home-school', 'common-tab', 'selected-tab']"
         >
-          <h2 class="title">HomeSchooling</h2>
+          <h2 class="title">Homeschooling</h2>
           <div>
             For at home learning groups with 5 or less kids
           </div>
