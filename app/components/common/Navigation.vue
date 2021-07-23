@@ -179,7 +179,8 @@
                         a.text-p(:href="ozPath('/')")
                           span(:class="isOzaria && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
                           span.new-pill {{ $t('nav.new') }}
-
+                      li
+                        a.text-p(:href="cocoPath('/play')" :class="checkLocation('/play', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
                 template(v-if="!me.showChinaResourceInfo()")
                   li(v-if="!me.isStudent() && !me.isTeacher()")
                     a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
