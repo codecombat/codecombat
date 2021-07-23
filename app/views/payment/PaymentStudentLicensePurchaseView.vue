@@ -36,8 +36,7 @@
 </template>
 
 <script>
-import { getStripeLib } from '../../lib/stripeUtil';
-import { createPaymentSession } from '../../core/api/payment-session';
+import { handleStudentLicenseCheckoutSession } from './paymentPriceHelper'
 
 export default {
   name: "PaymentStudentLicensePurchaseView",
@@ -71,8 +70,13 @@ export default {
       }
       const price = this.getSelectedPrice();
       const licenseCap = price.metadata.licenseCap
-      if (licenseNum > licenseCap) {
+      if (licenseCap && licenseNum > licenseCap) {
         this.errMsg = `Sorry, you cannot purchase more than ${licenseCap} licenses`;
+        return;
+      }
+      const minLicenses = price.metadata.minLicenses;
+      if (minLicenses && licenseNum < minLicenses) {
+        this.errMsg = `Sorry, you cannot purchase less than ${minLicenses} licenses`;
         return;
       }
       this.licenseNum = licenseNum;
@@ -82,7 +86,6 @@ export default {
     },
     async onPurchaseNow(e) {
       e.preventDefault();
-      const stripe = await getStripeLib()
       const sessionOptions = {
         stripePriceId: this.selectedPrice,
         paymentGroupId: this.paymentGroupId,
@@ -91,17 +94,8 @@ export default {
         userId: me.get('_id'),
         totalAmount: this.totalPrice
       }
-      try {
-        const session = await createPaymentSession(sessionOptions);
-        const sessionId = session.data.sessionId;
-        const result = await stripe.redirectToCheckout({ sessionId });
-        if (result.error) {
-          console.error('resErr', result.error);
-        }
-      } catch (err) {
-        this.errMsg = err.message;
-        console.error('paymentSession creation failed', err);
-      }
+      const { errMsg } = await handleStudentLicenseCheckoutSession(sessionOptions)
+      this.errMsg = errMsg
     }
   },
   computed: {
