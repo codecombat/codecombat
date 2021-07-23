@@ -39,5 +39,7 @@ export default {
 <style scoped lang="scss">
 .classroom-body-view {
   padding-top: 20px;
+  width: 40%;
+  margin: auto;
 }
 </style>

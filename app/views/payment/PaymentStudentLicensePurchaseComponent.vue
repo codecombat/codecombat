@@ -1,5 +1,5 @@
 <template>
-  <div class="purchase-component center">
+  <div class="purchase-component">
     <div class="content">
       <h2 class="price">{{this.getDisplayCurrency()}}{{this.getUnitPrice()}}</h2>
       <p class="bold">Per Student Per Year</p>
@@ -130,10 +130,6 @@ export default {
 .purchase-component {
   text-align: center;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
-}
-.center {
-  margin: auto;
-  width: 40%;
 }
 .content {
   background-color: white;
