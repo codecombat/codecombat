@@ -1,9 +1,11 @@
 <template>
-  <payment-student-license-purchase-component
-    :price-info="priceInfo"
-    :includes-text-array="includesTextArray"
-    :payment-group-id="paymentGroupId"
-  />
+  <div class="classroom-body-view">
+    <payment-student-license-purchase-component
+      :price-info="priceInfo"
+      :includes-text-array="includesTextArray"
+      :payment-group-id="paymentGroupId"
+    />
+  </div>
 </template>
 
 <script>
@@ -35,4 +37,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.classroom-body-view {
+  padding-top: 20px;
+}
 </style>

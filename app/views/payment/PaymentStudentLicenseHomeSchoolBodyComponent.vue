@@ -11,11 +11,13 @@
           </div>
         </div>
       </div>
-      <payment-student-license-purchase-component
-        :price-info="priceInfo"
-        :payment-group-id="paymentGroupId"
-        :includes-text-array="includesText"
-      />
+      <div class="purchase-widget">
+        <payment-student-license-purchase-component
+          :price-info="priceInfo"
+          :payment-group-id="paymentGroupId"
+          :includes-text-array="includesText"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -73,5 +75,8 @@ export default {
 }
 .selected-tab {
   border: 5px solid #1fbab4;
+}
+.purchase-widget {
+  padding-top: 20px;
 }
 </style>

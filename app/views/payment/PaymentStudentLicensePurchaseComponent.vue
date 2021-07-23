@@ -129,7 +129,7 @@ export default {
 <style scoped lang="scss">
 .purchase-component {
   text-align: center;
-  padding-top: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
 }
 .center {
   margin: auto;
