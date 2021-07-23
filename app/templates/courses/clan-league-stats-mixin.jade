@@ -11,8 +11,7 @@ mixin clanLeagueStatsMixin(stats, clanId, showIfEmpty)
               span= ' '
               a.view-ai-league.text-h6(data-i18n='teacher.view_ai_league_team' data-clan-level='teacher' data-clan-source-object-id=me.id data-event-action="Teachers Classes View AI League Team")
               span= ' '
-              if !window.features.chinaUx
-                a.ai-league-quickstart-video.text-h6(data-i18n='league.quickstart_video' data-event-action="Teachers Classes View AI League Quickstart video" data-clan-level='teacher' data-clan-source-object-id=me.id href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank")
+              //a.ai-league-quickstart-video.text-h6(data-i18n='league.quickstart_video' data-event-action="Teachers Classes View AI League Quickstart video")  // TODO: add video when it's ready
         .row
           if stats.arenas && _.some(stats.arenas, ageStat => _.some(ageStat, stat => stat.clanPlayers > 1 || (stat.topPlayer && stat.topPlayer.percentileRank < 0.2)))
             .col-md-7.stats-col

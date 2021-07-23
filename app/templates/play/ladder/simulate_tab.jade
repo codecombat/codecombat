@@ -1,29 +1,24 @@
-- var fullLayout = !!(view.simulatorsLeaderboardData.topSimulators && view.simulatorsLeaderboardData.topSimulators)
-.container
-  .row
-    if fullLayout
-      .col-xs-2
-        button(data-i18n="ladder.simulate_games").btn.btn-illustrated.btn-warning.btn-sm.btn-block.highlight#simulate-button
-    div(class=fullLayout ? "col-xs-7" : "col-xs-7")
-      #simulation-status-text
-        if view.simulationStatus
-          | #{view.simulationStatus}
-        else
-          if fullLayout
-            span(data-i18n="ladder.simulation_explanation")
-            span.spl(data-i18n="ladder.simulation_explanation_leagues")
-  
-    div(class=fulllLayout ? "col-xs-2" : "col-xs-4")
-      .simulation-count
-        span.spr(data-i18n="ladder.games_simulated_by")
-        span#simulated-by-you= view.simulatedByYouCount.toLocaleString()
-      //.simulation-count
-      //  span.spr(data-i18n="ladder.games_simulated_for")
-      //  span#simulated-for-you= me.get('simulatedFor') || 0
-      if view.simulatorsLeaderboardData && view.simulatorsLeaderboardData.numberOfGamesInQueue > 0
-        .simulation-count
-          span.spr(data-i18n="ladder.games_in_queue")
-          span#games-in-queue= view.simulatorsLeaderboardData.numberOfGamesInQueue || 0
+p(id="simulation-status-text")
+  if view.simulationStatus
+    | #{view.simulationStatus}
+  else
+    span(data-i18n="ladder.simulation_explanation") By simulating games you can get your game ranked faster!
+    span.spl(data-i18n="ladder.simulation_explanation_leagues") You will mainly help simulate games for allied players in your clans and courses.
+p
+  button(data-i18n="ladder.simulate_games").btn.btn-warning.btn-lg.highlight#simulate-button Simulate Games!
+
+p.simulation-count
+  span.spr(data-i18n="ladder.games_simulated_by") Games simulated by you:
+  span#simulated-by-you= view.simulatedByYouCount.toLocaleString()
+
+//p.simulation-count
+//  span.spr(data-i18n="ladder.games_simulated_for") Games simulated for you:
+//  span#simulated-for-you= me.get('simulatedFor') || 0
+
+if view.simulatorsLeaderboardData && view.simulatorsLeaderboardData.numberOfGamesInQueue > 0
+  p.simulation-count
+    span.spr(data-i18n="ladder.games_in_queue") Games currently in the queue:
+    span#games-in-queue= view.simulatorsLeaderboardData.numberOfGamesInQueue || 0
 
 if view.simulatorsLeaderboardData && view.simulatorsLeaderboardData.topSimulators
   - var topSimulators = view.simulatorsLeaderboardData.topSimulators.models;
@@ -33,10 +28,10 @@ if view.simulatorsLeaderboardData && view.simulatorsLeaderboardData.topSimulator
     thead
       tr
         th
-        th(data-i18n="general.player").name-col-cell
-        th(data-i18n="ladder.games_simulated")
-        //th(data-i18n="ladder.games_played")
-        //th(data-i18n="ladder.ratio")
+        th(data-i18n="general.player").name-col-cell Player
+        th(data-i18n="ladder.games_simulated") Games simulated
+        //th(data-i18n="ladder.games_played") Games played
+        //th(data-i18n="ladder.ratio") Ratio
     tbody
       for user, rank in topSimulators
         - var myRow = user.id == me.id
