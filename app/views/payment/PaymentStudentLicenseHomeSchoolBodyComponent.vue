@@ -95,17 +95,18 @@ export default {
   border: 5px solid #1fbab4;
 }
 .purchase-widget {
-  padding-top: 20px;
   width: 35%;
   margin: auto;
+  vertical-align: top;
 }
 .same-row {
   display: inline-block;
 }
 .online-classes-widget {
-  width: 36%;
+  width: 35%;
   background-color: white;
-  padding: 10px;
+  vertical-align: top;
+  padding: 5px 5px 15px;
 }
 .learning {
   width: 60%;
@@ -125,10 +126,13 @@ export default {
   font-weight: bold;
 }
 .learning-text {
-  padding-top: 15px;
+  padding: 10px;
 }
 .more-info-btn {
   font-weight: bold;
   border: 1px solid black;
+}
+.body-content {
+  padding-top: 20px;
 }
 </style>
