@@ -36,6 +36,7 @@ module.exports = class VerifierView extends RootView
     if @levelID
       @levelIDs = [@levelID]
       @testLanguages = ['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript']
+      @codeLanguages = ({id: c, checked: true} for c in @testLanguages)
       @cores = 1
       @startTestingLevels()
     else
