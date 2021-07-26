@@ -311,17 +311,21 @@ module.exports = class LadderTabView extends CocoView
 
   # Admin view of players' code
   onClickPlayerName: (e) ->
-    return unless me.isAdmin()
-    row = $(e.target).parent()
-    player = new User _id: row.data 'player-id'
-    playerName = row.find('.name-col-cell').text()
-    session = new LevelSession _id: row.data 'session-id'
-    if /^cq/.test(playerName) and not features.china
-      # CodeQuest users use cq name prefix and don't exist on global server; hack around this
-      models = [session]
+    if me.isAdmin()
+      row = $(e.target).parent()
+      player = new User _id: row.data 'player-id'
+      playerName = row.find('.name-col-cell').text()
+      session = new LevelSession _id: row.data 'session-id'
+      if /^cq/.test(playerName) and not features.china
+        # CodeQuest users use cq name prefix and don't exist on global server; hack around this
+        models = [session]
+      else
+        models = [session, player]
+      @openModalView new ModelModal models: models
+    else if me.isTeacher()
+      ;
     else
-      models = [session, player]
-    @openModalView new ModelModal models: models
+      ;
 
   onClickSpectateCell: (e) ->
     cell = $(e.target).closest '.spectate-cell'
@@ -362,7 +366,7 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
-  constructor: (@level, @team, @session, @limit, @league, @tournamentId) ->
+  constructor: (@level, @team, @session, @limit, @league, @tournamentId, @ageBracket) ->
     super()
 
   collectionParameters: (parameters) ->
@@ -375,6 +379,8 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
 
     params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
     if @tournamentId?
+      if @ageBracket?
+        params.bracket = @ageBracket
       @topPlayers = new TournamentLeaderboardCollection(@tournamentId, params)
     else
       @topPlayers = new LeaderboardCollection(@level, params)

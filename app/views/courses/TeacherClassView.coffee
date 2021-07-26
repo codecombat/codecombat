@@ -32,6 +32,7 @@ window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format ch
 TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default
 PieChart = require('core/components/PieComponent').default
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
+clansApi = require 'core/api/clans'
 
 DOMPurify = require 'dompurify'
 
@@ -58,6 +59,8 @@ module.exports = class TeacherClassView extends RootView
     'click .assign-to-selected-students': 'onClickBulkAssign'
     'click .remove-from-selected-students': 'onClickBulkRemoveCourse'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
+    'click .view-ai-league': 'onClickViewAILeague'
+    'click .ai-league-quickstart-video': 'onClickAILeagueQuickstartVideo'
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
     'keyup #student-search': 'onKeyPressStudentSearch'
@@ -176,6 +179,9 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @timeSpentOnUnitProgress = null
 
+    if me.get('clans')?.length
+      clansApi.getMyClans().then @onMyClansLoaded
+
   fetchStudents: ->
     Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'}}))
     .then =>
@@ -245,6 +251,14 @@ module.exports = class TeacherClassView extends RootView
     unless @state.get 'selectedCourseInstance'
       @setSelectedCourseInstance()
     return @state.get 'selectedCourseInstance'
+
+  onMyClansLoaded: (clans) =>
+    @myClans = clans
+    return unless @classClan = _.find((@myClans ? []), (clan) => clan.name is "autoclan-classroom-#{@classroom.id}")
+    clansApi.getAILeagueStats(@classClan._id).then (stats) =>
+      @aiLeagueStats = JSON.parse(stats)
+      @renderSelectors '.ai-league-stats'
+      @$('.ai-league-stats [data-toggle="tooltip"]').tooltip()
 
   onLoaded: ->
     # Get latest courses for student assignment dropdowns
@@ -574,6 +588,17 @@ module.exports = class TeacherClassView extends RootView
     csvContent = csvContent.substring(0, csvContent.length - 1)
     file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
     window.saveAs(file, 'CodeCombat.csv')
+
+  onClickViewAILeague: (e) ->
+    unless @classClan
+      console.error "Couldn't find autoclan for classroom #{@classroom.id} out of", @myClans
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    application.router.navigate("/league/#{classClan?._id ? ''}", { trigger: true })
+
+  onClickViewAILeagueQuickstartVideo: (e) ->
+    clanLevel = $(e.target).data('clan-level')
+    clanSourceObjectID = $(e.target).data('clan-source-object-id')
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID, ['Mixpanel']
 
   onClickAssignStudentButton: (e) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin

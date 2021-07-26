@@ -408,8 +408,11 @@ module.exports = class LevelLoader extends CocoClass
     if extantRequiredThangTypes.length < requiredThangTypes.length
       console.error "Some Thang had a blank required ThangType in components list:", components
     for thangType in extantRequiredThangTypes
-      url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData"
-      @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
+      if thangType + '' is '[object Object]'
+        console.error "Some Thang had an improperly stringified required ThangType in components list:", thangType, components
+      else
+        url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData"
+        @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
   onThangNamesLoaded: (thangNames) ->
     for thangType in thangNames.models

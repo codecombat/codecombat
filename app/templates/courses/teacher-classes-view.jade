@@ -1,5 +1,7 @@
 extends /templates/base-flat.jade
 
+include ./clan-league-stats-mixin
+
 block page_nav
   include ./teacher-dashboard-nav
 
@@ -57,7 +59,8 @@ block content
             else if view.howManyOfficeHours == 'some' && limited
               a.see-all-office-hours.btn.btn-primary.btn-small.pull-right(data-i18n="general.more") More
 
-    .banner-webinar
+    if !me.hideOtherProductCTAs()
+      .banner-webinar
 
     .container
       +teacher-quests
@@ -93,9 +96,12 @@ block content
 
 
     +createClassButton
-    .container.try-ozaria
-      a(data-i18n="teacher.try_ozaria_footer")
 
+    +clanLeagueStatsMixin(view.aiLeagueStats, view.teacherClan ? view.teacherClan._id : null)
+
+    if !me.hideOtherProductCTAs()
+      .container.try-ozaria
+        a(data-i18n="teacher.try_ozaria_footer")
 
   - var archivedClassrooms = view.classrooms.where({archived: true});
   if _.size(archivedClassrooms)
@@ -125,6 +131,7 @@ mixin classRow(classroom)
           = classroom.get('members').length
       .class-links.rtl-allowed(dir="auto")
         a.view-class-btn.text-h6(data-i18n='teacher.view_class' data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Link")
+        a.view-ai-league.text-h6(data-i18n='teacher.view_ai_league_team' data-clan-level='classroom' data-clan-source-object-id=classroom.id data-event-action="Teachers Classes View AI League Team")
         a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")
         a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
 

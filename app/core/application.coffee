@@ -1,16 +1,5 @@
-i18next = require('i18next')
-jqueryI18next = require('jquery-i18next')
-FacebookHandler = require 'core/social-handlers/FacebookHandler'
-GPlusHandler = require 'core/social-handlers/GPlusHandler'
-GitHubHandler = require 'core/social-handlers/GitHubHandler'
-locale = require 'locale/locale'
-{me} = require 'core/auth'
-storage = require 'core/storage'
-Tracker = require('core/Tracker2').default
-CocoModel = require 'models/CocoModel'
-api = require 'core/api'
+globalVar = require 'core/globalVar'
 
-marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
 
 # TODO, add C-style macro constants like this?
 window.SPRITE_RESOLUTION_FACTOR = 3
@@ -45,6 +34,17 @@ console.debug ?= console.log  # Needed for IE10 and earlier
 
 Application = {
   initialize: ->
+    i18next = require('i18next')
+    jqueryI18next = require('jquery-i18next')
+    CocoModel = require 'models/CocoModel'
+    FacebookHandler = require 'core/social-handlers/FacebookHandler'
+    GPlusHandler = require 'core/social-handlers/GPlusHandler'
+    GitHubHandler = require 'core/social-handlers/GitHubHandler'
+    locale = require 'locale/locale'
+    {me} = require 'core/auth'
+    Tracker = require('core/Tracker2').default
+    api = require 'core/api'
+
     Router = require('core/Router')
     Vue.config.devtools = not @isProduction()
 
@@ -79,7 +79,7 @@ Application = {
     if me.useSocialSignOn()
       @facebookHandler = new FacebookHandler()
       @gplusHandler = new GPlusHandler()
-      @githubHandler = new GitHubHandler()
+      @githubHandler = new GitHubHandler(@)
     $(document).bind 'keydown', preventBackspace
     moment.relativeTimeThreshold('ss', 1) # do not return 'a few seconds' when calling 'humanize'
     CocoModel.pollAchievements()
@@ -136,8 +136,13 @@ Application = {
 
   loadedStaticPage: window.alreadyLoadedView?
 
-  setHocCampaign: (campaignSlug) -> storage.save('hoc-campaign', campaignSlug)
-  getHocCampaign: -> storage.load('hoc-campaign')
+  setHocCampaign: (campaignSlug) ->
+    storage = require 'core/storage'
+    storage.save('hoc-campaign', campaignSlug)
+
+  getHocCampaign: ->
+    storage = require 'core/storage'
+    storage.load('hoc-campaign')
 
   remindPlayerToTakeBreaks: ->
     return unless me.showChinaRemindToast()
@@ -151,4 +156,4 @@ Application = {
 }
 
 module.exports = Application
-window.application = Application
+globalVar.application = Application

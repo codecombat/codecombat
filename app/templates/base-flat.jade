@@ -33,18 +33,18 @@ mixin accountLinks
                 span.icon-bar
               if me.useTarenaLogo()
                 a.navbar-brand(href="http://kidtts.tmooc.cn/ttsPage/login.html")
-                  img#logo-img.powered-by(src="/images/pages/base/logo.png")
-                  img#tarena-logo(src="/images/pages/base/logo-tarena.png")
+                  img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                  img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
               else if serverConfig.codeNinjas
                 a.navbar-brand(href="/home")
-                  img#logo-img.powered-by(src="/images/pages/base/logo.png")
-                  img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
+                  img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                  img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
               else if me.showChinaResourceInfo()
                 a.navbar-brand(href="/home")
                   img#logo-img(src="/images/pages/base/logo-cn.png")
               else
                 a.navbar-brand(href="/home")
-                  img#logo-img(src="/images/pages/base/logo.png")
+                  img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
 
             if view.isOldBrowser()
               .navbar-browser-recommendation.navbar-header

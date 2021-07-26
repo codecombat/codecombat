@@ -43,6 +43,7 @@ require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 HoCModal = require 'views/special_event/HoC2018InterstitialModal.coffee'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
+globalVar = require 'core/globalVar'
 
 require 'lib/game-libraries'
 
@@ -187,6 +188,7 @@ module.exports = class CampaignView extends RootView
     @earnedAchievements = new CocoCollection([], {url: '/db/earned_achievement', model:EarnedAchievement, project: ['earnedRewards']})
     @listenToOnce @earnedAchievements, 'sync', ->
       earned = me.get('earned')
+      hadMissedAny = false
       for m in @earnedAchievements.models
         continue unless loadedEarned = m.get('earnedRewards')
         for group in ['heroes', 'levels', 'items']
@@ -195,6 +197,9 @@ module.exports = class CampaignView extends RootView
             if reward not in earned[group]
               console.warn 'Filling in a gap for reward', group, reward
               earned[group].push(reward)
+              hadMissedAny = true
+      if hadMissedAny
+        window.tracker?.trackEvent 'Fixed Missing Achievement Reward', category: 'World Map', label: @terrain
 
     @supermodel.loadCollection(@earnedAchievements, 'achievements', {cache: false})
 
@@ -234,7 +239,7 @@ module.exports = class CampaignView extends RootView
             @listenToOnce @courseLevels, 'sync', =>
               existing = @campaign.get('levels')
               courseLevels = @courseLevels.toArray()
-              classroomCourse = _.find(currentView.classroom.get('courses'), {_id:currentView.course.id})
+              classroomCourse = _.find(globalVar.currentView.classroom.get('courses'), {_id:globalVar.currentView.course.id})
               levelPositions = {}
               for level in classroomCourse.levels
                 levelPositions[level.original] = level.position if level.position
@@ -518,7 +523,7 @@ module.exports = class CampaignView extends RootView
         return level.requiresSubscription
     if features.brainPop
       context.levels = _.filter context.levels, (level) ->
-        level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'true-names']
+        level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'true-names']
     @annotateLevels(context.levels)
     count = @countLevels context.levels
     if @courseStats?
@@ -1281,7 +1286,7 @@ module.exports = class CampaignView extends RootView
     true
 
   checkForUnearnedAchievements: ->
-    return unless @campaign and currentView.sessions
+    return unless @campaign and globalVar.currentView.sessions
 
     # Another layer attempting to make sure users unlock levels properly.
 
@@ -1299,7 +1304,7 @@ module.exports = class CampaignView extends RootView
 
     .done((achievements) =>
       return if @destroyed
-      sessionsComplete = _(currentView.sessions.models)
+      sessionsComplete = _(globalVar.currentView.sessions.models)
         .filter (s) => s.get('levelID')
         .filter (s) => s.get('state') && s.get('state').complete
         .map (s) => [s.get('levelID'), s.id]
@@ -1323,6 +1328,7 @@ module.exports = class CampaignView extends RootView
       levelAchievements = _.filter(achievements,
         (a) -> a.rewards && a.rewards.levels && a.rewards.levels.length)
 
+      hadMissedAny = false
       for achievement in levelAchievements
         continue unless campaignLevels[achievement.related]
         relatedLevelSlug = campaignLevels[achievement.related].slug
@@ -1335,10 +1341,13 @@ module.exports = class CampaignView extends RootView
               triggeredBy: sessionsCompleteMap[relatedLevelSlug],
               collection: 'level.sessions'
             })
+            hadMissedAny = true
             ea.notyErrors = false
             ea.save()
             .error ->
               console.warn 'Achievement NOT complete:', achievement.name
+      if hadMissedAny
+        window.tracker?.trackEvent 'Fixed Unearned Achievement', category: 'World Map', label: @terrain
     )
 
   maybeShowPendingAnnouncement: () ->

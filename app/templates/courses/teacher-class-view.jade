@@ -1,3 +1,5 @@
+include ./clan-league-stats-mixin
+
 mixin longLevelName(data)
   if data
     div.level-name
@@ -364,7 +366,7 @@ mixin bulkAssignControls
       span :
     select.bulk-course-select.form-control
       each course in _.rest(view.latestReleasedCourses)
-        if classroom.language !== 'cpp' || (view.utils.CSCourseIDs.indexOf(course.id) !== -1) 
+        if classroom.language !== 'cpp' || (view.utils.CSCourseIDs.indexOf(course.id) !== -1)
           option(value=course.id selected=(course===state.get('selectedCourse')))
             = i18n(course.attributes, 'name')
             if !view.availableCourseMap[course.id]
@@ -508,6 +510,8 @@ if classroom.loaded
             span.spl(data-i18n="courses.update_old_classroom_detail_2")
 
     h3.m-t-2(dir="auto")= classroom.get('name')
+    a.label.view-ai-league(data-event-action="Teachers Classes View AI League Team")
+      span(data-i18n='teacher.view_ai_league_team')
     if !state.get('readOnly')
       a.label.edit-classroom(data-classroom-id=classroom.id)
         span(data-i18n='teacher.edit_class_settings')
@@ -633,6 +637,10 @@ if classroom.loaded
         li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
           a.course-progress-tab-btn(href='#license-status-tab')
             .small-details.text-center(data-i18n='teacher.license_status')
+        .tab-spacer
+        li(class=(activeTab === "#ai-league-stats-tab" ? 'active' : ''))
+          a.course-progress-tab-btn(href='#ai-league-stats-tab')
+            .small-details.text-center AI League
         .tab-filler
 
       .tab-content
@@ -644,6 +652,8 @@ if classroom.loaded
           +assessmentsTab
         else if activeTab === '#license-status-tab'
           +enrollmentStatusTab
+        else if activeTab === '#ai-league-stats-tab'
+          +clanLeagueStatsMixin(view.aiLeagueStats, view.classClan ? view.classClan._id : null, true)
 
     else
       .text-center.m-t-5.m-b-5

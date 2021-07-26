@@ -91,10 +91,6 @@ block content
                       else
                         span(data-i18n='courses.play_arena')
 
-              if view.hasActiveTournaments
-                a.play-arena-btn.tile(href='/tournaments/student/#{me.id}')
-                  img(src="/images/pages/play/ladder/multiplayer_notext.jpg", class="level-image placeholder")
-                  h3(class="dynamic-level-name overlay-text optional"  data-i18n="tournament.class_tournaments") 
               if !me.showChinaResourceInfo()
                 a.ai-league-btn.tile(href=me.isRegisteredForAILeague() ? "/league#standings" : "/league?registering=true", data-i18n="[title]league.codecombat_ai_league")
                   img.level-image(src="/images/pages/courses/banners/ai-league-banner-#{view.randomAILeagueBannerHero}.png" data-i18n="[alt]league.codecombat_ai_league")
@@ -114,6 +110,15 @@ block content
                         span(data-i18n='courses.view_standings')
                       else
                         span(data-i18n='league.register')
+
+              if view.hasActiveTournaments
+                a.ai-league-btn.tile(href='/tournaments/student/#{me.id}', data-i18n="[title]tournament.class_tournaments")
+                  img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg" data-i18n="[alt]tournament.class_tournaments")
+                  h3.dynamic-level-name.overlay-text(data-i18n="tournament.class_tournaments")
+                  .tile-text-backdrop
+                  .play-text-container
+                    .overlay-text.play-text
+                      span(data-i18n='tournament.go_tournaments')
 
             .school-stats.col-md-5
               if !features.china && view.myClans

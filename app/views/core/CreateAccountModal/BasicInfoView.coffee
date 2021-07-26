@@ -7,6 +7,7 @@ errors = require 'core/errors'
 User = require 'models/User'
 State = require 'models/State'
 store = require 'core/store'
+globalVar = require 'core/globalVar'
 
 ###
 This view handles the primary form for user details — name, email, password, etc,
@@ -36,6 +37,7 @@ module.exports = class BasicInfoView extends CocoView
     'click .use-suggested-name-link': 'onClickUseSuggestedNameLink'
     'click #facebook-signup-btn': 'onClickSsoSignupButton'
     'click #gplus-signup-btn': 'onClickSsoSignupButton'
+    'click #clever-signup-btn': 'onClickSsoSignupButton'
 
   initialize: ({ @signupState } = {}) ->
     @state = new State {
@@ -253,7 +255,7 @@ module.exports = class BasicInfoView extends CocoView
 
     .then (newUser) =>
       # More data will be added by the server so make sure to trigger an identify call after page reload
-      window.application.tracker.identifyAfterNextPageLoad()
+      globalVar.application.tracker.identifyAfterNextPageLoad()
 
       # Don't sign up, kick to TeacherComponent instead
       if @signupState.get('path') is 'teacher'
@@ -267,7 +269,7 @@ module.exports = class BasicInfoView extends CocoView
       unless User.isSmokeTestUser({ email: @signupState.get('signupForm').email })
         # Set new user data and call initial identify
         store.dispatch('me/authenticated', newUser)
-        window.application.tracker.identify()
+        globalVar.application.tracker.identify()
 
       switch @signupState.get('ssoUsed')
         when 'gplus'
@@ -300,7 +302,7 @@ module.exports = class BasicInfoView extends CocoView
         )
 
       trackerCalls.push(
-        window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
+        globalVar.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
       )
 
       return Promise.all(trackerCalls).catch(->)
@@ -350,7 +352,25 @@ module.exports = class BasicInfoView extends CocoView
   onClickSsoSignupButton: (e) ->
     e.preventDefault()
     ssoUsed = $(e.currentTarget).data('sso-used')
-    handler = if ssoUsed is 'facebook' then application.facebookHandler else application.gplusHandler
+    handler = switch ssoUsed
+      when 'facebook' then application.facebookHandler
+      when 'gplus' then application.gplusHandler
+      when 'clever' then 'clever'
+
+    if handler is 'clever'
+      if window.location.hostname in ['next.codecombat.com', 'localhost']  # dev
+        cleverClientId = '943ece596555cac13fcc'
+        redirectTo = 'https://next.codecombat.com/auth/login-clever'
+        districtId = '5b2ad81a709e300001e2cd7a'  # Clever Library test district
+      else  # prod
+        cleverClientId = 'ffce544a7e02c0daabf2'
+        redirectTo = 'https://codecombat.com/auth/login-clever'
+      url = "https://clever.com/oauth/authorize?response_type=code&redirect_uri=#{encodeURIComponent(redirectTo)}&client_id=#{cleverClientId}"
+      if districtId
+        url += '&district_id=' + districtId
+      window.open url, '_blank'
+      return
+
     handler.connect({
       context: @
       success: ->

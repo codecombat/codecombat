@@ -56,7 +56,6 @@ module.exports = class HomeCNView extends RootView
 
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
-    @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
     super()
 
   onClickRequestQuote: (e) ->
