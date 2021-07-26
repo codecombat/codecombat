@@ -6,7 +6,7 @@
     <div class="learning-text">
       <p class="bold">Online Classes Available</p>
       <p class="small">Combining the power of gameplay and personalized instruction, our live online classes deliver an experience your student will love.
-        Our dedicated instructors offer individualized attention with a structured curriculum that teacher real Python and JavaScript. Try a 60 min trial class for free!</p>
+        Our dedicated instructors offer individualized attention with a structured curriculum that teaches real Python and JavaScript. Try a 60 minute trial class for free!</p>
     </div>
     <button type="button" class="btn btn-default more-info-btn" @click="moreInfo">More info</button>
   </div>

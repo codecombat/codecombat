@@ -2,6 +2,8 @@
   <div>
     <payment-student-license-head-component
       :i18n-heading-name="priceInfo.metadata.i18nName"
+      title="Homeschooling Licenses"
+      sub-title="For at-home learning groups with 5 or fewer students"
     />
     <payment-student-license-home-school-body-component
       :price-info="priceInfo"

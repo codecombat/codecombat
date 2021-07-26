@@ -8,7 +8,7 @@
     <template
       v-else-if="maxLicenses"
     >
-      Upto {{maxLicenses}} Licenses
+      Up to {{maxLicenses}} Licenses
     </template>
   </span>
 </template>

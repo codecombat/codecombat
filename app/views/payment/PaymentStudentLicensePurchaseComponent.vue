@@ -26,7 +26,8 @@
       </div>
       <div class="buy-now">
         <button type="button" class="btn btn-success btn-lg buy-now-btn" @click="onBuyNow">Buy Now</button>
-        <p class="buy-now-help-text">Available for purchase one time annually</p>
+        <p class="small-text">Available for purchase one time annually</p>
+        <p v-if="showContactUs" class="small-text"><a href="#" @click="onContactUs">Contact Us</a> to purchase more</p>
         <p class="error">{{errMsg}}</p>
       </div>
       <div class="features">
@@ -41,16 +42,23 @@
         </ul>
       </div>
     </div>
+    <modal-get-licenses
+      v-if="isContactModalVisible"
+      @close="isContactModalVisible = false"
+      :email-message="contactUsText"
+    />
   </div>
 </template>
 
 <script>
 import PaymentLicenseMinMaxTextComponent from "./PaymentLicenseMinMaxTextComponent";
 import {getDisplayCurrency, getDisplayUnitPrice, handleStudentLicenseCheckoutSession} from "./paymentPriceHelper";
+import ModalGetLicenses from "../../components/common/ModalGetLicenses";
 export default {
   name: "PaymentStudentLicenseBuyNowComponent",
   components: {
     PaymentLicenseMinMaxTextComponent,
+    ModalGetLicenses,
   },
   props: {
     priceInfo: {
@@ -64,12 +72,15 @@ export default {
       type: String,
       required: true,
     },
+    showContactUs: Boolean,
+    contactUsText: String,
   },
   data() {
     return {
       numOfLicenses: null,
       licenseSelectErrorClass: '',
       errMsg: '',
+      isContactModalVisible: false,
     }
   },
   methods: {
@@ -121,6 +132,10 @@ export default {
       }
       const { errMsg } = await handleStudentLicenseCheckoutSession(options)
       this.errMsg = errMsg
+    },
+    onContactUs(e) {
+      e.preventDefault()
+      this.isContactModalVisible = true
     }
   },
 }
@@ -150,7 +165,8 @@ export default {
 }
 .features-list li {
   font-size: small;
-  color: grey;
+  color: #737272;
+  line-height: 25px;
 }
 p {
   margin: 0 0 2px;
@@ -169,7 +185,7 @@ p {
   padding: 15px 25px;
   font-size: 25px;
 }
-.buy-now-help-text {
+.small-text {
   font-size: small;
   color: grey;
 }
@@ -178,5 +194,10 @@ p {
 }
 .error {
   color: red;
+}
+.buy-now {
+  p {
+    line-height: 25px;
+  }
 }
 </style>

@@ -3,8 +3,8 @@
     <div class="container">
       <div class="top-section">
         <div class="heading-row">
-          <h1>{{$t(`payments.${this.i18nHeadingName}`)}}</h1>
-          <h5>{{$t('payments.great_courses')}}</h5>
+          <h1>{{ title || $t(`payments.${this.i18nHeadingName}`)}}</h1>
+          <h5>{{ subTitle || $t('payments.great_courses')}}</h5>
         </div>
         <div class="row info-row">
           <div class="col-md-3">
@@ -13,7 +13,7 @@
             </div>
           </div>
           <div class="col-md-3 info-data">
-            <h2>CodeCombat</h2>
+            <h2 class="info-title">CodeCombat</h2>
             <ul class="info-list">
               <li>Computer Science 1-6</li>
               <li>Web Development 1-2</li>
@@ -26,7 +26,7 @@
             </div>
           </div>
           <div class="col-md-3 info-data">
-            <h2>Ozaria</h2>
+            <h2 class="info-title">Ozaria</h2>
             <ul class="info-list">
               <li>Comprehensive Introduction to Computer Science</li>
               <li>Chapters 1-4</li>
@@ -43,6 +43,8 @@ export default {
   name: "PaymentStudentLicenseHeadComponent",
   props: {
     i18nHeadingName: String,
+    title: String,
+    subTitle: String,
   },
 }
 </script>
@@ -72,13 +74,12 @@ export default {
 
   .info-data {
     text-align: left;
-
-    h2 {
-      color: lawngreen;
-      font-weight: bold;
-    }
     padding-left: 0;
   }
+}
+.info-title {
+  color: white;
+  font-weight: bold;
 }
 
 
