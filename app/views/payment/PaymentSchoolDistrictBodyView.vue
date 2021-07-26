@@ -5,7 +5,7 @@
         <div class="info">
           <p class="heading">Professional Development Available</p>
           <p class="small-text">
-            Comprehensive 40-hour online course that allows you to learn anytime, anywhere and at any pace. It provides teachers of all experience levels with the skills knowledge and confidence to teach computer science.
+            Comprehensive 40-hour online course that allows you to learn anytime, anywhere and at any pace. It provides teachers of all experience levels with the skills, knowledge and confidence to teach computer science.
           </p>
         </div>
         <button type="button" class="btn btn-default btn-lg more-info-btn" @click="moreInfo">More info</button>
@@ -110,7 +110,7 @@ export default {
 }
 .small-text {
   font-size: small;
-  color: grey;
+  color: #737272;
 }
 .feature-list {
   text-align: initial;
@@ -118,7 +118,8 @@ export default {
 
   li {
     font-size: small;
-    color: grey;
+    color: #737272;
+    line-height: 25px;
   }
 }
 .include {
@@ -126,7 +127,7 @@ export default {
   font-weight: bold;
 }
 .training {
-  padding-top: 50px;
+  padding-top: 40px;
 }
 .more-info-btn {
   font-weight: bold;
