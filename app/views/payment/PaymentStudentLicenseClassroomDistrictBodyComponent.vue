@@ -17,7 +17,7 @@
         >
           <h2 class="title">Schools & Districts</h2>
           <div>
-            For classrooms, schools and districts with over 10 students
+            For classrooms, schools and districts with 10 or more students
           </div>
         </div>
       </div>

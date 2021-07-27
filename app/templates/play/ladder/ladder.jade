@@ -100,33 +100,45 @@ block content
           span.spl and discuss your strategies, your triumphs, and your turmoils.
 
 
-    div#columns.row
-      div.column.col-md-2
+    div#ladder-action-columns.row
+      - var realUltimatePower = me.isAdmin() && (me.get('slug') == 'nick' || features.china);
+      if realUltimatePower
+        div.column.col-md-1
+      else
+        div.column.col-md-2
       if view.tournamentEnd
         #tournamentend
           p(data-i18n="ladder.tournament_end_desc")
       else
         if view.level.isType('ladder')
-          div.column.col-md-8
-            a.play-button.btn.btn-illustrated.btn-block.btn-lg.btn-success(data-team='humans')
+          div.column.col-md-4
+            a.btn.btn-illustrated.btn-block.btn-lg.btn-success.play-button(data-team='humans')
               span(data-i18n="common.play")
+          div.column.col-md-2
+            a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : ""))
+              span.glyphicon.glyphicon-eye-open
+              span.spl(data-i18n="play.spectate")
+          if !window.features.chinaUx
+            div.column.col-md-2
+              a.btn.btn-illustrated.btn-block.btn-lg.btn-info(data-team='humans' href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank")
+                span.glyphicon.glyphicon-facetime-video
+                span.spl Tutorial
         else if view.teams
           for team in view.teams
-            div.column.col-md-4
+            div.column.col-md-3
               a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
                 span(data-i18n="play.play_as")
                 span.spl= team.displayName
+          div.column.col-md-2
+            a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : ""))
+              span.glyphicon.glyphicon-eye-open
+              span.spl(data-i18n="play.spectate")
       div.column.col-md-2
+        if realUltimatePower
+          // This button could consume a lot of server resources
+          a.btn.btn-illustrated.btn-block.btn-lg.btn-info.simulate-all-button
+            span(data-i18n="play.simulate_all")
 
-    .spectate-button-container
-      a(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : "")).spectate-button.btn.btn-illustrated.btn-info.center
-        span(data-i18n="play.spectate") Spectate
-
-    if me.isAdmin() && (me.get('slug') == 'nick' || features.china)
-      // This button could consume a lot of server resources
-      .spectate-button-container
-        a.simulate-all-button.btn.btn-illustrated.btn-info.center
-          span(data-i18n="play.simulate_all")
 
   if view.level.isType('ladder')
     if view.winners
@@ -135,6 +147,9 @@ block content
           a(href="#ladder", data-toggle="tab", data-i18n="general.ladder") Ladder
         li
           a(href="#winners", data-toggle="tab", data-i18n="ladder.winners") Winners
+    else
+      .inline-simulation-stats
+        #simulate-tab-view
   else
     ul.nav.nav-pills
       li.active
@@ -158,12 +173,40 @@ block content
           #new-leaderboard-view
           #my-matches-tab-view
           #simulate-tab-view
-        .tab-pane.well#winners
+        if view.level.get('name') == 'Ace of Coders'
+          .tab-pane.well#winners
+            h1(data-i18n="ladder.winners") Winners
+  
+            table.table.table-hover.table-condensed
+              thead
+                tr
+                  th(data-i18n="ladder_prizes.rank") Rank
+                  th
+                  th(data-i18n="general.player") Player
+                  th Wins
+                  th Losses
+                  th(data-i18n="play.spectate") Spectate
+              tbody
+                each player in view.winners.humans
+                  tr
+                    td= player.rank
+                    td.code-language-cell(style="background-image: url(/images/common/code_languages/" + player.codeLanguage + "_icon.png)" title=_.string.capitalize(player.codeLanguage))
+                    td= player.name
+                    td
+                      span.win= player.wins
+                    td
+                      span.loss= player.losses
+                    td
+                      if player.team == "ogres"
+                        a(href="/play/spectate/" + view.level.get('slug') + "?session-one=55df8c9207d920b7e4262f33" + "&session-two=" + player.sessionID, data-i18n="ladder.watch_battle") Watch the battle
+                      else
+                        a(href="/play/spectate/" + view.level.get('slug') + "?session-one=" + player.sessionID + "&session-two=55e1d23686c019bc47b640fe", data-i18n="ladder.watch_battle") Watch the battle
+        else
+          .tab-pane.well#winners
       else
           #ladder-tab-view
           #new-leaderboard-view
           #my-matches-tab-view
-          #simulate-tab-view
     else
       .tab-pane.active.well#ladder
         #ladder-tab-view
@@ -244,35 +287,6 @@ block content
                     td
                     td
                     td
-
-      if view.level.get('name') == 'Ace of Coders'
-        .tab-pane.well#winners
-          h1(data-i18n="ladder.winners") Winners
-
-          table.table.table-hover.table-condensed
-            thead
-              tr
-                th(data-i18n="ladder_prizes.rank") Rank
-                th
-                th(data-i18n="general.player") Player
-                th Wins
-                th Losses
-                th(data-i18n="play.spectate") Spectate
-            tbody
-              each player in view.winners.humans
-                tr
-                  td= player.rank
-                  td.code-language-cell(style="background-image: url(/images/common/code_languages/" + player.codeLanguage + "_icon.png)" title=_.string.capitalize(player.codeLanguage))
-                  td= player.name
-                  td
-                    span.win= player.wins
-                  td
-                    span.loss= player.losses
-                  td
-                    if player.team == "ogres"
-                      a(href="/play/spectate/" + view.level.get('slug') + "?session-one=55df8c9207d920b7e4262f33" + "&session-two=" + player.sessionID, data-i18n="ladder.watch_battle") Watch the battle
-                    else
-                      a(href="/play/spectate/" + view.level.get('slug') + "?session-one=" + player.sessionID + "&session-two=55e1d23686c019bc47b640fe", data-i18n="ladder.watch_battle") Watch the battle
 
       if view.level.get('name') == 'Battle of Red Cliffs'
         .tab-pane.well#winners

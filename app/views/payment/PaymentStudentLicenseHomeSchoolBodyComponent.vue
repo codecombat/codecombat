@@ -1,22 +1,14 @@
 <template>
   <div class="container-fluid home-school-body">
     <div class="container">
-      <div class="tabs">
-        <div
-          :class="['home-school', 'common-tab', 'selected-tab']"
-        >
-          <h2 class="title">Homeschooling</h2>
-          <div>
-            For at home learning groups with 5 or less kids
-          </div>
-        </div>
-      </div>
       <div class="body-content text-center">
         <div class="purchase-widget same-row">
           <payment-student-license-purchase-component
             :price-info="priceInfo"
             :payment-group-id="paymentGroupId"
             :includes-text-array="includesText"
+            :show-contact-us="showContactUs"
+            :contact-us-text="contactUsText"
           />
         </div>
         <div class="online-classes-widget same-row">
@@ -43,6 +35,8 @@ export default {
         'Teacher Dashboard for record keeping and progress tracking',
         'Curriculum guide to help you understand what your child is learning and assist them',
       ],
+      showContactUs: true,
+      contactUsText: 'Hi! I want to learn more about the homeschooling experience and get licenses so that my students can access Chapter 2 and on.'
     }
   },
   props: {
