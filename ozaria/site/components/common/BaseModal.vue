@@ -44,10 +44,12 @@
   .ozaria-modal-content
     width: 100%
     height: 100%
+    max-height: 95vh
     display: flex
     justify-content: center
     align-items: center
     flex-direction: column
+    flex-flow: column
 
     .ozaria-modal-header, .ozaria-modal-body, .ozaria-modal-footer
       display: flex
@@ -60,11 +62,16 @@
       font-weight: bold
       font-size: 30px
       font-family: $title-font-style
+      flex: 0 1 auto
 
     .ozaria-modal-body
       font-size: 20px
       font-family: $body-font-style
+      flex: 1 1 auto
+      overflow-y: scroll
+      align-items: baseline
 
     .ozaria-modal-footer
       font-family: $body-font-style
+      flex: 0 1 auto
 </style>
