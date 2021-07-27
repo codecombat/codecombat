@@ -152,7 +152,10 @@ export default {
               .catch((e) => noty({ text: 'Error:' + e.message, type: 'error', layout: 'topCenter', timeout: 2000 }))
           }
         })
-        .catch((e) => console.error('Error in adding prepaid joiner:', e))
+        .catch((e) => {
+          console.error('Error in adding prepaid joiner:', e);
+          throw e;
+        })
     },
 
     async applyLicenses ({ getters }, { members, teacherId }) {

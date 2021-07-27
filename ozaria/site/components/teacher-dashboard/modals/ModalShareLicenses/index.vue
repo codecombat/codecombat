@@ -80,7 +80,7 @@
             window.tracker?.trackEvent('My Licenses: Add Teacher Success from Share modal', { category: this.getTrackCategory })
           } catch (err) {
             console.error("Error in adding teacher:", err)
-            noty({ text: "Error in adding teacher", type: "error", layout: "topCenter", timeout: 2000 })
+            noty({ text: "Error in adding teacher", type: "error", layout: "topCenter", timeout: 5000 })
           }
         }
       }
