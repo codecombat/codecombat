@@ -102,38 +102,35 @@ block content
 
     div#ladder-action-columns.row
       - var realUltimatePower = me.isAdmin() && (me.get('slug') == 'nick' || features.china);
-      if realUltimatePower
-        div.column.col-md-1
-      else
-        div.column.col-md-2
+        -// div.column
       if view.tournamentEnd
         #tournamentend
           p(data-i18n="ladder.tournament_end_desc")
       else
         if view.level.isType('ladder')
-          div.column.col-md-4
+          div.column.column-4
             a.btn.btn-illustrated.btn-block.btn-lg.btn-success.play-button(data-team='humans')
               span(data-i18n="common.play")
-          div.column.col-md-2
+          div.column.column-2
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : ""))
               span.glyphicon.glyphicon-eye-open
               span.spl(data-i18n="play.spectate")
           if !window.features.chinaUx
-            div.column.col-md-2
+            div.column.column-2
               a.btn.btn-illustrated.btn-block.btn-lg.btn-info(data-team='humans' href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank")
                 span.glyphicon.glyphicon-facetime-video
                 span.spl Tutorial
         else if view.teams
           for team in view.teams
-            div.column.col-md-3
+            div.column.column-3
               a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
                 span(data-i18n="play.play_as")
                 span.spl= team.displayName
-          div.column.col-md-2
+          div.column.column-2
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : ""))
               span.glyphicon.glyphicon-eye-open
               span.spl(data-i18n="play.spectate")
-      div.column.col-md-2
+      div.column.column-2
         if realUltimatePower
           // This button could consume a lot of server resources
           a.btn.btn-illustrated.btn-block.btn-lg.btn-info.simulate-all-button

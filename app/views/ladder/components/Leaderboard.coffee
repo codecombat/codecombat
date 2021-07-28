@@ -30,29 +30,49 @@ module.exports = class LeaderboardView extends CocoView
       {slug: 'age', col: 1, title: 'Age'},
       {slug: 'country', col:1, title: '🏴‍☠️'}
     ]
+    @propsData = { @tableTitles, @league, @level, scoreType: 'tournament' }
+    unless @tournament
+      @propsData.tableTitles = [
+        {slug: 'language', col: 1, title: ''},
+        {slug: 'rank', col: 1, title: ''},
+        {slug: 'name', col: 3, title: 'Name'},
+        {slug: 'score', col: 2, title: 'Score'},
+        {slug: 'clan', col: 4, title: 'Clan'},
+        {slug: 'age', col: 1, title: 'Age'},
+        {slug: 'fight', col: 1, title: ''}
+      ]
+      @propsData.scoreType = 'arena'
     @rankings = []
     @dataObj = { rankings: @rankings }
-    @propsData = { @tableTitles }
+    
     @refreshLadder()
-
-  events:
-    'click #load-more': 'onClickLoadMore'
 
   render: ->
     super()
     if @leaderboards
       @rankings = _.map @leaderboards.topPlayers.models, (model, index) =>
-        return [
-          model.get('submittedCodeLanguage'),
-          index+1,
-          (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
-          model.get('wins'),
-          model.get('losses'),
-          ((model.get('wins') or 0) / (((model.get('wins') or 0) + (model.get('losses') or 0)) or 1) * 100).toFixed(2) + '%',
-          @getClanName(model),
-          model.get('ageBracket') || 'open',
-          model.get('creatorCountryCode')
-        ]
+        if @tournament
+          return [
+            model.get('submittedCodeLanguage'),
+            index+1,
+            (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+            model.get('wins'),
+            model.get('losses'),
+            ((model.get('wins') or 0) / (((model.get('wins') or 0) + (model.get('losses') or 0)) or 1) * 100).toFixed(2) + '%',
+            @getClanName(model),
+            model.get('ageBracket') || 'open',
+            model.get('creatorCountryCode')
+          ]
+        else
+          return [
+            model.get('submittedCodeLanguage'),
+            index+1,
+            (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+            model.get('totalScore') * 100 | 0
+            @getClanName(model),
+            model.get('ageBracket') || 'open',
+            model.get('_id')
+          ]
 
     @afterRender()
     @
@@ -82,6 +102,9 @@ module.exports = class LeaderboardView extends CocoView
       )
       @vueComponent.$on('filter-age', (data) =>
         @handleClickAgeFilter(data)
+      )
+      @vueComponent.$on('load-more', (data) =>
+        @onClickLoadMore()
       )
 
     super(arguments...)
@@ -120,8 +143,12 @@ module.exports = class LeaderboardView extends CocoView
     return unless data.length is 2
     @spectateTargets ?= {}
     leaderboards = @leaderboards.topPlayers.models
-    @spectateTargets.humans = leaderboards[data[0]].get('levelSession')
-    @spectateTargets.ogres = leaderboards[data[1]].get('levelSession')
+    if @tournament
+      @spectateTargets.humans = leaderboards[data[0]].get('levelSession')
+      @spectateTargets.ogres = leaderboards[data[1]].get('levelSession')
+    else
+      @spectateTargets.humans = leaderboards[data[0]].get('_id')
+      @spectateTargets.ogres = leaderboards[data[1]].get('_id')
 
   handleClickAgeFilter: (ageBracket) ->
     @ageBracket = ageBracket

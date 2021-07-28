@@ -383,6 +383,8 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
         params.bracket = @ageBracket
       @topPlayers = new TournamentLeaderboardCollection(@tournamentId, params)
     else
+      if @ageBracket?
+        params.age = @ageBracket
       @topPlayers = new LeaderboardCollection(@level, params)
     promises = []
     promises.push @topPlayers.fetch cache: false

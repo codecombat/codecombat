@@ -184,7 +184,10 @@ module.exports = class LadderView extends RootView
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
     unless @tournamentState is 'ended'
-      @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
+      if @level.get('slug') is 'sorcerers'
+        @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league}, @level, @sessions ))
+      else
+        @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
       @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
     else
       @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId}, @level, @sessions ))
@@ -222,11 +225,11 @@ module.exports = class LadderView extends RootView
     @showPlayModal($(e.target).closest('.play-button').data('team'))
 
   onClickSpectateButton: (e) ->
+    e.preventDefault()
+    e.stopImmediatePropagation()
     humanSession = @ladderTab.spectateTargets?.humans
     ogreSession = @ladderTab.spectateTargets?.ogres
     return unless humanSession and ogreSession
-    e.preventDefault()
-    e.stopImmediatePropagation()
     url = "/play/spectate/#{@level.get('slug')}?session-one=#{humanSession}&session-two=#{ogreSession}"
     url += '&league=' + @league.id if @league
     url += '&autoplay=false' if key.command
