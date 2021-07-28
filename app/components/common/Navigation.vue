@@ -198,7 +198,7 @@
                           span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_dashboard') }}
                       li
                         a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t('nav.codecombat_dashboard') }}
-                      li
+                      li(v-if="!me.showChinaResourceInfo()")
                         a.text-p(:href="ozPath('/professional-development')")
                           span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
                           span.new-pill {{ $t('nav.new') }}

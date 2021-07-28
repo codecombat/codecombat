@@ -510,8 +510,9 @@ if classroom.loaded
             span.spl(data-i18n="courses.update_old_classroom_detail_2")
 
     h3.m-t-2(dir="auto")= classroom.get('name')
-    a.label.view-ai-league(data-event-action="Teachers Classes View AI League Team")
-      span(data-i18n='teacher.view_ai_league_team')
+    if !me.showChinaResourceInfo()
+      a.label.view-ai-league(data-event-action="Teachers Classes View AI League Team")
+        span(data-i18n='teacher.view_ai_league_team')
     if !state.get('readOnly')
       a.label.edit-classroom(data-classroom-id=classroom.id)
         span(data-i18n='teacher.edit_class_settings')
@@ -638,10 +639,11 @@ if classroom.loaded
           a.course-progress-tab-btn(href='#license-status-tab')
             .small-details.text-center(data-i18n='teacher.license_status')
         .tab-spacer
-        li(class=(activeTab === "#ai-league-stats-tab" ? 'active' : ''))
-          a.course-progress-tab-btn(href='#ai-league-stats-tab')
-            .small-details.text-center AI League
-        .tab-filler
+        if !me.showChinaResourceInfo()
+          li(class=(activeTab === "#ai-league-stats-tab" ? 'active' : ''))
+            a.course-progress-tab-btn(href='#ai-league-stats-tab')
+              .small-details.text-center AI League
+          .tab-filler
 
       .tab-content
         if activeTab === '#students-tab'
