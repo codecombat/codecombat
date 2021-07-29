@@ -378,13 +378,11 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     console.warn 'Already have top players on', @ if @topPlayers
 
     params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
+    if @ageBracket?
+      params.bracket = @ageBracket
     if @tournamentId?
-      if @ageBracket?
-        params.bracket = @ageBracket
       @topPlayers = new TournamentLeaderboardCollection(@tournamentId, params)
     else
-      if @ageBracket?
-        params.age = @ageBracket
       @topPlayers = new LeaderboardCollection(@level, params)
     promises = []
     promises.push @topPlayers.fetch cache: false

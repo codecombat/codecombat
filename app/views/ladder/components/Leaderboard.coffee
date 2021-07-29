@@ -22,12 +22,12 @@ module.exports = class LeaderboardView extends CocoView
     @tableTitles = [
       {slug: 'language', col: 1, title: ''},
       {slug: 'rank', col: 1, title: 'Rank'},
-      {slug: 'name', col: 3, title: 'Name'},
+      {slug: 'name', col: 3, title: $.i18n.t('general.name')},
       {slug: 'wins', col: 1, title: 'Wins'},
       {slug: 'losses', col: 1, title: 'Losses'},
       {slug: 'win-rate', col: 1, title: 'Win %'},
       {slug: 'clan', col: 2, title: 'Clan'},
-      {slug: 'age', col: 1, title: 'Age'},
+      {slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket')},
       {slug: 'country', col:1, title: '🏴‍☠️'}
     ]
     @propsData = { @tableTitles, @league, @level, scoreType: 'tournament' }
@@ -35,10 +35,10 @@ module.exports = class LeaderboardView extends CocoView
       @propsData.tableTitles = [
         {slug: 'language', col: 1, title: ''},
         {slug: 'rank', col: 1, title: ''},
-        {slug: 'name', col: 3, title: 'Name'},
-        {slug: 'score', col: 2, title: 'Score'},
-        {slug: 'clan', col: 4, title: 'Clan'},
-        {slug: 'age', col: 1, title: 'Age'},
+        {slug: 'name', col: 3, title: $.i18n.t('general.name')},
+        {slug: 'score', col: 2, title: $.i18n.t('general.score')},
+        {slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket')},
+        {slug: 'when', col: 2, title: $.i18n.t('general.when')}
         {slug: 'fight', col: 1, title: ''}
       ]
       @propsData.scoreType = 'arena'
@@ -60,7 +60,7 @@ module.exports = class LeaderboardView extends CocoView
             model.get('losses'),
             ((model.get('wins') or 0) / (((model.get('wins') or 0) + (model.get('losses') or 0)) or 1) * 100).toFixed(2) + '%',
             @getClanName(model),
-            model.get('ageBracket') || 'open',
+            @getAgeBracket(model),
             model.get('creatorCountryCode')
           ]
         else
@@ -68,9 +68,9 @@ module.exports = class LeaderboardView extends CocoView
             model.get('submittedCodeLanguage'),
             index+1,
             (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
-            model.get('totalScore') * 100 | 0
-            @getClanName(model),
-            model.get('ageBracket') || 'open',
+            model.get('totalScore') * 100 | 0,
+            @getAgeBracket(model),
+            moment(model.get('submitDate')).fromNow().replace('a few ', ''),
             model.get('_id')
           ]
 
@@ -152,6 +152,8 @@ module.exports = class LeaderboardView extends CocoView
 
   handleClickAgeFilter: (ageBracket) ->
     @ageBracket = ageBracket
+    if me.showChinaResourceInfo() and ageBracket == '11-14'
+      @ageBracket = '11-18'
     @refreshLadder true
 
   getClanName: (model) ->

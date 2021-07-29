@@ -2448,6 +2448,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bracket_0_11: "0-11"
     bracket_11_14: "11-14"
     bracket_14_18: "14-18"
+    bracket_11_18: "11-18"
     bracket_open: "Open"
 
   user:

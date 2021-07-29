@@ -2444,12 +2444,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     humans: "红方" # Ladder page display team name
     ogres: "蓝方"
     tournament_end_desc: "比赛暂未开放"
-#    age: "Age"
-#    age_bracket: "Age Bracket"
-#    bracket_0_11: "0-11"
-#    bracket_11_14: "11-14"
-#    bracket_14_18: "14-18"
-#    bracket_open: "Open"
+    age: "年龄"
+    age_bracket: "组别"
+    bracket_0_11: "小学组"
+    bracket_11_14: "中学组"
+    bracket_14_18: "中学组"
+    bracket_11_18: "中学组"
+    bracket_open: "开放组"
 
   user:
     user_title: "__name__ - 用 CodeCombat 学习编码"

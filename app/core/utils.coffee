@@ -761,6 +761,12 @@ ageBrackets = [
   {slug: 'open', max: 9001}
 ]
 
+ageBracketsChina = [
+  {slug: '0-11', max: 11.33}
+  {slug: '11-18', max: 18.99}
+  {slug: 'open', max: 9001}
+]
+
 ageToBracket = (age) ->
   # Convert years to an age bracket
   return 'open' unless age
@@ -775,6 +781,13 @@ bracketToAge = (slug) ->
       lowerBound = if i == 0 then 0 else ageBrackets[i-1].max
       higherBound = ageBrackets[i].max
       return { $gt: lowerBound, $lte: higherBound }
+
+  for i in [0...ageBracketsChina.length]
+    if ageBracketsChina[i].slug == slug
+      lowerBound = if i == 0 then 0 else ageBracketsChina[i-1].max
+      higherBound = ageBracketsChina[i].max
+      return { $gt: lowerBound, $lte: higherBound }
+
 
 CODECOMBAT = 'codecombat'
 CODECOMBAT_CHINA = 'koudashijie'
@@ -814,6 +827,7 @@ module.exports = {
   activeArenas
   addressesIncludeAdministrativeRegion
   ageBrackets
+  ageBracketsChina
   ageOfConsent
   ageToBracket
   arenas
