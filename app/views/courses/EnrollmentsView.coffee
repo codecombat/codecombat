@@ -189,7 +189,13 @@ module.exports = class EnrollmentsView extends RootView
       not me.get('administratedTeachers')?.length
     )
 
-    @state.set({ shouldUpsell })
+    shouldUpsellParent = (
+      me.get('role') is 'parent' and
+      me.get('country') not in ['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia'] and
+      !skipUpsellDueToExistingLicenses
+    )
+
+    @state.set({ shouldUpsell, shouldUpsellParent })
 
     if shouldUpsell and not @upsellTracked
       @upsellTracked = true
