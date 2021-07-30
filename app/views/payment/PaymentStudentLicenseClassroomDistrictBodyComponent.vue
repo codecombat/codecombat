@@ -88,12 +88,18 @@ export default {
   color: #1FBAB4;
 }
 .district {
-  margin-left: 10px;
+  margin-left: 4%;
+}
+.classroom {
+  margin-right: 4%;
 }
 .selected-tab {
-  border: 5px solid #1fbab4;
+  border: 10px solid #1fbab4;
 }
 .unselected-tab {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.unselected-tab:hover {
   border: 5px solid #c4e5e4;
 }
 </style>
