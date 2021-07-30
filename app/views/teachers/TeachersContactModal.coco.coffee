@@ -11,6 +11,7 @@ module.exports = class TeachersContactModal extends ModalView
 
   events:
     'submit form': 'onSubmitForm'
+    'change #form-licensesNeeded': 'onLicenseNeededChange'
 
   initialize: (options={}) ->
     @state = new State({
@@ -23,28 +24,19 @@ module.exports = class TeachersContactModal extends ModalView
       formErrors: {}
       sendingState: 'standby' # 'sending', 'sent', 'error'
     })
+    @shouldUpsell = options.shouldUpsell
+    @shouldUpsellParent = options.shouldUpsellParent
     @trialRequests = new TrialRequests()
     @supermodel.trackRequest @trialRequests.fetchOwn()
     @state.on 'change', @render, @
 
   onLoaded: ->
     try
-      trialRequest = @trialRequests.first()
-      props = trialRequest?.get('properties') or {}
-      name = if props.firstName and props.lastName then "#{props.firstName} #{props.lastName}" else me.get('name') ? ''
-      email = me.get('email') or props.email or ''
-      message = """
-        Hi CodeCombat! I want to learn more about the Classroom experience and get licenses so that my students can access Computer Science 2 and on.
-
-        Name of School #{props.nces_name or props.organization or ''}
-        Name of District: #{props.nces_district or props.district or ''}
-        Role: #{props.role or ''}
-        Phone Number: #{props.phoneNumber or ''}
-      """
-      @state.set('formValues', { name, email, message })
+      defaultData = this.getDefaultData()
+      @state.set('formValues', defaultData)
       @logContactFlowToSlack({
         event: 'Done loading',
-        message: "name: #{name}, email: #{email}, trialRequest: #{trialRequest._id}"
+        message: "name: #{defaultData.name}, email: #{defaultData.email}"
       })
     catch e
       @logContactFlowToSlack({
@@ -138,3 +130,34 @@ module.exports = class TeachersContactModal extends ModalView
       url: logUrl,
       data
     })
+
+  getDefaultData: (override = {}) ->
+    trialRequest = @trialRequests.first()
+    props = trialRequest?.get('properties') or {}
+    name = if props.firstName and props.lastName then "#{props.firstName} #{props.lastName}" else me.get('name') ? ''
+    email = me.get('email') or props.email or ''
+    message = """
+        Hi CodeCombat! I want to learn more about the Classroom experience and get licenses so that my students can access Computer Science 2 and on.
+
+        Name of School #{props.nces_name or props.organization or ''}
+        Name of District: #{props.nces_district or props.district or ''}
+        Role: #{props.role or ''}
+        Phone Number: #{props.phoneNumber or ''}
+      """
+    licensesNeeded = 0
+    if override.licensesNeeded
+      licensesNeeded = override.licensesNeeded
+    return { name, email, message, licensesNeeded }
+
+  onLicenseNeededChange: (e) ->
+    licensesNeeded = parseInt(e.target.value)
+    if isNaN(licensesNeeded) or licensesNeeded <= 0
+      return
+    if @shouldUpsellParent and licensesNeeded < 6
+      @state.set('showParentsUpsell', true)
+    else if @shouldUpsell and licensesNeeded < 10
+      @state.set('showUpsell', true)
+    else
+      @state.set('showParentsUpsell', false)
+      @state.set('showUpsell', false)
+    @state.set('formValues', this.getDefaultData({ licensesNeeded }))

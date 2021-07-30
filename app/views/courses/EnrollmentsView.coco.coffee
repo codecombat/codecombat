@@ -189,9 +189,15 @@ module.exports = class EnrollmentsView extends RootView
       not me.get('administratedTeachers')?.length
     )
 
-    @state.set({ shouldUpsell })
+    shouldUpsellParent = (
+      me.get('role') is 'parent' and
+      me.get('country') not in ['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia'] and
+      !skipUpsellDueToExistingLicenses
+    )
 
-    if shouldUpsell and not @upsellTracked
+    @state.set({ shouldUpsell, shouldUpsellParent })
+
+    if (shouldUpsell or shouldUpsellParent) and not @upsellTracked
       @upsellTracked = true
       application.tracker?.trackEvent 'Starter License Upsell: Banner Viewed', {price: @state.get('centsPerStudent'), seats: @state.get('quantityToBuy')}
 
@@ -240,7 +246,10 @@ module.exports = class EnrollmentsView extends RootView
       }
     })
     window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers', ['Mixpanel']
-    modal = new TeachersContactModal()
+    modal = new TeachersContactModal({
+      shouldUpsell: @state.get('shouldUpsell'),
+      shouldUpsellParent: @state.get('shouldUpsellParent')
+    })
     @openModalView(modal)
     modal.on 'submit', =>
       @enrollmentRequestSent = true
