@@ -3333,6 +3333,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     year_1: 'Lrneyl'
     most_popular: 'Zbfg Cbchyne'
     best_value: 'Orfg Inyhr'
+    purchase_licenses: 'Chepunfr Yvprafrf rnfvyl gb trg shyy npprff gb PbqrPbzong naq Bmnevn'
+    homeschooling: 'Ubzrfpubbyvat Yvprafrf'
 
     recurring:
       month_1: 'Erpheevat ovyyvat rirel zbagu'
