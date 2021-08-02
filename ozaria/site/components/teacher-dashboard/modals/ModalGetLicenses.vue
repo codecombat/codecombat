@@ -31,7 +31,9 @@
       licensesNeeded: null,
       message: '',
       state: '',
-      sendingInProgress: false
+      sendingInProgress: false,
+      paymentLink: '',
+      showPaymentLink: false,
     }),
     validations: {
       name: {
@@ -80,6 +82,18 @@
       Role: ${props.role || ''}
       Phone Number: ${props.phoneNumber || ''}
       `
+      const numStudents = props.numStudents
+      const excludeLinkCountries = ['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia']
+      if ((numStudents === '1-10' || me.get('role') === 'parent') && !excludeLinkCountries.includes(me.get('country'))) {
+        api.prepaids.getOwn()
+          .then((data) => {
+            if (data.length === 0) {
+              this.paymentLink = me.get('role') === 'parent' ?
+                'https://codecombat.com/payments/homeschool-coco'
+                : 'https://codecombat.com/payments/student-licenses-small-classroom-coco'
+            }
+          })
+      }
     },
     methods: {
       closeModal () {
@@ -110,7 +124,19 @@
             noty({ text: 'Couldnt send the message', type: 'error', layout: 'center', timeout: 2000 })
           }
         }
-      }
+      },
+      onLicensesNeededUpdate(_e) {
+        if (!this.paymentLink || isNaN(this.licensesNeeded)) {
+          return
+        }
+        if (me.get('role') === 'parent' && this.licensesNeeded < 6) {
+          this.showPaymentLink = true
+        } else if (me.isTeacher() && this.licensesNeeded < 10) {
+          this.showPaymentLink = true
+        } else {
+          this.showPaymentLink = false
+        }
+      },
     }
   })
 </script>
@@ -176,6 +202,8 @@
               class="form-control"
               :class="{ 'placeholder-text': !licensesNeeded }"
               placeholder="How many licenses do you need?"
+              @keyup="onLicensesNeededUpdate"
+              @keydown="onLicensesNeededUpdate"
             >
             <span
               v-if="!$v.licensesNeeded.required"
@@ -185,6 +213,12 @@
               v-else-if="!$v.licensesNeeded.numeric || !$v.licensesNeeded.mustBeGreaterThanZero"
               class="form-error"
             > {{ $t("form_validation_errors.numberGreaterThanZero") }} </span>
+            <p
+              v-if="showPaymentLink && paymentLink"
+              class="payment-link"
+            >
+              You can buy {{this.licensesNeeded}} licenses <a :href="paymentLink" target="_blank">here</a> directly
+            </p>
           </div>
         </div>
         <div
@@ -264,5 +298,9 @@
     height: 35px;
     margin: 0 10px;
   }
+}
+.payment-link {
+  font-size: small;
+  color: black;
 }
 </style>
