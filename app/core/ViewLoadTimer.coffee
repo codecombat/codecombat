@@ -150,5 +150,7 @@ class ViewLoadTimer
 
     .then =>
       console.groupEnd() if VIEW_LOAD_LOG
+    .catch (err) =>
+      console.error err
 
 module.exports = ViewLoadTimer

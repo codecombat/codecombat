@@ -298,6 +298,11 @@ class Resource extends Backbone.Model
 
   markFailed: ->
     return if @isLoaded
+    if @fetchOptions.forceSuccess
+      @trigger('loaded', @)
+      @isLoaded = true
+      @isLoading = false
+      return
     @trigger('failed', @)
     @isLoaded = @isLoading = false
     @isFailed = true

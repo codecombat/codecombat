@@ -321,7 +321,7 @@ module.exports = class LadderTabView extends CocoView
         models = [session]
       else
         models = [session, player]
-      @openModalView new ModelModal models: models
+      @openModalView new ModelModal models: models, forceSuccess: true
     else if me.isTeacher()
       ;
     else

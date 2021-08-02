@@ -14,7 +14,7 @@ module.exports = class ModelModal extends ModalView
     super options
     @models = options.models
     for model in @models when not model.loaded
-      @supermodel.loadModel model
+      @supermodel.loadModel model, {forceSuccess: options.forceSuccess}
       model.fetch cache: false, error: (error) ->
         console.log 'Error loading', model, error
 
