@@ -29,9 +29,9 @@ block modal-body-content
       +formErrors(errors.licensesNeeded)
       input.form-control(id="form-licensesNeeded", name="licensesNeeded", type="number", value=values.licensesNeeded || 0, tabindex=1, disabled=sending || sent)
       if view.state.get('showParentsUpsell')
-        p You can purchase licenses directly #[a(href="/payments/homeschool-coco" target='_blank') here]
+        p You can buy licenses #[a(href="/payments/homeschool-coco" target='_blank') here] directly
       else if view.state.get('showUpsell')
-        p You can purchase licenses directly #[a(href="/payments/student-licenses-small-classroom-coco" target='_blank') here]
+        p You can buy licenses #[a(href="/payments/student-licenses-small-classroom-coco" target='_blank') here] directly
 
     .form-group(class=errors.message ? 'has-error' : '')
       label.control-label(for="form-message" data-i18n="general.message")
