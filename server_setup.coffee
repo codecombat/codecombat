@@ -72,12 +72,17 @@ setupExpressMiddleware = (app) ->
     # Don't proxy static files with sha prefixes, redirect them
     regex = /\/[0-9a-f]{40}\/.*/
     regex2 = /\/[0-9a-f]{40}-[0-9a-f]{40}\/.*/
+    regex3 = /^\/(production|next)-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}\/.*/
     app.use (req, res, next) ->
       if regex.test(req.path)
         newPath = req.path.slice(41)
         return res.redirect(newPath)
       if regex2.test(req.path)
         newPath = req.path.slice(82)
+        return res.redirect(newPath)
+      if regex3.test(req.path)
+        split = req.path.split('/')
+        newPath = '/' + split.slice(2).join('/')
         return res.redirect(newPath)
       next()
 
@@ -274,7 +279,6 @@ setupQuickBailToMainHTML = (app) ->
   app.get '/play', fast('overworld.html')
   app.get '/play/level/:slug', fast('main.html')
   app.get '/play/:slug', fast('main.html')
-  app.get '/teachers/:slug', fast('main.html')
 
 ###Miscellaneous configuration functions###
 
