@@ -45,8 +45,6 @@ block content
           .row
             .col-xs-9.m-t-1
               b
-                span.text-uppercase(data-i18n="special_offer.special_offer")
-                =': '
                 if view.state.get('shouldUpsellParent')
                   span(data-i18n="payments.homeschooling")
                 else
