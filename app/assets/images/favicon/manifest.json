@@ -15,5 +15,9 @@
     ],
     "theme_color": "#29575a",
     "background_color": "#29575a",
-    "display": "standalone"
+    "display": "standalone",
+    "orientation": "landscape",
+    "start_url": "/?source=pwa",
+    "scope": "/",
+    "description": "Ozaria is an immersive, story-based adventure gaming for learning computer science and real Python and JavaScript code"
 }
