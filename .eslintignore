@@ -106,7 +106,6 @@ test/app/fixtures/leather-boots.thang.type.js
 test/app/fixtures/ogre-fangrider.thang.type.js
 test/app/fixtures/tree1.thang.type.js
 test/app/fixtures/ogre-munchkin-m.thang.type.js
-test/app/views/teachers/PurchaseStarterLicenseModal.spec.js
 test/app/views/courses/CourseVideosComponent.spec.js
 test/app/views/play/level/PlayLevelVideoView.spec.js
 test/app/views/play/level/modal/CourseVideosModalComponent.spec.js
