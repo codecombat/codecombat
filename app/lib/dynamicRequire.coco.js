@@ -120,7 +120,6 @@ module.exports = {
   'views/teachers/ApCsPrinciplesView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/ApCsPrinciplesView') },
   'views/teachers/MarkdownResourceView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/MarkdownResourceView') },
   'views/teachers/CreateTeacherAccountView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/CreateTeacherAccountView') },
-  'views/teachers/StarterLicenseUpsellView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/StarterLicenseUpsellView') },
   'views/teachers/ConvertToTeacherAccountView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/ConvertToTeacherAccountView') },
   'views/TestView': function () { return import(/* webpackChunkName: "TestView" */ 'views/TestView') },
   'views/user/MainUserView': function () { return import(/* webpackChunkName: "user" */ 'views/user/MainUserView') },
