@@ -82,7 +82,6 @@
         if (!histogramData.length)
           return histogramElement.hide()
 
-        console.log('generate hist')
         histogramData = histogramData.map((d) => d * 100)
         let margin = {
           top: 20,
