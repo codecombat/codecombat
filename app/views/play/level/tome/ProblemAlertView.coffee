@@ -14,6 +14,19 @@ module.exports = class ProblemAlertView extends CocoView
     '/images/pages/play/duck_ida.png'
     '/images/pages/play/duck_okar.png'
     '/images/pages/play/duck_tharin2.png'
+    '/images/pages/play/duck_amara.png'
+    '/images/pages/play/duck_arryn.png'
+    '/images/pages/play/duck_hattori.png'
+    '/images/pages/play/duck_hushbaum.png'
+    '/images/pages/play/duck_illia.png'
+    '/images/pages/play/duck_nalfar.png'
+    '/images/pages/play/duck_naria.png'
+    '/images/pages/play/duck_omarn.png'
+    '/images/pages/play/duck_pender.png'
+    '/images/pages/play/duck_ritic.png'
+    '/images/pages/play/duck_senick.png'
+    '/images/pages/play/duck_usara.png'
+    '/images/pages/play/duck_zana.png'
   ]
 
   subscriptions:
