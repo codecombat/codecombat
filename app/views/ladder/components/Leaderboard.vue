@@ -132,7 +132,7 @@
          *         .attr('height', height) */
         let rankClass = 'rank-text humans-rank-text'
 
-        let message = `${histogramData.length} players`
+        let message = `${histogramData.length.toLocaleString()} players`
         /* if(@leaderboards[teamName].session)
          *   //# TODO: i18n for these messages
          *   if(this.league)
