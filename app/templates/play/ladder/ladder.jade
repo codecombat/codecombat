@@ -102,7 +102,6 @@ block content
 
     div#ladder-action-columns.row
       - var realUltimatePower = me.isAdmin() && (me.get('slug') == 'nick' || features.china);
-        -// div.column
       if view.tournamentEnd
         #tournamentend
           p(data-i18n="ladder.tournament_end_desc")
