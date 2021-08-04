@@ -158,7 +158,6 @@ export default {
         a.btn.btn-primary.btn-large.btn-moon.sales-btn(@click="onClickSalesCTA") Get the Full Course
 
     section.section-spacer#benefits
-      // TODO: replace images with representative ones
       h1.heading-corner(style="max-width: 727px; margin-bottom: 60px;") Our PD Course Provides:
 
       .row.flex-row
@@ -177,8 +176,8 @@ export default {
         .col-sm-7
           img(src="/images/pages/pd/pd-teacher-image-2.jpg" class="img-responsive" loading="lazy" style="border: 10px solid #476FB1;" alt="")
         .col-sm-4.col-sm-offset-1
-          h2(style="margin-bottom: 20px;") Valuable Credit Hours
-          p Earn 40 hours of professional development credit while developing your teaching practices and improving the learning experience for your students. Our course is <a href="https://www.csteachers.org/page/quality-pd">accredited by the Computer Science Teacher's Association (CSTA)</a> as a high-quality PD opportunity.
+          h2(style="margin-bottom: 20px;") CSTA-Endorsed Credit Hours
+          p Our course is <a href="https://www.csteachers.org/page/quality-pd">endorsed by the Computer Science Teacher's Association (CSTA)</a> as a high-quality PD opportunity. Earn 40 hours of professional development credit while developing your teaching practices and improving the learning experience for your students.
 
     section.full-width.section-spacer#back_cta_1
       .row#essa
