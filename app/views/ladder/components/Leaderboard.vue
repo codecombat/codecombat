@@ -95,7 +95,6 @@
         let minX = Math.floor(Math.min(...histogramData) / axisFactor) * axisFactor
         let maxX = Math.ceil(Math.max(...histogramData) / axisFactor) * axisFactor
         let x = d3.scale.linear().domain([minX, maxX]).range([0, width])
-        console.log('histdata:', histogramData)
         let data = d3.layout.histogram().bins(x.ticks(20))(histogramData)
         let y = d3.scale.linear().domain([0, d3.max(data, (d) => d.y)]).range([height, 10])
 
