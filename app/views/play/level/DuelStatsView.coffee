@@ -38,7 +38,6 @@ module.exports = class DuelStatsView extends CocoView
 
   formatPlayer: (team) ->
     p = team: team
-    console.log(team, @options)
     session = _.find [@options.session, @options.otherSession], (s) -> s.get('team') is team
     p.name = session.get 'creatorName'
     p.heroThangType = (session.get('heroConfig') ? {}).thangType or '529ffbf1cf1818f2be000001'
