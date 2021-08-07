@@ -41,9 +41,13 @@
     computed: {
       ...mapGetters({
         selectedStudentIds: 'baseSingleClass/selectedStudentIds'
-      })
+      }),
+      getStudentSessionsData() {
+        return this.modules.map(m => {
+          return { moduleNum: m.moduleNum, studentSessions: m.studentSessions }
+        })
+      }
     },
-
     watch: {
       // Use this to trigger attaching the scroll callback
       // as the table is changing width.
@@ -129,7 +133,7 @@
       </div>
       <div class="size-container">
         <div class="table-row">
-          <table-student-list :students="students" />
+          <table-student-list :students="students" :student-sessions-data="getStudentSessionsData" />
 
           <!-- List of student solutions per module -->
           <table-module-grid
