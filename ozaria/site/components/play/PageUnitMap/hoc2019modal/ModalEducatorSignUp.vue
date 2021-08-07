@@ -2,6 +2,7 @@
   import { mapMutations, mapActions } from 'vuex'
   import LayoutSplit from './layout/LayoutSplit'
   import CloseModalBar from './layout/CloseModalBar'
+  import { logInWithClever } from 'core/social-handlers/CleverHandler'
 
   const countryList = require('country-list')()
   const Classroom = require('core/api/classrooms')
@@ -170,6 +171,9 @@
           noty({ text: err.message || 'Error during signup', type: 'error', layout: 'center', timeout: 2000 })
         }
       },
+      cleverSignUp () {
+        logInWithClever()
+      },
       async checkEmail (email) {
         if (email) {
           const { exists } = await User.checkEmailExists(email)
@@ -214,6 +218,9 @@
       <div class='text-center'>
         <a id="google-sso-signup" @click="googleSignUp">
           <img src="/images/ozaria/common/Google Sign Up.png"/>
+        </a>
+        <a id="clever-sso-signup" @click="cleverSignUp">
+          <img src="/images/pages/modal/auth/clever_sso_button@2x.png"/>
         </a>
       </div>
 
@@ -361,7 +368,7 @@
     }
   }
 
-  #google-sso-signup {
+  #google-sso-signup, #clever-sso-signup {
     img {
       height: 40px;
     }

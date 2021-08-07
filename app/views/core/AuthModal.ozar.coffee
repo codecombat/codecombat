@@ -6,6 +6,8 @@ User = require 'models/User'
 errors = require 'core/errors'
 RecoverModal = require 'views/core/RecoverModal'
 storage = require 'core/storage'
+{logInWithClever} = require 'core/social-handlers/CleverHandler'
+
 
 module.exports = class AuthModal extends ModalView
   id: 'auth-modal'
@@ -17,6 +19,7 @@ module.exports = class AuthModal extends ModalView
     'keyup #name': 'onNameChange'
     'click #gplus-login-btn': 'onClickGPlusLoginButton'
     'click #facebook-login-btn': 'onClickFacebookLoginButton'
+    'click #clever-login-btn': 'onClickCleverLoginButton'
     'click #close-modal': 'hide'
     'click [data-toggle="coco-modal"][data-target="core/RecoverModal"]': 'openRecoverModal'
 
@@ -29,7 +32,7 @@ module.exports = class AuthModal extends ModalView
     if me.useSocialSignOn()
       # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
       application.gplusHandler.loadAPI({ success: => _.defer => @$('#gplus-login-btn').attr('disabled', false) })
-      application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })
+      #application.facebookHandler.loadAPI({ success: => _.defer => @$('#facebook-login-btn').attr('disabled', false) })  # No Facebook login in Ozaria
     @subModalContinue = options.subModalContinue
 
   afterRender: ->
@@ -185,6 +188,12 @@ module.exports = class AuthModal extends ModalView
     btn.find('.sign-in-blurb').text($.i18n.t('login.sign_in_with_facebook'))
     btn.attr('disabled', false)
     errors.showNotyNetworkError(arguments...)
+
+  # Clever
+
+  onClickCleverLoginButton: ->
+    logInWithClever()
+
 
   openRecoverModal: (e) ->
     e.stopPropagation()

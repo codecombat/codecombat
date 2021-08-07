@@ -1,6 +1,7 @@
 <script>
 import { mapActions } from 'vuex'
 import BaseModalContainer from '../../../common/BaseModalContainer'
+import { logInWithClever } from 'core/social-handlers/CleverHandler'
 
 const forms = require('core/forms')
 const User = require('models/User')
@@ -161,6 +162,9 @@ export default {
           await this.setHocOptions()
         }
       }
+    },
+    onClickCleverLoginButton () {
+      logInWithClever()
     }
   }
 }
@@ -177,6 +181,8 @@ export default {
           img(src="/images/ozaria/common/log-in-google-sso.svg" draggable="false")
           .gplus-login-wrapper
             .gplus-login-button
+        a#clever-login-btn(@click="onClickCleverLoginButton")
+          img(src="/images/pages/modal/auth/clever_sso_button@2x.png" draggable="false")
       .row.or-row
         .line
         p.or {{ $t("login.or") }}
@@ -334,7 +340,7 @@ export default {
     }
   }
 
-  #gplus-login-btn > img {
+  #gplus-login-btn > img, #clever-login-btn img {
     height: 46px;
   }
 }
