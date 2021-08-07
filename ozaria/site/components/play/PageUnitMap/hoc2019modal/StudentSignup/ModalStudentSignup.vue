@@ -2,6 +2,7 @@
   import { mapMutations, mapActions } from 'vuex'
   import LayoutSplit from '../layout/LayoutSplit'
   import CloseModalBar from '../layout/CloseModalBar'
+  import { logInWithClever } from 'core/social-handlers/CleverHandler'
 
   const User = require('models/User')
   export default {
@@ -137,6 +138,10 @@
             noty({ text: err.message || 'Error in sign up', type: 'error', layout: 'center', timeout: 2000 })
           }
         }
+      },
+      // TODO: test this to see if progress actually is saved when signing in with Clever this way, or if it leaves student on empty student dashboard
+      cleverSignUp () {
+        logInWithClever()
       }
     }
   }
@@ -199,6 +204,9 @@
         <span id="or">{{$t("general.or")}}</span>
         <a id="google-sso-signup" @click="googleSignUp">
           <img src="/images/ozaria/common/Google Sign Up.png"/>
+        </a>
+        <a id="clever-sso-signup" @click="cleverSignUp">
+          <img src="/images/pages/modal/auth/clever_sso_button@2x.png"/>
         </a>
       </div>
       <a
@@ -328,7 +336,7 @@
     margin-right: 5px;
   }
 
-  #google-sso-signup {
+  #google-sso-signup, #clever-sso-signup {
     img {
       margin-left: 5px;
       height: 40px;

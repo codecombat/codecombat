@@ -68,7 +68,7 @@
     display: flex;
     justify-content: center;
     margin: 12px 0 30px;
-    button {
+    button, a {
       margin: 0 13px;
       min-width: 180px;
       min-height: 45px;
@@ -104,7 +104,7 @@
     }
   }
 
-  #gplus-login-btn > img {
+  #gplus-login-btn > img, #clever-login-btn > img {
     height: 46px;
   }
 }
