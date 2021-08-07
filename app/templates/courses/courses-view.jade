@@ -141,7 +141,7 @@ block content
                           //if view.showVideosLinkForCourse(course._id)
                           //  = " "
                           //  a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
-                      +course-instance-body(courseInstance, stats, nextLevel, mapUrl, campaign._id, isLocked)
+                      +course-instance-body(courseInstance, stats, nextLevel, mapUrl, campaign._id, isLocked, classroom)
                       .clearfix
 
             h3(data-i18n="courses.join_class")
@@ -162,7 +162,7 @@ block content
                 .alert.alert-danger= view.errorMessage
 
 
-mixin course-instance-body(courseInstance, stats, nextLevel, mapUrl, campaignId, isLocked)
+mixin course-instance-body(courseInstance, stats, nextLevel, mapUrl, campaignId, isLocked, classroom)
   - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
 
   if stats.courseComplete
@@ -195,7 +195,11 @@ mixin course-instance-body(courseInstance, stats, nextLevel, mapUrl, campaignId,
         button.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=mapUrl, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course" disabled=isLocked)
           span(data-i18n="courses.start")
 
-  if stats.levels.lastPlayed
+  if stats.courseComplete
+    a.certificate-link(target='_blank', href='/certificates/' + me.id + '?class=' + classroom.id + '&course=' + course._id + '&course-instance=' + courseInstance.id)
+      img(src='/images/pages/user/certificates/certificate-icon.png')
+      div(data-i18n='user.certificate_view')
+  else if stats.levels.lastPlayed
     div
       span(data-i18n="courses.last_level")
       span :

@@ -258,6 +258,7 @@ setupQuickBailToMainHTML = (app) ->
   app.get '/play', fast('overworld.html')
   app.get '/play/level/:slug', fast('main.html')
   app.get '/play/:slug', fast('main.html')
+  app.get '/teachers/classes/:slug', fast('main.html')
   app.get '/teachers/:slug', fast('main.html')
 
 ###Miscellaneous configuration functions###

@@ -36,11 +36,8 @@ style.
 
   .certificate
     if view.courseStats
-      //- TODO: replace with per-unit background
-      //- img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-" + view.course.acronym().toLowerCase() + ".png")
-      img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-cs1.png")
+      img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-" + view.course.acronym().toLowerCase() + ".png")
     div(class="certificate-contents")
-      img.logo-img(src="/images/ozaria/home/ozaria-wordmark-500px.png")
       .certificate-text-container
         if view.supermodel.isLoading || !view.courseStats
           h1.loading-indicator(data-i18n="common.loading")
@@ -69,6 +66,15 @@ style.
                   span(data-i18n="teacher.project")
                   span= ': '
                   a(href=view.projectLink)= (view.projectShortLink || view.projectLink).replace(/^https?:\/\//, '')
+              if view.teacherName
+                li.teacher-info
+                  span(data-i18n="courses.teacher")
+                  span= ': '
+                  span= view.teacherName
+              if view.certificateNumber
+                li.certificate-number-info
+                  span(data-i18n="user.certificate_number")
+                  span= ' ' + view.certificateNumber
           .concepts-learned.outcome-section
             h3.learned-title(data-i18n="courses.concepts")
             ul.list-unstyled
@@ -77,30 +83,9 @@ style.
                   // Too wide, weird "concepts", we'll just skip
                   - continue;
                 li(data-i18n="concepts." + concept)
-          if view.teacherName
-            .teacher-info
-              span(data-i18n="courses.teacher")
-              span= ': '
-              span= view.teacherName
-          if view.certificateNumber
-            .certificate-number-info
-              span(data-i18n="user.certificate_number")
-              span= ' ' + view.certificateNumber
-          if view.thangType && view.thangType.loaded
-            .hero-signature
-              img(src='/images/pages/user/certificates/signatures/signature-' + (view.thangType.get('slug') || 'captain') + '.png')
-              .hero-signature-label
-                span(data-i18n="user.certificate_endorsed_by")
-                span= ' '
-                span= i18n(view.thangType.attributes, 'extendedName')
-          else
-            h4 Loading hero 
-          .course-ribbon(class=view.course.acronym().replace(/\d/g, '').toLowerCase() + ' ' + view.course.acronym().toLowerCase())
-            //- TODO: replace with per-unit background
-            //- img(src='/images/pages/user/certificates/medallions/medallion-' + view.course.acronym().toLowerCase() + '.png')
-            img(src='/images/pages/user/certificates/medallions/medallion-cs1.png')
-            //- h3= view.course.acronym()
-
-      if view.thangType && view.thangType.loaded
-        - var heroSlug = view.thangType.get('slug') || 'captain';
-        img(src='/images/pages/user/certificates/poses/pose-' + heroSlug + '.png', class='hero-pose ' + heroSlug)
+          .hero-signature
+            img(src='/images/pages/user/certificates/signatures/signature-nick.png')
+            .hero-signature-label
+              //span(data-i18n="user.certificate_endorsed_by")
+              //span= ' '
+              span Nick Winter, CEO

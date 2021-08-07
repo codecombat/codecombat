@@ -6,8 +6,6 @@ Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 LevelSessions = require 'collections/LevelSessions'
 Levels = require 'collections/Levels'
-ThangTypeConstants = require 'lib/ThangTypeConstants'
-ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 fetchJson = require 'core/api/fetch-json'
 locale = require 'locale/locale'
@@ -30,12 +28,10 @@ module.exports = class CertificatesView extends RootView
   initialize: (options, @userID) ->
     if @userID is me.id
       @user = me
-      @setHero()
     else
       @user = new User _id: @userID
       @user.fetch()
       @supermodel.trackModel @user
-      @listenToOnce @user, 'sync', => @setHero?()
       @user.fetchNameForClassmate success: (data) =>
         @studentName = if data.firstName then "#{data.firstName} #{data.lastName}" else data.name
         @render?()
@@ -68,16 +64,6 @@ module.exports = class CertificatesView extends RootView
 
     @currentLang = me.get('preferredLanguage', true)
     @needLanguageToggle = @currentLang.split('-')[0] != 'en'
-
-
-  setHero: (heroOriginal=null) ->
-    heroOriginal ||= utils.getQueryVariable('hero') or @user.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
-    @thangType = new ThangType()
-    @supermodel.trackRequest @thangType.fetchLatestVersion(heroOriginal, {data: {project:'slug,version,original,extendedName,heroClass'}})
-    @thangType.once 'sync', (thangType) =>
-      if @thangType.get('heroClass') isnt 'Warrior' or @thangType.get('slug') is 'code-ninja'
-        # We only have basic warrior poses and signatures for now
-        @setHero ThangTypeConstants.heroes.captain
 
   onClassroomLoaded: ->
     @calculateStats()

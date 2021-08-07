@@ -1,5 +1,5 @@
 <script>
-  import { mapMutations } from 'vuex'
+  import { mapMutations, mapGetters } from 'vuex'
   export default {
     props: {
       studentName: {
@@ -17,13 +17,36 @@
       isEnrolled: {
         type: Boolean,
         default: false
-      }
+      },
+      studentSessions: {
+        type: Array,
+      },
     },
 
+    computed: {
+      ...mapGetters({
+        classroom: 'teacherDashboard/getCurrentClassroom',
+        selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+        getCourseInstancesForClass: 'courseInstances/getCourseInstancesForClass'
+      }),
+
+      selectedCourseInstanceId () {
+        const courseInstances = this.getCourseInstancesForClass(this.classroom.ownerID, this.classroom._id)
+        const courseInstance = _.find(courseInstances, (ci) => ci.courseID === this.selectedCourseId)
+        return (courseInstance || {})._id
+      },
+      hasCompletedCourse () {
+        if (!this.studentSessions || this.studentSessions.length === 0) {
+          return false
+        }
+        const completedSessions = this.studentSessions.filter(session => session.status === 'complete')
+        return completedSessions.length === this.studentSessions.length
+      }
+    },
     methods: {
       ...mapMutations({
         openModalEditStudent: 'baseSingleClass/openModalEditStudent'
-      })
+      }),
     }
   }
 </script>
@@ -43,10 +66,19 @@
         {{ studentName }}
       </p>
     </div>
-    <img
-      v-if="isEnrolled"
-      src="/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg"
-    >
+    <div class="student-status-icons">
+      <a target='_blank' :href='`/certificates/${studentId}?class=${classroom._id}&course=${selectedCourseId}&course-instance=${selectedCourseInstanceId}`' v-if="hasCompletedCourse" title="View Course Completion Certificate">
+        <img
+          src="/images/pages/user/certificates/certificate-icon.png"
+          class="certificate-icon"
+          >
+      </a>
+      <img
+        v-if="isEnrolled"
+        src="/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg"
+        title="Licensed"
+        >
+    </div>
   </div>
 </template>
 
@@ -100,6 +132,16 @@
     background-color: white;
     &:nth-child(even) {
       background-color: #f2f2f2;
+    }
+
+    .certificate-icon  {
+      height: 22px;
+      transition: filter 0.2s linear;
+      filter: none;
+
+      &:not(:hover) {
+        filter: saturate(0);
+      }
     }
   }
 
