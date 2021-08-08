@@ -4,44 +4,50 @@ extends /templates/core/modal-base-flat.jade
 
 block modal-header-content
 
-  h4 Name: #{view.user.get('name')} (#{view.user.get('firstName')} #{view.user.get('lastName')})
-  h4 Email: #{view.user.get('emailLower') || view.user.get('email')}
-  if view.user.isTeacher() && view.trialRequest
-    - var props = view.trialRequest.get('properties') || {}
-    h4 School: #{props.nces_school || props.organization}
-    h4 District: #{props.nces_district || props.district}
-  if view.user.isStudent() || view.user.isTeacher()
-    p
-      if view.user.isStudent()
-        button#destudent-btn.btn.btn-burgundy Destudent
-      if view.user.isTeacher()
-        button#deteacher-btn.btn.btn-burgundy Deteacher
-  p
-    button#reset-progress-btn.btn.btn-burgundy Reset Progress
-    a#export-data-btn.btn.btn-primary(target='_blank' href='/db/user/' + view.user.id + '/export-data') Export GDPR User Data
-  br
+  .row
+    .col-md-7
+      h4 Name: #{view.user.get('name')} (#{view.user.get('firstName')} #{view.user.get('lastName')})
+      h4 Email: #{view.user.get('emailLower') || view.user.get('email')}
+      h4
+        span= 'User ID: '
+        code= view.user.get('_id')
+      if view.user.isTeacher() && view.trialRequest
+        - var props = view.trialRequest.get('properties') || {}
+        h4 School: #{props.nces_school || props.organization}
+        h4 District: #{props.nces_district || props.district}
+      p
+        if view.user.isStudent() || view.user.isTeacher()
+          if view.user.isStudent()
+            button#destudent-btn.btn.btn-burgundy Destudent
+          if view.user.isTeacher()
+            button#deteacher-btn.btn.btn-burgundy Deteacher
+        button#reset-progress-btn.btn.btn-burgundy Reset Progress
+        a#export-data-btn.btn.btn-primary(target='_blank' href='/db/user/' + view.user.id + '/export-data') Export GDPR User Data
 
-  if view.prepaids.size()
-    div
-      a(href="#prepaids") Existing Prepaids
-  div
-    a(href="#licenses") Grant Student Licenses
-  if view.classrooms.size()
-    div
-      a(href="#classrooms") Update Classrooms
-  div
-    a(href="#stripe") Modify Stripe Subscription
-  div
-    a(href="#create-payment") Create Payment
-  div
-    a(href="#details") User Details
+    .col-md-5
+      if view.prepaids.size()
+        div
+          a(href="#prepaids") Existing Prepaids
+      div
+        a(href="#licenses") Grant Student Licenses
+      if view.classrooms.size()
+        div
+          a(href="#classrooms") Update Classrooms
+      div
+        a(href="#stripe") Modify Stripe Subscription
+      // Not currently used
+      //div
+      //  a(href="#create-payment") Create Payment
+      div
+        a(href="#details") User Details
 
   div.m-t-1
-    label
-      input#verified-teacher-checkbox(type='checkbox', checked=view.userIsVerifiedTeacher())
-      span.p-l-1
-        | APCSP Verified Teacher (has access to private forum)
-    br
+    // Not currently used
+    //label
+    //  input#verified-teacher-checkbox(type='checkbox', checked=view.userIsVerifiedTeacher())
+    //  span.p-l-1
+    //    | APCSP Verified Teacher (has access to private forum)
+    //br
     label
       input#school-admin-checkbox(type='checkbox', checked=view.userIsSchoolAdmin())
       span.p-l-1
@@ -149,9 +155,9 @@ block modal-body-content
 
     else
       if view.timeZone == 'Asia/Shanghai'
-        h4.small(style="max-width: 700px") *All licenses granted after Oct 29, 2018 start at 12am CT on the start date and end at 11:59pm CT on the end date listed. All licenses that were granted before that date start and end at 3pm CT on the date listed.
+        h4.small(style="max-width: 700px") Licenses start at 12am CT on the start date and end at 11:59pm CT on the end date listed.
       else 
-        h4.small(style="max-width: 700px") *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
+        h4.small(style="max-width: 700px") Licenses start at 12am PT on the start date and end at 11:59pm PT on the end date listed.
       .form-group
         label
           span Number of Licenses
@@ -250,41 +256,46 @@ block modal-body-content
     button#save-changes.btn.btn-primary Save Changes
   hr
 
-  h3#create-payment Create Payment
-  .small Use this to create a payment entry for this user.
-  .form
-    .form-group
-      pre
-        table
-          tr
-            td purchaser:
-            td= view.user.id
-          tr
-            td recipient:
-            td= view.user.id
-          tr
-            td service:
-            td
-              input#payment-service(type='text', value='paypal')
-              =" "
-              span Only enter paypal, stripe, or external
-          tr
-            td gems:
-            td
-              input#payment-gems(type='number', value='10500')
-          tr
-            td amount:
-            td
-              input#payment-amount(type='number', value='2997')
-          tr
-            td description:
-            td
-              input#payment-description(type='text')
-    button#create-payment-btn.btn.btn-primary Create Payment
-  hr
+  // Not currently used
+  //h3#create-payment Create Payment
+  //.small Use this to create a payment entry for this user.
+  //.form
+  //  .form-group
+  //    pre
+  //      table
+  //        tr
+  //          td purchaser:
+  //          td= view.user.id
+  //        tr
+  //          td recipient:
+  //          td= view.user.id
+  //        tr
+  //          td service:
+  //          td
+  //            input#payment-service(type='text', value='paypal')
+  //            =" "
+  //            span Only enter paypal, stripe, or external
+  //        tr
+  //          td gems:
+  //          td
+  //            input#payment-gems(type='number', value='10500')
+  //        tr
+  //          td amount:
+  //          td
+  //            input#payment-amount(type='number', value='2997')
+  //        tr
+  //          td description:
+  //          td
+  //            input#payment-description(type='text')
+  //  button#create-payment-btn.btn.btn-primary Create Payment
+  //hr
 
-  h3#details User Details
-  pre.user-props= JSON.stringify(view.user, null, 2)
-  hr
+  for model in view.models
+    .model-container(data-model-id=model.id)
+      h3= model.type() + ': ' + model.id
+      .model-treema(data-model-id=model.id)
+      btn.btn.btn-success.save-model(data-i18n="common.save") Save
+    hr
+
 
 block modal-footer

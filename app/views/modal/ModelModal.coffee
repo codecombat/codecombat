@@ -10,9 +10,9 @@ module.exports = class ModelModal extends ModalView
 
   events: 'click .save-model': 'onSaveModel'
 
-  constructor: (options) ->
+  initialize: (options) ->
     super options
-    @models = options.models
+    @models = options.models ? []
     for model in @models when not model.loaded
       @supermodel.loadModel model
       model.fetch cache: false, error: (error) ->
@@ -21,7 +21,7 @@ module.exports = class ModelModal extends ModalView
   afterRender: ->
     return unless @supermodel.finished()
     @modelTreemas = {}
-    for model in @models
+    for model in @models ? []
       data = $.extend true, {}, model.attributes
       schema = $.extend true, {}, model.schema()
       treemaOptions =

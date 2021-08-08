@@ -1,6 +1,6 @@
 _ = require 'lodash'
 require('app/styles/admin/administer-user-modal.sass')
-ModalView = require 'views/core/ModalView'
+ModelModal = require 'views/modal/ModelModal'
 template = require 'templates/admin/administer-user-modal'
 User = require 'models/User'
 Prepaid = require 'models/Prepaid'
@@ -17,7 +17,7 @@ api = require 'core/api'
 # TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
 # TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
 
-module.exports = class AdministerUserModal extends ModalView
+module.exports = class AdministerUserModal extends ModelModal
   id: 'administer-user-modal'
   template: template
 
@@ -45,7 +45,7 @@ module.exports = class AdministerUserModal extends ModalView
     'click #license-type-select>.radio': 'onSelectLicenseType'
 
   initialize: (options, @userHandle) ->
-    @user = new User({_id:@userHandle})
+    @user = new User({_id: @userHandle})
     @supermodel.trackRequest @user.fetch({cache: false})
     @coupons = new StripeCoupons()
     @supermodel.trackRequest @coupons.fetch({cache: false})
@@ -64,6 +64,8 @@ module.exports = class AdministerUserModal extends ModalView
     @licenseType = 'all'
     @licensePresets = LICENSE_PRESETS
     @utils = utils
+    options.models = [@user]  # For ModelModal to generate a Treema of this user
+    super options
 
   onLoaded: ->
     # TODO: Figure out a better way to expose this info, perhaps User methods?
@@ -74,6 +76,7 @@ module.exports = class AdministerUserModal extends ModalView
     @currentCouponID = stripe.couponID
     @none = not (@free or @freeUntil or @coupon)
     @trialRequest = @trialRequests.first()
+    @models.push @trialRequest
     @prepaidTableState={}
     @foundTeachers = []
     @administratedTeachers = []
@@ -251,15 +254,15 @@ module.exports = class AdministerUserModal extends ModalView
     @renderSelectors('#'+@$(e.target).data('prepaid-id'))
 
   onClickSavePrepaidInfo: (e) ->
-    prepaidId= @$(e.target).data('prepaid-id')  
+    prepaidId= @$(e.target).data('prepaid-id')
     prepaidStartDate= @$el.find('#'+'startDate-'+prepaidId).val()
     prepaidEndDate= @$el.find('#'+'endDate-'+prepaidId).val()
     prepaidTotalLicenses=@$el.find('#'+'totalLicenses-'+prepaidId).val()
     @prepaids.each (prepaid) =>
-      if (prepaid.get('_id') == prepaidId) 
+      if (prepaid.get('_id') == prepaidId)
         #validations
         unless prepaidStartDate and prepaidEndDate and prepaidTotalLicenses
-          return 
+          return
         if(prepaidStartDate >= prepaidEndDate)
           alert('End date cannot be on or before start date')
           return
@@ -271,7 +274,7 @@ module.exports = class AdministerUserModal extends ModalView
         prepaid.set('maxRedeemers', prepaidTotalLicenses)
         options = {}
         prepaid.patch(options)
-        @listenTo prepaid, 'sync', -> 
+        @listenTo prepaid, 'sync', ->
           @prepaidTableState[prepaidId] = 'viewMode'
           @renderSelectors('#'+prepaidId)
         return
@@ -449,4 +452,3 @@ module.exports = class AdministerUserModal extends ModalView
         schools[school].push(teacher)
 
     schools
-
