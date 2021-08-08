@@ -200,7 +200,11 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     while quotesReg.test(s)
       s = s.replace quotesReg, '$1"$2"'
     # first replace ' to " then replace object
-    s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, '{$1, $2}'  # {x:1, y:1} -> {1, 1}
+    if language is 'cpp'
+      s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, '{$1, $2}'  # {x:1, y:1} -> {1, 1}
+    else if language is 'java'
+      # Let's use Vectors instead of object literals in this case
+      s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, 'new Vector($1, $2)'  # {x:1, y:1} -> new Vector(1, 1)
     jsCodes[i] = s
 
   unless fullCode
