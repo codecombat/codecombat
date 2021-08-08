@@ -37,7 +37,7 @@ module.exports = class LevelGoalsView extends CocoView
   constructor: (options) ->
     super options
     @level = options.level
-    
+
   afterRender: ->
     @levelGoalsComponent = new LevelGoals({
       el: @$('.goals-component')[0],
@@ -128,3 +128,9 @@ module.exports = class LevelGoalsView extends CocoView
   onSetLetterbox: (e) ->
     @$el.toggle not e.on
     @updatePlacement()
+
+  destroy: ->
+    silentStore = { commit: _.noop, dispatch: _.noop }
+    @levelGoalsComponent?.$destroy()
+    @levelGoalsComponent?.$store = silentStore
+    super()
