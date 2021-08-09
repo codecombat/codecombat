@@ -1,4 +1,4 @@
-// Run with `node -r coffee-script/register scripts/copy-i18n-tags.js`
+require('coffee-script').register()
 const fs = require('fs')
 const path = require('path')
 const enTranslations = require('../app/locale/en').translation
