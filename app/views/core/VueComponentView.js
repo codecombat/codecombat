@@ -45,5 +45,6 @@ module.exports = class VueComponentView extends RootView {
   destroy() {
     this.vueComponent.$destroy()
     this.vueComponent.$store = silentStore
+    super.destroy()
   }
 }
