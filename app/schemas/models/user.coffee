@@ -90,6 +90,16 @@ _.extend UserSchema.properties,
     }
   }
   clientCreator: c.objectId({description: 'Client which created this user'})
+  clientPermissions:
+    description: 'More APIClients with permissions on this user, apart from clientCreator.'
+    type: 'array'
+    items:
+      type: 'object'
+      additionalProperties: false
+      properties:
+        client: {type: c.objectId({description: 'APIClient with permissions on this user'})}
+        access: {type: 'string', 'enum': ['read', 'grant', 'write', 'owner']}  # 'grant' permissions allow APIClients to grant licenses to a user
+    format: 'hidden'
 
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
