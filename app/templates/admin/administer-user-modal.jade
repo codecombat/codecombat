@@ -151,10 +151,10 @@ block modal-body-content
       if view.state === 'creating-prepaid'
         .progress.progress-striped.active
           .progress-bar(style="width: 100%")
-  
+
       else if view.state === 'made-prepaid'
         .alert.alert-success Licenses created!
-  
+
       else
         if view.timeZone == 'Asia/Shanghai'
           h4.small(style="max-width: 700px") Licenses start at 12am CT on the start date and end at 11:59pm CT on the end date listed.
