@@ -78,7 +78,7 @@ Application = {
     if me.useSocialSignOn()
       @facebookHandler = new FacebookHandler()
       @gplusHandler = new GPlusHandler()
-      @githubHandler = new GitHubHandler()
+      #@githubHandler = new GitHubHandler()  # Currently unused
     $(document).bind 'keydown', preventBackspace
     moment.relativeTimeThreshold('ss', 1) # do not return 'a few seconds' when calling 'humanize'
     CocoModel.pollAchievements()

@@ -59,7 +59,7 @@
         return image
       })
     },
-    destroyed () {
+    beforeDestroy () {
       Backbone.Mediator.unsubscribe('surface:frame-changed', this.onFrameChanged, this)
     },
     methods: {

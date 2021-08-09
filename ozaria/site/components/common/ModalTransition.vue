@@ -45,6 +45,10 @@
       showShareModal: {
         type: Boolean,
         default: false
+      },
+      supermodel: {
+        type: Object,
+        default: null
       }
     },
     data: () => ({
@@ -55,7 +59,7 @@
       showCharCx: false,
       classroom: undefined,
       nextLevelIsLocked: false,
-      doReload: true // Reload browser while loading the next URL. This is to fix the memory leak in cinematics.
+      doReload: false  // This was used for preventing memory leaks, but should no longer be needed
     }),
     computed: {
       ...mapGetters({
@@ -225,6 +229,12 @@
         }
       },
       nextButtonClick () {
+        if (this.supermodel && !this.doReload) {
+          // Hack: save the current supermodel globally so that the next content view can grab it during initialization and doesn't have to reload everything
+          window.temporarilyPreservedSupermodel = this.supermodel
+          const removeTemporarilyPreservedSupermodel = () => window.temporarilyPreservedSupermodel = undefined
+          _.defer(removeTemporarilyPreservedSupermodel)  // Have to grab it within one frame
+        }
         if (this.currentIntroContent && !this.introLevelComplete) {
           this.$emit('next-content') // handled by vue IntroLevelPage
         } else if (this.charCxModal && this.nextLevelLink) {

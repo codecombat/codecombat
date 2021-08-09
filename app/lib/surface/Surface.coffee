@@ -830,11 +830,15 @@ module.exports = Surface = class Surface extends CocoClass
     @webGLStage.removeEventListener 'stagemousemove', @onMouseMove
     @webGLStage.removeEventListener 'stagemousedown', @onMouseDown
     @webGLStage.removeEventListener 'stagemouseup', @onMouseUp
+    @normalStage.removeAllEventListeners()
     @webGLStage.removeAllEventListeners()
     @normalStage.enableDOMEvents false
     @webGLStage.enableDOMEvents false
+    @normalStage.enableMouseOver 0
     @webGLStage.enableMouseOver 0
     @webGLCanvas.off 'mousewheel', @onMouseWheel
+    @normalCanvas[0].width = @normalCanvas[0].height = 0
+    @webGLCanvas[0].width = @webGLCanvas[0].height = 0
     $(window).off 'resize', @onResize
     $(window).off('keydown', @onKeyEvent)
     $(window).off('keyup', @onKeyEvent)

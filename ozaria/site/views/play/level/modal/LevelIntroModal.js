@@ -49,6 +49,7 @@ class LevelIntroModal extends ModalComponent {
     if (this.onDestroy) {
       this.onDestroy()
     }
+    super.destroy()
   }
 }
 

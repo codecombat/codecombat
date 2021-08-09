@@ -15,7 +15,7 @@ export const log = (action, options = {}, status = 'info') => {
   }
 
   try {
-    if (window.application && !window.application.isProduction()) {
+    if (window.application && !window.application.isProduction() || window.location.hostname === 'localhost') {
       window.DD_LOGS.logger.setHandler('console')
     }
   

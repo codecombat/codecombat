@@ -1332,8 +1332,8 @@ module.exports = class SpellView extends CocoView
     @lastDetectedSuspectCodeFragmentNames = detectedSuspectCodeFragmentNames
 
   destroy: ->
-    $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
-    $(@ace?.container).find('.ace_gutter').off 'click', @onGutterClick
+    $(@ace?.container).find('.ace_gutter').off 'click mouseenter', '.ace_error, .ace_warning, .ace_info'
+    $(@ace?.container).find('.ace_gutter').off()
     @firepad?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
     @ace?.destroy()
@@ -1347,6 +1347,7 @@ module.exports = class SpellView extends CocoView
     $(window).off 'resize', @onWindowResize
     window.clearTimeout @saveSpadeTimeout
     @saveSpadeTimeout = null
+    @autocomplete?.destroy()
     super()
 
 # Note: These need to be double-escaped for insertion into regexes

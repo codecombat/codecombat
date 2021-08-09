@@ -33,3 +33,4 @@ module.exports = class ModalComponent extends ModalView
     @vueComponent.$el.remove()
     @vueComponent.$store = silentStore
     @vueComponent = null
+    super()

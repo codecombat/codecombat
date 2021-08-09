@@ -11,7 +11,8 @@ class OzariaTransitionModal extends ModalComponent {
       courseId: null,
       courseInstanceId: null,
       goToNextDirectly: null,
-      showShareModal: null
+      showShareModal: null,
+      supermodel: null
     }
   }
 
@@ -23,12 +24,14 @@ class OzariaTransitionModal extends ModalComponent {
     this.propsData.courseInstanceId = options.courseInstanceId
     this.propsData.goToNextDirectly = options.goToNextDirectly
     this.propsData.showShareModal = options.showShareModal
+    this.propsData.supermodel = options.supermodel
   }
 
   destroy () {
     if (this.onDestroy) {
       this.onDestroy()
     }
+    super.destroy()
   }
 }
 

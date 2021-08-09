@@ -128,6 +128,7 @@ export class CinematicController {
    */
   async startUp () {
     const data = await this.systems.loader.loadAssets()
+    if (this.destroyed) return
 
     const commands = data.shots
       .map(shot => parseShot(shot, this.systems, this.userOptions))
@@ -139,12 +140,14 @@ export class CinematicController {
     this.commands = commands
 
     await this.systems.cinematicLankBoss.preloaded() // NOTE: This will always complete after about ~2.5 minutes. It has a failsafe.
+    if (this.destroyed) return
     for (const preloadedLank of Object.values(this.systems.cinematicLankBoss.lankCache)) {
       preloadedLank.hide()
     }
 
     // Provide time for the loaded lanks to be hidden. Otherwise there can be a disruptive flash.
     setTimeout(() => {
+      if (this.destroyed) return
       this.onLoaded()
     }, 100)
   }
@@ -275,8 +278,22 @@ export class CinematicController {
     createjs.Ticker.removeAllEventListeners()
     this.systems.cameraSystem.destroy()
     this.systems.cinematicLankBoss.cleanup()
-    this.stage.removeAllEventListeners()
     this.systems.sound.stopAllSounds()
+    this.undoCommands.reset()
+    this.stubRequiredLayer.destroy()
+    this.layerAdapter.destroy()
+    this.backgroundObjectAdapter.destroy()
+    this.backgroundAdapter.destroy()
+    // Defensive coding to try to avoid stage/graphics leaks
+    this.stage.clear()
+    this.stage.removeAllChildren()
+    this.stage.removeAllEventListeners()
+    this.stage.enableDOMEvents(false)
+    this.stage.enableMouseOver(0)
+    this.stage.canvas.width = this.stage.canvas.height = 0
+    this.stage.canvas = undefined
+    this.stage = undefined
+    this.destroyed = true
   }
 }
 
