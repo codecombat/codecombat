@@ -3290,6 +3290,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     skip_video: 'Skip video'
     unavailable: 'Unavailable'
 
+  admin:
+    license_type_full: 'Full Courses'
+    license_type_customize: 'Customize Courses'
+
   teacher_dashboard:
     lock: 'Lock'
     unlock: 'Unlock'

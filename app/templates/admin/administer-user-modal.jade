@@ -187,7 +187,7 @@ block modal-body-content
                 if view.licenseType === 'customize'
                   each courseID, key in view.utils.courseIDs
                     label.course-name
-                      input(type="checkbox", name="includedCourseIDs", value=courseID, checked=key==='INTRODUCTION_TO_COMPUTER_SCIENCE')
+                      input(type="checkbox", name="includedCourseIDs", value=courseID, checked=key==='CHAPTER_ONE')
                       span=view.utils.courseAcronyms[courseID]
         .form-group
           label

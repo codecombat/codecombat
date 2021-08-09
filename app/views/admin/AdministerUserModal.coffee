@@ -10,6 +10,7 @@ Prepaids = require 'collections/Prepaids'
 Classrooms = require 'collections/Classrooms'
 TrialRequests = require 'collections/TrialRequests'
 fetchJson = require('core/api/fetch-json')
+utils = require 'core/utils'
 api = require 'core/api'
 NameLoader = require 'core/NameLoader'
 { LICENSE_PRESETS } = require 'core/constants'
@@ -162,6 +163,12 @@ module.exports = class AdministerUserModal extends ModelModal
     attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
     attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
     attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
+
+    if attrs.licenseType of @licensePresets
+      attrs.includedCourseIDs = @licensePresets[attrs.licenseType]
+    return unless attrs.licenseType == 'all' or attrs.includedCourseIDs.length
+    delete attrs.licenseType
+
     _.extend(attrs, {
       type: 'course'
       creator: @user.id
@@ -447,6 +454,10 @@ module.exports = class AdministerUserModal extends ModelModal
 
     result = "<table class=\"table\">#{result.join('\n')}</table>"
     @$el.find('#school-admin-result').html(result)
+
+  onSelectLicenseType: (e) ->
+    @licenseType = $(e.target).parent().children('input').val()
+    @renderSelectors("#license-type-select")
 
   administratedSchools: (teachers) ->
     schools = {}
