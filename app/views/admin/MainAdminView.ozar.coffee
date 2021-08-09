@@ -56,7 +56,7 @@ module.exports = class MainAdminView extends RootView
       else
         $('#espionage-name-or-email').val spy
         $('#enter-espionage-mode').click()
-    if userID = utils.getQueryVariable 'user'
+    if me.isAdmin() and userID = utils.getQueryVariable 'user'
       @openModalView new AdministerUserModal({}, userID)
 
   clearQueryParams: -> window.history.pushState({}, '', document.location.href.split('?')[0])

@@ -10,9 +10,9 @@ module.exports = class ModelModal extends ModalView
 
   events: 'click .save-model': 'onSaveModel'
 
-  constructor: (options) ->
+  initialize: (options) ->
     super options
-    @models = options.models
+    @models = options.models ? []
     for model in @models when not model.loaded
       @supermodel.loadModel model
       model.fetch cache: false
@@ -20,7 +20,7 @@ module.exports = class ModelModal extends ModalView
   afterRender: ->
     return unless @supermodel.finished()
     @modelTreemas = {}
-    for model in @models
+    for model in @models ? []
       data = $.extend true, {}, model.attributes
       schema = $.extend true, {}, model.schema()
       treemaOptions =
@@ -35,7 +35,7 @@ module.exports = class ModelModal extends ModalView
 
   openTastyTreemas: (modelTreema, model) ->
     # To save on quick inspection, let's auto-open the properties we're most likely to want to see.
-    delicacies = ['code']
+    delicacies = ['code', 'properties']
     for dish in delicacies
       child = modelTreema.childrenTreemas[dish]
       child?.open()

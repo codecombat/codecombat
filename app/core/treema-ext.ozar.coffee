@@ -12,7 +12,11 @@ initializeFilePicker = ->
 
 class DateTimeTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-date-time'
-  buildValueForDisplay: (el, data) -> el.text(moment(data).format('llll'))
+  buildValueForDisplay: (el, data) ->
+    if /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)/.test data
+      # Handle weird string date formatting by first parsing to date
+      data = new Date data
+    el.text(moment(data).format('llll'))
   buildValueForEditing: (valEl) ->
     @buildValueForEditingSimply valEl, null, 'date'
 
