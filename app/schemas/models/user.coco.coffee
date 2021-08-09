@@ -157,7 +157,6 @@ _.extend UserSchema.properties,
     value: {description: 'The experiment value/group that this user is assigned to', additionalProperties: true}  # Data type is flexible depending on experiment needs
     probability: c.pct {description: 'Probability of being assigned to this experiment value'}
     startDate: c.date {description: 'When this user first started the experiment'}
-    # TODO: add to Ozaria user
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCode2019: {type: 'boolean'} # adding for hoc 2019, TODO refactor into a reusable property if needed
