@@ -28,6 +28,7 @@ class CapstoneVictoryModal extends ModalComponent {
     }
 
     this.goToCinematic()
+    super.destroy()
   }
 
   goToCinematic () {

@@ -13,7 +13,7 @@
       >
         <backbone-view-harness
           :backbone-view="backboneView"
-          :backbone-options="{}"
+          :backbone-options="{ supermodel: this.getSupermodel() }"
           :backbone-args="[ levelID ]"
         />
       </LayoutAspectRatioContainer>
@@ -60,6 +60,9 @@
       },
       clickOptions () {
         Backbone.Mediator.publish('level:open-options-modal', {})
+      },
+      getSupermodel () {
+        return window.temporarilyPreservedSupermodel  // May be undefined, or may be set for one frame when transitioning from previous level
       }
     },
     computed: {

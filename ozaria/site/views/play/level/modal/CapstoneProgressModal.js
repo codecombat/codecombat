@@ -28,6 +28,7 @@ class CapstoneProgressModal extends ModalComponent {
     }
 
     this.goToCinematic()
+    super.destroy()
   }
 
   goToCinematic () {

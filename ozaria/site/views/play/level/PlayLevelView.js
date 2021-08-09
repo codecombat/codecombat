@@ -40,7 +40,6 @@ const createjs = require('lib/createjs-parts')
 const LevelLoadingView = require('app/views/play/level/LevelLoadingView')
 const ProblemAlertView = require('./tome/ProblemAlertView')
 const TomeView = require('./tome/TomeView')
-const LevelHUDView = require('./LevelHUDView')
 const LevelDialogueView = require('./LevelDialogueView')
 const ControlBarView = require('./ControlBarView')
 const LevelPlaybackView = require('./LevelPlaybackView')
@@ -590,6 +589,9 @@ class PlayLevelView extends RootView {
     const useHero =
       /hero/.test(spell.getSource()) ||
       !/(self[\.\:]|this\.|\@)/.test(spell.getSource())
+    if (this.spellPaletteView) {
+      this.removeSubview(this.spellPaletteView)
+    }
     this.spellPaletteView = this.insertSubView(
       new SpellPaletteView({
         thang,
@@ -660,7 +662,7 @@ class PlayLevelView extends RootView {
 
     const HUDThangTypeList = this.world.frames[0]?.thangStateMap?.['Hero Placeholder']?.thang?.HUDThangTypeList
     if (Array.isArray(HUDThangTypeList)) {
-      new ThangTypeHUDComponent({
+      this.thangTypeHUDComponent = new ThangTypeHUDComponent({
         el: this.$el.find('#thangtype-hud-view')[0],
         propsData: {
           thangTypes: this.supermodel.getModels(ThangType),
@@ -669,9 +671,6 @@ class PlayLevelView extends RootView {
       })
     }
 
-    if (!this.level.isType('web-dev')) {
-      this.insertSubView(new LevelHUDView({ level: this.level }))
-    }
     this.insertSubView(new TutorialPlayView({
       level: this.level
     }))
@@ -1208,7 +1207,8 @@ class PlayLevelView extends RootView {
       level: this.level,
       courseId: this.courseID,
       courseInstanceId: this.courseInstanceID,
-      goToNextDirectly: goToNextDirectly && !this.continueEditing
+      goToNextDirectly: goToNextDirectly && !this.continueEditing,
+      supermodel: this.supermodel
     }
 
     if (this.level.isCapstone()) {
@@ -1595,6 +1595,9 @@ class PlayLevelView extends RootView {
     if (this.setupManager != null) {
       this.setupManager.destroy()
     }
+    if (this.thangTypeHUDComponent != null) {
+      this.thangTypeHUDComponent.$destroy()
+    }
     if ((ambientSound = this.ambientSound)) {
       // Doesn't seem to work; stops immediately.
       createjs.Tween.get(ambientSound)
@@ -1636,6 +1639,8 @@ class PlayLevelView extends RootView {
     } else if (!this.level) {
       console.error('Expecte this.level to exist in PlayLevelView.destroy, skipping event logging.')
     }
+    Backbone.Mediator.unsubscribe('modal:closed', this.onLevelStarted, this)
+    Backbone.Mediator.unsubscribe('audio-player:loaded', this.playAmbientSound, this)
     return super.destroy()
   }
 

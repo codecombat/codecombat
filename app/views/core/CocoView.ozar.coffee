@@ -76,6 +76,7 @@ module.exports = class CocoView extends Backbone.View
     view.destroy() for id, view of @subviews
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
     @$el.find('.has-tooltip, [data-original-title]').tooltip 'destroy'
+    @$('.nano').nanoScroller destroy: true
     @endHighlight()
     @getPointer(false).remove()
     @[key] = undefined for key, value of @
@@ -580,9 +581,11 @@ module.exports = class CocoView extends Backbone.View
   tryCopy: ->
     try
       document.execCommand('copy')
+      message = 'Copied to clipboard'
+      noty text: message, layout: 'topCenter', type: 'info', killer: false, timeout: 2000
     catch err
       message = 'Oops, unable to copy'
-      noty text: message, layout: 'topCenter', type: 'error', killer: false
+      noty text: message, layout: 'topCenter', type: 'error', killer: false, timeout: 3000
 
   wait: (event) -> new Promise((resolve) => @once(event, resolve))
 

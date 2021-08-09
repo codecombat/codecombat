@@ -273,6 +273,7 @@ module.exports = class CampaignView extends RootView
       # Doesn't seem to work; stops immediately.
       createjs.Tween.get(ambientSound).to({volume: 0.0}, 1500).call -> ambientSound.stop()
     clearInterval @portalScrollInterval
+    Backbone.Mediator.unsubscribe 'audio-player:loaded', @playAmbientSound, @
     super()
 
   showLoading: ($el) ->

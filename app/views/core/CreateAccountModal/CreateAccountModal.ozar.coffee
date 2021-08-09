@@ -213,6 +213,7 @@ module.exports = class CreateAccountModal extends ModalView
       @teacherSignupComponent.$destroy()
     try
       store.unregisterModule('modal')
+    super()
 
   onClickLoginLink: ->
     properties =

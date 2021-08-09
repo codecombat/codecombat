@@ -33,6 +33,7 @@
 
     beforeDestroy () {
       window.removeEventListener('resize', this.onResize)
+      Backbone.Mediator.unsubscribe('level:loading-view-unveiled', this.unveilResize, this)
     },
 
     methods: {

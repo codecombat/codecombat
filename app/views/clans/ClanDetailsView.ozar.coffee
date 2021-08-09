@@ -47,6 +47,7 @@ module.exports = class ClanDetailsView extends RootView
 
   destroy: ->
     @stopListening?()
+    super()
 
   initData: ->
     @showExpandedProgress = false

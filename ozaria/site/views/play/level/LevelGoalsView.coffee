@@ -44,3 +44,9 @@ module.exports = class LevelGoalsView extends CocoView
   onTomeCast: (e) ->
     return if e.preload
     @levelGoalsComponent.casting = true
+
+  destroy: ->
+    silentStore = { commit: _.noop, dispatch: _.noop }
+    @levelGoalsComponent?.$destroy()
+    @levelGoalsComponent?.$store = silentStore
+    super()

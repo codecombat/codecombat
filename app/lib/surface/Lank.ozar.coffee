@@ -867,6 +867,7 @@ module.exports = Lank = class Lank extends CocoClass
     label.destroy() for name, label of @labels
     p.removeChild @healthBar if p = @healthBar?.parent
     @sprite?.off 'animationend', @playNextAction
+    @sprite?.destroy?()
     clearInterval @effectInterval if @effectInterval
     @dialogueSoundInstance?.removeAllEventListeners()
     super()

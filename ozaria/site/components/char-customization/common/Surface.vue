@@ -86,7 +86,7 @@
 
       const thang = createThang(this.thang)
       const lank = new Lank(this.loadedThangTypes[this.selectedThang], {
-        perloadSounds: false,
+        preloadSounds: false,
         thang,
         camera: camera,
         groundLayer: this.layerBackground
@@ -99,8 +99,21 @@
       camera.zoomTo({ x: 0, y: 0 }, 1, 0)
     },
 
-    destroyed () {
+    beforeDestroy () {
       createjs.Ticker.removeAllEventListeners()
+      this.currentLank.options.camera.destroy()
+      this.layerBackground.destroy()
+      this.defaultLayer.destroy()
+      this.currentLank.destroy()
+      // Defensive coding to try to avoid stage/graphics leaks
+      this.stage.clear()
+      this.stage.removeAllChildren()
+      this.stage.removeAllEventListeners()
+      this.stage.enableDOMEvents(false)
+      this.stage.enableMouseOver(0)
+      this.stage.canvas.width = this.stage.canvas.height = 0
+      this.stage.canvas = undefined
+      this.stage = undefined
     }
   }
 </script>

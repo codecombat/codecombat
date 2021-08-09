@@ -105,8 +105,8 @@
     "co-express": "^1.2.1",
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.9.3",
-    "compression": "^1.6.2",
     "compressible": "~1.0.1",
+    "compression": "^1.6.2",
     "connect-timeout": "^1.9.0",
     "cookie-parser": "^1.4.3",
     "cookie-session": "^1.2.0",
@@ -173,7 +173,7 @@
     "vue-shepherd": "0.0.1",
     "vuedraggable": "^2.21.0",
     "vuelidate": "^0.7.5",
-    "vuex": "^2.4.0",
+    "vuex": "^3.6.2",
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {

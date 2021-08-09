@@ -59,7 +59,7 @@ module.exports = class ThangType extends CocoModel
 
     # Vue recursively traverses objects making them reactive.
     # Our thangs are referenced from a reactive object somewhere in the
-    # codebase adding a large performance hit with no functional benefit. 
+    # codebase adding a large performance hit with no functional benefit.
     #
     # This line tricks Vue into thinking it has already made this ThangType
     # reactive.
@@ -71,6 +71,10 @@ module.exports = class ThangType extends CocoModel
     #  @unset 'raw'
     #  @_previousAttributes.raw = null
     #setTimeout f, 40000
+
+  destroy: ->
+    @rasterImage?.off?()
+    super()
 
   resetRawData: ->
     @set('raw', {shapes: {}, containers: {}, animations: {}})
@@ -89,17 +93,18 @@ module.exports = class ThangType extends CocoModel
     return unless raster = @get('raster')
     @rasterImage = $("<img crossOrigin='Anonymous' src='/file/#{raster}' />")
     @loadingRaster = true
-    @rasterImage.one('load', =>
+    @rasterImage.one 'load', =>
       @loadingRaster = false
       @loadedRaster = true
-      @trigger('raster-image-loaded', @))
-    @rasterImage.one('error', (error) =>
-      if (error)
+      @trigger('raster-image-loaded', @)
+      @rasterImage.off 'error'
+    @rasterImage.one 'error', (error) =>
+      if error
         console.log('Raster image error', error)
       @loadingRaster = false
       console.log('Raster image error', @)
       @trigger('raster-image-load-errored', @)
-    )
+      @rasterImage.off 'load'
 
   getActions: ->
     return {} unless @isFullyLoaded()
@@ -305,16 +310,8 @@ module.exports = class ThangType extends CocoModel
     stage.update()
     stage.startTalking = ->
       sprite.gotoAndPlay 'portrait'
-      return  # TODO: causes infinite recursion in new EaselJS
-      return if @tick
-      @tick = (e) => @update(e)
-      createjs.Ticker.addEventListener 'tick', @tick
     stage.stopTalking = ->
       sprite.gotoAndStop 'portrait'
-      return  # TODO: just breaks in new EaselJS
-      @update()
-      createjs.Ticker.removeEventListener 'tick', @tick
-      @tick = null
     stage
 
   getVectorPortraitStage: (size=100) ->
@@ -597,7 +594,7 @@ module.exports = class ThangType extends CocoModel
 
     if (loadingPromises.length or []) >= 1
       Promise.all(loadingPromises)
-        .then(() => 
+        .then(() =>
           @loadedRasterAtlas = true
           @loadingRasterAtlas = false
           @trigger('texture-atlas-loaded')
@@ -625,7 +622,7 @@ module.exports = class ThangType extends CocoModel
     {lib, ss, ssMetadata, images} = @textureAtlases.get(animation)
 
     # Add images to ssMetadata
-    ssMetadata = ssMetadata.map((metadata) => 
+    ssMetadata = ssMetadata.map((metadata) =>
       img_index = images.map((img) => img.src)
         .map((img_src) => img_src.split('/').pop())
         .map((img_name) => img_name.slice(0,-4))

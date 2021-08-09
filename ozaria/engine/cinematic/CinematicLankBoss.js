@@ -116,6 +116,9 @@ export default class CinematicLankBoss {
    * In doing so we no longer need to rasterize during the playback of a cinematic.
    */
   preRasterLank (resource, thang, layer) {
+    if ((this.layerAdapters[layer || DEFAULT_LAYER]).destroyed) {
+      return
+    }
     const thangType = this.loader.getThangType(resource)
     if (this.lankCache[thangType.id]) {
       return
@@ -649,9 +652,16 @@ export default class CinematicLankBoss {
   }
 
   cleanup () {
-    for (const key in this.lanks) {
-      this.removeLank(key)
+    for (const lankSource of [this.lankCache, this.lanks]) {
+      for (const key in lankSource) {
+        const lank = lankSource[key]
+        if (lank && !lank.destroyed) {
+          lank.destroy()
+        }
+      }
     }
+    this.lankCache = {}
+    this.lanks = {}
   }
 
   /**
