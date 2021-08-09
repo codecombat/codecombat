@@ -20,8 +20,6 @@ module.exports = class SegmentedSprite extends createjs.Container
   destroy: ->
     @handleTick = undefined
     @baseMovieClip.inUse = false if @baseMovieClip
-    delete @spriteSheet.mcPool
-    delete @spriteSheet
     @removeAllEventListeners()
 
   # CreateJS.Sprite-like interface
