@@ -5,62 +5,64 @@ extends /templates/core/modal-base-flat.jade
 block modal-header-content
 
   .row
-    .col-md-7
+    .col-sm-6
       h4 Name: #{view.user.get('name')} (#{view.user.get('firstName')} #{view.user.get('lastName')})
       h4 Email: #{view.user.get('emailLower') || view.user.get('email')}
       h4
-        span= 'User ID: '
+        span= 'ID: '
         code= view.user.get('_id')
       if view.user.isTeacher() && view.trialRequest
         - var props = view.trialRequest.get('properties') || {}
         h4 School: #{props.nces_school || props.organization}
         h4 District: #{props.nces_district || props.district}
-      p
-        if view.user.isStudent() || view.user.isTeacher()
-          if view.user.isStudent()
-            button#destudent-btn.btn.btn-burgundy Destudent
-          if view.user.isTeacher()
-            button#deteacher-btn.btn.btn-burgundy Deteacher
-        button#reset-progress-btn.btn.btn-burgundy Reset Progress
-        a#export-data-btn.btn.btn-primary(target='_blank' href='/db/user/' + view.user.id + '/export-data') Export GDPR User Data
 
-    .col-md-5
+    .col-sm-3
+      if view.user.isStudent()
+        button#destudent-btn.btn.btn-burgundy.btn-block Destudent
+      if view.user.isTeacher()
+        button#deteacher-btn.btn.btn-burgundy.btn-block Deteacher
+      if !view.user.isTeacher()
+        button#reset-progress-btn.btn.btn-burgundy.btn-block Reset Progress
+      a#export-data-btn.btn.btn-primary.btn-block(target='_blank' href='/db/user/' + view.user.id + '/export-data') Export GDPR User Data
+
+    .col-sm-3
       if view.prepaids.size()
         div
           a(href="#prepaids") Existing Prepaids
-      div
-        a(href="#licenses") Grant Student Licenses
+      if view.user.isTeacher()
+        div
+          a(href="#licenses") Grant Student Licenses
       if view.classrooms.size()
         div
-          a(href="#classrooms") Update Classrooms
-      div
-        a(href="#stripe") Modify Stripe Subscription
+          a(href="#classrooms") Classrooms
+      if !view.user.isTeacher() && !view.user.isStudent()
+        div
+          a(href="#stripe") Modify Stripe Subscription
       // Not currently used
       //div
       //  a(href="#create-payment") Create Payment
       div
-        a(href="#details") User Details
+        a(href="#database-entries") Database Entries
 
-  div.m-t-1
-    // Not currently used
-    //label
-    //  input#verified-teacher-checkbox(type='checkbox', checked=view.userIsVerifiedTeacher())
-    //  span.p-l-1
-    //    | APCSP Verified Teacher (has access to private forum)
-    //br
-    label
-      input#school-admin-checkbox(type='checkbox', checked=view.userIsSchoolAdmin())
-      span.p-l-1
-        | Enable School Administrator
-      span.p-l-1
-        a(href="#edit-school-admins-link")#edit-school-admins-link edit teachers
-    div
-      if view.userSaveState == 'saving'
-        | Saving...
-      else if view.userSaveState == 'saved'
-        | Saved!
-      else
-        | &nbsp;
+  if view.user.isTeacher()
+    div.m-t-1
+      // Not currently used
+      //label
+      //  input#verified-teacher-checkbox(type='checkbox', checked=view.userIsVerifiedTeacher())
+      //  span.p-l-1
+      //    | APCSP Verified Teacher (has access to private forum)
+      //br
+      label
+        input#school-admin-checkbox(type='checkbox', checked=view.userIsSchoolAdmin())
+        span.p-l-1
+          | Enable School Administrator
+        span.p-l-1
+          a(href="#edit-school-admins-link")#edit-school-admins-link edit teachers
+      div
+        if view.userSaveState == 'saving'
+          | Saving...
+        else if view.userSaveState == 'saved'
+          | Saved!
 
 block modal-body-content
   if view.editingSchoolAdmins
@@ -84,7 +86,6 @@ block modal-body-content
     br
     table.table.table-condensed
       #school-admin-result
-
 
   if view.prepaids.size()
     h3.m-t-3#prepaids Existing Prepaids
@@ -144,70 +145,76 @@ block modal-body-content
               button.btn.btn-primary.edit-prepaids-info-btn(data-prepaid-id=prepaid.id) Edit
     hr
 
-  h3.m-t-3#licenses Grant Student Licenses
-  #prepaid-form.form
-    if view.state === 'creating-prepaid'
-      .progress.progress-striped.active
-        .progress-bar(style="width: 100%")
-
-    else if view.state === 'made-prepaid'
-      .alert.alert-success Licenses created!
-
-    else
-      if view.timeZone == 'Asia/Shanghai'
-        h4.small(style="max-width: 700px") Licenses start at 12am CT on the start date and end at 11:59pm CT on the end date listed.
-      else 
-        h4.small(style="max-width: 700px") Licenses start at 12am PT on the start date and end at 11:59pm PT on the end date listed.
-      .form-group
-        label
-          span Number of Licenses
-          =" "
-          input#seats-input(type="number", name="maxRedeemers", min="1")
-      .form-group
-        label
-          span Licenses Type
-          =":"
-          #license-type-select
-            .radio
-              label.license-type
-                input(type="radio", name="licenseType", value="all", checked=view.licenseType==='all')
-                span(data-i18n="admin.license_type_full")
-            each v, preset in view.licensePresets
+  if view.user.isTeacher()
+    h3.m-t-3#licenses Grant Student Licenses
+    #prepaid-form.form
+      if view.state === 'creating-prepaid'
+        .progress.progress-striped.active
+          .progress-bar(style="width: 100%")
+  
+      else if view.state === 'made-prepaid'
+        .alert.alert-success Licenses created!
+  
+      else
+        if view.timeZone == 'Asia/Shanghai'
+          h4.small(style="max-width: 700px") Licenses start at 12am CT on the start date and end at 11:59pm CT on the end date listed.
+        else 
+          h4.small(style="max-width: 700px") Licenses start at 12am PT on the start date and end at 11:59pm PT on the end date listed.
+        .form-group
+          label
+            span Number of Licenses
+            =" "
+            input#seats-input(type="number", name="maxRedeemers", min="1")
+        .form-group
+          label
+            span Licenses Type
+            =":"
+            #license-type-select
               .radio
                 label.license-type
-                  input(type="radio", name="licenseType", value=preset, checked=view.licenseType===preset)
-                  span=preset
-            .radio
-              label.license-type
-                input(type="radio", name="licenseType", value="customize", checked=view.licenseType==='customize')
-                span(data-i18n="admin.license_type_customize")
-            #select-courses
-              if view.licenseType === 'customize'
-                each courseID, key in view.utils.courseIDs
-                  label.course-name
-                    input(type="checkbox", name="includedCourseIDs", value=courseID, checked=key==='INTRODUCTION_TO_COMPUTER_SCIENCE')
-                    span=view.utils.courseAcronyms[courseID]
-      .form-group
-        label
-          span Start Date
-          =" "
-          input(type="date" name="startDate" value=moment.timezone().tz(view.timeZone).format('YYYY-MM-DD'))
-      .form-group
-        label
-          span End Date
-          =" "
-          input(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
-      .form-group
-        button#add-seats-btn.btn.btn-primary Add Licenses
-    hr
+                  input(type="radio", name="licenseType", value="all", checked=view.licenseType==='all')
+                  span(data-i18n="admin.license_type_full")
+              each v, preset in view.licensePresets
+                .radio
+                  label.license-type
+                    input(type="radio", name="licenseType", value=preset, checked=view.licenseType===preset)
+                    span=preset
+              .radio
+                label.license-type
+                  input(type="radio", name="licenseType", value="customize", checked=view.licenseType==='customize')
+                  span(data-i18n="admin.license_type_customize")
+              #select-courses
+                if view.licenseType === 'customize'
+                  each courseID, key in view.utils.courseIDs
+                    label.course-name
+                      input(type="checkbox", name="includedCourseIDs", value=courseID, checked=key==='INTRODUCTION_TO_COMPUTER_SCIENCE')
+                      span=view.utils.courseAcronyms[courseID]
+        .form-group
+          label
+            span Start Date
+            =" "
+            input(type="date" name="startDate" value=moment.timezone().tz(view.timeZone).format('YYYY-MM-DD'))
+        .form-group
+          label
+            span End Date
+            =" "
+            input(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
+        .form-group
+          button#add-seats-btn.btn.btn-primary Add Licenses
+      hr
 
   if view.classrooms.size()
-    h3.m-t-3#classrooms Update Classrooms
+    h3.m-t-3#classrooms Classrooms
     table#classroom-table.table
       tr
         th Name
         th Lang
-        th # Levels / Courses
+        th Students
+        if view.user.isTeacher()
+          th # Levels / Courses
+          th
+        else
+          th Teacher
         th
       for classroom in view.classrooms.models
         tr
@@ -216,45 +223,58 @@ block modal-body-content
             if classroom.get('archived')
               i.spl.text-muted (archived)
           td= classroom.capitalLanguage
-          td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
+          td= (classroom.get('members') || []).length
+          if view.user.isTeacher()
+            td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
+            td
+              button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
+              button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
+          else
+            td
+              a.other-user-link(href='#' + classroom.get('ownerID') data-user-id=classroom.get('ownerID'))
+                if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
+                  span= view.ownerNameMap[classroom.get('ownerID')]
+                else
+                  span= classroom.get('ownerID')
           td
-            button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
-            button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
+            a(href='/teachers/classes/' + classroom.get('_id') + '#students-tab') View Class
     hr
 
-  h3#stripe Modify Stripe Subscription
-  .small Use this to grant premium access and gems to this user.
-  .form
-    .form-group
-      .radio
+  if !view.user.isTeacher() && !view.user.isStudent()
+    h3.m-t-3#stripe Modify Stripe Subscription
+    h4= 'Status: ' + (view.user.hasSubscription() ? 'subscribed' : 'not subscribed')
+    .small Use this to grant premium access and gems to this user for the home version.
+    .form
+      .form-group
+        .radio
+          label
+            input(type="radio" name="stripe-benefit" value="" checked=view.none)
+            | None
+        .radio
+          label
+            input(type="radio" name="stripe-benefit" value="free" checked=view.free)
+            | Free
+        .radio
+          label
+            input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
+            span Free Until
+            =" "
+            input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
+        .radio
+          label
+            input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
+            span Coupon
+            =" "
+          select#coupon-select
+            for coupon in view.coupons.models
+              option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
+      .form-group
         label
-          input(type="radio" name="stripe-benefit" value="" checked=view.none)
-          | None
-      .radio
-        label
-          input(type="radio" name="stripe-benefit" value="free" checked=view.free)
-          | Free
-      .radio
-        label
-          input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
-          span Free Until
+          span Gems to add to user
           =" "
-          input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
-      .radio
-        label
-          input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
-          span Coupon
-          =" "
-        select#coupon-select
-          for coupon in view.coupons.models
-            option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
-    .form-group
-      label
-        span Gems to add to user
-        =" "
-        input#stripe-add-gems(type="number", name="addGems", value=0)
-    button#save-changes.btn.btn-primary Save Changes
-  hr
+          input#stripe-add-gems(type="number", name="addGems", value=0)
+      button#save-changes.btn.btn-primary Save Changes
+    hr
 
   // Not currently used
   //h3#create-payment Create Payment
@@ -290,6 +310,7 @@ block modal-body-content
   //  button#create-payment-btn.btn.btn-primary Create Payment
   //hr
 
+  h1#database-entries Database Entries
   for model in view.models
     .model-container(data-model-id=model.id)
       h3= model.type() + ': ' + model.id

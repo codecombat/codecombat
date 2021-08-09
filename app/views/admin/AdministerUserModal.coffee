@@ -12,6 +12,7 @@ TrialRequests = require 'collections/TrialRequests'
 fetchJson = require('core/api/fetch-json')
 utils = require 'core/utils'
 api = require 'core/api'
+NameLoader = require 'core/NameLoader'
 { LICENSE_PRESETS } = require 'core/constants'
 
 # TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
@@ -43,9 +44,17 @@ module.exports = class AdministerUserModal extends ModelModal
     'click #teacher-search-button': 'onSubmitTeacherSearchForm'
     'click .remove-teacher-button': 'onClickRemoveAdministeredTeacher'
     'click #license-type-select>.radio': 'onSelectLicenseType'
+    'click .other-user-link': 'onClickOtherUserLink'
 
   initialize: (options, @userHandle) ->
     @user = new User({_id: @userHandle})
+    @classrooms = new Classrooms()
+    @listenTo @user, 'sync', =>
+      if @user.isStudent()
+        @supermodel.loadCollection @classrooms, { data: {memberID: @user.id}, cache: false }
+        @listenTo @classrooms, 'sync', @loadClassroomTeacherNames
+      else if @user.isTeacher()
+        @supermodel.trackRequest @classrooms.fetchByOwner(@userHandle)
     @supermodel.trackRequest @user.fetch({cache: false})
     @coupons = new StripeCoupons()
     @supermodel.trackRequest @coupons.fetch({cache: false})
@@ -56,8 +65,6 @@ module.exports = class AdministerUserModal extends ModelModal
         if prepaid.loaded and not prepaid.creator
           prepaid.creator = new User()
           @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
-    @classrooms = new Classrooms()
-    @supermodel.trackRequest @classrooms.fetchByOwner(@userHandle)
     @trialRequests = new TrialRequests()
     @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle)
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
@@ -76,13 +83,23 @@ module.exports = class AdministerUserModal extends ModelModal
     @currentCouponID = stripe.couponID
     @none = not (@free or @freeUntil or @coupon)
     @trialRequest = @trialRequests.first()
-    @models.push @trialRequest
+    @models.push @trialRequest if @trialRequest
     @prepaidTableState={}
     @foundTeachers = []
     @administratedTeachers = []
     @trialRequests = new TrialRequests()
     @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle)
 
+    super()
+
+  afterInsert: ->
+    if window.location.pathname is '/admin' and window.location.search isnt '?user=' + @user.id
+      window.history.pushState {}, '', '/admin?user=' + @user.id
+    super()
+
+  willDisappear: ->
+    if window.location.pathname is '/admin' and window.location.search is '?user=' + @user.id
+      window.history.pushState {}, '', '/admin'  # Remove ?user=id query parameter
     super()
 
   onClickCreatePayment: ->
@@ -452,3 +469,17 @@ module.exports = class AdministerUserModal extends ModelModal
         schools[school].push(teacher)
 
     schools
+
+  loadClassroomTeacherNames: ->
+    ownerIDs = _.map(@classrooms.models, (c) -> c.get('ownerID')) ? []
+    Promise.resolve($.ajax(NameLoader.loadNames(ownerIDs)))
+    .then(=>
+      @ownerNameMap = {}
+      @ownerNameMap[ownerID] = NameLoader.getName(ownerID) for ownerID in ownerIDs
+      @render?()
+    )
+
+  onClickOtherUserLink: (e) ->
+    e.preventDefault()
+    userID = $(e.target).closest('a').data('user-id')
+    @openModalView new AdministerUserModal({}, userID)

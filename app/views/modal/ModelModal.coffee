@@ -36,7 +36,7 @@ module.exports = class ModelModal extends ModalView
 
   openTastyTreemas: (modelTreema, model) ->
     # To save on quick inspection, let's auto-open the properties we're most likely to want to see.
-    delicacies = ['code']
+    delicacies = ['code', 'properties']
     for dish in delicacies
       child = modelTreema.childrenTreemas[dish]
       child?.open()
