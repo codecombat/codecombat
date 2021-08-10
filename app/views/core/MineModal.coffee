@@ -41,3 +41,4 @@ module.exports = class MineModal extends ModalView
 
   destroy: ->
     $("#modal-wrapper").off('mousemove')
+    super()

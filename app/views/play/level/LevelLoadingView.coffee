@@ -276,4 +276,7 @@ module.exports = class LevelLoadingView extends CocoView
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
+    silentStore = { commit: _.noop, dispatch: _.noop }
+    @levelGoalsComponent?.$destroy()
+    @levelGoalsComponent?.$store = silentStore
     super()

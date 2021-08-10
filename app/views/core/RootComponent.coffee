@@ -33,3 +33,4 @@ module.exports = class RootComponent extends RootView
     @vueComponent.$store = silentStore
     # ignore all further changes to the store, since the module has been unregistered.
     # may later want to just ignore mutations and actions to the page module.
+    super()

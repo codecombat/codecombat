@@ -36,6 +36,7 @@ module.exports = class ClansView extends RootView
 
   destroy: ->
     @stopListening?()
+    super()
 
   afterRender: ->
     super()

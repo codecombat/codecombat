@@ -200,7 +200,11 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     while quotesReg.test(s)
       s = s.replace quotesReg, '$1"$2"'
     # first replace ' to " then replace object
-    s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, '{$1, $2}'  # {x:1, y:1} -> {1, 1}
+    if language is 'cpp'
+      s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, '{$1, $2}'  # {x:1, y:1} -> {1, 1}
+    else if language is 'java'
+      # Let's use Vectors instead of object literals in this case
+      s = s.replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, 'new Vector($1, $2)'  # {x:1, y:1} -> new Vector(1, 1)
     jsCodes[i] = s
 
   unless fullCode
@@ -215,11 +219,11 @@ translateJSWhitespace = (jsCode, language='lua') ->
   s = jsCode.split('\n').map((line) -> ' ' + line).join('\n')  # Add whitespace at beginning of each line to make regexes easier
 
   if language is 'lua'
-    s = s.replace /function (.+?)\((.*?)\) ?{/g, 'function $1($2)'  # Just remove the trailing {
+    s = s.replace /function (.+?)\((.*)\) ?{/g, 'function $1($2)'  # Just remove the trailing {
   else if language is 'python'
-    s = s.replace /function (.+?)\((.*?)\) ?{/g, 'def $1($2):'  # Convert trailing { to :
+    s = s.replace /function (.+?)\((.*)\) ?{/g, 'def $1($2):'  # Convert trailing { to :
   else if language is 'coffeescript'
-    s = s.replace /function (.+?)\((.*?)\) ?{/g, (match, functionName, functionParams) ->
+    s = s.replace /function (.+?)\((.*)\) ?{/g, (match, functionName, functionParams) ->
       if functionParams
         "#{functionName} = (#{functionParams}) ->"
       else
@@ -262,6 +266,19 @@ translateJSWhitespace = (jsCode, language='lua') ->
   else if language is 'coffeescript'
     # for i in [0...10]
     s = s.replace cStyleForLoopRegex, 'for $1 [$2...$3]'
+
+  # for(y=110; y >= 38; i -= 18) {
+  # This is brittle and will not get inclusive vs. exclusive ranges right, but better than nothing
+  cStyleForLoopWithArithmeticRegex = /for ?\((?:var )?(.+?) ?= ?(\d+); ?\1 ?(<=|<|>=|>) ?(.+?); ?\1 ?\+?(-?)= ?(.*)\) *\{?/g
+  if language is 'lua'
+    # for y=110, 38, -18 do
+    s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1=$2, $4, $5$6 do'
+  else if language is 'python'
+    # for y in range(110, 38, -18):
+    s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1 in range($2, $4, $5$6):'
+  else if language is 'coffeescript'
+    # for y in [110...38, -18]
+    s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1 [$2...$4, $5$6]'
 
   # There are a lot of other for-loop possibilities, but we'll handle those with manual solutions
 
@@ -328,11 +345,11 @@ translateJSWhitespace = (jsCode, language='lua') ->
 
   # Rewrite while loops
   if language is 'lua'
-    s = s.replace /^(\s*while) ?\((.*?)\) ?\{?/gm, '$1 $2 do'
+    s = s.replace /^(\s*while) ?\((.*)\) ?\{?/gm, '$1 $2 do'
   else if language is 'python'
-    s = s.replace /^(\s*while) ?\((.*?)\) ?\{?/gm, '$1 $2:'
+    s = s.replace /^(\s*while) ?\((.*)\) ?\{?/gm, '$1 $2:'
   else if language is 'coffeescript'
-    s = s.replace /^(\s*while) ?\((.*?)\) ?\{?/gm, '$1 $2'
+    s = s.replace /^(\s*while) ?\((.*)\) ?\{?/gm, '$1 $2'
 
   # Rewrite if conditions
   if language is 'lua'
