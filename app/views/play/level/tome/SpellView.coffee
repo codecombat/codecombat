@@ -666,8 +666,9 @@ module.exports = class SpellView extends CocoView
       maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
       minHeight = Math.max 8, (Math.min($("#canvas-wrapper").outerHeight(),$("#level-view").innerHeight() - 175) / lineHeight) - 2
       linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-      lines = Math.max minHeight, Math.min(screenLineCount + 2, linesAtMaxHeight)
+      lines = Math.max minHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), 8
       # 2 lines buffer is nice
+      lines = 8 if _.isNaN lines
       @ace.setOptions minLines: lines, maxLines: lines
       # Move spell palette up, slightly overlapping us.
       newTop = 185 + lineHeight * lines
@@ -1417,8 +1418,8 @@ module.exports = class SpellView extends CocoView
     @lastDetectedSuspectCodeFragmentNames = detectedSuspectCodeFragmentNames
 
   destroy: ->
-    $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
-    $(@ace?.container).find('.ace_gutter').off 'click', @onGutterClick
+    $(@ace?.container).find('.ace_gutter').off 'click mouseenter', '.ace_error, .ace_warning, .ace_info'
+    $(@ace?.container).find('.ace_gutter').off()
     @firepad?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
     @ace?.destroy()
@@ -1432,6 +1433,7 @@ module.exports = class SpellView extends CocoView
     $(window).off 'resize', @onWindowResize
     window.clearTimeout @saveSpadeTimeout
     @saveSpadeTimeout = null
+    @autocomplete.destroy()
     super()
 
 # Note: These need to be double-escaped for insertion into regexes

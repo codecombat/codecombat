@@ -161,6 +161,9 @@ module.exports = class PlayLevelView extends RootView
     if features.china
       @checkTournamentEndInterval = setInterval @checkTournamentEnd.bind(@), 3000
 
+    preloadImages = ['/images/level/code_palette_wood_background.png', '/images/level/code_editor_background_border.png']
+    _.delay (-> $('<img/>')[0].src = img for img in preloadImages), 1000
+
   getMeta: ->
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', content: '/play' }
@@ -402,6 +405,7 @@ module.exports = class PlayLevelView extends RootView
   updateSpellPalette: (thang, spell) ->
     return unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
     useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
+    @removeSubview @spellPaletteView if @spellPaletteView
     @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @session.get('codeLanguage'), session: @session, level: @level, courseID: @courseID, courseInstanceID: @courseInstanceID, useHero }
     #@spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view   # TODO: know when palette should have been disabled but didn't exist
 
@@ -885,6 +889,8 @@ module.exports = class PlayLevelView extends RootView
     console.profileEnd?() if PROFILE_ME
     if @checkTournamentEndInterval
       clearInterval @checkTournamentEndInterval
+    Backbone.Mediator.unsubscribe 'modal:closed', @onLevelStarted, @
+    Backbone.Mediator.unsubscribe 'audio-player:loaded', @playAmbientSound, @
     super()
 
   onIPadMemoryWarning: (e) ->

@@ -90,6 +90,16 @@ _.extend UserSchema.properties,
     }
   }
   clientCreator: c.objectId({description: 'Client which created this user'})
+  clientPermissions:
+    description: 'More APIClients with permissions on this user, apart from clientCreator.'
+    type: 'array'
+    items:
+      type: 'object'
+      additionalProperties: false
+      properties:
+        client: {type: c.objectId({description: 'APIClient with permissions on this user'})}
+        access: {type: 'string', 'enum': ['read', 'grant', 'write', 'owner']}  # 'grant' permissions allow APIClients to grant licenses to a user
+    format: 'hidden'
 
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
@@ -147,7 +157,6 @@ _.extend UserSchema.properties,
     value: {description: 'The experiment value/group that this user is assigned to', additionalProperties: true}  # Data type is flexible depending on experiment needs
     probability: c.pct {description: 'Probability of being assigned to this experiment value'}
     startDate: c.date {description: 'When this user first started the experiment'}
-    # TODO: add to Ozaria user
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCode2019: {type: 'boolean'} # adding for hoc 2019, TODO refactor into a reusable property if needed
@@ -296,7 +305,10 @@ _.extend UserSchema.properties,
     couponID: { type: 'string' }
 
     # TODO: move `free` out of stripe, it's independent
-    free: { type: ['boolean', 'string'], format: 'date-time', description: 'Type string is subscription end date' }
+    free: { oneOf: [
+      { type: 'string', format: 'date-time', description: 'Type string is subscription end date' }
+      { type: 'boolean', description: 'Type boolean is whether the subscription is free or not' }
+    ]}
     prepaidCode: c.shortString description: 'Prepaid code to apply to sub purchase'
 
     # Sponsored subscriptions

@@ -16,9 +16,10 @@ module.exports = class CoursesNotAssignedModal extends ModalView
     if options.courseID in STARTER_LICENSE_COURSE_IDS
       @supermodel.trackRequest(me.getLeadPriority())
         .then(({ priority }) => @state.set({ promoteStarterLicenses:
+          me.useStripe() and
           (priority is 'low') and
-          (me.get('preferredLanguage') isnt 'nl-BE') and
-          (me.get('country') not in ['australia']) and
+          (me.get('preferredLanguage') not in ['nl-BE', 'nl-NL']) and
+          (me.get('country') not in ['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia']) and
           not me.get('administratedTeachers')?.length
         }))
     @listenTo @state, 'change', @render

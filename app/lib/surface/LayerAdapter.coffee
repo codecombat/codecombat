@@ -231,6 +231,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @_renderNewSpriteSheet()
 
   _renderNewSpriteSheet: (async) ->
+    return if @destroyed
     @asyncBuilder.stopAsync() if @asyncBuilder
     @asyncBuilder = null
 
@@ -294,10 +295,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
     if @spriteSheet
       # This is required for old canvas to be garbage collected.
-      for image, i in @spriteSheet._images
-        image.width = 0
-        image.height = 0
-        @spriteSheet._images[i] = null
+      @destroySpriteSheet()
 
     @spriteSheet = builder.spriteSheet
     builder = null
@@ -329,6 +327,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @toRenderBundles = []
     @actionRenderState = {}
     @initializing = true
+    @destroySpriteSheet()
     @spriteSheet = @_renderNewSpriteSheet(false) # builds an empty spritesheet
     @initializing = false
 
@@ -547,7 +546,14 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     key += '.'+grouping if grouping
     key
 
+  destroySpriteSheet: ->
+    return unless @spriteSheet
+    for image, i in @spriteSheet._images when image
+      image.width = image.height = 0
+      @spriteSheet._images[i] = null
+
   destroy: ->
     child.destroy?() for child in @container.children
     @asyncBuilder.stopAsync() if @asyncBuilder
+    @destroySpriteSheet()
     super()

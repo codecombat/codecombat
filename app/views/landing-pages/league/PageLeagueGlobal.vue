@@ -7,6 +7,7 @@ import ClanCreationModal from './components/ClanCreationModal'
 import ChildClanDetailDropdown from './components/ChildClanDetailDropdown'
 import SectionFirstCTA from './components/SectionFirstCTA'
 import InputClanSearch from './components/InputClanSearch'
+import ApiData from '../../api/components/ApiData'
 
 import { joinClan, leaveClan } from '../../../core/api/clans'
 import { titleize, arenas, activeArenas } from '../../../core/utils'
@@ -16,6 +17,17 @@ const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type ===
 const previousRegularArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'regular' && a.slug !== currentRegularArena.slug))
 const previousChampionshipArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'championship' && (!currentChampionshipArena || a.slug !== currentChampionshipArena.slug)))
 
+const tournamentsByLeague = {
+  _global: {
+    'blazing-battle': '608cea0f8f2b971478556ac6',
+    'infinite-inferno': '608cd3f814fa0bf9f1c1f928'
+  },
+  '5ff88bcdfe17d7bb1c7d2d00': {  // autoclan-school-network-academica
+    'blazing-battle': '60c159f8a78b083f4205cbf7',
+    'infinite-inferno': '60c15b1fa78b083f4205cdc1'
+  }
+}
+
 export default {
   components: {
     Leaderboard,
@@ -24,7 +36,8 @@ export default {
     ClanCreationModal,
     ChildClanDetailDropdown,
     SectionFirstCTA,
-    InputClanSearch
+    InputClanSearch,
+    ApiData
   },
 
   data: () => ({
@@ -121,7 +134,7 @@ export default {
           return
         }
 
-        if (['school-network', 'school-subnetwork'].includes(this.currentSelectedClan?.kind)) {
+        if (['school-network', 'school-subnetwork', 'school-district'].includes(this.currentSelectedClan?.kind)) {
           this.fetchChildClanDetails({ id: this.currentSelectedClan._id })
             .catch(() => {
               console.error('Failed to retrieve child clans.')
@@ -278,6 +291,7 @@ export default {
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading',
       isStudent: 'me/isStudent',
+      isAPIClient: 'me/isAPIClient',
       codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
     }),
 
@@ -304,7 +318,7 @@ export default {
 
     currentSelectedClanName () {
       let name = (this.currentSelectedClan || {}).displayName || (this.currentSelectedClan || {}).name || ''
-      if (!/a-z/.test(name))
+      if (!/[a-z]/.test(name))
         name = titleize(name)  // Convert any all-uppercase clan names to title-case
       return name
     },
@@ -376,11 +390,30 @@ export default {
 
     regularArenaUrl () { return `/play/ladder/${this.regularArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
 
-    previousRegularArenaUrl () { return `/play/ladder/${this.previousRegularArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
+    previousRegularArenaUrl () {
+      let url = `/play/ladder/${this.previousRegularArenaSlug}`
+      const tournaments = tournamentsByLeague[this.clanIdSelected || '_global']
+      const tournament = tournaments ? tournaments[this.previousRegularArenaSlug] : null
+      console.log(this.clanIdSelected)
+      if (this.clanIdSelected)
+        url += `/clan/${this.clanIdSelected}`
+      if (tournament)
+        url += `?tournament=${tournament}`
+      return url
+    },
 
     championshipArenaUrl () { return `/play/ladder/${this.championshipArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
 
-    previousChampionshipArenaUrl () { return `/play/ladder/${this.previousChampionshipArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
+    previousChampionshipArenaUrl () {
+      let url = `/play/ladder/${this.previousChampionshipArenaSlug}`
+      const tournaments = tournamentsByLeague[this.clanIdSelected || '_global']
+      const tournament = tournaments ? tournaments[this.previousChampionshipArenaSlug] : null
+      if (this.clanIdSelected)
+        url += `/clan/${this.clanIdSelected}`
+      if (tournament)
+        url += `?tournament=${tournament}`
+      return url
+    },
 
     // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
     firstName () { return me.get('firstName') },
@@ -444,7 +477,7 @@ export default {
         <img :class="customEsportsImageClass" :src="currentSelectedClanEsportsImage">
       </div>
       <div class="col-sm-7">
-        <img v-if="currentSelectedClanName === 'Team Der Bezt'" class="custom-esports-image-2" alt="" src="/file/db/thang.type/6037ed81ad0ac000f5e9f0b5/armando-pose.png">
+        <img v-if="currentSelectedClanName === 'Team DerBezt'" class="custom-esports-image-2" alt="" src="/file/db/thang.type/6037ed81ad0ac000f5e9f0b5/armando-pose.png">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <div class="clan-description" style="margin-bottom: 40px;" v-html="currentSelectedClanDescription"></div>
         <p v-if="currentSelectedClanName === 'Team DerBezt'">{{ $t('league.team_derbezt') }}</p>
@@ -458,13 +491,13 @@ export default {
       </div>
     </div>
 
-    <section v-if="currentSelectedClanName === 'Hyper X'"  class="row text-center partner-banner">
+    <section v-if="currentSelectedClanName === 'HyperX'"  class="row text-center partner-banner">
       <div class="col-sm-12">
-        <h1>Deal: 15% off with code <a href="http://hyperx.gg/codecombathxrevolver"><strong>HXCOMBAT</strong></a></h1>
+        <h1>Deal: 15% off with code <a href="http://hyperx.gg/codecombathxrevolver" target="_blank"><strong>HXCOMBAT</strong></a></h1>
         <p>
           <em>Valid through 2021. Standard shipping options/rates and quantity limits apply. Cannot be combined with other discount code/sale promotions.</em>
         </p>
-        <a href="http://hyperx.gg/codecombathxrevolver">
+        <a href="http://hyperx.gg/codecombathxrevolver" target="_blank">
           <img class="custom-esports-image-banner" alt="" src="/images/pages/league/hyperx-banner.jpg">
         </a>
       </div>
@@ -479,15 +512,16 @@ export default {
       </div>
       <div class="col-lg-6 section-space" style="text-align: left;">
         <div>
-          <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
-          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 1 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
+          <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
+          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 2 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
         </div>
-        <p>{{ $t('league.season1_announcement_1') }}</p>
-        <p>{{ $t('league.season1_announcement_2') }}</p>
-        <p>{{ $t('league.season1_announcement_3') }}</p>
+        <p>{{ $t('league.season2_announcement_1') }}</p>
+        <p>{{ $t('league.season2_announcement_2') }}</p>
+        <p>{{ $t('league.season2_announcement_3') }}</p>
         <ul style="list-style-type: none; padding: 0px;">
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_1') }}</li>
           <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_2') }}</li>
+          <li><span class="bullet-point" style="background-color: #30EFD3;"/><a href="http://hyperx.gg/codecombathxrevolver" target="_blank">{{ $t('league.season1_prize_hyperx') }}</a> - <a href="/league/hyperx">{{ $t('league.join_team') }}</a></li>
           <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_3') }}</li>
           <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_4') }}</li>
         </ul>
@@ -519,12 +553,24 @@ export default {
         <a v-else href="/play" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.earn_codepoints') }}</a>
       </div>
     </div>
-
-    <div class="row text-center">
+    <div class="row text-center" v-if="isAPIClient" id="apiclient-data">
+      <h1><span class="esports-aqua">License </span><span class="esports-pink">stats</span></h1>
+      <p class="subheader2"> License Days by Teacher/Classroom in Last Month</p>
+      <ApiData viewport="simple"></ApiData>
+      <a href="/api-dashboard" class="btn btn-large btn-primary btn-moon play-btn-cta"> See Full Stats</a>
+    </div>
+    <div class="row text-center" id="winners">
       <h1><span class="esports-aqua">Previous </span><span class="esports-pink">Season</span></h1>
       <p class="subheader2">Results from the Infinite Inferno Cup</p>
-      <!-- awards video will go here -->
-      <!-- top winners may also go here -->
+    </div>
+
+    <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0">
+      <div class="col-sm-10 video-backer video-iframe">
+        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/1422969c8f5fbee2a62ee60021becfb4?poster=https://videodelivery.net/1422969c8f5fbee2a62ee60021becfb4/thumbnails/thumbnail.jpg%3Ftime%3D1584s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 1 - Forged in Flame"></iframe></div>
+      </div>
+    </div>
+
+    <div class="row text-center">
       <div class="col-lg-6 section-space">
         <a :href="previousRegularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.${previousRegularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
       </div>
@@ -569,13 +615,13 @@ export default {
           <ul style="list-style-type: none; padding: 0px; margin-top: 74px;">
             <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_1') }}</li>
             <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_2') }}</li>
-            <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_hyperx') }}</li>
+            <li><span class="bullet-point" style="background-color: #30EFD3;"/><a href="http://hyperx.gg/codecombathxrevolver" target="_blank">{{ $t('league.season1_prize_hyperx') }}</a> - <a href="/league/hyperx">{{ $t('league.join_team') }}</a></li>
             <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_3') }}</li>
             <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_4') }}</li>
           </ul>
           <p>
             <em>Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena.  Some prizes are limited to US participants only.
-            <a href="https://docs.google.com/document/d/1cy4bKe_c0pl6mxLWnbp6R7PxHoDwHzNlBHWALODdey4/edit?usp=sharing">CodeCombat reserves</a> the right to determine in its sole discretion if a player qualifies and will receive a prize.</em>
+            <a href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view?usp=sharing">CodeCombat reserves</a> the right to determine in its sole discretion if a player qualifies and will receive a prize. Players in China, Taiwan, Hong Kong, and Macao should be play on our China server at <a href="https://koudashijie.com/">koudashijie.com</a> to be eligible for prizes.</em>
           </p>
         </div>
         <div class="col-sm-4 text-center">
@@ -776,7 +822,12 @@ export default {
         <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
         <p class="subheader2" style="margin-bottom: 50px;">{{ $t('league.share_flyer') }}</p>
         <div class="xs-centered">
-          <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">{{ $t('league.download_flyer') }}</a>
+          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">{{ $t('league.download_flyer') }}</a>
+          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit?usp=sharing" target="_blank" rel="noopener noreferrer">{{ $t('teacher.teacher_getting_started') }}</a>
+          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank" rel="noopener noreferrer">
+            <span class="glyphicon glyphicon-facetime-video"></span>
+            <span class="spl">Tutorial</span>
+          </a>
         </div>
       </div>
       <div class="col-sm-4">
@@ -1052,6 +1103,16 @@ export default {
     img {
       max-width: 100%;
     }
+
+    .custom-esports-image-banner {
+      transition: filter .10s linear, box-shadow 0.10s linear;
+      filter: brightness(100%);
+
+      &:hover {
+        filter: brightness(125%);
+        box-shadow: 0 0 25px #d1b147;
+      }
+    }
   }
 
   .video-iframe-section {
@@ -1201,6 +1262,12 @@ export default {
   @media screen and (min-width: 768px) {
     ::v-deep .btn-primary.btn-moon, .play-btn-cta {
       padding: 20px 100px;
+    }
+
+    .esports-flyer-optimized-section {
+      ::v-deep .btn-primary.btn-moon, .play-btn-cta {
+        padding: 20px 20px;
+      }
     }
 
     ::v-deep .section-space {

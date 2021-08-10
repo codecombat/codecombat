@@ -70,7 +70,7 @@ module.exports = class RootView extends CocoView
         cache: false
 
   logoutAccount: ->
-    window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
+    window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if application.isIPadApp
     Backbone.Mediator.publish("auth:logging-out", {})
     window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
     if me.isTarena()
@@ -112,8 +112,6 @@ module.exports = class RootView extends CocoView
       window.tracker?.trackEvent 'Login', properties, ['Google Analytics']
 
       eventAction = $(e.target)?.data('event-action')
-      if $(e.target)?.hasClass('track-ab-result')
-        _.extend(properties, { trackABResult: true })
       window.tracker?.trackEvent(eventAction, properties, []) if eventAction
     @openModalView new AuthModal()
 
@@ -251,7 +249,7 @@ module.exports = class RootView extends CocoView
         legacyTitle: legacyTitle
       }
     })
-  
+
   # Attach the navigation Vue component to the page
   initializeNavigation: ->
     staticNav = document.querySelector('#main-nav')

@@ -22,7 +22,8 @@ export default {
     <div class="row">
       <div class="col-lg-12">
         <h1 class="pixelated parents-header-text">Live Online Coding Classes</h1>
-        <h1 class="pixelated parents-header-text">Your Child Will Love</h1>
+        <!--<h1 class="pixelated parents-header-text">Your Child Will Love</h1>--><!-- Original; didn't convert as well -->
+        <h1 class="pixelated parents-header-text">Powered by Play</h1>
       </div>
     </div>
 
@@ -43,7 +44,6 @@ export default {
     font-style: normal;
 
     margin-bottom: 0;
-    min-height: 580px;
 
     padding-top: 155px;
     overflow-x: hidden;
