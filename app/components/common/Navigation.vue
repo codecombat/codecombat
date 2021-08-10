@@ -130,7 +130,7 @@
 </script>
 
 <template lang="pug">
-    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="document.location.href.search('/league') >= 0 ? 'dark-mode' : ''" @click="navEvent")
+    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
       .container-fluid
         .row
           .col-md-12
@@ -540,6 +540,56 @@
 
     .show-divider:not(:last-child) {
       border-right: 1px solid #131b25;
+    }
+  }
+}
+
+nav#main-nav.navbar.dark-mode {
+  background-color: #0C1016;
+
+  .nav > li > a {
+    color: #FCBB00;
+
+    &:hover {
+      color: #FF39A6;
+    }
+  }
+
+  .dashboard-toggle {
+    border: 1px solid #FCBB00;
+
+    & > .show-divider {
+      border-right: 1px solid #FCBB00 !important;
+    }
+  }
+
+  .dashboard-toggle .dashboard-button a {
+    color: #FCBB00;
+  }
+
+  .dropdown-menu {
+    background-color: white;
+  }
+
+  #create-account-link {
+    background-color: #FCBB00;
+    border: 1px solid #FCBB00;
+    color: #0C1016;
+
+    &:hover {
+      background-color: #FF39A6;
+      border: 1px solid #FF39A6;
+    }
+  }
+
+  #login-link {
+    color: #FCBB00;
+    border: 1px solid #FCBB00;
+
+    &:hover {
+      background-color: #FF39A6;
+      border: 1px solid #FF39A6;
+      color: #0C1016;
     }
   }
 }

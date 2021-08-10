@@ -3247,6 +3247,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     start_team: 'Start a Team'
     leave_team: 'Leave Team'
     join_team: 'Join Team'
+    view_team: "View Team"
+    join_team_name: "Join Team __name__"
     features: 'Features'
     built_in: 'Built-in Competitive Infrastructure'
     built_in_subheader: 'Our platform hosts every element of the competitive process, from leaderboards to the game platform, assets, and tournament awards.'
@@ -3284,6 +3286,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     codecombat_ai_league: 'CodeCombat AI League'
     register: "Register"
     not_registered: "Not Registered"
+    register_for_ai_league: "Register for AI League"
     world: "World"
     quickstart_video: "Quickstart Video"
     arena_rankings: "Arena Rankings"
@@ -3302,6 +3305,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     codepoints_blurb: "1 CodePoint = 1 line of code written"
     codepoints_title: "One CodePoint is earned for every non-whitespace line of code needed to beat the level. Each level is worth the same amount of CodePoints according to its standard solution, regardless of whether the student wrote more or fewer lines of code."
     count_total: "Total:" # Total: 300 CodePoints, or Total: 300 wins
+    join_teams_header: "Join Teams & Get Cool Stuff!"
+    join_team_hyperx_title: "Join Team HyperX, Get 10% Off"
+    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
+    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
+    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
