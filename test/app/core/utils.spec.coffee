@@ -1,41 +1,41 @@
 describe 'Utility library', ->
   utils = require '../../../app/core/utils'
 
-  describe 'yearsSinceMonth', ->
+  describe 'fakeAgeSinceBirth', ->
     beforeEach ->
       jasmine.clock().install()
     afterEach ->
       jasmine.clock().uninstall()
     describe 'should return undefined', ->
       it 'if start is falsy', ->
-        expect(utils.yearsSinceMonth()).toBeUndefined()
+        expect(utils.fakeAgeSinceBirth()).toBeUndefined()
       it 'if date format is not correct', ->
-        expect(utils.yearsSinceMonth('11112020-01-019999999')).toBeUndefined()
+        expect(utils.fakeAgeSinceBirth('11112020-01-019999999')).toBeUndefined()
     describe 'calculate years', ->
       it '0 for same date', ->
         jasmine.clock().mockDate(new Date(2020, 0, 1))
-        expect(utils.yearsSinceMonth('2020-01-01')).toBe(0)
+        expect(utils.fakeAgeSinceBirth('2020-01-01')).toBe(0)
       it '1 for previous year', ->
         jasmine.clock().mockDate(new Date(2020, 0, 1))
-        expect(utils.yearsSinceMonth('2019-01-01')).toBe(1)
+        expect(utils.fakeAgeSinceBirth('2019-01-01')).toBe(1)
       it '100 for previous decade', ->
         jasmine.clock().mockDate(new Date(2020, 0, 1))
-        expect(utils.yearsSinceMonth('1920-01-01')).toBe(100)
+        expect(utils.fakeAgeSinceBirth('1920-01-01')).toBe(100)
       it 'Jan 1 2012 to Jan 1 2013 should be 1 year', ->
         jasmine.clock().mockDate(new Date(2013, 0, 1))
-        expect(utils.yearsSinceMonth('2012-01-01')).toBe(1)
+        expect(utils.fakeAgeSinceBirth('2012-01-01')).toBe(1)
       it 'Feb 28 2012 to Feb 28 2013 should be 1 year', ->
         jasmine.clock().mockDate(new Date(2013, 1, 28))
-        expect(utils.yearsSinceMonth('2012-02-28')).toBe(1)
+        expect(utils.fakeAgeSinceBirth('2012-02-28')).toBe(1)
       it 'Mar 1 2012 to Mar 1 2013 should be 1 year', ->
         jasmine.clock().mockDate(new Date(2013, 2, 1))
-        expect(utils.yearsSinceMonth('2012-03-01')).toBe(1)
+        expect(utils.fakeAgeSinceBirth('2012-03-01')).toBe(1)
       it 'Dec 1 2012 to Dec 1 2013 should be 1 year', ->
         jasmine.clock().mockDate(new Date(2013, 11, 1))
-        expect(utils.yearsSinceMonth('2012-12-01')).toBe(1)
+        expect(utils.fakeAgeSinceBirth('2012-12-01')).toBe(1)
       it 'Dec 31 2012 to Dec 31 2013 should be 1 year', ->
         jasmine.clock().mockDate(new Date(2013, 11, 31))
-        expect(utils.yearsSinceMonth('2012-12-31')).toBe(1)
+        expect(utils.fakeAgeSinceBirth('2012-12-31')).toBe(1)
 
   describe 'ageToBracket', ->
     describe 'should return open if', ->
@@ -45,113 +45,220 @@ describe 'Utility library', ->
         expect(utils.ageToBracket(19)).toBe('open')
     describe "20-21 school year", ->
       getAge = (now, birth)->
-        utils.daysBetween(now,new Date(birth))/365.5
-      dates = [
-        '2020-09-02','2020-09-16','2020-09-28',
-        '2020-11-02','2020-11-16','2020-11-28',
-        '2021-01-02','2021-01-16','2021-01-28',
-        '2021-02-02','2021-02-16','2021-02-28',
-        '2021-05-02','2021-05-16','2021-05-28',
-        '2021-06-02','2021-06-16','2021-06-28',
-      ]
+        utils.fakeAgeSinceBirth(birth, now)
+
       beforeEach ->
         jasmine.clock().install()
       afterEach ->
         jasmine.clock().uninstall()
-      describe 'older than bracketMax', ->
-        it 'will age in to current bracket AND not aged in to the next one', ->
-          now = new Date('2021-02-25')
-          jasmine.clock().mockDate(now)
-          birthDate = '2009-08-31'
-          age = getAge(now,birthDate)
-          # SEASON 1:
-          # age: 4196, seasonLength: 119, bracketMax: 4140, daysOlderThanBracketMax: 56, daysElapsedFromSeason: 55
-          expect(utils.ageToBracket(age)).toBe('0-11')
-        it 'will age in to current bracket BUT already aged in to the next one', ->
-          now = new Date('2021-02-25')
-          jasmine.clock().mockDate(now)
-          birthDate = '2009-09-01'
-          age = getAge(now,birthDate)
-          # SEASON 1:
-          # age: 4195, seasonLength: 119, bracketMax: 4140, daysOlderThanBracketMax: 55, daysElapsedFromSeason: 55}
-          # SEASON 2:
-          # age: 4195, seasonLength: 119, bracketMax: 5236, daysOlderThanBracketMax: -1041, daysElapsedFromSeason: 55}
-          expect(utils.ageToBracket(age)).toBe('11-14')
-      describe 'should be in 0-11 bracket', ->
-        it 'if born at 9/1/2014', ->
-          birthDate = '2014-09-01'
-          for date in dates
-            now = new Date(date)
+
+      describe 'Today is in 2021 season 1', ->
+
+        it 'if born after 9/1/2009, should be 0-11', ->
+          now = new Date('2021-1-1')
+          end = new Date('2021-4-30')
+          birthDates = [
+            '2009-9-1',
+            '2009-10-1',
+            '2010-1-1',
+            '2010-8-31',
+            '2010-9-1',
+            '2011-09-01'
+          ]
+          for birthDate in birthDates
             jasmine.clock().mockDate(now)
             expect(utils.ageToBracket(getAge(now,birthDate))).toBe('0-11')
-        it 'if born at 8/31/2013', ->
-          birthDate = '2013-08-31'
-          for date in dates
-            now = new Date(date)
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('0-11')
+
+        it 'if born during 9/1/2006 to 8/31/2009, should be 11-14', ->
+          now = new Date('2021-1-1')
+          end = new Date('2021-4-30')
+          birthDates = [
+            '2006-9-1',
+            '2006-10-1',
+            '2007-1-1',
+            '2007-9-1',
+            '2008-1-1',
+            '2008-9-1',
+            '2009-1-1',
+            '2009-8-31',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('11-14')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('11-14')
+
+        it 'if born during 9/1/2002 to 8/31/2006, should be 14-18', ->
+          now = new Date('2021-1-1')
+          end = new Date('2021-4-30')
+          birthDates = [
+            '2002-9-1',
+            '2002-10-1',
+            '2003-1-1',
+            '2003-9-1',
+            '2004-1-1',
+            '2005-9-1',
+            '2006-1-1',
+            '2006-8-31',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('14-18')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('14-18')
+
+        it 'if born before 8/31/2002, should be open', ->
+          now = new Date('2021-1-1')
+          end = new Date('2021-4-30')
+          birthDates = [
+            '2002-8-31',
+            '2001-10-1',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('open')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('open')
+
+      describe 'Today is in 2021 season 2', ->
+        it 'if born after 9/1/2009, should be 0-11', ->
+          now = new Date('2021-5-1')
+          end = new Date('2021-8-31')
+          birthDates = [
+            '2009-9-1',
+            '2009-10-1',
+            '2010-1-1',
+            '2010-8-31',
+            '2010-9-1',
+            '2011-09-01'
+          ]
+          for birthDate in birthDates
             jasmine.clock().mockDate(now)
             expect(utils.ageToBracket(getAge(now,birthDate))).toBe('0-11')
-        it 'if born at 9/1/2010', ->
-          birthDate = '2010-09-01'
-          for date in dates
-            now = new Date(date)
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('0-11')
+
+        it 'if born during 9/1/2006 to 8/31/2009, should be 11-14', ->
+          now = new Date('2021-5-1')
+          end = new Date('2021-8-31')
+          birthDates = [
+            '2006-9-1',
+            '2006-10-1',
+            '2007-1-1',
+            '2007-9-1',
+            '2008-1-1',
+            '2008-9-1',
+            '2009-1-1',
+            '2009-8-31',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('11-14')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('11-14')
+
+        it 'if born during 9/1/2002 to 8/31/2006, should be 14-18', ->
+          now = new Date('2021-5-1')
+          end = new Date('2021-8-31')
+          birthDates = [
+            '2002-9-1',
+            '2002-10-1',
+            '2003-1-1',
+            '2003-9-1',
+            '2004-1-1',
+            '2005-9-1',
+            '2006-1-1',
+            '2006-8-31',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('14-18')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('14-18')
+
+        it 'if born before 8/31/2002, should be open', ->
+          now = new Date('2021-5-1')
+          end = new Date('2021-8-31')
+          birthDates = [
+            '2002-8-31',
+            '2001-10-1',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('open')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('open')
+
+      describe 'Today is in 2021 season 3', ->
+        it 'if born after 9/1/2010, should be 0-11', ->
+          now = new Date('2021-9-1')
+          end = new Date('2021-12-31')
+          birthDates = [
+            '2010-9-1',
+            '2010-10-1',
+            '2011-1-1',
+            '2011-8-31',
+            '2011-9-1',
+            '2012-09-01'
+          ]
+          for birthDate in birthDates
             jasmine.clock().mockDate(now)
             expect(utils.ageToBracket(getAge(now,birthDate))).toBe('0-11')
-        it 'if born at 8/31/2009', ->
-          birthDate = '2009-08-31'
-          for date in dates
-            now = new Date(date)
-            jasmine.clock().mockDate(now)
-            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('0-11')
-      describe 'should be in 11-14 bracket', ->
-        it 'if born at 9/1/2009', ->
-          birthDate = '2009-09-01'
-          for date in dates
-            now = new Date(date)
-            jasmine.clock().mockDate(now)
-            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('11-14')
-        it 'if born at 8/31/2008', ->
-          birthDate = '2008-08-31'
-          for date in dates
-            now = new Date(date)
-            jasmine.clock().mockDate(now)
-            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('11-14')
-        it 'if born at 9/1/2007', ->
-          birthDate = '2007-09-01'
-          for date in dates
-            now = new Date(date)
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('0-11')
+
+        it 'if born during 9/1/2007 to 8/31/2010, should be 11-14', ->
+          now = new Date('2021-9-1')
+          end = new Date('2021-12-31')
+          birthDates = [
+            '2007-9-1',
+            '2007-10-1',
+            '2008-1-1',
+            '2008-9-1',
+            '2009-1-1',
+            '2009-9-1',
+            '2010-1-1',
+            '2010-8-31',
+          ]
+          for birthDate in birthDates
             jasmine.clock().mockDate(now)
             expect(utils.ageToBracket(getAge(now,birthDate))).toBe('11-14')
-        it 'if born at 8/31/2006', ->
-          birthDate = '2006-08-31'
-          for date in dates
-            now = new Date(date)
-            jasmine.clock().mockDate(now)
-            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('11-14')
-      describe 'should be in 14-18 bracket', ->
-        it 'if born at 9/1/2006', ->
-          birthDate = '2006-09-01'
-          for date in dates
-            now = new Date(date)
-            jasmine.clock().mockDate(now)
-            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('14-18')
-        it 'if born at 8/31/2005', ->
-          birthDate = '2005-08-31'
-          for date in dates
-            now = new Date(date)
-            jasmine.clock().mockDate(now)
-            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('14-18')
-        it 'if born at 9/1/2003', ->
-          birthDate = '2003-09-01'
-          for date in dates
-            now = new Date(date)
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('11-14')
+
+        it 'if born during 9/1/2003 to 8/31/2007, should be 14-18', ->
+          now = new Date('2021-9-1')
+          end = new Date('2021-12-31')
+          birthDates = [
+            '2003-9-1',
+            '2003-10-1',
+            '2004-1-1',
+            '2004-9-1',
+            '2005-1-1',
+            '2006-9-1',
+            '2007-1-1',
+            '2007-8-31',
+          ]
+          for birthDate in birthDates
             jasmine.clock().mockDate(now)
             expect(utils.ageToBracket(getAge(now,birthDate))).toBe('14-18')
-        it 'if born at 8/31/2002', ->
-          birthDate = '2002-08-31'
-          for date in dates
-            now = new Date(date)
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('14-18')
+
+        it 'if born before 8/31/2003, should be open', ->
+          now = new Date('2021-9-1')
+          end = new Date('2021-12-31')
+          birthDates = [
+            '2003-8-31',
+            '2002-10-1',
+          ]
+          for birthDate in birthDates
             jasmine.clock().mockDate(now)
-            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('14-18')
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('open')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('open')
 
   describe 'getQueryVariable(param, defaultValue)', ->
     beforeEach ->
