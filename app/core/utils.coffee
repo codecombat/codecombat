@@ -756,9 +756,9 @@ yearsSinceMonth = (birth, now) ->
   season = currentSeason()
   now ?= new Date()
   schoolYear = now.getFullYear()
-  # NOTE: if we update our season's time we need to double check this.
-  # this condition really means season.start_date is after Sep.
-  schoolYear += 1 if season.id is 3 # school year comes into a new year after 9.1
+
+  seasonAfterSep = +(season.start.split('-')[0]) >= 9
+  schoolYear += 1 if seasonAfterSep # school year comes into a new year after 9.1
   return schoolYear - birthYear
 
 # Keep in sync with the copy in background-processor
@@ -772,19 +772,16 @@ ageBrackets = [
 seasons = [
   {
     name: 'Season 1',
-    id: 1,
     start:'01-01',
     end: '04-30',
   }
   {
     name: 'Season 2',
-    id: 2,
     start:'05-01',
     end: '08-31',
   }
   {
     name: 'Season 3',
-    id: 3,
     start:'09-01',
     end: '12-31',
   }
