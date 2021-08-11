@@ -1,41 +1,41 @@
 describe 'Utility library', ->
   utils = require '../../../app/core/utils'
 
-  describe 'fakeAgeSinceBirth', ->
+  describe 'yearsSinceMonth', ->
     beforeEach ->
       jasmine.clock().install()
     afterEach ->
       jasmine.clock().uninstall()
     describe 'should return undefined', ->
       it 'if start is falsy', ->
-        expect(utils.fakeAgeSinceBirth()).toBeUndefined()
+        expect(utils.yearsSinceMonth()).toBeUndefined()
       it 'if date format is not correct', ->
-        expect(utils.fakeAgeSinceBirth('11112020-01-019999999')).toBeUndefined()
+        expect(utils.yearsSinceMonth('11112020-01-019999999')).toBeUndefined()
     describe 'calculate years', ->
       it '0 for same date', ->
         jasmine.clock().mockDate(new Date(2020, 0, 1))
-        expect(utils.fakeAgeSinceBirth('2020-01-01')).toBe(0)
+        expect(utils.yearsSinceMonth('2020-01-01')).toBe(0)
       it '1 for previous year', ->
         jasmine.clock().mockDate(new Date(2020, 0, 1))
-        expect(utils.fakeAgeSinceBirth('2019-01-01')).toBe(1)
+        expect(utils.yearsSinceMonth('2019-01-01')).toBe(1)
       it '100 for previous decade', ->
         jasmine.clock().mockDate(new Date(2020, 0, 1))
-        expect(utils.fakeAgeSinceBirth('1920-01-01')).toBe(100)
+        expect(utils.yearsSinceMonth('1920-01-01')).toBe(100)
       it 'Jan 1 2012 to Jan 1 2013 should be 1 year', ->
         jasmine.clock().mockDate(new Date(2013, 0, 1))
-        expect(utils.fakeAgeSinceBirth('2012-01-01')).toBe(1)
+        expect(utils.yearsSinceMonth('2012-01-01')).toBe(1)
       it 'Feb 28 2012 to Feb 28 2013 should be 1 year', ->
         jasmine.clock().mockDate(new Date(2013, 1, 28))
-        expect(utils.fakeAgeSinceBirth('2012-02-28')).toBe(1)
+        expect(utils.yearsSinceMonth('2012-02-28')).toBe(1)
       it 'Mar 1 2012 to Mar 1 2013 should be 1 year', ->
         jasmine.clock().mockDate(new Date(2013, 2, 1))
-        expect(utils.fakeAgeSinceBirth('2012-03-01')).toBe(1)
+        expect(utils.yearsSinceMonth('2012-03-01')).toBe(1)
       it 'Dec 1 2012 to Dec 1 2013 should be 1 year', ->
         jasmine.clock().mockDate(new Date(2013, 11, 1))
-        expect(utils.fakeAgeSinceBirth('2012-12-01')).toBe(1)
+        expect(utils.yearsSinceMonth('2012-12-01')).toBe(1)
       it 'Dec 31 2012 to Dec 31 2013 should be 1 year', ->
         jasmine.clock().mockDate(new Date(2013, 11, 31))
-        expect(utils.fakeAgeSinceBirth('2012-12-31')).toBe(1)
+        expect(utils.yearsSinceMonth('2012-12-31')).toBe(1)
 
   describe 'ageToBracket', ->
     describe 'should return open if', ->
@@ -45,7 +45,7 @@ describe 'Utility library', ->
         expect(utils.ageToBracket(19)).toBe('open')
     describe "20-21 school year", ->
       getAge = (now, birth)->
-        utils.fakeAgeSinceBirth(birth, now)
+        utils.yearsSinceMonth(birth, now)
 
       beforeEach ->
         jasmine.clock().install()

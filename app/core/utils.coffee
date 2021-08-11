@@ -911,7 +911,6 @@ module.exports = {
   userAgent
   videoLevels
   yearsSinceMonth
-  fakeAgeSinceBirth
   CODECOMBAT
   OZARIA
   CODECOMBAT_CHINA
