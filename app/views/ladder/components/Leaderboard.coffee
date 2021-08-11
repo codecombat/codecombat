@@ -2,6 +2,9 @@ LeaderboardComponent = require('./Leaderboard.vue').default
 require('app/styles/play/ladder/new-leaderboard-view.sass')
 CocoView = require('views/core/CocoView')
 Tournament = require 'models/Tournament'
+ModelModal = require 'views/modal/ModelModal'
+User = require 'models/User'
+LevelSession = require 'models/LevelSession'
 store = require('core/store')
 silentStore = { commit: _.noop, dispatch: _.noop }
 CocoCollection = require 'collections/CocoCollection'
@@ -21,12 +24,12 @@ module.exports = class LeaderboardView extends CocoView
     super options
     @tableTitles = [
       {slug: 'language', col: 1, title: ''},
-      {slug: 'rank', col: 1, title: 'Rank'},
+      {slug: 'rank', col: 1, title: $.i18n.t('general.rank')},
       {slug: 'name', col: 3, title: $.i18n.t('general.name')},
-      {slug: 'wins', col: 1, title: 'Wins'},
-      {slug: 'losses', col: 1, title: 'Losses'},
-      {slug: 'win-rate', col: 1, title: 'Win %'},
-      {slug: 'clan', col: 2, title: 'Clan'},
+      {slug: 'wins', col: 1, title: $.i18n.t('ladder.wins')},
+      {slug: 'losses', col: 1, title: $.i18n.t('ladder.losses')},
+      {slug: 'win-rate', col: 1, title: $.i18n.t('ladder.win_rate')},
+      {slug: 'clan', col: 2, title: $.i18n.t('clans.clan')},
       {slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket')},
       {slug: 'country', col:1, title: '🏴‍☠️'}
     ]
@@ -100,6 +103,9 @@ module.exports = class LeaderboardView extends CocoView
       @vueComponent.$on('spectate', (data) =>
         @handleClickSpectateCell(data)
       )
+      @vueComponent.$on('click-player-name', (data) =>
+        @handleClickPlayerName(data)
+      )
       @vueComponent.$on('filter-age', (data) =>
         @handleClickAgeFilter(data)
       )
@@ -149,6 +155,21 @@ module.exports = class LeaderboardView extends CocoView
     else
       @spectateTargets.humans = leaderboards[data[0]].get('_id')
       @spectateTargets.ogres = leaderboards[data[1]].get('_id')
+
+  handleClickPlayerName: (id) ->
+    if me.isAdmin()
+      leaderboards = @leaderboards.topPlayers.models
+      player = new User _id: leaderboards[id].get('creator')
+      if @tournament
+        session = new LevelSession _id: leaderboards[id].get('levelSession')
+      else
+        session = new LevelSession _id: leaderboards[id].get('_id')
+      models = [session, player]
+      @openModalView new ModelModal models: models
+    else if me.isTeacher()
+      ;
+    else
+      ;
 
   handleClickAgeFilter: (ageBracket) ->
     @ageBracket = ageBracket

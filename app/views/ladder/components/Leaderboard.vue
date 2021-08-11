@@ -240,6 +240,9 @@
 
         return ''
       },
+      onClickUserRow (rank) {
+        this.$emit('click-player-name', rank)
+      },
       onClickSpectateCell (rank) {
         let index = this.selectedRow.indexOf(rank)
         if (index != -1) {
@@ -287,7 +290,7 @@
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)
-            td(v-for="item, index in row" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 0 ? computeBody(tableTitles[index].slug, item): ''")
+            td(v-for="item, index in row" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 0 ? computeBody(tableTitles[index].slug, item): ''" @click="onClickUserRow(rank)")
             td.spectate-cell.iconic-cell(@click="onClickSpectateCell(rank)")
               .glyphicon(:class="{'glyphicon-eye-open': selectedRow.indexOf(rank) != -1}")
 
