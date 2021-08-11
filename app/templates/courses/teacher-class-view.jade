@@ -394,11 +394,10 @@ mixin bulkAssignControls
       span :
     select.bulk-course-select.form-control
       each course in _.rest(view.latestReleasedCourses)
-        if classroom.language !== 'cpp' || (view.utils.CSCourseIDs.indexOf(course.id) !== -1)
-          option(value=course.id selected=(course===state.get('selectedCourse')))
-            = i18n(course.attributes, 'name')
-            if !view.availableCourseMap[course.id]
-              = " " + translate('teacher.paren_new')
+        option(value=course.id selected=(course===state.get('selectedCourse')))
+          = i18n(course.attributes, 'name')
+          if !view.availableCourseMap[course.id]
+            = " " + translate('teacher.paren_new')
     if !state.get('readOnly')
       button.btn.btn-primary.assign-to-selected-students(disabled=!view.allStatsLoaded())
         span(data-i18n='teacher.assign_course')
