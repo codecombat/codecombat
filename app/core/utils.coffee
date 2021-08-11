@@ -741,25 +741,24 @@ videoLevels = {
   }
 }
 
-yearsSinceMonth = (start, now) ->
-  return undefined unless start
+yearsSinceMonth = (birth, now) ->
+  return undefined unless birth
   # Should probably review this logic, written quickly and haven't tested any edge cases
-  if _.isString start
-    return undefined unless /^\d{4}-\d{1,2}(-\d{1,2})?$/.test start
-    if start.split('-').length is 2
-      start = start + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
-    start = new Date(start)
-  return undefined unless _.isDate start
+  if _.isString birth
+    return undefined unless /^\d{4}-\d{1,2}(-\d{1,2})?$/.test birth
+    if birth.split('-').length is 2
+      birth = birth + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
+    birth = new Date(birth)
+  return undefined unless _.isDate birth
 
-  birthYear = start.getFullYear()
-  birthAfterSep = start >= new Date("#{birthYear}-9-1")
-  if birthAfterSep
-    birthYear += 1 # child birth after 9.1 should join school in next year
+  birthYear = birth.getFullYear()
+  birthYear += 1 if birth.getMonth() > 7 # getMonth start from 0 # child birth after 9.1 should join school in next year
   season = currentSeason()
   now ?= new Date()
   schoolYear = now.getFullYear()
-  if season.id is 3
-    schoolYear += 1 # school year comes into a new year after 9.1
+  # NOTE: if we update our season's time we need to double check this.
+  # this condition really means season.start_date is after Sep.
+  schoolYear += 1 if season.id is 3 # school year comes into a new year after 9.1
   return schoolYear - birthYear
 
 # Keep in sync with the copy in background-processor
