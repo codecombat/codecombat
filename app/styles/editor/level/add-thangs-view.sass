@@ -1,3 +1,4 @@
+@use "sass:math"
 @import "app/styles/mixins"
 
 #add-thangs-view
@@ -65,8 +66,8 @@
       $hoverScaleIncreaseFactor: 0.2
       outline: 1px dotted blue
       img
-        left: -($hoverScaleIncreaseFactor / 2) * $addPaletteIconWidth
-        top: -($hoverScaleIncreaseFactor / 2) * $addPaletteIconWidth
+        left: math.div(-$hoverScaleIncreaseFactor, 2) * $addPaletteIconWidth
+        top: math.div(-$hoverScaleIncreaseFactor, 2) * $addPaletteIconWidth
         width: (1 + $hoverScaleIncreaseFactor) * $addPaletteIconWidth
         height: (1 + $hoverScaleIncreaseFactor) * $addPaletteIconWidth
 

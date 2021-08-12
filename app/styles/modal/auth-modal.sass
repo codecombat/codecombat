@@ -1,3 +1,4 @@
+@use "sass:math"
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 
@@ -199,13 +200,13 @@
 
       .sign-in-blurb
         line-height: 34px
-        
-      #facebook-blurb  
+
+      #facebook-blurb
         margin-left: 12px
 
       .fb-login-button
-        $scaleX: 251 / 64
-        $scaleY: 60 / 23
+        $scaleX: math.div(251, 64)
+        $scaleY: math.div(60, 23)
         transform: scale($scaleX, $scaleY)
         position: absolute
         top: 4px
@@ -216,8 +217,8 @@
         position: absolute
         left: 65px
         top: -6px
-        $scaleX: 251 / 84
-        $scaleY: 60 / 24
+        $scaleX: math.div(251, 84)
+        $scaleY: math.div(60, 24)
         transform: scale($scaleX, $scaleY)
         @include opacity(0.01)
 
@@ -269,10 +270,10 @@
       height: 70px
       line-height: 40px
 
-      
+
 .ie10 #auth-modal .auth-network-logins .btn.btn-lg.network-login .network-logo, .lt-ie10 #auth-modal .auth-network-logins .btn.btn-lg.network-login .network-logo
   left: 15px
-  top: 15px  
+  top: 15px
 
 body[lang^='pt'], body[lang^='es'], body[lang='fr'], body[lang^='de'], body[lang='hu'], body[lang='pl'], body[lang='sr'], body[lang='sk']
   #auth-modal .auth-network-logins .btn.btn-lg.network-login
