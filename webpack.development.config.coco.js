@@ -4,6 +4,11 @@
 const webpack = require('webpack');
 const _ = require('lodash');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+
+const smp = new SpeedMeasurePlugin({
+  disable: !process.env.MEASURE
+});
 
 const baseConfigFn = require('./webpack.base.config')
 // Development webpack config
@@ -19,12 +24,14 @@ module.exports = (env) => {
       port: process.env.WEBPACK_LIVE_RELOAD_PORT || 35432
     }),
   ];
-  return _.merge(baseConfig, {
-    output: _.merge({}, baseConfig.output, {
-      chunkFilename: 'javascripts/chunks/[name].bundle.js',
-    }),
-    devtool: 'eval-source-map', // https://webpack.js.org/configuration/devtool/
-    plugins: baseConfig.plugins.concat(plugins),
-    mode: 'development'
-  })
+  return smp.wrap(
+    _.merge(baseConfig, {
+      output: _.merge({}, baseConfig.output, {
+        chunkFilename: 'javascripts/chunks/[name].bundle.js',
+      }),
+      devtool: 'eval-source-map', // https://webpack.js.org/configuration/devtool/
+      plugins: baseConfig.plugins.concat(plugins),
+      mode: 'development'
+    })
+  )
 }
