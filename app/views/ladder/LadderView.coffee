@@ -187,14 +187,13 @@ module.exports = class LadderView extends RootView
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
     unless @tournamentState is 'ended'
-      if @level.get('slug') in ['sorcerers', 'blazing-battle']
+      if @level.isType('ladder')
         @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league}, @level, @sessions ))
       else
         @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
       @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
     else
       @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId}, @level, @sessions ))
-      # @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions, @tournamentId))
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true

@@ -40,14 +40,14 @@ module.exports = class LeaderboardView extends CocoView
         {slug: 'rank', col: 1, title: ''},
         {slug: 'name', col: 3, title: $.i18n.t('general.name')},
         {slug: 'score', col: 2, title: $.i18n.t('general.score')},
-        {slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket')},
+        {slug: 'age', col: 1, title: $.i18n.t('ladder.age')},
         {slug: 'when', col: 2, title: $.i18n.t('general.when')}
         {slug: 'fight', col: 1, title: ''}
       ]
       @propsData.scoreType = 'arena'
     @rankings = []
     @dataObj = { rankings: @rankings }
-    
+
     @refreshLadder()
 
   render: ->

@@ -276,6 +276,7 @@
         tr
           th(v-for="t in tableTitles" :key="t.slug" :colspan="t.col" :class="computeClass(t.slug)")
             | {{ t.title }}
+            span &nbsp;
             span.age-filter(v-if="t.slug == 'age'")
               .glyphicon.glyphicon-filter(@click="toggleAgeFilter")
               #age-filter(:class="{display: ageFilter}")
