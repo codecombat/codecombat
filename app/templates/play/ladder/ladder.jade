@@ -1,7 +1,7 @@
 extends /templates/base
 
 block content
-  if view.isAILeagueArena()
+  if view.isAILeagueArena() && !features.china
     a(href="/league")
       img.ai-league-logo(src="/images/pages/league/logo_badge.png")
 
@@ -209,7 +209,7 @@ block content
           #ladder-tab-view
           #new-leaderboard-view
           #my-matches-tab-view
-          if !me.isStudent() && !me.isTeacher() && view.isAILeagueArena()
+          if !me.isStudent() && !me.isTeacher() && view.isAILeagueArena() && !features.china
             .clearfix
             #team-offers
               .row
