@@ -145,10 +145,10 @@ module.exports = class MyMatchesTabView extends CocoView
     selector = '#' + wrapperID
 
     svg = d3.select(selector).append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
-      .attr('transform', "translate(#{margin.left}, #{margin.top})")
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 #{width+margin.left+margin.right} #{height+margin.top+margin.bottom}")
+    .append('g')
+    .attr('transform', "translate(#{margin.left}, #{margin.top})")
     time = 0
     data = scoreHistory.map (d) ->
       time +=1

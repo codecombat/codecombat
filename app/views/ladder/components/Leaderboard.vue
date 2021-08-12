@@ -102,8 +102,8 @@
         let xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(5).outerTickSize(0)
 
         let svg = d3.select('#histogram-display-humans').append('svg')
-                    .attr('width', width + margin.left + margin.right)
-                    .attr('height', height + margin.top + margin.bottom)
+                    .attr("preserveAspectRatio", "xMinYMin meet")
+                    .attr("viewBox", `0 0 ${width+margin.left+margin.right} ${height+margin.top+margin.bottom}`)
                     .append('g')
                     .attr('transform', `translate(${margin.left}, ${margin.top})`)
         let barClass = 'humans-bar'
@@ -316,7 +316,7 @@
   }
 
   .ladder-table tr {
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
   }
   .ladder-table tbody tr:hover td{
@@ -380,10 +380,13 @@
 
 <style lang="scss">
   #histogram-display-humans {
+    position: relative;
+    width: 100%;
+    padding-bottom: 28%;
+    vertical-align: top;
+    overflow: hidden;
     height: 130px;
     background-color: white;
-    display: flex;
-    justify-content: center;
 
     svg {
       overflow: visible;
