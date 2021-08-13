@@ -1,20 +1,5 @@
 import api from '../../api/trial-requests';
-const DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
-const SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
-const ROOT_LEVEL_KEYS = ['_id', 'type', 'status', 'reviewer', 'applicant'];
-
-function getNcesData() {
-  return SCHOOL_NCES_KEYS.reduce((prev, curr) => setAndReturn(prev, `nces_${curr}`, ''), {})
-}
-
-function getRootLevelData() {
-  return ROOT_LEVEL_KEYS.reduce((prev, key) => setAndReturn(prev, key, ''), {})
-}
-
-function setAndReturn(obj, key, val) {
-  obj[key] = val;
-  return obj;
-}
+import { getNcesData, getRootLevelData, ROOT_LEVEL_KEYS } from '../../trialRequestUtil'
 
 export default {
   namespaced: true,
