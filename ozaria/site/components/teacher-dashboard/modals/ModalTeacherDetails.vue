@@ -3,6 +3,8 @@ import Modal from "../../common/Modal";
 import {mapActions, mapGetters} from "vuex";
 import SecondaryButton from "../common/buttons/SecondaryButton";
 import Dropdown from "../common/Dropdown";
+import NcesSearchInput from "../../sign-up/PageEducatorSignup/PageSchoolInfo/NcesSearchInput";
+import { SCHOOL_NCES_KEYS } from "../../../../../app/core/trialRequestUtil"
 
 const countryList = require('country-list')();
 const UsaStates = require('usa-states').UsaStates
@@ -13,6 +15,7 @@ export default Vue.extend({
     Modal,
     SecondaryButton,
     Dropdown,
+    NcesSearchInput,
   },
   props: {
     initialOrganization: String,
@@ -30,12 +33,19 @@ export default Vue.extend({
       city: this.initialCity,
       state: this.initialState,
       country: this.initialCountry,
+      ncesData: null
     };
   },
   computed: {
     showUsStatesDropDown() {
       return this.country === 'United States'
     },
+  },
+  watch: {
+    country() {
+      if (!this.showUsStatesDropDown)
+        this.ncesData = null
+    }
   },
   methods: {
     ...mapActions({
@@ -44,13 +54,14 @@ export default Vue.extend({
     onClose() {
       this.$emit('close');
     },
-    async submitDetails(e) {
+    async submitDetails(_e) {
       const updates = {
         organization: this.organization,
         district: this.district,
         state: this.state,
         city: this.city,
-        country: this.country
+        country: this.country,
+        ...this.ncesData
       }
       try {
         await this.updateTrialRequest(updates);
@@ -65,6 +76,22 @@ export default Vue.extend({
     updateCountry(e) {
       this.country = e.target.value;
     },
+    onNcesSchoolChoose(displayKey, choice) {
+      const data = {}
+      for (const [key, value] of Object.entries(choice)) {
+        if (SCHOOL_NCES_KEYS.includes(key)) {
+          data[`nces_${key}`] = value
+        }
+      }
+      this.ncesData = data
+      this.organization = choice.name
+      this.state = choice.state
+      this.city = choice.city
+      this.district = choice.district
+    },
+    onNcesSchoolInput(name, newValue) {
+      this.organization = newValue
+    }
   }
 })
 </script>
@@ -78,7 +105,17 @@ export default Vue.extend({
       <form class="teacher-details-form" @submit.prevent="submitDetails">
         <div class="form-group">
           <label for="schoolName">{{$t("teachers_quote.school_name")}}</label>
-          <input id="schoolName" class="form-control" v-model="organization" type="text" required />
+          <nces-search-input
+            @updateValue="onNcesSchoolInput"
+            @navSearchChoose="onNcesSchoolChoose"
+            :initial-value="organization"
+            display-key="name"
+            v-if="showUsStatesDropDown"
+          />
+          <input
+            id="schoolName" class="form-control" v-model="organization" type="text" required
+            v-else
+          />
         </div>
         <div class="form-group row">
           <div class="col-lg-6">
@@ -112,7 +149,7 @@ export default Vue.extend({
                 <option
                     v-for="option in usaStates"
                     :key="option.abbreviation"
-                    :selected="state === option"
+                    :selected="state === option.abbreviation"
                     :value="option.abbreviation"
                 >
                   {{option.name}}
