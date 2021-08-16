@@ -315,6 +315,7 @@ module.exports = class CampaignView extends RootView
     @musicPlayer?.destroy()
     clearTimeout @playMusicTimeout
     clearInterval @portalScrollInterval
+    Backbone.Mediator.unsubscribe 'audio-player:loaded', @playAmbientSound, @
     super()
 
   showLoading: ($el) ->

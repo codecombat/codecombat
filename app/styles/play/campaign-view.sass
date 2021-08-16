@@ -1,10 +1,11 @@
+@use "sass:math"
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 
 $mapHeight: 1536
 $mapWidth: 2350
 $levelDotWidth: 2%
-$levelDotHeight: $levelDotWidth * $mapWidth / $mapHeight
+$levelDotHeight: math.div($levelDotWidth * $mapWidth, $mapHeight)
 $levelDotZ: $levelDotHeight * 0.25
 $levelDotHoverZ: $levelDotZ * 1.5
 $levelDotShadowWidth: 0.8 * $levelDotWidth
@@ -16,13 +17,13 @@ $gameControlMargin: 30px
 +keyframes(levelStartedPulse)
   from
     @include box-shadow(0px 0px 4px #333)
-    margin-bottom: -$levelDotHeight / 3 + $levelDotZ
+    margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotZ
   50%
     @include box-shadow(0px 0px 22px skyblue)
-    margin-bottom: -$levelDotHeight / 3 + ($levelDotHoverZ + $levelDotZ) / 2
+    margin-bottom: math.div(-$levelDotHeight, 3) + math.div(($levelDotHoverZ + $levelDotZ), 2)
   to
     @include box-shadow(0px 0px 4px #333)
-    margin-bottom: -$levelDotHeight / 3 + $levelDotZ
+    margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotZ
 
 #campaign-view
   top: 0
@@ -173,7 +174,7 @@ $gameControlMargin: 30px
       width: $levelDotWidth
       height: $levelDotHeight
       margin-left: -0.5 * $levelDotWidth
-      margin-bottom: -$levelDotHeight / 3 + $levelDotZ
+      margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotZ
       border: 2px groove white
       @include transition(margin-bottom 0.5s ease)
       cursor: pointer
@@ -196,7 +197,7 @@ $gameControlMargin: 30px
         width: $levelDotWidth * 0.67
         height: $levelDotHeight * 0.67
         margin-left: -0.5 * 0.67 * $levelDotWidth
-        margin-bottom: -$levelDotHeight / 3 * 0.67 + $levelDotZ / 2
+        margin-bottom: math.div(math.div(-$levelDotHeight, 3) * 0.67 + $levelDotZ, 2)
 
         .treasure-chest
           transform: translateX(-50%) translateY(-200%) scaleY(1.33) scale(0.95)
@@ -298,9 +299,9 @@ $gameControlMargin: 30px
       border-radius: 50%
       background: white
       width: $levelDotWidth * 1.5
-      height: $levelDotHeight * 1.5 / 1.75
+      height: math.div($levelDotHeight * 1.5, 1.75)
       margin-left: -0.5 * $levelDotWidth * 1.5
-      margin-bottom: -$levelDotHeight / 3 * 1.5 / 1.75
+      margin-bottom: math.div(math.div(-$levelDotHeight, 3) * 1.5, 1.75)
 
       &.hero-portrait-on-banner, &.item-portrait-on-banner
         bottom: 170%
@@ -317,7 +318,7 @@ $gameControlMargin: 30px
       width: $levelDotShadowWidth
       height: $levelDotShadowHeight
       margin-left: -0.5 * $levelDotShadowWidth
-      margin-bottom: -$levelDotShadowHeight / 3
+      margin-bottom: math.div(-$levelDotShadowHeight, 3)
       background-color: black
       @include box-shadow(0px 0px 10px black)
       @include opacity(0.75)
@@ -327,7 +328,7 @@ $gameControlMargin: 30px
         width: $levelDotShadowWidth * 0.67
         height: $levelDotShadowHeight * 0.67
         margin-left: -0.5 * 0.67 * $levelDotShadowWidth
-        margin-bottom: -$levelDotShadowHeight / 3 * 0.67
+        margin-bottom: math.div(-$levelDotShadowHeight, 3) * 0.67
 
     .level:hover
       // TODO: This rotate stops Firefox from flickering, but also disables the scaleY(0.75)
@@ -335,7 +336,7 @@ $gameControlMargin: 30px
       // TODO: -moz-transform: scaleY(0.75) didn't do anything
       // TODO: Does not break Chrome's oval.
       -moz-transform: rotate(0)
-      margin-bottom: -$levelDotHeight / 3 + $levelDotHoverZ
+      margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotHoverZ
       @include box-shadow(0px 0px 35px skyblue)
 
     .level
@@ -782,7 +783,7 @@ $gameControlMargin: 30px
       .campaign
         width: $campaignWidth
         height: $campaignHeight
-        margin-top: $campaignHeight * ($campaignHoverScale - 1) / 2
+        margin-top: $campaignHeight * math.div($campaignHoverScale - 1, 2)
         background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat 0 0
         display: inline-block
         flex-shrink: 0
@@ -851,7 +852,7 @@ $gameControlMargin: 30px
 
         .beta-campaign
           width: $campaignWidth
-          height: $campaignHeight / 2
+          height: math.div($campaignHeight, 2)
           display: inline-block
           flex-shrink: 0
           position: relative
@@ -902,11 +903,11 @@ $gameControlMargin: 30px
 
           .background-container
             position: absolute
-            left: $campaignWidth / 4
-            width: $campaignWidth / 2
-            height: $campaignHeight / 2
+            left: math.div($campaignWidth, 4)
+            width: math.div($campaignWidth, 2)
+            height: math.div($campaignHeight, 2)
             background: transparent url(/images/pages/play/portal-beta-campaigns.png) no-repeat 0 0
-            background-size: $betaImagesWidth / 2
+            background-size: math.div($betaImagesWidth, 2)
 
             &.campaign-web-dev-1
               background-position: -151px 0px
