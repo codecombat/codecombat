@@ -770,8 +770,8 @@ ageBrackets = [
 ]
 
 ageBracketsChina = [
-  {slug: '0-11', max: 11.33}
-  {slug: '11-18', max: 18.99}
+  {slug: '0-11', max: 11}
+  {slug: '11-18', max: 18}
   {slug: 'open', max: 9001}
 ]
 
