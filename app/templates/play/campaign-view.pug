@@ -17,10 +17,10 @@ if showGameDevAlert
       img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
   div.under-logo.button-container
-    if view.shouldShow('back-to-classroom')
+    if view.shouldShow('back-to-classroom') && me.get('clientCreator') != '60fa65059e17ca0019950fdd'
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
 
-    if view.shouldShow('videos')
+    if view.shouldShow('videos') && me.get('clientCreator') != '60fa65059e17ca0019950fdd'
       a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button(data-i18n="play_level.videos")
 
     if view.shouldShow('league-arena')
