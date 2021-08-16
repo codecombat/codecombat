@@ -9,6 +9,11 @@ require('coffee-script/register');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const EventHooksWebpackPlugin = require('event-hooks-webpack-plugin')
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+
+const smp = new SpeedMeasurePlugin({
+  disable: !process.env.MEASURE
+});
 
 // Suck out commons chunks from these sets:
 // NOTE: Don't include files loaded by the WebWorkers in this. (lodash, aether, world)
@@ -27,7 +32,7 @@ const baseConfigFn = require('./webpack.base.config')
 module.exports = (env) => {
   if (!env) env = {};
   const baseConfig = baseConfigFn(env);
-  return _.merge(baseConfig, {
+  const config = _.merge(baseConfig, {
   output: _.merge({}, baseConfig.output, {
     chunkFilename: 'javascripts/chunks/[name]-[chunkhash].bundle.js',
   }),
@@ -87,4 +92,5 @@ module.exports = (env) => {
       })
     )
   })
+  return smp.wrap(config)
 }

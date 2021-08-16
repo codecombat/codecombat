@@ -3344,6 +3344,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     year_1: 'Yearly'
     most_popular: 'Most Popular'
     best_value: 'Best Value'
+    purchase_licenses: 'Purchase Licenses easily to get full access to CodeCombat and Ozaria'
+    homeschooling: 'Homeschooling Licenses'
 
     recurring:
       month_1: 'Recurring billing every month'

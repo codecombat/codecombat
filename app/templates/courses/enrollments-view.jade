@@ -39,20 +39,25 @@ block content
             | Please convert your account to ensure you retain access to your classrooms.
           a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
 
-    if view.state.get('shouldUpsell')
+    if view.state.get('shouldUpsell') || view.state.get('shouldUpsellParent')
       .bg-forest
         .container(dir="auto")
           .row
             .col-xs-9.m-t-1
               b
-                span.text-uppercase(data-i18n="special_offer.special_offer")
-                =': '
-                span(data-i18n="special_offer.student_starter_license")
+                if view.state.get('shouldUpsellParent')
+                  span(data-i18n="payments.homeschooling")
+                else
+                  span(data-i18n="payments.student_licenses")
               .small-details
-                i(data-i18n="special_offer.purchase_starter_licenses_to_grant", data-i18n-options=JSON.stringify(view.i18nData()))
+                i(data-i18n="payments.purchase_licenses")
             .col-xs-3
-              a.btn.btn-lg.btn-forest-alt.m-t-2.m-b-2(href="/teachers/starter-licenses")
-                b(data-i18n="general.learn_more")
+              if view.state.get('shouldUpsellParent')
+                a.btn.btn-lg.btn-forest-alt.m-t-2.m-b-2(href="/payments/homeschool-coco", target="_blank")
+                  b(data-i18n="general.learn_more")
+              else
+                a.btn.btn-lg.btn-forest-alt.m-t-2.m-b-2(href="/payments/student-licenses-small-classroom-coco", target="_blank")
+                  b(data-i18n="general.learn_more")
 
     .container.m-t-5(dir="auto")
       h3(data-i18n='teacher.enrollments')

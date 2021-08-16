@@ -741,23 +741,31 @@ videoLevels = {
   }
 }
 
-yearsSinceMonth = (start) ->
-  return undefined unless start
+yearsSinceMonth = (birth, now) ->
+  return undefined unless birth
   # Should probably review this logic, written quickly and haven't tested any edge cases
-  if _.isString start
-    return undefined unless /\d{4}-\d{2}(-\d{2})?/.test start
-    if start.length is 7
-      start = start + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
-    start = new Date(start)
-  return undefined unless _.isDate start
-  now = new Date()
-  now.getFullYear() - start.getFullYear() + (now.getMonth() - start.getMonth()) / 12
+  if _.isString birth
+    return undefined unless /^\d{4}-\d{1,2}(-\d{1,2})?$/.test birth
+    if birth.split('-').length is 2
+      birth = birth + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
+    birth = new Date(birth)
+  return undefined unless _.isDate birth
+
+  birthYear = birth.getFullYear()
+  birthYear += 1 if birth.getMonth() > 7 # getMonth start from 0 # child birth after 9.1 should join school in next year
+  season = currentSeason()
+  now ?= new Date()
+  schoolYear = now.getFullYear()
+
+  seasonAfterSep = +(season.start.split('-')[0]) >= 9
+  schoolYear += 1 if seasonAfterSep # school year comes into a new year after 9.1
+  return schoolYear - birthYear
 
 # Keep in sync with the copy in background-processor
 ageBrackets = [
-  {slug: '0-11', max: 11.33}
-  {slug: '11-14', max: 14.33}
-  {slug: '14-18', max: 18.99}
+  {slug: '0-11', max: 11}
+  {slug: '11-14', max: 14}
+  {slug: '14-18', max: 18}
   {slug: 'open', max: 9001}
 ]
 
@@ -767,11 +775,34 @@ ageBracketsChina = [
   {slug: 'open', max: 9001}
 ]
 
+seasons = [
+  {
+    name: 'Season 1',
+    start:'01-01',
+    end: '04-30',
+  }
+  {
+    name: 'Season 2',
+    start:'05-01',
+    end: '08-31',
+  }
+  {
+    name: 'Season 3',
+    start:'09-01',
+    end: '12-31',
+  }
+]
+
+currentSeason = () ->
+  now = new Date()
+  year = now.getFullYear()
+  return seasons.find((season) -> now <= new Date("#{year}-#{season.end}"))
+
 ageToBracket = (age) ->
-  # Convert years to an age bracket
+# Convert years to an age bracket
   return 'open' unless age
   for bracket in ageBrackets
-    if age < bracket.max
+    if age <= bracket.max
       return bracket.slug
   return 'open'
 

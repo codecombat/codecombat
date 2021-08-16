@@ -313,15 +313,15 @@ module.exports = class LadderTabView extends CocoView
   onClickPlayerName: (e) ->
     if me.isAdmin()
       row = $(e.target).parent()
-      player = new User _id: row.data 'player-id'
-      playerName = row.find('.name-col-cell').text()
       session = new LevelSession _id: row.data 'session-id'
-      if /^cq/.test(playerName) and not features.china
-        # CodeQuest users use cq name prefix and don't exist on global server; hack around this
-        models = [session]
-      else
-        models = [session, player]
-      @openModalView new ModelModal models: models
+      @supermodel.loadModel session
+      @listenToOnce session, 'sync', (_session) =>
+        if _session.get('source')?.name
+          models = [_session]
+        else
+          player = new User _id: row.data 'player-id'
+          models = [_session, player]
+        @openModalView new ModelModal models: models
     else if me.isTeacher()
       ;
     else
