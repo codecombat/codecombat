@@ -4,7 +4,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
-#    meta_og_url: "https://codecombat.com"
+    meta_og_url: "https://codecombat.com"
 #    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "Ohjelmointipeli, joka on rakennettu opettajat mielessä pitäen"
     built_for_teachers_blurb: "Ohjelmoinnin opettaminen lapsille voi usein tuntua ylivoimaiselta. CodeCombat auttaa kaikkia opettajia opettamaan oppilaitaan, miten ohjelmoida joko JavaScriptilla tai Pythonilla, kahdella maailman suosituimmista ohjelmointikielistä. Kattava opetussuunnitelma sisältää kuusi tietotekniikan osa-aluetta ja vahvistaa oppimista projektipohjaisten peli- ja web-kehitysosioiden avulla, joten lapset etenevät matkalla perussyntaksista rekursioon saakka!"
@@ -71,12 +71,12 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    for_teachers_subtitle4: "Automatic Differentiation"
 #    for_teachers_subblurb4: "Engage all learners in a diverse classroom with practice levels that adapt to each student's learning needs."
 #    game_based_blurb: "CodeCombat is a game-based computer science program where students type real code and see their characters react in real time."
-#    get_started: "Get started"
+    get_started: "Aloita" # {change}
 #    global_title: "Join Our Global Community of Learners and Educators"
-#    global_subtitle1: "Learners"
-    global_subtitle2: "Riviä koodia"
-#    global_subtitle3: "Teachers"
-#    global_subtitle4: "Countries"
+    global_subtitle1: "Oppijat" # {change}
+    global_subtitle2: "Riviä koodia" # {change}
+    global_subtitle3: "Opettajat" # {change}
+    global_subtitle4: "Maat" # {change}
 #    go_to_my_classes: "Go to my classes"
 #    go_to_my_courses: "Go to my courses"
 #    quotes_quote1: "Name any program online, I’ve tried it. None of them match up to CodeCombat & Ozaria. Any teacher who wants their students to learn how to code... start here!"
@@ -84,7 +84,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    quotes_quote3: "CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice."
 #    quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
 #    quotes_quote5: "Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills."
-#    quotes_quote5_author: "Latthaphon Pohpon, Parent"
+    quotes_quote5_author: "Latthaphon Pohpon, Vanhempi" # {change}
 #    see_example: "See example"
     slogan: "Lumoavin peli ohjelmoinnin oppimiseen." # {change}
 #    slogan_power_of_play: "Learn to Code Through the Power of Play"
@@ -100,8 +100,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     classroom_edition: "Kouluversio:"
     learn_to_code: "Opi koodaamaan:"
     play_now: "Pelaa Nyt"
-#    im_a_parent: "I'm a Parent"
-#    im_an_educator: "I'm an Educator"
+    im_a_parent: "Olen Vamhempi" # {change}
+    im_an_educator: "Olen Oppettaja" # {change}
     im_a_teacher: "Olen Opettaja"
     im_a_student: "Olen Oppilas"
     learn_more: "Lue lisää"
@@ -117,8 +117,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    educator_resources: "Educator resources"
 #    course_guides: "and course guides"
 #    teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds."
-#    accessible_to: "Accessible to"
-#    everyone: "everyone"
+    accessible_to: "Saatavilla" # {change}
+    everyone: "kaikille" # {change}
 #    democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
     forgot_learning: "Luulenpa, että he oikeastaan unohtivat, että olivat oppimassa jotain." # {change}
     wanted_to_do: "´Koodaus on sitä mitä olen aina halunnut tehdä, enkä uskonut että voisin oppia sitä koulussa."
@@ -161,10 +161,10 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     view_progress: "Tarkastele edistymistäni"
     go_to_courses: "Siirry omiin kursseihin"
     want_coco: "Haluatko CodeCombat:in kouluusi?"
-#    educator: "Educator"
-#    student: "Student"
+    educator: "Opettaja" # {change}
+    student: "Oppilas" # {change}
 #    our_coding_programs: "Our Coding Programs"
-#    codecombat: "CodeCombat"
+    codecombat: "CodeCombat" # {change}
 #    ozaria: "Ozaria"
 #    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
 #    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
@@ -183,9 +183,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    learning_technology_blurb: "Our original game teaches real-world skills through the power of play. The scaffolded curriculum systematically builds on student’s experiences and knowledge as they progress."
 #    learning_technology_blurb_short: "Our innovative game-based learning technology has transformed the way students learn to code."
 #    online_classes_blurb: "Our online coding classes combine the power of gameplay and personalized instruction for an experience your child will love. With both private or group options available, this is remote learning that works."
-#    for_educators: "For Educators"
-#    for_parents: "For Parents"
-#    for_everyone: "For Everyone"
+    for_educators: "Opettajille" # {change}
+    for_parents: "Vanhemmille" # {change}
+    for_everyone: "Kaikille" # {change}
 #    what_our_customers_are_saying: "What Our Customers Are Saying"
 #    game_based_learning: "Game-Based Learning"
 #    unique_approach_blurb: "With our unique approach, students embrace learning as they play and write code from the very start of their adventure, promoting active learning and a growth mindset."
@@ -198,8 +198,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    billion: "__num__ Billion"
 
   nav:
-#    educators: "Educators"
-#    follow_us: "Follow Us"
+    educators: "Opettajat" # {change}
+    follow_us: "Seuraa meitä" # {change}
 #    general: "General"
     map: "Kartta"
     play: "Tasot" # The top nav bar entry where players choose which levels to play
@@ -220,7 +220,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     twitter_follow: "Seuraa"
     my_classrooms: "Minun luokkani"
     my_courses: "Minun kurssini"
-#    my_teachers: "My Teachers"
+    my_teachers: "Minun opettajani"
     careers: "Ura"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -247,7 +247,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    ozaria_dashboard: "Ozaria Dashboard"
 #    codecombat_dashboard: "CodeCombat Dashboard"
 #    professional_development: "Professional Development"
-#    new: "New!"
+    new: "Uusi!" # {change}
 #    admin: "Admin"
 #    api_dashboard: "API Dashboard"
 
@@ -3050,7 +3050,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
-#    per_month: " / mo"
+    per_month: " / kk" # {change}
 #    lifetime_access: "Lifetime Access"
 #    premium_details_title: "Great for self-driven learners who thrive with complete autonomy."
 #    premium_details_1: "Access to subscriber-only heroes, pets and skills"
@@ -3208,7 +3208,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #  browser_recommendation:
 #    title: "CodeCombat works best on Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
-#    download: "Download Chrome"
+    download: "Lataa Chrome" # {change}
 #    ignore: "Ignore"
 
 #  admin:
@@ -3284,7 +3284,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    codecombat_ai_league: "CodeCombat AI League"
 #    register: "Register"
 #    not_registered: "Not Registered"
-#    world: "World"
+    world: "Maailma" # {change}
 #    quickstart_video: "Quickstart Video"
 #    arena_rankings: "Arena Rankings"
 #    arena_rankings_blurb: "Global AI League arena rankings"
@@ -3294,7 +3294,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    count_students: "students" # 2 students
 #    top_student: "Top:" # Top: Jane D
 #    top_percent: "top" # - top 3%)
-#    top_of: "of" # (#8 of 35). Perhaps just use "/" if this doesn't translate naturally.
+    top_of: "/" # (#8 of 35). Perhaps just use "/" if this doesn't translate naturally. # {change}
 #    arena_victories: "Arena Victories"
 #    arena_victories_blurb: "Global AI League arena recent wins"
 #    arena_victories_title: "Win count is based on the last 1000 matches played asynchronously by each player in each of their AI League arenas."
@@ -3340,7 +3340,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 
 #  form_validation_errors:
 #    required: "Field is required"
-#    invalidEmail: "Invalid email"
-#    invalidPhone: "Invalid phone number"
-#    emailExists: "Email already exists"
-#    numberGreaterThanZero: "Should be a number greater than 0"
+    invalidEmail: "Väärä sähköpostiosoite" # {change}
+    invalidPhone: "Väärä puhelinnumero" # {change}
+    emailExists: "Sähköposti on jo olemassa" # {change}
+    numberGreaterThanZero: "Luvun pitäisi olla suurempi kuin 0" # {change}
