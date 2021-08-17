@@ -8,6 +8,7 @@ CocoCollection = require 'collections/CocoCollection'
 # application = require 'core/application'
 co = require 'co'
 utils = require 'core/utils'
+{joinClan} = require 'core/api/clans'
 
 LadderTabView = require './LadderTabView'
 MyMatchesTabView = require './MyMatchesTabView'
@@ -44,6 +45,7 @@ module.exports = class LadderView extends RootView
   id: 'ladder-view'
   template: require 'templates/play/ladder/ladder'
   usesSocialMedia: true
+  showBackground: false
 
   subscriptions:
     'application:idle-changed': 'onIdleChanged'
@@ -53,6 +55,7 @@ module.exports = class LadderView extends RootView
     'click a:not([data-toggle])': 'onClickedLink'
     'click .spectate-button': 'onClickSpectateButton'
     'click .simulate-all-button': 'onClickSimulateAllButton'
+    'click .join-clan-button': 'onClickJoinClanButton'
 
   initialize: (options, @levelID, @leagueType, @leagueID) ->
     super(options)
@@ -184,11 +187,13 @@ module.exports = class LadderView extends RootView
     return unless @supermodel.finished()
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
     unless @tournamentState is 'ended'
-      @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
+      if @level.isType('ladder')
+        @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league}, @level, @sessions ))
+      else
+        @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
       @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
     else
       @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId}, @level, @sessions ))
-      # @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions, @tournamentId))
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
@@ -222,11 +227,11 @@ module.exports = class LadderView extends RootView
     @showPlayModal($(e.target).closest('.play-button').data('team'))
 
   onClickSpectateButton: (e) ->
+    e.preventDefault()
+    e.stopImmediatePropagation()
     humanSession = @ladderTab.spectateTargets?.humans
     ogreSession = @ladderTab.spectateTargets?.ogres
     return unless humanSession and ogreSession
-    e.preventDefault()
-    e.stopImmediatePropagation()
     url = "/play/spectate/#{@level.get('slug')}?session-one=#{humanSession}&session-two=#{ogreSession}"
     url += '&league=' + @league.id if @league
     url += '&autoplay=false' if key.command
@@ -283,6 +288,22 @@ module.exports = class LadderView extends RootView
       @$el.find('a[href="#prizes"]').tab('show')
     if link and /#winners/.test link
       @$el.find('a[href="#winners"]').tab('show')
+
+  onClickJoinClanButton: (e) ->
+    return if me.isAnonymous()  # Just follow the link
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    clanId = $(e.target).closest('a').data('clan-id')
+    href = $(e.target).closest('a').attr('href')
+    $(e.target).text $.i18n.t 'common.loading'
+    joinClan(clanId).then -> document.location.href = href
+
+  isAILeagueArena: -> _.find utils.arenas, slug: @levelID
+
+  teamOffers: [
+    {slug: 'hyperx', clanId: '60a4378875b540004c78f121', name: 'Team HyperX', clanSlug: 'hyperx'}
+    {slug: 'derbezt', clanId: '601351bb4b79b4013e198fbe', name: 'Team DerBezt', clanSlug: 'team-derbezt'}
+  ]
 
   destroy: ->
     clearInterval @refreshInterval
