@@ -1,11 +1,25 @@
 #ladder-view
+  background-color: black
+
+  @media only screen and (min-width: 1200px)
+    background-image: url(/images/pages/league/hero_okar.png), url(/images/pages/league/hero_lady_ida.png), url(/images/pages/league/hero_background_pink.png), url(/images/pages/league/hero_background_pink.png)
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat
+    background-position: top 200px left calc(-777px + 10%), top 50px right calc(-510px + 10%), top 200px left calc(-777px + 10%), top 50px right calc(-510px + 10%)
+    background-size: 1341px, 1478px, 1341px, 1478px
+  max-width: 100%
+
+  #site-content-area
+    min-width: 1024px
+    max-width: 1372px
+    width: 80vw
+    border: 1px solid #46381b
 
   #ladder-top
     background-color: whitesmoke
     margin: -14px -12px 20px -12px
     padding-bottom: 30px
     border-bottom: 1px solid #888
-    
+
   #course-header
     background-color: black
     font-size: 24px
@@ -18,9 +32,19 @@
       padding: 2px 5px
       a
         color: black
-      
+
     #course-name
       color: white
+
+  .ai-league-logo
+    position: absolute
+    width: 100px
+    left: calc(50% - 50px)
+    top: 5px
+    z-index: 1030
+
+    @media only screen and (max-width: 1600px)
+      display: none
 
   #level-column
     padding-top: 14px
@@ -29,7 +53,7 @@
     img
       margin-top: -23px
       width: 100%
-      
+
   h1
     text-align: center
 
@@ -68,20 +92,18 @@
 
       img
         margin: 0px 15px
-    
+
   .tab-pane
     margin-top: 10px
-  
+
   .rank-cell, .fight-cell
     text-align: center
-    
+
   .score-cell
     width: 50px
     text-align: center
-    
+
   .play-button
-    margin-bottom: 10px
-    background-image: none
     color: white
     font-size: 24px
 
@@ -90,13 +112,13 @@
     text-overflow: ellipsis
     white-space: nowrap
     overflow: hidden
-    
+
   .ellipsis-row
     text-align: center
 
   .simulator-leaderboard-cell
     text-align: center
-    
+
   // friend column
 
   .friends-header
@@ -107,29 +129,42 @@
     margin-bottom: 15px
     .btn
       margin-right: 5px
-  
+
   .friend-entry img
     float: left
     margin-right: 10px
-    
+
   .friend-entry
     margin-bottom: 15px
-    
+
   .connect-facebook
     background-color: #4c66a4 !important
     background-image: none
     color: white
-    
+
   .connect-google-plus
     background-color: #CC3234 !important
     background-image: none
     color: white
-    
+
   #must-log-in button
     margin-right: 10px
 
   #ladder-action-columns
     margin-top: 30px
+    .column
+      margin-left: 2%
+      margin-right: 2%
+    .column-2
+      width: 15%
+    .column-3
+      width: 20%
+    .column-4
+      width: 30%
+    display: flex
+    align-items: center
+    justify-content: center
+
 
   .inline-simulation-stats
     #simulate-tab-view
@@ -152,6 +187,21 @@
   &.single-ladder
     .row:nth-child(1):after
       clear: none
+
+  #team-offers
+    padding: 15px
+    margin: 30px -15px -15px -15px
+    background-color: black
+
+    h1, h2, h3, h4, h5, h6, p
+      color: white
+
+    .team-offer
+      border-top: 1px solid #333
+
+      @media only screen and (min-width: 1376px)
+        p
+          margin-top: 12px
 
 #tournamentend
   width: 100%
