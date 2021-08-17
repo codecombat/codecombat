@@ -304,7 +304,7 @@
     background-color: white;
   }
   .ladder-table td {
-    padding: 2px 2px;
+    padding: 1px 2px;
   }
 
   .ladder-table .code-language-cell {
