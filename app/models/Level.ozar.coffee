@@ -287,4 +287,10 @@ module.exports = class Level extends CocoModel
         return 'intro'
     return 'practice'
 
+  checkRemoteChanges: ->
+    fetch(this.url()).then (response) =>
+      response.json().then (remoteAttributes) =>
+        hasChanges = @_revertAttributes and not _.isEqual remoteAttributes, @_revertAttributes
+        @trigger 'remote-changes-checked', {hasChanges: hasChanges}
+
 _.assign(Level, LevelLib)
