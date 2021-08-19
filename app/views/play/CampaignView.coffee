@@ -519,7 +519,7 @@ module.exports = class CampaignView extends RootView
     if me.level() < 12 and @terrain is 'dungeon' and not @editorMode
       context.levels = _.reject context.levels, slug: 'signs-and-portents'
     if me.freeOnly()
-      context.levels = _.reject context.levels, (level) ->
+      context.levels = _.reject context.levels, (level) =>
         return true if (level.type in ['course', 'course-ladder']) and me.isStudent() and not @courseInstance  # Too much hassle to get Wakka Maul working for CS1 with no classroom
         return level.requiresSubscription
     if features.brainPop
