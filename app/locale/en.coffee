@@ -3214,6 +3214,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_type_full: 'Full Courses'
     license_type_customize: 'Customize Courses'
 
+  outcomes:
+    school_admin: "School Administrator"
+    school_network: "School Network"
+    school_subnetwork: "School Subnetwork"
+    classroom: "Classroom"
+
   league:
     student_register_1: "Become the next AI Champion!"
     student_register_2: "Sign up, create your own team, or join other teams to start competing."

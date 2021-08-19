@@ -288,6 +288,10 @@
   box-shadow: unset;
   font-weight: 400;
 
+  @media print {
+    display: none;
+  }
+
   p, .text-p {
     font-family: $body-font;
     font-size: 18px;
