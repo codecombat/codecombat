@@ -22,8 +22,9 @@ OzariaEncouragementModal = require('app/views/teachers/OzariaEncouragementModal'
 PanelTryOzaria = require('app/components/teacher/PanelTryOzaria').default
 BannerWebinar = require('./BannerWebinar').default
 clansApi = require 'core/api/clans'
-
 helper = require 'lib/coursesHelper'
+TrialRequest = require 'models/TrialRequest'
+TrialRequests = require 'collections/TrialRequests'
 
 translateWithMarkdown = (label) ->
   marked.inlineLexer $.i18n.t(label), []
@@ -172,6 +173,11 @@ module.exports = class TeacherClassesView extends RootView
 
     # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
 
+    @trialRequest = new TrialRequest()
+    @trialRequests = new TrialRequests()
+    @trialRequests.fetchOwn()
+    @supermodel.trackCollection(@trialRequests)
+
   afterRender: ->
     super()
     unless @courseNagSubview
@@ -256,8 +262,14 @@ module.exports = class TeacherClassesView extends RootView
     if showOzariaEncouragementModal and not me.hideOtherProductCTAs()
       window.localStorage.removeItem('showOzariaEncouragementModal')
 
+    if @trialRequests.size()
+      @trialRequest = @trialRequests.first()
+
     if showOzariaEncouragementModal
       @openOzariaEncouragementModal()
+    else if !@trialRequest.get('properties')?.organization and !storage.load("seen-teacher-details-modal_#{me.get('_id')}")
+      @openTeacherDetailsModal()
+      storage.save("seen-teacher-details-modal_#{me.get('_id')}", true)
     else if me.isTeacher() and not @classrooms.length and not me.isSchoolAdmin()
       @openNewClassroomModal()
 
@@ -299,6 +311,11 @@ module.exports = class TeacherClassesView extends RootView
       .then () =>
         @calculateQuestCompletion()
         @render()
+
+  openTeacherDetailsModal: ->
+    TeacherDetailsModal = require('app/views/core/TeacherDetailsModal').default
+    modal = new TeacherDetailsModal()
+    @openModalView(modal)
 
   tryOzariaLinkClicked: ->
     window.tracker.trackEvent('Teacher Dashboard Try Ozaria Link Clicked', category: 'Teachers')

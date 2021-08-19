@@ -38,6 +38,7 @@ store = new Vuex.Store({
     seasonalLeague: require('./modules/seasonalLeague').default,
     paymentGroups: require('./modules/paymentGroups').default,
     apiClient: require('./modules/apiClient').default,
+    trialRequest: require('./modules/trialRequest').default
   }
 })
 
