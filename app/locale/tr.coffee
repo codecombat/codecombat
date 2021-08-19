@@ -2,7 +2,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
   new_home:
     title: "CodeCombat - Python ve JavaScript öğrenmek için kodlama oyunları"
-    meta_keywords: "CodeCombat, python, javascript, Kodlama Ounları"
+    meta_keywords: "CodeCombat, python, javascript, Kodlama Oyunları"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
     meta_og_url: "https://codecombat.com"
     become_investor: "CodeCombat'ta yatırımcı olmak"
