@@ -7,6 +7,7 @@
 
   const { hslToHex } = require('core/utils')
   const ThangType = require('models/ThangType')
+  const ThangTypeConstants = require('lib/ThangTypeConstants')
 
   const hslToHex_aux = ({ hue, saturation, lightness }) => hslToHex([hue, saturation, lightness])
 
@@ -14,8 +15,6 @@
   const ozariaHeroes = {
     'hero-b': {
       buttonIcon: 'Replace HeroB icon',
-      original: '5d03e60dab809900234a0037',
-      isometricOriginal: ThangType.heroes['hero-b'],
       silhouetteImagePath: '/images/ozaria/char-customization/hero-b-idle.png',
       thang: {
         scaleFactorX: 1,
@@ -25,18 +24,52 @@
     },
     'hero-a': {
       buttonIcon: 'Replace HeroA icon',
-      original: '5d03e18887ed53004682e340',
-      isometricOriginal: ThangType.heroes['hero-a'],
       silhouetteImagePath: '/images/ozaria/char-customization/hero-a-idle2.png',
       thang: {
         scaleFactorX: 1,
         scaleFactorY: 1,
         pos: { y: -43 }
       }
-    }
+    },
+    'hero-c': {
+      buttonIcon: 'Replace HeroC icon',
+      silhouetteImagePath: '/images/ozaria/char-customization/hero-c-idle.png',
+      thang: {
+        scaleFactorX: 0.9,
+        scaleFactorY: 0.9,
+        pos: { x: 1, y: -38 }
+      }
+    },
+    'hero-d': {
+      buttonIcon: 'Replace HeroD icon',
+      silhouetteImagePath: '/images/ozaria/char-customization/hero-d-idle.png',
+      thang: {
+        scaleFactorX: 1,
+        scaleFactorY: 1,
+        pos: { y: -38 }  // TODO: real cinematic hero values
+      }
+    },
+    'hero-e': {
+      buttonIcon: 'Replace HeroE icon',
+      silhouetteImagePath: '/images/ozaria/char-customization/hero-e-idle.png',
+      thang: {
+        scaleFactorX: 1,
+        scaleFactorY: 1,
+        pos: { y: -38 }  // TODO: real cinematic hero values
+      }
+    },
+//    'hero-f': {
+//      buttonIcon: 'Replace HeroF icon',
+//      silhouetteImagePath: '/images/ozaria/char-customization/hero-f-idle.png',
+//      thang: {
+//        scaleFactorX: 1,
+//        scaleFactorY: 1,
+//        pos: { y: -38 }  // TODO: real cinematic hero values
+//      }
+//    }
   }
 
-  module.exports = Vue.extend({
+ module.exports = Vue.extend({
     components: {
       'surface': Surface,
       BaseModalContainer
@@ -69,7 +102,9 @@
       loader.push(tintLoadingPromise)
 
       for (const heroKey in ozariaHeroes) {
-        const thangLoading = getThangTypeOriginal(ozariaHeroes[heroKey].original)
+        const hero = ozariaHeroes[heroKey]
+        const thangTypeOriginal = ThangTypeConstants.ozariaCinematicHeroes[heroKey]
+        const thangLoading = getThangTypeOriginal(thangTypeOriginal)
           .then(attr => new ThangType(attr))
           .then(thangType => this.loadedThangTypes[heroKey] = thangType)
         loader.push(thangLoading)
@@ -79,14 +114,16 @@
         .then(() => this.loaded = true)
 
       this.setInitialData()
+      const selectedHeroOriginalId = ThangTypeConstants.ozariaCinematicHeroes[this.selectedHero];
       window.tracker.trackEvent('Loaded Character Customization',
-        {selectedHeroOriginalId: (this.ozariaHeroes[this.selectedHero] || {}).original},
+        {selectedHeroOriginalId},
         ['Google Analytics'])
     },
 
     beforeDestroy () {
+      const selectedHeroOriginalId = ThangTypeConstants.ozariaCinematicHeroes[this.selectedHero];
       window.tracker.trackEvent('Unloaded Character Customization',
-        {selectedHeroOriginalId: (this.ozariaHeroes[this.selectedHero] || {}).original},
+        {selectedHeroOriginalId},
         ['Google Analytics'])
     },
 
@@ -141,7 +178,8 @@
 
         if (ozariaUserOptions.cinematicThangTypeOriginal) {
           for (const key of Object.keys(ozariaHeroes)) {
-            if (ozariaUserOptions.cinematicThangTypeOriginal === ozariaHeroes[key].original) {
+            const ozariaHeroOriginal = ThangTypeConstants.ozariaCinematicHeroes[key]
+            if (ozariaUserOptions.cinematicThangTypeOriginal === ozariaHeroOriginal) {
               this.selectedHero = key
             }
           }
@@ -210,9 +248,9 @@
           }
         ]
 
-        ozariaConfig.cinematicThangTypeOriginal = this.ozariaHeroes[this.selectedHero].original
+        ozariaConfig.cinematicThangTypeOriginal = ThangTypeConstants.ozariaCinematicHeroes[this.selectedHero]
 
-        ozariaConfig.isometricThangTypeOriginal = this.ozariaHeroes[this.selectedHero].isometricOriginal
+        ozariaConfig.isometricThangTypeOriginal = ThangTypeConstants.ozariaHeroes[this.selectedHero]
 
         me.set('ozariaUserOptions', ozariaConfig)
 
@@ -242,11 +280,10 @@
           <div
             class="row body-row"
           >
-            <div class="col-xs-6" />
             <div
               v-for="({ slug, silhouetteImagePath, onClick }) in bodyTypes"
               v-bind:key="slug"
-              class="col-xs-3"
+              class="col-xs-4"
             >
               <div
                 @click="onClick"
@@ -391,7 +428,7 @@
   opacity: 0.5
 
 .silhouette
-  height: 150px
+  height: 250px
 
 .selectedHero > img
   border: 4px solid #4298f5

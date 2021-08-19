@@ -1,4 +1,5 @@
-import { HERO_B_ID, VOICE_OVER_VOLUME } from "../../../../ozaria/engine/cinematic/constants"
+import { VOICE_OVER_VOLUME } from "../../../../ozaria/engine/cinematic/constants"
+import { ozariaCinematicHeroes } from "../../../lib/ThangTypeConstants"
 
 export default {
   namespaced: true,
@@ -9,8 +10,8 @@ export default {
     preload ({ dispatch }, voiceOverObj) {
       let voiceOver = voiceOverObj
       if (voiceOver?.male || voiceOver?.female) {
-        const userThangType = (me.get('ozariaUserOptions') || {}).cinematicThangTypeOriginal || HERO_B_ID
-        if (userThangType === HERO_B_ID) {
+        const userThangType = (me.get('ozariaUserOptions') || {}).cinematicThangTypeOriginal || ozariaCinematicHeroes['hero-b']
+        if ([ozariaCinematicHeroes['hero-b'], ozariaCinematicHeroes['hero-c'], ozariaCinematicHeroes['hero-e']].indexOf(userThangType) !== -1) {
           voiceOver = voiceOver.female
         } else {
           voiceOver = voiceOver.male
