@@ -2440,6 +2440,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     red_ai: "Erq PCH"  # "Erq NV Jvaf", ng raq bs zhygvcynlre zngpu cynlonpx
     blue_ai: "Oyhr PCH"
     wins: "Jvaf"  # Ng raq bs zhygvcynlre zngpu cynlonpx
+    losses: "Ybffrf"
+    win_rate: "Jva %"
     humans: "Erq"  # Ynqqre cntr qvfcynl grnz anzr
     ogres: "Oyhr"
     tournament_end_desc: "Gur gbheanzrag vf bire, gunaxf sbe cynlvat"
@@ -2448,6 +2450,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     bracket_0_11: "0-11"
     bracket_11_14: "11-14"
     bracket_14_18: "14-18"
+    bracket_11_18: "11-18"
     bracket_open: "Bcra"
 
   user:
@@ -3246,6 +3249,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     start_team: 'Fgneg n Grnz'
     leave_team: 'Yrnir Grnz'
     join_team: 'Wbva Grnz'
+    view_team: "Ivrj Grnz"
+    join_team_name: "Wbva Grnz __anzr__"
     features: 'Srngherf'
     built_in: 'Ohvyg-va Pbzcrgvgvir Vasenfgehpgher'
     built_in_subheader: 'Bhe cyngsbez ubfgf rirel ryrzrag bs gur pbzcrgvgvir cebprff, sebz yrnqreobneqf gb gur tnzr cyngsbez, nffrgf, naq gbheanzrag njneqf.'
@@ -3283,6 +3288,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     codecombat_ai_league: 'PbqrPbzong NV Yrnthr'
     register: "Ertvfgre"
     not_registered: "Abg Ertvfgrerq"
+    register_for_ai_league: "Ertvfgre sbe NV Yrnthr"
     world: "Jbeyq"
     quickstart_video: "Dhvpxfgneg Ivqrb"
     arena_rankings: "Neran Enaxvatf"
@@ -3301,6 +3307,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     codepoints_blurb: "1 PbqrCbvag = 1 yvar bs pbqr jevggra"
     codepoints_title: "Bar PbqrCbvag vf rnearq sbe rirel aba-juvgrfcnpr yvar bs pbqr arrqrq gb orng gur yriry. Rnpu yriry vf jbegu gur fnzr nzbhag bs PbqrCbvagf nppbeqvat gb vgf fgnaqneq fbyhgvba, ertneqyrff bs jurgure gur fghqrag jebgr zber be srjre yvarf bs pbqr."
     count_total: "Gbgny:" # Gbgny: 300 PbqrCbvagf, be Gbgny: 300 jvaf
+    join_teams_header: "Wbva Grnzf & Trg Pbby Fghss!"
+    join_team_hyperx_title: "Wbva Grnz UlcreK, Trg 10% Bss"
+    join_team_hyperx_blurb: "30 grnz zrzoref jvyy or pubfra ng enaqbz sbe n serr tnzvat zbhfrcnq!"
+    join_team_derbezt_title: "Wbva Grnz QreOrmg, Trg Rkpyhfvir Ureb"
+    join_team_derbezt_blurb: "Haybpx gur Neznaqb Ublbf ureb sebz Zrkvpna fhcrefgne Rhtravb Qreorm!"
 
   tournament:
     mini_tournaments: "Zvav Gbheanzragf"
