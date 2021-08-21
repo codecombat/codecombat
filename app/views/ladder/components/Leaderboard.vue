@@ -118,16 +118,29 @@
                      .attr('x', 1)
                      .attr('width', width/20)
                      .attr('height', (d) => height - y(d.y))
-        /* let scorebar = svg.selectAll('.specialbar')
-         *                   .data([playerScore])
-         *                   .enter().append('g')
-         *                   .attr('class', 'specialbar')
-         *                   .attr('transform', "translate(#{x(playerScore)}, 0)") */
+        if(this.session) {
+          let playerScore = this.session.get('totalScore')
+          console.log('score 1', playerScore)
+          if (this.league) {
+            let league = _.find(this.session.get('leagues'), { leagueID: this.league.id })
+            playerScore = league ? +league.stats.totalScore : 10
+          }
+          console.log('score 2', playerScore)
+          playerScore = playerScore * 100
+          console.log('score 3', playerScore)
+          console.log('score 4', x(playerScore))
+  
+          let scorebar = svg.selectAll('.specialbar')
+                            .data([playerScore])
+                            .enter().append('g')
+                            .attr('class', 'specialbar')
+                            .attr('transform', `translate(${x(playerScore)}, 0)`)
 
-        /* scorebar.append('rect')
-         *         .attr('x', 1)
-         *         .attr('width', 3)
-         *         .attr('height', height) */
+          scorebar.append('rect')
+                            .attr('x', 1)
+                            .attr('width', 2)
+                            .attr('height', height)
+        }
         let rankClass = 'rank-text humans-rank-text'
 
         let message = `${histogramData.length.toLocaleString()} players`
