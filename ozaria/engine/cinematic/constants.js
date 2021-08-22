@@ -6,8 +6,6 @@
  * placement into percentages for smaller screen sizes.
  */
 
-const ThangTypeConstants = require('lib/ThangTypeConstants')
-
 const WIDTH = 1366
 const HEIGHT = 768
 
@@ -19,7 +17,8 @@ const RIGHT_SPEAKER_CAMERA_POS = { x: 165, y: -65 }
 
 // The default hero if the user has malformed state or missing hero.
 // Useful if an admin is testing without selecting a hero in advance.
-const HERO_THANG_ID = ThangTypeConstants.ozariaCinematicHeroes['hero-a']
+//const HERO_THANG_ID = ThangTypeConstants.ozariaCinematicHeroes['hero-a']  // Don't want to require this here, messes with server-side include chains
+const HERO_THANG_ID = '5d03e18887ed53004682e340'  // hero-a
 
 const AVATAR_THANG_ID = '5d48b61ae92cc00030a9b2db'
 const PET_AVATAR_THANG_ID = '5d48bd7677c98f0029118e11'
