@@ -139,6 +139,9 @@ export default {
         for (const childKind of orgKinds[kind].childKinds) {
           subOrgs = subOrgs.concat(stats[childKind + 's'] || [])
         }
+        for (let [index, subOrg] of subOrgs.entries()) {
+          subOrg.initiallyIncluded = Boolean(!subOrg.archived && index < this.subOrgLimit && subOrg.progress && subOrg.progress.programs)
+        }
         console.log('    ... found suborgs', subOrgs, 'for child kinds', orgKinds[kind].childKinds)
       }
       this.subOrgs = Object.freeze(subOrgs)
@@ -221,17 +224,65 @@ export default {
 
 <template lang="pug">
 main#page-outcomes-report
-  img.header-art(src="/images/pages/admin/outcomes-report/arryn.png")
+  #report-container
+    img.header-art(src="/images/pages/admin/outcomes-report/arryn.png")
 
-  .header
-    div
-      img.print-logo(src="/images/pages/base/logo.png")
-    div
-      //h4 Outcomes Report - {{kind}} {{orgIdOrSlug}}
-      h4 Outcomes Report
-      h5
-        span= dateRangeDisplay
-        label.edit-label.editing-only(v-if="editing" for="startDate") &nbsp; (edit)
+    .header
+      div
+        img.print-logo(src="/images/pages/base/logo.png")
+      div
+        //h4 Outcomes Report - {{kind}} {{orgIdOrSlug}}
+        h4 Outcomes Report
+        h5
+          span= dateRangeDisplay
+          label.edit-label.editing-only(v-if="editing" for="startDate") &nbsp; (edit)
+
+    .org-results(v-if="org && !loading")
+      outcomes-report-result-component(:org="org" v-bind:editing="editing")
+      if includeSubOrgs
+        outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true")
+
+    .loading-indicator(v-if="loading")
+      h1= $t('common.loading')
+
+    if org && org.insightsHtml
+      .dont-break.block
+        .rob-row
+          .right-col
+            h1 Insights
+            // TODO: buffered
+            //!= org.insightsHtml
+            = org.insightsHtml
+
+    .dont-break(v-if="!loading")
+      img.anya(src="/images/pages/admin/outcomes-report/anya.png")
+      .block.room-for-anya
+        h1 Standards Coverage
+        p.
+          The full CodeCombat curriculum covers major programming standards in
+          several widely-adopted frameworks, including those of the International
+          Society for Technology in Education (ISTE), the Computer Science Teacher
+          Association (CSTA), and the K-12 Computer Science Framework.
+
+        p.
+          At CodeCombat, we believe that students will be most prepared for both
+          real-world computing jobs and further study of computer science by using
+          real, typed code in full programming languages, so instead of using block-based
+          visual programming languages for beginners, we teach Python and
+          JavaScript – the same languages used widely today by companies ranging
+          from Google to the New York Times.
+
+      .bottom
+        p Have questions or want more information? We'd be happy to help.
+        p
+          | Reach out to your Account Manager
+          if accountManager.name
+            span , #{accountManager.name},
+          = " at "
+          a(:href="'mailto:' + accountManager.email")= accountManager.email
+          | .
+
+    .clearfix
 
   form.menu.form-horizontal
     .print-btn.btn.btn-primary.btn-lg(@click="onPrintButtonClicked") {{ $t('courses.certificate_btn_print') }}
@@ -265,68 +316,25 @@ main#page-outcomes-report
         .col-xs-7
           input#subOrgLimit.form-control(type="number" v-model="subOrgLimit" name="subOrgLimit" @change="onIncludeSubOrgsChanged" min="1" step="1")
     .clearfix
-
-  .org-results(v-if="org && !loading")
-    outcomes-report-result-component(:org="org" v-bind:editing="editing")
-    if includeSubOrgs
-      outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs.slice(0, subOrgLimit)" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true")
-      if subOrgs.length > subOrgLimit
-        h1 ... #{subOrgs.length - subOrgLimit} more #{kind}s...
-
-  .loading-indicator(v-if="loading")
-    h1= $t('common.loading')
-
-  if org && org.insightsHtml
-    .dont-break.block
-      .rob-row
-        .right-col
-          h1 Insights
-          // TODO: buffered
-          //!= org.insightsHtml
-          = org.insightsHtml
-
-  .dont-break(v-if="!loading")
-    img.anya(src="/images/pages/admin/outcomes-report/anya.png")
-    .block.room-for-anya
-      h1 Standards Coverage
-      p.
-        The full CodeCombat curriculum covers major programming standards in
-        several widely-adopted frameworks, including those of the International
-        Society for Technology in Education (ISTE), the Computer Science Teacher
-        Association (CSTA), and the K-12 Computer Science Framework.
-
-      p.
-        At CodeCombat, we believe that students will be most prepared for both
-        real-world computing jobs and further study of computer science by using
-        real, typed code in full programming languages, so instead of using block-based
-        visual programming languages for beginners, we teach Python and
-        JavaScript – the same languages used widely today by companies ranging
-        from Google to the New York Times.
-
-    .bottom
-      p Have questions or want more information? We'd be happy to help.
-      p
-        | Reach out to your Account Manager
-        if accountManager.name
-          span , #{accountManager.name},
-        = " at "
-        a(:href="'mailto:' + accountManager.email")= accountManager.email
-        | .
-
-  .clearfix
 </template>
 
 
 <style lang="scss">
 #page-outcomes-report {
-  margin-top: 10px;
-  padding-top: 0;
-  box-shadow: 0px 0px 10px black;
   font-family: 'Open Sans', sans-serif;
-  margin-left: auto;
-  margin-right: auto;
-  width: 8.5in;
-  background-color: white;
+  background: transparent url(/images/pages/play/portal-background.png);
+  margin-bottom: -50px;
+  padding: 1px 0 10px 0;
+
+  #report-container {
+    margin-top: 10px;
+    padding-top: 0;
+    box-shadow: 0px 0px 10px black;
+    margin-left: auto;
+    margin-right: auto;
+    width: 8.5in;
+    background: white;
+  }
 
   @media print {
     margin-top: -75px;
@@ -338,7 +346,8 @@ main#page-outcomes-report
     left: 15px;
     top: 80px;
     padding: 10px;
-    box-shadow: 1px 1px 10px #333;
+    box-shadow: 0px 0px 10px black;
+    background: white;
 
     .edit-controls {
       min-width: 350px;

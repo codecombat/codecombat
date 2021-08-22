@@ -17,15 +17,11 @@ export default Vue.extend({
       type: Boolean,
       default: false
     },
-    included: {
-      type: Boolean,
-      default: true
-    }
   },
 
   data () {
     return {
-      
+      included: !this.isSubOrg || this.org.initiallyIncluded
     }
   },
 
@@ -36,8 +32,10 @@ export default Vue.extend({
     }),
 
     kindString () {
-      if (this.org.kind == 'administrative-region' && this.org.geo && this.org.geo.country == 'US' && /^en/.test(me.get('preferredLanguage')))
+      if (this.org.kind == 'administrative-region' && this.org.country == 'US' && /^en/.test(me.get('preferredLanguage')))
         return 'State'
+      //if (this.org.kind == 'school' && this.org.level && this.org.geo.country == 'US' && /^en/.test(me.get('preferredLanguage')))
+      //  return `${_.string.titleize(this.org.level)} School`
       const key = {
         'administrative-region': 'teachers_quote.state',
         'school-district': 'teachers_quote.district_label',
@@ -52,6 +50,10 @@ export default Vue.extend({
       return $.i18n.t(key)
     },
 
+    codeLanguageString () {
+      return utils.capitalLanguages[this.org.codeLanguage] || ''
+    },
+
     codeLanguageStats () {
       if (!this.org.progress) return 
       let languageStats = {}
@@ -63,19 +65,28 @@ export default Vue.extend({
       }
       for (let [language, stats] of Object.entries(languageStats)) {
         stats.percentage = Math.round(100 * stats.programs / totalPrograms)
-        stats.name = {python: 'Python', 'javascript': 'JavaScript', 'cpp': 'C++'}[language]
+        stats.name = utils.capitalLanguages[language]
         stats.language = language
       }
-      return Object.values(languageStats).sort((a, b) => b.programs - a.programs)
+      languageStats = _.omit(languageStats, (s) => !s.programs || s.programs < totalPrograms * 0.005)  // Skip low usage languages
+      languageStats = Object.values(languageStats).sort((a, b) => b.programs - a.programs)  // Sorted array
+      let otherLanguagesCumulativePercentage = 0
+      for (let stats of languageStats) {
+        // Keep track of how much all languages have contributed so that we can draw our pie chart
+        stats.otherLanguagesCumulativePercentage = otherLanguagesCumulativePercentage
+        otherLanguagesCumulativePercentage += stats.percentage
+      }
+      return languageStats
     },
 
     coursesWithProgress () {
+      if (!this.org.progress) return []
       let courses = _.cloneDeep(this.sortedCourses)
       let alreadyCoveredConcepts = []
       for (let course of courses) {
         course.name = utils.i18n(course, 'name')
-        course.studentsStarting = this.org.progress.studentsStartingCourse[course._id] || 0
-        course.studentsCompleting = this.org.progress.studentsCompletingCourse[course._id] || 0
+        course.studentsStarting = (this.org.progress.studentsStartingCourse || {})[course._id] || 0
+        course.studentsCompleting = (this.org.progress.studentsCompletingCourse || {})[course._id] || 0
         course.completion = course.studentsStarting ? Math.min(1, course.studentsCompleting / course.studentsStarting) : 0
         course.newConcepts = _.difference(course.concepts, alreadyCoveredConcepts)
         alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
@@ -111,25 +122,55 @@ export default Vue.extend({
 
 <template lang="pug">
 .outcomes-report-result-component(v-if="included || editing")
+  .page-break(v-if="isSubOrg && included")
+    hr
+
   .address
     p
-      b #{kindString}:
+      b
+        if org.archived
+          em Archived:
+        else
+          span #{kindString}:
       span= " "
-      b= org.displayName || org.name
+      if isSubOrg
+        a(:href="'/outcomes-report/' + org.kind + '/' + org._id" target="_blank")
+          b= org.displayName || org.name
+      else
+        b= org.displayName || org.name
       if org.email
         span  (#{org.email})
+      if codeLanguageString
+        span  (#{codeLanguageString})
+      if !included && org.progress && org.progress.studentsWithCode && org.kind != 'student'
+        span  - #{org.progress.studentsWithCode} students
       label.edit-label.editing-only(:for="'includeOrg-' + org._id" v-if="editing && isSubOrg")
         span  &nbsp;
         input(:id="'includeOrg-' + org._id" name="'includeOrg-' + org._id" type="checkbox" v-model="included")
         span  include
-      span(v-if="org.address && included")
-        br
-        span= org.address
+      if included
+        span(v-if="org.address")
+          br
+          span= org.address
+          span= ' '
+          a(:href="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(org.address)" target="_blank" rel="nofollow") (map)
+        //if org.geo && org.geo.county
+        //  br
+        //  span County: #{org.geo.county}
+        if org.phone || org.website
+          br
+        if org.phone
+          span= 'Phone: '
+          a(:href="'tel:' + org.phone")= phoneString(org.phone)
+          span &nbsp;
+        if org.website
+          span= ' Website: '
+          a(:href="org.website" rel="nofollow" target="_blank")= org.website
 
-  .block(v-if="included && coursesLoaded")
+  .block(v-if="included && coursesLoaded && coursesWithProgress[0] && coursesWithProgress[0].studentsStarting > 1")
     h1 Course Progress
     for course in coursesWithProgress
-      .course.dont-break(v-if="course.studentsStarting")
+      .course.dont-break(v-if="(course.studentsStarting + course.studentsCompleting) >= Math.min(100, Math.max(2, Math.ceil(0.02 * org.progress.studentsWithCode)))")
         h3= course.name
         .bar
           .el
@@ -144,15 +185,15 @@ export default Vue.extend({
             .big #{Math.round(100 * course.completion)}%
             .under complete
           .el
-            .big #{course.studentsStarting}
-            .under students
+            .big #{course.studentsStarting.toLocaleString()}
+            .under= course.studentsStarting === 1 ? "student" : "students"
           .el.concepts-list
             b Key Concepts:
             ul
               li(v-for="concept in course.newConcepts")
                 span {{$t('concepts.' + concept)}}
 
-  .block(v-if="org.progress && org.progress.programs > 1 && included")
+  .block(v-if="org.progress && org.progress.programs > 1 && included && codeLanguageStats.length > 1 && !codeLanguageString")
     .course.dont-break
       h3 Code Languages
         .bar
@@ -162,29 +203,29 @@ export default Vue.extend({
               - var fullCircleStroke = 2*Math.PI*radius / 2
               circle.bottom(r=radius,cx=50,cy=50)
               //circle.top(r=radius / 2, cx=50, cy=50, :style="'stroke-dasharray: ' + fullCircleStroke/100*33 + ' ' + 2*Math.PI*radius / 2")
-              circle.top(r=radius / 2, cx=radius, cy=radius, :style="'stroke-dasharray: calc(3.1415926 * radius * ' + (codeLanguageStats[0].percentage / 100) + ') calc(3.1415926 * radius)'")
+              for stats, index in codeLanguageStats
+                circle(r=radius / 2, cx=radius, cy=radius, :class="'top top' + index", :style="'stroke-dasharray: calc(3.1415926 * 50 * ' + (stats.percentage / 100) + ') calc(3.1415926 * 50); stroke-dashoffset: calc(3.1415926 * 50 * ' + (-stats.otherLanguagesCumulativePercentage / 100) + ');'")
               
-          .el
-            .big(v-if="codeLanguageStats[0]") #{codeLanguageStats[0].percentage}%
-            .under= codeLanguageStats[0].name
-          .el
-            .big= org.progress.programs.toLocaleString()
-            .under programs
-          .el.concepts-list
-            b Programs:
-            ul
-              li(v-for="languageStats, index in codeLanguageStats")
-                span #{languageStats.name}: #{languageStats.programs.toLocaleString()} (#{languageStats.percentage}%)
+          for stats, index in codeLanguageStats
+            .el.code-language-stat
+              .big #{stats.percentage}%
+              .under
+                img.code-language-icon(alt="" :src="'/images/common/code_languages/' + stats.language + '_small.png'")
+                span= stats.name
   
   .dont-break.block(v-if="org.progress && org.progress.programs > 1 && included")
     h1 Summary
-    h4 Using CodeCombat&apos;s personalized learning engine, your...
-    .fakebar
-      div
-        | #{org.progress.studentsWithCode.toLocaleString()}
-        = " "
-        small students
-    h4 wrote...
+    if org.kind != 'student'
+      h4 Using CodeCombat&apos;s personalized learning engine...
+      .fakebar
+        div
+          | #{org.progress.studentsWithCode.toLocaleString()}
+          = " "
+          small students
+    if org.kind === 'student'
+      h4 #{org.displayName || org.name} wrote...
+    else
+      h4 wrote...
     .fakebar
       div
         | #{org.progress.programs.toLocaleString()}
@@ -196,25 +237,37 @@ export default Vue.extend({
         | #{org.progress.linesOfCode.toLocaleString()}
         = " "
         small lines of code
-    if org.progress.projects > 9
+    if org.progress && (org.progress.playtime >= 1.5 * 3600 || org.kind == 'student')
+      h4 in...
+      .fakebar
+        div
+          if org.progress.playtime > 1.5 * 3600
+            span= Math.round(org.progress.playtime / 3600).toLocaleString()
+          else
+            span= (org.progress.playtime / 3600).toFixed(1)
+          = " "
+          small coding hours
+    if org.progress.projects >= 1 + Math.min(100, Math.floor(0.02 * org.progress.stbudentsWithCode))
       h4 and expressed creativity by building
       .fakebar
         div
           | #{org.progress.projects.toLocaleString()}
           = " "
           small standalone game and web projects
+    if org.progress && org.progress.sampleSize < org.progress.populationSize
+      em * Progress stats based on sampling #{org.progress.sampleSize.toLocaleString()} of #{org.progress.populationSize.toLocaleString()} students.
+
   
-  
-  .dont-break.block
+  .dont-break.block(v-if="included && org.classrooms && org.classrooms.length")
     .rob-row
-      if org.classrooms && org.classrooms.length
-        .left-col
-          h1 Classes
-          for clazz in org.classrooms
-            b= clazz.name
-            ul
-              li Language: #{clazz.codeLanguage}
-              li #{clazz.studentCount} students
+      // TODO: list the number of sub-orgs, which we currently know but do not return on the server
+      .left-col
+        h1 Classes
+        for clazz in org.classrooms
+          b= clazz.name
+          ul
+            li Language: #{clazz.codeLanguage}
+            li #{clazz.studentCount} students
 
   .block(v-if="included")
     h1 Uncategorized Info
@@ -224,24 +277,6 @@ export default Vue.extend({
           a(:href="'https://codecombat.com/league/' + org.clan") View AI League Team
         li
           span (summary AI League stats about CodePoints, # participants, top players, etc.)
-      if org.website
-        li
-          a(:href="org.website" rel="nofollow" target="_blank") #{org.name} website
-      if org.geo && org.geo.county
-        li County: #{org.geo.county}
-      if org.phone
-        li
-          span= 'Phone: '
-          a(:href="'tel:' + org.phone")= phoneString(org.phone)
-      if org.progress && org.progress.playtime
-        li
-          span Student play time: #{Math.round(org.progress.playtime / 3600).toLocaleString()} hours
-      if org.progress && org.progress.sampleSize < org.progress.populationSize
-        li
-          span Progress stats based on sampling #{org.progress.sampleSize.toLocaleString()} of #{org.progress.populationSize.toLocaleString()} students
-      if org.level
-        li
-          span School level: #{org.level}
       if org.schools && !isNaN(org.schools)
         li
           span Total schools in #{org.kind}: #{org.schools.toLocaleString()}
@@ -301,6 +336,9 @@ export default Vue.extend({
       margin-bottom: 0.1in;
     }
   }
+  label.edit-label {
+    float: right;
+  }
   .course {
     margin-bottom: 0.25in;
     .bar {
@@ -316,12 +354,30 @@ export default Vue.extend({
           transform: rotate(-90deg);
         }
         circle.top {
-          fill: rgb(242, 190, 24);
+          fill: transparent;
           stroke-width: 50;
-          stroke: rgb(14,75,96);
+          stroke: rgb(14, 75, 96);
+
+          &.top1 {
+            stroke: rgb(96, 14, 75);
+          }
+
+          &.top2 {
+            stroke: rgb(75, 96, 14);
+          }
         }
         circle.bottom {
           fill: rgb(242, 190, 24);
+        }
+
+        &.code-language-stat {
+          .big {
+            width: 1.7in;
+          }
+
+          .under {
+            width: 1.7in;
+          }
         }
 
         .big {
@@ -337,6 +393,11 @@ export default Vue.extend({
           display: block;
           text-align: center;
           width: 1.5in;
+
+          img.code-language-icon {
+            width: 0.49in;
+            margin: 0 0.05in 0 -0.09in;
+          }
         }
         li {
           line-height: 14pt;
@@ -452,26 +513,48 @@ export default Vue.extend({
     page-break-inside: avoid;
   }
 
-  &.sub-org {
-    .block {
-      h1 {
-        font-size: 16pt;
-        line-height: 16pt;
-      }
-      h2 {
-        font-size: 14pt;
-        line-height: 14pt;
-      }
-      h3 {
-        font-size: 12pt;
-        line-height: 12pt;
-      }
-      h4 {
-        font-size: 10pt;
-        line-height: 10pt;
+  .page-break {
+    display: flex;
+    align-items: center;
+    page-break-before: always;
+
+    hr {
+      width: 100%;
+    }
+    
+    @media screen {
+      height: 1in;
+    }
+
+    @media print {
+      height: 0.5in;
+
+      hr {
+        display: none
       }
     }
   }
+
+  //&.sub-org {
+  //  .block {
+  //    h1 {
+  //      font-size: 16pt;
+  //      line-height: 16pt;
+  //    }
+  //    h2 {
+  //      font-size: 14pt;
+  //      line-height: 14pt;
+  //    }
+  //    h3 {
+  //      font-size: 12pt;
+  //      line-height: 12pt;
+  //    }
+  //    h4 {
+  //      font-size: 10pt;
+  //      line-height: 10pt;
+  //    }
+  //  }
+  //}
 }
 </style>
 
