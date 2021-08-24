@@ -416,7 +416,7 @@
     height: 100%;
 
     .code {
-      ::v-deep(.CodeMirror) {
+      ::v-deep .CodeMirror {
         font-family: 'Roboto Mono', monospace;
         font-size: 16px;
         line-height: 20px;
