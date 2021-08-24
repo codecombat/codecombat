@@ -50,7 +50,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     faq_row2_p: "Ozaria is aligned to the CSTA and ISTE middle school CS standards, but has been practiced and enjoyed by students ranging from upper elementary through high school."
     faq_row3_header: "How much does it cost to access all of the available units and resources?"
     faq_row3_p_part1: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. "
-    faq_row3_p_part2: " for further details!"
+    faq_row3_p_part2: " for further details! We also provide a " #{change}
+    faq_row3_p_part3: "funding resources guide"
+    faq_row3_p_part4: " for school and district CS programs."
     faq_row4_header: "Does Ozaria have project-based learning?"
     faq_row4_p: "Yes. Ozaria incorporates shareable Capstone Projects at the end of each Chapter, where students create their own games. These projects serve as summative assessments and are great ways for students to express themselves and demonstrate their learnings to classmates, friends, and family."
     faq_row5_header: "Can I use Ozaria as my class’s main curriculum?"
@@ -174,6 +176,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
     top_banner_blurb: "Parents, book your child's first live online coding class for free!"
     top_banner_blurb_pd: "We now offer professional development for educators."
+    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -299,6 +302,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     professional_development: "Professional Development"
     new: "New!"
     admin: "Admin"
+    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "Close"
@@ -3354,6 +3358,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     end_date: 'End: __date__'
     license_questions: 'Have questions about applying or revoking licenses?'
     need_more_licenses: "Need more licenses? We'll help you build a solution that meets your needs."
+    see_also_our: "See also our"
+    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
     support_oz: 'support@ozaria.com'
     standards_alignment: 'Standards Alignment'
     standards_sample: 'A sample of the standards covered in this Chapter:'

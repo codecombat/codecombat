@@ -163,6 +163,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'file/*path': 'routeToServer'
 
+    'funding': go('core/SingletonAppVueComponentView')
+
     'github/*path': 'routeToServer'
 
     'hoc': (queryString) ->

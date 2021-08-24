@@ -45,6 +45,10 @@ export default function getVueRouter () {
           }
         },
         {
+          path: '/funding',
+          component: () => import(/* webpackChunkName: "pd" */ 'app/views/funding/FundingView.vue')
+        },
+        {
           path: '/school-administrator',
           component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminDashboard/index.vue'),
           children: [

@@ -154,6 +154,9 @@
         >
           {{ $t("courses.get_enrollments") }}
         </primary-button>
+        <div class="side-bar-text">
+          {{ $t('teacher_dashboard.see_also_our') }} <a href="/funding">{{ $t('nav.funding_resources_guide') }}</a> {{ $t('teacher_dashboard.for_more_funding_resources') }}
+        </div>
       </div>
     </div>
     <div class="license-cards">
