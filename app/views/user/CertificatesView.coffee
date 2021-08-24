@@ -84,10 +84,13 @@ module.exports = class CertificatesView extends RootView
     if me.id is @classroom.get('ownerID')
       @teacherName = me.broadName()
     else
-      teacherUser = new User _id: @classroom.get('ownerID')
-      teacherUser.fetchNameForClassmate success: (data) =>
-        @teacherName = User.broadName(data)
-        @render?()
+      if me.get('clientCreator') is '60fa65059e17ca0019950fdd' # TARENA apiclient id
+        @teacherName = undefined
+      else
+        teacherUser = new User _id: @classroom.get('ownerID')
+        teacherUser.fetchNameForClassmate success: (data) =>
+          @teacherName = User.broadName(data)
+          @render?()
 
   getCodeLanguageName: ->
     return 'Code' unless @classroom
