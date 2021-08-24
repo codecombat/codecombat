@@ -120,15 +120,11 @@
                      .attr('height', (d) => height - y(d.y))
         if(this.session) {
           let playerScore = this.session.get('totalScore')
-          console.log('score 1', playerScore)
           if (this.league) {
             let league = _.find(this.session.get('leagues'), { leagueID: this.league.id })
             playerScore = league ? +league.stats.totalScore : 10
           }
-          console.log('score 2', playerScore)
           playerScore = playerScore * 100
-          console.log('score 3', playerScore)
-          console.log('score 4', x(playerScore))
   
           let scorebar = svg.selectAll('.specialbar')
                             .data([playerScore])
