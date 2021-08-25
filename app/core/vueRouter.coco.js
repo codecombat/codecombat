@@ -50,6 +50,10 @@ export default function getVueRouter () {
           path: '/admin/clan/:clanId',
           component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanEdit'),
         },
+        {
+          path: '/outcomes-report/:kind/:country?/:idOrSlug',
+          component: () => import(/* webpackChunkName: "outcomesReport" */ 'app/views/outcomes-report/PageOutcomesReport'),
+        },
         // Warning: In production debugging of third party iframe!
         {
           path: '/temporary-debug-timetap',
