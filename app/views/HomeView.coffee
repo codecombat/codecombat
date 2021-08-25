@@ -36,9 +36,10 @@ module.exports = class HomeView extends RootView
   getRenderData: (context={}) ->
     context = super context
     context.i18nData =
-      slides: "<a href='https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'>#{$.i18n.t('new_home.lesson_slides')}</a>"
+      slides: "<a href='https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing' target='_blank'>#{$.i18n.t('new_home.lesson_slides')}</a>"
       clever: "<a href='/teachers/resources/clever-faq'>#{$.i18n.t('new_home_faq.clever_integration_faq')}</a>"
       contact: "<a class='contact-modal'>#{$.i18n.t('general.contact_us')}</a>"
+      funding: "<a href='https://www.ozaria.com/funding' target='_blank'>#{$.i18n.t('nav.funding_resources_guide')}</a>"
       interpolation: { escapeValue: false }
     context
 
