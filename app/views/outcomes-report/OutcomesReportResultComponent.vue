@@ -21,6 +21,7 @@ export default Vue.extend({
 
   data () {
     return {
+      // TODO: some bug where printing gets large horizontal margins after we customize included schools and finish editing
       included: !this.isSubOrg || this.org.initiallyIncluded
     }
   },
@@ -134,7 +135,7 @@ export default Vue.extend({
           span #{kindString}:
       span= " "
       if isSubOrg
-        a(:href="'/outcomes-report/' + org.kind + '/' + org._id" target="_blank")
+        a(:href="'https://codecombat.com/outcomes-report/' + org.kind + '/' + org._id" target="_blank")
           b= org.displayName || org.name
       else
         b= org.displayName || org.name
@@ -152,8 +153,9 @@ export default Vue.extend({
         span(v-if="org.address")
           br
           span= org.address
-          span= ' '
-          a(:href="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(org.address)" target="_blank" rel="nofollow") (map)
+          span.editing-only
+            span= ' '
+            a(:href="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(org.address)" target="_blank" rel="nofollow") (map)
         //if org.geo && org.geo.county
         //  br
         //  span County: #{org.geo.county}
@@ -194,6 +196,7 @@ export default Vue.extend({
                 span {{$t('concepts.' + concept)}}
 
   .block(v-if="org.progress && org.progress.programs > 1 && included && codeLanguageStats.length > 1 && !codeLanguageString")
+    // TODO: somehow note the code language if we are skipping this section (like 100% Python at school level)
     .course.dont-break
       h3 Code Languages
         .bar
@@ -269,7 +272,7 @@ export default Vue.extend({
             li Language: #{clazz.codeLanguage}
             li #{clazz.studentCount} students
 
-  .block(v-if="included")
+  .block(v-if="included && false")
     h1 Uncategorized Info
     ol
       if org.clan
@@ -340,6 +343,7 @@ export default Vue.extend({
     float: right;
   }
   .course {
+    // TODO: tighten up styles so that most common case (1 course, multiple code languages) can fit on one page
     margin-bottom: 0.25in;
     .bar {
       margin-bottom: 0.0in;
@@ -358,6 +362,7 @@ export default Vue.extend({
           stroke-width: 50;
           stroke: rgb(14, 75, 96);
 
+          // TODO: better colors
           &.top1 {
             stroke: rgb(96, 14, 75);
           }

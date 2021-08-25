@@ -339,6 +339,15 @@ main#page-outcomes-report
   @media print {
     margin-top: -75px;
     box-shadow: none;
+
+    a[href]:after {
+      // Remove the " (" attr(href) ")" that Bootstrap adds
+      content: none !important;
+    }
+
+    .editing-only {
+      display: none
+    }
   }
 
   .menu {
@@ -498,6 +507,7 @@ main#page-outcomes-report
   }
 
   .room-for-anya {
+    padding-top: .1in;
     margin-left: 2.5in;
   }
 
