@@ -288,6 +288,10 @@
   box-shadow: unset;
   font-weight: 400;
 
+  @media print {
+    display: none;
+  }
+  
   h5 {
     font-family: "Arvo", serif;
     font-weight: bold;
