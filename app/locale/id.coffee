@@ -2441,6 +2441,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     red_ai: "CPU Merah" # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "CPU Biru"
     wins: "Menang" # At end of multiplayer match playback
+#    losses: "Losses"
+#    win_rate: "Win %"
     humans: "Merah" # Ladder page display team name
     ogres: "Biru"
     tournament_end_desc: "Turnamen selesai, terima kasih sudah bermain"
@@ -2449,6 +2451,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     bracket_0_11: "0-11"
     bracket_11_14: "11-14"
     bracket_14_18: "14-18"
+#    bracket_11_18: "11-18"
     bracket_open: "Buka"
 
   user:
@@ -3247,6 +3250,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     start_team: "Mulai Tim"
     leave_team: "Keluar dari Tim"
     join_team: "Gabung Tim"
+#    view_team: "View Team"
+#    join_team_name: "Join Team __name__"
     features: "Fitur"
     built_in: "Infrastruktur Kompetitif yang Terpasang"
     built_in_subheader: "Platform kami menampung setiap elemen dari proses kompetitif, dari papan peringkat hingga platform game, aset, dan penghargaan turnamen."
@@ -3284,6 +3289,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    codecombat_ai_league: "CodeCombat AI League"
 #    register: "Register"
 #    not_registered: "Not Registered"
+#    register_for_ai_league: "Register for AI League"
 #    world: "World"
 #    quickstart_video: "Quickstart Video"
 #    arena_rankings: "Arena Rankings"
@@ -3302,6 +3308,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    codepoints_blurb: "1 CodePoint = 1 line of code written"
 #    codepoints_title: "One CodePoint is earned for every non-whitespace line of code needed to beat the level. Each level is worth the same amount of CodePoints according to its standard solution, regardless of whether the student wrote more or fewer lines of code."
 #    count_total: "Total:" # Total: 300 CodePoints, or Total: 300 wins
+#    join_teams_header: "Join Teams & Get Cool Stuff!"
+#    join_team_hyperx_title: "Join Team HyperX, Get 10% Off"
+#    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
+#    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
+#    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
 
   tournament:
     mini_tournaments: "Turname Mini"
