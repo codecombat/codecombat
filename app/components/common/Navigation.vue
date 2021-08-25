@@ -284,6 +284,20 @@
   box-shadow: unset;
   font-weight: 400;
 
+  @media print {
+    display: none;
+  }
+  
+  h5 {
+    font-family: "Arvo", serif;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 31px;
+    font-variant: normal;
+    color: black;
+    margin: 0;
+  }
+
   p, .text-p {
     font-family: $body-font;
     font-size: 18px;

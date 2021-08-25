@@ -204,6 +204,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'parents': go('ParentsView')
 
+    'outcomes-report(/*subpath)': go('core/SingletonAppVueComponentView')
+
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')
 
