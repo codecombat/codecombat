@@ -96,6 +96,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
 #    try_the_game: "Try the game"
     classroom_edition: "教室版本"
     learn_to_code: "學習寫程式碼"
@@ -250,6 +251,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    new: "New!"
 #    admin: "Admin"
 #    api_dashboard: "API Dashboard"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "關閉"
@@ -289,7 +291,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
 #    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
 #    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details!"
+#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER."
 #    recommended_systems: "Is there a recommended browser and operating system?"
 #    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
 #    other_questions: "If you have any other questions, please __contact__."
@@ -1912,6 +1914,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     start_date: "開始日期:"
     end_date: "結束日期:"
     get_enrollments_blurb: " 我們將會幫助您建立解答來符合您班級、學校、學區的需求。"
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
     how_to_apply_licenses_blurb_1: "當老師第一次分派一個課程給學生時, 我們會自動地使用註冊碼。您可以利用教室中的批量指派下拉選項來分派課程給被選到的學生:"
     how_to_apply_licenses_blurb_2: "我可以在沒有指派課程的情況下使用註冊碼媽?"
     how_to_apply_licenses_blurb_3: "可以 — 到您教室中的註冊碼狀態標籤並點擊 \"使用註冊碼\" 給任何沒有完成註冊碼的學生。"
@@ -3217,6 +3221,12 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
   admin:
     license_type_full: "全部課程"
     license_type_customize: "自訂課程"
+
+#  outcomes:
+#    school_admin: "School Administrator"
+#    school_network: "School Network"
+#    school_subnetwork: "School Subnetwork"
+#    classroom: "Classroom"
 
   league:
     student_register_1: "成為下一個 AI 冠軍！"
