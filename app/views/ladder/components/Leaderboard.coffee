@@ -46,13 +46,15 @@ module.exports = class LeaderboardView extends CocoView
       ]
       @propsData.scoreType = 'arena'
     @rankings = []
-    @dataObj = { rankings: @rankings }
+    @session = null
+    @dataObj = { rankings: @rankings, session: @session }
 
     @refreshLadder()
 
   render: ->
     super()
     if @leaderboards
+      @session = @leaderboards.session
       @rankings = _.map @leaderboards.topPlayers.models, (model, index) =>
         if @tournament
           return [
@@ -85,6 +87,7 @@ module.exports = class LeaderboardView extends CocoView
   afterRender: ->
     if @vueComponent
       @dataObj.rankings = @rankings
+      @dataObj.session = @session
       @$el.find('#new-leaderboard-view').replaceWith(@vueComponent.$el)
     else
       if @vuexModule
