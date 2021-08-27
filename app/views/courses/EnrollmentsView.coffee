@@ -190,6 +190,7 @@ module.exports = class EnrollmentsView extends RootView
     )
 
     shouldUpsellParent = (
+      me.useStripe() and
       me.get('role') is 'parent' and
       me.get('country') not in ['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia'] and
       !skipUpsellDueToExistingLicenses
