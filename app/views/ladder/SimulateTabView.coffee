@@ -94,7 +94,8 @@ module.exports = class SimulateTabView extends CocoView
     link = if @simulationSpectateLink then "<a href=#{@simulationSpectateLink}>#{_.string.escapeHTML(@simulationMatchDescription)}</a>" else ''
     $('#simulation-status-text').html "<strong>#{@simulationStatus}</strong>#{link}"
     if simulationStatus is 'Results were successfully sent back to server!'
-      $('#games-in-queue').text (--@simulatorsLeaderboardData.numberOfGamesInQueue).toLocaleString()
+      gamesInQueue = Math.max 0, --@simulatorsLeaderboardData.numberOfGamesInQueue
+      $('#games-in-queue').text gamesInQueue.toLocaleString()
       $('#simulated-by-you').text (++@simulatedByYouCount).toLocaleString()
 
 

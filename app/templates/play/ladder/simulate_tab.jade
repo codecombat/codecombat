@@ -23,7 +23,7 @@
       if view.simulatorsLeaderboardData && view.simulatorsLeaderboardData.numberOfGamesInQueue > 0
         .simulation-count
           span.spr(data-i18n="ladder.games_in_queue")
-          span#games-in-queue= view.simulatorsLeaderboardData.numberOfGamesInQueue || 0
+          span#games-in-queue= view.simulatorsLeaderboardData.numberOfGamesInQueue ? view.simulatorsLeaderboardData.numberOfGamesInQueue.toLocaleString() : 0
 
 if view.simulatorsLeaderboardData && view.simulatorsLeaderboardData.topSimulators
   - var topSimulators = view.simulatorsLeaderboardData.topSimulators.models;
