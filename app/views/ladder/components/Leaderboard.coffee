@@ -162,13 +162,18 @@ module.exports = class LeaderboardView extends CocoView
   handleClickPlayerName: (id) ->
     if me.isAdmin()
       leaderboards = @leaderboards.topPlayers.models
-      player = new User _id: leaderboards[id].get('creator')
       if @tournament
         session = new LevelSession _id: leaderboards[id].get('levelSession')
       else
         session = new LevelSession _id: leaderboards[id].get('_id')
-      models = [session, player]
-      @openModalView new ModelModal models: models
+      @supermodel.loadModel session
+      @listenToOnce session, 'sync', (_session) =>
+        if _session.get('source')?.name
+          models = [_session]
+        else
+          player = new User _id: leaderboards[id].get('creator')
+          models = [session, player]
+        @openModalView new ModelModal models: models
     else if me.isTeacher()
       ;
     else
