@@ -18,6 +18,7 @@ _.extend TournamentSchema.properties,
   levelOriginal: c.objectId()
   startDate: c.stringDate()
   endDate: c.stringDate()
+  resultsDate: c.stringDate { description: 'The date when the tournament results will be announced (hidden until then)' }
   simulationType:
     type: 'string'
   state:
