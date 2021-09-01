@@ -119,16 +119,11 @@ module.exports = class LevelBus extends Bus
 
   onSpellCreated: (e) ->
     return unless @onPoint()
-    spellTeam = e.spell.team
-    @teamSpellMap ?= {}
-    @teamSpellMap[spellTeam] ?= []
-
-    unless e.spell.spellKey in @teamSpellMap[spellTeam]
-      @teamSpellMap[spellTeam].push e.spell.spellKey
+    # TODO: we could probably get rid of most of this now that we are hard-coding teamSpells
     @changedSessionProperties.teamSpells = true
-    @session.set({'teamSpells': @teamSpellMap})
+    @session.set({'teamSpells': utils.teamSpells})
     @saveSession()
-    if spellTeam is me.team or (e.spell.otherSession and spellTeam isnt e.spell.otherSession.get('team'))
+    if e.spell.team is me.team or (e.spell.otherSession and e.spell.team isnt e.spell.otherSession.get('team'))
       # https://github.com/codecombat/codecombat/issues/81
       @onSpellChanged e  # Save the new spell to the session, too.
 

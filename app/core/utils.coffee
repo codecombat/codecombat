@@ -852,6 +852,7 @@ activeArenas = ->
 
 activeAndPastArenas = -> (_.clone(a) for a in arenas when a.start <= new Date())
 
+teamSpells = humans: ['hero-placeholder/plan'], ogres: ['hero-placeholder-1/plan']
 
 module.exports = {
   activeAndPastArenas
@@ -916,6 +917,7 @@ module.exports = {
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
+  teamSpells
   titleize
   usStateCodes
   userAgent
