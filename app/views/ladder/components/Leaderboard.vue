@@ -239,14 +239,12 @@
         }
       },
       classForRow (row) {
-        if (row.creator === me.id) {
+        if (row[1] === this.myRank) {
           return 'my-row'
         }
-
         if (window.location.pathname === '/league' && row.fullName) {
           return 'student-row'
         }
-
         return ''
       },
       onClickUserRow (rank) {
@@ -301,6 +299,14 @@
             td(colspan=3) ...
           template(v-else)
             td(v-for="item, index in row" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 0 ? computeBody(tableTitles[index].slug, item): ''" @click="onClickUserRow(rank)")
+            td.spectate-cell.iconic-cell(@click="onClickSpectateCell(rank)")
+              .glyphicon(:class="{'glyphicon-eye-open': selectedRow.indexOf(rank) != -1}")
+
+        tr(v-for="row, rank in playerRankings" :key="'player-'+rank" :class="classForRow(row)")
+          template(v-if="row.type==='BLANK_ROW'")
+            td(colspan=3) ...
+          template(v-else)
+            td(v-for="item, index in row" :key="'player-' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 0 ? computeBody(tableTitles[index].slug, item): ''" @click="onClickUserRow(rank)")
             td.spectate-cell.iconic-cell(@click="onClickSpectateCell(rank)")
               .glyphicon(:class="{'glyphicon-eye-open': selectedRow.indexOf(rank) != -1}")
 

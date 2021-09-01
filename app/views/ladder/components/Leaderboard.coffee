@@ -46,8 +46,10 @@ module.exports = class LeaderboardView extends CocoView
       ]
       @propsData.scoreType = 'arena'
     @rankings = []
+    @myRank = -1
+    @playerRankings = []
     @session = null
-    @dataObj = { rankings: @rankings, session: @session }
+    @dataObj = { myRank: @myRank, rankings: @rankings, session: @session, playerRankings: @playerRankings }
 
     @refreshLadder()
 
@@ -55,30 +57,9 @@ module.exports = class LeaderboardView extends CocoView
     super()
     if @leaderboards
       @session = @leaderboards.session
-      @rankings = _.map @leaderboards.topPlayers.models, (model, index) =>
-        if @tournament
-          return [
-            model.get('submittedCodeLanguage'),
-            index+1,
-            (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
-            model.get('wins'),
-            model.get('losses'),
-            ((model.get('wins') or 0) / (((model.get('wins') or 0) + (model.get('losses') or 0)) or 1) * 100).toFixed(2) + '%',
-            @getClanName(model),
-            @getAgeBracket(model),
-            model.get('creatorCountryCode')
-          ]
-        else
-          return [
-            model.get('submittedCodeLanguage'),
-            index+1,
-            (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
-            model.get('totalScore') * 100 | 0,
-            @getAgeBracket(model),
-            moment(model.get('submitDate')).fromNow().replace('a few ', ''),
-            model.get('_id')
-          ]
-
+      @myRank = +@leaderboards.myRank
+      @rankings = @mapRankings @leaderboards.topPlayers.models
+      @playerRankings = @mapRankings @nearbySessions()
     @afterRender()
     @
 
@@ -87,7 +68,9 @@ module.exports = class LeaderboardView extends CocoView
   afterRender: ->
     if @vueComponent
       @dataObj.rankings = @rankings
+      @dataObj.playerRankings = @playerRankings
       @dataObj.session = @session
+      @dataObj.myRank = @myRank
       @$el.find('#new-leaderboard-view').replaceWith(@vueComponent.$el)
     else
       if @vuexModule
@@ -125,6 +108,42 @@ module.exports = class LeaderboardView extends CocoView
     @vueComponent.$store = silentStore
     # ignore all further changes to the store, since the module has been unregistered.
     # may later want to just ignore mutations and actions to the page module.
+
+  nearbySessions: ->
+    nearby = @leaderboards.nearbySessions()
+    return [] unless nearby.length
+    if nearby[0].rank > @rankings.length + 1
+      return [{type: 'BLANK_ROW'}].concat nearby
+    else
+      delta = @rankings.length - nearby[0].rank + 1
+      return nearby.slice(delta)
+
+  mapRankings: (data ) ->
+    return _.map data, (model, index) =>
+      if model?.type == 'BLANK_ROW'
+        return model
+      if @tournament
+        return [
+          model.get('submittedCodeLanguage'),
+          index+1,
+          (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+          model.get('wins'),
+          model.get('losses'),
+          ((model.get('wins') or 0) / (((model.get('wins') or 0) + (model.get('losses') or 0)) or 1) * 100).toFixed(2) + '%',
+          @getClanName(model),
+          @getAgeBracket(model),
+          model.get('creatorCountryCode')
+        ]
+      else
+        return [
+          model.get('submittedCodeLanguage'),
+          model.rank || index+1,
+          (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+          model.get('totalScore') * 100 | 0,
+          @getAgeBracket(model),
+          moment(model.get('submitDate')).fromNow().replace('a few ', ''),
+          model.get('_id')
+        ]
 
   refreshLadder: (force) ->
     return if not force and not @league and (new Date() - 2*60*1000 < @lastRefreshTime)
