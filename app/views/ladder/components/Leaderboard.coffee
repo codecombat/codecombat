@@ -5,6 +5,7 @@ Tournament = require 'models/Tournament'
 ModelModal = require 'views/modal/ModelModal'
 User = require 'models/User'
 LevelSession = require 'models/LevelSession'
+TournamentSubmission = require 'models/TournamentSubmission'
 store = require('core/store')
 silentStore = { commit: _.noop, dispatch: _.noop }
 CocoCollection = require 'collections/CocoCollection'
@@ -162,17 +163,16 @@ module.exports = class LeaderboardView extends CocoView
   handleClickPlayerName: (id) ->
     if me.isAdmin()
       leaderboards = @leaderboards.topPlayers.models
-      if @tournament
-        session = new LevelSession _id: leaderboards[id].get('levelSession')
-      else
-        session = new LevelSession _id: leaderboards[id].get('_id')
+      sessionId = if @tournament then leaderboards[id].get('levelSession') else leaderboards[id].get('_id')
+      session = new LevelSession _id: sessionId
       @supermodel.loadModel session
       @listenToOnce session, 'sync', (_session) =>
-        if _session.get('source')?.name
-          models = [_session]
-        else
-          player = new User _id: leaderboards[id].get('creator')
-          models = [session, player]
+        models = [_session]
+        unless _session.get('source')?.name
+          playerId = if @tournament then leaderboards[id].get('owner') else leaderboards[id].get('creator')
+          models.push new User _id: playerId
+        if @tournament
+          models.push new TournamentSubmission _id: leaderboards[id].get('_id')
         @openModalView new ModelModal models: models
     else if me.isTeacher()
       ;
