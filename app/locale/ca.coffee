@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
 #    try_the_game: "Try the game"
     classroom_edition: "Edició d'Aula:"
     learn_to_code: "Aprendre a programar:"
@@ -250,6 +251,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    new: "New!"
 #    admin: "Admin"
 #    api_dashboard: "API Dashboard"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "Tancar"
@@ -289,7 +291,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
 #    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
 #    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details!"
+#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER."
 #    recommended_systems: "Is there a recommended browser and operating system?"
 #    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
 #    other_questions: "If you have any other questions, please __contact__."
@@ -1912,6 +1914,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     start_date: "data d'inici:"
     end_date: "data d'acabament:"
     get_enrollments_blurb: " Us ajudarem a construir una solució que satisfaci les necessitats de la vostra classe, escola o districte."
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
     how_to_apply_licenses_blurb_1: "Quan un professor assigni un curs a un estudiant per primera vegada, aplicarem automàticament una llicència. Utilitzau el menú desplegables d'assignació massiva a la vostra aula per assignar un curs als alumnes selececionats:"
     how_to_apply_licenses_blurb_2: "Puc aplicar una llicència encara que no hagi assignat un curs?"
     how_to_apply_licenses_blurb_3: "Sí — ves a l'etiqueta Estat de les Llicències a la teva aula i fes clic a \"Aplicar Llicència\" a qualsevol alumne que no tingui una llicència activa."
@@ -2427,9 +2431,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     watch_victory: "Mira la teva victòria"
     defeat_the: "Derrota a"
     watch_battle: "Observa la batalla"
+#    tournament_starts: "Tournament starts"
     tournament_started: ", iniciada"
     tournament_ends: "El torneig acaba"
     tournament_ended: "El torneig ha acabat"
+#    tournament_results_published: ", results published"
     tournament_rules: "Normes del torneig"
     tournament_blurb_criss_cross: "Obté ofertes, construeix camins, reparteix opositors, agafa gemmes i actualitza el teu rànquing al nostre torneig Criss-Cross! Consulteu els detalls"
     tournament_blurb_zero_sum: "Allibera la teva creativitat de codificació tant en la trobada d'or i en les tàctiques de batalla en aquest joc de miralls alpins entre el bruixot i el bruixot blau. El torneig va començar el divendres 27 de març i tindrà lloc fins el dilluns 6 d'abril a les 5PM PDT. Competeix per diversió i glòria! Consulteu els detalls"
@@ -3217,6 +3223,12 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #  admin:
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
+
+#  outcomes:
+#    school_admin: "School Administrator"
+#    school_network: "School Network"
+#    school_subnetwork: "School Subnetwork"
+#    classroom: "Classroom"
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
