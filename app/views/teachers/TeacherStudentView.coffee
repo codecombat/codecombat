@@ -124,6 +124,7 @@ module.exports = class TeacherStudentView extends RootView
       codeElem = $(@).first().children().first()
       lang = mode for mode of aceUtils.aceEditModes when codeElem?.hasClass('lang-' + mode)
       aceEditor = aceUtils.initializeACE(@, lang or classLang)
+      aceEditor.renderer.setShowGutter true
       aceEditors.push aceEditor
 
   updateSolutions: ->
