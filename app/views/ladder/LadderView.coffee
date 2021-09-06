@@ -279,12 +279,12 @@ module.exports = class LadderView extends RootView
         # TODO: make this configurable
         options =
           sessionLimit: 50000
-          matchLimit: 1e6
+          matchLimit: 2e6
           matchmakingType: 'king-of-the-hill'
-          minPlayerMatches: 20
+          minPlayerMatches: 40
           topN: 10
       else
-        options = sessionLimit: 500
+        options = {}
       $.ajax
         url: "/db/tournament/#{@tournamentId}/end"
         data: options
