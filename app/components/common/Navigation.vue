@@ -558,7 +558,7 @@
 }
 
 nav#main-nav.navbar.dark-mode {
-  background-color: #0C1016;
+  background-color: #352C20;
 
   .nav > li > a {
     color: #FCBB00;
