@@ -11,10 +11,19 @@ module.exports = class MyMatchesTabView extends CocoView
   id: 'my-matches-tab-view'
   template: require 'templates/play/ladder/my_matches_tab'
 
+  events:
+    'click .load-more-matches': 'onLoadMoreMatches'
+
   initialize: (options, @level, @sessions) ->
     @nameMap = {}
     @previouslyRankingTeams = {}
+    @matchesLimit = 95
     @refreshMatches 20
+
+  onLoadMoreMatches: ->
+    @matchesLimit ?= 95
+    @matchesLimit += 100
+    @refreshMatches(10)
 
   refreshMatches: (@refreshDelay) ->
     @teams = teamDataFromLevel @level
@@ -46,6 +55,7 @@ module.exports = class MyMatchesTabView extends CocoView
       team.isRanking = team.session?.get('isRanking')
       team.matches = (convertMatch(match, team.session.get('submitDate')) for match in (stats?.matches or []))
       team.matches.reverse()
+      team.matches = team.matches.slice(0, @matchesLimit)
       team.score = (stats?.totalScore ? 10).toFixed(2)
       team.wins = _.filter(team.matches, {state: 'win', stale: false}).length
       team.ties = _.filter(team.matches, {state: 'tie', stale: false}).length
@@ -73,7 +83,9 @@ module.exports = class MyMatchesTabView extends CocoView
         ids.push id unless @nameMap[id]
 
     ids = _.uniq ids
-    return unless ids.length
+    unless ids.length
+      @render()
+      return
 
     success = (nameMap) =>
       return if @destroyed
@@ -145,10 +157,10 @@ module.exports = class MyMatchesTabView extends CocoView
     selector = '#' + wrapperID
 
     svg = d3.select(selector).append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
-      .attr('transform', "translate(#{margin.left}, #{margin.top})")
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 #{width+margin.left+margin.right} #{height+margin.top+margin.bottom}")
+    .append('g')
+    .attr('transform', "translate(#{margin.left}, #{margin.top})")
     time = 0
     data = scoreHistory.map (d) ->
       time +=1

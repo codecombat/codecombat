@@ -21,7 +21,7 @@ mixin accountLinks
 
 .style-flat
   block header
-    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(class=!serverConfig.static && document.location.href.search('/league') >= 0 ? "dark-mode" : '')
+    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(class=!serverConfig.static && /^\/(league|play\/ladder)/.test(document.location.pathname) ? "dark-mode" : '')
       .container-fluid
         .row
           .col-md-12

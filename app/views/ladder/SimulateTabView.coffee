@@ -3,6 +3,7 @@ CocoClass = require 'core/CocoClass'
 SimulatorsLeaderboardCollection = require 'collections/SimulatorsLeaderboardCollection'
 Simulator = require 'lib/simulator/Simulator'
 {me} = require 'core/auth'
+utils = require 'core/utils'
 loadAetherLanguage = require("lib/loadAetherLanguage");
 
 module.exports = class SimulateTabView extends CocoView
@@ -25,7 +26,7 @@ module.exports = class SimulateTabView extends CocoView
 
   onLoaded: ->
     super()
-    @autoSimulates = @options.level.get('slug') not in ['zero-sum']
+    @autoSimulates = utils.getQueryVariable('simulate') isnt false and @options.level.get('slug') not in ['ace-of-coders', 'zero-sum']
     if not @simulator and (document.location.hash is '#simulate' or @autoSimulates)
       @startSimulating()
 
@@ -94,7 +95,8 @@ module.exports = class SimulateTabView extends CocoView
     link = if @simulationSpectateLink then "<a href=#{@simulationSpectateLink}>#{_.string.escapeHTML(@simulationMatchDescription)}</a>" else ''
     $('#simulation-status-text').html "<strong>#{@simulationStatus}</strong>#{link}"
     if simulationStatus is 'Results were successfully sent back to server!'
-      $('#games-in-queue').text (--@simulatorsLeaderboardData.numberOfGamesInQueue).toLocaleString()
+      gamesInQueue = Math.max 0, --@simulatorsLeaderboardData.numberOfGamesInQueue
+      $('#games-in-queue').text gamesInQueue.toLocaleString()
       $('#simulated-by-you').text (++@simulatedByYouCount).toLocaleString()
 
 

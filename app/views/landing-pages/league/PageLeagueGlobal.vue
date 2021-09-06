@@ -12,15 +12,17 @@ import ApiData from '../../api/components/ApiData'
 import { joinClan, leaveClan } from '../../../core/api/clans'
 import { titleize, arenas, activeArenas } from '../../../core/utils'
 
-const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular'))
-const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type === 'championship'))
+const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular' && a.end > new Date()))
+const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type === 'championship' && a.end > new Date()))
 const previousRegularArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'regular' && a.slug !== currentRegularArena.slug))
 const previousChampionshipArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'championship' && (!currentChampionshipArena || a.slug !== currentChampionshipArena.slug)))
 
 const tournamentsByLeague = {
   _global: {
     'blazing-battle': '608cea0f8f2b971478556ac6',
-    'infinite-inferno': '608cd3f814fa0bf9f1c1f928'
+    'infinite-inferno': '608cd3f814fa0bf9f1c1f928',
+    'mages-might': '612d554b9abe2e0019aeffb9',
+    'sorcerers': '612d556f9abe2e0019af000b'
   },
   '5ff88bcdfe17d7bb1c7d2d00': {  // autoclan-school-network-academica
     'blazing-battle': '60c159f8a78b083f4205cbf7',
@@ -394,7 +396,6 @@ export default {
       let url = `/play/ladder/${this.previousRegularArenaSlug}`
       const tournaments = tournamentsByLeague[this.clanIdSelected || '_global']
       const tournament = tournaments ? tournaments[this.previousRegularArenaSlug] : null
-      console.log(this.clanIdSelected)
       if (this.clanIdSelected)
         url += `/clan/${this.clanIdSelected}`
       if (tournament)
@@ -561,10 +562,11 @@ export default {
     </div>
     <div class="row text-center" id="winners">
       <h1><span class="esports-aqua">Previous </span><span class="esports-pink">Season</span></h1>
-      <p class="subheader2">Results from the Infinite Inferno Cup</p>
+      <p class="subheader2" v-if="previousChampionshipArenaSlug == 'infinite-inferno'">Results from the Infinite Inferno Cup</p>
+      <p class="subheader2" v-else>Results from the Sorcerer's Blitz coming soon</p>
     </div>
 
-    <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0">
+    <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0" v-if="previousChampionshipArenaSlug == 'infinite-inferno'">
       <div class="col-sm-10 video-backer video-iframe">
         <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/1422969c8f5fbee2a62ee60021becfb4?poster=https://videodelivery.net/1422969c8f5fbee2a62ee60021becfb4/thumbnails/thumbnail.jpg%3Ftime%3D1584s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 1 - Forged in Flame"></iframe></div>
       </div>

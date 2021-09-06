@@ -5,7 +5,7 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 User = require 'models/User'
-Tournament = require 'models/Tournament'
+TournamentSubmission = require 'models/TournamentSubmission'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel, scoreForDisplay} = require './utils'
 ModelModal = require 'views/modal/ModelModal'
@@ -17,7 +17,7 @@ HIGHEST_SCORE = 1000000
 
 class TournamentLeaderboardCollection extends CocoCollection
   url: ''
-  model: Tournament
+  model: TournamentSubmission
 
   constructor: (tournamentId, options) ->
     super()
@@ -378,9 +378,9 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     console.warn 'Already have top players on', @ if @topPlayers
 
     params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
+    if @ageBracket?
+      params.age = @ageBracket
     if @tournamentId?
-      if @ageBracket?
-        params.bracket = @ageBracket
       @topPlayers = new TournamentLeaderboardCollection(@tournamentId, params)
     else
       @topPlayers = new LeaderboardCollection(@level, params)

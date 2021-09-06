@@ -771,6 +771,12 @@ ageBrackets = [
   {slug: 'open', max: 9001}
 ]
 
+ageBracketsChina = [
+  {slug: '0-11', max: 11}
+  {slug: '11-18', max: 18}
+  {slug: 'open', max: 9001}
+]
+
 seasons = [
   {
     name: 'Season 1',
@@ -809,6 +815,13 @@ bracketToAge = (slug) ->
       higherBound = ageBrackets[i].max
       return { $gt: lowerBound, $lte: higherBound }
 
+  for i in [0...ageBracketsChina.length]
+    if ageBracketsChina[i].slug == slug
+      lowerBound = if i == 0 then 0 else ageBracketsChina[i-1].max
+      higherBound = ageBracketsChina[i].max
+      return { $gt: lowerBound, $lte: higherBound }
+
+
 CODECOMBAT = 'codecombat'
 CODECOMBAT_CHINA = 'koudashijie'
 OZARIA = 'ozaria'
@@ -830,8 +843,8 @@ arenas = [
   {slug: 'blazing-battle'   , type: 'regular',      start: new Date(2021, 0,  1), end: new Date(2021, 4, 1), levelOriginal: '5fca06dc8b4da8002889dbf1', image: '/file/db/level/5fca06dc8b4da8002889dbf1/Blazing Battle Final cut.jpg'}
   {slug: 'infinite-inferno' , type: 'championship', start: new Date(2021, 3,  1), end: new Date(2021, 4, 1), levelOriginal: '602cdc204ef0480075fbd954', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
   {slug: 'mages-might'      , type: 'regular',      start: new Date(2021, 4,  1), end: new Date(2021, 8, 1), levelOriginal: '6066f956ddfd6f003d1ed6bb', image: '/file/db/level/6066f956ddfd6f003d1ed6bb/Mages\'%20Might%20Banner.jpg'}
-  {slug: 'sorcerers'        , type: 'championship', start: new Date(2021, 7,  1), end: new Date(2021, 8, 1), levelOriginal: '609a6ad2e1eb34001a84e7af'}
-  {slug: 'giants-gate'      , type: 'regular',      start: new Date(2021, 8,  1), end: new Date(2022, 0, 1)}
+  {slug: 'sorcerers'        , type: 'championship', start: new Date(2021, 7,  1), end: new Date(2021, 8, 1), levelOriginal: '609a6ad2e1eb34001a84e7af', image: "/file/db/level/609a6ad2e1eb34001a84e7af/Sorcerer's-Blitz-01.jpg"}
+  {slug: 'giants-gate'      , type: 'regular',      start: new Date(2021, 8,  1), end: new Date(2022, 0, 1), levelOriginal: '60e69b24bed8ae001ac6ce3e' }
   {slug: 'colossus'         , type: 'championship', start: new Date(2021, 11, 1), end: new Date(2022, 0, 1)}
 ]
 
@@ -841,12 +854,14 @@ activeArenas = ->
 
 activeAndPastArenas = -> (_.clone(a) for a in arenas when a.start <= new Date())
 
+teamSpells = humans: ['hero-placeholder/plan'], ogres: ['hero-placeholder-1/plan']
 
 module.exports = {
   activeAndPastArenas
   activeArenas
   addressesIncludeAdministrativeRegion
   ageBrackets
+  ageBracketsChina
   ageOfConsent
   ageToBracket
   arenas
@@ -904,6 +919,7 @@ module.exports = {
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
+  teamSpells
   titleize
   usStateCodes
   userAgent

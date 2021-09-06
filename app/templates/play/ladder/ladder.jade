@@ -1,13 +1,16 @@
 extends /templates/base
 
 block content
-  - var base = "/images/pages/play/ladder/prize_";
+  if view.isAILeagueArena() && !features.china
+    a(href="/league")
+      img.ai-league-logo(src="/images/pages/league/logo_badge.png")
 
   div#ladder-top
 
     if view.leagueType === 'course' && view.course
       #course-header
         #course-details-link
+          // TODO: this styling should be changed, was only ever meant to be a mockup
           if view.isSchoolAdmin
             a(href="/school-administrator/teacher/#{view.ownerID}/classroom/#{view.classroomID}#course-progress-tab")
               span.glyphicon.glyphicon-arrow-left
@@ -40,7 +43,7 @@ block content
       .tournament-blurb
         h2
           span(data-i18n="ladder.tournament_ended")
-          span.spl= view.tournamentTimeLeft
+          span.spl= view.tournamentTimeLeftString
         p
           span(data-i18n="ladder.tournament_blurb")
           a.spl(href="http://blog.codecombat.com/a-31-trillion-390-billion-statement-programming-war-between-545-wizards", data-i18n="ladder.tournament_blurb_blog") on our blog
@@ -62,7 +65,7 @@ block content
       .tournament-blurb
         h2
           span(data-i18n="ladder.tournament_ended") Tournament ended
-          span.spl= view.tournamentTimeLeft
+          span.spl= view.tournamentTimeLeftString
         p
           span(data-i18n="ladder.tournament_blurb_criss_cross") Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details
           a.spl(href="http://blog.codecombat.com/a-good-new-fashioned-programming-throwdown", data-i18n="ladder.tournament_blurb_blog") on our blog
@@ -84,7 +87,7 @@ block content
       .tournament-blurb
         h2
           span(data-i18n="ladder.tournament_ended") Tournament ended
-          span.spl= view.tournamentTimeLeft
+          span.spl= view.tournamentTimeLeftString
         p
           span(data-i18n="ladder.tournament_blurb_zero_sum") Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details
           a.spl(href="http://blog.codecombat.com/kings-of-zero-sum-strategies-from-the-ai-wars", data-i18n="ladder.tournament_blurb_blog") on our blog
@@ -101,44 +104,67 @@ block content
           span.spl and discuss your strategies, your triumphs, and your turmoils.
 
 
-    div#ladder-action-columns.row
-      - var realUltimatePower = me.isAdmin() && (me.get('slug') == 'nick' || features.china);
-      if realUltimatePower
-        div.column.col-md-1
-      else
-        div.column.col-md-2
-      if view.tournamentEnd
-        #tournamentend
+    #tournament-status
+      if view.tournamentState == 'initializing'
+        #tournament-status
+          p
+            span(data-i18n="ladder.tournament_starts")
+            span.spl#tournament-time-elapsed= view.tournamentTimeElapsedString
+      else if view.tournamentState == 'starting'
+        #tournament-status
+          p
+            span(data-i18n="ladder.tournament_ends")
+            span.spl#tournament-time-left= view.tournamentTimeLeftString
+            span(data-i18n="ladder.tournament_started")
+            span.spl#tournament-time-elapsed= view.tournamentTimeElapsedString
+      else if view.tournamentState == 'ranking'
+        p
+          span(data-i18n="ladder.tournament_ended")
+          span.spl#tournament-time-left= view.tournamentTimeLeftString
+          span(data-i18n="ladder.tournament_results_published")
+          span.spl#tournament-results-time-left= view.tournamentResultsTimeLeftString
+      else if view.tournamentEnd
+        if view.tournamentTimeLeftString
+          p
+            span(data-i18n="ladder.tournament_ended")
+            span.spl#tournament-time-left= view.tournamentTimeLeftString
+        else
           p(data-i18n="ladder.tournament_end_desc")
-      else
-        if view.level.isType('ladder')
-          div.column.col-md-4
-            a.btn.btn-illustrated.btn-block.btn-lg.btn-success.play-button(data-team='humans')
-              span(data-i18n="common.play")
-          div.column.col-md-2
-            a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : ""))
-              span.glyphicon.glyphicon-eye-open
-              span.spl(data-i18n="play.spectate")
-          if !window.features.chinaUx
-            div.column.col-md-2
-              a.btn.btn-illustrated.btn-block.btn-lg.btn-info(data-team='humans' href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank")
-                span.glyphicon.glyphicon-facetime-video
-                span.spl Tutorial
-        else if view.teams
-          for team in view.teams
-            div.column.col-md-3
-              a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
-                span(data-i18n="play.play_as")
-                span.spl= team.displayName
-          div.column.col-md-2
-            a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : ""))
-              span.glyphicon.glyphicon-eye-open
-              span.spl(data-i18n="play.spectate")
-      div.column.col-md-2
-        if realUltimatePower
-          // This button could consume a lot of server resources
-          a.btn.btn-illustrated.btn-block.btn-lg.btn-info.simulate-all-button
-            span(data-i18n="play.simulate_all")
+
+    if !view.tournamentEnd
+      div#ladder-action-columns.row
+        - var realUltimatePower = me.isAdmin() && (me.get('slug') == 'nick' || features.china);
+          if view.level.isType('ladder')
+            div.column.column-4
+              a.btn.btn-illustrated.btn-block.btn-lg.btn-success.play-button(data-team='humans')
+                span(data-i18n="common.play")
+            div.column.column-2
+              a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : ""))
+                span.glyphicon.glyphicon-eye-open
+                span.spl(data-i18n="play.spectate")
+            if !window.features.chinaUx
+              div.column.column-2
+                a.btn.btn-illustrated.btn-block.btn-lg.btn-info(data-team='humans' href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank")
+                  span.glyphicon.glyphicon-facetime-video
+                  span.spl Tutorial
+          else if view.teams
+            for team in view.teams
+              div.column.column-3
+                a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
+                  span(data-i18n="play.play_as")
+                  span.spl= team.displayName
+            div.column.column-2
+              a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : ""))
+                span.glyphicon.glyphicon-eye-open
+                span.spl(data-i18n="play.spectate")
+        div.column.column-3
+          if realUltimatePower
+            // This button could consume a lot of server resources
+            a.btn.btn-illustrated.btn-block.btn-lg.btn-info.simulate-all-button
+              span(data-i18n="play.simulate_all")
+          else if !me.isTeacher() && !me.isAnonymous() && !me.isRegisteredForAILeague() && view.isAILeagueArena()
+            a.btn.btn-illustrated.btn-block.btn-lg.btn-primary.register-for-ai-league-button
+              span(data-i18n="league.register_for_ai_league")
 
 
   if view.level.isType('ladder')
@@ -208,6 +234,26 @@ block content
           #ladder-tab-view
           #new-leaderboard-view
           #my-matches-tab-view
+          if !me.isStudent() && !me.isTeacher() && view.isAILeagueArena() && !features.china
+            .clearfix
+            #team-offers
+              .row
+                .col-xs-12
+                  h2(data-i18n="league.join_teams_header")
+                for team in view.teamOffers
+                  - var joinedTeam = (me.get('clans') || []).indexOf(team.clanId) != -1
+                  .col-md-6.col-xs-12
+                    .row.team-offer
+                      .col-xs-12
+                        h3(data-i18n="league.join_team_" + team.slug.replace('-', '_') + "_title")
+                      .col-md-6.col-xs-3
+                        if joinedTeam
+                          a.btn.btn-illustrated.btn-lg.btn-block.btn-primary(href="/league/" + team.clanSlug, data-i18n="league.view_team")
+                        else
+                          a.btn.btn-illustrated.btn-lg.btn-block.btn-success.join-clan-button(href="/league/" + team.clanSlug, data-clan-id=team.clanId, data-i18n="league.join_team_name", data-i18n-options={name: team.name})
+                      .col-md-6.col-xs-3
+                        p(data-i18n="league.join_team_" + team.slug.replace('-', '_') + "_blurb")
+              .clearfix
     else
       .tab-pane.active.well#ladder
         #ladder-tab-view
