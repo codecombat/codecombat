@@ -95,6 +95,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teachers_love_codecombat_subblurb: "Va cnegarefuvc jvgu ZpERY Vagreangvbany, n yrnqre va erfrnepu-onfrq thvqnapr naq rinyhngvbaf bs rqhpngvbany grpuabybtl."
     top_banner_blurb: "Cneragf, tvir lbhe puvyq gur tvsg bs pbqvat naq crefbanyvmrq vafgehpgvba jvgu bhe yvir grnpuref!"
     top_banner_summer_camp: "Raebyyzrag abj bcra sbe bhe fhzzre pbqvat pnzcf–nfx hf nobhg bhe jrrx-ybat iveghny frffvbaf fgnegvat ng whfg $199."
+    top_banner_blurb_funding: "Arj: PNERF Npg shaqvat erfbheprf thvqr gb RFFRE naq TRRE shaqf sbe lbhe PF cebtenzf."
     try_the_game: "Gel gur tnzr"
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
@@ -249,6 +250,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     new: "Arj!"
     admin: "Nqzva"
     api_dashboard: "NCV Qnfuobneq"
+    funding_resources_guide: "Shaqvat Erfbheprf Thvqr"
 
   modal:
     close: "Pybfr"
@@ -288,7 +290,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     google_classroom_blurb1: "Lhc! Or fher gb hfr gur Tbbtyr Fvatyr Fvta-Ba (FFB) Zbqny gb fvta hc sbe lbhe grnpure nppbhag. Vs lbh nyernql unir na nppbhag hfvat lbhe Tbbtyr rznvy, hfr gur Tbbtyr FFB zbqny gb ybt va arkg gvzr. Va gur Perngr Pynff zbqny, lbh jvyy frr na bcgvba gb Yvax Tbbtyr Pynffebbz. Jr bayl fhccbeg ebfgrevat ivn Tbbtyr Pynffebbz ng guvf gvzr."
     google_classroom_blurb2: "Abgr: lbh zhfg hfr Tbbtyr FFB gb fvta hc be ybt va ng yrnfg bapr va beqre gb frr gur Tbbtyr Pynffebbz vagrtengvba bcgvba."
     how_much_does_it_cost: "Ubj zhpu qbrf vg pbfg gb npprff nyy bs gur ninvynoyr pbhefrf naq erfbheprf?"
-    how_much_does_it_cost_blurb: "Jr phfgbzvmr fbyhgvbaf sbe fpubbyf naq qvfgevpgf naq jbex jvgu lbh gb haqrefgnaq lbhe hfr pnfr, pbagrkg, naq ohqtrg. __pbagnpg__ sbe shegure qrgnvyf!"
+    how_much_does_it_cost_blurb: "Jr phfgbzvmr fbyhgvbaf sbe fpubbyf naq qvfgevpgf naq jbex jvgu lbh gb haqrefgnaq lbhe hfr pnfr, pbagrkg, naq ohqtrg. __pbagnpg__ sbe shegure qrgnvyf! Frr nyfb bhe __shaqvat__ sbe ubj gb yrirentr PNERF Npg shaqvat fbheprf yvxr RFFRE naq TRRE." #{punatr}
     recommended_systems: "Vf gurer n erpbzzraqrq oebjfre naq bcrengvat flfgrz?"
     recommended_systems_blurb: "PbqrPbzong naq Bmnevn eha orfg ba pbzchgref jvgu ng yrnfg 4TO bs ENZ, ba n zbqrea oebjfre fhpu nf Puebzr, Fnsnev, Sversbk, be Rqtr. Puebzrobbxf jvgu 2TO bs ENZ znl unir zvabe tencuvpf vffhrf va yngre pbhefrf. N zvavzhz bs 200 Xocf onaqjvqgu cre fghqrag vf erdhverq, nygubhtu 1+ Zocf vf erpbzzraqrq."
     other_questions: "Vs lbh unir nal bgure dhrfgvbaf, cyrnfr __pbagnpg__."
@@ -1911,6 +1913,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     start_date: "fgneg qngr:"
     end_date: "raq qngr:"
     get_enrollments_blurb: " Jr'yy uryc lbh ohvyq n fbyhgvba gung zrrgf gur arrqf bs lbhe pynff, fpubby be qvfgevpg."
+    see_also_our: "Frr nyfb bhe"
+    for_more_funding_resources: "sbe ubj gb yrirentr PNERF Npg shaqvat fbheprf yvxr RFFRE naq TRRE."
     how_to_apply_licenses_blurb_1: "Jura n grnpure nffvtaf n pbhefr gb n fghqrag sbe gur svefg gvzr, jr’yy nhgbzngvpnyyl nccyl n yvprafr. Hfr gur ohyx-nffvta qebcqbja va lbhe pynffebbz gb nffvta n pbhefr gb fryrpgrq fghqragf:"
     how_to_apply_licenses_blurb_2: "Pna V fgvyy nccyl n yvprafr jvgubhg nffvtavat n pbhefr?"
     how_to_apply_licenses_blurb_3: "Lrf — tb gb gur Yvprafr Fgnghf gno va lbhe pynffebbz naq pyvpx \"Nccyl Yvprafr\" gb nal fghqrag jub qbrf abg unir na npgvir yvprafr."
@@ -2426,9 +2430,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     watch_victory: "Jngpu lbhe ivpgbel"
     defeat_the: "Qrsrng gur"
     watch_battle: "Jngpu gur onggyr"
+    tournament_starts: "Gbheanzrag fgnegf"
     tournament_started: ", fgnegrq"
     tournament_ends: "Gbheanzrag raqf"
     tournament_ended: "Gbheanzrag raqrq"
+    tournament_results_published: ", erfhygf choyvfurq"
     tournament_rules: "Gbheanzrag Ehyrf"
     tournament_blurb_criss_cross: "Jva ovqf, pbafgehpg cnguf, bhgjvg bccbaragf, teno trzf, naq hctenqr lbhe pnerre va bhe Pevff-Pebff gbheanzrag! Purpx bhg gur qrgnvyf"
     tournament_blurb_zero_sum: "Hayrnfu lbhe pbqvat perngvivgl va obgu tbyq tngurevat naq onggyr gnpgvpf va guvf nycvar zveebe zngpu orgjrra erq fbeprere naq oyhr fbeprere. Gur gbheanzrag ortna ba Sevqnl, Znepu 27 naq jvyy eha hagvy Zbaqnl, Ncevy 6 ng 5CZ CQG. Pbzcrgr sbe sha naq tybel! Purpx bhg gur qrgnvyf"
@@ -3216,6 +3222,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   admin:
     license_type_full: 'Shyy Pbhefrf'
     license_type_customize: 'Phfgbzvmr Pbhefrf'
+
+  outcomes:
+    school_admin: "Fpubby Nqzvavfgengbe"
+    school_network: "Fpubby Argjbex"
+    school_subnetwork: "Fpubby Fhoargjbex"
+    classroom: "Pynffebbz"
 
   league:
     student_register_1: "Orpbzr gur arkg NV Punzcvba!"

@@ -96,6 +96,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
 #    try_the_game: "Try the game"
     classroom_edition: "Klasseværelse Udgave:"
     learn_to_code: "Lær at kode:"
@@ -250,6 +251,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    new: "New!"
 #    admin: "Admin"
 #    api_dashboard: "API Dashboard"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "Luk"
@@ -289,7 +291,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
 #    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
 #    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details!"
+#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER."
 #    recommended_systems: "Is there a recommended browser and operating system?"
 #    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
 #    other_questions: "If you have any other questions, please __contact__."
@@ -1912,6 +1914,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    start_date: "start date:"
 #    end_date: "end date:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
 #    how_to_apply_licenses_blurb_1: "When a teacher assigns a course to a student for the first time, we’ll automatically apply a license. Use the bulk-assign dropdown in your classroom to assign a course to selected students:"
 #    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a course?"
 #    how_to_apply_licenses_blurb_3: "Yes — go to the License Status tab in your classroom and click \"Apply License\" to any student who does not have an active license."
@@ -2427,9 +2431,11 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     watch_victory: "Vis din sejr"
     defeat_the: "Overvind "
     watch_battle: "Se kampen"
+#    tournament_starts: "Tournament starts"
     tournament_started: ", begyndt"
     tournament_ends: "Turnering afslutter"
     tournament_ended: "Turnering afsluttet"
+#    tournament_results_published: ", results published"
     tournament_rules: "Turneringsregler"
     tournament_blurb_criss_cross: "Vind bud, konstruer stier, overlist modstandere, snub ædelstene og opgrader din karriere i vores Criss-Cross turnering! Tjek detaljerne"
     tournament_blurb_zero_sum: "Slip din kodekreativitet løs i både guldindsamling og kamptaktik i denne alpine spejlkamp mellem rød troldmand og blå troldmand. Turneringen startede fredag ​​den 27. marts og den vil køre til mandag d. 6 april ved 05:00 PDT. Konkurrer om sjov og herlighed! Tjek detaljerne"
@@ -3217,6 +3223,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #  admin:
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
+
+#  outcomes:
+#    school_admin: "School Administrator"
+#    school_network: "School Network"
+#    school_subnetwork: "School Subnetwork"
+#    classroom: "Classroom"
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
