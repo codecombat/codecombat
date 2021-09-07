@@ -335,6 +335,7 @@ module.exports = class LadderView extends RootView
   isAILeagueArena: -> _.find utils.arenas, slug: @levelID
 
   teamOffers: [
+    {slug: 'ned', clanId: '6137aab4e0bae40025bed266', name: 'Team Ned', clanSlug: 'team-ned'}
     {slug: 'hyperx', clanId: '60a4378875b540004c78f121', name: 'Team HyperX', clanSlug: 'hyperx'}
     {slug: 'derbezt', clanId: '601351bb4b79b4013e198fbe', name: 'Team DerBezt', clanSlug: 'team-derbezt'}
   ]
