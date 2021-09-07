@@ -18,12 +18,6 @@ const previousRegularArena = _.last(_.filter(arenas, a => a.end < new Date() && 
 const previousChampionshipArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'championship' && (!currentChampionshipArena || a.slug !== currentChampionshipArena.slug)))
 
 const tournamentsByLeague = {
-  _global: {
-    'blazing-battle': '608cea0f8f2b971478556ac6',
-    'infinite-inferno': '608cd3f814fa0bf9f1c1f928',
-    'mages-might': '612d554b9abe2e0019aeffb9',
-    'sorcerers': '612d556f9abe2e0019af000b'
-  },
   '5ff88bcdfe17d7bb1c7d2d00': {  // autoclan-school-network-academica
     'blazing-battle': '60c159f8a78b083f4205cbf7',
     'infinite-inferno': '60c15b1fa78b083f4205cdc1'
@@ -394,10 +388,12 @@ export default {
 
     previousRegularArenaUrl () {
       let url = `/play/ladder/${this.previousRegularArenaSlug}`
-      const tournaments = tournamentsByLeague[this.clanIdSelected || '_global']
-      const tournament = tournaments ? tournaments[this.previousRegularArenaSlug] : null
-      if (this.clanIdSelected)
+      let tournament = previousRegularArena.tournament
+      if (this.clanIdSelected) {
         url += `/clan/${this.clanIdSelected}`
+        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
+        tournament = tournaments[this.previousRegularArenaSlug] || tournament
+      }
       if (tournament)
         url += `?tournament=${tournament}`
       return url
@@ -407,13 +403,19 @@ export default {
 
     previousChampionshipArenaUrl () {
       let url = `/play/ladder/${this.previousChampionshipArenaSlug}`
-      const tournaments = tournamentsByLeague[this.clanIdSelected || '_global']
-      const tournament = tournaments ? tournaments[this.previousChampionshipArenaSlug] : null
-      if (this.clanIdSelected)
+      let tournament = previousChampionshipArena.tournament
+      if (this.clanIdSelected) {
         url += `/clan/${this.clanIdSelected}`
+        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
+        tournament = tournaments[this.previousChampionshipArenaSlug] || tournament
+      }
       if (tournament)
         url += `?tournament=${tournament}`
       return url
+    },
+
+    previousChampionshipArenaResultsPublished () {
+      return previousChampionshipArena && new Date() >= previousChampionshipArena.results
     },
 
     // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
@@ -562,13 +564,15 @@ export default {
     </div>
     <div class="row text-center" id="winners">
       <h1><span class="esports-aqua">Previous </span><span class="esports-pink">Season</span></h1>
-      <p class="subheader2" v-if="previousChampionshipArenaSlug == 'infinite-inferno'">Results from the Infinite Inferno Cup</p>
-      <p class="subheader2" v-else>Results from the Sorcerer's Blitz coming soon</p>
+      <p class="subheader2">
+        <span>Results from the {{ $t(`league.${previousChampionshipArenaSlug.replace(/-/g, '_')}`) }} {{ $t('league.arena_type_championship') }}</span>
+        <span v-if="!previousChampionshipArenaResultsPublished"> coming soon</span>
+      </p>
     </div>
 
-    <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0" v-if="previousChampionshipArenaSlug == 'infinite-inferno'">
+    <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0" v-if="previousChampionshipArenaResultsPublished">
       <div class="col-sm-10 video-backer video-iframe">
-        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/1422969c8f5fbee2a62ee60021becfb4?poster=https://videodelivery.net/1422969c8f5fbee2a62ee60021becfb4/thumbnails/thumbnail.jpg%3Ftime%3D1584s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 1 - Forged in Flame"></iframe></div>
+        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/1422969c8f5fbee2a62ee60021becfb4?poster=https://videodelivery.net/1422969c8f5fbee2a62ee60021becfb4/thumbnails/thumbnail.jpg%3Ftime%3D1584s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 2 - Spells of Fortune"></iframe></div>
       </div>
     </div>
 
@@ -668,6 +672,19 @@ export default {
         <h3>Infinite Inferno Cup</h3>
         <div>Jan - April 2021</div>
         <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy"/>
+        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0">
+          <div class="col-xs-12 video-backer video-iframe">
+            <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/1422969c8f5fbee2a62ee60021becfb4?poster=https://videodelivery.net/1422969c8f5fbee2a62ee60021becfb4/thumbnails/thumbnail.jpg%3Ftime%3D1584s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 1 - Forged in Flame"></iframe></div>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-xs-6">
+            <a href="/play/ladder/blazing-battle?tournament=608cea0f8f2b971478556ac6" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.blazing_battle`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
+          </div>
+          <div class="col-xs-6">
+            <a href="/play/ladder/infinite-inferno?tournament=608cd3f814fa0bf9f1c1f928" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.infinite_inferno`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
+          </div>
+        </div>
       </div>
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Sorcerer's Blitz</h3>
@@ -1012,6 +1029,13 @@ export default {
     img {
       max-height: 250px;
       margin: 15px auto 0 auto;
+    }
+
+    ::v-deep .btn-primary.btn-moon.btn-small {
+      padding: 10px;
+      letter-spacing: 0;
+      line-height: 18px;
+      font-size: 14px;
     }
   }
 
