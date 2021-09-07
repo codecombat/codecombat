@@ -12,6 +12,9 @@ import ApiData from '../../api/components/ApiData'
 import { joinClan, leaveClan } from '../../../core/api/clans'
 import { titleize, arenas, activeArenas } from '../../../core/utils'
 
+import BackboneModalHarness from '../../common/BackboneModalHarness'
+import CreateAccountModal from '../../core/CreateAccountModal/CreateAccountModal'
+
 const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular' && a.end > new Date()))
 const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type === 'championship' && a.end > new Date()))
 const previousRegularArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'regular' && a.slug !== currentRegularArena.slug))
@@ -33,7 +36,8 @@ export default {
     ChildClanDetailDropdown,
     SectionFirstCTA,
     InputClanSearch,
-    ApiData
+    ApiData,
+    BackboneModalHarness
   },
 
   data: () => ({
@@ -42,6 +46,8 @@ export default {
     clanCreationModal: false,
     doneRegistering: false,
     joinOrLeaveClanLoading: false,
+    CreateAccountModal,
+    createAccountModalOpen: false,
     // TODO: Get these automatically from core/utils/arenas
     previousRegularArenaSlug: previousRegularArena ? previousRegularArena.slug : null,
     previousChampionshipArenaSlug: previousChampionshipArena ? previousChampionshipArena.slug : null,
@@ -60,13 +66,19 @@ export default {
       if (newSelectedClan !== lastSelectedClan) {
         this.loadRequiredData()
       }
+    },
+
+    clanIdSelected (newSelectedClan, lastSelectedClan) {
+      if (newSelectedClan !== lastSelectedClan && newSelectedClan && this.doneRegistering && !this.inSelectedClan()) {
+        this.joinClan()
+      }
     }
   },
 
   created () {
     this.clanIdOrSlug = this.$route.params.idOrSlug || null
     // Would be odd to arrive here with ?registering=true and be logged out...
-    this.doneRegistering = !!this.$route.query.registered
+    this.doneRegistering = !!this.$route.query.registered && !me.isAnonymous()
     this.leagueSignupModalOpen = !this.doneRegistering && this.canRegister() && !!this.$route.query.registering
   },
 
@@ -92,6 +104,7 @@ export default {
     }
     _.delay(scrollTo, 1000)
   },
+
   beforeDestroy() {
     clearInterval(this.heroRotationInterval)
   },
@@ -132,9 +145,9 @@ export default {
 
         if (['school-network', 'school-subnetwork', 'school-district'].includes(this.currentSelectedClan?.kind)) {
           this.fetchChildClanDetails({ id: this.currentSelectedClan._id })
-            .catch(() => {
-              console.error('Failed to retrieve child clans.')
-            })
+              .catch(() => {
+                console.error('Failed to retrieve child clans.')
+              })
         }
 
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
@@ -149,7 +162,7 @@ export default {
 
     signupAndRegister () {
       window.nextURL = `${window.location.pathname}?registering=true`
-      application.router.navigate('?registering=true', { trigger: true })
+      this.openCreateAccountModal()
     },
 
     async submitRegistration (registration) {
@@ -231,6 +244,14 @@ export default {
     openClanCreation () {
       this.clanCreationModal = true
       this.scrollToModal()
+    },
+
+    openCreateAccountModal () {
+      this.createAccountModalOpen = true
+    },
+
+    createAccountModalClosed() {
+      this.createAccountModalOpen = false
     },
 
     canRegister () {
@@ -439,25 +460,33 @@ export default {
 <template>
   <main id="page-league-global">
     <league-signup-modal
-        v-if="leagueSignupModalOpen"
-        @close="leagueSignupModalOpen = false"
-        @submit="submitRegistration"
-        :first-name="firstName"
-        :last-name="lastName"
-        :name="name"
-        :email="email"
-        :birthday="birthday"
-        :emails="emails"
-        :unsubscribed-from-marketing-emails="unsubscribedFromMarketingEmails"
+      v-if="leagueSignupModalOpen"
+      @close="leagueSignupModalOpen = false"
+      @submit="submitRegistration"
+      :first-name="firstName"
+      :last-name="lastName"
+      :name="name"
+      :email="email"
+      :birthday="birthday"
+      :emails="emails"
+      :unsubscribed-from-marketing-emails="unsubscribedFromMarketingEmails"
     >
     </league-signup-modal>
 
     <clan-creation-modal
-        v-if="clanCreationModal"
-        :clan="myCreatedClan"
-        @close="clanCreationModal = false"
+      v-if="clanCreationModal"
+      :clan="myCreatedClan"
+      @close="clanCreationModal = false"
     >
     </clan-creation-modal>
+
+    <backbone-modal-harness
+      ref="createAccountModal"
+      :modal-view="CreateAccountModal"
+      :open="createAccountModalOpen"
+      :modal-options="{ startOnPath: 'individual' }"
+      @close="createAccountModalClosed"
+    />
 
     <section class="row esports-header section-space">
       <div class="col-sm-5">
@@ -481,6 +510,7 @@ export default {
       </div>
       <div class="col-sm-7">
         <img v-if="currentSelectedClanName === 'Team DerBezt'" class="custom-esports-image-2" alt="" src="/file/db/thang.type/6037ed81ad0ac000f5e9f0b5/armando-pose.png">
+        <img v-if="currentSelectedClanName === 'Team Ned'" class="custom-esports-image-2 flip-horizontally" alt="" src="/file/db/thang.type/6136fe7e9f1147002c1316b4/Ned-Fulmer-Pose.png">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
         <div class="clan-description" style="margin-bottom: 40px;" v-html="currentSelectedClanDescription"></div>
         <p v-if="currentSelectedClanName === 'Team DerBezt'">{{ $t('league.team_derbezt') }}</p>
@@ -572,7 +602,7 @@ export default {
 
     <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0" v-if="previousChampionshipArenaResultsPublished">
       <div class="col-sm-10 video-backer video-iframe">
-        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/1422969c8f5fbee2a62ee60021becfb4?poster=https://videodelivery.net/1422969c8f5fbee2a62ee60021becfb4/thumbnails/thumbnail.jpg%3Ftime%3D1584s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 2 - Spells of Fortune"></iframe></div>
+        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a?poster=https://videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a/thumbnails/thumbnail.jpg%3Ftime%3D837s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 2 - Spells of Fortune"></iframe></div>
       </div>
     </div>
 
@@ -671,17 +701,17 @@ export default {
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Infinite Inferno Cup</h3>
         <div>Jan - April 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy"/>
+        <!-- <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy"/> -->
         <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0">
           <div class="col-xs-12 video-backer video-iframe">
             <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/1422969c8f5fbee2a62ee60021becfb4?poster=https://videodelivery.net/1422969c8f5fbee2a62ee60021becfb4/thumbnails/thumbnail.jpg%3Ftime%3D1584s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 1 - Forged in Flame"></iframe></div>
           </div>
         </div>
         <div class="row text-center">
-          <div class="col-xs-6">
+          <div class="col-xs-12 col-md-6 view-winners-col">
             <a href="/play/ladder/blazing-battle?tournament=608cea0f8f2b971478556ac6" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.blazing_battle`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
           </div>
-          <div class="col-xs-6">
+          <div class="col-xs-12 col-md-6 view-winners-col">
             <a href="/play/ladder/infinite-inferno?tournament=608cd3f814fa0bf9f1c1f928" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.infinite_inferno`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
           </div>
         </div>
@@ -689,7 +719,20 @@ export default {
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Sorcerer's Blitz</h3>
         <div>May - Aug 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy"/>
+        <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy" v-if="!previousChampionshipArenaResultsPublished" />
+        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0" v-if="previousChampionshipArenaResultsPublished">
+          <div class="col-xs-12 video-backer video-iframe">
+            <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a?poster=https://videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a/thumbnails/thumbnail.jpg%3Ftime%3D837s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 2 - Spells of Fortune"></iframe></div>
+          </div>
+        </div>
+        <div class="row text-center" v-if="previousChampionshipArenaResultsPublished">
+          <div class="col-xs-12 col-md-6 view-winners-col">
+            <a href="/play/ladder/mages-might?tournament=608cea0f8f2b971478556ac6" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.mages_might`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
+          </div>
+          <div class="col-xs-12 col-md-6 view-winners-col">
+            <a href="/play/ladder/sorcerers?tournament=608cd3f814fa0bf9f1c1f928" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.sorcerers`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
+          </div>
+        </div>
       </div>
       <div class="col-sm-4 text-center">
         <h3>Colossus Clash</h3>
@@ -999,7 +1042,9 @@ export default {
       height: 20vw;
       min-height: 100px;
       max-height: 350px;
-      transform: scaleX(1);
+      &:not(.flip-horizontally) {
+        transform: scaleX(1);
+      }
     }
 
     @media screen and (max-width: 1000px) {
@@ -1031,11 +1076,28 @@ export default {
       margin: 15px auto 0 auto;
     }
 
-    ::v-deep .btn-primary.btn-moon.btn-small {
+    @media screen and (min-width: 992px) {
+      .view-winners-col:nth-child(1) {
+        padding-right: 0
+      }
+      .view-winners-col:nth-child(2) {
+        padding-left: 0
+      }
+    }
+
+    @media screen and (max-width: 992px) {
+      .view-winners-col:nth-child(2) {
+        padding-top: 10px;
+      }
+    }
+
+    .btn-primary.btn-moon.btn-small {
       padding: 10px;
       letter-spacing: 0;
       line-height: 18px;
       font-size: 14px;
+      margin: 0px;
+      width: calc(100% - 5px);
     }
   }
 
