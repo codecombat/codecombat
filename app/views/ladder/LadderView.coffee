@@ -279,12 +279,12 @@ module.exports = class LadderView extends RootView
         # TODO: make this configurable
         options =
           sessionLimit: 50000
-          matchLimit: 1e6
+          matchLimit: 2e6
           matchmakingType: 'king-of-the-hill'
-          minPlayerMatches: 20
+          minPlayerMatches: 40
           topN: 10
       else
-        options = sessionLimit: 500
+        options = {}
       $.ajax
         url: "/db/tournament/#{@tournamentId}/end"
         data: options
@@ -335,6 +335,7 @@ module.exports = class LadderView extends RootView
   isAILeagueArena: -> _.find utils.arenas, slug: @levelID
 
   teamOffers: [
+    {slug: 'ned', clanId: '6137aab4e0bae40025bed266', name: 'Team Ned', clanSlug: 'team-ned'}
     {slug: 'hyperx', clanId: '60a4378875b540004c78f121', name: 'Team HyperX', clanSlug: 'hyperx'}
     {slug: 'derbezt', clanId: '601351bb4b79b4013e198fbe', name: 'Team DerBezt', clanSlug: 'team-derbezt'}
   ]

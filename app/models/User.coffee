@@ -225,8 +225,8 @@ module.exports = class User extends CocoModel
   heroes: ->
     heroes = (me.get('purchased')?.heroes ? []).concat([ThangTypeConstants.heroes.captain, ThangTypeConstants.heroes.knight, ThangTypeConstants.heroes.champion, ThangTypeConstants.heroes.duelist])
     heroes.push ThangTypeConstants.heroes['code-ninja'] if window.serverConfig.codeNinjas
-    teamDerBeztClanId = '601351bb4b79b4013e198fbe'
-    heroes.push ThangTypeConstants.heroes['armando-hoyos'] if teamDerBeztClanId in (me.get('clans') ? [])
+    for clanHero in utils.clanHeroes when clanHero.clanId in (me.get('clans') ? [])
+      heroes.push clanHero.thangTypeOriginal
     heroes
   items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? []).concat([ThangTypeConstants.items['simple-boots']])
   levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? []).concat(LevelConstants.levels['dungeons-of-kithgard'])

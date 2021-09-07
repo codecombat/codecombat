@@ -3324,6 +3324,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
     join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
     join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
