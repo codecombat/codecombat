@@ -96,6 +96,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teachers_love_codecombat_subblurb: "В партнерстве с McREL International, лидером в области основанного на исследованиях руководства и оценки образовательных технологий."
     top_banner_blurb: "Родители, подарите своему ребенку программирование и индивидуальные инструкции с нашими живыми учителями!"
     top_banner_summer_camp: "Открыта запись на наши летние лагеря программирования - спросите нас о наших недельных виртуальных сессиях по цене всего от 199 долларов."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     try_the_game: "Попробуй игру"
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
@@ -250,6 +251,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     new: "Новое!"
     admin: "Админ"
 #    api_dashboard: "API Dashboard"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "Закрыть"
@@ -289,7 +291,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     google_classroom_blurb1: "Ага! Обязательно используйте режим единого входа Google (SSO), чтобы создать учетную запись учителя. Если у вас уже есть учетная запись, использующая вашу электронную почту Google, используйте модальное окно единого входа Google для входа в следующий раз. В модальном окне Создать класс вы увидите опцию Присоединить Google Classroom. В настоящее время мы поддерживаем регистрацию только через Google Classroom."
     google_classroom_blurb2: "Примечание: вы должны использовать систему единого входа Google для регистрации или войти в систему хотя бы один раз, чтобы увидеть возможность интеграции с Google Classroom."
     how_much_does_it_cost: "Сколько стоит доступ ко всем доступным курсам и ресурсам?"
-    how_much_does_it_cost_blurb: "Мы адаптируем решения для школ и округов и работаем с вами, чтобы понять ваш вариант использования, контекст и бюджет. __contact__ для уточнения деталей!"
+    how_much_does_it_cost_blurb: "Мы адаптируем решения для школ и округов и работаем с вами, чтобы понять ваш вариант использования, контекст и бюджет. __contact__ для уточнения деталей!" # {change}
     recommended_systems: "Есть ли рекомендуемый браузер и операционная система?"
     recommended_systems_blurb: "CodeCombat и Ozaria лучше всего работают на компьютерах с как минимум 4 ГБ ОЗУ, в современном браузере, таком как Chrome, Safari, Firefox или Edge. Chromebook с 2 ГБ ОЗУ может иметь незначительные проблемы с графикой на более поздних курсах. Требуется минимум 200 Кбит / с для каждого студента, хотя рекомендуется 1+ Мбит / с."
     other_questions: "Если у Вас остались вопросы, __contact__."
@@ -1912,6 +1914,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     start_date: "дата начала:"
     end_date: "дата конца:"
     get_enrollments_blurb: " Мы поможем Вам принять решение, необходимое именно для Ваших классов, школы или района."
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
     how_to_apply_licenses_blurb_1: "Когда учитель назначает ученика на курс впервые, мы автоматически выдадим лицензию. Используйте выпадающий список \"Назначение учеников\" в классной комнате, чтобы назначить на курс выбранных студентов:"
     how_to_apply_licenses_blurb_2: "Могу ли я применить лицензию без назначения на курс?"
     how_to_apply_licenses_blurb_3: "Да. Перейдите на вкладку \"Статус лицензии\" в своем классе и нажмите \"Применить лицензию\" для любого ученика, у которого нет активной лицензии."
@@ -2427,9 +2431,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     watch_victory: "Наблюдать за победой"
     defeat_the: "Победить"
     watch_battle: "Смотреть битву"
+#    tournament_starts: "Tournament starts"
     tournament_started: ", начат"
     tournament_ends: "Турнир заканчивается"
     tournament_ended: "Турнир закончился"
+#    tournament_results_published: ", results published"
     tournament_rules: "Правила турнира"
     tournament_blurb_criss_cross: "Выигрывайте ставки, создавайте пути, перехитрите оппонентов, собирайте самоцветы и улучшайте вашу карьеру в нашем турнире Criss-Cross! Узнайте больше"
     tournament_blurb_zero_sum: "Дайте волю своей программистской фантазии в собирании золота и боевой тактике в этом высокогорном зеркальном матче между красным волшебником и синим волшебником. Турнир начался в пятницу, 27 марта, и продолжится до 17.00 PDT понедельника, 6 апреля. Участвуйте для веселья и славы! Посмотрите детали"
@@ -3218,6 +3224,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  outcomes:
+#    school_admin: "School Administrator"
+#    school_network: "School Network"
+#    school_subnetwork: "School Subnetwork"
+#    classroom: "Classroom"
+
 #  league:
 #    student_register_1: "Become the next AI Champion!"
 #    student_register_2: "Sign up, create your own team, or join other teams to start competing."
@@ -3313,6 +3325,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
 #    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
 #    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+#    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"
