@@ -727,10 +727,10 @@ export default {
         </div>
         <div class="row text-center" v-if="previousChampionshipArenaResultsPublished">
           <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/mages-might?tournament=608cea0f8f2b971478556ac6" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.mages_might`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
+            <a href="/play/ladder/mages-might?tournament=612d554b9abe2e0019aeffb9" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.mages_might`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
           </div>
           <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/sorcerers?tournament=608cd3f814fa0bf9f1c1f928" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.sorcerers`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
+            <a href="/play/ladder/sorcerers?tournament=612d556f9abe2e0019af000b" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.sorcerers`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
           </div>
         </div>
       </div>
