@@ -1433,7 +1433,7 @@ module.exports = class SpellView extends CocoView
     $(window).off 'resize', @onWindowResize
     window.clearTimeout @saveSpadeTimeout
     @saveSpadeTimeout = null
-    @autocomplete.destroy()
+    @autocomplete?.destroy()
     super()
 
 # Note: These need to be double-escaped for insertion into regexes
