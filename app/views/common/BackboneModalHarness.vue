@@ -59,6 +59,7 @@
         this.modalViewInstance.on('loading:progress', this.updateLoadingProgressEvent)
         this.modalViewInstance.on('hide', this.modalHideEvent)
         this.modalViewInstance.on('hidden', this.modalHideEvent)
+        this.modalViewInstance.on('hidden.bs.modal', this.modalHideEvent)
       },
 
       openModal () {

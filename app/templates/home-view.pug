@@ -5,8 +5,12 @@ block content
     .row#top-banner
       .row
         .col-xs-12
-          span(data-i18n="new_home.top_banner_blurb")
-          a(href="/parents", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Parents Page")
+          if me.isTeacher()
+            span(data-i18n="new_home.top_banner_blurb_funding")
+            a(href="https://www.ozaria.com/funding", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Funding Page" target='_blank')
+          else
+            span(data-i18n="new_home.top_banner_blurb")
+            a(href="/parents", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Parents Page")
 
     .cloud-wrapper
       .row#jumbotron-container-fluid

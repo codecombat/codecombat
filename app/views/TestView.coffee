@@ -48,6 +48,7 @@ module.exports = TestView = class TestView extends RootView
     @loadedFileIDs = []
 
   afterInsert: ->
+    super()
     Promise.all(
       ["python", "coffeescript", "lua"].map(
         loadAetherLanguage
