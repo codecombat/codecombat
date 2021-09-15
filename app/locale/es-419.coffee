@@ -194,8 +194,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     student_impact: "Impacto estudiantil"
     help_enjoy_learning_blurb: "Nuestros productos han ayudado a más de 20 millones de estudiantes a disfrutar del aprendizaje de la informática, enseñándoles a ser aprendices críticos, seguros y creativos. Involucramos a todos los estudiantes, independientemente de su experiencia, ayudándolos a realizar un camino hacia el éxito en Ciencias de la Computación."
     global_community: "Únase a nuestra comunidad global"
-#    million: "__num__ Million"
-#    billion: "__num__ Billion"
+    million: "__num__ Millón"
+    billion: "__num__ Billón"
 
   nav:
     educators: "Maestros"
@@ -268,31 +268,31 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     subscribe_as_diplomat: "Suscríbete como un Diplomático"
 
 #  new_home_faq:
-#    what_programming_languages: "What programming languages are available?"
-#    python_and_javascript: "We currently support Python and JavaScript."
-#    why_python: "Why should you choose Python?"
-#    why_python_blurb: "Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python."
-#    why_javascript: "Why should you choose JavaScript?"
-#    why_javascript_blurb: "JavaScript is the language of the web and is used across nearly every website. You may prefer to choose JavaScript if you are planning to also study web development. We’ve also made it easy for students to transition from Python to JavaScript-based web development."
-#    javascript_versus_python: "JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python."
-#    how_do_i_get_started: "How do I get started?"
-#    getting_started_1: "Create your Teacher Account"
-#    getting_started_2: "Create a class"
-#    getting_started_3: "Add students"
-#    getting_started_4: "Sit back and watch your students have fun learning to code"
-#    main_curriculum: "Can I use CodeCombat or Ozaria as my main curriculum?"
-#    main_curriculum_blurb: "Absolutely! We’ve spent time consulting with education specialists to craft classroom curriculum and materials specifically for teachers who are using CodeCombat or Ozaria without any prior computer science experience themselves. Many schools are implementing CodeCombat and/or Ozaria as the main computer science curriculum."
-#    clever_instant_login: "Does CodeCombat and Ozaria support Clever Instant Login?"
-#    clever_instant_login_blurb: "Yes! Check out our __clever__ for more details on how to get started."
-#    clever_integration_faq: "Clever Integration FAQ"
-#    google_classroom: "What about Google Classroom?"
-#    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
-#    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
-#    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details!"
-#    recommended_systems: "Is there a recommended browser and operating system?"
-#    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
-#    other_questions: "If you have any other questions, please __contact__."
+    what_programming_languages: "¿Qué lenguajes de programación están disponibles?"
+    python_and_javascript: "Actualmente admitimos Python y JavaScript."
+    why_python: "¿Por qué debería elegir Python?"
+    why_python_blurb: "Python es apto para principiantes y actualmente lo utilizan las principales corporaciones (como Google). Si tiene alumnos más jóvenes o principiantes, recomendamos encarecidamente Python."
+    why_javascript: "¿Por qué debería elegir JavaScript?"
+    why_javascript_blurb: "JavaScript es el lenguaje de la web y se utiliza en casi todos los sitios web. Es posible que prefiera elegir JavaScript si planea estudiar también desarrollo web. También facilitamos a los estudiantes la transición de Python al desarrollo web basado en JavaScript."
+    javascript_versus_python: "La sintaxis de JavaScript es un poco más difícil para los principiantes que Python, por lo que si no puede decidir entre los dos, le recomendamos Python."
+    how_do_i_get_started: "¿Cómo empiezo?"
+    getting_started_1: "Crea tu cuenta de profesor"
+    getting_started_2: "Crear una clase"
+    getting_started_3: "Agregar estudiantes"
+    getting_started_4: "Siéntese y observe cómo sus estudiantes se divierten aprendiendo a codificar"
+    main_curriculum: "¿Puedo usar CodeCombat u Ozaria como mi plan de estudios principal?"
+    main_curriculum_blurb: "¡Absolutamente! Hemos dedicado tiempo a consultar con especialistas en educación para elaborar el plan de estudios y los materiales del aula específicamente para los maestros que usan CodeCombat u Ozaria sin ninguna experiencia previa en informática. Muchas escuelas están implementando CodeCombat y / o Ozaria como el plan de estudios principal de ciencias de la computación."
+    clever_instant_login: "¿CodeCombat y Ozaria admiten el inicio de sesión instantáneo inteligente?"
+    clever_instant_login_blurb: "¡Sí! Consulte nuestro __clever__ para obtener más detalles sobre cómo empezar."
+    clever_integration_faq: "Preguntas frecuentes sobre integración inteligente"
+    google_classroom: "¿Qué pasa con Google Classroom?"
+    google_classroom_blurb1: "¡Sí! Asegúrese de utilizar el modo de inicio de sesión único de Google (SSO) para registrarse en su cuenta de profesor. Si ya tiene una cuenta con su correo electrónico de Google, utilice el modo de SSO de Google para iniciar sesión la próxima vez. En el modal Crear clase, verá una opción para vincular Google Classroom. En este momento, solo admitimos la creación de listas a través de Google Classroom."
+    google_classroom_blurb2: "Nota: debe usar Google SSO para registrarse o iniciar sesión al menos una vez para ver la opción de integración de Google Classroom."
+    how_much_does_it_cost: "¿Cuánto cuesta acceder a todos los cursos y recursos disponibles?"
+    how_much_does_it_cost_blurb: "Personalizamos soluciones para escuelas y distritos y trabajamos con usted para comprender su caso de uso, contexto y presupuesto. __contacto__ para más detalles!"
+    recommended_systems: "¿Existe un navegador y un sistema operativo recomendados?"
+    recommended_systems_blurb: "CodeCombat y Ozaria funcionan mejor en computadoras con al menos 4 GB de RAM, en un navegador moderno como Chrome, Safari, Firefox o Edge. Los Chromebook con 2 GB de RAM pueden tener problemas de gráficos menores en cursos posteriores. Se requiere un ancho de banda mínimo de 200 Kbps por estudiante, aunque se recomienda 1+ Mbps."
+    other_questions: "Si tiene alguna otra pregunta, __contacte__."
 
   play:
     title: "Juega los Niveles de - Aprende Python, JavaScript, y HTML"
@@ -313,7 +313,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     request_licenses: "Contacta a nuestros especialistas escolares para más detalles."
     compete: "¡Competir!" # Course details page
     spectate: "Observar" # Ladder page
-#    simulate_all: "Simulate All"
+    simulate_all: "Simular todo"
     players: "Jugadores" # Hover over a level on /play
     hours_played: "horas jugadas" # Hover over a level on /play
     items: "Objetos" # Tooltip on item shop button from /play
@@ -502,14 +502,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     eu_confirmation_place_of_processing: "Aprender más sobre los posibles riesgos"
     eu_confirmation_student: "Si no estás seguro, pregúntale a tu maestro."
     eu_confirmation_individual: "Si no deseas que almacenemos tus datos en servidores de EE. UU., Siempre puedes seguir jugando de forma anónima sin guardar tu código."
-#    password_requirements: "8 to 64 characters with no repeating"
-#    invalid: "Invalid"
-#    invalid_password: "Invalid password"
-#    with: "with"
-#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
-#    have_a_classcode: "Have a Class Code?"
-#    yes_i_have_classcode: "Yes, I have a Class Code!"
-#    enter_it_here: "Enter it here:"
+    password_requirements: "8 a 64 caracteres sin repetición"
+    invalid: "Inválido"
+    invalid_password: "Contraseña invalida"
+    with: "con"
+    want_to_play_codecombat: "No, no tengo uno pero quiero jugar CodeCombat!"
+    have_a_classcode: "¿Tiene un código de clase?"
+    yes_i_have_classcode: "¡Sí, tengo un código de clase!"
+    enter_it_here: "Insértelo aquí:"
 
   recover:
     recover_account_title: "recuperar cuenta"
@@ -561,7 +561,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     submit: "Enviar"
     replay: "Repetir"
     complete: "Completar"
-#    pick_image: "Pick Image"
+    pick_image: "Elegir imagen"
 
   general:
     and: "y"
@@ -625,10 +625,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     fewer: "Menos"
     with: "con"
 #    chat: "Chat"
-#    chat_with_us: "Chat with us"
-#    email_us: "Send us an email"
-#    sales: "Sales"
-#    support: "Support"
+    chat_with_us: "Chatea con nosotros"
+    email_us: "envianos un email"
+    sales: "Ventas"
+    support: "Soporte"
 
   units:
     second: "segundo"
@@ -831,9 +831,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     command_bank: "Banco de Comandos"
     learning_goals: "Metas de Aprendizaje"
     start: "Iniciar"
-#    vega_character: "Vega Character"
+    vega_character: "Personaje Vega"
     click_to_continue: "Click para Continuar"
-#    fill_in_solution: "Fill in solution"
+    fill_in_solution: "Llene la solución"
 
   apis:
     methods: "Métodos"
@@ -867,16 +867,16 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     future_eng_5: "programa que crea oportunidades de aprendizaje y trabajo para todos los estudiantes de K-12 en los Estados Unidos que desean dedicarse a Ciencias de la Computación."
 
 #  live_class:
-#    title: "Thank you!"
-#    content: "Amazing! We just launched live online classes."
-#    link: "Ready to get ahead on your coding?"
+    title: "Gracias!"
+    content: "¡Increíble! Acabamos de lanzar clases en línea en vivo."
+    link: "¿Listo para salir adelante en tu codificación?"
 
 #  code_quest:
-#    great: "Great!"
-#    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
-#    link: "Click here to register and learn more"
-#    global_tournament: "Global Tournament"
-#    register: "Register"
+    great: "¡Excelente!"
+    join_paragraph: "¡Únete al torneo internacional de codificación Python AI más grande para todas las edades y compite por la cima de la clasificación! Esta batalla global de un mes comienza el 1 de agosto e incluye premios por valor de $ 5,000 y una ceremonia de premios virtual donde anunciaremos a los ganadores y reconoceremos sus habilidades de codificación."
+    link: "Haga clic aquí para registrarse y obtener más información"
+    global_tournament: "Torneo global"
+    register: "Registrarse"
 #    date: "Aug 1 - Aug 31"
 
   play_game_dev_level:
@@ -1121,11 +1121,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     restricted_to_certain_heroes: "Sólo ciertos héroes pueden jugar este nivel."
 
 #  char_customization_modal:
-#    heading: "Customize Your Hero"
-#    body: "Body"
-#    name_label: "Hero's Name"
-#    hair_label: "Hair Color"
-#    skin_label: "Skin Color"
+    heading: "Personaliza a tu héroe"
+    body: "Cuerpo"
+    name_label: "Nombre del héroe"
+    hair_label: "Color de pelo"
+    skin_label: "Color de piel"
 
   skill_docs:
     function: "función" # skill types
@@ -1155,7 +1155,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     optional_parameters: "Parámetros Opcionales"
     returns: "Devoluciones"
     granted_by: "Concedido por"
-#    still_undocumented: "Still undocumented, sorry."
+    still_undocumented: "Todavía indocumentado, lo siento."
 
   save_load:
     granularity_saved_games: "Guardado"
@@ -1177,8 +1177,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     editor_config_behaviors_description: "Autocompleta corchetes, llaves y comillas."
 
   about:
-#    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
-#    meta_description: "Our mission is to level computer science through game-based learning and make coding accessible to every learner. We believe programming is magic and want learners to be empowered to to create things from pure imagination."
+    title: "Acerca de CodeCombat: involucrar a los estudiantes, empoderar a los maestros, inspirar la creación"
+    meta_description: "Nuestra misión es nivelar la informática a través del aprendizaje basado en juegos y hacer que la codificación sea accesible para todos los alumnos. Creemos que la programación es mágica y queremos que los alumnos estén capacitados para crear cosas a partir de la imaginación pura."
     learn_more: "Aprende más"
     main_title: "Si queres aprender a programar, necesitas escribir (un montón de) código."
     main_description: "En CodeCombat, nuestro trabajo es asegurarnos que estás haciendo eso con una sonrisa en tu cara."
@@ -1384,7 +1384,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     create_account_subtitle: "Obtenga acceso a herramientas exclusivas para maestros de CodeCombat. <strong>Configurar una clase</strong>, agregar estudiantes, y <strong>monitorear su progreso</strong>!"
     convert_account_title: "Actualizar mi perfil a Cuenta de maestro"
     not: "No"
-#    full_name_required: "First and last name required"
+    full_name_required: "Nombre y apellido obligatorios"
 
   versions:
     save_version_title: "Guardar nueva versión"
@@ -1475,7 +1475,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     maximize_editor: "Maximizar/minimizar editor de código."
 
 #  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+    click_anywhere_continue: "haga clic en cualquier lugar para continuar"
 
   community:
     main_title: "Comunidad CodeCombat"
@@ -1496,9 +1496,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     contribute_to_the_project: "Contribuir al proyecto"
 
   clans:
-#    title: "Join CodeCombat Clans - Learn to Code in Python, JavaScript, and HTML"
-#    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code"
-#    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills."
+    title: "Únase a los clanes de CodeCombat: aprenda a codificar en Python, JavaScript y HTML"
+    clan_title: "__clan__ - Únase a los clanes de CodeCombat y aprenda a codificar"
+    meta_description: "Únete a un clan o crea tu propia comunidad de programadores. Juega niveles de arena multijugador y sube de nivel a tu héroe y tus habilidades de codificación."
     clan: "Clan"
     clans: "Clanes"
     new_name: "Nuevo nombre de clan"
@@ -1644,7 +1644,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     play_level: "Jugar Nivel"
     concepts_covered: "Conceptos Cubiertos"
     view_guide_online: "Ver Guía En Línea(PDF)" # {change}
-#    lesson_slides: "Lesson Slides"
+    lesson_slides: "Diapositivas de la lección"
     grants_lifetime_access: "Otorgar derecho de acceso a todos los cursos."
     enrollment_credits_available: "Créditos de Inscripción Disponibles :" # {change}
     language_select: "Seleccionar Lenguaje" # ClassroomSettingsModal
@@ -1750,20 +1750,20 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     no_classrooms_found: "No se encontraron sulas"
     create_classroom_manually: "Crear un aula manualmente"
     classes: "Clases"
-#    certificate_btn_print: "Print"
+    certificate_btn_print: "Imprimir"
 #    certificate_btn_toggle: "Toggle"
-#    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
-#    set_start_locked_level: "Lock levels starting at"
-#    no_level_limit: "-- (no levels locked)"
-#    ask_teacher_to_unlock: "Ask Teacher To Unlock"
-#    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen"
-#    play_next_level: "Play Next Level"
-#    play_tournament: "Play Tournament"
-#    levels_completed: "Levels Completed: __count__"
-#    ai_league_team_rankings: "AI League Team Rankings"
-#    view_standings: "View Standings"
-#    view_winners: "View Winners"
-#    classroom_announcement: "Classroom Announcement"
+    ask_next_course: "¿Quieres jugar más? Pregúntale a tu profesor para acceder al próximo curso."
+    set_start_locked_level: "Bloquear niveles a partir de"
+    no_level_limit: "-- (no hay niveles bloqueados)"
+    ask_teacher_to_unlock: "Pide al maestro que desbloquee"
+    ask_teacher_to_unlock_instructions: "Para jugar al siguiente nivel, pídele a tu profesor que lo desbloquee en la pantalla de progreso del curso."
+    play_next_level: "Juega al siguiente nivel"
+    play_tournament: "Torneo de juego"
+    levels_completed: "Niveles completados: __count__"
+    ai_league_team_rankings: "Clasificaciones de equipos de la AI League"
+    view_standings: "Ver clasificación"
+    view_winners: "Ver ganadores"
+    classroom_announcement: "Anuncio en el aula"
 
   project_gallery:
     no_projects_published: "¡Sé el primero en publicar un proyecto en este curso!"
