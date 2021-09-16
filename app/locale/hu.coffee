@@ -96,6 +96,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
 #    try_the_game: "Try the game"
     classroom_edition: "Tantermi változat:"
     learn_to_code: "Tanulj meg kódolni:"
@@ -250,6 +251,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    new: "New!"
 #    admin: "Admin"
 #    api_dashboard: "API Dashboard"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "Bezár"
@@ -289,7 +291,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
 #    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
 #    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details!"
+#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER."
 #    recommended_systems: "Is there a recommended browser and operating system?"
 #    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
 #    other_questions: "If you have any other questions, please __contact__."
@@ -1912,6 +1914,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     start_date: "Kezdő dátum:"
     end_date: "Befejező dátum:"
     get_enrollments_blurb: " Segítünk osztályod, iskolád vagy lakóterületed igényeire szabott megoldást találni!"
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
 #    how_to_apply_licenses_blurb_1: "When a teacher assigns a course to a student for the first time, we’ll automatically apply a license. Use the bulk-assign dropdown in your classroom to assign a course to selected students:"
 #    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a course?"
 #    how_to_apply_licenses_blurb_3: "Yes — go to the License Status tab in your classroom and click \"Apply License\" to any student who does not have an active license."
@@ -2427,9 +2431,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     watch_victory: "Kövesd a saját győzelmedet"
     defeat_the: "Győzd le"
     watch_battle: "Nézd meg a csatát"
+#    tournament_starts: "Tournament starts"
     tournament_started: ", elkezdve"
     tournament_ends: "A torna vége"
     tournament_ended: "A torna véget ért"
+#    tournament_results_published: ", results published"
     tournament_rules: "A torna szabályai"
     tournament_blurb_criss_cross: "Köss fogadásokat, építs ösvényeket, járj túl az ellenségeid eszén, szerezd meg a drágaköveket és szállj be a Criss-Cross bajnokságba! Nézd meg a részleteket"
     tournament_blurb_zero_sum: "Engedd ki a kódot a palackból és gyűjtsd az aranyat vagy légy a legjobb stratéga a vörös és kék varázslók tükrözős csatájában. A bajnokság március 27-én, pénteken kezdődik és április 6-án, hétfőn, délután 5 órakor (PDT) zárul. Küzdj a dicsőségért! Nézd meg a részleteket"
@@ -3218,6 +3224,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  outcomes:
+#    school_admin: "School Administrator"
+#    school_network: "School Network"
+#    school_subnetwork: "School Subnetwork"
+#    classroom: "Classroom"
+
 #  league:
 #    student_register_1: "Become the next AI Champion!"
 #    student_register_2: "Sign up, create your own team, or join other teams to start competing."
@@ -3313,6 +3325,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
 #    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
 #    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+#    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"
