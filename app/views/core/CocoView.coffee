@@ -303,7 +303,10 @@ module.exports = class CocoView extends Backbone.View
     modalOptions = {show: true, backdrop: if modalView.closesOnClickOutside then true else 'static'}
     if typeof modalView.closesOnEscape is 'boolean' and modalView.closesOnEscape is false # by default, closes on escape, i.e. if modalView.closesOnEscape = undefined
       modalOptions.keyboard = false
+    $('.modal-backdrop').remove()  # Hack: get rid of any extras that might be left over from mishandled Vue modals
     modalRef = $('#modal-wrapper .modal').modal(modalOptions)
+    # Hack: Vue modals don't know how to turn the background off because they never really close/destroy. Or maybe they just create two copies sometimes? So, if this is a Vue modal, hide its modal-backdrop
+    $('.modal-backdrop').toggleClass 'vue-modal', Boolean(modalView.VueComponent)
     modalRef.on 'hidden.bs.modal', @modalClosed
     modalRef.on 'shown.bs.modal', @modalShown
     window.currentModal = modalView
