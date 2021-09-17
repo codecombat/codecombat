@@ -250,7 +250,7 @@ export default Vue.extend({
             span= (org.progress.playtime / 3600).toFixed(1)
           = " "
           small coding hours
-    if org.progress.projects >= 1 + Math.min(100, Math.floor(0.02 * org.progress.stbudentsWithCode))
+    if org.progress.projects >= 1 + Math.min(100, Math.floor(0.02 * org.progress.studentsWithCode))
       h4 and expressed creativity by building
       .fakebar
         div
