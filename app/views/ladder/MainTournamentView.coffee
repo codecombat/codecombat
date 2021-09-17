@@ -77,6 +77,8 @@ module.exports = class MainLadderView extends RootView
     attrs = forms.formToObject($(e.target).closest('.editable-tournament-form'))
     attrs.startDate = moment(attrs.startDate).toISOString()
     attrs.endDate = moment(attrs.endDate).toISOString()
+    if attrs.resultsDate
+      attrs.resultsDate = moment(attrs.resultsDate).toISOString()
     Object.assign(@editableTournament, attrs)
     if @editableTournament.editing is 'new'
       $.ajax({
@@ -119,6 +121,7 @@ module.exports = class MainLadderView extends RootView
       state: 'disabled',
       startDate: new Date(),
       endDate: undefined,
+      resultsDate: undefined,
       editing: 'new'
     }
     @tournaments[@clan.get('name')].push(@editableTournament)

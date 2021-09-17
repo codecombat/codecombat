@@ -356,11 +356,11 @@ module.exports = class PlayLevelView extends RootView
 
   loadOpponentTeam: (myTeam) ->
     opponentSpells = []
-    for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
+    for spellTeam, spells of utils.teamSpells
       continue if spellTeam is myTeam or not myTeam
       opponentSpells = opponentSpells.concat spells
-    if (not @session.get('teamSpells')) and @otherSession?.get('teamSpells')
-      @session.set('teamSpells', @otherSession.get('teamSpells'))
+    if not @session.get('teamSpells')
+      @session.set('teamSpells', utils.teamSpells)
     opponentCode = @otherSession?.get('code') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells

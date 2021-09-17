@@ -156,7 +156,7 @@ module.exports = class SpectateLevelView extends RootView
       console.error("Team mismatch. Expected session one to be '#{myTeam}'. Got '#{@session.get('team')}'");
 
     opponentSpells = []
-    for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
+    for spellTeam, spells of utils.teamSpells
       continue if spellTeam is myTeam or not myTeam
       opponentSpells = opponentSpells.concat spells
 

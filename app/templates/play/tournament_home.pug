@@ -66,6 +66,9 @@ mixin edit-tournament-body(tournament)
       .input-group
         span.input-group-addon End Date
         input.form-control.input-endDate(type='datetime-local', style='width:300px;', value=view.formatTime(view.editableTournament.endDate), name='endDate')
+      .input-group
+        span.input-group-addon Results Date
+        input.form-control.input-resultsDate(type='datetime-local', style='width:300px;', value=view.formatTime(view.editableTournament.resultsDate), name='resultsDate')
       .input-group.btn-group
         input.form-control.input-cancel(type='button', value='Cancel')
         input.form-control.input-submit(type='button', value='Submit')

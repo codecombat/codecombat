@@ -5,6 +5,7 @@ Tournament = require 'models/Tournament'
 ModelModal = require 'views/modal/ModelModal'
 User = require 'models/User'
 LevelSession = require 'models/LevelSession'
+TournamentSubmission = require 'models/TournamentSubmission'
 store = require('core/store')
 silentStore = { commit: _.noop, dispatch: _.noop }
 CocoCollection = require 'collections/CocoCollection'
@@ -46,8 +47,10 @@ module.exports = class LeaderboardView extends CocoView
       ]
       @propsData.scoreType = 'arena'
     @rankings = []
+    @myRank = -1
+    @playerRankings = []
     @session = null
-    @dataObj = { rankings: @rankings, session: @session }
+    @dataObj = { myRank: @myRank, rankings: @rankings, session: @session, playerRankings: @playerRankings }
 
     @refreshLadder()
 
@@ -55,30 +58,9 @@ module.exports = class LeaderboardView extends CocoView
     super()
     if @leaderboards
       @session = @leaderboards.session
-      @rankings = _.map @leaderboards.topPlayers.models, (model, index) =>
-        if @tournament
-          return [
-            model.get('submittedCodeLanguage'),
-            index+1,
-            (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
-            model.get('wins'),
-            model.get('losses'),
-            ((model.get('wins') or 0) / (((model.get('wins') or 0) + (model.get('losses') or 0)) or 1) * 100).toFixed(2) + '%',
-            @getClanName(model),
-            @getAgeBracket(model),
-            model.get('creatorCountryCode')
-          ]
-        else
-          return [
-            model.get('submittedCodeLanguage'),
-            index+1,
-            (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
-            model.get('totalScore') * 100 | 0,
-            @getAgeBracket(model),
-            moment(model.get('submitDate')).fromNow().replace('a few ', ''),
-            model.get('_id')
-          ]
-
+      @myRank = +@leaderboards.myRank
+      @rankings = @mapRankings @leaderboards.topPlayers.models
+      @playerRankings = @mapRankings @nearbySessions()
     @afterRender()
     @
 
@@ -87,7 +69,9 @@ module.exports = class LeaderboardView extends CocoView
   afterRender: ->
     if @vueComponent
       @dataObj.rankings = @rankings
+      @dataObj.playerRankings = @playerRankings
       @dataObj.session = @session
+      @dataObj.myRank = @myRank
       @$el.find('#new-leaderboard-view').replaceWith(@vueComponent.$el)
     else
       if @vuexModule
@@ -126,6 +110,42 @@ module.exports = class LeaderboardView extends CocoView
     # ignore all further changes to the store, since the module has been unregistered.
     # may later want to just ignore mutations and actions to the page module.
 
+  nearbySessions: ->
+    nearby = @leaderboards.nearbySessions()
+    return [] unless nearby.length
+    if nearby[0].rank > @rankings.length + 1
+      return [{type: 'BLANK_ROW'}].concat nearby
+    else
+      delta = @rankings.length - nearby[0].rank + 1
+      return nearby.slice(delta)
+
+  mapRankings: (data ) ->
+    return _.map data, (model, index) =>
+      if model?.type == 'BLANK_ROW'
+        return model
+      if @tournament
+        return [
+          model.get('submittedCodeLanguage'),
+          index+1,
+          (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+          model.get('wins'),
+          model.get('losses'),
+          ((model.get('wins') or 0) / (((model.get('wins') or 0) + (model.get('losses') or 0)) or 1) * 100).toFixed(2) + '%',
+          @getClanName(model),
+          @getAgeBracket(model),
+          model.get('creatorCountryCode')
+        ]
+      else
+        return [
+          model.get('submittedCodeLanguage'),
+          model.rank || index+1,
+          (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+          model.get('totalScore') * 100 | 0,
+          @getAgeBracket(model),
+          moment(model.get('submitDate')).fromNow().replace('a few ', ''),
+          model.get('_id')
+        ]
+
   refreshLadder: (force) ->
     return if not force and not @league and (new Date() - 2*60*1000 < @lastRefreshTime)
     @lastRefreshTime = new Date()
@@ -162,13 +182,17 @@ module.exports = class LeaderboardView extends CocoView
   handleClickPlayerName: (id) ->
     if me.isAdmin()
       leaderboards = @leaderboards.topPlayers.models
-      player = new User _id: leaderboards[id].get('creator')
-      if @tournament
-        session = new LevelSession _id: leaderboards[id].get('levelSession')
-      else
-        session = new LevelSession _id: leaderboards[id].get('_id')
-      models = [session, player]
-      @openModalView new ModelModal models: models
+      sessionId = if @tournament then leaderboards[id].get('levelSession') else leaderboards[id].get('_id')
+      session = new LevelSession _id: sessionId
+      @supermodel.loadModel session
+      @listenToOnce session, 'sync', (_session) =>
+        models = [_session]
+        unless _session.get('source')?.name
+          playerId = if @tournament then leaderboards[id].get('owner') else leaderboards[id].get('creator')
+          models.push new User _id: playerId
+        if @tournament
+          models.push new TournamentSubmission _id: leaderboards[id].get('_id')
+        @openModalView new ModelModal models: models
     else if me.isTeacher()
       ;
     else
