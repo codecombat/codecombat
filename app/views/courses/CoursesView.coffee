@@ -231,6 +231,13 @@ module.exports = class CoursesView extends RootView
       @render?()
     )
 
+    academicaCS1CourseInstance = _.find(@courseInstances.models ? [], (ci) -> ci.get('_id') is '610047c74bc544001e26ea12')
+    if academicaCS1CourseInstance
+      academicaGlobalClassroom = _.find(@classrooms.models ? [], (c) -> c.get('_id') is '610047c673801a001f85fd43')
+      if not academicaGlobalClassroom and utils.getQueryVariable('autorefresh') isnt true
+        # Refresh so that we make sure we get this loaded
+        window.location.href = '/students?autorefresh=true'
+
     if not @classrooms.models.length
       @nextLevelInfo = courseAcronym: 'CS1'  # Don't both trying to figure out the next level for edge case of student with no classrooms
       @allCompleted = false
