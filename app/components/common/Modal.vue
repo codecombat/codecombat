@@ -68,6 +68,10 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
+// Turn off extra backdrop shadow
+.modal-backdrop.vue-modal {
+  display: none;
+}
 </style>
 
 <style lang="scss" scoped>
