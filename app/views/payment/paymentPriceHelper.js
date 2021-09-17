@@ -9,7 +9,7 @@ function getDisplayCurrency(currency) {
   return currency === 'usd' ? '$' : currency;
 }
 
-async function handleStudentLicenseCheckoutSession(options) {
+async function handleCheckoutSession(options) {
   const stripe = await getStripeLib()
   const sessionOptions = { ...options }
   try {
@@ -33,5 +33,5 @@ async function handleStudentLicenseCheckoutSession(options) {
 module.exports = {
   getDisplayUnitPrice,
   getDisplayCurrency,
-  handleStudentLicenseCheckoutSession,
+  handleCheckoutSession,
 };
