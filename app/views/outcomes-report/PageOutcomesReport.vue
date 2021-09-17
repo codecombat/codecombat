@@ -205,7 +205,7 @@ export default {
     },
 
     accountManager () {
-      if (me.isAdmin())
+      if (me.isAdmin() || /@codecombat\.com/i.test(me.get('email')))
         return { name: me.broadName(), email: me.get('email') }
       else
         return { email: 'schools@codecombat.com' }
