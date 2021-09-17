@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teachers_love_codecombat_subblurb: "In samenwerking met McREL International, een leider in op onderzoek gebaseerde begeleiding en evaluaties van educatieve technologie."
     top_banner_blurb: "Ouders, geef je kinderen een voorsprong door met begeleiding op maat van onze live leraren!"
     top_banner_summer_camp: "Inschrijven voor onze (Engelstalige) online coding camps kan vanaf nu. Een week lang online lessen vanaf € 199."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     try_the_game: "Probeer de game"
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
@@ -250,6 +251,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     new: "Nieuw!"
     admin: "Admin"
 #    api_dashboard: "API Dashboard"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "Sluiten"
@@ -289,7 +291,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
 #    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
 #    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details!"
+#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER."
 #    recommended_systems: "Is there a recommended browser and operating system?"
 #    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
 #    other_questions: "If you have any other questions, please __contact__."
@@ -1912,6 +1914,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     start_date: "startdatum:"
     end_date: "einddatum:"
     get_enrollments_blurb: " We helpen je met een op maat gemaakte oplossing voor jullie klas, school of gemeenschap."
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
     how_to_apply_licenses_blurb_1: "Als een leraar voor het eerst een cursus aan een leerling toewijst, voegen we automatisch een licentie toe. Gebruik de dropdown in je klas om de cursus aan meerdere leerlingen toe te wijzen:"
     how_to_apply_licenses_blurb_2: "Kan ik een licentie toepassen zonder een cursus toe te wijzen?"
     how_to_apply_licenses_blurb_3: "Ja — ga naar de Licentie Status tab in je klas en klik op \"Licentie toepassen\" bij een leerling die geen actieve licentie heeft."
@@ -2427,9 +2431,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     watch_victory: "Aanschouw je overwinning!"
     defeat_the: "Versla de"
     watch_battle: "Bekijk het gevecht"
+#    tournament_starts: "Tournament starts"
     tournament_started: ", begonnen"
     tournament_ends: "Toernooi eindigt"
     tournament_ended: "Toernooi geëindigd"
+#    tournament_results_published: ", results published"
     tournament_rules: "Toernooiregels"
     tournament_blurb_criss_cross: "Win biedingen, bouw paden, wees je tegenstander te slim af, pak edelstenen en verbeter je carrière in ons Criss-Cross toernooi! Zie de details"
     tournament_blurb_zero_sum: "Ontketen je code-creativiteit in goud verzamelen en veldslag tactieken in deze Alpine Mirror wedstrijd tussen de rode tovenaar en de blauwe tovenaar. Het toernooi is gestart op Vrijdag 27 maart en loopt tot Maandag 6 April om 17:00 PDT. Doe mee voor plezier en overwinning! Check de details"
@@ -3218,6 +3224,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  outcomes:
+#    school_admin: "School Administrator"
+#    school_network: "School Network"
+#    school_subnetwork: "School Subnetwork"
+#    classroom: "Classroom"
+
 #  league:
 #    student_register_1: "Become the next AI Champion!"
 #    student_register_2: "Sign up, create your own team, or join other teams to start competing."
@@ -3313,6 +3325,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
 #    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
 #    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+#    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"
@@ -3336,6 +3350,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    great_courses: "Great Courses included for"
 #    studentLicense_successful: "Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students."
 #    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
+#    homeSubscriptions_successful: "Congratulations! Your payment was successful. Your premium access will be available in few minutes."
 #    failed: "Your payment failed, please try again"
 #    session_week_1: "1 session/week"
 #    session_week_2: "2 sessions/week"
