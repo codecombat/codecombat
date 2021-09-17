@@ -3349,6 +3349,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     great_courses: 'Great Courses included for'
     studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students.'
     onlineClasses_successful: 'Congratulations! Your payment was successful. Our team will reach out to you with the next steps.'
+    homeSubscriptions_successful: 'Congratulations! Your payment was successful. Your premium access will be available in few minutes.'
     failed: 'Your payment failed, please try again'
     session_week_1: '1 session/week'
     session_week_2: '2 sessions/week'
