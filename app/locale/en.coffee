@@ -294,7 +294,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
     google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
     how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER." #{change}
+    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER." #
     recommended_systems: "Is there a recommended browser and operating system?"
     recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
     other_questions: "If you have any other questions, please __contact__."
@@ -3334,6 +3334,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
     join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
     join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
@@ -3358,6 +3360,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     great_courses: 'Great Courses included for'
     studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students.'
     onlineClasses_successful: 'Congratulations! Your payment was successful. Our team will reach out to you with the next steps.'
+    homeSubscriptions_successful: 'Congratulations! Your payment was successful. Your premium access will be available in few minutes.'
     failed: 'Your payment failed, please try again'
     session_week_1: '1 session/week'
     session_week_2: '2 sessions/week'

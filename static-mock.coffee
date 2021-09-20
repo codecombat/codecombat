@@ -28,6 +28,8 @@ exports.me =
   isOnPremiumServer: () -> false
   freeOnly: -> false
   isTarena: -> false
+  isILK: -> false
+  isTCode: -> false
   useTarenaLogo: -> false
   hideTopRightNav: -> false
   hideFooter: -> false

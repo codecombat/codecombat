@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teachers_love_codecombat_subblurb: "Bekerja sama dengan McREL International, pemimpin dalam panduan berbasis penelitian dan evaluasi teknologi pendidikan."
     top_banner_blurb: "Para orang tua, berikan anak Anda hadiah coding dan pengajaran yang dipersonalisasi dengan pengajar langsung kami!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     try_the_game: "Coba permainan"
     classroom_edition: "Edisi Ruang Kelas:"
     learn_to_code: "Belajar membuat kode:"
@@ -250,6 +251,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    new: "New!"
 #    admin: "Admin"
 #    api_dashboard: "API Dashboard"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "Tutup"
@@ -289,7 +291,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
 #    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
 #    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details!"
+#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER."
 #    recommended_systems: "Is there a recommended browser and operating system?"
 #    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
 #    other_questions: "If you have any other questions, please __contact__."
@@ -1912,6 +1914,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     start_date: "tanggal mulai:"
     end_date: "tanggal berakhir:"
     get_enrollments_blurb: " Kami membantu anda membangun solusi yang memenuhi kebutuhan kelas, sekolah, ataupun wilayah kamu."
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
     how_to_apply_licenses_blurb_1: "Ketika guru menetapkan kursus untuk siswa untuk pertamakali, kami secara otomatis menggunakan lisensi. Gunakan penetapan-masal tarik-turun di ruang kelasmu untuk menetapkan kursus untuk siswa yang terpilih:"
     how_to_apply_licenses_blurb_2: "Dapatkan saya menggunakan lisensi tanpa menetapkan ke sebuah kursus?"
     how_to_apply_licenses_blurb_3: "Ya - pergi ke label Status Lisensi di ruang kelasmu dan klik \"Pakai Lisensi\" ke siswa manapun yang tidak memiliki lisensi aktif."
@@ -2427,9 +2431,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     watch_victory: "Perhatikan kemenanganmu"
     defeat_the: "Kalahkan"
     watch_battle: "Tonton pertempurannya"
+#    tournament_starts: "Tournament starts"
     tournament_started: ", dimulai"
     tournament_ends: "Turnamen berakhir"
     tournament_ended: "Turnamen berakhir"
+#    tournament_results_published: ", results published"
     tournament_rules: "Aturan Turnamen"
     tournament_blurb_criss_cross: "Menangkan tawaran, membangun jalur, mengecoh lawan, raih permata, dan tingkatkan karier Anda di turnamen Criss-Cross kami! Lihat detailnya"
     tournament_blurb_zero_sum: "Bebaskan kreativitas coding Anda dalam taktik mengumpulkan emas dan bertempur dalam pertandingan cermin alpen antara penyihir merah dan penyihir biru. Turnamen dimulai pada hari Jumat, 27 Maret dan akan berlangsung hingga Senin, 6 April pukul 17.00 PDT. Bersainglah untuk bersenang-senang dan mulia! Lihat detailnya "
@@ -3218,6 +3224,12 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     license_type_full: "Kursus Lengkap"
     license_type_customize: "Sesuaikan Kursus"
 
+#  outcomes:
+#    school_admin: "School Administrator"
+#    school_network: "School Network"
+#    school_subnetwork: "School Subnetwork"
+#    classroom: "Classroom"
+
   league:
     student_register_1: "Menjadi Juara AI berikutnya!"
     student_register_2: "Daftar, buat tim Anda sendiri, atau gabung dengan tim lain untuk mulai berkompetisi."
@@ -3313,6 +3325,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
 #    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
 #    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+#    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
   tournament:
     mini_tournaments: "Turname Mini"
@@ -3336,6 +3350,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    great_courses: "Great Courses included for"
 #    studentLicense_successful: "Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students."
 #    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
+#    homeSubscriptions_successful: "Congratulations! Your payment was successful. Your premium access will be available in few minutes."
 #    failed: "Your payment failed, please try again"
 #    session_week_1: "1 session/week"
 #    session_week_2: "2 sessions/week"

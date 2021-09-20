@@ -58,7 +58,7 @@ module.exports = class CoursesView extends RootView
     super()
 
     @classCodeQueryVar = utils.getQueryVariable('_cc', false)
-    @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
+    @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course-instances", model: CourseInstance})
     @courseInstances.comparator = (ci) -> return parseInt(ci.get('classroomID'), 16) + utils.orderedCourseIDs.indexOf ci.get('courseID')
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
     @supermodel.loadCollection(@courseInstances, { cache: false })
@@ -242,6 +242,13 @@ module.exports = class CoursesView extends RootView
       @ownerNameMap[ownerID] = NameLoader.getName(ownerID) for ownerID in ownerIDs
       @render?()
     )
+
+    academicaCS1CourseInstance = _.find(@courseInstances.models ? [], (ci) -> ci.get('_id') is '610047c74bc544001e26ea12')
+    if academicaCS1CourseInstance
+      academicaGlobalClassroom = _.find(@classrooms.models ? [], (c) -> c.get('_id') is '610047c673801a001f85fd43')
+      if not academicaGlobalClassroom and utils.getQueryVariable('autorefresh') isnt true
+        # Refresh so that we make sure we get this loaded
+        window.location.href = '/students?autorefresh=true'
 
     if not @classrooms.models.length
       @nextLevelInfo = courseAcronym: 'CS1'  # Don't both trying to figure out the next level for edge case of student with no classrooms

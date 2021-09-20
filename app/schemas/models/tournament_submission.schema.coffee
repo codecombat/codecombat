@@ -12,7 +12,12 @@ _.extend TournamentSubmissionSchema.properties,
   levelSession: c.objectId()
   owner: c.objectId()
   submittedCode:
-    type: 'string'
+    type: 'object'
+    additionalProperties:
+      type: 'object'
+      additionalProperties:
+        type: 'string'
+        format: 'code'
   submittedCodeLanguage:
     type: 'string'
   wins:
@@ -31,6 +36,9 @@ _.extend TournamentSubmissionSchema.properties,
     minimum: 0
   meanStrength:
     type: 'number'
+  created: c.date
+    title: 'Created'
+    readOnly: true
   
 
 
