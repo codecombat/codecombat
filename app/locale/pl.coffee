@@ -327,7 +327,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     request_licenses: "Skontaktuj się z naszymi specjalistami po szczegóły."
     compete: "Ukończono!" # Course details page
     spectate: "Oglądaj" # Ladder page
-#    simulate_all: "Simulate All"
+    simulate_all: "Przetestuj wszystkie"
     players: "graczy" # Hover over a level on /play
     hours_played: "rozegranych godzin" # Hover over a level on /play
     items: "Przedmioty" # Tooltip on item shop button from /play
@@ -433,7 +433,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     sign_in_with_facebook: "Logowanie z Facebookiem"
     sign_in_with_gplus: "Logowanie z Google+"
     signup_switch: "Chcesz stworzyć konto?"
-#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
+    accounts_merge_confirmation: "Istnieje już konto z mailem z tego konta Google. Czy chciałbyś je połączyć?"
 
   signup:
     complete_subscription: "Subskrypcja minęla!"
@@ -442,7 +442,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     create_individual_header: "Stwórz konto prywatne"
     email_announcements: "Otrzymuj powiadomienia na e-mail o nowych poziomach i funkcjach w CodeCombat"
     sign_in_to_continue: "zaloguj się  lub utwórz konto, aby kontynuować."
-#    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
+    teacher_email_announcements: "Informuj mnie na bieżąco o nowych zasobach dla nauczycieli, programach nauczania i kursach!"
     creating: "Tworzenie konta..."
     sign_up: "Zarejestruj się"
     log_in: "Zaloguj się używając hasła"
@@ -511,19 +511,19 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     teacher_list_resource_hub_5: "po porady na temat organizacji zajęć, oraz wiele więcej!"
     teacher_additional_questions: "To wszystko! Jeśli potrzebujesz dodatkowej pomocy, albo chcesz nas o coś spytać napisz do __supportEmail__."
     dont_use_our_email_silly: "Nie wprowadzaj tu swojego adresu email! Wpisz tutaj adres email rodziców."
-#    want_codecombat_in_school: "Want to play CodeCombat all the time?"
-#    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
-#    eu_confirmation_place_of_processing: "Learn more about the possible risks"
-#    eu_confirmation_student: "If you are not sure, ask your teacher."
-#    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
-#    password_requirements: "8 to 64 characters with no repeating"
-#    invalid: "Invalid"
-#    invalid_password: "Invalid password"
-#    with: "with"
-#    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
-#    have_a_classcode: "Have a Class Code?"
-#    yes_i_have_classcode: "Yes, I have a Class Code!"
-#    enter_it_here: "Enter it here:"
+    want_codecombat_in_school: "Chcesz grać w CodeCombat przez cały czas?"
+    eu_confirmation: " Wyrażam zgodę na przechowywanie moich danych przez CodeCombat na serwerach w USA."
+    eu_confirmation_place_of_processing: "Dowiedz się więcej o możliwych zagrożeniach"
+    eu_confirmation_student: "Jeśli nie jesteś pewien, zapytaj swojego nauczyciela."
+    eu_confirmation_individual: "Jeśli nie chcesz, abyśmy przechowywali Twoje dane na amerykańskich serwerach, zawsze możesz grać anonimowo bez zapisywania swojego kodu.."
+    password_requirements: "8 do 64 znaków bez powtórzeń"
+    invalid: "Nieprawidłowy"
+    invalid_password: "Nieprawidłowe hasło"
+    with: "z"
+    want_to_play_codecombat: "Nie, nie mam, ale chcę zagrać w CodeCombat!"
+    have_a_classcode: "Posiadasz kod klasy?"
+    yes_i_have_classcode: "Tak, posiadam kod klasy!"
+    enter_it_here: "Wpisz go tutaj:"
 
   recover:
     recover_account_title: "Odzyskaj konto"
