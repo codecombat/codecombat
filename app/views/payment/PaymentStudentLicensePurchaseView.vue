@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { handleStudentLicenseCheckoutSession } from './paymentPriceHelper'
+import { handleCheckoutSession } from './paymentPriceHelper'
 
 export default {
   name: "PaymentStudentLicensePurchaseView",
@@ -94,7 +94,7 @@ export default {
         userId: me.get('_id'),
         totalAmount: this.totalPrice
       }
-      const { errMsg } = await handleStudentLicenseCheckoutSession(sessionOptions)
+      const { errMsg } = await handleCheckoutSession(sessionOptions)
       this.errMsg = errMsg
     }
   },

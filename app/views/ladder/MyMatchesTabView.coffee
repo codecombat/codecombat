@@ -17,11 +17,11 @@ module.exports = class MyMatchesTabView extends CocoView
   initialize: (options, @level, @sessions) ->
     @nameMap = {}
     @previouslyRankingTeams = {}
-    @matchesLimit = 92
+    @matchesLimit = 95
     @refreshMatches 20
 
   onLoadMoreMatches: ->
-    @matchesLimit ?= 92
+    @matchesLimit ?= 95
     @matchesLimit += 100
     @refreshMatches(10)
 

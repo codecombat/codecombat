@@ -205,6 +205,7 @@ module.exports = class CreateAccountModal extends ModalView
     store.registerModule('modal', TeacherSignupStoreModule)
 
   afterRender: ->
+    super()
     target = @$el.find('#teacher-signup-component')
     return unless target[0]
     if @teacherSignupComponent
