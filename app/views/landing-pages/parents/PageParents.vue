@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <page-parents-jumbotron :type="type" @cta-clicked="onScheduleAFreeClass"/>
+    <page-parents-jumbotron :type="type" :mainCtaButtonText="mainCtaButtonText(0)" :trialClassExperiment="trialClassExperiment" @cta-clicked="onClickMainCta"/>
 
     <div class="container-power-gameplay">
       <div class="container">
@@ -68,14 +68,14 @@
       </div>
     </div>
 
-    <div class="container-graphic-spacer sm-min-height-auto">
+    <div class="container-graphic-spacer sm-min-height-auto blue-fox-spacer">
     </div>
 
     <div class="container">
       <div class="row">
         <h1 class="text-center pixelated" style="padding: 0 5px;">Remote Learning That Works</h1>
         <div class="col-xs-12 video-container">
-          <div style="position: relative; padding-top: 56.25%;"><iframe src="https://iframe.videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e?preload=true&poster=https://videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg%3Ftime%3D2s&defaultTextTrack=en" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat online classes video"></iframe></div>
+          <div style="position: relative; padding-top: 56.25%;"><iframe :src="'https://iframe.videodelivery.net/' + videoId + '?preload=true&poster=https://videodelivery.net/' + videoId + '/thumbnails/thumbnail.jpg%3Ftime%3D2s&defaultTextTrack=en'" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat online classes video"></iframe></div>
         </div>
       </div>
     </div>
@@ -146,7 +146,7 @@
       </div>
     </div>
 
-    <button-schedule-free-class @click="onScheduleAFreeClass" />
+    <button-main-cta :buttonText="mainCtaButtonText(1)" :subtext="mainCtaSubtext(1)" @click="onClickMainCta" />
 
     <div class="container-graphic-spacer">
       <div class="container">
@@ -212,8 +212,11 @@
               v-if="showPricing"
             />
             <h1 class="pixelated">Course Offerings</h1>
-            <p style="margin: 0 auto;">
+            <p style="margin: 0 auto;" v-if="trialClassExperiment == 'trial-class'">
               With individual or small group class options and flexible scheduling available, this is the easiest way to get started in computer science.
+            </p>
+            <p style="margin: 0 auto;" v-else>
+              All classes feature private, individualized instruction. To enroll a group of students, contact <a href="mailto:classes@codecombat.com">classes@codecombat.com</a> for a custom plan.
             </p>
           </div>
         </div>
@@ -306,7 +309,7 @@
       </div>
     </div>
 
-    <button-schedule-free-class @click="onScheduleAFreeClass" />
+    <button-main-cta :buttonText="mainCtaButtonText(2)" :subtext="mainCtaSubtext(2)" @click="onClickMainCta" />
     <page-parents-section-premium v-if="showPricing" />
 
 
@@ -493,7 +496,7 @@
       </div>
     </div>
 
-    <button-schedule-free-class @click="onScheduleAFreeClass" />
+    <button-main-cta :buttonText="mainCtaButtonText(3)" :subtext="mainCtaSubtext(3)" @click="onClickMainCta" />
 
     <div class="container-graphic-spacer" style="margin: 20px;">
       <div class="container">
@@ -517,8 +520,11 @@
             <h4>
               How are instructors matched with my child?
             </h4>
-            <p>
+            <p v-if="trialClassExperiment == 'trial-class'">
               After the initial trial class, our team carefully matches our online instructors to each student based on their experience level, personality, interests, and schedule. Our team will work with you to improve your experience if you or your child doesn’t love learning with your instructor.
+            </p>
+            <p v-else>
+              Each of our instructors were hand-picked to represent CodeCombat and provide a fun and personalized learning experience tailored to each student. We believe that your child will enjoy learning with any of our instructors, but if for any reason you would like to change teachers, we are happy to accommodate.
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
@@ -581,7 +587,7 @@ import PageParentsSectionPremium from './PageParentsSectionPremium'
 import PageParentsJumbotron from './PageParentsJumbotron'
 import ModalTimetapSchedule from './ModalTimetapSchedule'
 import ModalTimetapConfirmation from './ModalTimetapConfirmation'
-import ButtonScheduleFreeClass from './ButtonScheduleFreeClass'
+import ButtonMainCta from './ButtonMainCta'
 import IconGem from './IconGem'
 import ButtonArrow from './ButtonArrow'
 import { mapGetters } from 'vuex'
@@ -595,7 +601,7 @@ export default {
     PageParentsSectionPremium,
     PageParentsJumbotron,
     ModalTimetapConfirmation,
-    ButtonScheduleFreeClass,
+    ButtonMainCta,
     IconGem,
     ButtonArrow
   },
@@ -683,8 +689,16 @@ export default {
       $("#student-outcome-carousel").carousel(frameNum)
     },
 
-    onScheduleAFreeClass () {
+    onClickMainCta () {
       this.trackCtaClicked()
+      if (this.trialClassExperiment == 'trial-class') {
+        this.onScheduleAFreeClass()
+      } else {
+        application.router.navigate('/payments/initial-online-classes-71#', { trigger: true })
+      }
+    },
+
+    onScheduleAFreeClass () {
       this.showTimetapModal = true
     },
 
@@ -745,6 +759,34 @@ export default {
       this.showTimetapConfirmationModal = true
 
       application.tracker.trackEvent('CodeCombat live class booked', { parentsPageType: this.type }, ['facebook'])
+    },
+
+    mainCtaButtonText (buttonNum) {
+      if (this.trialClassExperiment == 'trial-class') {
+        return 'Schedule a Free Class'
+      } else if (buttonNum === 0 || !buttonNum) {
+        return 'Try it Risk-Free'
+      } else if (buttonNum === 1) {
+        return 'Enroll Now'
+      } else if (buttonNum === 2) {
+        return 'Choose Your Plan'
+      } else if (buttonNum === 3) {
+        return 'Subscribe Now'
+      }
+    },
+
+    mainCtaSubtext (buttonNum) {
+      if (this.trialClassExperiment == 'trial-class') {
+        return ''
+      } else if (buttonNum === 0 || !buttonNum) {
+        return ''
+      } else if (buttonNum === 1) {
+        return '30-day 100% money-back guarantee'
+      } else if (buttonNum === 2) {
+        return ''
+      } else if (buttonNum === 3) {
+        return '30-day 100% money-back guarantee'
+      }
     }
   },
 
@@ -758,7 +800,39 @@ export default {
       if (/^zh/.test(me.get('preferredLanguage')) && me.get('country') == 'australia')
         return false  // Australia partner offering extended services for Chinese-language students
       return true
-    }
+    },
+
+    trialClassExperiment () {
+      let value = { 'true': 'trial-class', 'false': 'no-trial-class' }[this.$route.query['trial-class']]
+      if (!value) {
+        value = me.getExperimentValue('trial-class', null, 'no-trial-class')
+      }
+      if (!value && new Date(me.get('dateCreated')) < new Date('2021-09-21')) {
+        // Don't include users created before experiment start date
+        value = 'trial-class'
+      }
+      if (!value && this.type == 'live-classes') {
+        // Don't include users coming from kid-specific landing page
+        value = 'trial-class'
+      }
+      if (!value && !this.showPricing) {
+        // Don't include users where we aren't showing pricing
+        value = 'trial-class'
+      }
+      if (!value) {
+        value = ['trial-class', 'no-trial-class'][Math.floor(me.get('testGroupNumber') / 2) % 2]
+        me.startExperiment('trial-class', value, 0.5)
+      }
+      return value
+    },
+
+    videoId () {
+      if (this.trialClassExperiment == 'trial-class') {
+        return 'bb2e8bf84df5c2cfa0fcdab9517f1d9e'
+      } else {
+        return '3cba970325cb3c6df117c018f7862317'
+      }
+    },
   }
 }
 </script>
@@ -899,6 +973,16 @@ export default {
   min-height: 270px;
   pointer-events: none;
   overflow-x: hidden;
+}
+
+.container-graphic-spacer.blue-fox-spacer {
+  min-height: 210px;
+}
+
+@media screen and (max-width: 1200px) {
+  .container-graphic-spacer.blue-fox-spacer {
+    min-height: 30px;
+  }
 }
 
 .container-graphic-spacer img {
