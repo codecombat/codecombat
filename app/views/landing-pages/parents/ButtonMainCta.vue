@@ -7,10 +7,17 @@
             href="#"
             @click="$emit('click')"
           >
-            Schedule a Free Class
+            {{ buttonText }}
           </a>
         </div>
       </div>
+
+      <div class="row subtext" v-if="subtext">
+        <div class="col-lg-12 text-center">
+          {{ subtext }}
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -39,4 +46,28 @@ a:hover {
   text-decoration: none;
 }
 
+.subtext  {
+  margin-top: 15px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 300;
+  color: #131B25;
+}
+
 </style>
+
+<script>
+export default {
+  props: {
+    buttonText: {
+      type: String,
+      default: 'Schedule a Free Class'
+    },
+    subtext: {
+      type: String,
+      default: ''
+    }
+  }
+}
+</script>

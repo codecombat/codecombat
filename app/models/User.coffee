@@ -326,6 +326,32 @@ module.exports = class User extends CocoModel
         console.error "Couldn't save activity #{activityName}"
     })
 
+  startExperiment: (name, value, probability) ->
+    experiments = @get('experiments') ? []
+    return console.error "Already started experiment #{name}" if _.find experiments, name: name
+    return console.error "Invalid experiment name: #{name}" unless /^[a-z][\-a-z0-9]*$/.test name
+    return console.error "No experiment value provided" unless value?
+    return console.error "Probability should be between 0-1 if set" if probability? and not 0 <= probability <= 1
+    $.ajax
+      method: 'POST'
+      url: "/db/user/#{@id}/start-experiment"
+      data: {name, value, probability}
+      success: (attributes) =>
+        @set attributes
+      error: (jqxhr) ->
+        console.error "Couldn't start experiment #{name}:", jqxhr.responseJSON
+    experiment = name: name, value: value, startDate: new Date()  # Server date/save will be authoritative
+    experiment.probability = probability if probability?
+    experiments.push experiment
+    me.set 'experiments', experiments
+    experiment
+
+  getExperimentValue: (experimentName, defaultValue=null, defaultValueIfAdmin=null) ->
+    # Latest experiment to start with this experiment name wins, in the off chance we have multiple duplicate entries
+    defaultValue = defaultValueIfAdmin if defaultValueIfAdmin? and @isAdmin()
+    experiments = _.sortBy(@get('experiments') ? [], 'startDate').reverse()
+    _.find(experiments, name: experimentName)?.value ? defaultValue
+
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
