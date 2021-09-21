@@ -267,7 +267,7 @@ module.exports = class TeacherClassesView extends RootView
 
     if showOzariaEncouragementModal
       @openOzariaEncouragementModal()
-    else if !@trialRequest.get('properties')?.organization and !storage.load("seen-teacher-details-modal_#{me.get('_id')}")
+    else if !@trialRequest.get('properties')?.organization and !storage.load("seen-teacher-details-modal_#{me.get('_id')}") and not me.get('clientCreator') and 'apiclient' not in (me.get('permissions') ? [])
       @openTeacherDetailsModal()
       storage.save("seen-teacher-details-modal_#{me.get('_id')}", true)
     else if me.isTeacher() and not @classrooms.length and not me.isSchoolAdmin()
