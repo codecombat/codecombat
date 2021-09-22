@@ -97,7 +97,7 @@ _.extend UserSchema.properties,
       type: 'object'
       additionalProperties: false
       properties:
-        client: {type: c.objectId({description: 'APIClient with permissions on this user'})}
+        client: c.objectId({description: 'APIClient with permissions on this user'})
         access: {type: 'string', 'enum': ['read', 'grant', 'write', 'owner']}  # 'grant' permissions allow APIClients to grant licenses to a user
     format: 'hidden'
 
