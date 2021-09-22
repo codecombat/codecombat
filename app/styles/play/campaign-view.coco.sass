@@ -860,6 +860,9 @@ $gameControlMargin: 30px
           // http://easings.net/#easeOutBack plus tweaked a bit: http://cubic-bezier.com/#.11,.67,.08,1.42
           @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
 
+          &[data-campaign-slug='campaign-game-dev-3']
+            margin-top: 230px
+
           &:hover
             @include scale($campaignHoverScale)
 
@@ -916,6 +919,8 @@ $gameControlMargin: 30px
             &.campaign-web-dev-2
               background-position: -291px 0px
             &.campaign-game-dev-2
+              background-position: -628px 0px
+            &.campaign-game-dev-3
               background-position: -628px 0px
 
   #esports-arena
