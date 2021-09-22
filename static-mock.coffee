@@ -25,7 +25,6 @@ exports.me =
   displayName: () -> ''
   broadName: () -> ''
   get: (prop) -> props[prop]
-  isOnPremiumServer: () -> false
   freeOnly: -> false
   isTarena: -> false
   isILK: -> false
