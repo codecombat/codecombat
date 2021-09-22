@@ -198,10 +198,10 @@ petThangIDs = [
 ]
 
 premiumContent =
-  premiumHeroesCount: '12'
-  totalHeroesCount: '16'
-  premiumLevelsCount: '330'
-  freeLevelsCount: '100'
+  premiumHeroesCount: '15'
+  totalHeroesCount: '19'
+  premiumLevelsCount: '531'
+  freeLevelsCount: '5'
 
 normalizeFunc = (func_thing, object) ->
   # func could be a string to a function in this class
@@ -861,6 +861,40 @@ clanHeroes = [
   {clanId: '6137aab4e0bae40025bed266', clanSlug: 'team-ned', thangTypeOriginal: '6136fe7e9f1147002c1316b4', thangTypeSlug: 'ned-fulmer'}
 ]
 
+freeAccessLevels = [
+  { access: 'short', slug: 'dungeons-of-kithgard' }
+  { access: 'short', slug: 'gems-in-the-deep' }
+  { access: 'short', slug: 'shadow-guard' }
+  { access: 'short', slug: 'signs-and-portents' }  # Retroactively unlocks later on, doesn't really impact much
+  { access: 'short', slug: 'enemy-mine' }
+  { access: 'short', slug: 'true-names' }
+  { access: 'medium', slug: 'cell-commentary' }
+  { access: 'medium', slug: 'the-raised-sword' }
+  { access: 'medium', slug: 'kithgard-librarian' }
+  { access: 'medium', slug: 'the-prisoner' }
+  { access: 'medium', slug: 'fire-dancing' }
+  { access: 'medium', slug: 'haunted-kithmaze' }
+  { access: 'medium', slug: 'descending-further' }
+  { access: 'medium', slug: 'dread-door' }
+  { access: 'long', slug: 'hack-and-dash' }
+  { access: 'long', slug: 'cupboards-of-kithgard' }
+  { access: 'long', slug: 'known-enemy' }
+  { access: 'long', slug: 'master-of-names' }
+  { access: 'long', slug: 'the-final-kithmaze' }
+  { access: 'long', slug: 'kithgard-gates' }
+  { access: 'extended', slug: 'defense-of-plainswood' }
+  { access: 'extended', slug: 'winding-trail' }
+  # { access: 'short', slug: 'giants-gate' }  # Arenas: needed? Replayables?
+  { access: 'china-classroom', slug: 'forgetful-gemsmith' }
+  { access: 'china-classroom', slug: 'kounter-kithwise' }
+  { access: 'china-classroom', slug: 'crawlways-of-kithgard' }
+  { access: 'china-classroom', slug: 'illusory-interruption' }
+  { access: 'china-classroom', slug: 'careful-steps' }
+  { access: 'china-classroom', slug: 'long-steps' }
+  { access: 'china-classroom', slug: 'favorable-odds' }
+  # Concept challenges: needed?
+]
+
 module.exports = {
   activeAndPastArenas
   activeArenas
@@ -885,6 +919,7 @@ module.exports = {
   CSCourseIDs
   createLevelNumberMap
   extractPlayerCodeTag
+  freeAccessLevels
   findNextAssessmentForLevel
   findNextLevel
   formatDollarValue

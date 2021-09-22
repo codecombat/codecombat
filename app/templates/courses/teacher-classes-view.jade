@@ -142,12 +142,14 @@ mixin classRow(classroom)
         if classroom.get('members').length == 0
           +addStudentsButton(classroom)
         else
+          // TODO: next line has a race condition if classroom loads before courses. For now, made following logic handle nulls.
           - var courses = classroom.getSortedCourses().map(function(c) { return view.courses.get(c._id); });
           - var courseLabelsArray = view.helper.courseLabelsArray(courses);
           each trimCourse, index in classroom.getSortedCourses() || []
             - var course = view.courses.get(trimCourse._id);
             - var label = courseLabelsArray[index];
-            +progressDot(classroom, course, label)
+            if course
+              +progressDot(classroom, course, label)
       .view-class-arrow
         a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right.view-class-btn(data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Chevron")
 

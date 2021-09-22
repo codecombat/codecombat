@@ -426,7 +426,7 @@ module.exports = class CampaignView extends RootView
 
     @buildLevelScoreMap() unless @editorMode
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
-    if @campaign?.get('type') is 'hoc' or (me.isStudent() and not @courseInstance and not me.get('courseInstances')?.length and @campaign?.get('slug') is 'intro')
+    if @campaign?.get('type') is 'hoc' or (me.isStudent() and not @courseInstance and @campaign?.get('slug') is 'intro')
       application.setHocCampaign @campaign.get 'slug'
     else
       application.setHocCampaign ''
@@ -699,6 +699,7 @@ module.exports = class CampaignView extends RootView
 
   promptForSubscription: (slug, label) ->
     return console.log('Game dev HoC does not encourage subscribing.') if @campaign?.get('type') is 'hoc'
+    return console.log("Students shouldn't be prompted to subscribe") if me.isStudent()
     @endHighlight()
     @openModalView new SubscribeModal()
     # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
@@ -728,7 +729,7 @@ module.exports = class CampaignView extends RootView
       level.color = 'rgb(255, 80, 60)'
       unless @isClassroom() or @campaign?.get('type') is 'hoc'
         level.color = 'rgb(80, 130, 200)' if level.requiresSubscription
-        level.color = 'rgb(200, 80, 200)' if level.adventurer
+        #level.color = 'rgb(200, 80, 200)' if level.adventurer  # Disable adventurer stuff for now
 
       level.color = 'rgb(193, 193, 193)' if level.locked
       level.unlocksHero = _.find(level.rewards, 'hero')?.hero
@@ -824,7 +825,8 @@ module.exports = class CampaignView extends RootView
         continue if @campaign.levelIsAssessment(level) and @campaign.levelIsPractice(nextLevel)
 
         # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
-        if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
+        # 2021-09-21: disabling for now, guessing it doesn't work well and makes experiments harder
+        if false and nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
           unless (timesPointedOut = storage.load("pointed-out-#{nextLevel.slug}") or 0) > 3
             # We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
             dontPointTo = _.without dontPointTo, nextLevel.slug
@@ -833,7 +835,7 @@ module.exports = class CampaignView extends RootView
         # Should we point this level out?
         if not nextLevel.disabled and @levelStatusMap[nextLevel.slug] isnt 'complete' and nextLevel.slug not in dontPointTo and
         not nextLevel.replayable and (
-          me.isPremium() or not nextLevel.requiresSubscription or nextLevel.adventurer or
+          me.isPremium() or not nextLevel.requiresSubscription or #nextLevel.adventurer or  # Disable adventurer stuff for now
           _.any(subscriptionPrompts, (prompt) => nextLevel.slug is prompt.slug and not @levelStatusMap[prompt.unless])
         )
           nextLevel.next = true
@@ -1001,12 +1003,18 @@ module.exports = class CampaignView extends RootView
     if me.showChinaResourceInfo()
       freeAccessLevels =  ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'cell-commentary', 'true-names', 'kounter-kithwise', 'crawlways-of-kithgard', 'forgetful-gemsmith', 'illusory-interruption', 'favorable-odds', 'the-raised-sword', 'careful-steps', 'long-steps']
     else
-      freeAccessLevels =  ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'cell-commentary', 'kithgard-librarian', 'the-prisoner', 'fire-dancing', 'haunted-kithmaze', 'signs-and-portents', 'true-names']
-
-    requiresSubscription = level.requiresSubscription or (me.isOnPremiumServer() and not (level.slug in freeAccessLevels))
+      defaultAccess = if me.get('hourOfCode') or @campaign?.get('type') is 'hoc' or @campaign?.get('slug') is 'intro' then 'long' else 'short'
+      access = me.getExperimentValue 'home-content', defaultAccess
+      freeAccessLevels = (fal.slug for fal in utils.freeAccessLevels when _.any [
+        fal.access is 'short'
+        fal.access is 'medium' and access in ['medium', 'long', 'extended']
+        fal.access is 'long' and access in ['long', 'extended']
+        fal.access is 'extended' and access is 'extended'
+      ])
+      requiresSubscription = level.requiresSubscription or access isnt 'all' and level.slug not in freeAccessLevels
     canPlayAnyway = _.any([
       not @requiresSubscription
-      level.adventurer
+      #level.adventurer  # Disable adventurer stuff for now
       @levelStatusMap[level.slug]
       @campaign.get('type') is 'hoc'
     ])
@@ -1444,7 +1452,7 @@ module.exports = class CampaignView extends RootView
     isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
     if what is 'classroom-level-play-button'
-      isValidStudent = (me.isStudent() and me.get('courseInstances')?.length)
+      isValidStudent = me.isStudent() and (@courseInstance or (me.get('courseInstances')?.length and @campaign.get('slug') isnt 'intro'))
       isValidTeacher = me.isTeacher()
       return (isValidStudent or isValidTeacher) and not application.getHocCampaign()
 
