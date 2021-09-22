@@ -30,7 +30,7 @@
 
       width: {
         type: Number,
-        default: 230
+        default: 400
       },
 
       height: {
