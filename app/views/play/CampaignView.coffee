@@ -1001,6 +1001,8 @@ module.exports = class CampaignView extends RootView
     level = _.find _.values(@getLevels()), slug: levelSlug
 
     defaultAccess = if me.get('hourOfCode') or @campaign?.get('type') is 'hoc' or @campaign?.get('slug') is 'intro' then 'long' else 'short'
+    if new Date(me.get('dateCreated')) < new Date('2021-09-21')
+      defaultAccess = 'all'
     access = me.getExperimentValue 'home-content', defaultAccess
     freeAccessLevels = (fal.slug for fal in utils.freeAccessLevels when _.any [
       fal.access is 'short'
