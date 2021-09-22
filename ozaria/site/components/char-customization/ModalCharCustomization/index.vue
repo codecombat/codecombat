@@ -46,7 +46,7 @@
       thang: {
         scaleFactorX: 1,
         scaleFactorY: 1,
-        pos: { y: -38 }  // TODO: real cinematic hero values
+        pos: { y: -38 }
       }
     },
     'hero-e': {
@@ -55,18 +55,18 @@
       thang: {
         scaleFactorX: 1,
         scaleFactorY: 1,
-        pos: { y: -38 }  // TODO: real cinematic hero values
+        pos: { y: -38 }
       }
     },
-//    'hero-f': {
-//      buttonIcon: 'Replace HeroF icon',
-//      silhouetteImagePath: '/images/ozaria/char-customization/hero-f-idle.png',
-//      thang: {
-//        scaleFactorX: 1,
-//        scaleFactorY: 1,
-//        pos: { y: -38 }  // TODO: real cinematic hero values
-//      }
-//    }
+    'hero-f': {
+      buttonIcon: 'Replace HeroF icon',
+      silhouetteImagePath: '/images/ozaria/char-customization/hero-f-idle.png',
+      thang: {
+        scaleFactorX: 1,
+        scaleFactorY: 1,
+        pos: { y: -38 }
+      }
+    }
   }
 
  module.exports = Vue.extend({
@@ -290,7 +290,7 @@
                 :class="[slug === selectedHero ? 'selectedHero' : 'unselectedHero']"
               >
                 <img
-                  class="silhouette"
+                  :class="'silhouette ' + slug"
                   :src="silhouetteImagePath"
                 />
               </div>
@@ -429,6 +429,11 @@
 
 .silhouette
   height: 250px
+
+  &.hero-f
+    height: 200px
+    margin-top: 50px
+    margin-left: -30px
 
 .selectedHero > img
   border: 4px solid #4298f5
