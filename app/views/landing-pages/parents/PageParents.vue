@@ -807,7 +807,7 @@ export default {
       if (!value) {
         value = me.getExperimentValue('trial-class', null, 'no-trial-class')
       }
-      if (!value && new Date(me.get('dateCreated')) < new Date('2021-09-21')) {
+      if (!value && new Date(me.get('dateCreated')) < new Date('2021-09-22')) {
         // Don't include users created before experiment start date
         value = 'trial-class'
       }
