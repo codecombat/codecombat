@@ -85,7 +85,7 @@ _.extend UserSchema.properties,
       type: 'object'
       properties: {
         provider: c.objectId()
-        id: { type: 'string', description: 'The service provider\'s id for the user' }
+        id: { type: ['string', 'integer'], description: 'The service provider\'s id for the user' }
       }
     }
   }
