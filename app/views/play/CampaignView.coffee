@@ -1004,6 +1004,8 @@ module.exports = class CampaignView extends RootView
       freeAccessLevels =  ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'cell-commentary', 'true-names', 'kounter-kithwise', 'crawlways-of-kithgard', 'forgetful-gemsmith', 'illusory-interruption', 'favorable-odds', 'the-raised-sword', 'careful-steps', 'long-steps']
     else
       defaultAccess = if me.get('hourOfCode') or @campaign?.get('type') is 'hoc' or @campaign?.get('slug') is 'intro' then 'long' else 'short'
+      if new Date(me.get('dateCreated')) < new Date('2021-09-21')
+        defaultAccess = 'all'
       access = me.getExperimentValue 'home-content', defaultAccess
       freeAccessLevels = (fal.slug for fal in utils.freeAccessLevels when _.any [
         fal.access is 'short'
