@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     email_settings_url: "setările tale de email"
     email_description_suffix: " sau prin link-urile din email-urile care vi le trimitem, puteți să schimbați preferințele și să vâ dezabonați oricând."
     cost_title: "Cost"
-#    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Drepturi de autor și licențe"
     contributor_title: "Acord de licență Contributor"
     contributor_description_prefix: "Toți contribuitorii, atât pe site cât și pe GitHub-ul nostru, sunt supuși la"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    back_to_coco: "Back to CodeCombat"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

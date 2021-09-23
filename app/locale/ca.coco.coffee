@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     email_settings_url: "la teva configuració d'e-mail"
     email_description_suffix: "o mitjançant els enllaços als e-mails que t'enviem, pots canviar les teves preferències i donar-te de baixa fàcilment en qualsevol moment."
     cost_title: "Cost"
-    cost_description: "CodeCombat és gratuït per a tots els nivells bàsics, amb una subscripció de ${{price}} USD al mes per accedir a branques de nivells extra i {{gems}} bonus de gemmes al mes. Pots cancel·lar-ho amb un clic i oferim una garantia de devolució del 100%."
+    cost_description: "CodeCombat és gratuït per a tots els nivells bàsics, amb una subscripció de ${{price}} USD al mes per accedir a branques de nivells extra i {{gems}} bonus de gemmes al mes. Pots cancel·lar-ho amb un clic i oferim una garantia de devolució del 100%." # {change}
     copyrights_title: "Copyrights i Llicències"
     contributor_title: "Acord de Llicència de Col·laborador (CLA)"
     contributor_description_prefix: "Tots els col·laboradors, tant del lloc com del repositori GitHub, estan subjets al nostre"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    back_to_coco: "Back to CodeCombat"
 
   hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
     page_heading: "Ensenya als teus alumnes com construir el seu propi joc d'arcade!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     point4: "✓ Cursos basats en Projectes"
     point5: "✓ Seguiment de l'Alumnat"
     point6: "✓ Planificació de Lliçons complertes"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

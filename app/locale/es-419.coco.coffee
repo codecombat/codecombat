@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     email_settings_url: "tus opciones de mail"
     email_description_suffix: "o mediante links en los mails que mandamos, tu puedas cambiar tus preferencias y fácilmente desuscribirte en cualquier momento."
     cost_title: "Costo"
-    cost_description: "CodeCombat es gratuito para todos sus niveles principales, con una suscripción de ${{price}} USD/mes con acceso a niveles adicionales y un bonus de {{gems}} gemas cada mes. Puedes cancelar con un click y ofrecemos una garantía del 100%."
+    cost_description: "CodeCombat es gratuito para todos sus niveles principales, con una suscripción de ${{price}} USD/mes con acceso a niveles adicionales y un bonus de {{gems}} gemas cada mes. Puedes cancelar con un click y ofrecemos una garantía del 100%." # {change}
     copyrights_title: "Derechos y Licencias"
     contributor_title: "Contributor License Agreement"
     contributor_description_prefix: "Todas las Contribuciones, tanto en el website como en nuestro Repositorio GitHub, estan sujetos a nuestra aprobación."
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    back_to_coco: "Back to CodeCombat"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
