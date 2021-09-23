@@ -23,7 +23,7 @@ if showAmazonLogo
     button.btn.btn-small.btn-illustrated.btn-success#fill-solution
       span(data-i18n="play_level.fill_in_solution")
 
-  if view.hintsState && view.hintsState.get('total') > 0 && (me.get('clientCreator') != '60fa65059e17ca0019950fdd' || view.options.level.get('slug') == 'kithgard-librarian')
+  if view.hintsState && view.hintsState.get('total') > 0 && (me.get('clientCreator') != '60fa65059e17ca0019950fdd' || view.options.level.get('slug') == 'kithgard-librarian' || view.options.level.get('type').match('ladder'))
     .btn.btn-small.btn-illustrated.hints-button
       span(data-i18n="play_level.hints")
 
