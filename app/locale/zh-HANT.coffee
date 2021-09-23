@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     unsubscribing: "取消訂閱中…" # {change}
     subscribe_prepaid: "點擊訂閱來使用預付代碼"
     using_prepaid: "使用預付費代碼進行每月訂閱"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
 #    feature_heroes: "Unlock exclusive heroes and pets"
 #    feature_learn: "Learn to make games and websites"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     email_settings_url: "在您的郵件設定"
     email_description_suffix: "或在我們送出的信件上都有留著我們的聯結，您可以更改您的喜好並且輕易的隨時取消訂閱。"
     cost_title: "花費"
-    cost_description: "CodeCombat在核心的關卡是全部免費，但只要花費一個月${{price}}美金來訂閱，您將在每個月取得額外的關卡和{{gems}}顆寶石。您可以輕易地取消訂閱並且保證取得100%的退費。"
+    cost_description: "CodeCombat在核心的關卡是全部免費，但只要花費一個月${{price}}美金來訂閱，您將在每個月取得額外的關卡和{{gems}}顆寶石。您可以輕易地取消訂閱並且保證取得100%的退費。" # {change}
     copyrights_title: "版權和許可"
     contributor_title: "貢獻者許可協議"
     contributor_description_prefix: "所有在本網站或是 GitHub 程式碼庫上的貢獻都依照我們的"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    back_to_coco: "Back to CodeCombat"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

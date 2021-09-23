@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     email_settings_url: "dina mejlinställningar"
     email_description_suffix: "eller genom länkar i mejlen vi skickar kan du ändra dina inställningar och lätt avprenumerera när som helst."
     cost_title: "Kostnad"
-#    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Upphovsrätt och licenser"
     contributor_title: "Överenskommelse för bidragarlicens"
     contributor_description_prefix: "Alla bidrag, både på sajten och på vårt GitHub-repo, faller under vår"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    back_to_coco: "Back to CodeCombat"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

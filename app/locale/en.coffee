@@ -2827,7 +2827,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     email_settings_url: "your email settings"
     email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
     cost_title: "Cost"
-    cost_description: "CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee." # {change}
+    cost_description: "CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Copyrights and Licenses"
     contributor_title: "Contributor License Agreement"
     contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"
