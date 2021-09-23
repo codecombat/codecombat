@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    back_to_coco: "Back to CodeCombat"
 
   hoc_2018:
-    banner: "Fijne Computer Science Education Week 2018!" # {change}
+    banner: "Fijne Computer Science Education Week!" # {change}
     page_heading: "Leer je leerlingen hoe ze hun eigen arcadespel kunnen bouwen!" # {change}
     step_1: "Stap 1: bekijk video-overzicht"
     step_2: "Stap 2: Probeer het zelf"
@@ -3164,7 +3164,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    acronym: "HOC"
 
   hoc_2018_interstitial:
-    welcome: "Welkom bij CodeCombat's Hour of Code 2018!" # {change}
+    welcome: "Welkom bij CodeCombat's Hour of Code!" # {change}
     educator: "Ik ben een onderwijzer"
     show_resources: "Laat me de leraren-informatie zien!"
     student: "Ik ben een student"
