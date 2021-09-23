@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     unsubscribing: "Leiratkozás"
     subscribe_prepaid: "Az előre utalt előfizetési kód használatához kattints az Előfizetés lehetőségre"
     using_prepaid: "Előre utalt előfizetési kód használata havi előfizetéshez"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
 #    feature_heroes: "Unlock exclusive heroes and pets"
 #    feature_learn: "Learn to make games and websites"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     email_settings_url: "e-mail beállításokon keresztül"
     email_description_suffix: "vagy az e-mailben kapott linkek segítségével bármikor megváltoztathatod a beállításaidat és egyszerűen leiratkozhatsz."
     cost_title: "Ár"
-    cost_description: "A CodeCombat valamennyi alappályája ingyenes, {{price}} USD/hó előfizetés keretében azonban további szintek és pályák, illetve {{gems}} bónusz drágakövek érhetők el. Egy kattintással visszavonhatoó, és 100%-os pénzvisszatérítési garanciát vállalunk."
+    cost_description: "A CodeCombat valamennyi alappályája ingyenes, {{price}} USD/hó előfizetés keretében azonban további szintek és pályák, illetve {{gems}} bónusz drágakövek érhetők el. Egy kattintással visszavonhatoó, és 100%-os pénzvisszatérítési garanciát vállalunk." # {change}
     copyrights_title: "Copyright és licencek"
     contributor_title: "Támogatói licencszerződés"
     contributor_description_prefix: "Mind a webhelyünk, mind a GitHub tárhelyünk fejlesztésében való közreműkődés a"

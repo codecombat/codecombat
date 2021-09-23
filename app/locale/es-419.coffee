@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     email_settings_url: "tus opciones de mail"
     email_description_suffix: "o mediante links en los mails que mandamos, tu puedas cambiar tus preferencias y fácilmente desuscribirte en cualquier momento."
     cost_title: "Costo"
-    cost_description: "CodeCombat es gratuito para todos sus niveles principales, con una suscripción de ${{price}} USD/mes con acceso a niveles adicionales y un bonus de {{gems}} gemas cada mes. Puedes cancelar con un click y ofrecemos una garantía del 100%."
+    cost_description: "CodeCombat es gratuito para todos sus niveles principales, con una suscripción de ${{price}} USD/mes con acceso a niveles adicionales y un bonus de {{gems}} gemas cada mes. Puedes cancelar con un click y ofrecemos una garantía del 100%." # {change}
     copyrights_title: "Derechos y Licencias"
     contributor_title: "Contributor License Agreement"
     contributor_description_prefix: "Todas las Contribuciones, tanto en el website como en nuestro Repositorio GitHub, estan sujetos a nuestra aprobación."

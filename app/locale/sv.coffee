@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     email_settings_url: "dina mejlinställningar"
     email_description_suffix: "eller genom länkar i mejlen vi skickar kan du ändra dina inställningar och lätt avprenumerera när som helst."
     cost_title: "Kostnad"
-#    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Upphovsrätt och licenser"
     contributor_title: "Överenskommelse för bidragarlicens"
     contributor_description_prefix: "Alla bidrag, både på sajten och på vårt GitHub-repo, faller under vår"

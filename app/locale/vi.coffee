@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     unsubscribing: "Đang hủy gói dịch vụ"
     subscribe_prepaid: "Nhấn Subscribe để sử dụng mã mua hàng"
     using_prepaid: "Sử dụng mã mua hàng để mua gói dịch vụ tháng"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
 #    feature_heroes: "Unlock exclusive heroes and pets"
 #    feature_learn: "Learn to make games and websites"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     email_settings_url: "cài đặt email"
     email_description_suffix: "hoặc thông qua đường link chúng tôi gửi trong email, bạn có thể thay đổi tùy chỉnh cá nhân và dễ dàng ngừng nhận email bất cứ lúc nào."
     cost_title: "Chi phí"
-    cost_description: "CodeCombat cho phép chơi miễn phí những màn chơi chính, với gói dịch vụ ${{price}} USD/tháng bạn có thể chơi những màn chơi nâng cao với {{gems}} ngọc mỗi tháng. Bạn có thể hủy bỏ dịch vụ chỉ mới một click chuột, và chúng tôi cam kết hoàn trả tiền 100%."
+    cost_description: "CodeCombat cho phép chơi miễn phí những màn chơi chính, với gói dịch vụ ${{price}} USD/tháng bạn có thể chơi những màn chơi nâng cao với {{gems}} ngọc mỗi tháng. Bạn có thể hủy bỏ dịch vụ chỉ mới một click chuột, và chúng tôi cam kết hoàn trả tiền 100%." # {change}
     copyrights_title: "Bản Quyền và Giấy Phép"
     contributor_title: "Thỏa Thuận Giấy Phép của Người Đóng Góp"
     contributor_description_prefix: "Mọi người đóng góp, cả trên trang web lẫn trên GitHub repository, đều tuân theo thỏa thuận"

@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     unsubscribing: "מבטל מנוי"
     subscribe_prepaid: "לחצו על 'צור מנוי' כדי להשתמש בקוד בתשלום מראש"
     using_prepaid: "משתמש בקוד בתשלום מראש עבור מנוי חודשי"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
     feature_heroes: "פתיחה של גיבורים בלעדיים" # {change}
 #    feature_learn: "Learn to make games and websites"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     email_settings_url: "הגדרות הדואר האלקטרוני"
     email_description_suffix: "או דרך קישורים בהודעות שנשלח בדואר אלקטרוני, תוכלו לשנות את ההעדפות ולבטל מנוי בקלות בכל עת."
     cost_title: "עלות"
-    cost_description: "ניתן לשחק ב-CodeCombat בחינם בכל שלבי הליבה שלו, ובמחיר ${{price}} דולר לחודש ניתן לקבל מנוי עם גישה אל ענפי שלבים נוספים ובונוס של {{gems}} אבני חן כל חודש. תוכלו לבטל בלחיצה, ואנו מציעים 100% החזר כספי במקרה של בעיה במוצר."
+    cost_description: "ניתן לשחק ב-CodeCombat בחינם בכל שלבי הליבה שלו, ובמחיר ${{price}} דולר לחודש ניתן לקבל מנוי עם גישה אל ענפי שלבים נוספים ובונוס של {{gems}} אבני חן כל חודש. תוכלו לבטל בלחיצה, ואנו מציעים 100% החזר כספי במקרה של בעיה במוצר." # {change}
     copyrights_title: "זכויות ורישיונות"
     contributor_title: "הסכם רישיון לתורם"
     contributor_description_prefix: "כל התרומות, באתר ובמאגר ה-GitHub שלנו, כפופות"

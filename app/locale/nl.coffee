@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     email_settings_url: "jouw e-mail instellingen"
     email_description_suffix: "of via urls in de e-mails die wij verzenden, kun je jouw instellingen wijzigen en ten allen tijden uitschrijven."
     cost_title: "Kosten"
-    cost_description: "De kern-levels van CodeCombat zijn gratis door iedereen te spelen, en daarnaast krijg je voor ${{price}} USD/maand een abonnement waarmee je toegang hebt tot extra levens en je {{gems}} bonus gems per maand ontvangt. Met een druk op de knop ben je weer uitgeschreven, en we bieden 100% geld-terug garantie."
+    cost_description: "De kern-levels van CodeCombat zijn gratis door iedereen te spelen, en daarnaast krijg je voor ${{price}} USD/maand een abonnement waarmee je toegang hebt tot extra levens en je {{gems}} bonus gems per maand ontvangt. Met een druk op de knop ben je weer uitgeschreven, en we bieden 100% geld-terug garantie." # {change}
     copyrights_title: "Auteursrechten en licenties"
     contributor_title: "Licentieovereenkomst voor vrijwilligers"
     contributor_description_prefix: "Alle bijdragen, zowel op de website als op onze GitHub repository, vallen onder onze"

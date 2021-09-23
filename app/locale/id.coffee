@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     email_settings_url: "setelan email Anda"
     email_description_suffix: "atau melalui tautan di email yang kami kirim, Anda dapat mengubah preferensi dan berhenti berlangganan dengan mudah kapan saja."
     cost_title: "Biaya"
-    cost_description: "CodeCombat gratis dimainkan untuk semua level intinya, dengan langganan $ {{price}} USD / bln untuk akses ke cabang level ekstra dan {{gems}} permata bonus per bulan. Anda dapat membatalkan dengan klik, dan kami menawarkan jaminan uang kembali 100%. "
+    cost_description: "CodeCombat gratis dimainkan untuk semua level intinya, dengan langganan $ {{price}} USD / bln untuk akses ke cabang level ekstra dan {{gems}} permata bonus per bulan. Anda dapat membatalkan dengan klik, dan kami menawarkan jaminan uang kembali 100%. " # {change}
     copyrights_title: "Hak Cipta dan Lisensi"
     contributor_title: "Perjanjian Lisensi Kontributor"
     contributor_description_prefix: "Semua kontribusi, baik di situs dan di repositori GitHub kami, tunduk pada"

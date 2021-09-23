@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     email_settings_url: "setările tale de email"
     email_description_suffix: " sau prin link-urile din email-urile care vi le trimitem, puteți să schimbați preferințele și să vâ dezabonați oricând."
     cost_title: "Cost"
-#    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Drepturi de autor și licențe"
     contributor_title: "Acord de licență Contributor"
     contributor_description_prefix: "Toți contribuitorii, atât pe site cât și pe GitHub-ul nostru, sunt supuși la"

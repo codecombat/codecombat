@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     unsubscribing: "Abonnement wird gekündigt..."
     subscribe_prepaid: "Klicke auf abonnieren, um einen Prepaidcode zu benutzen"
     using_prepaid: "Benutze einen Prepaidcode für ein Monatsabo"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
     feature_heroes: "Schalte exklusive Helden frei" # {change}
     feature_learn: "Lerne die Erstellung von Websiten und Spielen"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     email_settings_url: "deiner E-Mail-Einstellungen"
     email_description_suffix: "oder durch von uns gesendete Links kannst du jederzeit deine Einstellungen ändern und Abonnements kündigen."
     cost_title: "Kosten"
-    cost_description: "Alle normalen Level von CodeCombat sind kostenlos spielbar, mit einem Abonnement von ${{price}} USD/Monat kann man extra Level Verzweigungen und {{gems}} Bonus Juwelen pro Monat. Du kannst das Abonnement mit nur einem Klick widerrufen und wir versprechen eine 100% Geld-zurück Garantie."
+    cost_description: "Alle normalen Level von CodeCombat sind kostenlos spielbar, mit einem Abonnement von ${{price}} USD/Monat kann man extra Level Verzweigungen und {{gems}} Bonus Juwelen pro Monat. Du kannst das Abonnement mit nur einem Klick widerrufen und wir versprechen eine 100% Geld-zurück Garantie." # {change}
     copyrights_title: "Copyrights und Lizenzen"
     contributor_title: "Contributor License Agreement"
     contributor_description_prefix: "Alle Beiträge, sowohl auf unserer Webseite als auch in unserem GitHub Repository, unterliegen unserer"

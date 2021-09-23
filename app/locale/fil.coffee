@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "Tagalog", englishDescription: "Filipino (Ph
 #    unsubscribing: "Unsubscribing"
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
 #    feature_heroes: "Unlock exclusive heroes and pets"
 #    feature_learn: "Learn to make games and websites"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Tagalog", englishDescription: "Filipino (Ph
     email_settings_url: "inyong email settings"
     email_description_suffix: "o sa mga links na nasa email na pinapadala namin as inyo, pwede nyong palitan at kahit kailan ay mag unsubscribe"
     cost_title: "Halaga"
-    cost_description: "Ang CodeCombat ay libre laruin sa lahat ng pangunahing Level ng laro, at may kaukulang bayad na ${{price}} USD kada buwan para magka-access sa mga extrang Level, mga sangay at {{gems}} na libreng gems kada buwan. Pwede niyo ikansela ng isang click lang, at nagbibigay kami ng '100% money-back guarantee'."
+    cost_description: "Ang CodeCombat ay libre laruin sa lahat ng pangunahing Level ng laro, at may kaukulang bayad na ${{price}} USD kada buwan para magka-access sa mga extrang Level, mga sangay at {{gems}} na libreng gems kada buwan. Pwede niyo ikansela ng isang click lang, at nagbibigay kami ng '100% money-back guarantee'." # {change}
     copyrights_title: "Pagmamay-ari at Lisensiya"
     contributor_title: "Kasunduan sa mga Mag-Aambag"
     contributor_description_prefix: "Lahat ng kontribusyon, parehas na nasa site at aming GitHub repository, are nasasaklaw ng aming"

@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     email_settings_url: "la teva configuració d'e-mail"
     email_description_suffix: "o mitjançant els enllaços als e-mails que t'enviem, pots canviar les teves preferències i donar-te de baixa fàcilment en qualsevol moment."
     cost_title: "Cost"
-    cost_description: "CodeCombat és gratuït per a tots els nivells bàsics, amb una subscripció de ${{price}} USD al mes per accedir a branques de nivells extra i {{gems}} bonus de gemmes al mes. Pots cancel·lar-ho amb un clic i oferim una garantia de devolució del 100%."
+    cost_description: "CodeCombat és gratuït per a tots els nivells bàsics, amb una subscripció de ${{price}} USD al mes per accedir a branques de nivells extra i {{gems}} bonus de gemmes al mes. Pots cancel·lar-ho amb un clic i oferim una garantia de devolució del 100%." # {change}
     copyrights_title: "Copyrights i Llicències"
     contributor_title: "Acord de Llicència de Col·laborador (CLA)"
     contributor_description_prefix: "Tots els col·laboradors, tant del lloc com del repositori GitHub, estan subjets al nostre"

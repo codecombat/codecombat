@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     unsubscribing: "Anulowanie subskrypcji"
     subscribe_prepaid: "Kliknij `Zapisz się`, aby użyć kodu prepaid"
     using_prepaid: "Używasz kodu prepaid dla miesięcznych subskrypcji"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
     feature_heroes: "Ekskluzywni bohaterowie" # {change}
     feature_learn: "Naucz się tworzyć gry i strony internetowe!"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     email_settings_url: "twoje ustawienia e-mail"
     email_description_suffix: "lub poprzez linki w e-mailach, które wysyłamy, możesz zmienić swoje ustawienia i w prosty sposób wypisać się z subskrypcji w dowolnym momencie."
     cost_title: "Koszty"
-    cost_description: "W CodeCombat możesz grać we wszystkie podstawowe poziomy za darmo, za ${{price}} USD/miesięcznie dostajesz dostęp do dodatkowych poziomów, oraz {{gems}} klejnotów co miesiąc. W każdej chwili możesz jednym kliknięciem zrezygnować, gwarantujemy 100% zwrotu niewykorzystanej sumy."
+    cost_description: "W CodeCombat możesz grać we wszystkie podstawowe poziomy za darmo, za ${{price}} USD/miesięcznie dostajesz dostęp do dodatkowych poziomów, oraz {{gems}} klejnotów co miesiąc. W każdej chwili możesz jednym kliknięciem zrezygnować, gwarantujemy 100% zwrotu niewykorzystanej sumy." # {change}
     copyrights_title: "Prawa autorskie i licencje"
     contributor_title: "Umowa licencyjna dla współtwórców (CLA)"
     contributor_description_prefix: "Wszyscy współtwórcy, zarówno ci ze strony jak i ci z GitHuba, podlegają naszemu"

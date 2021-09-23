@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     unsubscribing: "Am Abo chünde" # {change}
     subscribe_prepaid: "Klick Aboniere um en PrePaid Code izlöse"
     using_prepaid: "Bruch en PrePaid Code um en Monet zAboniere"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
 #    feature_heroes: "Unlock exclusive heroes and pets"
 #    feature_learn: "Learn to make games and websites"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     email_settings_url: "E-Mail Istellige"
     email_description_suffix: "oder dur d Links i de E-Mails wo mir schicked, chasch du jederziit dini Preferänze ändere und dich ganz eifach us de Mailing-Liste neh."
     cost_title: "Chöste"
-#    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+#    cost_description: "CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
 #    copyrights_title: "Copyrights and Licenses"
 #    contributor_title: "Contributor License Agreement"
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"

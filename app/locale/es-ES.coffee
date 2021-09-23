@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     unsubscribing: "Dando de baja..." # {change}
     subscribe_prepaid: "Haz clic en Suscríbete para utilizar un código de prepago"
     using_prepaid: "Utilizando código de prepago para suscripción mensual"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
 #    feature_heroes: "Unlock exclusive heroes and pets"
 #    feature_learn: "Learn to make games and websites"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     email_settings_url: "tus ajustes de correo electrónico"
     email_description_suffix: "o a través de los enlaces en los correos que te enviemos, puedes cambiar tus preferencias y darte de baja fácilmente en cualquier momento."
     cost_title: "Precio"
-    cost_description: "CodeCombat es un juego gratuito para todos sus niveles básicos, con una suscripción de ${{price}} USD al mes con acceso a niveles adicionales y un bonus de {{gems}} gemas al mes. Puedes cancelar con un clic, y ofrecemos una garantía de reembolso del 100%."
+    cost_description: "CodeCombat es un juego gratuito para todos sus niveles básicos, con una suscripción de ${{price}} USD al mes con acceso a niveles adicionales y un bonus de {{gems}} gemas al mes. Puedes cancelar con un clic, y ofrecemos una garantía de reembolso del 100%." # {change}
     copyrights_title: "Copyrights y Licencias"
     contributor_title: "Acuerdo de Licencia del Colaborador"
     contributor_description_prefix: "Todas las colaboraciones, tanto en la web como en nuestro repositorio de GitHub, están sujetas a nuestro"

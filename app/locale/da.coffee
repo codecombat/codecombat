@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     unsubscribing: "Afmelder"
     subscribe_prepaid: "Klik Abonnér at bruge en forudbetalte kode"
     using_prepaid: "Bruger forudbetalt kode til månedligt abonnement"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
 #    feature_heroes: "Unlock exclusive heroes and pets"
 #    feature_learn: "Learn to make games and websites"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     email_settings_url: "dine email-indstillinger"
     email_description_suffix: "eller via links i de e-mails vi sender, kan du ændre dine præferencer og nemt afmelde notifikationer når som helst."
     cost_title: "Pris"
-    cost_description: "CodeCombat er gratis at spille på alle grundlæggende baner, med et ${{price}} USD/måned abonnement der giver adgang til ekstra baner og {{gems}} bonus ædelstene hver måned. Du kan annullere med et klik, og vi tilbyder fuld reklamationsret."
+    cost_description: "CodeCombat er gratis at spille på alle grundlæggende baner, med et ${{price}} USD/måned abonnement der giver adgang til ekstra baner og {{gems}} bonus ædelstene hver måned. Du kan annullere med et klik, og vi tilbyder fuld reklamationsret." # {change}
     copyrights_title: "Ophavsret og licenser"
     contributor_title: "Bidragsyder Licensaftale"
     contributor_description_prefix: "Alle bidrag, både på webstedet og på vores GitHub repository, er genstand for vores"
