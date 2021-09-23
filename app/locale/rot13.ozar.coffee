@@ -3190,7 +3190,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     send: "Fraq Rznvy"
 
   hoc_2019:
-    heading: "Ubhe bs Pbqr 2020"
+    heading: "Ubhe bs Pbqr"
     start: "Fgneg Lbhe Wbhearl"
     create_a_class: "Perngr n pynff gb genpx lbhe fghqragf' cebterff naq rafher gurve ubhe bs pbqr tnzrf ner fnirq!"
     choose_language: "1. PUBBFR YNATHNTR"
@@ -3218,7 +3218,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     create_class_and_try_activity: "Perngr Pynff naq Gel Npgvivgl"
 
   hoc_2018:
-    banner: "Unccl Pbzchgre Fpvrapr Rqhpngvba Jrrx 2018!"
+    banner: "Unccl Pbzchgre Fpvrapr Rqhpngvba Jrrx!"
     page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!"
     step_1: "Fgrc 1: Jngpu Ivqrb Bireivrj"
     step_2: "Fgrc 2: Gel vg Lbhefrys"
@@ -3243,11 +3243,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     point4: "✓ Cebwrpg-onfrq pbhefrf"
     point5: "✓ Fghqrag genpxvat"
     point6: "✓ Shyy yrffba cynaf"
-    title: "UBHE BS PBQR 2018"
+    title: "UBHE BS PBQR"
     acronym: "UBP"
 
   hoc_2018_interstitial:
-    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2018!"
+    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr!"
     educator: "V'z na rqhpngbe"
     show_resources: "Fubj zr grnpure erfbheprf!"
     student: "V'z n fghqrag"

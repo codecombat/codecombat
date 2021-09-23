@@ -3194,7 +3194,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     send: "Send Email"
 
   hoc_2019:
-    heading: "Hour of Code 2020"
+    heading: "Hour of Code"
     start: "Start Your Journey"
     create_a_class: "Create a class to track your students' progress and ensure their hour of code games are saved!"
     choose_language: "1. CHOOSE LANGUAGE"
@@ -3222,7 +3222,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     create_class_and_try_activity: "Create Class and Try Activity"
 
   hoc_2018:
-    banner: "Happy Computer Science Education Week 2018!"
+    banner: "Happy Computer Science Education Week!"
     page_heading: "Your students will learn to code by building their own game!"
     step_1: "Step 1: Watch Video Overview"
     step_2: "Step 2: Try it Yourself"
@@ -3247,11 +3247,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     point4: "✓ Project-based courses"
     point5: "✓ Student tracking"
     point6: "✓ Full lesson plans"
-    title: "HOUR OF CODE 2018"
+    title: "HOUR OF CODE"
     acronym: "HOC"
 
   hoc_2018_interstitial:
-    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+    welcome: "Welcome to CodeCombat's Hour of Code!"
     educator: "I'm an educator"
     show_resources: "Show me teacher resources!"
     student: "I'm a student"

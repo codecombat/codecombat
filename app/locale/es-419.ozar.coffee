@@ -3217,7 +3217,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    create_class_and_try_activity: "Create Class and Try Activity"
 
   hoc_2018:
-    banner: "¡Feliz semana de la educación en ciencias de la computación de 2018!"
+    banner: "¡Feliz semana de la educación en ciencias de la computación!"
     page_heading: "¡Tus estudiantes aprenderán a programar diseñando su propio juego!"
     step_1: "Paso 1: Ve el video informativo"
     step_2: "Paso 2: Pruébalo"
@@ -3242,11 +3242,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     point4: "✓ Cursos basados en proyectos"
     point5: "✓ Seguimiento de estudiantes"
     point6: "✓ Planes de estudio completos"
-    title: "HORA DEL CÓDIGO 2018"
+    title: "HORA DEL CÓDIGO"
     acronym: "HDC"
 
   hoc_2018_interstitial:
-    welcome: "¡Te damos la bienvenida a la Hora del Código 2018 de CodeCombat!"
+    welcome: "¡Te damos la bienvenida a la Hora del Código de CodeCombat!"
     educator: "Soy educador"
     show_resources: "¡Muéstrame los recursos para maestros!"
     student: "Soy estudiante"

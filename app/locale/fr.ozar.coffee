@@ -3217,7 +3217,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    create_class_and_try_activity: "Create Class and Try Activity"
 
   hoc_2018:
-    banner: "Bonne Semaine de l'enseignement de l'informatique 2018 !"
+    banner: "Bonne Semaine de l'enseignement de l'informatique !"
     page_heading: "Apprenez à vos élèves à construire leur propre jeu d'arcade !" # {change}
     step_1: "Étape 1 : Regarder la vidéo Aperçu"
     step_2: "Étape 2 : Essayez-le vous-même"
@@ -3242,7 +3242,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     point4: "✓ Cours par projet"
     point5: "✓ Suivi des étudiants"
     point6: "✓ Plans de cours complets"
-    title: "HEURE DU CODE 2018"
+    title: "HEURE DU CODE"
 #    acronym: "HOC"
 
   hoc_2018_interstitial:
