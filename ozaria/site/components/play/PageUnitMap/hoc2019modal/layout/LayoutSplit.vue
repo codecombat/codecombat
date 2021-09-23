@@ -121,6 +121,7 @@ export default {
     letter-spacing: 0.48px;
     font-variant: normal;
     margin: 0;
+    text-align: center;
   }
 
   img.spirit-lands {
