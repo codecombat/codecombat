@@ -50,7 +50,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     faq_row2_p: "Ozaria is aligned to the CSTA and ISTE middle school CS standards, but has been practiced and enjoyed by students ranging from upper elementary through high school."
     faq_row3_header: "How much does it cost to access all of the available units and resources?"
     faq_row3_p_part1: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. "
-    faq_row3_p_part2: " for further details! We also provide a " #{change}
+    faq_row3_p_part2: " for further details! We also provide a " #
     faq_row3_p_part3: "funding resources guide"
     faq_row3_p_part4: " for school and district CS programs."
     faq_row4_header: "Does Ozaria have project-based learning?"
