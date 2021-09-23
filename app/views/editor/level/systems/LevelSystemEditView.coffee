@@ -45,6 +45,7 @@ module.exports = class LevelSystemEditView extends CocoView
     schema.default = _.pick schema.default, (value, key) => key in @editableSettings
 
     treemaOptions =
+      filePath: @options.filePath
       supermodel: @supermodel
       schema: schema
       data: data
@@ -62,6 +63,7 @@ module.exports = class LevelSystemEditView extends CocoView
 
   buildConfigSchemaTreema: ->
     treemaOptions =
+      filePath: @options.filePath
       supermodel: @supermodel
       schema: LevelSystem.schema.properties.configSchema
       data: $.extend true, {}, @levelSystem.get 'configSchema'

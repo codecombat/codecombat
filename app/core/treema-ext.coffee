@@ -60,6 +60,10 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
     ))
 
   onFileChosen: (InkBlob) =>
+    if not @settings.filePath
+      console.error('Need to specify a filePath for this treema', @getRoot())
+      throw Error('cannot upload file')
+
     body =
       url: InkBlob.url
       filename: InkBlob.filename
