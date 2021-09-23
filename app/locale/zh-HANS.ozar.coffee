@@ -51,7 +51,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    faq_row2_p: "Ozaria is aligned to the CSTA and ISTE middle school CS standards, but has been practiced and enjoyed by students ranging from upper elementary through high school."
 #    faq_row3_header: "How much does it cost to access all of the available units and resources?"
 #    faq_row3_p_part1: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. "
-#    faq_row3_p_part2: " for further details!"
+#    faq_row3_p_part2: " for further details! We also provide a "
+#    faq_row3_p_part3: "funding resources guide"
+#    faq_row3_p_part4: " for school and district CS programs."
 #    faq_row4_header: "Does Ozaria have project-based learning?"
 #    faq_row4_p: "Yes. Ozaria incorporates shareable Capstone Projects at the end of each Chapter, where students create their own games. These projects serve as summative assessments and are great ways for students to express themselves and demonstrate their learnings to classmates, friends, and family."
 #    faq_row5_header: "Can I use Ozaria as my class’s main curriculum?"
@@ -173,6 +175,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teachers_love_codecombat_subblurb: "数据来源于美国中洲国际教育研究院 (McREL International)，美国中洲国际教育研究院是教育技术研究指导和评估的领导者。"
 #    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
 #    top_banner_blurb_pd: "We now offer professional development for educators."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     try_the_game: "免费试玩"
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
@@ -298,6 +301,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    professional_development: "Professional Development"
 #    new: "New!"
     admin: "管理员"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "关闭"
@@ -3189,7 +3193,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     send: "发送邮件"
 
 #  hoc_2019:
-#    heading: "Hour of Code 2020"
+#    heading: "Hour of Code"
 #    start: "Start Your Journey"
 #    create_a_class: "Create a class to track your students' progress and ensure their hour of code games are saved!"
 #    choose_language: "1. CHOOSE LANGUAGE"
@@ -3217,7 +3221,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    create_class_and_try_activity: "Create Class and Try Activity"
 
   hoc_2018:
-#    banner: "Happy Computer Science Education Week 2018!"
+#    banner: "Happy Computer Science Education Week!"
     page_heading: "教你的学生如何建立自己的街机游戏!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3242,11 +3246,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     point4: "✓ 基于项目的课程"
     point5: "✓ 学生追踪"
     point6: "✓ 全部课程计划"
-#    title: "HOUR OF CODE 2018"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2018!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3353,6 +3357,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     end_date: "结束时间："
     license_questions: "使用和收回许可有疑问吗？ "
     need_more_licenses: "需要更多学习许可吗? 我们会为您的需求定制方案。 "
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
     support_oz: "china@codecombat.com"
     standards_alignment: "符合标准"
     standards_sample: "本章涉及的标准样例。"
