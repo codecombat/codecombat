@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     unsubscribing: "מבטל מנוי"
     subscribe_prepaid: "לחצו על 'צור מנוי' כדי להשתמש בקוד בתשלום מראש"
     using_prepaid: "משתמש בקוד בתשלום מראש עבור מנוי חודשי"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
     feature_heroes: "פתיחה של גיבורים בלעדיים" # {change}
 #    feature_learn: "Learn to make games and websites"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     email_settings_url: "הגדרות הדואר האלקטרוני"
     email_description_suffix: "או דרך קישורים בהודעות שנשלח בדואר אלקטרוני, תוכלו לשנות את ההעדפות ולבטל מנוי בקלות בכל עת."
     cost_title: "עלות"
-    cost_description: "ניתן לשחק ב-CodeCombat בחינם בכל שלבי הליבה שלו, ובמחיר ${{price}} דולר לחודש ניתן לקבל מנוי עם גישה אל ענפי שלבים נוספים ובונוס של {{gems}} אבני חן כל חודש. תוכלו לבטל בלחיצה, ואנו מציעים 100% החזר כספי במקרה של בעיה במוצר."
+    cost_description: "ניתן לשחק ב-CodeCombat בחינם בכל שלבי הליבה שלו, ובמחיר ${{price}} דולר לחודש ניתן לקבל מנוי עם גישה אל ענפי שלבים נוספים ובונוס של {{gems}} אבני חן כל חודש. תוכלו לבטל בלחיצה, ואנו מציעים 100% החזר כספי במקרה של בעיה במוצר." # {change}
     copyrights_title: "זכויות ורישיונות"
     contributor_title: "הסכם רישיון לתורם"
     contributor_description_prefix: "כל התרומות, באתר ובמאגר ה-GitHub שלנו, כפופות"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    back_to_coco: "Back to CodeCombat"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

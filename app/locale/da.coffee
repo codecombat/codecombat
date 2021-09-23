@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     unsubscribing: "Afmelder"
     subscribe_prepaid: "Klik Abonnér at bruge en forudbetalte kode"
     using_prepaid: "Bruger forudbetalt kode til månedligt abonnement"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
 #    feature_heroes: "Unlock exclusive heroes and pets"
 #    feature_learn: "Learn to make games and websites"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     email_settings_url: "dine email-indstillinger"
     email_description_suffix: "eller via links i de e-mails vi sender, kan du ændre dine præferencer og nemt afmelde notifikationer når som helst."
     cost_title: "Pris"
-    cost_description: "CodeCombat er gratis at spille på alle grundlæggende baner, med et ${{price}} USD/måned abonnement der giver adgang til ekstra baner og {{gems}} bonus ædelstene hver måned. Du kan annullere med et klik, og vi tilbyder fuld reklamationsret."
+    cost_description: "CodeCombat er gratis at spille på alle grundlæggende baner, med et ${{price}} USD/måned abonnement der giver adgang til ekstra baner og {{gems}} bonus ædelstene hver måned. Du kan annullere med et klik, og vi tilbyder fuld reklamationsret." # {change}
     copyrights_title: "Ophavsret og licenser"
     contributor_title: "Bidragsyder Licensaftale"
     contributor_description_prefix: "Alle bidrag, både på webstedet og på vores GitHub repository, er genstand for vores"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    back_to_coco: "Back to CodeCombat"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

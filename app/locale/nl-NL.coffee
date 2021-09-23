@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     email_settings_url: "jouw e-mail instellingen"
     email_description_suffix: "of via urls in de e-mails die wij verzenden, kun je jouw instellingen wijzigen en ten allen tijden uitschrijven."
     cost_title: "Kosten"
-    cost_description: "De kern-levels van CodeCombat zijn gratis door iedereen te spelen, en daarnaast krijg je voor ${{price}} USD/maand een abonnement waarmee je toegang hebt tot extra levens en je {{gems}} bonus gems per maand ontvangt. Met een druk op de knop ben je weer uitgeschreven, en we bieden 100% geld-terug garantie."
+    cost_description: "De kern-levels van CodeCombat zijn gratis door iedereen te spelen, en daarnaast krijg je voor ${{price}} USD/maand een abonnement waarmee je toegang hebt tot extra levens en je {{gems}} bonus gems per maand ontvangt. Met een druk op de knop ben je weer uitgeschreven, en we bieden 100% geld-terug garantie." # {change}
     copyrights_title: "Auteursrechten en licenties"
     contributor_title: "Licentieovereenkomst voor vrijwilligers"
     contributor_description_prefix: "Alle bijdragen, zowel op de website als op onze GitHub repository, vallen onder onze"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    back_to_coco: "Back to CodeCombat"
 
   hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
     page_heading: "Leer je leerlingen hoe ze hun eigen arcadespel kunnen bouwen!" # {change}
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     point4: "✓ Projectgebaseerde lessen"
     point5: "✓ Leerling-volgsysteem"
     point6: "✓ Volledige lesplannen"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
