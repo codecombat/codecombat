@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    back_to_coco: "Back to CodeCombat"
 
   hoc_2018:
-    banner: "Добро пожаловать в час кода 2019!" # {change}
+    banner: "Добро пожаловать в час кода!" # {change}
     page_heading: "Ваши ученики будут учиться программировать, создавая свою собственную игру"
     step_1: "Шаг 1: Посмотри вводное видео"
     step_2: "Шаг 2: Попробуй сам"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     point4: "✓ Курсы, основаны на проектах"
     point5: "✓ Отслеживай процесс студентов"
     point6: "✓ Полный учебный план"
-    title: "Час кода 2019" # {change}
+    title: "Час кода" # {change}
     acronym: "ЧК"
 
   hoc_2018_interstitial:
-    welcome: "Добро пожаловать в час кода 2019 на CodeCombat!" # {change}
+    welcome: "Добро пожаловать в час кода на CodeCombat!" # {change}
     educator: "Я педагог"
     show_resources: "Покажите мне информацию для учителя!"
     student: "Я ученик"

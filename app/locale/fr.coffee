@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    back_to_coco: "Back to CodeCombat"
 
   hoc_2018:
-    banner: "Bonne Semaine de l'enseignement de l'informatique 2018 !" # {change}
+    banner: "Bonne Semaine de l'enseignement de l'informatique !" # {change}
     page_heading: "Apprenez à vos élèves à construire leur propre jeu d'arcade !" # {change}
     step_1: "Étape 1 : Regarder la vidéo Aperçu"
     step_2: "Étape 2 : Essayez-le vous-même"
@@ -3160,7 +3160,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     point4: "✓ Cours par projet"
     point5: "✓ Suivi des étudiants"
     point6: "✓ Plans de cours complets"
-    title: "HEURE DU CODE 2018" # {change}
+    title: "HEURE DU CODE" # {change}
 #    acronym: "HOC"
 
   hoc_2018_interstitial:
