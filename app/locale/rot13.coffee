@@ -3134,7 +3134,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     back_to_coco: "Onpx gb PbqrPbzong"
 
   hoc_2018:
-    banner: "Jrypbzr gb Ubhe bs Pbqr 2020!" #
+    banner: "Jrypbzr gb Ubhe bs Pbqr!" #
     page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!"
     step_1: "Fgrc 1: Jngpu Ivqrb Bireivrj"
     step_2: "Fgrc 2: Gel vg Lbhefrys"
@@ -3159,11 +3159,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     point4: "✓ Cebwrpg-onfrq pbhefrf"
     point5: "✓ Fghqrag genpxvat"
     point6: "✓ Shyy yrffba cynaf"
-    title: "UBHE BS PBQR 2020" #
+    title: "UBHE BS PBQR" #
     acronym: "UBP"
 
   hoc_2018_interstitial:
-    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr 2020!" #
+    welcome: "Jrypbzr gb PbqrPbzong'f Ubhe bs Pbqr!" #
     educator: "V'z na rqhpngbe"
     show_resources: "Fubj zr grnpure erfbheprf!"
     student: "V'z n fghqrag"
