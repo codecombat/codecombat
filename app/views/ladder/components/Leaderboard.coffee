@@ -140,7 +140,7 @@ module.exports = class LeaderboardView extends CocoView
           model.get('submittedCodeLanguage'),
           model.rank || index+1,
           (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
-          model.get('totalScore') * 100 | 0,
+          @correctScore(model),
           @getAgeBracket(model),
           moment(model.get('submitDate')).fromNow().replace('a few ', ''),
           model.get('_id')
@@ -213,3 +213,7 @@ module.exports = class LeaderboardView extends CocoView
 
   getAgeBracket: (model) ->
     $.i18n.t("ladder.bracket_#{(model.get('ageBracket') || 'open').replace(/-/g, '_')}")
+
+  correctScore: (model) ->
+    sessionStats = if @league then _.find(model.get('leagues'), {leagueID: @league.id})?.stats else model.attributes
+    return (sessionStats?.totalScore || model.get('totalScore')/2) * 100 | 0
