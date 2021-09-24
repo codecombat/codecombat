@@ -223,8 +223,10 @@
         }
       },
       classForRow (row) {
-        if (row[0] === this.session.get('creator')) {
-          return 'my-row'
+        if(this.session) {
+          if (row[0] === this.session.get('creator')) {
+            return 'my-row'
+          }
         }
         if (window.location.pathname === '/league' && row.fullName) {
           return 'student-row'
