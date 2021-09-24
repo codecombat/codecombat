@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     email_settings_url: "налаштування Вашого email"
     email_description_suffix: "або через посилання в повідомленнях, котрі ми присилаємо, Ви можете змінити свої уподобання і легко відмовитись від підписки в будь-який час."
     cost_title: "Вартість"
-    cost_description: "CodeCombat є безкоштовною для всіх на базових рівнях, з підпискою за {{price}}$/місяць для доступу до додаткових рівнів та {{gems}} бонусних самоцвітів в місяць. В можете скасувати підписку одним кліком, і ми гарантуємо 100% повернення грошей."
+    cost_description: "CodeCombat є безкоштовною для всіх на базових рівнях, з підпискою за {{price}}$/місяць для доступу до додаткових рівнів та {{gems}} бонусних самоцвітів в місяць. В можете скасувати підписку одним кліком, і ми гарантуємо 100% повернення грошей." # {change}
     copyrights_title: "Авторські права та ліцензії"
     contributor_title: "Авторська ліцензійна згода"
     contributor_description_prefix: "Усі права, як на сайті так і у нашому сховищі GitHub, є у відповідності з нашими"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    back_to_coco: "Back to CodeCombat"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

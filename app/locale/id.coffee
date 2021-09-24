@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     email_settings_url: "setelan email Anda"
     email_description_suffix: "atau melalui tautan di email yang kami kirim, Anda dapat mengubah preferensi dan berhenti berlangganan dengan mudah kapan saja."
     cost_title: "Biaya"
-    cost_description: "CodeCombat gratis dimainkan untuk semua level intinya, dengan langganan $ {{price}} USD / bln untuk akses ke cabang level ekstra dan {{gems}} permata bonus per bulan. Anda dapat membatalkan dengan klik, dan kami menawarkan jaminan uang kembali 100%. "
+    cost_description: "CodeCombat gratis dimainkan untuk semua level intinya, dengan langganan $ {{price}} USD / bln untuk akses ke cabang level ekstra dan {{gems}} permata bonus per bulan. Anda dapat membatalkan dengan klik, dan kami menawarkan jaminan uang kembali 100%. " # {change}
     copyrights_title: "Hak Cipta dan Lisensi"
     contributor_title: "Perjanjian Lisensi Kontributor"
     contributor_description_prefix: "Semua kontribusi, baik di situs dan di repositori GitHub kami, tunduk pada"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     back_to_coco: "Kembali ke CodeCombat"
 
   hoc_2018:
-    banner: "Selamat Datang di Hour of Code 2020!"
+    banner: "Selamat Datang di Hour of Code!"
     page_heading: "Siswa Anda akan belajar membuat kode dengan membuat game mereka sendiri!"
     step_1: "Langkah 1: Tonton Video Ikhtisar"
     step_2: "Langkah 2: Coba Sendiri"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     point4: "✓ Kursus berbasis proyek"
     point5: "✓ Pelacakan siswa"
     point6: "✓ Rencana pelajaran lengkap"
-    title: "HOUR OF CODE 2020"
+    title: "HOUR OF CODE"
     acronym: "HOC"
 
   hoc_2018_interstitial:
-    welcome: "Selamat datang di CodeCombat's Hour of Code 2020!"
+    welcome: "Selamat datang di CodeCombat's Hour of Code!"
     educator: "Saya seorang pendidik"
     show_resources: "Tunjukkan sumber daya guru!"
     student: "Saya seorang siswa"

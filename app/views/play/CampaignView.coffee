@@ -927,7 +927,7 @@ module.exports = class CampaignView extends RootView
     return if 0.2 < fraction < 0.8
     direction = if fraction < 0.5 then 1 else -1
     magnitude = 0.2 * bodyWidth * (if direction is -1 then fraction - 0.8 else 0.2 - fraction) / 0.2
-    portalsWidth = 2536  # TODO: if we add campaigns or change margins, this will get out of date...
+    portalsWidth = 2853  # TODO: if we add campaigns or change margins, this will get out of date...
     scrollTo = $portals.offset().left + direction * magnitude
     scrollTo = Math.max bodyWidth - portalsWidth, scrollTo
     scrollTo = Math.min 0, scrollTo

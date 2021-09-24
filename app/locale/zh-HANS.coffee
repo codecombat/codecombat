@@ -2831,7 +2831,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     email_settings_url: "您的电子邮件设置"
     email_description_suffix: "或者我们发送的邮件中的链接，您可以随时更改您的偏好设置或者随时取消订阅。"
     cost_title: "花费"
-    cost_description: "CodeCombat的所有核心关卡都是免费的，需要${{price}}美元/月的订阅费来访问额外关卡分支并获得{{gems}}宝石奖励每月。你可以通过勾选来取消，我们提供100%退款保证。"
+    cost_description: "CodeCombat的所有核心关卡都是免费的，需要${{price}}美元/月的订阅费来访问额外关卡分支并获得{{gems}}宝石奖励每月。你可以通过勾选来取消，我们提供100%退款保证。" # {change}
     copyrights_title: "版权与许可"
     contributor_title: "贡献者许可协议"
     contributor_description_prefix: "所有对本网站或是GitHub代码库的贡献都依照我们的"

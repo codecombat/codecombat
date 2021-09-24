@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     email_settings_url: "наша и-мејл подешавања"
     email_description_suffix: "или путем линкова у и-мејловима које шаљемо, можеш да промениш преференце и лако да поништиш претплату било када. "
     cost_title: "Цена"
-    cost_description: "CodeCombat је бесплатан за игру за све своје основне нивое, са ${{price}} USD/месечно претплатом за приступ додатним нивоима и {{gems}} месечним бонус драгуљима. Можеш да откажеш уз клик и ми нудимо 100% гаранцију враћања новца."
+    cost_description: "CodeCombat је бесплатан за игру за све своје основне нивое, са ${{price}} USD/месечно претплатом за приступ додатним нивоима и {{gems}} месечним бонус драгуљима. Можеш да откажеш уз клик и ми нудимо 100% гаранцију враћања новца." # {change}
     copyrights_title: "Ауторска права и лиценце"
     contributor_title: "Лиценца споразума сарадника"
     contributor_description_prefix: "Сви сарадници, на сајту и у нашој GitHub бази, треба да поштују"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    back_to_coco: "Back to CodeCombat"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"

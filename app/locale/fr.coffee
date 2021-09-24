@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     email_settings_url: "vos paramètres d'e-mail "
     email_description_suffix: "ou avec des liens disponibles dans nos e-mails, vous pouvez changer vos préférences ou vous désinscrire à tout moment."
     cost_title: "Coût"
-    cost_description: "CodeCombat peut être joué gratuitement pour tous ses niveaux principaux, avec un abonnement de ${{price}} dollars américains par mois pour avoir un accès privilégié à des niveau supplémentaires et {{gems}} des gemmes bonus par mois. VOus pouvez annuler avec un clic, et nous offrons une garantie de retour de 100% de l'argent."
+    cost_description: "CodeCombat peut être joué gratuitement pour tous ses niveaux principaux, avec un abonnement de ${{price}} dollars américains par mois pour avoir un accès privilégié à des niveau supplémentaires et {{gems}} des gemmes bonus par mois. VOus pouvez annuler avec un clic, et nous offrons une garantie de retour de 100% de l'argent." # {change}
     copyrights_title: "Copyrights et Licences"
     contributor_title: "Contributor License Agreement"
     contributor_description_prefix: "Toute contribution, sur le site et sur le répertoire GitHub, est sujette à nos"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    back_to_coco: "Back to CodeCombat"
 
   hoc_2018:
-    banner: "Bonne Semaine de l'enseignement de l'informatique 2018 !" # {change}
+    banner: "Bonne Semaine de l'enseignement de l'informatique !" # {change}
     page_heading: "Apprenez à vos élèves à construire leur propre jeu d'arcade !" # {change}
     step_1: "Étape 1 : Regarder la vidéo Aperçu"
     step_2: "Étape 2 : Essayez-le vous-même"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     point4: "✓ Cours par projet"
     point5: "✓ Suivi des étudiants"
     point6: "✓ Plans de cours complets"
-    title: "HEURE DU CODE 2018" # {change}
+    title: "HEURE DU CODE" # {change}
 #    acronym: "HOC"
 
   hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
     educator: "Je suis un éducateur"
     show_resources: "Montrez-moi les ressources pédagogiques !"
     student: "Je suis étudiant"
