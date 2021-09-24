@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     email_settings_url: "ваши email настройки"
     email_description_suffix: "или через ссылки в email-ах, которые мы отправляем, вы можете изменить предпочтения и легко отписаться в любой момент."
     cost_title: "Стоимость"
-    cost_description: "CodeCombat бесплатен для игры на базовых уровнях, с подпиской за ${{price}} USD/месяц вы получите доступ к дополнительным ветвям уровней и {{gems}} бонусным самоцветам в месяц. Вы можете отказаться в 1 клик, и мы предлагаем 100% гарантию возврата денег."
+    cost_description: "CodeCombat бесплатен для игры на базовых уровнях, с подпиской за ${{price}} USD/месяц вы получите доступ к дополнительным ветвям уровней и {{gems}} бонусным самоцветам в месяц. Вы можете отказаться в 1 клик, и мы предлагаем 100% гарантию возврата денег." # {change}
     copyrights_title: "Авторские права и лицензии"
     contributor_title: "Лицензионное соглашение соавторов"
     contributor_description_prefix: "Все вклады, как на сайте, так и на нашем репозитории GitHub, подпадают под наше"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    back_to_coco: "Back to CodeCombat"
 
   hoc_2018:
-    banner: "Добро пожаловать в час кода 2019!" # {change}
+    banner: "Добро пожаловать в час кода!" # {change}
     page_heading: "Ваши ученики будут учиться программировать, создавая свою собственную игру"
     step_1: "Шаг 1: Посмотри вводное видео"
     step_2: "Шаг 2: Попробуй сам"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     point4: "✓ Курсы, основаны на проектах"
     point5: "✓ Отслеживай процесс студентов"
     point6: "✓ Полный учебный план"
-    title: "Час кода 2019" # {change}
+    title: "Час кода" # {change}
     acronym: "ЧК"
 
   hoc_2018_interstitial:
-    welcome: "Добро пожаловать в час кода 2019 на CodeCombat!" # {change}
+    welcome: "Добро пожаловать в час кода на CodeCombat!" # {change}
     educator: "Я педагог"
     show_resources: "Покажите мне информацию для учителя!"
     student: "Я ученик"

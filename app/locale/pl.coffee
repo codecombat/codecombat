@@ -1004,7 +1004,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     unsubscribing: "Anulowanie subskrypcji"
     subscribe_prepaid: "Kliknij `Zapisz się`, aby użyć kodu prepaid"
     using_prepaid: "Używasz kodu prepaid dla miesięcznych subskrypcji"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
     feature_heroes: "Ekskluzywni bohaterowie" # {change}
     feature_learn: "Naucz się tworzyć gry i strony internetowe!"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -2828,7 +2828,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     email_settings_url: "twoje ustawienia e-mail"
     email_description_suffix: "lub poprzez linki w e-mailach, które wysyłamy, możesz zmienić swoje ustawienia i w prosty sposób wypisać się z subskrypcji w dowolnym momencie."
     cost_title: "Koszty"
-    cost_description: "W CodeCombat możesz grać we wszystkie podstawowe poziomy za darmo, za ${{price}} USD/miesięcznie dostajesz dostęp do dodatkowych poziomów, oraz {{gems}} klejnotów co miesiąc. W każdej chwili możesz jednym kliknięciem zrezygnować, gwarantujemy 100% zwrotu niewykorzystanej sumy."
+    cost_description: "W CodeCombat możesz grać we wszystkie podstawowe poziomy za darmo, za ${{price}} USD/miesięcznie dostajesz dostęp do dodatkowych poziomów, oraz {{gems}} klejnotów co miesiąc. W każdej chwili możesz jednym kliknięciem zrezygnować, gwarantujemy 100% zwrotu niewykorzystanej sumy." # {change}
     copyrights_title: "Prawa autorskie i licencje"
     contributor_title: "Umowa licencyjna dla współtwórców (CLA)"
     contributor_description_prefix: "Wszyscy współtwórcy, zarówno ci ze strony jak i ci z GitHuba, podlegają naszemu"
@@ -3135,7 +3135,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    back_to_coco: "Back to CodeCombat"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
@@ -3160,11 +3160,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
