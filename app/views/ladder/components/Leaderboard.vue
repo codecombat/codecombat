@@ -193,22 +193,6 @@
           return {'background-image': `url(/images/common/code_languages/${item}_icon.png)`}
         }
       },
-      scoreForDisplay (row) {
-        if (this.scoreType === 'codePoints') {
-          return row.totalScore.toLocaleString()
-        }
-        let score = (((row.leagues || []).find(({ leagueID }) => leagueID === this.clanId) || {}).stats || {}).totalScore || row.totalScore
-        if (/(Bronze|Silver|Gold|Platinum|Diamond) AI/.test(row.creatorName) && score == row.totalScore) {
-          // Hack: divide display score by 2, since the AI doesn't have league-specific score
-          score /= 2
-        }
-        return Math.round(score * 100).toLocaleString()
-      },
-
-      getClan (row) {
-        return (row.creatorClans || [])[0] || {}
-      },
-
       getAgeBracket (item) {
         return $.i18n.t(`ladder.bracket_${(item || 'open').replace(/-/g, '_')}`)
       },
@@ -239,7 +223,7 @@
         }
       },
       classForRow (row) {
-        if (row[1] === this.myRank) {
+        if (row[0] === this.session.get('creator')) {
           return 'my-row'
         }
         if (window.location.pathname === '/league' && row.fullName) {
@@ -282,7 +266,7 @@
               span  players
 
         tr
-          th(v-for="t in tableTitles" :key="t.slug" :colspan="t.col" :class="computeClass(t.slug)")
+          th(v-for="t in tableTitles" v-if="t.slug !='creator'" :key="t.slug" :colspan="t.col" :class="computeClass(t.slug)")
             | {{ t.title }}
             span &nbsp;
             span.age-filter(v-if="t.slug == 'age'")
@@ -299,7 +283,7 @@
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)
-            td(v-for="item, index in row" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 0 ? computeBody(tableTitles[index].slug, item): ''" @click="onClickUserRow(rank, tableTitles[index].slug)")
+            td(v-for="item, index in row" v-if="index > 0" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 1 ? computeBody(tableTitles[index].slug, item): ''" @click="onClickUserRow(rank, tableTitles[index].slug)")
             td.spectate-cell.iconic-cell(@click="onClickSpectateCell(rank)")
               .glyphicon(:class="{'glyphicon-eye-open': selectedRow.indexOf(rank) != -1}")
 
@@ -307,7 +291,7 @@
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)
-            td(v-for="item, index in row" :key="'player-' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 0 ? computeBody(tableTitles[index].slug, item): ''" @click="onClickUserRow(rank)")
+            td(v-for="item, index in row" v-if="index > 0" :key="'player-' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 1 ? computeBody(tableTitles[index].slug, item): ''" @click="onClickUserRow(rank)")
             td.spectate-cell.iconic-cell(@click="onClickSpectateCell(rank)")
               .glyphicon(:class="{'glyphicon-eye-open': selectedRow.indexOf(rank) != -1}")
 
