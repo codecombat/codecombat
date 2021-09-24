@@ -46,6 +46,10 @@ module.exports = class User extends CocoModel
     API_CLIENT: 'apiclient'
   }
 
+  parse: (payload) ->
+    payload.products = payload.products ? []
+    payload
+
   isAdmin: -> @PERMISSIONS.COCO_ADMIN in @get('permissions', true)
   isLicensor: -> @PERMISSIONS.LICENSOR in @get('permissions', true)
   isArtisan: -> @PERMISSIONS.ARTISAN in @get('permissions', true)
