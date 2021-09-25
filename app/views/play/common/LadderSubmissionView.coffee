@@ -50,7 +50,8 @@ module.exports = class LadderSubmissionView extends CocoView
 
   showApologeticSignupModal: ->
     CreateAccountModal = require 'views/core/CreateAccountModal'
-    @openModalView(new CreateAccountModal({showRequiredError: true}))
+    @openModalView new CreateAccountModal()
+    window.nextURL = "/play/ladder/#{@level.get('slug')}?submit=true"
 
   rankSession: (e) ->
     return unless @session.readyToRank()
