@@ -67,6 +67,7 @@ module.exports = class LadderSubmissionView extends CocoView
       console.log jqxhr.responseText
       @setRankingButtonText 'failed' unless @destroyed
     @session.save null, success: =>
+      return if @destroyed
       ajaxData =
         session: @session.id
         levelID: @level.id
@@ -89,6 +90,7 @@ module.exports = class LadderSubmissionView extends CocoView
         mirrorAjaxOptions = _.clone ajaxOptions
         mirrorAjaxOptions.data = mirrorAjaxData
         ajaxOptions.success = =>
+          return if @destroyed
           patch = code: mirrorCode, codeLanguage: @session.get('codeLanguage')
           tempSession = new LevelSession _id: @mirrorSession.id
           tempSession.save patch, patch: true, type: 'PUT', success: ->
