@@ -192,7 +192,7 @@ module.exports = class CreateAccountModal extends ModalView
     @once 'hidden', ->
       if @signupState.get('accountCreated') and not application.testing
         # ensure logged in state propagates through the entire app
-        if window.nextURL?.startsWith('/league')
+        if window.nextURL
           window.location.href = window.nextURL
           return
 
