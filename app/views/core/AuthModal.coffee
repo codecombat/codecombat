@@ -211,7 +211,7 @@ formSchema = {
 }
 
 loginNavigate = (subModalContinue) ->
-  if window.nextURL?.startsWith('/league')
+  if window.nextURL
     window.location.href = window.nextURL
     return
 
