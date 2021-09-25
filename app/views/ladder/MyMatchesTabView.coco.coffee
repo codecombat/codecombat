@@ -4,6 +4,7 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
+utils = require 'core/utils'
 {teamDataFromLevel, scoreForDisplay} = require './utils'
 require 'd3/d3.js'
 
@@ -84,7 +85,7 @@ module.exports = class MyMatchesTabView extends CocoView
 
     ids = _.uniq ids
     unless ids.length
-      @render()
+      @render() if @renderedOnce
       return
 
     success = (nameMap) =>
@@ -103,7 +104,7 @@ module.exports = class MyMatchesTabView extends CocoView
           if name.length > 21
             name = name.substr(0, 18) + '...'
           @nameMap[opponent.userID] = name
-      @render() if @supermodel.finished()
+      @render() if @supermodel.finished() and @renderedOnce
 
     userNamesRequest = @supermodel.addRequestResource 'user_names', {
       url: '/db/user/-/names'
@@ -115,6 +116,7 @@ module.exports = class MyMatchesTabView extends CocoView
 
   afterRender: ->
     super()
+    @renderedOnce = true
     @removeSubView subview for key, subview of @subviews when subview instanceof LadderSubmissionView
     @$el.find('.ladder-submission-view').each (i, el) =>
       placeholder = $(el)
@@ -124,6 +126,9 @@ module.exports = class MyMatchesTabView extends CocoView
         mirrorSession = (s for s in @sessions.models when s.get('team') isnt session.get('team'))[0]
       ladderSubmissionView = new LadderSubmissionView session: session, level: @level, mirrorSession: mirrorSession
       @insertSubView ladderSubmissionView, placeholder
+      if session?.readyToRank() and utils.getQueryVariable('submit') and not @initiallyAutoSubmitted
+        @initiallyAutoSubmitted = true
+        ladderSubmissionView.rankSession()
 
     @$el.find('.score-chart-wrapper').each (i, el) =>
       scoreWrapper = $(el)

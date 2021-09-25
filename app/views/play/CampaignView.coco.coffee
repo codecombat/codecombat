@@ -152,6 +152,7 @@ module.exports = class CampaignView extends RootView
       pixelCode = switch @terrain
         when 'game-dev-hoc' then 'code_combat_gamedev'
         when 'game-dev-hoc-2' then 'code_combat_build_arcade'
+        when 'ai-league-hoc' then 'code_combat_ai_league'
         else 'code_combat'
       $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
     else if me.isTeacher() and not utils.getQueryVariable('course-instance') and
@@ -299,7 +300,10 @@ module.exports = class CampaignView extends RootView
         setTimeout(=>
             @openModalView new HoCModal({
               showVideo: @terrain is "hoc-2018",
-              onDestroy: delayMusicStart,
+              onDestroy: =>
+                return if @destroyed
+                delayMusicStart()
+                @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
             })
         , 0)
 
