@@ -7,7 +7,7 @@ block content
   .container
 
     .content.rtl-allowed
-      if me.attributes.hourOfCode && me.isAnonymous()
+      if me.isInHourOfCode() && me.isAnonymous()
         #hour-of-code
           h3
             span(data-i18n="teacher.hoc_welcome")

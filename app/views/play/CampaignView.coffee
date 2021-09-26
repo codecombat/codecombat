@@ -443,7 +443,7 @@ module.exports = class CampaignView extends RootView
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) if @terrain in ['forest', 'desert']
     if @campaign and @isRTL utils.i18n(@campaign.attributes, 'fullName')
       @$('.campaign-name').attr('dir', 'rtl')
-    if not me.get('hourOfCode') and @terrain
+    if not me.isInHourOfCode() and @terrain
       if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents', 'true-names'] and
       me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and
       not storage.load('sent-parent-email') and not (me.isPremium() or me.isStudent() or me.isTeacher())
@@ -689,7 +689,7 @@ module.exports = class CampaignView extends RootView
     _.delay (-> $('<img/>')[0].src = img for img in preloadImages), 2000
     if utils.getQueryVariable('signup') and not me.get('email')
       return @promptForSignup()
-    if not me.isPremium() and (@isPremiumCampaign() or (@options.worldComplete and not features.noAuth and not me.get('hourOfCode')))
+    if not me.isPremium() and (@isPremiumCampaign() or (@options.worldComplete and not features.noAuth and not me.isInHourOfCode()))
       if not me.get('email')
         return @promptForSignup()
       campaignSlug = window.location.pathname.split('/')[2]
@@ -722,7 +722,7 @@ module.exports = class CampaignView extends RootView
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel(level.original)
       level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
-      level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
+      level.locked = true if level.requiresSubscription and @requiresSubscription and me.isInHourOfCode()
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if @editorMode
       level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
@@ -1367,7 +1367,7 @@ module.exports = class CampaignView extends RootView
     return false if @payPalToken
     return false if me.isStudent()
     return false if application.getHocCampaign()
-    return false if me.get('hourOfCode')
+    return false if me.isInHourOfCode()
     latest = window.serverConfig.latestAnnouncement
     myLatest = me.get('lastAnnouncementSeen')
     return unless typeof latest is 'number'
