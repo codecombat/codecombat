@@ -518,7 +518,7 @@ module.exports = class HeroVictoryModal extends ModalView
   onClickSignupButton: (e) ->
     e.preventDefault()
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Hero Victory Modal', level: @level.get('slug')
-    if me.get 'hourOfCode'
+    if me.isInHourOfCode()
       window.nextURL = window.location.href  # Return to this page once signup is complete, since the campaign might be wrong
     @openModalView new CreateAccountModal()
 

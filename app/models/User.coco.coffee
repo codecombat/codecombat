@@ -156,6 +156,13 @@ module.exports = class User extends CocoModel
   isSessionless: ->
     Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
 
+  isInHourOfCode: ->
+    return false unless @get('hourOfCode')
+    daysElapsed = (new Date() - new Date @get('dateCreated')) / (86400 * 1000)
+    return false if daysElapsed > 7  # Disable special HoC handling after a week, treat as normal users after that point
+    return false if daysElapsed > 1 and me.get('hourOfCodeComplete')  # ... or one day, if they're already done with it
+    true
+
   getClientCreatorPermissions: ->
     clientID = @get('clientCreator')
     if !clientID

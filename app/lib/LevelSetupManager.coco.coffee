@@ -98,8 +98,9 @@ module.exports = class LevelSetupManager extends CocoClass
   open: ->
     return @waitingToOpen = true unless @modalsLoaded
     firstModal = if @options.hadEverChosenHero then @inventoryModal else @heroesModal
-    if (not _.isEqual(lastHeroesEarned, me.get('earned')?.heroes ? []) or
-        not _.isEqual(lastHeroesPurchased, me.get('purchased')?.heroes ? []))
+    if ((not _.isEqual(lastHeroesEarned, me.get('earned')?.heroes ? []) or
+        not _.isEqual(lastHeroesPurchased, me.get('purchased')?.heroes ? [])) and
+        not (me.isAnonymous() and me.isInHourOfCode()))
       console.log 'Showing hero picker because heroes earned/purchased has changed.'
       firstModal = @heroesModal
     else if allowedHeroOriginals = @level.get 'allowedHeroes'
