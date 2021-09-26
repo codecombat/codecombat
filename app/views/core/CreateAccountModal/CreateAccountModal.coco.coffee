@@ -84,6 +84,7 @@ module.exports = class CreateAccountModal extends ModalView
         email: options.email ? ''
       }
       subModalContinue: options.subModalContinue
+      accountRequiredMessage: options.accountRequiredMessage
       wantInSchool: false
     }
 
