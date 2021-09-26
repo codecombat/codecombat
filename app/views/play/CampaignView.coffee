@@ -1068,7 +1068,7 @@ module.exports = class CampaignView extends RootView
     levelElement = $(e.target).parents('.level-info-container')
     levelSlug = levelElement.data('level-slug')
     level = _.find _.values(@getLevels()), slug: levelSlug
-    if level.type in ['hero-ladder', 'course-ladder']  # Would use isType, but it's not a Level model
+    if level.type in ['ladder', 'hero-ladder', 'course-ladder']  # Would use isType, but it's not a Level model
       Backbone.Mediator.publish 'router:navigate', route: "/play/ladder/#{levelSlug}", viewClass: 'views/ladder/LadderView', viewArgs: [{supermodel: @supermodel}, levelSlug]
     else
       @showLeaderboard levelSlug

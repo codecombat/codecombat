@@ -49,9 +49,9 @@ module.exports = class LadderSubmissionView extends CocoView
     @$el.find('.last-submitted').toggle(showLastSubmitted)
 
   showApologeticSignupModal: ->
-    CreateAccountModal = require 'views/core/CreateAccountModal'
-    @openModalView new CreateAccountModal()
     window.nextURL = "/play/ladder/#{@level.get('slug')}?submit=true"
+    CreateAccountModal = require 'views/core/CreateAccountModal'
+    @openModalView new CreateAccountModal accountRequiredMessage: $.i18n.t('signup.create_account_to_submit_multiplayer')  # Note: may destroy `this` if we were living in another modal
 
   rankSession: (e) ->
     return unless @session.readyToRank()
