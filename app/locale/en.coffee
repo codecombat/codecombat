@@ -429,6 +429,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     create_individual_header: "Create Individual Account"
     email_announcements: "Receive announcements about new CodeCombat levels and features!"
     sign_in_to_continue: "Sign in or create an account to continue"
+    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI!"
     teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Creating Account..."
     sign_up: "Sign Up"
