@@ -299,6 +299,7 @@ module.exports = class CampaignView extends RootView
         clearTimeout(@playMusicTimeout)
         setTimeout(=>
             @openModalView new HoCModal({
+              activity: if @terrain is "hoc-2018" then "teacher-gd" else "ai-league"
               showVideo: @terrain is "hoc-2018",
               onDestroy: =>
                 return if @destroyed
