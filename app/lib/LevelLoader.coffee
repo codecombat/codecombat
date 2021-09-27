@@ -532,6 +532,8 @@ module.exports = class LevelLoader extends CocoClass
       if @session.get(key) is value
         delete patch[key]
     unless _.isEmpty patch
+      if @level.isLadder() and @session.get('team')
+        patch.team = @session.get('team')  # Save the team in case we just assigned it in PlayLevelView, since sometimes that wasn't getting saved
       @session.set key, value for key, value of patch
       tempSession = new LevelSession _id: @session.id
       tempSession.save(patch, {patch: true, type: 'PUT'})

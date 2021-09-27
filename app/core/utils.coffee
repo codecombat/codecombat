@@ -882,7 +882,6 @@ freeAccessLevels = [
   { access: 'long', slug: 'kithgard-gates' }
   { access: 'extended', slug: 'defense-of-plainswood' }
   { access: 'extended', slug: 'winding-trail' }
-  # { access: 'short', slug: 'giants-gate' }  # Arenas: needed? Replayables?
   { access: 'china-classroom', slug: 'forgetful-gemsmith' }
   { access: 'china-classroom', slug: 'kounter-kithwise' }
   { access: 'china-classroom', slug: 'crawlways-of-kithgard' }
@@ -890,7 +889,6 @@ freeAccessLevels = [
   { access: 'china-classroom', slug: 'careful-steps' }
   { access: 'china-classroom', slug: 'long-steps' }
   { access: 'china-classroom', slug: 'favorable-odds' }
-  # Concept challenges: needed?
 ]
 
 module.exports = {
