@@ -14,6 +14,9 @@
             span(data-i18n="ladder.summary_wins")  Wins, 
             |#{team.losses}
             span(data-i18n="ladder.summary_losses")  Losses 
+            if team.session && team.session.get('submitted')
+              a.share-ladder-link-button.pull-right(data-team=team.id)
+                span(data-i18n="sharing.share_ladder_link")
 
         if team.session
           tr

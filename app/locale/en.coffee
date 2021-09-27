@@ -429,7 +429,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     create_individual_header: "Create Individual Account"
     email_announcements: "Receive announcements about new CodeCombat levels and features!"
     sign_in_to_continue: "Sign in or create an account to continue"
-    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI!"
+    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Creating Account..."
     sign_up: "Sign Up"
@@ -2180,6 +2180,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     victory_course_share_suffix: "you just created."
     copy_url: "Copy URL"
     share_with_teacher_email: "Send to your teacher"
+    share_ladder_link: "Share Multiplayer Link"
+    ladder_link_title: "Share Your Multiplayer Match Link"
+    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Creator"
