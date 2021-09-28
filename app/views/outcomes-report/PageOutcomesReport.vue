@@ -36,6 +36,7 @@ export default {
       org: null,
       subOrgs: [],
       loading: true,
+      earliestProgressDate: null,
     }
     const defaults = parameterDefaults()
     for (let key in defaults) {
@@ -76,16 +77,22 @@ export default {
     startDate (newVal, lastVal) {
       if (newVal === '')
         return this.startDate = parameterDefaults().startDate
-      if (newVal !== lastVal) {  // TODO: is this diff check needed?
-        this.addParametersToLocation()
-        this.loadRequiredData()
-      }
+      if (newVal === null && lastVal !== null)
+        null  // We do need to update, since we're nulling out the date
+      else if (newVal === lastVal || !(new Date(newVal) >= new Date(this.earliestDate)) || !(new Date(newVal) <= new Date(this.latestDate)))
+        return  // Return if invalid date
+      this.addParametersToLocation()
+      this.loadRequiredData()
     },
     endDate (newVal, lastVal) {
       if (newVal === '')
         return this.endDate = parameterDefaults().endDate
-      if (newVal == lastVal || (newVal == this.latestDate && !lastVal) || (lastVal == this.latestDate && !newVal))
+      if (newVal === lastVal)
         return  // No need to re-fetch, a null date value is the same as today's date
+      if (newVal === null && lastVal !== null)
+        null  // We do need to update, since we're nulling out the date
+      else if (!(new Date(newVal) >= new Date(this.earliestDate)) || !(new Date(newVal) <= new Date(this.latestDate)))
+        return  // Return if invalid date
       this.addParametersToLocation()
       this.loadRequiredData()
     },
@@ -156,14 +163,14 @@ export default {
       // TODO: if we load again while one load is still in progress, abort the old one
       // TODO: if we go from loaded subOrgs true to false, don't need to re-fetch
       $('html, body').animate({ scrollTop: 0})
-      await this.fetchOutcomesReportStats({ kind: this.kind, orgIdOrSlug: this.orgIdOrSlug, includeSubOrgs: this.includeSubOrgs, country: this.country })  // TODO: date range
+      await this.fetchOutcomesReportStats({ kind: this.kind, orgIdOrSlug: this.orgIdOrSlug, includeSubOrgs: this.includeSubOrgs, country: this.country, startDate: this.startDate, endDate: this.endDate })  // TODO: date range
       this.loading = false
     },
 
     // TODO: date range
-    async fetchOutcomesReportStats ({kind, orgIdOrSlug, includeSubOrgs, country}) {
+    async fetchOutcomesReportStats ({kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate}) {
       console.log('gonna load stats for', kind, orgIdOrSlug, country)
-      const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs: includeSubOrgs, country: country } )
+      const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate } )
       console.log(' ...', kind, orgIdOrSlug, country, 'got stats', stats)
       const orgs = stats[kind + 's']
       this.org = Object.freeze(orgs ? orgs[0] : null)
@@ -230,9 +237,13 @@ export default {
     },
 
     earliestDate () {
-      if (!this.org || !this.org.progress || !this.org.progress.first)
-        return '2013-02-28'  // First user creationn
-      return this.org.progress.first.slice(0, 10)
+      if (this.startDate && this.earliestProgressDate)
+        return this.earliestProgressDate
+      if (!this.org || !this.org.progress || !this.org.progress.first || this.startDate)
+        return '2013-02-28'  // First user creation
+      // If we have fetched progress with no date filter, then we can remember when the first student played for when we do add a date filter
+      this.earliestProgressDate = this.org.progress.first.slice(0, 10)
+      return this.earliestProgressDate
     },
 
     latestDate () {
