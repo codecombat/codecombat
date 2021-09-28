@@ -386,6 +386,10 @@ main#page-outcomes-report
     margin-top: -75px;
     box-shadow: none;
 
+    #report-container {
+      margin-top: 0;
+    }
+
     a[href]:after {
       // Remove the " (" attr(href) ")" that Bootstrap adds
       content: none !important;
@@ -459,6 +463,10 @@ main#page-outcomes-report
       padding-left: 0.25in;
       bottom: 0px;
       color: white !important;
+
+      span {
+        color: white !important;
+      }
     }
 
     h4 {
