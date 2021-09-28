@@ -15,24 +15,40 @@ const orgKinds = {
   student: { displayName: 'Student', childKinds: [] }
 }
 
+const parameterDefaults = () => ({
+  includeSubOrgs: true,
+  subOrgLimit: 10,  // TODO: different default limits for students vs. other types? Max value from number of sub orgs this org has?
+  startDate: null,
+  endDate: moment(new Date()).format('YYYY-MM-DD'),
+  editing: me.isAdmin(),
+})
+
 export default {
   components: {
     OutcomesReportResultComponent,
   },
 
-  data: () => ({
-    kind: '',
-    orgIdOrSlug: '',
-    country: null,
-    org: null,
-    subOrgs: [],
-    includeSubOrgs: true,  // TODO: take this from query variable, update it when needed
-    subOrgLimit: 10,  // TODO: take this from query variable, update it when needed; different default limits for students vs. other types? Max value from number of sub orgs this org has?
-    startDate: null,  // TODO: take this from query variable, update it when needed
-    endDate: moment(new Date()).format('YYYY-MM-DD'),  // TODO: take this from query variable, update it when needed
-    loading: true,
-    editing: me.isAdmin(),
-  }),
+  data () {
+    const obj = {
+      kind: '',
+      orgIdOrSlug: '',
+      country: null,
+      org: null,
+      subOrgs: [],
+      loading: true,
+    }
+    const defaults = parameterDefaults()
+    for (let key in defaults) {
+      let value = this.$store.state.route.query[key]
+      if (value === 'true') value = true
+      if (value === 'false') value = false
+      if (parseInt(value, 10).toString() === value) value = parseInt(value, 10)
+      if (value === '' || typeof value === 'undefined')
+        value = defaults[key]
+      obj[key] = value
+    }
+    return obj
+  },
 
   beforeRouteUpdate (to, from, next) {
     this.kind = to.params.kind || null  // TODO: needed, automatic, irrelevant?
@@ -47,24 +63,42 @@ export default {
   watch: {
     orgIdOrSlug (newSelectedOrg, lastSelectedOrg) {
       if (newSelectedOrg !== lastSelectedOrg) {  // TODO: is this diff check needed?
+        this.addParametersToLocation()
         this.loadRequiredData()
       }
     },
     includeSubOrgs (newVal, lastVal) {
       if (newVal !== lastVal) {  // TODO: is this diff check needed?
+        this.addParametersToLocation()
         this.loadRequiredData()
       }
     },
     startDate (newVal, lastVal) {
+      if (newVal === '')
+        return this.startDate = parameterDefaults().startDate
       if (newVal !== lastVal) {  // TODO: is this diff check needed?
+        this.addParametersToLocation()
         this.loadRequiredData()
       }
     },
     endDate (newVal, lastVal) {
-      if (newVal == lastVal || (newVal == this.latestDate() && !lastVal) || (lastVal == this.latestDate() && !newVal))
+      if (newVal === '')
+        return this.endDate = parameterDefaults().endDate
+      if (newVal == lastVal || (newVal == this.latestDate && !lastVal) || (lastVal == this.latestDate && !newVal))
         return  // No need to re-fetch, a null date value is the same as today's date
+      this.addParametersToLocation()
       this.loadRequiredData()
-    }
+    },
+    subOrgLimit (newVal, lastVal) {
+      if (newVal !== lastVal) {  // TODO: is this diff check needed?
+        this.addParametersToLocation()
+      }
+    },
+    editing (newVal, lastVal) {
+      if (newVal !== lastVal) {  // TODO: is this diff check needed?
+        this.addParametersToLocation()
+      }
+    },
   },
 
   created () {
@@ -159,18 +193,19 @@ export default {
       this.editing = !this.editing
     },
 
-    onIncludeSubOrgsChanged (e) {
-      // Need this for anything?
+    addParametersToLocation() {
+      const nonDefaultParameters = {}
+      const defaults = parameterDefaults()
+      for (const key in defaults) {
+        const value = this[key]
+        if (value !== defaults[key]) {
+          nonDefaultParameters[key] = value
+        }
+      }
+      history.pushState({}, null, this.$route.path + '?' + Object.keys(nonDefaultParameters).map(key => {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(nonDefaultParameters[key])
+      }).join('&'))
     },
-
-    onDateRangeChanged (e) {
-      // Need this for anything?
-    },
-
-    onSubOrgLimitChanged (e) {
-      // Need this for anything?
-    },
-
   },
 
   computed: {
@@ -297,24 +332,24 @@ main#page-outcomes-report
         label.control-label.col-xs-5(for="startDate")
           span  Start date
         .col-xs-7
-          input#startDate.form-control(type="date" v-model="startDate" name="startDate" @change="onDateRangeChanged" :min="earliestDate" :max="latestDate")
+          input#startDate.form-control(type="date" v-model="startDate" name="startDate" :min="earliestDate" :max="latestDate")
       .form-group
         label.control-label.col-xs-5(for="endDate")
           span  End date
         .col-xs-7
-          input#endDate.form-control(type="date" v-model="endDate" name="endDate" @change="onDateRangeChanged" :min="earliestDate" :max="latestDate")
+          input#endDate.form-control(type="date" v-model="endDate" name="endDate" :min="earliestDate" :max="latestDate")
       .form-group(v-if="childKind")
         label.control-label.col-xs-5(for="includeSubOrgs")
           //span  Include {{kindName(childKind)}}s
           span  Include #{childKind}s
         .col-xs-7
-          input#includeSubOrgs.form-control(type="checkbox" v-model="includeSubOrgs" name="includeSubOrgs" @change="onIncludeSubOrgsChanged")
+          input#includeSubOrgs.form-control(type="checkbox" v-model="includeSubOrgs" name="includeSubOrgs")
       .form-group(v-if="childKind && includeSubOrgs")
-        label.control-label.col-xs-5(for="subOrgLimit")
+        label.control-label.col-xs-5(for="$store.state.query.subOrgLimit")
           //span  Max {{kindName(childKind)}}s
           span  Max #{childKind}s
         .col-xs-7
-          input#subOrgLimit.form-control(type="number" v-model="subOrgLimit" name="subOrgLimit" @change="onIncludeSubOrgsChanged" min="1" step="1")
+          input#subOrgLimit.form-control(type="number" v-model.number="subOrgLimit" name="subOrgLimit" min="1" step="1")
     .clearfix
 </template>
 
