@@ -46,8 +46,7 @@
           .col-md-4
             a.btn.btn-primary.btn-lg(href="/play/ai-league-hoc?hour_of_code=true" data-i18n="hoc_2018.try_activity")
           .col-md-4
-            // TODO: lesson plan
-            a.btn.btn-primary.btn-lg(href="http://files.codecombat.com/docs/resources/hourofcode/HourofCodeCodeCombatLessonPlan2020.pdf" target="_blank" data-i18n="hoc_2018.download_pdf")
+            a.btn.btn-primary.btn-lg(href="/teachers/resources/hoc-ai-league" target="_blank" data-i18n="hoc_2018.download_pdf")
 
       .row
         br
