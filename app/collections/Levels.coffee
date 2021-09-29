@@ -30,7 +30,7 @@ module.exports = class LevelCollection extends CocoCollection
             strippedSource = utils.extractPlayerCodeTag(s.source or '')
             s.source = strippedSource if strippedSource
             solutions.push s
-        else if lang isnt 'javascript' and not _.find(solutions, language: lang)
+        else if lang isnt 'javascript' and not _.find(allSolutions, language: lang)
           for s in allSolutions when s.language is 'javascript'
             s.language = lang
             s.source = aetherUtils.translateJS(s.source, lang)
