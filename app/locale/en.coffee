@@ -631,6 +631,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     email_us: "Send us an email"
     sales: "Sales"
     support: "Support"
+    here: "here"
 
   units:
     second: "second"
@@ -2038,13 +2039,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
     hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
     hoc_self_led: "Self-Led Gameplay"
-    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
+    hoc_self_led_desc: "Students can play through our Hour of Code CodeCombat tutorials on their own"
     hoc_game_dev: "Game Development"
     hoc_and: "and"
     hoc_programming: "JavaScript/Python Programming"
     hoc_teacher_led: "Teacher-Led Lessons"
     hoc_teacher_led_desc1: "Download our"
-    hoc_teacher_led_link: "Introduction to Computer Science lesson plans"
+    hoc_teacher_led_link: "Hour of Code lesson plans"  # {change}
     hoc_teacher_led_desc2: "to introduce your students to programming concepts using offline activities"
     hoc_group: "Group Gameplay"
     hoc_group_desc_1: "Teachers can use the lessons in conjunction with our Introduction to Computer Science course to track student progress. See our"

@@ -15,24 +15,41 @@ const orgKinds = {
   student: { displayName: 'Student', childKinds: [] }
 }
 
+const parameterDefaults = () => ({
+  includeSubOrgs: true,
+  subOrgLimit: 10,  // TODO: different default limits for students vs. other types? Max value from number of sub orgs this org has?
+  startDate: null,
+  endDate: moment(new Date()).format('YYYY-MM-DD'),
+  editing: me.isAdmin(),
+})
+
 export default {
   components: {
     OutcomesReportResultComponent,
   },
 
-  data: () => ({
-    kind: '',
-    orgIdOrSlug: '',
-    country: null,
-    org: null,
-    subOrgs: [],
-    includeSubOrgs: true,  // TODO: take this from query variable, update it when needed
-    subOrgLimit: 10,  // TODO: take this from query variable, update it when needed; different default limits for students vs. other types? Max value from number of sub orgs this org has?
-    startDate: null,  // TODO: take this from query variable, update it when needed
-    endDate: moment(new Date()).format('YYYY-MM-DD'),  // TODO: take this from query variable, update it when needed
-    loading: true,
-    editing: me.isAdmin(),
-  }),
+  data () {
+    const obj = {
+      kind: '',
+      orgIdOrSlug: '',
+      country: null,
+      org: null,
+      subOrgs: [],
+      loading: true,
+      earliestProgressDate: null,
+    }
+    const defaults = parameterDefaults()
+    for (let key in defaults) {
+      let value = this.$store.state.route.query[key]
+      if (value === 'true') value = true
+      if (value === 'false') value = false
+      if (parseInt(value, 10).toString() === value) value = parseInt(value, 10)
+      if (value === '' || typeof value === 'undefined')
+        value = defaults[key]
+      obj[key] = value
+    }
+    return obj
+  },
 
   beforeRouteUpdate (to, from, next) {
     this.kind = to.params.kind || null  // TODO: needed, automatic, irrelevant?
@@ -47,24 +64,48 @@ export default {
   watch: {
     orgIdOrSlug (newSelectedOrg, lastSelectedOrg) {
       if (newSelectedOrg !== lastSelectedOrg) {  // TODO: is this diff check needed?
+        this.addParametersToLocation()
         this.loadRequiredData()
       }
     },
     includeSubOrgs (newVal, lastVal) {
       if (newVal !== lastVal) {  // TODO: is this diff check needed?
+        this.addParametersToLocation()
         this.loadRequiredData()
       }
     },
     startDate (newVal, lastVal) {
-      if (newVal !== lastVal) {  // TODO: is this diff check needed?
-        this.loadRequiredData()
-      }
+      if (newVal === '')
+        return this.startDate = parameterDefaults().startDate
+      if (newVal === null && lastVal !== null)
+        null  // We do need to update, since we're nulling out the date
+      else if (newVal === lastVal || !(new Date(newVal) >= new Date(this.earliestDate)) || !(new Date(newVal) <= new Date(this.latestDate)))
+        return  // Return if invalid date
+      this.addParametersToLocation()
+      this.loadRequiredData()
     },
     endDate (newVal, lastVal) {
-      if (newVal == lastVal || (newVal == this.latestDate() && !lastVal) || (lastVal == this.latestDate() && !newVal))
+      if (newVal === '')
+        return this.endDate = parameterDefaults().endDate
+      if (newVal === lastVal)
         return  // No need to re-fetch, a null date value is the same as today's date
+      if (newVal === null && lastVal !== null)
+        null  // We do need to update, since we're nulling out the date
+      else if (!(new Date(newVal) >= new Date(this.earliestDate)) || !(new Date(newVal) <= new Date(this.latestDate)))
+        return  // Return if invalid date
+      this.addParametersToLocation()
       this.loadRequiredData()
-    }
+    },
+    subOrgLimit (newVal, lastVal) {
+      if (newVal !== lastVal) {  // TODO: is this diff check needed?
+        this.addParametersToLocation()
+      }
+    },
+    editing (newVal, lastVal) {
+      if (newVal !== lastVal) {  // TODO: is this diff check needed?
+        this.addParametersToLocation()
+      }
+    },
   },
 
   created () {
@@ -122,14 +163,14 @@ export default {
       // TODO: if we load again while one load is still in progress, abort the old one
       // TODO: if we go from loaded subOrgs true to false, don't need to re-fetch
       $('html, body').animate({ scrollTop: 0})
-      await this.fetchOutcomesReportStats({ kind: this.kind, orgIdOrSlug: this.orgIdOrSlug, includeSubOrgs: this.includeSubOrgs, country: this.country })  // TODO: date range
+      await this.fetchOutcomesReportStats({ kind: this.kind, orgIdOrSlug: this.orgIdOrSlug, includeSubOrgs: this.includeSubOrgs, country: this.country, startDate: this.startDate, endDate: this.endDate })  // TODO: date range
       this.loading = false
     },
 
     // TODO: date range
-    async fetchOutcomesReportStats ({kind, orgIdOrSlug, includeSubOrgs, country}) {
+    async fetchOutcomesReportStats ({kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate}) {
       console.log('gonna load stats for', kind, orgIdOrSlug, country)
-      const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs: includeSubOrgs, country: country } )
+      const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate } )
       console.log(' ...', kind, orgIdOrSlug, country, 'got stats', stats)
       const orgs = stats[kind + 's']
       this.org = Object.freeze(orgs ? orgs[0] : null)
@@ -159,18 +200,19 @@ export default {
       this.editing = !this.editing
     },
 
-    onIncludeSubOrgsChanged (e) {
-      // Need this for anything?
+    addParametersToLocation() {
+      const nonDefaultParameters = {}
+      const defaults = parameterDefaults()
+      for (const key in defaults) {
+        const value = this[key]
+        if (value !== defaults[key]) {
+          nonDefaultParameters[key] = value
+        }
+      }
+      history.pushState({}, null, this.$route.path + '?' + Object.keys(nonDefaultParameters).map(key => {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(nonDefaultParameters[key])
+      }).join('&'))
     },
-
-    onDateRangeChanged (e) {
-      // Need this for anything?
-    },
-
-    onSubOrgLimitChanged (e) {
-      // Need this for anything?
-    },
-
   },
 
   computed: {
@@ -195,9 +237,13 @@ export default {
     },
 
     earliestDate () {
-      if (!this.org || !this.org.progress || !this.org.progress.first)
-        return '2013-02-28'  // First user creationn
-      return this.org.progress.first.slice(0, 10)
+      if (this.startDate && this.earliestProgressDate)
+        return this.earliestProgressDate
+      if (!this.org || !this.org.progress || !this.org.progress.first || this.startDate)
+        return '2013-02-28'  // First user creation
+      // If we have fetched progress with no date filter, then we can remember when the first student played for when we do add a date filter
+      this.earliestProgressDate = this.org.progress.first.slice(0, 10)
+      return this.earliestProgressDate
     },
 
     latestDate () {
@@ -297,24 +343,24 @@ main#page-outcomes-report
         label.control-label.col-xs-5(for="startDate")
           span  Start date
         .col-xs-7
-          input#startDate.form-control(type="date" v-model="startDate" name="startDate" @change="onDateRangeChanged" :min="earliestDate" :max="latestDate")
+          input#startDate.form-control(type="date" v-model="startDate" name="startDate" :min="earliestDate" :max="latestDate")
       .form-group
         label.control-label.col-xs-5(for="endDate")
           span  End date
         .col-xs-7
-          input#endDate.form-control(type="date" v-model="endDate" name="endDate" @change="onDateRangeChanged" :min="earliestDate" :max="latestDate")
+          input#endDate.form-control(type="date" v-model="endDate" name="endDate" :min="earliestDate" :max="latestDate")
       .form-group(v-if="childKind")
         label.control-label.col-xs-5(for="includeSubOrgs")
           //span  Include {{kindName(childKind)}}s
           span  Include #{childKind}s
         .col-xs-7
-          input#includeSubOrgs.form-control(type="checkbox" v-model="includeSubOrgs" name="includeSubOrgs" @change="onIncludeSubOrgsChanged")
+          input#includeSubOrgs.form-control(type="checkbox" v-model="includeSubOrgs" name="includeSubOrgs")
       .form-group(v-if="childKind && includeSubOrgs")
-        label.control-label.col-xs-5(for="subOrgLimit")
+        label.control-label.col-xs-5(for="$store.state.query.subOrgLimit")
           //span  Max {{kindName(childKind)}}s
           span  Max #{childKind}s
         .col-xs-7
-          input#subOrgLimit.form-control(type="number" v-model="subOrgLimit" name="subOrgLimit" @change="onIncludeSubOrgsChanged" min="1" step="1")
+          input#subOrgLimit.form-control(type="number" v-model.number="subOrgLimit" name="subOrgLimit" min="1" step="1")
     .clearfix
 </template>
 
@@ -339,6 +385,10 @@ main#page-outcomes-report
   @media print {
     margin-top: -75px;
     box-shadow: none;
+
+    #report-container {
+      margin-top: 0;
+    }
 
     a[href]:after {
       // Remove the " (" attr(href) ")" that Bootstrap adds
@@ -413,6 +463,10 @@ main#page-outcomes-report
       padding-left: 0.25in;
       bottom: 0px;
       color: white !important;
+
+      span {
+        color: white !important;
+      }
     }
 
     h4 {
