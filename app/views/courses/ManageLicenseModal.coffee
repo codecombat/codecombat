@@ -196,7 +196,8 @@ module.exports = class ManageLicenseModal extends ModalView
     prepaid = @prepaids.find((prepaid) => prepaid.status() is 'available' and prepaid.typeDescriptionWithTime() == @selectedPrepaidType)
     prepaid.redeem(user, {
       success: (prepaid) =>
-        user.set('products', user.get('products').concat(prepaid.convertToProduct()))
+        userProducts = user.get('products') ? []
+        user.set('products', userProducts.concat(prepaid.convertToProduct()))
         usersToRedeem.remove(user)
         @state.get('selectedUsers').remove(user)
         @updateVisibleSelectedUsers()
@@ -216,7 +217,7 @@ module.exports = class ManageLicenseModal extends ModalView
     @state.set {
       unusedEnrollments: @prepaidByGroup[@selectedPrepaidType].num
     }
-    @renderSelectors("#license-type-select")
+    @renderSelectors("#apply-page")
 
   onClickGetMoreLicensesButton: ->
     @hide?() # In case this is opened in /teachers/licenses itself, otherwise the button does nothing
