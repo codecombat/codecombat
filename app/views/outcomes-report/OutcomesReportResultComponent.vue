@@ -17,6 +17,10 @@ export default Vue.extend({
       type: Boolean,
       default: false
     },
+    parentOrgKind: {
+      type: String,
+      default: null
+    },
   },
 
   data () {
@@ -33,22 +37,7 @@ export default Vue.extend({
     }),
 
     kindString () {
-      if (this.org.kind == 'administrative-region' && this.org.country == 'US' && /^en/.test(me.get('preferredLanguage')))
-        return 'State'
-      //if (this.org.kind == 'school' && this.org.level && this.org.geo.country == 'US' && /^en/.test(me.get('preferredLanguage')))
-      //  return `${_.string.titleize(this.org.level)} School`
-      const key = {
-        'administrative-region': 'teachers_quote.state',
-        'school-district': 'teachers_quote.district_label',
-        'school-admin': 'outcomes.school_admin',
-        'school-network': 'outcomes.school_network',
-        'school-subnetwork': 'outcomes.school_subnetwork',
-        school: 'teachers_quote.organization_label',
-        teacher: 'courses.teacher',
-        classroom: 'outcomes.classroom',
-        student: 'courses.student',
-      }[this.org.kind]
-      return $.i18n.t(key)
+      return utils.orgKindString(this.org.kind, this.org)
     },
 
     codeLanguageString () {
@@ -95,6 +84,40 @@ export default Vue.extend({
 
       return courses
     },
+
+    mapUrl() {
+      if (!this.org.address) return null
+      let orgName = this.org.displayName || this.org.name
+      if (this.org.kind === 'school-district' && !/school.*district|isd|usd|unified/.test(orgName))
+        orgName += ' School District'
+      const addresses = [orgName + ', ' + this.org.address]
+      for (let subOrg of this.org.subOrgs || []) {
+        if (subOrg.address) {
+          let subOrgName = subOrg.displayName || subOrg.name
+          if (subOrg.kind === 'school-district' && !/school.*district|isd|usd|unified/.test(subOrgName))
+            subOrgName += ' School District'
+          addresses.push(subOrgName + ', ' + subOrg.address)
+        }
+      }
+      // One address, do a search-type link
+      let url = `https://www.google.com/maps/search/?api=1&query=${addresses.map(a => encodeURIComponent(a))}`
+      if (addresses.length > 1) {
+        // Multiple addresses, abuse direction-type link to show them all
+        // Could add &destination=${encodeURIComponent(addresses[0])} to activate the driving directions, but probably better without
+        let urlWithSubOrgs = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(addresses[0])}&waypoints=${addresses.slice(1).map(a => encodeURIComponent(a)).join('|')}`
+        if (urlWithSubOrgs.length < 8192)
+          url = urlWithSubOrgs
+      }
+      return url
+    },
+
+    isAdmin() {
+      return me.isAdmin()
+    },
+
+    isSchoolAdmin() {
+      return me.isSchoolAdmin()
+    },
   },
 
   created () {
@@ -116,6 +139,16 @@ export default Vue.extend({
       if (!/[0-9]{10}/.test(phone)) return phone
       return `(${phone.slice(0, 3)}) ${phone.slice(3, 6)}-${phone.slice(6, 10)}`
     },
+
+    formatNumber (num) {
+      if (num <         10000) return num.toLocaleString()
+      if (num <        999500) return Math.round(num / 1000) + 'K'
+      if (num <      10000000) return (num / 1000000).toFixed(1) + 'M'
+      if (num <     999500000) return Math.round(num / 1000000) + 'M'
+      if (num <   10000000000) return (num / 1000000000).toFixed(1) + 'B'
+      if (num <  999500000000) return Math.round(num / 1000000000) + 'B'
+      return Math.round(num / 1000000000000) + 'T'
+    }
   }
 });
 </script>
@@ -135,10 +168,13 @@ export default Vue.extend({
           span #{kindString}:
       span= " "
       if isSubOrg
-        a(:href="'https://codecombat.com/outcomes-report/' + org.kind + '/' + org._id" target="_blank")
+        a(:href="'/outcomes-report/' + org.kind + '/' + org._id" target="_blank")
           b= org.displayName || org.name
       else
         b= org.displayName || org.name
+        if included && isAdmin && editing && org.kind == 'school-district' && org['administrative-region']
+          span ,&nbsp;
+          a(:href="'/outcomes-report/administrative-region/' + org['administrative-region'].region.toLowerCase()" target="_blank")= org['administrative-region'].region
       if org.email
         span  (#{org.email})
       if codeLanguageString
@@ -149,13 +185,13 @@ export default Vue.extend({
         span  &nbsp;
         input(:id="'includeOrg-' + org._id" name="'includeOrg-' + org._id" type="checkbox" v-model="included")
         span  include
-      if included
+      if included && isAdmin && editing
         span(v-if="org.address")
           br
           span= org.address
-          span.editing-only
+          span
             span= ' '
-            a(:href="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(org.address)" target="_blank" rel="nofollow") (map)
+            a(:href="mapUrl" target="_blank" rel="nofollow") (map)
         //if org.geo && org.geo.county
         //  br
         //  span County: #{org.geo.county}
@@ -168,6 +204,43 @@ export default Vue.extend({
         if org.website
           span= ' Website: '
           a(:href="org.website" rel="nofollow" target="_blank")= org.website
+      if included && org.students && org.kind == 'course' && parentOrgKind != 'student'
+        for student in org.students
+          br
+          span= 'Student: '
+          a(:href="'/outcomes-report/student/' + student._id" target="_blank")
+            b= student.displayName
+      if included && org.classrooms && org.kind == 'student' && parentOrgKind != 'classroom'
+        for classroom in org.classrooms
+          br
+          span= 'Classroom: '
+          a(:href="'/outcomes-report/classroom/' + classroom._id" target="_blank")
+            b= classroom.name
+          span  #{classroom.codeLanguage} - #{formatNumber(classroom.studentCount)} students
+      if included && org.teachers && ['classroom', 'student'].indexOf(org.kind) != -1 && ['teacher', 'classroom'].indexOf(parentOrgKind) == -1
+        for teacher in org.teachers
+          br
+          span= 'Teacher: '
+          a(:href="'/outcomes-report/teacher/' + teacher._id" target="_blank")
+            b= teacher.displayName
+          if teacher.email
+            span  (#{teacher.email})
+      if included && org.schools && org.kind == 'teacher' && parentOrgKind != 'school'
+        for school in org.schools
+          br
+          span= 'School: '
+          a(:href="'/outcomes-report/school/' + school._id" target="_blank")
+            b= school.name
+      if included && org['school-district'] && ['school', 'teacher', 'school-admin'].indexOf(org.kind) != -1 && ['school-district', 'school'].indexOf(parentOrgKind) == -1 && isSchoolAdmin
+        br
+        span= 'District: '
+        a(:href="'/outcomes-report/school-district/' + org['school-district']._id" target="_blank")
+          b= org['school-district'].name
+      if included && org['school-admin'] && ['school', 'teacher'].indexOf(org.kind) != -1 && parentOrgKind != 'school-admin'
+        br
+        span= 'Admin: '
+        a(:href="'/outcomes-report/school-admin/' + org['school-admin']._id" target="_blank")
+          b= org['school-admin'].displayName
 
   .block(v-if="included && coursesLoaded && coursesWithProgress[0] && coursesWithProgress[0].studentsStarting > 1")
     h1 Course Progress
@@ -186,8 +259,8 @@ export default Vue.extend({
           .el
             .big #{Math.round(100 * course.completion)}%
             .under complete
-          .el
-            .big #{course.studentsStarting.toLocaleString()}
+          .el(v-if="org.kind != 'student'")
+            .big #{formatNumber(course.studentsStarting)}
             .under= course.studentsStarting === 1 ? "student" : "students"
           .el.concepts-list
             b Key Concepts:
@@ -222,7 +295,7 @@ export default Vue.extend({
       h4 Using CodeCombat&apos;s personalized learning engine...
       .fakebar
         div
-          | #{org.progress.studentsWithCode.toLocaleString()}
+          | #{formatNumber(org.progress.studentsWithCode)}
           = " "
           small students
     if org.kind === 'student'
@@ -231,13 +304,13 @@ export default Vue.extend({
       h4 wrote...
     .fakebar
       div
-        | #{org.progress.programs.toLocaleString()}
+        | #{formatNumber(org.progress.programs)}
         = " "
         small computer programs
     h4 across an estimated...
     .fakebar
       div
-        | #{org.progress.linesOfCode.toLocaleString()}
+        | #{formatNumber(org.progress.linesOfCode)}
         = " "
         small lines of code
     if org.progress && (org.progress.playtime >= 1.5 * 3600 || org.kind == 'student')
@@ -245,7 +318,7 @@ export default Vue.extend({
       .fakebar
         div
           if org.progress.playtime > 1.5 * 3600
-            span= Math.round(org.progress.playtime / 3600).toLocaleString()
+            span= formatNumber(Math.round(org.progress.playtime / 3600))
           else
             span= (org.progress.playtime / 3600).toFixed(1)
           = " "
@@ -254,71 +327,47 @@ export default Vue.extend({
       h4 and expressed creativity by building
       .fakebar
         div
-          | #{org.progress.projects.toLocaleString()}
+          | #{formatNumber(org.progress.projects)}
           = " "
           small standalone game and web projects
     if org.progress && org.progress.sampleSize < org.progress.populationSize
-      em * Progress stats based on sampling #{org.progress.sampleSize.toLocaleString()} of #{org.progress.populationSize.toLocaleString()} students.
-
-  
-  .dont-break.block(v-if="included && org.classrooms && org.classrooms.length")
-    .rob-row
-      // TODO: list the number of sub-orgs, which we currently know but do not return on the server
-      .left-col
-        h1 Classes
-        for clazz in org.classrooms
-          b= clazz.name
-          ul
-            li Language: #{clazz.codeLanguage}
-            li #{clazz.studentCount} students
+      em * Progress stats based on sampling #{formatNumber(org.progress.sampleSize)} of #{formatNumber(org.progress.populationSize)} students.
 
   .block(v-if="included && false")
     h1 Uncategorized Info
     ol
       if org.clan
         li
-          a(:href="'https://codecombat.com/league/' + org.clan") View AI League Team
+          a(:href="'/league/' + org.clan") View AI League Team
         li
           span (summary AI League stats about CodePoints, # participants, top players, etc.)
-      if org.schools && !isNaN(org.schools)
+      if org.nces && org.nces.schools && !isNaN(org.nces.schools)
         li
-          span Total schools in #{org.kind}: #{org.schools.toLocaleString()}
+          span Total schools in #{org.kind}: #{formatNumber(org.nces.schools)}
         li TODO: show info for all active schools we have for this #{org.kind}, not just the number of schools that exist
-      else if org.schools && org.schools.length === 1
+      else if org.schools && org.schools.length > 1
         li
-          a(:href="'https://codecombat.com/outcomes-report/school/' + org.schools[0]._id") School: #{org.schools[0].name}
-      else if org.schools
+          span # of schools: #{formatNumber(org.schools.length)}
+      if org.nces && org.nces.teachers && !isNaN(org.nces.teachers)
         li
-          span # of schools: #{org.schools.length.toLocaleString()}
-      if org.teachers && !isNaN(org.teachers)
-        li
-          span Total teachers in #{org.kind}: #{org.teachers.toLocaleString()}
+          span Total teachers in #{org.kind}: #{formatNumber(org.nces.teachers)}
         li TODO: show info for all registered teachers we have for this #{org.kind}, not just the number of teachers that exist
-      else if org.teachers && org.teachers.length === 1
+      else if org.teachers && org.teachers.length > 1
         li
-          a(:href="'https://codecombat.com/outcomes-report/teacher/' + org.teachers[0]._id") Teacher: #{org.teachers[0].displayName}
-      else if org.teachers
-        li
-          span # of teachers: #{org.teachers.length.toLocaleString()}
+          span # of teachers: #{formatNumber(org.teachers.length)}
       if org.classrooms && !isNaN(org.classrooms)
         li
-          span Total classrooms in #{org.kind}: #{org.classrooms.toLocaleString()}
-      else if org.classrooms && org.classrooms.length === 1
+          span Total classrooms in #{org.kind}: #{formatNumber(org.classrooms)}
+      else if org.classrooms && org.classrooms.length > 1
         li
-          a(:href="'https://codecombat.com/outcomes-report/classroom/' + org.classrooms[0]._id") Classroom: #{org.classrooms[0].name} #{org.classrooms[0].codeLanguage} - #{org.classrooms[0].studentCount.toLocaleString()} students
-      else if org.classrooms
+          span # of classrooms: #{formatNumber(org.classrooms.length)}
+      if org.nces && org.nces.students && !isNaN(org.nces.students)
         li
-          span # of classrooms: #{org.classrooms.length.toLocaleString()}
-      if org.students && !isNaN(org.students)
-        li
-          span Total students in #{org.kind}: #{org.students.toLocaleString()}
+          span Total students in #{org.kind}: #{formatNumber(org.nces.students)}
         li TODO: show info for all registered students we have for this #{org.kind}, not just the number of students that exist
-      else if org.students && org.students.length === 1
+      else if org.students && org.students.length > 1
         li
-          a(:href="'https://codecombat.com/outcomes-report/student/' + org.students[0]._id") Student: #{org.students[0].displayName} - #{org.students[0].progress ? org.students[0].progress.programs.toLocaleString() + ' programs' : ''}
-      else if org.students
-        li
-          span # of students: #{org.students.length.toLocaleString()}
+          span # of students: #{formatNumber(org.students.length)}
       if org.licenses && ((org.licenses.usage && org.licenses.total) || org.licenses.hasAccessToShared)
         li
           span= licenses
@@ -503,15 +552,6 @@ export default Vue.extend({
       ul {
         padding-left: 2ex;
       }
-    }
-    .row-row {
-      page-break-inside: avoid;
-    }
-    .rob-row::after {
-      page-break-inside: avoid;
-      content: " ";
-      display: table;
-      clear: both;
     }
   }
   .dont-break {
