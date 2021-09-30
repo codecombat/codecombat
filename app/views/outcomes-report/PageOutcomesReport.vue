@@ -172,9 +172,7 @@ export default {
       console.log('gonna load stats for', kind, orgIdOrSlug, country)
       const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate } )
       console.log(' ...', kind, orgIdOrSlug, country, 'got stats', stats)
-      const orgs = stats[kind + 's']
-      this.org = Object.freeze(orgs ? orgs[0] : null)
-      console.log('   ... got our org', this.org)
+
       let subOrgs = []
       if (includeSubOrgs) {
         for (const childKind of orgKinds[kind].childKinds) {
@@ -183,9 +181,15 @@ export default {
         for (let [index, subOrg] of subOrgs.entries()) {
           subOrg.initiallyIncluded = Boolean(!subOrg.archived && index < this.subOrgLimit && subOrg.progress && subOrg.progress.programs)
         }
-        console.log('    ... found suborgs', subOrgs, 'for child kinds', orgKinds[kind].childKinds)
       }
-      this.subOrgs = Object.freeze(subOrgs)
+      this.subOrgs = Object.freeze(subOrgs)  // Don't add reactivity
+
+      const orgs = stats[kind + 's']
+      if (orgs) {
+        orgs[0].subOrgs = this.subOrgs
+        this.org = Object.freeze(orgs[0])  // Don't add reactivity
+        console.log('   ... got our org', this.org)
+      }
     },
 
     kindName (kind) {
