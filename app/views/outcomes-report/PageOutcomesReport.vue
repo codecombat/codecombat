@@ -2,17 +2,18 @@
 import { mapGetters, mapActions, mapState } from 'vuex'
 import OutcomesReportResultComponent from './OutcomesReportResultComponent'
 import { getOutcomesReportStats } from '../../core/api/outcomes-reports'
+import utils from 'core/utils'
 
 const orgKinds = {
-  'administrative-region': { displayName: 'State', childKinds: ['school-district'] },  // TODO: localize
-  'school-district': { displayName: 'District', childKinds: ['school'] },
-  'school-admin': { displayName: 'Administrator', childKinds: ['teacher'] },
-  'school-network': { displayName: 'Network', childKinds: ['school-subnetwork', 'school'] },
-  'school-subnetwork': { displayName: 'Subnetwork', childKinds: ['school'] },
-  school: { displayName: 'School', childKinds: ['teacher', 'classroom'] },
-  teacher: { displayName: 'Teacher', childKinds: ['classroom', 'student'] },
-  classroom: { displayName: 'Classroom', childKinds: ['student'] },
-  student: { displayName: 'Student', childKinds: [] }
+  'administrative-region': { childKinds: ['school-district'] },
+  'school-district': { childKinds: ['school'] },
+  'school-admin': { childKinds: ['teacher'] },
+  'school-network': { childKinds: ['school-subnetwork', 'school'] },
+  'school-subnetwork': { childKinds: ['school'] },
+  school: { childKinds: ['teacher', 'classroom'] },
+  teacher: { childKinds: ['classroom', 'student'] },
+  classroom: { childKinds: ['student'] },
+  student: { childKinds: [] }
 }
 
 const parameterDefaults = () => ({
@@ -179,7 +180,8 @@ export default {
           subOrgs = subOrgs.concat(stats[childKind + 's'] || [])
         }
         for (let [index, subOrg] of subOrgs.entries()) {
-          subOrg.initiallyIncluded = Boolean(!subOrg.archived && index < this.subOrgLimit && subOrg.progress && subOrg.progress.programs)
+          subOrg.initiallyIncluded = Boolean(!subOrg.archived && index < this.subOrgLimit && subOrg.progress && subOrg.progress.programs && (subOrgs.length > 1 || this.subOrgLimit === 1))
+          // TODO: better way to get rid of redundant info if there is only one subOrg
         }
       }
       this.subOrgs = Object.freeze(subOrgs)  // Don't add reactivity
@@ -192,8 +194,8 @@ export default {
       }
     },
 
-    kindName (kind) {
-      return orgKinds[kind].name
+    kindString (org) {
+      return utils.orgKindString(org.kind, org)
     },
 
     onPrintButtonClicked (e) {
@@ -255,7 +257,7 @@ export default {
     },
 
     accountManager () {
-      if (me.isAdmin() || /@codecombat\.com/i.test(me.get('email')))
+      if ((me.isAdmin() || /@codecombat\.com$/i.test(me.get('email'))) && !/@gmail\.com$/i.test(me.get('email')))
         return { name: me.broadName(), email: me.get('email') }
       else
         return { email: 'schools@codecombat.com' }
@@ -290,7 +292,7 @@ main#page-outcomes-report
     .org-results(v-if="org && !loading")
       outcomes-report-result-component(:org="org" v-bind:editing="editing")
       if includeSubOrgs
-        outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true")
+        outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
 
     .loading-indicator(v-if="loading")
       h1= $t('common.loading')
@@ -305,6 +307,9 @@ main#page-outcomes-report
             = org.insightsHtml
 
     .dont-break(v-if="!loading")
+      if subOrgs.length > subOrgLimit && !editing
+        .block
+          h3 ... and #{subOrgs.length - subOrgLimit} other #{kindString(subOrgs[0]).toLowerCase()}#{subOrgs.length - subOrgLimit > 1 ? 's' : ''}
       img.anya(src="/images/pages/admin/outcomes-report/anya.png")
       .block.room-for-anya
         h1 Standards Coverage
@@ -355,14 +360,12 @@ main#page-outcomes-report
           input#endDate.form-control(type="date" v-model="endDate" name="endDate" :min="earliestDate" :max="latestDate")
       .form-group(v-if="childKind")
         label.control-label.col-xs-5(for="includeSubOrgs")
-          //span  Include {{kindName(childKind)}}s
-          span  Include #{childKind}s
+          span  Include #{kindString({kind: childKind}).toLowerCase()}s
         .col-xs-7
           input#includeSubOrgs.form-control(type="checkbox" v-model="includeSubOrgs" name="includeSubOrgs")
       .form-group(v-if="childKind && includeSubOrgs")
         label.control-label.col-xs-5(for="$store.state.query.subOrgLimit")
-          //span  Max {{kindName(childKind)}}s
-          span  Max #{childKind}s
+          span  Max #{kindString({kind: childKind}).toLowerCase()}s
         .col-xs-7
           input#subOrgLimit.form-control(type="number" v-model.number="subOrgLimit" name="subOrgLimit" min="1" step="1")
     .clearfix
@@ -542,7 +545,7 @@ main#page-outcomes-report
         padding-left: 2ex;
       }
     }
-    .row-row {
+    .rob-row {
       page-break-inside: avoid;
     }
     .rob-row::after {
