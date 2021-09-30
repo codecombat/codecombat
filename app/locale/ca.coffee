@@ -430,6 +430,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     create_individual_header: "Crea un compte Individual"
     email_announcements: "Rebre anuncis sobre nous nivells CodeCombat i les seves característiques"
     sign_in_to_continue: "Inicieu sessió o creeu un compte per continuar"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Mantén-me actualitzat sobre nous recursos docents, currículum i cursos!"
     creating: "Creant Compte..."
     sign_up: "Registrar-se"
@@ -631,6 +632,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    email_us: "Send us an email"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "segon"
@@ -2044,7 +2046,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     hoc_programming: "Programació en JavaScript/Python"
     hoc_teacher_led: "Lliçons magistrals"
     hoc_teacher_led_desc1: "Baixa't la nostra"
-    hoc_teacher_led_link: "planificació de lliçons sobre Introducció a la Informàtica"
+    hoc_teacher_led_link: "planificació de lliçons sobre Introducció a la Informàtica" # {change}
     hoc_teacher_led_desc2: "per introduir els vostres estudiants en conceptes de programació utilitzant activitats fora de línia"
     hoc_group: "Joc Grupal"
     hoc_group_desc_1: "Els professors poden utilitzar les lliçons juntament amb el nostre curs de Introducció a la informàtica per fer un seguiment del progrés dels estudiants. Mira la nostra"
@@ -2180,6 +2182,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     victory_course_share_suffix: "que acabes de crear."
     copy_url: "Copiar URL"
     share_with_teacher_email: "Enviar al teu professor/a"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Creador"
@@ -3137,6 +3142,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   hoc_2018:
 #    banner: "Welcome to Hour of Code!"
     page_heading: "Ensenya als teus alumnes com construir el seu propi joc d'arcade!" # {change}
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -3148,9 +3154,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    teacher_signup_input_placeholder: "Teacher email address"
 #    teacher_signup_input_button: "Get CS1 Free"
 #    activities_header: "More Hour of Code Activities"
-#    activity_label_1: "Escape the Dungeon!"
-#    activity_label_2: " Beginner: Build a Game!"
-#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_label_1: "Beginner CS: Escape the Dungeon!"
+#    activity_label_2: " Beginner GD: Build a Game!"
+#    activity_label_3: "Advanced GD: Build an Arcade Game!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
 #    activity_button_1: "View Lesson"
     about: "Sobre CodeCombat:" # {change}
     about_copy: "CodeCombat és un programa informàtic basat en jocs per ensenyar Python i JavaScript reals. El currículum d'acord amb els estàndards de CodeCombat es basa en un joc que els estudiants estimen. Més de 12 milions d'estudiants han après a codificar amb CodeCombat!" # {change}

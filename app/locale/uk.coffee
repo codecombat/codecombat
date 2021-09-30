@@ -430,6 +430,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     create_individual_header: "Створити особисту обліківку"
     email_announcements: "Отримувати анонси про нові рівні та інші новинки CodeCombat!"
     sign_in_to_continue: "Увійдіть або створить обліківку для того щоб продовжити"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Тримайте мене в курсі нових ресурсів для вчителів, навчальних програм та навчальних курсів!"
     creating: "Створення обліківки..."
     sign_up: "Реєстрація"
@@ -631,6 +632,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    email_us: "Send us an email"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "секунда"
@@ -2044,7 +2046,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     hoc_programming: "Програмування на JavaScript/Python"
     hoc_teacher_led: "Уроки під наглядом учителя"
     hoc_teacher_led_desc1: "Завантажте наш"
-    hoc_teacher_led_link: "Плани на курс комп'ютерних наук"
+    hoc_teacher_led_link: "Плани на курс комп'ютерних наук" # {change}
     hoc_teacher_led_desc2: "щоб ознайомити ваших учнів з концепціями програмування офлайн"
     hoc_group: "Груповий геймплей"
     hoc_group_desc_1: "Вчителі можуть використовувати уроки в поєднанні з нашим курсом Вступу до комп'ютерної науки, щоб слідкувати за прогресом учнів. Перегляньте наш"
@@ -2180,6 +2182,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     victory_course_share_suffix: ", яку ви щойно створили."
     copy_url: "Копіювати посилання"
 #    share_with_teacher_email: "Send to your teacher"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Творець"
@@ -3137,6 +3142,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #  hoc_2018:
 #    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -3148,9 +3154,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    teacher_signup_input_placeholder: "Teacher email address"
 #    teacher_signup_input_button: "Get CS1 Free"
 #    activities_header: "More Hour of Code Activities"
-#    activity_label_1: "Escape the Dungeon!"
-#    activity_label_2: " Beginner: Build a Game!"
-#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_label_1: "Beginner CS: Escape the Dungeon!"
+#    activity_label_2: " Beginner GD: Build a Game!"
+#    activity_label_3: "Advanced GD: Build an Arcade Game!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
 #    activity_button_1: "View Lesson"
 #    about: "About CodeCombat"
 #    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."

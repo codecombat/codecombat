@@ -430,6 +430,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     create_individual_header: "创建个人账号"
     email_announcements: "通过邮件接收新关卡和功能通知！"
     sign_in_to_continue: "登录或创建一个账号继续"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "让我们在教学资源和课程上不断更新！"
     creating: "账户创建中……"
     sign_up: "注册"
@@ -631,6 +632,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     email_us: "给我们发邮件"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "秒"
@@ -2044,7 +2046,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     hoc_programming: "JavaScript/Python 编程"
     hoc_teacher_led: "教师主导的课程"
     hoc_teacher_led_desc1: "下载我们"
-    hoc_teacher_led_link: "计算机科学概论教案"
+    hoc_teacher_led_link: "计算机科学概论教案" # {change}
     hoc_teacher_led_desc2: "利用线下活动向学生介绍编程概念。"
     hoc_group: "小组游戏"
     hoc_group_desc_1: "教师可以将这些课程与我们的计算机科学入门课程结合起来使用，以跟踪学生的进步。请参阅我们的"
@@ -2180,6 +2182,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_course_share_suffix: "分享给亲朋好友。"
     copy_url: "复制 URL"
     share_with_teacher_email: "发送给你的老师"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "创建者"
@@ -3137,6 +3142,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   hoc_2018:
     banner: "欢迎来到“2020 编码一小时”！"
     page_heading: "教你的学生如何建立自己的街机游戏!" # {change}
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
     step_1: "步骤 1：观看视频概述"
     step_2: "步骤 2：自己尝试"
     step_3: "步骤 3：下载教案"
@@ -3151,6 +3157,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     activity_label_1: "逃离地下城！"
     activity_label_2: " 初学玩家：建立一个游戏！"
     activity_label_3: "高级玩家：建立一个街机游戏!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
     activity_button_1: "查看课程"
     about: "关于 CodeCombat 游戏" # {change}
     about_copy: "CodeCombat 是一个基于游戏的计算机科学程序，用于教真正的 Python 和 JavaScript。CodeCombat 的标准课程是围绕学生喜欢的游戏进行设计。超过1200万的学生已经学会在 CodeCombat 上编程!" # {change}
