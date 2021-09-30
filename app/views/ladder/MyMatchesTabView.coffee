@@ -4,6 +4,8 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
+ShareLadderLinkModal = require './ShareLadderLinkModal'
+utils = require 'core/utils'
 {teamDataFromLevel, scoreForDisplay} = require './utils'
 require 'd3/d3.js'
 
@@ -13,6 +15,7 @@ module.exports = class MyMatchesTabView extends CocoView
 
   events:
     'click .load-more-matches': 'onLoadMoreMatches'
+    'click .share-ladder-link-button': 'openShareLadderLinkModal'
 
   initialize: (options, @level, @sessions) ->
     @nameMap = {}
@@ -84,7 +87,7 @@ module.exports = class MyMatchesTabView extends CocoView
 
     ids = _.uniq ids
     unless ids.length
-      @render()
+      @render() if @renderedOnce
       return
 
     success = (nameMap) =>
@@ -103,7 +106,7 @@ module.exports = class MyMatchesTabView extends CocoView
           if name.length > 21
             name = name.substr(0, 18) + '...'
           @nameMap[opponent.userID] = name
-      @render() if @supermodel.finished()
+      @render() if @supermodel.finished() and @renderedOnce
 
     userNamesRequest = @supermodel.addRequestResource 'user_names', {
       url: '/db/user/-/names'
@@ -115,6 +118,7 @@ module.exports = class MyMatchesTabView extends CocoView
 
   afterRender: ->
     super()
+    @renderedOnce = true
     @removeSubView subview for key, subview of @subviews when subview instanceof LadderSubmissionView
     @$el.find('.ladder-submission-view').each (i, el) =>
       placeholder = $(el)
@@ -124,6 +128,10 @@ module.exports = class MyMatchesTabView extends CocoView
         mirrorSession = (s for s in @sessions.models when s.get('team') isnt session.get('team'))[0]
       ladderSubmissionView = new LadderSubmissionView session: session, level: @level, mirrorSession: mirrorSession
       @insertSubView ladderSubmissionView, placeholder
+      if session?.readyToRank() and utils.getQueryVariable('submit') and not @initiallyAutoSubmitted
+        @initiallyAutoSubmitted = true
+        ladderSubmissionView.rankSession()
+        @openShareLadderLinkModal()  # todo: check conflict with #play modal
 
     @$el.find('.score-chart-wrapper').each (i, el) =>
       scoreWrapper = $(el)
@@ -131,6 +139,25 @@ module.exports = class MyMatchesTabView extends CocoView
       @generateScoreLineChart(scoreWrapper.attr('id'), team.scoreHistory, team.name)
 
     @$el.find('tr.fresh').removeClass('fresh', 5000)
+
+  openShareLadderLinkModal: (e) ->
+    if e
+      myTeam = $(e.target).closest('.share-ladder-link-button').data('team')
+      session = (s for s in @sessions.models when s.get('team') is myTeam)[0]
+    session ?= (s for s in @sessions.models when s.get('team') is 'ogres')[0]
+    session ?= (s for s in @sessions.models when s.get('team') is 'humans')[0]
+    unless session
+      return noty text: "You don't have any submitted AI code to play against", layout: 'topCenter', type: 'error', timeout: 4000
+    visitingTeam = if session.get('team') is 'humans' and not @level.isType('ladder') then 'ogres' else 'humans'
+    shareURL = "#{window.location.origin}/play/level/#{@level.get('slug')}?team=#{visitingTeam}&opponent=#{session.get('_id')}"
+    eventProperties = {
+      category: 'Share Ladder Link'
+      sessionID: session.id
+      levelID: @level.id
+      levelSlug: @level.get('slug')
+    }
+    @openModalView new ShareLadderLinkModal {shareURL, eventProperties}
+    @openedShareLadderLinkModal = true
 
   statsFromSession: (session) ->
     return null unless session

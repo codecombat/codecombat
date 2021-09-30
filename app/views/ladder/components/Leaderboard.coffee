@@ -24,6 +24,7 @@ module.exports = class LeaderboardView extends CocoView
     # params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
     super options
     @tableTitles = [
+      {slug: 'creator', col: 0, title: ''},
       {slug: 'language', col: 1, title: ''},
       {slug: 'rank', col: 1, title: $.i18n.t('general.rank')},
       {slug: 'name', col: 3, title: $.i18n.t('general.name')},
@@ -37,6 +38,7 @@ module.exports = class LeaderboardView extends CocoView
     @propsData = { @tableTitles, @league, @level, scoreType: 'tournament' }
     unless @tournament
       @propsData.tableTitles = [
+        {slug: 'creator', col: 0, title: ''},
         {slug: 'language', col: 1, title: ''},
         {slug: 'rank', col: 1, title: ''},
         {slug: 'name', col: 3, title: $.i18n.t('general.name')},
@@ -125,6 +127,7 @@ module.exports = class LeaderboardView extends CocoView
         return model
       if @tournament
         return [
+          model.get('creator'),
           model.get('submittedCodeLanguage'),
           index+1,
           (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
@@ -137,10 +140,11 @@ module.exports = class LeaderboardView extends CocoView
         ]
       else
         return [
+          model.get('creator'),
           model.get('submittedCodeLanguage'),
           model.rank || index+1,
           (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
-          model.get('totalScore') * 100 | 0,
+          @correctScore(model),
           @getAgeBracket(model),
           moment(model.get('submitDate')).fromNow().replace('a few ', ''),
           model.get('_id')
@@ -213,3 +217,7 @@ module.exports = class LeaderboardView extends CocoView
 
   getAgeBracket: (model) ->
     $.i18n.t("ladder.bracket_#{(model.get('ageBracket') || 'open').replace(/-/g, '_')}")
+
+  correctScore: (model) ->
+    sessionStats = if @league then _.find(model.get('leagues'), {leagueID: @league.id})?.stats else model.attributes
+    return (sessionStats?.totalScore || model.get('totalScore')/2) * 100 | 0

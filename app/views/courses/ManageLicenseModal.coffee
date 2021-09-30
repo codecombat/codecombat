@@ -217,7 +217,7 @@ module.exports = class ManageLicenseModal extends ModalView
     @state.set {
       unusedEnrollments: @prepaidByGroup[@selectedPrepaidType].num
     }
-    @renderSelectors("#license-type-select")
+    @renderSelectors("#apply-page")
 
   onClickGetMoreLicensesButton: ->
     @hide?() # In case this is opened in /teachers/licenses itself, otherwise the button does nothing
