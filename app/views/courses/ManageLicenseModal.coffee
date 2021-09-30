@@ -196,7 +196,8 @@ module.exports = class ManageLicenseModal extends ModalView
     prepaid = @prepaids.find((prepaid) => prepaid.status() is 'available' and prepaid.typeDescriptionWithTime() == @selectedPrepaidType)
     prepaid.redeem(user, {
       success: (prepaid) =>
-        user.set('products', user.get('products').concat(prepaid.convertToProduct()))
+        userProducts = user.get('products') ? []
+        user.set('products', userProducts.concat(prepaid.convertToProduct()))
         usersToRedeem.remove(user)
         @state.get('selectedUsers').remove(user)
         @updateVisibleSelectedUsers()
