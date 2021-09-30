@@ -95,6 +95,36 @@ export default Vue.extend({
 
       return courses
     },
+
+    mapUrl() {
+      if (!this.org.address) return null
+      let orgName = this.org.displayName || this.org.name
+      if (this.org.kind === 'school-district' && !/school.*district|isd|usd|unified/.test(orgName))
+        orgName += ' School District'
+      const addresses = [orgName + ', ' + this.org.address]
+      for (let subOrg of this.org.subOrgs || []) {
+        if (subOrg.address) {
+          let subOrgName = subOrg.displayName || subOrg.name
+          if (subOrg.kind === 'school-district' && !/school.*district|isd|usd|unified/.test(subOrgName))
+            subOrgName += ' School District'
+          addresses.push(subOrgName + ', ' + subOrg.address)
+        }
+      }
+      // One address, do a search-type link
+      let url = `https://www.google.com/maps/search/?api=1&query=${addresses.map(a => encodeURIComponent(a))}`
+      if (addresses.length > 1) {
+        // Multiple addresses, abuse direction-type link to show them all
+        // Could add &destination=${encodeURIComponent(addresses[0])} to activate the driving directions, but probably better without
+        let urlWithSubOrgs = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(addresses[0])}&waypoints=${addresses.slice(1).map(a => encodeURIComponent(a)).join('|')}`
+        if (urlWithSubOrgs.length < 8192)
+          url = urlWithSubOrgs
+      }
+      return url
+    },
+
+    isAdmin() {
+      return me.isAdmin()
+    },
   },
 
   created () {
@@ -149,13 +179,13 @@ export default Vue.extend({
         span  &nbsp;
         input(:id="'includeOrg-' + org._id" name="'includeOrg-' + org._id" type="checkbox" v-model="included")
         span  include
-      if included
+      if included && isAdmin && editing
         span(v-if="org.address")
           br
           span= org.address
-          span.editing-only
+          span
             span= ' '
-            a(:href="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(org.address)" target="_blank" rel="nofollow") (map)
+            a(:href="mapUrl" target="_blank" rel="nofollow") (map)
         //if org.geo && org.geo.county
         //  br
         //  span County: #{org.geo.county}
