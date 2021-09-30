@@ -851,6 +851,21 @@ isOldBrowser = () ->
 isCodeCombat = false
 isOzaria = true
 
+orgKindString = (kind, org=null) ->
+  return 'State' if kind is 'administrative-region' and org?.country is 'US' and /^en/.test me.get('preferredLanguage')
+  key = {
+    'administrative-region': 'teachers_quote.state'
+    'school-district': 'teachers_quote.district_label'
+    'school-admin': 'outcomes.school_admin'
+    'school-network': 'outcomes.school_network'
+    'school-subnetwork': 'outcomes.school_subnetwork'
+    school: 'teachers_quote.organization_label'
+    teacher: 'courses.teacher'
+    classroom: 'outcomes.classroom'
+    student: 'courses.student'
+  }[kind]
+  return $.i18n.t(key)
+
 module.exports = {
   addIntroLevelContent
   ageBrackets
@@ -902,6 +917,7 @@ module.exports = {
   normalizeFunc
   objectIdToDate
   orderedCourseIDs
+  orgKindString
   pathToUrl
   petThangIDs
   premiumContent
