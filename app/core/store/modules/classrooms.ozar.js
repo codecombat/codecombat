@@ -1,6 +1,7 @@
 import classroomsApi from 'core/api/classrooms'
 import courseInstancesApi from 'core/api/course-instances'
 import storage from 'core/storage'
+import _ from 'lodash'
 
 export default {
   namespaced: true,
@@ -292,8 +293,16 @@ export default {
     // Updates the classroom and its vuex state
     updateClassroom: async ({ commit }, options) => {
       const classroom = options.classroom
-      await classroomsApi.update({ classroomID: classroom._id, updates: options.updates })
-      commit('updateClassroom', { teacherId: classroom.ownerID, classroomId: classroom._id, updates: options.updates })
+      const response = await classroomsApi.update({ classroomID: classroom._id, updates: options.updates })
+      const keysToUpdate = Object.keys(options.updates);
+      commit('updateClassroom', {
+        teacherId: classroom.ownerID,
+        classroomId: classroom._id,
+        updates: {
+          ...options.updates,
+          ..._.pick(response, keysToUpdate),
+        }
+      });
     },
 
     setMostRecentClassCode: ({ commit }, classCode) => {
