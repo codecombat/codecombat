@@ -1,4 +1,5 @@
 <script>
+  import { mapActions } from 'vuex'
   import PrimaryButton from '../common/buttons/PrimaryButton'
   import SecondaryButton from '../common/buttons/SecondaryButton'
   import { tryCopy } from 'ozaria/site/common/ozariaUtils'
@@ -13,6 +14,9 @@
       ButtonGoogleClassroom,
       ModalDivider
     },
+    data: () => ({
+      regenerationInProgress: false,
+    }),
     props: {
       classroomCode: {
         type: String,
@@ -25,7 +29,7 @@
       },
       classroom: {
         type: Object,
-        default: () => {}
+        required: true
       },
       showGoogleClassroom: {
         type: Boolean,
@@ -39,9 +43,12 @@
     computed: {
       classroomUrl () {
         return `${document.location.origin}/students?_cc=${this.classroomCode}`
-      }
+      },
     },
     methods: {
+      ...mapActions({
+        updateClassroom: 'classrooms/updateClassroom',
+      }),
       copyCode () {
         this.$refs['classCode'].select()
         tryCopy()
@@ -55,7 +62,13 @@
       clickInviteButton () {
         window.tracker?.trackEvent('Add Students: Invite By Email Clicked', { category: 'Teachers', label: this.from })
         this.$emit('inviteStudents')
-      }
+      },
+      async regenerateClassCode () {
+        this.regenerationInProgress = true;
+        window.tracker?.trackEvent('Add Students: Request New Class Code Clicked', { category: 'Teachers', label: this.from })
+        await this.updateClassroom({ classroom:this.classroom, updates: { codeCamel: '', code: '' } });
+        this.regenerationInProgress = false;
+      },
     }
   })
 </script>
@@ -93,6 +106,13 @@
         </div>
       </div>
       <span class="sub-text"> {{ $t("teachers.class_code_desc") }} </span>
+      <primary-button
+          :inactive="regenerationInProgress"
+          class="regenerate-code-button"
+          @click="regenerateClassCode"
+      >
+        {{ $t("teachers.regenerate_class_code") }}
+      </primary-button>
       <div class="class-url">
         <span class="form-label"> {{ $t("teachers.class_url") }} </span>
         <div class="form-input">
@@ -182,6 +202,10 @@
   width: 190px;
   height: 35px;
   margin-top: 20px;
+}
+
+.regenerate-code-button {
+  @extend .invite-button;
 }
 
 .done-button {
