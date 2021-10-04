@@ -430,6 +430,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     create_individual_header: "Создать личную учётную запись"
     email_announcements: "Получать оповещения о новых уровнях и возможностях на CodeCombat"
     sign_in_to_continue: "Войдите или создайте учётную запись для продолжения"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Сообщайте мне о новых учебных материалах, планах и курсах!"
     creating: "Создаём учётную запись..."
     sign_up: "Регистрация"
@@ -631,6 +632,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     email_us: "Отправьте нам сообщение"
     sales: "Распродажи"
     support: "Поддержка"
+#    here: "here"
 
   units:
     second: "секунда"
@@ -2038,13 +2040,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
 #    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
 #    hoc_self_led: "Self-Led Gameplay"
-#    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
+#    hoc_self_led_desc: "Students can play through our Hour of Code CodeCombat tutorials on their own"
 #    hoc_game_dev: "Game Development"
 #    hoc_and: "and"
 #    hoc_programming: "JavaScript/Python Programming"
 #    hoc_teacher_led: "Teacher-Led Lessons"
 #    hoc_teacher_led_desc1: "Download our"
-#    hoc_teacher_led_link: "Introduction to Computer Science lesson plans"
+#    hoc_teacher_led_link: "Hour of Code lesson plans"
 #    hoc_teacher_led_desc2: "to introduce your students to programming concepts using offline activities"
 #    hoc_group: "Group Gameplay"
 #    hoc_group_desc_1: "Teachers can use the lessons in conjunction with our Introduction to Computer Science course to track student progress. See our"
@@ -2180,6 +2182,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_course_share_suffix: "которые ты только что создал."
     copy_url: "Копировать URL"
     share_with_teacher_email: "Отправить твоему учителю"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Создатель"
@@ -3137,6 +3142,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   hoc_2018:
     banner: "Добро пожаловать в час кода!" # {change}
     page_heading: "Ваши ученики будут учиться программировать, создавая свою собственную игру"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
     step_1: "Шаг 1: Посмотри вводное видео"
     step_2: "Шаг 2: Попробуй сам"
     step_3: "Шаг 3: Скачай план урока"
@@ -3151,6 +3157,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     activity_label_1: "Убеги из подземелья!"
     activity_label_2: "Новичок: Сделай игру"
     activity_label_3: "Продвинутый: Сделай аркадную игру!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
     activity_button_1: "Посмотри урок"
     about: "Подробнее о CodeCombat"
     about_copy: "Программа обучения реальному программированию на Python и JavaScript, основанная на игре"
