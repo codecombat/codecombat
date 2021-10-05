@@ -274,7 +274,7 @@ export default Vue.extend({
               circle.bottom(r=radius,cx=radius,cy=radius)
               circle.top(r=radius / 2, cx=radius, cy=radius, :style="'stroke-dasharray: ' + 3.1415926 * 50 * course.completion + 'px ' + 3.1415926 * 50 + 'px'")
             if org.kind != 'student'
-              .overlay-text.top-text #{formatNumber(course.studentsStarting)} #{course.studentsStarting === 1 ? "stu.dent" : "students"}
+              .overlay-text.top-text #{formatNumber(course.studentsStarting)} #{course.studentsStarting === 1 ? "student" : "students"}
             .overlay-text.mid-text= course.acronym
             .overlay-text.bot-text #{Math.round(100 * course.completion)}% complete
 
@@ -305,7 +305,7 @@ export default Vue.extend({
         div
           | #{formatNumber(org.progress.studentsWithCode)}
           = " "
-          small students
+          small= org.progress.studentsWithCode == 1 ? 'student' : 'students'
     if org.kind === 'student'
       h4 #{org.displayName || org.name} wrote...
     else
@@ -314,13 +314,13 @@ export default Vue.extend({
       div
         | #{formatNumber(org.progress.programs)}
         = " "
-        small computer programs
+        small= org.progress.programs == 1 ? 'computer program' : 'computer programs'
     h4 across an estimated...
     .fakebar
       div
         | #{formatNumber(org.progress.linesOfCode)}
         = " "
-        small lines of code
+        small= org.progress.linesOfCode == 1 ? 'line of code' : 'lines of code'
     if org.progress && (org.progress.playtime >= 1.5 * 3600 || org.kind == 'student')
       h4 in...
       .fakebar
@@ -337,7 +337,7 @@ export default Vue.extend({
         div
           | #{formatNumber(org.progress.projects)}
           = " "
-          small standalone game and web projects
+          small= 'standalone game and web ' + (org.progress.projects == 1 ? 'project' : 'projects')
     if org.progress && org.progress.sampleSize < org.progress.populationSize
       em * Progress stats based on sampling #{formatNumber(org.progress.sampleSize)} of #{formatNumber(org.progress.populationSize)} students.
 

@@ -29,6 +29,12 @@ export default {
     OutcomesReportResultComponent,
   },
 
+  metaInfo () {
+    return {
+      title: `CodeCombat Outcomes Report${ this.org ? ' - ' + (this.org.displayName || this.org.name) : ''}`,
+    }
+  },
+
   data () {
     const obj = {
       kind: '',
@@ -342,7 +348,7 @@ main#page-outcomes-report
     .clearfix
 
   form.menu.form-horizontal
-    .print-btn.btn.btn-primary.btn-lg(@click="onPrintButtonClicked") {{ $t('courses.certificate_btn_print') }}
+    .print-btn.btn.btn-primary.btn-lg(@click="onPrintButtonClicked") {{ $t('courses.certificate_btn_print') }} / PDF
     .edit.btn.btn-primary.btn-lg(@click="onEditButtonClicked")
       if editing
         span Done Customizing
@@ -410,7 +416,7 @@ main#page-outcomes-report
     }
 
     .editing-only {
-      display: none
+      display: none;
     }
   }
 
