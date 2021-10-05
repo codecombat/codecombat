@@ -199,7 +199,9 @@ export default {
     },
 
     onPrintButtonClicked (e) {
-      window.print()
+      // Give time to adjust what's displayed to non-editing mode before printing
+      this.editing = false
+      _.defer(window.print)
     },
 
     onEditButtonClicked (e) {
@@ -308,8 +310,8 @@ main#page-outcomes-report
 
     .dont-break(v-if="!loading")
       if subOrgs.length > subOrgLimit && !editing
-        .block
-          h3 ... and #{subOrgs.length - subOrgLimit} other #{kindString(subOrgs[0]).toLowerCase()}#{subOrgs.length - subOrgLimit > 1 ? 's' : ''}
+        .block.other-sub-orgs
+          h3 (... stats include #{subOrgs.length - subOrgLimit} other #{kindString(subOrgs[0]).toLowerCase()}#{subOrgs.length - subOrgLimit > 1 ? 's' : ''} ...)
       img.anya(src="/images/pages/admin/outcomes-report/anya.png")
       .block.room-for-anya
         h1 Standards Coverage
@@ -395,6 +397,11 @@ main#page-outcomes-report
 
     #report-container {
       margin-top: 0;
+    }
+
+    a, a * {
+      color: #0b63bc !important;
+      cursor: pointer;
     }
 
     a[href]:after {
@@ -530,13 +537,13 @@ main#page-outcomes-report
       line-height: 18pt;
     }
     .left-col {
-      page-break-inside: avoid;
+      break-inside: avoid;
       float: left;
       width: 4in;
       margin-right: 1in;
     }
     .right-col {
-      page-break-inside: avoid;
+      break-inside: avoid;
       float: left;
       width: 2.5in;
       font-size: 14pt;
@@ -546,18 +553,22 @@ main#page-outcomes-report
       }
     }
     .rob-row {
-      page-break-inside: avoid;
+      break-inside: avoid;
     }
     .rob-row::after {
-      page-break-inside: avoid;
+      break-inside: avoid;
       content: " ";
       display: table;
       clear: both;
     }
+    &.other-sub-orgs {
+      padding-top: 0.25in;
+      text-align: center;
+    }
   }
 
   .dont-break {
-    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
   img.anya {
