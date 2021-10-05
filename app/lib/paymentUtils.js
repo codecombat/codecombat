@@ -1,9 +1,9 @@
 import { getPaymentGroupFromProduct } from '../core/api/payment-group'
 import { handleCheckoutSession } from '../views/payment/paymentPriceHelper'
 
-async function handleHomeSubscription(product) {
+async function handleHomeSubscription(product, couponId) {
   const productId = product.get('_id')
-  const paymentGroupResp = await getPaymentGroupFromProduct(productId)
+  const paymentGroupResp = await getPaymentGroupFromProduct(productId, couponId)
   const paymentGroup = paymentGroupResp.data
   const homeSubDetails = {
     productId

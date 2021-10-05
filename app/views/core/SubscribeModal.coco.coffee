@@ -158,7 +158,7 @@ module.exports = class SubscribeModal extends ModalView
     Starts a stripe subscription based on the product passed in.
   ###
   startStripeSubscription: (product) ->
-    paymentUtils.handleHomeSubscription(product)
+    paymentUtils.handleHomeSubscription(product, @couponID)
       .catch (err) =>
         console.error 'homeSubscription handle failed by new stripe', err
         @handleStripeSubscriptionByOldFormat(product)
