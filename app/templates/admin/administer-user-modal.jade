@@ -15,6 +15,10 @@ block modal-header-content
         - var props = view.trialRequest.get('properties') || {}
         h4 School: #{props.nces_school || props.organization}
         h4 District: #{props.nces_district || props.district}
+      if view.user.get('role')
+        h4
+          - var outcomesReportKind = view.user.isStudent() ? 'student' : view.user.isSchoolAdmin() ? 'school-admin' : 'teacher'
+          a(href="/outcomes-report/#{outcomesReportKind}/#{view.user.get('_id')}") Outcomes Report
 
     .col-sm-3
       if view.user.isStudent()

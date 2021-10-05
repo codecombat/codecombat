@@ -75,13 +75,14 @@ export default Vue.extend({
       let alreadyCoveredConcepts = []
       for (let course of courses) {
         course.name = utils.i18n(course, 'name')
+        course.acronym = utils.courseAcronyms[course._id]
         course.studentsStarting = (this.org.progress.studentsStartingCourse || {})[course._id] || 0
         course.studentsCompleting = (this.org.progress.studentsCompletingCourse || {})[course._id] || 0
         course.completion = course.studentsStarting ? Math.min(1, course.studentsCompleting / course.studentsStarting) : 0
         course.newConcepts = _.difference(course.concepts, alreadyCoveredConcepts)
         alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
       }
-
+      courses = _.filter(courses, (course) => (course.studentsStarting + course.studentsCompleting) >= Math.min(100, Math.max(2, Math.ceil(0.02 * this.org.progress.studentsWithCode))))
       return courses
     },
 
@@ -231,65 +232,72 @@ export default Vue.extend({
           span= 'School: '
           a(:href="'/outcomes-report/school/' + school._id" target="_blank")
             b= school.name
-      if included && org['school-district'] && ['school', 'teacher', 'school-admin'].indexOf(org.kind) != -1 && ['school-district', 'school'].indexOf(parentOrgKind) == -1 && isSchoolAdmin
+      if included && org['school-district'] && ['school', 'teacher', 'school-admin'].indexOf(org.kind) != -1 && ['school-district', 'school'].indexOf(parentOrgKind) == -1 && (isSchoolAdmin || (isAdmin && (editing || org.kind != 'teacher')))
         br
         span= 'District: '
         a(:href="'/outcomes-report/school-district/' + org['school-district']._id" target="_blank")
           b= org['school-district'].name
-      if included && org['school-admin'] && ['school', 'teacher'].indexOf(org.kind) != -1 && parentOrgKind != 'school-admin'
+      if included && org['school-admin'] && ['school', 'teacher'].indexOf(org.kind) != -1 && parentOrgKind != 'school-admin' && org['school-admin'].displayName != 'Anonymous'
         br
         span= 'Admin: '
         a(:href="'/outcomes-report/school-admin/' + org['school-admin']._id" target="_blank")
           b= org['school-admin'].displayName
 
-  .block(v-if="included && coursesLoaded && coursesWithProgress[0] && coursesWithProgress[0].studentsStarting > 1")
+  .block(v-if="included && coursesLoaded && coursesWithProgress[0] && coursesWithProgress[0].studentsStarting > 1" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
     h1 Course Progress
     for course in coursesWithProgress
-      .course.dont-break(v-if="(course.studentsStarting + course.studentsCompleting) >= Math.min(100, Math.max(2, Math.ceil(0.02 * org.progress.studentsWithCode)))")
-        h3= course.name
-        .bar
+      if !isSubOrg || coursesWithProgress.length == 1
+        .course.dont-break.full-row
+          h3= course.name
+          .bar
+            .el
+              svg(width=100, height=100)
+                - var radius = 50
+                circle.bottom(r=radius,cx=radius, cy=radius)
+                circle.top(r=radius / 2, cx=radius, cy=radius, :style="'stroke-dasharray: ' + 3.1415926 * 50 * course.completion + 'px ' + 3.1415926 * 50 + 'px'")
+            .el
+              .big #{Math.round(100 * course.completion)}%
+              .under complete
+            .el(v-if="org.kind != 'student'")
+              .big #{formatNumber(course.studentsStarting)}
+              .under= course.studentsStarting === 1 ? "student" : "students"
+            .el.concepts-list
+              b Key Concepts:
+              ul
+                li(v-for="concept in course.newConcepts")
+                  span {{$t('concepts.' + concept)}}
+      else
+        .course.inline
           .el
             svg(width=100, height=100)
               - var radius = 50
-              - var fullCircleStroke = 2*Math.PI*radius / 2
-              circle.bottom(r=radius,cx=50,cy=50)
-              //circle.top(r=radius / 2,cx=50,cy=50,style="stroke-dasharray: #{fullCircleStroke/100*course.completion} #{fullCircleStroke}")
-              circle.top(r=radius / 2, cx=50, cy=50, :style="'stroke-dasharray: calc(3.1415926 * 50 * ' + course.completion + ') calc(3.1415926 * 50)'")
-              
-          .el
-            .big #{Math.round(100 * course.completion)}%
-            .under complete
-          .el(v-if="org.kind != 'student'")
-            .big #{formatNumber(course.studentsStarting)}
-            .under= course.studentsStarting === 1 ? "student" : "students"
-          .el.concepts-list
-            b Key Concepts:
-            ul
-              li(v-for="concept in course.newConcepts")
-                span {{$t('concepts.' + concept)}}
+              circle.bottom(r=radius,cx=radius,cy=radius)
+              circle.top(r=radius / 2, cx=radius, cy=radius, :style="'stroke-dasharray: ' + 3.1415926 * 50 * course.completion + 'px ' + 3.1415926 * 50 + 'px'")
+            if org.kind != 'student'
+              .overlay-text.top-text #{formatNumber(course.studentsStarting)} #{course.studentsStarting === 1 ? "student" : "students"}
+            .overlay-text.mid-text= course.acronym
+            .overlay-text.bot-text #{Math.round(100 * course.completion)}% complete
 
   .block(v-if="org.progress && org.progress.programs > 1 && included && codeLanguageStats.length > 1 && !codeLanguageString")
     // TODO: somehow note the code language if we are skipping this section (like 100% Python at school level)
-    .course.dont-break
+    .course.dont-break.full-row
       h3 Code Languages
-        .bar
-          .el
-            svg(width=100, height=100)
-              - var radius = 50
-              - var fullCircleStroke = 2*Math.PI*radius / 2
-              circle.bottom(r=radius,cx=50,cy=50)
-              //circle.top(r=radius / 2, cx=50, cy=50, :style="'stroke-dasharray: ' + fullCircleStroke/100*33 + ' ' + 2*Math.PI*radius / 2")
-              for stats, index in codeLanguageStats
-                circle(r=radius / 2, cx=radius, cy=radius, :class="'top top' + index", :style="'stroke-dasharray: calc(3.1415926 * 50 * ' + (stats.percentage / 100) + ') calc(3.1415926 * 50); stroke-dashoffset: calc(3.1415926 * 50 * ' + (-stats.otherLanguagesCumulativePercentage / 100) + ');'")
-              
-          for stats, index in codeLanguageStats
-            .el.code-language-stat
-              .big #{stats.percentage}%
-              .under
-                img.code-language-icon(alt="" :src="'/images/common/code_languages/' + stats.language + '_small.png'")
-                span= stats.name
+      .bar
+        .el
+          svg(width=100, height=100)
+            - var radius = 50
+            circle.bottom(r=radius,cx=radius, cy=radius)
+            for stats, index in codeLanguageStats
+              circle(r=radius / 2, cx=radius, cy=radius, :class="'top top' + index", :style="'stroke-dasharray: ' + 3.1415926 * 50 * stats.percentage / 100 + 'px ' + 3.1415926 * 50 + 'px; stroke-dashoffset: ' + 3.1415926 * 50 * -stats.otherLanguagesCumulativePercentage / 100 + 'px;'")
+
+        for stats, index in codeLanguageStats
+          .el.code-language-stat
+            .big #{stats.percentage}%
+            .under
+              img.code-language-icon(alt="" :src="'/images/common/code_languages/' + stats.language + '_small.png'")
+              span= stats.name
   
-  .dont-break.block(v-if="org.progress && org.progress.programs > 1 && included")
+  .dont-break.block.summary(v-if="org.progress && org.progress.programs > 1 && included")
     h1 Summary
     if org.kind != 'student'
       h4 Using CodeCombat&apos;s personalized learning engine...
@@ -297,7 +305,7 @@ export default Vue.extend({
         div
           | #{formatNumber(org.progress.studentsWithCode)}
           = " "
-          small students
+          small= org.progress.studentsWithCode == 1 ? 'student' : 'students'
     if org.kind === 'student'
       h4 #{org.displayName || org.name} wrote...
     else
@@ -306,13 +314,13 @@ export default Vue.extend({
       div
         | #{formatNumber(org.progress.programs)}
         = " "
-        small computer programs
+        small= org.progress.programs == 1 ? 'computer program' : 'computer programs'
     h4 across an estimated...
     .fakebar
       div
         | #{formatNumber(org.progress.linesOfCode)}
         = " "
-        small lines of code
+        small= org.progress.linesOfCode == 1 ? 'line of code' : 'lines of code'
     if org.progress && (org.progress.playtime >= 1.5 * 3600 || org.kind == 'student')
       h4 in...
       .fakebar
@@ -329,7 +337,7 @@ export default Vue.extend({
         div
           | #{formatNumber(org.progress.projects)}
           = " "
-          small standalone game and web projects
+          small= 'standalone game and web ' + (org.progress.projects == 1 ? 'project' : 'projects')
     if org.progress && org.progress.sampleSize < org.progress.populationSize
       em * Progress stats based on sampling #{formatNumber(org.progress.sampleSize)} of #{formatNumber(org.progress.populationSize)} students.
 
@@ -393,78 +401,127 @@ export default Vue.extend({
   }
   .course {
     // TODO: tighten up styles so that most common case (1 course, multiple code languages) can fit on one page
-    margin-bottom: 0.25in;
+    &.full-row {
+      margin-bottom: 0.15in;
+    }
+    &.inline {
+      width: 1.25in;
+      height: 1.25in;
+      display: inline-block;
+
+      svg {
+        filter: contrast(0.8);
+      }
+    }
     .bar {
       margin-bottom: 0.0in;
-      page-break-inside: avoid;
+      break-inside: avoid;
       //border: 1px solid orange
       .concepts-list {
         max-width: 30%;
-      }
-      .el {
-        margin-right: 0.25in;
-        svg {
-          transform: rotate(-90deg);
-        }
-        circle.top {
-          fill: transparent;
-          stroke-width: 50;
-          stroke: rgb(14, 75, 96);
-
-          // TODO: better colors
-          &.top1 {
-            stroke: rgb(96, 14, 75);
-          }
-
-          &.top2 {
-            stroke: rgb(75, 96, 14);
-          }
-        }
-        circle.bottom {
-          fill: rgb(242, 190, 24);
-        }
-
-        &.code-language-stat {
-          .big {
-            width: 1.7in;
-          }
-
-          .under {
-            width: 1.7in;
-          }
-        }
-
-        .big {
-          display: block;
-          font-size: 41pt;
-          line-height: 41pt;
-          font-family: 'Open Sans', sans-serif;
-          font-weight: 600;
-          text-align: center;
-          width: 1.5in;
-        }
-        .under {
-          display: block;
-          text-align: center;
-          width: 1.5in;
-
-          img.code-language-icon {
-            width: 0.49in;
-            margin: 0 0.05in 0 -0.09in;
-          }
-        }
-        li {
-          line-height: 14pt;
-          font-size: 12pt;
-        }
-        height: 1in;
-        float: left;
       }
     }
     .bar::after {
       clear: both;
       display: table;
       content: " ";
+    }
+    .el {
+      margin-right: 0.25in;
+      position: relative;
+      svg {
+        transform: rotate(-90deg);
+      }
+      circle.top {
+        fill: transparent;
+        stroke-width: 50;
+        stroke: rgb(14, 75, 96);
+
+        // TODO: better colors
+        &.top1 {
+          stroke: rgb(96, 14, 75);
+        }
+
+        &.top2 {
+          stroke: rgb(75, 96, 14);
+        }
+      }
+      circle.bottom {
+        fill: rgb(242, 190, 24);
+      }
+
+      &.code-language-stat {
+        .big {
+          width: 1.7in;
+        }
+
+        .under {
+          width: 1.7in;
+        }
+      }
+
+      .big {
+        display: block;
+        font-size: 41pt;
+        line-height: 41pt;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 600;
+        text-align: center;
+        width: 1.5in;
+      }
+      .under {
+        display: block;
+        text-align: center;
+        width: 1.5in;
+
+        img.code-language-icon {
+          width: 0.49in;
+          margin: 0 0.05in 0 -0.09in;
+        }
+      }
+      @media print {
+        .overlay-text {
+          color: white !important;
+          text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black !important;
+        }
+      }
+      .overlay-text {
+        color: white;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+        $circleSize: 75pt;
+
+        &.top-text, &.bot-text {
+          font-size: 9pt;
+          line-height: 9pt;
+        }
+        &.mid-text {
+          font-size: 16pt;
+          line-height: 16pt;
+          /*top: calc($circleSize / 2 - 16pt / 2);*/
+          top: 29.5pt;
+        }
+        &.top-text {
+          /*top: calc($circleSize / 2 - 16pt / 2 - 9pt - 2pt);*/
+          top: 18pt;
+        }
+        &.bot-text {
+          /*bottom: calc($circleSize / 2 - 16pt / 2 - 9pt - 2pt);*/
+          bottom: 18pt;
+        }
+      }
+
+      li {
+        line-height: 14pt;
+        font-size: 12pt;
+      }
+      height: 75pt;
+      float: left;
     }
     h3 {
       font-family: 'Open Sans', sans-serif;
@@ -481,7 +538,7 @@ export default Vue.extend({
       font-family: 'Open Sans', sans-serif;
       font-size: 22pt;
       font-weight: 100;
-      margin-top: 0.5in;
+      margin-top: 0.25in;
       border-bottom: 1px solid #ccc;
       border-radius: 0px;
       margin-bottom: 0.1in;
@@ -504,8 +561,8 @@ export default Vue.extend({
       font-weight: 600;
     }
     .fakebar {
-      margin-top: 0.1in;
-      margin-bottom: 0.25in;
+      margin-top: 0.05in;
+      margin-bottom: 0.15in;
 
       background-color: rgb(31, 87, 43);
       -webkit-print-color-adjust: exact !important;
@@ -538,13 +595,13 @@ export default Vue.extend({
       line-height: 18pt;
     }
     .left-col {
-      page-break-inside: avoid;
+      break-inside: avoid;
       float: left;
       width: 4in;
       margin-right: 1in;
     }
     .right-col {
-      page-break-inside: avoid;
+      break-inside: avoid;
       float: left;
       width: 2.5in;
       font-size: 14pt;
@@ -555,7 +612,21 @@ export default Vue.extend({
     }
   }
   .dont-break {
-    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .dont-break::after {
+    clear: both;
+    content: ' ';
+    display: table;
+  }
+
+  .dont-break.block.summary {
+    padding-top: 0.25in;
+
+    h1 {
+      margin-top: 0.1in;
+    }
   }
 
   .page-break {
@@ -580,26 +651,14 @@ export default Vue.extend({
     }
   }
 
-  //&.sub-org {
-  //  .block {
-  //    h1 {
-  //      font-size: 16pt;
-  //      line-height: 16pt;
-  //    }
-  //    h2 {
-  //      font-size: 14pt;
-  //      line-height: 14pt;
-  //    }
-  //    h3 {
-  //      font-size: 12pt;
-  //      line-height: 12pt;
-  //    }
-  //    h4 {
-  //      font-size: 10pt;
-  //      line-height: 10pt;
-  //    }
-  //  }
-  //}
+  @media print {
+    * {
+      /* print-color-adjust: exact is needed for white text when overlaid on pie charts */
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      transition: none !important;
+    }
+  }
 }
 </style>
 
