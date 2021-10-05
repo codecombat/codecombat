@@ -237,7 +237,7 @@ export default Vue.extend({
         span= 'District: '
         a(:href="'/outcomes-report/school-district/' + org['school-district']._id" target="_blank")
           b= org['school-district'].name
-      if included && org['school-admin'] && ['school', 'teacher'].indexOf(org.kind) != -1 && parentOrgKind != 'school-admin'
+      if included && org['school-admin'] && ['school', 'teacher'].indexOf(org.kind) != -1 && parentOrgKind != 'school-admin' && org['school-admin'].displayName != 'Anonymous'
         br
         span= 'Admin: '
         a(:href="'/outcomes-report/school-admin/' + org['school-admin']._id" target="_blank")
