@@ -71,7 +71,10 @@ block content
 
     .container
       div#classes-nag-subview
-      h3.current-classes(data-i18n='teacher.current_classes')
+
+      h3
+        span(data-i18n='teacher.current_classes')
+        a.pull-right(href="/outcomes-report/teacher/#{me.get('_id')}" target="_blank") View Outcomes Report
 
     .classes.container
       // Loop each class
