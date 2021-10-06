@@ -7,6 +7,7 @@ api = require 'core/api'
 co = require 'co'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
+paymentUtils = require 'app/lib/paymentUtils'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -280,6 +281,7 @@ module.exports = class User extends CocoModel
     return true if me.isInGodMode()
     return true if me.isAdmin()
     return true if me.hasSubscription()
+    return true if paymentUtils.hasTemporaryPremiumAccess()
     return false
 
   isForeverPremium: ->
