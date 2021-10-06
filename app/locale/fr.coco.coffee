@@ -430,6 +430,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     create_individual_header: "Créer un compte individuel"
     email_announcements: "Recevoir les annonces à propos de nouveaux niveaux et fonctionnalités de CodeCombat!" # {change}
     sign_in_to_continue: "Connectez-vous ou créez un compte pour continuer"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Tenez moi informé des nouvelles ressources, programmes et cours pour les enseignants!"
     creating: "Création du compte en cours..."
     sign_up: "S'inscrire"
@@ -631,6 +632,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    email_us: "Send us an email"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "seconde"
@@ -2044,7 +2046,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     hoc_programming: "JavaScript/Programmation Python"
     hoc_teacher_led: "Leçons dirigées par l'enseignant"
     hoc_teacher_led_desc1: "Téléchargez notre"
-    hoc_teacher_led_link: "Plans de cours d'introduction à l'informatique"
+    hoc_teacher_led_link: "Plans de cours d'introduction à l'informatique" # {change}
     hoc_teacher_led_desc2: "d'initier vos élèves aux concepts de programmation à l'aide d'activités hors ligne"
     hoc_group: "Gameplay de groupe"
     hoc_group_desc_1: "Les professeurs peuvent utiliser les leçons en parallèle avec  notre Introduction au cours de programmation pour suivre la progression des étudiants. Regardez notre"
@@ -2180,6 +2182,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_course_share_suffix: "que vous venez de créer."
     copy_url: "Copier l'URL"
     share_with_teacher_email: "Envoyer à votre enseignant(e)"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Créateur"
@@ -3137,6 +3142,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   hoc_2018:
     banner: "Bonne Semaine de l'enseignement de l'informatique !" # {change}
     page_heading: "Apprenez à vos élèves à construire leur propre jeu d'arcade !" # {change}
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
     step_1: "Étape 1 : Regarder la vidéo Aperçu"
     step_2: "Étape 2 : Essayez-le vous-même"
     step_3: "Étape 3 : Télécharger le plan de leçon"
@@ -3151,6 +3157,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     activity_label_1: "Fuyez le donjon !"
     activity_label_2: " Débutant : Construisez un jeu !"
     activity_label_3: "Avancé : Construisez un jeu d'arcade !"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
     activity_button_1: "Voir la leçon"
     about: "A propos de CodeCombat :" # {change}
     about_copy: "CodeCombat est un programme d'informatique basé sur le jeu pour enseigner le vrai Python et JavaScript. Le programme d'études conforme aux normes de CodeCombat s'articule autour d'un jeu que les élèves adorent. Plus de 20 millions d'étudiants ont appris à coder sur CodeCombat !" # {change}

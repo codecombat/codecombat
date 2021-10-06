@@ -429,6 +429,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     create_individual_header: "Perngr Vaqvivqhny Nppbhag"
     email_announcements: "Erprvir naabhaprzragf nobhg arj PbqrPbzong yriryf naq srngherf!"
     sign_in_to_continue: "Fvta va be perngr na nppbhag gb pbagvahr"
+    create_account_to_submit_multiplayer: "Perngr n serr nppbhag gb enax lbhe zhygvcynlre NV naq rkcyber gur jubyr tnzr!"
     teacher_email_announcements: "Xrrc zr hcqngrq ba arj grnpure erfbheprf, pheevphyhz, naq pbhefrf!"
     creating: "Perngvat Nppbhag..."
     sign_up: "Fvta Hc"
@@ -630,6 +631,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     email_us: "Fraq hf na rznvy"
     sales: "Fnyrf"
     support: "Fhccbeg"
+    here: "urer"
 
   units:
     second: "frpbaq"
@@ -2037,13 +2039,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     hoc_meta_description: "Znxr lbhe bja tnzr be pbqr lbhe jnl bhg bs n qhatrba! PbqrPbzong unf sbhe qvssrerag Ubhe bs Pbqr npgvivgvrf naq bire 60 yriryf gb yrnea pbqr, cynl, naq perngr."
     hoc_intro: "Gurer ner guerr jnlf sbe lbhe pynff gb cnegvpvcngr va Ubhe bs Pbqr jvgu PbqrPbzong"
     hoc_self_led: "Frys-Yrq Tnzrcynl"
-    hoc_self_led_desc: "Fghqragf pna cynl guebhtu gjb Ubhe bs Pbqr PbqrPbzong ghgbevnyf ba gurve bja"
+    hoc_self_led_desc: "Fghqragf pna cynl guebhtu bhe Ubhe bs Pbqr PbqrPbzong ghgbevnyf ba gurve bja"
     hoc_game_dev: "Tnzr Qrirybczrag"
     hoc_and: "naq"
     hoc_programming: "WninFpevcg/Clguba Cebtenzzvat"
     hoc_teacher_led: "Grnpure-Yrq Yrffbaf"
     hoc_teacher_led_desc1: "Qbjaybnq bhe"
-    hoc_teacher_led_link: "Vagebqhpgvba gb Pbzchgre Fpvrapr yrffba cynaf"
+    hoc_teacher_led_link: "Ubhe bs Pbqr yrffba cynaf"  # {punatr}
     hoc_teacher_led_desc2: "gb vagebqhpr lbhe fghqragf gb cebtenzzvat pbaprcgf hfvat bssyvar npgvivgvrf"
     hoc_group: "Tebhc Tnzrcynl"
     hoc_group_desc_1: "Grnpuref pna hfr gur yrffbaf va pbawhapgvba jvgu bhe Vagebqhpgvba gb Pbzchgre Fpvrapr pbhefr gb genpx fghqrag cebterff. Frr bhe"
@@ -2179,6 +2181,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     victory_course_share_suffix: "lbh whfg perngrq."
     copy_url: "Pbcl HEY"
     share_with_teacher_email: "Fraq gb lbhe grnpure"
+    share_ladder_link: "Funer Zhygvcynlre Yvax"
+    ladder_link_title: "Funer Lbhe Zhygvcynlre Zngpu Yvax"
+    ladder_link_blurb: "Funer lbhe NV onggyr yvax fb lbhe sevraqf naq snzvyl pna cynl irefhf lbhe pbqr:"
 
   game_dev:
     creator: "Perngbe"
@@ -2827,7 +2832,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     email_settings_url: "lbhe rznvy frggvatf"
     email_description_suffix: "be guebhtu yvaxf va gur rznvyf jr fraq, lbh pna punatr lbhe cersreraprf naq rnfvyl hafhofpevor ng nal gvzr."
     cost_title: "Pbfg"
-    cost_description: "PbqrPbzong vf serr gb cynl sbe vgf vagebqhpgbel yriryf, jvgu n ${{cevpr}} HFQ/zb fhofpevcgvba sbe npprff gb rkgen yriryf naq {{trzf}} obahf trzf cre zbagu. Lbh pna pnapry jvgu n pyvpx, naq jr bssre n 100% zbarl-onpx thnenagrr." # {punatr}
+    cost_description: "PbqrPbzong vf serr gb cynl sbe vgf vagebqhpgbel yriryf, jvgu n ${{cevpr}} HFQ/zb fhofpevcgvba sbe npprff gb rkgen yriryf naq {{trzf}} obahf trzf cre zbagu. Lbh pna pnapry jvgu n pyvpx, naq jr bssre n 100% zbarl-onpx thnenagrr."
     copyrights_title: "Pbclevtugf naq Yvprafrf"
     contributor_title: "Pbagevohgbe Yvprafr Nterrzrag"
     contributor_description_prefix: "Nyy pbagevohgvbaf, obgu ba gur fvgr naq ba bhe TvgUho ercbfvgbel, ner fhowrpg gb bhe"
@@ -3136,6 +3141,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   hoc_2018:
     banner: "Jrypbzr gb Ubhe bs Pbqr!"
     page_heading: "Lbhe fghqragf jvyy yrnea gb pbqr ol ohvyqvat gurve bja tnzr!"
+    page_heading_ai_league: "Lbhe fghqragf jvyy yrnea gb pbqr gurve bja zhygvcynlre NV!"
     step_1: "Fgrc 1: Jngpu Ivqrb Bireivrj"
     step_2: "Fgrc 2: Gel vg Lbhefrys"
     step_3: "Fgrc 3: Qbjaybnq Yrffba Cyna"
@@ -3147,9 +3153,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teacher_signup_input_placeholder: "Grnpure rznvy nqqerff"
     teacher_signup_input_button: "Trg PF1 Serr"
     activities_header: "Zber Ubhe bs Pbqr Npgvivgvrf"
-    activity_label_1: "Rfpncr gur Qhatrba!"
-    activity_label_2: " Ortvaare: Ohvyq n Tnzr!"
-    activity_label_3: "Nqinaprq: Ohvyq na Nepnqr Tnzr!"
+    activity_label_1: "Ortvaare PF: Rfpncr gur Qhatrba!"
+    activity_label_2: " Ortvaare TQ: Ohvyq n Tnzr!"
+    activity_label_3: "Nqinaprq TQ: Ohvyq na Nepnqr Tnzr!"
+    activity_label_hoc_2018: "Vagrezrqvngr TQ: Pbqr, Cynl, Perngr"
+    activity_label_ai_league: "Ortvaare PF: Ebnq gb gur NV Yrnthr"
     activity_button_1: "Ivrj Yrffba"
     about: "Nobhg PbqrPbzong"
     about_copy: "N tnzr-onfrq, fgnaqneqf-nyvtarq pbzchgre fpvrapr cebtenz gung grnpurf erny, glcrq Clguba naq WninFpevcg."

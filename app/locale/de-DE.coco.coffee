@@ -430,6 +430,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     create_individual_header: "Einzelkonto erstellen"
     email_announcements: "Erhalte Benachrichtigungen über neue Level und Features per E-Mail"
     sign_in_to_continue: "Melde dich an oder ertell einen Account um fortzufahren"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Halte mich über neue Unterrichtsmaterialien, Inhalte und Kurse auf dem Laufenden!"
     creating: "Erzeuge Account..."
     sign_up: "Neuen Account anlegen"
@@ -631,6 +632,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    email_us: "Send us an email"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "Sekunde"
@@ -2044,7 +2046,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     hoc_programming: "JavaScript/Python-Programmierung"
     hoc_teacher_led: "Vom Lehrer geführte Stunden"
     hoc_teacher_led_desc1: "Lade unsere"
-    hoc_teacher_led_link: "Unterrichtspläne für die Einführung in die Informatik runter,"
+    hoc_teacher_led_link: "Unterrichtspläne für die Einführung in die Informatik runter," # {change}
     hoc_teacher_led_desc2: "um deinen Schülern mit Offline-Aktivitäten die Konzepte des Programmierens näherzubringen"
     hoc_group: "Gruppen-Gameplay"
     hoc_group_desc_1: "Lehrer können diese Stunden in Verbindung mit unserem Kurs „Einführung in die Informatik“ benutzt, um den Fortschritt der Schüler zu beobachten. Siehe"
@@ -2180,6 +2182,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory_course_share_suffix: "die du eben erstellt hast."
     copy_url: "URL kopieren"
     share_with_teacher_email: "Sende an deinen Lehrer"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Editor"
@@ -3137,6 +3142,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   hoc_2018:
 #    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -3148,9 +3154,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    teacher_signup_input_placeholder: "Teacher email address"
 #    teacher_signup_input_button: "Get CS1 Free"
 #    activities_header: "More Hour of Code Activities"
-#    activity_label_1: "Escape the Dungeon!"
-#    activity_label_2: " Beginner: Build a Game!"
-#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_label_1: "Beginner CS: Escape the Dungeon!"
+#    activity_label_2: " Beginner GD: Build a Game!"
+#    activity_label_3: "Advanced GD: Build an Arcade Game!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
 #    activity_button_1: "View Lesson"
     about: "Über CodeCombat:" # {change}
     about_copy: "CodeCombat ist ein Spiel-basiertes Informatikprogramm um echtes Python und JavaScript zu lehren. CodeCombat ist an Standardlehrplänen ausgerichtet und um ein Spiel herum gebaut, das Schüler lieben. Über 20 Millionen Schüler haben mit CodeCombat programmieren gelernt!" # {change}

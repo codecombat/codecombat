@@ -2045,7 +2045,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     hoc_programming: "JavaScript/Python Programming"
     hoc_teacher_led: "Teacher-Led Lessons"
     hoc_teacher_led_desc1: "Download our"
-    hoc_teacher_led_link: "Hour of Code lesson plans"  # {change}
+    hoc_teacher_led_link: "Hour of Code lesson plans"
     hoc_teacher_led_desc2: "to introduce your students to programming concepts using offline activities"
     hoc_group: "Group Gameplay"
     hoc_group_desc_1: "Teachers can use the lessons in conjunction with our Introduction to Computer Science course to track student progress. See our"
