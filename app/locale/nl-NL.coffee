@@ -430,6 +430,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     create_individual_header: "Creeër persoonlijk account"
     email_announcements: "Ontvang aankondigingen via e-mail" # {change}
     sign_in_to_continue: "Log in of maak een account aan om door te gaan"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Houd me op de hoogte over nieuwe hulpmiddelen, leerplannen, en cursussen!"
     creating: "Account aanmaken..."
     sign_up: "Aanmelden"
@@ -631,6 +632,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    email_us: "Send us an email"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "seconde"
@@ -2044,7 +2046,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     hoc_programming: "JavaScript/Python Programmeren"
     hoc_teacher_led: "Leraar Begeleide Lessen"
     hoc_teacher_led_desc1: "Download onze"
-    hoc_teacher_led_link: "Introductie tot Computer Wetenschap lesplannen"
+    hoc_teacher_led_link: "Introductie tot Computer Wetenschap lesplannen" # {change}
     hoc_teacher_led_desc2: "om de leerlingen kennis te laten maken met programmeerconcepten met behulp van offline activiteiten"
     hoc_group: "Groep Gamen"
     hoc_group_desc_1: "Leraren kunnen de lessen samen gebruiken met onze Introductie tot Computer Wetenschap cursus om de voortgang van de leerlingen bij te houden. Bekijk onze"
@@ -2180,6 +2182,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_course_share_suffix: "welke je net hebt gemaakt."
     copy_url: "Kopieer URL"
     share_with_teacher_email: "Stuur naar jouw leraar"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Maker"
@@ -3137,6 +3142,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
   hoc_2018:
 #    banner: "Welcome to Hour of Code!"
     page_heading: "Leer je leerlingen hoe ze hun eigen arcadespel kunnen bouwen!" # {change}
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -3148,9 +3154,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    teacher_signup_input_placeholder: "Teacher email address"
 #    teacher_signup_input_button: "Get CS1 Free"
 #    activities_header: "More Hour of Code Activities"
-#    activity_label_1: "Escape the Dungeon!"
-#    activity_label_2: " Beginner: Build a Game!"
-#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_label_1: "Beginner CS: Escape the Dungeon!"
+#    activity_label_2: " Beginner GD: Build a Game!"
+#    activity_label_3: "Advanced GD: Build an Arcade Game!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
 #    activity_button_1: "View Lesson"
     about: "Over CodeCombat:" # {change}
     about_copy: "CodeCombat is een spel-gebaseerd computerwetenschappelijk programma voor het lesgeven in Python en JavaScript. CodeCombat's op standaarden gebaseerde leerplan / curriculum is opgebouwd rond een spel waar studenten gek op zijn. Meer dan 12 miljoen studenten hebben leren programmeren met CodeCombat!" # {change}
