@@ -1,27 +1,30 @@
 @import "app/styles/style-flat-variables"
 
 #choose-account-type-view
+  width: 1048px
   .choose-type-title
     display: flex
     flex-direction: column
+  .modal-body-content
+    padding: 0
 
   h4
     padding-bottom: 20px
 
   .path-cards
     display: flex
-
-  .path-card ~ .path-card
-    margin-left: 6.5px
+    flex-direction: row
+    flex-wrap: wrap
+    width: 100%
+    justify-content: space-around
+    margin-top: 45px
 
   .path-card
     display: flex
     flex-direction: column
     justify-content: space-between
-    width: 235px
-    border-style: solid
-    border-width: thin
-    border-radius: 5px
+    flex: 1
+    align-items: center
 
     body[lang^="en"] &
       height: 340px
@@ -73,6 +76,12 @@
       display: flex
       flex-direction: column
       justify-content: flex-end
+      i.small div
+        line-height: 25px
+        font-weight: 300
+        font-size: 18px
+        padding: 7px
+
 
   .individual-section
     display: flex
@@ -91,3 +100,11 @@
 
   .text-h6
     color: white
+
+
+.card-image
+  width: 300px
+  height: 200px
+  background: #C4C4C4
+  border-radius: 10px
+
