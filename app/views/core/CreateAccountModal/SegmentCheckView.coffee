@@ -30,15 +30,6 @@ module.exports = class SegmentCheckView extends CocoView
       @trigger 'special-render'
     )
 
-  afterRender: ->
-    super()
-    # HACK: Gives us the border radius required for student class code modal.
-    #       Needs timeout to ensure dom has rendered.
-    if @signupState.get('path') is 'student'
-      setTimeout(()->
-        @$('#modal-base-flat').css('border-radius', '20px')
-      , 5)
-
   onPlayClicked: ->
     application.router.navigate "/play", { trigger: true }
 

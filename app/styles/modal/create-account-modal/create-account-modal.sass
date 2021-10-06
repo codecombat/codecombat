@@ -9,34 +9,67 @@
 
 @import "app/styles/style-flat-variables"
 
+#modal-base-flat
+  overflow: hidden
+
 #create-account-modal
   .modal-dialog
-    width: 850px
+    width: auto
+    max-width: fit-content
+    min-width: 850px
     @media (max-height: 800px)
       margin-top: 0
-  
+
+    &.ozaria-modal
+      border-radius: 20px
+      background: linear-gradient(66.45deg, #FFFEF0 15.94%, #FFFDEA 29.45%, #FFF8CF 46.45%, #FDF7D7 76.99%, #FFFCE9 83.48%)
+      .modal-content, .modal-footer
+        background: none
+      .modal-content
+        border-radius: 20px
+      .modal-footer
+        span
+          color: $gray
+
   .modal-content
     display: flex
     flex-direction: column
     min-height: 550px
     max-height: 850px
-    width: 850px
+    max-width: fit-content
+    min-width: 850px
     text-align: center
     padding: 0
     border: none
-    
+
   // General modal stuff
-  
-  .close
+
+  button.back
+    position: absolute
+    color: $teal
+    left: 20px
+    top: 20px
+    text-decoration-line: underline
+    font-weight: bold
+    font-size: 18px
+    line-height: 25px
+    z-index: 1
+    border: none
+    background: none
+
+  button.close
+    top: 20px
+    right: 20px
+    position: absolute
+    z-index: 1
+
+  .close, .back
     color: white
     opacity: 0.5
     right: 7px
     &:hover
       opacity: 0.9
-  
-  .modal-header, .modal-footer
-    &.student
-      background-color: $forest
+
 
   .modal-header
     display: flex
@@ -51,7 +84,7 @@
 
     h3
       color: white
-  
+
   .modal-footer
     padding: 0
     margin: 0
@@ -59,7 +92,7 @@
     display: flex
     align-items: center
     justify-content: center
-    
+
     background-color: $navy
 
     span
@@ -67,12 +100,12 @@
       
     a span
       text-decoration: underline
-  
-  #choose-account-type-view, #segment-check-view, #eu-confirmation-view, #basic-info-view, #coppa-deny-view, #single-sign-on-already-exists-view, #single-sign-on-confirm-view, #extras-view, #confirmation-view
+
+  #choose-account-type-view, #segment-check-view, #eu-confirmation-view, #oz-vs-coc-view, #basic-info-view, #coppa-deny-view, #single-sign-on-already-exists-view, #single-sign-on-confirm-view, #extras-view, #confirmation-view
     display: flex
     flex-direction: column
     flex-grow: 1
-  
+
   .modal-body
     display: flex
     flex-direction: column
@@ -85,9 +118,9 @@
     align-items: center
     justify-content: center
     padding: 20px 0
-    
+
   // Back/forward buttons
-  
+
   .history-nav-buttons
     width: 100%
     display: flex
@@ -95,11 +128,11 @@
     flex-grow: 1
     align-items: flex-end
     justify-content: space-between
-    
+
     .btn
       // Undo .style-flat's .btn + .btn margin
       margin: 0
-    
+
     // Left-align when there's only a back button
     .back-button:first-child:last-child
       margin-right: auto
@@ -115,33 +148,33 @@
   .full-name
     display: flex
     flex-direction: row
-  
+
   .form-group
     display: flex
     flex-direction: column
     align-content: flex-start
-    
+
     &.text-center
       text-align: center
-    
+
     input
       height: 40px
-    
+
     &.row
       display: block
-    
+
     &.last-initial
       margin-left: 30px
       width: auto
-      
+
       input
         width: 70px
 
     &.subscribe
       width: 100%
-  
+
   // Fancy text inside horizontal rules
-  
+
   .hr-text
     position: relative
     hr
@@ -162,13 +195,13 @@
 
 
   // Glyphicon colors
-  
+
   .glyphicon-ok-circle
     color: green
-    
+
   .glyphicon-remove-circle
     color: red
-    
+
 // Additional syles added for the Ozaria ClassCode variant of the segment-check
 #create-account-modal .modal-header.ozaria-modal-header
   justify-content: space-between
@@ -201,3 +234,23 @@
   border-radius: 0 0 20px 20px
   background: linear-gradient(66.45deg, #FFFEF0 15.94%, #FFFDEA 29.45%, #FFF8CF 46.45%, #FDF7D7 76.99%, #FFFCE9 83.48%)
 
+button.primary-oz-button
+  font-family: Open Sans
+  font-style: normal
+  font-weight: bold
+  font-size: 18px
+  line-height: 38px
+
+  color: black
+  text-transform: capitalize
+  background-color: #1FBAB4
+  border: 0
+  padding: 5px 15px
+  border-radius: 4px
+  text-align: center
+
+  min-width: 220px
+  min-height: 50px
+
+  &[disabled]
+    cursor: not-allowed
