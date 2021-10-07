@@ -44,6 +44,7 @@ require('vendor/styles/jquery-ui-1.11.1.custom.css')
 HoCModal = require 'views/special_event/HoC2018InterstitialModal.coffee'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
 globalVar = require 'core/globalVar'
+paymentUtils = require 'app/lib/paymentUtils'
 
 require 'lib/game-libraries'
 
@@ -1488,7 +1489,7 @@ module.exports = class CampaignView extends RootView
       return not (isIOS or me.freeOnly() or isStudentOrTeacher or !me.canBuyGems() or (application.getHocCampaign() and me.isAnonymous()))
 
     if what in ['premium']
-      return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()))
+      return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()) or paymentUtils.hasTemporaryPremiumAccess())
 
     if what is 'anonymous-classroom-signup'
       return me.isAnonymous() and me.level() < 8 and me.promptForClassroomSignup() and not @editorMode

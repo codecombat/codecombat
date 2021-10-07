@@ -275,7 +275,6 @@ module.exports = class User extends CocoModel
       return true if stripe.subscriptionID
       return true if stripe.free is true
       return true if _.isString(stripe.free) and new Date() < new Date(stripe.free)
-    return true if paymentUtils.hasTemporaryPremiumAccess()
     false
 
   isPremium: ->

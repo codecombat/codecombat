@@ -181,7 +181,6 @@ module.exports = class HomeView extends RootView
       if paymentResult is 'success'
         title = $.i18n.t 'payments.homeSubscriptions_successful'
         type = 'success'
-        paymentUtils.setTemporaryPremiumAccess()
       else
         title = $.i18n.t 'payments.failed'
         type = 'error'

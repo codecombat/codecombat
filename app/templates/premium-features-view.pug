@@ -13,7 +13,7 @@ block content
       br
       .col-sm-12.center-text
         h3(data-i18n="premium_features.master_coder")
-      if !me.hasSubscription()
+      if !me.hasSubscription() && !view.hasTemporaryPremiumAccess
         .col-sm-2.col-sm-offset-5.center-text
           br
           button.btn.btn-forest.btn-block.btn-lg.buy(data-i18n="premium_features.subscribe_now", data-button-location='top')

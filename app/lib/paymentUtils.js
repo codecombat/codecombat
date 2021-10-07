@@ -23,11 +23,12 @@ async function handleHomeSubscription(product, couponId) {
 }
 
 function setTemporaryPremiumAccess() {
-  storage.save(TEMPORARY_PREMIUM_KEY, true, 10)
+  storage.save(`${TEMPORARY_PREMIUM_KEY}-${me.get('_id')}`, true, 10)
 }
 
 function hasTemporaryPremiumAccess() {
-  return storage.load(TEMPORARY_PREMIUM_KEY)
+  console.log('cache', storage.load(`${TEMPORARY_PREMIUM_KEY}-${me.get('_id')}`))
+  return storage.load(`${TEMPORARY_PREMIUM_KEY}-${me.get('_id')}`)
 }
 
 module.exports = {
