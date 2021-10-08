@@ -4,6 +4,7 @@ SubscribeModal = require 'views/core/SubscribeModal'
 template = require 'templates/premium-features-view'
 utils = require 'core/utils'
 storage = require 'core/storage'
+paymentUtils = require 'app/lib/paymentUtils'
 
 module.exports = class PremiumFeaturesView extends RootView
   id: 'premium-features-view'
@@ -13,13 +14,14 @@ module.exports = class PremiumFeaturesView extends RootView
 
   events:
     'click .buy': 'onClickBuy'
-  
+
   subscriptions:
     'subscribe-modal:subscribed': 'onSubscribed'
 
   constructor: (options={}) ->
     super(options)
-    
+    @hasTemporaryPremiumAccess = paymentUtils.hasTemporaryPremiumAccess()
+
   afterInsert: () ->
     # Automatically open sub modal, unless it will open later via storage sub-modal-continue flag
     if utils.getQueryVariable('pop')? and not storage.load('sub-modal-continue')
