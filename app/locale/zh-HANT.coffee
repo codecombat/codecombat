@@ -430,6 +430,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     create_individual_header: "建立私人帳號"
     email_announcements: "接收通知以了解CodeCombat中的新關卡和新功能!"
     sign_in_to_continue: "登入或建立一個新帳號以繼續"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "讓我取得新的教師資源及課程。"
     creating: "帳號建立中…"
     sign_up: "註冊"
@@ -631,6 +632,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    email_us: "Send us an email"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "秒"
@@ -2044,7 +2046,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     hoc_programming: "JavaScript/Python 編程"
     hoc_teacher_led: "老師教學型課程"
     hoc_teacher_led_desc1: "下載我們的"
-    hoc_teacher_led_link: "計算機科學入門課程計畫"
+    hoc_teacher_led_link: "計算機科學入門課程計畫" # {change}
     hoc_teacher_led_desc2: "來介紹您的學生們利用線下的活動學習編程課程內容"
     hoc_group: "團隊遊玩"
     hoc_group_desc_1: "老師可以使用這個課程來連結我們的計算機科學入門課程來追蹤學生的進度。 參考我們的"
@@ -2180,6 +2182,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     victory_course_share_suffix: "來看看您剛剛的努力。"
     copy_url: "複製網址"
 #    share_with_teacher_email: "Send to your teacher"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "創造者"
@@ -3137,6 +3142,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #  hoc_2018:
 #    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -3148,9 +3154,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    teacher_signup_input_placeholder: "Teacher email address"
 #    teacher_signup_input_button: "Get CS1 Free"
 #    activities_header: "More Hour of Code Activities"
-#    activity_label_1: "Escape the Dungeon!"
-#    activity_label_2: " Beginner: Build a Game!"
-#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_label_1: "Beginner CS: Escape the Dungeon!"
+#    activity_label_2: " Beginner GD: Build a Game!"
+#    activity_label_3: "Advanced GD: Build an Arcade Game!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
 #    activity_button_1: "View Lesson"
 #    about: "About CodeCombat"
 #    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."
