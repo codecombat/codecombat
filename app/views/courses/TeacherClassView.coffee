@@ -51,6 +51,7 @@ module.exports = class TeacherClassView extends RootView
     'click .sort-button': 'onClickSortButton'
     'click #copy-url-btn': 'onClickCopyURLButton'
     'click #copy-code-btn': 'onClickCopyCodeButton'
+    'click #regenerate-code-btn': 'onClickRegenerateCodeButton'
     'click .remove-student-link': 'onClickRemoveStudentLink'
     'click .assign-student-button': 'onClickAssignStudentButton'
     'click .enroll-student-button': 'onClickEnrollStudentButton'
@@ -406,6 +407,11 @@ module.exports = class TeacherClassView extends RootView
     eventAction = $(e.currentTarget).data('event-action')
     if eventAction
       window.tracker?.trackEvent eventAction, { category: 'Teachers', label: @classroom.id }
+
+  onClickRegenerateCodeButton: ->
+    window.tracker?.trackEvent 'Teachers Class Regenerate Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode'), ['Mixpanel']
+    @classroom.set( { codeCamel: '', code: '' } );
+    @classroom.save()
 
   onClickCopyCodeButton: ->
     window.tracker?.trackEvent 'Teachers Class Copy Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode'), ['Mixpanel']
