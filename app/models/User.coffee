@@ -7,6 +7,7 @@ api = require 'core/api'
 co = require 'co'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
+paymentUtils = require 'app/lib/paymentUtils'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
