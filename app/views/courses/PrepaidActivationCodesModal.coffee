@@ -109,7 +109,7 @@ module.exports = class PreapidActivationCodesModal extends ModalView
     _.extend(attrs, {
       type: 'course'
       creator: @user.id
-      activationMode: true
+      generateActivationCodes: true
       properties:
         adminAdded: me.id
         classroom: @classroom

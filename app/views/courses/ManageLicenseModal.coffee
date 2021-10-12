@@ -101,16 +101,16 @@ module.exports = class ManageLicenseModal extends ModalView
     # user = @users.get(@selectedUser)
     allPrepaids = []
     @users.each (user) =>
-      allPrepaidKeys = _.pluck(allPrepaids, 'productId')
+      allPrepaidKeys = allPrepaids.map((p) => p.paymentDetails?.prepaid)
       allPrepaids = _.union(allPrepaids, user.get('products').filter((p) =>
-        p.productId not in allPrepaidKeys && p.product == 'course' && _.contains @teacherPrepaidIds, p.productId
+        p.paymentDetails?.prepaid not in allPrepaidKeys && p.product == 'course' && _.contains @teacherPrepaidIds, p.paymentDetails?.prepaid
       ))
     return allPrepaids.map((p) ->
       product = new Prepaid({
         includedCourseIDs: p.productOptions.includedCourseIDs
         type: 'course'
       })
-      return {id: p.productId, name: product.typeDescription()}
+      return {id: p.paymentDetails?.prepaid, name: product.typeDescription()}
     )
 
   enrolledUsers: ->
@@ -246,8 +246,10 @@ module.exports = class ManageLicenseModal extends ModalView
     prepaid = user.makeCourseProduct(prepaidId)
     prepaid.revoke(user, {
       success: =>
-        user.set('products', user.get('products').filter((p) ->
-          p.productId != prepaidId
+        user.set('products', user.get('products').map((p) ->
+          if p.paymentDetails?.prepaid == prepaidId
+            p.endDate = new Date().toISOString()
+          return p
         ))
         usersToRedeem.remove(user)
         @state.get('selectedUsers').remove(user)
