@@ -357,6 +357,7 @@ _.extend UserSchema.properties,
       endDate: c.stringDate()
       type: { type: ['string', 'null'] }
       includedCourseIDs: { type: ['array', 'null'], description: 'courseIDs that this prepaid includes access to', items: c.objectId() }
+      migrated: {type: 'boolean'}
     }
   }
   enrollmentRequestSent: { type: 'boolean', description: 'deprecated' }
@@ -421,7 +422,10 @@ _.extend UserSchema.properties,
     c.object { required: ['product', 'startDate', 'recipient', 'paymentService', 'paymentDetails'],  additionalProperties: true },
       # ensure we can add additionalProperties
       product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'ai-league', 'online-classes'], decription: 'The "name" field for the product purchased' }  # And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
-      productOptions: {type: 'object'}
+      productOptions:
+        oneOf: [
+          includedCourseIDs: c.array
+        ]
       startDate: c.date()
       endDate: c.date()  # TODO: optional indication of no end date (lasts forever) - or do we just leave unset?
       purchaser: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) # in case of gifts

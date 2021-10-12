@@ -816,9 +816,11 @@ module.exports = class TeacherClassView extends RootView
             # Reference: https://www.pluralsight.com/guides/javascript-callbacks-variable-scope-problem
             success: (() ->
               st = student
-              return -> st.set('products', _.filter st.get('products'), (p) ->
-                p.productId != product.productId
-              )
+              return -> st.set('products', st.get('products').map((p) ->
+                if p.paymentDetails?.prepaid == product.paymentDetails?.prepaid
+                  p.endDate = new Date().toISOString()
+                return p
+              ))
             )()
             error: (prepaid, jqxhr) =>
               msg = jqxhr.responseJSON.message

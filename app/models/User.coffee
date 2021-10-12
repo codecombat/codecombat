@@ -423,7 +423,7 @@ module.exports = class User extends CocoModel
 
   findCourseProduct: (prepaidId) ->
     products = _.filter @get('products'), (product) ->
-      return product.product == 'course' && product.productId == prepaidId
+      return product.product == 'course' && product.paymentDetails?.prepaid == prepaidId && moment().isBefore(product.endDate)
     return undefined unless products.length
     return products[0]
 
@@ -560,12 +560,12 @@ module.exports = class User extends CocoModel
     options.data.provider = provider
     @fetch(options)
 
-  makeCourseProduct: (productId) ->
-    courseProduct = _.find @get('products'), { productId, product: 'course' }
+  makeCourseProduct: (prepaidId) ->
+    courseProduct = _.find @get('products'), (p) => p.product == 'course' && p.paymentDetails?.prepaid == prepaidId
     return null unless courseProduct
     Prepaid = require 'models/Prepaid'
     return new Prepaid({
-      _id: courseProduct.productId,
+      _id: prepaidId,
       type: 'course',
       includedCourseIDs: courseProduct.productOptions.includedCourseIDs
       startDate: courseProduct.startDate,

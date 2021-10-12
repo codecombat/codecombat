@@ -30,7 +30,7 @@ module.exports = class Classroom extends CocoModel
 
   joinWithCode: (code, opts) ->
     if code.length == 14 and code.split('-').length == 3
-      url = @urlRoot + '/members/activate'
+      url = @urlRoot + "/join-by-activation-code"
     else
       url = @urlRoot + '/~/members'
     options = {
