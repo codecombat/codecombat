@@ -415,7 +415,7 @@ module.exports = class User extends CocoModel
 
   findCourseProduct: (prepaidId) ->
     products = _.filter @get('products'), (product) ->
-      return product.product == 'course' && product.paymentDetails?.prepaid == prepaidId
+      return product.product == 'course' && product.paymentDetails?.prepaid == prepaidId && moment().isBefore(product.endDate)
     return undefined unless products.length
     return products[0]
 

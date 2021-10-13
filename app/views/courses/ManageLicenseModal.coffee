@@ -102,9 +102,9 @@ module.exports = class ManageLicenseModal extends ModalView
     allPrepaids = []
     @users.each (user) =>
       allPrepaidKeys = allPrepaids.map((p) => p.paymentDetails?.prepaid)
-      allPrepaids = _.union(allPrepaids, user.get('products').filter((p) =>
+      allPrepaids = _.union(allPrepaids, _.uniq user.get('products').filter((p) =>
         p.paymentDetails?.prepaid not in allPrepaidKeys && p.product == 'course' && _.contains @teacherPrepaidIds, p.paymentDetails?.prepaid
-      ))
+      ), (p) => p.paymentDetails?.prepaid)
     return allPrepaids.map((p) ->
       product = new Prepaid({
         includedCourseIDs: p.productOptions.includedCourseIDs
