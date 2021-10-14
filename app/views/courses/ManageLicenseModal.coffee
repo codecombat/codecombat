@@ -2,7 +2,6 @@ require('app/styles/courses/manage-license-modal.sass')
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
 template = require 'templates/courses/manage-licenses-modal'
-CocoCollection = require 'collections/CocoCollection'
 Prepaids = require 'collections/Prepaids'
 Prepaid = require 'models/Prepaid'
 Classroom = require 'models/Classroom'
@@ -98,19 +97,18 @@ module.exports = class ManageLicenseModal extends ModalView
     # @render() # TODO: Have @state automatically listen to children's change events?
 
   studentsPrepaidsFromTeacher: () ->
-    # user = @users.get(@selectedUser)
     allPrepaids = []
     @users.each (user) =>
-      allPrepaidKeys = allPrepaids.map((p) => p.paymentDetails?.prepaid)
+      allPrepaidKeys = allPrepaids.map((p) => p.prepaid)
       allPrepaids = _.union(allPrepaids, _.uniq user.get('products').filter((p) =>
-        p.paymentDetails?.prepaid not in allPrepaidKeys && p.product == 'course' && _.contains @teacherPrepaidIds, p.paymentDetails?.prepaid
-      ), (p) => p.paymentDetails?.prepaid)
+        p.prepaid not in allPrepaidKeys && p.product == 'course' && _.contains @teacherPrepaidIds, p.prepaid
+      ), (p) => p.prepaid)
     return allPrepaids.map((p) ->
       product = new Prepaid({
         includedCourseIDs: p.productOptions.includedCourseIDs
         type: 'course'
       })
-      return {id: p.paymentDetails?.prepaid, name: product.typeDescription()}
+      return {id: p.prepaid, name: product.typeDescription()}
     )
 
   enrolledUsers: ->
@@ -248,7 +246,7 @@ module.exports = class ManageLicenseModal extends ModalView
     prepaid.revoke(user, {
       success: =>
         user.set('products', user.get('products').map((p) ->
-          if p.paymentDetails?.prepaid == prepaidId
+          if p.prepaid == prepaidId
             p.endDate = new Date().toISOString()
           return p
         ))

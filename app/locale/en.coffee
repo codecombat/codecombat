@@ -1844,6 +1844,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     apply_license: "Apply License"
     revoke_license: "Revoke License"
     revoke_licenses: "Revoke All Licenses"
+    revoke_these_license: "Revoke These Licenses"
     manage_license: "Manage License"
     course_progress: "Course Progress"
     not_applicable: "N/A"
@@ -2134,7 +2135,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     permission: 'Permission'
     not_write_permission: "You don't have write permission to the class"
     not_read_permission: "You don't have read permission to the class"
-    owned_license: "Owned License"
+    owned_license: "Licensed"
 
   teacher_ozaria_encouragement_modal:
     title: "Build Computer Science Skills to Save Ozaria"

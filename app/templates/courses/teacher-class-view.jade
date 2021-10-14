@@ -470,7 +470,7 @@ mixin enrollmentStatusTab
     tbody
       - var searchTerm = state.get('searchTerm');
       each student in state.get('students').search(searchTerm)
-        - var status = student.prepaidNumericalCourses()
+        - var enrolledCourseBits = student.prepaidNumericalCourses()
         tr.student-row.alternating-background
           //td.checkbox-col.student-checkbox
             .checkbox-flat
@@ -482,21 +482,17 @@ mixin enrollmentStatusTab
               div.student-email.small-details= student.get('email') || student.get('name')
           td.status-col
             - for(var index = 5; index < 11; index ++)
-              input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+              input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
 
           td.status-col
             - for(var index = 2; index < 5; index ++)
-              input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+              input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
           td.status-col
             - for(var index = 0; index < 2; index ++)
-              input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
-              -// = Math.pow(2, index)
-
-            -// span(data-i18n='user.status')
-            -// span.spr :
-            -// strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString(student)
+              input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
           td.enroll-col
-            button.enroll-student-button.btn.btn-navy(data-i18n="teacher.manage_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
+            if me.canManageLicensesViaUI() && !state.get('readOnly')
+              button.enroll-student-button.btn.btn-navy(data-i18n="teacher.manage_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
 
 - var classroom = view.classroom
 if !me.isTeacher() && !me.isAdmin()

@@ -100,11 +100,9 @@ module.exports = class Prepaid extends CocoModel
       product: 'course'
       startDate: @get('startDate')
       endDate: @get('endDate')
+      prepaid: @get('_id')
       productOptions: {
         includedCourseIDs: @get('includedCourseIDs')
-      }
-      paymentDetails: {
-        prepaid: @get('_id')
       }
     }
 
