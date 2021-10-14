@@ -34,7 +34,7 @@ module.exports = class User extends CocoModel
   @schema: require 'schemas/models/user'
   urlRoot: '/db/user'
   notyErrors: false
-  PERMISSIONS: {
+  @PERMISSIONS: {
     COCO_ADMIN: 'admin',
     SCHOOL_ADMINISTRATOR: 'schoolAdministrator',
     ARTISAN: 'artisan',
@@ -44,11 +44,13 @@ module.exports = class User extends CocoModel
     ONLINE_TEACHER: 'onlineTeacher'
   }
 
-  isAdmin: -> @PERMISSIONS.COCO_ADMIN in @get('permissions', true)
-  isLicensor: -> @PERMISSIONS.LICENSOR in @get('permissions', true)
-  isArtisan: -> @PERMISSIONS.ARTISAN in @get('permissions', true)
-  isInGodMode: -> @PERMISSIONS.GOD_MODE in @get('permissions', true)
-  isSchoolAdmin: -> @PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
+  isAdmin: -> @constructor.PERMISSIONS.COCO_ADMIN in @get('permissions', true)
+  isLicensor: -> @constructor.PERMISSIONS.LICENSOR in @get('permissions', true)
+  isArtisan: -> @constructor.PERMISSIONS.ARTISAN in @get('permissions', true)
+  isOnlineTeacher: -> @constructor.PERMISSIONS.ONLINE_TEACHER in @get('permissions', true)
+  isInGodMode: -> @constructor.PERMISSIONS.GOD_MODE in @get('permissions', true) or @constructor.PERMISSIONS.ONLINE_TEACHER in @get('permissions', true)
+  isSchoolAdmin: -> @constructor.PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
+  isAPIClient: -> @constructor.PERMISSIONS.API_CLIENT in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
 
@@ -111,11 +113,12 @@ module.exports = class User extends CocoModel
   isTeacher: (includePossibleTeachers=false) -> User.isTeacher(@attributes, includePossibleTeachers)
 
   isPaidTeacher: ->
-    return false unless User.isTeacher(@attributes)
-    return @isCreatedByClient() or (/@codeninjas.com$/i.test me.get('email'))
+    # TODO: this doesn't actually check to see if they are paid (having prepaids), confusing
+    return false unless @isTeacher()
+    return @isCreatedByClient() or (/@codeninjas.com$/i.test @get('email'))
 
   isTeacherOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
-    if not me.isTeacher()
+    if not @isTeacher()
       return false
 
     if classroomId and not classroom
@@ -137,7 +140,7 @@ module.exports = class User extends CocoModel
     return false
 
   isSchoolAdminOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
-    if not me.isSchoolAdmin()
+    if not @isSchoolAdmin()
       return false
 
     if classroomId and not classroom
@@ -177,7 +180,14 @@ module.exports = class User extends CocoModel
     .catch (err) => console.error("Error in fetching hoc course instance", err)
 
   isSessionless: ->
-    Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
+    Boolean((utils.getQueryVariable('dev', false) or @isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
+
+  isInHourOfCode: ->
+    return false unless @get('hourOfCode')
+    daysElapsed = (new Date() - new Date @get('dateCreated')) / (86400 * 1000)
+    return false if daysElapsed > 7  # Disable special HoC handling after a week, treat as normal users after that point
+    return false if daysElapsed > 1 and @get('hourOfCodeComplete')  # ... or one day, if they're already done with it
+    true
 
   getClientCreatorPermissions: ->
     clientID = @get('clientCreator')
@@ -231,7 +241,7 @@ module.exports = class User extends CocoModel
 
   level: ->
     totalPoint = @get('points')
-    totalPoint = totalPoint + 1000000 if me.isInGodMode()
+    totalPoint = totalPoint + 1000000 if @isInGodMode()
     User.levelFromExp(totalPoint)
 
   tier: ->
@@ -239,20 +249,20 @@ module.exports = class User extends CocoModel
 
   gems: ->
     gemsEarned = @get('earned')?.gems ? 0
-    gemsEarned = gemsEarned + 100000 if me.isInGodMode()
-    gemsEarned += 1000 if me.get('hourOfCode')
+    gemsEarned = gemsEarned + 100000 if @isInGodMode()
+    gemsEarned += 1000 if @get('hourOfCode')
     gemsPurchased = @get('purchased')?.gems ? 0
     gemsSpent = @get('spent') ? 0
     Math.floor gemsEarned + gemsPurchased - gemsSpent
 
   heroes: ->
-    heroes = (me.get('purchased')?.heroes ? []).concat([ThangTypeConstants.heroes.captain, ThangTypeConstants.heroes.knight, ThangTypeConstants.heroes.champion, ThangTypeConstants.heroes.duelist])
+    heroes = (@get('purchased')?.heroes ? []).concat([ThangTypeConstants.heroes.captain, ThangTypeConstants.heroes.knight, ThangTypeConstants.heroes.champion, ThangTypeConstants.heroes.duelist])
     heroes.push ThangTypeConstants.heroes['code-ninja'] if window.serverConfig.codeNinjas
     #heroes = _.values ThangTypeConstants.heroes if me.isAdmin()
     heroes
-  items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? []).concat([ThangTypeConstants.items['simple-boots']])
-  levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? []).concat(LevelConstants.levels['dungeons-of-kithgard'])
-  ownsHero: (heroOriginal) -> me.isInGodMode() || heroOriginal in @heroes()
+  items: -> (@get('earned')?.items ? []).concat(@get('purchased')?.items ? []).concat([ThangTypeConstants.items['simple-boots']])
+  levels: -> (@get('earned')?.levels ? []).concat(@get('purchased')?.levels ? []).concat(LevelConstants.levels['dungeons-of-kithgard'])
+  ownsHero: (heroOriginal) -> @isInGodMode() || heroOriginal in @heroes()
   ownsItem: (itemOriginal) -> itemOriginal in @items()
   ownsLevel: (levelOriginal) -> levelOriginal in @levels()
 
@@ -281,7 +291,7 @@ module.exports = class User extends CocoModel
     return errors
 
   hasSubscription: ->
-    return false if me.isStudent() or me.isTeacher()
+    return false if @isStudent() or @isTeacher()
     if payPal = @get('payPal')
       return true if payPal.billingAgreementID
     if stripe = @get('stripe')
@@ -292,9 +302,9 @@ module.exports = class User extends CocoModel
     false
 
   isPremium: ->
-    return true if me.isInGodMode()
-    return true if me.isAdmin()
-    return true if me.hasSubscription()
+    return true if @isInGodMode()
+    return true if @isAdmin()
+    return true if @hasSubscription()
     return false
 
   isForeverPremium: ->
@@ -570,7 +580,7 @@ module.exports = class User extends CocoModel
   setToSpanish: -> _.string.startsWith((@get('preferredLanguage') or ''), 'es')
 
   freeOnly: ->
-    return features.freeOnly and not me.isPremium()
+    return @isStudent() or (features.freeOnly and not @isPremium())
 
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})
@@ -578,10 +588,10 @@ module.exports = class User extends CocoModel
     stripe.token = token.id
     stripe.couponID = options.couponID if options.couponID
     @set({stripe})
-    return me.patch({headers: {'X-Change-Plan': 'true'}}).then =>
+    return @patch({headers: {'X-Change-Plan': 'true'}}).then =>
       unless utils.isValidEmail(@get('email'))
         @set({email: token.email})
-        me.patch()
+        @patch()
       return Promise.resolve()
 
   unsubscribe: ->
@@ -589,7 +599,7 @@ module.exports = class User extends CocoModel
     return unless stripe.planID
     delete stripe.planID
     @set({stripe})
-    return me.patch({headers: {'X-Change-Plan': 'true'}})
+    return @patch({headers: {'X-Change-Plan': 'true'}})
 
   unsubscribeRecipient: (id, options={}) ->
     options.url = _.result(@, 'url') + "/stripe/recipients/#{id}"
