@@ -118,7 +118,7 @@ block modal-body-content
                   = prepaid.creator.get('name')
               else
                 | -
-          td= prepaid.get('type')
+          td= prepaid.typeDescription()
           td= moment.timezone(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).tz(view.timeZone).format('l')
           td
             if prepaid.get('startDate')
