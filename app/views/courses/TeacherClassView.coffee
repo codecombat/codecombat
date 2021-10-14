@@ -517,6 +517,7 @@ module.exports = class TeacherClassView extends RootView
         user = @students.get(newUser.id)
         if user
           user.set(newUser.attributes)
+      @renderSelectors('#license-status-table')
       null
 
   onClickExportStudentProgress: ->
@@ -800,7 +801,7 @@ module.exports = class TeacherClassView extends RootView
             success: (() ->
               st = student
               return -> st.set('products', st.get('products').map((p) ->
-                if p.paymentDetails?.prepaid == product.paymentDetails?.prepaid
+                if p.prepaid == product.prepaid
                   p.endDate = new Date().toISOString()
                 return p
               ))
