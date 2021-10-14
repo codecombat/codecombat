@@ -16,7 +16,11 @@ exports.me =
   isAnonymous: () -> @get('anonymous')
   hasSubscription: () -> false
   isTeacher: () -> false
+  isHomeUser: () -> true
   isAdmin: () -> false
+  isSchoolAdmin: () -> false
+  isAPIClient: () -> false
+  isInGodMode: () -> false
   level: () -> 1
   useDexecure: -> true
   useSocialSignOn: -> true
