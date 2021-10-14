@@ -213,6 +213,7 @@ if showGameDevAlert
   else
     .portal
       .portals
+        - var godmode = me.isInGodMode();
         for campaignSlug in features.campaignSlugs || ['dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'beta-campaigns-3', 'mountain', 'glacier', 'volcano']
           if /beta-campaigns/.test(campaignSlug)
             - if (me.freeOnly()) continue;
@@ -246,7 +247,6 @@ if showGameDevAlert
                         span= i18n(campaign.attributes, 'description')
           else
             - var campaign = campaigns[campaignSlug];
-            - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
             div(class="campaign " + campaignSlug + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
               .campaign-label
                 h2.campaign-name
