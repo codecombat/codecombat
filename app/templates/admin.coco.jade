@@ -26,7 +26,7 @@ block content
           em and you are viewing feature mode "#{view.featureMode}"
           =" "
           button#clear-feature-mode-btn.btn.btn-sm Clear Feature Mode
-  if me.isAdmin()
+  if me.isAdmin() || me.isOnlineTeacher()
     .form-horizontal
       form#user-search-form.form-group
         label.control-label.col-sm-2(for="user-search") User Search
@@ -46,7 +46,9 @@ block content
           button.btn.btn-primary.btn-large#user-search-button  Search
     #user-search-result
 
-  if !me.isAdmin()
+  if me.isOnlineTeacher() && !me.isAdmin()
+    div.text-center Use the search box above to find and administer student accounts.
+  else if !me.isAdmin()
     div.text-center You must be logged in as an admin to view this page.
   else
     h4 Entities
