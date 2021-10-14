@@ -1230,10 +1230,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     om_title: "运营经理"
     mo_title: "业务经理"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
     scd_title: "高级课程开发设计师"
     lcd_title: "首席课程开发设计师"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
     community_description_link_2: "开源的社区项目"
