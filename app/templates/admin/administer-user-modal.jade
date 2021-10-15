@@ -21,13 +21,14 @@ block modal-header-content
           a(href="/outcomes-report/#{outcomesReportKind}/#{view.user.get('_id')}") View Outcomes Report
 
     .col-sm-3
-      if view.user.isStudent()
+      if view.user.isStudent() && me.isAdmin()
         button#destudent-btn.btn.btn-burgundy.btn-block Destudent
-      if view.user.isTeacher()
+      if view.user.isTeacher() && me.isAdmin()
         button#deteacher-btn.btn.btn-burgundy.btn-block Deteacher
-      if !view.user.isTeacher()
+      if !view.user.isTeacher() && me.isAdmin()
         button#reset-progress-btn.btn.btn-burgundy.btn-block Reset Progress
-      a#export-data-btn.btn.btn-primary.btn-block(target='_blank' href='/db/user/' + view.user.id + '/export-data') Export GDPR User Data
+      if me.isAdmin()
+        a#export-data-btn.btn.btn-primary.btn-block(target='_blank' href='/db/user/' + view.user.id + '/export-data') Export GDPR User Data
 
     .col-sm-3
       if view.prepaids.size()
@@ -39,16 +40,19 @@ block modal-header-content
       if view.classrooms.size()
         div
           a(href="#classrooms") Classrooms
-      if !view.user.isTeacher() && !view.user.isStudent()
+      if view.user.isHomeUser()
         div
-          a(href="#stripe") Modify Stripe Subscription
+          a(href="#stripe") Modify Subscription
+      if me.isOnlineTeacher()
+        div
+          a(href="#other-controls") Other Controls
       // Not currently used
       //div
       //  a(href="#create-payment") Create Payment
       div
         a(href="#database-entries") Database Entries
 
-  if view.user.isTeacher()
+  if view.user.isTeacher() && me.isAdmin()
     div.m-t-1
       // Not currently used
       //label
@@ -62,6 +66,18 @@ block modal-header-content
           | Enable School Administrator
         span.p-l-1
           a(href="#edit-school-admins-link")#edit-school-admins-link edit teachers
+      div
+        if view.userSaveState == 'saving'
+          | Saving...
+        else if view.userSaveState == 'saved'
+          | Saved!
+
+  if view.user.isHomeUser() && me.isAdmin()
+    div.m-t-1
+      label
+        input#online-teacher-checkbox(type='checkbox', checked=view.userIsOnlineTeacher())
+        span.p-l-1
+          | Enable Online Teacher
       div
         if view.userSaveState == 'saving'
           | Saving...
@@ -118,7 +134,7 @@ block modal-body-content
                   = prepaid.creator.get('name')
               else
                 | -
-          td= prepaid.get('type')
+          td= prepaid.typeDescription()
           td= moment.timezone(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).tz(view.timeZone).format('l')
           td
             if prepaid.get('startDate')
@@ -244,41 +260,87 @@ block modal-body-content
             a(href='/teachers/classes/' + classroom.get('_id') + '#students-tab') View Class
     hr
 
-  if !view.user.isTeacher() && !view.user.isStudent()
-    h3.m-t-3#stripe Modify Stripe Subscription
-    h4= 'Status: ' + (view.user.hasSubscription() ? 'subscribed' : 'not subscribed')
-    .small Use this to grant premium access and gems to this user for the home version.
-    .form
-      .form-group
-        .radio
+  if view.user.isHomeUser()
+    if me.isAdmin()
+      h3.m-t-3#stripe Modify Subscription
+      h4= 'Status: ' + (view.user.hasSubscription() ? 'subscribed' : 'not subscribed')
+      .small Use this to grant premium access and gems to this user for the home version.
+      .form
+        .form-group
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="" checked=view.none)
+              | None
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="free" checked=view.free)
+              | Free
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
+              span Free Until
+              =" "
+              input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
+              span Coupon
+              =" "
+            select#coupon-select
+              for coupon in view.coupons.models
+                option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
+        .form-group
           label
-            input(type="radio" name="stripe-benefit" value="" checked=view.none)
-            | None
-        .radio
-          label
-            input(type="radio" name="stripe-benefit" value="free" checked=view.free)
-            | Free
-        .radio
-          label
-            input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
-            span Free Until
+            span Gems to add to user
             =" "
-            input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
-        .radio
+            input#stripe-add-gems(type="number", name="addGems", value=0)
+            |  (they have #{view.user.gems().toLocaleString()})
+        button#save-changes.btn.btn-primary Save Changes
+      hr
+    else if me.isOnlineTeacher()
+      h3.m-t-3#stripe Modify Subscription
+      h4= 'Status: ' + (view.user.hasSubscription() ? 'subscribed' : 'not subscribed')
+      .small Use this to grant premium access and gems to this user for the home version.
+      .form
+        .form-group
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="" checked=view.none)
+              | None
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="free" checked=view.free)
+              | Free (use this for paid students)
+          .radio
+            label
+              input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
+              span Free Until
+              =" "
+              input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
+              |  (use this for trial class students)
+        .form-group
           label
-            input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
-            span Coupon
+            span Gems to add to user
             =" "
-          select#coupon-select
-            for coupon in view.coupons.models
-              option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
-      .form-group
-        label
-          span Gems to add to user
-          =" "
-          input#stripe-add-gems(type="number", name="addGems", value=0)
-      button#save-changes.btn.btn-primary Save Changes
-    hr
+            input#stripe-add-gems(type="number", name="addGems", value=0)
+            |  (they have #{view.user.gems().toLocaleString()})
+        button#save-changes.btn.btn-primary Save Changes
+      hr
+
+    if me.isOnlineTeacher()
+      h3.m-t-3#other-controls Other Controls
+      .small Currently only works when user is playing a level, takes effect when they finish the level.
+      .form
+        .form-group
+          .checkbox
+            label
+              input#volume-checkbox(type='checkbox', checked=view.user.get('volume', true) > 0)
+              span Volume
+          .checkbox
+            label
+              input#music-checkbox(type='checkbox', checked=view.user.get('music', true))
+              span Music
+      hr
 
   // Not currently used
   //h3#create-payment Create Payment
@@ -319,7 +381,8 @@ block modal-body-content
     .model-container(data-model-id=model.id)
       h3= model.type() + ': ' + model.id
       .model-treema(data-model-id=model.id)
-      btn.btn.btn-success.save-model(data-i18n="common.save") Save
+      if me.isAdmin()
+        btn.btn.btn-success.save-model(data-i18n="common.save") Save
     hr
 
 
