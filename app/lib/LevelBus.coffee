@@ -113,6 +113,12 @@ module.exports = class LevelBus extends Bus
 
     code[parts[0]] ?= {}
     code[parts[0]][parts[1]] = e.spell.getSource()
+    if e.spell.level.isType('ladder')
+      for spellTeam, spell of utils.teamSpells
+        spells = spell[0].split('/')
+        continue if spells[0] is parts[0]
+        code[spells[0]] ?= {}
+        code[spells[0]][spells[1]] = e.spell.getSource()
     @changedSessionProperties.code = true
     @session.set({'code': code})
     @saveSession()

@@ -311,6 +311,9 @@ _.extend LevelSessionSchema.properties,
               codeLanguage:
                 type: ['string', 'null']  # 'null' in case an opponent session got corrupted, don't care much here
                 description: 'What submittedCodeLanguage the opponent used during the match'
+              team:
+                type: ['string', 'null']
+                description: 'The opponent team in this match'
         simulator: {type: 'object', description: 'Holds info on who simulated the match, and with what tools.'}
         randomSeed: {description: 'Stores the random seed that was used during this match.'}
 

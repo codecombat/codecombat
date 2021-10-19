@@ -159,7 +159,10 @@ module.exports = class LevelLoader extends CocoClass
     else
       url = "/db/level/#{@levelID}/session"
       if @team
-        url += "?team=#{@team}"
+        if @level.isType('ladder')
+          url += '?team=humans'
+        else
+          url += "?team=#{@team}"
         league = utils.getQueryVariable 'league'
         if @level.isType('course-ladder') and league and not @courseInstanceID
           url += "&courseInstance=#{league}"
@@ -190,12 +193,12 @@ module.exports = class LevelLoader extends CocoClass
     if @session.loaded
       console.debug 'LevelLoader: session already loaded:', @session if LOG
       @session.setURL '/db/level.session/' + @session.id
-      @loadDependenciesForSession @session
+      @prelaodTeamForSession @session
     else
       console.debug 'LevelLoader: loading session:', @session if LOG
       @listenToOnce @session, 'sync', ->
         @session.setURL '/db/level.session/' + @session.id
-        @loadDependenciesForSession @session
+        @prelaodTeamForSession @session
     if @opponentSession
       if @opponentSession.loaded
         console.debug 'LevelLoader: opponent session already loaded:', @opponentSession if LOG
@@ -204,8 +207,18 @@ module.exports = class LevelLoader extends CocoClass
         console.debug 'LevelLoader: loading opponent session:', @opponentSession if LOG
         @listenToOnce @opponentSession, 'sync', @preloadTokenForOpponentSession
 
+  prelaodTeamForSession: (session) =>
+    if @level.isType('ladder') and @team is 'ogres' and session.get('team') is 'humans'
+      session.set 'team', 'ogres'
+      code = session.get('code')
+      code['hero-placeholder-1'] = code['hero-placeholder']
+      delete code['hero-placeholder']
+      session.set 'code', code
+    @loadDependenciesForSession session
+
+
   preloadTokenForOpponentSession: (session) =>
-    if @level.isType('ladder') and session.get('team') is 'humans'
+    if @level.isType('ladder') and @team is 'humans' and session.get('team') is 'humans'
       # Reassign our opponent to the ogres team. This might get dicey if we face off against ourselves, but appears to work.
       session.set 'team', 'ogres'
       code = session.get('code')
