@@ -83,6 +83,9 @@ module.exports = class Simulator extends CocoClass
         if taskData.tournamentId
           @simulateTournamentRatio = 0.9  # scale up the ratio of simulate tournament
         @simulatingPlayerStrings = {}
+        newTeam = _.shuffle ['humans', 'ogres']
+        taskData.sessions[0].team = newTeam[0]
+        taskData.sessions[1].team = newTeam[1]
         for team in ['humans', 'ogres']
           session = _.find(taskData.sessions, {team: team})
           teamName = $.i18n.t 'ladder.' + team
@@ -105,7 +108,7 @@ module.exports = class Simulator extends CocoClass
         @supermodel ?= new SuperModel()
         @supermodel.resetProgress()
         @stopListening @supermodel, 'loaded-all'
-        @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), opponentSessionID: @task.getSecondSessionID(), headless: true
+        @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getHumanSessionID(), opponentSessionID: @task.getOgresSessionID(), headless: true
 
         if @supermodel.finished()
           @simulateSingleGame()
@@ -241,7 +244,7 @@ module.exports = class Simulator extends CocoClass
     @supermodel ?= new SuperModel()
     @supermodel.resetProgress()
     @stopListening @supermodel, 'loaded-all'
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), opponentSessionID: @task.getSecondSessionID(), headless: true
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getHumanSessionID(), opponentSessionID: @task.getOgresSessionID(), headless: true
     if @supermodel.finished()
       @simulateGame()
     else
@@ -484,6 +487,11 @@ class SimulationTask
   getFirstSessionID: -> @rawData.sessions[0].sessionID
 
   getSecondSessionID: -> @rawData.sessions[1].sessionID
+
+  getHumanSessionID: -> _.find(@rawData.sessions, {team: 'humans'}).sessionID
+
+  getOgresSessionID: -> _.find(@rawData.sessions, {team: 'ogres'}).sessionID
+
   getTaskID: -> @rawData.taskID
 
   getTournamentId: -> @rawData.tournamentId
