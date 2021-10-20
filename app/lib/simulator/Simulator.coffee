@@ -83,9 +83,10 @@ module.exports = class Simulator extends CocoClass
         if taskData.tournamentId
           @simulateTournamentRatio = 0.9  # scale up the ratio of simulate tournament
         @simulatingPlayerStrings = {}
-        newTeam = _.shuffle ['humans', 'ogres']
-        taskData.sessions[0].team = newTeam[0]
-        taskData.sessions[1].team = newTeam[1]
+        if taskData.sessions[0].realTeam == taskData.sessions[1].realTeam # only random for ladder
+          newTeam = _.shuffle ['humans', 'ogres']
+          taskData.sessions[0].team = newTeam[0]
+          taskData.sessions[1].team = newTeam[1]
         for team in ['humans', 'ogres']
           session = _.find(taskData.sessions, {team: team})
           teamName = $.i18n.t 'ladder.' + team
