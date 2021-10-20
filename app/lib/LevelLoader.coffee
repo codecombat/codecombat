@@ -222,7 +222,6 @@ module.exports = class LevelLoader extends CocoClass
       session.set 'team', 'ogres'
       code = session.get('code')
       code['hero-placeholder-1'] = code['hero-placeholder']
-      delete code['hero-placeholder']
       session.set 'code', code
     language = session.get('codeLanguage')
     compressed = session.get 'interpret'
