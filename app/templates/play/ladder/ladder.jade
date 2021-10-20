@@ -150,8 +150,7 @@ block content
             for team in view.teams
               div.column.column-3
                 a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
-                  span(data-i18n="play.play_as")
-                  span.spl= team.displayName
+                  span(data-i18n="play_level.play_as_" + team.id)
             div.column.column-2
               a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : ""))
                 span.glyphicon.glyphicon-eye-open
