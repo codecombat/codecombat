@@ -160,7 +160,7 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{@levelID}/session"
       if @team
         if @level.isType('ladder')
-          url += '?team=humans'
+          url += '?team=humans' # only query for humans when type ladder
         else
           url += "?team=#{@team}"
         league = utils.getQueryVariable 'league'

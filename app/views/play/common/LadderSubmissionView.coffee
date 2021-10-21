@@ -73,10 +73,13 @@ module.exports = class LadderSubmissionView extends CocoView
       if @destroyed
         @session = @level = @mirrorSession = @submittingInProgress = undefined
     @submittingInProgress = true
-    if @level.isType('ladder') and @session.get('team') is 'ogres'
+    if @level.isType('ladder')
       code = @session.get('code') ? {}
-      @session.set('team', 'humans')
-      code['hero-placeholder'] = code['hero-placeholder-1']
+      if @session.get('team') is 'ogres'
+        @session.set('team', 'humans')
+        code['hero-placeholder'] = code['hero-placeholder-1']
+      else
+        code['hero-placeholder-1'] = code['hero-placeholder'] # make sure we update both humans' and ogres' code at the same time.
       @session.set('code', code)
     @session.save null, success: =>
       ajaxData =
