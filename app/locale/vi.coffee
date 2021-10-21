@@ -1230,10 +1230,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Trên 450 người đã tham gia đóng góp cho CodeCombat, và con số này tiếp tục tăng lên hàng tuần!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"

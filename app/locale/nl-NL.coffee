@@ -1230,10 +1230,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
     community_description_link_2: "gemeenschapsproject"
