@@ -42,6 +42,9 @@ form.modal-body.segment-check
         if view.signupState.get('subModalContinue')
           span(data-i18n="signup.sign_in_to_continue")
           br
+        else if view.signupState.get('accountRequiredMessage')
+          span= view.signupState.get('accountRequiredMessage')
+          br
         .birthday-form-group.form-group
           span(data-i18n="signup.enter_birthdate")
           .input-border

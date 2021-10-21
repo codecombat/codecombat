@@ -164,7 +164,7 @@ module.exports = class LevelBus extends Bus
   onScriptEnded: (e) ->
     return unless @onPoint()
     state = @session.get('state')
-    scripts = state.scripts
+    return unless scripts = state.scripts
     scripts.ended ?= {}
     return if scripts.ended[e.scriptID]?
     index = _.keys(scripts.ended).length + 1

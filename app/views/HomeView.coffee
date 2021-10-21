@@ -8,6 +8,7 @@ storage = require 'core/storage'
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 EducatorSignupOzariaEncouragementModal = require('app/views/teachers/EducatorSignupOzariaEncouragementModal').default
 GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').default
+paymentUtils = require 'app/lib/paymentUtils'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'

@@ -163,7 +163,7 @@ block content
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.simulate-all-button
               span(data-i18n="play.simulate_all")
           else if !features.china && !me.isTeacher() && !me.isAnonymous() && !me.isRegisteredForAILeague() && view.isAILeagueArena()
-            a.btn.btn-illustrated.btn-block.btn-lg.btn-primary.register-for-ai-league-button
+            a.btn.btn-illustrated.btn-block.btn-lg.btn-primary.register-for-ai-league-button(href="/league?registering=true")
               span(data-i18n="league.register_for_ai_league")
 
 

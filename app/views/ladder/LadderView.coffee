@@ -247,7 +247,7 @@ module.exports = class LadderView extends RootView
       else 300                                     # Refresh super slowly if anonymous during HoC scaling.
     @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), @refreshDelay * 1000)
     hash = document.location.hash[1..] if document.location.hash
-    if hash and not (hash in ['my-matches', 'simulate', 'ladder', 'prizes', 'rules', 'winners'])
+    if (hash in ['humans', 'ogres']) and not window.currentModal
       @showPlayModal(hash) if @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->

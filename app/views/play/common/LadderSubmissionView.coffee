@@ -49,8 +49,9 @@ module.exports = class LadderSubmissionView extends CocoView
     @$el.find('.last-submitted').toggle(showLastSubmitted)
 
   showApologeticSignupModal: ->
+    window.nextURL = "/play/ladder/#{@level.get('slug')}?submit=true"
     CreateAccountModal = require 'views/core/CreateAccountModal'
-    @openModalView(new CreateAccountModal({showRequiredError: true}))
+    @openModalView new CreateAccountModal accountRequiredMessage: $.i18n.t('signup.create_account_to_submit_multiplayer')  # Note: may destroy `this` if we were living in another modal
 
   rankSession: (e) ->
     return unless @session.readyToRank()
@@ -62,9 +63,16 @@ module.exports = class LadderSubmissionView extends CocoView
     success = =>
       @setRankingButtonText 'submitted' unless @destroyed
       Backbone.Mediator.publish 'ladder:game-submitted', session: @session, level: @level
+      @submittingInProgress = false
+      if @destroyed
+        @session = @level = @mirrorSession = @submittingInProgress = undefined
     failure = (jqxhr, textStatus, errorThrown) =>
       console.log jqxhr.responseText
       @setRankingButtonText 'failed' unless @destroyed
+      @submittingInProgress = false
+      if @destroyed
+        @session = @level = @mirrorSession = @submittingInProgress = undefined
+    @submittingInProgress = true
     @session.save null, success: =>
       ajaxData =
         session: @session.id
@@ -92,9 +100,21 @@ module.exports = class LadderSubmissionView extends CocoView
           tempSession = new LevelSession _id: @mirrorSession.id
           tempSession.save patch, patch: true, type: 'PUT', success: ->
             $.ajax '/queue/scoring', mirrorAjaxOptions
-
       $.ajax '/queue/scoring', ajaxOptions
 
   onHelpSimulate: ->
     @playSound 'menu-button-click'
     $('a[href="#simulate"]').tab('show')
+
+  destroy: ->
+    # Atypical: if we are destroyed mid-submission, keep a few locals around to be able to finish it
+    if @submittingInProgress
+      session = @session
+      level = @level
+      mirrorSession = @mirrorSession
+    super()
+    if session
+      @session = session
+      @level = level
+      @mirrorSession = @mirrorSession
+      @submittingInProgress = true

@@ -884,7 +884,6 @@ freeAccessLevels = [
   { access: 'long', slug: 'kithgard-gates' }
   { access: 'extended', slug: 'defense-of-plainswood' }
   { access: 'extended', slug: 'winding-trail' }
-  # { access: 'short', slug: 'giants-gate' }  # Arenas: needed? Replayables?
   { access: 'china-classroom', slug: 'forgetful-gemsmith' }
   { access: 'china-classroom', slug: 'kounter-kithwise' }
   { access: 'china-classroom', slug: 'crawlways-of-kithgard' }
@@ -892,8 +891,22 @@ freeAccessLevels = [
   { access: 'china-classroom', slug: 'careful-steps' }
   { access: 'china-classroom', slug: 'long-steps' }
   { access: 'china-classroom', slug: 'favorable-odds' }
-  # Concept challenges: needed?
 ]
+
+orgKindString = (kind, org=null) ->
+  return 'State' if kind is 'administrative-region' and org?.country is 'US' and /^en/.test me.get('preferredLanguage')
+  key = {
+    'administrative-region': 'teachers_quote.state'
+    'school-district': 'teachers_quote.district_label'
+    'school-admin': 'outcomes.school_admin'
+    'school-network': 'outcomes.school_network'
+    'school-subnetwork': 'outcomes.school_subnetwork'
+    school: 'teachers_quote.organization_label'
+    teacher: 'courses.teacher'
+    classroom: 'outcomes.classroom'
+    student: 'courses.student'
+  }[kind]
+  return $.i18n.t(key)
 
 module.exports = {
   activeAndPastArenas
@@ -952,6 +965,7 @@ module.exports = {
   normalizeFunc
   objectIdToDate
   orderedCourseIDs
+  orgKindString
   pathToUrl
   petThangIDs
   premiumContent

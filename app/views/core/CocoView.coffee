@@ -319,7 +319,7 @@ module.exports = class CocoView extends Backbone.View
     return modalView
 
   modalShown: =>
-    visibleModal.trigger('shown')
+    visibleModal?.trigger('shown')  # Null soak: this could have closed while in opening animation and already be gone
 
   modalClosed: =>
     visibleModal.willDisappear() if visibleModal
