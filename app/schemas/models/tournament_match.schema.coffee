@@ -20,6 +20,9 @@ _.extend TournamentMatchSchema.properties,
   simulateAttempts:
     type: 'number'
     default: 10
+  teams:
+    type: 'string'
+    enum: ['humans:ogres', 'ogres:humans']
 
 
 c.extendBasicProperties TournamentMatchSchema, 'tournament.match'
