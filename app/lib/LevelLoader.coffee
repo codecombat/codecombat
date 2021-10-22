@@ -215,7 +215,6 @@ module.exports = class LevelLoader extends CocoClass
       session.set 'code', code
     @loadDependenciesForSession session
 
-
   preloadTokenForOpponentSession: (session) =>
     if @level.isType('ladder') and @team != 'ogres' and session.get('team') is 'humans'
       session.set 'team', 'ogres'
