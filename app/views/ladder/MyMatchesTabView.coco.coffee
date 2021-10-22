@@ -47,6 +47,7 @@ module.exports = class MyMatchesTabView extends CocoView
         sessionID: opponent.sessionID
         stale: match.date < submitDate
         fresh: fresh
+        opTeam: opponent.team
         codeLanguage: match.codeLanguage
         simulator: if match.simulator then JSON.stringify(match.simulator) + ' | seed ' + match.randomSeed else ''
       }
