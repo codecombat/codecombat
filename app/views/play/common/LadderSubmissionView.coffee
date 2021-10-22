@@ -73,12 +73,13 @@ module.exports = class LadderSubmissionView extends CocoView
       if @destroyed
         @session = @level = @mirrorSession = @submittingInProgress = undefined
     @submittingInProgress = true
-    if @level.isType('ladder') and @session.get('team') is 'ogres'
-      code = @session.get('code') ? {}
-      @session.set('team', 'humans')
+    tempSession = @session.clone() # do not modify @session here
+    if @level.isType('ladder') and tempSession.get('team') is 'ogres'
+      code = tempSession.get('code') ? {}
+      tempSession.set('team', 'humans')
       code['hero-placeholder'] = code['hero-placeholder-1']
-      @session.set('code', code)
-    @session.save null, success: =>
+      tempSession.set('code', code)
+    tempSession.save null, success: =>
       ajaxData =
         session: @session.id
         levelID: @level.id
@@ -94,16 +95,16 @@ module.exports = class LadderSubmissionView extends CocoView
         mirrorAjaxData = _.clone ajaxData
         mirrorAjaxData.session = @mirrorSession.id
         mirrorCode = @mirrorSession.get('code') ? {}
-        if @session.get('team') is 'humans'
-          mirrorCode['hero-placeholder-1'] = @session.get('code')['hero-placeholder']
+        if tempSession.get('team') is 'humans'
+          mirrorCode['hero-placeholder-1'] = tempSession.get('code')['hero-placeholder']
         else
-          mirrorCode['hero-placeholder'] = @session.get('code')['hero-placeholder-1']
+          mirrorCode['hero-placeholder'] = tempSession.get('code')['hero-placeholder-1']
         mirrorAjaxOptions = _.clone ajaxOptions
         mirrorAjaxOptions.data = mirrorAjaxData
         ajaxOptions.success = =>
-          patch = code: mirrorCode, codeLanguage: @session.get('codeLanguage')
-          tempSession = new LevelSession _id: @mirrorSession.id
-          tempSession.save patch, patch: true, type: 'PUT', success: ->
+          patch = code: mirrorCode, codeLanguage: tempSession.get('codeLanguage')
+          tempMirrorSession = new LevelSession _id: @mirrorSession.id
+          tempMirrorSession.save patch, patch: true, type: 'PUT', success: ->
             $.ajax '/queue/scoring', mirrorAjaxOptions
       $.ajax '/queue/scoring', ajaxOptions
 

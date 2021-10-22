@@ -184,7 +184,7 @@ module.exports = class LevelLoader extends CocoClass
     if @opponentSessionID
       opponentURL = "/db/level.session/#{@opponentSessionID}?interpret=true"
       if @tournament
-        opponentURL = "/db/level.session/#{@opponentSessionID}/tournament-snapshot/#{@tournament}"
+        opponentURL = "/db/level.session/#{@opponentSessionID}/tournament-snapshot/#{@tournament}" # this url also get interpret
       opponentSession = new LevelSession().setURL opponentURL
       opponentSession.project = session.project if @headless
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
@@ -211,18 +211,16 @@ module.exports = class LevelLoader extends CocoClass
     if @level.isType('ladder') and @team is 'ogres' and session.get('team') is 'humans'
       session.set 'team', 'ogres'
       code = session.get('code')
-      code['hero-placeholder-1'] = code['hero-placeholder']
+      code['hero-placeholder-1'] = JSON.parse(JSON.stringify(code['hero-placeholder']))
       session.set 'code', code
     @loadDependenciesForSession session
 
 
   preloadTokenForOpponentSession: (session) =>
     if @level.isType('ladder') and @team != 'ogres' and session.get('team') is 'humans'
-      # Reassign our opponent to the ogres team. This might get dicey if we face off against ourselves, but appears to work.
       session.set 'team', 'ogres'
-      code = session.get('code')
-      code['hero-placeholder-1'] = code['hero-placeholder']
-      session.set 'code', code
+      # since opponentSession always get interpret, so we don't need to copy code
+
     language = session.get('codeLanguage')
     compressed = session.get 'interpret'
     if language not in ['java', 'cpp'] or not compressed

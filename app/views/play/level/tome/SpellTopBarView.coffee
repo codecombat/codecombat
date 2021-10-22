@@ -141,7 +141,7 @@ module.exports = class SpellTopBarView extends CocoView
     query = window.location.search
     query = query.replace(/team=[^&]*&?/, '')
     if query
-      if query.endsWith('?')
+      if query.endsWith('?') or query.endsWith('&')
         query += 'team='
       else
         query += '&team='

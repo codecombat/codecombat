@@ -113,13 +113,11 @@ module.exports = class LevelBus extends Bus
 
     code[parts[0]] ?= {}
     code[parts[0]][parts[1]] = e.spell.getSource()
-    if e.spell.level.isType('ladder')
-      for spellTeam, spell of utils.teamSpells
-        spells = spell[0].split('/')
-        continue if spells[0] is parts[0]
-        code[spells[0]] ?= {}
-        code[spells[0]][spells[1]] = e.spell.getSource()
-    @changedSessionProperties.code = true
+
+    @changedSessionProperties.code = {}
+    @changedSessionProperties.code[parts[0]]= parts[0]
+    if e.spell.level.isType('ladder') and e.spell.team is 'ogres'
+      @changedSessionProperties.code[parts[0]]= 'hero-placeholder'
     @session.set({'code': code})
     @saveSession()
 
@@ -265,9 +263,16 @@ module.exports = class LevelBus extends Bus
     return if @session.fake
     if @changedSessionProperties.code
       @updateSessionConcepts()
+      spellMap = @changedSessionProperties.code
+      @changedSessionProperties.code = false
     Backbone.Mediator.publish 'level:session-will-save', session: @session
     patch = {}
     patch[prop] = @session.get(prop) for prop of @changedSessionProperties
+    if spellMap # let's only update trueSpell of session
+      code = @session.get('code')
+      for updatedSpell, trueSpell of spellMap
+        patch.code = {}
+        patch.code[trueSpell] = code[updatedSpell]
     @changedSessionProperties = {}
 
     # since updates are coming fast and loose for session objects
