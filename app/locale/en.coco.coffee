@@ -2455,6 +2455,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     blue_ai: "Blue CPU"
     wins: "Wins"  # At end of multiplayer match playback
     losses: "Losses"
+    win_num: "Wins"
+    loss_num: "Losses"
     win_rate: "Win %"
     humans: "Red"  # Ladder page display team name
     ogres: "Blue"
