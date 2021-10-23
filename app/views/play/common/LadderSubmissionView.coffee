@@ -49,8 +49,9 @@ module.exports = class LadderSubmissionView extends CocoView
     @$el.find('.last-submitted').toggle(showLastSubmitted)
 
   showApologeticSignupModal: ->
+    window.nextURL = "/play/ladder/#{@level.get('slug')}?submit=true"
     CreateAccountModal = require 'views/core/CreateAccountModal'
-    @openModalView(new CreateAccountModal({showRequiredError: true}))
+    @openModalView new CreateAccountModal accountRequiredMessage: $.i18n.t('signup.create_account_to_submit_multiplayer')  # Note: may destroy `this` if we were living in another modal
 
   rankSession: (e) ->
     return unless @session.readyToRank()
@@ -62,10 +63,23 @@ module.exports = class LadderSubmissionView extends CocoView
     success = =>
       @setRankingButtonText 'submitted' unless @destroyed
       Backbone.Mediator.publish 'ladder:game-submitted', session: @session, level: @level
+      @submittingInProgress = false
+      if @destroyed
+        @session = @level = @mirrorSession = @submittingInProgress = undefined
     failure = (jqxhr, textStatus, errorThrown) =>
       console.log jqxhr.responseText
       @setRankingButtonText 'failed' unless @destroyed
-    @session.save null, success: =>
+      @submittingInProgress = false
+      if @destroyed
+        @session = @level = @mirrorSession = @submittingInProgress = undefined
+    @submittingInProgress = true
+    tempSession = @session.clone() # do not modify @session here
+    if @level.isType('ladder') and tempSession.get('team') is 'ogres'
+      code = tempSession.get('code') ? {}
+      tempSession.set('team', 'humans')
+      code['hero-placeholder'] = code['hero-placeholder-1']
+      tempSession.set('code', code)
+    tempSession.save null, success: =>
       ajaxData =
         session: @session.id
         levelID: @level.id
@@ -81,20 +95,32 @@ module.exports = class LadderSubmissionView extends CocoView
         mirrorAjaxData = _.clone ajaxData
         mirrorAjaxData.session = @mirrorSession.id
         mirrorCode = @mirrorSession.get('code') ? {}
-        if @session.get('team') is 'humans'
-          mirrorCode['hero-placeholder-1'] = @session.get('code')['hero-placeholder']
+        if tempSession.get('team') is 'humans'
+          mirrorCode['hero-placeholder-1'] = tempSession.get('code')['hero-placeholder']
         else
-          mirrorCode['hero-placeholder'] = @session.get('code')['hero-placeholder-1']
+          mirrorCode['hero-placeholder'] = tempSession.get('code')['hero-placeholder-1']
         mirrorAjaxOptions = _.clone ajaxOptions
         mirrorAjaxOptions.data = mirrorAjaxData
         ajaxOptions.success = =>
-          patch = code: mirrorCode, codeLanguage: @session.get('codeLanguage')
-          tempSession = new LevelSession _id: @mirrorSession.id
-          tempSession.save patch, patch: true, type: 'PUT', success: ->
+          patch = code: mirrorCode, codeLanguage: tempSession.get('codeLanguage')
+          tempMirrorSession = new LevelSession _id: @mirrorSession.id
+          tempMirrorSession.save patch, patch: true, type: 'PUT', success: ->
             $.ajax '/queue/scoring', mirrorAjaxOptions
-
       $.ajax '/queue/scoring', ajaxOptions
 
   onHelpSimulate: ->
     @playSound 'menu-button-click'
     $('a[href="#simulate"]').tab('show')
+
+  destroy: ->
+    # Atypical: if we are destroyed mid-submission, keep a few locals around to be able to finish it
+    if @submittingInProgress
+      session = @session
+      level = @level
+      mirrorSession = @mirrorSession
+    super()
+    if session
+      @session = session
+      @level = level
+      @mirrorSession = @mirrorSession
+      @submittingInProgress = true

@@ -96,6 +96,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
 #    try_the_game: "Try the game"
     classroom_edition: "המהדורה הכיתתית:"
     learn_to_code: "למדו לכתוב קוד:"
@@ -249,6 +250,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    professional_development: "Professional Development"
 #    new: "New!"
 #    admin: "Admin"
+#    api_dashboard: "API Dashboard"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "סגור"
@@ -288,7 +291,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
 #    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
 #    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details!"
+#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER."
 #    recommended_systems: "Is there a recommended browser and operating system?"
 #    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
 #    other_questions: "If you have any other questions, please __contact__."
@@ -427,6 +430,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     create_individual_header: "יצירת חשבון אישי"
     email_announcements: "קבלו הודעות על שלבים ותכונות חדשים ב-CodeCombat!"
     sign_in_to_continue: "היכנס או צור חשבון על מנת להמשיך"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "עדכנו אותי בחומרים למורים, תכנית הלימודים וקורסים"
     creating: "יוצר חשבון..."
     sign_up: "הרשמה"
@@ -628,6 +632,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    email_us: "Send us an email"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "שנייה"
@@ -1001,7 +1006,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     unsubscribing: "מבטל מנוי"
     subscribe_prepaid: "לחצו על 'צור מנוי' כדי להשתמש בקוד בתשלום מראש"
     using_prepaid: "משתמש בקוד בתשלום מראש עבור מנוי חודשי"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
     feature_heroes: "פתיחה של גיבורים בלעדיים" # {change}
 #    feature_learn: "Learn to make games and websites"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -1812,6 +1817,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     archived_classes: "כיתות בארכיון"
     archived_classes_blurb: "ניתן לשמור בארכיון כיתות, לצורך עיון בעתיד. הוציאו כיתה מהארכיון כדי שתופיע שוב ברשימת הכיתות הנוכחיות."
     view_class: "הצג כיתה"
+#    view_ai_league_team: "View AI League team"
     archive_class: "שמור כיתה בארכיון"
     unarchive_class: "הוצא כיתה מהארכיון"
     unarchive_this_class: "הוצא כיתה זו מהארכיון"
@@ -1910,6 +1916,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     start_date: "תאריך התחלה:"
     end_date: "תאריך סיום:"
     get_enrollments_blurb: " אנו נעזור לכם לבנות פתרונות שעומדים בצורכי הכיתה, מוסד הלימודים או המחוז שלכם."
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
     how_to_apply_licenses_blurb_1: "כאשר מורה מקצה קורס לתלמיד בפעם הראשונה, אנו נחיל רישיון באופן אוטומטי. באמצעות התפריט הנפתח להקצאה המונית בכיתה, ניתן להקצות קורס לתלמידים הנבחרים:"
     how_to_apply_licenses_blurb_2: "האם עדיין אפשר להחיל רישיון בלי להקצות קורס?"
     how_to_apply_licenses_blurb_3: "כן - עברו אל כרטיסיית מצב הרישיון בכיתה שלכם, ולחצו על \"החל רישיון\" עבור כל תלמיד שאין לו רישיון פעיל."
@@ -2038,7 +2046,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     hoc_programming: "תכנות ב-JavaScript/Python"
     hoc_teacher_led: "שיעורים בהנחיית מורה"
     hoc_teacher_led_desc1: "הורידו את"
-    hoc_teacher_led_link: "תכניות השיעורים שלנו עבור מבוא למדעי המחשב"
+    hoc_teacher_led_link: "תכניות השיעורים שלנו עבור מבוא למדעי המחשב" # {change}
     hoc_teacher_led_desc2: "כדי להציג בפני התלמידים שלכם עקרונות תכנות באמצעות פעילויות בלתי-מקוונות"
     hoc_group: "משחק קבוצתי"
     hoc_group_desc_1: "מורים יכולים להשתמש בשיעורים בשילוב עם קורס המבוא שלנו למדעי המחשב, כדי לעקוב אחר התקדמות התלמידים. עיינו"
@@ -2174,6 +2182,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     victory_course_share_suffix: "שיצרתם כעת."
     copy_url: "העתק כתובת URL"
 #    share_with_teacher_email: "Send to your teacher"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "יוצר"
@@ -2425,9 +2436,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     watch_victory: "צפו בניצחון שלכם"
     defeat_the: "הביסו את"
     watch_battle: "צפו בקרב"
+#    tournament_starts: "Tournament starts"
     tournament_started: ", התחיל"
     tournament_ends: "הטורניר יסתיים"
     tournament_ended: "הטורניר הסתיים"
+#    tournament_results_published: ", results published"
     tournament_rules: "כללי הטורניר"
     tournament_blurb_criss_cross: "זכו במכירות פומביות, בנו נתיבים, הערימו על יריבכם, השיגו אבני חן, ושדרגו את הקריירה שלכם בטורניר השתי-וערב שלנו! ראו פרטים"
     tournament_blurb_zero_sum: "תנו חופש ליצירתיות שלכם בקידוד, בטקטיקות לאיסוף זהב ולקרבות, בקרב ראי הררי זה בין קוסמת אדומה לקוסמת כחולה. הטורניר התחיל ביום שישי, 27 במרץ, ויימשך עד יום שני, 6 באפריל, 17:00 שעון החוף המערבי. השתתפו בתחרות כדי ליהנות ולזכות בתהילה! ראו פרטים"
@@ -2439,6 +2452,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     red_ai: "CPU אדום" # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "CPU כחול"
     wins: "ניצח" # At end of multiplayer match playback
+#    losses: "Losses"
+#    win_rate: "Win %"
     humans: "אדום" # Ladder page display team name
     ogres: "כחול"
 #    tournament_end_desc: "The tournament is over, thanks for playing"
@@ -2447,6 +2462,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    bracket_0_11: "0-11"
 #    bracket_11_14: "11-14"
 #    bracket_14_18: "14-18"
+#    bracket_11_18: "11-18"
 #    bracket_open: "Open"
 
   user:
@@ -2817,7 +2833,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     email_settings_url: "הגדרות הדואר האלקטרוני"
     email_description_suffix: "או דרך קישורים בהודעות שנשלח בדואר אלקטרוני, תוכלו לשנות את ההעדפות ולבטל מנוי בקלות בכל עת."
     cost_title: "עלות"
-    cost_description: "ניתן לשחק ב-CodeCombat בחינם בכל שלבי הליבה שלו, ובמחיר ${{price}} דולר לחודש ניתן לקבל מנוי עם גישה אל ענפי שלבים נוספים ובונוס של {{gems}} אבני חן כל חודש. תוכלו לבטל בלחיצה, ואנו מציעים 100% החזר כספי במקרה של בעיה במוצר."
+    cost_description: "ניתן לשחק ב-CodeCombat בחינם בכל שלבי הליבה שלו, ובמחיר ${{price}} דולר לחודש ניתן לקבל מנוי עם גישה אל ענפי שלבים נוספים ובונוס של {{gems}} אבני חן כל חודש. תוכלו לבטל בלחיצה, ואנו מציעים 100% החזר כספי במקרה של בעיה במוצר." # {change}
     copyrights_title: "זכויות ורישיונות"
     contributor_title: "הסכם רישיון לתורם"
     contributor_description_prefix: "כל התרומות, באתר ובמאגר ה-GitHub שלנו, כפופות"
@@ -3124,8 +3140,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    back_to_coco: "Back to CodeCombat"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -3137,9 +3154,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    teacher_signup_input_placeholder: "Teacher email address"
 #    teacher_signup_input_button: "Get CS1 Free"
 #    activities_header: "More Hour of Code Activities"
-#    activity_label_1: "Escape the Dungeon!"
-#    activity_label_2: " Beginner: Build a Game!"
-#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_label_1: "Beginner CS: Escape the Dungeon!"
+#    activity_label_2: " Beginner GD: Build a Game!"
+#    activity_label_3: "Advanced GD: Build an Arcade Game!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
 #    activity_button_1: "View Lesson"
 #    about: "About CodeCombat"
 #    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."
@@ -3149,11 +3168,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3213,6 +3232,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  outcomes:
+#    school_admin: "School Administrator"
+#    school_network: "School Network"
+#    school_subnetwork: "School Subnetwork"
+#    classroom: "Classroom"
+
 #  league:
 #    student_register_1: "Become the next AI Champion!"
 #    student_register_2: "Sign up, create your own team, or join other teams to start competing."
@@ -3245,6 +3270,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    start_team: "Start a Team"
 #    leave_team: "Leave Team"
 #    join_team: "Join Team"
+#    view_team: "View Team"
+#    join_team_name: "Join Team __name__"
 #    features: "Features"
 #    built_in: "Built-in Competitive Infrastructure"
 #    built_in_subheader: "Our platform hosts every element of the competitive process, from leaderboards to the game platform, assets, and tournament awards."
@@ -3271,9 +3298,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"
-#    season1_announcement_1: "Time to put your coding skills to the test in our season 1 final arena. The Infinite Inferno Cup is live and offers a new challenge and a new leaderboard to climb."
-#    season1_announcement_2: "Need more practice? Stick with the Blazing Battle Arena to refine your skills. You have until April 30th to play both arenas. Note: arena balance adjustments may occur until April 23rd."
-#    season1_announcement_3: "Great prizes available for top performers in the Infinite Inferno Cup:"
+#    season2_announcement_1: "Time to put your coding skills to the test in our season 2 final arena. The Sorcerers Blitz is live and offers a new challenge and a new leaderboard to climb."
+#    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
+#    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
 #    season1_prize_1: "$1,000 Scholarship"
 #    season1_prize_2: "RESPAWN Gaming Chair"
 #    season1_prize_3: "Custom CodeCombat Avatar"
@@ -3282,7 +3309,32 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    codecombat_ai_league: "CodeCombat AI League"
 #    register: "Register"
 #    not_registered: "Not Registered"
+#    register_for_ai_league: "Register for AI League"
 #    world: "World"
+#    quickstart_video: "Quickstart Video"
+#    arena_rankings: "Arena Rankings"
+#    arena_rankings_blurb: "Global AI League arena rankings"
+#    arena_rankings_title: "Global leaderboard rank for all players in this team across AI League arenas in the open age bracket."
+#    competing: "Competing:" # Competing: 3 students
+#    count_student: "student" # 1 student
+#    count_students: "students" # 2 students
+#    top_student: "Top:" # Top: Jane D
+#    top_percent: "top" # - top 3%)
+#    top_of: "of" # (#8 of 35). Perhaps just use "/" if this doesn't translate naturally.
+#    arena_victories: "Arena Victories"
+#    arena_victories_blurb: "Global AI League arena recent wins"
+#    arena_victories_title: "Win count is based on the last 1000 matches played asynchronously by each player in each of their AI League arenas."
+#    count_wins: "wins" # 100+ wins or 974 wins
+#    codepoints_blurb: "1 CodePoint = 1 line of code written"
+#    codepoints_title: "One CodePoint is earned for every non-whitespace line of code needed to beat the level. Each level is worth the same amount of CodePoints according to its standard solution, regardless of whether the student wrote more or fewer lines of code."
+#    count_total: "Total:" # Total: 300 CodePoints, or Total: 300 wins
+#    join_teams_header: "Join Teams & Get Cool Stuff!"
+#    join_team_hyperx_title: "Join Team HyperX, Get 10% Off"
+#    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
+#    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
+#    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+#    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"
@@ -3306,6 +3358,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    great_courses: "Great Courses included for"
 #    studentLicense_successful: "Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students."
 #    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
+#    homeSubscriptions_successful: "Congratulations! Your payment was successful. Your premium access will be available in few minutes."
 #    failed: "Your payment failed, please try again"
 #    session_week_1: "1 session/week"
 #    session_week_2: "2 sessions/week"
@@ -3315,6 +3368,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    year_1: "Yearly"
 #    most_popular: "Most Popular"
 #    best_value: "Best Value"
+#    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
+#    homeschooling: "Homeschooling Licenses"
 #    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
 
 #  form_validation_errors:

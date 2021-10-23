@@ -10,6 +10,7 @@ redirect = (path) -> ->
 
 utils = require './utils'
 ViewLoadTimer = require 'core/ViewLoadTimer'
+paymentUtils = require 'lib/paymentUtils'
 
 module.exports = class CocoRouter extends Backbone.Router
 
@@ -34,10 +35,12 @@ module.exports = class CocoRouter extends Backbone.Router
     '': ->
       if window.serverConfig.picoCTF
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}
+      if utils.getQueryVariable 'payment-homeSubscriptions'
+        return @routeDirectly 'HomeView'
       if utils.getQueryVariable 'hour_of_code'
         delete window.alreadyLoadedView
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
-      unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient()
+      unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess()
         delete window.alreadyLoadedView
         return @navigate "/premium", {trigger: true, replace: true}
       if me.isAPIClient()
@@ -201,6 +204,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'parents': go('core/SingletonAppVueComponentView')
     'live-classes': go('core/SingletonAppVueComponentView')
 
+    'outcomes-report(/*subpath)': go('core/SingletonAppVueComponentView')
+
     # Warning: In production debugging of third party iframe!
     'temporary-debug-timetap': go('core/SingletonAppVueComponentView')
 
@@ -262,7 +267,6 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
       @navigate('/teachers/update-account', {trigger: true, replace: true})
-    'teachers/starter-licenses': go('teachers/StarterLicenseUpsellView', { redirectStudents: true, teachersOnly: true })
     'teachers/update-account': ->
       return @navigate('/teachers/signup', {trigger: true, replace: true}) if me.isAnonymous()
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()

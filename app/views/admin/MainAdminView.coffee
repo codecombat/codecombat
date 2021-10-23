@@ -55,7 +55,7 @@ module.exports = class MainAdminView extends RootView
       else
         $('#espionage-name-or-email').val spy
         $('#enter-espionage-mode').click()
-    if userID = utils.getQueryVariable 'user'
+    if (me.isAdmin() or me.isOnlineTeacher()) and userID = utils.getQueryVariable 'user'
       @openModalView new AdministerUserModal({}, userID)
 
   clearQueryParams: -> window.history.pushState({}, '', document.location.href.split('?')[0])
@@ -152,7 +152,7 @@ module.exports = class MainAdminView extends RootView
           <td>#{user.firstName or ''}</td>
           <td>#{user.lastName or ''}</td>
           <td>
-            <button class='user-spy-button'>Spy</button>
+            #{if me.isAdmin() then "<button class='user-spy-button'>Spy</button>" else ""}
             #{if new User(user).isTeacher() then "<button class='teacher-dashboard-button'>View Classes</button>" else ""}
           </td>
         </tr>")

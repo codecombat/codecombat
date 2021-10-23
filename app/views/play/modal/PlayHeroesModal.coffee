@@ -17,6 +17,7 @@ LayerAdapter = require 'lib/surface/LayerAdapter'
 Lank = require 'lib/surface/Lank'
 store = require 'core/store'
 createjs = require 'lib/createjs-parts'
+ThangTypeConstants = require 'lib/ThangTypeConstants'
 
 module.exports = class PlayHeroesModal extends ModalView
   className: 'modal fade play-modal'
@@ -59,6 +60,7 @@ module.exports = class PlayHeroesModal extends ModalView
   onHeroesLoaded: ->
     @heroes.reset(@heroes.filter((hero) => not hero.get('ozaria')))
     @formatHero hero for hero in @heroes.models
+    @heroes.reset(@heroes.filter((hero) => not hero.hidden))
     if me.freeOnly() or application.getHocCampaign()
       @heroes.reset(@heroes.filter((hero) => !hero.locked))
     unless me.isAdmin()
@@ -80,6 +82,10 @@ module.exports = class PlayHeroesModal extends ModalView
       hero.restricted = not (hero.get('original') in allowedHeroes)
     hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
     hero.stats = hero.getHeroStats()
+    if clanHero = _.find(utils.clanHeroes, thangTypeOriginal: hero.get('original'))
+      hero.hidden = true if clanHero.clanId not in (me.get('clans') ? [])
+    if hero.get('original') is ThangTypeConstants.heroes['code-ninja']
+      hero.hidden = window.location.host isnt 'coco.code.ninja'
 
   currentVisiblePremiumFeature: ->
     isPremium = @visibleHero and not (@visibleHero.class is 'warrior' and @visibleHero.get('tier') is 0)
@@ -143,18 +149,16 @@ module.exports = class PlayHeroesModal extends ModalView
       ]
     else
       @subscriberCodeLanguageList = [
-        {id: 'cpp', name: "C++ (#{$.i18n.t('choose_hero.experimental')})"}
+        {id: 'cpp', name: "C++"}
+        {id: 'java', name: "Java (#{$.i18n.t('choose_hero.experimental')})"}
       ]
       @codeLanguageList = [
         {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
         {id: 'javascript', name: 'JavaScript'}
         {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
+        {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
         @subscriberCodeLanguageList...
       ]
-
-      if me.isAdmin() or not application.isProduction()
-        @codeLanguageList.push {id: 'java', name: "Java (#{$.i18n.t('choose_hero.experimental')})"}
-        @codeLanguageList.push {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
 
   onHeroChanged: (e) ->
     direction = e.direction  # 'left' or 'right'

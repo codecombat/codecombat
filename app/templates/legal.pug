@@ -32,7 +32,7 @@ block content
       span.spr(data-i18n="legal.email_description_prefix")
       a(href='/account/settings', data-i18n="legal.email_settings_url")
       span.spl(data-i18n="legal.email_description_suffix")
-    if !me.isOnPremiumServer()
+    if window && window.features && !window.features.chinaUx
       h4(data-i18n="legal.cost_title")
       p#cost-description Loading...
     

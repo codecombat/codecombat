@@ -96,6 +96,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teachers_love_codecombat_subblurb: "В партнерстве с McREL International, лидером в области основанного на исследованиях руководства и оценки образовательных технологий."
     top_banner_blurb: "Родители, подарите своему ребенку программирование и индивидуальные инструкции с нашими живыми учителями!"
     top_banner_summer_camp: "Открыта запись на наши летние лагеря программирования - спросите нас о наших недельных виртуальных сессиях по цене всего от 199 долларов."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     try_the_game: "Попробуй игру"
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
@@ -249,6 +250,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     professional_development: "Профессиональное развитие"
     new: "Новое!"
     admin: "Админ"
+#    api_dashboard: "API Dashboard"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "Закрыть"
@@ -288,7 +291,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     google_classroom_blurb1: "Ага! Обязательно используйте режим единого входа Google (SSO), чтобы создать учетную запись учителя. Если у вас уже есть учетная запись, использующая вашу электронную почту Google, используйте модальное окно единого входа Google для входа в следующий раз. В модальном окне Создать класс вы увидите опцию Присоединить Google Classroom. В настоящее время мы поддерживаем регистрацию только через Google Classroom."
     google_classroom_blurb2: "Примечание: вы должны использовать систему единого входа Google для регистрации или войти в систему хотя бы один раз, чтобы увидеть возможность интеграции с Google Classroom."
     how_much_does_it_cost: "Сколько стоит доступ ко всем доступным курсам и ресурсам?"
-    how_much_does_it_cost_blurb: "Мы адаптируем решения для школ и округов и работаем с вами, чтобы понять ваш вариант использования, контекст и бюджет. __contact__ для уточнения деталей!"
+    how_much_does_it_cost_blurb: "Мы адаптируем решения для школ и округов и работаем с вами, чтобы понять ваш вариант использования, контекст и бюджет. __contact__ для уточнения деталей!" # {change}
     recommended_systems: "Есть ли рекомендуемый браузер и операционная система?"
     recommended_systems_blurb: "CodeCombat и Ozaria лучше всего работают на компьютерах с как минимум 4 ГБ ОЗУ, в современном браузере, таком как Chrome, Safari, Firefox или Edge. Chromebook с 2 ГБ ОЗУ может иметь незначительные проблемы с графикой на более поздних курсах. Требуется минимум 200 Кбит / с для каждого студента, хотя рекомендуется 1+ Мбит / с."
     other_questions: "Если у Вас остались вопросы, __contact__."
@@ -427,6 +430,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     create_individual_header: "Создать личную учётную запись"
     email_announcements: "Получать оповещения о новых уровнях и возможностях на CodeCombat"
     sign_in_to_continue: "Войдите или создайте учётную запись для продолжения"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Сообщайте мне о новых учебных материалах, планах и курсах!"
     creating: "Создаём учётную запись..."
     sign_up: "Регистрация"
@@ -628,6 +632,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     email_us: "Отправьте нам сообщение"
     sales: "Распродажи"
     support: "Поддержка"
+#    here: "here"
 
   units:
     second: "секунда"
@@ -1191,6 +1196,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     team_title: "Присоединяйтесь к команде CodeCombat"
     team_values: "Мы ценим открытый и вежливый диалог, где побеждают лучшие идеи. Наши решения основаны на исследовании пожеланий клиентов, а наш процесс направлен на то, чтобы приносить осязаемые результаты. У нас все при деле, от CEO до контрибьютеров на GitHub, потому что мы ценим рост и обучение в своей команде."
     nick_title: "Сооснователь, CEO"
+#    csr_title: "Customer Success Representative"
     csm_title: "Менеджер по работе с клиентами"
     scsm_title: "Старший менеджер по работе с клиентами"
     ae_title: "Делопроизводитель"
@@ -1811,6 +1817,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     archived_classes: "Архивные классы"
     archived_classes_blurb: "Классы можно архивировать для доступа в будущем. Разархивируйте класс, чтобы снова увидеть его в списке текущих классов."
     view_class: "посмотреть класс"
+#    view_ai_league_team: "View AI League team"
     archive_class: "архивировать класс"
     unarchive_class: "разархивировать класс"
     unarchive_this_class: "Разархивировать этот класс"
@@ -1909,6 +1916,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     start_date: "дата начала:"
     end_date: "дата конца:"
     get_enrollments_blurb: " Мы поможем Вам принять решение, необходимое именно для Ваших классов, школы или района."
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
     how_to_apply_licenses_blurb_1: "Когда учитель назначает ученика на курс впервые, мы автоматически выдадим лицензию. Используйте выпадающий список \"Назначение учеников\" в классной комнате, чтобы назначить на курс выбранных студентов:"
     how_to_apply_licenses_blurb_2: "Могу ли я применить лицензию без назначения на курс?"
     how_to_apply_licenses_blurb_3: "Да. Перейдите на вкладку \"Статус лицензии\" в своем классе и нажмите \"Применить лицензию\" для любого ученика, у которого нет активной лицензии."
@@ -2031,13 +2040,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
 #    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
 #    hoc_self_led: "Self-Led Gameplay"
-#    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
+#    hoc_self_led_desc: "Students can play through our Hour of Code CodeCombat tutorials on their own"
 #    hoc_game_dev: "Game Development"
 #    hoc_and: "and"
 #    hoc_programming: "JavaScript/Python Programming"
 #    hoc_teacher_led: "Teacher-Led Lessons"
 #    hoc_teacher_led_desc1: "Download our"
-#    hoc_teacher_led_link: "Introduction to Computer Science lesson plans"
+#    hoc_teacher_led_link: "Hour of Code lesson plans"
 #    hoc_teacher_led_desc2: "to introduce your students to programming concepts using offline activities"
 #    hoc_group: "Group Gameplay"
 #    hoc_group_desc_1: "Teachers can use the lessons in conjunction with our Introduction to Computer Science course to track student progress. See our"
@@ -2173,6 +2182,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_course_share_suffix: "которые ты только что создал."
     copy_url: "Копировать URL"
     share_with_teacher_email: "Отправить твоему учителю"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Создатель"
@@ -2424,9 +2436,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     watch_victory: "Наблюдать за победой"
     defeat_the: "Победить"
     watch_battle: "Смотреть битву"
+#    tournament_starts: "Tournament starts"
     tournament_started: ", начат"
     tournament_ends: "Турнир заканчивается"
     tournament_ended: "Турнир закончился"
+#    tournament_results_published: ", results published"
     tournament_rules: "Правила турнира"
     tournament_blurb_criss_cross: "Выигрывайте ставки, создавайте пути, перехитрите оппонентов, собирайте самоцветы и улучшайте вашу карьеру в нашем турнире Criss-Cross! Узнайте больше"
     tournament_blurb_zero_sum: "Дайте волю своей программистской фантазии в собирании золота и боевой тактике в этом высокогорном зеркальном матче между красным волшебником и синим волшебником. Турнир начался в пятницу, 27 марта, и продолжится до 17.00 PDT понедельника, 6 апреля. Участвуйте для веселья и славы! Посмотрите детали"
@@ -2438,6 +2452,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     red_ai: "CPU красного" # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "CPU синего"
     wins: "Побеждает" # At end of multiplayer match playback
+#    losses: "Losses"
+#    win_rate: "Win %"
     humans: "Красных" # Ladder page display team name
     ogres: "Синих"
     tournament_end_desc: "Турнир окончен, спасибо за участие"
@@ -2446,6 +2462,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    bracket_0_11: "0-11"
 #    bracket_11_14: "11-14"
 #    bracket_14_18: "14-18"
+#    bracket_11_18: "11-18"
 #    bracket_open: "Open"
 
   user:
@@ -2816,7 +2833,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     email_settings_url: "ваши email настройки"
     email_description_suffix: "или через ссылки в email-ах, которые мы отправляем, вы можете изменить предпочтения и легко отписаться в любой момент."
     cost_title: "Стоимость"
-    cost_description: "CodeCombat бесплатен для игры на базовых уровнях, с подпиской за ${{price}} USD/месяц вы получите доступ к дополнительным ветвям уровней и {{gems}} бонусным самоцветам в месяц. Вы можете отказаться в 1 клик, и мы предлагаем 100% гарантию возврата денег."
+    cost_description: "CodeCombat бесплатен для игры на базовых уровнях, с подпиской за ${{price}} USD/месяц вы получите доступ к дополнительным ветвям уровней и {{gems}} бонусным самоцветам в месяц. Вы можете отказаться в 1 клик, и мы предлагаем 100% гарантию возврата денег." # {change}
     copyrights_title: "Авторские права и лицензии"
     contributor_title: "Лицензионное соглашение соавторов"
     contributor_description_prefix: "Все вклады, как на сайте, так и на нашем репозитории GitHub, подпадают под наше"
@@ -3123,8 +3140,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    back_to_coco: "Back to CodeCombat"
 
   hoc_2018:
-    banner: "Добро пожаловать в час кода 2019!" # {change}
+    banner: "Добро пожаловать в час кода!" # {change}
     page_heading: "Ваши ученики будут учиться программировать, создавая свою собственную игру"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
     step_1: "Шаг 1: Посмотри вводное видео"
     step_2: "Шаг 2: Попробуй сам"
     step_3: "Шаг 3: Скачай план урока"
@@ -3139,6 +3157,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     activity_label_1: "Убеги из подземелья!"
     activity_label_2: "Новичок: Сделай игру"
     activity_label_3: "Продвинутый: Сделай аркадную игру!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
     activity_button_1: "Посмотри урок"
     about: "Подробнее о CodeCombat"
     about_copy: "Программа обучения реальному программированию на Python и JavaScript, основанная на игре"
@@ -3148,11 +3168,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     point4: "✓ Курсы, основаны на проектах"
     point5: "✓ Отслеживай процесс студентов"
     point6: "✓ Полный учебный план"
-    title: "Час кода 2019" # {change}
+    title: "Час кода" # {change}
     acronym: "ЧК"
 
   hoc_2018_interstitial:
-    welcome: "Добро пожаловать в час кода 2019 на CodeCombat!" # {change}
+    welcome: "Добро пожаловать в час кода на CodeCombat!" # {change}
     educator: "Я педагог"
     show_resources: "Покажите мне информацию для учителя!"
     student: "Я ученик"
@@ -3212,6 +3232,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  outcomes:
+#    school_admin: "School Administrator"
+#    school_network: "School Network"
+#    school_subnetwork: "School Subnetwork"
+#    classroom: "Classroom"
+
 #  league:
 #    student_register_1: "Become the next AI Champion!"
 #    student_register_2: "Sign up, create your own team, or join other teams to start competing."
@@ -3244,6 +3270,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    start_team: "Start a Team"
 #    leave_team: "Leave Team"
 #    join_team: "Join Team"
+#    view_team: "View Team"
+#    join_team_name: "Join Team __name__"
 #    features: "Features"
 #    built_in: "Built-in Competitive Infrastructure"
 #    built_in_subheader: "Our platform hosts every element of the competitive process, from leaderboards to the game platform, assets, and tournament awards."
@@ -3270,9 +3298,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"
-#    season1_announcement_1: "Time to put your coding skills to the test in our season 1 final arena. The Infinite Inferno Cup is live and offers a new challenge and a new leaderboard to climb."
-#    season1_announcement_2: "Need more practice? Stick with the Blazing Battle Arena to refine your skills. You have until April 30th to play both arenas. Note: arena balance adjustments may occur until April 23rd."
-#    season1_announcement_3: "Great prizes available for top performers in the Infinite Inferno Cup:"
+#    season2_announcement_1: "Time to put your coding skills to the test in our season 2 final arena. The Sorcerers Blitz is live and offers a new challenge and a new leaderboard to climb."
+#    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
+#    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
 #    season1_prize_1: "$1,000 Scholarship"
 #    season1_prize_2: "RESPAWN Gaming Chair"
 #    season1_prize_3: "Custom CodeCombat Avatar"
@@ -3281,7 +3309,32 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    codecombat_ai_league: "CodeCombat AI League"
 #    register: "Register"
 #    not_registered: "Not Registered"
+#    register_for_ai_league: "Register for AI League"
 #    world: "World"
+#    quickstart_video: "Quickstart Video"
+#    arena_rankings: "Arena Rankings"
+#    arena_rankings_blurb: "Global AI League arena rankings"
+#    arena_rankings_title: "Global leaderboard rank for all players in this team across AI League arenas in the open age bracket."
+#    competing: "Competing:" # Competing: 3 students
+#    count_student: "student" # 1 student
+#    count_students: "students" # 2 students
+#    top_student: "Top:" # Top: Jane D
+#    top_percent: "top" # - top 3%)
+#    top_of: "of" # (#8 of 35). Perhaps just use "/" if this doesn't translate naturally.
+#    arena_victories: "Arena Victories"
+#    arena_victories_blurb: "Global AI League arena recent wins"
+#    arena_victories_title: "Win count is based on the last 1000 matches played asynchronously by each player in each of their AI League arenas."
+#    count_wins: "wins" # 100+ wins or 974 wins
+#    codepoints_blurb: "1 CodePoint = 1 line of code written"
+#    codepoints_title: "One CodePoint is earned for every non-whitespace line of code needed to beat the level. Each level is worth the same amount of CodePoints according to its standard solution, regardless of whether the student wrote more or fewer lines of code."
+#    count_total: "Total:" # Total: 300 CodePoints, or Total: 300 wins
+#    join_teams_header: "Join Teams & Get Cool Stuff!"
+#    join_team_hyperx_title: "Join Team HyperX, Get 10% Off"
+#    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
+#    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
+#    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+#    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"
@@ -3305,6 +3358,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    great_courses: "Great Courses included for"
 #    studentLicense_successful: "Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students."
 #    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
+#    homeSubscriptions_successful: "Congratulations! Your payment was successful. Your premium access will be available in few minutes."
 #    failed: "Your payment failed, please try again"
 #    session_week_1: "1 session/week"
 #    session_week_2: "2 sessions/week"
@@ -3314,6 +3368,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    year_1: "Yearly"
 #    most_popular: "Most Popular"
 #    best_value: "Best Value"
+#    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
+#    homeschooling: "Homeschooling Licenses"
 #    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
 
 #  form_validation_errors:

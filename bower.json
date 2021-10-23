@@ -26,7 +26,6 @@
   "dependencies": {
     "jquery": "~2.1.0",
     "jquery-mousewheel": "~3.1.9",
-    "moment": "~2.19.0",
     "ace-builds": "~1.4.12",
     "underscore.string": "~2.3.3",
     "jsondiffpatch": "^0.2.3",

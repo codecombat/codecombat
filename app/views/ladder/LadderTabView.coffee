@@ -5,7 +5,7 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 User = require 'models/User'
-Tournament = require 'models/Tournament'
+TournamentSubmission = require 'models/TournamentSubmission'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel, scoreForDisplay} = require './utils'
 ModelModal = require 'views/modal/ModelModal'
@@ -17,7 +17,7 @@ HIGHEST_SCORE = 1000000
 
 class TournamentLeaderboardCollection extends CocoCollection
   url: ''
-  model: Tournament
+  model: TournamentSubmission
 
   constructor: (tournamentId, options) ->
     super()
@@ -313,15 +313,15 @@ module.exports = class LadderTabView extends CocoView
   onClickPlayerName: (e) ->
     if me.isAdmin()
       row = $(e.target).parent()
-      player = new User _id: row.data 'player-id'
-      playerName = row.find('.name-col-cell').text()
       session = new LevelSession _id: row.data 'session-id'
-      if /^cq/.test(playerName) and not features.china
-        # CodeQuest users use cq name prefix and don't exist on global server; hack around this
-        models = [session]
-      else
-        models = [session, player]
-      @openModalView new ModelModal models: models
+      @supermodel.loadModel session
+      @listenToOnce session, 'sync', (_session) =>
+        if _session.get('source')?.name
+          models = [_session]
+        else
+          player = new User _id: row.data 'player-id'
+          models = [_session, player]
+        @openModalView new ModelModal models: models
     else if me.isTeacher()
       ;
     else
@@ -378,9 +378,9 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     console.warn 'Already have top players on', @ if @topPlayers
 
     params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
+    if @ageBracket?
+      params.age = @ageBracket
     if @tournamentId?
-      if @ageBracket?
-        params.bracket = @ageBracket
       @topPlayers = new TournamentLeaderboardCollection(@tournamentId, params)
     else
       @topPlayers = new LeaderboardCollection(@level, params)

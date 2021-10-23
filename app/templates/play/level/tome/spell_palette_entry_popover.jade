@@ -85,16 +85,12 @@ if !selectedMethod
       div
         .docs-ace-container
           .docs-ace
-            if language == 'javascript'
+            if /javascript|java|cpp/.test(language)
               span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
             else if language == 'coffeescript'
               span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + docName + ' ' + argumentExamples.join(', ')
             else if language == 'python'
               span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ')'
-            else if language == 'java'
-              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
-            else if language == 'cpp'
-              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
             else if language == 'lua'
               span= doc.ownerName + ':' + docName + '(' + argumentExamples.join(', ') + ')'
 

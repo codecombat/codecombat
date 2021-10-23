@@ -1,93 +1,5 @@
 slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
 
-translatejs2cpp = (jsCode, fullCode=true) ->
-  matchBrackets = (str, startIndex) ->
-    cc = 0
-    for i in [startIndex..str.length-1] by 1
-      cc += 1 if str[i] == '{'
-      if str[i] == '}'
-        cc -= 1
-        return i+2 unless cc
-  splitFunctions = (str) ->
-    creg = /\n[ \t]*[^\/]/
-    codeIndex = creg.exec(str)
-    if str and str[0] != '/'
-      startComments = ''
-    else if codeIndex
-      codeIndex = codeIndex.index + 1
-      startComments = str.slice 0, codeIndex
-      str = str.slice codeIndex
-    else
-      return [str, '']
-
-    indices = []
-    reg = /\nfunction/gi
-    indices.push 0 if str.startsWith("function ")
-    while (result = reg.exec(str))
-      indices.push result.index+1
-    split = []
-    end = 0
-    split.push {s: 0, e: indices[0]} if indices.length
-    for i in indices
-      end = matchBrackets str, i
-      split.push {s: i, e: end}
-    split.push {s: end, e: str.length}
-    header = if startComments then [startComments] else []
-    return header.concat split.map (s) -> str.slice s.s, s.e
-
-  jsCodes = splitFunctions jsCode
-  len = jsCodes.length
-  lines = jsCodes[len-1].split '\n'
-  if fullCode
-    jsCodes[len-1] = """
-      int main() {
-      #{(lines.map (line) -> '    ' + line).join '\n'}
-          return 0;
-      }
-    """
-  else
-    jsCodes[len-1] = (lines.map (line) -> ' ' + line).join('\n')
-  for i in [0..len-1] by 1
-    if /^ *function/.test(jsCodes[i])
-      variables = jsCodes[i].match(/function.*\((.*)\)/)[1]
-      v = ''
-      v = variables.split(', ').map((e) -> 'auto ' + e).join(', ') if variables
-      jsCodes[i] = jsCodes[i].replace(/function(.*)\((.*)\)/, 'auto$1(' + v + ')')
-    jsCodes[i] = jsCodes[i].replace /var x/g, 'float x'
-    jsCodes[i] = jsCodes[i].replace /var y/g, 'float y'
-    jsCodes[i] = jsCodes[i].replace /var dist/g, 'float dist'
-    jsCodes[i] = jsCodes[i].replace /var (\w+)Index/g, 'int $1Index'
-    jsCodes[i] = jsCodes[i].replace /\ ===\ /g, ' == '
-    jsCodes[i] = jsCodes[i].replace /\.length/g, '.size()'
-    jsCodes[i] = jsCodes[i].replace /\.push\(/g, '.push_back('
-    jsCodes[i] = jsCodes[i].replace /\.pop\(/g, '.pop_back('
-    jsCodes[i] = jsCodes[i].replace /\.shift\(/g, '.pop('
-    jsCodes[i] = jsCodes[i].replace /\ new /g, ' *new '
-    jsCodes[i] = jsCodes[i].replace /\ !== /g, ' != '
-    jsCodes[i] = jsCodes[i].replace /\ var /g, ' auto '
-    jsCodes[i] = jsCodes[i].replace /\ = \[([^;]*)\];/g, ' = {$1};'
-    jsCodes[i] = jsCodes[i].replace /\(var /g, '(auto '
-    jsCodes[i] = jsCodes[i].replace /\nvar /g, '\nauto '
-    jsCodes[i] = jsCodes[i].replace /\ return \[([^;]*)\];/g, ' return {$1};'
-    # Don't substitute these within comments
-    noComment = '^ *([^/\\r\\n]*?)'
-    quotesReg = new RegExp(noComment + "'(.*?)'", 'gm')
-    while quotesReg.test(jsCodes[i])
-      jsCodes[i] = jsCodes[i].replace quotesReg, '$1"$2"'
-    # first replace ' to " then replace object
-    jsCodes[i] = jsCodes[i].replace /\{\s*"?x"?\s*:\s*([^,]+),\s*"?y"?\s*:\s*([^\}]*)\}/g, '{$1, $2}'  # {x:1, y:1} -> {1, 1}
-  unless fullCode
-    lines = jsCodes[len-1].split '\n'
-    jsCodes[len-1] = (lines.map (line) -> line.slice 1).join('\n')
-
-  cppCodes = jsCodes.join('').split('\n')
-  for i in [1..cppCodes.length-1] by 1
-    if cppCodes[i].match(/^\s*else/) and cppCodes[i-1].match("//")
-      tmp = cppCodes[i]
-      cppCodes[i] = cppCodes[i-1]
-      cppCodes[i-1] = tmp
-  cppCodes.join '\n'
-
 clone = (obj) ->
   return obj if obj is null or typeof (obj) isnt 'object'
   temp = obj.constructor()
@@ -284,10 +196,10 @@ petThangIDs = [
 ]
 
 premiumContent =
-  premiumHeroesCount: '12'
-  totalHeroesCount: '16'
-  premiumLevelsCount: '330'
-  freeLevelsCount: '100'
+  premiumHeroesCount: '15'
+  totalHeroesCount: '19'
+  premiumLevelsCount: '531'
+  freeLevelsCount: '5'
 
 normalizeFunc = (func_thing, object) ->
   # func could be a string to a function in this class
@@ -571,48 +483,6 @@ getPrepaidCodeAmount = (price=0, users=0, months=0) ->
 formatDollarValue = (dollars) ->
   '$' + (parseFloat(dollars).toFixed(2))
 
-startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
-
-filterMarkdownCodeLanguages = (text, language) ->
-  return '' unless text
-  currentLanguage = language or me.get('aceConfig')?.language or 'python'
-  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html'], if currentLanguage == 'cpp' then 'javascript' else currentLanguage
-  # Exclude language-specific code blocks like ```python (... code ...)``
-  # ` for each non-target language.
-  codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
-  # Exclude language-specific images like ![python - image description](image url) for each non-target language.
-  imageExclusionRegex = new RegExp "!\\[(#{excludedLanguages.join('|')}) - .+?\\]\\(.+?\\)\n?", 'gm'
-  text = text.replace(codeBlockExclusionRegex, '').replace(imageExclusionRegex, '')
-
-  commonLanguageReplacements =
-    python: [
-      ['true', 'True'], ['false', 'False'], ['null', 'None'],
-      ['object', 'dictionary'], ['Object', 'Dictionary'],
-      ['array', 'list'], ['Array', 'List'],
-    ]
-    lua: [
-      ['null', 'nil'],
-      ['object', 'table'], ['Object', 'Table'],
-      ['array', 'table'], ['Array', 'Table'],
-    ]
-  for [from, to] in commonLanguageReplacements[currentLanguage] ? []
-    # Convert JS-specific keywords and types to Python ones, if in simple `code` tags.
-    # This won't cover it when it's not in an inline code tag by itself or when it's not in English.
-    text = text.replace ///`#{from}`///g, "`#{to}`"
-    # Now change "An `dictionary`" to "A `dictionary`", etc.
-    if startsWithVowel(from) and not startsWithVowel(to)
-      text = text.replace ///(\ a|A)n(\ `#{to}`)///g, "$1$2"
-    if not startsWithVowel(from) and startsWithVowel(to)
-      text = text.replace ///(\ a|A)(\ `#{to}`)///g, "$1n$2"
-  if currentLanguage == 'cpp'
-    jsRegex = new RegExp "```javascript\n([^`]+)```", 'gm'
-    text = text.replace jsRegex, (a, l) =>
-      """```cpp
-        #{@translatejs2cpp a[13..a.length-4], false}
-      ```"""
-
-  return text
-
 capitalLanguages =
   'javascript': 'JavaScript'
   'coffeescript': 'CoffeeScript'
@@ -871,31 +741,68 @@ videoLevels = {
   }
 }
 
-yearsSinceMonth = (start) ->
-  return undefined unless start
+yearsSinceMonth = (birth, now) ->
+  return undefined unless birth
   # Should probably review this logic, written quickly and haven't tested any edge cases
-  if _.isString start
-    return undefined unless /\d{4}-\d{2}(-\d{2})?/.test start
-    if start.length is 7
-      start = start + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
-    start = new Date(start)
-  return undefined unless _.isDate start
-  now = new Date()
-  now.getFullYear() - start.getFullYear() + (now.getMonth() - start.getMonth()) / 12
+  if _.isString birth
+    return undefined unless /^\d{4}-\d{1,2}(-\d{1,2})?$/.test birth
+    if birth.split('-').length is 2
+      birth = birth + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
+    birth = new Date(birth)
+  return undefined unless _.isDate birth
+
+  birthYear = birth.getFullYear()
+  birthYear += 1 if birth.getMonth() > 7 # getMonth start from 0 # child birth after 9.1 should join school in next year
+  season = currentSeason()
+  now ?= new Date()
+  schoolYear = now.getFullYear()
+
+  seasonAfterSep = +(season.start.split('-')[0]) >= 9
+  schoolYear += 1 if seasonAfterSep # school year comes into a new year after 9.1
+  return schoolYear - birthYear
 
 # Keep in sync with the copy in background-processor
 ageBrackets = [
-  {slug: '0-11', max: 11.33}
-  {slug: '11-14', max: 14.33}
-  {slug: '14-18', max: 18.99}
+  {slug: '0-11', max: 11}
+  {slug: '11-14', max: 14}
+  {slug: '14-18', max: 18}
   {slug: 'open', max: 9001}
 ]
 
+ageBracketsChina = [
+  {slug: '0-11', max: 11}
+  {slug: '11-18', max: 18}
+  {slug: 'open', max: 9001}
+]
+
+seasons = [
+  {
+    name: 'Season 1',
+    start:'01-01',
+    end: '04-30',
+  }
+  {
+    name: 'Season 2',
+    start:'05-01',
+    end: '08-31',
+  }
+  {
+    name: 'Season 3',
+    start:'09-01',
+    end: '12-31',
+  }
+]
+
+currentSeason = () ->
+  now = new Date()
+  year = now.getFullYear()
+  return seasons.find((season) -> now <= new Date("#{year}-#{season.end}"))
+
 ageToBracket = (age) ->
-  # Convert years to an age bracket
+# Convert years to an age bracket
   return 'open' unless age
   for bracket in ageBrackets
-    if age < bracket.max
+    if age <= bracket.max
       return bracket.slug
   return 'open'
 
@@ -905,6 +812,13 @@ bracketToAge = (slug) ->
       lowerBound = if i == 0 then 0 else ageBrackets[i-1].max
       higherBound = ageBrackets[i].max
       return { $gt: lowerBound, $lte: higherBound }
+
+  for i in [0...ageBracketsChina.length]
+    if ageBracketsChina[i].slug == slug
+      lowerBound = if i == 0 then 0 else ageBracketsChina[i-1].max
+      higherBound = ageBracketsChina[i].max
+      return { $gt: lowerBound, $lte: higherBound }
+
 
 CODECOMBAT = 'codecombat'
 CODECOMBAT_CHINA = 'koudashijie'
@@ -924,12 +838,12 @@ isCodeCombat = true
 isOzaria = false
 
 arenas = [
-  {slug: 'blazing-battle'   , type: 'regular',      start: new Date(2021, 0,  1), end: new Date(2021, 4, 1), levelOriginal: '5fca06dc8b4da8002889dbf1', image: '/file/db/level/5fca06dc8b4da8002889dbf1/Blazing Battle Final cut.jpg'}
-  {slug: 'infinite-inferno' , type: 'championship', start: new Date(2021, 3,  1), end: new Date(2021, 4, 1), levelOriginal: '602cdc204ef0480075fbd954', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
-  {slug: 'mages-might'      , type: 'regular',      start: new Date(2021, 4,  1), end: new Date(2021, 8, 1), levelOriginal: '6066f956ddfd6f003d1ed6bb', image: '/file/db/level/6066f956ddfd6f003d1ed6bb/Mages\'%20Might%20Banner.jpg'}
-  {slug: 'sorcerers'        , type: 'championship', start: new Date(2021, 7,  1), end: new Date(2021, 8, 1), levelOriginal: '609a6ad2e1eb34001a84e7af'}
-  {slug: 'giants-gate'      , type: 'regular',      start: new Date(2021, 8,  1), end: new Date(2022, 0, 1)}
-  {slug: 'colossus'         , type: 'championship', start: new Date(2021, 11, 1), end: new Date(2022, 0, 1)}
+  {slug: 'blazing-battle'   , type: 'regular',      start: new Date("2021-01-01T00:00:00.000+07:00"), end: new Date("2021-05-01T00:00:00.000+08:00"), results: new Date("2021-05-01T00:00:00.000+08:00"), levelOriginal: '5fca06dc8b4da8002889dbf1', tournament: '608cea0f8f2b971478556ac6', image: '/file/db/level/5fca06dc8b4da8002889dbf1/Blazing Battle Final cut.jpg'}
+  {slug: 'infinite-inferno' , type: 'championship', start: new Date("2021-04-01T00:00:00.000+08:00"), end: new Date("2021-05-01T00:00:00.000+08:00"), results: new Date("2021-05-01T00:00:00.000+08:00"), levelOriginal: '602cdc204ef0480075fbd954', tournament: '608cd3f814fa0bf9f1c1f928', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
+  {slug: 'mages-might'      , type: 'regular',      start: new Date("2021-05-01T00:00:00.000+08:00"), end: new Date("2021-09-01T00:00:00.000+08:00"), results: new Date("2021-09-08T09:00:00.000+08:00"), levelOriginal: '6066f956ddfd6f003d1ed6bb', tournament: '612d554b9abe2e0019aeffb9', image: '/file/db/level/6066f956ddfd6f003d1ed6bb/Mages\'%20Might%20Banner.jpg'}
+  {slug: 'sorcerers'        , type: 'championship', start: new Date("2021-08-01T00:00:00.000+08:00"), end: new Date("2021-09-01T00:00:00.000+08:00"), results: new Date("2021-09-08T09:00:00.000+08:00"), levelOriginal: '609a6ad2e1eb34001a84e7af', tournament: '612d556f9abe2e0019af000b', image: "/file/db/level/609a6ad2e1eb34001a84e7af/Sorcerer's-Blitz-01.jpg"}
+  {slug: 'giants-gate'      , type: 'regular',      start: new Date("2021-09-01T00:00:00.000+08:00"), end: new Date("2022-01-01T00:00:00.000+07:00"), results: new Date("2022-01-07T09:00:00.000+07:00"), levelOriginal: '60e69b24bed8ae001ac6ce3e', tournament: '6136a86e0c0ecaf34e431e81', image: "/file/db/level/60e69b24bed8ae001ac6ce3e/Giant’s-Gate-Final.jpg"}
+  {slug: 'colossus'         , type: 'championship', start: new Date("2021-12-01T00:00:00.000+07:00"), end: new Date("2022-01-01T00:00:00.000+07:00"), results: new Date("2022-01-07T09:00:00.000+07:00")}
 ]
 
 activeArenas = ->
@@ -938,18 +852,73 @@ activeArenas = ->
 
 activeAndPastArenas = -> (_.clone(a) for a in arenas when a.start <= new Date())
 
+teamSpells = humans: ['hero-placeholder/plan'], ogres: ['hero-placeholder-1/plan']
+
+clanHeroes = [
+  {clanId: '601351bb4b79b4013e198fbe', clanSlug: 'team-derbezt', thangTypeOriginal: '6037ed81ad0ac000f5e9f0b5', thangTypeSlug: 'armando-hoyos'}
+  {clanId: '6137aab4e0bae40025bed266', clanSlug: 'team-ned', thangTypeOriginal: '6136fe7e9f1147002c1316b4', thangTypeSlug: 'ned-fulmer'}
+]
+
+freeAccessLevels = [
+  { access: 'short', slug: 'dungeons-of-kithgard' }
+  { access: 'short', slug: 'gems-in-the-deep' }
+  { access: 'short', slug: 'shadow-guard' }
+  { access: 'short', slug: 'signs-and-portents' }  # Retroactively unlocks later on, doesn't really impact much
+  { access: 'short', slug: 'enemy-mine' }
+  { access: 'short', slug: 'true-names' }
+  { access: 'medium', slug: 'cell-commentary' }
+  { access: 'medium', slug: 'the-raised-sword' }
+  { access: 'medium', slug: 'kithgard-librarian' }
+  { access: 'medium', slug: 'the-prisoner' }
+  { access: 'medium', slug: 'fire-dancing' }
+  { access: 'medium', slug: 'haunted-kithmaze' }
+  { access: 'medium', slug: 'descending-further' }
+  { access: 'medium', slug: 'dread-door' }
+  { access: 'long', slug: 'hack-and-dash' }
+  { access: 'long', slug: 'cupboards-of-kithgard' }
+  { access: 'long', slug: 'known-enemy' }
+  { access: 'long', slug: 'master-of-names' }
+  { access: 'long', slug: 'the-final-kithmaze' }
+  { access: 'long', slug: 'kithgard-gates' }
+  { access: 'extended', slug: 'defense-of-plainswood' }
+  { access: 'extended', slug: 'winding-trail' }
+  { access: 'china-classroom', slug: 'forgetful-gemsmith' }
+  { access: 'china-classroom', slug: 'kounter-kithwise' }
+  { access: 'china-classroom', slug: 'crawlways-of-kithgard' }
+  { access: 'china-classroom', slug: 'illusory-interruption' }
+  { access: 'china-classroom', slug: 'careful-steps' }
+  { access: 'china-classroom', slug: 'long-steps' }
+  { access: 'china-classroom', slug: 'favorable-odds' }
+]
+
+orgKindString = (kind, org=null) ->
+  return 'State' if kind is 'administrative-region' and org?.country is 'US' and /^en/.test me.get('preferredLanguage')
+  key = {
+    'administrative-region': 'teachers_quote.state'
+    'school-district': 'teachers_quote.district_label'
+    'school-admin': 'outcomes.school_admin'
+    'school-network': 'outcomes.school_network'
+    'school-subnetwork': 'outcomes.school_subnetwork'
+    school: 'teachers_quote.organization_label'
+    teacher: 'courses.teacher'
+    classroom: 'outcomes.classroom'
+    student: 'courses.student'
+  }[kind]
+  return $.i18n.t(key)
 
 module.exports = {
   activeAndPastArenas
   activeArenas
   addressesIncludeAdministrativeRegion
   ageBrackets
+  ageBracketsChina
   ageOfConsent
   ageToBracket
   arenas
   bracketToAge
   campaignIDs
   capitalLanguages
+  clanHeroes
   clone
   combineAncestralObject
   countries
@@ -961,7 +930,7 @@ module.exports = {
   CSCourseIDs
   createLevelNumberMap
   extractPlayerCodeTag
-  filterMarkdownCodeLanguages
+  freeAccessLevels
   findNextAssessmentForLevel
   findNextLevel
   formatDollarValue
@@ -994,6 +963,7 @@ module.exports = {
   normalizeFunc
   objectIdToDate
   orderedCourseIDs
+  orgKindString
   pathToUrl
   petThangIDs
   premiumContent
@@ -1002,8 +972,8 @@ module.exports = {
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
+  teamSpells
   titleize
-  translatejs2cpp
   usStateCodes
   userAgent
   videoLevels

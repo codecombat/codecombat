@@ -16,5 +16,6 @@
   "start_url": "/play",
   "display": "standalone",
   "orientation": "landscape",
-  "scope": "/play/"
+  "scope": "/play/",
+  "description": "CodeCombat is a game that teaches real Python and JavaScript coding and computer science"
 }

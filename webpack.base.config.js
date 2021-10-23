@@ -68,7 +68,8 @@ module.exports = (env) => {
             // applies to <template lang="pug"> in Vue components
             {
               resourceQuery: /^\?vue/,
-              use: ['pug-plain-loader']
+              //use: ['pug-plain-loader']
+              use: ['vue-pug-loader']
             },
             // applies to all other pug imports
             {
@@ -108,7 +109,10 @@ module.exports = (env) => {
             {
               loader: 'sass-loader',
               options: {
-                indentedSyntax: true
+                implementation: require("sass"),
+                sassOptions: {
+                  indentedSyntax: true
+                }
               }
             },
             { loader: 'import-glob-loader' }
@@ -116,9 +120,19 @@ module.exports = (env) => {
         },
         { test: /\.scss$/,
           use: [
-            { loader: 'vue-style-loader' },
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                esModule: false,
+              }
+            },
             { loader: 'css-loader' },
-            { loader: 'sass-loader' }
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: require("sass"),
+              }
+            }
           ]
         },
         {
@@ -147,7 +161,8 @@ module.exports = (env) => {
       new webpack.ProgressPlugin({ profile: false }), // Always show build progress
       new MiniCssExtractPlugin({ // Move CSS into external file
         filename: 'stylesheets/[name].css',
-        chunkFilename: '[id].css'
+        chunkFilename: '[id].css',
+        ignoreOrder: true
       }),
       new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
         $: 'jquery',
@@ -198,6 +213,7 @@ module.exports = (env) => {
         locals: { shaTag: process.env.GIT_SHA || 'dev', chinaInfra: process.env.COCO_CHINA_INFRASTRUCTURE || false }
       }),
       new VueLoaderPlugin()
-    ]
+    ],
+    stats: 'minimal'
   }
 }

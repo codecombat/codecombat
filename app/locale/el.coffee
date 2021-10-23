@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
 #    try_the_game: "Try the game"
     classroom_edition: "Έκδοση Αίθουσας Διδασκαλίας:"
     learn_to_code: "Μάθε να προγραμματίζεις:"
@@ -249,6 +250,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    professional_development: "Professional Development"
 #    new: "New!"
 #    admin: "Admin"
+#    api_dashboard: "API Dashboard"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "Κλείσιμο"
@@ -288,7 +291,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
 #    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
 #    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details!"
+#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER."
 #    recommended_systems: "Is there a recommended browser and operating system?"
 #    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
 #    other_questions: "If you have any other questions, please __contact__."
@@ -427,6 +430,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     create_individual_header: "Δημιουργία Προσωπικού Λογαριασμού"
     email_announcements: "Λάβετε ειδοποιήσεις σχετικά με τα νέα επίπεδα και τα χαρακτηριστικά του CodeCombat!"
     sign_in_to_continue: "Κάνε είσοδο ή δημιούργησε έναν λογαριασμό για να συνεχίσεις"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Κρατήστε με ενήμερο σχετικά με το νέο υλικό των εκπαιδευτικών, το πρόγραμμα σπουδών και τα μαθήματα!"
     creating: "Δημιουργία Λογαριασμού..."
     sign_up: "Εγγραφή"
@@ -628,6 +632,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    email_us: "Send us an email"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "δευτερόλεπτο"
@@ -1812,6 +1817,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     archived_classes: "Αρχειοθετημένες Τάξεις"
     archived_classes_blurb: "Οι τάξεις μπορούν να αρχειοθετηθούν για μελλοντική αναφορά. Καταργήστε την αρχειοθέτηση μιας τάξης για να την δείτε ξανά στη λίστα με τις Τρέχουσες Τάξεις."
     view_class: "εμφάνιση τάξης"
+#    view_ai_league_team: "View AI League team"
     archive_class: "αρχειοθέτηση τάξης"
     unarchive_class: "κατάργηση αρχειοθέτησης τάξης"
     unarchive_this_class: "Κατάργηση αρχειοθέτησης για αυτή την τάξη"
@@ -1910,6 +1916,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     start_date: "ημερομηνία αρχής:"
     end_date: "ημερομηνία τέλους:"
     get_enrollments_blurb: "Θα σας βοηθήσουμε να δημιουργήσετε μια λύση που να ανταποκρίνεται στις ανάγκες της τάξης, του σχολείου ή της περιοχής σας."
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
     how_to_apply_licenses_blurb_1: "Όταν ένας δάσκαλος δίνει για πρώτη φορά έναν κύκλο μαθημάτων σε έναν μαθητή, θα εφαρμόσουμε αυτόματα μια άδεια. Χρησιμοποιήστε το αναπτυσσόμενο μενού επέκτασης αναθέσεων στην τάξη σας για να αναθέσετε ένα μάθημα σε επιλεγμένους μαθητές:"
     how_to_apply_licenses_blurb_2: "Μπορώ να εξακολουθήσω να αναθέτω μια άδεια χωρίς να εκχωρήσω ένα μάθημα;"
     how_to_apply_licenses_blurb_3: "Ναι - μεταβείτε στην καρτέλα Κατάσταση Άδειας Χρήσης στην τάξη και κάντε κλικ στην επιλογή \"Εφαρμογή άδειας\" σε οποιονδήποτε μαθητή που δεν διαθέτει ενεργή άδεια."
@@ -2038,7 +2046,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     hoc_programming: "Προγραμματισμός σε JavaScript/Python"
     hoc_teacher_led: "Καθοδηγούμενα μαθήματα"
     hoc_teacher_led_desc1: "Κατεβάστε τα δικά μας"
-    hoc_teacher_led_link: "Σχέδια μαθήματος για την Εισαγωγή στην Πληροφορική"
+    hoc_teacher_led_link: "Σχέδια μαθήματος για την Εισαγωγή στην Πληροφορική" # {change}
     hoc_teacher_led_desc2: "για να εισάγετε τους μαθητές σας σε προγραμματιστικές έννοιες χρησιμοποιώντας δραστηριότητες εκτός σύνδεσης"
     hoc_group: "Ομαδικό Παιχνίδι"
     hoc_group_desc_1: "Οι δάσκαλοι μπορούν να χρησιμοποιήσουν τα μαθήματα σε συνδυασμό με την εισαγωγή στην Πληροφορική  για να παρακολουθήσουν την πρόοδο των μαθητών. Δείτε τον"
@@ -2174,6 +2182,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     victory_course_share_suffix: "που μόλις δημιούργησες."
     copy_url: "Αντιγραφή διεύθυνσης URL"
     share_with_teacher_email: "Αποστολή στο δάσκαλό σου"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Δημιουργός"
@@ -2425,9 +2436,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     watch_victory: "Παρακολούθησε τη νίκη σου"
     defeat_the: "Κέρδισε το"
     watch_battle: "Παρακολούθησε τη μάχη"
+#    tournament_starts: "Tournament starts"
     tournament_started: ", ξεκίνησα"
     tournament_ends: "Το τουρνουά τελειώνει"
     tournament_ended: "Το τουρνουά τελείωσε"
+#    tournament_results_published: ", results published"
     tournament_rules: "Κανόνες του τουρνουά"
     tournament_blurb_criss_cross: "Κάνε τη νικητήρια προσφορά, κατασκεύασε μονοπάτια, ξεπέρασε σε εξυπνάδα τους αντιπάλους σου, άρπαξε πετράδια, και αναβάθμισε την καριέρα σου στο τουρνουά Criss-Cross! Δες τις λεπτομέρειες"
     tournament_blurb_zero_sum: "Άφησε ελεύθερη τη δημιουργικότητα σου στον προγραμματισμό και στο μάζεμα χρυσού και στις τακτικές μάχης σε αυτόν τον αγώνα στις Άλπεις ανάμεσα στον κόκκινο και στον μπλε μάγο. Το τουρνουά ξεκίνησε την Παρασκευή 27 Μαρτίου και θα συνεχίζεται μέχρι τη Δευτέρα 6 Απριλίου στις 5μμ ώρα Ειρηνικού (7 Απριλίου, 3πμ ώρα Ελλάδας). Συναγωνίσου για διασκέδαση και δόξα! Δες τις λεπτομέρειες"
@@ -2439,6 +2452,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     red_ai: "Ο Κόκκινος Επεξεργαστής" # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "Ο Μπλε Επεξεργαστής"
     wins: "κέρδισε" # At end of multiplayer match playback
+#    losses: "Losses"
+#    win_rate: "Win %"
     humans: "Κόκκινοι" # Ladder page display team name
     ogres: "Μπλε"
 #    tournament_end_desc: "The tournament is over, thanks for playing"
@@ -2447,6 +2462,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    bracket_0_11: "0-11"
 #    bracket_11_14: "11-14"
 #    bracket_14_18: "14-18"
+#    bracket_11_18: "11-18"
 #    bracket_open: "Open"
 
   user:
@@ -2817,7 +2833,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     email_settings_url: "ρυθμίσεις σου για το ηλεκτρονικό ταχυδρομείο"
     email_description_suffix: "ή μέσα από συνδέσμους στα μηνύματα που σου στέλνουμε, μπορείς να αλλάξεις τις προτιμήσεις σου και να απεγγραφείς εύκολα οποιαδήποτε στιγμή θέλεις."
     cost_title: "Κόστος"
-    cost_description: "Το παιχνίδι στο CodeCombat είναι δωρεάν για όλα τα βασικά του επίπεδα, με μια μηνιαία συνδρομή αξίας ${{price}} Δολάρια ΗΠΑ το μήνα για να έχετε πρόσβαση σε έξτρα επίπεδα και {{gems}} δώρο πετράδια κάθε μήνα. Μπορείτε να ακυρώσετε με ένα κλικ, και προσφέρουμε 100% εγγύηση επιστροφής χρημάτων."
+    cost_description: "Το παιχνίδι στο CodeCombat είναι δωρεάν για όλα τα βασικά του επίπεδα, με μια μηνιαία συνδρομή αξίας ${{price}} Δολάρια ΗΠΑ το μήνα για να έχετε πρόσβαση σε έξτρα επίπεδα και {{gems}} δώρο πετράδια κάθε μήνα. Μπορείτε να ακυρώσετε με ένα κλικ, και προσφέρουμε 100% εγγύηση επιστροφής χρημάτων." # {change}
     copyrights_title: "Πνευματικά Δικαιώματα και Άδειες"
     contributor_title: "Συμφωνητικό Άδειας Συντελεστή (Contributor License Agreement)"
     contributor_description_prefix: "Όλες οι συνεισφορές, και στη σελίδα και στο GitHub υπόκεινται στη"
@@ -3124,8 +3140,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    back_to_coco: "Back to CodeCombat"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -3137,9 +3154,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    teacher_signup_input_placeholder: "Teacher email address"
 #    teacher_signup_input_button: "Get CS1 Free"
 #    activities_header: "More Hour of Code Activities"
-#    activity_label_1: "Escape the Dungeon!"
-#    activity_label_2: " Beginner: Build a Game!"
-#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_label_1: "Beginner CS: Escape the Dungeon!"
+#    activity_label_2: " Beginner GD: Build a Game!"
+#    activity_label_3: "Advanced GD: Build an Arcade Game!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
 #    activity_button_1: "View Lesson"
 #    about: "About CodeCombat"
 #    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."
@@ -3149,11 +3168,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3213,6 +3232,12 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  outcomes:
+#    school_admin: "School Administrator"
+#    school_network: "School Network"
+#    school_subnetwork: "School Subnetwork"
+#    classroom: "Classroom"
+
 #  league:
 #    student_register_1: "Become the next AI Champion!"
 #    student_register_2: "Sign up, create your own team, or join other teams to start competing."
@@ -3245,6 +3270,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    start_team: "Start a Team"
 #    leave_team: "Leave Team"
 #    join_team: "Join Team"
+#    view_team: "View Team"
+#    join_team_name: "Join Team __name__"
 #    features: "Features"
 #    built_in: "Built-in Competitive Infrastructure"
 #    built_in_subheader: "Our platform hosts every element of the competitive process, from leaderboards to the game platform, assets, and tournament awards."
@@ -3271,9 +3298,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"
-#    season1_announcement_1: "Time to put your coding skills to the test in our season 1 final arena. The Infinite Inferno Cup is live and offers a new challenge and a new leaderboard to climb."
-#    season1_announcement_2: "Need more practice? Stick with the Blazing Battle Arena to refine your skills. You have until April 30th to play both arenas. Note: arena balance adjustments may occur until April 23rd."
-#    season1_announcement_3: "Great prizes available for top performers in the Infinite Inferno Cup:"
+#    season2_announcement_1: "Time to put your coding skills to the test in our season 2 final arena. The Sorcerers Blitz is live and offers a new challenge and a new leaderboard to climb."
+#    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
+#    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
 #    season1_prize_1: "$1,000 Scholarship"
 #    season1_prize_2: "RESPAWN Gaming Chair"
 #    season1_prize_3: "Custom CodeCombat Avatar"
@@ -3282,7 +3309,32 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    codecombat_ai_league: "CodeCombat AI League"
 #    register: "Register"
 #    not_registered: "Not Registered"
+#    register_for_ai_league: "Register for AI League"
 #    world: "World"
+#    quickstart_video: "Quickstart Video"
+#    arena_rankings: "Arena Rankings"
+#    arena_rankings_blurb: "Global AI League arena rankings"
+#    arena_rankings_title: "Global leaderboard rank for all players in this team across AI League arenas in the open age bracket."
+#    competing: "Competing:" # Competing: 3 students
+#    count_student: "student" # 1 student
+#    count_students: "students" # 2 students
+#    top_student: "Top:" # Top: Jane D
+#    top_percent: "top" # - top 3%)
+#    top_of: "of" # (#8 of 35). Perhaps just use "/" if this doesn't translate naturally.
+#    arena_victories: "Arena Victories"
+#    arena_victories_blurb: "Global AI League arena recent wins"
+#    arena_victories_title: "Win count is based on the last 1000 matches played asynchronously by each player in each of their AI League arenas."
+#    count_wins: "wins" # 100+ wins or 974 wins
+#    codepoints_blurb: "1 CodePoint = 1 line of code written"
+#    codepoints_title: "One CodePoint is earned for every non-whitespace line of code needed to beat the level. Each level is worth the same amount of CodePoints according to its standard solution, regardless of whether the student wrote more or fewer lines of code."
+#    count_total: "Total:" # Total: 300 CodePoints, or Total: 300 wins
+#    join_teams_header: "Join Teams & Get Cool Stuff!"
+#    join_team_hyperx_title: "Join Team HyperX, Get 10% Off"
+#    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
+#    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
+#    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+#    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"
@@ -3306,6 +3358,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    great_courses: "Great Courses included for"
 #    studentLicense_successful: "Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students."
 #    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
+#    homeSubscriptions_successful: "Congratulations! Your payment was successful. Your premium access will be available in few minutes."
 #    failed: "Your payment failed, please try again"
 #    session_week_1: "1 session/week"
 #    session_week_2: "2 sessions/week"
@@ -3315,6 +3368,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    year_1: "Yearly"
 #    most_popular: "Most Popular"
 #    best_value: "Best Value"
+#    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
+#    homeschooling: "Homeschooling Licenses"
 #    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
 
 #  form_validation_errors:

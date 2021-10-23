@@ -3,6 +3,7 @@ CocoClass = require 'core/CocoClass'
 SimulatorsLeaderboardCollection = require 'collections/SimulatorsLeaderboardCollection'
 Simulator = require 'lib/simulator/Simulator'
 {me} = require 'core/auth'
+utils = require 'core/utils'
 loadAetherLanguage = require("lib/loadAetherLanguage");
 
 module.exports = class SimulateTabView extends CocoView
@@ -25,7 +26,7 @@ module.exports = class SimulateTabView extends CocoView
 
   onLoaded: ->
     super()
-    @autoSimulates = @options.level.get('slug') not in ['ace-of-coders', 'zero-sum']
+    @autoSimulates = utils.getQueryVariable('simulate') isnt false and @options.level.get('slug') not in ['ace-of-coders', 'zero-sum']
     if not @simulator and (document.location.hash is '#simulate' or @autoSimulates)
       @startSimulating()
 
@@ -73,7 +74,7 @@ module.exports = class SimulateTabView extends CocoView
       return if @destroyed
       @simulatorsLeaderboardData.numberOfGamesInQueue = numberOfGamesInQueue
       $('#games-in-queue').text numberOfGamesInQueue
-    $.ajax '/queue/messagesInQueueCount', cache: false, success: success
+    $.ajax '/db/level/-/ladder-match-queue-count', cache: false, success: success
 
   updateSimulationStatus: (simulationStatus, sessions) ->
     if simulationStatus is 'Fetching simulation data!'
@@ -92,9 +93,10 @@ module.exports = class SimulateTabView extends CocoView
     catch e
       console.log "There was a problem with the named simulation status: #{e}"
     link = if @simulationSpectateLink then "<a href=#{@simulationSpectateLink}>#{_.string.escapeHTML(@simulationMatchDescription)}</a>" else ''
-    $('#simulation-status-text').html "<h3>#{@simulationStatus}</h3>#{link}"
+    $('#simulation-status-text').html "<strong>#{@simulationStatus}</strong>#{link}"
     if simulationStatus is 'Results were successfully sent back to server!'
-      $('#games-in-queue').text (--@simulatorsLeaderboardData.numberOfGamesInQueue).toLocaleString()
+      gamesInQueue = Math.max 0, --@simulatorsLeaderboardData.numberOfGamesInQueue
+      $('#games-in-queue').text gamesInQueue.toLocaleString()
       $('#simulated-by-you').text (++@simulatedByYouCount).toLocaleString()
 
 
@@ -115,7 +117,7 @@ class SimulatorsLeaderboardData extends CocoClass
     promises = []
     unless @me.get('anonymous')
       queueSuccess = (@numberOfGamesInQueue) =>
-      promises.push $.ajax '/queue/messagesInQueueCount', {success: queueSuccess, cache: false}
+      promises.push $.ajax '/db/level/-/ladder-match-queue-count', {success: queueSuccess, cache: false}
     unless @level.isType 'ladder'
       @topSimulators = new SimulatorsLeaderboardCollection({order: -1, scoreOffset: -1, limit: 20})
       promises.push @topSimulators.fetch()
