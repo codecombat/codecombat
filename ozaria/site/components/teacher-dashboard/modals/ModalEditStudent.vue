@@ -75,8 +75,15 @@
         } catch (e) {
           // TODO: Error copy.
           console.error(e)
+          let errorText = `Error: ${e.message || 'Could not change password.'}`
+          if (/verified their email address/.test(errorText)) {
+            errorText += ' Ask the student to get a password reset email from the login screen.'
+          }
+          if (/Data matches schema from "not"/.test(errorText)) {
+            errorText = $.i18n.t('signup.invalid_password')
+          }
           noty({
-            text: `An error occurred.`,
+            text: errorText,
             type: 'error',
             layout: 'center',
             timeout: 6000
@@ -116,7 +123,7 @@
               <label
                 class="control-label"
                 for="changePassword"
-              >{{ $t('teacher.change_password') }}</label>
+              >{{ $t('teacher.change_password') }} <small>&nbsp; ({{ $t('signup.password_requirements') }})</small></label>
               <input
                 v-model="newPassword"
                 :disabled="displayOnly"
