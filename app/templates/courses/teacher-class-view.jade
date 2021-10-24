@@ -12,10 +12,17 @@ mixin longLevelName(data)
 mixin inlineUserList(users)
   if users
     ul.inline-student-list.small
-      each student in users
+      each student in users.slice(0, 5)
         li
           span.inline-student-name
             = student.broadName()
+      if users.length > 5
+        li
+          span.inline-student-name
+            if /^en/.test(me.get('preferredLanguage', true))
+              | and #{users.length - 5} more
+            else
+              | +#{users.length - 5}
 
 mixin addStudentsButton
   .add-students
