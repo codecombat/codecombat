@@ -20,20 +20,13 @@ describe 'EditStudentModal', ->
       modal.render()
       _.defer done
 
-    it 'has a button to send a password reset email', ->
-      if modal.$('.send-recovery-email-btn').length < 1
-        fail "Expected there to be a Send Recovery Email button"
+    it "has a new password field", ->
+      if modal.$('.new-password-input').length < 1
+        fail "Expected there to be a new password input field"
 
-    it 'sends the verification email request', ->
-      modal.$('.send-recovery-email-btn').click()
-      request = jasmine.Ajax.requests.mostRecent()
-      expect(request.params).toEqual("email=#{encodeURIComponent(email)}")
-
-    it 'updates the button after the request is sent', ->
-      modal.$('.send-recovery-email-btn').click()
-      request = jasmine.Ajax.requests.mostRecent()
-      request.respondWith({ status: 200, responseText: "{}" })
-      expect(modal.$('.send-recovery-email-btn [data-i18n]').data('i18n')).toEqual('teacher.email_sent')
+    it "has a change password button", ->
+      if modal.$('.change-password-btn').length < 1
+        fail "Expected there to be a Change Password button"
 
   describe 'for an unverified user', ->
     beforeEach (done) ->
