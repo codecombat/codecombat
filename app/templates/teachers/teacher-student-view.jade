@@ -169,9 +169,6 @@ mixin breadcrumbs
                 = index + 1
                 input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
 
-        -// - var status = view.user.prepaidStatus()
-        -// strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString()
-
   .playtime-charts
     h4(data-i18n="teacher.playtime_detail")
 

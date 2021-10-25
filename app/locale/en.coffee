@@ -1842,6 +1842,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     apply_license: "Apply License"
     revoke_license: "Revoke License"
     revoke_licenses: "Revoke All Licenses"
+    revoke_these_license: "Revoke These Licenses"
     manage_license: "Manage License"
     course_progress: "Course Progress"
     not_applicable: "N/A"
@@ -2126,7 +2127,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     try_ozaria_footer: "Try our new adventure game, Ozaria!"
     try_ozaria_free: "Try Ozaria for free"
     ozaria_intro: "Introducing Our New Computer Science Program"
-    owned_license: "Owned License"
+    owned_license: "Licensed"
 
   teacher_ozaria_encouragement_modal:
     title: "Build Computer Science Skills to Save Ozaria"

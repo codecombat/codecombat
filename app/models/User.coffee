@@ -373,11 +373,14 @@ module.exports = class User extends CocoModel
     return 'enrolled' if _.some(courseProducts, (p) => moment().isBefore(p.endDate))
     return 'expired'
 
-  prepaidNumericalCourses: ->
-    now = new Date()
-    courseProducts = _.filter(@get('products'), (p) ->
+  activeCourseProducts: ->
+    _.filter(@get('products'), (p) ->
       return p.product == 'course' && new Date(p.endDate) > now
     )
+
+  prepaidNumericalCourses: ->
+    now = new Date()
+    courseProducts = @activeCourseProducts()
     return 0 unless courseProducts.length
     return 2047 if _.some courseProducts, (p) => !p.productOptions?.includedCourseIDs?
     union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
@@ -386,10 +389,7 @@ module.exports = class User extends CocoModel
     return _.reduce(courses, fun, 0)
 
   prepaidType: (includeCourseIDs) =>
-    courseProducts = _.filter @get('products'), (product) ->
-      return false if product.product != 'course'
-      return false if moment().isAfter(product.endDate)
-      return true
+    courseProducts = @activeCourseProducts()
     return undefined unless courseProducts.length
  
     return 'course' if _.any(courseProducts, (p) => !p.productOptions?.includedCourseIDs?)
@@ -406,10 +406,7 @@ module.exports = class User extends CocoModel
     return 'course'
 
   prepaidIncludesCourse: (course) ->
-    courseProducts = _.filter @get('products'), (product) ->
-      return false if product.product != 'course'
-      return false if moment().isAfter(product.endDate)
-      return true
+    courseProducts = @activeCourseProducts()
     return false unless courseProducts.length
     # NOTE: Full licenses implicitly include all courses
     return true if _.any(courseProducts, (p) => !p.productOptions?.includedCourseIDs?)

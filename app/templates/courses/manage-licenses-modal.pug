@@ -101,8 +101,7 @@ mixin applyPage
 
 mixin revokePage
   .form.m-t-3
-    span
-      | revoke those license
+    span(data-i18n="teacher.revoke_these_licenses")
     span :
     #revoke-student-page
       - var allUsers = view.users.models

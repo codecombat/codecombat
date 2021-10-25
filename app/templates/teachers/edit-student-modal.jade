@@ -7,14 +7,14 @@ block modal-header-content
 
 block modal-body-content
 
-  - var status = view.user.prepaidNumericalCourses()
+  - var enrolledCourseBits = view.user.prepaidNumericalCourses()
   - var prepaidType = view.user.prepaidType('includeCourseIDs')
 
   .text-center
     .license-details
       strong(data-i18n="teacher.license_status")
       span.spr :
-      if status == 0
+      if enrolledCourseBits === 0
         .small-details
           span(data-i18n="teacher.status_not_enrolled")
       else
@@ -23,22 +23,22 @@ block modal-body-content
             - for(var index = 5; index < 11; index ++)
               .cell
                 = index - 4
-                input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
 
           .status-col.gd
             - for(var index = 2; index < 5; index ++)
               .cell
                 = index - 1
-                input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
           .status-col.wd
             - for(var index = 0; index < 2; index ++)
               .cell
                 = index + 1
-                input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
 
-      if status === 0 && me.canManageLicensesViaUI()
+      if enrolledCourseBits === 0 && me.canManageLicensesViaUI()
         .small-details
-          if view.prepaids.totalAvailable() == 0
+          if view.prepaids.totalAvailable() === 0
             button.enroll-student-btn.btn.btn-navy.disabled(data-i18n="teacher.apply_license")
             .small-details.not-enough-enrollments
               span(data-i18n='teacher.not_enough_enrollments')

@@ -1840,6 +1840,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     apply_license: "使用许可"
     revoke_license: "终止许可"
     revoke_licenses: "终止所有许可"
+    revoke_these_license: "终止这些许可"
     manage_license: "管理许可"
     course_progress: "课程进度"
     not_applicable: "N/A"
