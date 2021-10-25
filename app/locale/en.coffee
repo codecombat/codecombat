@@ -841,6 +841,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     vega_character: "Vega Character"
     click_to_continue: "Click to Continue"
     fill_in_solution: "Fill in solution"
+    play_as_humans: "Play As Humans"
+    play_as_ogres: "Play As Ogres"
 
   apis:
     methods: "Methods"
@@ -2459,6 +2461,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     blue_ai: "Blue CPU"
     wins: "Wins"  # At end of multiplayer match playback
     losses: "Losses"
+    win_num: "Wins"
+    loss_num: "Losses"
     win_rate: "Win %"
     humans: "Red"  # Ladder page display team name
     ogres: "Blue"

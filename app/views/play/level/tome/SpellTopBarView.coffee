@@ -28,6 +28,7 @@ module.exports = class SpellTopBarView extends CocoView
     'click .image-gallery-button': 'onClickImageGalleryButton'
     'click .videos-button': 'onClickVideosButton'
     'click #fill-solution': 'onFillSolution'
+    'click #switch-team': 'onSwitchTeam'
 
   constructor: (options) ->
     @hintsState = options.hintsState
@@ -129,6 +130,25 @@ module.exports = class SpellTopBarView extends CocoView
     $codearea = $('#code-area')
     $codearea.on transitionListener, =>
       $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
+
+  otherTeam: =>
+    teams = _.without ['humans', 'ogres'], @options.spell.team
+    teams[0]
+
+  onSwitchTeam: =>
+    protocol = window.location.protocol + "//"
+    host = window.location.host
+    pathname = window.location.pathname
+    query = window.location.search
+    query = query.replace(/team=[^&]*&?/, '')
+    if query
+      if query.endsWith('?') or query.endsWith('&')
+        query += 'team='
+      else
+        query += '&team='
+    else
+      query = '?team='
+    window.location.href = protocol+host+pathname+query + @otherTeam()
 
   destroy: ->
     super()

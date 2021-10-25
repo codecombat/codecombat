@@ -841,6 +841,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     vega_character: "Vega 字符"
     click_to_continue: "点击继续"
 #    fill_in_solution: "Fill in solution"
+    play_as_humans: "扮演红方"
+    play_as_ogres: "扮演蓝方"
 
   apis:
     methods: "函数"
@@ -2454,8 +2456,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     league: "联盟"
     red_ai: "红方 AI" # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "蓝方 AI"
-    wins: "胜利数" # At end of multiplayer match playback
-    losses: "失败数"
+    wins: "胜利" # At end of multiplayer match playback
+    losses: "失败"
+    win_num: "胜利数"
+    loss_num: "失败数"
     win_rate: "胜率"
     humans: "红方" # Ladder page display team name
     ogres: "蓝方"
