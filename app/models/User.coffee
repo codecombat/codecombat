@@ -374,12 +374,12 @@ module.exports = class User extends CocoModel
     return 'expired'
 
   activeCourseProducts: ->
+    now = new Date()
     _.filter(@get('products'), (p) ->
       return p.product == 'course' && new Date(p.endDate) > now
     )
 
   prepaidNumericalCourses: ->
-    now = new Date()
     courseProducts = @activeCourseProducts()
     return 0 unless courseProducts.length
     return 2047 if _.some courseProducts, (p) => !p.productOptions?.includedCourseIDs?
