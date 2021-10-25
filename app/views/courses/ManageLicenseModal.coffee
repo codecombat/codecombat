@@ -100,12 +100,12 @@ module.exports = class ManageLicenseModal extends ModalView
     allPrepaids = []
     @users.each (user) =>
       allPrepaidKeys = allPrepaids.map((p) => p.prepaid)
-      allPrepaids = _.union(allPrepaids, _.uniq user.get('products').filter((p) =>
-        p.prepaid not in allPrepaidKeys && p.product == 'course' && _.contains @teacherPrepaidIds, p.prepaid
+      allPrepaids = _.union(allPrepaids, _.uniq user.activeCourseProducts().filter((p) =>
+        p.prepaid not in allPrepaidKeys && _.contains @teacherPrepaidIds, p.prepaid
       ), (p) => p.prepaid)
     return allPrepaids.map((p) ->
       product = new Prepaid({
-        includedCourseIDs: p.productOptions.includedCourseIDs
+        includedCourseIDs: p?.productOptions?.includedCourseIDs
         type: 'course'
       })
       return {id: p.prepaid, name: product.typeDescription()}
@@ -213,7 +213,7 @@ module.exports = class ManageLicenseModal extends ModalView
   onSelectPrepaidType: (e) ->
     @selectedPrepaidType = $(e.target).parent().children('input').val()
     @state.set {
-      unusedEnrollments: @prepaidByGroup[@selectedPrepaidType].num
+      unusedEnrollments: @prepaidByGroup[@selectedPrepaidType]?.num
     }
     @renderSelectors("#apply-page")
 
@@ -230,6 +230,7 @@ module.exports = class ManageLicenseModal extends ModalView
     prepaidId = button.data('prepaid-id')
 
     usersToRedeem = @state.get('visibleSelectedUsers')
+    return alert($.i18n.t('teacher.revoke_alert_no_student')) unless usersToRedeem.size()
     s = $.i18n.t('teacher.revoke_selected_confirm')
     return unless confirm(s)
     button.text($.i18n.t('teacher.revoking'))
@@ -243,6 +244,12 @@ module.exports = class ManageLicenseModal extends ModalView
 
     user = usersToRedeem.first()
     prepaid = user.makeCourseProduct(prepaidId)
+    unless prepaid # in case teacher select extra students
+      usersToRedeem.remove(user)
+      @state.get('selectedUsers').remove(user)
+      @updateVisibleSelectedUsers()
+      @revokeUsers(usersToRedeem, prepaidId)
+
     prepaid.revoke(user, {
       success: =>
         user.set('products', user.get('products').map((p) ->

@@ -113,6 +113,7 @@ module.exports = class TeacherClassView extends RootView
     @urls = require('core/urls')
 
     @debouncedRender = _.debounce @render
+    @debouncedRenderSelectors = _.debounce @renderSelectors, 800
     @calculateProgressAndLevels = _.debounce @calculateProgressAndLevelsAux, 800
 
     @state = new State(@getInitialState())
@@ -805,10 +806,13 @@ module.exports = class TeacherClassView extends RootView
     for student in @students.models
       status = student.prepaidStatus()
       if status is 'enrolled' and student.prepaidType() is 'course'
-        courseProducts = _.filter student.get('products'), { type: 'course' }
+        courseProducts = student.activeCourseProducts()
         Prepaid = require 'models/Prepaid'
-        for product of courseProducts
-          prepaid = new Prepaid(product)
+        for product in courseProducts
+          prepaid = new Prepaid({
+            _id: product.prepaid,
+            type: 'course'
+          })
           options = {
             # The for loop completes before the success callback for the first student executes.
             # So, the `student` will be the last student when the callback executes.
@@ -826,7 +830,7 @@ module.exports = class TeacherClassView extends RootView
             error: (prepaid, jqxhr) =>
               msg = jqxhr.responseJSON.message
               noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-            complete: => @debouncedRender()
+            complete: => @debouncedRenderSelectors('#license-status-table')
           }
           if !@classroom.isOwner() and @classroom.hasWritePermission()
             options.data = { sharedClassroomId: @classroom.id }
