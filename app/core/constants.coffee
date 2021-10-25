@@ -29,6 +29,12 @@ LICENSE_PRESETS = {
     '5789587aad86a6efb573701f' # Web Development 1
     '5789587aad86a6efb5737020' # WD 2
   ]
+  'CS1+CS2+GD1+GD2': [
+    '560f1a9f22961295f9427742' # Introduction to Computer Science
+    '5632661322961295f9428638' # CS 2
+    '5789587aad86a6efb573701e' # Game Development 1
+    '57b621e7ad86a6efb5737e64' # GD 2
+  ]
 }
 
 FREE_COURSE_IDS = [

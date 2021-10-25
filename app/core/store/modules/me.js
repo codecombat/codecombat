@@ -12,7 +12,7 @@ export default {
 
   getters: {
     isInGodMode (state) {
-      return ((state || {}).permissions || []).indexOf('godmode') > -1
+      return ((state || {}).permissions || []).indexOf(User.PERMISSIONS.GOD_MODE) > -1 || ((state || {}).permissions || []).indexOf(User.PERMISSIONS.ONLINE_TEACHER) > -1
     },
 
     isAnonymous (state) { return state.anonymous === true },
@@ -44,19 +44,19 @@ export default {
 
     isAdmin (state) {
       const permissions = state.permissions || []
-      return permissions.indexOf('admin') > -1
+      return permissions.indexOf(User.PERMISSIONS.COCO_ADMIN) > -1
     },
 
     isLicensor (state) {
-      return ((state != null ? state.permissions : undefined) || []).indexOf('licensor') > -1
+      return ((state != null ? state.permissions : undefined) || []).indexOf(User.PERMISSIONS.LICENSOR) > -1
     },
 
     isAPIClient (state) {
-      return ((state != null ? state.permissions : undefined) || []).indexOf('apiclient') > -1
+      return ((state != null ? state.permissions : undefined) || []).indexOf(User.PERMISSIONS.API_CLIENT) > -1
     },
 
     isSchoolAdmin (state) {
-      return ((state != null ? state.permissions : undefined) || []).indexOf('schoolAdministrator') > -1
+      return ((state != null ? state.permissions : undefined) || []).indexOf(User.PERMISSIONS.SCHOOL_ADMINISTRATOR) > -1
     },
 
     preferredLocale (state) {

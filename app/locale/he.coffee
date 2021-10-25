@@ -430,6 +430,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     create_individual_header: "יצירת חשבון אישי"
     email_announcements: "קבלו הודעות על שלבים ותכונות חדשים ב-CodeCombat!"
     sign_in_to_continue: "היכנס או צור חשבון על מנת להמשיך"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "עדכנו אותי בחומרים למורים, תכנית הלימודים וקורסים"
     creating: "יוצר חשבון..."
     sign_up: "הרשמה"
@@ -631,6 +632,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    email_us: "Send us an email"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "שנייה"
@@ -2044,7 +2046,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     hoc_programming: "תכנות ב-JavaScript/Python"
     hoc_teacher_led: "שיעורים בהנחיית מורה"
     hoc_teacher_led_desc1: "הורידו את"
-    hoc_teacher_led_link: "תכניות השיעורים שלנו עבור מבוא למדעי המחשב"
+    hoc_teacher_led_link: "תכניות השיעורים שלנו עבור מבוא למדעי המחשב" # {change}
     hoc_teacher_led_desc2: "כדי להציג בפני התלמידים שלכם עקרונות תכנות באמצעות פעילויות בלתי-מקוונות"
     hoc_group: "משחק קבוצתי"
     hoc_group_desc_1: "מורים יכולים להשתמש בשיעורים בשילוב עם קורס המבוא שלנו למדעי המחשב, כדי לעקוב אחר התקדמות התלמידים. עיינו"
@@ -2180,6 +2182,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     victory_course_share_suffix: "שיצרתם כעת."
     copy_url: "העתק כתובת URL"
 #    share_with_teacher_email: "Send to your teacher"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "יוצר"
@@ -3137,6 +3142,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #  hoc_2018:
 #    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -3148,9 +3154,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    teacher_signup_input_placeholder: "Teacher email address"
 #    teacher_signup_input_button: "Get CS1 Free"
 #    activities_header: "More Hour of Code Activities"
-#    activity_label_1: "Escape the Dungeon!"
-#    activity_label_2: " Beginner: Build a Game!"
-#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_label_1: "Beginner CS: Escape the Dungeon!"
+#    activity_label_2: " Beginner GD: Build a Game!"
+#    activity_label_3: "Advanced GD: Build an Arcade Game!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
 #    activity_button_1: "View Lesson"
 #    about: "About CodeCombat"
 #    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."

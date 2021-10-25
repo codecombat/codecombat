@@ -10,6 +10,7 @@ redirect = (path) -> ->
 
 utils = require './utils'
 ViewLoadTimer = require 'core/ViewLoadTimer'
+paymentUtils = require 'lib/paymentUtils'
 
 module.exports = class CocoRouter extends Backbone.Router
 
@@ -39,7 +40,7 @@ module.exports = class CocoRouter extends Backbone.Router
       if utils.getQueryVariable 'hour_of_code'
         delete window.alreadyLoadedView
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
-      unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient()
+      unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess()
         delete window.alreadyLoadedView
         return @navigate "/premium", {trigger: true, replace: true}
       if me.isAPIClient()

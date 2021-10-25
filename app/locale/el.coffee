@@ -430,6 +430,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     create_individual_header: "Δημιουργία Προσωπικού Λογαριασμού"
     email_announcements: "Λάβετε ειδοποιήσεις σχετικά με τα νέα επίπεδα και τα χαρακτηριστικά του CodeCombat!"
     sign_in_to_continue: "Κάνε είσοδο ή δημιούργησε έναν λογαριασμό για να συνεχίσεις"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Κρατήστε με ενήμερο σχετικά με το νέο υλικό των εκπαιδευτικών, το πρόγραμμα σπουδών και τα μαθήματα!"
     creating: "Δημιουργία Λογαριασμού..."
     sign_up: "Εγγραφή"
@@ -631,6 +632,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    email_us: "Send us an email"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "δευτερόλεπτο"
@@ -2044,7 +2046,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     hoc_programming: "Προγραμματισμός σε JavaScript/Python"
     hoc_teacher_led: "Καθοδηγούμενα μαθήματα"
     hoc_teacher_led_desc1: "Κατεβάστε τα δικά μας"
-    hoc_teacher_led_link: "Σχέδια μαθήματος για την Εισαγωγή στην Πληροφορική"
+    hoc_teacher_led_link: "Σχέδια μαθήματος για την Εισαγωγή στην Πληροφορική" # {change}
     hoc_teacher_led_desc2: "για να εισάγετε τους μαθητές σας σε προγραμματιστικές έννοιες χρησιμοποιώντας δραστηριότητες εκτός σύνδεσης"
     hoc_group: "Ομαδικό Παιχνίδι"
     hoc_group_desc_1: "Οι δάσκαλοι μπορούν να χρησιμοποιήσουν τα μαθήματα σε συνδυασμό με την εισαγωγή στην Πληροφορική  για να παρακολουθήσουν την πρόοδο των μαθητών. Δείτε τον"
@@ -2180,6 +2182,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     victory_course_share_suffix: "που μόλις δημιούργησες."
     copy_url: "Αντιγραφή διεύθυνσης URL"
     share_with_teacher_email: "Αποστολή στο δάσκαλό σου"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Δημιουργός"
@@ -3137,6 +3142,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #  hoc_2018:
 #    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -3148,9 +3154,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    teacher_signup_input_placeholder: "Teacher email address"
 #    teacher_signup_input_button: "Get CS1 Free"
 #    activities_header: "More Hour of Code Activities"
-#    activity_label_1: "Escape the Dungeon!"
-#    activity_label_2: " Beginner: Build a Game!"
-#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_label_1: "Beginner CS: Escape the Dungeon!"
+#    activity_label_2: " Beginner GD: Build a Game!"
+#    activity_label_3: "Advanced GD: Build an Arcade Game!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
 #    activity_button_1: "View Lesson"
 #    about: "About CodeCombat"
 #    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."

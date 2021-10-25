@@ -430,6 +430,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     create_individual_header: "Membuat Akun Individual"
     email_announcements: "Menerima berita mengenai level CodeCombat dan fitur yang baru!"
     sign_in_to_continue: "Masuk atau buat akun baru untuk lanjut"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Selalu berikan informasi saya materi, kurikulum, dan kursus!"
     creating: "Membuat Akun..."
     sign_up: "Masuk"
@@ -631,6 +632,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     email_us: "Kirimkan email kepada kami"
     sales: "Penjualan"
     support: "Dukungan"
+#    here: "here"
 
   units:
     second: "detik"
@@ -2044,7 +2046,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     hoc_programming: "Pemrograman JavaScript/Python"
     hoc_teacher_led: "Pelajaran yang dipimpin oleh Guru"
     hoc_teacher_led_desc1: "Unduh"
-    hoc_teacher_led_link: "Rencana pembelajaran Pengenalan Ilmu Komputer"
+    hoc_teacher_led_link: "Rencana pembelajaran Pengenalan Ilmu Komputer" # {change}
     hoc_teacher_led_desc2: "Untuk mengenalan para siswa untuk konsep pemrograman menggunakan aktivitas luring"
     hoc_group: "Permainan Kelompok"
     hoc_group_desc_1: "Guru dapat menggunakan pelajaran sebagai penghubung dengan kursus Pengenalam Ilmu Komputer kami untuk merekam perkembangan siswa. Lihat"
@@ -2180,6 +2182,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     victory_course_share_suffix: "yang kamu buat."
     copy_url: "Salin URL"
     share_with_teacher_email: "Kirimkan ke gurumu"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Pembuat"
@@ -3137,6 +3142,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   hoc_2018:
     banner: "Selamat Datang di Hour of Code!"
     page_heading: "Siswa Anda akan belajar membuat kode dengan membuat game mereka sendiri!"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
     step_1: "Langkah 1: Tonton Video Ikhtisar"
     step_2: "Langkah 2: Coba Sendiri"
     step_3: "Langkah 3: Unduh Rencana Pelajaran"
@@ -3151,6 +3157,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     activity_label_1: "Kabur dari Dungeon!"
     activity_label_2: "Pemula: Buat Game!"
     activity_label_3: "Lanjutan: Buat Game Arkade!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
     activity_button_1: "Lihat Pelajaran"
     about: "Tentang CodeCombat"
     about_copy: "Program ilmu komputer berbasis permainan dan selaras dengan standar yang mengajarkan Python dan JavaScript yang nyata dan diketik."
