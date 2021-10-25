@@ -438,13 +438,6 @@ module.exports = class TeacherStudentView extends RootView
           # required:
         }
 
-  studentStatusString: () ->
-    status = @user.prepaidStatus()
-    return "" unless @user.get('coursePrepaid')
-    expires = @user.get('coursePrepaid')?.endDate
-    date = if expires? then moment(expires).utc().format('l') else ''
-    utils.formatStudentLicenseStatusDate(status, date)
-
   canViewStudentProfile: () -> @classroom && (@classroom.get('ownerID') == me.id || me.isAdmin())
 
   # TODO: Hookup enroll/assign functionality

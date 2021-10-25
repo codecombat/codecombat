@@ -1,30 +1,37 @@
-# this file is deprecated
-require('app/styles/courses/activate-licenses-modal.sass')
+require('app/styles/courses/manage-license-modal.sass')
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
-template = require 'templates/courses/activate-licenses-modal'
+template = require 'templates/courses/manage-licenses-modal'
 CocoCollection = require 'collections/CocoCollection'
 Prepaids = require 'collections/Prepaids'
+Prepaid = require 'models/Prepaid'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 User = require 'models/User'
 Users = require 'collections/Users'
 
-module.exports = class ActivateLicensesModal extends ModalView
-  id: 'activate-licenses-modal'
+module.exports = class ManageLicenseModal extends ModalView
+  id: 'manage-license-modal'
   template: template
 
   events:
     'change input[type="checkbox"][name="user"]': 'updateSelectedStudents'
     'change .select-all-users-checkbox': 'toggleSelectAllStudents'
+    'change .select-all-users-revoke-checkbox': 'toggleSelectAllStudentsRevoke'
     'change select.classroom-select': 'replaceStudentList'
     'submit form': 'onSubmitForm'
     'click #get-more-licenses-btn': 'onClickGetMoreLicensesButton'
     'click #selectPrepaidType .radio': 'onSelectPrepaidType'
+    'click .change-tab': 'onChangeTab'
+    'click .revoke-student-button': 'onClickRevokeStudentButton'
 
   getInitialState: (options) ->
     selectedUsers = options.selectedUsers or options.users
-    selectedUserModels = _.filter(selectedUsers.models, (user) -> not user.isEnrolled())
+    @activeTab = options.tab ? 'apply'
+    if @activeTab == 'apply'
+      selectedUserModels = _.filter(selectedUsers.models, (user) -> not user.isEnrolled())
+    else
+      selectedUserModels = selectedUsers.models
     {
       selectedUsers: new Users(selectedUserModels)
       visibleSelectedUsers: new Users(selectedUserModels)
@@ -42,6 +49,7 @@ module.exports = class ActivateLicensesModal extends ModalView
     @classrooms = new Classrooms()
     @selectedPrepaidType = null
     @prepaidByGroup = {}
+    @teacherPrepaidIds = []
     @supermodel.trackRequest @classrooms.fetchMine({
       data: {archived: false}
       success: =>
@@ -62,13 +70,16 @@ module.exports = class ActivateLicensesModal extends ModalView
     @listenTo @prepaids, 'sync add remove reset', ->
         @prepaidByGroup = {}
         @prepaids.each (prepaid) => 
+          @teacherPrepaidIds.push prepaid.get('_id')
           type = prepaid.typeDescriptionWithTime()
-          @prepaidByGroup[type] = @prepaidByGroup?[type] || 0
-          @prepaidByGroup[type] += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0)
+          @prepaidByGroup[type] = @prepaidByGroup?[type] || {num: 0, prepaid}
+          @prepaidByGroup[type].num += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0)
 
   onLoaded: ->
     @prepaids.reset(@prepaids.filter((prepaid) -> prepaid.status() is 'available'))
     @selectedPrepaidType = Object.keys(@prepaidByGroup)[0]
+    if(@users.length)
+       @selectedUser = @users.models[0].id
     super()
   
   afterRender: ->
@@ -83,16 +94,52 @@ module.exports = class ActivateLicensesModal extends ModalView
     else
       @state.get('selectedUsers').add(user)
     @$(".select-all-users-checkbox").prop('checked', @areAllSelected())
+    @$(".select-all-users-revoke-checkbox").prop('checked', @areAllSelectedRevoke())
     # @render() # TODO: Have @state automatically listen to children's change events?
 
+  studentsPrepaidsFromTeacher: () ->
+    # user = @users.get(@selectedUser)
+    allPrepaids = []
+    @users.each (user) =>
+      allPrepaidKeys = allPrepaids.map((p) => p.prepaid)
+      allPrepaids = _.union(allPrepaids, _.uniq user.get('products').filter((p) =>
+        p.prepaid not in allPrepaidKeys && p.product == 'course' && _.contains @teacherPrepaidIds, p.prepaid
+      ), (p) => p.prepaid)
+    return allPrepaids.map((p) ->
+      product = new Prepaid({
+        includedCourseIDs: p.productOptions.includedCourseIDs
+        type: 'course'
+      })
+      return {id: p.prepaid, name: product.typeDescription()}
+    )
+
   enrolledUsers: ->
-    @users.filter((user) -> user.isEnrolled())
+    prepaid = @prepaidByGroup[@selectedPrepaidType]?.prepaid
+    return [] unless prepaid
+    @users.filter((user) ->
+      p = prepaid.numericalCourses()
+      s = p & user.prepaidNumericalCourses()
+      not (p ^ s)
+    )
 
   unenrolledUsers: ->
-    @users.filter((user) -> not user.isEnrolled())
+    prepaid = @prepaidByGroup[@selectedPrepaidType]?.prepaid
+    return [] unless prepaid
+    @users.filter((user) ->
+      p = prepaid.numericalCourses()
+      s = p & user.prepaidNumericalCourses()
+      p ^ s
+    )
+
+  allUsers: -> @users.toJSON()
 
   areAllSelected: ->
     return _.all(@unenrolledUsers(), (user) => @state.get('selectedUsers').get(user.id))
+
+  areAllSelectedRevoke: ->
+    return _.all(@allUsers(), (user) =>
+      @state.get('selectedUsers').get(user._id)
+    )
 
   toggleSelectAllStudents: (e) ->
     if @areAllSelected()
@@ -105,7 +152,19 @@ module.exports = class ActivateLicensesModal extends ModalView
         if not @state.get('selectedUsers').findWhere({ _id: user.id })
           @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', true)
           @state.get('selectedUsers').add(user)
-  
+
+  toggleSelectAllStudentsRevoke: (e) ->
+    if @areAllSelectedRevoke()
+      @users.forEach (user, index) =>
+        if @state.get('selectedUsers').findWhere({ _id: user.id })
+          @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', false)
+          @state.get('selectedUsers').remove(user.id)
+    else
+      @users.forEach (user, index) =>
+        if not @state.get('selectedUsers').findWhere({ _id: user.id })
+          @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', true)
+          @state.get('selectedUsers').add(user)
+
   replaceStudentList: (e) ->
     selectedClassroomID = $(e.currentTarget).val()
     @classroom = @classrooms.get(selectedClassroomID)
@@ -137,7 +196,8 @@ module.exports = class ActivateLicensesModal extends ModalView
     prepaid = @prepaids.find((prepaid) => prepaid.status() is 'available' and prepaid.typeDescriptionWithTime() == @selectedPrepaidType)
     prepaid.redeem(user, {
       success: (prepaid) =>
-        user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))
+        userProducts = user.get('products') ? []
+        user.set('products', userProducts.concat(prepaid.convertToProduct()))
         usersToRedeem.remove(user)
         @state.get('selectedUsers').remove(user)
         @updateVisibleSelectedUsers()
@@ -155,9 +215,50 @@ module.exports = class ActivateLicensesModal extends ModalView
   onSelectPrepaidType: (e) ->
     @selectedPrepaidType = $(e.target).parent().children('input').val()
     @state.set {
-      unusedEnrollments: @prepaidByGroup[@selectedPrepaidType]
+      unusedEnrollments: @prepaidByGroup[@selectedPrepaidType].num
     }
-    @renderSelectors("#license-type-select")
+    @renderSelectors("#apply-page")
 
   onClickGetMoreLicensesButton: ->
     @hide?() # In case this is opened in /teachers/licenses itself, otherwise the button does nothing
+
+  onChangeTab: (e) ->
+    @activeTab = $(e.target).data('tab')
+    @renderSelectors('.modal-body-content')
+    @renderSelectors('#tab-nav')
+
+  onClickRevokeStudentButton: (e) ->
+    button = $(e.currentTarget)
+    prepaidId = button.data('prepaid-id')
+
+    usersToRedeem = @state.get('visibleSelectedUsers')
+    s = $.i18n.t('teacher.revoke_selected_confirm')
+    return unless confirm(s)
+    button.text($.i18n.t('teacher.revoking'))
+    @revokeUsers(usersToRedeem, prepaidId)
+
+  revokeUsers: (usersToRedeem, prepaidId) ->
+    if not usersToRedeem.size()
+      @finishRedeemUsers()
+      @hide()
+      return
+
+    user = usersToRedeem.first()
+    prepaid = user.makeCourseProduct(prepaidId)
+    prepaid.revoke(user, {
+      success: =>
+        user.set('products', user.get('products').map((p) ->
+          if p.prepaid == prepaidId
+            p.endDate = new Date().toISOString()
+          return p
+        ))
+        usersToRedeem.remove(user)
+        @state.get('selectedUsers').remove(user)
+        @updateVisibleSelectedUsers()
+        application.tracker?.trackEvent 'Revoke modal finished revoke student', category: 'Courses', userID: user.id
+        @revokeUsers(usersToRedeem, prepaidId)
+      error: (prepaid, jqxhr) =>
+        @state.set { error: jqxhr.responseJSON.message }
+    })
+
+

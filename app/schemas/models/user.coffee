@@ -353,6 +353,7 @@ _.extend UserSchema.properties,
       endDate: c.stringDate()
       type: { type: ['string', 'null'] }
       includedCourseIDs: { type: ['array', 'null'], description: 'courseIDs that this prepaid includes access to', items: c.objectId() }
+      migrated: {type: 'boolean'}
     }
   }
   enrollmentRequestSent: { type: 'boolean', description: 'deprecated' }
@@ -413,6 +414,35 @@ _.extend UserSchema.properties,
         additionalProperties: FeatureRecipientSchema
 
   archived: c.date {description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'}
+  products: c.array {title: 'Products purchased or used by this user'},
+    c.object { required: ['product', 'startDate', 'recipient', 'paymentService', 'paymentDetails'],  additionalProperties: true },
+      # ensure we can add additionalProperties
+      product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'ai-league', 'online-classes'], decription: 'The "name" field for the product purchased' }  # And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
+
+      prepaid: c.objectId(links: [ {rel: 'db', href: '/db/prepaid/{($)}'} ])  # required for type: “course” for legacy compatibility, optional for other types
+      productOptions:
+        oneOf: [
+          includedCourseIDs: {type: ['array', 'null']}
+        ]
+      startDate: c.date()
+      endDate: c.date()  # TODO: optional indication of no end date (lasts forever) - or do we just leave unset?
+      purchaser: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) # in case of gifts
+      recipient: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
+      purchaserDesc:
+        type: enum: ['email', 'phone']
+        detail: c.shortString(description: 'We may have a purchaser with no account, in which case only this email/phone/... will be set')
+      paymentService: { enum: ['stripe', 'testing', 'free', 'api', 'external', 'paypal']}  # Removed 'ios', could perhaps remove 'paypal', could differentiate 'external' further
+      paymentDetails:
+        purchaseDate: c.date()  # TODO: separate payment date and invoice date (esp. online classes)?
+        amount: { type: 'integer', description: 'Payment in cents on US server and in RMB cents on the China server' }
+      # Do we need something about autorenewal / frequency here?
+        oneOf: [
+          { stripeCustomerId: { type: 'string' }, subscriptionId: { type: 'string' }, paymentSession: c.objectId(links: [ {rel: 'extra', href: '/db/payment.session/{($)}'} ]) }  # TODO: other various Stripe-specific options
+          { paypalCustomerId: { type: 'string' } }  # TODO: various PayPal-specific options, if we keep PayPal
+          { staffCreator: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) }  # any other external payment source options?
+        # ... etc. for each possible payment service ...
+        ]
+ 
 
 c.extendBasicProperties UserSchema, 'user'
 

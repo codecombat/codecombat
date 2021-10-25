@@ -1846,6 +1846,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     apply_license: "Apply License"
     revoke_license: "Revoke License"
     revoke_licenses: "Revoke All Licenses"
+    manage_license: "Manage License"
     course_progress: "Course Progress"
     not_applicable: "N/A"
     edit: "edit"
@@ -2064,6 +2065,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     hoc_additional_desc2: "Questions"
     hoc_additional_contact: "Get in touch"
     revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
     revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
     revoking: "Revoking..."
     unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they're ready to learn more!"
@@ -2128,6 +2130,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     try_ozaria_footer: "Try our new adventure game, Ozaria!"
     try_ozaria_free: "Try Ozaria for free"
     ozaria_intro: "Introducing Our New Computer Science Program"
+    owned_license: "Owned License"
 
   teacher_ozaria_encouragement_modal:
     title: "Build Computer Science Skills to Save Ozaria"

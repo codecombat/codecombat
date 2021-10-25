@@ -131,7 +131,7 @@ describe 'TeacherClassView', ->
             expect(@view.enrollStudents).toHaveBeenCalled()
             users = @view.enrollStudents.calls.argsFor(0)[0]
             expect(users.size()).toBe(1)
-            expect(users.first().id).toBe(@view.students.rest()[0].id) # TODO: Make test less brittle
+            expect(users.first().id).toBe(@view.students.models[0].id) # TODO: Make test less brittle
 
       ###
         describe 'Revoke button', ->
@@ -284,7 +284,9 @@ describe 'TeacherClassView', ->
         describe 'and the course is NOT covered by starter licenses', ->
           beforeEach (done) ->
             spyOn(@view.prepaids.at(1), 'redeem')
-            @starterStudent = @students.find (s) -> s.prepaidType() is 'starter_license'
+            starterId = @available2.get('_id')
+            @starterStudent = @students.find (s) ->
+              s.get('products') && s.get('products')[0].prepaid is starterId
             @view.assignCourse(@courses.at(1).id, [@starterStudent.id])
             @view.wait('begin-redeem-for-assign-course').then(done)
 

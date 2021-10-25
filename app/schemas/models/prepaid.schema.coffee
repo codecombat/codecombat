@@ -4,8 +4,9 @@ PrepaidSchema = c.object({title: 'Prepaid', required: ['type']}, {
   creator: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
   clientCreator: c.objectId(links: [ {rel: 'extra', href: '/db/api-clients/{($)}'} ])
   redeemers: c.array {title: 'Users who have redeemed this code'},
-    c.object {required: ['date', 'userID']},
+    c.object {required: ['date']},
       date: c.date {title: 'Redeemed date'}
+      code: c.shortString(title: 'activation code')
       userID: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
       teacherID: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ],
         description: 'userID of teacher that applied the license, if not the creator')
@@ -19,6 +20,7 @@ PrepaidSchema = c.object({title: 'Prepaid', required: ['type']}, {
     gems: {type: 'number', description: 'Overwrites the number of gems given by Product when the prepaid is redeemed'}
     expires: c.stringDate({description: 'Date the prepaid expires and cannot be redeemed'})
   endDate: c.stringDate()
+  duration: {type: 'number', description: 'Prepaid valid duration, in milliseconds'}
   includedCourseIDs: c.array({ description: 'courseIDs that this prepaid includes access to' }, c.objectId())
   joiners: c.array {title: 'Teachers this Prepaid is shared with'},
     c.object {required: ['userID']},

@@ -31,6 +31,9 @@ module.exports = (env) => {
       }),
       devtool: 'eval-source-map', // https://webpack.js.org/configuration/devtool/
       plugins: baseConfig.plugins.concat(plugins),
+      watchOptions: {
+        ignored: /node_modules|bower_components|\.#|~$/,
+      },
       mode: 'development'
     })
   )

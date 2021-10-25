@@ -1843,6 +1843,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     apply_license: "使用许可"
     revoke_license: "终止许可"
     revoke_licenses: "终止所有许可"
+    manage_license: "管理许可"
     course_progress: "课程进度"
     not_applicable: "N/A"
     edit: "修改密码"
@@ -2061,6 +2062,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     hoc_additional_desc2: "问题"
     hoc_additional_contact: "保持联系"
     revoke_confirm: "您确定要撤销{{student_name}}的完整许可证吗？该许可证将可以分配给其他学生。"
+    revoke_selected_confirm: "你确定要撤销所有选择的学生的许可证吗？"
     revoke_all_confirm: "你确定要撤销所有这个班级的所有学生的许可证吗？"
     revoking: "撤销中"
     unused_licenses: "您有未使用的学生许可,当学生准备学习更多课程时您可以分配给他们!"
@@ -2125,6 +2127,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     try_ozaria_footer: "试试我们的新产品：奥佳睿！"
     try_ozaria_free: "免费试用 Ozaria"
     ozaria_intro: "介绍我们新的计算机科学课程"
+    owned_license: "已有许可"
 
   teacher_ozaria_encouragement_modal:
     title: "学习计算机科学技能，拯救奥佳睿世界"

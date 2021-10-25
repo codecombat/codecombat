@@ -28,8 +28,12 @@ module.exports = class Classroom extends CocoModel
     @capitalLanguage = utils.capitalLanguages[language]
 
   joinWithCode: (code, opts) ->
+    if code.length == 14 and code.split('-').length == 3
+      url = @urlRoot + "/join-by-activation-code"
+    else
+      url = @urlRoot + '/~/members'
     options = {
-      url: @urlRoot + '/~/members'
+      url: url
       type: 'POST'
       data: { code: code }
       success: => @trigger 'join:success'

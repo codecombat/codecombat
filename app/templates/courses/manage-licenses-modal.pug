@@ -1,0 +1,193 @@
+extends /templates/core/modal-base-flat.jade
+
+mixin applyPage
+  - var numToEnroll = state.get('visibleSelectedUsers').length
+  - var unusedEnrollments = view.prepaidByGroup[view.selectedPrepaidType]
+  - var tooManySelected = numToEnroll > unusedEnrollments
+  - var noneSelected = numToEnroll == 0
+  #apply-page
+    form.form.m-t-3
+      .prepaid-type-line
+        span(data-i18n="teacher.select_license_type")
+          span :
+        span(data-i18n="inventory.available_item")
+      #selectPrepaidType.well.form-group
+        - var prepaids = view.prepaidByGroup
+        each value, key in prepaids
+          - var selected = view.selectedPrepaidType == key
+          - var desc = key.split('<br>')
+          .radio.prepaid-type-line
+            label
+              input(type="radio", disabled=false, checked=selected, name="licenseType", value=key)
+              p.prepaid-type=desc[0]
+            p.prepaid-end-date=desc[1]
+            span.prepaid-number=value.num
+
+    form.form.m-t-3
+      span(data-i18n="teacher.apply_licenses_to_the_following_students")
+      span :
+      .well.form-group
+        - var enrolledUsers = view.enrolledUsers()
+        - var unenrolledUsers = view.unenrolledUsers()
+        - var areAllSelected = view.areAllSelected()
+        .checkbox
+          label
+            input.select-all-users-checkbox(type="checkbox", disabled=false, checked=areAllSelected)
+            span.spr(data-i18n="teacher.select_all")
+          .note
+            span.spr(data-i18n="teacher.owned_license")
+            .course-span
+              .course-upper CS
+              - for(var i = 1; i < 7; i++)
+                .course-number=i
+            .course-span
+              .course-upper GD
+              - for(var i = 1; i < 4; i++)
+                .course-number=i
+            .course-span
+              .course-upper WD
+              - for(var i = 1; i < 3; i++)
+                .course-number=i
+        for student in unenrolledUsers
+          - var selected = state.get('selectedUsers').get(student.id)
+          - var status = student.prepaidNumericalCourses()
+          .checkbox
+            label
+              input.user-checkbox(type="checkbox", disabled=false, checked=selected, data-user-id=student.id, name='user')
+              span.spr= student.broadName()
+            .status-col
+              - for(var index = 5; index < 11; index ++)
+                input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+            .status-col
+              - for(var index = 2; index < 5; index ++)
+                input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+            .status-col
+              - for(var index = 0; index < 2; index ++)
+                input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+
+        if enrolledUsers.length > 0
+          .small-details.m-t-3
+            span(data-i18n='teacher.students_have_licenses')
+        for user in enrolledUsers
+          - var selected = state.get('selectedUsers').get(user.id)
+          .checkbox
+            label
+              input.user-checkbox(type="checkbox", disabled=true, checked=true, data-user-id=user.id, name='user')
+              span.spr= user.broadName()
+      if state.get('error')
+        .alert.alert-danger
+          = state.get('error')
+
+      #submit-form-area.text-center
+        p.small-details.not-enough-enrollments(class=(tooManySelected ? 'visible' : ''))
+          span(data-i18n='teacher.not_enough_enrollments')
+
+        p.small-details
+          span.spr(data-i18n="courses.enrollment_credits_available")
+          span#total-available= view.prepaids.totalAvailable()
+
+        p
+          button#activate-licenses-btn.btn.btn-lg.btn-primary(type="submit" class=(tooManySelected || noneSelected ? 'disabled' : ''))
+            span(data-i18n="teacher.apply_licenses")
+            |  (
+            span#total-selected-span
+              = numToEnroll
+            | )
+
+        p
+          a#get-more-licenses-btn.btn.btn-lg.btn-primary-alt(href="/teachers/licenses", data-i18n="courses.get_enrollments")
+
+
+
+mixin revokePage
+  .form.m-t-3
+    span
+      | revoke those license
+    span :
+    #revoke-student-page
+      - var allUsers = view.users.models
+      - var teacherPrepaids = view.studentsPrepaidsFromTeacher()
+      - var areAllSelected = view.areAllSelected()
+      table.overflow
+        thead
+          tr
+            th
+              .checkbox
+                label
+                  input.select-all-users-revoke-checkbox(type="checkbox", disabled=false, checked=areAllSelectedRevoke)
+                span.spr(data-i18n="teacher.select_all")
+       
+            each p in teacherPrepaids
+              th= p.name
+
+        tbody
+          each user in allUsers
+            - var selected = state.get('selectedUsers').get(user.id)
+            tr
+              td
+                .checkbox
+                  label
+                    input.user-checkbox(type="checkbox", disabled=false, checked=selected, data-user-id=user.id, name='user')
+                  span.spr= user.broadName()
+              each p in teacherPrepaids
+                - var product = user.findCourseProduct(p.id)
+                if product
+                  td(class= moment().isAfter(product.endDate) ? 'text-danger' : '')=moment(product.endDate).utc().format('ll')
+                else
+                  td
+          tr
+            td
+            each p in teacherPrepaids
+              td
+                button.revoke-student-button.btn.btn-navy(data-i18n="teacher.revoke_license", data-prepaid-id=p.id)
+
+
+    if state.get('error')
+      .alert.alert-danger
+        = state.get('error')
+
+
+
+
+block modal-header-content
+  .clearfix
+  .text-center
+    h1(data-i18n="teacher.manage_license")
+
+  
+    h2(data-i18n="courses.grants_lifetime_access")
+
+block modal-body-content
+  - var activeTab = view.activeTab;
+  if view.classrooms.length > 1
+    .row
+      .col-sm-10.col-sm-offset-1
+        .text-center.m-b-3
+          .small.color-navy
+            span(data-i18n='teacher.show_students_from')
+            span.spr :
+          select.classroom-select
+            each classroom in view.classrooms.models
+              option(selected=(view.classroom ? classroom.id === view.classroom.id : false), value=classroom.id)
+                = classroom.get('name')
+            option(selected=(!view.classroom), value='' data-i18n='teacher.all_students')
+  .row#tab-nav
+    .col-sm-2
+      | .
+    .col-sm-4
+      .text-center
+        span.change-tab(data-i18n='teacher.apply_licenses', data-tab='apply', class=(activeTab == 'apply' ? 'focus' : ''))
+    .col-sm-4
+      .text-center
+        span.change-tab(data-i18n='teacher.revoke_license', data-tab='revoke', class=(activeTab == 'revoke'? 'focus': ''))
+    .col-sm-2
+      | .
+
+  .modal-body-content
+    if activeTab === 'apply'
+      +applyPage
+    else if activeTab === 'revoke'
+      +revokePage
+
+
+block modal-footer-content

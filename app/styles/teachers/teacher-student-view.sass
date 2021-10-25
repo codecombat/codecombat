@@ -3,6 +3,30 @@
 @import "app/styles/style-flat-variables"
 
 #teacher-student-view
+  #numerical-courses-status
+    display: inline-flex
+    
+    .status-col
+      display: flex
+      position: relative
+      margin-left: 2em
+      .cell
+        display: flex
+        flex-direction: column
+        margin-left: 3px
+      &:before
+        position: absolute
+        right: 100%
+    .cs
+      &:before
+        content: 'CS'
+    .gd
+      &:before
+        content: 'GD'
+    .wd
+      &:before
+        content: 'WD'
+
   .breadcrumbs
     color: #065e73
     a

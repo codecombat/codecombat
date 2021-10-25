@@ -11,5 +11,33 @@
     margin: 0px 20px 30px 20px
     padding: 0px
 
+    #numerical-courses-status
+      display: flex
+      margin-bottom: 10px
+      justify-content: center
+    
+      .status-col
+        display: flex
+        position: relative
+        margin-left: 2em
+        .cell
+          display: flex
+          flex-direction: column
+          margin-left: 3px
+        &:before
+          position: absolute
+          right: 100%
+      .cs
+        &:before
+          content: 'CS'
+      .gd
+        &:before
+          content: 'GD'
+      .wd
+        &:before
+          content: 'WD'
+
+ 
+
   .not-enough-enrollments
     color: red
