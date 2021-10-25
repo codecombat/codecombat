@@ -838,6 +838,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    vega_character: "Vega Character"
     click_to_continue: "Клацніть, щоб продовжити"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Humans"
+#    play_as_ogres: "Play As Ogres"
 
   apis:
     methods: "Методи"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Більше 500 помічників допомогли створити CodeCombat, і кожного тижня приєднуються нові!"
     community_description_3: "CodeCombat - це"
     community_description_link_2: "проект спільноти"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     blue_ai: "Синій ШІ"
     wins: "переміг" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Червоний" # Ladder page display team name
     ogres: "Синій"

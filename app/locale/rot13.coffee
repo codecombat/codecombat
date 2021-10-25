@@ -837,6 +837,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     vega_character: "Irtn Punenpgre"
     click_to_continue: "Pyvpx gb Pbagvahr"
     fill_in_solution: "Svyy va fbyhgvba"
+    play_as_humans: "Cynl Nf Uhznaf"
+    play_as_ogres: "Cynl Nf Bterf"
 
   apis:
     methods: "Zrgubqf"
@@ -1229,10 +1231,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     om_title: "Bcrengvbaf Znantre"
     mo_title: "Znantre, Bcrengvbaf"
     smo_title: "Fravbe Znantre, Bcrengvbaf"
+    do_title: "Qverpgbe bs Bcrengvbaf"
     scd_title: "Fravbe Pheevphyhz Qrirybcre"
     lcd_title: "Yrnq Pheevphyhz Qrirybcre"
+    de_title: "Qverpgbe bs Rqhpngvba"
     vpm_title: "IC, Znexrgvat"
     oi_title: "Bayvar Vafgehpgbe"
+    bdm_title: "Ohfvarff Qrirybczrag Znantre"
     community_subtitle: "Bire 500 pbagevohgbef unir urycrq ohvyq PbqrPbzong, jvgu zber wbvavat rirel jrrx!"
     community_description_3: "PbqrPbzong vf n"
     community_description_link_2: "pbzzhavgl cebwrpg"
@@ -2452,6 +2457,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     blue_ai: "Oyhr PCH"
     wins: "Jvaf"  # Ng raq bs zhygvcynlre zngpu cynlonpx
     losses: "Ybffrf"
+    win_num: "Jvaf"
+    loss_num: "Ybffrf"
     win_rate: "Jva %"
     humans: "Erq"  # Ynqqre cntr qvfcynl grnz anzr
     ogres: "Oyhr"

@@ -838,6 +838,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     vega_character: "Vega karakter"
     click_to_continue: "Kattints a folytatáshoz"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Humans"
+#    play_as_ogres: "Play As Ogres"
 
 #  apis:
 #    methods: "Methods"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Eddig több mint 450 támogató járult hozzá a CodeCombat építéséhez, és minden héten egyre többen csatlakoznak!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     blue_ai: "Kék CPU"
     wins: "Győzelmek" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Vörös" # Ladder page display team name
     ogres: "Kék"

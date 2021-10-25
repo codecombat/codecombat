@@ -838,6 +838,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     vega_character: "Персонаж Вега"
     click_to_continue: "Нажмите чтобы продолжить"
     fill_in_solution: "Введите решение"
+#    play_as_humans: "Play As Humans"
+#    play_as_ogres: "Play As Ogres"
 
   apis:
     methods: "Методы"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     om_title: "Операционный менеджер"
     mo_title: "Менеджер по операциям"
     smo_title: "Старший менеджер по операциям"
+#    do_title: "Director of Operations"
     scd_title: "Старший разработчик учебных программ"
     lcd_title: "Ведущий разработчик учебной программы"
+#    de_title: "Director of Education"
     vpm_title: "Вице-президент по маркетингу"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Более 500 авторов помогли создать CodeCombat, и новые присоединяются к нам каждую неделю!"
     community_description_3: "CodeCombat – это"
     community_description_link_2: "проект сообщества"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     blue_ai: "CPU синего"
     wins: "Побеждает" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Красных" # Ladder page display team name
     ogres: "Синих"
