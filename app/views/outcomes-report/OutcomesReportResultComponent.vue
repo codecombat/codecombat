@@ -274,9 +274,9 @@ export default Vue.extend({
               circle.bottom(r=radius,cx=radius,cy=radius)
               circle.top(r=radius / 2, cx=radius, cy=radius, :style="'stroke-dasharray: ' + 3.1415926 * 50 * course.completion + 'px ' + 3.1415926 * 50 + 'px'")
             if org.kind != 'student'
-              .overlay-text.top-text #{formatNumber(course.studentsStarting)} #{course.studentsStarting === 1 ? "student" : "students"}
+              .overlay-text.top-text #{formatNumber(course.studentsStarting)} #{course.studentsStarting === 1 ? $t('courses.student') : $t('courses.students')}
             .overlay-text.mid-text= course.acronym
-            .overlay-text.bot-text #{Math.round(100 * course.completion)}% complete
+            .overlay-text.bot-text= Math.round(100 * course.completion) + '% ' + $t('courses.complete')
 
   .block(v-if="org.progress && org.progress.programs > 1 && included && codeLanguageStats.length > 1 && !codeLanguageString")
     // TODO: somehow note the code language if we are skipping this section (like 100% Python at school level)

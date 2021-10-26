@@ -3239,6 +3239,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_type_customize: 'Customize Courses'
 
   outcomes:
+    customize_report: "Customize Report"
+    done_customizing: "Done Customizing"
     school_admin: "School Administrator"
     school_network: "School Network"
     school_subnetwork: "School Subnetwork"

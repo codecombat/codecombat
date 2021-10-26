@@ -336,9 +336,9 @@ main#page-outcomes-report
     .print-btn.btn.btn-primary.btn-lg(@click="onPrintButtonClicked") {{ $t('courses.certificate_btn_print') }} / PDF
     .edit.btn.btn-primary.btn-lg(@click="onEditButtonClicked")
       if editing
-        span Done Customizing
+        span= $t('outcomes.done_customizing')
       else
-        span Customize Report
+        span= $t('outcomes.customize_report')
     .edit-controls(v-if="editing")
       br
       .form-group
