@@ -2,7 +2,6 @@ require('app/styles/courses/manage-license-modal.sass')
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
 template = require 'templates/courses/manage-licenses-modal'
-CocoCollection = require 'collections/CocoCollection'
 Prepaids = require 'collections/Prepaids'
 Prepaid = require 'models/Prepaid'
 Classroom = require 'models/Classroom'
@@ -98,7 +97,6 @@ module.exports = class ManageLicenseModal extends ModalView
     # @render() # TODO: Have @state automatically listen to children's change events?
 
   studentsPrepaidsFromTeacher: () ->
-    # user = @users.get(@selectedUser)
     allPrepaids = []
     @users.each (user) =>
       allPrepaidKeys = allPrepaids.map((p) => p.prepaid)

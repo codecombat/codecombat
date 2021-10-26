@@ -89,7 +89,6 @@ module.exports = class PreapidActivationCodesModal extends ModalView
     @renderSelectors("#license-type-select")
 
   onClickAddSeatsButton: ->
-    console.log('click')
     attrs = forms.formToObject(@$('#prepaid-form'))
     attrs.maxRedeemers = parseInt(attrs.maxRedeemers)
     return unless _.all(_.values(attrs))
