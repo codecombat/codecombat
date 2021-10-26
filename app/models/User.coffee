@@ -561,7 +561,7 @@ module.exports = class User extends CocoModel
     return new Prepaid({
       _id: prepaidId,
       type: 'course',
-      includedCourseIDs: courseProduct.productOptions.includedCourseIDs
+      includedCourseIDs: courseProduct?.productOptions?.includedCourseIDs
       startDate: courseProduct.startDate,
       endDate: courseProduct.endDate
     })

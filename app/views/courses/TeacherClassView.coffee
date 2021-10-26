@@ -788,10 +788,13 @@ module.exports = class TeacherClassView extends RootView
     for student in @students.models
       status = student.prepaidStatus()
       if status is 'enrolled' and student.prepaidType() is 'course'
-        courseProducts = _.filter student.get('products'), { product: 'course' }
+        courseProducts = student.activeCourseProducts()
         Prepaid = require 'models/Prepaid'
-        for product of courseProducts
-          prepaid = new Prepaid(product)
+        for product in courseProducts
+          prepaid = new Prepaid({
+            _id: product.prepaid,
+            type: 'course'
+          })
           prepaid.revoke(student, {
             # The for loop completes before the success callback for the first student executes.
             # So, the `student` will be the last student when the callback executes.
