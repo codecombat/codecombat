@@ -105,7 +105,7 @@ module.exports = class ManageLicenseModal extends ModalView
       ), (p) => p.prepaid)
     return allPrepaids.map((p) ->
       product = new Prepaid({
-        includedCourseIDs: p.productOptions.includedCourseIDs
+        includedCourseIDs: p?.productOptions?.includedCourseIDs
         type: 'course'
       })
       return {id: p.prepaid, name: product.typeDescription()}
