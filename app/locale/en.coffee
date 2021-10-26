@@ -3243,6 +3243,28 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     school_network: "School Network"
     school_subnetwork: "School Subnetwork"
     classroom: "Classroom"
+    view_outcomes_report: "View Outcomes Report"
+    key_concepts: "Key Concepts"
+    code_languages: "Code Languages"
+    using_codecombat: "Using CodeCombat's personalized learning engine..."
+    wrote: "wrote..."
+    across_an_estimated: "across an estimated..."
+    in: "in..."
+    computer_program: "computer_program"
+    computer_programs: "computer_programs"
+    line_of_code: "line of code"
+    lines_of_code: "lines of code"
+    coding_hours: "coding hours"
+    expressed_creativity: "and expressed creativity by building"
+    report_content_1: "standalone game and web "
+    project: "project"
+    projects: "projects"
+    progress_stats: "Progress stats based on sampling __sampleSize__ of __populationSize__ students."
+    standards_coverage: "Standards Coverage"
+    coverage_p1: 'The full CodeCombat curriculum covers major programming standards in several widely-adopted frameworks, including those of the International Society for Technology in Education (ISTE), the Computer Science Teacher Association (CSTA), and the K-12 Computer Science Framework.'
+    coverage_p2: 'At CodeCombat, we believe that students will be most prepared for both real-world computing jobs and further study of computer science by using real, typed code in full programming languages, so instead of using block-based visual programming languages for beginners, we teach Python and JavaScript – the same languages used widely today by companies ranging from Google to the New York Times.'
+    questions: "Have questions or want more information? We'd be happy to help."
+    reach_out_manager: "Reach out to your Account Manager __name__ at "
 
   league:
     student_register_1: "Become the next AI Champion!"

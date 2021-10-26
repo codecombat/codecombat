@@ -320,28 +320,13 @@ main#page-outcomes-report
           h3 (... stats include #{subOrgs.length - subOrgLimit} other #{kindString(subOrgs[0]).toLowerCase()}#{subOrgs.length - subOrgLimit > 1 ? 's' : ''} ...)
       img.anya(src="/images/pages/admin/outcomes-report/anya.png")
       .block.room-for-anya
-        h1 Standards Coverage
-        p.
-          The full CodeCombat curriculum covers major programming standards in
-          several widely-adopted frameworks, including those of the International
-          Society for Technology in Education (ISTE), the Computer Science Teacher
-          Association (CSTA), and the K-12 Computer Science Framework.
-
-        p.
-          At CodeCombat, we believe that students will be most prepared for both
-          real-world computing jobs and further study of computer science by using
-          real, typed code in full programming languages, so instead of using block-based
-          visual programming languages for beginners, we teach Python and
-          JavaScript – the same languages used widely today by companies ranging
-          from Google to the New York Times.
+        h1= $t('outcomes.standards_coverage')
+        p= $t('outcomes.coverage_p1')
+        p= $t('outcomes.coverage_p2')
 
       .bottom
-        p Have questions or want more information? We'd be happy to help.
-        p
-          | Reach out to your Account Manager
-          if accountManager.name
-            span , #{accountManager.name},
-          = " at "
+        p= $t('outcomes.questions')
+        p= $t('outcomes.reach_out_manager', {name: accountManager.name ? `, ${accountManager.name},` : ''})
           a(:href="'mailto:' + accountManager.email")= accountManager.email
           | .
 

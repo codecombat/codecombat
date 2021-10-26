@@ -214,14 +214,14 @@ export default Vue.extend({
       if included && org.classrooms && org.kind == 'student' && parentOrgKind != 'classroom'
         for classroom in org.classrooms
           br
-          span= 'Classroom: '
+          span= $t('outcomes.classroom') + ': '
           a(:href="'/outcomes-report/classroom/' + classroom._id" target="_blank")
             b= classroom.name
-          span  #{classroom.codeLanguage} - #{formatNumber(classroom.studentCount)} students
+          span  #{classroom.codeLanguage} - #{formatNumber(classroom.studentCount)} $t('courses.students')
       if included && org.teachers && ['classroom', 'student'].indexOf(org.kind) != -1 && ['teacher', 'classroom'].indexOf(parentOrgKind) == -1
         for teacher in org.teachers
           br
-          span= 'Teacher: '
+          span= $t('outcomes.teacher') + ': '
           a(:href="'/outcomes-report/teacher/' + teacher._id" target="_blank")
             b= teacher.displayName
           if teacher.email
@@ -239,12 +239,12 @@ export default Vue.extend({
           b= org['school-district'].name
       if included && org['school-admin'] && ['school', 'teacher'].indexOf(org.kind) != -1 && parentOrgKind != 'school-admin' && org['school-admin'].displayName != 'Anonymous'
         br
-        span= 'Admin: '
+        span= $t('nav.admin') + ': '
         a(:href="'/outcomes-report/school-admin/' + org['school-admin']._id" target="_blank")
           b= org['school-admin'].displayName
 
   .block(v-if="included && coursesLoaded && coursesWithProgress[0] && coursesWithProgress[0].studentsStarting > 1" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
-    h1 Course Progress
+    h1= $t('teacher.course_progress')
     for course in coursesWithProgress
       if !isSubOrg || coursesWithProgress.length == 1
         .course.dont-break.full-row
@@ -257,12 +257,12 @@ export default Vue.extend({
                 circle.top(r=radius / 2, cx=radius, cy=radius, :style="'stroke-dasharray: ' + 3.1415926 * 50 * course.completion + 'px ' + 3.1415926 * 50 + 'px'")
             .el
               .big #{Math.round(100 * course.completion)}%
-              .under complete
+              .under= $t('courses.complete')
             .el(v-if="org.kind != 'student'")
               .big #{formatNumber(course.studentsStarting)}
-              .under= course.studentsStarting === 1 ? "student" : "students"
+              .under= course.studentsStarting === 1 ? $t("courses.student") : $t("courses.students")
             .el.concepts-list
-              b Key Concepts:
+              b= $t('outcomes.key_concepts') + ':'
               ul
                 li(v-for="concept in course.newConcepts")
                   span {{$t('concepts.' + concept)}}
@@ -281,7 +281,7 @@ export default Vue.extend({
   .block(v-if="org.progress && org.progress.programs > 1 && included && codeLanguageStats.length > 1 && !codeLanguageString")
     // TODO: somehow note the code language if we are skipping this section (like 100% Python at school level)
     .course.dont-break.full-row
-      h3 Code Languages
+      h3= $t('outcomes.code_languages')
       .bar
         .el
           svg(width=100, height=100)
@@ -298,31 +298,31 @@ export default Vue.extend({
               span= stats.name
   
   .dont-break.block.summary(v-if="org.progress && org.progress.programs > 1 && included")
-    h1 Summary
+    h1= $t('clans.summary')
     if org.kind != 'student'
-      h4 Using CodeCombat&apos;s personalized learning engine...
+      h4= $t('outcomes.using_codecombat')
       .fakebar
         div
           | #{formatNumber(org.progress.studentsWithCode)}
           = " "
-          small= org.progress.studentsWithCode == 1 ? 'student' : 'students'
+          small= org.progress.studentsWithCode == 1 ? $t('courses.student') : $t('courses.students')
     if org.kind === 'student'
-      h4 #{org.displayName || org.name} wrote...
+      h4 #{org.displayName || org.name} $t('outcomes.wrote')
     else
-      h4 wrote...
+      h4= $t('outcomes.wrote')
     .fakebar
       div
         | #{formatNumber(org.progress.programs)}
         = " "
-        small= org.progress.programs == 1 ? 'computer program' : 'computer programs'
-    h4 across an estimated...
+        small= org.progress.programs == 1 ? $t('outcomes.computer_program') : $t('outcomes.computer_programs')
+    h4= $t('outcomes.across_an_estimated')
     .fakebar
       div
         | #{formatNumber(org.progress.linesOfCode)}
         = " "
-        small= org.progress.linesOfCode == 1 ? 'line of code' : 'lines of code'
+        small= org.progress.linesOfCode == 1 ? $t('outcomes.line_of_code') : $t('outcomes.lines_of_code')
     if org.progress && (org.progress.playtime >= 1.5 * 3600 || org.kind == 'student')
-      h4 in...
+      h4= $t('outcomes.in')
       .fakebar
         div
           if org.progress.playtime > 1.5 * 3600
@@ -330,16 +330,16 @@ export default Vue.extend({
           else
             span= (org.progress.playtime / 3600).toFixed(1)
           = " "
-          small coding hours
+          small= $t('outcomes.coding_hours')
     if org.progress.projects >= 1 + Math.min(100, Math.floor(0.02 * org.progress.studentsWithCode))
-      h4 and expressed creativity by building
+      h4= $t('outcomes.expressed_creativity')
       .fakebar
         div
           | #{formatNumber(org.progress.projects)}
           = " "
-          small= 'standalone game and web ' + (org.progress.projects == 1 ? 'project' : 'projects')
+          small= $t('outcomes.report_content_1') + (org.progress.projects == 1 ? $t('outcomes.project') : $t('outcomes.projects'))
     if org.progress && org.progress.sampleSize < org.progress.populationSize
-      em * Progress stats based on sampling #{formatNumber(org.progress.sampleSize)} of #{formatNumber(org.progress.populationSize)} students.
+      em=  "* " + $t('outcomes.progress_stast', {sampleSize: formatNumber(org.progress.sampleSize), populationSize: formatNumber(org.progress.populationSize)})
 
   .block(v-if="included && false")
     h1 Uncategorized Info
