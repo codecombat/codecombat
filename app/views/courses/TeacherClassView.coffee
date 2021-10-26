@@ -788,7 +788,7 @@ module.exports = class TeacherClassView extends RootView
     for student in @students.models
       status = student.prepaidStatus()
       if status is 'enrolled' and student.prepaidType() is 'course'
-        courseProducts = _.filter student.get('products'), { type: 'course' }
+        courseProducts = _.filter student.get('products'), { product: 'course' }
         Prepaid = require 'models/Prepaid'
         for product of courseProducts
           prepaid = new Prepaid(product)
