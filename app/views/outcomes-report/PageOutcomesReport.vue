@@ -285,11 +285,11 @@ export default {
 <template lang="pug">
 main#page-outcomes-report
   #report-container
-    img.header-art(src="/images/pages/admin/outcomes-report/arryn.png")
+    img.header-art(src="/images/pages/admin/outcomes-report/hero-b-and-mouse.png")
 
     .header
       div
-        img.print-logo(src="/images/pages/base/logo.png")
+        img.print-logo(src="/images/ozaria/home/ozaria-wordmark-500px.png")
       div
         //h4 Outcomes Report - {{kind}} {{orgIdOrSlug}}
         h4 Outcomes Report
@@ -318,17 +318,17 @@ main#page-outcomes-report
       if subOrgs.length > subOrgLimit && !editing
         .block.other-sub-orgs
           h3 (... stats include #{subOrgs.length - subOrgLimit} other #{kindString(subOrgs[0]).toLowerCase()}#{subOrgs.length - subOrgLimit > 1 ? 's' : ''} ...)
-      img.anya(src="/images/pages/admin/outcomes-report/anya.png")
+      img.anya(src="/images/pages/admin/outcomes-report/vega.png")
       .block.room-for-anya
         h1 Standards Coverage
         p.
-          The full CodeCombat curriculum covers major programming standards in
+          The full Ozaria curriculum covers major programming standards in
           several widely-adopted frameworks, including those of the International
           Society for Technology in Education (ISTE), the Computer Science Teacher
           Association (CSTA), and the K-12 Computer Science Framework.
 
         p.
-          At CodeCombat, we believe that students will be most prepared for both
+          Ozaria is created by the CodeCombat, the game-based learning company. We believe that students will be most prepared for both
           real-world computing jobs and further study of computer science by using
           real, typed code in full programming languages, so instead of using block-based
           visual programming languages for beginners, we teach Python and
@@ -384,7 +384,7 @@ main#page-outcomes-report
 #page-outcomes-report {
   font-family: 'Open Sans', sans-serif;
   background: transparent url(/images/pages/play/portal-background.png);
-  margin-bottom: -50px;
+  /*margin-bottom: -50px;*/
   padding: 1px 0 10px 0;
 
   #report-container {
@@ -459,7 +459,8 @@ main#page-outcomes-report
 
   .header-art {
     float: right;
-    width: 2in;
+    /*width: 2in;*/
+    height: 2.5in;
     margin-top: 0.35in;
     margin-right: 0.4in;
     transform: scaleX(-1);
@@ -470,13 +471,13 @@ main#page-outcomes-report
     padding-top: 0.1in;
     padding-left: 0.25in;
     padding-right: 0.25in;
-    background-color: rgb(14, 76, 96);
+    background-color: #476FB1;
     -webkit-print-color-adjust: exact !important;
-    background: linear-gradient(rgb(14, 76, 96), rgb(14, 76, 96)) !important;
 
     .print-logo {
       margin: 0 0 0 0;
-      width: 3.75in;
+      /*width: 3.75in;*/
+      height: 0.83333333in;
     }
 
     h4, h5, p {
@@ -500,6 +501,9 @@ main#page-outcomes-report
       font-weight: 600;
     }
 
+    .edit-label {
+      color: darken(#0b63bc, 25%)
+    }
   }
 
   .loading-indicator {
