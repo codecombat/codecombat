@@ -3248,11 +3248,35 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     main_title: '扣哒大事记'
     main_description: '扣哒世界是创建于首都教育腹地中关村的中小学科创教育项目。团队成员来自清华大学、北京大学、哈佛大学、斯坦福大学、耶鲁大学等全国及世界顶级名校以及谷歌、微软、宝洁、麦肯锡等世界级名企，硕士及以上学历占90% 以上，部分成员在ACM、ICM、NOIP和全国数学联赛上取得优异成绩。学高为师、行正致远，这是一支积极向上、兼容并包、业务精湛的队伍，致力于为国内青少年创建世界一流的计算机科学和人工智能通识课程，面向世界，成就未来。'
 
-#  outcomes:
-#    school_admin: "School Administrator"
-#    school_network: "School Network"
-#    school_subnetwork: "School Subnetwork"
-#    classroom: "Classroom"
+  outcomes:
+    customize_report: "定制报告"
+    done_customizing: "确定"
+    school_admin: "学校管理员"
+    school_network: "学校网络"
+    school_subnetwork: "学校子网络"
+    classroom: "教室"
+    view_outcomes_report: "查看分析报告"
+    key_concepts: "核心概念"
+    code_languages: "编程语言"
+    using_codecombat: "使用扣哒世界的个性化学习引擎..."
+    wrote: "编写..."
+    across_an_estimated: "超过大约..."
+    in: "用..."
+    computer_program: "段电脑程序"
+    computer_programs: "段电脑程序"
+    line_of_code: "行代码"
+    lines_of_code: "行代码"
+    coding_hours: "小时编程"
+    expressed_creativity: "展示创造能力"
+    report_content_1: "个独立的游戏和网页开发"
+    project: "项目"
+    projects: "项目"
+    progress_stats: "进度统计数据基于 __populationSize__ 学生抽样中的 __sampleSize__。"
+    standards_coverage: "课程标准"
+    coverage_p1: "完整的扣哒世界课程涵盖国际上广泛采用框架中的主要编程标准，包括国际教育技术学会 (ISTE)、计算机科学教师协会 (CSTA) 和 K-12 计算机科学框架的标准。"
+    coverage_p2: "在扣哒世界，我们相信通过使用真实的代码编程，学生将为市场上计算机领域的工作和计算机科学的进一步学习做好最充分的准备，因此我们不为初学者提供基于模块的可视化编程语言，而是讲授 Python、JavaScript 和 C++ 今天被谷歌和纽约时报等公司广泛使用的相同编程语言。"
+    questions: "想要了解更多信息？ 我们很乐意提供帮助。"
+    reach_out_manager: "联系我们的客服人员 __name__ :"
 
   league:
 #    student_register_1: "Become the next AI Champion!"
