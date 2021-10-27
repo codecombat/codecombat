@@ -141,7 +141,7 @@ export default Vue.extend({
               </option>
             </select>
           </div>
-          <div v-if="showUsStatesDropDown" class="col-lg-6"z>
+          <div v-if="showUsStatesDropDown" class="col-lg-6">
             <label class="dropdown-label" for="stateDropDown">{{$t('teachers_quote.state')}}</label>
             <div>
               <select @change="updateState" id="stateDropDown" class="select-dropdown w-100">

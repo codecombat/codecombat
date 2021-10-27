@@ -33,6 +33,10 @@
       classroomCreationDate () {
         return moment(parseInt(this.classroomState._id.substring(0, 8), 16) * 1000).format('MMMM Do, YYYY')
       },
+      
+      sharePermission() {
+        return (this.classroomState.permissions || []).find(p => p.target === me.get('_id'))?.access
+      },
 
       classroomStatsFromClassroom () {
         return {
@@ -42,7 +46,8 @@
           numberOfStudents: this.classroomState.members.length || 0,
           classroomCreated: this.classroomCreationDate,
           archived: this.classroomState.archived,
-          codeCamel: this.classroomState.codeCamel
+          codeCamel: this.classroomState.codeCamel,
+          sharePermission: this.sharePermission
         }
       },
 
@@ -135,5 +140,6 @@
     :display-only="displayOnly"
     @clickTeacherArchiveModalButton="$emit('clickTeacherArchiveModalButton')"
     @clickAddStudentsModalButton="$emit('clickAddStudentsModalButton')"
+    @clickShareClassWithTeacherModalButton="$emit('clickShareClassWithTeacherModalButton')"
   />
 </template>

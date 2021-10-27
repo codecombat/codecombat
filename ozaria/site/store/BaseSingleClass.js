@@ -11,6 +11,10 @@ const projectionData = {
   users: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'
 }
 
+function hasSharedWriteAccessPermission(classroom) {
+  return (classroom.permissions || []).find((p) => p.target === me.get('_id') && p.access === 'write')
+}
+
 export default {
   namespaced: true,
   state: {
@@ -95,14 +99,29 @@ export default {
 
     async applyLicenses ({ state, rootGetters, dispatch, getters }) {
       const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id))
-      const teacherId = rootGetters['teacherDashboard/teacherId']
+      // use teacherId of classroom owner instead?
+      let teacherId = rootGetters['teacherDashboard/teacherId']
+      const classroom = rootGetters['teacherDashboard/getCurrentClassroom']
+      const hasSharedWriteAccess = hasSharedWriteAccessPermission(classroom)
+
+      // for shared classes, use ownerID of classroom to deduct/apply license
+      if (classroom.ownerID !== teacherId) {
+        if (hasSharedWriteAccess) {
+          teacherId = classroom.ownerID
+        } else {
+          noty({ text: `You do not have a write permission on this class`, layout: 'center', type: 'information', killer: true, timeout: 5000 })
+          return
+        }
+      }
+
       if (students.length === 0) {
         noty({ text: `You need to select student(s) first before performing that action.`, layout: 'center', type: 'information', killer: true, timeout: 8000 })
         return
       }
-      await dispatch('prepaids/applyLicenses', { members: students, teacherId }, { root: true })
-      dispatch('prepaids/fetchPrepaidsForTeacher', teacherId, { root: true })
-      await dispatch('users/fetchClassroomMembers', { classroom: rootGetters['teacherDashboard/classroom'], options: { project: projectionData.users } }, { root: true })
+      const sharedClassroomId = hasSharedWriteAccess ? classroom._id : null
+      await dispatch('prepaids/applyLicenses', { members: students, teacherId, sharedClassroomId }, { root: true })
+      dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId, sharedClassroomId }, { root: true })
+      await dispatch('users/fetchClassroomMembers', { classroom: rootGetters['teacherDashboard/getCurrentClassroom'], options: { project: projectionData.users } }, { root: true })
       // TODO confirmation?
     },
 
@@ -112,10 +131,24 @@ export default {
         noty({ text: `You need to select student(s) first before performing that action.`, layout: 'center', type: 'information', killer: true, timeout: 8000 })
         return
       }
-      const teacherId = rootGetters['teacherDashboard/teacherId']
-      await dispatch('prepaids/revokeLicenses', { members: students }, { root: true })
-      dispatch('prepaids/fetchPrepaidsForTeacher', teacherId, { root: true })
-      await dispatch('users/fetchClassroomMembers', { classroom: rootGetters['teacherDashboard/classroom'], options: { project: projectionData.users } }, { root: true })
+      let teacherId = rootGetters['teacherDashboard/teacherId']
+      const classroom = rootGetters['teacherDashboard/getCurrentClassroom']
+      const hasSharedWriteAccess = hasSharedWriteAccessPermission(classroom)
+
+      // for shared classes, use ownerID of classroom to deduct/apply license
+      if (classroom.ownerID !== teacherId) {
+        if (hasSharedWriteAccess) {
+          teacherId = classroom.ownerID
+        } else {
+          noty({ text: `You do not have a write permission on this class`, layout: 'center', type: 'information', killer: true, timeout: 5000 })
+          return
+        }
+      }
+
+      const sharedClassroomId = hasSharedWriteAccess ? classroom._id : null
+      await dispatch('prepaids/revokeLicenses', { members: students, sharedClassroomId }, { root: true })
+      dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId, sharedClassroomId }, { root: true })
+      await dispatch('users/fetchClassroomMembers', { classroom: rootGetters['teacherDashboard/getCurrentClassroom'], options: { project: projectionData.users } }, { root: true })
       // TODO confirmation?
     },
 
