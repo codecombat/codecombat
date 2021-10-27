@@ -230,6 +230,7 @@ module.exports = class ManageLicenseModal extends ModalView
     prepaidId = button.data('prepaid-id')
 
     usersToRedeem = @state.get('visibleSelectedUsers')
+    return alert($.i18n.t('teacher.revoke_alert_no_student')) unless usersToRedeem.size()
     s = $.i18n.t('teacher.revoke_selected_confirm')
     return unless confirm(s)
     button.text($.i18n.t('teacher.revoking'))
@@ -243,6 +244,12 @@ module.exports = class ManageLicenseModal extends ModalView
 
     user = usersToRedeem.first()
     prepaid = user.makeCourseProduct(prepaidId)
+    unless prepaid # in case teacher select extra students
+      usersToRedeem.remove(user)
+      @state.get('selectedUsers').remove(user)
+      @updateVisibleSelectedUsers()
+      @revokeUsers(usersToRedeem, prepaidId)
+
     prepaid.revoke(user, {
       success: =>
         user.set('products', user.get('products').map((p) ->
