@@ -213,7 +213,7 @@ module.exports = class ManageLicenseModal extends ModalView
   onSelectPrepaidType: (e) ->
     @selectedPrepaidType = $(e.target).parent().children('input').val()
     @state.set {
-      unusedEnrollments: @prepaidByGroup[@selectedPrepaidType].num
+      unusedEnrollments: @prepaidByGroup[@selectedPrepaidType]?.num
     }
     @renderSelectors("#apply-page")
 
