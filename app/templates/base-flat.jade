@@ -1,24 +1,3 @@
-mixin accountLinks
-  li
-    a.account-dropdown-item(href=`/user/${me.getSlugOrID()}`, data-i18n="nav.profile")
-  li
-    a.account-dropdown-item(href="/account/settings", data-i18n="play.settings")
-  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())
-    li
-      a.account-dropdown-item(href="/account/payments", data-i18n="account.payments")
-  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()
-    li
-      a.account-dropdown-item(href="/account/subscription", data-i18n="account.subscription")
-  if me.isAdmin()
-    li
-      a.account-dropdown-item(href="/admin", data-i18n="account_settings.admin")
-  if serverSession && serverSession.amActually
-    li
-      a.account-dropdown-item#nav-stop-spying-button Stop Spying
-  if !features.codePlay
-    li
-      a.account-dropdown-item#logout-button(data-i18n="login.log_out")
-
 .style-flat
   block header
     nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(class=!serverConfig.static && /^\/(league|play\/ladder)/.test(document.location.pathname) ? "dark-mode" : '')
@@ -41,7 +20,7 @@ mixin accountLinks
                   img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
               else if me.showChinaResourceInfo()
                 a.navbar-brand(href="/home")
-                  img#logo-img(src="/images/pages/base/logo-cn.png")
+                  img#logo-img(src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
               else
                 a.navbar-brand(href="/home")
                   img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
@@ -52,108 +31,6 @@ mixin accountLinks
                   .navbar-nav
                     a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/", data-i18n="nav.browser_recommendation")
 
-            if !serverConfig.static
-              #navbar-collapse.collapse.navbar-collapse
-                .nav-spacer
-                if !me.hideTopRightNav()
-                  ul.nav.navbar-nav
-                    if me.showChinaResourceInfo()
-                      li
-                        if document.location.href.search('/CoCoStar') >= 0
-                          a.text-p.text-teal(href="/CoCoStar", data-i18n="nav.star")
-                        else
-                          - lastViewed = window.localStorage.getItem('lastViewedCocoStarPage')
-                          - lastUpdated = window.localStorage.getItem('lastUpdatedCocoStarPage')
-                          a.text-p(href="/CoCoStar", data-i18n="nav.star", class=(!lastViewed || lastViewed < lastUpdated) ? 'notify-new' : '')
-                      li
-                        a.text-p(data-i18n="nav.aiyouth", href="http://aiyouth.koudashijie.com")
-                      -// li
-                      -//   a.text-p(data-i18n="nav.blog", href="https://blog.koudashijie.com")
-                      li
-                        a.text-p(data-event-action="Header Request Quote CTA", data-i18n="new_home.request_quote", href="/contact-cn")
-                    li
-                      if me.showChinaResourceInfo()
-                        if document.location.href.search('/events') >= 0
-                          a.text-p.text-teal(href="/events", data-i18n="nav.events")
-                        else
-                          - lastViewed = window.localStorage.getItem('lastViewedEventPage')
-                          - lastUpdated = window.localStorage.getItem('lastUpdatedEventPage')
-                          a.text-p(href="/events", data-i18n="nav.events", class=(!lastViewed || lastViewed < lastUpdated) ? 'notify-new' : '')
-                      else if document.location.href.search('/about') >= 0
-                        a.text-p.text-teal(href="/about", data-i18n="nav.about")
-                      else
-                        a.text-p(href="/about", data-i18n="nav.about")
-                    -// li
-                    -//   if document.location.href.search('/league') >= 0
-                    -//     a.text-p.text-teal(href="/league", data-i18n="nav.esports")
-                    -//   else
-                    -//     a.text-p(href="/league", data-i18n="nav.esports")
-                    -// li
-                    -//   if document.location.href.search('/parents') >= 0
-                    -//     a.text-p.text-teal(href="/parents", data-i18n="nav.parent")
-                    -//   else
-                    -//     a.text-p(href="/parents", data-i18n="nav.parent")
-                      -// if document.location.href.search('/impact') >= 0
-                      -//   a.text-p.text-teal(href="/impact", data-i18n="nav.impact")
-                      -// else
-                      -//   a.text-p(href="/impact", data-i18n="nav.impact")
-                    if me.isStudent()
-                      li
-                        if document.location.href.search('/students') >= 0
-                          a.text-p.text-teal(href="/students", data-i18n="nav.my_courses")
-                        else
-                          a.text-p(href="/students", data-i18n="nav.my_courses")
-                    if me.isSchoolAdmin()
-                        li
-                          a.text-p(href="/school-administrator", data-i18n="nav.my_teachers")
-                    if !me.isAnonymous() && me.isTeacher()
-                      li
-                        if document.location.href.search('/teachers/classes') >= 0
-                          a.text-p.text-teal(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                        else
-                          a.text-p(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                    if !me.isAnonymous() && !me.isStudent() && !me.isTeacher()
-                      li
-                        a.text-p(href="/play", data-i18n="common.play")
-                      if me.showForumLink()
-                        li
-                          a.text-p(href=view.forumLink(), data-i18n="nav.forum")
-
-                if !me.isAnonymous()
-                  ul.nav.navbar-nav
-                    if me.isTarena()
-                      li
-                        a.text-p#logout-button(data-i18n="login.log_out")
-                    else
-                      li.dropdown
-                        a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                          img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
-                          span(data-i18n="nav.my_account")
-                          span.caret
-                        ul.dropdown-menu
-                          li.user-dropdown-header.text-center.hidden-xs.hidden-sm
-                            a(href=`/user/${me.getSlugOrID()}`)
-                              img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
-                              h5=me.broadName()
-                              //- span.text-p= me.broadName()
-                          +accountLinks
-
-                ul.nav.navbar-nav
-                  li.dropdown
-                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      //- string replaced in RootView
-                      span.language-dropdown-current Language
-                      span.caret
-                    ul(class="dropdown-menu language-dropdown" class=(!me.isAnonymous() ? "pull-right" : ""))
-
-                if me.isAnonymous()
-                  ul.nav.navbar-nav.text-p.login-buttons
-                    li
-                      a#create-account-link.signup-button(data-event-action="Header Sign Up CTA", data-i18n="signup.sign_up")
-                    li
-                      a#login-link.login-button(data-event-action="Header Login CTA", data-i18n="signup.login")
-
-
   block page_nav
 
   block outer_content
@@ -162,92 +39,31 @@ mixin accountLinks
         p If this is showing, you dun goofed
 
   block footer
-    if !me.hideFooter()
-      .container-fluid
-        #footer.small
-          .container
-            .row
-              if me.showChinaResourceInfo()
-                .col-lg-12
-                  .row
-                    .col-lg-3
-                      h3(data-i18n="nav.general")
-                      ul.list-unstyled
-                        li
-                          a(href="/events", data-i18n="nav.events")
-                        //li
-                        //  a(href="/about#careers", data-i18n="nav.careers")
-                        if !me.isStudent()
-                          li
-                            a(href="/contact-cn", data-i18n="nav.contact")
-                        -// li
-                        -//   a(href="/parents", data-i18n="nav.parent")
-                        li
-                          a(href="/CoCoStar", data-i18n="nav.star")
-                        -// li
-                        -//   a(href="/impact", data-i18n="nav.impact")
-                    .col-lg-3
+    #footer.small
+      if !me.hideFooter()
+        .container
+          .row
+            if me.showChinaResourceInfo()
+              .col-lg-12
+                .row
+                  .col-lg-3
+                    h3(data-i18n="nav.general")
+                    ul.list-unstyled
+                      li
+                        a(href="/events", data-i18n="nav.events")
+                      //li
+                      //  a(href="/about#careers", data-i18n="nav.careers")
                       if !me.isStudent()
-                        h3(data-i18n="nav.educators")
-                        ul.list-unstyled
-                          li
-                            - var faqURL = "/teachers/resources/faq";
-                            - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
-                            -     faqURL = "/teachers/resources/faq-nl-NL";
-                            - if (me.get('preferredLanguage') == 'he')
-                            -     faqURL = "/teachers/resources/faq-HE";
-                            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-                            -     faqURL = "/teachers/resources/faq-pt-BR";
-                            - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-                            -     faqURL = "/teachers/resources/faq-zh-HANS";
-                            a(href=faqURL, data-i18n="teacher.educator_faq")
-                          li
-                            a(href="/teachers/resources", data-i18n="nav.resource_hub")
-                          li
-                            a(href="/teachers/resources") 课程体系
-                          li
-                            a(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                    .col-lg-3
-                      h3 相关链接
+                        li
+                          a(href="/contact-cn", data-i18n="nav.contact")
+                      -// li
+                      -//   a(href="/parents", data-i18n="nav.parent")
+                      li
+                        a(href="/CoCoStar", data-i18n="nav.star")
+                  .col-lg-3
+                    if !me.isStudent()
+                      h3(data-i18n="nav.educators")
                       ul.list-unstyled
-                        li
-                          a(href="https://xuetang.koudashijie.com") 扣哒学堂
-                        li
-                          a(href="https://aojiarui.com") 奥佳睿
-                        li
-                          a(href="http://aiyouth.koudashijie.com") AI世青赛
-                        li
-                          a(href="https://codecombat.163.com") 极客战记(个人版)
-                        -// li
-                        -//   a(href="https://codecombat.com") CodeCombat全球官网
-
-                    .col-lg-3
-                      h3(data-i18n="nav.follow_us")
-                      div.follow_us
-                        .socialicon
-                          .si.si-wechat
-                            .mpqrcode
-                              .span
-                                span='老师请扫'
-                                img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
-                              .span
-                                span='家长请扫'
-                                img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
-                          .si.si-tiktok
-                            .tkqrcode
-                              img.tkqr(src="https://assets.koudashijie.com/images/home/tiktokqr.jpg")
-                          a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
-                          a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
-              else
-                .col-lg-12
-                  .row
-                    .col-lg-3
-                      h3(data-i18n="nav.general")
-                      ul.list-unstyled
-                        li
-                          a(href="/about", data-i18n="nav.about")
-                        li
-                          a(href="/about#careers", data-i18n="nav.careers")
                         li
                           - var faqURL = "/teachers/resources/faq";
                           - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
@@ -262,54 +78,60 @@ mixin accountLinks
                         li
                           a(href="/teachers/resources", data-i18n="nav.resource_hub")
                         li
-                          a(href="https://ozaria.com", data-i18n="new_home.try_ozaria")
+                          a(href="/teachers/resources") 课程体系
                         li
                           a(href="/teachers/classes", data-i18n="nav.my_classrooms")
                   .col-lg-3
                     h3 相关链接
                     ul.list-unstyled
                       li
-                        a(href="https://codecombat.163.com") 极客战记（个人版）
+                        a(href="https://xuetang.koudashijie.com") 扣哒学堂
                       li
-                        a(href="https://aojiarui.com") 奥佳睿 - CodeCombat原创新作
+                        a(href="https://aojiarui.com") 奥佳睿
                       li
-                        a(href="https://codecombat.com") CodeCombat全球官网
+                        a(href="http://aiyouth.koudashijie.com") AI世青赛
+                      li
+                        a(href="https://codecombat.163.com") 极客战记(个人版)
 
-                        if me.isTeacher(true)
-                          li
-                            a.contact-modal(tabindex=-1, data-i18n="nav.contact")
-                        -// li
-                        -//   a(href="/parents", data-i18n="nav.parent")
+                  .col-lg-3
+                    h3(data-i18n="nav.follow_us")
+                    idv.follow_us
+                        .socialicon
+                          .si.si-wechat
+                            .mpqrcode
+                              .span
+                                span='老师请扫'
+                                img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+                              .span
+                                span='家长请扫'
+                                img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
+                          .si.si-tiktok
+                            .tkqrcode
+                              img.tkqr(src="https://assets.koudashijie.com/images/home/tiktokqr.jpg")
+                          a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
+                          a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
+ 
+            else
+              .col-lg-12
+                .row
+                  .col-lg-3
+                    h3(data-i18n="nav.general")
+                    ul.list-unstyled
+                      li
+                        a(href="/about", data-i18n="nav.about")
+                      li
+                        a(href="/about#careers", data-i18n="nav.careers")
+                      if !me.showChinaResourceInfo()
                         li
-                          a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
-                    .col-lg-3
-                      if !me.isStudent()
-                        h3(data-i18n="nav.educators")
-                        ul.list-unstyled
-                          li
-                            - var faqURL = "/teachers/resources/faq";
-                            - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
-                            -     faqURL = "/teachers/resources/faq-nl-NL";
-                            - if (me.get('preferredLanguage') == 'he')
-                            -     faqURL = "/teachers/resources/faq-HE";
-                            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-                            -     faqURL = "/teachers/resources/faq-pt-BR";
-                            - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-                            -     faqURL = "/teachers/resources/faq-zh-HANS";
-                            a(href=faqURL, data-i18n="teacher.educator_faq")
-                          li
-                            a(href="/teachers/resources", data-i18n="nav.resource_hub")
-                          li
-                            a(href="/apcsp", data-i18n="nav.apcsp")
-                          li
-                            a(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                    .col-lg-3
-                      h3(data-i18n="nav.get_involved")
+                          a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+                      li
+                        a(href="/parents", data-i18n="nav.parent")
+                      li
+                        a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
+                  .col-lg-3
+                    if !me.isStudent()
+                      h3(data-i18n="nav.educators")
                       ul.list-unstyled
-                        li
-                          a(href='/community', data-i18n="nav.community")
-                        li
-                          a(href="/play/ladder", data-i18n="game_menu.multiplayer_tab")
                         li
                           - var faqURL = "/teachers/resources/faq";
                           - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
@@ -338,35 +160,32 @@ mixin accountLinks
                         a(href="https://github.com/codecombat/codecombat") GitHub
                       if !me.isStudent() && me.showForumLink()
                         li
-                          a(href="https://github.com/codecombat/codecombat") GitHub
-                        if !me.isStudent() && me.showForumLink()
-                          li
-                            a(href=view.forumLink(), data-i18n="nav.forum")
-                    .col-lg-3
-                      if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
-                        h3(data-i18n="nav.follow_us")
-                        div.social-buttons
-                          a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA", target="_blank")
-                            img(src="/images/pages/base/youtube_symbol_button.png", width="40")
-                          a(href="https://twitter.com/codecombat", target="_blank")
-                            img(src="/images/pages/base/twitter_logo_btn.png", width="40")
-                          a(href="https://www.facebook.com/codecombat", target="_blank")
-                            img(src="/images/pages/base/facebook_logo_btn.png", width="40")
+                          a(href=view.forumLink(), data-i18n="nav.forum")
+                  .col-lg-3
+                    if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
+                      h3(data-i18n="nav.follow_us")
+                      div.social-buttons
+                        a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA", target="_blank")
+                          img(src="/images/pages/base/youtube_symbol_button.png", width="40")
+                        a(href="https://twitter.com/codecombat", target="_blank")
+                          img(src="/images/pages/base/twitter_logo_btn.png", width="40")
+                        a(href="https://www.facebook.com/codecombat", target="_blank")
+                          img(src="/images/pages/base/facebook_logo_btn.png", width="40")
 
-      #final-footer(dir="ltr")
-        img(src="/images/pages/base/logo.png" alt="CodeCombat")
-        .float-right
-          if me.showChinaResourceInfo()
-            - var {COCO_CHINA_CONST} = require('core/constants')
-            span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
-          span(data-i18n="nav.copyright_prefix")
-          span= ' ©2021 CodeCombat Inc. '
-          span.spl(data-i18n="nav.copyright_suffix")
-          if me.showChinaResourceInfo()
-            a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号
-            a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031936")
-              img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
-              span='京公网安备 11010802031936号'
+        #final-footer(dir="ltr")
+          img(src="/images/pages/base/logo.png" alt="CodeCombat")
+          .float-right
+            if me.showChinaResourceInfo()
+              - var {COCO_CHINA_CONST} = require('core/constants')
+              span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
+            span(data-i18n="nav.copyright_prefix")
+            span= ' ©2021 CodeCombat Inc. '
+            span.spl(data-i18n="nav.copyright_suffix")
+            if me.showChinaResourceInfo()
+              a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号
+              a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031936")
+                img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
+                span='京公网安备 11010802031936号'
 
-          a.small(href="/legal") Terms of Service
-          a.small(href="/privacy") Privacy
+            a.small(href="/legal") Terms of Service
+            a.small(href="/privacy") Privacy
