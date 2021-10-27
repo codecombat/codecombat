@@ -3255,6 +3255,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     main_description: 'The important events of codecombat China'
 
   outcomes:
+    outcomes_report: "Outcomes Report"
     customize_report: "Customize Report"
     done_customizing: "Done Customizing"
     school_admin: "School Administrator"
@@ -3268,6 +3269,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     wrote: "wrote..."
     across_an_estimated: "across an estimated..."
     in: "in..."
+    include: "include "
+    archived: "Archived"
+    max: "Max "
+    multiple: "s"
     computer_program: "computer_program"
     computer_programs: "computer_programs"
     line_of_code: "line of code"

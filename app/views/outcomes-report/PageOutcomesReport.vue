@@ -243,11 +243,18 @@ export default {
       return (courseId) => this.$store.state.courses.byId[courseId]
     },
 
+    logo () {
+      if (features.chinaInfra)
+        return '/images/pages/base/logo-cn.png'
+      return '/images/pages/base/logo.png'
+    },
+
     dateRangeDisplay () {
       const endDate = this.endDate || new Date()
+      const format = features.chinaInfra ? 'l' : 'MMM D, YYYY'
       if (!this.startDate)
-        return moment(endDate).format('MMM D, YYYY')
-      return moment(this.startDate).format('MMM D, YYYY') + ' – ' + moment(endDate).format('MMM D, YYYY')
+        return moment(endDate).format(format)
+      return moment(this.startDate).format(format) + ' – ' + moment(endDate).format(format)
     },
 
     earliestDate () {
@@ -292,10 +299,10 @@ main#page-outcomes-report
 
     .header
       div
-        img.print-logo(src="/images/pages/base/logo.png")
+        img.print-logo(:src="logo")
       div
         //h4 Outcomes Report - {{kind}} {{orgIdOrSlug}}
-        h4 Outcomes Report
+        h4= $t('outcomes.outcomes_report')
         h5
           span= dateRangeDisplay
           label.edit-label.editing-only(v-if="editing" for="startDate") &nbsp; (edit)
@@ -346,22 +353,22 @@ main#page-outcomes-report
       br
       .form-group
         label.control-label.col-xs-5(for="startDate")
-          span  Start date
+          span= $t('teacher.start_date')
         .col-xs-7
           input#startDate.form-control(type="date" v-model="startDate" name="startDate" :min="earliestDate" :max="latestDate")
       .form-group
         label.control-label.col-xs-5(for="endDate")
-          span  End date
+          span= $t('teacher.end_date')
         .col-xs-7
           input#endDate.form-control(type="date" v-model="endDate" name="endDate" :min="earliestDate" :max="latestDate")
       .form-group(v-if="childKind")
         label.control-label.col-xs-5(for="includeSubOrgs")
-          span  Include #{kindString({kind: childKind}).toLowerCase()}s
+          span #{$t('outcomes.include')}#{kindString({kind: childKind}).toLowerCase()}s
         .col-xs-7
           input#includeSubOrgs.form-control(type="checkbox" v-model="includeSubOrgs" name="includeSubOrgs")
       .form-group(v-if="childKind && includeSubOrgs")
         label.control-label.col-xs-5(for="$store.state.query.subOrgLimit")
-          span  Max #{kindString({kind: childKind}).toLowerCase()}s
+          span  #{$t("outcomes.max")}#{kindString({kind: childKind}).toLowerCase()}#{$t('outcomes.multiple')}
         .col-xs-7
           input#subOrgLimit.form-control(type="number" v-model.number="subOrgLimit" name="subOrgLimit" min="1" step="1")
     .clearfix
