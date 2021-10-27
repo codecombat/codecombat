@@ -40,9 +40,7 @@ module.exports = {
   fetchByOwner: (ownerId, options={}) ->
     projectionString = ""
     if Array.isArray(options.project)
-      projectionString += "&project=#{options.project.join(',')}"
-    if (options.includeShared)
-      projectionString += "&includeShared=true"
+      projectionString = "&project=#{options.project.join(',')}"
     fetchJson("/db/classroom?ownerID=#{ownerId}#{projectionString}", {
       method: 'GET'
     })
@@ -81,23 +79,6 @@ module.exports = {
     fetchJson("/db/classroom/#{classroomID}",  _.assign({}, options, {
       method: 'PUT'
       json: updates
-    }))
-
-  addPermission: ({ classroomID, permission }) ->
-    fetchJson("/db/classroom/#{classroomID}/permission",  _.assign({}, {
-      method: 'POST'
-      json: { permission }
-    }))
-
-  getPermission: ({ classroomID }) ->
-    fetchJson("/db/classroom/#{classroomID}/permission", {
-      method: 'GET'
-    })
-
-  removePermission: ({ classroomID, permission }) ->
-    fetchJson("/db/classroom/#{classroomID}/permission",  _.assign({}, {
-      method: 'DELETE'
-      json: { permission }
     }))
 
 }

@@ -66,15 +66,7 @@
       async regenerateClassCode () {
         this.regenerationInProgress = true;
         window.tracker?.trackEvent('Add Students: Request New Class Code Clicked', { category: 'Teachers', label: this.from })
-        try {
-          await this.updateClassroom({ classroom:this.classroom, updates: { codeCamel: '', code: '' } });
-        } catch(err) {
-          noty({
-            text: `Error occurred: ${err}`,
-            type: 'error',
-            timeout: 5000
-          })
-        }
+        await this.updateClassroom({ classroom:this.classroom, updates: { codeCamel: '', code: '' } });
         this.regenerationInProgress = false;
       },
     }

@@ -83,7 +83,7 @@ export default {
   },
 
   actions: {
-    fetchGameContentForClassroom: ({ commit, state }, { classroomId, options = {} }) => {
+    fetchGameContentForClassoom: ({ commit, state }, { classroomId, options = {} }) => {
       if (state.gameContent.byClassroom[classroomId] && !options.forceGameContentFetch) {
         return Promise.resolve()
       }

@@ -7,8 +7,7 @@ export default {
   state: () => ({
     visible: false,
     selectedCampaignId: undefined,
-    selectedLanguage: 'python',
-    hasAccessViaSharedClass: false
+    selectedLanguage: 'python'
   }),
 
   mutations: {
@@ -26,9 +25,6 @@ export default {
 
     setSelectedLanguage (state, language) {
       state.selectedLanguage = language
-    },
-    setAccessViaSharedClass(state, access) {
-      state.hasAccessViaSharedClass = access
     }
   },
 
@@ -38,10 +34,10 @@ export default {
       return courses
     },
 
-    isOnLockedCampaign (state, getters, _rootState, rootGetters) {
+    isOnLockedCampaign (_state, getters, _rootState, rootGetters) {
       const course = getters.getCurrentCourse
       const isPaidTeacher = rootGetters['me/isPaidTeacher']
-      return !(course?.free || isPaidTeacher || state.hasAccessViaSharedClass)
+      return !(course?.free || isPaidTeacher)
     },
 
     selectedChapterId (state) {
@@ -140,9 +136,6 @@ export default {
 
     setSelectedCampaign ({ state, commit }, campaignID) {
       commit('setSelectedCampaignId', campaignID)
-    },
-    setAccessViaSharedClass({ commit }, access) {
-      commit('setAccessViaSharedClass', access)
     }
   }
 }

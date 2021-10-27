@@ -107,11 +107,11 @@ export default {
   },
 
   actions: {
-    fetchPrepaidsForTeacher: ({ commit }, { teacherId, sharedClassroomId }) => {
+    fetchPrepaidsForTeacher: ({ commit }, teacherId) => {
       commit('toggleLoadingForTeacher', teacherId)
 
       // Fetch teacher's prepaids and shared prepaids.
-      return prepaidsApi.getByCreator(teacherId, { data: { includeShared: true, sharedClassroomId } })
+      return prepaidsApi.getByCreator(teacherId, { data: { includeShared: true } })
         .then(res => {
           if (res) {
             commit('addPrepaidsForTeacher', {
@@ -158,7 +158,7 @@ export default {
         })
     },
 
-    async applyLicenses ({ getters }, { members, teacherId, sharedClassroomId }) {
+    async applyLicenses ({ getters }, { members, teacherId }) {
       const prepaids = getters.getPrepaidsByTeacher(teacherId)
       if (!prepaids) {
         throw new Error(`no prepaids for the teacher`)
@@ -234,7 +234,7 @@ export default {
         const availableLicenses = Math.min(unenrolledStudents.length, prepaid.openSpots())
         for (let i = 0; i < availableLicenses; i++) {
           const user = unenrolledStudents.pop()
-          requests.push(prepaid.redeem(user.get('_id'), { data: { sharedClassroomId } }))
+          requests.push(prepaid.redeem(user.get('_id')))
         }
       }
 
@@ -242,7 +242,7 @@ export default {
       await Promise.all(requests)
     },
 
-    async revokeLicenses (_, { members, sharedClassroomId }) {
+    async revokeLicenses (_, { members }) {
       const students = members.map(data => new User(data)).filter(u => u.isEnrolled())
 
       const existsLicenseToRevoke = students.length > 0
@@ -288,8 +288,7 @@ export default {
             error: () => {
               console.error(`Didn't revoke this license`)
               resolve()
-            },
-            data: { sharedClassroomId }
+            }
           })
         ))
       }
