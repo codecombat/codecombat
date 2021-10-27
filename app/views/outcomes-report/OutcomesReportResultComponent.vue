@@ -164,7 +164,7 @@ export default Vue.extend({
     p
       b
         if org.archived
-          em Archived:
+          em #{$t("outcomes.archived")}:
         else
           span #{kindString}:
       span= " "
@@ -181,11 +181,11 @@ export default Vue.extend({
       if codeLanguageString
         span  (#{codeLanguageString})
       if !included && org.progress && org.progress.studentsWithCode && org.kind != 'student'
-        span  - #{org.progress.studentsWithCode} students
+        span  - #{org.progress.studentsWithCode} #{$t('courses.students')}
       label.edit-label.editing-only(:for="'includeOrg-' + org._id" v-if="editing && isSubOrg")
         span  &nbsp;
         input(:id="'includeOrg-' + org._id" name="'includeOrg-' + org._id" type="checkbox" v-model="included")
-        span  include
+        span= $t('outcomes.include')
       if included && isAdmin && editing
         span(v-if="org.address")
           br
