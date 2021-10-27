@@ -59,7 +59,10 @@
         classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
         gameContent: 'teacherDashboard/getGameContentCurrentClassroom',
         editingStudent: 'baseSingleClass/currentEditingStudent',
-        getCourseInstancesForClass: 'courseInstances/getCourseInstancesForClass'
+        getCourseInstancesForClass: 'courseInstances/getCourseInstancesForClass',
+        getClassroomById: 'classrooms/getClassroomById',
+        getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
+        getActiveClassrooms: 'teacherDashboard/getActiveClassrooms'
       }),
 
       modules () {
@@ -71,7 +74,7 @@
         const intros = (this.gameContent[selectedCourseId] || {}).introLevels
 
         const modulesForTable = []
-        const courseInstances = this.getCourseInstancesForClass(this.classroom.ownerID, this.classroom._id)
+        const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
         const assignmentMap = new Map()
         for (const { courseID, members } of courseInstances) {
           assignmentMap.set(courseID, new Set(members || []))
@@ -98,7 +101,6 @@
           const classSummaryProgressMap = new Map(translatedModuleContent.map((content) => {
             return [content._id, { status: 'assigned', flagCount: 0 }]
           }))
-
           // Iterate over all the students and all the sessions for the student.
           for (const student of this.students) {
             const studentSessions = this.levelSessionsMapByUser[student._id] || {}
@@ -224,7 +226,6 @@
               return defaultProgressDot
             })
           }
-
           moduleStatsForTable.classSummaryProgress = Array.from(classSummaryProgressMap.values())
             .map(({ status, flagCount }) => ({
               status,
@@ -303,14 +304,22 @@
     watch: {
       classroomId (newId) {
         this.setClassroomId(newId)
-        this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
+        this.fetchClassroomData(newId)
       }
     },
 
     mounted () {
-      this.setTeacherId(this.teacherId || me.get('_id'))
+      const areTeacherClassesFetched = this.getActiveClassrooms.length !== 0
       this.setClassroomId(this.classroomId)
-      this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
+      this.fetchClassroomById(this.classroomId)
+        .then(() => {
+          this.setTeacherId(me.get('_id'))
+          this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
+          // this is for my classes tab showing classnames. If user lands up on a single class page directly, they will only see 1 class in tab if not for this fetch below
+          if (!areTeacherClassesFetched) {
+            this.fetchClassroomsForTeacher({ teacherId: me.get('_id') })
+          }
+        })
     },
 
     beforeRouteUpdate (to, from, next) {
@@ -337,7 +346,9 @@
         clearSelectedStudents: 'baseSingleClass/clearSelectedStudents',
         addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
         lockSelectedStudents: 'baseSingleClass/lockSelectedStudents',
-        unlockSelectedStudents: 'baseSingleClass/unlockSelectedStudents'
+        unlockSelectedStudents: 'baseSingleClass/unlockSelectedStudents',
+        fetchClassroomById: 'classrooms/fetchClassroomForId',
+        fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher'
       }),
 
       ...mapMutations({
@@ -347,6 +358,13 @@
         setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom',
         closePanel: 'teacherDashboardPanel/closePanel'
       }),
+
+      async fetchClassroomData (classroomId) {
+        if (!this.getClassroomById(classroomId)) {
+          await this.fetchClassroomById(classroomId)
+        }
+        this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
+      },
 
       onChangeStudentSort (sortMethod) {
         this.sortMethod = sortMethod

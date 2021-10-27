@@ -1,9 +1,17 @@
 <script>
-  import { mapGetters } from 'vuex'
+  import {mapActions, mapGetters} from 'vuex'
   import ModalGetLicenses from '../modals/ModalGetLicenses'
   export default {
     components: {
       ModalGetLicenses
+    },
+    props: {
+      selectedTeacherId: {
+        type: String,
+      },
+      sharedClassroomId: {
+        type: String
+      }
     },
     data: () => {
       return {
@@ -17,17 +25,31 @@
       }),
 
       totalUsedLicenses () {
-        return this.getLicensesStatsByTeacher(this.teacherId).usedLicenses
+        return this.getLicensesStatsByTeacher(this.currentTeacherId).usedLicenses
       },
 
       totalSpots () {
-        return this.getLicensesStatsByTeacher(this.teacherId).totalSpots
+        return this.getLicensesStatsByTeacher(this.currentTeacherId).totalSpots
+      },
+      currentTeacherId () {
+        return this.selectedTeacherId || this.teacherId
+      },
+      showRequestLicense () {
+        return this.currentTeacherId === me.get('_id')
       }
     },
     methods: {
+      ...mapActions({
+        fetchPrepaidsForTeacher: 'prepaids/fetchPrepaidsForTeacher'
+      }),
       clickRequestLicenses () {
         window.tracker?.trackEvent('Request Licenses Clicked', { category: 'Teachers', label: `${this.$route.path}` })
         this.showModalGetLicenses = true
+      }
+    },
+    mounted() {
+      if (this.selectedTeacherId && this.selectedTeacherId !== this.teacherId) {
+        this.fetchPrepaidsForTeacher({ teacherId: this.selectedTeacherId, sharedClassroomId: this.sharedClassroomId })
       }
     }
   }
@@ -41,7 +63,7 @@
       id="license-text"
     >
       <span>{{ $t('teacher_dashboard.no_licenses_yet') }}</span>
-      <a @click="clickRequestLicenses">{{ $t('teacher_dashboard.req_licenses') }}</a>
+      <a @click="clickRequestLicenses" v-if="this.showRequestLicense">{{ $t('teacher_dashboard.req_licenses') }}</a>
     </div>
     <div v-else id="license-text">
       <span>{{ $t('teacher_dashboard.license_ratio_used', { totalUsedLicenses, totalSpots }) }}</span>

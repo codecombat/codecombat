@@ -238,7 +238,7 @@ export default {
     // SchoolAdmin licenses page
     async fetchDataMyLicenses ({ state, dispatch }, options = {}) {
       const fetchPromises = []
-      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.schoolAdminId, { root: true }))
+      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.schoolAdminId }, { root: true }))
       fetchPromises.push(dispatch('fetchDataAdministratedTeachers', options)) // needed for classroom-membership-history
 
       await Promise.all(fetchPromises)
@@ -263,7 +263,7 @@ export default {
 
     // Curriculum guides panel
     async fetchDataCurriculumGuide ({ state, dispatch, rootGetters }) {
-      dispatch('prepaids/fetchPrepaidsForTeacher', state.schoolAdminId, { root: true }) // needed so that curr guide can check if its a paid school admin user or not
+      dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.schoolAdminId }, { root: true }) // needed so that curr guide can check if its a paid school admin user or not
       dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true })
     }
   }

@@ -17058,6 +17058,11 @@
       "resolved": "https://registry.npmjs.org/vue/-/vue-2.6.10.tgz",
       "integrity": "sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ=="
     },
+    "vue-async-computed": {
+      "version": "3.9.0",
+      "resolved": "https://registry.npmjs.org/vue-async-computed/-/vue-async-computed-3.9.0.tgz",
+      "integrity": "sha512-ac6m/9zxHHNGGKNOU1en8qNk+fAmEbJLuWL7qyQTFuH3vjv3V4urv//QHcVzCobROM6btnaDG2b+XYMncF/ETA=="
+    },
     "vue-codemirror": {
       "version": "4.0.6",
       "resolved": "https://registry.npmjs.org/vue-codemirror/-/vue-codemirror-4.0.6.tgz",

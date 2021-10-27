@@ -1942,6 +1942,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building."
     current_classes: "Current Classes"
     archived_classes: "Archived Classes"
+    shared_classes: "Shared Classes"
     archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
     view_class: "view class"
     archive_class: "archive class"
@@ -3378,7 +3379,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     want_to_save_tooltip: '<h3>Want to save your progress?</h3><p>Please create a student account and play Ozaria as a student if you would like to save your progress.</p>'
     intro_explain_tooltip: '<b>"Intros"</b> introduce new concepts or further the storyline in a scaffolded way. They typically include Cinematics and/or Concept Checks.'
     chapter_num: 'Chapter __num__'
-
+    read: 'View Only'
+    write: 'Full Access'
+    read_blurb: 'View Only permits the added teacher to view your class and student progress without the ability to make changes to your class.'
+    write_blurb: 'Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)'
+    shared_with_none: 'This class is not currently shared with any other teachers.'
+    share_info: 'To give other teachers access to the class, add their emails below.'
+    class_owner: 'Class Owner'
+    share: 'Share'
   outcomes:
     school_admin: "School Administrator"
     school_network: "School Network"
