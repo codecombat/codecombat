@@ -93,6 +93,4 @@ _.extend ClassroomSchema.properties,
 c.extendBasicProperties ClassroomSchema, 'Classroom'
 ClassroomSchema.properties.settings.additionalProperties = true
 
-c.extendPermissionsProperties ClassroomSchema
-
 module.exports = ClassroomSchema

@@ -35,18 +35,10 @@
       :code-camel="classroomStats.codeCamel"
       :archived="classroomStats.archived"
       :display-only="displayOnly"
-      :share-permission="classroomStats.sharePermission"
       @clickTeacherArchiveModalButton="$emit('clickTeacherArchiveModalButton')"
       @clickAddStudentsModalButton="$emit('clickAddStudentsModalButton')"
-      @clickShareClassWithTeacherModalButton="$emit('clickShareClassWithTeacherModalButton')"
     />
-    <!--
-      can be enabled for shared once in addition to fetchCourseInstancesForTeacher, we do it for all shared class whose owner is not this logged in teacher
-    -->
-    <class-chapter-summaries
-      v-if="!classroomStats.sharePermission"
-      :chapter-progress="chapterStats"
-    />
+    <class-chapter-summaries :chapter-progress="chapterStats" />
   </div>
 </template>
 

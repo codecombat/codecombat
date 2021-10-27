@@ -86,22 +86,9 @@ export default {
         return []
       }
     },
-    getSharedClassrooms (state, _getters, _rootState, rootGetters) {
-      if (state.teacherId) {
-        return rootGetters['classrooms/getSharedClassroomsByTeacher'](state.teacherId) || []
-      } else {
-        return []
-      }
-    },
     getCurrentClassroom (state, _getters, _rootState, rootGetters) {
       if (state.teacherId && state.classroomId) {
-        let classrooms = [
-          ...(rootGetters['classrooms/getActiveClassroomsByTeacher'](state.teacherId) || []),
-          ...(rootGetters['classrooms/getSharedClassroomsByTeacher'](state.teacherId) || [])
-        ]
-        if (!classrooms || classrooms.length === 0){
-          return rootGetters['classrooms/getClassroomById'](state.classroomId) || {}
-        }
+        const classrooms = rootGetters['classrooms/getActiveClassroomsByTeacher'](state.teacherId) || []
         return classrooms.find((c) => c._id === state.classroomId) || {}
       } else {
         return {}
@@ -236,7 +223,7 @@ export default {
         })
       }
 
-      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.teacherId }, { root: true }))
+      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
 
       await Promise.all(fetchPromises)
@@ -247,7 +234,7 @@ export default {
     async fetchDataSingleClass ({ state, dispatch }, options = {}) {
       const fetchPromises = []
 
-      fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForClassroom', state.classroomId, { root: true }))
+      fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
 
       options.fetchInteractiveSessions = true
@@ -257,19 +244,10 @@ export default {
     },
 
     // Single class progress page - without blocking loading indicator
-    async fetchDataSingleClassAsync ({ state, dispatch, getters }, options = {}) {
+    async fetchDataSingleClassAsync ({ state, dispatch }, options = {}) {
       const fetchPromises = []
 
-      let isSharedClass = false
-      let teacherId = state.teacherId
-      const classroom = getters['getCurrentClassroom']
-      if (classroom) {
-        isSharedClass = (classroom.permissions || []).find((p) => p.target === me.get('_id'))
-        if (isSharedClass) {
-          teacherId = classroom.ownerID
-        }
-      }
-      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: teacherId, sharedClassroomId: (isSharedClass ? state.classroomId : null) }, { root: true }))
+      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
 
       await Promise.all(fetchPromises)
@@ -289,7 +267,7 @@ export default {
     // Students progress page - without blocking loading indicator
     async fetchDataStudentProjectsAsync ({ state, dispatch }, options = {}) {
       const fetchPromises = []
-      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.teacherId }, { root: true }))
+      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       await Promise.all(fetchPromises)
     },
@@ -297,7 +275,7 @@ export default {
     // Teacher licenses page
     async fetchDataMyLicenses ({ state, dispatch }, options = {}) {
       const fetchPromises = []
-      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.teacherId }, { root: true }))
+      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
 
       await Promise.all(fetchPromises)
     },
@@ -322,7 +300,7 @@ export default {
     // Resource Hub Page
     async fetchDataResourceHubAsync ({ state, dispatch }, options = {}) {
       const fetchPromises = []
-      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.teacherId }, { root: true }))
+      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       // Note: Why do we need all the classes on the resource page?
       fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true }))
@@ -360,11 +338,14 @@ export default {
         return
       }
 
+      await dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true })
+
       const fetchPromises = []
 
-      fetchPromises.push(dispatch('gameContent/fetchGameContentForClassroom', { classroomId: state.classroomId, options }, { root: true }))
+      fetchPromises.push(dispatch('gameContent/fetchGameContentForClassoom', { classroomId: state.classroomId, options }, { root: true }))
 
-      const classroom = rootGetters['classrooms/getClassroomById'](state.classroomId)
+      const teacherClassrooms = rootGetters['classrooms/getClassroomsByTeacher'](state.teacherId)
+      const classroom = ((teacherClassrooms || {}).active || []).find((cl) => cl._id === state.classroomId)
       if (classroom) {
         const userOptions = {
           project: (options.data || {}).users

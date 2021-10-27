@@ -5,7 +5,6 @@
   import ModalEditClass from '../modals/ModalEditClass'
   import ModalAddStudents from '../modals/ModalAddStudents'
   import moment from 'moment'
-  import ModalShareWithTeachers from "../modals/ModalShareWithTeachers"
 
   import BannerWebinar from './components/BannerWebinar'
 
@@ -18,8 +17,7 @@
       ModalEditClass,
       ButtonsSchoolAdmin,
       BannerWebinar,
-      ModalAddStudents,
-      ModalShareWithTeachers,
+      ModalAddStudents
     },
 
     props: {
@@ -38,9 +36,7 @@
         showEditClassModal: false,
         showAddStudentsModal: false,
         editClassroomObject: {},
-        archiveHidden: true,
-        showShareClassWithTeacherModal: false,
-        sharedHidden: true,
+        archiveHidden: true
       }
     },
 
@@ -48,24 +44,22 @@
       ...mapGetters({
         activeClassrooms: 'teacherDashboard/getActiveClassrooms',
         archivedClassrooms: 'teacherDashboard/getArchivedClassrooms',
-        getTrackCategory: 'teacherDashboard/getTrackCategory',
-        sharedClassrooms: 'teacherDashboard/getSharedClassrooms',
+        getTrackCategory: 'teacherDashboard/getTrackCategory'
       }),
 
       sortedActiveClasses () {
         const classrooms = [...this.activeClassrooms]
-        classrooms.sort(this.classroomSortById)
+        classrooms.sort((a, b) =>
+          moment(parseInt(b._id.substring(0, 8), 16) * 1000).diff(moment(parseInt(a._id.substring(0, 8), 16) * 1000))
+        )
         return classrooms
       },
 
       sortedArchivedClassrooms () {
         const classrooms = [...this.archivedClassrooms]
-        classrooms.sort(this.classroomSortById)
-        return classrooms
-      },
-      sortedSharedClassrooms () {
-        const classrooms = [...this.sharedClassrooms]
-        classrooms.sort(this.classroomSortById)
+        classrooms.sort((a, b) =>
+          moment(parseInt(b._id.substring(0, 8), 16) * 1000).diff(moment(parseInt(a._id.substring(0, 8), 16) * 1000))
+        )
         return classrooms
       }
     },
@@ -74,11 +68,6 @@
       this.setTeacherId(this.teacherId || me.get('_id'))
       this.setPageTitle(PAGE_TITLES[this.$options.name])
       this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'All Classes: Loaded' } })
-        .then(() => {
-          if (this.sortedSharedClassrooms.length) {
-            this.sharedHidden = false
-          }
-        })
     },
 
     destroyed () {
@@ -111,16 +100,6 @@
         if (!this.archiveHidden) {
           window.tracker?.trackEvent('All Classes: Archived Classes Dropdown Opened', { category: this.getTrackCategory })
         }
-      },
-      clickSharedArrow () {
-        this.sharedHidden = !this.sharedHidden
-      },
-      openShareClassWithTeacherModal (classroom) {
-        this.showShareClassWithTeacherModal = true
-        this.editClassroomObject = classroom
-      },
-      classroomSortById(a, b) {
-        return moment(parseInt(b._id.substring(0, 8), 16) * 1000).diff(moment(parseInt(a._id.substring(0, 8), 16) * 1000))
       }
     }
   }
@@ -142,7 +121,6 @@
           class="class-stats"
           @clickTeacherArchiveModalButton="openEditModal(clas)"
           @clickAddStudentsModalButton="openAddModal(clas)"
-          @clickShareClassWithTeacherModalButton="openShareClassWithTeacherModal(clas)"
         />
         <buttons-school-admin
           v-if="displayOnly"
@@ -153,40 +131,9 @@
         />
       </div>
     </div>
-    
-    <div id="shared-classes">
-      <div class="shared-title title-tab">
-        <h1>{{ $t('teacher.shared_classes') }}</h1>
-        <div class="arrow-toggle" @click="clickSharedArrow">
-          <div v-if="!sharedHidden" class="arrow-icon-up" />
-          <div v-else class="arrow-icon-down" />
-        </div>
-      </div>
-  
-      <div
-        v-for="clas in sortedSharedClassrooms"
-        v-show="!sharedHidden"
-        :key="clas._id"
-        class="archived-class"
-      >
-        <class-stat-calculator
-          :classroom-state="clas"
-          :display-only="displayOnly"
-          class="class-stats"
-          @clickTeacherArchiveModalButton="openEditModal(clas)"
-          @clickAddStudentsModalButton="openAddModal(clas)"
-          @clickShareClassWithTeacherModalButton="openShareClassWithTeacherModal(clas)"
-        />
-        <buttons-school-admin
-          v-if="displayOnly"
-          class="buttons-school-admin"
-          :inactive="true"
-        />
-      </div>
-    </div>
 
     <div id="archived-area">
-      <div class="archived-title title-tab">
+      <div class="archived-title">
         <h1>{{ $t('teacher.archived_classes') }}</h1>
         <div class="arrow-toggle" @click="clickArchiveArrow">
           <div v-if="!archiveHidden" class="arrow-icon-up" />
@@ -224,11 +171,6 @@
       :classroom="editClassroomObject"
       @close="showAddStudentsModal = false"
     />
-    <modal-share-with-teachers
-      v-if="showShareClassWithTeacherModal"
-      :classroom="editClassroomObject"
-      @close="showShareClassWithTeacherModal = false"
-    />
   </div>
 </template>
 
@@ -237,10 +179,7 @@
   @import "ozaria/site/styles/common/variables.scss";
   @import "app/styles/ozaria/_ozaria-style-params.scss";
 
-  .shared-title {
-    margin-top: 100px;
-  }
-  .title-tab {
+  .archived-title {
     height: 50px;
     width: 100%;
     background: #f2f2f2;
@@ -250,6 +189,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    margin-top: 100px;
 
     h1 {
       @include font-h-4-nav-uppercase-black;
@@ -318,8 +259,5 @@
     transform: rotate(-135deg);
     width: 9px;
     height: 9px;
-  }
-  #shared-classes {
-    margin-bottom: 10px;
   }
 </style>

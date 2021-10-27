@@ -14,8 +14,7 @@ export default {
     },
 
     courseInstancesByTeacher: {},
-    courseInstanceById: {},
-    courseInstanceByClassroom: {}
+    courseInstanceById: {}
   },
 
   getters: {
@@ -23,9 +22,6 @@ export default {
     getCourseInstancesForClass: (state) => (teacherId, classroomId) => {
       const cis = state.courseInstancesByTeacher[teacherId] || []
       return cis.filter((ci) => ci.classroomID == classroomId)
-    },
-    getCourseInstancesOfClass: (state) => (classroomId) => {
-      return state.courseInstanceByClassroom[classroomId]
     }
   },
 
@@ -56,10 +52,6 @@ export default {
       Vue.set(state.courseInstanceById, id, instance)
     },
 
-    setCourseInstancesForClassroom: (state, { classroomId, instances }) => {
-      Vue.set(state.courseInstanceByClassroom, classroomId, instances)
-    },
-
     addCourseInstancesForTeacher: (state, { teacherId, instances }) => {
       const cis = (state.courseInstancesByTeacher[teacherId] || []).concat(instances)
       Vue.set(state.courseInstancesByTeacher, teacherId, cis)
@@ -86,22 +78,6 @@ export default {
         .finally(() => commit('toggleTeacherLoading', teacherId))
     },
 
-    fetchCourseInstancesForClassroom: ({ commit }, classroomId) => {
-      return courseInstancesApi
-        .fetchByClassroom(classroomId)
-        .then(res =>  {
-          if (res) {
-            commit('setCourseInstancesForClassroom', {
-              classroomId,
-              instances: res
-            })
-          } else {
-            throw new Error('Unexpected response from course instances by classroom API.')
-          }
-        })
-        .catch((e) => noty({ text: 'Failed to fetch course instances: ' + e, type: 'error', layout: 'topCenter', timeout: 5000 }))
-    },
-
     fetchCourseInstancesForId: ({ commit }, id) => {
       commit('toggleIdLoading', id)
 
@@ -124,7 +100,7 @@ export default {
     async assignCourse ({ rootGetters, state }, { course, members, classroom }) {
       const students = members.map(data => new User(data))
 
-      let courseInstance = state.courseInstanceByClassroom[classroom._id].find((ci) => ci.courseID === course._id)
+      let courseInstance = state.courseInstancesByTeacher[window.me.get('_id')]?.find(({ classroomID, courseID }) => courseID === course._id && classroomID === classroom._id)
       if (courseInstance === undefined) {
         courseInstance = new CourseInstance({
           courseID: course._id,
@@ -236,9 +212,9 @@ export default {
     },
 
     async removeCourse ({ state }, { course, members, classroom }) {
-      const courseInstanceData = state.courseInstanceByClassroom[classroom._id].find((ci) => ci.courseID === course._id)
+      const courseInstanceData = state.courseInstancesByTeacher[window.me.get('_id')].find(({ classroomID, courseID }) => courseID === course._id && classroomID === classroom._id)
       if (!courseInstanceData) {
-        noty({ text: `No course found to remove.`, type: 'error', layout: 'topCenter', timeout: 5000 })
+        noty({ text: `No course found to remove.`, type: 'error', layout: 'topCenter', timeout: 2000 })
         return
       }
       const courseInstance = new CourseInstance(courseInstanceData)

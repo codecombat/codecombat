@@ -82,7 +82,7 @@ describe('importClassrooms()', () => {
   });
 
   it('updates the linked classrooms in me.googleClassrooms while keeping the importedToOzaria value', async function(done) {
-
+    
     me.set('googleClassrooms', gClassrooms)
 
     // mark gClassrooms[0] as imported
@@ -132,14 +132,14 @@ describe('importClassrooms()', () => {
     importedClassroom.importedToOzaria = true
 
     expect(me.get('googleClassrooms').length).toBe(1)
-
+    
     // new classrooms data recieved from google classroom API - does not contain classroom id1
     const newGClassrooms = [{
       id: "id2",
       name: "test class 2"
     }]
     spyOn(GoogleClassroomHandler.gcApiHandler, 'loadClassroomsFromAPI').and.returnValue(Promise.resolve(newGClassrooms))
-
+  
     try {
       await GoogleClassroomHandler.importClassrooms()
       // me.googleClassrooms should contain old imported classroom id1 as well as new classroom id2
@@ -186,7 +186,7 @@ const gcStudents = [
 describe('importStudentsToClassroom(cocoClassroom)', () => {
   beforeEach((done) => {
     me.set(factories.makeUser({role: 'teacher'}).attributes)
-    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValue(Promise.resolve({students: gcStudents}))
+    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValue(Promise.resolve({students: gcStudents})) 
     done()
   })
 
@@ -205,8 +205,8 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
     })
 
     const classroomWithNewMembers = factories.makeClassroom({googleClassroomId: "id1", members: users.map((u) => u._id)})
-    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers))
-
+    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers)) 
+    
     try {
       const cocoClassroom = factories.makeClassroom({googleClassroomId: "id1"})
       const classroomNewMembers = await GoogleClassroomHandler.importStudentsToClassroom(cocoClassroom)
@@ -299,8 +299,8 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
 describe('importStudentsToClassroom(cocoClassroom)', () => {
   it('calls `loadStudentsFromAPI` multiple times until previous api call returns nextPageToken', async function(done) {
     me.set(factories.makeUser({role: 'teacher'}).attributes)
-    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValues(Promise.resolve({students: gcStudents[0], nextPageToken: 'abcd'}), Promise.resolve({students: gcStudents[1]}))
-
+    spyOn(GoogleClassroomHandler.gcApiHandler, 'loadStudentsFromAPI').and.returnValues(Promise.resolve({students: gcStudents[0], nextPageToken: 'abcd'}), Promise.resolve({students: gcStudents[1]})) 
+    
     const users = gcStudents.map((s) => {
       return factories.makeUser({
         gplusID: s.userId,
@@ -315,8 +315,8 @@ describe('importStudentsToClassroom(cocoClassroom)', () => {
     })
 
     const classroomWithNewMembers = factories.makeClassroom({googleClassroomId: "id1", members: users.map((u) => u._id)})
-    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers))
-
+    spyOn(api.classrooms, 'addMembers').and.returnValue(Promise.resolve(classroomWithNewMembers)) 
+    
     try {
       const cocoClassroom = factories.makeClassroom({googleClassroomId: "id1"})
       const classroomNewMembers = await GoogleClassroomHandler.importStudentsToClassroom(cocoClassroom)

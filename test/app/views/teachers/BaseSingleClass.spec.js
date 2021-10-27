@@ -55,17 +55,6 @@ const singleStudentMockData = (overrides) => {
         }
       ]
     },
-    getCourseInstancesOfClass: () => {
-      return [
-        {
-          courseID: MOCK_COURSE_ID,
-          members: members || [
-            // This is whether or not the student is assigned.
-            MOCK_STUDENT1_ID
-          ]
-        }
-      ]
-    },
     gameContent: {
       [MOCK_COURSE_ID]: {
         modules: {
@@ -128,11 +117,6 @@ describe('BaseSingleClass', () => {
         _id: 'mockID'
       },
       getCourseInstancesForClass: () => {
-        return [
-          { courseID: 'mockCourseID', members: [] }
-        ]
-      },
-      getCourseInstancesOfClass: () => {
         return [
           { courseID: 'mockCourseID', members: [] }
         ]
