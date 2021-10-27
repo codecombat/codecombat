@@ -3284,6 +3284,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     coverage_p2: "在扣哒世界，我们相信通过使用真实的代码编程，学生将为市场上计算机领域的工作和计算机科学的进一步学习做好最充分的准备，因此我们不为初学者提供基于模块的可视化编程语言，而是讲授 Python、JavaScript 和 C++ 这些今天被各大互联网公司广泛使用的编程语言。"
     questions: "想要了解更多信息？ 我们很乐意提供帮助。"
     reach_out_manager: "联系我们的客服人员 __name__ :"
+    stats_include: "更多数据还包括 __number__ 个其他__name__"
 
   league:
 #    student_register_1: "Become the next AI Champion!"

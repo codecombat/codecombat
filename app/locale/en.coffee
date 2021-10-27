@@ -3288,6 +3288,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     coverage_p2: 'At CodeCombat, we believe that students will be most prepared for both real-world computing jobs and further study of computer science by using real, typed code in full programming languages, so instead of using block-based visual programming languages for beginners, we teach Python and JavaScript – the same languages used widely today by companies ranging from Google to the New York Times.'
     questions: "Have questions or want more information? We'd be happy to help."
     reach_out_manager: "Reach out to your Account Manager __name__ at "
+    stats_include: "stats include __number__ other __name__"
 
   league:
     student_register_1: "Become the next AI Champion!"
