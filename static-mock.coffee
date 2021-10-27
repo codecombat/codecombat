@@ -16,7 +16,11 @@ exports.me =
   isAnonymous: () -> @get('anonymous')
   hasSubscription: () -> false
   isTeacher: () -> false
+  isHomeUser: () -> true
   isAdmin: () -> false
+  isSchoolAdmin: () -> false
+  isAPIClient: () -> false
+  isInGodMode: () -> false
   level: () -> 1
   useDexecure: -> true
   useSocialSignOn: -> true
@@ -25,16 +29,16 @@ exports.me =
   displayName: () -> ''
   broadName: () -> ''
   get: (prop) -> props[prop]
-  isOnPremiumServer: () -> false
   freeOnly: -> false
   isTarena: -> false
+  isILK: -> false
+  isTCode: -> false
   useTarenaLogo: -> false
   hideTopRightNav: -> false
   hideFooter: -> false
   useGoogleAnalytics: -> true
   showChinaVideo: -> false
   showForumLink: -> true
-  showGithubLink: -> true
   showChinaResourceInfo: -> false
   hideDiplomatModal: -> false
 

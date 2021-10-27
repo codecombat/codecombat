@@ -13,6 +13,10 @@ UserLib = {
   broadName: (user) ->
     return '(deleted)' if user.deleted
     name = _.filter([user.firstName, user.lastName]).join(' ')
+    if features?.china
+      name = user.firstName
+    unless /[a-z]/.test name
+      name = _.string.titleize name  # Rewrite all-uppercase names to title-case for display
     return name if name
     name = user.name
     return name if name
@@ -35,7 +39,9 @@ module.exports = class User extends CocoModel
     SCHOOL_ADMINISTRATOR: 'schoolAdministrator',
     ARTISAN: 'artisan',
     GOD_MODE: 'godmode',
-    LICENSOR: 'licensor'
+    LICENSOR: 'licensor',
+    API_CLIENT: 'apiclient',
+    ONLINE_TEACHER: 'onlineTeacher'
   }
 
   isAdmin: -> @PERMISSIONS.COCO_ADMIN in @get('permissions', true)
@@ -45,7 +51,6 @@ module.exports = class User extends CocoModel
   isSchoolAdmin: -> @PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
-  isIndividualUser: -> not @isStudent() and not User.isTeacher(@attributes)
 
   isInternal: ->
     email = @get('email')
@@ -56,6 +61,7 @@ module.exports = class User extends CocoModel
   broadName: -> User.broadName(@attributes)
 
   inEU: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.inEU(@get('country'))
+  addressesIncludeAdministrativeRegion: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.addressesIncludeAdministrativeRegion(@get('country'))
 
   getPhotoURL: (size=80) ->
     return '' if application.testing
@@ -95,6 +101,8 @@ module.exports = class User extends CocoModel
     @set 'emails', newSubs
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
+
+  isHomeUser: -> not @get('role')
 
   isStudent: -> @get('role') is 'student'
 
@@ -292,11 +300,6 @@ module.exports = class User extends CocoModel
   isForeverPremium: ->
     return @get('stripe')?.free is true
 
-  isOnPremiumServer: ->
-    return true if me.get('country') in ['china'] and (me.isPremium() or me.get('stripe'))
-    return true if features?.china
-    return false
-
   sendVerificationCode: (code) ->
     $.ajax({
       method: 'POST'
@@ -339,6 +342,32 @@ module.exports = class User extends CocoModel
       error: ->
         console.error "Couldn't save activity #{activityName}"
     })
+
+  startExperiment: (name, value, probability) ->
+    experiments = @get('experiments') ? []
+    return console.error "Already started experiment #{name}" if _.find experiments, name: name
+    return console.error "Invalid experiment name: #{name}" unless /^[a-z][\-a-z0-9]*$/.test name
+    return console.error "No experiment value provided" unless value?
+    return console.error "Probability should be between 0-1 if set" if probability? and not 0 <= probability <= 1
+    $.ajax
+      method: 'POST'
+      url: "/db/user/#{@id}/start-experiment"
+      data: {name, value, probability}
+      success: (attributes) =>
+        @set attributes
+      error: (jqxhr) ->
+        console.error "Couldn't start experiment #{name}:", jqxhr.responseJSON
+    experiment = name: name, value: value, startDate: new Date()  # Server date/save will be authoritative
+    experiment.probability = probability if probability?
+    experiments.push experiment
+    @set 'experiments', experiments
+    experiment
+
+  getExperimentValue: (experimentName, defaultValue=null, defaultValueIfAdmin=null) ->
+    # Latest experiment to start with this experiment name wins, in the off chance we have multiple duplicate entries
+    defaultValue = defaultValueIfAdmin if defaultValueIfAdmin? and @isAdmin()
+    experiments = _.sortBy(@get('experiments') ? [], 'startDate').reverse()
+    _.find(experiments, name: experimentName)?.value ? defaultValue
 
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
@@ -473,11 +502,19 @@ module.exports = class User extends CocoModel
     @fetch(options)
 
   loginPasswordUser: (usernameOrEmail, password, options={}) ->
+    options.xhrFields = { withCredentials: true }
     options.url = '/auth/login'
     options.type = 'POST'
-    options.xhrFields = { withCredentials: true }
     options.data ?= {}
     _.extend(options.data, { username: usernameOrEmail, password })
+    @fetch(options)
+
+  confirmBindAIYouth: (provider, token, options={}) ->
+    options.url = '/auth/bind-aiyouth'
+    options.type = 'POST'
+    options.data ?= {}
+    options.data.token = token
+    options.data.provider = provider
     @fetch(options)
 
   makeCoursePrepaid: ->
@@ -537,7 +574,7 @@ module.exports = class User extends CocoModel
 
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})
-    stripe.planID = 'basic'
+    stripe.planID = options.planID || 'basic'
     stripe.token = token.id
     stripe.couponID = options.couponID if options.couponID
     @set({stripe})
@@ -559,15 +596,22 @@ module.exports = class User extends CocoModel
     options.method = 'DELETE'
     return $.ajax(options)
 
-  age: -> utils.yearsSinceMonth me.get('birthday')
+  age: -> utils.yearsSinceMonth @get('birthday')
+
+  isRegisteredForAILeague: ->
+    # TODO: This logic could use some thinking about, and maybe an explicit field for when we want to be sure they have registered on purpose instead of happening to have these properties.
+    return false unless @get 'birthday'
+    return false unless @get 'email'
+    return false if @get 'unsubscribedFromMarketingEmails'
+    return false unless @get('emails')?.generalNews?.enabled
+    true
 
   # Feature Flags
   # Abstract raw settings away from specific UX changes
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
-  canBuyGems: -> not (features?.chinaUx ? false)
+  canBuyGems: -> false  # Disabled direct buying of gems around 2021-03-16
   constrainHeroHealth: -> features?.classroomItems ? false and @isStudent()
-  promptForClassroomSignup: -> not (features?.chinaUx ? false or window.serverConfig?.codeNinjas ? false or features?.brainPop ? false)
-  showAvatarOnStudentDashboard: -> not (features?.classroomItems ? false) and @isStudent()
+  promptForClassroomSignup: -> not ((features?.chinaUx ? false) or (window.serverConfig?.codeNinjas ? false) or (features?.brainPop ? false))
   showGearRestrictionsInClassroom: -> features?.classroomItems ? false and @isStudent()
   showGemsAndXp: -> features?.classroomItems ? false and @isStudent()
   showHeroAndInventoryModalsToStudents: -> features?.classroomItems and @isStudent()
@@ -576,17 +620,19 @@ module.exports = class User extends CocoModel
   useSocialSignOn: -> not ((features?.chinaUx ? false) or (features?.china ? false))
   isTarena: -> features?.Tarena ? false
   useTarenaLogo: -> @isTarena()
-  hideTopRightNav: -> @isTarena()
-  hideFooter: -> @isTarena()
-  useGoogleClassroom: -> not (features?.chinaUx ? false) and me.get('gplusID')?   # if signed in using google SSO
+  hideTopRightNav: -> @isTarena() or @isILK() or @isICode()
+  hideFooter: -> @isTarena() or @isILK() or @isICode()
+  hideOtherProductCTAs: -> @isTarena() or @isILK() or @isICode()
+  useGoogleClassroom: -> not (features?.chinaUx ? false) and @get('gplusID')?   # if signed in using google SSO
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   useDataDog: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "5d1a8368abd38e8b5363bad9" # teacher can only access CH1 freely in China
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
+  isILK: -> @get('clientCreator') is '6082ec9996895d00a9b96e90' or _.find(@get('clientPermissions') ? [], client: '6082ec9996895d00a9b96e90')
+  isICode: -> @get('clientCreator') is '61393874c324991d0f68fc70' or _.find(@get('clientPermissions') ? [], client: '61393874c324991d0f68fc70')
   showForumLink: -> not (features?.china ? false)
-  showGithubLink: -> not (features?.china ? false)
   showChinaResourceInfo: -> features?.china ? false
   showChinaRegistration: -> features?.china ? false
   # Special flag to detect whether we're temporarily showing static html while loading full site

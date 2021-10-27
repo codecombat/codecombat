@@ -21,16 +21,16 @@ combineAncestralObject = (obj, propertyName) ->
   combined
 
 countries = [
-  {country: 'united-states', countryCode: 'US', ageOfConsent: 13}
-  {country: 'china', countryCode: 'CN'}
+  {country: 'united-states', countryCode: 'US', ageOfConsent: 13, addressesIncludeAdministrativeRegion:true}
+  {country: 'china', countryCode: 'CN', addressesIncludeAdministrativeRegion:true}
   {country: 'brazil', countryCode: 'BR'}
 
   # Loosely ordered by decreasing traffic as measured 2016-09-01 - 2016-11-07
   # TODO: switch to alphabetical ordering
   {country: 'united-kingdom', countryCode: 'GB', inEU: true, ageOfConsent: 13}
   {country: 'russia', countryCode: 'RU'}
-  {country: 'australia', countryCode: 'AU'}
-  {country: 'canada', countryCode: 'CA'}
+  {country: 'australia', countryCode: 'AU', addressesIncludeAdministrativeRegion:true}
+  {country: 'canada', countryCode: 'CA', addressesIncludeAdministrativeRegion:true}
   {country: 'france', countryCode: 'FR', inEU: true, ageOfConsent: 15}
   {country: 'taiwan', countryCode: 'TW'}
   {country: 'ukraine', countryCode: 'UA'}
@@ -46,25 +46,25 @@ countries = [
   {country: 'new-zealand', countryCode: 'NZ'}
   {country: 'finland', countryCode: 'FI', inEU: true, ageOfConsent: 13}
   {country: 'south-korea', countryCode: 'KR'}
-  {country: 'mexico', countryCode: 'MX'}
+  {country: 'mexico', countryCode: 'MX', addressesIncludeAdministrativeRegion:true}
   {country: 'vietnam', countryCode: 'VN'}
   {country: 'singapore', countryCode: 'SG'}
   {country: 'colombia', countryCode: 'CO'}
-  {country: 'india', countryCode: 'IN'}
+  {country: 'india', countryCode: 'IN', addressesIncludeAdministrativeRegion:true}
   {country: 'thailand', countryCode: 'TH'}
   {country: 'belgium', countryCode: 'BE', inEU: true, ageOfConsent: 13}
   {country: 'sweden', countryCode: 'SE', inEU: true, ageOfConsent: 13}
   {country: 'denmark', countryCode: 'DK', inEU: true, ageOfConsent: 13}
   {country: 'czech-republic', countryCode: 'CZ', inEU: true, ageOfConsent: 15}
   {country: 'hong-kong', countryCode: 'HK'}
-  {country: 'italy', countryCode: 'IT', inEU: true, ageOfConsent: 16}
+  {country: 'italy', countryCode: 'IT', inEU: true, ageOfConsent: 16, addressesIncludeAdministrativeRegion:true}
   {country: 'romania', countryCode: 'RO', inEU: true, ageOfConsent: 16}
   {country: 'belarus', countryCode: 'BY'}
   {country: 'norway', countryCode: 'NO', inEU: true, ageOfConsent: 13}  # GDPR applies to EFTA
   {country: 'philippines', countryCode: 'PH'}
   {country: 'lithuania', countryCode: 'LT', inEU: true, ageOfConsent: 16}
   {country: 'argentina', countryCode: 'AR'}
-  {country: 'malaysia', countryCode: 'MY'}
+  {country: 'malaysia', countryCode: 'MY', addressesIncludeAdministrativeRegion:true}
   {country: 'pakistan', countryCode: 'PK'}
   {country: 'serbia', countryCode: 'RS'}
   {country: 'greece', countryCode: 'GR', inEU: true, ageOfConsent: 15}
@@ -98,6 +98,8 @@ countries = [
 
 inEU = (country) -> !!_.find(countries, (c) => c.country is slugify(country))?.inEU
 
+addressesIncludeAdministrativeRegion = (country) -> !!_.find(countries, (c) => c.country is slugify(country))?.addressesIncludeAdministrativeRegion
+
 ageOfConsent = (countryName, defaultIfUnknown=0) ->
   return defaultIfUnknown unless countryName
   country = _.find(countries, (c) => c.country is slugify(countryName))
@@ -109,6 +111,18 @@ ageOfConsent = (countryName, defaultIfUnknown=0) ->
 countryCodeToFlagEmoji = (code) ->
   return code unless code?.length is 2
   (String.fromCodePoint(c.charCodeAt() + 0x1F1A5) for c in code.toUpperCase()).join('')
+
+countryCodeToName = (code) ->
+  return code unless code?.length is 2
+  return code unless country = _.find countries, countryCode: code.toUpperCase()
+  titleize country.country
+
+titleize = (s) ->
+  # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
+  _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
+
+campaignIDs =
+  CHAPTER_ONE: '5d1a8368abd38e8b5363bad9'
 
 freeCampaignIds = ['5d1a8368abd38e8b5363bad9'] # CH1 campaign
 internalCampaignIds = ['5eb34fc8dc0fd35e8eae66b0'] # CH2 playtest
@@ -202,10 +216,10 @@ petThangIDs = [
 ]
 
 premiumContent =
-  premiumHeroesCount: '12'
-  totalHeroesCount: '16'
-  premiumLevelsCount: '330'
-  freeLevelsCount: '100'
+  premiumHeroesCount: '15'
+  totalHeroesCount: '19'
+  premiumLevelsCount: '531'
+  freeLevelsCount: '5'
 
 # adds displayName and learning goals from intro levels content to the intro level given
 addIntroLevelContent = (introLevel, introLevelsContent) ->
@@ -548,6 +562,7 @@ capitalLanguages =
   'coffeescript': 'CoffeeScript'
   'python': 'Python'
   'java': 'Java'
+  'cpp': 'C++'
   'lua': 'Lua'
   'html': 'HTML'
 
@@ -851,6 +866,8 @@ isOldBrowser = () ->
 isCodeCombat = false
 isOzaria = true
 
+teamSpells = humans: ['hero-placeholder/plan'], ogres: ['hero-placeholder-1/plan']
+
 orgKindString = (kind, org=null) ->
   return 'State' if kind is 'administrative-region' and org?.country is 'US' and /^en/.test me.get('preferredLanguage')
   key = {
@@ -868,14 +885,17 @@ orgKindString = (kind, org=null) ->
 
 module.exports = {
   addIntroLevelContent
+  addressesIncludeAdministrativeRegion
   ageBrackets
   ageOfConsent
   ageToBracket
+  campaignIDs
   capitalLanguages
   clone
   combineAncestralObject
   countries
   countryCodeToFlagEmoji
+  countryCodeToName
   courseAcronyms
   courseIDs
   courseModules
@@ -927,6 +947,8 @@ module.exports = {
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
+  teamSpells
+  titleize
   usStateCodes
   userAgent
   videoLevels
