@@ -59,7 +59,9 @@
         classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
         gameContent: 'teacherDashboard/getGameContentCurrentClassroom',
         editingStudent: 'baseSingleClass/currentEditingStudent',
-        getCourseInstancesForClass: 'courseInstances/getCourseInstancesForClass'
+        getCourseInstancesForClass: 'courseInstances/getCourseInstancesForClass',
+        getClassroomById: 'classrooms/getClassroomById',
+        getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass'
       }),
 
       modules () {
@@ -71,7 +73,7 @@
         const intros = (this.gameContent[selectedCourseId] || {}).introLevels
 
         const modulesForTable = []
-        const courseInstances = this.getCourseInstancesForClass(this.classroom.ownerID, this.classroom._id)
+        const courseInstances = this.getCourseInstancesOfClass(this.classroom._id)
         const assignmentMap = new Map()
         for (const { courseID, members } of courseInstances) {
           assignmentMap.set(courseID, new Set(members || []))
@@ -98,7 +100,6 @@
           const classSummaryProgressMap = new Map(translatedModuleContent.map((content) => {
             return [content._id, { status: 'assigned', flagCount: 0 }]
           }))
-
           // Iterate over all the students and all the sessions for the student.
           for (const student of this.students) {
             const studentSessions = this.levelSessionsMapByUser[student._id] || {}
@@ -224,7 +225,6 @@
               return defaultProgressDot
             })
           }
-
           moduleStatsForTable.classSummaryProgress = Array.from(classSummaryProgressMap.values())
             .map(({ status, flagCount }) => ({
               status,
@@ -308,9 +308,12 @@
     },
 
     mounted () {
-      this.setTeacherId(this.teacherId || me.get('_id'))
       this.setClassroomId(this.classroomId)
-      this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
+      this.fetchClassroomById(this.classroomId)
+        .then(() => {
+          this.setTeacherId(me.get('_id'))
+          this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
+        })
     },
 
     beforeRouteUpdate (to, from, next) {
@@ -337,7 +340,8 @@
         clearSelectedStudents: 'baseSingleClass/clearSelectedStudents',
         addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
         lockSelectedStudents: 'baseSingleClass/lockSelectedStudents',
-        unlockSelectedStudents: 'baseSingleClass/unlockSelectedStudents'
+        unlockSelectedStudents: 'baseSingleClass/unlockSelectedStudents',
+        fetchClassroomById: 'classrooms/fetchClassroomForId'
       }),
 
       ...mapMutations({

@@ -5,6 +5,7 @@
   import NavSelectUnit from '../common/NavSelectUnit'
   import ClassInfoRow from './ClassInfoRow'
   import moment from 'moment'
+  import { getDisplayPermission } from '../../../common/utils'
 
   import { mapActions } from 'vuex'
 
@@ -57,12 +58,19 @@
       },
       classroomStudentsLength () {
         return (this.classroom.members || []).length
+      },
+      sharePermission () {
+        return this.allClassesPage ? null : (this.classroom.permissions || []).find(p => p.target === me.get('_id'))?.access
+      },
+      sharedClassroomId () {
+        return this.sharePermission ? this.classroom._id : undefined
       }
     },
 
     methods: {
       ...mapActions({
-        toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide'
+        toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide',
+        setCurriculumAccessViaSharedClass: 'baseCurriculumGuide/setAccessViaSharedClass'
       }),
 
       clickNewClass () {
@@ -71,6 +79,11 @@
       },
 
       clickCurriculumGuide () {
+        let hasAccess = false
+        if (this.sharePermission) {
+          hasAccess = true
+        }
+        this.setCurriculumAccessViaSharedClass(hasAccess)
         window.tracker?.trackEvent('Curriculum Guide Clicked', { category: 'Teachers', label: this.$route.path })
         this.toggleCurriculumGuide()
       }
@@ -88,10 +101,20 @@
         :language="classroomLanguage"
         :num-students="classroomStudentsLength"
         :date-created="classroomCreationDate"
+        :share-permission="sharePermission"
       />
     </div>
     <div class="sub-nav">
-      <licenses-component class="btn-margins-height" />
+      <div
+      v-if="sharePermission" class="small-text">
+        {{this.$t('teacher_dashboard.class_owner')}}:
+      </div>
+      <!--  we want to use classroom ownerID always even when class is not owned by teacher in case of shared classes since license is cut from owner -->
+      <licenses-component
+        class="btn-margins-height"
+        :selected-teacher-id="allClassesPage ? null : classroom.ownerID"
+        :shared-classroom-id="sharedClassroomId"
+      />
       <nav-select-unit
         v-if="showClassInfo"
         class="btn-margins-height"
@@ -192,6 +215,10 @@ h1 {
   &.short {
     max-width: calc(100vw - 1000px);
   }
+}
+
+.small-text {
+  font-size: small;
 }
 
 </style>
