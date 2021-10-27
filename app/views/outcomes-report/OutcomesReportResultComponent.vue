@@ -217,11 +217,11 @@ export default Vue.extend({
           span= $t('outcomes.classroom') + ': '
           a(:href="'/outcomes-report/classroom/' + classroom._id" target="_blank")
             b= classroom.name
-          span  #{classroom.codeLanguage} - #{formatNumber(classroom.studentCount)} $t('courses.students')
+          span  #{classroom.codeLanguage} - #{formatNumber(classroom.studentCount)} #{$t('courses.students')}
       if included && org.teachers && ['classroom', 'student'].indexOf(org.kind) != -1 && ['teacher', 'classroom'].indexOf(parentOrgKind) == -1
         for teacher in org.teachers
           br
-          span= $t('outcomes.teacher') + ': '
+          span= $t('courses.teacher') + ': '
           a(:href="'/outcomes-report/teacher/' + teacher._id" target="_blank")
             b= teacher.displayName
           if teacher.email
@@ -307,7 +307,7 @@ export default Vue.extend({
           = " "
           small= org.progress.studentsWithCode == 1 ? $t('courses.student') : $t('courses.students')
     if org.kind === 'student'
-      h4 #{org.displayName || org.name} $t('outcomes.wrote')
+      h4= (org.displayName || org.name) + $t('outcomes.wrote')
     else
       h4= $t('outcomes.wrote')
     .fakebar
