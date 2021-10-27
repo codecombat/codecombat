@@ -249,6 +249,10 @@ export default {
       return '/images/pages/base/logo.png'
     },
 
+    chinaInfra () {
+      return features.chinaInfra
+    },
+    
     dateRangeDisplay () {
       const endDate = this.endDate || new Date()
       const format = features.chinaInfra ? 'l' : 'MMM D, YYYY'
@@ -327,7 +331,7 @@ main#page-outcomes-report
     .dont-break(v-if="!loading")
       if subOrgs.length > subOrgLimit && !editing
         .block.other-sub-orgs
-          h3 (... stats include #{subOrgs.length - subOrgLimit} other #{kindString(subOrgs[0]).toLowerCase()}#{subOrgs.length - subOrgLimit > 1 ? 's' : ''} ...)
+          h3= '(... '+ $t('outcomes.stats_include', { number: subOrgs.length - subOrgLimit, name: kindString(subOrgs[0]).toLowerCase()}) + (subOrgs.length - subOrgLimit > 1 && !chinaInfra ? 's' : '') + ' ...)'
       img.anya(src="/images/pages/admin/outcomes-report/anya.png")
       .block.room-for-anya
         h1= $t('outcomes.standards_coverage')
