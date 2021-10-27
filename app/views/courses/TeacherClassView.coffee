@@ -112,6 +112,7 @@ module.exports = class TeacherClassView extends RootView
     @urls = require('core/urls')
 
     @debouncedRender = _.debounce @render
+    @debouncedRenderSelectors = _.debounce @renderSelectors, 800
     @calculateProgressAndLevels = _.debounce @calculateProgressAndLevelsAux, 800
 
     @state = new State(@getInitialState())
@@ -812,7 +813,7 @@ module.exports = class TeacherClassView extends RootView
             error: (prepaid, jqxhr) =>
               msg = jqxhr.responseJSON.message
               noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-            complete: => @debouncedRender()
+            complete: => @debouncedRenderSelectors('#license-status-table')
         })
 
   onClickSelectAll: (e) ->
