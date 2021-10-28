@@ -39,9 +39,14 @@ module.exports = MandateSchema = {
             min: {type: 'number', minimum: 1, exclusiveMinimum: true, format: 'seconds'}
             max: {type: 'number', minimum: 5, exclusiveMinimum: true, format: 'seconds'}
     currentTournament:
-      name: 'Current Tournament'
-      description: 'The identifier of the current active tournament, if any.'
-      type: 'string'
+      c.array {description: 'The arrays of the current active tournament, if any.'},
+      c.object {},
+        level: 'string',
+        courseInstanceID: c.objectId(),
+        startAt: 'integer',
+        endAt: 'integer',
+        name: 'string'
+    tournamentOnlyLevels: c.array { description: 'levels only accessible during tournament with specific course instance id'}, 'string'
 }
 
 c.extendBasicProperties MandateSchema, 'Mandate'
