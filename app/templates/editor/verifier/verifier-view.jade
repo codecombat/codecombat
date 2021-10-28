@@ -53,7 +53,6 @@ block content
           .progress-bar.progress-bar-warning(role="progressbar" style="width: #{100*view.problem/view.testCount}%")
           .progress-bar.progress-bar-danger(role="progressbar" style="width: #{100*view.failed/view.testCount}%")
 
-      // TODO: bring back simppleDescription display?
       each level in view.levelIDs
         - var testsForLevelByLanguage = view.testsByLevelAndLanguage[level] || {};
         each language in view.codeLanguages
@@ -76,13 +75,13 @@ block content
 
                 if !test.goals
                   h2.test-running= test.level.get('name')
-                    small= ' in ' + test.language + (test.solution.transpiled ? ' (transpiled)' : '') + ' - running'
+                    small= ' in ' + test.language + (test.solution.transpiled ? ' (transpiled)' : '') + ' ' + test.simpleDescription + ' - running'
                 else if test.isSuccessful()
                   h2.test-success= test.level.get('name')
-                    small= ' in ' + test.language + (test.solution.transpiled ? ' (transpiled)' : '') + ' - success'
+                    small= ' in ' + test.language + (test.solution.transpiled ? ' (transpiled)' : '') + ' ' + test.simpleDescription + ' - success'
                 else
                   h2.test-failed= test.level.get('name')
-                    small= ' in ' + test.language + (test.solution.transpiled ? ' (transpiled)' : '') + ' - failure'
+                    small= ' in ' + test.language + (test.solution.transpiled ? ' (transpiled)' : '') + ' ' + test.simpleDescription + ' - failure'
 
                 div.row(class=(test.isSuccessful() && !test.error ? 'collapse' : 'collapse in'), id='verifier-test-' + test.level.get('slug') + '-' + test.language + '-' + id)
                   div.col-xs-8

@@ -925,5 +925,4 @@ module.exports = {
   isOldBrowser
   isCodeCombat
   isOzaria
-  translatejs2cpp
 }
