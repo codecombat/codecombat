@@ -2,12 +2,14 @@
   import ClassInfoRow from '../../common/ClassInfoRow'
   import IconEllipsis from '../../common/icons/IconEllipsis'
   import IconButtonWithText from '../../common/buttons/IconButtonWithText'
+  import IconShareDusk from '../../common/icons/IconShareDusk'
 
   export default {
     components: {
       ClassInfoRow,
       IconEllipsis,
-      'icon-button-with-text': IconButtonWithText
+      'icon-button-with-text': IconButtonWithText,
+      IconShareDusk,
     },
     props: {
       classId: {
@@ -42,6 +44,10 @@
       displayOnly: {
         type: Boolean,
         default: false
+      },
+      sharePermission: {
+        type: String,
+        default: undefined,
       }
     },
     methods: {
@@ -75,6 +81,7 @@
           :language="language"
           :num-students="numStudents"
           :date-created="dateCreated"
+          :share-permission="sharePermission"
         />
       </router-link>
       <div
@@ -105,6 +112,14 @@
           :inactive="displayOnly"
           @click="$emit('clickAddStudentsModalButton')"
         />
+      </div>
+      <div
+        v-if="!displayOnly"
+        class="btn-ellipse share"
+        @click="$emit('clickShareClassWithTeacherModalButton')"
+      >
+        <icon-share-dusk />
+        <span class="share-text">{{this.$t('teacher_dashboard.share')}}</span>
       </div>
       <div
         v-if="!displayOnly"
@@ -236,5 +251,16 @@
     &:hover {
       box-shadow: inset 0px 3px 10px rgba(0,0,0,0.1);
     }
+  }
+  .share-text {
+    @include font-p-3-small-button-text-dusk-dark;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 12px;
+    margin: 0 4px;
+    text-align: left;
+  }
+  .share {
+    width: 100px;
   }
 </style>

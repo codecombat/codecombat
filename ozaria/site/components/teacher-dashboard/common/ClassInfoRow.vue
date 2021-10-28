@@ -1,5 +1,11 @@
 <script>
+  import { getDisplayPermission } from "../../../common/utils"
+  import IconShareGray from '../common/icons/IconShareGray'
+
   export default {
+    components: {
+      IconShareGray
+    },
     props: {
       language: {
         type: String,
@@ -13,6 +19,9 @@
       dateCreated: {
         type: String,
         required: true
+      },
+      sharePermission: {
+        type: String,
       }
     },
 
@@ -25,6 +34,11 @@
     created () {
       if (this.language && !['javascript', 'python'].includes(this.language)) {
         throw new Error(`Unexpected language prop passed into ClassInfoRow.vue. Got: '${this.langauge}'`)
+      }
+    },
+    methods: {
+      displayPermission(permission) {
+        return getDisplayPermission(permission)
       }
     }
   }
@@ -43,6 +57,13 @@
     <div class="stats-tab">
       <img src="/images/ozaria/teachers/dashboard/svg_icons/calendar.svg" />
       <span>{{ dateCreated }}</span>
+    </div>
+    <div
+      v-if="sharePermission"
+      class="stats-tab"
+    >
+      <icon-share-gray />
+      {{this.displayPermission(sharePermission)}}
     </div>
   </div>
 </template>
