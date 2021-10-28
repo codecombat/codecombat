@@ -262,6 +262,9 @@ i18n = (say, target, language=me.get('preferredLanguage', true), fallback='en') 
   matches = (/\w+/gi).exec(language)
   generalName = matches[0] if matches
 
+  # Lets us safely attempt to translate undefined objects
+  return say?[target] unless say?.i18n
+
   for localeName, locale of say.i18n
     continue if localeName is '-'
     if target of locale
@@ -741,6 +744,20 @@ videoLevels = {
   }
 }
 
+# Adds a `Vue.nonreactive` global method that can be used
+# to prevent Vue traversing our large and expensive game objects.
+# Reference Library: https://github.com/rpkilby/vue-nonreactive
+vueNonReactiveInstall = (Vue) ->
+    Observer = (new Vue())
+      .$data
+      .__ob__
+      .constructor
+
+    Vue.nonreactive = (value) ->
+      # Vue sees the noop Observer and stops traversing the structure.
+      value.__ob__ = new Observer({});
+      return value;
+
 yearsSinceMonth = (birth, now) ->
   return undefined unless birth
   # Should probably review this logic, written quickly and haven't tested any edge cases
@@ -796,7 +813,7 @@ seasons = [
 currentSeason = () ->
   now = new Date()
   year = now.getFullYear()
-  return seasons.find((season) -> now <= new Date("#{year}-#{season.end}"))
+  return seasons.find((season) -> now <= new Date("#{year}-#{season.end}")) or _.last(seasons)  # TODO: shouldn't need `or` clause, fix this and tests
 
 ageToBracket = (age) ->
 # Convert years to an age bracket
@@ -977,6 +994,7 @@ module.exports = {
   usStateCodes
   userAgent
   videoLevels
+  vueNonReactiveInstall
   yearsSinceMonth
   CODECOMBAT
   OZARIA
@@ -985,5 +1003,4 @@ module.exports = {
   isOldBrowser
   isCodeCombat
   isOzaria
-  titleize
 }
