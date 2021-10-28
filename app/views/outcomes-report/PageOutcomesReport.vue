@@ -382,6 +382,7 @@ main#page-outcomes-report
 
 <style lang="scss">
 #page-outcomes-report {
+  $twilight: #476fb1;
   font-family: 'Open Sans', sans-serif;
   background: transparent url(/images/pages/play/portal-background.png);
   /*margin-bottom: -50px;*/
@@ -411,7 +412,7 @@ main#page-outcomes-report
     }
 
     a[href]:after {
-      // Remove the " (" attr(href) ")" that Bootstrap adds
+      /* Remove the " (" attr(href) ")" that Bootstrap adds */
       content: none !important;
     }
 
@@ -471,8 +472,9 @@ main#page-outcomes-report
     padding-top: 0.1in;
     padding-left: 0.25in;
     padding-right: 0.25in;
-    background-color: #476FB1;
+    background-color: $twilight;
     -webkit-print-color-adjust: exact !important;
+    background: linear-gradient($twilight, $twilight) !important;
 
     .print-logo {
       margin: 0 0 0 0;

@@ -387,6 +387,12 @@ export default Vue.extend({
 
 <style lang="scss">
 #page-outcomes-report .outcomes-report-result-component {
+  $eve: #2d585a;
+  $dawn: #532e48;
+  $moon: #f7d047;
+  $dusk: #5db9ac;
+  $sun: #ff8600;
+
   .address {
     margin-top: 0.25in;
     padding-left: 0.5in;
@@ -437,19 +443,18 @@ export default Vue.extend({
       circle.top {
         fill: transparent;
         stroke-width: 50;
-        stroke: rgb(14, 75, 96);
+        stroke: $dawn;
 
-        // TODO: better colors
         &.top1 {
-          stroke: rgb(96, 14, 75);
+          stroke: $sun;
         }
 
         &.top2 {
-          stroke: rgb(75, 96, 14);
+          stroke: $dusk;
         }
       }
       circle.bottom {
-        fill: rgb(242, 190, 24);
+        fill: $moon;
       }
 
       &.code-language-stat {
@@ -566,9 +571,9 @@ export default Vue.extend({
       margin-top: 0.05in;
       margin-bottom: 0.15in;
 
-      background-color: rgb(31, 87, 43);
+      background-color: $eve;
       -webkit-print-color-adjust: exact !important;
-      background: linear-gradient(rgb(31, 87, 43), rgb(31, 87, 43)) !important;
+      background: linear-gradient($eve, $eve) !important;
 
       height: 0.4in;
       line-height: 0.4in;
