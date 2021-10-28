@@ -838,6 +838,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    vega_character: "Vega Character"
     click_to_continue: "點擊繼續"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Humans"
+#    play_as_ogres: "Play As Ogres"
 
   apis:
     methods: "方法"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "超過 500 位貢獻者協助建立 CodeCombat , 而且每週持續增加中！"
     community_description_3: "CodeCombat 是一個"
     community_description_link_2: "社群專案"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     blue_ai: "藍隊 CPU"
     wins: "勝利" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "紅隊" # Ladder page display team name
     ogres: "藍隊"
