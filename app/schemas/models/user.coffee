@@ -184,12 +184,10 @@ _.extend UserSchema.properties,
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
-  ozariaUserOptions: c.object( # 10/12/2019 Do not alter/remove or use this property on codecombat. Used on Ozaria.
+  ozariaUserOptions: c.object(
     {
       title: 'Player Ozaria Customization',
-      description: 'Player customization options, including hero name, objectId and applied color tints.',
-      # Ensure we can add new properties on the Ozaria server without breaking CodeCombat users.
-      additionalProperties: true
+      description: 'Player customization options, including hero name, objectId and applied color tints.'
     }, {
       isometricThangTypeOriginal: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The isometric ThangType of the hero.', format: 'thang-type'),
       cinematicThangTypeOriginal: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic Thang Type', description: 'The cinematic ThangType of the hero.', format: 'thang-type'),
@@ -394,8 +392,8 @@ _.extend UserSchema.properties,
   administratedTeachers: c.array {}, c.objectId()
   administratingTeachers: c.array {}, c.objectId()
 
-  seenNewDashboardModal: { type: 'boolean', description: 'OZARIA PROPERTY' }
-  closedNewTDGetStartedTooltip: { type: 'boolean', description: 'OZARIA PROPERTY' }
+  seenNewDashboardModal: { type: 'boolean', description: 'Whether the user has seen the new dashboard onboarding modal? Set to true after the modal is seen and closed by the user' }  # Ozaria
+  closedNewTDGetStartedTooltip: { type: 'boolean', description: 'Whether the user has closed the get started tooltip in the new dashboard? Set to true once the user has dismissed the tooltip' }  # Ozaria
 
   features:
     type: 'object'

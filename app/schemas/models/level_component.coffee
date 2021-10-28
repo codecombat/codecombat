@@ -23,7 +23,7 @@ PropertyDocumentationSchema = c.object {
   required: ['name', 'type', 'description']
 },
   name: {type: 'string', title: 'Name', description: 'Name of the property.'}
-  i18n: { type: 'object', format: 'i18n', props: ['name', 'description', 'context'], description: 'Help translate this property'}
+  i18n: { type: 'object', format: 'i18n', props: ['name', 'shortDescription', 'description', 'context'], description: 'Help translate this property'}
   context: {
     type: 'object'
     title: 'Example template context'
@@ -202,6 +202,7 @@ _.extend LevelComponentSchema.properties,
     format: 'i18n',
     props: ['context'], description: 'Help translate the code context'
   }
+  archived: { type: 'integer', description: 'Marks this component to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.'}
 
 c.extendBasicProperties LevelComponentSchema, 'level.component'
 c.extendSearchableProperties LevelComponentSchema

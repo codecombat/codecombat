@@ -103,6 +103,12 @@ ActionSchema = c.object {},
 
 SoundSchema = c.sound({delay: {type: 'number'}})
 
+RasterAtlasAnimationSchema = c.object {},
+  movieClipName: { type: 'string', title: 'MovieClip name in JavaScript file'}
+  textureAtlases: c.array { title: 'Texture Atlas Images' },
+    { type: 'string', format: 'image-file' }
+  movieClip: { type: 'string', title: 'MovieClip Javascript file', format: 'js-file' }
+
 _.extend ThangTypeSchema.properties,
   raw: c.object {title: 'Raw Vector Data', default: {shapes: {}, containers: {}, animations: {}}},
     shapes: c.object {title: 'Shapes', additionalProperties: ShapeObjectSchema}
@@ -130,7 +136,7 @@ _.extend ThangTypeSchema.properties,
   scale:
     title: 'Scale'
     type: 'number'
-  spriteType: { enum: ['singular', 'segmented'], title: 'Sprite Type' }
+  spriteType: { enum: ['singular', 'segmented', 'rasterAtlas'], title: 'Sprite Type' }
   positions: PositionsSchema
   raster: {type: 'string', format: 'image-file', title: 'Raster Image'}
   rasterIcon: { type: 'string', format: 'image-file', title: 'Raster Image Icon' }
@@ -175,6 +181,7 @@ _.extend ThangTypeSchema.properties,
   shortName: { type: 'string', title: 'Short Hero Name', description: 'The short form of the hero\'s name. Ex.: "Anya".' }
   unlockLevelName: {type: 'string', title: 'Unlock Level Name', description: 'The name of the level in which the hero is unlocked.'}
   tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this ThangType.'}, c.task
+  preLoadActions: c.array({title: 'Preload Actions', description: 'List of actions that should be rasterized immediately'}, c.shortString({ minLength: 1 }))
   prerenderedSpriteSheetData: c.array {title: 'Prerendered SpriteSheet Data'},
     c.object {title: 'SpriteSheet'},
       actionNames: { type: 'array' }
@@ -211,10 +218,17 @@ _.extend ThangTypeSchema.properties,
         type: 'number'
       }
       spriteType: { enum: ['singular', 'segmented'], title: 'Sprite Type' }
+  # rasterAtlasAnimations stores raster atlas data for different animation names as the key
+  rasterAtlasAnimations: {
+    title: 'Raster Atlas Animation Data',
+    type: 'object',
+    additionalProperties: {$ref: '#/definitions/rasterAtlasAnimationData'}
+  }
   restricted: {type: 'string', title: 'Restricted', description: 'If set, this ThangType will only be accessible by admins and whoever it is restricted to.'}
   releasePhase: { enum: ['beta', 'released'], description: "How far along the ThangType's development is, determining who sees it." }
   gender: { enum: ['female', 'male'], type: 'string', title: 'Hero Gender', description: 'Affects which paper doll image set and language pronouns to use.' }
   ozaria: { type: 'boolean', description: 'Marks this thang as an Ozaria only type. Used to prevent Ozaria hero\'s from appearing in CodeCombat hero selector.'}
+  archived: { type: 'integer', description: 'Marks this thang to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.'}
 
 ThangTypeSchema.required = []
 
@@ -224,6 +238,7 @@ ThangTypeSchema.default =
 ThangTypeSchema.definitions =
   action: ActionSchema
   sound: SoundSchema
+  rasterAtlasAnimationData: RasterAtlasAnimationSchema
 
 c.extendBasicProperties ThangTypeSchema, 'thang.type'
 c.extendSearchableProperties ThangTypeSchema

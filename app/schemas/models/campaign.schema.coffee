@@ -21,7 +21,8 @@ _.extend CampaignSchema.properties, {
     additionalProperties: false
     properties: {
       image: { type: 'string', format: 'image-file' }
-      width: { type: 'number' }
+      width: { type: 'number' } #- not required for ozaria campaigns
+      campaignPage: {type: 'number', title: 'Campaign page number', description: 'Give the page number if there are multiple pages in the campaign'}  # Oz-only
     }
   }
   backgroundColor: { type: 'string' }
@@ -53,6 +54,7 @@ _.extend CampaignSchema.properties, {
         ]
     }
   }}
+  isOzaria: {type: 'boolean', description: 'Is this an ozaria campaign', default: false }
   levelsUpdated: c.date()
 
   levels: { type: 'object', format: 'levels', additionalProperties: {
@@ -77,6 +79,27 @@ _.extend CampaignSchema.properties, {
 
       #- normal properties
       position: c.point2d()
+
+      # properties relevant for ozaria campaigns
+      nextLevels: {
+        type: 'object'
+        description: 'object containing next levels original id and their details'
+        format: 'levels' # key is level original id
+        additionalProperties: {
+          type: 'object'
+          format: 'nextLevel'
+          properties: {
+            nextLevelStage: {type: 'number', title: 'Next Level Stage', description: 'Which capstone stage is unlocked'}
+            conditions: c.object({}, {
+              afterCapstoneStage: {type: 'number', title: 'After Capstone Stage', description: 'What capstone stage needs to be completed to unlock this next level'}
+            })
+          }
+        }
+      }
+      first: {type: 'boolean', description: 'Is it the first level in the campaign', default: true }
+      campaignPage: {type: 'number', title: 'Campaign page number', description: 'Give the page number if there are multiple pages in the campaign'}
+      releasePhase: { enum: ['beta', 'internalRelease', 'released'], title: 'Release status', description: "Release status of the level, determining who sees it.", default: 'internalRelease' }
+      moduleNum: {type: 'number', title: 'Module number', default: 1}
 
       #- denormalized properties from Levels are cloned below
     }
@@ -127,6 +150,11 @@ CampaignSchema.denormalizedLevelProperties = [
   'campaign'
   'campaignIndex'
   'scoreTypes'
+  # Ozaria
+  'isPlayedInStages'
+  'ozariaType'
+  'introContent'
+  'displayName'
 ]
 hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
 for prop in CampaignSchema.denormalizedLevelProperties
