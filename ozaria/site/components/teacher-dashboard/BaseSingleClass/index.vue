@@ -74,7 +74,7 @@
         const intros = (this.gameContent[selectedCourseId] || {}).introLevels
 
         const modulesForTable = []
-        const courseInstances = this.getCourseInstancesOfClass(this.classroom._id)
+        const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
         const assignmentMap = new Map()
         for (const { courseID, members } of courseInstances) {
           assignmentMap.set(courseID, new Set(members || []))
