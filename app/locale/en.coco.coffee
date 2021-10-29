@@ -2440,7 +2440,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     watch_victory: "Watch your victory"
     defeat_the: "Defeat the"
     watch_battle: "Watch the battle"
-    tournament_starts: "Tournament starts"
+    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", started"
     tournament_ends: "Tournament ends"
     tournament_ended: "Tournament ended"
