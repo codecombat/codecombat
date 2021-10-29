@@ -411,7 +411,7 @@ main#page-outcomes-report
     }
 
     a[href]:after {
-      // Remove the " (" attr(href) ")" that Bootstrap adds
+      /* Remove the " (" attr(href) ")" that Bootstrap adds */
       content: none !important;
     }
 
