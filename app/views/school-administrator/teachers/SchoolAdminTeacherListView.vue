@@ -146,7 +146,7 @@
   <div>
     <h3>
       <span>{{ $t('school_administrator.my_teachers') }}</span>
-      <a class="pull-right" :href="'/outcomes-report/school-admin/' + myId" target="_blank">View Outcomes Report</a>
+      <a class="pull-right" :href="'/outcomes-report/school-admin/' + myId" target="_blank"> {{ $t('outcomes.view_outcomes_report') }}</a>
     </h3>
 
     <loading-progress :loading-status="teachersLoading">
