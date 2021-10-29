@@ -170,7 +170,7 @@ module.exports = class LadderView extends RootView
           @refreshTournamentTime()
 
         if @tournament.get('state') is 'initializing'
-          @tournamentEnd = false
+          @tournamentEnd = true
           newInterval = if @tournamentTimeElapsed < -10 * 1000 then Math.min(10 * 60 * 1000, -@tournamentTimeElapsed / 2) else 1000
         else if @tournament.get('state') is 'starting'
           @tournamentEnd = false

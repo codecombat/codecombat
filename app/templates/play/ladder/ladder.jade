@@ -107,8 +107,7 @@ block content
       if view.tournamentState == 'initializing'
         #tournament-status
           p
-            span(data-i18n="ladder.tournament_starts")
-            span.spl#tournament-time-elapsed= view.tournamentTimeElapsedString
+            span(data-i18n="ladder.tournament_starts" data-i18n-options={timeElapsed: view.tournamentTimeElapsedString})
       else if view.tournamentState == 'starting'
         #tournament-status
           p
