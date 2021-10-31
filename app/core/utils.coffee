@@ -124,6 +124,9 @@ titleize = (s) ->
 campaignIDs =
   INTRO: '55b29efd1cd6abe8ce07db0d'
 
+freeCampaignIds = [campaignIDs.INTRO] # CS1 campaign
+internalCampaignIds = [] # Ozaria has one of these, CoCo doesn't
+
 courseIDs =
   INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
   GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
@@ -952,6 +955,7 @@ module.exports = {
   findNextLevel
   formatDollarValue
   formatStudentLicenseStatusDate
+  freeCampaignIds
   functionCreators
   getApiClientIdFromEmail
   getByPath
@@ -969,6 +973,7 @@ module.exports = {
   i18n
   inEU
   injectCSS
+  internalCampaignIds
   isID
   isIE
   isRegionalSubscription
