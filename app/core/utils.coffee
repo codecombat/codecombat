@@ -124,7 +124,7 @@ titleize = (s) ->
 campaignIDs =
   CHAPTER_ONE: '5d1a8368abd38e8b5363bad9'
 
-freeCampaignIds = ['5d1a8368abd38e8b5363bad9'] # CH1 campaign
+freeCampaignIds = [campaignIDs.CHAPTER_ONE] # CH1 campaign
 internalCampaignIds = ['5eb34fc8dc0fd35e8eae66b0'] # CH2 playtest
 
 courseIDs =
