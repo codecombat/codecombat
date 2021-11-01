@@ -838,6 +838,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Humans"
+#    play_as_ogres: "Play As Ogres"
 
 #  apis:
 #    methods: "Methods"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "למעלה מ-500 תורמים כבר עוזרים לבנות את CodeCombat, ותורמים נוספים מצטרפים מדי שבוע!"
     community_description_3: "CodeCombat הוא"
     community_description_link_2: "פרויקט קהילתי"
@@ -2436,7 +2441,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     watch_victory: "צפו בניצחון שלכם"
     defeat_the: "הביסו את"
     watch_battle: "צפו בקרב"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", התחיל"
     tournament_ends: "הטורניר יסתיים"
     tournament_ended: "הטורניר הסתיים"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     blue_ai: "CPU כחול"
     wins: "ניצח" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "אדום" # Ladder page display team name
     ogres: "כחול"

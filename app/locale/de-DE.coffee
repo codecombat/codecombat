@@ -838,6 +838,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Humans"
+#    play_as_ogres: "Play As Ogres"
 
   apis:
     methods: "Methoden"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Mehr als 500 Unterstützer haben mitgeholfen, CodeCombat zu erstellen, und es werden jede Woche mehr!"
     community_description_3: "CodeCombat ist ein"
     community_description_link_2: "Gemeinschaftsprojekt"
@@ -2436,7 +2441,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     watch_victory: "Schau dir deinen Sieg an"
     defeat_the: "Besiege den"
     watch_battle: "Dem Kampf zuschauen"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", gestartet"
     tournament_ends: "Turnier endet"
     tournament_ended: "Turnier beendet"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     blue_ai: "Blaue CPU"
     wins: "gewinnt" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Rot" # Ladder page display team name
     ogres: "Blau"

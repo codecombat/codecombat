@@ -838,6 +838,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Humans"
+#    play_as_ogres: "Play As Ogres"
 
 #  apis:
 #    methods: "Methods"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Trên 450 người đã tham gia đóng góp cho CodeCombat, và con số này tiếp tục tăng lên hàng tuần!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
@@ -2436,7 +2441,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    watch_victory: "Watch your victory"
 #    defeat_the: "Defeat the"
     watch_battle: "Xem trận đấu"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
 #    tournament_started: ", started"
     tournament_ends: "Giải đấu kết thúc"
     tournament_ended: "Giải đấu đã kết thúc"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     blue_ai: "CPU Xanh"
     wins: "Những chiến thắng" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Đỏ" # Ladder page display team name
     ogres: "Xanh"

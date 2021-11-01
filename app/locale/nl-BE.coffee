@@ -838,6 +838,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    vega_character: "Vega Character"
     click_to_continue: "Klik om verder te gaan"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Humans"
+#    play_as_ogres: "Play As Ogres"
 
   apis:
     methods: "Methodes"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
 #    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
@@ -2436,7 +2441,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    watch_victory: "Watch your victory"
 #    defeat_the: "Defeat the"
 #    watch_battle: "Watch the battle"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
 #    tournament_started: ", started"
 #    tournament_ends: "Tournament ends"
 #    tournament_ended: "Tournament ended"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    blue_ai: "Blue CPU"
 #    wins: "Wins" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
 #    humans: "Red" # Ladder page display team name
 #    ogres: "Blue"
