@@ -2447,7 +2447,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     watch_victory: "观看您的胜利"
     defeat_the: "击败"
     watch_battle: "观看战役"
-    tournament_starts: " 比赛将于__timeElapsed__开始"
+    tournament_starts: "比赛将于__timeElapsed__开始"
     tournament_started: "，锦标赛已开始"
     tournament_ends: "锦标赛结束"
     tournament_ended: "锦标赛已结束"
