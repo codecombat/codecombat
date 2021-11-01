@@ -837,8 +837,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     vega_character: "Vega Character"
     click_to_continue: "Click to Continue"
     fill_in_solution: "Fill in solution"
-    play_as_humans: "Play As Humans"
-    play_as_ogres: "Play As Ogres"
+    play_as_humans: "Play As Red"
+    play_as_ogres: "Play As Blue"
 
   apis:
     methods: "Methods"
