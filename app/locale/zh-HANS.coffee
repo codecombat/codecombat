@@ -450,6 +450,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     birthday: "生日"
     parent_email_blurb: "我知道你等不及学习编程啦！&mdash; 我们也很兴奋！你的家长会收到一封邮件，上面写着为你注册账号要注意的事情。如果有问题就发邮件到 {{email_link}} 吧。"
     classroom_not_found: "班级代码不正确。请检查是否拼写错误或寻求老师帮助。"
+    activation_code_used: "激活码已被使用。请检查是否拼写错误或寻求老师帮助。"
     checking: "检查中..."
     account_exists: "这个邮箱已被使用："
     sign_in: "登录"

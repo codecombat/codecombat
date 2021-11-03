@@ -24,6 +24,8 @@ form.modal-body.segment-check
               span.teacher-name= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
             else if view.classroom.owner.get('name')
               span.teacher-name= view.classroom.owner.get('name')
+          else if state.get('codeExpired')
+            span(data-i18n="signup.activation_code_used")
           else
             span(data-i18n="signup.classroom_not_found")
           .extra 如需帮助请联系
