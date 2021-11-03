@@ -13,7 +13,7 @@
           <td class="data-row" v-for="(elem, index) in row" :key="typeof elem === 'string' ? elem : elem.id">
             <div class="interval" v-if="typeof elem === 'string'">
               <p>{{getI18n(elem)}}</p>
-              <p class="recurring-interval">{{getI18n(`recurring.${elem}`)}}</p>
+              <p class="recurring-interval">{{getI18n(`recurring_${elem}`)}}</p>
               <p class="percent-off" v-if="getPercentOff(row)">{{getPercentOff(row)}}% Off</p>
             </div>
             <div class="price-box" v-else>

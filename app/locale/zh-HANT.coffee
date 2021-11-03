@@ -838,6 +838,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    vega_character: "Vega Character"
     click_to_continue: "點擊繼續"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Red"
+#    play_as_ogres: "Play As Blue"
 
   apis:
     methods: "方法"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "超過 500 位貢獻者協助建立 CodeCombat , 而且每週持續增加中！"
     community_description_3: "CodeCombat 是一個"
     community_description_link_2: "社群專案"
@@ -2436,7 +2441,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     watch_victory: "觀看您的勝利"
     defeat_the: "敗於"
     watch_battle: "觀看戰役"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: "，錦標賽已開始"
     tournament_ends: "錦標賽結束"
     tournament_ended: "錦標賽已結束"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     blue_ai: "藍隊 CPU"
     wins: "勝利" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "紅隊" # Ladder page display team name
     ogres: "藍隊"
@@ -3370,7 +3377,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
 #  form_validation_errors:
 #    required: "Field is required"

@@ -838,6 +838,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Red"
+#    play_as_ogres: "Play As Blue"
 
 #  apis:
 #    methods: "Methods"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Over 450 bidragydere har hjulpet med at bygge CodeCombat, flere kommer til hver uge!" # {change}
 #    community_description_3: "CodeCombat is a"
 #    community_description_link_2: "community project"
@@ -2436,7 +2441,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     watch_victory: "Vis din sejr"
     defeat_the: "Overvind "
     watch_battle: "Se kampen"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", begyndt"
     tournament_ends: "Turnering afslutter"
     tournament_ended: "Turnering afsluttet"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     blue_ai: "Blå CPU"
     wins: "Vundne" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Rød" # Ladder page display team name
     ogres: "Blå"
@@ -3370,7 +3377,10 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
 #  form_validation_errors:
 #    required: "Field is required"

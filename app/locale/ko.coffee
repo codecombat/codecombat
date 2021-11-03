@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "한국어", englishDescription: "Korean", translation:
+
   new_home:
     title: "CodeCombat - Python과 JavaScript를 배울 수 있는 코딩 게임"
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
@@ -837,6 +838,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     vega_character: "Vega 캐릭터"
     click_to_continue: "클릭해서 계속하기"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Red"
+#    play_as_ogres: "Play As Blue"
 
   apis:
     methods: "메소드"
@@ -1229,10 +1232,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "500명이 넘는 Contributor분들이 CodeCombat 개발을 도와주고 계십니다, 매주 새로운 분들이 저희 프로젝트에 참여해주시고 계십니다!!"
     community_description_3: "CodeCombat 은"
     community_description_link_2: "커뮤니티 프로젝트입니다"
@@ -2435,7 +2441,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     watch_victory: "당신의 승리를 확인하세요"
 #    defeat_the: "Defeat the"
 #    watch_battle: "Watch the battle"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
 #    tournament_started: ", started"
 #    tournament_ends: "Tournament ends"
 #    tournament_ended: "Tournament ended"
@@ -2452,6 +2458,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    blue_ai: "Blue CPU"
 #    wins: "Wins" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
 #    humans: "Red" # Ladder page display team name
 #    ogres: "Blue"
@@ -3369,7 +3377,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
   form_validation_errors:
     required: "입력해야 합니다."
