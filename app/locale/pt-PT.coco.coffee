@@ -506,13 +506,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     eu_confirmation_student: "Se não tens a certeza, pergunta ao teu professor."
     eu_confirmation_individual: "Se não quiser que armazenemos os seus dados em servidores dos EUA, pode sempre continuar a jogar anonimamente sem guardar o seu código."
 #    password_requirements: "8 to 64 characters with no repeating"
-#    invalid: "Invalid"
-#    invalid_password: "Invalid password"
+    invalid: "Inválido" # {change}
+    invalid_password: "Password incorreta" # {change}
 #    with: "with"
 #    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
-#    have_a_classcode: "Have a Class Code?"
-#    yes_i_have_classcode: "Yes, I have a Class Code!"
-#    enter_it_here: "Enter it here:"
+    have_a_classcode: "Tens um código de turma?" # {change}
+    yes_i_have_classcode: "Sim. Tenho um código de turma!" # {change}
+    enter_it_here: "Introduz aqui o código:" # {change}
 
   recover:
     recover_account_title: "Recuperar Conta"
@@ -629,7 +629,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     with: "com"
 #    chat: "Chat"
 #    chat_with_us: "Chat with us"
-#    email_us: "Send us an email"
+    email_us: "Envia-nos um email" # {change}
 #    sales: "Sales"
 #    support: "Support"
 #    here: "here"
