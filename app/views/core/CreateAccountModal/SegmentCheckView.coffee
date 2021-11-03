@@ -64,8 +64,12 @@ module.exports = class SegmentCheckView extends CocoView
       else
         @classroom = new Classroom()
         @state.set { classCodeValid: false, segmentCheckValid: false }
-    .catch (error) ->
-      throw error
+    .catch (error) =>
+      if error.code == 403 and error.message == 'Activation code has been used'
+        @state.set { classCodeValid: false, segmentCheckValid: false, codeExpired: true }
+      else
+        throw error
+      console.error(error)
 
   onInputBirthday: ->
     { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))

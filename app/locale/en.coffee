@@ -446,6 +446,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     birthday: "Birthday"
     parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
     classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
+    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "Checking..."
     account_exists: "This email is already in use:"
     sign_in: "Sign in"

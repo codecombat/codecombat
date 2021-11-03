@@ -31,11 +31,14 @@ form.modal-body.segment-check
                     span= view.classroom.owner.get('name')
               else if !_.isEmpty(view.signupState.get('classCode'))
                 .ask-teacher
-                  span.spr(data-i18n="signup.classroom_not_found")
-                  span.spr(data-i18n="signup.ask_teacher_2")
-                  a.individual-path-button
-                    span(data-i18n="signup.ask_teacher_3")
-                  span.spl(data-i18n="signup.ask_teacher_4")
+                  if state.get('codeExpired')
+                    span.spr(data-i18n="signup.activation_code_used")
+                  else
+                    span.spr(data-i18n="signup.classroom_not_found")
+                    span.spr(data-i18n="signup.ask_teacher_2")
+                    a.individual-path-button
+                      span(data-i18n="signup.ask_teacher_3")
+                    span.spl(data-i18n="signup.ask_teacher_4")
 
           .divider-line
 
