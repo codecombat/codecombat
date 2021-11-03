@@ -240,7 +240,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     resource_hub: "Zona de resurse"
     apcsp: "Principiile AP CS"
     parent: "Părinți"
-   esports: "E-sporturi"
+    esports: "E-sporturi"
     browser_recommendation: "Pentru cea mai bună experință vă recomandăm să utilizați ultima versiune de Chrome. Descarcă navigatorul web de aici!"
     ozaria_classroom: "Clasa Ozaria"
     codecombat_classroom: "Clasa CodeCombat"
@@ -263,7 +263,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
   diplomat_suggestion:
     title: "Ajută la traducrea CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Avem nevoie de abilitățile tale lingvistice."
-    pitch_body: "CodeCombat este dezvoltat în limba engleza , dar deja avem jucători din toate colțurile lumii. Mulți dintre ei vor să joace în română și nu vorbesc engleză. Dacă poți vorbi ambele limbi te rugăm să te gândești dacă ai dori să devi un Diplomat și să ne ajuți sa traducem atât jocul cât și site-ul." 
+    pitch_body: "CodeCombat este dezvoltat în limba engleza , dar deja avem jucători din toate colțurile lumii. Mulți dintre ei vor să joace în română și nu vorbesc engleză. Dacă poți vorbi ambele limbi te rugăm să te gândești dacă ai dori să devi un Diplomat și să ne ajuți sa traducem atât jocul cât și site-ul."
     missing_translations: "Până când nu putem traduce totul în Română, vei vedea limba engleză acolo unde limba română nu este displonibilă."
     learn_more: "Află mai multe despre cum să fi un Diplomat"
     subscribe_as_diplomat: "Înscrie-te ca Diplomat"
@@ -756,7 +756,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     tip_toggle_play: "schimbă între joacă/pauză cu Ctrl+P."
     tip_scrub_shortcut: "Utilizează Ctrl+[ și Ctrl+] pentru a derula înapoi sau a da pe repede înainte."
     tip_guide_exists: "Apasă pe ghid, din meniul jocului (din partea de sus a paginii), pentru informații utile."
-    tip_open_source: "CodeCombat este parte a comunității open source!" 
+    tip_open_source: "CodeCombat este parte a comunității open source!"
     tip_tell_friends: "Îți place CodeCombat? Spune-le prietenilor tăi despre noi!"
     tip_beta_launch: "CodeCombat a fost lansat în format beta în Octombrie 2013."
     tip_think_solution: "Gândește-te la soluție, nu la problemă."
