@@ -1235,10 +1235,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     om_title: "运营经理"
     mo_title: "业务经理"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
     scd_title: "高级课程开发设计师"
     lcd_title: "首席课程开发设计师"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
     community_description_link_2: "开源的社区项目"
@@ -3419,7 +3422,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
 #  form_validation_errors:
 #    required: "Field is required"
