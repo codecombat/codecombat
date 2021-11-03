@@ -838,6 +838,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    vega_character: "Vega Character"
     click_to_continue: "Kliknij, aby kontynuować"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Red"
+#    play_as_ogres: "Play As Blue"
 
   apis:
     methods: "Medoty"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Ponad 500 kontrybutorów pomogło stworzyć CodeCombat i liczba ta cały czas rośnie!"
     community_description_3: "CodeCombat jest "
     community_description_link_2: "projektem społecznościowym"
@@ -2436,7 +2441,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     watch_victory: "Obejrzyj swoje zwycięstwo"
     defeat_the: "Pokonaj"
     watch_battle: "Oglądaj starcie"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", rozpoczęto"
     tournament_ends: "Turniej kończy się za"
     tournament_ended: "Turniej zakończył się"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     blue_ai: "Niebieski CPU"
     wins: "Wygrał!" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Czerwoni" # Ladder page display team name
     ogres: "Niebiescy"
@@ -3238,7 +3245,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    school_subnetwork: "School Subnetwork"
 #    classroom: "Classroom"
 
-#  league:
+  league:
 #    student_register_1: "Become the next AI Champion!"
 #    student_register_2: "Sign up, create your own team, or join other teams to start competing."
 #    student_register_3: "Provide the information below to be eligible for prizes."
@@ -3246,7 +3253,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
 #    team: "team"
 #    how_it_works1: "Join a __team__"
-#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
+    seasonal_arena_tooltip: "Stań do walki ze swoimi znajomymi oraz innymi użytkownikami, używając całej zebranej programistycznej wiedzy, by zdobywać punkty i piąć się w górę tabeli wyników Zawodów Sztucznej Inteligencji, przed mistrzostwami na końcu sezonu."
 #    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
 #    join_now: "Join Now"
 #    tagline: "The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other."
@@ -3285,14 +3292,14 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    download_flyer: "Download Flyer"
 #    championship_summary: "The __championshipArena__ championship arena is now open! Battle it out for the month of __championshipMonth__ to win prizes in the __championshipArena__ __championshipType__."
 #    play_arena_full: "Play __arenaName__ __arenaType__"
-#    play_arena_short: "Play __arenaName__"
+    play_arena_short: "Zagraj w __arenaName__"
 #    view_arena_winners: "View __arenaName__ __arenaType__ winners"
 #    arena_type_championship: "Championship Arena"
 #    arena_type_regular: "Multiplayer Arena"
 #    blazing_battle: "Blazing Battle"
 #    infinite_inferno: "Infinite Inferno"
-#    mages_might: "Mages' Might"
-#    sorcerers: "Sorcerers"
+    mages_might: "Igrzyska Magów"
+    sorcerers: "Czarodzieje"
 #    giants_gate: "Giants' Gate"
 #    colossus: "Colossus"
 #    cup: "Cup"
@@ -3370,7 +3377,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
 #  form_validation_errors:
 #    required: "Field is required"

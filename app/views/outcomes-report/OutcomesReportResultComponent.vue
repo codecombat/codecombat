@@ -178,6 +178,8 @@ export default Vue.extend({
           a(:href="'/outcomes-report/administrative-region/' + org['administrative-region'].region.toLowerCase()" target="_blank")= org['administrative-region'].region
       if org.email
         span  (#{org.email})
+      if org.kind == 'student' && org.displayName && org.name && (org.name.replace(/\W/g, '').toLowerCase() != org.displayName.replace(/\W/g, '').toLowerCase())
+        span  (#{org.name})
       if codeLanguageString
         span  (#{codeLanguageString})
       if !included && org.progress && org.progress.studentsWithCode && org.kind != 'student'

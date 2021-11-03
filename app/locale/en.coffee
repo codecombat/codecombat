@@ -837,8 +837,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     vega_character: "Vega Character"
     click_to_continue: "Click to Continue"
     fill_in_solution: "Fill in solution"
-    play_as_humans: "Play As Humans"
-    play_as_ogres: "Play As Ogres"
+    play_as_humans: "Play As Red"
+    play_as_ogres: "Play As Blue"
 
   apis:
     methods: "Methods"
@@ -2446,7 +2446,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     watch_victory: "Watch your victory"
     defeat_the: "Defeat the"
     watch_battle: "Watch the battle"
-    tournament_starts: "Tournament starts"
+    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", started"
     tournament_ends: "Tournament ends"
     tournament_ended: "Tournament ended"
@@ -3382,12 +3382,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     best_value: 'Best Value'
     purchase_licenses: 'Purchase Licenses easily to get full access to CodeCombat and Ozaria'
     homeschooling: 'Homeschooling Licenses'
-
-    recurring:
-      month_1: 'Recurring billing every month'
-      month_3: 'Recurring billing every 3 months'
-      month_6: 'Recurring billing every 6 months'
-      year_1: 'Recurring billing every year'
+    recurring_month_1: 'Recurring billing every month'
+    recurring_month_3: 'Recurring billing every 3 months'
+    recurring_month_6: 'Recurring billing every 6 months'
+    recurring_year_1: 'Recurring billing every year'
 
   form_validation_errors:
     required: 'Field is required'
