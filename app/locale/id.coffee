@@ -838,6 +838,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     vega_character: "Karakter Vega"
     click_to_continue: "Klik untuk Melanjutkan"
     fill_in_solution: "Isi solusi"
+#    play_as_humans: "Play As Red"
+#    play_as_ogres: "Play As Blue"
 
   apis:
     methods: "Metode"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     om_title: "Manajer Operasi"
     mo_title: "Manajer, Operasi"
     smo_title: "Manajer Senior, Operasi"
+#    do_title: "Director of Operations"
     scd_title: "Pengembang Kurikulum Senior"
     lcd_title: "Pimpinan Pengembang Kurikulum"
+#    de_title: "Director of Education"
     vpm_title: "Wakil Presiden, Pemasaran"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Lebih dari 500 kontributor telah membantu membangun CodeCombat, dan lebih banyak lagi yang bergabung tiap minggunya!"
     community_description_3: "CodeCombat adalah"
     community_description_link_2: "proyek komunitas"
@@ -2436,7 +2441,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     watch_victory: "Perhatikan kemenanganmu"
     defeat_the: "Kalahkan"
     watch_battle: "Tonton pertempurannya"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", dimulai"
     tournament_ends: "Turnamen berakhir"
     tournament_ended: "Turnamen berakhir"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     blue_ai: "CPU Biru"
     wins: "Menang" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Merah" # Ladder page display team name
     ogres: "Biru"
@@ -3370,7 +3377,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
 #  form_validation_errors:
 #    required: "Field is required"

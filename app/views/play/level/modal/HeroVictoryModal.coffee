@@ -221,7 +221,7 @@ module.exports = class HeroVictoryModal extends ModalView
         pixelCode = switch hocCampaignSlug
           when 'game-dev-hoc' then 'code_combat_gamedev'
           when 'game-dev-hoc-2' then 'code_combat_gamedev2'
-          when 'ai-league-hoc' then 'code_combat_ai_league'
+          when 'ai-league-hoc' then 'cc_ai'
           else 'code_combat'
         $('body').append($("<img src='https://code.org/api/hour/finish_#{pixelCode}.png' style='visibility: hidden;'>"))
         me.set 'hourOfCodeComplete', true
