@@ -838,6 +838,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     vega_character: "Персонаж Вега"
     click_to_continue: "Нажмите чтобы продолжить"
     fill_in_solution: "Введите решение"
+#    play_as_humans: "Play As Red"
+#    play_as_ogres: "Play As Blue"
 
   apis:
     methods: "Методы"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     om_title: "Операционный менеджер"
     mo_title: "Менеджер по операциям"
     smo_title: "Старший менеджер по операциям"
+#    do_title: "Director of Operations"
     scd_title: "Старший разработчик учебных программ"
     lcd_title: "Ведущий разработчик учебной программы"
+#    de_title: "Director of Education"
     vpm_title: "Вице-президент по маркетингу"
     oi_title: "Онлайн инструктор"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Более 500 авторов помогли создать CodeCombat, и новые присоединяются к нам каждую неделю!"
     community_description_3: "CodeCombat – это"
     community_description_link_2: "проект сообщества"
@@ -1745,7 +1750,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     variables: "Переменные"
     basic_syntax_desc: "Синтаксис - это то, как мы пишем код. Так же, как орфография и грамматика важны при написании рассказов и эссе, синтаксис важен при написании кода. Люди хорошо понимают, что что-то означает, даже если это не совсем правильно, но компьютеры не так уж умны, и им нужно, чтобы вы писали очень точно."
     while_loops_desc: "Цикл - это способ повторения действий в программе. Вы можете использовать их, чтобы вам не приходилось писать повторяющийся код и когда вы не знаете точно, сколько раз нужно будет выполнить действие для выполнения задачи."
-    variables_desc: "Работа с переменными похожа на расстановку вещей в коробках из-под обуви. Вы даете обувной коробке имя, например, «Школьные принадлежности», а затем кладете вещи внутрь. Точное содержимое коробки может со временем измениться, но все, что находится внутри, всегда будет называться \ "Школьные принадлежности \". В программировании переменные - это символы, используемые для хранения данных, которые будут меняться в процессе выполнения программы. Переменные могут содержать различные типы данных, включая числа и строки."
+    variables_desc: "Работа с переменными похожа на расстановку вещей в коробках из-под обуви. Вы даете обувной коробке имя, например, «Школьные принадлежности», а затем кладете вещи внутрь. Точное содержимое коробки может со временем измениться, но все, что находится внутри, всегда будет называться \"Школьные принадлежности \". В программировании переменные - это символы, используемые для хранения данных, которые будут меняться в процессе выполнения программы. Переменные могут содержать различные типы данных, включая числа и строки."
     locked_videos_desc: "Продолжайте играть, чтобы открыть концептуальное видео __concept_name__."
     unlocked_videos_desc: "Просмотрите концептуальное видео __concept_name__."
     video_shown_before: "показано перед __level__"
@@ -2436,7 +2441,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     watch_victory: "Наблюдать за победой"
     defeat_the: "Победить"
     watch_battle: "Смотреть битву"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", начат"
     tournament_ends: "Турнир заканчивается"
     tournament_ended: "Турнир закончился"
@@ -2453,6 +2458,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     blue_ai: "CPU синего"
     wins: "Побеждает" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Красных" # Ladder page display team name
     ogres: "Синих"
@@ -3370,7 +3377,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
 #  form_validation_errors:
 #    required: "Field is required"

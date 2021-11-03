@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "Română", englishDescription: "Romanian", translation:
+
   new_home:
     title: "CodeCombat - Programare de jocuri pentru a învăța Python și JavaScript"
     meta_keywords: "CodeCombat, python, javascript, programare de jocuri"
@@ -96,7 +97,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
-#    try_the_game: "Încearcă jocul"
+#    try_the_game: "Try the game"
 #    classroom_edition: "Classroom Edition:"
     learn_to_code: "Învață să scri cod:"
     play_now: "Joacă acum"
@@ -240,7 +241,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     resource_hub: "Zona de resurse"
     apcsp: "Principiile AP CS"
     parent: "Părinți"
-   esports: "E-sporturi"
+    esports: "E-sporturi"
     browser_recommendation: "Pentru cea mai bună experință vă recomandăm să utilizați ultima versiune de Chrome. Descarcă navigatorul web de aici!"
     ozaria_classroom: "Clasa Ozaria"
     codecombat_classroom: "Clasa CodeCombat"
@@ -263,7 +264,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
   diplomat_suggestion:
     title: "Ajută la traducrea CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Avem nevoie de abilitățile tale lingvistice."
-    pitch_body: "CodeCombat este dezvoltat în limba engleza , dar deja avem jucători din toate colțurile lumii. Mulți dintre ei vor să joace în română și nu vorbesc engleză. Dacă poți vorbi ambele limbi te rugăm să te gândești dacă ai dori să devi un Diplomat și să ne ajuți sa traducem atât jocul cât și site-ul." 
+    pitch_body: "CodeCombat este dezvoltat în limba engleza , dar deja avem jucători din toate colțurile lumii. Mulți dintre ei vor să joace în română și nu vorbesc engleză. Dacă poți vorbi ambele limbi te rugăm să te gândești dacă ai dori să devi un Diplomat și să ne ajuți sa traducem atât jocul cât și site-ul."
     missing_translations: "Până când nu putem traduce totul în Română, vei vedea limba engleză acolo unde limba română nu este displonibilă."
     learn_more: "Află mai multe despre cum să fi un Diplomat"
     subscribe_as_diplomat: "Înscrie-te ca Diplomat"
@@ -756,7 +757,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     tip_toggle_play: "schimbă între joacă/pauză cu Ctrl+P."
     tip_scrub_shortcut: "Utilizează Ctrl+[ și Ctrl+] pentru a derula înapoi sau a da pe repede înainte."
     tip_guide_exists: "Apasă pe ghid, din meniul jocului (din partea de sus a paginii), pentru informații utile."
-    tip_open_source: "CodeCombat este parte a comunității open source!" 
+    tip_open_source: "CodeCombat este parte a comunității open source!"
     tip_tell_friends: "Îți place CodeCombat? Spune-le prietenilor tăi despre noi!"
     tip_beta_launch: "CodeCombat a fost lansat în format beta în Octombrie 2013."
     tip_think_solution: "Gândește-te la soluție, nu la problemă."
@@ -2440,7 +2441,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     watch_victory: "Vizualizează victoria"
     defeat_the: "Învinge"
 #    watch_battle: "Watch the battle"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", a început"
     tournament_ends: "Turneul se termină"
     tournament_ended: "Turneul s-a terminat"
@@ -2457,6 +2458,8 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
 #    blue_ai: "Blue CPU"
 #    wins: "Wins" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
 #    humans: "Red" # Ladder page display team name
 #    ogres: "Blue"
@@ -3320,8 +3323,8 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
 #    arena_rankings_blurb: "Global AI League arena rankings"
 #    arena_rankings_title: "Global leaderboard rank for all players in this team across AI League arenas in the open age bracket."
     competing: "Concurenți:" # Competing: 3 students
-    count_student: "elev" # 1 elev
-    count_students: "elevi" # 2 elevi
+    count_student: "elev" # 1 student
+    count_students: "elevi" # 2 students
     top_student: "Top:" # Top: Jane D
     top_percent: "top" # - top 3%)
     top_of: "of" # (#8 of 35). Perhaps just use "/" if this doesn't translate naturally.
@@ -3374,7 +3377,10 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     best_value: "Valoarea cea mai bună"
     purchase_licenses: "Cumpără licențe ușor pentru a avea acces la CodeCombat și Ozaria"
     homeschooling: "Licențe pentru școala făcută acasă"
-    recurring: {"month_1":"Plată periodică în fiecare lună","month_3":"Plată periodică la fiecare 3 luni","month_6":"Plată periodică la fiecare 6 luni","year_1":"Plată periodică în fiecare an"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
   form_validation_errors:
     required: "Câmpul este obligatoriu"
