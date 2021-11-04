@@ -796,7 +796,7 @@ seasons = [
 currentSeason = () ->
   now = new Date()
   year = now.getFullYear()
-  return seasons.find((season) -> now <= new Date("#{year}-#{season.end}"))
+  return seasons.find((season) -> now < new Date("#{year}-#{season.end}").setHours(24, 0, 0, 0))
 
 ageToBracket = (age) ->
 # Convert years to an age bracket
