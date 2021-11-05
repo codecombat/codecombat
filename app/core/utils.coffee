@@ -748,7 +748,8 @@ yearsSinceMonth = (birth, now) ->
     return undefined unless /^\d{4}-\d{1,2}(-\d{1,2})?$/.test birth
     if birth.split('-').length is 2
       birth = birth + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
-    birth = new Date(birth)
+    dates = birth.split('-')
+    birth = new Date(+dates[0], +dates[1]-1, +dates[2])
   return undefined unless _.isDate birth
 
   birthYear = birth.getFullYear()
@@ -796,7 +797,10 @@ seasons = [
 currentSeason = () ->
   now = new Date()
   year = now.getFullYear()
-  return seasons.find((season) -> now < new Date("#{year}-#{season.end}").setHours(24, 0, 0, 0))
+  return seasons.find((season) ->
+    dates = season.end.split('-')
+    now < new Date(year, +dates[0]-1, dates[1]).setHours(24, 0, 0, 0)
+  )
 
 ageToBracket = (age) ->
 # Convert years to an age bracket
