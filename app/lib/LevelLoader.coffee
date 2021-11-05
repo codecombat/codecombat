@@ -338,7 +338,7 @@ module.exports = class LevelLoader extends CocoClass
     browser['version'] = $.browser.version if $.browser.version
     return if _.isEqual session.get('browser'), browser
     session.set 'browser', browser
-    session.patch()
+    session.save({browser}, {patch: true, type: 'PUT'})
 
   consolidateFlagHistory: ->
     state = @session.get('state') ? {}
