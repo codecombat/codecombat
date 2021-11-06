@@ -53,6 +53,8 @@ updateState = (aether, evaluator) ->
         rng = top.ast.originalRange
 
         if not rng and top.ast.loc?
+          if top.ast.loc.start and not top.ast.loc.end
+            top.ast.loc.end = top.ast.loc.start
           rng =
             start: {row:top.ast.loc.start.line - 1, col:top.ast.loc.start.column}
             end: {row:top.ast.loc.end.line - 1, col:top.ast.loc.end.column}
@@ -126,7 +128,7 @@ module.exports.createFunction = (aether) ->
       else
         fx = engine.functionFromASTSync aether.ast
   catch error
-    console.log 'Esper: error parsing AST. Returning empty function.', error.message
+    console.error 'Esper: error parsing AST. Returning empty function.', error.message, error
     if aether.language.id is 'javascript'
       error.message = "Couldn't understand your code. Are your { and } braces matched?"
     else
