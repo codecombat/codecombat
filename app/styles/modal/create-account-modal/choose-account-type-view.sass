@@ -1,35 +1,29 @@
 @import "app/styles/style-flat-variables"
+@import "app/styles/bootstrap/variables"
 
 #choose-account-type-view
   width: 1048px
+  @media (max-width: $screen-md-min)
+    width: fit-content
+
   .choose-type-title
     display: flex
     flex-direction: column
   .modal-body-content
     padding: 0
+    margin: 0 50px
 
   h4
     padding-bottom: 20px
 
   .path-cards
-    display: flex
-    flex-direction: row
-    flex-wrap: wrap
-    width: 100%
-    justify-content: space-around
     margin-top: 45px
+    max-width: 100%
+
+    &:nth-child(2)
+      margin-top: 17px
 
   .path-card
-    display: flex
-    flex-direction: column
-    justify-content: space-between
-    flex: 1
-    align-items: center
-
-    body[lang^="en"] &
-      height: 340px
-      max-height: 42vh
-
     &.navy
       border-color: $navy
       .card-title
@@ -70,17 +64,33 @@
             position: relative
             left: -5px
 
+    .card-image
+      width: 300px
+      height: 200px
+      background: #C4C4C4
+      border-radius: 10px
+      cursor: pointer
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.11))
+      @media (max-width: $screen-md-min)
+        display: none
+
     .card-footer
-      margin: 0 20px 20px
+      margin: 0 35px 20px
       min-height: 62px
       display: flex
       flex-direction: column
       justify-content: flex-end
-      i.small div
+      span.small div
         line-height: 25px
         font-weight: 300
         font-size: 18px
-        padding: 7px
+        margin: 15px
+        white-space: nowrap
+        margin-left: -100%
+        margin-right: -100%
+      .primary-oz-button
+        max-width: 300px
+        margin: 0px auto
 
 
   .individual-section
@@ -100,11 +110,3 @@
 
   .text-h6
     color: white
-
-
-.card-image
-  width: 300px
-  height: 200px
-  background: #C4C4C4
-  border-radius: 10px
-

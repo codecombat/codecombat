@@ -6,35 +6,35 @@
       a(href="https://pub.skillz-edu.org/portal/playground")  התחבר דרך פורטל משרד החינוך
 
 
-  .path-cards
-    .path-card
-      img.card-image(alt='Educator' src='/images/pages/account/create/educator.png')
+  .row.path-cards
+    .col-md-6.path-card
+      img.card-image.teacher-path-button(data-i18n='[alt]new_home.for_educators' src='/images/pages/account/create/parent.png')
       .card-footer
-        i.small
-          div(data-i18n="signup.im_a_teacher_description") Teach Computer Science with CodeCombat
+        span.small
+          div(data-i18n="new_home.im_an_educator_description")
         button.primary-oz-button.teacher-path-button
-          span(data-i18n="signup.im_a_teacher_button") I'm a Teacher
+          span(data-i18n="new_home.im_an_educator")
 
-    .path-card
-      img.card-image(alt='Educator' src='/images/pages/account/create/parent.png')
+    .col-md-6.path-card
+      img.card-image.parent-path-button(data-i18n='[alt]new_home.for_parents' src='/images/pages/account/create/parent.png')
       .card-footer
-        i.small
-          div(data-i18n="signup.im_a_parent_description") Explore our live online coding classes
+        span.small
+          div(data-i18n="new_home.im_a_parent_description")
         button.primary-oz-button.parent-path-button
-          span(data-i18n="signup.im_a_parent_button") I'm a Parent
-  .path-cards
-    .path-card
-      img.card-image(alt='Educator' src='/images/pages/account/create/student.png')
+          span(data-i18n="new_home.im_a_parent")
+  .row.path-cards
+    .col-md-6.path-card
+      img.card-image.student-path-button(data-i18n='[alt]new_home.for_students' src='/images/pages/account/create/student.png')
       .card-footer
-        i.small
-          div Learn Computer Science with your class
+        span.small
+          div(data-i18n="new_home.im_a_student_description")
         button.primary-oz-button.student-path-button
-          span(data-i18n="signup.im_a_student_button") I'm a Student
+          span(data-i18n="new_home.im_a_student")
 
-    .path-card
-      img.card-image(alt='Educator' src='/images/pages/account/create/individual.png')
+    .col-md-6.path-card
+      img.card-image.individual-path-button(data-i18n='[alt]new_home.for_individuals' src='/images/pages/account/create/individual.png')
       .card-footer
-        i.small
-          div(data-i18n="signup.im_an_individual_description") Play at home outside of a class setting
+        span.small
+          div(data-i18n="new_home.im_an_individual_description")
         button.primary-oz-button.individual-path-button
-          span(data-i18n="signup.im_an_individual_button") I'm an Individual
+          span(data-i18n="new_home.im_an_individual")

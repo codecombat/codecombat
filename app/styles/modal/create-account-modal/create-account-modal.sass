@@ -8,9 +8,7 @@
   so many of the other styles for those classes don't apply or are overridden.
 
 @import "app/styles/style-flat-variables"
-
-#modal-base-flat
-  overflow: hidden
+@import "app/styles/bootstrap/variables"
 
 #create-account-modal
   .modal-dialog
@@ -20,13 +18,22 @@
     @media (max-height: 800px)
       margin-top: 0
 
+
     &.ozaria-modal
+      box-shadow: 0 5px 15px rgb(0 0 0 / 50%)
       border-radius: 20px
+      overflow: hidden
       background: linear-gradient(66.45deg, #FFFEF0 15.94%, #FFFDEA 29.45%, #FFF8CF 46.45%, #FDF7D7 76.99%, #FFFCE9 83.48%)
+      @media (max-width: $screen-md-min)
+        min-width: fit-content
+
       .modal-content, .modal-footer
         background: none
       .modal-content
         border-radius: 20px
+        @media (max-width: $screen-md-min)
+          min-width: fit-content
+
       .modal-footer
         span
           color: $gray
@@ -240,10 +247,8 @@ button.primary-oz-button
   font-weight: bold
   font-size: 18px
   line-height: 38px
-
-  color: black
-  text-transform: capitalize
-  background-color: #1FBAB4
+  color: $pitch
+  background-color: $teal
   border: 0
   padding: 5px 15px
   border-radius: 4px
