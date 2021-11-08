@@ -409,6 +409,8 @@ module.exports = class TeacherClassView extends RootView
       window.tracker?.trackEvent eventAction, { category: 'Teachers', label: @classroom.id }
 
   onClickRegenerateCodeButton: ->
+    s = $.i18n.t('teacher.regenerate_class_code_confirm')
+    return unless confirm(s)
     window.tracker?.trackEvent 'Teachers Class Regenerate Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode'), ['Mixpanel']
     @classroom.set( { codeCamel: '', code: '' } );
     @classroom.save()

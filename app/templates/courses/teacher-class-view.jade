@@ -344,10 +344,10 @@ mixin progressDotLabel(label)
 
 mixin copyCodes
   div.copy-button-group.form-inline.m-b-3
-    .form-group
+    .input-group
       input.text-h4.semibold#join-code-input(value=state.get('classCode'), readonly)
-    button#regenerate-code-btn.form-control.btn.btn-lg.btn-forest(disabled=!Boolean(value=state.get('classCode')))
-      span(data-i18n='teacher.regenerate_class_code') Regenerate
+      button#regenerate-code-btn.form-control.has-tooltip(disabled=!Boolean(value=state.get('classCode')) data-toggle='tooltip' data-i18n='[title]teacher.regenerate_class_code_tooltip')
+        span.glyphicon.glyphicon-refresh
     button#copy-code-btn.form-control.btn.btn-lg.btn-forest
       span(data-i18n='teacher.copy_class_code')
     div.text-center.small.class-code-blurb(data-i18n='teacher.class_code_blurb')
