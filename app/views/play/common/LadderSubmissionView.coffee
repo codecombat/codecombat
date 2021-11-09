@@ -75,7 +75,7 @@ module.exports = class LadderSubmissionView extends CocoView
     @submittingInProgress = true
     tempSession = @session.clone() # do not modify @session here
     if @level.isType('ladder') and tempSession.get('team') is 'ogres'
-      code = tempSession.get('code') ? {}
+      code = tempSession.get('code') ? {'hero-placeholder': {plan:''}, 'hero-placeholder-1': {plan: ''}}
       tempSession.set('team', 'humans')
       code['hero-placeholder'] = code['hero-placeholder-1']
       tempSession.set('code', code)
