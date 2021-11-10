@@ -54,7 +54,7 @@ export default {
         .col-md-6.col-xs-12
           h2.heading-sel-competency Self-management
           p Self-management skills are promoted by teaching students the steps needed to achieve a goal and solve a problem, and by modeling strategies to manage stress and challenges that may arise along the way.
-      
+
     section#social-awareness-summary.competency-section
       .row
         .col-md-6.col-xs-12
@@ -83,8 +83,8 @@ export default {
       .row.flex-row.text-center(style="width: 100%;")
         .col-xs-8.col-xs-offset-2
           p
-            span #{$t("ozaria_home.faq_row6_p_part1")}
-            a.contact-modal #{$t("general.contact_us")}
+            span {{ $t("ozaria_home.faq_row6_p_part1") }}
+            a.contact-modal {{ $t("general.contact_us") }}
             | .
 
     modal-get-licenses(v-if="showModalGetLicenses" @close="showModalGetLicenses = false" subtitle="To learn more about Ozaria and SEL, send us a message and our classroom success team will be in touch!" email-message="Hi Ozaria! I'm interested in promoting SEL through my computer science program.")

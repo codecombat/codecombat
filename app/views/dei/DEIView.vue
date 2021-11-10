@@ -88,13 +88,13 @@ export default {
       p Our curriculum also promotes a flexible classroom environment, where players progress at their own pace and the content invites them to express themselves through game design projects.
 
       p Finally, we continually test the Ozaria experience with teachers and students from a variety of backgrounds. This has allowed us to constantly improve our content so that players with different perspectives feel respected and included while they explore and learn from the world of Ozaria.
-      
+
     section.section-spacer(style="margin: 70px;")
       .row.flex-row.text-center(style="width: 100%;")
         .col-xs-8.col-xs-offset-2
           p
-            span #{$t("ozaria_home.faq_row6_p_part1")}
-            a.contact-modal #{$t("general.contact_us")}
+            span {{ $t("ozaria_home.faq_row6_p_part1") }}
+            a.contact-modal {{ $t("general.contact_us") }}
             | .
 
     modal-get-licenses(v-if="showModalGetLicenses" @close="showModalGetLicenses = false" subtitle="To learn more about Ozaria and DEI, send us a message and our classroom success team will be in touch!" email-message="Hi Ozaria! I'm interested in promoting DEI through my computer science program.")
@@ -271,11 +271,11 @@ export default {
         border-image-source: linear-gradient(to bottom right, rgb(50, 119, 215), rgb(133, 237, 200));
         border-width: 10px;
         background: transparent;
-      }    
+      }
 
       &::v-deep .modal-container > .container {
         background: transparent;
-      }    
+      }
 
       &::v-deep h1 {
         display: none;
@@ -319,7 +319,7 @@ export default {
 
   #speech-bubble-testimonial-1 {
     margin-top: 30px;
-    
+
     blockquote {
       border-image: url(/images/ozaria/home/bubble1_down.svg);
       border-width: 40px;
