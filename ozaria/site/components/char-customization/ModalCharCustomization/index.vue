@@ -79,6 +79,10 @@
       showCancelButton: {
         type: Boolean,
         default: true
+      },
+      isInModal: {
+        type: Boolean,
+        default: true
       }
     },
 
@@ -166,7 +170,19 @@
           return options
         }
         return selectedThang
-      }
+      },
+
+      responsiveColumnClassesHeroes () {
+        return this.isInModal ? 'col-xs-4' : 'col-md-4 col-sm-6 col-xs-12'
+      },
+
+      responsiveColumnClassesPreview () {
+        return this.isInModal ? 'webgl-area col-xs-4' : 'webgl-area col-md-4 col-sm-6 col-xs-12'
+      },
+
+      responsiveColumnClassesColors () {
+        return this.isInModal ? 'col-xs-4' : 'col-md-4 col-sm-12 col-xs-12'
+      },
     },
 
     methods: {
@@ -273,7 +289,7 @@
         <h1>{{ this.$t('char_customization_modal.heading') }}</h1>
       </div>
       <div class="row">
-        <div class="col-xs-4">
+        <div :class="responsiveColumnClassesHeroes">
           <div class='body-label'>
             <label>{{ this.$t('char_customization_modal.body') }}</label>
           </div>
@@ -297,7 +313,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xs-4 webgl-area">
+        <div :class="responsiveColumnClassesPreview">
           <surface
             v-if="loaded && selectedHero"
             :loadedThangTypes="loadedThangTypes"
@@ -307,7 +323,7 @@
             class="character-display-area"
           />
         </div>
-        <div class="col-xs-4">
+        <div :class="responsiveColumnClassesColors">
           <form ref="name-form" v-on:submit.prevent="handleSubmit">
             <label for="heroNameInput">{{ this.$t('char_customization_modal.name_label') }}</label>
             <input

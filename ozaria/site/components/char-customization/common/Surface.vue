@@ -50,7 +50,7 @@
       const canvas = this.$refs['canvas']
       // TODO: Investigate why jquery is required
       const camera = new Camera($(canvas))
-      this.stage = new createjs.StageGL(canvas)
+      this.stage = new createjs.StageGL(canvas, { transparent: true })
       Vue.nonreactive(this.stage)
 
       this.defaultLayer = new LayerAdapter({
@@ -71,9 +71,6 @@
 
       this.stage.addChild(this.layerBackground.container)
       this.stage.addChild(this.defaultLayer.container)
-
-      // TODO MAKE TRANSPARENT
-      this.stage.setClearColor("#FFFFFF00")
 
       createjs.Ticker.framerate = 20
       this.onTickHandler = () => {

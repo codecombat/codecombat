@@ -10,6 +10,11 @@ export default function getVueRouter () {
 
       routes: [
         {
+          path: '/diversity-equity-and-inclusion',
+          component: () => import(/* webpackChunkName: "dei" */ 'app/views/dei/DEIView.vue')
+        },
+        { path: '/dei', redirect: '/diversity-equity-and-inclusion' }, // TODO: doesn't actually update to /diversity-equity-and-inclusion URL, just adds alias
+        {
           path: '/editor/cinematic',
           component: () => import(/* webpackChunkName: "editor" */ '../../ozaria/site/components/cinematic/PageCinematicEditor/BaseCinematicList')
         },
@@ -93,6 +98,11 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "pd" */ 'app/views/pd/PDView.vue')
         },
         { path: '/pd', redirect: '/professional-development' }, // TODO: doesn't actually update to /professional-development URL, just adds alias
+        {
+          path: '/social-and-emotional-learning',
+          component: () => import(/* webpackChunkName: "sel" */ 'app/views/sel/SELView.vue')
+        },
+        { path: '/sel', redirect: '/social-and-emotional-learning' }, // TODO: doesn't actually update to /social-and-emotional-learning URL, just adds alias
 
       ]
     })
