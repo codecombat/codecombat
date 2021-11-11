@@ -243,11 +243,22 @@ export default {
       return (courseId) => this.$store.state.courses.byId[courseId]
     },
 
+    logo () {
+      if (features.chinaInfra)
+        return '/images/pages/base/logo-cn.png'
+      return '/images/pages/base/logo.png'
+    },
+
+    chinaInfra () {
+      return features.chinaInfra
+    },
+    
     dateRangeDisplay () {
       const endDate = this.endDate || new Date()
+      const format = features.chinaInfra ? 'l' : 'MMM D, YYYY'
       if (!this.startDate)
-        return moment(endDate).format('MMM D, YYYY')
-      return moment(this.startDate).format('MMM D, YYYY') + ' – ' + moment(endDate).format('MMM D, YYYY')
+        return moment(endDate).format(format)
+      return moment(this.startDate).format(format) + ' – ' + moment(endDate).format(format)
     },
 
     earliestDate () {
@@ -268,6 +279,9 @@ export default {
       if ((me.isAdmin() || /@codecombat\.com$/i.test(me.get('email'))) && !/@gmail\.com$/i.test(me.get('email')))
         return { name: me.broadName(), email: me.get('email') }
       else
+        if (features.chinaInfra) {
+          return { email: 'china@codecombat.com'}
+        }
         return { email: 'schools@codecombat.com' }
     },
 
@@ -289,10 +303,10 @@ main#page-outcomes-report
 
     .header
       div
-        img.print-logo(src="/images/pages/base/logo.png")
+        img.print-logo(:src="logo")
       div
         //h4 Outcomes Report - {{kind}} {{orgIdOrSlug}}
-        h4 Outcomes Report
+        h4= $t('outcomes.outcomes_report')
         h5
           span= dateRangeDisplay
           label.edit-label.editing-only(v-if="editing" for="startDate") &nbsp; (edit)
@@ -317,31 +331,16 @@ main#page-outcomes-report
     .dont-break(v-if="!loading")
       if subOrgs.length > subOrgLimit && !editing
         .block.other-sub-orgs
-          h3 (... stats include #{subOrgs.length - subOrgLimit} other #{kindString(subOrgs[0]).toLowerCase()}#{subOrgs.length - subOrgLimit > 1 ? 's' : ''} ...)
+          h3= '(... '+ $t('outcomes.stats_include', { number: subOrgs.length - subOrgLimit, name: kindString(subOrgs[0]).toLowerCase()}) + (subOrgs.length - subOrgLimit > 1 && !chinaInfra ? 's' : '') + ' ...)'
       img.anya(src="/images/pages/admin/outcomes-report/anya.png")
       .block.room-for-anya
-        h1 Standards Coverage
-        p.
-          The full CodeCombat curriculum covers major programming standards in
-          several widely-adopted frameworks, including those of the International
-          Society for Technology in Education (ISTE), the Computer Science Teacher
-          Association (CSTA), and the K-12 Computer Science Framework.
-
-        p.
-          At CodeCombat, we believe that students will be most prepared for both
-          real-world computing jobs and further study of computer science by using
-          real, typed code in full programming languages, so instead of using block-based
-          visual programming languages for beginners, we teach Python and
-          JavaScript – the same languages used widely today by companies ranging
-          from Google to the New York Times.
+        h1= $t('outcomes.standards_coverage')
+        p= $t('outcomes.coverage_p1')
+        p= $t('outcomes.coverage_p2')
 
       .bottom
-        p Have questions or want more information? We'd be happy to help.
-        p
-          | Reach out to your Account Manager
-          if accountManager.name
-            span , #{accountManager.name},
-          = " at "
+        p= $t('outcomes.questions')
+        p= $t('outcomes.reach_out_manager', {name: accountManager.name ? `, ${accountManager.name},` : ''})
           a(:href="'mailto:' + accountManager.email")= accountManager.email
           | .
 
@@ -351,29 +350,29 @@ main#page-outcomes-report
     .print-btn.btn.btn-primary.btn-lg(@click="onPrintButtonClicked") {{ $t('courses.certificate_btn_print') }} / PDF
     .edit.btn.btn-primary.btn-lg(@click="onEditButtonClicked")
       if editing
-        span Done Customizing
+        span= $t('outcomes.done_customizing')
       else
-        span Customize Report
+        span= $t('outcomes.customize_report')
     .edit-controls(v-if="editing")
       br
       .form-group
         label.control-label.col-xs-5(for="startDate")
-          span  Start date
+          span= $t('teacher.start_date')
         .col-xs-7
           input#startDate.form-control(type="date" v-model="startDate" name="startDate" :min="earliestDate" :max="latestDate")
       .form-group
         label.control-label.col-xs-5(for="endDate")
-          span  End date
+          span= $t('teacher.end_date')
         .col-xs-7
           input#endDate.form-control(type="date" v-model="endDate" name="endDate" :min="earliestDate" :max="latestDate")
       .form-group(v-if="childKind")
         label.control-label.col-xs-5(for="includeSubOrgs")
-          span  Include #{kindString({kind: childKind}).toLowerCase()}s
+          span #{$t('outcomes.include')}#{kindString({kind: childKind}).toLowerCase()}s
         .col-xs-7
           input#includeSubOrgs.form-control(type="checkbox" v-model="includeSubOrgs" name="includeSubOrgs")
       .form-group(v-if="childKind && includeSubOrgs")
         label.control-label.col-xs-5(for="$store.state.query.subOrgLimit")
-          span  Max #{kindString({kind: childKind}).toLowerCase()}s
+          span  #{$t("outcomes.max")}#{kindString({kind: childKind}).toLowerCase()}#{$t('outcomes.multiple')}
         .col-xs-7
           input#subOrgLimit.form-control(type="number" v-model.number="subOrgLimit" name="subOrgLimit" min="1" step="1")
     .clearfix

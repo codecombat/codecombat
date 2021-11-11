@@ -18,7 +18,7 @@ block modal-header-content
       if view.user.get('role')
         h4
           - var outcomesReportKind = view.user.isStudent() ? 'student' : view.user.isSchoolAdmin() ? 'school-admin' : 'teacher'
-          a(href="/outcomes-report/#{outcomesReportKind}/#{view.user.get('_id')}") View Outcomes Report
+          a(href="/outcomes-report/#{outcomesReportKind}/#{view.user.get('_id')}" data-i18n="outcomes.view_outcomes_report")
 
     .col-sm-3
       if view.user.isStudent() && me.isAdmin()
