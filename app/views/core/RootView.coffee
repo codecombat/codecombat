@@ -157,8 +157,8 @@ module.exports = class RootView extends CocoView
     $('body').attr('lang', preferred)
 
   addLanguagesToSelect: ($select, initialVal) ->
-    # For now, we only want to support a few languages for Ozaria when launching for HoC 2019:
-    supportedLanguages = ['en-US', 'es-419', 'zh-HANS', 'ru']
+    # For now, we only want to support a few languages for Ozaria that we have people working to translate.
+    supportedLanguages = ['en-US', 'es-419', 'zh-HANS', 'zh-HANT', 'ru', 'pt-BR', 'pt-PT', 'ja']
     filteredLocale = _.pick(locale, supportedLanguages)
     codes = _.keys(filteredLocale)
 
@@ -177,13 +177,13 @@ module.exports = class RootView extends CocoView
       if $select.is('ul') # base-flat template
         $select.append(
           $('<li data-code="' + code + '"><a class="language-dropdown-item">' + localeInfo.nativeDescription + '</a></li>'))
-        if code is 'pt-BR'
-          $select.append($('<li role="separator" class="divider"</li>'))
+        #if code is 'pt-BR'
+        #  $select.append($('<li role="separator" class="divider"</li>'))
       else # base template
         $select.append($('<option></option>').val(code).text(localeInfo.nativeDescription))
-        if code is 'pt-BR'
-          $select.append(
-            $('<option class="select-dash" disabled="disabled"></option>').text('----------------------------------'))
+        #if code is 'pt-BR'
+        #  $select.append(
+        #    $('<option class="select-dash" disabled="disabled"></option>').text('----------------------------------'))
         $select.val(initialVal)
 
   onLanguageChanged: (event)->
