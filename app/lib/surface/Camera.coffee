@@ -42,8 +42,6 @@ module.exports = class Camera extends CocoClass
   # INIT
 
   subscriptions:
-    'camera:zoom-in': 'onZoomIn'
-    'camera:zoom-out': 'onZoomOut'
     'camera:zoom-to': 'onZoomTo'
     'level:restarted': 'onLevelRestarted'
 
@@ -159,9 +157,6 @@ module.exports = class Camera extends CocoClass
     #zv * ratioWithY + (1 - zv) * ratioWithoutY
 
   # SUBSCRIPTIONS
-
-  onZoomIn: (e) -> @zoomTo @target, @zoom * 1.15, 300
-  onZoomOut: (e) -> @zoomTo @target, @zoom / 1.15, 300
 
   onMouseDown: (e) ->
     return if @dragDisabled
