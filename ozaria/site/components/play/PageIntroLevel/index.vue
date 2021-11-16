@@ -106,8 +106,7 @@
 
           this.introContent = this.introLevelData.introContent
           // Set current campaign id and unit map URL details for acodus chrome
-          const campaign = this.getCampaignData({ courseInstanceId: this.courseInstanceId })
-          this.campaignId = campaign?._id || this.introLevelData.campaign
+          this.campaignId = this.introLevelData.campaign
           this.setUnitMapUrlDetails({ courseId: this.courseId, courseInstanceId: this.courseInstanceId })
         } catch (err) {
           console.error('Error in creating data for intro level', err)

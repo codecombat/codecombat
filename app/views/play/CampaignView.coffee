@@ -198,7 +198,7 @@ module.exports = class CampaignView extends RootView
               @courseStats = @classroom.statsForSessions(@courseInstance.sessions, @course.id)
               @render()
             @courseLevels = new Levels()
-            # This does not take into consideration that campaign data is cached on a classroom, but we may not need that here
+            # This does not take into consideration that campaign levels are cached on a classroom, but we may not need that here
             @supermodel.trackRequest @courseLevels.fetchForClassroomAndCourse(classroomID, courseID, {
               data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n' }
             })

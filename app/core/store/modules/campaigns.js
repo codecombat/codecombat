@@ -43,7 +43,8 @@ export default {
 
       let campaignData
 
-      if (courseInstanceId) {
+      // Turning off the extra-sensitive fetching of campaigns from course instances and classrooms as an easy way of reverting campaign versioning. TODO: delete this and related code?
+      if (false && courseInstanceId) {
         let classroom = rootGetters['classrooms/getClassroomByCourseInstanceId'](courseInstanceId)
         if (!classroom) {
           await dispatch('classrooms/fetchClassroomForCourseInstanceId', courseInstanceId, { root: true })

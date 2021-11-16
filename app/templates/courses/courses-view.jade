@@ -126,10 +126,9 @@ block content
                       - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
                       - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
                       - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
-                      - var campaign = classroom.campaignForCourse(courseID)
-                      - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: campaign._id});
+                      - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID});
                       h6
-                        span.spr= i18n(campaign, 'name')
+                        span.spr= i18n(course, 'name')
                         small
                           a.view-levels-btn(data-href=mapUrl, data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
                           if view.courseInstanceHasProject(courseInstance)
@@ -142,7 +141,7 @@ block content
                           //if view.showVideosLinkForCourse(course._id)
                           //  = " "
                           //  a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
-                      +course-instance-body(courseInstance, stats, nextLevel, mapUrl, campaign._id, isLocked, classroom)
+                      +course-instance-body(courseInstance, stats, nextLevel, mapUrl, course.campaignID, isLocked, classroom)
                       .clearfix
 
             h3(data-i18n="courses.join_class")

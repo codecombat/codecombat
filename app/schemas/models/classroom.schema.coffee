@@ -67,7 +67,7 @@ _.extend ClassroomSchema.properties,
       ozariaType: c.shortString()
       introContent: c.array()
     }
-    campaign: CampaignSchema
+    campaign: CampaignSchema  # Deprecated; can remove once we delete these denormalized copies from previous implementation of campaign versioning
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }
   grades: c.array { title: 'Class Grades' }, { type: 'string', enum: ['elementary','middle','high'] }

@@ -52,7 +52,7 @@ module.exports = class TeacherCoursesView extends RootView
     @listenTo @campaigns, 'sync', ->
       @campaigns.models.map((campaign) => Object.assign(@campaignLevelsModuleMap, campaign.getLevelsByModules()))
       # since intro content data is only needed for display names in the dropdown
-      # do not add it to supermodel.trackRequest which would increase the load time of the page  
+      # do not add it to supermodel.trackRequest which would increase the load time of the page
       Campaign.fetchIntroContentDataForLevels(@campaignLevelsModuleMap).then () => @render?()
     window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
     @getLevelDisplayNameWithLabel = (level) -> ozariaUtils.getLevelDisplayNameWithLabel(level)
@@ -74,7 +74,7 @@ module.exports = class TeacherCoursesView extends RootView
         changeLog = _.filter(changeLogInfo, { 'id' : course.get('_id') })
         changeLog = _.sortBy(changeLog, 'date')
         @courseChangeLog[course.id] = _.mapValues(_.groupBy(changeLog, 'date'))
-      @render?()  
+      @render?()
     )
     .catch((e) =>
       console.error(e)
@@ -94,7 +94,7 @@ module.exports = class TeacherCoursesView extends RootView
     language = form.find('.language-select').val() or 'javascript'
     window.tracker?.trackEvent 'Classes Guides Play Level', category: 'Teachers', courseID: courseID, language: language, levelSlug: levelSlug, ['Mixpanel']
 
-    # Because we don't know what classroom to match this with, this may have outdated campaign caching:
+    # Because we don't know what classroom to match this with, this may have outdated campaign levels caching:
     campaignLevels = @campaigns.get(@courses.get(courseID).get('campaignID')).getLevels() || []
     if campaignLevels.find((l) => l.get('slug') == levelSlug)?.get('type') == 'intro'
       url = "/play/intro/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}&intro-content=#{introIndex}"

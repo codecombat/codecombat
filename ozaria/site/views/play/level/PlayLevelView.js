@@ -83,15 +83,8 @@ class PlayLevelView extends RootView {
     this.onSubmissionComplete = this.onSubmissionComplete.bind(this)
     this.levelID = levelID
 
-    // We need to know the cached campaign data for the current classroom of the user. One way of doing this is:
-    // 1) Get the courseInstanceID, and use it to get the courseInstance.classroomID
-    // 2) Get the classroom.courses, filtered by the courseID
-    // 3) Using the classroom's courses object, get the campaign, and from the campaign get the ID
-
     this.courseID = options.courseID || utils.getQueryVariable('course')
     this.courseInstanceID = options.courseInstanceID || utils.getQueryVariable('course-instance')
-    this.campaignID = store.state.campaigns.campaignByCourseInstanceId[this.courseInstanceId] ||
-      store.state.campaigns.campaignByCourseId[this.courseId]
     this.isEditorPreview = utils.getQueryVariable('dev')
     this.sessionID = utils.getQueryVariable('session') || this.options.sessionID
     this.observing = utils.getQueryVariable('observing')
@@ -337,8 +330,7 @@ class PlayLevelView extends RootView {
     this.updateCapstoneStage() // update this.capstoneStage based on session's state
     store.commit('game/setLevel', this.level.attributes)
     // Set current campaign id and unit map URL details for acodus chrome
-    const campaignID = this.campaignID || this.level.get('campaign')
-    // This campaign ID will be wrong when the data is outdated, but the state for campaigns is fault tolerant:
+    const campaignID = this.level.get('campaign')
     store.commit('layoutChrome/setUnitMapUrlDetails', { courseId: this.courseID, courseInstanceId: this.courseInstanceID })
     store.dispatch('unitMap/buildLevelsData', { campaignHandle: campaignID, courseInstanceId: this.courseInstanceID, courseId: this.courseID })
     if (this.level.isType('web-dev')) {
@@ -1251,7 +1243,7 @@ class PlayLevelView extends RootView {
 
     if (me.get('anonymous')) {
       // Signup will go here on completion instead of reloading.
-      window.nextURL = `/play/${this.campaignID || this.level.get('campaign') || ''}`
+      window.nextURL = `/play/${this.level.get('campaign') || ''}`
     }
   }
 
