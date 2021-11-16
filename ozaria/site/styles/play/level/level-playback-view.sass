@@ -13,6 +13,7 @@
   bottom: 0px
   background-color: #000000
   z-index: 3
+  height: 64px
 
   &.controls-disabled
     pointer-events: none
@@ -58,16 +59,6 @@
     padding-left: 4px
     padding-right: 4px
 
-  #playback-settings
-    float: right
-    position: relative
-    margin-right: 10px
-    top: -10px
-    ul button
-      margin: 0 10px
-    li:hover
-      background: #add8e6
-
   #play-button.disabled .glyphicon
     @include opacity(0.75)
   #play-button.playing .glyphicon-pause
@@ -92,7 +83,7 @@
     left: 60px
     top: 25%
     bottom: 0px
-    right: 155px
+    right: 50px
     background: rgb(3, 3, 3)
     height: 28px
 
@@ -150,7 +141,5 @@ body.ipad #playback-view
   // Counteract 50px height of absolutely positioned control bar, but overlap by 20px of jagged transparent top.
   margin-top: 50px - 30px
 
-  #playback-settings
-    display: none
   .scrubber
     right: 25px

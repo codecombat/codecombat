@@ -27,8 +27,6 @@ module.exports = class LevelPlaybackView extends CocoView
     'playback:stop-cinematic-playback': 'onStopCinematicPlayback'
 
   events:
-    'click #zoom-in-button': -> Backbone.Mediator.publish 'camera:zoom-in', {} unless @shouldIgnore()
-    'click #zoom-out-button': -> Backbone.Mediator.publish 'camera:zoom-out', {} unless @shouldIgnore()
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {} unless @realTime
@@ -47,9 +45,6 @@ module.exports = class LevelPlaybackView extends CocoView
     @$progressScrubber = $('.scrubber .progress', @$el)
     @hookUpScrubber() unless @options.level.isType('game-dev')
     $(window).on('resize', @onWindowResize)
-    ua = navigator.userAgent.toLowerCase()
-    if /safari/.test(ua) and not /chrome/.test(ua)
-      @$el.find('.toggle-fullscreen').hide()
     @second = $.i18n.t 'units.second'
     @seconds = $.i18n.t 'units.seconds'
     @minute = $.i18n.t 'units.minute'
