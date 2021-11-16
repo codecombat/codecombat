@@ -61,6 +61,7 @@ module.exports = class MainAdminView extends RootView
   clearQueryParams: -> window.history.pushState({}, '', document.location.href.split('?')[0])
 
   stopSpying: ->
+    button = @$('#stop-spying-btn')
     me.stopSpying({
       success: -> document.location.reload()
       error: ->
