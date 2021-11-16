@@ -30,7 +30,7 @@ module.exports = class LevelCollection extends CocoCollection
             strippedSource = utils.extractPlayerCodeTag(s.source or '')
             s.source = strippedSource if strippedSource
             solutions.push s
-        else if lang isnt 'javascript' and not _.find(solutions, language: lang)
+        else if lang isnt 'javascript' and not _.find(allSolutions, language: lang)
           for s in allSolutions when s.language is 'javascript'
             s.language = lang
             s.source = aetherUtils.translateJS(s.source, lang)
@@ -45,7 +45,7 @@ module.exports = class LevelCollection extends CocoCollection
   fingerprint: (code, language) ->
     # Add a zero-width-space at the end of every comment line
     switch language
-      when 'javascript' then code.replace /^(\/\/.*)/gm, "$1​"
+      when ['javascript', 'java', 'cpp'] then code.replace /^(\/\/.*)/gm, "$1​"
       when 'lua' then code.replace /^(--.*)/gm, "$1​"
       when 'html' then code.replace /^(<!--.*)-->/gm, "$1​-->"
       else code.replace /^(#.*)/gm, "$1​"

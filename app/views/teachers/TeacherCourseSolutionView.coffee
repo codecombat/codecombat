@@ -60,6 +60,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
   camelCaseLanguage: (language) ->
     return language if _.isEmpty(language)
     return 'JavaScript' if language is 'javascript'
+    return 'C++' if language is 'cpp'
     language.charAt(0).toUpperCase() + language.slice(1)
 
   hideWrongLanguage: (s) ->
@@ -75,7 +76,6 @@ module.exports = class TeacherCourseSolutionView extends RootView
     @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
     @listenTo me, 'change:preferredLanguage', @updateLevelData
     @updateLevelData()
-
 
   updateLevelData: ->
     @levelSolutionsMap = @levels.getSolutionsMap([@language])
