@@ -1039,6 +1039,11 @@ class PlayLevelView extends RootView {
   }
 
   onEscapePressed (e) {
+    if (me.isAdmin() || me.isTeacher() || !window.application.isProduction()) {
+      // Allow admins, teachers, and local devs to skip tutorials
+      store.dispatch('game/setTutorialActive', false)
+    }
+
     if (this.$el.hasClass('real-time')) {
       return Backbone.Mediator.publish('playback:stop-real-time-playback', {})
     } else if (this.$el.hasClass('cinematic')) {
