@@ -275,6 +275,12 @@ _.extend UserSchema.properties,
     courseTranslationPatches: c.int()
     courseMiscPatches: c.int()
     courseEdits: c.int()
+    cinematicTranslationPatches: c.int()
+    cinematicMiscPatches: c.int()
+    cinematicEdits: c.int()
+    interactiveTranslationPatches: c.int()
+    interactiveMiscPatches: c.int()
+    interactiveEdits: c.int()
     concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
     licenses: c.object { additionalProperties: true }
     students: c.object { additionalProperties: true }
