@@ -48,8 +48,8 @@ module.exports = class User extends CocoModel
     ONLINE_TEACHER: 'onlineTeacher'
   }
 
-  get: (attr) ->
-    prop = Backbone.Model.prototype.get.call(this, attr);
+  get: (attr, withDefault=false) ->
+    prop = super(attr, withDefault)
     if attr == 'products'
       return prop ? []
     prop
