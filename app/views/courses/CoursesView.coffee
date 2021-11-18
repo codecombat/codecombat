@@ -391,6 +391,8 @@ module.exports = class CoursesView extends RootView
       @errorMessage = 'Please enter a code.'
     else if jqxhr.status is 404
       @errorMessage = $.t('signup.classroom_not_found')
+    else if jqxhr.status is 403
+      @errorMessage = $.t('signup.activation_code_used')
     else
       @errorMessage = "#{jqxhr.responseText}"
     @renderSelectors '#join-class-form'
