@@ -48,9 +48,11 @@ module.exports = class User extends CocoModel
     ONLINE_TEACHER: 'onlineTeacher'
   }
 
-  parse: (payload) ->
-    payload.products = payload?.products ? [] if payload
-    payload
+  get: (attr) ->
+    prop = Backbone.Model.prototype.get.call(this, attr);
+    if attr == 'products'
+      return prop ? []
+    prop
 
   isAdmin: -> @constructor.PERMISSIONS.COCO_ADMIN in @get('permissions', true)
   isLicensor: -> @constructor.PERMISSIONS.LICENSOR in @get('permissions', true)
