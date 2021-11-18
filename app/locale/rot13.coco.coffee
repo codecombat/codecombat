@@ -3239,10 +3239,40 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     license_type_customize: 'Phfgbzvmr Pbhefrf'
 
   outcomes:
+    outcomes_report: "Bhgpbzrf Ercbeg"
+    customize_report: "Phfgbzvmr Ercbeg"
+    done_customizing: "Qbar Phfgbzvmvat"
     school_admin: "Fpubby Nqzvavfgengbe"
     school_network: "Fpubby Argjbex"
     school_subnetwork: "Fpubby Fhoargjbex"
     classroom: "Pynffebbz"
+    view_outcomes_report: "Ivrj Bhgpbzrf Ercbeg"
+    key_concepts: "Xrl Pbaprcgf"
+    code_languages: "Pbqr Ynathntrf"
+    using_codecombat: "Hfvat PbqrPbzong'f crefbanyvmrq yrneavat ratvar..."
+    wrote: "jebgr..."
+    across_an_estimated: "npebff na rfgvzngrq..."
+    in: "va..."
+    include: "vapyhqr "
+    archived: "Nepuvirq"
+    max: "Znk "
+    multiple: "f"
+    computer_program: "pbzchgre_cebtenz"
+    computer_programs: "pbzchgre_cebtenzf"
+    line_of_code: "yvar bs pbqr"
+    lines_of_code: "yvarf bs pbqr"
+    coding_hours: "pbqvat ubhef"
+    expressed_creativity: "naq rkcerffrq perngvivgl ol ohvyqvat"
+    report_content_1: "fgnaqnybar tnzr naq jro "
+    project: "cebwrpg"
+    projects: "cebwrpgf"
+    progress_stats: "Cebterff fgngf onfrq ba fnzcyvat __fnzcyrFvmr__ bs __cbchyngvbaFvmr__ fghqragf."
+    standards_coverage: "Fgnaqneqf Pbirentr"
+    coverage_p1: 'Gur shyy PbqrPbzong pheevphyhz pbiref znwbe cebtenzzvat fgnaqneqf va frireny jvqryl-nqbcgrq senzrjbexf, vapyhqvat gubfr bs gur Vagreangvbany Fbpvrgl sbe Grpuabybtl va Rqhpngvba (VFGR), gur Pbzchgre Fpvrapr Grnpure Nffbpvngvba (PFGN), naq gur X-12 Pbzchgre Fpvrapr Senzrjbex.'
+    coverage_p2: 'Ng PbqrPbzong, jr oryvrir gung fghqragf jvyy or zbfg cercnerq sbe obgu erny-jbeyq pbzchgvat wbof naq shegure fghql bs pbzchgre fpvrapr ol hfvat erny, glcrq pbqr va shyy cebtenzzvat ynathntrf, fb vafgrnq bs hfvat oybpx-onfrq ivfhny cebtenzzvat ynathntrf sbe ortvaaref, jr grnpu Clguba naq WninFpevcg – gur fnzr ynathntrf hfrq jvqryl gbqnl ol pbzcnavrf enatvat sebz Tbbtyr gb gur Arj Lbex Gvzrf.'
+    questions: "Unir dhrfgvbaf be jnag zber vasbezngvba? Jr'q or unccl gb uryc."
+    reach_out_manager: "Ernpu bhg gb lbhe Nppbhag Znantre __anzr__ ng "
+    stats_include: "fgngf vapyhqr __ahzore__ bgure __anzr__"
 
   league:
     student_register_1: "Orpbzr gur arkg NV Punzcvba!"
