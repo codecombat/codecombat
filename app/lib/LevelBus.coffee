@@ -264,7 +264,7 @@ module.exports = class LevelBus extends Bus
     if @changedSessionProperties.code
       @updateSessionConcepts()
       spellMap = @changedSessionProperties.code
-      @changedSessionProperties.code = false
+      delete @changedSessionProperties.code
     Backbone.Mediator.publish 'level:session-will-save', session: @session
     patch = {}
     patch[prop] = @session.get(prop) for prop of @changedSessionProperties
