@@ -1,14 +1,14 @@
 module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", translation:
 
 #  new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
+    title: "CodeCombat - Kodēšanas spēles Python un JavaScript apguvei"
+    meta_keywords: "CodeCombat, python, javascript, Kodēšanas Spēles"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
-#    meta_og_url: "https://codecombat.com"
+    meta_og_url: "https://codecombat.com"
     become_investor: "kļūt par CodeCombat investoru"
-#    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
+    built_for_teachers_title: "Kodēšanas spēle, kas veidota, domājot par skolotājiem"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
-#    built_for_teachers_subtitle1: "Computer Science"
+    built_for_teachers_subtitle1: "Datorzinātne"
 #    built_for_teachers_subblurb1: "Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms."
     built_for_teachers_subtitle2: "Spēļu Izstrāde"
 #    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
@@ -29,16 +29,16 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    century_skills_quote4_author: "Joey, 10th Grade"
     century_skills_subtitle4: "Komunikācija"
 #    century_skills_subblurb4: "Coding requires kids to practice new forms of communication, including communicating with the computer itself and conveying their ideas using the most efficient code."
-#    classroom_in_box_title: "We Strive To:"
-#    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
-#    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
-#    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+    classroom_in_box_title: "Mēs cenšamies:"
+    classroom_in_box_blurb1: "Iesaistīt ikvienu skolēnu, lai viņi sajustu, ka kodēšana ir priekš viņa."
+    classroom_in_box_blurb2: "Dot ikvienam pedagogam justies pārliecinātam, mācot kodēšanu."
+    classroom_in_box_blurb3: "Iedvesmot visus skolu vadītājus izveidot pasaules līmeņa datorzinātņu programmu."
 #    classroom_in_box_blurb4: ""
-#    click_here: "Click here"
+    click_here: "Noklikšķiniet šeit"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
-#    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
+    creativity_rigor_subtitle1: "Padariet kodēšanu jautru un māciet reālās pasaules prasmes"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
-#    creativity_rigor_subtitle2: "Reach students at their level"
+    creativity_rigor_subtitle2: "Komunicējiet ar studentiem viņu līmenī"
 #    creativity_rigor_blurb2: "Every CodeCombat level is scaffolded based on millions of data points and optimized to adapt to each learner. Practice levels and hints help students when they get stuck, and challenge levels assess students' learning throughout the game."
 #    creativity_rigor_subtitle3: "Built for all teachers, regardless of experience"
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
@@ -50,7 +50,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    featured_partners_blurb4: "Code.org Official Partner"
 #    featured_partners_blurb5: "CSforAll Official Member"
 #    featured_partners_blurb6: "Hour of Code Activity Partner"
-#    for_leaders_title: "For School Leaders"
+    for_leaders_title: "Skolu vadītājiem"
 #    for_leaders_blurb: "A Comprehensive, Standards-Aligned Computer Science Program"
     for_leaders_subtitle1: "Viegla ieviešana"
 #    for_leaders_subblurb1: "A web-based program that requires no IT support. Get started in under 5 minutes using Google or Clever Single Sign-On (SSO)."
@@ -58,7 +58,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
     for_leaders_subtitle3: "Elastīgs pielietojums"
 #    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
-#    for_leaders_subtitle4: "Real-World Skills"
+    for_leaders_subtitle4: "Reālās pasaules prasmes"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
     for_teachers_title: "Skolotājiem"
     for_teachers_blurb: "Rīki studentu potenciāla atrašanai"
@@ -68,17 +68,17 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    for_teachers_subblurb2: "View data on student progress, discover curriculum resources, and access real-time support to empower student learning."
 #    for_teachers_subtitle3: "Built-in Assessments"
 #    for_teachers_subblurb3: "Personalize instruction and ensure students understand core concepts with formative and summative assessments."
-#    for_teachers_subtitle4: "Automatic Differentiation"
+    for_teachers_subtitle4: "Automātiskā Diferenciācija"
 #    for_teachers_subblurb4: "Engage all learners in a diverse classroom with practice levels that adapt to each student's learning needs."
 #    game_based_blurb: "CodeCombat is a game-based computer science program where students type real code and see their characters react in real time."
 #    get_started: "Get started"
 #    global_title: "Join Our Global Community of Learners and Educators"
-#    global_subtitle1: "Learners"
-#    global_subtitle2: "Lines of Code"
-#    global_subtitle3: "Teachers"
-#    global_subtitle4: "Countries"
-#    go_to_my_classes: "Go to my classes"
-#    go_to_my_courses: "Go to my courses"
+    global_subtitle1: "Izglītojamie"
+    global_subtitle2: "Koda Rindas"
+    global_subtitle3: "Skolotāji"
+    global_subtitle4: "Valstis"
+    go_to_my_classes: "Iet uz manām nodarbībām"
+    go_to_my_courses: "Iet uz maniem kursiem"
 #    quotes_quote1: "Name any program online, I’ve tried it. None of them match up to CodeCombat & Ozaria. Any teacher who wants their students to learn how to code... start here!"
 #    quotes_quote2: " I was surprised about how easy and intuitive CodeCombat makes learning computer science. The scores on the AP exam were much higher than I expected and I believe CodeCombat is the reason why this was the case."
 #    quotes_quote3: "CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice."
@@ -966,12 +966,12 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    purchased: "Purchased"
 
 #  subscribe_for_gems:
-#    prompt_title: "Not Enough Gems!"
-#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
+    prompt_title: "Nepietiek dārgakmeņu!"
+    prompt_body: "Abonējiet Premium, lai iegūtu dārgakmeņus un piekļūtu vēl vairākiem līmeņiem!"
 
 #  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+    prompt_title: "Nepietiek dārgakmeņu"
+    prompt_body: "Turpiniet spēlēt, lai nopelnītu vairāk!"
 
 #  subscribe:
 #    best_deal: "Best Deal!"
@@ -1287,7 +1287,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    location_title: "We're located in downtown SF:"
 
 #  teachers:
-#    licenses_needed: "Licenses needed"
+    licenses_needed: "Nepieciešamas licences"
 
 #  special_offer:
 #    special_offer: "Special Offer"
@@ -1484,7 +1484,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    maximize_editor: "Maximize/minimize code editor."
 
 #  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+    click_anywhere_continue: "noklikšķiniet jebkurā vietā, lai turpinātu"
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -2882,21 +2882,21 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    cookies_allow: "Allow cookies"
 
 #  calendar:
-#    year: "Year"
-#    day: "Day"
-#    month: "Month"
-#    january: "January"
-#    february: "February"
-#    march: "March"
-#    april: "April"
-#    may: "May"
-#    june: "June"
-#    july: "July"
-#    august: "August"
-#    september: "September"
-#    october: "October"
-#    november: "November"
-#    december: "December"
+    year: "Gads"
+    day: "Diena"
+    month: "Mēnesis"
+    january: "Janvāris"
+    february: "Februāris"
+    march: "Marts"
+    april: "Aprīlis"
+    may: "Maijs"
+    june: "Jūnijs"
+    july: "Jūlijs"
+    august: "Augusts"
+    september: "Septembris"
+    october: "Oktobris"
+    november: "Novembris"
+    december: "Decembris"
 
 #  code_play_create_account_modal:
 #    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
@@ -2906,10 +2906,10 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
 #  server_error:
-#    email_taken: "Email already taken"
-#    username_taken: "Username already taken"
-#    easy_password: "Password is too easy to guess"
-#    reused_password: "Password cannot be reused"
+    email_taken: "E-pasts jau aizņemts"
+    username_taken: "Lietotājvārds jau aizņemts"
+    easy_password: "Paroli ir pārāk viegli uzminēt"
+    reused_password: "Paroli nevar izmantot atkārtoti"
 
 #  esper:
 #    line_no: "Line $1: "
