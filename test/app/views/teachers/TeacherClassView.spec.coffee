@@ -286,7 +286,7 @@ describe 'TeacherClassView', ->
             spyOn(@view.prepaids.at(1), 'redeem')
             starterId = @available2.get('_id')
             @starterStudent = @students.find (s) ->
-              s.get('products') && s.get('products')[0].prepaid is starterId
+              s.get('products').length && s.get('products')[0].prepaid is starterId
             @view.assignCourse(@courses.at(1).id, [@starterStudent.id])
             @view.wait('begin-redeem-for-assign-course').then(done)
 
