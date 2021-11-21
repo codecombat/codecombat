@@ -270,9 +270,10 @@ module.exports = class LevelBus extends Bus
     patch[prop] = @session.get(prop) for prop of @changedSessionProperties
     if spellMap # let's only update trueSpell of session
       code = @session.get('code')
-      patch.code = {'hero-placeholder': {'plan': ''}, 'hero-place-holder-1': {'plan': ''}}
+      patch.code = code ? {'hero-placeholder': {'plan': ''}, 'hero-placeholder-1': {'plan': ''}}
       for updatedSpell, trueSpell of spellMap
         patch.code[trueSpell] = code[updatedSpell]
+      spellMap = undefined
     @changedSessionProperties = {}
 
     # since updates are coming fast and loose for session objects

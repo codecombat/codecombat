@@ -72,6 +72,7 @@ module.exports = class LadderView extends RootView
 
     if @level.loaded then onLoaded() else @level.once('sync', onLoaded)
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model
+    @listenToOnce @sessions, 'sync', @onSessionsLoaded
     unless features.china
       @winners = require('./tournament_results')[@levelID]
 
@@ -100,6 +101,11 @@ module.exports = class LadderView extends RootView
       type: 'HEAD'
       success: (result, status, xhr) =>
         @timeOffset = new Date(xhr.getResponseHeader("Date")).getTime() - Date.now()
+
+  onSessionsLoaded: (e) ->
+    for session in @sessions.models
+      if _.isEmpty(session.get('code'))
+        session.set 'code', session.get('submittedCode')
 
   checkTournamentEnd: ->
     @checkTournamentClose()
