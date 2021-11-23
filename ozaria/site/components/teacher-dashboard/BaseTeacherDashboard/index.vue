@@ -18,6 +18,7 @@
   import { mapMutations, mapGetters } from 'vuex'
   import { FIRST_CLASS_STEPS, CREATE_CLASS_STEPS } from './teacherDashboardTours'
   import ModalTeacherDetails from "../modals/ModalTeacherDetails";
+  import { hasSeenTeacherDetailModalRecently, markTeacherDetailsModalAsSeen } from '../../../common/utils'
 
   const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
   const SEEN_TEACHER_DETAILS_MODAL = 'seen-teacher-details-modal'
@@ -233,15 +234,11 @@
       },
 
       closeTeacherDetailsModal() {
-        const HRS_12 = 60 * 12;
-        storage.save(this.teacherModalKey(), true, HRS_12);
+        markTeacherDetailsModalAsSeen(me.get('_id'))
         this.showTeacherDetailsModal = false;
       },
       shouldShowTeacherDetailsModal() {
-        return !this.trialRequestLoading && !this.trialRequest?.organization && !storage.load(this.teacherModalKey())
-      },
-      teacherModalKey() {
-        return `${SEEN_TEACHER_DETAILS_MODAL}_${me.get('_id')}`;
+        return !this.trialRequestLoading && !this.trialRequest?.organization && !hasSeenTeacherDetailModalRecently(me.get('_id'))
       },
       handleTrialRequest() {
         this.$store.dispatch('trialRequest/fetchCurrentTrialRequest')

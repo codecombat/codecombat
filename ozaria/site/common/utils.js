@@ -1,4 +1,5 @@
 import RandomSeed from 'random-seed'
+import storage from "../../../app/core/storage";
 
 function getDateString () {
   const date = new Date()
@@ -36,4 +37,17 @@ export function deterministicShuffleForUserAndDay (user, originalArray) {
 export function getDisplayPermission (permission) {
   const display = permission?.toLowerCase()
   return $.i18n.t(`teacher_dashboard.${display}`)
+}
+
+function teacherModalSeenKey (teacherId) {
+  return `seen-teacher-details-modal_${teacherId}`
+}
+
+export function hasSeenTeacherDetailModalRecently (teacherId) {
+  return storage.load(teacherModalSeenKey(teacherId))
+}
+
+export function markTeacherDetailsModalAsSeen (teacherId) {
+  const HRS_12 = 60 * 12;
+  storage.save(teacherModalSeenKey(teacherId), true, HRS_12)
 }
