@@ -57,7 +57,7 @@ module.exports = class LadderPlayModal extends ModalView
     me.patch()
     if @session
       @session.set 'codeLanguage', aceConfig.language
-      @session.patch()
+      @session.save({codeLanguage: aceConfig.language}, {patch: true, type: 'PUT'})
 
   # PART 1: Load challengers from the db unless some are in the matches
   startLoadingChallengersMaybe: ->
