@@ -210,9 +210,12 @@ module.exports = class LevelLoader extends CocoClass
   preloadTeamForSession: (session) =>
     if @level.isType('ladder') and @team is 'ogres' and session.get('team') is 'humans'
       session.set 'team', 'ogres'
-      code = session.get('code')
-      code['hero-placeholder-1'] = JSON.parse(JSON.stringify(code['hero-placeholder']))
-      session.set 'code', code
+      unless session.get 'interpret'
+        code = session.get('code')
+        if _.isEmpty(code)
+          code = session.get('submittedCode')
+        code['hero-placeholder-1'] = JSON.parse(JSON.stringify(code['hero-placeholder']))
+        session.set 'code', code
     @loadDependenciesForSession session
 
   preloadTokenForOpponentSession: (session) =>
