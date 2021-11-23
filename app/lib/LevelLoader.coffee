@@ -212,9 +212,12 @@ module.exports = class LevelLoader extends CocoClass
   preloadTeamForSession: (session) =>
     if @level.isType('ladder') and @team is 'ogres' and session.get('team') is 'humans'
       session.set 'team', 'ogres'
-      code = session.get('code')
-      code['hero-placeholder-1'] = JSON.parse(JSON.stringify(code['hero-placeholder']))
-      session.set 'code', code
+      unless session.get 'interpret'
+        code = session.get('code')
+        if _.isEmpty(code)
+          code = session.get('submittedCode')
+        code['hero-placeholder-1'] = JSON.parse(JSON.stringify(code['hero-placeholder']))
+        session.set 'code', code
     @loadDependenciesForSession session
 
   preloadTokenForOpponentSession: (session) =>
@@ -259,8 +262,6 @@ module.exports = class LevelLoader extends CocoClass
       session.unset 'interpret'
     if session.get('codeLanguage') in ['io', 'clojure']
       session.set 'codeLanguage', 'python'
-    if _.isEmpty(session.get('code'))
-      session.set 'code', session.get('submittedCode')
     if session is @session
       @addSessionBrowserInfo session
       # hero-ladder games require the correct session team in level:loaded
