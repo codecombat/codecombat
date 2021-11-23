@@ -273,7 +273,6 @@ module.exports = class LevelBus extends Bus
       patch.code = code ? {'hero-placeholder': {'plan': ''}, 'hero-placeholder-1': {'plan': ''}}
       for updatedSpell, trueSpell of spellMap
         patch.code[trueSpell] = code[updatedSpell]
-      spellMap = undefined
     @changedSessionProperties = {}
 
     # since updates are coming fast and loose for session objects
