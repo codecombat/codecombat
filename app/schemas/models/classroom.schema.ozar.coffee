@@ -14,7 +14,7 @@ _.extend ClassroomSchema.properties,
   code: c.shortString(title: "Unique code to redeem")
   codeCamel: c.shortString(title: "UpperCamelCase version of code for display purposes")
   aceConfig:
-    language: {type: 'string', 'enum': ['python', 'javascript']}
+    language: {type: 'string', 'enum': ['python', 'javascript', 'cpp']}
   averageStudentExp: { type: 'string' }
   ageRangeMin: { type: 'string' }
   ageRangeMax: { type: 'string' }
@@ -34,7 +34,7 @@ _.extend ClassroomSchema.properties,
       assessmentPlacement: { type: 'string' }
       practice: {type: 'boolean'}
       practiceThresholdMinutes: {type: 'number'}
-      primerLanguage: { type: 'string', enum: ['javascript', 'python'] }
+      primerLanguage: { type: 'string', enum: ['javascript', 'python', 'cpp'] }
       shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable, shareable, or a sharing-encouraged project level.' }
       type: c.shortString()
       original: c.objectId()
@@ -67,7 +67,7 @@ _.extend ClassroomSchema.properties,
       ozariaType: c.shortString()
       introContent: c.array()
     }
-    campaign: CampaignSchema
+    campaign: CampaignSchema  # Deprecated; can remove once we delete these denormalized copies from previous implementation of campaign versioning
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }
   grades: c.array { title: 'Class Grades' }, { type: 'string', enum: ['elementary','middle','high'] }

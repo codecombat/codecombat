@@ -141,7 +141,4 @@ module.exports = {
   'views/cutscene': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cutscene/PageCutscene') },
   'views/interactive': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/interactive/PageInteractive') },
   'views/introLevel': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageIntroLevel') },
-
-  // Temporary
-  'views/courses/StudentRankingView': function() { return import(/* webpackChunkName: "StudentRankingView" */ 'views/courses/StudentRankingView')}
 }

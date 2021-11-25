@@ -1,6 +1,7 @@
 require('app/styles/editor/verifier/verifier-view.sass')
 async = require('vendor/scripts/async.js')
 utils = require 'core/utils'
+aetherUtils = require 'lib/aether_utils'
 
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/verifier/verifier-view'
@@ -33,13 +34,13 @@ module.exports = class VerifierView extends RootView
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
 
-    defaultCores = 2
-    @cores = Math.max(window.navigator.hardwareConcurrency, defaultCores)
+    @cores = window.navigator.hardwareConcurrency or 4
     @careAboutFrames = true
 
     if @levelID
       @levelIDs = [@levelID]
-      @testLanguages = ['python', 'javascript', 'java', 'lua', 'coffeescript']
+      @testLanguages = ['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript']
+      @codeLanguages = ({id: c, checked: true} for c in @testLanguages)
       @cores = 1
       @startTestingLevels()
     else
@@ -61,12 +62,12 @@ module.exports = class VerifierView extends RootView
     for campaign in @campaigns.models when campaign.get('type') in ['course', 'hero', 'hoc'] and campaign.get('slug') not in ['picoctf', 'game-dev-1', 'game-dev-2', 'game-dev-3', 'web-dev-1', 'web-dev-2', 'web-dev-3', 'campaign-web-dev-1', 'campaign-web-dev-2', 'campaign-web-dev-3'].concat(CocoLegacyCampaigns)
       @levelsByCampaign[campaign.get('slug')] ?= {levels: [], checked: campaign.get('slug') in ['intro']}
       campaignInfo = @levelsByCampaign[campaign.get('slug')]
-      for levelID, level of campaign.get('levels') when level.type not in ['hero-ladder', 'course-ladder', 'web-dev']  # Would use isType, but it's not a Level model
+      for levelID, level of campaign.get('levels') when level.type not in ['hero-ladder', 'course-ladder', 'web-dev', 'ladder']  # Would use isType, but it's not a Level model
         campaignInfo.levels.push level.slug
 
   filterCodeLanguages: ->
     defaultLanguages = utils.getQueryVariable('languages', 'python,javascript').split(/, ?/)
-    @codeLanguages ?= ({id: c, checked: c in defaultLanguages} for c in ['python', 'javascript', 'java', 'lua', 'coffeescript'])
+    @codeLanguages ?= ({id: c, checked: c in defaultLanguages} for c in ['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript'])
 
   onClickGoButton: (e) ->
     @filterCampaigns()
@@ -97,7 +98,7 @@ module.exports = class VerifierView extends RootView
       else
         @listenToOnce @supermodel.loadModel(level).model, 'sync', @onLevelLoaded
 
-  onLevelLoaded: (level) ->
+  onLevelLoaded: () ->
     if --@levelsToLoad is 0
       @onTestLevelsLoaded()
     else
@@ -108,17 +109,27 @@ module.exports = class VerifierView extends RootView
     @linksQueryString = window.location.search
     #supermodel = if @levelID then @supermodel else undefined
     @tests = []
+    @testsByLevelAndLanguage = {}
     @tasksList = []
     for levelID in @levelIDs
       level = @supermodel.getModel(Level, levelID)
       for codeLanguage in @testLanguages
         solutions = _.filter level?.getSolutions() ? [], language: codeLanguage
+        # If there are no target language solutions yet, generate them from JavaScript.
+        if codeLanguage in ['cpp', 'java', 'python', 'lua', 'coffeescript'] and solutions.length is 0
+          transpiledSolutions = _.filter level?.getSolutions() ? [], language: 'javascript'
+          for s in transpiledSolutions
+            s.language = codeLanguage
+            s.source = aetherUtils.translateJS s.source, codeLanguage
+            s.transpiled = true
+          solutions = transpiledSolutions
         if solutions.length
-          for solution, solutionIndex in solutions
-            @tasksList.push level: levelID, language: codeLanguage, solutionIndex: solutionIndex
+          for solution in solutions
+            @tasksList.push level: levelID, language: codeLanguage, solution: solution
         else
           @tasksList.push level: levelID, language: codeLanguage
 
+    @tasksToRerun = []
     @testCount = @tasksList.length
     console.log("Starting in", @cores, "cores...")
     chunks = _.groupBy @tasksList, (v,i) => i%@cores
@@ -131,7 +142,7 @@ module.exports = class VerifierView extends RootView
         chunkSupermodel.models = _.clone parentSuperModel.models
         chunkSupermodel.collections = _.clone parentSuperModel.collections
         supermodels.push chunkSupermodel
-
+        @render()
         async.eachSeries chunk, (task, next) =>
           test = new VerifierTest task.level, (e) =>
             @update(e)
@@ -139,19 +150,73 @@ module.exports = class VerifierView extends RootView
               if e.state is 'complete'
                 if test.isSuccessful(@careAboutFrames)
                   ++@passed
+                else if @cores > 1
+                  ++@failed
+                  @tasksToRerun.push task
                 else
                   ++@failed
               else if e.state is 'no-solution'
                 --@testCount
               else
                 ++@problem
-
               next()
-          , chunkSupermodel, task.language, {solutionIndex: task.solutionIndex}
-          @tests.unshift test
-          @render()
-        , => @render()
+          , chunkSupermodel, task.language, { solution: task.solution }
+          @tests.push test
+          @testsByLevelAndLanguage[task.level] ?= {}
+          @testsByLevelAndLanguage[task.level][task.language] ?= []
+          @testsByLevelAndLanguage[task.level][task.language].push test
+          @renderSelectors(".tasks-group[data-task-slug='#{task.level}'][data-task-language='#{task.language}']")
+          @renderSelectors('.verifier-row')
+          @renderSelectors('.progress')
+        , =>
+          if not @testsRemaining()
+            @render()
+            @rerunFailedTests()
       , if i > 0 then 5000 + i * 1000 else 0
 
+  rerunFailedTests: ->
+    if not @tasksToRerun.length or @cores is 1
+      console.log ([test.level.get('slug'), test.language].join('\t') for test in @tests when not test.isSuccessful()).join('\n')
+      return
+
+    for test in @tests.slice() when test.state is 'complete' and not test.isSuccessful(@careAboutFrames)
+      # Remove these tests, we'll redo them
+      @tests = _.without @tests, test
+      @testsByLevelAndLanguage[test.level.get('slug')][test.language] = _.without @testsByLevelAndLanguage[test.level.get('slug')][test.language], test
+
+    tasksToRerun = @tasksToRerun
+    @tasksToRerun = []
+    testSupermodel = new SuperModel()
+    testSupermodel.models = _.clone @supermodel.models
+    testSupermodel.collections = _.clone @supermodel.collections
+    async.eachSeries tasksToRerun, (task, next) =>
+      test = new VerifierTest task.level, (e) =>
+        @update(e)
+        if e.state in ['complete', 'error', 'no-solution']
+          if e.state is 'complete'
+            if test.isSuccessful(@careAboutFrames)
+              --@failed
+              ++@passed
+          else
+            --@failed
+            ++@problem
+          next()
+      , testSupermodel, task.language, { solution: task.solution }
+      @tests.push test
+      @testsByLevelAndLanguage[task.level][task.language].push test
+      @renderSelectors(".tasks-group[data-task-slug='#{task.level}'][data-task-language='#{task.language}']")
+      @renderSelectors('.verifier-row')
+      @renderSelectors('.progress')
+    , =>
+      @render()
+      console.log ([test.level.get('slug'), test.language].join('\t') for test in @tests when not test.isSuccessful()).join('\n')
+
+  testsRemaining: -> @testCount - @passed - @problem - @failed
+
   update: (event) =>
-    @render()
+    if event and event.test.level?.get('slug')
+      @renderSelectors(".tasks-group[data-task-slug='#{event.test.level.get('slug')}'][data-task-language='#{event.test.language}']")
+      @renderSelectors('.verifier-row')
+      @renderSelectors('.progress')
+    else
+      @render()
