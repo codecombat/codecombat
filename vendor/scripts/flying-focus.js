@@ -125,6 +125,11 @@ style.textContent = "#flying-focus {\
 		outline-offset: -3px;\
 	}\
 }\
+@media print {\
+	#flying-focus {\
+		display: none;\
+	}\
+}\
 ";
 document.body.appendChild(style);
 

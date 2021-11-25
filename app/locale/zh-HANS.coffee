@@ -2584,11 +2584,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     awaiting_tournament_title: "比赛未开始"
     awaiting_tournament_blurb: "比赛将于6月22日下午开启，敬请期待"
     tournament_end_desc: "比赛已结束，感谢您的参与"
-#    age: "Age"
-#    bracket_0_11: "0-11"
-#    bracket_11_14: "11-14"
-#    bracket_14_18: "14-18"
-#    bracket_open: "Open"
+    age: "年龄"
+    age_bracket: "组别"
+    bracket_0_11: "小学组"
+    bracket_11_14: "中学组"
+    bracket_14_18: "中学组"
+    bracket_11_18: "中学组"
+    bracket_open: "开放组"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"

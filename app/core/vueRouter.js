@@ -66,7 +66,10 @@ export default function getVueRouter () {
             { path: 'licenses', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminLicenses/index.vue') }
           ]
         },
-
+        {
+          path: '/outcomes-report/:kind/:country?/:idOrSlug',
+          component: () => import(/* webpackChunkName: "outcomesReport" */ 'app/views/outcomes-report/PageOutcomesReport'),
+        },
         {
           path: '/teachers',
           component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/index.vue'),

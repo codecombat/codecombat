@@ -98,6 +98,7 @@ module.exports = class TeacherClassView extends RootView
 
   initialize: (options, classroomID) ->
     super(options)
+    @utils = utils
 
     if (options.renderOnlyContent)
       @template = viewContentTemplate
@@ -142,6 +143,7 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @classroom, 'sync', ->
       @fetchStudents()
       @fetchSessions()
+      @classroom.language = @classroom.get('aceConfig')?.language
       @courseModuleLevelsMap = @classroom.getLevelsByModules() # build levels without intro content data
       @classroom.fetchIntroContentDataForLevels(@courseModuleLevelsMap).then(() => @debouncedRender?()) # fetch intro content data
       @fetchInteractiveSessions()
@@ -341,7 +343,7 @@ module.exports = class TeacherClassView extends RootView
   onWindowResize: =>
     $('.module-content').each (i,el) =>
       @toggleModuleContainerFade?($(el))
-  
+
   toggleModuleContainerFade: (elem) ->
     # Make room for floating point imprecision
     delta = 1.5
@@ -419,7 +421,7 @@ module.exports = class TeacherClassView extends RootView
     @state.set {
       interactiveProgressData
     }
-  
+
   destroy: ->
     $(window).off 'resize', @onWindowResize
     @trackTimeSpentOnUnitProgress()

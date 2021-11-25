@@ -37,7 +37,6 @@ module.exports = class CoursesView extends RootView
     'click .play-btn': 'onClickPlay'
     'click .view-class-btn': 'onClickViewClass'
     'click .view-levels-btn': 'onClickViewLevels'
-    'click .view-ranking-link': 'onClickViewRanking'
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
     'click .view-challenges-link': 'onClickViewChallengesLink'
     'click .view-videos-link': 'onClickViewVideosLink'
@@ -54,7 +53,7 @@ module.exports = class CoursesView extends RootView
     super()
 
     @classCodeQueryVar = utils.getQueryVariable('_cc', false)
-    @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
+    @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course-instances", model: CourseInstance})
     @courseInstances.comparator = (ci) -> return parseInt(ci.get('classroomID'), 16) + utils.orderedCourseIDs.indexOf ci.get('courseID')
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
     @supermodel.loadCollection(@courseInstances, { cache: false })
@@ -282,15 +281,6 @@ module.exports = class CoursesView extends RootView
     courseInstanceID = $(e.target).data('courseinstance-id')
     window.tracker?.trackEvent 'Students View Levels', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
     application.router.navigate($(e.currentTarget).data('href'), { trigger: true })
-
-  onClickViewRanking: (e) ->
-    courseID = $(e.target).data('course-id')
-    courseInstanceID = $(e.target).data('courseinstance-id')
-    #window.tracker?.trackEvent 'Students View Ranking', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
-    course = store.state.courses.byId[courseID]
-    courseInstance = @courseInstances.get(courseInstanceID)
-    rankingUrl = @urls.courseRanking({course, courseInstance})
-    application.router.navigate(rankingUrl, { trigger: true })
 
   onClickViewProjectGalleryLink: (e) ->
     courseID = $(e.target).data('course-id')

@@ -34,6 +34,7 @@
     ),
 
     created () {
+      this.myId = me.get('_id')
       this.fetch()
     },
 
@@ -75,7 +76,10 @@
 
 <template>
   <div>
-    <h3>{{ $t('school_administrator.my_teachers') }}</h3>
+    <h3>
+      <span>{{ $t('school_administrator.my_teachers') }}</span>
+      <a class="pull-right" :href="'/outcomes-report/school-admin/' + myId" target="_blank">View Outcomes Report</a>
+    </h3>
 
     <loading-progress :loading-status="teachersLoading">
       <div class="content">

@@ -331,7 +331,7 @@ LevelSchema = c.object {
 c.extendNamedProperties LevelSchema  # let's have the name be the first property
 _.extend LevelSchema.properties,
   description: {title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown'}
-  displayName: c.shortString({title: 'Display Name'})
+  displayName: c.shortString({title: 'Display Name'})  # Currently just used in Ozaria
   studentPlayInstructions: {title: 'Student Play Instructions', description: 'Instructions for game dev levels when students play them.', type: 'string', maxLength: 65536, format: 'markdown'}
   loadingTip: { type: 'string', title: 'Loading Tip', description: 'What to show for this level while it\'s loading.' }
   documentation: c.object {title: 'Documentation', description: 'Documentation articles relating to this level.', 'default': {specificArticles: [], generalArticles: []}},
@@ -351,6 +351,7 @@ _.extend LevelSchema.properties,
         i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this hint'}
       }
     }
+  # These next few properties are just for Ozaria
   screenshot: { type: 'string', format: 'image-file', title: 'Screenshot', description: 'Relevant for teacher dashboard' }
   exemplarProjectUrl: c.url { title: 'Exemplar Project URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)' }
   exemplarCodeUrl: c.url { title: 'Exemplar Code URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)' }
@@ -455,7 +456,7 @@ _.extend LevelSchema.properties,
   allowedHeroes: { type: 'array', title: 'Allowed Heroes', description: 'Which heroes can play this level. For any hero, leave unset.', items: {
     type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
   }}
-  campaign: c.shortString title: 'Campaign', description: 'WARNING - Set automatically with campaign editor!!!!! Which campaign this level is part of (like "desert").'  # Automatically set by campaign editor.
+  campaign: c.shortString title: 'Campaign', description: 'Set automatically by the campaign editor. Which campaign this level is part of (like "desert").', format: 'hidden'
   campaignIndex: c.int title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden'  # Automatically set by campaign editor.
   scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).'}, {
       anyOf: [
@@ -485,6 +486,8 @@ _.extend LevelSchema.properties,
   password: { type: 'string', description: 'The password required to create a session for this level' }
   mirrorMatch: { type: 'boolean', description: 'Whether a multiplayer ladder arena is a mirror match' }
   codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'CodePoints that can be earned for completing this level'}
+  clans: c.array {description: 'If at least one clan is specified, only allow the users in these clans to access the level', format: 'clans-list'}, c.objectId()
+  # Next few are Ozaria-only
   introContent: { # valid for levels of type 'intro'
     title: 'Intro content',
     description: 'Intro content sequence',
@@ -519,7 +522,6 @@ c.extendVersionedProperties LevelSchema, 'level'
 c.extendPermissionsProperties LevelSchema, 'level'
 c.extendPatchableProperties LevelSchema
 c.extendTranslationCoverageProperties LevelSchema
-c.extendAlgoliaProperties LevelSchema
 
 module.exports = LevelSchema
 

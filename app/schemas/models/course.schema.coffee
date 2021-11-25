@@ -8,19 +8,23 @@ _.extend CourseSchema.properties,
   campaignID: c.objectId()
   concepts: c.array {title: 'Programming Concepts', uniqueItems: true}, c.concept
   description: {type: 'string'}
-  # duration: {type: 'number', description: 'Approximate hours of content'} # deprecated
-  duration: { type: 'object', title: 'Course duration', properties: {
-    total: { type: 'string', title: 'Total class time (overall)' }
-    inGame: { type: 'string', title: 'In-game time' }
-    totalTimeRange: { type: 'string', title: 'Total class time (range)', description: 'Relevant for curriculum guides hover tooltip' }
-    i18n: {type: 'object', title: 'i18n', format: 'i18n', props: [
-      'total', 'inGame', 'totalTimeRange'
-    ]}
-  }}
+  duration: oneOf: [
+    { type: 'object', title: 'Course duration', properties: {
+      total: { type: 'string', title: 'Total class time (overall)' }
+      inGame: { type: 'string', title: 'In-game time' }
+      totalTimeRange: { type: 'string', title: 'Total class time (range)', description: 'Relevant for curriculum guides hover tooltip' }
+      i18n: {type: 'object', title: 'i18n', format: 'i18n', props: [
+        'total', 'inGame', 'totalTimeRange'
+      ]}
+    }},
+    {type: 'number', description: 'Approximate hours of content'}  # deprecated
+  ]
   pricePerSeat: {type: 'number', description: 'Price per seat in USD cents.'} # deprecated
   free: { type: 'boolean' }
-  # screenshot: c.path { title: 'URL', description: 'Link to course screenshot.'} # deprecated
-  screenshot: { type: 'string', format: 'image-file', title: 'Thumbnail image', description: 'Relevant for teacher dashboard' }
+  screenshot: oneOf: [
+    { type: 'string', format: 'image-file', title: 'Thumbnail image', description: 'Relevant for teacher dashboard' }
+    c.path { title: 'URL', description: 'Link to course screenshot.'} # deprecated
+  ]
   adminOnly: { type: 'boolean', description: 'Deprecated in favor of releasePhase.' }
   releasePhase: { enum: ['beta', 'internalRelease', 'released'], description: "How far along the course's development is, determining who sees it." }
   isOzaria: { type: 'boolean', description: 'Is this an ozaria course' } # not used
@@ -49,6 +53,6 @@ _.extend CourseSchema.properties,
 c.extendBasicProperties CourseSchema, 'Course'
 c.extendTranslationCoverageProperties CourseSchema
 c.extendPatchableProperties CourseSchema
-c.extendAlgoliaProperties CourseSchema
+c.extendSearchableProperties CourseSchema
 
 module.exports = CourseSchema

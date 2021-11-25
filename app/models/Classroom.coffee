@@ -152,11 +152,6 @@ module.exports = class Classroom extends CocoModel
     levels = new Levels(course.levels)
     return levels.find (l) -> l.isProject()
 
-  campaignForCourse: (courseId) ->
-    courses = @get('courses')
-    course = _.findWhere(courses, {_id: courseId})
-    return course.campaign
-
   statsForSessions: (sessions, courseID, levelsCollection=undefined) ->
     return null unless sessions
     sessions = sessions.models or sessions

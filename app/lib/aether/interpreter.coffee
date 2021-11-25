@@ -53,6 +53,8 @@ updateState = (aether, evaluator) ->
         rng = top.ast.originalRange
 
         if not rng and top.ast.loc?
+          if top.ast.loc.start and not top.ast.loc.end
+            top.ast.loc.end = top.ast.loc.start
           rng =
             start: {row:top.ast.loc.start.line - 1, col:top.ast.loc.start.column}
             end: {row:top.ast.loc.end.line - 1, col:top.ast.loc.end.column}
@@ -126,7 +128,7 @@ module.exports.createFunction = (aether) ->
       else
         fx = engine.functionFromASTSync aether.ast
   catch error
-    console.log 'Esper: error parsing AST. Returning empty function.', error.message
+    console.error 'Esper: error parsing AST. Returning empty function.', error.message, error
     if aether.language.id is 'javascript'
       error.message = "Couldn't understand your code. Are your { and } braces matched?"
     else
@@ -154,7 +156,8 @@ makeYieldFilter = (aether) -> (engine, evaluator, e) ->
   if e? and e.type is 'event' and e.event is 'loopBodyStart'
 
     # Legacy programming languages use 'Literal' whilst C++ and Java use 'BooleanLiteral'.
-    if top.srcAst.type is 'WhileStatement' and (top.srcAst.test.type is 'Literal' or top.srcAst.test.type is 'BooleanLiteral')
+    # Lua generates `while true` loops from code like `for i, soldier in pairs(soldiers do)`, so for Lua, we ignore `true` test literals that don't have `loc` (because they are generated code)
+    if top.srcAst.type is 'WhileStatement' and (top.srcAst.test.type is 'Literal' or top.srcAst.test.type is 'BooleanLiteral') and not (aether.language.id is 'lua' and not top.srcAst.test.loc)
       if aether.whileLoopMarker?
         currentMark = aether.whileLoopMarker(top)
         if currentMark is top.mark

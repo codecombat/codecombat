@@ -21,16 +21,16 @@ combineAncestralObject = (obj, propertyName) ->
   combined
 
 countries = [
-  {country: 'united-states', countryCode: 'US', ageOfConsent: 13}
-  {country: 'china', countryCode: 'CN'}
+  {country: 'united-states', countryCode: 'US', ageOfConsent: 13, addressesIncludeAdministrativeRegion:true}
+  {country: 'china', countryCode: 'CN', addressesIncludeAdministrativeRegion:true}
   {country: 'brazil', countryCode: 'BR'}
 
   # Loosely ordered by decreasing traffic as measured 2016-09-01 - 2016-11-07
   # TODO: switch to alphabetical ordering
   {country: 'united-kingdom', countryCode: 'GB', inEU: true, ageOfConsent: 13}
   {country: 'russia', countryCode: 'RU'}
-  {country: 'australia', countryCode: 'AU'}
-  {country: 'canada', countryCode: 'CA'}
+  {country: 'australia', countryCode: 'AU', addressesIncludeAdministrativeRegion:true}
+  {country: 'canada', countryCode: 'CA', addressesIncludeAdministrativeRegion:true}
   {country: 'france', countryCode: 'FR', inEU: true, ageOfConsent: 15}
   {country: 'taiwan', countryCode: 'TW'}
   {country: 'ukraine', countryCode: 'UA'}
@@ -46,25 +46,25 @@ countries = [
   {country: 'new-zealand', countryCode: 'NZ'}
   {country: 'finland', countryCode: 'FI', inEU: true, ageOfConsent: 13}
   {country: 'south-korea', countryCode: 'KR'}
-  {country: 'mexico', countryCode: 'MX'}
+  {country: 'mexico', countryCode: 'MX', addressesIncludeAdministrativeRegion:true}
   {country: 'vietnam', countryCode: 'VN'}
   {country: 'singapore', countryCode: 'SG'}
   {country: 'colombia', countryCode: 'CO'}
-  {country: 'india', countryCode: 'IN'}
+  {country: 'india', countryCode: 'IN', addressesIncludeAdministrativeRegion:true}
   {country: 'thailand', countryCode: 'TH'}
   {country: 'belgium', countryCode: 'BE', inEU: true, ageOfConsent: 13}
   {country: 'sweden', countryCode: 'SE', inEU: true, ageOfConsent: 13}
   {country: 'denmark', countryCode: 'DK', inEU: true, ageOfConsent: 13}
   {country: 'czech-republic', countryCode: 'CZ', inEU: true, ageOfConsent: 15}
   {country: 'hong-kong', countryCode: 'HK'}
-  {country: 'italy', countryCode: 'IT', inEU: true, ageOfConsent: 16}
+  {country: 'italy', countryCode: 'IT', inEU: true, ageOfConsent: 16, addressesIncludeAdministrativeRegion:true}
   {country: 'romania', countryCode: 'RO', inEU: true, ageOfConsent: 16}
   {country: 'belarus', countryCode: 'BY'}
   {country: 'norway', countryCode: 'NO', inEU: true, ageOfConsent: 13}  # GDPR applies to EFTA
   {country: 'philippines', countryCode: 'PH'}
   {country: 'lithuania', countryCode: 'LT', inEU: true, ageOfConsent: 16}
   {country: 'argentina', countryCode: 'AR'}
-  {country: 'malaysia', countryCode: 'MY'}
+  {country: 'malaysia', countryCode: 'MY', addressesIncludeAdministrativeRegion:true}
   {country: 'pakistan', countryCode: 'PK'}
   {country: 'serbia', countryCode: 'RS'}
   {country: 'greece', countryCode: 'GR', inEU: true, ageOfConsent: 15}
@@ -98,6 +98,8 @@ countries = [
 
 inEU = (country) -> !!_.find(countries, (c) => c.country is slugify(country))?.inEU
 
+addressesIncludeAdministrativeRegion = (country) -> !!_.find(countries, (c) => c.country is slugify(country))?.addressesIncludeAdministrativeRegion
+
 ageOfConsent = (countryName, defaultIfUnknown=0) ->
   return defaultIfUnknown unless countryName
   country = _.find(countries, (c) => c.country is slugify(countryName))
@@ -110,7 +112,19 @@ countryCodeToFlagEmoji = (code) ->
   return code unless code?.length is 2
   (String.fromCodePoint(c.charCodeAt() + 0x1F1A5) for c in code.toUpperCase()).join('')
 
-freeCampaignIds = ['5d1a8368abd38e8b5363bad9'] # CH1 campaign
+countryCodeToName = (code) ->
+  return code unless code?.length is 2
+  return code unless country = _.find countries, countryCode: code.toUpperCase()
+  titleize country.country
+
+titleize = (s) ->
+  # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
+  _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
+
+campaignIDs =
+  CHAPTER_ONE: '5d1a8368abd38e8b5363bad9'
+
+freeCampaignIds = [campaignIDs.CHAPTER_ONE] # CH1 campaign
 internalCampaignIds = ['5eb34fc8dc0fd35e8eae66b0'] # CH2 playtest
 
 courseIDs =
@@ -202,10 +216,10 @@ petThangIDs = [
 ]
 
 premiumContent =
-  premiumHeroesCount: '12'
-  totalHeroesCount: '16'
-  premiumLevelsCount: '330'
-  freeLevelsCount: '100'
+  premiumHeroesCount: '15'
+  totalHeroesCount: '19'
+  premiumLevelsCount: '531'
+  freeLevelsCount: '5'
 
 # adds displayName and learning goals from intro levels content to the intro level given
 addIntroLevelContent = (introLevel, introLevelsContent) ->
@@ -508,46 +522,12 @@ getPrepaidCodeAmount = (price=0, users=0, months=0) ->
 formatDollarValue = (dollars) ->
   '$' + (parseFloat(dollars).toFixed(2))
 
-startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
-
-filterMarkdownCodeLanguages = (text, language) ->
-  return '' unless text
-  currentLanguage = language or me.get('aceConfig')?.language or 'python'
-  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'clojure', 'lua', 'java', 'io', 'html'], currentLanguage
-  # Exclude language-specific code blocks like ```python (... code ...)``` for each non-target language.
-  codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
-  # Exclude language-specific images like ![python - image description](image url) for each non-target language.
-  imageExclusionRegex = new RegExp "!\\[(#{excludedLanguages.join('|')}) - .+?\\]\\(.+?\\)\n?", 'gm'
-  text = text.replace(codeBlockExclusionRegex, '').replace(imageExclusionRegex, '')
-
-  commonLanguageReplacements =
-    python: [
-      ['true', 'True'], ['false', 'False'], ['null', 'None'],
-      ['object', 'dictionary'], ['Object', 'Dictionary'],
-      ['array', 'list'], ['Array', 'List'],
-    ]
-    lua: [
-      ['null', 'nil'],
-      ['object', 'table'], ['Object', 'Table'],
-      ['array', 'table'], ['Array', 'Table'],
-    ]
-  for [from, to] in commonLanguageReplacements[currentLanguage] ? []
-    # Convert JS-specific keywords and types to Python ones, if in simple `code` tags.
-    # This won't cover it when it's not in an inline code tag by itself or when it's not in English.
-    text = text.replace ///`#{from}`///g, "`#{to}`"
-    # Now change "An `dictionary`" to "A `dictionary`", etc.
-    if startsWithVowel(from) and not startsWithVowel(to)
-      text = text.replace ///(\ a|A)n(\ `#{to}`)///g, "$1$2"
-    if not startsWithVowel(from) and startsWithVowel(to)
-      text = text.replace ///(\ a|A)(\ `#{to}`)///g, "$1n$2"
-
-  return text
-
 capitalLanguages =
   'javascript': 'JavaScript'
   'coffeescript': 'CoffeeScript'
   'python': 'Python'
   'java': 'Java'
+  'cpp': 'C++'
   'lua': 'Lua'
   'html': 'HTML'
 
@@ -806,33 +786,84 @@ vueNonReactiveInstall = (Vue) ->
       value.__ob__ = new Observer({});
       return value;
 
-yearsSinceMonth = (start) ->
-  return undefined unless start
+yearsSinceMonth = (birth, now) ->
+  return undefined unless birth
   # Should probably review this logic, written quickly and haven't tested any edge cases
-  if _.isString start
-    return undefined unless /\d{4}-\d{2}(-\d{2})?/.test start
-    if start.length is 7
-      start = start + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
-    start = new Date(start)
-  return undefined unless _.isDate start
-  now = new Date()
-  now.getFullYear() - start.getFullYear() + (now.getMonth() - start.getMonth()) / 12
+  if _.isString birth
+    return undefined unless /^\d{4}-\d{1,2}(-\d{1,2})?$/.test birth
+    if birth.split('-').length is 2
+      birth = birth + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
+    birth = new Date(birth)
+  return undefined unless _.isDate birth
+
+  birthYear = birth.getFullYear()
+  birthYear += 1 if birth.getMonth() > 7 # getMonth start from 0 # child birth after 9.1 should join school in next year
+  season = currentSeason()
+  now ?= new Date()
+  schoolYear = now.getFullYear()
+
+  seasonAfterSep = +(season.start.split('-')[0]) >= 9
+  schoolYear += 1 if seasonAfterSep # school year comes into a new year after 9.1
+  return schoolYear - birthYear
 
 # Keep in sync with the copy in background-processor
 ageBrackets = [
-  {slug: '0-11', max: 11.33}
-  {slug: '11-14', max: 14.33}
-  {slug: '14-18', max: 18.99}
+  {slug: '0-11', max: 11}
+  {slug: '11-14', max: 14}
+  {slug: '14-18', max: 18}
   {slug: 'open', max: 9001}
 ]
 
+ageBracketsChina = [
+  {slug: '0-11', max: 11}
+  {slug: '11-18', max: 18}
+  {slug: 'open', max: 9001}
+]
+
+seasons = [
+  {
+    name: 'Season 1',
+    start:'01-01',
+    end: '04-30',
+  }
+  {
+    name: 'Season 2',
+    start:'05-01',
+    end: '08-31',
+  }
+  {
+    name: 'Season 3',
+    start:'09-01',
+    end: '12-31',
+  }
+]
+
+currentSeason = () ->
+  now = new Date()
+  year = now.getFullYear()
+  return seasons.find((season) -> now <= new Date("#{year}-#{season.end}")) or _.last(seasons)  # TODO: shouldn't need `or` clause, fix this and tests
+
 ageToBracket = (age) ->
-  # Convert years to an age bracket
+# Convert years to an age bracket
   return 'open' unless age
   for bracket in ageBrackets
-    if age < bracket.max
+    if age <= bracket.max
       return bracket.slug
   return 'open'
+
+bracketToAge = (slug) ->
+  for i in [0...ageBrackets.length]
+    if ageBrackets[i].slug == slug
+      lowerBound = if i == 0 then 0 else ageBrackets[i-1].max
+      higherBound = ageBrackets[i].max
+      return { $gt: lowerBound, $lte: higherBound }
+
+  for i in [0...ageBracketsChina.length]
+    if ageBracketsChina[i].slug == slug
+      lowerBound = if i == 0 then 0 else ageBracketsChina[i-1].max
+      higherBound = ageBracketsChina[i].max
+      return { $gt: lowerBound, $lte: higherBound }
+
 
 CODECOMBAT = 'codecombat'
 CODECOMBAT_CHINA = 'koudashijie'
@@ -851,22 +882,43 @@ isOldBrowser = () ->
 isCodeCombat = false
 isOzaria = true
 
+teamSpells = humans: ['hero-placeholder/plan'], ogres: ['hero-placeholder-1/plan']
+
+orgKindString = (kind, org=null) ->
+  return 'State' if kind is 'administrative-region' and org?.country is 'US' and /^en/.test me.get('preferredLanguage')
+  key = {
+    'administrative-region': 'teachers_quote.state'
+    'school-district': 'teachers_quote.district_label'
+    'school-admin': 'outcomes.school_admin'
+    'school-network': 'outcomes.school_network'
+    'school-subnetwork': 'outcomes.school_subnetwork'
+    school: 'teachers_quote.organization_label'
+    teacher: 'courses.teacher'
+    classroom: 'outcomes.classroom'
+    student: 'courses.student'
+  }[kind]
+  return $.i18n.t(key)
+
 module.exports = {
   addIntroLevelContent
+  addressesIncludeAdministrativeRegion
   ageBrackets
+  ageBracketsChina
   ageOfConsent
   ageToBracket
+  bracketToAge
+  campaignIDs
   capitalLanguages
   clone
   combineAncestralObject
   countries
   countryCodeToFlagEmoji
+  countryCodeToName
   courseAcronyms
   courseIDs
   courseModules
   createLevelNumberMap
   extractPlayerCodeTag
-  filterMarkdownCodeLanguages
   findNextAssessmentForLevel
   findNextLevel
   formatDollarValue
@@ -902,6 +954,7 @@ module.exports = {
   normalizeFunc
   objectIdToDate
   orderedCourseIDs
+  orgKindString
   pathToUrl
   petThangIDs
   premiumContent
@@ -911,6 +964,8 @@ module.exports = {
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
+  teamSpells
+  titleize
   usStateCodes
   userAgent
   videoLevels

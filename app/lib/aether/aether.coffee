@@ -14,6 +14,8 @@ optionsValidator = require './validators/options'
 languages = require './languages/languages'
 interpreter = require './interpreter'
 
+{ Unibabel } = require 'unibabel'
+
 module.exports = class Aether
   @execution: execution
   @addGlobal: protectBuiltins.addGlobal  # Call instance method version after instance creation to update existing global list
@@ -51,7 +53,7 @@ module.exports = class Aether
     #  aether.lastStatementRange = [rng.start, rng.end] if rng
 
     Object.defineProperty @, 'lastStatementRange',
-      get: () -> 
+      get: () ->
         rng = @esperEngine?.evaluator?.lastASTNodeProcessed?.originalRange
         return [rng.start, rng.end] if rng
 
@@ -97,6 +99,8 @@ module.exports = class Aether
   # If careAboutLineNumbers, we strip trailing comments and whitespace and compare line count.
   # If careAboutLint, we also lint and make sure lint problems are the same.
   hasChangedSignificantly: (a, b, careAboutLineNumbers=false, careAboutLint=false) ->
+    a = Aether.getTokenSource(a)
+    b = Aether.getTokenSource(b)
     return true unless a? and b?
     return false if a is b
     return true if careAboutLineNumbers and @language.hasChangedLineNumbers a, b
@@ -119,7 +123,7 @@ module.exports = class Aether
     @reset()
     rawCode = @raw
     if /^\u56E7[a-zA-Z0-9+/=]+\f$/.test rawCode
-      token = JSON.parse atob(rawCode.substr(1, rawCode.length-2))
+      token = JSON.parse Unibabel.base64ToUtf8(rawCode.substr(1, rawCode.length-2))
       @raw = token.src
       if token.error
         error = new SyntaxError(token.error.message, '', token.error.data.line)
@@ -130,6 +134,8 @@ module.exports = class Aether
         @pure = token.src
         @ast = token.ast
     else
+      if @language.id in ['cpp', 'java']
+        throw new Error('C++/Java code cannot be transpiled client side, needs server transpilation.')
       @problems = @lint rawCode
       @pure = @purifyCode rawCode
     @pure
@@ -207,7 +213,7 @@ module.exports = class Aether
       problemOptions = error: error, code: wrappedCode, codePrefix: @language.wrappedCodePrefix, reporter: @language.parserID, kind: error.index or error.id, type: 'transpile'
       @addProblem @createUserCodeProblem problemOptions
       return ''
-    
+
     return wrappedCode
 
 
@@ -229,7 +235,7 @@ module.exports = class Aether
   getStatementCount: ->
     # esper = window?.esper ? self?.esper ? global?.esper ? require 'esper.js'
     esper.plugin 'lang-' + @language.id
-    
+
     count = 0
     if @language.usesFunctionWrapping()
       root = @ast.body[0].body # We assume the 'code' is one function hanging inside the program.
@@ -245,7 +251,21 @@ module.exports = class Aether
         'IfStatement', 'SwitchStatement', 'ThrowStatement', 'ContinueStatement', 'BreakStatement'
       ]
         ++count
+    # for minus `int main() { return 0;}` 3 lines for cpp
+    if @language.id == 'cpp'
+      count -= 3
+    # offset the `public class AI` and the `public static void main(String[] args) {`
+    if @language.id == 'java'
+      count -= 2
+
     return count
+
+Aether.getTokenSource = (raw) ->
+  if /^\u56E7[a-zA-Z0-9+/=]+\f$/.test raw
+    token = JSON.parse Unibabel.base64ToUtf8(raw.substr(1, raw.length-2))
+    token.src
+  else
+    raw
 
 self.Aether = Aether if self?
 window.Aether = Aether if window?

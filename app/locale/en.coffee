@@ -1854,10 +1854,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     update_old_classroom_detail_2: "and giving students the new Class Code that appears."
     view_assessments: "View Assessments"
     view_challenges: "view challenge levels"
-    view_ranking: "view ranking"
-    ranking_position: "Position"
-    ranking_players: "Players"
-    ranking_completed_leves: "Completed levels"
     challenge: "Challenge:"
     challenge_level: "Challenge Level:"
     status: "Status:"
@@ -2591,6 +2587,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bracket_0_11: "0-11"
     bracket_11_14: "11-14"
     bracket_14_18: "14-18"
+    bracket_11_18: "11-18"
     bracket_open: "Open"
 
   user:
@@ -3386,3 +3383,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share_info: 'To give other teachers access to the class, add their emails below.'
     class_owner: 'Class Owner'
     share: 'Share'
+  outcomes:
+    school_admin: "School Administrator"
+    school_network: "School Network"
+    school_subnetwork: "School Subnetwork"
+    classroom: "Classroom"

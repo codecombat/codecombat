@@ -262,6 +262,12 @@ module.exports = class Autocomplete
         doc = _.find (e.allDocs['__' + prop] ? []), (doc) ->
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
+        if e.language in ['java', 'cpp'] and not doc?.snippets?[e.language] and doc?.snippets?.javascript
+          # These are mostly the same, so use the JavaScript ones if language-specific ones aren't available
+          doc.snippets[e.language] = doc.snippets.javascript
+        if e.language in ['lua', 'coffeescript', 'python'] and not doc?.snippets?[e.language] and (doc?.snippets?.python or doc?.snippets?.javascript)
+          # These are mostly the same, so use the Python or JavaScript ones if language-specific ones aren't available
+          doc.snippets[e.language] = doc?.snippets?.python or doc.snippets.javascript
         if doc?.snippets?[e.language]
           name = doc.name
           replacement = _.find(autocompleteReplacement, (el) -> el.name is name)
@@ -310,9 +316,14 @@ module.exports = class Autocomplete
 
           if doc.userShouldCaptureReturn
             varName = doc.userShouldCaptureReturn.variableName ? 'result'
+            type = doc.userShouldCaptureReturn.type?[e.language]
+            type ?= switch e.language
+              when 'javascript', 'java' then 'var'
+              when 'cpp' then 'auto'
+              when 'lua' then 'local'
+              else ''
             entry.captureReturn = switch e.language
-              when 'javascript' then 'var ' + varName + ' = '
-              #when 'lua' then 'local ' + varName + ' = '  # TODO: should we do this?
+              when 'javascript', 'java', 'cpp', 'lua' then type + ' ' + varName + ' = '
               else varName + ' = '
 
     # TODO: Generalize this snippet replacement

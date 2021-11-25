@@ -68,7 +68,8 @@ module.exports = (env) => {
             // applies to <template lang="pug"> in Vue components
             {
               resourceQuery: /^\?vue/,
-              use: ['pug-plain-loader']
+              //use: ['pug-plain-loader']
+              use: ['vue-pug-loader']
             },
             // applies to all other pug imports
             {

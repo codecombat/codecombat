@@ -426,7 +426,7 @@ OutcomesReportComponent = {
 
   @media print
     a[href]:after
-      content:none
+      content: none
     a[href]
       color: #0b63bc !important
       text-decoration: underline

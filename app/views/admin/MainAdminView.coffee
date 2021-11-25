@@ -56,12 +56,13 @@ module.exports = class MainAdminView extends RootView
       else
         $('#espionage-name-or-email').val spy
         $('#enter-espionage-mode').click()
-    if me.isAdmin() and userID = utils.getQueryVariable 'user'
+    if (me.isAdmin() or me.isOnlineTeacher()) and userID = utils.getQueryVariable 'user'
       @openModalView new AdministerUserModal({}, userID)
 
   clearQueryParams: -> window.history.pushState({}, '', document.location.href.split('?')[0])
 
   stopSpying: ->
+    button = @$('#stop-spying-btn')
     me.stopSpying({
       success: -> document.location.reload()
       error: ->
@@ -153,15 +154,9 @@ module.exports = class MainAdminView extends RootView
           <td>#{user.firstName or ''}</td>
           <td>#{user.lastName or ''}</td>
           <td>
-            <button class='user-spy-button'>Spy</button>
-            #{if new User(user).isTeacher()
-                # New Teacher Dashboard doesn't allow admin to navigate to a teacher classroom.
-                # Instead Spy on the teacher and inspect that way.
-                # "<button class='teacher-dashboard-button'>View Classes</button>"
-                ""
-              else
-                ""
-              }
+            #{if me.isAdmin() then "<button class='user-spy-button'>Spy</button>" else ""}
+            # New Teacher Dashboard doesn't allow admin to navigate to a teacher classroom.
+            ##{if new User(user).isTeacher() then "<button class='teacher-dashboard-button'>View Classes</button>" else ""}
           </td>
         </tr>")
       result = "<table class=\"table\">#{result.join('\n')}</table>"

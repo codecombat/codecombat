@@ -163,8 +163,20 @@ extractTranspileErrorDetails = (options) ->
                        ranges.offsetToPos(error.range[1], code, codePrefix)]
       options.hint = error.message
     when 'jaba'
-      options.range = [error.location.start.offset, error.location.end.offset]
+      if error.location
+        options.range = [error.location.start.offset, error.location.end.offset]
+        # TODO: see if we need to do offsetToPos like with cpp
+        #options.range = [ranges.offsetToPos(error.location.start.offset, code, codePrefix), ranges.offsetToPos(error.location.end.offset, code, codePrefix)]
+      else
+        console.error "Jaba error with no location information:", error
       options.hint = error.message
+      # TODO: see if we need to hide the hint like with cpp
+    when 'cpp'
+      if error.location
+        options.range = [ranges.offsetToPos(error.location.start.offset, code, codePrefix), ranges.offsetToPos(error.location.end.offset, code, codePrefix)]
+      else
+        console.error "C++ error with no location information:", error
+      #options.hint = error.message
     else
       console.warn "Unhandled UserCodeProblem reporter", options.reporter
 
@@ -193,7 +205,7 @@ getTranspileHint = (msg, context, languageID, code, range, simpleLoops=false) ->
         return "You are missing a ':' after 'else'. Try `else:`"
     return "Code needs to line up."
 
-  else if ((msg.indexOf("Unexpected token") >= 0) or (msg.indexOf("Unexpected identifier") >= 0)) and context?
+  else if ((msg?.indexOf("Unexpected token") >= 0) or (msg?.indexOf("Unexpected identifier") >= 0)) and context?
     codeSnippet = code.substring range[0].ofs, range[1].ofs
     lineStart = code.substring range[0].ofs - range[0].col, range[0].ofs
     lineStartLow = lineStart.toLowerCase()

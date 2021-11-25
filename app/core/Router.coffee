@@ -206,6 +206,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'parents': go('ParentsView')
 
+    'outcomes-report(/*subpath)': go('core/SingletonAppVueComponentView')
+
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')
 
@@ -276,8 +278,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'schools': go('HomeView')
     'seen': go('HomeView')
     'SEEN': go('HomeView')
-
-    'students/ranking/:courseID?:courseInstanceID': go('courses/StudentRankingView')
 
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
