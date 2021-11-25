@@ -41,7 +41,8 @@
       }),
 
       ...mapActions({
-        createAccount: 'teacherModal/createAccount'
+        createAccount: 'teacherModal/createAccount',
+        fetchCurrentTrialRequest: 'trialRequest/fetchCurrentTrialRequest'
       }),
 
       async createClassroom () {
@@ -165,6 +166,7 @@
             me.set('lastName', this.lastName)
           }
           await new Promise(me.save().then)
+          await this.fetchCurrentTrialRequest() // fetching because teacherModal vuex store and global vuex are different
           this.$emit('done')
         } catch (err) {
           console.error('Error in teacher signup', err)

@@ -130,6 +130,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'courses/:classroomID': -> @navigate("/students/#{arguments[0]}", {trigger: true, replace: true}) # Redirected 9/3/16
     'courses/:courseID/:courseInstanceID': -> @navigate("/students/#{arguments[0]}/#{arguments[1]}", {trigger: true, replace: true}) # Redirected 9/3/16
 
+    'dei': go('core/SingletonAppVueComponentView')
+    'diversity-equity-and-inclusion': go('core/SingletonAppVueComponentView')
     'db/*path': 'routeToServer'
     'docs/components': go('editor/docs/ComponentsDocumentationView')
     'docs/systems': go('editor/docs/SystemsDocumentationView')
@@ -271,6 +273,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'professional-development': go('core/SingletonAppVueComponentView')
     'pd': go('core/SingletonAppVueComponentView')
 
+    'sel': go('core/SingletonAppVueComponentView')
+    'social-and-emotional-learning': go('core/SingletonAppVueComponentView')
     'schools': go('HomeView')
     'seen': go('HomeView')
     'SEEN': go('HomeView')

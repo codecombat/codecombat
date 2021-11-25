@@ -497,6 +497,7 @@ export default {
         text-align: center;
       }
     }
+    // TODO: two copies of background styles, was one supposed to be in a media query?
     background: url(/images/pages/pd/pd-teacher-image-0.png) no-repeat bottom 0 right 33px;
     background-size: 65%;
     background-size: unquote('min(558px, 65%)');

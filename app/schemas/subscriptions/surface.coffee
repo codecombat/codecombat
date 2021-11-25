@@ -9,10 +9,6 @@ spriteMouseEventSchema = c.object {required: ['sprite', 'thang', 'originalEvent'
 module.exports =  # /app/lib/surface
   'camera:dragged': c.object {}
 
-  'camera:zoom-in': c.object {}
-
-  'camera:zoom-out': c.object {}
-
   'camera:zoom-to': c.object {required: ['pos']},
     pos: c.object {required: ['x', 'y']},
       x: {type: 'number'}

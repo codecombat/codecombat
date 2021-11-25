@@ -10,7 +10,9 @@ import ModalEducatorCompletedSignUp from './ModalEducatorCompletedSignUp'
 import ModalStudentAccountCreated from './StudentSignup/ModalStudentAccountCreated'
 import TeacherSignupStoreModule from 'app/views/core/CreateAccountModal/teacher/TeacherSignupStoreModule'
 import StudentAuthStoreModule from 'ozaria/site/store/StudentAuthStoreModule'
-import store from 'app/core/store'
+import { markTeacherDetailsModalAsSeen, hasSeenTeacherDetailModalRecently } from '../../../../common/utils'
+import ModalTeacherDetails from "../../../teacher-dashboard/modals/ModalTeacherDetails";
+import {mapGetters} from "vuex";
 
 const utils = require('core/utils')
 
@@ -22,6 +24,7 @@ const EDUCATORSIGNUP = 'ModalEducatorSignUp'
 const STUDENTSIGNUP = 'ModalStudentSignUp'
 const EDUCATORCOMPLETESIGNUP = 'ModalEducatorCompletedSignUp'
 const STUDENTACCOUNTCREATED = 'ModalStudentAccountCreated'
+const MODAL_TEACHER_DETAILS = 'ModalTeacherDetails'
 
 const viewData = {
   [STARTJOURNEY] : {
@@ -55,11 +58,16 @@ const viewData = {
   [STUDENTACCOUNTCREATED] : {
     kind: STUDENTACCOUNTCREATED,
     id: 'ozaria-modal-container'
+  },
+  [MODAL_TEACHER_DETAILS]: {
+    kind: MODAL_TEACHER_DETAILS,
+    id: 'modal-teacher-details'
   }
 }
 
 export default {
   components: {
+    ModalTeacherDetails,
     BaseModalContainer,
     ModalStartJourney,
     ModalSignIn,
@@ -135,7 +143,11 @@ export default {
     },
 
     openEducatorCompletedSignUp () {
-      this.navigateToView(EDUCATORCOMPLETESIGNUP)
+      if (!this.trialRequest?.organization && !hasSeenTeacherDetailModalRecently(me.get('_id'))) {
+        this.navigateToView(MODAL_TEACHER_DETAILS)
+      } else {
+        this.navigateToView(EDUCATORCOMPLETESIGNUP)
+      }
     },
 
     completeStudentSignUp () {
@@ -178,10 +190,17 @@ export default {
     setClassCode (classCode) {
       this.classCode = classCode;
       this.$store.dispatch('classrooms/setMostRecentClassCode', classCode)
+    },
+    setSeenTeacherDetailsModal () {
+      markTeacherDetailsModalAsSeen(me.get('_id'))
+      this.openEducatorCompletedSignUp()
     }
   },
 
   computed: {
+    ...mapGetters({
+      trialRequest: 'trialRequest/properties'
+    }),
     viewId() {
       return viewData[this.currentView].id
     }
@@ -249,6 +268,15 @@ export default {
       v-if="currentView === 'ModalEducatorCompletedSignUp'"
       :classCode="classCode"
       @closeModal="completeSignUp"
+    />
+    <modal-teacher-details
+      @close="setSeenTeacherDetailsModal"
+      v-if="currentView === 'ModalTeacherDetails'"
+      :initial-organization="trialRequest.organization"
+      :initial-district="trialRequest.district"
+      :initial-city="trialRequest.city"
+      :initial-state="trialRequest.state"
+      :initial-country="trialRequest.country"
     />
 
   </base-modal-container>

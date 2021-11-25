@@ -35,7 +35,9 @@
         selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
         levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
         classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
-        gameContent: 'teacherDashboard/getGameContentCurrentClassroom'
+        gameContent: 'teacherDashboard/getGameContentCurrentClassroom',
+        getClassroomById: 'classrooms/getClassroomById',
+        getActiveClassrooms: 'teacherDashboard/getActiveClassrooms'
       }),
       selectedCourse () {
         return this.classroomCourses.find((c) => c._id === this.selectedCourseId) || {}
@@ -60,14 +62,19 @@
     watch: {
       classroomId (newId) {
         this.setClassroomId(newId)
-        this.fetchData({ componentName: this.$options.name, options: { data: projectionData, loadedEventName: 'Student Projects: Loaded' } })
+        this.fetchClassroomData(newId)
       }
     },
 
     mounted () {
       this.setTeacherId(this.teacherId || me.get('_id'))
       this.setClassroomId(this.classroomId)
-      this.fetchData({ componentName: this.$options.name, options: { data: projectionData, loadedEventName: 'Student Projects: Loaded' } })
+      this.fetchClassroomData(this.classroomId)
+      const areTeacherClassesFetched = this.getActiveClassrooms.length !== 0
+      if (!areTeacherClassesFetched) {
+        // to show list of classes in student projects tab
+        this.fetchClassroomsForTeacher({ teacherId: me.get('_id') })
+      }
     },
 
     destroyed () {
@@ -76,14 +83,22 @@
 
     methods: {
       ...mapActions({
-        fetchData: 'teacherDashboard/fetchData'
+        fetchData: 'teacherDashboard/fetchData',
+        fetchClassroomById: 'classrooms/fetchClassroomForId',
+        fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher'
       }),
       ...mapMutations({
         resetLoadingState: 'teacherDashboard/resetLoadingState',
         setTeacherId: 'teacherDashboard/setTeacherId',
         setClassroomId: 'teacherDashboard/setClassroomId',
         setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom'
-      })
+      }),
+      async fetchClassroomData (classroomId) {
+        if (!this.getClassroomById(classroomId)) {
+          await this.fetchClassroomById(classroomId)
+        }
+        this.fetchData({ componentName: this.$options.name, options: { data: projectionData, loadedEventName: 'Student Projects: Loaded' } })
+      }
     }
   }
 </script>
