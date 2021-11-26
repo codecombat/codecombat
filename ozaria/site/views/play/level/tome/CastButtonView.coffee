@@ -98,7 +98,8 @@ module.exports = class CastButtonView extends CocoView
 
   onFillSolution: ->
     return unless me.canAutoFillCode()
-    store.dispatch('game/autoFillSolution')
+    codeLanguage = _.values(@spells)[0]?.language or utils.getQueryVariable('codeLanguage') or 'python'
+    store.dispatch('game/autoFillSolution', codeLanguage)
 
   onSpellChanged: (e) ->
     @updateCastButton()
