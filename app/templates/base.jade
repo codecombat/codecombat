@@ -1,6 +1,9 @@
 block header
-  #site-nav
+  //- Add 'legacy' class to support some old hacky workarounds for adding site-chrome
+  //- without breaking new pages.
+  #main-nav.legacy(class=!serverConfig.static && /^\/(league|play\/ladder)/.test(document.location.pathname) ? "dark-mode" : '')
     block site_nav
+      // TODO: can this stuff all be deleted now that it is replaced with Navigation.vue?
       a(href="/")
         img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
       div#site-nav-links
@@ -47,6 +50,9 @@ block header
                 if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()
                   li
                     a(href="/account/subscription", data-i18n="account.subscription")
+                if me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous())))
+                  li
+                    a(href="/payments/manage-billing", data-i18n="account.manage_billing", target="_blank")
                 if me.isAdmin()
                   li
                     a(href="/admin", data-i18n="account_settings.admin")
@@ -70,6 +76,7 @@ block outer_content
 
 
 block footer
+  // TODO: merge base and base-flat together
   #site-footer
     img#footer-background(src="/images/pages/base/nav_background.png")
 

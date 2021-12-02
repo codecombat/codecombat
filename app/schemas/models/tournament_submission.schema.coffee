@@ -12,13 +12,21 @@ _.extend TournamentSubmissionSchema.properties,
   levelSession: c.objectId()
   owner: c.objectId()
   submittedCode:
-    type: 'string'
+    type: 'object'
+    additionalProperties:
+      type: 'object'
+      additionalProperties:
+        type: 'string'
+        format: 'code'
   submittedCodeLanguage:
     type: 'string'
   wins:
     type: 'number'
   losses:
     type: 'number'
+  creatorAge:
+    type: 'number'
+    minimum: 0
   totalScore:               # bayesian calculation of strength
     type: 'number'
   originalRank:             # for randomsimulation rank
@@ -28,6 +36,9 @@ _.extend TournamentSubmissionSchema.properties,
     minimum: 0
   meanStrength:
     type: 'number'
+  created: c.date
+    title: 'Created'
+    readOnly: true
   
 
 

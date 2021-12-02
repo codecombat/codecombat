@@ -1,0 +1,40 @@
+block content
+  body(style="background-image: url(/images/pages/maintenance/background.jpg); background-size: 100vw; display: flex; flex-direction: column; align-items: center;", onload="onLoad()")
+    img(id='logo', src="/images/pages/base/logo.png")
+    h3(id='title', style="margin-top: calc(15vw - 100px);font-size:48px;color: #317EAC")
+    span(id='msg', style="margin-top: 18vw;font-size:24px;")
+
+block script-start
+  script(src='/maintenance_time')
+  script.
+    function onLoad() {
+      // maintenance hours comes from /maintenance_time
+      // and it comes from database.mandate collelction
+      // 0 or undefined for not in maintenance
+      // numbers for expected maintenance hours
+      // other value for indeterminate maintenance
+      time = maintenanceHours
+      duration = null
+      if(!isNaN(+time))
+        duration = +time
+        if(duration === 0) {
+          document.location.href = '/'
+        }
+      if(chinaUx){
+        document.querySelector('#logo').src = '/images/pages/base/logo-cn.png'
+        maintenanceTitle = '网站升级维护中...'
+        maintenanceMsg = '感谢您的耐心等待'
+        if(duration) {
+          maintenanceMsg = '预计耗时 ' + duration + ' 小时，' + maintenanceMsg
+        }
+      }
+      else{
+        maintenanceTitle = 'Website Maintenance In Progress'
+        maintenanceMsg = 'Thanks for your patience'
+        if(duration){
+          maintenanceMsg = 'It may take up to ' + duration + ' hours. '  + maintenanceMsg
+        }
+      }
+      document.querySelector('#title').innerHTML = maintenanceTitle
+      document.querySelector('#msg').innerHTML = maintenanceMsg
+    }

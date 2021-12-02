@@ -14,7 +14,7 @@ module.exports = (env) => {
       chunkFilename: 'javascripts/chunks/[name].bundle.js',
     }),
     plugins: baseConfig.plugins.concat([
-      new BundleAnalyzerPlugin() 
+      new BundleAnalyzerPlugin({ generateStatsFile: true })
     ])
   })
 }

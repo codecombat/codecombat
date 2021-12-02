@@ -130,7 +130,7 @@
 </script>
 
 <template lang="pug">
-    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="document.location.href.search('/league') >= 0 ? 'dark-mode' : ''" @click="navEvent")
+    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
       .container-fluid
         .row
           .col-md-12
@@ -141,15 +141,15 @@
                 span.icon-bar
                 span.icon-bar
               a.navbar-brand(v-if="me.useTarenaLogo()" href="http://kidtts.tmooc.cn/ttsPage/login.html")
-                img#logo-img.powered-by(src="/images/pages/base/logo.png")
-                img#tarena-logo(src="/images/pages/base/logo-tarena.png")
+                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
               a.navbar-brand(v-else-if="serverConfig.codeNinjas" href="/home")
-                img#logo-img.powered-by(src="/images/pages/base/logo.png")
-                img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
+                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
               a.navbar-brand(v-else-if="me.showChinaResourceInfo()" href="/home")
-                img#logo-img(src="/images/pages/base/logo-en+cn.png")
+                img#logo-img(src="/images/pages/base/logo-en+cn.png" alt="CodeCombat logo")
               a.navbar-brand(v-else href="/home")
-                img#logo-img(src="/images/pages/base/logo.png")
+                img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
 
             .navbar-browser-recommendation.navbar-header(v-if="isOldBrowser")
               .nav-spacer
@@ -168,16 +168,19 @@
 
                 ul.nav.navbar-nav(v-if="me.isAnonymous()")
                   li.dropdown.dropdown-hover
-                    a.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
+                    a.text-p(:href="isCodeCombat ? '/impact' : '#'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
                       span {{ $t('nav.educators') }}
                       span.caret
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/')")
-                          span(:class="isOzaria && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                          span.new-pill {{ $t('nav.new') }}
+                          span(:class="isOzaria && !checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
                       li
                         a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
+                      li
+                        a.text-p(:href="ozPath('/professional-development')")
+                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
+                          span.new-pill {{ $t('nav.new') }}
 
                 li(v-if="!me.isStudent() && !me.isTeacher()")
                   a.text-p(:class="checkLocation('/parents') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
@@ -187,16 +190,19 @@
 
                 ul.nav.navbar-nav(v-if="me.isTeacher()")
                   li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                    a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                       span {{ $t('nav.educators') }}
                       span.caret
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/teachers/classes')")
                           span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_dashboard') }}
-                          span.new-pill {{ $t('nav.new') }}
                       li
                         a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t('nav.codecombat_dashboard') }}
+                      li
+                        a.text-p(:href="ozPath('/professional-development')")
+                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
+                          span.new-pill {{ $t('nav.new') }}
 
                 ul.nav.navbar-nav(v-else-if="me.isStudent()")
                   li.dropdown.dropdown-hover
@@ -251,6 +257,10 @@
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
                       a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
+                    li(v-if="me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous())))")
+                      a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
+                    li(v-if="me.isAPIClient()")
+                      a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                     li(v-if="me.isAdmin()")
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                     li(v-if="serverSession && serverSession.amActually")
@@ -277,6 +287,20 @@
   white-space: nowrap; // prevent home icon from going under brand
   box-shadow: unset;
   font-weight: 400;
+
+  @media print {
+    display: none;
+  }
+  
+  h5 {
+    font-family: "Arvo", serif;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 31px;
+    font-variant: normal;
+    color: black;
+    margin: 0;
+  }
 
   p, .text-p {
     font-family: $body-font;
@@ -530,6 +554,56 @@
 
     .show-divider:not(:last-child) {
       border-right: 1px solid #131b25;
+    }
+  }
+}
+
+nav#main-nav.navbar.dark-mode {
+  background-color: #0C1016;
+
+  .nav > li > a {
+    color: #FCBB00;
+
+    &:hover {
+      color: #FF39A6;
+    }
+  }
+
+  .dashboard-toggle {
+    border: 1px solid #FCBB00;
+
+    & > .show-divider {
+      border-right: 1px solid #FCBB00 !important;
+    }
+  }
+
+  .dashboard-toggle .dashboard-button a {
+    color: #FCBB00;
+  }
+
+  .dropdown-menu {
+    background-color: white;
+  }
+
+  #create-account-link {
+    background-color: #FCBB00;
+    border: 1px solid #FCBB00;
+    color: #0C1016;
+
+    &:hover {
+      background-color: #FF39A6;
+      border: 1px solid #FF39A6;
+    }
+  }
+
+  #login-link {
+    color: #FCBB00;
+    border: 1px solid #FCBB00;
+
+    &:hover {
+      background-color: #FF39A6;
+      border: 1px solid #FF39A6;
+      color: #0C1016;
     }
   }
 }

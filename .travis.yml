@@ -24,7 +24,6 @@ before_install:
   - npm install -g npm@6.x
 before_script:
   - npm install --ignore-scripts
-  - npm install node-sass
   - npm install
   - npm run build
   - export DISPLAY=:99.0

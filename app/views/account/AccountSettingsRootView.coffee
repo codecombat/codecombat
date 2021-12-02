@@ -20,4 +20,5 @@ module.exports = class AccountSettingsRootView extends RootView
     @insertSubView(@accountSettingsView)
 
   afterInsert: ->
+    super()
     @openModalView new CreateAccountModal() if me.get('anonymous')

@@ -7,8 +7,25 @@ import ClanCreationModal from './components/ClanCreationModal'
 import ChildClanDetailDropdown from './components/ChildClanDetailDropdown'
 import SectionFirstCTA from './components/SectionFirstCTA'
 import InputClanSearch from './components/InputClanSearch'
+import ApiData from '../../api/components/ApiData'
 
 import { joinClan, leaveClan } from '../../../core/api/clans'
+import { titleize, arenas, activeArenas } from '../../../core/utils'
+
+import BackboneModalHarness from '../../common/BackboneModalHarness'
+import CreateAccountModal from '../../core/CreateAccountModal/CreateAccountModal'
+
+const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular' && a.end > new Date()))
+const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type === 'championship' && a.end > new Date()))
+const previousRegularArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'regular' && a.slug !== currentRegularArena.slug))
+const previousChampionshipArena = _.last(_.filter(arenas, a => a.end < new Date() && a.type === 'championship' && (!currentChampionshipArena || a.slug !== currentChampionshipArena.slug)))
+
+const tournamentsByLeague = {
+  '5ff88bcdfe17d7bb1c7d2d00': {  // autoclan-school-network-academica
+    'blazing-battle': '60c159f8a78b083f4205cbf7',
+    'infinite-inferno': '60c15b1fa78b083f4205cdc1'
+  }
+}
 
 export default {
   components: {
@@ -18,7 +35,9 @@ export default {
     ClanCreationModal,
     ChildClanDetailDropdown,
     SectionFirstCTA,
-    InputClanSearch
+    InputClanSearch,
+    ApiData,
+    BackboneModalHarness
   },
 
   data: () => ({
@@ -27,9 +46,14 @@ export default {
     clanCreationModal: false,
     doneRegistering: false,
     joinOrLeaveClanLoading: false,
-    regularArenaSlug: 'blazing-battle',
-    championshipArenaSlug: 'infinite-inferno',
-    championshipActive: true
+    CreateAccountModal,
+    createAccountModalOpen: false,
+    // TODO: Get these automatically from core/utils/arenas
+    previousRegularArenaSlug: previousRegularArena ? previousRegularArena.slug : null,
+    previousChampionshipArenaSlug: previousChampionshipArena ? previousChampionshipArena.slug : null,
+    regularArenaSlug: currentRegularArena ? currentRegularArena.slug : 'mages-might',
+    championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
+    championshipActive: !!currentChampionshipArena
   }),
 
   beforeRouteUpdate (to, from, next) {
@@ -42,13 +66,19 @@ export default {
       if (newSelectedClan !== lastSelectedClan) {
         this.loadRequiredData()
       }
+    },
+
+    clanIdSelected (newSelectedClan, lastSelectedClan) {
+      if (newSelectedClan !== lastSelectedClan && newSelectedClan && this.doneRegistering && !this.inSelectedClan()) {
+        this.joinClan()
+      }
     }
   },
 
   created () {
     this.clanIdOrSlug = this.$route.params.idOrSlug || null
     // Would be odd to arrive here with ?registering=true and be logged out...
-    this.doneRegistering = !!this.$route.query.registered
+    this.doneRegistering = !!this.$route.query.registered && !me.isAnonymous()
     this.leagueSignupModalOpen = !this.doneRegistering && this.canRegister() && !!this.$route.query.registering
   },
 
@@ -62,7 +92,19 @@ export default {
     }
     this.heroRotationInterval = setInterval(rotateHero, 5000)
     _.defer(rotateHero)
+
+    // Scroll to the current hash, once everything in the browser is set up
+    // TODO: Should this be a general thing we do in all top-level Vue views, like it is on CocoViews?
+    let scrollTo = () => {
+      let link = $(document.location.hash)
+      if (link.length) {
+        let scrollTo = link.offset().top - 100
+        $('html, body').animate({ scrollTop: scrollTo }, 300)
+      }
+    }
+    _.delay(scrollTo, 1000)
   },
+
   beforeDestroy() {
     clearInterval(this.heroRotationInterval)
   },
@@ -101,11 +143,11 @@ export default {
           return
         }
 
-        if (['school-network', 'school-subnetwork'].includes(this.currentSelectedClan?.kind)) {
+        if (['school-network', 'school-subnetwork', 'school-district'].includes(this.currentSelectedClan?.kind)) {
           this.fetchChildClanDetails({ id: this.currentSelectedClan._id })
-            .catch(() => {
-              console.error('Failed to retrieve child clans.')
-            })
+              .catch(() => {
+                console.error('Failed to retrieve child clans.')
+              })
         }
 
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
@@ -120,7 +162,7 @@ export default {
 
     signupAndRegister () {
       window.nextURL = `${window.location.pathname}?registering=true`
-      application.router.navigate('?registering=true', { trigger: true })
+      this.openCreateAccountModal()
     },
 
     async submitRegistration (registration) {
@@ -204,6 +246,14 @@ export default {
       this.scrollToModal()
     },
 
+    openCreateAccountModal () {
+      this.createAccountModalOpen = true
+    },
+
+    createAccountModalClosed() {
+      this.createAccountModalOpen = false
+    },
+
     canRegister () {
       return !me.isAnonymous()
     },
@@ -258,6 +308,7 @@ export default {
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading',
       isStudent: 'me/isStudent',
+      isAPIClient: 'me/isAPIClient',
       codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
     }),
 
@@ -283,14 +334,19 @@ export default {
     },
 
     currentSelectedClanName () {
-      return (this.currentSelectedClan || {}).displayName || (this.currentSelectedClan || {}).name || ''
+      let name = (this.currentSelectedClan || {}).displayName || (this.currentSelectedClan || {}).name || ''
+      if (!/[a-z]/.test(name))
+        name = titleize(name)  // Convert any all-uppercase clan names to title-case
+      return name
     },
 
     currentSelectedClanDescription () {
-      const description = (this.currentSelectedClan || {}).description || ''
+      let description = (this.currentSelectedClan || {}).description || ''
       if (!description) {
         return ''
       }
+
+      description = marked(description)
 
       // Hack - In the future we should autopopulate autoclan descriptions better server side.
       //        Or alternatively populate client side with i18n enabled.
@@ -344,25 +400,43 @@ export default {
       if (!this.currentSelectedClan) {
         return false
       }
-      // We don't want to show this button if the team is a classroom or teacher.
+      // We don't want to show this button if the team is an autoclan.
       // Those students are populated automatically.
-      return ['teacher', 'classroom'].indexOf(this.currentSelectedClan?.kind) === -1
+      return !this.currentSelectedClan?.kind
     },
 
-    regularArenaUrl () {
-      let url = `/play/ladder/${this.regularArenaSlug}`
+    regularArenaUrl () { return `/play/ladder/${this.regularArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
+
+    previousRegularArenaUrl () {
+      let url = `/play/ladder/${this.previousRegularArenaSlug}`
+      let tournament = previousRegularArena.tournament
       if (this.clanIdSelected) {
-        url += '/clan/' + this.clanIdSelected
+        url += `/clan/${this.clanIdSelected}`
+        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
+        tournament = tournaments[this.previousRegularArenaSlug] || tournament
       }
+      if (tournament)
+        url += `?tournament=${tournament}`
       return url
     },
 
-    championshipArenaUrl () {
-      let url = `/play/ladder/${this.championshipArenaSlug}`
+    championshipArenaUrl () { return `/play/ladder/${this.championshipArenaSlug}` + (this.clanIdSelected  ? `/clan/${this.clanIdSelected}` : '') },
+
+    previousChampionshipArenaUrl () {
+      let url = `/play/ladder/${this.previousChampionshipArenaSlug}`
+      let tournament = previousChampionshipArena.tournament
       if (this.clanIdSelected) {
-        url += '/clan/' + this.clanIdSelected
+        url += `/clan/${this.clanIdSelected}`
+        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
+        tournament = tournaments[this.previousChampionshipArenaSlug] || tournament
       }
+      if (tournament)
+        url += `?tournament=${tournament}`
       return url
+    },
+
+    previousChampionshipArenaResultsPublished () {
+      return previousChampionshipArena && new Date() >= previousChampionshipArena.results
     },
 
     // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
@@ -386,25 +460,33 @@ export default {
 <template>
   <main id="page-league-global">
     <league-signup-modal
-        v-if="leagueSignupModalOpen"
-        @close="leagueSignupModalOpen = false"
-        @submit="submitRegistration"
-        :first-name="firstName"
-        :last-name="lastName"
-        :name="name"
-        :email="email"
-        :birthday="birthday"
-        :emails="emails"
-        :unsubscribed-from-marketing-emails="unsubscribedFromMarketingEmails"
+      v-if="leagueSignupModalOpen"
+      @close="leagueSignupModalOpen = false"
+      @submit="submitRegistration"
+      :first-name="firstName"
+      :last-name="lastName"
+      :name="name"
+      :email="email"
+      :birthday="birthday"
+      :emails="emails"
+      :unsubscribed-from-marketing-emails="unsubscribedFromMarketingEmails"
     >
     </league-signup-modal>
 
     <clan-creation-modal
-        v-if="clanCreationModal"
-        :clan="myCreatedClan"
-        @close="clanCreationModal = false"
+      v-if="clanCreationModal"
+      :clan="myCreatedClan"
+      @close="clanCreationModal = false"
     >
     </clan-creation-modal>
+
+    <backbone-modal-harness
+      ref="createAccountModal"
+      :modal-view="CreateAccountModal"
+      :open="createAccountModalOpen"
+      :modal-options="{ startOnPath: 'individual' }"
+      @close="createAccountModalClosed"
+    />
 
     <section class="row esports-header section-space">
       <div class="col-sm-5">
@@ -423,13 +505,14 @@ export default {
     <SectionFirstCTA v-if="isGlobalPage" :doneRegistering="doneRegistering" :isClanCreator="isClanCreator" :onHandleJoinCTA="onHandleJoinCTA" :championshipActive="championshipActive" class="section-space" />
 
     <div v-if="clanIdSelected !== ''" id="clan-invite" class="row flex-row text-center section-space">
-      <div class="col-sm-5">
+      <div class="col-sm-5" id="team-info">
         <img :class="customEsportsImageClass" :src="currentSelectedClanEsportsImage">
       </div>
       <div class="col-sm-7">
         <img v-if="currentSelectedClanName === 'Team DerBezt'" class="custom-esports-image-2" alt="" src="/file/db/thang.type/6037ed81ad0ac000f5e9f0b5/armando-pose.png">
+        <img v-if="currentSelectedClanName === 'Team Ned'" class="custom-esports-image-2 flip-horizontally" alt="" src="/file/db/thang.type/6136fe7e9f1147002c1316b4/Ned-Fulmer-Pose.png">
         <h1><span class="esports-aqua">{{ currentSelectedClanName }}</span></h1>
-        <h3 style="margin-bottom: 40px;">{{ currentSelectedClanDescription }}</h3>
+        <div class="clan-description" style="margin-bottom: 40px;" v-html="currentSelectedClanDescription"></div>
         <p v-if="currentSelectedClanName === 'Team DerBezt'">{{ $t('league.team_derbezt') }}</p>
         <p>{{showJoinTeamBtn ? $t('league.invite_link') : $t('league.public_link') }}</p>
         <input readonly :value="clanInviteLink()" /><br />
@@ -437,26 +520,41 @@ export default {
         <a v-else-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.edit_team') }}</a>
         <a v-else-if="inSelectedClan()" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="leaveClan">{{ $t('league.leave_team') }}</a>
         <a v-else v-show="showJoinTeamBtn" class="btn btn-large btn-primary btn-moon" :disabled="joinOrLeaveClanLoading" @click="joinClan">{{ $t('league.join_team') }}</a>
+        <!-- if is owner then a.btn.btn-illustrated.btn-lg.text-uppercase#make-tournament(href='/tournaments/clan/#{clan.id}', data-i18n="tournament.make_tournament") TODO -->
       </div>
     </div>
 
+    <section v-if="currentSelectedClanName === 'HyperX'"  class="row text-center partner-banner">
+      <div class="col-sm-12">
+        <h1>Deal: 15% off with code <a href="http://hyperx.gg/codecombathxrevolver" target="_blank"><strong>HXCOMBAT</strong></a></h1>
+        <p>
+          <em>Valid through 2021. Standard shipping options/rates and quantity limits apply. Cannot be combined with other discount code/sale promotions.</em>
+        </p>
+        <a href="http://hyperx.gg/codecombathxrevolver" target="_blank">
+          <img class="custom-esports-image-banner" alt="" src="/images/pages/league/hyperx-banner.jpg">
+        </a>
+      </div>
+    </section>
+
+    <a id="standings"></a>
     <div v-if="championshipActive" class="row text-center">
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${championshipArenaSlug.replace('-', '_')}`)" :rankings="selectedClanChampionshipRankings" :playerCount="selectedClanChampionshipLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
-        <leaderboard v-else :title="$t(`league.${championshipArenaSlug.replace('-', '_')}`)" :rankings="globalChampionshipRankings" :playerCount="globalChampionshipLeaderboardPlayerCount" class="leaderboard-component" />
-        <a :href="championshipArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${championshipArenaSlug.replace('-', '_')}`), arenaType: $t('league.arena_type_championship') }) }}</a>
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${championshipArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanChampionshipRankings" :playerCount="selectedClanChampionshipLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-else :title="$t(`league.${championshipArenaSlug.replace(/-/g, '_')}`)" :rankings="globalChampionshipRankings" :playerCount="globalChampionshipLeaderboardPlayerCount" class="leaderboard-component" />
+        <a :href="championshipArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${championshipArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
       </div>
       <div class="col-lg-6 section-space" style="text-align: left;">
         <div>
-          <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
-          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 1 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
+          <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
+          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 3 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
         </div>
-        <p>{{ $t('league.season1_announcement_1') }}</p>
-        <p>{{ $t('league.season1_announcement_2') }}</p>
-        <p>{{ $t('league.season1_announcement_3') }}</p>
+        <p>{{ $t('league.season3_announcement_1') }}</p>
+        <p>{{ $t('league.season3_announcement_2') }}</p>
+        <p>{{ $t('league.season3_announcement_3') }}</p>
         <ul style="list-style-type: none; padding: 0px;">
           <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_1') }}</li>
           <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_2') }}</li>
+          <li><span class="bullet-point" style="background-color: #30EFD3;"/><a href="http://hyperx.gg/codecombathxrevolver" target="_blank">{{ $t('league.season1_prize_hyperx') }}</a> - <a href="/league/hyperx">{{ $t('league.join_team') }}</a></li>
           <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_3') }}</li>
           <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_4') }}</li>
         </ul>
@@ -475,9 +573,9 @@ export default {
       <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace('-', '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
-        <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace('-', '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
-        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace('-', '_')}`), arenaType: $t('league.arena_type_regular') }) }}</a>
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
+        <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
       </div>
       <div class="col-lg-6 section-space">
         <leaderboard :title="$t('league.codepoints')" :rankings="selectedClanCodePointsRankings" :key="`${clanIdSelected}-codepoints`" :clanId="clanIdSelected" scoreType="codePoints"
@@ -486,6 +584,34 @@ export default {
         />
         <a v-if="isStudent" href="/students" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.earn_codepoints') }}</a>
         <a v-else href="/play" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.earn_codepoints') }}</a>
+      </div>
+    </div>
+    <div class="row text-center" v-if="isAPIClient" id="apiclient-data">
+      <h1><span class="esports-aqua">License </span><span class="esports-pink">stats</span></h1>
+      <p class="subheader2"> License Days by Teacher/Classroom in Last Month</p>
+      <ApiData viewport="simple"></ApiData>
+      <a href="/api-dashboard" class="btn btn-large btn-primary btn-moon play-btn-cta"> See Full Stats</a>
+    </div>
+    <div class="row text-center" id="winners">
+      <h1><span class="esports-aqua">Previous </span><span class="esports-pink">Season</span></h1>
+      <p class="subheader2">
+        <span>Results from the {{ $t(`league.${previousChampionshipArenaSlug.replace(/-/g, '_')}`) }} {{ $t('league.arena_type_championship') }}</span>
+        <span v-if="!previousChampionshipArenaResultsPublished"> coming soon</span>
+      </p>
+    </div>
+
+    <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0" v-if="previousChampionshipArenaResultsPublished">
+      <div class="col-sm-10 video-backer video-iframe">
+        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a?poster=https://videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a/thumbnails/thumbnail.jpg%3Ftime%3D837s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 2 - Spells of Fortune"></iframe></div>
+      </div>
+    </div>
+
+    <div class="row text-center">
+      <div class="col-lg-6 section-space">
+        <a :href="previousRegularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.${previousRegularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
+      </div>
+      <div class="col-lg-6 section-space">
+        <a :href="previousChampionshipArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.${previousChampionshipArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
       </div>
     </div>
 
@@ -509,24 +635,37 @@ export default {
       </div>
     </section>
 
-    <div class="row section-space">
+    <div class="row section-space prize-section">
       <div class="row">
-        <h1 class="subheader1 text-center" style="margin-bottom: 64px;"><span class="esports-pink">Compete </span><span class="esports-green">in </span><span class="esports-aqua">the </span><span class="esports-purple">Infinite Inferno Cup </span><span class="esports-aqua">for </span><span class="esports-green">a </span><span class="esports-pink">chance </span><span class="esports-purple">to </span><span class="esports-aqua">win!</span></h1>
+        <h1 class="subheader1 text-center" style="margin-bottom: 64px;"><span class="esports-pink">Compete </span><span class="esports-green">in </span><span class="esports-aqua">the </span><span class="esports-purple">Colossus Clash </span><span class="esports-aqua">for </span><span class="esports-green">a </span><span class="esports-pink">chance </span><span class="esports-purple">to </span><span class="esports-aqua">win!</span></h1>
       </div>
       <div class="row">
-        <div class="col-md-5 text-center">
-          <img src="/images/pages/league/respawn-gaming-chair.png" alt="RESPAWN Gaming Chair" class="responsive-img" style="max-width: 525px;"/>
+        <div class="col-sm-4 text-center">
+          <a href="https://respawnproducts.com/products/respawn-110-racing-style-gaming-chair" target="_blank">
+            <img src="/images/pages/league/respawn-logo.png" alt="RESPAWN company logo" class="responsive-img" style="max-width: 160px; margin-bottom: 64px;"/>
+            <br />
+            <img src="/images/pages/league/respawn-gaming-chair.png" alt="RESPAWN Gaming Chair" class="responsive-img" style="max-width: 525px; width: 100%"/>
+          </a>
         </div>
-        <div class="col-md-7">
+        <div class="col-sm-4">
           <ul style="list-style-type: none; padding: 0px; margin-top: 74px;">
             <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_1') }}</li>
             <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_2') }}</li>
+            <li><span class="bullet-point" style="background-color: #30EFD3;"/><a href="http://hyperx.gg/codecombathxrevolver" target="_blank">{{ $t('league.season1_prize_hyperx') }}</a> - <a href="/league/hyperx">{{ $t('league.join_team') }}</a></li>
             <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_3') }}</li>
             <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_4') }}</li>
           </ul>
-          <img src="/images/pages/league/respawn-logo.png" alt="RESPAWN company logo" class="responsive-img" style="max-width: 160px; margin-bottom: 64px;"/>
-          <p>Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena.  Some prizes are limited to US participants only.
-            <a href="https://docs.google.com/document/d/1cy4bKe_c0pl6mxLWnbp6R7PxHoDwHzNlBHWALODdey4/edit?usp=sharing">CodeCombat reserves</a> the right to determine in its sole discretion if a player qualifies and will receive a prize.</p>
+          <p>
+            <em>Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena.  Some prizes are limited to US participants only.
+            <a href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view?usp=sharing">CodeCombat reserves</a> the right to determine in its sole discretion if a player qualifies and will receive a prize. <!-- Players in China, Taiwan, Hong Kong, and Macao should be play on our China server at <a href="https://koudashijie.com/">koudashijie.com</a> to be eligible for prizes. --></em>
+          </p>
+        </div>
+        <div class="col-sm-4 text-center">
+          <a href="http://hyperx.gg/codecombathxrevolver" target="_blank">
+            <img src="/images/pages/league/hyperx-logo.png" alt="HyperX company logo" class="responsive-img" style="max-width: 160px; margin-bottom: 64px;"/>
+            <br />
+            <img src="/images/pages/league/hyperx-package.png" alt="HyperX Gaming peripherals" class="responsive-img" style="max-width: 525px; width: 100%"/>
+          </a>
         </div>
       </div>
       <div class="text-center" style="margin: 32px 0;">
@@ -562,12 +701,38 @@ export default {
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Infinite Inferno Cup</h3>
         <div>Jan - April 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy"/>
+        <!-- <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy"/> -->
+        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0">
+          <div class="col-xs-12 video-backer video-iframe">
+            <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/1422969c8f5fbee2a62ee60021becfb4?poster=https://videodelivery.net/1422969c8f5fbee2a62ee60021becfb4/thumbnails/thumbnail.jpg%3Ftime%3D1584s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 1 - Forged in Flame"></iframe></div>
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-xs-12 col-md-6 view-winners-col">
+            <a href="/play/ladder/blazing-battle?tournament=608cea0f8f2b971478556ac6" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.blazing_battle`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
+          </div>
+          <div class="col-xs-12 col-md-6 view-winners-col">
+            <a href="/play/ladder/infinite-inferno?tournament=608cd3f814fa0bf9f1c1f928" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.infinite_inferno`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
+          </div>
+        </div>
       </div>
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Sorcerer's Blitz</h3>
         <div>May - Aug 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy"/>
+        <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy" v-if="!previousChampionshipArenaResultsPublished" />
+        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0" v-if="previousChampionshipArenaResultsPublished">
+          <div class="col-xs-12 video-backer video-iframe">
+            <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a?poster=https://videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a/thumbnails/thumbnail.jpg%3Ftime%3D837s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 2 - Spells of Fortune"></iframe></div>
+          </div>
+        </div>
+        <div class="row text-center" v-if="previousChampionshipArenaResultsPublished">
+          <div class="col-xs-12 col-md-6 view-winners-col">
+            <a href="/play/ladder/mages-might?tournament=612d554b9abe2e0019aeffb9" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.mages_might`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
+          </div>
+          <div class="col-xs-12 col-md-6 view-winners-col">
+            <a href="/play/ladder/sorcerers?tournament=612d556f9abe2e0019af000b" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.sorcerers`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
+          </div>
+        </div>
       </div>
       <div class="col-sm-4 text-center">
         <h3>Colossus Clash</h3>
@@ -719,7 +884,12 @@ export default {
         <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
         <p class="subheader2" style="margin-bottom: 50px;">{{ $t('league.share_flyer') }}</p>
         <div class="xs-centered">
-          <a style="margin-bottom: 50px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">{{ $t('league.download_flyer') }}</a>
+          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">{{ $t('league.download_flyer') }}</a>
+          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit?usp=sharing" target="_blank" rel="noopener noreferrer">{{ $t('teacher.teacher_getting_started') }}</a>
+          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank" rel="noopener noreferrer">
+            <span class="glyphicon glyphicon-facetime-video"></span>
+            <span class="spl">Tutorial</span>
+          </a>
         </div>
       </div>
       <div class="col-sm-4">
@@ -741,7 +911,7 @@ export default {
   font-family: Work Sans, "Sans Serif";
   color: white;
   h1, h2, h3 {
-    font-family: "lores12ot-bold", "VT323";
+    font-family: "lores12ot-bold", "VT323", "Work Sans", "Sans Serif";
     color: white;
   }
 
@@ -846,6 +1016,18 @@ export default {
       transform: unset;
     }
 
+    ::v-deep div.clan-description {
+      color: white;
+
+      h1, h2, h3, h4, h5, h6 {
+        font-family: "lores12ot-bold", "VT323", "Work Sans", "Sans Serif";
+      }
+
+      :not(a) {
+        color: white;
+      }
+    }
+
     p {
       margin-bottom: 22px;
     }
@@ -860,7 +1042,9 @@ export default {
       height: 20vw;
       min-height: 100px;
       max-height: 350px;
-      transform: scaleX(1);
+      &:not(.flip-horizontally) {
+        transform: scaleX(1);
+      }
     }
 
     @media screen and (max-width: 1000px) {
@@ -890,6 +1074,30 @@ export default {
     img {
       max-height: 250px;
       margin: 15px auto 0 auto;
+    }
+
+    @media screen and (min-width: 992px) {
+      .view-winners-col:nth-child(1) {
+        padding-right: 0
+      }
+      .view-winners-col:nth-child(2) {
+        padding-left: 0
+      }
+    }
+
+    @media screen and (max-width: 992px) {
+      .view-winners-col:nth-child(2) {
+        padding-top: 10px;
+      }
+    }
+
+    .btn-primary.btn-moon.btn-small {
+      padding: 10px;
+      letter-spacing: 0;
+      line-height: 18px;
+      font-size: 14px;
+      margin: 0px;
+      width: calc(100% - 5px);
     }
   }
 
@@ -958,6 +1166,41 @@ export default {
   .text-dont-just-play-code img{
     max-width: 410px;
     margin: 0 0 0 auto;
+  }
+
+  .prize-section  {
+    p {
+      em {
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .partner-banner  {
+    margin-top: -80px;
+    margin-bottom: 70px;
+
+    p {
+      em {
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    .custom-esports-image-banner {
+      transition: filter .10s linear, box-shadow 0.10s linear;
+      filter: brightness(100%);
+
+      &:hover {
+        filter: brightness(125%);
+        box-shadow: 0 0 25px #d1b147;
+      }
+    }
   }
 
   .video-iframe-section {
@@ -1107,6 +1350,12 @@ export default {
   @media screen and (min-width: 768px) {
     ::v-deep .btn-primary.btn-moon, .play-btn-cta {
       padding: 20px 100px;
+    }
+
+    .esports-flyer-optimized-section {
+      ::v-deep .btn-primary.btn-moon, .play-btn-cta {
+        padding: 20px 20px;
+      }
     }
 
     ::v-deep .section-space {

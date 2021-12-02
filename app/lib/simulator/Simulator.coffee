@@ -74,15 +74,19 @@ module.exports = class Simulator extends CocoClass
         unless taskData
           if xhr.status is 205
             @retryDelayInSeconds = 5
-            @simulateTournamentRatio = 0.1  # scal down the ratio of simulate tournament
+            @simulateTournamentRatio = 0.1  # scale down the ratio of simulate tournament
           else
             @retryDelayInSeconds = 10
-          @trigger 'statusUpdate', "No games to simulate. Trying another game in #{@retryDelayInSeconds} seconds."
+          @trigger 'statusUpdate', "Waiting #{@retryDelayInSeconds} seconds before next game."
           @simulateAnotherTaskAfterDelay()
           return
         if taskData.tournamentId
-          @simulateTournamentRatio = 0.9  # scal up the ratio of simulate tournament
+          @simulateTournamentRatio = 0.9  # scale up the ratio of simulate tournament
         @simulatingPlayerStrings = {}
+        if taskData.sessions[0].realTeam == taskData.sessions[1].realTeam # only random for ladder
+          newTeam = _.shuffle ['humans', 'ogres']
+          taskData.sessions[0].team = newTeam[0]
+          taskData.sessions[1].team = newTeam[1]
         for team in ['humans', 'ogres']
           session = _.find(taskData.sessions, {team: team})
           teamName = $.i18n.t 'ladder.' + team
@@ -105,7 +109,7 @@ module.exports = class Simulator extends CocoClass
         @supermodel ?= new SuperModel()
         @supermodel.resetProgress()
         @stopListening @supermodel, 'loaded-all'
-        @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), opponentSessionID: @task.getSecondSessionID(), headless: true
+        @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getHumanSessionID(), opponentSessionID: @task.getOgresSessionID(), headless: true
 
         if @supermodel.finished()
           @simulateSingleGame()
@@ -173,7 +177,7 @@ module.exports = class Simulator extends CocoClass
 
     if results.tournament?
       url = '/db/tournament.match/record'
-      results.matchType = 'round-robin'  # for now we just use 'round-robin'
+      results.matchType = results.tournamentType
     else
       url = '/queue/scoring/recordTwoGames'
     $.ajax
@@ -241,7 +245,7 @@ module.exports = class Simulator extends CocoClass
     @supermodel ?= new SuperModel()
     @supermodel.resetProgress()
     @stopListening @supermodel, 'loaded-all'
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), opponentSessionID: @task.getSecondSessionID(), headless: true
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getHumanSessionID(), opponentSessionID: @task.getOgresSessionID(), headless: true
     if @supermodel.finished()
       @simulateGame()
     else
@@ -380,6 +384,7 @@ module.exports = class Simulator extends CocoClass
     taskResults =
       taskID: @task.getTaskID()
       tournament: @task.getTournamentId()
+      tournamentType: @task.getTournamentType()
       receiptHandle: @task.getReceiptHandle()
       originalSessionID: @task.getFirstSessionID()
       originalSessionRank: -1
@@ -483,9 +488,16 @@ class SimulationTask
   getFirstSessionID: -> @rawData.sessions[0].sessionID
 
   getSecondSessionID: -> @rawData.sessions[1].sessionID
+
+  getHumanSessionID: -> _.find(@rawData.sessions, {team: 'humans'}).sessionID
+
+  getOgresSessionID: -> _.find(@rawData.sessions, {team: 'ogres'}).sessionID
+
   getTaskID: -> @rawData.taskID
 
   getTournamentId: -> @rawData.tournamentId
+
+  getTournamentType: -> @rawData.tournamentType
 
   getReceiptHandle: -> @rawData.receiptHandle
 

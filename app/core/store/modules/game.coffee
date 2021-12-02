@@ -1,6 +1,7 @@
 levelSchema = require('schemas/models/level')
 api = require('core/api')
 utils = require 'core/utils'
+aetherUtils = require 'lib/aether_utils'
 
 # TODO: Be explicit about the properties being stored
 emptyLevel = _.zipObject(([key, null] for key in _.keys(levelSchema.properties)))
@@ -55,7 +56,14 @@ module.exports = {
         return
 
       plan = component.config.programmableMethods.plan
-      unless rawSource = plan.solutions?.find((s) -> !s.testOnly && s.succeeds && s.language == codeLanguage)?.source
+
+      solutions = _.filter (plan?.solutions ? []), (s) -> not s.testOnly and s.succeeds
+      rawSource = _.find(solutions, language: codeLanguage)?.source
+      if not rawSource and jsSource = _.find(solutions, language: 'javascript')?.source
+        # If there is no target language solution yet, generate one from JavaScript.
+        rawSource = aetherUtils.translateJS(jsSource, codeLanguage)
+
+      unless rawSource
         noSolution()
         return
 

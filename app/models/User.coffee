@@ -5,6 +5,9 @@ LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
 co = require 'co'
+storage = require 'core/storage'
+globalVar = require 'core/globalVar'
+paymentUtils = require 'app/lib/paymentUtils'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -15,6 +18,8 @@ UserLib = {
     name = _.filter([user.firstName, user.lastName]).join(' ')
     if features?.china
       name = user.firstName
+    unless /[a-z]/.test name
+      name = _.string.titleize name  # Rewrite all-uppercase names to title-case for display
     return name if name
     name = user.name
     return name if name
@@ -32,19 +37,23 @@ module.exports = class User extends CocoModel
   @schema: require 'schemas/models/user'
   urlRoot: '/db/user'
   notyErrors: false
-  PERMISSIONS: {
+  @PERMISSIONS: {
     COCO_ADMIN: 'admin',
     SCHOOL_ADMINISTRATOR: 'schoolAdministrator',
     ARTISAN: 'artisan',
     GOD_MODE: 'godmode',
-    LICENSOR: 'licensor'
+    LICENSOR: 'licensor',
+    API_CLIENT: 'apiclient',
+    ONLINE_TEACHER: 'onlineTeacher'
   }
 
-  isAdmin: -> @PERMISSIONS.COCO_ADMIN in @get('permissions', true)
-  isLicensor: -> @PERMISSIONS.LICENSOR in @get('permissions', true)
-  isArtisan: -> @PERMISSIONS.ARTISAN in @get('permissions', true)
-  isInGodMode: -> @PERMISSIONS.GOD_MODE in @get('permissions', true)
-  isSchoolAdmin: -> @PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
+  isAdmin: -> @constructor.PERMISSIONS.COCO_ADMIN in @get('permissions', true)
+  isLicensor: -> @constructor.PERMISSIONS.LICENSOR in @get('permissions', true)
+  isArtisan: -> @constructor.PERMISSIONS.ARTISAN in @get('permissions', true)
+  isOnlineTeacher: -> @constructor.PERMISSIONS.ONLINE_TEACHER in @get('permissions', true)
+  isInGodMode: -> @constructor.PERMISSIONS.GOD_MODE in @get('permissions', true) or @constructor.PERMISSIONS.ONLINE_TEACHER in @get('permissions', true)
+  isSchoolAdmin: -> @constructor.PERMISSIONS.SCHOOL_ADMINISTRATOR in @get('permissions', true)
+  isAPIClient: -> @constructor.PERMISSIONS.API_CLIENT in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
 
@@ -93,6 +102,8 @@ module.exports = class User extends CocoModel
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
+  isHomeUser: -> not @get('role')
+
   isStudent: -> @get('role') is 'student'
 
   isCreatedByClient: -> @get('clientCreator')?
@@ -101,10 +112,10 @@ module.exports = class User extends CocoModel
 
   isPaidTeacher: ->
     return false unless @isTeacher()
-    return @isCreatedByClient() or (/@codeninjas.com$/i.test me.get('email'))
+    return @isCreatedByClient() or (/@codeninjas.com$/i.test @get('email'))
 
   isTeacherOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
-    if not me.isTeacher()
+    if not @isTeacher()
       return false
 
     if classroomId and not classroom
@@ -126,7 +137,7 @@ module.exports = class User extends CocoModel
     return false
 
   isSchoolAdminOf: co.wrap ({ classroom, classroomId, courseInstance, courseInstanceId }) ->
-    if not me.isSchoolAdmin()
+    if not @isSchoolAdmin()
       return false
 
     if classroomId and not classroom
@@ -148,7 +159,14 @@ module.exports = class User extends CocoModel
     return false
 
   isSessionless: ->
-    Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
+    Boolean((utils.getQueryVariable('dev', false) or @isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
+
+  isInHourOfCode: ->
+    return false unless @get('hourOfCode')
+    daysElapsed = (new Date() - new Date @get('dateCreated')) / (86400 * 1000)
+    return false if daysElapsed > 7  # Disable special HoC handling after a week, treat as normal users after that point
+    return false if daysElapsed > 1 and @get('hourOfCodeComplete')  # ... or one day, if they're already done with it
+    true
 
   getClientCreatorPermissions: ->
     clientID = @get('clientCreator')
@@ -202,7 +220,7 @@ module.exports = class User extends CocoModel
 
   level: ->
     totalPoint = @get('points')
-    totalPoint = totalPoint + 1000000 if me.isInGodMode()
+    totalPoint = totalPoint + 1000000 if @isInGodMode()
     User.levelFromExp(totalPoint)
 
   tier: ->
@@ -210,21 +228,21 @@ module.exports = class User extends CocoModel
 
   gems: ->
     gemsEarned = @get('earned')?.gems ? 0
-    gemsEarned = gemsEarned + 100000 if me.isInGodMode()
-    gemsEarned += 1000 if me.get('hourOfCode')
+    gemsEarned = gemsEarned + 100000 if @isInGodMode()
+    gemsEarned += 1000 if @get('hourOfCode')
     gemsPurchased = @get('purchased')?.gems ? 0
     gemsSpent = @get('spent') ? 0
     Math.floor gemsEarned + gemsPurchased - gemsSpent
 
   heroes: ->
-    heroes = (me.get('purchased')?.heroes ? []).concat([ThangTypeConstants.heroes.captain, ThangTypeConstants.heroes.knight, ThangTypeConstants.heroes.champion, ThangTypeConstants.heroes.duelist])
+    heroes = (@get('purchased')?.heroes ? []).concat([ThangTypeConstants.heroes.captain, ThangTypeConstants.heroes.knight, ThangTypeConstants.heroes.champion, ThangTypeConstants.heroes.duelist])
     heroes.push ThangTypeConstants.heroes['code-ninja'] if window.serverConfig.codeNinjas
-    teamDerBeztClanId = '601351bb4b79b4013e198fbe'
-    heroes.push ThangTypeConstants.heroes['armando-hoyos'] if teamDerBeztClanId in (me.get('clans') ? [])
+    for clanHero in utils.clanHeroes when clanHero.clanId in (@get('clans') ? [])
+      heroes.push clanHero.thangTypeOriginal
     heroes
-  items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? []).concat([ThangTypeConstants.items['simple-boots']])
-  levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? []).concat(LevelConstants.levels['dungeons-of-kithgard'])
-  ownsHero: (heroOriginal) -> me.isInGodMode() || heroOriginal in @heroes()
+  items: -> (@get('earned')?.items ? []).concat(@get('purchased')?.items ? []).concat([ThangTypeConstants.items['simple-boots']])
+  levels: -> (@get('earned')?.levels ? []).concat(@get('purchased')?.levels ? []).concat(LevelConstants.levels['dungeons-of-kithgard'])
+  ownsHero: (heroOriginal) -> @isInGodMode() || heroOriginal in @heroes()
   ownsItem: (itemOriginal) -> itemOriginal in @items()
   ownsLevel: (levelOriginal) -> levelOriginal in @levels()
 
@@ -253,7 +271,7 @@ module.exports = class User extends CocoModel
     return errors
 
   hasSubscription: ->
-    return false if me.isStudent() or me.isTeacher()
+    return false if @isStudent() or @isTeacher()
     if payPal = @get('payPal')
       return true if payPal.billingAgreementID
     if stripe = @get('stripe')
@@ -264,19 +282,13 @@ module.exports = class User extends CocoModel
     false
 
   isPremium: ->
-    return true if me.isInGodMode()
-    return true if me.isAdmin()
-    return true if me.hasSubscription()
+    return true if @isInGodMode()
+    return true if @isAdmin()
+    return true if @hasSubscription()
     return false
 
   isForeverPremium: ->
     return @get('stripe')?.free is true
-
-  isOnPremiumServer: ->
-    return true if me.get('country') in ['brazil']
-    return true if me.get('country') in ['china'] and (me.isPremium() or me.get('stripe'))
-    return true if features?.china
-    return false
 
   sendVerificationCode: (code) ->
     $.ajax({
@@ -320,6 +332,32 @@ module.exports = class User extends CocoModel
       error: ->
         console.error "Couldn't save activity #{activityName}"
     })
+
+  startExperiment: (name, value, probability) ->
+    experiments = @get('experiments') ? []
+    return console.error "Already started experiment #{name}" if _.find experiments, name: name
+    return console.error "Invalid experiment name: #{name}" unless /^[a-z][\-a-z0-9]*$/.test name
+    return console.error "No experiment value provided" unless value?
+    return console.error "Probability should be between 0-1 if set" if probability? and not 0 <= probability <= 1
+    $.ajax
+      method: 'POST'
+      url: "/db/user/#{@id}/start-experiment"
+      data: {name, value, probability}
+      success: (attributes) =>
+        @set attributes
+      error: (jqxhr) ->
+        console.error "Couldn't start experiment #{name}:", jqxhr.responseJSON
+    experiment = name: name, value: value, startDate: new Date()  # Server date/save will be authoritative
+    experiment.probability = probability if probability?
+    experiments.push experiment
+    @set 'experiments', experiments
+    experiment
+
+  getExperimentValue: (experimentName, defaultValue=null, defaultValueIfAdmin=null) ->
+    # Latest experiment to start with this experiment name wins, in the off chance we have multiple duplicate entries
+    defaultValue = defaultValueIfAdmin if defaultValueIfAdmin? and @isAdmin()
+    experiments = _.sortBy(@get('experiments') ? [], 'startDate').reverse()
+    _.find(experiments, name: experimentName)?.value ? defaultValue
 
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
@@ -368,27 +406,33 @@ module.exports = class User extends CocoModel
     options.type = 'POST'
     options.data ?= {}
     options.data.user = user
+    @clearUserSpecificLocalStorage()
     @fetch(options)
 
   stopSpying: (options={}) ->
     options.url = '/auth/stop-spying'
     options.type = 'POST'
+    @clearUserSpecificLocalStorage()
     @fetch(options)
 
   logout: (options={}) ->
     options.type = 'POST'
     options.url = '/auth/logout'
     FB?.logout?()
-    options.success ?= ->
-      window.application.tracker.identifyAfterNextPageLoad()
-      window.application.tracker.resetIdentity().finally =>
-        location = _.result(window.currentView, 'logoutRedirectURL')
+    options.success ?= =>
+      globalVar.application.tracker.identifyAfterNextPageLoad()
+      globalVar.application.tracker.resetIdentity().finally =>
+        location = _.result(globalVar.currentView, 'logoutRedirectURL')
+        @clearUserSpecificLocalStorage?()
         if location
           window.location = location
         else
           window.location.reload()
 
     @fetch(options)
+
+  clearUserSpecificLocalStorage: ->
+    storage.remove key for key in ['hoc-campaign']
 
   signupWithPassword: (name, email, password, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-password'
@@ -531,7 +575,7 @@ module.exports = class User extends CocoModel
   setToSpanish: -> _.string.startsWith((@get('preferredLanguage') or ''), 'es')
 
   freeOnly: ->
-    return features.freeOnly and not me.isPremium()
+    return @isStudent() or (features.freeOnly and not @isPremium())
 
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})
@@ -539,10 +583,10 @@ module.exports = class User extends CocoModel
     stripe.token = token.id
     stripe.couponID = options.couponID if options.couponID
     @set({stripe})
-    return me.patch({headers: {'X-Change-Plan': 'true'}}).then =>
+    return @patch({headers: {'X-Change-Plan': 'true'}}).then =>
       unless utils.isValidEmail(@get('email'))
         @set({email: token.email})
-        me.patch()
+        @patch()
       return Promise.resolve()
 
   unsubscribe: ->
@@ -550,14 +594,22 @@ module.exports = class User extends CocoModel
     return unless stripe.planID
     delete stripe.planID
     @set({stripe})
-    return me.patch({headers: {'X-Change-Plan': 'true'}})
+    return @patch({headers: {'X-Change-Plan': 'true'}})
 
   unsubscribeRecipient: (id, options={}) ->
     options.url = _.result(@, 'url') + "/stripe/recipients/#{id}"
     options.method = 'DELETE'
     return $.ajax(options)
 
-  age: -> utils.yearsSinceMonth me.get('birthday')
+  age: -> utils.yearsSinceMonth @get('birthday')
+
+  isRegisteredForAILeague: ->
+    # TODO: This logic could use some thinking about, and maybe an explicit field for when we want to be sure they have registered on purpose instead of happening to have these properties.
+    return false unless @get 'birthday'
+    return false unless @get 'email'
+    return false if @get 'unsubscribedFromMarketingEmails'
+    return false unless @get('emails')?.generalNews?.enabled
+    true
 
   # Feature Flags
   # Abstract raw settings away from specific UX changes
@@ -565,7 +617,6 @@ module.exports = class User extends CocoModel
   canBuyGems: -> false  # Disabled direct buying of gems around 2021-03-16
   constrainHeroHealth: -> features?.classroomItems ? false and @isStudent()
   promptForClassroomSignup: -> not ((features?.chinaUx ? false) or (window.serverConfig?.codeNinjas ? false) or (features?.brainPop ? false))
-  showAvatarOnStudentDashboard: -> not (features?.classroomItems ? false) and @isStudent()
   showGearRestrictionsInClassroom: -> features?.classroomItems ? false and @isStudent()
   showGemsAndXp: -> features?.classroomItems ? false and @isStudent()
   showHeroAndInventoryModalsToStudents: -> features?.classroomItems and @isStudent()
@@ -574,19 +625,22 @@ module.exports = class User extends CocoModel
   useSocialSignOn: -> not ((features?.chinaUx ? false) or (features?.china ? false))
   isTarena: -> features?.Tarena ? false
   useTarenaLogo: -> @isTarena()
-  hideTopRightNav: -> @isTarena()
-  hideFooter: -> @isTarena()
-  useGoogleClassroom: -> not (features?.chinaUx ? false) and me.get('gplusID')?   # if signed in using google SSO
+  hideTopRightNav: -> @isTarena() or @isILK() or @isICode()
+  hideFooter: -> @isTarena() or @isILK() or @isICode()
+  hideOtherProductCTAs: -> @isTarena() or @isILK() or @isICode()
+  useGoogleClassroom: -> not (features?.chinaUx ? false) and @get('gplusID')?   # if signed in using google SSO
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" # teacher can only access CS1 freely in China
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
+  isILK: -> @get('clientCreator') is '6082ec9996895d00a9b96e90' or _.find(@get('clientPermissions') ? [], client: '6082ec9996895d00a9b96e90')
+  isICode: -> @get('clientCreator') is '61393874c324991d0f68fc70' or _.find(@get('clientPermissions') ? [], client: '61393874c324991d0f68fc70')
   showForumLink: -> not (features?.china ? false)
   showChinaResourceInfo: -> features?.china ? false
   useChinaHomeView: -> features?.china ? false
   showChinaRegistration: -> features?.china ? false
-  enableCpp: -> me.hasSubscription() || me.isStudent() || me.isTeacher()
+  enableCpp: -> @hasSubscription() or @isStudent() or @isTeacher()
   useQiyukf: -> features?.china ? false
   useChinaServices: -> features?.china ? false
   useGeneralArticle: -> not (features?.china ? false)

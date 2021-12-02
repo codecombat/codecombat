@@ -97,6 +97,7 @@ CourseInstances = require 'collections/CourseInstances'
 co = require('co')
 helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
+globalVar = require 'core/globalVar'
 
 OutcomesReportComponent = {
   data: ->
@@ -296,7 +297,7 @@ OutcomesReportComponent = {
         backView: @parentView
       })
       resultView.render()
-      window.currentView = undefined
+      globalVar.currentView = undefined
       application.router.openView(resultView)
 
     fetchData: ->
@@ -428,7 +429,7 @@ OutcomesReportComponent = {
 
   @media print
     a[href]:after
-      content:none
+      content: none
     a[href]
       color: #0b63bc !important
       text-decoration: underline

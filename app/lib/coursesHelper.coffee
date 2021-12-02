@@ -242,7 +242,7 @@ module.exports =
     return progressData
 
   courseLabelsArray: (courses) ->
-    courses.map((course) -> course.acronym())
+    courses.map((course) -> course?.acronym() ? '')
 
   hasUserCompletedCourse: hasUserCompletedCourse
 

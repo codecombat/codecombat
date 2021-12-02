@@ -16,6 +16,7 @@ SaveCampaignModal = require './SaveCampaignModal'
 PatchesView = require 'views/editor/PatchesView'
 RevertModal = require 'views/modal/RevertModal'
 modelDeltas = require 'lib/modelDeltas'
+globalVar = require 'core/globalVar'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
@@ -445,7 +446,7 @@ class AchievementNode extends treemaExt.IDReferenceNode
 class RewardsNode extends TreemaArrayNode
   buildValueForDisplay: (valEl, data) ->
     super valEl, data
-    achievements = window.currentView.achievements.where related: @parent.data.original
+    achievements = globalVar.currentView.achievements.where related: @parent.data.original
     achievements = _.sortBy achievements, (a) -> a.get('rewards')?.levels?.length ? 0
     mainAchievement = achievements[0]
     return unless mainAchievement

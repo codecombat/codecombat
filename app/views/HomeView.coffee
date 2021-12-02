@@ -2,14 +2,13 @@ require('app/styles/home-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/home-view'
 CocoCollection = require 'collections/CocoCollection'
-TrialRequest = require 'models/TrialRequest'
-TrialRequests = require 'collections/TrialRequests'
-Courses = require 'collections/Courses'
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 EducatorSignupOzariaEncouragementModal = require('app/views/teachers/EducatorSignupOzariaEncouragementModal').default
+GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').default
+paymentUtils = require 'app/lib/paymentUtils'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -17,32 +16,33 @@ module.exports = class HomeView extends RootView
 
   events:
     'click .continue-playing-btn': 'onClickTrackEvent'
-    'click .example-gd-btn': 'onClickTrackEvent'
-    'click .example-wd-btn': 'onClickTrackEvent'
-    'click .play-btn': 'onClickTrackEvent'
-    'click .signup-home-btn': 'onClickTrackEvent'
     'click .student-btn': 'onClickStudentButton'
     'click .teacher-btn': 'onClickTeacherButton'
     'click .parent-btn': 'onClickParentButton'
-    'click .request-quote': 'onClickRequestQuote'
-    'click .logout-btn': 'logoutAccount'
-    'click .profile-btn': 'onClickTrackEvent'
-    'click .setup-class-btn': 'onClickSetupClass'
     'click .my-classes-btn': 'onClickTrackEvent'
     'click .my-courses-btn': 'onClickTrackEvent'
     'click .try-ozaria': 'onClickTrackEvent'
+    'click .product-btn a': 'onClickTrackEvent'
+    'click .product-btn button': 'onClickTrackEvent'
     'click a': 'onClickAnchor'
+    'click .get-started-btn': 'onClickGetStartedButton'
+    'click .create-account-teacher-btn': 'onClickCreateAccountTeacherButton'
+    'click .carousel-dot': 'onCarouselDirectMove'
+    'click .carousel-tab': 'onCarouselDirectMovev2'
 
   initialize: (options) ->
     super(options)
+    @renderedPaymentNoty = false
 
-    @courses = new Courses()
-    @supermodel.trackRequest @courses.fetchReleased()
-
-    if me.isTeacher()
-      @trialRequests = new TrialRequests()
-      @trialRequests.fetchOwn()
-      @supermodel.loadCollection(@trialRequests)
+  getRenderData: (context={}) ->
+    context = super context
+    context.i18nData =
+      slides: "<a href='https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing' target='_blank'>#{$.i18n.t('new_home.lesson_slides')}</a>"
+      clever: "<a href='/teachers/resources/clever-faq'>#{$.i18n.t('new_home_faq.clever_integration_faq')}</a>"
+      contact: "<a class='contact-modal'>#{$.i18n.t('general.contact_us')}</a>"
+      funding: "<a href='https://www.ozaria.com/funding' target='_blank'>#{$.i18n.t('nav.funding_resources_guide')}</a>"
+      interpolation: { escapeValue: false }
+    context
 
   getMeta: ->
     title: $.i18n.t 'new_home.title'
@@ -52,25 +52,6 @@ module.exports = class HomeView extends RootView
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
     ]
-
-  onLoaded: ->
-    @trialRequest = @trialRequests.first() if @trialRequests?.size()
-    @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
-    super()
-
-  onClickRequestQuote: (e) ->
-    @playSound 'menu-button-click'
-    e.preventDefault()
-    e.stopImmediatePropagation()
-    @homePageEvent($(e.target).data('event-action'))
-    if me.isTeacher()
-      application.router.navigate '/teachers/update-account', trigger: true
-    else
-      application.router.navigate '/teachers/quote', trigger: true
-
-  onClickSetupClass: (e) ->
-    @homePageEvent($(e.target).data('event-action'))
-    application.router.navigate("/teachers/classes", { trigger: true })
 
   onClickStudentButton: (e) ->
     @homePageEvent('Started Signup')
@@ -88,6 +69,10 @@ module.exports = class HomeView extends RootView
     @homePageEvent($(e.target).data('event-action'))
     application.router.navigate '/parents', trigger: true
 
+  onClickCreateAccountTeacherButton: (e) ->
+    @homePageEvent('Started Signup')
+    @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+
   openEducatorSignupOzariaEncouragementModal: (onNext) ->
     # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
     if @ozariaEncouragementModalContainer
@@ -103,15 +88,16 @@ module.exports = class HomeView extends RootView
       }
     })
 
-  cleanupEncouragementModal: ->
+  cleanupModals: ->
     if @ozariaEncouragementModal
       @ozariaEncouragementModal.$destroy()
       @ozariaEncouragementModalContainer.remove()
+    if @getStartedSignupContainer
+      @getStartedSignupContainer.$destroy()
+      @getStartedSignupModal.remove()
 
   onClickTrackEvent: (e) ->
-    if $(e.target)?.hasClass('track-ab-result')
-      properties = {trackABResult: true}
-    @homePageEvent($(e.target).data('event-action'), properties || {})
+    @homePageEvent($(e.target).data('event-action'), {})
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
@@ -120,11 +106,7 @@ module.exports = class HomeView extends RootView
       category: 'Homepage'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
     properties = _.merge(defaults, extraproperties)
-
-    window.tracker?.trackEvent(
-        action,
-        properties,
-        includeIntegrations )
+    window.tracker?.trackEvent(action, properties, includeIntegrations)
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget
@@ -136,36 +118,75 @@ module.exports = class HomeView extends RootView
     else
       anchorText = anchor.text
 
-    if $(e.target)?.hasClass('track-ab-result')
-      properties = {trackABResult: true}
-
+    properties = {}
     if anchorText
-      @homePageEvent("Link: #{anchorText}", properties || {}, ['Google Analytics'])
+      @homePageEvent("Link: #{anchorText}", properties, ['Google Analytics'])
     else
-      _.extend(properties || {}, {
-        clicked: e?.currentTarget?.host or "unknown"
-      })
+      properties.clicked = e?.currentTarget?.host or "unknown"
       @homePageEvent("Link:", properties, ['Google Analytics'])
 
-  afterRender: ->
-    vimeoPlayerIframe = @$('.vimeo-player')[0]
-    if !me.showChinaVideo() and vimeoPlayerIframe
-      require.ensure(['@vimeo/player'], (require) =>
-        Player = require('@vimeo/player').default
-        @vimeoPlayer = new Player(vimeoPlayerIframe)
-      , (e) =>
-        console.error e
-      , 'vimeo')
+  onClickGetStartedButton: (e) ->
+    @homePageEvent($(e.target).data('event-action'))
+    @getStartedSignupContainer?.remove()
+    @getStartedSignupContainer = document.createElement('div')
+    document.body.appendChild(@getStartedSignupContainer)
+    @getStartedSignupModal = new GetStartedSignupModal({ el: @getStartedSignupContainer })
 
+  onCarouselDirectMovev2: (e) ->
+    selector = $(e.target).closest('.carousel-tab').data('selector')
+    slideNum = $(e.target).closest('.carousel-tab').data('slide-num')
+    @$(selector).carousel(slideNum)
+
+  onCarouselDirectMove: (e) ->
+    selector = $(e.target).closest('.carousel-dot').data('selector')
+    slideNum = $(e.target).closest('.carousel-dot').data('slide-num')
+    @$(selector).carousel(slideNum)
+
+  onCarouselSlide: (e) =>
+    $carousel = $(e.currentTarget).closest('.carousel')
+    $carouselContainer = @$("##{$carousel.attr('id')}-carousel")
+    slideNum = parseInt($(e.relatedTarget).data('slide'), 10)
+    $carouselContainer.find(".carousel-tabs li:not(:nth-child(#{slideNum + 1}))").removeClass 'active'
+    $carouselContainer.find(".carousel-tabs li:nth-child(#{slideNum + 1})").addClass 'active'
+    $carouselContainer.find(".carousel-dot:not(:nth-child(#{slideNum + 1}))").removeClass 'active'
+    $carouselContainer.find(".carousel-dot:nth-child(#{slideNum + 1})").addClass 'active'
+
+  activateCarousels: =>
+    return if @destroyed
+    @$('.carousel').carousel().off().on 'slide.bs.carousel', @onCarouselSlide
+
+  afterRender: ->
     if me.isAnonymous()
       if document.location.hash is '#create-account' or utils.getQueryVariable('registering') == true
-        @openModalView(new CreateAccountModal())
+        _.defer => @openModalView(new CreateAccountModal()) unless @destroyed
       if document.location.hash is '#create-account-individual'
-        @openModalView(new CreateAccountModal({startOnPath: 'individual'}))
+        _.defer => @openModalView(new CreateAccountModal({startOnPath: 'individual'})) unless @destroyed
       if document.location.hash is '#create-account-student'
-        @openModalView(new CreateAccountModal({startOnPath: 'student'}))
+        _.defer => @openModalView(new CreateAccountModal({startOnPath: 'student'})) unless @destroyed
       if document.location.hash is '#create-account-teacher'
-        @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+        _.defer => @openModalView(new CreateAccountModal({startOnPath: 'teacher'})) unless @destroyed
+
+    if utils.getQueryVariable('payment-studentLicenses') in ['success', 'failed'] and not @renderedPaymentNoty
+      paymentResult = utils.getQueryVariable('payment-studentLicenses')
+      if paymentResult is 'success'
+        title = $.i18n.t 'payments.studentLicense_successful'
+        type = 'success'
+      else
+        title = $.i18n.t 'payments.failed'
+        type = 'error'
+      noty({ text: title, type: type, timeout: 10000, killer: true })
+      @renderedPaymentNoty = true
+    else if utils.getQueryVariable('payment-homeSubscriptions') in ['success', 'failed'] and not @renderedPaymentNoty
+      paymentResult = utils.getQueryVariable('payment-homeSubscriptions')
+      if paymentResult is 'success'
+        title = $.i18n.t 'payments.homeSubscriptions_successful'
+        type = 'success'
+      else
+        title = $.i18n.t 'payments.failed'
+        type = 'error'
+      noty({ text: title, type: type, timeout: 10000, killer: true })
+      @renderedPaymentNoty = true
+    _.delay(@activateCarousels, 1000)
     super()
 
   afterInsert: ->
@@ -178,13 +199,11 @@ module.exports = class HomeView extends RootView
         @scrollToLink(document.location.hash, 0)
     _.delay(f, 100)
 
-  logoutAccount: ->
-    Backbone.Mediator.publish("auth:logging-out", {})
-    logoutUser()
-
   destroy: ->
-   @cleanupEncouragementModal()
-   super()
+    @cleanupModals()
+    super()
 
-  mergeWithPrerendered: (el) ->
-    true
+  # 2021-06-08: currently causing issues with i18n interpolation, disabling for now
+  # TODO: understand cause, performance impact
+  #mergeWithPrerendered: (el) ->
+  #  true

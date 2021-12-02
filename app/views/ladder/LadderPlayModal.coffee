@@ -37,8 +37,7 @@ module.exports = class LadderPlayModal extends ModalView
       {id: 'javascript', name: 'JavaScript'}
       {id: 'coffeescript', name: 'CoffeeScript (Experimental)'}
       {id: 'lua', name: 'Lua'}
-      # TODO: Bring java back once it's supported
-      # {id: 'java', name: 'Java'}
+      {id: 'java', name: 'Java'}
       {id: 'cpp', name: 'C++'}
     ]
     @myName = me.get('name') || 'Newcomer'
@@ -58,7 +57,7 @@ module.exports = class LadderPlayModal extends ModalView
     me.patch()
     if @session
       @session.set 'codeLanguage', aceConfig.language
-      @session.patch()
+      @session.save({codeLanguage: aceConfig.language}, {patch: true, type: 'PUT'})
 
   # PART 1: Load challengers from the db unless some are in the matches
   startLoadingChallengersMaybe: ->

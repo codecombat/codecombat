@@ -3,36 +3,45 @@
 @import "app/styles/style-flat-variables"
 
 #home-view
+  $sub-headline-font: "Work Sans", "Open Sans", "sans serif"
+  $body-font: "Work Sans", "Open Sans", "sans serif"
+  $pitch: #131B25
+  $teal-light-1: #1FBAB4
+  $teal-light-2: #6AE8E3
+  $teal-dark: #0E4C60
 
   // style-flat overwrites
   h1, .text-h1
-    font-family: $headline-font
+    font-family: $pixel-headline-font
     font-weight: bold
-    font-size: 46px
-    line-height: 62px
-    letter-spacing: 2px
+    font-size: 56px
+    line-height: 64px
     margin-bottom: -6px
+    color: $navy
 
   h2, .text-h2
-    font-family: $headline-font
+    font-family: $pixel-headline-font
     font-weight: bold
     font-size: 33px
     line-height: 62px
     letter-spacing: 2.58px
 
   h3, .text-h3
-    font-family: $headline-font
-    font-weight: bold
-    font-size: 24px
+    font-family: $sub-headline-font
+    font-weight: normal
+    font-size: 26px
     line-height: 32px
-    letter-spacing: 0.52px
+    letter-spacing: 0.56px
+    color: #131825
 
   h4, .text-h4
-    font-family: $body-font
-    font-weight: bold
-    font-size: 24px
-    line-height: 40px
+    font-family: $sub-headline-font
+    font-weight: 600
+    font-size: 28px
+    line-height: 38px
     letter-spacing: 0.56px
+    color: black
+    margin-bottom: 14px
 
   h5, .text-h5
     font-family: $body-font
@@ -43,21 +52,21 @@
 
   p, .text-p
     font-family: $body-font
-    font-size: 18px
-    font-weight: 300
-    letter-spacing: 0.75px
-    line-height: 26px
+    font-size: 22px
+    font-weight: normal
+    letter-spacing: 0
+    line-height: 30px
+    color: $pitch
 
-  .btn-primary, .btn-navy, .btn-teal
+  .btn-primary, .btn-navy, .btn-teal, .crt-widget-waterfall button.crt-load-more
     background-color: $teal
     border-radius: 4px
     color: $gray
     text-shadow: unset
-    text-transform: uppercase
     font-weight: bold
     letter-spacing: 0.71px
     line-height: 24px
-    width: 247px
+    min-width: 247px
     &:hover
       background-color: #2DCEC8
       transition: background-color .35s
@@ -68,11 +77,10 @@
     color: $teal
     border-radius: 4px
     text-shadow: unset
-    text-transform: uppercase
     font-weight: bold
     letter-spacing: 0.71px
     line-height: 24px
-    width: 247px
+    min-width: 247px
     &:hover
       background-color: $teal
       box-shadow: unset
@@ -84,20 +92,59 @@
   // TODO: pull out common pieces, such as carousel controls
 
   #site-content-area
+    background: linear-gradient(262.39deg, #D7EFF2 -1.56%, #FDFFFF 95.05%)
+    // For joining with footer seamlessly
+    margin-bottom: -50px
+
     .row
       padding: 62px 0px
-    .row-dark
-      background: linear-gradient(118.13deg, #0E4C60 0%, #20572B 100%)
+
+      &.video-row
+        padding: 0 0 40px 0
+
+      &.subhead-row
+        padding: 17px 0 24px 0
+
+      &.get-started-row
+        padding: 72px 0 15px 0
+
+      &.for-educators-row
+        padding: 10px 0 50px 0
+
+      &.product-row
+        padding: 0 31px
+
+        &.codecombat-classroom-row
+          padding-top: 70px
+
+        .row
+          padding: 0
+
+      &.for-parents-row
+        padding: 0 0 50px 0
+
+      &.for-everyone-row
+        padding: 0 0 50px 0
+
+      &.community-row
+        padding: 91px 0 10px 0
+
+      &.testimonials-row
+        padding: 20px 0 0 0
+
+      &.curator-row
+        padding: 58px 0 10px 0
+
     .width-container
       max-width: 1170px
       float: unset
       margin: 0 auto
 
     #top-banner
-      background-color: #1FBAB4
+      background-color: $teal-light-1
       padding: 10px 0px
       text-align: center
-      color: #0E4C60
+      color: $teal-dark
       .row
         max-width: 1170px
         float: unset
@@ -120,20 +167,36 @@
         @media (max-width: 1100px)
           left: 0px
 
+    .btn-gold
+      background-color: $gold
+      &:hover
+        background-color: #FDD147
+
+    .cloud-wrapper
+      background-image: url(/images/pages/parents/image_cloud_3.svg), url(/images/pages/parents/image_cloud_4.svg), url(/images/pages/parents/image_cloud_3.svg), url(/images/pages/parents/image_cloud_1.svg)
+      background-repeat: no-repeat, no-repeat, no-repeat, no-repeat
+      background-size: 260px, 90px, 260px, 150px
+      background-position: top 10px left 1%, top 17px right 50%, top 335px left 37%, top 33px right calc(10px + 2%)
+
+      @media screen and (max-width: 991px)
+        background: transparent
+
     #jumbotron-container-fluid
-      background-image: url("/images/pages/home/jumbotron.png")
-      background-size: cover
+      background-image: url(/images/pages/home-v2/hero-image.png)
       background-repeat: no-repeat
-      background-position: center center
-      height: 627px
-      width: 100%
+      background-size: 616px
+      background-position: 100% 86px
+      height: 591px
+      max-width: 1226px
       margin: auto
+      padding-bottom: 0
       h1
-        margin: 54px 64px 30px
+        margin: 54px 64px 50px 0
       .button-section
-        margin-left: 64px
         width: 250px
         text-transform: uppercase
+        .btn-lg
+          font-size: 20px
         .btn-primary
           background-color: $gold
           &:hover
@@ -144,477 +207,343 @@
           &:hover
             background-color: $gold
             color: $gray
-
-    #game-based
-      background-color: #F7F9F9
-      .row
-        padding: 40px 0 25px 0
-      .tile-shadow
-        background-color: #FFFFFF
-        box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.51)
-        padding: 37px 40px
-        height: 100%
-        @media (max-width: $screen-lg-min)
-          margin-bottom: 15px
-        p
-          font-size: 20px
-          line-height: 28px
-          letter-spacing: 0.83px
-          margin: 0 0 25px
-        img
-          max-height: 275px
-          @media (max-width: $screen-md-min)
-            width: 390px
-          @media (max-width: $screen-xs-min)
-            margin: auto
-            width: 100%
-        h2
-          line-height: 32px
-          letter-spacing: 0.66px
-          margin: 27px auto 10px
-        h3
-          margin: 10px auto 15px
-
-    #classroom-in-box-row
-      padding: 62px 40px
-      .row
-        padding: 0
-        &.signup_btn
-          margin-top: 45px
-          text-align: center
-
-      h2, .text-p
-        color: white
-        margin-bottom: 0px
-        @media (max-width: $screen-lg-min)
-          padding-top: 20px
-      .video-iframe
-        text-align: left
-        @media (min-width: $screen-lg-min)
-          padding-top: 18px
-        @media (max-width: $screen-lg-min)
-          text-align: center
-      img
-        position: relative
-        top: -15px
-
-      ul
-        list-style: none
-
-      li
-        text-indent: -20px
-        margin-bottom: 15px
-        &::before
-          content: "•     "
-          color: $teal
-          font-size: 30px
-
-      .text-p
-        font-size: 24px
-        letter-spacing: 0.48px
-        line-height: 30px
-
-    .open-video-btn.video-text
-      color: inherit
-      text-decoration: underline
-      font-style: italic
-
-    .teacher-screenshots
-      padding: 10px
-      margin-bottom: 40px
-      .label
-        color: black
-        display: block
-      .screenshots
-        text-align: center
-        .screenshot-grid
-          img
-            display: inline-block
-            margin: 6.5px
-            width: 300px
-            border-radius: 4px
-
-    #creativity-rigor
-      background-color: #EAEEEE
-      .row
-        padding-top: 40px
-      img
-        width: 100%
-        @media (max-width: $screen-lg-min)
-          height: unset
-
-      .tile-shadow
-        background-color: white
-        box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.67)
-        padding: 19px
-        @media (max-width: $screen-lg-min)
-          height: 100%
-          margin-bottom: 15px
-          .request-a-quote
-            margin-top: -15px
-        h3
-          margin: 8px auto 10px
         p
           margin-bottom: 20px
-          @media (max-width: $screen-lg-min)
-            margin-bottom: 35px
 
-    #built-for-teachers
-      padding: 62px
-      @media (max-width: $screen-lg-min)
-        padding: 62px 30px
+      @media screen and (max-width: 991px)
+        background-size: 50%
+        background-position: 100% 100%
+
+      @media screen and (max-width: 600px)
+        background-size: 100%
+        background-position: 100% 25%
+
+        h1
+          text-shadow: 2px 0 0 white, -2px 0 0 white, 0 -2px 0 white, 0 2px 0 white
+          text-align: center
+
+        .button-section
+          margin: 0 auto
+
+    .video-container
+      position: relative
+      padding-top: 56.25%
+      box-shadow: 0 0 30px $teal-dark
+
+    .container-graphic-spacer
+      pointer-events: none
+      overflow-x: hidden
+
       .row
-        padding: 18px 0 0
-      .for-teachers-blurb p
-        color: white
-        margin-bottom: 40px
-      h3
-        padding-bottom: 25px
-      #built-for-teachers-carousel
-        border-radius: 14px
-        background-color: #FFFFFF
-        box-shadow: inset 2px 2px 6px 0 rgba(31,186,180,0.5), 4px 4px 6px 0 #0E4C60
-        min-height: 425px
-        padding-bottom: 42px
-        padding-top: 31px
-        @media (max-width: $screen-lg-min)
-          height: unset
-        .carousel-inner .item .row div
-          float: none
-          display: inline-block
-          vertical-align: middle
-          &.text-part-carousel
-            padding-top: 8px
-            vertical-align: top
-        .carousel-control
-          background-image: unset
-          width: 60px
-          img
-            position: absolute
-            margin: auto
-            top: 0
-            right: 0
-            bottom: 0
-            left: 0
-            height: 25px
-        p.padding-sm
-          padding: 0 2em
-        .carousel-indicators
-          bottom: 0
-          li
-            background-color: #9B9B9B
-            margin: auto 2px
-            width: 8px
-            height: 8px
-          li.active
-            background-color: $teal
-            margin: auto 2px
-            width: 8px
-            height: 8px
-        img.computer
-          padding-left: 40px
-          width: 100%
-          @media (max-width: $screen-lg-min)
-            width: 400px
-            padding: 0px 0px 20px 0px
+        padding: 5px 0
 
-    #for-teachers, #for-leaders
-      background-color: #F7F9F9
-      .first_row
-        padding: 40px 0 0 0
-        @media (min-width: $screen-lg-min)
-          padding: 40px 0
-      .second_row
-        padding: 0 0 45px 0
-      .tile-shadow
-        background-color: #FFFFFF
-        box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.51)
-        padding: 37px 40px 5px
-        height: 315px
-        img
-          height: 98px
-        h3
-          margin: 10px auto 15px
-
-    #teachers-love-codecombat
-      padding: 45px 0 31px 0
-      .row
-        padding: 59px 0
-      p.mcrel-blurb
-        color: white
-        font-style: italic
-        margin-bottom: 0
-      // Let's us center column
-      .width-320
-        max-width: 320px
-        display: inline-block
-
-    #quotes
-      background-color: $navy
-      .row
-        padding: 0
-      img
-        margin: 0 62px 62px 62px
-        height: 42px
-        width: 40px
-      #quotes-carousel
-        h4.text-white
-          min-height: 160px
-          @media (max-width: $screen-md-min)
-            font-size: 20px
-            min-height: 280px
-        img
-          margin: 30px
-          height: 93px
-          width: 93px
-        h4
-          margin: auto 168px
-          &.wider
-            margin: auto 84px
-        .thumbnail
-          width: 500px
-          display: inline-block
-          text-align: left
-          border: unset
-          background-color: unset
-        .carousel-control
-          background-image: unset
-          width: 60px
-          &.left
-            img
-              margin-left: 0
-          img
-            height: 25px
-            width: 30px
-            margin-top: 100px
-        .carousel-indicators
-          bottom: -50px
-          li
-            background-color: $teal
-            border: unset
-            margin: auto 2px
-            width: 8px
-            height: 8px
-          li.active
-            background-color: white
-            border: unset
-            margin: auto 2px
-            width: 8px
-            height: 8px
-        .quote-user-info
-          display: inline-grid
-          text-align: left
-
-    #century-skills
-      background-color: #F7F9F9
-      padding: 62px
-      .row
-        padding: 0
-      p
-        color: white
-      h5
-        font-weight: normal
-      #century-skills-carousel
-        .carousel-control
-          background-image: inherit
-          width: 60px
-          img
-            position: absolute
-            margin: auto
-            top: 60px
-            right: 0
-            bottom: 0
-            left: 0
-            height: 25px
-        .carousel-indicators
-          bottom: -5px
-          li
-            background-color: white
-            border: unset
-            margin: auto 2px
-            width: 8px
-            height: 8px
-          li.active
-            background-color: #FF6978
-            border: unset
-            margin: auto 2px
-            width: 8px
-            height: 8px
-        .row.carousel-body
-          padding: 0px
-        .carousel-body
-          background-color: $navy
-          box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.5)
-          margin: unset
-          .col-lg-8
-            padding: unset
-          .col-lg-4
-            padding: 60px 60px 60px 40px
-          .quote
-            background-size: cover
-            padding-top: 22px
-            height: 419px
-            h4
-              margin: 20px auto
-              @media (max-width: $screen-lg-min)
-                font-size: 1.2em
-            h3
-              @media (max-width: $screen-lg-min)
-                font-size: 1.2em
-            img
-              width: 42px
-              height: 40px
-          .quote-1
-            background-image: url("/images/pages/home/century_carousel1.png")
-            background-position: right
-            @media (min-width: $screen-sm-min)
-              h4.text-white
-                width: 440px
-              *
-                transform: translate(-100px, 0)
-          .quote-2
-            background-image: url("/images/pages/home/century_carousel2.png")
-            background-position: right
-            @media (min-width: $screen-sm-min)
-              h4.text-white
-                width: 415px
-              *
-                transform: translate(-100px, 0)
-          .quote-3
-            background-image: url("/images/pages/home/century_carousel3.png")
-            background-position: left
-            @media (min-width: $screen-sm-min)
-              h4.text-white
-                width: 415px
-              *
-                transform: translate(130px, -12.5px)
-          .quote-4
-            background-image: url("/images/pages/home/century_carousel4.png")
-            @media (min-width: $screen-sm-min)
-              h4.text-white
-                width: 325px
-              *
-                transform: translate(-160px, -10px)
-
-    #global
+    .container-graphic-spacer img
       margin: 0 auto
-      .row
-        padding: 52px 15px 0
-      img
-        height: 82px
-      h2.text-gold
-        margin-top: 14px
-        margin-bottom: -14px
-      h5
-        font-weight: normal
-      .col-xs-6
-        padding: 10px 15px
 
-    #featured-partners
+    #tent-img
+      position: absolute
+      top: -70px
+
+      @media screen and (max-width: 1200px)
+        display: none
+
+    #ozaria-spacer-img
+      position: relative
+      max-width: 287px
+      left: 27%
+      top: -85px
+      margin-bottom: -160px
+
+    #codecombat-spacer-img
+      position: relative
+      max-width: 262px
+      left: 49.8%
+      top: -15px
+      margin-bottom: 0
+
+    #online-classes-spacer-img
+      position: relative
+      max-width: 289px
+      left: 43%
+      top: -15px
+      margin-bottom: -15px
+
+    .product-logo
+      margin-bottom: 20px
+
+      @media screen and (max-width: 600px)
+        margin: 0px auto 20px auto
+
+    .product-title
+      @media screen and (max-width: 600px)
+        text-align: center
+
+    .product-btn
+      @media screen and (max-width: 600px)
+        text-align: center
+
+    .centered-flex
+      display: flex
+      align-items: center
+      justify-content: center
+
+    .community-container
       .row
+        padding: 50px 0 10px 0
+
+      h4
+        margin-bottom: 0
+
+      p
+        font-size: 18px
+        line-height: 22px
+
+    .community-graphics
+      background-image: url(/images/pages/parents/image_cloud_3.svg), url(/images/pages/parents/image_cloud_3.svg), url(/images/pages/parents/image_cloud_1.svg), url(/images/pages/parents/image_cloud_4.svg)
+      background-repeat: no-repeat, no-repeat, no-repeat, no-repeat
+      background-position: top 0px left 30px, top 40px right -50px, bottom right 10%, bottom left 17%
+      background-size: 300px, 260px, 250px, 150px
+
+    .testimonials-container
+      @media screen and (max-width:700px)
+        display: none
+
+        & + .container-graphic-spacer
+          display: none
+
+    .crt-widget-waterfall
+      padding-bottom: 0
+
+      .crt-feed-scroll:nth-child(2)
+        // Some sort of inclusion error is making this show up twice sometimes, only in production. Until we figure it out, hide the second copy.
+        display: none
+
+      // Tighten the spacing on these up
+      .crt-post-header
+        padding-top: 10px
+        margin-bottom: 10px
+        text-align: left
+
+        .crt-social-icon
+          float: right
+
+      .crt-post-text
+        text-align: left
+
+      .crt-load-more
+        text-transform: capitalize
+
+    // If we wanted to define the element height and bottom edge ourselves (conflicts with their Load More), we could do something like this.
+    //  .crt-feed
+    //    transition: max-height .5s
+    //    max-height: 600px
+    //    overflow: hidden
+    //
+    //  &.extended .crt-feed
+    //    max-height: initial
+    //
+    //  &:not(.extended) .crt-feed::after
+    //    width: 100%
+    //    height: 50px
+    //    bottom: 100px
+    //    position: absolute
+    //    z-index: 1
+    //    background: linear-gradient(rgba(0, 0, 0, 0) 0%, rgb(255, 255, 255) 100%)
+
+    #featured-in-awards
+      margin-top: 10px
+
+      h1
+        font-size: 40px
+        line-height: 43px
+
+      .row
+        min-height: 316px
+        padding: 33px 0 0 0
+
+      .centered-flex
+        height: 150px
+
+      .featured-in, .awards-partners
+        border: 4px dashed #F2D269
+        padding: 50px 0 20px 0
+
+      .featured-in
+        border-radius: 20px 0 0 20px
+        border-right: unset
+
+      .awards-partners
+        border-radius: 0 20px 20px 0
+        .centered-flex
+          flex-direction: column
+          color: $teal-dark
+
+          p
+            margin-top: 10px
+            font-size: 13px
+            line-height: 17px
+            letter-spacing: 0.25px
+
+      @media screen and (max-width: 991px)
+        .featured-in, .awards-partners
+          border: unset
+
+    .row.row-eq-height
+      display: flex
+      flex-wrap: wrap
+
+    .row.row-eq-height > [class*='col-']
+      display: flex
+      flex-direction: column
+
+    .container-background-faq
+      margin-top: 50px
+      margin-bottom: 50px
+      .row.row-eq-height
         padding: 0
-      div.container.inner-container
-        padding-top: 62px
 
-      @media (min-width: $screen-lg-min)
-        background: linear-gradient(90deg, #F7F9F9 50%, #EAEEEE 50%)
-      // Hack to prevent footer from creating a white space with its margin.
-      margin: 0 0 -50px
-      .row:last-child
-        padding-bottom: 62px
-      padding: 0
-      .inner-container
-        max-width: 1280px
-        @media (min-width: $screen-lg-min)
-          background: linear-gradient(90deg, #F7F9F9 41.7%, #EAEEEE 41.7%)
+      .row h4
+        margin-top: 30px
 
-      .pink-bar
-        margin-top: -14px
-        padding-bottom: 31px
+      & > .container
+        border: 4px solid $teal-light-2
+        border-radius: 40px
+        border-top: none
+        position: relative
+        padding: 30px
 
-      @media (min-width: $screen-xs-min)
-        .tile-row
-          display: inline-block
+        & > div:last-of-type
+          margin: 32px 0 0
 
-      @media (min-width: $screen-lg-min)
-        .featured-section .tile-row
-          transform: translateX(15px)
-        .partners-section
-          transform: translateX(37px)
-      .partners-section
-        .col-sm-12 a img
-          margin-top: -22px
-      .tile-shadow
-        background-color: #FFFFFF
-        box-shadow: 2px 2px 6px 0 rgba(155,155,155,0.51)
-        padding: 0px
-        margin: 2px 2px -6px
-        @media (max-width: $screen-sm-min)
-          margin: 20px
-          &:last-child
-            margin-bottom: -7px
-        height: 190px
-        width: 190px
-        img
-          width: 100%
-        p
-          color: #9B9B9B
-          font-family: $body-font
-          font-size: 14px
-          letter-spacing: 0.58px
-          line-height: 19px
-        .featured-partners-tile-logo
-          position: absolute
-          margin: auto
-          top: 0
-          right: 0
-          bottom: 0
-          left: 0
-        .logo-pcmag
-          height: 100px
-          width: 100px
-        .logo-edsurge
-          height: 33px
-          width: 141px
-        .logo-apcsp
-          height: 100px
-          width: 100px
-        .logo-codie
-          height: 55px
-          width: 156px
-        .logo-cse-picks
-          height: 110px
-          width: 110px
-        .logo-wsj
-          height: 44px
-          width: 78px
-        .logo-techcrunch
-          height: 55px
-          width: 79px
-        .logo-code-org
-          height: 80px
-          width: 81px
-        .logo-csforall
+      h4
+        font-size: 16px
+        line-height: 17px
+        letter-spacing: 0.333px
+
+      p, ol
+        font-size: 14px
+        line-height: 18px
+        letter-spacing: 0.267px
+        color: $pitch
+
+      p.contact-us
+        font-size: 18px
+        line-height: 22px
+        color: black
+
+    .container-background-header
+      position: absolute
+      transform: translateY(-60px)
+      width: calc(100% - 30px)
+
+    /* These create the broken top border which FAQ sits between */
+    /* Top left border */
+    .container-background-faq > .container::after
+      content: ''
+      position: absolute
+      height: 100px
+      width: 37%
+      border-top: 4px solid $teal-light-2
+      border-left: 4px solid $teal-light-2
+      top: 0
+      left: -4px
+      border-radius: 40px 0 0 0
+
+    /* Top right border */
+    .container-background-faq > .container::before
+      content: ''
+      position: absolute
+      height: 100px
+      width: 37%
+      border-top: 4px solid $teal-light-2
+      border-right: 4px solid $teal-light-2
+      top: 0
+      right: -4px
+      border-radius: 0px 40px 0 0
+
+    .carousel-dot
+      display: inline-block
+      width: 13px
+      height: 13px
+      border-radius: 6.5px
+      margin: 5px
+      background-color: #C4C4C4
+
+      &:not(.active)
+        cursor: pointer
+
+      &.active
+        background-color: $teal-light-1
+        cursor: default
+
+    #game-based-carousel > .carousel-container.container, #student-quotes-carousel > .container
+      border-radius: 38px
+      border: 4px solid $teal-light-2
+      padding: 16px
+
+      .carousel-inner
+        height: 521px
+
+        .row
+          padding: 32px 0 0
+          display: flex
+          align-items: center
+
+          p
+            font-family: $body-font
+
+            b
+              font-size: 17px
+              line-height: 21px
+
+    #student-quotes-carousel
+      margin-top: 146px
+
+      > .container .carousel-inner
+        height: 406px
+
+    #game-based-carousel > .carousel-tabs-container.container
+      margin-top: 15px
+      padding: 0 30px
+
+      ul
+        border: 0
+
+        li
+          margin: 0 10px
+          width: 350px
+          padding: 16px 0 0 0
           height: 60px
-          width: 133px
-        .logo-amazon-future-engineer
-          height: 35px
-          width: 166px
-        .logo-blurb
-          color: #9B9B9B
-          font-family: $body-font
-          font-size: 14px
-          font-weight: 200
-          letter-spacing: 0.58px
-          line-height: 19px
-          position: absolute
-          top: 145px
-          width: 100%
+          border-radius: 10px 10px 0 0
+          background-color: $teal-dark
+          text-align: center
 
-body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='sr'], body[lang='pl'], body[lang='lt'], body[lang='sl'], body[lang='tr'], body[lang='vi']
-  #home-view
-    // Google Fonts version of Arvo only has Latin glyphs, not Cyrillic
-    // TODO: figure out font fallbacks for other languages not covered by Arvo
-    //$headline-font: 'Open Sans', serif  // Doesn't work
-    h1, h2, h3, h4, h5, .text-h1, .text-h2, .text-h3, .text-h4, .text-h5
-      font-family: 'Open Sans', serif
+          h2
+            font-size: 26px
+            line-height: 28px
+            letter-spacing: 0.005em
+            text-overflow: ellipsis
+            white-space: nowrap
+            overflow: hidden
+            color: white
+
+          &:not(.active)
+            cursor: pointer
+
+          &.active
+            background-color: $teal-light-2
+
+            h2
+              color: $teal-dark
+
+      @media screen and (max-width: 1200px)
+        display: none
+
+  .container-footer-mountains
+    width: 100%
+    background: url(/images/pages/parents/parents_footer_mountain.svg)
+    background-repeat: no-repeat
+    background-position: top
+    background-size: cover
+    height: 170px
+    margin-bottom: -50px

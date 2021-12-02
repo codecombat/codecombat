@@ -27,6 +27,7 @@ SpellPaletteView = require './SpellPaletteView'
 CastButtonView = require './CastButtonView'
 utils = require 'core/utils'
 store = require 'core/store'
+globalVar = require 'core/globalVar'
 
 module.exports = class TomeView extends CocoView
   id: 'tome-view'
@@ -50,7 +51,7 @@ module.exports = class TomeView extends CocoView
     super options
     @unwatchFn = store.watch(
       (state, getters) -> getters['game/levelSolution'],
-      (solution) => @onChangeMyCode(solution.source)
+      (solution) => @onChangeMyCode(solution.source) if solution?.source
     )
     unless options.god or options.level.get('type') is 'web-dev'
       console.error "TomeView created with no God!"
@@ -91,7 +92,7 @@ module.exports = class TomeView extends CocoView
 
   createWorker: ->
     return null unless Worker?
-    return null if window.application.isIPadApp  # Save memory!
+    return null if globalVar.application.isIPadApp  # Save memory!
     return new Worker('/javascripts/workers/aether_worker.js')
 
   generateTeamSpellMap: (spellObject) ->

@@ -76,7 +76,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @playSound 'victory'
     if @level.isType('course', 'course-ladder')
       @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
-      @loadExistingFeedback()
+      #@loadExistingFeedback()
 
     if @level.get('shareable') is 'project'
       @shareURL = "#{window.location.origin}/play/#{@level.get('type')}-level/#{@session.id}"
@@ -207,19 +207,21 @@ module.exports = class HeroVictoryModal extends ModalView
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     if me.get 'hourOfCode'
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
-      gameDevHoc = application.getHocCampaign()
-      lastLevelOriginal = switch gameDevHoc
+      hocCampaignSlug = application.getHocCampaign() and application.getHocCampaign() isnt 'intro'
+      lastLevelOriginal = switch hocCampaignSlug
         when 'game-dev-hoc' then '57ee6f5786cf4e1f00afca2c' # game grove
         when 'game-dev-hoc-2' then '57b71dce7a14ff35003a8f71' # palimpsest
+        when 'ai-league-hoc' then '60e69b24bed8ae001ac6ce3e' # giants-gate; can change, but we will use isType('ladder') to cover that
         else '541c9a30c6362edfb0f34479' # kithgard gates for dungeon
-      lastLevel = @level.get('original') is lastLevelOriginal
+      lastLevel = @level.get('original') is lastLevelOriginal or @level.isType('ladder')
       enough = elapsed >= 20 * 60 * 1000 or lastLevel
       tooMuch = elapsed > 120 * 60 * 1000
       showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel
       if enough and not tooMuch and not me.get('hourOfCodeComplete')
-        pixelCode = switch gameDevHoc
+        pixelCode = switch hocCampaignSlug
           when 'game-dev-hoc' then 'code_combat_gamedev'
           when 'game-dev-hoc-2' then 'code_combat_gamedev2'
+          when 'ai-league-hoc' then 'cc_ai'
           else 'code_combat'
         $('body').append($("<img src='https://code.org/api/hour/finish_#{pixelCode}.png' style='visibility: hidden;'>"))
         me.set 'hourOfCodeComplete', true
@@ -227,11 +229,11 @@ module.exports = class HeroVictoryModal extends ModalView
         window.tracker?.trackEvent 'Hour of Code Finish'
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
       c.showHourOfCodeDoneButton = showDone
-      @showAmazonHocButton = (gameDevHoc is 'game-dev-hoc') and lastLevel
+      @showAmazonHocButton = (hocCampaignSlug is 'game-dev-hoc') and lastLevel
       if @showAmazonHocButton
         @trackAwsButtonShown()
-      @showHoc2016ExploreButton = gameDevHoc and lastLevel
-      @showShareGameWithTeacher = gameDevHoc and lastLevel
+      @showHoc2016ExploreButton = hocCampaignSlug and lastLevel
+      @showShareGameWithTeacher = /game-dev/.test(hocCampaignSlug) and lastLevel
 
     c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course') and not @showAmazonHocButton and not @showHoc2016ExploreButton
 
@@ -516,6 +518,8 @@ module.exports = class HeroVictoryModal extends ModalView
   onClickSignupButton: (e) ->
     e.preventDefault()
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Hero Victory Modal', level: @level.get('slug')
+    if me.isInHourOfCode()
+      window.nextURL = window.location.href  # Return to this page once signup is complete, since the campaign might be wrong
     @openModalView new CreateAccountModal()
 
   showOffer: (@navigationEventUponCompletion) ->
@@ -591,8 +595,9 @@ campaignEndLevels = [
   'wanted-poster'
   'siege-of-stonehold'
   'go-fetch'
-  'palimpsest'
+  'game-dev-2-final-project'
   'quizlet'
   'clash-of-clones'
+  'game-dev-3-final-project'
   'summits-gate'
 ]

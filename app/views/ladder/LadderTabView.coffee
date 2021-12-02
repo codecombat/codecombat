@@ -5,7 +5,7 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 User = require 'models/User'
-Tournament = require 'models/Tournament'
+TournamentSubmission = require 'models/TournamentSubmission'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel, scoreForDisplay} = require './utils'
 ModelModal = require 'views/modal/ModelModal'
@@ -17,7 +17,7 @@ HIGHEST_SCORE = 1000000
 
 class TournamentLeaderboardCollection extends CocoCollection
   url: ''
-  model: Tournament
+  model: TournamentSubmission
 
   constructor: (tournamentId, options) ->
     super()
@@ -311,17 +311,21 @@ module.exports = class LadderTabView extends CocoView
 
   # Admin view of players' code
   onClickPlayerName: (e) ->
-    return unless me.isAdmin()
-    row = $(e.target).parent()
-    player = new User _id: row.data 'player-id'
-    playerName = row.find('.name-col-cell').text()
-    session = new LevelSession _id: row.data 'session-id'
-    if /^cq/.test(playerName) and not features.china
-      # CodeQuest users use cq name prefix and don't exist on global server; hack around this
-      models = [session]
+    if me.isAdmin()
+      row = $(e.target).parent()
+      session = new LevelSession _id: row.data 'session-id'
+      @supermodel.loadModel session
+      @listenToOnce session, 'sync', (_session) =>
+        if _session.get('source')?.name
+          models = [_session]
+        else
+          player = new User _id: row.data 'player-id'
+          models = [_session, player]
+        @openModalView new ModelModal models: models
+    else if me.isTeacher()
+      ;
     else
-      models = [session, player]
-    @openModalView new ModelModal models: models
+      ;
 
   onClickSpectateCell: (e) ->
     cell = $(e.target).closest '.spectate-cell'
@@ -362,7 +366,7 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
-  constructor: (@level, @team, @session, @limit, @league, @tournamentId) ->
+  constructor: (@level, @team, @session, @limit, @league, @tournamentId, @ageBracket) ->
     super()
 
   collectionParameters: (parameters) ->
@@ -374,6 +378,8 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     console.warn 'Already have top players on', @ if @topPlayers
 
     params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
+    if @ageBracket?
+      params.age = @ageBracket
     if @tournamentId?
       @topPlayers = new TournamentLeaderboardCollection(@tournamentId, params)
     else

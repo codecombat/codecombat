@@ -1,5 +1,7 @@
 extends /templates/base-flat.jade
 
+include ./clan-league-stats-mixin
+
 block page_nav
   include ./teacher-dashboard-nav
 
@@ -57,13 +59,18 @@ block content
             else if view.howManyOfficeHours == 'some' && limited
               a.see-all-office-hours.btn.btn-primary.btn-small.pull-right(data-i18n="general.more") More
 
+    if !me.hideOtherProductCTAs()
+      .banner-webinar
+
     .container
       +teacher-quests
 
     .container
       div#classes-nag-subview
 
-      h3(data-i18n='teacher.current_classes')
+      h3
+        span(data-i18n='teacher.current_classes')
+        a.pull-right(href="/outcomes-report/teacher/#{me.get('_id')}" target="_blank" data-i18n='outcomes.view_outcomes_report') 
 
     .classes.container
       // Loop each class
@@ -91,9 +98,12 @@ block content
 
 
     +createClassButton
-    .container.try-ozaria
-      a(data-i18n="teacher.try_ozaria_footer")
 
+    +clanLeagueStatsMixin(view.aiLeagueStats, view.teacherClan ? view.teacherClan._id : null)
+
+    if !me.hideOtherProductCTAs()
+      .container.try-ozaria
+        a(data-i18n="teacher.try_ozaria_footer")
 
   - var archivedClassrooms = view.classrooms.where({archived: true});
   if _.size(archivedClassrooms)
@@ -123,6 +133,7 @@ mixin classRow(classroom)
           = classroom.get('members').length
       .class-links.rtl-allowed(dir="auto")
         a.view-class-btn.text-h6(data-i18n='teacher.view_class' data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Link")
+        a.view-ai-league.text-h6(data-i18n='teacher.view_ai_league_team' data-clan-level='classroom' data-clan-source-object-id=classroom.id data-event-action="Teachers Classes View AI League Team")
         a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")
         a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
 
@@ -131,12 +142,14 @@ mixin classRow(classroom)
         if classroom.get('members').length == 0
           +addStudentsButton(classroom)
         else
+          // TODO: next line has a race condition if classroom loads before courses. For now, made following logic handle nulls.
           - var courses = classroom.getSortedCourses().map(function(c) { return view.courses.get(c._id); });
           - var courseLabelsArray = view.helper.courseLabelsArray(courses);
           each trimCourse, index in classroom.getSortedCourses() || []
             - var course = view.courses.get(trimCourse._id);
             - var label = courseLabelsArray[index];
-            +progressDot(classroom, course, label)
+            if course
+              +progressDot(classroom, course, label)
       .view-class-arrow
         a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right.view-class-btn(data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Chevron")
 

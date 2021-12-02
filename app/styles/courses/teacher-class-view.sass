@@ -20,9 +20,10 @@
   h3
     display: inline-block
 
-  h3 ~ .edit-classroom
+  .label.edit-classroom, .label.view-ai-league
     color: black
     text-decoration: underline
+    text-transform: lowercase
 
   .classroom-details
     .small-details
@@ -393,13 +394,31 @@
 
   // Code copying buttons
 
+
+  .form-group
+    margin-bottom: 5px
   .class-code-blurb
     margin-top: 5px
+    clear: both
 
   .copy-button-group
-    input
-      height: 50px
+    .input-group
       width: 220px
+      float: left
+      button
+        width: 50px
+        border-radius: 0
+        &:disabled span
+            display: none
+      input
+        font-size: 20px
+        width: 170px
+      input, button
+        background: #fafafa
+        border: thin solid #979797
+    input
+      width: 220px
+      height: 50px
       background: #fafafa
       border: thin solid #979797
       text-align: center
@@ -411,6 +430,7 @@
       height: 50px
       width: 210px
       float: right
+      margin-bottom: 5px
 
   .export-student-progress-btn
     margin-top: 10px
@@ -458,9 +478,9 @@
       font-weight: bold
 
     .axis path, .axis line
-    fill: none
-    stroke: #777
-    shape-rendering: crispEdges
+      fill: none
+      stroke: #777
+      shape-rendering: crispEdges
 
     .axis text
         font-family: 'Arial'

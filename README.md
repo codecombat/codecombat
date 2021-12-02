@@ -6,10 +6,8 @@
   </a>
 </div>
 
-[![Buildarte Status](https://travis-ci.org/codecombat/codecombat.png?branch=master)](https://travis-ci.org/codecombat/codecombat)
+[![Build Status](https://github.com/codecombat/codecombat/actions/workflows/node.js.yml/badge.svg)](https://github.com/codecombat/codecombat/actions)
 [![Coverage Status](https://coveralls.io/repos/github/codecombat/codecombat/badge.svg)](https://coveralls.io/github/codecombat/codecombat)
-
-CodeCombat now runs in Docker! You can easily get up and running with CodeCombat in your local environment by following the [Docker guide](../../wiki/Dev-Setup:-General-Information).
 
 CodeCombat is a multiplayer programming game for learning how to code.
 **See the [Archmage (coder) developer wiki](../../wiki/Archmage-Home) for a dev
@@ -40,6 +38,12 @@ art and music. Please also
 so we can accept your pull requests. It is easy.
 
 Note: the levels on codecombat.com are [not open source](LICENSE-LEVELS.md).
+
+### API
+
+We offer a partner API for SSO, user management, progress data, etc., with API docs [here](https://codecombat.com/api-docs). You'll need client credentials, so get in touch with us if you have a use case for that.
+
+For the very simplest case that can power some data integrations with your CodeCombat account, you can fetch `https://codecombat.com/db/user/your-user-name-or-id` to get some user progress stats. For example, Beeminder uses this API to help you [commit to learning to code](https://www.beeminder.com/codecombat).
 
 ### [Join Us!](http://blog.codecombat.com/why-you-should-open-source-your-startup)
 

@@ -39,6 +39,7 @@ module.exports = class LevelLoader extends CocoClass
     @levelID = options.levelID
     @sessionID = options.sessionID
     @opponentSessionID = options.opponentSessionID
+    @tournament = options.tournament ? false
     @team = options.team
     @headless = options.headless
     @loadArticles = options.loadArticles
@@ -158,7 +159,10 @@ module.exports = class LevelLoader extends CocoClass
     else
       url = "/db/level/#{@levelID}/session"
       if @team
-        url += "?team=#{@team}"
+        if @level.isType('ladder')
+          url += '?team=humans' # only query for humans when type ladder
+        else
+          url += "?team=#{@team}"
         league = utils.getQueryVariable 'league'
         if @level.isType('course-ladder') and league and not @courseInstanceID
           url += "&courseInstance=#{league}"
@@ -170,6 +174,8 @@ module.exports = class LevelLoader extends CocoClass
         delimiter = if /\?/.test(url) then '&' else '?'
         url += delimiter + 'password=' + password
 
+    if @tournament
+      url = "/db/level.session/#{@sessionID}/tournament-snapshot/#{@tournament}"
     session = new LevelSession().setURL url
     if @headless and not @level.isType('web-dev')
       session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state', 'submittedCode', 'submitted']
@@ -177,6 +183,8 @@ module.exports = class LevelLoader extends CocoClass
     @session = @sessionResource.model
     if @opponentSessionID
       opponentURL = "/db/level.session/#{@opponentSessionID}?interpret=true"
+      if @tournament
+        opponentURL = "/db/level.session/#{@opponentSessionID}/tournament-snapshot/#{@tournament}" # this url also get interpret
       opponentSession = new LevelSession().setURL opponentURL
       opponentSession.project = session.project if @headless
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session', {cache: false})
@@ -185,12 +193,12 @@ module.exports = class LevelLoader extends CocoClass
     if @session.loaded
       console.debug 'LevelLoader: session already loaded:', @session if LOG
       @session.setURL '/db/level.session/' + @session.id
-      @loadDependenciesForSession @session
+      @preloadTeamForSession @session
     else
       console.debug 'LevelLoader: loading session:', @session if LOG
       @listenToOnce @session, 'sync', ->
         @session.setURL '/db/level.session/' + @session.id
-        @loadDependenciesForSession @session
+        @preloadTeamForSession @session
     if @opponentSession
       if @opponentSession.loaded
         console.debug 'LevelLoader: opponent session already loaded:', @opponentSession if LOG
@@ -199,14 +207,22 @@ module.exports = class LevelLoader extends CocoClass
         console.debug 'LevelLoader: loading opponent session:', @opponentSession if LOG
         @listenToOnce @opponentSession, 'sync', @preloadTokenForOpponentSession
 
-  preloadTokenForOpponentSession: (session) =>
-    if @level.isType('ladder') and session.get('team') is 'humans'
-      # Reassign our opponent to the ogres team. This might get dicey if we face off against ourselves, but appears to work.
+  preloadTeamForSession: (session) =>
+    if @level.isType('ladder') and @team is 'ogres' and session.get('team') is 'humans'
       session.set 'team', 'ogres'
-      code = session.get('code')
-      code['hero-placeholder-1'] = code['hero-placeholder']
-      delete code['hero-placeholder']
-      session.set 'code', code
+      unless session.get 'interpret'
+        code = session.get('code')
+        if _.isEmpty(code)
+          code = session.get('submittedCode')
+        code['hero-placeholder-1'] = JSON.parse(JSON.stringify(code['hero-placeholder']))
+        session.set 'code', code
+    @loadDependenciesForSession session
+
+  preloadTokenForOpponentSession: (session) =>
+    if @level.isType('ladder') and @team != 'ogres' and session.get('team') is 'humans'
+      session.set 'team', 'ogres'
+      # since opponentSession always get interpret, so we don't need to copy code
+
     language = session.get('codeLanguage')
     compressed = session.get 'interpret'
     if language not in ['java', 'cpp'] or not compressed
@@ -228,8 +244,8 @@ module.exports = class LevelLoader extends CocoClass
 
   loadDependenciesForSession: (session) ->
     console.debug "Loading dependencies for session: ", session if LOG
-    if me.id isnt session.get 'creator'
-      session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
+    if me.id isnt session.get('creator') or @spectateMode
+      session.patch = session.save = session.put = -> console.error "Not saving session, since we didn't create it."
     else if codeLanguage = utils.getQueryVariable 'codeLanguage'
       session.set 'codeLanguage', codeLanguage
     @worldNecessities = @worldNecessities.concat(@loadCodeLanguagesForSession session)
@@ -311,13 +327,16 @@ module.exports = class LevelLoader extends CocoClass
   addSessionBrowserInfo: (session) ->
     return unless me.id is session.get 'creator'
     return unless $.browser?
+    return if @spectateMode
+    return if session.fake
     browser = {}
     browser['desktop'] = $.browser.desktop if $.browser.desktop
     browser['name'] = $.browser.name if $.browser.name
     browser['platform'] = $.browser.platform if $.browser.platform
     browser['version'] = $.browser.version if $.browser.version
+    return if _.isEqual session.get('browser'), browser
     session.set 'browser', browser
-    session.patch() unless session.fake
+    session.save({browser}, {patch: true, type: 'PUT'})
 
   consolidateFlagHistory: ->
     state = @session.get('state') ? {}
@@ -395,8 +414,11 @@ module.exports = class LevelLoader extends CocoClass
     if extantRequiredThangTypes.length < requiredThangTypes.length
       console.error "Some Thang had a blank required ThangType in components list:", components
     for thangType in extantRequiredThangTypes
-      url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData"
-      @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
+      if thangType + '' is '[object Object]'
+        console.error "Some Thang had an improperly stringified required ThangType in components list:", thangType, components
+      else
+        url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData"
+        @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
   onThangNamesLoaded: (thangNames) ->
     for thangType in thangNames.models
@@ -521,6 +543,10 @@ module.exports = class LevelLoader extends CocoClass
       if @session.get(key) is value
         delete patch[key]
     unless _.isEmpty patch
+      if @level.isLadder() and @session.get('team')
+        patch.team = @session.get('team')
+        if @level.isType('ladder')
+          patch.team = 'humans'  # Save the team in case we just assigned it in PlayLevelView, since sometimes that wasn't getting saved and we don't want to save ogres team in ladder
       @session.set key, value for key, value of patch
       tempSession = new LevelSession _id: @session.id
       tempSession.save(patch, {patch: true, type: 'PUT'})

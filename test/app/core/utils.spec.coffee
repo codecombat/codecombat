@@ -1,44 +1,264 @@
 describe 'Utility library', ->
   utils = require '../../../app/core/utils'
 
-  describe 'translatejs2cpp(jsCode, fullCode)', ->
-    describe 'do not add int main if fullCode set false', ->
-      it 'if there is no patten need translate', ->
-        expect(utils.translatejs2cpp('hero.moveRight()', false)).toBe('hero.moveRight()')
-      it 'if there is var x or var y', ->
-        expect(utils.translatejs2cpp('var x = 2;\nvar y = 3', false)).toBe('float x = 2;\nfloat y = 3')
-      it 'if there is ===/!==', ->
-        expect(utils.translatejs2cpp('if (a === 2 && b !== 1)', false)).toBe('if (a == 2 && b != 1)')
-      it 'if there is other var', ->
-        expect(utils.translatejs2cpp('var enemy = hero...', false)).toBe('auto enemy = hero...')
-      it 'if there is a function definition', ->
-        expect(utils.translatejs2cpp('function a() {}\n', false)).toBe('auto a() {}\n')
-      it 'if ther is a comment in if..else..', ->
-        expect(utils.translatejs2cpp('if(a){\n}\n//test\nelse{\n}', false)).toBe('if(a){\n}\nelse{\n//test\n}')
+  describe 'yearsSinceMonth', ->
+    beforeEach ->
+      jasmine.clock().install()
+    afterEach ->
+      jasmine.clock().uninstall()
+    describe 'should return undefined', ->
+      it 'if start is falsy', ->
+        expect(utils.yearsSinceMonth()).toBeUndefined()
+      it 'if date format is not correct', ->
+        expect(utils.yearsSinceMonth('11112020-01-019999999')).toBeUndefined()
+    describe 'calculate years', ->
+      it '0 for same date', ->
+        jasmine.clock().mockDate(new Date(2020, 0, 1))
+        expect(utils.yearsSinceMonth('2020-01-01')).toBe(0)
+      it '1 for previous year', ->
+        jasmine.clock().mockDate(new Date(2020, 0, 1))
+        expect(utils.yearsSinceMonth('2019-01-01')).toBe(1)
+      it '100 for previous decade', ->
+        jasmine.clock().mockDate(new Date(2020, 0, 1))
+        expect(utils.yearsSinceMonth('1920-01-01')).toBe(100)
+      it 'Jan 1 2012 to Jan 1 2013 should be 1 year', ->
+        jasmine.clock().mockDate(new Date(2013, 0, 1))
+        expect(utils.yearsSinceMonth('2012-01-01')).toBe(1)
+      it 'Feb 28 2012 to Feb 28 2013 should be 1 year', ->
+        jasmine.clock().mockDate(new Date(2013, 1, 28))
+        expect(utils.yearsSinceMonth('2012-02-28')).toBe(1)
+      it 'Mar 1 2012 to Mar 1 2013 should be 1 year', ->
+        jasmine.clock().mockDate(new Date(2013, 2, 1))
+        expect(utils.yearsSinceMonth('2012-03-01')).toBe(1)
+      it 'Dec 1 2012 to Dec 1 2013 should be 1 year', ->
+        jasmine.clock().mockDate(new Date(2013, 11, 1))
+        expect(utils.yearsSinceMonth('2012-12-01')).toBe(1)
+      it 'Dec 31 2012 to Dec 31 2013 should be 1 year', ->
+        jasmine.clock().mockDate(new Date(2013, 11, 31))
+        expect(utils.yearsSinceMonth('2012-12-31')).toBe(1)
 
-    describe 'add int main if fullCode set true', ->
-      it 'if there is no patten need translate', ->
-        expect(utils.translatejs2cpp('hero.moveRight();')).toBe('int main() {\n    hero.moveRight();\n    return 0;\n}')
-      it 'if there is var x or var y', ->
-        expect(utils.translatejs2cpp('var x = 2;\nvar y = 3;')).toBe('int main() {\n    float x = 2;\n    float y = 3;\n    return 0;\n}')
-      it 'if there is ===/!==', ->
-        expect(utils.translatejs2cpp('while (a === 2 && b !== 1)')).toBe('int main() {\n    while (a == 2 && b != 1)\n    return 0;\n}')
-      it 'if there is other var', ->
-        expect(utils.translatejs2cpp('var enemy = hero...')).toBe('int main() {\n    auto enemy = hero...\n    return 0;\n}')
-      it 'if there is a function definition', ->
-        expect(utils.translatejs2cpp('function a() {}\n')).toBe('auto a() {}\nint main() {\n    \n    return 0;\n}')
-      it 'if there is a function definition with parameter', ->
-        expect(utils.translatejs2cpp('function a(b) {}\n')).toBe('auto a(auto b) {}\nint main() {\n    \n    return 0;\n}')
-      it 'if there is a function definition with parameters', ->
-        expect(utils.translatejs2cpp('function a(b, c) {}\na();')).toBe('auto a(auto b, auto c) {}\nint main() {\n    a();\n    return 0;\n}')
+  describe 'ageToBracket', ->
+    describe 'should return open if', ->
+      it 'undefined', ->
+        expect(utils.ageToBracket()).toBe('open')
+      it '>= 19', ->
+        expect(utils.ageToBracket(19)).toBe('open')
+    describe "20-21 school year", ->
+      getAge = (now, birth)->
+        utils.yearsSinceMonth(birth, now)
 
-    describe 'if there are start comments', ->
-      it 'if there is no code', ->
-        expect(utils.translatejs2cpp('//abc\n//def\n')).toBe('//abc\n//def\nint main() {\n    \n    return 0;\n}')
-      it 'if there is code without function definition', ->
-        expect(utils.translatejs2cpp('//abc\nhero.moveRight()')).toBe('//abc\nint main() {\n    hero.moveRight()\n    return 0;\n}')
-      it 'if there is code with function definition', ->
-        expect(utils.translatejs2cpp('//abc\nfunction a(b, c) {}\nhero.moveRight()')).toBe('//abc\nauto a(auto b, auto c) {}\nint main() {\n    hero.moveRight()\n    return 0;\n}')
+      beforeEach ->
+        jasmine.clock().install()
+      afterEach ->
+        jasmine.clock().uninstall()
+
+      describe 'Today is in 2021 season 1', ->
+
+        it 'if born after 9/1/2009, should be 0-11', ->
+          now = new Date(2021, 0, 1)
+          end = new Date(2021, 3, 30)
+          birthDates = [
+            '2009-9-1',
+            '2009-10-1',
+            '2010-1-1',
+            '2010-8-31',
+            '2010-9-1',
+            '2011-09-01'
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('0-11')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('0-11')
+
+        it 'if born during 9/1/2006 to 8/31/2009, should be 11-14', ->
+          now = new Date(2021, 0, 1)
+          end = new Date(2021, 3, 30)
+          birthDates = [
+            '2006-9-1',
+            '2006-10-1',
+            '2007-1-1',
+            '2007-9-1',
+            '2008-1-1',
+            '2008-9-1',
+            '2009-1-1',
+            '2009-8-31',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('11-14')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('11-14')
+
+        it 'if born during 9/1/2002 to 8/31/2006, should be 14-18', ->
+          now = new Date(2021, 0, 1)
+          end = new Date(2021, 3, 30)
+          birthDates = [
+            '2002-9-1',
+            '2002-10-1',
+            '2003-1-1',
+            '2003-9-1',
+            '2004-1-1',
+            '2005-9-1',
+            '2006-1-1',
+            '2006-8-31',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('14-18')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('14-18')
+
+        it 'if born before 8/31/2002, should be open', ->
+          now = new Date(2021, 0, 1)
+          end = new Date(2021, 3, 30)
+          birthDates = [
+            '2002-8-31',
+            '2001-10-1',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('open')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('open')
+
+      describe 'Today is in 2021 season 2', ->
+        it 'if born after 9/1/2009, should be 0-11', ->
+          now = new Date(2021, 4, 1)
+          end = new Date(2021, 7, 31)
+          birthDates = [
+            '2009-9-1',
+            '2009-10-1',
+            '2010-1-1',
+            '2010-8-31',
+            '2010-9-1',
+            '2011-09-01'
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('0-11')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('0-11')
+
+        it 'if born during 9/1/2006 to 8/31/2009, should be 11-14', ->
+          now = new Date(2021, 4, 1)
+          end = new Date(2021, 7, 31)
+          birthDates = [
+            '2006-9-1',
+            '2006-10-1',
+            '2007-1-1',
+            '2007-9-1',
+            '2008-1-1',
+            '2008-9-1',
+            '2009-1-1',
+            '2009-8-31',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('11-14')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('11-14')
+
+        it 'if born during 9/1/2002 to 8/31/2006, should be 14-18', ->
+          now = new Date(2021, 4, 1)
+          end = new Date(2021, 7, 31)
+          birthDates = [
+            '2002-9-1',
+            '2002-10-1',
+            '2003-1-1',
+            '2003-9-1',
+            '2004-1-1',
+            '2005-9-1',
+            '2006-1-1',
+            '2006-8-31',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('14-18')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('14-18')
+
+        it 'if born before 8/31/2002, should be open', ->
+          now = new Date(2021, 4, 1)
+          end = new Date(2021, 7, 31)
+          birthDates = [
+            '2002-8-31',
+            '2001-10-1',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('open')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('open')
+
+      describe 'Today is in 2021 season 3', ->
+        it 'if born after 9/1/2010, should be 0-11', ->
+          now = new Date(2021, 8, 1)
+          end = new Date(2021, 11, 31)
+          birthDates = [
+            '2010-9-1',
+            '2010-10-1',
+            '2011-1-1',
+            '2011-8-31',
+            '2011-9-1',
+            '2012-09-01'
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('0-11')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('0-11')
+
+        it 'if born during 9/1/2007 to 8/31/2010, should be 11-14', ->
+          now = new Date(2021, 8, 1)
+          end = new Date(2021, 11, 31)
+          birthDates = [
+            '2007-9-1',
+            '2007-10-1',
+            '2008-1-1',
+            '2008-9-1',
+            '2009-1-1',
+            '2009-9-1',
+            '2010-1-1',
+            '2010-8-31',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('11-14')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('11-14')
+
+        it 'if born during 9/1/2003 to 8/31/2007, should be 14-18', ->
+          now = new Date(2021, 8, 1)
+          end = new Date(2021, 11, 31)
+          birthDates = [
+            '2003-9-1',
+            '2003-10-1',
+            '2004-1-1',
+            '2004-9-1',
+            '2005-1-1',
+            '2006-9-1',
+            '2007-1-1',
+            '2007-8-31',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('14-18')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('14-18')
+
+        it 'if born before 8/31/2003, should be open', ->
+          now = new Date(2021, 8, 1)
+          end = new Date(2021, 11, 31)
+          birthDates = [
+            '2003-8-31',
+            '2002-10-1',
+          ]
+          for birthDate in birthDates
+            jasmine.clock().mockDate(now)
+            expect(utils.ageToBracket(getAge(now,birthDate))).toBe('open')
+            jasmine.clock().mockDate(end)
+            expect(utils.ageToBracket(getAge(end,birthDate))).toBe('open')
 
   describe 'getQueryVariable(param, defaultValue)', ->
     beforeEach ->
@@ -110,8 +330,8 @@ describe 'Utility library', ->
       try
         euCountries.forEach((c) -> expect(utils.inEU(c)).toEqual(true))
       catch err
-        # NOTE: without try/catch, exceptions do not yield failed tests.
-        # E.g. utils.inEU used to call Array.find which isn't supported in IE11, try/catch required to register test fail
+# NOTE: without try/catch, exceptions do not yield failed tests.
+# E.g. utils.inEU used to call Array.find which isn't supported in IE11, try/catch required to register test fail
         expect(err).not.toBeDefined()
     it 'non-EU countries return false', ->
       nonEuCountries = ['united-states', 'peru', 'vietnam']
@@ -143,301 +363,301 @@ describe 'Utility library', ->
       expect(utils.ageOfConsent(undefined, 13)).toEqual(13)
 
   describe 'createLevelNumberMap', ->
-    # r=required p=practice
+# r=required p=practice
     it 'returns correct map for r', ->
       levels = [
-        {key: 1, practice: false}
+        { key: 1, practice: false }
       ]
       levelNumberMap = utils.createLevelNumberMap(levels)
       expect((val.toString() for key, val of levelNumberMap)).toEqual(['1'])
     it 'returns correct map for r r', ->
       levels = [
-        {key: 1, practice: false}
-        {key: 2, practice: false}
+        { key: 1, practice: false }
+        { key: 2, practice: false }
       ]
       levelNumberMap = utils.createLevelNumberMap(levels)
       expect((val.toString() for key, val of levelNumberMap)).toEqual(['1', '2'])
     it 'returns correct map for p', ->
       levels = [
-        {key: 1, practice: true}
+        { key: 1, practice: true }
       ]
       levelNumberMap = utils.createLevelNumberMap(levels)
       expect((val.toString() for key, val of levelNumberMap)).toEqual(['0a'])
     it 'returns correct map for r p r', ->
       levels = [
-        {key: 1, practice: false}
-        {key: 2, practice: true}
-        {key: 3, practice: false}
+        { key: 1, practice: false }
+        { key: 2, practice: true }
+        { key: 3, practice: false }
       ]
       levelNumberMap = utils.createLevelNumberMap(levels)
       expect((val.toString() for key, val of levelNumberMap)).toEqual(['1', '1a', '2'])
     it 'returns correct map for r p p p', ->
       levels = [
-        {key: 1, practice: false}
-        {key: 2, practice: true}
-        {key: 3, practice: true}
-        {key: 4, practice: true}
+        { key: 1, practice: false }
+        { key: 2, practice: true }
+        { key: 3, practice: true }
+        { key: 4, practice: true }
       ]
       levelNumberMap = utils.createLevelNumberMap(levels)
       expect((val.toString() for key, val of levelNumberMap)).toEqual(['1', '1a', '1b', '1c'])
     it 'returns correct map for r p p p r p p r r p r', ->
       levels = [
-        {key: 1, practice: false}
-        {key: 2, practice: true}
-        {key: 3, practice: true}
-        {key: 4, practice: true}
-        {key: 5, practice: false}
-        {key: 6, practice: true}
-        {key: 7, practice: true}
-        {key: 8, practice: false}
-        {key: 9, practice: false}
-        {key: 10, practice: true}
-        {key: 11, practice: false}
+        { key: 1, practice: false }
+        { key: 2, practice: true }
+        { key: 3, practice: true }
+        { key: 4, practice: true }
+        { key: 5, practice: false }
+        { key: 6, practice: true }
+        { key: 7, practice: true }
+        { key: 8, practice: false }
+        { key: 9, practice: false }
+        { key: 10, practice: true }
+        { key: 11, practice: false }
       ]
       levelNumberMap = utils.createLevelNumberMap(levels)
       expect((val.toString() for key, val of levelNumberMap)).toEqual(['1', '1a', '1b', '1c', '2', '2a', '2b', '3', '4', '4a', '5'])
 
   describe 'findNextLevel and findNextAssessmentForLevel', ->
-    # r=required p=practice c=complete *=current a=assessment l=locked
-    # utils.findNextLevel returns next level 0-based index
-    # utils.findNextAssessmentForLevel returns next level 0-based index
+# r=required p=practice c=complete *=current a=assessment l=locked
+# utils.findNextLevel returns next level 0-based index
+# utils.findNextAssessmentForLevel returns next level 0-based index
 
-    # Find next available incomplete level, depending on whether practice is needed
-    # Find assessment level immediately after current level (and its practice levels)
-    # Only return assessment if it's the next level
-    # Skip over practice levels unless practice neeeded
-    # levels = [{practice: true/false, complete: true/false, assessment: true/false}]
+# Find next available incomplete level, depending on whether practice is needed
+# Find assessment level immediately after current level (and its practice levels)
+# Only return assessment if it's the next level
+# Skip over practice levels unless practice neeeded
+# levels = [{practice: true/false, complete: true/false, assessment: true/false}]
 
     describe 'when no practice needed', ->
       needsPractice = false
       it 'returns correct next levels when rc* p', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: false}
+          { practice: false, complete: true }
+          { practice: true, complete: false }
         ]
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(2)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
       it 'returns correct next levels when pc* p r', ->
         levels = [
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: false}
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(2)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
       it 'returns correct next levels when pc* p p', ->
         levels = [
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
         ]
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(3)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc* p rc', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: true}
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: true }
         ]
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(3)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc rc* a r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: false, complete: false, assessment: true}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: false, complete: false, assessment: true }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(4)
         expect(utils.findNextAssessmentForLevel(levels, 2, needsPractice)).toEqual(3)
       it 'returns correct next levels when rc* r p p p a r p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(1)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc* p p p a r p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 1, needsPractice)).toEqual(6)
         expect(utils.findNextAssessmentForLevel(levels, 1, needsPractice)).toEqual(5)
       it 'returns correct next levels when rc rc pc* p p a r p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(6)
         expect(utils.findNextAssessmentForLevel(levels, 2, needsPractice)).toEqual(5)
       it 'returns correct next levels when rc rc pc pc pc* a r p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(6)
         expect(utils.findNextAssessmentForLevel(levels, 4, needsPractice)).toEqual(5)
       it 'returns correct next levels when rc rc pc pc pc ac* r p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: true}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: true }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 5, needsPractice)).toEqual(6)
         expect(utils.findNextAssessmentForLevel(levels, 5, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc pc pc pc ac rc* p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 6, needsPractice)).toEqual(11)
         expect(utils.findNextAssessmentForLevel(levels, 6, needsPractice)).toEqual(10)
       it 'returns correct next levels when rc rc* p p p a rc p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(11)
         expect(utils.findNextAssessmentForLevel(levels, 2, needsPractice)).toEqual(5)
       it 'returns correct next levels when rc rc pc pc pc* a rc p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: false}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: false }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(11)
         expect(utils.findNextAssessmentForLevel(levels, 4, needsPractice)).toEqual(5)
       it 'returns correct next levels when rc rc* p p p ac rc p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(11)
         expect(utils.findNextAssessmentForLevel(levels, 2, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc pc pc pc* a rc p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(11)
         expect(utils.findNextAssessmentForLevel(levels, 4, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc* rcl p r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: false, complete: true, locked: true}
-          {practice: true, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: false, complete: true, locked: true }
+          { practice: true, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 1, needsPractice)).toEqual(-1)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
@@ -446,344 +666,343 @@ describe 'Utility library', ->
       needsPractice = true
       it 'returns correct next levels when rc* p', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: false}
+          { practice: false, complete: true }
+          { practice: true, complete: false }
         ]
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(1)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc* rc', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
         ]
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(2)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc p rc*', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: true}
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: true }
         ]
         expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(1)
         expect(utils.findNextAssessmentForLevel(levels, 2, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc pc p rc*', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: true}
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: true }
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(2)
         expect(utils.findNextAssessmentForLevel(levels, 3, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc rc* a r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: false, complete: false, assessment: true}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: false, complete: false, assessment: true }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(4)
         expect(utils.findNextAssessmentForLevel(levels, 2, needsPractice)).toEqual(3)
       it 'returns correct next levels when rc pc p rc* p', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(4)
         expect(utils.findNextAssessmentForLevel(levels, 3, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc pc p rc* pc', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(5)
         expect(utils.findNextAssessmentForLevel(levels, 3, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc pc p rc* pc p', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(5)
         expect(utils.findNextAssessmentForLevel(levels, 3, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc pc p rc* pc r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(5)
         expect(utils.findNextAssessmentForLevel(levels, 3)).toEqual(-1)
       it 'returns correct next levels when rc pc p rc* pc p r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(5)
         expect(utils.findNextAssessmentForLevel(levels, 3)).toEqual(-1)
       it 'returns correct next levels when rc pc pc rc* r p', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: false, complete: true}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: false, complete: true }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(4)
         expect(utils.findNextAssessmentForLevel(levels, 3, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc* pc rc', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: false, complete: true}
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: false, complete: true }
         ]
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(3)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc pc p rc* r p', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: true}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: true }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(2)
         expect(utils.findNextAssessmentForLevel(levels, 3, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc pc p a rc* r p', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: false, assessment: true}
-          {practice: false, complete: true}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: false, assessment: true }
+          { practice: false, complete: true }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
         ]
         expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(2)
         expect(utils.findNextAssessmentForLevel(levels, 4, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc pc p a rc* pc p r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(6)
         expect(utils.findNextAssessmentForLevel(levels, 4, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc* p p p a r p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 1, needsPractice)).toEqual(2)
         expect(utils.findNextAssessmentForLevel(levels, 1, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc pc* p p a r p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(3)
         expect(utils.findNextAssessmentForLevel(levels, 2, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc pc pc pc* a r p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(6)
         expect(utils.findNextAssessmentForLevel(levels, 4, needsPractice)).toEqual(5)
       it 'returns correct next levels when rc rc pc pc pc ac* r p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: true}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: true }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 5, needsPractice)).toEqual(6)
         expect(utils.findNextAssessmentForLevel(levels, 5, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc pc pc pc ac rc* p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 6, needsPractice)).toEqual(7)
         expect(utils.findNextAssessmentForLevel(levels, 6, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc pc pc pc* ac rc p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(7)
         expect(utils.findNextAssessmentForLevel(levels, 4, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc pc pc pc* a rc p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: false}
-          {practice: false, complete: true}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: false }
+          { practice: false, complete: true }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(7)
         expect(utils.findNextAssessmentForLevel(levels, 4, needsPractice)).toEqual(5)
       it 'returns correct next levels when rc rc pc pc pc* ac rc pc pc pc a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(11)
         expect(utils.findNextAssessmentForLevel(levels, 4, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc pc pc pc ac* r p p p a r r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {practice: true, complete: true}
-          {assessment: true, complete: true}
-          {practice: false, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {practice: true, complete: false}
-          {assessment: true, complete: false}
-          {practice: false, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { practice: true, complete: true }
+          { assessment: true, complete: true }
+          { practice: false, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { practice: true, complete: false }
+          { assessment: true, complete: false }
+          { practice: false, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 5, needsPractice)).toEqual(6)
         expect(utils.findNextAssessmentForLevel(levels, 5, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc* rcl p r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: false, complete: true, locked: true}
-          {practice: true, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: false, complete: true, locked: true }
+          { practice: true, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 1, needsPractice)).toEqual(-1)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc rcl* p r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: false, complete: true, locked: true}
-          {practice: true, complete: false}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: false, complete: true, locked: true }
+          { practice: true, complete: false }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(-1)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
       it 'returns correct next levels when rc rc rcl pc* r', ->
         levels = [
-          {practice: false, complete: true}
-          {practice: false, complete: true}
-          {practice: false, complete: true, locked: true}
-          {practice: true, complete: true}
-          {practice: false, complete: false}
+          { practice: false, complete: true }
+          { practice: false, complete: true }
+          { practice: false, complete: true, locked: true }
+          { practice: true, complete: true }
+          { practice: false, complete: false }
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(-1)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
-

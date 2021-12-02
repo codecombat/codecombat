@@ -311,6 +311,9 @@ _.extend LevelSessionSchema.properties,
               codeLanguage:
                 type: ['string', 'null']  # 'null' in case an opponent session got corrupted, don't care much here
                 description: 'What submittedCodeLanguage the opponent used during the match'
+              team:
+                type: ['string', 'null']
+                description: 'The opponent team in this match'
         simulator: {type: 'object', description: 'Holds info on who simulated the match, and with what tools.'}
         randomSeed: {description: 'Stores the random seed that was used during this match.'}
 
@@ -350,6 +353,8 @@ _.extend LevelSessionSchema.properties,
     minimum: 0
 
   codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'CodePoints this user earned for completing this level'}
+
+  archived: c.date {description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'}
 
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 

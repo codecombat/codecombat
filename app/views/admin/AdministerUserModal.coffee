@@ -1,6 +1,6 @@
 _ = require 'lodash'
 require('app/styles/admin/administer-user-modal.sass')
-ModalView = require 'views/core/ModalView'
+ModelModal = require 'views/modal/ModelModal'
 template = require 'templates/admin/administer-user-modal'
 User = require 'models/User'
 Prepaid = require 'models/Prepaid'
@@ -12,12 +12,13 @@ TrialRequests = require 'collections/TrialRequests'
 fetchJson = require('core/api/fetch-json')
 utils = require 'core/utils'
 api = require 'core/api'
+NameLoader = require 'core/NameLoader'
 { LICENSE_PRESETS } = require 'core/constants'
 
 # TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
 # TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
 
-module.exports = class AdministerUserModal extends ModalView
+module.exports = class AdministerUserModal extends ModelModal
   id: 'administer-user-modal'
   template: template
 
@@ -36,6 +37,7 @@ module.exports = class AdministerUserModal extends ModalView
     'click .cancel-prepaid-info-edit-btn': 'onClickCancelPrepaidInfoEditButton'
     'click .save-prepaid-info-btn': 'onClickSavePrepaidInfo'
     'click #school-admin-checkbox': 'onClickSchoolAdminCheckbox'
+    'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox'
     'click #edit-school-admins-link': 'onClickEditSchoolAdmins'
     'submit #teacher-search-form': 'onSubmitTeacherSearchForm'
     'click .add-administer-teacher': 'onClickAddAdministeredTeacher'
@@ -43,44 +45,70 @@ module.exports = class AdministerUserModal extends ModalView
     'click #teacher-search-button': 'onSubmitTeacherSearchForm'
     'click .remove-teacher-button': 'onClickRemoveAdministeredTeacher'
     'click #license-type-select>.radio': 'onSelectLicenseType'
+    'click .other-user-link': 'onClickOtherUserLink'
+    'click #volume-checkbox': 'onClickVolumeCheckbox'
+    'click #music-checkbox': 'onClickMusicCheckbox'
 
   initialize: (options, @userHandle) ->
-    @user = new User({_id:@userHandle})
+    @user = new User({_id: @userHandle})
+    @classrooms = new Classrooms()
+    @listenTo @user, 'sync', =>
+      if @user.isStudent()
+        @supermodel.loadCollection @classrooms, { data: {memberID: @user.id}, cache: false }
+        @listenTo @classrooms, 'sync', @loadClassroomTeacherNames
+      else if @user.isTeacher()
+        @supermodel.trackRequest @classrooms.fetchByOwner(@userHandle)
     @supermodel.trackRequest @user.fetch({cache: false})
     @coupons = new StripeCoupons()
-    @supermodel.trackRequest @coupons.fetch({cache: false})
+    @supermodel.trackRequest @coupons.fetch({cache: false}) if me.isAdmin()
     @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchByCreator(@userHandle, { data: {includeShared: true} })
+    @supermodel.trackRequest @prepaids.fetchByCreator(@userHandle, { data: {includeShared: true} }) if me.isAdmin()
     @listenTo @prepaids, 'sync', =>
       @prepaids.each (prepaid) =>
         if prepaid.loaded and not prepaid.creator
           prepaid.creator = new User()
           @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
-    @classrooms = new Classrooms()
-    @supermodel.trackRequest @classrooms.fetchByOwner(@userHandle)
     @trialRequests = new TrialRequests()
-    @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle)
+    @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle) if me.isAdmin()
     @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
     @licenseType = 'all'
     @licensePresets = LICENSE_PRESETS
     @utils = utils
+    options.models = [@user]  # For ModelModal to generate a Treema of this user
+    super options
 
   onLoaded: ->
-    # TODO: Figure out a better way to expose this info, perhaps User methods?
-    stripe = @user.get('stripe') or {}
-    @free = stripe.free is true
-    @freeUntil = _.isString(stripe.free)
-    @freeUntilDate = if @freeUntil then stripe.free else new Date().toISOString()[...10]
-    @currentCouponID = stripe.couponID
-    @none = not (@free or @freeUntil or @coupon)
+    @updateStripeStatus()
     @trialRequest = @trialRequests.first()
+    @models.push @trialRequest if @trialRequest
     @prepaidTableState={}
     @foundTeachers = []
     @administratedTeachers = []
     @trialRequests = new TrialRequests()
-    @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle)
+    @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle) if me.isAdmin()
 
     super()
+
+  afterInsert: ->
+    if window.location.pathname is '/admin' and window.location.search isnt '?user=' + @user.id
+      window.history.pushState {}, '', '/admin?user=' + @user.id
+    super()
+
+  willDisappear: ->
+    if window.location.pathname is '/admin' and window.location.search is '?user=' + @user.id
+      window.history.pushState {}, '', '/admin'  # Remove ?user=id query parameter
+    super()
+
+  updateStripeStatus: ->
+    stripe = @user.get('stripe') or {}
+    @free = stripe.free is true
+    @freeUntil = _.isString(stripe.free)
+    @freeUntilDate = switch
+      when @freeUntil then stripe.free
+      when me.isOnlineTeacher() then moment().add(1, "day").toISOString()[...10]  # Default to tomorrow
+      else new Date().toISOString()[...10]
+    @currentCouponID = stripe.couponID
+    @none = not (@free or @freeUntil or @coupon)
 
   onClickCreatePayment: ->
     service = @$('#payment-service').val()
@@ -131,7 +159,9 @@ module.exports = class AdministerUserModal extends ModalView
       @user.set('purchased', purchased)
 
     options = {}
-    options.success = => @hide()
+    options.success = =>
+      @updateStripeStatus?()
+      @render?()
     @user.patch(options)
 
   onClickAddSeatsButton: ->
@@ -251,15 +281,15 @@ module.exports = class AdministerUserModal extends ModalView
     @renderSelectors('#'+@$(e.target).data('prepaid-id'))
 
   onClickSavePrepaidInfo: (e) ->
-    prepaidId= @$(e.target).data('prepaid-id')  
+    prepaidId= @$(e.target).data('prepaid-id')
     prepaidStartDate= @$el.find('#'+'startDate-'+prepaidId).val()
     prepaidEndDate= @$el.find('#'+'endDate-'+prepaidId).val()
     prepaidTotalLicenses=@$el.find('#'+'totalLicenses-'+prepaidId).val()
     @prepaids.each (prepaid) =>
-      if (prepaid.get('_id') == prepaidId) 
+      if (prepaid.get('_id') == prepaidId)
         #validations
         unless prepaidStartDate and prepaidEndDate and prepaidTotalLicenses
-          return 
+          return
         if(prepaidStartDate >= prepaidEndDate)
           alert('End date cannot be on or before start date')
           return
@@ -271,39 +301,49 @@ module.exports = class AdministerUserModal extends ModalView
         prepaid.set('maxRedeemers', prepaidTotalLicenses)
         options = {}
         prepaid.patch(options)
-        @listenTo prepaid, 'sync', -> 
+        @listenTo prepaid, 'sync', ->
           @prepaidTableState[prepaidId] = 'viewMode'
           @renderSelectors('#'+prepaidId)
         return
 
   userIsSchoolAdmin: -> @user.isSchoolAdmin()
 
+  userIsOnlineTeacher: -> @user.isOnlineTeacher()
+
+  onClickOnlineTeacherCheckbox: (e) ->
+    checked = @$(e.target).prop('checked')
+    unless @updateUserPermission User.PERMISSIONS.ONLINE_TEACHER, checked
+      e.preventDefault()
+
   onClickSchoolAdminCheckbox: (e) ->
     checked = @$(e.target).prop('checked')
+    unless @updateUserPermission User.PERMISSIONS.SCHOOL_ADMINISTRATOR, checked
+      e.preventDefault()
+
+  updateUserPermission: (permission, enabled) ->
     cancelled = false
-    if checked
-      unless window.confirm("ENABLE school administator for #{@user.get('email') || @user.broadName()}?")
+    if enabled
+      unless window.confirm("ENABLE #{permission} for #{@user.get('email') || @user.broadName()}?")
         cancelled = true
     else
-      unless window.confirm("DISABLE school administator for #{@user.get('email') || @user.broadName()}?")
+      unless window.confirm("DISABLE #{permission} for #{@user.get('email') || @user.broadName()}?")
         cancelled = true
     if cancelled
-      e.preventDefault()
       @userSaveState = null
       @render()
-      return
+      return false
 
     @userSaveState = 'saving'
     @render()
-    fetchJson("/db/user/#{@user.id}/schoolAdministrator", {
+    fetchJson("/db/user/#{@user.id}/#{permission}", {
       method: 'PUT',
       json: {
-        schoolAdministrator: checked
+        enabled: enabled
       }
     }).then (res) =>
       @userSaveState = 'saved'
       @user.fetch({cache: false}).then => @render()
-    null
+    true
 
   onClickEditSchoolAdmins: (e) ->
     if typeof @editingSchoolAdmins is 'undefined'
@@ -450,3 +490,28 @@ module.exports = class AdministerUserModal extends ModalView
 
     schools
 
+  loadClassroomTeacherNames: ->
+    ownerIDs = _.map(@classrooms.models, (c) -> c.get('ownerID')) ? []
+    Promise.resolve($.ajax(NameLoader.loadNames(ownerIDs)))
+    .then(=>
+      @ownerNameMap = {}
+      @ownerNameMap[ownerID] = NameLoader.getName(ownerID) for ownerID in ownerIDs
+      @render?()
+    )
+
+  onClickOtherUserLink: (e) ->
+    e.preventDefault()
+    userID = $(e.target).closest('a').data('user-id')
+    @openModalView new AdministerUserModal({}, userID)
+
+  onClickMusicCheckbox: (e) ->
+    val = @$(e.target).prop('checked')
+    @user.set 'music', val
+    @user.patch()
+    @modelTreemas[@user.id].set 'music', val
+
+  onClickVolumeCheckbox: (e) ->
+    val = if checked = @$(e.target).prop('checked') then 1.0 else 0.0
+    @user.set 'volume', val
+    @user.patch()
+    @modelTreemas[@user.id].set 'volume', val

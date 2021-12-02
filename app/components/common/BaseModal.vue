@@ -46,7 +46,7 @@
       justify-content: center
       align-items: center
       width: inherit
-      padding: 10px
+      padding: 5px
 
     .modal-header
       font-weight: bold

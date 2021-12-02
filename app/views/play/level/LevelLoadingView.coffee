@@ -4,6 +4,7 @@ template = require 'templates/play/level/level-loading-view'
 ace = require('lib/aceContainer')
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
+aetherUtils = require 'lib/aether_utils'
 SubscribeModal = require 'views/core/SubscribeModal'
 LevelGoals = require('./LevelGoals').default
 store = require 'core/store'
@@ -234,7 +235,7 @@ module.exports = class LevelLoadingView extends CocoView
       """, sanitize: false
     else
       language = @session?.get('codeLanguage')
-      html = marked utils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'), language)
+      html = marked aetherUtils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'), language)
     @$el.find('.intro-doc').removeClass('hidden').find('.intro-doc-content').html html
     @resize()
     @configureACEEditors()
@@ -275,4 +276,7 @@ module.exports = class LevelLoadingView extends CocoView
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
+    silentStore = { commit: _.noop, dispatch: _.noop }
+    @levelGoalsComponent?.$destroy()
+    @levelGoalsComponent?.$store = silentStore
     super()

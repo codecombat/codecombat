@@ -6,6 +6,7 @@ User = require 'models/User'
 errors = require 'core/errors'
 RecoverModal = require 'views/core/RecoverModal'
 storage = require 'core/storage'
+globalVar = require 'core/globalVar'
 
 module.exports = class AuthModal extends ModalView
   id: 'auth-modal'
@@ -17,6 +18,7 @@ module.exports = class AuthModal extends ModalView
     'keyup #name': 'onNameChange'
     'click #gplus-login-btn': 'onClickGPlusLoginButton'
     'click #facebook-login-btn': 'onClickFacebookLoginButton'
+    'click #clever-signup-btn': 'onClickCleverSignupButton'
     'click #close-modal': 'hide'
     'click [data-toggle="coco-modal"][data-target="core/RecoverModal"]': 'openRecoverModal'
 
@@ -43,7 +45,7 @@ module.exports = class AuthModal extends ModalView
   onSignupInstead: (e) ->
     CreateAccountModal = require('./CreateAccountModal')
     modal = new CreateAccountModal({initialValues: forms.formToObject @$el, @subModalContinue})
-    currentView.openModalView(modal)
+    globalVar.currentView.openModalView(modal)
 
   onSubmitForm: (e) ->
     @playSound 'menu-button-click'
@@ -170,6 +172,23 @@ module.exports = class AuthModal extends ModalView
     btn.attr('disabled', false)
     errors.showNotyNetworkError(arguments...)
 
+
+  # Clever
+
+  onClickCleverSignupButton: ->
+    if window.location.hostname in ['next.codecombat.com', 'localhost']
+      cleverClientId = '943ece596555cac13fcc'
+      redirectTo = 'https://next.codecombat.com/auth/login-clever'
+      districtId = '5b2ad81a709e300001e2cd7a'  # Clever Library test district
+    else  # prod
+      cleverClientId = 'ffce544a7e02c0daabf2'
+      redirectTo = 'https://codecombat.com/auth/login-clever'
+    url = "https://clever.com/oauth/authorize?response_type=code&redirect_uri=#{encodeURIComponent(redirectTo)}&client_id=#{cleverClientId}"
+    if districtId
+      url += '&district_id=' + districtId
+    window.open url, '_blank'
+
+
   openRecoverModal: (e) ->
     e.stopPropagation()
     @openModalView new RecoverModal()
@@ -192,12 +211,14 @@ formSchema = {
 }
 
 loginNavigate = (subModalContinue) ->
-  if window.nextURL?.startsWith('/league')
+  if window.nextURL
     window.location.href = window.nextURL
     return
 
   if not me.isAdmin()
-    if me.isStudent()
+    if me.isAPIClient()
+        application.router.navigate('/api-dashboard', { trigger: true })
+    else if me.isStudent()
       application.router.navigate('/students', { trigger: true })
     else if me.isTeacher()
       if me.isSchoolAdmin()

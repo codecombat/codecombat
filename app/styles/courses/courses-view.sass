@@ -6,83 +6,52 @@
     margin-bottom: 30px
 
   #announcement
-    background-color: #cff2fc
-    border-radius: 10px
-    padding: 20px
-    margin: 20px 80px 40px 80px
+    margin: 20px 60px
     p
       margin-bottom: 7px
 
-  #esports-announcement
-    padding: 65px 45px
-    background: url(/images/pages/courses/pixel-starts-background.png) right -150px bottom no-repeat
-    background-size: cover
-    background-color: #0C1016
-
-    .flex-row
-      display: flex
-      align-items: center
-      align-items: center
-      justify-content: center
-
-    h1, p
-      color: white
-
-    h1
-      font-family: "lores12ot-bold", "VT323"
-      text-transform: uppercase
-      line-height: 53px
-      margin-bottom: 2px
-
-    p, a
-      font-family: Work Sans, "Open Sans", sans-serif
-
-    p
-      font-style: normal
-      font-weight: normal
-
-    .btn-primary.btn-moon
-      background-color: #FCBB00
-      border-radius: 4px
-      color: #232323
-      text-shadow: unset
-      text-transform: uppercase
-      font-weight: bold
-      letter-spacing: 0.71px
-      line-height: 24px
-      font-size: 18px
-      padding: 12px 20px
-      white-space: unset
-
-      &:hover
-        background-color: #Fedd10
-        transition: background-color .35s
-
-  .esports-pink
-    color: #ff39a6
-
-  .esports-goldenlight
-    color: #f7d047
-
-  /deep/ .esports-aqua
-    color: #30efd3
-
-  .esports-green
-    color: #bcff16
-
-  .esports-purple
-    color: #9b83ff
-
   #main-content
-    max-width: 720px
+    max-width: 816px
+    padding: 0 20px
     margin: 0 auto
+    border-style: solid
+    border-image: url(/images/level/code_palette_wood_background.png) 118 48 110 48 fill round
+    border-width: 118px 48px 110px 48px
+    border-top-width: 0
+    position: relative
+
+    @media only screen and (max-width: 991px)
+      .student-profile-area
+        width: 100%
+        margin-left: auto
+        background-image: none
+
+        .current-hero
+          display: none
+
+    .main-content-preload-backdrop
+      // Nice background contrast before image loads so contrast doesn't get crazy
+      background: linear-gradient(to top, #cabea1, #d6cab3)
+      position: absolute
+      top: 0px
+      left: 20px
+      bottom: 0px
+      right: 20px
+      z-index: -1
+
+    h3
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      text-shadow: 0px 1px 1px black, -1px 0px 1px black, 1px 0px 1px black, 0px -1px 1px black
 
   #play-now-to-learn-header
-    margin-top: 60px
+    margin-top: 50px
 
   #benefits-ul
-    margin: 0 auto 40px
-    width: 360px
+    margin: 0 auto
+    padding-bottom: 20px
+    width: 420px
 
   hr
     border-top: 1px solid grey
@@ -90,7 +59,7 @@
     padding-bottom: 20px
     opacity: 0.5
 
-  .view-levels-btn, .view-challenges-link, .view-videos-link, .view-ranking-link
+  .view-levels-btn, .view-challenges-link, .view-videos-link, .view-announcement-link
     font-size: 13px
     padding-left: 10px
 
@@ -103,45 +72,94 @@
     margin-top: 40px
 
   #just-added-text
-    color: #009999
+    text-align: right
 
-  .just-added
-    border: 1px solid #009999
-    margin: 0 -20px
-    padding: 0 20px
+  .classroom, #join-class-form, .anonymous-welcome-message, #announcement
+    border-style: solid
+    border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+    padding: 0 5px
+    border-width: 16px 12px
+
+  .classroom.just-added
+    box-shadow: $yellow 0 0 10px
+
+  .anonymous-welcome-message
+    padding-top: 20px
+
+  .class-break
+    border-top: 0
 
   .course-instance-entry
     padding-bottom: 10px
 
     .progress-bar
       min-width: 15%
+      background-color: #21572b
 
     .btn
       margin-left: 20px
       min-width: 180px
 
   #join-class-form
+    padding-bottom: 30px
+
     .alert, .progress
       margin-top: 20px
 
-  // Hero display
-  .current-hero-container
-    display: flex
-    justify-content: center
+  .style-flat
+    background-color: transparent
 
-    .current-hero-text
-      font-size: 16pt
+  #site-content-area
+    background: transparent url(/images/pages/play/portal-background.png)
+    border: 1px solid #314545
+
+  #footer
+    margin-top: 0
+
+  .student-profile-area
+    width: 1210px
+    padding: 10px 60px 60px 60px
+    margin-left: calc(0px - (1210px - 680px) / 2)
+    background: #d6cab3 url(/images/pages/play/modal/parental_prompt_modal_background.png) no-repeat
+    //background-size: cover
+    // Doesn't work because rough transparent edge shows background color below; gotta make image a bit bigger than pre-image-load solid fill
+    background-size: 100.4% auto
+    background-position: bottom
+    border-radius: 6px
+
+    h2
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      text-shadow: 0px 1px 1px black, -1px 0px 1px black, 1px 0px 1px black, 0px -1px 1px black
+      font-size: 24px
+      text-align: center
+
+  // Hero display
+  .current-hero
+    cursor: pointer
+
+    h2.current-hero-text
+      line-height: 24px
+      margin: 15px 0 5px 0
+      color: black
+      text-shadow: none
 
     .hero-avatar
-      background-color: #f8f8f8
-      box-shadow: 0 0 0 1px gray
-      margin-right: 25px
+      margin-right: 10px
 
-    .current-hero-right-col
-      display: flex
-      flex-direction: column
-      justify-content: space-between
-      align-items: flex-start
+      img
+        max-width: 100%
+        max-height: 220px
+
+        &.hero-captain
+          // Captain faces left normally, others face right
+          transform: scaleX(-1)
+
+    .change-hero-btn
+      font-size: 13px
+      text-transform: lowercase
+      font-weight: regular
 
   .certificate-link
     text-align: left
@@ -155,74 +173,178 @@
     div
       display: inline
 
-  .tournament-logo
-    text-align: center
-    img
-      width: 100%
-    margin-bottom: 25px
-
-  #tournament-rules
-   display: block
-   font-size: 30px
-   margin-top: -20px
-   margin-bottom: 20px
-
-  .popover
-    max-width: 700px
-    font-size: 16px
-    line-height: 22px
-
-    p[dir="rtl"]
-      text-align: right
-
-  .level
+  a.tile
+    display: block
     width: 100%
     position: relative
-    margin-bottom: 20px
-    text-shadow: 1px 0px 0px black, -1px 0px 0 black, 0px 1px 0px black, 0px -1px 0px black
+    margin-bottom: 6px
+    text-shadow: 2px 2px 5px black
+    border-radius: 6px
+    overflow: hidden
+    background-color: rgb(58,47,38)
 
-    &:hover div, &:hover .dynamic-level-name
-      color: lighten($yellow, 20%)
+    @media only screen and (min-width: 1200px)
+      height: 76px
 
-    &:hover img
-      filter: brightness(1.2)
-      -webkit-filter: brightness(1.2)
-      box-shadow: 0 0 5px black
-
-    .level-image
-      width: 100%
-
-    .dynamic-level-name
+    .play-text-container, .stats-text-container
       position: absolute
-      z-index: 1
-      top: 40px
-      width: 100%
-      text-align: center
-
-      text-shadow: 0px 5px 5px black, -2px 0px 2px black, 2px 0px 2px black, 0px -2px 2px black
-      font-size: 72px
-      color: $yellow
-      font-family: $headings-font-family
-      font-variant: small-caps
-      @include transition(color .10s linear)
-
-    .overlay-text
-      color: $yellow
-      font-family: $headings-font-family
-      font-variant: small-caps
-      @include transition(color .10s linear)
 
     .play-text-container
-      position: absolute
-      right: 0px
-      bottom: 0px
-      background-color: rgba(255, 255, 255, 0.75)
-      border-radius: 6px
+      right: 5px
+      bottom: 0
 
       .play-text
-        text-align: right
-        font-size: 50px
-        line-height: 50px
+        font-size: 18px
+        line-height: 24px
 
-  a[disabled] .level
-    opacity: 0.7
+    .stats-text-container
+      left: 5px
+      bottom: 0
+
+      .stats-text
+        font-size: 18px
+        line-height: 24px
+
+    .level-image
+      @include transition(filter .10s linear, opacity .10s linear)
+      filter: brightness(80%) contrast(80%)
+      width: 100%
+      height: 100%
+      // Need to set an explicit height on .tile parent for this to work
+      object-fit: cover
+
+      &.placeholder
+        filter: brightness(50%) contrast(80%)
+
+    .overlay-text
+      font-family: $headings-font-family
+      font-variant: small-caps
+      @include transition(color .10s linear, text-shadow .10s linear)
+      color: black
+      text-shadow: none
+
+      &.dynamic-level-name
+        position: absolute
+        z-index: 1
+        top: calc(37% - 23px)
+        width: 100%
+        text-align: center
+        font-size: 24px
+        color: $yellow
+        text-shadow: 0px 1px 1px black, -1px 0px 1px black, 1px 0px 1px black, 0px -1px 1px black
+
+    .tile-text-backdrop
+      position: absolute
+      bottom: 0
+      left: 0
+      right: 0
+      height: 23px
+      opacity: 90%
+      background-color: #D0C4AC
+      border: 2px solid #B5AA8F
+      color: #B5AA8F
+      border-top: 0
+      @include transition(opacity .10s linear, background-color .10s linear, border-color .10s linear)
+
+    &[disabled]
+      opacity: 0.7
+      cursor: default
+
+    &:hover:not([disabled])
+      div, .dynamic-level-name
+        // TODO: is this duplicate? Do we need div?
+        color: lighten($yellow, 20%)
+      
+      img.level-image
+        filter: brightness(120%) contrast(100%)
+        box-shadow: 0 0 5px black
+
+      .overlay-text
+        color: $yellow
+        text-shadow: 0px 1px 1px black, -1px 0px 1px black, 1px 0px 1px black, 0px -1px 1px black
+
+        &.dynamic-level-name
+          text-shadow: 0px 2px 2px black, -2px 0px 2px black, 2px 0px 2px black, 0px -2px 2px black
+
+      .tile-text-backdrop
+        opacity: 75%
+        background-color: darken(#D0C4AC, 10%)
+        border-color: darken(#B5AA8F, 10%)
+
+  .student-stats.deemphasize-ai-league
+    .tile.play-arena-btn
+      .level-image
+        opacity: 20%
+
+      &:hover
+        .level-image
+          opacity: 100%
+
+        .dynamic-level-name:not(.optional)
+          display: none
+
+  .school-stats
+    font-family: $headings-font-family
+    font-variant: small-caps
+
+    .stat
+      width: 100%
+      height: 38px
+      margin: 4px 0
+      padding: 0 8px
+      line-height: 32px
+      background: rgb(58,47,38)
+      color: rgb(195,153,124)
+      border: 2px solid rgb(85,70,57)
+      text-align: center
+
+      &:hover
+        background: rgb(33,28,21)
+        border: 2px solid rgb(64,53,41)
+        color: white
+
+    .team
+      padding: 0
+      border-radius: 2px
+      margin: 4px 0
+      height: 38px
+      cursor: pointer
+
+      .team-name, .team-stats
+        display: inline-block
+        margin: 0
+        padding: 0 8px
+        width: 50%
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+        height: 38px
+        line-height: 32px
+
+      .team-name
+        background: rgb(58,47,38)
+        color: rgb(195,153,124)
+        border: 2px solid rgb(85,70,57)
+
+        &:hover
+          background: rgb(33,28,21)
+          border: 2px solid rgb(64,53,41)
+          color: white
+
+      .team-stats
+        color: black
+        background-color: #D0C4AC
+        border: 2px solid #B5AA8F
+
+        &:hover
+          background: darken(#D0C4AC, 10%)
+          border: 2px solid darken(#B5AA8F, 10%)
+          color: lighten(black, 10%)
+
+  .loading-screen
+    background-color: white
+    margin: 0
+    padding-bottom: 20px
+
+  .help-block
+    color: #333

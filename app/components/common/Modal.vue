@@ -69,7 +69,7 @@
   border-top-right-radius: 10px;
 }
 // Turn off extra backdrop shadow
-.modal-backdrop {
+.modal-backdrop.vue-modal {
   display: none;
 }
 </style>

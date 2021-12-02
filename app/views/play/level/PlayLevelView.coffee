@@ -161,6 +161,9 @@ module.exports = class PlayLevelView extends RootView
     if features.china
       @checkTournamentEndInterval = setInterval @checkTournamentEnd.bind(@), 3000
 
+    preloadImages = ['/images/level/code_palette_wood_background.png', '/images/level/code_editor_background_border.png']
+    _.delay (-> $('<img/>')[0].src = img for img in preloadImages), 1000
+
   getMeta: ->
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', content: '/play' }
@@ -220,6 +223,7 @@ module.exports = class PlayLevelView extends RootView
     return unless @timeOffset
     return unless @mandate.loaded
     return unless @levelSlug
+    return unless @level.get('type') is 'course-ladder'
     courseInstanceID = @courseInstanceID or utils.getQueryVariable 'league'
     mandate = @mandate.get('0')
 
@@ -352,11 +356,11 @@ module.exports = class PlayLevelView extends RootView
 
   loadOpponentTeam: (myTeam) ->
     opponentSpells = []
-    for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
+    for spellTeam, spells of utils.teamSpells
       continue if spellTeam is myTeam or not myTeam
       opponentSpells = opponentSpells.concat spells
-    if (not @session.get('teamSpells')) and @otherSession?.get('teamSpells')
-      @session.set('teamSpells', @otherSession.get('teamSpells'))
+    if not @session.get('teamSpells')
+      @session.set('teamSpells', utils.teamSpells)
     opponentCode = @otherSession?.get('code') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells
@@ -401,6 +405,7 @@ module.exports = class PlayLevelView extends RootView
   updateSpellPalette: (thang, spell) ->
     return unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
     useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
+    @removeSubview @spellPaletteView if @spellPaletteView
     @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @session.get('codeLanguage'), session: @session, level: @level, courseID: @courseID, courseInstanceID: @courseInstanceID, useHero }
     #@spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view   # TODO: know when palette should have been disabled but didn't exist
 
@@ -457,14 +462,14 @@ module.exports = class PlayLevelView extends RootView
     if e.level.isType('hero', 'hero-ladder', 'hero-coop') and not _.size(e.session.get('heroConfig')?.inventory ? {}) and e.level.get('assessment') isnt 'open-ended'
       # Delaying this check briefly so LevelLoader.loadDependenciesForSession has a chance to set the heroConfig on the level session
       _.defer =>
-        return if _.size(e.session.get('heroConfig')?.inventory ? {})
+        return if @destroyed or _.size(e.session.get('heroConfig')?.inventory ? {})
         # TODO: which scenario is this executed for?
         @setupManager?.destroy()
         @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID})
         @setupManager.open()
 
   onLoaded: ->
-    _.defer => @onLevelLoaderLoaded()
+    _.defer => @onLevelLoaderLoaded?()
 
   onLevelLoaderLoaded: ->
     # Everything is now loaded
@@ -884,6 +889,8 @@ module.exports = class PlayLevelView extends RootView
     console.profileEnd?() if PROFILE_ME
     if @checkTournamentEndInterval
       clearInterval @checkTournamentEndInterval
+    Backbone.Mediator.unsubscribe 'modal:closed', @onLevelStarted, @
+    Backbone.Mediator.unsubscribe 'audio-player:loaded', @playAmbientSound, @
     super()
 
   onIPadMemoryWarning: (e) ->

@@ -181,11 +181,23 @@ module.exports = class EnrollmentsView extends RootView
     coursePrepaids = @prepaids.filter((p) => p.get('type') == 'course')
 
     skipUpsellDueToExistingLicenses = coursePrepaids.length > 0
-    shouldUpsell = me.useStripe() and !skipUpsellDueToExistingLicenses and (@state.get('leadPriority') is 'low')
+    shouldUpsell = (me.useStripe() and
+      !skipUpsellDueToExistingLicenses and
+      @state.get('leadPriority') is 'low' and
+      (me.get('preferredLanguage') not in ['nl-BE', 'nl-NL']) and
+      (me.get('country') not in ['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia']) and
+      not me.get('administratedTeachers')?.length
+    )
 
-    @state.set({ shouldUpsell })
+    shouldUpsellParent = (
+      me.get('role') is 'parent' and
+      me.get('country') not in ['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia'] and
+      !skipUpsellDueToExistingLicenses
+    )
 
-    if shouldUpsell and not @upsellTracked
+    @state.set({ shouldUpsell, shouldUpsellParent })
+
+    if (shouldUpsell or shouldUpsellParent) and not @upsellTracked
       @upsellTracked = true
       application.tracker?.trackEvent 'Starter License Upsell: Banner Viewed', {price: @state.get('centsPerStudent'), seats: @state.get('quantityToBuy')}
 
@@ -234,7 +246,10 @@ module.exports = class EnrollmentsView extends RootView
       }
     })
     window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers', ['Mixpanel']
-    modal = new TeachersContactModal()
+    modal = new TeachersContactModal({
+      shouldUpsell: @state.get('shouldUpsell'),
+      shouldUpsellParent: @state.get('shouldUpsellParent')
+    })
     @openModalView(modal)
     modal.on 'submit', =>
       @enrollmentRequestSent = true

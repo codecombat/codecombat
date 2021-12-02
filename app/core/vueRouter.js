@@ -39,6 +39,10 @@ export default function getVueRouter () {
           ]
         },
         {
+          path: '/api-dashboard',
+          component: () => import(/* webpackChunkName: "apiViews" */ 'app/views/api/components/ApiDashboard')
+        },
+        {
           path: '/admin/clan',
           component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanSearch'),
         },
@@ -46,11 +50,31 @@ export default function getVueRouter () {
           path: '/admin/clan/:clanId',
           component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanEdit'),
         },
+        {
+          path: '/outcomes-report/:kind/:country?/:idOrSlug',
+          component: () => import(/* webpackChunkName: "outcomesReport" */ 'app/views/outcomes-report/PageOutcomesReport'),
+        },
         // Warning: In production debugging of third party iframe!
         {
           path: '/temporary-debug-timetap',
           component: () => import(/* webpackChunkName: "thirdPartyDebugging" */ 'app/components/timetap/TimeTapDebugPage')
-        }
+        },
+        {
+          path: '/payments/manage-billing',
+          component: () => import(/* webpackChunkName: "manageBillingComponent"  */'app/views/payment/ManageBillingView'),
+        },
+        {
+          path: '/payments/online-classes-success',
+          component: () => import(/* webpackChunkName: "onlineClassesSuccessComponent" */'app/views/payment/PaymentOnlineClassesSuccessView'),
+        },
+        {
+          path: '/payments/home-subscriptions-success',
+          component: () => import(/* webpackChunkName: "homeSubscriptionSuccessComponent" */'app/views/payment/PaymentHomeSubscriptionsSuccessView'),
+        },
+        {
+          path: '/payments/:slug',
+          component: () => import(/* webpackChunkName: "paymentComponent" */'app/views/payment/PaymentComponentView'),
+        },
       ]
     })
   }

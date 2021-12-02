@@ -5,6 +5,8 @@ block modal-header-content
     h3(data-i18n="common.submit_patch") Submit Patch
   else
     h3(data-i18n="versions.save_version_title") Save New Version
+  if view.showChangesWarning
+    .alert.alert-danger(data-i18n="versions.remote_changes_alert") Warning! Remote changes will be lost!
 
 block modal-body-content
   if view.hasChanges
