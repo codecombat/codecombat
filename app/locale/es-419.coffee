@@ -5,7 +5,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "Aprende a esciribir código a través de un juego de programación. Aprende Python, JavaScript y HTML mientras resuelves rompecabezas y aprendes a hacer tus propios juegos de código y páginas web."
 #    meta_og_url: "https://codecombat.com"
-#    become_investor: "to become an investor in CodeCombat"
+    become_investor: "Conviértete en un inversionista de CodeCombat"
     built_for_teachers_title: "Un Juego de programación construido teniendo en cuenta a los maestros."
     built_for_teachers_blurb: "Enseñar a los niños a programar puede ser abrumador. CodeCombat ayuda a todos los educadores a enseñar a los estudiantes cómo programar en JavaScript o Python, dos de los lenguajes de programación más populares. Con un plan de estudios comprensivo que incluye seis unidades de Ciencias de la Computación, y refuerza el aprendizaje a través de unidades en el desarrollo de juegos y desarrollo web basados en proyectos, los niños progresarán en un viaje desde la sintaxis básica hasta la recursión!"
     built_for_teachers_subtitle1: "Ciencias de la Computación"
