@@ -17,7 +17,7 @@ module.exports = class UnnamedView extends ModalView
     super()
     @skipOriginals = options.skipOriginals or []
     @components = new CocoCollection([], model: LevelComponent)
-    @components.url = "/db/level.component?term=&project=name,system,original,version,description"
+    @components.url = "/db/level.component?term=&archived=false&project=name,system,original,version,description"
     @supermodel.loadCollection(@components, 'components')
     
   getRenderData: ->
