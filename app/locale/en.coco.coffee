@@ -2059,6 +2059,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
     hoc_additional_desc2: "Questions"
     hoc_additional_contact: "Get in touch"
+    regenerate_class_code_tooltip: "Generate a new Class Code"
+    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
     revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
     revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
     revoking: "Revoking..."
