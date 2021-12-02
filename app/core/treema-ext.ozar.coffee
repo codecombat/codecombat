@@ -568,7 +568,7 @@ class LevelComponentReferenceNode extends LatestVersionReferenceNode
   # HACK: this list of properties is needed by the thang components edit view and config views.
   # need a better way to specify this, or keep the search models from bleeding into those
   # supermodels.
-  buildSearchURL: (term) -> "#{@url}?term=#{term}&project=name,system,original,version,dependencies,configSchema,description"
+  buildSearchURL: (term) -> "#{@url}?term=#{term}&archived=false&project=name,system,original,version,dependencies,configSchema,description"
   modelToString: (model) -> model.get('system') + '.' + model.get('name')
   canEdit: -> not @getData().original # only allow editing if the row's data hasn't been set yet
 
