@@ -10,6 +10,7 @@ module.exports = class ModalComponent extends ModalView
   afterRender: ->
     if @vueComponent
       @$el.find('#modal-base-flat').replaceWith(@vueComponent.$el)
+      # TODO: should we call super() here?
     else
       if @vuexModule
         unless _.isFunction(@vuexModule)

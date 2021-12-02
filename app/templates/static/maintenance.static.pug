@@ -17,6 +17,9 @@ block script-start
       duration = null
       if(!isNaN(+time))
         duration = +time
+        if(duration === 0) {
+          document.location.href = '/'
+        }
       if(chinaUx){
         document.querySelector('#logo').src = '/images/pages/base/logo-cn.png'
         maintenanceTitle = '网站升级维护中...'

@@ -50,6 +50,10 @@ export default function getVueRouter () {
           path: '/admin/clan/:clanId',
           component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanEdit'),
         },
+        {
+          path: '/outcomes-report/:kind/:country?/:idOrSlug',
+          component: () => import(/* webpackChunkName: "outcomesReport" */ 'app/views/outcomes-report/PageOutcomesReport'),
+        },
         // Warning: In production debugging of third party iframe!
         {
           path: '/temporary-debug-timetap',
@@ -62,6 +66,10 @@ export default function getVueRouter () {
         {
           path: '/payments/online-classes-success',
           component: () => import(/* webpackChunkName: "onlineClassesSuccessComponent" */'app/views/payment/PaymentOnlineClassesSuccessView'),
+        },
+        {
+          path: '/payments/home-subscriptions-success',
+          component: () => import(/* webpackChunkName: "homeSubscriptionSuccessComponent" */'app/views/payment/PaymentHomeSubscriptionsSuccessView'),
         },
         {
           path: '/payments/:slug',

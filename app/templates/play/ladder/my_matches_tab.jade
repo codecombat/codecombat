@@ -14,6 +14,9 @@
             span(data-i18n="ladder.summary_wins")  Wins, 
             |#{team.losses}
             span(data-i18n="ladder.summary_losses")  Losses 
+            if team.session && team.session.get('submitted')
+              a.share-ladder-link-button.pull-right(data-team=team.id)
+                span(data-i18n="sharing.share_ladder_link")
 
         if team.session
           tr
@@ -46,7 +49,11 @@
             td.battle-cell
               - var levelID = view.level.get('slug') || view.level.id
               - var league = view.options.league
-              a(href="/play/level/#{levelID}?team=#{team.id}&opponent=#{match.sessionID}" + (league ? "&league=" + league.id : ""))
+              if match.opTeam
+                - var yourTeam = match.opTeam == 'humans' ? 'ogres' : 'humans'
+              else
+                - var yourTeam = team.id
+              a(href="/play/level/#{levelID}?team=#{yourTeam}&opponent=#{match.sessionID}" + (league ? "&league=" + league.id : ""))
                 if (match.state === 'win')
                   span(data-i18n="ladder.watch_victory") Watch your victory
                 else if (view.level.isType('ladder'))

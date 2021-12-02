@@ -156,7 +156,7 @@ module.exports = class SpectateLevelView extends RootView
       console.error("Team mismatch. Expected session one to be '#{myTeam}'. Got '#{@session.get('team')}'");
 
     opponentSpells = []
-    for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
+    for spellTeam, spells of utils.teamSpells
       continue if spellTeam is myTeam or not myTeam
       opponentSpells = opponentSpells.concat spells
 
@@ -275,7 +275,8 @@ module.exports = class SpectateLevelView extends RootView
       editor.setShowFoldWidgets true
       editor.$blockScrolling = Infinity
       editor.setReadOnly true
-      editor.setValue session.get('code')?['hero-placeholder' + if team is 'ogres' then '-1' else '']?.plan ? ''
+      codeTeam = if @level.isType('ladder') then 'humans' else session.get('team') ? team
+      editor.setValue session.get('submittedCode')?['hero-placeholder' + if codeTeam is 'ogres' then '-1' else '']?.plan ? ''
       editor.clearSelection()
     @$el.find('.spectate-code').addClass 'shown'
     @$el.addClass 'showing-code'

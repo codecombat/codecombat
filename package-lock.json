@@ -16689,6 +16689,22 @@
         "moment": "^2.11.1"
       }
     },
+    "vue-pug-loader": {
+      "version": "1.1.26",
+      "resolved": "https://registry.npmjs.org/vue-pug-loader/-/vue-pug-loader-1.1.26.tgz",
+      "integrity": "sha512-ocOHjrM8YGoUAaSGYbWmB4WnAMttKdB89qTHmEwsstpT/Ts9C307hwHgUNFjO64Y4lv5FsoxPXMzwFvIAJVACw==",
+      "dev": true,
+      "requires": {
+        "loader-utils": "^1.1.0",
+        "vue-pug-plugin": "^1.0.15"
+      }
+    },
+    "vue-pug-plugin": {
+      "version": "1.0.16",
+      "resolved": "https://registry.npmjs.org/vue-pug-plugin/-/vue-pug-plugin-1.0.16.tgz",
+      "integrity": "sha512-HKzOY5DPgMJeHPkddbg+lSYF0UTQaNMaKVPW+ca3jnhCz+Jymymx7IwoqgvrbDc/k0S6ygvvh1R6h9Rs8qTBvQ==",
+      "dev": true
+    },
     "vue-resize": {
       "version": "0.4.5",
       "resolved": "https://registry.npmjs.org/vue-resize/-/vue-resize-0.4.5.tgz",

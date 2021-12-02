@@ -1,6 +1,7 @@
 CocoModel = require './CocoModel'
 api = require('core/api')
 LevelConstants = require 'lib/LevelConstants'
+{teamSpells} = require 'core/utils'
 
 module.exports = class LevelSession extends CocoModel
   @className: 'LevelSession'
@@ -30,7 +31,7 @@ module.exports = class LevelSession extends CocoModel
     return false unless c1 = @get('code')
     return false unless team = @get('team')
     return true unless c2 = @get('submittedCode')
-    thangSpellArr = (s.split('/') for s in @get('teamSpells')[team])
+    thangSpellArr = (s.split('/') for s in teamSpells[team])
     for item in thangSpellArr
       thang = item[0]
       spell = item[1]

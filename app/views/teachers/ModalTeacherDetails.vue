@@ -1,13 +1,12 @@
 <script>
-import Modal from "../../components/common/Modal";
-import {mapActions, mapGetters} from "vuex";
-import SecondaryButton from "../../components/common/SecondaryButton";
-import Dropdown from "../../components/common/Dropdown";
+import Modal from "../../components/common/Modal"
+import {mapActions, mapGetters} from "vuex"
+import SecondaryButton from "../../components/common/SecondaryButton"
+import Dropdown from "../../components/common/Dropdown"
 const NcesSearchInput = require("../../views/core/CreateAccountModal/teacher/NcesSearchInput")
 import { SCHOOL_NCES_KEYS } from "../../lib/trialRequestUtils"
-import storage from '../../core/storage'
 
-const countryList = require('country-list')();
+const countryList = require('country-list')()
 const UsaStates = require('usa-states').UsaStates
 
 export default Vue.extend({
@@ -36,7 +35,7 @@ export default Vue.extend({
       country: this.initialCountry,
       ncesData: null,
       hideModal: false
-    };
+    }
   },
   computed: {
     showUsStatesDropDown() {
@@ -76,7 +75,7 @@ export default Vue.extend({
       fetchedTrialRequest: 'trialRequest/properties'
     }),
     onClose() {
-      this.$emit('close');
+      this.$emit('close')
     },
     async submitDetails(_e) {
       const updates = {
@@ -88,18 +87,18 @@ export default Vue.extend({
         ...this.ncesData
       }
       try {
-        await this.updateTrialRequest(updates);
+        await this.updateTrialRequest(updates)
       } catch (err) {
-        console.error('Error in updating account details - TeacherDetails', err);
+        console.error('Error in updating account details - TeacherDetails', err)
       }
-      this.$emit('close');
+      this.$emit('close')
       this.hideModal = true
     },
     updateState(e) {
-      this.state = e.target.value;
+      this.state = e.target.value
     },
     updateCountry(e) {
-      this.country = e.target.value;
+      this.country = e.target.value
     },
     onNcesSchoolChoose(displayKey, choice) {
       const data = {}

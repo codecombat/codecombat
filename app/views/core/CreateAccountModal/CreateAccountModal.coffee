@@ -84,6 +84,7 @@ module.exports = class CreateAccountModal extends ModalView
         email: options.email ? ''
       }
       subModalContinue: options.subModalContinue
+      accountRequiredMessage: options.accountRequiredMessage
       wantInSchool: false
     }
 
@@ -192,7 +193,7 @@ module.exports = class CreateAccountModal extends ModalView
     @once 'hidden', ->
       if @signupState.get('accountCreated') and not application.testing
         # ensure logged in state propagates through the entire app
-        if window.nextURL?.startsWith('/league')
+        if window.nextURL
           window.location.href = window.nextURL
           return
 
@@ -205,6 +206,7 @@ module.exports = class CreateAccountModal extends ModalView
     store.registerModule('modal', TeacherSignupStoreModule)
 
   afterRender: ->
+    super()
     target = @$el.find('#teacher-signup-component')
     return unless target[0]
     if @teacherSignupComponent

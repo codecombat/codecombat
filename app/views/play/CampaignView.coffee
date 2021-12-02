@@ -44,6 +44,7 @@ require('vendor/styles/jquery-ui-1.11.1.custom.css')
 HoCModal = require 'views/special_event/HoC2018InterstitialModal.coffee'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
 globalVar = require 'core/globalVar'
+paymentUtils = require 'app/lib/paymentUtils'
 
 require 'lib/game-libraries'
 
@@ -152,6 +153,7 @@ module.exports = class CampaignView extends RootView
       pixelCode = switch @terrain
         when 'game-dev-hoc' then 'code_combat_gamedev'
         when 'game-dev-hoc-2' then 'code_combat_build_arcade'
+        when 'ai-league-hoc' then 'cc_ai'
         else 'code_combat'
       $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
     else if me.isTeacher() and not utils.getQueryVariable('course-instance') and
@@ -298,8 +300,12 @@ module.exports = class CampaignView extends RootView
         clearTimeout(@playMusicTimeout)
         setTimeout(=>
             @openModalView new HoCModal({
+              activity: if @terrain is "hoc-2018" then "teacher-gd" else "ai-league"
               showVideo: @terrain is "hoc-2018",
-              onDestroy: delayMusicStart,
+              onDestroy: =>
+                return if @destroyed
+                delayMusicStart()
+                @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
             })
         , 0)
 
@@ -426,7 +432,7 @@ module.exports = class CampaignView extends RootView
 
     @buildLevelScoreMap() unless @editorMode
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
-    if @campaign?.get('type') is 'hoc' or (me.isStudent() and not @courseInstance and not me.get('courseInstances')?.length and @campaign?.get('slug') is 'intro')
+    if @campaign?.get('type') is 'hoc' or (me.isStudent() and not @courseInstance and @campaign?.get('slug') is 'intro')
       application.setHocCampaign @campaign.get 'slug'
     else
       application.setHocCampaign ''
@@ -439,7 +445,7 @@ module.exports = class CampaignView extends RootView
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) if @terrain in ['forest', 'desert']
     if @campaign and @isRTL utils.i18n(@campaign.attributes, 'fullName')
       @$('.campaign-name').attr('dir', 'rtl')
-    if not me.get('hourOfCode') and @terrain
+    if not me.isInHourOfCode() and @terrain
       if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents', 'true-names'] and
       me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and
       not storage.load('sent-parent-email') and not (me.isPremium() or me.isStudent() or me.isTeacher())
@@ -685,7 +691,7 @@ module.exports = class CampaignView extends RootView
     _.delay (-> $('<img/>')[0].src = img for img in preloadImages), 2000
     if utils.getQueryVariable('signup') and not me.get('email')
       return @promptForSignup()
-    if not me.isPremium() and (@isPremiumCampaign() or (@options.worldComplete and not features.noAuth and not me.get('hourOfCode')))
+    if not me.isPremium() and (@isPremiumCampaign() or (@options.worldComplete and not features.noAuth and not me.isInHourOfCode()))
       if not me.get('email')
         return @promptForSignup()
       campaignSlug = window.location.pathname.split('/')[2]
@@ -699,6 +705,7 @@ module.exports = class CampaignView extends RootView
 
   promptForSubscription: (slug, label) ->
     return console.log('Game dev HoC does not encourage subscribing.') if @campaign?.get('type') is 'hoc'
+    return console.log("Students shouldn't be prompted to subscribe") if me.isStudent()
     @endHighlight()
     @openModalView new SubscribeModal()
     # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
@@ -717,7 +724,7 @@ module.exports = class CampaignView extends RootView
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel(level.original)
       level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
-      level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
+      level.locked = true if level.requiresSubscription and @requiresSubscription and me.isInHourOfCode()
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if @editorMode
       level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
@@ -728,7 +735,7 @@ module.exports = class CampaignView extends RootView
       level.color = 'rgb(255, 80, 60)'
       unless @isClassroom() or @campaign?.get('type') is 'hoc'
         level.color = 'rgb(80, 130, 200)' if level.requiresSubscription
-        level.color = 'rgb(200, 80, 200)' if level.adventurer
+        #level.color = 'rgb(200, 80, 200)' if level.adventurer  # Disable adventurer stuff for now
 
       level.color = 'rgb(193, 193, 193)' if level.locked
       level.unlocksHero = _.find(level.rewards, 'hero')?.hero
@@ -824,7 +831,8 @@ module.exports = class CampaignView extends RootView
         continue if @campaign.levelIsAssessment(level) and @campaign.levelIsPractice(nextLevel)
 
         # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
-        if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
+        # 2021-09-21: disabling for now, guessing it doesn't work well and makes experiments harder
+        if false and nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
           unless (timesPointedOut = storage.load("pointed-out-#{nextLevel.slug}") or 0) > 3
             # We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
             dontPointTo = _.without dontPointTo, nextLevel.slug
@@ -833,7 +841,7 @@ module.exports = class CampaignView extends RootView
         # Should we point this level out?
         if not nextLevel.disabled and @levelStatusMap[nextLevel.slug] isnt 'complete' and nextLevel.slug not in dontPointTo and
         not nextLevel.replayable and (
-          me.isPremium() or not nextLevel.requiresSubscription or nextLevel.adventurer or
+          me.isPremium() or not nextLevel.requiresSubscription or #nextLevel.adventurer or  # Disable adventurer stuff for now
           _.any(subscriptionPrompts, (prompt) => nextLevel.slug is prompt.slug and not @levelStatusMap[prompt.unless])
         )
           nextLevel.next = true
@@ -925,7 +933,7 @@ module.exports = class CampaignView extends RootView
     return if 0.2 < fraction < 0.8
     direction = if fraction < 0.5 then 1 else -1
     magnitude = 0.2 * bodyWidth * (if direction is -1 then fraction - 0.8 else 0.2 - fraction) / 0.2
-    portalsWidth = 2536  # TODO: if we add campaigns or change margins, this will get out of date...
+    portalsWidth = 2853  # TODO: if we add campaigns or change margins, this will get out of date...
     scrollTo = $portals.offset().left + direction * magnitude
     scrollTo = Math.max bodyWidth - portalsWidth, scrollTo
     scrollTo = Math.min 0, scrollTo
@@ -998,11 +1006,20 @@ module.exports = class CampaignView extends RootView
     levelOriginal = levelElement.data('level-original')
     level = _.find _.values(@getLevels()), slug: levelSlug
 
-    freeAccessLevels =  ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'cell-commentary', 'kithgard-librarian', 'the-prisoner', 'fire-dancing', 'haunted-kithmaze', 'signs-and-portents', 'true-names']
-    requiresSubscription = level.requiresSubscription or (me.isOnPremiumServer() and not (level.slug in freeAccessLevels))
+    defaultAccess = if me.get('hourOfCode') or @campaign?.get('type') is 'hoc' or @campaign?.get('slug') is 'intro' then 'long' else 'short'
+    if new Date(me.get('dateCreated')) < new Date('2021-09-21')
+      defaultAccess = 'all'
+    access = me.getExperimentValue 'home-content', defaultAccess
+    freeAccessLevels = (fal.slug for fal in utils.freeAccessLevels when _.any [
+      fal.access is 'short'
+      fal.access is 'medium' and access in ['medium', 'long', 'extended']
+      fal.access is 'long' and access in ['long', 'extended']
+      fal.access is 'extended' and access is 'extended'
+    ])
+    requiresSubscription = level.requiresSubscription or access isnt 'all' and level.slug not in freeAccessLevels
     canPlayAnyway = _.any([
       not @requiresSubscription
-      level.adventurer
+      #level.adventurer  # Disable adventurer stuff for now
       @levelStatusMap[level.slug]
       @campaign.get('type') is 'hoc'
     ])
@@ -1053,7 +1070,7 @@ module.exports = class CampaignView extends RootView
     levelElement = $(e.target).parents('.level-info-container')
     levelSlug = levelElement.data('level-slug')
     level = _.find _.values(@getLevels()), slug: levelSlug
-    if level.type in ['hero-ladder', 'course-ladder']  # Would use isType, but it's not a Level model
+    if level.type in ['ladder', 'hero-ladder', 'course-ladder']  # Would use isType, but it's not a Level model
       Backbone.Mediator.publish 'router:navigate', route: "/play/ladder/#{levelSlug}", viewClass: 'views/ladder/LadderView', viewArgs: [{supermodel: @supermodel}, levelSlug]
     else
       @showLeaderboard levelSlug
@@ -1352,7 +1369,7 @@ module.exports = class CampaignView extends RootView
     return false if @payPalToken
     return false if me.isStudent()
     return false if application.getHocCampaign()
-    return false if me.get('hourOfCode')
+    return false if me.isInHourOfCode()
     latest = window.serverConfig.latestAnnouncement
     myLatest = me.get('lastAnnouncementSeen')
     return unless typeof latest is 'number'
@@ -1440,7 +1457,7 @@ module.exports = class CampaignView extends RootView
     isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
     if what is 'classroom-level-play-button'
-      isValidStudent = (me.isStudent() and me.get('courseInstances')?.length)
+      isValidStudent = me.isStudent() and (@courseInstance or (me.get('courseInstances')?.length and @campaign.get('slug') isnt 'intro'))
       isValidTeacher = me.isTeacher()
       return (isValidStudent or isValidTeacher) and not application.getHocCampaign()
 
@@ -1472,7 +1489,7 @@ module.exports = class CampaignView extends RootView
       return not (isIOS or me.freeOnly() or isStudentOrTeacher or !me.canBuyGems() or (application.getHocCampaign() and me.isAnonymous()))
 
     if what in ['premium']
-      return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()))
+      return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()) or paymentUtils.hasTemporaryPremiumAccess())
 
     if what is 'anonymous-classroom-signup'
       return me.isAnonymous() and me.level() < 8 and me.promptForClassroomSignup() and not @editorMode

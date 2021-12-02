@@ -71,30 +71,39 @@ module.exports = class LadderView extends RootView
 
     if @level.loaded then onLoaded() else @level.once('sync', onLoaded)
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model
+    @listenToOnce @sessions, 'sync', @onSessionsLoaded
     @winners = require('./tournament_results')[@levelID]
 
     if tournamentEndDate = {greed: 1402444800000, 'criss-cross': 1410912000000, 'zero-sum': 1428364800000, 'ace-of-coders': 1444867200000, 'battle-of-red-cliffs': 1598918400000}[@levelID]
-      @tournamentTimeLeft = moment(new Date(tournamentEndDate)).fromNow()
+      @tournamentTimeLeftString = moment(new Date(tournamentEndDate)).fromNow()
     if tournamentStartDate = {'zero-sum': 1427472000000, 'ace-of-coders': 1442417400000, 'battle-of-red-cliffs': 1596295800000}[@levelID]
-      @tournamentTimeElapsed = moment(new Date(tournamentStartDate)).fromNow()
+      @tournamentTimeElapsedString = moment(new Date(tournamentStartDate)).fromNow()
 
     @calcTimeOffset()
     @mandate = @supermodel.loadModel(new Mandate()).model
 
     @tournamentId = utils.getQueryVariable 'tournament'
+    # TODO: query for matching tournaments for the level and show tournaments list to click into results
     @loadLeague()
     @urls = require('core/urls')
 
     if @tournamentId
       @checkTournamentCloseInterval = setInterval @checkTournamentClose.bind(@), 3000
+      @checkTournamentClose()
     if features.china
       @checkTournamentEndInterval = setInterval @checkTournamentEnd.bind(@), 3000
+      @checkTournamentEnd()
 
   calcTimeOffset: ->
     $.ajax
       type: 'HEAD'
       success: (result, status, xhr) =>
         @timeOffset = new Date(xhr.getResponseHeader("Date")).getTime() - Date.now()
+
+  onSessionsLoaded: (e) ->
+    for session in @sessions.models
+      if _.isEmpty(session.get('code'))
+        session.set 'code', session.get('submittedCode')
 
   checkTournamentEnd: ->
     return unless @timeOffset
@@ -155,22 +164,53 @@ module.exports = class LadderView extends RootView
       else
         @listenToOnce @league, 'sync', @onCourseInstanceLoaded
 
-  checkTournamentClose: () ->
+  checkTournamentClose: ->
     return unless @tournamentId?
     $.ajax
       url: "/db/tournament/#{@tournamentId}/state"
       success: (res) =>
-        if res.state is 'starting'
-          @tournamentEnd = false
-          @tournamentState = 'starting'
-        else
+        @tournament = new Tournament res
+        if @tournament.get 'endDate'
+          clearInterval @tournamentTimeRefreshInterval if @tournamentTimeRefreshInterval
+          @tournamentTimeRefreshInterval = setInterval @refreshTournamentTime.bind(@), 1000
+          @refreshTournamentTime()
+
+        if @tournament.get('state') is 'initializing'
           @tournamentEnd = true
-          if res.state is 'ended' and @tournamentState != 'ended'
-            clearInterval @checkTournamentCloseInterval
-            @tournamentState = 'ended'
-            @render()
+          newInterval = if @tournamentTimeElapsed < -10 * 1000 then Math.min(10 * 60 * 1000, -@tournamentTimeElapsed / 2) else 1000
+        else if @tournament.get('state') is 'starting'
+          @tournamentEnd = false
+          newInterval = if @tournamentTimeLeft > 10 * 1000 then Math.min(10 * 60 * 1000, @tournamentTimeLeft / 2) else 1000
+        else if @tournament.get('state') is 'ranking'
+          @tournamentEnd = true
+          newInterval = if @tournamentResultsTimeLeft > 10 * 1000 then Math.min(10 * 60 * 1000, @tournamentResultsTimeLeft / 2) else 1000
+        else if @tournament.get('state') is 'ended'
+          @tournamentEnd = true
 
+        if @tournamentState isnt @tournament.get('state')
+          @tournamentState = @tournament.get('state')
+          console.log 'rerendering whole thing'
+          @render()
 
+        clearInterval @checkTournamentCloseInterval if @checkTournamentCloseInterval
+        @checkTournamentCloseInterval = setInterval @checkTournamentClose.bind(@), newInterval if newInterval
+
+  refreshTournamentTime: ->
+    return unless @tournament?.get('endDate')
+    resultsDate = @tournament.get('resultsDate') or @tournament.get('resultsDate')
+    currentTime = Date.now() + (@timeOffset ? 0)
+    @tournamentTimeElapsed = currentTime - new Date @tournament.get('startDate')
+    @tournamentTimeLeft = new Date(@tournament.get('endDate')) - currentTime
+    @tournamentResultsTimeLeft = new Date(resultsDate) - currentTime
+    tournamentStartDate = new Date(currentTime - @tournamentTimeElapsed)
+    tournamentEndDate = new Date(currentTime + @tournamentTimeLeft)
+    tournamentResultsDate = new Date(currentTime + @tournamentResultsTimeLeft)
+    @tournamentTimeElapsedString = moment(tournamentStartDate).fromNow()
+    @tournamentTimeLeftString = moment(tournamentEndDate).fromNow()
+    @tournamentResultsTimeLeftString = moment(tournamentResultsDate).fromNow()
+    @$('#tournament-time-elapsed').text @tournamentTimeElapsedString
+    @$('#tournament-time-left').text @tournamentTimeLeftString
+    @$('#tournament-results-time-left').text @tournamentResultsTimeLeftString
 
   onCourseInstanceLoaded: co.wrap (@courseInstance) ->
     return if @destroyed
@@ -205,7 +245,7 @@ module.exports = class LadderView extends RootView
       else 300                                     # Refresh super slowly if anonymous during HoC scaling.
     @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), @refreshDelay * 1000)
     hash = document.location.hash[1..] if document.location.hash
-    if hash and not (hash in ['my-matches', 'simulate', 'ladder', 'prizes', 'rules', 'winners'])
+    if (hash in ['humans', 'ogres']) and not window.currentModal
       @showPlayModal(hash) if @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
@@ -245,12 +285,12 @@ module.exports = class LadderView extends RootView
         # TODO: make this configurable
         options =
           sessionLimit: 50000
-          matchLimit: 1e6
+          matchLimit: 2e6
           matchmakingType: 'king-of-the-hill'
-          minPlayerMatches: 20
+          minPlayerMatches: 40
           topN: 10
       else
-        options = sessionLimit: 500
+        options = {}
       $.ajax
         url: "/db/tournament/#{@tournamentId}/end"
         data: options
@@ -301,12 +341,17 @@ module.exports = class LadderView extends RootView
   isAILeagueArena: -> _.find utils.arenas, slug: @levelID
 
   teamOffers: [
+    {slug: 'ned', clanId: '6137aab4e0bae40025bed266', name: 'Team Ned', clanSlug: 'team-ned'}
     {slug: 'hyperx', clanId: '60a4378875b540004c78f121', name: 'Team HyperX', clanSlug: 'hyperx'}
     {slug: 'derbezt', clanId: '601351bb4b79b4013e198fbe', name: 'Team DerBezt', clanSlug: 'team-derbezt'}
   ]
 
   destroy: ->
     clearInterval @refreshInterval
+    if @tournamentTimeRefreshInterval
+      clearInterval @tournamentTimeRefreshInterval
     if @checkTournamentEndInterval
       clearInterval @checkTournamentEndInterval
+    if @checkTournamentCloseInterval
+      clearInterval @checkTournamentCloseInterval
     super()

@@ -196,10 +196,10 @@ petThangIDs = [
 ]
 
 premiumContent =
-  premiumHeroesCount: '12'
-  totalHeroesCount: '16'
-  premiumLevelsCount: '330'
-  freeLevelsCount: '100'
+  premiumHeroesCount: '15'
+  totalHeroesCount: '19'
+  premiumLevelsCount: '531'
+  freeLevelsCount: '5'
 
 normalizeFunc = (func_thing, object) ->
   # func could be a string to a function in this class
@@ -748,7 +748,8 @@ yearsSinceMonth = (birth, now) ->
     return undefined unless /^\d{4}-\d{1,2}(-\d{1,2})?$/.test birth
     if birth.split('-').length is 2
       birth = birth + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
-    birth = new Date(birth)
+    dates = birth.split('-')
+    birth = new Date(+dates[0], +dates[1]-1, +dates[2])
   return undefined unless _.isDate birth
 
   birthYear = birth.getFullYear()
@@ -796,7 +797,10 @@ seasons = [
 currentSeason = () ->
   now = new Date()
   year = now.getFullYear()
-  return seasons.find((season) -> now <= new Date("#{year}-#{season.end}"))
+  return seasons.find((season) ->
+    dates = season.end.split('-')
+    now < new Date(year, +dates[0]-1, dates[1]).setHours(24, 0, 0, 0)
+  )
 
 ageToBracket = (age) ->
 # Convert years to an age bracket
@@ -838,12 +842,12 @@ isCodeCombat = true
 isOzaria = false
 
 arenas = [
-  {slug: 'blazing-battle'   , type: 'regular',      start: new Date(2021, 0,  1), end: new Date(2021, 4, 1), levelOriginal: '5fca06dc8b4da8002889dbf1', image: '/file/db/level/5fca06dc8b4da8002889dbf1/Blazing Battle Final cut.jpg'}
-  {slug: 'infinite-inferno' , type: 'championship', start: new Date(2021, 3,  1), end: new Date(2021, 4, 1), levelOriginal: '602cdc204ef0480075fbd954', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
-  {slug: 'mages-might'      , type: 'regular',      start: new Date(2021, 4,  1), end: new Date(2021, 8, 1), levelOriginal: '6066f956ddfd6f003d1ed6bb', image: '/file/db/level/6066f956ddfd6f003d1ed6bb/Mages\'%20Might%20Banner.jpg'}
-  {slug: 'sorcerers'        , type: 'championship', start: new Date(2021, 7,  1), end: new Date(2021, 8, 1), levelOriginal: '609a6ad2e1eb34001a84e7af'}
-  {slug: 'giants-gate'      , type: 'regular',      start: new Date(2021, 8,  1), end: new Date(2022, 0, 1)}
-  {slug: 'colossus'         , type: 'championship', start: new Date(2021, 11, 1), end: new Date(2022, 0, 1)}
+  {slug: 'blazing-battle'   , type: 'regular',      start: new Date("2021-01-01T00:00:00.000+07:00"), end: new Date("2021-05-01T00:00:00.000+08:00"), results: new Date("2021-05-01T00:00:00.000+08:00"), levelOriginal: '5fca06dc8b4da8002889dbf1', tournament: '608cea0f8f2b971478556ac6', image: '/file/db/level/5fca06dc8b4da8002889dbf1/Blazing Battle Final cut.jpg'}
+  {slug: 'infinite-inferno' , type: 'championship', start: new Date("2021-04-01T00:00:00.000+08:00"), end: new Date("2021-05-01T00:00:00.000+08:00"), results: new Date("2021-05-01T00:00:00.000+08:00"), levelOriginal: '602cdc204ef0480075fbd954', tournament: '608cd3f814fa0bf9f1c1f928', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
+  {slug: 'mages-might'      , type: 'regular',      start: new Date("2021-05-01T00:00:00.000+08:00"), end: new Date("2021-09-01T00:00:00.000+08:00"), results: new Date("2021-09-08T09:00:00.000+08:00"), levelOriginal: '6066f956ddfd6f003d1ed6bb', tournament: '612d554b9abe2e0019aeffb9', image: '/file/db/level/6066f956ddfd6f003d1ed6bb/Mages\'%20Might%20Banner.jpg'}
+  {slug: 'sorcerers'        , type: 'championship', start: new Date("2021-08-01T00:00:00.000+08:00"), end: new Date("2021-09-01T00:00:00.000+08:00"), results: new Date("2021-09-08T09:00:00.000+08:00"), levelOriginal: '609a6ad2e1eb34001a84e7af', tournament: '612d556f9abe2e0019af000b', image: "/file/db/level/609a6ad2e1eb34001a84e7af/Sorcerer's-Blitz-01.jpg"}
+  {slug: 'giants-gate'      , type: 'regular',      start: new Date("2021-09-01T00:00:00.000+08:00"), end: new Date("2021-12-15T00:00:00.000+07:00"), results: new Date("2021-12-21T09:00:00.000+07:00"), levelOriginal: '60e69b24bed8ae001ac6ce3e', tournament: '6136a86e0c0ecaf34e431e81', image: "/file/db/level/60e69b24bed8ae001ac6ce3e/Giant’s-Gate-Final.jpg"}
+  {slug: 'colossus'         , type: 'championship', start: new Date("2021-11-19T00:00:00.000+07:00"), end: new Date("2021-12-15T00:00:00.000+07:00"), results: new Date("2021-12-21T09:00:00.000+07:00"), levelOriginal: '615ffaf2b20b4900280e0070', tournament: '61983f74fd75db5e28ac127a', image: "/file/db/level/615ffaf2b20b4900280e0070/Colossus-Clash-02.jpg"}
 ]
 
 activeArenas = ->
@@ -852,6 +856,59 @@ activeArenas = ->
 
 activeAndPastArenas = -> (_.clone(a) for a in arenas when a.start <= new Date())
 
+teamSpells = humans: ['hero-placeholder/plan'], ogres: ['hero-placeholder-1/plan']
+
+clanHeroes = [
+  {clanId: '601351bb4b79b4013e198fbe', clanSlug: 'team-derbezt', thangTypeOriginal: '6037ed81ad0ac000f5e9f0b5', thangTypeSlug: 'armando-hoyos'}
+  {clanId: '6137aab4e0bae40025bed266', clanSlug: 'team-ned', thangTypeOriginal: '6136fe7e9f1147002c1316b4', thangTypeSlug: 'ned-fulmer'}
+]
+
+freeAccessLevels = [
+  { access: 'short', slug: 'dungeons-of-kithgard' }
+  { access: 'short', slug: 'gems-in-the-deep' }
+  { access: 'short', slug: 'shadow-guard' }
+  { access: 'short', slug: 'signs-and-portents' }  # Retroactively unlocks later on, doesn't really impact much
+  { access: 'short', slug: 'enemy-mine' }
+  { access: 'short', slug: 'true-names' }
+  { access: 'medium', slug: 'cell-commentary' }
+  { access: 'medium', slug: 'the-raised-sword' }
+  { access: 'medium', slug: 'kithgard-librarian' }
+  { access: 'medium', slug: 'the-prisoner' }
+  { access: 'medium', slug: 'fire-dancing' }
+  { access: 'medium', slug: 'haunted-kithmaze' }
+  { access: 'medium', slug: 'descending-further' }
+  { access: 'medium', slug: 'dread-door' }
+  { access: 'long', slug: 'hack-and-dash' }
+  { access: 'long', slug: 'cupboards-of-kithgard' }
+  { access: 'long', slug: 'known-enemy' }
+  { access: 'long', slug: 'master-of-names' }
+  { access: 'long', slug: 'the-final-kithmaze' }
+  { access: 'long', slug: 'kithgard-gates' }
+  { access: 'extended', slug: 'defense-of-plainswood' }
+  { access: 'extended', slug: 'winding-trail' }
+  { access: 'china-classroom', slug: 'forgetful-gemsmith' }
+  { access: 'china-classroom', slug: 'kounter-kithwise' }
+  { access: 'china-classroom', slug: 'crawlways-of-kithgard' }
+  { access: 'china-classroom', slug: 'illusory-interruption' }
+  { access: 'china-classroom', slug: 'careful-steps' }
+  { access: 'china-classroom', slug: 'long-steps' }
+  { access: 'china-classroom', slug: 'favorable-odds' }
+]
+
+orgKindString = (kind, org=null) ->
+  return 'State' if kind is 'administrative-region' and org?.country is 'US' and /^en/.test me.get('preferredLanguage')
+  key = {
+    'administrative-region': 'teachers_quote.state'
+    'school-district': 'teachers_quote.district_label'
+    'school-admin': 'outcomes.school_admin'
+    'school-network': 'outcomes.school_network'
+    'school-subnetwork': 'outcomes.school_subnetwork'
+    school: 'teachers_quote.organization_label'
+    teacher: 'courses.teacher'
+    classroom: 'outcomes.classroom'
+    student: 'courses.student'
+  }[kind]
+  return $.i18n.t(key)
 
 module.exports = {
   activeAndPastArenas
@@ -865,6 +922,7 @@ module.exports = {
   bracketToAge
   campaignIDs
   capitalLanguages
+  clanHeroes
   clone
   combineAncestralObject
   countries
@@ -876,6 +934,7 @@ module.exports = {
   CSCourseIDs
   createLevelNumberMap
   extractPlayerCodeTag
+  freeAccessLevels
   findNextAssessmentForLevel
   findNextLevel
   formatDollarValue
@@ -908,6 +967,7 @@ module.exports = {
   normalizeFunc
   objectIdToDate
   orderedCourseIDs
+  orgKindString
   pathToUrl
   petThangIDs
   premiumContent
@@ -916,6 +976,7 @@ module.exports = {
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
+  teamSpells
   titleize
   usStateCodes
   userAgent

@@ -58,6 +58,7 @@ module.exports = class LevelComponentEditView extends CocoView
     schema.default = _.pick schema.default, (value, key) => key in @editableSettings
 
     treemaOptions =
+      filePath: @options.filePath
       supermodel: @supermodel
       schema: schema
       data: data
@@ -84,6 +85,7 @@ module.exports = class LevelComponentEditView extends CocoView
         orderedProperties[prop] = configSchema.properties[prop]
       configSchema.properties = orderedProperties
     treemaOptions =
+      filePath: @options.filePath
       supermodel: @supermodel
       schema: LevelComponent.schema.properties.configSchema
       data: configSchema
