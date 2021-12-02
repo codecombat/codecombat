@@ -16,6 +16,7 @@
       <payment-student-licenses-view
         :price-data="paymentGroup.priceData"
         :payment-group-id="paymentGroup._id"
+        :payment-group-metadata="paymentGroup.metadata"
       />
     </template>
   </div>
