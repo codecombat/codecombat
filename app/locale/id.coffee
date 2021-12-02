@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teachers_love_codecombat_subblurb: "Bekerja sama dengan McREL International, pemimpin dalam panduan berbasis penelitian dan evaluasi teknologi pendidikan."
     top_banner_blurb: "Para orang tua, berikan anak Anda hadiah coding dan pengajaran yang dipersonalisasi dengan pengajar langsung kami!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     try_the_game: "Coba permainan"
     classroom_edition: "Edisi Ruang Kelas:"
     learn_to_code: "Belajar membuat kode:"
@@ -250,6 +251,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    new: "New!"
 #    admin: "Admin"
 #    api_dashboard: "API Dashboard"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "Tutup"
@@ -289,7 +291,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
 #    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
 #    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details!"
+#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER."
 #    recommended_systems: "Is there a recommended browser and operating system?"
 #    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
 #    other_questions: "If you have any other questions, please __contact__."
@@ -428,6 +430,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     create_individual_header: "Membuat Akun Individual"
     email_announcements: "Menerima berita mengenai level CodeCombat dan fitur yang baru!"
     sign_in_to_continue: "Masuk atau buat akun baru untuk lanjut"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Selalu berikan informasi saya materi, kurikulum, dan kursus!"
     creating: "Membuat Akun..."
     sign_up: "Masuk"
@@ -629,6 +632,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     email_us: "Kirimkan email kepada kami"
     sales: "Penjualan"
     support: "Dukungan"
+#    here: "here"
 
   units:
     second: "detik"
@@ -834,6 +838,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     vega_character: "Karakter Vega"
     click_to_continue: "Klik untuk Melanjutkan"
     fill_in_solution: "Isi solusi"
+#    play_as_humans: "Play As Red"
+#    play_as_ogres: "Play As Blue"
 
   apis:
     methods: "Metode"
@@ -1226,10 +1232,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     om_title: "Manajer Operasi"
     mo_title: "Manajer, Operasi"
     smo_title: "Manajer Senior, Operasi"
+#    do_title: "Director of Operations"
     scd_title: "Pengembang Kurikulum Senior"
     lcd_title: "Pimpinan Pengembang Kurikulum"
+#    de_title: "Director of Education"
     vpm_title: "Wakil Presiden, Pemasaran"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Lebih dari 500 kontributor telah membantu membangun CodeCombat, dan lebih banyak lagi yang bergabung tiap minggunya!"
     community_description_3: "CodeCombat adalah"
     community_description_link_2: "proyek komunitas"
@@ -1912,6 +1921,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     start_date: "tanggal mulai:"
     end_date: "tanggal berakhir:"
     get_enrollments_blurb: " Kami membantu anda membangun solusi yang memenuhi kebutuhan kelas, sekolah, ataupun wilayah kamu."
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
     how_to_apply_licenses_blurb_1: "Ketika guru menetapkan kursus untuk siswa untuk pertamakali, kami secara otomatis menggunakan lisensi. Gunakan penetapan-masal tarik-turun di ruang kelasmu untuk menetapkan kursus untuk siswa yang terpilih:"
     how_to_apply_licenses_blurb_2: "Dapatkan saya menggunakan lisensi tanpa menetapkan ke sebuah kursus?"
     how_to_apply_licenses_blurb_3: "Ya - pergi ke label Status Lisensi di ruang kelasmu dan klik \"Pakai Lisensi\" ke siswa manapun yang tidak memiliki lisensi aktif."
@@ -2040,7 +2051,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     hoc_programming: "Pemrograman JavaScript/Python"
     hoc_teacher_led: "Pelajaran yang dipimpin oleh Guru"
     hoc_teacher_led_desc1: "Unduh"
-    hoc_teacher_led_link: "Rencana pembelajaran Pengenalan Ilmu Komputer"
+    hoc_teacher_led_link: "Rencana pembelajaran Pengenalan Ilmu Komputer" # {change}
     hoc_teacher_led_desc2: "Untuk mengenalan para siswa untuk konsep pemrograman menggunakan aktivitas luring"
     hoc_group: "Permainan Kelompok"
     hoc_group_desc_1: "Guru dapat menggunakan pelajaran sebagai penghubung dengan kursus Pengenalam Ilmu Komputer kami untuk merekam perkembangan siswa. Lihat"
@@ -2176,6 +2187,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     victory_course_share_suffix: "yang kamu buat."
     copy_url: "Salin URL"
     share_with_teacher_email: "Kirimkan ke gurumu"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Pembuat"
@@ -2427,9 +2441,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     watch_victory: "Perhatikan kemenanganmu"
     defeat_the: "Kalahkan"
     watch_battle: "Tonton pertempurannya"
+#    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", dimulai"
     tournament_ends: "Turnamen berakhir"
     tournament_ended: "Turnamen berakhir"
+#    tournament_results_published: ", results published"
     tournament_rules: "Aturan Turnamen"
     tournament_blurb_criss_cross: "Menangkan tawaran, membangun jalur, mengecoh lawan, raih permata, dan tingkatkan karier Anda di turnamen Criss-Cross kami! Lihat detailnya"
     tournament_blurb_zero_sum: "Bebaskan kreativitas coding Anda dalam taktik mengumpulkan emas dan bertempur dalam pertandingan cermin alpen antara penyihir merah dan penyihir biru. Turnamen dimulai pada hari Jumat, 27 Maret dan akan berlangsung hingga Senin, 6 April pukul 17.00 PDT. Bersainglah untuk bersenang-senang dan mulia! Lihat detailnya "
@@ -2442,6 +2458,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     blue_ai: "CPU Biru"
     wins: "Menang" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Merah" # Ladder page display team name
     ogres: "Biru"
@@ -2822,7 +2840,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     email_settings_url: "setelan email Anda"
     email_description_suffix: "atau melalui tautan di email yang kami kirim, Anda dapat mengubah preferensi dan berhenti berlangganan dengan mudah kapan saja."
     cost_title: "Biaya"
-    cost_description: "CodeCombat gratis dimainkan untuk semua level intinya, dengan langganan $ {{price}} USD / bln untuk akses ke cabang level ekstra dan {{gems}} permata bonus per bulan. Anda dapat membatalkan dengan klik, dan kami menawarkan jaminan uang kembali 100%. "
+    cost_description: "CodeCombat gratis dimainkan untuk semua level intinya, dengan langganan $ {{price}} USD / bln untuk akses ke cabang level ekstra dan {{gems}} permata bonus per bulan. Anda dapat membatalkan dengan klik, dan kami menawarkan jaminan uang kembali 100%. " # {change}
     copyrights_title: "Hak Cipta dan Lisensi"
     contributor_title: "Perjanjian Lisensi Kontributor"
     contributor_description_prefix: "Semua kontribusi, baik di situs dan di repositori GitHub kami, tunduk pada"
@@ -3129,8 +3147,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     back_to_coco: "Kembali ke CodeCombat"
 
   hoc_2018:
-    banner: "Selamat Datang di Hour of Code 2020!"
+    banner: "Selamat Datang di Hour of Code!"
     page_heading: "Siswa Anda akan belajar membuat kode dengan membuat game mereka sendiri!"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
     step_1: "Langkah 1: Tonton Video Ikhtisar"
     step_2: "Langkah 2: Coba Sendiri"
     step_3: "Langkah 3: Unduh Rencana Pelajaran"
@@ -3145,6 +3164,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     activity_label_1: "Kabur dari Dungeon!"
     activity_label_2: "Pemula: Buat Game!"
     activity_label_3: "Lanjutan: Buat Game Arkade!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
     activity_button_1: "Lihat Pelajaran"
     about: "Tentang CodeCombat"
     about_copy: "Program ilmu komputer berbasis permainan dan selaras dengan standar yang mengajarkan Python dan JavaScript yang nyata dan diketik."
@@ -3154,11 +3175,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     point4: "✓ Kursus berbasis proyek"
     point5: "✓ Pelacakan siswa"
     point6: "✓ Rencana pelajaran lengkap"
-    title: "HOUR OF CODE 2020"
+    title: "HOUR OF CODE"
     acronym: "HOC"
 
   hoc_2018_interstitial:
-    welcome: "Selamat datang di CodeCombat's Hour of Code 2020!"
+    welcome: "Selamat datang di CodeCombat's Hour of Code!"
     educator: "Saya seorang pendidik"
     show_resources: "Tunjukkan sumber daya guru!"
     student: "Saya seorang siswa"
@@ -3217,6 +3238,42 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
   admin:
     license_type_full: "Kursus Lengkap"
     license_type_customize: "Sesuaikan Kursus"
+
+#  outcomes:
+#    outcomes_report: "Outcomes Report"
+#    customize_report: "Customize Report"
+#    done_customizing: "Done Customizing"
+#    school_admin: "School Administrator"
+#    school_network: "School Network"
+#    school_subnetwork: "School Subnetwork"
+#    classroom: "Classroom"
+#    view_outcomes_report: "View Outcomes Report"
+#    key_concepts: "Key Concepts"
+#    code_languages: "Code Languages"
+#    using_codecombat: "Using CodeCombat's personalized learning engine..."
+#    wrote: "wrote..."
+#    across_an_estimated: "across an estimated..."
+#    in: "in..."
+#    include: "include "
+#    archived: "Archived"
+#    max: "Max "
+#    multiple: "s"
+#    computer_program: "computer_program"
+#    computer_programs: "computer_programs"
+#    line_of_code: "line of code"
+#    lines_of_code: "lines of code"
+#    coding_hours: "coding hours"
+#    expressed_creativity: "and expressed creativity by building"
+#    report_content_1: "standalone game and web "
+#    project: "project"
+#    projects: "projects"
+#    progress_stats: "Progress stats based on sampling __sampleSize__ of __populationSize__ students."
+#    standards_coverage: "Standards Coverage"
+#    coverage_p1: "The full CodeCombat curriculum covers major programming standards in several widely-adopted frameworks, including those of the International Society for Technology in Education (ISTE), the Computer Science Teacher Association (CSTA), and the K-12 Computer Science Framework."
+#    coverage_p2: "At CodeCombat, we believe that students will be most prepared for both real-world computing jobs and further study of computer science by using real, typed code in full programming languages, so instead of using block-based visual programming languages for beginners, we teach Python and JavaScript – the same languages used widely today by companies ranging from Google to the New York Times."
+#    questions: "Have questions or want more information? We'd be happy to help."
+#    reach_out_manager: "Reach out to your Account Manager __name__ at "
+#    stats_include: "stats include __number__ other __name__"
 
   league:
     student_register_1: "Menjadi Juara AI berikutnya!"
@@ -3278,6 +3335,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     cup: "Piala"
     blitz: "Menggempur"
     clash: "Bentrokan"
+#    season3_announcement_1: "Time to put your coding skills to the test in our season 3 final arena. The Colossus Clash is live and offers a new challenge and a new leaderboard to climb."
+#    season3_announcement_2: "Need more practice? Stick with the Giant's Gate Arena to refine your skills. You have until December 14th to play both arenas. Note: arena balance adjustments may occur until December 6th."
+#    season3_announcement_3: "Great prizes available for top performers in the Colossus Clash:"
 #    season2_announcement_1: "Time to put your coding skills to the test in our season 2 final arena. The Sorcerers Blitz is live and offers a new challenge and a new leaderboard to climb."
 #    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
 #    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
@@ -3313,6 +3373,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
 #    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
 #    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+#    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
   tournament:
     mini_tournaments: "Turname Mini"
@@ -3336,6 +3398,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    great_courses: "Great Courses included for"
 #    studentLicense_successful: "Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students."
 #    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
+#    homeSubscriptions_successful: "Congratulations! Your payment was successful. Your premium access will be available in few minutes."
 #    failed: "Your payment failed, please try again"
 #    session_week_1: "1 session/week"
 #    session_week_2: "2 sessions/week"
@@ -3347,7 +3410,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
 #  form_validation_errors:
 #    required: "Field is required"

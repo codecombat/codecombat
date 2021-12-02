@@ -41,7 +41,7 @@ SetupAccountPanel = Vue.extend
         .then =>
           # Make sure to add conditions if we change this to be used on non-teacher path
           window.tracker?.trackEvent 'CreateAccountModal Teacher SetupAccountPanel Finish Clicked', category: 'Teachers'
-          if window.nextURL?.startsWith('/league')
+          if window.nextURL
             window.location.href = window.nextURL
             return
 

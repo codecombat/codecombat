@@ -8,6 +8,7 @@ storage = require 'core/storage'
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 EducatorSignupOzariaEncouragementModal = require('app/views/teachers/EducatorSignupOzariaEncouragementModal').default
 GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').default
+paymentUtils = require 'app/lib/paymentUtils'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -175,10 +176,10 @@ module.exports = class HomeView extends RootView
         type = 'error'
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
-    else if utils.getQueryVariable('payment-onlineClasses') in ['success', 'failed'] and not @renderedPaymentNoty
-      paymentResult = utils.getQueryVariable('payment-onlineClasses')
+    else if utils.getQueryVariable('payment-homeSubscriptions') in ['success', 'failed'] and not @renderedPaymentNoty
+      paymentResult = utils.getQueryVariable('payment-homeSubscriptions')
       if paymentResult is 'success'
-        title = $.i18n.t 'payments.onlineClasses_successful'
+        title = $.i18n.t 'payments.homeSubscriptions_successful'
         type = 'success'
       else
         title = $.i18n.t 'payments.failed'

@@ -263,7 +263,9 @@ class PersonalSub
               else
                 productName = "basic_subscription"
               product = _.findWhere(@supermodel.getModels(Product), (m) -> m.get('name') is productName)
-              if product
+              if sub.metadata?.type is 'homeSubscriptions'
+                @cost = "$#{(sub.plan.amount / 100).toFixed(2)}"
+              else if product
                 @cost = "$#{(product.get('amount')/100).toFixed(2)}"
               else
                 @cost = "$#{(sub.plan.amount/100).toFixed(2)}"

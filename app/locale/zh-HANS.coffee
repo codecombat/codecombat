@@ -96,6 +96,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teachers_love_codecombat_subblurb: "数据来源于美国中洲国际教育研究院 (McREL International)，美国中洲国际教育研究院是教育技术研究指导和评估的领导者。"
     top_banner_blurb: "家长们，在这个节日里，给孩子送上编程和个性化教学的礼物吧！" # {change}
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     try_the_game: "免费试玩"
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
@@ -248,8 +249,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    codecombat_dashboard: "CodeCombat Dashboard"
 #    professional_development: "Professional Development"
 #    new: "New!"
-#    admin: "Admin"
+    admin: "管理员"
 #    api_dashboard: "API Dashboard"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "关闭"
@@ -289,7 +291,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
 #    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
 #    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details!"
+#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER."
 #    recommended_systems: "Is there a recommended browser and operating system?"
 #    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
 #    other_questions: "If you have any other questions, please __contact__."
@@ -428,6 +430,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     create_individual_header: "创建个人账号"
     email_announcements: "通过邮件接收新关卡和功能通知！"
     sign_in_to_continue: "登录或创建一个账号继续"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "让我们在教学资源和课程上不断更新！"
     creating: "账户创建中……"
     sign_up: "注册"
@@ -629,6 +632,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     email_us: "给我们发邮件"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "秒"
@@ -834,6 +838,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     vega_character: "Vega 字符"
     click_to_continue: "点击继续"
 #    fill_in_solution: "Fill in solution"
+    play_as_humans: "扮演红方"
+    play_as_ogres: "扮演蓝方"
 
   apis:
     methods: "函数"
@@ -1226,10 +1232,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     om_title: "运营经理"
     mo_title: "业务经理"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
     scd_title: "高级课程开发设计师"
     lcd_title: "首席课程开发设计师"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
     community_description_link_2: "开源的社区项目"
@@ -1912,6 +1921,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     start_date: "起始日期："
     end_date: "结束日期："
     get_enrollments_blurb: " 我们会帮您解决您的班级、学校或地区的需求。"
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
     how_to_apply_licenses_blurb_1: "当老师第一次将课程分配给学生时，我们将自动应用许可证。使用教室中的批量分配下拉菜单为所选学生分配课程:"
     how_to_apply_licenses_blurb_2: "我可以只申请许可而不分配课程吗?"
     how_to_apply_licenses_blurb_3: "是的 — 转到课堂中的\"许可状态\"选项卡，然后单击 \"应用许可\"到没有被分配许可的学生。"
@@ -2040,7 +2051,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     hoc_programming: "JavaScript/Python 编程"
     hoc_teacher_led: "教师主导的课程"
     hoc_teacher_led_desc1: "下载我们"
-    hoc_teacher_led_link: "计算机科学概论教案"
+    hoc_teacher_led_link: "计算机科学概论教案" # {change}
     hoc_teacher_led_desc2: "利用线下活动向学生介绍编程概念。"
     hoc_group: "小组游戏"
     hoc_group_desc_1: "教师可以将这些课程与我们的计算机科学入门课程结合起来使用，以跟踪学生的进步。请参阅我们的"
@@ -2176,6 +2187,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_course_share_suffix: "分享给亲朋好友。"
     copy_url: "复制 URL"
     share_with_teacher_email: "发送给你的老师"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "创建者"
@@ -2427,9 +2441,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     watch_victory: "观看您的胜利"
     defeat_the: "击败"
     watch_battle: "观看战役"
+    tournament_starts: "比赛将于__timeElapsed__开始"
     tournament_started: "，锦标赛已开始"
     tournament_ends: "锦标赛结束"
     tournament_ended: "锦标赛已结束"
+#    tournament_results_published: ", results published"
     tournament_rules: "锦标赛规则"
     tournament_blurb_criss_cross: "赢得竞拍，建造道路，智胜对手，夺取宝石，在纵横交错锦标赛中完成生涯晋级！ 现在就查看详情！"
     tournament_blurb_zero_sum: "在红方法师和蓝方法师的山峰对决中, 同时在收集金币和战术上发挥你的代码创造力。竞赛在3月27日开始, 在4月6日(星期一)的下午5点(PDT 太平洋时区)结束。为乐趣和荣耀竞赛吧！ 浏览了解更多"
@@ -2440,8 +2456,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     league: "联盟"
     red_ai: "红方 AI" # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "蓝方 AI"
-    wins: "胜利数" # At end of multiplayer match playback
-    losses: "失败数"
+    wins: "胜利" # At end of multiplayer match playback
+    losses: "失败"
+    win_num: "胜利数"
+    loss_num: "失败数"
     win_rate: "胜率"
     humans: "红方" # Ladder page display team name
     ogres: "蓝方"
@@ -2822,7 +2840,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     email_settings_url: "您的电子邮件设置"
     email_description_suffix: "或者我们发送的邮件中的链接，您可以随时更改您的偏好设置或者随时取消订阅。"
     cost_title: "花费"
-    cost_description: "CodeCombat的所有核心关卡都是免费的，需要${{price}}美元/月的订阅费来访问额外关卡分支并获得{{gems}}宝石奖励每月。你可以通过勾选来取消，我们提供100%退款保证。"
+    cost_description: "CodeCombat的所有核心关卡都是免费的，需要${{price}}美元/月的订阅费来访问额外关卡分支并获得{{gems}}宝石奖励每月。你可以通过勾选来取消，我们提供100%退款保证。" # {change}
     copyrights_title: "版权与许可"
     contributor_title: "贡献者许可协议"
     contributor_description_prefix: "所有对本网站或是GitHub代码库的贡献都依照我们的"
@@ -3131,6 +3149,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   hoc_2018:
     banner: "欢迎来到“2020 编码一小时”！"
     page_heading: "教你的学生如何建立自己的街机游戏!" # {change}
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
     step_1: "步骤 1：观看视频概述"
     step_2: "步骤 2：自己尝试"
     step_3: "步骤 3：下载教案"
@@ -3145,6 +3164,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     activity_label_1: "逃离地下城！"
     activity_label_2: " 初学玩家：建立一个游戏！"
     activity_label_3: "高级玩家：建立一个街机游戏!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
     activity_button_1: "查看课程"
     about: "关于 CodeCombat 游戏" # {change}
     about_copy: "CodeCombat 是一个基于游戏的计算机科学程序，用于教真正的 Python 和 JavaScript。CodeCombat 的标准课程是围绕学生喜欢的游戏进行设计。超过1200万的学生已经学会在 CodeCombat 上编程!" # {change}
@@ -3218,6 +3239,42 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     license_type_full: "全课许可"
     license_type_customize: "可选课程"
 
+  outcomes:
+    outcomes_report: "学习报告"
+    customize_report: "定制报告"
+    done_customizing: "确定"
+    school_admin: "学校管理员"
+    school_network: "学校网络"
+    school_subnetwork: "学校子网络"
+    classroom: "教室"
+    view_outcomes_report: "查看学习报告"
+    key_concepts: "核心概念"
+    code_languages: "编程语言"
+    using_codecombat: "使用扣哒世界的个性化学习引擎..."
+    wrote: "编写了..."
+    across_an_estimated: "超过了大约..."
+    in: "用了..."
+    include: "展示"
+    archived: "归档"
+    max: "最大"
+    multiple: "数"
+    computer_program: "段电脑程序"
+    computer_programs: "段电脑程序"
+    line_of_code: "行代码"
+    lines_of_code: "行代码"
+    coding_hours: "小时编程"
+    expressed_creativity: "展示创造能力"
+    report_content_1: "个独立的游戏和网页开发"
+    project: "项目"
+    projects: "项目"
+    progress_stats: "进度统计数据基于 __populationSize__ 学生抽样中的 __sampleSize__。"
+    standards_coverage: "课程标准"
+    coverage_p1: "完整的扣哒世界课程涵盖国际上广泛采用框架中的主要编程标准，包括国际教育技术学会 (ISTE)、计算机科学教师协会 (CSTA) 和 K-12 计算机科学框架的标准。"
+    coverage_p2: "在扣哒世界，我们相信通过使用真实的代码编程，学生将为市场上计算机领域的工作和计算机科学的进一步学习做好最充分的准备，因此我们不为初学者提供基于模块的可视化编程语言，而是讲授 Python、JavaScript 和 C++ 这些今天被各大互联网公司广泛使用的编程语言。"
+    questions: "想要了解更多信息？ 我们很乐意提供帮助。"
+    reach_out_manager: "联系我们的客服人员 __name__ :"
+    stats_include: "更多数据还包括 __number__ 个其他__name__"
+
   league:
 #    student_register_1: "Become the next AI Champion!"
 #    student_register_2: "Sign up, create your own team, or join other teams to start competing."
@@ -3278,6 +3335,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"
+#    season3_announcement_1: "Time to put your coding skills to the test in our season 3 final arena. The Colossus Clash is live and offers a new challenge and a new leaderboard to climb."
+#    season3_announcement_2: "Need more practice? Stick with the Giant's Gate Arena to refine your skills. You have until December 14th to play both arenas. Note: arena balance adjustments may occur until December 6th."
+#    season3_announcement_3: "Great prizes available for top performers in the Colossus Clash:"
 #    season2_announcement_1: "Time to put your coding skills to the test in our season 2 final arena. The Sorcerers Blitz is live and offers a new challenge and a new leaderboard to climb."
 #    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
 #    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
@@ -3313,6 +3373,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
 #    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
 #    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+#    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
   tournament:
     mini_tournaments: "迷你锦标赛"
@@ -3336,6 +3398,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    great_courses: "Great Courses included for"
 #    studentLicense_successful: "Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students."
 #    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
+#    homeSubscriptions_successful: "Congratulations! Your payment was successful. Your premium access will be available in few minutes."
 #    failed: "Your payment failed, please try again"
 #    session_week_1: "1 session/week"
 #    session_week_2: "2 sessions/week"
@@ -3347,7 +3410,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
 #  form_validation_errors:
 #    required: "Field is required"

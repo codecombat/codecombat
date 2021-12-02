@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid" id="success-view">
+  <div class="container-fluid" id="online-classes-success-view">
     <div class="container">
       <div class="head text-center">
         <h2 class="head-text">Congratulations</h2>
@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style scoped lang="sass">
-#success-view
+#online-classes-success-view
   font-family: "Work Sans",sans-serif
 
   .head
