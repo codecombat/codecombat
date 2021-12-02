@@ -96,6 +96,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     teachers_love_codecombat_subblurb: "En asociación con McREL International, líder en orientación basada en investigación y evaluaciones de tecnología educativa."
     top_banner_blurb: "¡Padres, denle a su hijo el regalo de la codificación y la instrucción personalizada con nuestros maestros en vivo!"
     top_banner_summer_camp: "La inscripción ya está abierta para nuestros campamentos de programación de verano; pregúntenos acerca de nuestras sesiones virtuales de una semana a partir de solo $ 199dls."
+#    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     try_the_game: "Prueba el juego"
     classroom_edition: "Versión para el aula:"
     learn_to_code: "Aprende a programar:"
@@ -250,6 +251,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     new: "Nuevo!"
     admin: "Administrador"
     api_dashboard: "Tablero de API"
+#    funding_resources_guide: "Funding Resources Guide"
 
   modal:
     close: "Cerrar"
@@ -267,7 +269,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     learn_more: "Aprende más sobre ser un Diplomático"
     subscribe_as_diplomat: "Suscríbete como un Diplomático"
 
-#  new_home_faq:
+  new_home_faq:
     what_programming_languages: "¿Qué lenguajes de programación están disponibles?"
     python_and_javascript: "Actualmente admitimos Python y JavaScript."
     why_python: "¿Por qué debería elegir Python?"
@@ -428,6 +430,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     create_individual_header: "Crear Cuenta Individual"
     email_announcements: "Recibe noticias por email" # {change}
     sign_in_to_continue: "Inicia sesión o crea una cuenta para continuar"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Mantenme actualizado sobre nuevos recursos para maestros, currículo y cursos!"
     creating: "Creando Cuenta..."
     sign_up: "Registrarse"
@@ -629,6 +632,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     email_us: "envianos un email"
     sales: "Ventas"
     support: "Soporte"
+#    here: "here"
 
   units:
     second: "segundo"
@@ -834,6 +838,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     vega_character: "Personaje Vega"
     click_to_continue: "Click para Continuar"
     fill_in_solution: "Llene la solución"
+#    play_as_humans: "Play As Red"
+#    play_as_ogres: "Play As Blue"
 
   apis:
     methods: "Métodos"
@@ -1226,10 +1232,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
     community_description_3: "CodeCombat es un"
     community_description_link_2: "proyecto comunitario"
@@ -1912,6 +1921,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    start_date: "start date:"
 #    end_date: "end date:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
+#    see_also_our: "See also our"
+#    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
 #    how_to_apply_licenses_blurb_1: "When a teacher assigns a course to a student for the first time, we’ll automatically apply a license. Use the bulk-assign dropdown in your classroom to assign a course to selected students:"
 #    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a course?"
 #    how_to_apply_licenses_blurb_3: "Yes — go to the License Status tab in your classroom and click \"Apply License\" to any student who does not have an active license."
@@ -2034,13 +2045,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
 #    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
 #    hoc_self_led: "Self-Led Gameplay"
-#    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
+#    hoc_self_led_desc: "Students can play through our Hour of Code CodeCombat tutorials on their own"
 #    hoc_game_dev: "Game Development"
 #    hoc_and: "and"
 #    hoc_programming: "JavaScript/Python Programming"
 #    hoc_teacher_led: "Teacher-Led Lessons"
 #    hoc_teacher_led_desc1: "Download our"
-#    hoc_teacher_led_link: "Introduction to Computer Science lesson plans"
+#    hoc_teacher_led_link: "Hour of Code lesson plans"
 #    hoc_teacher_led_desc2: "to introduce your students to programming concepts using offline activities"
 #    hoc_group: "Group Gameplay"
 #    hoc_group_desc_1: "Teachers can use the lessons in conjunction with our Introduction to Computer Science course to track student progress. See our"
@@ -2176,6 +2187,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    victory_course_share_suffix: "you just created."
 #    copy_url: "Copy URL"
 #    share_with_teacher_email: "Send to your teacher"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Creador"
@@ -2427,9 +2441,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     watch_victory: "Observa tu Victoria"
     defeat_the: "Derrota a"
     watch_battle: "Mirar la batalla"
+#    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", iniciado"
     tournament_ends: "Final de Torneo"
     tournament_ended: "Finalizó el Torneo"
+#    tournament_results_published: ", results published"
     tournament_rules: "Reglas del Torneo"
     tournament_blurb_criss_cross: "Gana apuestas, construye caminos, burla tus oponentes, agarra gemas, y asciende tu perfil en nuestro torneo Cruzado! Echa un vistazo a los detalles"
     tournament_blurb_zero_sum: "Suelta tus habilidades de código en recolección de oro y tácticas de batalla en este partido espejo alpino entre el hechicero rojo y el hechicero azul. El torneo comenzó el Viernes, 27 de Marzo y se extenderá hasta el Lunes, 6 de Abril a las 5PM PDT. Compite por la diversión y la gloria ! Echa un vistazo a los detalles:"
@@ -2442,6 +2458,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     blue_ai: "IA Azul"
     wins: "Gana" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Rojo" # Ladder page display team name
     ogres: "Azul"
@@ -2822,7 +2840,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     email_settings_url: "tus opciones de mail"
     email_description_suffix: "o mediante links en los mails que mandamos, tu puedas cambiar tus preferencias y fácilmente desuscribirte en cualquier momento."
     cost_title: "Costo"
-    cost_description: "CodeCombat es gratuito para todos sus niveles principales, con una suscripción de ${{price}} USD/mes con acceso a niveles adicionales y un bonus de {{gems}} gemas cada mes. Puedes cancelar con un click y ofrecemos una garantía del 100%."
+    cost_description: "CodeCombat es gratuito para todos sus niveles principales, con una suscripción de ${{price}} USD/mes con acceso a niveles adicionales y un bonus de {{gems}} gemas cada mes. Puedes cancelar con un click y ofrecemos una garantía del 100%." # {change}
     copyrights_title: "Derechos y Licencias"
     contributor_title: "Contributor License Agreement"
     contributor_description_prefix: "Todas las Contribuciones, tanto en el website como en nuestro Repositorio GitHub, estan sujetos a nuestra aprobación."
@@ -3129,8 +3147,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    back_to_coco: "Back to CodeCombat"
 
 #  hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -3142,9 +3161,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    teacher_signup_input_placeholder: "Teacher email address"
 #    teacher_signup_input_button: "Get CS1 Free"
 #    activities_header: "More Hour of Code Activities"
-#    activity_label_1: "Escape the Dungeon!"
-#    activity_label_2: " Beginner: Build a Game!"
-#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_label_1: "Beginner CS: Escape the Dungeon!"
+#    activity_label_2: " Beginner GD: Build a Game!"
+#    activity_label_3: "Advanced GD: Build an Arcade Game!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
 #    activity_button_1: "View Lesson"
 #    about: "About CodeCombat"
 #    about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."
@@ -3154,11 +3175,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    point4: "✓ Project-based courses"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3217,6 +3238,42 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #  admin:
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
+
+#  outcomes:
+#    outcomes_report: "Outcomes Report"
+#    customize_report: "Customize Report"
+#    done_customizing: "Done Customizing"
+#    school_admin: "School Administrator"
+#    school_network: "School Network"
+#    school_subnetwork: "School Subnetwork"
+#    classroom: "Classroom"
+#    view_outcomes_report: "View Outcomes Report"
+#    key_concepts: "Key Concepts"
+#    code_languages: "Code Languages"
+#    using_codecombat: "Using CodeCombat's personalized learning engine..."
+#    wrote: "wrote..."
+#    across_an_estimated: "across an estimated..."
+#    in: "in..."
+#    include: "include "
+#    archived: "Archived"
+#    max: "Max "
+#    multiple: "s"
+#    computer_program: "computer_program"
+#    computer_programs: "computer_programs"
+#    line_of_code: "line of code"
+#    lines_of_code: "lines of code"
+#    coding_hours: "coding hours"
+#    expressed_creativity: "and expressed creativity by building"
+#    report_content_1: "standalone game and web "
+#    project: "project"
+#    projects: "projects"
+#    progress_stats: "Progress stats based on sampling __sampleSize__ of __populationSize__ students."
+#    standards_coverage: "Standards Coverage"
+#    coverage_p1: "The full CodeCombat curriculum covers major programming standards in several widely-adopted frameworks, including those of the International Society for Technology in Education (ISTE), the Computer Science Teacher Association (CSTA), and the K-12 Computer Science Framework."
+#    coverage_p2: "At CodeCombat, we believe that students will be most prepared for both real-world computing jobs and further study of computer science by using real, typed code in full programming languages, so instead of using block-based visual programming languages for beginners, we teach Python and JavaScript – the same languages used widely today by companies ranging from Google to the New York Times."
+#    questions: "Have questions or want more information? We'd be happy to help."
+#    reach_out_manager: "Reach out to your Account Manager __name__ at "
+#    stats_include: "stats include __number__ other __name__"
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
@@ -3278,6 +3335,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"
+#    season3_announcement_1: "Time to put your coding skills to the test in our season 3 final arena. The Colossus Clash is live and offers a new challenge and a new leaderboard to climb."
+#    season3_announcement_2: "Need more practice? Stick with the Giant's Gate Arena to refine your skills. You have until December 14th to play both arenas. Note: arena balance adjustments may occur until December 6th."
+#    season3_announcement_3: "Great prizes available for top performers in the Colossus Clash:"
 #    season2_announcement_1: "Time to put your coding skills to the test in our season 2 final arena. The Sorcerers Blitz is live and offers a new challenge and a new leaderboard to climb."
 #    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
 #    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
@@ -3313,6 +3373,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
 #    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
 #    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+#    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+#    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"
@@ -3336,6 +3398,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    great_courses: "Great Courses included for"
 #    studentLicense_successful: "Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students."
 #    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
+#    homeSubscriptions_successful: "Congratulations! Your payment was successful. Your premium access will be available in few minutes."
 #    failed: "Your payment failed, please try again"
 #    session_week_1: "1 session/week"
 #    session_week_2: "2 sessions/week"
@@ -3347,7 +3410,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
 #  form_validation_errors:
 #    required: "Field is required"

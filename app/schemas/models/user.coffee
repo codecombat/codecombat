@@ -97,7 +97,7 @@ _.extend UserSchema.properties,
       type: 'object'
       additionalProperties: false
       properties:
-        client: {type: c.objectId({description: 'APIClient with permissions on this user'})}
+        client: c.objectId({description: 'APIClient with permissions on this user'})
         access: {type: 'string', 'enum': ['read', 'grant', 'write', 'owner']}  # 'grant' permissions allow APIClients to grant licenses to a user
     format: 'hidden'
 
@@ -299,7 +299,7 @@ _.extend UserSchema.properties,
 
   stripe: c.object {}, {
     customerID: { type: 'string' }
-    planID: { enum: ['basic', 'price_1Hja49KaReE7xLUdlPuATOvQ'], description: 'Determines if a user has or wants to subscribe. Matches subscription plan on stripe.' }
+    planID: { type: 'string', description: 'Determines if a user has or wants to subscribe. Matches subscription plan on stripe.' }
     subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
     token: { type: 'string' }
     couponID: { type: 'string' }

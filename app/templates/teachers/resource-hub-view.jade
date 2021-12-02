@@ -7,7 +7,7 @@ block content
   .container
 
     .content.rtl-allowed
-      if me.attributes.hourOfCode && me.isAnonymous()
+      if me.isInHourOfCode() && me.isAnonymous()
         #hour-of-code
           h3
             span(data-i18n="teacher.hoc_welcome")
@@ -20,34 +20,26 @@ block content
               strong.spr(data-i18n="teacher.hoc_self_led")
               | -
               span.spl.spr(data-i18n="teacher.hoc_self_led_desc")
-              | -
-              a(href="/play/game-dev-hoc?hour_of_code=true")
-                span(data-i18n="teacher.hoc_game_dev")
-              span.spl.spr(data-i18n="teacher.hoc_and")
-              a(href="/play?hour_of_code=true")
-                span(data-i18n="teacher.hoc_programming")
+              a(href="/teachers/hour-of-code")
+                span(data-i18n="general.here")
               | .
             li
               strong.spr(data-i18n="teacher.hoc_teacher_led")
-              | -
+              | - 
               span.spr(data-i18n="teacher.hoc_teacher_led_desc1")
-              a(href="/teachers/resources/cs1")
+              a(href="/teachers/hour-of-code")
                 span(data-i18n="teacher.hoc_teacher_led_link")
               span.spl(data-i18n="teacher.hoc_teacher_led_desc2")
               | .
             li
               strong.spr(data-i18n="teacher.hoc_group")
-              | -
+              | - 
               span.spr(data-i18n="teacher.hoc_group_desc_1")
               a(href="/teachers/resources/getting-started")
                 span(data-i18n="teacher.hoc_group_link")
               span.spl(data-i18n="teacher.hoc_group_desc_2")
               | .
           p.small
-            span.spr(data-i18n="teacher.hoc_additional_desc1")
-            a(href="/teachers/resources/")
-              span(data-i18n="teacher.resource_hub")
-            span .
             span(data-i18n="teacher.hoc_additional_desc2")
             span.spr ?
             a(href="mailto:schools@codecombat.com")

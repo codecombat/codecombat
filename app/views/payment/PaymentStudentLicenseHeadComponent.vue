@@ -4,34 +4,19 @@
       <div class="top-section">
         <div class="heading-row">
           <h1>{{ title || $t(`payments.${this.i18nHeadingName}`)}}</h1>
+          <p class="dsh-info" v-if="isDshPartner"><b>Digital Schoolhouse</b> has partnered with CodeCombat to offer the entirety of the Ozaria story-based computer science adventure game (all 4 Chapters, and over 70 hours of comprehensive instruction) as well as our original game CodeCombat (11 courses spanning Computer Science, Game Development and Web Development) for the <b>discounted rate of $25 USD per annual license (normally $30 USD)</b>. Happy coding!</p>
           <h5>{{ subTitle || $t('payments.great_courses')}}</h5>
         </div>
         <div class="row info-row">
-          <div class="col-md-3">
-            <div class="text-center">
-              <img src="/images/pages/home/type_real_code.png" />
-            </div>
-          </div>
-          <div class="col-md-3 info-data">
-            <h2 class="info-title">CodeCombat</h2>
-            <ul class="info-list">
-              <li>Computer Science 1-6</li>
-              <li>Web Development 1-2</li>
-              <li>Game Development 1-2</li>
-            </ul>
-          </div>
-          <div class="col-md-3">
-            <div class="text-center">
-              <img src="/images/pages/home/ozaria_acodus.png" />
-            </div>
-          </div>
-          <div class="col-md-3 info-data">
-            <h2 class="info-title">Ozaria</h2>
-            <ul class="info-list">
-              <li>Comprehensive Introduction to Computer Science</li>
-              <li>Chapters 1-4</li>
-            </ul>
-          </div>
+          <template v-if="isDshPartner">
+            <ozaria-head-info-component />
+            <coco-head-info-component />
+          </template>
+          <template v-else>
+            <coco-head-info-component />
+            <ozaria-head-info-component />
+          </template>
+
         </div>
       </div>
     </div>
@@ -39,12 +24,22 @@
 </template>
 
 <script>
+import CocoHeadInfoComponent from './student-licenses/CocoHeadInfoComponent'
+import OzariaHeadInfoComponent from './student-licenses/OzariaHeadInfoComponent'
 export default {
   name: "PaymentStudentLicenseHeadComponent",
+  components: {
+    CocoHeadInfoComponent,
+    OzariaHeadInfoComponent
+  },
   props: {
     i18nHeadingName: String,
     title: String,
     subTitle: String,
+    isDshPartner: {
+      type: Boolean,
+      default: false
+    }
   },
 }
 </script>
@@ -65,22 +60,10 @@ export default {
 
   .info-row {
     padding: 20px 5px 5px;
-
-    img {
-      max-width:100%;
-      max-height:100%;
-    }
-  }
-
-  .info-data {
-    text-align: left;
-    padding-left: 0;
   }
 }
-.info-title {
+.dsh-info {
   color: white;
-  font-weight: bold;
+  font-size: small;
 }
-
-
 </style>

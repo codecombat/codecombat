@@ -17,8 +17,7 @@ module.exports = class ConfirmationView extends CocoView
 
   onClickStartButton: ->
     @saveUserPromise.then =>
-      # Defensively handle league redirects
-      if window.nextURL?.startsWith('/league')
+      if window.nextURL
         window.location.href = window.nextURL
         return
 

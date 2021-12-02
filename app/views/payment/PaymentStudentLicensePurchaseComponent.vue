@@ -52,7 +52,7 @@
 
 <script>
 import PaymentLicenseMinMaxTextComponent from "./PaymentLicenseMinMaxTextComponent";
-import {getDisplayCurrency, getDisplayUnitPrice, handleStudentLicenseCheckoutSession} from "./paymentPriceHelper";
+import {getDisplayCurrency, getDisplayUnitPrice, handleCheckoutSession} from "./paymentPriceHelper";
 import ModalGetLicenses from "../../components/common/ModalGetLicenses";
 export default {
   name: "PaymentStudentLicenseBuyNowComponent",
@@ -130,7 +130,7 @@ export default {
         userId: me.get('_id'),
         totalAmount: this.getPriceBasedOnAmount(this.numOfLicenses),
       }
-      const { errMsg } = await handleStudentLicenseCheckoutSession(options)
+      const { errMsg } = await handleCheckoutSession(options)
       this.errMsg = errMsg
     },
     onContactUs(e) {
