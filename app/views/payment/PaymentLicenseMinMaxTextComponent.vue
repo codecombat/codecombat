@@ -6,7 +6,7 @@
       Between {{minLicenses}} - {{maxLicenses}} Licenses
     </template>
     <template
-      v-else-if="maxLicenses"
+      v-else-if="maxLicenses && maxLicenses < maxValueToShow"
     >
       Up to {{maxLicenses}} Licenses
     </template>
@@ -23,6 +23,10 @@ export default {
     maxLicenses: {
       type: Number,
     },
+    maxValueToShow: {
+      type: Number,
+      default: 1000
+    }
   }
 }
 </script>

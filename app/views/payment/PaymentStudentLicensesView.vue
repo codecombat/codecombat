@@ -11,6 +11,7 @@
       :i18n-name="price.metadata.i18nName"
       :min-licenses="getMinLicenses(price)"
       :key="price.id"
+      :is-dsh-partner="!!(paymentGroupMetadata ? paymentGroupMetadata.isDshPartner : false)"
     />
     <div class="text-center footer">
       <button type="button" class="btn btn-success btn-lg btn-buy-now" @click="onBuyNow()">Buy Now</button>
@@ -37,6 +38,9 @@ export default {
     paymentGroupId: {
       type: String,
       required: true,
+    },
+    paymentGroupMetadata: {
+      type: Object
     }
   },
   data () {
