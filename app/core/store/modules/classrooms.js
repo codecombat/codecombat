@@ -160,7 +160,7 @@ export default {
         archived: state.classrooms.byTeacher[teacherId].archived || [],
         shared: state.classrooms.byTeacher[teacherId].shared || []
       }
-      const classrooms = [...teacherClassroomsState.active, ...teacherClassroomsState.shared]
+      const classrooms = [...teacherClassroomsState.active, ...teacherClassroomsState.shared, ...teacherClassroomsState.archived]
       const classroom = classrooms.find((c) => c._id === classroomId)
       if (!classroom) {
         return
