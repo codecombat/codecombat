@@ -12,10 +12,17 @@ mixin longLevelName(data)
 mixin inlineUserList(users)
   if users
     ul.inline-student-list.small
-      each student in users
+      each student in users.slice(0, 5)
         li
           span.inline-student-name
             = student.broadName()
+      if users.length > 5
+        li
+          span.inline-student-name
+            if /^en/.test(me.get('preferredLanguage', true))
+              | and #{users.length - 5} more
+            else
+              | +#{users.length - 5}
 
 mixin addStudentsButton
   .add-students
@@ -344,8 +351,10 @@ mixin progressDotLabel(label)
 
 mixin copyCodes
   div.copy-button-group.form-inline.m-b-3
-    .form-group
+    .input-group
       input.text-h4.semibold#join-code-input(value=state.get('classCode'), readonly)
+      button#regenerate-code-btn.form-control.has-tooltip(disabled=!Boolean(value=state.get('classCode')) data-toggle='tooltip' data-i18n='[title]teacher.regenerate_class_code_tooltip')
+        span.glyphicon.glyphicon-refresh
     button#copy-code-btn.form-control.btn.btn-lg.btn-forest
       span(data-i18n='teacher.copy_class_code')
     div.text-center.small.class-code-blurb(data-i18n='teacher.class_code_blurb')

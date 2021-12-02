@@ -43,6 +43,7 @@ module.exports =
   'it': { nativeDescription: 'Italiano', englishDescription: 'Italian' }
   'kk': { nativeDescription: 'қазақ тілі', englishDescription: 'Kazakh' }
   'lt': { nativeDescription: 'lietuvių kalba', englishDescription: 'Lithuanian' }
+  'lv': { nativeDescription: 'latviešu', englishDescription: 'Latvian' }
   'mi': { nativeDescription: 'te reo Māori', englishDescription: 'Māori' }
   'mk-MK': { nativeDescription: 'Македонски', englishDescription: 'Macedonian' }
   'hi': { nativeDescription: 'मानक हिन्दी', englishDescription: 'Hindi' }

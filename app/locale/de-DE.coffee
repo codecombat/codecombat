@@ -430,6 +430,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     create_individual_header: "Einzelkonto erstellen"
     email_announcements: "Erhalte Benachrichtigungen über neue Level und Features per E-Mail"
     sign_in_to_continue: "Melde dich an oder ertell einen Account um fortzufahren"
+#    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Halte mich über neue Unterrichtsmaterialien, Inhalte und Kurse auf dem Laufenden!"
     creating: "Erzeuge Account..."
     sign_up: "Neuen Account anlegen"
@@ -631,6 +632,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    email_us: "Send us an email"
 #    sales: "Sales"
 #    support: "Support"
+#    here: "here"
 
   units:
     second: "Sekunde"
@@ -836,6 +838,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    vega_character: "Vega Character"
 #    click_to_continue: "Click to Continue"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Red"
+#    play_as_ogres: "Play As Blue"
 
   apis:
     methods: "Methoden"
@@ -1004,7 +1008,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     unsubscribing: "Abonnement wird gekündigt..."
     subscribe_prepaid: "Klicke auf abonnieren, um einen Prepaidcode zu benutzen"
     using_prepaid: "Benutze einen Prepaidcode für ein Monatsabo"
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Access 500+ levels available"
     feature_heroes: "Schalte exklusive Helden frei" # {change}
     feature_learn: "Lerne die Erstellung von Websiten und Spielen"
 #    feature_gems: "Receive __gems__ gems per month"
@@ -1228,10 +1232,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Mehr als 500 Unterstützer haben mitgeholfen, CodeCombat zu erstellen, und es werden jede Woche mehr!"
     community_description_3: "CodeCombat ist ein"
     community_description_link_2: "Gemeinschaftsprojekt"
@@ -2044,7 +2051,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     hoc_programming: "JavaScript/Python-Programmierung"
     hoc_teacher_led: "Vom Lehrer geführte Stunden"
     hoc_teacher_led_desc1: "Lade unsere"
-    hoc_teacher_led_link: "Unterrichtspläne für die Einführung in die Informatik runter,"
+    hoc_teacher_led_link: "Unterrichtspläne für die Einführung in die Informatik runter," # {change}
     hoc_teacher_led_desc2: "um deinen Schülern mit Offline-Aktivitäten die Konzepte des Programmierens näherzubringen"
     hoc_group: "Gruppen-Gameplay"
     hoc_group_desc_1: "Lehrer können diese Stunden in Verbindung mit unserem Kurs „Einführung in die Informatik“ benutzt, um den Fortschritt der Schüler zu beobachten. Siehe"
@@ -2180,6 +2187,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory_course_share_suffix: "die du eben erstellt hast."
     copy_url: "URL kopieren"
     share_with_teacher_email: "Sende an deinen Lehrer"
+#    share_ladder_link: "Share Multiplayer Link"
+#    ladder_link_title: "Share Your Multiplayer Match Link"
+#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Editor"
@@ -2431,7 +2441,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     watch_victory: "Schau dir deinen Sieg an"
     defeat_the: "Besiege den"
     watch_battle: "Dem Kampf zuschauen"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", gestartet"
     tournament_ends: "Turnier endet"
     tournament_ended: "Turnier beendet"
@@ -2448,6 +2458,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     blue_ai: "Blaue CPU"
     wins: "gewinnt" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Rot" # Ladder page display team name
     ogres: "Blau"
@@ -2828,7 +2840,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     email_settings_url: "deiner E-Mail-Einstellungen"
     email_description_suffix: "oder durch von uns gesendete Links kannst du jederzeit deine Einstellungen ändern und Abonnements kündigen."
     cost_title: "Kosten"
-    cost_description: "Alle normalen Level von CodeCombat sind kostenlos spielbar, mit einem Abonnement von ${{price}} USD/Monat kann man extra Level Verzweigungen und {{gems}} Bonus Juwelen pro Monat. Du kannst das Abonnement mit nur einem Klick widerrufen und wir versprechen eine 100% Geld-zurück Garantie."
+    cost_description: "Alle normalen Level von CodeCombat sind kostenlos spielbar, mit einem Abonnement von ${{price}} USD/Monat kann man extra Level Verzweigungen und {{gems}} Bonus Juwelen pro Monat. Du kannst das Abonnement mit nur einem Klick widerrufen und wir versprechen eine 100% Geld-zurück Garantie." # {change}
     copyrights_title: "Copyrights und Lizenzen"
     contributor_title: "Contributor License Agreement"
     contributor_description_prefix: "Alle Beiträge, sowohl auf unserer Webseite als auch in unserem GitHub Repository, unterliegen unserer"
@@ -3135,8 +3147,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    back_to_coco: "Back to CodeCombat"
 
   hoc_2018:
-#    banner: "Welcome to Hour of Code 2020!"
+#    banner: "Welcome to Hour of Code!"
 #    page_heading: "Your students will learn to code by building their own game!"
+#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
 #    step_1: "Step 1: Watch Video Overview"
 #    step_2: "Step 2: Try it Yourself"
 #    step_3: "Step 3: Download Lesson Plan"
@@ -3148,9 +3161,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    teacher_signup_input_placeholder: "Teacher email address"
 #    teacher_signup_input_button: "Get CS1 Free"
 #    activities_header: "More Hour of Code Activities"
-#    activity_label_1: "Escape the Dungeon!"
-#    activity_label_2: " Beginner: Build a Game!"
-#    activity_label_3: "Advanced: Build an Arcade Game!"
+#    activity_label_1: "Beginner CS: Escape the Dungeon!"
+#    activity_label_2: " Beginner GD: Build a Game!"
+#    activity_label_3: "Advanced GD: Build an Arcade Game!"
+#    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+#    activity_label_ai_league: "Beginner CS: Road to the AI League"
 #    activity_button_1: "View Lesson"
     about: "Über CodeCombat:" # {change}
     about_copy: "CodeCombat ist ein Spiel-basiertes Informatikprogramm um echtes Python und JavaScript zu lehren. CodeCombat ist an Standardlehrplänen ausgerichtet und um ein Spiel herum gebaut, das Schüler lieben. Über 20 Millionen Schüler haben mit CodeCombat programmieren gelernt!" # {change}
@@ -3160,11 +3175,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     point4: "✓ Projekt-basierte Kurse"
 #    point5: "✓ Student tracking"
 #    point6: "✓ Full lesson plans"
-#    title: "HOUR OF CODE 2020"
+#    title: "HOUR OF CODE"
 #    acronym: "HOC"
 
 #  hoc_2018_interstitial:
-#    welcome: "Welcome to CodeCombat's Hour of Code 2020!"
+#    welcome: "Welcome to CodeCombat's Hour of Code!"
 #    educator: "I'm an educator"
 #    show_resources: "Show me teacher resources!"
 #    student: "I'm a student"
@@ -3225,10 +3240,40 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    license_type_customize: "Customize Courses"
 
 #  outcomes:
+#    outcomes_report: "Outcomes Report"
+#    customize_report: "Customize Report"
+#    done_customizing: "Done Customizing"
 #    school_admin: "School Administrator"
 #    school_network: "School Network"
 #    school_subnetwork: "School Subnetwork"
 #    classroom: "Classroom"
+#    view_outcomes_report: "View Outcomes Report"
+#    key_concepts: "Key Concepts"
+#    code_languages: "Code Languages"
+#    using_codecombat: "Using CodeCombat's personalized learning engine..."
+#    wrote: "wrote..."
+#    across_an_estimated: "across an estimated..."
+#    in: "in..."
+#    include: "include "
+#    archived: "Archived"
+#    max: "Max "
+#    multiple: "s"
+#    computer_program: "computer_program"
+#    computer_programs: "computer_programs"
+#    line_of_code: "line of code"
+#    lines_of_code: "lines of code"
+#    coding_hours: "coding hours"
+#    expressed_creativity: "and expressed creativity by building"
+#    report_content_1: "standalone game and web "
+#    project: "project"
+#    projects: "projects"
+#    progress_stats: "Progress stats based on sampling __sampleSize__ of __populationSize__ students."
+#    standards_coverage: "Standards Coverage"
+#    coverage_p1: "The full CodeCombat curriculum covers major programming standards in several widely-adopted frameworks, including those of the International Society for Technology in Education (ISTE), the Computer Science Teacher Association (CSTA), and the K-12 Computer Science Framework."
+#    coverage_p2: "At CodeCombat, we believe that students will be most prepared for both real-world computing jobs and further study of computer science by using real, typed code in full programming languages, so instead of using block-based visual programming languages for beginners, we teach Python and JavaScript – the same languages used widely today by companies ranging from Google to the New York Times."
+#    questions: "Have questions or want more information? We'd be happy to help."
+#    reach_out_manager: "Reach out to your Account Manager __name__ at "
+#    stats_include: "stats include __number__ other __name__"
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
@@ -3290,6 +3335,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"
+#    season3_announcement_1: "Time to put your coding skills to the test in our season 3 final arena. The Colossus Clash is live and offers a new challenge and a new leaderboard to climb."
+#    season3_announcement_2: "Need more practice? Stick with the Giant's Gate Arena to refine your skills. You have until December 14th to play both arenas. Note: arena balance adjustments may occur until December 6th."
+#    season3_announcement_3: "Great prizes available for top performers in the Colossus Clash:"
 #    season2_announcement_1: "Time to put your coding skills to the test in our season 2 final arena. The Sorcerers Blitz is live and offers a new challenge and a new leaderboard to climb."
 #    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
 #    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
@@ -3362,7 +3410,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
 #  form_validation_errors:
 #    required: "Field is required"

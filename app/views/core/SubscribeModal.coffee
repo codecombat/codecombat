@@ -158,7 +158,7 @@ module.exports = class SubscribeModal extends ModalView
     Starts a stripe subscription based on the product passed in.
   ###
   startStripeSubscription: (product) ->
-    paymentUtils.handleHomeSubscription(product)
+    paymentUtils.handleHomeSubscription(product, @couponID)
       .catch (err) =>
         console.error 'homeSubscription handle failed by new stripe', err
         @handleStripeSubscriptionByOldFormat(product)
@@ -229,6 +229,12 @@ module.exports = class SubscribeModal extends ModalView
     if me.get('anonymous')
       application.tracker?.trackEvent 'Started Signup from buy lifetime', {service: 'stripe'}
       return @openModalView new CreateAccountModal({startOnPath: 'individual', subModalContinue: 'lifetime'})
+    @startStripeSubscription(@lifetimeProduct)
+      .catch (err) =>
+        console.error 'stripe lifetime handle failed', err
+        @oldStripeLifetimeHandle()
+
+  oldStripeLifetimeHandle: ->
     startEvent = 'Start Lifetime Purchase'
     finishEvent = 'Finish Lifetime Purchase'
     descriptionTranslationKey = 'subscribe.lifetime'

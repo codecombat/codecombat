@@ -107,8 +107,7 @@ block content
       if view.tournamentState == 'initializing'
         #tournament-status
           p
-            span(data-i18n="ladder.tournament_starts")
-            span.spl#tournament-time-elapsed= view.tournamentTimeElapsedString
+            span(data-i18n="ladder.tournament_starts" data-i18n-options={timeElapsed: view.tournamentTimeElapsedString})
       else if view.tournamentState == 'starting'
         #tournament-status
           p
@@ -150,8 +149,7 @@ block content
             for team in view.teams
               div.column.column-3
                 a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
-                  span(data-i18n="play.play_as")
-                  span.spl= team.displayName
+                  span(data-i18n="play_level.play_as_" + team.id)
             div.column.column-2
               a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : ""))
                 span.glyphicon.glyphicon-eye-open
@@ -162,7 +160,7 @@ block content
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.simulate-all-button
               span(data-i18n="play.simulate_all")
           else if !me.isTeacher() && !me.isAnonymous() && !me.isRegisteredForAILeague() && view.isAILeagueArena()
-            a.btn.btn-illustrated.btn-block.btn-lg.btn-primary.register-for-ai-league-button
+            a.btn.btn-illustrated.btn-block.btn-lg.btn-primary.register-for-ai-league-button(href="/league?registering=true")
               span(data-i18n="league.register_for_ai_league")
 
 

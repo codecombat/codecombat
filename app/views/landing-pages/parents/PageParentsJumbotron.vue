@@ -1,24 +1,48 @@
 <script>
-import ButtonScheduleFreeClass from './ButtonScheduleFreeClass'
+import ButtonMainCta from './ButtonMainCta'
 
 export default {
   components: {
-    ButtonScheduleFreeClass
+    ButtonMainCta
   },
 
   methods: {
     onCtaClick () {
       this.$emit('cta-clicked')
     }
+  },
+
+  props: {
+    mainCtaButtonText: {
+      type: String,
+      default: 'Schedule a Free Class'
+    },
+    trialClassExperiment: {
+      type: String,
+      default: 'trial-class'
+    }
   }
 }
+
 </script>
 
 <template>
   <div class="top-jumbotron">
     <img class="animated-griffin"
          src="/images/pages/parents/Griffin_and_Alejandro1.svg"
-         alt="flying griffin"/>
+         alt="flying griffin"
+         v-if="trialClassExperiment == 'trial-class'" />
+    <div v-else class="money-back-guarantee-section" >
+      <img
+        class="img-responsive money-back-guarantee"
+        src="/images/pages/parents/money_back_guarantee.png"
+        title="30-day money-back guarantee"
+        alt='"30 Day Money back Guarantee Transparent" by transparentpng.com is licensed under CC BY 4.0 - source: https://www.transparentpng.com/details/30-day-money-back-guarantee-transparent_15977.html'
+      />
+      <div class="money-back-guarantee-text">
+        Enroll with the confidence that you have 30 days to see if CodeCombat is right for you
+      </div>
+    </div>
     <div class="row">
       <div class="col-lg-12">
         <h1 class="pixelated parents-header-text">Live Online Coding Classes</h1>
@@ -30,8 +54,9 @@ export default {
 
     <div class="row">
       <div class="col-lg-12">
-        <button-schedule-free-class
+        <button-main-cta
           @click="onCtaClick"
+          :buttonText="mainCtaButtonText"
         />
       </div>
     </div>
@@ -95,10 +120,23 @@ export default {
     max-width: 320px;
   }
 
-  .animated-griffin {
+  .animated-griffin, .money-back-guarantee-section {
     position: absolute;
     top: 30%;
     right: 6%;
+  }
+
+  .money-back-guarantee-section {
+    width: 310px;
+    right: calc(20% - 185px);
+    font-family: 'Work Sans', sans-serif;
+    color: #131B25;
+    font-weight: 300;
+    font-size: 22px;
+  }
+
+  img.money-back-guarantee {
+    margin: 0px auto;
   }
 
   @media (max-width: 1000px) {
@@ -121,6 +159,10 @@ export default {
       right: -11%;
       overflow: hidden;
       max-width: 50%;
+    }
+
+    .money-back-guarantee-section {
+      display: none;
     }
   }
 
