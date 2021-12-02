@@ -872,12 +872,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     future_eng_4: "Amazon Future Engineer"
     future_eng_5: "programa que crea oportunidades de aprendizaje y trabajo para todos los estudiantes de K-12 en los Estados Unidos que desean dedicarse a Ciencias de la Computación."
 
-#  live_class:
+  live_class:
     title: "Gracias!"
     content: "¡Increíble! Acabamos de lanzar clases en línea en vivo."
     link: "¿Listo para salir adelante en tu codificación?"
 
-#  code_quest:
+  code_quest:
     great: "¡Excelente!"
     join_paragraph: "¡Únete al torneo internacional de codificación Python AI más grande para todas las edades y compite por la cima de la clasificación! Esta batalla global de un mes comienza el 1 de agosto e incluye premios por valor de $ 5,000 y una ceremonia de premios virtual donde anunciaremos a los ganadores y reconoceremos sus habilidades de codificación."
     link: "Haga clic aquí para registrarse y obtener más información"
@@ -1126,7 +1126,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     level_to_unlock: "Nivel para desbloquear:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Sólo ciertos héroes pueden jugar este nivel."
 
-#  char_customization_modal:
+  char_customization_modal:
     heading: "Personaliza a tu héroe"
     body: "Cuerpo"
     name_label: "Nombre del héroe"
@@ -1483,7 +1483,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     beautify: "Hacer bello tu código estandarizando formato."
     maximize_editor: "Maximizar/minimizar editor de código."
 
-#  cinematic:
+  cinematic:
     click_anywhere_continue: "haga clic en cualquier lugar para continuar"
 
   community:
