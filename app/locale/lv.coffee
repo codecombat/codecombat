@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", translation:
 
-#  new_home:
+  new_home:
     title: "CodeCombat - Kodēšanas spēles Python un JavaScript apguvei"
     meta_keywords: "CodeCombat, python, javascript, Kodēšanas Spēles"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
@@ -198,7 +198,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
     million: "__num__ Miljons"
     billion: "__num__ Miljards"
 
-#  nav:
+  nav:
 #    educators: "Educators"
     follow_us: "Seko mums"
     general: "Vispārīgi"
@@ -253,7 +253,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    api_dashboard: "API Dashboard"
 #    funding_resources_guide: "Funding Resources Guide"
 
-#  modal:
+  modal:
     close: "Aizvērt"
     okay: "Labi"
     cancel: "Atcelt"
@@ -261,7 +261,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
   not_found:
     page_not_found: "Lapa nav atrasta"
 
-#  diplomat_suggestion:
+  diplomat_suggestion:
     title: "Palīdziet tulkot CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Mums ir nepieciešamas jūsu valodu zināšanas."
 #    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both and are a native speaker of {English}, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
@@ -269,7 +269,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
-#  new_home_faq:
+  new_home_faq:
     what_programming_languages: "Kādas ir pieejamās programmēšanas valodas?"
     python_and_javascript: "Pašlaik mēs atbalstām Python un JavaScript."
     why_python: "Kāpēc izvēlēties Python?"
@@ -402,26 +402,26 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    nil: "nil"
 #    None: "None"
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
-#    form_blurb: "Enter your parent's email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
-#    title: "Excellent Work, Apprentice"
+  share_progress_modal:
+    blurb: "Jūs lieliski progresējat! Pastāstiet vecākiem, cik daudz esat iemācījušies, izmantojot CodeCombat."
+    email_invalid: "E-pasta adrese nav derīga."
+    form_blurb: "Ievadiet savu vecāku e-pasta adresi zemāk, un mēs viņiem parādīsim!"
+    form_label: "E-pasta adrese"
+    placeholder: "e-pasta adrese"
+    title: "Lielisks darbs, Mācekli"
 
-#  login:
-#    sign_up: "Create Account"
-#    email_or_username: "Email or username"
-#    log_in: "Log In"
-#    logging_in: "Logging In"
-#    log_out: "Log Out"
-#    forgot_password: "Forgot your password?"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with Google"
-#    signup_switch: "Want to create an account?"
-#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
+  login:
+    sign_up: "Izveidot Kontu"
+    email_or_username: "E-pasts vai lietotājvārds"
+    log_in: "Pieslēgties"
+    logging_in: "Pieslēgšanās"
+    log_out: "Atslēgties"
+    forgot_password: "Aizmirsi savu paroli?"
+    finishing: "Pabeidz"
+    sign_in_with_facebook: "Pierakstieties ar Facebook"
+    sign_in_with_gplus: "Pierakstieties ar Google"
+    signup_switch: "Vai vēlaties izveidot kontu?"
+    accounts_merge_confirmation: "Ar šī Google konta e-pastu ir saistīts konts. Vai vēlaties apvienot šos kontus?"
 
 #  signup:
 #    complete_subscription: "Complete Subscription"
