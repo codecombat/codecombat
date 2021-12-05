@@ -514,18 +514,18 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    yes_i_have_classcode: "Yes, I have a Class Code!"
 #    enter_it_here: "Enter it here:"
 
-#  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
-#    recovery_sent: "Recovery email sent."
+  recover:
+    recover_account_title: "Atjaunot kontu"
+    send_password: "Nosūtiet atkopšanas paroli"
+    recovery_sent: "Atkopšanas e-pasts ir nosūtīts."
 
-#  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+  items:
+    primary: "Primārais"
+    secondary: "Sekundārais"
+    armor: "Bruņas"
+    accessories: "Piederumi"
+    misc: "Dažādi"
+    books: "Grāmatas"
 
 #  common:
 #    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
@@ -634,22 +634,22 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    support: "Support"
 #    here: "here"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    sec: "sec"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+  units:
+    second: "sekunde"
+    seconds: "sekundes"
+    sec: "se"
+    minute: "minūte"
+    minutes: "minūes"
+    hour: "stunda"
+    hours: "stundas"
+    day: "diena"
+    days: "dienas"
+    week: "nedēļa"
+    weeks: "nedēļas"
+    month: "mēnesis"
+    months: "mēneši"
+    year: "gads"
+    years: "gadi"
 
 #  play_level:
 #    back_to_map: "Back to Map"
@@ -872,10 +872,10 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    future_eng_4: "Amazon Future Engineer"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
-#  live_class:
-#    title: "Thank you!"
-#    content: "Amazing! We just launched live online classes."
-#    link: "Ready to get ahead on your coding?"
+  live_class:
+    title: "Paldies!"
+    content: "Lieliski! Mēs tikko uzsākām tiešsaistes nodarbības."
+    link: "Vai esat gatavs uzlabot savas kodēšanas prasmes?"
 
 #  code_quest:
 #    great: "Great!"
@@ -965,11 +965,11 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    purchase: "Purchase"
 #    purchased: "Purchased"
 
-#  subscribe_for_gems:
+  subscribe_for_gems:
     prompt_title: "Nepietiek dārgakmeņu!"
     prompt_body: "Abonējiet Premium, lai iegūtu dārgakmeņus un piekļūtu vēl vairākiem līmeņiem!"
 
-#  earn_gems:
+  earn_gems:
     prompt_title: "Nepietiek dārgakmeņu"
     prompt_body: "Turpiniet spēlēt, lai nopelnītu vairāk!"
 
@@ -1063,8 +1063,8 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
-#  avatar_selection:
-#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+  avatar_selection:
+    pick_an_avatar: "Izvēlieties personāžu, kas pārstāvēs jūs kā spēlētāju"
 
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
@@ -1126,12 +1126,12 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
-#  char_customization_modal:
-#    heading: "Customize Your Hero"
-#    body: "Body"
-#    name_label: "Hero's Name"
-#    hair_label: "Hair Color"
-#    skin_label: "Skin Color"
+  char_customization_modal:
+    heading: "Pielāgojiet savu varoni"
+    body: "Ķermenis"
+    name_label: "Varoņa vārds"
+    hair_label: "Matu krāsa"
+    skin_label: "Ādas krāsa"
 
 #  skill_docs:
 #    function: "function" # skill types
@@ -1163,9 +1163,9 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    granted_by: "Granted by"
 #    still_undocumented: "Still undocumented, sorry."
 
-#  save_load:
-#    granularity_saved_games: "Saved"
-#    granularity_change_history: "History"
+  save_load:
+    granularity_saved_games: "Saglabāts"
+    granularity_change_history: "Vēsture"
 
 #  options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
@@ -1286,7 +1286,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    previous: "Previous"
 #    location_title: "We're located in downtown SF:"
 
-#  teachers:
+  teachers:
     licenses_needed: "Nepieciešamas licences"
 
 #  special_offer:
@@ -1483,7 +1483,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
 
-#  cinematic:
+  cinematic:
     click_anywhere_continue: "noklikšķiniet jebkurā vietā, lai turpinātu"
 
 #  community:
@@ -1774,10 +1774,10 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    view_winners: "View Winners"
 #    classroom_announcement: "Classroom Announcement"
 
-#  project_gallery:
-#    no_projects_published: "Be the first to publish a project in this course!"
-#    view_project: "View Project"
-#    edit_project: "Edit Project"
+  project_gallery:
+    no_projects_published: "Esi pirmais, kas publicē projektu šajā kursā!"
+    view_project: "Skatīt projektu"
+    edit_project: "Rediģēt projektu"
 
 #  teacher:
 #    assigning_course: "Assigning course"
@@ -2191,8 +2191,8 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    ladder_link_title: "Share Your Multiplayer Match Link"
 #    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
-#  game_dev:
-#    creator: "Creator"
+  game_dev:
+    creator: "Izveidotājs"
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
@@ -2316,12 +2316,12 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    add_system_title: "Add Systems to Level"
 #    done_adding: "Done Adding"
 
-#  article:
-#    edit_btn_preview: "Preview"
-#    edit_article_title: "Edit Article"
+  article:
+    edit_btn_preview: "Priekšskatījums"
+    edit_article_title: "Rediģēt rakstu"
 
-#  polls:
-#    priority: "Priority"
+  polls:
+    priority: "Prioritāte"
 
 #  contribute:
 #    page_title: "Contributing"
@@ -2661,16 +2661,16 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 #    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
-#  resources:
-#    level: "Level"
-#    patch: "Patch"
-#    patches: "Patches"
-#    system: "System"
-#    systems: "Systems"
-#    component: "Component"
-#    components: "Components"
-#    hero: "Hero"
-#    campaigns: "Campaigns"
+  resources:
+    level: "Līmenis"
+ #   patch: "Patch"
+ #   patches: "Patches"
+    system: "Sistēma"
+    systems: "Sistēmas"
+    component: "Komponents"
+    components: "Komponenti"
+    hero: "Varonis"
+    campaigns: "Kampaņas"
 
 #  concepts:
 #    advanced_css_rules: "Advanced CSS Rules"
@@ -2800,16 +2800,16 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    basic_event_handling: "Basic Event Handling"
 #    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
-#  anonymous_teacher:
-#    notify_teacher: "Notify Teacher"
-#    create_teacher_account: "Create free teacher account"
-#    enter_student_name: "Your name:"
-#    enter_teacher_email: "Your teacher's email:"
-#    teacher_email_placeholder: "teacher.email@example.com"
-#    student_name_placeholder: "type your name here"
-#    teachers_section: "Teachers:"
-#    students_section: "Students:"
-#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
+  anonymous_teacher:
+    notify_teacher: "Paziņot skolotājam"
+    create_teacher_account: "Izveidojiet bezmaksas skolotāja kontu"
+    enter_student_name: "Tavs vārds:"
+    enter_teacher_email: "Tava skolotāja e-pasts:"
+    teacher_email_placeholder: "skolotāja.epasts@piemers.lv"
+    student_name_placeholder: "ieraksti savu vārdu šeit"
+    teachers_section: "Skolotāji:"
+    students_section: "Studenti:"
+    teacher_notified: "Mēs esam paziņojuši jūsu skolotājam, ka vēlaties savā klasē spēlēt CodeCombat!"
 
 #  delta:
 #    added: "Added"
@@ -3235,9 +3235,9 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    download: "Download Chrome"
 #    ignore: "Ignore"
 
-#  admin:
-#    license_type_full: "Full Courses"
-#    license_type_customize: "Customize Courses"
+  admin:
+    license_type_full: "Pilni kursi"
+    license_type_customize: "Pielāgot kursus"
 
 #  outcomes:
 #    outcomes_report: "Outcomes Report"
@@ -3373,16 +3373,16 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
 #    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
-#  tournament:
-#    mini_tournaments: "Mini Tournaments"
-#    usable_ladders: "All Usable Ladders"
-#    make_tournament: "Make a mini tournament"
-#    go_tournaments: "Go to mini tournaments"
-#    class_tournaments: "Class mini tournaments"
-#    no_tournaments_owner: "There is no tournament now, please create one"
-#    no_tournaments: "There is no tournament now"
-#    edit_tournament: "Edit Tournament"
-#    create_tournament: "Create a Tournament"
+  tournament:
+    mini_tournaments: "Mini turnīri"
+    usable_ladders: "Visas izmantojamās kāpnes"
+    make_tournament: "Izveidojiet mini turnīru"
+    go_tournaments: "Dodieties uz mini turnīriem"
+    class_tournaments: "Klases mini turnīri"
+    no_tournaments_owner: "Pašlaik nav neviena turnīra. Lūdzu, izveidojiet to"
+    no_tournaments: "Turnīra šobrīd nav"
+    edit_tournament: "Rediģēt turnīru"
+    create_tournament: "Izveidojiet turnīru"
 
 #  payments:
 #    student_licenses: "Student Licenses"
@@ -3412,9 +3412,9 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    recurring_month_6: "Recurring billing every 6 months"
 #    recurring_year_1: "Recurring billing every year"
 
-#  form_validation_errors:
-#    required: "Field is required"
-#    invalidEmail: "Invalid email"
-#    invalidPhone: "Invalid phone number"
-#    emailExists: "Email already exists"
-#    numberGreaterThanZero: "Should be a number greater than 0"
+  form_validation_errors:
+    required: "Lauks ir obligāti jāaizpilda "
+    invalidEmail: "Nepareizs e-pasts"
+    invalidPhone: "Nederīgs tālruņa numurs"
+    emailExists: "E-pasts jau pastāv"
+    numberGreaterThanZero: "Skaitlim jābūt lielākam par 0"
