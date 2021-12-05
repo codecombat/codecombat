@@ -2881,7 +2881,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
 
-#  calendar:
+  calendar:
     year: "Gads"
     day: "Diena"
     month: "Mēnesis"
@@ -2905,7 +2905,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
-#  server_error:
+  server_error:
     email_taken: "E-pasts jau aizņemts"
     username_taken: "Lietotājvārds jau aizņemts"
     easy_password: "Paroli ir pārāk viegli uzminēt"
