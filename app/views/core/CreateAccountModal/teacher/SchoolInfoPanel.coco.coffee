@@ -11,7 +11,7 @@ UsaStates = require('usa-states').UsaStates
 SchoolInfoPanel =
   name: 'school-info-panel'
   template: require('templates/core/create-account-modal/school-info-panel')()
-  
+
   data: ->
     # TODO: Store ncesData in just the store?
     ncesData = _.zipObject(['nces_'+key, ''] for key in SCHOOL_NCES_KEYS)
@@ -37,7 +37,7 @@ SchoolInfoPanel =
 
   components:
     'nces-search-input': NcesSearchInput
-    
+
   methods:
     updateValue: (name, value) ->
       @[name] = value
@@ -47,11 +47,11 @@ SchoolInfoPanel =
       if name is 'district'
         @clearSchoolNcesValues()
         @clearDistrictNcesValues()
-    
+
     clearDistrictNcesValues: ->
       for key in DISTRICT_NCES_KEYS
         @['nces_' + key] = ''
-      
+
     clearSchoolNcesValues: ->
       for key in _.difference(SCHOOL_NCES_KEYS, DISTRICT_NCES_KEYS)
         @['nces_' + key] = ''
@@ -67,7 +67,7 @@ SchoolInfoPanel =
       NCES_KEYS = if displayKey is 'name' then SCHOOL_NCES_KEYS else DISTRICT_NCES_KEYS
       for key in NCES_KEYS
         @['nces_'+key] = suggestion[key]
-    
+
     onChangeCountry: ->
       if @['country'] == 'United States' && !@usaStatesAbbreviations.includes(@['state'])
         @['state'] = ''
@@ -101,8 +101,10 @@ SchoolInfoPanel =
     if me.showChinaRegistration()
       @country = 'China'
     else
-      if me.get('country') and !!_.find(countries, (c) => c.country is _.string.slugify(me.get('country')))
-        @country = _.string.titleize(_.string.humanize(me.get('country')))
+      userCountry = me.get('country')
+      matchingCountryName = if userCountry then _.find(countryList.getNames(), (c) => c is _.string.slugify(userCountry) or c.toLowerCase() is userCountry.toLowerCase()) else undefined
+      if matchingCountryName
+        @country = matchingCountryName
       else
         @country = 'United States'
 
