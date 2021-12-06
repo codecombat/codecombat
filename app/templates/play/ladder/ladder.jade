@@ -162,6 +162,18 @@ block content
           else if !me.isTeacher() && !me.isAnonymous() && !me.isRegisteredForAILeague() && view.isAILeagueArena()
             a.btn.btn-illustrated.btn-block.btn-lg.btn-primary.register-for-ai-league-button(href="/league?registering=true")
               span(data-i18n="league.register_for_ai_league")
+    else if view.tournamentEnd
+      div#ladder-action-columns.row
+        if !features.china
+          div.column.column-4
+            // Do we want league info here or just redirect all players to global arena? 
+            a.btn.btn-illustrated.btn-block.btn-lg.btn-info.play-arena-button(href="/play/ladder/"+view.levelID) 
+              span(data-i18n="courses.play_arena")
+          div.column.column-2
+            a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}?tournament=" + view.tournamentId + (view.league ? "&league=" + view.league.id : ""))
+              span.glyphicon.glyphicon-eye-open
+              span.spl(data-i18n="play.spectate")
+     
 
 
   if view.level.isType('ladder')
