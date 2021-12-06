@@ -71,12 +71,12 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    for_teachers_subtitle4: "Automatic Differentiation"
 #    for_teachers_subblurb4: "Engage all learners in a diverse classroom with practice levels that adapt to each student's learning needs."
 #    game_based_blurb: "CodeCombat is a game-based computer science program where students type real code and see their characters react in real time."
-    get_started: "Aloita" # {change}
+    get_started: "Aloita" 
 #    global_title: "Join Our Global Community of Learners and Educators"
-    global_subtitle1: "Oppijat" # {change}
-    global_subtitle2: "Riviä koodia" # {change}
-    global_subtitle3: "Opettajat" # {change}
-    global_subtitle4: "Maat" # {change}
+    global_subtitle1: "Oppijat" 
+    global_subtitle2: "Riviä koodia" 
+    global_subtitle3: "Opettajat" 
+    global_subtitle4: "Maat" 
 #    go_to_my_classes: "Go to my classes"
 #    go_to_my_courses: "Go to my courses"
 #    quotes_quote1: "Name any program online, I’ve tried it. None of them match up to CodeCombat & Ozaria. Any teacher who wants their students to learn how to code... start here!"
@@ -84,9 +84,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    quotes_quote3: "CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice."
 #    quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
 #    quotes_quote5: "Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills."
-    quotes_quote5_author: "Latthaphon Pohpon, Vanhempi" # {change}
+    quotes_quote5_author: "Latthaphon Pohpon, Vanhempi" 
 #    see_example: "See example"
-    slogan: "Lumoavin peli ohjelmoinnin oppimiseen." # {change}
+    slogan: "Lumoavin peli ohjelmoinnin oppimiseen." 
 #    slogan_power_of_play: "Learn to Code Through the Power of Play"
 #    teach_cs1_free: "Teach CS1 Free"
 #    teachers_love_codecombat_title: "Teachers Love CodeCombat"
@@ -100,8 +100,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     classroom_edition: "Kouluversio:"
     learn_to_code: "Opi koodaamaan:"
     play_now: "Pelaa Nyt"
-    im_a_parent: "Olen Vamhempi" # {change}
-    im_an_educator: "Olen Oppettaja" # {change}
+    im_a_parent: "Olen Vamhempi" 
+    im_an_educator: "Olen Oppettaja" 
     im_a_teacher: "Olen Opettaja"
     im_a_student: "Olen Oppilas"
     learn_more: "Lue lisää"
@@ -117,10 +117,10 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    educator_resources: "Educator resources"
 #    course_guides: "and course guides"
 #    teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds."
-    accessible_to: "Saatavilla" # {change}
-    everyone: "kaikille" # {change}
+    accessible_to: "Saatavilla" 
+    everyone: "kaikille" 
 #    democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
-    forgot_learning: "Luulenpa, että he oikeastaan unohtivat, että olivat oppimassa jotain." # {change}
+    forgot_learning: "Luulenpa, että he oikeastaan unohtivat, että olivat oppimassa jotain." 
     wanted_to_do: "´Koodaus on sitä mitä olen aina halunnut tehdä, enkä uskonut että voisin oppia sitä koulussa."
 #    builds_concepts_up: "I like how CodeCombat builds the concepts up. It's really easy to understand and fun to figure it out."
 #    why_games: "Why is learning through games important?"
@@ -161,10 +161,10 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     view_progress: "Tarkastele edistymistäni"
     go_to_courses: "Siirry omiin kursseihin"
     want_coco: "Haluatko CodeCombat:in kouluusi?"
-    educator: "Opettaja" # {change}
-    student: "Oppilas" # {change}
+    educator: "Opettaja" 
+    student: "Oppilas" 
 #    our_coding_programs: "Our Coding Programs"
-    codecombat: "CodeCombat" # {change}
+    codecombat: "CodeCombat" 
 #    ozaria: "Ozaria"
 #    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
 #    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
@@ -183,9 +183,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    learning_technology_blurb: "Our original game teaches real-world skills through the power of play. The scaffolded curriculum systematically builds on student’s experiences and knowledge as they progress."
 #    learning_technology_blurb_short: "Our innovative game-based learning technology has transformed the way students learn to code."
 #    online_classes_blurb: "Our online coding classes combine the power of gameplay and personalized instruction for an experience your child will love. With both private or group options available, this is remote learning that works."
-    for_educators: "Opettajille" # {change}
-    for_parents: "Vanhemmille" # {change}
-    for_everyone: "Kaikille" # {change}
+    for_educators: "Opettajille" 
+    for_parents: "Vanhemmille" 
+    for_everyone: "Kaikille" 
 #    what_our_customers_are_saying: "What Our Customers Are Saying"
 #    game_based_learning: "Game-Based Learning"
 #    unique_approach_blurb: "With our unique approach, students embrace learning as they play and write code from the very start of their adventure, promoting active learning and a growth mindset."
@@ -198,8 +198,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    billion: "__num__ Billion"
 
   nav:
-    educators: "Opettajat" # {change}
-    follow_us: "Seuraa meitä" # {change}
+    educators: "Opettajat" 
+    follow_us: "Seuraa meitä"
 #    general: "General"
     map: "Kartta"
     play: "Tasot" # The top nav bar entry where players choose which levels to play
@@ -247,7 +247,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    ozaria_dashboard: "Ozaria Dashboard"
 #    codecombat_dashboard: "CodeCombat Dashboard"
 #    professional_development: "Professional Development"
-    new: "Uusi!" # {change}
+    new: "Uusi!" 
 #    admin: "Admin"
 #    api_dashboard: "API Dashboard"
 
@@ -262,7 +262,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
   diplomat_suggestion:
     title: "Auta CodeCombatin kääntämisessä!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Tarvitsemme apuasi käännöksessä."
-    pitch_body: "CodeCombat:ia kehitetään englanniksi mutta pelaajia on jo ympäri maailmaa. Monet haluavat pelata peliä omalla kielellään, joten jos haluat osallistua kääntämiseen, ilmoittaudu Diplomaatiksi ja anna panoksesi." # {change}
+    pitch_body: "CodeCombat:ia kehitetään englanniksi mutta pelaajia on jo ympäri maailmaa. Monet haluavat pelata peliä omalla kielellään, joten jos haluat osallistua kääntämiseen, ilmoittaudu Diplomaatiksi ja anna panoksesi." 
     missing_translations: "Siihen asti kunnes koko peli on käännetty suomeksi näet joitain tekstejä edelleen englanniksi."
     learn_more: "Ota selvää mitä tarkoitta olla Diplomaatti"
     subscribe_as_diplomat: "Tilaa Diplomaatin uutiskirje"
@@ -426,7 +426,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     create_student_header: "Luo Oppilaan Tili"
     create_teacher_header: "Luo Opettajan Tili"
     create_individual_header: "Luo Yksittäinen Tili"
-    email_announcements: "Haluatko ilmoituksia sähköpostiisi" # {change}
+    email_announcements: "Haluatko ilmoituksia sähköpostiisi"
     sign_in_to_continue: "Kirjaudu sisään tai luo tunnus jatkaaksesi"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Luodaan tili..."
@@ -445,7 +445,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     parent_email_blurb: "Tiedämme että haluat heti opppia ohjelmoimaan &mdash; me olemme innoissame myös! Vanhempasi saavat ohjeet tilin luomiseen sähköpostiinsa. Lähetä viesti osoitteeseen {{email_link}} jos sinulla on jotain kysyttävää."
     classroom_not_found: "Luokkia ei löytynyt tuolla koodilla. Tarkista oikeinkirjoitus tai kysy apua opettajaltasi."
     checking: "Tarikistetaan..."
-    account_exists: "Sähköposti on jo käytössä:" # {change}
+    account_exists: "Sähköposti on jo käytössä:" 
     sign_in: "Kirjaudu sisään"
     email_good: "Sähköposti toimii!"
     name_taken: "Nimi on jo käytössä! Miten olisi {{suggestedName}}?"
@@ -727,7 +727,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     tome_cast_button_ran: "Suoritettu"
 #    tome_cast_button_update: "Update"
     tome_submit_button: "Lähetä"
-    tome_reload_method: "Lataa koodi uudelleen" # {change}
+    tome_reload_method: "Lataa koodi uudelleen" 
     tome_your_skills: "Taitosi"
     hints: "Vihjeet"
     videos: "Videoita"
@@ -911,7 +911,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     auth_caption: "Tallenna edistymisesi."
 
   leaderboard:
-    view_other_solutions: "Katso Muita Ratkaisuja" # {change}
+    view_other_solutions: "Katso Muita Ratkaisuja" 
     scores: "Pisteet"
     top_players: "Parhaat pelaajat"
     day: "Tänään"
@@ -972,7 +972,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
 #    subscribe_modal_title: "CodeCombat Premium"
-    comparison_blurb: "Teroita kykyjäsi CodeCombat kuukausitilauksella!" # {change}
+    comparison_blurb: "Teroita kykyjäsi CodeCombat kuukausitilauksella!" 
     must_be_logged: "Kirjaudu ensin sisään. Ole hyvä, luo tunnus tai kirjaudu sisään yläpuolella olevasta valikosta."
     subscribe_title: "Tilaa" # Actually used in subscribe buttons, too
     unsubscribe: "Poista tilaus"
@@ -999,7 +999,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     managed_subs: "Hallinnoidut tilaukset"
     subscribing: "Tilausta käsitellään..."
     current_recipients: "Tämänhetkiset vastaanottajat"
-    unsubscribing: "Tilaus päätetään..." # {change}
+    unsubscribing: "Tilaus päätetään..." 
     subscribe_prepaid: "Tilaa käyttämällä ennakkomaksettua koodinumeroa"
     using_prepaid: "Käytetään ennakkomaksettu koodinumero kuukausitilaukseen"
 #    feature_level_access: "Access 300+ levels available"
@@ -1577,8 +1577,8 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    concepts: "Concepts"
     play_time: "Peliaika:"
     completed: "Suoritettu:"
-    enter_emails: "Kirjoita oppilaiden sähköpostit kutsuaksesi, yksi per rivi" # {change}
-    send_invites: "Lähetä kutsut" # {change}
+    enter_emails: "Kirjoita oppilaiden sähköpostit kutsuaksesi, yksi per rivi" 
+    send_invites: "Lähetä kutsut" 
 #    number_programming_students: "Number of Programming Students"
 #    number_total_students: "Total Students in School/District"
 #    enroll: "Enroll"
@@ -1604,7 +1604,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     complete: "valmis"
 #    practice: "practice"
     required: "pakollinen"
-    welcome_to_courses: "Seikkailijat, tervetuloa kursseille!" # {change}
+    welcome_to_courses: "Seikkailijat, tervetuloa kursseille!" 
     ready_to_play: "Valmiina pelaamaan?"
     start_new_game: "Aloita uusi peli"
 #    play_now_learn_header: "Play now to learn"
@@ -1673,7 +1673,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     update_account_title: "Tilisi tarvitsee toimenpiteitä!"
     update_account_blurb: "Ennen kun pääset käsiksi luokkiisi, valitse miten haluat käyttää tätä tiliä."
     update_account_current_type: "Nykyisen Tilin Tyyppi:"
-    update_account_account_email: "Tilin Sähköposti/Käyttäjänimi:" # {change}
+    update_account_account_email: "Tilin Sähköposti/Käyttäjänimi:" 
     update_account_am_teacher: "Olen Opettaja"
 #    update_account_keep_access: "Keep access to classes I've created"
     update_account_teachers_can: "Opettajan Tili Pystyy:"
@@ -2619,7 +2619,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    continue_reading_blog: "Continue Reading on Blog..."
 
   loading_error:
-    could_not_load: "Virhe ladattaessa tietoja palvelimelta" # {change}
+    could_not_load: "Virhe ladattaessa tietoja palvelimelta" 
     connection_failure: "Yhteysvirhe."
     connection_failure_desc: "Näyttää siltä että et ole yhteydessä internettiin! Tarkista yhteytesi ja lataa sivu uudelleen."
     login_required: "Kirjautuminen vaaditaan"
@@ -2631,11 +2631,11 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     not_found: "Ei löydetty."
     not_found_desc: "Hmm, täällä ei ole mitään. Katso seuraavat linkit päästäksesi takaisin ohjelmoimaan!"
     not_allowed: "Toiminto ei sallittu."
-    timeout: "Toiminto aikakatkaistu." # {change}
+    timeout: "Toiminto aikakatkaistu." 
     conflict: "Resurssiristiriita."
     bad_input: "Virheellinen syöte."
     server_error: "Palvelinvirhe."
-    unknown: "Tuntematon virhe." # {change}
+    unknown: "Tuntematon virhe." 
     error: "VIRHE"
     general_desc: "Jotain meni pieleen ja se on luultavasti meidän syytämme. Odota hetki ja lataa sivu uudelleen tai katso seuraavat linkit päästäksesi takaisin ohjelmoimaan!"
 #    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
@@ -3050,7 +3050,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    learn_at_own_pace: "Learn at Your Own Pace"
 #    monthly_sub: "Monthly Subscription"
 #    buy_now: "Buy now"
-    per_month: " / kk" # {change}
+    per_month: " / kk" 
 #    lifetime_access: "Lifetime Access"
 #    premium_details_title: "Great for self-driven learners who thrive with complete autonomy."
 #    premium_details_1: "Access to subscriber-only heroes, pets and skills"
@@ -3208,7 +3208,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #  browser_recommendation:
 #    title: "CodeCombat works best on Chrome!"
 #    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
-    download: "Lataa Chrome" # {change}
+    download: "Lataa Chrome" 
 #    ignore: "Ignore"
 
 #  admin:
@@ -3284,7 +3284,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    codecombat_ai_league: "CodeCombat AI League"
 #    register: "Register"
 #    not_registered: "Not Registered"
-    world: "Maailma" # {change}
+    world: "Maailma" 
 #    quickstart_video: "Quickstart Video"
 #    arena_rankings: "Arena Rankings"
 #    arena_rankings_blurb: "Global AI League arena rankings"
@@ -3294,7 +3294,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    count_students: "students" # 2 students
 #    top_student: "Top:" # Top: Jane D
 #    top_percent: "top" # - top 3%)
-    top_of: "/" # (#8 of 35). Perhaps just use "/" if this doesn't translate naturally. # {change}
+    top_of: "/" # (#8 of 35). Perhaps just use "/" if this doesn't translate naturally. 
 #    arena_victories: "Arena Victories"
 #    arena_victories_blurb: "Global AI League arena recent wins"
 #    arena_victories_title: "Win count is based on the last 1000 matches played asynchronously by each player in each of their AI League arenas."
@@ -3340,7 +3340,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 
 #  form_validation_errors:
 #    required: "Field is required"
-    invalidEmail: "Väärä sähköpostiosoite" # {change}
-    invalidPhone: "Väärä puhelinnumero" # {change}
-    emailExists: "Sähköposti on jo olemassa" # {change}
-    numberGreaterThanZero: "Luvun pitäisi olla suurempi kuin 0" # {change}
+    invalidEmail: "Väärä sähköpostiosoite" 
+    invalidPhone: "Väärä puhelinnumero" 
+    emailExists: "Sähköposti on jo olemassa" 
+    numberGreaterThanZero: "Luvun pitäisi olla suurempi kuin 0" 
