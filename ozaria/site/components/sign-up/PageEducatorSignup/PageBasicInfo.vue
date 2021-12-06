@@ -14,7 +14,8 @@
       lastName: '',
       email: '',
       password: '',
-      validationMessages: validationMessages
+      passwordFieldType: 'password',
+      validationMessages: validationMessages,
     }),
 
     validations: basicInfoValidations,
@@ -44,6 +45,10 @@
         if (event.target.name !== 'password') {
           this.updateTrialRequestProperties(attrs)
         }
+      },
+      togglePassword () {
+        this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
+        this.$refs.password.focus();
       },
 
       onClickNext () {
@@ -84,7 +89,11 @@
             span.control-label {{ $t("general.password") }}
             span.form-error(v-if="!$v.password.required") {{ $t(validationMessages.errorRequired.i18n) }}
             span.form-error(v-else-if="$v.password.$error") {{ $t('signup.invalid') }}
-          input#password-input.form-control(name="password" v-model="$v.password.$model" type="password" @change="onChangeValue($event)")
+          input#password-input.form-control(name="password" ref="password" :type="passwordFieldType" v-model="$v.password.$model" type="password" @change="onChangeValue($event)")
+          span.password-toggle.input-group-btn.form-control
+            button.btn.btn-default.reveal(@click="togglePassword")
+              i.glyphicon.glyphicon-eye-open(v-if="passwordFieldType === 'password'")
+              i.glyphicon.glyphicon-eye-close(v-if="passwordFieldType === 'text'")
           small.form-text.text-muted {{ $t("signup.password_requirements") }}
       .buttons.form-group.row
         .col-xs-offset-5
@@ -99,6 +108,14 @@
   justify-content: center
   .form-container
     width: 48vw
+    #password-input
+      width: calc(100% - 39px)
+    .password-toggle
+      width: auto
+      padding: 0
+      position: absolute
+      right: 15px
+      top: 29px
     .buttons
       margin-top: 30px
       button
