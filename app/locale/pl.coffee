@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "polski", englishDescription: "Polish", translation:
+
   new_home:
     title: "CodeCombat - Gra koderska do nauki Pythona i JavaScriptu"
     meta_keywords: "CodeCombat, python, javascript, Coding Games"
@@ -175,7 +176,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     explore_ozaria: "Poznaj Ozaria"
     explore_online_classes: "Poznaj zajęcia online"
     explore_pd: "Poznaj profesjonalny developnent"
-    new_adventure_game_blurb: "Ozaria to nasza zupełnie nowa gra przygodowa i gotowe rozwiązanie do nauczania informatyki. Nasze __slides__ skierowane do uczniów i notatki skierowane do nauczycieli ułatwiają i przyspieszają planowanie i prowadzenie lekcji." # {not sure}
+    new_adventure_game_blurb: "Ozaria to nasza zupełnie nowa gra przygodowa i gotowe rozwiązanie do nauczania informatyki. Nasze __slides__ skierowane do uczniów i notatki skierowane do nauczycieli ułatwiają i przyspieszają planowanie i prowadzenie lekcji."
     lesson_slides: "Slajdy lekcji"
     pd_blurb: "Zdobądź umiejętności skutecznego nauczania informatyki dzięki naszemu samodzielnemu kursowi rozwoju zawodowego z akredytacją CSTA. Odbądź do 40 godzin obwiązkowych w dowolnym momencie na dowolnym urządzeniu. Dobrze łączy się z Ozaria Classroom." # {change}
     ai_league_blurb: "Konkurencyjne kodowanie nigdy nie było tak epickie dzięki tej edukacyjnej lidze e-sportowej, wyjątkowo zarówno symulatorowi bitwy AI, jak i silnikowi gry do nauki prawdziwego kodu."
@@ -2059,6 +2060,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
     hoc_additional_desc2: "Pytania"
     hoc_additional_contact: "Bądź w kontakcie"
+#    regenerate_class_code_tooltip: "Generate a new Class Code"
+#    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
 #    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
 #    revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
     revoking: "Anulowanie..."
@@ -3341,7 +3344,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
 #    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
 #    season1_prize_1: "$1,000 Scholarship"
-#    season1_prize_2: "RESPAWN Gaming Chair"
+#    season1_prize_2: "RESPAWN Gaming Gear"
 #    season1_prize_3: "Custom CodeCombat Avatar"
 #    season1_prize_4: "And more!"
 #    season1_prize_hyperx: "HyperX Premium Peripherals"
