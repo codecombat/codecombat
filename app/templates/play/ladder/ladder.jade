@@ -166,13 +166,12 @@ block content
       div#ladder-action-columns.row
         if !features.china
           div.column.column-4
-            // Do we want league info here or just redirect all players to global arena? 
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.play-arena-button(href="/play/ladder/"+view.levelID) 
               span(data-i18n="courses.play_arena")
-          div.column.column-2
-            a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}?tournament=" + view.tournamentId + (view.league ? "&league=" + view.league.id : ""))
-              span.glyphicon.glyphicon-eye-open
-              span.spl(data-i18n="play.spectate")
+        div.column.column-2
+          a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}?tournament=" + view.tournamentId + (view.league ? "&league=" + view.league.id : ""))
+            span.glyphicon.glyphicon-eye-open
+            span.spl(data-i18n="play.spectate")
      
 
 
