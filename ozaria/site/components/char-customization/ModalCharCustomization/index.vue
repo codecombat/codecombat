@@ -95,7 +95,8 @@
       tintIndexSelection: {
         hair: -1,
         skin: -1
-      }
+      },
+      submitButtonDisabled: false
     }),
 
     async created () {
@@ -233,6 +234,7 @@
       },
 
       handleSubmit () {
+        this.submitButtonDisabled = true;
         let valid = null
         try {
           valid = this.$refs['name-form'].reportValidity()
@@ -274,8 +276,9 @@
         me.save(null, {
           success: () => {
             // TODO button should become disabled while saving.
+            this.submitButtonDisabled = false;
             this.$emit('saved')
-          }
+          },
         })
       }
     }
@@ -365,7 +368,6 @@
         </div>
       </div>
       <div
-        v-if="loaded"
         class="row"
       >
         <div class="button-area">
@@ -378,6 +380,8 @@
             {{ this.$t('common.cancel') }}
           </button>
           <button
+            v-if="loaded"
+            :disabled="submitButtonDisabled"
             @click="handleSubmit"
             class="char-button done-button"
           >
