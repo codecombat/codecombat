@@ -16,6 +16,7 @@ SubscribeModal = require 'views/core/SubscribeModal'
 LeaderboardModal = require 'views/play/modal/LeaderboardModal'
 Level = require 'models/Level'
 utils = require 'core/utils'
+constants = require 'core/constants'
 ShareProgressModal = require 'views/play/modal/ShareProgressModal'
 UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
@@ -129,6 +130,8 @@ module.exports = class CampaignView extends RootView
     @levelPlayCountMap = {}
     @levelDifficultyMap = {}
     @levelScoreMap = {}
+
+    @DEEP_API_LIST = constants.DEEP_API_LIST
 
     if @terrain is "hoc-2018"
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))

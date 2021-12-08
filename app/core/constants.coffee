@@ -50,6 +50,11 @@ COCO_CHINA_CONST = {
   CONTACT_EMAIL: 'china@codecombat.com'
 }
 
+DEEP_API_LIST = [ # Those apiclient doesn't want back-to-classroom button in campaign-view
+  '60fa65059e17ca0019950fdd' # TARENA
+  '61a0a183dc0da81482892695' # KEHOU330
+]
+
 module.exports = {
   STARTER_LICENSE_COURSE_IDS
   FREE_COURSE_IDS
@@ -57,4 +62,5 @@ module.exports = {
   STARTER_LICENCE_LENGTH_MONTHS
   COCO_CHINA_CONST
   LICENSE_PRESETS
+  DEEP_API_LIST
 }
