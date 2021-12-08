@@ -3386,6 +3386,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_tournaments: "目前没有锦标赛"
     edit_tournament: " 修改"
     create_tournament: " 创建锦标赛"
+    upcoming: '即将到来'
+    starting: '进行中'
+    ended: '已结束'
+    view_results: '查看结果'
+    estimate_days: '__time__ 天内开始'
 
 #  payments:
 #    student_licenses: "Student Licenses"

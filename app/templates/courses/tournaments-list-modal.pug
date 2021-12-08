@@ -1,0 +1,62 @@
+.modal-dialog
+  .modal-content
+    .row.mini-tournaments
+      h1(data-i18n="tournament.mini_tournaments")
+      .col-md-4
+        h2(data-i18n="tournament.upcoming")
+        hr
+        for tournament in (view.tournamentsByState.initializing || [])
+          a.ai-league-btn.tile(href=`/play/ladder/${tournament.slug}/clan/${tournament.clan}?tournament=${tournament._id}`, title=tournament.description)
+            if view.ladderImageMap[tournament.levelOriginal]
+              img.level-image(src=view.ladderImageMap[tournament.levelOriginal], alt=tournament.name).img-rounded
+            else
+              img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt=tournament.name).img-rounded
+            h3.dynamic-level-name.overlay-text= tournament.displayName
+            .tile-text-backdrop
+            .stats-text-container
+              .overlay-text.stats-text
+                span= tournament.slug
+            .play-text-container
+              .overlay-text.play-text
+                - now = new Date().getTime()
+                - time = (new Date(tournament.startDate).getTime() - now)/(24*3600*1000)|0
+                span(data-i18n="tournament.estimate_days", data-i18n-options={time})
+
+      .col-md-4
+        h2(data-i18n="tournament.starting")
+        hr
+        for tournament in (view.tournamentsByState.starting || [])
+          a.ai-league-btn.tile(href=`/play/ladder/${tournament.slug}/clan/${tournament.clan}?tournament=${tournament._id}`, title=tournament.description)
+            if view.ladderImageMap[tournament.levelOriginal]
+              img.level-image(src=view.ladderImageMap[tournament.levelOriginal], alt=tournament.name).img-rounded
+            else
+              img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt=tournament.name).img-rounded
+            h3.dynamic-level-name.overlay-text= tournament.displayName
+            .tile-text-backdrop
+            .stats-text-container
+              .overlay-text.stats-text
+                span= tournament.slug
+            .play-text-container
+              .overlay-text.play-text
+                span(data-i18n="common.play")
+
+      .col-md-4
+        h2(data-i18n="tournament.ended")
+        hr
+        for tournament in (view.tournamentsByState.ended || [])
+          a.ai-league-btn.tile(href=`/play/ladder/${tournament.slug}/clan/${tournament.clan}?tournament=${tournament._id}`, title=tournament.description)
+            if view.ladderImageMap[tournament.levelOriginal]
+              img.level-image(src=view.ladderImageMap[tournament.levelOriginal], alt=tournament.name).img-rounded
+            else
+              img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt=tournament.name).img-rounded
+            h3.dynamic-level-name.overlay-text= tournament.displayName
+            .tile-text-backdrop
+            .stats-text-container
+              .overlay-text.stats-text
+                span= tournament.slug
+            .play-text-container
+              .overlay-text.play-text
+                span(data-i18n="tournament.view_results")
+
+    div#close-modal
+      span.glyphicon.glyphicon-remove
