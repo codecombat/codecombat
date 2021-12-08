@@ -1,93 +1,93 @@
 module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", translation:
 
-#  new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
+  new_home:
+    title: "CodeCombat - Kodēšanas spēles Python un JavaScript apguvei"
+    meta_keywords: "CodeCombat, python, javascript, Kodēšanas Spēles"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
-#    meta_og_url: "https://codecombat.com"
-#    become_investor: "to become an investor in CodeCombat"
-#    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
+    meta_og_url: "https://codecombat.com"
+    become_investor: "kļūt par CodeCombat investoru"
+    built_for_teachers_title: "Kodēšanas spēle, kas veidota, domājot par skolotājiem"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
-#    built_for_teachers_subtitle1: "Computer Science"
+    built_for_teachers_subtitle1: "Datorzinātne"
 #    built_for_teachers_subblurb1: "Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms."
-#    built_for_teachers_subtitle2: "Game Development"
+    built_for_teachers_subtitle2: "Spēļu Izstrāde"
 #    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family."
-#    built_for_teachers_subtitle3: "Web Development"
+    built_for_teachers_subtitle3: "Web Izstrāde"
 #    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates."
-#    century_skills_title: "21st Century Skills"
+    century_skills_title: "21. Gadsimta Prasmes"
 #    century_skills_blurb1: "Students Don't Just Level Up Their Hero, They Level Up Themselves"
 #    century_skills_quote1: "You mess up…so then you think about all of the possible ways to fix it, and then try again. I wouldn't be able to get here without trying hard."
-#    century_skills_subtitle1: "Critical Thinking"
+    century_skills_subtitle1: "Kritiskā Domāšana"
 #    century_skills_subblurb1: "With coding puzzles that are naturally scaffolded into increasingly challenging levels, CodeCombat's programming game ensures kids are always practicing critical thinking."
 #    century_skills_quote2: "Everyone else was making mazes, so I thought, ‘capture the flag’ and that’s what I did."
-#    century_skills_subtitle2: "Creativity"
+    century_skills_subtitle2: "Kreativitāte"
 #    century_skills_subblurb2: "CodeCombat encourages students to showcase their creativity by building and sharing their own games and webpages."
 #    century_skills_quote3: "If I got stuck on a level. I would work with people around me until we were all able to figure it out."
-#    century_skills_subtitle3: "Collaboration"
+    century_skills_subtitle3: "Sadarbība"
 #    century_skills_subblurb3: "Throughout the game, there are opportunities for students to collaborate when they get stuck and to work together using our pair programming guide."
 #    century_skills_quote4: "I’ve always had aspirations of designing video games and learning how to code ... this is giving me a great starting point."
 #    century_skills_quote4_author: "Joey, 10th Grade"
-#    century_skills_subtitle4: "Communication"
+    century_skills_subtitle4: "Komunikācija"
 #    century_skills_subblurb4: "Coding requires kids to practice new forms of communication, including communicating with the computer itself and conveying their ideas using the most efficient code."
-#    classroom_in_box_title: "We Strive To:"
-#    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
-#    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
-#    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+    classroom_in_box_title: "Mēs cenšamies:"
+    classroom_in_box_blurb1: "Iesaistīt ikvienu skolēnu, lai viņi sajustu, ka kodēšana ir priekš viņa."
+    classroom_in_box_blurb2: "Dot ikvienam pedagogam justies pārliecinātam, mācot kodēšanu."
+    classroom_in_box_blurb3: "Iedvesmot visus skolu vadītājus izveidot pasaules līmeņa datorzinātņu programmu."
 #    classroom_in_box_blurb4: ""
-#    click_here: "Click here"
+    click_here: "Noklikšķiniet šeit"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
-#    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
+    creativity_rigor_subtitle1: "Padariet kodēšanu jautru un māciet reālās pasaules prasmes"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
-#    creativity_rigor_subtitle2: "Reach students at their level"
+    creativity_rigor_subtitle2: "Komunicējiet ar studentiem viņu līmenī"
 #    creativity_rigor_blurb2: "Every CodeCombat level is scaffolded based on millions of data points and optimized to adapt to each learner. Practice levels and hints help students when they get stuck, and challenge levels assess students' learning throughout the game."
 #    creativity_rigor_subtitle3: "Built for all teachers, regardless of experience"
 #    creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
-#    featured_partners_title1: "Featured In"
-#    featured_partners_title2: "Awards & Partners"
+    featured_partners_title1: "Rekomendēts"
+    featured_partners_title2: "Balvas un partneri"
 #    featured_partners_blurb1: "Clever Partner"
 #    featured_partners_blurb2: "Best Creativity Tool for Students"
 #    featured_partners_blurb3: "Top Pick for Learning"
 #    featured_partners_blurb4: "Code.org Official Partner"
 #    featured_partners_blurb5: "CSforAll Official Member"
 #    featured_partners_blurb6: "Hour of Code Activity Partner"
-#    for_leaders_title: "For School Leaders"
+    for_leaders_title: "Skolu vadītājiem"
 #    for_leaders_blurb: "A Comprehensive, Standards-Aligned Computer Science Program"
-#    for_leaders_subtitle1: "Easy Implementation"
+    for_leaders_subtitle1: "Viegla ieviešana"
 #    for_leaders_subblurb1: "A web-based program that requires no IT support. Get started in under 5 minutes using Google or Clever Single Sign-On (SSO)."
-#    for_leaders_subtitle2: "Full Coding Curriculum"
+    for_leaders_subtitle2: "Pilna kodēšanas mācību programma"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
-#    for_leaders_subtitle3: "Flexible Use Cases"
+    for_leaders_subtitle3: "Elastīgs pielietojums"
 #    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
-#    for_leaders_subtitle4: "Real-World Skills"
+    for_leaders_subtitle4: "Reālās pasaules prasmes"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
-#    for_teachers_title: "For Teachers"
-#    for_teachers_blurb: "Tools to Unlock Student Potential"
-#    for_teachers_subtitle1: "Project-Based Learning"
+    for_teachers_title: "Skolotājiem"
+    for_teachers_blurb: "Rīki studentu potenciāla atrašanai"
+    for_teachers_subtitle1: "Uz projektiem balstīta mācīšanās"
 #    for_teachers_subblurb1: "Promote creativity, problem-solving, and confidence in project-based courses where students develop their own games and webpages."
-#    for_teachers_subtitle2: "Teacher Dashboard"
+    for_teachers_subtitle2: "Skolotāju informācijas panelis"
 #    for_teachers_subblurb2: "View data on student progress, discover curriculum resources, and access real-time support to empower student learning."
 #    for_teachers_subtitle3: "Built-in Assessments"
 #    for_teachers_subblurb3: "Personalize instruction and ensure students understand core concepts with formative and summative assessments."
-#    for_teachers_subtitle4: "Automatic Differentiation"
+    for_teachers_subtitle4: "Automātiskā Diferenciācija"
 #    for_teachers_subblurb4: "Engage all learners in a diverse classroom with practice levels that adapt to each student's learning needs."
 #    game_based_blurb: "CodeCombat is a game-based computer science program where students type real code and see their characters react in real time."
 #    get_started: "Get started"
 #    global_title: "Join Our Global Community of Learners and Educators"
-#    global_subtitle1: "Learners"
-#    global_subtitle2: "Lines of Code"
-#    global_subtitle3: "Teachers"
-#    global_subtitle4: "Countries"
-#    go_to_my_classes: "Go to my classes"
-#    go_to_my_courses: "Go to my courses"
+    global_subtitle1: "Izglītojamie"
+    global_subtitle2: "Koda Rindas"
+    global_subtitle3: "Skolotāji"
+    global_subtitle4: "Valstis"
+    go_to_my_classes: "Iet uz manām nodarbībām"
+    go_to_my_courses: "Iet uz maniem kursiem"
 #    quotes_quote1: "Name any program online, I’ve tried it. None of them match up to CodeCombat & Ozaria. Any teacher who wants their students to learn how to code... start here!"
 #    quotes_quote2: " I was surprised about how easy and intuitive CodeCombat makes learning computer science. The scores on the AP exam were much higher than I expected and I believe CodeCombat is the reason why this was the case."
 #    quotes_quote3: "CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice."
 #    quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
 #    quotes_quote5: "Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills."
 #    quotes_quote5_author: "Latthaphon Pohpon, Parent"
-#    see_example: "See example"
-#    slogan: "The most engaging way to learn computer science"
-#    slogan_power_of_play: "Learn to Code Through the Power of Play"
+    see_example: "Skatīt piemēru"
+    slogan: "Visinteresantākais veids, kā apgūt datorzinātnes"
+    slogan_power_of_play: "Iemācieties kodēt, izmantojot spēles spēku"
 #    teach_cs1_free: "Teach CS1 Free"
 #    teachers_love_codecombat_title: "Teachers Love CodeCombat"
 #    teachers_love_codecombat_blurb1: "Report that their students enjoy using CodeCombat to learn how to code"
@@ -99,13 +99,13 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
 #    try_the_game: "Try the game"
 #    classroom_edition: "Classroom Edition:"
-#    learn_to_code: "Learn to code:"
-#    play_now: "Play Now"
-#    im_a_parent: "I'm a Parent"
-#    im_an_educator: "I'm an Educator"
-#    im_a_teacher: "I'm a Teacher"
-#    im_a_student: "I'm a Student"
-#    learn_more: "Learn more"
+    learn_to_code: "Iemācieties kodēt:"
+    play_now: "Spēlēt"
+    im_a_parent: "Es esmu vecāks"
+    im_an_educator: "Es esmu pedagogs"
+    im_a_teacher: "Es esmu skolotājs"
+    im_a_student: "Es esmu students"
+    learn_more: "Uzzināt vairāk"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
 #    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
 #    our_courses: "Our courses have been specifically playtested <strong>to excel in the classroom</strong>, even for teachers with little to no prior programming experience."
@@ -115,11 +115,11 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    real_code: "Real, typed code"
 #    from_the_first_level: "from the first level"
 #    getting_students: "Getting students to typed code as quickly as possible is critical to learning programming syntax and proper structure."
-#    educator_resources: "Educator resources"
-#    course_guides: "and course guides"
+    educator_resources: "Pedagogu resursi"
+    course_guides: "un kursu ceļveži"
 #    teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds."
-#    accessible_to: "Accessible to"
-#    everyone: "everyone"
+    accessible_to: "Pieejams"
+    everyone: "visiem"
 #    democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
 #    forgot_learning: "I think they actually forgot that they were learning something."
 #    wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
@@ -184,48 +184,48 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    learning_technology_blurb: "Our original game teaches real-world skills through the power of play. The scaffolded curriculum systematically builds on student’s experiences and knowledge as they progress."
 #    learning_technology_blurb_short: "Our innovative game-based learning technology has transformed the way students learn to code."
 #    online_classes_blurb: "Our online coding classes combine the power of gameplay and personalized instruction for an experience your child will love. With both private or group options available, this is remote learning that works."
-#    for_educators: "For Educators"
-#    for_parents: "For Parents"
-#    for_everyone: "For Everyone"
+    for_educators: "Pedagogiem"
+    for_parents: "Vecākiem"
+    for_everyone: "Ikvienam"
 #    what_our_customers_are_saying: "What Our Customers Are Saying"
-#    game_based_learning: "Game-Based Learning"
+    game_based_learning: "Uz spēlēm balstīta apmācība"
 #    unique_approach_blurb: "With our unique approach, students embrace learning as they play and write code from the very start of their adventure, promoting active learning and a growth mindset."
-#    text_based_coding: "Text-Based Coding"
+    text_based_coding: "Kodēšana ar teksta palīdzību"
 #    custom_code_engine_blurb: "Our custom code engine and interpreter is designed for beginners, teaching true Python, JavaScript, and C++ programming languages using human, beginner-friendly terms."
 #    student_impact: "Student Impact"
 #    help_enjoy_learning_blurb: "Our products have helped over 20 million students enjoy learning Computer Science, teaching them to be critical, confident, and creative learners. We engage all students, regardless of experience, helping them to realize a pathway to success in Computer Science."
-#    global_community: "Join Our Global Community"
-#    million: "__num__ Million"
-#    billion: "__num__ Billion"
+    global_community: "Pievienojieties mūsu globālajai kopienai"
+    million: "__num__ Miljons"
+    billion: "__num__ Miljards"
 
-#  nav:
+  nav:
 #    educators: "Educators"
-#    follow_us: "Follow Us"
-#    general: "General"
-#    map: "Map"
+    follow_us: "Seko mums"
+    general: "Vispārīgi"
+    map: "Karte"
 #    play: "Levels" # The top nav bar entry where players choose which levels to play
-#    community: "Community"
-#    courses: "Courses"
-#    blog: "Blog"
-#    forum: "Forum"
-#    account: "Account"
-#    my_account: "My Account"
-#    profile: "Profile"
+    community: "Kopiena"
+    courses: "Kursi"
+    blog: "Emuārs"
+    forum: "Forums"
+    account: "Konts"
+    my_account: "Mans Konts"
+    profile: "Profils"
 #    home: "Home"
 #    contribute: "Contribute"
 #    legal: "Legal"
 #    privacy: "Privacy Notice"
-#    about: "About"
+    about: "Par"
 #    impact: "Impact"
 #    contact: "Contact"
-#    twitter_follow: "Follow"
-#    my_classrooms: "My Classes"
-#    my_courses: "My Courses"
-#    my_teachers: "My Teachers"
+    twitter_follow: "Sekojiet"
+    my_classrooms: "Manas Nodarbības"
+    my_courses: "Mani Kursi"
+    my_teachers: "Mani Skolotāji"
 #    careers: "Careers"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
-#    create_a_class: "Create a Class"
+    facebook: "Facebook"
+    twitter: "Twitter"
+    create_a_class: "Izveidojiet Klasi"
 #    other: "Other"
 #    learn_to_code: "Learn to Code!"
 #    toggle_nav: "Toggle navigation"
@@ -253,36 +253,36 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    api_dashboard: "API Dashboard"
 #    funding_resources_guide: "Funding Resources Guide"
 
-#  modal:
-#    close: "Close"
-#    okay: "Okay"
-#    cancel: "Cancel"
+  modal:
+    close: "Aizvērt"
+    okay: "Labi"
+    cancel: "Atcelt"
 
   not_found:
     page_not_found: "Lapa nav atrasta"
 
-#  diplomat_suggestion:
-#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-#    sub_heading: "We need your language skills."
+  diplomat_suggestion:
+    title: "Palīdziet tulkot CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "Mums ir nepieciešamas jūsu valodu zināšanas."
 #    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both and are a native speaker of {English}, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
 #    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
-#  new_home_faq:
-#    what_programming_languages: "What programming languages are available?"
-#    python_and_javascript: "We currently support Python and JavaScript."
-#    why_python: "Why should you choose Python?"
+  new_home_faq:
+    what_programming_languages: "Kādas ir pieejamās programmēšanas valodas?"
+    python_and_javascript: "Pašlaik mēs atbalstām Python un JavaScript."
+    why_python: "Kāpēc izvēlēties Python?"
 #    why_python_blurb: "Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python."
-#    why_javascript: "Why should you choose JavaScript?"
+    why_javascript: "Kāpēc izvēlēties JavaScript?"
 #    why_javascript_blurb: "JavaScript is the language of the web and is used across nearly every website. You may prefer to choose JavaScript if you are planning to also study web development. We’ve also made it easy for students to transition from Python to JavaScript-based web development."
 #    javascript_versus_python: "JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python."
-#    how_do_i_get_started: "How do I get started?"
-#    getting_started_1: "Create your Teacher Account"
-#    getting_started_2: "Create a class"
-#    getting_started_3: "Add students"
+    how_do_i_get_started: "Kā uzsākt?"
+    getting_started_1: "Izveidojiet skolotāja kontu"
+    getting_started_2: "Izveidojiet klasi"
+    getting_started_3: "Pievienojiet skolēnus"
 #    getting_started_4: "Sit back and watch your students have fun learning to code"
-#    main_curriculum: "Can I use CodeCombat or Ozaria as my main curriculum?"
+    main_curriculum: "Vai kā galveno mācību programmu varu izmantot CodeCombat vai Ozaria?"
 #    main_curriculum_blurb: "Absolutely! We’ve spent time consulting with education specialists to craft classroom curriculum and materials specifically for teachers who are using CodeCombat or Ozaria without any prior computer science experience themselves. Many schools are implementing CodeCombat and/or Ozaria as the main computer science curriculum."
 #    clever_instant_login: "Does CodeCombat and Ozaria support Clever Instant Login?"
 #    clever_instant_login_blurb: "Yes! Check out our __clever__ for more details on how to get started."
@@ -402,26 +402,26 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    nil: "nil"
 #    None: "None"
 
-#  share_progress_modal:
-#    blurb: "You’re making great progress! Tell your parent how much you've learned with CodeCombat."
-#    email_invalid: "Email address invalid."
-#    form_blurb: "Enter your parent's email below and we’ll show them!"
-#    form_label: "Email Address"
-#    placeholder: "email address"
-#    title: "Excellent Work, Apprentice"
+  share_progress_modal:
+    blurb: "Jūs lieliski progresējat! Pastāstiet vecākiem, cik daudz esat iemācījušies, izmantojot CodeCombat."
+    email_invalid: "E-pasta adrese nav derīga."
+    form_blurb: "Ievadiet savu vecāku e-pasta adresi zemāk, un mēs viņiem parādīsim!"
+    form_label: "E-pasta adrese"
+    placeholder: "e-pasta adrese"
+    title: "Lielisks darbs, Mācekli"
 
-#  login:
-#    sign_up: "Create Account"
-#    email_or_username: "Email or username"
-#    log_in: "Log In"
-#    logging_in: "Logging In"
-#    log_out: "Log Out"
-#    forgot_password: "Forgot your password?"
-#    finishing: "Finishing"
-#    sign_in_with_facebook: "Sign in with Facebook"
-#    sign_in_with_gplus: "Sign in with Google"
-#    signup_switch: "Want to create an account?"
-#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
+  login:
+    sign_up: "Izveidot Kontu"
+    email_or_username: "E-pasts vai lietotājvārds"
+    log_in: "Pieslēgties"
+    logging_in: "Pieslēgšanās"
+    log_out: "Atslēgties"
+    forgot_password: "Aizmirsi savu paroli?"
+    finishing: "Pabeidz"
+    sign_in_with_facebook: "Pierakstieties ar Facebook"
+    sign_in_with_gplus: "Pierakstieties ar Google"
+    signup_switch: "Vai vēlaties izveidot kontu?"
+    accounts_merge_confirmation: "Ar šī Google konta e-pastu ir saistīts konts. Vai vēlaties apvienot šos kontus?"
 
 #  signup:
 #    complete_subscription: "Complete Subscription"
@@ -514,18 +514,18 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    yes_i_have_classcode: "Yes, I have a Class Code!"
 #    enter_it_here: "Enter it here:"
 
-#  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
-#    recovery_sent: "Recovery email sent."
+  recover:
+    recover_account_title: "Atjaunot kontu"
+    send_password: "Nosūtiet atkopšanas paroli"
+    recovery_sent: "Atkopšanas e-pasts ir nosūtīts."
 
-#  items:
-#    primary: "Primary"
-#    secondary: "Secondary"
-#    armor: "Armor"
-#    accessories: "Accessories"
-#    misc: "Misc"
-#    books: "Books"
+  items:
+    primary: "Primārais"
+    secondary: "Sekundārais"
+    armor: "Bruņas"
+    accessories: "Piederumi"
+    misc: "Dažādi"
+    books: "Grāmatas"
 
 #  common:
 #    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
@@ -634,22 +634,22 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    support: "Support"
 #    here: "here"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    sec: "sec"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+  units:
+    second: "sekunde"
+    seconds: "sekundes"
+    sec: "se"
+    minute: "minūte"
+    minutes: "minūes"
+    hour: "stunda"
+    hours: "stundas"
+    day: "diena"
+    days: "dienas"
+    week: "nedēļa"
+    weeks: "nedēļas"
+    month: "mēnesis"
+    months: "mēneši"
+    year: "gads"
+    years: "gadi"
 
 #  play_level:
 #    back_to_map: "Back to Map"
@@ -872,10 +872,10 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    future_eng_4: "Amazon Future Engineer"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
-#  live_class:
-#    title: "Thank you!"
-#    content: "Amazing! We just launched live online classes."
-#    link: "Ready to get ahead on your coding?"
+  live_class:
+    title: "Paldies!"
+    content: "Lieliski! Mēs tikko uzsākām tiešsaistes nodarbības."
+    link: "Vai esat gatavs uzlabot savas kodēšanas prasmes?"
 
 #  code_quest:
 #    great: "Great!"
@@ -965,13 +965,13 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    purchase: "Purchase"
 #    purchased: "Purchased"
 
-#  subscribe_for_gems:
-#    prompt_title: "Not Enough Gems!"
-#    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
+  subscribe_for_gems:
+    prompt_title: "Nepietiek dārgakmeņu!"
+    prompt_body: "Abonējiet Premium, lai iegūtu dārgakmeņus un piekļūtu vēl vairākiem līmeņiem!"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+  earn_gems:
+    prompt_title: "Nepietiek dārgakmeņu"
+    prompt_body: "Turpiniet spēlēt, lai nopelnītu vairāk!"
 
 #  subscribe:
 #    best_deal: "Best Deal!"
@@ -1063,8 +1063,8 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
-#  avatar_selection:
-#    pick_an_avatar: "Pick an avatar that will represent you as a player"
+  avatar_selection:
+    pick_an_avatar: "Izvēlieties personāžu, kas pārstāvēs jūs kā spēlētāju"
 
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
@@ -1126,12 +1126,12 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    level_to_unlock: "Level to unlock:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
 #    restricted_to_certain_heroes: "Only certain heroes can play this level."
 
-#  char_customization_modal:
-#    heading: "Customize Your Hero"
-#    body: "Body"
-#    name_label: "Hero's Name"
-#    hair_label: "Hair Color"
-#    skin_label: "Skin Color"
+  char_customization_modal:
+    heading: "Pielāgojiet savu varoni"
+    body: "Ķermenis"
+    name_label: "Varoņa vārds"
+    hair_label: "Matu krāsa"
+    skin_label: "Ādas krāsa"
 
 #  skill_docs:
 #    function: "function" # skill types
@@ -1163,9 +1163,9 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    granted_by: "Granted by"
 #    still_undocumented: "Still undocumented, sorry."
 
-#  save_load:
-#    granularity_saved_games: "Saved"
-#    granularity_change_history: "History"
+  save_load:
+    granularity_saved_games: "Saglabāts"
+    granularity_change_history: "Vēsture"
 
 #  options:
 #    general_options: "General Options" # Check out the Options tab in the Game Menu while playing a level
@@ -1286,8 +1286,8 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    previous: "Previous"
 #    location_title: "We're located in downtown SF:"
 
-#  teachers:
-#    licenses_needed: "Licenses needed"
+  teachers:
+    licenses_needed: "Nepieciešamas licences"
 
 #  special_offer:
 #    special_offer: "Special Offer"
@@ -1483,8 +1483,8 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    beautify: "Beautify your code by standardizing its formatting."
 #    maximize_editor: "Maximize/minimize code editor."
 
-#  cinematic:
-#    click_anywhere_continue: "click anywhere to continue"
+  cinematic:
+    click_anywhere_continue: "noklikšķiniet jebkurā vietā, lai turpinātu"
 
 #  community:
 #    main_title: "CodeCombat Community"
@@ -1774,10 +1774,10 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    view_winners: "View Winners"
 #    classroom_announcement: "Classroom Announcement"
 
-#  project_gallery:
-#    no_projects_published: "Be the first to publish a project in this course!"
-#    view_project: "View Project"
-#    edit_project: "Edit Project"
+  project_gallery:
+    no_projects_published: "Esi pirmais, kas publicē projektu šajā kursā!"
+    view_project: "Skatīt projektu"
+    edit_project: "Rediģēt projektu"
 
 #  teacher:
 #    assigning_course: "Assigning course"
@@ -2191,8 +2191,8 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    ladder_link_title: "Share Your Multiplayer Match Link"
 #    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
-#  game_dev:
-#    creator: "Creator"
+  game_dev:
+    creator: "Izveidotājs"
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
@@ -2316,12 +2316,12 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    add_system_title: "Add Systems to Level"
 #    done_adding: "Done Adding"
 
-#  article:
-#    edit_btn_preview: "Preview"
-#    edit_article_title: "Edit Article"
+  article:
+    edit_btn_preview: "Priekšskatījums"
+    edit_article_title: "Rediģēt rakstu"
 
-#  polls:
-#    priority: "Priority"
+  polls:
+    priority: "Prioritāte"
 
 #  contribute:
 #    page_title: "Contributing"
@@ -2661,16 +2661,16 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!"
 #    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
 
-#  resources:
-#    level: "Level"
-#    patch: "Patch"
-#    patches: "Patches"
-#    system: "System"
-#    systems: "Systems"
-#    component: "Component"
-#    components: "Components"
-#    hero: "Hero"
-#    campaigns: "Campaigns"
+  resources:
+    level: "Līmenis"
+ #   patch: "Patch"
+ #   patches: "Patches"
+    system: "Sistēma"
+    systems: "Sistēmas"
+    component: "Komponents"
+    components: "Komponenti"
+    hero: "Varonis"
+    campaigns: "Kampaņas"
 
 #  concepts:
 #    advanced_css_rules: "Advanced CSS Rules"
@@ -2800,16 +2800,16 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    basic_event_handling: "Basic Event Handling"
 #    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
-#  anonymous_teacher:
-#    notify_teacher: "Notify Teacher"
-#    create_teacher_account: "Create free teacher account"
-#    enter_student_name: "Your name:"
-#    enter_teacher_email: "Your teacher's email:"
-#    teacher_email_placeholder: "teacher.email@example.com"
-#    student_name_placeholder: "type your name here"
-#    teachers_section: "Teachers:"
-#    students_section: "Students:"
-#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
+  anonymous_teacher:
+    notify_teacher: "Paziņot skolotājam"
+    create_teacher_account: "Izveidojiet bezmaksas skolotāja kontu"
+    enter_student_name: "Tavs vārds:"
+    enter_teacher_email: "Tava skolotāja e-pasts:"
+    teacher_email_placeholder: "skolotāja.epasts@piemers.lv"
+    student_name_placeholder: "ieraksti savu vārdu šeit"
+    teachers_section: "Skolotāji:"
+    students_section: "Studenti:"
+    teacher_notified: "Mēs esam paziņojuši jūsu skolotājam, ka vēlaties savā klasē spēlēt CodeCombat!"
 
 #  delta:
 #    added: "Added"
@@ -2881,22 +2881,22 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
 
-#  calendar:
-#    year: "Year"
-#    day: "Day"
-#    month: "Month"
-#    january: "January"
-#    february: "February"
-#    march: "March"
-#    april: "April"
-#    may: "May"
-#    june: "June"
-#    july: "July"
-#    august: "August"
-#    september: "September"
-#    october: "October"
-#    november: "November"
-#    december: "December"
+  calendar:
+    year: "Gads"
+    day: "Diena"
+    month: "Mēnesis"
+    january: "Janvāris"
+    february: "Februāris"
+    march: "Marts"
+    april: "Aprīlis"
+    may: "Maijs"
+    june: "Jūnijs"
+    july: "Jūlijs"
+    august: "Augusts"
+    september: "Septembris"
+    october: "Oktobris"
+    november: "Novembris"
+    december: "Decembris"
 
 #  code_play_create_account_modal:
 #    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
@@ -2905,11 +2905,11 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
-#  server_error:
-#    email_taken: "Email already taken"
-#    username_taken: "Username already taken"
-#    easy_password: "Password is too easy to guess"
-#    reused_password: "Password cannot be reused"
+  server_error:
+    email_taken: "E-pasts jau aizņemts"
+    username_taken: "Lietotājvārds jau aizņemts"
+    easy_password: "Paroli ir pārāk viegli uzminēt"
+    reused_password: "Paroli nevar izmantot atkārtoti"
 
 #  esper:
 #    line_no: "Line $1: "
@@ -3235,9 +3235,9 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    download: "Download Chrome"
 #    ignore: "Ignore"
 
-#  admin:
-#    license_type_full: "Full Courses"
-#    license_type_customize: "Customize Courses"
+  admin:
+    license_type_full: "Pilni kursi"
+    license_type_customize: "Pielāgot kursus"
 
 #  outcomes:
 #    outcomes_report: "Outcomes Report"
@@ -3376,48 +3376,48 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
 #    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
 
-#  tournament:
-#    mini_tournaments: "Mini Tournaments"
-#    usable_ladders: "All Usable Ladders"
-#    make_tournament: "Make a mini tournament"
-#    go_tournaments: "Go to mini tournaments"
-#    class_tournaments: "Class mini tournaments"
-#    no_tournaments_owner: "There is no tournament now, please create one"
-#    no_tournaments: "There is no tournament now"
-#    edit_tournament: "Edit Tournament"
-#    create_tournament: "Create a Tournament"
+  tournament:
+    mini_tournaments: "Mini turnīri"
+    usable_ladders: "Visas izmantojamās kāpnes"
+    make_tournament: "Izveidojiet mini turnīru"
+    go_tournaments: "Dodieties uz mini turnīriem"
+    class_tournaments: "Klases mini turnīri"
+    no_tournaments_owner: "Pašlaik nav neviena turnīra. Lūdzu, izveidojiet to"
+    no_tournaments: "Turnīra šobrīd nav"
+    edit_tournament: "Rediģēt turnīru"
+    create_tournament: "Izveidojiet turnīru"
 
-#  payments:
-#    student_licenses: "Student Licenses"
-#    computer_science: "Computer Science"
-#    web_development: "Web Development"
-#    game_development: "Game Development"
+  payments:
+    student_licenses: "Studentu licences"
+    computer_science: "Datorzinātne"
+    web_development: "Web izstrāde"
+    game_development: "Spēļu izstrāde"
 #    per_student: "Per Student"
-#    just: "Just"
-#    teachers_upto: "Teacher can purchase upto"
+    just: "Tikai"
+    teachers_upto: "Skolotājs var iegādāties līdz"
 #    great_courses: "Great Courses included for"
 #    studentLicense_successful: "Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students."
 #    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
 #    homeSubscriptions_successful: "Congratulations! Your payment was successful. Your premium access will be available in few minutes."
-#    failed: "Your payment failed, please try again"
-#    session_week_1: "1 session/week"
-#    session_week_2: "2 sessions/week"
-#    month_1: "Monthly"
-#    month_3: "Quarterly"
-#    month_6: "Half-yearly"
-#    year_1: "Yearly"
-#    most_popular: "Most Popular"
-#    best_value: "Best Value"
-#    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
-#    homeschooling: "Homeschooling Licenses"
-#    recurring_month_1: "Recurring billing every month"
-#    recurring_month_3: "Recurring billing every 3 months"
-#    recurring_month_6: "Recurring billing every 6 months"
-#    recurring_year_1: "Recurring billing every year"
+    failed: "Jūsu maksājums neizdevās. Lūdzu, mēģiniet vēlreiz"
+    session_week_1: "1 sesija nedēļā"
+    session_week_2: "2 sesijas nedēļā"
+    month_1: "Ikmēneša"
+    month_3: "Reizi ceturksnī"
+    month_6: "Reizi pusgadā"
+    year_1: "Ik gadu"
+    most_popular: "Populārākais"
+    best_value: "Labakā vērtība"
+    purchase_licenses: "Ērti iegādājieties licences, lai iegūtu pilnu piekļuvi CodeCombat un Ozaria"
+    homeschooling: "Mājskolas licences"
+    recurring_month_1: "Atkārtota norēķinu veikšana katru mēnesi"
+    recurring_month_3: "Atkārtota norēķinu veikšana ik pēc 3 mēnešiem"
+    recurring_month_6: "Atkārtota norēķinu veikšana ik pēc 6 mēnešiem"
+    recurring_year_1: "Atkārtota norēķinu veikšana ik gadu"
 
-#  form_validation_errors:
-#    required: "Field is required"
-#    invalidEmail: "Invalid email"
-#    invalidPhone: "Invalid phone number"
-#    emailExists: "Email already exists"
-#    numberGreaterThanZero: "Should be a number greater than 0"
+  form_validation_errors:
+    required: "Lauks ir obligāti jāaizpilda "
+    invalidEmail: "Nepareizs e-pasts"
+    invalidPhone: "Nederīgs tālruņa numurs"
+    emailExists: "E-pasts jau pastāv"
+    numberGreaterThanZero: "Skaitlim jābūt lielākam par 0"
