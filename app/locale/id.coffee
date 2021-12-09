@@ -2060,6 +2060,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     hoc_additional_desc1: "Untuk tambahan sumber daya dan aktivitas CodeCombat, lihat"
     hoc_additional_desc2: "Pertanyaan"
     hoc_additional_contact: "Hubungi"
+#    regenerate_class_code_tooltip: "Generate a new Class Code"
+#    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
     revoke_confirm: "Apakah kamu ingin mencabut Lisensi Penuh dari {{student_name}}? Lisensi tersebut akan tersedia untuk dipasang ke siswa lainnya."
     revoke_all_confirm: "Apakah anda ingin mencabut Lisensi Penuh dari semua siswa di kelas ini?"
     revoking: "Mencabut..."
@@ -3342,7 +3344,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
 #    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
     season1_prize_1: "Beasiswa $1,000"
-    season1_prize_2: "RESPAWN Kursi Permainan"
+    season1_prize_2: "RESPAWN Kursi Permainan" # {change}
     season1_prize_3: "Avatar CodeCombat Khusus"
     season1_prize_4: "Dan banyak lagi!"
 #    season1_prize_hyperx: "HyperX Premium Peripherals"
