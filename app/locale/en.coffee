@@ -3363,7 +3363,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
     season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
     season1_prize_1: "$1,000 Scholarship"
-    season1_prize_2: "RESPAWN Gaming Gear"  # {change}
+    season1_prize_2: "RESPAWN Gaming Gear"
     season1_prize_3: "Custom CodeCombat Avatar"
     season1_prize_4: "And more!"
     season1_prize_hyperx: "HyperX Premium Peripherals"
