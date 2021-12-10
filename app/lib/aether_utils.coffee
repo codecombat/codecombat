@@ -191,7 +191,7 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     # TODO: figure out how we are going to handle array methods in Java
 
     # Don't substitute these within comments
-    noComment = '^ *([^/\\r\\n]*?)'
+    noComment = '^( *[^/\\r\\n]*?)' # keep leading whitespace
     if language is 'cpp'
       newRegex = new RegExp(noComment + '([^*])new ', 'gm')
       while newRegex.test(s)
@@ -418,7 +418,10 @@ startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
 module.exports.filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'
-  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html'], if currentLanguage == 'cpp' then 'javascript' else currentLanguage
+  excludeCpp = 'cpp'
+  unless /```cpp\n[^`]+```\n?/.test text
+    excludeCpp = 'javascript'
+  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html'], if currentLanguage == 'cpp' then excludeCpp else currentLanguage
   # Exclude language-specific code blocks like ```python (... code ...)``
   # ` for each non-target language.
   codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'
