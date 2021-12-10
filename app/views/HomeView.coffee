@@ -16,6 +16,7 @@ module.exports = class HomeView extends RootView
 
   events:
     'click .continue-playing-btn': 'onClickTrackEvent'
+    'click .start-playing-btn': 'onClickIndividualButton'
     'click .student-btn': 'onClickStudentButton'
     'click .teacher-btn': 'onClickTeacherButton'
     'click .parent-btn': 'onClickParentButton'
@@ -52,6 +53,11 @@ module.exports = class HomeView extends RootView
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
     ]
+
+  onClickIndividualButton: (e) ->
+    @homePageEvent('Started Signup')
+    @homePageEvent($(e.target).data('event-action'))
+    @openModalView(new CreateAccountModal({startOnPath: 'individual'}))
 
   onClickStudentButton: (e) ->
     @homePageEvent('Started Signup')
