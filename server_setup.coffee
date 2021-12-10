@@ -163,6 +163,9 @@ setupFeaturesMiddleware = (app) ->
       features.freeOnly = true
       features.noAds = true
 
+    if /codecombat\.cn/.test(req.get('host')) or /codecombat/.test(req.get('host'))
+      features.chinaHome = true
+
     if config.picoCTF or req.session.featureMode is 'pico-ctf'
       features.playOnly = true
       features.noAds = true

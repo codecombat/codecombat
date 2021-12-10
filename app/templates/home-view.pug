@@ -2,15 +2,16 @@ extends /templates/base-flat.jade
 
 block content
   .container-fluid
-    .row#top-banner
-      .row
-        .col-xs-12
-          if me.isTeacher()
-            span(data-i18n="new_home.top_banner_blurb_funding")
-            a(href="https://www.ozaria.com/funding", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Funding Page" target='_blank')
-          else
-            span(data-i18n="new_home.top_banner_blurb")
-            a(href="/parents", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Parents Page")
+    if !features.chinaHome
+      .row#top-banner
+        .row
+          .col-xs-12
+            if me.isTeacher()
+              span(data-i18n="new_home.top_banner_blurb_funding")
+              a(href="https://www.ozaria.com/funding", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Funding Page" target='_blank')
+            else
+              span(data-i18n="new_home.top_banner_blurb")
+              a(href="/parents", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Parents Page")
 
     .cloud-wrapper
       .row#jumbotron-container-fluid
@@ -18,12 +19,16 @@ block content
           h1(data-i18n="new_home.slogan_power_of_play")
           div.button-section
             if me.isAnonymous()
-              p
-                button.btn.btn-lg.btn-primary.teacher-btn(data-event-action="Homepage Click Teacher Button #1 CTA", data-i18n="new_home.im_an_educator", style="text-transform: none")
-              p
-                button.btn.btn-lg.btn-primary.parent-btn(data-event-action="Homepage Click Parent Button CTA", data-i18n="new_home.im_a_parent", style="text-transform: none")
-              p
-                button.btn.btn-lg.btn-primary.student-btn(data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student", style="text-transform: none")
+              if features.chinaHome
+                p
+                  button.btn.btn-lg.btn-primary.continue-playing-btn(data-i18n="signup.start_playing", style="text-transform: none")
+              else
+                p
+                  button.btn.btn-lg.btn-primary.teacher-btn(data-event-action="Homepage Click Teacher Button #1 CTA", data-i18n="new_home.im_an_educator", style="text-transform: none")
+                p
+                  button.btn.btn-lg.btn-primary.parent-btn(data-event-action="Homepage Click Parent Button CTA", data-i18n="new_home.im_a_parent", style="text-transform: none")
+                p
+                  button.btn.btn-lg.btn-primary.student-btn(data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student", style="text-transform: none")
             else
               p
                 if me.isTeacher()
@@ -149,22 +154,23 @@ block content
               button.btn.btn-lg.btn-primary.btn-gold.create-account-teacher-btn(data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
       img#codecombat-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-5.png" loading="lazy" alt="")
 
-    section.container
-      .row.product-row
-        .col-md-5
-          .row
-            h4.product-title(data-i18n="nav.professional_development")
-            p(data-i18n="new_home.pd_blurb")
-            .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="https://www.ozaria.com/professional-development" data-i18n="new_home.explore_pd" data-event-action="Homepage Click Professional Development Button CTA")
-        .col-md-6.col-md-offset-1
-          img.img-responsive(src="/images/pages/home-v2/pd-image.png" loading="lazy" alt="Teacher taking profesional development course")
+    if !features.chinaHome
+      section.container
+        .row.product-row
+          .col-md-5
+            .row
+              h4.product-title(data-i18n="nav.professional_development")
+              p(data-i18n="new_home.pd_blurb")
+              .product-btn
+                a.btn.btn-lg.btn-primary.btn-gold(href="https://www.ozaria.com/professional-development" data-i18n="new_home.explore_pd" data-event-action="Homepage Click Professional Development Button CTA")
+          .col-md-6.col-md-offset-1
+            img.img-responsive(src="/images/pages/home-v2/pd-image.png" loading="lazy" alt="Teacher taking profesional development course")
 
-    .container-graphic-spacer
-      .container
-        .row
-          .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-47%);" alt="")
+      .container-graphic-spacer
+        .container
+          .row
+            .col-xs-12.text-center
+              img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-47%);" alt="")
 
     .container
       .row.text-center.for-parents-row
@@ -275,19 +281,20 @@ block content
           .carousel-dot(data-selector="#student-quotes", data-slide-num="1")
           .carousel-dot(data-selector="#student-quotes", data-slide-num="2")
 
-    .container-graphic-spacer(style="margin-top: 33px;")
-      .container
-        .row
-          .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-7.png" loading="lazy" style="max-width: 321px;" alt="")
+    if !features.chinaHome
+      .container-graphic-spacer(style="margin-top: 33px;")
+        .container
+          .row
+            .col-xs-12.text-center
+              img.img-responsive(src="/images/pages/home-v2/graphic-7.png" loading="lazy" style="max-width: 321px;" alt="")
 
-    .container.testimonials-container
-      .row.text-center.testimonials-row
-        .col-xs-12
-          h1(data-i18n="new_home.what_our_customers_are_saying")
+      .container.testimonials-container
+        .row.text-center.testimonials-row
+          .col-xs-12
+            h1(data-i18n="new_home.what_our_customers_are_saying")
 
-      .row.curator-row
-        #curator-feed-default-feed-layout.col-xs-12
+        .row.curator-row
+          #curator-feed-default-feed-layout.col-xs-12
 
     .container-graphic-spacer
       .container

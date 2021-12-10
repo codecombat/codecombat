@@ -678,7 +678,8 @@ module.exports = class User extends CocoModel
   isICode: -> @get('clientCreator') is '61393874c324991d0f68fc70' or _.find(@get('clientPermissions') ? [], client: '61393874c324991d0f68fc70')
   showForumLink: -> not (features?.china ? false)
   showChinaResourceInfo: -> features?.china ? false
-  useChinaHomeView: -> features?.china ? false
+  showChinaHomeVersion: -> features?.chinaHome ? false
+  useChinaHomeView: -> features?.china and ! features?.chinaHome ? false
   showChinaRegistration: -> features?.china ? false
   enableCpp: -> @hasSubscription() or @isStudent() or @isTeacher()
   useQiyukf: -> false

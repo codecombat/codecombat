@@ -170,7 +170,7 @@
                     a.text-p(href="/events", data-i18n="nav.events", class='')
 
                 ul.nav.navbar-nav(v-if="me.isAnonymous()")
-                  li.dropdown.dropdown-hover
+                  li.dropdown.dropdown-hover(v-if="!me.showChinaHomeVersion()")
                     a.text-p(:href="isCodeCombat ? '/impact' : '#'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
                       span {{ $t('nav.educators') }}
                       span.caret
