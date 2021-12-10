@@ -10,3 +10,7 @@ module.exports = class ChooseAccountTypeView extends CocoView
     'click .teacher-path-button': -> @trigger 'choose-path', 'teacher'
     'click .student-path-button': -> @trigger 'choose-path', 'student'
     'click .individual-path-button': -> @trigger 'choose-path', 'individual'
+
+  afterRender: ->
+    if me.showChinaHomeVersion()
+      @trigger 'choose-path', 'individual'
