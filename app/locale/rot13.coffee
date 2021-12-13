@@ -3343,7 +3343,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     season2_announcement_2: "Arrq zber cenpgvpr? Fgvpx jvgu gur Zntr'f Zvtug Neran gb ersvar lbhe fxvyyf. Lbh unir hagvy Nhthfg 31fg gb cynl obgu neranf. Abgr: neran onynapr nqwhfgzragf znl bpphe hagvy Nhthfg 23eq."
     season2_announcement_3: "Terng cevmrf ninvynoyr sbe gbc cresbezref va gur Fbepreref Oyvgm:"
     season1_prize_1: "$1,000 Fpubynefuvc"
-    season1_prize_2: "ERFCNJA Tnzvat Trne"  # {punatr}
+    season1_prize_2: "ERFCNJA Tnzvat Trne"
     season1_prize_3: "Phfgbz PbqrPbzong Ningne"
     season1_prize_4: "Naq zber!"
     season1_prize_hyperx: "UlcreK Cerzvhz Crevcurenyf"
