@@ -663,6 +663,11 @@ class PlayLevelView extends RootView {
       })
     }
 
+    if (this.level.isType('game-dev')) {
+      this.insertSubView(new GameDevTrackView({}))
+      this.$('#game-dev-track-view').addClass('hide')
+    }
+
     this.insertSubView(new TutorialPlayView({
       level: this.level
     }))
@@ -1440,6 +1445,9 @@ class PlayLevelView extends RootView {
     this.updateLevelName()
     this.onWindowResize()
     this.realTimePlaybackWaitingForFrames = true
+    if (this.level.isType('game-dev')) {
+      this.$('#game-dev-track-view').removeClass('hide')
+    }
   }
 
   updateStudentGoals () {
@@ -1503,6 +1511,7 @@ class PlayLevelView extends RootView {
     }
     if (this.level.isType('game-dev')) {
       this.$('#how-to-play-game-dev-panel').addClass('hide')
+      this.$('#game-dev-track-view').addClass('hide')
     }
     this.$el.removeClass('real-time')
     this.onWindowResize()
