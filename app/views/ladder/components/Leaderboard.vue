@@ -233,13 +233,13 @@
         }
         return ''
       },
-      onClickUserRow (rank, slug) {
-        if (slug != 'fight')
-          this.$emit('click-player-name', rank)
+      onClickUserRow (rank, slug, nearby = false) {
+        if (slug !== 'fight')
+          this.$emit('click-player-name', rank, nearby)
       },
       onClickSpectateCell (rank) {
-        let index = this.selectedRow.indexOf(rank)
-        if (index != -1) {
+        let index =this.selectedRow.indexOf(rank)
+        if (index !== -1) {
           this.$delete(this.selectedRow, index)
         }
         else {
@@ -286,16 +286,16 @@
             td(colspan=3) ...
           template(v-else)
             td(v-for="item, index in row" v-if="index > 0" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 1 ? computeBody(tableTitles[index].slug, item): ''" @click="onClickUserRow(rank, tableTitles[index].slug)")
-            td.spectate-cell.iconic-cell(@click="onClickSpectateCell(rank)")
-              .glyphicon(:class="{'glyphicon-eye-open': selectedRow.indexOf(rank) != -1}")
+            td.spectate-cell.iconic-cell(@click="onClickSpectateCell(rank + '-top')")
+              .glyphicon(:class="{'glyphicon-eye-open': selectedRow.indexOf(rank + '-top') != -1}")
 
         tr(v-for="row, rank in playerRankings" :key="'player-'+rank" :class="classForRow(row)")
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)
-            td(v-for="item, index in row" v-if="index > 0" :key="'player-' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 1 ? computeBody(tableTitles[index].slug, item): ''" @click="onClickUserRow(rank)")
-            td.spectate-cell.iconic-cell(@click="onClickSpectateCell(rank)")
-              .glyphicon(:class="{'glyphicon-eye-open': selectedRow.indexOf(rank) != -1}")
+            td(v-for="item, index in row" v-if="index > 0" :key="'player-' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 1 ? computeBody(tableTitles[index].slug, item): ''" @click="onClickUserRow(rank, tableTitles[index].slug, true)")
+            td.spectate-cell.iconic-cell(@click="onClickSpectateCell(rank + '-nearby')")
+              .glyphicon(:class="{'glyphicon-eye-open': selectedRow.indexOf(rank + '-nearby') != -1}")
 
     #load-more.btn.btn-sm(data-i18n='editor.more', @click="loadMore")
 </template>
