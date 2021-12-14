@@ -3393,6 +3393,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_tournaments: "There is no tournament now"
     edit_tournament: "Edit Tournament"
     create_tournament: "Create a Tournament"
+    upcoming: 'Upcoming'
+    starting: 'Starting'
+    ended: 'Ended'
+    view_results: 'View Results'
+    estimate_days: 'In __time__ Days'
 
   payments:
     student_licenses: 'Student Licenses'

@@ -48,7 +48,7 @@ module.exports = class MainLadderView extends RootView
       @clan.once 'sync', (clan) =>
         console.log(clan, @clan)
         @renderSelectors('#ladder-list')
-    else if @pageType == 'student'
+    else if @pageType == 'student' # deprecated
       url = "/db/tournaments?memberId=#{@objectId}"
     tournaments = new CocoCollection([], {url, model: Tournament})
     @listenTo tournaments, 'sync', =>
