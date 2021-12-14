@@ -13,7 +13,7 @@ block modal-body-content
           option(value=option.id selected=(view.language === option.id))= option.name
 
   div#noob-view.secret
-    a(href="/play/level/#{view.levelID}-tutorial" + (view.options.league ? "?league=" + view.options.league.id : "")).btn.btn-success.btn-block.btn-lg
+    a(target="_blank" href="/play/level/#{view.levelID}-tutorial" + (view.options.league ? "?league=" + view.options.league.id : "")).btn.btn-success.btn-block.btn-lg
       p
         strong(data-i18n="ladder.tutorial_play") Play Tutorial
       span(data-i18n="ladder.tutorial_recommended") Recommended if you've never played before
@@ -24,8 +24,8 @@ block modal-body-content
       p.tutorial-suggestion
         strong(data-i18n="ladder.tutorial_not_sure") Not sure what's going on?
         |  
-        a(href="/play/level/#{view.levelID}-tutorial" + (view.options.league ? "?league=" + view.options.league.id : ""), data-i18n="ladder.tutorial_play_first") Play the tutorial first.
-    a(href="/play/level/#{view.levelID}?team=#{view.team}" + (view.options.league ? "&league=" + view.options.league.id : "")+ (view.options.tournament ? "&tournament=" + view.options.tournament: ""))
+        a(target="_blank" href="/play/level/#{view.levelID}-tutorial" + (view.options.league ? "?league=" + view.options.league.id : ""), data-i18n="ladder.tutorial_play_first") Play the tutorial first.
+    a(target="_blank" href="/play/level/#{view.levelID}?team=#{view.team}" + (view.options.league ? "&league=" + view.options.league.id : "")+ (view.options.tournament ? "&tournament=" + view.options.tournament: ""))
       div.play-option
         img(src=view.myPortrait).my-icon.only-one
         img(src="/images/pages/play/ladder/#{view.team}_ladder_tutorial.png", style="border: 1px solid #{view.teamColor}; background: #{view.teamBackgroundColor}").my-team-icon.img-circle.only-one
@@ -40,7 +40,7 @@ block modal-body-content
           span(data-i18n="ladder.warmup") Warmup
     
     if view.challengers && view.challengers.easy
-      a(href="/play/level/#{view.levelID}?team=#{view.team}&opponent=#{view.challengers.easy.sessionID}" + (view.options.league ? "&league=" + view.options.league.id : "") + (view.options.tournament ? "&tournament=" + view.options.tournament: ""))
+      a(target="_blank" href="/play/level/#{view.levelID}?team=#{view.team}&opponent=#{view.challengers.easy.sessionID}" + (view.options.league ? "&league=" + view.options.league.id : "") + (view.options.tournament ? "&tournament=" + view.options.tournament: ""))
         div.play-option.easy-option
           img(src=view.myPortrait).my-icon.only-one
           img(src="/images/pages/play/ladder/#{view.team}_ladder_easy.png", style="border: 1px solid #{view.teamColor}; background: #{view.teamBackgroundColor}").my-team-icon.img-circle.only-one
@@ -56,7 +56,7 @@ block modal-body-content
             span(data-i18n="general.easy") Easy
   
     if view.challengers && view.challengers.medium
-      a(href="/play/level/#{view.levelID}?team=#{view.team}&opponent=#{view.challengers.medium.sessionID}" + (view.options.league ? "&league=" + view.options.league.id : "")+ (view.options.tournament ? "&tournament=" + view.options.tournament: ""))
+      a(target="_blank" href="/play/level/#{view.levelID}?team=#{view.team}&opponent=#{view.challengers.medium.sessionID}" + (view.options.league ? "&league=" + view.options.league.id : "")+ (view.options.tournament ? "&tournament=" + view.options.tournament: ""))
         div.play-option.medium-option
           img(src=view.myPortrait).my-icon.only-one
           img(src="/images/pages/play/ladder/#{view.team}_ladder_medium.png", style="border: 1px solid #{view.teamColor}; background: #{view.teamBackgroundColor}").my-team-icon.img-circle.only-one
@@ -72,7 +72,7 @@ block modal-body-content
             span(data-i18n="general.medium") Medium
   
     if view.challengers && view.challengers.hard
-      a(href="/play/level/#{view.levelID}?team=#{view.team}&opponent=#{view.challengers.hard.sessionID}" + (view.options.league ? "&league=" + view.options.league.id : "")+ (view.options.tournament ? "&tournament=" + view.options.tournament: ""))
+      a(target="_blank" href="/play/level/#{view.levelID}?team=#{view.team}&opponent=#{view.challengers.hard.sessionID}" + (view.options.league ? "&league=" + view.options.league.id : "")+ (view.options.tournament ? "&tournament=" + view.options.tournament: ""))
         div.play-option.hard-option
           img(src=view.myPortrait).my-icon.only-one
           img(src="/images/pages/play/ladder/#{view.team}_ladder_hard.png", style="border: 1px solid #{view.teamColor}; background: #{view.teamBackgroundColor}").my-team-icon.img-circle.only-one
