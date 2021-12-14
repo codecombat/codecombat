@@ -3333,6 +3333,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sorcerers: "Sorcerers"
     giants_gate: "Giants' Gate"
     colossus: "Colossus"
+    iron_and_ice: "Iron and Ice"
+    tundra_tower: "Tundra Tower"
+    magma_mountain: "Magma Mountain"
+    lava_lake: "Lava Lake"
+    desert_duel: "Desert Duel"
+    sandstorm: "Sandstorm"
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
@@ -3387,6 +3393,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_tournaments: "There is no tournament now"
     edit_tournament: "Edit Tournament"
     create_tournament: "Create a Tournament"
+    upcoming: 'Upcoming'
+    starting: 'Starting'
+    ended: 'Ended'
+    view_results: 'View Results'
+    estimate_days: 'In __time__ Days'
 
   payments:
     student_licenses: 'Student Licenses'

@@ -1,4 +1,5 @@
 extends /templates/base-flat.jade
+include ./tournament-tile-mixin 
 
 block content
   .container
@@ -120,15 +121,12 @@ block content
                       span(data-i18n='courses.view_standings')
                     else
                       span(data-i18n='league.register')
-
-              if view.hasActiveTournaments
-                a.ai-league-btn.tile(href='/tournaments/student/#{me.id}', data-i18n="[title]tournament.class_tournaments")
-                  img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg" data-i18n="[alt]tournament.class_tournaments")
-                  h3.dynamic-level-name.overlay-text(data-i18n="tournament.class_tournaments")
-                  .tile-text-backdrop
-                  .play-text-container
-                    .overlay-text.play-text
-                      span(data-i18n='tournament.go_tournaments')
+              if view.tournaments && view.tournaments.length
+                - tournament = view.tournaments[0]
+                +tournamentTileMixin(tournament)
+                    
+                if view.tournaments.length > 1
+                  a.more-tournaments(data-i18n="general.more")
 
             .school-stats.col-md-5
               if view.myClans
