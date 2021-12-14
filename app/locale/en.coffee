@@ -3333,7 +3333,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sorcerers: "Sorcerers"
     giants_gate: "Giants' Gate"
     colossus: "Colossus"
-    ice_and_iron: "Ice and Iron"
+    iron_and_ice: "Iron and Ice"
     tundra_tower: "Tundra Tower"
     magma_mountain: "Magma Mountain"
     lava_lake: "Lava Lake"
