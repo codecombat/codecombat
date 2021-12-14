@@ -502,7 +502,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     dont_use_our_email_silly: "Не вводите ваш собственный email! Введите email ваших родителей!"
     want_codecombat_in_school: "Хотите играть в CodeCombat все время?"
     eu_confirmation: "Я разрешаю CodeCombat хранить мои данные на серверах, находящихся в США."
-    eu_confirmation_place_of_processing: "Узнайте больше о возможных рискахs"
+    eu_confirmation_place_of_processing: "Узнайте больше о возможных рисках"
     eu_confirmation_student: "Если вы не уверены, спросите своего учителя."
     eu_confirmation_individual: "Если вы не хотите хранить данные на американских серверах, вы всегда можете играть анонимно, не сохраняя ваш код."
     password_requirements: "От 8 до 64 символов без повторов"
