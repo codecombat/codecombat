@@ -449,7 +449,7 @@ module.exports.filterMarkdownCodeLanguages = (text, language) ->
       text = text.replace ///(\ a|A)n(\ `#{to}`)///g, "$1$2"
     if not startsWithVowel(from) and startsWithVowel(to)
       text = text.replace ///(\ a|A)(\ `#{to}`)///g, "$1n$2"
-  if currentLanguage == 'cpp'
+  if currentLanguage == 'cpp' and excludeCpp == 'javascript'
     jsRegex = new RegExp "```javascript\n([^`]+)```", 'gm'
     text = text.replace jsRegex, (a, l) =>
       """```cpp
