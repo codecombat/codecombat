@@ -275,7 +275,9 @@ module.exports = class RootView extends CocoView
   # Head tag configuration used to configure vue-meta when the View is loaded.
   # See https://vue-meta.nuxtjs.org/ for available configuration options.  This
   # can be later modified by calling setMeta
-  getMeta: -> {}
+  getMeta: -> {
+    title: $.i18n.t 'new_home.title' + if features?.chinaHome then '_cn_home' else ''
+  }
 
   # Allow async updates of the view's meta configuration.  This can be used in addition to getMeta
   # to update meta configuration when the meta configuration is computed asynchronously

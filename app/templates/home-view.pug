@@ -189,22 +189,23 @@ block content
           img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
       img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
 
-    .container
-      .row.text-center.for-everyone-row
-        .col-xs-12
-          h1(data-i18n="new_home.for_everyone")
+    if !features.chinaHome
+      .container
+        .row.text-center.for-everyone-row
+          .col-xs-12
+            h1(data-i18n="new_home.for_everyone")
 
-    section.container
-      .row.product-row
-        .col-md-6
-          img.img-responsive(src="/images/pages/home-v2/league-image.png" loading="lazy" alt="AI League scene: competitive kids cheering")
-        .col-md-5.col-md-offset-1
-          .row
-            img.img-responsive.product-logo(src="/images/pages/league/logo_badge.png" loading="lazy" style="max-width: 118px;" alt="AI League logo")
-            h4.product-title(data-i18n="league.codecombat_ai_league")
-            p(data-i18n="new_home.ai_league_blurb")
-            .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="/league" data-i18n="new_home.explore_ai_league" data-event-action="Homepage Click AI League Button CTA")
+      section.container
+        .row.product-row
+          .col-md-6
+            img.img-responsive(src="/images/pages/home-v2/league-image.png" loading="lazy" alt="AI League scene: competitive kids cheering")
+          .col-md-5.col-md-offset-1
+            .row
+              img.img-responsive.product-logo(src="/images/pages/league/logo_badge.png" loading="lazy" style="max-width: 118px;" alt="AI League logo")
+              h4.product-title(data-i18n="league.codecombat_ai_league")
+              p(data-i18n="new_home.ai_league_blurb")
+              .product-btn
+                a.btn.btn-lg.btn-primary.btn-gold(href="/league" data-i18n="new_home.explore_ai_league" data-event-action="Homepage Click AI League Button CTA")
 
     .container
       .row.text-center.community-row
