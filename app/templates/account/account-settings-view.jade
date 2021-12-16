@@ -209,18 +209,19 @@ else
 
             button#toggle-all-btn.btn.btn-primary.form-control(data-i18n="account_settings.email_toggle") Toggle All
 
-      .panel.panel-default
-        .panel-heading
-          .panel-title#reset-progress-panel-title(data-i18n="account_settings.reset_progress_tab")
-        .panel-body
-          .form#reset-progress-form
-            .form-group
-              label.control-label(for="email-reset-progress", data-i18n="account_settings.type_in_email_progress")
-              input#email-reset-progress.form-control(name="emailOrUsername")
-            .form-group
-              label.control-label(for="password-reset-progress", data-i18n="account_settings.type_in_password")
-              input#password-reset-progress.form-control(name="password", type="password")
-          button#reset-progress-btn.btn.form-control.btn-primary(data-i18n="account_settings.reset_your_progress")
+      if !me.showChinaRegistration() || (me.isAdmin() || (serverSession && serverSession.amActually))
+        .panel.panel-default
+          .panel-heading
+            .panel-title#reset-progress-panel-title(data-i18n="account_settings.reset_progress_tab")
+          .panel-body
+            .form#reset-progress-form
+              .form-group
+                label.control-label(for="email-reset-progress", data-i18n="account_settings.type_in_email_progress")
+                input#email-reset-progress.form-control(name="emailOrUsername")
+              .form-group
+                label.control-label(for="password-reset-progress", data-i18n="account_settings.type_in_password")
+                input#password-reset-progress.form-control(name="password", type="password")
+            button#reset-progress-btn.btn.form-control.btn-primary(data-i18n="account_settings.reset_your_progress")
 
 
 

@@ -19,7 +19,6 @@ module.exports = class Simulator extends CocoClass
   constructor: (@options) ->
     @options ?= {}
     simulatorType = if @options.headlessClient then 'headless' else 'browser'
-    @simulateTournamentRatio = 0.5
     @simulator =
       type: simulatorType
       version: SIMULATOR_VERSION
@@ -41,11 +40,7 @@ module.exports = class Simulator extends CocoClass
     return if @destroyed
     url = '/queue/scoring/getTwoGames'
     if @options.singleLadder
-      url = "/db/level/#{@options.levelOriginal}/next-ladder-match"
-
-    simulateTournament = Math.random()
-    if simulateTournament < @simulateTournamentRatio
-      url = "/db/tournament/-/next-match"
+      url = "/db/level/#{@options.levelOriginal}/next-match"
 
     $.ajax
       url: url
@@ -72,16 +67,10 @@ module.exports = class Simulator extends CocoClass
       success: (taskData, textStatus, xhr) =>
         return if @destroyed
         unless taskData
-          if xhr.status is 205
-            @retryDelayInSeconds = 5
-            @simulateTournamentRatio = 0.1  # scale down the ratio of simulate tournament
-          else
-            @retryDelayInSeconds = 10
+          @retryDelayInSeconds = 5
           @trigger 'statusUpdate', "Waiting #{@retryDelayInSeconds} seconds before next game."
           @simulateAnotherTaskAfterDelay()
           return
-        if taskData.tournamentId
-          @simulateTournamentRatio = 0.9  # scale up the ratio of simulate tournament
         @simulatingPlayerStrings = {}
         if taskData.sessions[0].realTeam == taskData.sessions[1].realTeam # only random for ladder
           newTeam = _.shuffle ['humans', 'ogres']
