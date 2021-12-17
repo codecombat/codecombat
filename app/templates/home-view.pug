@@ -288,19 +288,20 @@ block content
           .col-xs-12.text-center
             img.img-responsive(src="/images/pages/home-v2/graphic-7.png" loading="lazy" style="max-width: 321px;" alt="")
 
-    .container.testimonials-container
-      .row.text-center.testimonials-row
-        .col-xs-12
-          h1(data-i18n="new_home.what_our_customers_are_saying")
+    if !features.chinaHome
+      .container.testimonials-container
+        .row.text-center.testimonials-row
+          .col-xs-12
+            h1(data-i18n="new_home.what_our_customers_are_saying")
 
-      .row.curator-row
-        #curator-feed-default-feed-layout.col-xs-12
+        .row.curator-row
+          #curator-feed-default-feed-layout.col-xs-12
 
-    .container-graphic-spacer
-      .container
-        .row
-          .col-xs-12.text-center
-            img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-width: 416px; transform: translateX(30%);" alt="")
+      .container-graphic-spacer
+        .container
+          .row
+            .col-xs-12.text-center
+              img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-width: 416px; transform: translateX(30%);" alt="")
 
     #featured-in-awards.container
       .col-xs-12.col-md-5.text-center.featured-in
@@ -382,18 +383,23 @@ block content
               li(data-i18n="new_home_faq.getting_started_4")
             h4(data-i18n="new_home_faq.main_curriculum")
             p(data-i18n="new_home_faq.main_curriculum_blurb")
-          .col-md-4.col-sm-6.col-xs-12
-            h4(data-i18n="new_home_faq.clever_instant_login")
-            p(data-i18n="[html]new_home_faq.clever_instant_login_blurb", data-i18n-options=JSON.stringify(i18nData))
-            h4(data-i18n="new_home_faq.google_classroom")
-            p(data-i18n="new_home_faq.google_classroom_blurb1")
-            p(data-i18n="new_home_faq.google_classroom_blurb2")
+          if !features.chinaHome
+            .col-md-4.col-sm-6.col-xs-12
+              h4(data-i18n="new_home_faq.clever_instant_login")
+              p(data-i18n="[html]new_home_faq.clever_instant_login_blurb", data-i18n-options=JSON.stringify(i18nData))
+              h4(data-i18n="new_home_faq.google_classroom")
+              p(data-i18n="new_home_faq.google_classroom_blurb1")
+              p(data-i18n="new_home_faq.google_classroom_blurb2")
           .col-md-4.col-sm-6.col-xs-12
             h4(data-i18n="new_home_faq.how_much_does_it_cost")
             p(data-i18n="[html]new_home_faq.how_much_does_it_cost_blurb", data-i18n-options=JSON.stringify(i18nData))
-          .col-md-4.col-sm-6.col-xs-12
-            h4(data-i18n="new_home_faq.recommended_systems")
-            p(data-i18n="new_home_faq.recommended_systems_blurb")
+            if features.chinaHome
+              h4(data-i18n="new_home_faq.recommended_systems")
+              p(data-i18n="new_home_faq.recommended_systems_blurb")
+          if !features.chinaHome
+            .col-md-4.col-sm-6.col-xs-12
+              h4(data-i18n="new_home_faq.recommended_systems")
+              p(data-i18n="new_home_faq.recommended_systems_blurb")
         .text-center
           p.contact-us(data-i18n="[html]new_home_faq.other_questions", data-i18n-options=JSON.stringify(i18nData))
 
