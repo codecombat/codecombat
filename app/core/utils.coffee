@@ -768,7 +768,8 @@ yearsSinceMonth = (birth, now) ->
     return undefined unless /^\d{4}-\d{1,2}(-\d{1,2})?$/.test birth
     if birth.split('-').length is 2
       birth = birth + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
-    birth = new Date(birth)
+    dates = birth.split('-')
+    birth = new Date(+dates[0], +dates[1]-1, +dates[2])
   return undefined unless _.isDate birth
 
   birthYear = birth.getFullYear()
@@ -816,7 +817,10 @@ seasons = [
 currentSeason = () ->
   now = new Date()
   year = now.getFullYear()
-  return seasons.find((season) -> now <= new Date("#{year}-#{season.end}")) or _.last(seasons)  # TODO: shouldn't need `or` clause, fix this and tests
+  return seasons.find((season) ->
+    dates = season.end.split('-')
+    now < new Date(year, +dates[0]-1, dates[1]).setHours(24, 0, 0, 0)
+  )
 
 ageToBracket = (age) ->
 # Convert years to an age bracket
@@ -862,8 +866,9 @@ arenas = [
   {slug: 'infinite-inferno' , type: 'championship', start: new Date("2021-04-01T00:00:00.000+08:00"), end: new Date("2021-05-01T00:00:00.000+08:00"), results: new Date("2021-05-01T00:00:00.000+08:00"), levelOriginal: '602cdc204ef0480075fbd954', tournament: '608cd3f814fa0bf9f1c1f928', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
   {slug: 'mages-might'      , type: 'regular',      start: new Date("2021-05-01T00:00:00.000+08:00"), end: new Date("2021-09-01T00:00:00.000+08:00"), results: new Date("2021-09-08T09:00:00.000+08:00"), levelOriginal: '6066f956ddfd6f003d1ed6bb', tournament: '612d554b9abe2e0019aeffb9', image: '/file/db/level/6066f956ddfd6f003d1ed6bb/Mages\'%20Might%20Banner.jpg'}
   {slug: 'sorcerers'        , type: 'championship', start: new Date("2021-08-01T00:00:00.000+08:00"), end: new Date("2021-09-01T00:00:00.000+08:00"), results: new Date("2021-09-08T09:00:00.000+08:00"), levelOriginal: '609a6ad2e1eb34001a84e7af', tournament: '612d556f9abe2e0019af000b', image: "/file/db/level/609a6ad2e1eb34001a84e7af/Sorcerer's-Blitz-01.jpg"}
-  {slug: 'giants-gate'      , type: 'regular',      start: new Date("2021-09-01T00:00:00.000+08:00"), end: new Date("2022-01-01T00:00:00.000+07:00"), results: new Date("2022-01-07T09:00:00.000+07:00"), levelOriginal: '60e69b24bed8ae001ac6ce3e', tournament: '6136a86e0c0ecaf34e431e81', image: "/file/db/level/60e69b24bed8ae001ac6ce3e/Giant’s-Gate-Final.jpg"}
-  {slug: 'colossus'         , type: 'championship', start: new Date("2021-12-01T00:00:00.000+07:00"), end: new Date("2022-01-01T00:00:00.000+07:00"), results: new Date("2022-01-07T09:00:00.000+07:00")}
+  {slug: 'giants-gate'      , type: 'regular',      start: new Date("2021-09-01T00:00:00.000+08:00"), end: new Date("2021-12-15T00:00:00.000+07:00"), results: new Date("2021-12-21T09:00:00.000+07:00"), levelOriginal: '60e69b24bed8ae001ac6ce3e', tournament: '6136a86e0c0ecaf34e431e81', image: "/file/db/level/60e69b24bed8ae001ac6ce3e/Giant’s-Gate-Final.jpg"}
+  {slug: 'colossus'         , type: 'championship', start: new Date("2021-11-19T00:00:00.000+07:00"), end: new Date("2021-12-15T00:00:00.000+07:00"), results: new Date("2021-12-21T09:00:00.000+07:00"), levelOriginal: '615ffaf2b20b4900280e0070', tournament: '61983f74fd75db5e28ac127a', image: "/file/db/level/615ffaf2b20b4900280e0070/Colossus-Clash-02.jpg"}
+  {slug: 'iron-and-ice'     , type: 'regular',      start: new Date("2021-12-15T00:00:00.000+07:00"), end: new Date("2022-05-01T00:00:00.000+08:00"), results: new Date("2022-05-06T09:00:00.000+08:00"), levelOriginal: '618a5a13994545008d2d4990'}
 ]
 
 activeArenas = ->

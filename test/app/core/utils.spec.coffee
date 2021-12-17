@@ -55,8 +55,8 @@ describe 'Utility library', ->
       describe 'Today is in 2021 season 1', ->
 
         it 'if born after 9/1/2009, should be 0-11', ->
-          now = new Date('2021-1-1')
-          end = new Date('2021-4-30')
+          now = new Date(2021, 0, 1)
+          end = new Date(2021, 3, 30)
           birthDates = [
             '2009-9-1',
             '2009-10-1',
@@ -72,8 +72,8 @@ describe 'Utility library', ->
             expect(utils.ageToBracket(getAge(end,birthDate))).toBe('0-11')
 
         it 'if born during 9/1/2006 to 8/31/2009, should be 11-14', ->
-          now = new Date('2021-1-1')
-          end = new Date('2021-4-30')
+          now = new Date(2021, 0, 1)
+          end = new Date(2021, 3, 30)
           birthDates = [
             '2006-9-1',
             '2006-10-1',
@@ -91,8 +91,8 @@ describe 'Utility library', ->
             expect(utils.ageToBracket(getAge(end,birthDate))).toBe('11-14')
 
         it 'if born during 9/1/2002 to 8/31/2006, should be 14-18', ->
-          now = new Date('2021-1-1')
-          end = new Date('2021-4-30')
+          now = new Date(2021, 0, 1)
+          end = new Date(2021, 3, 30)
           birthDates = [
             '2002-9-1',
             '2002-10-1',
@@ -110,8 +110,8 @@ describe 'Utility library', ->
             expect(utils.ageToBracket(getAge(end,birthDate))).toBe('14-18')
 
         it 'if born before 8/31/2002, should be open', ->
-          now = new Date('2021-1-1')
-          end = new Date('2021-4-30')
+          now = new Date(2021, 0, 1)
+          end = new Date(2021, 3, 30)
           birthDates = [
             '2002-8-31',
             '2001-10-1',
@@ -123,10 +123,9 @@ describe 'Utility library', ->
             expect(utils.ageToBracket(getAge(end,birthDate))).toBe('open')
 
       describe 'Today is in 2021 season 2', ->
-        # TODO: fix this test
-        xit 'if born after 9/1/2009, should be 0-11', ->
-          now = new Date('2021-5-1')
-          end = new Date('2021-8-31')
+        it 'if born after 9/1/2009, should be 0-11', ->
+          now = new Date(2021, 4, 1)
+          end = new Date(2021, 7, 31)
           birthDates = [
             '2009-9-1',
             '2009-10-1',
@@ -141,10 +140,9 @@ describe 'Utility library', ->
             jasmine.clock().mockDate(end)
             expect(utils.ageToBracket(getAge(end,birthDate))).toBe('0-11')
 
-        # TODO: fix this test
-        xit 'if born during 9/1/2006 to 8/31/2009, should be 11-14', ->
-          now = new Date('2021-5-1')
-          end = new Date('2021-8-31')
+        it 'if born during 9/1/2006 to 8/31/2009, should be 11-14', ->
+          now = new Date(2021, 4, 1)
+          end = new Date(2021, 7, 31)
           birthDates = [
             '2006-9-1',
             '2006-10-1',
@@ -161,10 +159,9 @@ describe 'Utility library', ->
             jasmine.clock().mockDate(end)
             expect(utils.ageToBracket(getAge(end,birthDate))).toBe('11-14')
 
-        # TODO: fix this test
-        xit 'if born during 9/1/2002 to 8/31/2006, should be 14-18', ->
-          now = new Date('2021-5-1')
-          end = new Date('2021-8-31')
+        it 'if born during 9/1/2002 to 8/31/2006, should be 14-18', ->
+          now = new Date(2021, 4, 1)
+          end = new Date(2021, 7, 31)
           birthDates = [
             '2002-9-1',
             '2002-10-1',
@@ -182,8 +179,8 @@ describe 'Utility library', ->
             expect(utils.ageToBracket(getAge(end,birthDate))).toBe('14-18')
 
         it 'if born before 8/31/2002, should be open', ->
-          now = new Date('2021-5-1')
-          end = new Date('2021-8-31')
+          now = new Date(2021, 4, 1)
+          end = new Date(2021, 7, 31)
           birthDates = [
             '2002-8-31',
             '2001-10-1',
@@ -196,8 +193,8 @@ describe 'Utility library', ->
 
       describe 'Today is in 2021 season 3', ->
         it 'if born after 9/1/2010, should be 0-11', ->
-          now = new Date('2021-9-1')
-          end = new Date('2021-12-31')
+          now = new Date(2021, 8, 1)
+          end = new Date(2021, 11, 31)
           birthDates = [
             '2010-9-1',
             '2010-10-1',
@@ -213,8 +210,8 @@ describe 'Utility library', ->
             expect(utils.ageToBracket(getAge(end,birthDate))).toBe('0-11')
 
         it 'if born during 9/1/2007 to 8/31/2010, should be 11-14', ->
-          now = new Date('2021-9-1')
-          end = new Date('2021-12-31')
+          now = new Date(2021, 8, 1)
+          end = new Date(2021, 11, 31)
           birthDates = [
             '2007-9-1',
             '2007-10-1',
@@ -232,8 +229,8 @@ describe 'Utility library', ->
             expect(utils.ageToBracket(getAge(end,birthDate))).toBe('11-14')
 
         it 'if born during 9/1/2003 to 8/31/2007, should be 14-18', ->
-          now = new Date('2021-9-1')
-          end = new Date('2021-12-31')
+          now = new Date(2021, 8, 1)
+          end = new Date(2021, 11, 31)
           birthDates = [
             '2003-9-1',
             '2003-10-1',
@@ -251,8 +248,8 @@ describe 'Utility library', ->
             expect(utils.ageToBracket(getAge(end,birthDate))).toBe('14-18')
 
         it 'if born before 8/31/2003, should be open', ->
-          now = new Date('2021-9-1')
-          end = new Date('2021-12-31')
+          now = new Date(2021, 8, 1)
+          end = new Date(2021, 11, 31)
           birthDates = [
             '2003-8-31',
             '2002-10-1',

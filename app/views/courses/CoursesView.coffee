@@ -7,10 +7,12 @@ ChangeCourseLanguageModal = require 'views/courses/ChangeCourseLanguageModal'
 HeroSelectModal = require 'views/courses/HeroSelectModal'
 ChooseLanguageModal = require 'views/courses/ChooseLanguageModal'
 ClassroomAnnouncementModal = require 'views/courses/ClassroomAnnouncementModal'
+TournamentsListModal = require 'views/courses/TournamentsListModal'
 JoinClassModal = require 'views/courses/JoinClassModal'
 CourseInstance = require 'models/CourseInstance'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
+Level = require 'models/Level'
 Classroom = require 'models/Classroom'
 Tournament = require 'models/Tournament'
 Classrooms = require 'collections/Classrooms'
@@ -26,6 +28,14 @@ utils = require 'core/utils'
 store = require 'core/store'
 leaderboardApi = require 'core/api/leaderboard'
 clansApi = require 'core/api/clans'
+
+class LadderCollection extends CocoCollection
+  url: ''
+  model: Level
+
+  constructor: (model) ->
+    super()
+    @url = "/db/level/-/arenas"
 
 module.exports = class CoursesView extends RootView
   id: 'courses-view'
@@ -45,6 +55,7 @@ module.exports = class CoursesView extends RootView
     'click .view-challenges-link': 'onClickViewChallengesLink'
     'click .view-videos-link': 'onClickViewVideosLink'
     'click .view-announcement-link': 'onClickAnnouncementLink'
+    'click .more-tournaments': 'onClickMoreTournaments'
 
   getMeta: ->
     return {
@@ -73,15 +84,16 @@ module.exports = class CoursesView extends RootView
     @originalLevelMap = {}
     @urls = require('core/urls')
 
+    @ladderImageMap = {}
+    @ladders = @supermodel.loadCollection(new LadderCollection()).model
+    @listenToOnce @ladders, 'sync', @onLaddersLoaded
+
     if me.get('role') is 'student'
-      @hasActiveTournaments = false
       tournaments = new CocoCollection([], { url: "/db/tournaments?memberId=#{me.id}", model: Tournament})
       @listenToOnce tournaments, 'sync', =>
-        tournamentsByClass = (t.toJSON() for t in tournaments.models)[0]
-        tournaments = _.flatten _.values tournamentsByClass
-        @hasActiveTournaments = _.some tournaments, (t) =>
-          t.state in ['starting', 'active', 'ended']
-        @renderSelectors('#tournament-btn')
+        @tournaments = (t.toJSON() for t in tournaments.models)
+        @tournamentsByState = _.groupBy @tournaments, 'state'
+        @renderSelectors('.student-profile-area')
       @supermodel.loadCollection(tournaments, 'tournaments', {cache: false})
 
     # TODO: Trim this section for only what's necessary
@@ -439,6 +451,10 @@ module.exports = class CoursesView extends RootView
     modal = new ClassroomAnnouncementModal({ announcement: classroom.get('description')})
     @openModalView modal
 
+  onClickMoreTournaments: (e) ->
+    modal = new TournamentsListModal({tournamentsByState: @tournamentsByState, ladderImageMap: @ladderImageMap})
+    @openModalView modal
+
   nextLevelImage: ->
     # Prioritize first by level-specific, then course-specific and hero-specific together
     return @_nextLevelImage if @_nextLevelImage
@@ -454,6 +470,10 @@ module.exports = class CoursesView extends RootView
       heroChoices.push image if hero in (criteria.heroes ? [])
     image = _.sample(levelChoices) or _.sample(heroChoices.concat(courseChoices))
     @_nextLevelImage = '/images/pages/courses/banners/' + image
+
+  onLaddersLoaded: (e) ->
+    for ladder in @ladders.models
+      @ladderImageMap[ladder.get('original')] = ladder.get('image')
 
 nextLevelBannerImages = {
   'arena-ace-of-coders.png': {heroes: ['goliath'], courses: ['CS5', 'CS6']}

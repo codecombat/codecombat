@@ -249,7 +249,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    codecombat_dashboard: "CodeCombat Dashboard"
 #    professional_development: "Professional Development"
 #    new: "New!"
-#    admin: "Admin"
+    admin: "管理员"
 #    api_dashboard: "API Dashboard"
 #    funding_resources_guide: "Funding Resources Guide"
 
@@ -1232,10 +1232,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     om_title: "运营经理"
     mo_title: "业务经理"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
     scd_title: "高级课程开发设计师"
     lcd_title: "首席课程开发设计师"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
     community_description_link_2: "开源的社区项目"
@@ -2057,6 +2060,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     hoc_additional_desc1: "关于更多的 CodeCombat 资源和活动，请参见我们的"
     hoc_additional_desc2: "问题"
     hoc_additional_contact: "保持联系"
+#    regenerate_class_code_tooltip: "Generate a new Class Code"
+#    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
     revoke_confirm: "您确定要撤销{{student_name}}的完整许可证吗？该许可证将可以分配给其他学生。"
     revoke_all_confirm: "你确定要撤销所有这个班级的所有学生的许可证吗？"
     revoking: "撤销中"
@@ -2438,7 +2443,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     watch_victory: "观看您的胜利"
     defeat_the: "击败"
     watch_battle: "观看战役"
-#    tournament_starts: "Tournament starts"
+    tournament_starts: "比赛将于__timeElapsed__开始"
     tournament_started: "，锦标赛已开始"
     tournament_ends: "锦标赛结束"
     tournament_ended: "锦标赛已结束"
@@ -3236,11 +3241,41 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     license_type_full: "全课许可"
     license_type_customize: "可选课程"
 
-#  outcomes:
-#    school_admin: "School Administrator"
-#    school_network: "School Network"
-#    school_subnetwork: "School Subnetwork"
-#    classroom: "Classroom"
+  outcomes:
+    outcomes_report: "学习报告"
+    customize_report: "定制报告"
+    done_customizing: "确定"
+    school_admin: "学校管理员"
+    school_network: "学校网络"
+    school_subnetwork: "学校子网络"
+    classroom: "教室"
+    view_outcomes_report: "查看学习报告"
+    key_concepts: "核心概念"
+    code_languages: "编程语言"
+    using_codecombat: "使用扣哒世界的个性化学习引擎..."
+    wrote: "编写了..."
+    across_an_estimated: "超过了大约..."
+    in: "用了..."
+    include: "展示"
+    archived: "归档"
+    max: "最大"
+    multiple: "数"
+    computer_program: "段电脑程序"
+    computer_programs: "段电脑程序"
+    line_of_code: "行代码"
+    lines_of_code: "行代码"
+    coding_hours: "小时编程"
+    expressed_creativity: "展示创造能力"
+    report_content_1: "个独立的游戏和网页开发"
+    project: "项目"
+    projects: "项目"
+    progress_stats: "进度统计数据基于 __populationSize__ 学生抽样中的 __sampleSize__。"
+    standards_coverage: "课程标准"
+    coverage_p1: "完整的扣哒世界课程涵盖国际上广泛采用框架中的主要编程标准，包括国际教育技术学会 (ISTE)、计算机科学教师协会 (CSTA) 和 K-12 计算机科学框架的标准。"
+    coverage_p2: "在扣哒世界，我们相信通过使用真实的代码编程，学生将为市场上计算机领域的工作和计算机科学的进一步学习做好最充分的准备，因此我们不为初学者提供基于模块的可视化编程语言，而是讲授 Python、JavaScript 和 C++ 这些今天被各大互联网公司广泛使用的编程语言。"
+    questions: "想要了解更多信息？ 我们很乐意提供帮助。"
+    reach_out_manager: "联系我们的客服人员 __name__ :"
+    stats_include: "更多数据还包括 __number__ 个其他__name__"
 
   league:
 #    student_register_1: "Become the next AI Champion!"
@@ -3302,11 +3337,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"
+#    season3_announcement_1: "Time to put your coding skills to the test in our season 3 final arena. The Colossus Clash is live and offers a new challenge and a new leaderboard to climb."
+#    season3_announcement_2: "Need more practice? Stick with the Giant's Gate Arena to refine your skills. You have until December 14th to play both arenas. Note: arena balance adjustments may occur until December 6th."
+#    season3_announcement_3: "Great prizes available for top performers in the Colossus Clash:"
 #    season2_announcement_1: "Time to put your coding skills to the test in our season 2 final arena. The Sorcerers Blitz is live and offers a new challenge and a new leaderboard to climb."
 #    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
 #    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
 #    season1_prize_1: "$1,000 Scholarship"
-#    season1_prize_2: "RESPAWN Gaming Chair"
+#    season1_prize_2: "RESPAWN Gaming Gear"
 #    season1_prize_3: "Custom CodeCombat Avatar"
 #    season1_prize_4: "And more!"
 #    season1_prize_hyperx: "HyperX Premium Peripherals"
@@ -3350,6 +3388,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_tournaments: "目前没有锦标赛"
     edit_tournament: " 修改"
     create_tournament: " 创建锦标赛"
+    upcoming: '即将到来'
+    starting: '进行中'
+    ended: '已结束'
+    view_results: '查看结果'
+    estimate_days: '__time__ 天内开始'
 
 #  payments:
 #    student_licenses: "Student Licenses"
@@ -3374,7 +3417,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
 #  form_validation_errors:
 #    required: "Field is required"

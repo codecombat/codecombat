@@ -506,13 +506,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     eu_confirmation_student: "Se não tens a certeza, pergunta ao teu professor."
     eu_confirmation_individual: "Se não quiser que armazenemos os seus dados em servidores dos EUA, pode sempre continuar a jogar anonimamente sem guardar o seu código."
 #    password_requirements: "8 to 64 characters with no repeating"
-#    invalid: "Invalid"
-#    invalid_password: "Invalid password"
+    invalid: "Inválido" # {change}
+    invalid_password: "Password incorreta" # {change}
 #    with: "with"
 #    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
-#    have_a_classcode: "Have a Class Code?"
-#    yes_i_have_classcode: "Yes, I have a Class Code!"
-#    enter_it_here: "Enter it here:"
+    have_a_classcode: "Tens um código de turma?" # {change}
+    yes_i_have_classcode: "Sim. Tenho um código de turma!" # {change}
+    enter_it_here: "Introduz aqui o código:" # {change}
 
   recover:
     recover_account_title: "Recuperar Conta"
@@ -629,7 +629,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     with: "com"
 #    chat: "Chat"
 #    chat_with_us: "Chat with us"
-#    email_us: "Send us an email"
+    email_us: "Envia-nos um email" # {change}
 #    sales: "Sales"
 #    support: "Support"
 #    here: "here"
@@ -838,6 +838,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     vega_character: "Personagem Vega"
     click_to_continue: "Clicar para continuar"
 #    fill_in_solution: "Fill in solution"
+#    play_as_humans: "Play As Red"
+#    play_as_ogres: "Play As Blue"
 
   apis:
     methods: "Métodos"
@@ -1230,10 +1232,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    om_title: "Operations Manager"
 #    mo_title: "Manager, Operations"
 #    smo_title: "Senior Manager, Operations"
+#    do_title: "Director of Operations"
 #    scd_title: "Senior Curriculum Developer"
 #    lcd_title: "Lead Curriculum Developer"
+#    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    bdm_title: "Business Development Manager"
     community_subtitle: "Mais de 500 contribuidores ajudaram a construir o CodeCombat, com mais a se juntarem todas as semanas!"
     community_description_3: "O CodeCombat é um"
     community_description_link_2: "projeto comunitário"
@@ -2055,6 +2060,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
 #    hoc_additional_desc2: "Questions"
 #    hoc_additional_contact: "Get in touch"
+#    regenerate_class_code_tooltip: "Generate a new Class Code"
+#    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
 #    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
 #    revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
     revoking: "A revogar..."
@@ -2436,7 +2443,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     watch_victory: "Vê a tua vitória"
     defeat_the: "Derrota o"
     watch_battle: "Ver a batalha"
-#    tournament_starts: "Tournament starts"
+#    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", começou"
     tournament_ends: "O Torneio acaba"
     tournament_ended: "O Torneio acabou"
@@ -2453,6 +2460,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     blue_ai: "CPU Azul"
     wins: "Vence" # At end of multiplayer match playback
 #    losses: "Losses"
+#    win_num: "Wins"
+#    loss_num: "Losses"
 #    win_rate: "Win %"
     humans: "Vermelho" # Ladder page display team name
     ogres: "Azul"
@@ -3233,10 +3242,40 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    license_type_customize: "Customize Courses"
 
 #  outcomes:
+#    outcomes_report: "Outcomes Report"
+#    customize_report: "Customize Report"
+#    done_customizing: "Done Customizing"
 #    school_admin: "School Administrator"
 #    school_network: "School Network"
 #    school_subnetwork: "School Subnetwork"
 #    classroom: "Classroom"
+#    view_outcomes_report: "View Outcomes Report"
+#    key_concepts: "Key Concepts"
+#    code_languages: "Code Languages"
+#    using_codecombat: "Using CodeCombat's personalized learning engine..."
+#    wrote: "wrote..."
+#    across_an_estimated: "across an estimated..."
+#    in: "in..."
+#    include: "include "
+#    archived: "Archived"
+#    max: "Max "
+#    multiple: "s"
+#    computer_program: "computer_program"
+#    computer_programs: "computer_programs"
+#    line_of_code: "line of code"
+#    lines_of_code: "lines of code"
+#    coding_hours: "coding hours"
+#    expressed_creativity: "and expressed creativity by building"
+#    report_content_1: "standalone game and web "
+#    project: "project"
+#    projects: "projects"
+#    progress_stats: "Progress stats based on sampling __sampleSize__ of __populationSize__ students."
+#    standards_coverage: "Standards Coverage"
+#    coverage_p1: "The full CodeCombat curriculum covers major programming standards in several widely-adopted frameworks, including those of the International Society for Technology in Education (ISTE), the Computer Science Teacher Association (CSTA), and the K-12 Computer Science Framework."
+#    coverage_p2: "At CodeCombat, we believe that students will be most prepared for both real-world computing jobs and further study of computer science by using real, typed code in full programming languages, so instead of using block-based visual programming languages for beginners, we teach Python and JavaScript – the same languages used widely today by companies ranging from Google to the New York Times."
+#    questions: "Have questions or want more information? We'd be happy to help."
+#    reach_out_manager: "Reach out to your Account Manager __name__ at "
+#    stats_include: "stats include __number__ other __name__"
 
 #  league:
 #    student_register_1: "Become the next AI Champion!"
@@ -3298,11 +3337,14 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"
+#    season3_announcement_1: "Time to put your coding skills to the test in our season 3 final arena. The Colossus Clash is live and offers a new challenge and a new leaderboard to climb."
+#    season3_announcement_2: "Need more practice? Stick with the Giant's Gate Arena to refine your skills. You have until December 14th to play both arenas. Note: arena balance adjustments may occur until December 6th."
+#    season3_announcement_3: "Great prizes available for top performers in the Colossus Clash:"
 #    season2_announcement_1: "Time to put your coding skills to the test in our season 2 final arena. The Sorcerers Blitz is live and offers a new challenge and a new leaderboard to climb."
 #    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
 #    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
 #    season1_prize_1: "$1,000 Scholarship"
-#    season1_prize_2: "RESPAWN Gaming Chair"
+#    season1_prize_2: "RESPAWN Gaming Gear"
 #    season1_prize_3: "Custom CodeCombat Avatar"
 #    season1_prize_4: "And more!"
 #    season1_prize_hyperx: "HyperX Premium Peripherals"
@@ -3370,7 +3412,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    best_value: "Best Value"
 #    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
 #    homeschooling: "Homeschooling Licenses"
-#    recurring: {"month_1":"Recurring billing every month","month_3":"Recurring billing every 3 months","month_6":"Recurring billing every 6 months","year_1":"Recurring billing every year"}
+#    recurring_month_1: "Recurring billing every month"
+#    recurring_month_3: "Recurring billing every 3 months"
+#    recurring_month_6: "Recurring billing every 6 months"
+#    recurring_year_1: "Recurring billing every year"
 
 #  form_validation_errors:
 #    required: "Field is required"
