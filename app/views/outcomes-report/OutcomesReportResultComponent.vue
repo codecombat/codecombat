@@ -266,7 +266,7 @@ export default Vue.extend({
             .el.concepts-list
               b= $t('outcomes.key_concepts') + ':'
               ul
-                li(v-for="concept in course.newConcepts")
+                li(v-for="concept in course.newConcepts.slice(0, 6)")
                   span {{$t('concepts.' + concept)}}
       else
         .course.inline
@@ -420,7 +420,7 @@ export default Vue.extend({
       break-inside: avoid;
       //border: 1px solid orange
       .concepts-list {
-        max-width: 30%;
+        max-width: 31%;
       }
     }
     .bar::after {
