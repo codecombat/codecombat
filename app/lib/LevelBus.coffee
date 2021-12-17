@@ -273,7 +273,7 @@ module.exports = class LevelBus extends Bus
       patch.code = {}
       for updatedSpell, trueSpell of spellMap
         patch.code[trueSpell] = code[updatedSpell]
-    delete patch.code if _.isEmpty(path.code) # don't update empty code
+    delete patch.code if _.isEmpty(patch.code) # don't update empty code
     @changedSessionProperties = {}
 
     # since updates are coming fast and loose for session objects
