@@ -2,6 +2,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 
   new_home:
     title: "CodeCombat - Gra koderska do nauki Pythona i JavaScriptu"
+#    title_cn_home: "CodeCombat - Coding games to learn Python and JavaScript"
     meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "Naucz się pisać kod poprzez programowanie gry. Naucz się Pythona, JavaScript i HTMLa w trakcie rozwiązywania zagadek i naucz soę tworzenia twoich własnych gier i stron internetowych"
     meta_og_url: "https://codecombat.com"
@@ -169,6 +170,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     ozaria: "Ozaria"
     codecombat_blurb: "Nasza oryginalna gra w kodowanie. Polecany rodzicom, osobom indywidualnym, nauczycielom i uczniom, którzy chcą doświadczyć jednej z najbardziej lubianych gier kodowania na świecie."
     ozaria_blurb: "Gra przygodowa i program informatyczny, w którym uczniowie opanowują zagubioną magię kodowania, aby ocalić swój świat. Polecany dla nauczycieli i uczniów."
+#    ozaria_china_blurb: ""
     try_codecombat: "Wypróbuj CodeCombata"
     try_ozaria: "Wypróbuj Ozarię"
     explore_codecombat: "Poznaj CodeCombat"
@@ -199,6 +201,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     billion: "__num__ Bilion"
 
   nav:
+#    aiyouth: "AI Youth"
     educators: "Nauczyciele"
     follow_us: "Śledź nas"
     general: "Ogólne"
@@ -216,7 +219,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     legal: "Nota prawna"
     privacy: "Polityka prywatności"
     about: "O nas"
+#    events: "Events"
 #    impact: "Impact"
+#    star: "CoCoStar"
     contact: "Kontakt"
     twitter_follow: "Subskrybuj"
     my_classrooms: "Moje klasy"
@@ -447,6 +452,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     birthday: "Dzień urodzenia"
     parent_email_blurb: "Wiemy że nie możesz się doczekać programowania &mdash; też się cieszymy! Twoi rodzice otrzymają dalsze instrukcje jak założyć dla ciebie konto. Napisz emaila na {{email_link}} jeżeli masz jakiekolwiek pytania."
     classroom_not_found: "Żadna klasa nie jest powiązana z tym kodem. Sprawdź czy wprowadziłeś poprawnie kod lub zapytaj nauczyciela."
+#    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "Sprawdzanie..."
     account_exists: "Ten email jest już zajęty:"
     sign_in: "Zaloguj się"
@@ -1843,6 +1849,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     apply_license: "Zastosuj licencję"
     revoke_license: "Anuluj licencję"
 #    revoke_licenses: "Revoke All Licenses"
+#    revoke_these_licenses: "Select Students and Revoke These Licenses"
+#    check_and_revoke_license: "Status & Revoke"
+#    manage_license: "Manage License"
     course_progress: "Postępy kursu"
     not_applicable: "N/A"
     edit: "edytuj"
@@ -1977,10 +1986,13 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
 #    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
 #    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
+#    cs2_syntax_python: "Course 2 Python Syntax Guide"
 #    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
 #    cs3_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 3."
+#    cs3_syntax_python: "Course 3 Python Syntax Guide"
 #    cs4_curriculum: "Computer Science 4 - Curriculum Guide"
 #    cs4_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 4."
+#    cs4_syntax_python: "Course 4 Python Syntax Guide"
 #    cs5_curriculum_js: "Computer Science 5 - Curriculum Guide (JavaScript)"
 #    cs5_curriculum_desc_js: "Scope and sequence, lesson plans, activities and more for Course 5 classes using JavaScript."
 #    cs5_curriculum_py: "Computer Science 5 - Curriculum Guide (Python)"
@@ -2063,6 +2075,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    regenerate_class_code_tooltip: "Generate a new Class Code"
 #    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
 #    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoke_alert_no_student: "Please select students first."
+#    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
 #    revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
     revoking: "Anulowanie..."
 #    unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they're ready to learn more!"
@@ -2127,6 +2141,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    owned_license: "Licensed"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2473,6 +2488,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    bracket_14_18: "14-18"
 #    bracket_11_18: "11-18"
 #    bracket_open: "Open"
+#    create_tournament: "Create a Tournament"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -3241,6 +3257,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  events:
+#    title: "CodeCombat Events"
+#    main_title: "CodeCombat Events"
+#    main_description: "The important events of codecombat China"
+
 #  outcomes:
 #    outcomes_report: "Outcomes Report"
 #    customize_report: "Customize Report"
@@ -3384,10 +3405,16 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    make_tournament: "Make a mini tournament"
 #    go_tournaments: "Go to mini tournaments"
 #    class_tournaments: "Class mini tournaments"
+#    class_tournaments_more: "More Class mini tournaments"
 #    no_tournaments_owner: "There is no tournament now, please create one"
 #    no_tournaments: "There is no tournament now"
 #    edit_tournament: "Edit Tournament"
 #    create_tournament: "Create a Tournament"
+#    upcoming: "Upcoming"
+#    starting: "Starting"
+#    ended: "Ended"
+#    view_results: "View Results"
+#    estimate_days: "In __time__ Days"
 
 #  payments:
 #    student_licenses: "Student Licenses"

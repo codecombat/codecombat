@@ -2,6 +2,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    title_cn_home: "CodeCombat - Coding games to learn Python and JavaScript"
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    meta_og_url: "https://codecombat.com"
@@ -169,6 +170,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    ozaria: "Ozaria"
 #    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
 #    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+#    ozaria_china_blurb: ""
 #    try_codecombat: "Try CodeCombat"
 #    try_ozaria: "Try Ozaria"
 #    explore_codecombat: "Explore CodeCombat"
@@ -199,6 +201,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    billion: "__num__ Billion"
 
   nav:
+#    aiyouth: "AI Youth"
 #    educators: "Educators"
 #    follow_us: "Follow Us"
 #    general: "General"
@@ -216,7 +219,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     legal: "Rechten"
     privacy: "Privacy"
     about: "Over Ons"
+#    events: "Events"
 #    impact: "Impact"
+#    star: "CoCoStar"
     contact: "Contact"
     twitter_follow: "Volgen"
     my_classrooms: "Mijn klassen" # {change}
@@ -447,6 +452,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     birthday: "Verjaardag"
     parent_email_blurb: "We weten dat je niet kan wachten om te leren programmeren &mdash; wij hebben er ook zin in! Je ouders krijgen een e-mail met verdere instructies over hoe ze een account voor je kunnen maken. E-mail {{email_link}} als je nog vragen hebt."
     classroom_not_found: "Er zijn geen klassen met deze klassencode. Controleer je spelling of vraag je leraar om hulp."
+#    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "Controleren..."
     account_exists: "Dit e-mailadres bestaat al:" # {change}
     sign_in: "Log in"
@@ -1843,6 +1849,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     apply_license: "Pas licentie toe"
     revoke_license: "Licentie intrekken"
     revoke_licenses: "Trek alle licenties in"
+#    revoke_these_licenses: "Select Students and Revoke These Licenses"
+#    check_and_revoke_license: "Status & Revoke"
+#    manage_license: "Manage License"
     course_progress: "Cursusvoortgang"
     not_applicable: "n.v.t."
     edit: "wijzig"
@@ -1977,10 +1986,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Informatica 2 - Curriculum handleiding"
     cs2_curriculum_desc: "Cursus 2: leertraject, lesplannen, activiteiten en meer."
+#    cs2_syntax_python: "Course 2 Python Syntax Guide"
     cs3_curriculum: "Informatica 3 - Curriculum handleiding"
     cs3_curriculum_desc: "Cursus 3: leertraject, lesplannen, activiteiten en meer."
+#    cs3_syntax_python: "Course 3 Python Syntax Guide"
     cs4_curriculum: "Informatica 4 - Curriculum handleiding"
     cs4_curriculum_desc: "Cursus 4: leertraject, lesplannen, activiteiten en meer."
+#    cs4_syntax_python: "Course 4 Python Syntax Guide"
     cs5_curriculum_js: "Informatica 5 - Curriculum handleiding (JavaScript)"
     cs5_curriculum_desc_js: "Leertraject, lesplannen, activiteiten en meer voor Cursus 5 klassen met JavaScript."
     cs5_curriculum_py: "Informatica 5 - Curriculum handleiding (Python)"
@@ -2063,6 +2075,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    regenerate_class_code_tooltip: "Generate a new Class Code"
 #    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
     revoke_confirm: "Weet je zeker dat je de licentie van {{student_name}} wilt intrekken? De licentie kan dan weer gebruikt worden voor een andere leerling."
+#    revoke_alert_no_student: "Please select students first."
+#    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
     revoke_all_confirm: "Weet je zeker dat je alle Volledige Licenties van deze klas wilt intrekken?"
     revoking: "Intrekken..."
     unused_licenses: "Je hebt ongebruikte licenties waarmee je je leerlingen betaalde cursussen kunt toewijzen voor als ze klaar zijn om meer te leren!"
@@ -2127,6 +2141,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    owned_license: "Licensed"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2473,6 +2488,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    bracket_14_18: "14-18"
 #    bracket_11_18: "11-18"
 #    bracket_open: "Open"
+#    create_tournament: "Create a Tournament"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -3241,6 +3257,11 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  events:
+#    title: "CodeCombat Events"
+#    main_title: "CodeCombat Events"
+#    main_description: "The important events of codecombat China"
+
 #  outcomes:
 #    outcomes_report: "Outcomes Report"
 #    customize_report: "Customize Report"
@@ -3384,10 +3405,16 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    make_tournament: "Make a mini tournament"
 #    go_tournaments: "Go to mini tournaments"
 #    class_tournaments: "Class mini tournaments"
+#    class_tournaments_more: "More Class mini tournaments"
 #    no_tournaments_owner: "There is no tournament now, please create one"
 #    no_tournaments: "There is no tournament now"
 #    edit_tournament: "Edit Tournament"
 #    create_tournament: "Create a Tournament"
+#    upcoming: "Upcoming"
+#    starting: "Starting"
+#    ended: "Ended"
+#    view_results: "View Results"
+#    estimate_days: "In __time__ Days"
 
 #  payments:
 #    student_licenses: "Student Licenses"

@@ -2,6 +2,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 
   new_home:
     title: "CodeCombat - Coding game untuk belajar Python dan JavaScript"
+#    title_cn_home: "CodeCombat - Coding games to learn Python and JavaScript"
     meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "Pelajari kode yang diketik melalui permainan pemrograman. Pelajari Python, JavaScript, dan HTML sambil Anda memecahkan teka-teki dan belajar membuat game dan situs web pengkodean Anda sendiri."
     meta_og_url: "https://codecombat.com"
@@ -169,6 +170,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     ozaria: "Ozaria"
     codecombat_blurb: "Game coding asli kami. Direkomendasikan untuk orang tua, individu, pendidik, dan siswa yang ingin merasakan salah satu game coding yang paling disukai di dunia."
     ozaria_blurb: "Sebuah game petualangan dan program Ilmu Komputer tempat siswa menguasai keajaiban coding yang hilang untuk menyelamatkan dunia mereka. Direkomendasikan untuk pengajar dan siswa."
+#    ozaria_china_blurb: ""
     try_codecombat: "Coba CodeCombat"
     try_ozaria: "Coba Ozaria"
 #    explore_codecombat: "Explore CodeCombat"
@@ -199,6 +201,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    billion: "__num__ Billion"
 
   nav:
+#    aiyouth: "AI Youth"
     educators: "Pendidik"
     follow_us: "Ikuti Kami"
     general: "Utama"
@@ -216,7 +219,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     legal: "Hukum"
     privacy: "Pemberitahuan Privasi"
     about: "Tentang"
+#    events: "Events"
     impact: "Pengaruh"
+#    star: "CoCoStar"
     contact: "Kontak"
     twitter_follow: "Ikuti"
     my_classrooms: "Kelasku"
@@ -447,6 +452,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     birthday: "Tanggal lahir"
     parent_email_blurb: "Kamu tahu bahwa kamu tidak dapat menunggu untuk belajar pemrograman &mdash; kamipun juga sangat senang! Orang tua kalian akan menerima email dengan instruksi lebih lanjut tentang membuat akun untukmu. Silakan email {{email_link}} jika kamu memiliki pertanyaan."
     classroom_not_found: "Tidak ada kelas dengan Kode Kelas ini. Cek kembali penulisannya atau mintalah bantuan kepada gurumu"
+#    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "Sedang mengecek..."
     account_exists: "Email ini telah digunakan:"
     sign_in: "Masuk"
@@ -1843,6 +1849,9 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     apply_license: "Gunakan Lisensi"
     revoke_license: "Cabut Lisensi"
     revoke_licenses: "Cabut Semua Lisensi"
+#    revoke_these_licenses: "Select Students and Revoke These Licenses"
+#    check_and_revoke_license: "Status & Revoke"
+#    manage_license: "Manage License"
     course_progress: "Perkembangan Kursus"
     not_applicable: "Tidak Tersedia"
     edit: "ubah"
@@ -1977,10 +1986,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     assessments_curriculum_desc: "Pelajari cara menggunakan Level Tantangan dan level Tantangan Kombo untuk menilai hasil belajar siswa."
     cs2_curriculum: "Ilmu Komputer 2 - Panduan Kurikulum"
     cs2_curriculum_desc: "Cakupan dan urutan, rencana belajar, aktivitas dan lainnya untuk Kursus 2"
+#    cs2_syntax_python: "Course 2 Python Syntax Guide"
     cs3_curriculum: "Ilmu Komputer 3 - Panduan Kurikulum"
     cs3_curriculum_desc: "Cakupan dan urutan, rencana belajar, aktivitas dan lainnya untuk Kursus 3"
+#    cs3_syntax_python: "Course 3 Python Syntax Guide"
     cs4_curriculum: "Ilmu Komputer 4 - Panduan Kurikulum"
     cs4_curriculum_desc: "Cakupan dan urutan, rencana belajar, aktivitas dan lainnya untuk Kursus 4"
+#    cs4_syntax_python: "Course 4 Python Syntax Guide"
     cs5_curriculum_js: "Ilmu Komputer 5 - Panduan Kurikulum (JavaScript)"
     cs5_curriculum_desc_js: "Cakupan dan urutan, rencana belajar, aktivitas dan lainnya untuk kelas Kursus 5 menggunakan JavaScript."
     cs5_curriculum_py: "Ilmu Komputer 5 - Panduan Kurikulum (Python)"
@@ -2063,6 +2075,8 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    regenerate_class_code_tooltip: "Generate a new Class Code"
 #    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
     revoke_confirm: "Apakah kamu ingin mencabut Lisensi Penuh dari {{student_name}}? Lisensi tersebut akan tersedia untuk dipasang ke siswa lainnya."
+#    revoke_alert_no_student: "Please select students first."
+#    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
     revoke_all_confirm: "Apakah anda ingin mencabut Lisensi Penuh dari semua siswa di kelas ini?"
     revoking: "Mencabut..."
     unused_licenses: "Kamu memiliki lisensi yang tidak digunakan yang memungkinkan anda untuk menetapkan siswa pada kursus berbayar ketika mereka siap untuk belajar lebih!"
@@ -2127,6 +2141,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     try_ozaria_footer: "Coba game petualangan baru kami, Ozaria!"
     try_ozaria_free: "Coba Ozaria gratis"
     ozaria_intro: "Memperkenalkan Program Ilmu Komputer Baru Kami"
+#    owned_license: "Licensed"
 
   teacher_ozaria_encouragement_modal:
     title: "Membangun Keterampilan Ilmu Komputer untuk Menyelamatkan Ozaria"
@@ -2473,6 +2488,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     bracket_14_18: "14-18"
 #    bracket_11_18: "11-18"
     bracket_open: "Buka"
+#    create_tournament: "Create a Tournament"
 
   user:
     user_title: "__name__ - Belajar Membuat Kode dengan CodeCombat"
@@ -3241,6 +3257,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     license_type_full: "Kursus Lengkap"
     license_type_customize: "Sesuaikan Kursus"
 
+#  events:
+#    title: "CodeCombat Events"
+#    main_title: "CodeCombat Events"
+#    main_description: "The important events of codecombat China"
+
 #  outcomes:
 #    outcomes_report: "Outcomes Report"
 #    customize_report: "Customize Report"
@@ -3384,10 +3405,16 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     make_tournament: "Buat turnamen mini"
     go_tournaments: "Pergi ke turnamen mini"
     class_tournaments: "Kelas turnamen mini"
+#    class_tournaments_more: "More Class mini tournaments"
     no_tournaments_owner: "Tidak ada turnamen sekarang, buatlah turnamen"
     no_tournaments: "Tidak ada turnamen sekarang"
     edit_tournament: "Edit Turnamen"
     create_tournament: "Buat Turnamen"
+#    upcoming: "Upcoming"
+#    starting: "Starting"
+#    ended: "Ended"
+#    view_results: "View Results"
+#    estimate_days: "In __time__ Days"
 
 #  payments:
 #    student_licenses: "Student Licenses"

@@ -2,6 +2,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    title_cn_home: "CodeCombat - Coding games to learn Python and JavaScript"
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    meta_og_url: "https://codecombat.com"
@@ -169,6 +170,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     ozaria: "Ozaria"
     codecombat_blurb: "Das Original. Ein Spiel zum Programmieren lernen. Empfehlenswert für Eltern, Individuen, Lehrkräfte und Schüler, die in eines der weltweit beliebtesten Spiele zum Programmieren eintauchen möchten."
     ozaria_blurb: "Ein Adventure und Informatik-Lernprogramm, in dem Schüler die verlorene Magie des Programmierens meistern um ihre Welt zu retten. Empfohlen für Lehrkräfte und Schüler."
+#    ozaria_china_blurb: ""
     try_codecombat: "CodeCombat testen"
     try_ozaria: "Ozaria testen"
 #    explore_codecombat: "Explore CodeCombat"
@@ -199,6 +201,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    billion: "__num__ Billion"
 
   nav:
+#    aiyouth: "AI Youth"
 #    educators: "Educators"
     follow_us: "Folge Uns"
     general: "Hauptmenü"
@@ -216,7 +219,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     legal: "Rechtliches"
     privacy: "Datenschutz"
     about: "Über"
+#    events: "Events"
     impact: "Referenzen"
+#    star: "CoCoStar"
     contact: "Kontakt"
     twitter_follow: "Folge uns auf Twitter"
     my_classrooms: "Meine Klassen"
@@ -447,6 +452,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     birthday: "Geburtstag"
     parent_email_blurb: "Uns ist klar, dass du es kaum erwarten kannst, mit dem Programmieren anzufangen &mdash; Wir freuen uns auch! Deine Eltern erhalten eine E-Mail mit einer Anleitung zum Erstellen deines Kontos. Schreibe eine E-Mail an {{email_link}}, wenn du Fragen hast."
     classroom_not_found: "Es gibt keine Klassen mit diesem Klassen-Code. Prüfe deine Rechtschreibung oder bitte deinen Lehrer um Hilfe."
+#    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "Wird geprüft…"
     account_exists: "Diese E-Mail wird bereits verwendet:"
     sign_in: "Anmelden"
@@ -1843,6 +1849,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     apply_license: "Lizenz anwenden"
     revoke_license: "Lizenz entziehen"
     revoke_licenses: "Entziehe alle Lizenzen"
+#    revoke_these_licenses: "Select Students and Revoke These Licenses"
+#    check_and_revoke_license: "Status & Revoke"
+#    manage_license: "Manage License"
     course_progress: "Kursfortschritt"
     not_applicable: "n. v."
     edit: "bearbeiten"
@@ -1977,10 +1986,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Informatik 2 – Curriculumsleitfaden"
     cs2_curriculum_desc: "Umfang und Reihenfolge, Unterrichtspläne und mehr für Kurs 2."
+#    cs2_syntax_python: "Course 2 Python Syntax Guide"
     cs3_curriculum: "Informatik 3 – Curriculumsleitfaden"
     cs3_curriculum_desc: "Umfang und Reihenfolge, Unterrichtspläne und mehr für Kurs 3."
+#    cs3_syntax_python: "Course 3 Python Syntax Guide"
     cs4_curriculum: "Informatik 4 – Curriculumsleitfaden"
     cs4_curriculum_desc: "Umfang und Reihenfolge, Unterrichtspläne und mehr für Kurs 4."
+#    cs4_syntax_python: "Course 4 Python Syntax Guide"
     cs5_curriculum_js: "Informatik 5 - Curriculumsleitfaden (JavaScript)"
     cs5_curriculum_desc_js: "Umfang und Reihenfolge, Unterrichtspläne und mehr für Kurs 5-Klassen mit JavaScript."
     cs5_curriculum_py: "Informatik 5 - Curriculumsleitfaden (Python)"
@@ -2063,6 +2075,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    regenerate_class_code_tooltip: "Generate a new Class Code"
 #    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
     revoke_confirm: "Bist du sicher, dass die Lizenz für {{student_name}} entzogen werden soll? Die Lizenz kann dann einem anderen Schüler zugewiesen werden."
+#    revoke_alert_no_student: "Please select students first."
+#    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
 #    revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
     revoking: "wird zurückgezogen..."
     unused_licenses: "Du hast ungenutzte Lizenzen, um Schülern bezahlte Kurse zuzuweisen, wenn sie soweit sind, mehr zu lernen!"
@@ -2127,6 +2141,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    owned_license: "Licensed"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2473,6 +2488,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    bracket_14_18: "14-18"
 #    bracket_11_18: "11-18"
 #    bracket_open: "Open"
+#    create_tournament: "Create a Tournament"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -3241,6 +3257,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  events:
+#    title: "CodeCombat Events"
+#    main_title: "CodeCombat Events"
+#    main_description: "The important events of codecombat China"
+
 #  outcomes:
 #    outcomes_report: "Outcomes Report"
 #    customize_report: "Customize Report"
@@ -3384,10 +3405,16 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    make_tournament: "Make a mini tournament"
 #    go_tournaments: "Go to mini tournaments"
 #    class_tournaments: "Class mini tournaments"
+#    class_tournaments_more: "More Class mini tournaments"
 #    no_tournaments_owner: "There is no tournament now, please create one"
 #    no_tournaments: "There is no tournament now"
 #    edit_tournament: "Edit Tournament"
 #    create_tournament: "Create a Tournament"
+#    upcoming: "Upcoming"
+#    starting: "Starting"
+#    ended: "Ended"
+#    view_results: "View Results"
+#    estimate_days: "In __time__ Days"
 
 #  payments:
 #    student_licenses: "Student Licenses"

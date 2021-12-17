@@ -6,8 +6,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     meta_keywords: "扣哒世界, 青少年编程, 少儿编程, 信息学奥赛, CodeCombat官网,CodeCombat中文,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,CodeCombat"
     meta_description: "扣哒世界，CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, AP认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。"
     meta_og_url: "https://koudashijie.com"
-    built_for_teachers_title: "赋能编程教师的专业课程体系"
-    built_for_teachers_blurb: "扣哒世界提供专业、丰富的编程教案和教学活动设计、大数据教学管理平台和学生知识评估体系，可以帮助无计算机专业背景的教师轻松掌握Python, C++, JavaScript等代码编程入门和进阶阶段教学。扣哒世界和著名师资培训中心共同设置“扣哒名师奖”，培养中小学阶段编程和人工智能专业师资。"
     become_investor: "成为 CodeCombat 的投资者"
     built_for_teachers_title: "赋能编程教师的专业课程体系"
     built_for_teachers_blurb: "扣哒世界提供专业、丰富的编程教案和教学活动设计、大数据教学管理平台和学生知识评估体系，可以帮助无计算机专业背景的教师轻松掌握Python, C++, JavaScript等代码编程入门和进阶阶段教学。扣哒世界和著名师资培训中心共同设置“扣哒名师奖”，培养中小学阶段编程和人工智能专业师资。"
@@ -54,7 +52,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     featured_partners_blurb5: "CSforAll 官方成员"
     featured_partners_blurb6: "Hour of Code 积极成员"
     for_leaders_title: "写给学校或机构负责人"
-    
     for_leaders_blurb: "全面综合，标准化的计算机科学课程体系"
     for_leaders_subtitle1: "易于运行的环境"
     for_leaders_subblurb1: "基于网页的程序，无需IT支持。 打开浏览器，注册登录后5分钟内开始使用。"
@@ -87,8 +84,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     quotes_quote2: "我很惊讶扣哒世界让学习计算机科学变得如此轻松和主动。学生们的AP考试成绩远远超出我的预期，我相信这都是扣哒世界的功劳。"
     quotes_quote3: "扣哒世界是教授学生编写真实代码的最佳途径。我的丈夫是一名软件工程师，他测试了我所有的计算机科学备选课程，扣哒世界是他的首选。"
     quotes_quote4: "学生们的反馈非常积极，我们正在构建围绕扣哒世界的计算机科学课程。寓教于乐，真正让学生参与其中。再接再厉，扣哒世界！"
+#    quotes_quote5: "Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills."
+#    quotes_quote5_author: "Latthaphon Pohpon, Parent"
     see_example: "查看示例"
     slogan: "名校AI编程学习平台"
+#    slogan_power_of_play: "Learn to Code Through the Power of Play"
     teach_cs1_free: "免费教授计算机科学入门"
     teachers_love_codecombat_title: "教师们喜欢扣哒世界"
     teachers_love_codecombat_blurb1: "反馈学生们喜欢使用扣哒世界来学习编程"
@@ -252,6 +252,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     codecombat_classroom: "扣哒世界课程"
     ozaria_dashboard: "奥佳睿班级"
     codecombat_dashboard: "扣哒世界班级"
+#    professional_development: "Professional Development"
 #    new: "New!"
     admin: "管理员"
 #    api_dashboard: "API Dashboard"
@@ -2487,6 +2488,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     bracket_14_18: "中学组"
     bracket_11_18: "中学组"
     bracket_open: "开放组"
+#    create_tournament: "Create a Tournament"
 
   user:
     user_title: "__name__ - 用 CodeCombat 学习编码"
@@ -3256,9 +3258,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     license_type_customize: "可选课程"
 
   events:
-    title: '扣哒大事记'
-    main_title: '扣哒大事记'
-    main_description: '扣哒世界是创建于首都教育腹地中关村的中小学科创教育项目。团队成员来自清华大学、北京大学、哈佛大学、斯坦福大学、耶鲁大学等全国及世界顶级名校以及谷歌、微软、宝洁、麦肯锡等世界级名企，硕士及以上学历占90% 以上，部分成员在ACM、ICM、NOIP和全国数学联赛上取得优异成绩。学高为师、行正致远，这是一支积极向上、兼容并包、业务精湛的队伍，致力于为国内青少年创建世界一流的计算机科学和人工智能通识课程，面向世界，成就未来。'
+    title: "扣哒大事记"
+    main_title: "扣哒大事记"
+    main_description: "扣哒世界是创建于首都教育腹地中关村的中小学科创教育项目。团队成员来自清华大学、北京大学、哈佛大学、斯坦福大学、耶鲁大学等全国及世界顶级名校以及谷歌、微软、宝洁、麦肯锡等世界级名企，硕士及以上学历占90% 以上，部分成员在ACM、ICM、NOIP和全国数学联赛上取得优异成绩。学高为师、行正致远，这是一支积极向上、兼容并包、业务精湛的队伍，致力于为国内青少年创建世界一流的计算机科学和人工智能通识课程，面向世界，成就未来。"
 
   outcomes:
     outcomes_report: "学习报告"
@@ -3408,11 +3410,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_tournaments: "目前没有锦标赛"
     edit_tournament: " 修改"
     create_tournament: " 创建锦标赛"
-    upcoming: '即将到来'
-    starting: '进行中'
-    ended: '已结束'
-    view_results: '查看结果'
-    estimate_days: '__time__ 天内开始'
+    upcoming: "即将到来"
+    starting: "进行中"
+    ended: "已结束"
+    view_results: "查看结果"
+    estimate_days: "__time__ 天内开始"
 
 #  payments:
 #    student_licenses: "Student Licenses"

@@ -2,6 +2,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   new_home:
     title: "CodeCombat - 從編碼遊戲中學習 Python 與 JavaScript"
+#    title_cn_home: "CodeCombat - Coding games to learn Python and JavaScript"
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "通過遊戲來學習程式編碼。 學習 Python、JavaScript 和 HTML，解決其中的難題並學會製作自己的遊戲和網站。"
 #    meta_og_url: "https://codecombat.com"
@@ -169,6 +170,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    ozaria: "Ozaria"
 #    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
 #    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+#    ozaria_china_blurb: ""
 #    try_codecombat: "Try CodeCombat"
 #    try_ozaria: "Try Ozaria"
 #    explore_codecombat: "Explore CodeCombat"
@@ -199,6 +201,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    billion: "__num__ Billion"
 
   nav:
+#    aiyouth: "AI Youth"
 #    educators: "Educators"
 #    follow_us: "Follow Us"
 #    general: "General"
@@ -216,7 +219,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     legal: "版權聲明"
     privacy: "隱私權政策"
     about: "關於"
+#    events: "Events"
 #    impact: "Impact"
+#    star: "CoCoStar"
     contact: "聯繫我們"
     twitter_follow: "在 Twitter 關注"
     my_classrooms: "我的班級"
@@ -447,6 +452,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     birthday: "生日"
     parent_email_blurb: "我們知道您已經迫不及待的想去學習編程 &mdash; 我們也同樣地感到興奮! 您的家長將會收到一封電子郵件，內容包含了如何為您更進一步的申請一個帳號。 如果您有任何問題，我們很高興收到您的詢問email。Email地址 {{email_link}} "
     classroom_not_found: "這個班級代碼是無效的，請檢察您的拼字或是尋求老師的協助。"
+#    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "檢查中..."
     account_exists: "此email帳號已經被使用過了："
     sign_in: "登入"
@@ -1843,6 +1849,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     apply_license: "使用註冊碼"
     revoke_license: "撤銷註冊碼"
 #    revoke_licenses: "Revoke All Licenses"
+#    revoke_these_licenses: "Select Students and Revoke These Licenses"
+#    check_and_revoke_license: "Status & Revoke"
+#    manage_license: "Manage License"
     course_progress: "課程進展"
     not_applicable: "N/A"
     edit: "編輯"
@@ -1977,10 +1986,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "計算機科學 2 - 課程引導"
     cs2_curriculum_desc: "範圍，順序，課程計畫，啟動來獲得更多課程 2 的資訊。"
+#    cs2_syntax_python: "Course 2 Python Syntax Guide"
     cs3_curriculum: "計算機科學 3 - 課程引導"
     cs3_curriculum_desc: "範圍，順序，課程計畫，啟動來獲得更多課程 3 的資訊。"
+#    cs3_syntax_python: "Course 3 Python Syntax Guide"
     cs4_curriculum: "計算機科學 4 - 課程引導"
     cs4_curriculum_desc: "範圍，順序，課程計畫，啟動來獲得更多課程 4 的資訊。"
+#    cs4_syntax_python: "Course 4 Python Syntax Guide"
 #    cs5_curriculum_js: "Computer Science 5 - Curriculum Guide (JavaScript)"
 #    cs5_curriculum_desc_js: "Scope and sequence, lesson plans, activities and more for Course 5 classes using JavaScript."
 #    cs5_curriculum_py: "Computer Science 5 - Curriculum Guide (Python)"
@@ -2063,6 +2075,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    regenerate_class_code_tooltip: "Generate a new Class Code"
 #    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
     revoke_confirm: "您確定要撤銷 {{student_name}} 的完整註冊碼嗎? 這個註冊碼將可以再次分配給其他學生。"
+#    revoke_alert_no_student: "Please select students first."
+#    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
 #    revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
     revoking: "撤銷中..."
     unused_licenses: "您有未使用的註冊碼，可以在學生已經準備好要學更多的時候指派他們到付費課程!"
@@ -2127,6 +2141,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    owned_license: "Licensed"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2473,6 +2488,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    bracket_14_18: "14-18"
 #    bracket_11_18: "11-18"
 #    bracket_open: "Open"
+#    create_tournament: "Create a Tournament"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -3241,6 +3257,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     license_type_full: "全部課程"
     license_type_customize: "自訂課程"
 
+#  events:
+#    title: "CodeCombat Events"
+#    main_title: "CodeCombat Events"
+#    main_description: "The important events of codecombat China"
+
 #  outcomes:
 #    outcomes_report: "Outcomes Report"
 #    customize_report: "Customize Report"
@@ -3384,10 +3405,16 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    make_tournament: "Make a mini tournament"
 #    go_tournaments: "Go to mini tournaments"
 #    class_tournaments: "Class mini tournaments"
+#    class_tournaments_more: "More Class mini tournaments"
 #    no_tournaments_owner: "There is no tournament now, please create one"
 #    no_tournaments: "There is no tournament now"
 #    edit_tournament: "Edit Tournament"
 #    create_tournament: "Create a Tournament"
+#    upcoming: "Upcoming"
+#    starting: "Starting"
+#    ended: "Ended"
+#    view_results: "View Results"
+#    estimate_days: "In __time__ Days"
 
 #  payments:
 #    student_licenses: "Student Licenses"

@@ -2,6 +2,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   new_home:
     title: "CodeCombat - Python과 JavaScript를 배울 수 있는 코딩 게임"
+#    title_cn_home: "CodeCombat - Coding games to learn Python and JavaScript"
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
     meta_description: "프로그래밍 게임을 통해 타이핑된 코드를 배우십시오. 퍼즐을 풀면서 Python, JavaScript 및 HTML을 배우고 자신만의 코딩 게임 및 웹 사이트를 만드는 방법을 배우십시오."
 #    meta_og_url: "https://codecombat.com"
@@ -169,6 +170,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    ozaria: "Ozaria"
 #    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
 #    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+#    ozaria_china_blurb: ""
     try_codecombat: "코드컴뱃을 체험해 보세요"
 #    try_ozaria: "Try Ozaria"
     explore_codecombat: "코드컴뱃을 탐험해 보세요"
@@ -199,6 +201,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    billion: "__num__ Billion"
 
   nav:
+#    aiyouth: "AI Youth"
     educators: "선생님들"
     follow_us: "팔로우하기"
     general: "일반 내용"
@@ -216,7 +219,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     legal: "법"
     privacy: "프라이버시"
     about: "소개"
+#    events: "Events"
     impact: "영향"
+#    star: "CoCoStar"
     contact: "문의"
     twitter_follow: "팔로우"
     my_classrooms: "나의 클래스"
@@ -447,6 +452,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     birthday: "생일"
     parent_email_blurb: "당신이 프로그래밍 배우기를 기대한다는 사실을 알겠어요! 부모님께 계정 만드는 방법에 대한 이메일이 갈 거에요. 궁금한 점이 있으면 여기로 이메일을 보내 주세요. {{email_link}}"
     classroom_not_found: "이 클래스 코드로 생성된 클래스가 없습니다. 철자를 다시 확인해 보거나, 선생님께 도움을 요청하세요."
+#    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "확인 중..."
     account_exists: "이 이메일 주소는 누군가 사용 중입니다."
     sign_in: "로그인하기"
@@ -1843,6 +1849,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    apply_license: "Apply License"
 #    revoke_license: "Revoke License"
 #    revoke_licenses: "Revoke All Licenses"
+#    revoke_these_licenses: "Select Students and Revoke These Licenses"
+#    check_and_revoke_license: "Status & Revoke"
+#    manage_license: "Manage License"
 #    course_progress: "Course Progress"
 #    not_applicable: "N/A"
 #    edit: "edit"
@@ -1977,10 +1986,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
 #    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
 #    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
+#    cs2_syntax_python: "Course 2 Python Syntax Guide"
 #    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
 #    cs3_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 3."
+#    cs3_syntax_python: "Course 3 Python Syntax Guide"
 #    cs4_curriculum: "Computer Science 4 - Curriculum Guide"
 #    cs4_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 4."
+#    cs4_syntax_python: "Course 4 Python Syntax Guide"
 #    cs5_curriculum_js: "Computer Science 5 - Curriculum Guide (JavaScript)"
 #    cs5_curriculum_desc_js: "Scope and sequence, lesson plans, activities and more for Course 5 classes using JavaScript."
 #    cs5_curriculum_py: "Computer Science 5 - Curriculum Guide (Python)"
@@ -2063,6 +2075,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    regenerate_class_code_tooltip: "Generate a new Class Code"
 #    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
 #    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoke_alert_no_student: "Please select students first."
+#    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
 #    revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
 #    revoking: "Revoking..."
 #    unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they're ready to learn more!"
@@ -2127,6 +2141,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    owned_license: "Licensed"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2473,6 +2488,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    bracket_14_18: "14-18"
 #    bracket_11_18: "11-18"
 #    bracket_open: "Open"
+#    create_tournament: "Create a Tournament"
 
 #  user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -3241,6 +3257,11 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  events:
+#    title: "CodeCombat Events"
+#    main_title: "CodeCombat Events"
+#    main_description: "The important events of codecombat China"
+
 #  outcomes:
 #    outcomes_report: "Outcomes Report"
 #    customize_report: "Customize Report"
@@ -3384,10 +3405,16 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    make_tournament: "Make a mini tournament"
 #    go_tournaments: "Go to mini tournaments"
 #    class_tournaments: "Class mini tournaments"
+#    class_tournaments_more: "More Class mini tournaments"
 #    no_tournaments_owner: "There is no tournament now, please create one"
 #    no_tournaments: "There is no tournament now"
 #    edit_tournament: "Edit Tournament"
 #    create_tournament: "Create a Tournament"
+#    upcoming: "Upcoming"
+#    starting: "Starting"
+#    ended: "Ended"
+#    view_results: "View Results"
+#    estimate_days: "In __time__ Days"
 
 #  payments:
 #    student_licenses: "Student Licenses"

@@ -2,6 +2,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   new_home:
     title: "CodeCombat - Игры с програмированнием для изучения Python и Java Script"
+#    title_cn_home: "CodeCombat - Coding games to learn Python and JavaScript"
     meta_keywords: "CodeCombat, Python, JavaScript, Игры с програмированнием"
     meta_description: "Учитесь писать код с помощью игр для програмирования.Изучайте Python, JavaScript и HTML, решая головоломки, и учитесь создавать собственные игры и сайты для написания кода."
     meta_og_url: "https://codecombat.com"
@@ -169,6 +170,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     ozaria: "Ozaria"
     codecombat_blurb: "Наша оригинальная игра по кодированию. Рекомендуется для родителей, преподавателей, студентов и отдельных лиц, которые хотят сыграть в одну из самых любимых игр по программированию в мире."
     ozaria_blurb: "Приключенческая игра и программа по информатике, в которой учащиеся осваивают утерянную магию программирования, чтобы спасти свой мир. Рекомендуется для преподавателей и студентов."
+#    ozaria_china_blurb: ""
     try_codecombat: "Попробуйте CodeCombat"
     try_ozaria: "Попробуйте Ozaria"
     explore_codecombat: "Изучите CodeCombat"
@@ -199,6 +201,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     billion: "__номер__ Миллиард"
 
   nav:
+#    aiyouth: "AI Youth"
     educators: "Учителям"
     follow_us: "Подпишись на нас"
     general: "Главное"
@@ -216,7 +219,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     legal: "Юридическая информация"
     privacy: "Конфиденциальность"
     about: "О нас"
+#    events: "Events"
     impact: "Влияние"
+#    star: "CoCoStar"
     contact: "Связаться"
     twitter_follow: "Подписаться"
     my_classrooms: "Мои классы"
@@ -447,6 +452,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     birthday: "День рождения"
     parent_email_blurb: "Мы знаем, что вам не терпится начать программировать – мы тоже ждём вас! Ваши родители получат письмо с дальнейшими инструкциями по созданию учетной записи. Пишите нам на e-mail {{email_link}} по любым вопросам."
     classroom_not_found: "Нет класса с таким кодом. Проверьте написание или попросите учителя помочь."
+#    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "Проверяем..."
     account_exists: "Этот e-mail уже используется:"
     sign_in: "Войти"
@@ -1843,6 +1849,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     apply_license: "Применить лицензию"
     revoke_license: "Отозвать лицензию"
     revoke_licenses: "Отозвать Все Лицензии"
+#    revoke_these_licenses: "Select Students and Revoke These Licenses"
+#    check_and_revoke_license: "Status & Revoke"
+#    manage_license: "Manage License"
     course_progress: "Прогресс курса"
     not_applicable: "N/A"
     edit: "редактировать"
@@ -1977,10 +1986,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     assessments_curriculum_desc: "Узнайте, как использовать уровни задания и уровни комбинированного задания для оценки результатов обучения учащихся."
     cs2_curriculum: "Информатика 2 - Руководство учебного плана"
     cs2_curriculum_desc: "Объем и последовательность, планы уроков, мероприятия и многое другое для курса 2."
+#    cs2_syntax_python: "Course 2 Python Syntax Guide"
     cs3_curriculum: "Информатика 3 - Руководство учебного плана"
     cs3_curriculum_desc: "Объем и последовательность, планы уроков, мероприятия и многое другое для курса 3."
+#    cs3_syntax_python: "Course 3 Python Syntax Guide"
     cs4_curriculum: "Информатика 4 - Руководство учебного плана"
     cs4_curriculum_desc: "Объем и последовательность, планы уроков, мероприятия и многое другое для курса 4."
+#    cs4_syntax_python: "Course 4 Python Syntax Guide"
     cs5_curriculum_js: "Компьютерные науки 5 - Руководство по учебной программе (JavaScript)"
     cs5_curriculum_desc_js: "Объем и последовательность, планы уроков, мероприятия и многое другое для классов 5 курса с использованием JavaScript."
     cs5_curriculum_py: "Компьютерные науки 5 - Руководство по учебной программе (Python)"
@@ -2063,6 +2075,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    regenerate_class_code_tooltip: "Generate a new Class Code"
 #    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
 #    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoke_alert_no_student: "Please select students first."
+#    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
 #    revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
 #    revoking: "Revoking..."
 #    unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they're ready to learn more!"
@@ -2127,6 +2141,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    owned_license: "Licensed"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2473,6 +2488,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    bracket_14_18: "14-18"
 #    bracket_11_18: "11-18"
 #    bracket_open: "Open"
+#    create_tournament: "Create a Tournament"
 
   user:
     user_title: "__name__ - Изучи программирование с CodeCombat"
@@ -3241,6 +3257,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  events:
+#    title: "CodeCombat Events"
+#    main_title: "CodeCombat Events"
+#    main_description: "The important events of codecombat China"
+
 #  outcomes:
 #    outcomes_report: "Outcomes Report"
 #    customize_report: "Customize Report"
@@ -3384,10 +3405,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    make_tournament: "Make a mini tournament"
 #    go_tournaments: "Go to mini tournaments"
 #    class_tournaments: "Class mini tournaments"
+#    class_tournaments_more: "More Class mini tournaments"
 #    no_tournaments_owner: "There is no tournament now, please create one"
 #    no_tournaments: "There is no tournament now"
 #    edit_tournament: "Edit Tournament"
 #    create_tournament: "Create a Tournament"
+#    upcoming: "Upcoming"
+#    starting: "Starting"
+#    ended: "Ended"
+#    view_results: "View Results"
+#    estimate_days: "In __time__ Days"
 
 #  payments:
 #    student_licenses: "Student Licenses"

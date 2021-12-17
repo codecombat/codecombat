@@ -2,6 +2,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 
   new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    title_cn_home: "CodeCombat - Coding games to learn Python and JavaScript"
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    meta_og_url: "https://codecombat.com"
@@ -169,6 +170,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    ozaria: "Ozaria"
 #    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
 #    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+#    ozaria_china_blurb: ""
 #    try_codecombat: "Try CodeCombat"
 #    try_ozaria: "Try Ozaria"
 #    explore_codecombat: "Explore CodeCombat"
@@ -199,6 +201,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    billion: "__num__ Billion"
 
   nav:
+#    aiyouth: "AI Youth"
 #    educators: "Educators"
 #    follow_us: "Follow Us"
 #    general: "General"
@@ -216,7 +219,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     legal: "Право"
     privacy: "Приватност"
     about: "О нама"
+#    events: "Events"
 #    impact: "Impact"
+#    star: "CoCoStar"
     contact: "Контакт"
     twitter_follow: "Прати"
     my_classrooms: "Моји разреди"
@@ -447,6 +452,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     birthday: "Датум рођења"
     parent_email_blurb: "Знамо да једва чекаш да научиш програмирање &mdash; и ми смо узбуђени! Твоји родитељи ће добити и-мејл са даљим инструкцијама о томе како да направе налог за тебе. Пошаљи и-мејл на {{email_link}} ако имаш било каква питања."
     classroom_not_found: "Не постоји разред са овим кодом. Провери да ли си добро уписао и обрати се свом наставнику за помоћ."
+#    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "Проверавам..."
     account_exists: "Ова и-мејл адреса се већ користи:"
     sign_in: "Улогуј се"
@@ -1843,6 +1849,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     apply_license: "Примени лиценцу"
     revoke_license: "Одузми лиценцу"
     revoke_licenses: "Одузми све лиценце"
+#    revoke_these_licenses: "Select Students and Revoke These Licenses"
+#    check_and_revoke_license: "Status & Revoke"
+#    manage_license: "Manage License"
     course_progress: "Напредак курса"
     not_applicable: "није применљиво"
     edit: "уреди"
@@ -1977,10 +1986,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Компјутерска наука 2 - водич за наставни план"
     cs2_curriculum_desc: "Опсег и секвенца, наставни планови, активности и више за курс 2."
+#    cs2_syntax_python: "Course 2 Python Syntax Guide"
     cs3_curriculum: "Компјутерска наука 3 - водич за наставни план"
     cs3_curriculum_desc: "Опсег и секвенца, наставни планови, активности и више за курс 3."
+#    cs3_syntax_python: "Course 3 Python Syntax Guide"
     cs4_curriculum: "Компјутерска наука 4 - водич за наставни план"
     cs4_curriculum_desc: "Опсег и секвенца, наставни планови, активности и више за курс 4."
+#    cs4_syntax_python: "Course 4 Python Syntax Guide"
     cs5_curriculum_js: "Компјутерска наука 5 - водич за наставни план (JavaScript)"
     cs5_curriculum_desc_js: "Опсег и секвенца, наставни планови, активности и више за курс 5."
     cs5_curriculum_py: "Компјутерска наука 5 - водич за наставни план (Python)"
@@ -2063,6 +2075,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    regenerate_class_code_tooltip: "Generate a new Class Code"
 #    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
     revoke_confirm: "Јеси ли сигуран да желиш да повучеш пуну лиценцу ученику који се зове {{student_name}}? Лиценца ће постати доступна за доделу другом ученику."
+#    revoke_alert_no_student: "Please select students first."
+#    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
     revoke_all_confirm: "Јеси ли сигуран да желиш да повучеш пуне лиценце свим ученицима у твом разреду?"
     revoking: "Повлачење..."
     unused_licenses: "Имаш некоришћене лиценце које ти допуштају да додели ученицима плаћене курсеве када су спремни да науче више!"
@@ -2127,6 +2141,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    owned_license: "Licensed"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2473,6 +2488,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    bracket_14_18: "14-18"
 #    bracket_11_18: "11-18"
 #    bracket_open: "Open"
+#    create_tournament: "Create a Tournament"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -3241,6 +3257,11 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  events:
+#    title: "CodeCombat Events"
+#    main_title: "CodeCombat Events"
+#    main_description: "The important events of codecombat China"
+
 #  outcomes:
 #    outcomes_report: "Outcomes Report"
 #    customize_report: "Customize Report"
@@ -3384,10 +3405,16 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    make_tournament: "Make a mini tournament"
 #    go_tournaments: "Go to mini tournaments"
 #    class_tournaments: "Class mini tournaments"
+#    class_tournaments_more: "More Class mini tournaments"
 #    no_tournaments_owner: "There is no tournament now, please create one"
 #    no_tournaments: "There is no tournament now"
 #    edit_tournament: "Edit Tournament"
 #    create_tournament: "Create a Tournament"
+#    upcoming: "Upcoming"
+#    starting: "Starting"
+#    ended: "Ended"
+#    view_results: "View Results"
+#    estimate_days: "In __time__ Days"
 
 #  payments:
 #    student_licenses: "Student Licenses"

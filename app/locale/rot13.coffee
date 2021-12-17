@@ -1,6 +1,7 @@
 module.exports = nativeDescription: "rot13", englishDescription: "English with the letters jumbled", translation:
   new_home:
     title: "PbqrPbzong - Pbqvat tnzrf gb yrnea Clguba naq WninFpevcg"
+    title_cn_home: "PbqrPbzong - Pbqvat tnzrf gb yrnea Clguba naq WninFpevcg"
     meta_keywords: "PbqrPbzong, clguba, wninfpevcg, Pbqvat Tnzrf"
     meta_description: "Yrnea glcrq pbqr guebhtu n cebtenzzvat tnzr. Yrnea Clguba, WninFpevcg, naq UGZY nf lbh fbyir chmmyrf naq yrnea gb znxr lbhe bja pbqvat tnzrf naq jrofvgrf."
     meta_og_url: "uggcf://pbqrpbzong.pbz"
@@ -168,6 +169,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     ozaria: "Bmnevn"
     codecombat_blurb: "Bhe bevtvany pbqvat tnzr. Erpbzzraqrq sbe cneragf, vaqvivqhnyf, rqhpngbef, naq fghqragf jub jnag gb rkcrevrapr bar bs gur zbfg-ybirq pbqvat tnzrf va gur jbeyq."
     ozaria_blurb: "Na nqiragher tnzr naq Pbzchgre Fpvrapr cebtenz jurer fghqragf znfgre gur ybfg zntvp bs pbqvat gb fnir gurve jbeyq. Erpbzzraqrq sbe rqhpngbef naq fghqragf."
+    ozaria_china_blurb: ""
     try_codecombat: "Gel PbqrPbzong"
     try_ozaria: "Gel Bmnevn"
     explore_codecombat: "Rkcyber PbqrPbzong"
@@ -198,6 +200,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     billion: "__ahz__ Ovyyvba"
 
   nav:
+    aiyouth: "NV Lbhgu"
     educators: "Rqhpngbef"
     follow_us: "Sbyybj Hf"
     general: "Trareny"
@@ -215,7 +218,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     legal: "Yrtny"
     privacy: "Cevinpl Abgvpr"
     about: "Nobhg"
+    events: "Riragf"
     impact: "Vzcnpg"
+    star: "PbPbFgne"
     contact: "Pbagnpg"
     twitter_follow: "Sbyybj"
     my_classrooms: "Zl Pynffrf"
@@ -446,6 +451,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     birthday: "Oveguqnl"
     parent_email_blurb: "Jr xabj lbh pna'g jnvg gb yrnea cebtenzzvat &zqnfu; jr'er rkpvgrq gbb! Lbhe cneragf jvyy erprvir na rznvy jvgu shegure vafgehpgvbaf ba ubj gb perngr na nppbhag sbe lbh. Rznvy {{rznvy_yvax}} vs lbh unir nal dhrfgvbaf."
     classroom_not_found: "Ab pynffrf rkvfg jvgu guvf Pynff Pbqr. Purpx lbhe fcryyvat be nfx lbhe grnpure sbe uryc."
+    activation_code_used: "Gur npgvingvba pbqr unf orra hfrq. Purpx lbhe fcryyvat be nfx lbhe grnpure sbe uryc."
     checking: "Purpxvat..."
     account_exists: "Guvf rznvy vf nyernql va hfr:"
     sign_in: "Fvta va"
@@ -1842,6 +1848,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     apply_license: "Nccyl Yvprafr"
     revoke_license: "Eribxr Yvprafr"
     revoke_licenses: "Eribxr Nyy Yvprafrf"
+    revoke_these_licenses: "Fryrpg Fghqragf naq Eribxr Gurfr Yvprafrf"
+    check_and_revoke_license: "Fgnghf & Eribxr"
+    manage_license: "Znantr Yvprafr"
     course_progress: "Pbhefr Cebterff"
     not_applicable: "A/N"
     edit: "rqvg"
@@ -1976,10 +1985,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     assessments_curriculum_desc: "Yrnea ubj gb hfr Punyyratr Yriryf naq Pbzob Punyyratr yriryf gb nffrff fghqragf' yrneavat bhgpbzrf."
     cs2_curriculum: "Pbzchgre Fpvrapr 2 - Pheevphyhz Thvqr"
     cs2_curriculum_desc: "Fpbcr naq frdhrapr, yrffba cynaf, npgvivgvrf naq zber sbe Pbhefr 2."
+    cs2_syntax_python: "Pbhefr 2 Clguba Flagnk Thvqr"
     cs3_curriculum: "Pbzchgre Fpvrapr 3 - Pheevphyhz Thvqr"
     cs3_curriculum_desc: "Fpbcr naq frdhrapr, yrffba cynaf, npgvivgvrf naq zber sbe Pbhefr 3."
+    cs3_syntax_python: "Pbhefr 3 Clguba Flagnk Thvqr"
     cs4_curriculum: "Pbzchgre Fpvrapr 4 - Pheevphyhz Thvqr"
     cs4_curriculum_desc: "Fpbcr naq frdhrapr, yrffba cynaf, npgvivgvrf naq zber sbe Pbhefr 4."
+    cs4_syntax_python: "Pbhefr 4 Clguba Flagnk Thvqr"
     cs5_curriculum_js: "Pbzchgre Fpvrapr 5 - Pheevphyhz Thvqr (WninFpevcg)"
     cs5_curriculum_desc_js: "Fpbcr naq frdhrapr, yrffba cynaf, npgvivgvrf naq zber sbe Pbhefr 5 pynffrf hfvat WninFpevcg."
     cs5_curriculum_py: "Pbzchgre Fpvrapr 5 - Pheevphyhz Thvqr (Clguba)"
@@ -2062,6 +2074,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     regenerate_class_code_tooltip: "Trarengr n arj Pynff Pbqr"
     regenerate_class_code_confirm: "Ner lbh fher lbh jnag gb trarengr n arj Pynff Pbqr?"
     revoke_confirm: "Ner lbh fher lbh jnag gb eribxr n Shyy Yvprafr sebz {{fghqrag_anzr}}? Gur yvprafr jvyy orpbzr ninvynoyr gb nffvta gb nabgure fghqrag."
+    revoke_alert_no_student: "Cyrnfr fryrpg fghqragf svefg."
+    revoke_selected_confirm: "Ner lbh fher lbh jnag gb eribxr Yvprafrf sebz nyy fryrpgrq fghqragf?"
     revoke_all_confirm: "Ner lbh fher lbh jnag gb eribxr Shyy Yvprafrf sebz nyy fghqragf va guvf pynff?"
     revoking: "Eribxvat..."
     unused_licenses: "Lbh unir hahfrq Yvprafrf gung nyybj lbh gb nffvta fghqragf cnvq pbhefrf jura gurl'er ernql gb yrnea zber!"
@@ -2126,6 +2140,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     try_ozaria_footer: "Gel bhe arj nqiragher tnzr, Bmnevn!"
     try_ozaria_free: "Gel Bmnevn sbe serr"
     ozaria_intro: "Vagebqhpvat Bhe Arj Pbzchgre Fpvrapr Cebtenz"
+    owned_license: "Yvprafrq"
 
   teacher_ozaria_encouragement_modal:
     title: "Ohvyq Pbzchgre Fpvrapr Fxvyyf gb Fnir Bmnevn"
@@ -2472,6 +2487,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     bracket_14_18: "14-18"
     bracket_11_18: "11-18"
     bracket_open: "Bcra"
+    create_tournament: "Perngr n Gbheanzrag"
 
   user:
     user_title: '__anzr__ - Yrnea gb Pbqr jvgu PbqrPbzong'
@@ -3240,6 +3256,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     license_type_full: 'Shyy Pbhefrf'
     license_type_customize: 'Phfgbzvmr Pbhefrf'
 
+  events:
+    title: 'PbqrPbzong Riragf'
+    main_title: 'PbqrPbzong Riragf'
+    main_description: 'Gur vzcbegnag riragf bs pbqrpbzong Puvan'
+
   outcomes:
     outcomes_report: "Bhgpbzrf Ercbeg"
     customize_report: "Phfgbzvmr Ercbeg"
@@ -3343,7 +3364,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     season2_announcement_2: "Arrq zber cenpgvpr? Fgvpx jvgu gur Zntr'f Zvtug Neran gb ersvar lbhe fxvyyf. Lbh unir hagvy Nhthfg 31fg gb cynl obgu neranf. Abgr: neran onynapr nqwhfgzragf znl bpphe hagvy Nhthfg 23eq."
     season2_announcement_3: "Terng cevmrf ninvynoyr sbe gbc cresbezref va gur Fbepreref Oyvgm:"
     season1_prize_1: "$1,000 Fpubynefuvc"
-    season1_prize_2: "ERFCNJA Tnzvat Trne"  # {punatr}
+    season1_prize_2: "ERFCNJA Tnzvat Trne"
     season1_prize_3: "Phfgbz PbqrPbzong Ningne"
     season1_prize_4: "Naq zber!"
     season1_prize_hyperx: "UlcreK Cerzvhz Crevcurenyf"
@@ -3383,10 +3404,16 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     make_tournament: "Znxr n zvav gbheanzrag"
     go_tournaments: "Tb gb zvav gbheanzragf"
     class_tournaments: "Pynff zvav gbheanzragf"
+    class_tournaments_more: "Zber Pynff zvav gbheanzragf"
     no_tournaments_owner: "Gurer vf ab gbheanzrag abj, cyrnfr perngr bar"
     no_tournaments: "Gurer vf ab gbheanzrag abj"
     edit_tournament: "Rqvg Gbheanzrag"
     create_tournament: "Perngr n Gbheanzrag"
+    upcoming: 'Hcpbzvat'
+    starting: 'Fgnegvat'
+    ended: 'Raqrq'
+    view_results: 'Ivrj Erfhygf'
+    estimate_days: 'Va __gvzr__ Qnlf'
 
   payments:
     student_licenses: 'Fghqrag Yvprafrf'

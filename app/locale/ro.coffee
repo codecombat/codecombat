@@ -2,6 +2,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
 
   new_home:
     title: "CodeCombat - Programare de jocuri pentru a învăța Python și JavaScript"
+#    title_cn_home: "CodeCombat - Coding games to learn Python and JavaScript"
     meta_keywords: "CodeCombat, python, javascript, programare de jocuri"
     meta_description: "Învață să scri cod prin programarea de unui joc. Învață Python, JavaScript, și HTML ca și când ai rezolva puzzle-uri și învață să îți faci propriile jocuri și site-uri web."
     meta_og_url: "https://codecombat.com"
@@ -169,6 +170,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     ozaria: "Ozaria"
 #    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
 #    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+#    ozaria_china_blurb: ""
     try_codecombat: "Încearcă CodeCombat"
     try_ozaria: "Încearcă Ozaria"
     explore_codecombat: "Explorează CodeCombat"
@@ -199,6 +201,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     billion: "__num__ Bilioane"
 
   nav:
+#    aiyouth: "AI Youth"
     educators: "Formatori"
     follow_us: "Urmăriți-ne"
     general: "General"
@@ -216,7 +219,9 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     legal: "Confidențialitate și termeni"
     privacy: "Notă de confidențialitate"
     about: "Despre"
+#    events: "Events"
     impact: "Impact"
+#    star: "CoCoStar"
     contact: "Contact"
     twitter_follow: "Urmărește"
     my_classrooms: "Clasa mea"
@@ -447,6 +452,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     birthday: "Ziua de naștere"
     parent_email_blurb: "Știm că abia aștepți să înveți programare &mdash; și noi suntem nerăbdători! Părinții tăi vor primi un e-mail cu detalii despre cum să îți creeze un cont. Trimite e-mail {{email_link}} dacă ai întrebări."
     classroom_not_found: "Nu există clase cu aces cod de clasă. Verifică ceea ce ai scris sau întreabă profesorul pentru ajutor."
+#    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "Verificare..."
     account_exists: "Acest e-mail este deja utilizat:"
     sign_in: "Autentificare"
@@ -1843,6 +1849,9 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
 #    apply_license: "Apply License"
 #    revoke_license: "Revoke License"
 #    revoke_licenses: "Revoke All Licenses"
+#    revoke_these_licenses: "Select Students and Revoke These Licenses"
+#    check_and_revoke_license: "Status & Revoke"
+#    manage_license: "Manage License"
 #    course_progress: "Course Progress"
 #    not_applicable: "N/A"
 #    edit: "edit"
@@ -1977,10 +1986,13 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
 #    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
 #    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
 #    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
+#    cs2_syntax_python: "Course 2 Python Syntax Guide"
 #    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
 #    cs3_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 3."
+#    cs3_syntax_python: "Course 3 Python Syntax Guide"
 #    cs4_curriculum: "Computer Science 4 - Curriculum Guide"
 #    cs4_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 4."
+#    cs4_syntax_python: "Course 4 Python Syntax Guide"
 #    cs5_curriculum_js: "Computer Science 5 - Curriculum Guide (JavaScript)"
 #    cs5_curriculum_desc_js: "Scope and sequence, lesson plans, activities and more for Course 5 classes using JavaScript."
 #    cs5_curriculum_py: "Computer Science 5 - Curriculum Guide (Python)"
@@ -2063,6 +2075,8 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
 #    regenerate_class_code_tooltip: "Generate a new Class Code"
 #    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
 #    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoke_alert_no_student: "Please select students first."
+#    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
 #    revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
 #    revoking: "Revoking..."
 #    unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they're ready to learn more!"
@@ -2127,6 +2141,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    owned_license: "Licensed"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2473,6 +2488,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
 #    bracket_14_18: "14-18"
 #    bracket_11_18: "11-18"
 #    bracket_open: "Open"
+#    create_tournament: "Create a Tournament"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -3241,6 +3257,11 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  events:
+#    title: "CodeCombat Events"
+#    main_title: "CodeCombat Events"
+#    main_description: "The important events of codecombat China"
+
 #  outcomes:
 #    outcomes_report: "Outcomes Report"
 #    customize_report: "Customize Report"
@@ -3384,10 +3405,16 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     make_tournament: "Crează un mini campionat"
     go_tournaments: "Mergi la mini campionat"
     class_tournaments: "Clasifică mini campionatele"
+#    class_tournaments_more: "More Class mini tournaments"
     no_tournaments_owner: "Nu există nici un campionat acum, te rog crează unul"
     no_tournaments: "Nu există nici un campionat acum"
     edit_tournament: "Editează campionatul"
     create_tournament: "Crează campionatul"
+#    upcoming: "Upcoming"
+#    starting: "Starting"
+#    ended: "Ended"
+#    view_results: "View Results"
+#    estimate_days: "In __time__ Days"
 
   payments:
     student_licenses: "Licențe pentru elevi"

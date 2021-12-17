@@ -2,6 +2,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 
   new_home:
 #    title: "CodeCombat - Coding games to learn Python and JavaScript"
+#    title_cn_home: "CodeCombat - Coding games to learn Python and JavaScript"
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games"
 #    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
 #    meta_og_url: "https://codecombat.com"
@@ -169,6 +170,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    ozaria: "Ozaria"
 #    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
 #    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+#    ozaria_china_blurb: ""
 #    try_codecombat: "Try CodeCombat"
 #    try_ozaria: "Try Ozaria"
 #    explore_codecombat: "Explore CodeCombat"
@@ -199,6 +201,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    billion: "__num__ Billion"
 
   nav:
+#    aiyouth: "AI Youth"
 #    educators: "Educators"
 #    follow_us: "Follow Us"
 #    general: "General"
@@ -216,7 +219,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     legal: "Legalitat"
     privacy: "Privadesa"
     about: "Sobre Nosaltres"
+#    events: "Events"
 #    impact: "Impact"
+#    star: "CoCoStar"
     contact: "Contacta"
     twitter_follow: "Segueix-nos"
     my_classrooms: "Les Meves Classes"
@@ -447,6 +452,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     birthday: "Aniversari"
     parent_email_blurb: "Sabem que no podeu esperar per a aprendre programació &mdash; A nosaltres també ens emociona. Els vostres pares rebran un e-mail amb més instruccions sobre com crear un compte per a vosaltres. Podeu escriure a l'e-mail ({email_link}} si teniu algun dubte."
     classroom_not_found: "No existeixen classes amb aquest Codi de classe. Consulteu la ortografia o demaneu ajuda al vostre professor."
+#    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "Comprovant..."
     account_exists: "Aquest e-mail ja està en ús:"
     sign_in: "Inicieu sessió"
@@ -1843,6 +1849,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     apply_license: "Aplicar Llicència"
     revoke_license: "Revocar Llicència"
     revoke_licenses: "Revocar Totes les llicències"
+#    revoke_these_licenses: "Select Students and Revoke These Licenses"
+#    check_and_revoke_license: "Status & Revoke"
+#    manage_license: "Manage License"
     course_progress: "Progrés del curs"
     not_applicable: "N/A"
     edit: "edita"
@@ -1977,10 +1986,13 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Informàtica 2 - Guia del currículum"
     cs2_curriculum_desc: "Àmbit i seqüència, planificació de classes, activitats i molt més per al curs 2."
+#    cs2_syntax_python: "Course 2 Python Syntax Guide"
     cs3_curriculum: "Informàtica 3 - Guia del currículum"
     cs3_curriculum_desc: "Àmbit i seqüència, planificació de classes, activitats i molt més per al curs 3."
+#    cs3_syntax_python: "Course 3 Python Syntax Guide"
     cs4_curriculum: "Informàtica 4 - Guia del currículum"
     cs4_curriculum_desc: "Àmbit i seqüència, planificació de classes, activitats i molt més per al curs 4."
+#    cs4_syntax_python: "Course 4 Python Syntax Guide"
     cs5_curriculum_js: "Informàtica 5 - Guia del currículum (JavaScript)"
     cs5_curriculum_desc_js: "Àmbit i seqüència, planificació de classes, activitats i molt més per al curs 5 fent servir JavaScript."
     cs5_curriculum_py: "Informàtica 5 - Guia del currículum (Python)"
@@ -2063,6 +2075,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    regenerate_class_code_tooltip: "Generate a new Class Code"
 #    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
     revoke_confirm: "Estàs segur que vols revocar una llicència total de {{student_name}}? La llicència restarà disponible per assignar-la a un altre estudiant."
+#    revoke_alert_no_student: "Please select students first."
+#    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
     revoke_all_confirm: "Estàs segur que vols revocar les llicències totals de tots els estudiants d'aquesta classe?"
     revoking: "Revocant..."
     unused_licenses: "Teniu llicències no utilitzades que us permeten assignar cursos pagats pels estudiants quan estiguin preparats per obtenir més informació!"
@@ -2127,6 +2141,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    owned_license: "Licensed"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -2473,6 +2488,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    bracket_14_18: "14-18"
 #    bracket_11_18: "11-18"
 #    bracket_open: "Open"
+#    create_tournament: "Create a Tournament"
 
   user:
 #    user_title: "__name__ - Learn to Code with CodeCombat"
@@ -3241,6 +3257,11 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    license_type_full: "Full Courses"
 #    license_type_customize: "Customize Courses"
 
+#  events:
+#    title: "CodeCombat Events"
+#    main_title: "CodeCombat Events"
+#    main_description: "The important events of codecombat China"
+
 #  outcomes:
 #    outcomes_report: "Outcomes Report"
 #    customize_report: "Customize Report"
@@ -3384,10 +3405,16 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    make_tournament: "Make a mini tournament"
 #    go_tournaments: "Go to mini tournaments"
 #    class_tournaments: "Class mini tournaments"
+#    class_tournaments_more: "More Class mini tournaments"
 #    no_tournaments_owner: "There is no tournament now, please create one"
 #    no_tournaments: "There is no tournament now"
 #    edit_tournament: "Edit Tournament"
 #    create_tournament: "Create a Tournament"
+#    upcoming: "Upcoming"
+#    starting: "Starting"
+#    ended: "Ended"
+#    view_results: "View Results"
+#    estimate_days: "In __time__ Days"
 
 #  payments:
 #    student_licenses: "Student Licenses"
