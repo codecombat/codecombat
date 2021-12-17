@@ -124,18 +124,12 @@ me.extendVersionedProperties = (schema, linkFragment) ->
 # SEARCHABLE
 
 searchableProps = ->
-  index: {format: 'hidden'}
+  index: {format: 'hidden'}  # CodeCombat / original
+  _algoliaObjectID: { type: 'string', format: 'hidden' }  # Ozaria / new
 
 me.extendSearchableProperties = (schema) ->
   schema.properties = {} unless schema.properties?
   _.extend(schema.properties, searchableProps())
-
-algoliaSearchableProps = ->
-  _algoliaObjectID: { type: 'string' }
-
-me.extendAlgoliaProperties = (schema) ->
-  schema.properties = {} unless schema.properties?
-  _.extend(schema.properties, algoliaSearchableProps())
 
 # PERMISSIONED
 

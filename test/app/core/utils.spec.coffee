@@ -418,15 +418,15 @@ describe 'Utility library', ->
       expect((val.toString() for key, val of levelNumberMap)).toEqual(['1', '1a', '1b', '1c', '2', '2a', '2b', '3', '4', '4a', '5'])
 
   describe 'findNextLevel and findNextAssessmentForLevel', ->
-# r=required p=practice c=complete *=current a=assessment l=locked
-# utils.findNextLevel returns next level 0-based index
-# utils.findNextAssessmentForLevel returns next level 0-based index
+    # r=required p=practice c=complete *=current a=assessment l=locked
+    # utils.findNextLevel returns next level 0-based index
+    # utils.findNextAssessmentForLevel returns next level 0-based index
 
-# Find next available incomplete level, depending on whether practice is needed
-# Find assessment level immediately after current level (and its practice levels)
-# Only return assessment if it's the next level
-# Skip over practice levels unless practice neeeded
-# levels = [{practice: true/false, complete: true/false, assessment: true/false}]
+    # Find next available incomplete level, depending on whether practice is needed
+    # Find assessment level immediately after current level (and its practice levels)
+    # Only return assessment if it's the next level
+    # Skip over practice levels unless practice neeeded
+    # levels = [{practice: true/false, complete: true/false, assessment: true/false}]
 
     describe 'when no practice needed', ->
       needsPractice = false

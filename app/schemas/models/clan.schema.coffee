@@ -63,9 +63,6 @@ _.extend ClanSchema.properties,
   esportsImage: { type: 'string', format: 'image-file', title: 'Esports Image', description: 'Image to show for this team on league page.' }
 
 c.extendBasicProperties ClanSchema, 'Clan'
-
-# Do we need these?
-# c.extendSearchableProperties ClanSchema
-# c.extendPermissionsProperties ClanSchema
+c.extendSearchableProperties ClanSchema
 
 module.exports = ClanSchema
