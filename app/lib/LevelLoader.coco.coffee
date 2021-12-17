@@ -170,6 +170,8 @@ module.exports = class LevelLoader extends CocoClass
         url += "?course=#{@courseID}"
         if @courseInstanceID
           url += "&courseInstance=#{@courseInstanceID}"
+      else if codeLanguage = utils.getQueryVariable 'codeLanguage'
+        url += "?codeLanguage=#{codeLanguage}" # For non-classroom anonymous users
       if password = utils.getQueryVariable 'password'
         delimiter = if /\?/.test(url) then '&' else '?'
         url += delimiter + 'password=' + password

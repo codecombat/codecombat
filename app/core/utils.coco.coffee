@@ -124,6 +124,9 @@ titleize = (s) ->
 campaignIDs =
   INTRO: '55b29efd1cd6abe8ce07db0d'
 
+freeCampaignIds = [campaignIDs.INTRO] # CS1 campaign
+internalCampaignIds = [] # Ozaria has one of these, CoCo doesn't
+
 courseIDs =
   INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
   GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
@@ -261,6 +264,9 @@ i18n = (say, target, language=me.get('preferredLanguage', true), fallback='en') 
   fallSidewaysResult = null  # If a specific language isn't available, its sibling specific language will do.
   matches = (/\w+/gi).exec(language)
   generalName = matches[0] if matches
+
+  # Lets us safely attempt to translate undefined objects
+  return say?[target] unless say?.i18n
 
   for localeName, locale of say.i18n
     continue if localeName is '-'
@@ -741,6 +747,20 @@ videoLevels = {
   }
 }
 
+# Adds a `Vue.nonreactive` global method that can be used
+# to prevent Vue traversing our large and expensive game objects.
+# Reference Library: https://github.com/rpkilby/vue-nonreactive
+vueNonReactiveInstall = (Vue) ->
+    Observer = (new Vue())
+      .$data
+      .__ob__
+      .constructor
+
+    Vue.nonreactive = (value) ->
+      # Vue sees the noop Observer and stops traversing the structure.
+      value.__ob__ = new Observer({});
+      return value;
+
 yearsSinceMonth = (birth, now) ->
   return undefined unless birth
   # Should probably review this logic, written quickly and haven't tested any edge cases
@@ -940,6 +960,7 @@ module.exports = {
   findNextLevel
   formatDollarValue
   formatStudentLicenseStatusDate
+  freeCampaignIds
   functionCreators
   getApiClientIdFromEmail
   getByPath
@@ -957,6 +978,7 @@ module.exports = {
   i18n
   inEU
   injectCSS
+  internalCampaignIds
   isID
   isIE
   isRegionalSubscription
@@ -982,6 +1004,7 @@ module.exports = {
   usStateCodes
   userAgent
   videoLevels
+  vueNonReactiveInstall
   yearsSinceMonth
   CODECOMBAT
   OZARIA
@@ -990,5 +1013,4 @@ module.exports = {
   isOldBrowser
   isCodeCombat
   isOzaria
-  titleize
 }
