@@ -51,13 +51,13 @@ html(lang='en')
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
         ga('create', 'UA-39724129-1', 'auto');
 
-      // Global site tag (gtag.js) - Google Ads: 811324643
-      script(async src="https://www.googletagmanager.com/gtag/js?id=AW-811324643")
+      // Google Tag Manager
       script.
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'AW-811324643');
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-M2SGNTZ');
     else
       // Baidu Analytics
       script.

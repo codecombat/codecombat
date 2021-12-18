@@ -251,3 +251,20 @@ me.task = me.object {title: 'Task', description: 'A task to be completed', forma
 me.concept = {type: 'string', enum: (concept.concept for concept in concepts), format: 'concept'}
 
 me.scoreType = me.shortString(title: 'Score Type', 'enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty', 'code-length', 'survival-time', 'defeated'])  # TODO: total gear value.
+
+# Valid Teacher Dashboard resource icons
+me.resourceIcons = ['PDF', 'Spreadsheet', 'Doc', 'FAQ', 'Slides', 'Solutions', 'Video']
+
+me.voiceOver = {
+  oneOf: [
+    me.sound(),
+    me.object({
+      title: 'Hero VO',
+      description: 'This voice over is spoken by the hero',
+      required: ['female', 'male']
+    }, {
+      female: me.sound(),
+      male: me.sound()
+    })
+  ]
+}
