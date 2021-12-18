@@ -91,7 +91,7 @@
             span.form-error(v-else-if="$v.password.$error") {{ $t('signup.invalid') }}
           input#password-input.form-control(name="password" ref="password" :type="passwordFieldType" v-model="$v.password.$model" type="password" @change="onChangeValue($event)")
           span.password-toggle.input-group-btn.form-control
-            button.btn.btn-default.reveal(@click="togglePassword")
+            span.btn.btn-default.reveal(@click="togglePassword")
               i.glyphicon.glyphicon-eye-open(v-if="passwordFieldType === 'password'")
               i.glyphicon.glyphicon-eye-close(v-if="passwordFieldType === 'text'")
           small.form-text.text-muted {{ $t("signup.password_requirements") }}
