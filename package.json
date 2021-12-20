@@ -71,6 +71,7 @@
     "@stripe/stripe-js": "^1.14.0",
     "@vimeo/player": "^2.9.1",
     "acorn-loose": "^8.0.1",
+    "ace-diff": "^3.0.3",
     "adobe-animate-parser": "github:codecombat/adobe-animate-parser#master",
     "ajv": "^6.10.0",
     "algoliasearch": "^3.13.1",

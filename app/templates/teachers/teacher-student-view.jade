@@ -331,6 +331,7 @@ mixin breadcrumbs
               td(colspan=2)
                 div(role='tabpanel')
                   .tab-content
+                    div(class="ace-diff-"+level.get('original'), style="position: relative; height: 200px")
                     //- For project level, there is no correct solution, just show the student's code
                     if level.isProject() && solutions.length === 0
                       - var target = level.get('original');
@@ -350,7 +351,7 @@ mixin breadcrumbs
                                     code(class=langClass)= code.plan
                             td.project-blurb
                               i.small(data-i18n="teacher.solution_project_blurb")
-                    each solution, index in solutions
+                    each solution, index in []
                       - var target = level.get('original') + index;
                       div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
                         table.side-by-side

@@ -13,6 +13,8 @@ CourseInstances = require 'collections/CourseInstances'
 require 'd3/d3.js'
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
+AceDiff = require 'ace-diff'
+require('app/styles/common/ace-diff.sass')
 fullPageTemplate = require 'templates/teachers/teacher-student-view-full'
 viewTemplate = require 'templates/teachers/teacher-student-view'
 
@@ -123,9 +125,32 @@ module.exports = class TeacherStudentView extends RootView
     @$el.find('pre:has(code[class*="lang-"])').each ->
       codeElem = $(@).first().children().first()
       lang = mode for mode of aceUtils.aceEditModes when codeElem?.hasClass('lang-' + mode)
-      aceEditor = aceUtils.initializeACE(@, lang or classLang)
-      aceEditor.renderer.setShowGutter true
-      aceEditors.push aceEditor
+      # aceEditor = aceUtils.initializeACE(@, lang or classLang)
+      # aceEditor.renderer.setShowGutter true
+      # aceEditors.push aceEditor
+
+    view = @
+    @$el.find('div[class*="ace-diff-"]').each ->
+      cls = $(@).attr('class')
+      levelOriginal = cls.split('-')[2]
+      solutions = view.levelSolutionsMap[levelOriginal]
+      studentCode = view.levelStudentCodeMap[levelOriginal]
+      differ = new AceDiff({
+        # ace: window.ace
+        element: '.' + cls
+        mode: 'ace/mode/' +classLang
+        theme: 'ace/theme/textmate'
+        left: {
+          content: studentCode[0].plan
+          editable: false
+          copyLinkEnabled: false
+        }
+        right: {
+          content: solutions[0].source
+          editable: false
+          copyLinkEnabled: false
+        }
+      })
 
   updateSolutions: ->
     return unless @classroom?.loaded and @sessions?.loaded and @levels?.loaded
