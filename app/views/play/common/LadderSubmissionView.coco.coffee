@@ -77,7 +77,7 @@ module.exports = class LadderSubmissionView extends CocoView
     if @level.isType('ladder') and tempSession.get('team') is 'ogres'
       code = tempSession.get('code') ? {'hero-placeholder': {plan:''}, 'hero-placeholder-1': {plan: ''}}
       tempSession.set('team', 'humans')
-      code['hero-placeholder'] = code['hero-placeholder-1']
+      code['hero-placeholder'] = _.clone code['hero-placeholder-1']
       tempSession.set('code', code)
     tempSession.save null, success: =>
       ajaxData =
