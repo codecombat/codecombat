@@ -18,6 +18,8 @@ module.exports = class VerifierTest extends CocoClass
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
     @solution = @options.solution
+    @simpleDescription = ""
+    @name = ""
     @language ?= 'python'
     @userCodeProblems = []
     @load()
@@ -37,6 +39,10 @@ module.exports = class VerifierTest extends CocoClass
       @state = 'no-solution'
       @updateCallback? test: @, state: 'no-solution'
       return
+
+    @simpleDescription = if @solution.description then "- #{@solution.description}" else ""
+    @name = "#{if @solution.testOnly then '' else '[Solution]'} #{@level.get('name')}"
+
     me.team = @team = 'humans'
     @setupGod()
     @initGoalManager()

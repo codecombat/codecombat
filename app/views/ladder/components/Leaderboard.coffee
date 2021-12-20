@@ -92,8 +92,8 @@ module.exports = class LeaderboardView extends CocoView
       @vueComponent.$on('spectate', (data) =>
         @handleClickSpectateCell(data)
       )
-      @vueComponent.$on('click-player-name', (data) =>
-        @handleClickPlayerName(data)
+      @vueComponent.$on('click-player-name', (data, nearby) =>
+        @handleClickPlayerName(data, nearby)
       )
       @vueComponent.$on('filter-age', (data) =>
         @handleClickAgeFilter(data)
@@ -175,17 +175,21 @@ module.exports = class LeaderboardView extends CocoView
   handleClickSpectateCell: (data) ->
     return unless data.length is 2
     @spectateTargets ?= {}
-    leaderboards = @leaderboards.topPlayers.models
+    leaderboards= {top: @leaderboards.topPlayers.models, nearby: @nearbySessions()}
     if @tournament
-      @spectateTargets.humans = leaderboards[data[0]].get('levelSession')
-      @spectateTargets.ogres = leaderboards[data[1]].get('levelSession')
+      [rank, lkey] = data[0].split('-')
+      @spectateTargets.humans = leaderboards[lkey][+rank].get('levelSession')
+      [rank, lkey] = data[1].split('-')
+      @spectateTargets.ogres = leaderboards[lkey][+rank].get('levelSession')
     else
-      @spectateTargets.humans = leaderboards[data[0]].get('_id')
-      @spectateTargets.ogres = leaderboards[data[1]].get('_id')
+      [rank, lkey] = data[0].split('-')
+      @spectateTargets.humans = leaderboards[lkey][+rank].get('_id')
+      [rank, lkey] = data[1].split('-')
+      @spectateTargets.ogres = leaderboards[lkey][+rank].get('_id')
 
-  handleClickPlayerName: (id) ->
+  handleClickPlayerName: (id, nearby) ->
     if me.isAdmin()
-      leaderboards = @leaderboards.topPlayers.models
+      leaderboards = if nearby then @nearbySessions() else @leaderboards.topPlayers.models
       sessionId = if @tournament then leaderboards[id].get('levelSession') else leaderboards[id].get('_id')
       session = new LevelSession _id: sessionId
       @supermodel.loadModel session

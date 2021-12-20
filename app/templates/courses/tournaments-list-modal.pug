@@ -6,7 +6,6 @@ include ./tournament-tile-mixin.jade
       .col-md-4
         h2(data-i18n="tournament.upcoming")
         hr
-        - now = new Date().getTime()
         for tournament in (view.tournamentsByState.initializing || [])
           +tournamentTileMixin(tournament)
 
