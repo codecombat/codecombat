@@ -8,8 +8,8 @@ export default {
     // TODO: Currently saving volume to session instead of database.
     // TODO: Investigate using vuex-persist for caching state.
     let cachedSound
-    if (window.sessionStorage) {
-      cachedSound = window.sessionStorage.getItem('layoutChrome/soundOn')
+    if (window.localStorage) {
+      cachedSound = window.localStorage.getItem('layoutChrome/soundOn')
     }
 
     return {
@@ -23,8 +23,8 @@ export default {
   mutations: {
     toggleSound (state) {
       state.soundOn = !state.soundOn
-      if (window.sessionStorage) {
-        window.sessionStorage.setItem('layoutChrome/soundOn', state.soundOn)
+      if (window.localStorage) {
+        window.localStorage.setItem('layoutChrome/soundOn', state.soundOn)
       }
     },
 
