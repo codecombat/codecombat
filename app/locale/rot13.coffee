@@ -3333,6 +3333,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     sorcerers: "Fbepreref"
     giants_gate: "Tvnagf' Tngr"
     colossus: "Pbybffhf"
+    iron_and_ice: "Veba naq Vpr"
+    tundra_tower: "Ghaqen Gbjre"
+    magma_mountain: "Zntzn Zbhagnva"
+    lava_lake: "Ynin Ynxr"
+    desert_duel: "Qrfreg Qhry"
+    sandstorm: "Fnaqfgbez"
     cup: "Phc"
     blitz: "Oyvgm"
     clash: "Pynfu"
@@ -3387,6 +3393,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     no_tournaments: "Gurer vf ab gbheanzrag abj"
     edit_tournament: "Rqvg Gbheanzrag"
     create_tournament: "Perngr n Gbheanzrag"
+    upcoming: 'Hcpbzvat'
+    starting: 'Fgnegvat'
+    ended: 'Raqrq'
+    view_results: 'Ivrj Erfhygf'
+    estimate_days: 'Va __gvzr__ Qnlf'
 
   payments:
     student_licenses: 'Fghqrag Yvprafrf'
