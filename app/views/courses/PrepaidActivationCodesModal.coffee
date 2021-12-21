@@ -32,7 +32,7 @@ module.exports = class PreapidActivationCodesModal extends ModalView
     @user = me
     @supermodel.trackRequest @user.fetch({cache: false})
     @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchByCreator(me.get('_id'), { data: {includeShared: true, onlyActiveCodes: true} })
+    @supermodel.trackRequest @prepaids.fetchByCreator(me.get('_id'), { data: {includeShared: true, onlyActivationCodes: true} })
     @listenTo @prepaids, 'sync', =>
       @prepaids.forEach (prepaid) =>
         if prepaid.loaded and not prepaid.creator
