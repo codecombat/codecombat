@@ -14,6 +14,16 @@
       cloudflareCaptionUrl: {
         type: String,
         default: null
+      },
+
+      thumbnailUrl: {
+        type: String,
+        default: null
+      },
+
+      preload: {
+        default: 'none',
+        validator:  value =>  ['auto', 'metadata', 'none'].includes(value)
       }
     },
 
@@ -67,6 +77,8 @@
 <template>
   <div class="cloudflare-video-div">
     <stream
+      :preload="preload"
+      :poster="thumbnailUrl"
       ref="cloudflareVideo"
       :src="videoCloudflareId"
       controls
