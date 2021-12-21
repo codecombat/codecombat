@@ -134,7 +134,13 @@ block content
       .form-group
         label(for="months") Months
         input#months.form-control(name="months", type="number", min=1)
+      .form-group
+        label(for="endDate") Expiration Date
+        input#endDate.form-control(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
+
+      br
       a#terminal-create.btn.btn-default Create Terminal Subscription Code
+      a#terminal-activation-create.btn.btn-default Create Terminal Subscription Activation Code
 
 
     hr

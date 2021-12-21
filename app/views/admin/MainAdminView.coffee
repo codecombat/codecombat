@@ -14,8 +14,11 @@ Course = require 'models/Course'
 Courses = require 'collections/Courses'
 LevelSessions = require 'collections/LevelSessions'
 InteractiveSessions = require 'collections/InteractiveSessions'
+Prepaid = require 'models/Prepaid'
 User = require 'models/User'
 Users = require 'collections/Users'
+window.saveAs ?= require 'file-saver/FileSaver.js' # `window.` is necessary for spec to spy on it
+window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format changed with webpack?
 
 module.exports = class MainAdminView extends RootView
   id: 'admin-view'
@@ -32,6 +35,7 @@ module.exports = class MainAdminView extends RootView
     'click #user-search-result': 'onClickUserSearchResult'
     'click #create-free-sub-btn': 'onClickFreeSubLink'
     'click #terminal-create': 'onClickTerminalSubLink'
+    'click #terminal-activation-create': 'onClickTerminalActivationLink'
     'click .classroom-progress-csv': 'onClickExportProgress'
     'click #clear-feature-mode-btn': 'onClickClearFeatureModeButton'
 
@@ -43,6 +47,7 @@ module.exports = class MainAdminView extends RootView
       @amActually.fetch()
       @supermodel.trackModel(@amActually)
     @featureMode = window.serverSession.featureMode
+    @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
     super()
 
   afterInsert: ->
@@ -215,6 +220,27 @@ module.exports = class MainAdminView extends RootView
     options.error = (model, response, options) =>
       console.error 'Failed to create prepaid', response
     @supermodel.addRequestResource('create_prepaid', options, 0).load()
+
+  onClickTerminalActivationLink: (e) =>
+    return unless me.isAdmin()
+    attrs =
+      type: 'terminal_subscription'
+      creator: me.id
+      maxRedeemers: parseInt($("#users").val())
+      generateActivationCodes: true
+      endDate: $("#endDate").val() + ' ' + "23:59"
+      properties:
+        months: parseInt($("#months").val())
+    prepaid = new Prepaid(attrs)
+    prepaid.save(0)
+    @listenTo prepaid, 'sync', ->
+      csvContent = 'Code,Months,Expires\n'
+      ocode = prepaid.get('code').toUpperCase()
+      months = prepaid.get('properties').months
+      for code in prepaid.get('redeemers')
+        csvContent += "#{ocode.slice(0, 4)}-#{code.code.toUpperCase()}-#{ocode.slice(4)},#{months},#{code.date}\n"
+      file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
+      window.saveAs(file, 'ActivationCodes.csv')
 
   afterRender: ->
     super()
