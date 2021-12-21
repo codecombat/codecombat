@@ -10,8 +10,10 @@
       SecondaryButton
     },
     data: () => {
+      const videoId = '7897f22d74442c9d41bde91857339382'  // cloudflare id
       return {
-        videoId: '7897f22d74442c9d41bde91857339382'  // cloudflare id
+        videoId,
+        thumbnailUrl: `https://videodelivery.net/${videoId}/thumbnails/thumbnail.jpg?time=1.000s`
       }
     },
 
@@ -43,6 +45,8 @@
       <div class="video">
         <base-cloudflare-video
           :video-cloudflare-id="videoId"
+          :thumbnail-url="thumbnailUrl"
+          preload="auto"
           @completed="trackEvent('Welcome Video: Completed')"
           @loaded="trackEvent('Welcome Video: Loaded')"
         />
