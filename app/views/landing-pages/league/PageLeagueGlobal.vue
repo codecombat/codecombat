@@ -602,7 +602,7 @@ export default {
 
     <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0" v-if="previousChampionshipArenaResultsPublished">
       <div class="col-sm-10 video-backer video-iframe">
-        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a?poster=https://videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a/thumbnails/thumbnail.jpg%3Ftime%3D837s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 2 - Spells of Fortune"></iframe></div>
+        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/26bee42b433e19f789271ae400529025?poster=https://videodelivery.net/26bee42b433e19f789271ae400529025/thumbnails/thumbnail.jpg%3Ftime%3D1732s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 3 - Titan Age"></iframe></div>
       </div>
     </div>
 
@@ -637,7 +637,8 @@ export default {
 
     <div class="row section-space prize-section">
       <div class="row">
-        <h1 class="subheader1 text-center" style="margin-bottom: 64px;"><span class="esports-pink">Compete </span><span class="esports-green">in </span><span class="esports-aqua">the </span><span class="esports-purple">Colossus Clash </span><span class="esports-aqua">for </span><span class="esports-green">a </span><span class="esports-pink">chance </span><span class="esports-purple">to </span><span class="esports-aqua">win!</span></h1>
+        <!-- <h1 class="subheader1 text-center" style="margin-bottom: 64px;"><span class="esports-pink">Compete </span><span class="esports-green">in </span><span class="esports-aqua">the </span><span class="esports-purple">Colossus Clash </span><span class="esports-aqua">for </span><span class="esports-green">a </span><span class="esports-pink">chance </span><span class="esports-purple">to </span><span class="esports-aqua">win!</span></h1> -->
+        <h1 class="subheader1 text-center" style="margin-bottom: 64px;"><span class="esports-pink">Season </span><span class="esports-green">3 </span><span class="esports-aqua">- </span><span class="esports-purple">Colossus Clash </span><span class="esports-aqua">- </span><span class="esports-green">Prize </span><span class="esports-pink">List</span></h1>
       </div>
       <div class="row">
         <div class="col-sm-4 text-center">
@@ -719,13 +720,13 @@ export default {
       <div class="col-sm-4 text-center xs-pb-20">
         <h3>Sorcerer's Blitz</h3>
         <div>May - Aug 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy" v-if="!previousChampionshipArenaResultsPublished" />
-        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0" v-if="previousChampionshipArenaResultsPublished">
+        <!-- <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy" /> -->
+        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0">
           <div class="col-xs-12 video-backer video-iframe">
             <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a?poster=https://videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a/thumbnails/thumbnail.jpg%3Ftime%3D837s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 2 - Spells of Fortune"></iframe></div>
           </div>
         </div>
-        <div class="row text-center" v-if="previousChampionshipArenaResultsPublished">
+        <div class="row text-center">
           <div class="col-xs-12 col-md-6 view-winners-col">
             <a href="/play/ladder/mages-might?tournament=612d554b9abe2e0019aeffb9" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.mages_might`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
           </div>
@@ -737,7 +738,20 @@ export default {
       <div class="col-sm-4 text-center">
         <h3>Colossus Clash</h3>
         <div>Sep - Dec 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_clash.png" loading="lazy"/>
+        <img class="img-responsive" src="/images/pages/league/logo_clash.png" loading="lazy" v-if="!previousChampionshipArenaResultsPublished" />
+        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0" v-if="previousChampionshipArenaResultsPublished">
+          <div class="col-xs-12 video-backer video-iframe">
+            <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/26bee42b433e19f789271ae400529025?poster=https://videodelivery.net/26bee42b433e19f789271ae400529025/thumbnails/thumbnail.jpg%3Ftime%3D1732s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 3 - Titan Age"></iframe></div>
+          </div>
+        </div>
+        <div class="row text-center" v-if="previousChampionshipArenaResultsPublished">
+          <div class="col-xs-12 col-md-6 view-winners-col">
+            <a href="/play/ladder/giants-gate?tournament=612d554b9abe2e0019aeffb9" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.giants_gate`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
+          </div>
+          <div class="col-xs-12 col-md-6 view-winners-col">
+            <a href="/play/ladder/colossus?tournament=612d556f9abe2e0019af000b" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.colossus`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row">
