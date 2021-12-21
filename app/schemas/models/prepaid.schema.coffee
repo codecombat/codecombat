@@ -20,7 +20,6 @@ PrepaidSchema = c.object({title: 'Prepaid', required: ['type']}, {
     gems: {type: 'number', description: 'Overwrites the number of gems given by Product when the prepaid is redeemed'}
     expires: c.stringDate({description: 'Date the prepaid expires and cannot be redeemed'})
   endDate: c.stringDate()
-  duration: {type: 'number', description: 'Prepaid valid duration, in milliseconds'}
   includedCourseIDs: c.array({ description: 'courseIDs that this prepaid includes access to' }, c.objectId())
   joiners: c.array {title: 'Teachers this Prepaid is shared with'},
     c.object {required: ['userID']},
