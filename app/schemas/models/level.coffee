@@ -6,6 +6,7 @@ c.extendNamedProperties SpecificArticleSchema  # name first
 SpecificArticleSchema.properties.body = {type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown'}
 SpecificArticleSchema.properties.i18n = {type: 'object', format: 'i18n', props: ['name', 'body'], description: 'Help translate this article'}
 SpecificArticleSchema.displayProperty = 'name'
+SpecificArticleSchema.properties.voiceOver = c.voiceOver
 
 side = {title: 'Side', description: 'A side.', type: 'string', 'enum': ['left', 'right', 'top', 'bottom']}
 thang = {title: 'Thang', description: 'The name of a Thang.', type: 'string', maxLength: 60, format: 'thang'}
@@ -91,11 +92,66 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
       mp3: c.shortString(title: 'MP3', format: 'sound-file')
       ogg: c.shortString(title: 'OGG', format: 'sound-file')
       preload: {title: 'Preload', description: 'Whether to load this sound file before the level can begin (typically for the first dialogue of a level).', type: 'boolean' }
+    voiceOver: c.voiceOver
     responses: c.array {title: 'Buttons', description: 'An array of buttons to include with the dialogue, with which the user can respond.'}, ResponseSchema
+    character: c.shortString(
+      title: 'Character'
+      description: 'The character portrait to use for the say message. Currently doesn\'t do anything. Use "Character Portrait" in the settings.'
+      enum: ['vega', 'blank', 'capella']
+      default: 'vega'
+    )
     i18n: {type: 'object', format: 'i18n', props: ['blurb', 'text', 'sound'], description: 'Help translate this message'}
   move: c.object {title: 'Move', description: 'Tell the Thang to move.', required: ['target'], default: {target: {}, duration: 500}},
     target: _.extend _.cloneDeep(PointSchema), {title: 'Target', description: 'Target point to which the Thang will move.', default: {x: 20, y: 20}}
     duration: {title: 'Duration', description: 'Number of milliseconds over which to move, or 0 for an instant move.', type: 'integer', minimum: 0, format: 'milliseconds'}
+  tutorial: c.object {title: 'Tutorial', description: 'Move Vega around on the screen as a step by step tutorial to explain things.', default: {internalRelease: false}},
+    internalRelease: {title: 'Internal Release', description: 'Only show this step to admins or accounts with @codecombat emails', type: 'boolean'}
+    position: c.shortString(
+      title: 'Dialog Position'
+      description: 'What side (or no side with "stationary") of the target element to move the tutorial modal to'
+      enum: [
+        'smart'
+        'center'
+        'stationary'
+        'left'
+        'top'
+        'right'
+        'down'
+      ]
+      default: 'smart'
+    )
+    targetElement: c.shortString(
+      title: 'Target Element'
+      description: 'What part of the screen to point at, like the editor, code bank or play button'
+      enum: [
+        'Run Button'
+        'Next Button'
+        'Play Button'
+        'Update Button'
+        'Goal List'
+        'Code Bank Button'
+        'Code Editor Window'
+      ]
+      default: 'Code Editor Window'
+    )
+    animation: c.shortString(
+      title: 'Element Animation'
+      description: 'How to animate the target'
+      enum: [
+        'Outline'
+        'Shake'
+        'Zoom'
+      ]
+    )
+    targetLine: {title: 'Target Line', description: 'Highlight a specific line in the code editor', type: 'number', default: 1}
+    grayOverlay: {
+      title: 'Gray Overlay'
+      description: 'Fade out the rest of the website, except the message itself and the targetElement (if you set one).'
+      type: 'boolean'
+      default: true
+    }
+    advanceOnTarget: {title: 'Advance On Target', description: 'Go to next step when clicking the target element (requires Target Element to be set)', type: 'boolean'}
+    targetThangs: c.array {title: 'Target Thangs', description: 'Thang IDs of target Sprites to highlight.'}, thang
 
 NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes that should be sent out as a result of this script triggering.', displayProperty: 'name'},
   name: {title: 'Name', description: 'Short name describing the script, like \"Anya greets the player\", for your convenience.', type: 'string'}
@@ -147,7 +203,35 @@ NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes 
     suppressSelectionSounds: {type: 'boolean', title: 'Suppress Selection Sounds', description: 'Whether to suppress selection sounds made from clicking on Thangs.'}
     music: c.object {title: 'Music', description: 'Control music playing'},
       play: {title: 'Play', type: 'boolean'}
-      file: c.shortString(title: 'File', enum: ['/music/music_level_1', '/music/music_level_2', '/music/music_level_3', '/music/music_level_4', '/music/music_level_5'])
+      file: c.shortString(title: 'File', enum: [
+        '/music/OzariaPhoenixLandsMusicLoop4',
+        '/music/OzariaPhoenixLandsMusicLoop3',
+        '/music/OzariaPhoenixLandsMusicLoop2b',
+        '/music/OzariaPhoenixLandsMusicLoop1b',
+        '/music/OzariaCarnivalMusicLoop1',
+        '/music/OzariaCarnivalMusicLoop2',
+        '/music/OzariaCarnivalMusicLoop3',
+        '/music/OzariaCityMusicLoop1',
+        '/music/OzariaCityMusicLoop2',
+        '/music/OzariaCityMusicLoop3',
+        '/music/OzariaLoopMusic1',
+        '/music/OzariaLoopMusic2',
+        '/music/OzariaLoopMusic3',
+        '/music/OzariaLoopMusic5',
+        '/music/OzariaMusicLoop4',
+        '/music/SpiritLandsAmbient01',
+        '/music/OzariaSpiritLands1',
+        '/music/OzariaSpiritLands2',
+        '/music/OzariaSpiritLands3',
+        '/music/forestAmbience01',
+        '/music/forestAmbience02',
+        '/music/forestAmbience03',
+        '/music/mountainWind01',
+        '/music/music_level_1',
+        '/music/music_level_2',
+        '/music/music_level_3',
+        '/music/music_level_4',
+        '/music/music_level_5'])
 
 ScriptSchema = c.object {
   title: 'Script'
@@ -247,6 +331,7 @@ LevelSchema = c.object {
 c.extendNamedProperties LevelSchema  # let's have the name be the first property
 _.extend LevelSchema.properties,
   description: {title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown'}
+  displayName: c.shortString({title: 'Display Name'})  # Currently just used in Ozaria
   studentPlayInstructions: {title: 'Student Play Instructions', description: 'Instructions for game dev levels when students play them.', type: 'string', maxLength: 65536, format: 'markdown'}
   loadingTip: { type: 'string', title: 'Loading Tip', description: 'What to show for this level while it\'s loading.' }
   documentation: c.object {title: 'Documentation', description: 'Documentation articles relating to this level.', 'default': {specificArticles: [], generalArticles: []}},
@@ -266,6 +351,13 @@ _.extend LevelSchema.properties,
         i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this hint'}
       }
     }
+  # These next few properties are just for Ozaria
+  screenshot: { type: 'string', format: 'image-file', title: 'Screenshot', description: 'Relevant for teacher dashboard' }
+  exemplarProjectUrl: c.url { title: 'Exemplar Project URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)' }
+  exemplarCodeUrl: c.url { title: 'Exemplar Code URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)' }
+  projectRubricUrl: c.url { title: 'Project Rubric URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)' }
+  totalStages: c.int { title: 'Capstone Total Stages', description: 'Only needed for chapter 1 capstones. Tells the teacher dashboard (track progress table and curriculum guide) where to display this capstone. Required when we want to offset capstone to display after levels that are between the stages.' }
+
   nextLevel: {
     type: 'object',
     links: [{rel: 'extra', href: '/db/level/{($)}'}, {rel: 'db', href: '/db/level/{(original)}/version/{(majorVersion)}'}],
@@ -280,11 +372,12 @@ _.extend LevelSchema.properties,
     body: {type: 'string', format: 'markdown', title: 'Body Text', description: 'Inserted into the Victory Modal once this level is complete. Tell the player they did a good job and what they accomplished!'},
     i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this victory message'}
   }
-  i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'loadingTip', 'studentPlayInstructions'], description: 'Help translate this level'}
+  i18n: {type: 'object', format: 'i18n', props: ['name', 'description', 'loadingTip', 'studentPlayInstructions', 'displayName'], description: 'Help translate this level'}
   banner: {type: 'string', format: 'image-file', title: 'Banner'}
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
   type: c.shortString(title: 'Type', description: 'What type of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'intro'])
   kind: c.shortString(title: 'Kind', description: 'Similar to type, but just for our organization.', enum: ['demo', 'usage', 'mastery', 'advanced', 'practice', 'challenge'])
+  ozariaType: c.shortString(title: 'Ozaria Level Type', description: 'Similar to type, specific to ozaria.', enum: ['practice', 'challenge', 'capstone'])
   terrain: c.terrainString
   requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
   tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.'}, c.task
@@ -298,6 +391,13 @@ _.extend LevelSchema.properties,
   practiceThresholdMinutes: {type: 'number', description: 'Players with larger playtimes may be directed to a practice level.'}
   assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended', 'cumulative'], description: 'Set to true if this is an assessment level.' }
   assessmentPlacement: { type: 'string', enum: ['middle', 'end'] }
+
+  characterPortrait: c.shortString(
+    title: 'Character Portrait'
+    description: 'The character portrait to use for the say messages.'
+    enum: ['vega', 'blank', 'capella', 'octans', 'wise-capella', 'astra', 'snikrep', 'salazar', 'young-salazar', 'dragon-salazar']
+    default: 'vega'
+  )
 
   primerLanguage: { type: 'string', enum: ['javascript', 'python'], description: 'Programming language taught by this level.' }
   shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable (false), shareable (true), or a sharing-encouraged project level ("project"). Make sure to use "project" for project levels so they show up correctly in the Teacher Dashboard.' }
@@ -356,7 +456,7 @@ _.extend LevelSchema.properties,
   allowedHeroes: { type: 'array', title: 'Allowed Heroes', description: 'Which heroes can play this level. For any hero, leave unset.', items: {
     type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
   }}
-  campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
+  campaign: c.shortString title: 'Campaign', description: 'Set automatically by the campaign editor. Which campaign this level is part of (like "desert").', format: 'hidden'
   campaignIndex: c.int title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden'  # Automatically set by campaign editor.
   scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).'}, {
       anyOf: [
@@ -387,6 +487,34 @@ _.extend LevelSchema.properties,
   mirrorMatch: { type: 'boolean', description: 'Whether a multiplayer ladder arena is a mirror match' }
   codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'CodePoints that can be earned for completing this level'}
   clans: c.array {description: 'If at least one clan is specified, only allow the users in these clans to access the level', format: 'clans-list'}, c.objectId()
+  # Next few are Ozaria-only
+  introContent: { # valid for levels of type 'intro'
+    title: 'Intro content',
+    description: 'Intro content sequence',
+    type: 'array',
+    items: IntroContentObject
+  }
+  creativeMode: { title: 'Creative Mode', type: 'boolean', description: 'Only changes behavior of capstone levels. Treats the last stage of capstones as a creative mode, where goals are turned off. This also saves the students prior code created in prior stages. A teacher is able to see both normal code and creative code. Finally when student restarts level they start from their normal code written before creative mode.'}
+  additionalGoals: c.array { title: 'Additional Goals', description: 'Goals that are added after the first regular goals are completed' }, c.object {
+    title: 'Goals',
+    description: 'Goals for this stage',
+    minItems: 1,
+    uniqueItems: true,
+    properties: {
+      stage: { type: 'integer', minimum: 2, title: 'Goal Stage', description: 'Which stage these additional goals are for (2 and onwards)' },
+      goals: c.array { title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.' }, GoalSchema
+    }
+  }
+  isPlayedInStages: {type: 'boolean', title: 'Is Played in Stages', description: 'Is this level played in stages and other content(cinematics) is loaded in between stages'}
+  methodsBankList: c.array {title: 'Methods Bank List'}, c.object {
+    properties: {
+      name: c.shortString(title: 'Name'),
+      section: c.shortString(title: 'Methods Bank Section', pattern: /^\w[\w ]*$/),
+      subSection: c.shortString(title: 'Methods Bank Sub-Section', pattern: /^\w[\w ]*$/),
+      componentName: c.shortString(title: 'Level Component Name', description: 'Level Component to use for documentation in case there are multiple components with same property\'s documentation'),
+    }
+  }
+  archived: { type: 'integer', description: 'Marks this level with to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.'}
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema
@@ -394,7 +522,6 @@ c.extendVersionedProperties LevelSchema, 'level'
 c.extendPermissionsProperties LevelSchema, 'level'
 c.extendPatchableProperties LevelSchema
 c.extendTranslationCoverageProperties LevelSchema
-c.extendAlgoliaProperties LevelSchema
 
 module.exports = LevelSchema
 

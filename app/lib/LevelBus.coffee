@@ -264,15 +264,16 @@ module.exports = class LevelBus extends Bus
     if @changedSessionProperties.code
       @updateSessionConcepts()
       spellMap = @changedSessionProperties.code
-      @changedSessionProperties.code = false
+      delete @changedSessionProperties.code
     Backbone.Mediator.publish 'level:session-will-save', session: @session
     patch = {}
     patch[prop] = @session.get(prop) for prop of @changedSessionProperties
     if spellMap # let's only update trueSpell of session
       code = @session.get('code')
+      patch.code = {}
       for updatedSpell, trueSpell of spellMap
-        patch.code = {}
         patch.code[trueSpell] = code[updatedSpell]
+    delete patch.code if _.isEmpty(patch.code) # don't update empty code
     @changedSessionProperties = {}
 
     # since updates are coming fast and loose for session objects

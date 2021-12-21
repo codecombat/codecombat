@@ -124,6 +124,9 @@ titleize = (s) ->
 campaignIDs =
   INTRO: '55b29efd1cd6abe8ce07db0d'
 
+freeCampaignIds = [campaignIDs.INTRO] # CS1 campaign
+internalCampaignIds = [] # Ozaria has one of these, CoCo doesn't
+
 courseIDs =
   INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
   GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
@@ -275,6 +278,9 @@ i18n = (say, target, language=me.get('preferredLanguage', true), fallback='en') 
   fallSidewaysResult = null  # If a specific language isn't available, its sibling specific language will do.
   matches = (/\w+/gi).exec(language)
   generalName = matches[0] if matches
+
+  # Lets us safely attempt to translate undefined objects
+  return say?[target] unless say?.i18n
 
   for localeName, locale of say.i18n
     continue if localeName is '-'
@@ -755,6 +761,20 @@ videoLevels = {
   }
 }
 
+# Adds a `Vue.nonreactive` global method that can be used
+# to prevent Vue traversing our large and expensive game objects.
+# Reference Library: https://github.com/rpkilby/vue-nonreactive
+vueNonReactiveInstall = (Vue) ->
+    Observer = (new Vue())
+      .$data
+      .__ob__
+      .constructor
+
+    Vue.nonreactive = (value) ->
+      # Vue sees the noop Observer and stops traversing the structure.
+      value.__ob__ = new Observer({});
+      return value;
+
 yearsSinceMonth = (birth, now) ->
   return undefined unless birth
   # Should probably review this logic, written quickly and haven't tested any edge cases
@@ -762,7 +782,8 @@ yearsSinceMonth = (birth, now) ->
     return undefined unless /^\d{4}-\d{1,2}(-\d{1,2})?$/.test birth
     if birth.split('-').length is 2
       birth = birth + '-28'  # Assume near the end of the month, don't let timezones mess it up, skew younger in interpretation
-    birth = new Date(birth)
+    dates = birth.split('-')
+    birth = new Date(+dates[0], +dates[1]-1, +dates[2])
   return undefined unless _.isDate birth
 
   birthYear = birth.getFullYear()
@@ -810,7 +831,10 @@ seasons = [
 currentSeason = () ->
   now = new Date()
   year = now.getFullYear()
-  return seasons.find((season) -> now <= new Date("#{year}-#{season.end}"))
+  return seasons.find((season) ->
+    dates = season.end.split('-')
+    now < new Date(year, +dates[0]-1, dates[1]).setHours(24, 0, 0, 0)
+  )
 
 ageToBracket = (age) ->
 # Convert years to an age bracket
@@ -856,8 +880,9 @@ arenas = [
   {slug: 'infinite-inferno' , type: 'championship', start: new Date("2021-04-01T00:00:00.000+08:00"), end: new Date("2021-05-01T00:00:00.000+08:00"), results: new Date("2021-05-01T00:00:00.000+08:00"), levelOriginal: '602cdc204ef0480075fbd954', tournament: '608cd3f814fa0bf9f1c1f928', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
   {slug: 'mages-might'      , type: 'regular',      start: new Date("2021-05-01T00:00:00.000+08:00"), end: new Date("2021-09-01T00:00:00.000+08:00"), results: new Date("2021-09-08T09:00:00.000+08:00"), levelOriginal: '6066f956ddfd6f003d1ed6bb', tournament: '612d554b9abe2e0019aeffb9', image: '/file/db/level/6066f956ddfd6f003d1ed6bb/Mages\'%20Might%20Banner.jpg'}
   {slug: 'sorcerers'        , type: 'championship', start: new Date("2021-08-01T00:00:00.000+08:00"), end: new Date("2021-09-01T00:00:00.000+08:00"), results: new Date("2021-09-08T09:00:00.000+08:00"), levelOriginal: '609a6ad2e1eb34001a84e7af', tournament: '612d556f9abe2e0019af000b', image: "/file/db/level/609a6ad2e1eb34001a84e7af/Sorcerer's-Blitz-01.jpg"}
-  {slug: 'giants-gate'      , type: 'regular',      start: new Date("2021-09-01T00:00:00.000+08:00"), end: new Date("2022-01-01T00:00:00.000+07:00"), results: new Date("2022-01-07T09:00:00.000+07:00"), levelOriginal: '60e69b24bed8ae001ac6ce3e', tournament: '6136a86e0c0ecaf34e431e81', image: "/file/db/level/60e69b24bed8ae001ac6ce3e/Giant’s-Gate-Final.jpg"}
-  {slug: 'colossus'         , type: 'championship', start: new Date("2021-12-01T00:00:00.000+07:00"), end: new Date("2022-01-01T00:00:00.000+07:00"), results: new Date("2022-01-07T09:00:00.000+07:00")}
+  {slug: 'giants-gate'      , type: 'regular',      start: new Date("2021-09-01T00:00:00.000+08:00"), end: new Date("2021-12-15T00:00:00.000+07:00"), results: new Date("2021-12-21T09:00:00.000+07:00"), levelOriginal: '60e69b24bed8ae001ac6ce3e', tournament: '6136a86e0c0ecaf34e431e81', image: "/file/db/level/60e69b24bed8ae001ac6ce3e/Giant’s-Gate-Final.jpg"}
+  {slug: 'colossus'         , type: 'championship', start: new Date("2021-11-19T00:00:00.000+07:00"), end: new Date("2021-12-15T00:00:00.000+07:00"), results: new Date("2021-12-21T09:00:00.000+07:00"), levelOriginal: '615ffaf2b20b4900280e0070', tournament: '61983f74fd75db5e28ac127a', image: "/file/db/level/615ffaf2b20b4900280e0070/Colossus-Clash-02.jpg"}
+  {slug: 'iron-and-ice'     , type: 'regular',      start: new Date("2021-12-15T00:00:00.000+07:00"), end: new Date("2022-05-01T00:00:00.000+08:00"), results: new Date("2022-05-06T09:00:00.000+08:00"), levelOriginal: '618a5a13994545008d2d4990'}
 ]
 
 activeArenas = ->
@@ -950,6 +975,7 @@ module.exports = {
   findNextLevel
   formatDollarValue
   formatStudentLicenseStatusDate
+  freeCampaignIds
   functionCreators
   getApiClientIdFromEmail
   getByPath
@@ -967,6 +993,7 @@ module.exports = {
   i18n
   inEU
   injectCSS
+  internalCampaignIds
   isID
   isIE
   isRegionalSubscription
@@ -992,6 +1019,7 @@ module.exports = {
   usStateCodes
   userAgent
   videoLevels
+  vueNonReactiveInstall
   yearsSinceMonth
   CODECOMBAT
   OZARIA
@@ -1000,5 +1028,4 @@ module.exports = {
   isOldBrowser
   isCodeCombat
   isOzaria
-  titleize
 }

@@ -170,6 +170,8 @@ module.exports = class LevelLoader extends CocoClass
         url += "?course=#{@courseID}"
         if @courseInstanceID
           url += "&courseInstance=#{@courseInstanceID}"
+      else if codeLanguage = utils.getQueryVariable 'codeLanguage'
+        url += "?codeLanguage=#{codeLanguage}" # For non-classroom anonymous users
       if password = utils.getQueryVariable 'password'
         delimiter = if /\?/.test(url) then '&' else '?'
         url += delimiter + 'password=' + password
@@ -210,9 +212,12 @@ module.exports = class LevelLoader extends CocoClass
   preloadTeamForSession: (session) =>
     if @level.isType('ladder') and @team is 'ogres' and session.get('team') is 'humans'
       session.set 'team', 'ogres'
-      code = session.get('code')
-      code['hero-placeholder-1'] = JSON.parse(JSON.stringify(code['hero-placeholder']))
-      session.set 'code', code
+      unless session.get 'interpret'
+        code = session.get('code')
+        if _.isEmpty(code)
+          code = session.get('submittedCode')
+        code['hero-placeholder-1'] = JSON.parse(JSON.stringify(code['hero-placeholder']))
+        session.set 'code', code
     @loadDependenciesForSession session
 
   preloadTokenForOpponentSession: (session) =>
@@ -333,7 +338,7 @@ module.exports = class LevelLoader extends CocoClass
     browser['version'] = $.browser.version if $.browser.version
     return if _.isEqual session.get('browser'), browser
     session.set 'browser', browser
-    session.patch()
+    session.save({browser}, {patch: true, type: 'PUT'})
 
   consolidateFlagHistory: ->
     state = @session.get('state') ? {}
@@ -541,7 +546,9 @@ module.exports = class LevelLoader extends CocoClass
         delete patch[key]
     unless _.isEmpty patch
       if @level.isLadder() and @session.get('team')
-        patch.team = 'humans'  # Save the team in case we just assigned it in PlayLevelView, since sometimes that wasn't getting saved and we don't want to save ogres team in ladder
+        patch.team = @session.get('team')
+        if @level.isType('ladder')
+          patch.team = 'humans'  # Save the team in case we just assigned it in PlayLevelView, since sometimes that wasn't getting saved and we don't want to save ogres team in ladder
       @session.set key, value for key, value of patch
       tempSession = new LevelSession _id: @session.id
       tempSession.save(patch, {patch: true, type: 'PUT'})

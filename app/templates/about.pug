@@ -168,20 +168,11 @@ block content
 
           li
             .profile-pic
-              img(src="/images/pages/about/team-avatars/julie-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/julie-headshot.png").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Julie Molnar
-              small(data-i18n="about.do_title")
-              br
-
-          li
-            .profile-pic
               img(src="/images/pages/about/team-avatars/charlotte-avatar.png").img-thumbnail.avatar
               img(src="/images/pages/about/team-headshots/charlotte-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Charlotte Cheng
-              small(data-i18n="about.scd_title")
+              small(data-i18n="about.lcd_title")
               br
 
           li
@@ -301,6 +292,16 @@ block content
               small(data-i18n="about.oi_title")
               br
 
+          li
+            .profile-pic
+              //img(src="/images/pages/about/team-avatars/dave-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/placeholder.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/dave-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Dave Sage
+              small(data-i18n="about.ae_title")
+              br
+
         ul
           li
             a(href="http://retrostylegames.com/" rel="external")
@@ -412,16 +413,6 @@ block content
                 li.small(data-i18n="about.jobs_benefit_11")
                 li.small(data-i18n="about.jobs_benefit_4")
                 li.small(data-i18n="about.jobs_benefit_5")
-
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            .job-listing
-              h5 Account Executive
-                .text-center
-                  small.label
-                    | Remote • Full-time
-                p.small CodeCombat is hiring account executives to use their sales experience to consult teachers and administrators on implementing the next generation of coding and computer science in schools and districts.
-                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/77edf3c2-feea-4edd-920a-79190ea59bd1?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
-                  span(data-i18n="about.learn_more")
 
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
@@ -539,14 +530,13 @@ block content
           .col-sm-4.col-sm-offset-2
             p
               b CodeCombat Inc.
-            p 301 Howard Street
-            p Suite No. 830
-            p San Francisco, California 94105
+            p 2261 Market Street #4388
+            p San Francisco, California 94114
             a(href="mailto:team@codecombat.com") team@codecombat.com
           .col-sm-4
             p
               b(data-i18n="about.location_title")
-            iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAIGQz3OMbv5YWivScUM86-zESjEgJR2Xo&q=301+Howard+St+Suite+830,+San+Francisco,+CA+94105")
+            iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAIGQz3OMbv5YWivScUM86-zESjEgJR2Xo&q=2261+Market+St+%234388,+San+Francisco,+CA+94114")
         if me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE'
           .row
             .col-sm-4.col-sm-offset-2

@@ -2059,6 +2059,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     hoc_additional_desc1: "Sbe nqqvgvbany PbqrPbzong erfbheprf naq npgvivgvrf, frr bhe"
     hoc_additional_desc2: "Dhrfgvbaf"
     hoc_additional_contact: "Trg va gbhpu"
+    regenerate_class_code_tooltip: "Trarengr n arj Pynff Pbqr"
+    regenerate_class_code_confirm: "Ner lbh fher lbh jnag gb trarengr n arj Pynff Pbqr?"
     revoke_confirm: "Ner lbh fher lbh jnag gb eribxr n Shyy Yvprafr sebz {{fghqrag_anzr}}? Gur yvprafr jvyy orpbzr ninvynoyr gb nffvta gb nabgure fghqrag."
     revoke_all_confirm: "Ner lbh fher lbh jnag gb eribxr Shyy Yvprafrf sebz nyy fghqragf va guvf pynff?"
     revoking: "Eribxvat..."
@@ -3239,10 +3241,40 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     license_type_customize: 'Phfgbzvmr Pbhefrf'
 
   outcomes:
+    outcomes_report: "Bhgpbzrf Ercbeg"
+    customize_report: "Phfgbzvmr Ercbeg"
+    done_customizing: "Qbar Phfgbzvmvat"
     school_admin: "Fpubby Nqzvavfgengbe"
     school_network: "Fpubby Argjbex"
     school_subnetwork: "Fpubby Fhoargjbex"
     classroom: "Pynffebbz"
+    view_outcomes_report: "Ivrj Bhgpbzrf Ercbeg"
+    key_concepts: "Xrl Pbaprcgf"
+    code_languages: "Pbqr Ynathntrf"
+    using_codecombat: "Hfvat PbqrPbzong'f crefbanyvmrq yrneavat ratvar..."
+    wrote: "jebgr..."
+    across_an_estimated: "npebff na rfgvzngrq..."
+    in: "va..."
+    include: "vapyhqr "
+    archived: "Nepuvirq"
+    max: "Znk "
+    multiple: "f"
+    computer_program: "pbzchgre_cebtenz"
+    computer_programs: "pbzchgre_cebtenzf"
+    line_of_code: "yvar bs pbqr"
+    lines_of_code: "yvarf bs pbqr"
+    coding_hours: "pbqvat ubhef"
+    expressed_creativity: "naq rkcerffrq perngvivgl ol ohvyqvat"
+    report_content_1: "fgnaqnybar tnzr naq jro "
+    project: "cebwrpg"
+    projects: "cebwrpgf"
+    progress_stats: "Cebterff fgngf onfrq ba fnzcyvat __fnzcyrFvmr__ bs __cbchyngvbaFvmr__ fghqragf."
+    standards_coverage: "Fgnaqneqf Pbirentr"
+    coverage_p1: 'Gur shyy PbqrPbzong pheevphyhz pbiref znwbe cebtenzzvat fgnaqneqf va frireny jvqryl-nqbcgrq senzrjbexf, vapyhqvat gubfr bs gur Vagreangvbany Fbpvrgl sbe Grpuabybtl va Rqhpngvba (VFGR), gur Pbzchgre Fpvrapr Grnpure Nffbpvngvba (PFGN), naq gur X-12 Pbzchgre Fpvrapr Senzrjbex.'
+    coverage_p2: 'Ng PbqrPbzong, jr oryvrir gung fghqragf jvyy or zbfg cercnerq sbe obgu erny-jbeyq pbzchgvat wbof naq shegure fghql bs pbzchgre fpvrapr ol hfvat erny, glcrq pbqr va shyy cebtenzzvat ynathntrf, fb vafgrnq bs hfvat oybpx-onfrq ivfhny cebtenzzvat ynathntrf sbe ortvaaref, jr grnpu Clguba naq WninFpevcg – gur fnzr ynathntrf hfrq jvqryl gbqnl ol pbzcnavrf enatvat sebz Tbbtyr gb gur Arj Lbex Gvzrf.'
+    questions: "Unir dhrfgvbaf be jnag zber vasbezngvba? Jr'q or unccl gb uryc."
+    reach_out_manager: "Ernpu bhg gb lbhe Nppbhag Znantre __anzr__ ng "
+    stats_include: "fgngf vapyhqr __ahzore__ bgure __anzr__"
 
   league:
     student_register_1: "Orpbzr gur arkg NV Punzcvba!"
@@ -3301,14 +3333,23 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     sorcerers: "Fbepreref"
     giants_gate: "Tvnagf' Tngr"
     colossus: "Pbybffhf"
+    iron_and_ice: "Veba naq Vpr"
+    tundra_tower: "Ghaqen Gbjre"
+    magma_mountain: "Zntzn Zbhagnva"
+    lava_lake: "Ynin Ynxr"
+    desert_duel: "Qrfreg Qhry"
+    sandstorm: "Fnaqfgbez"
     cup: "Phc"
     blitz: "Oyvgm"
     clash: "Pynfu"
+    season3_announcement_1: "Gvzr gb chg lbhe pbqvat fxvyyf gb gur grfg va bhe frnfba 3 svany neran. Gur Pbybffhf Pynfu vf yvir naq bssref n arj punyyratr naq n arj yrnqreobneq gb pyvzo."
+    season3_announcement_2: "Arrq zber cenpgvpr? Fgvpx jvgu gur Tvnag'f Tngr Neran gb ersvar lbhe fxvyyf. Lbh unir hagvy Qrprzore 14gu gb cynl obgu neranf. Abgr: neran onynapr nqwhfgzragf znl bpphe hagvy Qrprzore 6gu."
+    season3_announcement_3: "Terng cevmrf ninvynoyr sbe gbc cresbezref va gur Pbybffhf Pynfu:"
     season2_announcement_1: "Gvzr gb chg lbhe pbqvat fxvyyf gb gur grfg va bhe frnfba 2 svany neran. Gur Fbepreref Oyvgm vf yvir naq bssref n arj punyyratr naq n arj yrnqreobneq gb pyvzo."
     season2_announcement_2: "Arrq zber cenpgvpr? Fgvpx jvgu gur Zntr'f Zvtug Neran gb ersvar lbhe fxvyyf. Lbh unir hagvy Nhthfg 31fg gb cynl obgu neranf. Abgr: neran onynapr nqwhfgzragf znl bpphe hagvy Nhthfg 23eq."
     season2_announcement_3: "Terng cevmrf ninvynoyr sbe gbc cresbezref va gur Fbepreref Oyvgm:"
     season1_prize_1: "$1,000 Fpubynefuvc"
-    season1_prize_2: "ERFCNJA Tnzvat Punve"
+    season1_prize_2: "ERFCNJA Tnzvat Trne"
     season1_prize_3: "Phfgbz PbqrPbzong Ningne"
     season1_prize_4: "Naq zber!"
     season1_prize_hyperx: "UlcreK Cerzvhz Crevcurenyf"
@@ -3352,6 +3393,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     no_tournaments: "Gurer vf ab gbheanzrag abj"
     edit_tournament: "Rqvg Gbheanzrag"
     create_tournament: "Perngr n Gbheanzrag"
+    upcoming: 'Hcpbzvat'
+    starting: 'Fgnegvat'
+    ended: 'Raqrq'
+    view_results: 'Ivrj Erfhygf'
+    estimate_days: 'Va __gvzr__ Qnlf'
 
   payments:
     student_licenses: 'Fghqrag Yvprafrf'

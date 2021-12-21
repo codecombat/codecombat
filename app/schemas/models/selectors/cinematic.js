@@ -57,8 +57,11 @@ const compose = (...fns) => initial => fns.reduce((v, fn) => fn(v), initial)
 
 /**
  * @typedef {Object} Sound
- * @property {string} mp3
- * @property {string} ogg
+ *
+ * @property {boolean} loop
+ * @property {object} files
+ * @property {string} files.mp3
+ * @property {string} files.ogg
  */
 /**
  * @typedef {Object} DialogNode
@@ -110,7 +113,7 @@ const setCharacterDefaults = ({ pos: { x, y }, scaleX, scaleY }) =>
  * @returns {Object|undefined} leftCharacter with default values set on thang.
  */
 const setLeftCharacterDefaults = setCharacterDefaults({
-  pos: { x: -30, y: -72 },
+  pos: { x: -37, y: -73 },
   scaleX: 1.2,
   scaleY: 1.2
 })
@@ -121,7 +124,7 @@ const setLeftCharacterDefaults = setCharacterDefaults({
  * @returns {Object|undefined} rightCharacter with default values set on thang.
  */
 const setRightCharacterDefaults = setCharacterDefaults({
-  pos: { x: 30, y: -72 },
+  pos: { x: 37, y: -73 },
   scaleX: 1.2,
   scaleY: 1.2
 })
@@ -143,25 +146,25 @@ export const shotSetup = shot => (shot || {}).shotSetup
  * @param {ShotSetup} shotSetup
  * @returns {CharacterSchema|undefined}
  */
-const leftCharacter = shotSetup => (shotSetup || {}).leftThangType
+const leftCharacter = shotSetup => shotSetup?.leftThangType
 
 /**
  * @param {ShotSetup} shotSetup
  * @returns {CharacterSchema|undefined}
  */
-const rightCharacter = shotSetup => (shotSetup || {}).rightThangType
+const rightCharacter = shotSetup => shotSetup?.rightThangType
 
 /**
  * @param {ShotSetup} shotSetup
  * @returns {Object|undefined} background Object
  */
-const backgroundArt = shotSetup => (shotSetup || {}).backgroundArt
+const backgroundArt = shotSetup => shotSetup?.backgroundArt
 
 /**
  * @param {ShotSetup} shotSetup
  * @returns {Object|undefined} heroPetThangType
  */
-const heroPetThangType = shotSetup => (shotSetup || {}).heroPetThangType
+const heroPetThangType = shotSetup => shotSetup?.heroPetThangType
 
 /**
  * @param {Object} o Object that may have slug property
@@ -245,22 +248,24 @@ const characterFromThangTypeSchema = thangType => {
 /**
  * Check if this is the hero type.
  * If so returns the properties associated.
- * The caller must get the thangType original using:
- * `me.get('heroConfig').thangType`
+ * Does not return the thangType originalId.
+ * Used for hero or avatar.
  * @param {Object|undefined} thangType
  * @returns {Object|undefined} thang data
  */
-const getHeroFromThangTypeSchema = thangType => {
+const getHeroTypeFromThangTypeSchema = thangType => {
   if (!(thangType || {}).type) {
     return
   }
-  if (typeof thangType.type !== 'string' || thangType.type !== 'hero') {
+
+  if (typeof thangType.type !== 'string' || (thangType.type !== 'hero' && thangType.type !== 'avatar')) {
     return
   }
 
   const { scaleX, scaleY, pos } = thangType
   return {
-    thang: { scaleX, scaleY, pos }
+    thang: { scaleX, scaleY, pos },
+    type: thangType.type
   }
 }
 
@@ -291,26 +296,26 @@ const characterThangTypeSlug = character => {
  * Returns exactly the data required to place a hero on the canvas.
  * Does not return the thangType original.
  * Get it with:
- * `me.get('heroConfig').thangType`
+ * `me.get('ozariaUserOptions').thangType`
  * @param {CharacterSchema} character - the left or right hero
- * @returns {Object|undefined} The thangType original and position data.
+ * @returns {Object|undefined} The position data and hero type
  */
 const heroThangTypeOriginal = character => {
   if (!character) {
     return
   }
-  const thangType = getHeroFromThangTypeSchema((character || {}).thangType)
+  const thangType = getHeroTypeFromThangTypeSchema((character || {}).thangType)
   if (!thangType) {
     return
   }
-  const { thang } = thangType
+  const { thang, type } = thangType
 
   if (typeof character.enterOnStart !== 'boolean') {
     character.enterOnStart = false
   }
   const enterOnStart = character.enterOnStart
 
-  return { enterOnStart, thang }
+  return { enterOnStart, thang, type }
 }
 
 // A camera default setting.
@@ -327,7 +332,7 @@ export const CAMERA_DEFAULT = () => ({
  * @returns {Object|undefined} camera properties with sensible defaults.
  */
 const camera = shotSetup => {
-  if (!(shotSetup || {}).camera) {
+  if (!shotSetup?.camera) {
     return
   }
   return _.merge(CAMERA_DEFAULT(), shotSetup.camera)
@@ -352,30 +357,39 @@ export const getRightCharacterThangTypeSlug = compose(shotSetup, rightCharacter,
  * @returns {bool} whether we should clear all existing dialogs. Defaults to true.
  */
 export const getClearText = dialogNode => {
-  const shouldClearDialogue = (dialogNode || {}).dialogClear
+  const shouldClearDialogue = dialogNode?.dialogClear
   if (typeof shouldClearDialogue === 'undefined') {
     return true
   }
   return shouldClearDialogue
 }
 
-export const getTextPosition = dialogNode => (dialogNode || {}).textLocation
+export const getTextPosition = dialogNode => dialogNode?.textLocation
 
-export const getSpeaker = dialogNode => (dialogNode || {}).speaker || 'left'
+export const getSpeaker = dialogNode => dialogNode?.speaker || 'left'
 
-export const getText = dialogNode => (dialogNode || {}).text
+export const getText = dialogNode => dialogNode?.text
 
+export const getVoiceOver = dialogNode => dialogNode?.voiceOver
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {number|undefined}
+ */
+export const getTextWidth = dialogNode => dialogNode?.widthOverride
 /**
  * @param {DialogNode} dialogNode
  * @returns  {'left'|'right'|'both'|undefined}
  */
-export const getExitCharacter = dialogNode => (dialogNode || {}).exitCharacter
+export const getExitCharacter = dialogNode => dialogNode?.exitCharacter
 
 /**
  * @param {DialogNode} dialogNode
  * @returns {Object|undefined} triggers
  */
-export const triggers = dialogNode => (dialogNode || {}).triggers
+export const triggers = dialogNode => dialogNode?.triggers
+
+export const mutators = dialogNode => dialogNode?.mutators
 
 const backgroundObject = triggers => {
   const bgObject = (triggers || {}).backgroundObject
@@ -391,7 +405,7 @@ const backgroundObject = triggers => {
  * @returns {number|undefined} number of ms before background object appears
  */
 const backgroundObjectDelay = triggers => {
-  const bgObject = (triggers || {}).backgroundObject
+  const bgObject = triggers?.backgroundObject
   if (!bgObject) {
     return
   }
@@ -402,17 +416,27 @@ const backgroundObjectDelay = triggers => {
  * @param {DialogNode} dialogNode
  * @returns {number|undefined}
  */
-const textAnimationLength = dialogNode => (dialogNode || {}).textAnimationLength
+const textAnimationLength = dialogNode => dialogNode?.textAnimationLength
 
 /**
  * @param {ShotSetup} shotSetup
  * @returns {Sound} possibly contains `mp3` or `ogg` property.
  */
 const setupMusic = shotSetup => {
-  if (!(shotSetup || {}).music) {
+  if (!shotSetup?.music) {
     return
   }
-  return shotSetup.music
+
+  const { music } = shotSetup
+  if (music.files) {
+    return music
+  }
+
+  // Music is in legacy format, normalize to new format
+  return {
+    files: music,
+    loop: false
+  }
 }
 
 /**
@@ -452,17 +476,40 @@ const soundEffects = triggers => {
     })
 }
 
+const tryGetProperty = key => obj => {
+  return obj?.[key]
+}
+
+const playThangAnimations = triggers => {
+  if (!(triggers || {}).playThangAnimations) {
+    return []
+  }
+  const { playThangAnimations } = triggers
+  if (!Array.isArray(playThangAnimations)) {
+    throw new Error('Expected playThangAnimations to be an array')
+  }
+  for (const playThangAnimation of playThangAnimations) {
+    if (playThangAnimation.delay === undefined) {
+      playThangAnimation.delay = 0
+    }
+    if (!playThangAnimation.animation) {
+      throw new Error('Require animation')
+    }
+  }
+  return playThangAnimations
+}
+
 /**
  * Returns if left hero character
  * @param {Shot} shot
- * @returns {bool}
+ * @returns {Object|undefined}
  */
 export const getLeftHero = compose(shotSetup, leftCharacter, heroThangTypeOriginal, setLeftCharacterDefaults)
 
 /**
  * Returns the right hero character
  * @param {Shot} shot
- * @returns {bool}
+ * @returns {Object|undefined}
  */
 export const getRightHero = compose(shotSetup, rightCharacter, heroThangTypeOriginal, setRightCharacterDefaults)
 
@@ -519,9 +566,9 @@ export const getTextAnimationLength = textAnimationLength
 
 /**
  * @param {DialogNode}  dialogNode
- * @returns {string|undefined} Lank action to play
+ * @returns {string} Lank action to play.
  */
-export const getSpeakingAnimationAction = dialogNode => (dialogNode || {}).speakingAnimationAction
+export const getSpeakingAnimationAction = dialogNode => dialogNode?.speakingAnimationAction || 'talkNeutral'
 
 /**
  * @returns {string|undefined}
@@ -536,10 +583,16 @@ export const getSoundEffects = compose(triggers, soundEffects)
 
 /**
  * @param {DialogNode} dialogNode
+ * @returns {Object[]}
+ */
+export const getPlayThangAnimations = compose(triggers, playThangAnimations)
+
+/**
+ * @param {DialogNode} dialogNode
  * @returns {bool}
  */
 export const getWaitUserInput = dialogNode => {
-  const waitUserInput = (dialogNode || {}).waitUserInput
+  const waitUserInput = dialogNode?.waitUserInput
   if (typeof waitUserInput === 'boolean') {
     return waitUserInput
   }
@@ -550,4 +603,26 @@ export const getWaitUserInput = dialogNode => {
  * @param {DialogNode} dialogNode
  * @returns {string|undefined}
  */
-export const getLanguageFilter = dialogNode => (dialogNode || {}).programmingLanguageFilter
+export const getLanguageFilter = dialogNode => dialogNode?.programmingLanguageFilter
+
+/**
+ * Return the chalkboard data or an empty object.
+ * @param {DialogNode} shot
+ * @returns {Object|undefined}
+ */
+export const getVisualChalkBoardData = dialogNode => dialogNode?.visualChalkBoardData
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {Array<Object>} Returns list of default idle action change objects or an empty array.
+ */
+export const getChangeDefaultIdles = dialogNode => (dialogNode?.mutators || {}).changeDefaultIdles || []
+
+/**
+ * @param {DialogNode} dialogNode
+ * @returns {boolean|undefined} Returns list of default idle action change objects or an empty array.
+ */
+export const getShowVisualChalkboard = dialogNode => (dialogNode?.mutators || {}).showVisualChalkboard
+
+export const getFadeToBlack = compose(mutators, tryGetProperty('fadeToBlack'))
+export const getFadeFromBlack = compose(mutators, tryGetProperty('fadeFromBlack'))

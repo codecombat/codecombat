@@ -63,6 +63,12 @@ module.exports = class User extends CocoModel
   isAPIClient: -> @constructor.PERMISSIONS.API_CLIENT in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
+  isIndividualUser: -> not @isStudent() and not User.isTeacher(@attributes)
+
+  isInternal: ->
+    email = @get('email')
+    return false unless email
+    return email.endsWith('@codecombat.com') or email.endsWith('@ozaria.com')
 
   displayName: -> @get('name', true)
   broadName: -> User.broadName(@attributes)
@@ -118,6 +124,7 @@ module.exports = class User extends CocoModel
   isTeacher: (includePossibleTeachers=false) -> User.isTeacher(@attributes, includePossibleTeachers)
 
   isPaidTeacher: ->
+    # TODO: this doesn't actually check to see if they are paid (having prepaids), confusing
     return false unless @isTeacher()
     return @isCreatedByClient() or (/@codeninjas.com$/i.test @get('email'))
 
@@ -694,8 +701,8 @@ module.exports = class User extends CocoModel
   useStripe: -> (not ((features?.china ? false) or (features?.chinaInfra ? false))) and (@get('preferredLanguage') isnt 'nl-BE')
   canDeleteAccount: -> not (features?.china ? false)
   canAutoFillCode: -> @isAdmin() || @isTeacher() || @isInGodMode()
-
 tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
+
   5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15
 ]
 

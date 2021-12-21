@@ -13,6 +13,7 @@ CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 Courses = require 'collections/Courses'
 LevelSessions = require 'collections/LevelSessions'
+InteractiveSessions = require 'collections/InteractiveSessions'
 User = require 'models/User'
 Users = require 'collections/Users'
 
@@ -61,6 +62,7 @@ module.exports = class MainAdminView extends RootView
   clearQueryParams: -> window.history.pushState({}, '', document.location.href.split('?')[0])
 
   stopSpying: ->
+    button = @$('#stop-spying-btn')
     me.stopSpying({
       success: -> document.location.reload()
       error: ->
@@ -225,9 +227,12 @@ module.exports = class MainAdminView extends RootView
     classroom = null
     courses = null
     courseLevels = []
+    courseInteractives = []
     sessions = null
+    interactiveSessions = null
     users = null
     userMap = {}
+    userLevelPlaytimeMap = {}
     Promise.resolve(new Classroom().fetchByCode(classCode))
     .then (model) =>
       classroom = new Classroom({ _id: model.data._id })
@@ -243,6 +248,12 @@ module.exports = class MainAdminView extends RootView
             levelID: level.original
             slug: level.slug
             courseSlug: courses.get(course._id).get('slug')
+          for intro in level.introContent ? [] when intro.type is 'interactive'
+            # TODO: this only works for Python presently
+            courseInteractives.push
+              courseIndex: index + 1
+              interactiveID: intro.contentId.python ? intro.contentId
+              courseSlug: courses.get(course._id).get('slug')
       users = new Users()
       Promise.resolve($.when(users.fetchForClassroom(classroom)...))
     .then (models) =>
@@ -250,36 +261,66 @@ module.exports = class MainAdminView extends RootView
       sessions = new LevelSessions()
       Promise.resolve($.when(sessions.fetchForAllClassroomMembers(classroom)...))
     .then (models) =>
-      userLevelPlaytimeMap = {}
       for session in sessions.models
         continue unless session.get('state')?.complete
         levelID = session.get('level').original
         userID = session.get('creator')
         userLevelPlaytimeMap[userID] ?= {}
         userLevelPlaytimeMap[userID][levelID] ?= {}
-        userLevelPlaytimeMap[userID][levelID] = session.get('playtime')
+        if session.get('contentPlaytimes')
+          playtime = 0
+          playtime += content.playtime ? 0 for content in session.get('contentPlaytimes')
+        else
+          playtime = session.get('playtime')
+        userLevelPlaytimeMap[userID][levelID] = playtime
+      interactiveSessions = new InteractiveSessions()
+      #Promise.resolve($.when(interactiveSessions.fetchForAllClassroomMembers(classroom)...))
+      Promise.resolve([])  # No interactives in CodeCombat yet
+    .then (models) =>
+      userInteractiveAttemptMap = {}
+      for session in interactiveSessions.models
+        continue unless session.get('complete')
+        interactiveID = session.get('interactiveId')
+        userID = session.get('userId')
+        userInteractiveAttemptMap[userID] ?= {}
+        userInteractiveAttemptMap[userID][interactiveID] ?= {}
+        userInteractiveAttemptMap[userID][interactiveID] = session.get('submissionCount')
 
-      userPlaytimes = []
+      userRows = []
       for userID, user of userMap
-        playtimes = [user.get('name') ? 'Anonymous']
+        row = [user.get('name') ? 'Anonymous']
         for level in courseLevels
           if userLevelPlaytimeMap[userID]?[level.levelID]?
             rawSeconds = parseInt(userLevelPlaytimeMap[userID][level.levelID])
-            hours = Math.floor(rawSeconds / 60 / 60)
-            minutes = Math.floor(rawSeconds / 60 - hours * 60)
-            seconds = Math.round(rawSeconds - hours * 60 - minutes * 60)
-            hours = "0#{hours}" if hours < 10
-            minutes = "0#{minutes}" if minutes < 10
-            seconds = "0#{seconds}" if seconds < 10
-            playtimes.push "#{hours}:#{minutes}:#{seconds}"
+            if false
+              # Old way, with human-readable times
+              hours = Math.floor(rawSeconds / 60 / 60)
+              minutes = Math.floor(rawSeconds / 60 - hours * 60)
+              seconds = Math.round(rawSeconds - hours * 60 - minutes * 60)
+              hours = "0#{hours}" if hours < 10
+              minutes = "0#{minutes}" if minutes < 10
+              seconds = "0#{seconds}" if seconds < 10
+              row.push "#{hours}:#{minutes}:#{seconds}"
+            else
+              # New way, with machine-analyzable times (seconds)
+              row.push Math.round(rawSeconds)
           else
-            playtimes.push 'Incomplete'
-        userPlaytimes.push(playtimes)
+            row.push 'Incomplete'
+
+        for interactive in courseInteractives
+          attempts = userInteractiveAttemptMap[userID]?[interactive.interactiveID]
+          if attempts
+            row.push attempts
+          else
+            row.push 'Incomplete'
+
+        userRows.push(row)
 
       columnLabels = "Username"
       currentLevel = 1
-      courseLabelIndexes = CS: 1, GD: 0, WD: 0
+      courseLabelIndexes = CS: 1, GD: 0, WD: 0, CH: 1
       lastCourseIndex = 1
+      #lastCourseLabel = 'CH1'  # TODO: differentiate products
       lastCourseLabel = 'CS1'
       for level in courseLevels
         unless level.courseIndex is lastCourseIndex
@@ -288,11 +329,23 @@ module.exports = class MainAdminView extends RootView
           acronym = switch
             when /game-dev/.test(level.courseSlug) then 'GD'
             when /web-dev/.test(level.courseSlug) then 'WD'
+            when /chapter/.test(level.courseSlug) then 'CH'
             else 'CS'
           lastCourseLabel = acronym + ++courseLabelIndexes[acronym]
         columnLabels += ",#{lastCourseLabel}.#{currentLevel++} #{level.slug}"
+      currentInteractive = 1
+      courseLabelIndexes.CH = 1
+      lastCourseIndex = 1
+      lastCourseLabel = 'CH1'
+      for interactive in courseInteractives
+        unless interactive.courseIndex is lastCourseIndex
+          currentInteractive = 1
+          lastCourseIndex = interactive.courseIndex
+          acronym = 'CH'
+          lastCourseLabel = acronym + ++courseLabelIndexes[acronym]
+        columnLabels += ",#{lastCourseLabel}.#{currentInteractive++} #{interactive.interactiveID}"
       csvContent = "data:text/csv;charset=utf-8,#{columnLabels}\n"
-      for studentRow in userPlaytimes
+      for studentRow in userRows
         csvContent += studentRow.join(',') + "\n"
       csvContent = csvContent.substring(0, csvContent.length - 1)
       encodedUri = encodeURI(csvContent)
