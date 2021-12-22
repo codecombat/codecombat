@@ -32,7 +32,7 @@ module.exports = class PreapidActivationCodesModal extends ModalView
     @user = me
     @supermodel.trackRequest @user.fetch({cache: false})
     @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchByCreator(me.get('_id'), { data: {includeShared: true, onlyActiveCodes: true} })
+    @supermodel.trackRequest @prepaids.fetchByCreator(me.get('_id'), { data: {includeShared: true, onlyActivationCodes: true} })
     @listenTo @prepaids, 'sync', =>
       @prepaids.forEach (prepaid) =>
         if prepaid.loaded and not prepaid.creator
@@ -98,7 +98,8 @@ module.exports = class PreapidActivationCodesModal extends ModalView
     attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
     attrs.startDate = moment.timezone.tz(@timeZone ).toISOString()
     attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
-    attrs.duration = attrs.duration * 86400000 # milliseconds of 1 day
+    days = attrs.duration
+    delete attrs.duration
 
     if attrs.licenseType of @licensePresets
       attrs.includedCourseIDs = @licensePresets[attrs.licenseType]
@@ -112,6 +113,7 @@ module.exports = class PreapidActivationCodesModal extends ModalView
       properties:
         adminAdded: me.id
         classroom: @classroom
+        days: days
     })
     prepaid = new Prepaid(attrs)
     prepaid.save()
