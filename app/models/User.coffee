@@ -296,7 +296,7 @@ module.exports = class User extends CocoModel
     if products = @get('products')
       now = new Date()
       homeProducts = @activeProducts('basic_subscription')
-      maxFree = _.max(homeProducts, 'endDate').endDate
+      maxFree = _.max(homeProducts, (p) => new Date(p.endDate)).endDate
       return true if new Date() < new Date(maxFree)
     false
 
@@ -381,16 +381,19 @@ module.exports = class User extends CocoModel
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
-    courseProducts = _.filter(@get('products'), {product: 'course'})
-    return 'not-enrolled' unless courseProducts.length
-    return 'enrolled' if _.some(courseProducts, {endDate: null})
-    return 'enrolled' if _.some(courseProducts, (p) => moment().isBefore(p.endDate))
+    activeCourseProducts = @activeProducts('course')
+    courseIDs = utils.orderedCourseIDs
+    return 'not-enrolled' unless activeCourseProducts.length
+    return 'enrolled' if _.some courseProducts, (p) ->
+      return true unless p.productOptions?.includedCourseIDs?.length
+      return true if _.intersection(p.prodcutOptoins.includedCourseIDs, courseIDs).length
+      return false
     return 'expired'
 
   activeProducts: (type) ->
     now = new Date()
     _.filter(@get('products'), (p) ->
-      return p.product == type && new Date(p.endDate) > now
+      return p.product == type && (new Date(p.endDate) > now || p.endDate is null)
     )
 
   prepaidNumericalCourses: ->
