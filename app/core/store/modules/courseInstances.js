@@ -121,7 +121,7 @@ export default {
       .finally(() => commit('toggleIdLoading', id))
     },
 
-    async assignCourse ({ rootGetters, state }, { course, members, classroom }) {
+    async assignCourse ({ rootGetters, state }, { course, members, classroom, sharedClassroomId }) {
       const students = members.map(data => new User(data))
 
       let courseInstance = state.courseInstanceByClassroom[classroom._id].find((ci) => ci.courseID === course._id)
@@ -204,7 +204,7 @@ export default {
         const availableLicenses = Math.min(unenrolledStudents.length, prepaid.openSpots())
         for (let i = 0; i < availableLicenses; i++) {
           const user = unenrolledStudents.pop()
-          requests.push(prepaid.redeem(user.get('_id')))
+          requests.push(prepaid.redeem(user.get('_id'), { data: { sharedClassroomId } }))
         }
       }
 

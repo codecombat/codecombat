@@ -4,15 +4,12 @@
 
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 import ClassroomLib from '../../../app/models/ClassroomLib'
+import { hasSharedWriteAccessPermission } from '../../../app/lib/classroom-util'
 
 // TODO: Ensure download size isn't too big.
 const projectionData = {
   levelSessions: 'state.complete,state.introContentSessionComplete,state.goalStates,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code,codeLanguage,introContentSessionComplete,playtime',
   users: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'
-}
-
-function hasSharedWriteAccessPermission(classroom) {
-  return (classroom.permissions || []).find((p) => p.target === me.get('_id') && p.access === 'write')
 }
 
 export default {

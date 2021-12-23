@@ -4,6 +4,7 @@
   import TertiaryButton from '../../common/buttons/TertiaryButton'
 
   import utils from 'app/core/utils'
+  import { hasSharedWriteAccessPermission } from '../../../../../../app/lib/classroom-util'
 
   export default {
     components: {
@@ -52,7 +53,13 @@
         }
         const course = this.courses.find((v) => v.name === this.selected)
 
-        await this.assignCourse({ classroom: this.classroom, course, members: this.selectedStudentIds.map(id => this.classroomMembers.find(({ _id }) => id === _id)) })
+        const sharedClassroomId = hasSharedWriteAccessPermission(this.classroom) ? this.classroom._id : null
+        await this.assignCourse({
+          classroom: this.classroom,
+          course,
+          members: this.selectedStudentIds.map(id => this.classroomMembers.find(({ _id }) => id === _id)),
+          sharedClassroomId
+        })
         if (this.classroomCourses.find((c) => c._id === course._id)) {
           this.fetchData()
         } else {
