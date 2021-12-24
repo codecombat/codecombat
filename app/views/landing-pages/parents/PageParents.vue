@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <page-parents-jumbotron :type="type" :mainCtaButtonText="mainCtaButtonText(0)" :trialClassExperiment="trialClassExperiment" @cta-clicked="onClickMainCta"/>
+    <page-parents-jumbotron :type="type" :mainCtaButtonText="mainCtaButtonText(0)" :mainCtaSubtext="mainCtaSubtext(0)" :trialClassExperiment="trialClassExperiment" @cta-clicked="onClickMainCta"/>
 
     <div class="container-power-gameplay">
       <div class="container">
@@ -776,9 +776,12 @@ export default {
     },
 
     mainCtaSubtext (buttonNum) {
-      if (this.trialClassExperiment == 'trial-class') {
+      if (this.trialClassExperiment == 'trial-class' && buttonNum === 0) {
+        return 'Or, <a href="/payments/initial-online-classes-71#">enroll now</a>'
+      }
+      else if (this.trialClassExperiment == 'trial-class') {
         return ''
-      } else if (buttonNum === 0 || !buttonNum) {
+      } else if (!buttonNum) {
         return ''
       } else if (buttonNum === 1) {
         return '30-day 100% money-back guarantee'
@@ -806,6 +809,7 @@ export default {
       let value = { 'true': 'trial-class', 'false': 'no-trial-class' }[this.$route.query['trial-class']]
       if (!value) {
         value = me.getExperimentValue('trial-class', null, 'no-trial-class')
+        if (value) value = 'trial-class'  // Switch to trial-class for members of previous no-trial-class group
       }
       if (!value && new Date(me.get('dateCreated')) < new Date('2021-09-22')) {
         // Don't include users created before experiment start date
@@ -820,8 +824,9 @@ export default {
         value = 'trial-class'
       }
       if (!value) {
-        value = ['trial-class', 'no-trial-class'][Math.floor(me.get('testGroupNumber') / 2) % 2]
-        me.startExperiment('trial-class', value, 0.5)
+        //value = ['trial-class', 'no-trial-class'][Math.floor(me.get('testGroupNumber') / 2) % 2]
+        //me.startExperiment('trial-class', value, 0.5)
+        me.startExperiment('trial-class', 'trial-class', 1)  // End experiment in favor of trial-class group; keep measuring
       }
       return value
     },

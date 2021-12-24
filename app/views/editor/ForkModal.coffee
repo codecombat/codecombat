@@ -32,8 +32,9 @@ module.exports = class ForkModal extends ModalView
     newModel.unset 'i18nCoverage'
     newModel.set 'commitMessage', "Forked from #{@model.get('name')}"
     newModel.set 'name', @$el.find('#fork-model-name').val()
-    newModel.set 'tasks', newModel.get('tasks').map (task)=>
-      {name: task.name, complete:false}
+    if newModel.get('tasks')
+      newModel.set 'tasks', newModel.get('tasks').map (task) ->
+        {name: task.name, complete: false}
     if @model.schema().properties.permissions
       newModel.set 'permissions', [access: 'owner', target: me.id]
     newPathPrefix = "editor/#{@editorPath}/"

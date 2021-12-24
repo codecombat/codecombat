@@ -17,6 +17,10 @@ export default {
       type: String,
       default: 'Schedule a Free Class'
     },
+    mainCtaSubtext: {
+      type: String,
+      default: ''
+    },
     trialClassExperiment: {
       type: String,
       default: 'trial-class'
@@ -57,6 +61,7 @@ export default {
         <button-main-cta
           @click="onCtaClick"
           :buttonText="mainCtaButtonText"
+          :subtext="mainCtaSubtext"
         />
       </div>
     </div>
