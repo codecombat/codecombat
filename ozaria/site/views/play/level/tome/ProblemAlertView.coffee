@@ -108,5 +108,5 @@ module.exports = class ProblemAlertView extends CocoView
       @$el.css('right', codeAreaWidth + 20 + 'px')
 
       # TODO: calculate this in a more dynamic, less sketchy way
-      spellViewTop = $("#spell-view").position().top - 10 # roughly aligns top of alert with top of first code line
+      spellViewTop = $("#spell-view").position().top - 30 # roughly aligns top of alert with top of first code line
       @$el.css('top', (spellViewTop + @lineOffsetPx) + 'px')
