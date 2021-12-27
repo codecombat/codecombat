@@ -300,6 +300,13 @@ module.exports = class User extends CocoModel
       return true if new Date() < new Date(maxFree)
     false
 
+  premiumEndDate: ->
+    return null unless @isPremium()
+    if products = @get('products')
+      homeProducts = @activeProducts('basic_subscription')
+      endDate = _.max(homeProducts, (p) => new Date(p.endDate)).endDate
+      moment(endDate).utc().format('ll')
+
   isPremium: ->
     return true if @isInGodMode()
     return true if @isAdmin()

@@ -1025,6 +1025,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     year_price: "$__price__/yr"
     support_part1: "Need help with payment or prefer PayPal? Email"
     support_part2: "support@codecombat.com"
+    subscription_status: "Your Subscription Status"
 
   announcement:
     now_available: "Now available for subscribers!"
@@ -2602,6 +2603,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     you_can1: "You can"
     you_can2: "purchase a prepaid code"
     you_can3: "that can be applied to your own account or given to others."
+    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account."
+    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times."
 
   impact:
     hero_heading: 'Building A World-Class Computer Science Program'

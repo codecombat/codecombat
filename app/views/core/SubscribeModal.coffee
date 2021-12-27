@@ -112,6 +112,9 @@ module.exports = class SubscribeModal extends ModalView
   onClickPurchaseButton: (e) ->
     return unless @basicProduct
     @playSound 'menu-button-click'
+    if features.chinaHome
+      window.open('https://vvf.h5.xeknow.com/s/1gxOW1','_blank')
+      return
     if me.get('anonymous')
       service = if @basicProduct.isRegionalSubscription() then 'paypal' else 'stripe'
       application.tracker?.trackEvent 'Started Signup from buy monthly', {service}

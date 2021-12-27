@@ -238,7 +238,7 @@ module.exports = class MainAdminView extends RootView
       ocode = prepaid.get('code').toUpperCase()
       months = prepaid.get('properties').months
       for code in prepaid.get('redeemers')
-        csvContent += "#{ocode.slice(0, 4)}-#{code.code.toUpperCase()}-#{ocode.slice(4)},#{months},#{code.date}\n"
+        csvContent += "#{ocode.slice(0, 4)}#{code.code.toUpperCase()}#{ocode.slice(4)},#{months},#{code.date}\n"
       file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
       window.saveAs(file, 'ActivationCodes.csv')
 

@@ -146,7 +146,7 @@
               a.navbar-brand(v-else-if="serverConfig.codeNinjas" href="/home")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
                 img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
-              a.navbar-brand(v-else-if="me.showChinaResourceInfo()" href="/home")
+              a.navbar-brand(v-else-if="me.showChinaResourceInfo()&&!me.showChinaHomeVersion()" href="/home")
                 img#logo-img(src="/images/pages/base/logo-cn.png")
               a.navbar-brand(v-else href="/home")
                 img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
@@ -159,7 +159,7 @@
             #navbar-collapse.collapse.navbar-collapse
               .nav-spacer
               ul.nav.navbar-nav(v-if="!me.hideTopRightNav()")
-                template(v-if="me.showChinaResourceInfo()")
+                template(v-if="me.showChinaResourceInfo() && !me.showChinaHomeVersion()")
                   li
                     a.text-p(href="/CoCoStar", data-i18n="nav.star", class='')
                   li
@@ -252,11 +252,11 @@
                       a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                    li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
+                    li(v-if="isCodeCombat && (!me.showChinaHomeVersion()) && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
-                      a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
-                    li(v-if="me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || (!me.get('role') && !me.isAnonymous())))")
+                      a.account-dropdown-item(:href="`/account/${me.showChinaHomeVersion() ? 'prepaid' : 'subscription'}`") {{ $t('account.subscription') }}
+                    li(v-if="me.isAdmin() || (me.get('emailVerified') && (!me.showChinaHomeVersion()) && (me.isTeacher() || (!me.get('role') && !me.isAnonymous())))")
                       a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                     li(v-if="me.isAPIClient()")
                       a.account-dropdown-item(href="/api-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}

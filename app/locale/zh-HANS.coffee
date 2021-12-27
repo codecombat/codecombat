@@ -2,7 +2,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   new_home:
     title: "扣哒世界|CodeCombat|AI世青赛|少儿编程等级认证"
-    title_cn_home: "CodeCombat - Coding games to learn Python and JavaScript"
+    title_cn_home: "CodeCombat - 玩游戏学编程|零基础Python, Javascript入门|CodeCombat 个人版"
     meta_keywords: "扣哒世界, 青少年编程, 少儿编程, 信息学奥赛, CodeCombat官网,CodeCombat中文,游戏化编程,AI世青赛,信息学奥赛,奥佳睿,CodeCombat"
     meta_description: "扣哒世界，CodeCombat中国唯一官方网站，支持Python, C++, JavaScript, AP认证，AI世青赛全球独家技术平台，支持中美信息学奥赛(NOI, CSP-J/S, USACO)、电子学会考试和国际青少年编程认证。"
     meta_og_url: "https://koudashijie.com"
@@ -1008,7 +1008,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     managed_by: "管理"
     will_be_cancelled: "将被取消"
     currently_free: "您目前有一个免费订阅"
-    currently_free_until: "您目前有一个订阅，直到"
+    currently_free_until: "您目前有一个订阅，有效期到 __date__"
     free_subscription: "免费订阅"
     was_free_until: "您有过一个免费订阅，直到"
     managed_subs: "管理订阅"
@@ -1017,18 +1017,20 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     unsubscribing: "取消订阅中"
     subscribe_prepaid: "点击订阅来使用预付费代码"
     using_prepaid: "使用预付费代码进行每月订阅"
-    feature_level_access: "可获得 300+ 关卡的使用权"
+    feature_level_access: "可获得 500+ 关卡的使用权"
     feature_heroes: "解锁独家英雄" # {change}
     feature_learn: "学习制作游戏和网页" # {change}
 #    feature_gems: "Receive __gems__ gems per month"
-    month_price: "$__price__/月" # {change}
+    month_price: "__price__元/月" # {change}
     first_month_price: "第一个月仅需 $__price__！"
     lifetime: "终身订阅"
     lifetime_price: "$__price__"
     year_subscription: "年度订阅" # {change}
-    year_price: "$__price__/年" # {change}
-    support_part1: "付款时需要帮助? Email" # {change}
+    year_price: "__price__元/年" # {change}
+    support_part1: "付款时需要帮助? 请联系网页右下角微信客服" # {change}
     support_part2: "china@codecombat.com"
+    subscription_status: "你的订阅状态"
+    currently_not_free: "您目前还没有订阅"
 
   announcement:
     now_available: "现在订阅者可以获得更多内容"
@@ -2541,7 +2543,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     invoices_title: "发票"
     prepaids_title: "预付款"
     payments: "支付方式"
-    prepaid_codes: "预付费码"
+    prepaid_codes: "订阅码"
     purchased: "已购买"
     subscribe_for_gems: "订阅以获得宝石"
     subscription: "订阅"
@@ -2584,7 +2586,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     success: "支付成功。谢谢！"
 
   account_prepaid:
-    purchase_code: "购买订阅码"
+    purchase_code: "购买激活码"
     purchase_code1: "订阅码可以为一个或多个CodeCombat账号兑换额外的订阅时间。" # {change}
     purchase_code2: "每个CodeCombat账号每次只能兑换一个订阅码。"
     purchase_code3: "订阅码时间会在账号现有的订阅时间基础上延长。"
@@ -2595,10 +2597,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     purchase_total: "总共"
     purchase_button: "提交购买"
     your_codes: "你的订阅码"
-    redeem_codes: "兑换订阅码"
-    prepaid_code: "预购码"
-    lookup_code: "查看预购码"
-    apply_account: "使用到您的账户"
+    redeem_codes: "兑换激活码"
+    prepaid_code: "激活码"
+    lookup_code: "查看激活码"
+    apply_account: "确认兑换"
     copy_link: "您可以复制此代码链接发送给别人。"
     quantity: "数量"
     redeemed: "兑换"
@@ -2606,6 +2608,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can1: "您可以"
     you_can2: "购买一个预购码"
     you_can3: "使用在您的账户或者给其他人。"
+    prepaid_add_months: "该激活码将为您的账号提供<strong> __months__ 个月</strong>的订阅"
+    can_use_times: "它可以被使用<strong>__unlocksLeft__</strong> 次"
 
   impact:
     hero_heading: "创建世界一流的计算机科学课程"

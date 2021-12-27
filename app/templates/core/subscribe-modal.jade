@@ -43,7 +43,7 @@ mixin price(name, p)
                li(data-i18n="subscribe.feature_level_access")
                li(data-i18n="subscribe.feature_heroes")
                li(data-i18n="subscribe.feature_learn")
-               if view.basicProduct
+               if view.basicProduct && !me.showChinaHomeVersion()
                  li(data-i18n="subscribe.feature_gems", data-i18n-options={gems: view.basicProduct.get('gems')})
 
          hr
@@ -66,6 +66,8 @@ mixin price(name, p)
                button.btn.btn-lg.btn-illustrated.purchase-button
                  span.buy-now-text(data-i18n="subscribe.buy_now")
                  span.buy-lock-icon &#x1F512;
+                 if features.chinaHome
+                   img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/basic_qr.png')
 
            else
              - var secondRowClass = '.col-xs-12'
@@ -95,8 +97,9 @@ mixin price(name, p)
         div.support-blurb.text-center
           p
             span(data-i18n="subscribe.support_part1")
-            =" "
-            a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
+            if !features.chinaHome
+              =" "
+              a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
 
       if view.state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible
