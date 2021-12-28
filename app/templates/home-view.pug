@@ -44,7 +44,11 @@ block content
     .container
       .row.video-row
         .col-xs-12
-          div.video-container
+          if features.chinaHome
+            .cn-video-container
+              video(src="https://assets.koudashijie.com/CC_Game_Trailer_MP4_Final.mp4", width="100%", poster="https://assets.koudashijie.com/images/homeVersion/videoPoster.jpg" controls)
+          else
+            div.video-container
             iframe(src="https://iframe.videodelivery.net/86b43ba87b804883d9c5027782aabff3?preload=true&poster=https://videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg%3Ftime%3D2s&defaultTextTrack=en" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" allowfullscreen="true" title="CodeCombat Classroom product overview video")
 
     .container-graphic-spacer
@@ -184,7 +188,10 @@ block content
             h4.product-title(data-i18n="new_home.codecombat_live_online_classes")
             p(data-i18n="new_home.online_classes_blurb")
             .product-btn
-              a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
+              if features.chinaHome
+                a.btn.btn-lg.btn-primary.btn-gold(href="https://xuetang.koudashijie.com" target="_blank" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
+              else
+                a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
         .col-md-6.col-md-offset-1
           img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
       img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
@@ -379,8 +386,9 @@ block content
             ol
               li(data-i18n="new_home_faq.getting_started_1")
               li(data-i18n="new_home_faq.getting_started_2")
-              li(data-i18n="new_home_faq.getting_started_3")
-              li(data-i18n="new_home_faq.getting_started_4")
+              if !features.chinaHome
+                li(data-i18n="new_home_faq.getting_started_3")
+                li(data-i18n="new_home_faq.getting_started_4")
             h4(data-i18n="new_home_faq.main_curriculum")
             p(data-i18n="new_home_faq.main_curriculum_blurb")
           if !features.chinaHome

@@ -34,6 +34,12 @@
   block page_nav
 
   block outer_content
+    if features.chinaHome
+      .floatCS
+        img.qr(src="https://assets.koudashijie.com/images/homeVersion/service_qr.png")
+        img.icon(src="https://assets.koudashijie.com/images/home/icon/customerservice.png")
+        .text 微信客服
+
     #site-content-area
       block content
         p If this is showing, you dun goofed
@@ -46,41 +52,44 @@
             if me.showChinaResourceInfo()
               .col-lg-12
                 .row
-                  .col-lg-3
-                    h3(data-i18n="nav.general")
-                    ul.list-unstyled
-                      li
-                        a(href="/events", data-i18n="nav.events")
-                      //li
-                      //  a(href="/about#careers", data-i18n="nav.careers")
-                      if !me.isStudent()
-                        li
-                          a(href="/contact-cn", data-i18n="nav.contact")
-                      -// li
-                      -//   a(href="/parents", data-i18n="nav.parent")
-                      li
-                        a(href="/CoCoStar", data-i18n="nav.star")
-                  .col-lg-3
-                    if !me.isStudent()
-                      h3(data-i18n="nav.educators")
+                  if !me.showChinaHomeVersion()
+                    .col-lg-3
+                      h3(data-i18n="nav.general")
                       ul.list-unstyled
                         li
-                          - var faqURL = "/teachers/resources/faq";
-                          - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
-                          -     faqURL = "/teachers/resources/faq-nl-NL";
-                          - if (me.get('preferredLanguage') == 'he')
-                          -     faqURL = "/teachers/resources/faq-HE";
-                          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-                          -     faqURL = "/teachers/resources/faq-pt-BR";
-                          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-                          -     faqURL = "/teachers/resources/faq-zh-HANS";
-                          a(href=faqURL, data-i18n="teacher.educator_faq")
+                          a(href="/events", data-i18n="nav.events")
+                        //li
+                        //  a(href="/about#careers", data-i18n="nav.careers")
+                        if !me.isStudent()
+                          li
+                            a(href="/contact-cn", data-i18n="nav.contact")
+                        -// li
+                        -//   a(href="/parents", data-i18n="nav.parent")
                         li
-                          a(href="/teachers/resources", data-i18n="nav.resource_hub")
-                        li
-                          a(href="/teachers/resources") 课程体系
-                        li
-                          a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                          a(href="/CoCoStar", data-i18n="nav.star")
+                    .col-lg-3
+                      if !me.isStudent()
+                        h3(data-i18n="nav.educators")
+                        ul.list-unstyled
+                          li
+                            - var faqURL = "/teachers/resources/faq";
+                            - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                            -     faqURL = "/teachers/resources/faq-nl-NL";
+                            - if (me.get('preferredLanguage') == 'he')
+                            -     faqURL = "/teachers/resources/faq-HE";
+                            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                            -     faqURL = "/teachers/resources/faq-pt-BR";
+                            - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                            -     faqURL = "/teachers/resources/faq-zh-HANS";
+                            a(href=faqURL, data-i18n="teacher.educator_faq")
+                          li
+                            a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                          li
+                            a(href="/teachers/resources") 课程体系
+                          li
+                            a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                  else
+                    .col-lg-3
                   .col-lg-3
                     h3 相关链接
                     ul.list-unstyled
@@ -91,25 +100,35 @@
                       li
                         a(href="http://aiyouth.koudashijie.com") AI世青赛
                       li
-                        a(href="https://codecombat.163.com") 极客战记(个人版)
+                        if me.showChinaHomeVersion()
+                          a(href="https://koudashijie.com") 扣哒世界
+                        else
+                          a(href="https://codecombat.cn") CodeCombat 个人版
 
+                  if features.chinaHome
+                    .col-lg-3
                   .col-lg-3
                     h3(data-i18n="nav.follow_us")
                     idv.follow_us
                         .socialicon
                           .si.si-wechat
-                            .mpqrcode
-                              .span
-                                span='老师请扫'
-                                img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
-                              .span
-                                span='家长请扫'
-                                img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
-                          .si.si-tiktok
-                            .tkqrcode
-                              img.tkqr(src="https://assets.koudashijie.com/images/home/tiktokqr.jpg")
-                          a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
-                          a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
+                            if features.chinaHome
+                              .mpqrcode
+                                img.mpqr(src="https://assets.koudashijie.com/images/homeVersion/mpqr.jpg")
+                            else
+                              .mpqrcode
+                                .span
+                                  span='老师请扫'
+                                  img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+                                .span
+                                  span='家长请扫'
+                                  img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
+                          if !features.chinaHome
+                            .si.si-tiktok
+                              .tkqrcode
+                                img.tkqr(src="https://assets.koudashijie.com/images/home/tiktokqr.jpg")
+                            a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
+                            a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
  
             else
               .col-lg-12
@@ -182,10 +201,14 @@
             span= ' ©2021 CodeCombat Inc. '
             span.spl(data-i18n="nav.copyright_suffix")
             if me.showChinaResourceInfo()
-              a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号
-              a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031936")
-                img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
-                span='京公网安备 11010802031936号'
+              if me.showChinaHomeVersion()
+                a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-20
+              else
+                a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号
+              if !me.showChinaHomeVersion()
+                a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031936")
+                  img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
+                  span='京公网安备 11010802031936号'
 
             a.small(href="/legal") Terms of Service
             a.small(href="/privacy") Privacy

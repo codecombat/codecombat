@@ -176,7 +176,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     explore_codecombat: " CodeCombat探秘"
     explore_ai_league: "参加AI世青赛"
     explore_ozaria: "Ozaria探秘"
-#    explore_online_classes: "Explore Online Classes"
+    explore_online_classes: "扣哒学堂探秘"
 #    explore_pd: "Explore Professional Development"
     new_adventure_game_blurb: "Ozaria是CodeCombat团队开发的新一代青少年创客和人工智能教学平台，融合奇幻的探索故事让STEM学习过程充满趣味性，智能化教学管理和丰富的教学资源让学校和机构老师可以轻松驾驭。"
     lesson_slides: "学习资料"
@@ -186,7 +186,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     learning_technology_blurb_short: "我们的游戏化场景学习模式新颖独特，极大提升学生学习代码的广度和深度。"
     online_classes_blurb: "我们的官方课程采用清华北大等顶级名校计算机专业毕业的优秀讲师开展教学，结合CodeCombat寓教于乐的闯关学习，非常适合青少年学生在线远程学习或线下班课学习。"
 
-#    codecombat_live_online_classes: "CodeCombat Live Online Classes"
+    codecombat_live_online_classes: "扣哒学堂-在线课程"
 #    learning_technology_blurb_short: "Our innovative game-based learning technology has transformed the way students learn to code."
     for_educators: "学校/机构老师"
     for_parents: "学生家长"
@@ -278,18 +278,18 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   new_home_faq:
     what_programming_languages: "目前支持哪些计算机代码语言?"
-    python_and_javascript: "目前个人版CodeCombat支持Python和JavaScript，教学版扣哒世界还支持C++和信息学奥赛."
+    python_and_javascript: "目前个人版CodeCombat支持Python和JavaScript，高级订阅版本支持 C++，教学版扣哒世界同时支持以上语言和信息学奥赛."
     why_python: "为什么选择Python作为编程学习语言?"
     why_python_blurb: "Python对初学者非常友好，而且被大型互联网公司广泛使用（如谷歌）。如果你是低龄学习者或是第一次学习代码编程，我们强烈推荐你学习Python。"
     why_javascript: "为什么选择JavaScript作为编程学习语言?"
     why_javascript_blurb: "JavaScript是互联网代码语言，几乎每一个网站都会用到JavaScript。如果你计划学习网页开发，最好从JavaScript开始。我们做了很多技术改进，让Python可以轻松过度到基于JavaScript的网页开发课程上。"
     javascript_versus_python: "JavaScript的语法比Python相对难一些，如果你不确定选择哪一门语言开始，我们推荐你用Python。"
     how_do_i_get_started: "我如何开始?"
-    getting_started_1: "创建教师账号"
-    getting_started_2: "创建班级"
+    getting_started_1: "注册一个账号"
+    getting_started_2: "开始玩吧"
     getting_started_3: "添加学生"
     getting_started_4: "你可以轻松坐下来观察学生闯关，体验编程学习的乐趣"
-    main_curriculum: "我可以用 CodeCombat 或 Ozaria 作为校本课程吗?"
+    main_curriculum: "我可以用 扣哒世界 或 奥佳睿 作为校本课程吗?"
     main_curriculum_blurb: "当然可以! 我们的教研团队来自清华大学、北京大学、斯坦福大学、哈佛大学等世界一流名校，在计算机基础教育方面具有扎实的理论知识和丰富的实践经验。国内部分省市如山东省中小学330科创教育平台、苏州市青少年数字公民计划等已经采用CodeCombat教学版扣哒世界作为校本课程，如果你希望在学校开展以我们平台为主的编程教学活动，请联系我们的教育专家寻求建议."
 
 #    clever_instant_login: "Does CodeCombat and Ozaria support Clever Instant Login?"
@@ -302,7 +302,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     how_much_does_it_cost_blurb: "CodeCombat个人版或扣哒世界教学版都提供5个关卡的免费试用。CodeCombat个人版支持月度付费 (99元/月)和年度付费 (999元/月)，费用包括所有的关卡学习内容和AI世青赛的竞赛学习内容。"
     recommended_systems: "有没有推荐的浏览器或操作系统?"
     recommended_systems_blurb: "只需要流畅的网络和合适的浏览器即可运行CodeCombat和Ozaria。国内推荐最低电脑内存4GB，浏览器推荐使用谷歌Chrome浏览器或Safari, Firefox和Edge，不推荐国内低版本浏览器特别是360浏览器。支持Windows系统和Mac苹果系统电脑或笔记本，不支持手机，如果你使用Pad，推荐配置键盘。网络带宽至少需要200 Kbps/学生，最好能达到1Mbps以上带宽/学生。"
-    other_questions: "如果你还有其它问题, 请联系微信客服，或者联系平台负责人王老师，手机/微信 13810906731， 电子邮箱 bill@codecombat.com."
+    other_questions: "如果你还有其它问题, 请联系微信客服安小风，或者联系平台负责人欧卡王，手机/微信 13810906731， 电子邮箱 bill@codecombat.com."
 
   play:
     title: "挑战CodeCombat关卡 - 学习Python，JavaScript和C++"
@@ -1008,7 +1008,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     managed_by: "管理"
     will_be_cancelled: "将被取消"
     currently_free: "您目前有一个免费订阅"
-    currently_free_until: "您目前有一个订阅，有效期到 __date__"
+    currently_free_until: "您目前有一个高级订阅，有效期到 __date__"
     free_subscription: "免费订阅"
     was_free_until: "您有过一个免费订阅，直到"
     managed_subs: "管理订阅"
@@ -2608,7 +2608,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can1: "您可以"
     you_can2: "购买一个预购码"
     you_can3: "使用在您的账户或者给其他人。"
-    prepaid_add_months: "该激活码将为您的账号提供<strong> __months__ 个月</strong>的订阅"
+    prepaid_add_months: "该激活码将为您的账号提供<strong> __months__ 个月</strong>的高级订阅"
     can_use_times: "它可以被使用<strong>__unlocksLeft__</strong> 次"
 
   impact:

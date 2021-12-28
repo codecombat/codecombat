@@ -1009,7 +1009,7 @@ module.exports = class CampaignView extends RootView
     levelOriginal = levelElement.data('level-original')
     level = _.find _.values(@getLevels()), slug: levelSlug
 
-    if me.showChinaResourceInfo()
+    if me.showChinaResourceInfo() and not me.showChinaHomeVersion()
       freeAccessLevels =  ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'cell-commentary', 'true-names', 'kounter-kithwise', 'crawlways-of-kithgard', 'forgetful-gemsmith', 'illusory-interruption', 'favorable-odds', 'the-raised-sword', 'careful-steps', 'long-steps']
       requiresSubscription = level.requiresSubscription or (not (level.slug in freeAccessLevels))
     else
@@ -1024,6 +1024,7 @@ module.exports = class CampaignView extends RootView
         fal.access is 'extended' and access is 'extended'
       ])
       requiresSubscription = level.requiresSubscription or access isnt 'all' and level.slug not in freeAccessLevels
+    console.log('freeAccessLevels', freeAccessLevels)
     canPlayAnyway = _.any([
       not @requiresSubscription
       #level.adventurer  # Disable adventurer stuff for now
