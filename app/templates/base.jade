@@ -73,6 +73,13 @@ block outer_content
     block content
       p If this is showing, you dun goofed
   .achievement-corner
+  if features.chinaHome
+    .floatCS
+      img.qr(src="https://assets.koudashijie.com/images/homeVersion/service_qr.png")
+      img.icon(src="https://assets.koudashijie.com/images/home/icon/customerservice.png")
+      .text 微信客服
+
+
 
 
 block footer
@@ -91,7 +98,7 @@ block footer
       a(href='/privacy', tabindex=-1, data-i18n="nav.privacy")
       if me.showOpenResourceLink()
         a(href='/contribute', tabindex=-1, data-i18n="nav.contribute")
-      if !me.isStudent()
+      if !me.isStudent() && !me.showChinaHomeVersion()
         a(href='/league', tabindex=-1, data-i18n="game_menu.multiplayer_tab")
       if me.isAdmin()
         a(href='/admin') Admin

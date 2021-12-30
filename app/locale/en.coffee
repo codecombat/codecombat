@@ -1017,14 +1017,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     feature_heroes: "Unlock exclusive heroes and pets"
     feature_learn: "Learn to make games and websites"
     feature_gems: "Receive __gems__ gems per month"
-    month_price: "$__price__/mo"
+    month_price: "__price__ RMB/mo"
     first_month_price: "Only $__price__ for your first month!"
     lifetime: "Lifetime Access"
     lifetime_price: "$__price__"
     year_subscription: "Annual Subscription"
-    year_price: "$__price__/yr"
+    year_price: "__price__ RMB/yr"
     support_part1: "Need help with payment or prefer PayPal? Email"
     support_part2: "support@codecombat.com"
+    go_prepaid: "Click here after scaning the code and purchasing"
+    forever: "Forever"
     subscription_status: "Your Subscription Status"
 
   announcement:

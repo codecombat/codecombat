@@ -96,6 +96,7 @@ mixin price(name, p)
 
         div.support-blurb.text-center
           p
+            a.go-prepaid(data-i18n='subscribe.go_prepaid', href='/account/prepaid')
             span(data-i18n="subscribe.support_part1")
             if !features.chinaHome
               =" "

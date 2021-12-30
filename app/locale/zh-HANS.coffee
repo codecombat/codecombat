@@ -493,7 +493,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     confirm_student_blurb: "记下信息避免忘记。你的老师也可随时帮你重置密码。"
     confirm_individual_blurb: "记下这些信息，等会可能用得上。我们已发送验证邮件，验证后可用其重置密码！"
     write_this_down: "记下来："
-    start_playing: "开始！"
+    start_playing: "开始"
     sso_connected: "成功与以下账号关联："
     select_your_starting_hero: "选择你的英雄："
     you_can_always_change_your_hero_later: "之后你可以随时更换。"
@@ -1029,6 +1029,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     year_price: "__price__元/年" # {change}
     support_part1: "付款时需要帮助? 请联系网页右下角微信客服" # {change}
     support_part2: "china@codecombat.com"
+    go_prepaid: "付款后请点这里"
+    forever: "终生"
     subscription_status: "你的订阅状态"
     currently_not_free: "您目前还没有订阅"
 
