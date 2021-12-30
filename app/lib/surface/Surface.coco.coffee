@@ -95,7 +95,7 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.clone(@defaults)
     @options = _.extend(@options, givenOptions) if givenOptions
     @handleEvents = @options.handleEvents ? true
-    @zoomToHero = @options.levelType isnt "game-dev" # In game-dev levels the hero is gameReferee
+    @zoomToHero = if @world.preventZoomToHero then false else @options.levelType isnt "game-dev" # In game-dev levels the hero is gameReferee
     @gameUIState = @options.gameUIState or new GameUIState({
       canDragCamera: true
     })
