@@ -271,20 +271,20 @@
     span
       pointer-events: none
 
-  .purchase-button
+  .purchase-button, .stripe-annual-button
     position: relative
 
     &:hover
       & > .cn-purchase-qrcode
         opacity: 1
 
-  .purchase-button>.cn-purchase-qrcode, .stripe-annual-button>.cn-purchase-qrcode
-    position: absolute
-    top: 60px
-    left: 0
-    right: 0
-    margin: auto
-    opacity: 0
+    .cn-purchase-qrcode
+      position: absolute
+      top: 60px
+      left: 0
+      right: 0
+      margin: auto
+      opacity: 0
 
   #paypal-button-container
     height: 45px
