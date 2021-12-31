@@ -396,7 +396,7 @@ module.exports = class User extends CocoModel
     return 'not-enrolled' unless activeCourseProducts.length
     return 'enrolled' if _.some activeCourseProducts, (p) ->
       return true unless p.productOptions?.includedCourseIDs?.length
-      return true if _.intersection(p.prodcutOptoins.includedCourseIDs, courseIDs).length
+      return true if _.intersection(p.productOptions.includedCourseIDs, courseIDs).length
       return false
     return 'expired'
 

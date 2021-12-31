@@ -1028,6 +1028,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     go_prepaid: "Click here after scaning the code and purchasing"
     forever: "Forever"
     subscription_status: "Your Subscription Status"
+    currently_not_free: "You don't have a Subscription yet."
 
   announcement:
     now_available: "Now available for subscribers!"
