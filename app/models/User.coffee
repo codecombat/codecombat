@@ -304,6 +304,8 @@ module.exports = class User extends CocoModel
     return null unless @isPremium()
     if stripe = @get('stripe')
       return $.t('subscribe.forever') if stripe.free is true
+      return $.t('subscribe.forever') if stripe.sponsorID
+      return $.t('subscribe.forever') if stripe.subscriptionID
       return moment(stripe.free).utc().format('ll') if _.isString(stripe.free)
     if products = @get('products')
       homeProducts = @activeProducts('basic_subscription')
