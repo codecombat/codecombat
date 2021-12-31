@@ -394,7 +394,7 @@ module.exports = class User extends CocoModel
     activeCourseProducts = @activeProducts('course')
     courseIDs = utils.orderedCourseIDs
     return 'not-enrolled' unless activeCourseProducts.length
-    return 'enrolled' if _.some courseProducts, (p) ->
+    return 'enrolled' if _.some activeCourseProducts, (p) ->
       return true unless p.productOptions?.includedCourseIDs?.length
       return true if _.intersection(p.prodcutOptoins.includedCourseIDs, courseIDs).length
       return false
