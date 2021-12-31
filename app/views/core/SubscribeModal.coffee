@@ -113,7 +113,12 @@ module.exports = class SubscribeModal extends ModalView
     return unless @basicProduct
     @playSound 'menu-button-click'
     if features.chinaHome
-      window.open('https://vvf.h5.xeknow.com/s/1gxOW1','_blank')
+      prodBasic = 'https://appKGNJyWGE8466.h5.xiaoeknow.com/v1/entity/coupon/g_61ce58b300c20_QIc9JL7I?type=2'
+      stagingBasic = 'https://vvf.h5.xeknow.com/s/1gxOW1'
+      if application.isProduction
+        window.open(prodBasic, '_blank')
+      else
+        window.open(stagingBasic,'_blank')
       return
     if me.get('anonymous')
       service = if @basicProduct.isRegionalSubscription() then 'paypal' else 'stripe'
@@ -128,6 +133,11 @@ module.exports = class SubscribeModal extends ModalView
   onClickAnnualPurchaseButton: (e) ->
     return unless @basicProductAnnual
     @playSound 'menu-button-click'
+    if features.chinaHome
+      prodBasic = 'https://appKGNJyWGE8466.h5.xiaoeknow.com/v1/entity/coupon/g_61ce58e0e82b4_vaLjWMMA?type=2'
+      if application.isProduction
+        window.open(prodBasic, '_blank')
+      return
     if me.get('anonymous')
       application.tracker?.trackEvent 'Started Signup from buy yearly', {service: 'stripe'}
       return @openModalView new CreateAccountModal({startOnPath: 'individual', subModalContinue: 'yearly'})

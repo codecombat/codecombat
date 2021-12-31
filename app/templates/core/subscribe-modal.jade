@@ -67,7 +67,10 @@ mixin price(name, p)
                  span.buy-now-text(data-i18n="subscribe.buy_now")
                  span.buy-lock-icon &#x1F512;
                  if features.chinaHome
-                   img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/basic_qr.png')
+                   if isProduction
+                     img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/prod_basic_qr.png')
+                   else
+                     img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/staging/basic_month_qr.png')
 
            else
              - var secondRowClass = '.col-xs-12'
@@ -82,6 +85,9 @@ mixin price(name, p)
                  button.stripe-annual-button.btn.btn-lg.btn-illustrated
                    span.buy-now-text(data-i18n="subscribe.buy_now")
                    span.buy-lock-icon &#x1F512;
+                   if features.chinaHome
+                     if isProduction
+                       img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/prod_annual_qr.png')
 
            else if view.lifetimeProduct
              .option-col(class=secondRowClass)
