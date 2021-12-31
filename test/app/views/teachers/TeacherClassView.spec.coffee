@@ -384,7 +384,7 @@ describe 'TeacherClassView', ->
         beforeEach (done) ->
           @courseInstance = @view.courseInstances.first()
           @courseInstance.set('members', [])
-          @view.assignCourse(@courseInstance.get('courseID'), @students.pluck('_id').slice(2, 4))
+          @view.assignCourse(@courseInstance.get('courseID'), @students.pluck('_id').slice(2, 3))
           @view.wait('begin-assign-course').then(done)
 
         it 'adds students to the course instances', ->
