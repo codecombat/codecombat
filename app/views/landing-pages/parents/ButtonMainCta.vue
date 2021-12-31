@@ -13,9 +13,7 @@
       </div>
 
       <div class="row subtext" v-if="subtext">
-        <div class="col-lg-12 text-center">
-          {{ subtext }}
-        </div>
+        <div class="col-lg-12 text-center" v-html="subtext"></div>
       </div>
 
     </div>
