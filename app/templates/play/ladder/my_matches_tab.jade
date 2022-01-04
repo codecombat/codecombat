@@ -49,7 +49,7 @@
             td.battle-cell
               - var levelID = view.level.get('slug') || view.level.id
               - var league = view.options.league
-              if match.opTeam
+              if false && match.opTeam
                 - var yourTeam = match.opTeam == 'humans' ? 'ogres' : 'humans'
               else
                 - var yourTeam = team.id
