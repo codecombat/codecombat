@@ -1014,7 +1014,7 @@ module.exports = class CampaignView extends RootView
       requiresSubscription = level.requiresSubscription or (not (level.slug in freeAccessLevels))
     else
       defaultAccess = if me.get('hourOfCode') or @campaign?.get('type') is 'hoc' or @campaign?.get('slug') is 'intro' then 'long' else 'short'
-      if new Date(me.get('dateCreated')) < new Date('2021-09-21')
+      if new Date(me.get('dateCreated')) < new Date('2021-09-21') and not me.showChinaHomeVersion()
         defaultAccess = 'all'
       access = me.getExperimentValue 'home-content', defaultAccess
       freeAccessLevels = (fal.slug for fal in utils.freeAccessLevels when _.any [
@@ -1024,7 +1024,6 @@ module.exports = class CampaignView extends RootView
         fal.access is 'extended' and access is 'extended'
       ])
       requiresSubscription = level.requiresSubscription or access isnt 'all' and level.slug not in freeAccessLevels
-    console.log('freeAccessLevels', freeAccessLevels)
     canPlayAnyway = _.any([
       not @requiresSubscription
       #level.adventurer  # Disable adventurer stuff for now
