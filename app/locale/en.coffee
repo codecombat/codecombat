@@ -2126,6 +2126,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     try_ozaria_footer: "Try our new adventure game, Ozaria!"
     try_ozaria_free: "Try Ozaria for free"
     ozaria_intro: "Introducing Our New Computer Science Program"
+    share_class: 'share class'
 
   teacher_ozaria_encouragement_modal:
     title: "Build Computer Science Skills to Save Ozaria"
@@ -3433,3 +3434,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     invalidPhone: 'Invalid phone number'
     emailExists: 'Email already exists'
     numberGreaterThanZero: 'Should be a number greater than 0'
+
+  teacher_dashboard:
+    read: 'View Only'
+    write: 'Full Access'
+    read_blurb: 'View Only permits the added teacher to view your class and student progress without the ability to make changes to your class.'
+    write_blurb: 'Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)'
+    shared_with_none: 'This class is not currently shared with any other teachers.'
+    share_info: 'To give other teachers access to the class, add their emails below.'
+    class_owner: 'Class Owner'
+    share: 'Share'

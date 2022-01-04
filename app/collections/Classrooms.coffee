@@ -4,7 +4,7 @@ CocoCollection = require 'collections/CocoCollection'
 module.exports = class Classrooms extends CocoCollection
   model: Classroom
   url: '/db/classroom'
-  
+
   initialize: ->
     @on 'sync', =>
       for classroom in @models
@@ -15,8 +15,9 @@ module.exports = class Classrooms extends CocoCollection
     options.data ?= {}
     options.data.ownerID = me.id
     @fetch(options)
-  
+
   fetchByOwner: (ownerID, options={}) ->
+    console.log('coll', options)
     options.data ?= {}
     options.data.ownerID = ownerID
     @fetch(options)

@@ -70,7 +70,7 @@ block content
 
       h3
         span(data-i18n='teacher.current_classes')
-        a.pull-right(href="/outcomes-report/teacher/#{me.get('_id')}" target="_blank" data-i18n='outcomes.view_outcomes_report') 
+        a.pull-right(href="/outcomes-report/teacher/#{me.get('_id')}" target="_blank" data-i18n='outcomes.view_outcomes_report')
 
     .classes.container
       // Loop each class
@@ -136,6 +136,7 @@ mixin classRow(classroom)
         a.view-ai-league.text-h6(data-i18n='teacher.view_ai_league_team' data-clan-level='classroom' data-clan-source-object-id=classroom.id data-event-action="Teachers Classes View AI League Team")
         a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")
         a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
+        a.share-class.text-h6(data-i18n='teacher.share_class', data-classroom-id=classroom.id data-event-action="Teachers Share Class")
 
     .flex-right
       .progress-col

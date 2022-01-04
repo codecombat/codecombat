@@ -20,6 +20,14 @@ export default {
     }
   },
 
+  getters: {
+    classroomById(state) {
+      return (id) => {
+        return state.classrooms.byClassroom[id]
+      }
+    }
+  },
+
   mutations: {
     toggleLoadingForTeacher: (state, teacherId) => {
       Vue.set(
@@ -55,6 +63,20 @@ export default {
     },
 
     addClassroomForId: (state, { classroomID, classroom }) => {
+      Vue.set(state.classrooms.byClassroom, classroomID, classroom)
+    },
+
+    updateClassroomById: (state, { classroomID, updates }) => {
+      let classroom = state.classrooms.byClassroom[classroomID]
+      if (!classroom) {
+        console.error('classroom not found for update')
+        return
+      }
+      classroom = { ...classroom }
+      for (const key in updates) {
+        classroom[key] = updates[key]
+      }
+      console.log('updateing', classroom, updates)
       Vue.set(state.classrooms.byClassroom, classroomID, classroom)
     }
   },
@@ -93,7 +115,27 @@ export default {
         })
         .catch((e) => noty({ text: 'Get classroom failure' + e, type: 'error' }))
         .finally(() => commit('toggleLoadingForClassroom', classroomID))
-    }
+    },
+    addPermission: async ({ commit }, options) => {
+      const classroom = options.classroom
+      const params = { classroomID: classroom._id, permission: options.permission }
+      const response = await classroomsApi.addPermission(params)
+
+      commit('updateClassroomById', {
+        classroomID: classroom._id,
+        updates: { permissions: response.data } // use response.permissions ?
+      })
+    },
+    removePermission: async ({ commit }, options) => {
+      const classroom = options.classroom
+      const params = { classroomID: classroom._id, permission: options.permission }
+      const response = await classroomsApi.removePermission(params)
+
+      commit('updateClassroomById', {
+        classroomID: classroom._id,
+        updates: { permissions: response.data } // use response.permissions ?
+      })
+    },
   }
 }
 
