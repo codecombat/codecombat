@@ -296,6 +296,9 @@ export default {
         sound.once(
           'stop',
           () => dispatch('stopSound', { id: soundId, unload: true }))
+        sound.once(
+          'end',
+          () => dispatch('stopSound', { id: soundId, unload: true }))
       }
 
       commit('addSoundToTrack', { trackName: opts.track, soundId, sound })
