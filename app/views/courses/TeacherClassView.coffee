@@ -214,7 +214,8 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @courses, 'sync change update', ->
       @setCourseMembers() # Is this necessary?
       unless @state.get 'selectedCourse'
-        @state.set 'selectedCourse', @courses.first()
+        courseId = localStorage.getItem 'selectedCourseId_' + this.classroom.id
+        @state.set 'selectedCourse', if courseId then @courses.get(courseId) else @courses.first()
       @setSelectedCourseInstance()
     @listenTo @courseInstances, 'sync change update', ->
       @setCourseMembers()
@@ -493,7 +494,9 @@ module.exports = class TeacherClassView extends RootView
     @state.set('searchTerm', $(e.target).val())
 
   onChangeCourseSelect: (e) ->
-    @trigger 'course-select:change', { selectedCourse: @courses.get($(e.currentTarget).val()) }
+    selectedCourseId = $(e.currentTarget).val()
+    localStorage.setItem 'selectedCourseId_' + this.classroom.id, selectedCourseId
+    @trigger 'course-select:change', { selectedCourse: @courses.get(selectedCourseId) }
 
   onChangeLockedLevelSelect: (e) ->
     level = $(e.currentTarget).val()
