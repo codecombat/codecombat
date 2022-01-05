@@ -755,13 +755,10 @@ module.exports = Lank = class Lank extends CocoClass
         sound = AudioPlayer.soundForDialogue @thang.sayMessage, @thangType.get 'soundTriggers'
         @playSound sound, false, volume
 
-  # Sounds dont loop and never stop
-  # Sounds don't play duplicate levels
-  # Volume is set to 0.3 by default to let voice over pop
-  playSound: (sound, withDelay=true, volume=0.3) ->
-    # Sounds are triggered once and play until they complete.  If a sound is already playing it
-    # is not played again.  These constraints allow us to wait until the thang type is loaded to
-    # play sounds.
+  playSound: (sound, withDelay=true, volume=1.0) ->
+    # Sounds are triggered once and play until they complete.
+    # If a sound is already playing, it is not played again.
+    # These constraints allow us to wait until the thang type is loaded to play sounds.
     if @thangType.loading || !@thangType.loaded
       @thangType.once('sync', => @playSound(sound, withDelay, volume))
       return
@@ -784,7 +781,7 @@ module.exports = Lank = class Lank extends CocoClass
 
     store.dispatch('audio/playSound', {
       track: 'soundEffects'
-      unique: "lank/#{@thang.id}/#{soundKey}"
+      unique: "lank/#{@thang.id}/#{JSON.stringify(soundKey)}"
       src: Object.values(sound).map((f) => "/file/#{f}")
       volume: volume
     })
