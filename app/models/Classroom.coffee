@@ -4,6 +4,7 @@ utils = require '../core/utils'
 coursesHelper = require '../lib/coursesHelper'
 User = require 'models/User'
 Level = require 'models/Level'
+classroomUtils = require 'app/lib/classroom-utils'
 
 module.exports = class Classroom extends CocoModel
   @className: 'Classroom'
@@ -237,3 +238,19 @@ module.exports = class Classroom extends CocoModel
     _.any(@get('courses'), (course) -> _.any(course.levels, { assessment: true }))
 
   isGoogleClassroom: -> @get('googleClassroomId')?.length > 0
+
+  hasReadPermission: ->
+    return classroomUtils.hasPermission('read', {
+      ownerId: @get('ownerID'),
+      permissions: @get('permissions')
+    })
+
+  hasWritePermission: ->
+    console.log('here')
+    return classroomUtils.hasPermission('write', {
+      ownerId: @get('ownerID'),
+      permissions: @get('permissions')
+    })
+
+  isOwner: ->
+    return me.id == @get('ownerID')

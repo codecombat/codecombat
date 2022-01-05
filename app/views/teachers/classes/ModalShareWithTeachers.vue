@@ -68,7 +68,7 @@ import User from 'app/models/User'
 import {mapActions, mapGetters} from 'vuex'
 import classroomsApi from 'app/core/api/classrooms'
 import IconClose from 'app/templates/icons/IconClose'
-import { getDisplayPermission } from 'app/lib/common-utils'
+import { getDisplayPermission } from 'app/lib/classroom-utils'
 
 export default Vue.extend({
   name: "ModalShareWithTeachers",

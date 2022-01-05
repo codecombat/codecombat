@@ -129,14 +129,12 @@ module.exports = class TeacherClassView extends RootView
     @sortedCourses = []
     @latestReleasedCourses = []
 
-    @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchMineAndShared()
-
     @students = new Users()
     @classroom.sessions = new LevelSessions()
     @listenTo @classroom, 'sync', ->
       @fetchStudents()
       @fetchSessions()
+      @fetchPrepaids()
       @classroom.language = @classroom.get('aceConfig')?.language
 
     @students.comparator = (s1, s2) =>
@@ -198,6 +196,19 @@ module.exports = class TeacherClassView extends RootView
       @removeDeletedStudents() # TODO: Move this to mediator listeners?
       @calculateProgressAndLevels()
       @debouncedRender?()
+
+  fetchPrepaids: ->
+    @prepaids = new Prepaids()
+    if @classroom.isOwner()
+      @supermodel.trackRequest @prepaids.fetchMineAndShared()
+    else if @classroom.hasWritePermission()
+      options = {
+        data: {
+          includeShared: true,
+          sharedClassroomId: @classroom.id
+        }
+      }
+      @supermodel.trackRequest @prepaids.fetchByCreator(@classroom.get('ownerID'), options)
 
   attachMediatorEvents: () ->
     # Model/Collection events
@@ -431,7 +442,7 @@ module.exports = class TeacherClassView extends RootView
     @classroom.save { archived: false }
 
   onClickEditClassroom: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission() # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @promptToEdit()
 
@@ -609,7 +620,8 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID, ['Mixpanel']
 
   onClickAssignStudentButton: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    console.log('a1')
+    return unless @classroom.hasWritePermission() # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     members = [userID]
@@ -618,17 +630,19 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID, ['Mixpanel']
 
   onClickBulkAssign: ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    console.log('a2')
+    return unless @classroom.hasWritePermission() # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     nobodySelected = selectedIDs.length is 0
     @state.set errors: { nobodySelected }
+    console.log('nobody', nobodySelected)
     return if nobodySelected
     @assignCourse courseID, selectedIDs
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
   onClickBulkRemoveCourse: ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission() # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     nobodySelected = selectedIDs.length is 0
@@ -638,7 +652,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Remove-Course Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
   assignCourse: (courseID, members) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission() # May be viewing page as admin
     courseInstance = null
     numberEnrolled = 0
     remainingSpots = 0
@@ -696,7 +710,10 @@ module.exports = class TeacherClassView extends RootView
       for prepaid in availablePrepaids when Math.min(_.size(unenrolledStudents), prepaid.openSpots()) > 0
         for i in [0...Math.min(_.size(unenrolledStudents), prepaid.openSpots())]
           user = unenrolledStudents.shift()
-          requests.push(prepaid.redeem(user))
+          options = {}
+          if !@classroom.isOwner() and @classroom.hasWritePermission()
+            options = { data: { sharedClassroomId: @classroom.id } }
+          requests.push(prepaid.redeem(user, options))
 
       @trigger 'begin-redeem-for-assign-course'
       return $.when(requests...)
@@ -746,7 +763,7 @@ module.exports = class TeacherClassView extends RootView
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 
   removeCourse: (courseID, members) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission() # May be viewing page as admin
     courseInstance = null
     membersBefore = 0
 
