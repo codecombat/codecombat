@@ -243,7 +243,7 @@ module.exports = class Classroom extends CocoModel
     return classroomUtils.hasPermission('read', {
       ownerId: @get('ownerID'),
       permissions: @get('permissions')
-    })
+    }) or @hasWritePermission()
 
   hasWritePermission: ->
     console.log('here')
