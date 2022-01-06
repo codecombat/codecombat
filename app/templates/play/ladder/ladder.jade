@@ -162,7 +162,7 @@ block content
           else if !me.isTeacher() && !me.isAnonymous() && !me.isRegisteredForAILeague() && view.isAILeagueArena()
             a.btn.btn-illustrated.btn-block.btn-lg.btn-primary.register-for-ai-league-button(href="/league?registering=true")
               span(data-i18n="league.register_for_ai_league")
-    else if view.tournament.get('state) === 'ended'
+    else if view.tournament && ['ranking', 'ended'].indexOf(view.tournamentState) !== -1
       div#ladder-action-columns.row
         if !features.china
           div.column.column-4
