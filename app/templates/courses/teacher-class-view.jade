@@ -519,11 +519,14 @@ if classroom.loaded
             span.spl(data-i18n="courses.update_old_classroom_detail_2")
 
     h3.m-t-2(dir="auto")= classroom.get('name')
-    a.label.view-ai-league(data-event-action="Teachers Classes View AI League Team")
-      span(data-i18n='teacher.view_ai_league_team')
+    if classroom.isOwner()
+      a.label.view-ai-league(data-event-action="Teachers Classes View AI League Team")
+        span(data-i18n='teacher.view_ai_league_team')
     if !state.get('readOnly')
       a.label.edit-classroom(data-classroom-id=classroom.id)
         span(data-i18n='teacher.edit_class_settings')
+    if classroom.getDisplayPermission()
+      span=classroom.getDisplayPermission()
     h4(dir="auto")!= view.markdownIt(classroom.get('description'))
 
     .classroom-info-row.row.m-t-5.rtl-allowed

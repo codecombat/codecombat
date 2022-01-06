@@ -76,7 +76,21 @@ block content
       // Loop each class
       each classroom in view.classrooms.models
         unless classroom.get('archived')
-          +classRow(classroom)
+          if classroom.isOwner()
+            +classRow(classroom)
+
+    .container
+      div#classes-shared-subview
+
+      h3
+        span(data-i18n='teacher.shared_classes')
+
+    .classes.container
+      // Loop each class
+      each classroom in view.classrooms.models
+        unless classroom.get('archived')
+          if !classroom.isOwner() && classroom.hasReadPermission()
+            +classRow(classroom)
 
     if view.administratingTeachers && view.administratingTeachers.size() > 0
       .container
@@ -131,12 +145,21 @@ mixin classRow(classroom)
         | :&nbsp;
         span
           = classroom.get('members').length
+      if classroom.getDisplayPermission()
+        .shared-access.small.rtl-allowed(dir="auto")
+          | &nbsp;
+          | &nbsp;
+          span(data-i18n='teacher.permission')
+          | :&nbsp;
+          span=classroom.getDisplayPermission()
       .class-links.rtl-allowed(dir="auto")
         a.view-class-btn.text-h6(data-i18n='teacher.view_class' data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Link")
-        a.view-ai-league.text-h6(data-i18n='teacher.view_ai_league_team' data-clan-level='classroom' data-clan-source-object-id=classroom.id data-event-action="Teachers Classes View AI League Team")
+        if classroom.isOwner()
+          a.view-ai-league.text-h6(data-i18n='teacher.view_ai_league_team' data-clan-level='classroom' data-clan-source-object-id=classroom.id data-event-action="Teachers Classes View AI League Team")
         a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")
         a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
-        a.share-class.text-h6(data-i18n='teacher.share_class', data-classroom-id=classroom.id data-event-action="Teachers Share Class")
+        if classroom.isOwner()
+          a.share-class.text-h6(data-i18n='teacher.share_class', data-classroom-id=classroom.id data-event-action="Teachers Share Class")
 
     .flex-right
       .progress-col

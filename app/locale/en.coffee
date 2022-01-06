@@ -1819,6 +1819,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building."
     current_classes: "Current Classes"
     archived_classes: "Archived Classes"
+    shared_classes: "Shared Classes"
     archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
     view_class: "view class"
     view_ai_league_team: "View AI League team"
@@ -2127,6 +2128,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     try_ozaria_free: "Try Ozaria for free"
     ozaria_intro: "Introducing Our New Computer Science Program"
     share_class: 'share class'
+    permission: 'Permission'
 
   teacher_ozaria_encouragement_modal:
     title: "Build Computer Science Skills to Save Ozaria"

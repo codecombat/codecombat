@@ -254,3 +254,11 @@ module.exports = class Classroom extends CocoModel
 
   isOwner: ->
     return me.id == @get('ownerID')
+
+  getDisplayPermission: ->
+    if @isOwner()
+      return
+    if @hasWritePermission()
+      return classroomUtils.getDisplayPermission('write')
+    else if @hasReadPermission()
+      return classroomUtils.getDisplayPermission('read')
