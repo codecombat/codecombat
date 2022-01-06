@@ -100,19 +100,16 @@ export default Vue.extend({
       getClassroomById: 'classrooms/classroomById'
     }),
     classroom () {
-      console.log('cl', this.getClassroomById(this.classroomId))
       return this.getClassroomById(this.classroomId)
     }
   },
   watch: {
     addInProgress (val) {
-      console.log('add', val)
       if (val === false) {
         this.updateAlreadySharedWith()
       }
     },
     deleteInProgress (val) {
-      console.log('del', val)
       if (!val) {
         this.updateAlreadySharedWith()
       }
@@ -169,11 +166,9 @@ export default Vue.extend({
       return getDisplayPermission(permission)
     },
     async updateAlreadySharedWith() {
-      console.log('updateAlrady', this.classroom.permissions)
       if (this.classroom.permissions.length) {
         const resp = await classroomsApi.getPermission({ classroomID: this.classroomId })
         this.alreadySharedWith = resp.data
-        console.log('talre', this.alreadySharedWith)
       } else {
         this.alreadySharedWith = null
       }

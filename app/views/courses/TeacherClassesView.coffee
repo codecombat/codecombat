@@ -288,7 +288,6 @@ module.exports = class TeacherClassesView extends RootView
       @render()
 
   onClickShareClass: (e) ->
-    console.log('abc', $(e.target).data('classroom-id'))
     modal = new ShareWithTeachersModal(
       {
         propsData: {

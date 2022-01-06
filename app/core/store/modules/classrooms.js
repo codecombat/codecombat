@@ -76,7 +76,6 @@ export default {
       for (const key in updates) {
         classroom[key] = updates[key]
       }
-      console.log('updateing', classroom, updates)
       Vue.set(state.classrooms.byClassroom, classroomID, classroom)
     }
   },

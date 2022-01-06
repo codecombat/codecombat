@@ -624,7 +624,6 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID, ['Mixpanel']
 
   onClickAssignStudentButton: (e) ->
-    console.log('a1')
     return unless @classroom.hasWritePermission() # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
@@ -634,13 +633,11 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID, ['Mixpanel']
 
   onClickBulkAssign: ->
-    console.log('a2')
     return unless @classroom.hasWritePermission() # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     nobodySelected = selectedIDs.length is 0
     @state.set errors: { nobodySelected }
-    console.log('nobody', nobodySelected)
     return if nobodySelected
     @assignCourse courseID, selectedIDs
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
