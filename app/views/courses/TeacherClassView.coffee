@@ -437,7 +437,7 @@ module.exports = class TeacherClassView extends RootView
     @classroom.save { archived: false }
 
   onClickEditClassroom: (e) ->
-    return unless @classroom.hasWritePermission() # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @promptToEdit()
 
@@ -448,14 +448,14 @@ module.exports = class TeacherClassView extends RootView
     @listenToOnce modal, 'hide', @render
 
   onClickEditStudentLink: (e) ->
-    return unless @classroom.hasWritePermission() # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new EditStudentModal({ user, @classroom })
     @openModalView(modal)
 
   onClickRemoveStudentLink: (e) ->
-    return unless @classroom.hasWritePermission() # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new RemoveStudentModal({
       classroom: @classroom
@@ -470,7 +470,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id, ['Mixpanel']
 
   onClickAddStudents: (e) =>
-    return unless @classroom.hasWritePermission() # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
@@ -514,7 +514,7 @@ module.exports = class TeacherClassView extends RootView
   ensureInstance: (courseID) ->
 
   onClickEnrollStudentButton: (e) ->
-    return unless @classroom.hasWritePermission() # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     selectedUsers = new Users([user])
@@ -522,7 +522,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
 
   enrollStudents: (selectedUsers) ->
-    return unless @classroom.hasWritePermission() # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
     @openModalView(modal)
     modal.once 'redeem-users', (enrolledUsers) =>
@@ -615,7 +615,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID, ['Mixpanel']
 
   onClickAssignStudentButton: (e) ->
-    return unless @classroom.hasWritePermission() # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     members = [userID]
@@ -624,7 +624,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID, ['Mixpanel']
 
   onClickBulkAssign: ->
-    return unless @classroom.hasWritePermission() # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     nobodySelected = selectedIDs.length is 0
@@ -634,7 +634,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
   onClickBulkRemoveCourse: ->
-    return unless @classroom.hasWritePermission() # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     nobodySelected = selectedIDs.length is 0
@@ -644,7 +644,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Remove-Course Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
   assignCourse: (courseID, members) ->
-    return unless @classroom.hasWritePermission() # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     courseInstance = null
     numberEnrolled = 0
     remainingSpots = 0
@@ -755,7 +755,7 @@ module.exports = class TeacherClassView extends RootView
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 
   removeCourse: (courseID, members) ->
-    return unless @classroom.hasWritePermission() # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     courseInstance = null
     membersBefore = 0
 

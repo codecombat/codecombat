@@ -2129,6 +2129,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ozaria_intro: "Introducing Our New Computer Science Program"
     share_class: 'share class'
     permission: 'Permission'
+    not_write_permission: "You don't have write permission to the class"
+    not_read_permission: "You don't have read permission to the class"
 
   teacher_ozaria_encouragement_modal:
     title: "Build Computer Science Skills to Save Ozaria"

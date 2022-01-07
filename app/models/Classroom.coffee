@@ -239,17 +239,25 @@ module.exports = class Classroom extends CocoModel
 
   isGoogleClassroom: -> @get('googleClassroomId')?.length > 0
 
-  hasReadPermission: ->
-    return classroomUtils.hasPermission('read', {
+  hasReadPermission: (options = { showNoty: false }) ->
+    showNoty = options.showNoty or false
+    result = classroomUtils.hasPermission('read', {
       ownerId: @get('ownerID'),
       permissions: @get('permissions')
     }) or @hasWritePermission()
+    if !result and showNoty
+      noty({ text: 'teacher.not_read_permission', type: 'error', timeout: 4000, killer: true })
+    result
 
-  hasWritePermission: ->
-    return classroomUtils.hasPermission('write', {
+  hasWritePermission: (options = { showNoty: false }) ->
+    showNoty = options.showNoty or false
+    result = classroomUtils.hasPermission('write', {
       ownerId: @get('ownerID'),
       permissions: @get('permissions')
     })
+    if !result and showNoty
+      noty({ text: $.i18n.t('teacher.not_write_permission'), type: 'error', timeout: 4000, killer: true })
+    result
 
   isOwner: ->
     return me.id == @get('ownerID')

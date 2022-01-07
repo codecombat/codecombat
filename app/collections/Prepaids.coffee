@@ -37,7 +37,7 @@ module.exports = class Prepaids extends CocoCollection
   fetchForClassroom: (classroom) ->
     if classroom.isOwner()
       return @fetchMineAndShared()
-    else if classroom.hasWritePermission()
+    else if classroom.hasReadPermission()
       options = {
         data: {
           includeShared: true,
@@ -45,3 +45,5 @@ module.exports = class Prepaids extends CocoCollection
         }
       }
       return @fetchByCreator(classroom.get('ownerID'), options)
+    else
+      return @fetchMineAndShared()

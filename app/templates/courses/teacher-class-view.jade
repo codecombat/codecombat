@@ -522,10 +522,11 @@ if classroom.loaded
     if classroom.isOwner()
       a.label.view-ai-league(data-event-action="Teachers Classes View AI League Team")
         span(data-i18n='teacher.view_ai_league_team')
-    if !state.get('readOnly')
+    if !state.get('readOnly') && classroom.hasWritePermission()
       a.label.edit-classroom(data-classroom-id=classroom.id)
         span(data-i18n='teacher.edit_class_settings')
     if classroom.getDisplayPermission()
+      | &nbsp;
       span=classroom.getDisplayPermission()
     h4(dir="auto")!= view.markdownIt(classroom.get('description'))
 
