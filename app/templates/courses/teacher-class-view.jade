@@ -665,7 +665,7 @@ if classroom.loaded
         else if activeTab === '#license-status-tab'
           +enrollmentStatusTab
         else if activeTab === '#ai-league-stats-tab'
-          +clanLeagueStatsMixin(view.aiLeagueStats, view.classClan ? view.classClan._id : null, true)
+          +clanLeagueStatsMixin(view.aiLeagueStats, (view.classClan ? view.classClan._id : null), true, view.classroom)
 
     else
       .text-center.m-t-5.m-b-5

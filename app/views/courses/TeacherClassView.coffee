@@ -197,16 +197,7 @@ module.exports = class TeacherClassView extends RootView
 
   fetchPrepaids: ->
     @prepaids = new Prepaids()
-    if @classroom.isOwner()
-      @supermodel.trackRequest @prepaids.fetchMineAndShared()
-    else if @classroom.hasWritePermission()
-      options = {
-        data: {
-          includeShared: true,
-          sharedClassroomId: @classroom.id
-        }
-      }
-      @supermodel.trackRequest @prepaids.fetchByCreator(@classroom.get('ownerID'), options)
+    @supermodel.trackRequest @prepaids.fetchForClassroom(@classroom)
 
   fetchClans: ->
     if @classroom.get('ownerID') is me.id
@@ -457,14 +448,14 @@ module.exports = class TeacherClassView extends RootView
     @listenToOnce modal, 'hide', @render
 
   onClickEditStudentLink: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission() # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new EditStudentModal({ user, @classroom })
     @openModalView(modal)
 
   onClickRemoveStudentLink: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission() # May be viewing page as admin
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new RemoveStudentModal({
       classroom: @classroom
@@ -479,7 +470,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id, ['Mixpanel']
 
   onClickAddStudents: (e) =>
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission() # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
@@ -487,7 +478,7 @@ module.exports = class TeacherClassView extends RootView
 
   removeDeletedStudents: () ->
     return unless @classroom.loaded and @students.loaded
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission() # May be viewing page as admin
     _.remove(@classroom.get('members'), (memberID) =>
       not @students.get(memberID) or @students.get(memberID)?.get('deleted')
     )
@@ -830,7 +821,7 @@ module.exports = class TeacherClassView extends RootView
       status = student.prepaidStatus()
       if status is 'enrolled' and student.prepaidType() is 'course'
         prepaid = student.makeCoursePrepaid()
-        prepaid.revoke(student, {
+        options = {
           # The for loop completes before the success callback for the first student executes.
           # So, the `student` will be the last student when the callback executes.
           # Therefore, using a self calling anonymous function for the success callback
@@ -844,7 +835,10 @@ module.exports = class TeacherClassView extends RootView
             msg = jqxhr.responseJSON.message
             noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
           complete: => @debouncedRender()
-        })
+        }
+        if !@classroom.isOwner() and @classroom.hasWritePermission()
+          options.data = { sharedClassroomId: @classroom.id }
+        prepaid.revoke(student, options)
 
   onClickSelectAll: (e) ->
     e.preventDefault()

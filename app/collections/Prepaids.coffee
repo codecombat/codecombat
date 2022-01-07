@@ -7,7 +7,7 @@ module.exports = class Prepaids extends CocoCollection
   model: Prepaid
 
   url: "/db/prepaid"
-  
+
   initialize: ->
     super(arguments...)
 
@@ -19,10 +19,10 @@ module.exports = class Prepaids extends CocoCollection
 
   totalMaxRedeemers: ->
     sum((prepaid.get('maxRedeemers') for prepaid in @models)) or 0
-    
+
   totalRedeemers: ->
     sum((_.size(prepaid.get('redeemers')) for prepaid in @models)) or 0
-    
+
   totalAvailable: -> Math.max(@totalMaxRedeemers() - @totalRedeemers(), 0)
 
   fetchByCreator: (creatorID, opts) ->
@@ -30,6 +30,18 @@ module.exports = class Prepaids extends CocoCollection
     opts.data ?= {}
     opts.data.creator = creatorID
     @fetch opts
-  
+
   fetchMineAndShared: ->
     @fetchByCreator(me.id, { data: {includeShared: true} })
+
+  fetchForClassroom: (classroom) ->
+    if classroom.isOwner()
+      return @fetchMineAndShared()
+    else if classroom.hasWritePermission()
+      options = {
+        data: {
+          includeShared: true,
+          sharedClassroomId: classroom.id
+        }
+      }
+      return @fetchByCreator(classroom.get('ownerID'), options)

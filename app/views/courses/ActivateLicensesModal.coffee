@@ -75,16 +75,7 @@ module.exports = class ActivateLicensesModal extends ModalView
 
   fetchPrepaids: ->
     @prepaids.comparator = 'endDate' # use prepaids in order of expiration
-    if @classroom.isOwner()
-      @supermodel.trackRequest @prepaids.fetchMineAndShared()
-    else if @classroom.hasWritePermission()
-      options = {
-        data: {
-          includeShared: true,
-          sharedClassroomId: @classroom.id
-        }
-      }
-      @supermodel.trackRequest @prepaids.fetchByCreator(@classroom.get('ownerID'), options)
+    @supermodel.trackRequest @prepaids.fetchForClassroom(@classroom)
 
   updateSelectedStudents: (e) ->
     userID = $(e.currentTarget).data('user-id')
