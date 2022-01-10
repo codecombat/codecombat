@@ -26,9 +26,7 @@ module.exports = class EditStudentModal extends ModalView
       newPassword: ""
       errorMessage: ""
     })
-    @prepaids = new Prepaids()
-    @prepaids.comparator = 'endDate'
-    @supermodel.trackRequest @prepaids.fetchMineAndShared()
+    @fetchPrepaids()
     @listenTo @state, 'change', @render
     @listenTo @classroom, 'save-password:success', ->
       @state.set { passwordChanged: true, errorMessage: "" }
@@ -43,6 +41,11 @@ module.exports = class EditStudentModal extends ModalView
   onLoaded: ->
     @prepaids.reset(@prepaids.filter((prepaid) -> prepaid.status() is "available"))
     super()
+
+  fetchPrepaids: ->
+    @prepaids = new Prepaids()
+    @prepaids.comparator = 'endDate'
+    @supermodel.trackRequest @prepaids.fetchForClassroom(@classroom)
 
   onClickSendRecoveryEmail: ->
     email = @user.get('email')
@@ -71,9 +74,9 @@ module.exports = class EditStudentModal extends ModalView
     utils.formatStudentLicenseStatusDate(status, date)
 
   onClickEnrollStudentButton: ->
-    return unless me.id is @classroom.get('ownerID')
+    return unless @classroom.hasWritePermission()
     prepaid = @prepaids.find((prepaid) -> prepaid.status() is 'available')
-    prepaid.redeem(@user, {
+    options = {
       success: (prepaid) =>
         @user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))
       error: (prepaid, jqxhr) =>
@@ -81,7 +84,10 @@ module.exports = class EditStudentModal extends ModalView
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
       complete: =>
         @render()
-    })
+    }
+    if !@classroom.isOwner() and @classroom.hasWritePermission()
+      options.data = { sharedClassroomId: @classroom.id }
+    prepaid.redeem(@user, options)
     window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: @user.id, ['Mixpanel']
 
   onClickChangePassword: ->
