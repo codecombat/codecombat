@@ -65,7 +65,8 @@ html(lang='en')
         var _hmt = _hmt || [];
         (function() {
         var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?ffc38c02cf8f484ab8f785b58dfa8b6e";
+        var chinaHome = /codecombat\.cn/.test(document.domain) || /codecombat/.test(document.domain)
+        hm.src = "https://hm.baidu.com/hm.js?" + (chinaHome ? "f602cc140cc546e0d559ec79ef98d750" : "ffc38c02cf8f484ab8f785b58dfa8b6e")
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
         })();

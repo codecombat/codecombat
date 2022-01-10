@@ -453,7 +453,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     connected_facebook_p: "完成注册后即可使用您的 Facebook 账号登录。"
     hey_students: "同学，请输入老师提供的班级代码。"
     birthday: "生日"
-    parent_email_blurb: "我知道你等不及学习编程啦！&mdash; 我们也很兴奋！你的家长会收到一封邮件，上面写着为你注册账号要注意的事情。如果有问题就发邮件到 {{email_link}} 吧。"
+    parent_email_blurb: "我知道你等不及学习编程啦！&mdash; 我们也很兴奋！你的家长会收到一封邮件，上面写着为你注册账号要注意的事情。如果有问题就联系网页右下角的微信客服吧。"
     classroom_not_found: "班级代码不正确。请检查是否拼写错误或寻求老师帮助。"
     activation_code_used: "激活码已被使用。请检查是否拼写错误或寻求老师帮助。"
     checking: "检查中..."
@@ -522,6 +522,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     have_a_classcode: "有班级代码吗？"
     yes_i_have_classcode: "是的，我有一个班级代码！"
     enter_it_here: "在这里输入："
+    play_without_saving: "直接开始（代码不会被保存）"
 
   recover:
     recover_account_title: "找回账户"

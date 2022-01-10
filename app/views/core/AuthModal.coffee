@@ -219,8 +219,14 @@ loginNavigate = (subModalContinue) ->
     if me.isAPIClient()
         application.router.navigate('/api-dashboard', { trigger: true })
     else if me.isStudent()
+      if features.chinaHome
+        window.location.href = 'https://koudashijie.com/students'
+        return
       application.router.navigate('/students', { trigger: true })
     else if me.isTeacher()
+      if features.chinaHome
+        window.location.href = 'https://koudashijie.com/students'
+        return
       if me.isSchoolAdmin()
         application.router.navigate('/teachers/licenses', { trigger: true })
       else

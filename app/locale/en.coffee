@@ -518,6 +518,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     have_a_classcode: "Have a Class Code?"
     yes_i_have_classcode: "Yes, I have a Class Code!"
     enter_it_here: "Enter it here:"
+    play_without_saving: "Play without saving"
 
   recover:
     recover_account_title: "Recover Account"
