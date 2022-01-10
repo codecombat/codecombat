@@ -1819,6 +1819,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teacher_account_explanation: "N PbqrPbzong Grnpure nppbhag nyybjf lbh gb frg hc pynffebbzf, zbavgbe fghqragf’ cebterff nf gurl jbex guebhtu pbhefrf, znantr yvprafrf naq npprff erfbheprf gb nvq va lbhe pheevphyhz-ohvyqvat."
     current_classes: "Pheerag Pynffrf"
     archived_classes: "Nepuvirq Pynffrf"
+    shared_classes: "Funerq Pynffrf"
     archived_classes_blurb: "Pynffrf pna or nepuvirq sbe shgher ersrerapr. Hanepuvir n pynff gb ivrj vg va gur Pheerag Pynffrf yvfg ntnva."
     view_class: "ivrj pynff"
     view_ai_league_team: "Ivrj NV Yrnthr grnz"
@@ -2126,6 +2127,10 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     try_ozaria_footer: "Gel bhe arj nqiragher tnzr, Bmnevn!"
     try_ozaria_free: "Gel Bmnevn sbe serr"
     ozaria_intro: "Vagebqhpvat Bhe Arj Pbzchgre Fpvrapr Cebtenz"
+    share_class: 'funer pynff'
+    permission: 'Crezvffvba'
+    not_write_permission: "Lbh qba'g unir jevgr crezvffvba gb gur pynff"
+    not_read_permission: "Lbh qba'g unir ernq crezvffvba gb gur pynff"
 
   teacher_ozaria_encouragement_modal:
     title: "Ohvyq Pbzchgre Fpvrapr Fxvyyf gb Fnir Bmnevn"
@@ -3433,3 +3438,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     invalidPhone: 'Vainyvq cubar ahzore'
     emailExists: 'Rznvy nyernql rkvfgf'
     numberGreaterThanZero: 'Fubhyq or n ahzore terngre guna 0'
+
+  teacher_dashboard:
+    read: 'Ivrj Bayl'
+    write: 'Shyy Npprff'
+    read_blurb: 'Ivrj Bayl crezvgf gur nqqrq grnpure gb ivrj lbhe pynff naq fghqrag cebterff jvgubhg gur novyvgl gb znxr punatrf gb lbhe pynff.'
+    write_blurb: 'Shyy Npprff tenagf gur nqqrq grnpure gur novyvgl gb znxr zbqvsvpngvbaf gb lbhe pynff (nqq/erzbir fghqragf, nffvta puncgref, zbqvsl yvprafher)'
+    shared_with_none: 'Guvf pynff vf abg pheeragyl funerq jvgu nal bgure grnpuref.'
+    share_info: 'Gb tvir bgure grnpuref npprff gb gur pynff, nqq gurve rznvyf orybj.'
+    class_owner: 'Pynff Bjare'
+    share: 'Funer'

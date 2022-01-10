@@ -1820,6 +1820,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     teacher_account_explanation: "Konto nauczyciela w CodeCombat pozwala na stworzenie klasy, monitorowanie postępów uczniów w trakcie kursów, zarządzanie licencjami, oraz dostęp do zasobów pomocnych w budowie programów zajęć."
     current_classes: "Obecne klasy"
     archived_classes: "Zarchiwizowane klasy"
+#    shared_classes: "Shared Classes"
     archived_classes_blurb: "Klasy mogą zostać zarchiwizowane na przyszłe potrzeby. Anuluj archiwizację klasy, aby móc znowu ją przeglądać w widoku klas."
     view_class: "pokaż klasę"
 #    view_ai_league_team: "View AI League team"
@@ -2127,6 +2128,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -3434,3 +3439,13 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     invalidPhone: "Nieprawidłowy numer telefonu"
     emailExists: "Email już istnieje"
     numberGreaterThanZero: "Powinno być liczbą większą od 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"

@@ -1820,6 +1820,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     teacher_account_explanation: "一個CodeCombat老師帳號讓您可以設立教室，當學生們學完課程後可以監看他們的進度，管理註冊碼以及取得資源來協助建立您的課程。"
     current_classes: "現有班級"
     archived_classes: "封存的班級"
+#    shared_classes: "Shared Classes"
     archived_classes_blurb: "班級可以封存做為未來的參考資料。取出一個班級在現有班級列表中再次觀看它。"
     view_class: "觀看班級"
 #    view_ai_league_team: "View AI League team"
@@ -2127,6 +2128,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -3434,3 +3439,13 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"

@@ -1820,6 +1820,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     teacher_account_explanation: "Обліківка вчителя CodeCombat дозволяє налаштовувати класи, спостерігати за прогресом учнів, керувати ліцензіями та отримати доступ до ресурсів, що допоможуть у створенні вашого навчального плану."
     current_classes: "Поточні класи"
     archived_classes: "Архів класів"
+#    shared_classes: "Shared Classes"
     archived_classes_blurb: "Класи можна архівувати для доступу в майбутньому. Розархівуйте клас, щоб знову побачити його в списку поточних класів."
     view_class: "переглянути клас"
 #    view_ai_league_team: "View AI League team"
@@ -2127,6 +2128,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -3434,3 +3439,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"

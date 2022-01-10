@@ -1820,6 +1820,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_account_explanation: "老师账号可以让你设立教室，当学生们学完课程后可以查看他们的进度，管理许可证以及查看相应的帮助文档以辅助构建课堂。"
     current_classes: "当前班级"
     archived_classes: "已归档的班级"
+#    shared_classes: "Shared Classes"
     archived_classes_blurb: "您可以把班级归档，便于后续查阅。课程可以解档课程，并在当前课程列表中再次查看。"
     view_class: "查看班级"
 #    view_ai_league_team: "View AI League team"
@@ -2127,6 +2128,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     try_ozaria_footer: "试试我们的新产品：奥佳睿！"
     try_ozaria_free: "免费试用 Ozaria"
     ozaria_intro: "介绍我们新的计算机科学课程"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
   teacher_ozaria_encouragement_modal:
     title: "学习计算机科学技能，拯救奥佳睿世界"
@@ -3434,3 +3439,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"

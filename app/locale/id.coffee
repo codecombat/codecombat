@@ -1820,6 +1820,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     teacher_account_explanation: "Akun Guru CodeCombat memungkinkan kamu mmempersiapkan ruang kelas, memonitor perkembangan siswa selagi mereka mengerjakan kursus, mengatur lisensi dan mengakses sumber daya untuk membantu membangun kurikulummu."
     current_classes: "Kelas Saat Ini"
     archived_classes: "Kelas yang Diarsipkan"
+#    shared_classes: "Shared Classes"
     archived_classes_blurb: "Kelas dapat diarsip untuk referensi kedepan. Membuka arsip kelas untuk melihatnya di daftar Kelas Saat Ini."
     view_class: "lihat kelas"
 #    view_ai_league_team: "View AI League team"
@@ -2127,6 +2128,10 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     try_ozaria_footer: "Coba game petualangan baru kami, Ozaria!"
     try_ozaria_free: "Coba Ozaria gratis"
     ozaria_intro: "Memperkenalkan Program Ilmu Komputer Baru Kami"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
   teacher_ozaria_encouragement_modal:
     title: "Membangun Keterampilan Ilmu Komputer untuk Menyelamatkan Ozaria"
@@ -3434,3 +3439,13 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"

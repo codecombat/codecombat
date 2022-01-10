@@ -1820,6 +1820,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     teacher_account_explanation: "Un compte CodeCombat pour enseignants vous permet de créer des salles de classe, de suivre les progrès des élèves tout au long de leurs cours, de gérer les licences et d'accéder à des ressources pour vous aider à élaborer votre programme."
     current_classes: "Classes actuelles"
     archived_classes: "Cours Archivés"
+#    shared_classes: "Shared Classes"
     archived_classes_blurb: "Les cours peuvent être archivés pour référence ultérieure. Désarchiver une classe pour la visualiser à nouveau dans la liste Classes en cours."
     view_class: "Voir Cours"
 #    view_ai_league_team: "View AI League team"
@@ -2127,6 +2128,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -3434,3 +3439,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"
