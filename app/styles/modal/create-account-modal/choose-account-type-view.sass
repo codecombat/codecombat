@@ -22,6 +22,8 @@
 
     &:nth-child(2)
       margin-top: 17px
+      @media (max-width: $screen-md-min)
+        margin-top: 0px
 
   .path-card
     &.navy
@@ -80,14 +82,19 @@
       display: flex
       flex-direction: column
       justify-content: flex-end
-      span.small div
-        line-height: 25px
-        font-weight: 300
-        font-size: 18px
-        margin: 15px
-        white-space: nowrap
-        margin-left: -100%
-        margin-right: -100%
+      span
+        @media (max-width: $screen-md-min)
+          order: 2
+        &.small div
+          line-height: 25px
+          font-weight: 300
+          font-size: 18px
+          white-space: nowrap
+          margin: 15px -100%
+          @media (max-width: $screen-md-min)
+            margin-top: 7px
+            margin-bottom: 25px
+
       .primary-oz-button
         max-width: 300px
         margin: 0px auto
