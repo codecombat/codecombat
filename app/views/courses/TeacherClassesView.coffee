@@ -10,6 +10,7 @@ LevelSessions = require 'collections/LevelSessions'
 CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
+ShareWithTeachersModal = require('app/views/core/ShareWithTeachersModal').default
 CourseNagSubview = require 'views/teachers/CourseNagSubview'
 Prepaids = require 'collections/Prepaids'
 Users = require 'collections/Users'
@@ -107,6 +108,7 @@ module.exports = class TeacherClassesView extends RootView
     'click .see-less-office-hours': 'onClickSeeLessOfficeHours'
     'click .see-no-office-hours': 'onClickSeeNoOfficeHours'
     'click .try-ozaria a': 'tryOzariaLinkClicked'
+    'click .share-class': 'onClickShareClass'
 
   getMeta: ->
     {
@@ -118,7 +120,7 @@ module.exports = class TeacherClassesView extends RootView
     @teacherID = (me.isAdmin() and utils.getQueryVariable('teacherID')) or me.id
     @classrooms = new Classrooms()
     @classrooms.comparator = (a, b) -> b.id.localeCompare(a.id)
-    @classrooms.fetchByOwner(@teacherID)
+    @classrooms.fetchByOwner(@teacherID, { data: { includeShared: true } })
     @supermodel.trackCollection(@classrooms)
     @listenTo @classrooms, 'sync', ->
       for classroom in @classrooms.models
@@ -284,6 +286,16 @@ module.exports = class TeacherClassesView extends RootView
     @listenToOnce modal, 'hide', ->
       @calculateQuestCompletion()
       @render()
+
+  onClickShareClass: (e) ->
+    modal = new ShareWithTeachersModal(
+      {
+        propsData: {
+          classroomId: $(e.target).data('classroom-id')
+        }
+      }
+    )
+    @openModalView(modal)
 
   openNewClassroomModal: ->
     return unless me.id is @teacherID # Viewing page as admin

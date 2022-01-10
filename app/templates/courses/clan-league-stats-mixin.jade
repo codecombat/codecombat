@@ -1,4 +1,4 @@
-mixin clanLeagueStatsMixin(stats, clanId, showIfEmpty)
+mixin clanLeagueStatsMixin(stats, clanId, showIfEmpty, classroom)
   .ai-league-stats
     if stats && stats.totalPlayers > 1
       .container
@@ -9,7 +9,8 @@ mixin clanLeagueStatsMixin(stats, clanId, showIfEmpty)
               if stats.totalPlayers
                 span= ' (' + stats.totalPlayers.toLocaleString() + ' ' + $.i18n.t('play.players') + ')'
               span= ' '
-              a.view-ai-league.text-h6(data-i18n='teacher.view_ai_league_team' data-clan-level='teacher' data-clan-source-object-id=me.id data-event-action="Teachers Classes View AI League Team")
+              if classroom.isOwner()
+                a.view-ai-league.text-h6(data-i18n='teacher.view_ai_league_team' data-clan-level='teacher' data-clan-source-object-id=me.id data-event-action="Teachers Classes View AI League Team")
               span= ' '
               if !window.features.chinaUx
                 a.ai-league-quickstart-video.text-h6(data-i18n='league.quickstart_video' data-event-action="Teachers Classes View AI League Quickstart video" data-clan-level='teacher' data-clan-source-object-id=me.id href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank")
