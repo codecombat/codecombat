@@ -1373,11 +1373,11 @@ export default {
     }
 
     ::v-deep .section-space {
-      margin-bottom: 200px;
+      margin-bottom: 50px;
     }
 
     .esports-header {
-      margin-bottom: 300px;
+      margin-bottom: 200px;
     }
   }
 

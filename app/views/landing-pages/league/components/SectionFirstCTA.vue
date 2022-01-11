@@ -20,9 +20,6 @@ export default {
 
 <template>
   <div class="section-first-cta">
-    <div v-if="!championshipActive" class="text-code-section">
-      <img class="img-responsive" src="/images/pages/league/text_code.svg" width="501" height="147" />
-    </div>
     <div class="row flex-row text-center">
       <p class="subheader2" style="max-width: 800px;">
         <span v-if="championshipActive">
@@ -35,9 +32,6 @@ export default {
     </div>
     <div v-if="!doneRegistering && !isClanCreator()" class="row flex-row text-center xs-m-0">
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
-    </div>
-    <div v-if="!championshipActive" class="text-2021-section section-space">
-      <img class="img-responsive" src="/images/pages/league/text_2021.svg" width="501" height="147" />
     </div>
   </div>
 </template>
