@@ -1225,7 +1225,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     retrostyle_title: "插图"
     retrostyle_blurb: "复古风格游戏"
     community_title: "...以及我们的开源社区"
-    bryukh_title: "高级游戏开发人员"
+#    lgd_title: "Lead Game Designer"
     oa_title: "业务助理"
     ac_title: "行政专员"
     ea_title: "行政助理"
@@ -1238,6 +1238,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    aoim_title: "Associate Online Instructor Manager"
 #    bdm_title: "Business Development Manager"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
@@ -1245,7 +1246,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     community_description_1: "上百名玩家创建了各种关卡，给我们的源代码添砖加瓦，添加新功能、修复Bug、测试、甚至是将其翻译为50种语言。职员、贡献者以及网站本身都在分享创意并奋斗中成长，这就是开源社区的力量。此网站在众多开源项目之上建立，我们为表感恩，也将网站开源奉献给社区，给好奇源码的玩家提供探索和实验的项目。每个人都能加入CodeCombat社区！看一下我们的" # {change}
     community_description_link: "贡献者页面"
     community_description_2: "了解更多信息。"
-    number_contributors: "超过 450 个志愿者将他们的知识和时间投入到这个项目中。"
+    number_contributors: "超过 450 个志愿者将他们的知识和时间投入到这个项目中。" # {change}
     story_title: "我们已走过的历程"
     story_subtitle: "从2013年至今，CodeCombat已经从一组小草图成长为一个生动的、蓬勃发展的教育产品。"
     story_statistic_1a: "20,000,000+"
@@ -1820,6 +1821,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_account_explanation: "老师账号可以让你设立教室，当学生们学完课程后可以查看他们的进度，管理许可证以及查看相应的帮助文档以辅助构建课堂。"
     current_classes: "当前班级"
     archived_classes: "已归档的班级"
+#    shared_classes: "Shared Classes"
     archived_classes_blurb: "您可以把班级归档，便于后续查阅。课程可以解档课程，并在当前课程列表中再次查看。"
     view_class: "查看班级"
 #    view_ai_league_team: "View AI League team"
@@ -2127,6 +2129,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     try_ozaria_footer: "试试我们的新产品：奥佳睿！"
     try_ozaria_free: "免费试用 Ozaria"
     ozaria_intro: "介绍我们新的计算机科学课程"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
   teacher_ozaria_encouragement_modal:
     title: "学习计算机科学技能，拯救奥佳睿世界"
@@ -3434,3 +3440,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"

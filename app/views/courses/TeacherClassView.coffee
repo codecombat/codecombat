@@ -129,14 +129,13 @@ module.exports = class TeacherClassView extends RootView
     @sortedCourses = []
     @latestReleasedCourses = []
 
-    @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchMineAndShared()
-
     @students = new Users()
     @classroom.sessions = new LevelSessions()
     @listenTo @classroom, 'sync', ->
       @fetchStudents()
       @fetchSessions()
+      @fetchPrepaids()
+      @fetchClans()
       @classroom.language = @classroom.get('aceConfig')?.language
 
     @students.comparator = (s1, s2) =>
@@ -180,9 +179,6 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @timeSpentOnUnitProgress = null
 
-    if me.get('clans')?.length
-      clansApi.getMyClans().then @onMyClansLoaded
-
   fetchStudents: ->
     Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'}}))
     .then =>
@@ -198,6 +194,16 @@ module.exports = class TeacherClassView extends RootView
       @removeDeletedStudents() # TODO: Move this to mediator listeners?
       @calculateProgressAndLevels()
       @debouncedRender?()
+
+  fetchPrepaids: ->
+    @prepaids = new Prepaids()
+    @supermodel.trackRequest @prepaids.fetchForClassroom(@classroom)
+
+  fetchClans: ->
+    if @classroom.get('ownerID') is me.id
+      clansApi.getMyClans().then @onMyClansLoaded
+    else if @classroom.hasReadPermission()
+      clansApi.getUserClans(@classroom.get('ownerID')).then @onMyClansLoaded
 
   attachMediatorEvents: () ->
     # Model/Collection events
@@ -431,7 +437,7 @@ module.exports = class TeacherClassView extends RootView
     @classroom.save { archived: false }
 
   onClickEditClassroom: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @promptToEdit()
 
@@ -442,14 +448,14 @@ module.exports = class TeacherClassView extends RootView
     @listenToOnce modal, 'hide', @render
 
   onClickEditStudentLink: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new EditStudentModal({ user, @classroom })
     @openModalView(modal)
 
   onClickRemoveStudentLink: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new RemoveStudentModal({
       classroom: @classroom
@@ -464,7 +470,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id, ['Mixpanel']
 
   onClickAddStudents: (e) =>
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
@@ -472,7 +478,7 @@ module.exports = class TeacherClassView extends RootView
 
   removeDeletedStudents: () ->
     return unless @classroom.loaded and @students.loaded
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission() # May be viewing page as admin
     _.remove(@classroom.get('members'), (memberID) =>
       not @students.get(memberID) or @students.get(memberID)?.get('deleted')
     )
@@ -508,7 +514,7 @@ module.exports = class TeacherClassView extends RootView
   ensureInstance: (courseID) ->
 
   onClickEnrollStudentButton: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     selectedUsers = new Users([user])
@@ -516,7 +522,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
 
   enrollStudents: (selectedUsers) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
     @openModalView(modal)
     modal.once 'redeem-users', (enrolledUsers) =>
@@ -609,7 +615,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID, ['Mixpanel']
 
   onClickAssignStudentButton: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     members = [userID]
@@ -618,7 +624,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID, ['Mixpanel']
 
   onClickBulkAssign: ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     nobodySelected = selectedIDs.length is 0
@@ -628,7 +634,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
   onClickBulkRemoveCourse: ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     nobodySelected = selectedIDs.length is 0
@@ -638,7 +644,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Remove-Course Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
   assignCourse: (courseID, members) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     courseInstance = null
     numberEnrolled = 0
     remainingSpots = 0
@@ -696,7 +702,10 @@ module.exports = class TeacherClassView extends RootView
       for prepaid in availablePrepaids when Math.min(_.size(unenrolledStudents), prepaid.openSpots()) > 0
         for i in [0...Math.min(_.size(unenrolledStudents), prepaid.openSpots())]
           user = unenrolledStudents.shift()
-          requests.push(prepaid.redeem(user))
+          options = {}
+          if !@classroom.isOwner() and @classroom.hasWritePermission()
+            options = { data: { sharedClassroomId: @classroom.id } }
+          requests.push(prepaid.redeem(user, options))
 
       @trigger 'begin-redeem-for-assign-course'
       return $.when(requests...)
@@ -746,7 +755,7 @@ module.exports = class TeacherClassView extends RootView
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 
   removeCourse: (courseID, members) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     courseInstance = null
     membersBefore = 0
 
@@ -792,14 +801,18 @@ module.exports = class TeacherClassView extends RootView
     return unless confirm(s)
     prepaid = user.makeCoursePrepaid()
     button.text($.i18n.t('teacher.revoking'))
-    prepaid.revoke(user, {
+    options = {
       success: =>
         user.unset('coursePrepaid')
       error: (prepaid, jqxhr) =>
         msg = jqxhr.responseJSON.message
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
       complete: => @debouncedRender()
-    })
+    }
+    if !@classroom.isOwner() and @classroom.hasWritePermission()
+      options.data = { sharedClassroomId: @classroom.id }
+
+    prepaid.revoke(user, options)
 
   onClickRevokeAllStudentsButton: ->
     s = $.i18n.t('teacher.revoke_all_confirm')
@@ -808,7 +821,7 @@ module.exports = class TeacherClassView extends RootView
       status = student.prepaidStatus()
       if status is 'enrolled' and student.prepaidType() is 'course'
         prepaid = student.makeCoursePrepaid()
-        prepaid.revoke(student, {
+        options = {
           # The for loop completes before the success callback for the first student executes.
           # So, the `student` will be the last student when the callback executes.
           # Therefore, using a self calling anonymous function for the success callback
@@ -822,7 +835,10 @@ module.exports = class TeacherClassView extends RootView
             msg = jqxhr.responseJSON.message
             noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
           complete: => @debouncedRender()
-        })
+        }
+        if !@classroom.isOwner() and @classroom.hasWritePermission()
+          options.data = { sharedClassroomId: @classroom.id }
+        prepaid.revoke(student, options)
 
   onClickSelectAll: (e) ->
     e.preventDefault()

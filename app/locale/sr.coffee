@@ -1225,7 +1225,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     retrostyle_title: "Илустрација"
     retrostyle_blurb: "RetroStyle игрице"
     community_title: "...и наша заједница отвореног кода"
-#    bryukh_title: "Senior Gameplay Developer"
+#    lgd_title: "Lead Game Designer"
 #    oa_title: "Operations Associate"
 #    ac_title: "Administrative Coordinator"
 #    ea_title: "Executive Assistant"
@@ -1238,6 +1238,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    aoim_title: "Associate Online Instructor Manager"
 #    bdm_title: "Business Development Manager"
     community_subtitle: "Преко 450 сарадника је помогло да се изгради CodeCombat и још њих се придружује сваке недеље!" # {change}
     community_description_3: "CodeCombat је"
@@ -1245,7 +1246,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     community_description_1: "CodeCombat је пројекат заједнице, са стотинама играча који волонтирају да праве нивое, доприносе нашем коду да додају функције, исправљају грешке, тестирају игру и чак и преводе игру на (до сад) 50 језика. Запослени, сарадници и сајт добијају путем дељења идеја и удруживањем напора, као и заједница отвореног кода у глобалу. Сајт је изграђен на бројним пројектима отвореног кода и ми смо отвореног кода како бисмо вратили заједници и пружили радозналим-за-код играчима познати пројекат за истраживање и експериментисање. Свако може да се прикључи CodeCombat заједници! Погледај нашу" # {change}
     community_description_link: "страницу за допринос"
     community_description_2: "за више информација."
-    number_contributors: "Преко 450 сарадника је дало своју подршку и време овом пројекту."
+    number_contributors: "Преко 450 сарадника је дало своју подршку и време овом пројекту." # {change}
     story_title: "Наша прича до сад"
     story_subtitle: "Од 2013. године, CodeCombat је израстао из обичних скупова скица у праву успешну игру."
     story_statistic_1a: "Више од 20.000.000"
@@ -1820,6 +1821,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     teacher_account_explanation: "CodeCombat наставнички налог ти допушта да подесиш учионице, надгледаш напредак ученика док похађају курсеве, управљаш лиценцама и приступаш ресурсима за помоћ при стварању твог наставног плана. "
     current_classes: "Тренутни часови"
     archived_classes: "Архивирани часови"
+#    shared_classes: "Shared Classes"
     archived_classes_blurb: "Часови могу да се архивирају за будућу референцу. Поништи архивирање часа за преглед на листи тренутних часова. "
     view_class: "прегледај час"
 #    view_ai_league_team: "View AI League team"
@@ -2127,6 +2129,10 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -3434,3 +3440,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"

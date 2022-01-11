@@ -29,15 +29,14 @@ module.exports = class ActivateLicensesModal extends ModalView
       visibleSelectedUsers: new Users(selectedUserModels)
       error: null
     }
-  
+
   initialize: (options) ->
     @state = new State(@getInitialState(options))
     @classroom = options.classroom
     @users = options.users.clone()
     @users.comparator = (user) -> user.broadName().toLowerCase()
     @prepaids = new Prepaids()
-    @prepaids.comparator = 'endDate' # use prepaids in order of expiration
-    @supermodel.trackRequest @prepaids.fetchMineAndShared()
+    @fetchPrepaids()
     @classrooms = new Classrooms()
     @selectedPrepaidType = null
     @prepaidByGroup = {}
@@ -49,7 +48,7 @@ module.exports = class ActivateLicensesModal extends ModalView
           jqxhrs = classroom.users.fetchForClassroom(classroom, { removeDeleted: true })
           @supermodel.trackRequests(jqxhrs)
       })
-    
+
     @listenTo @state, 'change', ->
       @renderSelectors('#submit-form-area')
     @listenTo @state.get('selectedUsers'), 'change add remove reset', ->
@@ -60,7 +59,7 @@ module.exports = class ActivateLicensesModal extends ModalView
       @render()
     @listenTo @prepaids, 'sync add remove reset', ->
         @prepaidByGroup = {}
-        @prepaids.each (prepaid) => 
+        @prepaids.each (prepaid) =>
           type = prepaid.typeDescriptionWithTime()
           @prepaidByGroup[type] = @prepaidByGroup?[type] || 0
           @prepaidByGroup[type] += (prepaid.get('maxRedeemers') || 0) - (_.size(prepaid.get('redeemers')) || 0)
@@ -69,10 +68,14 @@ module.exports = class ActivateLicensesModal extends ModalView
     @prepaids.reset(@prepaids.filter((prepaid) -> prepaid.status() is 'available'))
     @selectedPrepaidType = Object.keys(@prepaidByGroup)[0]
     super()
-  
+
   afterRender: ->
     super()
     # @updateSelectedStudents() # TODO: refactor to event/state style
+
+  fetchPrepaids: ->
+    @prepaids.comparator = 'endDate' # use prepaids in order of expiration
+    @supermodel.trackRequest @prepaids.fetchForClassroom(@classroom)
 
   updateSelectedStudents: (e) ->
     userID = $(e.currentTarget).data('user-id')
@@ -104,7 +107,7 @@ module.exports = class ActivateLicensesModal extends ModalView
         if not @state.get('selectedUsers').findWhere({ _id: user.id })
           @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', true)
           @state.get('selectedUsers').add(user)
-  
+
   replaceStudentList: (e) ->
     selectedClassroomID = $(e.currentTarget).val()
     @classroom = @classrooms.get(selectedClassroomID)
@@ -134,7 +137,7 @@ module.exports = class ActivateLicensesModal extends ModalView
 
     user = usersToRedeem.first()
     prepaid = @prepaids.find((prepaid) => prepaid.status() is 'available' and prepaid.typeDescriptionWithTime() == @selectedPrepaidType)
-    prepaid.redeem(user, {
+    options = {
       success: (prepaid) =>
         user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))
         usersToRedeem.remove(user)
@@ -146,7 +149,10 @@ module.exports = class ActivateLicensesModal extends ModalView
         @redeemUsers(usersToRedeem)
       error: (prepaid, jqxhr) =>
         @state.set { error: jqxhr.responseJSON.message }
-    })
+    }
+    if !@classroom.isOwner() and @classroom.hasWritePermission()
+      options.data = { sharedClassroomId: @classroom.id }
+    prepaid.redeem(user, options)
 
   finishRedeemUsers: ->
     @trigger 'redeem-users', @state.get('selectedUsers')

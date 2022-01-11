@@ -1225,7 +1225,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     retrostyle_title: "Illusztráció"
     retrostyle_blurb: "RetroStyle Games"
     community_title: "...és a nyílt támogatói közösségünk"
-#    bryukh_title: "Senior Gameplay Developer"
+#    lgd_title: "Lead Game Designer"
 #    oa_title: "Operations Associate"
 #    ac_title: "Administrative Coordinator"
 #    ea_title: "Executive Assistant"
@@ -1238,6 +1238,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    aoim_title: "Associate Online Instructor Manager"
 #    bdm_title: "Business Development Manager"
     community_subtitle: "Eddig több mint 450 támogató járult hozzá a CodeCombat építéséhez, és minden héten egyre többen csatlakoznak!" # {change}
 #    community_description_3: "CodeCombat is a"
@@ -1245,7 +1246,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     community_description_1: "A CodeCombat egy közösségi kezdeményezés, így játékosok százai csatlakoztak önkéntesen, akik új szinteket, új funkciókat hoztak létre, tesztelték és javították a programot. Sőt, az önkéntes fordítók révén a játék már 50 nyelven elérhető! A fejlesztők, támogatók és az egész közösség is rengeteget nyer az ötletek megosztása és az együttes erőfeszítéseink által. A játék számtalan nyílt forráskódú projektből tevődik össze, így mi is visszadunk a közösségnek, és egy izgalmas utat nyitunk a kis felfedezőknek a kódolás világába. A CodeCombat közösséghez bárki csatlakozhat! Látogass el a" # {change}
     community_description_link: "segítők oldalára"
     community_description_2: "további információkért."
-    number_contributors: "Eddig több mint 450 támogató segítette munkájával a projektet."
+    number_contributors: "Eddig több mint 450 támogató segítette munkájával a projektet." # {change}
     story_title: "Történetünk számokban"
     story_subtitle: "2013 óta a CodeCombat néhány vázlatos rajzból egy élő és folyamatosan fejlődő játékká nőtte ki magát."
     story_statistic_1a: "20 000 000+"
@@ -1820,6 +1821,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     teacher_account_explanation: "CodeCombat oktatói fiókkal osztályokat állíthatsz össze, követheted tanulóid fejlődését, valamint különböző erőforrásokhoz férhetsz hozzá, melyek segítenek a tananyag létrehozásában."
     current_classes: "Jelenlegi osztályok"
     archived_classes: "Archivált osztályok"
+#    shared_classes: "Shared Classes"
     archived_classes_blurb: "Az osztályok archiválhatók későbbi megtekintés céljából. Az osztály újraaktiválásakor az osztály újra megjelenik a Jelenlegi osztályok listán."
     view_class: "osztály megtekintése"
 #    view_ai_league_team: "View AI League team"
@@ -2127,6 +2129,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -3434,3 +3440,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"
