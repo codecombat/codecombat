@@ -299,7 +299,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
 #    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
     how_much_does_it_cost: "平台是否有免费内容，如何付费?"
-    how_much_does_it_cost_blurb: "CodeCombat个人版或扣哒世界教学版都提供5个关卡的免费试用。CodeCombat个人版支持月度付费 (99元/月)和年度付费 (999元/月)，费用包括所有的关卡学习内容和AI世青赛的竞赛学习内容。"
+    how_much_does_it_cost_blurb: "CodeCombat个人版或扣哒世界教学版都提供5个关卡的免费试用。CodeCombat个人版支持月度付费 (99元/月)和年度付费 (999元/年)，费用包括所有的关卡学习内容和AI世青赛的竞赛学习内容。"
     recommended_systems: "有没有推荐的浏览器或操作系统?"
     recommended_systems_blurb: "只需要流畅的网络和合适的浏览器即可运行CodeCombat和Ozaria。国内推荐最低电脑内存4GB，浏览器推荐使用谷歌Chrome浏览器或Safari, Firefox和Edge，不推荐国内低版本浏览器特别是360浏览器。支持Windows系统和Mac苹果系统电脑或笔记本，不支持手机，如果你使用Pad，推荐配置键盘。网络带宽至少需要200 Kbps/学生，最好能达到1Mbps以上带宽/学生。"
     other_questions: "如果你还有其它问题, 请联系微信客服安小风，或者联系平台负责人欧卡王，手机/微信 13810906731， 电子邮箱 bill@codecombat.com."
