@@ -113,7 +113,7 @@ block content
 
     +createClassButton
 
-    +clanLeagueStatsMixin(view.aiLeagueStats, view.teacherClan ? view.teacherClan._id : null)
+    +clanLeagueStatsMixin(view.aiLeagueStats, (view.teacherClan ? view.teacherClan._id : null), false, null)
 
     if !me.hideOtherProductCTAs()
       .container.try-ozaria
