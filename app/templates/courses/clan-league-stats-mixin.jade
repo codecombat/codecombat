@@ -9,7 +9,7 @@ mixin clanLeagueStatsMixin(stats, clanId, showIfEmpty, classroom)
               if stats.totalPlayers
                 span= ' (' + stats.totalPlayers.toLocaleString() + ' ' + $.i18n.t('play.players') + ')'
               span= ' '
-              if classroom.isOwner()
+              if classroom && classroom.isOwner()
                 a.view-ai-league.text-h6(data-i18n='teacher.view_ai_league_team' data-clan-level='teacher' data-clan-source-object-id=me.id data-event-action="Teachers Classes View AI League Team")
               span= ' '
               if !window.features.chinaUx
