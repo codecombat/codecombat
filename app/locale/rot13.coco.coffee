@@ -1224,7 +1224,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     retrostyle_title: "Vyyhfgengvba"
     retrostyle_blurb: "ErgebFglyr Tnzrf"
     community_title: "...naq bhe bcra-fbhepr pbzzhavgl"
-    bryukh_title: "Fravbe Tnzrcynl Qrirybcre"
+    lgd_title: "Yrnq Tnzr Qrfvtare"
     oa_title: "Bcrengvbaf Nffbpvngr"
     ac_title: "Nqzvavfgengvir Pbbeqvangbe"
     ea_title: "Rkrphgvir Nffvfgnag"
@@ -1237,14 +1237,15 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     de_title: "Qverpgbe bs Rqhpngvba"
     vpm_title: "IC, Znexrgvat"
     oi_title: "Bayvar Vafgehpgbe"
+    aoim_title: "Nffbpvngr Bayvar Vafgehpgbe Znantre"
     bdm_title: "Ohfvarff Qrirybczrag Znantre"
-    community_subtitle: "Bire 500 pbagevohgbef unir urycrq ohvyq PbqrPbzong, jvgu zber wbvavat rirel jrrx!"
+    community_subtitle: "Bire 600 pbagevohgbef unir urycrq ohvyq PbqrPbzong, jvgu zber wbvavat rirel jrrx!" # {punatr}
     community_description_3: "PbqrPbzong vf n"
     community_description_link_2: "pbzzhavgl cebwrpg"
     community_description_1: "jvgu uhaqerqf bs cynlref ibyhagrrevat gb perngr yriryf, pbagevohgr gb bhe pbqr gb nqq srngherf, svk ohtf, cynlgrfg, naq rira genafyngr gur tnzr vagb 50 ynathntrf fb sne. Rzcyblrrf, pbagevohgbef naq gur fvgr tnva ol funevat vqrnf naq cbbyvat rssbeg, nf qbrf gur bcra fbhepr pbzzhavgl va trareny. Gur fvgr vf ohvyg ba ahzrebhf bcra fbhepr cebwrpgf, naq jr ner bcra fbheprq gb tvir onpx gb gur pbzzhavgl naq cebivqr pbqr-phevbhf cynlref n snzvyvne cebwrpg gb rkcyber naq rkcrevzrag jvgu. Nalbar pna wbva gur PbqrPbzong pbzzhavgl! Purpx bhg bhe"
     community_description_link: "pbagevohgr cntr"
     community_description_2: "sbe zber vasb."
-    number_contributors: "Bire 450 pbagevohgbef unir yrag gurve fhccbeg naq gvzr gb guvf cebwrpg."
+    number_contributors: "Bire 650 pbagevohgbef unir yrag gurve fhccbeg naq gvzr gb guvf cebwrpg." # {punatr}
     story_title: "Bhe fgbel fb sne"
     story_subtitle: "Fvapr 2013, PbqrPbzong unf tebja sebz n zrer frg bs fxrgpurf gb n yvivat, guevivat tnzr."
     story_statistic_1a: "20,000,000+"
@@ -1819,6 +1820,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teacher_account_explanation: "N PbqrPbzong Grnpure nppbhag nyybjf lbh gb frg hc pynffebbzf, zbavgbe fghqragf’ cebterff nf gurl jbex guebhtu pbhefrf, znantr yvprafrf naq npprff erfbheprf gb nvq va lbhe pheevphyhz-ohvyqvat."
     current_classes: "Pheerag Pynffrf"
     archived_classes: "Nepuvirq Pynffrf"
+    shared_classes: "Funerq Pynffrf"
     archived_classes_blurb: "Pynffrf pna or nepuvirq sbe shgher ersrerapr. Hanepuvir n pynff gb ivrj vg va gur Pheerag Pynffrf yvfg ntnva."
     view_class: "ivrj pynff"
     view_ai_league_team: "Ivrj NV Yrnthr grnz"
@@ -2126,6 +2128,10 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     try_ozaria_footer: "Gel bhe arj nqiragher tnzr, Bmnevn!"
     try_ozaria_free: "Gel Bmnevn sbe serr"
     ozaria_intro: "Vagebqhpvat Bhe Arj Pbzchgre Fpvrapr Cebtenz"
+    share_class: 'funer pynff'
+    permission: 'Crezvffvba'
+    not_write_permission: "Lbh qba'g unir jevgr crezvffvba gb gur pynff"
+    not_read_permission: "Lbh qba'g unir ernq crezvffvba gb gur pynff"
 
   teacher_ozaria_encouragement_modal:
     title: "Ohvyq Pbzchgre Fpvrapr Fxvyyf gb Fnir Bmnevn"
@@ -3433,3 +3439,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     invalidPhone: 'Vainyvq cubar ahzore'
     emailExists: 'Rznvy nyernql rkvfgf'
     numberGreaterThanZero: 'Fubhyq or n ahzore terngre guna 0'
+
+  teacher_dashboard:
+    read: 'Ivrj Bayl'
+    write: 'Shyy Npprff'
+    read_blurb: 'Ivrj Bayl crezvgf gur nqqrq grnpure gb ivrj lbhe pynff naq fghqrag cebterff jvgubhg gur novyvgl gb znxr punatrf gb lbhe pynff.'
+    write_blurb: 'Shyy Npprff tenagf gur nqqrq grnpure gur novyvgl gb znxr zbqvsvpngvbaf gb lbhe pynff (nqq/erzbir fghqragf, nffvta puncgref, zbqvsl yvprafher)'
+    shared_with_none: 'Guvf pynff vf abg pheeragyl funerq jvgu nal bgure grnpuref.'
+    share_info: 'Gb tvir bgure grnpuref npprff gb gur pynff, nqq gurve rznvyf orybj.'
+    class_owner: 'Pynff Bjare'
+    share: 'Funer'
