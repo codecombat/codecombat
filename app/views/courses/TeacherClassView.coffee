@@ -38,6 +38,8 @@ DOMPurify = require 'dompurify'
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
+getLastSelectedCourseKey = (classroomId) -> 'selectedCourseId_' + classroomId + '_' + me.id
+
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
   helper: helper
@@ -214,7 +216,7 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @courses, 'sync change update', ->
       @setCourseMembers() # Is this necessary?
       unless @state.get 'selectedCourse'
-        courseId = localStorage.getItem 'selectedCourseId_' + this.classroom.id
+        courseId = localStorage.getItem getLastSelectedCourseKey this.classroom.id
         @state.set 'selectedCourse', if courseId then @courses.get(courseId) else @courses.first()
       @setSelectedCourseInstance()
     @listenTo @courseInstances, 'sync change update', ->
@@ -495,7 +497,7 @@ module.exports = class TeacherClassView extends RootView
 
   onChangeCourseSelect: (e) ->
     selectedCourseId = $(e.currentTarget).val()
-    localStorage.setItem 'selectedCourseId_' + this.classroom.id, selectedCourseId
+    localStorage.setItem getLastSelectedCourseKey(this.classroom.id), selectedCourseId
     @trigger 'course-select:change', { selectedCourse: @courses.get(selectedCourseId) }
 
   onChangeLockedLevelSelect: (e) ->
