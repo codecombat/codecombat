@@ -345,7 +345,7 @@ module.exports = class User extends CocoModel
     return console.error "Already started experiment #{name}" if _.find experiments, name: name
     return console.error "Invalid experiment name: #{name}" unless /^[a-z][\-a-z0-9]*$/.test name
     return console.error "No experiment value provided" unless value?
-    return console.error "Probability should be between 0-1 if set" if probability? and not 0 <= probability <= 1
+    return console.error "Probability should be between 0-1 if set" if probability? and not (0 <= probability <= 1)
     $.ajax
       method: 'POST'
       url: "/db/user/#{@id}/start-experiment"
