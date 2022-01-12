@@ -1021,6 +1021,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     feature_level_access: "可获得 500+ 关卡的使用权"
     feature_heroes: "解锁独家英雄" # {change}
     feature_learn: "学习制作游戏和网页" # {change}
+    feature_languages: "一次购买畅学多种主流语言，随时切换"
 #    feature_gems: "Receive __gems__ gems per month"
     month_price: "__price__元/月" # {change}
     first_month_price: "第一个月仅需 $__price__！"

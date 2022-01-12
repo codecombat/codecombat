@@ -1017,6 +1017,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     feature_level_access: "Access 500+ levels available"
     feature_heroes: "Unlock exclusive heroes and pets"
     feature_learn: "Learn to make games and websites"
+    feature_languages: "Get all supported languages"
     feature_gems: "Receive __gems__ gems per month"
     month_price: "__price__ RMB/mo"
     first_month_price: "Only $__price__ for your first month!"
