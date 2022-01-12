@@ -5,7 +5,7 @@
       v-for="arena in arenas"
       :key="arena.name"
     >
-      <h3 class="arena-name">{{ arena.name }}</h3>
+      <h3 class="arena-name">{{ $t(`league.${arena.i18nTitle}`) }} {{ $t(`league.${arena.i18nType}`) }}</h3>
       <div class="arena-period">{{ arena.period }}</div>
       <img
         class="img-responsive arena-img"
@@ -25,16 +25,22 @@ export default {
       arenas: [
         {
           name: 'Tundra Tower Cup',
+          i18nTitle: 'tundra_tower',
+          i18nType: 'cup',
           period: 'Jan - Apr 2022',
           imgPath: '/images/pages/league/tundra-tower-cup.png'
         },
         {
           name: 'Sandstorm Blitz',
+          i18nTitle: 'sandstorm',
+          i18nType: 'blitz',
           period: 'May - Aug 2022',
           imgPath: '/images/pages/league/sand-storm-blitz.png'
         },
         {
           name: 'Lava Lake Clash',
+          i18nTitle: 'lava_lake',
+          i18nType: 'clash',
           period: 'Sep - Dec 2022',
           imgPath: '/images/pages/league/lava-lake-clash.png'
         }
