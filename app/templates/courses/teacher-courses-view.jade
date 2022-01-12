@@ -51,6 +51,10 @@ block content
                       if view.enableCpp && (view.utils.CSCourseIDs.indexOf(course.id) !== -1)
                         option(value="cpp")
                           | C++
+                      if view.enableJava && (view.utils.CSCourseIDs.indexOf(course.id) !== -1) && (view.utils.CSCourseIDs.indexOf(course.id) < 4)
+                        option(value="java")
+                          | Java
+      
               .form-group
                 label.control-label
                   span(data-i18n="courses.select_level")

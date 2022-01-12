@@ -162,7 +162,7 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
   else
     jsCodes[len-1] = (lines.map (line) -> ' ' + line).join('\n')  # Add whitespace at beginning of each line to make regexes easier
 
-  functionReturnType = if language is 'cpp' then 'auto' else 'public static void'  # TODO: figure out some auto return types for Java
+  functionReturnType = if language is 'cpp' then 'auto' else 'public static var'  # TODO: figure out some auto return types for Java
   functionParamType = if language is 'cpp' then 'auto' else 'Object'  # TODO: figure out some auto/void param types for Java
   for i in [0...len]
     s = jsCodes[i]
@@ -174,6 +174,8 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     s = s.replace /var (i|j|k)(?![a-zA-Z0-9_])/g, 'int $1'
     s = s.replace /\ ===\ /g, ' == '
     s = s.replace /\ !== /g, ' != '
+    s = s.replace /hero\.throw\(/g, 'hero.throwEnemy('
+    s = s.replace /\ = \[([^;]*)\];/g, ' = {$1};'
 
     if language is 'cpp'
       s = s.replace /\.length/g, '.size()'
@@ -181,7 +183,6 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
       s = s.replace /\.pop\(/g, '.pop_back('
       s = s.replace /\.shift\(/g, '.pop('
       s = s.replace /\ var /g, ' auto '
-      s = s.replace /\ = \[([^;]*)\];/g, ' = {$1};'
       s = s.replace /\(var /g, '(auto '
       s = s.replace /\nvar /g, '\nauto '
       s = s.replace /\ return \[([^;]*)\];/g, ' return {$1};'
