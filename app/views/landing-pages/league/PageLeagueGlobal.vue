@@ -14,6 +14,7 @@ import { titleize, arenas, activeArenas } from '../../../core/utils'
 
 import BackboneModalHarness from '../../common/BackboneModalHarness'
 import CreateAccountModal from '../../core/CreateAccountModal/CreateAccountModal'
+import YearlyArenaInfo from "./components/YearlyArenaInfo";
 
 const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular' && a.end > new Date()))
 const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type === 'championship' && a.end > new Date()))
@@ -29,6 +30,7 @@ const tournamentsByLeague = {
 
 export default {
   components: {
+    YearlyArenaInfo,
     Leaderboard,
     ClanSelector,
     LeagueSignupModal,
@@ -754,6 +756,7 @@ export default {
         </div>
       </div>
     </div>
+    <yearly-arena-info />
     <div class="row">
       <div class="col-xs-12">
         <p>
@@ -1373,11 +1376,11 @@ export default {
     }
 
     ::v-deep .section-space {
-      margin-bottom: 200px;
+      margin-bottom: 50px;
     }
 
     .esports-header {
-      margin-bottom: 300px;
+      margin-bottom: 200px;
     }
   }
 
