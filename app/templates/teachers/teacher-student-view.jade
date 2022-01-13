@@ -150,24 +150,23 @@ mixin breadcrumbs
         span.spr
         span(data-i18n="teacher.license_status")
         span.spr :
-        - var status = view.user.prepaidNumericalCourses()
+        - var enrolledCourseBits = view.user.prepaidNumericalCourses()
         #numerical-courses-status
           .status-col.cs
             - for(var index = 5; index < 11; index ++)
               .cell
                 = index - 4
-                input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
-
+                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
           .status-col.gd
             - for(var index = 2; index < 5; index ++)
               .cell
                 = index - 1
-                input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
           .status-col.wd
             - for(var index = 0; index < 2; index ++)
               .cell
                 = index + 1
-                input(type='checkbox', class='checkbox-course', checked=(status & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
 
   .playtime-charts
     h4(data-i18n="teacher.playtime_detail")

@@ -381,19 +381,21 @@ module.exports = class User extends CocoModel
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
-    activeCourseProducts = @activeProducts('course')
+    courseProducts = _.filter(@get('products'), (p) -> p.product == 'course')
+    now = new Date()
+    activeCourseProducts = _.filter(courseProducts, (p) -> new Date(p.endDate) > now || !p.endDate)
     courseIDs = utils.orderedCourseIDs
-    return 'not-enrolled' unless activeCourseProducts.length
-    return 'enrolled' if _.some courseProducts, (p) ->
+    return 'not-enrolled' unless courseProducts.length
+    return 'enrolled' if _.some activeCourseProducts, (p) ->
       return true unless p.productOptions?.includedCourseIDs?.length
-      return true if _.intersection(p.prodcutOptoins.includedCourseIDs, courseIDs).length
+      return true if _.intersection(p.productOptions.includedCourseIDs, courseIDs).length
       return false
     return 'expired'
 
   activeProducts: (type) ->
     now = new Date()
     _.filter(@get('products'), (p) ->
-      return p.product == type && (new Date(p.endDate) > now || p.endDate is null)
+      return p.product == type && (new Date(p.endDate) > now || !p.endDate)
     )
 
   prepaidNumericalCourses: ->
