@@ -7,6 +7,7 @@
   import SharedPoolRow from './SharedPoolRow'
   import ModalDivider from '../../../common/ModalDivider'
   import { mapActions, mapGetters } from 'vuex'
+  import User from 'app/models/User'
 
   export default Vue.extend({
     components: {
@@ -72,6 +73,11 @@
       ...mapActions({
         addJoinerForPrepaid: 'prepaids/addJoinerForPrepaid'
       }),
+
+      broadName(teacher) {
+        return User.broadName(teacher);
+      },
+
       async addTeacher () {
         if (!this.$v.$invalid) {
           window.tracker?.trackEvent('My Licenses: Add Teacher Clicked from Share modal', { category: this.getTrackCategory })
@@ -140,9 +146,10 @@
           v-for="teacher in sharedPoolForPrepaid"
           :key="teacher._id"
           class="shared-pool-div-row"
-          :name="`${teacher.firstName} ${teacher.lastName}`"
+          :name="broadName(teacher)"
           :email="teacher.email"
           :licenses-used="teacher.licensesUsed"
+          :prepaid="prepaid"
         />
       </div>
       <div class="buttons">
