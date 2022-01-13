@@ -192,7 +192,7 @@ module.exports = class ManageLicenseModal extends ModalView
 
     user = usersToRedeem.first()
     prepaid = @prepaids.find((prepaid) => prepaid.status() is 'available' and prepaid.typeDescriptionWithTime() == @selectedPrepaidType)
-    prepaid.redeem(user, {
+    options = {
       success: (prepaid) =>
         userProducts = user.get('products') ? []
         user.set('products', userProducts.concat(prepaid.convertToProduct()))
@@ -205,7 +205,11 @@ module.exports = class ManageLicenseModal extends ModalView
         @redeemUsers(usersToRedeem)
       error: (prepaid, jqxhr) =>
         @state.set { error: jqxhr.responseJSON.message }
-    })
+    }
+    if !@classroom.isOwner() and @classroom.hasWritePermission()
+      options.data = { sharedClassroomId: @classroom.id }
+    prepaid.revoke(user, options)
+    window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: user.id, ['Mixpanel']
 
   finishRedeemUsers: ->
     @trigger 'redeem-users', @state.get('selectedUsers')
@@ -250,7 +254,7 @@ module.exports = class ManageLicenseModal extends ModalView
       @updateVisibleSelectedUsers()
       @revokeUsers(usersToRedeem, prepaidId)
 
-    prepaid.revoke(user, {
+    options = {
       success: =>
         user.set('products', user.get('products').map((p) ->
           if p.prepaid == prepaidId
@@ -264,6 +268,7 @@ module.exports = class ManageLicenseModal extends ModalView
         @revokeUsers(usersToRedeem, prepaidId)
       error: (prepaid, jqxhr) =>
         @state.set { error: jqxhr.responseJSON.message }
-    })
-
-
+    }
+    if !@classroom.isOwner() and @classroom.hasWritePermission()
+      options.data = { sharedClassroomId: @classroom.id }
+    prepaid.revoke(user, options)
