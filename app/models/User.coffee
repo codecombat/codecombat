@@ -381,7 +381,7 @@ module.exports = class User extends CocoModel
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
-    courseProducts = _.filter(@get('products'), (p) -> p.product == 'course')
+    courseProducts = _.filter(@get('products'), {product: 'course'})
     now = new Date()
     activeCourseProducts = _.filter(courseProducts, (p) -> new Date(p.endDate) > now || !p.endDate)
     courseIDs = utils.orderedCourseIDs
