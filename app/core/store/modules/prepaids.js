@@ -64,6 +64,12 @@ export default {
         email: joiner.email
       })
       Vue.set(state.joiners.byPrepaid, prepaidId, joiners)
+    },
+
+    revokeJoiner: (state, { prepaidId, joiner }) => {
+      const joiners = state.joiners.byPrepaid[prepaidId] || []
+      const joinersWithoutJoiner = joiners.filter(item => item._id !== joiner._id);
+      Vue.set(state.joiners.byPrepaid, prepaidId, joinersWithoutJoiner)
     }
   },
 
@@ -156,6 +162,23 @@ export default {
           console.error('Error in adding prepaid joiner:', e);
           throw e;
         })
+    },
+
+    async revokeJoiner ({ commit }, { prepaidId, email }) {
+      try {
+        const user = await usersApi.getByEmail({ email })
+        if (user) {
+          try {
+            await prepaidsApi.revokeJoiner({ prepaidID: prepaidId, userID: user._id })
+            commit('revokeJoiner', { prepaidId: prepaidId, joiner: user })
+          } catch (e) {
+            noty({ text: 'Error:' + e.message, type: 'error', layout: 'topCenter', timeout: 2000 })
+          }
+        }
+      } catch (e) {
+        console.error('Error in revoking prepaid joiner:', e)
+        throw e
+      }
     },
 
     async applyLicenses ({ getters }, { members, teacherId, sharedClassroomId }) {

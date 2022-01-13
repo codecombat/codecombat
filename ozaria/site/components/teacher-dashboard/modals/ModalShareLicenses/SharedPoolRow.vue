@@ -1,5 +1,7 @@
 
 <script>
+  import { mapActions } from "vuex";
+
   export default {
     props: {
       name: {
@@ -16,16 +18,32 @@
         type: Number,
         required: true,
         default: 0
+      },
+      prepaid: {
+        type: Object,
+        default: () => {},
+        required: true
       }
     },
 
+    data: () => ({
+      revoking: false
+    }),
+
     computed: {
-      nameWithSuffix () {
-        if (this.email === me.get('email')) {
-          return this.name + ' ' + Vue.t('share_licenses.you')
-        } else {
-          return this.name
-        }
+      isOwner () {
+        return this.email === me.get('email');
+      }
+    },
+
+    methods: {
+      ...mapActions({
+        revokeJoiner: 'prepaids/revokeJoiner'
+      }),
+      async revokeTeacher() {
+        this.revoking = true;
+        await this.revokeJoiner({ prepaidId: this.prepaid._id, email: this.email });
+        this.revoking = false;
       }
     }
   }
@@ -34,13 +52,15 @@
 <template>
   <div class="shared-pool-row">
     <div class="teacher-info">
-      <span class="name"> {{ nameWithSuffix }} </span>
+      <span class="name"> {{ name }} {{ isOwner ?  $t('share_licenses.you') : "" }} </span>
       <a
         class="email"
         :href="'mailto:'+email"
       > {{ email }} </a>
     </div>
     <span class="licenses-used"> {{ $t("share_licenses.licenses_used_no_braces", { licensesUsed: licensesUsed }) }} </span>
+    <button :disabled="isOwner || revoking" class="btn btn-danger" type="button" @click.once="revokeTeacher"> {{$t("editor.delete")}} </button>
+
   </div>
 </template>
 
