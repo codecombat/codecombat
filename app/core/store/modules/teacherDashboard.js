@@ -1,6 +1,10 @@
 
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 
+function getLastSelectedCourseKey (state) {
+  return `courseId_${state.teacherId}_${state.classroomId}`
+}
+
 export default {
   namespaced: true,
 
@@ -36,6 +40,7 @@ export default {
     },
     setSelectedCourseIdCurrentClassroom (state, { courseId }) {
       if (state.classroomId) {
+        localStorage.setItem(getLastSelectedCourseKey(state), courseId);
         Vue.set(state.selectedCourseIdForClassroom, state.classroomId, courseId)
       }
     },
@@ -119,7 +124,13 @@ export default {
     getSelectedCourseIdCurrentClassroom (state, getters) {
       if (state.classroomId && state.selectedCourseIdForClassroom[state.classroomId]) {
         return state.selectedCourseIdForClassroom[state.classroomId]
-      } else { // TODO default should be last assigned course
+      } else {
+
+        const savedCourseId = localStorage.getItem(getLastSelectedCourseKey(state));
+        if(savedCourseId){
+          return savedCourseId;
+        }
+
         const classroomCourses = getters['getCoursesCurrentClassroom'] || []
         if (classroomCourses.length > 0) {
           return (classroomCourses[0] || {})._id
