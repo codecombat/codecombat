@@ -1231,7 +1231,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     retrostyle_title: "Illustration"
     retrostyle_blurb: "Retro Spil"
     community_title: "...og vores open source fællesskab"
-#    bryukh_title: "Senior Gameplay Developer"
+#    lgd_title: "Lead Game Designer"
 #    oa_title: "Operations Associate"
 #    ac_title: "Administrative Coordinator"
 #    ea_title: "Executive Assistant"
@@ -1244,6 +1244,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    aoim_title: "Associate Online Instructor Manager"
 #    bdm_title: "Business Development Manager"
     community_subtitle: "Over 450 bidragydere har hjulpet med at bygge CodeCombat, flere kommer til hver uge!" # {change}
 #    community_description_3: "CodeCombat is a"
@@ -1251,7 +1252,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     community_description_1: "CodeCombat er et fællesprojekt, med hundredvis af spillere, der frivilligt skaber baner, bidrager til vores kode ved at tilføje funktioner, rette fejl, spilteste, og oversætte spillet til hele 50 sprog. Medarbejdere, bidragydere og portalen vinder alle ved at dele idéer og samle kræfterne, og ligeså gør open source fællesskabet. Portalen er bygget med en lang række open source projekter, og vi er open source for at give tilbage til fællesskabet og skabe kode til nysgerrige spillere så det har et velkendt projekt at udforske og eksperimentere med. Alle kan deltage i CodeCombat's fællesskab! Tjek vores" # {change}
     community_description_link: "bidragsside"
     community_description_2: "for mere info."
-    number_contributors: "Over 450 bidragydere har udlånt deres støtte og tid til dette projekt."
+    number_contributors: "Over 450 bidragydere har udlånt deres støtte og tid til dette projekt." # {change}
     story_title: "Vores historie indtil videre"
     story_subtitle: "Siden 2013 er CodeCombat vokset fra et simpelt sæt skitser til et levende, blomstrende spil."
     story_statistic_1a: "20.000.000+"
@@ -1826,6 +1827,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building."
 #    current_classes: "Current Classes"
 #    archived_classes: "Archived Classes"
+#    shared_classes: "Shared Classes"
 #    archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
 #    view_class: "view class"
 #    view_ai_league_team: "View AI League team"
@@ -2141,7 +2143,10 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
-#    owned_license: "Licensed"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -3456,3 +3461,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"

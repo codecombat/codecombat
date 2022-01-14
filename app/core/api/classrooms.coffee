@@ -41,4 +41,22 @@ module.exports = {
     fetchJson("/db/classroom?ownerID=#{ownerId}", {
       method: 'GET'
     })
+
+  addPermission: ({ classroomID, permission }) ->
+    fetchJson("/db/classroom/#{classroomID}/permission",  _.assign({}, {
+      method: 'POST'
+      json: { permission }
+    }))
+
+  getPermission: ({ classroomID }) ->
+    fetchJson("/db/classroom/#{classroomID}/permission", {
+      method: 'GET'
+    })
+
+  removePermission: ({ classroomID, permission }) ->
+    fetchJson("/db/classroom/#{classroomID}/permission",  _.assign({}, {
+      method: 'DELETE'
+      json: { permission }
+    }))
+
 }

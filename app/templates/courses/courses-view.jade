@@ -112,7 +112,7 @@ block content
                     else
                       span(data-i18n='league.register')
               if view.tournaments && view.tournaments.length
-                - tournament = view.tournaments[0]
+                - tournament = view.tournaments[view.tournaments.length-1]
                 +tournamentTileMixin(tournament)
                     
                 if view.tournaments.length > 1

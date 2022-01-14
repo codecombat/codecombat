@@ -369,7 +369,7 @@ module.exports = class User extends CocoModel
     return console.error "Already started experiment #{name}" if _.find experiments, name: name
     return console.error "Invalid experiment name: #{name}" unless /^[a-z][\-a-z0-9]*$/.test name
     return console.error "No experiment value provided" unless value?
-    return console.error "Probability should be between 0-1 if set" if probability? and not 0 <= probability <= 1
+    return console.error "Probability should be between 0-1 if set" if probability? and not (0 <= probability <= 1)
     $.ajax
       method: 'POST'
       url: "/db/user/#{@id}/start-experiment"
@@ -393,9 +393,11 @@ module.exports = class User extends CocoModel
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
-    activeCourseProducts = @activeProducts('course')
+    courseProducts = _.filter(@get('products'), {product: 'course'})
+    now = new Date()
+    activeCourseProducts = _.filter(courseProducts, (p) -> new Date(p.endDate) > now || !p.endDate)
     courseIDs = utils.orderedCourseIDs
-    return 'not-enrolled' unless activeCourseProducts.length
+    return 'not-enrolled' unless courseProducts.length
     return 'enrolled' if _.some activeCourseProducts, (p) ->
       return true unless p.productOptions?.includedCourseIDs?.length
       return true if _.intersection(p.productOptions.includedCourseIDs, courseIDs).length
@@ -405,7 +407,7 @@ module.exports = class User extends CocoModel
   activeProducts: (type) ->
     now = new Date()
     _.filter(@get('products'), (p) ->
-      return p.product == type && (new Date(p.endDate) > now || p.endDate is null)
+      return p.product == type && (new Date(p.endDate) > now || !p.endDate)
     )
 
   prepaidNumericalCourses: ->
@@ -445,10 +447,7 @@ module.exports = class User extends CocoModel
     return courseID in includedCourseIDs
 
   findCourseProduct: (prepaidId) ->
-    products = _.filter @get('products'), (product) ->
-      return product.product == 'course' && product.prepaid + '' == prepaidId + '' && moment().isBefore(product.endDate)
-    return undefined unless products.length
-    return products[0]
+    return _.find @activeProducts('course'),(p) => p.prepaid + '' == prepaidId + ''
 
   fetchCreatorOfPrepaid: (prepaid) ->
     @fetch({url: "/db/prepaid/#{prepaid.id}/creator"})

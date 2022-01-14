@@ -76,6 +76,7 @@ module.exports = class SpellView extends CocoView
     @highlightCurrentLine = _.throttle @highlightCurrentLine, 100
     $(window).on 'resize', @onWindowResize
     @observing = @session.get('creator') isnt me.id
+    @loadedToken = {}
 
   afterRender: ->
     super()
@@ -810,6 +811,8 @@ module.exports = class SpellView extends CocoView
   fetchToken: (source, language) =>
     if language not in ['java', 'cpp']
       return Promise.resolve(source)
+    else if source of @loadedToken
+      return Promise.resolve(@loadedToken[source])
 
     headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
     m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
@@ -819,7 +822,10 @@ module.exports = class SpellView extends CocoView
       service = window?.localStorage?.kodeKeeperService or "https://kodekeeper.koudashijie.com/parse-code-kodekeeper"
     fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
     .then (x) => x.json()
-    .then (x) => x.token
+    .then (x) =>
+      @loadedToken = {} # only cache 1 source
+      @loadedToken[source] = x.token;
+      return x.token
 
   fetchTokenForSource: () =>
     source = @ace.getValue()

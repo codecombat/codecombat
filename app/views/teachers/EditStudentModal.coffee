@@ -28,9 +28,7 @@ module.exports = class EditStudentModal extends ModalView
       newPassword: ""
       errorMessage: ""
     })
-    @prepaids = new Prepaids()
-    @prepaids.comparator = 'endDate'
-    @supermodel.trackRequest @prepaids.fetchMineAndShared()
+    @fetchPrepaids()
     @listenTo @state, 'change', @render
     @listenTo @classroom, 'save-password:success', ->
       @state.set { passwordChanged: true, errorMessage: "" }
@@ -45,6 +43,11 @@ module.exports = class EditStudentModal extends ModalView
   onLoaded: ->
     @prepaids.reset(@prepaids.filter((prepaid) -> prepaid.status() is "available"))
     super()
+
+  fetchPrepaids: ->
+    @prepaids = new Prepaids()
+    @prepaids.comparator = 'endDate'
+    @supermodel.trackRequest @prepaids.fetchForClassroom(@classroom)
 
   onClickSendRecoveryEmail: ->
     email = @user.get('email')
@@ -65,7 +68,7 @@ module.exports = class EditStudentModal extends ModalView
 
 
   onClickEnrollStudentButton: ->
-    return unless me.id is @classroom.get('ownerID')
+    return unless @classroom.hasWritePermission()
     selectedUsers = new Users([@user])
     modal = new ManageLicenseModal { @classroom, selectedUsers , users: @students }
     @openModalView(modal)

@@ -1231,7 +1231,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     retrostyle_title: "Vẽ Minh Họa"
     retrostyle_blurb: "RetroStyle Games"
     community_title: "...và cộng đồng mã nguồn mở của chúng tôi"
-#    bryukh_title: "Senior Gameplay Developer"
+#    lgd_title: "Lead Game Designer"
 #    oa_title: "Operations Associate"
 #    ac_title: "Administrative Coordinator"
 #    ea_title: "Executive Assistant"
@@ -1244,6 +1244,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    aoim_title: "Associate Online Instructor Manager"
 #    bdm_title: "Business Development Manager"
     community_subtitle: "Trên 450 người đã tham gia đóng góp cho CodeCombat, và con số này tiếp tục tăng lên hàng tuần!" # {change}
 #    community_description_3: "CodeCombat is a"
@@ -1251,7 +1252,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     community_description_1: "CodeCombat là một dự án cộng đồng, với hàng trăm tình nguyện viên tham gia tạo các màn chơi, viết code để thêm tính năng mới, sửa lỗi, chơi thử, và thậm chí phiên dịch trò chơi sang 50 thứ tiếng khác nhau. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Bất cứ ai cũng có thể tham gia cộng đồng CodeCombat! Hãy ghé qua" # {change}
     community_description_link: "trang dành cho người đóng góp"
     community_description_2: "để biết thêm chi tiết."
-    number_contributors: "Hơn 450 người đã bỏ công sức và thời gian để đóng góp cho dự án này."
+    number_contributors: "Hơn 450 người đã bỏ công sức và thời gian để đóng góp cho dự án này." # {change}
     story_title: "Hãy nghe câu chuyện của chúng tôi"
     story_subtitle: "Kể từ năm 2013 đến nay, CodeCombat khởi nguồn chỉ là những phác thảo sơ khai đã được hiện thực hóa để trở thành một tựa game đầy lôi cuốn."
     story_statistic_1a: "20,000,000+"
@@ -1826,6 +1827,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building."
     current_classes: "Các lớp hiện tại"
 #    archived_classes: "Archived Classes"
+#    shared_classes: "Shared Classes"
 #    archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
     view_class: "xem lớp"
 #    view_ai_league_team: "View AI League team"
@@ -2141,7 +2143,10 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
-#    owned_license: "Licensed"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -3456,3 +3461,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"

@@ -70,13 +70,27 @@ block content
 
       h3
         span(data-i18n='teacher.current_classes')
-        a.pull-right(href="/outcomes-report/teacher/#{me.get('_id')}" target="_blank" data-i18n='outcomes.view_outcomes_report') 
+        a.pull-right(href="/outcomes-report/teacher/#{me.get('_id')}" target="_blank" data-i18n='outcomes.view_outcomes_report')
 
     .classes.container
       // Loop each class
       each classroom in view.classrooms.models
         unless classroom.get('archived')
-          +classRow(classroom)
+          if classroom.isOwner()
+            +classRow(classroom)
+
+    .container
+      div#classes-shared-subview
+
+      h3
+        span(data-i18n='teacher.shared_classes')
+
+    .classes.container
+      // Loop each class
+      each classroom in view.classrooms.models
+        unless classroom.get('archived')
+          if !classroom.isOwner() && classroom.hasReadPermission()
+            +classRow(classroom)
 
     if view.administratingTeachers && view.administratingTeachers.size() > 0
       .container
@@ -100,7 +114,7 @@ block content
     +createClassButton
 
     if !me.showChinaResourceInfo()
-      +clanLeagueStatsMixin(view.aiLeagueStats, view.teacherClan ? view.teacherClan._id : null)
+      +clanLeagueStatsMixin(view.aiLeagueStats, (view.teacherClan ? view.teacherClan._id : null), false, null)
 
     if !me.hideOtherProductCTAs()
       .container.try-ozaria
@@ -132,12 +146,22 @@ mixin classRow(classroom)
         | :&nbsp;
         span
           = classroom.get('members').length
+      if classroom.getDisplayPermission()
+        .shared-access.small.rtl-allowed(dir="auto")
+          | &nbsp;
+          | &nbsp;
+          span(data-i18n='teacher.permission')
+          | :&nbsp;
+          span=classroom.getDisplayPermission()
       .class-links.rtl-allowed(dir="auto")
         a.view-class-btn.text-h6(data-i18n='teacher.view_class' data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Link")
-        if !me.showChinaResourceInfo()
+        if !me.showChinaResourceInfo（）&& classroom.isOwner()
           a.view-ai-league.text-h6(data-i18n='teacher.view_ai_league_team' data-clan-level='classroom' data-clan-source-object-id=classroom.id data-event-action="Teachers Classes View AI League Team")
-        a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")
-        a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
+        if classroom.hasWritePermission()
+          a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")
+          a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
+        if classroom.isOwner()
+          a.share-class.text-h6(data-i18n='teacher.share_class', data-classroom-id=classroom.id data-event-action="Teachers Share Class")
 
     .flex-right
       .progress-col

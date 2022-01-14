@@ -26,7 +26,7 @@ describe 'TeacherClassView', ->
       me = factories.makeUser({})
 
       @courses = new Courses([
-        factories.makeCourse({name: 'First Course'}),
+        factories.makeCourse({name: 'First Course', _id: '5632661322961295f9428638'}),
         factories.makeCourse({name: 'Second Course'}),
         factories.makeCourse({name: 'Beta Course', releasePhase: 'beta'}),
       ])
@@ -381,6 +381,7 @@ describe 'TeacherClassView', ->
 
 
       describe 'when there is nothing else to do first', ->
+
         beforeEach (done) ->
           @courseInstance = @view.courseInstances.first()
           @courseInstance.set('members', [])

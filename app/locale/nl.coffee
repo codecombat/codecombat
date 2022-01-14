@@ -1231,7 +1231,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
     community_title: "...en onze open-source gemeenschap"
-#    bryukh_title: "Senior Gameplay Developer"
+#    lgd_title: "Lead Game Designer"
 #    oa_title: "Operations Associate"
 #    ac_title: "Administrative Coordinator"
 #    ea_title: "Executive Assistant"
@@ -1244,6 +1244,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    aoim_title: "Associate Online Instructor Manager"
 #    bdm_title: "Business Development Manager"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
@@ -1251,7 +1252,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     community_description_1: "CodeCombat is een gemeenschapsproject, met honderden spelers die vrijwillig levels maken, bijdrage aan onze code om dingen toe te voegen, bugs te maken, speeltesten, en zelfs helpen het spel te vertalen in 50 talen zover. Werknemers, bijdragers en de site krijgen meer door het delen van ideeën en pooling inspanning, zoals de open source gemeenschap in het algemeen doet. De site is gemaakt met meerdere open source projecten, en we zijn open source zodat we wat terug kunnen geven aan de gemeenschap en leveren programmeer geïnteresseerde spelers een vertouwd project om te verkennen en mee te experimenteren. Iedereen kan zich bij de CodeCombat gemeenschap voegen! Bekijk onze" # {change}
     community_description_link: "Draag bij pagina"
     community_description_2: "voor meer info."
-    number_contributors: "Meer dan 450 bijdragers hebben hun hulp en tijd verleend aan dit project."
+    number_contributors: "Meer dan 450 bijdragers hebben hun hulp en tijd verleend aan dit project." # {change}
     story_title: "Ons verhaal tot nu toe"
     story_subtitle: "Sinds 2013, is CodeCombat gegroeid van een paar schetsen naar een levend, bloeiend spel."
     story_statistic_1a: "20,000,000+"
@@ -1826,6 +1827,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher_account_explanation: "Een CodeCombat Lerarenaccount geeft je de mogelijkheid om klassen aan te maken, voortgang van leerlingen te bekijken terwijl ze de cursussen volgen, inschrijvingen te beheren en hulpmiddelen te gebruiken voor het opzetten van een leerplan" # {change}
     current_classes: "Huidige Klassen"
     archived_classes: "Gearchiveerde Klassen"
+#    shared_classes: "Shared Classes"
     archived_classes_blurb: "Klassen kunnen worden gearchiveerd voor later gebruik. De-archiveer een klas om deze weer in de lijst Huidige Klassen te zien"
     view_class: "bekijk klas"
 #    view_ai_league_team: "View AI League team"
@@ -2141,7 +2143,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     try_ozaria_footer: "Probeer ons nieuwe avonturenspel, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
-#    owned_license: "Licensed"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
   teacher_ozaria_encouragement_modal:
     title: "Werk aan je Computervaardigheden om Ozaria te redden"
@@ -3456,3 +3461,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"

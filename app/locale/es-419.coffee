@@ -1231,7 +1231,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
     community_title: "...y nuestra comunidad open-source"
-#    bryukh_title: "Senior Gameplay Developer"
+#    lgd_title: "Lead Game Designer"
 #    oa_title: "Operations Associate"
 #    ac_title: "Administrative Coordinator"
 #    ea_title: "Executive Assistant"
@@ -1244,6 +1244,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    de_title: "Director of Education"
 #    vpm_title: "VP, Marketing"
 #    oi_title: "Online Instructor"
+#    aoim_title: "Associate Online Instructor Manager"
 #    bdm_title: "Business Development Manager"
     community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
     community_description_3: "CodeCombat es un"
@@ -1251,7 +1252,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     community_description_1: "CodeCombat es un proyecto comunitario, con cientos de jugadores haciendo trabajo voluntario al crear niveles, contribuir a nuestro código para añadir características, arreglar bugs, testear, e incluso traducir el juego a 50 idiomas hasta ahora. Empleados, contribuidores y la página ganan al compartir las ideas Echa un vistazo a nuestra" # {change}
     community_description_link: "página de contribución"
     community_description_2: "para más información."
-    number_contributors: "Más de 450 contribuidores dieron su apoyo y tiempo a este proyecto."
+    number_contributors: "Más de 450 contribuidores dieron su apoyo y tiempo a este proyecto." # {change}
     story_title: "Nuestra historia hasta ahora"
     story_subtitle: "Desde 2013, CodeCombat creció desde un mero conjunto de bocetos hasta un juego próspero, vivo."
     story_statistic_1a: "+20,000,000"
@@ -1826,6 +1827,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     teacher_account_explanation: "Una Cuenta de Maestro en CodeCombat da permiso a crear salones de clases, monitorear el progreso de los estudiantes mientras ellos trabajan a través de los cursos, manejar inscripciones y acceder a recursos para la creación de su plan de estudio." # {change}
     current_classes: "Clases Recientes"
     archived_classes: "Clases Archivadas"
+#    shared_classes: "Shared Classes"
     archived_classes_blurb: "Las Clases pueden ser archivadas para futuras referencias. Desarchiva una Clase para verla en la lista de Clases Recientes de nuevo."
     view_class: "ver clase"
 #    view_ai_league_team: "View AI League team"
@@ -2141,7 +2143,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    try_ozaria_footer: "Try our new adventure game, Ozaria!"
 #    try_ozaria_free: "Try Ozaria for free"
 #    ozaria_intro: "Introducing Our New Computer Science Program"
-#    owned_license: "Licensed"
+#    share_class: "share class"
+#    permission: "Permission"
+#    not_write_permission: "You don't have write permission to the class"
+#    not_read_permission: "You don't have read permission to the class"
 
 #  teacher_ozaria_encouragement_modal:
 #    title: "Build Computer Science Skills to Save Ozaria"
@@ -3456,3 +3461,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+
+#  teacher_dashboard:
+#    read: "View Only"
+#    write: "Full Access"
+#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
+#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
+#    shared_with_none: "This class is not currently shared with any other teachers."
+#    share_info: "To give other teachers access to the class, add their emails below."
+#    class_owner: "Class Owner"
+#    share: "Share"
