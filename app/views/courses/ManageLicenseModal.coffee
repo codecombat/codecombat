@@ -208,7 +208,7 @@ module.exports = class ManageLicenseModal extends ModalView
     }
     if !@classroom.isOwner() and @classroom.hasWritePermission()
       options.data = { sharedClassroomId: @classroom.id }
-    prepaid.revoke(user, options)
+    prepaid.redeem(user, options)
     window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: user.id, ['Mixpanel']
 
   finishRedeemUsers: ->
