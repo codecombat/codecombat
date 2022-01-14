@@ -1239,13 +1239,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     oi_title: "Bayvar Vafgehpgbe"
     aoim_title: "Nffbpvngr Bayvar Vafgehpgbe Znantre"
     bdm_title: "Ohfvarff Qrirybczrag Znantre"
-    community_subtitle: "Bire 600 pbagevohgbef unir urycrq ohvyq PbqrPbzong, jvgu zber wbvavat rirel jrrx!" # {punatr}
+    community_subtitle: "Bire 600 pbagevohgbef unir urycrq ohvyq PbqrPbzong, jvgu zber wbvavat rirel jrrx!"
     community_description_3: "PbqrPbzong vf n"
     community_description_link_2: "pbzzhavgl cebwrpg"
     community_description_1: "jvgu uhaqerqf bs cynlref ibyhagrrevat gb perngr yriryf, pbagevohgr gb bhe pbqr gb nqq srngherf, svk ohtf, cynlgrfg, naq rira genafyngr gur tnzr vagb 50 ynathntrf fb sne. Rzcyblrrf, pbagevohgbef naq gur fvgr tnva ol funevat vqrnf naq cbbyvat rssbeg, nf qbrf gur bcra fbhepr pbzzhavgl va trareny. Gur fvgr vf ohvyg ba ahzrebhf bcra fbhepr cebwrpgf, naq jr ner bcra fbheprq gb tvir onpx gb gur pbzzhavgl naq cebivqr pbqr-phevbhf cynlref n snzvyvne cebwrpg gb rkcyber naq rkcrevzrag jvgu. Nalbar pna wbva gur PbqrPbzong pbzzhavgl! Purpx bhg bhe"
     community_description_link: "pbagevohgr cntr"
     community_description_2: "sbe zber vasb."
-    number_contributors: "Bire 650 pbagevohgbef unir yrag gurve fhccbeg naq gvzr gb guvf cebwrpg." # {punatr}
+    number_contributors: "Bire 650 pbagevohgbef unir yrag gurve fhccbeg naq gvzr gb guvf cebwrpg."
     story_title: "Bhe fgbel fb sne"
     story_subtitle: "Fvapr 2013, PbqrPbzong unf tebja sebz n zrer frg bs fxrgpurf gb n yvivat, guevivat tnzr."
     story_statistic_1a: "20,000,000+"
