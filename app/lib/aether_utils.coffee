@@ -119,8 +119,9 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
       indices.push result.index+1
     split = []
     end = 0
-    split.push {s: 0, e: indices[0]} if indices.length
+    # split.push {s: 0, e: indices[0]} if indices.length
     for i in indices
+      split.push {s: end, e: i} if end != i
       end = matchBrackets str, i
       split.push {s: i, e: end}
     split.push {s: end, e: str.length}
