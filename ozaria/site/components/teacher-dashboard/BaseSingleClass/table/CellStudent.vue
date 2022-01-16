@@ -134,15 +134,19 @@
       background-color: #f2f2f2;
     }
 
-    .certificate-icon  {
-      height: 22px;
-      transition: filter 0.2s linear;
-      filter: none;
+    .student-status-icons {
+      white-space: nowrap;
+      .certificate-icon  {
+        height: 22px;
+        transition: filter 0.2s linear;
+        filter: none;
 
-      &:not(:hover) {
-        filter: saturate(0);
+        &:not(:hover) {
+          filter: saturate(0);
+        }
       }
     }
+
   }
 
 </style>
