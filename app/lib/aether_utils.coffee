@@ -129,7 +129,28 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     # TODO: this loses startComments before any function that isn't the first function
     return header.concat split.map (s) -> str.slice s.s, s.e
 
+  reorderGlobals = (strs) ->
+    insertPlace = strs.length-1
+    for i in [strs.length-2..0] by -1
+      continue if /\n?function/.test(strs[i])
+      continue if /^\s*\/\//.test(strs[i])
+      insertPlace -= 1
+      strs.splice(insertPlace, 0, strs.splice(i,1)[0])
+
+    mainLen = strs[strs.length-1].split('\n').length
+    final = strs.splice(insertPlace).join('')
+    finals = final.split('\n')
+    insertPlace = finals.length - mainLen
+    for i in [finals.length-mainLen-1..0] by -1
+      continue unless finals[i]
+      continue if /var /.test(finals[i])
+      insertPlace -= 1
+      finals.splice(insertPlace, 0, finals.splice(i,1)[0])
+
+    return strs.concat([finals.slice(0, insertPlace).join('\n'), finals.slice(insertPlace).join('\n')])
+
   jsCodes = splitFunctions jsCode
+  jsCodes = reorderGlobals jsCodes
   if fullCode
     # Remove whitespace-only pieces, except for in the last piece
     jsCodes = _.filter(jsCodes.slice(0, jsCodes.length - 1), (piece) -> piece.replace(/\s/g, '').length).concat(jsCodes[jsCodes.length - 1])
