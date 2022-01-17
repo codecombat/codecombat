@@ -133,15 +133,15 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     insertPlace = strs.length-1
     for i in [strs.length-2..0] by -1
       continue if /\n?function/.test(strs[i])
-      continue if /^\/\//.test(strs[i])
+      continue if /^\s*\/\//.test(strs[i])
       insertPlace -= 1
       strs.splice(insertPlace, 0, strs.splice(i,1)[0])
 
     mainLen = strs[strs.length-1].split('\n').length
     final = strs.splice(insertPlace).join('')
     finals = final.split('\n')
-    insertPlace = finals.length - mainLen + 1
-    for i in [finals.length-mainLen..0] by -1
+    insertPlace = finals.length - mainLen
+    for i in [finals.length-mainLen-1..0] by -1
       continue unless finals[i]
       continue if /var /.test(finals[i])
       insertPlace -= 1
