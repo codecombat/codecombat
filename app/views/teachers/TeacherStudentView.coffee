@@ -63,7 +63,7 @@ module.exports = class TeacherStudentView extends RootView
 
     # TODO: fetch only necessary thang data (i.e. levels with student progress, via separate API instead of complicated data.project values)
     @levels = new Levels()
-    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
+    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context,thangs.components.config.programmableMethods.plan.i18n'}}))
     @urls = require('core/urls')
 
     # wrap templates so they translate when called
@@ -136,7 +136,6 @@ module.exports = class TeacherStudentView extends RootView
       solutions = view.levelSolutionsMap[levelOriginal]
       studentCode = view.levelStudentCodeMap[levelOriginal]
       differ = new AceDiff({
-        # ace: window.ace
         element: '.' + cls
         mode: 'ace/mode/' +classLang
         theme: 'ace/theme/textmate'

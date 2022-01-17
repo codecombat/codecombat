@@ -1,15 +1,18 @@
 $connectorBackground: #d8f2ff
+$connectorBackgroundRight: #d8f2ff
 $connectorBorder: #a2d7f2
 $gutterBackground: #efefef
 $copyArrowsColor: #000
 $mergeRightColor: #c98100
 $mergeLeftColor: #004ea0
+$charDiffBackground: rgba(0, 92, 175, 0.4)
+$charDiffBackgroundRight: rgba(0, 92, 175, 0.4)
 
 .acediff
   &__wrap
     display: flex
     flex-direction: row
-    position: absolute
+    position: relative
 
     // these 3 lines are to prevents an unsightly scrolling bounce affect on Safari
     height: 100%
@@ -27,7 +30,6 @@ $mergeLeftColor: #004ea0
       background-color: $gutterBackground
 
   &__left, &__right
-    height: 100%
     flex: 1
 
   // The line that's rendered in ACE editor under diffed lines
@@ -42,6 +44,22 @@ $mergeLeftColor: #004ea0
       border-top: 1px solid $connectorBorder
       border-bottom: 0px
       position: absolute
+    &.right
+      background-color: $connectorBackgroundRight
+
+  &__diffChar
+    background-color: $charDiffBackground
+    border-top: 1px solid $connectorBorder
+    border-bottom: 1px solid $connectorBorder
+    position: absolute
+    z-index: 5
+    &.targetOnly
+      height: 0px !important
+      border-top: 1px solid $connectorBorder
+      border-bottom: 0px
+      position: absolute
+    &.right
+      background-color: $charDiffBackgroundRight
 
   // SVG connector
   &__connector

@@ -331,8 +331,8 @@ mixin breadcrumbs
               td(colspan=2)
                 div(role='tabpanel')
                   .tab-content
-                    div(class="ace-diff-"+level.get('original'), style="position: relative; height: 200px")
-                    //- For project level, there is no correct solution, just show the student's code
+                    div(class="ace-diff-"+level.get('original'), style="position: relative")
+                    //- For  project level, there is no correct solution, just show the student's code
                     if level.isProject() && solutions.length === 0
                       - var target = level.get('original');
                       div.tab-pane(id=target, class='active', role=tabpanel, aria-labelledby="#{target}-tab")
