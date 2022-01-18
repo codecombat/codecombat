@@ -331,7 +331,6 @@ mixin breadcrumbs
               td(colspan=2)
                 div(role='tabpanel')
                   .tab-content
-                    div(class="ace-diff-"+level.get('original'), style="position: relative")
                     //- For  project level, there is no correct solution, just show the student's code
                     if level.isProject() && solutions.length === 0
                       - var target = level.get('original');
@@ -351,36 +350,7 @@ mixin breadcrumbs
                                     code(class=langClass)= code.plan
                             td.project-blurb
                               i.small(data-i18n="teacher.solution_project_blurb")
-                    each solution, index in []
-                      - var target = level.get('original') + index;
-                      div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
-                        table.side-by-side
-                          tr
-                            td
-                            td
-                              .small!= marked(solution.description || '')
-                          tr
-                            td
-                              - var levelStudentCodes = view.levelStudentCodeMap[level.get('original')]
-                              unless levelStudentCodes.length
-                                i.small(data-i18n="teacher.no_code_yet")
-                              each code in levelStudentCodes
-                                if level.isLadder()
-                                  i.small(data-i18n="ladder."+code.team)
-                                if view.levelProgressMap[level.get('original')] === 'complete'
-                                  pre
-                                    code(class=langClass)= code.plan
-                                else
-                                  pre.incomplete-code
-                                    code(class=langClass)= code.plan
-                            td
-                              if solutions.length === 1
-                                pre
-                                  code(class=langClass)= solution.source
-                              else if solutions.length > 0
-                                  pre
-                                    code(class=langClass)= solution.source
-                              else
-                                i.small(data-i18n="common.coming_soon")
+                    div(class="ace-diff-"+level.get('original'), style="position: relative")
+
         if !courseStarted
           p(data-i18n="teacher.course_not_started")

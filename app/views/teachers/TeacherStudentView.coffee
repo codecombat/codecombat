@@ -32,8 +32,11 @@ module.exports = class TeacherStudentView extends RootView
   
   onClickSolutionTab: (e) ->
     link = $(e.target).closest('a')
+    levelOriginal = link.attr('id').split('-')[0].slice(0, -1)
     levelSlug = link.data('level-slug')
     solutionIndex = link.data('solution-index')
+    solutions = @levelSolutionsMap[levelOriginal]
+    @aceDiffs?[levelOriginal].editors.right.ace.setValue(solutions[solutionIndex].source, -1)
     tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
   initialize: (options, classroomID, @studentID) ->
@@ -130,17 +133,18 @@ module.exports = class TeacherStudentView extends RootView
       # aceEditors.push aceEditor
 
     view = @
+    @aceDiffs = {}
     @$el.find('div[class*="ace-diff-"]').each ->
       cls = $(@).attr('class')
       levelOriginal = cls.split('-')[2]
       solutions = view.levelSolutionsMap[levelOriginal]
       studentCode = view.levelStudentCodeMap[levelOriginal]
-      differ = new AceDiff({
+      view.aceDiffs[levelOriginal] = new AceDiff({
         element: '.' + cls
         mode: 'ace/mode/' +classLang
         theme: 'ace/theme/textmate'
         left: {
-          content: studentCode[0].plan
+          content: view.levels.fingerprint(studentCode[0].plan, classLang)
           editable: false
           copyLinkEnabled: false
         }
