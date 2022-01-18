@@ -119,8 +119,9 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
       indices.push result.index+1
     split = []
     end = 0
-    split.push {s: 0, e: indices[0]} if indices.length
+    # split.push {s: 0, e: indices[0]} if indices.length
     for i in indices
+      split.push {s: end, e: i} if end != i
       end = matchBrackets str, i
       split.push {s: i, e: end}
     split.push {s: end, e: str.length}
@@ -128,7 +129,28 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     # TODO: this loses startComments before any function that isn't the first function
     return header.concat split.map (s) -> str.slice s.s, s.e
 
+  reorderGlobals = (strs) ->
+    insertPlace = strs.length-1
+    for i in [strs.length-2..0] by -1
+      continue if /\n?function/.test(strs[i])
+      continue if /^\s*\/\//.test(strs[i])
+      insertPlace -= 1
+      strs.splice(insertPlace, 0, strs.splice(i,1)[0])
+
+    mainLen = strs[strs.length-1].split('\n').length
+    final = strs.splice(insertPlace).join('')
+    finals = final.split('\n')
+    insertPlace = finals.length - mainLen
+    for i in [finals.length-mainLen-1..0] by -1
+      continue unless finals[i]
+      continue if /var /.test(finals[i])
+      insertPlace -= 1
+      finals.splice(insertPlace, 0, finals.splice(i,1)[0])
+
+    return strs.concat([finals.slice(0, insertPlace).join('\n'), finals.slice(insertPlace).join('\n')])
+
   jsCodes = splitFunctions jsCode
+  jsCodes = reorderGlobals jsCodes
   if fullCode
     # Remove whitespace-only pieces, except for in the last piece
     jsCodes = _.filter(jsCodes.slice(0, jsCodes.length - 1), (piece) -> piece.replace(/\s/g, '').length).concat(jsCodes[jsCodes.length - 1])
@@ -162,7 +184,7 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
   else
     jsCodes[len-1] = (lines.map (line) -> ' ' + line).join('\n')  # Add whitespace at beginning of each line to make regexes easier
 
-  functionReturnType = if language is 'cpp' then 'auto' else 'public static void'  # TODO: figure out some auto return types for Java
+  functionReturnType = if language is 'cpp' then 'auto' else 'public static var'  # TODO: figure out some auto return types for Java
   functionParamType = if language is 'cpp' then 'auto' else 'Object'  # TODO: figure out some auto/void param types for Java
   for i in [0...len]
     s = jsCodes[i]
@@ -174,6 +196,8 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     s = s.replace /var (i|j|k)(?![a-zA-Z0-9_])/g, 'int $1'
     s = s.replace /\ ===\ /g, ' == '
     s = s.replace /\ !== /g, ' != '
+    s = s.replace /hero\.throw\(/g, 'hero.throwEnemy('
+    s = s.replace /\ = \[([^;]*)\];/g, ' = {$1};'
 
     if language is 'cpp'
       s = s.replace /\.length/g, '.size()'
@@ -181,7 +205,6 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
       s = s.replace /\.pop\(/g, '.pop_back('
       s = s.replace /\.shift\(/g, '.pop('
       s = s.replace /\ var /g, ' auto '
-      s = s.replace /\ = \[([^;]*)\];/g, ' = {$1};'
       s = s.replace /\(var /g, '(auto '
       s = s.replace /\nvar /g, '\nauto '
       s = s.replace /\ return \[([^;]*)\];/g, ' return {$1};'
