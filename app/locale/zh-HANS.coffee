@@ -988,7 +988,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     confirmation: "恭喜你！你已经获得了CodeCombat的高级订阅版本"
     premium_already_subscribed: "你已经订阅了高级版本"
     subscribe_modal_title: "CodeCombat 订阅"
-    comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！" # {change}
+    comparison_blurb: "亲，想要成为编程高手，那么现在就订阅CodeCombat！" # {change}
     must_be_logged: "您需要先登入。请先注册或者在上方的目录中点击登入。"
     subscribe_title: "订阅" # Actually used in subscribe buttons, too
     unsubscribe: "取消订阅"
@@ -1018,10 +1018,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     unsubscribing: "取消订阅中"
     subscribe_prepaid: "点击订阅来使用预付费代码"
     using_prepaid: "使用预付费代码进行每月订阅"
-    feature_level_access: "可获得 500+ 关卡的使用权"
-    feature_heroes: "解锁独家英雄" # {change}
-    feature_learn: "学习制作游戏和网页" # {change}
-    feature_languages: "一次购买畅学多种主流语言，随时切换"
+    feature_level_access: "开放可达500+的更多关卡"
+    feature_heroes: "解锁独家英雄和宠物角色" # {change}
+    feature_learn: "学习游戏和网页项目实践" # {change}
+    feature_languages: "畅学多种主流语言，可随时切换"
+    feature_aiyouth: "AI世青赛参赛机会"
 #    feature_gems: "Receive __gems__ gems per month"
     month_price: "__price__元/月" # {change}
     first_month_price: "第一个月仅需 $__price__！"
