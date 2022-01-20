@@ -18,7 +18,7 @@ module.exports = class Products extends CocoCollection
 
   getBasicSubscriptionForUser: (user) ->
     country = (user?.get('country') or '').toLowerCase()
-    if country == 'china' or features.chinaHome
+    if features.chinaHome
       return new Product({
         name: "basic_subscription"
         amount: 9900
@@ -28,6 +28,8 @@ module.exports = class Products extends CocoCollection
         displayName: "CodeCombat Premium Subscription"
         displayDescription: "A CodeCombat Premium subscription gives you access to exclusive levels, heroes, equipment, pets and more!"
       })
+    else if features.chinaInfra
+      return null
     coupon = user?.get('stripe')?.couponID
     if coupon
       countrySpecificProduct = @findWhere { name: "#{coupon}_basic_subscription" }
@@ -37,7 +39,7 @@ module.exports = class Products extends CocoCollection
 
   getBasicAnnualSubscriptionForUser: () ->
     country = (user?.get('country') or '').toLowerCase()
-    if country == 'china' or features.chinaHome
+    if features.chinaHome
       return new Product({
         name: "basic_subscription_annual"
         amount: 99900
@@ -46,6 +48,8 @@ module.exports = class Products extends CocoCollection
         displayName:"CodeCombat Premium Subscription"
         displayDescription:"A CodeCombat Premium subscription gives you access to exclusive levels, heroes, equipment, pets and more!"
       })
+    else if features.chinaInfra
+      return null
     return @findWhere({ name: 'basic_subscription_annual' })
 
   getLifetimeSubscriptionForUser: (user) ->
