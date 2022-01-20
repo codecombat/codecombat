@@ -236,10 +236,13 @@
         // Rich text modal has to be showing before this works
         setTimeout(() => {
           const ozariaChalkboardFontColors = ['#0C725A', '#4425D9', '#BA0ABA', '#CD0638', '#0F6CD1', '#94653C']
+          const Font = Quill.import('formats/font')
+          Font.whitelist = ['roboto-mono','serif','monospace']
+          Quill.register(Font, true)
           this.quill = new Quill('#rich-editor', {
             modules: {
               toolbar: [
-                [{ 'font': [] }],
+                [{ 'font': ['roboto-mono', 'serif', 'monospace'] }],
                 // TODO: make font size dropdown show actual sizes we want instead of built-in values
                 // [{ 'size': [false, '18px', '22px', '24px', '26px', '28px', '30px', '32px'] }],
                 [{ 'size': [ 'small', false, 'large', 'huge' ] }],
@@ -444,4 +447,13 @@
     min-height: 40px
   }
 
+  .ql-container,
+  /deep/ .preview-container {
+    font-family: 'Roboto Mono'
+  }
+
+  /deep/ .ql-snow .ql-picker.ql-font .ql-picker-label[data-value='roboto-mono']::before,
+  /deep/ .ql-snow .ql-picker.ql-font .ql-picker-item[data-value='roboto-mono']::before {
+    content: 'Roboto Mono';
+  }
 </style>

@@ -156,6 +156,8 @@
     min-height: 70%;
     width: 100%;
 
+    font-family: 'Roboto Mono';
+
     border-image: url('/images/ozaria/cinematic/CN_Acodus.png');
     background-color: white;
     border-image-slice: 200 183 170 151 fill;
