@@ -13,6 +13,7 @@ if (window.features && window.features.chinaUx) {
 }
 
 require('app/vendor.js');
+// window.document.cookie = "shaTagVal=#{shaTag};path=/javascripts/;"
 
 // require.context('app/schemas', true, /.*\.(coffee|jade)/)
 // require.context('app/models', true, /.*\.(coffee|jade)/)
