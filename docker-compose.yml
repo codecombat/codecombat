@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: ./development/docker/Dockerfile
-    command: bash -c "npm install && npm run proxy"
+    command: bash -c "npm install bower && npm install && npm run proxy"
     volumes:
       - .:/coco
       - /coco/node_modules
