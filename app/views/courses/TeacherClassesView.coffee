@@ -249,7 +249,6 @@ module.exports = class TeacherClassesView extends RootView
       @teacherQuestData[k].best = Math.max(@teacherQuestData[k].best||0,v) for k,v of classCompletion
 
   onMyClansLoaded: (clans) =>
-    console.log('onClansLoaded chunkName', clans)
     @myClans = clans
     return unless @teacherClan = _.find (clans ? []), (c) -> /teacher/.test c.name
     clansApi.getAILeagueStats(@teacherClan._id).then (stats) =>

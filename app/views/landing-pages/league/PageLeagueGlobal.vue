@@ -136,7 +136,6 @@ export default {
     },
 
     async loadRequiredData () {
-      console.log('loadRequiredData changeChunkName', this.clanByIdOrSlug)
       if (this.clanIdOrSlug) {
         try {
           await this.fetchClan({ idOrSlug: this.clanIdOrSlug })
