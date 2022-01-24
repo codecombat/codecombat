@@ -20,6 +20,7 @@ module.exports = class AboutView extends RootView
     'esc': 'onEscapePressed'
 
   getMeta: ->
+    console.log('AboutView chunkMeta')
     title: $.i18n.t 'about.title'
     meta: [
       { vmid: 'meta-description', name: 'description', content: $.i18n.t 'about.meta_description' }
