@@ -78,6 +78,7 @@
     position: absolute
     color: white
     text-transform: uppercase
+    font-family: "VT323", Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace
 
     &[dir="rtl"]
       right: 0

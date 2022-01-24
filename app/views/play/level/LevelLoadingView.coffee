@@ -8,6 +8,7 @@ aetherUtils = require 'lib/aether_utils'
 SubscribeModal = require 'views/core/SubscribeModal'
 LevelGoals = require('./LevelGoals').default
 store = require 'core/store'
+storage = require 'core/storage'
 
 module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'
@@ -51,6 +52,17 @@ module.exports = class LevelLoadingView extends CocoView
 
   afterInsert: ->
     super()
+    for endEvent in ['ended', 'stalled', 'pause']
+      @$('#loading-video').on endEvent, @onLoadingVideoEnded
+
+  onLoadingVideoEnded: (e) =>
+    return if @loadingVideoEnded
+    @loadingVideoEnded = true
+    console.log 'playback ended yo'
+    @$('#loading-video').addClass('playback-ended')
+    @$('#loading-details').addClass('playback-ended')
+    if @awaitingLoadingVideoEnd
+      @finishShowingReady()
 
   onLevelLoaded: (e) ->
     return if @level
@@ -72,10 +84,10 @@ module.exports = class LevelLoadingView extends CocoView
     @levelGoalsComponent.goals = @level.get('goals')
     goalContainer = @$el.find('.level-loading-goals')
     @buttonTranslationKey = 'play_level.loading_start'
-    if @level.get('assessment') is 'cumulative'
-      @buttonTranslationKey = 'play_level.loading_start_combo'
-    else if @level.get('assessment')
-      @buttonTranslationKey = 'play_level.loading_start_concept'
+    #if @level.get('assessment') is 'cumulative'
+    #  @buttonTranslationKey = 'play_level.loading_start_combo'
+    #else if @level.get('assessment')
+    #  @buttonTranslationKey = 'play_level.loading_start_concept'
     @$('.start-level-button').text($.i18n.t(@buttonTranslationKey))
 
     Vue.nextTick(=>
@@ -124,6 +136,13 @@ module.exports = class LevelLoadingView extends CocoView
 
   finishShowingReady: =>
     return if @destroyed
+    if not @loadingVideoEnded and not storage.load("has-seen-loading-video")
+      @awaitingLoadingVideoEnd = true
+      storage.save("has-seen-loading-video", true)
+      return
+    @awaitingLoadingVideoEnd = false
+    if not @loadingVideoEnded
+      @onLoadingVideoEnded()
     showIntro = utils.getQueryVariable('intro')
     if showIntro?
       autoUnveil = not showIntro
@@ -133,7 +152,7 @@ module.exports = class LevelLoadingView extends CocoView
       @startUnveiling()
       @unveil true
     else
-      @playSound 'level_loaded', 0.75  # old: loading_ready
+      #@playSound 'level_loaded', 0.75  # old: loading_ready
       @$el.find('.progress').hide()
       @$el.find('.start-level-button').show()
       @unveil false
@@ -206,7 +225,8 @@ module.exports = class LevelLoadingView extends CocoView
 
   resize: ->
     maxHeight = $('#page-container').outerHeight(true)
-    minHeight = $('#code-area').outerHeight(true)
+    #minHeight = $('#code-area').outerHeight(true)
+    minHeight = maxHeight
     minHeight -= 20
     @$el.css height: maxHeight
     @$loadingDetails.css minHeight: minHeight, maxHeight: maxHeight
@@ -216,7 +236,7 @@ module.exports = class LevelLoadingView extends CocoView
       _.defer -> $intro.find('.nano').nanoScroller alwaysVisible: true
 
   unveilWings: (duration) ->
-    @playSound 'loading-view-unveil', 0.5
+    #@playSound 'loading-view-unveil', 0.5
     @$el.find('.left-wing').css left: '-100%', backgroundPosition: 'right -400px top 0'
     @$el.find('.right-wing').css right: '-100%', backgroundPosition: 'left -400px top 0'
     $('#level-footer-background').detach().appendTo('#page-container').slideDown(duration) unless @level?.isType('web-dev')
@@ -279,4 +299,5 @@ module.exports = class LevelLoadingView extends CocoView
     silentStore = { commit: _.noop, dispatch: _.noop }
     @levelGoalsComponent?.$destroy()
     @levelGoalsComponent?.$store = silentStore
+    @$('#loading-video').off()
     super()

@@ -622,6 +622,7 @@ module.exports = class LevelLoader extends CocoClass
 
   playJingle: ->
     return if @headless or not me.get('volume')
+    return
     volume = 0.5
     if me.level() < 3
       volume = 0.25  # Start softly, since they may not be expecting it

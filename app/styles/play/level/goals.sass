@@ -6,11 +6,17 @@
   left: -15px
   top: -100px
   @include transition(0.5s ease-in-out)
-  border-style: solid
-  border-image: url(/images/level/goals_background.png) 15 20 51 15 fill stretch
-  border-width: 8px 10px 25px 8px
+  //border-style: solid
+  //border-image: url(/images/level/goals_background.png) 15 20 51 15 fill stretch
+  //border-width: 8px 10px 25px 8px
+  border-radius: 4px
+  -webkit-backdrop-filter: blur(88.4px)
+  backdrop-filter: blur(88.4px)
+  box-shadow: inset -44.2px 44.2px 44.2px 0 rgba(255, 255, 255, 0.1), inset 44.2px -44.2px 44.2px 0 rgba(36, 39, 46, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.25)
+  border: solid 2px #152934
+  background-color: rgba(21, 41, 52, 0.75)
   margin: -8px -10px -25px -8px
-  padding: 19px 0px 2px 25px
+  padding: 27px 10px 27px 33px
   z-index: 3
   font-size: 14px
   min-width: 230px
@@ -18,8 +24,8 @@
   &.brighter
     font-size: 18px
     font-size: 1.4vw
-    border-width: 0.91vw 1.22vw 3.10vw 0.91vw
     min-width: 23vw
+    padding-bottom: 42px
     
 #goals-view.collapsed i.collapsed, #goals-view.expanded i.expanded
   display: none

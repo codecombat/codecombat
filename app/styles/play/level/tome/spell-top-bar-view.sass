@@ -2,7 +2,7 @@
 @import "app/styles/bootstrap/variables"
 
 #spell-top-bar-view
-  $height: 87px
+  $height: 54px
   $paddingTop: 10px
   $paddingBottom: 25px
   $childSize: $height - $paddingTop - $paddingBottom
@@ -11,7 +11,7 @@
   padding: $paddingTop 25px $paddingBottom 25px
   white-space: nowrap
   position: relative
-  background: transparent url(/images/level/code_editor_top_bar_wood_background.png)
+  background: transparent url(/images/level/little-sophia/code_editor_top_bar_wood_background.png)
   background-size: 100% 100%
   z-index: 2
 
@@ -22,6 +22,7 @@
     width: 24px
     height: 20px
     background-size: contain
+    display: none
 
   .hinge-0
     left: 20%
@@ -39,9 +40,12 @@
       @include opacity(0.5)
 
   .btn.btn-small
-    margin-top: 15px
+    margin-top: 8px
     margin-right: 0.8vw
     font-size: 18px
+    height: 40px
+    background-size: cover
+    padding: 5px 23px
 
     &.reload-code
       margin-right: 1.3vw
@@ -62,11 +66,24 @@
   .reload-code
     float: right
     display: none
+    border: 0
+    background: transparent url(/images/level/little-sophia/reload_button.png) no-repeat
+    padding: 0
+    height: 42px
+    width: 40px
+    background-size: contain
+
+    &:hover
+      filter: brightness(1.1)
+
+    .glyphicon
+      display: none
 
   .beautify-code
     float: right
 
   .fullscreen-code
+    display: none
     float: right
     &:not(.maximized)
       .glyphicon-resize-small
@@ -80,18 +97,23 @@
 
   .hints-button
     float: right
-    border-style: solid
-    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
-    border-width: 7px 10px 10px 10px
-    color: white
+    //border-style: solid
+    //border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    //border-width: 7px 10px 10px 10px
+    background: transparent url(/images/level/little-sophia/hints_button.png) no-repeat
+    border: 0
+    color: #e7e7e7
     &:hover, &:active
-      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+      border: 0
+      color: #fff
 
   .videos-button
     float: right
     &:hover, &:active
       border-image: url(/images/common/button-background-success-pressed.png) 14 20 20 20 fill round
 
+  #fill-solution
+    display: none
 
   .thang-avatar-wrapper
     border-width: 0

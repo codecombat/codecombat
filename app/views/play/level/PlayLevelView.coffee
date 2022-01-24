@@ -53,7 +53,6 @@ HintsView = require './HintsView'
 SurfaceContextMenuView = require './SurfaceContextMenuView'
 HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
-SpellPaletteView = require './tome/SpellPaletteView'
 store = require('core/store')
 
 require 'lib/game-libraries'
@@ -161,7 +160,7 @@ module.exports = class PlayLevelView extends RootView
     if features.china
       @checkTournamentEndInterval = setInterval @checkTournamentEnd.bind(@), 3000
 
-    preloadImages = ['/images/level/code_palette_wood_background.png', '/images/level/code_editor_background_border.png']
+    preloadImages = ['/images/level/little-sophia/code_palette_wood_background.png', '/images/level/little-sophia/code_editor_background_border.png']
     _.delay (-> $('<img/>')[0].src = img for img in preloadImages), 1000
 
   getMeta: ->
@@ -402,14 +401,6 @@ module.exports = class PlayLevelView extends RootView
     @goalManager.destroy()
     @initGoalManager()
 
-  updateSpellPalette: (thang, spell) ->
-    return unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
-    useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    @removeSubview @spellPaletteView if @spellPaletteView
-    @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @session.get('codeLanguage'), session: @session, level: @level, courseID: @courseID, courseInstanceID: @courseInstanceID, useHero }
-    #@spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view   # TODO: know when palette should have been disabled but didn't exist
-
-
   insertSubviews: ->
     @hintsState = new HintsState({ hidden: true }, { @session, @level, @supermodel })
     store.commit('game/setHintsVisible', false)
@@ -424,7 +415,8 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new GoldView {} unless @level.isType('web-dev', 'game-dev') or goldInDuelStatsView
     @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
     @insertSubView new HUDView {level: @level} unless @level.isType('web-dev')
-    @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
+    @insertSubView ldv = new LevelDialogueView {level: @level, sessionID: @session.id}
+    ldv.$el.appendTo '#page-container'  # So it can absolutely position to the bottom of the screen
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     @insertSubView new SurfaceContextMenuView session: @session, level: @level

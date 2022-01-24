@@ -74,7 +74,7 @@ module.exports = class SpellTopBarView extends CocoView
     store.dispatch('game/autoFillSolution', @options.codeLanguage)
 
   onCodeReload: (e) ->
-    if key.shift
+    if key.shift or true
       Backbone.Mediator.publish 'level:restart', {}
     else
       @openModalView new ReloadLevelModal()
@@ -128,7 +128,7 @@ module.exports = class SpellTopBarView extends CocoView
         break
     $codearea = $('#code-area')
     $codearea.on transitionListener, =>
-      $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
+      $codearea.css 'z-index', 8 unless $('html').hasClass 'fullscreen-editor'
 
   otherTeam: =>
     teams = _.without ['humans', 'ogres'], @options.spell.team

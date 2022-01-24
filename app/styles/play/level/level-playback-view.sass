@@ -3,18 +3,18 @@
 @import "app/styles/play/variables"
 
 #playback-view
-  $playback-button-color: rgb(248, 197, 146)
+  $playback-button-color: #e7e7e7
   // When 75% alpha, it will look like the rgb(194, 154, 114) from Heald's design
   width: calc(#{$game-view-width} -  #{$api-bar-width})
   #level-view.no-api &
     width: $game-view-width
   height: 60px
-  padding-top: 17px
+  padding-top: 14px
   position: relative
-  background: transparent url(/images/level/scrubber_background.png)
+  background: transparent url(/images/level/little-sophia/scrubber_background.png)
   background-size: 100% 100%
-  // Counteract 50px height of absolutely positioned control bar, but overlap by 10px of jagged transparent top.
-  margin-top: 50px - 10px
+  // Counteract 50px height of absolutely positioned control bar
+  margin-top: 50px
   z-index: 3
 
   &.controls-disabled
@@ -22,15 +22,31 @@
     @include filter(brightness(50%))
 
   button
-    font-size: 26px
-    margin-left: 10px
+    font-size: 15px
+    margin-left: 0px
     background: transparent
-    @include opacity(0.75)
+    @include opacity(0.9)
     color: $playback-button-color
     text-shadow: 1px 1px 0px black
+    border: 0
+    box-shadow: none
+    background: transparent url(/images/level/little-sophia/left_toolbar_button.png) no-repeat
+    background-size: contain
+    width: 36px
+    height: 36px
+    padding: 2px
 
     .glyphicon
       position: relative
+
+    &:first-child
+      margin-left: 40px
+
+    &#volume-button, &#zoom-in-button
+      background-image: url(/images/level/little-sophia/middle_toolbar_button.png)
+
+    &#zoom-out-button, &#music-button
+      background-image: url(/images/level/little-sophia/right_toolbar_button.png)
 
   button:hover
     @include opacity(1)
@@ -38,8 +54,12 @@
   #play-button, #volume-button, #music-button
     float: left
     position: relative
+
+  .toggle-fullscreen
+    padding-right: 7px
     
   #music-button
+    padding-left: 13px
     @include opacity(0.5)
     span
       position: relative
@@ -63,7 +83,7 @@
   #playback-settings
     float: right
     position: relative
-    margin-right: 10px
+    margin-right: 40px
     ul button
       margin: 0 10px
     li:hover
@@ -91,16 +111,16 @@
   .scrubber
     position: absolute
     left: 170px
-    top: 21px
+    top: 17px
     bottom: 0px
     right: 175px
     background: rgb(3, 3, 3)
     height: 28px
-    border: 1px solid rgb(67, 67, 44)
+    border: 1px solid #026d71
     border-radius: 14px
 
     .scrubber-inner
-      border: 1px solid rgb(44, 38, 29)
+      border: 1px solid #026d71
       width: 100%
       height: 100%
       border-radius: 14px
@@ -112,8 +132,8 @@
       height: 12px
       cursor: pointer
       overflow: visible
-      border: 1px solid #444
-      background: rgb(80, 67, 53)
+      border: 1px solid #026d71
+      background: rgb(20, 40, 51)
       border-radius: 6px
       border: 0
       // Can't do this transition because handle then jitters, but would be good for streaming.
@@ -129,7 +149,7 @@
         @include transition(width .0s linear)
         position: relative
         // Remove gradient background in favor of solid fill
-        background: rgb(245, 170, 49)
+        background: #026d71
         border: 1px solid rgb(62, 45, 16)
         border-radius: 6px
 
@@ -140,8 +160,10 @@
           top: -11px
           background: transparent url(/images/level/scrubber_knob.png)
           background-size: contain
-          width: 36px
-          height: 36px
+          width: 0
+          height: 0
+          display: none
+          visibility: hidden
 
       .ui-slider-handle
         height: 100%

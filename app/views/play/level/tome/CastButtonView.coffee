@@ -160,8 +160,8 @@ module.exports = class CastButtonView extends CocoView
         castText = $.i18n.t('play_level.tome_cast_button_running')
       else if castable or true
         castText = $.i18n.t('play_level.tome_cast_button_run')
-        unless @options.level.get 'hidesRunShortcut'  # Hide for first few.
-          castText += ' ' + @castShortcut
+        #unless @options.level.get 'hidesRunShortcut'  # Hide for first few.
+        #  castText += ' ' + @castShortcut
       else
         castText = $.i18n.t('play_level.tome_cast_button_ran')
       @castButton.text castText

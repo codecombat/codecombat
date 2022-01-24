@@ -3,8 +3,8 @@
 @import "app/styles/play/variables"
 
 #control-bar-view
-  $control-yellow: rgb(227, 173, 53)
-  $control-yellow-highlight: rgb(243, 211, 59)
+  $control-yellow: rgb(237, 139, 65)
+  $control-yellow-highlight: rgb(254, 167, 72)
 
   width: $game-view-width
   height: 50px
@@ -21,19 +21,22 @@
 
   .levels-link-area
     position: absolute
-    left: 40px
-    width: 160px
+    left: 45px
+    //width: 160px
     text-align: center
     cursor: pointer
+    display: none
 
     a.levels-link
       margin: 0
       height: 50px
       line-height: 50px
-      color: white
-      font-size: 16px
+      color: #e7e7e7
+      font-size: 18px
+      font-family: $ls-font
 
       .glyphicon
+        display: none
         margin-left: -20px
         margin-right: 10px
         @include scaleXY(-1.25, 1.25)
@@ -50,13 +53,16 @@
     position: absolute
     top: 0
     pointer-events: none
+    display: none
 
   .left-cap
-    background: transparent url(/images/level/control_bar_cap_left.png)
-    background-size: cover
-    width: 217px
-    height: 63px
-    left: 0
+    background: transparent url(/images/level/little-sophia/control_bar_cap_left.png)
+    background-size: contain
+    width: 88px
+    height: 45px
+    left: 8px
+    top: 8px
+    //display: block
 
   .right-cap
     background: transparent url(/images/level/control_bar_cap_right.png)
@@ -83,11 +89,12 @@
     z-index: -1
 
   .wood-background
-    background: transparent url(/images/level/control_bar_background.png)
+    background: transparent url(/images/level/little-sophia/control_bar_background.png)
     background-size: contain
     width: 100%
     height: 55px
     z-index: -1
+    display: block
 
   .level-name-area-container
     position: relative
@@ -96,13 +103,14 @@
     z-index: 1
 
     .level-name-area
-      min-width: 200px
-      max-width: 320px
-      margin: 0 auto
-      padding: 8px
-      border-style: solid
-      border-image: url(/images/level/control_bar_level_name_background.png) 20 fill round
-      border-width: 0 10px 10px 10px
+      width: 245px
+      height: 46px
+      margin: 2px auto 0 auto
+      padding: 10px 48px
+      border: 0
+      background: transparent url(/images/level/little-sophia/control_bar_level_name_background.png)
+      background-size: contain
+      background-repeat: no-repeat
       text-align: center
       position: absolute
       left: 50%
@@ -114,8 +122,10 @@
         margin-bottom: -5px
 
       .level-name
-        color: white
-        font-size: 18px
+        color: #55dfe3
+        font-size: 16px
+        line-height: 13px
+        font-family: "VT323", "Work Sans", "Sans Serif"
 
       .level-difficulty
         font-size: 28px
@@ -140,23 +150,29 @@
       outline: 0
       @include box-shadow(none)
       text-transform: uppercase
+      font-family: "VT323", "Work Sans", "Sans Serif"
       font-size: 18px
 
       .hamburger
         display: inline-block
+        height: 24px
+        margin-top: 4px
+        padding-top: 1px
+        margin-right: 2px
 
         span.icon-bar
           display: block
-          border-radius: 4px
-          width: 18px
-          height: 4px
-          margin: 4px
+          border-radius: 0px
+          width: 15px
+          height: 2px
+          margin: 3px
           background: $control-yellow
+          box-shadow: none
 
       .game-menu-text
         display: inline-block
         vertical-align: middle
-        margin-top: -18px
+        margin-top: -19px
 
       &:hover
         @include scale(1.05)
@@ -169,13 +185,18 @@
       font-size: 13px
       height: 24px
 
+    #version-switch-button
+      display: none
+
     #level-done-button
       display: none
 
-
-html.no-borderimage
-  #control-bar-view .level-name-area
-    border: 0
-    background: transparent url(/images/level/control_bar_level_name_background.png)
-    background-size: contain
-    background-repeat: no-repeat
+    #control-bar-sign-up-button
+      border-radius: 4px
+      box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25)
+      border: solid 2px #52607e
+      background: #d15e37
+      font-family: "VT323", "Work Sans", "Sans Serif"
+      font-size: 18px
+      line-height: 18px
+      text-transform: uppercase

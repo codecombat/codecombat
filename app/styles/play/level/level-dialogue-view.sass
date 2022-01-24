@@ -6,69 +6,89 @@
   +keyframes(speakingPulse)
     from
       filter: drop-shadow(0px 0px 8px #333)
-      color: white
+      color: #152934
     50%
       filter: drop-shadow(0px 0px 35px skyblue)
-      color: skyblue
+      color: #000000
     to
       filter: drop-shadow(0px 0px 8px #333)
-      color: white
+      color: #152934
 
-  width: 417px
-  height: 296px
-  background: transparent url(/images/level/code_palette_wood_background.png)
-  background-size: 100% auto
+  width: 56vw
+  min-height: 150px
+  height: calc(100vh - (1178 / 1848 * 57vw + 50px + 50px))
+  max-height: 30vw
+  //background: transparent url(/images/level/code_palette_wood_background.png)
+  //background-size: 100% auto
+  background: transparent
   position: absolute
-  bottom: -296px + 40px
-  left: 300px
-  left: calc(55% - 417px - #{$api-bar-width})
+  //bottom: -296px + 40px
+  bottom: 0
+  left: 0
+  //left: 300px
+  //left: calc(55% - 417px - #{$api-bar-width})
   // Bounce in
   @include transition(1s cubic-bezier(.17,.89,.42,1.36))
-  z-index: 1
+  z-index: 3
 
   &.active
     display: block
-    bottom: -20px
+    //bottom: -20px
 
-  &.debrief
-    bottom: -300px
-
-  &.active.debrief
-    bottom: -65px
+  //&.debrief
+  //  bottom: -300px
+  //
+  //&.active.debrief
+  //  bottom: -65px
 
   &.speaking
     .dialogue-area
       .bubble
         @include animation(speakingPulse 1.5s infinite)
 
+  video
+    height: calc(100% + 5vh)
+    position: absolute
+    top: -5vh
+    pointer-events: none
+
   .dialogue-area
     position: relative
     height: 100%
-    width: 100%
+    max-width: 40vw
     z-index: 1
+    top: 5%
+    left: min(57vw - 40vw, max(150px - 50px, calc(100vh - (1178 / 1848 * 57vw + 50px + 50px) + 5vh - 10vh + 30px)))
+    display: none
 
     .bubble
       position: relative
       margin: 10px
       padding: 20px 20px 40px 20px
-      color: white
+      color: #152934
       font-weight: bold
-      background: transparent url(/images/level/dialogue_background.png)
-      background-size: 100% 100%
-      border: black solid 1px
-      border-radius: 10px
+      //background: transparent url(/images/level/dialogue_background.png)
+      //background-size: 100% 100%
+      //border: black solid 1px
+      border-radius: 4px
       font-size: 18px
       line-height: 20px
+      -webkit-backdrop-filter: blur(88.4px)
+      backdrop-filter: blur(88.4px)
+      box-shadow: inset -44.2px 44.2px 44.2px 0 rgba(255, 255, 255, 0.1), inset 44.2px -44.2px 44.2px 0 rgba(36, 39, 46, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.25)
+      border: solid 2px #152934
+      background-color: rgba(255, 255, 255, 0.9)
+      font-family: $ls-font
 
       strong, a
-        color: #FFCCAA
+        color: #442200
 
       a
         text-decoration: underline
 
       .hud-hint
         font-weight: normal
-        color: #ddd
+        color: #354934
         font-size: 14px
         line-height: 16px
         vertical-align: middle

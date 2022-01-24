@@ -4,7 +4,7 @@
 @import "app/styles/play/variables"
 
 body.is-playing
-  background-color: black
+  background-color: rgb(63, 64, 69)
 
 $level-resize-transition-time: 0.5s
 // TODO: use this for real-time playback but not cinematic playback
@@ -12,7 +12,7 @@ $level-resize-transition-time: 0.5s
 #level-view
   margin: 0 auto
   position: absolute
-  overflow: hidden
+  //overflow: hidden
   left: 0
   right: 0
   bottom: 10px
@@ -69,7 +69,7 @@ $level-resize-transition-time: 0.5s
   .level-content
     position: relative
     min-height: 555px
-    //background-color: black
+    background-color: rgb(63, 64, 69)
 
   &.real-time
     &:not(.flags)
@@ -165,19 +165,33 @@ $level-resize-transition-time: 0.5s
     line-height: 15px
 
   min-width: 1024px
+  position: relative
 
   #code-area
     @include box-sizing(border-box)
-    padding: 0px 0.9% 10px 0
+    padding: 0
     width: 43.5%
-    background: transparent url(/images/level/wood_texture.png)
-    background-size: 100% 100%
+    //background: transparent url(/images/level/little-sophia/wood_texture.png) no-repeat
+    background: transparent
+    //background-size: 100% 100%
     position: absolute
     right: 0
     top: 0px
-    bottom: 0
+    //bottom: 0
     //@include transition(width $level-resize-transition-time ease-in-out, right $level-resize-transition-time ease-in-out)
-    z-index: 2
+    z-index: 8
+    //background-position-y: 40px
+    min-height: 30vw
+
+    #code-area-background
+      border-style: solid
+      border-width: 26.76vw 18.49vw 2.37vw 24.53vw
+      border-image: url(/images/level/little-sophia/wood_texture.png) 735 508 65 674 fill stretch
+      width: 100%
+      height: calc(100% - 48px)
+      position: absolute
+      top: 48px
+      right: 0
 
   #game-area
     position: relative
@@ -221,6 +235,7 @@ $level-resize-transition-time: 0.5s
     background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,$GI) 100%)
     left: -3px
     bottom: 0
+    display: none
 
   #canvas-left-gradient
     left: 0px
@@ -283,6 +298,7 @@ $level-resize-transition-time: 0.5s
     width: 100%
     height: 30px
     background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)
+    display: none
 
   #fullscreen-editor-background-screen
     background-color: black
@@ -441,9 +457,9 @@ body.ipad #level-view
 #level-footer-background
   display: none
   position: absolute
-  background: linear-gradient( rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75) ), url(/images/level/footer_background.jpg) no-repeat
+  background: transparent url(/images/level/little-sophia/footer_background.png) no-repeat
   bottom: 0
   width: 100%
-  background-size: 100% 400px
+  background-size: cover
   height: 400px
-  z-index: -9001
+  z-index: -1

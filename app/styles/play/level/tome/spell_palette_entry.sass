@@ -17,20 +17,22 @@
   text-overflow: ellipsis
   overflow: hidden
   white-space: nowrap
+  margin: 0 1vw 0 0
+  min-width: 10vw
 
-  margin-left: 38px
-  width: 174px
-  width: calc(100% - 38px)
+  //margin-left: 38px
+  //width: 174px
+  //width: calc(100% - 38px)
 
-  span
-    cursor: pointer
-    user-select: none
-    
-  &:hover
-    color: #f3cd90
-
-  &.selected
-    color: white
+  //span
+  //  cursor: pointer
+  //  user-select: none
+  //  
+  //&:hover
+  //  color: #f3cd90
+  //
+  //&.selected
+  //  color: white
 
   &:hover
     border: 1px solid #000000
@@ -63,23 +65,29 @@
     .rtl-right-aligned
       text-align: right
 
-body.dialogue-view-active
-  .spell-palette-popover.popover
-    top: 50px !important
+//body.dialogue-view-active
+//  .spell-palette-popover.popover
+//    top: 50px !important
   
 .spell-palette-popover.popover
   // Only those popovers which are our direct children (spell documentation)
-  top: 80px !important
+  top: 8vw !important
   left: auto !important
-  right: 45%
+  right: 40%
   max-width: 600px
   min-width: 500px
-  padding: 0
-  border-style: solid
-  border-image: url(/images/level/popover_border_background.png) 16 12 fill round
-  border-width: 16px 12px
-  @include box-shadow(0 0 0 #000)
+  //padding: 0
+  //border-style: solid
+  //border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+  //border-width: 16px 12px
+  //@include box-shadow(0 0 0 #000)
   // Prevent flickering in weird scenarios where popover goes over its own property
+  border-radius: 4px
+  -webkit-backdrop-filter: blur(88.4px)
+  backdrop-filter: blur(88.4px)
+  box-shadow: inset -44.2px 44.2px 44.2px 0 rgba(255, 255, 255, 0.1), inset 44.2px -44.2px 44.2px 0 rgba(36, 39, 46, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.25)
+  border: solid 2px #152934
+  background-color: rgba(21, 41, 52, 0.75)
 
   //Fixes punctuation but puts comment marker on right, which is apparently worse.
   //body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &

@@ -1,5 +1,6 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
 
 +keyframes(castablePulse)
   from
@@ -31,35 +32,41 @@
   width: 100%
   border-radius: 6px
 
-  background: transparent url(/images/level/code_toolbar_background.png)
+  //background: transparent url(/images/level/code_toolbar_background.png)
+  background: transparent
   background-size: 100% 100%
   left: -15px
   right: 15px
-  height: 94px
+  //height: 94px
   margin-top: -8px
-  padding: 20px 2.8%
+  padding: 5px 2.8%
 
   .btn.btn-illustrated
-    height: 46px
+    height: 60px
     font-size: 24px
     line-height: 24px
     width: 45%
     width: -webkit-calc(50% - 10px)
     width: calc(50% - 10px)
     border-style: solid
-    border-image: url(/images/level/code_toolbar_run_button_active.png) 14 20 20 20 fill round
-    border-width: 7px 10px 10px 10px
+    border-image: url(/images/level/little-sophia/run_button.png) 47 53 47 37 fill stretch
+    border-width: 19.3px 21.8px 19.3px 15.2px
+    color: #00999e
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25)
+    font-family: $ls-font
 
     &:active
-      border-image: url(/images/level/code_toolbar_run_button_active_pressed.png) 14 20 20 20 fill round
+      border-image: url(/images/level/little-sophia/run_button_active.png) 47 53 47 37 fill stretch
       padding: 2px 0 0 2px
+      box-shadow: 10px solid #e7e7e7
 
     &.submit-button, &.done-button, &.rank-button
       margin-left: 10px
-      border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
+      border-image: url(/images/level/little-sophia/done_button.png) 47 53 47 37 fill stretch
       
       &:active
-        border-image: url(/images/level/code_toolbar_submit_button_active_pressed.png) 14 20 20 20 fill round
+        border-image: url(/images/level/little-sophia/done_button_active.png) 47 53 47 37 fill stretch
+        box-shadow: 10px solid #87ff87
 
   .ladder-submission-view
     width: 45%
@@ -91,10 +98,10 @@
       &.cast-button.castable
         font-weight: bold
         @include animation(castablePulse 3s infinite)
-        border-image: url(/images/level/code_toolbar_run_button_zazz.png) 14 20 20 20 fill round
+        border-image: url(/images/level/little-sophia/run_button_active.png) 47 53 47 37 fill stretch
 
         &:active
-          border-image: url(/images/level/code_toolbar_run_button_zazz_pressed.png) 14 20 20 20 fill round
+          border-image: url(/images/level/little-sophia/run_button_active.png) 47 53 47 37 fill stretch
 
       &.submit-button
         font-size: 16px
@@ -109,10 +116,10 @@
         font-weight: bold
         @include animation(winnablePulse 3s infinite)
 
-        border-image: url(/images/level/code_toolbar_submit_button_zazz.png) 14 20 20 20 fill round
+        border-image: url(/images/level/little-sophia/done_button_active.png) 47 53 47 37 fill stretch
 
         &:active
-          border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
+          border-image: url(/images/level/little-sophia/done_button_active.png) 47 53 47 37 fill stretch
 
 
 html.no-borderimage #cast-button-view

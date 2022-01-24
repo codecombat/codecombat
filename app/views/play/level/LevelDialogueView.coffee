@@ -39,6 +39,7 @@ module.exports = class LevelDialogueView extends CocoView
 
   onSpriteDialogue: (e) ->
     return unless e.message
+    @$el.find('.dialogue-area').show()
     @$el.addClass 'active speaking'
     $('body').addClass('dialogue-view-active')
     @setMessage e.message, e.mood, e.responses
@@ -56,6 +57,7 @@ module.exports = class LevelDialogueView extends CocoView
     $('body').removeClass('dialogue-view-active')
     @$el.find('img').remove()
     @$el.removeClass(@lastMood) if @lastMood
+    @$el.find('.dialogue-area').hide()
 
   setMessage: (message, mood, responses) ->
     message = marked message

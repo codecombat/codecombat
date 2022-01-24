@@ -70,7 +70,7 @@ module.exports = class SpellPaletteView extends CocoView
       for group, entries of @entryGroups
         @entryGroupElements[group] = itemGroup = $('<div class="property-entry-item-group"></div>').appendTo @$el.find('.properties-this')
         if entries[0].options.item?.getPortraitURL
-          itemImage = $('<img class="item-image" draggable=false></img>').attr('src', entries[0].options.item.getPortraitURL())
+          itemImage = $('<img class="item-image" draggable=false></img>').attr('src', entries[0].options.item.getPortraitURL()).css('top', Math.max(0, 19 * (entries.length - 2) / 2) + 2)
           itemGroup.append itemImage
           firstEntry = entries[0]
           do (firstEntry) ->
@@ -98,6 +98,7 @@ module.exports = class SpellPaletteView extends CocoView
       @$el.addClass 'hero'
       @$el.toggleClass 'shortenize', Boolean @shortenize
       @$el.toggleClass 'web-dev', @options.level.isType('web-dev')
+      @updateMaxHeight() unless application.isIPadApp
 
     tts = @supermodel.getModels ThangType
 
@@ -143,6 +144,32 @@ module.exports = class SpellPaletteView extends CocoView
 
   updateCodeLanguage: (language) ->
     @options.language = language
+
+  updateMaxHeight: ->
+    return unless @isHero
+    # We figure out how many columns we can fit, width-wise, and then guess how many rows will be needed.
+    # We can then assign a height based on the number of rows, and the flex layout will do the rest.
+    columnWidth = 212
+    columnWidth = 175 if @shortenize
+    columnWidth = 100 if @options.level.isType('web-dev')
+    nColumns = Math.floor @$el.find('.properties-this').innerWidth() / columnWidth   # will always have 2 columns, since at 1024px screen we have 424px .properties
+    columns = ({items: [], nEntries: 0} for i in [0 ... nColumns])
+    orderedColumns = []
+    nRows = 0
+    entryGroupsByLength = _.sortBy _.keys(@entryGroups), (group) => @entryGroups[group].length
+    entryGroupsByLength.reverse()
+    for group in entryGroupsByLength
+      entries = @entryGroups[group]
+      continue unless shortestColumn = _.sortBy(columns, (column) -> column.nEntries)[0]
+      shortestColumn.nEntries += Math.max 2, entries.length  # Item portrait is two rows tall
+      shortestColumn.items.push @entryGroupElements[group]
+      orderedColumns.push shortestColumn unless shortestColumn in orderedColumns
+      nRows = Math.max nRows, shortestColumn.nEntries
+    for column in orderedColumns
+      for item in column.items
+        item.detach().appendTo @$el.find('.properties-this')
+    desiredHeight = 19 * (nRows + 1)
+    #@$el.find('.properties').css('height', desiredHeight)
 
   onResize: (e) =>
     @updateMaxHeight?()
@@ -206,7 +233,8 @@ module.exports = class SpellPaletteView extends CocoView
         count += added.length
     Backbone.Mediator.publish 'tome:update-snippets', propGroups: propGroups, allDocs: allDocs, language: @options.language
 
-    @shortenize = count > 6
+    #@shortenize = count > 6
+    @shortenize = false
     tabbify = count >= 10
     @entries = []
     for owner, props of propGroups
@@ -301,7 +329,8 @@ module.exports = class SpellPaletteView extends CocoView
 
     Backbone.Mediator.publish 'tome:update-snippets', propGroups: propsByItem, allDocs: allDocs, language: @options.language
 
-    @shortenize = propCount > 6
+    #@shortenize = propCount > 6
+    @shortenize = false
     @entries = []
     for itemName, props of propsByItem
       for prop, propIndex in props

@@ -660,21 +660,29 @@ module.exports = class SpellView extends CocoView
       @lastScreenLineCount = screenLineCount
       lineHeight = @ace.renderer.lineHeight or 20
       tomeHeight = $('#tome-view').innerHeight()
+      spellPaletteView = $('#spell-palette-view')
       spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
       spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
-      @spellPaletteHeight ?= 75
+      @spellPaletteHeight ?= spellPaletteView.outerHeight()  # Remember this until resize, since we change it afterward
+      windowHeight = $(window).innerHeight()
       spellPaletteAllowedHeight = Math.min @spellPaletteHeight, tomeHeight / 3
-      maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
-      minHeight = Math.max 8, (Math.min($("#canvas-wrapper").outerHeight(),$("#level-view").innerHeight() - 175) / lineHeight) - 2
+      maxHeight = Math.min(tomeHeight, Math.max(windowHeight, 600)) - spellToolbarHeight - @$el.find('.ace').offset().top
+      minHeight = Math.max 8  #, (Math.min($("#canvas-wrapper").outerHeight(),$("#level-view").innerHeight() - 175) / lineHeight) - 2
       linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
       lines = Math.max minHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), 8
       # 2 lines buffer is nice
       lines = 8 if _.isNaN lines
       @ace.setOptions minLines: lines, maxLines: lines
+
+      #spellPaletteView.css('top', '50px')  # TODO: move to css
+      #newTop = 185 + @spellPaletteHeight
+      #@$el.css('top', newTop)
+
       # Move spell palette up, slightly overlapping us.
-      newTop = 185 + lineHeight * lines
+      #newTop = 185 + lineHeight * lines
+      #console.log {tomeHeight, spellTopBarHeight, spellToolbarHeight, @spellPaletteHeight, spellPaletteAllowedHeight, maxHeight, minHeight, linesAtMaxHeight, lines, screenLineCount, windowHeight}
       #spellPaletteView.css('top', newTop)
-      # Expand it to bottom of tome if too short.
+      ## Expand it to bottom of tome if too short.
       #newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
       #spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
     if @firstEntryToScrollLine? and @ace?.renderer?.$cursorLayer?.config

@@ -1,5 +1,6 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
+@import "app/styles/play/variables"
 
 // https://github.com/twbs/bootstrap/issues/9237 -- need a version that's not !important
 .secret
@@ -233,14 +234,29 @@ kbd
     height: 60px
 
 .popover
-  border-style: solid
-  border-image: url(/images/level/popover_border_background.png) 16 12 fill stretch
-  border-width: 16px 12px
+  //border-style: solid
+  //border-image: url(/images/level/popover_border_background.png) 16 12 fill stretch
+  //border-width: 16px 12px
+  border-radius: 4px
+  -webkit-backdrop-filter: blur(88.4px)
+  backdrop-filter: blur(88.4px)
+  box-shadow: inset -44.2px 44.2px 44.2px 0 rgba(255, 255, 255, 0.1), inset 44.2px -44.2px 44.2px 0 rgba(36, 39, 46, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.25)
+  border: solid 2px #152934
+  background-color: rgba(21, 41, 52, 0.5)
+
   .arrow
     display: none
   .btn
     font-size: 20px
     width: 100%
+
+  .popover-title, .popover-content h1, .popover-content h2, .popover-content h3, .popover-content h4, .popover-content h5, .popover-content h6
+    color: #e7e7e7
+    font-family: $ls-font
+
+  .popover-content
+    color: #e7e7e7
+    font-family: $ls-font
 
 .btn.btn-illustrated
   background: 0

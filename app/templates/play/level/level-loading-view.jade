@@ -2,6 +2,10 @@
 
 .right-wing
 
+video#loading-video(autoplay=true muted=true loop=false playsinline=true preload=auto)
+  source(src="/images/level/little-sophia/ls-loading.mov" type="video/quicktime")
+  source(src="/images/level/little-sophia/ls-loading.webm" type="video/webm")
+
 #loading-details.loading-container
 
   .level-loading-goals.secret.rtl-allowed
@@ -16,7 +20,7 @@
         .intro-doc-content(dir="auto")
 
   .progress-or-start-container
-    button.start-level-button.btn.btn-lg.btn-success.btn-illustrated.header-font.needsclick(data-i18n=view.buttonTranslationKey) Start Level
+    button.start-level-button.btn.btn-lg.btn-success.header-font.needsclick(data-i18n=view.buttonTranslationKey) Start Level
 
     .load-progress
       .progress

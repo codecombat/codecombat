@@ -50,17 +50,18 @@
 
 <style lang="sass" scoped>
   li
+    font-family: "lores12ot-bold", "VT323", "Work Sans", "Sans Serif"
     list-style: none
     margin-right: 5px
     i
       margin-right: 5px
 
   li.status-incomplete
-    color: #333
+    color: rgb(230, 230, 230)
 
   li.status-failure
-    color: darkred
+    color: rgb(239, 61, 71)
 
   li.status-success
-    color: darkgreen
+    color: lightgreen
 </style>

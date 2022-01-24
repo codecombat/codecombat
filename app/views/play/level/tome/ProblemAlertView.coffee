@@ -9,24 +9,7 @@ module.exports = class ProblemAlertView extends CocoView
   className: 'problem-alert'
   template: template
   duckImages: [
-    '/images/pages/play/duck_alejandro.png'
-    '/images/pages/play/duck_anya2.png'
-    '/images/pages/play/duck_ida.png'
-    '/images/pages/play/duck_okar.png'
-    '/images/pages/play/duck_tharin2.png'
-    '/images/pages/play/duck_amara.png'
-    '/images/pages/play/duck_arryn.png'
-    '/images/pages/play/duck_hattori.png'
-    '/images/pages/play/duck_hushbaum.png'
-    '/images/pages/play/duck_illia.png'
-    '/images/pages/play/duck_nalfar.png'
-    '/images/pages/play/duck_naria.png'
-    '/images/pages/play/duck_omarn.png'
-    '/images/pages/play/duck_pender.png'
-    '/images/pages/play/duck_ritic.png'
-    '/images/pages/play/duck_senick.png'
-    '/images/pages/play/duck_usara.png'
-    '/images/pages/play/duck_zana.png'
+    '/images/level/little-sophia/duck_little_sophia.png'
   ]
 
   subscriptions:
@@ -122,8 +105,7 @@ module.exports = class ProblemAlertView extends CocoView
       codeAreaWidth = $('#code-area').outerWidth(true)
       # problem alert view has 20px padding
       @$el.css('max-width', levelContentWidth - codeAreaWidth - goalsViewWidth + 40 + 'px')
-      @$el.css('right', codeAreaWidth + 'px')
+      @$el.css('right', (codeAreaWidth - 60) + 'px')
 
-      # 110px from top roughly aligns top of alert with top of first code line
-      # TODO: calculate this in a more dynamic, less sketchy way
-      @$el.css('top', (110 + @lineOffsetPx) + 'px')
+      top = $('#code-area .ace').offset().top
+      @$el.css('top', (top + @lineOffsetPx - @$el.height() / 2) + 'px')

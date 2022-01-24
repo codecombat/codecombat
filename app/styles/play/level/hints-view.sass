@@ -4,12 +4,34 @@
   position: relative
 
   width: 500px // TODO: should be in sync with surface min-width
-  padding: 10px 20px
-  border-style: solid
-  border-image: url(/images/level/popover_border_background.png) 16 12 fill round
-  border-width: 16px 12px
+  padding: 26px 32px
+  //border-style: solid
+  //border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+  //border-width: 16px 12px
   @include box-shadow(0 0 0 #000)
   @include user-select(initial)
+
+  border-radius: 8px
+  -webkit-backdrop-filter: blur(88.4px)
+  backdrop-filter: blur(88.4px)
+  box-shadow: inset -44.2px 44.2px 44.2px 0 rgba(255, 255, 255, 0.1), inset 44.2px -44.2px 44.2px 0 rgba(36, 39, 46, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.25)
+  border: solid 2px #152934
+  background-color: #152934
+  color: #e7e7e7
+  font-family: $ls-font
+  font-size: 16px
+
+  h1, h2, h3, h4, h5, h6
+    color: #e7e7e7
+    font-family: $ls-font
+
+  .btn.btn-illustrated
+    border-image: url(/images/level/little-sophia/run_button.png) 47 53 47 37 fill stretch
+    color: #e7e7e7
+    padding: 6px
+
+    &:active
+      border-image: url(/images/level/little-sophia/run_button_active.png) 47 53 47 37 fill stretch
 
   .close-hint-btn
     position: absolute

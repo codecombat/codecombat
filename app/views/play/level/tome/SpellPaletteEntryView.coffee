@@ -5,6 +5,7 @@ filters = require 'lib/image_filter'
 DocFormatter = require './DocFormatter'
 ace = require('lib/aceContainer')
 utils = require 'core/utils'
+aceUtils = require 'core/aceUtils'
 
 module.exports = class SpellPaletteEntryView extends CocoView
   tagName: 'div'  # Could also try <code> instead of <div>, but would need to adjust colors
@@ -36,18 +37,46 @@ module.exports = class SpellPaletteEntryView extends CocoView
   afterRender: ->
     super()
     @$el.addClass _.string.slugify @doc.type
+    placement = -> if $('body').hasClass('dialogue-view-active') then 'top' else 'left'
+    @$el.popover(
+      animation: false
+      html: true
+      placement: placement
+      trigger: 'manual'  # Hover, until they click, which will then pin it until unclick.
+      content: @docFormatter.formatPopover()
+      container: 'body'
+      template: @overridePopoverTemplate
+    ).on 'shown.bs.popover', =>
+      Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
+      soundIndex = Math.floor(Math.random() * 4)
+      @playSound "spell-palette-entry-open-#{soundIndex}", 0.75
+      @afterRenderPopover()
+
+  # NOTE: This can't be run twice without resetting the popover content HTML
+  #       in between. If you do, Ace will break.
+  afterRenderPopover: ->
+    popover = @$el.data('bs.popover')
+    popover?.$tip?.i18n()
+    codeLanguage = @options.language
+    oldEditor.destroy() for oldEditor in @aceEditors
+    @aceEditors = []
+    aceEditors = @aceEditors
+    # Initialize Ace for each popover code snippet that still needs it
+    popover?.$tip?.find('.docs-ace').each ->
+      aceEditor = aceUtils.initializeACE @, codeLanguage
+      aceEditors.push aceEditor
 
   resetPopoverContent: ->
-    #@$el.data('bs.popover').options.content = @docFormatter.formatPopover()
-    #@$el.popover('setContent')
+    @$el.data('bs.popover').options.content = @docFormatter.formatPopover()
+    @$el.popover('setContent')
 
   onMouseEnter: (e) ->
     return if @popoverPinned or @otherPopoverPinned
-    #@resetPopoverContent()
-    #@$el.popover 'show'
+    @resetPopoverContent()
+    @$el.popover 'show'
 
   onMouseLeave: (e) ->
-    #@$el.popover 'hide' unless @popoverPinned or @otherPopoverPinned
+    @$el.popover 'hide' unless @popoverPinned or @otherPopoverPinned
 
   togglePinned: ->
     if @popoverPinned

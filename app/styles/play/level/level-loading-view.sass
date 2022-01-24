@@ -1,6 +1,7 @@
 @use "sass:math"
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
 
 @mixin wing-background($url: '', $backgroundPosition: left)
   background: black
@@ -17,7 +18,7 @@ $UNVEIL_TIME: 1.2s
   left: 0
   right: 0
   position: absolute
-  z-index: 20
+  z-index: 21
 
   &.unveiled
     pointer-events: none
@@ -27,23 +28,40 @@ $UNVEIL_TIME: 1.2s
 
   .left-wing, .right-wing
     width: 100%
-    height: 100%
+    height: 100vh
     position: absolute
     pointer-events: none
 
   .left-wing
-    @include wing-background('/images/level/loading_left_wing_1920.jpg', right)
-    @media screen and ( max-width: 1366px )
-      @include wing-background('/images/level/loading_left_wing_1366.jpg', right)
+    //@include wing-background('/images/level/loading_left_wing_1920.jpg', right)
+    //@media screen and ( max-width: 1366px )
+    //  @include wing-background('/images/level/loading_left_wing_1366.jpg', right)
+    background: #3f4045
+    background: black
     left: -50%
     @include transition(all $UNVEIL_TIME ease)
 
   .right-wing
-    @include wing-background('/images/level/loading_right_wing_1920.jpg', left)
-    @media screen and ( max-width: 1366px )
-      @include wing-background('/images/level/loading_right_wing_1366.jpg', left)
+    //@include wing-background('/images/level/loading_right_wing_1920.jpg', left)
+    //@media screen and ( max-width: 1366px )
+    //  @include wing-background('/images/level/loading_right_wing_1366.jpg', left)
+    background: #3f4045
+    background: black
     right: -50%
     @include transition(all $UNVEIL_TIME ease)
+
+  #loading-video
+    height: 100vh
+    position: absolute
+    z-index: 101
+    left: 50%
+    margin-left: calc(-50vw * 1080 / 1920 / 2)
+    pointer-events: none
+    opacity: 1
+    @include transition(opacity 0.2s ease-in)
+
+    &.playback-ended
+      opacity: 0
 
   #loading-details
     position: absolute
@@ -54,15 +72,23 @@ $UNVEIL_TIME: 1.2s
     height: 450px
     margin-right: math.div(-$WIDTH, 2)
     z-index: 100
-    background: transparent url(/images/level/code_editor_background.png) no-repeat
-    background-size: 100% 100%
-    color: darkslategray
+    padding: 62px 80px 40px 49px
+    border-radius: 8px
+    -webkit-backdrop-filter: blur(88.4px)
+    backdrop-filter: blur(88.4px)
+    box-shadow: inset -44.2px 44.2px 44.2px 0 rgba(255, 255, 255, 0.1), inset 44.2px -44.2px 44.2px 0 rgba(36, 39, 46, 0.1), 0 4px 4px 0 rgba(0, 0, 0, 0.25)
+    border: solid 2px #152934
+    background-color: #152934
+    color: #e7e7e7
     font-size: 15px
-    padding: 4% 80px 40px 80px
     text-align: center
     // http://matthewlein.com/ceaser/  Bounce down a bit, then snap up.
     @include transition($UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600))
-    font-family: 'Open Sans Condensed'
+    font-family: $ls-font
+    display: none
+
+    &.playback-ended
+      display: block
 
     &.preview
       top: 0
@@ -88,17 +114,20 @@ $UNVEIL_TIME: 1.2s
 
       .goals-title
         font-size: 32px
-        color: black
+        color: #e7e7e7
         font-weight: bold
+        font-family: $ls-font
 
       li
         font-size: 20px
-        color: black
+        color: #e7e7e7
         margin-left: -25px
+        font-family: $ls-font
 
     .intro-doc
       text-align: left
       font-size: 16px
+      margin-top: 30px
       //overflow-y: scroll  // using nanoscroller now
 
       body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
@@ -129,36 +158,42 @@ $UNVEIL_TIME: 1.2s
 
       .load-progress
         width: 100%
-        height: 45px
+        height: 23px
         margin: 20px auto 0 auto
 
         .progress
           height: 100%
           position: relative
           background-color: transparent
-          @include box-shadow(none)
+          box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25)
+          border: solid 2px #026d71
+          border-radius: 8px
 
           .progress-background
             width: 100%
             height: 100%
-            background: transparent url(/images/level/loading_bar_back.png) no-repeat
-            background-size: 100% 100%
+            border-radius: 8px
+            background-color: #142833
             position: absolute
             z-index: -1
 
           .progress-bar-container
-            width: 75%
+            width: 100%
             height: 100%
-            left: 10%
+            left: 0%
             position: absolute
+            border-radius: 8px
+            padding-right: calc(1% + 6px)
 
             .progress-bar
               width: 1%
-              height: 100%
+              height: calc(100% - 12px)
               transition-duration: 0
-              background: transparent url(/images/level/loading_bar_fill.png) no-repeat
+              background-color: #026d71
               background-size: 325px 100%
               @include box-shadow(none)
+              border-radius: 8px
+              margin: 6px
 
           &.active .progress-bar
             transition-duration: 1.2s
@@ -171,6 +206,7 @@ $UNVEIL_TIME: 1.2s
             height: 100%
             background: transparent url(/images/level/loading_bar_rim.png) no-repeat
             background-size: 100% 100%
+            display: none
 
       .start-level-button
         display: none
@@ -181,6 +217,12 @@ $UNVEIL_TIME: 1.2s
         line-height: 45px
         font-variant: small-caps
         text-transform: none
+        border: 0
+        background: transparent url(/images/level/little-sophia/start_level_button.png) no-repeat
+        background-size: 100% 100%
+        color: #e7e7e7
+        font-family: $ls-font
+        box-shadow: none
 
     .subscription-required, .course-membership-required, .could-not-load, .license-required
       display: none
@@ -201,6 +243,7 @@ $UNVEIL_TIME: 1.2s
       left: 25px
       width: 401px
       color: #666
+      display: none
 
     &.preview #tip-wrapper
       left: 48px
@@ -214,5 +257,5 @@ $UNVEIL_TIME: 1.2s
       background: transparent
       border: 1px solid transparent
       border-width: 124px 76px 64px 40px
-      border-image: url(/images/level/code_editor_background.png) 124 76 64 40 fill round
+      border-image: url(/images/level/little-sophia/code_editor_background.png) 124 76 64 40 fill round
       padding: 0 35px 0 15px
