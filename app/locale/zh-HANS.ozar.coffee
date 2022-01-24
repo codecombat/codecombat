@@ -3383,6 +3383,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     outcomes_report: "学习报告"
     customize_report: "定制报告"
     done_customizing: "确定"
+    start_date: "起始日期"
+    end_date: "结束日期"
     school_admin: "学校管理员"
     school_network: "学校网络"
     school_subnetwork: "学校子网络"
