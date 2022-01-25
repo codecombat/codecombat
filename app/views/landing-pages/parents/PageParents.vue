@@ -50,7 +50,7 @@
 
             <div class="flex-spacer">
               <div class="cs-for-all-container">
-                <img 
+                <img
                   src="/images/pages/parents/cs_for_all_member.png"
                 />
               </div>
@@ -826,7 +826,8 @@ export default {
       if (!value) {
         //value = ['trial-class', 'no-trial-class'][Math.floor(me.get('testGroupNumber') / 2) % 2]
         //me.startExperiment('trial-class', value, 0.5)
-        me.startExperiment('trial-class', 'trial-class', 1)  // End experiment in favor of trial-class group; keep measuring
+        value = 'trial-class'
+        me.startExperiment('trial-class', value, 1)  // End experiment in favor of trial-class group; keep measuring
       }
       return value
     },
