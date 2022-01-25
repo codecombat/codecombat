@@ -515,7 +515,7 @@ module.exports = class CocoView extends Backbone.View
 
   getPointer: (add=true) ->
     return $pointer if ($pointer = $(".highlight-pointer[data-cid='#{@cid}']")) and ($pointer.length or not add)
-    $pointer = $("<img src='/images/level/pointer.png' class='highlight-pointer' data-cid='#{@cid}'>")
+    $pointer = $("<img src='/images/level/little-sophia/pointer.svg' class='highlight-pointer' data-cid='#{@cid}'>")
     $pointer.css('z-index', 1040) if @$el.parents('#modal-wrapper').length
     $('body').append($pointer)
     $pointer

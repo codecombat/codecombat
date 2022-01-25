@@ -467,7 +467,16 @@ module.exports = class HeroVictoryModal extends ModalView
       justBeatLevel: @level
       supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel
     _.merge options, extraOptions if extraOptions
-    if @showHoc2016ExploreButton
+    nextLevelSlug = switch @level.get('slug')
+      # Little-Sophia-specific level progression
+      when 'the-zoo-of-extinct-animals' then 'the-awakened'
+      when 'the-awakened' then 'the-sisters'
+      when 'the-sisters' then 'the-zoo-of-extinct-animals'  # TOOD: add level 4
+    if nextLevelSlug
+      nextLevelLink = "/play/level/#{nextLevelSlug}"
+      viewClass = 'views/play/level/PlayLevelView'
+      viewArgs = [options, nextLevelSlug]
+    else if @showHoc2016ExploreButton
       # Send players to /play after completing final game-dev activity project level
       nextLevelLink = '/play'
       viewClass = 'views/play/CampaignView'
