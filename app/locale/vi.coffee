@@ -403,12 +403,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    None: "None"
 
   share_progress_modal:
-    blurb: "Bạn đang tiến bộ rõ rệt đấy! Hãy khoe với bạn bè những gì bạn đã học được với CodeCombat."
-    email_invalid: "Địa chỉ email không hợp lệ."
-    form_blurb: "Nhập địa chỉ email của người bạn muốn chia sẻ."
-    form_label: "Địa chỉ Email"
-    placeholder: "địa chỉ email"
-    title: "Làm tốt lắm, Thực Tập Viên!"
+    blurb: "Em tiến độ vượt bậc rồi đấy! Khoe với mọi người em học tốt như thế nào cùng CodeCombat nhé."
+    email_invalid: "Địa chỉ email không đúng"
+    form_blurb: "Điền địa chỉ email vào ô dưới đây để khoe thành tích của em nhé!"
+    form_label: "Địa chỉ email"
+    placeholder: "Địa chỉ email"
+    title: "Em làm rất tốt đấy"
 
   login:
     sign_up: "Tạo tài khoản mới"
