@@ -33,7 +33,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
-#    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
 #    click_here: "Click here"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
@@ -57,7 +57,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    for_leaders_subtitle2: "Full Coding Curriculum"
 #    for_leaders_subblurb2: "A standards-aligned curriculum with instructional resources and professional development to enable any teacher to teach computer science."
 #    for_leaders_subtitle3: "Flexible Use Cases"
-#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs."
+#    for_leaders_subblurb3: "Whether you want to build a Middle School coding elective, a CTE pathway, or are teaching an Intro to CS class, CodeCombat is tailored to suit your needs." #
 #    for_leaders_subtitle4: "Real-World Skills"
 #    for_leaders_subblurb4: "Students build grit and develop a growth mindset through coding challenges that prepare them for the 500K+ open computing jobs."
 #    for_teachers_title: "For Teachers"
@@ -291,18 +291,18 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
 #    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
 #    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
-#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER."
+#    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER." #
 #    recommended_systems: "Is there a recommended browser and operating system?"
 #    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
 #    other_questions: "If you have any other questions, please __contact__."
 
   play:
-#    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
-#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
-#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
-#    video_title: "__video__ | Video Level"
-#    game_development_title: "__level__ | Game Development"
-#    web_development_title: "__level__ | Web Development"
+#    title: 'Play CodeCombat Levels - Learn Python, JavaScript, and HTML'
+#    meta_description: 'Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!'
+#    level_title: '__level__ - Learn to Code in Python, JavaScript, HTML'
+#    video_title: '__video__ | Video Level'
+#    game_development_title: '__level__ | Game Development'
+#    web_development_title: '__level__ | Web Development'
 #    anon_signup_title_1: "CodeCombat has a"
 #    anon_signup_title_2: "Classroom Version!"
 #    anon_signup_enter_code: "Enter Class Code:"
@@ -353,7 +353,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    get_more_codecombat: "Get More CodeCombat"
 
 #  code:
-#    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
+#    if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "else if"
 #    while: "while"
@@ -378,7 +378,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    "&&": "and"
 #    not: "not"
 #    "!": "not"
-#    "=": "assign"
+#    "=": "assign" # For this section, conjugate it like it's the verb part of a sentence when possible
 #    "==": "equals"
 #    "===": "strictly equals"
 #    "!=": "does not equal"
@@ -2520,16 +2520,16 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     left_xp_postfix: "'"
 
   account:
-#    title: "Account"
-#    settings_title: "Account Settings"
-#    unsubscribe_title: "Unsubscribe"
-#    payments_title: "Payments"
-#    subscription_title: "Subscription"
-#    invoices_title: "Invoices"
-#    prepaids_title: "Prepaids"
     payments: "Thanh Toán"
     prepaid_codes: "Mã Trả Trước"
     purchased: "Đã Thanh Toán"
+#    title: 'Account'
+#    settings_title: 'Account Settings'
+#    unsubscribe_title: 'Unsubscribe'
+#    payments_title: 'Payments'
+#    subscription_title: 'Subscription'
+#    invoices_title: 'Invoices'
+#    prepaids_title: 'Prepaids'
 #    subscribe_for_gems: "Subscribe for gems"
     subscription: "Dịch vụ nâng cao"
     invoices: "Hóa Đơn"
@@ -2595,57 +2595,57 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     you_can3: "mà có thể áp dụng cho tài khoản của bạn hoặc gửi cho người khác."
 
 #  impact:
-#    hero_heading: "Building A World-Class Computer Science Program"
-#    hero_subheading: "We Help Empower Educators and Inspire Students Across the Country"
-#    featured_partner_story: "Featured Partner Story"
-#    partner_heading: "Successfully Teaching Coding at a Title I School"
-#    partner_school: "Bobby Duke Middle School"
-#    featured_teacher: "Scott Baily"
-#    teacher_title: "Technology Teacher Coachella, CA"
-#    implementation: "Implementation"
-#    grades_taught: "Grades Taught"
-#    length_use: "Length of Use"
-#    length_use_time: "3 years"
-#    students_enrolled: "Students Enrolled this Year"
-#    students_enrolled_number: "130"
-#    courses_covered: "Courses Covered"
-#    course1: "CompSci 1"
-#    course2: "CompSci 2"
-#    course3: "CompSci 3"
-#    course4: "CompSci 4"
-#    course5: "GameDev 1"
-#    fav_features: "Favorite Features"
-#    responsive_support: "Responsive Support"
-#    immediate_engagement: "Immediate Engagement"
-#    paragraph1: "Bobby Duke Middle School sits nestled between the Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students."
-#    paragraph2: "The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners, the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily."
-#    paragraph3: "Baily knew that teaching his students coding was a key pathway to opportunity in a job landscape that increasingly prioritizes and necessitates computing skills. So, he decided to take on the exciting challenge of creating and teaching the only coding class in the school and finding a solution that was affordable, responsive to feedback, and engaging to students of all learning abilities and backgrounds."
-#    teacher_quote: "When I got my hands on CodeCombat [and] started having my students use it, the light bulb went on. It was just night and day from every other program that we had used. They’re not even close."
-#    quote_attribution: "Scott Baily, Technology Teacher"
-#    read_full_story: "Read Full Story"
-#    more_stories: "More Partner Stories"
-#    partners_heading_1: "Supporting Multiple CS Pathways in One Class"
-#    partners_school_1: "Preston High School"
-#    partners_heading_2: "Excelling on the AP Exam"
-#    partners_school_2: "River Ridge High School"
-#    partners_heading_3: "Teaching Computer Science Without Prior Experience"
-#    partners_school_3: "Riverdale High School"
-#    download_study: "Download Research Study"
-#    teacher_spotlight: "Teacher & Student Spotlights"
-#    teacher_name_1: "Amanda Henry"
-#    teacher_title_1: "Rehabilitation Instructor"
-#    teacher_location_1: "Morehead, Kentucky"
-#    spotlight_1: "Through her compassion and drive to help those who need second chances, Amanda Henry helped change the lives of students who need positive role models. With no previous computer science experience, Henry led her students to coding success in a regional coding competition."
-#    teacher_name_2: "Kaila, Student"
-#    teacher_title_2: "Maysville Community & Technical College"
-#    teacher_location_2: "Lexington, Kentucky"
-#    spotlight_2: "Kaila was a student who never thought she would be writing lines of code, let alone enrolled in college with a pathway to a bright future."
-#    teacher_name_3: "Susan Jones-Szabo"
-#    teacher_title_3: "Teacher Librarian"
-#    teacher_school_3: "Ruby Bridges Elementary"
-#    teacher_location_3: "Alameda, CA"
-#    spotlight_3: "Susan Jones-Szabo promotes an equitable atmosphere in her class where everyone can find success in their own way. Mistakes and struggles are welcomed because everyone learns from a challenge, even the teacher."
-#    continue_reading_blog: "Continue Reading on Blog..."
+#    hero_heading: 'Building A World-Class Computer Science Program'
+#    hero_subheading: 'We Help Empower Educators and Inspire Students Across the Country'
+#    featured_partner_story: 'Featured Partner Story'
+#    partner_heading: 'Successfully Teaching Coding at a Title I School'
+#    partner_school: 'Bobby Duke Middle School'
+#    featured_teacher: 'Scott Baily'
+#    teacher_title: 'Technology Teacher Coachella, CA'
+#    implementation: 'Implementation'
+#    grades_taught: 'Grades Taught'
+#    length_use: 'Length of Use'
+#    length_use_time: '3 years'
+#    students_enrolled: 'Students Enrolled this Year'
+#    students_enrolled_number: '130'
+#    courses_covered: 'Courses Covered'
+#    course1: 'CompSci 1'
+#    course2: 'CompSci 2'
+#    course3: 'CompSci 3'
+#    course4: 'CompSci 4'
+#    course5: 'GameDev 1'
+#    fav_features: 'Favorite Features'
+#    responsive_support: 'Responsive Support'
+#    immediate_engagement: 'Immediate Engagement'
+#    paragraph1: 'Bobby Duke Middle School sits nestled between the Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students.'
+#    paragraph2: 'The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners, the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily.'
+#    paragraph3: 'Baily knew that teaching his students coding was a key pathway to opportunity in a job landscape that increasingly prioritizes and necessitates computing skills. So, he decided to take on the exciting challenge of creating and teaching the only coding class in the school and finding a solution that was affordable, responsive to feedback, and engaging to students of all learning abilities and backgrounds.'
+#    teacher_quote: 'When I got my hands on CodeCombat [and] started having my students use it, the light bulb went on. It was just night and day from every other program that we had used. They’re not even close.'
+#    quote_attribution: 'Scott Baily, Technology Teacher'
+#    read_full_story: 'Read Full Story'
+#    more_stories: 'More Partner Stories'
+#    partners_heading_1: 'Supporting Multiple CS Pathways in One Class'
+#    partners_school_1: 'Preston High School'
+#    partners_heading_2: 'Excelling on the AP Exam'
+#    partners_school_2: 'River Ridge High School'
+#    partners_heading_3: 'Teaching Computer Science Without Prior Experience'
+#    partners_school_3: 'Riverdale High School'
+#    download_study: 'Download Research Study'
+#    teacher_spotlight: 'Teacher & Student Spotlights'
+#    teacher_name_1: 'Amanda Henry'
+#    teacher_title_1: 'Rehabilitation Instructor'
+#    teacher_location_1: 'Morehead, Kentucky'
+#    spotlight_1: 'Through her compassion and drive to help those who need second chances, Amanda Henry helped change the lives of students who need positive role models. With no previous computer science experience, Henry led her students to coding success in a regional coding competition.'
+#    teacher_name_2: 'Kaila, Student'
+#    teacher_title_2: 'Maysville Community & Technical College'
+#    teacher_location_2: 'Lexington, Kentucky'
+#    spotlight_2: 'Kaila was a student who never thought she would be writing lines of code, let alone enrolled in college with a pathway to a bright future.'
+#    teacher_name_3: 'Susan Jones-Szabo'
+#    teacher_title_3: 'Teacher Librarian'
+#    teacher_school_3: 'Ruby Bridges Elementary'
+#    teacher_location_3: 'Alameda, CA'
+#    spotlight_3: 'Susan Jones-Szabo promotes an equitable atmosphere in her class where everyone can find success in their own way. Mistakes and struggles are welcomed because everyone learns from a challenge, even the teacher.'
+#    continue_reading_blog: 'Continue Reading on Blog...'
 
   loading_error:
     could_not_load: "Không kết nối được với server" # {change}
@@ -2885,9 +2885,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     canonical: "Phiên bản tiếng Anh của tài liệu này là phiên bản chính xác, tiêu chuẩn. Nếu có sự khác biệt giữa các bản dịch, tài liệu tiếng Anh sẽ được sử dụng."
     third_party_title: "Dịch Vụ Bên Thứ Ba"
     third_party_description: "CodeCombat sử dụng những dịch vụ bên thứ ba sau (và một số dịch vụ khác nữa):"
-#    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
-#    cookies_deny: "Decline non-essential cookies"
-#    cookies_allow: "Allow cookies"
+#    cookies_message: 'CodeCombat uses a few essential and non-essential cookies.'
+#    cookies_deny: 'Decline non-essential cookies'
+#    cookies_allow: 'Allow cookies'
 
   calendar:
     year: "Năm"
@@ -2907,17 +2907,17 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     december: "Tháng Mười Hai"
 
 #  code_play_create_account_modal:
-#    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
+#    title: "You did it!"  # This section is only needed in US, UK, Mexico, India, and Germany
 #    body: "You are now on your way to becoming a master coder. Sign up to receive an extra <strong>100 Gems</strong> & you will also be entered for a chance to <strong>win $2,500 & other Lenovo Prizes</strong>."
 #    sign_up: "Sign up & keep coding ▶"
 #    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
 #  server_error:
-#    email_taken: "Email already taken"
-#    username_taken: "Username already taken"
-#    easy_password: "Password is too easy to guess"
-#    reused_password: "Password cannot be reused"
+#    email_taken: 'Email already taken'
+#    username_taken: 'Username already taken'
+#    easy_password: 'Password is too easy to guess'
+#    reused_password: 'Password cannot be reused'
 
 #  esper:
 #    line_no: "Line $1: "
@@ -2999,8 +2999,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    your_parentheses_must_match: "Your parentheses must match."
 
 #  apcsp:
-#    title: "AP Computer Science Principals | College Board Endorsed"
-#    meta_description: "CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students."
+#    title: 'AP Computer Science Principals | College Board Endorsed'
+#    meta_description: 'CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students.'
 #    syllabus: "AP CS Principles Syllabus"
 #    syllabus_description: "Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class."
 #    computational_thinking_practices: "Computational Thinking Practices"
@@ -3087,7 +3087,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    premium_details_3: "Unlock a deeper understanding of core concepts and skills like web and game development"
 #    premium_details_4: "Premium support for subscribers"
 #    premium_details_5: "Create private clans to invite friends and compete on a group leaderboard"
-#    premium_need_help: "Need help or prefer Paypal? Email <a href=\"mailto:support@codecombat.com\">support@codecombat.com</a>"
+#    premium_need_help: 'Need help or prefer Paypal? Email <a href="mailto:support@codecombat.com">support@codecombat.com</a>'
 #    not_sure_kid: "Not sure if CodeCombat is right for your kid?  Ask them!"
 #    share_trailer: "Share our game trailer with your kid and have them create an account to get started."
 #    why_kids_love: "Why Kids Love CodeCombat"
@@ -3204,53 +3204,55 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    teacher_email: "Teacher's email address"
 
 #  school_administrator:
-#    title: "School Administrator Dashboard"
-#    my_teachers: "My Teachers"
-#    last_login: "Last Login"
-#    licenses_used: "licenses used"
-#    total_students: "total students"
-#    active_students: "active students"
-#    projects_created: "projects created"
-#    other: "Other"
-#    notice: "The following school administrators have view-only access to your classroom data:"
-#    add_additional_teacher: "Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. "
-#    license_stat_description: "Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses."
-#    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied."
-#    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days."
-#    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created."
-#    no_teachers: "You are not administrating any teachers."
-#    totals_calculated: "How are these totals calculated?"
-#    totals_explanation_1: "How are these totals calculated?"
-#    totals_explanation_2: "Licenses used"
-#    totals_explanation_3: "Counts total licenses applied to students out of total licenses available."
-#    totals_explanation_4: "Total students"
-#    totals_explanation_5: "Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page."
-#    totals_explanation_6: "Active students"
-#    totals_explanation_7: "Counts all students who were active within the past 60 days."
-#    totals_explanation_8: "Projects created"
-#    totals_explanation_9: "Counts total games and web pages created."
-#    date_thru_date: "__startDateRange__ thru __endDateRange__"
-
-#  interactives:
-#    phenomenal_job: "Phenomenal Job!"
-#    try_again: "Whoops, try again!"
-#    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
-#    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
-
-#  browser_recommendation:
-#    title: "CodeCombat works best on Chrome!"
-#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
-#    download: "Download Chrome"
-#    ignore: "Ignore"
-
-#  admin:
-#    license_type_full: "Full Courses"
-#    license_type_customize: "Customize Courses"
-
-#  outcomes:
+#    title: 'School Administrator Dashboard',
+#    my_teachers: 'My Teachers'
+#    last_login: 'Last Login'
+#    licenses_used: 'licenses used'
+#    total_students: 'total students'
+#    active_students: 'active students'
+#    projects_created: 'projects created'
+#    other: 'Other'
+#    notice: 'The following school administrators have view-only access to your classroom data:'
+#    add_additional_teacher: 'Need to add an additional teacher? Contact your CodeCombat Account Manager or email support@codecombat.com. '
+#    license_stat_description: 'Licenses available accounts for the total number of licenses available to the teacher, including Shared Licenses.'
+#    students_stat_description: 'Total students accounts for all students across all classrooms, regardless of whether they have licenses applied.'
+#    active_students_stat_description: 'Active students counts the number of students that have logged into CodeCombat in the last 60 days.'
+#    project_stat_description: 'Projects created counts the total number of Game and Web development projects that have been created.'
+#    no_teachers: 'You are not administrating any teachers.'
+#    totals_calculated: 'How are these totals calculated?'
+#    totals_explanation_1: 'How are these totals calculated?'
+#    totals_explanation_2: 'Licenses used'
+#    totals_explanation_3: 'Counts total licenses applied to students out of total licenses available.'
+#    totals_explanation_4: 'Total students'
+#    totals_explanation_5: 'Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page.'
+#    totals_explanation_6: 'Active students'
+#    totals_explanation_7: 'Counts all students who were active within the past 60 days.'
+#    totals_explanation_8: 'Projects created'
+#    totals_explanation_9: 'Counts total games and web pages created.'
+#    date_thru_date: '__startDateRange__ thru __endDateRange__'
+#
+#   interactives:
+#    phenomenal_job: 'Phenomenal Job!'
+#    try_again: 'Whoops, try again!'
+#    select_statement_left: 'Whoops, select a statement from the left before hitting "Submit."'
+#    fill_boxes: 'Whoops, make sure to fill all boxes before hitting "Submit."'
+#
+#   browser_recommendation:
+#    title: 'CodeCombat works best on Chrome!'
+#    pitch_body: 'For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!'
+#    download: 'Download Chrome'
+#    ignore: 'Ignore'
+#
+#   admin:
+#    license_type_full: 'Full Courses'
+#    license_type_customize: 'Customize Courses'
+#
+#   outcomes:
 #    outcomes_report: "Outcomes Report"
 #    customize_report: "Customize Report"
 #    done_customizing: "Done Customizing"
+#    start_date: "Start date"
+#    end_date: "End date"
 #    school_admin: "School Administrator"
 #    school_network: "School Network"
 #    school_subnetwork: "School Subnetwork"
@@ -3262,12 +3264,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    wrote: "wrote..."
 #    across_an_estimated: "across an estimated..."
 #    in: "in..."
-#    include: "include "
+#    include: "Include "
 #    archived: "Archived"
 #    max: "Max "
 #    multiple: "s"
-#    computer_program: "computer_program"
-#    computer_programs: "computer_programs"
+#    computer_program: "computer program"
+#    computer_programs: "computer programs"
 #    line_of_code: "line of code"
 #    lines_of_code: "lines of code"
 #    coding_hours: "coding hours"
@@ -3277,8 +3279,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    projects: "projects"
 #    progress_stats: "Progress stats based on sampling __sampleSize__ of __populationSize__ students."
 #    standards_coverage: "Standards Coverage"
-#    coverage_p1: "The full CodeCombat curriculum covers major programming standards in several widely-adopted frameworks, including those of the International Society for Technology in Education (ISTE), the Computer Science Teacher Association (CSTA), and the K-12 Computer Science Framework."
-#    coverage_p2: "At CodeCombat, we believe that students will be most prepared for both real-world computing jobs and further study of computer science by using real, typed code in full programming languages, so instead of using block-based visual programming languages for beginners, we teach Python and JavaScript – the same languages used widely today by companies ranging from Google to the New York Times."
+#    coverage_p1: 'The full CodeCombat curriculum covers major programming standards in several widely-adopted frameworks, including those of the International Society for Technology in Education (ISTE), the Computer Science Teacher Association (CSTA), and the K-12 Computer Science Framework.'
+#    coverage_p2: 'At CodeCombat, we believe that students will be most prepared for both real-world computing jobs and further study of computer science by using real, typed code in full programming languages, so instead of using block-based visual programming languages for beginners, we teach Python and JavaScript – the same languages used widely today by companies ranging from Google to the New York Times.'
 #    questions: "Have questions or want more information? We'd be happy to help."
 #    reach_out_manager: "Reach out to your Account Manager __name__ at "
 #    stats_include: "stats include __number__ other __name__"
@@ -3289,46 +3291,46 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    student_register_3: "Provide the information below to be eligible for prizes."
 #    teacher_register_1: "Sign up to access your class league profile page and get your class started."
 #    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
-#    team: "team"
-#    how_it_works1: "Join a __team__"
-#    seasonal_arena_tooltip: "Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season."
-#    summary: "The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code."
-#    join_now: "Join Now"
-#    tagline: "The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other."
-#    ladder_subheader: "Use your coding skills and battle strategies to rise up the ranks!"
-#    earn_codepoints: "Earn CodePoints by completing levels"
-#    codepoints: "CodePoints"
-#    free_1: "Access competitive multiplayer arenas, leaderboard, and global coding championships"
-#    free_2: "Earn points for completing practice levels and competing in head-to-head matches"
-#    free_3: "Join competitive coding teams with friends, family, or classmates"
-#    free_4: "Showcase your coding skills and take home great prizes"
-#    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season."
-#    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript."
-#    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors."
-#    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez."
-#    invite_link: "Invite players to this team by sending them this link:"
-#    public_link: "Share this team leaderboard with its public link:"
-#    end_to_end: "Unlike other esports platforms serving schools, we own the structure top to bottom, which means we’re not tied to any game developer or have issues with licensing. That also means we can make custom modifications in-game for your school or organization."
-#    path_success: "The game platform fits into a regular Computer Science curriculum, so as students play through the game levels, they’re completing course work. Students learn coding and computer science while they play, then use these skills in arena battles as they practice and play on the same platform."
-#    unlimited_potential: "Our tournament structure is adaptable to any environment or use case. Students can participate at a designated time during regular learning, play at home asynchronously, or participate on their own schedule."
-#    edit_team: "Edit Team"
-#    start_team: "Start a Team"
-#    leave_team: "Leave Team"
-#    join_team: "Join Team"
+#    team: 'team'
+#    how_it_works1: 'Join a __team__'
+#    seasonal_arena_tooltip: 'Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season.'
+#    summary: 'The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.'
+#    join_now: 'Join Now'
+#    tagline: 'The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other.'
+#    ladder_subheader: 'Use your coding skills and battle strategies to rise up the ranks!'
+#    earn_codepoints: 'Earn CodePoints by completing levels'
+#    codepoints: 'CodePoints'
+#    free_1: 'Access competitive multiplayer arenas, leaderboard, and global coding championships'
+#    free_2: 'Earn points for completing practice levels and competing in head-to-head matches'
+#    free_3: 'Join competitive coding teams with friends, family, or classmates'
+#    free_4: 'Showcase your coding skills and take home great prizes'
+#    compete_season: 'Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.'
+#    season_subheading1: 'For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.'
+#    season_subheading2: 'Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.'
+#    team_derbezt: 'Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.'
+#    invite_link: 'Invite players to this team by sending them this link:'
+#    public_link: 'Share this team leaderboard with its public link:'
+#    end_to_end: 'Unlike other esports platforms serving schools, we own the structure top to bottom, which means we’re not tied to any game developer or have issues with licensing. That also means we can make custom modifications in-game for your school or organization.'
+#    path_success: 'The game platform fits into a regular Computer Science curriculum, so as students play through the game levels, they’re completing course work. Students learn coding and computer science while they play, then use these skills in arena battles as they practice and play on the same platform.'
+#    unlimited_potential: 'Our tournament structure is adaptable to any environment or use case. Students can participate at a designated time during regular learning, play at home asynchronously, or participate on their own schedule.'
+#    edit_team: 'Edit Team'
+#    start_team: 'Start a Team'
+#    leave_team: 'Leave Team'
+#    join_team: 'Join Team'
 #    view_team: "View Team"
 #    join_team_name: "Join Team __name__"
-#    features: "Features"
-#    built_in: "Built-in Competitive Infrastructure"
-#    built_in_subheader: "Our platform hosts every element of the competitive process, from leaderboards to the game platform, assets, and tournament awards."
-#    custom_dev: "Custom Development"
-#    custom_dev_subheader: "Customization elements for your school or organization are included, plus options like branded landing pages and in-game characters."
-#    comprehensive_curr: "Comprehensive Curriculum"
-#    comprehensive_curr_subheader: "CodeCombat is a standards-aligned CS solution that helps educators teach real coding in JavaScript and Python, no matter their experience."
-#    roster_management: "Roster Management Tools"
-#    roster_management_subheader: "Track student performance within the curriculum and within the game, and easily add or remove students."
-#    share_flyer: "Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested."
-#    download_flyer: "Download Flyer"
-#    championship_summary: "The __championshipArena__ championship arena is now open! Battle it out for the month of __championshipMonth__ to win prizes in the __championshipArena__ __championshipType__."
+#    features: 'Features'
+#    built_in: 'Built-in Competitive Infrastructure'
+#    built_in_subheader: 'Our platform hosts every element of the competitive process, from leaderboards to the game platform, assets, and tournament awards.'
+#    custom_dev: 'Custom Development'
+#    custom_dev_subheader: 'Customization elements for your school or organization are included, plus options like branded landing pages and in-game characters.'
+#    comprehensive_curr: 'Comprehensive Curriculum'
+#    comprehensive_curr_subheader: 'CodeCombat is a standards-aligned CS solution that helps educators teach real coding in JavaScript and Python, no matter their experience.'
+#    roster_management: 'Roster Management Tools'
+#    roster_management_subheader: 'Track student performance within the curriculum and within the game, and easily add or remove students.'
+#    share_flyer: 'Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested.'
+#    download_flyer: 'Download Flyer'
+#    championship_summary: 'The __championshipArena__ championship arena is now open! Battle it out for the month of __championshipMonth__ to win prizes in the __championshipArena__ __championshipType__.'
 #    play_arena_full: "Play __arenaName__ __arenaType__"
 #    play_arena_short: "Play __arenaName__"
 #    view_arena_winners: "View __arenaName__ __arenaType__ winners"
@@ -3360,7 +3362,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    season1_prize_3: "Custom CodeCombat Avatar"
 #    season1_prize_4: "And more!"
 #    season1_prize_hyperx: "HyperX Premium Peripherals"
-#    codecombat_ai_league: "CodeCombat AI League"
+#    codecombat_ai_league: 'CodeCombat AI League'
 #    register: "Register"
 #    not_registered: "Not Registered"
 #    register_for_ai_league: "Register for AI League"
@@ -3370,8 +3372,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    arena_rankings_blurb: "Global AI League arena rankings"
 #    arena_rankings_title: "Global leaderboard rank for all players in this team across AI League arenas in the open age bracket."
 #    competing: "Competing:" # Competing: 3 students
-#    count_student: "student" # 1 student
-#    count_students: "students" # 2 students
+#    count_student: "student"  # 1 student
+#    count_students: "students"  # 2 students
 #    top_student: "Top:" # Top: Jane D
 #    top_percent: "top" # - top 3%)
 #    top_of: "of" # (#8 of 35). Perhaps just use "/" if this doesn't translate naturally.
@@ -3400,53 +3402,53 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    no_tournaments: "There is no tournament now"
 #    edit_tournament: "Edit Tournament"
 #    create_tournament: "Create a Tournament"
-#    upcoming: "Upcoming"
-#    starting: "Starting"
-#    ended: "Ended"
-#    view_results: "View Results"
-#    estimate_days: "In __time__ Days"
+#    upcoming: 'Upcoming'
+#    starting: 'Starting'
+#    ended: 'Ended'
+#    view_results: 'View Results'
+#    estimate_days: 'In __time__ Days'
 
 #  payments:
-#    student_licenses: "Student Licenses"
-#    computer_science: "Computer Science"
-#    web_development: "Web Development"
-#    game_development: "Game Development"
-#    per_student: "Per Student"
-#    just: "Just"
-#    teachers_upto: "Teacher can purchase upto"
-#    great_courses: "Great Courses included for"
-#    studentLicense_successful: "Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students."
-#    onlineClasses_successful: "Congratulations! Your payment was successful. Our team will reach out to you with the next steps."
-#    homeSubscriptions_successful: "Congratulations! Your payment was successful. Your premium access will be available in few minutes."
-#    failed: "Your payment failed, please try again"
-#    session_week_1: "1 session/week"
-#    session_week_2: "2 sessions/week"
-#    month_1: "Monthly"
-#    month_3: "Quarterly"
-#    month_6: "Half-yearly"
-#    year_1: "Yearly"
-#    most_popular: "Most Popular"
-#    best_value: "Best Value"
-#    purchase_licenses: "Purchase Licenses easily to get full access to CodeCombat and Ozaria"
-#    homeschooling: "Homeschooling Licenses"
-#    recurring_month_1: "Recurring billing every month"
-#    recurring_month_3: "Recurring billing every 3 months"
-#    recurring_month_6: "Recurring billing every 6 months"
-#    recurring_year_1: "Recurring billing every year"
+#    student_licenses: 'Student Licenses'
+#    computer_science: 'Computer Science'
+#    web_development: 'Web Development'
+#    game_development: 'Game Development'
+#    per_student: 'Per Student'
+#    just: 'Just'
+#    teachers_upto: 'Teacher can purchase upto'
+#    great_courses: 'Great Courses included for'
+#    studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students.'
+#    onlineClasses_successful: 'Congratulations! Your payment was successful. Our team will reach out to you with the next steps.'
+#    homeSubscriptions_successful: 'Congratulations! Your payment was successful. Your premium access will be available in few minutes.'
+#    failed: 'Your payment failed, please try again'
+#    session_week_1: '1 session/week'
+#    session_week_2: '2 sessions/week'
+#    month_1: 'Monthly'
+#    month_3: 'Quarterly'
+#    month_6: 'Half-yearly'
+#    year_1: 'Yearly'
+#    most_popular: 'Most Popular'
+#    best_value: 'Best Value'
+#    purchase_licenses: 'Purchase Licenses easily to get full access to CodeCombat and Ozaria'
+#    homeschooling: 'Homeschooling Licenses'
+#    recurring_month_1: 'Recurring billing every month'
+#    recurring_month_3: 'Recurring billing every 3 months'
+#    recurring_month_6: 'Recurring billing every 6 months'
+#    recurring_year_1: 'Recurring billing every year'
 
 #  form_validation_errors:
-#    required: "Field is required"
-#    invalidEmail: "Invalid email"
-#    invalidPhone: "Invalid phone number"
-#    emailExists: "Email already exists"
-#    numberGreaterThanZero: "Should be a number greater than 0"
+#    required: 'Field is required'
+#    invalidEmail: 'Invalid email'
+#    invalidPhone: 'Invalid phone number'
+#    emailExists: 'Email already exists'
+#    numberGreaterThanZero: 'Should be a number greater than 0'
 
 #  teacher_dashboard:
-#    read: "View Only"
-#    write: "Full Access"
-#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
-#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
-#    shared_with_none: "This class is not currently shared with any other teachers."
-#    share_info: "To give other teachers access to the class, add their emails below."
-#    class_owner: "Class Owner"
-#    share: "Share"
+#    read: 'View Only'
+#    write: 'Full Access'
+#    read_blurb: 'View Only permits the added teacher to view your class and student progress without the ability to make changes to your class.'
+#    write_blurb: 'Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)'
+#    shared_with_none: 'This class is not currently shared with any other teachers.'
+#    share_info: 'To give other teachers access to the class, add their emails below.'
+#    class_owner: 'Class Owner'
+#    share: 'Share'
