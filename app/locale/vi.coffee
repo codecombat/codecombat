@@ -411,17 +411,17 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     title: "Làm tốt lắm, Thực Tập Viên!"
 
   login:
-    sign_up: "Tạo tài khoản"
+    sign_up: "Tạo tài khoản mới"
     email_or_username: "Email hoặc tên đăng nhập"
     log_in: "Đăng nhập"
-    logging_in: "Đang đăng nhập"
-    log_out: "Đăng xuất"
+    logging_in: "Đang vào"
+    log_out: "Thoát"
     forgot_password: "Quên mật khẩu?"
-    finishing: "Sắp hoàn tất"
+    finishing: "Sắp xong"
     sign_in_with_facebook: "Đăng nhập với Facebook"
-    sign_in_with_gplus: "Đăng nhập với G+"
-    signup_switch: "Bạn muốn tạo tài khoản mới?"
-#    accounts_merge_confirmation: "There is an account associated with the email from this Google account. Would you like to merge these accounts?"
+    sign_in_with_gplus: "Đăng nhập với Google"
+    signup_switch: "Tạo tài khoản mới?"
+    accounts_merge_confirmation: "Đã có một tài khoản sử dụng email Google này. Bạn có muốn nhập hai tài khoản vào làm một không?"
 
   signup:
 #    complete_subscription: "Complete Subscription"
