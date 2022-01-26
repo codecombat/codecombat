@@ -421,7 +421,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     sign_in_with_facebook: "Đăng nhập với Facebook"
     sign_in_with_gplus: "Đăng nhập với Google"
     signup_switch: "Tạo tài khoản mới?"
-    accounts_merge_confirmation: "Đã có một tài khoản sử dụng email Google này. Bạn có muốn nhập hai tài khoản vào làm một không?"
+    accounts_merge_confirmation: "Đã có một tài khoản sử dụng email Google này. Em có muốn nhập hai tài khoản vào làm một không?"
 
   signup:
 #    complete_subscription: "Complete Subscription"
