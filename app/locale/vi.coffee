@@ -255,8 +255,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   modal:
     close: "Đóng"
-    okay: "OK"
-#    cancel: "Cancel"
+    okay: "Đồng ý"
+    cancel: "Huỷ"
 
   not_found:
     page_not_found: "Không tìm thấy trang"
