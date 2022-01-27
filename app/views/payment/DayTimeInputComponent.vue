@@ -72,13 +72,13 @@ export default {
     getUtcDefaultData() {
       return {
         dayWise: {
-          Sunday: [],
+          Sunday: this.getUtcDefaultDayTimes(),
           Monday: this.getUtcDefaultDayTimes(),
           Tuesday: this.getUtcDefaultDayTimes(),
           Wednesday: this.getUtcDefaultDayTimes(),
           Thursday: this.getUtcDefaultDayTimes(),
           Friday: this.getUtcDefaultDayTimes(),
-          Saturday: [],
+          Saturday: this.getUtcDefaultDayTimes()
         },
         timezone: {
           name: 'UTC',
@@ -129,6 +129,16 @@ export default {
       dayWise.Friday = dayWise.Friday.concat(resp.currDay);
       dayWise.Thursday = dayWise.Thursday.concat(resp.prevDay);
       dayWise.Saturday = resp.nextDay
+
+      resp = this.moveTimesBetweenDay(clonedData.dayWise.Saturday);
+      dayWise.Saturday = dayWise.Saturday.concat(resp.currDay);
+      dayWise.Friday = dayWise.Friday.concat(resp.prevDay);
+      dayWise.Sunday = dayWise.Sunday.concat(resp.nextDay)
+
+      resp = this.moveTimesBetweenDay(clonedData.dayWise.Sunday);
+      dayWise.Sunday = dayWise.Sunday.concat(resp.currDay);
+      dayWise.Saturday = dayWise.Saturday.concat(resp.prevDay);
+      dayWise.Monday = dayWise.Monday.concat(resp.nextDay)
 
       finalData.timezone = {
         name: moment.tz.guess(),
