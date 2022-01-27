@@ -322,7 +322,7 @@ mixin breadcrumbs
                               else
                                 .text-center
                                   span(data-i18n="ladder.#{code.team}")
-                          if index == 0
+                          if index < studentCodeMap.length - 1
                             .tab-spacer
                           else
                             .tab-filler
