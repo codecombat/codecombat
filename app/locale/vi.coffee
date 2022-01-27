@@ -297,20 +297,20 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    other_questions: "If you have any other questions, please __contact__."
 
   play:
-#    title: 'Play CodeCombat Levels - Learn Python, JavaScript, and HTML'
-#    meta_description: 'Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!'
-#    level_title: '__level__ - Learn to Code in Python, JavaScript, HTML'
-#    video_title: '__video__ | Video Level'
-#    game_development_title: '__level__ | Game Development'
-#    web_development_title: '__level__ | Web Development'
-#    anon_signup_title_1: "CodeCombat has a"
-#    anon_signup_title_2: "Classroom Version!"
-#    anon_signup_enter_code: "Enter Class Code:"
-#    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
-#    anon_signup_create_class: "Want to create a class?"
-#    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
-#    anon_signup_create_teacher: "Create free teacher account"
     play_as: "Chơi là" # Ladder page
+    title: 'Chơi game cùng CodeCombat - Học Python, JavaScript, và HTML'
+    meta_description: 'Học lập trình thông qua chơi game dành cho người mới học. Em sẽ học Python và JavaScript thông qua việc giải mã mê cung, thiết kế game, và nâng cấp cho nhân vật. Em có thể chơi cùng bạn bè trên các đấu trường!'
+    level_title: '__level__ - Học lập trình Python, JavaScript, HTML'
+    video_title: '__video__ | Video'
+    game_development_title: '__level__ | Lập Trình Game'
+    web_development_title: '__level__ | Lập Trình Web'
+    anon_signup_title_1: "CodeCombat có"
+    anon_signup_title_2: "Phiên bản dành cho lớp học!"
+    anon_signup_enter_code: "Nhập Mật Khẩu lớp:"
+    anon_signup_ask_teacher: "Không có Mật Khẩu thì hỏi Giáo viên nhé!"
+    anon_signup_create_class: "Bạn cần mở lớp mới?"
+    anon_signup_setup_class: "Tạo bị phòng học, quản lý học sinh và theo dõi tiến độ học tập!"
+    anon_signup_create_teacher: "Tạo tài khoản Giáo viên miễn phí"
 #    get_course_for_class: "Assign Game Development and more to your classes!"
 #    request_licenses: "Contact our school specialists for details."
     compete: "Hoàn thành!" # Course details page
@@ -318,38 +318,38 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    simulate_all: "Simulate All"
     players: "người chơi" # Hover over a level on /play
     hours_played: "Thời gian chơi" # Hover over a level on /play
-    items: "Trang Bị" # Tooltip on item shop button from /play
-    unlock: "Mua" # For purchasing items and heroes
+    items: "Đồ Nghề"  # Tooltip on item shop button from /play
+    unlock: "Mua"  # For purchasing items and heroes
     confirm: "Xác nhận"
-    owned: "Đã có" # For items you own
-    locked: "Bị khóa"
     available: "Khả dụng"
-    skills_granted: "Kỹ năng nhận được" # Property documentation details
-    heroes: "Tướng" # Tooltip on hero shop button from /play
-    achievements: "Thành Tích" # Tooltip on achievement list button from /play
-    settings: "Tùy Chỉnh" # Tooltip on settings button from /play
     poll: "Bỏ phiếu" # Tooltip on poll button from /play
-    next: "Tiếp" # Go from choose hero to choose inventory before playing a level
-    change_hero: "Đổi Tướng" # Go back from choose inventory to choose hero
-#    change_hero_or_language: "Change Hero or Language"
-    buy_gems: "Mua Ngọc"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
-    anonymous: "Người chơi ẩn danh"
+    owned: "Đã có"  # For items you own
+    locked: "Bị khoá"
+    skills_granted: "Kỹ năng nhận được"  # Property documentation details
+    heroes: "Đổi nhân vật"  # Tooltip on hero shop button from /play
+    achievements: "Thành Tích"  # Tooltip on achievement list button from /play
+    settings: "Tuỳ Chỉnh"  # Tooltip on settings button from /play
+    next: "Tiếp"  # Go from choose hero to choose inventory before playing a level
+    change_hero: "Thay đổi nhân vật"  # Go back from choose inventory to choose hero
+    change_hero_or_language: "Đổi nhân vật hoặc ngôn ngữ lập trình"
+    buy_gems: "Mua thêm Kim cương"
+    subscribers_only: "Chỉ dành cho thành viên có trả phí!"
+    subscribe_unlock: "Hãy đăng ký để chọn nhân vật này!"
+    subscriber_heroes: "Hãy đăng ký để có ngay Amara, Hushbaum, và Hattori!"
+    subscriber_gems: "Hãy đăng ký ngay để có thể mua nhân vật này bằng kim cương!"
+    anonymous: "Người chơi mới"
     level_difficulty: "Độ khó: "
     awaiting_levels_adventurer_prefix: "Chúng tôi ra mắt 5 màn mới mỗi tuần." # {change}
     awaiting_levels_adventurer: "Đăng kí làm Nhà Thám Hiểm"
     awaiting_levels_adventurer_suffix: "để trở thành những người đầu tiên chơi những bàn mới."
-    adjust_volume: "Tùy chỉnh âm lượng"
     campaign_multiplayer: "Đấu trường thi đấu"
     campaign_multiplayer_description: "... nơi mà bạn đối đầu với người chơi khác."
+    adjust_volume: "Điều chỉnh âm lượng"
 #    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 #    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
 #    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
-#    teacher_button: "For Teachers"
+    back_to_classroom: "Quay về Quản lý lớp"
+    teacher_button: "Dành cho Giáo viên"
 #    get_more_codecombat: "Get More CodeCombat"
 
 #  code:
