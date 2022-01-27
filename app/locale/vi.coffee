@@ -262,12 +262,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     page_not_found: "Không tìm thấy trang này"
 
   diplomat_suggestion:
-    title: "Hãy giúp chúng tôi phiên dịch CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-    sub_heading: "Chúng tôi cần kỹ năng ngoại ngữ của bạn."
-    pitch_body: "Chúng tôi xây dựng CodeCombat bằng Tiếng Anh, tuy nhiên có rất nhiều bạn trẻ trên toàn thế giới đều muốn tham gia. Các bạn trẻ Việt Nam cũng muốn chơi với nội dung Tiếng Việt, nếu như bạn có thể đọc và viết thành thạo cả 2 ngôn ngữ xin hãy đăng kí làm dịch thuật cho chúng tôi." # {change}
-    missing_translations: "Bạn sẽ tiếp tục thấy Tiếng Anh cho đến khi chúng tôi dịch tất cả nội dung qua Tiếng Việt."
-    learn_more: "Tìm hiểu thêm để tham gia trở thành Phiên Dịch Viên"
-    subscribe_as_diplomat: "Trở thành Phiên Dịch Viên"
+    title: "Hãy dịch CodeCombat ra ngôn ngữ của bạn!"  # This shows up when a player switches to a non-English language using the language selector.
+    sub_heading: "CodeCombat rất cần những người giỏi ngoại ngữ như bạn."
+    pitch_body: "CodeCombat tuy được phát triển bằng Tiếng Anh, nhưng người chơi của CodeCombat đến từ khắp nơi trên thế giới. Rất nhiều người muốn chơi bằng Tiếng Việt, vì họ không giỏi Tiếng Anh. Vậy nên, nếu bạn có thể sử dụng cả hai thứ tiếng và Tiếng Việt là ngôn ngữ mẹ đẻ, hãy đăng ký làm Phiên Dịch Viên và dịch website cũng như các game của CodeCombat sang Tiếng Việt nhé."
+   missing_translations: "Trong lúc chờ tất cả nội dung được dịch, bạn thỉnh thoảng sẽ nhìn thấy một chút Tiếng Anh nếu nội dung đó chưa được dịch ra Tiếng Việt."
+   learn_more: "Tìm hiểu thêm về Phiên Dịch Viên"
+   subscribe_as_diplomat: "Đăng ký để trở thành Phiên Dịch Viên"
 
 #  new_home_faq:
 #    what_programming_languages: "What programming languages are available?"
