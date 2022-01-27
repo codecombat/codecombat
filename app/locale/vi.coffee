@@ -520,11 +520,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     recovery_sent: "Đã gửi email giúp bạn khôi phục mật khẩu."
 
   items:
-    primary: "Chính"
-    secondary: "Phụ"
+    primary: "Đồ chính"
+    secondary: "Đồ phụ"
     armor: "Áo giáp"
     accessories: "Phụ kiện"
-    misc: "Khác"
+    misc: "Đồ khác"
     books: "Sách"
 
   common:
