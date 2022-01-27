@@ -32,11 +32,19 @@ module.exports = class TeacherStudentView extends RootView
   
   onClickSolutionTab: (e) ->
     link = $(e.target).closest('a')
-    levelOriginal = link.attr('id').split('-')[0].slice(0, -1)
     levelSlug = link.data('level-slug')
+    idTarget = link.attr('id').split('-')[0]
     solutionIndex = link.data('solution-index')
-    solutions = @levelSolutionsMap[levelOriginal]
-    @aceDiffs?[levelOriginal].editors.right.ace.setValue(solutions[solutionIndex].source, -1)
+    if /\+/.test(idTarget)
+      classLang = @classroom.get('aceConfig')?.language or 'python'
+      levelOriginal = idTarget.split('+')[0]
+      codes = @levelStudentCodeMap[levelOriginal]
+      code = @levels.fingerprint(codes[solutionIndex].plan, classLang)
+      @aceDiffs?[levelOriginal].editors.left.ace.setValue(code, -1)
+    else
+      levelOriginal = link.attr('id').split('-')[0].slice(0, -1)
+      solutions = @levelSolutionsMap[levelOriginal]
+      @aceDiffs?[levelOriginal].editors.right.ace.setValue(solutions[solutionIndex].source, -1)
     tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
   initialize: (options, classroomID, @studentID) ->
@@ -128,9 +136,6 @@ module.exports = class TeacherStudentView extends RootView
     @$el.find('pre:has(code[class*="lang-"])').each ->
       codeElem = $(@).first().children().first()
       lang = mode for mode of aceUtils.aceEditModes when codeElem?.hasClass('lang-' + mode)
-      # aceEditor = aceUtils.initializeACE(@, lang or classLang)
-      # aceEditor.renderer.setShowGutter true
-      # aceEditors.push aceEditor
 
     view = @
     @aceDiffs = {}
@@ -144,12 +149,12 @@ module.exports = class TeacherStudentView extends RootView
         mode: 'ace/mode/' +classLang
         theme: 'ace/theme/textmate'
         left: {
-          content: view.levels.fingerprint(studentCode[0].plan, classLang)
+          content: view.levels.fingerprint(studentCode?[0]?.plan ? '', classLang)
           editable: false
           copyLinkEnabled: false
         }
         right: {
-          content: solutions[0].source
+          content: solutions?[0]?.source ? ''
           editable: false
           copyLinkEnabled: false
         }

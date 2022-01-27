@@ -306,27 +306,45 @@ mixin breadcrumbs
                     span(data-i18n="play_level.level")
                     span )
             - var solutions = view.levelSolutionsMap[level.get('original')] || [];
-            if solutions.length > 1
+            if solutions.length > 1 || level.isLadder()
               tr
                 td
+                  if level.isLadder()
+                    - var studentCodeMap = view.levelStudentCodeMap[level.get('original')] || []
+                    div(role='tabpanel')
+                      ul.nav.nav-tabs(role='tablist')
+                        each code, index in studentCodeMap
+                          li.nav-item(class=(index === 0 ? 'active' : ''))
+                            - var target = level.get('original') + '+' + code.team;
+                            a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index, data-team=code.team)
+                              if index === 0
+                                strong.text-center(data-i18n="ladder.#{code.team}")
+                              else
+                                .text-center
+                                  span(data-i18n="ladder.#{code.team}")
+                          if index == 0
+                            .tab-spacer
+                          else
+                            .tab-filler
                 td
-                  div(role='tabpanel')
-                    ul.nav.nav-tabs(role='tablist')
-                      each solution, index in solutions
-                        li.nav-item(class=(index === 0 ? 'active' : ''))
-                          - var target = level.get('original') + index;
-                          a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
-                            if index === 0
-                              strong.text-center(data-i18n="teacher.complete_solution")
-                            else
-                              .text-center
-                                span(data-i18n="teacher.partial_solution")
-                                =" "
-                                span= index
-                        if index < solutions.length - 1
-                          .tab-spacer
-                        else
-                          .tab-filler
+                  if solutions.length > 1
+                    div(role='tabpanel')
+                      ul.nav.nav-tabs(role='tablist')
+                        each solution, index in solutions
+                          li.nav-item(class=(index === 0 ? 'active' : ''))
+                            - var target = level.get('original') + index;
+                            a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
+                              if index === 0
+                                strong.text-center(data-i18n="teacher.complete_solution")
+                              else
+                                .text-center
+                                  span(data-i18n="teacher.partial_solution")
+                                  =" "
+                                  span= index
+                          if index < solutions.length - 1
+                            .tab-spacer
+                          else
+                            .tab-filler
             tr
               td(colspan=2)
                 div(role='tabpanel')
