@@ -3436,12 +3436,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    recurring_month_6: 'Recurring billing every 6 months'
 #    recurring_year_1: 'Recurring billing every year'
 
-#  form_validation_errors:
-#    required: 'Field is required'
-#    invalidEmail: 'Invalid email'
-#    invalidPhone: 'Invalid phone number'
-#    emailExists: 'Email already exists'
-#    numberGreaterThanZero: 'Should be a number greater than 0'
+  form_validation_errors:
+    required: 'Cần điền thông tin vào đây'
+    invalidEmail: 'Email không đúng'
+    invalidPhone: 'Số điện thoại không đúng'
+    emailExists: 'Email đã tồn tại trên hệ thống'
+    numberGreaterThanZero: 'Số này phải lớn hơn 0'
 
 #  teacher_dashboard:
 #    read: 'View Only'
