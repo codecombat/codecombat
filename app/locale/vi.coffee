@@ -3236,14 +3236,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    try_again: 'Whoops, try again!'
 #    select_statement_left: 'Whoops, select a statement from the left before hitting "Submit."'
 #    fill_boxes: 'Whoops, make sure to fill all boxes before hitting "Submit."'
-#
-#   browser_recommendation:
-#    title: 'CodeCombat works best on Chrome!'
-#    pitch_body: 'For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!'
-#    download: 'Download Chrome'
-#    ignore: 'Ignore'
-#
 #   admin:
+
+  browser_recommendation:
+    title: 'CodeCombat chạy ổn định nhất trên trình duyệt Chrome!'
+    pitch_body: 'Hãy dùng trình duyệt Chrome bản cập nhật mới nhất để có được trải nghiệm tốt nhất. Ấn vào đây để tải trình duyệt bản mới nhất!'
+    download: 'Tải trình duyệt Chrome'
+    ignore: 'Bỏ qua'
+
 #    license_type_full: 'Full Courses'
 #    license_type_customize: 'Customize Courses'
 #
