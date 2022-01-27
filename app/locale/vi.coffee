@@ -516,8 +516,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   recover:
     recover_account_title: "Khôi phục tài khoản"
-    send_password: "Gởi mật mã khôi phục"
-    recovery_sent: "Đã gửi email giúp bạn khôi phục mật khẩu."
+    send_password: "Gửi hướng dẫn khôi phục tài khoản"
+    recovery_sent: "Đã gửi hướng dẫn khôi phục."
 
   items:
     primary: "Đồ chính"
