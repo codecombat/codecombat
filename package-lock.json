@@ -1934,6 +1934,13 @@
         "negotiator": "0.6.1"
       }
     },
+    "ace-diff": {
+      "version": "github:smallst/ace-diff#f3dc60aadf74b67ecf891c6f717d5de237806b70",
+      "from": "github:smallst/ace-diff",
+      "requires": {
+        "diff-match-patch": "^1.0.5"
+      }
+    },
     "acorn": {
       "version": "6.1.1",
       "resolved": "https://registry.npmjs.org/acorn/-/acorn-6.1.1.tgz",
@@ -4689,6 +4696,11 @@
       "resolved": "https://registry.npmjs.org/di/-/di-0.0.1.tgz",
       "integrity": "sha1-gGZJMmzqp8qjMG112YXqJ0i6kTw=",
       "dev": true
+    },
+    "diff-match-patch": {
+      "version": "1.0.5",
+      "resolved": "https://registry.npmjs.org/diff-match-patch/-/diff-match-patch-1.0.5.tgz",
+      "integrity": "sha512-IayShXAgj/QMXgB0IWmKx+rOPuGMhqm5w6jvFxmVenXKIzRqTAAsbBPT3kWQeGANj3jGgvcvv4yK6SxqYmikgw=="
     },
     "diffie-hellman": {
       "version": "5.0.3",

@@ -1,0 +1,91 @@
+$connectorBackground: #d8f2ff
+$connectorBackgroundRight: #d8f2ff
+$connectorBorder: #a2d7f2
+$gutterBackground: #efefef
+$copyArrowsColor: #000
+$mergeRightColor: #c98100
+$mergeLeftColor: #004ea0
+$charDiffBackground: rgba(0, 92, 175, 0.4)
+$charDiffBackgroundRight: rgba(0, 92, 175, 0.4)
+
+.acediff
+  &__wrap
+    display: flex
+    flex-direction: row
+    position: relative
+
+    // these 3 lines are to prevents an unsightly scrolling bounce affect on Safari
+    height: 100%
+    width: 100%
+    overflow: auto
+
+  &__gutter
+    flex: 0 0 60px
+    border-left: 1px solid darken($gutterBackground, 20)
+    border-right: 1px solid darken($gutterBackground, 20)
+    background-color: $gutterBackground
+    overflow: hidden
+
+    svg
+      background-color: $gutterBackground
+
+  &__left, &__right
+    flex: 1
+
+  // The line that's rendered in ACE editor under diffed lines
+  &__diffLine
+    background-color: $connectorBackground
+    border-top: 1px solid $connectorBorder
+    border-bottom: 1px solid $connectorBorder
+    position: absolute
+    z-index: 4
+    &.targetOnly
+      height: 0px !important
+      border-top: 1px solid $connectorBorder
+      border-bottom: 0px
+      position: absolute
+    &.right
+      background-color: $connectorBackgroundRight
+
+  &__diffChar
+    background-color: $charDiffBackground
+    border-top: 1px solid $connectorBorder
+    border-bottom: 1px solid $connectorBorder
+    position: absolute
+    z-index: 5
+    &.targetOnly
+      height: 0px !important
+      border-top: 1px solid $connectorBorder
+      border-bottom: 0px
+      position: absolute
+    &.right
+      background-color: $charDiffBackgroundRight
+
+  // SVG connector
+  &__connector
+    fill: $connectorBackground
+    stroke: $connectorBorder
+
+  // Arrows for merging diffs
+  &__copy--right,
+  &__copy--left
+    position: relative
+
+    div
+      color: $copyArrowsColor
+      text-shadow: 1px 1px rgba(invert($copyArrowsColor), .7)
+      position: absolute
+      margin: 2px 3px
+      cursor: pointer
+
+  &__copy--right div:hover
+    color: $mergeLeftColor
+
+  &__copy--left
+    float: right
+
+    div
+      right: 0px
+
+      &:hover
+        color: $mergeRightColor
