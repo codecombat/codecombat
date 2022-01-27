@@ -259,7 +259,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     cancel: "Huỷ"
 
   not_found:
-    page_not_found: "Không tìm thấy trang"
+    page_not_found: "Không tìm thấy trang này"
 
   diplomat_suggestion:
     title: "Hãy giúp chúng tôi phiên dịch CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
