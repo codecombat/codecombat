@@ -1,7 +1,7 @@
 const fetchJson = require('./fetch-json')
 
 export function scheduleClassEmail (options) {
-  return fetchJson('/db/online-classes/schedule-class-email', {
+  return fetchJson('/contact/send-class-schedule-email', {
     method: 'POST',
     json: options
   })

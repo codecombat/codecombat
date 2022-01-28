@@ -1,6 +1,6 @@
 <template>
   <modal
-    title="Book Class"
+    :title="$t('parents_landing_2.book_your_class')"
     @close="$emit('close')"
   >
     <template v-if="!showSuccessModal">
