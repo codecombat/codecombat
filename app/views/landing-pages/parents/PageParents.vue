@@ -1,12 +1,10 @@
 <template>
   <div id="parent-page">
     <!-- START Modals -->
-    <modal-timetap-schedule
-        v-if="type !== 'parents'"
-        :show="showTimetapModal"
+    <modal-user-details
+        v-if="type !== 'parents' && showTimetapModal"
         :class-type="timetapModalClassType"
         @close="showTimetapModal = false"
-        @booked="onClassBooked"
     />
     <modal-timetap-confirmation
         v-if="type === 'thank-you'"
@@ -591,12 +589,14 @@ import ButtonMainCta from './ButtonMainCta'
 import IconGem from './IconGem'
 import ButtonArrow from './ButtonArrow'
 import { mapGetters } from 'vuex'
+import ModalUserDetails from "./ModalUserDetails";
 
 const DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID = 214809
 const DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID = 222065
 
 export default {
   components: {
+    ModalUserDetails,
     ModalTimetapSchedule,
     PageParentsSectionPremium,
     PageParentsJumbotron,
@@ -676,7 +676,6 @@ export default {
           ['facebook']
       )
     },
-
     onCarouselLeft () {
       $("#student-outcome-carousel").carousel('prev')
     },
@@ -691,7 +690,7 @@ export default {
 
     onClickMainCta () {
       this.trackCtaClicked()
-      if (this.trialClassExperiment == 'trial-class') {
+      if (this.trialClassExperiment === 'trial-class') {
         this.onScheduleAFreeClass()
       } else {
         application.router.navigate('/payments/initial-online-classes-71#', { trigger: true })
@@ -722,7 +721,7 @@ export default {
         e.preventDefault()
       }
 
-      if (!window.drift && (this.type === 'parents' || this.type === 'sales' || this.type == 'chat')) {
+      if (!window.drift && (this.type === 'parents' || this.type === 'sales' || this.type === 'chat')) {
         console.log('No Drift, resetting to self-serve')
         this.type = 'self-serve'
       }
@@ -762,7 +761,7 @@ export default {
     },
 
     mainCtaButtonText (buttonNum) {
-      if (this.trialClassExperiment == 'trial-class') {
+      if (this.trialClassExperiment === 'trial-class') {
         return 'Schedule a Free Class'
       } else if (buttonNum === 0 || !buttonNum) {
         return 'Try it Risk-Free'
@@ -776,10 +775,10 @@ export default {
     },
 
     mainCtaSubtext (buttonNum) {
-      if (this.trialClassExperiment == 'trial-class' && buttonNum === 0) {
+      if (this.trialClassExperiment === 'trial-class' && buttonNum === 0) {
         return 'Or, <a href="/payments/initial-online-classes-71#">enroll now</a>'
       }
-      else if (this.trialClassExperiment == 'trial-class') {
+      else if (this.trialClassExperiment === 'trial-class') {
         return ''
       } else if (!buttonNum) {
         return ''
@@ -800,7 +799,7 @@ export default {
     ]),
 
     showPricing: () => {
-      if (/^zh/.test(me.get('preferredLanguage')) && me.get('country') == 'australia')
+      if (/^zh/.test(me.get('preferredLanguage')) && me.get('country') === 'australia')
         return false  // Australia partner offering extended services for Chinese-language students
       return true
     },
@@ -815,7 +814,7 @@ export default {
         // Don't include users created before experiment start date
         value = 'trial-class'
       }
-      if (!value && this.type == 'live-classes') {
+      if (!value && this.type === 'live-classes') {
         // Don't include users coming from kid-specific landing page
         value = 'trial-class'
       }
@@ -833,7 +832,7 @@ export default {
     },
 
     videoId () {
-      if (this.trialClassExperiment == 'trial-class') {
+      if (this.trialClassExperiment === 'trial-class') {
         return 'bb2e8bf84df5c2cfa0fcdab9517f1d9e'
       } else {
         return '3cba970325cb3c6df117c018f7862317'

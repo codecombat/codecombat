@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { validateEmail } from '../../lib/common-utils'
 export default {
   name: "PaymentOnlineClassesParentDetailsView",
   data () {
@@ -40,7 +41,7 @@ export default {
       this.emailErrorClass = '';
       const val = e.target.value;
       this.email = val;
-      if (!this.validateEmail(val)) {
+      if (!validateEmail(val)) {
         this.emailErrorClass = 'error-border';
         return;
       }
@@ -65,11 +66,7 @@ export default {
       } else {
         this.$emit('updateParentDetails', null);
       }
-    },
-    validateEmail(email) {
-      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email).toLowerCase());
-    },
+    }
   },
 }
 </script>
