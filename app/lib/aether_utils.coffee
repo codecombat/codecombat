@@ -169,6 +169,13 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
         }
       """
     else if language is 'java'
+      if len > 2 and !(/function/.test jsCodes[len-2])
+        jsCodes[len-2] = (jsCodes[len-2].split('\n').map (line) ->
+          if / = /.test line
+            line = 'static ' + line
+          line
+        ).join('\n')
+
       hasHeader = /^\/\//.test(jsCodes[0])
       startIndex = if hasHeader then 1 else 0
       functionLines = jsCodes.splice(startIndex, len - 1 - startIndex).join('\n').trimStart().split('\n')
