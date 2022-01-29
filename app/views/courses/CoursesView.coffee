@@ -19,11 +19,9 @@ NameLoader = require 'core/NameLoader'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
 Mandate = require 'models/Mandate'
-utils = require 'core/utils'
 store = require 'core/store'
+utils = require 'core/utils'
 coursesHelper = require 'lib/coursesHelper'
-
-# TODO: Test everything
 
 module.exports = class CoursesView extends RootView
   id: 'courses-view'
