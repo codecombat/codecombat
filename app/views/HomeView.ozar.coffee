@@ -2,11 +2,11 @@ require('app/styles/home-view.scss')
 RootView = require 'views/core/RootView'
 template = require 'templates/home-view'
 CocoCollection = require 'collections/CocoCollection'
+CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
-CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -130,8 +130,6 @@ module.exports = class HomeView extends RootView
 
   onCarouselDirectMove: (frameNum) ->
     $("#core-curriculum-carousel").carousel(frameNum)
-
-
 
   logoutAccount: ->
     Backbone.Mediator.publish("auth:logging-out", {})

@@ -73,7 +73,7 @@ export default {
         this.startedPDTrial = true
       }
       // Scroll to the top of it
-      $('html, body').animate({scrollTop: pdTrialSection.offset().top - 40}, 1000)
+      $('html, body').animate({ scrollTop: pdTrialSection.offset().top - 40 }, 1000)
     },
 
     onClickSalesCTA (e) {
@@ -104,9 +104,9 @@ export default {
       } else if (action === 'interaction') {
         const correct = data.correct
         if (correct === true) {
-          console.log('Got that one right :)')
+          console.log('Got that one right :))')
         } else if (correct === false) {
-          console.log('Got that one wrong :(')
+          console.log('Got that one wrong :((')
         }
       } else if (action === 'url-open') {
         window.open(data.url)
@@ -122,7 +122,7 @@ export default {
       }
     },
 
-    onWindowResize(e) {
+    onWindowResize() {
       $('#pd-trial-embed').css('height', Math.max(640, Math.min(900, window.innerHeight - 100)))
     }
   },
