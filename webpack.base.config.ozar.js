@@ -159,7 +159,7 @@ module.exports = (env) => {
       new webpack.ProgressPlugin({ profile: false }), // Always show build progress
       new MiniCssExtractPlugin({ // Move CSS into external file
         filename: 'stylesheets/[name].css',
-        chunkFilename: '[id].css',
+        chunkFilename: 'stylesheets/[name]-[contenthash].css',
         ignoreOrder: true, // too many conflict warnings because of TestView, ignoring till those conflicts are fixed or that route is disabled
       }),
       new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
