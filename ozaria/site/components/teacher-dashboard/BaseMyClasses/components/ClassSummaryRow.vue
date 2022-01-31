@@ -82,11 +82,12 @@
           :num-students="numStudents"
           :date-created="dateCreated"
           :share-permission="sharePermission"
+          :archived="archived"
         />
       </router-link>
       <div
         v-else
-        class="flex-row"
+        class="flex-row full-width"
       >
         <h2 class="padding-left">
           {{ classroomName }}
@@ -95,6 +96,8 @@
           :language="language"
           :num-students="numStudents"
           :date-created="dateCreated"
+          :share-permission="sharePermission"
+          :archived="archived"
         />
       </div>
       <div
@@ -262,5 +265,8 @@
   }
   .share {
     width: 100px;
+  }
+  .full-width {
+    width: 100%;
   }
 </style>
