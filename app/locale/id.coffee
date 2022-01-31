@@ -3144,6 +3144,11 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     live_class_booked_thank_you: "Kelas langsung Anda telah dipesan, terima kasih!"
     book_your_class: "Pesan Kelas Anda"
     call_to_book: "Telepon sekarang untuk memesan"
+#    student_journey_start: "Congratulations! your student's coding journey is about to begin!"
+#    enter_email_address: "Please provide your email address to get started:"
+#    enter_parent_email_address: "If you are a student under 18 years of age, please enter your parent or guardian's email address."
+#    email_sent_success: "Awesome! An email has been sent to the address you provided."
+#    email_schedule_info: "Please open and click the link to access our trial class scheduling portal and select any available time that works best for you."
 
   modal_timetap_confirmation:
     congratulations: "Selamat!"
