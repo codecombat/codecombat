@@ -1,10 +1,12 @@
 <script>
   import { getDisplayPermission } from "../../../common/utils"
   import IconShareGray from '../common/icons/IconShareGray'
+  import IconArchived from './icons/IconArchive'
 
   export default {
     components: {
-      IconShareGray
+      IconShareGray,
+      IconArchived
     },
     props: {
       language: {
@@ -22,6 +24,10 @@
       },
       sharePermission: {
         type: String,
+      },
+      archived: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -63,7 +69,14 @@
       class="stats-tab"
     >
       <icon-share-gray />
-      {{this.displayPermission(sharePermission)}}
+      <span>{{this.displayPermission(sharePermission)}}</span>
+    </div>
+    <div
+      v-if="sharePermission && archived"
+      class="stats-tab"
+    >
+      <icon-archived />
+      {{ $t('general.archived') }}
     </div>
   </div>
 </template>
