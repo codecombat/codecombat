@@ -1,4 +1,14 @@
 
+mixin button-hello-mivan(type, buttonText, description, imageAlt, imageSRC)
+  .col-md-6.path-card
+    img.card-image(class=type data-i18n=imageAlt src=imageSRC)
+    .card-footer
+      span.small
+        div(data-i18n=description)
+      button.primary-oz-button(class=type)
+        span(data-i18n=buttonText)
+
+
 .modal-body-content
   if me.get("preferredLanguage") == "he" || window.location.host == "il.codecombat.com"
     .alert.alert-info.text-center(dir="rtl")
@@ -6,35 +16,15 @@
       a(href="https://pub.skillz-edu.org/portal/playground")  התחבר דרך פורטל משרד החינוך
 
 
-  .row.path-cards
-    .col-md-6.path-card
-      img.card-image.teacher-path-button(data-i18n='[alt]new_home.for_educators' src='/images/pages/account/create/parent.png')
-      .card-footer
-        span.small
-          div(data-i18n="new_home.im_an_educator_description")
-        button.primary-oz-button.teacher-path-button
-          span(data-i18n="new_home.im_an_educator")
+  if me.showIndividualRegister()
+    .row.path-cards
+      +button-hello-mivan("teacher-path-button","new_home.im_an_educator", "new_home.im_an_educator_description", '[alt]new_home.for_educators', '/images/pages/account/create/educator.png')
+      +button-hello-mivan("parent-path-button","new_home.im_a_parent", "new_home.im_a_parent_description", '[alt]new_home.for_parents', '/images/pages/account/create/parent.png')
 
-    .col-md-6.path-card
-      img.card-image.parent-path-button(data-i18n='[alt]new_home.for_parents' src='/images/pages/account/create/parent.png')
-      .card-footer
-        span.small
-          div(data-i18n="new_home.im_a_parent_description")
-        button.primary-oz-button.parent-path-button
-          span(data-i18n="new_home.im_a_parent")
-  .row.path-cards
-    .col-md-6.path-card
-      img.card-image.student-path-button(data-i18n='[alt]new_home.for_students' src='/images/pages/account/create/student.png')
-      .card-footer
-        span.small
-          div(data-i18n="new_home.im_a_student_description")
-        button.primary-oz-button.student-path-button
-          span(data-i18n="new_home.im_a_student")
-
-    .col-md-6.path-card
-      img.card-image.individual-path-button(data-i18n='[alt]new_home.for_individuals' src='/images/pages/account/create/individual.png')
-      .card-footer
-        span.small
-          div(data-i18n="new_home.im_an_individual_description")
-        button.primary-oz-button.individual-path-button
-          span(data-i18n="new_home.im_an_individual")
+    .row.path-cards
+      +button-hello-mivan("student-path-button","new_home.im_a_student", "new_home.im_a_student_description", '[alt]new_home.for_students', '/images/pages/account/create/student.png')
+      +button-hello-mivan("individual-path-button","new_home.im_an_individual", "new_home.im_an_individual_description", '[alt]new_home.for_individuals', '/images/pages/account/create/individual.png')
+  else
+    .row.path-cards
+      +button-hello-mivan("teacher-path-button","new_home.im_an_educator", "new_home.im_an_educator_description", '[alt]new_home.for_educators', '/images/pages/account/create/educator.png')
+      +button-hello-mivan("student-path-button","new_home.im_a_student", "new_home.im_a_student_description", '[alt]new_home.for_students', '/images/pages/account/create/student.png')
