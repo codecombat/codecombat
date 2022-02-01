@@ -3144,6 +3144,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     live_class_booked_thank_you: "您的直播课已被预订，谢谢您！"
     book_your_class: "预订您的课程"
     call_to_book: "现在打电话预订"
+#    student_journey_start: "Congratulations! your student's coding journey is about to begin!"
+#    enter_email_address: "Please provide your email address to get started:"
+#    enter_parent_email_address: "If you are a student under 18 years of age, please enter your parent or guardian's email address."
+#    email_sent_success: "Awesome! An email has been sent to the address you provided."
+#    email_schedule_info: "Please open and click the link to access our trial class scheduling portal and select any available time that works best for you."
 
   modal_timetap_confirmation:
     congratulations: "恭喜你！"
