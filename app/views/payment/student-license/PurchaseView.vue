@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { handleCheckoutSession } from './paymentPriceHelper'
+import { handleCheckoutSession } from '../paymentPriceHelper'
 
 export default {
   name: "PaymentStudentLicensePurchaseView",

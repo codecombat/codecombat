@@ -22,13 +22,13 @@
 </template>
 
 <script>
-import ModalGetLicenses from "../../components/common/ModalGetLicenses";
-import PaymentStudentLicenseHeadComponent from "./PaymentStudentLicenseHeadComponent"
-import PaymentLicenseMinMaxTextComponent from "./PaymentLicenseMinMaxTextComponent";
+import ModalGetLicenses from "../../../components/common/ModalGetLicenses";
+import PaymentStudentLicenseHeadComponent from "./HeadComponent"
+import PaymentLicenseMinMaxTextComponent from "../components/LicenseMinMaxTextComponent";
 import {
   getDisplayUnitPrice,
   getDisplayCurrency
-} from './paymentPriceHelper'
+} from '../paymentPriceHelper'
 export default {
   name: "PaymentStudentLicenseView",
   data () {

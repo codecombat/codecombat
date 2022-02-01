@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import PaymentStudentLicenseHeadComponent from "./PaymentStudentLicenseHeadComponent";
-import PaymentStudentLicenseHomeSchoolBodyComponent from "./PaymentStudentLicenseHomeSchoolBodyComponent";
+import PaymentStudentLicenseHeadComponent from "./HeadComponent";
+import PaymentStudentLicenseHomeSchoolBodyComponent from "./HomeSchoolBodyComponent";
 export default {
   name: "PaymentStudentLicenseHomeSchoolView",
   components: {
