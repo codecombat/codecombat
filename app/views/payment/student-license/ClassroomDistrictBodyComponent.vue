@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import PaymentSchoolDistrictBodyView from "./PaymentSchoolDistrictBodyView";
-import PaymentSmallClassroomBodyView from "./PaymentSmallClassroomBodyView";
+import PaymentSchoolDistrictBodyView from "./SchoolDistrictBodyView";
+import PaymentSmallClassroomBodyView from "./SmallClassroomBodyView";
 export default {
   name: "PaymentStudentLicenseClassroomDistrictBodyComponent",
   components: {

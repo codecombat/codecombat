@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import PaymentStudentLicenseHeadComponent from './PaymentStudentLicenseHeadComponent'
-import PaymentStudentLicenseClassroomDistrictBodyComponent from "./PaymentStudentLicenseClassroomDistrictBodyComponent";
+import PaymentStudentLicenseHeadComponent from './HeadComponent'
+import PaymentStudentLicenseClassroomDistrictBodyComponent from "./ClassroomDistrictBodyComponent";
 export default {
   name: "PaymentStudentLicenseClassroomDistrictView",
   components: {

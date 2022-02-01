@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { validateEmail } from '../../lib/common-utils'
+import { validateEmail } from '../../../lib/common-utils'
 export default {
   name: "PaymentOnlineClassesParentDetailsView",
   data () {
