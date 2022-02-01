@@ -3143,6 +3143,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     live_class_booked_thank_you: "Lbhe yvir pynff unf orra obbxrq, gunax lbh!"
     book_your_class: "Obbx Lbhe Pynff"
     call_to_book: "Pnyy abj gb obbx"
+    student_journey_start: "Pbatenghyngvbaf! lbhe fghqrag'f pbqvat wbhearl vf nobhg gb ortva!"
+    enter_email_address: "Cyrnfr cebivqr lbhe rznvy nqqerff gb trg fgnegrq:"
+    enter_parent_email_address: "Vs lbh ner n fghqrag haqre 18 lrnef bs ntr, cyrnfr ragre lbhe cnerag be thneqvna'f rznvy nqqerff."
+    email_sent_success: "Njrfbzr! Na rznvy unf orra frag gb gur nqqerff lbh cebivqrq."
+    email_schedule_info: "Cyrnfr bcra naq pyvpx gur yvax gb npprff bhe gevny pynff fpurqhyvat cbegny naq fryrpg nal ninvynoyr gvzr gung jbexf orfg sbe lbh."
 
   modal_timetap_confirmation:
     congratulations: "Pbatenghyngvbaf!"

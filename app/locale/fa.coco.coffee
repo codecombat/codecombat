@@ -3144,6 +3144,11 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    live_class_booked_thank_you: "Your live class has been booked, thank you!"
 #    book_your_class: "Book Your Class"
 #    call_to_book: "Call now to book"
+#    student_journey_start: "Congratulations! your student's coding journey is about to begin!"
+#    enter_email_address: "Please provide your email address to get started:"
+#    enter_parent_email_address: "If you are a student under 18 years of age, please enter your parent or guardian's email address."
+#    email_sent_success: "Awesome! An email has been sent to the address you provided."
+#    email_schedule_info: "Please open and click the link to access our trial class scheduling portal and select any available time that works best for you."
 
 #  modal_timetap_confirmation:
 #    congratulations: "Congratulations!"
