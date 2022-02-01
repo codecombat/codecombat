@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import PaymentStudentLicenseView from "./PaymentStudentLicenseView";
-import PaymentStudentLicensePurchaseView from "./PaymentStudentLicensePurchaseView";
+import PaymentStudentLicenseView from "./StudentLicenseView";
+import PaymentStudentLicensePurchaseView from "./PurchaseView";
 export default {
   name: "PaymentStudentLicensesView",
   props: {

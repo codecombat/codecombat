@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import PaymentStudentLicensesView from './PaymentStudentLicensesView'
-import PaymentStudentLicenseClassroomDistrictView from './PaymentStudentLicenseClassroomDistrictView'
-import PaymentStudentLicenseHomeSchoolView from "./PaymentStudentLicenseHomeSchoolView";
+import PaymentStudentLicensesView from './StudentLicensesView'
+import PaymentStudentLicenseClassroomDistrictView from './ClassroomDistrictView'
+import PaymentStudentLicenseHomeSchoolView from "./HomeSchoolView";
 export default {
   name: "PaymentStudentLicensesComponent",
   components: {

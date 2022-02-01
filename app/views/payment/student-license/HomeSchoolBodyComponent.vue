@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import PaymentStudentLicensePurchaseComponent from "./PaymentStudentLicensePurchaseComponent";
-import PaymentStudentLicensesOnlineClassesComponent from "./PaymentStudentLicensesOnlineClassesComponent";
+import PaymentStudentLicensePurchaseComponent from "./PurchaseComponent";
+import PaymentStudentLicensesOnlineClassesComponent from "./OnlineClassesInfoComponent";
 export default {
   name: "PaymentStudentLicenseHomeSchoolBodyComponent",
   components: {

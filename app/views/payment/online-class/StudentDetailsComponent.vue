@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import DayTimeInputComponent from "./DayTimeInputComponent";
+import DayTimeInputComponent from "../components/DayTimeInputComponent";
 export default {
   name: "PaymentOnlineClassesStudentDetailsComponent",
   props: {

@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import PaymentOnlineClassesPlansView from "./PaymentOnlineClassesPlansView";
-import PaymentOnlineClassesPurchaseView from "./PaymentOnlineClassesPurchaseView";
+import PaymentOnlineClassesPlansView from "./PlansView";
+import PaymentOnlineClassesPurchaseView from "./PurchaseView";
 export default {
   name: "PaymentOnlineClassesView",
   components: {

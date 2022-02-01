@@ -51,9 +51,9 @@
 </template>
 
 <script>
-import PaymentLicenseMinMaxTextComponent from "./PaymentLicenseMinMaxTextComponent";
-import {getDisplayCurrency, getDisplayUnitPrice, handleCheckoutSession} from "./paymentPriceHelper";
-import ModalGetLicenses from "../../components/common/ModalGetLicenses";
+import PaymentLicenseMinMaxTextComponent from "../components/LicenseMinMaxTextComponent";
+import {getDisplayCurrency, getDisplayUnitPrice, handleCheckoutSession} from "../paymentPriceHelper";
+import ModalGetLicenses from "../../../components/common/ModalGetLicenses";
 export default {
   name: "PaymentStudentLicenseBuyNowComponent",
   components: {

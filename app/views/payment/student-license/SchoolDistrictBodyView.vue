@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import ModalGetLicenses from "../../components/common/ModalGetLicenses";
+import ModalGetLicenses from "../../../components/common/ModalGetLicenses";
 export default {
   name: "PaymentSchoolDistrictBodyView",
   components: {
