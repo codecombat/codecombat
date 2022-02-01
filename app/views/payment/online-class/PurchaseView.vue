@@ -71,10 +71,10 @@
 
 <script>
 import _ from "lodash";
-import PaymentOnlineClassesParentDetailsComponent from "./PaymentOnlineClassesParentDetailsComponent";
-import PaymentOnlineClassesStudentDetailsComponent from "./PaymentOnlineClassesStudentDetailsComponent";
-import { getStripeLib } from '../../lib/stripeUtil';
-import { createPaymentSession } from '../../core/api/payment-session';
+import PaymentOnlineClassesParentDetailsComponent from "./ParentDetailsComponent";
+import PaymentOnlineClassesStudentDetailsComponent from "./StudentDetailsComponent";
+import { getStripeLib } from '../../../lib/stripeUtil';
+import { createPaymentSession } from '../../../core/api/payment-session';
 
 export default {
   name: "PaymentOnlineClassesPurchaseView",
