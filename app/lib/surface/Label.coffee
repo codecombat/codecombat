@@ -1,6 +1,29 @@
 CocoClass = require 'core/CocoClass'
 createjs = require 'lib/createjs-parts'
 
+# Default parameters are using short name (char)
+DEFAULT_STYLE_CHAR = {dialogue: 'D', say: 'S', name: 'N', variable: 'V', text: 'T'}
+DEFAULT_LABEL_OPTIONS  = {
+  marginX: {D: 5, S: 6, N: 3, V: 0, T: 0},
+  marginY: {D: 6, S: 4, N: 3, V: 0, T: 0},
+  fontWeight: {D: 'bold', S: 'bold', N: 'bold', V: 'bold', T: 'bold'},
+  shadow: {D: false, S: true, N: true, V: true, T: false},
+  shadowColor: {D: '#FFF', S: '#000', N: '#000', V: "#000", T: "#FFF"},
+  fontSize: {D: 25, S: 12, N: 24, V: 18, T: 20},
+  lineSpacing: {D: 2, S: 2, N: 2, V: 2, T: 2},
+  fontFamily: {D: 'Arial', S: 'Arial', N: 'Arial', B: 'Arial', V: 'Arial', T: 'Arial'},
+  textAlign: {D: 'left', S: 'left', N: 'left', B: 'left', V: 'left', T: 'left'},
+  fontColor: {D: '#000', S: '#FFF', N: '#6c6', V: '#fff', T: '#000'},
+  backgroundFillColor: {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(0,0,0,0.7)', V: 'rgba(0,0,0,0.7)', T: 'rgba(0,0,0,0)'},
+  backgroundStrokeColor: {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)', V: 'rgba(0,0,0,0)', T: 'rgba(0,0,0,0)'},
+  backgroundStrokeStyle: {D: 2, S: 1, N: 1, V: 1, T: 0},
+  backgroundBorderRadius: {D: 10, S: 3, N: 3, V: 3, T: 0},
+  layerPriority: {D: 10, S: 5, N: 5, V: 5, T: 10},
+  maxWidth: {D: 300, S: 300, N: 180, V: 100, T: 100},
+  maxLength: {D: 100, S: 100, N: 30, V: 30, T: 100}
+}
+
+
 module.exports = class Label extends CocoClass
   @STYLE_DIALOGUE = 'dialogue'  # A speech bubble from a script
   @STYLE_SAY = 'say'  # A piece of text generated from the world
@@ -8,6 +31,7 @@ module.exports = class Label extends CocoClass
   # We might want to combine 'say' and 'name'; they're very similar
   # Nick designed 'say' based off of Scott's 'name' back when they were using two systems
   @STYLE_VAR = 'variable'
+  @STYLE_TEXT = 'text' # "Direct" label on the sprite pos without following screen caps
 
   @BITMAP_SPACE = 20 # Size extenstion for speech bubbles for box pointers
 
@@ -54,9 +78,10 @@ module.exports = class Label extends CocoClass
 
   update: ->
     return unless @text and @sprite.sprite
-    offset = @sprite.getOffset? (if @style in ['dialogue', 'say'] then 'mouth' else 'aboveHead')
-    offset ?= { x: 0, y: 0 }  # temp (if not Lank)
-    offset.y += 10 if @style is 'variable'
+    offset = {x: 0, y: 0}  # default and for Label.STYLE_TEXT
+    if @sprite.getOffset
+      offset = @sprite.getOffset(if @style in [Label.STYLE_DIALOGUE, Label.STYLE_SAY] then 'mouth' else 'aboveHead')
+    offset.y += 10 if @style is Label.STYLE_VAR
     rotation = @sprite.getRotation()
     offset.x *= -1 if rotation >= 135 or rotation <= -135
     @label.x = @background.x = @sprite.sprite.x + offset.x
@@ -86,32 +111,17 @@ module.exports = class Label extends CocoClass
 
   buildLabelOptions: ->
     o = {}
-    st = {dialogue: 'D', say: 'S', name: 'N', variable: 'V'}[@style]
-    o.marginX = {D: 5, S: 6, N: 3, V: 0}[st]
-    o.marginY = {D: 6, S: 4, N: 3, V: 0}[st]
-    o.fontWeight = {D: 'bold', S: 'bold', N: 'bold', V: 'bold'}[st]
-    o.shadow = {D: false, S: true, N: true, V: true}[st]
-    o.shadowColor = {D: '#FFF', S: '#000', N: '#000', V: "#000"}[st]
-    o.fontSize = {D: 25, S: 12, N: 24, V: 18}[st]
-    o.lineSpacing = 2
-    o.fontFamily = {D: 'Arial', S: 'Arial', N: 'Arial', B: 'Arial', V: 'Arial'}[st]
-    o.textAlign = "left" # it's disabled for customizing on purpose, we don't need it now and need to rework "bubble" forming for that
-    o.fontColor = {D: '#000', S: '#FFF', N: '#6c6', V: '#6c6'}[st]
-    if @style is 'name' and @sprite?.thang?.team is 'humans'
+    st = DEFAULT_STYLE_CHAR[@style]
+    for prop, styleValues of DEFAULT_LABEL_OPTIONS
+      o[prop] = styleValues[st]
+    if @style isnt Label.STYLE_TEXT
+      # 'text' is only non limited
+      o.maxWidth = Math.max(@camera.canvasWidth / 2 - 100, o.maxWidth)
+    if @style is Label.STYLE_NAME and @sprite?.thang?.team is 'humans'
       o.fontColor = '#c66'
-    else if @style is 'name' and @sprite?.thang?.team is 'ogres'
+    else if @style is Label.STYLE_NAME and @sprite?.thang?.team is 'ogres'
       o.fontColor = '#66c'
-    else if @style is 'variable'
-      o.fontColor = '#fff'
-
-    o.backgroundFillColor = {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(0,0,0,0.7)', V: 'rgba(0,0,0,0.7)'}[st]
-    o.backgroundStrokeColor = {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)', V: 'rgba(0,0,0,0)'}[st]
-    o.backgroundStrokeStyle = {D: 2, S: 1, N: 1, V: 1}[st]
-    o.backgroundBorderRadius = {D: 10, S: 3, N: 3, V: 3}[st]
-    o.layerPriority = {D: 10, S: 5, N: 5, V: 5}[st]
-    o.maxWidth = {D: 300, S: 300, N: 180, V: 100}[st]
-    o.maxWidth = Math.max @camera.canvasWidth / 2 - 100, o.maxWidth
-    o.maxLength = {D: 100, S: 100, N: 30, V: 30}[st]
+    # We allow to override options from thang.sayLabelOptions
     o = _.merge(o, @labelOptions)
     o.fontDescriptor = "#{o.fontWeight} #{o.fontSize}px #{o.fontFamily}"
     multiline = @addNewLinesToText _.string.prune(@text, o.maxLength), o.fontDescriptor, o.maxWidth
@@ -189,7 +199,7 @@ module.exports = class Label extends CocoClass
       g.quadraticCurveTo(0, 0, radius, 0)
     else
       # Just draw a rounded rectangle
-      o.hpos ?= "middle"
+      o.hPos ?= "middle"
       o.vPos ?= "middle"
       pointerHeight = 0
       g.drawRoundRect(o.label.x - o.marginX, o.label.y - o.marginY, w, h, o.backgroundBorderRadius)
@@ -206,6 +216,17 @@ module.exports = class Label extends CocoClass
       background.regY = h + pointerHeight
     else if o.vPos is "top"
       background.regY = -pointerHeight
+
+    if @style is Label.STYLE_TEXT
+      if o.hPos is 'left'
+        background.regX = 0
+      else if o.hPos is 'right'
+        background.regX = o.textWidth
+      background.regY = h / 2
+      if o.vPos is "bottom"
+        background.regY = h
+      else if o.vPos is "top"
+        background.regY = 0
 
     o.label.regX = background.regX - o.marginX
     o.label.regY = background.regY - o.marginY
