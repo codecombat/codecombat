@@ -5,6 +5,9 @@
   import SecondaryButton from '../../teacher-dashboard/common/buttons/SecondaryButton'
 
   export default {
+    metaInfo: {
+      meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
+    },
     components: {
       SecondaryButton
     },
@@ -61,22 +64,22 @@
 </script>
 
 <template lang="pug">
-  #basic-info-component
+  #basic-info-component.page-educator-signup-component
     form.form-container(@submit.prevent="onClickNext")
       .first-name.form-group.row(:class="{ 'has-error': $v.firstName.$error }")
-        .col-xs-8
+        .col-sm-8.col-xs-12
           span.inline-flex-form-label-div
             span.control-label {{ $t("general.first_name") }}
             span.form-error(v-if="!$v.firstName.required") {{ $t(validationMessages.errorRequired.i18n) }}
           input#first-name-input.form-control(name="firstName" v-model="$v.firstName.$model" @change="onChangeValue($event)")
       .last-name.form-group.row(:class="{ 'has-error': $v.lastName.$error }")
-        .col-xs-8
+        .col-sm-8.col-xs-12
           span.inline-flex-form-label-div
             span.control-label {{ $t("general.last_name") }}
             span.form-error(v-if="!$v.lastName.required") {{ $t(validationMessages.errorRequired.i18n) }}
           input#last-name-input.form-control(name="lastName" v-model="$v.lastName.$model" @change="onChangeValue($event)")
       .email.form-group.row(:class="{ 'has-error': $v.email.$error }")
-        .col-xs-8
+        .col-sm-8.col-xs-12
           span.inline-flex-form-label-div
             span.control-label {{ $t("general.email") }}
             span.form-error(v-if="!$v.email.required") {{ $t(validationMessages.errorRequired.i18n) }}
@@ -84,7 +87,7 @@
             span.form-error(v-else-if="!$v.email.uniqueEmail") {{ $t(validationMessages.errorEmailExists.i18n) }}
           input#email-input.form-control(name="email" v-model="$v.email.$model" type="email" @change="onChangeValue($event)")
       .password.form-group.row(:class="{ 'has-error': $v.password.$error }")
-        .col-xs-8
+        .col-sm-8.col-xs-12
           span.inline-flex-form-label-div
             span.control-label {{ $t("general.password") }}
             span.form-error(v-if="!$v.password.required") {{ $t(validationMessages.errorRequired.i18n) }}
@@ -102,12 +105,7 @@
 
 <style lang="sass" scoped>
 #basic-info-component
-  height: 100vh
-  display: flex
-  flex-flow: column
-  justify-content: center
   .form-container
-    width: 48vw
     #password-input
       width: calc(100% - 39px)
     .password-toggle

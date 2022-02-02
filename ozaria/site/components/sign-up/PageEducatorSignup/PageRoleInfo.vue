@@ -10,6 +10,9 @@
   const countryList = require('country-list')()
 
   export default {
+    metaInfo: {
+      meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
+    },
     components: {
       SecondaryButton
     },
@@ -83,17 +86,17 @@
 </script>
 
 <template lang="pug">
-  #role-info-component
+  #role-info-component.page-educator-signup-component
     form.form-container(@submit.prevent="onClickNext")
       .country.form-group.row(:class="{ 'has-error': $v.country.$error }")
-        .col-xs-8
+        .col-sm-8.col-xs-12
           span.inline-flex-form-label-div
             span.control-label {{ $t("teachers_quote.country") }}
             span.form-error(v-if="!$v.country.required") {{ $t(validationMessages.errorRequired.i18n) }}
           select#country-input.form-control(name="country", v-model="$v.country.$model", @change="onChangeValue($event)")
             option(v-for="country in countriesList" v-bind:value="country") {{ country }}
       .role.form-group.row(:class="{ 'has-error': $v.role.$error }")
-        .col-xs-8
+        .col-sm-8.col-xs-12
           span.inline-flex-form-label-div
             span.control-label {{ $t("teachers_quote.primary_role_label") }}
             span.form-error(v-if="!$v.role.required") {{ $t(validationMessages.errorRequired.i18n) }}
@@ -107,12 +110,7 @@
 
 <style lang="sass" scoped>
 #role-info-component
-  height: 100vh
-  display: flex
-  flex-flow: column
-  justify-content: center
   .form-container
-    width: 48vw
     .buttons
       margin-top: 30px
       button

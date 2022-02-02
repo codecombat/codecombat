@@ -5,6 +5,9 @@
   const User = require('models/User')
 
   export default {
+    metaInfo: {
+      meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
+    },
 
     data: () => ({
       validationMessages,

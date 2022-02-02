@@ -208,6 +208,7 @@
 </template>
 
 <style lang="sass" scoped>
+@import "app/styles/bootstrap/variables"
 .educator-sign-up
   width: 100vw
   margin-bottom: -50px
@@ -215,15 +216,34 @@
   background-repeat: no-repeat
   background-size: cover
   background-attachment: fixed
+  @media (max-width: $screen-sm-min)
+    background-position: center center
   .right-div
     display: flex
     flex-direction: column
     justify-content: center
     align-items: flex-start
+    @media (max-width: $screen-sm-min)
+      margin: auto
+      width: 100%
+      > div
+        width: 100%
   .sign-in-modal
     position: absolute
     width: 100%
     height: 100%
     margin: auto
     top: 10%
+  ::v-deep .page-educator-signup-component
+    height: 100vh
+    @media (max-width: $screen-sm-min)
+      width: 100%
+    display: flex
+    flex-flow: column
+    justify-content: center
+  ::v-deep .form-container
+    width: 48vw
+    @media (max-width: $screen-sm-min)
+      width: 100%
+
 </style>
