@@ -2889,22 +2889,22 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    cookies_deny: "Decline non-essential cookies"
 #    cookies_allow: "Allow cookies"
 
-#  calendar:
-#    year: "Year"
-#    day: "Day"
-#    month: "Month"
-#    january: "January"
-#    february: "February"
-#    march: "March"
-#    april: "April"
-#    may: "May"
-#    june: "June"
-#    july: "July"
-#    august: "August"
-#    september: "September"
-#    october: "October"
-#    november: "November"
-#    december: "December"
+  calendar:
+    year: "Jahr"
+    day: "Tag"
+    month: "Monät"
+    january: "Jänner"
+    february: "Februar"
+    march: "März"
+    april: "Apriu"
+    may: "Mai"
+    june: "Juni"
+    july: "Juli"
+    august: "Augstä"
+    september: "Septämber"
+    october: "Octobär"
+    november: "Novembär"
+    december: "Decembär"
 
 #  code_play_create_account_modal:
 #    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
@@ -3237,11 +3237,11 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    select_statement_left: "Whoops, select a statement from the left before hitting \"Submit.\""
 #    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\""
 
-#  browser_recommendation:
-#    title: "CodeCombat works best on Chrome!"
-#    pitch_body: "For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!"
-#    download: "Download Chrome"
-#    ignore: "Ignore"
+  browser_recommendation:
+    title: "CodeCombat funktioniert am beste uf Chrome!"
+    pitch_body: "Für di besti Erfahrig mit CodeCombat, empfähle mier dier Chrome. Klick ufe Button zum Chrome abelade"
+    download: "Lad Chrome abe"
+    ignore: "ignorierä"
 
 #  admin:
 #    license_type_full: "Full Courses"
