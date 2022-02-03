@@ -2,12 +2,13 @@ module.exports =
   projectGallery: ({ courseInstanceID }) ->
     return "/students/project-gallery/#{courseInstanceID}"
 
-  playDevLevel: ({level, session, course}) ->
+  playDevLevel: ({level, session, course, courseInstanceId}) ->
     level = level.attributes || level
     session = session.attributes || session
     course = course?.attributes || course
     shareURL = "#{window.location.origin}/play/#{level.type}-level/#{level.slug}/#{session._id}"
     shareURL += "?course=#{course._id}" if course
+    shareURL += "&course-instance=#{courseInstanceId}" if course && courseInstanceId
     return shareURL
 
   courseArenaLadder: ({level, courseInstance}) ->
