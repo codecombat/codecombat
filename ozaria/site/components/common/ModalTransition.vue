@@ -104,6 +104,9 @@
           if (this.courseId) {
             shareUrlOptions.course = { _id: this.courseId }
           }
+          if (this.courseInstanceId) {
+            shareUrlOptions.courseInstanceId = this.courseInstanceId
+          }
           return urls.playDevLevel(shareUrlOptions)
         }
         return ''
