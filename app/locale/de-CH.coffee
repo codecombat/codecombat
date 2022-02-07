@@ -229,7 +229,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    other: "Other"
 #    learn_to_code: "Learn to Code!"
 #    toggle_nav: "Toggle navigation"
-#    schools: "Schuele"
+    schools: "Schuele"
 #    get_involved: "Get Involved"
 #    open_source: "Open source (GitHub)"
 #    support: "Support"
