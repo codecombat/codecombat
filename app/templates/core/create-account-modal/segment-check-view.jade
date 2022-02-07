@@ -56,14 +56,15 @@ form.modal-body.segment-check
                     span(data-i18n="signup.ask_teacher_3")
                   span.spl(data-i18n="signup.ask_teacher_4")
 
-          .divider-line
+          if !features.china
+            .divider-line
 
-          .play-now-section
-            div
-              p(data-i18n="signup.want_to_play_codecombat")
-            div
-              button.primary-oz-button.play-now
-                span(data-i18n="new_home.play_now")
+            .play-now-section
+              div
+                p(data-i18n="signup.want_to_play_codecombat")
+              div
+                button.primary-oz-button.play-now
+                  span(data-i18n="new_home.play_now")
 
       when 'teacher'
         // TODO

@@ -12,7 +12,11 @@ block modal-header
     This allows for the header color to switch without the subview templates
     needing to contain the header
 
-  if ['oz-vs-coco','choose-account-type'].includes(view.signupState.get('screen'))
+  if features.china 
+    .modal-header(class=path)
+      span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
+      +modal-header-content
+  else if ['oz-vs-coco','choose-account-type'].includes(view.signupState.get('screen'))
     +ozaria-close-button
   else if view.signupState.get('screen') === 'segment-check' && view.signupState.get('path')==='student'
     .modal-header.ozaria-modal-header(class=view.signupState.get('path'))

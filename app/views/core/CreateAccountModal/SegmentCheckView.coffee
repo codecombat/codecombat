@@ -100,7 +100,8 @@ module.exports = class SegmentCheckView extends CocoView
         forms.setErrorToProperty @$el, 'birthdayDay', requiredMessage
       else
         age = (new Date().getTime() - @signupState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
-        if age > utils.ageOfConsent(me.get('country'), 13)
+        ageLimit = if features.china then 0 else 13
+        if age > utils.ageOfConsent(me.get('country'), ageLimit)
           screen = if me.get('country') and me.inEU() then 'eu-confirmation' else 'basic-info'
           @trigger 'nav-forward', screen
           window.tracker?.trackEvent 'CreateAccountModal Individual SegmentCheckView Submit', category: 'Individuals'

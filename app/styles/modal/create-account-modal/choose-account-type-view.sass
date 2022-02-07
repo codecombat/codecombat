@@ -2,7 +2,7 @@
 @import "app/styles/bootstrap/variables"
 
 #choose-account-type-view
-  width: 1048px
+  /* width: 1048px
   @media (max-width: $screen-md-min)
     width: fit-content
 
@@ -17,6 +17,7 @@
     padding-bottom: 20px
 
   .path-cards
+    display: flex
     margin-top: 45px
     max-width: 100%
 
@@ -26,12 +27,21 @@
         margin-top: 0px
 
   .path-card
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    width: 235px
+    border-style: solid
+    border-width: thin
+    border-radius: 5px
+
     &.navy
       border-color: $navy
       .card-title
         background-color: $navy
 
     &.forest
+      margin-left: 6.5px
       border-color: $forest
       .card-title
         background-color: $forest

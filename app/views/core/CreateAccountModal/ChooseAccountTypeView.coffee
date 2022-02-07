@@ -7,7 +7,7 @@ module.exports = class ChooseAccountTypeView extends CocoView
   template: template
 
   events:
-    'click .teacher-path-button': -> @trigger 'choose-path', 'oz-vs-coco'
+    'click .teacher-path-button': -> @trigger 'choose-path', 'teacher'
     'click .student-path-button': -> @trigger 'choose-path', 'student'
     'click .individual-path-button': -> @trigger 'choose-path', 'individual'
     'click .parent-path-button': ->
