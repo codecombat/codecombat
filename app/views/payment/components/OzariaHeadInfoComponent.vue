@@ -22,5 +22,5 @@ name: "OzariaHeadInfoComponent"
 </script>
 
 <style scoped lang="scss">
-@import "head.scss";
+@import "head-info";
 </style>

@@ -13,6 +13,8 @@ CourseInstances = require 'collections/CourseInstances'
 require 'd3/d3.js'
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
+AceDiff = require 'ace-diff'
+require('app/styles/common/ace-diff.sass')
 fullPageTemplate = require 'templates/teachers/teacher-student-view-full'
 viewTemplate = require 'templates/teachers/teacher-student-view'
 
@@ -31,7 +33,20 @@ module.exports = class TeacherStudentView extends RootView
   onClickSolutionTab: (e) ->
     link = $(e.target).closest('a')
     levelSlug = link.data('level-slug')
+    idTarget = link.attr('id').split('-')[0]
     solutionIndex = link.data('solution-index')
+    lang = @classroom.get('aceConfig').language ? 'python'
+    if [utils.courseIDs.WEB_DEVELOPMENT_1, utils.courseIDs.WEB_DEVELOPMENT_2].indexOf(@selectedCourseId) != -1
+      lang = 'html'
+    if /\+/.test(idTarget)
+      levelOriginal = idTarget.split('+')[0]
+      codes = @levelStudentCodeMap[levelOriginal]
+      code = @levels.fingerprint(codes[solutionIndex].plan, lang)
+      @aceDiffs?[levelOriginal].editors.left.ace.setValue(code, -1)
+    else
+      levelOriginal = link.attr('id').split('-')[0].slice(0, -1)
+      solutions = @levelSolutionsMap[levelOriginal]
+      @aceDiffs?[levelOriginal].editors.right.ace.setValue(solutions[solutionIndex].source, -1)
     tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
   initialize: (options, classroomID, @studentID) ->
@@ -61,7 +76,7 @@ module.exports = class TeacherStudentView extends RootView
 
     # TODO: fetch only necessary thang data (i.e. levels with student progress, via separate API instead of complicated data.project values)
     @levels = new Levels()
-    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
+    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context,thangs.components.config.programmableMethods.plan.i18n'}}))
     @urls = require('core/urls')
 
     # wrap templates so they translate when called
@@ -123,9 +138,32 @@ module.exports = class TeacherStudentView extends RootView
     @$el.find('pre:has(code[class*="lang-"])').each ->
       codeElem = $(@).first().children().first()
       lang = mode for mode of aceUtils.aceEditModes when codeElem?.hasClass('lang-' + mode)
-      aceEditor = aceUtils.initializeACE(@, lang or classLang)
-      aceEditor.renderer.setShowGutter true
-      aceEditors.push aceEditor
+
+    view = @
+    @aceDiffs = {}
+    @$el.find('div[class*="ace-diff-"]').each ->
+      cls = $(@).attr('class')
+      levelOriginal = cls.split('-')[2]
+      solutions = view.levelSolutionsMap[levelOriginal]
+      studentCode = view.levelStudentCodeMap[levelOriginal]
+      lang = classLang
+      if [utils.courseIDs.WEB_DEVELOPMENT_1, utils.courseIDs.WEB_DEVELOPMENT_2].indexOf(view.selectedCourseId) != -1
+        lang = 'html'
+      view.aceDiffs[levelOriginal] = new AceDiff({
+        element: '.' + cls
+        mode: 'ace/mode/' +classLang
+        theme: 'ace/theme/textmate'
+        left: {
+          content: view.levels.fingerprint(studentCode?[0]?.plan ? '', lang)
+          editable: false
+          copyLinkEnabled: false
+        }
+        right: {
+          content: solutions?[0]?.source ? ''
+          editable: false
+          copyLinkEnabled: false
+        }
+      })
 
   updateSolutions: ->
     return unless @classroom?.loaded and @sessions?.loaded and @levels?.loaded

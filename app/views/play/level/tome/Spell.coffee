@@ -78,16 +78,6 @@ module.exports = class Spell
   setLanguage: (@language) ->
     @language = 'html' if @level.isType('web-dev')
     @displayCodeLanguage = utils.capitalLanguages[@language]
-    if @language is 'java' and not @languages[@language]
-      lines = (@languages.javascript ? '').split '\n'
-      lines.push '' if lines[lines.length - 1] isnt ''
-      @languages.java = """
-        public class AI {
-          public static void main(String[] args) {
-        #{(lines.map ((line) -> '    ' + line)).join('\n')}
-          }
-        }
-      """
     if @language in ['cpp', 'java', 'lua', 'coffeescript', 'python'] and not @languages[@language]
       @languages[@language] = translateJS @languages.javascript, @language
     @originalSource = @languages[@language] ? @languages.javascript

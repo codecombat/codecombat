@@ -1,10 +1,10 @@
 /*!
  * jaba
  * 
- * Compiled: Mon Jan 25 2021 14:12:19 GMT+0800 (China Standard Time)
+ * Compiled: Tue Jan 25 2022 16:49:02 GMT-0800 (Pacific Standard Time)
  * Target  : web (umd)
  * Profile : modern
- * Version : 2c21d19
+ * Version : cde3bc8
  * 
  * 
  * 
@@ -226,16 +226,20 @@ function skope(node) {
 				for ( let frag of node.fragments ) {
 					scope[frag.name.identifier] = {node: node, type: node.type, kind: "Local"}
 				}
+				node.scope = scope;
 				break;
 			case "ReturnStatement":
 				node.bindType = methods[methods.length-1].returnType2;
+				node.scope = scope;
 				if ( node.expression ) next(node.expression);
 				break;
 			case "SuperConstructorInvocation":
 				node.refClass = classes[classes.length-1];
+				node.scope = scope;
 				if ( node.expression ) next(node.expression);
 				node.arguments.map(next);
 				break;
+			case "ArrayInitializer":
 			case "SingleVariableDeclaration":
 			case "ArrayAccess":
 			case "ClassInstanceCreation":
@@ -709,6 +713,7 @@ class JavaMethodDispatch extends EasyObjectValue {
 	}
 
 	*call(thiz, args, s, extra) {
+		if(thiz.debugString == 'undefined') thiz = this.realTarget
 		return yield * dispatch(this.name, thiz, args, s, extra);
 	}
 }
@@ -722,6 +727,7 @@ function wrap(target, realm) {
 		if ( Object.getOwnPropertyDescriptor(target.properties, parts[1]) ) continue;
 		let dispatch = new JavaMethodDispatch(parts[1], realm);
 		dispatch.superTarget = v.superTarget
+		dispatch.realTarget = target
 		target.setImmediate(parts[1], dispatch);
 	}
 	//debug("= ", target, Object.getOwnPropertyNames(target.properties));

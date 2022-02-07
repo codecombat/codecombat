@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import PaymentStudentLicensePurchaseComponent from "./PaymentStudentLicensePurchaseComponent";
+import PaymentStudentLicensePurchaseComponent from "./PurchaseComponent";
 export default {
   name: "PaymentSmallClassroomBodyView",
   components: {

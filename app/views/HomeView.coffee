@@ -6,7 +6,6 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
-EducatorSignupOzariaEncouragementModal = require('app/views/teachers/EducatorSignupOzariaEncouragementModal').default
 GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').default
 paymentUtils = require 'app/lib/paymentUtils'
 
@@ -66,10 +65,7 @@ module.exports = class HomeView extends RootView
 
   onClickTeacherButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
-    @openEducatorSignupOzariaEncouragementModal(() =>
-      @homePageEvent('Started Signup')
-      @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
-    )
+    @openModalView(new CreateAccountModal({startOnPath: 'oz-vs-coco'}))
 
   onClickParentButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
@@ -78,21 +74,6 @@ module.exports = class HomeView extends RootView
   onClickCreateAccountTeacherButton: (e) ->
     @homePageEvent('Started Signup')
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
-
-  openEducatorSignupOzariaEncouragementModal: (onNext) ->
-    # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
-    if @ozariaEncouragementModalContainer
-      @ozariaEncouragementModalContainer.remove()
-
-    @ozariaEncouragementModalContainer = document.createElement('div')
-    document.body.appendChild(@ozariaEncouragementModalContainer)
-
-    @ozariaEncouragementModal = new EducatorSignupOzariaEncouragementModal({
-      el: @ozariaEncouragementModalContainer,
-      propsData: {
-        onNext: onNext
-      }
-    })
 
   cleanupModals: ->
     if @ozariaEncouragementModal

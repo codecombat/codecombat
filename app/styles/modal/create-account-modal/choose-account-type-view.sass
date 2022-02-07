@@ -1,32 +1,31 @@
 @import "app/styles/style-flat-variables"
+@import "app/styles/bootstrap/variables"
 
 #choose-account-type-view
+  width: 1048px
+  @media (max-width: $screen-md-min)
+    width: fit-content
+
   .choose-type-title
     display: flex
     flex-direction: column
+  .modal-body-content
+    padding: 0
+    margin: 0 50px
 
   h4
     padding-bottom: 20px
 
   .path-cards
-    display: flex
+    margin-top: 45px
+    max-width: 100%
 
-  .path-card ~ .path-card
-    margin-left: 6.5px
+    &:nth-child(2)
+      margin-top: 17px
+      @media (max-width: $screen-md-min)
+        margin-top: 0px
 
   .path-card
-    display: flex
-    flex-direction: column
-    justify-content: space-between
-    width: 235px
-    border-style: solid
-    border-width: thin
-    border-radius: 5px
-
-    body[lang^="en"] &
-      height: 340px
-      max-height: 42vh
-
     &.navy
       border-color: $navy
       .card-title
@@ -67,12 +66,39 @@
             position: relative
             left: -5px
 
+    .card-image
+      width: 300px
+      height: 200px
+      background: #C4C4C4
+      border-radius: 10px
+      cursor: pointer
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.11))
+      @media (max-width: $screen-md-min)
+        display: none
+
     .card-footer
-      margin: 0 20px 20px
+      margin: 0 35px 20px
       min-height: 62px
       display: flex
       flex-direction: column
       justify-content: flex-end
+      span
+        @media (max-width: $screen-md-min)
+          order: 2
+        &.small div
+          line-height: 25px
+          font-weight: 300
+          font-size: 18px
+          white-space: nowrap
+          margin: 15px -100%
+          @media (max-width: $screen-md-min)
+            margin-top: 7px
+            margin-bottom: 25px
+
+      .primary-oz-button
+        max-width: 300px
+        margin: 0px auto
+
 
   .individual-section
     display: flex

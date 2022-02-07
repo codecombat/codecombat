@@ -1,18 +1,41 @@
 extends /templates/core/modal-base-flat.jade
 
+// this allows to add class to .modal-dialog of the parent template from here
+block vars
+  - const path = view.signupState.get('path');
+  - const screen = view.signupState.get('screen');
+  - const ozariaStyle = ['oz-vs-coco','choose-account-type'].includes(screen) || screen==='segment-check' && path==='student'
+  - modalDialogClass = ozariaStyle ? 'ozaria-modal' : ''
+
 block modal-header
   //-
     This allows for the header color to switch without the subview templates
     needing to contain the header
-  .modal-header(class=view.signupState.get('path'))
-    span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
-    +modal-header-content
+
+  if ['oz-vs-coco','choose-account-type'].includes(view.signupState.get('screen'))
+    +ozaria-close-button
+  else if view.signupState.get('screen') === 'segment-check' && view.signupState.get('path')==='student'
+    .modal-header.ozaria-modal-header(class=view.signupState.get('path'))
+      div
+        +modal-header-content
+    +ozaria-close-button
+  else
+    .modal-header(class=view.signupState.get('path'))
+      span.glyphicon.glyphicon-remove.button.close(data-dismiss="modal", aria-hidden="true")
+      +modal-header-content
+
+mixin ozaria-close-button
+  button.close(data-dismiss="modal", aria-hidden="true")
+    img(alt="close icon" src="/images/common/modal/Exit_Dusk.svg")
 
 mixin modal-header-content
   h3
     case view.signupState.get('path')
       when 'student'
-        span(data-i18n="signup.create_student_header")
+        if view.signupState.get('screen')==='segment-check'
+          span(data-i18n="signup.have_a_classcode")
+        else
+          span(data-i18n="signup.create_student_header")
       when 'teacher'
         span(data-i18n="signup.create_teacher_header")
       when 'individual'
@@ -34,6 +57,8 @@ block modal-body
       #segment-check-view
     when 'eu-confirmation'
       #eu-confirmation-view
+    when 'oz-vs-coco'
+      #oz-vs-coco-view
     when 'basic-info'
       #basic-info-view
     when 'coppa-deny'
@@ -50,10 +75,7 @@ block modal-body
       #teacher-signup-component
 
 block modal-footer
-  //-
-    This allows for the footer color to switch without the subview templates
-    needing to contain the footer
-  .modal-footer(class=view.signupState.get('path'))
+  .modal-footer(class=`screen-${view.signupState.get('screen')}`)
     +modal-footer-content
 
 mixin modal-footer-content

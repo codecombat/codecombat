@@ -34,18 +34,20 @@
         <p>If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">Contact Us</a> within 30 days of purchase and we will promptly refund 100% of your payment, no questions asked. All plans are automatically renewed at the same level and billing cycle unless otherwise changed or cancelled.</p>
       </div>
     </div>
-    <payment-online-classes-purchase-view
-      v-if="showPurchaseView"
-      :price-data="priceData"
-      :payment-group-id="paymentGroupId"
-      :sibling-percentage-off="getSiblingPercentageOff()"
-    />
+    <div ref="purchase-form-view">
+      <payment-online-classes-purchase-view
+        v-if="showPurchaseView"
+        :price-data="priceData"
+        :payment-group-id="paymentGroupId"
+        :sibling-percentage-off="getSiblingPercentageOff()"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import PaymentOnlineClassesPlansView from "./PaymentOnlineClassesPlansView";
-import PaymentOnlineClassesPurchaseView from "./PaymentOnlineClassesPurchaseView";
+import PaymentOnlineClassesPlansView from "./PlansView";
+import PaymentOnlineClassesPurchaseView from "./PurchaseView";
 export default {
   name: "PaymentOnlineClassesView",
   components: {
@@ -70,6 +72,7 @@ export default {
   methods: {
     enablePurchaseView() {
       this.showPurchaseView = true;
+      this.$refs['purchase-form-view']?.scrollIntoView({ behavior: 'smooth' })
     },
     getSiblingPercentageOff() {
       const tiers = [...this.priceData[0].tiers]

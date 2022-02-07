@@ -38,6 +38,33 @@ form.modal-body.segment-check
               span(data-i18n="signup.ask_teacher_3")
             span.spl(data-i18n="signup.ask_teacher_4")
           
+            div.render
+              if state.get('classCodeValid')
+                span.spr(data-i18n="signup.about_to_join")
+                span.spr= view.classroom.get('name')
+                if view.classroom.owner.get('firstName') || view.classroom.owner.get('name')
+                  span.spr(data-i18n="signup.with")
+                  if view.classroom.owner.get('firstName')
+                    span= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
+                  else if view.classroom.owner.get('name')
+                    span= view.classroom.owner.get('name')
+              else if !_.isEmpty(view.signupState.get('classCode'))
+                .ask-teacher
+                  span.spr(data-i18n="signup.classroom_not_found")
+                  span.spr(data-i18n="signup.ask_teacher_2")
+                  a.individual-path-button
+                    span(data-i18n="signup.ask_teacher_3")
+                  span.spl(data-i18n="signup.ask_teacher_4")
+
+          .divider-line
+
+          .play-now-section
+            div
+              p(data-i18n="signup.want_to_play_codecombat")
+            div
+              button.primary-oz-button.play-now
+                span(data-i18n="new_home.play_now")
+
       when 'teacher'
         // TODO
       when 'individual'

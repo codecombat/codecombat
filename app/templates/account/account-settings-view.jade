@@ -36,8 +36,11 @@ else
               if !me.showChinaRegistration()
                 .form-group.col-sm-6
                   if me.isStudent()
-                    label.control-label(for="lastName", data-i18n="general.last_initial")
-                    input#last-name-input.form-control(name="lastName", type="text", value="#{lastName}", maxlength="1")
+                    if lastName && lastName.length > 1
+                      label.control-label(for="lastName", data-i18n="general.last_name")
+                    else
+                      label.control-label(for="lastName", data-i18n="general.last_initial")
+                    input#last-name-input.form-control(name="lastName", type="text", value="#{lastName}")
                   else
                     label.control-label(for="lastName", data-i18n="general.last_name")
                     input#last-name-input.form-control(name="lastName", type="text", value="#{lastName}")

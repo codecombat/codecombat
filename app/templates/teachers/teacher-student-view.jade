@@ -321,32 +321,50 @@ mixin breadcrumbs
                     span(data-i18n="play_level.level")
                     span )
             - var solutions = view.levelSolutionsMap[level.get('original')] || [];
-            if solutions.length > 1
+            if solutions.length > 1 || level.isLadder()
               tr
                 td
+                  if level.isLadder()
+                    - var studentCodeMap = view.levelStudentCodeMap[level.get('original')] || []
+                    div(role='tabpanel')
+                      ul.nav.nav-tabs(role='tablist')
+                        each code, index in studentCodeMap
+                          li.nav-item(class=(index === 0 ? 'active' : ''))
+                            - var target = level.get('original') + '+' + code.team;
+                            a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index, data-team=code.team)
+                              if index === 0
+                                strong.text-center(data-i18n="ladder.#{code.team}")
+                              else
+                                .text-center
+                                  span(data-i18n="ladder.#{code.team}")
+                          if index < studentCodeMap.length - 1
+                            .tab-spacer
+                          else
+                            .tab-filler
                 td
-                  div(role='tabpanel')
-                    ul.nav.nav-tabs(role='tablist')
-                      each solution, index in solutions
-                        li.nav-item(class=(index === 0 ? 'active' : ''))
-                          - var target = level.get('original') + index;
-                          a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
-                            if index === 0
-                              strong.text-center(data-i18n="teacher.complete_solution")
-                            else
-                              .text-center
-                                span(data-i18n="teacher.partial_solution")
-                                =" "
-                                span= index
-                        if index < solutions.length - 1
-                          .tab-spacer
-                        else
-                          .tab-filler
+                  if solutions.length > 1
+                    div(role='tabpanel')
+                      ul.nav.nav-tabs(role='tablist')
+                        each solution, index in solutions
+                          li.nav-item(class=(index === 0 ? 'active' : ''))
+                            - var target = level.get('original') + index;
+                            a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
+                              if index === 0
+                                strong.text-center(data-i18n="teacher.complete_solution")
+                              else
+                                .text-center
+                                  span(data-i18n="teacher.partial_solution")
+                                  =" "
+                                  span= index
+                          if index < solutions.length - 1
+                            .tab-spacer
+                          else
+                            .tab-filler
             tr
               td(colspan=2)
                 div(role='tabpanel')
                   .tab-content
-                    //- For project level, there is no correct solution, just show the student's code
+                    //- For  project level, there is no correct solution, just show the student's code
                     if level.isProject() && solutions.length === 0
                       - var target = level.get('original');
                       div.tab-pane(id=target, class='active', role=tabpanel, aria-labelledby="#{target}-tab")
@@ -365,36 +383,7 @@ mixin breadcrumbs
                                     code(class=langClass)= code.plan
                             td.project-blurb
                               i.small(data-i18n="teacher.solution_project_blurb")
-                    each solution, index in solutions
-                      - var target = level.get('original') + index;
-                      div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
-                        table.side-by-side
-                          tr
-                            td
-                            td
-                              .small!= marked(solution.description || '')
-                          tr
-                            td
-                              - var levelStudentCodes = view.levelStudentCodeMap[level.get('original')]
-                              unless levelStudentCodes.length
-                                i.small(data-i18n="teacher.no_code_yet")
-                              each code in levelStudentCodes
-                                if level.isLadder()
-                                  i.small(data-i18n="ladder."+code.team)
-                                if view.levelProgressMap[level.get('original')] === 'complete'
-                                  pre
-                                    code(class=langClass)= code.plan
-                                else
-                                  pre.incomplete-code
-                                    code(class=langClass)= code.plan
-                            td
-                              if solutions.length === 1
-                                pre
-                                  code(class=langClass)= solution.source
-                              else if solutions.length > 0
-                                  pre
-                                    code(class=langClass)= solution.source
-                              else
-                                i.small(data-i18n="common.coming_soon")
+                    div(class="ace-diff-"+level.get('original'), style="position: relative")
+
         if !courseStarted
           p(data-i18n="teacher.course_not_started")

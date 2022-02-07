@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import CocoHeadInfoComponent from './student-licenses/CocoHeadInfoComponent'
-import OzariaHeadInfoComponent from './student-licenses/OzariaHeadInfoComponent'
+import CocoHeadInfoComponent from '../components/CocoHeadInfoComponent'
+import OzariaHeadInfoComponent from '../components/OzariaHeadInfoComponent'
 export default {
   name: "PaymentStudentLicenseHeadComponent",
   components: {
