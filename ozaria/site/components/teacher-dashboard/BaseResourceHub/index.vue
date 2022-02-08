@@ -1,15 +1,35 @@
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
-  import { COMPONENT_NAMES, PAGE_TITLES, resourceHubLinks } from '../common/constants.js'
+  import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
   import ButtonResourceIcon from './components/ButtonResourceIcon'
   import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
-  import { createNewResourceHubResource, getResourceHubResources } from '../../../api/resource_hub_resource'
+  import { createNewResourceHubResource, getResourceHubResources, getResourceHubZendeskResources } from 'core/api/resource_hub_resource'
   import utils from 'app/core/utils'
+  const store = require('core/store')
 
-  // Temporarily added this allowing us to create resources using the console (whilst logged in as admin).
-  window.createNewResourceHubResource = createNewResourceHubResource
+  const resourceSortFn = (a, b) => {
+    if (a.priority > b.priority) return 1  // Resource Hub Resources should usually have priorities
+    if (a.priority < b.priority) return -1
+    if (a.section_id > b.section_id) return 1  // Zendesk articles have section_ids
+    if (a.section_id < b.section_id) return -1
+    if (!a.promoted && b.promoted) return 1  // Zendesk articles can be promoted within their sections
+    if (a.promoted && !b.promoted) return -1
+    if (a.position > b.position) return 1  // Zendesk articles can have positions
+    if (a.position < b.position) return -1
+    if (a.name > b.name) return 1
+    if (a.name < b.name) return -1
+    return 0
+  }
 
-  export default {
+const resourceHubSections = [
+  { sectionName: 'gettingStarted', slug: 'getting-started', i18nKey: 'teacher.getting_started' },
+  { sectionName: 'educatorResources', slug: 'educator-resources', i18nKey: 'new_home.educator_resources' },
+  { sectionName: 'studentResources', slug: 'student-resources', i18nKey: 'teacher.student_resources' },
+  { sectionName: 'lessonSlides', slug: 'lesson-slides', i18nKey: 'teacher.lesson_slides' },
+  { sectionName: 'faq', slug: 'faq', i18nKey: 'nav.faq' },
+]
+
+export default {
     name: COMPONENT_NAMES.RESOURCE_HUB,
     components: {
       ButtonResourceIcon,
@@ -19,7 +39,7 @@
     data () {
       return {
         showVideoModal: false,
-        resourceHubResources: resourceHubLinks
+        resourceHubResources: {},
       }
     },
 
@@ -29,12 +49,12 @@
         activeClassrooms: 'teacherDashboard/getActiveClassrooms'
       }),
 
-      gettingStartedLinks () {
-        return Object.values(this.resourceHubResources).filter((r) => r.section === 'gettingStarted').sort((a, b) => (a.name > b.name) ? 1 : -1)
+      resourceHubSections () {
+        return resourceHubSections
       },
 
-      educatorResourcesLinks () {
-        return Object.values(this.resourceHubResources).filter((r) => r.section === 'educatorResources').sort((a, b) => (a.name > b.name) ? 1 : -1)
+      resourceHubLinks () {
+        return (sectionName) => Object.values(this.resourceHubResources).filter((r) => r.section === sectionName).sort(resourceSortFn)
       }
     },
 
@@ -43,31 +63,62 @@
       this.setPageTitle(PAGE_TITLES[this.$options.name])
       this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Resource Hub: Loaded' } })
 
-      // Replace hard coded resources with those in database.
       getResourceHubResources().then(allResources => {
-        const fetchedResources = {}
-
-        if (!Array.isArray(allResources)) {
-          return
-        }
-        if (allResources.length === 0) {
+        if (!Array.isArray(allResources) || allResources.length === 0) {
           return
         }
 
         for (const resource of allResources) {
-          if (resource.hidden) {
+          if (resource.hidden === true) {
             continue
           }
 
           resource.name = utils.i18n(resource, 'name')
           resource.link = utils.i18n(resource, 'link')
+          if (resource.slug === 'dashboard-tutorial')
+            resource.link = '#'
+          resource.description = utils.i18n(resource, 'description')
+          resource.locked = resource.hidden === 'paid-only' && !store.getters['me/isPaidTeacher']
+          resource.source = 'Resource Hub'
 
-          fetchedResources[resource.slug] = {
-            ...resource
-          }
+          this.$set(this.resourceHubResources, resource.slug, { ...resource })
+        }
+      })
+
+      getResourceHubZendeskResources().then(allResources => {
+        if (!Array.isArray(allResources.articles) || allResources.articles.length === 0) {
+          return
         }
 
-        this.resourceHubResources = fetchedResources
+        const relevantCategoryIds = {
+          360004950774: 'Ozaria for Educators',
+        }
+        const relevantCategories = _.groupBy(_.filter(allResources.categories, (category) => relevantCategoryIds[category.id]), 'id')
+        const relevantSections = _.groupBy(_.filter(allResources.sections, (section) => relevantCategories[section.category_id] && !section.outdated), 'id')
+        const articlesBySection = _.groupBy(_.filter(allResources.articles, (article) => relevantSections[article.section_id] && !article.draft), 'section_id')
+
+        for (const section of _.flatten(Object.values(relevantSections))) {
+          const articles = articlesBySection[section.id] || []
+          if (!articles.length) {
+            delete relevantSections[section.id]
+            continue
+          }
+
+          const resource = _.pick(section, ['name', 'description', 'position'])
+          resource.link = section.html_url
+          resource.section = 'faq'
+          resource.icon = 'FAQ'
+          resource.slug = 'zendesk-' + _.string.slugify(resource.name)
+          resource.i18n = {}
+          resource.source = 'Zendesk'
+
+          resource.description = resource.description || ''
+          for (const article of articles) {
+            resource.description += `* [${article.name}](${article.html_url})\n`
+          }
+
+          this.$set(this.resourceHubResources, resource.slug, Object.freeze(resource))
+        }
       })
     },
 
@@ -110,8 +161,9 @@
       <div class="aside">
         <h4>{{ $t('common.table_of_contents') }}</h4>
         <ul>
-          <li><a href="#getting-started">{{ $t('teacher.getting_started') }}</a></li>
-          <li><a href="#educator-resources">{{ $t('new_home.educator_resources') }}</a></li>
+          <li v-for="resourceHubSection in resourceHubSections">
+            <a v-if="resourceHubLinks(resourceHubSection.sectionName).length" :href="'#' + resourceHubSection.slug">{{ $t(resourceHubSection.i18nKey) }}</a>
+          </li>
         </ul>
 
         <h4>{{ $t('nav.contact') }}</h4>
@@ -127,31 +179,24 @@
       </div>
 
       <div class="resource-hub">
-        <h4 id="getting-started">
-          {{ $t('teacher.getting_started') }}
+        <div class="resource-hub-section" v-for="resourceHubSection in resourceHubSections" :id="resourceHubSection.slug">
+        <h4 v-if="resourceHubLinks(resourceHubSection.sectionName).length">
+          {{ $t(resourceHubSection.i18nKey) }}
         </h4>
-        <div class="resource-contents-row">
-          <button-resource-icon
-            v-for="resourceHubLink in gettingStartedLinks"
-            :key="resourceHubLink.name"
-            :icon="resourceHubLink.icon"
-            :label="resourceHubLink.name"
-            :link="resourceHubLink.link"
-            @click="() => { if (resourceHubLink.slug === 'dashboard-tutorial') { openVideoModal() } }"
-          />
-        </div>
-
-        <h4 id="educator-resources">
-          {{ $t('new_home.educator_resources') }}
-        </h4>
-        <div class="resource-contents-row">
-          <button-resource-icon
-            v-for="resourceHubLink in educatorResourcesLinks"
-            :key="resourceHubLink.name"
-            :icon="resourceHubLink.icon"
-            :label="resourceHubLink.name"
-            :link="resourceHubLink.link"
-          />
+          <div class="resource-contents-row">
+            <button-resource-icon
+              v-for="resourceHubLink in resourceHubLinks(resourceHubSection.sectionName)"
+              :key="resourceHubLink.name"
+              :icon="resourceHubLink.icon"
+              :label="resourceHubLink.name"
+              :link="resourceHubLink.link"
+              :description="resourceHubLink.description"
+              :locked="resourceHubLink.locked"
+              :from="resourceHubLink.source || 'Resource Hub'"
+              :section="resourceHubSection.slug"
+              @click="() => { if (resourceHubLink.slug === 'dashboard-tutorial') { openVideoModal() } }"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -219,6 +264,12 @@
 .resource-hub {
   padding: 40px 30px;
 
+  .resource-hub-section {
+    /* Offset by rough header height so that we don't underscroll the header */
+    margin-top: -80px;
+    padding-top: 80px;
+  }
+
   h4 {
     color: #476fb1;
     font-family: 'Work Sans';
@@ -234,5 +285,8 @@
   display: flex;
   align-items: start;
   flex-wrap: wrap;
+  clear: both;
+  min-height: 50px;
+  margin: 15px 0;
 }
 </style>

@@ -18,8 +18,13 @@ module.exports = class MarkdownResourceView extends RootView
     @content = ''
     @loadingData = true
     me.getClientCreatorPermissions()?.then(() => @render?())
-    $.get '/markdown/' + @name + '.md', (data) =>
-      unless /<!doctype html>/i.test(data)
+    $.get '/markdown/' + @name + '.md', (data, what, who, how) =>
+      if /<!doctype html>/i.test(data)
+        # Not found
+        Backbone.Mediator.publish 'router:navigate', route: '/teachers/resources'
+        noty text: "#{$.i18n.t('not_found.page_not_found')}: #{@name}", layout: 'center', type: 'warning', killer: false, timeout: 6000
+        return
+      else
         renderer = new marked.Renderer()
         linkIDs = new Set
         renderer.heading = (text, level) =>

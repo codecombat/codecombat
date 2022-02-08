@@ -1,6 +1,5 @@
 <script>
   import ButtonResourceIcon from '../../BaseResourceHub/components/ButtonResourceIcon'
-  import { resourceHubLinks } from '../../common/constants.js'
   import utils from 'core/utils'
 
   export default {
@@ -20,7 +19,11 @@
       },
 
       cstaResourceData () {
-        return resourceHubLinks.csta
+        return {
+          icon: 'Doc',
+          label: 'CSTA Standards Alignment',
+          link: 'https://docs.google.com/document/d/1sHP75V5WqdQBfavI792mswYDS67pSSf8otNM05Rma5A/edit?usp=sharing'
+        }
       },
 
       translatedCstaList () {

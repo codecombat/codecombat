@@ -11,3 +11,5 @@ export const createNewResourceHubResource = ({ name, ...opts }, options = {}) =>
   }))
 
 export const getResourceHubResources = () => fetchJson('/db/resource_hub_resource')
+
+export const getResourceHubZendeskResources = () => fetchJson('/db/resource_hub_zendesk_resource')
