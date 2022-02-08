@@ -248,7 +248,14 @@ block content
           -     gd1URL = '/teachers/resources/gd1-zh-HANS'
           a.resource-link(href=gd1URL)
             span(data-i18n="teacher.gd1_guide")
-          p(data-i18n="teacher.gd1_guide_desc")
+          p
+            span(data-i18n="teacher.gd1_guide_desc")
+            - var lessonSlidesURL = view.lessonSlidesURLsByCourse.gd1
+            if lessonSlidesURL
+              span= ' '
+              span(data-i18n="legal.nutshell_see_also")
+              span= ' '
+              a(href=lessonSlidesURL, data-i18n="courses.lesson_slides")
         li
           a.resource-link(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/GD1_Project_Rubric.pdf")
             span(data-i18n="teacher.gd1_rubric")
@@ -317,7 +324,14 @@ block content
           -     gd2URL += '-pt-BR'
           a.resource-link(href=gd2URL)
             span(data-i18n="teacher.gd2_curriculum")
-          p(data-i18n="teacher.gd2_curriculum_desc")
+          p
+            span(data-i18n="teacher.gd2_curriculum_desc")
+            - var lessonSlidesURL = view.lessonSlidesURLsByCourse.gd2
+            if lessonSlidesURL
+              span= ' '
+              span(data-i18n="legal.nutshell_see_also")
+              span= ' '
+              a(href=lessonSlidesURL, data-i18n="courses.lesson_slides")
 
 
       h4(data-i18n="teacher.wd2")
