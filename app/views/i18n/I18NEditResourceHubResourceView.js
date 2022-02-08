@@ -1,5 +1,5 @@
 const I18NEditModelView = require('./I18NEditModelView')
-const ResourceHubResource = require('ozaria/site/models/ResourceHubResource')
+const ResourceHubResource = require('models/ResourceHubResource')
 
 class I18NEditResourceHubResource extends I18NEditModelView {
   buildTranslationList () {

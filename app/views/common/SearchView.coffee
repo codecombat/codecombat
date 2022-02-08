@@ -14,10 +14,12 @@ class SearchCollection extends Backbone.Collection
 
   comparator: (a, b) ->
     score = 0
+    score += 90019001900190019001 * a.get('priority') if a.get('priority')?
+    score -= 90019001900190019001 * b.get('priority') if b.get('priority')?
     score -= 9001900190019001 if a.getOwner() is me.id
     score += 9001900190019001 if b.getOwner() is me.id
-    score -= new Date(a.get 'created')
-    score -= -(new Date(b.get 'created'))
+    score -= new Date(a.get 'created') if a.get('created')
+    score -= -(new Date(b.get 'created')) if b.get('created')
     if score < 0 then -1 else (if score > 0 then 1 else 0)
 
 module.exports = class SearchView extends RootView

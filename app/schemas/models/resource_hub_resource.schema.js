@@ -4,7 +4,8 @@ const ResourceHubResourceSchema = schema.object(
   {
     description:
       'Dynamic resource store for the teacher dashboard resource hub',
-    title: 'ResourceHub Resource'
+    title: 'ResourceHub Resource',
+    required: ['name']
   },
   {
     icon: schema.shortString({
@@ -16,7 +17,7 @@ const ResourceHubResourceSchema = schema.object(
     section: schema.shortString({
       title: 'Section',
       description: 'Declares which section the resource will appear in.',
-      enum: ['gettingStarted', 'educatorResources']
+      enum: ['gettingStarted', 'educatorResources', 'studentResources', 'lessonSlides']
     }),
 
     link: {
@@ -29,15 +30,30 @@ const ResourceHubResourceSchema = schema.object(
     i18n: {
       type: 'object',
       format: 'i18n',
-      props: ['name', 'link'],
-      description: 'This cutscene translation required srt files.'
+      props: ['name', 'link', 'description'],
     },
 
     hidden: {
       title: 'Hidden',
-      description: 'This can be set to hide the resource.',
-      type: 'boolean'
-    }
+      description: 'This can be set to hide the resource, or to hide it for unpaid users.',
+      type: ['string', 'boolean'],
+      enum: [true, false, 'paid-only']
+    },
+
+    priority: {
+      title: 'Priority',
+      description: 'Lower numbers will show earlier.',
+      type: 'integer'
+    },
+
+    description: {
+      type: 'string',
+      title: 'Description',
+      description: 'Optional: extra context or explanation',
+      format: 'markdown'
+    },
+
+    product: schema.product
   }
 )
 
@@ -49,5 +65,6 @@ schema.extendBasicProperties(
 schema.extendNamedProperties(ResourceHubResourceSchema)
 schema.extendTranslationCoverageProperties(ResourceHubResourceSchema)
 schema.extendPatchableProperties(ResourceHubResourceSchema)
+schema.extendSearchableProperties(ResourceHubResourceSchema)
 
 module.exports = ResourceHubResourceSchema

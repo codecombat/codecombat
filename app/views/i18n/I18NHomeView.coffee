@@ -5,7 +5,7 @@ Courses = require 'collections/Courses'
 Article = require 'models/Article'
 Interactive = require 'ozaria/site/models/Interactive'
 Cutscene = require 'ozaria/site/models/Cutscene'
-ResourceHubResource = require 'ozaria/site/models/ResourceHubResource'
+ResourceHubResource = require 'models/ResourceHubResource'
 
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'

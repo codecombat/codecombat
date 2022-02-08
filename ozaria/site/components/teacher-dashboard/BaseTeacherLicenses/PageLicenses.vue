@@ -4,7 +4,6 @@
   import PrimaryButton from '../common/buttons/PrimaryButton'
   import { mapGetters } from 'vuex'
   import ButtonResourceIcon from '../BaseResourceHub/components/ButtonResourceIcon'
-  import { resourceHubLinks } from '../common/constants.js'
 
   export default {
     components: {
@@ -38,7 +37,11 @@
         getTrackCategory: 'teacherDashboard/getTrackCategory'
       }),
       howToLicensesResourceData () {
-        return resourceHubLinks.howToLicenses
+        return {
+          icon: 'Slides',
+          label: 'How To: Manage Licenses',
+          link: 'https://docs.google.com/presentation/d/1SfM5ZMjae8wm8HESHoXXO0wBnKJmJD53BgtG9XwVW9k/edit?usp=sharing'
+        }
       }
     },
     methods: {
