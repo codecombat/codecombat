@@ -7,7 +7,7 @@ module.exports = class ResourceSearchView extends SearchView
   model: require 'models/ResourceHubResource'
   modelURL: '/db/resource_hub_resource'
   tableTemplate: require 'templates/editor/resource/table'
-  projection: ['slug', 'name', 'description', 'index', 'watchers', 'product', 'link', 'section', 'priority']
+  projection: ['slug', 'name', 'description', 'index', 'watchers', 'product', 'link', 'section', 'priority', 'courses']
   page: 'resource'
   canMakeNew: true
 

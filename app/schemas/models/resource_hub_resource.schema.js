@@ -1,4 +1,5 @@
 const schema = require('./../schemas')
+const utils = require('../../core/utils')
 
 const ResourceHubResourceSchema = schema.object(
   {
@@ -53,7 +54,18 @@ const ResourceHubResourceSchema = schema.object(
       format: 'markdown'
     },
 
-    product: schema.product
+    product: schema.product,
+
+    courses: {
+      title: 'Courses',
+      description: 'The Courses that this resource is relevant for, if it is a course-specific resource',
+      type: 'array',
+      format: 'courses',
+      items: schema.shortString({
+        format: 'course',
+        enum: Object.values(utils.courseAcronyms)
+      })
+    }
   }
 )
 

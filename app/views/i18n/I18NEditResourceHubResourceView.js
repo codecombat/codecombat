@@ -9,12 +9,17 @@ class I18NEditResourceHubResource extends I18NEditModelView {
     if (i18n) {
       const name = this.model.get('name')
       const link = this.model.get('link')
+      const description = this.model.get('description')
       if (name) {
         this.wrapRow('Label / Name', ['name'], name, i18n[lang]?.name, [])
       }
 
       if (link) {
         this.wrapRow('Link to resource', ['link'], link, i18n[lang]?.link, [])
+      }
+
+      if (description) {
+        this.wrapRow('Resource description', ['description'], description, i18n[lang]?.description, [], 'markdown')
       }
     }
   }
