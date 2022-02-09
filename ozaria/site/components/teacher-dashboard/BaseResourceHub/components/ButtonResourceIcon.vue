@@ -41,7 +41,7 @@
     computed: {
       cssVariables () {
         return {
-          '--backgroundImage': this.locked ? 'url(/images/pages/game-menu/lock.png)' : `url(/images/ozaria/teachers/dashboard/svg_icons/Icon${this.icon}.svg)`
+          '--backgroundImage': this.locked ? 'url(/images/pages/game-menu/lock.png)' : `url(/images/pages/teachers/resources/icons/Icon${this.icon}.svg)`
         }
       },
       formattedDescription () {

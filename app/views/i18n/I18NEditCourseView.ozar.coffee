@@ -10,7 +10,7 @@ PatchModal = require 'views/editor/PatchModal'
 module.exports = class I18NEditCourseView extends I18NEditModelView
   id: "i18n-edit-course-view"
   modelClass: Course
-    
+
   buildTranslationList: ->
     lang = @selectedLanguage
 
@@ -22,7 +22,7 @@ module.exports = class I18NEditCourseView extends I18NEditModelView
         @wrapRow 'Course description', ['description'], description, i18n[lang]?.description, []
 
       # Update the duration text that appears in the curriculum guide
-      durationI18n = @model.get('duration').i18n
+      durationI18n = @model.get('duration')?.i18n
       if durationI18n
         if total = @model.get('duration').total
           this.wrapRow(

@@ -58,6 +58,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     faq_row5_header: "Can I use Ozaria as my class’s main curriculum?"
     faq_row5_p: "Absolutely! Ozaria has everything you need to run a full Computer Science class, even if you don't have a Computer Science background. From lesson plans and solution guides to project rubrics and built-in standards alignment, it's all here."
     faq_row6_p_part1: "If you have any other questions, please "
+    see_faq_prefix: "See more"
+    see_faq_link: "frequently asked questions in our help center"
+    see_faq_suffix: "."
 
     summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     value_prop1_h1: "Epic Story. Immersive Gameplay."

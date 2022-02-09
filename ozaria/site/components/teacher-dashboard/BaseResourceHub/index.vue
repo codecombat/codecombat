@@ -3,7 +3,7 @@
   import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
   import ButtonResourceIcon from './components/ButtonResourceIcon'
   import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
-  import { createNewResourceHubResource, getResourceHubResources, getResourceHubZendeskResources } from 'core/api/resource_hub_resource'
+  import { getResourceHubResources, getResourceHubZendeskResources } from 'core/api/resource_hub_resource'
   import utils from 'app/core/utils'
   const store = require('core/store')
 
@@ -21,15 +21,15 @@
     return 0
   }
 
-const resourceHubSections = [
-  { sectionName: 'gettingStarted', slug: 'getting-started', i18nKey: 'teacher.getting_started' },
-  { sectionName: 'educatorResources', slug: 'educator-resources', i18nKey: 'new_home.educator_resources' },
-  { sectionName: 'studentResources', slug: 'student-resources', i18nKey: 'teacher.student_resources' },
-  { sectionName: 'lessonSlides', slug: 'lesson-slides', i18nKey: 'teacher.lesson_slides' },
-  { sectionName: 'faq', slug: 'faq', i18nKey: 'nav.faq' },
-]
+  const resourceHubSections = [
+    { sectionName: 'gettingStarted', slug: 'getting-started', i18nKey: 'teacher.getting_started' },
+    { sectionName: 'educatorResources', slug: 'educator-resources', i18nKey: 'new_home.educator_resources' },
+    { sectionName: 'studentResources', slug: 'student-resources', i18nKey: 'teacher.student_resources' },
+    { sectionName: 'lessonSlides', slug: 'lesson-slides', i18nKey: 'teacher.lesson_slides' },
+    { sectionName: 'faq', slug: 'faq', i18nKey: 'nav.faq' },
+  ]
 
-export default {
+  export default {
     name: COMPONENT_NAMES.RESOURCE_HUB,
     components: {
       ButtonResourceIcon,
