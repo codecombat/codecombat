@@ -770,6 +770,10 @@ $gameControlMargin: 30px
     align-items: center
     justify-content: center
     overflow: hidden
+    @media (hover: none)
+      overflow: scroll
+      @media (orientation: landscape)
+        align-items: initial
 
     .portals
       $campaignWidth: 317px
@@ -779,6 +783,8 @@ $gameControlMargin: 30px
       flex-wrap: nowrap
       display: flex
       overflow: hidden
+      @media (hover: none)
+        overflow: scroll
 
       .campaign
         width: $campaignWidth
