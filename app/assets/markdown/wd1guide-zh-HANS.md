@@ -57,8 +57,8 @@ _关卡 1-4 ("谦逊的开始" - "头条新闻")_
 #### 资料
 
 参考资料:
-- [进度日志](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [HTML 语法指南](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- [进度日志](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [HTML 语法指南](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 #### 学习目标
 
@@ -80,7 +80,7 @@ _关卡 1-4 ("谦逊的开始" - "头条新闻")_
 
 一旦一个完整的网站组成部分列表完成后, 向学生们介绍 **HTML** 和 **标签** (见第1部分的核心词汇定义)。讲解这些所列出的网站组成部分都是使用这些类型的标签标记的。
 
-然后引入三个特定的标签: 段落、标题和换行标签。您可以在 [HTML 语法指南](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf) 中找到有关这些标签的信息。区分 **开始标签**、**结束标签** 和 **空标签**。
+然后引入三个特定的标签: 段落、标题和换行标签。您可以在 [HTML 语法指南](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf) 中找到有关这些标签的信息。区分 **开始标签**、**结束标签** 和 **空标签**。
 
 
 #### 互动
@@ -129,8 +129,8 @@ _关卡 1-4 ("谦逊的开始" - "头条新闻")_
 
 ##### 更多支持:
 - 向学生演示如何查找和使用每个关卡中的提示、HTML 参考卡片、报错消息和起始代码。
-- 如果想让学生在闯关时记录每一关的日志, 这里有一个可打印的模板: [进度日志](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- 如果想让学生更好的记忆正确的语法, 请提供可打印的语法指南 [HTML 语法指南](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- 如果想让学生在闯关时记录每一关的日志, 这里有一个可打印的模板: [进度日志](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- 如果想让学生更好的记忆正确的语法, 请提供可打印的语法指南 [HTML 语法指南](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 ##### 扩展活动:
 
@@ -147,8 +147,8 @@ _关卡 5-6 ("卓著的图片" - "大而高")_
 #### 资料
 
 参考资料:
-- [进度日志](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [HTML 语法指南](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- [进度日志](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [HTML 语法指南](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 
 #### 学习目标
@@ -222,8 +222,8 @@ _关卡 5-6 ("卓著的图片" - "大而高")_
 
 ##### 更多支持:
 - 向学生演示如何查找和使用每个关卡中的提示、HTML 参考卡片、报错消息和起始代码。
-- 如果想让学生在闯关时记录每一关的日志, 这里有一个可打印的模板: [进度日志](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- 如果想让学生更好的记忆正确的语法, 请提供可打印的语法指南 [HTML 语法指南](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- 如果想让学生在闯关时记录每一关的日志, 这里有一个可打印的模板: [进度日志](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- 如果想让学生更好的记忆正确的语法, 请提供可打印的语法指南 [HTML 语法指南](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 ##### 扩展活动:
 
@@ -242,8 +242,8 @@ _关卡 7-9 ("危险分界" - "通缉顺序")_
 - 剪刀 (每3名学生一组，每组一把)
 
 参考资料:
-- [进度日志](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [HTML 语法指南](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- [进度日志](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [HTML 语法指南](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 
 #### 学习目标
@@ -274,7 +274,7 @@ _关卡 7-9 ("危险分界" - "通缉顺序")_
 > 我们有一些不同的决定, 因为设计和拆分网页是有多种可能性的。
 
 #### 讲解
-引入 ‘div’ 标签、有序列表和无序列表 (你可以在[HTML 语法指南](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf) "组成" 标题下找到说明。) 告诉学生他们会用以上这些来决定和构建自己的项目。
+引入 ‘div’ 标签、有序列表和无序列表 (你可以在[HTML 语法指南](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf) "组成" 标题下找到说明。) 告诉学生他们会用以上这些来决定和构建自己的项目。
 
 
 ### 代码编写时间 (10-15分钟)
@@ -301,8 +301,8 @@ _关卡 7-9 ("危险分界" - "通缉顺序")_
 
 ##### 更多支持:
 - 向学生演示如何查找和使用每个关卡中的提示、HTML 参考卡片、报错消息和起始代码。
-- 如果想让学生在闯关时记录每一关的日志, 这里有一个可打印的模板: [进度日志](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- 如果想让学生更好的记忆正确的语法, 请提供可打印的语法指南 [HTML 语法指南](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- 如果想让学生在闯关时记录每一关的日志, 这里有一个可打印的模板: [进度日志](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- 如果想让学生更好的记忆正确的语法, 请提供可打印的语法指南 [HTML 语法指南](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 ##### 扩展活动:
 
@@ -317,11 +317,11 @@ _关卡 10-12 ("风格样式" - "核查ID")_
 
 
 #### 资料
-- [CSS 语法指南](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-CSSCheatsheet.pdf)
+- [CSS 语法指南](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-CSSCheatsheet.pdf)
 
 参考资料:
-- [进度日志](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [HTML 语法指南](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- [进度日志](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [HTML 语法指南](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 
 #### 学习目标
@@ -374,9 +374,9 @@ _关卡 13 ("通缉令")_
 #### 资料
 
 参考资料:
-- [进度日志](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [HTML 语法指南](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
-- [CSS 语法指南](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-CSSCheatsheet.pdf)
+- [进度日志](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [HTML 语法指南](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- [CSS 语法指南](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-CSSCheatsheet.pdf)
 
 
 #### 学习目标

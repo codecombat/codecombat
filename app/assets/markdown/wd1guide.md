@@ -55,8 +55,8 @@ These levels introduce students to HTML basics that will help them initially set
 #### Materials
 
 Optional Materials:
-- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [HTML Syntax Guide](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [HTML Syntax Guide](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 #### Learning Objectives
 
@@ -78,7 +78,7 @@ Pull up a website that is likely familiar to your class. It could be the school 
 
 Once you have made a full list of the parts of a website, introduce students to **HTML** and **tags** (see definitions in the Key Terms section on Page 1). Explain that all the parts of a webpage that they listed are outlined using these kinds of tags.
 
-Then introduce three specific tags: paragraph, header, and break tags. You can find information about these tags in the [HTML Syntax Guide](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf). Differentiate between **opening**, **closing**, and **empty** tags.
+Then introduce three specific tags: paragraph, header, and break tags. You can find information about these tags in the [HTML Syntax Guide](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf). Differentiate between **opening**, **closing**, and **empty** tags.
 
 
 #### Interact
@@ -128,8 +128,8 @@ Sample Response:
 
 ##### Additional Supports:
 - Show students how to find and interpret the hints, HTML reference cards, error messages, and starter code provided within each level.
-- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- If students struggle to follow correct syntax, provide a copy of the printable [HTML Syntax Guide](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If students struggle to follow correct syntax, provide a copy of the printable [HTML Syntax Guide](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 ##### Extension Activities:
 
@@ -145,8 +145,8 @@ In these two levels, students are introduced to adding images to their websites.
 #### Materials
 
 Optional Materials:
-- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [HTML Syntax Guide](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [HTML Syntax Guide](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 
 #### Learning Objectives
@@ -218,8 +218,8 @@ Sample Response:
 
 ##### Additional Supports:
 - Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
-- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- If students struggle to follow correct syntax, provide a copy of the printable [HTML Syntax Guide](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If students struggle to follow correct syntax, provide a copy of the printable [HTML Syntax Guide](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 ##### Extension Activities:
 
@@ -237,8 +237,8 @@ In this section, students learn about how to use headers, `div` tags, and lists 
 - scissors (one set for every group of 3 students)
 
 Optional Materials:
-- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [HTML Syntax Guide](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [HTML Syntax Guide](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 
 #### Learning Objectives
@@ -269,7 +269,7 @@ Sample Response:
 > We made different decisions about the sections because there are multiple possibilities for how you could design and split up a webpage.
 
 #### Explain
-Introduce `div` tags, ordered lists, and unordered lists. (You can find descriptions in the [HTML Syntax Guide](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf) under the "Organization" heading.) Tell students that they'll be using these to make decisions about organizing their own projects.
+Introduce `div` tags, ordered lists, and unordered lists. (You can find descriptions in the [HTML Syntax Guide](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf) under the "Organization" heading.) Tell students that they'll be using these to make decisions about organizing their own projects.
 
 
 ### Coding Time (10-15 minutes)
@@ -296,8 +296,8 @@ Sample Response:
 
 ##### Additional Supports:
 - Show students how to find and interpret the hints, HTML reference cards, error messages, and starter code provided within each level.
-- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- If students struggle to follow correct syntax, provide a copy of the printable [HTML Syntax Guide](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If students struggle to follow correct syntax, provide a copy of the printable [HTML Syntax Guide](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 ##### Extension Activities:
 
@@ -310,11 +310,11 @@ Sample Response:
 So far, students have only used HTML to format basic webpages. Now, they'll learn how to add some style to their webpages. Tell them that this is where they can get really creative and think about things like color, size, font, and all the other components that make webpages look unique.
 
 #### Materials
-- [CSS Syntax Guide](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-CSSCheatsheet.pdf)
+- [CSS Syntax Guide](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-CSSCheatsheet.pdf)
 
 Optional Materials:
-- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [HTML Syntax Guide](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [HTML Syntax Guide](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
 
 
 #### Learning Objectives
@@ -357,9 +357,9 @@ Tell students that they will have the opportunity to design a creative project i
 #### Materials
 
 Optional Materials:
-- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [HTML Syntax Guide](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
-- [CSS Syntax Guide](http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-CSSCheatsheet.pdf)
+- [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [HTML Syntax Guide](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf)
+- [CSS Syntax Guide](https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-CSSCheatsheet.pdf)
 
 
 #### Learning Objectives

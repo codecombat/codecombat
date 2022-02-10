@@ -55,19 +55,19 @@ block content
           p 
             span(data-i18n="teacher.pacing_guides_desc")
             br
-            - var elementarySchoolPacingURL = "http://files.codecombat.com/docs/resources/ElementaryPacing.pdf";
+            - var elementarySchoolPacingURL = "https://files.codecombat.com/docs/resources/ElementaryPacing.pdf";
             - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
             -     elementarySchoolPacingURL = elementarySchoolPacingURL.replace(/\.pdf/, '-pt-BR.pdf');
             a.resource-link(href=elementarySchoolPacingURL)
               span(data-i18n="teacher.pacing_guides_elem")
             span.spl.spr | 
-            - var middleSchoolPacingURL = "http://files.codecombat.com/docs/resources/MiddleSchoolPacing.pdf";
+            - var middleSchoolPacingURL = "https://files.codecombat.com/docs/resources/MiddleSchoolPacing.pdf";
             - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
             -     middleSchoolPacingURL = middleSchoolPacingURL.replace(/\.pdf/, '-pt-BR.pdf');
             a.resource-link(href=middleSchoolPacingURL)
               span(data-i18n="teacher.pacing_guides_middle")
             span.spl.spr | 
-            - var highSchoolPacingURL = "http://files.codecombat.com/docs/resources/HighSchoolPacing.pdf";
+            - var highSchoolPacingURL = "https://files.codecombat.com/docs/resources/HighSchoolPacing.pdf";
             - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
             -     highSchoolPacingURL = highSchoolPacingURL.replace(/\.pdf/, '-pt-BR.pdf');
             a.resource-link(href=highSchoolPacingURL)
@@ -95,7 +95,7 @@ block content
             span(data-i18n="teacher.teacher_getting_started")
           p(data-i18n="teacher.teacher_getting_started_desc")
         li
-          - var quickStartURL = "http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf";
+          - var quickStartURL = "https://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf";
           - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
           -     quickStartURL = quickStartURL.replace(/\.pdf/, '-zh-HANS.pdf');
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
@@ -114,7 +114,7 @@ block content
             p(data-i18n="teacher.progress_journal_desc")
         else
           li
-            - var progressJournalURL = "http://files.codecombat.com/docs/resources/ProgressJournal.pdf";
+            - var progressJournalURL = "https://files.codecombat.com/docs/resources/ProgressJournal.pdf";
             - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
             -     progressJournalURL = progressJournalURL.replace(/\.pdf/, '-zh-HANS.pdf');
             - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
@@ -164,7 +164,7 @@ block content
               span= ' '
               a(href=lessonSlidesURL, data-i18n="courses.lesson_slides")
         li
-          - var pythonURL = "http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf";
+          - var pythonURL = "https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf";
           - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
           -     pythonURL = pythonURL.replace(/\.pdf/, '-zh-HANS.pdf');
           - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
@@ -174,7 +174,7 @@ block content
             span.spl [PDF]
           p(data-i18n="teacher.cs1_syntax_python_desc")
         li
-          - var jsURL = "http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf";
+          - var jsURL = "https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf";
           - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
           -     jsURL = jsURL.replace(/\.pdf/, '-zh-HANS.pdf');
           //- if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
@@ -184,7 +184,7 @@ block content
             span.spl [PDF]
           p(data-i18n="teacher.cs1_syntax_javascript_desc")
         li
-          - var arenasURL = "http://files.codecombat.com/docs/resources/assessment_guide.pdf";
+          - var arenasURL = "https://files.codecombat.com/docs/resources/assessment_guide.pdf";
           //- - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
           //- -     arenasURL += '-pt-BR'
           a.resource-link(href=arenasURL)
@@ -205,12 +205,12 @@ block content
             a.resource-link(href='https://docs.google.com/document/d/1UjFrsBJIYFGuf58q87g-nQvhcybwWgaOl6GWO52eNH4/edit?usp=sharing')
               span(data-i18n="teacher.engineering_cycle_worksheet")
               span.spl (Make a copy to edit)
-            a.resource-link(href="http://files.codecombat.com/docs/resources/WorksheetExample.pdf")
+            a.resource-link(href="https://files.codecombat.com/docs/resources/WorksheetExample.pdf")
                 i.span.spl(data-i18n="teacher.engineering_cycle_worksheet_link")
               p(data-i18n="teacher.engineering_cycle_worksheet_desc")
         else
           li
-            - var engineeringCycleWorksheetURL = "http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf";
+            - var engineeringCycleWorksheetURL = "https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf";
             - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
             -     engineeringCycleWorksheetURL = engineeringCycleWorksheetURL.replace(/\.pdf/, '-zh-HANS.pdf');
             - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
@@ -218,7 +218,7 @@ block content
             a.resource-link(href=engineeringCycleWorksheetURL)
               span(data-i18n="teacher.engineering_cycle_worksheet")
               span.spl [PDF]
-            - var worksheetExampleURL = "http://files.codecombat.com/docs/resources/WorksheetExample.pdf";
+            - var worksheetExampleURL = "https://files.codecombat.com/docs/resources/WorksheetExample.pdf";
             - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
             -     worksheetExampleURL = worksheetExampleURL.replace(/\.pdf/, '-zh-HANS.pdf');
             //- if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
@@ -257,7 +257,7 @@ block content
               span= ' '
               a(href=lessonSlidesURL, data-i18n="courses.lesson_slides")
         li
-          a.resource-link(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/GD1_Project_Rubric.pdf")
+          a.resource-link(href="https://files.codecombat.com.s3.amazonaws.com/docs/resources/GD1_Project_Rubric.pdf")
             span(data-i18n="teacher.gd1_rubric")
           p(data-i18n="teacher.gd1_rubric_desc")
           
@@ -280,19 +280,19 @@ block content
             span(data-i18n="teacher.wd1_curriculum")
           p(data-i18n="teacher.wd1_curriculum_desc")
         li
-          a.resource-link(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HeadlinesWorksheet.pdf")
+          a.resource-link(href="https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HeadlinesWorksheet.pdf")
             span(data-i18n="teacher.wd1_headlines")
             span.spl [PDF]
-          a.resource-link(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HeadlinesExample.pdf")
+          a.resource-link(href="https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HeadlinesExample.pdf")
             i.span.spl(data-i18n="teacher.wd1_headlines_example")
           p(data-i18n="teacher.wd1_headlines_desc")
         li
-          a.resource-link(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf")
+          a.resource-link(href="https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HTMLCheatsheet.pdf")
             span(data-i18n="teacher.wd1_html_syntax")
             span.spl [PDF]
           p(data-i18n="teacher.wd1_html_syntax_desc")
         li
-          a.resource-link(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-CSSCheatsheet.pdf")
+          a.resource-link(href="https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-CSSCheatsheet.pdf")
             span(data-i18n="teacher.wd1_css_syntax")
             span.spl [PDF]
           p(data-i18n="teacher.wd1_css_syntax_desc")
@@ -337,15 +337,15 @@ block content
       h4(data-i18n="teacher.wd2")
       ul
         li
-          a.resource-link(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD2-jQueryFunctionsCheatsheet.pdf")
+          a.resource-link(href="https://files.codecombat.com.s3.amazonaws.com/docs/resources/WD2-jQueryFunctionsCheatsheet.pdf")
             span(data-i18n="teacher.wd2_jquery_syntax")
             span.spl [PDF]
           p(data-i18n="teacher.wd2_jquery_syntax_desc")
         li
-          a.resource-link(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/QuizletPlanningWorksheet.pdf")
+          a.resource-link(href="https://files.codecombat.com.s3.amazonaws.com/docs/resources/QuizletPlanningWorksheet.pdf")
             span(data-i18n="teacher.wd2_quizlet_worksheet")
             span.spl [PDF]
-          a.resource-link(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/QuizletPlanningInstructions.pdf")
+          a.resource-link(href="https://files.codecombat.com.s3.amazonaws.com/docs/resources/QuizletPlanningInstructions.pdf")
             i.span.spl(data-i18n="teacher.wd2_quizlet_worksheet_instructions")
           p(data-i18n="teacher.wd2_quizlet_worksheet_desc")
 
