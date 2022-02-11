@@ -351,7 +351,7 @@ block content
       .container
         .row.row-eq-height
           .col-lg-12.text-center.container-background-header
-            h1.pixelated FAQs
+            h1.pixelated(data-i18n="nav.faqs")
         .row.row-eq-height
           .col-md-4.col-sm-6.col-xs-12
             h4(data-i18n="new_home_faq.what_programming_languages")
@@ -387,7 +387,13 @@ block content
           .col-md-4.col-sm-6.col-xs-12
             h4(data-i18n="new_home_faq.recommended_systems")
             p(data-i18n="new_home_faq.recommended_systems_blurb")
-        .text-center
+              .text-center
+        .row.faq-links-row
+          p
+            span(data-i18n="new_home_faq.see_faq_prefix")
+            span= " "
+            a(href="https://codecombat.zendesk.com/hc/en-us" target="_blank" data-i18n="new_home_faq.see_faq_link")
+            span(data-i18n="new_home_faq.see_faq_suffix")
           p.contact-us(data-i18n="[html]new_home_faq.other_questions", data-i18n-options=JSON.stringify(i18nData))
 
     .container-footer-mountains

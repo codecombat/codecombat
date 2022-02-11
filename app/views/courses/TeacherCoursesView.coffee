@@ -57,8 +57,23 @@ module.exports = class TeacherCoursesView extends RootView
       @campaignLevelNumberMap[campaign.id] = utils.createLevelNumberMap(levels)
     @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
     @fetchChangeLog()
+    @fetchResourceHubResources()
     me.getClientCreatorPermissions()?.then(() => @render?())
     @render?()
+
+  fetchResourceHubResources: ->
+    @resourcesByCourse = {}
+    api.resourceHubResources.getResourceHubResources().then((allResources) =>
+      return if @destroyed
+      for resource in allResources when resource.hidden isnt false and resource.courses?.length
+        for course in resource.courses
+          @resourcesByCourse[course] ?= []
+          @resourcesByCourse[course].push resource
+      for courseAcronym, resources of @resourcesByCourse
+        @resourcesByCourse[courseAcronym] = _.sortBy(resources, 'priority')
+      @render()
+    ).catch (e) =>
+      console.error e
 
   fetchChangeLog: ->
     return  # 2021-04-25: Haven't been any relevant changes for a while, so disable fetching this; can re-enable and filter to only recent-ish changes if we get back on the course change wagon someday
