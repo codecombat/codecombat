@@ -153,7 +153,7 @@ Ao longo desta atividade, também pode ser útil usar o relógio (se você tiver
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -278,7 +278,7 @@ Se necessário, saliente que os parâmetros `x` e` y` referem-se ao centro de ca
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -364,7 +364,7 @@ Os alunos utilizarão o código, como mostrado acima, para retornar valores e í
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -435,7 +435,7 @@ faria com que o herói dissesse os números 5, 15, 25, 35 e 45.
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -498,7 +498,7 @@ As duas linhas acima adicionam um elemento ao final do array `friends` e preench
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -557,7 +557,7 @@ Observe que tanto o loop externo quanto o interno passam por cada elemento do ar
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -634,7 +634,7 @@ Note que o herói pode atravessar uma linha de cada vez (em vez de uma coluna de
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -721,7 +721,7 @@ A variável `value` pode então ser usada como qualquer outra variável.
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -811,7 +811,7 @@ Lembre-se de que o índice da linha do elemento sempre vem antes do índice de s
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -902,7 +902,7 @@ for i in range(len(friendRoles)):
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -960,7 +960,7 @@ perimeter = side1 * 2 + side2 * 2
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -1103,7 +1103,7 @@ Base-10:			Base-2:			Base-3:
 ### Hora da Programação (30-45 mins)
 
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________

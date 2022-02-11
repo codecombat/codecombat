@@ -905,8 +905,9 @@ export default {
           <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit?usp=sharing" target="_blank" rel="noopener noreferrer">{{ $t('teacher.teacher_getting_started') }}</a>
           <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank" rel="noopener noreferrer">
             <span class="glyphicon glyphicon-facetime-video"></span>
-            <span class="spl">Tutorial</span>
+            <span class="spl">{{ $t('game_menu.guide_video_tutorial') }}</span>
           </a>
+          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League" target="_blank">{{ $t('contact.faq') }}</a>
         </div>
       </div>
       <div class="col-sm-4">
