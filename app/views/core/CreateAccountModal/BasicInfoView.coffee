@@ -8,6 +8,7 @@ User = require 'models/User'
 State = require 'models/State'
 store = require 'core/store'
 globalVar = require 'core/globalVar'
+commonUtils = require '../../../lib/common-utils'
 
 ###
 This view handles the primary form for user details — name, email, password, etc,
@@ -55,6 +56,7 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
+    @hideEmail = commonUtils.isInLibraryNetwork()
 
   afterRender: ->
     @$el.find('#first-name-input').focus()
@@ -72,6 +74,10 @@ module.exports = class BasicInfoView extends CocoView
 
   checkEmail: ->
     email = @$('[name="email"]').val()
+
+    if @hideEmail
+      console.log('returning')
+      return Promise.resolve(true)
 
     if @signupState.get('path') isnt 'student' and (not _.isEmpty(email) and email is @state.get('checkEmailValue'))
       return @state.get('checkEmailPromise')
@@ -170,7 +176,7 @@ module.exports = class BasicInfoView extends CocoView
     if data.name and forms.validateEmail(data.name)
       forms.setErrorToProperty(@$el, 'name', $.i18n.t('signup.name_is_email'))
       return false
-
+    console.log('formSchema', @formSchema())
     res = tv4.validateMultiple data, @formSchema()
     if res.errors and res.errors.some((err) -> err.dataPath == '/password')
       res.errors = res.errors.filter((err) -> err.dataPath != '/password')
@@ -178,11 +184,12 @@ module.exports = class BasicInfoView extends CocoView
         dataPath: '/password',
         message: $.i18n.t('signup.invalid')
       })
-
+    console.log('formErrors', res)
     forms.applyErrorsToForm(@$('form'), res.errors) unless res.valid
     return res.valid
 
   formSchema: ->
+    console.log('fSch', @hideEmail)
     type: 'object'
     properties:
       email: User.schema.properties.email
@@ -193,7 +200,8 @@ module.exports = class BasicInfoView extends CocoView
     required: switch @signupState.get('path')
       when 'student' then ['name', 'password', 'firstName'].concat(if me.showChinaRegistration() then [] else ['lastName'])
       when 'teacher' then ['password', 'email', 'firstName'].concat(if me.showChinaRegistration() then [] else ['lastName'])
-      else ['name', 'password', 'email']
+      else
+        ['name', 'password'].concat(if @hideEmail then [] else ['email'])
 
   onClickBackButton: ->
     if @signupState.get('path') is 'teacher'
@@ -218,15 +226,17 @@ module.exports = class BasicInfoView extends CocoView
     @state.unset('error')
     e.preventDefault()
     data = forms.formToObject(e.currentTarget)
+    console.log('dats', data)
     valid = @checkBasicInfo(data)
     return unless valid
-
+    console.log('basic info passed')
     @displayFormSubmitting()
     AbortError = new Error()
 
     @checkEmail()
     .then @checkName()
     .then =>
+      console.log('failing in checkEmail')
       if not (@state.get('checkEmailState') in ['available', 'standby'] and (@state.get('checkNameState') is 'available' or @signupState.get('path') is 'teacher'))
         throw AbortError
 
