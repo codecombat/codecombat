@@ -125,9 +125,9 @@ _记得每次修改代码并点击运行按钮时，你都需要从头开始表�
 ### 代码编写时间（30-45分钟）
 
 **学生首先需要创建帐户**
-帮助学生创建帐户的额外信息，参见[教师启动指南](http://files.codecombat.com/docs/resources/TeacherGettingStartedGuide.pdf).
+帮助学生创建帐户的额外信息，参见[教师启动指南](https://files.codecombat.com/docs/resources/TeacherGettingStartedGuide.pdf).
 
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[进展日志[PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[进展日志[PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 
 ```
@@ -144,7 +144,7 @@ _记得每次修改代码并点击运行按钮时，你都需要从头开始表�
 
 在课堂上巡视，为学生提供帮助，让学生注意到指示和提示。
 
-如果学生在问题分解中遇到困难，参见[培训周期表[PDF]](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet-zh-HANS.pdf)，强化解决谜题的每一步步骤。
+如果学生在问题分解中遇到困难，参见[培训周期表[PDF]](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet-zh-HANS.pdf)，强化解决谜题的每一步步骤。
 
 ### 书面思考题（5分钟）
 
@@ -249,7 +249,7 @@ while toys > 0: 
 
 ### 代码编写时间（30-45分钟）
 
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[进展日志[PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[进展日志[PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 关卡 #: _____  关卡名: ____________________________________
@@ -265,7 +265,7 @@ while toys > 0: 
 
 在课堂上巡视，为学生提供帮助，让学生注意到指示和提示。
 
-专注调试，采取恰当策略避免被卡住。使用你班上/学校的成长型思维指南，使用[培训周期表[PDF]](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet-zh-HANS.pdf)，作为分解教学工具，或者要求学生按照如下表格操作：
+专注调试，采取恰当策略避免被卡住。使用你班上/学校的成长型思维指南，使用[培训周期表[PDF]](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet-zh-HANS.pdf)，作为分解教学工具，或者要求学生按照如下表格操作：
 1. 一行行阅读注释
 2. 一行行阅读你的代码
 3. 阅读提示
@@ -345,7 +345,7 @@ while toys > 0: 
 
 ### 代码编写时间（30-45分钟）
 
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[进展日志[PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[进展日志[PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 关卡 #: _____  关卡名: ____________________________________

@@ -176,7 +176,7 @@ teacher.write("How much " + noun + " w" + ould + " a " + noun + verb + " " + ver
 **What does string concatenation mean?** (Adding a string to the end of another string.)
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -363,7 +363,7 @@ Explain that these are called hailstone numbers because like hailstones, they go
 **What is the proper syntax to multiply a variable called `number` by 5 and store the result in `number`?** (`number = number * 5`)
 
 ### Coding Time (25 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -461,7 +461,7 @@ Once the list is complete, ask the students if there are any properties on the l
 
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -655,7 +655,7 @@ If you do not have boxes for this activity, you can simply draw a picture of a v
 **Why does a return statement immediately exit a function?** (Because if you called `return` twice, you wouldn't know which value to use.)
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -803,7 +803,7 @@ Note that the students have not learned how to do a compound conditional yet, bu
 **How would you write an `if` statement to check if an item is not a gem?** (`if item.type != "gem":`)
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -935,7 +935,7 @@ Feel free to be creative with the conditions and instructions throughout this ac
 **What is a boolean value?** (A value that is either `True` or `False`.)
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -1060,7 +1060,7 @@ Feel free to be creative with the conditions and instructions throughout this ac
 
 
 ### Coding Time (35-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -1184,7 +1184,7 @@ Be sure the students understand that the position you move to is always relative
 **In CodeCombat, which directions are -x, +x, -y, and +y?** (Left, right, down, and up.)
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -1366,7 +1366,7 @@ Explain that if the students were silent four-fifths as long as their longest tr
 **How do you pronounce `if duration < 1 / 5 * maxTime:`?** ("If the duration is less than one-fifth of the maxTime...")
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -1532,7 +1532,7 @@ Allow the students to play a few more rounds of the game, ensuring to point to t
 **When does it make sense to use `continue`?** (When you don't want to have everything nested inside an `else`.)
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -1567,9 +1567,9 @@ Select appropriate prompt(s) for the students respond to, referring to their not
 The arena level is an opportunity for students to creatively apply all the concepts they have learned to develop a program that solves a problem. Students first develop an algorithm that will defeat a computer opponent, then they compete against classmates, refining their algorithm to beat the level as quickly as possible. The friendly competition in this level is intended to motivate students to apply an iterative development process, creating and testing multiple possible solutions. Students can also work collaboratively using a pair programming approach, which may make the competition more comfortable for some students.
 
 #### Materials
-- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
 - Optional: [Pair Programming Guide](https://codecombat.com/teachers/resources/pair-programming)
-- Optional: [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- Optional: [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 
 #### Learning Objectives
@@ -1604,7 +1604,7 @@ PLAN: Choose one part of the problem to solve first. What do you need the comput
 IMPLEMENT: Write the solution to each part of your problem in code. 
 TEST: Run your code! Does it solve the problem the way you intended? If not, redesign. Does it work without errors? If not, trace through it to find and fix the bug(s), then test again. Once it works, move on to the planning and implementing the next part! 
 
-Provide each student with a copy of the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) that they can use to plan their program once they navigate to the level. 
+Provide each student with a copy of the [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) that they can use to plan their program once they navigate to the level. 
 
 #### Optional: Review Key Concepts (10 mins)
 Get the students to help list and define all of the new vocabulary words they've learned thus far. As a class, decide on both a definition and an example. Have students write these on the board and correct each other’s work. Consult the game where there are disputes.
