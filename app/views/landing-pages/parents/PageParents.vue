@@ -665,6 +665,7 @@ export default {
 
   methods: {
     async trackCtaClicked () {
+      // TODO: we should not be calling this twice, once for everything (but not Facebook) and then once for everything (plus Facebook)!
       await application.tracker.trackEvent(
           (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
           { parentsPageType: this.type }
