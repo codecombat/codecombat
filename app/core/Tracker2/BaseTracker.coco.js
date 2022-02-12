@@ -2,8 +2,7 @@ export const TRACKER_LOGGING_ENABLED_QUERY_PARAM = 'tracker_logging'
 
 export const DEFAULT_USER_TRAITS_TO_REPORT = [
   'email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS',
-  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role', 'firstName', 'lastName',
-  'dateCreated'
+  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role', 'firstName', 'lastName'
 ]
 
 export const DEFAULT_TRACKER_INIT_TIMEOUT = 12000
