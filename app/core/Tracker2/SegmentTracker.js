@@ -1,4 +1,4 @@
-import BaseTracker, { DEFAULT_USER_TRAITS_TO_REPORT, extractDefaultUserTraits } from './BaseTracker'
+import BaseTracker, { extractDefaultUserTraits } from './BaseTracker'
 
 // Copied from Segment analytics-js getting started guide at:
 // https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/
@@ -144,18 +144,11 @@ export default class SegmentTracker extends BaseTracker {
     }
 
     const { me } = this.store.state
-
-    const {
-      _id,
-      ...meAttrs
-    } = me
-
     const filteredMeAttributes = extractDefaultUserTraits(me)
-
     const options = { ...DEFAULT_SEGMENT_OPTIONS }
     return new Promise((resolve) => {
       window.analytics.identify(
-        _id,
+        me._id,
         {
           ...filteredMeAttributes,
           ...traits
