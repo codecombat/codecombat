@@ -1,6 +1,6 @@
 import SegmentTracker from './SegmentTracker'
 import CookieConsentTracker from './CookieConsentTracker'
-import LegacyTracker from './LegacyTracker'
+import InternalTracker from './InternalTracker'
 import BaseTracker from './BaseTracker'
 import GoogleAnalyticsTracker from './GoogleAnalyticsTracker'
 import DriftTracker from './DriftTracker'
@@ -28,17 +28,16 @@ export default class Tracker2 extends BaseTracker {
     this.store = store
 
     this.cookieConsentTracker = new CookieConsentTracker(this.store)
-
-    this.legacyTracker = new LegacyTracker(this.store, this.cookieConsentTracker)
+    this.internalTracker = new InternalTracker(this.store)
     this.segmentTracker = new SegmentTracker(this.store)
-    // this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
+    this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
     this.driftTracker = new DriftTracker(this.store)
     this.fullStoryTracker = new FullStoryTracker(this.store, this)
-    this.googleOptimizeTracker = new GoogleOptimizeTracker();
+    this.googleOptimizeTracker = new GoogleOptimizeTracker()
     this.facebookPixelTracker = new FacebookPixelTracker(this.store)
 
     this.trackers = [
-      this.legacyTracker,
+      this.internalTracker
     ]
 
     const isGlobal = !(window.features || {}).china
@@ -47,7 +46,7 @@ export default class Tracker2 extends BaseTracker {
       this.trackers = [
         ...this.trackers,
         this.segmentTracker,
-        // this.googleAnalyticsTracker,
+        this.googleAnalyticsTracker,
         this.driftTracker,
         this.fullStoryTracker,
         this.googleOptimizeTracker,
@@ -62,7 +61,6 @@ export default class Tracker2 extends BaseTracker {
         this.cookieConsentTracker,
         ...this.trackers
       ]
-
       await allSettled(allTrackers.map(t => t.initialize()))
     } catch (e) {
       console.error('Tracker init failed', e)
