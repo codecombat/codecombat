@@ -157,6 +157,8 @@ module.exports = class HomeView extends RootView
         type = 'error'
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
+      # TODO: should include properties in this format: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
+      @homePageEvent "Student license purchase #{type}"
     else if utils.getQueryVariable('payment-homeSubscriptions') in ['success', 'failed'] and not @renderedPaymentNoty
       paymentResult = utils.getQueryVariable('payment-homeSubscriptions')
       if paymentResult is 'success'
@@ -167,6 +169,8 @@ module.exports = class HomeView extends RootView
         type = 'error'
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
+      # TODO: should include properties in this format: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
+      @homePageEvent "Home subscription purchase #{type}"
     _.delay(@activateCarousels, 1000)
     super()
 

@@ -25,6 +25,8 @@ export default {
   created() {
     if (!paymentUtils.hasTemporaryPremiumAccess() && !me.hasSubscription())
       paymentUtils.setTemporaryPremiumAccess()
+    // TODO: should include properties in this format: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
+    window.tracker.trackEvent('Home subscription purchase success')
   }
 }
 </script>
