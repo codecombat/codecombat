@@ -15,6 +15,7 @@ export default class InternalTracker extends BaseTracker {
     this.log('internal tracker initialize start')
     this.onInitializeSuccess()
     this.trackReferrers()
+    this.trackUtm()
     this.log('internal tracker initialize end')
   }
 
@@ -78,5 +79,19 @@ export default class InternalTracker extends BaseTracker {
     if (changed) {
       me.patch()
     }
+  }
+
+  trackUtm () {
+    const properties = { url: window.location.href }
+    for (let [param, value] of new URLSearchParams(window.location.search)) {
+      if (param.startsWith('utm_')) {
+        properties[param] = value
+      }
+    }
+    if (!properties.utm_source || !properties.utm_medium) return
+    if (document.referrer) {
+      properties.referrer = document.referrer
+    }
+    this.trackEventInternal('Arrived With UTM', properties)
   }
 }
