@@ -71,7 +71,7 @@ module.exports = class CourseVictoryModal extends ModalView
       goalStates = @session.get('state').goalStates
       succeededConcepts = concepts.filter((c) => goalStates[c]?.status is 'success')
       _.assign(properties, {concepts, succeededConcepts})
-    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', properties, []
+    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', properties
 
     if @level.isType('hero', 'course', 'course-ladder', 'game-dev', 'web-dev')
       @achievements = options.achievements
@@ -187,7 +187,7 @@ module.exports = class CourseVictoryModal extends ModalView
     })
 
   onNextLevel: ->
-    window.tracker?.trackEvent 'Play Level Victory Modal Next Level', category: 'Students', levelSlug: @level.get('slug'), nextLevelSlug: @nextLevel.get('slug'), []
+    window.tracker?.trackEvent 'Play Level Victory Modal Next Level', category: 'Students', levelSlug: @level.get('slug'), nextLevelSlug: @nextLevel.get('slug')
     if me.isSessionless()
       link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
     else
@@ -201,11 +201,11 @@ module.exports = class CourseVictoryModal extends ModalView
       link = "/teachers/courses"
     else
       link = "/play/#{@course.get('campaignID')}?course-instance=#{@courseInstanceID}"
-    window.tracker?.trackEvent 'Play Level Victory Modal Back to Map', category: 'Students', levelSlug: @level.get('slug'), []
+    window.tracker?.trackEvent 'Play Level Victory Modal Back to Map', category: 'Students', levelSlug: @level.get('slug')
     application.router.navigate(link, {trigger: true})
 
   onDone: ->
-    window.tracker?.trackEvent 'Play Level Victory Modal Done', category: 'Students', levelSlug: @level.get('slug'), []
+    window.tracker?.trackEvent 'Play Level Victory Modal Done', category: 'Students', levelSlug: @level.get('slug')
     if me.isSessionless()
       link = '/teachers/courses'
     else
@@ -214,7 +214,7 @@ module.exports = class CourseVictoryModal extends ModalView
     application.router.navigate(link, {trigger: true})
 
   onPublish: ->
-    window.tracker?.trackEvent 'Play Level Victory Modal Publish', category: 'Students', levelSlug: @level.get('slug'), []
+    window.tracker?.trackEvent 'Play Level Victory Modal Publish', category: 'Students', levelSlug: @level.get('slug')
     if @session.isFake()
       application.router.navigate(@galleryURL, {trigger: true})
     else

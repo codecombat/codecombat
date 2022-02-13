@@ -14,4 +14,4 @@ module.exports = class ShareLadderLinkModal extends ModalView
   onClickCopyURLButton: ->
     @$('#copy-url-input').val(@shareURL).select()
     @tryCopy()
-    window.tracker?.trackEvent('Share Ladder Link Modal - Copy URL', @eventProperties, ['Google Analytics'])
+    window.tracker?.trackEvent('Share Ladder Link Modal - Copy URL', @eventProperties)

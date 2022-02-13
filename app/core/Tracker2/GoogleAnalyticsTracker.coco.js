@@ -13,7 +13,7 @@ export default class GoogleAnalyticsTracker extends BaseTracker {
     this.onInitializeSuccess()
   }
 
-  async trackPageView (includeIntegrations = []) {
+  async trackPageView () {
     if (this.disableAllTracking) return
     if (this.store.state.me.isAdmin) return
     if (!ga) return
@@ -24,7 +24,7 @@ export default class GoogleAnalyticsTracker extends BaseTracker {
     ga('send', 'pageview', url)
   }
 
-  async trackEvent (action, properties = {}, includeIntegrations = {}) {
+  async trackEvent (action, properties = {}) {
     await this.initializationComplete
     if (this.disableAllTracking) return
     if (this.store.state.me.isAdmin) return

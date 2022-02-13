@@ -116,24 +116,24 @@ export default class Tracker2 extends BaseTracker {
     window.sessionStorage.removeItem(SESSION_STORAGE_IDENTIFIED_AT_SESSION_START_KEY)
   }
 
-  async trackPageView (includeIntegrations = {}) {
+  async trackPageView () {
     try {
       await this.initializationComplete
 
       await allSettled(
-        this.trackers.map(t => t.trackPageView(includeIntegrations))
+        this.trackers.map(t => t.trackPageView())
       )
     } catch (e) {
       this.log('trackPageView call failed', e)
     }
   }
 
-  async trackEvent (action, properties = {}, includeIntegrations = {}) {
+  async trackEvent (action, properties = {}) {
     try {
       await this.initializationComplete
 
       await allSettled(
-        this.trackers.map(t => t.trackEvent(action, properties, includeIntegrations))
+        this.trackers.map(t => t.trackEvent(action, properties))
       )
     } catch (e) {
       this.log('trackEvent call failed', e)
