@@ -87,11 +87,7 @@
           user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
         }
 
-        window.tracker.trackEvent(
-          action,
-          properties,
-          ['Google Analytics']
-        )
+        window.tracker.trackEvent(action, properties)
       },
 
       /**

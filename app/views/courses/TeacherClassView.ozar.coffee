@@ -181,7 +181,7 @@ module.exports = class TeacherClassView extends RootView
     @attachMediatorEvents()
     @getLevelDisplayNameWithLabel = (level) -> ozariaUtils.getLevelDisplayNameWithLabel(level)
     @getIntroContentNameWithLabel = (content) -> ozariaUtils.getIntroContentNameWithLabel(content)
-    window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id
     @onWindowResize = _.debounce @onWindowResize, 100
     $(window).on 'resize', @onWindowResize
     @timeSpentOnUnitProgress = null
@@ -447,7 +447,7 @@ module.exports = class TeacherClassView extends RootView
     hash = $(e.target).closest('a').attr('href')
     if hash isnt window.location.hash
       tab = hash.slice(1)
-      window.tracker?.trackEvent 'Teachers Class Switch Tab', { category: 'Teachers', classroomID: @classroom.id, tab, label: tab }, ['Mixpanel']
+      window.tracker?.trackEvent 'Teachers Class Switch Tab', { category: 'Teachers', classroomID: @classroom.id, tab, label: tab }
     @updateHash(hash)
     @state.set activeTab: hash
 
@@ -470,23 +470,23 @@ module.exports = class TeacherClassView extends RootView
       window.tracker?.trackEvent eventAction, { category: 'Teachers', label: @classroom.id }
 
   onClickCopyCodeButton: ->
-    window.tracker?.trackEvent 'Teachers Class Copy Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode'), ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Copy Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode')
     @$('#join-code-input').val(@state.get('classCode')).select()
     @tryCopy()
 
   onClickCopyURLButton: ->
-    window.tracker?.trackEvent 'Teachers Class Copy Class URL', category: 'Teachers', classroomID: @classroom.id, url: @state.get('joinURL'), ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Copy Class URL', category: 'Teachers', classroomID: @classroom.id, url: @state.get('joinURL')
     @$('#join-url-input').val(@state.get('joinURL')).select()
     @tryCopy()
 
   onClickUnarchive: ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
-    window.tracker?.trackEvent 'Teachers Class Unarchive', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Unarchive', category: 'Teachers', classroomID: @classroom.id
     @classroom.save { archived: false }
 
   onClickEditClassroom: (e) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
-    window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id
     @promptToEdit()
 
   promptToEdit: () ->
@@ -497,7 +497,7 @@ module.exports = class TeacherClassView extends RootView
 
   onClickEditStudentLink: (e) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
-    window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new EditStudentModal({ user, @classroom })
     @openModalView(modal)
@@ -515,11 +515,11 @@ module.exports = class TeacherClassView extends RootView
 
   onStudentRemoved: (e) ->
     @students.remove(e.user)
-    window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id
 
   onClickAddStudents: (e) =>
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
-    window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
@@ -560,7 +560,7 @@ module.exports = class TeacherClassView extends RootView
     user = @students.get(userID)
     selectedUsers = new Users([user])
     @enrollStudents(selectedUsers)
-    window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
+    window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID
 
   enrollStudents: (selectedUsers) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
@@ -575,7 +575,7 @@ module.exports = class TeacherClassView extends RootView
 
   onClickExportStudentProgress: ->
     # TODO: Does not yield .csv download on Safari, and instead opens a new tab with the .csv contents
-    window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id
     courseLabels = ""
     courses = (@courses.get(c._id) for c in @sortedCourses)
     courseLabelsArray = helper.courseLabelsArray(courses)
@@ -651,7 +651,7 @@ module.exports = class TeacherClassView extends RootView
     members = [userID]
     courseID = $(e.currentTarget).data('course-id')
     @assignCourse courseID, members
-    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID
 
   onClickBulkAssign: ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
@@ -661,7 +661,7 @@ module.exports = class TeacherClassView extends RootView
     @state.set errors: { nobodySelected }
     return if nobodySelected
     @assignCourse courseID, selectedIDs
-    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID
 
   onClickBulkRemoveCourse: ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
@@ -671,7 +671,7 @@ module.exports = class TeacherClassView extends RootView
     @state.set errors: { nobodySelected }
     return if nobodySelected
     @removeCourse courseID, selectedIDs
-    window.tracker?.trackEvent 'Teachers Class Students Remove-Course Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Remove-Course Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID
 
   assignCourse: (courseID, members) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin

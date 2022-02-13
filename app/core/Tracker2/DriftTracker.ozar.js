@@ -107,7 +107,7 @@ export default class DriftTracker extends BaseTracker {
 
   get onPlayPage () {
     const { route } = this.store.state
-    return (route.path || '').indexOf('/play/') === 0
+    return (route.path || '').indexOf('/play') === 0
   }
 
   get isChatEnabled () {
@@ -131,7 +131,13 @@ export default class DriftTracker extends BaseTracker {
       enableWelcomeMessage: chatEnabled,
       enableCampaigns: chatEnabled,
       enableChatTargeting: chatEnabled,
-    })
+    });
+
+    if (chatEnabled) {
+      this.driftApi.widget.show();
+    } else {
+      this.driftApi.widget.hide();
+    }
   }
 
   async identify (traits = {}) {
@@ -171,7 +177,7 @@ export default class DriftTracker extends BaseTracker {
     })
   }
 
-  async trackPageView (includeIntegrations = []) {
+  async trackPageView () {
     if (this.disableAllTracking) {
       return
     }

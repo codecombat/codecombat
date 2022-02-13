@@ -78,10 +78,7 @@ module.exports = class HomeView extends RootView
       category: 'Home'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
     properties = _.merge(defaults, extraproperties)
-
-    window.tracker?.trackEvent(
-        action,
-        properties)
+    window.tracker?.trackEvent(action, properties)
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget

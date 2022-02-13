@@ -62,7 +62,7 @@ module.exports = class TeacherStudentView extends RootView
 
     # TODO: fetch only necessary thang data (i.e. levels with student progress, via separate API instead of complicated data.project values)
     @levels = new Levels()
-    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,displayName,creativeMode,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
+    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context,thangs.components.config.programmableMethods.plan.i18n'}}))
     @urls = require('core/urls')
 
     # wrap templates so they translate when called
@@ -463,7 +463,7 @@ module.exports = class TeacherStudentView extends RootView
   #   user = @user.get(userID)
   #   selectedUsers = new Users([user])
   #   @enrollStudents(selectedUsers)
-  #   window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
+  #   window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID
   #
   # enrollStudents: (selectedUsers) ->
   #   modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @user }

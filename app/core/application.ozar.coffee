@@ -1,7 +1,7 @@
 globalVar = require 'core/globalVar'
+utils = require 'core/utils'
 
-
-# TODO, add C-style macro constants like this?
+# TODO: move this out of here to where it should go
 window.SPRITE_RESOLUTION_FACTOR = 3
 window.SPRITE_PLACEHOLDER_WIDTH = 10
 
@@ -43,6 +43,7 @@ Application = {
     {me} = require 'core/auth'
     Tracker = require('core/Tracker2').default
     api = require 'core/api'
+    #userUtils = require '../lib/user-utils'
 
     Router = require('core/Router')
     Vue.config.devtools = not @isProduction()
@@ -54,16 +55,13 @@ Application = {
     me.on('change', ->
       store.commit('me/updateUser', me.changedAttributes())
     )
-
     store.commit('me/updateUser', me.attributes)
     store.commit('updateFeatures', features)
-    store.dispatch('layoutChrome/syncSoundToAudioSystem')
+    if utils.isOzaria
+      store.dispatch('layoutChrome/syncSoundToAudioSystem')
 
     @store = store
     @api = api
-
-    @tracker = new Tracker(store)
-    window.tracker = @tracker
 
     @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('CodeCombat-iPad') isnt -1
     $('body').addClass 'ipad' if @isIPadApp
@@ -71,6 +69,8 @@ Application = {
     if $.browser.msie and parseInt($.browser.version) is 10
       $("html").addClass("ie10")
 
+    @tracker = new Tracker(store)
+    window.tracker = @tracker
     locale.load(me.get('preferredLanguage', true))
       .then => @tracker.initialize()
       .catch((e) => console.error('Tracker initialization failed', e))
@@ -85,6 +85,7 @@ Application = {
     unless me.get('anonymous')
       @checkForNewAchievement()
     @remindPlayerToTakeBreaks()
+    #userUtils.provisionPremium()
     window.i18n = i18nextInstance = i18next.default.createInstance {
       lng: me.get('preferredLanguage', true)
       fallbackLng: locale.mapFallbackLanguages()
@@ -121,7 +122,7 @@ Application = {
     @idleTracker.start()
 
   checkForNewAchievement: ->
-    return  # Not needed until/unlesss we start using achievements in Ozaria
+    return if utils.isOzaria  # Not needed until/unlesss we start using achievements in Ozaria
     if me.get('lastAchievementChecked')
       startFrom = new Date(me.get('lastAchievementChecked'))
     else
