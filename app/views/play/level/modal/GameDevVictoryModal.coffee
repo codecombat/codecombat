@@ -23,7 +23,7 @@ module.exports = class GameDevVictoryModal extends ModalView
   onClickCopyURLButton: ->
     @$('#copy-url-input').val(@shareURL).select()
     @tryCopy()
-    window.tracker?.trackEvent('Play GameDev Victory Modal - Copy URL', @eventProperties, ['Mixpanel'])
+    window.tracker?.trackEvent('Play GameDev Victory Modal - Copy URL', @eventProperties)
 
   onClickPlayMoreCodeCombatButton: ->
-    window.tracker?.trackEvent('Play GameDev Victory Modal - Click Play More CodeCombat', @eventProperties, ['Mixpanel'])
+    window.tracker?.trackEvent('Play GameDev Victory Modal - Click Play More CodeCombat', @eventProperties)

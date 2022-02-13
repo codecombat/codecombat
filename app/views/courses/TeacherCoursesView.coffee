@@ -54,7 +54,7 @@ module.exports = class TeacherCoursesView extends RootView
       # since intro content data is only needed for display names in the dropdown
       # do not add it to supermodel.trackRequest which would increase the load time of the page
       Campaign.fetchIntroContentDataForLevels(@campaignLevelsModuleMap).then () => @render?()
-    window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers'
     @getLevelDisplayNameWithLabel = (level) -> ozariaUtils.getLevelDisplayNameWithLabel(level)
     @getIntroContentNameWithLabel = (content) -> ozariaUtils.getIntroContentNameWithLabel(content)
 
@@ -84,7 +84,7 @@ module.exports = class TeacherCoursesView extends RootView
     courseID = $(e.currentTarget).data('course-id')
     courseName = $(e.currentTarget).data('course-name')
     eventAction = $(e.currentTarget).data('event-action')
-    window.tracker?.trackEvent eventAction, category: 'Teachers', courseID: courseID, courseName: courseName, ['Mixpanel']
+    window.tracker?.trackEvent eventAction, category: 'Teachers', courseID: courseID, courseName: courseName
 
   onClickPlayLevel: (e) ->
     form = $(e.currentTarget).closest('.play-level-form')
@@ -92,7 +92,7 @@ module.exports = class TeacherCoursesView extends RootView
     introIndex = (form.find('.intro-content:selected').data() || {}).index
     courseID = form.data('course-id')
     language = form.find('.language-select').val() or 'javascript'
-    window.tracker?.trackEvent 'Classes Guides Play Level', category: 'Teachers', courseID: courseID, language: language, levelSlug: levelSlug, ['Mixpanel']
+    window.tracker?.trackEvent 'Classes Guides Play Level', category: 'Teachers', courseID: courseID, language: language, levelSlug: levelSlug
 
     # Because we don't know what classroom to match this with, this may have outdated campaign levels caching:
     campaignLevels = @campaigns.get(@courses.get(courseID).get('campaignID')).getLevels() || []

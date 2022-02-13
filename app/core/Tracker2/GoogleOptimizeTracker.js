@@ -1,5 +1,7 @@
 import BaseTracker from './BaseTracker'
 
+import { isOzaria } from 'app/core/utils'
+
 export default class GoogleOptimizeTracker extends BaseTracker {
   constructor (store) {
     super()
@@ -12,7 +14,8 @@ export default class GoogleOptimizeTracker extends BaseTracker {
 
     if (!this.disableAllTracking) {
       const script = document.createElement('script')
-      script.src = 'https://www.googleoptimize.com/optimize.js?id=OPT-PT28TD8'
+      const optimizeId = isOzaria ? 'OPT-PT28TD8' : 'OPT-K2B6W8Q'
+      script.src = `https://www.googleoptimize.com/optimize.js?id=${optimizeId}`
       script.async = true
       document.head.appendChild(script);
       this.enabled = true

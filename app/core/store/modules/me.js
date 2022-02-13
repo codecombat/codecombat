@@ -1,6 +1,6 @@
 import _ from 'lodash'
 const userSchema = require('schemas/models/user')
-import User from 'app/models/User'
+const User = require('app/models/User')
 const api = require('core/api')
 const utils = require('core/utils')
 
@@ -22,7 +22,7 @@ export default {
     isAnonymous (state) { return state.anonymous === true },
 
     isStudent (state) {
-      return (state != null ? state.role : undefined) === 'student'
+      return (state || {}).role === 'student'
     },
 
     isTeacher (state, includePossibleTeachers) {
@@ -30,7 +30,7 @@ export default {
     },
 
     isParent (state) {
-      return (state != null ? state.role : undefined) === 'parent'
+      return (state || {}).role === 'parent'
     },
 
     isHomePlayer (state) {

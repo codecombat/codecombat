@@ -69,6 +69,6 @@ module.exports = class ProgressView extends CocoView
       courseID: @course.id
       category
     }
-    window.tracker?.trackEvent name, eventProperties, ['MixPanel']
+    window.tracker?.trackEvent name, eventProperties
     @$('#share-level-input').val(@shareURL).select()
     @tryCopy()

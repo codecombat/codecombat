@@ -59,7 +59,7 @@ module.exports = class ClassroomView extends RootView
     @levels.fetchForClassroom(classroomID, {data: {project: 'name,original,practice,slug'}})
     @levels.on 'add', (model) -> @_byId[model.get('original')] = model # so you can 'get' them
     @supermodel.trackCollection(@levels)
-    window.tracker?.trackEvent 'Students Class Loaded', category: 'Students', classroomID: classroomID, ['Mixpanel']
+    window.tracker?.trackEvent 'Students Class Loaded', category: 'Students', classroomID: classroomID
 
   onCourseInstancesSync: ->
     @sessions = new CocoCollection([], { model: LevelSession })

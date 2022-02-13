@@ -48,7 +48,7 @@ module.exports = class EnrollmentsView extends RootView
       }
       shouldUpsell: false
     })
-    window.tracker?.trackEvent 'Classes Licenses Loaded', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Classes Licenses Loaded', category: 'Teachers'
     super(options)
 
     @courses = new Courses()
@@ -156,7 +156,7 @@ module.exports = class EnrollmentsView extends RootView
     @openModalView(new HowToEnrollModal())
 
   onClickContactUsButton: ->
-    window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers'
     modal = new TeachersContactModal()
     @openModalView(modal)
     modal.on 'submit', =>
@@ -164,7 +164,7 @@ module.exports = class EnrollmentsView extends RootView
       @debouncedRender()
 
   onClickEnrollStudentsButton: ->
-    window.tracker?.trackEvent 'Classes Licenses Enroll Students', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Classes Licenses Enroll Students', category: 'Teachers'
     modal = new ActivateLicensesModal({ selectedUsers: @notEnrolledUsers, users: @members })
     @openModalView(modal)
     modal.once 'hidden', =>

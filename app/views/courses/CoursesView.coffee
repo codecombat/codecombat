@@ -101,7 +101,7 @@ module.exports = class CoursesView extends RootView
   onLoaded: ->
     super()
     if @classCodeQueryVar and not me.isAnonymous()
-      window.tracker?.trackEvent 'Students Join Class Link', category: 'Students', classCode: @classCodeQueryVar, ['Mixpanel']
+      window.tracker?.trackEvent 'Students Join Class Link', category: 'Students', classCode: @classCodeQueryVar
       @joinClass()
     else if @classCodeQueryVar and me.isAnonymous()
       @openModalView(new CreateAccountModal())
@@ -182,22 +182,22 @@ module.exports = class CoursesView extends RootView
   onClickLogInButton: ->
     modal = new AuthModal()
     @openModalView(modal)
-    window.tracker?.trackEvent 'Students Login Started', category: 'Students', ['Mixpanel']
+    window.tracker?.trackEvent 'Students Login Started', category: 'Students'
 
   openSignUpModal: ->
-    window.tracker?.trackEvent 'Students Signup Started', category: 'Students', ['Mixpanel']
+    window.tracker?.trackEvent 'Students Signup Started', category: 'Students'
     modal = new CreateAccountModal({ initialValues: { classCode: utils.getQueryVariable('_cc', "") } })
     @openModalView(modal)
 
   onSubmitJoinClassForm: (e) ->
     e.preventDefault()
     classCode = @$('#class-code-input').val() or @classCodeQueryVar
-    window.tracker?.trackEvent 'Students Join Class With Code', category: 'Students', classCode: classCode, ['Mixpanel']
+    window.tracker?.trackEvent 'Students Join Class With Code', category: 'Students', classCode: classCode
     @joinClass()
 
   onClickJoinClassButton: (e) ->
     classCode = @$('#class-code-input').val() or @classCodeQueryVar
-    window.tracker?.trackEvent 'Students Join Class With Code', category: 'Students', classCode: classCode, ['Mixpanel']
+    window.tracker?.trackEvent 'Students Join Class With Code', category: 'Students', classCode: classCode
     @joinClass()
 
   joinClass: ->
@@ -266,37 +266,37 @@ module.exports = class CoursesView extends RootView
 
   onClickPlay: (e) ->
     levelSlug = $(e.currentTarget).data('level-slug')
-    window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Students', levelSlug: levelSlug, ['Mixpanel']
+    window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Students', levelSlug: levelSlug
     application.router.navigate($(e.currentTarget).data('href'), { trigger: true })
 
   onClickViewClass: (e) ->
     classroomID = $(e.target).data('classroom-id')
-    window.tracker?.trackEvent 'Students View Class', category: 'Students', classroomID: classroomID, ['Mixpanel']
+    window.tracker?.trackEvent 'Students View Class', category: 'Students', classroomID: classroomID
     application.router.navigate("/students/#{classroomID}", { trigger: true })
 
   onClickViewLevels: (e) ->
     courseID = $(e.target).data('course-id')
     courseInstanceID = $(e.target).data('courseinstance-id')
-    window.tracker?.trackEvent 'Students View Levels', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
+    window.tracker?.trackEvent 'Students View Levels', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID
     application.router.navigate($(e.currentTarget).data('href'), { trigger: true })
 
   onClickViewProjectGalleryLink: (e) ->
     courseID = $(e.target).data('course-id')
     courseInstanceID = $(e.target).data('courseinstance-id')
-    window.tracker?.trackEvent 'Students View To Project Gallery View', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
+    window.tracker?.trackEvent 'Students View To Project Gallery View', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID
     application.router.navigate("/students/project-gallery/#{courseInstanceID}", { trigger: true })
 
   onClickViewChallengesLink: (e) ->
     classroomID = $(e.target).data('classroom-id')
     courseID = $(e.target).data('course-id')
-    window.tracker?.trackEvent 'Students View To Student Assessments View', category: 'Students', classroomID: classroomID, ['Mixpanel']
+    window.tracker?.trackEvent 'Students View To Student Assessments View', category: 'Students', classroomID: classroomID
     application.router.navigate("/students/assessments/#{classroomID}##{courseID}", { trigger: true })
 
   onClickViewVideosLink: (e) ->
     classroomID = $(e.target).data('classroom-id')
     courseID = $(e.target).data('course-id')
     courseName = $(e.target).data('course-name')
-    window.tracker?.trackEvent 'Students View To Videos View', category: 'Students', courseID: courseID, classroomID: classroomID, ['Mixpanel']
+    window.tracker?.trackEvent 'Students View To Videos View', category: 'Students', courseID: courseID, classroomID: classroomID
     application.router.navigate("/students/videos/#{courseID}/#{courseName}", { trigger: true })
 
   afterRender: ->

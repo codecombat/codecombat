@@ -155,7 +155,7 @@ module.exports = class ControlBarView extends CocoView
   onClickHome: (e) ->
     if @level.isType('course')
       category = if me.isTeacher() then 'Teachers' else 'Students'
-      window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug, ['Mixpanel']
+      window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug
     e.preventDefault()
     e.stopImmediatePropagation()
     Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs

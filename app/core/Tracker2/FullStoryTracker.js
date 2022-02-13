@@ -1,6 +1,6 @@
 import BaseTracker, { extractDefaultUserTraits } from './BaseTracker'
 
-const FULLSTORY_SESSION_TRACKING_ENALBED_KEY = 'coco.tracker.fullstory.enabled'
+const FULLSTORY_SESSION_TRACKING_ENABLED_KEY = 'coco.tracker.fullstory.enabled'
 const FULLSTORY_LAST_USER_ID_KEY = 'coco.tracker.fullstory.lastUserId'
 const FULLSTORY_ENABLE_QUERY_PARAM = 'fullstory_enable'
 
@@ -37,7 +37,7 @@ export default class FullstoryTracker extends BaseTracker {
     this.store = store
     this.globalTracker = globalTracker
 
-    const sessionEnabled = window.sessionStorage.getItem(FULLSTORY_SESSION_TRACKING_ENALBED_KEY)
+    const sessionEnabled = window.sessionStorage.getItem(FULLSTORY_SESSION_TRACKING_ENABLED_KEY)
     this.enableDecisionMade = (sessionEnabled !== null)
     this.enabled = (sessionEnabled === 'true')
 
@@ -88,14 +88,14 @@ export default class FullstoryTracker extends BaseTracker {
 
   enable () {
     this.enabled = true
-    window.sessionStorage.setItem(FULLSTORY_SESSION_TRACKING_ENALBED_KEY, 'true')
+    window.sessionStorage.setItem(FULLSTORY_SESSION_TRACKING_ENABLED_KEY, 'true')
     FS.restart()
     this.log('enabled')
   }
 
   disable () {
     this.enabled = false
-    window.sessionStorage.setItem(FULLSTORY_SESSION_TRACKING_ENALBED_KEY, 'false')
+    window.sessionStorage.setItem(FULLSTORY_SESSION_TRACKING_ENABLED_KEY, 'false')
     FS.shutdown()
     this.log('disabled')
   }
@@ -106,10 +106,13 @@ export default class FullstoryTracker extends BaseTracker {
     if (this.disableAllTracking) {
       this.log('decide enabled', 'disable all tracking')
       return false
-    } else if (me.anonymous && Math.random() < 0.02) {
+    } else if (me.anonymous && Math.random() < 0.0025) {
       this.log('decide enabled', 'anon user')
       return true
-    } else if (this.store.getters['me/isTeacher'] && !this.store.getters['me/isParent'] && Math.random() < 0.2) {
+    } else if (window.me.getM7ExperimentValue() == 'beta') {
+      this.log('decide enabled', 'm7 experiment')
+      return true
+    } else if (this.store.getters['me/isTeacher'] && !this.store.getters['me/isParent'] && Math.random() < 0.02) {
       this.log('decide enabled', 'non parent teacher')
       return true
     }
@@ -146,7 +149,7 @@ export default class FullstoryTracker extends BaseTracker {
     FS.setUserVars(extractDefaultUserTraits(me))
   }
 
-  async trackPageView (includeIntegrations = []) {
+  async trackPageView () {
     await this.initializationComplete
 
     if (!this.enabled) {

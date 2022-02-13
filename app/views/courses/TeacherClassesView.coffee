@@ -131,7 +131,7 @@ module.exports = class TeacherClassesView extends RootView
           @calculateQuestCompletion()
           @render()
 
-    window.tracker?.trackEvent 'Teachers Classes Loaded', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Classes Loaded', category: 'Teachers'
 
     @courses = new Courses()
     @courses.fetch()
@@ -229,7 +229,7 @@ module.exports = class TeacherClassesView extends RootView
 
   onClickEditClassroom: (e) ->
     classroomID = $(e.target).data('classroom-id')
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: classroomID, ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: classroomID
     classroom = @classrooms.get(classroomID)
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
@@ -244,12 +244,12 @@ module.exports = class TeacherClassesView extends RootView
 
   openNewClassroomModal: ->
     return unless me.id is @teacherID # Viewing page as admin
-    window.tracker?.trackEvent 'Teachers Classes Create New Class Started', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Classes Create New Class Started', category: 'Teachers'
     classroom = new Classroom({ ownerID: me.id })
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
     @listenToOnce modal.classroom, 'sync', ->
-      window.tracker?.trackEvent 'Teachers Classes Create New Class Finished', category: 'Teachers', ['Mixpanel']
+      window.tracker?.trackEvent 'Teachers Classes Create New Class Finished', category: 'Teachers'
       @classrooms.add(modal.classroom)
       if modal.classroom.isGoogleClassroom()
         GoogleClassroomHandler.markAsImported(classroom.get("googleClassroomId")).then(() => @render()).catch((e) => console.error(e))
@@ -293,11 +293,11 @@ module.exports = class TeacherClassesView extends RootView
         importedStudents.forEach((i) => courseInstance.get("members").push(i._id))
 
   onClickCreateTeacherButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers'
     application.router.navigate("/teachers/signup", { trigger: true })
 
   onClickUpdateTeacherButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers'
     application.router.navigate("/teachers/update-account", { trigger: true })
 
   onClickArchiveClassroom: (e) ->
@@ -307,7 +307,7 @@ module.exports = class TeacherClassesView extends RootView
     classroom.set('archived', true)
     classroom.save {}, {
       success: =>
-        window.tracker?.trackEvent 'Teachers Classes Archived Class', category: 'Teachers', ['Mixpanel']
+        window.tracker?.trackEvent 'Teachers Classes Archived Class', category: 'Teachers'
         @render()
     }
 
@@ -318,13 +318,13 @@ module.exports = class TeacherClassesView extends RootView
     classroom.set('archived', false)
     classroom.save {}, {
       success: =>
-        window.tracker?.trackEvent 'Teachers Classes Unarchived Class', category: 'Teachers', ['Mixpanel']
+        window.tracker?.trackEvent 'Teachers Classes Unarchived Class', category: 'Teachers'
         @render()
     }
 
   onClickViewClassButton: (e) ->
     classroomID = $(e.target).data('classroom-id')
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: classroomID, ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: classroomID
     application.router.navigate("/teachers/classes/#{classroomID}", { trigger: true })
 
   addFreeCourseInstances: co.wrap ->
