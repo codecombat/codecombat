@@ -50,9 +50,9 @@ export default class BaseTracker {
 
   async resetIdentity () {}
 
-  async trackPageView (includeIntegrations = []) {}
+  async trackPageView () {}
 
-  async trackEvent (action, properties = {}, includeIntegrations = []) {}
+  async trackEvent (action, properties = {}) {}
 
   async trackTiming (duration, category, variable, label) {}
 

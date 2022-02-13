@@ -72,7 +72,7 @@ module.exports = class RootView extends CocoView
   logoutAccount: ->
     window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if application.isIPadApp
     Backbone.Mediator.publish("auth:logging-out", {})
-    window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
+    window.tracker?.trackEvent 'Log Out', category: 'Homepage' if @id is 'home-view'
     if me.isTarena()
       logoutUser({
         success: ->
@@ -95,9 +95,9 @@ module.exports = class RootView extends CocoView
         properties = {
           category: 'Homepage'
         }
-        window.tracker?.trackEvent('Started Signup', properties, [])
+        window.tracker?.trackEvent('Started Signup', properties)
         eventAction = $(e.target)?.data('event-action')
-        window.tracker?.trackEvent(eventAction, properties, []) if eventAction
+        window.tracker?.trackEvent(eventAction, properties) if eventAction
       when 'world-map-view'
         # TODO: add campaign data
         window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
@@ -109,10 +109,10 @@ module.exports = class RootView extends CocoView
     AuthModal = require 'views/core/AuthModal'
     if @id is 'home-view'
       properties = { category: 'Homepage' }
-      window.tracker?.trackEvent 'Login', properties, ['Google Analytics']
+      window.tracker?.trackEvent 'Login', properties
 
       eventAction = $(e.target)?.data('event-action')
-      window.tracker?.trackEvent(eventAction, properties, []) if eventAction
+      window.tracker?.trackEvent(eventAction, properties) if eventAction
     @openModalView new AuthModal()
 
   onTrackClickEvent: (e) ->

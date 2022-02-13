@@ -668,16 +668,9 @@ export default {
 
   methods: {
     async trackCtaClicked () {
-      // TODO: we should not be calling this twice, once for everything (but not Facebook) and then once for everything (plus Facebook)!
       await application.tracker.trackEvent(
-          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
+          (this.type === 'parents' || this.type === 'self-serve') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
           { parentsPageType: this.type }
-      )
-
-      await application.tracker.trackEvent(
-          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
-          { parentsPageType: this.type },
-          ['facebook']
       )
     },
     onCarouselLeft () {
@@ -753,7 +746,7 @@ export default {
 
     onDriftMeetingBooked (e) {
       if (e.interactionId === DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID || e.interactionId === DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID) {
-        application.tracker.trackEvent('Live classes welcome call scheduled', { parentsPageType: this.type }, ['facebook'])
+        application.tracker.trackEvent('Live classes welcome call scheduled', { parentsPageType: this.type })
       }
     },
 
@@ -761,7 +754,7 @@ export default {
       this.showTimetapModal = false
       this.showTimetapConfirmationModal = true
 
-      application.tracker.trackEvent('CodeCombat live class booked', { parentsPageType: this.type }, ['facebook'])
+      application.tracker.trackEvent('CodeCombat live class booked', { parentsPageType: this.type })
     },
 
     mainCtaButtonText (buttonNum) {
