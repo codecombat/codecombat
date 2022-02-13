@@ -177,7 +177,7 @@ export default class DriftTracker extends BaseTracker {
     })
   }
 
-  async trackPageView (includeIntegrations = []) {
+  async trackPageView () {
     if (this.disableAllTracking) {
       return
     }

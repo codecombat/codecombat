@@ -31,13 +31,13 @@ export default class InternalTracker extends BaseTracker {
     this.trackEventInternal('Identify', {id: me.id, traits})
   }
 
-  async trackPageView (includeIntegrations = []) {
+  async trackPageView () {
     await this.initializationComplete
     const name = Backbone.history.getFragment()
     this.trackEventInternal('Pageview', { url: name, href: window.location.href })
   }
 
-  async trackEvent (action, properties = {}, includeIntegrations = {}) {
+  async trackEvent (action, properties = {}) {
     await this.initializationComplete
     this.trackEventInternal(action, properties)
   }

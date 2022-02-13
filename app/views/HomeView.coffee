@@ -82,12 +82,12 @@ module.exports = class HomeView extends RootView
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
-  homePageEvent: (action, extraproperties={}, includeIntegrations=[]) ->
+  homePageEvent: (action, extraproperties={}) ->
     defaults =
       category: 'Homepage'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
     properties = _.merge(defaults, extraproperties)
-    window.tracker?.trackEvent(action, properties, includeIntegrations)
+    window.tracker?.trackEvent(action, properties)
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget
@@ -101,10 +101,10 @@ module.exports = class HomeView extends RootView
 
     properties = {}
     if anchorText
-      @homePageEvent("Link: #{anchorText}", properties, ['Google Analytics'])
+      @homePageEvent("Link: #{anchorText}", properties)
     else
       properties.clicked = e?.currentTarget?.host or "unknown"
-      @homePageEvent("Link:", properties, ['Google Analytics'])
+      @homePageEvent("Link:", properties)
 
   onClickGetStartedButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
