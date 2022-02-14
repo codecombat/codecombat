@@ -163,6 +163,8 @@ orderedCourseIDs = [
 ]
 
 courseNumericalStatus = {}
+courseNumericalStatus['FULL_ACCESS'] = 2047
+courseNumericalStatus['NO_ACCESS'] = 0
 courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
 courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
 courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
