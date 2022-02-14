@@ -39,6 +39,8 @@ DOMPurify = require 'dompurify'
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
+getLastSelectedCourseKey = (classroomId) -> 'selectedCourseId_' + classroomId + '_' + me.id
+
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
   helper: helper
@@ -178,7 +180,7 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n,assessment,assessmentPlacement,slug,goals'}})
     me.getClientCreatorPermissions()?.then(() => @debouncedRender?())
     @attachMediatorEvents()
-    window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id
     @timeSpentOnUnitProgress = null
 
   fetchStudents: ->
@@ -222,7 +224,8 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @courses, 'sync change update', ->
       @setCourseMembers() # Is this necessary?
       unless @state.get 'selectedCourse'
-        @state.set 'selectedCourse', @courses.first()
+        courseId = localStorage.getItem getLastSelectedCourseKey this.classroom.id
+        @state.set 'selectedCourse', if courseId then @courses.get(courseId) else @courses.first()
       @setSelectedCourseInstance()
     @listenTo @courseInstances, 'sync change update', ->
       @setCourseMembers()
@@ -397,7 +400,7 @@ module.exports = class TeacherClassView extends RootView
     hash = $(e.target).closest('a').attr('href')
     if hash isnt window.location.hash
       tab = hash.slice(1)
-      window.tracker?.trackEvent 'Teachers Class Switch Tab', { category: 'Teachers', classroomID: @classroom.id, tab, label: tab }, ['Mixpanel']
+      window.tracker?.trackEvent 'Teachers Class Switch Tab', { category: 'Teachers', classroomID: @classroom.id, tab, label: tab }
     @updateHash(hash)
     @state.set activeTab: hash
 
@@ -419,28 +422,28 @@ module.exports = class TeacherClassView extends RootView
   onClickRegenerateCodeButton: ->
     s = $.i18n.t('teacher.regenerate_class_code_confirm')
     return unless confirm(s)
-    window.tracker?.trackEvent 'Teachers Class Regenerate Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode'), ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Regenerate Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode')
     @classroom.set( { codeCamel: '', code: '' } );
     @classroom.save()
 
   onClickCopyCodeButton: ->
-    window.tracker?.trackEvent 'Teachers Class Copy Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode'), ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Copy Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode')
     @$('#join-code-input').val(@state.get('classCode')).select()
     @tryCopy()
 
   onClickCopyURLButton: ->
-    window.tracker?.trackEvent 'Teachers Class Copy Class URL', category: 'Teachers', classroomID: @classroom.id, url: @state.get('joinURL'), ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Copy Class URL', category: 'Teachers', classroomID: @classroom.id, url: @state.get('joinURL')
     @$('#join-url-input').val(@state.get('joinURL')).select()
     @tryCopy()
 
   onClickUnarchive: ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
-    window.tracker?.trackEvent 'Teachers Class Unarchive', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Unarchive', category: 'Teachers', classroomID: @classroom.id
     @classroom.save { archived: false }
 
   onClickEditClassroom: (e) ->
     return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
-    window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id
     @promptToEdit()
 
   promptToEdit: () ->
@@ -451,7 +454,7 @@ module.exports = class TeacherClassView extends RootView
 
   onClickEditStudentLink: (e) ->
     return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
-    window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new EditStudentModal({ user, @classroom, @students })
     @openModalView(modal)
@@ -469,11 +472,11 @@ module.exports = class TeacherClassView extends RootView
 
   onStudentRemoved: (e) ->
     @students.remove(e.user)
-    window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id
 
   onClickAddStudents: (e) =>
     return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
-    window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
@@ -501,7 +504,9 @@ module.exports = class TeacherClassView extends RootView
     @state.set('searchTerm', $(e.target).val())
 
   onChangeCourseSelect: (e) ->
-    @trigger 'course-select:change', { selectedCourse: @courses.get($(e.currentTarget).val()) }
+    selectedCourseId = $(e.currentTarget).val()
+    localStorage.setItem getLastSelectedCourseKey(this.classroom.id), selectedCourseId
+    @trigger 'course-select:change', { selectedCourse: @courses.get(selectedCourseId) }
 
   onChangeLockedLevelSelect: (e) ->
     level = $(e.currentTarget).val()
@@ -521,7 +526,7 @@ module.exports = class TeacherClassView extends RootView
     user = @students.get(userID)
     selectedUsers = new Users([user])
     @enrollStudents(selectedUsers)
-    window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
+    window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID
 
   enrollStudents: (selectedUsers) ->
     return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
@@ -537,7 +542,7 @@ module.exports = class TeacherClassView extends RootView
 
   onClickExportStudentProgress: ->
     # TODO: Does not yield .csv download on Safari, and instead opens a new tab with the .csv contents
-    window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id
     courseLabels = ""
     courses = (@courses.get(c._id) for c in @sortedCourses)
     courseLabelsArray = helper.courseLabelsArray(courses)
@@ -609,13 +614,13 @@ module.exports = class TeacherClassView extends RootView
   onClickViewAILeague: (e) ->
     unless @classClan
       console.error "Couldn't find autoclan for classroom #{@classroom.id} out of", @myClans
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: @classroom.id
     application.router.navigate("/league/#{classClan?._id ? ''}", { trigger: true })
 
   onClickViewAILeagueQuickstartVideo: (e) ->
     clanLevel = $(e.target).data('clan-level')
     clanSourceObjectID = $(e.target).data('clan-source-object-id')
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID, ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID
 
   onClickCreateActivationCodes: (e) ->
     modal = new PrepaidActivationCodesModal({}, @classroom.get('_id'))
@@ -628,7 +633,7 @@ module.exports = class TeacherClassView extends RootView
     members = [userID]
     courseID = $(e.currentTarget).data('course-id')
     @assignCourse courseID, members
-    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID
 
   onClickBulkAssign: ->
     return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
@@ -638,7 +643,7 @@ module.exports = class TeacherClassView extends RootView
     @state.set errors: { nobodySelected }
     return if nobodySelected
     @assignCourse courseID, selectedIDs
-    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID
 
   onClickBulkRemoveCourse: ->
     return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
@@ -648,7 +653,7 @@ module.exports = class TeacherClassView extends RootView
     @state.set errors: { nobodySelected }
     return if nobodySelected
     @removeCourse courseID, selectedIDs
-    window.tracker?.trackEvent 'Teachers Class Students Remove-Course Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Remove-Course Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID
 
   assignCourse: (courseID, members) ->
     return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin

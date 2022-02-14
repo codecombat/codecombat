@@ -6,7 +6,6 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
-EducatorSignupOzariaEncouragementModal = require('app/views/teachers/EducatorSignupOzariaEncouragementModal').default
 GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').default
 paymentUtils = require 'app/lib/paymentUtils'
 
@@ -60,10 +59,7 @@ module.exports = class HomeView extends RootView
 
   onClickTeacherButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
-    @openEducatorSignupOzariaEncouragementModal(() =>
-      @homePageEvent('Started Signup')
-      @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
-    )
+    @openModalView(new CreateAccountModal({startOnPath: 'oz-vs-coco'}))
 
   onClickParentButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
@@ -72,21 +68,6 @@ module.exports = class HomeView extends RootView
   onClickCreateAccountTeacherButton: (e) ->
     @homePageEvent('Started Signup')
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
-
-  openEducatorSignupOzariaEncouragementModal: (onNext) ->
-    # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
-    if @ozariaEncouragementModalContainer
-      @ozariaEncouragementModalContainer.remove()
-
-    @ozariaEncouragementModalContainer = document.createElement('div')
-    document.body.appendChild(@ozariaEncouragementModalContainer)
-
-    @ozariaEncouragementModal = new EducatorSignupOzariaEncouragementModal({
-      el: @ozariaEncouragementModalContainer,
-      propsData: {
-        onNext: onNext
-      }
-    })
 
   cleanupModals: ->
     if @ozariaEncouragementModal
@@ -101,12 +82,12 @@ module.exports = class HomeView extends RootView
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
-  homePageEvent: (action, extraproperties={}, includeIntegrations=[]) ->
+  homePageEvent: (action, extraproperties={}) ->
     defaults =
       category: 'Homepage'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
     properties = _.merge(defaults, extraproperties)
-    window.tracker?.trackEvent(action, properties, includeIntegrations)
+    window.tracker?.trackEvent(action, properties)
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget
@@ -120,10 +101,10 @@ module.exports = class HomeView extends RootView
 
     properties = {}
     if anchorText
-      @homePageEvent("Link: #{anchorText}", properties, ['Google Analytics'])
+      @homePageEvent("Link: #{anchorText}", properties)
     else
       properties.clicked = e?.currentTarget?.host or "unknown"
-      @homePageEvent("Link:", properties, ['Google Analytics'])
+      @homePageEvent("Link:", properties)
 
   onClickGetStartedButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
@@ -176,6 +157,8 @@ module.exports = class HomeView extends RootView
         type = 'error'
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
+      # TODO: should include properties in this format: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
+      @homePageEvent "Student license purchase #{type}"
     else if utils.getQueryVariable('payment-homeSubscriptions') in ['success', 'failed'] and not @renderedPaymentNoty
       paymentResult = utils.getQueryVariable('payment-homeSubscriptions')
       if paymentResult is 'success'
@@ -186,6 +169,8 @@ module.exports = class HomeView extends RootView
         type = 'error'
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
+      # TODO: should include properties in this format: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
+      @homePageEvent "Home subscription purchase #{type}"
     _.delay(@activateCarousels, 1000)
     super()
 

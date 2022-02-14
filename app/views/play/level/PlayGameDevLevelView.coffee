@@ -144,7 +144,7 @@ module.exports = class PlayGameDevLevelView extends RootView
         levelID: @level.id
         levelSlug: @level.get('slug')
       }
-      window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
+      window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties
       @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
       # Load a realtime, synchronous world to get uiText properties off the world object.
       # We don't want the world to be playable immediately so calling updateStudentGoals
@@ -181,16 +181,16 @@ module.exports = class PlayGameDevLevelView extends RootView
     Backbone.Mediator.publish('playback:real-time-playback-started', {})
     Backbone.Mediator.publish('level:set-playing', {playing: true})
     action = if @state.get('playing') then 'Play GameDev Level - Restart Level' else 'Play GameDev Level - Start Level'
-    window.tracker?.trackEvent(action, @eventProperties, ['Mixpanel'])
+    window.tracker?.trackEvent(action, @eventProperties)
     @state.set('playing', true)
 
   onClickCopyURLButton: ->
     @$('#copy-url-input').val(@state.get('shareURL')).select()
     @tryCopy()
-    window.tracker?.trackEvent('Play GameDev Level - Copy URL', @eventProperties, ['Mixpanel'])
+    window.tracker?.trackEvent('Play GameDev Level - Copy URL', @eventProperties)
 
   onClickPlayMoreCodeCombatButton: ->
-    window.tracker?.trackEvent('Play GameDev Level - Click Play More CodeCombat', @eventProperties, ['Mixpanel'])
+    window.tracker?.trackEvent('Play GameDev Level - Click Play More CodeCombat', @eventProperties)
 
   onSurfaceResize: ({height}) ->
     @state.set('surfaceHeight', height)

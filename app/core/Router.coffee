@@ -161,6 +161,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/i18n-verifier(/:levelID)': go('editor/verifier/i18nVerifierView')
     'editor/course': go('editor/course/CourseSearchView')
     'editor/course/:courseID': go('editor/course/CourseEditView')
+    'editor/resource': go('editor/resource/ResourceSearchView')
+    'editor/resource/:resourceID': go('editor/resource/ResourceEditView')
+    'editor/archived-elements': go('core/SingletonAppVueComponentView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')

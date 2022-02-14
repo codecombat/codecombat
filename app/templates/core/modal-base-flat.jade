@@ -1,4 +1,7 @@
-.modal-dialog
+// this allows the extended templates to add class to .modal-dialog
+- let modalDialogClass = '';
+block vars
+.modal-dialog(class='#{modalDialogClass}')
   #modal-base-flat.modal-content.style-flat
     block modal-header
       .modal-header

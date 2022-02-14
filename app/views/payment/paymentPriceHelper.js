@@ -13,6 +13,7 @@ async function handleCheckoutSession(options) {
   const stripe = await getStripeLib()
   const sessionOptions = { ...options }
   try {
+    window.tracker.trackEvent('Checkout initiated', sessionOptions)
     const session = await createPaymentSession(sessionOptions);
     const sessionId = session.data.sessionId;
     const result = await stripe.redirectToCheckout({ sessionId });

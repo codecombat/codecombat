@@ -36,7 +36,7 @@ export default {
   getters: {
     disableAllTracking (state, getters, rootState, rootGetters) {
       if (state.enableTrackingOverride) {
-        return false;
+        return false
       }
 
       return state.cookieConsent.declined || state.doNotTrack || rootGetters['me/isSmokeTestUser'] || state.spying ||

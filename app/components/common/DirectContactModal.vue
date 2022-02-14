@@ -29,6 +29,7 @@
         try {
           window.tracker.drift.openChat()
           this.programaticallyClose()
+          window.tracker.trackEvent('Sales chat opened')
         } catch (e) {
           this.showError(e)
         }
@@ -37,6 +38,7 @@
         try {
           window.tracker.drift.startInteraction({ interactionId: 135698 })
           this.programaticallyClose()
+          window.tracker.trackEvent('Support chat opened')
         } catch (e) {
           this.showError(e)
         }
@@ -51,6 +53,7 @@
           zE('webWidget', 'open')
           zE('webWidget', 'show')
           this.programaticallyClose()
+          window.tracker.trackEvent('Support email opened')
         } catch (e) {
           this.showError(e)
           this.zendeskError = true

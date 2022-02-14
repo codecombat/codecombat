@@ -46,7 +46,7 @@ module.exports = class EnrollmentsView extends RootView
       }
       shouldUpsell: false
     })
-    window.tracker?.trackEvent 'Classes Licenses Loaded', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Classes Licenses Loaded', category: 'Teachers'
     super(options)
 
     @utils = utils
@@ -242,7 +242,7 @@ module.exports = class EnrollmentsView extends RootView
         email: me?.get('email')
       }
     })
-    window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers'
     modal = new TeachersContactModal({
       shouldUpsell: @state.get('shouldUpsell'),
       shouldUpsellParent: @state.get('shouldUpsellParent')

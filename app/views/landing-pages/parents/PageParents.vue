@@ -1,12 +1,10 @@
 <template>
   <div id="parent-page">
     <!-- START Modals -->
-    <modal-timetap-schedule
-        v-if="type !== 'parents'"
-        :show="showTimetapModal"
+    <modal-user-details
+        v-if="type !== 'parents' && showTimetapModal"
         :class-type="timetapModalClassType"
         @close="showTimetapModal = false"
-        @booked="onClassBooked"
     />
     <modal-timetap-confirmation
         v-if="type === 'thank-you'"
@@ -50,7 +48,7 @@
 
             <div class="flex-spacer">
               <div class="cs-for-all-container">
-                <img 
+                <img
                   src="/images/pages/parents/cs_for_all_member.png"
                 />
               </div>
@@ -529,11 +527,10 @@
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              What if I need to reschedule a class?
+              Are there any student age limits?
             </h4>
             <p>
-              We understand, and are happy to find a new date and time that works for you. Simply let your instructor or
-              <a href="mailto:classes@codecombat.com">Education Advisor</a> know you need to make a change. We greatly appreciate 24 hours' notice for any scheduling changes.
+              We recommend our online classes for students aged 7 through 16. However, if your child can type, use a mouse, and is comfortable using a computer, they are welcome to join our class.
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
@@ -554,22 +551,26 @@
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              Are there any student age limits?
+              What if I need to reschedule a class?
             </h4>
             <p>
-              We recommend our online classes for students aged 7 through 16. However, if your child can type, use a mouse, and is comfortable using a computer, they are welcome to join our class. If you are an adult, we simply ask you to join our private classes to ensure you get the most out of your experience.
+              Once you have booked a weekly class with us, we have reserved time in our schedule exclusively for you, so we require 48 hours' advance notice for rescheduling classes. You can reschedule your class by emailing <a href="mailto:classes@codecombat.com">classes@codecombat.com</a>. Classes missed or canceled with less than 48 hours' notice will not be rescheduled or refunded.
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              Can I choose my child’s courses? I know where I want my child to start.
+              What should I expect in the trial class?
             </h4>
             <p>
-              Yes! When enrolling in classes, you can choose whether your child should be in the beginner, intermediate, or advanced class. If you’re not sure where to start, we recommend starting with the beginner course so that your child can master fundamental concepts before advancing to more difficult courses. After the first class, the instructor will confirm whether your child is in the appropriate course.
+              Each trial class is a private 60 minute session with <strong>45 minutes of instruction</strong> for the student followed by <strong>15 minutes for discussion with a parent or guardian</strong>. These 15 minutes are important and are set aside to answer any questions, provide insight into how the ongoing curriculum progresses, and help you select the right skill level and coding language for your child. If available, one of our remote learning advisors may join for this part of the session.
             </p>
           </div>
         </div>
         <div class="text-center">
+          <p>
+            <span>{{ $t('new_home_faq.see_faq_prefix') }}</span>
+            <a href="https://codecombat.zendesk.com/hc/en-us/categories/360004855234-Live-Online-Classes" target="_blank">{{ $t('new_home_faq.see_faq_link') }}</a><span>{{ $t('new_home_faq.see_faq_suffix') }}</span>
+          </p>
           <p>
             If you have any other questions about our online classes, please <a href="mailto:classes@codecombat.com">contact us.</a>
           </p>
@@ -591,12 +592,14 @@ import ButtonMainCta from './ButtonMainCta'
 import IconGem from './IconGem'
 import ButtonArrow from './ButtonArrow'
 import { mapGetters } from 'vuex'
+import ModalUserDetails from "./ModalUserDetails";
 
 const DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID = 214809
 const DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID = 222065
 
 export default {
   components: {
+    ModalUserDetails,
     ModalTimetapSchedule,
     PageParentsSectionPremium,
     PageParentsJumbotron,
@@ -666,17 +669,10 @@ export default {
   methods: {
     async trackCtaClicked () {
       await application.tracker.trackEvent(
-          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
+          (this.type === 'parents' || this.type === 'self-serve') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
           { parentsPageType: this.type }
       )
-
-      await application.tracker.trackEvent(
-          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
-          { parentsPageType: this.type },
-          ['facebook']
-      )
     },
-
     onCarouselLeft () {
       $("#student-outcome-carousel").carousel('prev')
     },
@@ -691,7 +687,7 @@ export default {
 
     onClickMainCta () {
       this.trackCtaClicked()
-      if (this.trialClassExperiment == 'trial-class') {
+      if (this.trialClassExperiment === 'trial-class') {
         this.onScheduleAFreeClass()
       } else {
         application.router.navigate('/payments/initial-online-classes-71#', { trigger: true })
@@ -722,7 +718,7 @@ export default {
         e.preventDefault()
       }
 
-      if (!window.drift && (this.type === 'parents' || this.type === 'sales' || this.type == 'chat')) {
+      if (!window.drift && (this.type === 'parents' || this.type === 'sales' || this.type === 'chat')) {
         console.log('No Drift, resetting to self-serve')
         this.type = 'self-serve'
       }
@@ -750,7 +746,7 @@ export default {
 
     onDriftMeetingBooked (e) {
       if (e.interactionId === DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID || e.interactionId === DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID) {
-        application.tracker.trackEvent('Live classes welcome call scheduled', { parentsPageType: this.type }, ['facebook'])
+        application.tracker.trackEvent('Live classes welcome call scheduled', { parentsPageType: this.type })
       }
     },
 
@@ -758,11 +754,11 @@ export default {
       this.showTimetapModal = false
       this.showTimetapConfirmationModal = true
 
-      application.tracker.trackEvent('CodeCombat live class booked', { parentsPageType: this.type }, ['facebook'])
+      application.tracker.trackEvent('CodeCombat live class booked', { parentsPageType: this.type })
     },
 
     mainCtaButtonText (buttonNum) {
-      if (this.trialClassExperiment == 'trial-class') {
+      if (this.trialClassExperiment === 'trial-class') {
         return 'Schedule a Free Class'
       } else if (buttonNum === 0 || !buttonNum) {
         return 'Try it Risk-Free'
@@ -776,10 +772,10 @@ export default {
     },
 
     mainCtaSubtext (buttonNum) {
-      if (this.trialClassExperiment == 'trial-class' && buttonNum === 0) {
+      if (this.trialClassExperiment === 'trial-class' && buttonNum === 0) {
         return 'Or, <a href="/payments/initial-online-classes-71#">enroll now</a>'
       }
-      else if (this.trialClassExperiment == 'trial-class') {
+      else if (this.trialClassExperiment === 'trial-class') {
         return ''
       } else if (!buttonNum) {
         return ''
@@ -800,7 +796,7 @@ export default {
     ]),
 
     showPricing: () => {
-      if (/^zh/.test(me.get('preferredLanguage')) && me.get('country') == 'australia')
+      if (/^zh/.test(me.get('preferredLanguage')) && me.get('country') === 'australia')
         return false  // Australia partner offering extended services for Chinese-language students
       return true
     },
@@ -815,7 +811,7 @@ export default {
         // Don't include users created before experiment start date
         value = 'trial-class'
       }
-      if (!value && this.type == 'live-classes') {
+      if (!value && this.type === 'live-classes') {
         // Don't include users coming from kid-specific landing page
         value = 'trial-class'
       }
@@ -826,13 +822,14 @@ export default {
       if (!value) {
         //value = ['trial-class', 'no-trial-class'][Math.floor(me.get('testGroupNumber') / 2) % 2]
         //me.startExperiment('trial-class', value, 0.5)
-        me.startExperiment('trial-class', 'trial-class', 1)  // End experiment in favor of trial-class group; keep measuring
+        value = 'trial-class'
+        me.startExperiment('trial-class', value, 1)  // End experiment in favor of trial-class group; keep measuring
       }
       return value
     },
 
     videoId () {
-      if (this.trialClassExperiment == 'trial-class') {
+      if (this.trialClassExperiment === 'trial-class') {
         return 'bb2e8bf84df5c2cfa0fcdab9517f1d9e'
       } else {
         return '3cba970325cb3c6df117c018f7862317'

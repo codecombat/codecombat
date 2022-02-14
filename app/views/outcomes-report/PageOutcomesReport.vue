@@ -278,10 +278,9 @@ export default {
     accountManager () {
       if ((me.isAdmin() || /@codecombat\.com$/i.test(me.get('email'))) && !/@gmail\.com$/i.test(me.get('email')))
         return { name: me.broadName(), email: me.get('email') }
+      else if (features.chinaInfra)
+        return { email: 'china@codecombat.com' }
       else
-        if (features.chinaInfra) {
-          return { email: 'china@codecombat.com'}
-        }
         return { email: 'schools@codecombat.com' }
     },
 
@@ -357,12 +356,12 @@ main#page-outcomes-report
       br
       .form-group
         label.control-label.col-xs-5(for="startDate")
-          span= $t('teacher.start_date')
+          span= $t('outcomes.start_date')
         .col-xs-7
           input#startDate.form-control(type="date" v-model="startDate" name="startDate" :min="earliestDate" :max="latestDate")
       .form-group
         label.control-label.col-xs-5(for="endDate")
-          span= $t('teacher.end_date')
+          span= $t('outcomes.end_date')
         .col-xs-7
           input#endDate.form-control(type="date" v-model="endDate" name="endDate" :min="earliestDate" :max="latestDate")
       .form-group(v-if="childKind")

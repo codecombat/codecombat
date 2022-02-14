@@ -41,7 +41,7 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     @countries = countryList.getNames()
     @usaStates = new UsaStates().states
     @usaStatesAbbreviations = new UsaStates().arrayOf('abbreviations')
-    window.tracker?.trackEvent 'Teachers Convert Account Loaded', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Convert Account Loaded', category: 'Teachers'
     @state = new State {
       showUsaStateDropdown: true
       stateValue: null
@@ -66,7 +66,7 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     stateVal = stateElem.val()
     @state.set({stateValue: stateVal})
 
-    if e.target.value == 'United States' 
+    if e.target.value == 'United States'
       @state.set({showUsaStateDropdown: true})
       if !@usaStatesAbbreviations.includes(stateVal)
         @state.set({stateValue: ''})
@@ -143,7 +143,7 @@ module.exports = class ConvertToTeacherAccountView extends RootView
 
   onChangeForm: ->
     unless @formChanged
-      window.tracker?.trackEvent 'Teachers Convert Account Form Started', category: 'Teachers', ['Mixpanel']
+      window.tracker?.trackEvent 'Teachers Convert Account Form Started', category: 'Teachers'
     @formChanged = true
 
   onSubmitForm: (e) ->
@@ -205,7 +205,7 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     errors.showNotyNetworkError(arguments...)
 
   onTrialRequestSubmit: ->
-    window.tracker?.trackEvent 'Teachers Convert Account Submitted', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Convert Account Submitted', category: 'Teachers'
     @formChanged = false
     me.setRole @trialRequest.get('properties').role.toLowerCase(), true
     me.unsubscribe()
