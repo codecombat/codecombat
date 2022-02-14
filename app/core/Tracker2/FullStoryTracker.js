@@ -146,7 +146,7 @@ export default class FullstoryTracker extends BaseTracker {
     FS.setUserVars(extractDefaultUserTraits(me))
   }
 
-  async trackPageView (includeIntegrations = []) {
+  async trackPageView () {
     await this.initializationComplete
 
     if (!this.enabled) {

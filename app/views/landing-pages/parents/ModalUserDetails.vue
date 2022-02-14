@@ -62,12 +62,8 @@ export default {
       this.error = null
       try {
         await scheduleClassEmail({ email: this.email })
-        ga('send', {
-          hitType: 'event',
-          eventCategory: 'Online classes',
-          eventAction: 'submit',
-          eventLabel: 'Email for booking class'
-        })
+        // Used to be direct call to ga, with action and label reversed from this
+        window.tracker.trackEvent('Email for booking class', { category: 'Online classes', label: 'submit' })
         this.showSuccessModal = true
       } catch (err) {
         this.error = err?.message || err

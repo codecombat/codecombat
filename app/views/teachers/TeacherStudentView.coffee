@@ -29,7 +29,7 @@ module.exports = class TeacherStudentView extends RootView
     'click .nav-link': 'onClickSolutionTab'
 
   getTitle: -> return @user?.broadName()
-  
+
   onClickSolutionTab: (e) ->
     link = $(e.target).closest('a')
     levelSlug = link.data('level-slug')
@@ -102,14 +102,14 @@ module.exports = class TeacherStudentView extends RootView
     if window.location.hash
       levelSlug = window.location.hash.substring(1)
       @updateSelectedCourseProgress(levelSlug)
-      window.location.href = window.location.href 
+      window.location.href = window.location.href
 
   destroy: ->
     if @startTime
       timeSpent = new Date() - @startTime
       application.tracker?.trackTiming timeSpent, 'Teachers Time Spent',  'Student Profile Page', me.id
     super()
-  
+
   afterRender: ->
     super(arguments...)
     @$('.progress-dot, .btn-view-project-level').each (i, el) ->
@@ -492,7 +492,7 @@ module.exports = class TeacherStudentView extends RootView
   #   user = @user.get(userID)
   #   selectedUsers = new Users([user])
   #   @enrollStudents(selectedUsers)
-  #   window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
+  #   window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID
   #
   # enrollStudents: (selectedUsers) ->
   #   modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @user }

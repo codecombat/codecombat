@@ -48,7 +48,7 @@ module.exports = class TeacherCoursesView extends RootView
     @courseChangeLog = {}
     @videoLevels = utils.videoLevels || {}
     @courseLessonSlidesURLs = utils.courseLessonSlidesURLs
-    window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers'
 
   onLoaded: ->
     @campaigns.models.forEach (campaign) =>
@@ -92,14 +92,14 @@ module.exports = class TeacherCoursesView extends RootView
     courseID = $(e.currentTarget).data('course-id')
     courseName = $(e.currentTarget).data('course-name')
     eventAction = $(e.currentTarget).data('event-action')
-    window.tracker?.trackEvent eventAction, category: 'Teachers', courseID: courseID, courseName: courseName, ['Mixpanel']
+    window.tracker?.trackEvent eventAction, category: 'Teachers', courseID: courseID, courseName: courseName
 
   onClickPlayLevel: (e) ->
     form = $(e.currentTarget).closest('.play-level-form')
     levelSlug = form.find('.level-select').val()
     courseID = form.data('course-id')
     language = form.find('.language-select').val() or 'javascript'
-    window.tracker?.trackEvent 'Classes Guides Play Level', category: 'Teachers', courseID: courseID, language: language, levelSlug: levelSlug, ['Mixpanel']
+    window.tracker?.trackEvent 'Classes Guides Play Level', category: 'Teachers', courseID: courseID, language: language, levelSlug: levelSlug
     url = "/play/level/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}"
     firstLevelSlug = @campaigns.get(@courses.at(0).get('campaignID')).getLevels().at(0).get('slug')
     if levelSlug is firstLevelSlug

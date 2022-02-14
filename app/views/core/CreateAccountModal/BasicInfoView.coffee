@@ -325,10 +325,6 @@ module.exports = class BasicInfoView extends CocoView
           @state.set('error', $.i18n.t(e.responseJSON?.i18n) or 'Unknown Error')
         else
           @state.set('error', e.responseJSON?.message or 'Unknown Error')
-        # Adding event to detect if the error occurs in prod since it is not reproducible (https://app.asana.com/0/654820789891907/1113232508815667)
-        # TODO: Remove when not required.
-        if @id == 'single-sign-on-confirm-view' and @signupState.get('path') is 'teacher'
-          window.tracker?.trackEvent 'Error in ssoConfirmView', {category: 'Teachers', label: @state.get('error')}
 
   finishSignup: ->
     if @signupState.get('path') is 'teacher'

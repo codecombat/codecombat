@@ -226,6 +226,7 @@ export default {
         additionalInfo
       };
       try {
+        window.tracker.trackEvent('Checkout initiated', sessionOptions)
         const session = await createPaymentSession(sessionOptions);
         const sessionId = session.data.sessionId;
         const result = await stripe.redirectToCheckout({ sessionId });

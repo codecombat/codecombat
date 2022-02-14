@@ -32,6 +32,8 @@ export default {
     const params = new URLSearchParams(search)
     this.selectedPlan = decodeURI(params.get('selectedPlan'))
     this.numStudents = params.get('numStudents')
+    // TODO: should include properties in this format: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
+    window.tracker.trackEvent('Online classes purchase success', { selectedPlan, numStudents })
   }
 }
 </script>

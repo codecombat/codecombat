@@ -82,12 +82,12 @@ module.exports = class HomeView extends RootView
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
-  homePageEvent: (action, extraproperties={}, includeIntegrations=[]) ->
+  homePageEvent: (action, extraproperties={}) ->
     defaults =
       category: 'Homepage'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
     properties = _.merge(defaults, extraproperties)
-    window.tracker?.trackEvent(action, properties, includeIntegrations)
+    window.tracker?.trackEvent(action, properties)
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget
@@ -101,10 +101,10 @@ module.exports = class HomeView extends RootView
 
     properties = {}
     if anchorText
-      @homePageEvent("Link: #{anchorText}", properties, ['Google Analytics'])
+      @homePageEvent("Link: #{anchorText}", properties)
     else
       properties.clicked = e?.currentTarget?.host or "unknown"
-      @homePageEvent("Link:", properties, ['Google Analytics'])
+      @homePageEvent("Link:", properties)
 
   onClickGetStartedButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
@@ -157,6 +157,8 @@ module.exports = class HomeView extends RootView
         type = 'error'
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
+      # TODO: should include properties in this format: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
+      @homePageEvent "Student license purchase #{type}"
     else if utils.getQueryVariable('payment-homeSubscriptions') in ['success', 'failed'] and not @renderedPaymentNoty
       paymentResult = utils.getQueryVariable('payment-homeSubscriptions')
       if paymentResult is 'success'
@@ -167,6 +169,8 @@ module.exports = class HomeView extends RootView
         type = 'error'
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
+      # TODO: should include properties in this format: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
+      @homePageEvent "Home subscription purchase #{type}"
     _.delay(@activateCarousels, 1000)
     super()
 
