@@ -47,27 +47,39 @@ module.exports = class ClanDetailsView extends RootView
 
   destroy: ->
     @stopListening?()
+    super()
 
   initData: ->
     @showExpandedProgress = false
     @memberSort = 'nameAsc'
     @stats = {}
 
-    @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign, comparator:'_id' })
     @clan = new Clan _id: @clanID
+    if /^[a-f0-9]{24}$/.test @clanID
+      # We have the clan's actual ID
+      @listenTo @clan, 'sync', @onClanSync
+      @loadPostClanData()
+    else
+      # We have slug, need to get the actual ID before we load the rest
+      @listenTo @clan, 'sync', =>
+        @clanID = @clan.id
+        @loadPostClanData()
+        @onClanSync()
+    @supermodel.loadModel @clan, cache: false
+
+  loadPostClanData: ->
+    @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign, comparator:'_id' })
     @members = new CocoCollection([], { url: "/db/clan/#{@clanID}/members", model: User, comparator: 'nameLower' })
     @memberAchievements = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_achievements", model: EarnedAchievement, comparator:'_id' })
     @memberSessions = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_sessions", model: LevelSession, comparator:'_id' })
 
     @listenTo me, 'sync', => @render?()
     @listenTo @campaigns, 'sync', @onCampaignSync
-    @listenTo @clan, 'sync', @onClanSync
     @listenTo @members, 'sync', @onMembersSync
     @listenTo @memberAchievements, 'sync', @onMemberAchievementsSync
     @listenTo @memberSessions, 'sync', @onMemberSessionsSync
 
     @supermodel.loadModel @campaigns, cache: false
-    @supermodel.loadModel @clan, cache: false
     @supermodel.loadCollection(@members, 'members', {cache: false})
     @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
 
@@ -96,7 +108,7 @@ module.exports = class ClanDetailsView extends RootView
     lastUserCampaignLevelMap = {}
     maxLastUserCampaignLevel = 0
     userConceptsMap = {}
-    if @campaigns.loaded
+    if @campaigns?.loaded
       levelCount = 0
       for campaign in @campaigns.models when campaign.get('type') is 'hero'
         campaignID = campaign.id
@@ -201,7 +213,7 @@ module.exports = class ClanDetailsView extends RootView
         if level.concepts?
           for concept in level.concepts
             @conceptsProgression.push concept unless concept in @conceptsProgression
-        if level.type is 'hero-ladder' and level.slug not in ['capture-their-flag']  # Would use isType, but it's not a Level model
+        if level.type in ['hero-ladder', 'ladder'] and level.slug not in ['capture-their-flag']  # Would use isType, but it's not a Level model
           @arenas.push level
       @campaignLevelProgressions.push campaignLevelProgression
     @render?()
@@ -211,7 +223,7 @@ module.exports = class ClanDetailsView extends RootView
       title: $.i18n.t('clans.clan_title', { clan: @clan.get('name') })
     })
 
-    unless @owner?
+    if @clan.get('ownerID') and not @owner?
       @owner = new User _id: @clan.get('ownerID')
       @listenTo @owner, 'sync', => @render?()
       @supermodel.loadModel @owner, cache: false

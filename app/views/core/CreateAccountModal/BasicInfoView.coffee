@@ -7,6 +7,8 @@ errors = require 'core/errors'
 User = require 'models/User'
 State = require 'models/State'
 store = require 'core/store'
+globalVar = require 'core/globalVar'
+userUtils = require '../../../lib/user-utils'
 
 ###
 This view handles the primary form for user details — name, email, password, etc,
@@ -36,6 +38,7 @@ module.exports = class BasicInfoView extends CocoView
     'click .use-suggested-name-link': 'onClickUseSuggestedNameLink'
     'click #facebook-signup-btn': 'onClickSsoSignupButton'
     'click #gplus-signup-btn': 'onClickSsoSignupButton'
+    'click #clever-signup-btn': 'onClickSsoSignupButton'
 
   initialize: ({ @signupState } = {}) ->
     @state = new State {
@@ -53,6 +56,7 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
+    @hideEmail = userUtils.isInLibraryNetwork()
 
   afterRender: ->
     @$el.find('#first-name-input').focus()
@@ -70,6 +74,9 @@ module.exports = class BasicInfoView extends CocoView
 
   checkEmail: ->
     email = @$('[name="email"]').val()
+
+    if @hideEmail
+      return Promise.resolve(true)
 
     if @signupState.get('path') isnt 'student' and (not _.isEmpty(email) and email is @state.get('checkEmailValue'))
       return @state.get('checkEmailPromise')
@@ -170,6 +177,13 @@ module.exports = class BasicInfoView extends CocoView
       return false
 
     res = tv4.validateMultiple data, @formSchema()
+    if res.errors and res.errors.some((err) -> err.dataPath == '/password')
+      res.errors = res.errors.filter((err) -> err.dataPath != '/password')
+      res.errors.push({
+        dataPath: '/password',
+        message: $.i18n.t('signup.invalid')
+      })
+
     forms.applyErrorsToForm(@$('form'), res.errors) unless res.valid
     return res.valid
 
@@ -184,7 +198,8 @@ module.exports = class BasicInfoView extends CocoView
     required: switch @signupState.get('path')
       when 'student' then ['name', 'password', 'firstName'].concat(if me.showChinaRegistration() then [] else ['lastName'])
       when 'teacher' then ['password', 'email', 'firstName'].concat(if me.showChinaRegistration() then [] else ['lastName'])
-      else ['name', 'password', 'email']
+      else
+        ['name', 'password'].concat(if @hideEmail then [] else ['email'])
 
   onClickBackButton: ->
     if @signupState.get('path') is 'teacher'
@@ -246,7 +261,7 @@ module.exports = class BasicInfoView extends CocoView
 
     .then (newUser) =>
       # More data will be added by the server so make sure to trigger an identify call after page reload
-      window.application.tracker.identifyAfterNextPageLoad()
+      globalVar.application.tracker.identifyAfterNextPageLoad()
 
       # Don't sign up, kick to TeacherComponent instead
       if @signupState.get('path') is 'teacher'
@@ -260,7 +275,7 @@ module.exports = class BasicInfoView extends CocoView
       unless User.isSmokeTestUser({ email: @signupState.get('signupForm').email })
         # Set new user data and call initial identify
         store.dispatch('me/authenticated', newUser)
-        window.application.tracker.identify()
+        globalVar.application.tracker.identify()
 
       switch @signupState.get('ssoUsed')
         when 'gplus'
@@ -293,10 +308,10 @@ module.exports = class BasicInfoView extends CocoView
         )
 
       trackerCalls.push(
-        window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
+        globalVar.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
       )
 
-      return Promise.all(trackerCalls)
+      return Promise.all(trackerCalls).catch(->)
 
     .then =>
       { classCode, classroom } = @signupState.attributes
@@ -312,11 +327,10 @@ module.exports = class BasicInfoView extends CocoView
         return
       else
         console.error 'BasicInfoView form submission Promise error:', e
-        @state.set('error', e.responseJSON?.message or 'Unknown Error')
-        # Adding event to detect if the error occurs in prod since it is not reproducible (https://app.asana.com/0/654820789891907/1113232508815667)
-        # TODO: Remove when not required.
-        if @id == 'single-sign-on-confirm-view' and @signupState.get('path') is 'teacher'
-          window.tracker?.trackEvent 'Error in ssoConfirmView', {category: 'Teachers', label: @state.get('error')}
+        if e.responseJSON?.i18n
+          @state.set('error', $.i18n.t(e.responseJSON?.i18n) or 'Unknown Error')
+        else
+          @state.set('error', e.responseJSON?.message or 'Unknown Error')
 
   finishSignup: ->
     if @signupState.get('path') is 'teacher'
@@ -340,7 +354,25 @@ module.exports = class BasicInfoView extends CocoView
   onClickSsoSignupButton: (e) ->
     e.preventDefault()
     ssoUsed = $(e.currentTarget).data('sso-used')
-    handler = if ssoUsed is 'facebook' then application.facebookHandler else application.gplusHandler
+    handler = switch ssoUsed
+      when 'facebook' then application.facebookHandler
+      when 'gplus' then application.gplusHandler
+      when 'clever' then 'clever'
+
+    if handler is 'clever'
+      if window.location.hostname in ['next.codecombat.com', 'localhost']  # dev
+        cleverClientId = '943ece596555cac13fcc'
+        redirectTo = 'https://next.codecombat.com/auth/login-clever'
+        districtId = '5b2ad81a709e300001e2cd7a'  # Clever Library test district
+      else  # prod
+        cleverClientId = 'ffce544a7e02c0daabf2'
+        redirectTo = 'https://codecombat.com/auth/login-clever'
+      url = "https://clever.com/oauth/authorize?response_type=code&redirect_uri=#{encodeURIComponent(redirectTo)}&client_id=#{cleverClientId}"
+      if districtId
+        url += '&district_id=' + districtId
+      window.open url, '_blank'
+      return
+
     handler.connect({
       context: @
       success: ->

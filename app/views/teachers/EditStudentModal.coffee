@@ -26,13 +26,13 @@ module.exports = class EditStudentModal extends ModalView
       newPassword: ""
       errorMessage: ""
     })
-    @prepaids = new Prepaids()
-    @prepaids.comparator = 'endDate'
-    @supermodel.trackRequest @prepaids.fetchMineAndShared()
+    @fetchPrepaids()
     @listenTo @state, 'change', @render
     @listenTo @classroom, 'save-password:success', ->
       @state.set { passwordChanged: true, errorMessage: "" }
     @listenTo @classroom, 'save-password:error', (error) ->
+      if error.message == "Data matches schema from \"not\""
+        error.message = $.i18n.t('signup.invalid_password')
       @state.set({ errorMessage: error.message })
       # TODO: Show an error. (password too short)
 
@@ -41,6 +41,11 @@ module.exports = class EditStudentModal extends ModalView
   onLoaded: ->
     @prepaids.reset(@prepaids.filter((prepaid) -> prepaid.status() is "available"))
     super()
+
+  fetchPrepaids: ->
+    @prepaids = new Prepaids()
+    @prepaids.comparator = 'endDate'
+    @supermodel.trackRequest @prepaids.fetchForClassroom(@classroom)
 
   onClickSendRecoveryEmail: ->
     email = @user.get('email')
@@ -69,24 +74,27 @@ module.exports = class EditStudentModal extends ModalView
     utils.formatStudentLicenseStatusDate(status, date)
 
   onClickEnrollStudentButton: ->
-    return unless me.id is @classroom.get('ownerID')
+    return unless @classroom.hasWritePermission()
     prepaid = @prepaids.find((prepaid) -> prepaid.status() is 'available')
-    prepaid.redeem(@user, {
+    options = {
       success: (prepaid) =>
         @user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))
       error: (prepaid, jqxhr) =>
         msg = jqxhr.responseJSON.message
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-      complete: => 
+      complete: =>
         @render()
-    })
-    window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: @user.id, ['Mixpanel']
+    }
+    if !@classroom.isOwner() and @classroom.hasWritePermission()
+      options.data = { sharedClassroomId: @classroom.id }
+    prepaid.redeem(@user, options)
+    window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: @user.id
 
   onClickChangePassword: ->
     @classroom.setStudentPassword(@user, @state.get('newPassword'))
 
   onChangeNewPasswordInput: (e) ->
-    @state.set { 
+    @state.set {
       newPassword: $(e.currentTarget).val()
       emailSent: false
       passwordChanged: false

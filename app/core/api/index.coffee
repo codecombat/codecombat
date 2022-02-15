@@ -13,6 +13,7 @@ module.exports = {
   levelSessions: require('./level-sessions')
   markdown: require('./markdown')
   prepaids: require('./prepaids')
+  resourceHubResources: require('./resource_hub_resource')
   skippedContacts: require('./skipped-contacts')
   thangTypes: require('./thang-types')
   trialRequests: require('./trial-requests')
@@ -20,4 +21,6 @@ module.exports = {
   users: require('./users')
   apiClients: require('./api-clients')
   oauth: require('./o-auth')
+  outcomesReports: require('./outcomes-reports')
+  archivedElements: require('./archived-elements')
 }

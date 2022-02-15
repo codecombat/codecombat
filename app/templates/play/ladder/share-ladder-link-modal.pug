@@ -1,0 +1,16 @@
+extends /templates/core/modal-base.jade
+
+block modal-header-content
+  h3.text-center(data-i18n="sharing.ladder_link_title")
+
+block modal-body-content
+  .text-center(data-i18n="sharing.ladder_link_blurb")
+
+  .share-row.text-center
+    input#copy-url-input.text-h4.semibold.form-control.input-lg(value=view.shareURL)
+    br
+    button#copy-url-btn.btn.btn-lg.btn-illustrated.btn-success
+      span(data-i18n='sharing.copy_url')
+
+block modal-footer-content
+  button.btn.btn-primary.btn-lg.btn-illustrated(data-dismiss="modal" data-i18n="modal.okay")

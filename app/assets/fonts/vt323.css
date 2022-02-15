@@ -1,0 +1,14 @@
+/* vt323-regular - latin */
+/* Generated at: https://google-webfonts-helper.herokuapp.com/fonts/vt323 */
+@font-face {
+  font-family: 'VT323';
+  font-style: normal;
+  font-weight: 700;
+  src: url('vt323/vt323-v12-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('vt323/vt323-v12-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('vt323/vt323-v12-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('vt323/vt323-v12-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('vt323/vt323-v12-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('vt323/vt323-v12-latin-regular.svg#VT323') format('svg'); /* Legacy iOS */
+}

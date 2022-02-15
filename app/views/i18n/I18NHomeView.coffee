@@ -3,16 +3,21 @@ template = require 'templates/i18n/i18n-home-view'
 CocoCollection = require 'collections/CocoCollection'
 Courses = require 'collections/Courses'
 Article = require 'models/Article'
+#Interactive = require 'ozaria/site/models/Interactive'
+#Cutscene = require 'ozaria/site/models/Cutscene'
+ResourceHubResource = require 'models/ResourceHubResource'
 
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
 Level = require 'models/Level'
 Achievement = require 'models/Achievement'
 Campaign = require 'models/Campaign'
+#Cinematic = require 'ozaria/site/models/Cinematic'
 Poll = require 'models/Poll'
 
 languages = _.keys(require 'locale/locale').sort()
 PAGE_SIZE = 100
+QUERY_PARAMS = '?view=i18n-coverage&archived=false'
 
 module.exports = class I18NHomeView extends RootView
   id: 'i18n-home-view'
@@ -34,17 +39,22 @@ module.exports = class I18NHomeView extends RootView
 
     project = ['name', 'components.original', 'i18n', 'i18nCoverage', 'slug']
 
-    @thangTypes = new CocoCollection([], { url: '/db/thang.type?view=i18n-coverage', project: project, model: ThangType })
-    @components = new CocoCollection([], { url: '/db/level.component?view=i18n-coverage', project: project, model: LevelComponent })
-    @levels = new CocoCollection([], { url: '/db/level?view=i18n-coverage', project: project, model: Level })
-    @achievements = new CocoCollection([], { url: '/db/achievement?view=i18n-coverage', project: project, model: Achievement })
-    @campaigns = new CocoCollection([], { url: '/db/campaign?view=i18n-coverage', project: project, model: Campaign })
-    @polls = new CocoCollection([], { url: '/db/poll?view=i18n-coverage', project: project, model: Poll })
+    @thangTypes = new CocoCollection([], { url: "/db/thang.type#{QUERY_PARAMS}", project: project, model: ThangType })
+    @components = new CocoCollection([], { url: "/db/level.component#{QUERY_PARAMS}", project: project, model: LevelComponent })
+    @levels = new CocoCollection([], { url: "/db/level#{QUERY_PARAMS}", project: project, model: Level })
+    @achievements = new CocoCollection([], { url: "/db/achievement#{QUERY_PARAMS}", project: project, model: Achievement })
+    @campaigns = new CocoCollection([], { url: "/db/campaign#{QUERY_PARAMS}", project: project, model: Campaign })
+    @polls = new CocoCollection([], { url: "/db/poll#{QUERY_PARAMS}", project: project, model: Poll })
     @courses = new Courses()
-    @articles = new CocoCollection([], { url: '/db/article?view=i18n-coverage', project: project, model: Article })
-    for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles]
+    #@cinematics = new CocoCollection([], { url: "/db/cinematic#{QUERY_PARAMS}", project: project, model: Cinematic })
+    @articles = new CocoCollection([], { url: "/db/article#{QUERY_PARAMS}", project: project, model: Article })
+    #@interactive = new CocoCollection([], { url: "/db/interactive#{QUERY_PARAMS}", project: project, model: Interactive })
+    #@cutscene = new CocoCollection([], { url: "/db/cutscene#{QUERY_PARAMS}", project: project, model: Cutscene })
+    @resourceHubResource = new CocoCollection([], { url: "/db/resource_hub_resource#{QUERY_PARAMS}", project: project, model: ResourceHubResource })
+    #for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @interactive, @cinematics, @cutscene, @resourceHubResource]
+    for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @articles, @resourceHubResource]
       c.skip = 0
-      
+
       c.fetch({data: {skip: 0, limit: PAGE_SIZE}, cache:false})
       @supermodel.loadCollection(c, 'documents')
       @listenTo c, 'sync', @onCollectionSynced
@@ -62,6 +72,10 @@ module.exports = class I18NHomeView extends RootView
         when 'Course' then '/i18n/course/'
         when 'Product' then '/i18n/product/'
         when 'Article' then '/i18n/article/'
+        when 'Interactive' then '/i18n/interactive/'
+        when 'Cinematic' then '/i18n/cinematic/'
+        when 'Cutscene' then '/i18n/cutscene/'
+        when 'ResourceHubResource' then '/i18n/resource_hub_resource/'
     getMore = collection.models.length is PAGE_SIZE
     @aggregateModels.add(collection.models)
     @render()
@@ -78,8 +92,10 @@ module.exports = class I18NHomeView extends RootView
     c.collection = @aggregateModels
 
     covered = (m for m in @aggregateModels.models when m.specificallyCovered).length
+    coveredGenerally = (m for m in @aggregateModels.models when m.generallyCovered).length
     total = @aggregateModels.models.length
     c.progress = if total then parseInt(100 * covered / total) else 100
+    c.progressGeneral = if total then parseInt(100 * coveredGenerally / total) else 100
     c.showGeneralCoverage = /-/.test(@selectedLanguage ? 'en')  # Only relevant for languages with more than one family, like zh-HANS
 
     c
@@ -107,6 +123,7 @@ module.exports = class I18NHomeView extends RootView
     super()
     @addLanguagesToSelect(@$el.find('#language-select'), @selectedLanguage)
     @$el.find('option[value="en-US"]').remove()
+    @$el.find('option[value="en-GB"]').remove()
 
   onLanguageSelectChanged: (e) ->
     @selectedLanguage = $(e.target).val()

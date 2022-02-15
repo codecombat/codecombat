@@ -1,0 +1,5 @@
+node_modules
+bower_components
+public
+.git
+.idea

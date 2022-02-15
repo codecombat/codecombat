@@ -16,6 +16,7 @@ SaveCampaignModal = require './SaveCampaignModal'
 PatchesView = require 'views/editor/PatchesView'
 RevertModal = require 'views/modal/RevertModal'
 modelDeltas = require 'lib/modelDeltas'
+globalVar = require 'core/globalVar'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
@@ -145,7 +146,7 @@ module.exports = class CampaignEditorView extends RootView
       campaignLevel.rewards = @formatRewards level
       # Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
       # (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
-      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'hero' or @campaign.get('isOzaria')
+      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'hero'
       campaignLevels[levelOriginal] = campaignLevel
 
     @campaign.set('levels', campaignLevels)
@@ -243,7 +244,7 @@ module.exports = class CampaignEditorView extends RootView
       nodeClasses:
         levels: LevelsNode
         level: LevelNode
-        nextLevel: NextLevelNode 
+        nextLevel: NextLevelNode
         campaigns: CampaignsNode
         campaign: CampaignNode
         achievement: AchievementNode
@@ -445,7 +446,7 @@ class AchievementNode extends treemaExt.IDReferenceNode
 class RewardsNode extends TreemaArrayNode
   buildValueForDisplay: (valEl, data) ->
     super valEl, data
-    achievements = window.currentView.achievements.where related: @parent.data.original
+    achievements = globalVar.currentView.achievements.where related: @parent.data.original
     achievements = _.sortBy achievements, (a) -> a.get('rewards')?.levels?.length ? 0
     mainAchievement = achievements[0]
     return unless mainAchievement

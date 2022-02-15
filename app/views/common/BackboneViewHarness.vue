@@ -3,6 +3,15 @@
 </template>
 
 <script>
+  /**
+   * Note a known limitation of this harness is that it does not support swapping out the following props
+   * after initial render:
+   *   - backboneView
+   *   - backboneOptions
+   *   - backboneArgs
+   *
+   * In order to change these you must unmount and remount the component.
+   */
   export default {
     props: {
       backboneView: Function,
@@ -78,14 +87,5 @@
     destroyed () {
       this.cleanupBackbone()
     },
-
-    watch: {
-      // TODO can you watch all props like this
-      $props: function () {
-        this.cleanupBackbone()
-        this.loadBackbone()
-        this.renderBackbone()
-      }
-    }
   }
 </script>

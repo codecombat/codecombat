@@ -4,6 +4,7 @@ SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 ncesData = _.zipObject(['nces_'+key, ''] for key in SCHOOL_NCES_KEYS)
 User = require('models/User')
 store = require('core/store')
+globalVar = require 'core/globalVar'
 
 module.exports = TeacherSignupStoreModule = {
   namespaced: true
@@ -43,6 +44,10 @@ module.exports = TeacherSignupStoreModule = {
       facebookID: ''
     }
     ssoUsed: '' # 'gplus', or 'facebook'
+  }
+  getters: {
+    getTrialRequestProperties: (state) ->
+      return state.trialRequestProperties
   }
   mutations: {
     updateTrialRequestProperties: (state, updates) ->
@@ -99,7 +104,12 @@ module.exports = TeacherSignupStoreModule = {
         trialRequestIdentifyData.educationLevel_high = _.contains state.trialRequestProperties.educationLevel, "High"
         trialRequestIdentifyData.educationLevel_college = _.contains state.trialRequestProperties.educationLevel, "College+"
 
-        return application.tracker.identify trialRequestIdentifyData unless User.isSmokeTestUser({ email: state.signupForm.email })
+        application.tracker.identifyAfterNextPageLoad()
+        unless User.isSmokeTestUser({ email: state.signupForm.email })
+          # Delay auth flow until tracker call resolves so that we ensure any callbacks are fired but swallow errors
+          # so that we prevent the auth redirect from happning (we don't want to block auth because of tracking
+          # failures)
+          return application.tracker.identify(trialRequestIdentifyData).catch(->)
 
       .then =>
         trackerCalls = []
@@ -117,10 +127,10 @@ module.exports = TeacherSignupStoreModule = {
           )
 
         trackerCalls.push(
-          window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
+          globalVar.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
         )
 
-        return Promise.all(trackerCalls)
+        return Promise.all(trackerCalls).catch(->)
   }
 }
 

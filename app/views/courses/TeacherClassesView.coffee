@@ -10,6 +10,7 @@ LevelSessions = require 'collections/LevelSessions'
 CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
+ShareWithTeachersModal = require('app/views/core/ShareWithTeachersModal').default
 CourseNagSubview = require 'views/teachers/CourseNagSubview'
 Prepaids = require 'collections/Prepaids'
 Users = require 'collections/Users'
@@ -19,9 +20,12 @@ storage = require 'core/storage'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 co = require('co')
 OzariaEncouragementModal = require('app/views/teachers/OzariaEncouragementModal').default
-experiments = require('core/experiments')
-
+PanelTryOzaria = require('app/components/teacher/PanelTryOzaria').default
+BannerWebinar = require('./BannerWebinar').default
+clansApi = require 'core/api/clans'
 helper = require 'lib/coursesHelper'
+TrialRequest = require 'models/TrialRequest'
+TrialRequests = require 'collections/TrialRequests'
 
 translateWithMarkdown = (label) ->
   marked.inlineLexer $.i18n.t(label), []
@@ -96,12 +100,15 @@ module.exports = class TeacherClassesView extends RootView
     'click .create-teacher-btn': 'onClickCreateTeacherButton'
     'click .update-teacher-btn': 'onClickUpdateTeacherButton'
     'click .view-class-btn': 'onClickViewClassButton'
+    'click .view-ai-league': 'onClickViewAILeague'
+    'click .ai-league-quickstart-video': 'onClickAILeagueQuickstartVideo'
     'click .see-all-quests': 'onClickSeeAllQuests'
     'click .see-less-quests': 'onClickSeeLessQuests'
     'click .see-all-office-hours': 'onClickSeeAllOfficeHours'
     'click .see-less-office-hours': 'onClickSeeLessOfficeHours'
     'click .see-no-office-hours': 'onClickSeeNoOfficeHours'
     'click .try-ozaria a': 'tryOzariaLinkClicked'
+    'click .share-class': 'onClickShareClass'
 
   getMeta: ->
     {
@@ -113,7 +120,7 @@ module.exports = class TeacherClassesView extends RootView
     @teacherID = (me.isAdmin() and utils.getQueryVariable('teacherID')) or me.id
     @classrooms = new Classrooms()
     @classrooms.comparator = (a, b) -> b.id.localeCompare(a.id)
-    @classrooms.fetchByOwner(@teacherID)
+    @classrooms.fetchByOwner(@teacherID, { data: { includeShared: true } })
     @supermodel.trackCollection(@classrooms)
     @listenTo @classrooms, 'sync', ->
       for classroom in @classrooms.models
@@ -133,7 +140,7 @@ module.exports = class TeacherClassesView extends RootView
           @calculateQuestCompletion()
           @render()
 
-    window.tracker?.trackEvent 'Teachers Classes Loaded', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Classes Loaded', category: 'Teachers'
 
     @courses = new Courses()
     @courses.fetch()
@@ -162,16 +169,31 @@ module.exports = class TeacherClassesView extends RootView
       req = @administratingTeachers.fetchByIds(administratingTeacherIds)
       @supermodel.trackRequest req
 
-    # TODO: Any reference to paidTeacher can be cleaned up post Teacher Appreciation week (after 2019-05-03)
-    @paidTeacher = me.isAdmin() or me.isPaidTeacher()
+    if me.get('clans')?.length
+      # TODO: allow this to fetch for the actual teacher User if we are an admin looking at this classroom instead of the teacher
+      clansApi.getMyClans().then @onMyClansLoaded
 
     # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
+
+    @trialRequest = new TrialRequest()
+    @trialRequests = new TrialRequests()
+    @trialRequests.fetchOwn()
+    @supermodel.trackCollection(@trialRequests)
 
   afterRender: ->
     super()
     unless @courseNagSubview
       @courseNagSubview = new CourseNagSubview()
       @insertSubView(@courseNagSubview)
+
+    @panelTryOzaria = new PanelTryOzaria({
+      el: @$('.try-ozaria')[0]
+    })
+
+    @bannerWebinar = new BannerWebinar({
+      el: @$('.banner-webinar')[0]
+    })
+
     $('.progress-dot').each (i, el) ->
       dot = $(el)
       dot.tooltip({
@@ -226,25 +248,38 @@ module.exports = class TeacherClassesView extends RootView
       @teacherQuestData[k].complete ||= v > 0.74 for k,v of classCompletion
       @teacherQuestData[k].best = Math.max(@teacherQuestData[k].best||0,v) for k,v of classCompletion
 
+  onMyClansLoaded: (clans) =>
+    @myClans = clans
+    return unless @teacherClan = _.find (clans ? []), (c) -> /teacher/.test c.name
+    clansApi.getAILeagueStats(@teacherClan._id).then (stats) =>
+      @aiLeagueStats = JSON.parse(stats)
+      @renderSelectors '.ai-league-stats'
+      @$('.ai-league-stats [data-toggle="tooltip"]').tooltip()
+
   onLoaded: ->
     helper.calculateDots(@classrooms, @courses, @courseInstances)
     @calculateQuestCompletion()
-    @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
 
     showOzariaEncouragementModal = window.localStorage.getItem('showOzariaEncouragementModal')
-    if showOzariaEncouragementModal
+    if showOzariaEncouragementModal and not me.hideOtherProductCTAs()
       window.localStorage.removeItem('showOzariaEncouragementModal')
+
+    if @trialRequests.size()
+      @trialRequest = @trialRequests.first()
 
     if showOzariaEncouragementModal
       @openOzariaEncouragementModal()
-    else if me.isTeacher() and not @classrooms.length
+    else if !@trialRequest.get('properties')?.organization and !storage.load("seen-teacher-details-modal_#{me.get('_id')}") and not me.get('clientCreator') and 'apiclient' not in (me.get('permissions') ? [])
+      @openTeacherDetailsModal()
+      storage.save("seen-teacher-details-modal_#{me.get('_id')}", true)
+    else if me.isTeacher() and not @classrooms.length and not me.isSchoolAdmin()
       @openNewClassroomModal()
 
     super()
 
   onClickEditClassroom: (e) ->
     classroomID = $(e.target).data('classroom-id')
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: classroomID, ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: classroomID
     classroom = @classrooms.get(classroomID)
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
@@ -252,14 +287,24 @@ module.exports = class TeacherClassesView extends RootView
       @calculateQuestCompletion()
       @render()
 
+  onClickShareClass: (e) ->
+    modal = new ShareWithTeachersModal(
+      {
+        propsData: {
+          classroomId: $(e.target).data('classroom-id')
+        }
+      }
+    )
+    @openModalView(modal)
+
   openNewClassroomModal: ->
     return unless me.id is @teacherID # Viewing page as admin
-    window.tracker?.trackEvent 'Teachers Classes Create New Class Started', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Classes Create New Class Started', category: 'Teachers'
     classroom = new Classroom({ ownerID: me.id })
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
     @listenToOnce modal.classroom, 'sync', ->
-      window.tracker?.trackEvent 'Teachers Classes Create New Class Finished', category: 'Teachers', ['Mixpanel']
+      window.tracker?.trackEvent 'Teachers Classes Create New Class Finished', category: 'Teachers'
       @classrooms.add(modal.classroom)
       if modal.classroom.isGoogleClassroom()
         GoogleClassroomHandler.markAsImported(classroom.get("googleClassroomId")).then(() => @render()).catch((e) => console.error(e))
@@ -278,6 +323,11 @@ module.exports = class TeacherClassesView extends RootView
       .then () =>
         @calculateQuestCompletion()
         @render()
+
+  openTeacherDetailsModal: ->
+    TeacherDetailsModal = require('app/views/core/TeacherDetailsModal').default
+    modal = new TeacherDetailsModal()
+    @openModalView(modal)
 
   tryOzariaLinkClicked: ->
     window.tracker.trackEvent('Teacher Dashboard Try Ozaria Link Clicked', category: 'Teachers')
@@ -317,11 +367,11 @@ module.exports = class TeacherClassesView extends RootView
         importedStudents.forEach((i) => courseInstance.get("members").push(i._id))
 
   onClickCreateTeacherButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers'
     application.router.navigate("/teachers/signup", { trigger: true })
 
   onClickUpdateTeacherButton: (e) ->
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers'
     application.router.navigate("/teachers/update-account", { trigger: true })
 
   onClickArchiveClassroom: (e) ->
@@ -331,7 +381,7 @@ module.exports = class TeacherClassesView extends RootView
     classroom.set('archived', true)
     classroom.save {}, {
       success: =>
-        window.tracker?.trackEvent 'Teachers Classes Archived Class', category: 'Teachers', ['Mixpanel']
+        window.tracker?.trackEvent 'Teachers Classes Archived Class', category: 'Teachers'
         @render()
     }
 
@@ -342,14 +392,28 @@ module.exports = class TeacherClassesView extends RootView
     classroom.set('archived', false)
     classroom.save {}, {
       success: =>
-        window.tracker?.trackEvent 'Teachers Classes Unarchived Class', category: 'Teachers', ['Mixpanel']
+        window.tracker?.trackEvent 'Teachers Classes Unarchived Class', category: 'Teachers'
         @render()
     }
 
   onClickViewClassButton: (e) ->
     classroomID = $(e.target).data('classroom-id')
-    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: classroomID, ['Mixpanel']
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: classroomID
     application.router.navigate("/teachers/classes/#{classroomID}", { trigger: true })
+
+  onClickViewAILeague: (e) ->
+    clanLevel = $(e.target).data('clan-level')
+    clanSourceObjectID = $(e.target).data('clan-source-object-id')
+    clanID = _.find((@myClans ? []), (clan) -> clan.name is "autoclan-#{clanLevel}-#{clanSourceObjectID}")?._id ? ''
+    unless clanID
+      console.error "Couldn't find autoclan for #{clanLevel} #{clanSourceObjectID} out of", @myClans
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID
+    application.router.navigate("/league/#{clanID}", { trigger: true })
+
+  onClickViewAILeagueQuickstartVideo: (e) ->
+    clanLevel = $(e.target).data('clan-level')
+    clanSourceObjectID = $(e.target).data('clan-source-object-id')
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID
 
   addFreeCourseInstances: co.wrap ->
     # so that when students join the classroom, they can automatically get free courses

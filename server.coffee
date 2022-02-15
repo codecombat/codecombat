@@ -5,7 +5,6 @@ do (setupLodash = this) ->
 
 express = require 'express'
 http = require 'http'
-log = require 'winston'
 serverSetup = require './server_setup'
 co = require 'co'
 config = require './server_config'
@@ -14,7 +13,7 @@ Promise = require 'bluebird'
 module.exports.startServer = (done) ->
   app = createAndConfigureApp()
   httpServer = http.createServer(app).listen app.get('port'), -> done?()
-  log.info('Express SSL server listening on port ' + app.get('port'))
+  console.info('Express SSL server listening on port ' + app.get('port'))
   {app, httpServer}
 
 createAndConfigureApp = module.exports.createAndConfigureApp = ->

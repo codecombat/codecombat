@@ -12,8 +12,10 @@ Achievement = require 'models/Achievement'
 AchievementPopup = require 'views/core/AchievementPopup'
 errors = require 'core/errors'
 utils = require 'core/utils'
+userUtils = require '../../lib/user-utils'
 
 BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
+Navigation = require('app/components/common/Navigation.vue').default
 
 # TODO remove
 
@@ -69,9 +71,9 @@ module.exports = class RootView extends CocoView
         cache: false
 
   logoutAccount: ->
-    window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if window.application.isIPadApp
+    window?.webkit?.messageHandlers?.notification?.postMessage(name: "signOut") if application.isIPadApp
     Backbone.Mediator.publish("auth:logging-out", {})
-    window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
+    window.tracker?.trackEvent 'Log Out', category: 'Homepage' if @id is 'home-view'
     if me.isTarena()
       logoutUser({
         success: ->
@@ -94,26 +96,27 @@ module.exports = class RootView extends CocoView
         properties = {
           category: 'Homepage'
         }
-        window.tracker?.trackEvent('Started Signup', properties, [])
+        window.tracker?.trackEvent('Started Signup', properties)
         eventAction = $(e.target)?.data('event-action')
-        window.tracker?.trackEvent(eventAction, properties, []) if eventAction
+        window.tracker?.trackEvent(eventAction, properties) if eventAction
       when 'world-map-view'
         # TODO: add campaign data
         window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
       else
         window.tracker?.trackEvent 'Started Signup', label: @id
-    @openModalView new CreateAccountModal()
+    options = {}
+    if userUtils.isInLibraryNetwork()
+      options.startOnPath = 'individual'
+    @openModalView new CreateAccountModal(options)
 
   onClickLoginButton: (e) ->
     AuthModal = require 'views/core/AuthModal'
     if @id is 'home-view'
       properties = { category: 'Homepage' }
-      window.tracker?.trackEvent 'Login', properties, ['Google Analytics']
+      window.tracker?.trackEvent 'Login', properties
 
       eventAction = $(e.target)?.data('event-action')
-      if $(e.target)?.hasClass('track-ab-result')
-        _.extend(properties, { trackABResult: true })
-      window.tracker?.trackEvent(eventAction, properties, []) if eventAction
+      window.tracker?.trackEvent(eventAction, properties) if eventAction
     @openModalView new AuthModal()
 
   onTrackClickEvent: (e) ->
@@ -134,8 +137,11 @@ module.exports = class RootView extends CocoView
     #location.hash = hash
     @renderScrollbar()
 
+    # Ensure navigation displays when visting SingletonAppVueComponentView.
+    @initializeNavigation()
+
   afterRender: ->
-    if @$el.find('#site-nav').length # hack...
+    if @$el.find('#main-nav.legacy').length # hack...
       @$el.addClass('site-chrome')
       if @showBackground
         @$el.addClass('show-background')
@@ -144,6 +150,8 @@ module.exports = class RootView extends CocoView
     @chooseTab(location.hash.replace('#', '')) if location.hash
     @buildLanguages()
     $('body').removeClass('is-playing')
+
+    @initializeNavigation()
 
   chooseTab: (category) ->
     $("a[href='##{category}']", @$el).tab('show')
@@ -184,10 +192,10 @@ module.exports = class RootView extends CocoView
       @$el.find('.language-dropdown-current')?.text(locale[newLang].nativeDescription)
     else # base template
       newLang = $('.language-dropdown').val()
-    $.i18n.setLng(newLang, {})
-    @saveLanguage(newLang)
-    locale.load(me.get('preferredLanguage', true)).then =>
-      @onLanguageLoaded()
+    $.i18n.changeLanguage newLang, =>
+      @saveLanguage(newLang)
+      locale.load(me.get('preferredLanguage', true)).then =>
+        @onLanguageLoaded()
 
   onLanguageLoaded: ->
     @render()
@@ -205,16 +213,7 @@ module.exports = class RootView extends CocoView
     res.success (model, response, options) ->
       #console.log 'Saved language:', newLang
 
-  isOldBrowser: ->
-    if features.china and $.browser
-      return true if not ($.browser.webkit or $.browser.mozilla or $.browser.msedge)
-      majorVersion = $.browser.versionNumber
-      return true if $.browser.mozilla && majorVersion < 25
-      return true if $.browser.chrome && majorVersion < 72  # forbid some chinese browser
-      return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
-    else
-      console.warn 'no more jquery browser version...'
-    return false
+  isOldBrowser: utils.isOldBrowser
 
   logoutRedirectURL: '/'
 
@@ -255,6 +254,23 @@ module.exports = class RootView extends CocoView
       }
     })
 
+  # Attach the navigation Vue component to the page
+  initializeNavigation: ->
+    staticNav = document.querySelector('#main-nav')
+
+    if @navigation and staticNav
+      staticNav.replaceWith(@navigation.$el)
+      return
+
+    return unless staticNav
+
+    @navigation = new Navigation({
+      el: staticNav
+    })
+
+    # Hack - It would be better for the Navigation component to manage the language dropdown.
+    _.defer => @buildLanguages?()
+
   # Set the page title when the view is loaded.  This value is merged into the
   # result of getMeta.  It will override any title specified in getMeta.  Kept
   # for backwards compatibility
@@ -271,8 +287,6 @@ module.exports = class RootView extends CocoView
     @metaBinding.setMeta(meta)
 
   destroy: ->
+    @metaBinding?.$destroy()
+    @navigation?.$destroy()
     super()
-
-    if @metaBinding
-      @metaBinding.$destroy()
-      delete @metaBinding

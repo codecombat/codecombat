@@ -161,7 +161,7 @@
         .row
           .col-md-3.col-xs-6
             img(src="/images/pages/home/global_learners.png")
-            h2.text-navy 12 Million
+            h2.text-navy 20 Million
             h5.text-navy(data-i18n="new_home.global_subtitle1")
           .col-md-3.col-xs-6
             img(src="/images/pages/home/global_code.png")
@@ -169,7 +169,7 @@
             h5.text-navy(data-i18n="new_home.global_subtitle2")
           .col-md-3.col-xs-6
             img(src="/images/pages/home/global_teachers.png")
-            h2.text-navy 82,000
+            h2.text-navy 140,000
             h5.text-navy(data-i18n="new_home.global_subtitle3")
           .col-md-3.col-xs-6
             img(src="/images/pages/home/global_countries.png")

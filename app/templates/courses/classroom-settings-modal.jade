@@ -10,7 +10,7 @@ block modal-body-content
   form
     if view.shouldShowGoogleClassroomButton()
       a#link-google-classroom-btn.btn.btn-primary.btn-lg(data-i18n="courses.link_google_classroom")
-    
+
     .form-group.google-class-name.secret
       label(data-i18n="courses.select_your_classroom")
       if view.googleClassrooms.length > 0
@@ -21,18 +21,19 @@ block modal-body-content
       else
         select.select-google-class.form-control(name="googleClassroomId" type='text' disabled=true)
           option(value="" data-i18n="courses.no_classrooms_found")
-        a.small.create-manually 
+        a.small.create-manually
           u(data-i18n="courses.create_classroom_manually")
-    
+
     .form-group.class-name
       label(data-i18n="courses.class_name")
       input#name-input.form-control(name="name" type='text' value=view.classroom.get('name'))
 
     .form-group
       label
-        span(data-i18n="general.description")
+        span(data-i18n="courses.classroom_announcement")
         i.spl.text-muted(data-i18n="signup.optional")
-      textarea.form-control(name="description" rows=2)= view.classroom.get('description')
+        .pick-image-button.btn.btn-middle.btn-forest(data-i18n="common.pick_image")
+      textarea#classroom-announcement.form-control(name="description" rows=2)= view.classroom.get('description')
 
     .form-group
       label(data-i18n="choose_hero.programming_language")
@@ -47,7 +48,8 @@ block modal-body-content
         if view.enableCpp
           option(value="cpp") C++
 
-    .form-group
+    .form-group.hide
+      // We don't show this any more, as we didn't do anything with the data anyway
       label
         span(data-i18n="courses.avg_student_exp_label")
         i.spl.text-muted(data-i18n="signup.optional")
@@ -59,6 +61,19 @@ block modal-body-content
         option(value="intermediate" data-i18n="courses.avg_student_exp_intermediate")
         option(value="advanced" data-i18n="courses.avg_student_exp_advanced")
         option(value="varied" data-i18n="courses.avg_student_exp_varied")
+
+    .form-group
+      label(for="type")
+        span(data-i18n="courses.class_type_label")
+        i.spl.text-muted(data-i18n="signup.optional")
+      select.form-control(name="type", value=view.classroom.get('type'))
+        option(value="" data-i18n="courses.avg_student_exp_select")
+        option(value="in-school" data-i18n="courses.class_type_in_school")
+        option(value="after-school" data-i18n="courses.class_type_after_school")
+        option(value="online" data-i18n="courses.class_type_online")
+        option(value="camp" data-i18n="courses.class_type_camp")
+        option(value="homeschool" data-i18n="courses.class_type_homeschool")
+        option(value="other" data-i18n="courses.class_type_other")
 
     .form-group
       label

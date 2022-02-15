@@ -1,7 +1,7 @@
 extends /templates/base-flat.jade
 
 block page_nav
-  include ./teacher-dashboard-nav.jade
+  include ./teacher-dashboard-nav
 
 block content
   if !me.isTeacher() && view.ownedClassrooms.size() && !me.isAdmin()
@@ -17,8 +17,6 @@ block content
   .container(dir="auto")
     h1(data-i18n="nav.courses")
     h2(data-i18n="courses.subtitle")
-    //- p
-    //-   a(href="https://discourse.codecombat.com/t/course-level-changelog/7352" data-i18n="courses.changelog")
 
   .courses.container(dir="auto")
     - var courses = view.courses.models;
@@ -50,9 +48,13 @@ block content
                         | Python
                       option(value="javascript")
                         | JavaScript
-                      if view.enableCpp && (course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_2 || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_3)
+                      if view.enableCpp && (view.utils.CSCourseIDs.indexOf(course.id) !== -1)
                         option(value="cpp")
                           | C++
+                      if view.enableJava && (view.utils.CSCourseIDs.indexOf(course.id) !== -1) && (view.utils.CSCourseIDs.indexOf(course.id) < 4)
+                        option(value="java")
+                          | Java
+      
               .form-group
                 label.control-label
                   span(data-i18n="courses.select_level")
@@ -88,12 +90,13 @@ block content
 
 mixin course-info(course)
   - var campaign = view.campaigns.get(course.get('campaignID'));
+  - var courseLessonSlidesURL = view.courseLessonSlidesURLs[course.id]
   .course-info
     .text-h4.semibold
       = i18n(course.attributes, 'name')
     p= i18n(course.attributes, 'description')
-    p.concepts.semibold
-      span(data-i18n="courses.concepts_covered")
+    p.concepts
+      span.semibold(data-i18n="courses.concepts_covered")
       = ": "
       each concept in course.get('concepts')
         span(data-i18n="concepts." + concept)
@@ -109,22 +112,33 @@ mixin course-info(course)
       if disableButtons
         p
           i(data-i18n="courses.solutions_require_licenses")
-      //- Web dev courses use HTML and JavaScript, except web-development-1 which doesn't have scripting
-      if course.id === view.utils.courseIDs.WEB_DEVELOPMENT_1
-        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/html") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
-          span(data-i18n="courses.view_guide_online")
-          |  &mdash; HTML
-      else
-        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
-          span(data-i18n="courses.view_guide_online")
-          |  &mdash; JavaScript
-        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
-          span(data-i18n="courses.view_guide_online")
-          |  &mdash; Python
-        if view.enableCpp && (course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_2 || course.id === view.utils.courseIDs.COMPUTER_SCIENCE_3)
-          a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/cpp") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide C++" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
-            span(data-i18n="courses.view_guide_online")
-            |  &mdash; C++
+      p.semibold
+        span(data-i18n="courses.view_guide_online")
+        = ": "
+        //- Web dev courses use HTML and JavaScript, except web-development-1 which doesn't have scripting
+        if course.id === view.utils.courseIDs.WEB_DEVELOPMENT_1
+          a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/html") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+            | HTML
+        else
+          a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+            | Python
+          a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+            span JavaScript
+          if view.enableCpp && (view.utils.CSCourseIDs.indexOf(course.id) !== -1)
+            a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/cpp") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide C++" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+              span C++
+
+      - var courseResources = view.resourcesByCourse[view.utils.courseAcronyms[course.get('_id')]]
+      if courseLessonSlidesURL || courseResources
+        p.semibold
+          span(data-i18n="teacher.resources")
+          = ": "
+          if courseLessonSlidesURL
+            a.guide-btn.btn.btn-primary(disabled=disableButtons href=(courseLessonSlidesURL) data-course-id=course.id data-course-name=course.get('name') data-event-action="Lesson Slides" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled') target="_blank")
+              span(data-i18n="courses.lesson_slides")
+          for resource in (courseResources || [])
+            a.guide-btn.btn.btn-primary(disabled=disableButtons href=view.utils.i18n(resource, 'link') data-course-id=course.id data-course-name=course.get('name') data-event-action="Resource: #{resource.name}" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled') target="_blank")
+              span(title=view.utils.i18n(resource, 'description'))= view.utils.i18n(resource, 'name')
 
     if course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && Object.keys(view.videoLevels || {}).length > 0
       - var levelNameMap = campaign.getLevelNameMap()

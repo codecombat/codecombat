@@ -122,7 +122,7 @@ module.exports = class SystemsTabView extends CocoView
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   editLevelSystem: (e) ->
-    @levelSystemEditView = @insertSubView new LevelSystemEditView(original: e.original, majorVersion: e.majorVersion, supermodel: @supermodel)
+    @levelSystemEditView = @insertSubView new LevelSystemEditView(original: e.original, majorVersion: e.majorVersion, supermodel: @supermodel, filePath: "db/level/#{@level.get('original')}")
 
   onLevelSystemEditingEnded: (e) ->
     @removeSubView @levelSystemEditView

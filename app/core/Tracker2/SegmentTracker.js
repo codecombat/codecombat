@@ -1,4 +1,4 @@
-import BaseTracker from './BaseTracker'
+import BaseTracker, { extractDefaultUserTraits } from './BaseTracker'
 
 // Copied from Segment analytics-js getting started guide at:
 // https://segment.com/docs/connections/sources/catalog/libraries/website/javascript/quickstart/
@@ -94,6 +94,8 @@ export function loadSegment () {
   // analytics.page();
 }
 
+const DEFAULT_SEGMENT_OPTIONS = {};
+
 export default class SegmentTracker extends BaseTracker {
   constructor (store) {
     super()
@@ -103,49 +105,80 @@ export default class SegmentTracker extends BaseTracker {
   }
 
   async _initializeTracker () {
+    this.watchForDisableAllTrackingChanges(this.store)
+
     this.store.watch(
       (state, getters) => getters['me/isTeacher'],
-      this.onIsTeacherChanged.bind(this)
+      () => this.onIsTeacherChanged()
     )
 
     if (this.store.getters['me/isTeacher']) {
-      loadSegment()
+      this.onIsTeacherChanged(true)
       window.analytics.ready(this.onInitializeSuccess)
     } else {
       this.onInitializeSuccess()
     }
   }
 
-  async trackPageView (includeIntegrations = {}) {
+  async trackPageView () {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
 
+    const options = { ...DEFAULT_SEGMENT_OPTIONS }
     const url = `/${Backbone.history.getFragment()}`
-    window.analytics.page(url, {}, {
-      integrations: {
-        All: false,
-        'Google Analytics': false
-      }
+    return new Promise((resolve) => {
+      window.analytics.page(undefined, url, {}, options, resolve)
     })
   }
 
   async identify (traits = {}) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
+
+    const { me } = this.store.state
+    const filteredMeAttributes = extractDefaultUserTraits(me)
+    const options = { ...DEFAULT_SEGMENT_OPTIONS }
+    return new Promise((resolve) => {
+      window.analytics.identify(
+        me._id,
+        {
+          ...filteredMeAttributes,
+          ...traits
+        },
+        options,
+        resolve
+      )
+    })
   }
 
-  async trackEvent (action, properties = {}, includeIntegrations = {}) {
+  async trackEvent (action, properties = {}) {
     await this.initializationComplete
 
-    if (!this.enabled) {
+    if (!this.enabled || this.disableAllTracking) {
       return
     }
+
+    const options = { ...DEFAULT_SEGMENT_OPTIONS }
+
+    return new Promise((resolve) => {
+      window.analytics.track(action, properties, options, resolve)
+    })
+  }
+
+  async resetIdentity () {
+    await this.initializationComplete
+
+    if (!this.enabled || this.disableAllTracking) {
+      return
+    }
+
+    window.analytics.reset();
   }
 
   onIsTeacherChanged (isTeacher) {

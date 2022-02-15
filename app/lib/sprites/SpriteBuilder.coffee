@@ -143,20 +143,7 @@ module.exports = class SpriteBuilder
 
     for group, config of colorConfig
       continue unless colorGroups[group] # color group not found...
-      if @thangType.get('ozaria')
-        @buildOzariaColorMapForGroup(colorGroups[group], config)
-      else
-        @buildColorMapForGroup(colorGroups[group], config)
-
-  # Simpler Ozaria color mapper.
-  # Instead of color shifting we apply the color directly.
-  buildOzariaColorMapForGroup: (shapes, config) ->
-    return unless shapes.length
-    for shapeKey in shapes
-      shape = @shapeStore[shapeKey]
-      continue if not shape.fc?
-      # Store the color we'd like the shape to be rendered with.
-      @colorMap[shapeKey] = hslToHex([config.hue, config.saturation, config.lightness])
+      @buildColorMapForGroup(colorGroups[group], config)
 
   buildColorMapForGroup: (shapes, config) ->
     return unless shapes.length

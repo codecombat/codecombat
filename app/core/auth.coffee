@@ -22,14 +22,13 @@ init = ->
     me.patch()
   setTestGroupNumberUS()
   preferredLanguage = getQueryVariable('preferredLanguage')
-  if me and features.codePlay and preferredLanguage
+  if me and preferredLanguage
     me.set('preferredLanguage', preferredLanguage)
     me.save()
 
   Backbone.listenTo me, 'sync', -> Backbone.Mediator.publish('auth:me-synced', me: me)
 
 module.exports.logoutUser = (options={}) ->
-  return if features.codePlay
   options.error ?= genericFailure
   me.logout(options)
 

@@ -29,11 +29,16 @@ module.exports = class DeltaView extends CocoView
   @deltaCounter: 0
   className: 'delta-view'
   template: template
+  maxDeltas: 50
 
   constructor: (options) ->
     super(options)
     @expandedDeltas = []
     @skipPaths = options.skipPaths
+    if key.shift and key.alt
+      @maxDeltas = 1e9
+    else if key.shift
+      @maxDeltas = 1000
 
     for modelName in ['model', 'headModel', 'comparisonModel']
       @[modelName] = options[modelName]
@@ -86,14 +91,16 @@ module.exports = class DeltaView extends CocoView
     for delta, i in deltas
       deltaEl = $(delta)
       deltaData = @expandedDeltas[i]
-      @expandDetails(deltaEl, deltaData)
+      if i < @maxDeltas
+        @expandDetails(deltaEl, deltaData)
 
     conflictDeltas = @$el.find('.conflict-details')
     conflicts = (delta.conflict for delta in @expandedDeltas when delta.conflict)
     for delta, i in conflictDeltas
       deltaEl = $(delta)
       deltaData = conflicts[i]
-      @expandDetails(deltaEl, deltaData)
+      if i < @maxDeltas
+        @expandDetails(deltaEl, deltaData)
 
   expandDetails: (deltaEl, deltaData) ->
     treemaOptions = { schema: deltaData.schema or {}, readOnly: true }

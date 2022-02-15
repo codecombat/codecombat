@@ -126,10 +126,10 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
   # Watch the static template files for changes
   compiler.plugin 'after-emit', (compilation, callback) =>
     files = fs.readdirSync(path.resolve('./app/templates/static'))
-    compilationFileDependencies = new Set(compilation.fileDependencies)
+    compilationFileDependencies = compilation.fileDependencies
     _.forEach(files, (filename) =>
       absoluteFilePath = path.join(path.resolve('./app/templates/static/'), filename)
       unless compilationFileDependencies.has(absoluteFilePath)
-        compilation.fileDependencies.push(absoluteFilePath)
+        compilation.fileDependencies.add(absoluteFilePath)
     )
     callback()

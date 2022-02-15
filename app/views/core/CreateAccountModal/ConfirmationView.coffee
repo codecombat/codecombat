@@ -4,19 +4,25 @@ State = require 'models/State'
 template = require 'templates/core/create-account-modal/confirmation-view'
 forms = require 'core/forms'
 NcesSearchInput = require './teacher/NcesSearchInput'
+userUtils = require '../../../lib/user-utils'
 
 module.exports = class ConfirmationView extends CocoView
   id: 'confirmation-view'
   template: template
-  
+
   events:
     'click #start-btn': 'onClickStartButton'
 
   initialize: ({ @signupState } = {}) ->
     @saveUserPromise = Promise.resolve()
+    @hideEmail = userUtils.isInLibraryNetwork()
 
   onClickStartButton: ->
     @saveUserPromise.then =>
+      if window.nextURL
+        window.location.href = window.nextURL
+        return
+
       classroom = @signupState.get('classroom')
       if @signupState.get('path') is 'student'
         # force clearing of _cc GET param from url if on /students

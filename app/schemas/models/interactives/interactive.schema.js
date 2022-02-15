@@ -20,6 +20,7 @@ const interactiveSchema = {
       'enum': ['draggable-ordering', 'insert-code', 'draggable-classification', 'multiple-choice', 'fill-in-code', 'draggable-statement-completion'],
       title: 'Type of interactive'
     },
+    displayName: schema.shortString({ title: 'Display Name' }),
     promptText: { type: 'string', title: 'Prompt text' },
     draggableOrderingData: interactiveTypeSchema.interactiveDraggableOrderingSchema,
     insertCodeData: interactiveTypeSchema.interactiveInsertCodeSchema,
@@ -28,7 +29,7 @@ const interactiveSchema = {
     fillInCodeData: interactiveTypeSchema.interactiveFillInCodeSchema,
     draggableStatementCompletionData: interactiveTypeSchema.interactiveDraggableStatementCompletionSchema,
     unitCodeLanguage: { 'enum': ['python', 'javascript', 'both'], title: 'Programming Language' },
-    i18n: { type: 'object', format: 'i18n', props: ['promptText'], description: 'Help translate this interactive.' },
+    i18n: { type: 'object', format: 'i18n', props: ['name', 'displayName', 'promptText'], description: 'Help translate this interactive.' },
     defaultArtAsset: { type: 'string', format: 'image-file', title: 'Default Art Asset' },
     documentation: schema.object({
       title: 'Documentation',
@@ -135,5 +136,7 @@ const interactiveSchema = {
 
 schema.extendBasicProperties(interactiveSchema, 'interactive')
 schema.extendNamedProperties(interactiveSchema)
+schema.extendTranslationCoverageProperties(interactiveSchema)
+schema.extendPatchableProperties(interactiveSchema)
 
 module.exports = interactiveSchema

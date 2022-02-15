@@ -92,4 +92,9 @@ module.exports = {
     fetchJson("/db/user/setUserCountryGeo", _.assign({}, options, {
       method: 'PUT'
     }))
+
+  provisionSubscription: ({ userId }) ->
+    fetchJson("/db/user/#{userId}/provision-subscription", _.assign({}, {
+      method: 'PUT'
+    }))
 }

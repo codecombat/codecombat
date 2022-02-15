@@ -7,6 +7,7 @@ require('app/styles/core/loading-error.sass')
 auth = require 'core/auth'
 ViewVisibleTimer = require 'core/ViewVisibleTimer'
 storage = require 'core/storage'
+zendesk = require 'core/services/zendesk'
 
 visibleModal = null
 waitingModal = null
@@ -74,7 +75,9 @@ module.exports = class CocoView extends Backbone.View
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
+    $('#modal-wrapper .modal').off 'shown.bs.modal', @modalShown
     @$el.find('.has-tooltip, [data-original-title]').tooltip 'destroy'
+    @$('.nano').nanoScroller destroy: true
     @endHighlight()
     @getPointer(false).remove()
     @[key] = undefined for key, value of @
@@ -197,7 +200,7 @@ module.exports = class CocoView extends Backbone.View
     context.isMobile = @isMobile()
     context.isIE = @isIE()
     context.moment = moment
-    context.translate = $.i18n.t
+    context.translate = $.t
     context.view = @
     context._ = _
     context.document = document
@@ -243,16 +246,30 @@ module.exports = class CocoView extends Backbone.View
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
 
   onClickContactModal: (e) ->
-    if me.isStudent()
-      console.error("Student clicked contact modal.")
+    if !application.isProduction()
+      noty({
+        text: 'Contact options are only available in production',
+        layout: 'center',
+        type: 'error',
+        timeout: 5000
+      })
       return
 
-    if me.isTeacher(true)
-      if application.isProduction()
-        application.tracker.drift.sidebar.open()
+    # If there is no way to open the chat, there's no point in giving the choice in the modal,
+    # so we go directly to zendesk. This could potentially be improved in the future by checking
+    # availability of support somehow, and going to zendesk if no one is there to answer drift chat.
+    openDirectContactModal = =>
+      DirectContactModal = require('app/views/core/DirectContactModal').default
+      @openModalView(new DirectContactModal())
+
+    if (me.isTeacher(true) and window?.tracker?.drift?.openChat) or me.showChinaResourceInfo()
+      openDirectContactModal()
     else
-      ContactModal = require 'views/core/ContactModal'
-      @openModalView(new ContactModal())
+      # There's an unlikely case where both Drift and Zendesk are unavailable, or Zendesk exists but fails.
+      # Since the modal communicates errors better, and shows the direct support email, we still open it.
+      zendesk.loadZendesk()
+        .then(-> if not zendesk.openZendesk() then openDirectContactModal())
+        .catch(-> openDirectContactModal())
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
@@ -280,25 +297,26 @@ module.exports = class CocoView extends Backbone.View
     viewLoad = new ViewLoadTimer(modalView)
     modalView.render()
 
-    # Redirect to the woo when trying to log in or signup
-    if features.codePlay
-      if modalView.id is 'create-account-modal'
-        return document.location.href = '//lenovogamestate.com/register/?cocoId='+me.id
-      if modalView.id is 'auth-modal'
-        return document.location.href = '//lenovogamestate.com/login/?cocoId='+me.id
-
     $('#modal-wrapper').removeClass('hide').empty().append modalView.el
     modalView.afterInsert()
     visibleModal = modalView
     modalOptions = {show: true, backdrop: if modalView.closesOnClickOutside then true else 'static'}
     if typeof modalView.closesOnEscape is 'boolean' and modalView.closesOnEscape is false # by default, closes on escape, i.e. if modalView.closesOnEscape = undefined
       modalOptions.keyboard = false
-    $('#modal-wrapper .modal').modal(modalOptions).on 'hidden.bs.modal', @modalClosed
+    $('.modal-backdrop').remove()  # Hack: get rid of any extras that might be left over from mishandled Vue modals
+    modalRef = $('#modal-wrapper .modal').modal(modalOptions)
+    # Hack: Vue modals don't know how to turn the background off because they never really close/destroy. Or maybe they just create two copies sometimes? So, if this is a Vue modal, hide its modal-backdrop
+    $('.modal-backdrop').toggleClass 'vue-modal', Boolean(modalView.VueComponent)
+    modalRef.on 'hidden.bs.modal', @modalClosed
+    modalRef.on 'shown.bs.modal', @modalShown
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
     Backbone.Mediator.publish 'modal:opened', {}
     viewLoad.record()
     return modalView
+
+  modalShown: =>
+    visibleModal?.trigger('shown')  # Null soak: this could have closed while in opening animation and already be gone
 
   modalClosed: =>
     visibleModal.willDisappear() if visibleModal
@@ -568,9 +586,11 @@ module.exports = class CocoView extends Backbone.View
   tryCopy: ->
     try
       document.execCommand('copy')
+      message = 'Copied to clipboard'
+      noty text: message, layout: 'topCenter', type: 'info', killer: false, timeout: 2000
     catch err
       message = 'Oops, unable to copy'
-      noty text: message, layout: 'topCenter', type: 'error', killer: false
+      noty text: message, layout: 'topCenter', type: 'error', killer: false, timeout: 3000
 
   wait: (event) -> new Promise((resolve) => @once(event, resolve))
 

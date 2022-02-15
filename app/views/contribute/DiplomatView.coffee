@@ -61,7 +61,7 @@ module.exports = class DiplomatView extends ContributeClassView
     ar: ['5y', 'ahmed80dz']             # العربية, Arabic
     'pt-BR': ['Bia41', 'Gutenberg Barros', 'Kieizroe', 'Matthew Burt', 'brunoporto', 'cassiocardoso', 'jklemm', 'Arkhad']        # português do Brasil, Portuguese (Brazil)
     'pt-PT': ['Imperadeiro98', 'Matthew Burt', 'ProgramadorLucas', 'ReiDuKuduro', 'batista', 'gutierri']        # Português (Portugal), Portuguese (Portugal)
-    pl: ['Anon', 'Kacper Ciepielewski', 'TigroTigro', 'kvasnyk', 'CatSkald']             # język polski, Polish
+    pl: ['Anon', 'Kacper Ciepielewski', 'TigroTigro', 'kvasnyk', 'CatSkald']             # Polski, Polish
     it: ['flauta', 'Atomk', 'Lionhear7']              # italiano, Italian
     tr: ['Nazım Gediz Aydındoğmuş', 'cobaimelan', 'gediz', 'ilisyus', 'wakeup']             # Türkçe, Turkish
     nl: []        # Nederlands, Dutch
@@ -101,6 +101,8 @@ module.exports = class DiplomatView extends ContributeClassView
     hr: []             # hrvatski jezik, Croatian
     mi: []             # te reo Māori, Māori
     haw: []            # ʻŌlelo Hawaiʻi, Hawaiian
-    kk: []            # қазақ тілі, Kazakh
+    kk: []             # қазақ тілі, Kazakh
     az: []             # azərbaycan dili, Azerbaijani
-    fil: ['Celestz'] #Like This?
+    fil: ['Celestz']   # Filipino
+    mn: []             # Монгол хэл, Mongolian
+    lv: []             # latviešu, Latvian

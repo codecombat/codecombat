@@ -28,12 +28,13 @@ form#basic-info-form.modal-body.basic-info
       .form-group
         .row.rtl-allowed
           .col-xs-5.col-xs-offset-3.rtl-allowed
-            label.control-label(for="email-input")
-              span(data-i18n="share_progress_modal.form_label")
-            if view.signupState.get('path') === 'student'
-              .help-block.optional-help-block.pull-right
-                span.optional-text(data-i18n="signup.optional")
-            input.form-control.input-lg#email-input(name="email" type="email" value=view.signupState.get('signupForm').email dir="auto")
+            if !view.hideEmail
+              label.control-label(for="email-input")
+                span(data-i18n="share_progress_modal.form_label")
+              if view.signupState.get('path') === 'student'
+                .help-block.optional-help-block.pull-right
+                  span.optional-text(data-i18n="signup.optional")
+              input.form-control.input-lg#email-input(name="email" type="email" value=view.signupState.get('signupForm').email dir="auto")
           .col-xs-4.email-check.fancy-error.rtl-allowed
             - var checkEmailState = view.state.get('checkEmailState');
             if checkEmailState === 'checking'
@@ -80,6 +81,7 @@ form#basic-info-form.modal-body.basic-info
             label.control-label(for="password-input")
               span(data-i18n="general.password")
             input.form-control.input-lg#password-input(name="password" type="password" value=view.signupState.get('signupForm').password dir="auto")
+            small.form-text.text-muted(data-i18n="signup.password_requirements")
 
       .error-area
         - var error = view.state.get('error');
@@ -96,10 +98,15 @@ form#basic-info-form.modal-body.basic-info
       .auth-network-logins.text-center
         .gplus-login
           a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
-            img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.png", draggable="false")
-        .facebook-login
-          a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
-            img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+            img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.svg", draggable="false")
+        if !/(teacher|student)/.test(view.signupState.get('path'))
+          .facebook-login
+            a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
+              img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+        if /(teacher|student)/.test(view.signupState.get('path'))
+          .clever-login
+            a#clever-signup-btn.network-login(data-sso-used="clever")
+              img.clever-logo(src="/images/pages/modal/auth/clever_sso_button@2x.png", draggable="false")
 
     // TODO: turn on once we can ask about school inside ConfirmationView
     //if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')

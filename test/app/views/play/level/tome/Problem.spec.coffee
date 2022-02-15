@@ -28,29 +28,27 @@ describe 'Problem', ->
     type: 'runtime'
   }
   levelID = 'awesome'
-  
+
   describe '.translate()', ->
-    beforeEach ->
-      @oldLang = $.i18n.lng()
-      $.i18n.setLng('rot13')
-    afterEach ->
-      $.i18n.setLng(@oldLang)
     it 'translates messages with line numbers, error types, and placeholders', ->
-      english = 'Line 12: ReferenceError: somethin is not defined'
-      rot13 = 'Yvar 12: ErsreraprReebe: somethin vf abg qrsvarq'
-      expect(Problem.prototype.translate(english)).toEqual(rot13)
-      english = "`foo`'s argument `bar` has a problem. Is there an enemy within your line-of-sight yet?"
-      rot13 = "`foo`'f nethzrag `bar` unf n ceboyrz. Vf gurer na rarzl jvguva lbhe yvar-bs-fvtug lrg?"
-      expect(Problem.prototype.translate(english)).toEqual(rot13)
-      english="""
-        `attack`'s argument `target` should have type `unit`, but got `function`.
-        Target a unit.
-      """
-      rot13="""
-        `attack`'f nethzrag `target` fubhyq unir glcr `unit`, ohg tbg `function`.
-        Gnetrg n havg.
-      """
-      expect(Problem.prototype.translate(english)).toEqual(rot13)
+      oldLang = $.i18n.language
+      $.i18n.changeLanguage 'rot13', ->
+        english = 'Line 12: ReferenceError: somethin is not defined'
+        rot13 = 'Yvar 12: ErsreraprReebe: somethin vf abg qrsvarq'
+        expect(Problem.prototype.translate(english)).toEqual(rot13)
+        english = "`foo`'s argument `bar` has a problem. Is there an enemy within your line-of-sight yet?"
+        rot13 = "`foo`'f nethzrag `bar` unf n ceboyrz. Vf gurer na rarzl jvguva lbhe yvar-bs-fvtug lrg?"
+        expect(Problem.prototype.translate(english)).toEqual(rot13)
+        english="""
+          `attack`'s argument `target` should have type `unit`, but got `function`.
+          Target a unit.
+        """
+        rot13="""
+          `attack`'f nethzrag `target` fubhyq unir glcr `unit`, ohg tbg `function`.
+          Gnetrg n havg.
+        """
+        expect(Problem.prototype.translate(english)).toEqual(rot13)
+        $.i18n.changeLanguage oldLang
 
   # TODO: Problems are no longer saved when creating Problems; instead it's in SpellView. Update tests?
   xit 'save user code problem', ->

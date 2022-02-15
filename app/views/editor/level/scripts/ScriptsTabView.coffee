@@ -180,7 +180,7 @@ class EventPropsNode extends TreemaNode.nodeMap.string
     @buildValueForDisplaySimply valEl, joined
 
   buildValueForEditing: (valEl, data) ->
-    super(valEl, data)
+    super(valEl, (data or []).join('.'))
     channel = @getRoot().data.channel
     channelSchema = Backbone.Mediator.channelSchemas[channel]
     autocompleteValues = []

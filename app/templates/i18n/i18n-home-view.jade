@@ -1,6 +1,16 @@
 extends /templates/base
 
 block content
+  p
+   span= "See "
+   a(href="https://github.com/codecombat/codecombat/wiki/Diplomat-Home") GitHub
+   span= " for instructions on how to translate."
+
+  if window.location.hostname == "codecombat.com"
+   span= "To avoid CDN caching issues, we recommend using the "
+   a(href="https://direct.codecombat.com/i18n") direct.codecombat.com/i18n
+   span= " direct link for submitting translations."
+
   if selectedLanguage
     .progress
       .progress-bar.progress-bar-info(role="progressbar" aria-valuenow=progress aria-valuemin="0" aria-valuemax="100" style="width: "+progress+"%")= progress+"%"
@@ -13,9 +23,9 @@ block content
 
       th Translated Name
       th Type
-      th Specifically Covered
+      th= "Fully Translated (" + progress + "%)"
       if showGeneralCoverage
-        th Generally Covered
+        th= "... Including Dialects (" + progressGeneral + "%)"
 
     if selectedLanguage
       for model in collection.models

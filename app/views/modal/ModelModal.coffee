@@ -10,17 +10,18 @@ module.exports = class ModelModal extends ModalView
 
   events: 'click .save-model': 'onSaveModel'
 
-  constructor: (options) ->
+  initialize: (options) ->
     super options
-    @models = options.models
+    @models = options.models ? []
     for model in @models when not model.loaded
       @supermodel.loadModel model
-      model.fetch cache: false
+      model.fetch cache: false, error: (error) ->
+        console.log 'Error loading', model, error
 
   afterRender: ->
     return unless @supermodel.finished()
     @modelTreemas = {}
-    for model in @models
+    for model in @models ? []
       data = $.extend true, {}, model.attributes
       schema = $.extend true, {}, model.schema()
       treemaOptions =
@@ -35,14 +36,14 @@ module.exports = class ModelModal extends ModalView
 
   openTastyTreemas: (modelTreema, model) ->
     # To save on quick inspection, let's auto-open the properties we're most likely to want to see.
-    delicacies = ['code']
+    delicacies = ['code', 'properties']
     for dish in delicacies
       child = modelTreema.childrenTreemas[dish]
       child?.open()
       if child and dish is 'code' and model.type() is 'LevelSession' and team = modelTreema.get('team')
         desserts = {
-          humans: ['programmable-tharin', 'programmable-librarian']
-          ogres: ['programmable-brawler', 'programmable-shaman']
+          humans: ['hero-placeholder']
+          ogres: ['hero-placeholder-1']
         }[team]
         for dessert in desserts
           child.childrenTreemas[dessert]?.open()

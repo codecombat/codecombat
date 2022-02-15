@@ -11,7 +11,7 @@ module.exports = class HoC2018InterstitialModal extends ModalComponent
   initialize: ->
     @propsData = {
       clickStudent: () => @hide(),
-      clickTeacher: () => application.router.navigate('/teachers/hour-of-code', { trigger: true }),
+      clickTeacher: () => application.router.navigate("/teachers/hour-of-code?activity=#{@options.activity or 'ai-league'}", { trigger: true }),
       showVideo: false
     }
   constructor: (options) ->

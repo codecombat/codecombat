@@ -26,6 +26,7 @@ module.exports = class MainUserView extends UserView
 
   destroy: ->
     @stopListening?()
+    super()
 
   onLoaded: ->
     if @user.loaded

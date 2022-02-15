@@ -7,7 +7,8 @@ block content
   if !me.isAdmin()
     div You must be logged in as an admin to view this page.
   else if !view.countryGraphs || !view.countryGraphs['USA']
-    h3 Loading...
+    h3 Loading..
+    p NOTE: this page can take a long time (30+ minutes) to finish loading
     p Change URL query string ?batchsize=#{view.batchSize} above to be smaller if this page never loads or larger to speed it up (currently set to #{view.batchSize})
     p
     | !{view.state}

@@ -8,6 +8,7 @@ Levels = require 'collections/Levels'
 utils = require 'core/utils'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
+aetherUtils = require 'lib/aether_utils'
 
 module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
@@ -34,6 +35,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
     title
 
   initialize: (options, @courseID, @language) ->
+    @isWebDev = @courseID in [utils.courseIDs.WEB_DEVELOPMENT_2]
     if me.isTeacher() or me.isAdmin()
       @prettyLanguage = @camelCaseLanguage(@language)
       @course = new Course(_id: @courseID)
@@ -45,6 +47,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @prepaids = new Prepaids()
       @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @paidTeacher = me.isAdmin() or me.isPaidTeacher()
+    @courseLessonSlidesURLs = utils.courseLessonSlidesURLs
     me.getClientCreatorPermissions()?.then(() => @render?())
     super(options)
 
@@ -57,9 +60,9 @@ module.exports = class TeacherCourseSolutionView extends RootView
   hideWrongLanguage: (s) ->
     return '' unless s
     s.replace /```([a-z]+)[^`]+```/gm, (a, l) =>
-      return """```cpp
-       #{utils.translatejs2cpp(a[13..a.length-4], false)}
-       ```""" if @language is 'cpp' and l is 'javascript'
+      return """```#{@language}
+       #{aetherUtils.translateJS(a[13..a.length-4], @language, false)}
+       ```""" if @language in ['cpp', 'java', 'python', 'lua', 'coffeescript'] and l is 'javascript' and not ///```#{@language}///.test(s)
       return '' if l isnt @language
       a
 
@@ -69,7 +72,9 @@ module.exports = class TeacherCourseSolutionView extends RootView
     @updateLevelData()
 
   updateLevelData: ->
-    @levelSolutionsMap = @levels.getSolutionsMap([@language])
+    solutionLanguages = [@language]
+    solutionLanguages.push 'html' if @language isnt 'html' and @isWebDev
+    @levelSolutionsMap = @levels.getSolutionsMap(solutionLanguages)
     for level in @levels?.models
       articles = level.get('documentation')?.specificArticles
       if articles
@@ -81,8 +86,10 @@ module.exports = class TeacherCourseSolutionView extends RootView
       comp = heroPlaceholder?.components.filter((x) => x.original.toString() == '524b7b5a7fc0f6d51900000e' ).pop()
       programmableMethod = comp?.config.programmableMethods.plan
       if programmableMethod
+        solutionLanguage = level.get('primerLanguage') or @language
+        solutionLanguage = 'html' if @isWebDev and not level.get('primerLanguage')
         try
-          defaultCode = programmableMethod.languages[level.get('primerLanguage') or @language] or (@language == 'cpp' and utils.translatejs2cpp(programmableMethod.source)) or programmableMethod.source
+          defaultCode = programmableMethod.languages[solutionLanguage] or (@language == 'cpp' and aetherUtils.translateJS(programmableMethod.source, 'cpp')) or programmableMethod.source
           translatedDefaultCode = _.template(defaultCode)(utils.i18n(programmableMethod, 'context'))
         catch e
           console.error('Broken solution for level:', level.get('name'))

@@ -678,6 +678,8 @@ module.exports = class World
 
   teamForPlayer: (n) ->
     playableTeams = @playableTeams ? ['humans']
+    if playableTeams[0] is 'ogres' and playableTeams[1] is 'humans'
+      playableTeams = ['humans', 'ogres']  # Make sure they're in the right order, since our other code is frail to the ordering
     if n?
       playableTeams[n % playableTeams.length]
     else

@@ -568,6 +568,8 @@ module.exports = class ThangTypeEditView extends RootView
     data = @getThangData()
     schema = _.cloneDeep ThangType.schema
     schema.properties = _.pick schema.properties, (value, key) => not (key in ['components'])
+    delete schema.properties.original.format  # Don't hide this, we often want to see it here
+    schema.properties.original.readOnly = true
     options =
       data: data
       schema: schema

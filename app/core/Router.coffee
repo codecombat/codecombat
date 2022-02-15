@@ -1,5 +1,6 @@
 dynamicRequire = require('lib/dynamicRequire')
 locale = require 'locale/locale'
+globalVar = require 'core/globalVar'
 
 go = (path, options) -> -> @routeDirectly path, arguments, options
 
@@ -9,6 +10,7 @@ redirect = (path) -> ->
 
 utils = require './utils'
 ViewLoadTimer = require 'core/ViewLoadTimer'
+paymentUtils = require 'lib/paymentUtils'
 
 module.exports = class CocoRouter extends Backbone.Router
 
@@ -33,12 +35,18 @@ module.exports = class CocoRouter extends Backbone.Router
     '': ->
       if window.serverConfig.picoCTF
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}
+      if utils.getQueryVariable 'payment-homeSubscriptions'
+        return @routeDirectly 'HomeView'
       if utils.getQueryVariable 'hour_of_code'
         delete window.alreadyLoadedView
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
-      unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription()
+      unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription() or me.isAPIClient() or paymentUtils.hasTemporaryPremiumAccess()
         delete window.alreadyLoadedView
         return @navigate "/premium", {trigger: true, replace: true}
+      if me.isAPIClient()
+        delete window.alreadyLoadedView
+        #return @navigate "/league/#{me.get('clans')?[0] ? ''}apiclient-data", {trigger: true, replace: true}  # Once we make sure all students have been associated with their API creators
+        return @navigate "/api-dashboard", {trigger: true, replace: true}
       if me.useChinaHomeView()
         delete window.alreadyLoadedView
         return @routeDirectly('HomeCNView', [])
@@ -83,8 +91,11 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/skipped-contacts': go('admin/SkippedContactsView')
     'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
     'admin/outcomes-report': go('admin/OutcomesReportView')
+    'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView')
 
     'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
+
+    'api-dashboard': go('core/SingletonAppVueComponentView')
 
     'artisans': go('artisans/ArtisansView')
 
@@ -98,14 +109,15 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/bulk-level-editor': go('artisans/BulkLevelEditView')
     'artisans/sandbox': go('artisans/SandboxView')
     'artisans/bulk-level-editor/:campaign': go('artisans/BulkLevelEditView')
+    'artisans/arena-balancer(/:levelSlug)': go('artisans/ArenaBalancerView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
     'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
     'cla': go('CLAView')
 
-    'clans': go('clans/ClansView')
-    'clans/:clanID': go('clans/ClanDetailsView')
+    'clans': go('clans/ClansView', { redirectStudents: true })
+    'clans/:clanID': go('clans/ClanDetailsView', { redirectStudents: true })
 
     'community': go('CommunityView')
 
@@ -138,9 +150,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/article': go('editor/article/ArticleSearchView')
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')
-    'editor/cinematic(/*subpath)': go('core/SingletonAppVueComponentView')
-    'editor/cutscene(/*subpath)': go('core/SingletonAppVueComponentView')
-    'editor/interactive(/*subpath)': go('core/SingletonAppVueComponentView')
     'editor/level': go('editor/level/LevelSearchView')
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')
@@ -152,6 +161,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/i18n-verifier(/:levelID)': go('editor/verifier/i18nVerifierView')
     'editor/course': go('editor/course/CourseSearchView')
     'editor/course/:courseID': go('editor/course/CourseEditView')
+    'editor/resource': go('editor/resource/ResourceSearchView')
+    'editor/resource/:resourceID': go('editor/resource/ResourceEditView')
+    'editor/archived-elements': go('core/SingletonAppVueComponentView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
@@ -162,6 +174,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'github/*path': 'routeToServer'
 
     'hoc': -> @navigate "/play/hoc-2018", {trigger: true, replace: true}
+    'play/hoc-2020': -> @navigate "/play/hoc-2018", {trigger: true, replace: true} # Added to handle HoC PDF
     'home': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
 
     'i18n': go('i18n/I18NHomeView')
@@ -181,40 +194,28 @@ module.exports = class CocoRouter extends Backbone.Router
     'impact': () ->
       @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat' })
 
+    'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
+    'league/kipp': redirect('/league/autoclan-school-network-kipp') # Redirect for KIPP.
+    'league(/*subpath)': go('core/SingletonAppVueComponentView')
+
     'legal': go('LegalView')
 
     'logout': 'logout'
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
-    'ozaria/play/level/:levelID': (levelID) ->
-      props = {
-        levelID: levelID
-      }
-      @routeDirectly('ozaria/site/play/PagePlayLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-    # TODO move to vue router after support for empty template is added there
-    'ozaria/play/:campaign(?course-instance=:courseInstanceId)': (campaign, courseInstanceId) ->
-      props = {
-        campaign: campaign,
-        courseInstanceId: courseInstanceId
-      }
-      @routeDirectly('ozaria/site/play/PageUnitMap', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
 
-    'ozaria/play/intro/:introLevelIdOrSlug': (introLevelIdOrSlug) ->
-      props = {
-        introLevelIdOrSlug: introLevelIdOrSlug
-      }
-      @routeDirectly('introLevel', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
+    'parents': go('core/SingletonAppVueComponentView')
+    'live-classes': go('core/SingletonAppVueComponentView')
 
-    'ozaria/character-customization': () ->
-      @routeDirectly('ozaria/site/characterCustomization', [], { vueRoute: true, baseTemplate: 'base-empty' })
+    'outcomes-report(/*subpath)': go('core/SingletonAppVueComponentView')
 
-    'ozaria/avatar-selector': () ->
-      @routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' })
-
-    'parents': go('ParentsView')
+    # Warning: In production debugging of third party iframe!
+    'temporary-debug-timetap': go('core/SingletonAppVueComponentView')
 
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')
+
+    'tournaments/:pageType/:objectId': go('ladder/MainTournamentView')
 
     'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }) # extra slash is to get Facebook app to work
     'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
@@ -231,27 +232,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView')
 
-    # Adding this route to test interactives until we have the intro levels implemented
-    # TODO: remove this route when intro level is ready to test the interactives.
-    'interactive/:interactiveIdOrSlug(?code-language=:codeLanguage)': (interactiveIdOrSlug, codeLanguage) ->
-      props = {
-        interactiveIdOrSlug: interactiveIdOrSlug,
-        codeLanguage: codeLanguage # This will also come from intro level page later
-      }
-      @routeDirectly('interactive', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-
-    'cinematic/:cinematicIdOrSlug': (cinematicIdOrSlug) ->
-      props = {
-        cinematicIdOrSlug: cinematicIdOrSlug,
-      }
-      @routeDirectly('cinematic', [], {vueRoute: true, baseTemplate: 'base-empty', propsData: props})
-
-    'cutscene/:cutsceneId': (cutsceneId) ->
-      props = {
-        cutsceneId: cutsceneId,
-      }
-      @routeDirectly('cutscene', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
-
     'premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
     'Premium': go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true })
 
@@ -262,8 +242,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'schools': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
     'seen': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
     'SEEN': if me.useChinaHomeView() then go('HomeCNView') else go('HomeView')
-
-    'students/ranking/:courseID?:courseInstanceID': go('courses/StudentRankingView')
 
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
@@ -292,7 +270,6 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
       @navigate('/teachers/update-account', {trigger: true, replace: true})
-    'teachers/starter-licenses': go('teachers/StarterLicenseUpsellView', { redirectStudents: true, teachersOnly: true })
     'teachers/update-account': ->
       return @navigate('/teachers/signup', {trigger: true, replace: true}) if me.isAnonymous()
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
@@ -310,6 +287,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
     'user/:userID/opt-in/:verificationCode': go('user/UserOptInView')
 
+    'payments/*path': go('core/SingletonAppVueComponentView')
+
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
 
@@ -324,7 +303,6 @@ module.exports = class CocoRouter extends Backbone.Router
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView
-
     @viewLoad = new ViewLoadTimer() unless options.recursive
     if options.redirectStudents and me.isStudent() and not me.isAdmin()
       return @redirectHome()
@@ -334,12 +312,13 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('teachers/RestrictedToTeachersView')
     if options.studentsOnly and not (me.isStudent() or me.isAdmin())
       return @routeDirectly('courses/RestrictedToStudentsView')
-    leavingMessage = _.result(window.currentView, 'onLeaveMessage')
+    leavingMessage = _.result(globalVar.currentView, 'onLeaveMessage')
     if leavingMessage
+      # Custom messages don't work any more, main browsers just show generic ones. So, this could be refactored.
       if not confirm(leavingMessage)
         return @navigate(this.path, {replace: true})
       else
-        window.currentView.onLeaveMessage = _.noop # to stop repeat confirm calls
+        globalVar.currentView.onLeaveMessage = _.noop # to stop repeat confirm calls
 
     # TODO: Combine these two?
     if features.playViewsOnly and not (_.string.startsWith(document.location.pathname, '/play') or document.location.pathname is '/admin')
@@ -358,7 +337,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return go('NotFoundView') if not ViewClass
 
       SingletonAppVueComponentView = require('views/core/SingletonAppVueComponentView').default
-      if ViewClass == SingletonAppVueComponentView && window.currentView instanceof SingletonAppVueComponentView
+      if ViewClass == SingletonAppVueComponentView && globalVar.currentView instanceof SingletonAppVueComponentView
         # The SingletonAppVueComponentView maintains its own Vue app with its own routing layer.  If it
         # is already routed we do not need to route again
         console.debug("Skipping route in Backbone - delegating to Vue app")
@@ -367,7 +346,8 @@ module.exports = class CocoRouter extends Backbone.Router
         vueComponentView = require 'views/core/VueComponentView'
         view = new vueComponentView(ViewClass.default, options, args...)
       else
-        view = new ViewClass(options, args...)  # options, then any path fragment args
+        Klass = if ViewClass.default then ViewClass.default else ViewClass
+        view = new Klass(options, args...)  # options, then any path fragment args
 
       view.render()
 
@@ -386,6 +366,8 @@ module.exports = class CocoRouter extends Backbone.Router
   redirectHome: ->
     delete window.alreadyLoadedView
     homeUrl = switch
+      #when me.isAPIClient() then "/league/#{me.get('clans')?[0] ? ''}#apiclient-data"  # Once we make sure all students have been associated with their API creators
+      when me.isAPIClient() then "/api-dashboard"
       when me.isStudent() then '/students'
       when me.isTeacher() then '/teachers'
       else '/'
@@ -407,20 +389,19 @@ module.exports = class CocoRouter extends Backbone.Router
     @didOpenView view
 
   didOpenView: (view) ->
-    window.currentView = view
+    globalVar.currentView = view
     view.afterInsert()
     view.didReappear()
     @path = document.location.pathname + document.location.search
-    console.log "Did-Load-Route"
     @trigger 'did-load-route'
 
   closeCurrentView: ->
-    if window.currentView?.reloadOnClose
+    if globalVar.currentView?.reloadOnClose
       return document.location.reload()
-    window.currentModal?.hide?()
-    return unless window.currentView?
-    window.currentView.modalClosed()
-    window.currentView.destroy()
+    currentModal?.hide?()
+    return unless globalVar.currentView?
+    globalVar.currentView.modalClosed()
+    globalVar.currentView.destroy()
     $('.popover').popover 'hide'
     $('#flying-focus').css({top: 0, left: 0}) # otherwise it might make the page unnecessarily tall
     _.delay (->
@@ -456,7 +437,8 @@ module.exports = class CocoRouter extends Backbone.Router
     return unless manualView
     if e.viewClass
       args = e.viewArgs or []
-      view = new e.viewClass(args...)
+      Klass = if e.viewClass.default then e.viewClass.default else e.viewClass
+      view = new Klass(args...)
       view.render()
       @openView view
       @viewLoad.setView(view)

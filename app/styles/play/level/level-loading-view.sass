@@ -1,3 +1,4 @@
+@use "sass:math"
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 
@@ -51,7 +52,7 @@ $UNVEIL_TIME: 1.2s
     $WIDTH: 450px
     width: $WIDTH
     height: 450px
-    margin-right: (-$WIDTH / 2)
+    margin-right: math.div(-$WIDTH, 2)
     z-index: 100
     background: transparent url(/images/level/code_editor_background.png) no-repeat
     background-size: 100% 100%
@@ -107,7 +108,7 @@ $UNVEIL_TIME: 1.2s
         max-width: 100%
 
       pre
-        box-sizing: content-box 
+        box-sizing: content-box
         border: 5px solid white
         padding: 0
         .ace_content
@@ -205,8 +206,8 @@ $UNVEIL_TIME: 1.2s
       left: 48px
       right: 77px
       width: auto
-      
-  
+
+
 #level-view.web-dev
   #loading-details.preview
     @media screen and ( min-height: 900px )

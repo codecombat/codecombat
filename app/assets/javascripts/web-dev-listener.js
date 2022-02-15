@@ -4,13 +4,15 @@ var lastSource = null;
 var lastOrigin = null;
 window.onerror = function(message, url, line, column, error){
   console.log("User script error on line " + line + ", column " + column + ": ", error);
-  lastSource.postMessage({
-    type: 'error',
-    message: message,
-    url: url,
-    line: line || 0,
-    column: column || 0,
-  }, lastOrigin);
+  if (lastSource) {
+    lastSource.postMessage({
+      type: 'error',
+      message: message,
+      url: url,
+      line: line || 0,
+      column: column || 0,
+    }, lastOrigin);
+  }
 }
 window.addEventListener('message', receiveMessage, false);
 

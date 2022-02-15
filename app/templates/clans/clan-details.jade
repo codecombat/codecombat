@@ -29,7 +29,7 @@ block content
   .row
     .col-lg-6
       if clan
-        h1 #{clan.get('name')}
+        h1 #{clan.get('displayName') || clan.get('name')}
           if clan.get('type') === 'private'
             small(data-i18n="clans.private") (private)
           if clan.get('ownerID') === me.id
@@ -66,10 +66,11 @@ block content
           button.btn.btn-xs.btn-warning.delete-clan-btn(data-i18n="clans.delete_clan") Delete Clan
         else if isMember
           button.btn.btn-xs.btn-warning.leave-clan-btn(data-i18n="clans.leave_clan") Leave Clan
-        else
+        else if !clan.get('kind')
+          // Can't manually join autoclans, have to get in from automatic logic
           button.btn.btn-lg.btn-success.join-clan-btn(data-i18n="clans.join_clan") Join Clan
     
-      if clan.get('ownerID') === me.id || clan.get('type') === 'public'
+      if (clan.get('ownerID') === me.id || clan.get('type') === 'public') && !clan.get('kind')
         div
           span.spl.spr.join-link-prompt(data-i18n="clans.invite_1") Invite:
           input.join-clan-link(type="text", readonly, value="#{joinClanLink}")
@@ -82,6 +83,13 @@ block content
         for arena in arenas
           h3
             a(href="/play/ladder/#{arena.slug}/clan/#{clan.id}")= i18n(arena, 'name')
+
+        if me.isAdmin()
+          // We should move this to /league/<clan> page instead, as we are phasing out the /clan UI
+          if isOwner
+            a.btn.btn-illustrated.btn-lg.text-uppercase#make-tournament(href='/tournaments/clan/#{clan.id}', data-i18n="tournament.make_tournament")
+          else if isMember
+            a.btn.btn-illustrated.btn-lg.text-uppercase#view-tournament(href='/tournaments/clan/#{clan.id}', data-i18n="tournament.go_tournaments")
 
   if members
     h3

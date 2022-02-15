@@ -37,7 +37,9 @@ SystemsDocumentationView = require 'views/editor/docs/SystemsDocumentationView'
 LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
 storage = require 'core/storage'
 utils = require 'core/utils'
-loadAetherLanguage = require("lib/loadAetherLanguage");
+loadAetherLanguage = require 'lib/loadAetherLanguage'
+presenceApi = require 'core/api/presence'
+globalVar = require 'core/globalVar'
 
 require 'vendor/scripts/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
 require 'lib/setupTreema'
@@ -99,7 +101,13 @@ module.exports = class LevelEditView extends RootView
     title: 'Level Editor'
 
   destroy: ->
+    # Currently only check presence on the level.
+    # TODO: Should this system also handle other models with local backups: 'LevelComponent', 'LevelSystem', 'ThangType'
+    if (not @level.hasLocalChanges()) and me.isAdmin()
+      presenceApi.deletePresence({levelOriginalId: @level.get('original')})
+
     clearInterval @timerIntervalID
+    clearInterval @checkPresenceIntervalID
     super()
 
   showLoading: ($el) ->
@@ -111,6 +119,12 @@ module.exports = class LevelEditView extends RootView
       @world = @levelLoader.world
       @render()
       @timerIntervalID = setInterval @incrementBuildTime, 1000
+      if @level.get('original')
+        @checkPresenceIntervalID = setInterval @checkPresence, 15000
+        @checkPresence()
+        if me.isAdmin()
+          presenceApi.setPresence({ levelOriginalId: @level.get('original') })
+
     campaignCourseMap = {}
     campaignCourseMap[course.get('campaignID')] = course.id for course in @courses.models
     for campaign in @campaigns.models
@@ -253,7 +267,7 @@ module.exports = class LevelEditView extends RootView
   onPopulateI18N: ->
     totalChanges = @level.populateI18N()
 
-    levelComponentMap = _(currentView.supermodel.getModels(LevelComponent))
+    levelComponentMap = _(globalVar.currentView.supermodel.getModels(LevelComponent))
       .map((c) -> [c.get('original'), c])
       .object()
       .value()
@@ -304,6 +318,23 @@ module.exports = class LevelEditView extends RootView
     return if application.userIsIdle
     @levelBuildTime ?= @level.get('buildTime') ? 0
     ++@levelBuildTime
+
+  checkPresence: =>
+    return unless @level.get('original')
+    presenceApi.getPresence({levelOriginalId: @level.get('original')})
+      .then(@updatePresenceUI)
+      .catch(@updatePresenceUI)
+
+  updatePresenceUI: (emails) ->
+    $("#dropdownPresenceMenu").empty()
+    if (!Array.isArray(emails))
+      $("#presence-number").text("?")
+      return
+    emails ?= []
+    $("#presence-number").text(emails.length || 0)
+    emails.forEach((email) ->
+      $("#dropdownPresenceMenu").append("<li>#{email}</li>")
+    )
 
   getTaskCompletionRatio: ->
     if not @level.get('tasks')?

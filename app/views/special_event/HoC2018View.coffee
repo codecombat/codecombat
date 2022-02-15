@@ -2,6 +2,7 @@ RootComponent = require 'views/core/RootComponent'
 template = require 'templates/base-flat'
 HoC2018 = require('./HoC2018Component.vue').default
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
+utils = require 'core/utils'
 
 module.exports = class HoC2018View extends RootComponent
   id: 'hoc-2018'
@@ -15,4 +16,6 @@ module.exports = class HoC2018View extends RootComponent
       onGetCS1Free: (teacherEmail) =>
         return if _.isEmpty(teacherEmail)
         @openModalView(new CreateAccountModal({startOnPath: 'teacher', email: teacherEmail}))
+      activity: ->
+        utils.getQueryVariable('activity') or 'ai-league'
     }

@@ -35,8 +35,9 @@ module.exports = class LevelComponent extends CocoModel
     @set 'js', @compile(@get 'code') unless @get 'js'
 
   compile: (code) ->
+    return code if @get('codeLanguage') and @get('codeLanguage') is 'javascript'
     if @get('codeLanguage') and @get('codeLanguage') isnt 'coffeescript'
-      return console.error('Can\'t compile', @get('codeLanguage'), '-- only CoffeeScript.', @)
+      return console.error('Can\'t compile', @get('codeLanguage'), '-- only CoffeeScript/JavaScript.', @)
     try
       js = CoffeeScript.compile(code, bare: true)
     catch e

@@ -25,10 +25,5 @@ module.exports =
     courseInstance = courseInstance.attributes || courseInstance
     "/play/#{course.campaignID}?course-instance=#{courseInstance._id}"
 
-  courseRanking: ({course, courseInstance}) ->
-    course = course.attributes || course
-    courseInstance = courseInstance.attributes || courseInstance
-    "students/ranking/#{course.campaignID}?course-instance=#{courseInstance._id}"
-
   courseProjectGallery: ({courseInstance}) ->
     "/students/project-gallery/#{courseInstance.id}"

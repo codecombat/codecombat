@@ -1,4 +1,4 @@
-import cookieconsent from 'cookieconsent'
+import { Popup as CookieConsentPopup } from 'cookieconsent'
 import 'cookieconsent/build/cookieconsent.min.css'
 
 import BaseTracker from './BaseTracker'
@@ -67,7 +67,7 @@ export default class CookieConsentTracker extends BaseTracker {
       this.popup = undefined
     }
 
-    this.popup = new cookieconsent.Popup({
+    this.popup = new CookieConsentPopup({
       // Note the currently released version of cookieconsent has a bug that
       // prevents onInitialise from being called when the popup is loaded
       // before the user has interacted.

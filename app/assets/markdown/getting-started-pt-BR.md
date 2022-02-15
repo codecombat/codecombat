@@ -160,4 +160,4 @@ Depois que um aluno for inscrito, você poderá atribuir cursos adicionais a ele
 ## Comece a ensinar!
 Existem excelentes materiais suplementares para professores disponíveis em nosso [Guias dos Cursos](/teachers/courses/) e [Recursos dos Professores](/teachers/resources). Se você é novo no ensino de ciências da computação, é altamente recomendável verificar isso - criamos esses conceitos com professores iniciantes em mente. Você também pode navegar em nosso [Fórum para Professores](https://discourse.codecombat.com/c/teachers), onde você pode discutir o planejamento do currículo com outros educadores, compartilhar ideias ou fazer perguntas.
 
-Você também pode nos mandar um e-mail [suporte@enlixeducacional.com.br](mailto:suporte@enlixeducacional.com.br) com quaisquer perguntas ou preocupações de suporte!
+Você também pode nos mandar um e-mail [schools@codecombat.com](mailto:schools@codecombat.com) com quaisquer perguntas ou preocupações de suporte!

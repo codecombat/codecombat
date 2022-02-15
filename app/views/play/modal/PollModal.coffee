@@ -77,7 +77,38 @@ module.exports = class PollModal extends ModalView
     pollVotes[@poll.id] = $selectedAnswer.data('answer').toString()
     @userPollsRecord.set 'polls', pollVotes
     @updateAnswers true
-    @userPollsRecord.save {polls: pollVotes}, {success: => @awardRandomGems?()}
+    @userPollsRecord.save {polls: pollVotes}, {success: => 
+      @awardRandomGems?()
+
+      myAnswer = (@userPollsRecord.get('polls') ? {})[@poll.id]
+      answerObj = _.find(@poll.get('answers'), (answer) => answer.key == myAnswer) or {}
+      nextPollId = answerObj.nextPoll
+      
+      # The following block allows for the user to be indecisive with their answer, updating UI accordingly.
+      btn = @$el.find('.btn.btn-illustrated.btn-lg.done-button')
+      btn.off('click')
+
+      if nextPollId
+        btn.text(i18n.t('common.next'))
+        btn.one('click', () =>
+          btn.prop('disabled', true);
+          if @poll.id is "5e84c7a519cb270028516687"
+            # Show live Class Modal
+            @trigger('trigger-show-live-classes')
+          else
+            @trigger('trigger-next-poll', nextPollId)
+        )
+      else
+        btn.text(i18n.t('play_level.done'))
+
+        # For code quest modal
+        btn.one('click', () =>
+          if @poll.id is "5f21e48ec22bdf002922cd8c"
+            # Id of codequest poll
+            btn.prop('disabled', true);
+            @trigger('trigger-codequest-modal')
+        )
+    }
 
   awardRandomGems: ->
     return unless reward = (@userPollsRecord.get('rewards') ? {})[@poll.id]

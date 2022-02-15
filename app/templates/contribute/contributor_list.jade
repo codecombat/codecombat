@@ -6,8 +6,9 @@
           - var src = "/images/pages/contribute/" + contributorClassName + ".png";
           - if(contributor.avatar)
           -   src = src.replace(contributorClassName, contributorClassName + "/" + contributor.avatar + "_small");
-          - if(contributor.id)
-          -   src = "/db/user/" + contributor.id + "/avatar?s=100&fallback=" + src;
+          // No more user avatars
+          //- if(contributor.id)
+          //-   src = "/db/user/" + contributor.id + "/avatar?s=100&fallback=" + src;
           a(href=contributor.github ? "https://github.com/codecombat/codecombat/commits?author=" + contributor.github : null, class=contributor.github ? 'has-github' : '')
             img.img-responsive(src=src, alt=contributor.name)
             .caption

@@ -1,0 +1,407 @@
+extends /templates/base-flat.jade
+
+block content
+  .container-fluid
+    .row#top-banner
+      .row
+        .col-xs-12
+          if me.isTeacher()
+            span(data-i18n="new_home.top_banner_blurb_funding")
+            a(href="https://www.ozaria.com/funding", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Funding Page" target='_blank')
+          else
+            span(data-i18n="new_home.top_banner_blurb")
+            a(href="/parents", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Parents Page")
+
+    .cloud-wrapper
+      .row#jumbotron-container-fluid
+        .col-md-8
+          h1(data-i18n="new_home.slogan_power_of_play")
+          div.button-section
+            if me.isAnonymous()
+              p
+                button.btn.btn-lg.btn-primary.teacher-btn(data-event-action="Homepage Click Teacher Button #1 CTA", data-i18n="new_home.im_an_educator", style="text-transform: none")
+              p
+                button.btn.btn-lg.btn-primary.parent-btn(data-event-action="Homepage Click Parent Button CTA", data-i18n="new_home.im_a_parent", style="text-transform: none")
+              p
+                button.btn.btn-lg.btn-primary.student-btn(data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student", style="text-transform: none")
+            else
+              p
+                if me.isTeacher()
+                  a.btn.btn-lg.btn-primary.my-classes-btn(href="/teachers/classes", data-event-action="Homepage Click My Classes CTA", data-i18n="new_home.go_to_my_classes")
+                else if me.isStudent()
+                  a.btn.btn-lg.btn-primary.my-courses-btn(href="/students", data-event-action="Homepage Click My Courses CTA", data-i18n="new_home.go_to_courses")
+                else
+                  a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
+
+        .col-xs-12.text-center
+          img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-width: 416px; transform: translateX(12%); margin-bottom: 40px" alt="")
+
+    .container
+      .row.video-row
+        .col-xs-12
+          div.video-container
+            iframe(src="https://iframe.videodelivery.net/86b43ba87b804883d9c5027782aabff3?preload=true&poster=https://videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg%3Ftime%3D2s&defaultTextTrack=en" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" allowfullscreen="true" title="CodeCombat Classroom product overview video")
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-offset-3.col-xs-9.text-right
+            img.img-responsive(src="/images/pages/home-v2/graphic-1.png" loading="lazy" style="max-width: 296px;" alt="")
+
+    section.container
+      .row.text-center.subhead-row
+        .col-xs-1.col-xs-offset-1
+          img.img-responsive#tent-img(src="/images/pages/home-v2/tent.png" loading="lazy" style="max-width: 143px;" alt="")
+        .col-xs-9
+          h3(data-i18n="new_home.learning_technology_blurb_short")
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-offset-2.col-xs-4
+            img.img-responsive(src="/images/pages/home-v2/graphic-2.png" loading="lazy" style="max-width: 402px" alt="")
+
+    #game-based-carousel
+      .container.carousel-tabs-container
+        ul.carousel-tabs.nav.nav-tabs(role="tablist")
+          li.carousel-tab.active(data-selector="#game-based", data-slide-num="0")
+            h2(data-i18n="new_home.game_based_learning")
+          li.carousel-tab(data-selector="#game-based", data-slide-num="1")
+            h2(data-i18n="new_home.text_based_coding")
+          li.carousel-tab(data-selector="#game-based", data-slide-num="2")
+            h2(data-i18n="new_home.student_impact")
+      .container.carousel-container
+        #game-based.carousel.slide(data-interval=8000)
+          .carousel-inner
+            .item.active(data-slide=0)
+              .row
+                .col-sm-7
+                  img.img-responsive(src="/images/pages/home-v2/carousel-1-1.png" loading="lazy" alt="Game-based learning screenshot")
+                .col-sm-5
+                  h4(data-i18n="new_home.game_based_learning")
+                  p(data-i18n="new_home.unique_approach_blurb")
+            .item(data-slide=1)
+              .row
+                .col-sm-7
+                  img.img-responsive(src="/images/pages/parents/grit_carousel.png" loading="lazy" alt="Text-based coding screenshot")
+                .col-sm-5
+                  h4(data-i18n="new_home.text_based_coding")
+                  p(data-i18n="new_home.custom_code_engine_blurb")
+            .item(data-slide=2)
+              .row
+                .col-sm-7
+                  img.img-responsive(src="/images/pages/home-v2/carousel-1-3.png" loading="lazy" alt="Man high-fiving kid playing CodeCombat")
+                .col-sm-5
+                  h4(data-i18n="new_home.student_impact")
+                  p(data-i18n="new_home.help_enjoy_learning_blurb")
+        .col-lg-12.text-center
+          //- Reference https://getbootstrap.com/docs/3.4/javascript/
+          //- The onclick usage here is a hack. Modeled from PageParents.vue page
+          // TODO: adapt arrow button carousel elements from PageParents.vue for prev/next
+          .carousel-dot.active(data-selector="#game-based", data-slide-num="0")
+          .carousel-dot(data-selector="#game-based", data-slide-num="1")
+          .carousel-dot(data-selector="#game-based", data-slide-num="2")
+
+    // TODO: finish the GetStartedSignupModal
+    //section.container
+    //  .row.text-center.get-started-row
+    //    .col-xs-12
+    //      button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.get_started" data-event-action="Homepage Click Get Started Button #1 CTA")
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-3.png" loading="lazy" style="max-width: 640px; margin-left: calc(50% - 640px / 2 - 24px);" alt="")
+
+    .container
+      .row.text-center.for-educators-row
+        .col-xs-12
+          h1(data-i18n="new_home.for_educators")
+
+    section.container
+      .row.product-row
+        .col-md-5
+          .row
+            img.img-responsive.product-logo(src="/images/pages/home-v2/ozaria-logo-bevelled.png" loading="lazy" style="max-width: 100px" alt="Ozaria logo")
+            h4.product-title(data-i18n="nav.ozaria_classroom")
+            p(data-i18n="[html]new_home.new_adventure_game_blurb", data-i18n-options=JSON.stringify(i18nData))
+            .product-btn
+              a.btn.btn-lg.btn-primary.btn-gold(href="https://www.ozaria.com/" data-i18n="new_home.explore_ozaria" data-event-action="Homepage Click Ozaria Classroom Button CTA")
+        .col-md-6.col-md-offset-1
+          img.img-responsive(src="/images/pages/home-v2/oz-class-image.png" loading="lazy" alt="Ozaria classroom scene")
+      img#ozaria-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-4.png" loading="lazy" alt="")
+
+    section.container
+      .row.product-row.codecombat-classroom-row
+        .col-md-6
+          img.img-responsive(src="/images/pages/home-v2/codecombat-classroom.png" loading="lazy" alt="CodeCombat classroom scene")
+        .col-md-5.col-md-offset-1
+          .row
+            img.img-responsive.product-logo(src="/images/pages/home-v2/coco_square_logo.png" loading="lazy" style="max-width: 80px;" alt="CodeCombat logo")
+            h4.product-title(data-i18n="nav.codecombat_classroom")
+            p(data-i18n="new_home.learning_technology_blurb")
+            .product-btn
+              // TODO: make new /classroom or /schools page for this out of old homepage and maybe /impact page
+              //a.btn.btn-lg.btn-primary.btn-gold(href="/impact" data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
+              // TODO: alternately, finish the GetStartedSignupModal
+              //button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
+              button.btn.btn-lg.btn-primary.btn-gold.create-account-teacher-btn(data-i18n="new_home.explore_codecombat" data-event-action="Homepage Click CodeCombat Classroom Button CTA")
+      img#codecombat-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-5.png" loading="lazy" alt="")
+
+    section.container
+      .row.product-row
+        .col-md-5
+          .row
+            h4.product-title(data-i18n="nav.professional_development")
+            p(data-i18n="new_home.pd_blurb")
+            .product-btn
+              a.btn.btn-lg.btn-primary.btn-gold(href="https://www.ozaria.com/professional-development" data-i18n="new_home.explore_pd" data-event-action="Homepage Click Professional Development Button CTA")
+        .col-md-6.col-md-offset-1
+          img.img-responsive(src="/images/pages/home-v2/pd-image.png" loading="lazy" alt="Teacher taking profesional development course")
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-47%);" alt="")
+
+    .container
+      .row.text-center.for-parents-row
+        .col-xs-12
+          h1(data-i18n="new_home.for_parents")
+
+    section.container
+      .row.product-row
+        .col-md-5
+          .row
+            h4.product-title(data-i18n="new_home.codecombat_live_online_classes")
+            p(data-i18n="new_home.online_classes_blurb")
+            .product-btn
+              a.btn.btn-lg.btn-primary.btn-gold(href="/parents" data-i18n="new_home.explore_online_classes" data-event-action="Homepage Click Online Classes Button CTA")
+        .col-md-6.col-md-offset-1
+          img.img-responsive(src="/images/pages/home-v2/loc-image.png" loading="lazy" alt="Online classes scene: girl playing CodeCombat on video call with her teacher")
+      img#online-classes-spacer-img.img-responsive(src="/images/pages/home-v2/graphic-6.png" loading="lazy" alt="")
+
+    .container
+      .row.text-center.for-everyone-row
+        .col-xs-12
+          h1(data-i18n="new_home.for_everyone")
+
+    section.container
+      .row.product-row
+        .col-md-6
+          img.img-responsive(src="/images/pages/home-v2/league-image.png" loading="lazy" alt="AI League scene: competitive kids cheering")
+        .col-md-5.col-md-offset-1
+          .row
+            img.img-responsive.product-logo(src="/images/pages/league/logo_badge.png" loading="lazy" style="max-width: 118px;" alt="AI League logo")
+            h4.product-title(data-i18n="league.codecombat_ai_league")
+            p(data-i18n="new_home.ai_league_blurb")
+            .product-btn
+              a.btn.btn-lg.btn-primary.btn-gold(href="/league" data-i18n="new_home.explore_ai_league" data-event-action="Homepage Click AI League Button CTA")
+
+    .container
+      .row.text-center.community-row
+        .col-xs-12
+          h1(data-i18n="new_home.global_community")
+
+    section.container.community-container
+      .row
+        .col-xs-6.col-md-3.text-center
+          .centered-flex(style="height: 100px;")
+            img.img-reponsive(src="/images/pages/home-v2/cap.png" loading="lazy" style="max-width: 99px;" alt="Learner icon")
+          h4(data-i18n="new_home.million" data-i18n-options={num: 20})
+          p(data-i18n="new_home.global_subtitle1")
+        .col-xs-6.col-md-3.text-center
+          .centered-flex(style="height: 100px;")
+            img.img-reponsive(src="/images/pages/home-v2/monitor.png" loading="lazy" style="max-width: 80px;" alt="Computer icon")
+          h4(data-i18n="new_home.billion" data-i18n-options={num: 1})
+          p(data-i18n="new_home.global_subtitle2")
+        .col-xs-6.col-md-3.text-center
+          .centered-flex(style="height: 100px;")
+            img.img-reponsive(src="/images/pages/home-v2/apple.png" loading="lazy" style="max-width: 82px;" alt="Teacher icon")
+          h4 140,000
+          p(data-i18n="new_home.global_subtitle3")
+        .col-xs-6.col-md-3.text-center
+          .centered-flex(style="height: 100px;")
+            img.img-reponsive(src="/images/pages/home-v2/worldwide.png" loading="lazy" style="max-width: 82px;" alt="Country icon")
+          h4 190
+          p(data-i18n="new_home.global_subtitle4")
+
+    .container-graphic-spacer.community-graphics
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/ice-island.png" loading="lazy" style="max-height: 274px;" alt="")
+
+    #student-quotes-carousel
+      .container
+        #student-quotes.carousel.slide(data-interval=8000)
+          .carousel-inner
+            .item.active(data-slide=0)
+              .row
+                .col-sm-4.col-sm-offset-1
+                  img(src="/images/pages/home-v2/quotes.png" style="margin-bottom: 20px;" alt="")
+                  p(data-i18n="new_home.quotes_quote1")
+                  p
+                    b
+                      span(data-i18n="impact.featured_teacher")
+                      span= ", "
+                      span(data-i18n="impact.partner_school")
+                .col-sm-6.col-sm-offset-1
+                  img.img-responsive(src="/images/pages/home-v2/carousel-2-1.png" loading="lazy" alt="Photo of educator Scott Baily")
+            .item(data-slide=1)
+              .row
+                .col-sm-4.col-sm-offset-1
+                  img(src="/images/pages/home-v2/quotes.png" style="margin-bottom: 20px;")
+                  p(data-i18n="new_home.quotes_quote5")
+                  p
+                    b(data-i18n="new_home.quotes_quote5_author")
+                .col-sm-6.col-sm-offset-1
+                  img.img-responsive(src="/images/pages/home-v2/carousel-2-2.png" loading="lazy" alt="Photo of kid playing CodeCombat")
+            .item(data-slide=2)
+              .row
+                .col-sm-4.col-sm-offset-1
+                  img(src="/images/pages/home-v2/quotes.png" style="margin-bottom: 20px;")
+                  p(data-i18n="new_home.century_skills_quote4")
+                  p
+                    b(data-i18n="new_home.century_skills_quote4_author")
+                .col-sm-6.col-sm-offset-1
+                  img.img-responsive(src="/images/pages/home-v2/carousel-2-3.png" loading="lazy" alt="Photo of 10th grade student Joey")
+        .col-lg-12.text-center
+          //- Reference https://getbootstrap.com/docs/3.4/javascript/
+          //- The onclick usage here is a hack. Modeled from PageParents.vue page
+          .carousel-dot.active(data-selector="#student-quotes", data-slide-num="0")
+          .carousel-dot(data-selector="#student-quotes", data-slide-num="1")
+          .carousel-dot(data-selector="#student-quotes", data-slide-num="2")
+
+    .container-graphic-spacer(style="margin-top: 33px;")
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-7.png" loading="lazy" style="max-width: 321px;" alt="")
+
+    .container.testimonials-container
+      .row.text-center.testimonials-row
+        .col-xs-12
+          h1(data-i18n="new_home.what_our_customers_are_saying")
+
+      .row.curator-row
+        #curator-feed-default-feed-layout.col-xs-12
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-8.png" loading="lazy" style="max-width: 416px; transform: translateX(30%);" alt="")
+
+    #featured-in-awards.container
+      .col-xs-12.col-md-5.text-center.featured-in
+        h1(data-i18n="new_home.featured_partners_title1")
+        .row
+          a.col-xs-5.col-xs-offset-1(href="https://www.bbc.co.uk/programmes/articles/56ZcVFcY47vkvnFphmNhRd3/hour-of-code-2016" target="_blank" rel="noopener noreferrer")
+            .centered-flex
+              img.img-responsive(src="/images/pages/home-v2/bbc-logo.png" loading="lazy" style="max-height: 120px;" alt="BBC logo")
+          a.col-xs-5(href="https://www.edsurge.com/news/2016-05-02-codecombat-scores-2-million-seed-round-to-bring-programming-adventure-to-schools" target="_blank" rel="noopener noreferrer")
+            .centered-flex
+              img.img-responsive(src="/images/pages/home-v2/edsurge-logo.png" loading="lazy" style="height: 39px; max-width: 158px;" alt="EdSurge logo")
+          a.col-xs-5.col-xs-offset-1(href="https://www.wsj.com/articles/codecombat-uses-fantasy-games-to-teach-coding-in-schools-1462188602" target="_blank" rel="noopener noreferrer")
+            .centered-flex
+              img.img-responsive(src="/images/pages/home-v2/wsj-logo.png" loading="lazy" style="max-height: 60px;" alt="Wall Street Journal logo")
+          a.col-xs-5(href="https://techcrunch.com/2014/03/19/yc-backed-codecombat-wants-you-to-learn-to-code-by-playing-games/" target="_blank" rel="noopener noreferrer")
+            .centered-flex
+              img.img-responsive(src="/images/pages/home-v2/techcrunch-logo.png" loading="lazy" style="max-height: 60px;" alt="TechCrunch logo")
+      .col-xs-12.col-md-7.text-center.awards-partners
+        h1(data-i18n="new_home.featured_partners_title2")
+        .row
+          a.col-xs-3.col-xs-offset-1(href="https://www.csforall.org/projects_and_programs/member_directory/members/codecombat/" target="_blank" rel="noopener noreferrer")
+            .centered-flex
+              img.img-responsive(src="/images/pages/home-v2/csforall-member-logo.png" loading="lazy" style="max-height: 60px;" alt="CSforAll Logo")
+              p(data-i18n="new_home.featured_partners_blurb5")
+          a.col-xs-4(href="https://history.siia.net/codie/About/Past-Winners/Past/pID/2017" target="_blank" rel="noopener noreferrer")
+            .centered-flex
+              img.img-responsive(src="/images/pages/home-v2/codie-award.png" loading="lazy" style="max-height: 60px;" alt="CODiE award logo")
+              p(data-i18n="new_home.featured_partners_blurb2")
+          a.col-xs-3(href="https://www.commonsense.org/education/game/codecombat" target="_blank" rel="noopener noreferrer")
+            .centered-flex
+              img.img-responsive(src="/images/pages/home-v2/commonsense-logo.png" loading="lazy" style="max-height: 80px;" alt="CommonSense Media award logo")
+              p(data-i18n="new_home.featured_partners_blurb3")
+          a.col-xs-3.col-xs-offset-2(href="https://code.org/educate/curriculum/middle-school" target="_blank" rel="noopener noreferrer")
+            .centered-flex
+              img.img-responsive(src="/images/pages/home-v2/code-org-logo.png" loading="lazy" style="max-height: 60px;" alt="Code.org logo")
+              p(data-i18n="new_home.featured_partners_blurb4")
+          a.col-xs-4.col-xs-offset-1(href="https://aws.amazon.com/blogs/publicsector/aws-educate-and-amazon-future-engineer-teamed-with-codecombat-to-create-a-new-game-for-the-hour-of-code/" target="_blank" rel="noopener noreferrer")
+            .centered-flex
+              img.img-responsive(src="/images/pages/home-v2/afe-logo.png" loading="lazy" style="max-height: 50px;" alt="Amazong Future Engineer logo")
+              p(data-i18n="new_home.featured_partners_blurb6")
+
+    .container-graphic-spacer
+      .container
+        .row
+          .col-xs-12.text-center
+            img.img-responsive(src="/images/pages/home-v2/graphic-9.png" loading="lazy" style="max-height: 236px; transform: translateX(-40%); margin-top: 12px;" alt="")
+
+    //// TODO: finish the GetStartedSignupModal
+    //section.container
+    //  .row.text-center.get-started-row(style="margin-top: -204px;")
+    //    .col-xs-12
+    //      button.btn.btn-lg.btn-primary.btn-gold.get-started-btn(data-i18n="new_home.get_started" data-event-action="Homepage Click Get Started Button #2 CTA")
+
+    .container-background-faq
+      .container
+        .row.row-eq-height
+          .col-lg-12.text-center.container-background-header
+            h1.pixelated(data-i18n="nav.faqs")
+        .row.row-eq-height
+          .col-md-4.col-sm-6.col-xs-12
+            h4(data-i18n="new_home_faq.what_programming_languages")
+            p(data-i18n="new_home_faq.python_and_javascript")
+            p
+              b(data-i18n="new_home_faq.why_python")
+              br
+              span(data-i18n="new_home_faq.why_python_blurb")
+            p
+              b(data-i18n="new_home_faq.why_javascript")
+              br
+              span(data-i18n="new_home_faq.why_javascript_blurb")
+            p(data-i18n="new_home_faq.javascript_versus_python")
+          .col-md-4.col-sm-6.col-xs-12
+            //- Cheating to make tall columns
+            h4(data-i18n="new_home_faq.how_do_i_get_started")
+            ol
+              li(data-i18n="new_home_faq.getting_started_1")
+              li(data-i18n="new_home_faq.getting_started_2")
+              li(data-i18n="new_home_faq.getting_started_3")
+              li(data-i18n="new_home_faq.getting_started_4")
+            h4(data-i18n="new_home_faq.main_curriculum")
+            p(data-i18n="new_home_faq.main_curriculum_blurb")
+          .col-md-4.col-sm-6.col-xs-12
+            h4(data-i18n="new_home_faq.clever_instant_login")
+            p(data-i18n="[html]new_home_faq.clever_instant_login_blurb", data-i18n-options=JSON.stringify(i18nData))
+            h4(data-i18n="new_home_faq.google_classroom")
+            p(data-i18n="new_home_faq.google_classroom_blurb1")
+            p(data-i18n="new_home_faq.google_classroom_blurb2")
+          .col-md-4.col-sm-6.col-xs-12
+            h4(data-i18n="new_home_faq.how_much_does_it_cost")
+            p(data-i18n="[html]new_home_faq.how_much_does_it_cost_blurb", data-i18n-options=JSON.stringify(i18nData))
+          .col-md-4.col-sm-6.col-xs-12
+            h4(data-i18n="new_home_faq.recommended_systems")
+            p(data-i18n="new_home_faq.recommended_systems_blurb")
+              .text-center
+        .row.faq-links-row
+          p
+            span(data-i18n="new_home_faq.see_faq_prefix")
+            span= " "
+            a(href="https://codecombat.zendesk.com/hc/en-us" target="_blank" data-i18n="new_home_faq.see_faq_link")
+            span(data-i18n="new_home_faq.see_faq_suffix")
+          p.contact-us(data-i18n="[html]new_home_faq.other_questions", data-i18n-options=JSON.stringify(i18nData))
+
+    .container-footer-mountains
+
+    script.
+      /* curator-feed-default-feed-layout */
+      (function(){
+      var i, e, d = document, s = "script";i = d.createElement("script");i.async = 1;
+      i.src = "https://cdn.curator.io/published/4b3b9f97-3241-43b3-934e-f5a1eea5ae5e.js";
+      e = d.getElementsByTagName(s)[0];e.parentNode.insertBefore(i, e);
+      })();

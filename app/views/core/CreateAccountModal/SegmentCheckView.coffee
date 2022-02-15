@@ -15,6 +15,7 @@ module.exports = class SegmentCheckView extends CocoView
     'input .class-code-input': 'onInputClassCode'
     'change .birthday-form-group': 'onInputBirthday'
     'submit form.segment-check': 'onSubmitSegmentCheck'
+    'click button.play-now': 'onPlayClicked'
     'click .individual-path-button': -> @trigger 'choose-path', 'individual'
 
   initialize: ({ @signupState } = {}) ->
@@ -25,9 +26,12 @@ module.exports = class SegmentCheckView extends CocoView
     if @signupState.get('classCode')
       @checkClassCode(@signupState.get('classCode'))
     @listenTo @state, 'all', _.debounce(->
-      @renderSelectors('.render')
+      @renderSelectors('.render, .next-button')
       @trigger 'special-render'
     )
+
+  onPlayClicked: ->
+    application.router.navigate "/play", { trigger: true }
 
   getClassCode: -> @$('.class-code-input').val() or @signupState.get('classCode')
 
@@ -66,6 +70,7 @@ module.exports = class SegmentCheckView extends CocoView
 
     if @signupState.get('path') is 'student'
       @$('.class-code-input').attr('disabled', true)
+      @$('button.next-button').attr('disabled', true)
 
       @fetchClassByCode(@getClassCode())
       .then (classroom) =>
@@ -76,9 +81,12 @@ module.exports = class SegmentCheckView extends CocoView
           @trigger 'nav-forward', screen
         else
           @$('.class-code-input').attr('disabled', false)
+          @$('button.next-button').attr('disabled', false)
           @classroom = new Classroom()
           @state.set { classCodeValid: false, segmentCheckValid: false }
       .catch (error) ->
+        @$('.class-code-input').attr('disabled', false)
+        @$('button.next-button').attr('disabled', false)
         throw error
 
     else if @signupState.get('path') is 'individual'

@@ -34,6 +34,10 @@ module.exports = class ThangType extends CocoModel
     #  @_previousAttributes.raw = null
     #setTimeout f, 40000
 
+  destroy: ->
+    @rasterImage?.off?()
+    super()
+
   resetRawData: ->
     @set('raw', {shapes: {}, containers: {}, animations: {}})
 
@@ -54,14 +58,15 @@ module.exports = class ThangType extends CocoModel
     @rasterImage = if utils.isIE() then $("<img src='/file/#{raster}' />")
     else $("<img crossOrigin='Anonymous', src='/file/#{raster}' />")
     @loadingRaster = true
-    @rasterImage.one('load', =>
+    @rasterImage.one 'load', =>
       @loadingRaster = false
       @loadedRaster = true
-      @trigger('raster-image-loaded', @))
-    @rasterImage.one('error', =>
+      @trigger('raster-image-loaded', @)
+      @rasterImage.off 'error'
+    @rasterImage.one 'error', =>
       @loadingRaster = false
       @trigger('raster-image-load-errored', @)
-    )
+      @rasterImage.off 'load'
 
   getActions: ->
     return {} unless @isFullyLoaded()
@@ -267,16 +272,8 @@ module.exports = class ThangType extends CocoModel
     stage.update()
     stage.startTalking = ->
       sprite.gotoAndPlay 'portrait'
-      return  # TODO: causes infinite recursion in new EaselJS
-      return if @tick
-      @tick = (e) => @update(e)
-      createjs.Ticker.addEventListener 'tick', @tick
     stage.stopTalking = ->
       sprite.gotoAndStop 'portrait'
-      return  # TODO: just breaks in new EaselJS
-      @update()
-      createjs.Ticker.removeEventListener 'tick', @tick
-      @tick = null
     stage
 
   getVectorPortraitStage: (size=100) ->

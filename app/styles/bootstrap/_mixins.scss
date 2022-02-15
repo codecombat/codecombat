@@ -1,3 +1,4 @@
+@use "sass:math";
 //
 // Mixins
 // --------------------------------------------------
@@ -367,7 +368,7 @@
 // Dividers (basically an hr) within dropdowns and nav lists
 @mixin nav-divider($color: #e5e5e5) {
   height: 1px;
-  margin: (($line-height-computed / 2) - 1) 0;
+  margin: (math.div($line-height-computed, 2) - 1) 0;
   overflow: hidden;
   background-color: $color;
 }
@@ -566,8 +567,8 @@
 // Vertically center elements in the navbar.
 // Example: an element has a height of 30px, so write out `.navbar-vertical-align(30px);` to calculate the appropriate top margin.
 @mixin navbar-vertical-align($element-height) {
-  margin-top: (($navbar-height - $element-height) / 2);
-  margin-bottom: (($navbar-height - $element-height) / 2);
+  margin-top: math.div($navbar-height - $element-height, 2);
+  margin-bottom: math.div($navbar-height - $element-height, 2);
 }
 
 // Progress bars
@@ -607,15 +608,15 @@
 @mixin container-fixed() {
   margin-right: auto;
   margin-left: auto;
-  padding-left:  ($grid-gutter-width / 2);
-  padding-right: ($grid-gutter-width / 2);
+  padding-left:  math.div($grid-gutter-width, 2);
+  padding-right: math.div($grid-gutter-width, 2);
   @include clearfix();
 }
 
 // Creates a wrapper for a series of columns
 @mixin make-row($gutter: $grid-gutter-width) {
-  margin-left:  ($gutter / -2);
-  margin-right: ($gutter / -2);
+  margin-left:  math.div($gutter, -2);
+  margin-right: math.div($gutter, -2);
   @include clearfix();
 }
 
@@ -637,13 +638,13 @@
   // Prevent columns from collapsing when empty
   min-height: 1px;
   // Inner gutter via padding
-  padding-left:  ($gutter / 2);
-  padding-right: ($gutter / 2);
+  padding-left:  math.div($gutter, 2);
+  padding-right: math.div($gutter, 2);
 
   // Calculate width based on number of columns available
   @media (min-width: $screen-sm-min) {
     float: left;
-    width: percentage(($columns / $grid-columns));
+    width: percentage(math.div($columns, $grid-columns));
   }
 }
 
@@ -749,8 +750,8 @@
     // Prevent columns from collapsing when empty
     min-height: 1px;
     // Inner gutter via padding
-    padding-left:  ($grid-gutter-width / 2);
-    padding-right: ($grid-gutter-width / 2);
+    padding-left:  math.div($grid-gutter-width, 2);
+    padding-right: math.div($grid-gutter-width, 2);
   }
 }
 
@@ -772,22 +773,22 @@
 @mixin calc-grid($index, $class, $type) {
   @if ($type == width) and ($index > 0) {
     .col-#{$class}-#{$index} {
-      width: percentage(($index / $grid-columns));
+      width: percentage(math.div($index, $grid-columns));
     }
   }
   @if ($type == push) {
     .col-#{$class}-push-#{$index} {
-      left: percentage(($index / $grid-columns));
+      left: percentage(math.div($index, $grid-columns));
     }
   }
   @if ($type == pull) {
     .col-#{$class}-pull-#{$index} {
-      right: percentage(($index / $grid-columns));
+      right: percentage(math.div($index, $grid-columns));
     }
   }
   @if ($type == offset) {
     .col-#{$class}-offset-#{$index} {
-      margin-left: percentage(($index / $grid-columns));
+      margin-left: percentage(math.div($index, $grid-columns));
     }
   }
 }

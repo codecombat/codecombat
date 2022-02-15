@@ -19,7 +19,7 @@ module.exports = class HeroSelectModal extends ModalView
   initialize: ->
     @listenTo @insertSubView(new HeroSelectView({ showCurrentHero: true })),
       'hero-select:success', (hero) ->
-        @trigger('hero-select:success', hero)
+        @trigger('hero-select:success', hero) unless @destroyed
 
   onClickSelectHeroButton: () ->
     @hide()

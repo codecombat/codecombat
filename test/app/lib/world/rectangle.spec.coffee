@@ -3,14 +3,28 @@ describe 'Rectangle', ->
   Vector = require 'lib/world/vector'
   Ellipse = require 'lib/world/ellipse'
 
+  it 'creates a rectangle from vertices', ->
+    rects = [
+      new Rectangle 0, 0, 10, 10, 0
+      new Rectangle 0, 0, 10, 10, 2
+      new Rectangle 20, 10, 1, 100, 3.2
+    ]
+
+    for rect in rects
+      expect(Rectangle.approxEqualsByVertices rect, Rectangle.fromVertices(rect.vertices())).toBe true
+
   it 'contains its own center', ->
-    rect = new Rectangle 0, 0, 10, 10
+    rect = new Rectangle 0, 0, 10, 10, 0
     expect(rect.containsPoint(new Vector 0, 0)).toBe true
 
   it 'contains a point when rotated', ->
     rect = new Rectangle 0, -20, 40, 40, 3 * Math.PI / 4
     p = new Vector 0, 2
     expect(rect.containsPoint(p, true)).toBe true
+
+    # https://www.desmos.com/calculator/po8ifjklfs
+    rect = Rectangle.fromVertices [new Vector(13.516, -25.286), new Vector(-1.728, 6.305), new Vector(77.682, 44.622), new Vector(92.926, 13.031)]
+    expect(rect.containsPoint new Vector(8.650, 0.499)).toBe true
 
   it 'correctly calculates distance to a faraway point', ->
     rect = new Rectangle 100, 50, 20, 40
@@ -37,9 +51,7 @@ describe 'Rectangle', ->
 
   it 'correctly calculates distance to contained point', ->
     rect = new Rectangle -100, -200, 1, 100
-    rect2 = rect.copy()
     p = new Vector -100.25, -160
-    p2 = p.copy()
     expect(rect.distanceToPoint(p)).toBe 0
     rect.rotation = 0.00000001 * Math.PI
     expect(rect.distanceToPoint(p)).toBe 0
@@ -50,6 +62,11 @@ describe 'Rectangle', ->
     expect(new Rectangle(0, 0, 3, 3, 0).distanceToRectangle(new Rectangle(0, 0, 2.5, 2.5, Math.PI / 4))).toBe 0
     expect(new Rectangle(0, 0, 4, 4, 0).distanceToRectangle(new Rectangle(4, 2, 2, 2, 0))).toBe 1
     expect(new Rectangle(0, 0, 4, 4, 0).distanceToRectangle(new Rectangle(4, 2, 2, 2, Math.PI / 4))).toBeCloseTo 2 - Math.SQRT2
+
+    # https://www.desmos.com/calculator/po8ifjklfs
+    rect1 = Rectangle.fromVertices [new Vector(89.936, 100.355), new Vector(105.842, 88.077), new Vector(54.581, 21.670), new Vector(38.675, 33.948)]
+    rect2 = Rectangle.fromVertices [new Vector(116.029, 61.108), new Vector(87.422, 9.247), new Vector(68.955, 19.433), new Vector(97.563, 71.294)]
+    expect(rect1.distanceToRectangle rect2).toBeCloseTo 3.701777957811988
 
   it 'has predictable vertices', ->
     rect = new Rectangle 50, 50, 100, 100
@@ -100,9 +117,28 @@ describe 'Rectangle', ->
     expect(rect.intersectsShape new Rectangle(3, 1, 2, 2, Math.PI / 4)).toBe true
     expect(rect.intersectsShape new Rectangle(1, 2, 2 * Math.SQRT2, 2 * Math.SQRT2, Math.PI / 4)).toBe true
 
+    # https://www.desmos.com/calculator/po8ifjklfs
+    rect1 = Rectangle.fromVertices [new Vector(89.936, 100.355), new Vector(105.842, 88.077), new Vector(54.581, 21.670), new Vector(38.675, 33.948)]
+    rect2 = Rectangle.fromVertices [new Vector(116.029, 61.108), new Vector(87.422, 9.247), new Vector(68.955, 19.433), new Vector(97.563, 71.294)]
+    expect(rect1.intersectsShape rect2).toBe false
+
   it 'calculates ellipse intersections properly', ->
     rect = new Rectangle 1, 1, 2, 2, 0
     expect(rect.intersectsShape new Ellipse(1, 1, Math.SQRT1_2, Math.SQRT1_2, Math.PI / 4)).toBe true
     expect(rect.intersectsShape new Ellipse(4, 1, 2, 2, 0)).toBe false
     expect(rect.intersectsShape new Ellipse(3, 4, 2, 2, 0)).toBe false
     expect(rect.intersectsShape new Ellipse(1, 4, 2 * Math.SQRT1_2, 2 * Math.SQRT1_2, Math.PI / 4)).toBe false
+
+  it 'calculates line segment intersections properly', ->
+    rect = new Rectangle 1, 1, 2, 2, 0
+    expect(rect.intersectsLineSegment new Vector(2.1, -1), new Vector(2.1, 3)).toBe false
+
+    # https://www.desmos.com/calculator/po8ifjklfs
+    rect1 = Rectangle.fromVertices [new Vector(-26.780, -25.019), new Vector(-32.317, 71.140), new Vector(39.084, 75.251), new Vector(44.621, -20.907)]
+    rect2 = Rectangle.fromVertices [new Vector(13.516, -25.286), new Vector(-1.728, 6.305), new Vector(77.682, 44.622), new Vector(92.926, 13.031)]
+
+    p1 = new Vector 8.650, 0.499
+    p2 = new Vector 0.284, 8.543
+
+    expect(rect1.intersectsLineSegment p1, p2).toBe true
+    expect(rect2.intersectsLineSegment p1, p2).toBe true

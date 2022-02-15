@@ -75,7 +75,7 @@ module.exports = class CertificatesView extends RootView
     @thangType = new ThangType()
     @supermodel.trackRequest @thangType.fetchLatestVersion(heroOriginal, {data: {project:'slug,version,original,extendedName,heroClass'}})
     @thangType.once 'sync', (thangType) =>
-      if @thangType.get('heroClass') isnt 'Warrior' or @thangType.get('slug') is 'code-ninja'
+      if @thangType.get('heroClass') isnt 'Warrior' or @thangType.get('slug') in ['code-ninja', 'armando-hoyos']
         # We only have basic warrior poses and signatures for now
         @setHero ThangTypeConstants.heroes.captain
 
@@ -117,9 +117,9 @@ module.exports = class CertificatesView extends RootView
     if @currentLang.split('-')[0] == 'en'
       newLang = me.get('preferredLanguage', true)
     @currentLang = newLang
-    $.i18n.setLng(newLang, {})
-    locale.load(newLang).then =>
-      @render()
+    $.i18n.changeLanguage newLang, =>
+      locale.load(newLang).then =>
+        @render()
 
 
   afterRender: ->

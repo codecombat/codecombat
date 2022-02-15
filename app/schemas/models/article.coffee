@@ -11,6 +11,5 @@ c.extendSearchableProperties ArticleSchema
 c.extendVersionedProperties ArticleSchema, 'article'
 c.extendTranslationCoverageProperties ArticleSchema
 c.extendPatchableProperties ArticleSchema
-c.extendAlgoliaProperties ArticleSchema
 
 module.exports = ArticleSchema

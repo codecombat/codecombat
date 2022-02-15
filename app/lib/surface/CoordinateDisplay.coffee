@@ -45,13 +45,20 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
   onMouseMove: (e) ->
     wop = @camera.screenToWorld x: e.x, y: e.y
-    wop.x = Math.round(wop.x)
-    wop.y = Math.round(wop.y)
+    if key.alt
+      wop.x = Math.round(wop.x * 1000) / 1000
+      wop.y = Math.round(wop.y * 1000) / 1000
+    else
+      wop.x = Math.round(wop.x)
+      wop.y = Math.round(wop.y)
     return if wop.x is @lastPos?.x and wop.y is @lastPos?.y
     @lastPos = wop
     @lastScreenPos = x: e.x, y: e.y
-    @hide()
-    @show()  # debounced
+    if key.alt
+      @performShow()
+    else
+      @hide()
+      @show()  # debounced
 
   onMouseDown: (e) ->
     return unless key.shift

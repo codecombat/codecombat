@@ -6,6 +6,7 @@ ThangTypeConstants = require 'lib/ThangTypeConstants'
 ThangTypeLib = require 'lib/ThangTypeLib'
 User = require 'models/User'
 api = require 'core/api'
+utils = require 'core/utils'
 
 module.exports = class HeroSelectView extends CocoView
   id: 'hero-select-view'
@@ -25,11 +26,15 @@ module.exports = class HeroSelectView extends CocoView
       selectedHeroOriginal: currentHeroOriginal
     })
 
-    # @heroes = new ThangTypes({}, { project: ['original', 'name', 'heroClass, 'slug''] })
-    # @supermodel.trackRequest @heroes.fetchHeroes()
-
-    api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'heroClass', 'slug', 'ozaria'] }).then (heroes) =>
-      @heroes = heroes.filter((h) => !h.ozaria)
+    api.thangTypes.getHeroes({ project: ['original', 'name', 'shortName', 'i18n', 'heroClass', 'slug', 'ozaria', 'poseImage'] }).then (heroes) =>
+      return if @destroyed
+      @heroes = heroes.filter (hero) ->
+        return false if hero.ozaria
+        if clanHero = _.find(utils.clanHeroes, thangTypeOriginal: hero.original)
+          return false if clanHero.clanId not in (me.get('clans') ? [])
+        if hero.original is ThangTypeConstants.heroes['code-ninja']
+          return false if window.location.host isnt 'coco.code.ninja'
+        true
       @debouncedRender()
 
     @listenTo @state, 'all', -> @debouncedRender()
@@ -53,9 +58,10 @@ module.exports = class HeroSelectView extends CocoView
 
     hero = _.find(@heroes, { original: heroOriginal })
     me.save().then =>
+      return if @destroyed
       event = 'Hero selected'
       event += if me.isStudent() then ' student' else ' teacher'
       event += ' create account' if @options.createAccount
       category = if me.isStudent() then 'Students' else 'Teachers'
-      window.tracker?.trackEvent event, {category, heroOriginal}, []
+      window.tracker?.trackEvent event, {category, heroOriginal}
       @trigger 'hero-select:success', {attributes: hero}

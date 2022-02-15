@@ -24,6 +24,8 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     @level = options.level
     @buildTime = options.buildTime
     @commitMessage = options.commitMessage ? ""
+    @listenToOnce @level, 'remote-changes-checked', @onRemoteChangesChecked
+    @level.checkRemoteChanges()
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -34,7 +36,12 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     context.commitMessage = @commitMessage
     @hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
     @lastContext = context
+    context.showChangesWarning = @showChangesWarning
     context
+
+  onRemoteChangesChecked: (data) ->
+    @showChangesWarning = data.hasChanges
+    this.render();
 
   afterRender: ->
     super(false)

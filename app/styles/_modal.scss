@@ -1,0 +1,80 @@
+$font-p-2-paragraph-medium-gray-font-size: 18px;
+$font-p-2-paragraph-medium-gray-line-height: 24px;
+$font-p-2-paragraph-medium-gray-text-align: left;
+$font-p-2-paragraph-medium-gray-color: #545b64;
+$font-p-2-paragraph-medium-gray-letter-spacing: 0.3px;
+$font-p-2-paragraph-medium-gray-font-style: normal;
+$font-p-2-paragraph-medium-gray-font-weight: 400;
+$font-p-2-paragraph-medium-gray-font-family: Work Sans;
+
+@mixin font-p-2-paragraph-medium-gray () {
+  font-size: $font-p-2-paragraph-medium-gray-font-size;
+  line-height: $font-p-2-paragraph-medium-gray-line-height;
+  text-align: $font-p-2-paragraph-medium-gray-text-align;
+  color: $font-p-2-paragraph-medium-gray-color;
+  letter-spacing: $font-p-2-paragraph-medium-gray-letter-spacing;
+  font-style: $font-p-2-paragraph-medium-gray-font-style;
+  font-weight: $font-p-2-paragraph-medium-gray-font-weight;
+  font-family: $font-p-2-paragraph-medium-gray-font-family;
+}
+
+$font-p-3-small-button-text-black-font-size: 16px;
+$font-p-3-small-button-text-black-line-height: 17px;
+$font-p-3-small-button-text-black-text-align: center;
+$font-p-3-small-button-text-black-color: #131b25;
+$font-p-3-small-button-text-black-letter-spacing: 0.27px;
+$font-p-3-small-button-text-black-font-style: normal;
+$font-p-3-small-button-text-black-font-weight: 600;
+$font-p-3-small-button-text-black-font-family: Work Sans;
+
+@mixin font-p-3-small-button-text-black () {
+  font-size: $font-p-3-small-button-text-black-font-size;
+  line-height: $font-p-3-small-button-text-black-line-height;
+  text-align: $font-p-3-small-button-text-black-text-align;
+  color: $font-p-3-small-button-text-black-color;
+  letter-spacing: $font-p-3-small-button-text-black-letter-spacing;
+  font-style: $font-p-3-small-button-text-black-font-style;
+  font-weight: $font-p-3-small-button-text-black-font-weight;
+  font-family: $font-p-3-small-button-text-black-font-family;
+}
+
+$font-p-4-paragraph-smallest-gray-font-size: 14px;
+$font-p-4-paragraph-smallest-gray-line-height: 16px;
+$font-p-4-paragraph-smallest-gray-text-align: left;
+$font-p-4-paragraph-smallest-gray-color: #545b64;
+$font-p-4-paragraph-smallest-gray-letter-spacing: 0.23px;
+$font-p-4-paragraph-smallest-gray-font-style: normal;
+$font-p-4-paragraph-smallest-gray-font-weight: 400;
+$font-p-4-paragraph-smallest-gray-font-family: Work Sans;
+
+@mixin font-p-4-paragraph-smallest-gray () {
+  font-size: $font-p-4-paragraph-smallest-gray-font-size;
+  line-height: $font-p-4-paragraph-smallest-gray-line-height;
+  text-align: $font-p-4-paragraph-smallest-gray-text-align;
+  color: $font-p-4-paragraph-smallest-gray-color;
+  letter-spacing: $font-p-4-paragraph-smallest-gray-letter-spacing;
+  font-style: $font-p-4-paragraph-smallest-gray-font-style;
+  font-weight: $font-p-4-paragraph-smallest-gray-font-weight;
+  font-family: $font-p-4-paragraph-smallest-gray-font-family;
+}
+
+$white: #ffffff;
+$mist: #eeeced;
+$moon: #f7d047;
+$goldenlight: #d1b147;
+$sun: #ff8600;
+$dawn: #532e4b;
+$dusk: #5db9ac;
+$dusk-dark: #379b8d;
+$fog: #6bd7ef;
+$twilight: #476fb1;
+$eve: #2d5859;
+$pitch: #131b25;
+$haze: #6d8594;
+$acodus-glow: #40f3e4;
+
+.form-error {
+  @include font-p-4-paragraph-smallest-gray;
+  display: inline-block;
+  color: #0170E9;
+}

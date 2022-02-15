@@ -47,7 +47,8 @@ module.exports = class TeacherCoursesView extends RootView
     @campaignLevelNumberMap = {}
     @courseChangeLog = {}
     @videoLevels = utils.videoLevels || {}
-    window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
+    @courseLessonSlidesURLs = utils.courseLessonSlidesURLs
+    window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers'
 
   onLoaded: ->
     @campaigns.models.forEach (campaign) =>
@@ -56,16 +57,32 @@ module.exports = class TeacherCoursesView extends RootView
       @campaignLevelNumberMap[campaign.id] = utils.createLevelNumberMap(levels)
     @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
     @fetchChangeLog()
+    @fetchResourceHubResources()
     me.getClientCreatorPermissions()?.then(() => @render?())
     @render?()
 
+  fetchResourceHubResources: ->
+    @resourcesByCourse = {}
+    api.resourceHubResources.getResourceHubResources().then((allResources) =>
+      return if @destroyed
+      for resource in allResources when resource.hidden isnt false and resource.courses?.length
+        for course in resource.courses
+          @resourcesByCourse[course] ?= []
+          @resourcesByCourse[course].push resource
+      for courseAcronym, resources of @resourcesByCourse
+        @resourcesByCourse[courseAcronym] = _.sortBy(resources, 'priority')
+      @render()
+    ).catch (e) =>
+      console.error e
+
   fetchChangeLog: ->
+    return  # 2021-04-25: Haven't been any relevant changes for a while, so disable fetching this; can re-enable and filter to only recent-ish changes if we get back on the course change wagon someday
     api.courses.fetchChangeLog().then((changeLogInfo) =>
       @courses.models.forEach (course) =>
         changeLog = _.filter(changeLogInfo, { 'id' : course.get('_id') })
         changeLog = _.sortBy(changeLog, 'date')
         @courseChangeLog[course.id] = _.mapValues(_.groupBy(changeLog, 'date'))
-      @render?()  
+      @render?()
     )
     .catch((e) =>
       console.error(e)
@@ -75,14 +92,14 @@ module.exports = class TeacherCoursesView extends RootView
     courseID = $(e.currentTarget).data('course-id')
     courseName = $(e.currentTarget).data('course-name')
     eventAction = $(e.currentTarget).data('event-action')
-    window.tracker?.trackEvent eventAction, category: 'Teachers', courseID: courseID, courseName: courseName, ['Mixpanel']
+    window.tracker?.trackEvent eventAction, category: 'Teachers', courseID: courseID, courseName: courseName
 
   onClickPlayLevel: (e) ->
     form = $(e.currentTarget).closest('.play-level-form')
     levelSlug = form.find('.level-select').val()
     courseID = form.data('course-id')
     language = form.find('.language-select').val() or 'javascript'
-    window.tracker?.trackEvent 'Classes Guides Play Level', category: 'Teachers', courseID: courseID, language: language, levelSlug: levelSlug, ['Mixpanel']
+    window.tracker?.trackEvent 'Classes Guides Play Level', category: 'Teachers', courseID: courseID, language: language, levelSlug: levelSlug
     url = "/play/level/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}"
     firstLevelSlug = @campaigns.get(@courses.at(0).get('campaignID')).getLevels().at(0).get('slug')
     if levelSlug is firstLevelSlug

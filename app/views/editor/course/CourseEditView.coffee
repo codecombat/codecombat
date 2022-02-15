@@ -14,6 +14,7 @@ module.exports = class CourseEditView extends RootView
 
   events:
     'click #save-button': 'onClickSaveButton'
+    'click #i18n-button': 'onPopulateI18N'
 
   constructor: (options, @courseID) ->
     super options
@@ -47,6 +48,9 @@ module.exports = class CourseEditView extends RootView
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@course), @$el.find('.patches-view'))
     @patchesView.load()
+
+  onPopulateI18N: ->
+    @course.populateI18N()
 
   onClickSaveButton: (e) ->
     @treema.endExistingEdits()

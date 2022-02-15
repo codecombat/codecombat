@@ -124,7 +124,6 @@ module.exports =
   'level:show-victory': c.object {required: ['showModal']},
     showModal: {type: 'boolean'}
     manual: { type: 'boolean' }
-    capstoneInProgress: { type: 'boolean' }
 
   'level:highlight-dom': c.object {required: ['selector']},
     selector: {type: 'string'}

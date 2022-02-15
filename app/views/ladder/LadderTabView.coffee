@@ -5,6 +5,7 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 User = require 'models/User'
+TournamentSubmission = require 'models/TournamentSubmission'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel, scoreForDisplay} = require './utils'
 ModelModal = require 'views/modal/ModelModal'
@@ -13,6 +14,14 @@ CreateAccountModal = require 'views/core/CreateAccountModal'
 utils = require 'core/utils'
 
 HIGHEST_SCORE = 1000000
+
+class TournamentLeaderboardCollection extends CocoCollection
+  url: ''
+  model: TournamentSubmission
+
+  constructor: (tournamentId, options) ->
+    super()
+    @url = "/db/tournament/#{tournamentId}/rankings?#{$.param(options)}"
 
 module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
@@ -34,12 +43,13 @@ module.exports = class LadderTabView extends CocoView
 #    'auth:logged-in-with-facebook': 'onConnectedWithFacebook'
 #    'auth:logged-in-with-gplus': 'onConnectedWithGPlus'
 
-  initialize: (options, @level, @sessions) ->
+  initialize: (options, @level, @sessions, @tournamentId) ->
     @teams = teamDataFromLevel @level
     @leaderboards = []
     @refreshLadder()
 
     @capitalize = _.string.capitalize
+    @selectedTeam = 'humans'
 
     # Trying not loading the FP/G+ stuff for now to see if anyone complains they were using it so we can have just two columns.
     #@socialNetworkRes = @supermodel.addSomethingResource('social_network_apis', 0)
@@ -175,7 +185,7 @@ module.exports = class LadderTabView extends CocoView
         @supermodel.removeModelResource oldLeaderboard
         oldLeaderboard.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
-      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit, @options.league)
+      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit, @options.league, @tournamentId)
       team.leaderboard = @leaderboards[team.id]
       @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', {cache: false}, 3)
       @leaderboardRes.load()
@@ -188,8 +198,7 @@ module.exports = class LadderTabView extends CocoView
       team = _.find @teams, name: histogramWrapper.data('team-name')
       histogramData = null
       $.when(
-        level = "#{@level.get('original')}.#{@level.get('version').major}"
-        url = "/db/level/#{level}/histogram_data?team=#{team.name.toLowerCase()}&levelSlug=#{@level.get('slug')}"
+        url = "/db/level/#{@level.get('original')}/rankings-histogram?team=#{team.name.toLowerCase()}&levelSlug=#{@level.get('slug')}"
         url += '&leagues.leagueID=' + @options.league.id if @options.league
         $.get url, (data) -> histogramData = data
       ).then =>
@@ -198,6 +207,7 @@ module.exports = class LadderTabView extends CocoView
   generateHistogram: (histogramElement, histogramData, teamName) ->
     #renders twice, hack fix
     if $('#' + histogramElement.attr('id')).has('svg').length then return
+    if not histogramData.length then return histogramElement.hide()
     histogramData = histogramData.map (d) -> scoreForDisplay d
 
     margin =
@@ -287,6 +297,8 @@ module.exports = class LadderTabView extends CocoView
       .attr('transform', 'translate(0, ' + height + ')')
       .call(xAxis)
 
+    histogramElement.show()
+
   consolidateFriends: ->
     allFriendSessions = (@facebookFriendSessions or []).concat(@gplusFriendSessions or [])
     sessions = _.uniq allFriendSessions, false, (session) -> session._id
@@ -299,24 +311,49 @@ module.exports = class LadderTabView extends CocoView
 
   # Admin view of players' code
   onClickPlayerName: (e) ->
-    return unless me.isAdmin()
-    row = $(e.target).parent()
-    player = new User _id: row.data 'player-id'
-    session = new LevelSession _id: row.data 'session-id'
-    @openModalView new ModelModal models: [session, player]
+    if me.isAdmin()
+      row = $(e.target).parent()
+      session = new LevelSession _id: row.data 'session-id'
+      @supermodel.loadModel session
+      @listenToOnce session, 'sync', (_session) =>
+        if _session.get('source')?.name
+          models = [_session]
+        else
+          player = new User _id: row.data 'player-id'
+          models = [_session, player]
+        @openModalView new ModelModal models: models
+    else if me.isTeacher()
+      ;
+    else
+      ;
 
   onClickSpectateCell: (e) ->
     cell = $(e.target).closest '.spectate-cell'
     row = cell.parent()
     table = row.closest('table')
     wasSelected = cell.hasClass 'selected'
-    table.find('.spectate-cell.selected').removeClass 'selected'
-    cell = $(e.target).closest('.spectate-cell').toggleClass 'selected', not wasSelected
-    sessionID = row.data 'session-id'
-    teamID = table.data 'team'
-    @spectateTargets ?= {}
-    @spectateTargets[teamID] = if wasSelected then null else sessionID
-    console.log @spectateTargets, cell, row, table
+    if @teams.length == 2
+      table.find('.spectate-cell.selected').removeClass 'selected'
+      cell = $(e.target).closest('.spectate-cell').toggleClass 'selected', not wasSelected
+      sessionID = row.data 'session-id'
+      teamID = table.data 'team'
+      @spectateTargets ?= {}
+      @spectateTargets[teamID] = if wasSelected then null else sessionID
+      console.log @spectateTargets, cell, row, table
+    else
+      if wasSelected
+        removeClass = if cell.hasClass('selected-humans') then 'selected-humans' else 'selected-ogres'
+        cell = $(e.target).closest('.spectate-cell').removeClass ('selected '+removeClass)
+        teamID = @selectedTeam = if removeClass is 'selected-humans' then 'humans' else 'ogres'
+      else
+        table.find('.spectate-cell.selected.selected-' + @selectedTeam).removeClass ('selected selected-'+@selectedTeam)
+        cell = $(e.target).closest('.spectate-cell').addClass 'selected selected-'+@selectedTeam
+        teamID = @selectedTeam
+        @selectedTeam = if @selectedTeam is 'humans' then 'ogres' else 'humans'
+      sessionID = row.data 'session-id'
+      @spectateTargets ?= {}
+      @spectateTargets[teamID] = if wasSelected then null else sessionID
+      console.log @spectateTargets, cell, row, table
 
   onLoadMoreLadderEntries: (e) ->
     @ladderLimit ?= 100
@@ -329,7 +366,7 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
-  constructor: (@level, @team, @session, @limit, @league) ->
+  constructor: (@level, @team, @session, @limit, @league, @tournamentId, @ageBracket) ->
     super()
 
   collectionParameters: (parameters) ->
@@ -340,7 +377,13 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
   fetch: ->
     console.warn 'Already have top players on', @ if @topPlayers
 
-    @topPlayers = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit))
+    params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
+    if @ageBracket?
+      params.age = @ageBracket
+    if @tournamentId?
+      @topPlayers = new TournamentLeaderboardCollection(@tournamentId, params)
+    else
+      @topPlayers = new LeaderboardCollection(@level, params)
     promises = []
     promises.push @topPlayers.fetch cache: false
 
@@ -350,14 +393,21 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
       else
         score = @session.get('totalScore')
       if score
-        @playersAbove = new LeaderboardCollection(@level, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
-        promises.push @playersAbove.fetch cache: false
-        @playersBelow = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
-        promises.push @playersBelow.fetch cache: false
-        level = "#{@level.get('original')}.#{@level.get('version').major}"
+        if @tournamentId?
+          @playersAbove = new TournamentLeaderboardCollection(@tournamentId, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
+          promises.push @playersAbove.fetch cache: false
+          @playersBelow = new TournamentLeaderboardCollection(@tournamentId, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
+          promises.push @playersBelow.fetch cache: false
+        else
+          @playersAbove = new LeaderboardCollection(@level, @collectionParameters(order: 1, scoreOffset: score, limit: 4))
+          promises.push @playersAbove.fetch cache: false
+          @playersBelow = new LeaderboardCollection(@level, @collectionParameters(order: -1, scoreOffset: score, limit: 4))
+          promises.push @playersBelow.fetch cache: false
         success = (@myRank) =>
-        loadURL = "/db/level/#{level}/leaderboard_rank?scoreOffset=#{score}&team=#{@team}&levelSlug=#{@level.get('slug')}"
+        loadURL = "/db/level/#{@level.get('original')}/rankings/#{@session.id}?scoreOffset=#{score}&team=#{@team}&levelSlug=#{@level.get('slug')}"
         loadURL += '&leagues.leagueID=' + @league.id if @league
+        if @tournamentId?
+          loadURL = "/db/tournament/#{@tournamentId}/rankings?scoreOffset=#{score}&team=#{@team}"
         promises.push $.ajax(loadURL, cache: false, success: success)
     @promise = $.when(promises...)
     @promise.then @onLoad

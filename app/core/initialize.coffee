@@ -2,6 +2,7 @@ Backbone.Mediator.setValidationEnabled false
 app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
+globalVar = require 'core/globalVar'
 
 VueRouter = require 'vue-router'
 Vuex = require 'vuex'
@@ -47,6 +48,7 @@ init = ->
       init()
     return
 
+  marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
   app = require 'core/application'
   setupConsoleLogging()
   watchForErrors()
@@ -54,13 +56,17 @@ init = ->
   path = document.location.pathname
   app.testing = _.string.startsWith path, '/test'
   app.demoing = _.string.startsWith path, '/demo'
-  setUpBackboneMediator()
+  setUpBackboneMediator(app)
   app.initialize()
   loadOfflineFonts() unless app.isProduction()
+  # We always want to load this font.
+  $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/vt323.css">'
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
   installVueI18n()
+  window.globalVar = globalVar if me.isAdmin() or !app.isProduction() or serverSession?.amActually
+  parent.globalVar = globalVar if self != parent
 
 module.exports.init = init
 
@@ -88,10 +94,10 @@ handleNormalUrls = ->
 
     return false
 
-setUpBackboneMediator = ->
+setUpBackboneMediator = (app) ->
   Backbone.Mediator.addDefSchemas schemas for definition, schemas of definitionSchemas
   Backbone.Mediator.addChannelSchemas schemas for channel, schemas of channelSchemas
-  Backbone.Mediator.setValidationEnabled document.location.href.search(/codecombat.com/) is -1
+  Backbone.Mediator.setValidationEnabled(not app.isProduction())
   if false  # Debug which events are being fired
     originalPublish = Backbone.Mediator.publish
     Backbone.Mediator.publish = ->
@@ -213,8 +219,9 @@ window.serializeForIOS = serializeForIOS = (obj, depth=3) ->
   clone
 
 window.onbeforeunload = (e) ->
-  leavingMessage = _.result(window.currentView, 'onLeaveMessage')
+  leavingMessage = _.result(globalVar.currentView, 'onLeaveMessage')
   if leavingMessage
+    # Custom messages don't work any more, main browsers just show generic ones. So, this could be refactored.
     return leavingMessage
   else
     return

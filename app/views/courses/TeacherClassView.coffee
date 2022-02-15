@@ -32,8 +32,13 @@ window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format ch
 TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default
 PieChart = require('core/components/PieComponent').default
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
+clansApi = require 'core/api/clans'
+
+DOMPurify = require 'dompurify'
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
+
+getLastSelectedCourseKey = (classroomId) -> 'selectedCourseId_' + classroomId + '_' + me.id
 
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
@@ -48,6 +53,7 @@ module.exports = class TeacherClassView extends RootView
     'click .sort-button': 'onClickSortButton'
     'click #copy-url-btn': 'onClickCopyURLButton'
     'click #copy-code-btn': 'onClickCopyCodeButton'
+    'click #regenerate-code-btn': 'onClickRegenerateCodeButton'
     'click .remove-student-link': 'onClickRemoveStudentLink'
     'click .assign-student-button': 'onClickAssignStudentButton'
     'click .enroll-student-button': 'onClickEnrollStudentButton'
@@ -56,19 +62,21 @@ module.exports = class TeacherClassView extends RootView
     'click .assign-to-selected-students': 'onClickBulkAssign'
     'click .remove-from-selected-students': 'onClickBulkRemoveCourse'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
+    'click .view-ai-league': 'onClickViewAILeague'
+    'click .ai-league-quickstart-video': 'onClickAILeagueQuickstartVideo'
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
     'keyup #student-search': 'onKeyPressStudentSearch'
     'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
     'click a.student-level-progress-dot': 'onClickStudentProgressDot'
     'click .sync-google-classroom-btn': 'onClickSyncGoogleClassroom'
-    'change .locked-level-select': 'onChangeLockedLevelSelect'
+    'change #locked-level-select': 'onChangeLockedLevelSelect'
     'click .student-details-row': 'trackClickEvent'
     'click .open-certificate-btn': 'trackClickEvent'
 
   getInitialState: ->
     {
-      sortValue: 'name'
+      sortValue: 'last-name'
       sortDirection: 1
       activeTab: '#' + (Backbone.history.getHash() or 'students-tab')
       students: new Users()
@@ -123,36 +131,40 @@ module.exports = class TeacherClassView extends RootView
     @sortedCourses = []
     @latestReleasedCourses = []
 
-    @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchMineAndShared()
-
     @students = new Users()
     @classroom.sessions = new LevelSessions()
     @listenTo @classroom, 'sync', ->
       @fetchStudents()
       @fetchSessions()
+      @fetchPrepaids()
+      @fetchClans()
       @classroom.language = @classroom.get('aceConfig')?.language
 
-    @students.comparator = (student1, student2) =>
+    @students.comparator = (s1, s2) =>
       dir = @state.get('sortDirection')
       value = @state.get('sortValue')
-      if value is 'name'
-        return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
+      s1LastName = s1.get('lastName') or s1.broadName()
+      s2LastName = s2.get('lastName') or s2.broadName()
+      if value is 'first-name'
+        return (if s1.broadName().toLowerCase() < s2.broadName().toLowerCase() then -dir else dir)
+
+      if value is 'last-name'
+        return (if s1LastName.toLowerCase() < s2LastName.toLowerCase() then -dir else dir)
 
       if value is 'progress'
         # TODO: I would like for this to be in the Level model,
         #   but it doesn't know about its own courseNumber.
-        level1 = student1.latestCompleteLevel
-        level2 = student2.latestCompleteLevel
+        level1 = s1.latestCompleteLevel
+        level2 = s2.latestCompleteLevel
         return -dir if not level1
         return dir if not level2
         return dir * (level1.courseNumber - level2.courseNumber or level1.levelNumber - level2.levelNumber)
 
       if value is 'status'
         statusMap = { expired: 0, 'not-enrolled': 1, enrolled: 2 }
-        diff = statusMap[student1.prepaidStatus()] - statusMap[student2.prepaidStatus()]
+        diff = statusMap[s1.prepaidStatus()] - statusMap[s2.prepaidStatus()]
         return dir * diff if diff
-        return (if student1.broadName().toLowerCase() < student2.broadName().toLowerCase() then -dir else dir)
+        return (if s1LastName.toLowerCase() < s2LastName.toLowerCase() then -dir else dir)
 
     @courses = new Courses()
     @supermodel.trackRequest @courses.fetch()
@@ -166,7 +178,7 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n,assessment,assessmentPlacement,slug,goals'}})
     me.getClientCreatorPermissions()?.then(() => @debouncedRender?())
     @attachMediatorEvents()
-    window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id
     @timeSpentOnUnitProgress = null
 
   fetchStudents: ->
@@ -185,6 +197,16 @@ module.exports = class TeacherClassView extends RootView
       @calculateProgressAndLevels()
       @debouncedRender?()
 
+  fetchPrepaids: ->
+    @prepaids = new Prepaids()
+    @supermodel.trackRequest @prepaids.fetchForClassroom(@classroom)
+
+  fetchClans: ->
+    if @classroom.get('ownerID') is me.id
+      clansApi.getMyClans().then @onMyClansLoaded
+    else if @classroom.hasReadPermission()
+      clansApi.getUserClans(@classroom.get('ownerID')).then @onMyClansLoaded
+
   attachMediatorEvents: () ->
     # Model/Collection events
     @listenTo @classroom, 'sync change update', ->
@@ -200,7 +222,8 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @courses, 'sync change update', ->
       @setCourseMembers() # Is this necessary?
       unless @state.get 'selectedCourse'
-        @state.set 'selectedCourse', @courses.first()
+        courseId = localStorage.getItem getLastSelectedCourseKey this.classroom.id
+        @state.set 'selectedCourse', if courseId then @courses.get(courseId) else @courses.first()
       @setSelectedCourseInstance()
     @listenTo @courseInstances, 'sync change update', ->
       @setCourseMembers()
@@ -218,8 +241,6 @@ module.exports = class TeacherClassView extends RootView
       @state.set students: @students
     @listenTo @, 'course-select:change', ({ selectedCourse }) ->
       @state.set selectedCourse: selectedCourse
-    @listenTo @, 'locked-level-select:change', ({ selectedLevel }) ->
-      @setSelectedCourseLockedLevel(selectedLevel)
     @listenTo @state, 'change:selectedCourse', (e) ->
       @setSelectedCourseInstance()
 
@@ -241,17 +262,18 @@ module.exports = class TeacherClassView extends RootView
       @setSelectedCourseInstance()
     return @state.get 'selectedCourseInstance'
 
-  setSelectedCourseLockedLevel: (level) ->
-    return unless me.showCourseProgressControl()
-    courseInstance = @getSelectedCourseInstance()
-    if courseInstance and level
-      courseInstance.set 'startLockedLevel', level
-      courseInstance.save()
+  onMyClansLoaded: (clans) =>
+    @myClans = clans
+    return unless @classClan = _.find((@myClans ? []), (clan) => clan.name is "autoclan-classroom-#{@classroom.id}")
+    clansApi.getAILeagueStats(@classClan._id).then (stats) =>
+      @aiLeagueStats = JSON.parse(stats)
+      @renderSelectors '.ai-league-stats'
+      @$('.ai-league-stats [data-toggle="tooltip"]').tooltip()
 
   onLoaded: ->
     # Get latest courses for student assignment dropdowns
     @latestReleasedCourses = if me.isAdmin() then @courses.models else @courses.where({releasePhase: 'released'})
-    @latestReleasedCourses = utils.sortCoursesByAcronyms(@latestReleasedCourses)
+    @latestReleasedCourses = utils.sortCourses(@latestReleasedCourses)
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
 
@@ -376,7 +398,7 @@ module.exports = class TeacherClassView extends RootView
     hash = $(e.target).closest('a').attr('href')
     if hash isnt window.location.hash
       tab = hash.slice(1)
-      window.tracker?.trackEvent 'Teachers Class Switch Tab', { category: 'Teachers', classroomID: @classroom.id, tab, label: tab }, ['Mixpanel']
+      window.tracker?.trackEvent 'Teachers Class Switch Tab', { category: 'Teachers', classroomID: @classroom.id, tab, label: tab }
     @updateHash(hash)
     @state.set activeTab: hash
 
@@ -395,24 +417,31 @@ module.exports = class TeacherClassView extends RootView
     if eventAction
       window.tracker?.trackEvent eventAction, { category: 'Teachers', label: @classroom.id }
 
+  onClickRegenerateCodeButton: ->
+    s = $.i18n.t('teacher.regenerate_class_code_confirm')
+    return unless confirm(s)
+    window.tracker?.trackEvent 'Teachers Class Regenerate Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode')
+    @classroom.set( { codeCamel: '', code: '' } );
+    @classroom.save()
+
   onClickCopyCodeButton: ->
-    window.tracker?.trackEvent 'Teachers Class Copy Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode'), ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Copy Class Code', category: 'Teachers', classroomID: @classroom.id, classCode: @state.get('classCode')
     @$('#join-code-input').val(@state.get('classCode')).select()
     @tryCopy()
 
   onClickCopyURLButton: ->
-    window.tracker?.trackEvent 'Teachers Class Copy Class URL', category: 'Teachers', classroomID: @classroom.id, url: @state.get('joinURL'), ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Copy Class URL', category: 'Teachers', classroomID: @classroom.id, url: @state.get('joinURL')
     @$('#join-url-input').val(@state.get('joinURL')).select()
     @tryCopy()
 
   onClickUnarchive: ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
-    window.tracker?.trackEvent 'Teachers Class Unarchive', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Unarchive', category: 'Teachers', classroomID: @classroom.id
     @classroom.save { archived: false }
 
   onClickEditClassroom: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
-    window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
+    window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id
     @promptToEdit()
 
   promptToEdit: () ->
@@ -422,14 +451,14 @@ module.exports = class TeacherClassView extends RootView
     @listenToOnce modal, 'hide', @render
 
   onClickEditStudentLink: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
-    window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
+    window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new EditStudentModal({ user, @classroom })
     @openModalView(modal)
 
   onClickRemoveStudentLink: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new RemoveStudentModal({
       classroom: @classroom
@@ -441,18 +470,18 @@ module.exports = class TeacherClassView extends RootView
 
   onStudentRemoved: (e) ->
     @students.remove(e.user)
-    window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id
 
   onClickAddStudents: (e) =>
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
-    window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
+    window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
 
   removeDeletedStudents: () ->
     return unless @classroom.loaded and @students.loaded
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission() # May be viewing page as admin
     _.remove(@classroom.get('members'), (memberID) =>
       not @students.get(memberID) or @students.get(memberID)?.get('deleted')
     )
@@ -473,10 +502,16 @@ module.exports = class TeacherClassView extends RootView
     @state.set('searchTerm', $(e.target).val())
 
   onChangeCourseSelect: (e) ->
-    @trigger 'course-select:change', { selectedCourse: @courses.get($(e.currentTarget).val()) }
+    selectedCourseId = $(e.currentTarget).val()
+    localStorage.setItem getLastSelectedCourseKey(this.classroom.id), selectedCourseId
+    @trigger 'course-select:change', { selectedCourse: @courses.get(selectedCourseId) }
 
   onChangeLockedLevelSelect: (e) ->
-    @trigger 'locked-level-select:change', { selectedLevel: $(e.currentTarget).val() }
+    level = $(e.currentTarget).val()
+    courseInstance = @getSelectedCourseInstance()
+    if courseInstance and level
+      courseInstance.set 'startLockedLevel', level
+      courseInstance.save()
 
   getSelectedStudentIDs: ->
     Object.keys(_.pick @state.get('checkboxStates'), (checked) -> checked)
@@ -484,15 +519,15 @@ module.exports = class TeacherClassView extends RootView
   ensureInstance: (courseID) ->
 
   onClickEnrollStudentButton: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     selectedUsers = new Users([user])
     @enrollStudents(selectedUsers)
-    window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
+    window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID
 
   enrollStudents: (selectedUsers) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
     @openModalView(modal)
     modal.once 'redeem-users', (enrolledUsers) =>
@@ -504,7 +539,7 @@ module.exports = class TeacherClassView extends RootView
 
   onClickExportStudentProgress: ->
     # TODO: Does not yield .csv download on Safari, and instead opens a new tab with the .csv contents
-    window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id
     courseLabels = ""
     courses = (@courses.get(c._id) for c in @sortedCourses)
     courseLabelsArray = helper.courseLabelsArray(courses)
@@ -573,37 +608,48 @@ module.exports = class TeacherClassView extends RootView
     file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
     window.saveAs(file, 'CodeCombat.csv')
 
+  onClickViewAILeague: (e) ->
+    unless @classClan
+      console.error "Couldn't find autoclan for classroom #{@classroom.id} out of", @myClans
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: @classroom.id
+    application.router.navigate("/league/#{classClan?._id ? ''}", { trigger: true })
+
+  onClickViewAILeagueQuickstartVideo: (e) ->
+    clanLevel = $(e.target).data('clan-level')
+    clanSourceObjectID = $(e.target).data('clan-source-object-id')
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', clanSourceObjectID: clanSourceObjectID
+
   onClickAssignStudentButton: (e) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     members = [userID]
     courseID = $(e.currentTarget).data('course-id')
     @assignCourse courseID, members
-    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID
 
   onClickBulkAssign: ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     nobodySelected = selectedIDs.length is 0
     @state.set errors: { nobodySelected }
     return if nobodySelected
     @assignCourse courseID, selectedIDs
-    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID
 
   onClickBulkRemoveCourse: ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     nobodySelected = selectedIDs.length is 0
     @state.set errors: { nobodySelected }
     return if nobodySelected
     @removeCourse courseID, selectedIDs
-    window.tracker?.trackEvent 'Teachers Class Students Remove-Course Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Class Students Remove-Course Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID
 
   assignCourse: (courseID, members) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     courseInstance = null
     numberEnrolled = 0
     remainingSpots = 0
@@ -636,10 +682,10 @@ module.exports = class TeacherClassView extends RootView
       canAssignCourses = totalSpotsAvailable >= _.size(unenrolledStudents)
       if not canAssignCourses
         # These ones just matter for display
-        availableFullLicenses = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.get('type') is 'course')
+        availableFullLicenses = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.get('type') is 'course' and not prepaid.get('includedCourseIDs'))
         numStudentsWithoutFullLicenses = _(members)
           .map((userID) => @students.get(userID))
-          .filter((user) => user.prepaidType() isnt 'course' or not user.isEnrolled())
+          .filter((user) => user.prepaidType('includedCourseIDs') isnt 'course' or not user.isEnrolled())
           .size()
         numFullLicensesAvailable = _.reduce(prepaid.openSpots() for prepaid in availableFullLicenses, (val, total) -> val + total) or 0
         modal = new CoursesNotAssignedModal({
@@ -661,7 +707,10 @@ module.exports = class TeacherClassView extends RootView
       for prepaid in availablePrepaids when Math.min(_.size(unenrolledStudents), prepaid.openSpots()) > 0
         for i in [0...Math.min(_.size(unenrolledStudents), prepaid.openSpots())]
           user = unenrolledStudents.shift()
-          requests.push(prepaid.redeem(user))
+          options = {}
+          if !@classroom.isOwner() and @classroom.hasWritePermission()
+            options = { data: { sharedClassroomId: @classroom.id } }
+          requests.push(prepaid.redeem(user, options))
 
       @trigger 'begin-redeem-for-assign-course'
       return $.when(requests...)
@@ -706,10 +755,12 @@ module.exports = class TeacherClassView extends RootView
       return if e.handled
       throw e if e instanceof Error and not application.isProduction()
       text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown')
+      if e.responseJSON?.errorName == 'PaymentRequired'
+        text = $.i18n.t('teacher.not_assigned_msg_1')
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 
   removeCourse: (courseID, members) ->
-    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     courseInstance = null
     membersBefore = 0
 
@@ -755,14 +806,18 @@ module.exports = class TeacherClassView extends RootView
     return unless confirm(s)
     prepaid = user.makeCoursePrepaid()
     button.text($.i18n.t('teacher.revoking'))
-    prepaid.revoke(user, {
+    options = {
       success: =>
         user.unset('coursePrepaid')
       error: (prepaid, jqxhr) =>
         msg = jqxhr.responseJSON.message
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
       complete: => @debouncedRender()
-    })
+    }
+    if !@classroom.isOwner() and @classroom.hasWritePermission()
+      options.data = { sharedClassroomId: @classroom.id }
+
+    prepaid.revoke(user, options)
 
   onClickRevokeAllStudentsButton: ->
     s = $.i18n.t('teacher.revoke_all_confirm')
@@ -771,7 +826,7 @@ module.exports = class TeacherClassView extends RootView
       status = student.prepaidStatus()
       if status is 'enrolled' and student.prepaidType() is 'course'
         prepaid = student.makeCoursePrepaid()
-        prepaid.revoke(student, {
+        options = {
           # The for loop completes before the success callback for the first student executes.
           # So, the `student` will be the last student when the callback executes.
           # Therefore, using a self calling anonymous function for the success callback
@@ -785,7 +840,10 @@ module.exports = class TeacherClassView extends RootView
             msg = jqxhr.responseJSON.message
             noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
           complete: => @debouncedRender()
-        })
+        }
+        if !@classroom.isOwner() and @classroom.hasWritePermission()
+          options.data = { sharedClassroomId: @classroom.id }
+        prepaid.revoke(student, options)
 
   onClickSelectAll: (e) ->
     e.preventDefault()
@@ -894,3 +952,7 @@ module.exports = class TeacherClassView extends RootView
     .then () =>
       $('.sync-google-classroom-btn').text($.i18n.t('teacher.sync_google_classroom'))
       $('.sync-google-classroom-btn').attr('disabled', false)
+
+  markdownIt: (content) ->
+    return '' unless content
+    return DOMPurify.sanitize marked(content)

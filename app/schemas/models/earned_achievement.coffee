@@ -27,9 +27,10 @@ module.exports =
       triggeredBy: c.objectId()
       achievementName: type: 'string'
       created: type: ['date', 'string', 'number']
-      changed: type: ['date', 'string', 'number'] # TODO: migrate timestamps and Date objects all to ISO strings 
+      changed: type: ['date', 'string', 'number'] # TODO: migrate timestamps and Date objects all to ISO strings
       achievedAmount: type: 'number'
       earnedPoints: type: 'number'
       previouslyAchievedAmount: {type: 'number'}
       earnedRewards: c.RewardSchema 'awarded by this achievement to this user'
       notified: type: 'boolean'
+      archived: c.date {description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'}

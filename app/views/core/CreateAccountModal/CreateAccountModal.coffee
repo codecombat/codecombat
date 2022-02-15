@@ -5,6 +5,7 @@ ChooseAccountTypeView = require './ChooseAccountTypeView'
 SegmentCheckView = require './SegmentCheckView'
 CoppaDenyView = require './CoppaDenyView'
 EUConfirmationView = require './EUConfirmationView'
+OzVsCocoView = require './OzVsCocoView'
 BasicInfoView = require './BasicInfoView'
 SingleSignOnAlreadyExistsView = require './SingleSignOnAlreadyExistsView'
 SingleSignOnConfirmView = require './SingleSignOnConfirmView'
@@ -84,12 +85,14 @@ module.exports = class CreateAccountModal extends ModalView
         email: options.email ? ''
       }
       subModalContinue: options.subModalContinue
+      accountRequiredMessage: options.accountRequiredMessage
       wantInSchool: false
     }
 
     { startOnPath } = options
     switch startOnPath
       when 'student' then @signupState.set({ path: 'student', screen: 'segment-check' })
+      when 'oz-vs-coco' then @signupState.set({ path: 'oz-vs-coco', screen: 'oz-vs-coco' })
       when 'individual' then @signupState.set({ path: 'individual', screen: 'segment-check' })
       when 'teacher'
         startSignupTracking()
@@ -108,6 +111,8 @@ module.exports = class CreateAccountModal extends ModalView
           startSignupTracking()
           window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers' # This is a legacy event name
           @signupState.set { path, screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' }
+        else if path is 'oz-vs-coco'
+          @signupState.set { path, screen: 'oz-vs-coco' }
         else
           if path is 'student'
             window.tracker?.trackEvent 'CreateAccountModal Student Path Clicked', category: 'Students'
@@ -130,6 +135,10 @@ module.exports = class CreateAccountModal extends ModalView
         else
           @signupState.set { screen: 'segment-check' }
       'nav-forward': (screen) -> @signupState.set { screen: screen or 'basic-info' }
+
+    @listenTo @insertSubView(new OzVsCocoView({ @signupState })),
+      'nav-forward': (path) -> @signupState.set { path: 'teacher', screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' }
+      'nav-back': (path) -> @signupState.set { path: null, screen: 'choose-account-type' }
 
     @listenTo @insertSubView(new BasicInfoView({ @signupState })),
       'sso-connect:already-in-use': -> @signupState.set { screen: 'sso-already-exists' }
@@ -192,6 +201,10 @@ module.exports = class CreateAccountModal extends ModalView
     @once 'hidden', ->
       if @signupState.get('accountCreated') and not application.testing
         # ensure logged in state propagates through the entire app
+        if window.nextURL
+          window.location.href = window.nextURL
+          return
+
         if me.isStudent()
           application.router.navigate('/students', {trigger: true})
         else if me.isTeacher()
@@ -201,6 +214,7 @@ module.exports = class CreateAccountModal extends ModalView
     store.registerModule('modal', TeacherSignupStoreModule)
 
   afterRender: ->
+    super()
     target = @$el.find('#teacher-signup-component')
     return unless target[0]
     if @teacherSignupComponent
@@ -220,6 +234,7 @@ module.exports = class CreateAccountModal extends ModalView
       @teacherSignupComponent.$destroy()
     try
       store.unregisterModule('modal')
+    super()
 
   onClickLoginLink: ->
     properties =

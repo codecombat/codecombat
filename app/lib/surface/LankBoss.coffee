@@ -11,7 +11,6 @@ module.exports = class LankBoss extends CocoClass
   subscriptions:
     'level:set-debug': 'onSetDebug'
     'sprite:highlight-sprites': 'onHighlightSprites'
-    'surface:stage-mouse-down': 'onStageMouseDown'
     'level:select-sprite': 'onSelectSprite'
     'level:suppress-selection-sounds': 'onSuppressSelectionSounds'
     'level:lock-select': 'onSetLockSelect'
@@ -242,7 +241,7 @@ module.exports = class LankBoss extends CocoClass
   onNewWorld: (e) ->
     @world = @options.world = e.world
     # Clear obstacle cache for this level, since we are spawning walls dynamically
-    @cachedObstacles = false if e.finished and /kithgard-mastery/.test window.location.href
+    @cachedObstacles = false if e.finished and /(kithgard-mastery|dungeon-raider)/.test window.location.href
 
   play: ->
     lank.play() for lank in @lankArray
@@ -276,11 +275,6 @@ module.exports = class LankBoss extends CocoClass
     lank = if e.sprite?.thang?.isSelectable then e.sprite else null
     return if @flagCursorLank and lank?.thangType.get('name') is 'Flag'
     @selectLank e, lank
-
-  onStageMouseDown: (e) ->
-    return unless @handleEvents
-    return if key.shift #and @options.choosing
-    @selectLank e if e.onBackground
 
   onChangeSelected: (gameUIState, selected) ->
     oldLanks = (s.sprite for s in gameUIState.previousAttributes().selected or [])

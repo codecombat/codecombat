@@ -3,6 +3,15 @@ c = require './../schemas'
 
 emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'article_editor', 'translator', 'support', 'notification']
 
+###
+SCHEMA WARNING
+
+Any changes made to this schema need to be shared on the Ozaria user schema.
+Both products share the same database collection and currently duplicating
+changes is how we can avoid validation errors as the user traverses between
+the two products.
+###
+
 UserSchema = c.object
   title: 'User'
   default:
@@ -81,6 +90,16 @@ _.extend UserSchema.properties,
     }
   }
   clientCreator: c.objectId({description: 'Client which created this user'})
+  clientPermissions:
+    description: 'More APIClients with permissions on this user, apart from clientCreator.'
+    type: 'array'
+    items:
+      type: 'object'
+      additionalProperties: false
+      properties:
+        client: c.objectId({description: 'APIClient with permissions on this user'})
+        access: {type: 'string', 'enum': ['read', 'grant', 'write', 'owner']}  # 'grant' permissions allow APIClients to grant licenses to a user
+    format: 'hidden'
 
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
@@ -111,6 +130,12 @@ _.extend UserSchema.properties,
         type: c.shortString() # E.g 'share progress modal parent'
         email: c.shortString()
         sent: c.date() # Set when sent
+
+    validations: c.array, { title: 'Sendgrid email validation results' },
+      c.object {},
+        validationDate: c.date()
+        result: c.object({ additionalProperties: true })
+
   unsubscribedFromMarketingEmails: { type: 'boolean' }
 
   consentHistory: c.array {title: 'History of consent actions'},
@@ -127,9 +152,20 @@ _.extend UserSchema.properties,
   anonymous: {type: 'boolean' }
   testGroupNumber: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
   testGroupNumberUS: {type: 'integer', minimum: 0, maximum: 256, exclusiveMaximum: true}
+  experiments: c.array {description: 'A/B tests this user is a part of'},
+    name: c.shortString {description: 'Experiment name, like "long-subscription-choice"', pattern: '^[a-z][\-a-z0-9]*$'}  # Slug-like
+    value: {description: 'The experiment value/group that this user is assigned to', additionalProperties: true}  # Data type is flexible depending on experiment needs
+    probability: c.pct {description: 'Probability of being assigned to this experiment value'}
+    startDate: c.date {description: 'When this user first started the experiment'}
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
+  hourOfCode2019: {type: 'boolean'} # adding for hoc 2019, TODO refactor into a reusable property if needed
   hourOfCodeComplete: {type: 'boolean'}
+  hourOfCodeOptions: c.object({title: 'Options useful for hour of code users'}, {
+    showCompleteSignupModal: {type: 'boolean', description: 'Whether to show complete signup modal on teacher dashboard - only valid for teachers who signup from hoc signup flow'}
+    showHocProgress: {type: 'boolean', description: 'Set true for students who sign up from hoc save progress modal since they didnt have a class code'}
+    hocCodeLanguage: {type: 'string', description: 'HoC code language played as anonymous student, used to show progress on student dashboard until they have a class code'}
+  })
   createdOnHost: { type: 'string' }
 
   emailLower: c.shortString()
@@ -148,14 +184,13 @@ _.extend UserSchema.properties,
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
-  ozariaUserOptions: c.object( # 10/12/2019 Do not alter/remove or use this property on codecombat. Used on Ozaria.
+  ozariaUserOptions: c.object(
     {
       title: 'Player Ozaria Customization',
-      description: 'Player customization options, including hero name, objectId and applied color tints.',
-      # Ensure we can add new properties on the Ozaria server without breaking CodeCombat users.
-      additionalProperties: true
+      description: 'Player customization options, including hero name, objectId and applied color tints.'
     }, {
-      cinematicThangTypeOriginal: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type'),
+      isometricThangTypeOriginal: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The isometric ThangType of the hero.', format: 'thang-type'),
+      cinematicThangTypeOriginal: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic Thang Type', description: 'The cinematic ThangType of the hero.', format: 'thang-type'),
       playerHeroName: c.shortString({ title: 'Ozaria Hero Name', description: 'The user set name for the ozaria hero. Used in cinematics.' }),
       tints: c.array(
         {
@@ -173,8 +208,8 @@ _.extend UserSchema.properties,
           colorGroups: c.object({ additionalProperties: c.colorConfig() })
         }))
       avatar: c.object({
-        title: '1FH Avatar Choice',
-        description: 'The 1FH avatar that was chosen by the user'
+        title: 'CH1 Avatar Choice',
+        description: 'The CH1 avatar that was chosen by the user'
       }, {
         cinematicThangTypeId: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic ThangType', description: 'The cinematic avatar thangType original Id', format: 'thang-type'),
         cinematicPetThangId: c.stringID(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Cinematic Pet ThangType', description: 'The cinematic avatar pet thangType original Id', format: 'thang-type'),
@@ -240,9 +275,16 @@ _.extend UserSchema.properties,
     courseTranslationPatches: c.int()
     courseMiscPatches: c.int()
     courseEdits: c.int()
+    cinematicTranslationPatches: c.int()
+    cinematicMiscPatches: c.int()
+    cinematicEdits: c.int()
+    interactiveTranslationPatches: c.int()
+    interactiveMiscPatches: c.int()
+    interactiveEdits: c.int()
     concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
     licenses: c.object { additionalProperties: true }
     students: c.object { additionalProperties: true }
+    codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'Total CodePoints earned'}
 
   earned: c.RewardSchema 'earned by achievements'
   purchased: c.RewardSchema 'purchased with gems or money'
@@ -261,13 +303,16 @@ _.extend UserSchema.properties,
 
   stripe: c.object {}, {
     customerID: { type: 'string' }
-    planID: { enum: ['basic'], description: 'Determines if a user has or wants to subscribe' }
+    planID: { type: 'string', description: 'Determines if a user has or wants to subscribe. Matches subscription plan on stripe.' }
     subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
     token: { type: 'string' }
     couponID: { type: 'string' }
 
     # TODO: move `free` out of stripe, it's independent
-    free: { type: ['boolean', 'string'], format: 'date-time', description: 'Type string is subscription end date' }
+    free: { oneOf: [
+      { type: 'string', format: 'date-time', description: 'Type string is subscription end date' }
+      { type: 'boolean', description: 'Type boolean is whether the subscription is free or not' }
+    ]}
     prepaidCode: c.shortString description: 'Prepaid code to apply to sub purchase'
 
     # Sponsored subscriptions
@@ -353,6 +398,9 @@ _.extend UserSchema.properties,
   administratedTeachers: c.array {}, c.objectId()
   administratingTeachers: c.array {}, c.objectId()
 
+  seenNewDashboardModal: { type: 'boolean', description: 'Whether the user has seen the new dashboard onboarding modal? Set to true after the modal is seen and closed by the user' }  # Ozaria
+  closedNewTDGetStartedTooltip: { type: 'boolean', description: 'Whether the user has closed the get started tooltip in the new dashboard? Set to true once the user has dismissed the tooltip' }  # Ozaria
+
   features:
     type: 'object'
     title: 'Feature Flags'
@@ -367,6 +415,8 @@ _.extend UserSchema.properties,
         description: 'Features flags applied to this user'
         # key is the feature id
         additionalProperties: FeatureRecipientSchema
+
+  archived: c.date {description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'}
 
 c.extendBasicProperties UserSchema, 'user'
 

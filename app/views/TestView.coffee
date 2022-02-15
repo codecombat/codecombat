@@ -3,6 +3,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/test-view'
 requireUtils = require 'lib/requireUtils'
 storage = require 'core/storage'
+globalVar = require 'core/globalVar'
 loadAetherLanguage = require("lib/loadAetherLanguage")
 
 require('vendor/styles/jasmine.css')
@@ -47,6 +48,7 @@ module.exports = TestView = class TestView extends RootView
     @loadedFileIDs = []
 
   afterInsert: ->
+    super()
     Promise.all(
       ["python", "coffeescript", "lua"].map(
         loadAetherLanguage
@@ -124,7 +126,7 @@ module.exports = TestView = class TestView extends RootView
       jasmine.demoEl = _.once ($el) ->
         $('#demo-area').append($el)
       jasmine.demoModal = _.once (modal) ->
-        currentView.openModalView(modal)
+        globalVar.currentView.openModalView(modal)
     else
       jasmine.demoEl = _.noop
       jasmine.demoModal = _.noop
@@ -137,7 +139,10 @@ module.exports = TestView = class TestView extends RootView
         jasmine.Ajax.requests.reset()
         Backbone.Mediator.init()
         Backbone.Mediator.setValidationEnabled false
-        spyOn(application.tracker, 'trackEvent')
+        spyOn(application.tracker, 'trackEvent').and.returnValue(Promise.resolve())
+        spyOn(application.tracker, 'trackPageView').and.returnValue(Promise.resolve())
+        spyOn(application.tracker, 'identify').and.returnValue(Promise.resolve())
+        spyOn(application.tracker, 'identifyAfterNextPageLoad').and.returnValue(Promise.resolve())
         application.timeoutsToClear = []
         jasmine.addMatchers(customMatchers)
         @notySpy = spyOn(window, 'noty') # mainly to hide them

@@ -1,10 +1,10 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/classroom.schema'
 utils = require '../core/utils'
-{ findNextLevelsBySession, getLevelsDataByOriginals } = require 'ozaria/site/common/ozariaUtils'
 coursesHelper = require '../lib/coursesHelper'
 User = require 'models/User'
 Level = require 'models/Level'
+classroomUtils = require 'app/lib/classroom-utils'
 
 module.exports = class Classroom extends CocoModel
   @className: 'Classroom'
@@ -169,15 +169,12 @@ module.exports = class Classroom extends CocoModel
       currentLevel = courseLevels.models[currentIndex]
       currentPlaytime = levelSessionMap[currentLevel.get('original')]?.get('playtime') ? 0
       needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes')) and not currentLevel.get('assessment')
-      unless utils.ozariaCourseIDs.includes(courseID)
-        nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
-    if utils.ozariaCourseIDs.includes(courseID)
-      nextLevelOriginal = findNextLevelsBySession(sessions, courseLevels.models)
-      nextLevel = new Level(getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
-    else
-      nextLevel = courseLevels.models[nextIndex]
-      nextLevel = arena if levelsLeft is 0
-      nextLevel ?= _.find courseLevels.models, (level) -> not levelSessionMap[level.get('original')]?.get('state')?.complete
+      nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
+    nextLevel = courseLevels.models[nextIndex]
+    nextLevel = arena if levelsLeft is 0
+    nextLevel ?= _.find courseLevels.models, (level) -> not levelSessionMap[level.get('original')]?.get('state')?.complete
+    if nextLevel
+      nextLevelNumber = @getLevelNumber(nextLevel.get('original'), nextIndex + 1)
     [_userStarted, courseComplete, _totalComplete] = coursesHelper.hasUserCompletedCourse(userLevels, levelsInCourse)
 
     stats =
@@ -190,6 +187,7 @@ module.exports = class Classroom extends CocoModel
         lastPlayed: lastPlayed
         lastPlayedNumber: lastPlayedNumber
         next: nextLevel
+        nextNumber: nextLevelNumber
         first: courseLevels.first()
         arena: arena
         project: project
@@ -240,3 +238,34 @@ module.exports = class Classroom extends CocoModel
     _.any(@get('courses'), (course) -> _.any(course.levels, { assessment: true }))
 
   isGoogleClassroom: -> @get('googleClassroomId')?.length > 0
+
+  hasReadPermission: (options = { showNoty: false }) ->
+    showNoty = options.showNoty or false
+    result = classroomUtils.hasPermission('read', {
+      ownerId: @get('ownerID'),
+      permissions: @get('permissions')
+    }) or @hasWritePermission()
+    if !result and showNoty
+      noty({ text: 'teacher.not_read_permission', type: 'error', timeout: 4000, killer: true })
+    result
+
+  hasWritePermission: (options = { showNoty: false }) ->
+    showNoty = options.showNoty or false
+    result = classroomUtils.hasPermission('write', {
+      ownerId: @get('ownerID'),
+      permissions: @get('permissions')
+    })
+    if !result and showNoty
+      noty({ text: $.i18n.t('teacher.not_write_permission'), type: 'error', timeout: 4000, killer: true })
+    result
+
+  isOwner: ->
+    return me.id == @get('ownerID')
+
+  getDisplayPermission: ->
+    if @isOwner()
+      return
+    if @hasWritePermission()
+      return classroomUtils.getDisplayPermission('write')
+    else if @hasReadPermission()
+      return classroomUtils.getDisplayPermission('read')

@@ -1,0 +1,85 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#main-ladder-view
+  .level-row
+    position: relative
+    margin-top: 10px
+    margin-bottom: 10px
+    display: flex
+
+    .edit-button
+      margin-top: 40px
+      
+    .btn-group
+      display: flex
+
+    .tournament-image
+      .level-image
+        width: 100%
+
+  .level
+    width: 100%
+    position: relative
+    margin-bottom: 20px
+    text-shadow: 2px 2px 5px black
+
+    &:hover div, &:hover .dynamic-level-name
+      color: lighten($yellow, 20%)
+
+    &:hover img
+      filter: brightness(1.2)
+      -webkit-filter: brightness(1.2)
+      box-shadow: 0 0 5px black
+
+    .level-image
+      width: 50%
+
+    .dynamic-level-name
+      position: absolute
+      z-index: 1
+      left: 10%
+      width: 100%
+      text-align: center
+
+      text-shadow: 0px 5px 5px black, -2px 0px 2px black, 2px 0px 2px black, 0px -2px 2px black
+      font-size: 52px
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      @include transition(color .10s linear)
+
+    .overlay-text
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      @include transition(color .10s linear)
+
+    .level-difficulty
+      position: absolute
+      left: 0px
+      bottom: 0px
+      font-size: 25px
+      padding-right: 10px
+      background-color: rgba(255, 255, 255, 0.75)
+      border-radius: 6px
+    .play-text-container
+      position: absolute
+      left: 50%
+      bottom: -10px
+
+      .play-text
+        margin-left: -50%
+        font-size: 50px
+
+  .create-text-container
+    position: absolute
+    left: 60%
+    bottom: 20px
+
+
+  .input-group-addon
+    min-width: 10em
+
+  a[disabled] .level
+    opacity: 0.7

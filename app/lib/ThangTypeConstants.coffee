@@ -15,13 +15,15 @@ ThangTypeConstants =
     'potion-master': '52e9adf7427172ae56002172'
     sorcerer: '52fd1524c7e6cf99160e7bc9'
     necromancer: '55652fb3b9effa46a1f775fd'
-    'master-wizard': ''
+    'master-wizard': '5f75db6b7e9d990022cf49f4'
     duelist: '57588f09046caf2e0012ed41'
     champion: '575848b522179b2800efbfbf'
     'code-ninja': '58192d484954d56144a7062f'
     stalwart: '5a576ec52db68a00269b7a08'
+    'armando-hoyos': '6037ed81ad0ac000f5e9f0b5'
+    'ned-fulmer': '6136fe7e9f1147002c1316b4'
   heroClasses:
-    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja', 'stalwart']
+    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja', 'stalwart', 'armando-hoyos']
     Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
     Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
   items:

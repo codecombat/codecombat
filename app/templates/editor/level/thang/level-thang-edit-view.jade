@@ -1,6 +1,7 @@
 div.well
   a(data-i18n="editor.level_components_title")#all-thangs-link Back To All Thangs
   span#thang-props
+    a#prev-thang-link.thang-navigation-link(data-i18n="common.back")
     a#thang-name-link
       span= view.thangData.id
       input.secret(value=view.thangData.id)
@@ -11,5 +12,6 @@ div.well
       span= view.thangData.thangType
       input.secret(value=view.thangData.thangType)
     |  ) 
+    a#next-thang-link.thang-navigation-link(data-i18n="common.next")
 
 #thang-components-edit-view

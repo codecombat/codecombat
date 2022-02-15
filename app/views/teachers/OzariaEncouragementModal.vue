@@ -17,11 +17,14 @@
 
       computed: {
         tryOzariaLink () {
-          if (me.useChinaOzaria()) {
+          if (me.useChinaServices()) {
             return "https://aojiarui.com/teachers/classes?utm_campaign=emodel&utm_medium=web&utm_source=codecombat"
           } else {
             return "https://www.ozaria.com/teachers/classes?utm_campaign=emodel&utm_medium=web&utm_source=codecombat"
           }
+        },
+        showChinaVideo () {
+            return me.showChinaVideo()
         }
       },
 
@@ -78,12 +81,25 @@
                     <div class="player-container">
                         <div class="player-sizer">
                             <youtube
+                                    v-if="!showChinaVideo"
                                     class="player"
                                     ref="player"
                                     video-id="prJJvvI3WJM"
                                     @playing="startPlay"
                                     :player-vars="playerVars"
                             />
+                            <video
+                                    v-if="showChinaVideo"
+                                    controls
+                                    class="player"
+                                    poster="https://ozaria-assets.oss-cn-qingdao.aliyuncs.com/home-video-poster.jpg"
+                                    preload="metadata"
+                            >
+                                <source
+                                    src="https://ozaria-assets.oss-cn-qingdao.aliyuncs.com/aojiarui-home.mp4"
+                                    type="video/mp4"
+                                >
+                            </video>
                         </div>
                     </div>
                 </div>

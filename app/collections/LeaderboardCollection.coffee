@@ -8,4 +8,4 @@ module.exports = class LeaderboardCollection extends CocoCollection
   constructor: (level, options) ->
     super()
     options ?= {}
-    @url = "/db/level/#{level.get('original')}.#{level.get('version').major}/leaderboard?#{$.param(options)}"
+    @url = "/db/level/#{level.get('original')}/rankings?#{$.param(options)}"

@@ -11,10 +11,7 @@ LevelSessions = require 'collections/LevelSessions'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
 {createAetherOptions} = require 'lib/aether_utils'
-
-unless typeof esper is 'undefined'
-  realm = new esper().realm
-  parser = realm.parser.bind(realm)
+loadAetherLanguage = require 'lib/loadAetherLanguage'
 
 module.exports = class StudentSolutionsView extends RootView
   template: template
@@ -29,6 +26,10 @@ module.exports = class StudentSolutionsView extends RootView
 
   initialize: () ->
     @validLanguages = ['python', 'javascript']
+    Promise.all(@validLanguages.map loadAetherLanguage).then =>
+      unless typeof esper is 'undefined'
+        realm = new esper().realm
+        @parser = realm.parser.bind(realm)
     @resetLevelInfo()
     @resetSolutionsInfo()
 
@@ -181,7 +182,7 @@ module.exports = class StudentSolutionsView extends RootView
       # aether.problems?
     if lang is 'javascript'
       try
-        ast = parser(src)
+        ast = @parser(src)
       catch e
         @stats[lang].errors += 1
         return null

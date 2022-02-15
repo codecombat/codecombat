@@ -10,12 +10,13 @@ module.exports = class ModalComponent extends ModalView
   afterRender: ->
     if @vueComponent
       @$el.find('#modal-base-flat').replaceWith(@vueComponent.$el)
+      # TODO: should we call super() here?
     else
       if @vuexModule
         unless _.isFunction(@vuexModule)
           throw new Error('@vuexModule should be a function')
         store.registerModule('modal', @vuexModule())
-      
+
       @vueComponent = new @VueComponent({
         el: @$el.find('#modal-base-flat')[0]
         propsData: @propsData
@@ -32,3 +33,4 @@ module.exports = class ModalComponent extends ModalView
     @vueComponent.$el.remove()
     @vueComponent.$store = silentStore
     @vueComponent = null
+    super()

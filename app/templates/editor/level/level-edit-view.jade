@@ -42,6 +42,13 @@ block header
         li
           a(href="#level-feedback-view", data-toggle="tab")
             .glyphicon.glyphicon-star
+        li#presence-counter
+          .dropdown
+            button#dropdownPresence.btn.btn-info(data-toggle="dropdown" aria-expanded="false")
+              span 👁️
+              span#presence-number ?
+            ul.dropdown-menu#dropdownPresenceMenu(aria-labelledby="dropdownPresence")
+
       .navbar-header
         span.navbar-brand
           | #{level.attributes.name}
@@ -66,7 +73,7 @@ block header
             a
               span.glyphicon-floppy-disk.glyphicon
 
-        if level.isType('ladder')
+        if level.isType('hero-ladder', 'course-ladder')
           li.dropdown
             a(data-toggle='dropdown').play-with-team-parent
               span.glyphicon-play.glyphicon
@@ -116,6 +123,8 @@ block header
               li(class=anonymous ? "disabled": "")
                 a.play-classroom-level(data-classroom='classroom', data-code-language="python") Play Classroom Python
               li(class=anonymous ? "disabled": "")
+                a.play-classroom-level(data-classroom='classroom', data-code-language="java") Play Classroom Java
+              li(class=anonymous ? "disabled": "")
                 a.play-classroom-level(data-classroom='home', data-code-language="") Play Home
             if me.isAdmin()
               li
@@ -132,9 +141,9 @@ block header
               a(href='https://coco-slack-invite.herokuapp.com/', data-i18n="editor.live_chat", target="_blank") Live Chat
             li
               a(href='http://discourse.codecombat.com/category/artisan', data-i18n="nav.forum", target="_blank") Forum
-            if !me.isStudent()
-              li
-                a.contact-modal(data-i18n="nav.contact")
+            //- if !me.isStudent()
+            //-   li
+            //-     a.contact-modal(data-i18n="nav.contact")
 
 block outer_content
   .outer-content

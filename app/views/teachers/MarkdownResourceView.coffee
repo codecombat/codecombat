@@ -29,7 +29,7 @@ module.exports = class MarkdownResourceView extends RootView
           if not linkID.replace(/(codecombat|-)/g, '') or linkIDs.has linkID
             linkID = 'header-' + linkIDs.size
           linkIDs.add linkID
-          return "<h#{level}><a name='#{linkID}' id='#{linkID}' href='\##{linkID}''><span class='header-link'></span></a>#{text}</h#{level}>"
+          return "<h#{level}><a name='#{linkID}' id='#{linkID}' href='\##{linkID}'' class='header-link'></a>#{text}</h#{level}>"
 
         i = 0
         @content = marked(data, {sanitize: false, renderer}).replace /<\/h5/g, () ->

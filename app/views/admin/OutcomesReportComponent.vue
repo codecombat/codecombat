@@ -97,6 +97,7 @@ CourseInstances = require 'collections/CourseInstances'
 co = require('co')
 helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
+globalVar = require 'core/globalVar'
 
 OutcomesReportComponent = {
   data: ->
@@ -296,7 +297,7 @@ OutcomesReportComponent = {
         backView: @parentView
       })
       resultView.render()
-      window.currentView = undefined
+      globalVar.currentView = undefined
       application.router.openView(resultView)
 
     fetchData: ->
@@ -321,6 +322,7 @@ OutcomesReportComponent = {
                   _.min _.map classroom.sessions, (s) -> new Date(s.created)
             Promise.all([
               @fetchCourseInstances(teacher).then (courseInstances) =>
+                _.remove courseInstances, (c) -> c.courseID is '5d41d731a8d1836b5aa3cba1'  # Skip Oz CH1, deleted
                 @courseInstances = courseInstances
               @fetchCourses().then (courses) =>
                 @courses = courses
@@ -328,6 +330,7 @@ OutcomesReportComponent = {
               courseIDs = _.uniq courseInstances.map (courseInstance) =>
                 courseInstance.courseID
               indexedCourses = _.indexBy(courses, '_id')
+              courseIDs = _.filter courseIDs, (courseID) => indexedCourses[courseID]  # Skip unmatched courses, like deleted Oz CH1
               @courses = utils.sortCourses(courseIDs.map (courseID) =>
                 indexedCourses[courseID]
               )
@@ -426,7 +429,7 @@ OutcomesReportComponent = {
 
   @media print
     a[href]:after
-      content:none
+      content: none
     a[href]
       color: #0b63bc !important
       text-decoration: underline

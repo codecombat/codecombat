@@ -76,6 +76,7 @@ module.exports = class SpellView extends CocoView
     @highlightCurrentLine = _.throttle @highlightCurrentLine, 100
     $(window).on 'resize', @onWindowResize
     @observing = @session.get('creator') isnt me.id
+    @loadedToken = {}
 
   afterRender: ->
     super()
@@ -160,8 +161,13 @@ module.exports = class SpellView extends CocoView
       bindKey: {win: 'Ctrl-S', mac: 'Command-S|Ctrl-S'}
       exec: ->  # just prevent page save call
     addCommand
+      name: 'previous-line'
+      bindKey: {mac: 'Ctrl-P'}
+      passEvent: true
+      exec: => @ace.execCommand 'golineup'  # stop trying to jump to matching paren, I want default Mac/Emacs previous line
+    addCommand
       name: 'toggle-playing'
-      bindKey: {win: 'Ctrl-P', mac: 'Command-P|Ctrl-P'}
+      bindKey: {win: 'Ctrl-P', mac: 'Command-P'}
       readOnly: true
       exec: -> Backbone.Mediator.publish 'level:toggle-playing', {}
     addCommand
@@ -300,8 +306,10 @@ module.exports = class SpellView extends CocoView
       return false if not match?
       return /:\s*$/.test(match[1])
 
+    @indentDivMarkers = []
+
     @aceSession.addDynamicMarker
-      update: (html, markerLayer, session, config) =>
+      update: (_, markerLayer, session, config) =>
         Range = ace.require('ace/range').Range
 
         foldWidgets = @aceSession.foldWidgets
@@ -314,6 +322,9 @@ module.exports = class SpellView extends CocoView
           ar.pop().length
 
         colors = [{border: '74,144,226', fill: '108,162,226'}, {border: '132,180,235', fill: '230,237,245'}]
+
+        @indentDivMarkers.forEach((node) -> node.remove())
+        @indentDivMarkers = []
 
         for row in [0..@aceSession.getLength()]
           foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
@@ -353,16 +364,27 @@ module.exports = class SpellView extends CocoView
           w = 4 * config.characterWidth
           fw = config.characterWidth * ( @aceSession.getScreenLastRowColumn(range.start.row) - xstart )
 
-          html.push """
-            <div style=
-              "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
-               border: #{bw}px solid rgba(#{color.border},1); border-left: none;"
-            ></div>
-            <div style=
-              "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
-               border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);"
-            ></div>
+          lineAbove = document.createElement "div"
+          lineAbove.setAttribute "style", """
+            position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
+            border: #{bw}px solid rgba(#{color.border},1); border-left: none;
           """
+
+          indentedBlock = document.createElement "div"
+          indentedBlock.setAttribute "style", """
+            position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
+            border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);
+          """
+
+          indentVisualMarker = document.createElement "div"
+          indentVisualMarker.appendChild(lineAbove)
+          indentVisualMarker.appendChild(indentedBlock)
+
+          @indentDivMarkers.push(indentVisualMarker)
+
+        markerLayer.elt("indent-highlight")
+        parentNode = markerLayer.element.childNodes[markerLayer.i - 1] ? markerLayer.element.lastChild
+        parentNode.appendChild(indentVisualMarker) for indentVisualMarker in @indentDivMarkers
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -569,7 +591,7 @@ module.exports = class SpellView extends CocoView
       @updateHTML create: true if @options.level.isType('web-dev')
 
   createDebugView: ->
-    return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # We'll turn this on later, maybe, but not yet.
+    return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')  # We'll turn this on later, maybe, but not yet.
     @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
 
@@ -645,8 +667,9 @@ module.exports = class SpellView extends CocoView
       maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
       minHeight = Math.max 8, (Math.min($("#canvas-wrapper").outerHeight(),$("#level-view").innerHeight() - 175) / lineHeight) - 2
       linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-      lines = Math.max minHeight, Math.min(screenLineCount + 2, linesAtMaxHeight)
+      lines = Math.max minHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), 8
       # 2 lines buffer is nice
+      lines = 8 if _.isNaN lines
       @ace.setOptions minLines: lines, maxLines: lines
       # Move spell palette up, slightly overlapping us.
       newTop = 185 + lineHeight * lines
@@ -788,13 +811,18 @@ module.exports = class SpellView extends CocoView
   fetchToken: (source, language) =>
     if language not in ['java', 'cpp']
       return Promise.resolve(source)
+    else if source of @loadedToken
+      return Promise.resolve(@loadedToken[source])
 
     headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
     m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
-    service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
+    service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
     fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
     .then (x) => x.json()
-    .then (x) => x.token
+    .then (x) =>
+      @loadedToken = {} # only cache 1 source
+      @loadedToken[source] = x.token;
+      return x.token
 
   fetchTokenForSource: () =>
     source = @ace.getValue()
@@ -984,8 +1012,10 @@ module.exports = class SpellView extends CocoView
     #console.log "finished=#{valid and (endOfLine or beginningOfLine) and not incompleteThis}", valid, endOfLine, beginningOfLine, incompleteThis, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
     if not incompleteThis and @options.level.isType('game-dev')
       # TODO: Improve gamedev autocast speed
-      @spell.transpile @getSource()
-      @cast(false, false, true)
+      @fetchTokenForSource().then (token) =>
+        # TODO: This is janky for those languages with a delay
+        @spell.transpile token
+        @cast(false, false, true)
     else if (endOfLine or beginningOfLine) and not incompleteThis
       @preload()
 
@@ -1058,7 +1088,7 @@ module.exports = class SpellView extends CocoView
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
       return if hasChanged
       if e.problem.type is 'runtime'
-        @spellThang.castAether?.addProblem e.problem
+        @spellThang?.castAether?.addProblem e.problem
       else
         @spell.thang.aether.addProblem e.problem
       @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
@@ -1394,8 +1424,8 @@ module.exports = class SpellView extends CocoView
     @lastDetectedSuspectCodeFragmentNames = detectedSuspectCodeFragmentNames
 
   destroy: ->
-    $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
-    $(@ace?.container).find('.ace_gutter').off 'click', @onGutterClick
+    $(@ace?.container).find('.ace_gutter').off 'click mouseenter', '.ace_error, .ace_warning, .ace_info'
+    $(@ace?.container).find('.ace_gutter').off()
     @firepad?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
     @ace?.destroy()
@@ -1409,6 +1439,7 @@ module.exports = class SpellView extends CocoView
     $(window).off 'resize', @onWindowResize
     window.clearTimeout @saveSpadeTimeout
     @saveSpadeTimeout = null
+    @autocomplete?.destroy()
     super()
 
 # Note: These need to be double-escaped for insertion into regexes

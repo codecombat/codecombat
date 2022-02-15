@@ -36,7 +36,6 @@ module.exports = {
   'views/admin/DesignElementsView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/DesignElementsView') },
   'views/teachers/DynamicAPCSPView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/DynamicAPCSPView') },
   'views/minigames/ConditionalMinigameView': function() { return import(/* webpackChunkName: "artisans" */ 'views/minigames/ConditionalMinigameView') },
-  'views/ParentsView': function () { return import(/* webpackChunkName: "ParentsView" */ 'views/ParentsView') },
   'views/artisans/ArtisansView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ArtisansView') },
   'views/artisans/LevelTasksView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelTasksView') },
   'views/artisans/SolutionProblemsView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/SolutionProblemsView') },
@@ -47,6 +46,7 @@ module.exports = {
   'views/artisans/BulkLevelEditView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/BulkLevelEditView') },
   'views/artisans/SandboxView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/SandboxView') },
   'views/artisans/ThangTasksView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ThangTasksView') },
+  'views/artisans/ArenaBalancerView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ArenaBalancerView') },
   'views/CLAView': function () { return import(/* webpackChunkName: "CLAView" */ 'views/CLAView') },
   'views/clans/ClansView': function () { return import(/* webpackChunkName: "clans" */ 'views/clans/ClansView') },
   'views/clans/ClanDetailsView': function () { return import(/* webpackChunkName: "clans" */ 'views/clans/ClanDetailsView') },
@@ -76,6 +76,8 @@ module.exports = {
   'views/editor/verifier/i18nVerifierView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/verifier/i18nVerifierView') },
   'views/editor/course/CourseSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/course/CourseSearchView') },
   'views/editor/course/CourseEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/course/CourseEditView') },
+  'views/editor/resource/ResourceSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/resource/ResourceSearchView') },
+  'views/editor/resource/ResourceEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/resource/ResourceEditView') },
   'views/i18n/I18NHomeView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NHomeView') },
   'views/i18n/I18NEditThangTypeView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditThangTypeView') },
   'views/i18n/I18NEditComponentView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditComponentView') },
@@ -92,6 +94,7 @@ module.exports = {
   'views/play/CampaignView': function () { return import(/* webpackChunkName: "play" */ 'views/play/CampaignView') },
   'views/ladder/LadderView': function () { return import(/* webpackChunkName: "ladder" */ 'views/ladder/LadderView') },
   'views/ladder/MainLadderView': function () { return import(/* webpackChunkName: "ladder" */ 'views/ladder/MainLadderView') },
+  'views/ladder/MainTournamentView': function () { return import(/* webpackChunkName: "tournament" */ 'views/ladder/MainTournamentView') },
   'views/play/level/PlayLevelView': function () { return import(/* webpackChunkName: "play" */ 'views/play/level/PlayLevelView') },
   'views/play/level/PlayLevelVideoView': function () { return import(/* webpackChunkName: "play" */ 'views/play/level/PlayLevelVideoView') },
   'views/play/level/PlayGameDevLevelView': function () { return import(/* webpackChunkName: "play" */ 'views/play/level/PlayGameDevLevelView') },
@@ -119,7 +122,6 @@ module.exports = {
   'views/teachers/ApCsPrinciplesView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/ApCsPrinciplesView') },
   'views/teachers/MarkdownResourceView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/MarkdownResourceView') },
   'views/teachers/CreateTeacherAccountView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/CreateTeacherAccountView') },
-  'views/teachers/StarterLicenseUpsellView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/StarterLicenseUpsellView') },
   'views/teachers/ConvertToTeacherAccountView': function () { return import(/* webpackChunkName: "teachers" */ 'views/teachers/ConvertToTeacherAccountView') },
   'views/TestView': function () { return import(/* webpackChunkName: "TestView" */ 'views/TestView') },
   'views/user/MainUserView': function () { return import(/* webpackChunkName: "user" */ 'views/user/MainUserView') },
@@ -134,18 +136,5 @@ module.exports = {
 
   // All Vue app components will be loaded via a vue chunk.  Eventually we will integrate webpack loading with Vue and
   // at that time we can remove this dynamic import and instead include SingletonAppVueComponentView in the main bundle
-  'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) },
-
-  // TODO: Why does chunk name `ozariaPlay` not work sporadically?
-  'views/ozaria/site/play/PageUnitMap': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageUnitMap') },
-  'views/ozaria/site/characterCustomization': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/char-customization/PageCharCustomization') },
-  'views/ozaria/site/avatarSelector': function() { return import(/*webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/avatar-selector/PageAvatarSelector') },
-  'views/ozaria/site/play/PagePlayLevel': function () { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PagePlayLevel') },
-  'views/cinematic': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cinematic/PageCinematic') },
-  'views/cutscene': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cutscene/PageCutscene') },
-  'views/interactive': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/interactive/PageInteractive') },
-  'views/introLevel': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageIntroLevel') },
-
-  // Temporary
-  'views/courses/StudentRankingView': function() { return import(/* webpackChunkName: "StudentRankingView" */ 'views/courses/StudentRankingView')}
+  'views/core/SingletonAppVueComponentView': function () { return import(/* webpackChunkName: "vue" */ 'views/core/SingletonAppVueComponentView').then(m => m.default) }
 }

@@ -1,0 +1,25 @@
+include ./tournament-tile-mixin.jade
+.modal-dialog
+  .modal-content
+    .row.mini-tournaments
+      h1(data-i18n="tournament.mini_tournaments")
+      .col-md-4
+        h2(data-i18n="tournament.upcoming")
+        hr
+        for tournament in (view.tournamentsByState.initializing || [])
+          +tournamentTileMixin(tournament)
+
+      .col-md-4
+        h2(data-i18n="tournament.starting")
+        hr
+        for tournament in (view.tournamentsByState.starting || [])
+          +tournamentTileMixin(tournament)
+
+      .col-md-4
+        h2(data-i18n="tournament.ended")
+        hr
+        for tournament in (view.tournamentsByState.ended || [])
+          +tournamentTileMixin(tournament)
+
+    div#close-modal
+      span.glyphicon.glyphicon-remove
