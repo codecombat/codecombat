@@ -104,10 +104,8 @@ module.exports = class RootView extends CocoView
         window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
       else
         window.tracker?.trackEvent 'Started Signup', label: @id
-    console.log('hereeee')
     options = {}
     if userUtils.isInLibraryNetwork()
-      console.log('hereLib')
       options.startOnPath = 'individual'
     @openModalView new CreateAccountModal(options)
 
