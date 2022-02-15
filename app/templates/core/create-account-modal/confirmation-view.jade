@@ -8,7 +8,10 @@
         p(data-i18n="signup.confirm_student_blurb")
 
       else
-        p(data-i18n="signup.confirm_individual_blurb")
+        if view.hideEmail
+          p(data-i18n="signup.confirm_individual_blurb_without_email")
+        else
+          p(data-i18n="signup.confirm_individual_blurb")
 
     .signup-info-box-wrapper
       .text-burgundy(data-i18n="signup.write_this_down")

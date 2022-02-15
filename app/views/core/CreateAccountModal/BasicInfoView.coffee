@@ -8,6 +8,7 @@ User = require 'models/User'
 State = require 'models/State'
 store = require 'core/store'
 globalVar = require 'core/globalVar'
+userUtils = require '../../../lib/user-utils'
 
 ###
 This view handles the primary form for user details — name, email, password, etc,
@@ -55,6 +56,7 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
+    @hideEmail = userUtils.isInLibraryNetwork()
 
   afterRender: ->
     @$el.find('#first-name-input').focus()
@@ -72,6 +74,9 @@ module.exports = class BasicInfoView extends CocoView
 
   checkEmail: ->
     email = @$('[name="email"]').val()
+
+    if @hideEmail
+      return Promise.resolve(true)
 
     if @signupState.get('path') isnt 'student' and (not _.isEmpty(email) and email is @state.get('checkEmailValue'))
       return @state.get('checkEmailPromise')
@@ -193,7 +198,8 @@ module.exports = class BasicInfoView extends CocoView
     required: switch @signupState.get('path')
       when 'student' then ['name', 'password', 'firstName'].concat(if me.showChinaRegistration() then [] else ['lastName'])
       when 'teacher' then ['password', 'email', 'firstName'].concat(if me.showChinaRegistration() then [] else ['lastName'])
-      else ['name', 'password', 'email']
+      else
+        ['name', 'password'].concat(if @hideEmail then [] else ['email'])
 
   onClickBackButton: ->
     if @signupState.get('path') is 'teacher'
