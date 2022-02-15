@@ -1,5 +1,5 @@
 globalVar = require 'core/globalVar'
-userUtils = require 'lib/user-utils'
+userUtils = require '../lib/user-utils'
 
 # TODO, add C-style macro constants like this?
 window.SPRITE_RESOLUTION_FACTOR = 3
