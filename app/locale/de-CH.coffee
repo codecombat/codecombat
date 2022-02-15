@@ -1,13 +1,13 @@
 module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "German (Switzerland)", translation:
 
   new_home:
-     title: "CodeCombat - Coder Spili zum Python und JavaScript lernä" 
+     title: "CodeCombat - Coder Spili zum Python und JavaScript lernä"
      meta_keywords: "CodeCombat, python, javascript, Coder Spili"
      meta_description: "Lärn gschribbänä Code dur äs programmier Spiil. Lärn Python, JavaScript und HTML während dem du Rätsel lösisch. Auno chasch lernä dini eigene Coder Spili und Websitänä zmachä."
      meta_og_url: "https://codecombat.com"
      become_investor: "Än Code Combat Investor werdä"
      built_for_teachers_title: "Äs Coder Spiil wo a dLehrer dänkt wird"
-     built_for_teachers_blurb: "Chindär Codiere biibringä cha oft überwältigänd sii. CodeCombat hilft allne Pädagoge ihrne Schüeler biizbringe wiemer i JavaScript oder Python codet, zwei vode meist bekannte programmier Sprache. Mitemä verständliche Unterrichtsplan, wo us sächs Computer Wüsseschaftseinheite bestaht unds lerne durch Projekt basierti Spiil- und Webentwicklig förderet. Chindär werded ä Reis vo eifacher Syntax zu "recursion" chönne erläbe.
+     built_for_teachers_blurb: "Chindär Codiere biibringä cha oft überwältigänd sii. CodeCombat hilft allne Pädagoge ihrne Schüeler biizbringe wiemer i JavaScript oder Python codet, zwei vode meist bekannte programmier Sprache. Mitemä verständliche Unterrichtsplan, wo us sächs Computer Wüsseschaftseinheite bestaht unds lerne durch Projekt basierti Spiil- und Webentwicklig förderet. Chindär werded ä Reis vo eifacher Syntax zu 'recursion' chönne erläbe."
      built_for_teachers_subtitle1: "Computer Wüssäschaftä"
 #    built_for_teachers_subblurb1: "Starting with our free Introduction to Computer Science course, students master core coding concepts such as while/for loops, functions, and algorithms."
      built_for_teachers_subtitle2: "Spiil Entwicklig"
@@ -205,7 +205,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
 #    million: "__num__ Million"
 #    billion: "__num__ Billion"
 
- nav:
+  nav:
     educators: "Pädagogä"
     follow_us: "Folg Eus"
     general: "Allgemeins"
