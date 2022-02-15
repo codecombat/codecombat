@@ -1,5 +1,4 @@
 globalVar = require 'core/globalVar'
-userUtils = require '../lib/user-utils'
 
 # TODO, add C-style macro constants like this?
 window.SPRITE_RESOLUTION_FACTOR = 3
@@ -43,6 +42,7 @@ Application = {
     {me} = require 'core/auth'
     Tracker = require('core/Tracker2').default
     api = require 'core/api'
+    userUtils = require '../lib/user-utils'
 
     Router = require('core/Router')
     Vue.config.devtools = not @isProduction()
