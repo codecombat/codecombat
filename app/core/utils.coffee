@@ -191,6 +191,20 @@ courseAcronyms[courseIDs.COMPUTER_SCIENCE_4] = 'CS4'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
 
+courseRevAcronyms = {}
+courseRevAcronyms['CS1'] = courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+courseRevAcronyms['CS2'] = courseIDs.COMPUTER_SCIENCE_2
+courseRevAcronyms['CS3'] = courseIDs.COMPUTER_SCIENCE_3
+courseRevAcronyms['CS4'] = courseIDs.COMPUTER_SCIENCE_4
+courseRevAcronyms['CS5'] = courseIDs.COMPUTER_SCIENCE_5
+courseRevAcronyms['CS6'] = courseIDs.COMPUTER_SCIENCE_6
+courseRevAcronyms['GD1'] = courseIDs.GAME_DEVELOPMENT_1
+courseRevAcronyms['GD2'] = courseIDs.GAME_DEVELOPMENT_2
+courseRevAcronyms['GD3'] = courseIDs.GAME_DEVELOPMENT_3
+courseRevAcronyms['WD1'] = courseIDs.WEB_DEVELOPMENT_1
+courseRevAcronyms['WD2'] = courseIDs.WEB_DEVELOPMENT_2
+courseRevAcronyms['FULL'] = 'FULL_ACCESS'
+
 courseLessonSlidesURLs = {}
 unless features?.china
   courseLessonSlidesURLs[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'https://drive.google.com/drive/folders/1YU7LEZ6TLQzbAsSMw90nNJfvU7gDrcid?usp=sharing'
@@ -968,6 +982,7 @@ module.exports = {
   countryCodeToFlagEmoji
   countryCodeToName
   courseAcronyms
+  courseRevAcronyms
   courseIDs
   courseLessonSlidesURLs
   courseNumericalStatus
