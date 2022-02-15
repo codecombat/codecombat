@@ -8,7 +8,7 @@ User = require 'models/User'
 State = require 'models/State'
 store = require 'core/store'
 globalVar = require 'core/globalVar'
-commonUtils = require '../../../lib/common-utils'
+userUtils = require '../../../lib/user-utils'
 
 ###
 This view handles the primary form for user details — name, email, password, etc,
@@ -56,7 +56,7 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
-    @hideEmail = commonUtils.isInLibraryNetwork()
+    @hideEmail = userUtils.isInLibraryNetwork()
 
   afterRender: ->
     @$el.find('#first-name-input').focus()

@@ -1,5 +1,5 @@
 globalVar = require 'core/globalVar'
-commonUtils = require 'lib/common-utils'
+userUtils = require 'lib/user-utils'
 
 # TODO, add C-style macro constants like this?
 window.SPRITE_RESOLUTION_FACTOR = 3
@@ -85,7 +85,7 @@ Application = {
     unless me.get('anonymous')
       @checkForNewAchievement()
     @remindPlayerToTakeBreaks()
-    commonUtils.provisionPremium()
+    userUtils.provisionPremium()
     window.i18n = i18nextInstance = i18next.default.createInstance {
       lng: me.get('preferredLanguage', true)
       fallbackLng: locale.mapFallbackLanguages()

@@ -12,7 +12,7 @@ Achievement = require 'models/Achievement'
 AchievementPopup = require 'views/core/AchievementPopup'
 errors = require 'core/errors'
 utils = require 'core/utils'
-commonUtils = require '../../lib/common-utils'
+userUtils = require '../../lib/user-utils'
 
 BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
 Navigation = require('app/components/common/Navigation.vue').default
@@ -106,7 +106,7 @@ module.exports = class RootView extends CocoView
         window.tracker?.trackEvent 'Started Signup', label: @id
     console.log('hereeee')
     options = {}
-    if commonUtils.isInLibraryNetwork()
+    if userUtils.isInLibraryNetwork()
       console.log('hereLib')
       options.startOnPath = 'individual'
     @openModalView new CreateAccountModal(options)

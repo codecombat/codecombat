@@ -4,7 +4,7 @@ State = require 'models/State'
 template = require 'templates/core/create-account-modal/confirmation-view'
 forms = require 'core/forms'
 NcesSearchInput = require './teacher/NcesSearchInput'
-commonUtils = require '../../../lib/common-utils'
+userUtils = require '../../../lib/user-utils'
 
 module.exports = class ConfirmationView extends CocoView
   id: 'confirmation-view'
@@ -15,7 +15,7 @@ module.exports = class ConfirmationView extends CocoView
 
   initialize: ({ @signupState } = {}) ->
     @saveUserPromise = Promise.resolve()
-    @hideEmail = commonUtils.isInLibraryNetwork()
+    @hideEmail = userUtils.isInLibraryNetwork()
 
   onClickStartButton: ->
     @saveUserPromise.then =>
