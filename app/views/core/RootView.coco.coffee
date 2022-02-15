@@ -12,6 +12,7 @@ Achievement = require 'models/Achievement'
 AchievementPopup = require 'views/core/AchievementPopup'
 errors = require 'core/errors'
 utils = require 'core/utils'
+userUtils = require '../../lib/user-utils'
 
 BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
 Navigation = require('app/components/common/Navigation.vue').default
@@ -103,7 +104,10 @@ module.exports = class RootView extends CocoView
         window.tracker?.trackEvent 'Started Signup', category: 'World Map', label: 'World Map'
       else
         window.tracker?.trackEvent 'Started Signup', label: @id
-    @openModalView new CreateAccountModal()
+    options = {}
+    if userUtils.isInLibraryNetwork()
+      options.startOnPath = 'individual'
+    @openModalView new CreateAccountModal(options)
 
   onClickLoginButton: (e) ->
     AuthModal = require 'views/core/AuthModal'
