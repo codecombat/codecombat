@@ -570,7 +570,7 @@ module.exports = class User extends CocoModel
     options.data.provider = provider
     @fetch(options)
 
-  makeCourseProduct: (prepaidId) ->
+  makeCoursePrepaid: (prepaidId) ->
     courseProduct = _.find @get('products'), (p) => p.product == 'course' && p.prepaid + '' == prepaidId + ''
     return null unless courseProduct
     Prepaid = require 'models/Prepaid'

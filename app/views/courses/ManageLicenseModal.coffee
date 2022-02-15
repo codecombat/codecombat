@@ -247,7 +247,7 @@ module.exports = class ManageLicenseModal extends ModalView
       return
 
     user = usersToRedeem.first()
-    prepaid = user.makeCourseProduct(prepaidId)
+    prepaid = user.makeCoursePrepaid(prepaidId)
     unless prepaid # in case teacher select extra students
       usersToRedeem.remove(user)
       @state.get('selectedUsers').remove(user)

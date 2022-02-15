@@ -19,6 +19,8 @@ block modal-body-content
           span(data-i18n="teacher.status_not_enrolled")
       else
         #numerical-courses-status
+          // index is the index number of power 2
+          // also see core/utils courseNumericalStatus 
           .status-col.cs
             - for(var index = 5; index < 11; index ++)
               .cell
