@@ -136,6 +136,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'backspaceThrottle'
   'lockDefaultCode'
   'moveRightLoopSnippet'
+  'permissions'
   'realTimeSpeedFactor'
   'autocompleteFontSizePx'
   'requiredGear'
