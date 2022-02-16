@@ -2887,7 +2887,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     third_party_description: "CodeCombat использует следующие сторонние сервисы (среди прочих):"
     cookies_message: "CodeCombat использует постоянные и сеансовые куки."
     cookies_deny: "Отказаться от использования сеансовых куки"
-    cookies_allow: "Разрешить файлы cookie" # {change}
+    cookies_allow: "Разрешить файлы cookie"
 
   calendar:
     year: "Год"
