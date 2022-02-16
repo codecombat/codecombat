@@ -30,7 +30,7 @@ export default class Tracker2 extends BaseTracker {
     this.cookieConsentTracker = new CookieConsentTracker(this.store)
     this.internalTracker = new InternalTracker(this.store)
     this.segmentTracker = new SegmentTracker(this.store)
-    this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
+    this.googleAnalyticsTracker = new GoogleAnalyticsTracker(this.store)
     this.driftTracker = new DriftTracker(this.store)
     this.fullStoryTracker = new FullStoryTracker(this.store, this)
     this.googleOptimizeTracker = new GoogleOptimizeTracker()
@@ -131,10 +131,15 @@ export default class Tracker2 extends BaseTracker {
   async trackEvent (action, properties = {}) {
     try {
       await this.initializationComplete
-
-      await allSettled(
+      const result = await allSettled(
         this.trackers.map(t => t.trackEvent(action, properties))
       )
+      if (Array.isArray(result)) {
+        result.forEach((r) => {
+          if (r.status === 'rejected')
+            console.error('trackEvent failed', r)
+        })
+      }
     } catch (e) {
       this.log('trackEvent call failed', e)
     }
