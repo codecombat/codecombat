@@ -88,7 +88,7 @@ module.exports = class EditStudentModal extends ModalView
     if !@classroom.isOwner() and @classroom.hasWritePermission()
       options.data = { sharedClassroomId: @classroom.id }
     prepaid.redeem(@user, options)
-    window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: @user.id, ['Mixpanel']
+    window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: @user.id
 
   onClickChangePassword: ->
     @classroom.setStudentPassword(@user, @state.get('newPassword'))

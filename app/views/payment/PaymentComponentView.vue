@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import PaymentOnlineClassesView from "./PaymentOnlineClassesView";
-import PaymentStudentLicensesComponent from './PaymentStudentLicensesComponent'
+import PaymentOnlineClassesView from "./online-class/PageView";
+import PaymentStudentLicensesComponent from './student-license/PageView'
 export default {
   name: "PaymentComponentView",
   components: {

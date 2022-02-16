@@ -64,7 +64,7 @@ module.exports = class SpellTopBarView extends CocoView
   onClickHintsButton: ->
     return unless @hintsState?
     @hintsState.set('hidden', not @hintsState.get('hidden'))
-    window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, []
+    window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0
 
   onClickVideosButton: ->
     @openModalView new CourseVideosModal({courseInstanceID: @courseInstanceID, courseID: @courseID})

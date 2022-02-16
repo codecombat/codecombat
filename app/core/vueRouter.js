@@ -65,11 +65,11 @@ export default function getVueRouter () {
         },
         {
           path: '/payments/online-classes-success',
-          component: () => import(/* webpackChunkName: "onlineClassesSuccessComponent" */'app/views/payment/PaymentOnlineClassesSuccessView'),
+          component: () => import(/* webpackChunkName: "onlineClassesSuccessComponent" */'app/views/payment/online-class/SuccessView'),
         },
         {
           path: '/payments/home-subscriptions-success',
-          component: () => import(/* webpackChunkName: "homeSubscriptionSuccessComponent" */'app/views/payment/PaymentHomeSubscriptionsSuccessView'),
+          component: () => import(/* webpackChunkName: "homeSubscriptionSuccessComponent" */'app/views/payment/HomeSubscriptionsSuccessView'),
         },
         {
           path: '/payments/:slug',

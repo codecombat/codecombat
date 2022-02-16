@@ -70,6 +70,7 @@
   "dependencies": {
     "@stripe/stripe-js": "^1.14.0",
     "@vimeo/player": "^2.9.1",
+    "ace-diff": "github:smallst/ace-diff",
     "acorn-loose": "^8.0.1",
     "adobe-animate-parser": "github:codecombat/adobe-animate-parser#master",
     "ajv": "^6.10.0",
@@ -143,9 +144,9 @@
     "vue-moment": "^4.0.0",
     "vue-router": "^3.0.2",
     "vue-youtube": "^1.3.5",
+    "vuelidate": "^0.7.5",
     "vuex": "^2.4.0",
-    "vuex-router-sync": "^5.0.0",
-    "vuelidate": "^0.7.5"
+    "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",

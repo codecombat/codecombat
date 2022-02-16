@@ -28,12 +28,13 @@ form#basic-info-form.modal-body.basic-info
       .form-group
         .row.rtl-allowed
           .col-xs-5.col-xs-offset-3.rtl-allowed
-            label.control-label(for="email-input")
-              span(data-i18n="share_progress_modal.form_label")
-            if view.signupState.get('path') === 'student'
-              .help-block.optional-help-block.pull-right
-                span.optional-text(data-i18n="signup.optional")
-            input.form-control.input-lg#email-input(name="email" type="email" value=view.signupState.get('signupForm').email dir="auto")
+            if !view.hideEmail
+              label.control-label(for="email-input")
+                span(data-i18n="share_progress_modal.form_label")
+              if view.signupState.get('path') === 'student'
+                .help-block.optional-help-block.pull-right
+                  span.optional-text(data-i18n="signup.optional")
+              input.form-control.input-lg#email-input(name="email" type="email" value=view.signupState.get('signupForm').email dir="auto")
           .col-xs-4.email-check.fancy-error.rtl-allowed
             - var checkEmailState = view.state.get('checkEmailState');
             if checkEmailState === 'checking'

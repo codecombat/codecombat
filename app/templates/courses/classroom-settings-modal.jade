@@ -48,7 +48,8 @@ block modal-body-content
         if view.enableCpp
           option(value="cpp") C++
 
-    .form-group
+    .form-group.hide
+      // We don't show this any more, as we didn't do anything with the data anyway
       label
         span(data-i18n="courses.avg_student_exp_label")
         i.spl.text-muted(data-i18n="signup.optional")
@@ -60,6 +61,19 @@ block modal-body-content
         option(value="intermediate" data-i18n="courses.avg_student_exp_intermediate")
         option(value="advanced" data-i18n="courses.avg_student_exp_advanced")
         option(value="varied" data-i18n="courses.avg_student_exp_varied")
+
+    .form-group
+      label(for="type")
+        span(data-i18n="courses.class_type_label")
+        i.spl.text-muted(data-i18n="signup.optional")
+      select.form-control(name="type", value=view.classroom.get('type'))
+        option(value="" data-i18n="courses.avg_student_exp_select")
+        option(value="in-school" data-i18n="courses.class_type_in_school")
+        option(value="after-school" data-i18n="courses.class_type_after_school")
+        option(value="online" data-i18n="courses.class_type_online")
+        option(value="camp" data-i18n="courses.class_type_camp")
+        option(value="homeschool" data-i18n="courses.class_type_homeschool")
+        option(value="other" data-i18n="courses.class_type_other")
 
     .form-group
       label
