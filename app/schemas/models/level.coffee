@@ -86,7 +86,7 @@ SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a tar
   select: {title: 'Select', description: 'Select or deselect this Thang.', type: 'boolean'}
   say: c.object {title: 'Say', description: 'Make this Thang say a message.', required: ['text'], default: { mood: 'explain' }},
     blurb: c.shortString(title: 'Blurb', description: 'A very short message to display above this Thang\'s head. Plain text.', maxLength: 50)
-    mood: c.shortString(title: 'Mood', description: 'The mood with which the Thang speaks.', 'enum': ['explain', 'debrief', 'congrats', 'attack', 'joke', 'tip', 'alarm'])
+    mood: c.shortString(title: 'Mood', description: 'The mood with which the Thang speaks.', 'enum': ['explain', 'confused', 'curious', 'dance-happy', 'dance', 'idle', 'neutral', 'sad', 'debrief', 'congrats', 'attack', 'joke', 'tip', 'alarm'])
     text: {title: 'Text', description: 'A short message to display in the dialogue area. Markdown okay.', type: 'string', maxLength: 400}
     sound: c.object {title: 'Sound', description: 'A dialogue sound file to accompany the message.', required: ['mp3', 'ogg'] },
       mp3: c.shortString(title: 'MP3', format: 'sound-file')
