@@ -22,11 +22,23 @@
 const paymentUtils = require('app/lib/paymentUtils')
 export default {
   name: "PaymentHomeSubscriptionsSuccessView",
+  props: {
+    amount: {
+      type: String
+    },
+    duration: {
+      type: String // possible values: one_time, x_month, y_year
+    }
+  },
   created() {
     if (!paymentUtils.hasTemporaryPremiumAccess() && !me.hasSubscription())
       paymentUtils.setTemporaryPremiumAccess()
     // TODO: should include properties in this format: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
-    window.tracker.trackEvent('Home subscription purchase success')
+    const options = paymentUtils.getTrackingData({ amount: this.amount, duration: this.duration })
+    if (!paymentUtils.hasTemporaryPremiumAccess()) {
+      window.tracker.trackEvent('Home subscription purchase success', options)
+      paymentUtils.setTrackedPremiumPurchase()
+    }
   }
 }
 </script>

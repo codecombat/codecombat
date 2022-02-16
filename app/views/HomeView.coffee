@@ -82,11 +82,11 @@ module.exports = class HomeView extends RootView
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
-  homePageEvent: (action, extraproperties={}) ->
+  homePageEvent: (action, extraProperties={}) ->
     defaults =
       category: 'Homepage'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
-    properties = _.merge(defaults, extraproperties)
+    properties = _.merge(defaults, extraProperties)
     window.tracker?.trackEvent(action, properties)
 
   onClickAnchor: (e) ->
@@ -158,7 +158,10 @@ module.exports = class HomeView extends RootView
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
       # TODO: should include properties in this format: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
-      @homePageEvent "Student license purchase #{type}"
+      amount = utils.getQueryVariable('amount')
+      duration = utils.getQueryVariable('duration')
+      options = paymentUtils.getTrackingData({ amount, duration })
+      @homePageEvent "Student license purchase #{type}", options
     else if utils.getQueryVariable('payment-homeSubscriptions') in ['success', 'failed'] and not @renderedPaymentNoty
       paymentResult = utils.getQueryVariable('payment-homeSubscriptions')
       if paymentResult is 'success'
@@ -170,7 +173,10 @@ module.exports = class HomeView extends RootView
       noty({ text: title, type: type, timeout: 10000, killer: true })
       @renderedPaymentNoty = true
       # TODO: should include properties in this format: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
-      @homePageEvent "Home subscription purchase #{type}"
+      amount = utils.getQueryVariable('amount')
+      duration = utils.getQueryVariable('duration')
+      options = paymentUtils.getTrackingData({ amount, duration })
+      @homePageEvent "Home subscription purchase #{type}", options
     _.delay(@activateCarousels, 1000)
     super()
 
