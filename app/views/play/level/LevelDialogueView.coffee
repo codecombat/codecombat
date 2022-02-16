@@ -25,6 +25,11 @@ module.exports = class LevelDialogueView extends CocoView
     @level = options.level
     @sessionID = options.sessionID
 
+  afterInsert: ->
+    super()
+    @$el.find('video').on 'ended', @onVideoEnded
+    @$el.find('video').on 'canplaythrough', @onVideoLoaded
+
   onClick: (e) ->
     Backbone.Mediator.publish 'tome:focus-editor', {}
 
@@ -42,6 +47,7 @@ module.exports = class LevelDialogueView extends CocoView
     @$el.find('.dialogue-area').show()
     @$el.addClass 'active speaking'
     $('body').addClass('dialogue-view-active')
+    @updateVideo(e)
     @setMessage e.message, e.mood, e.responses
     if e.mood is 'debrief'
       if e.sprite.thangType.get('poseImage')?
@@ -51,6 +57,7 @@ module.exports = class LevelDialogueView extends CocoView
 
   onDialogueSoundCompleted: ->
     @$el.removeClass 'speaking'
+    @updateVideo()
 
   onSpriteClearDialogue: ->
     @$el.removeClass 'active speaking'
@@ -58,6 +65,7 @@ module.exports = class LevelDialogueView extends CocoView
     @$el.find('img').remove()
     @$el.removeClass(@lastMood) if @lastMood
     @$el.find('.dialogue-area').hide()
+    @updateVideo()
 
   setMessage: (message, mood, responses) ->
     message = marked message
@@ -88,6 +96,37 @@ module.exports = class LevelDialogueView extends CocoView
       @lastResponses = null
     @animator = new DialogueAnimator(message, @bubble)
     @messageInterval = setInterval(@addMoreMessage, 1000 / 30)  # 30 FPS
+
+  updateVideo: (message) ->
+    animation = if message then message.mood ? 'explain' else 'idle'
+    @nextVideo = if @currentVideo is 2 then 1 else 2
+    @nextAnimation = animation
+    #console.log 'update video mood', animation
+    $video = @$el.find("video#video#{@nextVideo}")
+    $video.find("source[type='video/quicktime']").attr('src', "/images/level/little-sophia/ls-#{animation}.mov")
+    $video.find("source[type='video/webm']").attr('src', "/images/level/little-sophia/ls-#{animation}.webm")
+    $video[0].load()
+
+  onVideoLoaded: (e) =>
+    $video = $(e.target)
+    #console.log 'video ended', $video, e
+    if @nextAnimation and (not @currentAnimation or @nextAnimation isnt @currentAnimation)
+      @onVideoEnded e
+
+  onVideoEnded: (e) =>
+    $video = @$el.find("video#video#{@currentVideo or 1}")
+    if @nextAnimation isnt @currentAnimation
+      #console.log 'switch videos', @currentAnimation, @nextAnimation, @currentVideo, @nextVideo
+      $otherVideo = @$el.find("video#video#{@nextVideo}")
+      $otherVideo.removeClass 'hide'
+      $otherVideo[0].play()
+      $video.addClass 'hide'
+      $video[0].pause()
+      @currentAnimation = @nextAnimation
+      @currentVideo = if @currentVideo is 2 then 1 else 2
+    else
+      #console.log 'replay video', @currentAnimation, @currentVideo
+      $video[0].play()
 
   isFullScreen: ->
     document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen
@@ -129,4 +168,5 @@ module.exports = class LevelDialogueView extends CocoView
 
   destroy: ->
     clearInterval(@messageInterval) if @messageInterval
+    @$('#loading-video').off()
     super()

@@ -333,6 +333,7 @@ module.exports = class Level extends CocoModel
 
   usesConfiguredMultiplayerHero: ->
     # For hero-ladder levels where we have configured Hero Placeholder inventory equipment, we must have intended to use it instead of letting the player choose their hero/equipment.
+    return true  # Force Sophia hero. TODO: playing as blue in multiplayer?
     return false unless @isType 'hero-ladder'
     return false unless levelThang = _.find @get('thangs'), id: 'Hero Placeholder'
     equips = _.find levelThang.components, {original: LevelComponent.EquipsID}

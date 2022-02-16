@@ -58,7 +58,6 @@ module.exports = class LevelLoadingView extends CocoView
   onLoadingVideoEnded: (e) =>
     return if @loadingVideoEnded
     @loadingVideoEnded = true
-    console.log 'playback ended yo'
     @$('#loading-video').addClass('playback-ended')
     @$('#loading-details').addClass('playback-ended')
     if @awaitingLoadingVideoEnd

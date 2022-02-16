@@ -471,7 +471,8 @@ module.exports = class HeroVictoryModal extends ModalView
       # Little-Sophia-specific level progression
       when 'the-zoo-of-extinct-animals' then 'the-awakened'
       when 'the-awakened' then 'the-sisters'
-      when 'the-sisters' then 'the-zoo-of-extinct-animals'  # TOOD: add level 4
+      when 'the-sisters' then 'little-s-arena'
+      when 'little-s-arena' then 'the-zoo-of-extinct-animals'  # TOOD: figure out post-arena flow
     if nextLevelSlug
       nextLevelLink = "/play/level/#{nextLevelSlug}"
       viewClass = 'views/play/level/PlayLevelView'
