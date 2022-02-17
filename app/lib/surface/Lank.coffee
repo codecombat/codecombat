@@ -654,7 +654,8 @@ module.exports = Lank = class Lank extends CocoClass
       d.updatePosition()
 
   addLabel: (name, style, labelOptions={}) ->
-    @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: @options.textLayer, style: style, labelOptions: labelOptions
+    layer = if labelOptions.groundLayer then @options.groundLayer else @options.textLayer
+    @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: layer, style: style, labelOptions: labelOptions
     @labels[name]
 
   addMark: (name, layer, thangType=null) ->
