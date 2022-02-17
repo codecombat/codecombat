@@ -493,6 +493,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     account_created: "החשבון נוצר!"
     confirm_student_blurb: "רשמו את הפרטים שלכם, כדי לא לשכוח. תוכלו גם לבקש מהמורה לעזור לכם באיפוס הסיסמה בכל עת."
     confirm_individual_blurb: "רשמו את פרטי הכניסה שלכם, כדי שתוכלו להשתמש בהם בעתיד. ודאו את כתובת הדואר האלקטרוני, כדי שתוכלו לשחזר את חשבונכם אפילו אם תשכחו את הסיסמה - חפשו את ההודעה בתיבת הדואר הנכנס!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "רשמו:"
     start_playing: "התחילו לשחק!"
     sso_connected: "התחברתם בהצלחה אל:"

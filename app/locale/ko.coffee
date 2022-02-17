@@ -493,6 +493,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     account_created: " 계정 생성 성공!"
     confirm_student_blurb: " 까먹지 않기 위해 당신의 정보를 적어 놓으세요. 선생님도 비밀번호 초기화를 언제든지 해줄 수 있습니다."
     confirm_individual_blurb: "나중에 필요할 수 도 있기 떄문에 로그인 정보를 적어두세요. 나중에 아이디나 비밀번호를 까먹을 수 있기 떄문에 이메일 인증을 받으세요. 수신함을 확인하세요!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: " 이 정보를 적어두세요:"
     start_playing: "게임을 시작하세요!"
     sso_connected: "성공적으로 연결되었습니다:"

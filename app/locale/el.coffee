@@ -493,6 +493,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     account_created: "Ο Λογαριασμός Δημιουργήθηκε!"
     confirm_student_blurb: "Γράψτε τις πληροφορίες σας έτσι ώστε να μην τις ξεχάσετε. Ο δάσκαλός σας μπορεί επίσης να σας βοηθήσει να επαναφέρετε τον κωδικό πρόσβασης ανά πάσα στιγμή."
     confirm_individual_blurb: "Γράψτε τις πληροφορίες σύνδεσης σε περίπτωση που τις χρειαστείτε αργότερα. Επαληθεύστε το ηλεκτρονικό σας ταχυδρομείο ώστε να μπορείτε να ανακτήσετε το λογαριασμό σας αν ξεχάσετε ποτέ τον κωδικό πρόσβασής σας - ελέγξτε τα εισερχόμενά σας!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Γράψτε αυτά:"
     start_playing: "Ξεκινήστε να Παίζετε!"
     sso_connected: "Συνδεθήκατε επιτυχώς με:"

@@ -493,6 +493,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     account_created: "帳戶創建完成！"
     confirm_student_blurb: "把您的資訊寫下來，以防您忘記它。您的老師也可以協助您重設密碼。"
     confirm_individual_blurb: "把您的登入資訊寫下來，以便日後需要使用。驗證您的email，這樣您之後忘記密碼才可以恢復帳戶──去您的收件匣收信吧！"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "把這個寫下來："
     start_playing: "開始遊戲！"
     sso_connected: "成功連接："

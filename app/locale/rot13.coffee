@@ -492,6 +492,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     account_created: "Nppbhag Perngrq!"
     confirm_student_blurb: "Jevgr qbja lbhe vasbezngvba fb gung lbh qba'g sbetrg vg. Lbhe grnpure pna nyfb uryc lbh erfrg lbhe cnffjbeq ng nal gvzr."
     confirm_individual_blurb: "Jevgr qbja lbhe ybtva vasbezngvba va pnfr lbh arrq vg yngre. Irevsl lbhe rznvy fb lbh pna erpbire lbhe nppbhag vs lbh rire sbetrg lbhe cnffjbeq - purpx lbhe vaobk!"
+    confirm_individual_blurb_without_email: "Jevgr qbja lbhe ybtva vasbezngvba va pnfr lbh arrq vg yngre."
     write_this_down: "Jevgr guvf qbja:"
     start_playing: "Fgneg Cynlvat!"
     sso_connected: "Fhpprffshyyl pbaarpgrq jvgu:"
