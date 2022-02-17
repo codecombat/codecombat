@@ -493,6 +493,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     account_created: "Conta Criada!"
     confirm_student_blurb: "Aponta a tua informação para que não a esqueças. O teu professor também te pode ajudar a reiniciar a tua palavra-passe a qualquer altura."
     confirm_individual_blurb: "Aponta a tua informação de início de sessão caso precises dela mais tarde. Verifica o teu e-mail para que possas recuperar a tua conta se alguma vez esqueceres a tua palavra-passe - verifica a tua caixa de entrada!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Aponta isto:"
     start_playing: "Começar a Jogar!"
     sso_connected: "Conectado com sucesso:"

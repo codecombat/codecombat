@@ -493,6 +493,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     account_created: "Учётная запись создана!"
     confirm_student_blurb: "Запишите свои данные, чтобы не забыть их. Если потребуется, учитель в любое время поможет сбросить пароль."
     confirm_individual_blurb: "Запишите свои учётные данные, если они потребуются в дальнейшем. Проверьте свой e-mail – если забудете пароль, останется возможность восстановить учётную запись!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Запишите это:"
     start_playing: "Начать играть!"
     sso_connected: "Успешно подключились с помощью:"

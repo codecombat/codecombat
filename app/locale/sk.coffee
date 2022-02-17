@@ -493,6 +493,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    account_created: "Account Created!"
 #    confirm_student_blurb: "Write down your information so that you don't forget it. Your teacher can also help you reset your password at any time."
     confirm_individual_blurb: "Napíš si na papier svoje prihlasovacie údaje. Pozri si svoju emailovú schránku. Máš tam od nás email, ktorým overíš svoju adresu, aby si si mohol neskôr zmeniť heslo, ak ho zabudneš!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Napíš si na papier:"
     start_playing: "Začni hrať!"
     sso_connected: "Úspešne pripojený:"

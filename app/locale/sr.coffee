@@ -493,6 +493,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     account_created: "Налог направљен!"
     confirm_student_blurb: "Запиши своје податке да их не заборавиш. И твој наставник може да ти помогне да ресетујеш своју шифру у било ком тренутку."
     confirm_individual_blurb: "Упиши податке за пријаву на свој налог, у случају да ти буду потребни касније. Потврди своју и-мејл адресу да би могао да опоравиш свој налог у случају да некад заборавиш шифру - провери да ли ти је стигао и-мејл!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Запиши ово:"
     start_playing: "Почни да играш!"
     sso_connected: "Успешно повезивање са:"
