@@ -493,6 +493,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     account_created: "Tili luotu!"
     confirm_student_blurb: "Kirjoita ylös tietosi jotta et unohda niitä. Opettajasi voi nollata salasanasi jos unohdat sen."
     confirm_individual_blurb: "Kirjoita tietosi ylös saatat tarvita niitä myöhemmin. Vahvista sähköpostiosoiteesi, että voit käyttää sitä salasanasi nollaamiseen tarvittaessa!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Kirjoita tämä ylös:"
     start_playing: "Aloita pelaaminen!"
     sso_connected: "Onnistuneesti yhdistetty:"

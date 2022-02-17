@@ -493,6 +493,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     account_created: "A fiók létrejött."
     confirm_student_blurb: "Jegyezd fel az adatokat, mert később is szükséged lesz rájuk. A tanárod is tud segíteni, ha bármikor új jelszót szeretnél beállítani."
     confirm_individual_blurb: "Jegyezd fel a bejelentkezési adataidat, később is szükséged lehet rájuk. Erősítsd meg az e-mail címed, így akkor is helyreállíthatod a fiókod, ha elfelejtenéd a jelszavadat. Ellenőrizd a postafiókod."
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Jegyezd fel ezeket az adatokat:"
     start_playing: "Kezdd el a játékot!"
     sso_connected: "Sikeresen kapcsolódtál:"

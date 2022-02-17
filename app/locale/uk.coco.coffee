@@ -493,6 +493,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     account_created: "Обліківку створено!"
     confirm_student_blurb: "Запишіть ваші дані щоб не забути їх. Ваш вчитель зможе допомогти скинути пароль в будь-який час."
     confirm_individual_blurb: "Занотуйте інформацію для входу в систему, вона може знадобитися пізніше. Перевірте email (перевірте вхідні повідомлення), щоб ви могли відновити доступ до вашої обліківки якщо забудете пароль!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Запишіть це:"
     start_playing: "Розпочніть гру!"
     sso_connected: "Ви успішно підключились за допомогою:"

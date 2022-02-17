@@ -493,6 +493,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     account_created: "Akun Telah Dibuat!"
     confirm_student_blurb: "Tulislah informasi kamu supaya kamu tidak lupa. Gurumu juga dapat membantu untuk mereset kata sandi kamu setiap saat."
     confirm_individual_blurb: "Tulis informasi masuk kamu jika kamu membutuhkannya lain waktu. Verifikasi email kamu supaya kamu dapat memulihkan akun kamu jika kamu lupa kata sandimu - check kotak masukmu!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Tulislah ini:"
     start_playing: "Mulai Bermain!"
     sso_connected: "Berhasil tersambung dengan:"

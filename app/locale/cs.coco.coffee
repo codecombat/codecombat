@@ -493,6 +493,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     account_created: "Účet vytvořen!"
     confirm_student_blurb: "Zapište si své údaje abyste je nezapomněli. Váš učitel vám také může kdykoliv pomoci přenastavit heslo."
     confirm_individual_blurb: "Zapište si přihlašovací údaje, budete je později potřebovat. Ověřte svůj email, abyste si mohl/a obnovit účet v případě, že zapomenete heslo - zkontrolujte si příchozí poštu!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Zapište si:"
     start_playing: "Začít hrát!"
     sso_connected: "Úspěšně připojeno s:"
