@@ -35,7 +35,7 @@ export default {
       paymentUtils.setTemporaryPremiumAccess()
     // TODO: should include properties in this format: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
     const options = paymentUtils.getTrackingData({ amount: this.amount, duration: this.duration })
-    if (!paymentUtils.hasTemporaryPremiumAccess()) {
+    if (!paymentUtils.hasTrackedPremiumAccess()) {
       window.tracker.trackEvent('Home subscription purchase success', options)
       paymentUtils.setTrackedPremiumPurchase()
     }

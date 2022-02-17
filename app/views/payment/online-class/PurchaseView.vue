@@ -73,8 +73,7 @@
 import _ from "lodash";
 import PaymentOnlineClassesParentDetailsComponent from "./ParentDetailsComponent";
 import PaymentOnlineClassesStudentDetailsComponent from "./StudentDetailsComponent";
-import { getStripeLib } from '../../../lib/stripeUtil';
-import { createPaymentSession } from '../../../core/api/payment-session';
+import { handleCheckoutSession } from '../paymentPriceHelper'
 
 export default {
   name: "PaymentOnlineClassesPurchaseView",
@@ -119,6 +118,10 @@ export default {
     totalPrice() {
       const selectedTier = this.getSelectedTier
       return (this.licenseNum * (selectedTier.unit_amount / 100)).toFixed(2);
+    },
+    totalPriceInDecimal() {
+      const selectedTier = this.getSelectedTier
+      return this.licenseNum * selectedTier.unit_amount
     },
     getSelectedUnitPriceAmount() {
       return this.getSingleUnitPriceTier.unit_amount / 100;
@@ -206,7 +209,6 @@ export default {
     },
     async onPurchaseNow(e) {
       e.preventDefault();
-      const stripe = await getStripeLib();
       const stripePriceId = this.selectedPrice.id;
       const onlineClassesDetails = {
         purchaser: this.parentDetails,
@@ -221,22 +223,12 @@ export default {
         numberOfLicenses: this.licenseNum,
         email: this.parentDetails.email,
         userId: me.get('_id'),
-        totalAmount: this.totalPrice,
+        totalAmount: this.totalPriceInDecimal,
         onlineClassesDetails,
         additionalInfo
       };
-      try {
-        window.tracker.trackEvent('Checkout initiated', sessionOptions)
-        const session = await createPaymentSession(sessionOptions);
-        const sessionId = session.data.sessionId;
-        const result = await stripe.redirectToCheckout({ sessionId });
-        if (result.error) {
-          console.error('resErr', result.error);
-        }
-      } catch (err) {
-        this.errMsg = err.message;
-        console.error('paymentSession creation failed', err);
-      }
+      const { errMsg } = await handleCheckoutSession(sessionOptions)
+      this.errMsg = errMsg
     }
   }
 }
