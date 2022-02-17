@@ -177,7 +177,6 @@ courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 4
 courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 2
 courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 1
 
- 
 courseAcronyms = {}
 courseAcronyms[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
 courseAcronyms[courseIDs.GAME_DEVELOPMENT_1] = 'GD1'
@@ -204,6 +203,45 @@ courseRevAcronyms['GD3'] = courseIDs.GAME_DEVELOPMENT_3
 courseRevAcronyms['WD1'] = courseIDs.WEB_DEVELOPMENT_1
 courseRevAcronyms['WD2'] = courseIDs.WEB_DEVELOPMENT_2
 courseRevAcronyms['FULL'] = 'FULL_ACCESS'
+
+campIDs =
+  DUNGEONS: '549f07f7e21e041139ef28c7'
+  FOREST: '549f0801e21e041139ef28c8'
+  DESERT: '549f080ae21e041139ef28c9'
+  MOUNTAIN: '54b851b689b852a0b4d91037'
+  GLACIER: '55721bff641c736e581a0a7c'
+  CAMP_GAME_DEVELOPMENT_1: '579fb6c7f380c444007e568d'
+  CAMP_GAME_DEVELOPMENT_2: '579fb6c99872641f0080befa'
+  CAMP_GAME_DEVELOPMENT_3: '59fa25804bf5c2002be83673'
+  CAMP_WEB_DEVELOPMENT_1: '579fb6a6f380c444007e563a'
+  CAMP_WEB_DEVELOPMENT_2: '579fb6b6f380c444007e565c'
+
+campNumericalStatus = {}
+campNumericalStatus['FULL_ACCESS'] = 1023
+campNumericalStatus['NO_ACCESS'] = 0
+campNumericalStatus[campIDs.GLACIER] = 512
+campNumericalStatus[campIDs.MOUNTAIN] = 256
+campNumericalStatus[campIDs.DESERT] = 128
+campNumericalStatus[campIDs.FOREST] = 64
+campNumericalStatus[campIDs.DUNGEONs] = 32
+campNumericalStatus[campIDs.CAMP_GAME_DEVELOPMENT_3] = 16
+campNumericalStatus[campIDs.CAMP_GAME_DEVELOPMENT_2] = 8
+campNumericalStatus[campIDs.CAMP_GAME_DEVELOPMENT_1] = 4
+campNumericalStatus[campIDs.CAMP_WEB_DEVELOPMENT_2] = 2
+campNumericalStatus[campIDs.CAMP_WEB_DEVELOPMENT_1] = 1
+
+campRevAcronyms = {}
+campRevAcronyms['DUNGEONS'] = campIDs.DUNGEONS
+campRevAcronyms['FOREST'] = campIDs.FOREST
+campRevAcronyms['DESERT'] = campIDs.DESERT
+campRevAcronyms['MOUNTAIN'] = campIDs.MOUNTAIN
+campRevAcronyms['GLACIER'] = campIDs.GLACIER
+campRevAcronyms['GD1'] = campIDs.CAMP_GAME_DEVELOPMENT_1
+campRevAcronyms['GD2'] = campIDs.CAMP_GAME_DEVELOPMENT_2
+campRevAcronyms['GD3'] = campIDs.CAMP_GAME_DEVELOPMENT_3
+campRevAcronyms['WD1'] = campIDs.CAMP_WEB_DEVELOPMENT_1
+campRevAcronyms['WD2'] = campIDs.CAMP_WEB_DEVELOPMENT_2
+campRevAcronyms['FULL'] = 'FULL_ACCESS'
 
 courseLessonSlidesURLs = {}
 unless features?.china
@@ -987,6 +1025,8 @@ module.exports = {
   courseLessonSlidesURLs
   courseNumericalStatus
   CSCourseIDs
+  campNumericalStatus
+  campRevAcronyms
   createLevelNumberMap
   extractPlayerCodeTag
   freeAccessLevels
