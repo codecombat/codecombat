@@ -493,6 +493,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     account_created: "Konto skapat!"
     confirm_student_blurb: "Skriv ner din information så att du inte glömmer den. Din lärare kan också hjälpa dig att återställa lösenordet när som helst."
     confirm_individual_blurb: "Skriv ner din inloggningsinformation om du behöver det senare. Verifiera din e-post så att du kan återställa ditt konto om du någonsin glömmer ditt lösenord - kolla din inkorg!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Skriv ner detta:"
     start_playing: "Börja spela!"
     sso_connected: "Du är nu uppkopplad till:"

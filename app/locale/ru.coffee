@@ -493,6 +493,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     account_created: "Учётная запись создана!"
     confirm_student_blurb: "Запишите свои данные, чтобы не забыть их. Если потребуется, учитель в любое время поможет сбросить пароль."
     confirm_individual_blurb: "Запишите свои учётные данные, если они потребуются в дальнейшем. Проверьте свой e-mail – если забудете пароль, останется возможность восстановить учётную запись!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Запишите это:"
     start_playing: "Начать играть!"
     sso_connected: "Успешно подключились с помощью:"
@@ -2215,9 +2216,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_course_share_suffix: "которые ты только что создал."
     copy_url: "Копировать URL"
     share_with_teacher_email: "Отправить твоему учителю"
-#    share_ladder_link: "Share Multiplayer Link"
-#    ladder_link_title: "Share Your Multiplayer Match Link"
-#    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
+    share_ladder_link: "Поделиться ссылкой для многопользовательской игры"
+    ladder_link_title: "Поделитесь ссылкой На свой многопользовательский матч"
+    ladder_link_blurb: "Поделитесь ссылкой на битву с искусственным интеллектом, чтобы ваши друзья и семья могли играть против вашего кода:"
 
   game_dev:
     creator: "Создатель"
@@ -2687,7 +2688,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unauthorized: "Вам необходимо авторизоваться. У вас отключены cookie?"
     forbidden: "У вас нет прав доступа."
     forbidden_desc: "О нет, нам нечего здесь показать! Убедитесь, что вы вошли под правильным аккаунтом, или посетите одну из ссылок ниже, чтобы вернуться к программированию!"
-#    user_not_found: "User Not Found"
+    user_not_found: "Пользователь не найден"
     not_found: "Не найдено."
     not_found_desc: "Хм, здесь ничего нет. Посетите одну из ссылок ниже, чтобы вернуться к программированию!"
     not_allowed: "Метод не поддерживается."
@@ -2698,7 +2699,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unknown: "Неизвестная ошибка."
     error: "ОШИБКА"
     general_desc: "Что-то пошло не так, и скорее всего это наша вина. Попробуйте немного подождать и обновить страницу, или посетите одну из ссылок ниже, чтобы вернуться к программированию!"
-#    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later."
+    too_many_login_failures: "Слишком много неудачных попыток входа. Пожалуйста, попробуйте еще раз позже."
 
   resources:
     level: "Уровень"
@@ -2918,7 +2919,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     third_party_description: "CodeCombat использует следующие сторонние сервисы (среди прочих):"
     cookies_message: "CodeCombat использует постоянные и сеансовые куки."
     cookies_deny: "Отказаться от использования сеансовых куки"
-#    cookies_allow: "Allow cookies"
+    cookies_allow: "Разрешить файлы cookie"
 
   calendar:
     year: "Год"
@@ -2947,8 +2948,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   server_error:
     email_taken: "Данный емейл уже занят"
     username_taken: "Данное имя пользователя уже занято"
-#    easy_password: "Password is too easy to guess"
-#    reused_password: "Password cannot be reused"
+    easy_password: "Пароль слишком легко угадать"
+    reused_password: "Пароль не может быть использован повторно"
 
   esper:
     line_no: "Строка $1: "
@@ -3193,7 +3194,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   hoc_2018:
     banner: "Добро пожаловать в час кода!" # {change}
     page_heading: "Ваши ученики будут учиться программировать, создавая свою собственную игру"
-#    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
+    page_heading_ai_league: "Ваши ученики научатся создавать свой собственный многопользовательский искусственный интеллект!"
     step_1: "Шаг 1: Посмотри вводное видео"
     step_2: "Шаг 2: Попробуй сам"
     step_3: "Шаг 3: Скачай план урока"

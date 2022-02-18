@@ -493,6 +493,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     account_created: "Account Aangemaakt!"
     confirm_student_blurb: "Schrijf je gegevens op zodat je ze niet vergeet. Je leraar kan ook op elk moment helpen om je password te herstellen."
     confirm_individual_blurb: "Schrijf je login gegevens op voor het geval je ze later nog eens nodig hebt. Bevestig je email adres zodat je je account kan herstellen, mocht je ooit je wachtwoord vergeten - check je inbox!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Schrijf dit op:"
     start_playing: "Speel Nu!"
     sso_connected: "Succesvol verbonden met:"

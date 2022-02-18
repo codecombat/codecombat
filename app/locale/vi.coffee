@@ -493,6 +493,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    account_created: "Account Created!"
 #    confirm_student_blurb: "Write down your information so that you don't forget it. Your teacher can also help you reset your password at any time."
 #    confirm_individual_blurb: "Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
 #    write_this_down: "Write this down:"
 #    start_playing: "Start Playing!"
 #    sso_connected: "Successfully connected with:"
