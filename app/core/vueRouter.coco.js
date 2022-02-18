@@ -70,6 +70,7 @@ export default function getVueRouter () {
         {
           path: '/payments/home-subscriptions-success',
           component: () => import(/* webpackChunkName: "homeSubscriptionSuccessComponent" */'app/views/payment/HomeSubscriptionsSuccessView'),
+          props: (route) => ({ ...route.query, ...route.params })
         },
         {
           path: '/payments/:slug',
