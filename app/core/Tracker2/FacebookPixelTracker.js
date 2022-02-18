@@ -1,5 +1,7 @@
 import BaseTracker from './BaseTracker'
 
+const SUBSCRIBE_EVENT = 'Subscribe'
+const PURCHASE_EVENT = 'Purchase'
 // Only send events to Facebook if they're in this list.
 // If they are mapped as a string, then send that as the standard Facebook event name.
 const facebookEventActions = {
@@ -15,9 +17,9 @@ const facebookEventActions = {
   'CreateAccountModal Teacher BasicInfoView Submit Success': 'Lead',
   'Teachers Request Demo Form Submitted': 'Lead',
   'Checkout initiated': 'InitiateCheckout',
-  'Student licenses purchase success': 'Purchase', // should include properties: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
-  'Online classes purchase success': 'Subscription', // should include properties: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
-  'Home subscription purchase success': 'Subscription', // should include properties: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
+  'Student licenses purchase success': PURCHASE_EVENT, // should include properties: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
+  'Online classes purchase success': SUBSCRIBE_EVENT, // should include properties: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
+  'Home subscription purchase success': SUBSCRIBE_EVENT, // should include properties: { value: '0.00', currency: 'USD', predicted_ltv: '0.00' }
 }
 
 function loadFacebookPixel () {
@@ -81,12 +83,31 @@ export default class FacebookPixelTracker extends BaseTracker {
       return
     }
 
-    this.log('tracking event', fbEvent)
+    this.log('tracking event', fbEvent, this.mapToFbProperties(fbEvent, properties))
     if (fbEvent === true) {
       fbq('trackCustom', action, properties)
     } else if (typeof fbEvent === 'string') {
       // Track as standard event name
-      fbq('track', fbEvent)
+      fbq('track', fbEvent, this.mapToFbProperties(fbEvent, properties))
     }
+  }
+
+  mapToFbProperties (fbEvent, properties) {
+    if (!properties || Object.keys(properties).length === 0)
+      return {}
+    let result = {}
+    if (fbEvent === SUBSCRIBE_EVENT) {
+      const { purchaseAmount, predictedLtv, currency } = properties
+      result['predicted_ltv'] = predictedLtv
+      result.value = purchaseAmount
+      result.currency = currency
+    } else if (fbEvent === PURCHASE_EVENT) {
+      const { purchaseAmount, currency } = properties
+      result.value = purchaseAmount
+      result.currency = currency
+    } else {
+      result = properties
+    }
+    return result
   }
 }

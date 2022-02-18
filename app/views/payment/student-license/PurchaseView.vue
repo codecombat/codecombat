@@ -92,7 +92,7 @@ export default {
         numberOfLicenses: this.licenseNum,
         email: me.get('email'),
         userId: me.get('_id'),
-        totalAmount: this.totalPrice
+        totalAmount: this.totalAmountInDecimal
       }
       const { errMsg } = await handleCheckoutSession(sessionOptions)
       this.errMsg = errMsg
@@ -106,6 +106,9 @@ export default {
     selectedCurrency() {
       const price = this.getSelectedPrice();
       return this.getCurrency(price);
+    },
+    totalAmountInDecimal() {
+      return this.getSelectedPrice().unit_amount * this.licenseNum
     }
   }
 }

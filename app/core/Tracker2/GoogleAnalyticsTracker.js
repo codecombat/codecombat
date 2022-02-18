@@ -40,8 +40,8 @@ export default class GoogleAnalyticsTracker extends BaseTracker {
     if (properties.label) {
       gaFieldObject.eventLabel = properties.label
     }
-    if (properties.value) {
-      gaFieldObject.eventValue = properties.value
+    if (properties.value || properties.predictedLtv || properties.purchaseAmount) {
+      gaFieldObject.eventValue = properties.value || properties.predictedLtv || properties.purchaseAmount
     }
     ga('send', gaFieldObject)
   }
