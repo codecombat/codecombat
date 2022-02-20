@@ -192,8 +192,29 @@ module.exports = class HomeView extends RootView
         @scrollToLink(document.location.hash, 0)
     _.delay(f, 100)
 
+    @loadCurator()
+
+  loadCurator: ->
+    return if @curatorLoaded
+    return unless me.get('preferredLanguage', true).startsWith('en')  # Only English social media anyway
+    return if $(document).width() <= 700  # Curator is hidden in css on mobile anyway
+    @curatorLoaded = true
+    script = document.createElement 'script'
+    script.async = 1
+    script.src = 'https://cdn.curator.io/published/4b3b9f97-3241-43b3-934e-f5a1eea5ae5e.js'
+    firstScript = document.getElementsByTagName('script')[0]
+    firstScript.parentNode.insertBefore(script, firstScript)
+    @curatorInterval = setInterval @checkIfCuratorLoaded, 1000
+
+  checkIfCuratorLoaded: =>
+    return if @destroyed
+    return unless @$('.crt-social-icon').length  # If we didn't find any of these, there's no content (not loaded or Curator error)
+    @$('.testimonials-container, .curator-spacer').removeClass('hide')
+    clearInterval @curatorInterval
+
   destroy: ->
     @cleanupModals()
+    clearInterval @curatorInterval if @curatorInterval
     super()
 
   # 2021-06-08: currently causing issues with i18n interpolation, disabling for now
