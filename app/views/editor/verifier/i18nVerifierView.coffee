@@ -7,7 +7,7 @@ co = require 'co'
 utils = require 'core/utils'
 
 I18nVerifierComponent = Vue.extend
-  template: require('templates/editor/verifier/i18n-verifier-view')()
+  template: require('app/templates/editor/verifier/i18n-verifier-view')()
   data: ->
     allLocales: Object.keys(locale).concat('rot13')
     language: 'en'
@@ -134,7 +134,7 @@ I18nVerifierComponent = Vue.extend
 
 module.exports = class I18nVerifierView extends RootComponent
   id: 'i18n-verifier-view'
-  template: require 'templates/base-flat'
+  template: require 'app/templates/base-flat'
   VueComponent: I18nVerifierComponent
   constructor: (options, @levelSlug) ->
     @propsData = { @levelSlug }

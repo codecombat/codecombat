@@ -1,5 +1,5 @@
 ContributeClassView = require './ContributeClassView'
-template = require 'templates/contribute/diplomat'
+template = require 'app/templates/contribute/diplomat'
 {me} = require 'core/auth'
 locale = require 'locale/locale'
 

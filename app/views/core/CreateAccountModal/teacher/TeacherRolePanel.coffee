@@ -2,7 +2,7 @@ forms = require 'core/forms'
 
 TeacherRolePanel = Vue.extend
   name: 'teacher-role-panel'
-  template: require('templates/core/create-account-modal/teacher-role-panel')()
+  template: require('app/templates/core/create-account-modal/teacher-role-panel')()
   data: ->
     formData = _.pick(@$store.state.modal.trialRequestProperties, [
       'role'

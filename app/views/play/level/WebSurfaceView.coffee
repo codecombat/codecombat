@@ -1,6 +1,6 @@
 require('app/styles/play/level/web-surface-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/web-surface-view'
+template = require 'app/templates/play/level/web-surface-view'
 HtmlExtractor = require 'lib/HtmlExtractor'
 
 module.exports = class WebSurfaceView extends CocoView

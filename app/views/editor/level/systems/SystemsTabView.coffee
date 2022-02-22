@@ -1,6 +1,6 @@
 require('app/styles/editor/level/systems-tab-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/level/systems-tab-view'
+template = require 'app/templates/editor/level/systems-tab-view'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
 LevelSystemEditView = require './LevelSystemEditView'

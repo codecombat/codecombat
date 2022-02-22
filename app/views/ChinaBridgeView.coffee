@@ -1,6 +1,6 @@
 require('app/styles/china-bridge.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/china-bridge-view'
+template = require 'app/templates/china-bridge-view'
 utils = require 'core/utils'
 storage = require 'core/storage'
 

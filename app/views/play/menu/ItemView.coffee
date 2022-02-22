@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/menu/item-view'
+template = require 'app/templates/play/menu/item-view'
 
 module.exports = class ItemView extends CocoView
   className: 'item-view'

@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/admin/user-code-problems'
+template = require 'app/templates/admin/user-code-problems'
 UserCodeProblem = require 'models/UserCodeProblem'
 
 module.exports = class UserCodeProblemsView extends RootView

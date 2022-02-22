@@ -1,7 +1,7 @@
 require('app/styles/play/level/gold.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/gold'
-teamTemplate = require 'templates/play/level/team_gold'
+template = require 'app/templates/play/level/gold'
+teamTemplate = require 'app/templates/play/level/team_gold'
 
 module.exports = class LevelGoldView extends CocoView
   id: 'gold-view'

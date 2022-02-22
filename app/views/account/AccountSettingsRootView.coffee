@@ -1,6 +1,6 @@
 require('app/styles/account/account-settings-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/account/account-settings-root-view'
+template = require 'app/templates/account/account-settings-root-view'
 AccountSettingsView = require './AccountSettingsView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 

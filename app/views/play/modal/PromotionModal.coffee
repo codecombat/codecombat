@@ -1,6 +1,6 @@
 require('app/styles/play/modal/promotion-modal.sass')
 ModalView = require('views/core/ModalView')
-template = require 'templates/play/modal/promotion-modal'
+template = require 'app/templates/play/modal/promotion-modal'
 
 module.exports = class PromotionModal extends ModalView
   template: template

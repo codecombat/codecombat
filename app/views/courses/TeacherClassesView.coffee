@@ -1,6 +1,6 @@
 require('app/styles/courses/teacher-classes-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/courses/teacher-classes-view'
+template = require 'app/templates/courses/teacher-classes-view'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 Courses = require 'collections/Courses'
@@ -149,7 +149,7 @@ module.exports = class TeacherClassesView extends RootView
     @courseInstances = new CourseInstances()
     @courseInstances.fetchByOwner(@teacherID)
     @supermodel.trackCollection(@courseInstances)
-    @progressDotTemplate = require 'templates/teachers/hovers/progress-dot-whole-course'
+    @progressDotTemplate = require 'app/templates/teachers/hovers/progress-dot-whole-course'
     @prepaids = new Prepaids()
     @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
 

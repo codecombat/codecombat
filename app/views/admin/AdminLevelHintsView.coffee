@@ -9,7 +9,7 @@ utils = require 'core/utils'
 
 module.exports = class AdminLevelHintsView extends RootView
   id: 'admin-level-hints-view'
-  template: require 'templates/admin/admin-level-hints'
+  template: require 'app/templates/admin/admin-level-hints'
 
   initialize: ->
     return super() unless me.isAdmin()

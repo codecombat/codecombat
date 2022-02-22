@@ -5,7 +5,7 @@ category = 'Play GameDev Level'
 
 module.exports = class GameDevVictoryModal extends ModalView
   id: 'game-dev-victory-modal'
-  template: require 'templates/play/level/modal/game-dev-victory-modal'
+  template: require 'app/templates/play/level/modal/game-dev-victory-modal'
 
   events:
     'click #replay-game-btn': 'onClickReplayButton'

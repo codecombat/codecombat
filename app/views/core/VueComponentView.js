@@ -10,7 +10,7 @@ const silentStore = { commit: _.noop, dispatch: _.noop }
 module.exports = class VueComponentView extends RootView {
   constructor (component, options) {
     super(options)
-    const baseTemplate = options.baseTemplate || 'base-flat'  //base template, by default using base-flat
+    const baseTemplate = options.baseTemplate || 'base-flat-vue'  //base template, by default using base-flat
     this.id = 'vue-component-view'
     try {
       this.template = require('templates/vue-base/'+ baseTemplate)

@@ -15,8 +15,8 @@ utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
 AceDiff = require 'ace-diff'
 require('app/styles/common/ace-diff.sass')
-fullPageTemplate = require 'templates/teachers/teacher-student-view-full'
-viewTemplate = require 'templates/teachers/teacher-student-view'
+fullPageTemplate = require 'app/templates/teachers/teacher-student-view-full'
+viewTemplate = require 'app/templates/teachers/teacher-student-view'
 
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
@@ -81,7 +81,7 @@ module.exports = class TeacherStudentView extends RootView
 
     # wrap templates so they translate when called
     translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
-    @singleStudentLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
+    @singleStudentLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
     @levelProgressMap = {}
     me.getClientCreatorPermissions()?.then(() => @render?())
     super(options)

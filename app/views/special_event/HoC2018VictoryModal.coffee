@@ -3,7 +3,7 @@ HoC2018VictoryComponent = require('./HoC2018VictoryModal.vue').default
 
 module.exports = class HoC2018VictoryModal extends ModalComponent
   id: 'hoc-victory-modal'
-  template: require 'templates/core/modal-base-flat'
+  template: require 'app/templates/core/modal-base-flat'
   closeButton: true
   VueComponent: HoC2018VictoryComponent
 

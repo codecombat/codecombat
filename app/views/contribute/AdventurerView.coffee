@@ -1,5 +1,5 @@
 ContributeClassView = require './ContributeClassView'
-template = require 'templates/contribute/adventurer'
+template = require 'app/templates/contribute/adventurer'
 {me} = require 'core/auth'
 
 module.exports = class AdventurerView extends ContributeClassView

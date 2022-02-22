@@ -1,6 +1,6 @@
 require('app/styles/editor/course/edit.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/editor/course/edit'
+template = require 'app/templates/editor/course/edit'
 Course = require 'models/Course'
 ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
