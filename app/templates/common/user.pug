@@ -6,7 +6,7 @@ block content
     if view.userData && view.viewName
       ol.breadcrumb
         li
-          a(href="/user/#{view.userData.getSlugOrID()}") #{view.userData.displayName()}
+          a(href='/user/' + view.userData.getSlugOrID()) #{view.userData.displayName()}
         li.active
           | #{view.viewName}
     if !view.userData || view.userData.loading

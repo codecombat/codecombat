@@ -52,7 +52,7 @@ div.style-flat
       if view.options.schoolAddress
         span
           |, #{view.options.schoolAddress}
-          
+
       br
       b Teacher:
       =" "
@@ -76,8 +76,8 @@ div.style-flat
               - var radius = 50
               - var fullCircleStroke = 2*Math.PI*radius / 2
               circle.bottom(r=radius,cx=50,cy=50)
-              circle.top(r=radius / 2,cx=50,cy=50,style="stroke-dasharray: #{fullCircleStroke/100*course.completion} #{fullCircleStroke}")
-              
+              circle.top(r=radius / 2,cx=50,cy=50,style={ 'stroke-dasharray': (fullCircleStroke/100*course.completion) + ' ' + fullCircleStroke })
+
           div.el
             div.big #{course.completion}%
             div.under complete
@@ -88,7 +88,7 @@ div.style-flat
             b Key Concepts:
             ul
               for concept in course.newConcepts
-                li(data-i18n="concepts.#{concept}")
+                li(data-i18n='concepts.' + concept)
 
   div.dont-break.block
     h1 Summary

@@ -18,7 +18,7 @@ table.table
       - var data = document.attributes;
       tr(class=document.getOwner() == me.id ? 'mine' : '')
         td(title=data.name).name-row
-          a(href="/editor/#{page}/#{data.slug || data._id}")
+          a(href='/editor/' + page + '/' + (data.slug || data._id))
             | #{data.name}
         td(title=data.description).body-row
           | #{data.description}

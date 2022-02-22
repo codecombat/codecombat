@@ -2,7 +2,7 @@
   .button.close(type="button", aria-hidden="true") &times;
   h1
     span.spr= level.get('name')
-    a(href="/editor/level/#{level.get('slug')}", target="_blank") (edit)
+    a(href='/editor/level/' + level.get('slug'), target="_blank") (edit)
   p= level.get('description')
 
   if analytics.startDay && analytics.endDay
@@ -14,13 +14,13 @@
   each graph in analytics.graphs
     each line in graph.lines
       label.line-graph-label
-        input.line-graph-checkbox(data-lineid="#{line.lineID}", type='checkbox', checked=line.enabled)
+        input.line-graph-checkbox(data-lineid=line.lineID, type='checkbox', checked=line.enabled)
         span #{line.description}
         span &nbsp;&nbsp;
     .line-graph-container
       each line in graph.lines
         each point in line.points
-          .graph-point-info-container(data-pointid="#{point.pointID}")
+          .graph-point-info-container(data-pointid=point.pointID)
             div(style='font-weight:bold;') #{point.day}
             each value in point.values
               div #{value}

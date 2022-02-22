@@ -4,7 +4,7 @@
       table.table.table-bordered.table-condensed.my-matches-table
 
         tr
-          th(colspan=5, style="color: #{team.primaryColor}")
+          th(colspan=5, style={color: team.primaryColor})
             span(data-i18n="ladder.summary_your") Your
             if !view.level.isType('ladder')
               |#{team.displayName}
@@ -25,8 +25,8 @@
 
         if team.scoreHistory
           tr
-            th(colspan=5, style="color: #{team.primaryColor}")
-              div(class="score-chart-wrapper", data-team-name=team.name, id="score-chart-#{team.name}")
+            th(colspan=5, style={color: team.primaryColor})
+              div(class="score-chart-wrapper", data-team-name=team.name, id='score-chart-' + team.name)
 
         tr
           th(data-i18n="general.result") Result
@@ -53,7 +53,7 @@
                 - var yourTeam = match.opTeam == 'humans' ? 'ogres' : 'humans'
               else
                 - var yourTeam = team.id
-              a(href="/play/level/#{levelID}?team=#{yourTeam}&opponent=#{match.sessionID}" + (league ? "&league=" + league.id : ""))
+              a(href='/play/level/' + levelID + '?team=' + yourTeam + '&opponent=' + match.sessionID + (league ? "&league=" + league.id : ""))
                 if (match.state === 'win')
                   span(data-i18n="ladder.watch_victory") Watch your victory
                 else if (view.level.isType('ladder'))

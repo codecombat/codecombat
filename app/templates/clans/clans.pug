@@ -30,27 +30,27 @@ block content
             th(data-i18n="clans.clan_name") Clan Name
             th(data-i18n="play.heroes") Heroes
             th(data-i18n="clans.chieftain") Chieftain
-            th  
+            th
         tbody
           if view.publicClansArray.length
             each clan in view.publicClansArray
               tr
                 td
                   if clan.get('ownerID') === me.id
-                    a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('displayName') || clan.get('name')
+                    a(href='/clans/' + clan.id, style='font-weight:bold')= clan.get('displayName') || clan.get('name')
                   else
-                    a(href="/clans/#{clan.id}")= clan.get('displayName') || clan.get('name')
+                    a(href='/clans/' + clan.id)= clan.get('displayName') || clan.get('name')
                 td= clan.get('memberCount')
-                td 
+                td
                   if view.idNameMap && view.idNameMap[clan.get('ownerID')]
                     a(href="/user/#{clan.get('ownerID')}")= view.idNameMap[clan.get('ownerID')]
                   else if clan.get('ownerID')
                     a(href="/user/#{clan.get('ownerID')}") Anonymous
                 td
                   if view.myClanIDs.indexOf(clan.id) < 0
-                    button.btn.btn-success.join-clan-btn(data-id="#{clan.id}", data-i18n="clans.join_clan") Join Clan
+                    button.btn.btn-success.join-clan-btn(data-id=clan.id, data-i18n="clans.join_clan") Join Clan
                   else if clan.get('ownerID') !== me.id
-                    button.btn.btn-xs.btn-warning.leave-clan-btn(data-id="#{clan.id}", data-i18n="clans.leave_clan") Leave Clan
+                    button.btn.btn-xs.btn-warning.leave-clan-btn(data-id=clan.id, data-i18n="clans.leave_clan") Leave Clan
 
     .tab-pane#my-clans(role='tabpanel')
       table.table.table-striped.table-condensed
@@ -67,11 +67,11 @@ block content
               tr
                 td
                   if clan.get('ownerID') === me.id
-                    a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('name')
+                    a(href='/clans/' + clan.id, style='font-weight:bold')= clan.get('name')
                   else
-                    a(href="/clans/#{clan.id}")= clan.get('name')
+                    a(href='/clans/' + clan.id)= clan.get('name')
                 td= clan.get('memberCount')
-                td 
+                td
                   if view.idNameMap && view.idNameMap[clan.get('ownerID')]
                     a(href="/user/#{clan.get('ownerID')}")= view.idNameMap[clan.get('ownerID')]
                   else if clan.get('ownerID')
@@ -79,4 +79,4 @@ block content
                 td= clan.get('type')
                 td
                   if clan.get('ownerID') !== me.id
-                    button.btn.btn-xs.btn-warning.leave-clan-btn(data-id="#{clan.id}", data-i18n="clans.leave_clan") Leave Clan
+                    button.btn.btn-xs.btn-warning.leave-clan-btn(data-id=clan.id, data-i18n="clans.leave_clan") Leave Clan

@@ -15,7 +15,7 @@ block tableHeader
 
 block tableBody
   for course in documents
-    tr(class=course.get('creator') == me.id ? 'mine' : '')
+    tr(class=(course.get('creator') === me.id ? 'mine' : ''))
       td(title=course.get('name')).name-row
-        a(href="/editor/#{page}/#{course.get('slug') || course.id}")= course.get('name')
+        a(href='/editor/' + page + '/' + (course.get('slug') || course.id))= course.get('name')
       td(title=course.get('description')).description-row= course.get('description')

@@ -16,18 +16,18 @@ block append content
     .row
       .left-column
         .profile-wrapper
-          img.picture(src="#{view.user.getPhotoURL(150)}" alt="")
+          img.picture(src=view.user.getPhotoURL(150) alt="")
           div.profile-info
             h3.name= view.user.get('name')
             if view.favoriteLanguage
               div.extra-info
                 span(data-i18n="user.favorite_prefix") Favorite language is
                 strong.favorite-language= view.favoriteLanguage
-                span(data-i18n="user.favorite_postfix") .            
+                span(data-i18n="user.favorite_postfix") .
             if playerLevel
               div.extra-info
                 span.spr(data-i18n="general.player_level") Level
-                strong= playerLevel        
+                strong= playerLevel
         // TODO: fix this, use some other method for finding contributor classes other than email settings, since they're private... Maybe achievements?
         if emails
           ul.contributor-categories
@@ -77,12 +77,12 @@ block append content
               each clan in view.clanModels
                 tr
                   td
-                    a(href="/clans/#{clan.id}")= clan.get('name')
+                    a(href=`/clans/${clan.id}`)= clan.get('name')
                   td
                     if view.idNameMap && view.idNameMap[clan.get('ownerID')]
-                      a(href="/user/#{clan.get('ownerID')}")= view.idNameMap[clan.get('ownerID')]
+                      a(href=`/user/${clan.get('ownerID')}`)= view.idNameMap[clan.get('ownerID')]
                     else
-                      a(href="/user/#{clan.get('ownerID')}") Anonymous
+                      a(href=`/user/${clan.get('ownerID')}`) Anonymous
                   td= clan.get('members').length
           else
             .panel-body
@@ -106,7 +106,7 @@ block append content
                   tr(class=count > 4 ? 'hide' : '')
                     - count++;
                     td
-                      a(href="/play/level/#{session.get('levelID')}")= session.get('levelName')
+                      a(href=`/play/level/${session.get('levelID')}`)= session.get('levelName')
                     td= moment(session.get('changed')).fromNow()
                     if session.get('state') && session.get('state').complete === true
                       td(data-i18n="user.status_completed") Completed
@@ -135,7 +135,7 @@ block append content
                   td
                     - var posturl = ''
                     - if (session.get('team')) posturl = '?team=' + session.get('team')
-                    a(href="/play/level/#{session.get('levelID') + posturl}")= session.get('levelName') + (session.get('team') ? ' (' + session.get('team') + ')' : '')
+                    a(href=`/play/level/${session.get('levelID') + posturl}`)= session.get('levelName') + (session.get('team') ? ' (' + session.get('team') + ')' : '')
                   td= moment(session.get('changed')).fromNow()
                   if session.get('totalScore')
                     td= parseInt(session.get('totalScore') * 100)

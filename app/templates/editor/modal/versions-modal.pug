@@ -25,7 +25,7 @@ block modal-body-content
           td
             input(type="checkbox", value=data._id).select
           td
-            a(href="/editor/#{page}/#{data._id}") #{data.version.major}.#{data.version.minor}
+            a(href='/editor/' + page + '/' + data._id) #{data.version.major}.#{data.version.minor}
           td= moment(data.created).format('l')
           td= data.creator
           td #{data.commitMessage}

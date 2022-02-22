@@ -14,7 +14,7 @@ block content
     div.row.row-top-buffer
       div.col-md-4
         #account-links
-         a.btn.btn-lg.btn-primary(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
+         a.btn.btn-lg.btn-primary(href='/user/' + me.getSlugOrID(), data-i18n="nav.profile")
       div.col-md-4
         #account-links
           a.btn.btn-lg.btn-primary(href="/account/settings", data-i18n="play.settings")

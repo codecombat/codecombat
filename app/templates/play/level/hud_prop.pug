@@ -1,9 +1,9 @@
-.prop(name="#{prop}")
+.prop(name=prop)
   if hasIcon
-    span(class="prop-label prop-label-icon prop-label-icon-#{prop}")
+    span(class=`prop-label prop-label-icon prop-label-icon-${prop}`)
   else
-    span.prop-label #{prop}: 
-    
+    span.prop-label #{prop}:
+
   if hasBar
     span.prop-value.bar-prop
       .bar

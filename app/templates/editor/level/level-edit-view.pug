@@ -128,7 +128,7 @@ block header
                 a.play-classroom-level(data-classroom='home', data-code-language="") Play Home
             if me.isAdmin()
               li
-                a(href="/editor/verifier/#{level.get('slug')}?dev=true") Verifier
+                a(href='/editor/verifier/' + level.get('slug') + '?dev=true') Verifier
             li.divider
             li.dropdown-header(data-i18n="common.info") Info
             li#level-history-button

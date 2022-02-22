@@ -31,8 +31,8 @@ block content
                 if trialRequest.get('reviewDate')
                   span= trialRequest.get('reviewDate').substring(0, 10)
               - var props = trialRequest.get('properties')
-              td 
-                a(href="/user/#{trialRequest.get('applicant')}")= trialRequest.nameString()
+              td
+                a(href='/user/' + trialRequest.get('applicant'))= trialRequest.nameString()
               td= props.school || props.organization
               td= props.location || trialRequest.locationString()
               td= props.age || trialRequest.educationLevelString()

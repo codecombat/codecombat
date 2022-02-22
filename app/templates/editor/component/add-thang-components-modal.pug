@@ -8,7 +8,7 @@ block modal-body-content
     ul.list-group
       for system in systems
         li.list-group-item
-          div.item-title(data-toggle="collapse", data-target="##{system}").collapsed
+          div.item-title(data-toggle="collapse", data-target='#' + system).collapsed
             span.glyphicon.glyphicon-chevron-down.text-muted.spr
             span.glyphicon.glyphicon-chevron-up.text-muted.spr
             a= system

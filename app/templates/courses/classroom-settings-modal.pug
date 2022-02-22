@@ -76,14 +76,6 @@ block modal-body-content
         option(value="other" data-i18n="courses.class_type_other")
 
     .form-group
-      label
-        span(data-i18n="courses.student_age_range_label")
-        i.spl.text-muted(data-i18n="signup.optional")
-      div
-        +ageRange("ageRangeMin")
-        span.spl.spr(data-i18n="courses.student_age_range_to")
-        +ageRange("ageRangeMax")
-
       mixin ageRange(name)
         select.age-range-select.form-control(name=name value=view.classroom.get(name))
           option(value="") -
@@ -91,6 +83,14 @@ block modal-body-content
           for i in _.range(6,18)
             option(value=i)= i
           option(value="18" data-i18n="courses.student_age_range_older")
+
+      label
+        span(data-i18n="courses.student_age_range_label")
+        i.spl.text-muted(data-i18n="signup.optional")
+      div
+        +ageRange("ageRangeMin")
+        span.spl.spr(data-i18n="courses.student_age_range_to")
+        +ageRange("ageRangeMax")
 
     .form-group
       label

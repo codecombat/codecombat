@@ -19,7 +19,7 @@ block tableBody
   for resource in documents
     tr
       td(title=resource.get('name')).name-row
-        a(href="/editor/#{page}/#{resource.get('slug') || resource.id}")= resource.get('name')
+        a(href=`/editor/${page}/${resource.get('slug') || resource.id}`)= resource.get('name')
       td(title=resource.get('product')).product-row= resource.get('product')
       td(title=resource.get('section')).section-row= resource.get('section')
       td(title=resource.get('priority')).priority-row= resource.get('priority')

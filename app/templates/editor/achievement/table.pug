@@ -11,7 +11,7 @@ block tableBody
     - data = data.attributes;
     tr
       td
-        a(href="/editor/achievement/#{data.slug || data._id}")
+        a(href='/editor/achievement/' + (data.slug || data._id))
           | #{data.name}
       td #{data.description}
       td #{data.collection}

@@ -12,11 +12,11 @@ block content
         #course-details-link
           // TODO: this styling should be changed, was only ever meant to be a mockup
           if view.isSchoolAdmin
-            a(href="/school-administrator/teacher/#{view.ownerID}/classroom/#{view.classroomID}#course-progress-tab")
+            a(href='/school-administrator/teacher/' + view.ownerID + '/classroom/' + view.classroomID + '#course-progress-tab')
               span.glyphicon.glyphicon-arrow-left
               span.spl(data-i18n="nav.play")
           else if view.isTeacher
-            a(href="/teachers/classes/#{view.classroomID}#course-progress-tab")
+            a(href='/teachers/classes/' + view.classroomID + '#course-progress-tab')
               span.glyphicon.glyphicon-arrow-left
               span.spl(data-i18n="nav.play")
           else
@@ -35,10 +35,10 @@ block content
 
       if view.leagueType === 'clan'
         h1.league-header
-          a(href="/clans/#{view.league.id}")= view.league.get('displayName') || view.league.get('name')
+          a(href='/clans/' + view.league.id)= view.league.get('displayName') || view.league.get('name')
           span.spl(data-i18n="ladder.league") League
 
-    if view.level.get('name') == 'Greed'
+    if view.level.get('name') === 'Greed'
       .tournament-blurb
         h2
           span(data-i18n="ladder.tournament_ended")
@@ -137,7 +137,7 @@ block content
               a.btn.btn-illustrated.btn-block.btn-lg.btn-success.play-button(data-team='humans')
                 span(data-i18n="common.play")
             div.column.column-2
-              a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : ""))
+              a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href='/play/spectate/' + view.level.get('slug') + (view.league ? "?league=" + view.league.id : ""))
                 span.glyphicon.glyphicon-eye-open
                 span.spl(data-i18n="play.spectate")
             if !window.features.chinaUx
@@ -148,10 +148,10 @@ block content
           else if view.teams
             for team in view.teams
               div.column.column-3
-                a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
+                a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id === 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
                   span(data-i18n="play_level.play_as_" + team.id)
             div.column.column-2
-              a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : ""))
+              a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href='/play/spectate/' + view.level.get('slug') + (view.league ? "?league=" + view.league.id : ""))
                 span.glyphicon.glyphicon-eye-open
                 span.spl(data-i18n="play.spectate")
         div.column.column-3
@@ -166,13 +166,13 @@ block content
       div#ladder-action-columns.row
         if !features.china
           div.column.column-4
-            a.btn.btn-illustrated.btn-block.btn-lg.btn-info.play-arena-button(href="/play/ladder/"+view.levelID) 
+            a.btn.btn-illustrated.btn-block.btn-lg.btn-info.play-arena-button(href="/play/ladder/"+view.levelID)
               span(data-i18n="courses.play_arena")
         div.column.column-2
-          a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href="/play/spectate/#{view.level.get('slug')}?tournament=" + view.tournamentId + (view.league ? "&league=" + view.league.id : ""))
+          a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href='/play/spectate/' + view.level.get('slug') + '?tournament=' + view.tournamentId + (view.league ? "&league=" + view.league.id : ""))
             span.glyphicon.glyphicon-eye-open
             span.spl(data-i18n="play.spectate")
-     
+
 
 
   if view.level.isType('ladder')
@@ -208,10 +208,10 @@ block content
           #new-leaderboard-view
           #my-matches-tab-view
           #simulate-tab-view
-        if view.level.get('name') == 'Ace of Coders'
+        if view.level.get('name') === 'Ace of Coders'
           .tab-pane.well#winners
             h1(data-i18n="ladder.winners") Winners
-  
+
             table.table.table-hover.table-condensed
               thead
                 tr
@@ -225,14 +225,14 @@ block content
                 each player in view.winners.humans
                   tr
                     td= player.rank
-                    td.code-language-cell(style="background-image: url(/images/common/code_languages/" + player.codeLanguage + "_icon.png)" title=_.string.capitalize(player.codeLanguage))
+                    td.code-language-cell(style=`background-image: url(/images/common/code_languages/${player.codeLanguage}_icon.png)` title=_.string.capitalize(player.codeLanguage))
                     td= player.name
                     td
                       span.win= player.wins
                     td
                       span.loss= player.losses
                     td
-                      if player.team == "ogres"
+                      if player.team === "ogres"
                         a(href="/play/spectate/" + view.level.get('slug') + "?session-one=55df8c9207d920b7e4262f33" + "&session-two=" + player.sessionID, data-i18n="ladder.watch_battle") Watch the battle
                       else
                         a(href="/play/spectate/" + view.level.get('slug') + "?session-one=" + player.sessionID + "&session-two=55e1d23686c019bc47b640fe", data-i18n="ladder.watch_battle") Watch the battle
@@ -271,7 +271,7 @@ block content
       .tab-pane.well#simulate
         #simulate-tab-view
 
-      if view.level.get('name') == 'Greed' || view.level.get('name') == 'Criss-Cross' || view.level.get('name') == 'Zero Sum'
+      if view.level.get('name') === 'Greed' || view.level.get('name') === 'Criss-Cross' || view.level.get('name') === 'Zero Sum'
         .tab-pane.well#winners
           h1(data-i18n="ladder.winners") Winners
 
@@ -279,19 +279,19 @@ block content
             thead
               tr
                 th(data-i18n="ladder_prizes.rank") Rank
-                if view.level.get('name') == 'Criss-Cross' || view.level.get('name') == 'Zero Sum'
+                if view.level.get('name') === 'Criss-Cross' || view.level.get('name') === 'Zero Sum'
                   th
                 th Human
-                if view.level.get('name') == 'Greed' || view.level.get('name') == 'Zero Sum'
+                if view.level.get('name') === 'Greed' || view.level.get('name') === 'Zero Sum'
                   th Human wins/losses/ties
                 else
                   th Human score
-                if view.level.get('name') == 'Zero Sum'
+                if view.level.get('name') === 'Zero Sum'
                   th
-                if view.level.get('name') == 'Criss-Cross' || view.level.get('name') == 'Zero Sum'
+                if view.level.get('name') === 'Criss-Cross' || view.level.get('name') === 'Zero Sum'
                   th
                 th Ogre
-                if view.level.get('name') == 'Greed' || view.level.get('name') == 'Zero Sum'
+                if view.level.get('name') === 'Greed' || view.level.get('name') === 'Zero Sum'
                   th Ogre wins/losses/ties
                 else
                   th Ogre score
@@ -301,37 +301,37 @@ block content
                 - var ogre = view.winners.ogres[index]
                 tr
                   td= human.rank
-                  if view.level.get('name') == 'Criss-Cross' || view.level.get('name') == 'Zero Sum'
-                    td.code-language-cell(style="background-image: url(/images/common/code_languages/" + human.codeLanguage + "_icon.png)" title=_.string.capitalize(human.codeLanguage))
+                  if view.level.get('name') === 'Criss-Cross' || view.level.get('name') === 'Zero Sum'
+                    td.code-language-cell(style=`background-image: url(/images/common/code_languages/${human.codeLanguage}_icon.png)` title=_.string.capitalize(human.codeLanguage))
                   td= human.name
-                  if view.level.get('name') == 'Greed' || view.level.get('name') == 'Zero Sum'
+                  if view.level.get('name') === 'Greed' || view.level.get('name') === 'Zero Sum'
                     td
                       span.win= human.wins
                       span.spl -
                       span.loss= human.losses
                       span.spl -
-                      if view.level.get('name') == 'Greed'
+                      if view.level.get('name') === 'Greed'
                         span.tie= 377 - human.wins - human.losses
-                      else if view.level.get('name') == 'Zero Sum'
+                      else if view.level.get('name') === 'Zero Sum'
                         span.tie= 108 - human.wins - human.losses
                   else
                     td
                       span= Math.round(100 * human.score)
                   if ogre
-                    if view.level.get('name') == 'Zero Sum'
+                    if view.level.get('name') === 'Zero Sum'
                       td= ogre.rank
-                    if view.level.get('name') == 'Criss-Cross' || view.level.get('name') == 'Zero Sum'
-                      td.code-language-cell(style="background-image: url(/images/common/code_languages/" + ogre.codeLanguage + "_icon.png)" title=_.string.capitalize(ogre.codeLanguage))
+                    if view.level.get('name') === 'Criss-Cross' || view.level.get('name') === 'Zero Sum'
+                      td.code-language-cell(style=`background-image: url(/images/common/code_languages/${ogre.codeLanguage}_icon.png)` title=_.string.capitalize(ogre.codeLanguage))
                     td= ogre.name
-                    if view.level.get('name') == 'Greed' || view.level.get('name') == 'Zero Sum'
+                    if view.level.get('name') === 'Greed' || view.level.get('name') === 'Zero Sum'
                       td
                         span.win= ogre.wins
                         span.spl -
                         span.loss= ogre.losses
                         span.spl -
-                        if view.level.get('name') == 'Greed'
+                        if view.level.get('name') === 'Greed'
                           span.tie= 407 - ogre.wins - ogre.losses
-                        else if view.level.get('name') == 'Zero Sum'
+                        else if view.level.get('name') === 'Zero Sum'
                           span.tie= Math.max(0, 163 - ogre.wins - ogre.losses)
                     else
                       td
@@ -343,7 +343,7 @@ block content
                     td
                     td
 
-      if view.level.get('name') == 'Battle of Red Cliffs'
+      if view.level.get('name') === 'Battle of Red Cliffs'
         .tab-pane.well#winners
           h1(data-i18n="ladder.winners") Winners
 

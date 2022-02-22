@@ -28,7 +28,7 @@
       span.spr 404:
       span {{ $t('loading_error.not_found') }}
     - var num = Math.floor(Math.random() * 3) + 1;
-    img#not-found-img(src="/images/pages/not_found/404_#{num}.png")
+    img#not-found-img(src='/images/pages/not_found/404_' + num + '.png')
     p {{ $t("loading_error.not_found_desc") }}
 
   div(v-else-if="!error.code")

@@ -18,7 +18,7 @@ form.modal-body.segment-check
                       span.glyphicon.glyphicon-remove-circle.class-code-valid-icon
               button.primary-oz-button.next-button(type="submit" disabled=!state.get('classCodeValid'))
                 span(data-i18n="common.continue")
-          
+
             div.render
               if state.get('classCodeValid')
                 span.spr(data-i18n="signup.about_to_join")
@@ -65,21 +65,21 @@ form.modal-body.segment-check
               option(value='',data-i18n="calendar.month")
               for name, index in ['january','february','march','april','may','june','july','august','september','october','november','december']
                 - var month = index + 1
-                option(data-i18n="calendar.#{name}" value=month, selected=(month == view.signupState.get('birthdayMonth')))
+                option(data-i18n=('calendar.' + name) value=month, selected=(month === view.signupState.get('birthdayMonth')))
             select#birthday-day-input.input-large.form-control(name="birthdayDay", style="width: 75px; float: left")
               option(value='',data-i18n="calendar.day")
               for day in _.range(1,32)
-                option(selected=(day == view.signupState.get('birthdayDay'))) #{day}
+                option(selected=(day === view.signupState.get('birthdayDay'))) #{day}
             select#birthday-year-input.input-large.form-control(name="birthdayYear", style="width: 90px; float: left")
               option(value='',data-i18n="calendar.year")
               - var thisYear = new Date().getFullYear()
               for year in _.range(thisYear, thisYear - 100, -1)
-                option(selected=(year == view.signupState.get('birthdayYear'))) #{year}
+                option(selected=(year === view.signupState.get('birthdayYear'))) #{year}
         .parent_birthdate(data-i18n="signup.parent_use_birthdate")
 
       default
         p
-          span Sign-up error, please contact 
+          span Sign-up error, please contact
           =" "
           a(href="mailto:support@codecombat.com") support@codecombat.com
           | .

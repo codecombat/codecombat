@@ -37,7 +37,7 @@ block content
                 .form-group
                   label(for="ppc code" data-i18n="account_prepaid.prepaid_code")
                   span.spr :
-                  input.input-ppc.form-control(name="ppc", type="text", value="#{view.ppc}", required)
+                  input.input-ppc.form-control(name="ppc", type="text", value=view.ppc, required)
                 if view.ppcInfo && view.ppcInfo.length > 0
                   p
                     each info in view.ppcInfo
@@ -62,7 +62,7 @@ block content
                 if view.codes && view.codes.length
                   table.table.table-striped
                     tr
-                      th(scope="col") 
+                      th(scope="col")
                         span.spr(data-i18n="[title]account_prepaid.copy_link;general.code", title="You can copy the code's link and send it to someone.")
                           span.glyphicon.glyphicon-question-sign(aria-hidden="true")
                       th(scope="col" data-i18n="account_prepaid.months")
@@ -77,7 +77,7 @@ block content
                         - var redeemed = redeemers ? redeemers.length : 0
                         tr
                           td
-                            a(href="/account/prepaid?_ppc=#{code.get('code')}")= code.get('code')
+                            a(href='/account/prepaid?_ppc=' + code.get('code'))= code.get('code')
                           td= properties.months || '-'
                           if owner
                             td= code.get('maxRedeemers') - redeemed

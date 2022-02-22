@@ -19,7 +19,7 @@ block modal-body-content
       each goal in goals
         .radio
           label
-            input(type="checkbox", name="queryOptions" id="#{goal.id}" value="#{goal.id}")
+            input(type="checkbox", name="queryOptions" id=goal.id value=goal.id)
             span.spl= goal.name
 
 block modal-footer

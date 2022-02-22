@@ -24,7 +24,7 @@ include ../game-dev-goals
           if view.state.get('loading')
             h1.m-y-1(data-i18n="common.loading")
             .progress
-              .progress-bar(style="width: #{view.state.get('progress')}")
+              .progress-bar(style=`width: ${view.state.get('progress')}`)
 
           if ready
             h3

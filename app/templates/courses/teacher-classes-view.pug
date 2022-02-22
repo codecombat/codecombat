@@ -70,7 +70,7 @@ block content
 
       h3
         span(data-i18n='teacher.current_classes')
-        a.pull-right(href="/outcomes-report/teacher/#{me.get('_id')}" target="_blank" data-i18n='outcomes.view_outcomes_report')
+        a.pull-right(href='/outcomes-report/teacher/' + me.get('_id') target="_blank" data-i18n='outcomes.view_outcomes_report')
 
     .classes.container
       // Loop each class
@@ -104,7 +104,7 @@ block content
               = teacher.get('lastName')
               | &nbsp;
               | (
-              a(href="mailto:#{teacher.get('email')}")
+              a(href='mailto:' + teacher.get('email'))
                 = teacher.get('email')
               | )
               if index !== view.administratingTeachers.models.length - 1
@@ -247,7 +247,7 @@ mixin teacher-quests
                   - var radius = height / 2;
                   - var fullCircleStroke = 2*Math.PI*radius / 2
                   circle.bottom(r=radius,cx=radius,cy=radius)
-                  circle.top(r=radius / 2,cx=radius,cy=radius,style="stroke-dasharray: #{fullCircleStroke/100*percentComplete} #{fullCircleStroke}")
+                  circle.top(r=radius / 2,cx=radius,cy=radius,style={ 'stroke-dasharray': fullCircleStroke/100*percentComplete })
           .center.completion-label(data-i18n="teacher.quests_complete")
         .col-sm-9.quests-list-col
           if numComplete != totalQuests

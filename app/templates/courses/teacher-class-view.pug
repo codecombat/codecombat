@@ -20,9 +20,9 @@ mixin inlineUserList(users)
         li
           span.inline-student-name
             if /^en/.test(me.get('preferredLanguage', true))
-              | and #{users.length - 5} more
+              | and `${users.length - 5} more`
             else
-              | +#{users.length - 5}
+              | `+${users.length - 5}`
 
 mixin addStudentsButton
   .add-students
@@ -141,7 +141,7 @@ mixin courseProgressTab
           each level, levelIndex in levels
             unless level.get('assessment') || level.get('practice')
               option(value=level.get('slug') selected=(level.get('slug') === courseInstance.get('startLockedLevel')))
-                span #{view.campaignLevelNumberMap[course.get('campaignID')][level.get('original')]}.
+                span view.campaignLevelNumberMap[course.get('campaignID')][level.get('original')]
                   = " "
                 span
                   = i18n(level.attributes, 'name').replace('Course: ', '')

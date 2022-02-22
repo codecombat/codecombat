@@ -12,27 +12,27 @@ block content
     h2 Table of Contents
     each campaign in view.campaignHints
       h4
-        a(href="##{campaign.id}")= campaign.slug
+        a(href='#' + campaign.id)= campaign.slug
       each level in campaign.levels
         span.spr
-          a(href="##{campaign.id}-#{level.id}")= level.slug
+          a(href='#' + campaign.id + '-' + level.id)= level.slug
 
     each campaign in view.campaignHints
-      h2(id="#{campaign.id}")= campaign.slug
+      h2(id=campaign.id)= campaign.slug
       table.table-striped.table-condensed
         each level in campaign.levels
           tr
             td
-              h3(id="#{campaign.id}-#{level.id}")
+              h3(id=campaign.id + '-' + level.id)
                 span= level.slug
-                a.spl.small(href="/editor/level/#{level.slug}") (Edit)
+                a.spl.small(href='/editor/level/' + level.slug) (Edit)
           tr
             td
               if level.hints && level.hints.length > 0
                 each hint in level.hints
                   div
-                    span #{hint.name || '(unnamed hint)'}
-                    a.spl.small(href="/editor/level/#{level.slug}") (Edit)
+                    span hint.name || '(unnamed hint)'
+                    a.spl.small(href='/editor/level/' + level.slug) (Edit)
                   .hints-table !{marked(hint.body)}
                   br
               else

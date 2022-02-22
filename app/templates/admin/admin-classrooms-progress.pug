@@ -93,7 +93,7 @@ block content
                 td
                 td
               td
-                a(href='/teachers/classes/#{classroomData.classroom._id}') #{classroomData.classroom.name}
+                a(href='/teachers/classes/' + classroomData.classroom._id) #{classroomData.classroom.name}
                 spal.spl (created #{moment(view.objectIdToDate(classroomData.classroom._id)).format('l')})
               td #{classroomData.latestActivity ? classroomData.latestActivity.substring(0, 10) : 'n/a'}
               td.text-center #{classroomData.classroom.members.length}
@@ -113,9 +113,9 @@ block content
               - var levelCellWidth = 100 / (totalLevels);
               tr
                 td.range-container(colspan=6)
-                  span.completed-background(style="width:#{completedRatio * 100}%;")
-                  span.remaining-background(style="left:#{(completedRatio) * 100}%; width:#{remainingRatio * 100}%;")
-                  span.available-background(style="left:#{(completedRatio + remainingRatio) * 100}%; width:#{availableRatio * 100}%;")
+                  span.completed-background(style={ width: (completedRatio * 100) + '%' })
+                  span.remaining-background(style={ left: (completedRatio * 100) + '%', width: (remainingRatio * 100) + '%' })
+                  span.available-background(style={ left: ((completedRatio + remainingRatio) * 100) + '%', width: (availableRatio * 100) + '%' })
                   each data, index in licenseData.courseLastLevelIndexes
                     - var courseCellOffest = (index > 0 ? licenseData.courseLastLevelIndexes[index - 1].index + 1 : 0) / totalLevels * 100;
                     - var courseCellWidth = (data.index - (index > 0 ? licenseData.courseLastLevelIndexes[index - 1].index : -1)) / totalLevels * 100;
@@ -136,13 +136,13 @@ block content
                   each level, index in licenseData.levels
                     if level.numUsers > 0
                       - var title = level.numUsers + " students on level " + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal);
-                      span.student-furthest-cell(style="left:#{index * levelCellWidth}%;width:#{levelCellWidth}%", title="#{title}")
+                      span.student-furthest-cell(style={ left: (index * levelCellWidth) + '%', width: levelCellWidth + '%' } title=title)
                     else if level.missing
-                      span.missing-level-cell(style="left:#{index * levelCellWidth}%;width:#{levelCellWidth}%", title="level #{view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal} is released but not available in this classroom version")
+                      span.missing-level-cell(style={ left: (index * levelCellWidth) + '%', width: levelCellWidth + '%' }, title=('level ' + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal) + 'is released but not available in this classroom version'))
                     else if level.numCompleted > 0
                       - var title = level.numCompleted + " students completed level " + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal);
                       span.student-completed-cell(style="left:#{index * levelCellWidth}%;width:#{levelCellWidth}%", title="#{title}")
-                    span.level-cell(style="left:#{index * levelCellWidth}%; width:#{levelCellWidth}%", title="#{index + 1}. #{view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal}")
+                    span.level-cell(style={ left: (index * levelCellWidth) + '%', width: levelCellWidth + '%' }, title=(index + 1) + '.' + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal))
                 td.text-center= licenseData.license.redeemers.length
                 td.text-center= licenseData.license.startDate.substring(0, 10)
                 td.text-center= licenseData.license.endDate.substring(0, 10)
@@ -167,7 +167,7 @@ block content
                       - var title = view.courseAcronymMap[data.id] + "\n";
                       - for (target in data.dates)
                         - title += target + "% on " + data.dates[target] + "\n";
-                      span.timeline-course-section(style="width:#{width}%;left:#{left}%;", title="#{title}")= view.courseAcronymMap[data.id]
+                      span.timeline-course-section(style={ width: width + '%', left: left + '%' }, title=title)= view.courseAcronymMap[data.id]
 
                       - var opacity = 0.1;
                       - var prevDate = null;
@@ -177,7 +177,7 @@ block content
                         if prevDate
                           - var width = (date.getTime() - prevDate.getTime()) / view.totalTime * 100;
                           - var left = (prevDate.getTime() - view.startTime) / view.totalTime * 100;
-                          span.timeline-course-target(style="opacity:#{opacity};background-color:#{bgColor};width:#{width}%;left:#{left}%;", title="#{view.courseAcronymMap[data.id]} #{target}% complete on #{date.toISOString()}")
+                          span.timeline-course-target(style={ opacity: opacity, 'background-color': bgColor, width: width + '%', left: left + '%' }, title=view.courseAcronymMap[data.id] + ' ' + target + '% complete on ' + date.toISOString())
                         - prevDate = date;
                         - prevTarget = target;
                         - opacity += 0.1;
@@ -190,15 +190,17 @@ block content
                     - var midDate = new Date(startDate);
                     - midDate.setUTCMonth(startDate.getUTCMonth() + 1, 1);
                     if startDate.getUTCDate() > 1
-                      span.timeline-date-section(style="width:#{(midDate.getTime() - startDate.getTime()) / view.totalTime * 100}%;left:0px;")= moment(startDate).utc().format("MMM YY")
+                      - var timelineStyle1 = { width: ((midDate.getTime() - startDate.getTime()) / view.totalTime * 100 ) + '%', left: '0px' }
+                      span.timeline-date-section(style=timelineStyle1)= moment(startDate).utc().format("MMM YY")
                       - startDate.setUTCMonth(startDate.getUTCMonth() + 1, 1);
                       - midDate.setUTCMonth(midDate.getUTCMonth() + 1);
                     while midDate.getTime() < endDate.getTime()
-                      span.timeline-date-section(style="width:#{(midDate.getTime() - startDate.getTime()) / view.totalTime * 100}%;left:#{(startDate.getTime() - view.startTime) / view.totalTime * 100}%;")= moment(startDate).utc().format("MMM YY")
+                      - var timelineStyle2 = { width:((midDate.getTime() - startDate.getTime()) / view.totalTime * 100) + '%', left: ((startDate.getTime() - view.startTime) / view.totalTime * 100) + '%' }
+                      span.timeline-date-section(style=timelineStyle2)= moment(startDate).utc().format("MMM YY")
                       - startDate.setUTCMonth(startDate.getUTCMonth() + 1);
                       - midDate.setUTCMonth(midDate.getUTCMonth() + 1);
                     if startDate.getTime() < endDate.getTime()
-                      span.timeline-date-section(style="width:#{(endDate.getTime() - startDate.getTime()) / view.totalTime * 100}%;left:#{(startDate.getTime() - view.startTime) / view.totalTime * 100}%;")= moment(startDate).utc().format("MMM YY")
+                      span.timeline-date-section(style={ width:((endDate.getTime() - startDate.getTime()) / view.totalTime * 100) + '%', left: ((startDate.getTime() - view.startTime) / view.totalTime * 100) + '%' })= moment(startDate).utc().format("MMM YY")
 
             tr
               td

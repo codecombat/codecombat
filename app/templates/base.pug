@@ -37,11 +37,11 @@ block header
               ul.dropdown-menu(role="menu")
                 li.user-dropdown-header
                   span.user-level= me.level()
-                  a(href="/user/#{me.getSlugOrID()}")
-                    div.img-circle(style="background-image: url(#{me.getPhotoURL()})")
+                  a(href='/user/' + me.getSlugOrID())
+                    div.img-circle(style={ 'background-image': `url(${me.getPhotoURL()})` })
                   h3=me.broadName()
                 li
-                  a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
+                  a(href='/user/' + me.getSlugOrID(), data-i18n="nav.profile")
                 li
                   a(href="/account/settings", data-i18n="play.settings")
                 if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())
@@ -100,7 +100,7 @@ block footer
         .share-buttons
           if !isIE
             .g-plusone(data-href="http://codecombat.com", data-size="medium")
-          .fb-like(data-href="https://www.facebook.com/codecombat", data-send="false", data-layout="button_count", data-width="350", data-show-faces="true", data-ref="coco_footer_#{fbRef}")
+          .fb-like(data-href="https://www.facebook.com/codecombat", data-send="false", data-layout="button_count", data-width="350", data-show-faces="true", data-ref='coco_footer_' + fbRef)
           if !isIE
             a.twitter-follow-button(href="https://twitter.com/CodeCombat", data-show-count="true", data-show-screen-name="false", data-dnt="true", data-align="right", data-i18n="nav.twitter_follow")
             iframe.github-star-button(src="https://ghbtns.com/github-btn.html?user=codecombat&repo=codecombat&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110", height="20")

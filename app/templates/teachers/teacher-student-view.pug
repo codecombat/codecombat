@@ -333,12 +333,12 @@ mixin breadcrumbs
                         each code, index in studentCodeMap
                           li.nav-item(class=(index === 0 ? 'active' : ''))
                             - var target = level.get('original') + '+' + code.team;
-                            a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index, data-team=code.team)
+                            a.nav-link(id=`${target}-tab`, class=(index === 0 ? 'active' : ''), href=`#${target}`, role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index, data-team=code.team)
                               if index === 0
-                                strong.text-center(data-i18n="ladder.#{code.team}")
+                                strong.text-center(data-i18n=`ladder.${code.team}`)
                               else
                                 .text-center
-                                  span(data-i18n="ladder.#{code.team}")
+                                  span(data-i18n=`ladder.${code.team}`)
                           if index < studentCodeMap.length - 1
                             .tab-spacer
                           else
@@ -350,7 +350,7 @@ mixin breadcrumbs
                         each solution, index in solutions
                           li.nav-item(class=(index === 0 ? 'active' : ''))
                             - var target = level.get('original') + index;
-                            a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
+                            a.nav-link(id=`${target}-tab`, class=(index === 0 ? 'active' : ''), href=`#${target}`, role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
                               if index === 0
                                 strong.text-center(data-i18n="teacher.complete_solution")
                               else
@@ -369,7 +369,7 @@ mixin breadcrumbs
                     //- For  project level, there is no correct solution, just show the student's code
                     if level.isProject() && solutions.length === 0
                       - var target = level.get('original');
-                      div.tab-pane(id=target, class='active', role=tabpanel, aria-labelledby="#{target}-tab")
+                      div.tab-pane(id=target, class='active', role=tabpanel, aria-labelledby=`${target}-tab`)
                         table.side-by-side
                           tr
                             td

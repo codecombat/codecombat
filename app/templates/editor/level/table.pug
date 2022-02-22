@@ -18,9 +18,9 @@ block tableHeader
 block tableBody
   for document in documents
     - var data = document.attributes;
-    tr(class=document.get('creator') == me.id ? 'mine' : '')
+    tr(class=document.get('creator') === me.id ? 'mine' : '')
       td(title=data.name).name-row
-        a(href="/editor/#{page}/#{data.slug || data._id}")
+        a(href='/editor/' + page + '/' + (data.slug || data._id))
           | #{data.name}
       td(title=data.description).description-row
         | #{data.description}

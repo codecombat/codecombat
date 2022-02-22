@@ -137,7 +137,7 @@ mixin course-info(course)
             a.guide-btn.btn.btn-primary(disabled=disableButtons href=(courseLessonSlidesURL) data-course-id=course.id data-course-name=course.get('name') data-event-action="Lesson Slides" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled') target="_blank")
               span(data-i18n="courses.lesson_slides")
           for resource in (courseResources || [])
-            a.guide-btn.btn.btn-primary(disabled=disableButtons href=view.utils.i18n(resource, 'link') data-course-id=course.id data-course-name=course.get('name') data-event-action="Resource: #{resource.name}" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled') target="_blank")
+            a.guide-btn.btn.btn-primary(disabled=disableButtons href=view.utils.i18n(resource, 'link') data-course-id=course.id data-course-name=course.get('name') data-event-action=('Resource: ' + resource.name) class=(me.isTeacher() || me.isAdmin() ? '': 'disabled') target="_blank")
               span(title=view.utils.i18n(resource, 'description'))= view.utils.i18n(resource, 'name')
 
     if course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && Object.keys(view.videoLevels || {}).length > 0
@@ -146,7 +146,7 @@ mixin course-info(course)
         each videoLevel, originalId in view.videoLevels
           .col-sm-4
             span.video-title.semibold.small(data-i18n=`courses.${videoLevel.i18name}`)
-            img.video-thumbnail(src="#{videoLevel.thumbnail_unlocked}")
+            img.video-thumbnail(src=videoLevel.thumbnail_unlocked)
             p.video-text.small
               span (
               span(data-i18n="courses.video_shown_before", data-i18n-options={level:levelNameMap[originalId]})

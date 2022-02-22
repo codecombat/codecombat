@@ -22,15 +22,15 @@ block content
       tr
         td(style="height:26px;").range-container
           each rangeKey in view.rangeKeys
-            span.range-background(style="left:#{rangeKey.startScale}%;width:#{rangeKey.width}%;background-color:#{rangeKey.color}")
-            span.range-dates(style="left:#{rangeKey.startScale}%;width:#{rangeKey.width}%;") #{rangeKey.name}
+            span.range-background(style={ left: rangeKey.startScale + '%', width:rangeKey.width + '%', 'background-color': rangeKey.color })
+            span.range-dates(style={ left: rangeKey.startScale + '%', width: rangeKey.width + '%' }) #{rangeKey.name}
         td(colspan=3)
       each school in view.schools
         each prepaid in school.prepaids
           tr
             td.range-container
-              span.range-background(style="left:#{prepaid.startScale}%;width:#{prepaid.rangeScale}%;")
-              span.range-dates(style="left:#{prepaid.startScale}%;")
+              span.range-background(style={ left: prepaid.startScale + '%', width:prepaid.rangeScale + '%' })
+              span.range-dates(style={ left: prepaid.startScale + '%' })
                 span.spr #{prepaid.startDate.substring(0, 10)}
                 strong.spr #{school.name}
                 span #{prepaid.endDate.substring(0, 10)}

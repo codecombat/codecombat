@@ -8,4 +8,4 @@ block modal-body-content
 
 block modal-footer-content
   button.btn.btn-secondary#decline-button(type="button", data-dismiss="modal")= view.decline
-  button.btn.btn-primary#confirm-button(type="button", data-dismiss=closeOnConfirm === true ? "modal" : undefined)= view.confirm
+  button.btn.btn-primary#confirm-button(type="button", data-dismiss=(closeOnConfirm === true ? "modal" : undefined))= view.confirm

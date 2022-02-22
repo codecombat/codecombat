@@ -39,7 +39,7 @@ block content
       h3(data-i18n="common.table_of_contents")
       each level, index in view.levels.models
         .small
-          a(href="##{level.get('slug')}") #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
+          a(href=`#${level.get('slug')}`) #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
       br
 
       each level, index in view.levels.models
@@ -87,7 +87,7 @@ block content
                 each solution, index in solutions
                   li.nav-item(class=(index === 0 ? 'active' : ''))
                     - var target = level.get('original') + index;
-                    a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
+                    a.nav-link(id=`${target}-tab`, class=(index === 0 ? 'active' : ''), href=`#${target}`, role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
                       if index === 0
                         strong.text-center(data-i18n="teacher.complete_solution")
                       else
@@ -102,7 +102,7 @@ block content
               .tab-content
                 each solution, index in solutions
                   - var target = level.get('original') + index;
-                  div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
+                  div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby=`${target}-tab`)
                     div!= marked(solution.description || '')
                     pre
                       code(class=langClass)= solution.source

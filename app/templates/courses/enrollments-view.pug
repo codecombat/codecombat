@@ -169,7 +169,7 @@ mixin addCredits
 
   - var uniqueStudentsPerYear = view.state.get('uniqueStudentsPerYear')
     if _.size(uniqueStudentsPerYear) > 0
-      h5.text-center(data-toggle="tooltip" title="#{view.getEnrollmentExplanation()}")
+      h5.text-center(data-toggle="tooltip" title=view.getEnrollmentExplanation())
         span(data-i18n="teacher.student_enrollment_history")
         =' '
         span.glyphicon.glyphicon-question-sign

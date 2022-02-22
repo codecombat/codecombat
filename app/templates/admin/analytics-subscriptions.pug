@@ -31,7 +31,7 @@ block content
         .line-graph-container
           each line in graph.lines
             each point in line.points
-              .graph-point-info-container(data-pointid="#{point.pointID}")
+              .graph-point-info-container(data-pointid=point.pointID)
                 div(style='font-weight:bold;') #{point.day}
                 each value in point.values
                   div #{value}
@@ -61,7 +61,7 @@ block content
           each subscriber in subscribers
             tr
               td
-                a(href="https://dashboard.stripe.com/customers/#{subscriber.customerID}", target="_blank")= subscriber.subscriptionID
+                a(href='https://dashboard.stripe.com/customers/' + subscriber.customerID, target="_blank")= subscriber.subscriptionID
               td= subscriber.user.dateCreated.substring(0, 10)
               td= subscriber.start.toISOString().substring(0, 10)
               td
@@ -106,10 +106,10 @@ block content
           each cancellation in cancellations
             tr
               td
-                a(href="https://dashboard.stripe.com/customers/#{cancellation.customerID}", target="_blank")= cancellation.subscriptionID
+                a(href='https://dashboard.stripe.com/customers/' + cancellation.customerID, target="_blank")= cancellation.subscriptionID
               if cancellation.userID
                 td
-                  a(href="/user/#{cancellation.userID}")= cancellation.userID
+                  a(href='/user/' + cancellation.userID)= cancellation.userID
               else
                 td
               if cancellation.user

@@ -12,7 +12,7 @@ block tableBody
     - data = data.attributes;
     tr
       td
-        a(href="/editor/poll/#{data.slug || data._id}")
+        a(href='/editor/poll/' + (data.slug || data._id))
           | #{data.name}
       td= data.description
       td= data.priority

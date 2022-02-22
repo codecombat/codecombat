@@ -10,7 +10,7 @@ block content
         br
         button.btn.btn-lg.btn-default.header-font.login-button(data-i18n="login.log_in")
       else if me.get('name')
-        a.spl.spr(href="#{callbackURL}") Click here
+        a.spl.spr(href=callbackURL) Click here
         | to share your username.
       else
         | But you don't have a username yet. Set one

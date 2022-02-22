@@ -22,7 +22,7 @@ block modal-body-content
   .form
     .form-group
       label.control-label(for="contact-email", data-i18n="general.email") Email
-      input#contact-email.form-control(name="email", type="email", value="#{me.get('anonymous') ? '' : me.get('email')}", data-i18n="[placeholder]contact.where_reply", placeholder="Where should we reply?")
+      input#contact-email.form-control(name="email", type="email", value=(me.get('anonymous') ? '' : me.get('email')), data-i18n="[placeholder]contact.where_reply", placeholder="Where should we reply?")
     .form-group
       label.control-label(for="contact-message", data-i18n="general.message") Message
       textarea#contact-message.form-control(name="message", rows=8)
