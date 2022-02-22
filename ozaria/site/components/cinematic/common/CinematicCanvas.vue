@@ -15,7 +15,7 @@
       >
         <div v-if="showInstructionalTooltip && loaded" id="cinematic-instruction-tooltip">
           <div class="close-btn"
-            @click="() => { this.showInstructionalTooltip = false }"
+            @click="() => userAction('escapeInteraction')"
           ></div>
           <span>
             {{ $t('cinematic.instructional_tooltip') }}
@@ -30,10 +30,7 @@
           ></div>
           <div
             id="forward-btn"
-            @click="() => {
-              this.showInstructionalTooltip = false
-              this.userAction('forwardInteraction')
-            }"
+            @click="() => userAction('forwardInteraction')"
           ></div>
         </div>
       </div>
@@ -87,6 +84,14 @@ import {mapGetters} from "vuex";
 
 const BACK_INTERACTION = 'backInteraction'
 const FORWARD_INTERACTION = 'forwardInteraction'
+const ESCAPE_INTERACTION = 'escapeInteraction'
+
+const INTERACTION_TYPES = {
+  Escape: ESCAPE_INTERACTION,
+  Enter: FORWARD_INTERACTION,
+  ArrowRight: FORWARD_INTERACTION,
+  ArrowLeft: BACK_INTERACTION,
+}
 
 export default {
   components: {
@@ -120,10 +125,6 @@ export default {
     const canvas = this.$refs['cinematic-canvas']
     const canvasDiv = this.$refs['cinematic-div']
     this.initialTime = Date.now()
-    if (this.cinematicData.showInstructionalTooltip) {
-      this.showInstructionalTooltip = true
-    }
-
     this.controller = new CinematicController({
       canvas,
       canvasDiv,
@@ -181,9 +182,12 @@ export default {
         return
       }
       if (!interactionType || interactionType === FORWARD_INTERACTION) {
+        this.showInstructionalTooltip = false
         this.userInterruptionEvent()
       } else if (interactionType === BACK_INTERACTION) {
         this.pressBackwardsNavigation()
+      } else if (interactionType === ESCAPE_INTERACTION) {
+        this.showInstructionalTooltip = false
       } else {
         throw new Error('cant handle interaction')
       }
@@ -222,6 +226,11 @@ export default {
       window.addEventListener('keydown', this.handleKeyboard)
       const loadingTimeSec = Math.floor((Date.now() - this.initialTime) / 1000)
       this.userAction(FORWARD_INTERACTION)
+
+      if (this.cinematicData.showInstructionalTooltip) {
+        this.showInstructionalTooltip = true
+      }
+
       const cinematicId = (this.cinematicData || {})._id
       window.tracker.trackEvent('Loaded Cinematic', {
         cinematicId,
@@ -234,11 +243,14 @@ export default {
 
     handleKeyboard: function (e) {
       const code = e.code || e.key
-      if (code === 'Enter' || code === 'ArrowRight') {
-        this.userAction(FORWARD_INTERACTION)
-      } else if (code === 'ArrowLeft') {
-        this.userAction(BACK_INTERACTION)
+
+      const interaction = INTERACTION_TYPES[code]
+
+      if (!interaction) {
+        return
       }
+
+      this.userAction(interaction)
     },
 
     onResize: _.debounce(function (e) {
