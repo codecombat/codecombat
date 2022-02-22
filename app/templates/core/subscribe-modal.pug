@@ -34,63 +34,63 @@ mixin price(name, p)
       div.paper-area
         div.benefits-header.text-center(data-i18n="[html]subscribe.comparison_blurb")
 
-          .container-fluid
-            .row
-              .col-xs-5.option-col.col-xs-offset-1
-                img(src="/images/pages/play/modal/three-pets.png")
-              .col-xs-6
-                ul.features-list
-                  li(data-i18n="subscribe.feature_level_access")
-                  li(data-i18n="subscribe.feature_heroes")
-                  li(data-i18n="subscribe.feature_learn")
-                  if view.basicProduct
-                    li(data-i18n="subscribe.feature_gems", data-i18n-options={gems: view.basicProduct.get('gems')})
-
-          hr
-
-          if view.lifetimeProduct
-            .short-row.row
-              if view.basicProduct && !view.hideMonthlySub
-                .col-xs-5.option-col.col-xs-offset-1
-                .option-col(class='.col-xs-5')
-                  .option-header.best-deal(data-i18n="subscribe.best_deal")
-              else
-                .option-col(class='.col-xs-12')
-                  .option-header.best-deal(data-i18n="subscribe.best_deal")
+        .container-fluid
           .row
-            - var secondRowClass = '.col-xs-5'
+            .col-xs-5.option-col.col-xs-offset-1
+              img(src="/images/pages/play/modal/three-pets.png")
+            .col-xs-6
+              ul.features-list
+                li(data-i18n="subscribe.feature_level_access")
+                li(data-i18n="subscribe.feature_heroes")
+                li(data-i18n="subscribe.feature_learn")
+                if view.basicProduct
+                  li(data-i18n="subscribe.feature_gems", data-i18n-options={gems: view.basicProduct.get('gems')})
+
+        hr
+
+        if view.lifetimeProduct
+          .short-row.row
             if view.basicProduct && !view.hideMonthlySub
               .col-xs-5.option-col.col-xs-offset-1
-                +price("subscribe.month_price", view.basicProduct)
-                .option-header.price-subtext.text-center(data-i18n="subscribe.stripe_description")
-                button.btn.btn-lg.btn-illustrated.purchase-button
+              .option-col(class='.col-xs-5')
+                .option-header.best-deal(data-i18n="subscribe.best_deal")
+            else
+              .option-col(class='.col-xs-12')
+                .option-header.best-deal(data-i18n="subscribe.best_deal")
+        .row
+          - var secondRowClass = '.col-xs-5'
+          if view.basicProduct && !view.hideMonthlySub
+            .col-xs-5.option-col.col-xs-offset-1
+              +price("subscribe.month_price", view.basicProduct)
+              .option-header.price-subtext.text-center(data-i18n="subscribe.stripe_description")
+              button.btn.btn-lg.btn-illustrated.purchase-button
+                span.buy-now-text(data-i18n="subscribe.buy_now")
+                span.buy-lock-icon &#x1F512;
+
+          else
+            - var secondRowClass = '.col-xs-12'
+
+          if view.basicProductAnnual
+            .option-col(class=secondRowClass)
+              +price("subscribe.year_price", view.basicProductAnnual)
+              .option-header.price-subtext.text-center(data-i18n="subscribe.year_subscription")
+              if view.paymentProcessor === 'PayPal'
+                #paypal-button-container
+              else
+                button.stripe-annual-button.btn.btn-lg.btn-illustrated
                   span.buy-now-text(data-i18n="subscribe.buy_now")
                   span.buy-lock-icon &#x1F512;
 
-            else
-              - var secondRowClass = '.col-xs-12'
-
-            if view.basicProductAnnual
-              .option-col(class=secondRowClass)
-                +price("subscribe.year_price", view.basicProductAnnual)
-                .option-header.price-subtext.text-center(data-i18n="subscribe.year_subscription")
-                if view.paymentProcessor === 'PayPal'
-                  #paypal-button-container
-                else
-                  button.stripe-annual-button.btn.btn-lg.btn-illustrated
-                    span.buy-now-text(data-i18n="subscribe.buy_now")
-                    span.buy-lock-icon &#x1F512;
-
-            else if view.lifetimeProduct
-              .option-col(class=secondRowClass)
-                +price("subscribe.lifetime_price", view.lifetimeProduct)
-                .option-header.price-subtext.text-center(data-i18n="subscribe.lifetime")
-                if view.paymentProcessor === 'PayPal'
-                  #paypal-button-container
-                else
-                  button.stripe-lifetime-button.btn.btn-lg.btn-illustrated
-                    span.buy-now-text(data-i18n="subscribe.buy_now")
-                    span.buy-lock-icon &#x1F512;
+          else if view.lifetimeProduct
+            .option-col(class=secondRowClass)
+              +price("subscribe.lifetime_price", view.lifetimeProduct)
+              .option-header.price-subtext.text-center(data-i18n="subscribe.lifetime")
+              if view.paymentProcessor === 'PayPal'
+                #paypal-button-container
+              else
+                button.stripe-lifetime-button.btn.btn-lg.btn-illustrated
+                  span.buy-now-text(data-i18n="subscribe.buy_now")
+                  span.buy-lock-icon &#x1F512;
 
         div.support-blurb.text-center
           p
