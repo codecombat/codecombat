@@ -129,7 +129,7 @@ block content
                     span.spr.player-hero-icon(data-memberid=member.id)
                   span.code-language-cell
                     if memberLanguageMap && memberLanguageMap[member.id]
-                      span.code-language-cell(style={ 'background-image': url('/images/common/code_languages/' + memberLanguageMap[member.id] + '_small.png') }, title=memberLanguageMap[member.id])
+                      span.code-language-cell(style=`background-image: url(/images/common/code_languages/${memberLanguageMap[member.id]}_small.png)`, title=memberLanguageMap[member.id])
                 div
                   a(href='/user/' + member.id)= member.get('name') || 'Anonymous'
                 div Level #{member.level()}
@@ -226,7 +226,7 @@ block content
                 span.spr.player-hero-icon(data-memberid=member.id)
               td.code-language-cell
                 if memberLanguageMap && memberLanguageMap[member.id]
-                  span.code-language-cell(style={ 'background-image': url('/images/common/code_languages/' + memberLanguageMap[member.id] + '_small.png') }, title=memberLanguageMap[member.id])
+                  span.code-language-cell(style=`background-image: url(/images/common/code_languages/${memberLanguageMap[member.id]}_small.png)`, title=memberLanguageMap[member.id])
               td.name-cell
                 a(href='/user/' + member.id)= member.get('name') || 'Anonymous'
               td.level-cell= member.level()

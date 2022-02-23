@@ -138,7 +138,7 @@ block content
                       - var title = level.numUsers + " students on level " + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal);
                       span.student-furthest-cell(style={ left: (index * levelCellWidth) + '%', width: levelCellWidth + '%' } title=title)
                     else if level.missing
-                      span.missing-level-cell(style={ left: (index * levelCellWidth) + '%', width: levelCellWidth + '%' }, title=('level ' + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal) + 'is released but not available in this classroom version'))
+                      span.missing-level-cell(style={ left: (index * levelCellWidth) + '%', width: levelCellWidth + '%' }, title=('level ' + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal) + ' is released but not available in this classroom version'))
                     else if level.numCompleted > 0
                       - var title = level.numCompleted + " students completed level " + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal);
                       span.student-completed-cell(style="left:#{index * levelCellWidth}%;width:#{levelCellWidth}%", title="#{title}")
