@@ -1,5 +1,13 @@
 extends /templates/core/modal-base-flat
 
+mixin ageRange(name)
+  select.age-range-select.form-control(name=name value=view.classroom.get(name))
+    option(value="") -
+    option(value="<6" data-i18n="courses.student_age_range_younger")
+    for i in _.range(6,18)
+      option(value=i)= i
+    option(value="18" data-i18n="courses.student_age_range_older")
+
 block modal-header-content
   if view.classroom.isNew()
     h3.modal-title(data-i18n="courses.create_new_class")
@@ -76,14 +84,6 @@ block modal-body-content
         option(value="other" data-i18n="courses.class_type_other")
 
     .form-group
-      mixin ageRange(name)
-        select.age-range-select.form-control(name=name value=view.classroom.get(name))
-          option(value="") -
-          option(value="<6" data-i18n="courses.student_age_range_younger")
-          for i in _.range(6,18)
-            option(value=i)= i
-          option(value="18" data-i18n="courses.student_age_range_older")
-
       label
         span(data-i18n="courses.student_age_range_label")
         i.spl.text-muted(data-i18n="signup.optional")
