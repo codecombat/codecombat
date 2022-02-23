@@ -493,6 +493,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     account_created: "Konto erstellt!"
     confirm_student_blurb: "Schreibe dir deine Daten auf, damit du sie nicht vergisst. Dein Lehrer kann dir jederzeit helfen, dein Passwort zurückzusetzen"
     confirm_individual_blurb: "Schreibe dir deine Login-Daten auf, falls du sie später brauchst. Bestätige deine E-Mail-Adresse, damit du dein Konto wiederherstellen kannst, wenn du dein Passwort mal vergessen solltest – schau in deinen Posteingang!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Schreib das auf:"
     start_playing: "Spiel beginnen!"
     sso_connected: "Erfolgreich verbunden mit:"

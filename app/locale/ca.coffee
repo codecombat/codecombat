@@ -493,6 +493,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     account_created: "S'ha creat el compte!"
     confirm_student_blurb: "Escriviu la vostra informació perquè no us oblideu. El vostre professor també us pot ajudar a restablir la vostra contrasenya en qualsevol moment."
     confirm_individual_blurb: "Escriviu la informació d'inici de sessió en cas que la necessiti més tard. Verifiqueu el vostre correu electrònic perquè pugueu recuperar el vostre compte si alguna vegada us oblideu de la contrasenya: consulteu la safata d'entrada!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Escriviu això:"
     start_playing: "Comença a jugar!"
     sso_connected: "S'ha connectat correctament amb:"

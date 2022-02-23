@@ -493,6 +493,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     account_created: "Cont creat!"
     confirm_student_blurb: "Notează pe ceva informațiile pentru a nu le uita. profesorul tău te poate ajuta să îți resetezi parola în orice moment."
     confirm_individual_blurb: "Notează pe ceva informațiile de autentificare în caz că vei avea nevoie de ele mai târziu. Verifică-ți email-ul ca să îți poți recupera contul dacă îți vei uita parola - verifică-ți căsuța poștală!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Notează asta:"
     start_playing: "Începe jocul!"
     sso_connected: "Conectare reușită cu:"

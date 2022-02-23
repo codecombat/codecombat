@@ -493,6 +493,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     account_created: "Konto stworzone!"
     confirm_student_blurb: "Zapisz sobie te informacje, żebyś ich nie zapomniał. Nauczyciel może pomóc ci jeśli zapomnisz hasła."
     confirm_individual_blurb: "Zapisz swoje dane do logowania na wszelki wypadek. Potwierdź swój adres email w razie jakbyś zapomniał hasła w przyszłości - sprawdź swoją skrzynkę!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Zapisz to sobie:"
     start_playing: "Zacznij grę!"
     sso_connected: "Udało połączyć się z:"

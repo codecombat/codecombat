@@ -493,6 +493,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     account_created: "Compte Créé!"
     confirm_student_blurb: "Notez vos informations pour ne pas les oublier. Votre enseignant peut également vous aider à réinitialiser votre mot de passe à tout moment."
     confirm_individual_blurb: "Notez vos identifiants dans le cas que vous en auriez besoin plus tard. Vérifiez votre email pour pouvoir récupérer votre compte si jamais vous oubliez votre mot de passe - vérifiez votre boite de réception!"
+#    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Notez ceci:"
     start_playing: "Commencer à jouer!"
     sso_connected: "Bien connecté avec:"
