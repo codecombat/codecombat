@@ -116,6 +116,9 @@ export default {
       this.numOfLicenses = parseInt(e.target.value)
       this.licenseSelectErrorClass = ''
     },
+    totalAmountInDecimal() {
+      return this.priceInfo.unit_amount * this.numOfLicenses
+    },
     async onBuyNow(e) {
       e.preventDefault()
       if (!this.numOfLicenses) {
@@ -128,7 +131,7 @@ export default {
         numberOfLicenses: this.numOfLicenses,
         email: me.get('email'),
         userId: me.get('_id'),
-        totalAmount: this.getPriceBasedOnAmount(this.numOfLicenses),
+        totalAmount: this.totalAmountInDecimal(),
       }
       const { errMsg } = await handleCheckoutSession(options)
       this.errMsg = errMsg
