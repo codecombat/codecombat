@@ -8,7 +8,7 @@ module.exports = env => {
   const devConfig = devConfigFn(env);
   return _.merge(devConfig, {
     watchOptions: {
-      ignored: /node_modules|bower_components/,
+      ignored: /node_modules|bower_components|\.#|~$/,
       poll: 8500
     }
   });

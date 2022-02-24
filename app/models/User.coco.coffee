@@ -5,6 +5,7 @@ LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
 co = require 'co'
+moment = require 'moment'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
 paymentUtils = require 'app/lib/paymentUtils'
@@ -46,6 +47,12 @@ module.exports = class User extends CocoModel
     API_CLIENT: 'apiclient',
     ONLINE_TEACHER: 'onlineTeacher'
   }
+
+  get: (attr, withDefault=false) ->
+    prop = super(attr, withDefault)
+    if attr == 'products'
+      return prop ? []
+    prop
 
   isAdmin: -> @constructor.PERMISSIONS.COCO_ADMIN in @get('permissions', true)
   isLicensor: -> @constructor.PERMISSIONS.LICENSOR in @get('permissions', true)
@@ -286,6 +293,11 @@ module.exports = class User extends CocoModel
       return true if stripe.subscriptionID
       return true if stripe.free is true
       return true if _.isString(stripe.free) and new Date() < new Date(stripe.free)
+    if products = @get('products')
+      now = new Date()
+      homeProducts = @activeProducts('basic_subscription')
+      maxFree = _.max(homeProducts, (p) => new Date(p.endDate)).endDate
+      return true if new Date() < new Date(maxFree)
     false
 
   isPremium: ->
@@ -369,32 +381,61 @@ module.exports = class User extends CocoModel
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
-    coursePrepaid = @get('coursePrepaid')
-    return 'not-enrolled' unless coursePrepaid
-    return 'enrolled' unless coursePrepaid.endDate
-    return if coursePrepaid.endDate > new Date().toISOString() then 'enrolled' else 'expired'
+    courseProducts = _.filter(@get('products'), {product: 'course'})
+    now = new Date()
+    activeCourseProducts = _.filter(courseProducts, (p) -> new Date(p.endDate) > now || !p.endDate)
+    courseIDs = utils.orderedCourseIDs
+    return 'not-enrolled' unless courseProducts.length
+    return 'enrolled' if _.some activeCourseProducts, (p) ->
+      return true unless p.productOptions?.includedCourseIDs?.length
+      return true if _.intersection(p.productOptions.includedCourseIDs, courseIDs).length
+      return false
+    return 'expired'
+
+  activeProducts: (type) ->
+    now = new Date()
+    _.filter(@get('products'), (p) ->
+      return p.product == type && (new Date(p.endDate) > now || !p.endDate)
+    )
+
+  prepaidNumericalCourses: ->
+    courseProducts = @activeProducts('course')
+    return utils.courseNumericalStatus['NO_ACCESS'] unless courseProducts.length
+    return utils.courseNumericalStatus['FULL_ACCESS'] if _.some courseProducts, (p) => !p.productOptions?.includedCourseIDs?
+    union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
+    courses = _.reduce(courseProducts, union, [])
+    fun = (s, k) => s + utils.courseNumericalStatus[k]
+    return _.reduce(courses, fun, 0)
 
   prepaidType: (includeCourseIDs) =>
-    # TODO: remove once legacy prepaidIDs are migrated to objects
-    return undefined unless @get('coursePrepaid') or @get('coursePrepaidID')
-    type = @get('coursePrepaid')?.type
+    courseProducts = @activeProducts('course')
+    return undefined unless courseProducts.length
+ 
+    return 'course' if _.any(courseProducts, (p) => !p.productOptions?.includedCourseIDs?)
     # Note: currently includeCourseIDs is a argument only used when displaying
     # customized license's course names.
     # Be careful to match the returned string EXACTLY to avoid comparison issues
+
     if includeCourseIDs
-      courses = @get('coursePrepaid')?.includedCourseIDs
+      union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
+      courses = _.reduce(courseProducts, union, [])
       # return all courses names join with + as customized licenses's name
-      if type == 'course' and Array.isArray(courses)
-        return (courses.map (id) -> utils.courseAcronyms[id]).join('+')
+      return (courses.map (id) -> utils.courseAcronyms[id]).join('+')
     # NOTE: Default type is 'course' if no type is marked on the user's copy
-    return type or 'course'
+    return 'course'
 
   prepaidIncludesCourse: (course) ->
-    return false unless @get('coursePrepaid') or @get('coursePrepaidID')
-    includedCourseIDs = @get('coursePrepaid')?.includedCourseIDs
-    courseID = course.id or course
+    courseProducts = @activeProducts('course')
+    return false unless courseProducts.length
     # NOTE: Full licenses implicitly include all courses
-    return !includedCourseIDs or courseID in includedCourseIDs
+    return true if _.any(courseProducts, (p) => !p.productOptions?.includedCourseIDs?)
+    union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
+    includedCourseIDs = _.reduce(courseProducts, union, [])
+    courseID = course.id or course
+    return courseID in includedCourseIDs
+
+  findCourseProduct: (prepaidId) ->
+    return _.find @activeProducts('course'),(p) => p.prepaid + '' == prepaidId + ''
 
   fetchCreatorOfPrepaid: (prepaid) ->
     @fetch({url: "/db/prepaid/#{prepaid.id}/creator"})
@@ -529,11 +570,17 @@ module.exports = class User extends CocoModel
     options.data.provider = provider
     @fetch(options)
 
-  makeCoursePrepaid: ->
-    coursePrepaid = @get('coursePrepaid')
-    return null unless coursePrepaid
+  makeCoursePrepaid: (prepaidId) ->
+    courseProduct = _.find @get('products'), (p) => p.product == 'course' && p.prepaid + '' == prepaidId + ''
+    return null unless courseProduct
     Prepaid = require 'models/Prepaid'
-    return new Prepaid(coursePrepaid)
+    return new Prepaid({
+      _id: prepaidId,
+      type: 'course',
+      includedCourseIDs: courseProduct?.productOptions?.includedCourseIDs
+      startDate: courseProduct.startDate,
+      endDate: courseProduct.endDate
+    })
 
   # TODO: Probably better to denormalize this into the user
   getLeadPriority: ->
