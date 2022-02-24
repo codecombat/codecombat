@@ -9,7 +9,6 @@ Users = require 'collections/Users'
 Courses = require 'collections/Courses'
 HowToEnrollModal = require 'views/teachers/HowToEnrollModal'
 TeachersContactModal = require 'views/teachers/TeachersContactModal'
-ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 utils = require 'core/utils'
 ShareLicensesModal = require 'views/teachers/ShareLicensesModal'
 
@@ -24,7 +23,6 @@ module.exports = class EnrollmentsView extends RootView
   enrollmentRequestSent: false
 
   events:
-    'click #enroll-students-btn': 'onClickEnrollStudentsButton'
     'click #how-to-enroll-link': 'onClickHowToEnrollLink'
     'click #contact-us-btn': 'onClickContactUsButton'
     'click .share-licenses-link': 'onClickShareLicensesLink'
@@ -177,7 +175,6 @@ module.exports = class EnrollmentsView extends RootView
   decideUpsell: ->
     # There are also non classroom prepaids.  We only use the course or starter_license prepaids to determine
     # if we should skip upsell (we ignore the others).
-
     coursePrepaids = @prepaids.filter((p) => p.get('type') == 'course')
 
     skipUpsellDueToExistingLicenses = coursePrepaids.length > 0
@@ -254,14 +251,6 @@ module.exports = class EnrollmentsView extends RootView
     modal.on 'submit', =>
       @enrollmentRequestSent = true
       @debouncedRender()
-
-  onClickEnrollStudentsButton: ->
-    window.tracker?.trackEvent 'Classes Licenses Enroll Students', category: 'Teachers'
-    modal = new ActivateLicensesModal({ selectedUsers: @notEnrolledUsers, users: @members })
-    @openModalView(modal)
-    modal.once 'hidden', =>
-      @prepaids.add(modal.prepaids.models, { merge: true })
-      @debouncedRender() # Because one changed model does not a collection update make
 
   onClickShareLicensesLink: (e) ->
     prepaidID = $(e.currentTarget).data('prepaidId')
