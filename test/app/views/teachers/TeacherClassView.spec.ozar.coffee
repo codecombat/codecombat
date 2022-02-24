@@ -26,7 +26,7 @@ describe 'TeacherClassView', ->
       me = factories.makeUser({})
 
       @courses = new Courses([
-        factories.makeCourse({name: 'First Course'}),
+        factories.makeCourse({name: 'First Course', _id: '5d8a57abe8919b28d5113af1'}),
         factories.makeCourse({name: 'Second Course'}),
         factories.makeCourse({name: 'Beta Course', releasePhase: 'beta'}),
       ])
@@ -284,7 +284,10 @@ describe 'TeacherClassView', ->
         describe 'and the course is NOT covered by starter licenses', ->
           beforeEach (done) ->
             spyOn(@view.prepaids.at(1), 'redeem')
-            @starterStudent = @students.find (s) -> s.prepaidType() is 'starter_license'
+            starterId = @available2.get('_id')
+            @starterStudent = @students.find (s) ->
+              console.log('students;::',JSON.stringify(s))
+              s.get('products').length && s.get('products')[0].prepaid is starterId
             @view.assignCourse(@courses.at(1).id, [@starterStudent.id])
             @view.wait('begin-redeem-for-assign-course').then(done)
 
