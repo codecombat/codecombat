@@ -20,7 +20,10 @@
           <span>
             {{ $t('cinematic.instructional_tooltip') }}
           </span>
-          <img src="/images/ozaria/cinematic/navigation/Keyboard.svg" alt="Keyboard showing cinematic navigation with left and right keys"/>
+          <img src="/images/ozaria/cinematic/navigation/Keyboard.svg" alt="Keyboard showing cinematic navigation with left and right keys" usemap="#keyboard-image-map" />
+          <map name="keyboard-image-map">
+            <area class="keyboard-right" shape="rect" coords="92,0,143,52" @click="() => userAction('forwardInteraction')">
+          </map>
         </div>
         <div id="cinematic-backer" v-if="loaded">
           <div
@@ -367,6 +370,9 @@ export default {
       flex-direction: row
       align-items: center
       padding: 0 20px 20px
+
+      .keyboard-right:hover
+        cursor: pointer
 
       span
         font-family: Work Sans
