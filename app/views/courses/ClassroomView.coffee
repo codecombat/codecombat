@@ -1,3 +1,4 @@
+# NOTE: this view is deprecated
 require('app/styles/courses/classroom-view.sass')
 Campaign = require 'models/Campaign'
 CocoCollection = require 'collections/CocoCollection'

@@ -26,7 +26,7 @@ describe 'TeacherClassView', ->
       me = factories.makeUser({})
 
       @courses = new Courses([
-        factories.makeCourse({name: 'First Course'}),
+        factories.makeCourse({name: 'First Course', _id: '5632661322961295f9428638'}),
         factories.makeCourse({name: 'Second Course'}),
         factories.makeCourse({name: 'Beta Course', releasePhase: 'beta'}),
       ])
@@ -131,7 +131,7 @@ describe 'TeacherClassView', ->
             expect(@view.enrollStudents).toHaveBeenCalled()
             users = @view.enrollStudents.calls.argsFor(0)[0]
             expect(users.size()).toBe(1)
-            expect(users.first().id).toBe(@view.students.rest()[0].id) # TODO: Make test less brittle
+            expect(users.first().id).toBe(@view.students.models[0].id) # TODO: Make test less brittle
 
       ###
         describe 'Revoke button', ->
@@ -284,7 +284,9 @@ describe 'TeacherClassView', ->
         describe 'and the course is NOT covered by starter licenses', ->
           beforeEach (done) ->
             spyOn(@view.prepaids.at(1), 'redeem')
-            @starterStudent = @students.find (s) -> s.prepaidType() is 'starter_license'
+            starterId = @available2.get('_id')
+            @starterStudent = @students.find (s) ->
+              s.get('products').length && s.get('products')[0].prepaid is starterId
             @view.assignCourse(@courses.at(1).id, [@starterStudent.id])
             @view.wait('begin-redeem-for-assign-course').then(done)
 
@@ -379,6 +381,7 @@ describe 'TeacherClassView', ->
 
 
       describe 'when there is nothing else to do first', ->
+
         beforeEach (done) ->
           @courseInstance = @view.courseInstances.first()
           @courseInstance.set('members', [])
