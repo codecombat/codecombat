@@ -74,7 +74,7 @@ export default {
       return classroomsApi
         .getMembers({ classroom }, {
           removeDeleted: true,
-          data: { project: options.project || 'firstName,lastName,name,email,coursePrepaid,deleted' }
+          data: { project: options.project || 'firstName,lastName,name,email,coursePrepaid,products,deleted' }
         })
         .then(res => {
           if (res && res.length > 0) {

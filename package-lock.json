@@ -1790,7 +1790,7 @@
       "optional": true
     },
     "adobe-animate-parser": {
-      "version": "github:codecombat/adobe-animate-parser#2f5bffaed594ddf84686f23210853367a5680ed2",
+      "version": "github:codecombat/adobe-animate-parser#02d6048a15b4adf881e88f023eeb8527a3c7f16e",
       "from": "github:codecombat/adobe-animate-parser#master",
       "requires": {
         "lodash.clone": "^4.5.0",
@@ -4670,7 +4670,7 @@
     "dir-glob": {
       "version": "2.2.2",
       "resolved": "https://registry.npmjs.org/dir-glob/-/dir-glob-2.2.2.tgz",
-      "integrity": "sha512-f9LBi5QWzIW3I6e//uxZoLBlUt9kcp66qo0sSCxL6YZKc75R1c4MFCoe/LaZiBGmgujvQdxc5Bn3QhfyvK5Hsw==",
+      "integrity": "sha1-+gnwaUFTyJGLGLoN6vrpR2n8UMQ=",
       "dev": true,
       "requires": {
         "path-type": "^3.0.0"
@@ -4679,7 +4679,7 @@
         "path-type": {
           "version": "3.0.0",
           "resolved": "https://registry.npmjs.org/path-type/-/path-type-3.0.0.tgz",
-          "integrity": "sha512-T2ZUsdZFHgA3u4e5PfPbjd7HDDpxPnQb5jN0SrDsjNSuVXHJqtwTnWqG0B1jZrgmJ/7lj1EmVIByWt1gxGkWvg==",
+          "integrity": "sha1-zvMdyOCho7sNEFwM2Xzzv0f0428=",
           "dev": true,
           "requires": {
             "pify": "^3.0.0"
@@ -4690,7 +4690,7 @@
     "doctrine": {
       "version": "3.0.0",
       "resolved": "https://registry.npmjs.org/doctrine/-/doctrine-3.0.0.tgz",
-      "integrity": "sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==",
+      "integrity": "sha1-rd6+rXKmV023g2OdyHoSF3OXOWE=",
       "dev": true,
       "requires": {
         "esutils": "^2.0.2"
@@ -13947,7 +13947,7 @@
     "resolve-from": {
       "version": "4.0.0",
       "resolved": "https://registry.npmjs.org/resolve-from/-/resolve-from-4.0.0.tgz",
-      "integrity": "sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==",
+      "integrity": "sha1-SrzYUq0y3Xuqv+m0DgCjbbXzkuY=",
       "dev": true
     },
     "resolve-url": {

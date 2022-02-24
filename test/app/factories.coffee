@@ -90,10 +90,10 @@ module.exports = {
       anonymous: false
       name: _.string.humanize(_id)
     }, attrs)
-    
-    if sources.prepaid and not attrs.coursePrepaid
-      attrs.coursePrepaid = sources.prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs')
-    
+
+    if sources.prepaid
+      attrs.products = [sources.prepaid.convertToProduct()]
+
     return new User(attrs)
   
   makeClassroom: (attrs, sources={}) ->

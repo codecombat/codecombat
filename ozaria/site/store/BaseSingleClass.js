@@ -9,7 +9,7 @@ import { hasSharedWriteAccessPermission } from '../../../app/lib/classroom-util'
 // TODO: Ensure download size isn't too big.
 const projectionData = {
   levelSessions: 'state.complete,state.introContentSessionComplete,state.goalStates,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code,codeLanguage,introContentSessionComplete,playtime',
-  users: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'
+  users: 'firstName,lastName,name,email,products,coursePrepaid,coursePrepaidID,deleted'
 }
 
 export default {

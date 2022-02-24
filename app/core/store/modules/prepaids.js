@@ -304,17 +304,23 @@ export default {
 
       const promises = []
       for (const student of students) {
-        const prepaid = student.makeCoursePrepaid()
-        promises.push(new Promise((resolve, reject) =>
-          prepaid.revoke(student, {
-            success: resolve,
-            error: () => {
-              console.error(`Didn't revoke this license`)
-              resolve()
-            },
-            data: { sharedClassroomId }
+        const courseProducts = student.activeCourseProducts()
+        courseProducts.map(product => {
+          let prepaid = new Prepaid({
+            _id: product.prepaid,
+            type: 'course'
           })
-        ))
+          promises.push(new Promise((resolve, reject) =>
+            prepaid.revoke(student, {
+              success: resolve,
+              error: () => {
+                console.error(`Didn't revoke this license`)
+                resolve()
+              },
+              data: { sharedClassroomId }
+            })
+          ))
+        })
       }
 
       // TODO: Handle error
