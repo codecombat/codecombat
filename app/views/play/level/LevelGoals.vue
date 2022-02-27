@@ -84,7 +84,7 @@
       right: 0
 
     .success
-      color: lightgreen
+      color: #2EB0B5
       text-shadow: 1px 1px 0px black
     .timed-out
       color: rgb(230, 230, 230)

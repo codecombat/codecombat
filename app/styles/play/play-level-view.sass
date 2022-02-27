@@ -454,12 +454,30 @@ body.ipad #level-view
       margin: 0 auto
       overflow: hidden
 
-#level-footer-background
+#level-footer-background, #level-footer-background-right
   display: none
   position: absolute
-  background: transparent url(/images/level/little-sophia/footer_background.png) no-repeat
   bottom: 0
-  width: 100%
+
+#level-footer-background
+  background: transparent url(/images/level/little-sophia/footer_background.png) no-repeat
+  background-position: top
   background-size: cover
-  height: 400px
+  width: 60%
+  height: calc(100vh - 50px - 60px - 57vw * (589 / 924))
   z-index: -1
+  box-shadow: 10px 10px 10px #313236
+
+#level-footer-background-right
+  background: transparent url(/images/level/little-sophia/footer_background_right.png) no-repeat
+  background-position: right 200px bottom 0
+  background-size: contain
+  width: 40%
+  height: 581px
+  right: 0
+  z-index: 0
+
+  #level-footer-logo
+    position: absolute
+    bottom: 20px
+    right: 30px

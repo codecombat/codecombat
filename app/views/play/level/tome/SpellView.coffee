@@ -321,7 +321,7 @@ module.exports = class SpellView extends CocoView
           ar = str.match(/^\s*/)
           ar.pop().length
 
-        colors = [{border: '74,144,226', fill: '108,162,226'}, {border: '132,180,235', fill: '230,237,245'}]
+        colors = [{border: '95,120,175', fill: '69,93,147'}, {border: '132,180,235', fill: '230,237,245'}]
 
         @indentDivMarkers.forEach((node) -> node.remove())
         @indentDivMarkers = []

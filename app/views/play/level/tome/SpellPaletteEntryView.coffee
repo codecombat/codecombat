@@ -57,6 +57,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
   afterRenderPopover: ->
     popover = @$el.data('bs.popover')
     popover?.$tip?.i18n()
+    return  # Ace editors broken for some reason
     codeLanguage = @options.language
     oldEditor.destroy() for oldEditor in @aceEditors
     @aceEditors = []

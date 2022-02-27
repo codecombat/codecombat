@@ -63,5 +63,5 @@
     color: rgb(239, 61, 71)
 
   li.status-success
-    color: lightgreen
+    color: #2EB0B5
 </style>
