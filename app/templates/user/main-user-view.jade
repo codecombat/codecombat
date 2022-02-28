@@ -93,9 +93,10 @@ block append content
                   img.primary-weapon(src="#{emptyImage}" alt="")
 
 
-          h4.general-title(data-i18n="user.contributor_badges") Contributor Badges
-          ul.contributor-categories
 
+          ul.contributor-categories
+            li.contributor-category
+              h4.general-title(data-i18n="user.contributor_badges") Contributor Badges
             if levelsComplete && levelsComplete >= 100
               li.contributor-category
                 img.contributor-image(src="/images/pages/user/adventurer.png")
