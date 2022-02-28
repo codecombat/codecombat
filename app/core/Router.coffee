@@ -32,6 +32,16 @@ module.exports = class CocoRouter extends Backbone.Router
     @vueRouter = require('app/core/vueRouter').default()
 
   routes:
+    'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
+    'play/ladder/:levelID': go('ladder/LadderView')
+    'play/ladder': go('ladder/MainLadderView')
+    'play/level/:levelID': go('play/level/PlayLevelView')
+    'play/spectate/:levelID': go('play/SpectateView')
+    '': redirect('/play/level/the-zoo-of-extinct-animals')
+    '*name/': 'removeTrailingSlash'
+    '*name': redirect('/play/level/the-zoo-of-extinct-animals')
+
+  routesOld:
     '': ->
       if window.serverConfig.picoCTF
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}

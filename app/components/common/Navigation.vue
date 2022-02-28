@@ -283,6 +283,7 @@
   white-space: nowrap; // prevent home icon from going under brand
   box-shadow: unset;
   font-weight: 400;
+  display: none;
 
   @media print {
     display: none;
