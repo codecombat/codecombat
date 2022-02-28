@@ -12,6 +12,17 @@ block append content
   if view.user
     - var playerLevel = view.user.level()
     - var emails = view.user.getEnabledEmails()
+    - var totalGems = view.user.gems()
+    - var levelsComplete = view.user.levelsFinished()
+    - var heroes = view.user.heroes().length
+    - var heroID = view.user.getHeroThangID()
+    - var hero = view.user.getPoseImage(heroID)
+    - var codePoints = view.user.getCodePoints()
+    - var emptyImage = "/file/db/thang.type/5bce54394ca9b2003b86454b/portrait.png"
+    - var headArmor = view.user.getHeadArmor()
+    - var torsoArmor = view.user.getTorsoArmor()
+    - var primaryWeapon = view.user.getPrimaryWeapon()
+    - var secondaryWeapon = view.user.getSecondaryWeapon()
     .vertical-buffer
     .row
       .left-column
@@ -19,15 +30,61 @@ block append content
           img.picture(src="#{view.user.getPhotoURL(150)}" alt="")
           div.profile-info
             h3.name= view.user.get('name')
+
             if view.favoriteLanguage
               div.extra-info
                 span(data-i18n="user.favorite_prefix") Favorite language is
                 strong.favorite-language= view.favoriteLanguage
-                span(data-i18n="user.favorite_postfix") .            
+                span(data-i18n="user.favorite_postfix") .
+            if levelsComplete
+              div.extra-info
+                span.spr(data-i18n="user.levels-complete") Levels Complete
+                strong= levelsComplete
+            if heroes
+              div.extra-info
+                span.spr(data-i18n="user.heroes-unlocked") Heroes Unlocked
+                strong= heroes + " / 21"
             if playerLevel
               div.extra-info
                 span.spr(data-i18n="general.player_level") Level
-                strong= playerLevel        
+                strong= playerLevel
+            if codePoints
+              div.extra-info
+                span.spr(data-i18n="user.code_points") Code Points
+                strong= codePoints
+            if totalGems
+              div.extra-info
+                span(data-i18n="user.user-gems") Gems&nbsp
+                strong= totalGems
+
+        div.inventory
+          h2.inventory-title(data-i18n="user.inventory") Inventory
+
+          div.hero-container
+            if heroID
+              img.hero-pose(src="/file/#{hero}" alt="")
+
+            div.items
+              h4.items-title(data-i18n="user.current-items") Items Equipped
+              div.float
+                if primaryWeapon
+                  img.primary-weapon(src="/file/db/thang.type/#{primaryWeapon}/portrait.png" alt="")
+                else
+                  img.primary-weapon(src="#{emptyImage}" alt="")
+                if secondaryWeapon
+                  img.secondary-weapon(src="/file/db/thang.type/#{secondaryWeapon}/portrait.png" alt="")
+                else
+                  img.primary-weapon(src="#{emptyImage}" alt="")
+                if headArmor
+                  img.head-armor(src="/file/db/thang.type/#{headArmor}/portrait.png" alt="")
+                else
+                  img.primary-weapon(src="#{emptyImage}" alt="")
+                if torsoArmor
+                  img.torso-armor(src="/file/db/thang.type/#{torsoArmor}/portrait.png" alt="")
+                else
+                  img.primary-weapon(src="#{emptyImage}" alt="")
+
+
         // TODO: fix this, use some other method for finding contributor classes other than email settings, since they're private... Maybe achievements?
         if emails
           ul.contributor-categories
@@ -173,3 +230,51 @@ block append content
             if view.earnedAchievements.length > 4
               .panel-footer
                 button.btn.btn-info.btn-sm.more-button(data-i18n="editor.more")
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title(data-i18n="user.contributions_title") Contributions
+          if view.user
+            - var patchesSubmitted = view.user.getPatchesSubmitted()
+            - var patchesApproved = view.user.getPatchesApproved()
+            - var patchesAccepted = view.user.getPatchesAccepted()
+            - var levelEdits = view.user.getLevelEdits()
+            - var totalTranslations = view.user.getTotalTranslations()
+
+            if !(patchesSubmitted && patchesApproved && patchesAccepted && levelEdits && totalTranslations)
+              .panel-body
+                p(data-i18n="user.no_contributions") No contributions so far.
+            else
+              table.table
+                tr
+                  th.col-xs-4(data-i18n="contributions.type_stat") Type
+                  th.col-xs-4(data-i18n="contributions.contribution_value") Value
+                tr
+                  td(data-i18n="user.patches-submit") Patches Submitted
+                  if (patchesSubmitted)
+                    td= patchesSubmitted
+                  else
+                    td= "0"
+                tr
+                  td(data-i18n="user.patches-approved") Patches Approved
+                  if (patchesApproved)
+                    td= patchesApproved
+                  else
+                    td= "0"
+                tr
+                  td(data-i18n="user.patches-accepted") Patches Accepted
+                  if (patchesAccepted)
+                    td= patchesAccepted
+                  else
+                    td= "0"
+                tr
+                  td(data-i18n="user.level-edits") Level Edits
+                  if (levelEdits)
+                    td= levelEdits
+                  else
+                    td= "0"
+                tr
+                  td(data-i18n="user.total-translations") Total Translations
+                  if (totalTranslations)
+                    td= totalTranslations
+                  else
+                    td= "0"
