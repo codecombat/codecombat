@@ -87,7 +87,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    quotes_quote5: "Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills."
 #    quotes_quote5_author: "Latthaphon Pohpon, Parent"
     see_example: "查看示例"
-    slogan: "名校AI编程学习平台"
+    slogan: "白名单赛事编程学习平台"#"名校AI编程学习平台"
     slogan_power_of_play: "玩游戏 学编程"
     teach_cs1_free: "免费教授计算机科学入门"
     teachers_love_codecombat_title: "教师们喜欢扣哒世界"
