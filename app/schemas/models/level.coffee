@@ -231,7 +231,8 @@ NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes 
         '/music/music_level_2',
         '/music/music_level_3',
         '/music/music_level_4',
-        '/music/music_level_5'])
+        '/music/music_level_5',
+        '/music/music_sophia_1'])
 
 ScriptSchema = c.object {
   title: 'Script'
