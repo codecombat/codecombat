@@ -689,6 +689,8 @@ module.exports = Lank = class Lank extends CocoClass
     @dialogueSoundInstance?.stop()
     if @dialogueSoundInstance = @playSound sound, false
       @dialogueSoundInstance.addEventListener 'complete', -> Backbone.Mediator.publish 'sprite:dialogue-sound-completed', {}
+      if utils.getQueryVariable('demo')
+        $.post '/service/sophia/say', text: e.message, who: 'Little Sophia'
     @notifySpeechUpdated e
 
   onClearDialogue: (e) ->
@@ -774,6 +776,8 @@ module.exports = Lank = class Lank extends CocoClass
     AudioPlayer.preloadSoundReference sound
     instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
     #console.log @thang?.id, 'played sound', name, 'with delay', delay, 'volume', volume, 'and got sound instance', instance
+    if /Hero Placeholder/.test(@thang?.id) and utils.getQueryVariable('demo') and @thang.sayMessage
+      $.post '/service/sophia/say', text: @thang.sayMessage, who: 'Sophia'
     instance
 
   onMove: (e) ->
