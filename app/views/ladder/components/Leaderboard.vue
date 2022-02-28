@@ -329,6 +329,10 @@
     text-align: center;
   }
 
+  .ladder-table th:nth-child(5), .ladder-table td:nth-child(5), .ladder-table th:nth-child(8), .ladder-table td:nth-child(8) {
+    display: none;
+  }
+
   .name-col-cell, .clan-col-cell {
     max-width: 170px;
     text-overflow: ellipsis;

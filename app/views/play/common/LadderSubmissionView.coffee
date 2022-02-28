@@ -55,7 +55,7 @@ module.exports = class LadderSubmissionView extends CocoView
 
   rankSession: (e) ->
     return unless @session.readyToRank()
-    return @showApologeticSignupModal() if me.get('anonymous')
+    #return @showApologeticSignupModal() if me.get('anonymous')  # No accounts needed for Little Sophia
     @playSound 'menu-button-click'
     @setRankingButtonText 'submitting'
     if currentAge = me.age()

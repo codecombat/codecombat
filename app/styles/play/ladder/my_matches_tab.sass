@@ -1,3 +1,5 @@
+@import "app/styles/play/variables"
+
 #my-matches-tab-view
   .axis path, .axis line
     fill: none
@@ -52,3 +54,18 @@
   .load-more-matches
     float: right
     margin-right: 20px
+
+  .ladder-submission-view .btn.btn-illustrated
+    border-style: solid
+    border-image: url(/images/level/little-sophia/done_button.png) 47 53 47 37 fill stretch
+    border-width: 19.3px 21.8px 19.3px 15.2px
+    color: #00999e
+    color: black
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25)
+    font-family: $ls-font
+    font-size: 22px
+    line-height: 22px
+
+    &:active
+      border-image: url(/images/level/little-sophia/done_button_active.png) 47 53 47 37 fill stretch
+      box-shadow: 10px solid #87ff87

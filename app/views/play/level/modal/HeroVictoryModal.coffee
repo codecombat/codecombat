@@ -84,6 +84,8 @@ module.exports = class HeroVictoryModal extends ModalView
     @trackAwsButtonShown = _.once ->
       window.tracker?.trackEvent 'Show Amazon Modal Button'
 
+    @onClickContinue()  # Just skip modal and go to next level directly
+
   destroy: ->
     clearInterval @sequentialAnimationInterval
     @saveReview() if @$el.find('.review textarea').val()
@@ -471,8 +473,8 @@ module.exports = class HeroVictoryModal extends ModalView
       # Little-Sophia-specific level progression
       when 'the-zoo-of-extinct-animals' then 'the-awakened'
       when 'the-awakened' then 'the-sisters'
-      when 'the-sisters' then 'little-s-arena'
-      when 'little-s-arena' then 'the-zoo-of-extinct-animals'  # TOOD: figure out post-arena flow
+      when 'the-sisters' then 'inner-arena'
+      when 'inner-arena' then 'the-zoo-of-extinct-animals'
     if nextLevelSlug
       nextLevelLink = "/play/level/#{nextLevelSlug}"
       viewClass = 'views/play/level/PlayLevelView'

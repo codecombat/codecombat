@@ -102,6 +102,7 @@ module.exports = class PlayLevelView extends RootView
     'ipad:memory-warning': 'onIPadMemoryWarning'
     'store:item-purchased': 'onItemPurchased'
     'tome:manual-cast': 'onRunCode'
+    'ladder:game-submitted': 'onGameSubmitted'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -861,6 +862,23 @@ module.exports = class PlayLevelView extends RootView
         @session.increaseDifficulty showModalFn
       else
         showModalFn()
+
+  onGameSubmitted: (e) ->
+    @returnToLadder()
+
+  returnToLadder: ->
+    # Preserve the supermodel as we navigate back to the ladder.
+    viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
+    ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}"
+    if leagueID = (@courseInstanceID or utils.getQueryVariable 'league')
+      leagueType = if @level.isType('course-ladder') then 'course' else 'clan'
+      viewArgs.push leagueType
+      viewArgs.push leagueID
+      ladderURL += "/#{leagueType}/#{leagueID}"
+      if tournamentId = utils.getQueryVariable('tournament')
+        ladderURL += "?tournament=#{tournamentId}"
+    ladderURL += '#my-matches'
+    Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs
 
   destroy: ->
     @levelLoader?.destroy()

@@ -474,8 +474,13 @@ body.ipad #level-view
   background-size: contain
   width: 40%
   height: 581px
+  min-height: calc(100vh - 50px - 60px - 57vw * (589 / 924))
   right: 0
   z-index: 0
+
+  @media screen and (max-aspect-ratio: 8/10)
+    &
+      background: transparent
 
   #level-footer-logo
     position: absolute
