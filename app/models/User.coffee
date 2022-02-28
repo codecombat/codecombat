@@ -1,4 +1,5 @@
 cache = {}
+ThangType = require 'models/ThangType'
 CocoModel = require './CocoModel'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
 LevelConstants = require 'lib/LevelConstants'
@@ -254,12 +255,51 @@ module.exports = class User extends CocoModel
     for clanHero in utils.clanHeroes when clanHero.clanId in (@get('clans') ? [])
       heroes.push clanHero.thangTypeOriginal
     heroes
+
+
+  getPrimaryWeapon: ->
+    primaryWeapon = ((@get('heroConfig') or {}).inventory or {})["right-hand"]
+    primaryWeapon
+  getSecondaryWeapon: ->
+    secondaryWeapon = ((@get('heroConfig') or {}).inventory or {})["left-hand"]
+    secondaryWeapon
+  getHeadArmor: ->
+    headArmor = ((@get('heroConfig') or {}).inventory or {}).head
+    headArmor
+  getHeroThangID: ->
+    thangID = (@get('heroConfig') or {}).thangType
+    thangID
+  getTorsoArmor: ->
+    torsoArmor = ((@get('heroConfig') or {}).inventory or {}).torso
+    torsoArmor
+  getCodePoints: ->
+    codePoints = (@get('stats') or {}).codePoints
+    codePoints
+
+  getPatchesApproved: ->
+    patchesC = (@get('stats') or {}).patchesContributed
+    patchesC
+  getPatchesSubmitted: ->
+    patchesS = (@get('stats') or {}).patchesSubmitted
+    patchesS
+  getPatchesAccepted: ->
+    patchesA = (@get('stats') or {}).patchesAccepted
+    patchesA
+  getLevelEdits: ->
+    levelEdits = (@get('stats') or {}).levelEdits
+    levelEdits
+  getTotalTranslations: ->
+    translations = (@get('stats') or {}).totalTranslationPatches
+    translations
+
   items: -> (@get('earned')?.items ? []).concat(@get('purchased')?.items ? []).concat([ThangTypeConstants.items['simple-boots']])
   levels: -> (@get('earned')?.levels ? []).concat(@get('purchased')?.levels ? []).concat(LevelConstants.levels['dungeons-of-kithgard'])
   ownsHero: (heroOriginal) -> @isInGodMode() || heroOriginal in @heroes()
   ownsItem: (itemOriginal) -> itemOriginal in @items()
   ownsLevel: (levelOriginal) -> levelOriginal in @levels()
-
+  levelsFinished: ->
+    finished = (@get('stats') or {}).gamesCompleted
+    finished
   getHeroClasses: ->
     idsToSlugs = _.invert ThangTypeConstants.heroes
     myHeroSlugs = (idsToSlugs[id] for id in @heroes())
@@ -283,6 +323,20 @@ module.exports = class User extends CocoModel
       if _.size(newErrors) is 0
         return
     return errors
+  getPoseImage: (thang_id, options={}) ->
+      returner = ""
+      options.method = 'GET'
+      options.contentType = 'application/json'
+      options.async = false
+      options.dataType = 'json'
+      options.url = "/db/thang.type/#{thang_id}/version"
+      promise = $.ajax(options)
+      promise.success (data) ->
+        returner = data.poseImage
+      returner
+
+
+
 
   hasSubscription: ->
     return false if @isStudent() or @isTeacher()
@@ -410,7 +464,7 @@ module.exports = class User extends CocoModel
   prepaidType: (includeCourseIDs) =>
     courseProducts = @activeProducts('course')
     return undefined unless courseProducts.length
- 
+
     return 'course' if _.any(courseProducts, (p) => !p.productOptions?.includedCourseIDs?)
     # Note: currently includeCourseIDs is a argument only used when displaying
     # customized license's course names.
