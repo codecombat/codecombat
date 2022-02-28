@@ -46,11 +46,11 @@ block append content
                 span(data-i18n="user.favorite_postfix") .
             if levelsComplete
               div.extra-info
-                span.spr(data-i18n="user.levels-complete") Levels Complete
+                span.spr(data-i18n="user.levels_complete") Levels Complete
                 strong= levelsComplete
             if heroes
               div.extra-info
-                span.spr(data-i18n="user.heroes-unlocked") Heroes Unlocked
+                span.spr(data-i18n="user.heroes_unlocked") Heroes Unlocked
                 strong= heroes + " / 21"
             if playerLevel
               div.extra-info
@@ -62,7 +62,7 @@ block append content
                 strong= codePoints
             if totalGems
               div.extra-info
-                span.spr(data-i18n="user.user-gems") Gems
+                span.spr(data-i18n="user.user_gems") Gems
                 strong= totalGems
 
         div.inventory
@@ -73,7 +73,7 @@ block append content
               img#hero-pose.hero-pose(src="/file/" alt="")
 
             div.items
-              h4.items-title(data-i18n="user.current-items") Items Equipped
+              h4.items-title(data-i18n="user.current_items") Items Equipped
               div.float
                 if primaryWeapon
                   img.primary-weapon(src="/file/db/thang.type/#{primaryWeapon}/portrait.png" alt="")
@@ -95,7 +95,7 @@ block append content
 
           h4.general-title(data-i18n="user.contributor_badges") Contributor Badges
           ul.contributor-categories
-            
+
             if levelsComplete && levelsComplete >= 100
               li.contributor-category
                 img.contributor-image(src="/images/pages/user/adventurer.png")
@@ -248,34 +248,34 @@ block append content
             else
               table.table
                 tr
-                  th.col-xs-4(data-i18n="contributions.type_stat") Type
-                  th.col-xs-4(data-i18n="contributions.contribution_value") Value
+                  th.col-xs-4(data-i18n="user.type_stat") Type
+                  th.col-xs-4(data-i18n="user.contribution_value") Value
                 tr
-                  td(data-i18n="user.patches-submit") Patches Submitted
+                  td(data-i18n="user.patches_submit") Patches Submitted
                   if (patchesSubmitted)
                     td= patchesSubmitted
                   else
                     td= "0"
                 tr
-                  td(data-i18n="user.patches-approved") Patches Approved
+                  td(data-i18n="user.patches_approved") Patches Approved
                   if (patchesApproved)
                     td= patchesApproved
                   else
                     td= "0"
                 tr
-                  td(data-i18n="user.patches-accepted") Patches Accepted
+                  td(data-i18n="user.patches_accepted") Patches Accepted
                   if (patchesAccepted)
                     td= patchesAccepted
                   else
                     td= "0"
                 tr
-                  td(data-i18n="user.level-edits") Level Edits
+                  td(data-i18n="user.level_edits") Level Edits
                   if (levelEdits)
                     td= levelEdits
                   else
                     td= "0"
                 tr
-                  td(data-i18n="user.total-translations") Total Translations
+                  td(data-i18n="user.total_translations") Total Translations
                   if (totalTranslations)
                     td= totalTranslations
                   else
