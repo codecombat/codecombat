@@ -156,7 +156,7 @@ block content
                       - var bgColor = view.courseColorMap[data.id]
                       - var startDate = new Date(data.dates[0]);
                       - var endDate = null;
-                      - for (target in data.dates)
+                      for target in data.dates
                         if target === 0
                           - continue;
                         - endDate = new Date(data.dates[target]);
@@ -165,7 +165,7 @@ block content
                       - var width = (endDate.getTime() - startDate.getTime()) / view.totalTime * 100;
                       - var left = (startDate.getTime() - view.startTime) / view.totalTime * 100;
                       - var title = view.courseAcronymMap[data.id] + "\n";
-                      - for (target in data.dates)
+                      for target in data.dates
                         - title += target + "% on " + data.dates[target] + "\n";
                       span.timeline-course-section(style={ width: width + '%', left: left + '%' }, title=title)= view.courseAcronymMap[data.id]
 
