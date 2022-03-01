@@ -1,0 +1,15 @@
+extends /templates/base
+
+block content
+  
+  p
+    span(data-i18n="account.unsubscribe_from_marketing", data-i18n-options={email:view.email})
+  
+  button.btn.btn-warning#unsubscribe-button(data-i18n="account.unsubscribe_button")
+
+  .progress.progress-striped.active.secret
+    .progress-bar
+      
+  p.secret#fail-alert(data-i18n="account.unsubscribe_failed").alert.alert-danger
+    
+  p.secret#success-alert(data-i18n="account.unsubscribe_success").alert.alert-success

@@ -1,0 +1,42 @@
+extends /templates/play/modal/announcement-modal
+
+block config
+  - showSubscribe = true
+  - showNfo = false
+
+block title
+  h1(style="font-size: 2em; top:-10px" data-i18n="announcement.now_available")
+  h1(data-i18n="announcement.ritic")
+
+block image
+  #ice-chamber(style="border-radius: 8px; border:1px solid black;box-sizing:border-box; box-shadow: inset 0 0 32px #000000; overflow:hidden; background-position: 50%; background-size:cover;background-image:url('/images/pages/play/modal/announcement/ritic/ice-background.jpg');height:94%;width:307px;position:absolute;left:1.2%;top:3%")
+    #shattered-block.ice-block.has-tooltip(style="width: 307px;height:307px;position:absolute;bottom:0;left:0")
+      img.twitching(style="width: 100%;height:100%;" src="/images/pages/play/modal/announcement/ritic/cracked_block.png")
+    #chipped-block.ice-block.has-tooltip(style="width: 307px;height:307px;position:absolute;bottom:0;left:0")
+      img.twitching(style="width: 100%;height:100%;" src="/images/pages/play/modal/announcement/ritic/undercracked_block.png")
+    #clear-block.ice-block.has-tooltip(style="width: 307px;height:307px;position:absolute;bottom:0;left:0")
+      img.twitching(style="width: 100%; height:100%;" src="/images/pages/play/modal/announcement/ritic/clear_block.png")
+    .highlight(style="position: absolute; top: 50%; left: 0; width: 100%; height: 12.5%; background-size: 100%;background-image:url('/images/pages/play/modal/announcement/ritic/ray.png')")
+    .highlight(style="position: absolute; top: 50%; left: 0; width: 100%; height: 12.5%; background-size: 100%;background-image:url('/images/pages/play/modal/announcement/ritic/ray.png')")
+    .highlight(style="position: absolute; top: 50%; left: 0; width: 100%; height: 12.5%; background-size: 100%;background-image:url('/images/pages/play/modal/announcement/ritic/ray.png')")
+    .highlight(style="position: absolute; top: 50%; left: 0; width: 100%; height: 12.5%; background-size: 100%;background-image:url('/images/pages/play/modal/announcement/ritic/ray.png')")
+    .highlight(style="position: absolute; top: 50%; left: 0; width: 100%; height: 12.5%; background-size: 100%;background-image:url('/images/pages/play/modal/announcement/ritic/ray.png')")
+    #ritic-image.ritic-block.ritic-block-1.has-tooltip(style="bottom: 10%; left: 25%; width: 153px;height:calc(153px * 1.45);position:absolute;" data-name="announcement.ice_block" data-description="announcement.ice_description")
+      img(style="width: 100%; height:100%;" src="/images/pages/play/modal/announcement/ritic/assassin-pose.png")
+  #info-container(style="height:100%;width:calc(100% - 307px);position:absolute;right:0;top:0; ")
+    #ability-bar(style="z-index: 1; filter:drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.75)); margin:8px; background-repeat: no-repeat; background-position: 50%; width: calc(100% - 16px); height: 125px; background-size: contain; background-image:url('/images/pages/play/modal/announcement/ritic/ability_bar.png'); position:absolute; top: 0%; left:0%")
+      #blink-icon.ability-icon.has-tooltip(data-gif="blink" data-name="announcement.blink_name" data-description="announcement.blink_description")
+        img(style="width: 62px; left: 9.75%; top:21.75%;" src="/images/pages/play/modal/announcement/ritic/blink.png")
+      #darkness-icon.ability-icon.has-tooltip(data-gif="darkness" data-name="announcement.wallOfDarkness_name" data-description="announcement.wallOfDarkness_description")
+        img(style="width: 62px; left: 30%; top:21.75%" src="/images/pages/play/modal/announcement/ritic/darkness.png")
+      #tornado-icon.ability-icon.has-tooltip(data-gif="tornado" data-name="announcement.tornado_name" data-description="announcement.tornado_description")
+        img(style="width: 62px; left: 51.75%; top:21.75%" src="/images/pages/play/modal/announcement/ritic/tornado.png")
+      #shadowwalk-icon.ability-icon.has-tooltip(data-gif="shadowwalk" data-name="announcement.shadowStep_name" data-description="announcement.shadowStep_description")
+        img(style="width: 62px; left: 74%; top:21.75%" src="/images/pages/play/modal/announcement/ritic/shadowwalk.png")
+    #video-bar(style="overflow: hidden; border-radius: 8px; border:1px solid black;box-sizing:border-box; box-shadow: inset 0 0 32px #000000; margin-top:-20px; position:absolute; top: 125px; left:calc(50% - (293px / 2)); width: 293px;height: 293px;")
+      img.gif-video#tornado-gif(style="z-index: -1; width: 100%;" src="/images/pages/play/modal/announcement/ritic/tornado.gif")
+      img.gif-video#shadowwalk-gif(style="display: none; z-index: -1; width: 100%;" src="/images/pages/play/modal/announcement/ritic/shadowwalk.gif")
+      img.gif-video#blink-gif(style="display: none; z-index: -1; width: 100%;" src="/images/pages/play/modal/announcement/ritic/blink.gif")
+      img.gif-video#darkness-gif(style="display: none; z-index: -1; width: 100%;" src="/images/pages/play/modal/announcement/ritic/darkness.gif")
+
+block info

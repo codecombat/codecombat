@@ -1,0 +1,33 @@
+.modal-dialog
+  .modal-content
+    img#amazon-hoc-background(src="/images/pages/play/modal/subscribe-background-blank.png")
+    
+    h1(data-i18n="amazon_hoc.title")
+
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+  
+    div.paper-area.text-center
+      if(!view.options.hideCongratulation)
+        h3(data-i18n="amazon_hoc.congrats")
+      
+      img(src="/images/pages/play/aws-educate-logo.png")
+ 
+      p
+        span(data-i18n="amazon_hoc.educate_1") 
+        =" "
+        a#aws-educate-link(href="https://aws.amazon.com/education/awseducate/14-and-older/" data-i18n="amazon_hoc.educate_2" target="_blank")
+        span .
+      
+      img(src="/images/pages/play/future-engineer-logo.png")
+      
+      p
+        span(data-i18n="amazon_hoc.future_eng_1")
+        =" "
+        a#aws-alexa-link(href="https://learn.amazonfutureengineer.com/alexa/fact-skill/#/" data-i18n="amazon_hoc.future_eng_2" target="_blank")
+        =" "
+        span(data-i18n="amazon_hoc.future_eng_3")
+        =" "
+        a#aws-future-eng-link(href="http://amazonfutureengineer.com/" data-i18n="amazon_hoc.future_eng_4" target="_blank")
+        =" "
+        span(data-i18n="amazon_hoc.future_eng_5")

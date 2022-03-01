@@ -8,7 +8,7 @@ utils = require 'core/utils'
 
 ProjectGalleryComponent = Vue.extend
   name: 'project-gallery-component'
-  template: require('templates/courses/project-gallery-view')()
+  template: require('app/templates/courses/project-gallery-view')()
   components:
     'flat-layout': FlatLayout
   props:
@@ -58,7 +58,7 @@ ProjectGalleryComponent = Vue.extend
 
 module.exports = class ProjectGalleryView extends RootComponent
   id: 'project-gallery-view'
-  template: require 'templates/base-flat'
+  template: require 'app/templates/base-flat'
   VueComponent: ProjectGalleryComponent
   constructor: (options, @courseInstanceID) ->
     @propsData = { @courseInstanceID }

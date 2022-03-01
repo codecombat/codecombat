@@ -1,0 +1,21 @@
+
+button.close-hint-btn.btn.btn-illustrated.btn-danger
+  span.glyphicon.glyphicon-remove
+
+h1.text-center.hint-title(dir="auto")
+  span(dir="auto")= view.state.get('hintsTitle')
+
+.hint-body(dir="auto")
+  != view.getProcessedHint()
+
+.row.btn-area
+  .col-md-4
+    if view.state.get('hintIndex') > 0
+      button.previous-btn.btn.btn-illustrated.pull-left(data-i18n="about.previous")
+  .col-md-4
+    h2.text-center.hint-pagination #{view.state.get('hintIndex')+1} / #{view.hintsState.get('total')}
+  .col-md-4
+    if view.state.get('hintIndex') < view.hintsState.get('total') - 1
+      button.next-btn.btn.btn-illustrated.pull-right(data-i18n="play.next")
+
+.clearfix

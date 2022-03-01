@@ -1,0 +1,9 @@
+.thang-avatar-wrapper(class="team-" + (thang.team || "neutral"))
+  //canvas(width=100, height=100, title=thang.id + " - " + thang.team)
+  //- var title = thang.id + " - " + thang.team + (thang.type ? ' - type: "' + thang.type + '"' : '')
+  img.avatar(src=avatarURL, draggable="false")
+  img.avatar-frame(src="/images/level/thang_avatar_frame.png", draggable="false")
+  .badge.problems
+  .badge.shared-thangs
+if includeName
+  .thang-name= thang.id

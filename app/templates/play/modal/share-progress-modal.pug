@@ -1,0 +1,24 @@
+.modal-dialog
+  .modal-content
+      img.background-img(src="/images/pages/play/modal/parental_prompt_modal_background.png")
+      img.wizard-img(src="/images/pages/play/modal/parental_nudge_wizard.png")
+      
+      .blurb-container  
+        h1(data-i18n="share_progress_modal.title")
+        p(data-i18n="share_progress_modal.blurb")
+        
+        .container-fluid.send-container
+          .row
+            .col-xs-12.email-form
+              p(data-i18n="share_progress_modal.form_blurb")
+              div
+                label(data-i18n="share_progress_modal.form_label")
+                input.form-control.email-input(type='email' data-i18n="[placeholder]share_progress_modal.placeholder")
+          .row
+            .col-xs-8
+              .email-invalid(data-i18n="share_progress_modal.email_invalid")
+            .col-xs-4.text-right
+              button.btn.btn-illustrated.send-btn(data-i18n="common.send")
+          .row.continue-container
+            .col-xs-12.text-left
+              a.continue-link(data-i18n="common.continue")

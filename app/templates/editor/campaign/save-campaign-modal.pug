@@ -1,0 +1,21 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3 Save Changes to Campaign
+
+block modal-body-content
+  if !view.modelsToSave.models.length
+    .alert.alert-info(data-i18n="delta.no_changes") No changes
+
+  for model in view.modelsToSave.models
+    .panel.panel-default
+      .panel-heading
+        span.panel-title.spr= model.get('name')
+        span.text-muted= model.constructor.className
+      .panel-body
+        .delta-view(data-model-id=model.id)
+
+block modal-footer
+  .modal-footer
+    button(data-dismiss="modal", data-i18n="common.cancel").btn Cancel
+    button.btn.btn-primary(data-i18n="common.save")#save-button Save

@@ -1,0 +1,10 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="editor.add_system_title") Add Systems to Level
+
+block modal-body-content
+  ul.available-systems-list
+
+block modal-footer-content
+  button.btn.btn-primary(data-dismiss="modal", data-i18n="editor.done_adding") Done Adding

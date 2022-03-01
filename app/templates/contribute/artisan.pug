@@ -1,0 +1,64 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    .class_detail
+
+      img(src="/images/pages/contribute/class_detail_artisan.png", alt="")
+
+    div.class-main#artisan-main
+
+      h2
+        span(data-i18n="classes.artisan_title") Artisan
+        span  
+        span(data-i18n="classes.artisan_title_description") (Level Builder)
+      p
+        span(data-i18n="contribute.artisan_introduction_pref")
+          | We must construct additional levels!
+          | People be clamoring for more content, and we can only build so many ourselves.
+          | Right now your workstation is level one; our level editor is barely
+          | usable even by its creators, so be wary.
+          | If you have visions of campaigns spanning for-loops to
+        span  
+        a(href="http://stackoverflow.com/questions/758088/seeking-contrived-example-code-continuations/758105#758105")
+          | Mondo Bizzaro
+        span(data-i18n="contribute.artisan_introduction_suf")
+          | , then this class might be for you.
+    
+      h4(data-i18n="contribute.class_attributes") Class Attributes
+      ul
+        li(data-i18n="contribute.artisan_attribute_1")
+          | Any experience in building content like this would be nice, such as using
+          | Blizzard's level editors. But not required!
+        li(data-i18n="contribute.artisan_attribute_2")
+          | A hankering to do a whole lot of testing and iteration.
+          | To make good levels, you need to take it to others and watch them play it,
+          | and be prepared to find a lot of things to fix.
+        li(data-i18n="contribute.artisan_attribute_3")
+          | For the time being, endurance en par with an Adventurer.
+          | Our Level Editor is super preliminary and frustrating to use. You have been warned!
+    
+      h4(data-i18n="contribute.how_to_join") How To Join
+      span(data-i18n="contribute.artisan_join_desc")
+        | Use the Level Editor in these steps, give or take:
+      ul
+        li
+          a(href="https://github.com/codecombat/codecombat/wiki/Artisan-Home", data-i18n="contribute.artisan_join_step1") Read the documentation.
+        li
+          a(href="/editor/level", data-i18n="contribute.artisan_join_step2") Create a new level and explore existing levels.
+        li
+          a(href="https://coco-slack-invite.herokuapp.com/", data-i18n="contribute.artisan_join_step3") Find us in our public Slack channel for help.
+        li
+          a(href="http://discourse.codecombat.com", data-i18n="contribute.artisan_join_step4") Post your levels on the forum for feedback.
+
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="level_creator", data-contributor-class-name="artisan")
+
+      h3(data-i18n="contribute.creative_artisans")
+        | Our Creative Artisans:
+
+      #contributor-list
+
+    div.clearfix

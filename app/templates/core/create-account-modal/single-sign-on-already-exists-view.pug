@@ -1,0 +1,19 @@
+.modal-body
+  .modal-body-content
+    if view.signupState.get('ssoUsed')
+      h4
+        span(data-i18n="signup.account_exists")
+      div.small
+        b
+          span= view.signupState.get('email')
+
+      .hr-text
+        hr
+        span(data-i18n="common.next")
+      
+      button.login-link.btn.btn-lg.btn-navy
+        span(data-i18n="login.log_in")
+
+  .history-nav-buttons
+    button.back-button.btn.btn-lg.btn-navy-alt(type='button')
+      span(data-i18n="common.back")

@@ -1,4 +1,4 @@
-extends /templates/core/modal-base-flat.jade
+extends /templates/core/modal-base-flat
 
 //- DNT
 block modal-header-content
@@ -52,7 +52,7 @@ block modal-body-content
           td
             if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
               - var totalLicensesControlId='totalLicenses-'+prepaid.id
-              = (prepaid.get('redeemers') || []).length + ' / ' 
+              = (prepaid.get('redeemers') || []).length + ' / '
               input(id=totalLicensesControlId type="number" name="totalLicenses" value=prepaid.get('maxRedeemers'), style="width:50px")
             else
               = (prepaid.get('redeemers') || []).length + ' / ' + prepaid.get('maxRedeemers') || 0
@@ -76,7 +76,7 @@ block modal-body-content
     else
       if view.timeZone == 'Asia/Shanghai'
         h4.small(style="max-width: 700px") *All licenses granted after Oct 29, 2018 start at 12am CT on the start date and end at 11:59pm CT on the end date listed. All licenses that were granted before that date start and end at 3pm CT on the date listed.
-      else 
+      else
         h4.small(style="max-width: 700px") *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
       .form-group
         label

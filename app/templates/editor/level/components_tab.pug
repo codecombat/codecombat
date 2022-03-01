@@ -1,0 +1,14 @@
+.components-container
+  h3(data-i18n="editor.level_component_tab_title") Current Components
+  button.navbar-toggle.toggle.btn-primary(type="button" data-toggle="collapse" data-target="#components-treema")
+    span.icon-list
+  .editor-nano-container.nano
+    #components-treema.nano-content
+
+.edit-component-container
+  if !me.get('anonymous')
+    button.btn.btn-primary#create-new-component-button-no-select
+      span.icon-plus
+      span.text(data-i18n="editor.level_component_btn_new") Create New Component
+  
+  #level-component-edit-view

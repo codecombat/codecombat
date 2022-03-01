@@ -1,0 +1,48 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h4.modal-title Export #{view.thangType.get('name')} SpriteSheet
+
+block modal-body-content
+  .form-horizontal
+    .form-group
+      label.col-sm-3.control-label Team Color
+      .col-sm-9
+        select#color-config-select.form-control
+          option(value='') None
+          option(value="red") Red
+          option(value="blue") Blue
+          option(value="green") Green
+
+    .form-group
+      label.col-sm-3.control-label Resolution Factor
+      .col-sm-9
+        input#resolution-input.form-control(value=3)
+
+    .form-group
+      label.col-sm-3.control-label Sprite Type
+      .col-sm-9
+        - var spriteType = view.thangType.get('spriteType') || 'segmented'
+        label.radio-inline
+          input(type="radio" name="sprite-type" value="segmented" checked=spriteType==='segmented')
+          | Segmented
+        label.radio-inline
+          input(type="radio" name="sprite-type" value="singular" checked=spriteType!=='segmented')
+          | Singular
+
+    .form-group
+      label.col-sm-3.control-label Actions
+      .col-sm-9
+        - var defaultActionNames = _.pluck(view.thangType.getDefaultActions(), 'name')
+        - var actions = view.thangType.getActions()
+        for action in actions
+          .checkbox
+            label
+              input(type="checkbox" name="action" value=action.name checked=_.contains(defaultActionNames, action.name))
+              | #{action.name}
+
+block modal-footer-content
+  button.btn.btn-default(data-dismiss="modal") Cancel
+  button#save-btn.btn.btn-primary Save
+  .progress.progress-striped.active.hide
+    .progress-bar(style="width: 100%")

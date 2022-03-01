@@ -1,7 +1,7 @@
 require('app/styles/modal/subscribe-modal.sass')
 api = require 'core/api'
 ModalView = require 'views/core/ModalView'
-template = require 'templates/core/subscribe-modal'
+template = require 'app/templates/core/subscribe-modal'
 stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
 CreateAccountModal = require 'views/core/CreateAccountModal'
@@ -65,6 +65,7 @@ module.exports = class SubscribeModal extends ModalView
       @basicCouponAnnual = _.find(@basicProductAnnual.get('coupons'), {code: @couponID})
     @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
     @paymentProcessor = 'stripe' # Always use Stripe
+    console.log('life', @lifetimeProduct, @basicProduct, @basicProductAnnual)
     super()
     @render()
 

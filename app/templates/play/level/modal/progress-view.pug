@@ -1,0 +1,133 @@
+.modal-header
+  #close-modal.btn.well.well-sm.well-parchment(data-dismiss="modal")
+    span.glyphicon.glyphicon-remove
+  if view.level.isProject()
+    h1(data-i18n="play_level.project_complete")
+  else
+    h1(data-i18n='play_level.level_complete')
+
+.modal-body
+  .container-fluid
+    .row
+      - var colClass = !view.nextLevel.isNew() ? 'col-sm-7' : 'col-sm-12'
+      div(class=colClass)
+        if !view.level.isProject()
+          .well.well-sm.well-parchment.rtl-allowed
+            h3.text-uppercase(data-i18n='play_level.completed_level')
+            h2.text-uppercase.text-center= i18n(view.level.attributes, 'name')
+          .well.well-sm.well-parchment.rtl-allowed
+            if me.isSessionless()
+              h3.course-title
+                span.text-uppercase.spr(data-i18n='play_level.course')
+                span.text-uppercase.text-center= i18n(view.course.attributes, 'name')
+              span(data-i18n='play_level.victory_no_progress_for_teachers')
+
+            else
+              h3.text-uppercase(data-i18n='play_level.course')
+              .row
+                .col-sm-8
+                  h3.text-uppercase.text-center= i18n(view.course.attributes, 'name')
+                .col-sm-4
+                  - var stats = view.classroom.statsForSessions(view.levelSessions, view.course.id)
+                  h1
+                    span #{stats.levels.numDone}/#{stats.levels.size}
+            
+        
+      if !view.nextAssessment.isNew() || !view.nextLevel.isNew()
+        .col-sm-5
+          if !view.nextAssessment.isNew()
+            .well.well-sm.well-parchment.rtl-allowed.rtl-allowed
+              h3.text-uppercase
+                span(data-i18n='play_level.challenge_unlocked')
+                span :
+              h2.text-uppercase= i18n(view.nextAssessment.attributes, 'name').replace('Course: ', '')
+              div.next-level-description!= view.nextAssessmentDescription
+
+            if !view.nextAssessment.isNew()
+              button#start-challenge-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n='play_level.start_challenge')
+
+          if !view.nextLevel.isNew()
+            .well.well-sm.well-parchment.rtl-allowed.rtl-allowed
+              h3.text-uppercase
+                span(data-i18n='play_level.next_level')
+                span :
+              h2.text-uppercase= i18n(view.nextLevel.attributes, 'name').replace('Course: ', '')
+              div.next-level-description!= view.nextLevelDescription
+    
+    if view.level.isProject()
+      if view.classroom
+        .well.well-sm.well-parchment.rtl-allowed
+          .row.publish-text
+            .col-xs-8.col-xs-offset-2
+              p
+                b(data-i18n="play_level.share_this_project")
+          if view.session.isFake()
+            .row
+              .col-xs-8.col-xs-offset-2
+                .alert.alert-warning(data-i18n="sharing.unavailable")
+          else
+            .row
+              .col-sm-6.col-sm-offset-2
+                input.text-h4.semibold.form-control#share-level-input(value=view.shareURL)
+              .col-sm-2
+                button#share-level-btn.btn.btn-illustrated.btn-primary
+                  span(data-i18n='sharing.copy_url')
+        .well.well-sm.well-parchment
+          .row.publish-text
+            .col-xs-8.col-xs-offset-2.rtl-allowed
+              if view.session.get('published')
+                p
+                  b(data-i18n="play_level.already_published_prefix")
+                  br
+                  span(data-i18n="play_level.already_published_suffix")
+              else
+                p
+                  b(data-i18n="play_level.ready_to_share")
+                  br
+                  span(data-i18n="play_level.click_publish")
+      else
+        .well.well-sm.well-parchment.rtl-allowed
+          h3.text-uppercase
+            if view.level.isType('game-dev')
+              span(data-i18n='sharing.share_game')
+            else
+              span(data-i18n='sharing.share_web')
+          p
+            span(data-i18n='sharing.victory_course_share_prefix')
+            span= ' '
+            a(href=view.shareURL, target='_blank')
+              if view.level.isType('game-dev')
+                span(data-i18n='sharing.victory_course_share_game')
+              else
+                span(data-i18n='sharing.victory_course_share_web')
+            span= ' '
+            span(data-i18n='sharing.victory_course_share_suffix')
+          if view.session.isFake()
+            .alert.alert-warning(data-i18n="sharing.unavailable")
+          else
+            .row
+              .col-sm-10
+                input.text-h4.semibold.form-control#share-level-input(value=view.shareURL)
+              .col-sm-2
+                button#share-level-btn.btn.btn-illustrated
+                  span(data-i18n='sharing.copy_url')
+        
+    .row
+      .col-sm-5.col-sm-offset-2.rtl-allowed
+        if view.level.isProject()
+          button#keep-editing-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase(data-i18n="play_level.keep_editing" data-dismiss="modal")
+        else if view.level.get('type') === 'course-ladder'
+          button#ladder-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase(data-i18n="general.ladder")
+        else if !view.nextLevel.isNew() && view.classroom
+          button#map-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.back_to_map')
+      .col-sm-5.rtl-allowed
+        if view.level.isProject()
+          if view.session.get('published')
+            button#publish-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n="play_level.view_gallery")
+          else
+            button#publish-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n="common.publish")
+        else
+          if !view.nextLevel.isNew()
+            button#next-level-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n='play_level.next_level')
+          else
+            button#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.done')

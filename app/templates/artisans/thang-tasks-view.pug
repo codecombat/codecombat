@@ -1,0 +1,35 @@
+//- DNT
+extends /templates/base
+
+block content
+  #thang-tasks-view
+    div
+      a(href='/artisans')
+        span.glyphicon.glyphicon-chevron-left
+        span Artisans Home
+    input.inputSearch#name-search(placeholder='Filter: Thang Name')
+    br
+    input.inputSearch#desc-search(placeholder='Filter: Task Description')
+    hr
+    div#thang-table
+      if view.processedThangs
+        table.table.table-striped
+          tr
+            th Thang Name
+            th Task List
+          for thang in view.processedThangs
+            if view.hasIncompleteTasks(thang)
+              +thangRow(thang)
+      else
+        span No view.processedThangs
+
+mixin thangRow(thang)
+  tr
+    td.taskOwner
+      a(href= 'thang/' + thang.get('slug'))= thang.get('name')
+    td.tasks
+      table.table-striped.table-hover.tasksTable
+        for task in (thang.tasks || [])
+          if !task.complete
+            tr
+              td= task.name

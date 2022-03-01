@@ -1,0 +1,16 @@
+table.table.systems-table
+  tr
+    th(colspan=3) Results: #{systems.length}
+  
+  tr
+    th Name
+    th Description
+    th Version
+    th
+  
+  for system in systems
+    tr
+      td.body-row #{system.description}
+      td #{system.version.major}.#{system.version.minor}
+      td
+        i.icon-pencil.edit-system-button(data-name=system.name)

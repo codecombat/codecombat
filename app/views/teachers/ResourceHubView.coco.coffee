@@ -4,7 +4,7 @@ utils = require 'core/utils'
 
 module.exports = class ResourceHubView extends RootView
   id: 'resource-hub-view'
-  template: require 'templates/teachers/resource-hub-view'
+  template: require 'app/templates/teachers/resource-hub-view'
 
   events:
     'click .resource-link': 'onClickResourceLink'

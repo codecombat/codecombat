@@ -2,7 +2,7 @@ require('app/styles/admin.sass')
 {backboneFailure, genericFailure} = require 'core/errors'
 errors = require 'core/errors'
 RootView = require 'views/core/RootView'
-template = require 'templates/admin'
+template = require 'app/templates/admin'
 AdministerUserModal = require 'views/admin/AdministerUserModal'
 forms = require 'core/forms'
 utils = require 'core/utils'

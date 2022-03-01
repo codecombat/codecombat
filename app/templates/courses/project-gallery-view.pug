@@ -1,0 +1,28 @@
+flat-layout
+  .container.m-t-3
+    p(:style="{ visibility: (amSchoolAdministratorOfGallery === null || amTeacherOfGallery === null) ? 'hidden' : 'visible' }")
+      a(v-if="amSchoolAdministratorOfGallery", :href="schoolAdministratorBackUrl")
+        | {{ $t('courses.back_classroom') }}
+      a(v-else-if="amTeacherOfGallery", :href="teacherBackUrl")
+        | {{ $t('courses.back_classroom') }}
+      a(v-else, href="/students")
+        | {{ $t('courses.back_courses') }}
+    div.text-center.m-t-2
+      h2(v-if="classroom")
+        | {{ classroom.name }}
+      h1(v-if="course")
+        | {{ courseName }}: {{ levelName }}
+      div(v-if="_.isEmpty(levelSessions)")
+        | {{ $t('project_gallery.no_projects_published') }}
+      ul.project-list.m-t-3(v-else)
+        .row
+          li.col-xs-8.col-xs-offset-2.project-list-item(v-for="session in levelSessions")
+            span.creator-name(v-if="users && creatorOfSession(session)")
+              | {{ creatorOfSession(session).firstName }}
+              | {{ creatorOfSession(session).lastName }}.
+              | ({{ creatorOfSession(session).name }})
+            .view-edit-buttons
+              a.edit-project-link.btn.btn-lg.btn-gold(:data-session-id="session._id", :href="getProjectEditUrl(session)" v-if="isMyProject(session)")
+                | {{ $t('project_gallery.edit_project') }}
+              a.view-project-link.btn.btn-lg.btn-forest(:data-session-id="session._id", :href="getProjectViewUrl(session)")
+                | {{ $t('project_gallery.view_project') }}

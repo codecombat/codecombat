@@ -1,0 +1,24 @@
+//- DNT
+extends /templates/base
+
+block content
+  #solution-problems-view
+    div
+      a(href='/artisans')
+        span.glyphicon.glyphicon-chevron-left
+        span Artisans Home
+    br
+    for course, k in (view.data || {})
+      h3= k
+      table.table.table-striped
+        tr
+          th No
+          th Level Name
+          th Concepts Detected
+        for level in course
+          tr
+            td= level.seqNo
+            td(style="width:10%")= level.get('name')
+            td
+              for tag in (level.tags || [])
+                span.label.label-primary(style='margin-right: 10px; float: left; line-height: 20px; margin-bottom: 10px')= tag

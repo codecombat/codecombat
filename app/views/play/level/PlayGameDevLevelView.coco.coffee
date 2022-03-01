@@ -26,7 +26,7 @@ TEAM = 'humans'
 
 module.exports = class PlayGameDevLevelView extends RootView
   id: 'play-game-dev-level-view'
-  template: require 'templates/play/level/play-game-dev-level-view'
+  template: require 'app/templates/play/level/play-game-dev-level-view'
 
   subscriptions:
     'god:new-world-created': 'onNewWorld'

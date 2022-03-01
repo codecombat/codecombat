@@ -1,0 +1,24 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3 Choose Container for Vector Icon
+
+block modal-body-content
+  if view.container
+    form.form
+      .form-group
+        select#container-select.form-control
+          for container in view.containers
+            option(value=container, selected=container === view.container)= container
+
+    canvas(width=view.demoSize height=view.demoSize)#resulting-icon
+
+    .alert.alert-info Arrow keys to move, Shift-Plus/Minus to scale.
+  else
+    div forgetting something?
+
+block modal-footer-content
+  button.btn.pull-left.btn-info#center
+    span.glyphicon.glyphicon-cutlery
+    span.spl Center
+  button.btn.btn-primary#done-button Done

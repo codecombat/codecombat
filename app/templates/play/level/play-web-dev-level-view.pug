@@ -1,0 +1,11 @@
+#web-surface-view
+
+#info-bar.style-flat
+  if !view.supermodel.finished()
+    h1(data-i18n="common.loading")
+    
+  else
+    h1
+      span(data-i18n="game_dev.creator")
+      span= ': '
+      | #{view.session.get('creatorName')}

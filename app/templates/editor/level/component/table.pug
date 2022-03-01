@@ -1,0 +1,17 @@
+table.table.components-table
+  tr
+    th(colspan=3) Results: #{components.length}
+  
+  tr
+    th Name
+    th Description
+    th Version
+    th
+  
+  for component in components
+    tr
+      td= component.system + "." + component.name
+      td.body-row #{component.description}
+      td #{component.version.major}.#{component.version.minor}
+      td
+        i.icon-pencil.edit-component-button(data-system=component.system, data-name=component.name)

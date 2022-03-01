@@ -1,0 +1,113 @@
+//- DNT
+.container
+  button(@click="showCampaigns = !showCampaigns", :disabled="campaigns.length === 0")
+    | Toggle campaigns
+  span(v-if="selectedCampaign")
+    | Current: {{selectedCampaign.name}}
+  br
+  div(v-if="showCampaigns")
+    a(v-for="campaign in campaigns"
+      @click="selectedCampaign = campaign")
+      | {{ campaign.name }}
+      =", "
+  button(@click="showLevels = !showLevels", :disabled="!selectedCampaign")
+    | Toggle levels
+  span(v-if="levelSlug")
+    | Current: {{levelSlug}}
+  br
+  div(v-if="showLevels")
+    button(@click="selectedLevelSlugs = selectedCampaign.levelsArray.map((l)=>{return l.slug})")
+      | Select All
+    span(v-for="level in selectedCampaign.levelsArray")
+      label
+        | {{ level.name }} {{ selectedLevelSlugs.indexOf(level.slug) > -1 }}
+        input(type="checkbox",
+          :value="level.slug"
+          v-model="selectedLevelSlugs")
+      =", "
+  form(action="")
+    input(v-model:value="levelSlug")
+    button(@click.prevent="getProblemsAndCompare(levelSlug)")
+      | Get Problems
+  select(v-model="language")
+    option(v-for="locale in allLocales")
+      | {{ locale }}
+  select(v-model="messageOrHint")
+    option message
+    option hint
+  br
+  label
+    | Partial threshold %
+    input(type="number" step="1" v-model:value="partialThreshold")
+  label
+    | Complete threshold %
+    input(type="number" step="1" v-model:value="completeThreshold")
+  label
+    | Count threshold %
+    input(type="number" step="0.2" v-model:value="countThreshold")
+  select(v-model="displayMode")
+    option human-readable
+    option export
+  | Total errors: {{ totalCount }}
+  br
+  span
+    label
+      | Translated
+      input(type="checkbox" v-model="showTranslated")
+  span
+    label
+      | Untranslated
+      input(type="checkbox" v-model="showUntranslated")
+  div
+    span(v-if="loading")
+      | Loading...
+  table.human-readable(v-if="displayMode === 'human-readable'")
+    tr
+      th
+        | Original
+      th(v-if="showTranslated")
+        | Translated
+      th(v-if="showUntranslated")
+        | Untranslated
+      th
+        | # chars not translated
+      th
+        | Difference
+      th
+        | Frequency
+      
+    tr(v-for="problem in problems"
+       v-if="problem[messageOrHint] && problem[messageOrHint].length > 0"
+       v-bind:style="{ backgroundColor: color(problem) }")
+      td {{ problem[messageOrHint] }}
+      td(v-if="showTranslated")
+        | {{ problem.translated }}
+      td(v-if="showUntranslated")
+        | {{ problem.trimmed }}
+      td(v-if="typeof problem.trimmed === 'string'")
+        | {{ problem.trimmed.length }}
+      td(v-else)
+        | ???
+      td {{ percentDifference(problem) }}%
+      td
+        | {{ (problem.count / totalCount * 100).toFixed(1) }}%
+        | ({{problem.count}}/{{totalCount}})
+      td
+        | {{ (problemFrequency(problem) * 100).toFixed(1) }}%
+        | ({{problem.count}}/{{problemCountByLevel[problem.levelSlug]}})
+  
+  .export(v-else)
+    tr
+      td.counts
+        pre
+          div(v-for="problem, index in exportList",
+             :style="{ backgroundColor: color(problem) }")
+            span {{ (problem.count / totalCount * 100).toFixed(1) }}%
+            br
+      td
+        pre
+          div(v-for="problem, index in exportList",
+             :style="{ backgroundColor: color(problem) }")
+            span {{ slugifyProblem(problem) }}: "{{ problem.trimmed }}"
+            br
+          

@@ -1,0 +1,52 @@
+.modal-header
+  #rewards-header
+    img.header-img(src="/images/pages/play/modal/level_complete.png")
+    #close-modal.btn.well.well-sm.well-parchment(data-dismiss="modal")
+      span.glyphicon.glyphicon-remove
+
+.modal-body
+  .container-fluid
+    .row
+      for achievement in achievements
+        if achievement.get('hidden')
+          - continue;
+        - var animate = achievement.completed && !achievement.completedAWhileAgo
+        .achievement-panel(class=achievement.completedAWhileAgo ? 'earned' : '' data-achievement-id=achievement.id data-animate=animate)
+          - var rewards = achievement.get('rewards') || {};
+
+          div.achievement-description(dir="auto")= achievement.description
+
+          div.achievement-rewards
+            - var worth = achievement.worth;
+            - var previousWorth = achievement.previousWorth;
+            - var gems = achievement.gems;
+            - var previousGems = achievement.previousGems;
+            if worth
+              .reward-panel.numerical.xp(data-number=worth, data-number-unit='xp', data-previous-number=previousWorth || 0)
+                .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                  img(src="/images/pages/play/level/modal/reward_icon_xp.png")
+                .reward-text= animate ? '+0' : '+'+worth
+
+            if gems
+              .reward-panel.numerical.gems(data-number=gems, data-number-unit='gem', data-previous-number=previousGems || 0)
+                .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                  img(src="/images/pages/play/level/modal/reward_icon_gems.png")
+                .reward-text= animate ? '+0' : '+'+gems
+
+            if rewards.items
+              for item in rewards.items
+                - var item = thangTypes[item];
+                unless item.get('subscriber') && me.freeOnly()
+                  .reward-panel.item(data-item-thang-type=item.get('original'), class=item.get('subscriber') ? 'premium' : '')
+                    if item.get('subscriber')
+                      .reward-border
+                    .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                      img(src=item.getPortraitURL())
+                    if animate
+                      .reward-text(data-i18n="play_level.victory_new_item") New Item
+                    else
+                      .reward-text(dir="auto")= i18n(item.attributes, 'name')
+
+    .row
+      .col-sm-3.col-sm-offset-9
+        button#continue-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n="common.continue")
