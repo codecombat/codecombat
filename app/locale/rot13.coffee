@@ -456,6 +456,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     birthday: "Oveguqnl"
     parent_email_blurb: "Jr xabj lbh pna'g jnvg gb yrnea cebtenzzvat &zqnfu; jr'er rkpvgrq gbb! Lbhe cneragf jvyy erprvir na rznvy jvgu shegure vafgehpgvbaf ba ubj gb perngr na nppbhag sbe lbh. Rznvy {{rznvy_yvax}} vs lbh unir nal dhrfgvbaf."
     classroom_not_found: "Ab pynffrf rkvfg jvgu guvf Pynff Pbqr. Purpx lbhe fcryyvat be nfx lbhe grnpure sbe uryc."
+    activation_code_used: "Gur npgvingvba pbqr unf orra hfrq. Purpx lbhe fcryyvat be nfx lbhe grnpure sbe uryc."
     checking: "Purpxvat..."
     account_exists: "Guvf rznvy vf nyernql va hfr:"
     sign_in: "Fvta va"
@@ -1862,6 +1863,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     apply_license: "Nccyl Yvprafr"
     revoke_license: "Eribxr Yvprafr"
     revoke_licenses: "Eribxr Nyy Yvprafrf"
+    revoke_these_licenses: "Fryrpg Fghqragf naq Eribxr Gurfr Yvprafrf"
+    check_and_revoke_license: "Fgnghf & Eribxr"
+    manage_license: "Znantr Yvprafr"
     course_progress: "Pbhefr Cebterff"
     not_applicable: "A/N"
     edit: "rqvg"
@@ -2085,6 +2089,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     regenerate_class_code_tooltip: "Trarengr n arj Pynff Pbqr"
     regenerate_class_code_confirm: "Ner lbh fher lbh jnag gb trarengr n arj Pynff Pbqr?"
     revoke_confirm: "Ner lbh fher lbh jnag gb eribxr n Shyy Yvprafr sebz {{fghqrag_anzr}}? Gur yvprafr jvyy orpbzr ninvynoyr gb nffvta gb nabgure fghqrag."
+    revoke_alert_no_student: "Cyrnfr fryrpg fghqragf svefg."
+    revoke_selected_confirm: "Ner lbh fher lbh jnag gb eribxr Yvprafrf sebz nyy fryrpgrq fghqragf?"
     revoke_all_confirm: "Ner lbh fher lbh jnag gb eribxr Shyy Yvprafrf sebz nyy fghqragf va guvf pynff?"
     revoking: "Eribxvat..."
     unused_licenses: "Lbh unir hahfrq Yvprafrf gung nyybj lbh gb nffvta fghqragf cnvq pbhefrf jura gurl'er ernql gb yrnea zber!"
@@ -2153,6 +2159,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     permission: 'Crezvffvba'
     not_write_permission: "Lbh qba'g unir jevgr crezvffvba gb gur pynff"
     not_read_permission: "Lbh qba'g unir ernq crezvffvba gb gur pynff"
+    owned_license: "Yvprafrq"
 
   teacher_ozaria_encouragement_modal:
     title: "Ohvyq Pbzchgre Fpvrapr Fxvyyf gb Fnir Bmnevn"
