@@ -3,7 +3,7 @@ CourseVideosComponent = require('./CourseVideosComponent').default
 
 module.exports = class CourseVideosView extends RootComponent
   id: 'course-videos-view'
-  template: require 'templates/base-flat'
+  template: require 'app/templates/base-flat'
   VueComponent: CourseVideosComponent
   constructor: (options, @courseID, @courseName) ->
     @propsData = { @courseID, @courseName }

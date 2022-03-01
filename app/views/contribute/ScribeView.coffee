@@ -1,5 +1,5 @@
 ContributeClassView = require './ContributeClassView'
-template = require 'templates/contribute/scribe'
+template = require 'app/templates/contribute/scribe'
 {me} = require 'core/auth'
 ContactModal = require 'views/core/ContactModal'
 

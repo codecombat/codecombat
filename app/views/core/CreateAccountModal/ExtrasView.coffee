@@ -1,7 +1,7 @@
 require('app/styles/modal/create-account-modal/extras-view.sass')
 CocoView = require 'views/core/CocoView'
 HeroSelectView = require 'views/core/HeroSelectView'
-template = require 'templates/core/create-account-modal/extras-view'
+template = require 'app/templates/core/create-account-modal/extras-view'
 State = require 'models/State'
 
 module.exports = class ExtrasView extends CocoView

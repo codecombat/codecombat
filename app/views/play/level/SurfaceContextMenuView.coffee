@@ -4,7 +4,7 @@ CocoView = require 'views/core/CocoView'
 module.exports = class SurfaceContextMenuView extends CocoView
   id: 'surface-context-menu-view'
   className: 'surface-context-menu'
-  template: require('templates/play/level/surface-context-menu')
+  template: require('app/templates/play/level/surface-context-menu')
 
   events:
     'click #copy': 'onClickCopy'

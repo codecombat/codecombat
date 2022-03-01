@@ -1,6 +1,6 @@
 require('app/styles/editor/poll/poll-edit-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/editor/poll/poll-edit-view'
+template = require 'app/templates/editor/poll/poll-edit-view'
 Poll = require 'models/Poll'
 UserPollsRecord = require 'models/UserPollsRecord'
 PollModal = require 'views/play/modal/PollModal'

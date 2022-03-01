@@ -19,7 +19,7 @@ SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 
 module.exports = class CreateTeacherAccountView extends RootView
   id: 'create-teacher-account-view'
-  template: require 'templates/teachers/create-teacher-account-view'
+  template: require 'app/templates/teachers/create-teacher-account-view'
 
   events:
     'click .login-link': 'onClickLoginLink'

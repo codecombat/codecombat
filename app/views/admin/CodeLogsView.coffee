@@ -1,6 +1,6 @@
 require('app/styles/admin/codelogs-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/admin/codelogs-view'
+template = require 'app/templates/admin/codelogs-view'
 CodeLogCollection = require 'collections/CodeLogs'
 CodeLog = require 'models/CodeLog'
 utils = require 'core/utils'

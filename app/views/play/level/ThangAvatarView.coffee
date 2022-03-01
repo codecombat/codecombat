@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/thang_avatar'
+template = require 'app/templates/play/level/thang_avatar'
 ThangType = require 'models/ThangType'
 
 module.exports = class ThangAvatarView extends CocoView

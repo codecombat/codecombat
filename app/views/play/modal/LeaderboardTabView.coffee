@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/modal/leaderboard-tab-view'
+template = require 'app/templates/play/modal/leaderboard-tab-view'
 CocoCollection = require 'collections/CocoCollection'
 LevelSession = require 'models/LevelSession'
 fetchJson = require 'core/api/fetch-json'

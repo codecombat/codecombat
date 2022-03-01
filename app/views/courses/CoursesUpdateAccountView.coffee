@@ -1,7 +1,7 @@
 require('app/styles/courses/courses-update-account-view.sass')
 errors = require 'core/errors'
 RootView = require 'views/core/RootView'
-template = require 'templates/courses/courses-update-account-view'
+template = require 'app/templates/courses/courses-update-account-view'
 AuthModal = require 'views/core/AuthModal'
 JoinClassModal = require 'views/courses/JoinClassModal'
 {logoutUser, me} = require('core/auth')

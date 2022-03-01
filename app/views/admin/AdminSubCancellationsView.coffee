@@ -4,7 +4,7 @@ utils = require 'core/utils'
 
 module.exports = class AdminSubCancellationsView extends RootView
   id: 'admin-sub-cancellations-view'
-  template: require 'templates/admin/admin-sub-cancellations'
+  template: require 'app/templates/admin/admin-sub-cancellations'
 
   initialize: ->
     return super() unless me.isAdmin()

@@ -1,6 +1,6 @@
 require('app/styles/editor/level/component/level-component-edit-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/level/component/level-component-edit-view'
+template = require 'app/templates/editor/level/component/level-component-edit-view'
 LevelComponent = require 'models/LevelComponent'
 ComponentVersionsModal = require 'views/editor/component/ComponentVersionsModal'
 PatchesView = require 'views/editor/PatchesView'

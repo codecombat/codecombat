@@ -1,6 +1,6 @@
 require('app/styles/modal/auth-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/core/auth-modal'
+template = require 'app/templates/core/auth-modal'
 forms = require 'core/forms'
 User = require 'models/User'
 errors = require 'core/errors'

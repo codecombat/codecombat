@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/admin/pending-patches-view'
+template = require 'app/templates/admin/pending-patches-view'
 CocoCollection = require 'collections/CocoCollection'
 Patch = require 'models/Patch'
 

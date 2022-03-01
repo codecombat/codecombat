@@ -1,6 +1,6 @@
 require('app/styles/editor/level/modal/load-branch-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/level/modal/load-branch-modal'
+template = require 'app/templates/editor/level/modal/load-branch-modal'
 DeltaView = require 'views/editor/DeltaView'
 deltasLib = require 'core/deltas'
 modelDeltas = require 'lib/modelDeltas'
@@ -19,17 +19,17 @@ module.exports = class LoadBranchModal extends ModalView
     'click #unstash-branch-btn': 'onClickUnstashBranchButton'
     'click #branches-list-group .list-group-item': 'onClickBranch'
     'click .delete-branch-btn': 'onClickDeleteBranchButton'
-    
+
 
   initialize: ({ @components, @systems }) ->
     # Should be given all loaded, up to date systems and components with existing changes
-    
+
     # Load existing branches
     @branches = new Branches()
     @branches.fetch({url: '/db/branches'})
     .then(=>
       @selectedBranch = @branches.first()
-      
+
       # Load any patch target we don't already have
       fetches = []
       for branch in @branches.models
@@ -42,7 +42,7 @@ module.exports = class LoadBranchModal extends ModalView
             model.once 'sync', -> @markToRevert()
             collection.add(model)
       return $.when(fetches...)
-      
+
     ).then(=>
 
       # Go through each branch and figure out what their patch statuses are
@@ -55,7 +55,7 @@ module.exports = class LoadBranchModal extends ModalView
           originalChange = collection.get(patch.target.id).clone(false)
           originalChange.markToRevert()
           modelDeltas.applyDelta(originalChange, patch.delta)
-          
+
           # make a model that represents what will change locally
           currentModel = collection.find (model) -> _.all([
             model.get('original') is patch.target.original,
@@ -63,7 +63,7 @@ module.exports = class LoadBranchModal extends ModalView
           ])
           postLoadChange = currentModel.clone()
           postLoadChange.markToRevert() # includes whatever local changes we have now
-          
+
           toApply = currentModel.clone(false)
           applied = modelDeltas.applyDelta(toApply, patch.delta)
           if applied
@@ -72,30 +72,30 @@ module.exports = class LoadBranchModal extends ModalView
               if not toApply.has(key)
                 postLoadChange.unset(key)
             # now postLoadChange has current state -> future state
-          
+
           # properties used in rendering and loading
           _.assign(patch, {
             # the original target with patch applied
             originalChange
-            
+
             # the current target with local changes removed and patch applied (if successful)
             # Whether the patch was applied or not, this is how the model will be after loading
             postLoadChange
-            
+
             # whether applying the patch to the current target was successful
             applied
-            
+
             # so we can label this part of the patch as overwriting local changes
             currentModelHasLocalChanges: currentModel.hasLocalChanges()
-            
+
             # so we can label changes being applied to a newer version of the model
             modelHasChangedSincePatchCreated: originalChange.id isnt currentModel.id
-            
+
             # the target model as it was passed into the modal, unchanged
             currentModel
           })
     ).then(=> @render())
-    
+
   afterRender: ->
     super()
     @renderSelectedBranch()
@@ -107,11 +107,11 @@ module.exports = class LoadBranchModal extends ModalView
       return deltaView
     catch e
       console.error 'Couldn\'t create delta view:', e
-        
+
   renderSelectedBranch: ->
     # insert delta subviews for the selected branch, including the 'headComponent' which shows
     # what, if any, conflicts the existing branch has with the client's local changes
-    
+
     @removeSubView(view) for view in @selectedBranchDeltaViews if @selectedBranchDeltaViews
     @selectedBranchDeltaViews = []
     @renderSelectors('#selected-branch-col')
@@ -121,7 +121,7 @@ module.exports = class LoadBranchModal extends ModalView
       @insertDeltaView(patch.originalChange, originalChangeEl)
       postLoadChangeEl = @$(".changes-stub[data-patch-id='#{patch.id}'][data-prop='post-load-change']")
       @insertDeltaView(patch.postLoadChange, postLoadChangeEl)
-    
+
   onClickBranch: (e) ->
     $(e.currentTarget).closest('.list-group').find('.active').removeClass('active')
     $(e.currentTarget).addClass('active')
@@ -142,7 +142,7 @@ module.exports = class LoadBranchModal extends ModalView
     for patch in branch.get('patches')
       continue if not patch.applied
       { currentModel, postLoadChange } = patch
-      
+
       currentModel.set(postLoadChange.attributes)
       for key in currentModel.keys()
         if not postLoadChange.has(key)

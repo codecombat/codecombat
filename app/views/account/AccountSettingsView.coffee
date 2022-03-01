@@ -1,6 +1,6 @@
 require('app/styles/account/account-settings-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/account/account-settings-view'
+template = require 'app/templates/account/account-settings-view'
 forms = require 'core/forms'
 User = require 'models/User'
 ConfirmModal = require 'views/core/ConfirmModal'

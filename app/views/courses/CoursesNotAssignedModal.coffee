@@ -1,6 +1,6 @@
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
-template = require 'templates/courses/courses-not-assigned-modal'
+template = require 'app/templates/courses/courses-not-assigned-modal'
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 

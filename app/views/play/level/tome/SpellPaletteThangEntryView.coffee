@@ -1,6 +1,6 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/spell-palette-thang-entry'
-popoverTemplate = require 'templates/play/level/tome/spell_palette_entry_popover'
+template = require 'app/templates/play/level/tome/spell-palette-thang-entry'
+popoverTemplate = require 'app/templates/play/level/tome/spell_palette_entry_popover'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 DocFormatter = require './DocFormatter'
@@ -10,7 +10,7 @@ module.exports = class SpellPaletteThangEntryView extends CocoView
   tagName: 'div'  # Could also try <code> instead of <div>, but would need to adjust colors
   className: 'spell-palette-thang-entry-view'
   template: template
- 
+
   subscriptions:
     'surface:frame-changed': 'onFrameChanged'
     'tome:palette-hovered': 'onPaletteHovered'
