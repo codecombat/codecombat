@@ -8,7 +8,7 @@ Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 Levels = require 'collections/Levels'
 RootView = require 'views/core/RootView'
-template = require 'templates/courses/course-details'
+template = require 'app/templates/courses/course-details'
 User = require 'models/User'
 storage = require 'core/storage'
 

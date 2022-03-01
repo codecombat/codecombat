@@ -1,6 +1,6 @@
 require('app/styles/clans/clan-details.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/clans/clan-details'
+template = require 'app/templates/clans/clan-details'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 CocoCollection = require 'collections/CocoCollection'
 Campaign = require 'models/Campaign'

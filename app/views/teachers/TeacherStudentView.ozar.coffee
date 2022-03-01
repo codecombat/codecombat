@@ -13,8 +13,8 @@ CourseInstances = require 'collections/CourseInstances'
 require 'd3/d3.js'
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
-fullPageTemplate = require 'templates/teachers/teacher-student-view-full'
-viewTemplate = require 'templates/teachers/teacher-student-view'
+fullPageTemplate = require 'app/templates/teachers/teacher-student-view-full'
+viewTemplate = require 'app/templates/teachers/teacher-student-view'
 
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
@@ -27,7 +27,7 @@ module.exports = class TeacherStudentView extends RootView
     'click .nav-link': 'onClickSolutionTab'
 
   getMeta: -> { title: "#{$.i18n.t('teacher.student_profile')} | #{$.i18n.t('common.ozaria')}" }
-  
+
   onClickSolutionTab: (e) ->
     link = $(e.target).closest('a')
     levelSlug = link.data('level-slug')
@@ -67,7 +67,7 @@ module.exports = class TeacherStudentView extends RootView
 
     # wrap templates so they translate when called
     translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
-    @singleStudentLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
+    @singleStudentLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
     @levelProgressMap = {}
     me.getClientCreatorPermissions()?.then(() => @render?())
     super(options)
@@ -94,7 +94,7 @@ module.exports = class TeacherStudentView extends RootView
     if window.location.hash
       levelSlug = window.location.hash.substring(1)
       @updateSelectedCourseProgress(levelSlug)
-      window.location.href = window.location.href 
+      window.location.href = window.location.href
 
   destroy: ->
     if @startTime

@@ -22,7 +22,7 @@ RootView = require 'views/core/RootView'
 
 module.exports = class AdminClassroomsProgressView extends RootView
   id: 'admin-classrooms-progress-view'
-  template: require 'templates/admin/admin-classrooms-progress'
+  template: require 'app/templates/admin/admin-classrooms-progress'
   courseAcronymMap: utils.courseAcronyms
   targetPercentCompleted: [25, 50, 75]
 

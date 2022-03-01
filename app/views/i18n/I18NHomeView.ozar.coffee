@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/i18n/i18n-home-view'
+template = require 'app/templates/i18n/i18n-home-view'
 CocoCollection = require 'collections/CocoCollection'
 Courses = require 'collections/Courses'
 Article = require 'models/Article'

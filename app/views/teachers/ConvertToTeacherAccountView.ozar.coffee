@@ -17,7 +17,7 @@ SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 
 module.exports = class ConvertToTeacherAccountView extends RootView
   id: 'convert-to-teacher-account-view'
-  template: require 'templates/teachers/convert-to-teacher-account-view'
+  template: require 'app/templates/teachers/convert-to-teacher-account-view'
   logoutRedirectURL: null
 
   events:

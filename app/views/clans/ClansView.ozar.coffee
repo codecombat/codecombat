@@ -1,7 +1,7 @@
 require('app/styles/clans/clans.sass')
 CreateAccountModal = require 'views/core/CreateAccountModal'
 RootView = require 'views/core/RootView'
-template = require 'templates/clans/clans'
+template = require 'app/templates/clans/clans'
 CocoCollection = require 'collections/CocoCollection'
 Clan = require 'models/Clan'
 SubscribeModal = require 'views/core/SubscribeModal'

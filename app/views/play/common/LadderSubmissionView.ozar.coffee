@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/common/ladder_submission'
+template = require 'app/templates/play/common/ladder_submission'
 {createAetherOptions} = require 'lib/aether_utils'
 LevelSession = require 'models/LevelSession'
 

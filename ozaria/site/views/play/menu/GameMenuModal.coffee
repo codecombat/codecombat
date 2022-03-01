@@ -1,6 +1,6 @@
 require('ozaria/site/styles/play/menu/game-menu-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'ozaria/site/templates/play/menu/game-menu-modal'
+template = require 'app/templates/play/menu/game-menu-modal'
 OptionsView = require 'ozaria/site/views/play/menu/OptionsView'
 
 module.exports = class GameMenuModal extends ModalView

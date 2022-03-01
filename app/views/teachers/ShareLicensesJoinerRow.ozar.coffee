@@ -4,7 +4,7 @@ User = require 'models/User'
 
 module.exports = ShareLicensesJoinerRow =
   name: 'share-licenses-joiner-row'
-  template: require('templates/teachers/share-licenses-joiner-row')()
+  template: require('app/templates/teachers/share-licenses-joiner-row')()
   storeModule: ShareLicensesStoreModule
   props:
     joiner:

@@ -8,7 +8,7 @@ module.exports = class ProgressView extends CocoView
 
   id: 'progress-view'
   className: 'modal-content'
-  template: require 'templates/play/level/modal/progress-view'
+  template: require 'app/templates/play/level/modal/progress-view'
 
   events:
     'click #done-btn': 'onClickDoneButton'

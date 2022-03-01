@@ -31,7 +31,7 @@ class LevelSessionsCollection extends CocoCollection
 
 module.exports = class LadderView extends RootView
   id: 'ladder-view'
-  template: require 'templates/play/ladder/ladder'
+  template: require 'app/templates/play/ladder/ladder'
   usesSocialMedia: true
 
   subscriptions:

@@ -54,7 +54,7 @@ class LevelIntroModal extends ModalComponent {
 }
 
 LevelIntroModal.prototype.id = 'level-intro-modal'
-LevelIntroModal.prototype.template = require('ozaria/site/templates/core/modal-base-flat')
+LevelIntroModal.prototype.template = require('app/templates/core/modal-base-flat')
 LevelIntroModal.prototype.VueComponent = LevelIntroComponent
 LevelIntroModal.prototype.propsData = null
 LevelIntroModal.prototype.closesOnClickOutside = false

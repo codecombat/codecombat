@@ -6,8 +6,8 @@ SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone']
 
 NcesSearchInput = Vue.extend
   name: 'nces-search-input'
-  template: require('templates/core/create-account-modal/nces-search-input')()
-  
+  template: require('app/templates/core/create-account-modal/nces-search-input')()
+
   data: ->
     # return _.assign(ncesData, formData, {
     return {
@@ -68,7 +68,7 @@ NcesSearchInput = Vue.extend
       @suggestions = []
     suggestionHover: (index) ->
       @suggestionIndex = index
-  
+
   watch:
     initialValue: (@value) ->
 

@@ -16,7 +16,7 @@ utils = require 'core/utils'
 
 module.exports = class StarterLicenseUpsellView extends RootView
   id: 'starter-license-upsell-view'
-  template: require 'templates/teachers/starter-license-upsell-view'
+  template: require 'app/templates/teachers/starter-license-upsell-view'
 
   i18nData: ->
     maxQuantityStarterLicenses: MAX_STARTER_LICENSES

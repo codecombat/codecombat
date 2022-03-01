@@ -1,6 +1,6 @@
 require('app/styles/play/level/modal/course-victory-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/level/modal/course-victory-modal'
+template = require 'app/templates/play/level/modal/course-victory-modal'
 Level = require 'models/Level'
 Course = require 'models/Course'
 LevelSession = require 'models/LevelSession'

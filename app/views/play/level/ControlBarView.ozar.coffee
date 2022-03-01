@@ -2,7 +2,7 @@ require('app/styles/play/level/control-bar-view.sass')
 storage = require 'core/storage'
 
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/control-bar-view'
+template = require 'app/templates/play/level/control-bar-view'
 {me} = require 'core/auth'
 utils = require 'core/utils'
 

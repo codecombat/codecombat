@@ -1,7 +1,7 @@
 require('app/styles/modal/create-account-modal/basic-info-view.sass')
 CocoView = require 'views/core/CocoView'
 AuthModal = require 'views/core/AuthModal'
-template = require 'templates/core/create-account-modal/basic-info-view'
+template = require 'app/templates/core/create-account-modal/basic-info-view'
 forms = require 'core/forms'
 errors = require 'core/errors'
 User = require 'models/User'

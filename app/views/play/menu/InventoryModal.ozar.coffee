@@ -1,10 +1,10 @@
 require('app/styles/play/menu/inventory-modal.sass')
 require('app/styles/play/modal/play-items-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/menu/inventory-modal'
-buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
-earnGemsPromptTemplate = require 'templates/play/modal/earn-gems-prompt'
-subscribeForGemsPrompt = require 'templates/play/modal/subscribe-for-gems-prompt'
+template = require 'app/templates/play/menu/inventory-modal'
+buyGemsPromptTemplate = require 'app/templates/play/modal/buy-gems-prompt'
+earnGemsPromptTemplate = require 'app/templates/play/modal/earn-gems-prompt'
+subscribeForGemsPrompt = require 'app/templates/play/modal/subscribe-for-gems-prompt'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 ThangTypeLib = require 'lib/ThangTypeLib'

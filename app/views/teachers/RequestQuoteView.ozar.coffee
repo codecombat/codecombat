@@ -19,7 +19,7 @@ SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 
 module.exports = class RequestQuoteView extends RootView
   id: 'request-quote-view'
-  template: require 'templates/teachers/request-quote-view'
+  template: require 'app/templates/teachers/request-quote-view'
   logoutRedirectURL: null
 
   events:

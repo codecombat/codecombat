@@ -7,7 +7,7 @@ loadAetherLanguage = require("lib/loadAetherLanguage");
 
 module.exports = class SimulateTabView extends CocoView
   id: 'simulate-tab-view'
-  template: require 'templates/play/ladder/simulate_tab'
+  template: require 'app/templates/play/ladder/simulate_tab'
 
   events:
     'click #simulate-button': 'onSimulateButtonClick'

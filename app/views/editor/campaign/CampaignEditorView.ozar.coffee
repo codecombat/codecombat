@@ -26,7 +26,7 @@ thangTypeProject = ['name', 'original']
 
 module.exports = class CampaignEditorView extends RootView
   id: "campaign-editor-view"
-  template: require 'templates/editor/campaign/campaign-editor-view'
+  template: require 'app/templates/editor/campaign/campaign-editor-view'
   className: 'editor'
 
   events:

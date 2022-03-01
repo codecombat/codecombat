@@ -1,6 +1,6 @@
 require('app/styles/account/invoices-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/account/invoices-view'
+template = require 'app/templates/account/invoices-view'
 stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
 

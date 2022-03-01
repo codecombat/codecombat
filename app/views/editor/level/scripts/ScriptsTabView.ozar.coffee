@@ -1,6 +1,6 @@
 require('app/styles/editor/level/scripts_tab.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/level/scripts_tab'
+template = require 'app/templates/editor/level/scripts_tab'
 Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'

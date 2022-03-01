@@ -1,7 +1,7 @@
 require('app/styles/editor/level/thangs-tab-view.sass')
 CocoView = require 'views/core/CocoView'
 AddThangsView = require './AddThangsView'
-thangs_template = require 'templates/editor/level/thangs-tab-view'
+thangs_template = require 'app/templates/editor/level/thangs-tab-view'
 Level = require 'models/Level'
 ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'

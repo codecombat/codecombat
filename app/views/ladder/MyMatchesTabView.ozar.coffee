@@ -9,7 +9,7 @@ require 'd3/d3.js'
 
 module.exports = class MyMatchesTabView extends CocoView
   id: 'my-matches-tab-view'
-  template: require 'templates/play/ladder/my_matches_tab'
+  template: require 'app/templates/play/ladder/my_matches_tab'
 
   initialize: (options, @level, @sessions) ->
     @nameMap = {}
