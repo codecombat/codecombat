@@ -1,6 +1,6 @@
 require('ozaria/site/styles/play/level/goals.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'ozaria/site/templates/play/level/goals.jade'
+template = require 'app/templates/play/level/goals'
 {me} = require 'core/auth'
 utils = require 'core/utils'
 LevelSession = require 'models/LevelSession'

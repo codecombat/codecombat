@@ -15,7 +15,7 @@ N_ROWS = 4
 
 module.exports = class SpellPaletteView extends CocoView
   id: 'spell-palette-view'
-  template: require 'templates/play/level/tome/spell-palette-view'
+  template: require 'app/templates/play/level/tome/spell-palette-view'
   controlsEnabled: true
 
   subscriptions:

@@ -1,6 +1,6 @@
 require 'ozaria/site/styles/core/modal-base.scss'
 ModalView = require 'views/core/ModalView'
-template = require 'ozaria/site/templates/play/level/modal/restart-level-modal'
+template = require 'app/templates/play/level/modal/restart-level-modal'
 
 module.exports = class RestartLevelModal extends ModalView
   id: '#restart-level-modal'

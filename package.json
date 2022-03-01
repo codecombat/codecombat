@@ -126,8 +126,6 @@
     "howler": "^2.2.0",
     "htmlparser2": "^3.9.1",
     "i18next": "^20.1.0",
-    "jade": "^1.11.0",
-    "jade-loader": "github:codecombat/pug-loader#fix-errors",
     "jquery": "~2.1.0",
     "jquery-i18next": "^1.2.1",
     "jquery-mousewheel": "~3.1.9",
@@ -213,7 +211,9 @@
     "mini-css-extract-plugin": "^1.6.0",
     "nodemon": "1.6.1",
     "pg": "^6.1.2",
+    "portfinder": "^1.0.28",
     "pug": "^2.0.3",
+    "pug-lint": "^2.6.0",
     "pug-loader": "^2.3.0",
     "pug-plain-loader": "^1.0.0",
     "raw-loader": "^0.5.1",
@@ -238,7 +238,7 @@
   "license": "To be determined",
   "private": true,
   "engines": {
-    "node": "10.24.0",
+    "node": "12.22.1",
     "npm": "6.14.11"
   }
 }

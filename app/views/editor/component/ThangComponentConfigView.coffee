@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/component/thang-component-config-view'
+template = require 'app/templates/editor/component/thang-component-config-view'
 
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'

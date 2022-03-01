@@ -4,7 +4,7 @@ RootView = require 'views/core/RootView'
 
 module.exports = class AdminClassroomContentView extends RootView
   id: 'admin-classroom-content-view'
-  template: require 'templates/admin/admin-classroom-content'
+  template: require 'app/templates/admin/admin-classroom-content'
 
   initialize: ->
     return super() unless me.isAdmin()

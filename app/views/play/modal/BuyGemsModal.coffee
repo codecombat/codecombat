@@ -1,7 +1,7 @@
 require('app/styles/play/modal/buy-gems-modal.sass')
 require('app/styles/play/modal/lang-nl/buy-gems-modal-nl.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/modal/buy-gems-modal'
+template = require 'app/templates/play/modal/buy-gems-modal'
 stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
 SubscribeModal = require 'views/core/SubscribeModal'

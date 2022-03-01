@@ -1,6 +1,6 @@
 require('app/styles/modal/save-version-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/modal/save-version-modal'
+template = require 'app/templates/editor/modal/save-version-modal'
 DeltaView = require 'views/editor/DeltaView'
 Patch = require 'models/Patch'
 forms = require 'core/forms'

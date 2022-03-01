@@ -8,7 +8,7 @@ utils = require 'core/utils'
 
 module.exports = class CampaignLevelView extends CocoView
   id: 'campaign-level-view'
-  template: require 'templates/editor/campaign/campaign-level-view'
+  template: require 'app/templates/editor/campaign/campaign-level-view'
 
   events:
     'change .line-graph-checkbox': 'updateGraphCheckbox'

@@ -2,7 +2,7 @@ require('app/styles/teachers/edit-student-modal.sass')
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
 Prepaids = require 'collections/Prepaids'
-template = require 'templates/teachers/edit-student-modal'
+template = require 'app/templates/teachers/edit-student-modal'
 utils = require 'core/utils'
 auth = require 'core/auth'
 

@@ -1,6 +1,5 @@
 require('app/styles/play/level/tome/problem_alert.sass')
 CocoView = require 'views/core/CocoView'
-GameMenuModal = require 'ozaria/site/views/play/menu/GameMenuModal'
 template = require 'templates/play/level/tome/problem_alert'
 {me} = require 'core/auth'
 

@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/courses/join-class-modal'
+template = require 'app/templates/courses/join-class-modal'
 Classroom = require 'models/Classroom'
 User = require 'models/User'
 

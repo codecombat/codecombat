@@ -1,9 +1,9 @@
 require('app/styles/play/modal/play-heroes-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/modal/play-heroes-modal'
-buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
-earnGemsPromptTemplate = require 'templates/play/modal/earn-gems-prompt'
-subscribeForGemsPrompt = require 'templates/play/modal/subscribe-for-gems-prompt'
+template = require 'app/templates/play/modal/play-heroes-modal'
+buyGemsPromptTemplate = require 'app/templates/play/modal/buy-gems-prompt'
+earnGemsPromptTemplate = require 'app/templates/play/modal/earn-gems-prompt'
+subscribeForGemsPrompt = require 'app/templates/play/modal/subscribe-for-gems-prompt'
 CocoCollection = require 'collections/CocoCollection'
 ThangType = require 'models/ThangType'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'

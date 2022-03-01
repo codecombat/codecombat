@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/base'
+template = require 'app/templates/base'
 
 module.exports = class BaseView extends RootView
   id: 'base-view'

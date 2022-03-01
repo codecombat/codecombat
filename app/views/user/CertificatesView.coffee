@@ -12,7 +12,7 @@ locale = require 'locale/locale'
 
 module.exports = class CertificatesView extends RootView
   id: 'certificates-view'
-  template: require 'templates/user/certificates-view'
+  template: require 'app/templates/user/certificates-view'
 
   events:
     'click .print-btn': 'onClickPrintButton'

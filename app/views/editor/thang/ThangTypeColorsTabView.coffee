@@ -1,6 +1,6 @@
 require('app/styles/editor/thang/colors_tab.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/thang/colors_tab'
+template = require 'app/templates/editor/thang/colors_tab'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 {hexToHSL, hslToHex} = require 'core/utils'
 require 'lib/setupTreema'

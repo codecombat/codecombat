@@ -4,8 +4,7 @@ LZString = require 'lz-string'
 CodeLog = require 'models/CodeLog'
 aceUtils = require('core/aceUtils')
 utils = require 'core/utils'
-
-template = require 'templates/admin/codeplayback-view'
+template = require 'app/templates/admin/codeplayback-view'
 store = require 'app/core/store'
 
 module.exports = class CodePlaybackView extends CocoView

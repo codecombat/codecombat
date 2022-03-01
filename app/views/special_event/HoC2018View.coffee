@@ -1,5 +1,5 @@
 RootComponent = require 'views/core/RootComponent'
-template = require 'templates/base-flat'
+template = require 'app/templates/base-flat'
 HoC2018 = require('./HoC2018Component.vue').default
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 

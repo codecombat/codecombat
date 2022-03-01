@@ -8,7 +8,7 @@ ShareLicensesStoreModule = require('./ShareLicensesStoreModule')
 
 module.exports = class ShareLicensesModal extends ModalView
   id: 'share-licenses-modal'
-  template: require 'templates/teachers/share-licenses-modal'
+  template: require 'app/templates/teachers/share-licenses-modal'
   events: {}
   initialize: (options={}) ->
     @shareLicensesComponent = null
@@ -31,7 +31,7 @@ module.exports = class ShareLicensesModal extends ModalView
 
 ShareLicensesComponent = Vue.extend
   name: 'share-licenses-component'
-  template: require('templates/teachers/share-licenses-component')()
+  template: require('app/templates/teachers/share-licenses-component')()
   storeModule: ShareLicensesStoreModule
   data: ->
     me: me

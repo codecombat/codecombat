@@ -1,6 +1,6 @@
 require('app/styles/editor/level/modal/generate-terrain-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/level/modal/generate-terrain-modal'
+template = require 'app/templates/editor/level/modal/generate-terrain-modal'
 CocoModel = require 'models/CocoModel'
 
 clusters = {

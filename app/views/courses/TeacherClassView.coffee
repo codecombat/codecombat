@@ -12,8 +12,8 @@ RemoveStudentModal = require 'views/courses/RemoveStudentModal'
 CoursesNotAssignedModal = require './CoursesNotAssignedModal'
 CourseNagSubview = require 'views/teachers/CourseNagSubview'
 
-viewContentTemplate = require 'templates/courses/teacher-class-view'
-viewContentTemplateWithLayout = require 'templates/courses/teacher-class-view-full'
+viewContentTemplate = require 'app/templates/courses/teacher-class-view'
+viewContentTemplateWithLayout = require 'app/templates/courses/teacher-class-view-full'
 
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -107,9 +107,9 @@ module.exports = class TeacherClassView extends RootView
 
     # wrap templates so they translate when called
     translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
-    @singleStudentCourseProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-course'), translateTemplateText)
-    @singleStudentLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
-    @allStudentsLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-all-students-single-level'), translateTemplateText)
+    @singleStudentCourseProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-course'), translateTemplateText)
+    @singleStudentLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
+    @allStudentsLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-all-students-single-level'), translateTemplateText)
 
     @urls = require('core/urls')
 

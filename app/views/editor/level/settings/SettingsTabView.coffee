@@ -1,6 +1,6 @@
 require('app/styles/editor/level/settings_tab.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/level/settings_tab'
+template = require 'app/templates/editor/level/settings_tab'
 Level = require 'models/Level'
 ThangType = require 'models/ThangType'
 Surface = require 'lib/surface/Surface'

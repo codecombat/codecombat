@@ -16,7 +16,7 @@ class TeacherCompleteSignupModal extends ModalComponent {
 }
 
 TeacherCompleteSignupModal.prototype.id = 'teacher-complete-signup-modal'
-TeacherCompleteSignupModal.prototype.template = require('ozaria/site/templates/core/modal-empty')
+TeacherCompleteSignupModal.prototype.template = require('app/templates/core/modal-empty')
 TeacherCompleteSignupModal.prototype.VueComponent = ModalTeacherCompleteSignup
 TeacherCompleteSignupModal.prototype.propsData = null
 

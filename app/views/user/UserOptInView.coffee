@@ -1,7 +1,7 @@
 require('app/styles/user/user-opt-in-view.sass')
 RootView = require 'views/core/RootView'
 State = require 'models/State'
-template = require 'templates/user/user-opt-in-view'
+template = require 'app/templates/user/user-opt-in-view'
 User = require 'models/User'
 utils = require('core/utils')
 

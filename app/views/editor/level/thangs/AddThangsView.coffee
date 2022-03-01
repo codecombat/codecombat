@@ -1,6 +1,6 @@
 require('app/styles/editor/level/add-thangs-view.sass')
 CocoView = require 'views/core/CocoView'
-add_thangs_template = require 'templates/editor/level/add-thangs-view'
+add_thangs_template = require 'app/templates/editor/level/add-thangs-view'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
 

@@ -1,5 +1,5 @@
 require('app/styles/editor/campaign/campaign-analytics-modal.sass')
-template = require 'templates/editor/campaign/campaign-analytics-modal'
+template = require 'app/templates/editor/campaign/campaign-analytics-modal'
 utils = require 'core/utils'
 require 'd3/d3.js' # TODO Webpack: Extract this modal from main chunk
 ModalView = require 'views/core/ModalView'
@@ -245,7 +245,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
       success: success
     }, 0
     request.load()
-    
+
   getCampaignLevelSubscriptions: (startDay, endDay, doneCallback) =>
     # Fetch level subscriptions
     # Needs date format yyyymmdd

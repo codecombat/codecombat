@@ -1,6 +1,6 @@
 require('app/styles/artisans/solution-problems-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/artisans/concept-map-view'
+template = require 'app/templates/artisans/concept-map-view'
 
 Level = require 'models/Level'
 Campaign = require 'models/Campaign'

@@ -21,7 +21,7 @@
     )
       .dot-label.text-center
         .dot-label-inner {{ labelText }}
-    
+
 
 </template>
 
@@ -31,7 +31,7 @@
   utils = require 'core/utils'
   urls = require('core/urls')
   translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
-  singleStudentLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
+  singleStudentLevelProgressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
   PieChart = require('core/components/PieComponent').default
 
   module.exports = Vue.extend({

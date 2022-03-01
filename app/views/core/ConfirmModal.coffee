@@ -1,5 +1,5 @@
 ModalView = require './ModalView'
-template = require 'templates/core/confirm-modal'
+template = require 'app/templates/core/confirm-modal'
 
 module.exports = class ConfirmModal extends ModalView
   id: 'confirm-modal'

@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/core/achievement-popup'
+template = require 'app/templates/core/achievement-popup'
 User = require '../../models/User'
 Achievement = require '../../models/Achievement'
 

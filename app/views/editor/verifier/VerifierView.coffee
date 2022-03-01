@@ -4,7 +4,7 @@ utils = require 'core/utils'
 aetherUtils = require 'lib/aether_utils'
 
 RootView = require 'views/core/RootView'
-template = require 'templates/editor/verifier/verifier-view'
+template = require 'app/templates/editor/verifier/verifier-view'
 VerifierTest = require './VerifierTest'
 SuperModel = require 'models/SuperModel'
 Campaigns = require 'collections/Campaigns'

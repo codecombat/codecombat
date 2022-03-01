@@ -1,6 +1,6 @@
 require('ozaria/site/styles/play/menu/options-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'ozaria/site/templates/play/menu/options-view'
+template = require 'app/templates/play/menu/options-view'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 User = require 'models/User'
@@ -29,7 +29,7 @@ module.exports = class OptionsView extends CocoView
     @aceConfig = _.defaults @aceConfig, @defaultConfig
     c.aceConfig = @aceConfig
     c
-  
+
   onDoneClicked: ->
     @aceConfig.behaviors = @$el.find('#option-behaviors').prop('checked')
     @aceConfig.liveCompletion = @$el.find('#option-live-completion').prop('checked')

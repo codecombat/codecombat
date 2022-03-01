@@ -1,6 +1,6 @@
 require('app/styles/artisans/student-solutions-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/artisans/student-solutions-view'
+template = require 'app/templates/artisans/student-solutions-view'
 
 Campaigns = require 'collections/Campaigns'
 Campaign = require 'models/Campaign'

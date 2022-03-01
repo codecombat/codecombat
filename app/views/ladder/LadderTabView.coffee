@@ -16,7 +16,7 @@ HIGHEST_SCORE = 1000000
 
 module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
-  template: require 'templates/play/ladder/ladder-tab-view'
+  template: require 'app/templates/play/ladder/ladder-tab-view'
   scoreForDisplay: scoreForDisplay
 
   events:

@@ -3,7 +3,7 @@ CourseVideosModalComponent = require('./CourseVideosModalComponent.vue').default
 
 module.exports = class CourseVideosModal extends ModalComponent
   id: 'course-videos-modal'
-  template: require 'templates/core/modal-base-flat'
+  template: require 'app/templates/core/modal-base-flat'
   VueComponent: CourseVideosModalComponent
   propsData: null
 

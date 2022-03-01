@@ -1,0 +1,87 @@
+extends /templates/base-flat
+
+block page_nav
+  include ./teacher-dashboard-nav
+
+block content
+  if !me.isTeacher() && view.ownedClassrooms.size() && !me.isAdmin()
+    .alert.alert-danger.text-center
+      .container
+        //- DNT: Temporary
+        h3 ATTENTION: Please upgrade your account to a Teacher Account.
+        p
+          | We are transitioning to a new improved classroom management system for instructors.
+          | Please convert your account to ensure you retain access to your classrooms.
+        a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
+
+  .container(dir="auto")
+    h1(data-i18n="nav.courses")
+    h2(data-i18n="courses.subtitle")
+    //- p
+    //-   a(href="https://discourse.codecombat.com/t/course-level-changelog/7352" data-i18n="courses.changelog")
+
+  .courses.container(dir="auto")
+    each course in view.courses.models
+      .course.row
+        .col-sm-9
+          +course-info(course)
+        if me.isTeacher() || me.isAdmin()
+          .col-sm-3
+            .play-level-form(data-course-id=course.id)
+              .form-group
+                label.control-label
+                  span(data-i18n="courses.select_language")
+                  | :
+                  select.language-select.form-control
+                    option(value="python")
+                      | Python
+                    option(value="javascript")
+                      | JavaScript
+              .form-group
+                label.control-label
+                  span(data-i18n="courses.select_level")
+                  | :
+                  select.level-select.form-control.selectpicker
+                    if view.campaigns.loaded
+                      - var campaign = view.campaigns.get(course.get('campaignID'))
+                      if campaign && view.campaignLevelsModuleMap[campaign.id]
+                        each levels, moduleNum in view.campaignLevelsModuleMap[campaign.id].modules
+                          optgroup.module-label(label='Module ' + moduleNum + ': ' + view.moduleNameMap[course.id][moduleNum])
+                            each level, levelIndex in levels
+                              option.level-content(value=level.get('slug'))
+                                = view.getLevelDisplayNameWithLabel(level)
+                              if level.getDisplayContentType() === 'intro'
+                                each content, index in level.get('introContent')
+                                  - if (content.type === 'avatarSelectionScreen') continue
+                                  option.intro-content(data-index=index, value=level.get("slug"))
+                                    = view.getIntroContentNameWithLabel(content)
+                - var disablePlayButtons = !view.paidTeacher && features.china && !(me.canAccessCampaignFreelyFromChina(course.get('campaignID')))
+                a.play-level-button.btn.btn-lg.btn-primary(disabled=disablePlayButtons)
+                  span(data-i18n="courses.play_level")
+              .clearfix
+
+mixin course-info(course)
+  .course-info
+    .text-h4.semibold
+      = i18n(course.attributes, 'name')
+    p= i18n(course.attributes, 'description')
+    p.concepts.semibold
+      span(data-i18n="courses.concepts_covered")
+      = ": "
+      p
+        each concept in course.get('concepts')
+          span(data-i18n="concepts." + concept)
+          if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
+            span.spr ,
+
+    if me.isTeacher() || view.ownedClassrooms.size() || me.isAdmin()
+      - var disableButtons = !view.paidTeacher && (features.china ? !me.canAccessCampaignFreelyFromChina(course.get('campaignID')) : !course.get('free'))
+      if disableButtons
+        p
+          i(data-i18n="courses.solutions_require_licenses")
+      a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '' : 'disabled'))
+        span(data-i18n="courses.view_guide_online")
+        |  &mdash; JavaScript
+      a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '' : 'disabled'))
+        span(data-i18n="courses.view_guide_online")
+        |  &mdash; Python

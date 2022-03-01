@@ -10,7 +10,7 @@ stripeHandler = require 'core/services/stripe'
 
 module.exports = class PurchaseStarterLicensesModal extends ModalView
   id: 'purchase-starter-licenses-modal'
-  template: require 'templates/teachers/purchase-starter-licenses-modal'
+  template: require 'app/templates/teachers/purchase-starter-licenses-modal'
 
   maxQuantityStarterLicenses: 75
   i18nData: -> {

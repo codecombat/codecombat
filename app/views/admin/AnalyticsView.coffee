@@ -6,7 +6,7 @@ require 'd3/d3.js'
 d3Utils = require 'core/d3_utils'
 Payment = require 'models/Payment'
 RootView = require 'views/core/RootView'
-template = require 'templates/admin/analytics'
+template = require 'app/templates/admin/analytics'
 utils = require 'core/utils'
 
 # TODO: terminal subscription purchases entered as DRR monthly subs, but should be spread across their timeframe

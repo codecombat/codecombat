@@ -1,6 +1,6 @@
 require('app/styles/courses/change-course-language-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/courses/change-course-language-modal'
+template = require 'app/templates/courses/change-course-language-modal'
 
 module.exports = class ChangeCourseLanguageModal extends ModalView
   id: 'change-course-language-modal'

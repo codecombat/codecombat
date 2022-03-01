@@ -1,6 +1,6 @@
 require('app/styles/core/hero-select-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/core/hero-select-view'
+template = require 'app/templates/core/hero-select-view'
 State = require 'models/State'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
 ThangTypeLib = require 'lib/ThangTypeLib'

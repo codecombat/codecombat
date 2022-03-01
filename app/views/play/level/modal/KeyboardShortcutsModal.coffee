@@ -1,6 +1,6 @@
 require('app/styles/play/level/modal/keyboard_shortcuts.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/level/modal/keyboard_shortcuts'
+template = require 'app/templates/play/level/modal/keyboard_shortcuts'
 
 module.exports = class KeyboardShortcutsModal extends ModalView
   id: 'keyboard-shortcuts-modal'

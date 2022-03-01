@@ -1,4 +1,4 @@
-popoverTemplate = require 'templates/play/level/tome/spell_palette_entry_popover'
+popoverTemplate = require 'app/templates/play/level/tome/spell_palette_entry_popover'
 {downTheChain} = require 'lib/world/world_utils'
 window.Vector = require 'lib/world/vector'  # So we can document it
 utils = require 'core/utils'
