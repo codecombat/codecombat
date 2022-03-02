@@ -2561,7 +2561,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_edits: "Level Edits"
     total_translations: "Total Translations"
 
-
   achievements:
     last_earned: "Last Earned"
     amount_achieved: "Amount"
