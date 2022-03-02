@@ -255,9 +255,6 @@ module.exports = class User extends CocoModel
       heroes.push clanHero.thangTypeOriginal
     heroes
 
-
-
-
   items: -> (@get('earned')?.items ? []).concat(@get('purchased')?.items ? []).concat([ThangTypeConstants.items['simple-boots']])
   levels: -> (@get('earned')?.levels ? []).concat(@get('purchased')?.levels ? []).concat(LevelConstants.levels['dungeons-of-kithgard'])
   ownsHero: (heroOriginal) -> @isInGodMode() || heroOriginal in @heroes()
