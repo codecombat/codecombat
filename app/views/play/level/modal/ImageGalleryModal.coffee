@@ -5,7 +5,7 @@ utils = require 'core/utils'
 
 module.exports = class ImageGalleryModal extends ModalView
   id: 'image-gallery-modal'
-  template: require 'templates/play/level/modal/image-gallery-modal'
+  template: require 'app/templates/play/level/modal/image-gallery-modal'
 
   events:
     'click .image-list-item': 'onClickImageListItem'

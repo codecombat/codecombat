@@ -1,5 +1,5 @@
 ContributeClassView = require './ContributeClassView'
-template = require 'templates/contribute/archmage'
+template = require 'app/templates/contribute/archmage'
 ContactModal = require 'views/core/ContactModal'
 
 module.exports = class ArchmageView extends ContributeClassView

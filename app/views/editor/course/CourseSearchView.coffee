@@ -5,7 +5,7 @@ module.exports = class CourseSearchView extends SearchView
   modelLabel: 'Course'
   model: require 'models/Course'
   modelURL: '/db/course'
-  tableTemplate: require 'templates/editor/course/table'
+  tableTemplate: require 'app/templates/editor/course/table'
   projection: ['slug', 'name', 'description', 'watchers', 'creator']
   page: 'course'
   canMakeNew: false

@@ -15,7 +15,7 @@ utils = require 'core/utils'
 
 module.exports = class SchoolCountsView extends RootView
   id: 'admin-school-counts-view'
-  template: require 'templates/admin/school-counts'
+  template: require 'app/templates/admin/school-counts'
   state: ''
 
   initialize: ->

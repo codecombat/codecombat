@@ -1,6 +1,6 @@
 require('app/styles/editor/resource/edit.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/editor/resource/edit'
+template = require 'app/templates/editor/resource/edit'
 ResourceHubResource = require 'models/ResourceHubResource'
 ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'

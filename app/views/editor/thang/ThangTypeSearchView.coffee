@@ -6,7 +6,7 @@ module.exports = class ThangTypeSearchView extends SearchView
   modelLabel: 'Thang Type'
   model: require 'models/ThangType'
   modelURL: '/db/thang.type'
-  tableTemplate: require 'templates/editor/thang/table'
+  tableTemplate: require 'app/templates/editor/thang/table'
   projection: ['original', 'name', 'version', 'description', 'slug', 'kind', 'rasterIcon', 'tasks']
   page: 'thang'
 

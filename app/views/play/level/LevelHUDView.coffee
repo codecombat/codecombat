@@ -1,7 +1,7 @@
 require('app/styles/play/level/hud.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/hud'
-prop_template = require 'templates/play/level/hud_prop'
+template = require 'app/templates/play/level/hud'
+prop_template = require 'app/templates/play/level/hud_prop'
 utils = require 'core/utils'
 
 module.exports = class LevelHUDView extends CocoView

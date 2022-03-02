@@ -1,6 +1,6 @@
 require('app/styles/play/spectate.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/play/spectate'
+template = require 'app/templates/play/spectate'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'

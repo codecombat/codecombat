@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/core/contact'
+template = require 'app/templates/core/contact'
 SubscribeModal = require 'views/core/SubscribeModal'
 
 forms = require 'core/forms'
@@ -27,7 +27,7 @@ module.exports = class ContactModal extends ModalView
   events:
     'click #contact-submit-button': 'contact'
     'click [data-toggle="coco-modal"][data-target="core/SubscribeModal"]': 'openSubscribeModal'
-    
+
   openSubscribeModal: (e) ->
     e.stopPropagation()
     @openModalView new SubscribeModal()

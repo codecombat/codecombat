@@ -10,7 +10,7 @@ UsaStates = require('usa-states').UsaStates
 
 SchoolInfoPanel =
   name: 'school-info-panel'
-  template: require('templates/core/create-account-modal/school-info-panel')()
+  template: require('app/templates/core/create-account-modal/school-info-panel')()
 
   data: ->
     # TODO: Store ncesData in just the store?

@@ -2,7 +2,7 @@
 require('app/styles/courses/activate-licenses-modal.sass')
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
-template = require 'templates/courses/activate-licenses-modal'
+template = require 'app/templates/courses/activate-licenses-modal'
 CocoCollection = require 'collections/CocoCollection'
 Prepaids = require 'collections/Prepaids'
 Classroom = require 'models/Classroom'

@@ -8,7 +8,7 @@ aceUtils = require 'core/aceUtils'
 
 module.exports = class MarkdownResourceView extends RootView
   id: 'markdown-resource-view'
-  template: require 'templates/teachers/markdown-resource-view'
+  template: require 'app/templates/teachers/markdown-resource-view'
 
   events:
     'click .print-btn': 'onClickPrint'

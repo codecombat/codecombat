@@ -1,6 +1,6 @@
 require('app/styles/play/modal/share-progress-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/modal/share-progress-modal'
+template = require 'app/templates/play/modal/share-progress-modal'
 storage = require 'core/storage'
 
 module.exports = class ShareProgressModal extends ModalView

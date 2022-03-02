@@ -457,6 +457,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     birthday: "Verjaardag"
     parent_email_blurb: "We weten dat je niet kan wachten om te leren programmeren &mdash; wij hebben er ook zin in! Je ouders krijgen een email met verdere instructies over hoe ze een account voor je kunnen maken. Email {{email_link}} als je nog vragen hebt."
     classroom_not_found: "Er zijn geen klassen met deze klassencode. Controleer je spelling of vraag je leraar om hulp."
+#    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "Controleren..."
     account_exists: "Dit emailadres bestaat al:" # {change}
     sign_in: "Log in"
@@ -1863,6 +1864,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     apply_license: "Pas licentie toe"
     revoke_license: "Licentie intrekken"
     revoke_licenses: "Trek alle licenties in"
+#    revoke_these_licenses: "Select Students and Revoke These Licenses"
+#    check_and_revoke_license: "Status & Revoke"
+#    manage_license: "Manage License"
     course_progress: "Cursusvoortgang"
     not_applicable: "n.v.t."
     edit: "wijzig"
@@ -2086,6 +2090,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    regenerate_class_code_tooltip: "Generate a new Class Code"
 #    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
     revoke_confirm: "Weet je zeker dat je de licentie van {{student_name}} wilt intrekken? De licentie kan dan weer gebruikt worden voor een andere leerling."
+#    revoke_alert_no_student: "Please select students first."
+#    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
     revoke_all_confirm: "Weet je zeker dat je alle Volledige Licenties van deze klas wilt intrekken?"
     revoking: "Intrekken..."
     unused_licenses: "Je hebt ongebruikte licenties waarmee je je leerlingen betaalde cursussen kunt toewijzen voor als ze klaar zijn om meer te leren!"
@@ -2154,6 +2160,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    permission: "Permission"
 #    not_write_permission: "You don't have write permission to the class"
 #    not_read_permission: "You don't have read permission to the class"
+#    owned_license: "Licensed"
 
   teacher_ozaria_encouragement_modal:
     title: "Werk aan je Computervaardigheden om Ozaria te redden"

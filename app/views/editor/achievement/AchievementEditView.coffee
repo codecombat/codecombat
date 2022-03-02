@@ -1,6 +1,6 @@
 require('app/styles/editor/achievement/edit.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/editor/achievement/edit'
+template = require 'app/templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
 Level = require 'models/Level'
 AchievementPopup = require 'views/core/AchievementPopup'

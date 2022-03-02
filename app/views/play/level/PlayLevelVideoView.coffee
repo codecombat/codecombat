@@ -4,7 +4,7 @@ utils = require 'core/utils'
 
 module.exports = class PlayLevelVideoView extends RootComponent
   id: 'play-level-video-view'
-  template: require 'templates/base-flat'
+  template: require 'app/templates/base-flat'
   VueComponent: PlayLevelVideoComponent
   skipMetaBinding: true
 

@@ -1,6 +1,6 @@
 require('app/styles/editor/component/add-thang-components-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/component/add-thang-components-modal'
+template = require 'app/templates/editor/component/add-thang-components-modal'
 CocoCollection = require 'collections/CocoCollection'
 LevelComponent = require 'models/LevelComponent'
 
@@ -9,17 +9,17 @@ module.exports = class UnnamedView extends ModalView
   template: template
   plain: true
   modalWidthPercent: 80
-  
+
   events:
     'click .footer button': 'onDonePressed'
-  
+
   initialize: (options) ->
     super()
     @skipOriginals = options.skipOriginals or []
     @components = new CocoCollection([], model: LevelComponent)
     @components.url = "/db/level.component?term=&project=name,system,original,version,description"
     @supermodel.loadCollection(@components, 'components')
-    
+
   getRenderData: ->
     c = super()
     c.components = (comp for comp in @components.models when not (comp.get('original') in @skipOriginals))
@@ -31,7 +31,7 @@ module.exports = class UnnamedView extends ModalView
     c.systems = _.keys(c.components)
     c.systems.sort()
     c
-    
+
   getSelectedComponents: ->
     selected = @$el.find('input[type="checkbox"]:checked')
     vals = ($(el).val() for el in selected)

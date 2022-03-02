@@ -1,6 +1,6 @@
 require('app/styles/account/account-prepaid-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/account/prepaid-view'
+template = require 'app/templates/account/prepaid-view'
 {getPrepaidCodeAmount} = require '../../core/utils'
 CocoCollection = require 'collections/CocoCollection'
 Prepaid = require '../../models/Prepaid'
