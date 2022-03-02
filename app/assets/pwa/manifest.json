@@ -1,6 +1,6 @@
 {
-  "short_name": "CodeCombat",
-  "name": "CodeCombat",
+  "short_name": "Little Sophia",
+  "name": "Little Sophia Coding",
   "icons": [
       {
           "src": "/images/favicon/android-chrome-192x192.png",
@@ -17,5 +17,5 @@
   "display": "standalone",
   "orientation": "landscape",
   "scope": "/play/",
-  "description": "CodeCombat is a game that teaches real Python and JavaScript coding and computer science"
+  "description": "Learn Python coding with Little Sophia in a sci-fi adventure game from Hanson Robotics"
 }

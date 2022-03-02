@@ -306,9 +306,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     see_faq_suffix: "."
 
   play:
-    title: 'Play CodeCombat Levels - Learn Python, JavaScript, and HTML'
-    meta_description: 'Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!'
-    level_title: '__level__ - Learn to Code in Python, JavaScript, HTML'
+    title: 'Little Sophia Coding - Hanson Robotics'
+    meta_description: 'Learn Python coding with Little Sophia in a sci-fi adventure game from Hanson Robotics.'
+    level_title: '__level__ - Little Sophia'
     video_title: '__video__ | Video Level'
     game_development_title: '__level__ | Game Development'
     web_development_title: '__level__ | Web Development'
@@ -538,8 +538,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     books: "Books"
 
   common:
-    default_title: "CodeCombat - Coding games to learn Python and JavaScript"
-    default_meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    default_title: "Little Sophia Coding - Hanson Robotics"
+    default_meta_description: "Learn Python coding with Little Sophia in a sci-fi adventure game from Hanson Robotics."
     back: "Back" # When used as an action verb, like "Navigate backward"
     coming_soon: "Coming soon!"
     continue: "Continue"  # When used as an action verb, like "Continue forward"
