@@ -2553,7 +2553,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     contributor_badges: "Contributor Badges"
     contributions_title: "Contributions"
     no_contributions: "No contributions so far."
-    type_stat: "Type"
+    type_stat: "Type"  # As in, which type of contribution
     contribution_value: "Value"
     patches_submit: "Patches Submitted"
     patches_approved: "Patches Approved"
