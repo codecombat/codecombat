@@ -53,6 +53,7 @@
     },
     data: () => ({
       nextLevelLink: '',
+      loading: false,
       editCapstoneLevelData: undefined,
       capstoneLevelSession: {},
       isFirstLevel: undefined,
@@ -147,6 +148,7 @@
         buildLevelsData: 'unitMap/buildLevelsData'
       }),
       async fetchRequiredData (campaignHandle) {
+        this.loading = true;
         // TODO: Fix duplicate fetching here. The `buildLevelsData` also fetches this.
         //       Ideally we use vuex getters to get the already fetched classroom.
         const promises = []
@@ -161,7 +163,8 @@
         }
 
         promises.push(this.buildLevelsData({ campaignHandle, courseInstanceId: this.courseInstanceId, courseId: this.courseId, classroom: this.classroom }))
-        return Promise.all(promises)
+        await Promise.all(promises)
+        this.loading = false;
       },
 
       async getNextLevelLink () {
@@ -342,10 +345,10 @@
         <!-- TODO: Button doesn't handle loading state -->
         <button
           class="next-button ozaria-button ozaria-primary-button"
-          :disabled="nextLevelIsLocked"
+          :disabled="loading || nextLevelIsLocked"
           @click="nextButtonClick"
         >
-          {{ nextLevelIsLocked ? $t("common.locked") : $t("common.next") }}
+          {{ nextLevelIsLocked ? $t("common.locked") : (loading ? $t("common.loading") : $t("common.next")) }}
         </button>
       </div>
     </template>
