@@ -1,4 +1,4 @@
-extends /templates/core/modal-base-flat.jade
+extends /templates/core/modal-base-flat
 
 mixin applyPage
   - var numToEnroll = state.get('visibleSelectedUsers').length
@@ -115,7 +115,7 @@ mixin revokePage
                 label
                   input.select-all-users-revoke-checkbox(type="checkbox", disabled=false, checked=areAllSelectedRevoke)
                 span.spr(data-i18n="teacher.select_all")
-       
+
             each p in teacherPrepaids
               th= p.name
 
@@ -153,7 +153,7 @@ block modal-header-content
   .text-center
     h1(data-i18n="teacher.manage_license")
 
-  
+
     h2(data-i18n="courses.grants_lifetime_access")
 
 block modal-body-content

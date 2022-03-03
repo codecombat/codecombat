@@ -1,6 +1,6 @@
 require('app/styles/play/modal/play-achievements-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/modal/play-achievements-modal'
+template = require 'app/templates/play/modal/play-achievements-modal'
 CocoCollection = require 'collections/CocoCollection'
 Achievement = require 'models/Achievement'
 EarnedAchievement = require 'models/EarnedAchievement'

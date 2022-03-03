@@ -77,6 +77,8 @@ module.exports = {
   'views/editor/verifier/i18nVerifierView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/verifier/i18nVerifierView') },
   'views/editor/course/CourseSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/course/CourseSearchView') },
   'views/editor/course/CourseEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/course/CourseEditView') },
+  'views/editor/resource/ResourceSearchView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/resource/ResourceSearchView') },
+  'views/editor/resource/ResourceEditView': function () { return import(/* webpackChunkName: "editor" */ 'views/editor/resource/ResourceEditView') },
   'views/i18n/I18NHomeView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NHomeView') },
   'views/i18n/I18NEditThangTypeView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditThangTypeView') },
   'views/i18n/I18NEditComponentView': function () { return import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditComponentView') },

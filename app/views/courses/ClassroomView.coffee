@@ -10,7 +10,7 @@ LevelSession = require 'models/LevelSession'
 Prepaids = require 'collections/Prepaids'
 Levels = require 'collections/Levels'
 RootView = require 'views/core/RootView'
-template = require 'templates/courses/classroom-view'
+template = require 'app/templates/courses/classroom-view'
 User = require 'models/User'
 utils = require 'core/utils'
 Prepaid = require 'models/Prepaid'
@@ -18,7 +18,7 @@ ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
-popoverTemplate = require 'templates/courses/classroom-level-popover'
+popoverTemplate = require 'app/templates/courses/classroom-level-popover'
 
 module.exports = class ClassroomView extends RootView
   id: 'classroom-view'
@@ -60,7 +60,7 @@ module.exports = class ClassroomView extends RootView
     @levels.fetchForClassroom(classroomID, {data: {project: 'name,original,practice,slug'}})
     @levels.on 'add', (model) -> @_byId[model.get('original')] = model # so you can 'get' them
     @supermodel.trackCollection(@levels)
-    window.tracker?.trackEvent 'Students Class Loaded', category: 'Students', classroomID: classroomID, ['Mixpanel']
+    window.tracker?.trackEvent 'Students Class Loaded', category: 'Students', classroomID: classroomID
 
   onCourseInstancesSync: ->
     @sessions = new CocoCollection([], { model: LevelSession })

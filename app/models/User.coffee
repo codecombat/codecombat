@@ -412,8 +412,8 @@ module.exports = class User extends CocoModel
 
   prepaidNumericalCourses: ->
     courseProducts = @activeProducts('course')
-    return 0 unless courseProducts.length
-    return 2047 if _.some courseProducts, (p) => !p.productOptions?.includedCourseIDs?
+    return utils.courseNumericalStatus['NO_ACCESS'] unless courseProducts.length
+    return utils.courseNumericalStatus['FULL_ACCESS'] if _.some courseProducts, (p) => !p.productOptions?.includedCourseIDs?
     union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
     courses = _.reduce(courseProducts, union, [])
     fun = (s, k) => s + utils.courseNumericalStatus[k]
@@ -582,7 +582,7 @@ module.exports = class User extends CocoModel
     options.data.provider = provider
     @fetch(options)
 
-  makeCourseProduct: (prepaidId) ->
+  makeCoursePrepaid: (prepaidId) ->
     courseProduct = _.find @get('products'), (p) => p.product == 'course' && p.prepaid + '' == prepaidId + ''
     return null unless courseProduct
     Prepaid = require 'models/Prepaid'

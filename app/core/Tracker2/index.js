@@ -1,12 +1,13 @@
 import SegmentTracker from './SegmentTracker'
 import CookieConsentTracker from './CookieConsentTracker'
-import LegacyTracker from './LegacyTracker'
+import InternalTracker from './InternalTracker'
 import BaseTracker from './BaseTracker'
 import GoogleAnalyticsTracker from './GoogleAnalyticsTracker'
 import DriftTracker from './DriftTracker'
 import FullStoryTracker from './FullStoryTracker'
 import GoogleOptimizeTracker from './GoogleOptimizeTracker'
 import FacebookPixelTracker from './FacebookPixelTracker'
+import ProfitWellTracker from './ProfitWellTracker'
 
 const SESSION_STORAGE_IDENTIFIED_AT_SESSION_START_KEY = 'coco.tracker.identifiedAtSessionStart'
 const SESSION_STORAGE_IDENTIFY_ON_NEXT_PAGE_LOAD = 'coco.tracker.identifyOnNextPageLoad'
@@ -28,17 +29,17 @@ export default class Tracker2 extends BaseTracker {
     this.store = store
 
     this.cookieConsentTracker = new CookieConsentTracker(this.store)
-
-    this.legacyTracker = new LegacyTracker(this.store, this.cookieConsentTracker)
+    this.internalTracker = new InternalTracker(this.store)
     this.segmentTracker = new SegmentTracker(this.store)
-    // this.googleAnalyticsTracker = new GoogleAnalyticsTracker()
+    this.googleAnalyticsTracker = new GoogleAnalyticsTracker(this.store)
     this.driftTracker = new DriftTracker(this.store)
     this.fullStoryTracker = new FullStoryTracker(this.store, this)
-    this.googleOptimizeTracker = new GoogleOptimizeTracker();
+    this.googleOptimizeTracker = new GoogleOptimizeTracker()
     this.facebookPixelTracker = new FacebookPixelTracker(this.store)
+    this.profitWellTracker = new ProfitWellTracker(this.store)
 
     this.trackers = [
-      this.legacyTracker,
+      this.internalTracker
     ]
 
     const isGlobal = !(window.features || {}).china
@@ -47,11 +48,12 @@ export default class Tracker2 extends BaseTracker {
       this.trackers = [
         ...this.trackers,
         this.segmentTracker,
-        // this.googleAnalyticsTracker,
+        this.googleAnalyticsTracker,
         this.driftTracker,
         this.fullStoryTracker,
         this.googleOptimizeTracker,
-        this.facebookPixelTracker
+        this.facebookPixelTracker,
+        this.profitWellTracker
       ]
     }
   }
@@ -62,7 +64,6 @@ export default class Tracker2 extends BaseTracker {
         this.cookieConsentTracker,
         ...this.trackers
       ]
-
       await allSettled(allTrackers.map(t => t.initialize()))
     } catch (e) {
       console.error('Tracker init failed', e)
@@ -118,25 +119,30 @@ export default class Tracker2 extends BaseTracker {
     window.sessionStorage.removeItem(SESSION_STORAGE_IDENTIFIED_AT_SESSION_START_KEY)
   }
 
-  async trackPageView (includeIntegrations = {}) {
+  async trackPageView () {
     try {
       await this.initializationComplete
 
       await allSettled(
-        this.trackers.map(t => t.trackPageView(includeIntegrations))
+        this.trackers.map(t => t.trackPageView())
       )
     } catch (e) {
       this.log('trackPageView call failed', e)
     }
   }
 
-  async trackEvent (action, properties = {}, includeIntegrations = {}) {
+  async trackEvent (action, properties = {}) {
     try {
       await this.initializationComplete
-
-      await allSettled(
-        this.trackers.map(t => t.trackEvent(action, properties, includeIntegrations))
+      const result = await allSettled(
+        this.trackers.map(t => t.trackEvent(action, properties))
       )
+      if (Array.isArray(result)) {
+        result.forEach((r) => {
+          if (r.status === 'rejected')
+            console.error('trackEvent failed', r)
+        })
+      }
     } catch (e) {
       this.log('trackEvent call failed', e)
     }

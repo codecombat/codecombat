@@ -51,9 +51,9 @@ These levels provide students with the tools they need to add spawnable objects 
 - Markers
 
 Optional Materials:
-- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
-- [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 
 #### Learning Objectives
@@ -141,9 +141,9 @@ Sample Response:
 **Additional Supports**:
 - Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
 - Students struggling with a given level will be automatically directed to additional practice levels within the game.
-- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
-- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 **Extension Activities**:
 
@@ -162,9 +162,9 @@ These levels provide students with practice modifying goals and spawning differe
 #### Materials
 
 Optional Materials:
-- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
-- [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 
 #### Learning Objectives
@@ -238,9 +238,9 @@ Sample Response:
 **Additional Supports**:
 - Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
 - Students struggling with a given level will be automatically directed to additional practice levels within the game.
-- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
-- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 **Extension Activities**:
 
@@ -258,9 +258,9 @@ These levels allow students to apply their knowledge of objects from Introductio
 #### Materials
 
 Optional Materials:
-- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
-- [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 
 #### Learning Objectives
@@ -321,9 +321,9 @@ Sample Response:
 **Additional Supports**:
 - Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
 - Students struggling with a given level will be automatically directed to additional practice levels within the game.
-- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
-- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 **Extension Activities**:
 
@@ -347,9 +347,9 @@ This level is a blank slate. Encourage students to get creative with all the tec
 - Wall space / poster boards / flip charts
 
 Optional Materials:
-- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
-- [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 
 #### Learning Objectives
@@ -402,9 +402,9 @@ Sample Response:
 
 **Additional Supports**:
 - Show students how to find the hints, methods reference cards, error messages, and sample code provided within each level.
-- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
-- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- If you would like students to take notes as they work, a printable template is available here: [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- If student struggle with breaking down problems, you can use the printable [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce a step-by-step problem solving approach.
+- If students struggle to follow correct syntax, provide a copy of the printable [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 
 ## Encourage the students to share links to their final projects with family and friends!

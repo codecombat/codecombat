@@ -88,12 +88,12 @@ module.exports = class HomeView extends RootView
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
-  homePageEvent: (action, extraproperties={}, includeIntegrations=[]) ->
+  homePageEvent: (action, extraProperties={}) ->
     defaults =
       category: 'Homepage'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
-    properties = _.merge(defaults, extraproperties)
-    window.tracker?.trackEvent(action, properties, includeIntegrations)
+    properties = _.merge(defaults, extraProperties)
+    window.tracker?.trackEvent(action, properties)
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget
@@ -107,10 +107,10 @@ module.exports = class HomeView extends RootView
 
     properties = {}
     if anchorText
-      @homePageEvent("Link: #{anchorText}", properties, ['Google Analytics'])
+      @homePageEvent("Link: #{anchorText}", properties)
     else
       properties.clicked = e?.currentTarget?.host or "unknown"
-      @homePageEvent("Link:", properties, ['Google Analytics'])
+      @homePageEvent("Link:", properties)
 
   onClickGetStartedButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
@@ -158,6 +158,7 @@ module.exports = class HomeView extends RootView
       if paymentResult is 'success'
         title = $.i18n.t 'payments.studentLicense_successful'
         type = 'success'
+        @trackPurchase("Student license purchase #{type}")
       else
         title = $.i18n.t 'payments.failed'
         type = 'error'
@@ -168,6 +169,7 @@ module.exports = class HomeView extends RootView
       if paymentResult is 'success'
         title = $.i18n.t 'payments.homeSubscriptions_successful'
         type = 'success'
+        @trackPurchase("Home subscription purchase #{type}")
       else
         title = $.i18n.t 'payments.failed'
         type = 'error'
@@ -175,6 +177,16 @@ module.exports = class HomeView extends RootView
       @renderedPaymentNoty = true
     _.delay(@activateCarousels, 1000)
     super()
+
+  trackPurchase: (event) ->
+    if !paymentUtils.hasTrackedPremiumAccess()
+      @homePageEvent event, @getPaymentTrackingData()
+      paymentUtils.setTrackedPremiumPurchase()
+
+  getPaymentTrackingData: ->
+    amount = utils.getQueryVariable('amount')
+    duration = utils.getQueryVariable('duration')
+    return paymentUtils.getTrackingData({ amount, duration })
 
   afterInsert: ->
     super()
@@ -186,8 +198,29 @@ module.exports = class HomeView extends RootView
         @scrollToLink(document.location.hash, 0)
     _.delay(f, 100)
 
+    @loadCurator()
+
+  loadCurator: ->
+    return if @curatorLoaded
+    return unless me.get('preferredLanguage', true).startsWith('en')  # Only English social media anyway
+    return if $(document).width() <= 700  # Curator is hidden in css on mobile anyway
+    @curatorLoaded = true
+    script = document.createElement 'script'
+    script.async = 1
+    script.src = 'https://cdn.curator.io/published/4b3b9f97-3241-43b3-934e-f5a1eea5ae5e.js'
+    firstScript = document.getElementsByTagName('script')[0]
+    firstScript.parentNode.insertBefore(script, firstScript)
+    @curatorInterval = setInterval @checkIfCuratorLoaded, 1000
+
+  checkIfCuratorLoaded: =>
+    return if @destroyed
+    return unless @$('.crt-social-icon').length  # If we didn't find any of these, there's no content (not loaded or Curator error)
+    @$('.testimonials-container, .curator-spacer').removeClass('hide')
+    clearInterval @curatorInterval
+
   destroy: ->
     @cleanupModals()
+    clearInterval @curatorInterval if @curatorInterval
     super()
 
   # 2021-06-08: currently causing issues with i18n interpolation, disabling for now

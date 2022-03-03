@@ -27,7 +27,7 @@ thangTypeProject = ['name', 'original']
 
 module.exports = class CampaignEditorView extends RootView
   id: "campaign-editor-view"
-  template: require 'templates/editor/campaign/campaign-editor-view'
+  template: require 'app/templates/editor/campaign/campaign-editor-view'
   className: 'editor'
 
   events:
@@ -388,7 +388,15 @@ class LevelNode extends TreemaObjectNode
 
     completion = ''
 
+    published = data.permissions.some((permission) ->
+      permission.access == 'read' and permission.target == 'public'
+    )
+
     valEl.append $("<a href='/editor/level/#{_.string.slugify(data.name)}' class='spr'>(e)</a>")
+
+    if !published
+      valEl.append $('<a class="unpublished" title="Unpublished!">&#9888;</a>')
+
     valEl.append $("<#{el}></#{el}>").addClass('treema-shortened').text name
     if status
       valEl.append $('<em class="spl"></em>').text status

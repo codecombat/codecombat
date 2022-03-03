@@ -1,6 +1,6 @@
 require('app/styles/editor/level/system/new.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/level/system/new'
+template = require 'app/templates/editor/level/system/new'
 LevelSystem = require 'models/LevelSystem'
 forms = require 'core/forms'
 {me} = require 'core/auth'

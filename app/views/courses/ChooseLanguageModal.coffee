@@ -1,6 +1,6 @@
 require('app/styles/courses/choose-language-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/courses/choose-language-modal'
+template = require 'app/templates/courses/choose-language-modal'
 
 module.exports = class ChooseLanguageModal extends ModalView
   id: 'choose-language-modal'

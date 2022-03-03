@@ -7,7 +7,7 @@ contact = require 'core/contact'
 
 module.exports = class TeachersContactModal extends ModalView
   id: 'teachers-contact-modal'
-  template: require 'templates/teachers/teachers-contact-modal'
+  template: require 'app/templates/teachers/teachers-contact-modal'
 
   events:
     'submit form': 'onSubmitForm'

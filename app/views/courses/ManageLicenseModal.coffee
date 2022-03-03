@@ -209,7 +209,7 @@ module.exports = class ManageLicenseModal extends ModalView
     if !@classroom.isOwner() and @classroom.hasWritePermission()
       options.data = { sharedClassroomId: @classroom.id }
     prepaid.redeem(user, options)
-    window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: user.id, ['Mixpanel']
+    window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: user.id
 
   finishRedeemUsers: ->
     @trigger 'redeem-users', @state.get('selectedUsers')
@@ -247,7 +247,7 @@ module.exports = class ManageLicenseModal extends ModalView
       return
 
     user = usersToRedeem.first()
-    prepaid = user.makeCourseProduct(prepaidId)
+    prepaid = user.makeCoursePrepaid(prepaidId)
     unless prepaid # in case teacher select extra students
       usersToRedeem.remove(user)
       @state.get('selectedUsers').remove(user)

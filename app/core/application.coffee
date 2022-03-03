@@ -1,6 +1,5 @@
 globalVar = require 'core/globalVar'
 
-
 # TODO, add C-style macro constants like this?
 window.SPRITE_RESOLUTION_FACTOR = 3
 window.SPRITE_PLACEHOLDER_WIDTH = 60
@@ -44,6 +43,7 @@ Application = {
     {me} = require 'core/auth'
     Tracker = require('core/Tracker2').default
     api = require 'core/api'
+    userUtils = require '../lib/user-utils'
 
     Router = require('core/Router')
     Vue.config.devtools = not @isProduction()
@@ -86,6 +86,7 @@ Application = {
     unless me.get('anonymous')
       @checkForNewAchievement()
     @remindPlayerToTakeBreaks()
+    userUtils.provisionPremium()
     window.i18n = i18nextInstance = i18next.default.createInstance {
       lng: me.get('preferredLanguage', true)
       fallbackLng: locale.mapFallbackLanguages()

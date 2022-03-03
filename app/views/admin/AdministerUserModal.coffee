@@ -1,7 +1,7 @@
 _ = require 'lodash'
 require('app/styles/admin/administer-user-modal.sass')
 ModelModal = require 'views/modal/ModelModal'
-template = require 'templates/admin/administer-user-modal'
+template = require 'app/templates/admin/administer-user-modal'
 User = require 'models/User'
 Prepaid = require 'models/Prepaid'
 StripeCoupons = require 'collections/StripeCoupons'

@@ -1,6 +1,6 @@
 require('app/styles/play/level/game_dev_track_view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/game_dev_track_view'
+template = require 'app/templates/play/level/game_dev_track_view'
 #teamTemplate = require 'templates/play/level/team_gold'
 
 module.exports = class GameDevTrackView extends CocoView

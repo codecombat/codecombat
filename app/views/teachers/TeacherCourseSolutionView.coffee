@@ -12,7 +12,7 @@ aetherUtils = require 'lib/aether_utils'
 
 module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
-  template: require 'templates/teachers/teacher-course-solution-view'
+  template: require 'app/templates/teachers/teacher-course-solution-view'
 
   events:
     'click .nav-link': 'onClickSolutionTab'
@@ -47,7 +47,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @prepaids = new Prepaids()
       @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @paidTeacher = me.isAdmin() or me.isPaidTeacher()
-    @courseLessonSlidesURLs = utils.courseLessonSlidesURLs()
+    @courseLessonSlidesURLs = utils.courseLessonSlidesURLs
     me.getClientCreatorPermissions()?.then(() => @render?())
     super(options)
 

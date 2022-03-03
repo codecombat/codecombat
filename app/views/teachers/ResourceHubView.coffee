@@ -4,7 +4,7 @@ utils = require 'core/utils'
 
 module.exports = class ResourceHubView extends RootView
   id: 'resource-hub-view'
-  template: require 'templates/teachers/resource-hub-view'
+  template: require 'app/templates/teachers/resource-hub-view'
 
   events:
     'click .resource-link': 'onClickResourceLink'
@@ -20,7 +20,7 @@ module.exports = class ResourceHubView extends RootView
     window.tracker?.trackEvent 'Teachers Click Resource Hub Link', { category: 'Teachers', label: link }
 
   organizeLessonSlides: ->
-    courseLessonSlidesURLs = utils.courseLessonSlidesURLs()
+    courseLessonSlidesURLs = utils.courseLessonSlidesURLs
     @lessonSlidesURLsByCourse = {}
     for courseID, acronym of utils.courseAcronyms
       if url = courseLessonSlidesURLs[courseID]

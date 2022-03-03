@@ -1,5 +1,5 @@
 RootComponent = require 'views/core/RootComponent'
-template = require 'templates/base-flat'
+template = require 'app/templates/base-flat'
 ConditionalMinigameComponent = require('./ConditionalMinigameComponent.vue').default
 
 module.exports = class ConditionalMinigameView extends RootComponent

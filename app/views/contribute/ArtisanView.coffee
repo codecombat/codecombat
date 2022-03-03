@@ -1,5 +1,5 @@
 ContributeClassView = require './ContributeClassView'
-template = require 'templates/contribute/artisan'
+template = require 'app/templates/contribute/artisan'
 {me} = require 'core/auth'
 
 module.exports = class ArtisanView extends ContributeClassView

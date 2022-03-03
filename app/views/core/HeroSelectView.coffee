@@ -1,6 +1,6 @@
 require('app/styles/core/hero-select-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/core/hero-select-view'
+template = require 'app/templates/core/hero-select-view'
 State = require 'models/State'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
 ThangTypeLib = require 'lib/ThangTypeLib'
@@ -63,5 +63,5 @@ module.exports = class HeroSelectView extends CocoView
       event += if me.isStudent() then ' student' else ' teacher'
       event += ' create account' if @options.createAccount
       category = if me.isStudent() then 'Students' else 'Teachers'
-      window.tracker?.trackEvent event, {category, heroOriginal}, []
+      window.tracker?.trackEvent event, {category, heroOriginal}
       @trigger 'hero-select:success', {attributes: hero}

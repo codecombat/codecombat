@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { getTrackingData, setTrackedPremiumPurchase, hasTrackedPremiumAccess } from 'app/lib/paymentUtils'
 export default {
   name: "PaymentOnlineClassesSuccessView",
   data() {
@@ -28,10 +29,17 @@ export default {
     };
   },
   created() {
-    const search = window.location.search;
-    const params = new URLSearchParams(search)
-    this.selectedPlan = decodeURI(params.get('selectedPlan'))
-    this.numStudents = params.get('numStudents')
+    const query = this.$route.query
+    this.selectedPlan = query.selectedPlan
+    this.numStudents = query.numStudents
+    const paymentTrackingData = getTrackingData({
+      amount: query.amount,
+      duration: query.duration
+    })
+    if (!hasTrackedPremiumAccess()) {
+      window.tracker.trackEvent('Online classes purchase success', { selectedPlan: this.selectedPlan, numStudents: this.numStudents, ...paymentTrackingData })
+      setTrackedPremiumPurchase()
+    }
   }
 }
 </script>

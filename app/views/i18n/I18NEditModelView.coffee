@@ -3,7 +3,7 @@ locale = require 'locale/locale'
 Patch = require 'models/Patch'
 Patches = require 'collections/Patches'
 PatchModal = require 'views/editor/PatchModal'
-template = require 'templates/i18n/i18n-edit-model-view'
+template = require 'app/templates/i18n/i18n-edit-model-view'
 deltasLib = require 'core/deltas'
 modelDeltas = require 'lib/modelDeltas'
 ace = require('lib/aceContainer')
@@ -169,6 +169,11 @@ module.exports = class I18NEditModelView extends RootView
       return UNSAVED_CHANGES_MESSAGE
 
   onSubmitPatch: (e) ->
+    # Added due to high volume of translations getting set on english fields.
+    if @selectedLanguage in ['en-US', 'en-GB', 'en']
+      alert("Blocked change to #{@selectedLanguage} field. Please check your language setting.")
+      return
+
     delta = modelDeltas.getDeltaWith(@originalModel, @model)
     flattened = deltasLib.flattenDelta(delta)
     collection = _.string.underscored @model.constructor.className

@@ -606,6 +606,11 @@ module.exports = class CampaignView extends RootView
 
   afterRender: ->
     super()
+    if $.isTouchCapable() and screen.availHeight < screen.availWidth
+      # scroll to vertical center on landscape touchscreens
+      $('.portal').animate({
+        scrollTop: ( $(".portals").height() - $(".portal").height() ) / 2
+      }, 100);
     @onWindowResize()
 
     $('#anon-classroom-signup-code').keydown (event) ->

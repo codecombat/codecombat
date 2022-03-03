@@ -1,6 +1,6 @@
 require('app/styles/play/level/tome/spell.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/spell'
+template = require 'app/templates/play/level/tome/spell'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 ace = require('lib/aceContainer')

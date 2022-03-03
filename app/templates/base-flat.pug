@@ -1,0 +1,214 @@
+.style-flat
+  block header
+    nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(class=!serverConfig.static && /^\/(league|play\/ladder)/.test(document.location.pathname) ? "dark-mode" : '')
+      .container-fluid
+        .row
+          .col-md-12
+            .navbar-header
+              button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
+                span.sr-only(data-i18n="nav.toggle_nav")
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+              if me.useTarenaLogo()
+                a.navbar-brand(href="http://kidtts.tmooc.cn/ttsPage/login.html")
+                  img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                  img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
+              else if serverConfig.codeNinjas
+                a.navbar-brand(href="/home")
+                  img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                  img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
+              else if me.showChinaResourceInfo()
+                a.navbar-brand(href="/home")
+                  img#logo-img(src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
+              else
+                a.navbar-brand(href="/home")
+                  img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+
+            if view.isOldBrowser()
+              .navbar-browser-recommendation.navbar-header
+                .nav-spacer
+                  .navbar-nav
+                    a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/", data-i18n="nav.browser_recommendation")
+
+  block page_nav
+
+  block outer_content
+    if features.chinaHome
+      .floatCS
+        img.qr(src="https://assets.koudashijie.com/images/homeVersion/service_qr.png")
+        img.icon(src="https://assets.koudashijie.com/images/home/icon/customerservice.png")
+        .text 微信客服
+
+    #site-content-area
+      block content
+        p If this is showing, you dun goofed
+
+  block footer
+    #footer.small
+      if !me.hideFooter()
+        .container
+          .row
+            if me.showChinaResourceInfo()
+              .col-lg-12
+                .row
+                  if !me.showChinaHomeVersion()
+                    .col-lg-3
+                      h3(data-i18n="nav.general")
+                      ul.list-unstyled
+                        li
+                          a(href="/events", data-i18n="nav.events")
+                        //li
+                        //  a(href="/about#careers", data-i18n="nav.careers")
+                        if !me.isStudent()
+                          li
+                            a(href="/contact-cn", data-i18n="nav.contact")
+                        -// li
+                        -//   a(href="/parents", data-i18n="nav.parent")
+                        li
+                          a(href="/CoCoStar", data-i18n="nav.star")
+                    .col-lg-3
+                      if !me.isStudent()
+                        h3(data-i18n="nav.educators")
+                        ul.list-unstyled
+                          li
+                            - var faqURL = "/teachers/resources/faq";
+                            - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                            -     faqURL = "/teachers/resources/faq-nl-NL";
+                            - if (me.get('preferredLanguage') == 'he')
+                            -     faqURL = "/teachers/resources/faq-HE";
+                            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                            -     faqURL = "/teachers/resources/faq-pt-BR";
+                            - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                            -     faqURL = "/teachers/resources/faq-zh-HANS";
+                            a(href=faqURL, data-i18n="teacher.educator_faq")
+                          li
+                            a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                          li
+                            a(href="/teachers/resources") 课程体系
+                          li
+                            a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                  else
+                    .col-lg-3
+                  .col-lg-3
+                    h3 相关链接
+                    ul.list-unstyled
+                      li
+                        a(href="https://xuetang.koudashijie.com") 扣哒学堂
+                      li
+                        a(href="https://aojiarui.com") 奥佳睿
+                      li
+                        a(href="http://aiyouth.koudashijie.com") AI世青赛
+                      li
+                        if me.showChinaHomeVersion()
+                          a(href="https://koudashijie.com") 扣哒世界
+                        else
+                          a(href="https://codecombat.cn") CodeCombat 个人版
+
+                  if features.chinaHome
+                    .col-lg-3
+                  .col-lg-3
+                    h3(data-i18n="nav.follow_us")
+                    idv.follow_us
+                        .socialicon
+                          .si.si-wechat
+                            if features.chinaHome
+                              .mpqrcode
+                                img.mpqr(src="https://assets.koudashijie.com/images/homeVersion/mpqr.jpeg")
+                            else
+                              .mpqrcode
+                                .span
+                                  span='老师请扫'
+                                  img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+                                .span
+                                  span='家长请扫'
+                                  img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
+                          if !features.chinaHome
+                            .si.si-tiktok
+                              .tkqrcode
+                                img.tkqr(src="https://assets.koudashijie.com/images/home/tiktokqr.jpg")
+                            a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
+                            a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
+ 
+            else
+              .col-lg-12
+                .row
+                  .col-lg-3
+                    h3(data-i18n="nav.general")
+                    ul.list-unstyled
+                      li
+                        a(href="/about", data-i18n="nav.about")
+                      li
+                        - var faqURL = "https://codecombat.zendesk.com/hc/en-us"
+                        a(href=faqURL, data-i18n="contact.faq", target="_blank")
+                      li
+                        a(href="/about#careers", data-i18n="nav.careers")
+                      li
+                        a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+                      li
+                        a(href="/parents", data-i18n="nav.parent")
+                      li
+                        a(href="https://blog.codecombat.com/", data-i18n="nav.blog", target="_blank")
+                  .col-lg-3
+                    if !me.isStudent()
+                      h3(data-i18n="nav.educators")
+                      ul.list-unstyled
+                        li
+                          a(href="/impact", data-i18n="nav.impact")
+                        li
+                          a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                        li
+                          a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                        li
+                          a(href="https://ozaria.com", data-i18n="new_home.try_ozaria")
+                  .col-lg-3
+                    h3(data-i18n="nav.get_involved")
+                    ul.list-unstyled
+                      li
+                        a(href="https://github.com/codecombat/codecombat") GitHub
+                      li
+                        a(href='/community', data-i18n="nav.community")
+                      li
+                        a(href="/contribute", data-i18n="nav.contribute")
+                      li
+                        a(href="/league", data-i18n="game_menu.multiplayer_tab")
+                      if !me.isStudent() && me.showForumLink()
+                        li
+                          a(href=view.forumLink(), data-i18n="nav.forum", target="_blank")
+                  .col-lg-3
+                    if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
+                      h3(data-i18n="nav.follow_us")
+                      div.social-buttons
+                        a(href="https://www.youtube.com/channel/UCEl7Rs_jtl3hcbnp0xZclQA", target="_blank")
+                          img(src="/images/pages/base/youtube_symbol_button.png", width="40")
+                        a(href="https://twitter.com/codecombat", target="_blank")
+                          img(src="/images/pages/base/twitter_logo_btn.png", width="40")
+                        a(href="https://www.facebook.com/codecombat", target="_blank")
+                          img(src="/images/pages/base/facebook_logo_btn.png", width="40")
+
+        #final-footer(dir="ltr")
+          img(src="/images/pages/base/logo.png" alt="CodeCombat")
+          .float-right
+            if me.showChinaResourceInfo()
+              - var {COCO_CHINA_CONST} = require('core/constants')
+              span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
+            span(data-i18n="nav.copyright_prefix")
+            span= ' ©2022 CodeCombat Inc. '
+            span.spl(data-i18n="nav.copyright_suffix")
+            if me.showChinaResourceInfo()
+              if me.showChinaHomeVersion()
+                a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-20
+              else
+                a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号
+              if !me.showChinaHomeVersion()
+                a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031936")
+                  img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
+                  span='京公网安备 11010802031936号'
+              else
+                a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619")
+                  img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
+                  span='京公网安备 11010802038619号'
+          
+
+            a.small(href="/legal") Terms of Service
+            a.small(href="/privacy") Privacy

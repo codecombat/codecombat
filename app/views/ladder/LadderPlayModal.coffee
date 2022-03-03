@@ -1,6 +1,6 @@
 require('app/styles/play/ladder/play_modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/ladder/play_modal'
+template = require 'app/templates/play/ladder/play_modal'
 ThangType = require 'models/ThangType'
 {me} = require 'core/auth'
 LeaderboardCollection = require 'collections/LeaderboardCollection'

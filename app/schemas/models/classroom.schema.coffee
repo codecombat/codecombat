@@ -87,8 +87,8 @@ _.extend ClassroomSchema.properties,
         levelOriginal: c.objectId()
       })
   }, {}
-
   stats: c.object { additionalProperties: true }
+  type: { title: 'Class Type', type: 'string', enum: ['', 'in-school', 'after-school', 'online', 'camp', 'homeschool', 'other'] }
 
 c.extendBasicProperties ClassroomSchema, 'Classroom'
 ClassroomSchema.properties.settings.additionalProperties = true

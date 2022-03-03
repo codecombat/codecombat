@@ -527,11 +527,10 @@
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              What if I need to reschedule a class?
+              Are there any student age limits?
             </h4>
             <p>
-              We understand, and are happy to find a new date and time that works for you. Simply let your instructor or
-              <a href="mailto:classes@codecombat.com">Education Advisor</a> know you need to make a change. We greatly appreciate 24 hours' notice for any scheduling changes.
+              We recommend our online classes for students aged 7 through 16. However, if your child can type, use a mouse, and is comfortable using a computer, they are welcome to join our class.
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
@@ -552,22 +551,26 @@
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              Are there any student age limits?
+              What if I need to reschedule a class?
             </h4>
             <p>
-              We recommend our online classes for students aged 7 through 16. However, if your child can type, use a mouse, and is comfortable using a computer, they are welcome to join our class. If you are an adult, we simply ask you to join our private classes to ensure you get the most out of your experience.
+              Once you have booked a weekly class with us, we have reserved time in our schedule exclusively for you, so we require 48 hours' advance notice for rescheduling classes. You can reschedule your class by emailing <a href="mailto:classes@codecombat.com">classes@codecombat.com</a>. Classes missed or canceled with less than 48 hours' notice will not be rescheduled or refunded.
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              Can I choose my child’s courses? I know where I want my child to start.
+              What should I expect in the trial class?
             </h4>
             <p>
-              Yes! When enrolling in classes, you can choose whether your child should be in the beginner, intermediate, or advanced class. If you’re not sure where to start, we recommend starting with the beginner course so that your child can master fundamental concepts before advancing to more difficult courses. After the first class, the instructor will confirm whether your child is in the appropriate course.
+              Each trial class is a private 60 minute session with <strong>45 minutes of instruction</strong> for the student followed by <strong>15 minutes for discussion with a parent or guardian</strong>. These 15 minutes are important and are set aside to answer any questions, provide insight into how the ongoing curriculum progresses, and help you select the right skill level and coding language for your child. If available, one of our remote learning advisors may join for this part of the session.
             </p>
           </div>
         </div>
         <div class="text-center">
+          <p>
+            <span>{{ $t('new_home_faq.see_faq_prefix') }}</span>
+            <a href="https://codecombat.zendesk.com/hc/en-us/categories/360004855234-Live-Online-Classes" target="_blank">{{ $t('new_home_faq.see_faq_link') }}</a><span>{{ $t('new_home_faq.see_faq_suffix') }}</span>
+          </p>
           <p>
             If you have any other questions about our online classes, please <a href="mailto:classes@codecombat.com">contact us.</a>
           </p>
@@ -666,14 +669,8 @@ export default {
   methods: {
     async trackCtaClicked () {
       await application.tracker.trackEvent(
-          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
+          (this.type === 'parents' || this.type === 'self-serve') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
           { parentsPageType: this.type }
-      )
-
-      await application.tracker.trackEvent(
-          (this.type === 'parents') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
-          { parentsPageType: this.type },
-          ['facebook']
       )
     },
     onCarouselLeft () {
@@ -749,7 +746,7 @@ export default {
 
     onDriftMeetingBooked (e) {
       if (e.interactionId === DRIFT_LIVE_CLASSES_DEFAULT_INTERACTION_ID || e.interactionId === DRIFT_LIVE_CLASSES_DIRECT_CHAT_INTERACTION_ID) {
-        application.tracker.trackEvent('Live classes welcome call scheduled', { parentsPageType: this.type }, ['facebook'])
+        application.tracker.trackEvent('Live classes welcome call scheduled', { parentsPageType: this.type })
       }
     },
 
@@ -757,7 +754,7 @@ export default {
       this.showTimetapModal = false
       this.showTimetapConfirmationModal = true
 
-      application.tracker.trackEvent('CodeCombat live class booked', { parentsPageType: this.type }, ['facebook'])
+      application.tracker.trackEvent('CodeCombat live class booked', { parentsPageType: this.type })
     },
 
     mainCtaButtonText (buttonNum) {
