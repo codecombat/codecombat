@@ -729,6 +729,12 @@ formatStudentLicenseStatusDate = (status, date) ->
       when 'expired' then $.i18n.t('teacher.status_expired')
     string.replace('{{date}}', date or 'Never')
 
+formatStudentSingleLicenseStatusDate = (product) ->
+  string = $.i18n.t('teacher.full_license')
+  if product.productOptions?.includedCourseIDs?
+    string = product.productOptions.includedCourseIDs.map((id) -> courseAcronyms[id]).join('+')
+  string += ': ' + moment(product.endDate).format('ll')
+
 getApiClientIdFromEmail = (email) ->
   if /@codeninjas.com$/i.test(email) # hard coded for code ninjas since a lot of their users do not have clientCreator set
     clientID = '57fff652b0783842003fed00'
@@ -989,6 +995,7 @@ module.exports = {
   findNextLevel
   formatDollarValue
   formatStudentLicenseStatusDate
+  formatStudentSingleLicenseStatusDate
   freeCampaignIds
   functionCreators
   getApiClientIdFromEmail
