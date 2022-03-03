@@ -439,6 +439,9 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     above = @playersAbove.models
     l = l.concat(above)
     l.reverse()
+    if @session?.get('creatorAge') and !(@session?.get('ageBracket'))
+      # add ageBracket for @session
+      @session.set('ageBracket', utils.ageToBracket(@session.get('creatorAge')))
     l.push @session
     l = l.concat(@playersBelow.models)
     if @myRank is 'unknown'
