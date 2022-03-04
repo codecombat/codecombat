@@ -99,6 +99,7 @@
     "d3": "~3.5.17",
     "deku": "^2.0.0-rc16",
     "dompurify": "^2.2.8",
+    "escodegen": "^1.14.3",
     "express": "^4.14.0",
     "express-useragent": "^1.0.4",
     "fastclick": "~1.0.3",
