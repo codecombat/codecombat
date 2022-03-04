@@ -77,7 +77,6 @@
     "algoliasearch": "^3.13.1",
     "animejs": "^3.0.1",
     "async": "2.5.0",
-    "@babel/polyfill": "^7.12.1",
     "backbone": "~1.1.1",
     "basic-auth": "^1.0.4",
     "bluebird": "^3.5.4",
