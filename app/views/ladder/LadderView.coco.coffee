@@ -197,7 +197,7 @@ module.exports = class LadderView extends RootView
 
   refreshTournamentTime: ->
     return unless @tournament?.get('endDate')
-    resultsDate = @tournament.get('resultsDate') or @tournament.get('resultsDate')
+    resultsDate = @tournament.get('resultsDate') or @tournament.get('endDate')
     currentTime = Date.now() + (@timeOffset ? 0)
     @tournamentTimeElapsed = currentTime - new Date @tournament.get('startDate')
     @tournamentTimeLeft = new Date(@tournament.get('endDate')) - currentTime
