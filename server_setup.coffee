@@ -237,9 +237,9 @@ setupJavascript404s = (app) ->
 
 templates = {}
 getStaticTemplate = (file) ->
-  # Don't cache templates in devlopment so you can just edit then.
+  # Don't cache templates in development so you can just edit then.
   return templates[file] if templates[file] and config.isProduction
-  templates[file] = fs.readFileAsync(path.join(__dirname, 'public', 'templates', 'static', file), 'utf8')
+  templates[file] = fs.readFileSync(path.join(__dirname, 'public', 'templates', 'static', file), 'utf8')
 
 renderMain = wrap (template, req, res) ->
   template = yield getStaticTemplate(template)
