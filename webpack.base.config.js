@@ -170,7 +170,6 @@ module.exports = (env) => {
       fallback: {
         util: require.resolve('util/'), // because of 'console-browserify' package used by jshint, details: https://github.com/facebook/create-react-app/issues/11756
         assert: require.resolve('assert/'), // because of 'console-browserify'
-        process: require.resolve('process/browser')
       }
     },
     externals: {

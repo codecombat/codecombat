@@ -84,6 +84,7 @@
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "bootstrap-sass": "3.3.7",
+    "buffer": "^6.0.3",
     "cheerio": "^0.22.0",
     "co": "^4.6.0",
     "co-express": "^1.2.1",
