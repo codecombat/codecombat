@@ -168,7 +168,7 @@ module.exports = class GoalManager extends CocoClass
       goalStates: @goalStates
       goals: @goals
       overallStatus: overallStatus
-      timedOut: @world? and (@world.totalFrames is @world.maxTotalFrames and overallStatus not in ['success', 'failure'])
+      timedOut: @world? and (@world.totalFrames is @world.maxTotalFrames and overallStatus not in ['success', 'failure', null])
       capstoneStage: @options?.capstoneStage
     Backbone.Mediator.publish('goal-manager:new-goal-states', event)
 
