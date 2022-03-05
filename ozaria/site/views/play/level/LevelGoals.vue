@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="showStatus" class="goals-status rtl-allowed">
-      <span class="goal-status-text">{{ $t("play_level.goals") }} : {{ $t("play_level." + goalStatus) }}</span>
+      <span class="goal-status-text">{{ $t("play_level.goals") }}<span v-if="goalStatus">: {{ $t("play_level." + goalStatus) }}</span></span>
     </div>
     <div class="level-goals">
       <!-- TODO: Split this into two components, one the ul, the other the goals-status-->
