@@ -285,7 +285,6 @@ module.exports = class User extends CocoModel
         return
     return errors
   getPoseImage: (thang_id, options={}) ->
-      returner = ""
       options.method = 'GET'
       options.contentType = 'application/json'
       options.dataType = 'json'
