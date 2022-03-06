@@ -1,6 +1,6 @@
 publishableKey = if application.isProduction() then 'pk_live_27jQZozjDGN1HSUTnSuM578g' else 'pk_test_zG5UwVu6Ww8YhtE9ZYh0JO6a'
 
-if me.isAnonymous()
+if me.isAnonymous() or true
   module.exports = {
     open: _.noop # for tests to spy on
     openAsync: _.noop # for tests to spy on

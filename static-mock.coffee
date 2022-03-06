@@ -22,8 +22,8 @@ exports.me =
   isAPIClient: () -> false
   isInGodMode: () -> false
   level: () -> 1
-  useDexecure: -> true
-  useSocialSignOn: -> true
+  useDexecure: -> false  #true
+  useSocialSignOn: -> false  #true
   gems: () -> 0
   getPhotoURL: () -> ''
   displayName: () -> ''
@@ -42,7 +42,7 @@ exports.me =
   showChinaResourceInfo: -> false
   hideDiplomatModal: -> false
   showOpenResourceLink: -> true
-  useStripe: -> true
+  useStripe: -> false  #true
 
 exports.view =
   forumLink: () -> 'http://discourse.codecombat.com/'

@@ -28,18 +28,18 @@ export default class Tracker2 extends BaseTracker {
 
     this.store = store
 
-    this.cookieConsentTracker = new CookieConsentTracker(this.store)
-    this.internalTracker = new InternalTracker(this.store)
-    this.segmentTracker = new SegmentTracker(this.store)
+    //this.cookieConsentTracker = new CookieConsentTracker(this.store)
+    //this.internalTracker = new InternalTracker(this.store)
+    //this.segmentTracker = new SegmentTracker(this.store)
     this.googleAnalyticsTracker = new GoogleAnalyticsTracker(this.store)
-    this.driftTracker = new DriftTracker(this.store)
-    this.fullStoryTracker = new FullStoryTracker(this.store, this)
-    this.googleOptimizeTracker = new GoogleOptimizeTracker()
-    this.facebookPixelTracker = new FacebookPixelTracker(this.store)
-    this.profitWellTracker = new ProfitWellTracker(this.store)
+    //this.driftTracker = new DriftTracker(this.store)
+    //this.fullStoryTracker = new FullStoryTracker(this.store, this)
+    //this.googleOptimizeTracker = new GoogleOptimizeTracker()
+    //this.facebookPixelTracker = new FacebookPixelTracker(this.store)
+    //this.profitWellTracker = new ProfitWellTracker(this.store)
 
     this.trackers = [
-      this.internalTracker
+      //this.internalTracker
     ]
 
     const isGlobal = !(window.features || {}).china
@@ -47,13 +47,13 @@ export default class Tracker2 extends BaseTracker {
       // add trackers we don't want china to enable here.
       this.trackers = [
         ...this.trackers,
-        this.segmentTracker,
+        //this.segmentTracker,
         this.googleAnalyticsTracker,
-        this.driftTracker,
-        this.fullStoryTracker,
-        this.googleOptimizeTracker,
-        this.facebookPixelTracker,
-        this.profitWellTracker
+        //this.driftTracker,
+        //this.fullStoryTracker,
+        //this.googleOptimizeTracker,
+        //this.facebookPixelTracker,
+        //this.profitWellTracker
       ]
     }
   }
@@ -61,7 +61,7 @@ export default class Tracker2 extends BaseTracker {
   async _initializeTracker () {
     try {
       const allTrackers = [
-        this.cookieConsentTracker,
+        //this.cookieConsentTracker,
         ...this.trackers
       ]
       await allSettled(allTrackers.map(t => t.initialize()))

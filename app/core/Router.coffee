@@ -37,6 +37,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
     'play/spectate/:levelID': go('play/SpectateView')
+    'logout': 'logout'
     '': redirect('/play/level/the-zoo-of-extinct-animals')
     '*name/': 'removeTrailingSlash'
     '*name': redirect('/play/level/the-zoo-of-extinct-animals')
