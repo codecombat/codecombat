@@ -16,7 +16,7 @@ block append content
     - var levelsComplete = (view.user.get('stats') || {}).gamesCompleted
     - var heroes = view.user.heroes().length
     - var heroID = (view.user.get('heroConfig') || {}).thangType
-    - var heroPose = view.user.getPoseImage(heroID)
+    - var heroPose = view.user.getHeroPoseImage()
     - var codePoints = (view.user.get('stats') || {}).codePoints
     - var emptyImage = "/file/db/thang.type/5bce54394ca9b2003b86454b/portrait.png"
     - var headArmor = ((view.user.get('heroConfig') || {}).inventory || {}).head
@@ -46,7 +46,7 @@ block append content
                 span(data-i18n="user.favorite_postfix") .
             if levelsComplete
               div.extra-info
-                span.spr(data-i18n="user.levels_complete") Levels Complete
+                span.spr(data-i18n="courses.levels_completed") Levels Complete
                 strong= levelsComplete
             if heroes
               div.extra-info
@@ -58,15 +58,15 @@ block append content
                 strong= playerLevel
             if codePoints
               div.extra-info
-                span.spr(data-i18n="user.code_points") Code Points
+                span.spr(data-i18n="league.codepoints") Code Points
                 strong= codePoints
             if totalGems
               div.extra-info
-                span.spr(data-i18n="user.user_gems") Gems
+                span.spr(data-i18n="account.gems") Gems
                 strong= totalGems
 
         div.inventory
-          h2.inventory-title(data-i18n="user.inventory") Inventory
+          h2.inventory-title(data-i18n="game_menu.inventory_tab") Inventory
 
           div.hero-container
             if heroID
@@ -240,44 +240,38 @@ block append content
         .panel.panel-default
           .panel-heading
             h3.panel-title(data-i18n="user.contributions_title") Contributions
-          if view.user
-
-
-            if !(patchesSubmitted && patchesApproved && patchesAccepted && levelEdits && totalTranslations)
-              .panel-body
-                p(data-i18n="user.no_contributions") No contributions so far.
-            else
-              table.table
-                tr
-                  th.col-xs-4(data-i18n="user.type_stat") Type
-                  th.col-xs-4(data-i18n="user.contribution_value") Value
-                tr
-                  td(data-i18n="user.patches_submit") Patches Submitted
-                  if (patchesSubmitted)
-                    td= patchesSubmitted
-                  else
-                    td= "0"
-                tr
-                  td(data-i18n="user.patches_approved") Patches Approved
-                  if (patchesApproved)
-                    td= patchesApproved
-                  else
-                    td= "0"
-                tr
-                  td(data-i18n="user.patches_accepted") Patches Accepted
-                  if (patchesAccepted)
-                    td= patchesAccepted
-                  else
-                    td= "0"
-                tr
-                  td(data-i18n="user.level_edits") Level Edits
-                  if (levelEdits)
-                    td= levelEdits
-                  else
-                    td= "0"
-                tr
-                  td(data-i18n="user.total_translations") Total Translations
-                  if (totalTranslations)
-                    td= totalTranslations
-                  else
-                    td= "0"
+          if view.user && (patchesSubmitted || patchesApproved || patchesAccepted || levelEdits || totalTranslations)
+            table.table
+              tr
+                th.col-xs-4(data-i18n="user.type_stat") Type
+                th.col-xs-4(data-i18n="achievements.amount_achieved") Amount
+              tr
+                td(data-i18n="user.patches_submit") Patches Submitted
+                if (patchesSubmitted)
+                  td= patchesSubmitted
+                else
+                  td= "0"
+              tr
+                td(data-i18n="user.patches_approved") Patches Approved
+                if (patchesApproved)
+                  td= patchesApproved
+                else
+                  td= "0"
+              tr
+                td(data-i18n="user.patches_accepted") Patches Accepted
+                if (patchesAccepted)
+                  td= patchesAccepted
+                else
+                  td= "0"
+              tr
+                td(data-i18n="user.level_edits") Level Edits
+                if (levelEdits)
+                  td= levelEdits
+                else
+                  td= "0"
+              tr
+                td(data-i18n="user.total_translations") Total Translations
+                if (totalTranslations)
+                  td= totalTranslations
+                else
+                  td= "0"
