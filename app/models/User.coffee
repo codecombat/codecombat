@@ -9,6 +9,7 @@ moment = require 'moment'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
 paymentUtils = require 'app/lib/paymentUtils'
+fetchJson = require 'core/api/fetch-json'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -268,6 +269,15 @@ module.exports = class User extends CocoModel
     myHeroClasses.push heroClass for heroClass, heroSlugs of ThangTypeConstants.heroClasses when _.intersection(myHeroSlugs, heroSlugs).length
     myHeroClasses
 
+  getHeroPoseImage: co.wrap ->
+    options={}
+    options.method = 'GET'
+    options.contentType = 'application/json'
+    options.dataType = 'json'
+    if ((@get('heroConfig') or {}).thangType)
+      poseFile = yield fetchJson("/db/thang.type/#{((@get('heroConfig') or {}).thangType)}/version",options)
+      $("#hero-pose").attr('src', '/file/' + poseFile.poseImage)
+
   validate: ->
     errors = super()
     if errors and @_revertAttributes
@@ -284,14 +294,7 @@ module.exports = class User extends CocoModel
       if _.size(newErrors) is 0
         return
     return errors
-  getPoseImage: (thang_id, options={}) ->
-      options.method = 'GET'
-      options.contentType = 'application/json'
-      options.dataType = 'json'
-      options.url = "/db/thang.type/#{thang_id}/version"
-      promise = $.ajax(options)
-      promise.success (data) ->
-        $("#hero-pose").attr('src', '/file/' + data.poseImage)
+
 
 
 
