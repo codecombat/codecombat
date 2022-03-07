@@ -189,7 +189,7 @@
     "karma-coffee-preprocessor": "^1.0.1",
     "karma-coverage": "^2.2.0",
     "karma-firefox-launcher": "^2.1.2",
-    "karma-jasmine": "^4.0.1",
+    "karma-jasmine": "^1.1.2",
     "mini-css-extract-plugin": "^2.6.0",
     "nodemon": "^2.0.15",
     "pg": "^6.1.2",
