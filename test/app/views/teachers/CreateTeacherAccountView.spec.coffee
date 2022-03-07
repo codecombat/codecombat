@@ -89,7 +89,7 @@ describe 'CreateTeacherAccountView', ->
       expect(view.openModalView.calls.argsFor(0)[0] instanceof AuthModal).toBe(true)
 
   if !window.features.chinaUx
-    describe 'clicking the Facebook button', ->
+    xdescribe 'clicking the Facebook button', ->
 
       beforeEach ->
         application.facebookHandler.fakeAPI()
@@ -156,7 +156,7 @@ describe 'CreateTeacherAccountView', ->
                 done()
 
   if !window.features.chinaUx
-    describe 'clicking the G+ button', ->
+    xdescribe 'clicking the G+ button', ->
 
       beforeEach ->
         application.gplusHandler.fakeAPI()

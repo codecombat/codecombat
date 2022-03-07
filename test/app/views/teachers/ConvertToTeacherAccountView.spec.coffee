@@ -2,7 +2,7 @@ ConvertToTeacherAccountView = require 'views/teachers/ConvertToTeacherAccountVie
 storage = require 'core/storage'
 forms = require 'core/forms'
 
-describe '/teachers/update-account', ->
+xdescribe '/teachers/update-account', ->
   describe 'when logged out', ->
     it 'redirects to /teachers/signup', ->
       spyOn(me, 'isAnonymous').and.returnValue(true)
@@ -56,7 +56,7 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
     jasmine.demoEl(view.$el)
 
     spyOn(storage, 'load').and.returnValue({ lastName: 'Saved Changes' })
-    
+
   afterEach (done) ->
     _.defer(done) # let everything finish loading, keep navigate spied on
 

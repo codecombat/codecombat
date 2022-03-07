@@ -2,11 +2,11 @@ AuthModal = require 'views/core/AuthModal'
 RecoverModal = require 'views/core/RecoverModal'
 
 describe 'AuthModal', ->
-  
+
   modal = null
-  
+
   beforeEach ->
-    if !window.features.chinaUx
+    if false  #!window.features.chinaUx
       application.facebookHandler.fakeAPI()
       application.gplusHandler.fakeAPI()
     modal = new AuthModal()
