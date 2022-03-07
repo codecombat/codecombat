@@ -66,15 +66,14 @@ module.exports = class Label extends CocoClass
 
   build: ->
     if @layer and not @layer.destroyed
-      @layer.removeChild @background if @background
-      @layer.removeChild @label if @label
+      @layer.removeLabel @ if @background or @label
     @label = null
     @background = null
     return unless @text  # null or '' should both be skipped
     o = @buildLabelOptions()
-    @layer.addChild @label = @buildLabel o
-    @layer.addChild @background = @buildBackground o
-    @layer.updateLayerOrder()
+    @label = @buildLabel o
+    @background = @buildBackground o
+    @layer.addLabel @
 
   update: ->
     return unless @text and @sprite.sprite
@@ -100,14 +99,12 @@ module.exports = class Label extends CocoClass
 
   show: ->
     return unless @label
-    @layer.addChild @label
-    @layer.addChild @background
+    @layer.addLabel @
     @layer.updateLayerOrder()
 
   hide: ->
     return unless @label
-    @layer.removeChild @background
-    @layer.removeChild @label
+    @layer.removeLabel @
 
   buildLabelOptions: ->
     o = {}
@@ -159,7 +156,7 @@ module.exports = class Label extends CocoClass
     pointerHeight = 10  # Height of pointer triangle
     pointerWidth = 8  # Actual width of pointer triangle
     pointerWidth += radius  # Convenience value including pointer width and border radius
-  
+
     if @style is 'dialogue' and not o.withoutPointer
       # Figure out the position of the pointer for the bubble
       sup = x: @sprite.sprite.x, y: @sprite.sprite.y  # a little more accurate to aim for mouth--how?
@@ -203,10 +200,10 @@ module.exports = class Label extends CocoClass
       o.vPos ?= "middle"
       pointerHeight = 0
       g.drawRoundRect(o.label.x - o.marginX, o.label.y - o.marginY, w, h, o.backgroundBorderRadius)
-    
+
     background.regX = w / 2
     background.regY = h + 2  # Just above health bar, say
-    
+
     # Center the container where the mouth of the speaker will be
     if o.hPos is "left"
       background.regX = 3
