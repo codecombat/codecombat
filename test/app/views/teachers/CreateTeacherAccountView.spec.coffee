@@ -1,7 +1,7 @@
 CreateTeacherAccountView = require 'views/teachers/CreateTeacherAccountView'
 forms = require 'core/forms'
 
-describe '/teachers/signup', ->
+xdescribe '/teachers/signup', ->
 
   describe 'when logged out', ->
 
