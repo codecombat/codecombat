@@ -110,12 +110,15 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
       if @prevTemplates[filename] is content
         continue
       @prevTemplates[filename] = content
+      chunkPaths = {}
+      compilation.chunks.map (c) ->
+        if c.name
+          chunkPaths[c.name] = compiler.options.output.chunkFilename.replace('[name]',c.name).replace('[chunkhash]',c.renderedHash)
+
       locals = _.merge({}, @options.locals, {
-        chunkPaths: _.zipObject.apply(null, _.zip(compilation.chunks.map((c)=>[
-          c.name,
-          compiler.options.output.chunkFilename.replace('[name]',c.name).replace('[chunkhash]',c.renderedHash)
-        ])))
+        chunkPaths: chunkPaths
       })
+
       try
         compile(content, locals, filename, _.noop)
         console.log "\nCompiled static file: #{filename}"
