@@ -92,43 +92,7 @@ module.exports.translateJS = (jsCode, language='cpp', fullCode=true) ->
 translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
   # Supports cpp or java
 
-  # Find header comments function definitions in order to hoist them out of the main function
-  matchBrackets = (str, startIndex) ->
-    cc = 0
-    for i in [startIndex...str.length]
-      cc += 1 if str[i] == '{'
-      if str[i] == '}'
-        cc -= 1
-        return i+2 unless cc
-  splitFunctions = (str) ->
-    creg = /\n[ \t]*[^\/]/
-    codeIndex = creg.exec(str)
-    if str and str[0] != '/'
-      startComments = ''
-    else if codeIndex
-      codeIndex = codeIndex.index + 1
-      startComments = str.slice 0, codeIndex
-      str = str.slice codeIndex
-    else
-      return [str, '']
-
-    indices = []
-    reg = /\nfunction/gi
-    indices.push 0 if str.startsWith("function ")
-    while (result = reg.exec(str))
-      indices.push result.index+1
-    split = []
-    end = 0
-    # split.push {s: 0, e: indices[0]} if indices.length
-    for i in indices
-      split.push {s: end, e: i} if end != i
-      end = matchBrackets str, i
-      split.push {s: i, e: end}
-    split.push {s: end, e: str.length}
-    header = if startComments then [startComments] else []
-    # TODO: this loses startComments before any function that isn't the first function
-    return header.concat split.map (s) -> str.slice s.s, s.e
-
+  # Find all global statement(except global variables) and move into main function
   reorderGlobals = (strs) ->
     insertPlace = strs.length-1
     for i in [strs.length-2..0] by -1
@@ -149,8 +113,43 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
 
     return strs.concat([finals.slice(0, insertPlace).join('\n'), finals.slice(insertPlace).join('\n')])
 
+  # Find header comments function definitions in order to hoist them out of the main function
+  matchBrackets = (str, startIndex) ->
+    cc = 0
+    for i in [startIndex...str.length]
+      cc += 1 if str[i] == '{'
+      if str[i] == '}'
+        cc -= 1
+        return i+2 unless cc
+  splitFunctions = (str) ->
+    creg = /\n?[ \t]*[^\/]/
+    startCommentReg = /^\n?(\/\/.*?\n)*\n/
+    comments = startCommentReg.exec(str)
+    if comments
+      startComments = comments[0].slice(0, -1) # left the tailing \n
+      str = str.slice startComments.length
+      unless creg.exec str
+        return [startComments, str]
+    else
+      strComments = ''
+
+    indices = []
+    reg = /\n(\/\/.*?\n)*function/gi
+    indices.push 0 if str.startsWith("function ")
+    while (result = reg.exec(str))
+      indices.push result.index+1
+    split = []
+    end = 0
+    # split.push {s: 0, e: indices[0]} if indices.length
+    for i in indices
+      split.push {s: end, e: i} if end != i
+      end = matchBrackets str, i
+      split.push {s: i, e: end}
+    split.push {s: end, e: str.length}
+    header = if startComments then [startComments] else []
+    return header.concat(reorderGlobals(split.map (s) -> str.slice s.s, s.e ))
+
   jsCodes = splitFunctions jsCode
-  jsCodes = reorderGlobals jsCodes
   if fullCode
     # Remove whitespace-only pieces, except for in the last piece
     jsCodes = _.filter(jsCodes.slice(0, jsCodes.length - 1), (piece) -> piece.replace(/\s/g, '').length).concat(jsCodes[jsCodes.length - 1])
