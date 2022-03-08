@@ -100,8 +100,7 @@ module.exports = WebpackStaticStuff = (options = {}) ->
 
 WebpackStaticStuff.prototype.apply = (compiler) ->
   # Compile the static files
-  # https://github.com/ionic-team/stencil-webpack/pull/9
-  compiler.hooks.emit.tapAsync 'CompileStaticTemplatesEmit', (compilation, callback) =>
+  compiler.plugin 'emit', (compilation, callback) =>
     files = fs.readdirSync(path.resolve('./app/templates/static'))
     promises = []
     for filename in files
@@ -125,7 +124,7 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
     callback()
 
   # Watch the static template files for changes
-  compiler.hooks.afterEmit.tapAsync 'CompileStaticTemplatesAfterEmit', (compilation, callback) =>
+  compiler.plugin 'after-emit', (compilation, callback) =>
     files = fs.readdirSync(path.resolve('./app/templates/static'))
     compilationFileDependencies = compilation.fileDependencies
     _.forEach(files, (filename) =>
