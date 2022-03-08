@@ -17,7 +17,7 @@ module.exports = (env) => {
   const baseConfig = baseConfigFn(env);
   const plugins = [
     new webpack.BannerPlugin({ // Label each module in the output bundle
-      banner: "hash:[fullhash], chunkhash:[chunkhash], name:[name], filebase:[base], query:[query], file:[file]"
+      banner: "hash:[hash], chunkhash:[chunkhash], name:[name], filebase:[filebase], query:[query], file:[file]"
     }),
     new LiveReloadPlugin({ // Reload the page upon rebuild
       appendScriptTag: true,

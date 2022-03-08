@@ -1,8 +1,7 @@
 {
   "presets": [
     ["@babel/preset-env", {
-      "modules": "commonjs",
-      "exclude": ["proposal-dynamic-import"]
+      "modules": "commonjs"
     }]
   ],
   "plugins": [
