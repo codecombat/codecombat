@@ -1,0 +1,44 @@
+sudo: false
+language: node_js
+node_js:
+  - 14.18.3
+env:
+  - CXX=g++-4.8
+services:
+  - mongodb
+addons:
+  firefox: "66.0"
+  apt:
+    sources:
+      - mongodb-upstart
+      - ubuntu-toolchain-r-test
+    packages:
+      - mongodb-org-server
+      - g++-4.8
+cache:
+  directories:
+    - node_modules
+    - bower_components
+before_install:
+  - export COCO_TRAVIS_TEST=1
+  - npm install -g npm@6.x
+before_script:
+  - npm install --ignore-scripts
+  - npm install
+  - npm run build
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+script:
+  - "./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters dots"
+  - npm run test-china
+notifications:
+  slack:
+    rooms:
+      - secure: o/fVW216/h0hacMz3y4+NvvJEY8w6li690MggGvjV7zH89eP2oT3UmHikBxrhm0ooEP0blPlaLJ6seeY9LLRLsebBO3yQbpSSOvF3aAs0VoW3+r9oPwJYBvOg1dcwAHUcJiR5+HLzv+l4PL4SJsnp66hRDqUUB08F3FkUz96JN0=
+    template:
+      - Tests failed <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} <!subteam^S7QGF5W03|engteam>
+    on_success: never
+    on_failure: always
+    on_start: never
+    on_pull_requests: false
+dist: trusty
