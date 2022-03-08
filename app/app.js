@@ -1,7 +1,8 @@
 global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
 import 'bootstrap';
 import './app.sass';
-import 'babel-polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 /**
  * Fonts dynamically imported based on infra location
