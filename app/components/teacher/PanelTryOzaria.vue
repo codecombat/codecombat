@@ -28,7 +28,7 @@ export default Vue.extend({
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 #panel-try-ozaria {
   display: flex;
   flex-direction: row;

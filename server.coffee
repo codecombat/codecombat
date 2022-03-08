@@ -1,5 +1,5 @@
 do (setupLodash = this) ->
-  GLOBAL._ = require 'lodash'
+  global._ = require 'lodash'
   _.str = require 'underscore.string'
   _.mixin _.str.exports()
 
