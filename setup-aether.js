@@ -47,16 +47,16 @@ const aether_webpack_config = {
     ]
   },
   resolve: {
-    extensions: [".coffee", ".json", ".js"]
+    extensions: [".coffee", ".json", ".js"],
+    fallback: {
+      fs: false,
+      buffer: require.resolve("buffer/")
+    }
   },
   externals: {
     "esper.js": "esper",
     lodash: "_",
     "source-map": "SourceMap"
-  },
-
-  node: {
-    fs: "empty"
   },
   mode: process.env.BRUNCH_ENV === "production" ? 'production' : 'development'
 };
