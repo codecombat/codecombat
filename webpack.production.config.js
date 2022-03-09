@@ -8,7 +8,6 @@ require('coffee-script');
 require('coffee-script/register');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const EventHooksWebpackPlugin = require('event-hooks-webpack-plugin')
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
 const smp = new SpeedMeasurePlugin({
@@ -43,12 +42,7 @@ module.exports = (env) => {
   devtool: 'source-map', // https://webpack.js.org/configuration/devtool/
   mode: 'production',
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true,
-      }),
-    ],
+    // check if we need to manually mention terser or webpack prod mode does it by default
   },
   plugins: baseConfig.plugins
     .concat(commonsPlugins)
