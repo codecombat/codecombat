@@ -271,17 +271,14 @@ module.exports = class User extends CocoModel
 
   getHeroPoseImage: co.wrap ->
     options={}
-    options.method = 'GET'
-    options.contentType = 'application/json'
-    options.dataType = 'json'
+    options.cache = 'no-store'
     if ((@get('heroConfig') or {}).thangType)
       poseFile = yield fetchJson("/db/thang.type/#{((@get('heroConfig') or {}).thangType)}/version",options)
-      $("#hero-pose").attr('src', '/file/' + poseFile.poseImage)
+      return '/file/' + poseFile.poseImage
 
   validate: ->
     errors = super()
     if errors and @_revertAttributes
-
       # Do not return errors if they were all present when last marked to revert.
       # This is so that if a user has an invalid property, that does not prevent
       # them from editing their settings.
@@ -294,12 +291,6 @@ module.exports = class User extends CocoModel
       if _.size(newErrors) is 0
         return
     return errors
-
-
-
-
-
-
 
   hasSubscription: ->
     return false if @isStudent() or @isTeacher()
