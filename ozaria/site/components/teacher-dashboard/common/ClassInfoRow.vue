@@ -65,7 +65,7 @@
       <span>{{ dateCreated }}</span>
     </div>
     <div
-      v-if="sharePermission"
+      v-if="sharePermission === 'read' || sharePermission === 'write'"
       class="stats-tab"
     >
       <icon-share-gray />

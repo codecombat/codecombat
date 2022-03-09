@@ -22,10 +22,8 @@ require('vendor/scripts/idle.js').createjs;
 window.key = require('../vendor/scripts/keymaster.js');
 require('vendor/scripts/jquery.noty.packaged.min.js');
 require('nanoscroller');// TODO webpack: Try to extract this
-require('nanoscroller/bin/css/nanoscroller.css');// TODO webpack: Try to extract this
 require('vendor/scripts/hsl-to-rgb.js');
 require('imports-loader?this=>window!../vendor/scripts/fancy_select.js');// TODO webpack: Try to extract this
-import 'vendor/styles/fancy_select.css'// TODO webpack: Try to extract this
 window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js');// TODO webpack: Try to extract this
 require('vendor/scripts/fuzzaldrin')// TODO webpack: Try to extract this
 
