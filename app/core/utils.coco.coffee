@@ -148,6 +148,10 @@ CSCourseIDs = [
   courseIDs.COMPUTER_SCIENCE_5
   courseIDs.COMPUTER_SCIENCE_6
 ]
+WDCourseIDs = [
+  courseIDs.WEB_DEVELOPMENT_1
+  courseIDs.WEB_DEVELOPMENT_2
+]
 orderedCourseIDs = [
   courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
   courseIDs.GAME_DEVELOPMENT_1
@@ -977,6 +981,7 @@ module.exports = {
   courseLessonSlidesURLs
   courseNumericalStatus
   CSCourseIDs
+  WDCourseIDs
   createLevelNumberMap
   extractPlayerCodeTag
   freeAccessLevels
