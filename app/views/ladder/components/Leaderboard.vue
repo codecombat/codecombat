@@ -243,7 +243,7 @@
           this.$delete(this.selectedRow, index)
         }
         else {
-          this.selectedRow = Array.concat(this.selectedRow, [rank]).slice(-2)
+          this.selectedRow = this.selectedRow.concat([rank]).slice(-2)
         }
         this.$emit('spectate', this.selectedRow)
       }
