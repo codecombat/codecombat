@@ -16,6 +16,13 @@
       ModuleContent
     },
 
+    props: {
+      defaultLanguage: {
+        type: String,
+        default: 'python'
+      },
+    },
+
     computed: {
       ...mapState({
         isVisible: state => state.baseCurriculumGuide.visible
@@ -61,7 +68,14 @@
         // Assuming that last module is the capstone module, TODO store `isCapstoneModule` with module details in the course schema.
         return moduleNum === this.moduleNumbers[this.moduleNumbers.length-1]
       }
-    }
+    },
+    watch: {
+      defaultLanguage: {
+        handler(language) {
+          this.setSelectedLanguage(language)
+        },
+      }
+    },
   }
 </script>
 

@@ -76,6 +76,16 @@
         }
       },
 
+      getLanguage () {
+        if(this.classroom && this.classroom.aceConfig){
+          return this.classroom.aceConfig.language
+        }
+
+        if(this.activeClassrooms.length > 0){
+          return this.getMostCommonLanguage();
+        }
+      },
+
       isAllClassesPage () {
         return this.componentName === COMPONENT_NAMES.MY_CLASSES_ALL
       },
@@ -125,6 +135,21 @@
         setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom',
         setTeacherPagesTrackCategory: 'teacherDashboard/setTrackCategory'
       }),
+
+      getMostCommonLanguage () {
+        const languagesCount = this.activeClassrooms.reduce((map, classroom)=>{
+          const language = classroom.aceConfig.language;
+          map[language] = (map[language] || 0) + 1;
+          return map;
+        }, {});
+
+        const languagesSortedByCount = Object.entries(languagesCount)
+            .sort(function(a, b) {
+              return b[1] - a[1];
+            })
+
+        return languagesSortedByCount[0][0]
+      },
 
       updateStoreOnNavigation () {
         if (this.$route.params.classroomId) {
@@ -263,7 +288,9 @@
     <p> {{ $t('teacher.teacher_account_required') }} </p>
   </div>
   <div v-else>
-    <base-curriculum-guide />
+    <base-curriculum-guide
+        :default-language="getLanguage"
+    />
     <panel />
     <secondary-teacher-navigation
       :classrooms="activeClassrooms"

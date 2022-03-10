@@ -104,7 +104,8 @@
             courseId: this.courseId,
             courseInstanceId: this.courseInstanceId,
             campaignPage: page,
-            campaignId: this.campaignData._id
+            campaignId: this.campaignData._id,
+            codeLanguage: this.codeLanguage
           })
           return application.router.navigate(url, { trigger: true })
         }
