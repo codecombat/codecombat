@@ -177,7 +177,7 @@ courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 4
 courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 2
 courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 1
 
- 
+
 courseAcronyms = {}
 courseAcronyms[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
 courseAcronyms[courseIDs.GAME_DEVELOPMENT_1] = 'GD1'
@@ -886,7 +886,12 @@ arenas = [
   {slug: 'sorcerers'        , type: 'championship', start: new Date("2021-08-01T00:00:00.000-08:00"), end: new Date("2021-09-01T00:00:00.000-08:00"), results: new Date("2021-09-08T09:00:00.000-08:00"), levelOriginal: '609a6ad2e1eb34001a84e7af', tournament: '612d556f9abe2e0019af000b', image: "/file/db/level/609a6ad2e1eb34001a84e7af/Sorcerer's-Blitz-01.jpg"}
   {slug: 'giants-gate'      , type: 'regular',      start: new Date("2021-09-01T00:00:00.000-08:00"), end: new Date("2021-12-15T00:00:00.000-07:00"), results: new Date("2021-12-21T09:00:00.000-07:00"), levelOriginal: '60e69b24bed8ae001ac6ce3e', tournament: '6136a86e0c0ecaf34e431e81', image: "/file/db/level/60e69b24bed8ae001ac6ce3e/Giant’s-Gate-Final.jpg"}
   {slug: 'colossus'         , type: 'championship', start: new Date("2021-11-19T00:00:00.000-07:00"), end: new Date("2021-12-15T00:00:00.000-07:00"), results: new Date("2021-12-21T09:00:00.000-07:00"), levelOriginal: '615ffaf2b20b4900280e0070', tournament: '61983f74fd75db5e28ac127a', image: "/file/db/level/615ffaf2b20b4900280e0070/Colossus-Clash-02.jpg"}
-  {slug: 'iron-and-ice'     , type: 'regular',      start: new Date("2021-12-15T00:00:00.000-07:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '618a5a13994545008d2d4990'}
+  {slug: 'iron-and-ice'     , type: 'regular',      start: new Date("2021-12-15T00:00:00.000-07:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '618a5a13994545008d2d4990',                                         image: "file/db/level/618a5a13994545008d2d4990/Iron-and-Ice-Arena-Banner-02.jpg"}
+  {slug: 'tundra-tower'     , type: 'championship', start: new Date("2021-04-01T00:00:00.000-08:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '620cb80a9bc0f1005e9189d7'}
+ #{slug: 'desert-duel'      , type: 'regular',      start: new Date("2022-05-01T00:00:00.000-08:00"), end: new Date("2022-09-01T00:00:00.000-08:00"), results: new Date("2022-09-08T09:00:00.000-08:00"), levelOriginal: ''}
+ #{slug: 'sandstorm'        , type: 'championship', start: new Date("2022-08-01T00:00:00.000-08:00"), end: new Date("2022-09-01T00:00:00.000-08:00"), results: new Date("2022-09-08T09:00:00.000-08:00"), levelOriginal: ''}
+ #{slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-07:00"), results: new Date("2023-01-10T09:00:00.000-07:00"), levelOriginal: ''}
+ #{slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-07:00"), results: new Date("2023-01-10T09:00:00.000-07:00"), levelOriginal: ''}
 ]
 
 activeArenas = ->
