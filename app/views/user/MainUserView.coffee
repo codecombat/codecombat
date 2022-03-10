@@ -28,6 +28,11 @@ module.exports = class MainUserView extends UserView
     @stopListening?()
     super()
 
+  loadHeroPoseImage: =>
+    @user.getHeroPoseImage().then (result) =>
+      @heroPoseImage = result
+      @render()
+
   onLoaded: ->
     if @user.loaded
       @setMeta({
@@ -58,7 +63,7 @@ module.exports = class MainUserView extends UserView
       @onSyncClans @clans?.models
       @render?()
     @supermodel.loadCollection(@clans, 'clans', {cache: false})
-
+    @loadHeroPoseImage()
     super()
 
   onSyncClans: (clans) ->
