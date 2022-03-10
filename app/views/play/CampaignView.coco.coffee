@@ -962,6 +962,10 @@ module.exports = class CampaignView extends RootView
     # make sure to accommodate campaigns with free-in-certain-campaign-contexts levels,
     # such as game dev levels in game-dev-hoc.
     sessionURL = "/db/level/#{levelSlug}/session?campaign=#{@campaign.id}"
+    if courseID = @course?.get('_id')
+      sessionURL += "&course=#{courseID}"
+      if @courseInstanceID
+        sessionURL += "&courseInstance=#{@courseInstanceID}"
 
     @preloadedSession = new LevelSession().setURL sessionURL
     @listenToOnce @preloadedSession, 'sync', @onSessionPreloaded
