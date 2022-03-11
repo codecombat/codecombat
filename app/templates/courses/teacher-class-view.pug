@@ -476,7 +476,7 @@ mixin enrollmentStatusTab
             if licenses.length == 1
               - var status = $.t('teacher.status_enrolled')
               strong= status.replace('{{date}}', moment(licenses[0].endDate).format('ll'))
-            else
+            else if licenses.length > 1
               - var status = $.t('teacher.status_partly_expires')
               - var soonest = _.min(licenses.map((l) => new Date(l.endDate)))
               strong= status.replace('{{date}}', moment(soonest).format('ll'))
