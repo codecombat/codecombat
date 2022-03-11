@@ -2544,6 +2544,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     certificate_levels_completed: "levels completed"
     certificate_for: "For"
     certificate_number: "No."
+    heroes_unlocked: "Heroes Unlocked"
+    current_items: "Items Equipped"
+    contributor_badges: "Contributor Badges"
+    contributions_title: "Contributions"
+    type_stat: "Type"  # As in, which type of contribution
+    patches_submit: "Patches Submitted"
+    patches_approved: "Patches Approved"
+    patches_accepted: "Patches Accepted"
+    level_edits: "Level Edits"
+    total_translations: "Total Translations"
 
   achievements:
     last_earned: "Last Earned"

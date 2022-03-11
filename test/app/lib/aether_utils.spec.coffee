@@ -897,7 +897,8 @@ solutionsByLanguage.cpp.libraryTactician = """
   // Hushbaum has been ambushed by ogres!
   // She is busy healing her soldiers, you should command them to fight!
   // The ogres will send more troops if they think they can get to Hushbaum or your archers, so keep them inside the circle!
-  
+
+  // Soldiers spread out in a circle and defend.
   auto commandSoldier(auto soldier, auto soldierIndex, auto numSoldiers) {
       auto angle = Math.PI * 2 * soldierIndex / numSoldiers;
       auto defendPos = {41, 40};
@@ -905,11 +906,9 @@ solutionsByLanguage.cpp.libraryTactician = """
       defendPos.y += 10 * Math.sin(angle);
       hero.command(soldier, "defend", defendPos);
   }
-  
-  
+
   // Find the strongest target (most health)
   // This function returns something! When you call the function, you will get some value back.
-  
   auto findStrongestTarget() {
       auto mostHealth = 0;
       auto bestTarget = null;
@@ -929,11 +928,8 @@ solutionsByLanguage.cpp.libraryTactician = """
           return null;
       }
   }
-  
-  
-  
+
   // If the strongestTarget has more than 15 health, attack that target. Otherwise, attack the nearest target.
-  
   auto commandArcher(auto archer) {
       auto nearest = archer.findNearestEnemy();
       if(archerTarget) {
@@ -945,10 +941,10 @@ solutionsByLanguage.cpp.libraryTactician = """
   
   
   auto archerTarget = null;
+
+
+
   int main() {
-      // Soldiers spread out in a circle and defend.
-      
-      
       while(true) {
           // If archerTarget is defeated or doesn't exist, find a new one.
           if(!archerTarget || archerTarget.health <= 0) {
@@ -1070,9 +1066,9 @@ describe 'Aether / code transpilation utility library', ->
 
     describe 'if there are start comments', ->
       it 'if there is no code', ->
-        expect(aetherUtils.translateJS('//abc\n//def\n', 'cpp')).toBe('//abc\n//def\n\nint main() {\n    \n    return 0;\n}')
+        expect(aetherUtils.translateJS('//abc\n//def\n\n', 'cpp')).toBe('//abc\n//def\n\nint main() {\n    \n    return 0;\n}')
       it 'if there is code without function definition', ->
-        expect(aetherUtils.translateJS('//abc\nhero.moveRight()', 'cpp')).toBe('//abc\n\nint main() {\n    hero.moveRight()\n    return 0;\n}')
+        expect(aetherUtils.translateJS('//abc\n\nhero.moveRight()', 'cpp')).toBe('//abc\n\nint main() {\n    hero.moveRight()\n    return 0;\n}')
       it 'if there is code with function definition', ->
         expect(aetherUtils.translateJS('//abc\n\nfunction a(b, c) {}\nhero.moveRight()', 'cpp')).toBe('//abc\n\nauto a(auto b, auto c) {}\n\nint main() {\n    hero.moveRight()\n    return 0;\n}')
 

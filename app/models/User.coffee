@@ -9,6 +9,7 @@ moment = require 'moment'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
 paymentUtils = require 'app/lib/paymentUtils'
+fetchJson = require 'core/api/fetch-json'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -254,6 +255,7 @@ module.exports = class User extends CocoModel
     for clanHero in utils.clanHeroes when clanHero.clanId in (@get('clans') ? [])
       heroes.push clanHero.thangTypeOriginal
     heroes
+
   items: -> (@get('earned')?.items ? []).concat(@get('purchased')?.items ? []).concat([ThangTypeConstants.items['simple-boots']])
   levels: -> (@get('earned')?.levels ? []).concat(@get('purchased')?.levels ? []).concat(LevelConstants.levels['dungeons-of-kithgard'])
   ownsHero: (heroOriginal) -> @isInGodMode() || heroOriginal in @heroes()
@@ -267,10 +269,14 @@ module.exports = class User extends CocoModel
     myHeroClasses.push heroClass for heroClass, heroSlugs of ThangTypeConstants.heroClasses when _.intersection(myHeroSlugs, heroSlugs).length
     myHeroClasses
 
+  getHeroPoseImage: co.wrap ->
+    heroOriginal = @get('heroConfig')?.thangType ? ThangTypeConstants.heroes.captain
+    heroThangType = yield fetchJson("/db/thang.type/#{heroOriginal}/version?project=poseImage")
+    return '/file/' + heroThangType.poseImage
+
   validate: ->
     errors = super()
     if errors and @_revertAttributes
-
       # Do not return errors if they were all present when last marked to revert.
       # This is so that if a user has an invalid property, that does not prevent
       # them from editing their settings.
@@ -410,7 +416,7 @@ module.exports = class User extends CocoModel
   prepaidType: (includeCourseIDs) =>
     courseProducts = @activeProducts('course')
     return undefined unless courseProducts.length
- 
+
     return 'course' if _.any(courseProducts, (p) => !p.productOptions?.includedCourseIDs?)
     # Note: currently includeCourseIDs is a argument only used when displaying
     # customized license's course names.

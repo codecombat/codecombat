@@ -268,6 +268,7 @@ module.exports = class TeacherClassView extends RootView
     @myClans = clans
     return unless @classClan = _.find((@myClans ? []), (clan) => clan.name is "autoclan-classroom-#{@classroom.id}")
     clansApi.getAILeagueStats(@classClan._id).then (stats) =>
+      return if @destroyed
       @aiLeagueStats = JSON.parse(stats)
       @renderSelectors '.ai-league-stats'
       @$('.ai-league-stats [data-toggle="tooltip"]').tooltip()
@@ -625,7 +626,7 @@ module.exports = class TeacherClassView extends RootView
   onClickCreateActivationCodes: (e) ->
     modal = new PrepaidActivationCodesModal({}, @classroom.get('_id'))
     @openModalView(modal)
-       
+
   onClickAssignStudentButton: (e) ->
     return unless @classroom.hasWritePermission({ showNoty: true }) # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
