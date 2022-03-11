@@ -1956,6 +1956,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     status_expired: "在 {{date}} 过期"
     status_not_enrolled: "未分配名额"
     status_enrolled: "在 {{date}} 过期"
+    status_partly_expires: "部分在 {{date}} 过期"
     select_all: "全选"
     project: "项目"
     project_gallery: "项目图库"
