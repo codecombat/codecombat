@@ -23,7 +23,7 @@ block modal-body-content
             span(data-i18n="teacher.full_license")
           else
             span= view.user.prepaidType('includeCourseIDs')
-          span (
+          span.expires (
           if licenses.length == 1
             - var status = $.t('teacher.status_enrolled')
             span= status.replace('{{date}}', moment(licenses[0].endDate).format('ll'))
