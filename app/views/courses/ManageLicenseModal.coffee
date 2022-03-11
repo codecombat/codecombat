@@ -8,6 +8,7 @@ Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 User = require 'models/User'
 Users = require 'collections/Users'
+utils = require 'core/utils'
 
 module.exports = class ManageLicenseModal extends ModalView
   id: 'manage-license-modal'
@@ -49,6 +50,7 @@ module.exports = class ManageLicenseModal extends ModalView
     @selectedPrepaidType = null
     @prepaidByGroup = {}
     @teacherPrepaidIds = []
+    @utils = utils
     @supermodel.trackRequest @classrooms.fetchMine({
       data: {archived: false}
       success: =>

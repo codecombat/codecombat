@@ -167,19 +167,19 @@ orderedCourseIDs = [
 ]
 
 courseNumericalStatus = {}
-courseNumericalStatus['FULL_ACCESS'] = 2047
 courseNumericalStatus['NO_ACCESS'] = 0
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
+courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 1
+courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 2
+courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 4
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 8
+courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 16
+courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 32
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 64
+courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 128
 courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 128
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 64
-courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 32
-courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 16
-courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 8
-courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 4
-courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 2
-courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 1
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
+courseNumericalStatus['FULL_ACCESS'] = 2047
 
 
 courseAcronyms = {}
@@ -729,6 +729,12 @@ formatStudentLicenseStatusDate = (status, date) ->
       when 'expired' then $.i18n.t('teacher.status_expired')
     string.replace('{{date}}', date or 'Never')
 
+formatStudentSingleLicenseStatusDate = (product) ->
+  string = $.i18n.t('teacher.full_license')
+  if product.productOptions?.includedCourseIDs?
+    string = product.productOptions.includedCourseIDs.map((id) -> courseAcronyms[id]).join('+')
+  string += ': ' + moment(product.endDate).format('ll')
+
 getApiClientIdFromEmail = (email) ->
   if /@codeninjas.com$/i.test(email) # hard coded for code ninjas since a lot of their users do not have clientCreator set
     clientID = '57fff652b0783842003fed00'
@@ -989,6 +995,7 @@ module.exports = {
   findNextLevel
   formatDollarValue
   formatStudentLicenseStatusDate
+  formatStudentSingleLicenseStatusDate
   freeCampaignIds
   functionCreators
   getApiClientIdFromEmail

@@ -1955,6 +1955,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     status_expired: "Expired on {{date}}"
     status_not_enrolled: "Not Enrolled"
     status_enrolled: "Expires on {{date}}"
+    status_partly_expires: "Partly expires on {{date}}"
     select_all: "Select All"
     project: "Project"
     project_gallery: "Project Gallery"
