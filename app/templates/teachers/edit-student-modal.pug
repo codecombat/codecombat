@@ -8,35 +8,35 @@ block modal-header-content
 block modal-body-content
 
   - var enrolledCourseBits = view.user.prepaidNumericalCourses()
+  - var licenses = view.user.activeProducts('course')
   - var prepaidType = view.user.prepaidType('includeCourseIDs')
 
   .text-center
     .license-details
       strong(data-i18n="teacher.license_status")
       span.spr :
-      if enrolledCourseBits === 0
-        .small-details
+      .small-details
+        if enrolledCourseBits === view.utils.courseNumericalStatus['NO_ACCESS']
           span(data-i18n="teacher.status_not_enrolled")
-      else
-        #numerical-courses-status
-          // index is the index number of power 2
-          // also see core/utils courseNumericalStatus
-          .status-col.cs
-            - for(var index = 5; index < 11; index ++)
-              .cell
-                = index - 4
-                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
-
-          .status-col.gd
-            - for(var index = 2; index < 5; index ++)
-              .cell
-                = index - 1
-                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
-          .status-col.wd
-            - for(var index = 0; index < 2; index ++)
-              .cell
-                = index + 1
-                input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, index)) ? 'checked': undefined, onclick="return false")
+        else
+          if enrolledCourseBits === view.utils.courseNumericalStatus['FULL_ACCESS']
+            span(data-i18n="teacher.full_license")
+          else
+            span= view.user.prepaidType('includeCourseIDs')
+          span.expires (
+          if licenses.length == 1
+            - var status = $.t('teacher.status_enrolled')
+            span= status.replace('{{date}}', moment(licenses[0].endDate).format('ll'))
+          else
+            - var status = $.t('teacher.status_partly_expires')
+            - var soonest = _.min(licenses.map((l) => new Date(l.endDate)))
+            span= status.replace('{{date}}', moment(soonest).format('ll'))
+            .more ?
+            .details
+              each license in licenses
+                p= view.utils.formatStudentSingleLicenseStatusDate(license)
+          span )
+      
 
       if enrolledCourseBits === 0 && me.canManageLicensesViaUI()
         .small-details
