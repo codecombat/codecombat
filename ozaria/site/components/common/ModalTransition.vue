@@ -217,6 +217,7 @@
           this.nextLevelLink = urls.courseWorldMap(urlOptions)
           this.editCapstoneLevelData = Object.values(this.levelsList).find((l) => l.ozariaType === 'capstone')
           if (this.editCapstoneLevelData && !me.isSessionless()) {
+            this.nextLevelLink = this.getCapstoneNextLevelLink();
             this.capstoneLevelSession = await this.getLevelSession(this.editCapstoneLevelData.slug)
             window.tracker.trackEvent('Completed Capstone Level', {
               category: 'Play Level',
@@ -226,6 +227,17 @@
           }
         }
       },
+
+      getCapstoneNextLevelLink() {
+        if (me.isTeacher()) {
+          return '/teachers'
+        } else if (me.isStudent()) {
+          return '/students'
+        } else {
+          return '/'
+        }
+      },
+
       async getLevelSession (levelIdOrSlug) {
         try {
           // TODO: drive level session from Vuex store
