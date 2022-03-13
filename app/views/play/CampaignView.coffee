@@ -795,10 +795,10 @@ module.exports = class CampaignView extends RootView
             # This beta level is not unlocked yet
             level.locked = level.hidden = true
             level.color = 'rgb(193, 193, 193)'
+          ++betaLevelIndex
+          ++betaLevelCompletedIndex if @levelStatusMap[level.slug] is 'complete'
         else
           level.hidden = level.locked = level.disabled = true
-        ++betaLevelIndex
-        ++betaLevelCompletedIndex if @levelStatusMap[level.slug] is 'complete'
     if betaLevelIndex and betaLevelCompletedIndex < betaLevelIndex
       # Lock all non-beta levels until beta levels are completed
       for level, levelIndex in orderedLevels when level.releasePhase isnt 'beta' and not level.locked

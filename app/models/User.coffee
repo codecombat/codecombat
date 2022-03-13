@@ -672,8 +672,14 @@ module.exports = class User extends CocoModel
     true
 
   getM7ExperimentValue: ->
-    value = {true: 'beta', false: 'control'}[utils.getQueryVariable 'beta']
-    value ?= me.getExperimentValue('m7', null, 'beta')
+    value = {true: 'beta', false: 'control', control: 'control', beta: 'beta'}[utils.getQueryVariable 'm7']
+    value ?= me.getExperimentValue('m7', null, 'control')
+    if value is 'beta' and (new Date() - _.find(me.get('experiments') ? [], name: 'm7')?.startDate) > 1 * 24 * 60 * 60 * 1000
+      # Experiment only lasts one day so that users don't get stuck in it
+      value = 'control'
+    if not value? and me.get('stats')?.gamesCompleted
+      # Don't include players who have already started playing
+      value = 'control'
     if not value? and new Date(me.get('dateCreated')) < new Date('2022-03-14')
       # Don't include users created before experiment start date
       value = 'control'
