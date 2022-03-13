@@ -725,6 +725,8 @@ module.exports = class CampaignView extends RootView
   annotateLevels: (orderedLevels) ->
     return if @isClassroom()
 
+    betaLevelIndex = 0
+    betaLevelCompletedIndex = 0
     for level, levelIndex in orderedLevels
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel(level.original)
@@ -778,6 +780,32 @@ module.exports = class CampaignView extends RootView
         for reward in (otherLevel.rewards ? []) when reward.level
           level.unlockedInSameCampaign ||= reward.level is level.original
 
+      if level.releasePhase is 'internalRelease' and not (me.isAdmin() or me.isArtisan() or me.isInGodMode() or @editorMode)
+        level.hidden = level.locked = level.disabled = true
+      else if level.releasePhase is 'beta' and not @editorMode
+        experimentValue = me.getM7ExperimentValue()
+        if experimentValue is 'beta'
+          level.disabled = false
+          level.unlockedInSameCampaign = true
+          if betaLevelIndex is betaLevelCompletedIndex
+            # All preceding beta levels, if any, have been completed, so this one is unlocked
+            level.locked = level.hidden = false
+            level.color = 'rgb(255, 80, 60)'
+          else
+            # This beta level is not unlocked yet
+            level.locked = level.hidden = true
+            level.color = 'rgb(193, 193, 193)'
+        else
+          level.hidden = level.locked = level.disabled = true
+        ++betaLevelIndex
+        ++betaLevelCompletedIndex if @levelStatusMap[level.slug] is 'complete'
+    if betaLevelIndex and betaLevelCompletedIndex < betaLevelIndex
+      # Lock all non-beta levels until beta levels are completed
+      for level, levelIndex in orderedLevels when level.releasePhase isnt 'beta' and not level.locked
+        level.locked = level.hidden = true
+        level.color = 'rgb(193, 193, 193)'
+    null
+
   countLevels: (orderedLevels) ->
     count = total: 0, completed: 0
 
@@ -809,6 +837,12 @@ module.exports = class CampaignView extends RootView
       @applyCourseLogicToLevels(orderedLevels) if @courseStats?
       return true
 
+    if me.getM7ExperimentValue() is 'beta'
+      # Point out next experimental level, if any are incomplete
+      for level in orderedLevels
+        if level.releasePhase is 'beta' and @levelStatusMap[level.slug] isnt 'complete'
+          level.next = true
+          return
 
     dontPointTo = ['lost-viking', 'kithgard-mastery']  # Challenge levels we don't want most players bashing heads against
     subscriptionPrompts = [{slug: 'boom-and-bust', unless: 'defense-of-plainswood'}]
@@ -1031,6 +1065,7 @@ module.exports = class CampaignView extends RootView
       #level.adventurer  # Disable adventurer stuff for now
       @levelStatusMap[level.slug]
       @campaign.get('type') is 'hoc'
+      level.releasePhase is 'beta' and me.getM7ExperimentValue() is 'beta'
     ])
     if requiresSubscription and not canPlayAnyway
       @promptForSubscription levelSlug, 'map level clicked'

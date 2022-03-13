@@ -671,6 +671,35 @@ module.exports = class User extends CocoModel
     return false unless @get('emails')?.generalNews?.enabled
     true
 
+  getM7ExperimentValue: ->
+    value = {true: 'beta', false: 'control'}[utils.getQueryVariable 'beta']
+    value ?= me.getExperimentValue('m7', null, 'beta')
+    if not value? and new Date(me.get('dateCreated')) < new Date('2022-03-14')
+      # Don't include users created before experiment start date
+      value = 'control'
+    if not value? and not /^en/.test me.get('preferredLanguage', true)
+      # Don't include non-English-speaking users before beta levels are translated
+      value = 'control'
+    if not value? and me.get('hourOfCode')
+      # Don't include users coming in through Hour of Code
+      value = 'control'
+    if not value? and not me.get('anonymous')
+      # Don't include registered users
+      value = 'control'
+    if not value? and features?.china
+      # Don't include China players
+      value = 'control'
+    if not value?
+      probability = window.serverConfig?.experimentProbabilities?.m7?.beta ? 0
+      if me.get('testGroupNumber') / 256 < probability
+        value = 'beta'
+        valueProbability = probability
+      else
+        value = 'control'
+        valueProbability = 1 - probability
+      me.startExperiment('m7', value, probability)
+    value
+
   # Feature Flags
   # Abstract raw settings away from specific UX changes
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
