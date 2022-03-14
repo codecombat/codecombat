@@ -1955,6 +1955,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     status_expired: "Rkcverq ba {{qngr}}"
     status_not_enrolled: "Abg Raebyyrq"
     status_enrolled: "Rkcverf ba {{qngr}}"
+    status_partly_expires: "Cnegyl rkcverf ba {{qngr}}"
     select_all: "Fryrpg Nyy"
     project: "Cebwrpg"
     project_gallery: "Cebwrpg Tnyyrel"
@@ -2544,6 +2545,16 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     certificate_levels_completed: "yriryf pbzcyrgrq"
     certificate_for: "Sbe"
     certificate_number: "Ab."
+    heroes_unlocked: "Urebrf Haybpxrq"
+    current_items: "Vgrzf Rdhvccrq"
+    contributor_badges: "Pbagevohgbe Onqtrf"
+    contributions_title: "Pbagevohgvbaf"
+    type_stat: "Glcr"  # Nf va, juvpu glcr bs pbagevohgvba
+    patches_submit: "Cngpurf Fhozvggrq"
+    patches_approved: "Cngpurf Nccebirq"
+    patches_accepted: "Cngpurf Npprcgrq"
+    level_edits: "Yriry Rqvgf"
+    total_translations: "Gbgny Genafyngvbaf"
 
   achievements:
     last_earned: "Ynfg Rnearq"
