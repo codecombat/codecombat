@@ -433,7 +433,7 @@ _.extend UserSchema.properties,
       purchaser: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) # in case of gifts
       recipient: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
       purchaserDesc:
-        type: enum: ['email', 'phone']
+        detailType: enum: ['email', 'phone']
         detail: c.shortString(description: 'We may have a purchaser with no account, in which case only this email/phone/... will be set')
       paymentService: { enum: ['stripe', 'testing', 'free', 'api', 'external', 'paypal']}  # Removed 'ios', could perhaps remove 'paypal', could differentiate 'external' further
       paymentDetails:
@@ -447,7 +447,7 @@ _.extend UserSchema.properties,
             { staffCreator: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) }  # any other external payment source options?
             # ... etc. for each possible payment service ...
           ]
- 
+
 
 c.extendBasicProperties UserSchema, 'user'
 
