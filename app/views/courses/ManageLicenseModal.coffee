@@ -197,7 +197,15 @@ module.exports = class ManageLicenseModal extends ModalView
     options = {
       success: (prepaid) =>
         userProducts = user.get('products') ? []
-        user.set('products', userProducts.concat(prepaid.convertToProduct()))
+        product = prepaid.convertToProduct()
+        product.recipient = user.id
+        product.paymentService = 'free'
+        product.paymentDetails =
+          purchaseDate: new Date().toISOString()
+          amount: 0 
+
+        user.set('products', userProducts.concat(product))
+        user.patch()
         usersToRedeem.remove(user)
         @state.get('selectedUsers').remove(user)
         @updateVisibleSelectedUsers()
@@ -258,11 +266,8 @@ module.exports = class ManageLicenseModal extends ModalView
 
     options = {
       success: =>
-        user.set('products', user.get('products').map((p) ->
-          if p.prepaid == prepaidId
-            p.endDate = new Date().toISOString()
-          return p
-        ))
+        products = user.get('products') ? []
+        _.remove(products, (s) -> s.prepaid is prepaidId)
         usersToRedeem.remove(user)
         @state.get('selectedUsers').remove(user)
         @updateVisibleSelectedUsers()
