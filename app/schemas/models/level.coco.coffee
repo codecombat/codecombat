@@ -406,6 +406,7 @@ _.extend LevelSchema.properties,
   # Admin flags
   adventurer: { type: 'boolean' }
   adminOnly: { type: 'boolean' }
+  releasePhase: { enum: ['beta', 'internalRelease', 'released'], title: 'Release status', description: "Release status of the level, determining who sees it.", default: 'internalRelease' }
   disableSpaces: { type: ['boolean','integer'] }
   hidesSubmitUntilRun: { type: 'boolean' }
   hidesPlayButton: { type: 'boolean' }
