@@ -102,7 +102,7 @@
         this.capstoneLevel.additionalGoals.forEach(goal => {
           goals.push(goal.goals)
         })
-        return goals.flatten()
+        return _.flatten(goals)
       },
       studentName () {
         return (member) => {
