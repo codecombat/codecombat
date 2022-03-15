@@ -149,7 +149,8 @@ module.exports = class TeacherClassesView extends RootView
     @courseInstances = new CourseInstances()
     @courseInstances.fetchByOwner(@teacherID)
     @supermodel.trackCollection(@courseInstances)
-    @progressDotTemplate = require 'app/templates/teachers/hovers/progress-dot-whole-course'
+    translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
+    @progressDotTemplate = _.wrap(require('app/templates/teachers/hovers/progress-dot-whole-course'), translateTemplateText)
     @prepaids = new Prepaids()
     @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
 
