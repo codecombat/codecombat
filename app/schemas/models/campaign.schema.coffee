@@ -125,6 +125,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'primerLanguage'
   'shareable'
   'adminOnly'
+  'releasePhase'
   'disableSpaces'
   'hidesSubmitUntilRun'
   'hidesPlayButton'

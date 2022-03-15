@@ -1956,6 +1956,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     status_expired: "Λήγει σε {{date}}"
     status_not_enrolled: "Δεν Έχει Εγγραφεί"
     status_enrolled: "Λήγει σε {{date}}"
+#    status_partly_expires: "Partly expires on {{date}}"
     select_all: "Επιλογή Όλων"
     project: "Εργασία"
     project_gallery: "Έκθεση Εργασιών"
@@ -2545,6 +2546,16 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    certificate_levels_completed: "levels completed"
 #    certificate_for: "For"
 #    certificate_number: "No."
+#    heroes_unlocked: "Heroes Unlocked"
+#    current_items: "Items Equipped"
+#    contributor_badges: "Contributor Badges"
+#    contributions_title: "Contributions"
+#    type_stat: "Type" # As in, which type of contribution
+#    patches_submit: "Patches Submitted"
+#    patches_approved: "Patches Approved"
+#    patches_accepted: "Patches Accepted"
+#    level_edits: "Level Edits"
+#    total_translations: "Total Translations"
 
   achievements:
     last_earned: "Τελευταίο Απόκτημα"

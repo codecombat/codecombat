@@ -385,6 +385,9 @@ class LevelNode extends TreemaObjectNode
       el = 'span'
     else if data.adventurer
       status += " (adventurer)"
+    else if data.releasePhase is 'beta'
+      status += " (beta)"
+      el = 'span'
 
     completion = ''
 

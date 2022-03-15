@@ -1956,6 +1956,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     status_expired: "Caducada el {{date}}"
     status_not_enrolled: "No inscrit"
     status_enrolled: "Caduca el {{date}}"
+#    status_partly_expires: "Partly expires on {{date}}"
     select_all: "Selecciona Tot"
     project: "Projecte"
     project_gallery: "Galeria de Projectes"
@@ -2545,6 +2546,16 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     certificate_levels_completed: "nivells completats"
     certificate_for: "Per"
 #    certificate_number: "No."
+#    heroes_unlocked: "Heroes Unlocked"
+#    current_items: "Items Equipped"
+#    contributor_badges: "Contributor Badges"
+#    contributions_title: "Contributions"
+#    type_stat: "Type" # As in, which type of contribution
+#    patches_submit: "Patches Submitted"
+#    patches_approved: "Patches Approved"
+#    patches_accepted: "Patches Accepted"
+#    level_edits: "Level Edits"
+#    total_translations: "Total Translations"
 
   achievements:
     last_earned: "Últim aconseguit"
