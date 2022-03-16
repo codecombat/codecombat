@@ -901,13 +901,14 @@ export default {
         <h1 style="margin-bottom: 50px;"><span class="esports-aqua">Bring </span><span class="esports-pink">competitive coding </span><span class="esports-aqua">to your </span><span class="esports-purple">school</span></h1>
         <p class="subheader2" style="margin-bottom: 50px;">{{ $t('league.share_flyer') }}</p>
         <div class="xs-centered">
-          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">{{ $t('league.download_flyer') }}</a>
-          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit?usp=sharing" target="_blank" rel="noopener noreferrer">{{ $t('teacher.teacher_getting_started') }}</a>
-          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank" rel="noopener noreferrer">
+          <a class="btn btn-large btn-primary btn-moon btn-esports-flyer" href="https://s3.amazonaws.com/files.codecombat.com/docs/esports_flyer.pdf" target="_blank" rel="noopener noreferrer">{{ $t('league.download_flyer') }}</a>
+          <a class="btn btn-large btn-primary btn-moon btn-esports-flyer" href="https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit?usp=sharing" target="_blank" rel="noopener noreferrer">{{ $t('teacher.teacher_getting_started') }}</a>
+          <a class="btn btn-large btn-primary btn-moon btn-esports-flyer" href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank" rel="noopener noreferrer">
             <span class="glyphicon glyphicon-facetime-video"></span>
             <span class="spl">{{ $t('game_menu.guide_video_tutorial') }}</span>
           </a>
-          <a style="margin-bottom: 20px;" class="btn btn-large btn-primary btn-moon" href="https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League" target="_blank">{{ $t('contact.faq') }}</a>
+          <a class="btn btn-large btn-primary btn-moon btn-esports-flyer" href="https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League" target="_blank">{{ $t('contact.faq') }}</a>
+          <a class="btn btn-large btn-primary btn-moon btn-esports-flyer" href="https://docs.google.com/presentation/d/1fXzV0gh9U0QqhSDcYYlIOIuM3uivFbdC9UfT1OBydEE/edit?usp=sharing" target="_blank">{{ $t('league.package_options_and_guide') }}</a>
         </div>
       </div>
       <div class="col-sm-4">
@@ -1476,6 +1477,9 @@ export default {
     }
   }
 
+  .btn-esports-flyer {
+    margin-bottom: 20px;
+  }
 
 }
 </style>
