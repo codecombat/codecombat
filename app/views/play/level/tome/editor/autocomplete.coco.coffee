@@ -258,6 +258,7 @@ module.exports = class Autocomplete
     haveFindNearestEnemy = false
     haveFindNearest = false
     autocompleteReplacement = level.get("autocompleteReplacement") ? []
+    usedAutocompleteReplacement = []
     for group, props of e.propGroups
       for prop in props
         if _.isString prop  # organizePalette
@@ -277,6 +278,8 @@ module.exports = class Autocomplete
         if doc?.snippets?[e.language]
           name = doc.name
           replacement = _.find(autocompleteReplacement, (el) -> el.name is name)
+          if replacement
+            usedAutocompleteReplacement.push(replacement.name)
           content = replacement?.snippets?[e.language]?.code or doc.snippets[e.language].code
           if /loop/.test(content) and level.get 'moveRightLoopSnippet'
             # Replace default loop snippet with an embedded moveRight()
@@ -352,6 +355,17 @@ module.exports = class Autocomplete
 
     if haveFindNearest and not haveFindNearestEnemy
       spellView.translateFindNearest()
+
+    for replacement in autocompleteReplacement
+      continue if replacement.name in usedAutocompleteReplacement
+      continue if not replacement.snippets
+      entry =
+        content: replacement?.snippets?[e.language]?.code
+        meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
+        name: replacement.name
+        tabTrigger: replacement.snippets?[e.language]?.tab
+        importance: replacement.autoCompletePriority ? 1.0
+      snippetEntries.push entry
 
     # window.AutocompleteInstance = @Autocomplete  # For debugging. Make sure to not leave active when committing.
     # window.snippetEntries = snippetEntries
