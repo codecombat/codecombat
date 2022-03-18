@@ -3445,6 +3445,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
     join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
     join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
+    package_options_and_guide: "Package Options & Implementation Guide"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
