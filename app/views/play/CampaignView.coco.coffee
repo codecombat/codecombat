@@ -45,6 +45,7 @@ HoCModal = require 'views/special_event/HoC2018InterstitialModal.coffee'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
 globalVar = require 'core/globalVar'
 paymentUtils = require 'app/lib/paymentUtils'
+userUtils = require 'lib/user-utils'
 
 require 'lib/game-libraries'
 
@@ -1540,6 +1541,9 @@ module.exports = class CampaignView extends RootView
 
     if what is 'amazon-campaign'
       return @campaign?.get('slug') is 'game-dev-hoc'
+
+    if what is 'santa-clara-logo'
+      return userUtils.isInLibraryNetwork()
 
     if what is 'league-arena'
       # Note: Currently the tooltips don't work in the campaignView overworld.
