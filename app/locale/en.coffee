@@ -3447,6 +3447,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
     check_out_all: "Check out all the"
     pick_best_tournaments: "pick the ones that will work best for your custom tournament!"
+    final_arena: "Final Arena"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
