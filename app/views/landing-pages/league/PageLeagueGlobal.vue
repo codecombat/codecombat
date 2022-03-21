@@ -262,7 +262,11 @@ export default {
 
     // Assumption that anyone with an account can create a clan.
     canCreateClan () {
-      return !me.isAnonymous()
+      return !me.isAnonymous() && !me.isTeacher()
+    },
+
+    showContactUsForTournament () {
+      return me.isTeacher()
     },
 
     isAnonymous () {
@@ -863,6 +867,12 @@ export default {
     <div class="row flex-row text-center section-space">
       <a v-if="isClanCreator()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.edit_team') }}</a>
       <a v-else-if="!currentSelectedClan && canCreateClan()" class="btn btn-large btn-primary btn-moon" @click="openClanCreation">{{ $t('league.start_team') }}</a>
+      <div v-else-if="!doneRegistering && showContactUsForTournament" class="contact-us">
+        <a class="btn btn-large btn-primary btn-moon contact-us__btn" href="https://form.typeform.com/to/qXqgbubC" target="_blank">
+          {{ $t('general.contact_us') }}
+        </a>
+        <div class="contact-us__text">{{ $t('league.custom_tournament') }}</div>
+      </div>
       <a v-else-if="!doneRegistering" class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
     </div>
 
@@ -1479,6 +1489,17 @@ export default {
 
   .btn-esports-flyer {
     margin-bottom: 20px;
+  }
+
+  .contact-us {
+    &__btn {
+      display: block;
+    }
+    &__text {
+      padding-top: 10px;
+      text-transform: uppercase;
+      font-size: 90%;
+    }
   }
 
 }
