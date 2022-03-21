@@ -1,9 +1,12 @@
 <template>
   <div
-    class="main-ladder-view-v2"
-    v-if="usableArenas"
+    class="ladder-view-v2"
   >
-    <div class="ladder-view">
+    <div class="ladder-head">
+      <h3 class="ladder-head__title">{{ $t('ladder.title') }}</h3>
+      <h5 class="ladder-head__subtitle">{{ $t('play.campaign_multiplayer_description') }}</h5>
+    </div>
+    <div class="ladder-view" v-if="usableArenas">
       <div
         class="arena"
         v-for="arena in usableArenas"
@@ -17,26 +20,33 @@
         </a>
         <div
           class="arena__helpers"
-          v-if="canUseArenaHelpers"
         >
 
-          <span class="arena__helpers-element">
-            <button
-              class="btn btn-secondary btn-moon"
-              @click="handleCreateTournament"
-            >
-              Create Tournament
-            </button>
-          </span>
+          <div class="arena__helpers__description">
+            {{ readableDescription({ description: arena.description, imgPath: arena.image })  }}
+          </div>
+          <div
+            v-if="canUseArenaHelpers"
+            class="arena__helpers__permission"
+          >
+            <span class="arena__helpers-element">
+              <button
+                class="btn btn-secondary btn-moon"
+                @click="handleCreateTournament"
+              >
+                {{ $t('league.create_tournament') }}
+              </button>
+            </span>
 
-          <span class="arena__helpers-element">
-            <button
-              class="btn btn-secondary btn-moon"
-              @click="handleEditTournament"
-            >
-              Edit Tournament
-            </button>
-          </span>
+            <span class="arena__helpers-element">
+              <button
+                class="btn btn-secondary btn-moon"
+                @click="handleEditTournament"
+              >
+                {{ $t('league.edit_tournament') }}
+              </button>
+            </span>
+          </div>
 
         </div>
       </div>
@@ -69,24 +79,44 @@ export default {
     },
     handleEditTournament () {
       window.alert('Dummy')
+    },
+    // if we want to i18n this, then we need to hardcode them in front-end
+    readableDescription ({ description, imgPath }) {
+      if (!imgPath) return description
+      const index = description.indexOf(imgPath)
+      if (index === -1) return description
+      const startPosition = index + imgPath.length + 1 // 1 because of ")"
+      return description.slice(startPosition)
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.main-ladder-view-v2 {
+.ladder-view-v2 {
   font-size: 62.5%;
 }
 
 .ladder-view {
-  padding: 10rem 20rem;
+  padding: 5rem 20rem;
   color: #ffffff;
 }
 
 .btn-moon {
   background-color: #d1b147;
   color: #232323;
+}
+
+.ladder-head {
+  text-align: center;
+
+  &__title {
+    color: #30efd3;
+  }
+
+  &__subtitle {
+    color: #fff;
+  }
 }
 
 .arena {
@@ -110,6 +140,9 @@ export default {
 
   &__image {
     width: 100%;
+
+    color: #ffffff;
+    font-size: 3.5rem;
   }
 
   &__difficulty {
@@ -128,9 +161,20 @@ export default {
   }
 
   &__helpers {
-    background-color: lightgrey;
-    text-align: right;
-    padding: .5rem;
+    background-color: #d3d3d3;
+
+    &__permission {
+      text-align: right;
+      padding: .5rem;
+    }
+
+    &__description {
+      font-weight: bold;
+      color: black;
+
+      padding-left: .5rem;
+      line-height: 2rem;
+    }
 
     &-element {
       &:not(:last-child) {
