@@ -82,6 +82,12 @@ module.exports = (env) => {
             { test: /jquery-ui.*css$/,
               use: [ // So we can ignore the images it references that we are missing
                 { loader: 'style-loader' },
+                {
+                  loader: MiniCssExtractPlugin.loader,
+                  options: {
+                    esModule: false,
+                  }
+                },
                 { loader: 'css-loader', options: { url: false } }
               ] },
             { test: /\.css$/,
