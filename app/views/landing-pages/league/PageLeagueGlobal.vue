@@ -768,6 +768,12 @@ export default {
           {{ $t('league.season_subheading2') }}
         </p>
       </div>
+      <div class="col-xs-12 ladder-list">
+        <span>{{ $t('league.check_out_all') }}</span>
+        <router-link :to="{ name: 'LaddersList' }" class="ladder-list__route esports-aqua">{{ $t('ladder.title') }}</router-link>
+        <span>{{ $t('general.and') }}</span>
+        <span>{{ $t('league.pick_best_tournaments') }}</span>
+      </div>
     </div>
 
     <div v-if="!doneRegistering && !isClanCreator()" class="row flex-row text-center section-space xs-mt-0">
@@ -1476,6 +1482,12 @@ export default {
     }
   }
 
+  .ladder-list {
+    &__route {
+      text-decoration: underline;
+      text-transform: lowercase;
+    }
+  }
 
 }
 </style>
