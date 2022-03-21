@@ -21,7 +21,6 @@
         <div
           class="arena__helpers"
         >
-
           <div class="arena__helpers__description">
             {{ readableDescription({ description: arena.description, imgPath: arena.image })  }}
           </div>
@@ -34,7 +33,7 @@
                 class="btn btn-secondary btn-moon"
                 @click="handleCreateTournament"
               >
-                {{ $t('league.create_tournament') }}
+                {{ $t('tournament.create_tournament') }}
               </button>
             </span>
 
@@ -43,7 +42,7 @@
                 class="btn btn-secondary btn-moon"
                 @click="handleEditTournament"
               >
-                {{ $t('league.edit_tournament') }}
+                {{ $t('tournament.edit_tournament') }}
               </button>
             </span>
           </div>
@@ -172,7 +171,7 @@ export default {
       font-weight: bold;
       color: black;
 
-      padding-left: .5rem;
+      padding: .5rem;
       line-height: 2rem;
     }
 
