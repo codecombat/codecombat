@@ -127,8 +127,6 @@ export default {
 }
 
 .arena {
-  //text-align: center;
-
   &__info {
     display: block;
     position: relative;

@@ -137,7 +137,6 @@ module.exports = class MainLadderView extends RootView
         original: ladder.get('original')
       })
       @ladderImageMap[ladder.get('original')] = ladder.get('image')
-    console.log('levels', levels)
     @ladderLevels = levels
 
   hasControlOfTheClan: () ->
