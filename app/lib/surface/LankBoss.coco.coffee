@@ -91,7 +91,8 @@ module.exports = class LankBoss extends CocoClass
     lank
 
   createMarks: ->
-    @targetMark = new Mark name: 'target', camera: @camera, layer: @layerAdapters['Ground'], thangType: 'target'
+    if @world.showTargetMark
+      @targetMark = new Mark name: 'target', camera: @camera, layer: @layerAdapters['Ground'], thangType: 'target'
     @selectionMark = new Mark name: 'selection', camera: @camera, layer: @layerAdapters['Ground'], thangType: 'selection'
 
   createLankOptions: (options) ->
