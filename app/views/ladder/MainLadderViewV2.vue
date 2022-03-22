@@ -58,6 +58,13 @@ export default {
   async created() {
     await this.fetchUsableArenas()
   },
+  updated() {
+    try {
+      $('#flying-focus').css({top: 0, left: 0}) // because it creates empty space on bottom of page when coming from /league page
+    } catch (err) {
+      console.log('flying-focus error deleting', err)
+    }
+  },
   computed: {
     ...mapGetters({
       usableArenas: 'seasonalLeague/usableArenas'
