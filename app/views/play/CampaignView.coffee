@@ -1534,7 +1534,7 @@ module.exports = class CampaignView extends RootView
       return not (isIOS or me.freeOnly() or isStudentOrTeacher or !me.canBuyGems() or (application.getHocCampaign() and me.isAnonymous()))
 
     if what in ['premium']
-      return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()) or paymentUtils.hasTemporaryPremiumAccess())
+      return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()) or paymentUtils.hasTemporaryPremiumAccess() or (me.isAnonymous() and me.get('country') is 'taiwan')) # temporary hide subscription for anonymous taiwan users
 
     if what is 'anonymous-classroom-signup'
       return me.isAnonymous() and me.level() < 8 and me.promptForClassroomSignup() and not @editorMode
