@@ -12,18 +12,15 @@
         v-for="arena in usableArenas"
       >
         <a class="arena__info" :href="`/play/ladder/${arena.slug}`">
-          <!--        <span class="arena__name">{{ arena.name }}</span>-->
           <img :src="arena.image" :alt="arena.name" class="arena__image">
-          <span class="arena__difficulty">
-            Difficulty: <span class="arena__stars">★★★</span>
+          <span class="arena__difficulty" v-if="arena.difficulty">
+            {{ $t('play.level_difficulty') }} <span class="arena__stars">{{ difficultyStars(arena.difficulty) }}</span>
           </span>
         </a>
         <div
           class="arena__helpers"
         >
-          <div class="arena__helpers__description">
-            {{ readableDescription({ description: arena.description, imgPath: arena.image })  }}
-          </div>
+          <div class="arena__helpers__description">{{ readableDescription({ description: arena.description, imgPath: arena.image }) }}</div>
           <div
             v-if="canUseArenaHelpers"
             class="arena__helpers__permission"
@@ -82,10 +79,14 @@ export default {
     // if we want to i18n this, then we need to hardcode them in front-end
     readableDescription ({ description, imgPath }) {
       if (!imgPath) return description
-      const index = description.indexOf(imgPath)
-      if (index === -1) return description
-      const startPosition = index + imgPath.length + 1 // 1 because of ")"
-      return description.slice(startPosition)
+      const imgExtension = imgPath.slice(imgPath.indexOf('.'))
+      const imgExtensionIndex = description.indexOf(imgExtension)
+      if (imgExtensionIndex === -1) return description
+      const startPosition = imgExtensionIndex + imgExtension.length + 1
+      return description.slice(startPosition) || null
+    },
+    difficultyStars (difficulty) {
+      return Array(difficulty).fill().map(i => '★').join('')
     }
   }
 }
@@ -173,6 +174,10 @@ export default {
 
       padding: .5rem;
       line-height: 2rem;
+
+      &:empty {
+        padding: 0;
+      }
     }
 
     &-element {

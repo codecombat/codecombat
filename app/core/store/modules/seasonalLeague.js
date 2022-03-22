@@ -646,7 +646,6 @@ export default {
 
     async fetchUsableArenas ({ commit }) {
       const arenas = await getUsableArenas()
-      console.log('fetched', arenas)
       commit('setUsableArenas', arenas)
     }
   }
