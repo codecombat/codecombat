@@ -682,6 +682,43 @@ export default {
         <img class="img-responsive" src="/images/pages/league/two_pixel_star.png">
       </div>
     </div>
+    <div class="row prize-section">
+      <div class="prize-section__heading">
+        {{ $t('league.win_great_prizes') }}
+      </div>
+      <div class="prize-section__sponsor">
+        <span>{{ $t('league.powered_by') }}</span>
+        <img src="/app/assets/images/pages/league/hyperx-red-logo.png" alt="HyperX logo">
+      </div>
+      <div class="prize-section__info">
+        <div class="prize-section__info-1">
+          {{ $t('league.grand_prize') }}: {{ $t('league.season1_prize_1') }} <span>1</span>
+        </div>
+        <div class="prize-section__info-2">
+          {{ $t('league.top_players_win') }} <span>2</span>
+        </div>
+      </div>
+      <div class="prize-section__winners">
+        <div class="prize-section__winners-1">
+
+        </div>
+        <div class="prize-section__winners-2">
+
+        </div>
+      </div>
+      <div class="prize-section__promo">
+        {{ $t('courses.join') }} <a href="/league/hyperx" class="prize-section__promo-link">{{ $t('league.team_hyperx') }}</a>
+        {{ $t('code.and') }} {{ $t('league.earn_more_gear') }}
+      </div>
+      <div class="prize-section__footer">
+        <p>{{ $t('league.prize_footer1') }}</p>
+        <p>{{ $t('league.prize_footer2') }}</p>
+        <p>{{ $t('league.prize_footer3') }}</p>
+        <p>{{ $t('league.prize_footer4_1') }}
+          <a href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view" class="prize_section__reserves-link">{{ $t('league.coco_reserves') }}</a>
+        </p>
+      </div>
+    </div>
 
     <div class="row">
       <h1 class="subheader1"><span class="esports-purple">How </span><span class="esports-aqua">it </span><span class="esports-pink">works</span></h1>
