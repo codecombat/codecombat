@@ -683,19 +683,21 @@ export default {
       </div>
     </div>
     <div class="row prize-section">
-      <div class="prize-section__heading">
-        {{ $t('league.win_great_prizes') }}
+      <div class="prize-section__heading subheader1">
+        <p class="prize-section__heading-text esports-aqua">{{ $t('league.win_great_prizes') }}</p>
       </div>
       <div class="prize-section__sponsor">
-        <span>{{ $t('league.powered_by') }}</span>
-        <img src="/app/assets/images/pages/league/hyperx-red-logo.png" alt="HyperX logo">
+        <div class="prize-section__sponsor-block">
+          <span class="prize-section__sponsor-text">{{ $t('league.powered_by') }}</span>
+          <img src="/images/pages/league/hyperx-red-logo.png" alt="HyperX logo" class="prize-section__sponsor-img">
+        </div>
       </div>
       <div class="prize-section__info">
         <div class="prize-section__info-1">
-          {{ $t('league.grand_prize') }}: {{ $t('league.season1_prize_1') }} <span>1</span>
+          {{ $t('league.grand_prize') }}: {{ $t('league.season1_prize_1') }}<span class="prize-section__terms">1</span>
         </div>
         <div class="prize-section__info-2">
-          {{ $t('league.top_players_win') }} <span>2</span>
+          {{ $t('league.top_players_win') }} <span class="prize-section__terms">2</span>
         </div>
       </div>
       <div class="prize-section__winners">
@@ -707,15 +709,17 @@ export default {
         </div>
       </div>
       <div class="prize-section__promo">
-        {{ $t('courses.join') }} <a href="/league/hyperx" class="prize-section__promo-link">{{ $t('league.team_hyperx') }}</a>
+        {{ $t('courses.join') }} <a href="/league/hyperx" class="prize-section__promo-link esports-aqua">{{ $t('league.team_hyperx') }}</a>
         {{ $t('code.and') }} {{ $t('league.earn_more_gear') }}
       </div>
       <div class="prize-section__footer">
-        <p>{{ $t('league.prize_footer1') }}</p>
-        <p>{{ $t('league.prize_footer2') }}</p>
-        <p>{{ $t('league.prize_footer3') }}</p>
-        <p>{{ $t('league.prize_footer4_1') }}
-          <a href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view" class="prize_section__reserves-link">{{ $t('league.coco_reserves') }}</a>
+        <p class="prize-section__footer-text"><span class="prize-section__terms">1</span> {{ $t('league.prize_footer1') }}</p>
+        <p class="prize-section__footer-text"><span class="prize-section__terms">2</span> {{ $t('league.prize_footer2') }}</p>
+        <p class="prize-section__footer-text">{{ $t('league.prize_footer3') }}</p>
+        <p class="prize-section__footer-text">
+          {{ $t('league.prize_footer4_1') }}
+          <a href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view" class="prize_section__reserves-link esports-aqua" target="_blank">{{ $t('league.coco_reserves') }}</a>
+          {{ $t('league.prize_footer4_2') }}
         </p>
       </div>
     </div>
@@ -1549,6 +1553,73 @@ export default {
       text-transform: uppercase;
       font-size: 90%;
     }
+  }
+
+  .prize-section {
+    &__heading {
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: bold;
+
+      line-height: initial;
+
+      &-text {
+        border-bottom: 2px solid #ffffff;
+
+        display: inline-block;
+      }
+    }
+
+    &__sponsor {
+      text-transform: uppercase;
+      text-align: center;
+
+      &-text {
+        padding-right: 1%;
+        font-weight: bold;
+      }
+
+      &-img {
+        width: 25%;
+        position: relative;
+        top: 20px;
+      }
+    }
+
+    &__info {
+      text-align: center;
+      padding: 30px;
+
+      &-1 {
+        font-size: 45px;
+        padding-bottom: 20px;
+      }
+    }
+
+    &__terms {
+      vertical-align: super;
+      font-size: small;
+    }
+
+    &__promo {
+      text-align: center;
+
+      &-link {
+        text-decoration: underline;
+        text-underline-position: under;
+      }
+    }
+
+    &__footer {
+      font-size: small;
+      line-height: initial;
+      padding: 10px;
+
+      &-text {
+        margin-bottom: 5px;
+      }
+    }
+
   }
 
 }
