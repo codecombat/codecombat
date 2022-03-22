@@ -1956,6 +1956,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     status_expired: "已在 {{date}} 後過期"
     status_not_enrolled: "未招收"
     status_enrolled: "在 {{date}} 後過期"
+#    status_partly_expires: "Partly expires on {{date}}"
     select_all: "全選"
     project: "專案"
 #    project_gallery: "Project Gallery"
@@ -2545,6 +2546,16 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    certificate_levels_completed: "levels completed"
 #    certificate_for: "For"
 #    certificate_number: "No."
+#    heroes_unlocked: "Heroes Unlocked"
+#    current_items: "Items Equipped"
+#    contributor_badges: "Contributor Badges"
+#    contributions_title: "Contributions"
+#    type_stat: "Type" # As in, which type of contribution
+#    patches_submit: "Patches Submitted"
+#    patches_approved: "Patches Approved"
+#    patches_accepted: "Patches Accepted"
+#    level_edits: "Level Edits"
+#    total_translations: "Total Translations"
 
   achievements:
     last_earned: "最近一次"

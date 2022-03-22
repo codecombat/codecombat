@@ -1956,6 +1956,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     status_expired: "Истекла {{date}}"
     status_not_enrolled: "Није уписан"
     status_enrolled: "Истиче {{date}}"
+#    status_partly_expires: "Partly expires on {{date}}"
     select_all: "Изабери све"
     project: "Пројекат"
     project_gallery: "Галерија пројекта"
@@ -2545,6 +2546,16 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     certificate_levels_completed: "завршени нивои"
     certificate_for: "За"
 #    certificate_number: "No."
+#    heroes_unlocked: "Heroes Unlocked"
+#    current_items: "Items Equipped"
+#    contributor_badges: "Contributor Badges"
+#    contributions_title: "Contributions"
+#    type_stat: "Type" # As in, which type of contribution
+#    patches_submit: "Patches Submitted"
+#    patches_approved: "Patches Approved"
+#    patches_accepted: "Patches Accepted"
+#    level_edits: "Level Edits"
+#    total_translations: "Total Translations"
 
   achievements:
     last_earned: "Последње стечено"

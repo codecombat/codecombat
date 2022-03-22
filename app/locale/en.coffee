@@ -3448,6 +3448,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     check_out_all: "Check out all the"
     pick_best_tournaments: "pick the ones that will work best for your custom tournament!"
     final_arena: "Final Arena"
+    package_options_and_guide: "Package Options & Implementation Guide"
+    custom_tournament: "For a Custom Tournament"
 
   tournament:
     mini_tournaments: "Mini Tournaments"

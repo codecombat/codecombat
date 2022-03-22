@@ -1956,6 +1956,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     status_expired: "פג בתאריך {{date}}"
     status_not_enrolled: "לא רשום"
     status_enrolled: "יפוג בתאריך {{date}}"
+#    status_partly_expires: "Partly expires on {{date}}"
     select_all: "בחר הכול"
     project: "פרויקט"
     project_gallery: "גלריית פרויקט"
@@ -2545,6 +2546,16 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    certificate_levels_completed: "levels completed"
 #    certificate_for: "For"
 #    certificate_number: "No."
+#    heroes_unlocked: "Heroes Unlocked"
+#    current_items: "Items Equipped"
+#    contributor_badges: "Contributor Badges"
+#    contributions_title: "Contributions"
+#    type_stat: "Type" # As in, which type of contribution
+#    patches_submit: "Patches Submitted"
+#    patches_approved: "Patches Approved"
+#    patches_accepted: "Patches Accepted"
+#    level_edits: "Level Edits"
+#    total_translations: "Total Translations"
 
   achievements:
     last_earned: "הושג לאחרונה"
