@@ -141,7 +141,7 @@ mixin courseProgressTab
           each level, levelIndex in levels
             unless level.get('assessment') || level.get('practice')
               option(value=level.get('slug') selected=(level.get('slug') === courseInstance.get('startLockedLevel')))
-                span view.campaignLevelNumberMap[course.get('campaignID')][level.get('original')]
+                span #{view.campaignLevelNumberMap[course.get('campaignID')][level.get('original')]}.
                   = " "
                 span
                   = i18n(level.attributes, 'name').replace('Course: ', '')
