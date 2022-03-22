@@ -3,6 +3,7 @@ import { getLeaderboard, getMyRank, getLeaderboardPlayerCount,
   getCodePointsPlayerCount } from '../../api/leaderboard'
 import { fetchMySessions } from '../../api/level-sessions'
 import { activeArenas } from '../../utils'
+import { getUsableArenas } from '../../api/arenas'
 import _ from 'lodash'
 
 const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular'))
@@ -37,7 +38,8 @@ export default {
     championshipRankingsForLeague: {},
     // key is clan id. Returns objects with same structure.
     rankingsForLeague: {},
-    codePointsRankingsForLeague: {}
+    codePointsRankingsForLeague: {},
+    usableArenas: []
   },
 
   mutations: {
@@ -111,6 +113,10 @@ export default {
 
     setMyCodePointsRank (state, myCodePointsRank) {
       state.myCodePointsRank = myCodePointsRank
+    },
+
+    setUsableArenas (state, arenas) {
+      Vue.set(state, 'usableArenas', arenas)
     }
   },
 
@@ -266,6 +272,9 @@ export default {
     },
     codePointsPlayerCount (state) {
       return state.codePointsRankingsForLeague.playerCount
+    },
+    usableArenas (state) {
+      return state.usableArenas
     }
   },
 
@@ -633,6 +642,11 @@ export default {
       if (!currentChampionshipArena) return
       const playerCount = await getLeaderboardPlayerCount(currentChampionshipArenaOriginal, {})
       commit('setChampionshipGlobalLeaderboardPlayerCount', parseInt(playerCount, 10))
+    },
+
+    async fetchUsableArenas ({ commit }) {
+      const arenas = await getUsableArenas()
+      commit('setUsableArenas', arenas)
     }
   }
 }

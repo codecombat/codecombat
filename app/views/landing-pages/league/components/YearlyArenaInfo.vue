@@ -13,6 +13,9 @@
         loading="lazy"
         :alt="arena.name"
       />
+      <div class="final-arena">
+        {{ arena.period.slice(0, 3) + ' ' + $t('league.final_arena') }}
+      </div>
     </div>
   </div>
 </template>
@@ -65,5 +68,8 @@ export default {
 }
 .arena-period {
   margin-bottom: 15px;
+}
+.final-arena {
+  padding-top: 15px;
 }
 </style>
