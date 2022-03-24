@@ -3445,6 +3445,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     join_team_derbezt_blurb: "Haybpx gur Neznaqb Ublbf ureb sebz Zrkvpna fhcrefgne Rhtravb Qreorm!"
     join_team_ned_title: "Wbva Grnz Arq, Haybpx Arq'f Ureb"
     join_team_ned_blurb: "Trg gur rkpyhfvir fcnghyn-jvryqvat ureb sebz LbhGhor fgne, Gel Thl Arq Shyzre!"
+    check_out_all: "Purpx bhg nyy gur"
+    pick_best_tournaments: "cvpx gur barf gung jvyy jbex orfg sbe lbhe phfgbz gbheanzrag!"
+    final_arena: "Svany Neran"
+    package_options_and_guide: "Cnpxntr Bcgvbaf & Vzcyrzragngvba Thvqr"
+    custom_tournament: "Sbe n Phfgbz Gbheanzrag"
 
   tournament:
     mini_tournaments: "Zvav Gbheanzragf"
