@@ -2175,8 +2175,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     try_ozaria_footer: "试试我们的新产品：奥佳睿！"
     try_ozaria_free: "免费试用 Ozaria"
     ozaria_intro: "介绍我们新的计算机科学课程"
-#    share_class: "share class"
-#    permission: "Permission"
+    share_class: "共管班级"
+    permission: "权限"
 #    not_write_permission: "You don't have write permission to the class"
 #    not_read_permission: "You don't have read permission to the class"
     owned_license: "已有许可"
@@ -3515,12 +3515,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
 
-#  teacher_dashboard:
-#    read: "View Only"
-#    write: "Full Access"
-#    read_blurb: "View Only permits the added teacher to view your class and student progress without the ability to make changes to your class."
-#    write_blurb: "Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)"
-#    shared_with_none: "This class is not currently shared with any other teachers."
-#    share_info: "To give other teachers access to the class, add their emails below."
-#    class_owner: "Class Owner"
-#    share: "Share"
+  teacher_dashboard:
+    read: '只能查看'
+    write: '全部权限'
+    read_blurb: '只能查看权限允许添加的教师查看您的班级和学生进度，但是不能修改您的班级相关信息'
+    write_blurb: '全部权限给添加的教师权限可以修改您的班级（包括添加/移除学生，分配课程，更改许可）'
+    shared_with: '共管情况'
+    shared_with_none: '这个班级目前没有其他老师参与共管。'
+    share_info: '邀请其他老师一起共管班级，请添加对方的账号。'
+    class_owner: '班主任'
+    share: '共管'
+    add: '添加'
+    note: '注'

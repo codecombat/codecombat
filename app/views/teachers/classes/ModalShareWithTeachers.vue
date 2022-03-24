@@ -1,6 +1,6 @@
 <template>
   <modal
-      title="Share Class"
+      :title="$t('teacher.share_class')"
       @close="$emit('close')"
       :backbone-dismiss-modal=true
       v-if="classroom"
@@ -14,7 +14,7 @@
       >
         <div class="form-group row">
           <div class="col-lg-6">
-            <input class="form-control" id="share-teacher-email" type="text" v-model="email" placeholder="Teacher's email" required />
+            <input class="form-control" id="share-teacher-email" type="text" v-model="email" :placeholder="$t('hoc_2018_completion.teacher_email')" required />
           </div>
           <div class="col-lg-4">
             <select class="select-dropdown form-control" @change="updatePermission" id="share-teacher-permission" required>
@@ -25,7 +25,7 @@
           </div>
           <div class="col-lg-2">
             <button type="submit" class="btn btn-primary" :disabled="addInProgress">
-              Add
+              {{$t('teacher_dashboard.add')}}
             </button>
           </div>
         </div>
@@ -34,7 +34,7 @@
         </div>
       </form>
       <div class="already-shared-with">
-        <div class="already-shared-heading">Shared With:</div>
+        <div class="already-shared-heading">{{$t('teacher_dashboard.shared_with')}}:</div>
         <div v-if="this.alreadySharedWith">
           <ul>
             <li v-for="shared in alreadySharedWith" :key="shared.target">
@@ -47,7 +47,7 @@
         </div>
       </div>
       <div>
-        Note:
+        {{$t('teacher_dashboard.note')}}:
         <ul>
           <li class="small-text">
             {{$t('teacher_dashboard.read_blurb')}}
