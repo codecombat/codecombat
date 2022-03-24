@@ -217,8 +217,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if lank.thangType.get('raster')
       @upsertActionToRender(lank.thangType)
     else
+      defaultRenderableActions = ThangType.defaultActions.concat(lank.thangType.get('preLoadActions') or [])
       for action in _.values(lank.thangType.getActions())
-        continue unless _.any ThangType.defaultActions, (prefix) -> _.string.startsWith(action.name, prefix)
+        continue unless _.any defaultRenderableActions, (prefix) -> _.string.startsWith(action.name, prefix)
         @upsertActionToRender(lank.thangType, action.name, lank.options.colorConfig)
 
   upsertActionToRender: (thangType, actionName, colorConfig) ->
