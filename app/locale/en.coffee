@@ -3450,7 +3450,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     final_arena: "Final Arena"
     package_options_and_guide: "Package Options & Implementation Guide"
     custom_tournament: "For a Custom Tournament"
-    win_great_prizes: "You can win great prizes"
+    you_win: "You can win"
+    great_prizes: "great prizes"
     powered_by: "Powered by"
     grand_prize: "Grand Prize"
     scholarship: "Scholarship"
@@ -3463,6 +3464,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     prize_footer4_1: "Age verification necessary to be eligible.Some prizes are limited to US participants only."
     coco_reserves: "CodeCombat reserves"
     prize_footer4_2: "the right to determine in its sole discretion if a player qualifies and will receive a prize."
+    position: 'position'
 
   tournament:
     mini_tournaments: "Mini Tournaments"

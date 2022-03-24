@@ -641,50 +641,9 @@ export default {
       </div>
     </section>
 
-    <div class="row section-space prize-section">
-      <div class="row">
-        <!-- <h1 class="subheader1 text-center" style="margin-bottom: 64px;"><span class="esports-pink">Compete </span><span class="esports-green">in </span><span class="esports-aqua">the </span><span class="esports-purple">Colossus Clash </span><span class="esports-aqua">for </span><span class="esports-green">a </span><span class="esports-pink">chance </span><span class="esports-purple">to </span><span class="esports-aqua">win!</span></h1> -->
-        <h1 class="subheader1 text-center" style="margin-bottom: 64px;"><span class="esports-pink">Season </span><span class="esports-green">3 </span><span class="esports-aqua">- </span><span class="esports-purple">Colossus Clash </span><span class="esports-aqua">- </span><span class="esports-green">Prize </span><span class="esports-pink">List</span></h1>
-      </div>
-      <div class="row">
-        <div class="col-sm-4 text-center">
-          <a href="https://respawnproducts.com/products/respawn-110-racing-style-gaming-chair" target="_blank">
-            <img src="/images/pages/league/respawn-logo.png" alt="RESPAWN company logo" class="responsive-img" style="max-width: 160px; margin-bottom: 64px;"/>
-            <br />
-            <img src="/images/pages/league/respawn-gaming-chair.png" alt="RESPAWN Gaming Chair" class="responsive-img" style="max-width: 525px; width: 100%"/>
-          </a>
-        </div>
-        <div class="col-sm-4">
-          <ul style="list-style-type: none; padding: 0px; margin-top: 74px;">
-            <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_1') }}</li>
-            <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_2') }}</li>
-            <li><span class="bullet-point" style="background-color: #30EFD3;"/><a href="http://hyperx.gg/codecombathxrevolver" target="_blank">{{ $t('league.season1_prize_hyperx') }}</a> - <a href="/league/hyperx">{{ $t('league.join_team') }}</a></li>
-            <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_3') }}</li>
-            <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_4') }}</li>
-          </ul>
-          <p>
-            <em>Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena.  Some prizes are limited to US participants only.
-            <a href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view?usp=sharing">CodeCombat reserves</a> the right to determine in its sole discretion if a player qualifies and will receive a prize. <!-- Players in China, Taiwan, Hong Kong, and Macao should be play on our China server at <a href="https://koudashijie.com/">koudashijie.com</a> to be eligible for prizes. --></em>
-          </p>
-        </div>
-        <div class="col-sm-4 text-center">
-          <a href="http://hyperx.gg/codecombathxrevolver" target="_blank">
-            <img src="/images/pages/league/hyperx-logo.png" alt="HyperX company logo" class="responsive-img" style="max-width: 160px; margin-bottom: 64px;"/>
-            <br />
-            <img src="/images/pages/league/hyperx-package.png" alt="HyperX Gaming peripherals" class="responsive-img" style="max-width: 525px; width: 100%"/>
-          </a>
-        </div>
-      </div>
-      <div class="text-center" style="margin: 32px 0;">
-        <a :href="championshipArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">Play Now</a>
-      </div>
-      <div class="two-pixel-star">
-        <img class="img-responsive" src="/images/pages/league/two_pixel_star.png">
-      </div>
-    </div>
     <div class="row prize-section">
       <div class="prize-section__heading subheader1">
-        <p class="prize-section__heading-text esports-aqua">{{ $t('league.win_great_prizes') }}</p>
+        <p class="prize-section__heading-text esports-aqua"><span class="esports-green">{{ $t('league.you_win') }}</span> {{ $t('league.great_prizes') }}</p>
       </div>
       <div class="prize-section__sponsor">
         <div class="prize-section__sponsor-block">
@@ -694,18 +653,74 @@ export default {
       </div>
       <div class="prize-section__info">
         <div class="prize-section__info-1">
-          {{ $t('league.grand_prize') }}: {{ $t('league.season1_prize_1') }}<span class="prize-section__terms">1</span>
+          {{ $t('league.grand_prize') }}: {{ $t('league.season1_prize_1') }}<span class="prize-section__small-top">1</span>
         </div>
         <div class="prize-section__info-2">
-          {{ $t('league.top_players_win') }} <span class="prize-section__terms">2</span>
+          {{ $t('league.top_players_win') }} <span class="prize-section__small-top">2</span>
         </div>
       </div>
-      <div class="prize-section__winners">
+      <div class="prize-section__winners clearfix">
         <div class="prize-section__winners-1">
-
+          <div class="prize-section__winners-text">1<span class="prize-section__small-top">st</span> {{ $t('league.position') }}</div>
+          <div class="row">
+            <div class="col-sm-4">
+              <a href="https://www.amazon.com/HyperX-Revolver-Gaming-Headset-Surround/dp/B01N9RM9N3" target="_blank" class="prize-section__winners--product-link">
+                <div>
+                  <img src="/images/pages/league/hyperx-headphones.png" alt="Cloud Revolver 7.1 Headset" class="prize-section__winners-1--img">
+                </div>
+                Cloud Revolver 7.1 Headset
+              </a>
+            </div>
+            <div class="col-sm-4">
+              <a href="https://hyperx.com/collections/gaming-keyboards/products/hyperx-alloy-origins-mechanical-gaming-keyboard" target="_blank" class="prize-section__winners--product-link">
+                <div>
+                  <img src="/images/pages/league/hyperx-keyboard.png" alt="Alloy Origins Keyboard" class="prize-section__winners-1--img">
+                </div>
+                Alloy Origins Keyboard
+              </a>
+            </div>
+            <div class="col-sm-4">
+              <a href="https://hyperx.com/collections/gaming-mice/products/hyperx-pulsefire-fps-pro-gaming-mouse" target="_blank" class="prize-section__winners--product-link">
+                <div>
+                  <img src="/images/pages/league/hyperx-mouse.png" alt="Pulsefire FPS Pro Mouse" class="prize-section__winners-1--img">
+                </div>
+                Pulsefire FPS Pro Mouse
+              </a>
+            </div>
+          </div>
         </div>
         <div class="prize-section__winners-2">
-
+          <div class="col-sm-6">
+            <div class="prize-section__winners-text">2<span class="prize-section__small-top">nd</span> {{ $t('league.position') }}</div>
+            <div class="row">
+              <div class="col-sm-6">
+                <a href="https://hyperx.com/collections/gaming-headsets/products/hyperx-cloud-ii" target="_blank" class="prize-section__winners--product-link">
+                  <div>
+                    <img src="/images/pages/league/hyperx-cloud2-headphones.png" alt="Cloud II Headset" class="prize-section__winners-2--img">
+                  </div>
+                  Cloud II Headset
+                </a>
+              </div>
+              <div class="col-sm-6">
+                <a href="https://hyperx.com/collections/earbuds/products/hyperx-cloud-earbuds" target="_blank" class="prize-section__winners--product-link">
+                  <div>
+                    <img src="/images/pages/league/hyperx-earbuds.png" alt="Cloud Earbuds" class="prize-section__winners-2--img">
+                  </div>
+                  Cloud Earbuds
+                </a>
+              </div>
+            </div>
+          </div>
+<!--          <div class="col-sm-3">&nbsp;</div>-->
+          <div class="col-sm-3 col-sm-offset-3">
+            <div class="prize-section__winners-text">3<span class="prize-section__small-top">rd</span> {{ $t('league.position') }}</div>
+            <a href="https://hyperx.com/collections/gaming-headsets/products/hyperx-cloud-stinger-core-pc" target="_blank" class="prize-section__winners--product-link">
+              <div>
+                <img src="/images/pages/league/hyperx-cloud-stinger-headset.png" alt="Cloud Stinger Core Headset" class="prize-section__winners-2--img">
+              </div>
+              Cloud Stinger Core Headset
+            </a>
+          </div>
         </div>
       </div>
       <div class="prize-section__promo">
@@ -1592,17 +1607,18 @@ export default {
 
       &-1 {
         font-size: 45px;
-        padding-bottom: 20px;
+        padding-bottom: 10px;
       }
     }
 
-    &__terms {
+    &__small-top {
       vertical-align: super;
       font-size: small;
     }
 
     &__promo {
       text-align: center;
+      padding-top: 20px;
 
       &-link {
         text-decoration: underline;
@@ -1613,10 +1629,44 @@ export default {
     &__footer {
       font-size: small;
       line-height: initial;
-      padding: 10px;
+      padding: 20px;
 
       &-text {
         margin-bottom: 5px;
+      }
+    }
+
+    &__winners {
+      &-1 {
+        text-align: center;
+
+        &--img {
+          width: 50%;
+          padding-bottom: 10px;
+        }
+      }
+
+      &-text {
+        font-size: 35px;
+        text-transform: capitalize;
+        padding-bottom: 10px;
+        font-weight: bold;
+      }
+
+      &--product-link {
+        color: #ffffff;
+
+        display: block;
+      }
+
+      &-2 {
+        text-align: center;
+        padding-top: 50px;
+
+        &--img {
+          width: 50%;
+          padding-bottom: 10px;
+        }
       }
     }
 
