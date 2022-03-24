@@ -27,11 +27,11 @@
       ...mapGetters({
         classroom: 'teacherDashboard/getCurrentClassroom',
         selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
-        getCourseInstancesForClass: 'courseInstances/getCourseInstancesForClass'
+        getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass'
       }),
 
       selectedCourseInstanceId () {
-        const courseInstances = this.getCourseInstancesForClass(this.classroom.ownerID, this.classroom._id)
+        const courseInstances = this.getCourseInstancesOfClass(this.classroom._id)
         const courseInstance = _.find(courseInstances, (ci) => ci.courseID === this.selectedCourseId)
         return (courseInstance || {})._id
       },
