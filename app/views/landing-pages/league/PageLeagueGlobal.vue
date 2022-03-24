@@ -495,16 +495,24 @@ export default {
     />
 
     <section class="row esports-header section-space">
-      <div class="col-sm-5">
+      <div class="col-sm-4">
         <clan-selector v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0" :clans="myClans" @change="e => changeClanSelected(e)" :selected="clanIdSelected || clanIdOrSlug" style="margin-bottom: 40px;"/>
         <h1 class="esports-h1"><span class="esports-pink">Competitive </span><span class="esports-green">coding </span><span class="esports-aqua">has </span><span class="esports-purple">never </span><span class="esports-pink">been </span><span class="esports-aqua">so </span><span class="esports-green">epic</span></h1>
       </div>
-      <img class="ai-league-logo" src="/images/pages/league/logo_badge.png">
-      <div class="hero-rotation">
-        <img class="rotating-esports-header-background img-responsive fade-out" src="/images/pages/league/hero_background_pink.png" />
-        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_anya.png" />
-        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_okar.png" loading="lazy" />
-        <img class="rotating-esports-header img-responsive fade-out" src="/images/pages/league/hero_lady_ida.png" loading="lazy" />
+      <div class="col-sm-4">
+        <div>
+          <img class="ai-league-logo" src="/images/pages/league/logo_badge.png">
+        </div>
+        <div>
+          <div class="esports-header-powered-by">{{ $t('league.powered_by') }}</div>
+          <img class="ai-league-logo" src="/images/pages/league/hyperx-red-logo.png">
+        </div>
+      </div>
+      <div class="hero-rotation col-sm-4">
+        <img class="rotating-esports-header-background img-responsive fade-out img-response-ai-league" src="/images/pages/league/hero_background_pink.png" />
+        <img class="rotating-esports-header img-responsive fade-out img-response-ai-league" src="/images/pages/league/hero_anya.png" />
+        <img class="rotating-esports-header img-responsive fade-out img-response-ai-league" src="/images/pages/league/hero_okar.png" loading="lazy" />
+        <img class="rotating-esports-header img-responsive fade-out img-response-ai-league" src="/images/pages/league/hero_lady_ida.png" loading="lazy" />
       </div>
     </section>
 
@@ -1060,9 +1068,19 @@ export default {
     margin-top: 30px;
   }
 
-  .esports-header .ai-league-logo {
-    width: 15vw;
-    max-width: 296px;
+  .esports-header {
+    .ai-league-logo {
+      width: 15vw;
+      max-width: 296px;
+    }
+
+    &-powered-by {
+      text-transform: uppercase;
+      padding-top: 15px;
+
+      position: relative;
+      left: 10%;
+    }
   }
 
   @media screen and (max-width: 767px) {
@@ -1454,7 +1472,7 @@ export default {
     }
 
     .esports-header {
-      margin-bottom: 200px;
+      margin-bottom: 100px;
     }
   }
 
@@ -1670,6 +1688,10 @@ export default {
       }
     }
 
+  }
+
+  .img-response-ai-league {
+    max-width: 90%;
   }
 
 }
