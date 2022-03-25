@@ -540,9 +540,9 @@ export default {
 
     <section v-if="currentSelectedClanName === 'HyperX'"  class="row text-center partner-banner">
       <div class="col-sm-12">
-        <h1>Deal: 15% off with code <a href="http://hyperx.gg/codecombathxrevolver" target="_blank"><strong>HXCOMBAT</strong></a></h1>
+        <h1>Deal: 20% off with code <a href="https://hyperx.com/discount/HXCODECOMBAT" target="_blank"><strong>HXCODECOMBAT</strong></a></h1>
         <p>
-          <em>Valid through 2021. Standard shipping options/rates and quantity limits apply. Cannot be combined with other discount code/sale promotions.</em>
+          <em>Offer cannot be used on already discounted items and cannot be combined with any other offer. No item limit. Discount does not impact  shipping charges. Code is for the U.S. site only. Code valid through March 31, 2023.</em>
         </p>
         <a href="http://hyperx.gg/codecombathxrevolver" target="_blank">
           <img class="custom-esports-image-banner" alt="" src="/images/pages/league/hyperx-banner.jpg">
@@ -1287,7 +1287,7 @@ export default {
   }
 
   .partner-banner  {
-    margin-top: -80px;
+    margin-top: 5px;
     margin-bottom: 70px;
 
     p {
