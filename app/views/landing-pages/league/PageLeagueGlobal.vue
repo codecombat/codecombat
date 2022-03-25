@@ -559,19 +559,11 @@ export default {
       </div>
       <div class="col-lg-6 section-space" style="text-align: left;">
         <div>
-          <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
-          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 3 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
+          <img class="img-responsive" src="/images/pages/league/tundra-tower-cup.png" loading="lazy" style="max-height: 200px; float: right; margin: 0 15px 15px;"/>
+          <h1 class="subheader1" style="margin-bottom: 32px;"><span class="esports-green">Season 4 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span></h1>
         </div>
-        <p>{{ $t('league.season3_announcement_1') }}</p>
-        <p>{{ $t('league.season3_announcement_2') }}</p>
-        <p>{{ $t('league.season3_announcement_3') }}</p>
-        <ul style="list-style-type: none; padding: 0px;">
-          <li><span class="bullet-point" style="background-color: #9B83FF;"/>{{ $t('league.season1_prize_1') }}</li>
-          <li><span class="bullet-point" style="background-color: #FF39A6;"/>{{ $t('league.season1_prize_2') }}</li>
-          <li><span class="bullet-point" style="background-color: #30EFD3;"/><a href="http://hyperx.gg/codecombathxrevolver" target="_blank">{{ $t('league.season1_prize_hyperx') }}</a> - <a href="/league/hyperx">{{ $t('league.join_team') }}</a></li>
-          <li><span class="bullet-point" style="background-color: #30EFD3;"/>{{ $t('league.season1_prize_3') }}</li>
-          <li><span class="bullet-point" style="background-color: #bcff16;"/>{{ $t('league.season1_prize_4') }}</li>
-        </ul>
+        <p>{{ $t('league.season4_announcement_1') }}</p>
+        <p>{{ $t('league.season4_announcement_2') }}</p>
       </div>
     </div>
 
@@ -651,7 +643,7 @@ export default {
 
     <div class="row prize-section">
       <div class="prize-section__heading subheader1">
-        <p class="prize-section__heading-text esports-aqua"><span class="esports-green">{{ $t('league.you_win') }}</span> {{ $t('league.great_prizes') }}</p>
+        <p class="prize-section__heading-text esports-pink"><span class="esports-green">{{ $t('league.you_win') }}</span> {{ $t('league.great_prizes') }}</p>
       </div>
       <div class="prize-section__sponsor">
         <div class="prize-section__sponsor-block">

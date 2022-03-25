@@ -3405,6 +3405,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season4_announcement_1: "The Tundra Tower Cup Final is on. In this all new take on the classic tower defense gameplay, you must protect your base from the horde of monsters by building towers and using gravitational anomalies."
+    season4_announcement_2: "Note: arena balance adjustments may occur up until April 15th. So be sure to come back often to test your code against the global leaderboard."
     season3_announcement_1: "Time to put your coding skills to the test in our season 3 final arena. The Colossus Clash is live and offers a new challenge and a new leaderboard to climb."
     season3_announcement_2: "Need more practice? Stick with the Giant's Gate Arena to refine your skills. You have until December 14th to play both arenas. Note: arena balance adjustments may occur until December 6th."
     season3_announcement_3: "Great prizes available for top performers in the Colossus Clash:"
