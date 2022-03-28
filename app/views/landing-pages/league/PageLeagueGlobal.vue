@@ -544,7 +544,7 @@ export default {
         <p>
           <em>Offer cannot be used on already discounted items and cannot be combined with any other offer. No item limit. Discount does not impact  shipping charges. Code is for the U.S. site only. Code valid through March 31, 2023.</em>
         </p>
-        <a href="http://hyperx.gg/codecombathxrevolver" target="_blank">
+        <a href="https://hyperx.com/discount/HXCODECOMBAT" target="_blank">
           <img class="custom-esports-image-banner" alt="" src="/images/pages/league/hyperx-banner.jpg">
         </a>
       </div>
@@ -661,7 +661,7 @@ export default {
       </div>
       <div class="prize-section__winners clearfix">
         <div class="prize-section__winners-1">
-          <div class="prize-section__winners-text">1<span class="prize-section__small-top">st</span> {{ $t('league.position') }}</div>
+          <div class="prize-section__winners-text">1<span class="prize-section__small-top">st</span> {{ $t('league.place') }}</div>
           <div class="row">
             <div class="col-sm-4">
               <a href="https://www.amazon.com/HyperX-Revolver-Gaming-Headset-Surround/dp/B01N9RM9N3" target="_blank" class="prize-section__winners--product-link">
@@ -691,7 +691,7 @@ export default {
         </div>
         <div class="prize-section__winners-2">
           <div class="col-sm-6">
-            <div class="prize-section__winners-text">2<span class="prize-section__small-top">nd</span> {{ $t('league.position') }}</div>
+            <div class="prize-section__winners-text">2<span class="prize-section__small-top">nd</span> {{ $t('league.place') }}</div>
             <div class="row">
               <div class="col-sm-6">
                 <a href="https://hyperx.com/collections/gaming-headsets/products/hyperx-cloud-ii" target="_blank" class="prize-section__winners--product-link">
@@ -713,7 +713,7 @@ export default {
           </div>
 <!--          <div class="col-sm-3">&nbsp;</div>-->
           <div class="col-sm-3 col-sm-offset-3">
-            <div class="prize-section__winners-text">3<span class="prize-section__small-top">rd</span> {{ $t('league.position') }}</div>
+            <div class="prize-section__winners-text">3<span class="prize-section__small-top">rd</span> {{ $t('league.place') }}</div>
             <a href="https://hyperx.com/collections/gaming-headsets/products/hyperx-cloud-stinger-core-pc" target="_blank" class="prize-section__winners--product-link">
               <div>
                 <img src="/images/pages/league/hyperx-cloud-stinger-headset.png" alt="Cloud Stinger Core Headset" class="prize-section__winners-2--img">

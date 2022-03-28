@@ -3466,7 +3466,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     prize_footer4_1: "Age verification necessary to be eligible.Some prizes are limited to US participants only."
     coco_reserves: "CodeCombat reserves"
     prize_footer4_2: "the right to determine in its sole discretion if a player qualifies and will receive a prize."
-    position: 'position'
+    place: "Place" # as in 1st place
 
   tournament:
     mini_tournaments: "Mini Tournaments"
