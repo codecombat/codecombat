@@ -297,6 +297,8 @@
     flex-direction: column;
 
     position: relative;
+    
+    user-select: none;
 
     .draggable-ordering-lists {
       width: 100%;
