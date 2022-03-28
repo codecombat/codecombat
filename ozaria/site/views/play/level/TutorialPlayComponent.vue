@@ -175,7 +175,7 @@
             },
             useModalOverlay: true, // TODO: Tweak this better in-between steps
             exitOnEsc: false,
-            keyboardNavigation: false // Disabling until rendering between steps is cleaned up outside of button click
+            keyboardNavigation: true,
           })
 
           let tutorialSteps = this.tutorialSteps.slice()
