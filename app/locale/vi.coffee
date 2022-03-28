@@ -969,9 +969,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    prompt_title: "Not Enough Gems!"
 #    prompt_body: "Subscribe to Premium to get gems and access to even more levels!"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+  earn_gems:
+    prompt_title: "Không đủ kim cương"
+    prompt_body: "Chơi thêm để có nhiều hơn nhé!"
 
   subscribe:
 #    best_deal: "Best Deal!"
