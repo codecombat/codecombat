@@ -23,7 +23,7 @@ export default {
     <div class="row flex-row text-center">
       <p class="subheader2" style="max-width: 800px;">
         <span v-if="championshipActive">
-          {{ $t('league.championship_summary', { championshipArena: $t('league.colossus'), championshipMonth: $t('calendar.december'), championshipType: $t('league.clash') }) }}
+          {{ $t('league.championship_summary', { championshipArena: $t('league.tundra_tower'), championshipMonth: $t('calendar.april'), championshipType: $t('league.clash') }) }}
         </span>
         <span v-else>
           {{ $t('league.summary') }}
