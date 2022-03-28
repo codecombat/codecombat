@@ -31,7 +31,7 @@ RevertModal = require 'views/modal/RevertModal'
 
 require 'lib/game-libraries'
 
-AnimateImporterWorker = require 'worker-loader!./AnimateImportWorker.js'
+AnimateImporterWorker = require './animate-import.worker.js'
 
 CENTER = {x: 200, y: 400}
 

@@ -54,6 +54,13 @@ module.exports = (env) => {
         { test: require.resolve('cookieconsent'), use: 'exports-loader?cookieconsent' },
         { test: /\.vue$/, use: [{ loader: 'vue-loader' }] },
         { test: /vendor\/scripts\/async.js/, use: [ { loader: 'imports-loader?root=>window' } ] },
+        {
+          test: /\.worker\.(c|m)?js$/i,
+          loader: "worker-loader",
+          options: {
+            esModule: false,
+          },
+        },
         { test: /\.js$/,
           exclude: /(node_modules|bower_components|vendor)/,
           use: [{
