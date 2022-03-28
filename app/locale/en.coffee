@@ -3463,7 +3463,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     prize_footer1: "Awarded to the top performing player across all age groups."
     prize_footer2: "Specific products and models subject to change."
     prize_footer3: "Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena."
-    prize_footer4_1: "Age verification necessary to be eligible.Some prizes are limited to US participants only."
+    prize_footer4_1: "Age verification necessary to be eligible. Some prizes are limited to US participants only."
     coco_reserves: "CodeCombat reserves"
     prize_footer4_2: "the right to determine in its sole discretion if a player qualifies and will receive a prize."
     place: "Place" # as in 1st place
