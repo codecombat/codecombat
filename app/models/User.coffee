@@ -5,9 +5,11 @@ LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
 co = require 'co'
+moment = require 'moment'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
 paymentUtils = require 'app/lib/paymentUtils'
+fetchJson = require 'core/api/fetch-json'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -46,6 +48,12 @@ module.exports = class User extends CocoModel
     API_CLIENT: 'apiclient',
     ONLINE_TEACHER: 'onlineTeacher'
   }
+
+  get: (attr, withDefault=false) ->
+    prop = super(attr, withDefault)
+    if attr == 'products'
+      return prop ? []
+    prop
 
   isAdmin: -> @constructor.PERMISSIONS.COCO_ADMIN in @get('permissions', true)
   isLicensor: -> @constructor.PERMISSIONS.LICENSOR in @get('permissions', true)
@@ -247,6 +255,7 @@ module.exports = class User extends CocoModel
     for clanHero in utils.clanHeroes when clanHero.clanId in (@get('clans') ? [])
       heroes.push clanHero.thangTypeOriginal
     heroes
+
   items: -> (@get('earned')?.items ? []).concat(@get('purchased')?.items ? []).concat([ThangTypeConstants.items['simple-boots']])
   levels: -> (@get('earned')?.levels ? []).concat(@get('purchased')?.levels ? []).concat(LevelConstants.levels['dungeons-of-kithgard'])
   ownsHero: (heroOriginal) -> @isInGodMode() || heroOriginal in @heroes()
@@ -260,10 +269,14 @@ module.exports = class User extends CocoModel
     myHeroClasses.push heroClass for heroClass, heroSlugs of ThangTypeConstants.heroClasses when _.intersection(myHeroSlugs, heroSlugs).length
     myHeroClasses
 
+  getHeroPoseImage: co.wrap ->
+    heroOriginal = @get('heroConfig')?.thangType ? ThangTypeConstants.heroes.captain
+    heroThangType = yield fetchJson("/db/thang.type/#{heroOriginal}/version?project=poseImage")
+    return '/file/' + heroThangType.poseImage
+
   validate: ->
     errors = super()
     if errors and @_revertAttributes
-
       # Do not return errors if they were all present when last marked to revert.
       # This is so that if a user has an invalid property, that does not prevent
       # them from editing their settings.
@@ -286,6 +299,11 @@ module.exports = class User extends CocoModel
       return true if stripe.subscriptionID
       return true if stripe.free is true
       return true if _.isString(stripe.free) and new Date() < new Date(stripe.free)
+    if products = @get('products')
+      now = new Date()
+      homeProducts = @activeProducts('basic_subscription')
+      maxFree = _.max(homeProducts, (p) => new Date(p.endDate)).endDate
+      return true if new Date() < new Date(maxFree)
     false
 
   isPremium: ->
@@ -345,7 +363,7 @@ module.exports = class User extends CocoModel
     return console.error "Already started experiment #{name}" if _.find experiments, name: name
     return console.error "Invalid experiment name: #{name}" unless /^[a-z][\-a-z0-9]*$/.test name
     return console.error "No experiment value provided" unless value?
-    return console.error "Probability should be between 0-1 if set" if probability? and not (0 <= probability <= 1)
+    return console.error "Probability should be between 0-1 if set - #{name} - #{value} - #{probability}" if probability? and not (0 <= probability <= 1)
     $.ajax
       method: 'POST'
       url: "/db/user/#{@id}/start-experiment"
@@ -369,32 +387,61 @@ module.exports = class User extends CocoModel
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
-    coursePrepaid = @get('coursePrepaid')
-    return 'not-enrolled' unless coursePrepaid
-    return 'enrolled' unless coursePrepaid.endDate
-    return if coursePrepaid.endDate > new Date().toISOString() then 'enrolled' else 'expired'
+    courseProducts = _.filter(@get('products'), {product: 'course'})
+    now = new Date()
+    activeCourseProducts = _.filter(courseProducts, (p) -> new Date(p.endDate) > now || !p.endDate)
+    courseIDs = utils.orderedCourseIDs
+    return 'not-enrolled' unless courseProducts.length
+    return 'enrolled' if _.some activeCourseProducts, (p) ->
+      return true unless p.productOptions?.includedCourseIDs?.length
+      return true if _.intersection(p.productOptions.includedCourseIDs, courseIDs).length
+      return false
+    return 'expired'
+
+  activeProducts: (type) ->
+    now = new Date()
+    _.filter(@get('products'), (p) ->
+      return p.product == type && (new Date(p.endDate) > now || !p.endDate)
+    )
+
+  prepaidNumericalCourses: ->
+    courseProducts = @activeProducts('course')
+    return utils.courseNumericalStatus['NO_ACCESS'] unless courseProducts.length
+    return utils.courseNumericalStatus['FULL_ACCESS'] if _.some courseProducts, (p) => !p.productOptions?.includedCourseIDs?
+    union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
+    courses = _.reduce(courseProducts, union, [])
+    fun = (s, k) => s + utils.courseNumericalStatus[k]
+    return _.reduce(courses, fun, 0)
 
   prepaidType: (includeCourseIDs) =>
-    # TODO: remove once legacy prepaidIDs are migrated to objects
-    return undefined unless @get('coursePrepaid') or @get('coursePrepaidID')
-    type = @get('coursePrepaid')?.type
+    courseProducts = @activeProducts('course')
+    return undefined unless courseProducts.length
+
+    return 'course' if _.any(courseProducts, (p) => !p.productOptions?.includedCourseIDs?)
     # Note: currently includeCourseIDs is a argument only used when displaying
     # customized license's course names.
     # Be careful to match the returned string EXACTLY to avoid comparison issues
+
     if includeCourseIDs
-      courses = @get('coursePrepaid')?.includedCourseIDs
+      union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
+      courses = _.reduce(courseProducts, union, [])
       # return all courses names join with + as customized licenses's name
-      if type == 'course' and Array.isArray(courses)
-        return (courses.map (id) -> utils.courseAcronyms[id]).join('+')
+      return (courses.map (id) -> utils.courseAcronyms[id]).join('+')
     # NOTE: Default type is 'course' if no type is marked on the user's copy
-    return type or 'course'
+    return 'course'
 
   prepaidIncludesCourse: (course) ->
-    return false unless @get('coursePrepaid') or @get('coursePrepaidID')
-    includedCourseIDs = @get('coursePrepaid')?.includedCourseIDs
-    courseID = course.id or course
+    courseProducts = @activeProducts('course')
+    return false unless courseProducts.length
     # NOTE: Full licenses implicitly include all courses
-    return !includedCourseIDs or courseID in includedCourseIDs
+    return true if _.any(courseProducts, (p) => !p.productOptions?.includedCourseIDs?)
+    union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs ? [])
+    includedCourseIDs = _.reduce(courseProducts, union, [])
+    courseID = course.id or course
+    return courseID in includedCourseIDs
+
+  findCourseProduct: (prepaidId) ->
+    return _.find @activeProducts('course'),(p) => p.prepaid + '' == prepaidId + ''
 
   fetchCreatorOfPrepaid: (prepaid) ->
     @fetch({url: "/db/prepaid/#{prepaid.id}/creator"})
@@ -529,11 +576,17 @@ module.exports = class User extends CocoModel
     options.data.provider = provider
     @fetch(options)
 
-  makeCoursePrepaid: ->
-    coursePrepaid = @get('coursePrepaid')
-    return null unless coursePrepaid
+  makeCoursePrepaid: (prepaidId) ->
+    courseProduct = _.find @get('products'), (p) => p.product == 'course' && p.prepaid + '' == prepaidId + ''
+    return null unless courseProduct
     Prepaid = require 'models/Prepaid'
-    return new Prepaid(coursePrepaid)
+    return new Prepaid({
+      _id: prepaidId,
+      type: 'course',
+      includedCourseIDs: courseProduct?.productOptions?.includedCourseIDs
+      startDate: courseProduct.startDate,
+      endDate: courseProduct.endDate
+    })
 
   # TODO: Probably better to denormalize this into the user
   getLeadPriority: ->
@@ -617,6 +670,41 @@ module.exports = class User extends CocoModel
     return false if @get 'unsubscribedFromMarketingEmails'
     return false unless @get('emails')?.generalNews?.enabled
     true
+
+  getM7ExperimentValue: ->
+    value = {true: 'beta', false: 'control', control: 'control', beta: 'beta'}[utils.getQueryVariable 'm7']
+    value ?= me.getExperimentValue('m7', null, 'control')
+    if value is 'beta' and (new Date() - _.find(me.get('experiments') ? [], name: 'm7')?.startDate) > 1 * 24 * 60 * 60 * 1000
+      # Experiment only lasts one day so that users don't get stuck in it
+      value = 'control'
+    if not value? and me.get('stats')?.gamesCompleted
+      # Don't include players who have already started playing
+      value = 'control'
+    if not value? and new Date(me.get('dateCreated')) < new Date('2022-03-14')
+      # Don't include users created before experiment start date
+      value = 'control'
+    if not value? and not /^en/.test me.get('preferredLanguage', true)
+      # Don't include non-English-speaking users before beta levels are translated
+      value = 'control'
+    if not value? and me.get('hourOfCode')
+      # Don't include users coming in through Hour of Code
+      value = 'control'
+    if not value? and not me.get('anonymous')
+      # Don't include registered users
+      value = 'control'
+    if not value? and features?.china
+      # Don't include China players
+      value = 'control'
+    if not value?
+      probability = window.serverConfig?.experimentProbabilities?.m7?.beta ? 0
+      if me.get('testGroupNumber') / 256 < probability
+        value = 'beta'
+        valueProbability = probability
+      else
+        value = 'control'
+        valueProbability = 1 - probability
+      me.startExperiment('m7', value, probability)
+    value
 
   # Feature Flags
   # Abstract raw settings away from specific UX changes

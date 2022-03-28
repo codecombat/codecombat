@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/spell_toolbar'
+template = require 'app/templates/play/level/tome/spell_toolbar'
 
 module.exports = class SpellToolbarView extends CocoView
   className: 'spell-toolbar-view'

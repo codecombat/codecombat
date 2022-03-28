@@ -1,6 +1,6 @@
 require('app/styles/artisans/thang-tasks-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/artisans/thang-tasks-view'
+template = require 'app/templates/artisans/thang-tasks-view'
 
 ThangType = require 'models/ThangType'
 
@@ -27,7 +27,7 @@ module.exports = class ThangTasksView extends RootView
       data:
         project: 'name,tasks,slug'
     ))
-      
+
   onThangsLoaded: (thangCollection) ->
     @processThangs()
 

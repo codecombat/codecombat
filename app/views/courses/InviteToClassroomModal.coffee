@@ -1,6 +1,6 @@
 require('app/styles/courses/invite-to-classroom-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/courses/invite-to-classroom-modal'
+template = require 'app/templates/courses/invite-to-classroom-modal'
 
 module.exports = class InviteToClassroomModal extends ModalView
   id: 'invite-to-classroom-modal'

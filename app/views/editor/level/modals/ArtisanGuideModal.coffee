@@ -1,6 +1,6 @@
 require('app/styles/editor/level/modal/artisan-guide-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/level/modal/artisan-guide-modal'
+template = require 'app/templates/editor/level/modal/artisan-guide-modal'
 
 forms = require 'core/forms'
 {sendContactMessage} = require 'core/contact'
@@ -26,7 +26,7 @@ module.exports = class ArtisanGuideModal extends ModalView
 
   initialize: (options) ->
     @level = options.level
-    @options = 
+    @options =
       level:@level.get('name')
       levelSlug:@level.get('slug')
 

@@ -20,7 +20,7 @@ require('app/styles/play/level/tome/tome.sass')
 # SpellPaletteViews are destroyed and recreated whenever you switch Thangs.
 
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/tome'
+template = require 'app/templates/play/level/tome/tome'
 {me} = require 'core/auth'
 Spell = require './Spell'
 SpellPaletteView = require './SpellPaletteView'
@@ -227,7 +227,7 @@ module.exports = class TomeView extends CocoView
 
   reloadAllCode: ->
     if utils.getQueryVariable 'dev'
-      @options.playLevelView.spellPaletteView.destroy()
+      @options.playLevelView?.spellPaletteView?.destroy()
       @updateSpellPalette @spellView.thang, @spellView.spell
     spell.view.reloadCode false for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
     @cast false, false

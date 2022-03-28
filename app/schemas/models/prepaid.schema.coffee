@@ -4,8 +4,9 @@ PrepaidSchema = c.object({title: 'Prepaid', required: ['type']}, {
   creator: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
   clientCreator: c.objectId(links: [ {rel: 'extra', href: '/db/api-clients/{($)}'} ])
   redeemers: c.array {title: 'Users who have redeemed this code'},
-    c.object {required: ['date', 'userID']},
+    c.object {required: ['date']},
       date: c.date {title: 'Redeemed date'}
+      code: c.shortString(title: 'activation code')
       userID: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
       teacherID: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ],
         description: 'userID of teacher that applied the license, if not the creator')

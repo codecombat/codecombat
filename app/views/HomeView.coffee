@@ -6,7 +6,6 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
-EducatorSignupOzariaEncouragementModal = require('app/views/teachers/EducatorSignupOzariaEncouragementModal').default
 GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').default
 paymentUtils = require 'app/lib/paymentUtils'
 
@@ -60,10 +59,7 @@ module.exports = class HomeView extends RootView
 
   onClickTeacherButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
-    @openEducatorSignupOzariaEncouragementModal(() =>
-      @homePageEvent('Started Signup')
-      @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
-    )
+    @openModalView(new CreateAccountModal({startOnPath: 'oz-vs-coco'}))
 
   onClickParentButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
@@ -72,21 +68,6 @@ module.exports = class HomeView extends RootView
   onClickCreateAccountTeacherButton: (e) ->
     @homePageEvent('Started Signup')
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
-
-  openEducatorSignupOzariaEncouragementModal: (onNext) ->
-    # The modal container needs to exist outside of $el because the loading screen swap deletes the holder element
-    if @ozariaEncouragementModalContainer
-      @ozariaEncouragementModalContainer.remove()
-
-    @ozariaEncouragementModalContainer = document.createElement('div')
-    document.body.appendChild(@ozariaEncouragementModalContainer)
-
-    @ozariaEncouragementModal = new EducatorSignupOzariaEncouragementModal({
-      el: @ozariaEncouragementModalContainer,
-      propsData: {
-        onNext: onNext
-      }
-    })
 
   cleanupModals: ->
     if @ozariaEncouragementModal
@@ -101,12 +82,12 @@ module.exports = class HomeView extends RootView
 
   # Provides a uniform interface for collecting information from the homepage.
   # Always provides the category Homepage and includes the user role.
-  homePageEvent: (action, extraproperties={}, includeIntegrations=[]) ->
+  homePageEvent: (action, extraProperties={}) ->
     defaults =
       category: 'Homepage'
       user: me.get('role') || (me.isAnonymous() && "anonymous") || "homeuser"
-    properties = _.merge(defaults, extraproperties)
-    window.tracker?.trackEvent(action, properties, includeIntegrations)
+    properties = _.merge(defaults, extraProperties)
+    window.tracker?.trackEvent(action, properties)
 
   onClickAnchor: (e) ->
     return unless anchor = e?.currentTarget
@@ -120,10 +101,10 @@ module.exports = class HomeView extends RootView
 
     properties = {}
     if anchorText
-      @homePageEvent("Link: #{anchorText}", properties, ['Google Analytics'])
+      @homePageEvent("Link: #{anchorText}", properties)
     else
       properties.clicked = e?.currentTarget?.host or "unknown"
-      @homePageEvent("Link:", properties, ['Google Analytics'])
+      @homePageEvent("Link:", properties)
 
   onClickGetStartedButton: (e) ->
     @homePageEvent($(e.target).data('event-action'))
@@ -171,6 +152,7 @@ module.exports = class HomeView extends RootView
       if paymentResult is 'success'
         title = $.i18n.t 'payments.studentLicense_successful'
         type = 'success'
+        @trackPurchase("Student license purchase #{type}")
       else
         title = $.i18n.t 'payments.failed'
         type = 'error'
@@ -181,6 +163,7 @@ module.exports = class HomeView extends RootView
       if paymentResult is 'success'
         title = $.i18n.t 'payments.homeSubscriptions_successful'
         type = 'success'
+        @trackPurchase("Home subscription purchase #{type}")
       else
         title = $.i18n.t 'payments.failed'
         type = 'error'
@@ -188,6 +171,16 @@ module.exports = class HomeView extends RootView
       @renderedPaymentNoty = true
     _.delay(@activateCarousels, 1000)
     super()
+
+  trackPurchase: (event) ->
+    if !paymentUtils.hasTrackedPremiumAccess()
+      @homePageEvent event, @getPaymentTrackingData()
+      paymentUtils.setTrackedPremiumPurchase()
+
+  getPaymentTrackingData: ->
+    amount = utils.getQueryVariable('amount')
+    duration = utils.getQueryVariable('duration')
+    return paymentUtils.getTrackingData({ amount, duration })
 
   afterInsert: ->
     super()
@@ -198,9 +191,49 @@ module.exports = class HomeView extends RootView
       if link.length
         @scrollToLink(document.location.hash, 0)
     _.delay(f, 100)
+    @loadCurator()
+
+  shouldShowCurator: ->
+    return false unless me.get('preferredLanguage', true).startsWith('en')  # Only English social media anyway
+    return false if $(document).width() <= 700  # Curator is hidden in css on mobile anyway
+    if (value = {true: true, false: false, show: true, hide: false}[utils.getQueryVariable 'curator'])?
+      return value
+    if (value = me.getExperimentValue('curator', null, 'show'))?
+      return {show: true, hide: false}[value]
+    if new Date(me.get('dateCreated')) < new Date('2022-03-17')
+      # Don't include users created before experiment start date
+      return true
+    if features?.china
+      # Don't include China users
+      return true
+    # Start a new experiment
+    if me.get('testGroupNumber') % 2
+      value = 'show'
+    else
+      value = 'hide'
+    me.startExperiment('curator', value, 0.5)
+    return {show: true, hide: false}[value]
+
+  loadCurator: ->
+    return if @curatorLoaded
+    return unless @shouldShowCurator()
+    @curatorLoaded = true
+    script = document.createElement 'script'
+    script.async = 1
+    script.src = 'https://cdn.curator.io/published/4b3b9f97-3241-43b3-934e-f5a1eea5ae5e.js'
+    firstScript = document.getElementsByTagName('script')[0]
+    firstScript.parentNode.insertBefore(script, firstScript)
+    @curatorInterval = setInterval @checkIfCuratorLoaded, 1000
+
+  checkIfCuratorLoaded: =>
+    return if @destroyed
+    return unless @$('.crt-feed-spacer').length  # If we didn't find any of these, there's no content (not loaded or Curator error)
+    @$('.testimonials-container, .curator-spacer').removeClass('hide')
+    clearInterval @curatorInterval
 
   destroy: ->
     @cleanupModals()
+    clearInterval @curatorInterval if @curatorInterval
     super()
 
   # 2021-06-08: currently causing issues with i18n interpolation, disabling for now

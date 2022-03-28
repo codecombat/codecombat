@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/modal/versions-modal'
+template = require 'app/templates/editor/modal/versions-modal'
 DeltaView = require 'views/editor/DeltaView'
 PatchModal = require 'views/editor/PatchModal'
 nameLoader = require 'core/NameLoader'

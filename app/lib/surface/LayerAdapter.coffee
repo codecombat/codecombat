@@ -47,6 +47,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
   resolutionFactor: SPRITE_RESOLUTION_FACTOR
   numThingsLoading: 0
   lanks: null
+  labels: null
   spriteSheet: null
   container: null
   customGraphics: null
@@ -64,6 +65,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @transformStyle = options.transform ? LayerAdapter.TRANSFORM_SURFACE
     @camera = options.camera
     @updateLayerOrder = _.throttle @updateLayerOrder, 1000 / 30  # Don't call multiple times in one frame; 30 FPS is probably good enough
+    @lanks = []
+    @labels = []
 
     @webGL = !!options.webGL
     if @webGL
@@ -72,7 +75,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       @container = new createjs.Container(@spriteSheet)
       @actionRenderState = {}
       @toRenderBundles = []
-      @lanks = []
       @initializing = false
 
     else
@@ -168,6 +170,17 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @container.removeChild lank.sprite
     @lanks = _.without @lanks, lank
 
+  addLabel: (label) ->
+    @labels.push label unless label in @labels
+    @addChild label.label
+    @addChild label.background
+    @updateLayerOrder()
+
+  removeLabel: (label) ->
+    @removeChild label.label if label.label
+    @removeChild label.background if label.background
+    @labels = _.without @labels, label
+
   #- Loading network resources dynamically
 
   loadThangType: (thangType) ->
@@ -204,8 +217,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if lank.thangType.get('raster')
       @upsertActionToRender(lank.thangType)
     else
+      defaultRenderableActions = ThangType.defaultActions.concat(lank.thangType.get('preLoadActions') or [])
       for action in _.values(lank.thangType.getActions())
-        continue unless _.any ThangType.defaultActions, (prefix) -> _.string.startsWith(action.name, prefix)
+        continue unless _.any defaultRenderableActions, (prefix) -> _.string.startsWith(action.name, prefix)
         @upsertActionToRender(lank.thangType, action.name, lank.options.colorConfig)
 
   upsertActionToRender: (thangType, actionName, colorConfig) ->
@@ -308,6 +322,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       console.log 'zombie sprite found on layer', @name if lank.destroyed
       continue if lank.destroyed
       @setSpriteToLank(lank)
+    for label in @labels when label.label
+      @container.addChild label.label
+      @container.addChild label.background
     for prop in ['scaleX', 'scaleY', 'regX', 'regY']
       @container[prop] = oldLayer[prop]
     if parent = oldLayer.parent
@@ -494,15 +511,10 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     unless thangType.rasterImage
       console.error("Cannot render the LayerAdapter SpriteSheet until the raster image for <#{thangType.get('name')}> is loaded.")
 
-    # hack for IE9, otherwise width/height are not set
-    $img = $(thangType.rasterImage[0])
-    $('body').append($img)
-
     bm = new createjs.Bitmap(thangType.rasterImage[0])
     scale = thangType.get('scale') or 1
     frame = spriteSheetBuilder.addFrame(bm, null, scale)
     spriteSheetBuilder.addAnimation(@renderGroupingKey(thangType), [frame], false)
-    $img.remove()
 
   #- Distributing new Segmented/Singular/RasterSprites to Lanks
 

@@ -19,7 +19,7 @@ SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 
 module.exports = class RequestQuoteView extends RootView
   id: 'request-quote-view'
-  template: require 'templates/teachers/request-quote-view'
+  template: require 'app/templates/teachers/request-quote-view'
   logoutRedirectURL: null
 
   events:
@@ -47,7 +47,7 @@ module.exports = class RequestQuoteView extends RootView
     @trialRequests.fetchOwn()
     @supermodel.trackCollection(@trialRequests)
     @formChanged = false
-    window.tracker?.trackEvent 'Teachers Request Demo Loaded', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Request Demo Loaded', category: 'Teachers'
     @state = new State {
       suggestedNameText: '...'
       checkEmailState: 'standby' # 'checking', 'exists', 'available'
@@ -96,7 +96,7 @@ module.exports = class RequestQuoteView extends RootView
     stateVal = stateElem.val()
     @state.set({stateValue: stateVal})
 
-    if e.target.value == 'United States' 
+    if e.target.value == 'United States'
       @state.set({showUsaStateDropdown: true})
       if !@usaStatesAbbreviations.includes(stateVal)
         @state.set({stateValue: ''})
@@ -162,7 +162,7 @@ module.exports = class RequestQuoteView extends RootView
 
   onChangeRequestForm: ->
     unless @formChanged
-      window.tracker?.trackEvent 'Teachers Request Demo Form Started', category: 'Teachers', ['Mixpanel']
+      window.tracker?.trackEvent 'Teachers Request Demo Form Started', category: 'Teachers'
     @formChanged = true
 
   onClickRequestButton: (e) ->
@@ -255,7 +255,7 @@ module.exports = class RequestQuoteView extends RootView
     @openModalView(new AuthModal({ initialValues: @state.get('authModalInitialValues') }))
 
   onTrialRequestSubmit: ->
-    window.tracker?.trackEvent 'Teachers Request Demo Form Submitted', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Request Demo Form Submitted', category: 'Teachers'
     @formChanged = false
     trialRequestProperties = @trialRequest.get('properties')
     me.setRole trialRequestProperties.role.toLowerCase(), true
@@ -285,7 +285,7 @@ module.exports = class RequestQuoteView extends RootView
                   url: "/db/user?gplusID=#{gplusAttrs.gplusID}&gplusAccessToken=#{application.gplusHandler.token()}"
                   type: 'PUT'
                   success: ->
-                    window.tracker?.trackEvent 'Teachers Request Demo Create Account Google', category: 'Teachers', ['Mixpanel']
+                    window.tracker?.trackEvent 'Teachers Request Demo Create Account Google', category: 'Teachers'
                     application.router.navigate(SIGNUP_REDIRECT)
                     window.location.reload()
                   error: errors.showNotyNetworkError
@@ -314,7 +314,7 @@ module.exports = class RequestQuoteView extends RootView
                   url: "/db/user?facebookID=#{facebookAttrs.facebookID}&facebookAccessToken=#{application.facebookHandler.token()}"
                   type: 'PUT'
                   success: ->
-                    window.tracker?.trackEvent 'Teachers Request Demo Create Account Facebook', category: 'Teachers', ['Mixpanel']
+                    window.tracker?.trackEvent 'Teachers Request Demo Create Account Facebook', category: 'Teachers'
                     application.router.navigate(SIGNUP_REDIRECT)
                     window.location.reload()
                   error: errors.showNotyNetworkError
@@ -353,7 +353,7 @@ module.exports = class RequestQuoteView extends RootView
       me.set('unsubscribedFromMarketingEmails', true)
     me.save(null, {
       success: ->
-        window.tracker?.trackEvent 'Teachers Request Demo Create Account', category: 'Teachers', ['Mixpanel']
+        window.tracker?.trackEvent 'Teachers Request Demo Create Account', category: 'Teachers'
         application.router.navigate(SIGNUP_REDIRECT)
         window.location.reload()
       error: errors.showNotyNetworkError

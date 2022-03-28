@@ -20,6 +20,12 @@ export default function getVueRouter () {
           children: [
             // Stub pages
             { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
+            {
+              path: 'ladders',
+              name: 'LaddersList',
+              component: () => import(/* webpackChunkName: "mainLadderViewV2" */'app/views/ladder/MainLadderViewV2'),
+              meta: { toTop: true }
+            },
             { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') }
           ]
         },
@@ -65,17 +71,23 @@ export default function getVueRouter () {
         },
         {
           path: '/payments/online-classes-success',
-          component: () => import(/* webpackChunkName: "onlineClassesSuccessComponent" */'app/views/payment/PaymentOnlineClassesSuccessView'),
+          component: () => import(/* webpackChunkName: "onlineClassesSuccessComponent" */'app/views/payment/online-class/SuccessView'),
         },
         {
           path: '/payments/home-subscriptions-success',
-          component: () => import(/* webpackChunkName: "homeSubscriptionSuccessComponent" */'app/views/payment/PaymentHomeSubscriptionsSuccessView'),
+          component: () => import(/* webpackChunkName: "homeSubscriptionSuccessComponent" */'app/views/payment/HomeSubscriptionsSuccessView'),
+          props: (route) => ({ ...route.query, ...route.params })
         },
         {
           path: '/payments/:slug',
           component: () => import(/* webpackChunkName: "paymentComponent" */'app/views/payment/PaymentComponentView'),
-        },
-      ]
+        }
+      ],
+      scrollBehavior(to) {
+        const scroll = {}
+        if (to.meta?.toTop) scroll.top = 0
+        return scroll
+      }
     })
   }
 

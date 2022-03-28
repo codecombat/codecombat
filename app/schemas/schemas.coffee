@@ -268,3 +268,5 @@ me.voiceOver = {
     })
   ]
 }
+
+me.product = type: 'string', title: 'Product', description: 'Which product this document is for (codecombat, ozaria, or both)', enum: ['codecombat', 'ozaria', 'both'], default: 'both'

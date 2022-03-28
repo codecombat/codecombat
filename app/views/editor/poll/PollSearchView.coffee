@@ -5,7 +5,7 @@ module.exports = class PollSearchView extends SearchView
   modelLabel: 'Poll'
   model: require 'models/Poll'
   modelURL: '/db/poll'
-  tableTemplate: require 'templates/editor/poll/poll-search-table'
+  tableTemplate: require 'app/templates/editor/poll/poll-search-table'
   projection: ['name', 'description', 'slug', 'priority', 'created']
 
   getRenderData: ->

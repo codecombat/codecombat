@@ -6,7 +6,7 @@ require 'd3/d3.js'
 d3Utils = require 'core/d3_utils'
 Payment = require 'models/Payment'
 RootView = require 'views/core/RootView'
-template = require 'templates/admin/analytics'
+template = require 'app/templates/admin/analytics'
 utils = require 'core/utils'
 
 # TODO: terminal subscription purchases entered as DRR monthly subs, but should be spread across their timeframe
@@ -422,10 +422,13 @@ module.exports = class AnalyticsView extends RootView
       prepaidUserMap = {}
       for user in data.students
         continue unless studentPaidStatusMap[user._id]
-        if prepaidID = user.coursePrepaid?._id
+        products = user.products.filter((p) ->
+          return p.product == 'course' && new Date(p.endDate) > now
+        )
+        for product in products
           studentPaidStatusMap[user._id] = 'paid'
-          prepaidUserMap[prepaidID] ?= []
-          prepaidUserMap[prepaidID].push(user._id)
+          prepaidUserMap[product.prepaid] ?= []
+          prepaidUserMap[product.prepaid].push(user._id)
 
       # Find trial students
       for prepaid in data.prepaids

@@ -2,7 +2,7 @@ require('app/styles/user/main-user-view.sass')
 UserView = require 'views/common/UserView'
 CocoCollection = require 'collections/CocoCollection'
 LevelSession = require 'models/LevelSession'
-template = require 'templates/user/main-user-view'
+template = require 'app/templates/user/main-user-view'
 {me} = require 'core/auth'
 Clan = require 'models/Clan'
 EarnedAchievementCollection = require 'collections/EarnedAchievementCollection'
@@ -27,6 +27,11 @@ module.exports = class MainUserView extends UserView
   destroy: ->
     @stopListening?()
     super()
+
+  loadHeroPoseImage: =>
+    @user.getHeroPoseImage().then (result) =>
+      @heroPoseImage = result
+      @render()
 
   onLoaded: ->
     if @user.loaded
@@ -58,7 +63,7 @@ module.exports = class MainUserView extends UserView
       @onSyncClans @clans?.models
       @render?()
     @supermodel.loadCollection(@clans, 'clans', {cache: false})
-
+    @loadHeroPoseImage()
     super()
 
   onSyncClans: (clans) ->

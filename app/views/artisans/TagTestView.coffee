@@ -1,7 +1,7 @@
 require('app/styles/artisans/tag-test-view.sass')
 RootView = require 'views/core/RootView'
 CocoView = require 'views/core/CocoView'
-template = require 'templates/artisans/tag-test-view'
+template = require 'app/templates/artisans/tag-test-view'
 tagger = require 'lib/SolutionConceptTagger'
 conceptList =require 'schemas/concepts'
 
@@ -11,7 +11,7 @@ ThangTypes = require 'collections/ThangTypes'
 ace = require('lib/aceContainer')
 
 class ActualTagView extends CocoView
-  template: require 'templates/artisans/tag-test-tags-view'
+  template: require 'app/templates/artisans/tag-test-tags-view'
   id: 'tag-test-tags-view'
 
 module.exports = class ThangTasksView extends RootView
@@ -20,12 +20,12 @@ module.exports = class ThangTasksView extends RootView
   events:
     'input input': 'processThangs'
     'change input': 'processThangs'
-  
+
   initialize: () ->
     @tags = []
     console.log "Hello"
     @debouncedUpdateTags = _.debounce @updateTags, 1000
-  
+
   afterRender: () ->
     @insertSubView @tagView = new ActualTagView()
     ta = @$el.find('#tag-test-editor')
@@ -51,6 +51,6 @@ module.exports = class ThangTasksView extends RootView
       @tagView.tags = _.map tagger(source: code), (t) -> _.find(conceptList, (e) => e.concept is t)?.name
     catch e
       @tagView.error = e.stack
-    
+
     @tagView.render()
     console.log "Update tags"

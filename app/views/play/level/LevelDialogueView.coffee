@@ -1,6 +1,6 @@
 require('app/styles/play/level/level-dialogue-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/level-dialogue-view'
+template = require 'app/templates/play/level/level-dialogue-view'
 DialogueAnimator = require './DialogueAnimator'
 PlayItemsModal = require 'views/play/modal/PlayItemsModal'
 

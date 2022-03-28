@@ -1,5 +1,5 @@
 ModalView = require './ModalView'
-template = require 'templates/core/anonymous-teacher-modal'
+template = require 'app/templates/core/anonymous-teacher-modal'
 require('app/styles/modal/anonymous-teacher-modal.sass')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 forms = require 'core/forms'

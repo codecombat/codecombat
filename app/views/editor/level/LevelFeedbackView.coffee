@@ -1,7 +1,7 @@
 require('app/styles/editor/level/level-feedback-view.sass')
 CocoView = require 'views/core/CocoView'
 CocoCollection = require 'collections/CocoCollection'
-template = require 'templates/editor/level/level-feedback-view'
+template = require 'app/templates/editor/level/level-feedback-view'
 Level = require 'models/Level'
 LevelFeedback = require 'models/LevelFeedback'
 

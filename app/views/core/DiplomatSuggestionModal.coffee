@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/core/diplomat-suggestion'
+template = require 'app/templates/core/diplomat-suggestion'
 {me} = require 'core/auth'
 forms = require 'core/forms'
 

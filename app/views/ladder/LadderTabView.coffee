@@ -25,7 +25,7 @@ class TournamentLeaderboardCollection extends CocoCollection
 
 module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
-  template: require 'templates/play/ladder/ladder-tab-view'
+  template: require 'app/templates/play/ladder/ladder-tab-view'
   scoreForDisplay: scoreForDisplay
 
   events:
@@ -439,6 +439,9 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     above = @playersAbove.models
     l = l.concat(above)
     l.reverse()
+    if @session?.get('creatorAge') and !(@session?.get('ageBracket'))
+      # add ageBracket for @session
+      @session.set('ageBracket', utils.ageToBracket(@session.get('creatorAge')))
     l.push @session
     l = l.concat(@playersBelow.models)
     if @myRank is 'unknown'

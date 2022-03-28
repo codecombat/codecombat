@@ -2,7 +2,7 @@ require('app/styles/play/level/control-bar-view.sass')
 storage = require 'core/storage'
 
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/control-bar-view'
+template = require 'app/templates/play/level/control-bar-view'
 {me} = require 'core/auth'
 utils = require 'core/utils'
 
@@ -157,7 +157,7 @@ module.exports = class ControlBarView extends CocoView
   onClickHome: (e) ->
     if @level.isType('course')
       category = if me.isTeacher() then 'Teachers' else 'Students'
-      window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug, ['Mixpanel']
+      window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug
     e.preventDefault()
     e.stopImmediatePropagation()
     Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs

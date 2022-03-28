@@ -19,7 +19,7 @@ SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 
 module.exports = class CreateTeacherAccountView extends RootView
   id: 'create-teacher-account-view'
-  template: require 'templates/teachers/create-teacher-account-view'
+  template: require 'app/templates/teachers/create-teacher-account-view'
 
   events:
     'click .login-link': 'onClickLoginLink'
@@ -40,7 +40,7 @@ module.exports = class CreateTeacherAccountView extends RootView
     @trialRequests = new TrialRequests()
     @trialRequests.fetchOwn()
     @supermodel.trackCollection(@trialRequests)
-    window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers'
     @state = new State {
       suggestedNameText: '...'
       checkEmailState: 'standby' # 'checking', 'exists', 'available'
@@ -164,7 +164,7 @@ module.exports = class CreateTeacherAccountView extends RootView
 
   onChangeForm: ->
     unless @formChanged
-      window.tracker?.trackEvent 'Teachers Create Account Form Started', category: 'Teachers', ['Mixpanel']
+      window.tracker?.trackEvent 'Teachers Create Account Form Started', category: 'Teachers'
     @formChanged = true
 
   onSubmitForm: (e) ->
@@ -248,7 +248,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       errors.showNotyNetworkError(arguments...)
 
   onTrialRequestSubmit: ->
-    window.tracker?.trackEvent 'Teachers Create Account Submitted', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Create Account Submitted', category: 'Teachers'
     @formChanged = false
 
     Promise.resolve()

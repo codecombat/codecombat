@@ -6,7 +6,7 @@ aceUtils = require('core/aceUtils')
 utils = require 'core/utils'
 MusicPlayer = require 'lib/surface/MusicPlayer'
 
-template = require 'templates/admin/codeplayback-view'
+template = require 'app/templates/admin/codeplayback-view'
 
 module.exports = class CodePlaybackView extends CocoView
   id: 'codeplayback-view'

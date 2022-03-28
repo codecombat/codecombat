@@ -10,6 +10,39 @@
   .license-details
     margin: 0px 20px 30px 20px
     padding: 0px
+    position: relative
+
+    .expires
+      display: inline-block
+      margin-left: 0.6em
+      margin-bottom: 5px
+
+    .details
+      position: absolute
+      opacity: 0
+      background: #eee
+      border-radius: 5px
+      padding: 20px 40px
+      box-shadow: 3px 2px 4px #888
+      margin-left: 80px
+      text-align: right
+      z-index: 9999
+
+    .more
+      display: inline-block
+      width: 1.2em
+      height: 1.2em
+      line-height: 1.2em
+      text-align: center
+      border-radius: 50%
+      border: 2px solid #999
+      color: #999
+      font-weight: bold
+      cursor: pointer
+      margin-left: 5px
+
+      &:hover + .details
+        opacity: 1
 
   .not-enough-enrollments
     color: red

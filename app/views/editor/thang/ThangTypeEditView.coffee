@@ -23,14 +23,14 @@ PatchesView = require 'views/editor/PatchesView'
 ForkModal = require 'views/editor/ForkModal'
 VectorIconSetupModal = require 'views/editor/thang/VectorIconSetupModal'
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
-template = require 'templates/editor/thang/thang-type-edit-view'
+template = require 'app/templates/editor/thang/thang-type-edit-view'
 storage = require 'core/storage'
 ExportThangTypeModal = require './ExportThangTypeModal'
 RevertModal = require 'views/modal/RevertModal'
 
 require 'lib/game-libraries'
 
-AnimateImporterWorker = require 'worker-loader!./AnimateImportWorker.js'
+AnimateImporterWorker = require './animate-import.worker.js'
 
 CENTER = {x: 200, y: 400}
 

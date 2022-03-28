@@ -161,6 +161,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/i18n-verifier(/:levelID)': go('editor/verifier/i18nVerifierView')
     'editor/course': go('editor/course/CourseSearchView')
     'editor/course/:courseID': go('editor/course/CourseEditView')
+    'editor/resource': go('editor/resource/ResourceSearchView')
+    'editor/resource/:resourceID': go('editor/resource/ResourceEditView')
+    'editor/archived-elements': go('core/SingletonAppVueComponentView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
@@ -189,7 +192,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'il-signup': go('account/IsraelSignupView')
 
     'impact': () ->
-      @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat' })
+      @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
 
     'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
     'league/kipp': redirect('/league/autoclan-school-network-kipp') # Redirect for KIPP.
@@ -245,7 +248,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'students/project-gallery/:courseInstanceID': go('courses/ProjectGalleryView')
     'students/assessments/:classroomID': go('courses/StudentAssessmentsView')
     'students/videos/:courseID/:courseName': go('courses/CourseVideosView')
-    'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
     'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
 
     'teachers': redirect('/teachers/classes')
@@ -285,6 +287,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'user/:userID/opt-in/:verificationCode': go('user/UserOptInView')
 
     'payments/*path': go('core/SingletonAppVueComponentView')
+    'ladders/*path': go('core/SingletonAppVueComponentView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')

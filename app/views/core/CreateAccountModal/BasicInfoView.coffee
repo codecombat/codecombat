@@ -1,13 +1,14 @@
 require('app/styles/modal/create-account-modal/basic-info-view.sass')
 CocoView = require 'views/core/CocoView'
 AuthModal = require 'views/core/AuthModal'
-template = require 'templates/core/create-account-modal/basic-info-view'
+template = require 'app/templates/core/create-account-modal/basic-info-view'
 forms = require 'core/forms'
 errors = require 'core/errors'
 User = require 'models/User'
 State = require 'models/State'
 store = require 'core/store'
 globalVar = require 'core/globalVar'
+userUtils = require '../../../lib/user-utils'
 
 ###
 This view handles the primary form for user details — name, email, password, etc,
@@ -55,6 +56,7 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
+    @hideEmail = userUtils.isInLibraryNetwork()
 
   afterRender: ->
     @$el.find('#first-name-input').focus()
@@ -72,6 +74,9 @@ module.exports = class BasicInfoView extends CocoView
 
   checkEmail: ->
     email = @$('[name="email"]').val()
+
+    if @hideEmail
+      return Promise.resolve(true)
 
     if @signupState.get('path') isnt 'student' and (not _.isEmpty(email) and email is @state.get('checkEmailValue'))
       return @state.get('checkEmailPromise')
@@ -193,7 +198,8 @@ module.exports = class BasicInfoView extends CocoView
     required: switch @signupState.get('path')
       when 'student' then ['name', 'password', 'firstName'].concat(if me.showChinaRegistration() then [] else ['lastName'])
       when 'teacher' then ['password', 'email', 'firstName'].concat(if me.showChinaRegistration() then [] else ['lastName'])
-      else ['name', 'password', 'email']
+      else
+        ['name', 'password'].concat(if @hideEmail then [] else ['email'])
 
   onClickBackButton: ->
     if @signupState.get('path') is 'teacher'
@@ -325,10 +331,6 @@ module.exports = class BasicInfoView extends CocoView
           @state.set('error', $.i18n.t(e.responseJSON?.i18n) or 'Unknown Error')
         else
           @state.set('error', e.responseJSON?.message or 'Unknown Error')
-        # Adding event to detect if the error occurs in prod since it is not reproducible (https://app.asana.com/0/654820789891907/1113232508815667)
-        # TODO: Remove when not required.
-        if @id == 'single-sign-on-confirm-view' and @signupState.get('path') is 'teacher'
-          window.tracker?.trackEvent 'Error in ssoConfirmView', {category: 'Teachers', label: @state.get('error')}
 
   finishSignup: ->
     if @signupState.get('path') is 'teacher'

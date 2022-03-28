@@ -1,6 +1,6 @@
 require('app/styles/community.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/community-view'
+template = require 'app/templates/community-view'
 
 module.exports = class CommunityView extends RootView
   id: 'community-view'

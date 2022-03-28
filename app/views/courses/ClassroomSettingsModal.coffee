@@ -1,7 +1,7 @@
 require('app/styles/courses/classroom-settings-modal.sass')
 Classroom = require 'models/Classroom'
 ModalView = require 'views/core/ModalView'
-template = require 'templates/courses/classroom-settings-modal'
+template = require 'app/templates/courses/classroom-settings-modal'
 forms = require 'core/forms'
 errors = require 'core/errors'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
@@ -75,7 +75,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
       button.text(@oldButtonText).attr('disabled', false)
       errors.showNotyNetworkError(jqxhr)
     @listenToOnce @classroom, 'sync', @hide
-    window.tracker?.trackEvent "Teachers Edit Class Saved", category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    window.tracker?.trackEvent "Teachers Edit Class Saved", category: 'Teachers', classroomID: @classroom.id
 
   onClickUpdateCoursesButton: ->
     @$('#update-courses-btn').attr('disabled', true)
@@ -116,7 +116,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
       $('.class-name').hide()
       $('#link-google-classroom-btn').hide()
     )
-    .catch((e) => 
+    .catch((e) =>
       noty { text: e or "Error in importing classrooms", layout: 'topCenter', type: 'error', timeout: 3000 }
       @render()
     )

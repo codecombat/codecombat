@@ -47,9 +47,9 @@
 - 便利贴（随手记）
 - 马克笔
 - 其他
-  - [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-  - [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
-  - [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+  - [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+  - [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+  - [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 #### 学习目标
 
@@ -124,10 +124,10 @@
 
 - 向学生演示如何找到提示，方法参考卡，错误语句，和每个关卡中提供的样例代码。
 - 在某一关卡中有困难的同学会被引导到其他的练习关卡中。
-- 这里提供了一个可打印的笔记模板，可以让学生用来做笔记：[Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- 如果学生不知道如何将遇到的问题进行分解，你可以使用 [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) 强化学生的逐步解决问题的能力。
+- 这里提供了一个可打印的笔记模板，可以让学生用来做笔记：[Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- 如果学生不知道如何将遇到的问题进行分解，你可以使用 [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) 强化学生的逐步解决问题的能力。
 
-- 如果学生在语法上有问题，可以提供以下参考资料： [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) ， [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- 如果学生在语法上有问题，可以提供以下参考资料： [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) ， [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 ##### 拓展：
 
@@ -150,9 +150,9 @@
 
 #### 材料
 
-- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
-- [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 #### 学习目标
 
@@ -219,10 +219,10 @@
 
 - 向学生演示如何找到提示，方法参考卡，错误语句，和每个关卡中提供的样例代码。
 - 在某一关卡中有困难的同学会被引导到其他的练习关卡中。
-- 这里提供了一个可打印的笔记模板，可以让学生用来做笔记：[Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- 如果学生不知道如何将遇到的问题进行分解，你可以使用 [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) 强化学生的逐步解决问题的能力。
+- 这里提供了一个可打印的笔记模板，可以让学生用来做笔记：[Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- 如果学生不知道如何将遇到的问题进行分解，你可以使用 [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) 强化学生的逐步解决问题的能力。
 
-- 如果学生在语法上有问题，可以提供以下参考资料： [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) ， [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- 如果学生在语法上有问题，可以提供以下参考资料： [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) ， [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 ##### 拓展
 
@@ -244,9 +244,9 @@
 
 #### 材料
 
-- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
-- [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 #### 学习目标
 
@@ -301,9 +301,9 @@
 
 - 向学生演示如何找到提示，方法参考卡，错误语句，和每个关卡中提供的样例代码。
 - 在某一关卡中有困难的同学会被引导到其他的练习关卡中。
-- 这里提供了一个可打印的笔记模板，可以让学生用来做笔记：[Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- 如果学生不知道如何将遇到的问题进行分解，你可以使用 [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) 强化学生的逐步解决问题的能力。
-- 如果学生在语法上有问题，可以提供以下参考资料： [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) ， [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- 这里提供了一个可打印的笔记模板，可以让学生用来做笔记：[Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- 如果学生不知道如何将遇到的问题进行分解，你可以使用 [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) 强化学生的逐步解决问题的能力。
+- 如果学生在语法上有问题，可以提供以下参考资料： [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) ， [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 ##### 拓展
 
@@ -327,9 +327,9 @@
 
 #### 材料
 
-- [Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
-- [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- [Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)
+- [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) or [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 #### 学习目标
 
@@ -379,9 +379,9 @@
 
 - 向学生演示如何找到提示，方法参考卡，错误语句，和每个关卡中提供的样例代码。
 - 在某一关卡中有困难的同学会被引导到其他的练习关卡中。
-- 这里提供了一个可打印的笔记模板，可以让学生用来做笔记：[Progress Journal](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-- 如果学生不知道如何将遇到的问题进行分解，你可以使用 [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) 强化学生的逐步解决问题的能力。
-- 如果学生在语法上有问题，可以提供以下参考资料： [Python Syntax Guide](http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) ， [JavaScript Syntax Guide](http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
+- 这里提供了一个可打印的笔记模板，可以让学生用来做笔记：[Progress Journal](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+- 如果学生不知道如何将遇到的问题进行分解，你可以使用 [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) 强化学生的逐步解决问题的能力。
+- 如果学生在语法上有问题，可以提供以下参考资料： [Python Syntax Guide](https://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf) ， [JavaScript Syntax Guide](https://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf)
 
 **鼓励学生和其他人分享自己的游戏链接**
 

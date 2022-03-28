@@ -353,7 +353,7 @@ module.exports = Lank = class Lank extends CocoClass
 
     newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
     newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
-    if @layer?.name is 'Land' or @thang?.isLand or @thang?.spriteName is 'Beam' or @isCinematicLank
+    if @layer?.name is 'Land' or @thang?.isLand or @thang?.spriteName is 'Beam' or @isCinematicLank or @thang?.quickScale
       @scaleFactorX = newScaleFactorX
       @scaleFactorY = newScaleFactorY
     else if @thang and (newScaleFactorX isnt @targetScaleFactorX or newScaleFactorY isnt @targetScaleFactorY)
@@ -658,7 +658,8 @@ module.exports = Lank = class Lank extends CocoClass
       d.updatePosition()
 
   addLabel: (name, style, labelOptions={}) ->
-    @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: @options.textLayer, style: style, labelOptions: labelOptions
+    layer = if labelOptions.groundLayer then @options.groundLayer else @options.textLayer
+    @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: layer, style: style, labelOptions: labelOptions
     @labels[name]
 
   addMark: (name, layer, thangType=null) ->

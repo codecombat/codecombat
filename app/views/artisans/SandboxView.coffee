@@ -1,5 +1,5 @@
 RootComponent = require 'views/core/RootComponent'
-template = require 'templates/base-flat'
+template = require 'app/templates/base-flat'
 SandboxViewComponent = require('./SandboxViewComponent.vue').default
 
 module.exports = class SandboxView extends RootComponent

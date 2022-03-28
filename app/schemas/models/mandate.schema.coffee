@@ -38,6 +38,7 @@ module.exports = MandateSchema = {
           properties:
             min: {type: 'number', minimum: 1, exclusiveMinimum: true, format: 'seconds'}
             max: {type: 'number', minimum: 5, exclusiveMinimum: true, format: 'seconds'}
+    latestAnnouncement: c.int()
     currentTournament:
       c.array {description: 'The arrays of the current active tournament, if any.'},
       c.object {},
@@ -47,6 +48,13 @@ module.exports = MandateSchema = {
         endAt: 'integer',
         name: 'string'
     tournamentOnlyLevels: c.array { description: 'levels only accessible during tournament with specific course instance id'}, 'string'
+    experimentProbabilities:
+      type: 'object'
+      description: 'Mapping of experiment names to experimental values and their probabilities, like `{m7: {control: 0.75, experiment: 0.25}}`'
+      additionalProperties:
+        type: 'object'
+        description: 'Mapping of experimental values to their probabilities, like `{control: 0.75, experiment: 0.25}`'
+        additionalProperties: c.pct {description: 'Probability of being assigned to this experiment value'}
 }
 
 c.extendBasicProperties MandateSchema, 'Mandate'

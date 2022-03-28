@@ -1,6 +1,6 @@
 require('app/styles/test-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/test-view'
+template = require 'app/templates/test-view'
 requireUtils = require 'lib/requireUtils'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'

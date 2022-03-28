@@ -1,7 +1,7 @@
-extends /templates/base.jade
+extends /templates/base
 
 block content
-  
+
   if me.isAnonymous()
     h3 Login is required
   else
@@ -12,7 +12,7 @@ block content
           p.campaign-description(data-i18n="tournament.no_tournaments_owner")
         else
           p.campaign-description(data-i18n="tournament.no_tournaments")
-        
+
       each val, cluster in view.tournaments
         - tournamentsByState = _.groupBy(val, 'state')
         if cluster && cluster !== 'undefined'

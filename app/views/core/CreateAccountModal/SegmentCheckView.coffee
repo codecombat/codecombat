@@ -1,6 +1,6 @@
 require('app/styles/modal/create-account-modal/segment-check-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/core/create-account-modal/segment-check-view'
+template = require 'app/templates/core/create-account-modal/segment-check-view'
 forms = require 'core/forms'
 Classroom = require 'models/Classroom'
 State = require 'models/State'
@@ -30,15 +30,6 @@ module.exports = class SegmentCheckView extends CocoView
       @trigger 'special-render'
     )
 
-  afterRender: ->
-    super()
-    # HACK: Gives us the border radius required for student class code modal.
-    #       Needs timeout to ensure dom has rendered.
-    if @signupState.get('path') is 'student'
-      setTimeout(()->
-        @$('#modal-base-flat').css('border-radius', '20px')
-      , 5)
-
   onPlayClicked: ->
     application.router.navigate "/play", { trigger: true }
 
@@ -64,8 +55,12 @@ module.exports = class SegmentCheckView extends CocoView
       else
         @classroom = new Classroom()
         @state.set { classCodeValid: false, segmentCheckValid: false }
-    .catch (error) ->
-      throw error
+    .catch (error) =>
+      if error.code == 403 and error.message == 'Activation code has been used'
+        @state.set { classCodeValid: false, segmentCheckValid: false, codeExpired: true }
+      else
+        throw error
+      console.error(error)
 
   onInputBirthday: ->
     { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))

@@ -1,6 +1,6 @@
 require('app/styles/play/level/level-loading-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/level-loading-view'
+template = require 'app/templates/play/level/level-loading-view'
 ace = require('lib/aceContainer')
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'

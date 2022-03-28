@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/campaign/save-campaign-modal'
+template = require 'app/templates/editor/campaign/save-campaign-modal'
 DeltaView = require 'views/editor/DeltaView'
 
 module.exports = class SaveCampaignModal extends ModalView

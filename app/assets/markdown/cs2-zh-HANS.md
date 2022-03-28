@@ -151,7 +151,7 @@ if teacher.claps == 2:
 
 
 ### 代码编写时间（30-45分钟）
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 关卡 #: _____  关卡名: ____________________________________
@@ -253,7 +253,7 @@ if teacher.claps == 2:
 **Else是否总要有？** (不，有没有要看具体情况)
 
 ### 代码编写时间（30-45分钟）
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 关卡 #: _____  关卡名: ____________________________________
@@ -338,7 +338,7 @@ else:
 **某个动作缩进八格意味着什么?** (它是否执行取决于两个表达式的真假判断)
 
 ### 代码编写时间（30-45分钟）
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 关卡 #: _____  关卡名: ____________________________________
@@ -459,7 +459,7 @@ def popcorn():
 **关键字`def`表示的是什么？** (define，定义)
 
 ### 代码编写时间（30-45分钟）
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 关卡 #: _____  关卡名: ____________________________________
@@ -560,7 +560,7 @@ bigRedButton.on("press", initiateSelfDestruct)
  **监听事件时，使用的函数后面为什么不加括号?** (括号会让函数立刻运行，你不希望这样，你要的是事件发生后才运行)
 
 ### 代码编写时间（30-45分钟）
-让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+让学生按自己的节奏进行游戏，在纸上或是电子文档中，记录每一关的日志。我们推荐如下格式，你可以将其打印出来作为模板：[学习日志 [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 关卡 #: _____   关卡名: ____________________________________
@@ -640,7 +640,7 @@ PLAN: Choose one part of the problem to solve first. What do you need the comput
 IMPLEMENT: Write the solution to each part of your problem in code. 
 TEST: Run your code! Does it solve the problem the way you intended? If not, redesign. Does it work without errors? If not, trace through it to find and fix the bug(s), then test again. Once it works, move on to the planning and implementing the next part! 
 
-Provide each student with a copy of the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) that they can use to plan their program once they navigate to the level. 
+Provide each student with a copy of the [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) that they can use to plan their program once they navigate to the level. 
 
 
 #### Discuss

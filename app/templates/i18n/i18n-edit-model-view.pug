@@ -1,0 +1,90 @@
+extends /templates/base
+
+block header
+  if model.loading
+    nav.navbar.navbar-default(role='navigation')
+      .container-fluid
+        ul.nav.navbar-nav
+          li
+            a(href="/i18n")
+              span.glyphicon-home.glyphicon
+
+  else
+    nav.navbar.navbar-default(role='navigation')
+      ul.nav.navbar-nav
+        li
+          a(href="/i18n")
+            span.glyphicon-home.glyphicon
+
+      .navbar-header
+        span.navbar-brand #{model.get('name')}
+
+      ul.nav.navbar-nav.navbar-right
+        li
+          button.btn.btn-info.btn-sm.pull-right#patch-submit(disabled=model.hasLocalChanges() ? null : 'disabled', value=model.id, data-i18n="common.submit_changes") Submit Changes
+
+        li.dropdown
+
+          a(data-toggle='dropdown')
+            span.glyphicon-chevron-down.glyphicon
+
+          ul.dropdown-menu
+            li.dropdown-header(data-i18n="common.help") Help
+            li
+              a(href='https://github.com/codecombat/codecombat/wiki', data-i18n="editor.wiki", target="_blank") Wiki
+            li
+              a(href='https://coco-slack-invite.herokuapp.com/', data-i18n="editor.live_chat", target="_blank") Live Chat
+            li
+              a(href='http://discourse.codecombat.com/category/diplomat', data-i18n="nav.forum", target="_blank") Forum
+            if !me.isStudent()
+              li
+                a.contact-modal(data-i18n="nav.contact")
+
+block outer_content
+  .outer-content.container-fluid
+    select.form-control#language-select
+    .row
+
+      .col-sm-6
+        for row in translationList
+          table.table.translation-table
+            tr
+              th
+                span= row.title
+                if row.doNotTranslate
+                  small.doNotTranslate
+                    span= " - don't translate code identifiers: "
+                    for identifier in _.uniq(row.doNotTranslate)
+                      - var warningClass = row.toValue && row.toValue.indexOf(identifier) == -1 ? "missing-identifier" : "";
+                      code(class=warningClass)= identifier
+                      span= " "
+            tr(data-format=row.format || '')
+              td.english-value-row
+                div= row.enValue
+            tr(data-format=row.format || '')
+              td.to-value-row
+                if row.format === 'markdown'
+                  div(data-index=row.index.toString())= row.toValue
+                else
+                  input.input-sm.form-control.translation-input(data-index=row.index.toString(), value=row.toValue)
+          
+      #patches-col.col-sm-6
+        if view.patches
+          .panel.panel-default
+            .panel-heading
+              h3.panel-title Patches Submitted
+            table.table
+              tr
+                th Description
+                th Submitted
+                th Status
+              for patch in view.patches.models
+                tr
+                  td
+                    a.open-patch-link(data-patch-id=patch.id)= patch.get('commitMessage')
+                  td= moment(patch.created()).format('LLLL')
+                  td(class=patch.get('status'))= patch.get('status')
+        
+    
+    .clearfix
+block footer

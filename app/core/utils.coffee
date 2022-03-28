@@ -148,6 +148,10 @@ CSCourseIDs = [
   courseIDs.COMPUTER_SCIENCE_5
   courseIDs.COMPUTER_SCIENCE_6
 ]
+WDCourseIDs = [
+  courseIDs.WEB_DEVELOPMENT_1
+  courseIDs.WEB_DEVELOPMENT_2
+]
 orderedCourseIDs = [
   courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
   courseIDs.GAME_DEVELOPMENT_1
@@ -161,6 +165,22 @@ orderedCourseIDs = [
   courseIDs.COMPUTER_SCIENCE_5
   courseIDs.COMPUTER_SCIENCE_6
 ]
+
+courseNumericalStatus = {}
+courseNumericalStatus['NO_ACCESS'] = 0
+courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 1
+courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 2
+courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 4
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 8
+courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 16
+courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 32
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 64
+courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 128
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
+courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
+courseNumericalStatus['FULL_ACCESS'] = 2047
+
 
 courseAcronyms = {}
 courseAcronyms[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
@@ -182,6 +202,8 @@ unless features?.china
   courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_3] = 'https://drive.google.com/drive/folders/1hBl-h5Xvo5chYH4q9e6IEo42JozlrTG9?usp=sharing'
   courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_4] = 'https://drive.google.com/drive/folders/1tbuE4Xn0ahJ0xcF1-OaiPs9lHeIs9zqG?usp=sharing'
   courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_5] = 'https://drive.google.com/drive/folders/1ThxWFZjoXzU5INtMzlqKEn8xkgHhVnl4?usp=sharing'
+  courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_1] = 'https://drive.google.com/drive/folders/1YSJ9wcfHRJ2854F-vUdSWqoLBuSJye7V?usp=sharing'
+  courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_2] = 'https://drive.google.com/drive/folders/1Mks2MA-WGMrwNpZj6VtKkL3loPnHp_bs?usp=sharing'
 
 petThangIDs = [
   '578d320d15e2501f00a585bd' # Wolf Pup
@@ -707,6 +729,12 @@ formatStudentLicenseStatusDate = (status, date) ->
       when 'expired' then $.i18n.t('teacher.status_expired')
     string.replace('{{date}}', date or 'Never')
 
+formatStudentSingleLicenseStatusDate = (product) ->
+  string = $.i18n.t('teacher.full_license')
+  if product.productOptions?.includedCourseIDs?
+    string = product.productOptions.includedCourseIDs.map((id) -> courseAcronyms[id]).join('+')
+  string += ': ' + moment(product.endDate).format('ll')
+
 getApiClientIdFromEmail = (email) ->
   if /@codeninjas.com$/i.test(email) # hard coded for code ninjas since a lot of their users do not have clientCreator set
     clientID = '57fff652b0783842003fed00'
@@ -718,7 +746,7 @@ videoLevels = {
   # gems in the deep
   "54173c90844506ae0195a0b4": {
     i18name: 'basic_syntax',
-    url: "https://watch.videodelivery.net/d9a73d2f2d3d8de2e5e86203af47e20c",
+    url: "https://iframe.videodelivery.net/d9a73d2f2d3d8de2e5e86203af47e20c?defaultTextTrack=en",
     cn_url: "https://assets.koudashijie.com/videos/%E5%AF%BC%E8%AF%BE01-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95-Codecombat%20Instruction%20for%20Teachers.mp4",
     title: "Basic Syntax",
     original: "54173c90844506ae0195a0b4",
@@ -728,7 +756,7 @@ videoLevels = {
   # fire dancing
   "55ca293b9bc1892c835b0136": {
     i18name: 'while_loops',
-    url: "https://watch.videodelivery.net/1cec5da9a56cd42ade2906cd03c0b82b",
+    url: "https://iframe.videodelivery.net/1cec5da9a56cd42ade2906cd03c0b82b?defaultTextTrack=en",
     cn_url: "https://assets.koudashijie.com/videos/%E5%AF%BC%E8%AF%BE03-CodeCombat%E6%95%99%E5%AD%A6%E5%AF%BC%E8%AF%BE-CS1-%E5%BE%AA%E7%8E%AFlogo.mp4",
     title: "While Loops",
     original: "55ca293b9bc1892c835b0136"
@@ -738,7 +766,7 @@ videoLevels = {
   # known enemy
   "5452adea57e83800009730ee": {
     i18name: 'variables',
-    url: "https://watch.videodelivery.net/239838623c19b13437705ebe69929031",
+    url: "https://iframe.videodelivery.net/239838623c19b13437705ebe69929031?defaultTextTrack=en",
     cn_url: "https://assets.koudashijie.com/videos/%E5%AF%BC%E8%AF%BE02-%E5%8F%98%E9%87%8F-CodeCombat-CS1-%E5%8F%98%E9%87%8Flogo.mp4",
     title: "Variables",
     original: "5452adea57e83800009730ee"
@@ -868,7 +896,12 @@ arenas = [
   {slug: 'sorcerers'        , type: 'championship', start: new Date("2021-08-01T00:00:00.000-08:00"), end: new Date("2021-09-01T00:00:00.000-08:00"), results: new Date("2021-09-08T09:00:00.000-08:00"), levelOriginal: '609a6ad2e1eb34001a84e7af', tournament: '612d556f9abe2e0019af000b', image: "/file/db/level/609a6ad2e1eb34001a84e7af/Sorcerer's-Blitz-01.jpg"}
   {slug: 'giants-gate'      , type: 'regular',      start: new Date("2021-09-01T00:00:00.000-08:00"), end: new Date("2021-12-15T00:00:00.000-07:00"), results: new Date("2021-12-21T09:00:00.000-07:00"), levelOriginal: '60e69b24bed8ae001ac6ce3e', tournament: '6136a86e0c0ecaf34e431e81', image: "/file/db/level/60e69b24bed8ae001ac6ce3e/Giant’s-Gate-Final.jpg"}
   {slug: 'colossus'         , type: 'championship', start: new Date("2021-11-19T00:00:00.000-07:00"), end: new Date("2021-12-15T00:00:00.000-07:00"), results: new Date("2021-12-21T09:00:00.000-07:00"), levelOriginal: '615ffaf2b20b4900280e0070', tournament: '61983f74fd75db5e28ac127a', image: "/file/db/level/615ffaf2b20b4900280e0070/Colossus-Clash-02.jpg"}
-  {slug: 'iron-and-ice'     , type: 'regular',      start: new Date("2021-12-15T00:00:00.000-07:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '618a5a13994545008d2d4990'}
+  {slug: 'iron-and-ice'     , type: 'regular',      start: new Date("2021-12-15T00:00:00.000-07:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '618a5a13994545008d2d4990', tournament: '623a648580501d0025d8f4ef', image: "file/db/level/618a5a13994545008d2d4990/Iron-and-Ice-Arena-Banner-02.jpg"}
+  {slug: 'tundra-tower'     , type: 'championship', start: new Date("2022-03-11T00:00:00.000-08:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '620cb80a9bc0f1005e9189d7', tournament: '623a652b53903c1c6c1c6045'}
+ #{slug: 'desert-duel'      , type: 'regular',      start: new Date("2022-05-01T00:00:00.000-08:00"), end: new Date("2022-09-01T00:00:00.000-08:00"), results: new Date("2022-09-08T09:00:00.000-08:00"), levelOriginal: ''}
+ #{slug: 'sandstorm'        , type: 'championship', start: new Date("2022-08-01T00:00:00.000-08:00"), end: new Date("2022-09-01T00:00:00.000-08:00"), results: new Date("2022-09-08T09:00:00.000-08:00"), levelOriginal: ''}
+ #{slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-07:00"), results: new Date("2023-01-10T09:00:00.000-07:00"), levelOriginal: ''}
+ #{slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-07:00"), results: new Date("2023-01-10T09:00:00.000-07:00"), levelOriginal: ''}
 ]
 
 activeArenas = ->
@@ -952,7 +985,9 @@ module.exports = {
   courseAcronyms
   courseIDs
   courseLessonSlidesURLs
+  courseNumericalStatus
   CSCourseIDs
+  WDCourseIDs
   createLevelNumberMap
   extractPlayerCodeTag
   freeAccessLevels
@@ -960,6 +995,7 @@ module.exports = {
   findNextLevel
   formatDollarValue
   formatStudentLicenseStatusDate
+  formatStudentSingleLicenseStatusDate
   freeCampaignIds
   functionCreators
   getApiClientIdFromEmail
