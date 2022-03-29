@@ -49,11 +49,16 @@
             td.battle-cell
               - var levelID = view.level.get('slug') || view.level.id
               - var league = view.options.league
-              if false && match.opTeam
-                - var yourTeam = match.opTeam == 'humans' ? 'ogres' : 'humans'
+              if (match.opTeam && match.opTeam == 'humans') || team.id == 'ogres'
+                - var yourTeam = 'ogres'
+                - var sessionOne = match.sessionID
+                - var sessionTwo = team.session.id
               else
-                - var yourTeam = team.id
-              a(href='/play/level/' + levelID + '?team=' + yourTeam + '&opponent=' + match.sessionID + (league ? "&league=" + league.id : ""))
+                - var yourTeam = 'humans'
+                - var sessionOne = team.session.id
+                - var sessionTwo = match.sessionID
+              //- a(href='/play/level/' + levelID + '?team=' + yourTeam + '&opponent=' + match.sessionID + (league ? "&league=" + league.id : ""))
+              a(href='/play/spectate/' + levelID + '?session-one=' + sessionOne + '&session-two=' + sessionTwo, target='_blank')
                 if (match.state === 'win')
                   span(data-i18n="ladder.watch_victory") Watch your victory
                 else if (view.level.isType('ladder'))
