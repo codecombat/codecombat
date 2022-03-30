@@ -77,6 +77,7 @@ _.extend UserSchema.properties,
   githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
   cleverID: c.shortString({title: 'Clever ID'})
+  edLinkID: c.shortString({title: 'Clever ID'})
   oAuthIdentities: {
     description: 'List of OAuth identities this user has.'
     type: 'array'
