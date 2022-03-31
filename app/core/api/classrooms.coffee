@@ -60,7 +60,7 @@ module.exports = {
     }))
 
   getEdLinkClassrooms: () ->
-    fetchJson("/classrooms/edLink",  _.assign({}, {
+    fetchJson("/ed-link/classrooms",  _.assign({}, {
       method: 'GET'
     }))
 

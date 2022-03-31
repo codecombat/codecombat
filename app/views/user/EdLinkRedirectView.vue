@@ -39,6 +39,7 @@ export default {
       this.cocoLoginFailed = true
       return
     }
+    // need to add a check whether user is teacher or student
     window.location = '/teachers/classes'
   }
 }
