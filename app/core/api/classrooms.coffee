@@ -59,4 +59,9 @@ module.exports = {
       json: { permission }
     }))
 
+  getEdLinkClassrooms: () ->
+    fetchJson("/classrooms/edLink",  _.assign({}, {
+      method: 'GET'
+    }))
+
 }
