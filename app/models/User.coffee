@@ -560,6 +560,14 @@ module.exports = class User extends CocoModel
     options.data.facebookAccessToken = application.facebookHandler.token()
     @fetch(options)
 
+  loginEdLinkUser: (code, options={}) ->
+    options.url = '/auth/login-ed-link'
+    options.type = 'POST'
+    options.xhrFields = { withCredentials: true }
+    options.data ?= {}
+    options.data.code = code
+    @fetch(options)
+
   loginPasswordUser: (usernameOrEmail, password, options={}) ->
     options.xhrFields = { withCredentials: true }
     options.url = '/auth/login'
