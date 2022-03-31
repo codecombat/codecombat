@@ -38,6 +38,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
         @lmsClassrooms = resp.data
         if @showLMSDropDown
           @render()
+          $('.class-name').hide()
       )
     @showLMSDropDown = false
 
