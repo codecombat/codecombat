@@ -21,7 +21,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
   constructor: (options, @campaignHandle, @campaignCompletions) ->
     super options
     @showLeftGame = true
-    @showSubscriptions = true
+    @showSubscriptions = false
     @getCampaignAnalytics() if me.isAdmin()
 
   getRenderData: ->
