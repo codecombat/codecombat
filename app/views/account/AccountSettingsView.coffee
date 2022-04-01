@@ -264,9 +264,10 @@ module.exports = class AccountSettingsView extends CocoView
 
   grabUserData: ->
     @$el.find('#name-input').val @suggestedName if @suggestedName
-    @user.set 'name', @$el.find('#name-input').val()
-    @user.set 'firstName', @$el.find('#first-name-input').val()
-    @user.set 'lastName', @$el.find('#last-name-input').val()
+    if features.chinaInfra and (me.isAdmin() or (window.serverSession && window.serverSession.amActually))
+      @user.set 'name', @$el.find('#name-input').val()
+      @user.set 'firstName', @$el.find('#first-name-input').val()
+      @user.set 'lastName', @$el.find('#last-name-input').val()
     @user.set 'email', @$el.find('#email').val()
 
     permissions = []
