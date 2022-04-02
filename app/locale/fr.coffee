@@ -72,7 +72,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    for_teachers_subblurb4: "Engage all learners in a diverse classroom with practice levels that adapt to each student's learning needs."
 #    game_based_blurb: "CodeCombat is a game-based computer science program where students type real code and see their characters react in real time."
     get_started: "Commencez à travailler"
-    global_title: "JRejoignez notre communauté mondiale d'apprenants et d'éducateurs"
+    global_title: "Rejoignez notre communauté mondiale d'apprenants et d'éducateurs"
     global_subtitle1: "Apprenants"
     global_subtitle2: "Lignes de code"
     global_subtitle3: "Enseignants"
