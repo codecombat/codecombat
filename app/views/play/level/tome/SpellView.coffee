@@ -133,6 +133,8 @@ module.exports = class SpellView extends CocoView
     @spade.track(@ace)
     # If a user is taking longer than 10 minutes, let's log it.
     saveSpadeDelay = 10 * 60 * 1000
+    if @options.level.get('releasePhase') is 'beta'
+      saveSpadeDelay = 3 * 60 * 1000  # Capture faster for beta levels, to be more likely to get something
     @saveSpadeTimeout = setTimeout @saveSpade, saveSpadeDelay
 
   createACEShortcuts: ->
@@ -712,6 +714,7 @@ module.exports = class SpellView extends CocoView
     if @saveSpadeTimeout?
       window.clearTimeout @saveSpadeTimeout
       @saveSpadeTimeout = null
+      @saveSpade() if @options.level.get('releasePhase') is 'beta'
 
   onManualCast: (e) ->
     cast = @$el.parent().length
