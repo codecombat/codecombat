@@ -2,6 +2,7 @@ require('coffee-script').register()
 const fs = require('fs')
 const path = require('path')
 const enTranslations = require('../app/locale/en').translation
+const PWD = process.env.PWD || __dirnamep
 
 // TODO: better identification of empty sections after deleting entries.  Empy sections yield module load fails on run.
 
@@ -12,7 +13,7 @@ function escapeRegexp (s) {
 }
 
 const enSourceFile = fs.readFileSync(
-  path.join(__dirname, '../app/locale/en.coffee'),
+  path.join(PWD, '../app/locale/en.coffee'),
   { encoding: 'utf8' }
 )
 
@@ -48,7 +49,7 @@ for (const section of enSplitByCategory) {
 const IGNORE_FILES = [ 'rot13.coffee', 'en.coffee', 'locale.coffee' ]
 const localeFiles = fs
   .readdirSync(
-    path.join(__dirname, '../app/locale')
+    path.join(PWD, '../app/locale')
   )
   .filter((fileName) => IGNORE_FILES.indexOf(fileName) === -1)
 
@@ -57,7 +58,7 @@ for (const localeFile of localeFiles) {
 
   // Load raw source file
   const localeSource = fs.readFileSync(
-    path.join(__dirname, `../app/locale/${localeFile}`),
+    path.join(PWD, `../app/locale/${localeFile}`),
     { encoding: 'utf8' }
   )
 
@@ -148,7 +149,7 @@ for (const localeFile of localeFiles) {
   // Write the new file contents to the locale file
   const newLocaleContents = rewrittenLines.join('\n') + '\n' // End file with a new line
   fs.writeFileSync(
-    path.join(__dirname, `../app/locale/${localeFile}`),
+    path.join(PWD, `../app/locale/${localeFile}`),
     newLocaleContents,
     { encoding: 'utf8' }
   )
@@ -157,7 +158,7 @@ for (const localeFile of localeFiles) {
 // Remove change tags from english now that they have been propagated
 const rewrittenEnSource = enSourceFile.replace(CHANGE_PATTERN, '')
 fs.writeFileSync(
-  path.join(__dirname, '../app/locale/en.coffee'),
+  path.join(PWD, '../app/locale/en.coffee'),
   rewrittenEnSource
 )
 
