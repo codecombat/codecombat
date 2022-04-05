@@ -16,6 +16,7 @@ module.exports = class OptionsView extends CocoView
     keyBindings: 'default'
     behaviors: false
     liveCompletion: true
+    screenReaderMode: false
 
   events:
     'click .done-button': 'onDoneClicked'
@@ -33,6 +34,8 @@ module.exports = class OptionsView extends CocoView
   onDoneClicked: ->
     @aceConfig.behaviors = @$el.find('#option-behaviors').prop('checked')
     @aceConfig.liveCompletion = @$el.find('#option-live-completion').prop('checked')
+    @aceConfig.screenReaderMode = @$el.find('#option-screen-reader-mode').prop('checked')
+    $('body').toggleClass('screen-reader-mode', @aceConfig.screenReaderMode)
     me.set 'aceConfig', @aceConfig
     me.patch()
     Backbone.Mediator.publish 'tome:change-config', {}

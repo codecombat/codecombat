@@ -18,6 +18,7 @@ module.exports = class LankBoss extends CocoClass
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'camera:dragged': 'onCameraDragged'
+    'camera:zoom-updated': 'onCameraZoomUpdated'
     'sprite:loaded': -> @update(true)
     'level:flag-color-selected': 'onFlagColorSelected'
     'level:flag-updated': 'onFlagUpdated'
@@ -177,19 +178,82 @@ module.exports = class LankBoss extends CocoClass
 
   updateScreenReader: ->
     # Testing ASCII map for screen readers
-    return unless me.get('name') is 'zersiax'  #in ['zersiax', 'Nick']
-    ascii = $('#ascii-surface')
+    return unless me.get('aceConfig')?.screenReaderMode
+    #ascii = $('#ascii-surface').removeClass('hide')  # table version has better accessibility
+    asciiTable = $('#ascii-surface-table').removeClass('hide')
     thangs = (lank.thang for lank in @lankArray)
-    grid = new Grid thangs, @world.width, @world.height, 0, 0, 0, true
-    utils.replaceText ascii, grid.toString true
-    ascii.css 'transform', 'initial'
-    fullWidth = ascii.innerWidth()
-    fullHeight = ascii.innerHeight()
-    availableWidth = ascii.parent().innerWidth()
-    availableHeight = ascii.parent().innerHeight()
-    scale = availableWidth / fullWidth
-    scale = Math.min scale, availableHeight / fullHeight
-    ascii.css 'transform', "scale(#{scale})"
+    [maxWidth, maxHeight] = @world.calculateBounds()
+    width = Math.min maxWidth, Math.round(@camera.worldViewport.width)
+    height = Math.min maxHeight, Math.round(@camera.worldViewport.height)
+    padding = 0
+    left = Math.max 0, Math.round(@camera.worldViewport.x)
+    bottom = Math.max 0, Math.round(@camera.worldViewport.y - @camera.worldViewport.height)  # y is inverted
+    rogue = true
+    resolution = 10 / 2  # TODO: dynamically find from GridMovement2 System gridStep, along with bounds as gridBottomLeftPoint and gridTopRightPoint
+    grid = new Grid thangs, width, height, padding, left, bottom, rogue, resolution
+    #utils.replaceText ascii, grid.toString true
+
+    # Update table in-place for performance, handling changes in table size as needed
+    tableChars = grid.toTable true
+    tableNames = grid.toTableNames()
+    if not @$asciiTableHeader
+      asciiTable.append(@$asciiTableHeader = $('<thead></thead>')).append(@$asciiTableBody = $('<tbody></tbody>'))
+      @asciiTableRows = []
+      @asciiTableCells = []
+    for row, c in tableChars
+      parent = if c is 0 then @$asciiTableHeader else @$asciiTableBody
+      $tr = @asciiTableRows[c]
+      cells = @asciiTableCells[c]
+      if not $tr
+        parent.append($tr = $('<tr></tr>'))
+        @asciiTableRows.push $tr
+        @asciiTableCells.push cells = []
+      for char, r in row
+        if r is 0
+          el = 'th'
+          scope = 'scope="row"'
+        else if c is 0
+          el = 'th'
+          scope = 'scope="col"'
+        else
+          el = 'td'
+          scope = ''
+        $td = cells[r]
+        if not $td
+          $tr.append($td = $("<#{el} #{scope}></#{el}>"))
+          cells.push $td
+          $td.append($("<span aria-hidden='true'>#{char}</span>"))
+          name = ''
+          if el is 'td'
+            name = tableNames[c][r]
+            name = 'Blank' if not name or name is ' '
+          $td.append($("<span class='sr-only'>#{name}</span>"))
+        else
+          if $td.previousChar isnt char
+            utils.replaceText $td.find('span[aria-hidden="true"]'), char
+          if $td.previousName isnt name
+            utils.replaceText $td.find('span.sr-only'), name
+        $td.previousChar = char
+        $td.previousName = name
+      if r < cells.length - 1
+        # Table has shrunk width; remove extra cells
+        $td.remove() for $td in cells.splice r + 1
+    if c < @asciiTableRows.length - 1
+      # Table has shrunk height; remove extra rows and their cells
+      $tr.remove() for $tr in @asciiTableRows.splice c + 1
+      for cells in @asciiTableCells.splice c + 1
+        $td.remove() for $td in cells
+
+    for $el in [asciiTable]  #[ascii, asciiTable]
+      # Scale the table to match how the visual surface is scaled
+      $el.css 'transform', 'initial'
+      fullWidth = $el.innerWidth()
+      fullHeight = $el.innerHeight()
+      availableWidth = $el.parent().innerWidth()
+      availableHeight = $el.parent().innerHeight()
+      scaleX = availableWidth / fullWidth
+      scaleY = availableHeight / fullHeight
+      $el.css 'transform', "scaleX(#{scaleX}) scaleY(#{scaleY})"
 
   equipNewItems: (thang) ->
     itemsJustEquipped = []
@@ -255,6 +319,9 @@ module.exports = class LankBoss extends CocoClass
 
   onCameraDragged: ->
     @dragged += 1
+
+  onCameraZoomUpdated: (e) ->
+    @updateScreenReader()
 
   onLankMouseUp: (e) ->
     return unless @handleEvents
