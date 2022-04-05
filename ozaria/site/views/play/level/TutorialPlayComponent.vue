@@ -174,8 +174,8 @@
               scrollTo: true
             },
             useModalOverlay: true, // TODO: Tweak this better in-between steps
-            exitOnEsc: false,
-            keyboardNavigation: true,
+            exitOnEsc: false,  // TODO: wish this could skip to the end for admins
+            keyboardNavigation: true,  // TODO: when keyboard focus is set to code editor, this loses focus and can't continue to navigate
           })
 
           let tutorialSteps = this.tutorialSteps.slice()
