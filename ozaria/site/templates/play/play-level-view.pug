@@ -19,7 +19,8 @@ include game-dev-goals
         canvas(width=924, height=589)#normal-surface
 
         #web-surface-view
-        #ascii-surface
+        //#ascii-surface.hide(aria-hidden=true)
+        table#ascii-surface-table.hide(aria-label="Level Map" role="grid")
         #canvas-left-gradient.gradient
         #canvas-top-gradient.gradient
 
@@ -62,3 +63,5 @@ include game-dev-goals
         .panel-body!= view.howToPlayText
 
   //- #level-footer-shadow
+
+  #screen-reader-live-updates.sr-only(aria-live="polite")

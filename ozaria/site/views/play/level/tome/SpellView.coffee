@@ -129,6 +129,7 @@ module.exports = class SpellView extends CocoView
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     $(@ace.container).find('.ace_gutter').on 'click', @onGutterClick
+    $(@ace.container).find('textarea').attr('aria-label', 'Code Area')
     if @courseID && @courseID == utils.courseIDs.CHAPTER_ONE
       @ace.setFontSize 22
     @initAutocomplete aceConfig.liveCompletion ? true
@@ -1110,6 +1111,7 @@ module.exports = class SpellView extends CocoView
     # but this view is not part of the normal subview destroying because of how it's swapped
     return unless @controlsEnabled and @writable and $('.modal:visible').length is 0
     return if @ace.isFocused()
+    return if me.get('aceConfig')?.screenReaderMode  # Screen reader users get to control their own focus manually
     @ace.focus()
     @ace.clearSelection()
 
@@ -1196,6 +1198,10 @@ module.exports = class SpellView extends CocoView
         @debugView?.setVariableStates state.variables
         gotVariableStates = true
         markerType = 'text'
+        if start.row isnt @lastAnnouncedRow
+          update = start.row + 1 + ": " + _.string.rtrim @aceDoc.$lines[start.row]
+          $('#screen-reader-live-updates').append($("<div>#{update}</div>"))  # TODO: move this to a store or lib? Limit how many lines?
+          @lastAnnouncedRow = start.row
       markerRange = new Range start.row, start.col, end.row, end.col
       markerRange.start = @aceDoc.createAnchor markerRange.start
       markerRange.end = @aceDoc.createAnchor markerRange.end
