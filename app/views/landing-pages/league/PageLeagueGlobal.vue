@@ -501,11 +501,7 @@ export default {
       </div>
       <div class="col-sm-4">
         <div>
-          <img class="ai-league-logo" src="/images/pages/league/logo_badge.png">
-        </div>
-        <div>
-          <div class="esports-header-powered-by">{{ $t('league.powered_by') }}</div>
-          <img class="ai-league-logo" src="/images/pages/league/hyperx-red-logo.png">
+          <img class="ai-league-logo" src="/images/pages/league/hyperx-cobranded-logo-1.png">
         </div>
       </div>
       <div class="hero-rotation col-sm-4">
@@ -1062,7 +1058,7 @@ export default {
 
   .esports-header {
     .ai-league-logo {
-      width: 15vw;
+      width: 20vw;
       max-width: 296px;
     }
 
