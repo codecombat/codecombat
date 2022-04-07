@@ -584,9 +584,8 @@ module.exports = Lank = class Lank extends CocoClass
 
   updateMarks: ->
     return unless @options.camera
-    # Don't show errored-out mark in Ozaria
-    #@addMark 'repair', null, 'repair' if @thang?.erroredOut
-    #@marks.repair?.toggle @thang?.erroredOut
+    @addMark 'repair', null, 'repair' if @thang?.erroredOut
+    @marks.repair?.toggle @thang?.erroredOut
 
     if @selected
       @marks[range['name']].toggle true for range in @ranges
@@ -755,11 +754,7 @@ module.exports = Lank = class Lank extends CocoClass
       offsetFrames = Math.abs(@thang.sayStartTime - @thang.world.age) / @thang.world.dt
       if offsetFrames <= 2  # or (not withDelay and offsetFrames < 30)
         sound = AudioPlayer.soundForDialogue @thang.sayMessage, @thangType.get 'soundTriggers'
-        played = @playSound sound, false, volume
-        if not played and me.get('aceConfig')?.screenReaderMode and (not @thang.labelStyle or @thang.labelStyle is Label.STYLE_SAY) and @thang.sayLabelOptions?.fontColor isnt 'white'
-          who = {'Hero Placeholder': 'Hero'}[@thang.id] or @thang.id
-          update = "#{who} says, \"#{@thang.sayMessage}\""
-          $('#screen-reader-live-updates').append($("<div>#{update}</div>"))  # TODO: move this to a store or lib? Limit how many lines?
+        @playSound sound, false, volume
 
   playSound: (sound, withDelay=true, volume=1.0) ->
     # Sounds are triggered once and play until they complete.
@@ -767,7 +762,7 @@ module.exports = Lank = class Lank extends CocoClass
     # These constraints allow us to wait until the thang type is loaded to play sounds.
     if @thangType.loading || !@thangType.loaded
       @thangType.once('sync', => @playSound(sound, withDelay, volume))
-      return false
+      return
 
     soundKey = undefined
 
@@ -780,7 +775,7 @@ module.exports = Lank = class Lank extends CocoClass
       soundKey = sound.reduce((x, y) => "#{x}|#{y}")
       sound = sound[Math.floor Math.random() * sound.length]
 
-    return false unless sound
+    return null unless sound
 
     # TODO integrate delay
     delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.framerate else 0
@@ -792,7 +787,7 @@ module.exports = Lank = class Lank extends CocoClass
       volume: volume
     })
 
-    true
+    # TODO return value here? was instance
 
   onMove: (e) ->
     return unless e.spriteID is @thang?.id
