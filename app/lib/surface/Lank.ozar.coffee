@@ -683,15 +683,12 @@ module.exports = Lank = class Lank extends CocoClass
       label = @addLabel 'dialogue', Label.STYLE_DIALOGUE
       label.setText e.blurb or '...'
     sound = e.sound ? AudioPlayer.soundForDialogue e.message, @thangType.get 'soundTriggers'
-    @dialogueSoundInstance?.stop()
-    if @dialogueSoundInstance = @playSound sound, false
-      @dialogueSoundInstance.addEventListener 'complete', -> Backbone.Mediator.publish 'sprite:dialogue-sound-completed', {}
+    @playSound sound, false
     @notifySpeechUpdated e
 
   onClearDialogue: (e) ->
     return unless @labels.dialogue?.text
     @labels.dialogue?.setText null
-    @dialogueSoundInstance?.stop()
     @notifySpeechUpdated {}
 
   onSetLetterbox: (e) ->
@@ -872,5 +869,4 @@ module.exports = Lank = class Lank extends CocoClass
     @sprite?.off 'animationend', @playNextAction
     @sprite?.destroy?()
     clearInterval @effectInterval if @effectInterval
-    @dialogueSoundInstance?.removeAllEventListeners()
     super()
