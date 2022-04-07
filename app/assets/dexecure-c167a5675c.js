@@ -9,7 +9,7 @@ var dexecure = {
 	],
 	"optimisationsEnabled": true,
 	"debugMode": false,
-	"imageMatchRegex": "\\.jpe?g|\\.png|\\.js(\\?.*)?(#.*)?$|\\.css",
+	"imageMatchRegex": "\\.jpe?g|\\.png",
 	"ignoreRegex": "(aether_worker|worker_world).js", // Ignore URLs that execute as a new web worker
 	"pagesEnabled": [
 		""
