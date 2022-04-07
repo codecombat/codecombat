@@ -218,12 +218,13 @@ _.extend UserSchema.properties,
     })
 
   aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
-    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'lua', 'java', 'cpp']}
-    keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}  # Deprecated 2016-05-30; now we just always give them 'default'.
-    invisibles: {type: 'boolean' }
-    indentGuides: {type: 'boolean' }
-    behaviors: {type: 'boolean' }
-    liveCompletion: {type: 'boolean' }
+    language: { type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'lua', 'java', 'cpp'] }
+    keyBindings: { type: 'string', 'enum': ['default', 'vim', 'emacs'] }  # Deprecated 2016-05-30; now we just always give them 'default'.
+    invisibles: { type: 'boolean' }
+    indentGuides: { type: 'boolean' }
+    behaviors: { type: 'boolean' }
+    liveCompletion: { type: 'boolean' }
+    screenReaderMode: { type: 'boolean' }
 
   simulatedBy: {type: 'integer', minimum: 0 }
   simulatedFor: {type: 'integer', minimum: 0 }

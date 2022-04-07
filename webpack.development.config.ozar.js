@@ -21,6 +21,7 @@ module.exports = (env) => {
     }),
     new LiveReloadPlugin({ // Reload the page upon rebuild
       appendScriptTag: true,
+      //useSourceHash: true  // CoCo has this; do we want it?
     })
   ]
   return smp.wrap(

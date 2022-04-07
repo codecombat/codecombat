@@ -18,4 +18,12 @@
       span(data-i18n="options.editor_config_behaviors_label") Enable Smart Behaviors
     span.help-block(data-i18n="options.editor_config_behaviors_description") Autocompletes brackets, braces, and quotes.
 
+  .form-group.checkbox
+    label(for="option-screen-reader-mode")
+      input#option-screen-reader-mode(name="screen-reader-mode", type="checkbox", checked=aceConfig.screenReaderMode)
+      span.custom-checkbox
+        .glyphicon.glyphicon-ok
+      span(data-i18n="options.editor_config_screen_reader_mode_label") Enable Screen Reader Mode
+    span.help-block(data-i18n="options.editor_config_screen_reader_mode_description") Display levels in text rather than visually.
+
   button.ozaria-button.ozaria-primary-button.done-button(data-i18n="play_level.done") Done
