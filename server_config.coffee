@@ -49,8 +49,8 @@ if not config.unittest and  not config.isProduction
 
 config.buildInfo = { sha: 'dev' }
 
-if fs.existsSync path.join(__dirname, '.build_info.json')
-  config.buildInfo = JSON.parse fs.readFileSync path.join(__dirname, '.build_info.json'), 'utf8'
+if fs.existsSync path.join(process.env.PWD or __dirname, '.build_info.json')
+  config.buildInfo = JSON.parse fs.readFileSync path.join(process.env.PWD or __dirname, '.build_info.json'), 'utf8'
 
 # This logs a stack trace every time an endpoint sends a response or throws an error.
 # It's great for finding where a mystery endpoint is!

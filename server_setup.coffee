@@ -14,6 +14,7 @@ Promise.promisifyAll(fs)
 wrap = require 'co-express'
 morgan = require 'morgan'
 timeout = require('connect-timeout')
+PWD = process.env.PWD || __dirname
 
 {countries} = require './app/core/utils'
 
@@ -57,7 +58,7 @@ setupExpressMiddleware = (app) ->
     res.header 'X-Cluster-ID', config.clusterID
     next()
 
-  public_path = path.join(__dirname, 'public')
+  public_path = path.join(PWD, 'public')
 
   app.use('/', express.static(path.join(public_path, 'templates', 'static')))
 
@@ -88,7 +89,7 @@ setupExpressMiddleware = (app) ->
 
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
-  app.use require('serve-favicon') path.join(__dirname, 'public', 'images', 'favicon', 'favicon.ico')
+  app.use require('serve-favicon') path.join(PWD, 'public', 'images', 'favicon', 'favicon.ico')
   app.use require('cookie-parser')()
   app.use require('body-parser').json limit: '25mb', strict: false
   app.use require('body-parser').urlencoded extended: true, limit: '25mb'
@@ -136,7 +137,7 @@ setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
   app.use '/play/', (req, res, next) ->
     return next() if req.path?.indexOf('web-dev-level') >= 0
     return next() if req.query['try-old-browser-anyway'] or not isOldBrowser req
-    res.sendfile(path.join(__dirname, 'public', 'index_old_browser.html'))
+    res.sendfile(path.join(PWD, 'public', 'index_old_browser.html'))
 
 setupRedirectMiddleware = (app) ->
   app.all '/account/profile/*', (req, res, next) ->
@@ -239,7 +240,7 @@ templates = {}
 getStaticTemplate = (file) ->
   # Don't cache templates in development so you can just edit then.
   return templates[file] if templates[file] and config.isProduction
-  templates[file] = fs.readFileAsync(path.join(__dirname, 'public', 'templates', 'static', file), 'utf8')
+  templates[file] = fs.readFileAsync(path.join(PWD, 'public', 'templates', 'static', file), 'utf8')
 
 renderMain = wrap (template, req, res) ->
   template = yield getStaticTemplate(template)
@@ -284,7 +285,7 @@ setupQuickBailToMainHTML = (app) ->
 
 exports.setExpressConfigurationOptions = (app) ->
   app.set('port', config.port)
-  app.set('views', __dirname + '/app/views')
+  app.set('views', PWD + '/app/views')
   app.set('view engine', 'jade')
   app.set('view options', { layout: false })
   app.set('env', if config.isProduction then 'production' else 'development')
