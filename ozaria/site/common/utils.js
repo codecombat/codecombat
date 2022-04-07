@@ -36,7 +36,7 @@ export function deterministicShuffleForUserAndDay (user, originalArray) {
 
 export function getDisplayPermission (permission) {
   const display = permission?.toLowerCase()
-  if (permission !== 'read' && permission !== 'write') return ''
+  if (display !== 'read' && display !== 'write') return ''
   return $.i18n.t(`teacher_dashboard.${display}`)
 }
 
