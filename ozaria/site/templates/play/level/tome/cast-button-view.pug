@@ -1,12 +1,12 @@
 if !view.options.level.isType('game-dev')
-  button.play-button#run.active-button-text(title=view.castVerbose() aria-label=view.castVerbose())
+  div.play-button#run.active-button-text
     span(data-i18n="play_level.tome_cast_button_run")
 else
-  button.play-button#update-game.active-button-text(data-i18n="[title]play_level.tome_cast_button_update;[aria-label]play_level.tome_cast_button_update")
+  div.play-button#update-game.active-button-text
     span(data-i18n="play_level.tome_cast_button_update")
-  button.play-button#next.active-button-text.inactive(data-i18n="[title]play.next;[aria-label]play.next")
+  div.play-button#next.active-button-text.inactive
     span(data-i18n="play.next")
 
 if me.canAutoFillCode()
-  button.play-button#fill-solution.active-button-text(data-i18n="[title]common.solution;[aria-label]common.solution")
+  div.play-button#fill-solution.active-button-text
     span(data-i18n="common.solution")
