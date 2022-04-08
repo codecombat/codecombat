@@ -1,15 +1,24 @@
 <template>
   <div id="parent-page">
     <!-- START Modals -->
+    <!-- Going back to favoring direct trial class booking
     <modal-user-details
-        v-if="type !== 'parents' && showTimetapModal"
-        :class-type="timetapModalClassType"
-        @close="showTimetapModal = false"
+      v-if="type !== 'parents' && showTimetapModal"
+      :class-type="timetapModalClassType"
+      @close="showTimetapModal = false"
+    />
+    -->
+    <modal-timetap-schedule
+      v-if="type !== 'parents'"
+      :show="showTimetapModal" 
+      :class-type="timetapModalClassType"
+      @close="showTimetapModal = false"
+      @booked="onClassBooked"
     />
     <modal-timetap-confirmation
-        v-if="type === 'thank-you'"
-        :show="showTimetapConfirmationModal"
-        @close="showTimetapConfirmationModal = false"
+      v-if="type === 'thank-you'"
+      :show="showTimetapConfirmationModal"
+      @close="showTimetapConfirmationModal = false"
     />
     <!-- END Modals -->
 
