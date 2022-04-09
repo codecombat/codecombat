@@ -4659,11 +4659,6 @@
         }
       }
     },
-    "express-useragent": {
-      "version": "1.0.15",
-      "resolved": "https://registry.npmjs.org/express-useragent/-/express-useragent-1.0.15.tgz",
-      "integrity": "sha512-eq5xMiYCYwFPoekffMjvEIk+NWdlQY9Y38OsTyl13IvA728vKT+q/CSERYWzcw93HGBJcIqMIsZC5CZGARPVdg=="
-    },
     "extend": {
       "version": "3.0.2",
       "resolved": "https://registry.npmjs.org/extend/-/extend-3.0.2.tgz",
