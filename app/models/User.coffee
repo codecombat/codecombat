@@ -5,10 +5,8 @@ LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
 co = require 'co'
-moment = require 'moment'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
-paymentUtils = require 'app/lib/paymentUtils'
 fetchJson = require 'core/api/fetch-json'
 
 # Pure functions for use in Vue
