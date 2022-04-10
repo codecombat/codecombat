@@ -3554,7 +3554,7 @@
       "dev": true
     },
     "adobe-animate-parser": {
-      "version": "github:codecombat/adobe-animate-parser#2f5bffaed594ddf84686f23210853367a5680ed2",
+      "version": "github:codecombat/adobe-animate-parser#720b82120aaf7445ba50376077f80cb44224be7c",
       "from": "github:codecombat/adobe-animate-parser#master",
       "requires": {
         "lodash.clone": "^4.5.0",

@@ -6,6 +6,7 @@
 
 # OS X
 .DS_Store
+Icon?
 ._*
 .Spotlight-V100
 .Trashes
@@ -93,7 +94,6 @@ npm-debug.log*
 
 temp/
 Dockerfile
-.dockerignore
 ### If you add something here, copy it to the end of .npmignore, too. ###
 
 # Visual Studio Code

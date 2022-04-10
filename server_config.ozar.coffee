@@ -14,7 +14,7 @@ config.proxy = process.env.COCO_PROXY
 
 config.timeout = parseInt(process.env.COCO_TIMEOUT) or 60*1000
 
-config.chinaDomain = "cn.codecombat.com;ccombat.cn;contributors.codecombat.com"
+config.chinaDomain = "bridge.koudashijie.com;koudashijie.com;ccombat.cn;contributors.codecombat.com"
 config.chinaInfra = process.env.COCO_CHINA_INFRASTRUCTURE or false
 
 config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or process.env.PORT or 3000
@@ -45,8 +45,8 @@ if not config.unittest and  not config.isProduction
 
 config.buildInfo = { sha: 'dev' }
 
-if fs.existsSync path.join(__dirname, '.build_info.json')
-  config.buildInfo = JSON.parse fs.readFileSync path.join(__dirname, '.build_info.json'), 'utf8'
+if fs.existsSync path.join(process.env.PWD or __dirname, '.build_info.json')
+  config.buildInfo = JSON.parse fs.readFileSync path.join(process.env.PWD or __dirname, '.build_info.json'), 'utf8'
 
 # This logs a stack trace every time an endpoint sends a response or throws an error.
 # It's great for finding where a mystery endpoint is!
