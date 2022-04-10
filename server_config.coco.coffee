@@ -25,6 +25,7 @@ config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or process.env
 
 if config.unittest
   config.port += 1
+
 config.cookie_secret = process.env.COCO_COOKIE_SECRET or 'chips ahoy'
 
 config.isProduction = false
@@ -41,7 +42,6 @@ if process.env.COCO_PICOCTF
   config.picoCTF_auth = {username: 'picodev', password: 'pico2016rox!ftw'}
 else
   config.picoCTF = false
-
 
 if not config.unittest and  not config.isProduction
   # change artificially slow down non-static requests for testing
