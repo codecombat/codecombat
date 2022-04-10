@@ -449,6 +449,7 @@ _.extend UserSchema.properties,
             # ... etc. for each possible payment service ...
           ]
 
+
 c.extendBasicProperties UserSchema, 'user'
 
 UserSchema.definitions =

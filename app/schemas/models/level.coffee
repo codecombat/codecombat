@@ -231,7 +231,8 @@ NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes 
         '/music/music_level_2',
         '/music/music_level_3',
         '/music/music_level_4',
-        '/music/music_level_5'])
+        '/music/music_level_5',
+        '/music/music_sophia_1'])
 
 ScriptSchema = c.object {
   title: 'Script'
@@ -405,6 +406,7 @@ _.extend LevelSchema.properties,
   # Admin flags
   adventurer: { type: 'boolean' }
   adminOnly: { type: 'boolean' }
+  releasePhase: { enum: ['beta', 'internalRelease', 'released'], title: 'Release status', description: "Release status of the level, determining who sees it.", default: 'internalRelease' }
   disableSpaces: { type: ['boolean','integer'] }
   hidesSubmitUntilRun: { type: 'boolean' }
   hidesPlayButton: { type: 'boolean' }
@@ -515,6 +517,7 @@ _.extend LevelSchema.properties,
     }
   }
   archived: { type: 'integer', description: 'Marks this level with to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.'}
+  difficulty: { type: 'integer', title: 'Difficulty', description: 'Difficulty of this level - used to show difficulty in star-rating of 1 to 5', minimum: 1, maximum: 5 }
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema

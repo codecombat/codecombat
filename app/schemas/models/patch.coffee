@@ -7,7 +7,7 @@ patchables = [
   'course'
   'level'
   'level_component'
-  'level_system' 
+  'level_system'
   'poll'
   'product'
   'thang_type'
