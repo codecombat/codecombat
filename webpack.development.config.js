@@ -21,7 +21,8 @@ module.exports = (env) => {
     }),
     new LiveReloadPlugin({ // Reload the page upon rebuild
       appendScriptTag: true,
-      //useSourceHash: true  // CoCo has this; do we want it?
+      useSourceHash: true,
+      port: process.env.WEBPACK_LIVE_RELOAD_PORT || 35729
     })
   ]
   return smp.wrap(
@@ -31,6 +32,9 @@ module.exports = (env) => {
       }),
       devtool: 'eval-source-map', // https://webpack.js.org/configuration/devtool/
       plugins: baseConfig.plugins.concat(plugins),
+      watchOptions: {
+        ignored: /node_modules|bower_components|\.#|~$/,
+      },
       mode: 'development'
     })
   )

@@ -14,7 +14,6 @@ const smp = new SpeedMeasurePlugin({
   disable: !process.env.MEASURE
 });
 
-
 // Suck out commons chunks from these sets:
 // NOTE: Don't include files loaded by the WebWorkers in this. (lodash, aether, world)
 combos = {

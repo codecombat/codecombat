@@ -4,12 +4,13 @@ const _ = require('lodash')
 const path = require('path')
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const glob = require('glob')
 require('coffee-script')
 require('coffee-script/register')
 const CompileStaticTemplatesPlugin = require('./compile-static-templates')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const PWD = process.env.PWD || __dirname
 
 console.log('Starting Webpack...')
 
@@ -17,7 +18,7 @@ console.log('Starting Webpack...')
 module.exports = (env) => {
   if (!env) env = {}
   return {
-    context: path.resolve(__dirname),
+    context: path.resolve(PWD),
     entry: {
       // NOTE: If you add an entrypoint, consider updating ViewLoadTimer to track its loading.
       app: './app/app.js',
@@ -37,7 +38,7 @@ module.exports = (env) => {
     output: {
       filename: 'javascripts/[name].js', // TODO: Use chunkhash in layout.static.pug's script tags instead of GIT_SHA
       // chunkFilename is determined by build type
-      path: path.resolve(__dirname, 'public'),
+      path: path.resolve(PWD, 'public'),
       publicPath: '/' // Base URL path webpack tries to load other bundles from
     },
     module: {
@@ -85,7 +86,7 @@ module.exports = (env) => {
                 {
                   loader: MiniCssExtractPlugin.loader,
                   options: {
-                    esModule: false,
+                    esModule: false
                   }
                 },
                 { loader: 'css-loader', options: { url: false } }
@@ -96,7 +97,7 @@ module.exports = (env) => {
                 {
                   loader: MiniCssExtractPlugin.loader,
                   options: {
-                    esModule: false,
+                    esModule: false
                   }
                 },
                 {
@@ -113,7 +114,7 @@ module.exports = (env) => {
             {
               loader: MiniCssExtractPlugin.loader,
               options: {
-                esModule: false,
+                esModule: false
               }
             },
             {
@@ -153,7 +154,8 @@ module.exports = (env) => {
                 implementation: require("sass"),
               }
             }
-          ] },
+          ]
+        },
         {
           test: /\.mjs$/, // https://github.com/formatjs/formatjs/issues/1395#issuecomment-518823361
           include: /node_modules/,
@@ -228,6 +230,9 @@ module.exports = (env) => {
           }, {
             from: 'vendor/esper-plugin-lang-java-modern.js',
             to: 'javascripts/app/vendor/aether-java.modern.js'
+          }, {
+            from: 'vendor/esper-plugin-lang-cpp-modern.js',
+            to: 'javascripts/app/vendor/aether-cpp.modern.js'
           }
         ]
       }),

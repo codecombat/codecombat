@@ -15,9 +15,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["esper"], factory);
 	else if(typeof exports === 'object')
-		exports["esper-plugin-lang-java"] = factory(require("esper"));
+		exports["esper-plugin-lang-cpp"] = factory(require("esper"));
 	else
-		root["esper-plugin-lang-java"] = factory(root["esper"]);
+		root["esper-plugin-lang-cpp"] = factory(root["esper"]);
 })(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE__1__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -102,60 +102,18 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var esper_ref = __webpack_require__(1);
-var plugin = __webpack_require__(2);
-esper_ref._registerPlugin(plugin);
-
-/***/ }),
+/* 0 */,
 /* 1 */
 /***/ (function(module, exports) {
 
 module.exports = __WEBPACK_EXTERNAL_MODULE__1__;
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-const jaba = __webpack_require__(3);
-const utils = __webpack_require__(6);
-const esper = __webpack_require__(1);
-
-
-function parser(code, options) {
-	options = options || {};
-	let opts = {locations: true, ranges: true};
-	let cast = jaba(code, options);
-	//let extra = babylon.parse("Test.main(null);", {plugins: ['estree', 'flow']});
-	let extra = esper.plugin('lang-javascript').parser("Test.main(null);");
-	cast.body = cast.body.concat(extra.body);
-	return cast;
-}
-
-
-let plugin = module.exports = {
-	name: 'lang-java',
-	parser: parser,
-	init: function(esper) {
-		//esper.plugin('babylon');
-		esper.languages.java = plugin;
-	},
-	setupEngine: function(esper, engine) {
-		utils.javaifyEngine(engine);
-	}
-};
-
-
-/***/ }),
+/* 2 */,
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -919,6 +877,50 @@ module.exports = {
 	p: {CPPListProto},
 	f:{Math:JavaMath, JavaCreateClass, JavaCreateDefault, JavaNewInstance, JavaString, Integer, Double, System, InitializerList} 
 }
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var esper_ref = __webpack_require__(1);
+var plugin = __webpack_require__(9);
+esper_ref._registerPlugin(plugin);
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+const jaba = __webpack_require__(3);
+const utils = __webpack_require__(6);
+const esper = __webpack_require__(1);
+
+
+function parser(code, options) {
+	options = options || {};
+	let opts = {locations: true, ranges: true};
+	let cast = jaba(code, options);
+	//let extra = babylon.parse("Test.main(null);", {plugins: ['estree', 'flow']});
+	let extra = esper.plugin('lang-javascript').parser("Test.main(null);");
+	cast.body = cast.body.concat(extra.body);
+	return cast;
+}
+
+
+let plugin = module.exports = {
+	name: 'lang-cpp',
+	parser: parser,
+	init: function(esper) {
+		//esper.plugin('babylon');
+		esper.languages.cpp = plugin;
+	},
+	setupEngine: function(esper, engine) {
+		utils.javaifyEngine(engine);
+	}
+};
 
 
 /***/ })

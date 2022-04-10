@@ -27,22 +27,6 @@
     {
       "name": "Matt Lott",
       "email": "matt@codecombat.com"
-    },
-    {
-      "name": "Shubhangi Gupta",
-      "email": "shubhangi@codecombat.com"
-    },
-    {
-      "name": "Andrew Jakubowicz",
-      "email": "andrew@codecombat.com"
-    },
-    {
-      "name": "Joe Mifsud",
-      "email": "joe@mifsud.me"
-    },
-    {
-      "name": "Matias Forbord",
-      "email": "matias.forbord@gmail.com"
     }
   ],
   "scripts": {
@@ -52,7 +36,7 @@
     "test-china": "COCO_CHINA_INFRASTRUCTURE=true npm run test",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
-    "build": "bower install && npm run build-aether && NODE_OPTIONS='--max-old-space-size=4096' node --max_old_space_size=4096 ./runWebpack.js",
+    "build": "bower install && npm run build-aether && NODE_OPTIONS='--max-old-space-size=4096' node ./runWebpack.js",
     "build-aether": "node setup-aether.js",
     "webpack": "NODE_OPTIONS='--max-old-space-size=4096' webpack",
     "bower": "bower",
@@ -81,7 +65,8 @@
   "keywords": [
     "learning",
     "live coding",
-    "game"
+    "game",
+    "multiplayer"
   ],
   "dependencies": {
     "@vimeo/player": "^2.9.1",
@@ -232,8 +217,7 @@
     "webpack-livereload-plugin": "github:codecombat/webpack-livereload-plugin#master",
     "worker-loader": "^3.0.8"
   },
-  "optionalDependencies": {},
-  "license": "To be determined",
+  "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
     "node": "14.18.3",
