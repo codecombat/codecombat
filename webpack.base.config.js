@@ -200,7 +200,7 @@ module.exports = (env) => {
       new MiniCssExtractPlugin({ // Move CSS into external file
         filename: 'stylesheets/[name].css',
         chunkFilename: 'stylesheets/[name]-[contenthash].css',
-        ignoreOrder: true
+        ignoreOrder: true, // too many conflict warnings because of TestView, ignoring till those conflicts are fixed or that route is disabled
       }),
       new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
         $: 'jquery',
@@ -222,6 +222,7 @@ module.exports = (env) => {
       // new webpack.IgnorePlugin(/\/ladder\//),
       // new webpack.IgnorePlugin(/\/teachers\//),
       // new webpack.IgnorePlugin(/\/play\//),
+
       new CopyWebpackPlugin({
         patterns: [
           // NOTE: If you add a static asset, consider updating ViewLoadTimer to track its loading.
@@ -253,9 +254,11 @@ module.exports = (env) => {
       }),
       new VueLoaderPlugin(),
       new webpack.ProvidePlugin({
-        process: 'process/browser' // because of algoliasearch which needs access to process: https://github.com/algolia/docsearch/issues/980
+        process: 'process/browser', // because of algoliasearch which needs access to process: https://github.com/algolia/docsearch/issues/980
+        Buffer: ['buffer', 'Buffer']
       })
     ],
+    optimization: {},
     stats: 'minimal'
   }
 }
