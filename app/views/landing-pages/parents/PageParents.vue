@@ -876,9 +876,9 @@ export default {
       if (!value) {
         let probability = 0
         if (window.serverConfig && window.serverConfig.experimentProbabilities && window.serverConfig.experimentProbabilities.brightchamps) {
-          probability = window.serverConfig.experimentProbabilities.brightchamps || 0
+          probability = window.serverConfig.experimentProbabilities.brightchamps.brightchamps || 0
         }
-        value = Math.random() < probability ? 'bright-champs' : 'control'
+        value = Math.random() < probability ? 'brightchamps' : 'control'
         me.startExperiment('brightchamps', value, probability)
       }
       return value
