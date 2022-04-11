@@ -293,6 +293,9 @@ mixin breadcrumbs
                     span (
                     span(data-i18n="teacher.level_in_progress")
                     span )
+                  div
+                    span(data-i18n="play_level.changed")
+                    span= view.levelProgressTimeMap[level.get('original')].changed
               td
                 .small
                   span= level.get('name')

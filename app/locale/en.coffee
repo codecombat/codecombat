@@ -851,6 +851,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     fill_in_solution: "Fill in solution"
     play_as_humans: "Play As Red"
     play_as_ogres: "Play As Blue"
+    date_first_completed: "Date first completed:"
+    changed: "Last change time:"
 
   apis:
     methods: "Methods"
