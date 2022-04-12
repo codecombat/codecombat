@@ -2,6 +2,9 @@ require('coffee-script').register()
 const fs = require('fs')
 const path = require('path')
 const enTranslations = require('../app/locale/en').translation
+const PWD = process.env.PWD || __dirnamep
+
+// TODO: better identification of empty sections after deleting entries.  Empy sections yield module load fails on run.
 
 require('./generateRot13Locale')
 
@@ -10,7 +13,7 @@ function escapeRegexp (s) {
 }
 
 const enSourceFile = fs.readFileSync(
-  path.join(__dirname, '../app/locale/en.coffee'),
+  path.join(PWD, '../app/locale/en.coffee'),
   { encoding: 'utf8' }
 )
 
@@ -19,10 +22,7 @@ const CHANGE_MARKER = '{change}'
 const CATEGORY_SPLIT_PATTERN = /^[\s\n]*(?=[^:\n]+:\s*$)/gm // One or more new lines followed by "key:", followed by newline
 const CATEGORY_CAPTURE_PATTERN = /^([^:\n]+):\s*\n/ // Extracts category name from first line of category section
 const COMMENTS_PATTERN = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm // Find lines with comments, capture key / value / comment
-const CHANGE_PATTERN = new RegExp(
-  `\\s?\\s?(#\\s)?${escapeRegexp(CHANGE_MARKER)}`,
-  'gi'
-) // Identify translation marked change
+const CHANGE_PATTERN = new RegExp(`\\s?\\s?(#\\s)?${escapeRegexp(CHANGE_MARKER)}`, 'gi') // Identify translation marked change
 const QUOTE_TAG_NAME_PATTERN = /^[a-z0-9_]+$/i // Determines if tag name needs to be quoted
 
 const enSplitByCategory = enSourceFile.split(CATEGORY_SPLIT_PATTERN)
@@ -48,7 +48,7 @@ for (const section of enSplitByCategory) {
 // Grab all locale files that we need to manage
 const IGNORE_FILES = ['rot13.coffee', 'en.coffee', 'locale.coffee']
 const localeFiles = fs
-  .readdirSync(path.join(__dirname, '../app/locale'))
+  .readdirSync(path.join(PWD, '../app/locale'))
   .filter(fileName => IGNORE_FILES.indexOf(fileName) === -1)
 
 for (const localeFile of localeFiles) {
@@ -56,7 +56,7 @@ for (const localeFile of localeFiles) {
 
   // Load raw source file
   const localeSource = fs.readFileSync(
-    path.join(__dirname, `../app/locale/${localeFile}`),
+    path.join(PWD, `../app/locale/${localeFile}`),
     { encoding: 'utf8' }
   )
 
@@ -73,7 +73,7 @@ for (const localeFile of localeFiles) {
   // For each category within the locale
   for (const enCategoryName of Object.keys(enTranslations)) {
     const enCategory = enTranslations[enCategoryName]
-    const catIsPresent = typeof localeTranslations[enCategoryName] !== 'undefined'
+    const catIsPresent = (typeof localeTranslations[enCategoryName] !== 'undefined')
     const localeCategory = localeTranslations[enCategoryName] || {}
 
     // Prefix for regular expressions that require the pattern to exist within a category.  This depends on
@@ -82,23 +82,19 @@ for (const localeFile of localeFiles) {
     // make sure the tag belongs to the current category.  It does so by ensuring that there is a category name
     // in the locale file, followed by one or more non empty lines.  You can then append any tag specififc regex
     // to this expression to obtain a regular expression that pattern matches a specific tag within a category.
-    const categoryRegexPrefix = `\\s\\s${escapeRegexp(
-      enCategoryName
-    )}:\\n(?:.+\\n)*`
+    const categoryRegexPrefix = `\\s\\s${escapeRegexp(enCategoryName)}:\\n(?:.+\\n)*`
 
     rewrittenLines.push('')
 
     // Add the category line, commenting it out if it does not exist in the locale file
-    const categoryCommentPrefix = !catIsPresent ? '#' : ''
+    const categoryCommentPrefix = (!catIsPresent) ? '#' : ''
     rewrittenLines.push(`${categoryCommentPrefix}  ${enCategoryName}:`)
 
     // For each tag within the category
     for (const enTagName of Object.keys(enCategory)) {
       const localeTranslation = localeCategory[enTagName]
-      const tagIsPresent = typeof localeTranslation !== 'undefined'
-      const sourceFileTag = QUOTE_TAG_NAME_PATTERN.test(enTagName)
-        ? enTagName
-        : `"${enTagName}"`
+      const tagIsPresent = (typeof localeTranslation !== 'undefined')
+      const sourceFileTag = (QUOTE_TAG_NAME_PATTERN.test(enTagName)) ? enTagName : `"${enTagName}"`
 
       // Prepare the comment for the tag if it exists.  Note that this will propagate {change} tag from en locale
       let comment = ''
@@ -106,9 +102,7 @@ for (const localeFile of localeFiles) {
         comment = comments[enCategoryName][enTagName]
       }
 
-      const commentedTagRegex = new RegExp(
-        categoryRegexPrefix + `#\\s+${escapeRegexp(sourceFileTag)}:`
-      )
+      const commentedTagRegex = new RegExp(categoryRegexPrefix + `#\\s+${escapeRegexp(sourceFileTag)}:`)
       if (localeSource.search(commentedTagRegex) >= 0) {
         // If the translation is commented out in the locale fine, make sure it is not marked as changed.  A
         // translation is not marked as changed until it is uncommented in a locale file.  Once it is
@@ -139,7 +133,7 @@ for (const localeFile of localeFiles) {
       }
 
       // If the tag does not exist in the locale file, make sure it is commented out
-      const lineCommentPrefix = !tagIsPresent ? '#' : ''
+      const lineCommentPrefix = (!tagIsPresent) ? '#' : ''
 
       // Stringify the output to escape special chars
       const finalLocaleTranslation = JSON.stringify(
@@ -155,7 +149,7 @@ for (const localeFile of localeFiles) {
   // Write the new file contents to the locale file
   const newLocaleContents = rewrittenLines.join('\n') + '\n' // End file with a new line
   fs.writeFileSync(
-    path.join(__dirname, `../app/locale/${localeFile}`),
+    path.join(PWD, `../app/locale/${localeFile}`),
     newLocaleContents,
     { encoding: 'utf8' }
   )
@@ -164,7 +158,7 @@ for (const localeFile of localeFiles) {
 // Remove change tags from english now that they have been propagated
 const rewrittenEnSource = enSourceFile.replace(CHANGE_PATTERN, '')
 fs.writeFileSync(
-  path.join(__dirname, '../app/locale/en.coffee'),
+  path.join(PWD, '../app/locale/en.coffee'),
   rewrittenEnSource
 )
 
