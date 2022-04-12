@@ -57,8 +57,9 @@ compile = (contents, locals, filename, cb) ->
     locals.me.useSocialSignOn = -> not (locals.chinaInfra ? false)
     locals.me.useGoogleAnalytics = -> not (locals.chinaInfra ? false)
     locals.me.useStripe = -> not (locals.chinaInfra ? false)
-    # Netease Qiyu Live Chat Plugin
-    locals.me.useQiyukf = -> false
+    locals.me.useQiyukf = -> locals.chinaInfra ? false  # Netease Qiyu Live Chat Plugin
+    locals.me.useDataDog = -> not (locals.chinaInfra ? false)
+    locals.me.showChinaVideo = -> locals.chinaInfra ? false
     str = outFn(locals)
   catch e
     console.log "Compile", filename, basePath
@@ -100,7 +101,8 @@ module.exports = WebpackStaticStuff = (options = {}) ->
 
 WebpackStaticStuff.prototype.apply = (compiler) ->
   # Compile the static files
-  compiler.plugin 'emit', (compilation, callback) =>
+  # https://github.com/ionic-team/stencil-webpack/pull/9
+  compiler.hooks.emit.tapAsync 'CompileStaticTemplatesEmit', (compilation, callback) =>
     files = fs.readdirSync(path.resolve('./app/templates/static'))
     promises = []
     for filename in files
@@ -109,11 +111,13 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
       if @prevTemplates[filename] is content
         continue
       @prevTemplates[filename] = content
+      chunkPaths = {}
+      compilation.chunks.map (c) ->
+        if c.name
+          chunkPaths[c.name] = compiler.options.output.chunkFilename.replace('[name]',c.name).replace('[chunkhash]',c.renderedHash)
+
       locals = _.merge({}, @options.locals, {
-        chunkPaths: _.zipObject.apply(null, _.zip(compilation.chunks.map((c)=>[
-          c.name,
-          compiler.options.output.chunkFilename.replace('[name]',c.name).replace('[chunkhash]',c.renderedHash)
-        ])))
+        chunkPaths: chunkPaths
       })
       try
         compile(content, locals, filename, _.noop)
@@ -124,7 +128,7 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
     callback()
 
   # Watch the static template files for changes
-  compiler.plugin 'after-emit', (compilation, callback) =>
+  compiler.hooks.afterEmit.tapAsync 'CompileStaticTemplatesAfterEmit', (compilation, callback) =>
     files = fs.readdirSync(path.resolve('./app/templates/static'))
     compilationFileDependencies = compilation.fileDependencies
     _.forEach(files, (filename) =>

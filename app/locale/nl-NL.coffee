@@ -1961,6 +1961,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     status_expired: "Verlopen op {{date}}"
     status_not_enrolled: "Niet Ingeschreven"
     status_enrolled: "Verloopt op {{date}}"
+#    status_partly_expires: "Partly expires on {{date}}"
     select_all: "Selecteer Alles"
     project: "Project"
     project_gallery: "Projectgalerij"
@@ -2554,6 +2555,16 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     certificate_levels_completed: "afgeronde levels"
     certificate_for: "Voor"
 #    certificate_number: "No."
+#    heroes_unlocked: "Heroes Unlocked"
+#    current_items: "Items Equipped"
+#    contributor_badges: "Contributor Badges"
+#    contributions_title: "Contributions"
+#    type_stat: "Type" # As in, which type of contribution
+#    patches_submit: "Patches Submitted"
+#    patches_approved: "Patches Approved"
+#    patches_accepted: "Patches Accepted"
+#    level_edits: "Level Edits"
+#    total_translations: "Total Translations"
 
   achievements:
     last_earned: "Laatst verdiend"

@@ -5,10 +5,9 @@ LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
 co = require 'co'
-moment = require 'moment'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
-paymentUtils = require 'app/lib/paymentUtils'
+fetchJson = require 'core/api/fetch-json'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -172,6 +171,24 @@ module.exports = class User extends CocoModel
 
     return false
 
+  getHocCourseInstanceId: () ->
+    courseInstanceIds = me.get('courseInstances') || []
+    return if courseInstanceIds.length == 0
+    courseInstancePromises = []
+    courseInstanceIds.forEach((id) =>
+      courseInstancePromises.push(api.courseInstances.get({ courseInstanceID: id }))
+    )
+
+    Promise.all(courseInstancePromises)
+    .then (courseInstances) =>
+      courseInstancesHoc = courseInstances.filter((c) => c.courseID == utils.hourOfCodeOptions.courseId)
+      return if (courseInstancesHoc.length == 0)
+      return courseInstancesHoc[0]._id if (courseInstancesHoc.length == 1)
+      # return the latest course instance id if there are multiple
+      courseInstancesHoc = _.sortBy(courseInstancesHoc, (c) -> c._id)
+      return _.last(courseInstancesHoc)._id
+    .catch (err) => console.error("Error in fetching hoc course instance", err)
+
   isSessionless: ->
     Boolean((utils.getQueryVariable('dev', false) or @isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
 
@@ -254,6 +271,7 @@ module.exports = class User extends CocoModel
     for clanHero in utils.clanHeroes when clanHero.clanId in (@get('clans') ? [])
       heroes.push clanHero.thangTypeOriginal
     heroes
+
   items: -> (@get('earned')?.items ? []).concat(@get('purchased')?.items ? []).concat([ThangTypeConstants.items['simple-boots']])
   levels: -> (@get('earned')?.levels ? []).concat(@get('purchased')?.levels ? []).concat(LevelConstants.levels['dungeons-of-kithgard'])
   ownsHero: (heroOriginal) -> @isInGodMode() || heroOriginal in @heroes()
@@ -267,10 +285,14 @@ module.exports = class User extends CocoModel
     myHeroClasses.push heroClass for heroClass, heroSlugs of ThangTypeConstants.heroClasses when _.intersection(myHeroSlugs, heroSlugs).length
     myHeroClasses
 
+  getHeroPoseImage: co.wrap ->
+    heroOriginal = @get('heroConfig')?.thangType ? ThangTypeConstants.heroes.captain
+    heroThangType = yield fetchJson("/db/thang.type/#{heroOriginal}/version?project=poseImage")
+    return '/file/' + heroThangType.poseImage
+
   validate: ->
     errors = super()
     if errors and @_revertAttributes
-
       # Do not return errors if they were all present when last marked to revert.
       # This is so that if a user has an invalid property, that does not prevent
       # them from editing their settings.
@@ -422,7 +444,7 @@ module.exports = class User extends CocoModel
   prepaidType: (includeCourseIDs) =>
     courseProducts = @activeProducts('course')
     return undefined unless courseProducts.length
- 
+
     return 'course' if _.any(courseProducts, (p) => !p.productOptions?.includedCourseIDs?)
     # Note: currently includeCourseIDs is a argument only used when displaying
     # customized license's course names.
@@ -677,6 +699,41 @@ module.exports = class User extends CocoModel
     return false unless @get('emails')?.generalNews?.enabled
     true
 
+  getM7ExperimentValue: ->
+    value = {true: 'beta', false: 'control', control: 'control', beta: 'beta'}[utils.getQueryVariable 'm7']
+    value ?= me.getExperimentValue('m7', null, 'control')
+    if value is 'beta' and (new Date() - _.find(me.get('experiments') ? [], name: 'm7')?.startDate) > 1 * 24 * 60 * 60 * 1000
+      # Experiment only lasts one day so that users don't get stuck in it
+      value = 'control'
+    if not value? and me.get('stats')?.gamesCompleted
+      # Don't include players who have already started playing
+      value = 'control'
+    if not value? and new Date(me.get('dateCreated')) < new Date('2022-03-14')
+      # Don't include users created before experiment start date
+      value = 'control'
+    if not value? and not /^en/.test me.get('preferredLanguage', true)
+      # Don't include non-English-speaking users before beta levels are translated
+      value = 'control'
+    if not value? and me.get('hourOfCode')
+      # Don't include users coming in through Hour of Code
+      value = 'control'
+    if not value? and not me.get('anonymous')
+      # Don't include registered users
+      value = 'control'
+    if not value? and features?.china
+      # Don't include China players
+      value = 'control'
+    if not value?
+      probability = window.serverConfig?.experimentProbabilities?.m7?.beta ? 0
+      if me.get('testGroupNumber') / 256 < probability
+        value = 'beta'
+        valueProbability = probability
+      else
+        value = 'control'
+        valueProbability = 1 - probability
+      me.startExperiment('m7', value, probability)
+    value
+
   # Feature Flags
   # Abstract raw settings away from specific UX changes
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
@@ -696,6 +753,7 @@ module.exports = class User extends CocoModel
   hideOtherProductCTAs: -> @isTarena() or @isILK() or @isICode()
   useGoogleClassroom: -> not (features?.chinaUx ? false) and @get('gplusID')?   # if signed in using google SSO
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
+  useDataDog: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" # teacher can only access CS1 freely in China
@@ -721,8 +779,34 @@ module.exports = class User extends CocoModel
   useStripe: -> (not ((features?.china ? false) or (features?.chinaInfra ? false))) and (@get('preferredLanguage') isnt 'nl-BE')
   canDeleteAccount: -> not (features?.china ? false)
   canAutoFillCode: -> @isAdmin() || @isTeacher() || @isInGodMode()
-tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
 
+  # Ozaria flags
+  hasCinematicEditorAccess: -> @isAdmin()
+  hasCutsceneEditorAccess: -> @isAdmin()
+  hasInteractiveEditorAccess: -> @isAdmin()
+
+  # google classroom flags for new teacher dashboard, remove `useGoogleClassroom` when old dashboard disabled
+  showGoogleClassroom: -> not (features?.chinaUx ? false)
+  googleClassroomEnabled: -> me.get('gplusID')?
+
+  # Block access to paid campaigns(any campaign other than CH1) for anonymous users + non-admin, non-internal individual users.
+  # Scenarios where a user has access to a campaign:
+  #   - Admin or internal user
+  #   - Free campaigns
+  #   - Student with full license
+  #   - Teacher
+  # Update in server/models/User also, if updated here.
+  hasCampaignAccess: (campaignData) ->
+    return true if utils.freeCampaignIds.includes(campaignData._id)
+    return true if @isAdmin() or @isInternal()
+
+    return true if User.isTeacher(@attributes) # TODO revisit this - we may want to restrict unpaid teachers
+    return true if @isStudent() # TODO this should validate the student license, but we currently check this else where
+
+    return false
+
+
+tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
   5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15
 ]
 

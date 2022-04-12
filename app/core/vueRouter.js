@@ -20,6 +20,12 @@ export default function getVueRouter () {
           children: [
             // Stub pages
             { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
+            {
+              path: 'ladders',
+              name: 'LaddersList',
+              component: () => import(/* webpackChunkName: "mainLadderViewV2" */'app/views/ladder/MainLadderViewV2'),
+              meta: { toTop: true }
+            },
             { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') }
           ]
         },
@@ -75,8 +81,13 @@ export default function getVueRouter () {
         {
           path: '/payments/:slug',
           component: () => import(/* webpackChunkName: "paymentComponent" */'app/views/payment/PaymentComponentView'),
-        },
-      ]
+        }
+      ],
+      scrollBehavior(to) {
+        const scroll = {}
+        if (to.meta?.toTop) scroll.top = 0
+        return scroll
+      }
     })
   }
 

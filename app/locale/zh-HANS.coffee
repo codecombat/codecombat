@@ -1972,6 +1972,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     status_expired: "在 {{date}} 过期"
     status_not_enrolled: "未分配名额"
     status_enrolled: "在 {{date}} 过期"
+    status_partly_expires: "部分在 {{date}} 过期"
     select_all: "全选"
     project: "项目"
     project_gallery: "项目图库"
@@ -2565,6 +2566,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     certificate_levels_completed: "个关卡通关完成"
     certificate_for: "课程名称"
     certificate_number: "编号"
+#    heroes_unlocked: "Heroes Unlocked"
+#    current_items: "Items Equipped"
+#    contributor_badges: "Contributor Badges"
+#    contributions_title: "Contributions"
+#    type_stat: "Type" # As in, which type of contribution
+#    patches_submit: "Patches Submitted"
+#    patches_approved: "Patches Approved"
+#    patches_accepted: "Patches Accepted"
+#    level_edits: "Level Edits"
+#    total_translations: "Total Translations"
 
   achievements:
     last_earned: "最近取得的"

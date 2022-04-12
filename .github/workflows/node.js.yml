@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.22.1]
+        node-version: [14.18.3]
 
     steps:
       - uses: actions/checkout@v2
@@ -29,9 +29,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
       # We can skip webpack since we will build it for testing-ubuntu
-      - run: npm run build
+      - run: npm ci
         env:
           SKIP_WEBPACK: true
+      - run: npm run build
       - run: npm run test-ubuntu

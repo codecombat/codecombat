@@ -1,15 +1,24 @@
 <template>
   <div id="parent-page">
     <!-- START Modals -->
+    <!-- Going back to favoring direct trial class booking
     <modal-user-details
-        v-if="type !== 'parents' && showTimetapModal"
-        :class-type="timetapModalClassType"
-        @close="showTimetapModal = false"
+      v-if="type !== 'parents' && showTimetapModal"
+      :class-type="timetapModalClassType"
+      @close="showTimetapModal = false"
+    />
+    -->
+    <modal-timetap-schedule
+      v-if="type !== 'parents'"
+      :show="showTimetapModal" 
+      :class-type="timetapModalClassType"
+      @close="showTimetapModal = false"
+      @booked="onClassBooked"
     />
     <modal-timetap-confirmation
-        v-if="type === 'thank-you'"
-        :show="showTimetapConfirmationModal"
-        @close="showTimetapConfirmationModal = false"
+      v-if="type === 'thank-you'"
+      :show="showTimetapConfirmationModal"
+      @close="showTimetapConfirmationModal = false"
     />
     <!-- END Modals -->
 
@@ -21,7 +30,7 @@
       </div>
     </div>
 
-    <page-parents-jumbotron :type="type" :mainCtaButtonText="mainCtaButtonText(0)" :mainCtaSubtext="mainCtaSubtext(0)" :trialClassExperiment="trialClassExperiment" @cta-clicked="onClickMainCta"/>
+    <page-parents-jumbotron :type="type" :mainCtaButtonText="mainCtaButtonText(0)" :mainCtaSubtext="mainCtaSubtext(0)" :trialClassExperiment="trialClassExperiment" :brightchampsExperiment="brightchampsExperiment" @cta-clicked="onClickMainCta"/>
 
     <div class="container-power-gameplay">
       <div class="container">
@@ -197,7 +206,7 @@
       </div>
     </div>
 
-    <div class="container-course-offering-heading">
+    <div class="container-course-offering-heading" v-if="brightchampsExperiment != 'brightchamps'">
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
@@ -221,7 +230,7 @@
       </div>
     </div>
 
-    <div class="container-pricing-table">
+    <div class="container-pricing-table" v-if="brightchampsExperiment != 'brightchamps'">
       <div class="pricing-grid-container">
         <div v-if="showPricing"></div>
         <div v-if="showPricing"></div>
@@ -307,11 +316,11 @@
       </div>
     </div>
 
-    <button-main-cta :buttonText="mainCtaButtonText(2)" :subtext="mainCtaSubtext(2)" @click="onClickMainCta" />
-    <page-parents-section-premium v-if="showPricing" />
+    <button-main-cta :buttonText="mainCtaButtonText(2)" :subtext="mainCtaSubtext(2)" @click="onClickMainCta" v-if="brightchampsExperiment != 'brightchamps'" />
+    <page-parents-section-premium v-if="showPricing && brightchampsExperiment != 'brightchamps'" />
 
 
-    <div class="container-graphic-spacer">
+    <div class="container-graphic-spacer" v-if="brightchampsExperiment != 'brightchamps'">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
@@ -431,7 +440,7 @@
       </div>
     </div>
 
-    <div class="container-concepts-covered">
+    <div class="container-concepts-covered" v-if="brightchampsExperiment != 'brightchamps'">
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center">
@@ -506,7 +515,7 @@
       </div>
     </div>
 
-    <div class="container-background-faq">
+    <div class="container-background-faq" v-if="brightchampsExperiment != 'brightchamps'">
       <div class="container">
         <div class="row">
           <div class="col-lg-12 text-center container-background-header">
@@ -668,9 +677,14 @@ export default {
 
   methods: {
     async trackCtaClicked () {
+      const eventProperties = { parentsPageType: this.type }
+      const brightchampsExperimentValue = me.getExperimentValue('brightchamps', null, null)
+      if (brightchampsExperimentValue) {
+        eventProperties.brightchampsExperiment = brightchampsExperimentValue
+      }
       await application.tracker.trackEvent(
-          (this.type === 'parents' || this.type === 'self-serve') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
-          { parentsPageType: this.type }
+        (this.type === 'parents' || this.type === 'self-serve') ? 'Parents page CTA clicked' : 'Live classes CTA clicked',
+        eventProperties
       )
     },
     onCarouselLeft () {
@@ -687,7 +701,10 @@ export default {
 
     onClickMainCta () {
       this.trackCtaClicked()
-      if (this.trialClassExperiment === 'trial-class') {
+      if (this.brightchampsExperiment === 'brightchamps') {
+        const url = 'https://learn.brightchamps.com/book-trial-class/?utm_source=B2B&utm_medium=Codecombat#'
+        window.open(url, '_blank')
+      } else if (this.trialClassExperiment === 'trial-class') {
         this.onScheduleAFreeClass()
       } else {
         application.router.navigate('/payments/initial-online-classes-71#', { trigger: true })
@@ -772,7 +789,10 @@ export default {
     },
 
     mainCtaSubtext (buttonNum) {
-      if (this.trialClassExperiment === 'trial-class' && buttonNum === 0) {
+      if (this.brightchampsExperiment === 'brightchamps') {
+        return ''
+      }
+      else if (this.trialClassExperiment === 'trial-class' && buttonNum === 0) {
         return 'Or, <a href="/payments/initial-online-classes-71#">enroll now</a>'
       }
       else if (this.trialClassExperiment === 'trial-class') {
@@ -824,6 +844,42 @@ export default {
         //me.startExperiment('trial-class', value, 0.5)
         value = 'trial-class'
         me.startExperiment('trial-class', value, 1)  // End experiment in favor of trial-class group; keep measuring
+      }
+      return value
+    },
+
+    brightchampsExperiment () {
+      let value = { 'true': 'brightchamps', 'false': 'control' }[this.$route.query['brightchamps']]
+      if (!value) {
+        value = me.getExperimentValue('brightchamps', null, 'control')
+      }
+      if (!value) {
+        let trialClassExperimentDate = null
+        for (let experiment of me.get('experiments') || []) {
+          if (experiment.name == 'trial-class') {
+            trialClassExperimentDate = experiment.startDate
+          }
+        }
+        if (trialClassExperimentDate && trialClassExperimentDate < new Date('2022-04-08')) {
+          // Don't include users who have seen this page before (judged by them having joined previous experiment before this experiment started)
+          value = 'control'
+        }
+      }
+      if (!value && new Date(me.get('dateCreated')) < new Date('2021-09-22')) {
+        // Don't include users created before previous experiment start date
+        value = 'control'
+      }
+      if (!value && !this.showPricing) {
+        // Don't include users where we aren't showing pricing
+        value = 'control'
+      }
+      if (!value) {
+        let probability = 0
+        if (window.serverConfig && window.serverConfig.experimentProbabilities && window.serverConfig.experimentProbabilities.brightchamps) {
+          probability = window.serverConfig.experimentProbabilities.brightchamps.brightchamps || 0
+        }
+        value = Math.random() < probability ? 'brightchamps' : 'control'
+        me.startExperiment('brightchamps', value, probability)
       }
       return value
     },

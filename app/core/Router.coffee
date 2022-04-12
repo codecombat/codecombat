@@ -191,7 +191,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'il-signup': go('account/IsraelSignupView')
 
     'impact': () ->
-      @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat' })
+      @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
     'CoCoStar': () ->
       @routeDirectly('PageStar', [], { vueRoute: true, baseTemplate: 'base-flat' })
 
@@ -288,6 +288,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'user/:userID/opt-in/:verificationCode': go('user/UserOptInView')
 
     'payments/*path': go('core/SingletonAppVueComponentView')
+    'ladders/*path': go('core/SingletonAppVueComponentView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')

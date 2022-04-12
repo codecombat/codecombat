@@ -1,5 +1,8 @@
 slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
 
+isCodeCombat = true
+isOzaria = false
+
 clone = (obj) ->
   return obj if obj is null or typeof (obj) isnt 'object'
   temp = obj.constructor()
@@ -121,85 +124,204 @@ titleize = (s) ->
   # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
   _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
 
-campaignIDs =
-  INTRO: '55b29efd1cd6abe8ce07db0d'
+if isCodeCombat
+  campaignIDs =
+    INTRO: '55b29efd1cd6abe8ce07db0d'
 
-freeCampaignIds = [campaignIDs.INTRO] # CS1 campaign
-internalCampaignIds = [] # Ozaria has one of these, CoCo doesn't
+  freeCampaignIds = [campaignIDs.INTRO] # CS1 campaign
+  internalCampaignIds = [] # Ozaria has one of these, CoCo doesn't
 
-courseIDs =
-  INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
-  GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
-  WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f'
-  COMPUTER_SCIENCE_2: '5632661322961295f9428638'
-  GAME_DEVELOPMENT_2: '57b621e7ad86a6efb5737e64'
-  WEB_DEVELOPMENT_2: '5789587aad86a6efb5737020'
-  COMPUTER_SCIENCE_3: '56462f935afde0c6fd30fc8c'
-  GAME_DEVELOPMENT_3: '5a0df02b8f2391437740f74f'
-  COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d'
-  COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
-  COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
+  courseIDs =
+    INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
+    GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
+    WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f'
+    COMPUTER_SCIENCE_2: '5632661322961295f9428638'
+    GAME_DEVELOPMENT_2: '57b621e7ad86a6efb5737e64'
+    WEB_DEVELOPMENT_2: '5789587aad86a6efb5737020'
+    COMPUTER_SCIENCE_3: '56462f935afde0c6fd30fc8c'
+    GAME_DEVELOPMENT_3: '5a0df02b8f2391437740f74f'
+    COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d'
+    COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
+    COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
 
-CSCourseIDs = [
-  courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
-  courseIDs.COMPUTER_SCIENCE_2
-  courseIDs.COMPUTER_SCIENCE_3
-  courseIDs.COMPUTER_SCIENCE_4
-  courseIDs.COMPUTER_SCIENCE_5
-  courseIDs.COMPUTER_SCIENCE_6
-]
-orderedCourseIDs = [
-  courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
-  courseIDs.GAME_DEVELOPMENT_1
-  courseIDs.WEB_DEVELOPMENT_1
-  courseIDs.COMPUTER_SCIENCE_2
-  courseIDs.GAME_DEVELOPMENT_2
-  courseIDs.WEB_DEVELOPMENT_2
-  courseIDs.COMPUTER_SCIENCE_3
-  courseIDs.GAME_DEVELOPMENT_3
-  courseIDs.COMPUTER_SCIENCE_4
-  courseIDs.COMPUTER_SCIENCE_5
-  courseIDs.COMPUTER_SCIENCE_6
-]
+  CSCourseIDs = [
+    courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+    courseIDs.COMPUTER_SCIENCE_2
+    courseIDs.COMPUTER_SCIENCE_3
+    courseIDs.COMPUTER_SCIENCE_4
+    courseIDs.COMPUTER_SCIENCE_5
+    courseIDs.COMPUTER_SCIENCE_6
+  ]
+  WDCourseIDs = [
+    courseIDs.WEB_DEVELOPMENT_1
+    courseIDs.WEB_DEVELOPMENT_2
+  ]
+  orderedCourseIDs = [
+    courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+    courseIDs.GAME_DEVELOPMENT_1
+    courseIDs.WEB_DEVELOPMENT_1
+    courseIDs.COMPUTER_SCIENCE_2
+    courseIDs.GAME_DEVELOPMENT_2
+    courseIDs.WEB_DEVELOPMENT_2
+    courseIDs.COMPUTER_SCIENCE_3
+    courseIDs.GAME_DEVELOPMENT_3
+    courseIDs.COMPUTER_SCIENCE_4
+    courseIDs.COMPUTER_SCIENCE_5
+    courseIDs.COMPUTER_SCIENCE_6
+  ]
 
-courseNumericalStatus = {}
-courseNumericalStatus['FULL_ACCESS'] = 2047
-courseNumericalStatus['NO_ACCESS'] = 0
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 128
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 64
-courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 32
-courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 16
-courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 8
-courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 4
-courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 2
-courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 1
+  courseNumericalStatus = {}
+  courseNumericalStatus['NO_ACCESS'] = 0
+  courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 1
+  courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 2
+  courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 4
+  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 8
+  courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 16
+  courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 32
+  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 64
+  courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 128
+  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
+  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
+  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
+  courseNumericalStatus['FULL_ACCESS'] = 2047
 
- 
-courseAcronyms = {}
-courseAcronyms[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
-courseAcronyms[courseIDs.GAME_DEVELOPMENT_1] = 'GD1'
-courseAcronyms[courseIDs.WEB_DEVELOPMENT_1] = 'WD1'
-courseAcronyms[courseIDs.COMPUTER_SCIENCE_2] = 'CS2'
-courseAcronyms[courseIDs.GAME_DEVELOPMENT_2] = 'GD2'
-courseAcronyms[courseIDs.WEB_DEVELOPMENT_2] = 'WD2'
-courseAcronyms[courseIDs.COMPUTER_SCIENCE_3] = 'CS3'
-courseAcronyms[courseIDs.GAME_DEVELOPMENT_3] = 'GD3'
-courseAcronyms[courseIDs.COMPUTER_SCIENCE_4] = 'CS4'
-courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
-courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
+  courseAcronyms = {}
+  courseAcronyms[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
+  courseAcronyms[courseIDs.GAME_DEVELOPMENT_1] = 'GD1'
+  courseAcronyms[courseIDs.WEB_DEVELOPMENT_1] = 'WD1'
+  courseAcronyms[courseIDs.COMPUTER_SCIENCE_2] = 'CS2'
+  courseAcronyms[courseIDs.GAME_DEVELOPMENT_2] = 'GD2'
+  courseAcronyms[courseIDs.WEB_DEVELOPMENT_2] = 'WD2'
+  courseAcronyms[courseIDs.COMPUTER_SCIENCE_3] = 'CS3'
+  courseAcronyms[courseIDs.GAME_DEVELOPMENT_3] = 'GD3'
+  courseAcronyms[courseIDs.COMPUTER_SCIENCE_4] = 'CS4'
+  courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
+  courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
 
-courseLessonSlidesURLs = {}
-unless features?.china
-  courseLessonSlidesURLs[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'https://drive.google.com/drive/folders/1YU7LEZ6TLQzbAsSMw90nNJfvU7gDrcid?usp=sharing'
-  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_2] = 'https://drive.google.com/drive/folders/1x24P6ZY_MBOBoHvlikbDr7jvMPYVRVkJ?usp=sharing'
-  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_3] = 'https://drive.google.com/drive/folders/1hBl-h5Xvo5chYH4q9e6IEo42JozlrTG9?usp=sharing'
-  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_4] = 'https://drive.google.com/drive/folders/1tbuE4Xn0ahJ0xcF1-OaiPs9lHeIs9zqG?usp=sharing'
-  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_5] = 'https://drive.google.com/drive/folders/1ThxWFZjoXzU5INtMzlqKEn8xkgHhVnl4?usp=sharing'
-  courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_1] = 'https://drive.google.com/drive/folders/1YSJ9wcfHRJ2854F-vUdSWqoLBuSJye7V?usp=sharing'
-  courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_2] = 'https://drive.google.com/drive/folders/1Mks2MA-WGMrwNpZj6VtKkL3loPnHp_bs?usp=sharing'
+  # Ozaria uses this
+  courseModules = {}
+
+  courseLessonSlidesURLs = {}
+  unless features?.china
+    courseLessonSlidesURLs[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'https://drive.google.com/drive/folders/1YU7LEZ6TLQzbAsSMw90nNJfvU7gDrcid?usp=sharing'
+    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_2] = 'https://drive.google.com/drive/folders/1x24P6ZY_MBOBoHvlikbDr7jvMPYVRVkJ?usp=sharing'
+    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_3] = 'https://drive.google.com/drive/folders/1hBl-h5Xvo5chYH4q9e6IEo42JozlrTG9?usp=sharing'
+    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_4] = 'https://drive.google.com/drive/folders/1tbuE4Xn0ahJ0xcF1-OaiPs9lHeIs9zqG?usp=sharing'
+    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_5] = 'https://drive.google.com/drive/folders/1ThxWFZjoXzU5INtMzlqKEn8xkgHhVnl4?usp=sharing'
+    courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_1] = 'https://drive.google.com/drive/folders/1YSJ9wcfHRJ2854F-vUdSWqoLBuSJye7V?usp=sharing'
+    courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_2] = 'https://drive.google.com/drive/folders/1Mks2MA-WGMrwNpZj6VtKkL3loPnHp_bs?usp=sharing'
+
+  hourOfCodeOptions = {
+    campaignId: freeCampaignIds[0],
+    courseId: courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
+    name: 'Introduction to Computer Science',
+    progressModalAfter: 1500000 #25 mins
+  }
+else
+  campaignIDs =
+    CHAPTER_ONE: '5d1a8368abd38e8b5363bad9'
+
+  freeCampaignIds = [campaignIDs.CHAPTER_ONE] # CH1 campaign
+  internalCampaignIds = ['5eb34fc8dc0fd35e8eae66b0'] # CH2 playtest
+
+  courseIDs =
+    CHAPTER_ONE: '5d41d731a8d1836b5aa3cba1'
+    CHAPTER_TWO: '5d8a57abe8919b28d5113af1'
+    CHAPTER_TWO_PLAYTEST: '5eb34fc8dc0fd35e8eae66b0'
+    CHAPTER_THREE: '5e27600d1c9d440000ac3ee7'
+    CHAPTER_FOUR: '5f0cb0b7a2492bba0b3520df'
+
+  CSCourseIDs = [
+    courseIDs.CHAPTER_ONE
+    courseIDs.CHAPTER_TWO
+    courseIDs.CHAPTER_THREE
+    courseIDs.CHAPTER_FOUR
+  ]
+  WDCourseIDs = []
+  orderedCourseIDs = [
+    courseIDs.CHAPTER_ONE
+    courseIDs.CHAPTER_TWO
+    courseIDs.CHAPTER_TWO_PLAYTEST
+    courseIDs.CHAPTER_THREE
+    courseIDs.CHAPTER_FOUR
+  ]
+
+  # TODO: how can we support Ozaria-specific or mixed licenses? Copied these from CodeCombat, but they are not Ozaria courses
+  courseNumericalStatus = {}
+  courseNumericalStatus['NO_ACCESS'] = 0
+  #courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 1
+  #courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 2
+  #courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 4
+  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 8
+  #courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 16
+  #courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 32
+  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 64
+  #courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 128
+  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
+  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
+  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
+  courseNumericalStatus['FULL_ACCESS'] = 2047
+
+  courseAcronyms = {}
+  courseAcronyms[courseIDs.CHAPTER_ONE] = 'CH1'
+  courseAcronyms[courseIDs.CHAPTER_TWO] = 'CH2'
+  courseAcronyms[courseIDs.CHAPTER_TWO_PLAYTEST] = 'CH2P'
+  courseAcronyms[courseIDs.CHAPTER_THREE] = 'CH3'
+  courseAcronyms[courseIDs.CHAPTER_FOUR] = 'CH4'
+
+  # Harcoding module names for simplicity
+  # Use db to store these later when we add sophisticated module functionality, right now its only used for UI
+  courseModules = {}
+  courseModules[courseIDs.CHAPTER_ONE] = {
+    '1': 'Introduction to Coding'
+  }
+  courseModules[courseIDs.CHAPTER_TWO] = {
+    '1': 'Algorithms and Syntax',
+    '2': 'Debugging',
+    '3': 'Variables',
+    '4': 'Conditionals',
+    '5': 'Capstone Intro',
+    '6': 'Capstone Project'
+  }
+  courseModules[courseIDs.CHAPTER_TWO_PLAYTEST] = {
+    '1': 'Algorithms and Syntax',
+    '2': 'Debugging',
+    '3': 'Variables',
+    '4': 'Conditionals',
+    '5': 'Capstone Intro',
+    '6': 'Capstone Project'
+  }
+  courseModules[courseIDs.CHAPTER_THREE] = {
+    '1': 'Review',
+    '2': 'For Loops',
+    '3': 'Nesting',
+    '4': 'While Loops',
+    '5': 'Capstone'
+  }
+  courseModules[courseIDs.CHAPTER_FOUR] = {
+    '1': 'Compound Conditionals',
+    '2': 'Functions and Data Analysis',
+    '3': 'Writing Functions',
+    '4': 'Capstone'
+  }
+
+  # CodeCombat uses this, for now
+  courseLessonSlidesURLs = {}
+
+  hourOfCodeOptions = {
+    campaignId: freeCampaignIds[0],
+    courseId: courseIDs.CHAPTER_ONE,
+    name: 'Chapter 1: Up The Mountain',
+    progressModalAfter: 1500000 #25 mins
+  }
+
+registerHocProgressModalCheck = ->
+  hocProgressModalCheck = setInterval(() =>
+    if window.sessionStorage?.getItem('hoc_progress_modal_time') < new Date().getTime()
+      window.sessionStorage.setItem('show_hoc_progress_modal', true)
+      window.sessionStorage.removeItem('hoc_progress_modal_time')
+      clearInterval(hocProgressModalCheck)
+  , 60000) # every 1 min
 
 petThangIDs = [
   '578d320d15e2501f00a585bd' # Wolf Pup
@@ -221,6 +343,23 @@ premiumContent =
   totalHeroesCount: '19'
   premiumLevelsCount: '531'
   freeLevelsCount: '5'
+
+# Ozaria-specific
+# adds displayName and learning goals from intro levels content to the intro level given
+addIntroLevelContent = (introLevel, introLevelsContent) ->
+  if introLevel.get('type') == 'intro' && (introLevel.get('introContent') || []).length > 0 && introLevelsContent
+    introLevel.get('introContent').forEach((c) =>
+      return if c.type == 'avatarSelectionScreen'
+      if typeof c.contentId is 'object' # contentId can be an object if interactive is different for python/js
+        # for simplicity, assuming that the display name/learning goals will be same for a given interactive in python/js
+        introLevelData = introLevelsContent[c.contentId.python] || {}
+      else
+        introLevelData = introLevelsContent[c.contentId] || {}
+      c.displayName = i18n(introLevelData, 'displayName') || i18n(introLevelData, 'name')
+      learningGoals = ((introLevelData.documentation || {}).specificArticles || []).find((a) => a.name == 'Learning Goals')
+      if learningGoals
+        c.learningGoals = i18n(learningGoals, 'body')
+    )
 
 normalizeFunc = (func_thing, object) ->
   # func could be a string to a function in this class
@@ -725,6 +864,12 @@ formatStudentLicenseStatusDate = (status, date) ->
       when 'expired' then $.i18n.t('teacher.status_expired')
     string.replace('{{date}}', date or 'Never')
 
+formatStudentSingleLicenseStatusDate = (product) ->
+  string = $.i18n.t('teacher.full_license')
+  if product.productOptions?.includedCourseIDs?
+    string = product.productOptions.includedCourseIDs.map((id) -> courseAcronyms[id]).join('+')
+  string += ': ' + moment(product.endDate).format('ll')
+
 getApiClientIdFromEmail = (email) ->
   if /@codeninjas.com$/i.test(email) # hard coded for code ninjas since a lot of their users do not have clientCreator set
     clientID = '57fff652b0783842003fed00'
@@ -876,9 +1021,6 @@ isOldBrowser = () ->
     return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
   return false
 
-isCodeCombat = true
-isOzaria = false
-
 arenas = [
   {slug: 'blazing-battle'   , type: 'regular',      start: new Date("2021-01-01T00:00:00.000-07:00"), end: new Date("2021-05-01T00:00:00.000-08:00"), results: new Date("2021-05-01T00:00:00.000-08:00"), levelOriginal: '5fca06dc8b4da8002889dbf1', tournament: '608cea0f8f2b971478556ac6', image: '/file/db/level/5fca06dc8b4da8002889dbf1/Blazing Battle Final cut.jpg'}
   {slug: 'infinite-inferno' , type: 'championship', start: new Date("2021-04-01T00:00:00.000-08:00"), end: new Date("2021-05-01T00:00:00.000-08:00"), results: new Date("2021-05-01T00:00:00.000-08:00"), levelOriginal: '602cdc204ef0480075fbd954', tournament: '608cd3f814fa0bf9f1c1f928', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
@@ -886,7 +1028,12 @@ arenas = [
   {slug: 'sorcerers'        , type: 'championship', start: new Date("2021-08-01T00:00:00.000-08:00"), end: new Date("2021-09-01T00:00:00.000-08:00"), results: new Date("2021-09-08T09:00:00.000-08:00"), levelOriginal: '609a6ad2e1eb34001a84e7af', tournament: '612d556f9abe2e0019af000b', image: "/file/db/level/609a6ad2e1eb34001a84e7af/Sorcerer's-Blitz-01.jpg"}
   {slug: 'giants-gate'      , type: 'regular',      start: new Date("2021-09-01T00:00:00.000-08:00"), end: new Date("2021-12-15T00:00:00.000-07:00"), results: new Date("2021-12-21T09:00:00.000-07:00"), levelOriginal: '60e69b24bed8ae001ac6ce3e', tournament: '6136a86e0c0ecaf34e431e81', image: "/file/db/level/60e69b24bed8ae001ac6ce3e/Giant’s-Gate-Final.jpg"}
   {slug: 'colossus'         , type: 'championship', start: new Date("2021-11-19T00:00:00.000-07:00"), end: new Date("2021-12-15T00:00:00.000-07:00"), results: new Date("2021-12-21T09:00:00.000-07:00"), levelOriginal: '615ffaf2b20b4900280e0070', tournament: '61983f74fd75db5e28ac127a', image: "/file/db/level/615ffaf2b20b4900280e0070/Colossus-Clash-02.jpg"}
-  {slug: 'iron-and-ice'     , type: 'regular',      start: new Date("2021-12-15T00:00:00.000-07:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '618a5a13994545008d2d4990'}
+  {slug: 'iron-and-ice'     , type: 'regular',      start: new Date("2021-12-15T00:00:00.000-07:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '618a5a13994545008d2d4990', tournament: '623a648580501d0025d8f4ef', image: "file/db/level/618a5a13994545008d2d4990/Iron-and-Ice-Arena-Banner-02.jpg"}
+  {slug: 'tundra-tower'     , type: 'championship', start: new Date("2022-03-11T00:00:00.000-08:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '620cb80a9bc0f1005e9189d7', tournament: '623a652b53903c1c6c1c6045'}
+ #{slug: 'desert-duel'      , type: 'regular',      start: new Date("2022-05-01T00:00:00.000-08:00"), end: new Date("2022-09-01T00:00:00.000-08:00"), results: new Date("2022-09-08T09:00:00.000-08:00"), levelOriginal: ''}
+ #{slug: 'sandstorm'        , type: 'championship', start: new Date("2022-08-01T00:00:00.000-08:00"), end: new Date("2022-09-01T00:00:00.000-08:00"), results: new Date("2022-09-08T09:00:00.000-08:00"), levelOriginal: ''}
+ #{slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-07:00"), results: new Date("2023-01-10T09:00:00.000-07:00"), levelOriginal: ''}
+ #{slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-07:00"), results: new Date("2023-01-10T09:00:00.000-07:00"), levelOriginal: ''}
 ]
 
 activeArenas = ->
@@ -952,6 +1099,7 @@ orgKindString = (kind, org=null) ->
 module.exports = {
   activeAndPastArenas
   activeArenas
+  addIntroLevelContent
   addressesIncludeAdministrativeRegion
   ageBrackets
   ageBracketsChina
@@ -970,8 +1118,10 @@ module.exports = {
   courseAcronyms
   courseIDs
   courseLessonSlidesURLs
+  courseModules
   courseNumericalStatus
   CSCourseIDs
+  WDCourseIDs
   createLevelNumberMap
   extractPlayerCodeTag
   freeAccessLevels
@@ -979,6 +1129,7 @@ module.exports = {
   findNextLevel
   formatDollarValue
   formatStudentLicenseStatusDate
+  formatStudentSingleLicenseStatusDate
   freeCampaignIds
   functionCreators
   getApiClientIdFromEmail
@@ -993,6 +1144,7 @@ module.exports = {
   getUTCDay
   grayscale
   hexToHSL
+  hourOfCodeOptions
   hslToHex
   i18n
   inEU
@@ -1013,6 +1165,7 @@ module.exports = {
   pathToUrl
   petThangIDs
   premiumContent
+  registerHocProgressModalCheck
   replaceText
   round
   sortCourses

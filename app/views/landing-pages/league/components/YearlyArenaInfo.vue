@@ -13,6 +13,9 @@
         loading="lazy"
         :alt="arena.name"
       />
+      <div class="final-arena">
+        {{ arena.final + ' ' + $t('league.final_arena') }}
+      </div>
     </div>
   </div>
 </template>
@@ -28,6 +31,7 @@ export default {
           i18nTitle: 'tundra_tower',
           i18nType: 'cup',
           period: 'Jan - Apr 2022',
+          final: 'Apr',
           imgPath: '/images/pages/league/tundra-tower-cup.png'
         },
         {
@@ -35,6 +39,7 @@ export default {
           i18nTitle: 'sandstorm',
           i18nType: 'blitz',
           period: 'May - Aug 2022',
+          final: 'Aug',
           imgPath: '/images/pages/league/sand-storm-blitz.png'
         },
         {
@@ -42,6 +47,7 @@ export default {
           i18nTitle: 'lava_lake',
           i18nType: 'clash',
           period: 'Sep - Dec 2022',
+          final: 'Dec',
           imgPath: '/images/pages/league/lava-lake-clash.png'
         }
       ]
@@ -65,5 +71,8 @@ export default {
 }
 .arena-period {
   margin-bottom: 15px;
+}
+.final-arena {
+  padding-top: 15px;
 }
 </style>

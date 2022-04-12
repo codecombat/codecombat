@@ -1961,6 +1961,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     status_expired: "Термін дії закінчився {{date}}"
     status_not_enrolled: "Незараховано"
     status_enrolled: "Термін дії закінчиться {{date}}"
+#    status_partly_expires: "Partly expires on {{date}}"
     select_all: "Обрати все"
     project: "Проект"
     project_gallery: "Галерея проектів"
@@ -2554,6 +2555,16 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    certificate_levels_completed: "levels completed"
     certificate_for: "Для"
 #    certificate_number: "No."
+#    heroes_unlocked: "Heroes Unlocked"
+#    current_items: "Items Equipped"
+#    contributor_badges: "Contributor Badges"
+#    contributions_title: "Contributions"
+#    type_stat: "Type" # As in, which type of contribution
+#    patches_submit: "Patches Submitted"
+#    patches_approved: "Patches Approved"
+#    patches_accepted: "Patches Accepted"
+#    level_edits: "Level Edits"
+#    total_translations: "Total Translations"
 
   achievements:
     last_earned: "Останні отримані"

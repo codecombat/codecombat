@@ -63,6 +63,7 @@ module.exports = class SpellTopBarView extends CocoView
 
   onClickHintsButton: ->
     return unless @hintsState?
+    Backbone.Mediator.publish 'level:hints-button', {state: @hintsState.get('hidden')}
     @hintsState.set('hidden', not @hintsState.get('hidden'))
     window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0
 

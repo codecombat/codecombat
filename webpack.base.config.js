@@ -10,6 +10,7 @@ require('coffee-script')
 require('coffee-script/register')
 const CompileStaticTemplatesPlugin = require('./compile-static-templates')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const PWD = process.env.PWD || __dirname
 
 console.log('Starting Webpack...')
 
@@ -17,7 +18,7 @@ console.log('Starting Webpack...')
 module.exports = (env) => {
   if (!env) env = {}
   return {
-    context: path.resolve(__dirname),
+    context: path.resolve(PWD),
     entry: {
       // NOTE: If you add an entrypoint, consider updating ViewLoadTimer to track its loading.
       app: './app/app.js',
@@ -37,7 +38,7 @@ module.exports = (env) => {
     output: {
       filename: 'javascripts/[name].js', // TODO: Use chunkhash in layout.static.pug's script tags instead of GIT_SHA
       // chunkFilename is determined by build type
-      path: path.resolve(__dirname, 'public'),
+      path: path.resolve(PWD, 'public'),
       publicPath: '/' // Base URL path webpack tries to load other bundles from
     },
     module: {
@@ -53,6 +54,13 @@ module.exports = (env) => {
         { test: require.resolve('cookieconsent'), use: 'exports-loader?cookieconsent' },
         { test: /\.vue$/, use: [{ loader: 'vue-loader' }] },
         { test: /vendor\/scripts\/async.js/, use: [ { loader: 'imports-loader?root=>window' } ] },
+        {
+          test: /\.worker\.(c|m)?js$/i,
+          loader: "worker-loader",
+          options: {
+            esModule: false,
+          },
+        },
         { test: /\.js$/,
           exclude: /(node_modules|bower_components|vendor)/,
           use: [{
@@ -85,12 +93,29 @@ module.exports = (env) => {
             { test: /jquery-ui.*css$/,
               use: [ // So we can ignore the images it references that we are missing
                 { loader: 'style-loader' },
+                {
+                  loader: MiniCssExtractPlugin.loader,
+                  options: {
+                    esModule: false
+                  }
+                },
                 { loader: 'css-loader', options: { url: false } }
               ] },
             { test: /\.css$/,
               use: [
                 { loader: 'style-loader' },
-                { loader: 'css-loader' } // TODO Webpack: Maybe use url:false here as well
+                {
+                  loader: MiniCssExtractPlugin.loader,
+                  options: {
+                    esModule: false
+                  }
+                },
+                {
+                  loader: 'css-loader',
+                  options: {
+                    url: false
+                  }
+                },
               ] }
           ]
         },
@@ -104,7 +129,10 @@ module.exports = (env) => {
               }
             },
             {
-              loader: "css-loader",
+              loader: 'css-loader',
+              options: {
+                url: false
+              }
             },
             {
               loader: 'sass-loader',
@@ -123,10 +151,15 @@ module.exports = (env) => {
             {
               loader: MiniCssExtractPlugin.loader,
               options: {
-                esModule: false,
+                esModule: false
               }
             },
-            { loader: 'css-loader' },
+            {
+              loader: 'css-loader',
+              options: {
+                url: false
+              }
+            },
             {
               loader: 'sass-loader',
               options: {
@@ -152,6 +185,11 @@ module.exports = (env) => {
       extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.pug', '.sass', '.vue'],
       alias: { // Replace Backbone's underscore with lodash
         'underscore': 'lodash'
+      },
+      // https://github.com/facebook/create-react-app/issues/11756#issuecomment-1047253186
+      fallback: {
+        util: require.resolve('util/'), // because of 'console-browserify' package used by jshint, details: https://github.com/facebook/create-react-app/issues/11756
+        assert: require.resolve('assert/'), // because of 'console-browserify'
       }
     },
     externals: {
@@ -162,16 +200,16 @@ module.exports = (env) => {
       new MiniCssExtractPlugin({ // Move CSS into external file
         filename: 'stylesheets/[name].css',
         chunkFilename: 'stylesheets/[name]-[contenthash].css',
-        ignoreOrder: true
+        ignoreOrder: true, // too many conflict warnings because of TestView, ignoring till those conflicts are fixed or that route is disabled
       }),
       new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
         $: 'jquery',
         jQuery: 'jquery',
-        application: path.resolve(__dirname, 'app/core/application')
+        application: path.resolve(PWD, 'app/core/application')
       }),
-      new webpack.IgnorePlugin(/\/fonts\/bootstrap\/.*$/), // Ignore Bootstrap's fonts
-      new webpack.IgnorePlugin(/^memwatch$/), // Just used by the headless client on the server side
-      new webpack.IgnorePlugin(/.DS_Store$/),
+      new webpack.IgnorePlugin({ resourceRegExp: /\/fonts\/bootstrap\/.*$/ }), // Ignore Bootstrap's fonts
+      new webpack.IgnorePlugin({ resourceRegExp: /^memwatch$/ }), // Just used by the headless client on the server side
+      new webpack.IgnorePlugin({ resourceRegExp: /.DS_Store$/ }),
 
       // Enable IgnorePlugins for development to speed webpack
       // new webpack.IgnorePlugin(/\!locale/),
@@ -185,35 +223,42 @@ module.exports = (env) => {
       // new webpack.IgnorePlugin(/\/teachers\//),
       // new webpack.IgnorePlugin(/\/play\//),
 
-      new CopyWebpackPlugin([
-        // NOTE: If you add a static asset, consider updating ViewLoadTimer to track its loading.
-        { // Static assets
-          // Let's use file-loader down the line, but for now, just use URL references.
-          from: 'app/assets',
-          to: '.'
-        }, { // Ace
-          context: 'bower_components/ace-builds/src-min-noconflict',
-          from: '**/*',
-          to: 'javascripts/ace'
-        }, { // Esper
-          from: 'bower_components/esper.js/esper.js',
-          to: 'javascripts/esper.js'
-        }, {
-          from: 'bower_components/esper.js/esper-modern.js',
-          to: 'javascripts/esper.modern.js'
-        }, {
-          from: 'vendor/esper-plugin-lang-java-modern.js',
-          to: 'javascripts/app/vendor/aether-java.modern.js'
-        }, {
-          from: 'vendor/esper-plugin-lang-cpp-modern.js',
-          to: 'javascripts/app/vendor/aether-cpp.modern.js'
-        }
-      ]),
+      new CopyWebpackPlugin({
+        patterns: [
+          // NOTE: If you add a static asset, consider updating ViewLoadTimer to track its loading.
+          { // Static assets
+            // Let's use file-loader down the line, but for now, just use URL references.
+            from: 'app/assets',
+            to: '.'
+          }, { // Ace
+            context: 'bower_components/ace-builds/src-min-noconflict',
+            from: '**/*',
+            to: 'javascripts/ace'
+          }, { // Esper
+            from: 'bower_components/esper.js/esper.js',
+            to: 'javascripts/esper.js'
+          }, {
+            from: 'bower_components/esper.js/esper-modern.js',
+            to: 'javascripts/esper.modern.js'
+          }, {
+            from: 'vendor/esper-plugin-lang-java-modern.js',
+            to: 'javascripts/app/vendor/aether-java.modern.js'
+          }, {
+            from: 'vendor/esper-plugin-lang-cpp-modern.js',
+            to: 'javascripts/app/vendor/aether-cpp.modern.js'
+          }
+        ]
+      }),
       new CompileStaticTemplatesPlugin({
         locals: { shaTag: process.env.GIT_SHA || 'dev', chinaInfra: process.env.COCO_CHINA_INFRASTRUCTURE || false }
       }),
-      new VueLoaderPlugin()
+      new VueLoaderPlugin(),
+      new webpack.ProvidePlugin({
+        process: 'process/browser', // because of algoliasearch which needs access to process: https://github.com/algolia/docsearch/issues/980
+        Buffer: ['buffer', 'Buffer']
+      })
     ],
+    optimization: {},
     stats: 'minimal'
   }
 }

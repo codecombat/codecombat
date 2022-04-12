@@ -197,13 +197,32 @@ module.exports = class HomeView extends RootView
       if link.length
         @scrollToLink(document.location.hash, 0)
     _.delay(f, 100)
-
     @loadCurator()
+
+  shouldShowCurator: ->
+    return false unless me.get('preferredLanguage', true).startsWith('en')  # Only English social media anyway
+    return false if $(document).width() <= 700  # Curator is hidden in css on mobile anyway
+    if (value = {true: true, false: false, show: true, hide: false}[utils.getQueryVariable 'curator'])?
+      return value
+    if (value = me.getExperimentValue('curator', null, 'show'))?
+      return {show: true, hide: false}[value]
+    if new Date(me.get('dateCreated')) < new Date('2022-03-17')
+      # Don't include users created before experiment start date
+      return true
+    if features?.china
+      # Don't include China users
+      return true
+    # Start a new experiment
+    if me.get('testGroupNumber') % 2
+      value = 'show'
+    else
+      value = 'hide'
+    me.startExperiment('curator', value, 0.5)
+    return {show: true, hide: false}[value]
 
   loadCurator: ->
     return if @curatorLoaded
-    return unless me.get('preferredLanguage', true).startsWith('en')  # Only English social media anyway
-    return if $(document).width() <= 700  # Curator is hidden in css on mobile anyway
+    return unless @shouldShowCurator()
     @curatorLoaded = true
     script = document.createElement 'script'
     script.async = 1
@@ -214,7 +233,7 @@ module.exports = class HomeView extends RootView
 
   checkIfCuratorLoaded: =>
     return if @destroyed
-    return unless @$('.crt-social-icon').length  # If we didn't find any of these, there's no content (not loaded or Curator error)
+    return unless @$('.crt-feed-spacer').length  # If we didn't find any of these, there's no content (not loaded or Curator error)
     @$('.testimonials-container, .curator-spacer').removeClass('hide')
     clearInterval @curatorInterval
 

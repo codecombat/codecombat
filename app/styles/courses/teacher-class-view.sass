@@ -457,11 +457,50 @@
     .student-info-col
       width: 240px
     .status-col
-      width: 300px
+      display: flex
+
+      .icon
+        font-size: 11px
+        font-weight: bold
+        color: white
+        width: 3em
+        height: 3em
+        line-height: 3em
+        text-align: center
+        background: grey
+        border-radius: 10px
+        margin: 2px
 
       .checkbox-course
         margin: 0 5px
         width: 1.2em
+    .expires-col
+      .details
+        position: absolute
+        opacity: 0
+        background: #eee
+        border-radius: 5px
+        padding: 20px 40px
+        box-shadow: 3px 2px 4px #888
+        margin-left: -80px
+        text-align: right
+        z-index: 9999
+
+      .more
+        display: inline-block
+        width: 1.2em
+        height: 1.2em
+        line-height: 1.2em
+        text-align: center
+        border-radius: 50%
+        border: 2px solid #999
+        color: #999
+        font-weight: bold
+        cursor: pointer
+        margin-left: 5px
+
+        &:hover + .details
+          opacity: 1
     .enroll-col
       width: 140px
     .revoke-col
