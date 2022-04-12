@@ -242,11 +242,11 @@ module.exports = class TeacherStudentView extends RootView
             playedLevel = levelDataByLevel[session.get('level').original]
             if playedLevel.levelProgress is 'complete' or playedLevel.levelProgress is 'started'
               number += session.get('playtime') or 0
-              performanceNumber += !playedLevel.isLadder and !playedLevel.isProject and session.get('playtime') or 0
+              performanceNumber += not playedLevel.isLadder and not playedLevel.isProject and session.get('playtime') or 0
               memberPlayed += 1
             if session.get('creator') is @studentID
               studentCourseTotal += session.get('playtime') or 0
-              performanceStudentCourseTotal += !playedLevel.isLadder and !playedLevel.isProject and session.get('playtime') or 0
+              performanceStudentCourseTotal += not playedLevel.isLadder and not playedLevel.isProject and session.get('playtime') or 0
         if memberPlayed > 0 then members += 1
         numbers.push number
         performanceNumbers.push performanceNumber
