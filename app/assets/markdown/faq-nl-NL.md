@@ -120,7 +120,7 @@ Onze game-ontwikkeling en webontwikkelingcursussen zijn allemaal gebaseerd op pr
 
 **Game-ontwikkeling** Wat is nog leuker dan een game spelen? Zelf je eigen spel maken! In onze cursussen voor spelontwikkeling leren studenten hoe ze hun eigen levels in CodeCombat-stijl kunnen bouwen en deze door vrienden en familie kunnen laten uitproberen, door het spel met muis en toetsenbord te laten spelen. Na verloop van tijd zullen ze de tools ontgrendelen die nodig zijn om uitdagende puzzels te maken en hun vaardigheden op het gebied van gamedesign te oefenen om de volgende ster- spelontwerper te worden. De eindprojecten voor elke cursus kunnen worden gedeeld, ze worden gepubliceerd naar een aangepaste URL zodat studenten eenvoudig hun games met vrienden en familie kunnen delen.
 
-Docenten kunnen alle Web- en Game-ontwikkelingslevels bekijken door naar de pagina Cursushandleidingen [Course Guides](/teachers/units) te gaan en een level te selecteren in de vervolgkeuzemenu&#39;s.
+Docenten kunnen alle Web- en Game-ontwikkelingslevels bekijken door naar de pagina Cursushandleidingen [Course Guides](/teachers/courses) te gaan en een level te selecteren in de vervolgkeuzemenu&#39;s.
 
 ### Kunnen studenten eerdere levels overslaan als ze de concepten al begrijpen?
 
@@ -130,7 +130,7 @@ Leraren kunnen cursussen naar eigen goeddunken toewijzen, maar we raden aan dat 
 
 ### Moet de docent een licentie kopen als ze de levels van hun studenten willen doorlopen?
 
-Nee. Docenten kunnen alle spel-levels bekijken en afspelen door naar de pagina Cursushandleidingen [Course Guides](/teachers/units)  te gaan en een level te selecteren in de vervolgkeuzemenu&#39;s. Level-voortgang wordt niet opgeslagen.
+Nee. Docenten kunnen alle spel-levels bekijken en afspelen door naar de pagina Cursushandleidingen [Course Guides](/teachers/courses)  te gaan en een level te selecteren in de vervolgkeuzemenu&#39;s. Level-voortgang wordt niet opgeslagen.
 
 ### Hoe begin ik met CodeCombat?
 
