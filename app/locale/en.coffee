@@ -852,7 +852,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     play_as_humans: "Play As Red"
     play_as_ogres: "Play As Blue"
     date_first_completed: "Date first completed:"
-    changed: "Last change time:"
+    changed: "Last edited:"
 
   apis:
     methods: "Methods"
