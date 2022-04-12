@@ -660,28 +660,28 @@ export default {
           <div class="prize-section__winners-text">1<span class="prize-section__small-top">st</span> {{ $t('league.place') }}</div>
           <div class="row">
             <div class="col-sm-4">
-              <a href="https://www.amazon.com/HyperX-Revolver-Gaming-Headset-Surround/dp/B01N9RM9N3" target="_blank" class="prize-section__winners--product-link">
+              <div class="prize-section__winners--product-link">
                 <div>
                   <img src="/images/pages/league/hyperx-headphones-w-glow.png" alt="Cloud Revolver 7.1 Headset" class="prize-section__winners-1--img">
                 </div>
                 Cloud Revolver 7.1 Headset
-              </a>
+              </div>
             </div>
             <div class="col-sm-4">
-              <a href="https://hyperx.com/collections/gaming-keyboards/products/hyperx-alloy-origins-mechanical-gaming-keyboard" target="_blank" class="prize-section__winners--product-link">
+              <div class="prize-section__winners--product-link">
                 <div>
                   <img src="/images/pages/league/hyperx-keyboard-w-glow.png" alt="Alloy Origins Keyboard" class="prize-section__winners-1--img">
                 </div>
                 Alloy Origins Keyboard
-              </a>
+              </div>
             </div>
             <div class="col-sm-4">
-              <a href="https://hyperx.com/collections/gaming-mice/products/hyperx-pulsefire-fps-pro-gaming-mouse" target="_blank" class="prize-section__winners--product-link">
+              <div class="prize-section__winners--product-link">
                 <div>
                   <img src="/images/pages/league/hyperx-mouse-w-glow.png" alt="Pulsefire FPS Pro Mouse" class="prize-section__winners-1--img">
                 </div>
                 Pulsefire FPS Pro Mouse
-              </a>
+              </div>
             </div>
           </div>
         </div>
@@ -690,32 +690,32 @@ export default {
             <div class="prize-section__winners-text">2<span class="prize-section__small-top">nd</span> {{ $t('league.place') }}</div>
             <div class="row">
               <div class="col-sm-6">
-                <a href="https://hyperx.com/collections/gaming-headsets/products/hyperx-cloud-ii" target="_blank" class="prize-section__winners--product-link">
+                <div class="prize-section__winners--product-link">
                   <div>
                     <img src="/images/pages/league/hyperx-cloud2-headphones-w-glow.png" alt="Cloud II Headset" class="prize-section__winners-2--img">
                   </div>
                   Cloud II Headset
-                </a>
+                </div>
               </div>
               <div class="col-sm-6">
-                <a href="https://hyperx.com/collections/earbuds/products/hyperx-cloud-earbuds" target="_blank" class="prize-section__winners--product-link">
+                <div class="prize-section__winners--product-link">
                   <div>
                     <img src="/images/pages/league/hyperx-earbuds-w-glow.png" alt="Cloud Earbuds" class="prize-section__winners-2--img">
                   </div>
                   Cloud Earbuds
-                </a>
+                </div>
               </div>
             </div>
           </div>
 <!--          <div class="col-sm-3">&nbsp;</div>-->
           <div class="col-sm-3 col-sm-offset-3 prize-section-box">
             <div class="prize-section__winners-text">3<span class="prize-section__small-top">rd</span> {{ $t('league.place') }}</div>
-            <a href="https://hyperx.com/collections/gaming-headsets/products/hyperx-cloud-stinger-core-pc" target="_blank" class="prize-section__winners--product-link">
+            <div class="prize-section__winners--product-link">
               <div>
                 <img src="/images/pages/league/hyperx-cloud-stinger-headset-w-glow.png" alt="Cloud Stinger Core Headset" class="prize-section__winners-2--img">
               </div>
               Cloud Stinger Core Headset
-            </a>
+            </div>
           </div>
         </div>
       </div>
@@ -1671,8 +1671,6 @@ export default {
 
       &--product-link {
         color: #ffffff;
-
-        display: block;
       }
 
       &-2 {
