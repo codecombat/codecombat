@@ -46,12 +46,10 @@ for (const section of enSplitByCategory) {
 }
 
 // Grab all locale files that we need to manage
-const IGNORE_FILES = [ 'rot13.coffee', 'en.coffee', 'locale.coffee' ]
+const IGNORE_FILES = ['rot13.coffee', 'en.coffee', 'locale.coffee']
 const localeFiles = fs
-  .readdirSync(
-    path.join(PWD, '../app/locale')
-  )
-  .filter((fileName) => IGNORE_FILES.indexOf(fileName) === -1)
+  .readdirSync(path.join(PWD, '../app/locale'))
+  .filter(fileName => IGNORE_FILES.indexOf(fileName) === -1)
 
 for (const localeFile of localeFiles) {
   console.log(`Processing ${localeFile}`)
@@ -69,7 +67,7 @@ for (const localeFile of localeFiles) {
   // Initial rewrite of file with first line
   const rewrittenLines = [
     `module.exports = nativeDescription: "${localeContents.nativeDescription}", englishDescription: ` +
-            `"${localeContents.englishDescription}", translation:`
+      `"${localeContents.englishDescription}", translation:`
   ]
 
   // For each category within the locale
@@ -114,15 +112,17 @@ for (const localeFile of localeFiles) {
       } else {
         const tagIsMarkedChangeRegex = new RegExp(
           categoryRegexPrefix +
-                        `\\s+"?${escapeRegexp(sourceFileTag)}"?:` +
-                        `\\s".*"\\s*#.*${escapeRegexp(CHANGE_MARKER)}\\s*`,
+            `\\s+"?${escapeRegexp(sourceFileTag)}"?:` +
+            `\\s".*"\\s*#.*${escapeRegexp(CHANGE_MARKER)}\\s*`,
           'mi' // Case insensitive to support "change" in different capitalizations
         )
 
         // If en locale file has tag marked as change and the current locale file does not
         // have it marked as change, update the current locale file to add change marker
-        if (localeSource.search(tagIsMarkedChangeRegex) >= 0 &&
-                    comment.search(CHANGE_PATTERN) === -1) {
+        if (
+          localeSource.search(tagIsMarkedChangeRegex) >= 0 &&
+          comment.search(CHANGE_PATTERN) === -1
+        ) {
           comment += ` ${CHANGE_MARKER}`
         }
       }
