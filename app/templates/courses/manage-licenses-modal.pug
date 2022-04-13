@@ -155,15 +155,16 @@ block modal-body-content
                 = classroom.get('name')
             option(selected=(!view.classroom), value='' data-i18n='teacher.all_students')
   .row#tab-nav
-    .col-sm-2
+    .col-sm-4
       | .
     .col-sm-4
       .text-center
         span.change-tab(data-i18n='teacher.apply_licenses', data-tab='apply', class=(activeTab == 'apply' ? 'focus' : ''))
+    // hide revoke for China now
+    //- .col-sm-4
+    //-   .text-center
+    //-     span.change-tab(data-i18n='teacher.check_and_revoke_license', data-tab='revoke', class=(activeTab == 'revoke'? 'focus': ''))
     .col-sm-4
-      .text-center
-        span.change-tab(data-i18n='teacher.check_and_revoke_license', data-tab='revoke', class=(activeTab == 'revoke'? 'focus': ''))
-    .col-sm-2
       | .
 
   .modal-body-content

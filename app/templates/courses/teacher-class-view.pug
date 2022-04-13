@@ -448,7 +448,8 @@ mixin enrollmentStatusTab
       th(width='30%')
         span(data-i18n='teacher.owned_license')
       th(width='25%')
-      if me.canRevokeLicensesViaUI() && !state.get('readOnly')
+      if me.canRevokeLicensesViaUI() && !state.get('readOnly') && !me.showChinaResourceInfo()
+        // hide revoke in China now
         th
           button.revoke-all-students-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_licenses")
     tbody
