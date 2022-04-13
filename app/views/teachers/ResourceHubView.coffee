@@ -6,7 +6,7 @@ resources =
     url: '/teachers/resources/faq'
     i18nCoverage: ['zh-HANS', 'he', 'nl-NL', 'pt-BR']
   'getting-started':
-    url: '/teachers/resources/getting-started'
+    url: '/teachers/resources/getting-started-with-ozaria'
     i18nCoverage: ['zh-HANS']
   'ch1UnitOverview':
     url: '/teachers/resources/ch1UnitOverview'

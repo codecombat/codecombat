@@ -18,6 +18,8 @@ module.exports = class MarkdownResourceView extends RootView
     @content = ''
     @loadingData = true
     me.getClientCreatorPermissions()?.then(() => @render?())
+    if @name is 'getting-started'
+      @name = 'getting-started-with-ozaria'
     $.get '/markdown/' + @name + '.md', (data, what, who, how) =>
       if /<!doctype html>/i.test(data)
         # Not found
