@@ -65,7 +65,8 @@
         classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
         selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
         componentName: 'teacherDashboard/getComponentName',
-        trialRequest: 'trialRequest/properties'
+        trialRequest: 'trialRequest/properties',
+        sharedClassrooms: 'teacherDashboard/getSharedClassrooms'
       }),
 
       pageTitle () {
@@ -93,6 +94,9 @@
       showClassInfo () {
         return this.componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE || this.componentName === COMPONENT_NAMES.STUDENT_PROJECTS
       },
+      allClassrooms () {
+        return [...this.activeClassrooms, ...this.sharedClassrooms]
+      }
     },
 
     watch: {
@@ -293,7 +297,7 @@
     />
     <panel />
     <secondary-teacher-navigation
-      :classrooms="activeClassrooms"
+      :classrooms="allClassrooms"
     />
     <title-bar
       :title="pageTitle"
