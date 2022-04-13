@@ -428,12 +428,15 @@ module.exports = class TeacherStudentView extends RootView
 
     # Create mapping of level to student progress
     @levelProgressMap = {}
+    @levelProgressTimeMap = {}
     for versionedCourse in @classroom.getSortedCourses() or []
       for versionedLevel in versionedCourse.levels
         session = @levelSessionMap[versionedLevel.original]
         if session?.get('creator') is @studentID
+          @levelProgressTimeMap[versionedLevel.original] = {'changed': moment(session.get('changed'))}
           if session.get('state')?.complete
             @levelProgressMap[versionedLevel.original] = 'complete'
+            @levelProgressTimeMap[versionedLevel.original]['dateFirstCompleted'] = moment(session.get('dateFirstCompleted')) # enable this line if needed
           else
             @levelProgressMap[versionedLevel.original] = 'started'
         else
