@@ -314,6 +314,7 @@ class PersonalSub
             @nextPaymentDate = new Date(lastPayment.get('created'))
             @nextPaymentDate.setUTCMonth(@nextPaymentDate.getUTCMonth() + 1)
             @cost = "$#{(lastPayment.get('amount')/100).toFixed(2)}"
+            @subscribed = @nextPaymentDate > Date.now()
             render()
           else
             console.error("No subscription payments found!")

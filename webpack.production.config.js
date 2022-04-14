@@ -24,7 +24,10 @@ combos = {
   three: ['play', 'editor'],
   ace: ['admin', 'teachers', 'i18n', 'artisans', 'ladder', 'editor', 'play'],
 }
-commonsPlugins = [];
+// commonsPlugins = _.sortBy(_.map(combos, (combo, key) => {
+//   return new webpack.optimize.CommonsChunkPlugin({ chunks: combo, async: key || true, minChunks: combo.length })
+// }), (plugin) => -plugin.selectedChunks.length) // Run the biggest ones first
+commonsPlugins = []
 
 const baseConfigFn = require('./webpack.base.config')
 // Production webpack config
@@ -82,7 +85,7 @@ module.exports = (env) => {
           // modules: true,
           // children: true,
         },
-        logLevel: 'info',
+        logLevel: 'error',
       })
     )
   })

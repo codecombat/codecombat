@@ -20,9 +20,9 @@ mixin inlineUserList(users)
         li
           span.inline-student-name
             if /^en/.test(me.get('preferredLanguage', true))
-              | and `${users.length - 5} more`
+              = `and ${users.length - 5} more`
             else
-              | `+${users.length - 5}`
+              = `+${users.length - 5}`
 
 mixin addStudentsButton
   .add-students

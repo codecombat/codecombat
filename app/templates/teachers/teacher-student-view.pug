@@ -287,12 +287,18 @@ mixin breadcrumbs
                   =" "
                   if view.levelProgressMap[level.get('original')] === 'complete'
                     span (
-                    span(data-i18n="play_level.level_complete")
+                    span(data-i18n="play_level.level_complete_at")
+                    -var completed = view.levelProgressTimeMap[level.get('original')].dateFirstCompleted
+                    span(title=completed.format('lll'))= completed.fromNow()
                     span )
                   else
                     span (
                     span(data-i18n="teacher.level_in_progress")
                     span )
+                  span(style="float:right; margin-right: 40px")
+                    span(data-i18n="play_level.changed")
+                    -var changed = view.levelProgressTimeMap[level.get('original')].changed
+                    span(title=changed.format('lll'))= changed.fromNow()
               td
                 .small
                   span= level.get('name')

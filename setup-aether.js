@@ -15,8 +15,10 @@ const path = require("path");
 // List of esper langauge plugins we want to move into the public directory.
 const targets = ["lua", "python", "coffeescript"];
 
+const PWD = process.env.PWD || __dirname;  // __dirname might be undesirable if this is symlinked
+
 const aether_webpack_config = {
-  context: path.resolve(__dirname),
+  context: path.resolve(PWD),
   entry: {
     aether: "./app/lib/aether/aether.coffee",
     // We need to create the html parser ourselves and move it ourselves into
@@ -25,7 +27,7 @@ const aether_webpack_config = {
   },
   output: {
     filename: "./aether/build/[name].js",
-    path: path.resolve(__dirname, 'bower_components'),
+    path: path.resolve(PWD, 'bower_components'),
   },
   module: {
     rules: [
@@ -79,13 +81,13 @@ function copyLanguagesFromEsper(targets) {
     .map(lang => [
       [
         path.join(
-          __dirname,
+          PWD,
           "bower_components",
           "esper.js",
           `esper-plugin-lang-${lang}.js`
         ),
         path.join(
-          __dirname,
+          PWD,
           "public",
           "javascripts",
           "app",
@@ -95,13 +97,13 @@ function copyLanguagesFromEsper(targets) {
       ],
       [
         path.join(
-          __dirname,
+          PWD,
           "bower_components",
           "esper.js",
           `esper-plugin-lang-${lang}-modern.js`
         ),
         path.join(
-          __dirname,
+          PWD,
           "public",
           "javascripts",
           "app",
@@ -113,22 +115,22 @@ function copyLanguagesFromEsper(targets) {
     .reduce((l, paths) => l.concat(paths));
 
   for (let [src, dest] of target_paths) {
-    // const src = path.join(__dirname, 'bower_components', 'esper.js', `esper-plugin-lang-${target}.js`);
-    // const dest = path.join(__dirname, 'bower_components', 'aether', 'build', `${target}.js`);
+    // const src = path.join(PWD, 'bower_components', 'esper.js', `esper-plugin-lang-${target}.js`);
+    // const dest = path.join(PWD, 'bower_components', 'aether', 'build', `${target}.js`);
     console.log(`Copy ${src}, ${dest}`);
     fs.copySync(src, dest);
   }
 
   // Finally copy html as we globally load these within the html iframe.
   const src = path.join(
-    __dirname,
+    PWD,
     "bower_components",
     "aether",
     "build",
     "html.js"
   );
   const dest = path.join(
-    __dirname,
+    PWD,
     "public",
     "javascripts",
     "app",

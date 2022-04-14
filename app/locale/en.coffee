@@ -671,6 +671,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     finished_hoc: "I'm finished with my Hour of Code"
     get_certificate: "Get your certificate!"
     level_complete: "Level Complete"
+    level_complete_at: "Level Completed "
     completed_level: "Completed Level:"
     course: "Course:"
     done: "Done"
@@ -851,6 +852,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     fill_in_solution: "Fill in solution"
     play_as_humans: "Play As Red"
     play_as_ogres: "Play As Blue"
+    changed: "Last edited "
 
   apis:
     methods: "Methods"
@@ -3194,7 +3196,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     live_class_booked_thank_you: "Your live class has been booked, thank you!"
     book_your_class: "Book Your Class"
     call_to_book: "Call now to book"
-    student_journey_start: "Congratulations! your student's coding journey is about to begin!"
+    student_journey_start: "Congratulations! Your student's coding journey is about to begin!"
     enter_email_address: "Please provide your email address to get started:"
     enter_parent_email_address: "If you are a student under 18 years of age, please enter your parent or guardian's email address."
     email_sent_success: "Awesome! An email has been sent to the address you provided."
