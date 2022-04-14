@@ -285,7 +285,8 @@
           template(v-if="row.type==='BLANK_ROW'")
             td(colspan=3) ...
           template(v-else)
-            td(v-for="item, index in row" v-if="index > 0" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" v-html="index != 1 ? computeBody(tableTitles[index].slug, item): ''" @click="onClickUserRow(rank, tableTitles[index].slug)")
+            td(v-for="item, index in row" v-if="index > 0 && tableTitles[index].slug != 'fight'" :key="'' + rank + index" :colspan="tableTitles[index].col" :style="computeStyle(item, index)" :class="computeClass(tableTitles[index].slug, item)" :title="computeTitle(tableTitles[index].slug, item)" @click="onClickUserRow(rank, tableTitles[index].slug)") {{index != 1 ? computeBody(tableTitles[index].slug, item): '' }}
+            td(colspan=1 v-if="tableTitles[row.length-1].slug == 'fight'" v-html="computeBody('fight', row[row.length-1])" @click="onClickUserRow(rank, 'fight')")
             td.spectate-cell.iconic-cell(@click="onClickSpectateCell(rank + '-top')")
               .glyphicon(:class="{'glyphicon-eye-open': selectedRow.indexOf(rank + '-top') != -1}")
 
