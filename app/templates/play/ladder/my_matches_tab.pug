@@ -4,7 +4,7 @@
       table.table.table-bordered.table-condensed.my-matches-table
 
         tr
-          th(colspan=5, style={color: team.primaryColor})
+          th(colspan=7, style={color: team.primaryColor})
             span(data-i18n="ladder.summary_your") Your
             if !view.level.isType('ladder')
               |#{team.displayName}
@@ -20,19 +20,21 @@
 
         if team.session
           tr
-            th(colspan=5)
+            th(colspan=7)
               .ladder-submission-view(data-session-id=team.session.id)
 
         if team.scoreHistory
           tr
-            th(colspan=5, style={color: team.primaryColor})
+            th(colspan=7, style={color: team.primaryColor})
               div(class="score-chart-wrapper", data-team-name=team.name, id='score-chart-' + team.name)
 
         tr
           th(data-i18n="general.result") Result
           th
           th(data-i18n="general.opponent") Opponent
+          th(data-i18n="general.opponent_team") Opponent Team
           th(data-i18n="general.when") When
+          th
           th
         for match in team.matches
           tr(class=(match.stale ? "stale " : "") + (match.fresh ? "fresh " : "") + match.state, title=match.simulator)
@@ -45,8 +47,9 @@
                 span(data-i18n="general.tie").tie Tie
             td.code-language-cell(style="background-image: url(/images/common/code_languages/" + match.codeLanguage +  "_icon.png)")
             td.name-cell= match.opponentName || view.nameMap[match.opponentID] || "Anonymous"
+            td.op-team-cell(data-i18n="play_level.team_"+match.opTeam)
             td.time-cell= match.when
-            td.battle-cell
+            td.watch-cell
               - var levelID = view.level.get('slug') || view.level.id
               - var league = view.options.league
               if (match.opTeam && match.opTeam == 'humans') || team.id == 'ogres'
@@ -57,16 +60,20 @@
                 - var yourTeam = 'humans'
                 - var sessionOne = team.session.id
                 - var sessionTwo = match.sessionID
-              //- a(href='/play/level/' + levelID + '?team=' + yourTeam + '&opponent=' + match.sessionID + (league ? "&league=" + league.id : ""))
               a(href='/play/spectate/' + levelID + '?session-one=' + sessionOne + '&session-two=' + sessionTwo, target='_blank')
-                if (match.state === 'win')
-                  span(data-i18n="ladder.watch_victory") Watch your victory
-                else if (view.level.isType('ladder'))
-                  span(data-i18n="ladder.fight") Fight!
-                else
-                  span(data-i18n="ladder.defeat_the") Defeat the
-                  |
-                  | #{team.otherTeamDisplayName}
+                span(data-i18n="play_level.watch_game")
+            td.battle-cell
+              if match.opTeam == 'ogres'
+                a(href='/play/level/' + levelID + '?team=humans&opponent=' + match.sessionID + (league ? "&league=" + league.id : ""))
+                  if (match.state === 'win')
+                    span(data-i18n="ladder.watch_victory") Watch your victory
+                  else if (view.level.isType('ladder'))
+                    span(data-i18n="ladder.fight") Fight!
+                  else
+                    span(data-i18n="ladder.defeat_the") Defeat the
+                    |
+                    | #{team.otherTeamDisplayName}
+ 
 
         if !team.matches.length
           tr
