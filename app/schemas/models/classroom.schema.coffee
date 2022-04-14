@@ -69,6 +69,7 @@ _.extend ClassroomSchema.properties,
     }
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }
+  lmsClassroomId: { title: 'LMS classroom id', type: 'string' }
   grades: c.array { title: 'Class Grades' }, { type: 'string', enum: ['elementary','middle','high'] }
   settings: c.object {title: 'Classroom Settings', required: []}, {
     optionsEditable: { type: 'boolean', description: 'Allow teacher to use these settings.', default: false }
