@@ -220,7 +220,7 @@ module.exports = class LeaderboardView extends CocoView
     name
 
   getAgeBracket: (model) ->
-    $.i18n.t("ladder.bracket_#{(model.get('ageBracket') || 'open').replace(/-/g, '_')}")
+    $.i18n.t("ladder.bracket_#{(model.get('ageBracket') || model.ageBracket || 'open').replace(/-/g, '_')}")
 
   correctScore: (model) ->
     sessionStats = if @league then _.find(model.get('leagues'), {leagueID: @league.id})?.stats else model.attributes
