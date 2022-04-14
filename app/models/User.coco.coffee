@@ -576,6 +576,14 @@ module.exports = class User extends CocoModel
     options.data.facebookAccessToken = application.facebookHandler.token()
     @fetch(options)
 
+  loginEdLinkUser: (code, options={}) ->
+    options.url = '/auth/login-ed-link'
+    options.type = 'POST'
+    options.xhrFields = { withCredentials: true }
+    options.data ?= {}
+    options.data.code = code
+    @fetch(options)
+
   loginPasswordUser: (usernameOrEmail, password, options={}) ->
     options.xhrFields = { withCredentials: true }
     options.url = '/auth/login'
@@ -741,6 +749,7 @@ module.exports = class User extends CocoModel
   hideOtherProductCTAs: -> @isTarena() or @isILK() or @isICode()
   useGoogleClassroom: -> not (features?.chinaUx ? false) and @get('gplusID')?   # if signed in using google SSO
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
+  isEdLinkAccount: -> not (features?.chinaUx ? false) and @get('edLink')?
   useDataDog: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
