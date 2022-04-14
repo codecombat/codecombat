@@ -1,8 +1,9 @@
 globalVar = require 'core/globalVar'
+utils = require 'core/utils'
 
-# TODO, add C-style macro constants like this?
+# TODO: move this out of here to where it should go
 window.SPRITE_RESOLUTION_FACTOR = 3
-window.SPRITE_PLACEHOLDER_WIDTH = 60
+window.SPRITE_PLACEHOLDER_WIDTH = 10
 
 # Prevent Ctrl/Cmd + [ / ], P, S
 ctrlDefaultPrevented = [219, 221, 80, 83]
@@ -46,19 +47,18 @@ Application = {
 
     Router = require('core/Router')
     Vue.config.devtools = not @isProduction()
+    Vue.config.ignoredElements = ['stream'] # Used for Cloudflare Cutscene Player and would throw Vue warnings
 
     # propagate changes from global 'me' User to 'me' vuex module
     store = require('core/store')
-
-    routerSync = require('vuex-router-sync')
-    vueRouter = require('app/core/vueRouter').default()
-    routerSync.sync(store, vueRouter)
 
     me.on('change', ->
       store.commit('me/updateUser', me.changedAttributes())
     )
     store.commit('me/updateUser', me.attributes)
     store.commit('updateFeatures', features)
+    if utils.isOzaria
+      store.dispatch('layoutChrome/syncSoundToAudioSystem')
 
     @store = store
     @api = api
@@ -104,6 +104,12 @@ Application = {
       optionsAttr: 'i18n-options'  # data-() attribute that contains options, will load/set if useOptionsAttr = true
       useOptionsAttr: true  # see optionsAttr
       parseDefaultValueFromContent: true  # parses default values from content ele.val or ele.text
+    # We need i18n loaded before setting up router.
+    # Otherwise dependencies can't use i18n.
+    routerSync = require('vuex-router-sync')
+    vueRouter = require('app/core/vueRouter').default()
+    routerSync.sync(store, vueRouter)
+
     @router = new Router()
     @userIsIdle = false
     onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
@@ -116,6 +122,7 @@ Application = {
     @idleTracker.start()
 
   checkForNewAchievement: ->
+    return if utils.isOzaria  # Not needed until/unlesss we start using achievements in Ozaria
     if me.get('lastAchievementChecked')
       startFrom = new Date(me.get('lastAchievementChecked'))
     else
@@ -132,7 +139,8 @@ Application = {
     clear: -> api.admin.clearFeatureMode().then(-> document.location.reload())
   }
 
-  isProduction: -> document.location.href.search('https?://localhost') is -1
+  isProduction: ->
+    document.location.href.search('https?://localhost') is -1
 
   loadedStaticPage: window.alreadyLoadedView?
 

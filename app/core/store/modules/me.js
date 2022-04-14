@@ -11,6 +11,10 @@ export default {
   state: _.cloneDeep(emptyUser),
 
   getters: {
+    currentUserId (state) {
+      return state._id
+    },
+
     isInGodMode (state) {
       return ((state || {}).permissions || []).indexOf(User.PERMISSIONS.GOD_MODE) > -1 || ((state || {}).permissions || []).indexOf(User.PERMISSIONS.ONLINE_TEACHER) > -1
     },
@@ -111,6 +115,17 @@ export default {
           me.set(updates) // will also call updateUser
           return state
         })
+    },
+
+    setCh1Avatar ({ state, commit }, { cinematicThangTypeId, cinematicPetThangId, avatarCodeString }) {
+      if (!(cinematicThangTypeId && cinematicPetThangId && avatarCodeString)) {
+        throw new Error('Require a cinematicThangTypeId, cinematicPetThangId, and avatarCodeString')
+      }
+
+      const ozariaConfig = state.ozariaUserOptions || {}
+      commit('updateUser', { ozariaUserOptions:
+        { ...ozariaConfig, avatar: { cinematicThangTypeId, cinematicPetThangId, avatarCodeString } }
+      })
     },
 
     authenticated ({ commit }, user) {
