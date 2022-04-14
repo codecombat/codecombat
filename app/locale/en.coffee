@@ -1806,6 +1806,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_standings: "View Standings"
     view_winners: "View Winners"
     classroom_announcement: "Classroom Announcement"
+    link_lms_classroom: "Link LMS Classroom"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"

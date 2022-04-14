@@ -289,6 +289,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'payments/*path': go('core/SingletonAppVueComponentView')
     'ladders/*path': go('core/SingletonAppVueComponentView')
+    'ed-link/*path': go('core/SingletonAppVueComponentView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
