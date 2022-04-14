@@ -123,8 +123,11 @@ module.exports = class TeacherClassesView extends RootView
     @classrooms.fetchByOwner(@teacherID, { data: { includeShared: true } })
     @supermodel.trackCollection(@classrooms)
     @listenTo @classrooms, 'sync', ->
+      sharedClassroomIds = []
       for classroom in @classrooms.models
         continue if classroom.get('archived')
+        if !classroom.isOwner() && classroom.hasReadPermission()
+          sharedClassroomIds.push(classroom.id)
         classroom.sessions = new LevelSessions()
         Promise.all(classroom.sessions.fetchForAllClassroomMembers(
           classroom,
@@ -139,6 +142,9 @@ module.exports = class TeacherClassesView extends RootView
           helper.calculateDots(@classrooms, @courses, @courseInstances)
           @calculateQuestCompletion()
           @render()
+      @sharedCourseInstances = new CourseInstances()
+      @sharedCourseInstances.fetchByClassrooms(sharedClassroomIds)
+      @supermodel.trackCollection(@sharedCourseInstances)
 
     window.tracker?.trackEvent 'Teachers Classes Loaded', category: 'Teachers'
 
@@ -258,6 +264,7 @@ module.exports = class TeacherClassesView extends RootView
 
   onLoaded: ->
     helper.calculateDots(@classrooms, @courses, @courseInstances)
+    helper.calculateDots(@classrooms, @courses, @sharedCourseInstances)
     @calculateQuestCompletion()
 
     showOzariaEncouragementModal = window.localStorage.getItem('showOzariaEncouragementModal')
