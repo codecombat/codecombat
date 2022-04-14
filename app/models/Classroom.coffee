@@ -264,7 +264,7 @@ module.exports = class Classroom extends CocoModel
     result
 
   isOwner: ->
-    return me.id == @get('ownerID')
+    return me.id == @get('ownerID') || me.isAdmin()
 
   getDisplayPermission: ->
     if @isOwner()

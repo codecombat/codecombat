@@ -25,6 +25,7 @@ config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or process.env
 
 if config.unittest
   config.port += 1
+
 config.cookie_secret = process.env.COCO_COOKIE_SECRET or 'chips ahoy'
 
 config.isProduction = false
@@ -42,15 +43,14 @@ if process.env.COCO_PICOCTF
 else
   config.picoCTF = false
 
-
 if not config.unittest and  not config.isProduction
   # change artificially slow down non-static requests for testing
   config.slow_down = false
 
 config.buildInfo = { sha: 'dev' }
 
-if fs.existsSync path.join(__dirname, '.build_info.json')
-  config.buildInfo = JSON.parse fs.readFileSync path.join(__dirname, '.build_info.json'), 'utf8'
+if fs.existsSync path.join(process.env.PWD or __dirname, '.build_info.json')
+  config.buildInfo = JSON.parse fs.readFileSync path.join(process.env.PWD or __dirname, '.build_info.json'), 'utf8'
 
 # This logs a stack trace every time an endpoint sends a response or throws an error.
 # It's great for finding where a mystery endpoint is!

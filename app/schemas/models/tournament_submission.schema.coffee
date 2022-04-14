@@ -39,7 +39,7 @@ _.extend TournamentSubmissionSchema.properties,
   created: c.date
     title: 'Created'
     readOnly: true
-  
+
 
 
 c.extendBasicProperties TournamentSubmissionSchema, 'tournament.submission'

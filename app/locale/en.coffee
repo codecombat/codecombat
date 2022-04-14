@@ -671,6 +671,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     finished_hoc: "I'm finished with my Hour of Code"
     get_certificate: "Get your certificate!"
     level_complete: "Level Complete"
+    level_complete_at: "Level Completed "
     completed_level: "Completed Level:"
     course: "Course:"
     done: "Done"
@@ -851,6 +852,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     fill_in_solution: "Fill in solution"
     play_as_humans: "Play As Red"
     play_as_ogres: "Play As Blue"
+    changed: "Last edited "
 
   apis:
     methods: "Methods"
@@ -1792,6 +1794,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_standings: "View Standings"
     view_winners: "View Winners"
     classroom_announcement: "Classroom Announcement"
+    link_lms_classroom: "Link LMS Classroom"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -3193,7 +3196,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     live_class_booked_thank_you: "Your live class has been booked, thank you!"
     book_your_class: "Book Your Class"
     call_to_book: "Call now to book"
-    student_journey_start: "Congratulations! your student's coding journey is about to begin!"
+    student_journey_start: "Congratulations! Your student's coding journey is about to begin!"
     enter_email_address: "Please provide your email address to get started:"
     enter_parent_email_address: "If you are a student under 18 years of age, please enter your parent or guardian's email address."
     email_sent_success: "Awesome! An email has been sent to the address you provided."
@@ -3405,6 +3408,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season4_announcement_1: "The Tundra Tower Cup Final is on. In this all new take on the classic tower defense gameplay, you must protect your base from the horde of monsters by building towers and using gravitational anomalies."
+    season4_announcement_2: "Note: arena balance adjustments may occur up until April 15th. So be sure to come back often to test your code against the global leaderboard."
     season3_announcement_1: "Time to put your coding skills to the test in our season 3 final arena. The Colossus Clash is live and offers a new challenge and a new leaderboard to climb."
     season3_announcement_2: "Need more practice? Stick with the Giant's Gate Arena to refine your skills. You have until December 14th to play both arenas. Note: arena balance adjustments may occur until December 6th."
     season3_announcement_3: "Great prizes available for top performers in the Colossus Clash:"
@@ -3450,6 +3455,21 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     final_arena: "Final Arena"
     package_options_and_guide: "Package Options & Implementation Guide"
     custom_tournament: "For a Custom Tournament"
+    you_win: "You can win"
+    great_prizes: "great prizes"
+    powered_by: "Powered by"
+    grand_prize: "Grand Prize"
+    scholarship: "Scholarship"
+    top_players_win: "Top three players in each division win: HyperX pro peripherals"
+    team_hyperx: "Team HyperX"
+    earn_more_gear: "you could earn even more gear!"
+    prize_footer1: "Awarded to the top performing player across all age groups."
+    prize_footer2: "Specific products and models subject to change."
+    prize_footer3: "Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena."
+    prize_footer4_1: "Age verification necessary to be eligible. Some prizes are limited to US participants only."
+    coco_reserves: "CodeCombat reserves"
+    prize_footer4_2: "the right to determine in its sole discretion if a player qualifies and will receive a prize."
+    place: "Place" # as in 1st place
 
   tournament:
     mini_tournaments: "Mini Tournaments"

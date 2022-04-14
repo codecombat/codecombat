@@ -10,6 +10,7 @@ require('coffee-script')
 require('coffee-script/register')
 const CompileStaticTemplatesPlugin = require('./compile-static-templates')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const PWD = process.env.PWD || __dirname
 
 console.log('Starting Webpack...')
 
@@ -17,7 +18,7 @@ console.log('Starting Webpack...')
 module.exports = (env) => {
   if (!env) env = {}
   return {
-    context: path.resolve(__dirname),
+    context: path.resolve(PWD),
     entry: {
       // NOTE: If you add an entrypoint, consider updating ViewLoadTimer to track its loading.
       app: './app/app.js',
@@ -37,7 +38,7 @@ module.exports = (env) => {
     output: {
       filename: 'javascripts/[name].js', // TODO: Use chunkhash in layout.static.pug's script tags instead of GIT_SHA
       // chunkFilename is determined by build type
-      path: path.resolve(__dirname, 'public'),
+      path: path.resolve(PWD, 'public'),
       publicPath: '/' // Base URL path webpack tries to load other bundles from
     },
     module: {
@@ -53,6 +54,13 @@ module.exports = (env) => {
         { test: require.resolve('cookieconsent'), use: 'exports-loader?cookieconsent' },
         { test: /\.vue$/, use: [{ loader: 'vue-loader' }] },
         { test: /vendor\/scripts\/async.js/, use: [ { loader: 'imports-loader?root=>window' } ] },
+        {
+          test: /\.worker\.(c|m)?js$/i,
+          loader: "worker-loader",
+          options: {
+            esModule: false,
+          },
+        },
         { test: /\.js$/,
           exclude: /(node_modules|bower_components|vendor)/,
           use: [{
@@ -192,12 +200,12 @@ module.exports = (env) => {
       new MiniCssExtractPlugin({ // Move CSS into external file
         filename: 'stylesheets/[name].css',
         chunkFilename: 'stylesheets/[name]-[contenthash].css',
-        ignoreOrder: true
+        ignoreOrder: true, // too many conflict warnings because of TestView, ignoring till those conflicts are fixed or that route is disabled
       }),
       new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
         $: 'jquery',
         jQuery: 'jquery',
-        application: path.resolve(__dirname, 'app/core/application')
+        application: path.resolve(PWD, 'app/core/application')
       }),
       new webpack.IgnorePlugin({ resourceRegExp: /\/fonts\/bootstrap\/.*$/ }), // Ignore Bootstrap's fonts
       new webpack.IgnorePlugin({ resourceRegExp: /^memwatch$/ }), // Just used by the headless client on the server side
@@ -214,6 +222,7 @@ module.exports = (env) => {
       // new webpack.IgnorePlugin(/\/ladder\//),
       // new webpack.IgnorePlugin(/\/teachers\//),
       // new webpack.IgnorePlugin(/\/play\//),
+
       new CopyWebpackPlugin({
         patterns: [
           // NOTE: If you add a static asset, consider updating ViewLoadTimer to track its loading.
@@ -245,9 +254,11 @@ module.exports = (env) => {
       }),
       new VueLoaderPlugin(),
       new webpack.ProvidePlugin({
-        process: 'process/browser' // because of algoliasearch which needs access to process: https://github.com/algolia/docsearch/issues/980
+        process: 'process/browser', // because of algoliasearch which needs access to process: https://github.com/algolia/docsearch/issues/980
+        Buffer: ['buffer', 'Buffer']
       })
     ],
+    optimization: {},
     stats: 'minimal'
   }
 }

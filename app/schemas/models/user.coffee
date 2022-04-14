@@ -77,6 +77,7 @@ _.extend UserSchema.properties,
   githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
   cleverID: c.shortString({title: 'Clever ID'})
+  edLinkID: c.shortString({title: 'Clever ID'})
   oAuthIdentities: {
     description: 'List of OAuth identities this user has.'
     type: 'array'
@@ -218,12 +219,13 @@ _.extend UserSchema.properties,
     })
 
   aceConfig: c.object { default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true }},
-    language: {type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'lua', 'java', 'cpp']}
-    keyBindings: {type: 'string', 'enum': ['default', 'vim', 'emacs']}  # Deprecated 2016-05-30; now we just always give them 'default'.
-    invisibles: {type: 'boolean' }
-    indentGuides: {type: 'boolean' }
-    behaviors: {type: 'boolean' }
-    liveCompletion: {type: 'boolean' }
+    language: { type: 'string', 'enum': ['python', 'javascript', 'coffeescript', 'lua', 'java', 'cpp'] }
+    keyBindings: { type: 'string', 'enum': ['default', 'vim', 'emacs'] }  # Deprecated 2016-05-30; now we just always give them 'default'.
+    invisibles: { type: 'boolean' }
+    indentGuides: { type: 'boolean' }
+    behaviors: { type: 'boolean' }
+    liveCompletion: { type: 'boolean' }
+    screenReaderMode: { type: 'boolean' }
 
   simulatedBy: {type: 'integer', minimum: 0 }
   simulatedFor: {type: 'integer', minimum: 0 }
@@ -447,6 +449,15 @@ _.extend UserSchema.properties,
             { staffCreator: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) }  # any other external payment source options?
             # ... etc. for each possible payment service ...
           ]
+  edLink: c.object {}, {
+    profileId: { type: 'string' }
+    refreshToken: { type: 'string', description: 'token to get access token to get user details' }
+    identifiers: c.array { description: 'identifiers to canvas, clever etc' },
+      c.object {}, {
+        iType: { type: 'string' }
+        iValue: { type: 'string' }
+      }
+  }
 
 
 c.extendBasicProperties UserSchema, 'user'

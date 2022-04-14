@@ -1,5 +1,8 @@
 slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
 
+isCodeCombat = true
+isOzaria = false
+
 clone = (obj) ->
   return obj if obj is null or typeof (obj) isnt 'object'
   temp = obj.constructor()
@@ -121,89 +124,204 @@ titleize = (s) ->
   # Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
   _.string.titleize(_.string.humanize(s)).replace(/ (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig, (word) => word.toLowerCase())
 
-campaignIDs =
-  INTRO: '55b29efd1cd6abe8ce07db0d'
+if isCodeCombat
+  campaignIDs =
+    INTRO: '55b29efd1cd6abe8ce07db0d'
 
-freeCampaignIds = [campaignIDs.INTRO] # CS1 campaign
-internalCampaignIds = [] # Ozaria has one of these, CoCo doesn't
+  freeCampaignIds = [campaignIDs.INTRO] # CS1 campaign
+  internalCampaignIds = [] # Ozaria has one of these, CoCo doesn't
 
-courseIDs =
-  INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
-  GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
-  WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f'
-  COMPUTER_SCIENCE_2: '5632661322961295f9428638'
-  GAME_DEVELOPMENT_2: '57b621e7ad86a6efb5737e64'
-  WEB_DEVELOPMENT_2: '5789587aad86a6efb5737020'
-  COMPUTER_SCIENCE_3: '56462f935afde0c6fd30fc8c'
-  GAME_DEVELOPMENT_3: '5a0df02b8f2391437740f74f'
-  COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d'
-  COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
-  COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
+  courseIDs =
+    INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'
+    GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e'
+    WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f'
+    COMPUTER_SCIENCE_2: '5632661322961295f9428638'
+    GAME_DEVELOPMENT_2: '57b621e7ad86a6efb5737e64'
+    WEB_DEVELOPMENT_2: '5789587aad86a6efb5737020'
+    COMPUTER_SCIENCE_3: '56462f935afde0c6fd30fc8c'
+    GAME_DEVELOPMENT_3: '5a0df02b8f2391437740f74f'
+    COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d'
+    COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
+    COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
 
-CSCourseIDs = [
-  courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
-  courseIDs.COMPUTER_SCIENCE_2
-  courseIDs.COMPUTER_SCIENCE_3
-  courseIDs.COMPUTER_SCIENCE_4
-  courseIDs.COMPUTER_SCIENCE_5
-  courseIDs.COMPUTER_SCIENCE_6
-]
-WDCourseIDs = [
-  courseIDs.WEB_DEVELOPMENT_1
-  courseIDs.WEB_DEVELOPMENT_2
-]
-orderedCourseIDs = [
-  courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
-  courseIDs.GAME_DEVELOPMENT_1
-  courseIDs.WEB_DEVELOPMENT_1
-  courseIDs.COMPUTER_SCIENCE_2
-  courseIDs.GAME_DEVELOPMENT_2
-  courseIDs.WEB_DEVELOPMENT_2
-  courseIDs.COMPUTER_SCIENCE_3
-  courseIDs.GAME_DEVELOPMENT_3
-  courseIDs.COMPUTER_SCIENCE_4
-  courseIDs.COMPUTER_SCIENCE_5
-  courseIDs.COMPUTER_SCIENCE_6
-]
+  CSCourseIDs = [
+    courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+    courseIDs.COMPUTER_SCIENCE_2
+    courseIDs.COMPUTER_SCIENCE_3
+    courseIDs.COMPUTER_SCIENCE_4
+    courseIDs.COMPUTER_SCIENCE_5
+    courseIDs.COMPUTER_SCIENCE_6
+  ]
+  WDCourseIDs = [
+    courseIDs.WEB_DEVELOPMENT_1
+    courseIDs.WEB_DEVELOPMENT_2
+  ]
+  orderedCourseIDs = [
+    courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+    courseIDs.GAME_DEVELOPMENT_1
+    courseIDs.WEB_DEVELOPMENT_1
+    courseIDs.COMPUTER_SCIENCE_2
+    courseIDs.GAME_DEVELOPMENT_2
+    courseIDs.WEB_DEVELOPMENT_2
+    courseIDs.COMPUTER_SCIENCE_3
+    courseIDs.GAME_DEVELOPMENT_3
+    courseIDs.COMPUTER_SCIENCE_4
+    courseIDs.COMPUTER_SCIENCE_5
+    courseIDs.COMPUTER_SCIENCE_6
+  ]
 
-courseNumericalStatus = {}
-courseNumericalStatus['NO_ACCESS'] = 0
-courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 1
-courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 2
-courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 4
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 8
-courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 16
-courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 32
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 64
-courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 128
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
-courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
-courseNumericalStatus['FULL_ACCESS'] = 2047
+  courseNumericalStatus = {}
+  courseNumericalStatus['NO_ACCESS'] = 0
+  courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 1
+  courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 2
+  courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 4
+  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 8
+  courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 16
+  courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 32
+  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 64
+  courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 128
+  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
+  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
+  courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
+  courseNumericalStatus['FULL_ACCESS'] = 2047
 
+  courseAcronyms = {}
+  courseAcronyms[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
+  courseAcronyms[courseIDs.GAME_DEVELOPMENT_1] = 'GD1'
+  courseAcronyms[courseIDs.WEB_DEVELOPMENT_1] = 'WD1'
+  courseAcronyms[courseIDs.COMPUTER_SCIENCE_2] = 'CS2'
+  courseAcronyms[courseIDs.GAME_DEVELOPMENT_2] = 'GD2'
+  courseAcronyms[courseIDs.WEB_DEVELOPMENT_2] = 'WD2'
+  courseAcronyms[courseIDs.COMPUTER_SCIENCE_3] = 'CS3'
+  courseAcronyms[courseIDs.GAME_DEVELOPMENT_3] = 'GD3'
+  courseAcronyms[courseIDs.COMPUTER_SCIENCE_4] = 'CS4'
+  courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
+  courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
 
-courseAcronyms = {}
-courseAcronyms[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
-courseAcronyms[courseIDs.GAME_DEVELOPMENT_1] = 'GD1'
-courseAcronyms[courseIDs.WEB_DEVELOPMENT_1] = 'WD1'
-courseAcronyms[courseIDs.COMPUTER_SCIENCE_2] = 'CS2'
-courseAcronyms[courseIDs.GAME_DEVELOPMENT_2] = 'GD2'
-courseAcronyms[courseIDs.WEB_DEVELOPMENT_2] = 'WD2'
-courseAcronyms[courseIDs.COMPUTER_SCIENCE_3] = 'CS3'
-courseAcronyms[courseIDs.GAME_DEVELOPMENT_3] = 'GD3'
-courseAcronyms[courseIDs.COMPUTER_SCIENCE_4] = 'CS4'
-courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
-courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
+  # Ozaria uses this
+  courseModules = {}
 
-courseLessonSlidesURLs = {}
-unless features?.china
-  courseLessonSlidesURLs[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'https://drive.google.com/drive/folders/1YU7LEZ6TLQzbAsSMw90nNJfvU7gDrcid?usp=sharing'
-  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_2] = 'https://drive.google.com/drive/folders/1x24P6ZY_MBOBoHvlikbDr7jvMPYVRVkJ?usp=sharing'
-  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_3] = 'https://drive.google.com/drive/folders/1hBl-h5Xvo5chYH4q9e6IEo42JozlrTG9?usp=sharing'
-  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_4] = 'https://drive.google.com/drive/folders/1tbuE4Xn0ahJ0xcF1-OaiPs9lHeIs9zqG?usp=sharing'
-  courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_5] = 'https://drive.google.com/drive/folders/1ThxWFZjoXzU5INtMzlqKEn8xkgHhVnl4?usp=sharing'
-  courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_1] = 'https://drive.google.com/drive/folders/1YSJ9wcfHRJ2854F-vUdSWqoLBuSJye7V?usp=sharing'
-  courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_2] = 'https://drive.google.com/drive/folders/1Mks2MA-WGMrwNpZj6VtKkL3loPnHp_bs?usp=sharing'
+  courseLessonSlidesURLs = {}
+  unless features?.china
+    courseLessonSlidesURLs[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'https://drive.google.com/drive/folders/1YU7LEZ6TLQzbAsSMw90nNJfvU7gDrcid?usp=sharing'
+    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_2] = 'https://drive.google.com/drive/folders/1x24P6ZY_MBOBoHvlikbDr7jvMPYVRVkJ?usp=sharing'
+    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_3] = 'https://drive.google.com/drive/folders/1hBl-h5Xvo5chYH4q9e6IEo42JozlrTG9?usp=sharing'
+    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_4] = 'https://drive.google.com/drive/folders/1tbuE4Xn0ahJ0xcF1-OaiPs9lHeIs9zqG?usp=sharing'
+    courseLessonSlidesURLs[courseIDs.COMPUTER_SCIENCE_5] = 'https://drive.google.com/drive/folders/1ThxWFZjoXzU5INtMzlqKEn8xkgHhVnl4?usp=sharing'
+    courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_1] = 'https://drive.google.com/drive/folders/1YSJ9wcfHRJ2854F-vUdSWqoLBuSJye7V?usp=sharing'
+    courseLessonSlidesURLs[courseIDs.GAME_DEVELOPMENT_2] = 'https://drive.google.com/drive/folders/1Mks2MA-WGMrwNpZj6VtKkL3loPnHp_bs?usp=sharing'
+
+  hourOfCodeOptions = {
+    campaignId: freeCampaignIds[0],
+    courseId: courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
+    name: 'Introduction to Computer Science',
+    progressModalAfter: 1500000 #25 mins
+  }
+else
+  campaignIDs =
+    CHAPTER_ONE: '5d1a8368abd38e8b5363bad9'
+
+  freeCampaignIds = [campaignIDs.CHAPTER_ONE] # CH1 campaign
+  internalCampaignIds = ['5eb34fc8dc0fd35e8eae66b0'] # CH2 playtest
+
+  courseIDs =
+    CHAPTER_ONE: '5d41d731a8d1836b5aa3cba1'
+    CHAPTER_TWO: '5d8a57abe8919b28d5113af1'
+    CHAPTER_TWO_PLAYTEST: '5eb34fc8dc0fd35e8eae66b0'
+    CHAPTER_THREE: '5e27600d1c9d440000ac3ee7'
+    CHAPTER_FOUR: '5f0cb0b7a2492bba0b3520df'
+
+  CSCourseIDs = [
+    courseIDs.CHAPTER_ONE
+    courseIDs.CHAPTER_TWO
+    courseIDs.CHAPTER_THREE
+    courseIDs.CHAPTER_FOUR
+  ]
+  WDCourseIDs = []
+  orderedCourseIDs = [
+    courseIDs.CHAPTER_ONE
+    courseIDs.CHAPTER_TWO
+    courseIDs.CHAPTER_TWO_PLAYTEST
+    courseIDs.CHAPTER_THREE
+    courseIDs.CHAPTER_FOUR
+  ]
+
+  # TODO: how can we support Ozaria-specific or mixed licenses? Copied these from CodeCombat, but they are not Ozaria courses
+  courseNumericalStatus = {}
+  courseNumericalStatus['NO_ACCESS'] = 0
+  #courseNumericalStatus[courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 1
+  #courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_1] = 2
+  #courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_1] = 4
+  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_2] = 8
+  #courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_2] = 16
+  #courseNumericalStatus[courseIDs.WEB_DEVELOPMENT_2] = 32
+  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_3] = 64
+  #courseNumericalStatus[courseIDs.GAME_DEVELOPMENT_3] = 128
+  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_4] = 256
+  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_5] = 512
+  #courseNumericalStatus[courseIDs.COMPUTER_SCIENCE_6] = 1024
+  courseNumericalStatus['FULL_ACCESS'] = 2047
+
+  courseAcronyms = {}
+  courseAcronyms[courseIDs.CHAPTER_ONE] = 'CH1'
+  courseAcronyms[courseIDs.CHAPTER_TWO] = 'CH2'
+  courseAcronyms[courseIDs.CHAPTER_TWO_PLAYTEST] = 'CH2P'
+  courseAcronyms[courseIDs.CHAPTER_THREE] = 'CH3'
+  courseAcronyms[courseIDs.CHAPTER_FOUR] = 'CH4'
+
+  # Harcoding module names for simplicity
+  # Use db to store these later when we add sophisticated module functionality, right now its only used for UI
+  courseModules = {}
+  courseModules[courseIDs.CHAPTER_ONE] = {
+    '1': 'Introduction to Coding'
+  }
+  courseModules[courseIDs.CHAPTER_TWO] = {
+    '1': 'Algorithms and Syntax',
+    '2': 'Debugging',
+    '3': 'Variables',
+    '4': 'Conditionals',
+    '5': 'Capstone Intro',
+    '6': 'Capstone Project'
+  }
+  courseModules[courseIDs.CHAPTER_TWO_PLAYTEST] = {
+    '1': 'Algorithms and Syntax',
+    '2': 'Debugging',
+    '3': 'Variables',
+    '4': 'Conditionals',
+    '5': 'Capstone Intro',
+    '6': 'Capstone Project'
+  }
+  courseModules[courseIDs.CHAPTER_THREE] = {
+    '1': 'Review',
+    '2': 'For Loops',
+    '3': 'Nesting',
+    '4': 'While Loops',
+    '5': 'Capstone'
+  }
+  courseModules[courseIDs.CHAPTER_FOUR] = {
+    '1': 'Compound Conditionals',
+    '2': 'Functions and Data Analysis',
+    '3': 'Writing Functions',
+    '4': 'Capstone'
+  }
+
+  # CodeCombat uses this, for now
+  courseLessonSlidesURLs = {}
+
+  hourOfCodeOptions = {
+    campaignId: freeCampaignIds[0],
+    courseId: courseIDs.CHAPTER_ONE,
+    name: 'Chapter 1: Up The Mountain',
+    progressModalAfter: 1500000 #25 mins
+  }
+
+registerHocProgressModalCheck = ->
+  hocProgressModalCheck = setInterval(() =>
+    if window.sessionStorage?.getItem('hoc_progress_modal_time') < new Date().getTime()
+      window.sessionStorage.setItem('show_hoc_progress_modal', true)
+      window.sessionStorage.removeItem('hoc_progress_modal_time')
+      clearInterval(hocProgressModalCheck)
+  , 60000) # every 1 min
 
 petThangIDs = [
   '578d320d15e2501f00a585bd' # Wolf Pup
@@ -225,6 +343,23 @@ premiumContent =
   totalHeroesCount: '19'
   premiumLevelsCount: '531'
   freeLevelsCount: '5'
+
+# Ozaria-specific
+# adds displayName and learning goals from intro levels content to the intro level given
+addIntroLevelContent = (introLevel, introLevelsContent) ->
+  if introLevel.get('type') == 'intro' && (introLevel.get('introContent') || []).length > 0 && introLevelsContent
+    introLevel.get('introContent').forEach((c) =>
+      return if c.type == 'avatarSelectionScreen'
+      if typeof c.contentId is 'object' # contentId can be an object if interactive is different for python/js
+        # for simplicity, assuming that the display name/learning goals will be same for a given interactive in python/js
+        introLevelData = introLevelsContent[c.contentId.python] || {}
+      else
+        introLevelData = introLevelsContent[c.contentId] || {}
+      c.displayName = i18n(introLevelData, 'displayName') || i18n(introLevelData, 'name')
+      learningGoals = ((introLevelData.documentation || {}).specificArticles || []).find((a) => a.name == 'Learning Goals')
+      if learningGoals
+        c.learningGoals = i18n(learningGoals, 'body')
+    )
 
 normalizeFunc = (func_thing, object) ->
   # func could be a string to a function in this class
@@ -886,9 +1021,6 @@ isOldBrowser = () ->
     return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
   return false
 
-isCodeCombat = true
-isOzaria = false
-
 arenas = [
   {slug: 'blazing-battle'   , type: 'regular',      start: new Date("2021-01-01T00:00:00.000-07:00"), end: new Date("2021-05-01T00:00:00.000-08:00"), results: new Date("2021-05-01T00:00:00.000-08:00"), levelOriginal: '5fca06dc8b4da8002889dbf1', tournament: '608cea0f8f2b971478556ac6', image: '/file/db/level/5fca06dc8b4da8002889dbf1/Blazing Battle Final cut.jpg'}
   {slug: 'infinite-inferno' , type: 'championship', start: new Date("2021-04-01T00:00:00.000-08:00"), end: new Date("2021-05-01T00:00:00.000-08:00"), results: new Date("2021-05-01T00:00:00.000-08:00"), levelOriginal: '602cdc204ef0480075fbd954', tournament: '608cd3f814fa0bf9f1c1f928', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
@@ -967,6 +1099,7 @@ orgKindString = (kind, org=null) ->
 module.exports = {
   activeAndPastArenas
   activeArenas
+  addIntroLevelContent
   addressesIncludeAdministrativeRegion
   ageBrackets
   ageBracketsChina
@@ -985,6 +1118,7 @@ module.exports = {
   courseAcronyms
   courseIDs
   courseLessonSlidesURLs
+  courseModules
   courseNumericalStatus
   CSCourseIDs
   WDCourseIDs
@@ -1010,6 +1144,7 @@ module.exports = {
   getUTCDay
   grayscale
   hexToHSL
+  hourOfCodeOptions
   hslToHex
   i18n
   inEU
@@ -1030,6 +1165,7 @@ module.exports = {
   pathToUrl
   petThangIDs
   premiumContent
+  registerHocProgressModalCheck
   replaceText
   round
   sortCourses

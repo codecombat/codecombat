@@ -5,10 +5,8 @@ LevelConstants = require 'lib/LevelConstants'
 utils = require 'core/utils'
 api = require 'core/api'
 co = require 'co'
-moment = require 'moment'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
-paymentUtils = require 'app/lib/paymentUtils'
 fetchJson = require 'core/api/fetch-json'
 
 # Pure functions for use in Vue
@@ -172,6 +170,24 @@ module.exports = class User extends CocoModel
       return true if courseInstance.get('ownerID') in @get('administratedTeachers')
 
     return false
+
+  getHocCourseInstanceId: () ->
+    courseInstanceIds = me.get('courseInstances') || []
+    return if courseInstanceIds.length == 0
+    courseInstancePromises = []
+    courseInstanceIds.forEach((id) =>
+      courseInstancePromises.push(api.courseInstances.get({ courseInstanceID: id }))
+    )
+
+    Promise.all(courseInstancePromises)
+    .then (courseInstances) =>
+      courseInstancesHoc = courseInstances.filter((c) => c.courseID == utils.hourOfCodeOptions.courseId)
+      return if (courseInstancesHoc.length == 0)
+      return courseInstancesHoc[0]._id if (courseInstancesHoc.length == 1)
+      # return the latest course instance id if there are multiple
+      courseInstancesHoc = _.sortBy(courseInstancesHoc, (c) -> c._id)
+      return _.last(courseInstancesHoc)._id
+    .catch (err) => console.error("Error in fetching hoc course instance", err)
 
   isSessionless: ->
     Boolean((utils.getQueryVariable('dev', false) or @isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
@@ -560,6 +576,14 @@ module.exports = class User extends CocoModel
     options.data.facebookAccessToken = application.facebookHandler.token()
     @fetch(options)
 
+  loginEdLinkUser: (code, options={}) ->
+    options.url = '/auth/login-ed-link'
+    options.type = 'POST'
+    options.xhrFields = { withCredentials: true }
+    options.data ?= {}
+    options.data.code = code
+    @fetch(options)
+
   loginPasswordUser: (usernameOrEmail, password, options={}) ->
     options.xhrFields = { withCredentials: true }
     options.url = '/auth/login'
@@ -725,6 +749,8 @@ module.exports = class User extends CocoModel
   hideOtherProductCTAs: -> @isTarena() or @isILK() or @isICode()
   useGoogleClassroom: -> not (features?.chinaUx ? false) and @get('gplusID')?   # if signed in using google SSO
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
+  isEdLinkAccount: -> not (features?.chinaUx ? false) and @get('edLink')?
+  useDataDog: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" # teacher can only access CS1 freely in China
@@ -749,8 +775,34 @@ module.exports = class User extends CocoModel
   useStripe: -> (not ((features?.china ? false) or (features?.chinaInfra ? false))) and (@get('preferredLanguage') isnt 'nl-BE')
   canDeleteAccount: -> not (features?.china ? false)
   canAutoFillCode: -> @isAdmin() || @isTeacher() || @isInGodMode()
-tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
 
+  # Ozaria flags
+  hasCinematicEditorAccess: -> @isAdmin()
+  hasCutsceneEditorAccess: -> @isAdmin()
+  hasInteractiveEditorAccess: -> @isAdmin()
+
+  # google classroom flags for new teacher dashboard, remove `useGoogleClassroom` when old dashboard disabled
+  showGoogleClassroom: -> not (features?.chinaUx ? false)
+  googleClassroomEnabled: -> me.get('gplusID')?
+
+  # Block access to paid campaigns(any campaign other than CH1) for anonymous users + non-admin, non-internal individual users.
+  # Scenarios where a user has access to a campaign:
+  #   - Admin or internal user
+  #   - Free campaigns
+  #   - Student with full license
+  #   - Teacher
+  # Update in server/models/User also, if updated here.
+  hasCampaignAccess: (campaignData) ->
+    return true if utils.freeCampaignIds.includes(campaignData._id)
+    return true if @isAdmin() or @isInternal()
+
+    return true if User.isTeacher(@attributes) # TODO revisit this - we may want to restrict unpaid teachers
+    return true if @isStudent() # TODO this should validate the student license, but we currently check this else where
+
+    return false
+
+
+tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
   5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15
 ]
 

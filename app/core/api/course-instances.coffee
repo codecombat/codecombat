@@ -15,4 +15,9 @@ module.exports = {
     fetchJson("/db/course_instance", {
       data: { ownerID: ownerID }
     })
+
+  fetchByClassrooms: (classroomIds) ->
+    fetchJson("/db/course_instance/-/by-classrooms", {
+      data: { classroomIds }
+    })
 }

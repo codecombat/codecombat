@@ -57,8 +57,9 @@ compile = (contents, locals, filename, cb) ->
     locals.me.useSocialSignOn = -> not (locals.chinaInfra ? false)
     locals.me.useGoogleAnalytics = -> not (locals.chinaInfra ? false)
     locals.me.useStripe = -> not (locals.chinaInfra ? false)
-    # Netease Qiyu Live Chat Plugin
-    locals.me.useQiyukf = -> locals.chinaInfra ? false
+    locals.me.useQiyukf = -> locals.chinaInfra ? false  # Netease Qiyu Live Chat Plugin
+    locals.me.useDataDog = -> not (locals.chinaInfra ? false)
+    locals.me.showChinaVideo = -> locals.chinaInfra ? false
     str = outFn(locals)
   catch e
     console.log "Compile", filename, basePath
@@ -118,7 +119,6 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
       locals = _.merge({}, @options.locals, {
         chunkPaths: chunkPaths
       })
-
       try
         compile(content, locals, filename, _.noop)
         console.log "\nCompiled static file: #{filename}"
