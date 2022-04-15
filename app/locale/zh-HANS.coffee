@@ -616,7 +616,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ladder: "升级比赛"
     when: "时间"
     opponent: "对手"
-    opponent_team: "对方阵营"
+    opponent_and_team: "对手/阵营"
     rank: "等级"
     score: "分数"
     win: "胜利"
