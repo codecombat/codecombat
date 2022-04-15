@@ -6,6 +6,7 @@ forms = require 'core/forms'
 errors = require 'core/errors'
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 globalVar = require 'core/globalVar'
+classroomsApi = require 'core/api/classrooms'
 
 initializeFilePicker = ->
   require('core/services/filepicker')() unless globalVar.application.isIPadApp
@@ -22,14 +23,24 @@ module.exports = class ClassroomSettingsModal extends ModalView
     'click #link-google-classroom-btn': 'onClickLinkGoogleClassroom'
     'click .create-manually': 'onClickCreateManually'
     'click .pick-image-button': 'onPickImage'
+    'click #link-lms-classroom-btn': 'onClickLinkLMSClassroom'
 
   initialize: (options={}) ->
     @classroom = options.classroom or new Classroom()
     @googleClassrooms = me.get('googleClassrooms') || []
+    @lmsClassrooms = []
     @isGoogleClassroom = false
     @enableCpp = me.enableCpp()
     @uploadFilePath = "db/classroom/#{@classroom.id}"
     initializeFilePicker()
+    if @shouldShowLMSButton()
+      classroomsApi.getEdLinkClassrooms().then((resp) =>
+        @lmsClassrooms = resp.data
+        if @showLMSDropDown
+          @render()
+          $('.class-name').hide()
+      )
+    @showLMSDropDown = false
 
   afterRender: ->
     super()
@@ -48,11 +59,16 @@ module.exports = class ClassroomSettingsModal extends ModalView
       forms.setErrorToProperty(form, 'language', $.i18n.t('common.required_field'))
       return
 
-    if !@isGoogleClassroom
+    if !@isGoogleClassroom and !@showLMSDropDown
       delete attrs.googleClassroomId
+      delete attrs.lmsClassroomId
     else if attrs.googleClassroomId
       gClass = me.get('googleClassrooms').find((c)=>c.id==attrs.googleClassroomId)
       attrs.name = gClass.name
+      delete attrs.lmsClassroomId
+    else if attrs.lmsClassroomId
+      attrs.name = @lmsClassrooms.find((c)=>c.id==attrs.lmsClassroomId).name
+      delete attrs.googleClassroomId
     else
       forms.setErrorToProperty(form, 'googleClassroomId', $.i18n.t('common.required_field'))
       return
@@ -90,6 +106,14 @@ module.exports = class ClassroomSettingsModal extends ModalView
 
   shouldShowGoogleClassroomButton: ->
     me.useGoogleClassroom() && @classroom.isNew()
+
+  shouldShowLMSButton: ->
+    me.isEdLinkAccount()
+
+  onClickLinkLMSClassroom: ->
+    @showLMSDropDown = true
+    @render()
+    $('.class-name').hide()
 
   onClickLinkGoogleClassroom: ->
     $('#link-google-classroom-btn').text("Linking...")

@@ -672,6 +672,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     finished_hoc: "我完成了我的编程练习时间"
     get_certificate: "获取你的证书！"
     level_complete: "关卡已完成"
+    level_complete_at: "关卡完成于"
     completed_level: "完成关卡:"
     course: "课程:"
     done: "完成"
@@ -852,6 +853,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    fill_in_solution: "Fill in solution"
     play_as_humans: "扮演红方"
     play_as_ogres: "扮演蓝方"
+    changed: "最后修改于"
 
   apis:
     methods: "函数"

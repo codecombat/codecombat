@@ -671,6 +671,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     finished_hoc: "I'm finished with my Hour of Code"
     get_certificate: "Get your certificate!"
     level_complete: "Level Complete"
+    level_complete_at: "Level Completed "
     completed_level: "Completed Level:"
     course: "Course:"
     done: "Done"
@@ -851,6 +852,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     fill_in_solution: "Fill in solution"
     play_as_humans: "Play As Red"
     play_as_ogres: "Play As Blue"
+    changed: "Last edited "
 
   apis:
     methods: "Methods"
@@ -1792,6 +1794,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_standings: "View Standings"
     view_winners: "View Winners"
     classroom_announcement: "Classroom Announcement"
+    link_lms_classroom: "Link LMS Classroom"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
