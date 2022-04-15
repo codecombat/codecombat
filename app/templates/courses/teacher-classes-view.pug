@@ -193,7 +193,7 @@ mixin createClassButton
 mixin progressDot(classroom, course, label)
   //- TODO: inefficient. Cache this in the view?
   - courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
-  if !courseInstance
+  if !courseInstance && view.sharedCourseInstances
     - courseInstance = view.sharedCourseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
   - var total = classroom.get('members').length
   - var complete = 0;
