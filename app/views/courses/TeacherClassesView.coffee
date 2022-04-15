@@ -140,6 +140,8 @@ module.exports = class TeacherClassesView extends RootView
         .then (results) =>
           return if @destroyed
           helper.calculateDots(@classrooms, @courses, @courseInstances)
+          if @sharedCourseInstances
+            helper.calculateDots(@classrooms, @courses, @sharedCourseInstances)
           @calculateQuestCompletion()
           @render()
       if sharedClassroomIds.length
