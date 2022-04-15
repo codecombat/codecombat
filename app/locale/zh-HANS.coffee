@@ -1858,7 +1858,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_account_explanation: "老师账号可以让你设立教室，当学生们学完课程后可以查看他们的进度，管理许可证以及查看相应的帮助文档以辅助构建课堂。"
     current_classes: "当前班级"
     archived_classes: "已归档的班级"
-#    shared_classes: "Shared Classes"
+    shared_classes: "共管班级"
     archived_classes_blurb: "您可以把班级归档，便于后续查阅。课程可以解档课程，并在当前课程列表中再次查看。"
     view_class: "查看班级"
 #    view_ai_league_team: "View AI League team"
