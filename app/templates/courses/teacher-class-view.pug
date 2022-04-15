@@ -638,7 +638,7 @@ if classroom.loaded
           span(data-i18n='courses.add_students')
           span :
         +copyCodes
-        if !state.get('readOnly')
+        if !state.get('readOnly') && !me.showChinaResourceInfo()
           +addStudentsButton
 
     if view.students.length > 0
