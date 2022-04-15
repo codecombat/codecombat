@@ -615,7 +615,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ladder: "Ladder"
     when: "When"
     opponent: "Opponent"
-    opponent_and_team: "Opponent/Team"
+    opponent_and_team: "Opponent"
     rank: "Rank"
     score: "Score"
     win: "Win"
