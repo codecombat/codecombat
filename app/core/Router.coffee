@@ -193,7 +193,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'impact': () ->
       @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
     'CoCoStar': () ->
-      @routeDirectly('PageStar', [], { vueRoute: true, baseTemplate: 'base-flat' })
+      @routeDirectly('PageStar', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
 
     'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
     'league/kipp': redirect('/league/autoclan-school-network-kipp') # Redirect for KIPP.
