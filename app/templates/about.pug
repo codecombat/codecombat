@@ -22,9 +22,10 @@ block content
             li
               a(href="#team")#team-link
                 small.label(data-i18n="about.team_link")
-            //- li
-            //-   a(href="#community")#community-link
-            //-     small.label(data-i18n="nav.community")
+            if me.showOpenResourceLink()
+              li
+                a(href="#community")#community-link
+                  small.label(data-i18n="nav.community")
             li
               a(href="#story")#story-link
                 small.label(data-i18n="about.story_link")
@@ -43,13 +44,8 @@ block content
           #mission-graphic-filler
         .col-sm-5.col-sm-offset-1
           #mission-text.responsive-side-margins
-            p
-              strong(data-i18n="about.mission_teach")
-            p(data-i18n="about.mission_desc_1")
-        .col-sm-12
-          .responsive-side-margins
-            p(data-i18n="about.mission_desc_2")
-            p(data-i18n="about.mission_desc_3")
+            p(data-i18n="[html]about.mission_description_1")
+            p(data-i18n="[html]about.mission_description_2")
 
       #team.anchor
         .text-center
@@ -72,11 +68,11 @@ block content
             .profile-pic
               a(href="http://bryukh.com" rel="external")
                 img(src="/images/pages/about/team-avatars/bryukh-avatar.png").img-thumbnail.avatar
-                img(src="/images/pages/about/team-headshots/bryukh-headshot.jpg").img-thumbnail.headshot
+                img(src="/images/pages/about/team-headshots/bryukh-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name
-                a(href="http://bryukh.com" rel="external") Valentin Bryukhanov
-              small Senior Gameplay Developer
+                a(href="http://bryukh.com" rel="external") Valentin Briukhanov
+              small(data-i18n="about.lgd_title")
               br
 
           li
@@ -86,55 +82,6 @@ block content
             .team-bio
               h6.label.team-name Liz Coluni
               small(data-i18n="about.sism_title")
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/robarev-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/robarev-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Rob Arevalo
-              small(data-i18n="about.ae_title")
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/lawrence-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/lawrence-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Lawrence Kotovets
-              small(data-i18n="about.scsm_title")
-              br
-
-          li
-            .profile-pic
-              a(href="https://andrewjakubowicz.me" rel="external")
-                img(src="/images/pages/about/team-avatars/andrew-avatar.png").img-thumbnail.avatar
-                img(src="/images/pages/about/team-headshots/andrew-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name
-                a(href="https://andrewjakubowicz.me" rel="external") Andrew Jakubowicz
-              small(data-i18n="about.sswe_title")
-              br
-
-          li
-            .profile-pic
-              a(href="http://www.magicalunderworld.com/" rel="external")
-                img(src="/images/pages/about/team-avatars/brian-avatar.png").img-thumbnail.avatar
-                img(src="/images/pages/about/team-headshots/brian-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name
-                a(href="http://www.magicalunderworld.com/" rel="external") Brian Freyermuth
-              small(data-i18n="about.brian_title")
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/bobby-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/bobby-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Bobby Lockhart
-              small(data-i18n="about.bobby_title")
               br
 
           li
@@ -153,17 +100,7 @@ block content
               img(src="/images/pages/about/team-headshots/chelsea-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Chelsea Johnson
-              small(data-i18n="about.smo_title")
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/daniela-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/daniela-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name
-                a(href="http://danielalao.com" rel="external") Daniela Lao
-              small(data-i18n="about.daniela_title")
+              small(data-i18n="about.do_title")
               br
 
           li
@@ -191,15 +128,6 @@ block content
             .team-bio
               h6.label.team-name Run Chen
               small(data-i18n="about.run_title")
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/matias-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/matias-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Matias Forbord
-              small(data-i18n="about.sswe_title")
               br
 
           li
@@ -235,16 +163,7 @@ block content
               img(src="/images/pages/about/team-headshots/steven-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Steven Adkins
-              small(data-i18n="about.sdr_title")
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/julie-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/julie-headshot.png").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Julie Molnar
-              small(data-i18n="about.lcd_title")
+              small(data-i18n="about.ae_title")
               br
 
           li
@@ -253,7 +172,7 @@ block content
               img(src="/images/pages/about/team-headshots/charlotte-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Charlotte Cheng
-              small(data-i18n="about.scd_title")
+              small(data-i18n="about.lcd_title")
               br
 
           li
@@ -267,45 +186,17 @@ block content
 
           li
             .profile-pic
-              img(src="/images/pages/about/team-avatars/maria-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/maria-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Maria Quinones
-              small(data-i18n="about.csm_title")
-              br
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/becky-white-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/becky-white-headshot.jpg").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Becky White
-              small(data-i18n="about.ae_title")
-              br
-
-          li
-            .profile-pic
               img(src="/images/pages/about/team-avatars/chris-avatar.png").img-thumbnail.avatar
               img(src="/images/pages/about/team-headshots/chris-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Chris Kaimmer
-              small(data-i18n="about.om_title")
+              small(data-i18n="about.bdm_title")
               br
 
           li
             .profile-pic
-              img(src="/images/pages/about/team-avatars/sydney-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/sydney-headshot.png").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Sydney Olejnik
-              small(data-i18n="about.ac_title")
-              br
-
-          li
-            .profile-pic
-              //img(src="/images/pages/about/team-avatars/brehan-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/placeholder.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/brehan-headshot.jpg").img-thumbnail.headshot
+              img(src="/images/pages/about/team-avatars/brehan-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/brehan-headshot.png").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Brehan Maul
               small(data-i18n="about.vpm_title")
@@ -319,13 +210,12 @@ block content
                 img(src="/images/pages/about/team-headshots/saurabh-headshot.jpeg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Saurabh Patel
-              small(data-i18n="about.swe_title")
+              small(data-i18n="about.sswe_title")
               br
 
           li
             .profile-pic
-              //img(src="/images/pages/about/team-avatars/chrisg-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/placeholder.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-avatars/chrisg-avatar.png").img-thumbnail.avatar
               img(src="/images/pages/about/team-headshots/chrisg-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Chris Gonzalez
@@ -334,8 +224,7 @@ block content
 
           li
             .profile-pic
-              //img(src="/images/pages/about/team-avatars/sarah-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/placeholder.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-avatars/sarah-avatar.png").img-thumbnail.avatar
               img(src="/images/pages/about/team-headshots/sarah-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Sarah Whatley
@@ -344,22 +233,48 @@ block content
 
           li
             .profile-pic
-              //img(src="/images/pages/about/team-avatars/gabrielle-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/placeholder.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-avatars/gabrielle-avatar.png").img-thumbnail.avatar
               img(src="/images/pages/about/team-headshots/gabrielle-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Gabrielle Vanhoesen
-              small(data-i18n="about.sdr_title")
+              small(data-i18n="about.csm_title")
               br
 
           li
             .profile-pic
-              //img(src="/images/pages/about/team-avatars/adam-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/placeholder.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-avatars/adam-avatar.png").img-thumbnail.avatar
               img(src="/images/pages/about/team-headshots/adam-headshot.jpg").img-thumbnail.headshot
             .team-bio
               h6.label.team-name Adam LaSalle
-              small(data-i18n="about.sdr_title")
+              small(data-i18n="about.csm_title")
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/destri-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/destri-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Destri Carlson
+              small(data-i18n="about.ac_title")
+              br
+
+          li
+            .profile-pic
+              //img(src="/images/pages/about/team-avatars/ami-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/placeholder.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/ami-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Ami Dave-Patel
+              small(data-i18n="about.aoim_title")
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/dave-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/dave-headshot.jpg").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Dave Sage
+              small(data-i18n="about.ae_title")
               br
 
         ul
@@ -380,6 +295,31 @@ block content
                 a(href="http://retrostylegames.com/" rel="external") Oleg Ulyanickiy
               small(data-i18n="about.retrostyle_title")
               small(data-i18n="about.retrostyle_blurb")
+
+      if me.showOpenResourceLink()
+        #community.anchor
+          #community-row-1.row.text-center
+            .col-sm-12
+            .text-center
+              h3(data-i18n="about.community_title")
+              h4(data-i18n="about.community_subtitle")
+              img(src="/images/pages/about/github_avatars.png")#community-avatars
+
+          #community-row-2.row
+            .col-sm-5
+              p.responsive-side-margins
+                span.spr(data-i18n="about.community_description_3")
+                a(href="/community")
+                  span(data-i18n="about.community_description_link_2")
+                span ,
+                span.spr(data-i18n="about.community_description_1")
+                a(href="/contribute")
+                  span(data-i18n="about.community_description_link")
+                span.spl(data-i18n="about.community_description_2")
+            .col-sm-6.col-sm-offset-1#community-graphic.responsive-side-margins
+              h2(data-i18n="about.number_contributors")
+              img(src="/images/pages/about/github.png")
+              #community-graphic-filler
 
       #story.anchor
         .text-center
@@ -451,143 +391,127 @@ block content
 
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
+              h5 Sales Development Representative
+                .text-center
+                  small.label
+                    | Remote • Full-time
+                p.small CodeCombat is hiring sales development representatives to introduce our computer science education products to educators across the world.
+                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/e240da7b-02aa-4364-baf1-23c0992ee72f?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
+                  span(data-i18n="about.learn_more")
+
+          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
+            .job-listing
               h5 Online Coding Instructor
                   .text-center
                     small.label
                       | Remote • Part-time/Contractor
                   p.small CodeCombat is searching for coding instructors to teach CodeCombat Online Classes to our at-home learners.
-                  a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/31c86619-fb29-4d21-9e0a-e31e76247986?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
+                  a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/f278352a-5f35-415b-b219-aa9f4890d15d?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
                     span(data-i18n="about.learn_more")
 
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            .job-listing
-              h5 Administrative Coordinator
-                  .text-center
-                    small.label
-                      | Remote • Contractor
-                  p.small Act as the main point of contact between our teachers and our parents and students for our online classes.
-                  a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/14297f48-6c7e-41d8-96ac-77d924586ae0?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
-                    span(data-i18n="about.learn_more")
-
-          //- .col-sm-6.col-md-5.col-lg-4
-          //-   .job-listing
-          //-     h5 (No Open Roles)
-          //-     p.small Check back later for updates on new positions at CodeCombat.
+          //.col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
+          //  .job-listing
+          //    h5 (No Open Roles)
+          //    p.small Check back later for updates on new positions at CodeCombat.
 
       #contact.anchor
         .text-center
           h3(data-i18n="about.contact_title")
           h4(data-i18n="about.contact_subtitle")
           if me.showChinaResourceInfo()
-            p
-            | 商务合作：bill@codecombat.com <br/>
-            | 业务咨询：13810906731
-
+            - var {COCO_CHINA_CONST} = require('core/constants')
+            p.
+              商务合作：#{COCO_CHINA_CONST.CONTACT_EMAIL} #[br]
+              业务咨询：#{COCO_CHINA_CONST.CONTACT_PHONE}
           else
-            a(href="mailto:team@ozaria.com") team@ozaria.com
-          
-          p 
-            h4(data-i18n="about.press_subtitle")
-            a(href="http://press.ozaria.com") press.ozaria.com
+            a(href="mailto:team@codecombat.com") team@codecombat.com
 
-      //- #files
-      //-   .row
-      //-     .col-md-6.col-lg-8
-      //-       #screenshots
-      //-         span.label(data-i18n="about.screenshots_title")
-      //-         .hidden-sm.hidden-md.hidden-lg
-      //-           small(data-i18n="about.screenshots_hint")
-      //-         #screenshot-grid
-      //-           a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='0')
-      //-             img(src="/images/pages/about/screenshot_desert.png")
-      //-           a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='1')
-      //-             img(src="/images/pages/about/screenshot_forest.png")
-      //-           a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='2')
-      //-             img(src="/images/pages/about/screenshot_dungeon.png")
-      //-           a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='3')
-      //-             img(src="/images/pages/about/screenshot_glacier.png")
-      //-         .clearfix.hidden-xs
-      //-           small(data-i18n="about.screenshots_hint")
-      //-     .col-md-6.col-lg-4
-      //-       #downloads-container
-      //-         #downloads
-      //-           .label(data-i18n="about.downloads_title")
-      //-           ul
-      //-             li
-      //-               a.small(href="http://files.codecombat.com/presspack/AboutCodeCombat.pdf")
-      //-                 span(data-i18n="about.about_codecombat")
-      //-                 | (.pdf)
-      //-             li
-      //-               a.small(href="http://files.codecombat.com/presspack/CodeCombat-Logo.ai")
-      //-                 span(data-i18n="about.logo")
-      //-                 | (.ai)
-      //-             li
-      //-               a.small(href="http://files.codecombat.com/presspack/CodeCombat-Logo.png")
-      //-                 span(data-i18n="about.logo")
-      //-                 | (.png)
-      //-             li
-      //-               a.small(href="http://files.codecombat.com/presspack/GameImages.zip")
-      //-                 span(data-i18n="about.screenshots")
-      //-                 | (.zip)
-      //-             li
-      //-               a.small(href="http://files.codecombat.com/presspack/gameimages/CodeCombat_Splash.png")
-      //-                 span(data-i18n="about.character_art")
-      //-                 | (.png)
-      //-           .text-center
-      //-             a.btn.btn-lg.btn-primary-alt#download-button(href="http://files.codecombat.com/presspack/CodeCombat_PressPack.zip")
-      //-               span.glyphicon.glyphicon-download-alt
-      //-               span(data-i18n="about.download_all")
-      //- 
-      //- #screenshot-lightbox.modal.fade(data-show="false")
-      //-   .modal-dialog
-      //-     .modal-content
-      //-       #screenshot-carousel.carousel
-      //-         ol.carousel-indicators
-      //-           li(data-target=".screenshot-display", data-slide-to="0").active
-      //-           li(data-target=".screenshot-display", data-slide-to="1")
-      //-           li(data-target=".screenshot-display", data-slide-to="2")
-      //-           li(data-target=".screenshot-display", data-slide-to="3")
-      //- 
-      //-         .carousel-inner
-      //-           .item.active
-      //-             img#screenshot-desert(src="/images/pages/about/desert.png")
-      //-           .item
-      //-             img#screenshot-forest(src="/images/pages/about/forest.png")
-      //-           .item
-      //-             img#screenshot-dungeon(src="/images/pages/about/dungeon.png")
-      //-           .item
-      //-             img#screenshot-glacier(src="/images/pages/about/glacier.png")
-      //-         a#carousel-left.left.carousel-control(href="#screenshot-carousel", role="button")
-      //-           span.glyphicon.glyphicons-chevron-left.glyphicon-chevron-left(aria-hidden="true")
-      //-           span.sr-only(data-i18n="about.previous")
-      //-         a#carousel-right.right.carousel-control(href="#screenshot-carousel", role="button")
-      //-           span.glyphicon.glyphicons-chevron-right.glyphicon-chevron-right(aria-hidden="true")
-      //-           span.sr-only(data-i18n="play.next")
+      #files
+        .row
+          .col-md-6.col-lg-8
+            #screenshots
+              span.label(data-i18n="about.screenshots_title")
+              .hidden-sm.hidden-md.hidden-lg
+                small(data-i18n="about.screenshots_hint")
+              #screenshot-grid
+                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='0')
+                  img(src="/images/pages/about/screenshot_desert.png")
+                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='1')
+                  img(src="/images/pages/about/screenshot_forest.png")
+                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='2')
+                  img(src="/images/pages/about/screenshot_dungeon.png")
+                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='3')
+                  img(src="/images/pages/about/screenshot_glacier.png")
+              .clearfix.hidden-xs
+                small(data-i18n="about.screenshots_hint")
+          .col-md-6.col-lg-4
+            #downloads-container
+              #downloads
+                .label(data-i18n="about.downloads_title")
+                ul
+                  li
+                    a.small(href="https://files.codecombat.com/presspack/AboutCodeCombat.pdf")
+                      span(data-i18n="about.about_codecombat")
+                      | (.pdf)
+                  li
+                    a.small(href="https://files.codecombat.com/presspack/CodeCombat-Logo.ai")
+                      span(data-i18n="about.logo")
+                      | (.ai)
+                  li
+                    a.small(href="https://files.codecombat.com/presspack/CodeCombat-Logo.png")
+                      span(data-i18n="about.logo")
+                      | (.png)
+                  li
+                    a.small(href="https://files.codecombat.com/presspack/GameImages.zip")
+                      span(data-i18n="about.screenshots")
+                      | (.zip)
+                  li
+                    a.small(href="https://files.codecombat.com/presspack/gameimages/CodeCombat_Splash.png")
+                      span(data-i18n="about.character_art")
+                      | (.png)
+                .text-center
+                  a.btn.btn-lg.btn-primary-alt#download-button(href="https://files.codecombat.com/presspack/CodeCombat_PressPack.zip")
+                    span.glyphicon.glyphicon-download-alt
+                    span(data-i18n="about.download_all")
+
+      #screenshot-lightbox.modal.fade(data-show="false")
+        .modal-dialog
+          .modal-content
+            #screenshot-carousel.carousel
+              ol.carousel-indicators
+                li(data-target=".screenshot-display", data-slide-to="0").active
+                li(data-target=".screenshot-display", data-slide-to="1")
+                li(data-target=".screenshot-display", data-slide-to="2")
+                li(data-target=".screenshot-display", data-slide-to="3")
+
+              .carousel-inner
+                .item.active
+                  img#screenshot-desert(src="/images/pages/about/desert.png")
+                .item
+                  img#screenshot-forest(src="/images/pages/about/forest.png")
+                .item
+                  img#screenshot-dungeon(src="/images/pages/about/dungeon.png")
+                .item
+                  img#screenshot-glacier(src="/images/pages/about/glacier.png")
+              a#carousel-left.left.carousel-control(href="#screenshot-carousel", role="button")
+                span.glyphicon.glyphicons-chevron-left.glyphicon-chevron-left(aria-hidden="true")
+                span.sr-only(data-i18n="about.previous")
+              a#carousel-right.right.carousel-control(href="#screenshot-carousel", role="button")
+                span.glyphicon.glyphicons-chevron-right.glyphicon-chevron-right(aria-hidden="true")
+                span.sr-only(data-i18n="play.next")
 
       #location
         .row
           .col-sm-4.col-sm-offset-2
             p
               b CodeCombat Inc.
-            p 301 Howard Street
-            p Suite No. 830
-            p San Francisco, California 94105
+            p 2261 Market Street #4388
+            p San Francisco, California 94114
             a(href="mailto:team@codecombat.com") team@codecombat.com
           .col-sm-4
             p
               b(data-i18n="about.location_title")
-            iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0135115585845!2d-122.39662584869897!3d37.7897231189723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858173dda8f9e3%3A0x2bdb1e22dbfa68ee!2s301+Howard+St%2C+San+Francisco%2C+CA+94105!5e0!3m2!1sen!2sus!4v1566365143582!5m2!1sen!2sus")
-        if me.get('preferredLanguage') == 'pt-BR'
-          .row
-            .col-sm-4.col-sm-offset-2
-              p
-                b Escritório Brasil - Enlix Tecnologias Educacionais
-              p R. Trajano Reis, 472
-              p São Francisco, Curitiba - PR, 80510-220
-              p Tel: (41) 3122-2061
-              a(href="mailto:vendas@enlixeducacional.com.br") vendas@enlixeducacional.com.br
-            .col-sm-4
-              iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJTRO94A_k3JQR0_cq77tR7Uk&key=AIzaSyAIGQz3OMbv5YWivScUM86-zESjEgJR2Xo")
+            iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAIGQz3OMbv5YWivScUM86-zESjEgJR2Xo&q=2261+Market+St+%234388,+San+Francisco,+CA+94114")
         if me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE'
           .row
             .col-sm-4.col-sm-offset-2

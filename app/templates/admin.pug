@@ -57,6 +57,8 @@ block content
         a(href="/admin/trial-requests") Trial Requests
       li
         a(href="/admin/user-code-problems") User Code Problems
+      li
+        a.edit-mandate(href="#mandate") Edit Mandate
 
     h4 Analytics
     ul
@@ -73,7 +75,7 @@ block content
       li
         a(href="/admin/school-licenses") School Active Licenses
       li
-        a(href="/admin/school-counts?batchsize=50000") School Counts
+        a(href="/admin/school-counts?batchsize=20000") School Counts
       li
         a(href="/admin/analytics/subscriptions") Subscriptions
       li
@@ -136,7 +138,13 @@ block content
       .form-group
         label(for="months") Months
         input#months.form-control(name="months", type="number", min=1)
+      .form-group
+        label(for="endDate") Expiration Date
+        input#endDate.form-control(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
+
+      br
       a#terminal-create.btn.btn-default Create Terminal Subscription Code
+      a#terminal-activation-create.btn.btn-default Create Terminal Subscription Activation Code
 
 
     hr
@@ -159,11 +167,3 @@ block content
           input(type="hidden", name="limit", value="10")
         .col-sm-1
           button.btn.btn-primary(type="submit") Search
-
-    hr
-
-    .form-horizontal
-      h3 Teacher Dashboard feature setting
-      p By pressing the button below you are opting into using the in-progress teacher dashboard.
-      p On closing tab or browser, setting will clear and default dashboard will be shown.
-      button.btn.btn-secondary#teacher-dasboard-feature(href="#") Activate Teacher Dashboard Temporarily

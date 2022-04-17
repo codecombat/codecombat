@@ -326,7 +326,7 @@ class CocoModel extends Backbone.Model
     return if _.isString @url then @url else @url()
 
   @pollAchievements: ->
-    return  # Not needed until/unlesss we start using achievements in Ozaria
+    return if utils.isOzaria  # Not needed until/unlesss we start using achievements in Ozaria
     return if application?.testing
 
     CocoCollection = require 'collections/CocoCollection'

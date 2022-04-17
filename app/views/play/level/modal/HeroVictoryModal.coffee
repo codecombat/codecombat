@@ -60,7 +60,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @session = options.session
     @level = options.level
     @thangTypes = {}
-    if @level.isType('hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev', 'web-dev')
+    if @level.isType('hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')
       achievements = new CocoCollection([], {
         url: "/db/achievement?related=#{@session.get('level').original}"
         model: Achievement
@@ -76,7 +76,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @playSound 'victory'
     if @level.isType('course', 'course-ladder')
       @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
-      @loadExistingFeedback()
+      #@loadExistingFeedback()
 
     if @level.get('shareable') is 'project'
       @shareURL = "#{window.location.origin}/play/#{@level.get('type')}-level/#{@session.id}"
@@ -200,26 +200,28 @@ module.exports = class HeroVictoryModal extends ModalView
 
     c.thangTypes = @thangTypes
     c.me = me
-    c.readyToRank = @level.isType('hero-ladder', 'course-ladder') and @session.readyToRank()
+    c.readyToRank = @level.isLadder() and @session.readyToRank()
     c.level = @level
     c.i18n = utils.i18n
 
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     if me.get 'hourOfCode'
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
-      gameDevHoc = application.getHocCampaign()
-      lastLevelOriginal = switch gameDevHoc
+      hocCampaignSlug = application.getHocCampaign() and application.getHocCampaign() isnt 'intro'
+      lastLevelOriginal = switch hocCampaignSlug
         when 'game-dev-hoc' then '57ee6f5786cf4e1f00afca2c' # game grove
         when 'game-dev-hoc-2' then '57b71dce7a14ff35003a8f71' # palimpsest
+        when 'ai-league-hoc' then '60e69b24bed8ae001ac6ce3e' # giants-gate; can change, but we will use isType('ladder') to cover that
         else '541c9a30c6362edfb0f34479' # kithgard gates for dungeon
-      lastLevel = @level.get('original') is lastLevelOriginal
+      lastLevel = @level.get('original') is lastLevelOriginal or @level.isType('ladder')
       enough = elapsed >= 20 * 60 * 1000 or lastLevel
       tooMuch = elapsed > 120 * 60 * 1000
       showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel
       if enough and not tooMuch and not me.get('hourOfCodeComplete')
-        pixelCode = switch gameDevHoc
+        pixelCode = switch hocCampaignSlug
           when 'game-dev-hoc' then 'code_combat_gamedev'
           when 'game-dev-hoc-2' then 'code_combat_gamedev2'
+          when 'ai-league-hoc' then 'cc_ai'
           else 'code_combat'
         $('body').append($("<img src='https://code.org/api/hour/finish_#{pixelCode}.png' style='visibility: hidden;'>"))
         me.set 'hourOfCodeComplete', true
@@ -227,11 +229,11 @@ module.exports = class HeroVictoryModal extends ModalView
         window.tracker?.trackEvent 'Hour of Code Finish'
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
       c.showHourOfCodeDoneButton = showDone
-      @showAmazonHocButton = (gameDevHoc is 'game-dev-hoc') and lastLevel
+      @showAmazonHocButton = (hocCampaignSlug is 'game-dev-hoc') and lastLevel
       if @showAmazonHocButton
         @trackAwsButtonShown()
-      @showHoc2016ExploreButton = gameDevHoc and lastLevel
-      @showShareGameWithTeacher = gameDevHoc and lastLevel
+      @showHoc2016ExploreButton = hocCampaignSlug and lastLevel
+      @showShareGameWithTeacher = /game-dev/.test(hocCampaignSlug) and lastLevel
 
     c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course') and not @showAmazonHocButton and not @showHoc2016ExploreButton
 
@@ -245,17 +247,17 @@ module.exports = class HeroVictoryModal extends ModalView
 
   afterRender: ->
     super()
-    @$el.toggleClass 'with-achievements', @level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')
+    @$el.toggleClass 'with-achievements', @level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev', 'ladder')
     return unless @supermodel.finished()
     @playSelectionSound hero, true for original, hero of @thangTypes  # Preload them
     @updateSavingProgressStatus()
     @initializeAnimations()
-    if @level.isType('hero-ladder', 'course-ladder')
+    if @level.isLadder()
       @ladderSubmissionView = new LadderSubmissionView session: @session, level: @level
       @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
   initializeAnimations: ->
-    return @endSequentialAnimations() unless @level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')
+    return @endSequentialAnimations() unless @level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev', 'ladder')
     @updateXPBars 0
     #playVictorySound = => @playSound 'victory-title-appear'  # TODO: actually add this
     @$el.find('#victory-header').delay(250).queue(->
@@ -286,7 +288,7 @@ module.exports = class HeroVictoryModal extends ModalView
 
   beginSequentialAnimations: ->
     return if @destroyed
-    return unless @level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')
+    return unless @level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev', 'ladder')
     @sequentialAnimatedPanels = _.map(@animatedPanels.find('.reward-panel'), (panel) -> {
       number: $(panel).data('number')
       previousNumber: $(panel).data('previous-number')
@@ -420,6 +422,8 @@ module.exports = class HeroVictoryModal extends ModalView
       viewArgs.push leagueType
       viewArgs.push leagueID
       ladderURL += "/#{leagueType}/#{leagueID}"
+      if tournamentId = utils.getQueryVariable('tournament')
+        ladderURL += "?tournament=#{tournamentId}"
     ladderURL += '#my-matches'
     @hide()
     Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs
@@ -514,6 +518,8 @@ module.exports = class HeroVictoryModal extends ModalView
   onClickSignupButton: (e) ->
     e.preventDefault()
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Hero Victory Modal', level: @level.get('slug')
+    if me.isInHourOfCode()
+      window.nextURL = window.location.href  # Return to this page once signup is complete, since the campaign might be wrong
     @openModalView new CreateAccountModal()
 
   showOffer: (@navigationEventUponCompletion) ->
@@ -589,8 +595,9 @@ campaignEndLevels = [
   'wanted-poster'
   'siege-of-stonehold'
   'go-fetch'
-  'palimpsest'
+  'game-dev-2-final-project'
   'quizlet'
   'clash-of-clones'
+  'game-dev-3-final-project'
   'summits-gate'
 ]

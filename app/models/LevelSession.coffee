@@ -1,6 +1,7 @@
 CocoModel = require './CocoModel'
 api = require('core/api')
 LevelConstants = require 'lib/LevelConstants'
+{teamSpells} = require 'core/utils'
 
 module.exports = class LevelSession extends CocoModel
   @className: 'LevelSession'
@@ -20,7 +21,7 @@ module.exports = class LevelSession extends CocoModel
     @set 'permissions', permissions
 
   getSourceFor: (spellKey) ->
-    # spellKey ex: 'tharin/plan'
+    # spellKey ex: 'hero-placeholder/plan'
     code = @get('code')
     parts = spellKey.split '/'
     code?[parts[0]]?[parts[1]]
@@ -30,7 +31,7 @@ module.exports = class LevelSession extends CocoModel
     return false unless c1 = @get('code')
     return false unless team = @get('team')
     return true unless c2 = @get('submittedCode')
-    thangSpellArr = (s.split('/') for s in @get('teamSpells')[team])
+    thangSpellArr = (s.split('/') for s in teamSpells[team])
     for item in thangSpellArr
       thang = item[0]
       spell = item[1]
@@ -42,17 +43,6 @@ module.exports = class LevelSession extends CocoModel
 
   completed: ->
     @get('state')?.complete || false
-
-  shouldAvoidCorruptData: (attrs) ->
-    return false unless me.team is 'humans'
-    if _.string.startsWith (attrs?.code ? @get('code'))?.anya?.makeBid ? '', 'var __interceptThis'
-      noty text: "Not saving session--it's trying to overwrite Anya's code with transpiled output. Please let us know and help us reproduce this bug!", layout: 'topCenter', type: 'error', killer: false, timeout: 120000
-      return true
-    false
-
-  save: (attrs, options) ->
-    return if @shouldAvoidCorruptData attrs
-    super attrs, options
 
   increaseDifficulty: (callback) ->
     state = @get('state') ? {}
@@ -176,5 +166,6 @@ commentStarts =
   coffeescript: '#'
   lua: '--'
   java: '//'
+  cpp: '//'
   html: '<!--'
   css: '/\\*'

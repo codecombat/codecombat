@@ -1,5 +1,6 @@
 CocoModel = require './CocoModel'
 schema = require 'schemas/models/prepaid.schema'
+utils = require '../core/utils'
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
@@ -43,6 +44,30 @@ module.exports = class Prepaid extends CocoModel
 
     return 'available'
 
+  typeDescription: ->
+    type = @get('type')
+    if type == 'starter_license'
+      return i18n.t('teacher.starter_license')
+    includedCourseIDs = @get('includedCourseIDs')
+    if includedCourseIDs
+      return i18n.t('teacher.customized_license')+ ': '+ (includedCourseIDs.map (id) -> utils.courseAcronyms[id]).join('+')
+    else
+      return i18n.t('teacher.full_license')
+
+  typeDescriptionWithTime: ->
+    type = @get('type')
+    endDate = moment(@get('endDate')).utc().format('ll')
+    endAt = "<br>#{i18n.t('teacher.status_enrolled')}"
+    endAt = endAt.replace('{{date}}', endDate)
+    if type == 'starter_license'
+      return i18n.t('teacher.starter_license') + endAt
+    includedCourseIDs = @get('includedCourseIDs')
+    if includedCourseIDs
+      return i18n.t('teacher.customized_license') + ': ' + (includedCourseIDs.map (id) -> utils.courseAcronyms[id]).join('+') + endAt
+    else
+      return i18n.t('teacher.full_license') + endAt
+
+
   redeem: (user, options={}) ->
     options.url = _.result(@, 'url')+'/redeemers'
     options.type = 'POST'
@@ -55,7 +80,13 @@ module.exports = class Prepaid extends CocoModel
     if @get('type') is 'starter_license'
       return courseID in (@get('includedCourseIDs') ? [])
     else
-      return true
+      # no includedCourseIDs means full-license, so always return true
+      return courseID in (@get('includedCourseIDs') ? [ courseID ])
+
+  numericalCourses: ->
+    return utils.courseNumericalStatus['FULL_ACCESS'] unless @get('includedCourseIDs')?.length
+    fun = (s, k) => s + utils.courseNumericalStatus[k]
+    return _.reduce(@get('includedCourseIDs'), fun, 0)
 
   revoke: (user, options={}) ->
     options.url = _.result(@, 'url')+'/redeemers'

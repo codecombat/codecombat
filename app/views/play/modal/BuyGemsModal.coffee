@@ -94,7 +94,7 @@ module.exports = class BuyGemsModal extends ModalView
     else
       application.tracker?.trackEvent 'Started gem purchase', { productID: productID }
       stripeHandler.open({
-        description: $.i18n.t(@getProductDescription(product.get('name')))
+        description: $.t(@getProductDescription(product.get('name')))
         amount: product.get('amount')
         bitcoin: true
         alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'

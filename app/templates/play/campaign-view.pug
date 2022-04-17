@@ -16,11 +16,28 @@ if showGameDevAlert
       em.spr powered by
       img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
-  if view.shouldShow('back-to-classroom')
-    a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase.under-logo(href='/play', data-i18n="play.back_to_classroom")
+  div.under-logo.button-container
+    if view.shouldShow('santa-clara-logo')
+      #santa-clara-logo-container
+        img#santa-clara-logo(src="/images/pages/play/santa-clara-logo.png")
 
-  if view.shouldShow('videos')
-    a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button(data-i18n="play_level.videos")
+    if view.shouldShow('back-to-classroom')
+      a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
+
+    if view.shouldShow('videos')
+      a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button(data-i18n="play_level.videos")
+
+    if view.shouldShow('league-arena')
+      for arena in view.activeArenas()
+        - var codePoints = (me.get('stats') || {}).codePoints
+        // TODO: change from play to view standings if new Date() > arena.end
+        - var playArenaText = $.t('league.play_arena_short', {arenaName: $.t('league.' + arena.slug.replace(/-/g, '_')), interpolation: {escapeValue: false}})
+        - var emphasisClass = me.level() >= 12 ? 'btn-primary' : me.level() >= 6 ? 'btn-danger' : ''
+        a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#esports-arena(class=emphasisClass data-arena=arena.slug)= playArenaText
+
+    if view.shouldShow('amazon-campaign')
+      #amazon-campaign-container
+        img#amazon-campaign-logo(src="/images/pages/play/amazon_vert_lockup.png")
 
   if serverConfig.codeNinjas
     a(href="https://code.ninja")
@@ -46,10 +63,6 @@ if showGameDevAlert
         button#anon-classroom-signup-btn.btn.btn-sm.btn-navy(data-i18n="play.anon_signup_create_teacher")
 
   if campaign
-    if view.shouldShow('amazon-campaign')
-      #amazon-campaign-container
-        img#amazon-campaign-logo(src="/images/pages/play/amazon_vert_lockup.png")
-
     .map
       if features.brainPop && levelsCompleted && levelsCompleted === levelsTotal
         #brain-pop-done-banner-wrapper
@@ -73,9 +86,9 @@ if showGameDevAlert
         - var levelNumber = '';
         if view.shouldShow('back-to-classroom') && view.classroom
           if level.assessment === 'cumulative'
-            - levelNumber = $.i18n.t('play_level.combo_challenge') + ': '
+            - levelNumber = $.t('play_level.combo_challenge') + ': '
           else if level.assessment
-            - levelNumber = $.i18n.t('play_level.concept_challenge') + ': '
+            - levelNumber = $.t('play_level.concept_challenge') + ': '
           else
             - levelNumber = view.classroom.getLevelNumber(level.original, '');
             if (levelNumber)
@@ -101,7 +114,7 @@ if showGameDevAlert
           if !level.hidden && !level.noFlag
             if level.replayable
               img.banner(src="/images/pages/play/level-banner-replayable.png")
-            else if level.type === 'hero-ladder' || level.type === 'course-ladder'
+            else if level.type === 'hero-ladder' || level.type === 'course-ladder' || level.type === 'ladder'
               img.banner(src="/images/pages/play/level-banner-multiplayer.png")
             else if ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate', 'kithgard-mastery'].indexOf(level.slug) !== -1 && levelStatusMap[level.slug] !== 'complete'
               img.banner(src="/images/pages/play/level-banner-special.png")
@@ -134,7 +147,7 @@ if showGameDevAlert
           - var playCount = levelPlayCountMap[level.slug]
           .progress.progress-striped.active.hide
             .progress-bar(style="width: 100%")
-          - var showsLeaderboard = view.shouldShow('leaderboard') && (levelStatusMap[level.slug] === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder'].indexOf(level.type) !== -1));
+          - var showsLeaderboard = view.shouldShow('leaderboard') && (levelStatusMap[level.slug] === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder', 'ladder'].indexOf(level.type) !== -1));
 
           div(class="level-info rtl-allowed " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
             .level-status.rtl-allowed(dir="auto")
@@ -175,6 +188,16 @@ if showGameDevAlert
               else
                 button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
 
+      if view.shouldShow('league-arena')
+        for arena in view.activeArenas()
+          .level-info-container.rtl-allowed.league-arena-tooltip(data-arena=arena.slug)
+            //- TODO: don't hard code that the user has completed the level.
+            div(class="level-info rtl-allowed complete")
+              .level-status.rtl-allowed(dir="auto")
+              h3(dir="ltr" data-i18n="league." + arena.slug.replace(/-/g, '_'))
+              .level-description.rtl-allowed(dir="auto")
+                p(data-i18n="league.seasonal_arena_tooltip")
+              a.btn.btn-success.btn.btn-lg.btn-illustrated.start-esports(data-i18n="common.play" href="/play/ladder/" + arena.slug data-arena=arena.slug)
 
       for adjacentCampaign in adjacentCampaigns
         a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
@@ -198,7 +221,7 @@ if showGameDevAlert
         for campaignSlug in features.campaignSlugs || ['dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'beta-campaigns-3', 'mountain', 'glacier', 'volcano']
           if /beta-campaigns/.test(campaignSlug)
             - if (me.freeOnly()) continue;
-            - var betaSlugs = campaignSlug === 'beta-campaigns-1' ? _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']) : _.shuffle(['campaign-game-dev-2', 'campaign-web-dev-2']);
+            - var betaSlugs = campaignSlug === 'beta-campaigns-1' ? _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']) : campaignSlug === 'beta-campaigns-2' ? _.shuffle(['campaign-game-dev-2', 'campaign-web-dev-2']) : ['campaign-game-dev-3'];
             .beta-container
               each campaignSlug in betaSlugs
                 - var campaign = campaigns[campaignSlug];
@@ -250,6 +273,53 @@ if showGameDevAlert
                 if campaign && campaign.get('description')
                   p.campaign-description(dir="auto")
                     span= i18n(campaign.attributes, 'description')
+
+  .game-controls.header-font.picoctf-hide
+    if !(features.picoCtf || features.brainPop)
+      if view.shouldShow('promotion')
+        button.btn.promotion-menu-icon(data-toggle='coco-modal', data-target='play/modal/PromotionModal', title='New: Code in Beijing!')
+      if view.shouldShow('premium')
+        button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
+      if view.shouldShow('poll')
+        button.btn.poll.hidden(data-i18n="[title]play.poll")
+      if view.shouldShow('clans')
+        a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
+      if view.shouldShow('items')
+        button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
+      if view.shouldShow('heros')
+        button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
+      if view.shouldShow('achievements')
+        button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
+      if view.shouldShow('buy-gems')
+        button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
+      if !me.get('anonymous', true) && view.shouldShow('settings')
+        a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
+
+  .user-status.header-font.picoctf-hide
+    .user-status-line
+      if view.shouldShow('status-line')
+        if view.shouldShow('gems')
+          span.gem.gem-30
+          span#gems-count.spr= me.gems()
+        if view.shouldShow('level')
+          .rtl-allowed
+            span.level-indicator(data-i18n="general.player_level")
+            span.player-level.spr= me.level()
+        span.player-hero-icon
+        if me.get('anonymous')
+          span.player-name(data-i18n="play.anonymous") Anonymous Player
+          button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
+          button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+        else
+          if me.isStudent()
+            a(href="/play").player-name.spr= me.get('name')
+          else
+            a(href="/account").player-name.spr= me.get('name')
+          if !me.isStudent()
+            button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
+          //- if me.isPremium()
+          //-   button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
+        select.language-dropdown.btn.btn-illustrated.btn-primary
 
   button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
     .glyphicon.glyphicon-volume-off

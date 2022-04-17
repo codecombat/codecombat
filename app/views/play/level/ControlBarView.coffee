@@ -10,7 +10,7 @@ Campaign = require 'models/Campaign'
 Classroom = require 'models/Classroom'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
-GameMenuModal = require 'ozaria/site/views/play/menu/GameMenuModal'
+GameMenuModal = require 'views/play/menu/GameMenuModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 
@@ -94,7 +94,7 @@ module.exports = class ControlBarView extends CocoView
   getRenderData: (c={}) ->
     super c
     c.worldName = @worldName
-    c.ladderGame = @level.isType('ladder', 'hero-ladder', 'course-ladder')
+    c.ladderGame = @level.isLadder()
     if @level.get 'replayable'
       c.levelDifficulty = @session.get('state')?.difficulty ? 0
       if @observing
@@ -110,9 +110,9 @@ module.exports = class ControlBarView extends CocoView
       @homeViewClass = 'views/play/CampaignView'
       @homeViewArgs.push gameDevCampaign
     else if me.isSessionless()
-      @homeLink = "/teachers/units"
+      @homeLink = "/teachers/courses"
       @homeViewClass = "views/courses/TeacherCoursesView"
-    else if @level.isType('ladder', 'ladder-tutorial', 'hero-ladder', 'course-ladder')
+    else if @level.isLadder()
       levelID = @level.get('slug')?.replace(/\-tutorial$/, '') or @level.id
       @homeLink = "/play/ladder/#{levelID}"
       @homeViewClass = 'views/ladder/LadderView'
@@ -122,6 +122,8 @@ module.exports = class ControlBarView extends CocoView
         @homeViewArgs.push leagueType
         @homeViewArgs.push leagueID
         @homeLink += "/#{leagueType}/#{leagueID}"
+        if tournamentId = utils.getQueryVariable('tournament')
+          @homeLink += "?tournament=#{tournamentId}"
     else if @level.isType('course') or @courseID
       @homeLink = "/play"
       if @course?

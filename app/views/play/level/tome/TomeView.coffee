@@ -49,6 +49,10 @@ module.exports = class TomeView extends CocoView
 
   constructor: (options) ->
     super options
+    @unwatchFn = store.watch(
+      (state, getters) -> getters['game/levelSolution'],
+      (solution) => @onChangeMyCode(solution.source) if solution?.source
+    )
     unless options.god or options.level.get('type') is 'web-dev'
       console.error "TomeView created with no God!"
 
@@ -80,6 +84,11 @@ module.exports = class TomeView extends CocoView
       spell.view.updateACEText commentedSource
       spell.view.recompile false
     @cast()
+
+  onChangeMyCode: (solution) ->
+    for spellKey, spell of @spells when spell.canWrite()
+      spell.view.updateACEText solution
+      spell.view.recompile false
 
   createWorker: ->
     return null unless Worker?
@@ -187,7 +196,7 @@ module.exports = class TomeView extends CocoView
     Backbone.Mediator.publish 'tome:focus-editor', {} unless $(e.target).parents('.popover').length
 
   onSpriteSelected: (e) ->
-    return if @spellView and @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev']  # Never deselect the hero in the Tome.
+    return if @spellView and @options.level.get('type', true) in ['hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder']  # Never deselect the hero in the Tome. TODO: remove entirely, as this is now all level types?
     spell = @spellFor e.thang, e.spellName
     if spell?.canRead()
       @setSpellView spell, e.thang
@@ -203,7 +212,7 @@ module.exports = class TomeView extends CocoView
     @spellView?.setThang thang
 
   updateSpellPalette: (thang, spell) ->
-    @options.playLevelView.updateSpellPalette thang, spell
+    @options.playLevelView?.updateSpellPalette thang, spell
 
   spellFor: (thang, spellName) ->
     return null unless thang?.isProgrammable
@@ -218,7 +227,7 @@ module.exports = class TomeView extends CocoView
 
   reloadAllCode: ->
     if utils.getQueryVariable 'dev'
-      @options.playLevelView.spellPaletteView.destroy()
+      @options.playLevelView?.spellPaletteView?.destroy()
       @updateSpellPalette @spellView.thang, @spellView.spell
     spell.view.reloadCode false for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
     @cast false, false
@@ -256,4 +265,5 @@ module.exports = class TomeView extends CocoView
   destroy: ->
     spell.destroy() for spellKey, spell of @spells
     @worker?.terminate()
+    @unwatchFn()
     super()

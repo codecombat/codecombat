@@ -5,6 +5,7 @@ CocoView = require 'views/core/CocoView'
 ImageGalleryModal = require 'views/play/level/modal/ImageGalleryModal'
 utils = require 'core/utils'
 CourseVideosModal = require 'views/play/level/modal/CourseVideosModal'
+store = require 'core/store'
 
 module.exports = class SpellTopBarView extends CocoView
   template: template
@@ -26,6 +27,8 @@ module.exports = class SpellTopBarView extends CocoView
     'click .hints-button': 'onClickHintsButton'
     'click .image-gallery-button': 'onClickImageGalleryButton'
     'click .videos-button': 'onClickVideosButton'
+    'click #fill-solution': 'onFillSolution'
+    'click #switch-team': 'onSwitchTeam'
 
   constructor: (options) ->
     @hintsState = options.hintsState
@@ -60,11 +63,16 @@ module.exports = class SpellTopBarView extends CocoView
 
   onClickHintsButton: ->
     return unless @hintsState?
+    Backbone.Mediator.publish 'level:hints-button', {state: @hintsState.get('hidden')}
     @hintsState.set('hidden', not @hintsState.get('hidden'))
     window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0
 
   onClickVideosButton: ->
     @openModalView new CourseVideosModal({courseInstanceID: @courseInstanceID, courseID: @courseID})
+
+  onFillSolution: ->
+    return unless me.canAutoFillCode()
+    store.dispatch('game/autoFillSolution', @options.codeLanguage)
 
   onCodeReload: (e) ->
     if key.shift
@@ -122,6 +130,25 @@ module.exports = class SpellTopBarView extends CocoView
     $codearea = $('#code-area')
     $codearea.on transitionListener, =>
       $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
+
+  otherTeam: =>
+    teams = _.without ['humans', 'ogres'], @options.spell.team
+    teams[0]
+
+  onSwitchTeam: =>
+    protocol = window.location.protocol + "//"
+    host = window.location.host
+    pathname = window.location.pathname
+    query = window.location.search
+    query = query.replace(/team=[^&]*&?/, '')
+    if query
+      if query.endsWith('?') or query.endsWith('&')
+        query += 'team='
+      else
+        query += '&team='
+    else
+      query = '?team='
+    window.location.href = protocol+host+pathname+query + @otherTeam()
 
   destroy: ->
     super()

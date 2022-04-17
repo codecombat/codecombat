@@ -26,7 +26,7 @@
               h3.text-uppercase {{ $t('play_level.concept_challenge_complete') }}
               img(:src="heroImage").hero-img
               div {{ $t('play_level.combo_challenge_complete_body', { concept: primaryConcept }) }}
-              
+                  
             div.clearfix.well.well-sm.well-parchment(v-else-if="assessmentNext")
               img.lock-banner(src="/images/pages/play/modal/unlocked_banner.png")
               h5.text-uppercase
@@ -37,7 +37,7 @@
               h3.text-uppercase
                 | {{ $dbt(nextAssessment, 'name') }}
               div.no-imgs(v-html="marked($dbt(nextAssessment, 'description'))")
-              
+                
             div#level-status.clearfix.well.well-sm.well-parchment(v-else)
               h3.text-uppercase
                 | {{ $t('play_level.level_complete') }}: {{ $dbt(level, 'name')}}
@@ -112,17 +112,14 @@
   Level = require 'models/Level'
   LevelSession = require 'models/LevelSession'
   heroMap = _.invert(thangTypeConstants.heroes)
-  { getNextLevelLink } = require 'ozaria/site/common/ozariaUtils'
   
   module.exports = Vue.extend({
     # TODO: Move these props to vuex
-    props: ['nextLevel', 'nextLevelStage', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats', 'supermodel', 'parent', 'codeLanguage'],
+    props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats', 'supermodel', 'parent', 'codeLanguage'],
     components: {
       PieChart
     }
     computed: {
-      ozariaCourse: ->
-        return utils.orderedCourseIDs.includes(@course._id)
       challengeLink: ->
         if me.isSessionless()
           link = "/play/level/#{@nextAssessment.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
@@ -132,21 +129,13 @@
         return link
       mapLink: ->
         if me.isSessionless()
-          link = "/teachers/units"
+          link = "/teachers/courses"
         else
           link = "/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
         return link
       nextLevelLink: ->
         if !me.showHeroAndInventoryModalsToStudents()
-          if this.ozariaCourse
-            linkOptions = {
-              courseId: @course._id,
-              courseInstanceId: @courseInstanceID,
-              codeLanguage: utils.getQueryVariable('codeLanguage', 'python'),
-              nextLevelStage: @nextLevelStage
-            }
-            link = getNextLevelLink(@nextLevel, linkOptions)
-          else if me.isSessionless()
+          if me.isSessionless()
             link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
           else
             link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&course-instance=#{@courseInstanceID}"
@@ -185,14 +174,14 @@
       allConceptsUsed: ->
         @conceptGoalsCompleted is @conceptGoals.length
       level: -> @$store.state.game.level
-      heroImage: ->
+      heroImage: -> 
         unless @$store.state.me.heroConfig?.thangType
           return "/images/pages/play/modal/captain.png"
         else
           slug = heroMap[@$store.state.me.heroConfig.thangType]
           if !slug?
             return "/images/pages/play/modal/captain.png"
-          else if slug in thangTypeConstants.heroClasses.Warrior
+          else if slug in thangTypeConstants.heroClasses.Warrior 
             return "/images/pages/play/modal/#{slug}.png"
       comboImage: ->
         if @allConceptsUsed
@@ -210,7 +199,7 @@
           'Play Level Victory Modal Start Challenge',
             {
               category: 'Students',
-              levelSlug: @level.slug,
+              levelSlug: @level.slug, 
               nextAssessmentSlug: @nextAssessment.slug
             },
             []
@@ -221,7 +210,7 @@
             {
               category: 'Students',
               levelSlug: @level.slug
-            },
+            }, 
             []
         )
       
@@ -252,7 +241,7 @@
             @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: @nextLevel.slug, levelPath: "level", hadEverChosenHero: true, parent: @parent, courseID: @course._id, courseInstanceID: @courseInstanceID, codeLanguage:@codeLanguage
             unless @setupManager?.navigatingToPlay
               @setupManager.open()
-              
+                 
       onReplayLevel: ->
         window.tracker?.trackEvent(
                 'Play Level Victory Modal Replay',
@@ -269,7 +258,7 @@
   })
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 
   @import "app/styles/mixins"
   @import "app/styles/bootstrap/variables"
@@ -348,7 +337,7 @@
     .combo-results
       display: flex
     
-    .no-imgs
+    .no-imgs  
       // they are not necessarily built for the provided space, eg Wakka Maul
       img
         display: none

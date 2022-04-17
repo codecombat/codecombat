@@ -6,7 +6,7 @@ SpellPaletteEntryView = require './SpellPaletteEntryView'
 SpellPaletteThangEntryView = require './SpellPaletteThangEntryView'
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
-GameMenuModal = require 'ozaria/site/views/play/menu/GameMenuModal'
+GameMenuModal = require 'views/play/menu/GameMenuModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
@@ -23,7 +23,7 @@ module.exports = class SpellPaletteView extends CocoView
     'level:enable-controls': 'onEnableControls'
     'surface:frame-changed': 'onFrameChanged'
     'tome:change-language': 'onTomeChangedLanguage'
-    'tome:palette-clicked': 'onPaletteClick'
+    'tome:palette-clicked': 'onPalleteClick'
     'surface:stage-mouse-down': 'hide'
 
 
@@ -49,7 +49,7 @@ module.exports = class SpellPaletteView extends CocoView
     c.defaultGroupSlug = @defaultGroupSlug
     c.showsHelp = @showsHelp
     c.tabs = @tabs  # For hero-based, non-this-owned tabs like Vector, Math, etc.
-    c.thisName = {coffeescript: '@', lua: 'self', python: 'self', java: 'hero'}[@options.language] or 'this'
+    c.thisName = {coffeescript: '@', lua: 'self', python: 'self', java: 'hero', cpp: 'hero'}[@options.language] or 'this'
     c._ = _
     c
 
@@ -186,7 +186,8 @@ module.exports = class SpellPaletteView extends CocoView
     else
       propStorage =
         'this': ['apiProperties', 'apiMethods']
-    if not @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') or not @options.programmable
+    if not @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder') or not @options.programmable
+      # TODO: remove entirely, everything uses new organizePaletteHero
       @organizePalette propStorage, allDocs, excludedDocs
     else
       @organizePaletteHero propStorage, allDocs, excludedDocs
@@ -229,8 +230,7 @@ module.exports = class SpellPaletteView extends CocoView
     if tabbify and _.find @entries, ((entry) -> entry.doc.owner isnt 'this')
       @entryGroups = _.groupBy @entries, groupForEntry
     else
-      i18nKey = if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') then 'play_level.tome_your_skills' else 'play_level.tome_available_spells'
-      defaultGroup = $.i18n.t i18nKey
+      defaultGroup = $.i18n.t 'play_level.tome_your_skills'
       @entryGroups = {}
       @entryGroups[defaultGroup] = @entries
       @defaultGroupSlug = _.string.slugify defaultGroup
@@ -267,6 +267,9 @@ module.exports = class SpellPaletteView extends CocoView
               for prop in _.sortBy(props) when prop[0] isnt '_' and not itemsByProp[prop]  # no private properties
                 continue if prop is 'moveXY' and @options.level.get('slug') is 'slalom'  # Hide for Slalom
                 continue if @thang.excludedProperties and prop in @thang.excludedProperties
+                # Temporary: switching up method documentation for M7 levels
+                continue if @options.level.get('releasePhase') is 'beta' and (prop in ['moveUp', 'moveRight', 'moveDown', 'moveLeft'])
+                continue if @options.level.get('releasePhase') isnt 'beta' and (prop in ['moveTo', 'use'])
                 propsByItem[item.get('name')] ?= []
                 propsByItem[item.get('name')].push owner: owner, prop: prop, item: item
                 itemsByProp[prop] = item
@@ -295,6 +298,9 @@ module.exports = class SpellPaletteView extends CocoView
         continue if prop is 'say' and @options.level.get 'hidesSay'  # Hide for Dungeon Campaign
         continue if prop is 'moveXY' and @options.level.get('slug') is 'slalom'  # Hide for Slalom
         continue if @thang.excludedProperties and prop in @thang.excludedProperties
+        # Temporary: switching up method documentation for M7 levels
+        continue if @options.level.get('releasePhase') is 'beta' and (prop in ['moveUp', 'moveRight', 'moveDown', 'moveLeft'])
+        continue if @options.level.get('releasePhase') isnt 'beta' and (prop in ['moveTo', 'use'])
         propsByItem['Hero'] ?= []
         propsByItem['Hero'].push owner: owner, prop: prop, item: itemThangTypes[@thang.spriteName]
         ++propCount
@@ -385,7 +391,7 @@ module.exports = class SpellPaletteView extends CocoView
     @$el.find('.left .selected').removeClass 'selected'
     @$el.removeClass('open')
 
-  onPaletteClick: (e) ->
+  onPalleteClick: (e) ->
     @$el.addClass('open')
     content = @$el.find(".rightContentTarget")
     content.html(e.entry.doc.initialHTML)

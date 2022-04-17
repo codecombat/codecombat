@@ -10,7 +10,7 @@ block modal-body-content
   else
     p.small(data-i18n="teacher.not_assigned_modal_full_body_1", data-i18n-options=JSON.stringify(view.i18nData))
     p.small(data-i18n="teacher.not_assigned_modal_full_body_2", data-i18n-options=JSON.stringify(view.i18nData))
-    p.small(data-i18n="[html]teacher.not_assigned_modal_full_body_3", data-i18n-options=JSON.stringify({ supportEmail: "<a href='mailto:support@codecombat.com'>support@codecombat.com</a>" }))
+    p.small(data-i18n="[html]teacher.not_assigned_modal_full_body_3", data-i18n-options=JSON.stringify({ supportEmail: "<a href='mailto:support@codecombat.com'>support@codecombat.com</a>" , interpolation: { escapeValue: false } }))
 
 block modal-footer-content
   if view.state.get('promoteStarterLicenses')

@@ -19,6 +19,15 @@ if showAmazonLogo
     .btn.btn-small.btn-illustrated.beautify-code(title=beautifyShortcutVerbose)
       .glyphicon.glyphicon-magnet
 
+  if false && view.options.level.isType('ladder')
+    - var otherTeam = view.otherTeam()
+    button#switch-team(class="btn btn-small btn-illustrated " + (otherTeam == 'ogres' ? 'btn-primary' : 'btn-danger'))
+      span(data-i18n="play_level.play_as_" + otherTeam)
+    
+  if me.canAutoFillCode()
+    button.btn.btn-small.btn-illustrated.btn-success#fill-solution
+      span(data-i18n="play_level.fill_in_solution")
+
   if view.hintsState && view.hintsState.get('total') > 0
     .btn.btn-small.btn-illustrated.hints-button
       span(data-i18n="play_level.hints")

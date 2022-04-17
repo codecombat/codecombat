@@ -28,7 +28,7 @@
             .unlocked(v-else-if="level.videoStatus === 'unlocked'")
               .video-link
                 img.video-image(
-                  :src='level.thumbnail_unlocked',
+                  :src='level.thumbnail_unlocked', 
                   @click="onImageClick"
                 )
                 .video-status
@@ -141,7 +141,7 @@ export default Vue.extend({
   #course-videos-modal
     
     #videos-content
-      background: transparent url('/images/level/popover_background.png') no-repeat
+      background: transparent url('/images/level/popover_background.png') no-repeat 
       background-position: 0px 0px
       background-size: 100% 100%
       border: 0

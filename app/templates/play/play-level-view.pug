@@ -49,7 +49,7 @@ include game-dev-goals
 
     #surface-context-menu-view
 
-    button#stop-real-time-playback-button(title="Stop real-time playback")
+    button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback")
       if view.level && view.level.isType('game-dev')
         span(data-i18n="play_level.edit_level")
       else
@@ -78,7 +78,7 @@ include game-dev-goals
   #level-footer-shadow
   #level-footer-background
 
-  if !me.get('anonymous') && !me.isStudent()
-    #play-footer(class=me.isPremium() ? "premium" : "")
-      p(class='footer-link-text').picoctf-hide
-        a.contact-link(title='Send CodeCombat a message', tabindex=-1, data-i18n="nav.contact")
+  //- if !me.get('anonymous') && !me.isStudent()
+  //-   #play-footer(class=me.isPremium() ? "premium" : "")
+  //-     p(class='footer-link-text').picoctf-hide
+  //-       a.contact-link(title='Send CodeCombat a message', tabindex=-1, data-i18n="nav.contact")

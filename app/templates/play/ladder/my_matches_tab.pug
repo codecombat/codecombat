@@ -6,13 +6,17 @@
         tr
           th(colspan=5, style={color: team.primaryColor})
             span(data-i18n="ladder.summary_your") Your
-            |#{team.displayName}
-            |
+            if !view.level.isType('ladder')
+              |#{team.displayName}
+              |
             span(data-i18n="ladder.summary_matches") Matches -
             |#{team.wins}
             span(data-i18n="ladder.summary_wins")  Wins,
             |#{team.losses}
             span(data-i18n="ladder.summary_losses")  Losses
+            if team.session && team.session.get('submitted')
+              a.share-ladder-link-button.pull-right(data-team=team.id)
+                span(data-i18n="sharing.share_ladder_link")
 
         if team.session
           tr
@@ -45,9 +49,15 @@
             td.battle-cell
               - var levelID = view.level.get('slug') || view.level.id
               - var league = view.options.league
+              if false && match.opTeam
+                - var yourTeam = match.opTeam == 'humans' ? 'ogres' : 'humans'
+              else
+                - var yourTeam = team.id
               a(href='/play/level/' + levelID + '?team=' + yourTeam + '&opponent=' + match.sessionID + (league ? "&league=" + league.id : ""))
                 if (match.state === 'win')
                   span(data-i18n="ladder.watch_victory") Watch your victory
+                else if (view.level.isType('ladder'))
+                  span(data-i18n="ladder.fight") Fight!
                 else
                   span(data-i18n="ladder.defeat_the") Defeat the
                   |
@@ -65,3 +75,4 @@
                 span(data-i18n="ladder.no_ranked_matches_pre") No ranked matches for the
                 | #{team.name}
                 span(data-i18n="ladder.no_ranked_matches_post") team! Play against some competitors and then come back here to get your game ranked.
+  .btn.btn-sm.load-more-matches(data-i18n="editor.more") More

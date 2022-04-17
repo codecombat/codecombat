@@ -69,6 +69,12 @@ module.exports = class Autocomplete
       @activateCompleter()
       @editor.commands.on 'afterExec', @doLiveCompletion
 
+  destroy: ->
+    # Noticed a memory leak, so added a destroy function here
+    @editor.commands.off 'afterExec', @doLiveCompletion  # Seems important to do
+    @bgTokenizer?.stop?()  # Guessing
+    @snippetManager?.unregister @oldSnippets if @oldSnippets?  # Guessing
+
   setAceOptions: () ->
     aceOptions =
       'enableLiveAutocompletion': @options.liveCompletion
@@ -252,6 +258,7 @@ module.exports = class Autocomplete
     haveFindNearestEnemy = false
     haveFindNearest = false
     autocompleteReplacement = level.get("autocompleteReplacement") ? []
+    usedAutocompleteReplacement = []
     for group, props of e.propGroups
       for prop in props
         if _.isString prop  # organizePalette
@@ -271,18 +278,20 @@ module.exports = class Autocomplete
         if doc?.snippets?[e.language]
           name = doc.name
           replacement = _.find(autocompleteReplacement, (el) -> el.name is name)
+          if replacement
+            usedAutocompleteReplacement.push(replacement.name)
           content = replacement?.snippets?[e.language]?.code or doc.snippets[e.language].code
           if /loop/.test(content) and level.get 'moveRightLoopSnippet'
             # Replace default loop snippet with an embedded moveRight()
             content = switch e.language
-              when 'python' then 'loop:\n    self.moveRight()\n    ${1:}'
-              when 'javascript' then 'loop {\n    this.moveRight();\n    ${1:}\n}'
+              when 'python' then 'while True:\n    hero.moveRight()\n    ${1:}'
+              when 'javascript', 'java', 'cpp' then 'while (true) {\n    hero.moveRight();\n    ${1:}\n}'
               else content
           if /loop/.test(content) and level.isType('course', 'course-ladder')
             # Temporary hackery to make it look like we meant while True: in our loop snippets until we can update everything
             content = switch e.language
               when 'python' then content.replace /loop:/, 'while True:'
-              when 'javascript' then content.replace /loop/, 'while (true)'
+              when 'javascript', 'java', 'cpp' then content.replace /loop/, 'while (true)'
               when 'lua' then content.replace /loop/, 'while true then'
               when 'coffeescript' then content
               else content
@@ -296,6 +305,8 @@ module.exports = class Autocomplete
             thisToken =
               'python': /self/,
               'javascript': /this/,
+              'java': /this/,
+              'cpp': /this/,
               'lua': /self/
             if thisToken[e.language] and thisToken[e.language].test(content)
               content = content.replace thisToken[e.language], 'hero'
@@ -344,6 +355,17 @@ module.exports = class Autocomplete
 
     if haveFindNearest and not haveFindNearestEnemy
       spellView.translateFindNearest()
+
+    for replacement in autocompleteReplacement
+      continue if replacement.name in usedAutocompleteReplacement
+      continue if not replacement.snippets
+      entry =
+        content: replacement?.snippets?[e.language]?.code
+        meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
+        name: replacement.name
+        tabTrigger: replacement.snippets?[e.language]?.tab
+        importance: replacement.autoCompletePriority ? 1.0
+      snippetEntries.push entry
 
     # window.AutocompleteInstance = @Autocomplete  # For debugging. Make sure to not leave active when committing.
     # window.snippetEntries = snippetEntries

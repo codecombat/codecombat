@@ -17,11 +17,13 @@ block content
   .container(dir="auto")
     h1(data-i18n="nav.courses")
     h2(data-i18n="courses.subtitle")
-    //- p
-    //-   a(href="https://discourse.codecombat.com/t/course-level-changelog/7352" data-i18n="courses.changelog")
 
   .courses.container(dir="auto")
-    each course in view.courses.models
+    - var courses = view.courses.models;
+    - var courseIndex = 0;
+    while courseIndex < courses.length
+      - var course = courses[courseIndex];
+      - courseIndex++;
       .course.row
         .col-sm-9
           +course-info(course)
@@ -33,55 +35,130 @@ block content
                   span(data-i18n="courses.select_language")
                   | :
                   select.language-select.form-control
-                    option(value="python")
-                      | Python
-                    option(value="javascript")
-                      | JavaScript
+                    //- TODO: Automate this list @scott
+                    //- Web dev courses use HTML and JavaScript, except web-development-1 which doesn't have scripting
+                    if course.id === view.utils.courseIDs.WEB_DEVELOPMENT_1
+                      option(value="javascript")
+                        | HTML
+                    else if course.id === view.utils.courseIDs.WEB_DEVELOPMENT_2
+                      option(value="javascript")
+                        | HTML / JavaScript
+                    else
+                      option(value="python")
+                        | Python
+                      option(value="javascript")
+                        | JavaScript
+                      if view.enableCpp
+                        option(value="cpp")
+                          | C++
+                      if view.enableJava && (view.utils.CSCourseIDs.indexOf(course.id) !== -1) && (view.utils.CSCourseIDs.indexOf(course.id) < 4)
+                        option(value="java")
+                          | Java
+
               .form-group
                 label.control-label
                   span(data-i18n="courses.select_level")
                   | :
-                  select.level-select.form-control.selectpicker
+                  select.level-select.form-control
                     if view.campaigns.loaded
                       - var campaign = view.campaigns.get(course.get('campaignID'))
-                      if campaign && view.campaignLevelsModuleMap[campaign.id]
-                        each levels, moduleNum in view.campaignLevelsModuleMap[campaign.id].modules
-                          optgroup.module-label(label='Module ' + moduleNum + ': ' + view.moduleNameMap[course.id][moduleNum])
-                            each level, levelIndex in levels
-                              option.level-content(value=level.get('slug'))
-                                = view.getLevelDisplayNameWithLabel(level)
-                              if level.getDisplayContentType() === 'intro'
-                                each content, index in level.get('introContent')
-                                  - if (content.type === 'avatarSelectionScreen') continue
-                                  option.intro-content(data-index=index, value=level.get("slug"))
-                                    = view.getIntroContentNameWithLabel(content)
-                - var disablePlayButtons = !view.paidTeacher && features.china && !(me.canAccessCampaignFreelyFromChina(course.get('campaignID')))
-                a.play-level-button.btn.btn-lg.btn-primary(disabled=disablePlayButtons)
-                  span(data-i18n="courses.play_level")
-              .clearfix
+                      if campaign && view.campaignLevelNumberMap[campaign.id]
+                        each level, levelIndex in campaign.getLevels().models
+                          option(value=level.get('slug'))
+                            if level.get('assessment')
+                              if level.get('assessment') === 'cumulative'
+                                =$.t('play_level.combo_challenge')
+                              else
+                                =$.t('play_level.concept_challenge')
+                              =":"
+                            else
+                              span #{view.campaignLevelNumberMap[campaign.id][level.get('original')]}.
+                            = " "
+                            span
+                              = i18n(level.attributes, 'name').replace('Course: ', '')
+              - var disablePlayButtons = !view.paidTeacher && features.china && !(me.canAccessCampaignFreelyFromChina(course.get('campaignID')))
+              a.play-level-button.btn.btn-lg.btn-primary(disabled=disablePlayButtons)
+                span(data-i18n="courses.play_level")
+            .clearfix
+
+  #video-modal.modal(data-show="false")
+    .modal-dialog
+      .modal-content.video-wrapper
+          iframe.video-player(frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
+          .video-close-btn.btn.well.well-sm.well-parchment(data-dismiss="modal")
+            span.glyphicon.glyphicon-remove
 
 mixin course-info(course)
+  - var campaign = view.campaigns.get(course.get('campaignID'));
+  - var courseLessonSlidesURL = view.courseLessonSlidesURLs[course.id]
   .course-info
     .text-h4.semibold
       = i18n(course.attributes, 'name')
     p= i18n(course.attributes, 'description')
-    p.concepts.semibold
-      span(data-i18n="courses.concepts_covered")
+    p.concepts
+      span.semibold(data-i18n="courses.concepts_covered")
       = ": "
+      each concept in course.get('concepts')
+        span(data-i18n="concepts." + concept)
+        if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
+          span.spr ,
+
+    if course.id === view.utils.courseIDs.WEB_DEVELOPMENT_2
       p
-        each concept in course.get('concepts')
-          span(data-i18n="concepts." + concept)
-          if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
-            span.spr ,
+        i(data-i18n="courses.web_dev_language_transition")
 
     if me.isTeacher() || view.ownedClassrooms.size() || me.isAdmin()
       - var disableButtons = !view.paidTeacher && (features.china ? !me.canAccessCampaignFreelyFromChina(course.get('campaignID')) : !course.get('free'))
       if disableButtons
         p
           i(data-i18n="courses.solutions_require_licenses")
-      a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '' : 'disabled'))
+      p.semibold
         span(data-i18n="courses.view_guide_online")
-        |  &mdash; JavaScript
-      a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '' : 'disabled'))
-        span(data-i18n="courses.view_guide_online")
-        |  &mdash; Python
+        = ": "
+        //- Web dev courses use HTML and JavaScript, except web-development-1 which doesn't have scripting
+        if course.id === view.utils.courseIDs.WEB_DEVELOPMENT_1
+          a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/html") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+            | HTML
+        else
+          a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+            | Python
+          a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+            span JavaScript
+          if view.enableCpp && (view.utils.WDCourseIDs.indexOf(course.id) === -1)
+            a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/cpp") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide C++" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+              span C++
+
+      - var courseResources = view.resourcesByCourse[view.utils.courseAcronyms[course.get('_id')]]
+      if courseLessonSlidesURL || courseResources
+        p.semibold
+          span(data-i18n="teacher.resources")
+          = ": "
+          if courseLessonSlidesURL
+            a.guide-btn.btn.btn-primary(disabled=disableButtons href=(courseLessonSlidesURL) data-course-id=course.id data-course-name=course.get('name') data-event-action="Lesson Slides" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled') target="_blank")
+              span(data-i18n="courses.lesson_slides")
+          for resource in (courseResources || [])
+            a.guide-btn.btn.btn-primary(disabled=disableButtons href=view.utils.i18n(resource, 'link') data-course-id=course.id data-course-name=course.get('name') data-event-action=('Resource: ' + resource.name) class=(me.isTeacher() || me.isAdmin() ? '': 'disabled') target="_blank")
+              span(title=view.utils.i18n(resource, 'description'))= view.utils.i18n(resource, 'name')
+
+    if course.id === view.utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && Object.keys(view.videoLevels || {}).length > 0
+      - var levelNameMap = campaign.getLevelNameMap()
+      .row.m-t-3
+        each videoLevel, originalId in view.videoLevels
+          .col-sm-4
+            span.video-title.semibold.small(data-i18n=`courses.${videoLevel.i18name}`)
+            img.video-thumbnail(src=videoLevel.thumbnail_unlocked)
+            p.video-text.small
+              span (
+              span(data-i18n="courses.video_shown_before", data-i18n-options={level:levelNameMap[originalId]})
+              span )
+
+    if Object.keys(view.courseChangeLog[course.id] || []).length > 0
+      p
+        div.course-change-log
+          i.btn-link.show-change-log.small(data-i18n="courses.show_change_log")
+          div.hidden.change-log
+            each messages, date in view.courseChangeLog[course.id]
+              span.semibold.small #{date}
+              ul
+                each m in messages
+                  li.small #{m.message}

@@ -1,0 +1,23 @@
+#level-loading-view
+
+.level-content
+  #control-bar-view
+  #canvas-wrapper
+    canvas(width=924, height=589)#webgl-surface
+    canvas(width=924, height=589)#normal-surface
+    #canvas-left-gradient.gradient
+    #canvas-top-gradient.gradient
+  #gold-view.secret.expanded
+  #level-chat-view
+  #duel-stats-view
+  #playback-view
+  #thang-hud
+  for team in ["humans", "ogres"]
+    div(class="spectate-code team-" + team)
+      img(src="/images/level/code_editor_background.png").code-background
+      span.code-background
+      .ace
+      .programming-language-container.rtl-allowed
+        span.programming-language-label(data-i18n='play_level.programming_language')
+        span.programming-language-label.spr :
+        span.programming-language

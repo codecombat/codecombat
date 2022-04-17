@@ -55,6 +55,9 @@ module.exports =
 
   'level:docs-hidden': c.object {}
 
+  'level:hints-button': c.object {},
+    state: {type: 'boolean'}
+
   'level:flag-color-selected': c.object {},
     color:
       oneOf: [

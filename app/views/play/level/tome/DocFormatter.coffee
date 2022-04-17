@@ -57,6 +57,7 @@ module.exports = class DocFormatter
       ownerName = if @doc.owner isnt 'this' then @doc.owner else switch @options.language
         when 'python', 'lua' then (if @options.useHero then 'hero' else 'self')
         when 'java' then 'hero'
+        when 'cpp' then 'hero'
         when 'coffeescript' then '@'
         else (if @options.useHero then 'hero' else 'this')
       ownerName = 'game' if @options.level.isType('game-dev')
@@ -89,7 +90,7 @@ module.exports = class DocFormatter
       if @doc.owner is 'ui'
         @doc.shortName = @doc.shortName.replace /^game./, ''
         @doc.shorterName = @doc.shortName
-      if @options.language is 'javascript'
+      if @options.language in ['javascript', 'java', 'cpp']
         @doc.shorterName = @doc.shortName.replace ';', ''
         if @doc.owner is 'this' or @options.tabbify or ownerName is 'game'
           @doc.shorterName = @doc.shorterName.replace /^(this|hero)\./, ''
@@ -155,6 +156,8 @@ module.exports = class DocFormatter
       thisToken =
         'python': /self/g,
         'javascript': /this/g,
+        'java': /this/g,
+        'cpp': /this/g,
         'lua': /self/g
 
       if thisToken[@options.language]
@@ -165,24 +168,6 @@ module.exports = class DocFormatter
         if @doc.args
           arg.example = arg.example.replace thisToken[@options.language], 'hero' for arg in @doc.args when arg.example
 
-    if @doc.shortName is 'loop' and @options.level.isType('course', 'course-ladder')
-      @replaceSimpleLoops()
-
-  replaceSimpleLoops: ->
-    # Temporary hackery to make it look like we meant while True: in our loop: docs until we can update everything
-    @doc.shortName = @doc.shorterName = @doc.title = @doc.name = switch @options.language
-      when 'coffeescript' then "loop"
-      when 'python' then "while True:"
-      when 'lua' then "while true do"
-      else "while (true)"
-    for field in ['example', 'description']
-      [simpleLoop, whileLoop] = switch @options.language
-        when 'coffeescript' then [/loop/g, "loop"]
-        when 'python' then [/loop:/g, "while True:"]
-        when 'lua' then [/loop/g, "while true do"]
-        else [/loop/g, "while (true)"]
-      @doc[field] = @doc[field].replace simpleLoop, whileLoop
-
   formatPopover: ->
     [docName, args] = @getDocNameAndArguments()
     argumentExamples = (arg.example or arg.default or arg.name for arg in @doc.args ? [])
@@ -191,7 +176,7 @@ module.exports = class DocFormatter
       doc: @doc
       docName: docName
       language: @options.language
-      value: @formatValue()
+      value: @formatValue undefined, true
       marked: marked
       argumentExamples: argumentExamples
       writable: @options.writable
@@ -205,6 +190,7 @@ module.exports = class DocFormatter
     content = content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
     content = content.replace /{([a-z]+)}([^]*?){\/\1}/g, (s, language, text) =>
       if language is @options.language then return text
+      if language is 'javascript' and @options.language in ['java', 'cpp'] then return text
       return ''
 
   replaceSpriteName: (s) ->
@@ -222,11 +208,11 @@ module.exports = class DocFormatter
       args.unshift '"' + _.string.dasherize(@doc.name).replace('cast-', '') + '"'
     [docName, args]
 
-  formatValue: (v) ->
+  formatValue: (v, isTopLevel=false) ->
     return null if @options.level.isType('web-dev')
     return null if @doc.type is 'snippet'
     return @options.thang.now() if @doc.name is 'now'
-    return '[Function]' if not v and @doc.type is 'function'
+    return '[Function]' if not v? and @doc.type is 'function' and isTopLevel
     unless v?
       if @doc.owner is 'this'
         v = @options.thang[@doc.name]
@@ -237,7 +223,7 @@ module.exports = class DocFormatter
         return v
       if _.isNumber v
         return v.toFixed 2
-      unless v
+      unless v?
         return 'null'
       return '' + v
     if _.isString v

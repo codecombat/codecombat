@@ -1,9 +1,8 @@
-SpellView = require 'ozaria/site/views/play/level/tome/SpellView'
+SpellView = require './SpellView'
 SpellTopBarView = require './SpellTopBarView'
 {me} = require 'core/auth'
 {createAetherOptions, replaceSimpleLoops, translateJS} = require 'lib/aether_utils'
 utils = require 'core/utils'
-store = require 'core/store'
 
 module.exports = class Spell
   loaded: false
@@ -24,7 +23,7 @@ module.exports = class Spell
     @level = options.level
     @createFromProgrammableMethod options.programmableMethod, options.language
     if @canRead()  # We can avoid creating these views if we'll never use them.
-      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel, levelID: options.levelID, courseID: options.courseID}
+      @view = new SpellView {spell: @, level: options.level, session: @session, otherSession: @otherSession, worker: @worker, god: options.god, @supermodel, levelID: options.levelID}
       @view.render()  # Get it ready and code loaded in advance
       @topBarView = new SpellTopBarView
         hintsState: options.hintsState
@@ -42,7 +41,10 @@ module.exports = class Spell
     p = programmableMethod
     @commentI18N = p.i18n
     @commentContext = p.context
-    @languages = p.languages ? {}
+    if p.sourceVariants
+      @languages = _.clone _.sample p.sourceVariants
+    else
+      @languages = p.languages ? {}
     @languages.javascript ?= p.source
     @name = p.name
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? ['humans']  # teams
@@ -56,9 +58,13 @@ module.exports = class Spell
 
     @source = @originalSource
     @parameters = p.parameters
-    if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
+    if @otherSession and @team is @otherSession.get('team') and sessionSource = @otherSession.getSourceFor(@spellKey)
+      # Load opponent code from other session (new way, not relying on PlayLevelView loadOpponentTeam)
+      @source = replaceSimpleLoops sessionSource, @language
+    else if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
+      # Load either our code or opponent code (old way, opponent code copied into our session in PlayLevelView loadOpponentTeam)
       if sessionSource isnt '// Should fill in some default source\n'  # TODO: figure out why session is getting this default source in there and stop it
-        @source = sessionSource
+        @source = replaceSimpleLoops sessionSource, @language
     if p.aiSource and not @otherSession and not @canWrite()
       @source = @originalSource = p.aiSource
       @isAISource = true
@@ -72,16 +78,6 @@ module.exports = class Spell
   setLanguage: (@language) ->
     @language = 'html' if @level.isType('web-dev')
     @displayCodeLanguage = utils.capitalLanguages[@language]
-    if @language is 'java' and not @languages[@language]
-      lines = (@languages.javascript ? '').split '\n'
-      lines.push '' if lines[lines.length - 1] isnt ''
-      @languages.java = """
-        public class AI {
-          public static void main(String[] args) {
-        #{(lines.map ((line) -> '    ' + line)).join('\n')}
-          }
-        }
-      """
     if @language in ['cpp', 'java', 'lua', 'coffeescript', 'python'] and not @languages[@language]
       @languages[@language] = translateJS @languages.javascript, @language
     @originalSource = @languages[@language] ? @languages.javascript
@@ -94,10 +90,8 @@ module.exports = class Spell
       @originalSource = playerCode
 
     # Translate comments chosen spoken language.
-    # TODO: is there a better way than hardcoding this template string.
-    return unless @commentContext or @originalSource.includes('<%= external_ch1_avatar %>')
+    return unless @commentContext
     context = $.extend true, {}, @commentContext
-    context = _.merge(context, external_ch1_avatar: store.getters['me/getCh1Avatar']?.avatarCodeString || 'crown' )
 
     if @language is 'lua'
       for k,v of context
@@ -117,14 +111,9 @@ module.exports = class Spell
     catch e
       console.error "Couldn't create example code template of", @originalSource, "\nwith context", context, "\nError:", e
 
-    if /loop/.test(@originalSource) and @level.isType('course', 'course-ladder')
+    if /loop/.test(@originalSource) and @level.isType('course', 'course-ladder', 'hero', 'hero-ladder')
       # Temporary hackery to make it look like we meant while True: in our sample code until we can update everything
-      @originalSource = switch @language
-        when 'python' then @originalSource.replace /loop:/, 'while True:'
-        when 'javascript' then @originalSource.replace /loop {/, 'while (true) {'
-        when 'lua' then @originalSource.replace /loop\n/, 'while true then\n'
-        when 'coffeescript' then @originalSource
-        else @originalSource
+      @originalSource = replaceSimpleLoops @originalSource, @language
 
   constructHTML: (source) ->
     @wrapperCode.replace '☃', source
@@ -194,7 +183,7 @@ module.exports = class Spell
     writable = @permissions.readwrite.length > 0 and not @isAISource
     skipProtectAPI = @skipProtectAPI or not writable or @level.isType('game-dev')
     problemContext = @createProblemContext thang
-    includeFlow = @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev') and not skipProtectAPI
+    includeFlow = @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'ladder') and not skipProtectAPI
     aetherOptions = createAetherOptions
       functionName: @name
       codeLanguage: @language
