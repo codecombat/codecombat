@@ -626,6 +626,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ladder: "升级比赛"
     when: "时间"
     opponent: "对手"
+    opponent_and_team: "对手/阵营"
     rank: "等级"
     score: "分数"
     win: "胜利"
@@ -864,6 +865,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     play_as_humans: "扮演红方"
     play_as_ogres: "扮演蓝方"
     changed: "最后修改于"
+    team_humans: "红方"
+    team_ogres: "蓝方"
+    watch_game: "观战"
 
   apis:
     methods: "函数"

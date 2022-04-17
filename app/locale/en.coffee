@@ -621,6 +621,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ladder: "Ladder"
     when: "When"
     opponent: "Opponent"
+    opponent_and_team: "Opponent"
     rank: "Rank"
     score: "Score"
     win: "Win"
@@ -859,6 +860,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     play_as_humans: "Play As Red"
     play_as_ogres: "Play As Blue"
     changed: "Last edited "
+    team_humans: "Red"
+    team_ogres: "Blue"
+    watch_game: "Spectate"
 
   apis:
     methods: "Methods"
