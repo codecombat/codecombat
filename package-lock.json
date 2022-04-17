@@ -5578,6 +5578,11 @@
         "domelementtype": "1"
       }
     },
+    "dompurify": {
+      "version": "2.3.6",
+      "resolved": "https://registry.npmjs.org/dompurify/-/dompurify-2.3.6.tgz",
+      "integrity": "sha512-OFP2u/3T1R5CEgWCEONuJ1a5+MFKnOYpkywpUSxv/dj1LeBT1erK+JwM7zK0ROy2BRhqVCf0LRw/kHqKuMkVGg=="
+    },
     "domutils": {
       "version": "1.5.1",
       "resolved": "https://registry.npmjs.org/domutils/-/domutils-1.5.1.tgz",

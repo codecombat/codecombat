@@ -4,7 +4,7 @@
   import TertiaryButton from '../../common/buttons/TertiaryButton'
 
   import utils from 'app/core/utils'
-  import { hasSharedWriteAccessPermission } from '../../../../../../app/lib/classroom-util'
+  import { hasSharedWriteAccessPermission } from '../../../../../../app/lib/classroom-utils'
 
   export default {
     components: {
