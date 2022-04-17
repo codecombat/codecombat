@@ -4,7 +4,7 @@
 
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 import ClassroomLib from '../../../app/models/ClassroomLib'
-import { hasSharedWriteAccessPermission } from '../../../app/lib/classroom-util'
+import { hasSharedWriteAccessPermission } from '../../../app/lib/classroom-utils'
 
 // TODO: Ensure download size isn't too big.
 const projectionData = {
