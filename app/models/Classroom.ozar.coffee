@@ -8,6 +8,7 @@ User = require 'models/User'
 Level = require 'models/Level'
 api = require 'core/api'
 ClassroomLib = require './ClassroomLib'
+classroomUtils = require 'app/lib/classroom-utils'
 
 module.exports = class Classroom extends CocoModel
   @className: 'Classroom'
@@ -32,8 +33,12 @@ module.exports = class Classroom extends CocoModel
     @capitalLanguage = utils.capitalLanguages[language]
 
   joinWithCode: (code, opts) ->
+    if code.length == 14 and code.split('-').length == 3
+      url = @urlRoot + "/join-by-activation-code"
+    else
+      url = @urlRoot + '/~/members'
     options = {
-      url: @urlRoot + '/~/members'
+      url: url
       type: 'POST'
       data: { code: code }
       success: => @trigger 'join:success'
@@ -279,6 +284,36 @@ module.exports = class Classroom extends CocoModel
 
   isGoogleClassroom: -> @get('googleClassroomId')?.length > 0
 
+  hasReadPermission: (options = { showNoty: false }) ->
+    showNoty = options.showNoty or false
+    result = classroomUtils.hasPermission('read', {
+      ownerId: @get('ownerID'),
+      permissions: @get('permissions')
+    }) or @hasWritePermission()
+    if !result and showNoty
+      noty({ text: 'teacher.not_read_permission', type: 'error', timeout: 4000, killer: true })
+    result
+
+  hasWritePermission: (options = { showNoty: false }) ->
+    showNoty = options.showNoty or false
+    result = classroomUtils.hasPermission('write', {
+      ownerId: @get('ownerID'),
+      permissions: @get('permissions')
+    })
+    if !result and showNoty
+      noty({ text: $.i18n.t('teacher.not_write_permission'), type: 'error', timeout: 4000, killer: true })
+    result
+
+  isOwner: ->
+    return me.id == @get('ownerID') || me.isAdmin()
+
+  getDisplayPermission: ->
+    if @isOwner()
+      return
+    if @hasWritePermission()
+      return classroomUtils.getDisplayPermission('write')
+    else if @hasReadPermission()
+      return classroomUtils.getDisplayPermission('read')
 
 
 # Make ClassroomLib accessible as static methods.

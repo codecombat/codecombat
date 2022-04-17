@@ -159,7 +159,7 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 
   @import "app/styles/mixins"
   @import "app/styles/bootstrap/variables"
