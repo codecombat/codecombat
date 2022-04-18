@@ -10,7 +10,7 @@ require('coffee-script')
 require('coffee-script/register')
 const product = process.env.COCO_PRODUCT || 'codecombat'
 const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
-require.extensions[`${productSuffix}.coffee`] = require.extensions['.coffee']
+require.extensions[`.${productSuffix}.coffee`] = require.extensions['.coffee']
 const CompileStaticTemplatesPlugin = require('./compile-static-templates')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const PWD = process.env.PWD || __dirname
@@ -37,7 +37,7 @@ class ProductResolverPlugin {
         if (!request.relativePath) return
 
         if (/\.import\.(sass|scss)$/.test(request.path)) {
-          request.path = request.path.replace(/\.import\.(sass|scss)/, `${productSuffix}.$1`)
+          request.path = request.path.replace(/\.import\.(sass|scss)/, `.${productSuffix}.$1`)
           return
         }
 
