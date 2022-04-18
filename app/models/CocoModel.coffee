@@ -79,7 +79,7 @@ class CocoModel extends Backbone.Model
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
 
   getTranslatedName: ->
-    utils.i18n(@attributes, 'name')
+    utils.i18n(@attributes, 'displayName') || utils.i18n(@attributes, 'name')
 
   attributesWithDefaults: undefined
 
@@ -326,6 +326,7 @@ class CocoModel extends Backbone.Model
     return if _.isString @url then @url else @url()
 
   @pollAchievements: ->
+    return if utils.isOzaria  # Not needed until/unlesss we start using achievements in Ozaria
     return if application?.testing
 
     CocoCollection = require 'collections/CocoCollection'

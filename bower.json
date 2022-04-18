@@ -62,9 +62,6 @@
     },
     "modernizr": {
       "main": "modernizr.js"
-    },
-    "moment": {
-      "main": "min/moment-with-locales.min.js"
     }
   },
   "devDependencies": {

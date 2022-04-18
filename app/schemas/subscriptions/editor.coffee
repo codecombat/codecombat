@@ -44,6 +44,10 @@ module.exports =
   'level:reload-thang-type': c.object {required: ['thangType']},
     thangType: {type: 'object'}
 
+  'level:open-restart-modal': c.object {title: 'Restart level modal about to open'}
+
+  'level:open-options-modal': c.object {title: 'Level options modal opened'}
+
   'editor:random-terrain-generated': c.object {required: ['thangs', 'terrain']},
     thangs: c.array {}, {type: 'object'}
     terrain: c.terrainString
