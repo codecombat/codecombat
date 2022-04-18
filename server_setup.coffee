@@ -1,6 +1,5 @@
 express = require 'express'
 path = require 'path'
-useragent = require 'express-useragent'
 fs = require 'graceful-fs'
 compressible = require 'compressible'
 compression = require 'compression'
@@ -14,6 +13,7 @@ Promise.promisifyAll(fs)
 wrap = require 'co-express'
 morgan = require 'morgan'
 timeout = require('connect-timeout')
+PWD = process.env.PWD || __dirname
 
 {countries} = require './app/core/utils'
 
@@ -57,7 +57,7 @@ setupExpressMiddleware = (app) ->
     res.header 'X-Cluster-ID', config.clusterID
     next()
 
-  public_path = path.join(__dirname, 'public')
+  public_path = path.join(PWD, 'public')
 
   app.use('/', express.static(path.join(public_path, 'templates', 'static')))
 
@@ -70,7 +70,7 @@ setupExpressMiddleware = (app) ->
 
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
-  app.use require('serve-favicon') path.join(__dirname, 'public', 'images', 'favicon', 'favicon.ico')
+  app.use require('serve-favicon') path.join(PWD, 'public', 'images', 'favicon', 'favicon.ico')
   app.use require('cookie-parser')()
   app.use require('body-parser').json limit: '25mb', strict: false
   app.use require('body-parser').urlencoded extended: true, limit: '25mb'
@@ -96,30 +96,6 @@ setupOneSecondDelayMiddleware = (app) ->
   if(config.slow_down)
     app.use((req, res, next) -> setTimeout((-> next()), 1000))
 
-setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
-  isOldBrowser = (req) ->
-    # https://github.com/biggora/express-useragent/blob/master/lib/express-useragent.js
-    return false unless ua = req.useragent
-    return true if ua.isiPad or ua.isiPod or ua.isiPhone or ua.isOpera
-    return false unless ua and ua.Browser in ['Chrome', 'Safari', 'Firefox', 'IE'] and ua.Version
-    b = ua.Browser
-    try
-      v = parseInt ua.Version.split('.')[0], 10
-    catch TypeError
-      console.error('ua.Version does not have a split function.', JSON.stringify(ua, null, '  '))
-      return false
-    return true if b is 'Chrome' and v < 17
-    return true if b is 'Safari' and v < 6
-    return true if b is 'Firefox' and v < 21
-    return true if b is 'IE' and v < 11
-    false
-
-  app.use '/play/', useragent.express()
-  app.use '/play/', (req, res, next) ->
-    return next() if req.path?.indexOf('web-dev-level') >= 0
-    return next() if req.query['try-old-browser-anyway'] or not isOldBrowser req
-    res.sendfile(path.join(__dirname, 'public', 'index_old_browser.html'))
-
 setupRedirectMiddleware = (app) ->
   app.all '/account/profile/*', (req, res, next) ->
     nameOrID = req.path.split('/')[3]
@@ -140,7 +116,7 @@ setupFeaturesMiddleware = (app) ->
       features.brainPop = true
       features.noAds = true
 
-    if /aojiarui/.test(req.get('host')) or req.session.featureMode is 'china'
+    if /(cn\.codecombat\.com|koudashijie|aojiarui)/.test(req.get('host')) or req.session.featureMode is 'china'
       features.china = true
       features.freeOnly = true
       features.noAds = true
@@ -184,7 +160,6 @@ exports.setupMiddleware = (app) ->
 
   setupQuickBailToMainHTML app
 
-  setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupFeaturesMiddleware app
 
@@ -221,7 +196,7 @@ templates = {}
 getStaticTemplate = (file) ->
   # Don't cache templates in development so you can just edit then.
   return templates[file] if templates[file] and config.isProduction
-  templates[file] = fs.readFileAsync(path.join(__dirname, 'public', 'templates', 'static', file), 'utf8')
+  templates[file] = fs.readFileAsync(path.join(PWD, 'public', 'templates', 'static', file), 'utf8')
 
 renderMain = wrap (template, req, res) ->
   template = yield getStaticTemplate(template)
@@ -242,7 +217,7 @@ setupQuickBailToMainHTML = (app) ->
         res.header 'Pragma', 'no-cache'
         res.header 'Expires', 0
 
-      if /cn\.codecombat\.com/.test(req.get('host'))
+      if /(cn\.codecombat\.com|koudashijie|aojiarui)/.test(req.get('host'))
         features.china = true
 
       if config.chinaInfra
@@ -265,7 +240,7 @@ setupQuickBailToMainHTML = (app) ->
 
 exports.setExpressConfigurationOptions = (app) ->
   app.set('port', config.port)
-  app.set('views', __dirname + '/app/views')
+  app.set('views', PWD + '/app/views')
   app.set('view engine', 'jade')
   app.set('view options', { layout: false })
   app.set('env', if config.isProduction then 'production' else 'development')

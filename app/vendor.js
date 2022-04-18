@@ -26,11 +26,9 @@ require('vendor/scripts/hsl-to-rgb.js');
 require('imports-loader?this=>window!../vendor/scripts/fancy_select.js');// TODO webpack: Try to extract this
 window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js');// TODO webpack: Try to extract this
 require('vendor/scripts/fuzzaldrin')// TODO webpack: Try to extract this
+require('bower_components/waypoints/lib/jquery.waypoints.min.js')
 
 require('imports-loader?this=>window!npm-modernizr');
-
-import 'node_modules/bootstrap-select/dist/css/bootstrap-select.min.css'
-import 'node_modules/bootstrap-select/dist/js/bootstrap-select.min.js'
 
 window.Vue = require('vue/dist/vue.common.js') // TODO: Update to using just the runtime (need to precompile templates!)
 window.Vuex = require('vuex').default
@@ -70,22 +68,6 @@ if (!String.prototype.includes) {
     })
   })
 })([Element.prototype, CharacterData.prototype, DocumentType.prototype])
-
-function loadScript (url) {
-  var script = document.createElement('script');
-  script.src = url;
-  document.head.appendChild(script);
-}
-try {
-  //Detect very modern javascript support.
-  (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
-  console.log("Modern javascript detected, aw yeah!");
-  loadScript(window.javascriptsPath + 'esper.modern.js')
-
-} catch (e) {
-  console.log("Legacy javascript detected, falling back...", e.message);
-  loadScript(window.javascriptsPath + 'esper.js');
-}
 
 // All the rest of Vendor...
 require('vendor/scripts/css.js')

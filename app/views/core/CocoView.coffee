@@ -212,10 +212,6 @@ module.exports = class CocoView extends Backbone.View
 
   afterRender: ->
     @renderScrollbar()
-    @renderSelectPicker()
-
-  renderSelectPicker: ->
-    _.defer => $('.selectpicker').selectpicker()
 
   renderScrollbar: ->
     #Defer the call till the content actually gets rendered, nanoscroller requires content to be visible
