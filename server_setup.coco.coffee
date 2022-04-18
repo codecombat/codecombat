@@ -219,7 +219,7 @@ setupQuickBailToMainHTML = (app) ->
 
       if /(cn\.codecombat\.com|koudashijie|aojiarui)/.test(req.get('host'))
         features.china = true
-        if template is 'home.html'
+        if template is 'home.html' and config.product is 'codecombat'
           template = 'home-cn.html'
 
       if config.chinaInfra
@@ -229,13 +229,17 @@ setupQuickBailToMainHTML = (app) ->
 
   app.get '/', fast('home.html')
   app.get '/home', fast('home.html')
-  app.get '/about', fast('about.html')
-  app.get '/features', fast('premium-features.html')
-  app.get '/privacy', fast('privacy.html')
-  app.get '/legal', fast('legal.html')
   app.get '/play', fast('overworld.html')
   app.get '/play/level/:slug', fast('main.html')
   app.get '/play/:slug', fast('main.html')
+  if config.product is 'codecombat'
+    app.get '/about', fast('about.html')
+    app.get '/features', fast('premium-features.html') if config.product is 'codecombat'
+    app.get '/privacy', fast('privacy.html')
+    app.get '/legal', fast('legal.html')
+  if config.product is 'ozaria'
+    app.get '/teachers/classes/:slug', fast('main.html')
+    app.get '/teachers/:slug', fast('main.html')
 
 ###Miscellaneous configuration functions###
 
@@ -271,12 +275,12 @@ setupProxyMiddleware = (app) ->
 
   httpProxy = require 'http-proxy'
 
-  target = 'https://direct.staging.codecombat.com'
+  target = process.env.COCO_PROXY_TARGET or "https://direct.staging.#{config.product}.com"
   headers = {}
 
-  if (process.env.COCO_PROXY_NEXT)
-    target = 'https://direct.next.codecombat.com'
-    headers['Host'] = 'next.codecombat.com'
+  if process.env.COCO_PROXY_NEXT
+    target = "https://direct.next.#{config.product}.com"
+    headers['Host'] = "next.#{config.product}.com"
 
   proxy = httpProxy.createProxyServer({
     target,
