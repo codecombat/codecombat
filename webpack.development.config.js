@@ -23,8 +23,8 @@ module.exports = (env) => {
       appendScriptTag: true,
       useSourceHash: true,
       port: process.env.WEBPACK_LIVE_RELOAD_PORT || (process.env.COCO_PRODUCT == 'ozaria' ? 35729 : 35432)
-    }),
-  ];
+    })
+  ]
   return smp.wrap(
     _.merge(baseConfig, {
       output: _.merge({}, baseConfig.output, {
