@@ -68,24 +68,6 @@ setupExpressMiddleware = (app) ->
 
   app.use(express.static(public_path, maxAge: 0))
 
-  if config.proxy
-    # Don't proxy static files with sha prefixes, redirect them
-    regex = /\/[0-9a-f]{40}\/.*/
-    regex2 = /\/[0-9a-f]{40}-[0-9a-f]{40}\/.*/
-    regex3 = /^\/(production|next)-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}\/.*/
-    app.use (req, res, next) ->
-      if regex.test(req.path)
-        newPath = req.path.slice(41)
-        return res.redirect(newPath)
-      if regex2.test(req.path)
-        newPath = req.path.slice(82)
-        return res.redirect(newPath)
-      if regex3.test(req.path)
-        split = req.path.split('/')
-        newPath = '/' + split.slice(2).join('/')
-        return res.redirect(newPath)
-      next()
-
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
   app.use require('serve-favicon') path.join(PWD, 'public', 'images', 'favicon', 'favicon.ico')
@@ -134,7 +116,7 @@ setupFeaturesMiddleware = (app) ->
       features.brainPop = true
       features.noAds = true
 
-    if /cn\.codecombat\.com/.test(req.get('host')) or /koudashijie/.test(req.get('host')) or req.session.featureMode is 'china'
+    if /(cn\.codecombat\.com|koudashijie|aojiarui)/.test(req.get('host')) or req.session.featureMode is 'china'
       features.china = true
       features.freeOnly = true
       features.noAds = true
@@ -235,7 +217,7 @@ setupQuickBailToMainHTML = (app) ->
         res.header 'Pragma', 'no-cache'
         res.header 'Expires', 0
 
-      if /cn\.codecombat\.com/.test(req.get('host')) or /koudashijie\.com/.test(req.get('host'))
+      if /(cn\.codecombat\.com|koudashijie|aojiarui)/.test(req.get('host'))
         features.china = true
         if template is 'home.html' and config.product is 'codecombat'
           template = 'home-cn.html'
@@ -272,6 +254,25 @@ exports.setExpressConfigurationOptions = (app) ->
 setupProxyMiddleware = (app) ->
   return if config.isProduction
   return unless config.proxy
+
+  # Don't proxy static files with sha prefixes, redirect them
+  regex = /\/[0-9a-f]{40}\/.*/
+  regex2 = /\/[0-9a-f]{40}-[0-9a-f]{40}\/.*/
+  # based on new format of branch name + date
+  regex3 = /^\/(production|next)-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}\/.*/
+  app.use (req, res, next) ->
+    if regex.test(req.path)
+      newPath = req.path.slice(41)
+      return res.redirect(newPath)
+    if regex2.test(req.path)
+      newPath = req.path.slice(82)
+      return res.redirect(newPath)
+    if regex3.test(req.path)
+      split = req.path.split('/')
+      newPath = '/' + split.slice(2).join('/')
+      return res.redirect(newPath)
+    next()
+
   httpProxy = require 'http-proxy'
 
   target = process.env.COCO_PROXY_TARGET or "https://direct.staging.#{config.product}.com"
