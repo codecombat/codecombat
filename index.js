@@ -10,6 +10,6 @@ require('coffee-script');
 require('coffee-script/register');
 const product = process.env.COCO_PRODUCT || 'codecombat'
 const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
-require.extensions[`${productSuffix}.coffee`] = require.extensions['.coffee']
+require.extensions[`.${productSuffix}.coffee`] = require.extensions['.coffee']
 var server = require('./server');
 server.startServer();
