@@ -1,5 +1,4 @@
 globalVar = require 'core/globalVar'
-utils = require 'core/utils'
 
 # TODO: move this out of here to where it should go
 window.SPRITE_RESOLUTION_FACTOR = 3
@@ -44,6 +43,7 @@ Application = {
     Tracker = require('core/Tracker2').default
     api = require 'core/api'
     #userUtils = require '../lib/user-utils'
+    utils = require 'core/utils'
 
     Router = require('core/Router')
     Vue.config.devtools = not @isProduction()
@@ -122,6 +122,7 @@ Application = {
     @idleTracker.start()
 
   checkForNewAchievement: ->
+    utils = require 'core/utils'
     return if utils.isOzaria  # Not needed until/unlesss we start using achievements in Ozaria
     if me.get('lastAchievementChecked')
       startFrom = new Date(me.get('lastAchievementChecked'))
