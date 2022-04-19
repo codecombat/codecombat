@@ -304,7 +304,7 @@ export default {
 
       const promises = []
       for (const student of students) {
-        const courseProducts = student.activeCourseProducts()
+        const courseProducts = student.activeProducts('course')
         courseProducts.map(product => {
           let prepaid = new Prepaid({
             _id: product.prepaid,
