@@ -8,11 +8,52 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const glob = require('glob')
 require('coffee-script')
 require('coffee-script/register')
+const product = process.env.COCO_PRODUCT || 'codecombat'
+const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
+require.extensions[`.${productSuffix}.coffee`] = require.extensions['.coffee']
 const CompileStaticTemplatesPlugin = require('./compile-static-templates')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const PWD = process.env.PWD || __dirname
+const fs = require('fs')
 
 console.log('Starting Webpack...')
+
+class ProductResolverPlugin {
+  apply(resolver) {
+    resolver.ensureHook(this.target)
+
+    resolver
+      .getHook("undescribed-raw-file")
+      .tapAsync('ProductResolver', (request, ctx, cb) => {
+        //console.log(request)
+	cb()
+      })
+
+    resolver
+      .getHook("resolveStep")
+      .tap('ProductResolver', function(hook, request) {
+        if (/node_modules/.test(request.path)) return
+
+        if (!request.relativePath) return
+
+        if (/\.import\.(sass|scss)$/.test(request.path)) {
+          request.path = request.path.replace(/\.import\.(sass|scss)/, `.${productSuffix}.$1`)
+          return
+        }
+
+        // TODO: test this regex
+        let match = request.path.match(new RegExp(`([a-z]+)\\.${productSuffix}\\.\\1$`))
+        if (!match) return
+        let fixed = request.path.substr(0, match.index) + productSuffix + '.' + match[1]
+        //console.log("YYY", match[0], request.path, fixed)
+        request.path = fixed
+
+        //if (fs.existsSync(fixed)) {
+        //  console.log("X", request.path, request.relativePath)
+        //}
+      })
+  }
+}
 
 // Main webpack config
 module.exports = (env) => {
@@ -24,8 +65,8 @@ module.exports = (env) => {
       app: './app/app.js',
       world: glob.sync('./app/lib/world/**/*.*').concat([ // For worker_world
         './app/lib/worldLoader',
-        './app/core/CocoClass.coffee',
-        './app/core/utils.coffee',
+        './app/core/CocoClass',
+        './app/core/utils',
         './vendor/scripts/string_score.js',
         './bower_components/underscore.string',
         './vendor/scripts/coffeescript.js'
@@ -84,9 +125,6 @@ module.exports = (env) => {
               use: { loader: 'pug-loader', options: { root: path.resolve('./app') } }
             }
           ]
-        },
-        { test: /\.jade$/,
-          use: [{ loader: 'jade-loader', options: { root: path.resolve('./app') } }]
         },
         {
           oneOf: [
@@ -182,7 +220,11 @@ module.exports = (env) => {
         path.resolve('./'), // Or you can use the full path /app/whatever
         'node_modules' // Or maybe require('foo') for the Node module "foo".
       ],
-      extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.pug', '.sass', '.vue'],
+      extensions: [
+        '.web.coffee', '.web.js', '.coffee', '.js', '.pug', '.sass', '.vue', 
+        '.coco.coffee', '.coco.js', '.coco.pug', '.coco.sass', '.coco.vue',  //, '.coco.scss' ?
+        '.ozar.coffee', '.ozar.js', '.ozar.pug', '.ozar.sass', '.ozar.vue'  //, '.ozar.scss' ?
+      ],
       alias: { // Replace Backbone's underscore with lodash
         'underscore': 'lodash'
       },
@@ -190,7 +232,8 @@ module.exports = (env) => {
       fallback: {
         util: require.resolve('util/'), // because of 'console-browserify' package used by jshint, details: https://github.com/facebook/create-react-app/issues/11756
         assert: require.resolve('assert/'), // because of 'console-browserify'
-      }
+      },
+      plugins: [new ProductResolverPlugin()]
     },
     externals: {
       'esper.js': 'esper'
