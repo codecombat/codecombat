@@ -16,3 +16,11 @@ module.exports = class CourseInstances extends CocoCollection
     options.data ?= {}
     options.data.classroomID = classroomID
     @fetch(options)
+
+  fetchByClassrooms: (classroomIds, options={}) ->
+    options = _.extend({
+      url: "/db/course_instance/-/by-classrooms"
+    }, options)
+    options.data ?= {}
+    options.data.classroomIds = classroomIds
+    @fetch(options)

@@ -19,6 +19,24 @@ block modal-body-content
     if view.shouldShowGoogleClassroomButton()
       a#link-google-classroom-btn.btn.btn-primary.btn-lg(data-i18n="courses.link_google_classroom")
 
+    if view.shouldShowLMSButton()
+      a#link-lms-classroom-btn.btn.btn-primary.btn-lg(data-i18n="courses.link_lms_classroom")
+
+    if view.showLMSDropDown
+      .form-group.lms-class-name
+        label(data-i18n="courses.select_your_classroom")
+        if view.lmsClassrooms.length > 0
+          select.select-lms-class.form-control(name="lmsClassroomId" type='text')
+            option(value="" data-i18n="courses.select_your_classroom")
+            for classroom in view.lmsClassrooms
+              option(value = classroom.id)= classroom.name
+        else
+          select.select-lms-class.form-control(name="lmsClassroomId" type='text' disabled=true)
+            option(value="" data-i18n="courses.no_classrooms_found")
+          a.small.create-manually
+            u(data-i18n="courses.create_classroom_manually")
+
+
     .form-group.google-class-name.secret
       label(data-i18n="courses.select_your_classroom")
       if view.googleClassrooms.length > 0

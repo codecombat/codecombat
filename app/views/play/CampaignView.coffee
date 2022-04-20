@@ -1513,7 +1513,7 @@ module.exports = class CampaignView extends RootView
       return me.finishedAnyLevels() and not features.noAds and not isStudentOrTeacher and me.get('country') is 'united-states' and me.get('preferredLanguage', true) is 'en-US' and new Date() < new Date(2019, 11, 20)
 
     if what in ['status-line']
-      return me.showGemsAndXp() or !isStudentOrTeacher
+      return (me.showGemsAndXp() or !isStudentOrTeacher) and not @editorMode
 
     if what in ['gems']
       return me.showGemsAndXp() or !isStudentOrTeacher
@@ -1522,19 +1522,19 @@ module.exports = class CampaignView extends RootView
       return me.showGemsAndXp() or !isStudentOrTeacher
 
     if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans']
-      return !isStudentOrTeacher
+      return !isStudentOrTeacher and not @editorMode
 
     if what in ['back-to-classroom']
-      return isStudentOrTeacher and (not application.getHocCampaign() or @terrain is 'intro')
+      return isStudentOrTeacher and (not application.getHocCampaign() or @terrain is 'intro') and not @editorMode
 
     if what in ['videos']
       return me.isStudent() and @course?.get('_id') == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
 
     if what in ['buy-gems']
-      return not (isIOS or me.freeOnly() or isStudentOrTeacher or !me.canBuyGems() or (application.getHocCampaign() and me.isAnonymous()))
+      return not (isIOS or me.freeOnly() or isStudentOrTeacher or !me.canBuyGems() or (application.getHocCampaign() and me.isAnonymous())) and not @editorMode
 
     if what in ['premium']
-      return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()) or paymentUtils.hasTemporaryPremiumAccess() or (me.isAnonymous() and me.get('country') is 'taiwan')) # temporary hide subscription for anonymous taiwan users
+      return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()) or paymentUtils.hasTemporaryPremiumAccess() or (me.isAnonymous() and me.get('country') is 'taiwan')) and not @editorMode # temporary hide subscription for anonymous taiwan users
 
     if what is 'anonymous-classroom-signup'
       return me.isAnonymous() and me.level() < 8 and me.promptForClassroomSignup() and not @editorMode
@@ -1547,7 +1547,7 @@ module.exports = class CampaignView extends RootView
 
     if what is 'league-arena'
       # Note: Currently the tooltips don't work in the campaignView overworld.
-      return not me.isAnonymous() and @campaign?.get('slug')
+      return not me.isAnonymous() and @campaign?.get('slug') and not @editorMode
 
     return true
 
