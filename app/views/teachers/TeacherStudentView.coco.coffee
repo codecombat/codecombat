@@ -228,10 +228,13 @@ module.exports = class TeacherStudentView extends RootView
     for versionedCourse in @classroom.getSortedCourses() or []
       course = @courses.get(versionedCourse._id)
       numbers = []
+      performanceNumbers = []
       studentCourseTotal = 0
+      performanceStudentCourseTotal = 0
       members = 0 #this is the COUNT for our standard deviation, number of members who have played all of the levels this student has played.
       for member in @classroom.get('members')
         number = 0
+        performanceNumber = 0
         memberPlayed = 0 # number of levels a member has played that this student has also played
         for versionedLevel in versionedCourse.levels
           sessions = (levelSessionsByStudentByLevel[member] ? {})[versionedLevel.original] ? []
@@ -239,26 +242,34 @@ module.exports = class TeacherStudentView extends RootView
             playedLevel = levelDataByLevel[session.get('level').original]
             if playedLevel.levelProgress is 'complete' or playedLevel.levelProgress is 'started'
               number += session.get('playtime') or 0
+              performanceNumber += not playedLevel.isLadder and not playedLevel.isProject and session.get('playtime') or 0
               memberPlayed += 1
             if session.get('creator') is @studentID
               studentCourseTotal += session.get('playtime') or 0
+              performanceStudentCourseTotal += not playedLevel.isLadder and not playedLevel.isProject and session.get('playtime') or 0
         if memberPlayed > 0 then members += 1
         numbers.push number
+        performanceNumbers.push performanceNumber
 
       # add all numbers[]
       sum = numbers.reduce (a,b) -> a + b
+      performanceSum = performanceNumbers.reduce (a,b) -> a + b
 
       # divide by members to get MEAN, remember MEAN is only an average of the members' performance on levels THIS student has done.
       mean = sum/members
+      performanceMean = performanceSum/members
 
       # # for each number in numbers[], subtract MEAN then SQUARE, add all, then divide by COUNT to get VARIANCE
       diffSum = numbers.map((num) -> (num-mean)**2).reduce (a,b) -> a+b
+      performanceDiffSum = performanceNumbers.map((num) -> (num-performanceMean)**2).reduce (a,b) -> a+b
       variance = (diffSum / members)
+      performanceVariance = (performanceDiffSum / members)
 
       # square root of VARIANCE is standardDev
       StandardDev = Math.sqrt(variance)
+      PerformanceStandardDev = Math.sqrt(performanceVariance)
 
-      perf = -(studentCourseTotal - mean) / StandardDev
+      perf = -(performanceStudentCourseTotal - performanceMean) / PerformanceStandardDev
       perf = if perf > 0 then Math.ceil(perf) else Math.floor(perf)
 
       @courseComparisonMap.push {
@@ -448,6 +459,8 @@ module.exports = class TeacherStudentView extends RootView
     @levelData = []
     for versionedCourse in @classroom.getSortedCourses() or []
       course = @courses.get(versionedCourse._id)
+      ladderLevel = this.classroom.getLadderLevel(course.get('_id'))
+      projectLevel = this.classroom.getProjectLevel(course.get('_id'))
       for versionedLevel in versionedCourse.levels
         playTime = 0 # TODO: this and timesPlayed should probably only count when the levels are completed
         timesPlayed = 0
@@ -476,6 +489,8 @@ module.exports = class TeacherStudentView extends RootView
           classAvg: classAvg
           studentTime: if studentTime then studentTime else 0
           levelProgress: levelProgress
+          isLadder: ladderLevel?.attributes.original is versionedLevel.original
+          isProject: projectLevel?.attributes.original is versionedLevel.original
           # required:
         }
 
