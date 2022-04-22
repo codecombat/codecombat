@@ -1,7 +1,9 @@
 import ClassroomLib from '../../../app/models/ClassroomLib'
-import { courseIDs } from 'app/core/utils.coffee'
+import { courseIDs, isOzaria } from 'app/core/utils'
 
 describe('isStudentOnLockedCourse', () => {
+  if (!isOzaria) return  // This is specific to the Ozaria level locking
+
   it('no lock is always false', () => {
     for (const courseId of Object.values(courseIDs)) {
       expect(ClassroomLib.isStudentOnLockedCourse({
@@ -55,6 +57,8 @@ describe('isStudentOnLockedCourse', () => {
 })
 
 describe('isStudentOnLockedLevel', () => {
+  if (!isOzaria) return  // This is specific to the Ozaria level locking
+
   it('no lock is always false', () => {
     for (const courseId of Object.values(courseIDs)) {
       expect(ClassroomLib.isStudentOnLockedLevel({

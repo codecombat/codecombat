@@ -1,4 +1,4 @@
-TeacherClassView = require 'views/courses/TeacherClassView'
+TeacherClassView = require 'views/courses/TeacherClassView.coco'  # Not sure why this dosen't work when imported without .coco
 storage = require 'core/storage'
 forms = require 'core/forms'
 factories = require 'test/app/factories'

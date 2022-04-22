@@ -6,7 +6,9 @@
  *  - Intro level progress breakdown
  *  - Intro level backward compatibility
  */
+
 import BaseSingleClass from '../../../../ozaria/site/components/teacher-dashboard/BaseSingleClass/index.vue'
+import { isOzaria } from 'app/core/utils'
 
 const MOCK_COURSE_ID = 'MOCK_ID'
 const OWNER_ID = 'OWNER_ID'
@@ -118,6 +120,8 @@ const twoStudentsMockData = (overrides) => {
 }
 
 describe('BaseSingleClass', () => {
+  if (!isOzaria) return  // This is specific to the Ozaria teacher dashboard
+
   it('empty module returns empty array default', () => {
     // Here we fill in the `this` object in the method.
     const mockedCourse = 'mockCourse'
