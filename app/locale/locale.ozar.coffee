@@ -43,6 +43,7 @@ module.exports =
   'it': { nativeDescription: 'Italiano', englishDescription: 'Italian' }
   'kk': { nativeDescription: 'қазақ тілі', englishDescription: 'Kazakh' }
   'lt': { nativeDescription: 'lietuvių kalba', englishDescription: 'Lithuanian' }
+  'lv': { nativeDescription: 'latviešu', englishDescription: 'Latvian' }
   'mi': { nativeDescription: 'te reo Māori', englishDescription: 'Māori' }
   'mk-MK': { nativeDescription: 'Македонски', englishDescription: 'Macedonian' }
   'hi': { nativeDescription: 'मानक हिन्दी', englishDescription: 'Hindi' }
@@ -56,7 +57,7 @@ module.exports =
   'nb': { nativeDescription: 'Norsk Bokmål', englishDescription: 'Norwegian (Bokmål)' }
   'nn': { nativeDescription: 'Norsk Nynorsk', englishDescription: 'Norwegian (Nynorsk)' }
   'uz': { nativeDescription: "O'zbekcha", englishDescription: 'Uzbek' }
-  'pl': { nativeDescription: 'język polski', englishDescription: 'Polish' }
+  'pl': { nativeDescription: 'Polski', englishDescription: 'Polish' }
   'ro': { nativeDescription: 'limba română', englishDescription: 'Romanian' }
   'sr': { nativeDescription: 'српски', englishDescription: 'Serbian' }
   'sk': { nativeDescription: 'slovenčina', englishDescription: 'Slovak' }
