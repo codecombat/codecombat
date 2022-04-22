@@ -1,4 +1,4 @@
-TeacherClassView = require 'views/courses/TeacherClassView'
+#TeacherClassView = require 'views/courses/TeacherClassView'
 storage = require 'core/storage'
 forms = require 'core/forms'
 factories = require 'test/app/factories'
@@ -11,7 +11,7 @@ Prepaids = require 'collections/Prepaids'
 
 describe '/teachers/classes/:handle', ->
 
-describe 'TeacherClassView', ->
+xdescribe 'TeacherClassView', ->
 
   # describe 'when logged out', ->
   #   it 'responds with 401 error'

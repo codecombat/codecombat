@@ -28,7 +28,7 @@ block modal-body-content
           span )
       if status !== 'enrolled' && me.canManageLicensesViaUI()
         .small-details
-          if view.prepaids.totalAvailable() == 0
+          if view.prepaids.totalAvailable() === 0
             button.enroll-student-btn.btn.btn-navy.disabled(data-i18n="teacher.apply_license")
             .small-details.not-enough-enrollments
               span(data-i18n='teacher.not_enough_enrollments')
@@ -63,7 +63,8 @@ block modal-body-content
             span= view.user.get('email')
         else
           i(data-i18n="teacher.no_email")
-    if view.user.get('emailVerified')
+    if false && view.user.get('emailVerified')
+      // We now let teachers reset passwords even if email is verified, for convenience
       p
         span(data-i18n="teacher.send_email_to")
       p.m-b-3
