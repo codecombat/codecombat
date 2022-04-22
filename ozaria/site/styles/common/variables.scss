@@ -1,0 +1,40 @@
+
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "app/styles/style-flat-variables.sass";
+
+$title-font-style: 'Arvo', serif;
+$body-font-style: 'Open Sans', sans-serif;
+$label-font-style: 'Work Sans', sans-serif;
+$code-font-style: 'Roboto Mono', monospace;
+
+// Ozaria Chrome
+$chromeTopPadding: 8vh;
+$chromeRightPadding: 6vw;
+$chromeBottomPadding: 4vh;
+$chromeLeftPadding: 2vw;
+
+// Used in the signup modals
+$authGray: #a4a4a4;
+
+// Used in Single class table
+$studentNameWidth: 260px;
+
+// Following Ozaria marketing guide
+$white: #ffffff;
+$mist: #eeeced;
+$moon: #f7d047;
+$goldenlight: #d1b147;
+$sun: #ff8600;
+$dawn: #532e4b;
+$dusk: #5db9ac;
+$dusk-dark: #379b8d;
+$fog: #6bd7ef;
+$twilight: #476fb1;
+$eve: #2d5859;
+$pitch: #131b25;
+$haze: #6d8594;
+$acodus-glow: #40f3e4;
+
+// For the single progress table
+$tooltip-spacing: 200px;
+$anti-tooltip-spacing: -200px;

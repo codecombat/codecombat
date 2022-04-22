@@ -83,7 +83,7 @@ module.exports = Vue.extend({
 })
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .level-row
   padding: 4px 0
   border-bottom: 1px solid #ccc

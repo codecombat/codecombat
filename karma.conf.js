@@ -1,3 +1,6 @@
+const product = process.env.COCO_PRODUCT || 'codecombat'
+const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
+const otherProductSuffix = { codecombat: 'ozar', ozaria: 'coco' }[product]
 
 module.exports = function(config) {
 
@@ -31,7 +34,10 @@ module.exports = function(config) {
     },
 
     // list of files to exclude
-    exclude : [],
+    exclude : [
+      `**/*.${otherProductSuffix}.js`,
+      `**/*.${otherProductSuffix}.coffee`
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit'

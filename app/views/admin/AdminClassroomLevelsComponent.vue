@@ -117,7 +117,7 @@ module.exports = Vue.extend({
 
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 #admin-classroom-levels-view
   table
     td, th

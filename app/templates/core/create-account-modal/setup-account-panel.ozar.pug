@@ -1,0 +1,34 @@
+.setup-account-panel.text-left
+  .p-a-3
+    div.text-center(v-if="saving")
+      | {{ $t("common.saving") }}
+    div.text-center(v-else-if="error")
+      | {{ $t("loading_error.error") }}
+      =": "
+      | {{ error }}
+    div(v-else)
+      h3.text-center.text-pitch {{ $t("signup.teacher_ready_to_create_class") }}
+      p.m-t-3.medium-gray {{ $t("signup.teacher_students_can_start_now") }}
+      ol
+        li.medium-gray {{ $t("signup.teacher_list_create_class") }}
+        li.medium-gray {{ $t("signup.teacher_list_add_students") }}
+        li.medium-gray
+          span {{ $t("signup.teacher_list_resource_hub_1") }}
+          =" "
+          a(href="/teachers/units") {{ $t("signup.teacher_list_resource_hub_2") }}
+          =" "
+          span {{ $t("signup.teacher_list_resource_hub_3") }}
+          =" "
+          a(href="/teachers/resources") {{ $t("signup.teacher_list_resource_hub_4") }}
+          =" "
+          span {{ $t("signup.teacher_list_resource_hub_5") }}
+      p.medium-gray(v-html="$t('signup.teacher_additional_questions', {supportEmail: supportEmail})")
+
+    br
+    div.text-center
+      input#subscribe-input(type="checkbox" name="subscribe" v-bind:checked="!inEU")
+      p.medium-gray.subscribe-text {{ $t("signup.teacher_email_announcements") }}
+
+  .history-nav-buttons
+    button.back-button.btn.btn-lg.ozaria-secondary-button(type='button', v-on:click="clickBack" v-if="error") {{ $t("common.back") }}
+    button.next-button.btn.btn-lg.ozaria-primary-button(v-on:click="clickFinish" v-else-if="!saving") {{ $t("signup.finish") }}

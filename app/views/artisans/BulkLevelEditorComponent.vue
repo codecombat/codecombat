@@ -67,7 +67,7 @@ module.exports = Vue.extend({
 
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   .leveleditor
     width: 100%
     min-height: 100px

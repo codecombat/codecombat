@@ -16,7 +16,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const PWD = process.env.PWD || __dirname
 const fs = require('fs')
 
-console.log('Starting Webpack...')
+console.log(`Starting Webpack for product ${product}`)
 
 class ProductResolverPlugin {
   apply(resolver) {
@@ -222,8 +222,7 @@ module.exports = (env) => {
       ],
       extensions: [
         '.web.coffee', '.web.js', '.coffee', '.js', '.pug', '.sass', '.vue', 
-        '.coco.coffee', '.coco.js', '.coco.pug', '.coco.sass', '.coco.vue',  //, '.coco.scss' ?
-        '.ozar.coffee', '.ozar.js', '.ozar.pug', '.ozar.sass', '.ozar.vue'  //, '.ozar.scss' ?
+        `.${productSuffix}.coffee`, `.${productSuffix}.js`, `.${productSuffix}.pug`, `.${productSuffix}.sass`, `.${productSuffix}.vue`,  //, `.${productSuffix}.scss` ?
       ],
       alias: { // Replace Backbone's underscore with lodash
         'underscore': 'lodash'

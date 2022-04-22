@@ -1,0 +1,226 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/play/images"
+
++keyframes(castablePulse)
+  from
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+  50%
+    @include box-shadow(0px 0px 35px skyblue)
+    color: skyblue
+  to
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+
++keyframes(winnablePulse)
+  from
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+  50%
+    @include box-shadow(0px 0px 35px #87CEFF)
+    color: #87CEFF
+  to
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+
+@keyframes bounce-animation
+  0%
+    transform: translate(0px)
+  10%
+    transform: translate(0px, 5px)
+  20%
+    transform: translate(0px, -5px)
+  30%
+    transform: translate(0px)
+  50%
+    transform: translate(0px)
+  60%
+    transform: translate(0px, 5px)
+  70%
+    transform: translate(0px, -5px)
+  80%
+    transform: translate(0px)
+  100%
+    transform: translate(0px)
+
+#cast-button-view
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 100%
+  height: 100%
+  background: #ffffff
+  z-index: 2
+
+  button.play-button
+    position: relative
+    cursor: pointer
+    // Reset default <button> styles
+    background-color: transparent
+    border: 0
+    padding: 0
+
+    display: flex
+    flex-direction: row
+    justify-content: space-around
+    text-transform: uppercase
+
+    &.active-button-text
+      color: #215055
+      font-family: "Work Sans"
+      font-size: 17px
+      font-weight: bold
+      letter-spacing: 0.77px
+      line-height: 20px
+
+      background-position: center
+      background-size: contain
+      background-repeat: no-repeat
+      background-image: url($Button)
+
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+
+      min-width: 120px
+      height: 100%
+
+      margin: 0 9px
+
+      & > span
+        padding: 0 20px
+
+      &#next:not(.inactive)
+        animation: bounce-animation 2.5s infinite
+
+    &:hover:not(:disabled):not(.inactive)
+      background-image: url($ButtonHover)
+
+    &.inactive
+      background-image: url($ButtonInactive)
+      cursor: default
+
+  #reload-code
+    display: flex
+    flex-direction: column
+    height: 47px
+    width: 44px
+    margin-bottom: 10px
+    margin-top: 10px
+    cursor: pointer
+    p
+      height: 17px
+      width: 44px
+      color: #33ECC9
+      font-family: Open Sans
+      font-weight: lighter
+      font-size: 12px
+      letter-spacing: 0.47px
+      line-height: 17px
+
+  .btn.btn-illustrated
+    height: 46px
+    font-size: 24px
+    line-height: 24px
+    width: 45%
+    width: -webkit-calc(50% - 10px)
+    width: calc(50% - 10px)
+    border-style: solid
+    border-image: url(/images/level/code_toolbar_run_button_active.png) 14 20 20 20 fill round
+    border-width: 7px 10px 10px 10px
+
+  .ladder-submission-view
+    width: 45%
+    width: -webkit-calc(50% - 10px)
+    width: calc(50% - 10px)
+    display: inline-block
+
+    .btn.btn-illustrated
+      width: 100%
+      font-size: 18px
+
+
+  .cast-button
+    @include opacity(0.77)
+
+    &:hover, &.castable
+      @include opacity(1)
+
+  .submit-button > *, .done-button > *
+    @include opacity(0.9)
+
+    &:hover
+      @include opacity(1)
+
+  &:not(.winnable)
+
+    .btn.btn-illustrated
+
+      &.cast-button.castable
+        font-weight: bold
+        @include animation(castablePulse 3s infinite)
+        border-image: url(/images/level/code_toolbar_run_button_zazz.png) 14 20 20 20 fill round
+
+        &:active
+          border-image: url(/images/level/code_toolbar_run_button_zazz_pressed.png) 14 20 20 20 fill round
+
+      &.submit-button
+        font-size: 16px
+
+  &.winnable .btn.btn-illustrated.cast-button
+    font-size: 16px
+
+  &.winnable.has-seen-winning-replay
+
+    .btn.btn-illustrated
+      &.submit-button, &.done-button
+        font-weight: bold
+        @include animation(winnablePulse 3s infinite)
+
+        border-image: url(/images/level/code_toolbar_submit_button_zazz.png) 14 20 20 20 fill round
+
+        &:active
+          border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
+
+
+html.no-borderimage #cast-button-view
+  .btn.btn-illustrated
+    border: 0
+    background-image: url(/images/level/code_toolbar_run_button_active.png)
+    background-size: 100% 100%
+    padding: 7px 10px 10px 10px
+
+    &:active
+      background-image: url(/images/level/code_toolbar_run_button_active_pressed.png)
+      padding: 9px 8px 8px 12px
+      border: 0
+
+    &.submit-button, &.done-button
+      background-image: url(/images/level/code_toolbar_submit_button_active.png)
+      border: 0
+
+      &:active
+        background-image: url(/images/level/code_toolbar_submit_button_active_pressed.png)
+        border: 0
+
+  &:not(.winnable)
+    .btn.btn-illustrated
+      &.cast-button.castable
+        border: 0
+        background-image: url(/images/level/code_toolbar_run_button_zazz.png)
+
+        &:active
+          background-image: url(/images/level/code_toolbar_run_button_zazz_pressed.png)
+
+  &.winnable
+    .btn.btn-illustrated
+      &.submit-button, &.done-button
+        border: 0
+        background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
+
+        &:active
+          border: 0
+          background-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png)
+
