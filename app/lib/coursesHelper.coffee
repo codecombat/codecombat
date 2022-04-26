@@ -107,6 +107,7 @@ module.exports =
             courseName: utils.i18n(course.attributes, 'name')
             courseNumber: courseIndex + 1
             levelNumber
+            levelIndex
             levelName: level.get('name')
             users: users
           }
