@@ -1,6 +1,6 @@
 require('app/styles/play/level/level-playback-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'app/templates/play/level/level-playback-view'
+template = require 'app/templates/play/level/level-playback-view.coco'
 {me} = require 'core/auth'
 store = require 'core/store'
 
