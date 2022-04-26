@@ -160,7 +160,7 @@ module.exports = class TeacherClassView extends RootView
         level2 = s2.latestCompleteLevel
         return -dir if not level1
         return dir if not level2
-        return dir * (level1.courseNumber - level2.courseNumber or level1.levelNumber - level2.levelNumber)
+        return dir * (level1.courseNumber - level2.courseNumber or level1.levelIndex - level2.levelIndex)
 
       if value is 'status'
         statusMap = { expired: 0, 'not-enrolled': 1, enrolled: 2 }

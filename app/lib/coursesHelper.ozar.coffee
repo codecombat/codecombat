@@ -107,6 +107,7 @@ module.exports =
             courseName: utils.i18n(course.attributes, 'name')
             courseNumber: courseIndex + 1
             levelNumber
+            levelIndex
             levelName: level.get('name')
             users: users
           }
@@ -150,11 +151,11 @@ module.exports =
     # {
     #   classroomId: {
     #     interactiveId: {
-    #       numStudents // total no of students that have started/completed the interactive 
+    #       numStudents // total no of students that have started/completed the interactive
     #       needsReview // true if more than 50% of total 'numStudents' submitted 3 or more incorrect submissions
     #       flaggedStudents[] // array of student ids who submitted 3 or more incorrect submissions
     #       studentId: { interactiveSessionObject }
-    #     }    
+    #     }
     #   }
     # }
     progressData = {}
@@ -180,7 +181,7 @@ module.exports =
 
           numFlaggedStudents = (interactiveProgress.flaggedStudents).length
           interactiveProgress.needsReview = numFlaggedStudents / interactiveProgress.numStudents >= 0.5
-          
+
           interactiveProgress[interactiveSession.userId] = {
             session: interactiveSession
           }
@@ -284,7 +285,7 @@ module.exports =
     return progressData
 
   courseLabelsArray: (courses) ->
-    courses.map((course) -> course.acronym())
+    courses.map((course) -> course?.acronym() ? '')
 
   hasUserCompletedCourse: hasUserCompletedCourse
 
