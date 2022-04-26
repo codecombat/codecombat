@@ -1,0 +1,35 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/play/variables"
+@import "ozaria/site/styles/common/variables"
+
+#level-dialogue-view
+  display: flex
+  position: absolute
+  top: 0
+  width: $game-view-width
+  height: $goals-vega-height
+  background: #000000
+  z-index: 2
+  justify-content: center
+  align-items: center
+  visibility: hidden // Only shown when moving vega tutorials are done
+
+  .dialogue-area
+    display: flex
+    flex-direction: column
+    position: relative
+    justify-content: center
+    align-items: center
+    border: 4px solid #F7D047
+    background-color: #FFFFFF
+    margin: 1% 1% 1% 8%
+    width: 100%
+    height: 94%
+
+    .vega-dialogue
+      color: #232323
+      font-family: $body-font-style
+      font-size: 14px
+      letter-spacing: 0.71px
+      margin: 0 8px 0 14%

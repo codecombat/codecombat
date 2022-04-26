@@ -1,8 +1,11 @@
 require('coffee-script').register()
 const fs = require('fs')
 const path = require('path')
-const enTranslations = require('../app/locale/en').translation
-const PWD = process.env.PWD || __dirnamep
+const PWD = __dirname
+const product = process.env.COCO_PRODUCT || "codecombat"
+const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
+const otherProductSuffix = { codecombat: 'ozar', ozaria: 'coco' }[product]
+const enTranslations = require(`../app/locale/en.${productSuffix}`).translation
 
 // TODO: better identification of empty sections after deleting entries.  Empy sections yield module load fails on run.
 
@@ -13,7 +16,7 @@ function escapeRegexp (s) {
 }
 
 const enSourceFile = fs.readFileSync(
-  path.join(PWD, '../app/locale/en.coffee'),
+  path.join(PWD, `../app/locale/en.${productSuffix}.coffee`),
   { encoding: 'utf8' }
 )
 
@@ -46,10 +49,11 @@ for (const section of enSplitByCategory) {
 }
 
 // Grab all locale files that we need to manage
-const IGNORE_FILES = ['rot13.coffee', 'en.coffee', 'locale.coffee']
+const IGNORE_FILES = ['rot13.coffee', 'rot13.coco.coffee', 'rot13.ozar.coffee', 'en.coffee', 'en.coco.coffee', 'en.ozar.coffee', 'locale.coffee', 'locale.coco.coffee', 'locale.ozar.coffee']
 const localeFiles = fs
   .readdirSync(path.join(PWD, '../app/locale'))
   .filter(fileName => IGNORE_FILES.indexOf(fileName) === -1)
+  .filter(fileName => !(new RegExp(`\\.${otherProductSuffix}\\.coffee$`).test(fileName)))
 
 for (const localeFile of localeFiles) {
   console.log(`Processing ${localeFile}`)
@@ -158,7 +162,7 @@ for (const localeFile of localeFiles) {
 // Remove change tags from english now that they have been propagated
 const rewrittenEnSource = enSourceFile.replace(CHANGE_PATTERN, '')
 fs.writeFileSync(
-  path.join(PWD, '../app/locale/en.coffee'),
+  path.join(PWD, `../app/locale/en.${productSuffix}.coffee`),
   rewrittenEnSource
 )
 

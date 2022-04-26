@@ -1,0 +1,21 @@
+{
+  "short_name": "CodeCombat",
+  "name": "CodeCombat",
+  "icons": [
+      {
+          "src": "/images/favicon/favicon-coco/android-chrome-192x192.coco.png",
+          "sizes": "192x192",
+          "type": "image/png"
+      },
+      {
+          "src": "/images/favicon/favicon-coco/android-chrome-512x512.coco.png",
+          "sizes": "512x512",
+          "type": "image/png"
+      }
+  ],
+  "start_url": "/play",
+  "display": "standalone",
+  "orientation": "landscape",
+  "scope": "/play/",
+  "description": "CodeCombat is a game that teaches real Python and JavaScript coding and computer science"
+}

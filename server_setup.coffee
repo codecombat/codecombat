@@ -70,7 +70,8 @@ setupExpressMiddleware = (app) ->
 
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
-  app.use require('serve-favicon') path.join(PWD, 'public', 'images', 'favicon', 'favicon.ico')
+  productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[config.product]
+  app.use require('serve-favicon') path.join(PWD, 'public', 'images', 'favicon', "favicon-#{productSuffix}", 'favicon.ico')
   app.use require('cookie-parser')()
   app.use require('body-parser').json limit: '25mb', strict: false
   app.use require('body-parser').urlencoded extended: true, limit: '25mb'

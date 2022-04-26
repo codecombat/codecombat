@@ -1,0 +1,115 @@
+@import "app/styles/mixins";
+@import "app/styles/bootstrap/variables";
+@import "ozaria/site/styles/common/common.scss";
+
+#auth-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    color: $pitch;
+    text-align: center;
+    padding-bottom: 20px;
+  }
+
+  p {
+    color: $pitch;
+  }
+
+  input.form-control {
+    border: 1px solid $teal;
+    color: $color-tertiary-brand;
+  }
+
+  #login-btn, .btn.btn-primary.btn-lg {
+    background-image: unset;
+    background-color: $teal;
+    border: unset;
+    text-shadow: unset;
+    font-family: "Open Sans", sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 0.71px;
+    line-height: 24px;
+    color: $mist;
+    min-height: 45px;
+    min-width: 182px;
+    border-radius: 1px;
+  }
+
+  .row.or-row {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 15px;
+
+    p.or {
+      color: $authGray;
+      margin: 0;
+    }
+  
+    .line {
+      height: 2px;
+      width: 120px;
+      background-color: #f0f0f0;
+      margin: 0 32px;
+    }
+  }
+
+  .modal-content {
+    background-color: white;
+    padding: 40px 36px 20px;
+  }
+
+  .auth-network-logins {
+    display: flex;
+    justify-content: center;
+    margin: 12px 0 30px;
+    button, a {
+      margin: 0 13px;
+      min-width: 180px;
+      min-height: 45px;
+    }
+  }
+
+  .extra-pane > p:nth-child(2) {
+    margin: 12px 0 0;
+   }   
+
+  .extra-pane {
+    text-align: center;
+    margin-top: 26px;
+
+    a {
+      color: $authGray;
+      text-decoration: underline;
+    }
+
+    p {
+      text-align: center;
+      font-size: 14px;
+      color: $authGray;
+    }
+  }
+  
+  #recover-account-wrapper {
+    text-align: right;
+
+    a {
+      color: $authGray;
+      text-decoration: underline;
+    }
+  }
+
+  #gplus-login-btn > img, #clever-login-btn > img {
+    height: 46px;
+  }
+}
+
+#login-btn {
+  max-width: 180px;
+  margin: 0 auto;
+}

@@ -1,0 +1,10 @@
+table
+  tr
+    td
+      if view.hint
+        span.problem-title!= view.hint
+        if view.message
+          span.problem-subtitle!= view.message
+      else
+        span.problem-title!= view.message
+
