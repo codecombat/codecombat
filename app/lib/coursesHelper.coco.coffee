@@ -146,6 +146,48 @@ module.exports =
                   conceptData[classroom.id][concept].completed = false
     conceptData
 
+  calculateAllProgressInteractives: (classrooms, interactiveSessions=[]) ->
+    # Structure of progressData:
+    # {
+    #   classroomId: {
+    #     interactiveId: {
+    #       numStudents // total no of students that have started/completed the interactive
+    #       needsReview // true if more than 50% of total 'numStudents' submitted 3 or more incorrect submissions
+    #       flaggedStudents[] // array of student ids who submitted 3 or more incorrect submissions
+    #       studentId: { interactiveSessionObject }
+    #     }
+    #   }
+    # }
+    progressData = {}
+    for classroom in classrooms.models
+      progressData[classroom.id] = {}
+      for interactiveSession in interactiveSessions
+        interactiveId = interactiveSession.interactiveId
+        if interactiveId
+          interactiveProgress = progressData[classroom.id][interactiveId] ?= {}
+          interactiveProgress.numStudents ?= 0
+          interactiveProgress.numStudents += 1
+          interactiveProgress.flaggedStudents ?= []
+
+          dateFirstCompleted = interactiveSession.dateFirstCompleted || undefined
+          submissionsBeforeCompletion = []
+          if dateFirstCompleted
+            submissionsBeforeCompletion = interactiveSession.submissions.filter((s) => new Date(s.submissionDate).getTime() <= new Date(dateFirstCompleted).getTime()) || []
+          else
+            submissionsBeforeCompletion = interactiveSession.submissions || []
+
+          if submissionsBeforeCompletion.length >= 3
+            interactiveProgress.flaggedStudents.push(interactiveSession.userId)
+
+          numFlaggedStudents = (interactiveProgress.flaggedStudents).length
+          interactiveProgress.needsReview = numFlaggedStudents / interactiveProgress.numStudents >= 0.5
+
+          interactiveProgress[interactiveSession.userId] = {
+            session: interactiveSession
+          }
+    _.assign(progressData, progressMixin)
+    return progressData
+
   calculateAllProgress: (classrooms, courses, courseInstances, students) ->
     # Loop through all combinations and record:
     #   Completeness for each student/course
@@ -249,8 +291,10 @@ module.exports =
 
 progressMixin =
   get: (options={}) ->
-    { classroom, course, level, user } = options
+    { classroom, course, level, user, interactiveId } = options
     throw new Error "You must provide a classroom" unless classroom
+    if interactiveId
+      return @[classroom.id]?[interactiveId]
     throw new Error "You must provide a course" unless course
     defaultValue = { completed: false, started: false }
     if options.level
