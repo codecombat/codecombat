@@ -6,20 +6,34 @@ zh = require './app/locale/zh-HANS'
 basePath = path.resolve('./app')
 _ = require 'lodash'
 fs = require('fs')
+load = require 'pug-load'
 
 # TODO: stop webpack build on error (e.g. http://dev.topheman.com/how-to-fail-webpack-build-on-error/)
 
+product = process.env.COCO_PRODUCT or 'codecombat'
+productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
+
+productFallbackPlugin =
+  read: (path) ->
+    unless fs.existsSync path
+      other = path.replace /pug$/, "#{productSuffix}.pug"
+      if fs.existsSync other
+        return load.read other
+    load.read path
+
 compile = (contents, locals, filename, cb) ->
   # console.log "Compile", filename, basePath
-  outFile = filename.replace /.static.pug$/, '.html'
+  outFile = filename.replace ///.static.(#{productSuffix}\.)?pug$///, '.html'
   # console.log {outFile, filename, basePath}
   out = pug.compileClientWithDependenciesTracked contents,
     filename: path.join(basePath, 'templates/static', filename)
     basedir: basePath
+    plugins: [productFallbackPlugin]
 
   outFn = pug.compile(contents, {
     filename: path.join(basePath, 'templates/static', filename),
     basedir: basePath
+    plugins: [productFallbackPlugin]
   })
 
   translate = (key, chinaInfra) ->

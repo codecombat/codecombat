@@ -68,27 +68,10 @@ setupExpressMiddleware = (app) ->
 
   app.use(express.static(public_path, maxAge: 0))
 
-  if config.proxy
-    # Don't proxy static files with sha prefixes, redirect them
-    regex = /\/[0-9a-f]{40}\/.*/
-    regex2 = /\/[0-9a-f]{40}-[0-9a-f]{40}\/.*/
-    regex3 = /^\/(production|next)-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}\/.*/
-    app.use (req, res, next) ->
-      if regex.test(req.path)
-        newPath = req.path.slice(41)
-        return res.redirect(newPath)
-      if regex2.test(req.path)
-        newPath = req.path.slice(82)
-        return res.redirect(newPath)
-      if regex3.test(req.path)
-        split = req.path.split('/')
-        newPath = '/' + split.slice(2).join('/')
-        return res.redirect(newPath)
-      next()
-
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
-  app.use require('serve-favicon') path.join(PWD, 'public', 'images', 'favicon', 'favicon.ico')
+  productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[config.product]
+  app.use require('serve-favicon') path.join(PWD, 'public', 'images', 'favicon', "favicon-#{productSuffix}", 'favicon.ico')
   app.use require('cookie-parser')()
   app.use require('body-parser').json limit: '25mb', strict: false
   app.use require('body-parser').urlencoded extended: true, limit: '25mb'
@@ -134,7 +117,7 @@ setupFeaturesMiddleware = (app) ->
       features.brainPop = true
       features.noAds = true
 
-    if /cn\.codecombat\.com/.test(req.get('host')) or /koudashijie/.test(req.get('host')) or req.session.featureMode is 'china'
+    if /(cn\.codecombat\.com|koudashijie|aojiarui)/.test(req.get('host')) or req.session.featureMode is 'china'
       features.china = true
       features.freeOnly = true
       features.noAds = true
@@ -238,9 +221,9 @@ setupQuickBailToMainHTML = (app) ->
         res.header 'Pragma', 'no-cache'
         res.header 'Expires', 0
 
-      if /cn\.codecombat\.com/.test(req.get('host')) or /koudashijie\.com/.test(req.get('host'))
+      if /(cn\.codecombat\.com|koudashijie|aojiarui)/.test(req.get('host'))
         features.china = true
-        if template is 'home.html'
+        if template is 'home.html' and config.product is 'codecombat'
           template = 'home-cn.html'
 
       if config.chinaInfra
@@ -250,13 +233,17 @@ setupQuickBailToMainHTML = (app) ->
 
   app.get '/', fast('home.html')
   app.get '/home', fast('home.html')
-  app.get '/about', fast('about.html')
-  app.get '/features', fast('premium-features.html')
-  app.get '/privacy', fast('privacy.html')
-  app.get '/legal', fast('legal.html')
   app.get '/play', fast('overworld.html')
   app.get '/play/level/:slug', fast('main.html')
   app.get '/play/:slug', fast('main.html')
+  if config.product is 'codecombat'
+    app.get '/about', fast('about.html')
+    app.get '/features', fast('premium-features.html') if config.product is 'codecombat'
+    app.get '/privacy', fast('privacy.html')
+    app.get '/legal', fast('legal.html')
+  if config.product is 'ozaria'
+    app.get '/teachers/classes/:slug', fast('main.html')
+    app.get '/teachers/:slug', fast('main.html')
 
 ###Miscellaneous configuration functions###
 
@@ -271,6 +258,25 @@ exports.setExpressConfigurationOptions = (app) ->
 setupProxyMiddleware = (app) ->
   return if config.isProduction
   return unless config.proxy
+
+  # Don't proxy static files with sha prefixes, redirect them
+  regex = /\/[0-9a-f]{40}\/.*/
+  regex2 = /\/[0-9a-f]{40}-[0-9a-f]{40}\/.*/
+  # based on new format of branch name + date
+  regex3 = /^\/(production|next)-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}\/.*/
+  app.use (req, res, next) ->
+    if regex.test(req.path)
+      newPath = req.path.slice(41)
+      return res.redirect(newPath)
+    if regex2.test(req.path)
+      newPath = req.path.slice(82)
+      return res.redirect(newPath)
+    if regex3.test(req.path)
+      split = req.path.split('/')
+      newPath = '/' + split.slice(2).join('/')
+      return res.redirect(newPath)
+    next()
+
   httpProxy = require 'http-proxy'
 
 #  target = 'https://very.direct.codecombat.com'
@@ -279,9 +285,9 @@ setupProxyMiddleware = (app) ->
     'Host': 'koudashijie.com'
   }
 
-  if (process.env.COCO_PROXY_NEXT)
-    target = 'https://direct.next.codecombat.com'
-    headers['Host'] = 'next.codecombat.com'
+  if process.env.COCO_PROXY_NEXT
+    target = "https://direct.next.#{config.product}.com"
+    headers['Host'] = "next.#{config.product}.com"
 
   proxy = httpProxy.createProxyServer({
     target,

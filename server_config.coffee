@@ -5,6 +5,10 @@ cluster = require 'cluster'
 
 config = {}
 
+config.product = process.env.COCO_PRODUCT || 'codecombat'
+config.productName = { codecombat: 'CodeCombat', ozaria: 'Ozaria' }[config.product]
+config.productMainDomain = { codecombat: 'codecombat.com', ozaria: 'ozaria.com' }[config.product]
+
 if process.env.COCO_SECRETS_JSON_BUNDLE
   for k, v of JSON.parse(process.env.COCO_SECRETS_JSON_BUNDLE)
     process.env[k] = v

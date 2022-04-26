@@ -119,19 +119,19 @@ block content
                   each data, index in licenseData.courseLastLevelIndexes
                     - var courseCellOffest = (index > 0 ? licenseData.courseLastLevelIndexes[index - 1].index + 1 : 0) / totalLevels * 100;
                     - var courseCellWidth = (data.index - (index > 0 ? licenseData.courseLastLevelIndexes[index - 1].index : -1)) / totalLevels * 100;
-                    span.course-cell(style="left:#{courseCellOffest}%; width:#{courseCellWidth}%;")
+                    span.course-cell(style=`left:${courseCellOffest}%; width:${courseCellWidth}%;`)
                       if view.latestCourseMap[data.courseId]
-                        .course-cell-text #{(view.courseAcronymMap[data.courseId] || view.latestCourseMap[data.courseId].slug)}
+                        .course-cell-text #{(view.courseNameMap[data.courseId] || view.latestCourseMap[data.courseId].slug)}
                       else
                         - console.log('no course?', data);
                   - var missingCourseLastIndex = licenseData.levels.length;
                   each data in licenseData.missingCourses
                     - var courseCellOffest = (missingCourseLastIndex) / totalLevels * 100;
                     - var courseCellWidth = data.levels.length / totalLevels * 100;
-                    span.missing-course-cell(style="left:#{courseCellOffest}%; width:#{courseCellWidth}%;")
-                      .course-cell-text #{(view.courseAcronymMap[data.courseId] || view.latestCourseMap[data.courseId].slug)}
+                    span.missing-course-cell(style=`left:${courseCellOffest}%; width:${courseCellWidth}%;`)
+                      .course-cell-text #{(view.courseNameMap[data.courseId] || view.latestCourseMap[data.courseId].slug)}
                     each levelOriginal, index in data.levels
-                      span.level-cell(style="left:#{index * levelCellWidth + courseCellOffest}%; width:#{levelCellWidth}%", title="#{index + 1}. #{view.latestLevelSlugMap[levelOriginal] || levelOriginal}")
+                      span.level-cell(style=`left:${index * levelCellWidth + courseCellOffest}%; width:${levelCellWidth}%`, title=`${index + 1}. ${view.latestLevelSlugMap[levelOriginal] || levelOriginal}`)
                     - missingCourseLastIndex += data.levels.length;
                   each level, index in licenseData.levels
                     if level.numUsers > 0
@@ -141,7 +141,7 @@ block content
                       span.missing-level-cell(style={ left: (index * levelCellWidth) + '%', width: levelCellWidth + '%' }, title=('level ' + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal) + ' is released but not available in this classroom version'))
                     else if level.numCompleted > 0
                       - var title = level.numCompleted + " students completed level " + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal);
-                      span.student-completed-cell(style="left:#{index * levelCellWidth}%;width:#{levelCellWidth}%", title="#{title}")
+                      span.student-completed-cell(style=`left:${index * levelCellWidth}%;width:${levelCellWidth}%`, title=title)
                     span.level-cell(style={ left: (index * levelCellWidth) + '%', width: levelCellWidth + '%' }, title=(index + 1) + '.' + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal))
                 td.text-center= licenseData.license.redeemers.length
                 td.text-center= licenseData.license.startDate.substring(0, 10)

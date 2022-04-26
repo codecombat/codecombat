@@ -163,7 +163,8 @@ module.exports = class MainAdminView extends RootView
           <td>#{user.lastName or ''}</td>
           <td>
             #{if me.isAdmin() then "<button class='user-spy-button'>Spy</button>" else ""}
-            #{if new User(user).isTeacher() then "<button class='teacher-dashboard-button'>View Classes</button>" else ""}
+            <!-- New Teacher Dashboard doesn't allow admin to navigate to a teacher classroom. -->
+            #{if new User(user).isTeacher() and not utils.isOzaria then "<button class='teacher-dashboard-button'>View Classes</button>" else ""}
           </td>
         </tr>")
       result = "<table class=\"table\">#{result.join('\n')}</table>"
@@ -303,8 +304,10 @@ module.exports = class MainAdminView extends RootView
           playtime = session.get('playtime')
         userLevelPlaytimeMap[userID][levelID] = playtime
       interactiveSessions = new InteractiveSessions()
-      #Promise.resolve($.when(interactiveSessions.fetchForAllClassroomMembers(classroom)...))
-      Promise.resolve([])  # No interactives in CodeCombat yet
+      if utils.isOzaria
+        Promise.resolve($.when(interactiveSessions.fetchForAllClassroomMembers(classroom)...))
+      else
+        Promise.resolve([])  # No interactives in CodeCombat yet
     .then (models) =>
       userInteractiveAttemptMap = {}
       for session in interactiveSessions.models
@@ -349,8 +352,7 @@ module.exports = class MainAdminView extends RootView
       currentLevel = 1
       courseLabelIndexes = CS: 1, GD: 0, WD: 0, CH: 1
       lastCourseIndex = 1
-      #lastCourseLabel = 'CH1'  # TODO: differentiate products
-      lastCourseLabel = 'CS1'
+      lastCourseLabel = if utils.isOzaria then 'CH1' else 'CS1'
       for level in courseLevels
         unless level.courseIndex is lastCourseIndex
           currentLevel = 1

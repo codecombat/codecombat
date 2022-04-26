@@ -127,6 +127,8 @@ module.exports =
   'level:show-victory': c.object {required: ['showModal']},
     showModal: {type: 'boolean'}
     manual: { type: 'boolean' }
+    capstoneInProgress: { type: 'boolean' }
+    isCapstone: { type: 'boolean' }
 
   'level:highlight-dom': c.object {required: ['selector']},
     selector: {type: 'string'}
@@ -172,6 +174,7 @@ module.exports =
         {type: 'string', enum: ['success', 'failure', 'incomplete']}
       ]
     timedOut: {type: 'boolean'}
+    capstoneStage: {type: ['integer', 'undefined']}
 
   'level:hero-config-changed': c.object {}
 

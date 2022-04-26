@@ -1,0 +1,8 @@
+/*
+  Overriding the default nprogress styles from node_modules/nprogress/nprogress.css
+*/
+
+#nprogress .bar {
+  /* take the height of the container div */
+  height: 100%;
+}

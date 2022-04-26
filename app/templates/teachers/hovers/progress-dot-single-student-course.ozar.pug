@@ -1,0 +1,14 @@
+if started
+  .percent-students.small-details
+    = Math.floor(levelsCompleted / levelsTotal * 100)
+    | %
+    span.spl(data-i18n='clans.complete_2')
+      | Complete
+    |  (
+    = levelsCompleted
+    | /
+    = levelsTotal
+    | )
+else
+  span.small-details(data-i18n='teacher.assigned')
+    | Assigned

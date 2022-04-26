@@ -1,0 +1,12 @@
+#track-view-container
+  #listings
+    each val, key in view.listings
+      .track-elem
+        .track-icon
+          div= view.titleize(key)
+        .track-text
+          if view.beautify(key, val).split
+            for line in view.beautify(key, val).split("\n")
+              div= line
+          else
+            div= view.beautify(key, val)

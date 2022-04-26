@@ -1,0 +1,238 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+
+.site-chrome
+  background-color: white
+  &.show-background
+    background: url(/images/pages/base/background.jpg) top center no-repeat    
+    background-color: rgb(150,202,68)
+    
+    @media screen and ( max-height: 800px )
+      background-position: center -226px
+      
+  padding-top: 185px
+  max-width: 1920px
+  margin: 0 auto
+
+  @media screen and ( max-height: 800px )
+    padding-top: 50px
+
+  //- Nav
+  
+  #site-nav
+    position: absolute
+    background: url(/images/pages/base/nav_background.png) top center no-repeat
+    left: 0
+    top: 56px
+    right: 0
+    height: 144px
+    text-align: center
+    min-width: 1024px
+    z-index: 1
+    
+    @media screen and ( max-height: 800px )
+      top: -80px
+
+    #nav-logo
+      position: absolute
+      margin-right: auto
+      margin-left: auto
+      left: 0
+      right: 0
+      top: -45px
+      
+      @media screen and ( max-height: 800px )
+        display: none
+      
+    #small-nav-logo
+      display: none
+      @media screen and ( max-height: 800px )
+        display: inline-block
+        height: 30px
+      
+    #site-nav-links
+      position: absolute
+      bottom: 21px
+      left: 0
+      right: 0
+    
+      & > a
+        color: rgb(158,135,119)
+        &:hover
+          color: $white
+
+      & > a, button, select
+        font-size: 18px
+        text-transform: uppercase
+        font-family: $headings-font-family
+        margin: 0 7px
+
+    button, select
+      position: relative
+      top: -3px
+      height: 32px
+      color: #444
+      
+    .signup-button
+      background: red
+      color: white
+      
+    .login-button
+      background: white
+      color: black
+
+    .language-dropdown
+      width: auto
+      padding: 0px 10px
+      display: inline-block
+      
+    #site-nav-smooth-edge
+      position: absolute
+      left: 0
+      right: 0
+      bottom: 0
+      height: 5px
+      
+    
+    //- Account menu
+
+    .dropdown
+      .account-settings-image
+        width: 18px
+
+      .dropdown-menu
+        width: 180px
+        padding: 0px
+        border-radius: 0px
+  
+        .user-dropdown-header
+          background: #E4CF8C
+          height: auto
+          padding: 10px
+          text-align: center
+          color: black
+          border-bottom: #32281e 1px solid
+          
+          .img-circle
+            background-position: center
+            background-size: cover
+            border: #e3be7a 8px solid
+            width: 98px
+            height: 98px // Includes the border
+            display: inline-block
+            vertical-align: middle
+            &:hover
+              box-shadow: 0 0 20px #e3be7a
+          
+          h3
+            font-variant: small-caps
+            font-family: Open Sans Condensed
+            margin-top: 10px
+            text-shadow: 2px 2px 3px white
+            color: #31281E
+            
+          .user-level
+            position: absolute
+            top: 73px
+            right: 40px
+            color: gold
+            text-shadow: 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black
+  
+        li
+          color: black
+          font-size: 16px
+      
+        #logout-button
+          font-weight: bold
+    
+  //- Content
+    
+  #site-content-area
+    background: rgb(240,229,199)
+    margin: 0 auto -20px
+    width: 1024px
+    border: 5px solid rgb(110,88,41)
+    padding: 20px 12px
+    min-height: 300px
+
+    
+  //- Footer
+  
+  #site-footer
+    width: 100%
+    height: 130px
+    position: relative
+    overflow: hidden
+    
+    // Recycling the nav bar background as a rotated image
+    #footer-background
+      transform: rotate(180deg)
+      margin: 0 auto
+      display: block
+      
+    #footer-links, #footer-credits
+      position: absolute
+      left: 0
+      right: 0
+      text-align: center
+      
+    #footer-links
+      top: 20px
+      height: 45px
+      padding: 11px
+
+      a
+        color: rgb(158,135,119)
+        font-size: 18px
+        text-transform: uppercase
+        font-family: Open Sans Condensed
+        margin: 0 7px
+
+        &:hover
+          color: $white
+
+      .share-buttons
+        display: inline-block
+        position: relative
+        top: 3px
+        margin-left: 20px
+        
+      .share-buttons, .partner-badges
+        padding-bottom: 10px
+        text-align: center
+        @include opacity(0.75)
+      
+        &.fade-in
+          @include opacity(0)
+      
+        &:hover, &:active
+          @include opacity(1)
+          @include transition(opacity .10s linear)
+      
+        .github-star-button
+          margin-left: 20px
+      
+        &>div
+          display: inline-block
+          vertical-align: top
+
+    #footer-credits
+      top: 79px
+      height: 50px
+      color: rgb(158,135,119)
+      font-size: 12px
+      
+      > *
+        margin: 0 15px
+        width: 186px
+        display: inline-block
+      
+      #footer-logo
+        width: 160px
+        
+      & > span
+        position: relative
+        top: 8px
+
+      a
+        color: rgb(238,227,131)
