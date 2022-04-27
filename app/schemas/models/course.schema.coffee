@@ -22,7 +22,7 @@ _.extend CourseSchema.properties,
   pricePerSeat: {type: 'number', description: 'Price per seat in USD cents.'} # deprecated
   free: { type: 'boolean' }
   screenshot: oneOf: [
-    { type: 'string', format: 'image-file', title: 'Thumbnail image', description: 'Relevant for teacher dashboard' }
+    { type: 'string', format: 'image-file', title: 'Thumbnail image', description: 'Relevant for teacher dashboard', pattern: /^db.*/ }
     c.path { title: 'URL', description: 'Link to course screenshot.'} # deprecated
   ]
   adminOnly: { type: 'boolean', description: 'Deprecated in favor of releasePhase.' }
