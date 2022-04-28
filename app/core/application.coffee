@@ -42,8 +42,8 @@ Application = {
     {me} = require 'core/auth'
     Tracker = require('core/Tracker2').default
     api = require 'core/api'
-    userUtils = require '../lib/user-utils' if utils.isCodeCombat
     utils = require 'core/utils'
+    userUtils = require '../lib/user-utils' if utils.isCodeCombat
 
     Router = require('core/Router')
     Vue.config.devtools = not @isProduction()
