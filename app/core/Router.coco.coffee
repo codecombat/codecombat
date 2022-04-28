@@ -206,6 +206,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'parents': go('core/SingletonAppVueComponentView')
     'live-classes': go('core/SingletonAppVueComponentView')
+    'live': go('core/SingletonAppVueComponentView')
 
     'outcomes-report(/*subpath)': go('core/SingletonAppVueComponentView')
 
