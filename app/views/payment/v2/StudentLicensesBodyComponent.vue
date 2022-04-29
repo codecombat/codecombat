@@ -215,6 +215,11 @@
         </div>
       </div>
     </div>
+    <div class="footer">
+      <div class="footer__text">
+        See also our <a href="https://www.ozaria.com/funding" target="_blank">Funding Resources Guide</a> for how to leverage CARES Act funding sources like ESSER and GEER.
+      </div>
+    </div>
   </div>
 </template>
 
@@ -566,6 +571,24 @@ name: "StudentLicensesBodyComponent"
     &-3 {
       padding-bottom: 5rem;
     }
+  }
+}
+
+.footer {
+  padding-top: 3rem;
+
+  &__text {
+    font-family: 'Work Sans', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 2.2rem;
+    /* identical to box height, or 138% */
+
+    align-items: center;
+
+    color: #000000;
+    text-align: center;
   }
 }
 </style>
