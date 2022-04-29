@@ -2,101 +2,216 @@
   <div class="student-licenses-body">
     <div class="row">
       <div class="col-md-6">
-        <div class="small-class">
-          <div class="small-class__header">
-            <div class="small-class__header-heading">
+        <div class="license small-class">
+          <div class="license__header">
+            <div class="license__header-heading">
               Small Classroom
             </div>
-            <div class="small-class__header-subheading">
+            <div class="license__header-subheading">
               For clubs, after-school programs and small classrooms with 5-9 students.
             </div>
           </div>
 
-          <div class="small-class__body">
-            <div class="small-class__body-1">
-              <div class="small-class__price">
+          <div class="license__body small-class__body">
+            <div class="license__body-1 small-class__body-1">
+              <div class="license__price">
                 $50
               </div>
-              <div class="small-class__per">
-                <span class="small-class__per-student">per student</span>
-                <span class="small-class__per-year">per year</span>
+              <div class="license__per">
+                <span class="license__per-student">per student</span>
+                <span class="license__per-year">per year</span>
               </div>
-              <div class="small-class__licenses clearfix">
-                <span class="small-class__licenses-num">5-9</span>
-                <span class="small-class__licenses-lic">licenses</span>
+              <div class="license__licenses clearfix">
+                <span class="license__licenses-num">5-9</span>
+                <span class="license__licenses-lic">licenses</span>
               </div>
             </div>
 
-            <div class="small-class__body-2">
-              <div class="small-class__includes">
+            <div class="license__body-2 small-class__body-2">
+              <div class="license__includes">
                 Includes:
               </div>
-              <div class="small-class__product row">
+              <div class="license__product row">
                 <div class="col-md-6">
-                  <img src="/images/pages/payment/lock-green.png" alt="Lock icon" class="small-class__product-lock">
-                  <div class="small-class__product-full">
+                  <img src="/images/pages/payment/lock-green.png" alt="Lock icon" class="license__product-lock">
+                  <div class="license__product-full">
                     Full Access to both CodeCombat:
                   </div>
-                  <ul class="small-class__product-list">
-                    <li class="small-class__coco-list-feature">Computer Science 1-6</li>
-                    <li class="small-class__coco-list-feature">Web Development 1-2</li>
-                    <li class="small-class__coco-list-feature">Game Development 1-3</li>
+                  <ul class="license__product-list">
+                    <li class="license__coco-list-feature">Computer Science 1-6</li>
+                    <li class="license__coco-list-feature">Web Development 1-2</li>
+                    <li class="license__coco-list-feature">Game Development 1-3</li>
                   </ul>
                 </div>
-                <div class="col-md-6 small-class__product-oz">
-                  <div class="small-class__product-full">
+                <div class="col-md-6 license__product-oz">
+                  <div class="license__product-full">
                     And Ozaria:
                   </div>
-                  <ul class="small-class__product-list">
-                    <li class="small-class__oz-list-feature">Chapter 1: 10 class sessions</li>
-                    <li class="small-class__oz-list-feature">Chapter 2: 30 class sessions</li>
-                    <li class="small-class__oz-list-feature">Chapter 3: 25 class sessions</li>
-                    <li class="small-class__oz-list-feature">Chapter 4: 20 class sessions</li>
+                  <ul class="license__product-list">
+                    <li class="license__oz-list-feature">Chapter 1: 10 class sessions</li>
+                    <li class="license__oz-list-feature">Chapter 2: 30 class sessions</li>
+                    <li class="license__oz-list-feature">Chapter 3: 25 class sessions</li>
+                    <li class="license__oz-list-feature">Chapter 4: 20 class sessions</li>
                   </ul>
                 </div>
               </div>
 
-              <div class="small-class__info">
-                <img src="/images/pages/payment/message-green.png" class="small-class__info-logo" alt="Message logo">
-                <span class="small-class__info-text">Customer support via email or chat</span>
+              <div class="license__info">
+                <img src="/images/pages/payment/message-green.png" class="license__info-logo" alt="Message logo">
+                <span class="license__info-text">Customer support via email or chat</span>
               </div>
-              <div class="small-class__info">
-                <img src="/images/pages/payment/dollar-green.png" class="small-class__info-logo" alt="Dollar logo">
-                <span class="small-class__info-text">Self-serve credit card purchase</span>
+              <div class="license__info">
+                <img src="/images/pages/payment/dollar-green.png" class="license__info-logo" alt="Dollar logo">
+                <span class="license__info-text">Self-serve credit card purchase</span>
               </div>
 
             </div>
 
-            <div class="small-class__body-3">
-              <div class="small-class__addon">
-                <span class="small-class__addon-new">New!</span> <span class="small-class__addon-text">Paid Add-Ons:</span>
+            <div class="license__body-3 small-class__body-3">
+              <div class="license__addon">
+                <span class="license__addon-new">New!</span> <span class="license__addon-text">Paid Add-Ons:</span>
               </div>
 
-              <div class="small-class__pd">
-                <div class="small-class__pd-heading">
-                  <img src="/images/pages/payment/apple-green.png" alt="Apple logo" class="small-class__pd-apple">
-                  <span class="small-class__pd-heading-text">Professional Development</span>
+              <div class="license__addon-info">
+                <div class="license__addon-info-heading">
+                  <img src="/images/pages/payment/apple-green.png" alt="Apple logo" class="license__addon-info-apple">
+                  <span class="license__addon-info-heading-text">Professional Development</span>
                 </div>
-                <div class="small-class__pd-subheading">
+                <div class="license__addon-info-subheading">
                   Comprehensive 40-hour online course that allows you to learn anytime, anywhere and at any pace. <a href="https://www.ozaria.com/professional-development" target="_blank">Learn More.</a>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="small-class__footer">
-            <div class="small-class__buy">
-              <div class="small-class__buy-once">
+          <div class="license__footer">
+            <div class="license__buy row">
+              <div class="license__buy-once col-md-6">
                 Available for purchase one time annually.
               </div>
-              <div class="small-class__buy-btn clearfix">Buy Now</div>
+              <div class="col-md-1">&nbsp;</div>
+              <div class="license__buy-btn clearfix col-md-5">Buy Now</div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="school-district">
+        <div class="license school-district">
+          <div class="license__header">
+            <div class="license__header-heading">
+              Schools or Districts
+            </div>
+            <div class="license__header-subheading">
+              For classrooms, schools and districts with 10 or more students
+            </div>
+          </div>
 
+          <div class="school-district__body">
+            <div class="school-district__body-1">
+              <div class="license__price">
+                Bulk
+              </div>
+              <div class="license__per">
+                <span class="license__per-student">discounts</span>
+                <span class="license__per-year">available</span>
+              </div>
+              <div class="license__licenses clearfix">
+                <span class="license__licenses-num">10+</span>
+                <span class="license__licenses-lic">licenses</span>
+              </div>
+            </div>
+
+            <div class="school-district__body-2">
+              <div class="license__includes">
+                Includes:
+              </div>
+              <div class="license__product row">
+                <div class="col-md-6">
+                  <img src="/images/pages/payment/lock-green.png" alt="Lock icon" class="license__product-lock">
+                  <div class="license__product-full">
+                    Full Access to both CodeCombat:
+                  </div>
+                  <ul class="license__product-list">
+                    <li class="license__coco-list-feature">Computer Science 1-6</li>
+                    <li class="license__coco-list-feature">Web Development 1-2</li>
+                    <li class="license__coco-list-feature">Game Development 1-3</li>
+                  </ul>
+                </div>
+                <div class="col-md-6 license__product-oz">
+                  <div class="license__product-full">
+                    And Ozaria:
+                  </div>
+                  <ul class="license__product-list">
+                    <li class="license__oz-list-feature">Chapter 1: 10 class sessions</li>
+                    <li class="license__oz-list-feature">Chapter 2: 30 class sessions</li>
+                    <li class="license__oz-list-feature">Chapter 3: 25 class sessions</li>
+                    <li class="license__oz-list-feature">Chapter 4: 20 class sessions</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="license__info">
+                <img src="/images/pages/payment/message-green.png" class="license__info-logo" alt="Message logo">
+                <span class="license__info-text">Customer support via email or chat, plus a dedicated school success manager available via phone or email for implementation support</span>
+              </div>
+              <div class="license__info">
+                <img src="/images/pages/payment/dollar-green.png" class="license__info-logo" alt="Dollar logo">
+                <span class="license__info-text">Variety of payment options available, including: purchase order, site licenses, & multi-year discounts.</span>
+              </div>
+              <div class="license__info">
+                <img src="/images/pages/payment/insights-green.png" class="license__info-logo" alt="Dollar logo">
+                <span class="license__info-text">Administrator dashboard with actionable data and insights</span>
+              </div>
+
+            </div>
+
+            <div class="school-district__body-3">
+              <div class="license__addon">
+                <span class="license__addon-new">New!</span> <span class="license__addon-text">Paid Add-Ons:</span>
+              </div>
+
+              <div class="license__addon-info">
+                <div class="license__addon-info-heading">
+                  <img src="/images/pages/payment/apple-green.png" alt="Apple logo" class="license__addon-info-apple">
+                  <span class="license__addon-info-heading-text">Professional Development</span>
+                </div>
+                <div class="license__addon-info-subheading">
+                  Comprehensive 40-hour online course that allows you to learn anytime, anywhere and at any pace. <a href="https://www.ozaria.com/professional-development" target="_blank">Learn More.</a>
+                </div>
+              </div>
+
+              <div class="license__addon-info">
+                <div class="license__addon-info-heading">
+                  <img src="/images/pages/payment/desktop-green.png" alt="Training logo" class="license__addon-info-apple">
+                  <span class="license__addon-info-heading-text">Implementation Training</span>
+                </div>
+                <div class="license__addon-info-subheading">
+                  60 min Onboarding Training on how to use CodeCombat and Ozaria to support specific institutional and instructional goals.
+                </div>
+              </div>
+
+              <div class="license__addon-info">
+                <div class="license__addon-info-heading">
+                  <img src="/images/pages/payment/league-green.png" alt="AI league logo" class="license__addon-info-apple">
+                  <span class="license__addon-info-heading-text">AI League Custom Tournament</span>
+                </div>
+                <div class="license__addon-info-subheading">
+                  Engage students in an exciting esports competition that allows them to showcase their understanding of concepts in a new environment and practice creative problem-solving strategies! <a href="https://codecombat.com/league" target="_blank">Learn More.</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="license__footer">
+            <div class="license__buy license__request row">
+              <div class="license__buy-once col-md-6">
+                We'll help you build a solution that meets the needs of your class, school or district.
+              </div>
+              <div class="col-md-1">&nbsp;</div>
+              <div class="license__buy-btn clearfix col-md-5">Request a Quote</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -110,7 +225,7 @@ name: "StudentLicensesBodyComponent"
 </script>
 
 <style scoped lang="scss">
-.small-class {
+.license {
   background: #FFFFFF;
   /* Gray 3 */
 
@@ -160,22 +275,6 @@ name: "StudentLicensesBodyComponent"
       /* Teal Dark */
 
       color: #0E4C60;
-    }
-  }
-
-  &__body {
-    padding: 2rem;
-
-    &-1 {
-      padding-bottom: 2rem;
-    }
-
-    &-2 {
-      padding-bottom: 4rem;
-    }
-
-    &-3 {
-      padding-bottom: 8rem;
     }
   }
 
@@ -347,7 +446,7 @@ name: "StudentLicensesBodyComponent"
     }
   }
 
-  &__pd {
+  &__addon-info {
     font-style: normal;
     padding-top: 1.5rem;
 
@@ -426,6 +525,46 @@ name: "StudentLicensesBodyComponent"
       align-items: center;
       text-align: center;
       letter-spacing: 0.444444px;
+    }
+  }
+
+  &__request {
+    padding: 4rem;
+  }
+}
+
+.small-class {
+  &__body {
+    padding: 2rem;
+
+    &-1 {
+      padding-bottom: 2rem;
+    }
+
+    &-2 {
+      padding-bottom: 11.5rem;
+    }
+
+    &-3 {
+      padding-bottom: 26.3rem;
+    }
+  }
+}
+
+.school-district {
+  &__body {
+    padding: 2rem;
+
+    &-1 {
+      padding-bottom: 2rem;
+    }
+
+    &-2 {
+      padding-bottom: 4rem;
+    }
+
+    &-3 {
+      padding-bottom: 5rem;
     }
   }
 }
