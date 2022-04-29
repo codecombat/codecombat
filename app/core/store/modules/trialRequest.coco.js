@@ -57,7 +57,8 @@ export default {
     },
   },
   actions: {
-    async fetchCurrentTrialRequest({ commit }) {
+    async fetchCurrentTrialRequest({ commit, state }) {
+      if (state.properties.email) return // already fetched
       let trialRequests;
       try {
         trialRequests = await api.getOwn();

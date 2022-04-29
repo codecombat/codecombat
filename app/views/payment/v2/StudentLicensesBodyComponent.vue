@@ -225,7 +225,16 @@
 
 <script>
 export default {
-name: "StudentLicensesBodyComponent"
+  name: 'StudentLicensesBodyComponent',
+  props: {
+    numStudents: {
+      type: String,
+      required: true,
+      validator: (v) => {
+        return [ '<=10', '10+' ].includes(v)
+      }
+    }
+  }
 }
 </script>
 

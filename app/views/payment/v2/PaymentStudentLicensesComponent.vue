@@ -10,7 +10,9 @@
         </div>
       </div>
 
-      <student-licenses-body-component />
+      <student-licenses-body-component
+        :num-students="numStudentsVal"
+      />
     </div>
   </div>
 </template>
@@ -19,6 +21,7 @@
 import RawPugComponent from 'app/views/common/RawPugComponent'
 import teacherDashboardNavTemplate from 'app/templates/courses/teacher-dashboard-nav.pug'
 import StudentLicensesBodyComponent from './StudentLicensesBodyComponent'
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: 'PaymentStudentLicensesComponent',
@@ -31,8 +34,24 @@ export default {
       teacherDashboardNavTemplate
     }
   },
-  created() {
-    console.log('payyyy')
+  computed: {
+    ...mapGetters({
+      'currentTrialRequest': 'trialRequest/properties'
+    }),
+    numStudentsVal () {
+      const numStudents = this.currentTrialRequest?.numStudents
+      return numStudents === '1-10' ? '<=10' : '10+'
+    }
+  },
+  methods: {
+    ...mapActions({
+      'fetchCurrentTrialRequest': 'trialRequest/fetchCurrentTrialRequest'
+    })
+  },
+  async created() {
+    console.log('qwe', this.currentTrialRequest)
+    await this.fetchCurrentTrialRequest()
+    console.log('payyyy', this.currentTrialRequest)
   }
 }
 </script>
