@@ -3528,6 +3528,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     recurring_month_3: 'Recurring billing every 3 months'
     recurring_month_6: 'Recurring billing every 6 months'
     recurring_year_1: 'Recurring billing every year'
+    purchase_licenses_2: "Purchase licenses for your students to access paid curriculum after the first course"
+    applying_licenses: "applying licenses"
+    about: "about"
 
   form_validation_errors:
     required: 'Field is required'

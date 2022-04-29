@@ -91,6 +91,10 @@ export default function getVueRouter () {
           path: '/ed-link/login-redirect',
           component: () => import(/* webpackChunkName: "edLinkRedirectView" */'app/views/user/EdLinkRedirectView'),
           props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/teachers/licenses',
+          component: () => import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/PaymentStudentLicensesComponent')
         }
       ],
       scrollBehavior(to) {
