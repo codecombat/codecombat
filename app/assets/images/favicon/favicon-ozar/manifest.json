@@ -3,12 +3,12 @@
     "short_name": "Ozaria",
     "icons": [
         {
-            "src": "/images/favicon/favicon-ozar/android-chrome-192x192.ozar.png?v=2020-11-15",
+            "src": "/images/favicon/favicon-ozar/android-chrome-192x192.png?v=2020-11-15",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/images/favicon/favicon-ozar/android-chrome-512x512.ozar.png?v=2020-11-15",
+            "src": "/images/favicon/favicon-ozar/android-chrome-512x512.png?v=2020-11-15",
             "sizes": "512x512",
             "type": "image/png"
         }

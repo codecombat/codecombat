@@ -42,8 +42,8 @@ Application = {
     {me} = require 'core/auth'
     Tracker = require('core/Tracker2').default
     api = require 'core/api'
-    #userUtils = require '../lib/user-utils'
     utils = require 'core/utils'
+    userUtils = require '../lib/user-utils' if utils.isCodeCombat
 
     Router = require('core/Router')
     Vue.config.devtools = not @isProduction()
@@ -85,7 +85,7 @@ Application = {
     unless me.get('anonymous')
       @checkForNewAchievement()
     @remindPlayerToTakeBreaks()
-    #userUtils.provisionPremium()
+    userUtils.provisionPremium() if utils.isCodeCombat
     window.i18n = i18nextInstance = i18next.default.createInstance {
       lng: me.get('preferredLanguage', true)
       fallbackLng: locale.mapFallbackLanguages()

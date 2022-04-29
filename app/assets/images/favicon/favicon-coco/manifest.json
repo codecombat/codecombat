@@ -3,12 +3,12 @@
   "name": "CodeCombat",
   "icons": [
       {
-          "src": "/images/favicon/favicon-coco/android-chrome-192x192.coco.png",
+          "src": "/images/favicon/favicon-coco/android-chrome-192x192.png",
           "sizes": "192x192",
           "type": "image/png"
       },
       {
-          "src": "/images/favicon/favicon-coco/android-chrome-512x512.coco.png",
+          "src": "/images/favicon/favicon-coco/android-chrome-512x512.png",
           "sizes": "512x512",
           "type": "image/png"
       }

@@ -35,6 +35,11 @@ export default function getVueRouter () {
           props: (route) => ({ showPremium: false, type: route.query.type || 'live-classes' })
         },
         {
+          path: '/live',
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
+          props: (route) => ({ showPremium: false, type: route.query.type || 'direct-mail' })
+        },
+        {
           path: '/school-administrator',
           component: () => import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/SchoolAdministratorComponent'),
           children: [
