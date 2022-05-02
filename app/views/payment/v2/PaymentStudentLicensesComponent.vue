@@ -40,6 +40,7 @@ export default {
     }),
     numStudentsVal () {
       const numStudents = this.currentTrialRequest?.numStudents
+      // return '10+'
       return numStudents === '1-10' ? '<=10' : '10+'
     }
   },

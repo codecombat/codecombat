@@ -1,6 +1,9 @@
 <template>
   <div class="includes-body">
-    <div class="license__body-2 small-class__body-2">
+    <div
+      v-if="classType === 'small-class'"
+      class="license__body-2 small-class__body-2"
+    >
       <div class="license__includes">
         Includes:
       </div>
@@ -39,7 +42,10 @@
       </div>
 
     </div>
-    <div class="school-district__body-2">
+    <div
+      v-else
+      class="school-district__body-2"
+    >
       <div class="license__includes">
         Includes:
       </div>
@@ -88,10 +94,93 @@
 
 <script>
 export default {
-name: "IncludesBodyComponent"
+  name: 'IncludesBodyComponent',
+  props: {
+    classType: {
+      type: String,
+      validator: (v) => {
+        return [ 'small-class', 'school-district' ].includes(v)
+      }
+    }
+  }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.license {
+  &__includes {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 2.4rem;
+    line-height: 3.2rem;
+    /* or 133% */
 
+    letter-spacing: 0.56px;
+
+    /* Teal Dark */
+
+    color: #0E4C60;
+
+    padding-bottom: .5rem;
+    border-bottom: .5rem solid #1FBAB4;
+  }
+
+  &__product {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 2.2rem;
+    /* or 138% */
+
+    display: flex;
+    align-items: center;
+
+    color: #000000;
+
+    &-oz {
+      padding-top: 2rem;
+    }
+
+    &-lock {
+      width: 1.5rem;
+    }
+
+    &-full {
+      display: inline-block;
+      padding-bottom: .5rem;
+    }
+
+    &-list {
+      font-size: 1.4rem;
+    }
+  }
+
+  &__info {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 2.2rem;
+    /* or 138% */
+
+    display: flex;
+    align-items: center;
+
+    color: #000000;
+
+    padding-top: 1rem;
+
+    &-logo {
+      width: 1.5rem;
+    }
+
+    &-text {
+      padding-left: 1rem;
+    }
+  }
+
+}
+
+.school-district__body-only .license__includes {
+  padding-bottom: 1.2rem;
+}
 </style>
