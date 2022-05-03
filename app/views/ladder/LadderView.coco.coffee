@@ -55,6 +55,7 @@ module.exports = class LadderView extends RootView
     'click a:not([data-toggle])': 'onClickedLink'
     'click .spectate-button': 'onClickSpectateButton'
     'click .simulate-all-button': 'onClickSimulateAllButton'
+    'click .early-results-button': 'onClickEarlyResultsButton'
     'click .join-clan-button': 'onClickJoinClanButton'
 
   initialize: (options, @levelID, @leagueType, @leagueID) ->
@@ -170,6 +171,10 @@ module.exports = class LadderView extends RootView
       url: "/db/tournament/#{@tournamentId}/state"
       success: (res) =>
         @tournament = new Tournament res
+        if me.isAdmin() and document.location.hash is '#results'
+          # Show the results early, before publish date
+          @tournament.set 'resultsDate', @tournament.get 'endDate'
+          @tournament.set 'state', 'ended'
         if @tournament.get 'endDate'
           clearInterval @tournamentTimeRefreshInterval if @tournamentTimeRefreshInterval
           @tournamentTimeRefreshInterval = setInterval @refreshTournamentTime.bind(@), 1000
@@ -189,7 +194,6 @@ module.exports = class LadderView extends RootView
 
         if @tournamentState isnt @tournament.get('state')
           @tournamentState = @tournament.get('state')
-          console.log 'rerendering whole thing'
           @render()
 
         clearInterval @checkTournamentCloseInterval if @checkTournamentCloseInterval
@@ -314,6 +318,9 @@ module.exports = class LadderView extends RootView
           console.log res
         error: (err) ->
           console.error err
+
+  onClickEarlyResultsButton: (e) ->
+    @checkTournamentClose()
 
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]

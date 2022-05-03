@@ -180,6 +180,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     top_banner_blurb: "Parents, book your child's first live online coding class for free!"
     top_banner_blurb_pd: "We now offer professional development for educators."
     top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"

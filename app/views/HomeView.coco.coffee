@@ -35,11 +35,13 @@ module.exports = class HomeView extends RootView
 
   getRenderData: (context={}) ->
     context = super context
+    context.maintenanceStartTime = moment('2022-05-07T16:00:00-07:00')
     context.i18nData =
       slides: "<a href='https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing' target='_blank'>#{$.i18n.t('new_home.lesson_slides')}</a>"
       clever: "<a href='/teachers/resources/clever-faq'>#{$.i18n.t('new_home_faq.clever_integration_faq')}</a>"
       contact: "<a class='contact-modal'>#{$.i18n.t('general.contact_us')}</a>"
       funding: "<a href='https://www.ozaria.com/funding' target='_blank'>#{$.i18n.t('nav.funding_resources_guide')}</a>"
+      maintenanceStartTime: "#{context.maintenanceStartTime.calendar()} (#{context.maintenanceStartTime.fromNow()})"
       interpolation: { escapeValue: false }
     context
 
