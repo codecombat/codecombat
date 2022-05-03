@@ -172,6 +172,11 @@ block content
           a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href='/play/spectate/' + view.level.get('slug') + '?tournament=' + view.tournamentId + (view.league ? "&league=" + view.league.id : ""))
             span.glyphicon.glyphicon-eye-open
             span.spl(data-i18n="play.spectate")
+        if me.isAdmin() && view.tournamentState == "ranking"
+          div.column.column-2
+            a.btn.btn-illustrated.btn-block.btn-lg.btn-info.early-results-button(href='#results')
+              span.glyphicon.glyphicon-star
+              span.spl(data-i18n="tournament.view_results")
 
 
 
