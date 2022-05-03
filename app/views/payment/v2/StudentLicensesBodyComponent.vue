@@ -2,7 +2,7 @@
   <div class="student-licenses-body">
     <div class="row">
       <div class="col-md-6" v-if="numStudents === '<=10'">
-        <div class="license small-class">
+        <div class="license small-class" @click="onSmallClassClicked">
           <div class="license__header">
             <div class="license__header-heading">
               Small Classroom
@@ -92,6 +92,11 @@
       v-if="openLicenseModal"
       @close="openLicenseModal = false"
     />
+    <purchase-license-modal
+      :payment-group="paymentGroup"
+      v-if="openPurchaseModal"
+      @close="openPurchaseModal = false"
+    />
   </div>
 </template>
 
@@ -100,18 +105,20 @@ import IncludesBodyComponent from './student-license/IncludesBodyComponent'
 import AddonBodyComponent from './student-license/AddonBodyComponent'
 import BodyFooterComponent from './student-license/BodyFooterComponent'
 import ModalGetLicenses from '../../../components/common/ModalGetLicenses'
-
+import PurchaseLicenseModal from './student-license/PurchaseLicenseModal'
 export default {
   name: 'StudentLicensesBodyComponent',
   components: {
     IncludesBodyComponent,
     AddonBodyComponent,
     BodyFooterComponent,
-    ModalGetLicenses
+    ModalGetLicenses,
+    PurchaseLicenseModal
   },
   data () {
     return {
-      openLicenseModal: false
+      openLicenseModal: false,
+      openPurchaseModal: false
     }
   },
   props: {
@@ -121,12 +128,19 @@ export default {
       validator: (v) => {
         return [ '<=10', '10+' ].includes(v)
       }
+    },
+    paymentGroup: {
+      type: Object
     }
   },
   methods: {
     onSchoolDistrictClicked () {
       console.log('school district clicked')
       this.openLicenseModal = true
+    },
+    onSmallClassClicked () {
+      console.log('small class clicked')
+      this.openPurchaseModal = true
     }
   }
 }

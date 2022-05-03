@@ -12,6 +12,7 @@
 
       <student-licenses-body-component
         :num-students="numStudentsVal"
+        :payment-group="paymentGroup"
       />
     </div>
   </div>
@@ -36,7 +37,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      'currentTrialRequest': 'trialRequest/properties'
+      'currentTrialRequest': 'trialRequest/properties',
+      'paymentGroup': 'paymentGroups/paymentGroup'
     }),
     numStudentsVal () {
       const numStudents = this.currentTrialRequest?.numStudents
@@ -46,13 +48,17 @@ export default {
   },
   methods: {
     ...mapActions({
-      'fetchCurrentTrialRequest': 'trialRequest/fetchCurrentTrialRequest'
+      'fetchCurrentTrialRequest': 'trialRequest/fetchCurrentTrialRequest',
+      'fetchPaymentGroup': 'paymentGroups/fetch'
     })
   },
   async created() {
     console.log('qwe', this.currentTrialRequest)
     await this.fetchCurrentTrialRequest()
     console.log('payyyy', this.currentTrialRequest)
+    if (this.numStudentsVal === '<=10') {
+      this.fetchPaymentGroup('student-licenses-small-classroom-coco')
+    }
   }
 }
 </script>
