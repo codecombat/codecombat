@@ -94,7 +94,7 @@ export default function getVueRouter () {
         },
         {
           path: '/teachers/licenses',
-          component: () => import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/PaymentStudentLicensesComponent')
+          component: () => import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/StudentLicensesMainComponent')
         }
       ],
       scrollBehavior(to) {
