@@ -42,11 +42,6 @@ export default {
       'currentTrialRequest': 'trialRequest/properties',
       'paymentGroup': 'paymentGroups/paymentGroup'
     }),
-    // ...mapGetters('me', [
-    //   'isSchoolAdmin',
-    //   'isTeacher',
-    //   'isStudent'
-    // ]),
     numStudentsVal () {
       const numStudents = this.currentTrialRequest?.numStudents
       // return '10+'
@@ -63,8 +58,7 @@ export default {
     console.log('qwe', this.currentTrialRequest)
     await this.fetchCurrentTrialRequest()
     console.log('payyyy', this.currentTrialRequest)
-    // logic should include conditions added in shouldUpsellParent and change other conditions in a similar way
-    if (me.get('role') === 'parent') {
+    if (me.get('role') === 'parent' && !['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia'].includes(me.get('country'))) {
       await this.fetchPaymentGroup('homeschool-coco')
     } else if (this.numStudentsVal === '<=10') {
       await this.fetchPaymentGroup('student-licenses-small-classroom-coco')

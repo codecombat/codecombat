@@ -92,7 +92,6 @@ export default {
       background: #FCBB00;
       padding: 1rem 3.5rem;
 
-      font-style: normal;
       font-weight: 600;
       font-size: 1.8rem;
       line-height: 2.8rem;
@@ -109,7 +108,6 @@ export default {
   }
 
   &__price {
-    font-style: normal;
     font-weight: 700;
     font-size: 5rem;
     line-height: 3.2rem;
@@ -129,7 +127,6 @@ export default {
 
     text-transform: uppercase;
 
-    font-style: normal;
     font-weight: 600;
     font-size: 1.6rem;
     line-height: 2.1rem;

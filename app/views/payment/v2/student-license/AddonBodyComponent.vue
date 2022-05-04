@@ -76,8 +76,9 @@ export default {
 
 <style scoped lang="scss">
 .license {
+  font-style: normal;
+
   &__addon {
-    font-style: normal;
     font-weight: 700;
     font-size: 1.6rem;
     line-height: 3.2rem;
@@ -109,7 +110,6 @@ export default {
   }
 
   &__addon-info {
-    font-style: normal;
     padding-top: 1.5rem;
 
     &-heading {

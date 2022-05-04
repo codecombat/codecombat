@@ -108,8 +108,9 @@ export default {
 
 <style scoped lang="scss">
 .license {
+  font-style: normal;
+
   &__includes {
-    font-style: normal;
     font-weight: 600;
     font-size: 2.4rem;
     line-height: 3.2rem;
@@ -126,7 +127,6 @@ export default {
   }
 
   &__product {
-    font-style: normal;
     font-weight: 400;
     font-size: 1.6rem;
     line-height: 2.2rem;
@@ -156,7 +156,6 @@ export default {
   }
 
   &__info {
-    font-style: normal;
     font-weight: 400;
     font-size: 1.6rem;
     line-height: 2.2rem;
