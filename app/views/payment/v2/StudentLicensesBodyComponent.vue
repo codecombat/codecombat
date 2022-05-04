@@ -4,7 +4,7 @@
       <div class="header__heading">{{ $t('payments.student_licenses') }}</div>
       <div class="header__subheading">
         {{ $t('payments.purchase_licenses_2') }}. {{ $t('new_home.learn_more') }} {{ $t('payments.about') }}
-        <a href="">{{ $t('payments.applying_licenses') }}</a>
+        <a href="javascript:;" @click="onApplyLicenseClicked">{{ $t('payments.applying_licenses') }}</a>
       </div>
     </div>
     <div class="row">
@@ -104,6 +104,11 @@
       v-if="openPurchaseModal"
       @close="openPurchaseModal = false"
     />
+    <backbone-modal-harness
+      :open="openApplyLicenseModal"
+      :modal-view="HowToEnrollModal"
+      @close="openApplyLicenseModal = false"
+    />
   </div>
 </template>
 
@@ -113,6 +118,8 @@ import AddonBodyComponent from './student-license/AddonBodyComponent'
 import BodyFooterComponent from './student-license/BodyFooterComponent'
 import ModalGetLicenses from '../../../components/common/ModalGetLicenses'
 import PurchaseLicenseModal from './student-license/PurchaseLicenseModal'
+import BackboneModalHarness from '../../common/BackboneModalHarness'
+import HowToEnrollModal from '../../teachers/HowToEnrollModal'
 export default {
   name: 'StudentLicensesBodyComponent',
   components: {
@@ -120,12 +127,15 @@ export default {
     AddonBodyComponent,
     BodyFooterComponent,
     ModalGetLicenses,
-    PurchaseLicenseModal
+    PurchaseLicenseModal,
+    BackboneModalHarness
   },
   data () {
     return {
       openLicenseModal: false,
-      openPurchaseModal: false
+      openPurchaseModal: false,
+      openApplyLicenseModal: false,
+      HowToEnrollModal
     }
   },
   props: {
@@ -146,6 +156,9 @@ export default {
     },
     onSmallClassClicked () {
       this.openPurchaseModal = true
+    },
+    onApplyLicenseClicked () {
+      this.openApplyLicenseModal = true
     }
   }
 }
