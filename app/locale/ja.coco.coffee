@@ -97,6 +97,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "ゲームをやってみよう"
     classroom_edition: "教室版:"
     learn_to_code: "コードを学ぼう:"

@@ -97,6 +97,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     top_banner_blurb: "¡Padres, denle a su hijo el regalo de la codificación y la instrucción personalizada con nuestros maestros en vivo!"
     top_banner_summer_camp: "La inscripción ya está abierta para nuestros campamentos de programación de verano; pregúntenos acerca de nuestras sesiones virtuales de una semana a partir de solo $ 199dls."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "Prueba el juego"
     classroom_edition: "Versión para el aula:"
     learn_to_code: "Aprende a programar:"

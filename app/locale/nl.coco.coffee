@@ -97,6 +97,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     top_banner_blurb: "Ouders, geef je kinderen een voorsprong door met begeleiding op maat van onze live leraren!"
     top_banner_summer_camp: "Inschrijven voor onze (Engelstalige) online coding camps kan vanaf nu. Een week lang online lessen vanaf € 199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "Probeer de game"
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"

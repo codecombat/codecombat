@@ -97,6 +97,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     top_banner_blurb: "Родители, подарите своему ребенку программирование и индивидуальные инструкции с нашими живыми учителями!"
     top_banner_summer_camp: "Открыта запись на наши летние лагеря программирования - спросите нас о наших недельных виртуальных сессиях по цене всего от 199 долларов."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "Попробуй игру"
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"

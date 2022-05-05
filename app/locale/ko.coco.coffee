@@ -97,6 +97,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     top_banner_blurb: "부모님들, 아이들에게 코딩이라는 선물을 주시고 우리의 선생님들로부터 실시간 지도를 받게 해 보세요!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "게임해보기"
     classroom_edition: "교실 버전:"
     learn_to_code: "코딩 배우기:"

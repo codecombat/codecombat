@@ -97,6 +97,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     top_banner_blurb: "Para orang tua, berikan anak Anda hadiah coding dan pengajaran yang dipersonalisasi dengan pengajar langsung kami!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "Coba permainan"
     classroom_edition: "Edisi Ruang Kelas:"
     learn_to_code: "Belajar membuat kode:"
