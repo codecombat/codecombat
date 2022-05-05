@@ -34,11 +34,11 @@
 
       <div class="license__info">
         <img src="/images/pages/payment/message-green.png" class="license__info-logo" alt="Message logo">
-        <span class="license__info-text">Customer support via email or chat</span>
+        <span class="license__info-text">{{ $t('payments.customer_support_info_1') }}</span>
       </div>
       <div class="license__info">
         <img src="/images/pages/payment/dollar-green.png" class="license__info-logo" alt="Dollar logo">
-        <span class="license__info-text">Self-serve credit card purchase</span>
+        <span class="license__info-text">{{ $t('payments.self_serve_credit') }}</span>
       </div>
 
     </div>
@@ -76,15 +76,15 @@
 
       <div class="license__info">
         <img src="/images/pages/payment/message-green.png" class="license__info-logo" alt="Message logo">
-        <span class="license__info-text">Customer support via email or chat, plus a dedicated school success manager available via phone or email for implementation support</span>
+        <span class="license__info-text">{{ $t('payments.customer_support_info_2') }}</span>
       </div>
       <div class="license__info">
         <img src="/images/pages/payment/dollar-green.png" class="license__info-logo" alt="Dollar logo">
-        <span class="license__info-text">Variety of payment options available, including: purchase order, site licenses, & multi-year discounts.</span>
+        <span class="license__info-text">{{ $t('payments.multiple_payment_options') }}</span>
       </div>
       <div class="license__info">
-        <img src="/images/pages/payment/insights-green.png" class="license__info-logo" alt="Dollar logo">
-        <span class="license__info-text">Administrator dashboard with actionable data and insights</span>
+        <img src="/images/pages/payment/insights-green.png" class="license__info-logo" alt="Insights logo">
+        <span class="license__info-text">{{ $t('payments.admin_dashboard') }}</span>
       </div>
 
     </div>

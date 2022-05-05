@@ -12,10 +12,10 @@
         <div class="license small-class" @click="onSmallClassClicked">
           <div class="license__header">
             <div class="license__header-heading">
-              Small Classroom
+              {{ $t('payments.classroom_heading') }}
             </div>
             <div class="license__header-subheading">
-              For clubs, after-school programs and small classrooms with 5-9 students.
+              {{ $t('payments.classroom_subheading') }}
             </div>
           </div>
 
@@ -46,10 +46,10 @@
         <div class="license school-district" @click="onSchoolDistrictClicked">
           <div class="license__header">
             <div class="license__header-heading">
-              Schools or Districts
+              {{ $t('payments.school_district_heading') }}
             </div>
             <div class="license__header-subheading">
-              For classrooms, schools and districts with 10 or more students
+              {{ $t('payments.school_district_subheading') }}
             </div>
           </div>
 

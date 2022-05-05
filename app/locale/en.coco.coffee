@@ -3531,6 +3531,20 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     purchase_licenses_2: "Purchase licenses for your students to access paid curriculum after the first course"
     applying_licenses: "applying licenses"
     about: "about"
+    school_district_heading: "Schools or Districts"
+    school_district_subheading: "For classrooms, schools and districts with 10 or more students"
+    classroom_heading: "Small Classroom"
+    classroom_subheading: "For clubs, after-school programs and small classrooms with 5-9 students."
+    customer_support_info_1: "Customer support via email or chat"
+    customer_support_info_2: "Customer support via email or chat, plus a dedicated school success manager available via phone or email for implementation support"
+    self_serve_credit: "Self-serve credit card purchase"
+    multiple_payment_options: "Variety of payment options available, including: purchase order, site licenses, & multi-year discounts."
+    admin_dashboard: "Administrator dashboard with actionable data and insights"
+    pd_info: "Comprehensive 40-hour online course that allows you to learn anytime, anywhere and at any pace."
+    implementation_info: "60 min Onboarding Training on how to use CodeCombat and Ozaria to support specific institutional and instructional goals."
+    ai_league_info: "Engage students in an exciting esports competition that allows them to showcase their understanding of concepts in a new environment and practice creative problem-solving strategies!"
+    ai_custom_tournament: "AI League Custom Tournament"
+    implementation_training: "Implementation Training"
 
   form_validation_errors:
     required: 'Field is required'

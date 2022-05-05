@@ -29,30 +29,30 @@
       <div class="license__addon-info">
         <div class="license__addon-info-heading">
           <img src="/images/pages/payment/apple-green.png" alt="Apple logo" class="license__addon-info-apple">
-          <span class="license__addon-info-heading-text">Professional Development</span>
+          <span class="license__addon-info-heading-text">{{ $t('nav.professional_development') }}</span>
         </div>
         <div class="license__addon-info-subheading">
-          Comprehensive 40-hour online course that allows you to learn anytime, anywhere and at any pace. <a href="https://www.ozaria.com/professional-development" target="_blank">Learn More.</a>
+          {{ $t('payments.pd_info') }} <a href="https://www.ozaria.com/professional-development" target="_blank">Learn More.</a>
         </div>
       </div>
 
       <div class="license__addon-info">
         <div class="license__addon-info-heading">
           <img src="/images/pages/payment/desktop-green.png" alt="Training logo" class="license__addon-info-apple">
-          <span class="license__addon-info-heading-text">Implementation Training</span>
+          <span class="license__addon-info-heading-text">{{ $t('payments.implementation_training') }}</span>
         </div>
         <div class="license__addon-info-subheading">
-          60 min Onboarding Training on how to use CodeCombat and Ozaria to support specific institutional and instructional goals.
+          {{ $t('payments.implementation_info') }}
         </div>
       </div>
 
       <div class="license__addon-info">
         <div class="license__addon-info-heading">
           <img src="/images/pages/payment/league-green.png" alt="AI league logo" class="license__addon-info-apple">
-          <span class="license__addon-info-heading-text">AI League Custom Tournament</span>
+          <span class="license__addon-info-heading-text">{{ $t('payments.ai_custom_tournament') }}</span>
         </div>
         <div class="license__addon-info-subheading">
-          Engage students in an exciting esports competition that allows them to showcase their understanding of concepts in a new environment and practice creative problem-solving strategies! <a href="https://codecombat.com/league" target="_blank">Learn More.</a>
+          {{ $t('payments.ai_league_info') }} <a href="https://codecombat.com/league" target="_blank">Learn More.</a>
         </div>
       </div>
 

@@ -23,7 +23,12 @@ export default {
 		},
 	},
 	actions: {
-		async fetch({ commit }, slug) {
+		async fetch({ commit,state }, slug) {
+			commit('setLoading', true)
+			if (state.paymentGroup.slug === slug) {
+				commit('setLoading', false)
+				return
+			}
 			let paymentGroup;
 			try {
 				paymentGroup = await getPaymentGroup(slug);
