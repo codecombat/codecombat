@@ -416,46 +416,41 @@ block content
             .text-h5(data-i18n="about.story_long_way_2")
 
       #careers.anchor
-        .text-center
-          h3(data-i18n="about.jobs_title")
-          //- h4(data-i18n="about.jobs_subtitle")
-        #careers-row.row
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            #benefits
-              h5(data-i18n="about.jobs_benefits")
-              ul
-                li.small
-                  a.benefits-link(href='http://blog.triplebyte.com/fixing-the-inequity-of-startup-equity', data-i18n="about.jobs_benefit_9")
-                li.small(data-i18n="about.jobs_benefit_6")
-                li.small(data-i18n="about.jobs_benefit_10")
-                li.small(data-i18n="about.jobs_benefit_11")
-                li.small(data-i18n="about.jobs_benefit_4")
-                li.small(data-i18n="about.jobs_benefit_5")
+        if view.jobs.length
+          .text-center
+            h3(data-i18n="about.jobs_title")
+            //- h4(data-i18n="about.jobs_subtitle")
+          #careers-row.row
+            .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
+              #benefits
+                h5(data-i18n="about.jobs_benefits")
+                ul
+                  li.small
+                    a.benefits-link(href='http://blog.triplebyte.com/fixing-the-inequity-of-startup-equity', data-i18n="about.jobs_benefit_9")
+                  li.small(data-i18n="about.jobs_benefit_6")
+                  li.small(data-i18n="about.jobs_benefit_11")
+                  li.small(data-i18n="about.jobs_benefit_4")
+                  li.small(data-i18n="about.jobs_benefit_5")
+                  li.small(data-i18n="about.jobs_benefit_12")
+                  li.small(data-i18n="about.jobs_benefit_13")
+                  li.small(data-i18n="about.jobs_benefit_14")
 
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            .job-listing
-              h5 Sales Development Representative
-                .text-center
-                  small.label
-                    | Remote • Full-time
-                p.small CodeCombat is hiring sales development representatives to introduce our computer science education products to educators across the world.
-                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/e240da7b-02aa-4364-baf1-23c0992ee72f?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
-                  span(data-i18n="about.learn_more")
-
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            .job-listing
-              h5 Online Coding Instructor
-                  .text-center
-                    small.label
-                      | Remote • Part-time/Contractor
-                  p.small CodeCombat is searching for coding instructors to teach CodeCombat Online Classes to our at-home learners.
-                  a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/f278352a-5f35-415b-b219-aa9f4890d15d?lever-origin=applied&lever-source%5B%5D=CodeCombat" rel="external" target="_blank")
-                    span(data-i18n="about.learn_more")
-
-          //.col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-          //  .job-listing
-          //    h5 (No Open Roles)
-          //    p.small Check back later for updates on new positions at CodeCombat.
+            for job in view.jobs
+              - var location = job.categories ? job.categories.location : ''
+              - var commitment = job.categories ? job.categories.commitment : ''
+              .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
+                .job-listing
+                  h5= job.text.replace(/ \(Remote\)$/i, '')
+                    .text-center
+                      small.label
+                        span= location || 'Remote'
+                        if commitment
+                          span  • #{commitment}
+                    .job-description
+                      for paragraph in (job.descriptionPlain || '').split('\n\n')
+                        p.small= paragraph
+                    a.job-link.btn.btn-lg.btn-navy(href=`https://jobs.lever.co/codecombat/${job.id}?lever-origin=applied&lever-source%5B%5D=CodeCombat` rel="external" target="_blank")
+                      span(data-i18n="about.learn_more")
 
       #contact.anchor
         .text-center
