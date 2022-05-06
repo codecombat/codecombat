@@ -97,6 +97,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     top_banner_blurb: "Eltern können hier die ersten Online-Kurse kostenfrei buchen."
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "Das Spiel ausprobieren"
     classroom_edition: "Klassenraum Edition:"
     learn_to_code: "Lerne zu Programmieren:"
@@ -1281,13 +1282,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     jobs_title: "Komm arbeite mit uns und hilf mit CodeCombat Geschichte zu schreiben!"
     jobs_subtitle: "Nichts gutes gefunden aber du bist trotzdem interessiert mit uns zu arbeiten? Schau dir unseren \"Kreiere deinen Eigenen\" Eintrag an."
     jobs_benefits: "Angestellten Vorteile"
-    jobs_benefit_4: "Unbegrenzter Urlaub"
+    jobs_benefit_4: "Unbegrenzter Urlaub" # {change}
     jobs_benefit_5: "Professionelle Entwicklung und fortlaufende Unterstützung für Bildungsmöglichkeiten, kostenlose Bücher und Spiele!"
     jobs_benefit_6: "Kranken- (Gold), Zahn-, Augenversicherung, Commuter-Versicherung" # {change}
-    jobs_benefit_7: "Sitz-Stehtische für alle"
     jobs_benefit_9: "10 Jahre Options-Ausübungsfenster"
-    jobs_benefit_10: "Mutterschaftsurlaub: 10 Wochen bezahlt, die nächsten 6 bei 55% des Gehalts" # {change}
     jobs_benefit_11: "Vaterschaftsurlaub: 10 Wochen bezahlt" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "Kreiere deinen Eigenen"
     jobs_custom_description: "Du bist fasziniert von CodeCombat aber siehst keinen Job aufgeführt, der zu deinen Qualifikationen passt? Schreib uns und überzeuge uns wie du denkst, wie du in unserem Team mitwirken kannst. Wir freuen uns von dir zu hören!"
     jobs_custom_contact_1: "Sende uns eine Nachricht in der du "
@@ -3410,6 +3412,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"

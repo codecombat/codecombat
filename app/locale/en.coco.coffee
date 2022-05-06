@@ -1281,11 +1281,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     jobs_title: "Come work with us and help write CodeCombat history!"
     jobs_subtitle: """Don't see a good fit but interested in keeping in touch? See our "Create Your Own" listing."""
     jobs_benefits: "Employee Benefits"
-    jobs_benefit_4: "Flexible hours, unlimited vacation"  # {change}
+    jobs_benefit_4: "Flexible hours, unlimited vacation"
     jobs_benefit_5: "$1000/yr professional development and continuing education support"
-    jobs_benefit_6: "Medical (gold), dental, vision, 401K"  # {change}
+    jobs_benefit_6: "Medical (gold), dental, vision, 401K"
     jobs_benefit_9: "10-year option exercise window"
-    jobs_benefit_11: "12 weeks paid parental leave"  # {change}
+    jobs_benefit_11: "12 weeks paid parental leave"
     jobs_benefit_12: "$50/mo internet & biz services benefit"
     jobs_benefit_13: "$50/mo health and wellness benefit"
     jobs_benefit_14: "100% distributed team"

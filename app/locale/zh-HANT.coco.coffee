@@ -97,6 +97,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
 #    try_the_game: "Try the game"
     classroom_edition: "教室版本"
     learn_to_code: "學習寫程式碼"
@@ -1281,13 +1282,14 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     jobs_title: "與我們一同工作，來協助撰寫 CodeCombat 的歷史吧！"
     jobs_subtitle: "找不到符合的位置，但有興趣與我們保持連繫？查看『創造自己的工作』清單吧。"
     jobs_benefits: "員工福利"
-    jobs_benefit_4: "無盡假期"
+    jobs_benefit_4: "無盡假期" # {change}
     jobs_benefit_5: "專業的開發與持續的教育援助 – 免費的課本以及遊戲!"
     jobs_benefit_6: "醫藥、牙科、視力治療" # {change}
-    jobs_benefit_7: "所有人都有坐式/站式辦公桌"
     jobs_benefit_9: "十年的公司期權"
-    jobs_benefit_10: "產假:10週給薪以及接下來6週55%的給薪" # {change}
     jobs_benefit_11: "陪產假:10週給薪" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "創造自己的工作"
     jobs_custom_description: "你對於CodeCombat有熱誠但是找不到一個職位符合您的條件嗎? 聯繫我們並且讓我們知道您如何為我們的團隊貢獻。 我們很希望能聽到您的意見!"
     jobs_custom_contact_1: "寄給我們一個簡介至"
@@ -3410,6 +3412,12 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"
