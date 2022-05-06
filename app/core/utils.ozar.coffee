@@ -1013,19 +1013,30 @@ isOldBrowser = () ->
     return true if $.browser.safari && majorVersion < 6  # 6 might have problems with Aether, or maybe just old minors of 6: https://errorception.com/projects/51a79585ee207206390002a2/errors/547a202e1ead63ba4e4ac9fd
   return false
 
+# AI League arenas
 arenas = [
-  {slug: 'blazing-battle'   , type: 'regular',      start: new Date("2021-01-01T00:00:00.000-07:00"), end: new Date("2021-05-01T00:00:00.000-08:00"), results: new Date("2021-05-01T00:00:00.000-08:00"), levelOriginal: '5fca06dc8b4da8002889dbf1', tournament: '608cea0f8f2b971478556ac6', image: '/file/db/level/5fca06dc8b4da8002889dbf1/Blazing Battle Final cut.jpg'}
-  {slug: 'infinite-inferno' , type: 'championship', start: new Date("2021-04-01T00:00:00.000-08:00"), end: new Date("2021-05-01T00:00:00.000-08:00"), results: new Date("2021-05-01T00:00:00.000-08:00"), levelOriginal: '602cdc204ef0480075fbd954', tournament: '608cd3f814fa0bf9f1c1f928', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
-  {slug: 'mages-might'      , type: 'regular',      start: new Date("2021-05-01T00:00:00.000-08:00"), end: new Date("2021-09-01T00:00:00.000-08:00"), results: new Date("2021-09-08T09:00:00.000-08:00"), levelOriginal: '6066f956ddfd6f003d1ed6bb', tournament: '612d554b9abe2e0019aeffb9', image: '/file/db/level/6066f956ddfd6f003d1ed6bb/Mages\'%20Might%20Banner.jpg'}
-  {slug: 'sorcerers'        , type: 'championship', start: new Date("2021-08-01T00:00:00.000-08:00"), end: new Date("2021-09-01T00:00:00.000-08:00"), results: new Date("2021-09-08T09:00:00.000-08:00"), levelOriginal: '609a6ad2e1eb34001a84e7af', tournament: '612d556f9abe2e0019af000b', image: "/file/db/level/609a6ad2e1eb34001a84e7af/Sorcerer's-Blitz-01.jpg"}
-  {slug: 'giants-gate'      , type: 'regular',      start: new Date("2021-09-01T00:00:00.000-08:00"), end: new Date("2021-12-15T00:00:00.000-07:00"), results: new Date("2021-12-21T09:00:00.000-07:00"), levelOriginal: '60e69b24bed8ae001ac6ce3e', tournament: '6136a86e0c0ecaf34e431e81', image: "/file/db/level/60e69b24bed8ae001ac6ce3e/Giant’s-Gate-Final.jpg"}
-  {slug: 'colossus'         , type: 'championship', start: new Date("2021-11-19T00:00:00.000-07:00"), end: new Date("2021-12-15T00:00:00.000-07:00"), results: new Date("2021-12-21T09:00:00.000-07:00"), levelOriginal: '615ffaf2b20b4900280e0070', tournament: '61983f74fd75db5e28ac127a', image: "/file/db/level/615ffaf2b20b4900280e0070/Colossus-Clash-02.jpg"}
-  {slug: 'iron-and-ice'     , type: 'regular',      start: new Date("2021-12-15T00:00:00.000-07:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '618a5a13994545008d2d4990', tournament: '623a648580501d0025d8f4ef', image: "/file/db/level/618a5a13994545008d2d4990/Iron-and-Ice-Arena-Banner-02.jpg"}
-  {slug: 'tundra-tower'     , type: 'championship', start: new Date("2022-03-11T00:00:00.000-08:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '620cb80a9bc0f1005e9189d7', tournament: '623a652b53903c1c6c1c6045', image: '/file/db/level/620cb80a9bc0f1005e9189d7/Tundra-Tower-Cup-Arena-Banner-1000px.jpeg'}
-  {slug: 'desert-duel'      , type: 'regular',      start: new Date("2022-05-01T00:00:00.000-08:00"), end: new Date("2022-09-01T00:00:00.000-08:00"), results: new Date("2022-09-08T09:00:00.000-08:00"), levelOriginal: '62540bd270cb4400504ad44c'}
- #{slug: 'sandstorm'        , type: 'championship', start: new Date("2022-08-01T00:00:00.000-08:00"), end: new Date("2022-09-01T00:00:00.000-08:00"), results: new Date("2022-09-08T09:00:00.000-08:00"), levelOriginal: ''}
- #{slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-07:00"), results: new Date("2023-01-10T09:00:00.000-07:00"), levelOriginal: ''}
- #{slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-07:00"), results: new Date("2023-01-10T09:00:00.000-07:00"), levelOriginal: ''}
+  {season: 1, slug: 'blazing-battle'   , type: 'regular',      start: new Date("2021-01-01T00:00:00.000-07:00"), end: new Date("2021-05-01T00:00:00.000-08:00"), results: new Date("2021-05-01T00:00:00.000-08:00"), levelOriginal: '5fca06dc8b4da8002889dbf1', tournament: '608cea0f8f2b971478556ac6', image: '/file/db/level/5fca06dc8b4da8002889dbf1/Blazing Battle Final cut.jpg'}
+  {season: 1, slug: 'infinite-inferno' , type: 'championship', start: new Date("2021-04-01T00:00:00.000-08:00"), end: new Date("2021-05-01T00:00:00.000-08:00"), results: new Date("2021-05-01T00:00:00.000-08:00"), levelOriginal: '602cdc204ef0480075fbd954', tournament: '608cd3f814fa0bf9f1c1f928', image: '/file/db/level/602cdc204ef0480075fbd954/InfiniteInferno_Banner_Final.jpg'}
+  {season: 2, slug: 'mages-might'      , type: 'regular',      start: new Date("2021-05-01T00:00:00.000-08:00"), end: new Date("2021-09-01T00:00:00.000-08:00"), results: new Date("2021-09-08T09:00:00.000-08:00"), levelOriginal: '6066f956ddfd6f003d1ed6bb', tournament: '612d554b9abe2e0019aeffb9', image: '/file/db/level/6066f956ddfd6f003d1ed6bb/Mages\'%20Might%20Banner.jpg'}
+  {season: 2, slug: 'sorcerers'        , type: 'championship', start: new Date("2021-08-01T00:00:00.000-08:00"), end: new Date("2021-09-01T00:00:00.000-08:00"), results: new Date("2021-09-08T09:00:00.000-08:00"), levelOriginal: '609a6ad2e1eb34001a84e7af', tournament: '612d556f9abe2e0019af000b', image: "/file/db/level/609a6ad2e1eb34001a84e7af/Sorcerer's-Blitz-01.jpg"}
+  {season: 3, slug: 'giants-gate'      , type: 'regular',      start: new Date("2021-09-01T00:00:00.000-08:00"), end: new Date("2021-12-15T00:00:00.000-07:00"), results: new Date("2021-12-21T09:00:00.000-07:00"), levelOriginal: '60e69b24bed8ae001ac6ce3e', tournament: '6136a86e0c0ecaf34e431e81', image: "/file/db/level/60e69b24bed8ae001ac6ce3e/Giant’s-Gate-Final.jpg"}
+  {season: 3, slug: 'colossus'         , type: 'championship', start: new Date("2021-11-19T00:00:00.000-07:00"), end: new Date("2021-12-15T00:00:00.000-07:00"), results: new Date("2021-12-21T09:00:00.000-07:00"), levelOriginal: '615ffaf2b20b4900280e0070', tournament: '61983f74fd75db5e28ac127a', image: "/file/db/level/615ffaf2b20b4900280e0070/Colossus-Clash-02.jpg"}
+  {season: 4, slug: 'iron-and-ice'     , type: 'regular',      start: new Date("2021-12-15T00:00:00.000-07:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '618a5a13994545008d2d4990', tournament: '623a648580501d0025d8f4ef', image: "/file/db/level/618a5a13994545008d2d4990/Iron-and-Ice-Arena-Banner-02.jpg"}
+  {season: 4, slug: 'tundra-tower'     , type: 'championship', start: new Date("2022-03-11T00:00:00.000-08:00"), end: new Date("2022-05-01T00:00:00.000-08:00"), results: new Date("2022-05-06T09:00:00.000-08:00"), levelOriginal: '620cb80a9bc0f1005e9189d7', tournament: '623a652b53903c1c6c1c6045', image: '/file/db/level/620cb80a9bc0f1005e9189d7/Tundra-Tower-Cup-Arena-Banner-1000px.jpeg'}
+  {season: 5, slug: 'desert-duel'      , type: 'regular',      start: new Date("2022-05-01T00:00:00.000-08:00"), end: new Date("2022-09-01T00:00:00.000-08:00"), results: new Date("2022-09-08T09:00:00.000-08:00"), levelOriginal: '62540bd270cb4400504ad44c', tournament: '626c6017deb6dd43a1937b81', image: 'file/db/level/62540bd270cb4400504ad44c/Basketball-Arena-Banner-01.jpg'}
+  {season: 5, slug: 'sandstorm'        , type: 'championship', start: new Date("2022-08-01T00:00:00.000-08:00"), end: new Date("2022-09-01T00:00:00.000-08:00"), results: new Date("2022-09-08T09:00:00.000-08:00"), levelOriginal: ''}
+  {season: 6, slug: 'magma-mountain'   , type: 'regular',      start: new Date("2022-09-01T00:00:00.000-08:00"), end: new Date("2023-01-01T00:00:00.000-07:00"), results: new Date("2023-01-10T09:00:00.000-07:00"), levelOriginal: ''}
+  {season: 6, slug: 'lava-lake'        , type: 'championship', start: new Date("2022-12-01T00:00:00.000-07:00"), end: new Date("2023-01-01T00:00:00.000-07:00"), results: new Date("2023-01-10T09:00:00.000-07:00"), levelOriginal: ''}
+]
+
+# AI League seasons
+seasons = [
+  {number: 1, championshipType: 'cup',   image: '/images/pages/league/logo_cup.png',         video: '1422969c8f5fbee2a62ee60021becfb4', videoThumbnailTime: '1584s'}
+  {number: 2, championshipType: 'blitz', image: '/images/pages/league/logo_blitz.png',       video: '8a347a9c0da34f487ae4fdaa8234000a', videoThumbnailTime: '837s'}
+  {number: 3, championshipType: 'clash', image: '/images/pages/league/logo_clash.png',       video: '26bee42b433e19f789271ae400529025', videoThumbnailTime: '1732s'}
+  {number: 4, championshipType: 'cup',   image: '/images/pages/league/tundra-tower-cup.png', video: '',                                 videoThumbnailTime: ''}
+  {number: 5, championshipType: 'blitz', image: '/images/pages/league/sand-storm-blitz.png', video: '',                                 videoThumbnailTime: ''}
+  {number: 6, championshipType: 'clash', image: '/images/pages/league/lava-lake-clash.png',  video: '',                                 videoThumbnailTime: ''}
 ]
 
 activeArenas = ->
@@ -1160,6 +1171,7 @@ module.exports = {
   registerHocProgressModalCheck
   replaceText
   round
+  seasons
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
