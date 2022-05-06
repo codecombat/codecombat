@@ -42,13 +42,13 @@
 </template>
 
 <script>
-import { seasons, arenas } from '../../../../core/utils'
+import { AILeagueSeasons, arenas } from '../../../../core/utils'
 
 // Prepare season and arena metadata, ordering years reverse chronologically, then seasons chronologically
 const seasonsByYear = {}
-const latestSeason = _.max(seasons, 'number').number
+const latestSeason = _.max(AILeagueSeasons, 'number').number
 for (let seasonNumber = latestSeason; seasonNumber >= 1; --seasonNumber) {
-  const season = _.cloneDeep(_.find(seasons, {number: seasonNumber}))
+  const season = _.cloneDeep(_.find(AILeagueSeasons, {number: seasonNumber}))
   season.regularArena = _.find(arenas, {season: seasonNumber, type: 'regular'})
   season.championshipArena = _.find(arenas, {season: seasonNumber, type: 'championship'})
   season.dates = {

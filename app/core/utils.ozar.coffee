@@ -951,7 +951,7 @@ ageBracketsChina = [
   {slug: 'open', max: 9001}
 ]
 
-seasons = [
+seasonTimes = [
   {
     name: 'Season 1',
     start:'01-01',
@@ -972,7 +972,7 @@ seasons = [
 currentSeason = () ->
   now = new Date()
   year = now.getFullYear()
-  return seasons.find((season) ->
+  return seasonTimes.find((season) ->
     dates = season.end.split('-')
     now < new Date(year, +dates[0]-1, dates[1]).setHours(24, 0, 0, 0)
   )
@@ -1030,7 +1030,7 @@ arenas = [
 ]
 
 # AI League seasons
-seasons = [
+AILeagueSeasons = [
   {number: 1, championshipType: 'cup',   image: '/images/pages/league/logo_cup.png',         video: '1422969c8f5fbee2a62ee60021becfb4', videoThumbnailTime: '1584s'}
   {number: 2, championshipType: 'blitz', image: '/images/pages/league/logo_blitz.png',       video: '8a347a9c0da34f487ae4fdaa8234000a', videoThumbnailTime: '837s'}
   {number: 3, championshipType: 'clash', image: '/images/pages/league/logo_clash.png',       video: '26bee42b433e19f789271ae400529025', videoThumbnailTime: '1732s'}
@@ -1171,7 +1171,7 @@ module.exports = {
   registerHocProgressModalCheck
   replaceText
   round
-  seasons
+  AILeagueSeasons
   sortCourses
   sortCoursesByAcronyms
   stripIndentation
