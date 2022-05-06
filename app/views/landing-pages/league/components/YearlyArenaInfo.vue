@@ -1,12 +1,16 @@
 <template>
   <div id="yearly-arenas" >
     <div class="year-arenas row flex-row" v-for="(seasons, year) in seasonsByYear">
+      <h2 class="year-label">
+        <div class="year-label-content" >{{ year }}</div>
+      </h2>
       <div
         class="col-sm-4 text-center xs-pb-20"
         v-for="season in seasons"
         :key="season.number"
       >
-        <h3 class="season-name">{{ $t(`league.${season.championshipArena.slug.replace(/-/g, '_')}`) }} {{ $t(`league.${season.championshipType}`) }}</h3>
+        <!--<h3 class="season-name">{{ $t(`league.${season.championshipArena.slug.replace(/-/g, '_')}`) }} {{ $t(`league.${season.championshipType}`) }}</h3>-->
+        <h3 class="season-name esports-aqua">{{ $t('league.season_label', { seasonNumber: season.number, seasonName: $t(`league.season_${season.number}`), interpolation: { escapeValue: false } }) }}</h3>
         <div class="season-dates">{{ season.dates.rangeDisplay }}</div>
         <div
           v-if="season.video && season.published"
@@ -30,10 +34,12 @@
             class="img-responsive season-img"
             :src="season.image"
             loading="lazy"
-            :alt="$t(`league.season_#{season.number}`)"
+            :alt="$t(`league.season_${season.number}`)"
           />
           <div class="championship-month">
-            {{ season.dates.endDisplay + ' ' + $t('league.final_arena') }}
+            <span>{{ $t(`league.${season.championshipArena.slug.replace(/-/g, '_')}`) }} {{ $t(`league.${season.championshipType}`) }}</span>
+            <br />
+            <span>{{ season.dates.endDisplay + ' ' + $t('league.final_arena') }}</span>
           </div>
         </div>
       </div>
@@ -56,8 +62,8 @@ for (let seasonNumber = latestSeason; seasonNumber >= 1; --seasonNumber) {
     end: season.championshipArena.end,
     results: season.championshipArena.results,
   }
-  season.dates.startDisplay = moment(season.dates.start).format('MMM')
-  season.dates.endDisplay = moment(season.dates.end).format('MMM YYYY')
+  season.dates.startDisplay = moment(season.dates.start).add(1, 'days').format('MMM')  // Add a day to avoid timezone nonsense
+  season.dates.endDisplay = moment(season.dates.end).subtract(1, 'days').format('MMM YYYY')  // Subtract a day to avoid timezone nonsense
   season.dates.rangeDisplay = `${season.dates.startDisplay} - ${season.dates.endDisplay}`
   season.published = new Date() > season.dates.results
   const year = 2021 + Math.floor((seasonNumber - 1) / 3)
@@ -73,6 +79,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+#yearly-arenas {
+  margin: 0;
+}
 .season-img {
   width: 300px;
   height: 300px;
@@ -81,9 +90,9 @@ export default {
   margin-right: auto;
 }
 .season-name {
-  color: #30EFD3;
   font-size: 28px;
   line-height: 40px;
+  font-family: "lores12ot-bold", "VT323", "Work Sans", "Sans Serif";
 }
 .season-dates {
   margin-bottom: 15px;
@@ -98,9 +107,108 @@ export default {
   font-size: 14px;
   margin: 0px;
   width: calc(100% - 5px);
+  min-height: 74px;
+  display: inline-flex;
+  align-items: center;
+}
+@media screen and (max-width: 1418px) {
+  #yearly-arenas a.btn-primary.play-btn-cta.btn.btn-moon.btn-small {
+    min-height: 92px;
+  }
+}
+@media screen and (max-width: 1124px) {
+  #yearly-arenas a.btn-primary.play-btn-cta.btn.btn-moon.btn-small {
+    min-height: 128px;
+  }
+}
+@media screen and (max-width: 990px) {
+  #yearly-arenas a.btn-primary.play-btn-cta.btn.btn-moon.btn-small {
+    min-height: unset;
+  }
 }
 .year-arenas {
-  margin-bottom: 30px;
+  padding: 30px 10px;
+  margin: 60px 0;
+  border: 2.6px solid #ff39a6;
+  position: relative;
+
+  &:nth-child(even) {
+    border-right: unset;
+    .year-label {
+      right: 0;
+      .year-label-content {
+        transform: rotate(9deg);
+      }
+    }
+  }
+
+  &:nth-child(odd) {
+    border-left: unset;
+    .year-label {
+      left: 0;
+      .year-label-content {
+        transform: rotate(-9deg);
+      }
+    }
+  }
+
+  &:nth-child(1n) {
+    border-color: #ff39a6;
+    .year-label {
+      color: #ff39a6;
+    }
+  }
+
+  &:nth-child(2n) {
+    border-color: #bcff16;
+    .year-label {
+      color: #bcff16;
+    }
+  }
+
+  &:nth-child(3n) {
+    border-color: #30efd3;
+    .year-label {
+      color: #30efd3;
+    }
+  }
+
+  &:nth-child(4n) {
+    border-color: #f7d047;
+    .year-label {
+      color: #f7d047;
+    }
+  }
+
+  &:nth-child(5n) {
+    border-color: #9b83ff;
+    .year-label {
+      color: #9b83ff;
+    }
+  }
+}
+.year-label {
+  font-family: "lores12ot-bold", "VT323", "Work Sans", "Sans Serif";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 70px;
+  line-height: 80px;
+  position: absolute;
+  /* Block off the background border behind it */
+  height: 6px;
+  top: -3px;
+  width: 33%;
+  background-color: #0C1016;
+  text-align: center;
+
+  .year-label-content {
+    margin-top: -40px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .year-arenas {
+    width: 100%;
+  }
 }
 @media screen and (min-width: 992px) {
   .view-winners-col:nth-child(1) {

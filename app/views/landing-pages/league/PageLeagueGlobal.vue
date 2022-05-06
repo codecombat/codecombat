@@ -957,11 +957,11 @@ export default {
     color: white;
   }
 
-  .esports-pink {
+  ::v-deep .esports-pink {
     color: #ff39a6;
   }
 
-  .esports-goldenlight {
+  ::v-deep .esports-goldenlight {
     color: #f7d047;
   }
 
@@ -969,11 +969,11 @@ export default {
     color: #30efd3;
   }
 
-  .esports-green {
+  ::v-deep .esports-green {
     color: #bcff16;
   }
 
-  .esports-purple {
+  ::v-deep .esports-purple {
     color: #9b83ff;
   }
 
