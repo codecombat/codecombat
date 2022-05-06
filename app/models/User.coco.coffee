@@ -660,7 +660,7 @@ module.exports = class User extends CocoModel
   setToSpanish: -> _.string.startsWith((@get('preferredLanguage') or ''), 'es')
 
   freeOnly: ->
-    return @isStudent() or (features.freeOnly and not @isPremium()) or (@isAnonymous() or @get('county') is 'taiwan')
+    return @isStudent() or (features.freeOnly and not @isPremium()) or (@isAnonymous() and @get('county') is 'taiwan')
 
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})
