@@ -97,6 +97,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
 #    try_the_game: "Try the game"
     classroom_edition: "המהדורה הכיתתית:"
     learn_to_code: "למדו לכתוב קוד:"
@@ -1281,13 +1282,14 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     jobs_title: "בואו לעבוד אתנו ולעזור לכתוב את ההיסטוריה של CodeCombat!"
     jobs_subtitle: "לא מוצאים משהו שמתאים לכם, אבל רוצים לשמור על קשר? ראו תחת \"יצירה משלך\"."
     jobs_benefits: "הטבות עובדים"
-    jobs_benefit_4: "חופשות ללא הגבלה"
+    jobs_benefit_4: "חופשות ללא הגבלה" # {change}
     jobs_benefit_5: "התפתחות מקצועית והמשך תמיכה בהשכלה - ספרים ומשחקים בחינם!"
     jobs_benefit_6: "ביטוח רפואי (זהב), שיניים, ראייה, נסיעות" # {change}
-    jobs_benefit_7: "עמדות ישיבה-עמידה לכולם"
     jobs_benefit_9: "חלון של 10 שנים למימוש אופציות"
-    jobs_benefit_10: "חופשת לידה: 10 שבועות בתשלום, וששת השבועות הבאים ב-55% שכר" # {change}
     jobs_benefit_11: "חופשת אב: 10 שבועות בתשלום" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "יצירה משלך"
     jobs_custom_description: "מתלהבים מ-CodeCombat, אבל לא מוצאים כאן משרה שמתאימה לכישורים שלכם? כתבו וספרו לנו כיצד לדעתכם תוכלו לתרום לצוות שלנו. נשמח לשמוע מכם!"
     jobs_custom_contact_1: "שלחו אלינו הודעה אל"
@@ -3410,6 +3412,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"

@@ -97,6 +97,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     top_banner_blurb: "Родители, подарите своему ребенку программирование и индивидуальные инструкции с нашими живыми учителями!"
     top_banner_summer_camp: "Открыта запись на наши летние лагеря программирования - спросите нас о наших недельных виртуальных сессиях по цене всего от 199 долларов."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "Попробуй игру"
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
@@ -1281,13 +1282,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     jobs_title: "Сотрудничайте с нами и помогайте писать историю CodeCombat!"
     jobs_subtitle: "Не видите хорошую возможность для поддержания связи, но заинтересованы в ней? Обратите внимание на \"Создать свой собственный\" список."
     jobs_benefits: "Преимущества сотрудников"
-    jobs_benefit_4: "Бессрочный отпуск"
+    jobs_benefit_4: "Бессрочный отпуск" # {change}
     jobs_benefit_5: "Профессиональное развитие и поддержка непрерывного обучения вас – бесплатные книги и игры!"
     jobs_benefit_6: "Золотая медицинская страховка(только для США), дантист, окулист, оплата поездок с работы до дома" # {change}
-    jobs_benefit_7: "Офисные столы для всех"
     jobs_benefit_9: "10-летняя реализация опциона в любое удобное для вас время"
-    jobs_benefit_10: "Декретный отпуск для женщин: 10 недель оплачивается, следующие 6 @ 55% зарплаты" # {change}
     jobs_benefit_11: "Декретный отпуск для мужчин: 10 недель оплачивается" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "Создайте собственный проект"
     jobs_custom_description: "Вы увлечены CodeCombat, но не видите в списке работу, соответствующую вашей квалификации? Напишите нам, и расскажите, каким образом вы можете внести свой вклад в нашу команду. Мы хотим прочитать ваше письмо как можно скорее!"
     jobs_custom_contact_1: "Отправьте нам ваши комментарии"
@@ -3410,6 +3412,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"

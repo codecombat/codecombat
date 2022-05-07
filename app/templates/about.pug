@@ -416,7 +416,7 @@ block content
             .text-h5(data-i18n="about.story_long_way_2")
 
       #careers.anchor
-        if view.jobs.length
+        if view.jobs && view.jobs.length
           .text-center
             h3(data-i18n="about.jobs_title")
             //- h4(data-i18n="about.jobs_subtitle")

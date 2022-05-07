@@ -97,6 +97,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     top_banner_blurb: "Ouders, geef je kinderen een voorsprong door met begeleiding op maat van onze live leraren!"
     top_banner_summer_camp: "Inschrijven voor onze (Engelstalige) online coding camps kan vanaf nu. Een week lang online lessen vanaf € 199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "Probeer de game"
     classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
@@ -1284,10 +1285,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     jobs_benefit_4: "Onbeperkt (ziekte)verlof" # {change}
     jobs_benefit_5: "Professionele ontwikkeling en steun in het voortgezet onderwijs" # {change}
     jobs_benefit_6: "Zorgverzekering" # {change}
-    jobs_benefit_7: "Zit-staan bureau's voor iedereen"
     jobs_benefit_9: "10 jaar aanspraaktijd op aandelen"
-    jobs_benefit_10: "Moederschapsverlof: 10 weken betaald, volgende 6 met 55% salaris" # {change}
     jobs_benefit_11: "Vaderschapsverlof: 10 weken betaald" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "Maak je eigen"
     jobs_custom_description: "Ben je enthousiast over CodeCombat maar zie je geen baan die aansluit bij je kwalificaties? Schrijf ons jouw suggesties hoe je kunt meehelpen met ons team, we horen graag van je!"
     jobs_custom_contact_1: "Stuur ons een bericht"
@@ -3410,6 +3412,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"
