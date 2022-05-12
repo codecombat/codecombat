@@ -34,6 +34,9 @@
     computed: {
       languageImgSrc () {
         return `/images/ozaria/teachers/dashboard/png_icons/${this.language}.png`
+      },
+      languageName () {
+        return {javascript: 'JavaScript', cpp: 'C++'}[this.language] || _.string.titleize(this.language)
       }
     },
 
@@ -54,7 +57,7 @@
   <div class="class-info-row">
     <div class="stats-tab">
       <img :src="languageImgSrc">
-      <span>{{ language[0].toUpperCase() + language.slice(1) }}</span>
+      <span>{{ languageName }}</span>
     </div>
     <div class="stats-tab">
       <img src="/images/ozaria/teachers/dashboard/png_icons/MultipleUsers.png" />

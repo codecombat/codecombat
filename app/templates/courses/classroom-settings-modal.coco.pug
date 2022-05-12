@@ -64,9 +64,10 @@ block modal-body-content
     .form-group
       label(data-i18n="choose_hero.programming_language")
       - var aceConfig = view.classroom.get('aceConfig') || {};
-      - var languageDisabled = !!_.size(view.classroom.get('members'));
-      .help-block.small.text-navy(data-i18n="courses.language_cannot_change")
-      select#programming-language-select.form-control(name="language" value=aceConfig.language disabled=languageDisabled)
+      - var languageWarning = !!_.size(view.classroom.get('members'));
+      if languageWarning
+        .help-block.small.text-navy(data-i18n="teachers.programming_language_edit_desc_new")
+      select#programming-language-select.form-control(name="language" value=aceConfig.language)
         - var aceConfig = view.classroom.get('aceConfig') || {};
         option(value="" data-i18n="courses.language_select")
         option(value="python") Python
