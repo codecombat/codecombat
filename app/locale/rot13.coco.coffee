@@ -1281,11 +1281,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     jobs_title: "Pbzr jbex jvgu hf naq uryc jevgr PbqrPbzong uvfgbel!"
     jobs_subtitle: """Qba'g frr n tbbq svg ohg vagrerfgrq va xrrcvat va gbhpu? Frr bhe "Perngr Lbhe Bja" yvfgvat."""
     jobs_benefits: "Rzcyblrr Orarsvgf"
-    jobs_benefit_4: "Syrkvoyr ubhef, hayvzvgrq inpngvba"  # {punatr}
+    jobs_benefit_4: "Syrkvoyr ubhef, hayvzvgrq inpngvba"
     jobs_benefit_5: "$1000/le cebsrffvbany qrirybczrag naq pbagvahvat rqhpngvba fhccbeg"
-    jobs_benefit_6: "Zrqvpny (tbyq), qragny, ivfvba, 401X"  # {punatr}
+    jobs_benefit_6: "Zrqvpny (tbyq), qragny, ivfvba, 401X"
     jobs_benefit_9: "10-lrne bcgvba rkrepvfr jvaqbj"
-    jobs_benefit_11: "12 jrrxf cnvq cneragny yrnir"  # {punatr}
+    jobs_benefit_11: "12 jrrxf cnvq cneragny yrnir"
     jobs_benefit_12: "$50/zb vagrearg & ovm freivprf orarsvg"
     jobs_benefit_13: "$50/zb urnygu naq jryyarff orarsvg"
     jobs_benefit_14: "100% qvfgevohgrq grnz"
@@ -3411,6 +3411,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     lava_lake: "Ynin Ynxr"
     desert_duel: "Qrfreg Qhry"
     sandstorm: "Fnaqfgbez"
+    season_label: "Frnfba __frnfbaAhzore__: __frnfbaAnzr__"
     season_1: "Sbetrq va Synzr"
     season_2: "Fcryyf bs Sbeghar"
     season_3: "Gvgna Ntr"

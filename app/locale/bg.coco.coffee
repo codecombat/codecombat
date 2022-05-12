@@ -3412,6 +3412,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_label: "Season __seasonNumber__: __seasonName__"
 #    season_1: "Forged in Flame"
 #    season_2: "Spells of Fortune"
 #    season_3: "Titan Age"
