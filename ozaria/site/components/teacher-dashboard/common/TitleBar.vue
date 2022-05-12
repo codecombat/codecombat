@@ -7,7 +7,7 @@
   import moment from 'moment'
   import { getDisplayPermission } from '../../../common/utils'
 
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
   export default {
     components: {
@@ -46,6 +46,10 @@
     },
 
     computed: {
+      ...mapGetters({
+        activeClassrooms: 'teacherDashboard/getActiveClassrooms',
+      }),
+
       classroomCreationDate () {
         if ((this.classroom || {})._id) {
           return moment(parseInt(this.classroom._id.substring(0, 8), 16) * 1000).format('ll')
@@ -64,6 +68,19 @@
       },
       sharedClassroomId () {
         return this.sharePermission ? this.classroom._id : undefined
+      },
+      showOutcomesReportButton () {
+        if (!this.allClassesPage) {
+          // If classroom has students
+          return (this.classroom.members || []).length > 0
+        }
+        // If we have any active classrooms
+        return (this.activeClassrooms || []).length > 0
+      },
+      outcomesReportLink () {
+        const kind = this.allClassesPage ? 'teacher' : 'classroom'
+        const org = this.allClassesPage ? me.get('_id') : this.classroom._id
+        return `/outcomes-report/${kind}/${org}`
       }
     },
 
@@ -72,6 +89,11 @@
         toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide',
         setCurriculumAccessViaSharedClass: 'baseCurriculumGuide/setAccessViaSharedClass'
       }),
+
+      clickOutcomesReport () {
+        window.tracker?.trackEvent('Outcomes Report Clicked', { category: 'Teachers', label: this.$route.path })
+        this.$emit('outcomesReport')
+      },
 
       clickNewClass () {
         window.tracker?.trackEvent('Add New Class Clicked', { category: 'Teachers', label: this.$route.path })
@@ -124,6 +146,17 @@
       />
 
       <div style="display: flex;">
+        <a :href="outcomesReportLink">
+          <primary-button
+            v-if="showOutcomesReportButton"
+            id="outcomes-report-btn"
+            class="btn-title-padding btn-margins-height"
+            @click="clickOutcomesReport"
+          >
+            {{ $t('outcomes.outcomes_report') }}
+          </primary-button>
+        </a>
+
         <primary-button
           v-if="!showClassInfo"
           id="new-class-btn-shepherd"
@@ -132,10 +165,10 @@
         >
           {{ $t('teacher_dashboard.add_class') }}
         </primary-button>
+
         <button-curriculum-guide
           id="curriculum-guide-btn-shepherd"
           class="btn-margins-height"
-
           @click="clickCurriculumGuide"
         />
       </div>
@@ -154,6 +187,7 @@
 
 .btn-margins-height {
   margin: 0 12.5px;
+  white-space: nowrap;
 }
 
 .sub-nav {
@@ -175,7 +209,11 @@
     }
 
     h1 {
-      max-width: 600px
+      max-width: 600px;
+
+      &.short {
+        max-width: calc(100vw - 832px);
+      }
     }
   }
 }
@@ -203,6 +241,10 @@
   -webkit-box-shadow: 0 8px 6px -6px #D2D2D2;
     -moz-box-shadow: 0 8px 6px -6px #D2D2D2;
         box-shadow: 0 8px 6px -6px #D2D2D2;
+
+  @media (max-width: 1280px) {
+    min-width: 1000px;
+  }
 }
 
 h1 {

@@ -39,7 +39,7 @@
 
     created () {
       if (this.language && !['javascript', 'python'].includes(this.language)) {
-        throw new Error(`Unexpected language prop passed into ClassInfoRow.vue. Got: '${this.langauge}'`)
+        throw new Error(`Unexpected language prop passed into ClassInfoRow.vue. Got: '${this.language}'`)
       }
     },
     methods: {
