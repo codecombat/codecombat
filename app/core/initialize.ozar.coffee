@@ -68,6 +68,7 @@ init = ->
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
+  setUpTv4()
   installVueI18n()
   checkAndLogBrowserCrash()
   checkAndRegisterHocModalInterval()
@@ -142,6 +143,16 @@ setUpMoment = ->
   setMomentLanguage me.get('preferredLanguage', true)
   me.on 'change:preferredLanguage', (me) ->
     setMomentLanguage me.get('preferredLanguage', true)
+
+setUpTv4 = ->
+  forms = require 'core/forms'
+  tv4.addFormat({
+  'email': (email) ->
+    if forms.validateEmail(email)
+      return null
+    else
+      return {code: tv4.errorCodes.FORMAT_CUSTOM, message: "Please enter a valid email address."}
+  })
 
 setupConsoleLogging = ->
   # IE9 doesn't expose console object unless debugger tools are loaded
