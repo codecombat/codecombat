@@ -27,6 +27,12 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
       if i18n = goal.i18n
         @wrapRow 'Goal name', ['name'], goal.name, i18n[lang]?.name, ['goals', index]
 
+    # additional goals
+    for goals, gIndex in @model.get('additionalGoals') ? []
+      for goal, index in goals.goals ? []
+        if i18n = goal.i18n
+          @wrapRow 'Additional Goal name', ['name'], goal.name, i18n[lang]?.name, ['additionalGoals', gIndex, 'goals', index]
+
     # documentation
     for doc, index in @model.get('documentation')?.specificArticles ? []
       if i18n = doc.i18n
