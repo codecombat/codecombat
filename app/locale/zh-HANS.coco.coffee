@@ -2226,7 +2226,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     already_shared: "成功分享许可证给教师。"
     have_not_shared: "你没有和那位老师分享这些许可证。"
     teachers_using_these: "可以访问这些许可证的教师："
-    footer: "当教师撤销学生的许可证时，许可证将返回到共享池中，供本组其他教师使用。"
+    footer: "许可证分配后不支持撤销。"
     you: "（您）"
     one_license_used: "（1个许可证被使用）"
     licenses_used: "（__licensesUsed__个许可证被使用）"

@@ -55,7 +55,7 @@ module.exports = class TeacherCoursesView extends RootView
       levels = campaign.getLevels().models.map (level) =>
         key: level.get('original'), practice: level.get('practice') ? false, assessment: level.get('assessment') ? false
       @campaignLevelNumberMap[campaign.id] = utils.createLevelNumberMap(levels)
-    @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
+    @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0 and (if me.showChinaResourceInfo() then (new Date() < new Date(p.get('endDate'))) else true))?
     @fetchChangeLog()
     @fetchResourceHubResources()
     me.getClientCreatorPermissions()?.then(() => @render?())
