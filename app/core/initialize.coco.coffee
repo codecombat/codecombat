@@ -125,7 +125,12 @@ setUpTv4 = ->
     if forms.validateEmail(email)
       return null
     else
-      return {code: tv4.errorCodes.FORMAT_CUSTOM, message: "Please enter a valid email address."}
+      return {code: tv4.errorCodes.FORMAT_CUSTOM, message: $.t('form_validation_errors.requireValidEmail')}
+  'phoneNumber': (phoneNumber) ->
+    if forms.validatePhoneNumber(phoneNumber)
+      return null
+    else
+      return {code: tv4.errorCodes.FORMAT_CUSTOM, message: $.t('form_validation_errors.requireValidPhone')}
   })
 
 setupConsoleLogging = ->

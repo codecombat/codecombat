@@ -561,7 +561,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
 
-#  form_validation_errors:
+  form_validation_errors:
+    requireValidEmail: '请输入正确的邮箱地址'
+    requireValidPhone: '请输入加区号的手机号码'
 #    required: "Field is required"
 #    invalidEmail: "Invalid email"
 #    invalidPhone: "Invalid phone number"
