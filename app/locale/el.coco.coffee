@@ -98,6 +98,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
 #    try_the_game: "Try the game"
     classroom_edition: "Έκδοση Αίθουσας Διδασκαλίας:"
     learn_to_code: "Μάθε να προγραμματίζεις:"
@@ -1286,13 +1287,14 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     jobs_title: "Ελάτε να συνεργαστείτε μαζί μας και να γράψετε την ιστορία του CodeCombat!"
     jobs_subtitle: "Δεν βλέπετε κάτι που να σας κάνει αλλά ενδιαφέρεστε να διατηρείτε επαφή; Ανατρέξτε στο \"Δημιουργήστε τη Δικιά Σας\" θέση."
     jobs_benefits: "Παροχές σε Εργαζόμενους"
-    jobs_benefit_4: "Απεριόριστες διακοπές"
+    jobs_benefit_4: "Απεριόριστες διακοπές" # {change}
     jobs_benefit_5: "Επαγγελματική ανάπτυξη και υποστήριξη συνεχούς εκπαίδευσης - δωρεάν βιβλία και παιχνίδια!"
     jobs_benefit_6: "Φαρμακευτική (χρυσή), οδοντικά, όραση, μετακίνηση από τη δουλειά στο σπίτι" # {change}
-    jobs_benefit_7: "Έπιπλα γραφείου για όλους"
     jobs_benefit_9: "Παράθυρο επιλογών δεκαετούς εξάσκησης"
-    jobs_benefit_10: "Άδεια μητρότητας: 10 εβδομάδες πληρωμένες, οι επόμενες 6 με 55% του μισθού" # {change}
     jobs_benefit_11: "Άδεια πατρότητας: 10 εβδομάδες πληρωμένες" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "Δημιουργήστε τη Δικιά Σας"
     jobs_custom_description: "Είστε παθιασμένοι με το CodeCombat αλλά δεν βλέπετε μια θέση εργασίας που να αντιστοιχεί στα προσόντα σας; Γράψτε και δείξτε μας πώς νομίζετε ότι μπορείτε να συμβάλλετε στην ομάδα μας. Θα θέλαμε να σας ακούσουμε!"
     jobs_custom_contact_1: "Στείλτε μας ένα υπόμνημα της"
@@ -3424,6 +3426,12 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"

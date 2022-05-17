@@ -98,6 +98,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
 #    try_the_game: "Try the game"
     classroom_edition: "Verzia pre triedy:"
     learn_to_code: "Nauč sa programovať:"
@@ -1286,13 +1287,14 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     jobs_title: "Pridaj sa ku nám a začni aj ty písať históriu CodeCombatu!"
     jobs_subtitle: "Máš schopnosti, ktoré by si chcel využiť pri rozvoji CodeCombatu? Pozri si  \"Vytvor si svoju pozíciu\" ."
     jobs_benefits: "Zamestnanecké výhody"
-    jobs_benefit_4: "Neohraničené voľno"
+    jobs_benefit_4: "Neohraničené voľno" # {change}
     jobs_benefit_5: "Profesionály rozvoj a podpora pri vzdelávaní – knihy a hry zdarma!"
     jobs_benefit_6: "Zdravotné poistenie" # {change}
-    jobs_benefit_7: "Pracovný stôl"
     jobs_benefit_9: "Fitness"
-    jobs_benefit_10: "Materská dovolenka: platená 10-týždňová, ďalších 6 týždňov 55% mzdy" # {change}
     jobs_benefit_11: "Otcovská dovolenka: platená 10-týždňová" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "Vytvor si svoju pozíciu"
     jobs_custom_description: "Zaujíma ťa  CodeCombat, ale nevidíš pozíciu, ktorá by zodpovedala tvojej kvalifikácii? Napíš nám, ako by si mohol prispieť ku nášmu dielu. Radi si to prečítame"
     jobs_custom_contact_1: "Pošli nám krátky list,"
@@ -3424,6 +3426,12 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"

@@ -21,7 +21,8 @@
 
     data: () => {
       return {
-        newClassName: ''
+        newClassName: '',
+        newProgrammingLanguage: '',
       }
     },
 
@@ -42,6 +43,7 @@
 
     mounted () {
       this.newClassName = this.classroomName
+      this.newProgrammingLanguage = this.language
     },
 
     methods: {
@@ -74,8 +76,17 @@
         this.$emit('close')
       },
       saveClass () {
+        const updates = {}
         if (this.newClassName && this.newClassName !== this.classroomName) {
-          this.updateClassroom({ classroom: this.classroom, updates: { name: this.newClassName } })
+          updates.name = this.newClassName
+        }
+        if (this.newProgrammingLanguage && this.newProgrammingLanguage !== this.language) {
+          const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
+          aceConfig.language = this.newProgrammingLanguage
+          updates.aceConfig = aceConfig
+        }
+        if (_.size(updates)) {
+          this.updateClassroom({ classroom: this.classroom, updates: updates })
           this.$emit('close')
         }
       }
@@ -103,13 +114,19 @@
         <div class="form-group row language">
           <div class="col-xs-12">
             <span class="control-label"> {{ $t("teachers.programming_language") }} </span>
-            <input
-              v-model="language"
-              type="text"
-              class="form-control disabled-input"
-              disabled
+            <select
+              v-model="newProgrammingLanguage"
+              class="form-control"
+              name="classLanguage"
             >
-            <span class="control-label-desc"> {{ $t("teachers.programming_language_edit_desc") }} </span>
+              <option value="javascript">
+                JavaScript
+              </option>
+              <option value="python">
+                Python
+              </option>
+            </select>
+            <span class="control-label-desc"> {{ $t("teachers.programming_language_edit_desc_new") }} </span>
           </div>
         </div>
         <div class="form-group row buttons">

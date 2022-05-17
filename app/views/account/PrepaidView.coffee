@@ -7,7 +7,7 @@ CocoCollection = require 'collections/CocoCollection'
 Prepaid = require '../../models/Prepaid'
 utils = require 'core/utils'
 Products = require 'collections/Products'
-
+CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 
 module.exports = class PrepaidView extends RootView
   id: 'prepaid-view'
@@ -40,6 +40,10 @@ module.exports = class PrepaidView extends RootView
   afterRender: ->
     super()
     @$el.find("span[title]").tooltip()
+    if me.isAnonymous() and @ppc
+      _.defer => @openModalView(new CreateAccountModal({startOnPath: 'individual'})) unless @destroyed
+      window.nextURL = location.href
+
 
   statusMessage: (message, type='alert') ->
     noty text: message, layout: 'topCenter', type: type, killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3
@@ -86,6 +90,7 @@ module.exports = class PrepaidView extends RootView
       @ppcInfo = []
       if model.get('type') is 'terminal_subscription'
         months = model.get('properties')?.months ? 0
+        days = model.get('properties')?.days ? 0
         maxRedeemers = model.get('maxRedeemers') ? 0
         redeemers = model.get('redeemers') ? []
         if ppc.length == 14
@@ -134,3 +139,7 @@ module.exports = class PrepaidView extends RootView
       me.fetch cache: false
       @loadPrepaid(@dashedPPC())
     @supermodel.addRequestResource('subscribe_prepaid', options, 0).load()
+
+  destroy: ->
+    super()
+    window.nextURL = null

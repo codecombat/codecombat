@@ -1,12 +1,13 @@
 require('app/styles/about.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/about'
+fetchJson = require 'core/api/fetch-json'
 
 module.exports = class AboutView extends RootView
   id: 'about-view'
   template: template
-
   logoutRedirectURL: false
+  jobs: []
 
   events:
     'click #fixed-nav a': 'onClickFixedNavLink'
@@ -24,6 +25,16 @@ module.exports = class AboutView extends RootView
     meta: [
       { vmid: 'meta-description', name: 'description', content: $.i18n.t 'about.meta_description' }
     ]
+
+  initialize: (options) ->
+    super options
+    @loadJobs()
+
+  loadJobs: ->
+    url = 'https://api.lever.co/v0/postings/codecombat?skip=0&limit=100&mode=json'
+    fetchJson(url).then (response) =>
+      @jobs = _.sortBy(response, 'createdAt').reverse()
+      @renderSelectors '#careers'
 
   afterRender: ->
     super(arguments...)

@@ -98,6 +98,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
 #    try_the_game: "Try the game"
     classroom_edition: "Tantermi változat:"
     learn_to_code: "Tanulj meg kódolni:"
@@ -1286,13 +1287,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     jobs_title: "Gyere, dolgozz velünk és segíts újraírni a CodeCombat történetét!"
     jobs_subtitle: "Nem látsz hozzádillő munkát a listában, de figyelemmel kísérnéd a lehetőségeket? Tekintsd meg a ”Hozd létre a sajátod\" listát."
     jobs_benefits: "Juttatások"
-    jobs_benefit_4: "Korlátlan szabadság"
+    jobs_benefit_4: "Korlátlan szabadság" # {change}
     jobs_benefit_5: "Szakmai előmenetel és folyamatos támogatás, ingyenes könyvek és játékok!"
     jobs_benefit_6: "Orvosi (arany), fogorvosi, szemészeti ellátás" # {change}
-    jobs_benefit_7: "Állítható magasságú asztalok"
     jobs_benefit_9: "10 éves részvényopció-lehívási lehetőség"
-    jobs_benefit_10: "Szülési szabadság nőknek: 10 hét fizetett szabadság, további 6 hétig a fizetés 55%-a" # {change}
     jobs_benefit_11: "Szülési szabadság férfiaknak: 10 hét fizetett szabadság" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "Hozd létre a sajátod"
     jobs_custom_description: "Elkötelezett híve vagy a CodeCombat küldetésének, de nem látsz számodra megfelelő állást az ajánlatok között? Írj nekünk az elképzeléseidről és hogy mivel tudnál hozzájárulni a csapatunkhoz. Kíváncsiak vagyunk az ötleteidre!"
     jobs_custom_contact_1: "Írj nekünk a"
@@ -3424,6 +3426,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"

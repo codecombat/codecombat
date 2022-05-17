@@ -1,4 +1,5 @@
 <script>
+  import PrimaryButton from '../../teacher-dashboard/common/buttons/PrimaryButton'
   import ButtonCurriculumGuide from '../../teacher-dashboard/common/ButtonCurriculumGuide'
   import NavSelectUnit from '../../teacher-dashboard/common/NavSelectUnit'
   import BreadcrumbComponent from 'app/views/common/BreadcrumbComponent'
@@ -7,6 +8,7 @@
 
   export default {
     components: {
+      'primary-button': PrimaryButton,
       'button-curriculum-guide': ButtonCurriculumGuide,
       'nav-select-unit': NavSelectUnit,
       BreadcrumbComponent
@@ -39,6 +41,14 @@
       }
     },
 
+    computed: {
+      outcomesReportLink () {
+        const kind = 'school-admin'
+        const org = me.get('_id')
+        return `/outcomes-report/${kind}/${org}`
+      }
+    },
+
     methods: {
       ...mapActions({
         toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide'
@@ -50,6 +60,11 @@
           const eventName = textArr[textArr.length - 1] // Take last word of the breadcrumbs' text
           window.tracker?.trackEvent(`BreadCrumbs: ${eventName} Clicked`, { category: 'SchoolAdmin', label: this.$route.path })
         }
+      },
+
+      clickOutcomesReport () {
+        window.tracker?.trackEvent('Outcomes Report Clicked', { category: 'SchoolAdmin', label: this.$route.path })
+        this.$emit('outcomesReport')
       },
 
       clickCurriculumGuide () {
@@ -79,9 +94,18 @@
         @change-course=" (courseId) => $emit('change-course', courseId)"
       />
       <div style="display: flex;">
+        <a :href="outcomesReportLink">
+          <primary-button
+            id="outcomes-report-btn"
+            class="btn-title-padding btn-margins-height"
+            @click="clickOutcomesReport"
+          >
+            {{ $t('outcomes.outcomes_report') }}
+          </primary-button>
+        </a>
+
         <button-curriculum-guide
           class="btn-margins-height"
-
           @click="clickCurriculumGuide"
         />
       </div>
@@ -94,8 +118,13 @@
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 
+.btn-title-padding {
+  padding: 8px 22px;
+}
+
 .btn-margins-height {
   margin: 0 12.5px;
+  white-space: nowrap;
 }
 
 .sub-nav {
@@ -117,7 +146,7 @@
     }
 
     h1 {
-      max-width: 600px
+      max-width: 600px;
     }
   }
 }
@@ -142,6 +171,10 @@
   -webkit-box-shadow: 0 8px 6px -6px #D2D2D2;
     -moz-box-shadow: 0 8px 6px -6px #D2D2D2;
         box-shadow: 0 8px 6px -6px #D2D2D2;
+
+  @media (max-width: 1280px) {
+    min-width: 1000px;
+  }
 }
 
 h1 {

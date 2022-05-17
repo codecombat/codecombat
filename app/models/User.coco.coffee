@@ -8,6 +8,7 @@ co = require 'co'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
 fetchJson = require 'core/api/fetch-json'
+userUtils = require 'lib/user-utils'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -671,7 +672,7 @@ module.exports = class User extends CocoModel
   setToSpanish: -> _.string.startsWith((@get('preferredLanguage') or ''), 'es')
 
   freeOnly: ->
-    return @isStudent() or (features.freeOnly and not @isPremium())
+    return @isStudent() or (features.freeOnly and not @isPremium()) or (@isAnonymous() and @get('country') is 'taiwan')
 
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})
@@ -747,7 +748,7 @@ module.exports = class User extends CocoModel
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
   canBuyGems: -> false  # Disabled direct buying of gems around 2021-03-16
   constrainHeroHealth: -> features?.classroomItems ? false and @isStudent()
-  promptForClassroomSignup: -> not ((features?.chinaUx ? false) or (window.serverConfig?.codeNinjas ? false) or (features?.brainPop ? false))
+  promptForClassroomSignup: -> not ((features?.chinaUx ? false) or (window.serverConfig?.codeNinjas ? false) or (features?.brainPop ? false) or userUtils.isInLibraryNetwork())
   showGearRestrictionsInClassroom: -> features?.classroomItems ? false and @isStudent()
   showGemsAndXp: -> features?.classroomItems ? false and @isStudent()
   showHeroAndInventoryModalsToStudents: -> features?.classroomItems and @isStudent()

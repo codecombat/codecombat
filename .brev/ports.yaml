@@ -1,0 +1,15 @@
+#############################################################################################
+##### Expose your port publicly here so other people or services can use it.            #####
+#####                                                                                   #####     
+##### ex. You want to connect a frontend to a backend. Run the project you want to      #####
+##### expose and add its port here. This service can be accessed at                     #####
+##### 3000-projectName-user-org.brev.sh.                                                #####     
+#####                                                                                   #####     
+##### Read more here: https://github.com/brevdev/dotbrev/blob/main/README.md            #####     
+#############################################################################################
+
+version: "1.0"
+ports:
+  - "3000"
+  # - "5000"
+  # - "8000"

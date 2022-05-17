@@ -98,6 +98,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     top_banner_blurb: "家长们，在这个节日里，给孩子送上编程和个性化教学的礼物吧！" # {change}
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "免费试玩"
     classroom_edition: "教师版："
     learn_to_code: "学习编程："
@@ -1297,13 +1298,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     jobs_title: "和我们一起工作，一起书写 CodeCombat 的历史！"
     jobs_subtitle: "没看到适合的工作却想密切关注？查看我们的 \"创造你自己的工作\" 列表了解更多。"
     jobs_benefits: "职员福利"
-    jobs_benefit_4: "无限制假期"
+    jobs_benefit_4: "无限制假期" # {change}
     jobs_benefit_5: "专业开发以及继续教育的支持 - 免费书籍/游戏！"
     jobs_benefit_6: "医疗 (金), 牙科, 视力，交通费" # {change}
-    jobs_benefit_7: "提供站立式办公桌"
     jobs_benefit_9: "10年公司期权"
-    jobs_benefit_10: "产假：10周工资及未来6周55%工资" # {change}
     jobs_benefit_11: "陪产假: 10周工资" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "创造你自己的工作"
     jobs_custom_description: "对 CodeCombat 充满激情却没找到适合自己的职业？给我们写信说明你该如何做出贡献。我们期待你的建议！"
     jobs_custom_contact_1: "向以下地址给我们发送简介："
@@ -3437,6 +3439,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"

@@ -180,6 +180,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     top_banner_blurb: "Parents, book your child's first live online coding class for free!"
     top_banner_blurb_pd: "We now offer professional development for educators."
     top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -1361,6 +1362,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     select_class: "Select class"
     programming_language: "Programming language"
     programming_language_edit_desc: "Language cannot be changed once students join a class. We recommend creating a new class for the same students."
+    programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students."
     add_a_class: 'Add a new class'
     select_desired_lang: 'Select desired language for your class'
     elementary: 'Elementary'

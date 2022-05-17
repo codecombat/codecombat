@@ -98,6 +98,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     top_banner_blurb: "¡Padres, denle a su hijo el regalo de la codificación y la instrucción personalizada con nuestros maestros en vivo!"
     top_banner_summer_camp: "La inscripción ya está abierta para nuestros campamentos de programación de verano; pregúntenos acerca de nuestras sesiones virtuales de una semana a partir de solo $ 199dls."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "Prueba el juego"
     classroom_edition: "Versión para el aula:"
     learn_to_code: "Aprende a programar:"
@@ -1289,10 +1290,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     jobs_benefit_4: "Días personales/enfermo ilimitados" # {change}
     jobs_benefit_5: "Desarrollo profesional y soporte de formación continua" # {change}
     jobs_benefit_6: "Seguro médico/dental/vista" # {change}
-    jobs_benefit_7: "Escritorios para todos"
     jobs_benefit_9: "Ventana opcional de ejercicio por 10 años"
-    jobs_benefit_10: "Permiso de maternidad: 12 semanas pagadas, luego 6 @ 55% del salario"
-    jobs_benefit_11: "Permiso de paternidad: 12 semanas pagadas"
+    jobs_benefit_11: "Permiso de paternidad: 12 semanas pagadas" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "Crear Tu Propio"
     jobs_custom_description: "¿Te apasiona CodeCombat pero nos ves un puesto de trabajo que coincida con tus cualificaciones? Escríbenos y muestrenos como cree que puede contribuir a nuestro equipo. ¡Nos encantaría saber de vos!"
     jobs_custom_contact_1: "¡Envíanos una nota a"
@@ -3424,6 +3426,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"

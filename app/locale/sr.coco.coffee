@@ -98,6 +98,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
 #    try_the_game: "Try the game"
     classroom_edition: "Издање учионице:"
     learn_to_code: "Научи да кодираш:"
@@ -1286,13 +1287,14 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     jobs_title: "Дођи да радиш са нама и помози нам да напишемо CodeCombat историју!"
     jobs_subtitle: "Не уклапа ти се ништа, али си заинтересован за остајање у контакту? Погледај наш \"Направи свој\" списак."
     jobs_benefits: "Бенефиције за запослене"
-    jobs_benefit_4: "Неограничен одмор"
+    jobs_benefit_4: "Неограничен одмор" # {change}
     jobs_benefit_5: "Професионални развој и континуирана подршка образовања - бесплатне књиге и игре!"
     jobs_benefit_6: "Медицинско (gold), дентално, очно осигурање" # {change}
-    jobs_benefit_7: "Sit-stand радни столови за свакога"
     jobs_benefit_9: "прозор од 10 година"
-    jobs_benefit_10: "Породиљско одсуство: 10 плаћених недеља, наредних 6 недеља 55% плате" # {change}
     jobs_benefit_11: "Очинско одсуство: 10 плаћених недеља" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "Направи свој"
     jobs_custom_description: "Да ли си заинтересован за CodeCombat али не видиш од наведених послова ниједан који одговара твојим квалификацијама? Пиши нам и покажи нам како мислиш да можеш да допринесеш нашем тиму. Волели бисмо да нам се јавиш!"
     jobs_custom_contact_1: "Пошаљи нам поруку на"
@@ -3424,6 +3426,12 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"

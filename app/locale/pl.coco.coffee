@@ -98,6 +98,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     top_banner_blurb: "Rodzice, podarujcie swojemu dziecku dar kodowania i spersonalizowane instrukcje z naszymi nauczycielami !"
     top_banner_summer_camp: "Zapisy na nasze letnie obozy kodowania są już otwarte – zapytaj nas o nasze tygodniowe sesje wirtualne już od 199 USD."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "Spróbuj gry"
     classroom_edition: "Wersja szkolna:"
     learn_to_code: "Naucz się programowania:"
@@ -1286,13 +1287,14 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     jobs_title: "Zacznij z nami pisać przyszłą historię CodeCombat!"
     jobs_subtitle: "Nie za bardzo się odnajdujesz póki co, ale chcesz pozostać w kontakcie? Zobacz \"Stwórz Własną\"."
     jobs_benefits: "Korzyści z pracy u nas"
-    jobs_benefit_4: "Nieograniczony urlop"
+    jobs_benefit_4: "Nieograniczony urlop" # {change}
     jobs_benefit_5: "Pomoc w rozwoju zawodowym i dalszej nauce – darmowe książki i gry!"
     jobs_benefit_6: "Ubezpieczenie medyczne (pakiet złoty), dentystyczne, okulistyczne, bilety komunikacyjne" # {change}
-    jobs_benefit_7: "Biurko sit/stand dla wszystkich"
     jobs_benefit_9: "10 lat na realizację opcji pracowniczych"
-    jobs_benefit_10: "Urlop macierzyński: 10 tygodni płatnych, następnych 6 w 55%" # {change}
     jobs_benefit_11: "Urlop tacierzyński: 10 tygodni płatnych" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "Stwórz własne stanowisko"
     jobs_custom_description: "Zainteresował Cię CodeCombat, ale nie możesz znaleźć stanowiska odpowiadającego Twoim kwalifikacjom? Napisz do nas i pokaż co możesz wnieść do naszego zespołu. Chętnie Cię wysłuchamy!"
     jobs_custom_contact_1: "Napisz do nas"
@@ -3424,6 +3426,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"

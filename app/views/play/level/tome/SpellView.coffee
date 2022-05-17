@@ -135,6 +135,8 @@ module.exports = class SpellView extends CocoView
     saveSpadeDelay = 10 * 60 * 1000
     if @options.level.get('releasePhase') is 'beta'
       saveSpadeDelay = 3 * 60 * 1000  # Capture faster for beta levels, to be more likely to get something
+    else if Math.random() < 0.05 and _.find(utils.freeAccessLevels, access: 'short', slug: @options.level.get('slug'))
+      saveSpadeDelay = 3 * 60 * 1000  # Capture faster for some free levels to compare with beta levels
     @saveSpadeTimeout = setTimeout @saveSpade, saveSpadeDelay
 
   createACEShortcuts: ->
@@ -714,7 +716,10 @@ module.exports = class SpellView extends CocoView
     if @saveSpadeTimeout?
       window.clearTimeout @saveSpadeTimeout
       @saveSpadeTimeout = null
-      @saveSpade() if @options.level.get('releasePhase') is 'beta'
+      if @options.level.get('releasePhase') is 'beta'
+        @saveSpade()
+      else if Math.random() < 0.05 and _.find(utils.freeAccessLevels, access: 'short', slug: @options.level.get('slug'))
+        @saveSpade()
 
   onManualCast: (e) ->
     cast = @$el.parent().length

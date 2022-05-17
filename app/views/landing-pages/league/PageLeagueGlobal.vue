@@ -604,7 +604,7 @@ export default {
 
     <div class="row flex-row video-iframe-section section-space" style="margin: 0 0 0 0" v-if="previousChampionshipArenaResultsPublished">
       <div class="col-sm-10 video-backer video-iframe">
-        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/26bee42b433e19f789271ae400529025?poster=https://videodelivery.net/26bee42b433e19f789271ae400529025/thumbnails/thumbnail.jpg%3Ftime%3D1732s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 3 - Titan Age"></iframe></div>
+        <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/bfbf1a5187888d110ee47f97b7491c2a?poster=https://videodelivery.net/bfbf1a5187888d110ee47f97b7491c2a/thumbnails/thumbnail.jpg%3Ftime%3D1568s" style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 4 - Tundra Tower"></iframe></div>
       </div>
     </div>
 
@@ -756,63 +756,9 @@ export default {
     <div class="row flex-row text-center">
       <h1><span class="esports-goldenlight">Season </span><span class="esports-purple">arenas</span></h1>
     </div>
-    <div id="season-arenas" class="row flex-row">
-      <div class="col-sm-4 text-center xs-pb-20">
-        <h3>Infinite Inferno Cup</h3>
-        <div>Jan - April 2021</div>
-        <!-- <img class="img-responsive" src="/images/pages/league/logo_cup.png" loading="lazy"/> -->
-        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0">
-          <div class="col-xs-12 video-backer video-iframe">
-            <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/1422969c8f5fbee2a62ee60021becfb4?poster=https://videodelivery.net/1422969c8f5fbee2a62ee60021becfb4/thumbnails/thumbnail.jpg%3Ftime%3D1584s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 1 - Forged in Flame"></iframe></div>
-          </div>
-        </div>
-        <div class="row text-center">
-          <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/blazing-battle?tournament=608cea0f8f2b971478556ac6" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.blazing_battle`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
-          </div>
-          <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/infinite-inferno?tournament=608cd3f814fa0bf9f1c1f928" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.infinite_inferno`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 text-center xs-pb-20">
-        <h3>Sorcerer's Blitz</h3>
-        <div>May - Aug 2021</div>
-        <!-- <img class="img-responsive" src="/images/pages/league/logo_blitz.png" loading="lazy" /> -->
-        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0">
-          <div class="col-xs-12 video-backer video-iframe">
-            <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a?poster=https://videodelivery.net/8a347a9c0da34f487ae4fdaa8234000a/thumbnails/thumbnail.jpg%3Ftime%3D837s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 2 - Spells of Fortune"></iframe></div>
-          </div>
-        </div>
-        <div class="row text-center">
-          <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/mages-might?tournament=612d554b9abe2e0019aeffb9" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.mages_might`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
-          </div>
-          <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/sorcerers?tournament=612d556f9abe2e0019af000b" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.sorcerers`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-4 text-center">
-        <h3>Colossus Clash</h3>
-        <div>Sep - Dec 2021</div>
-        <img class="img-responsive" src="/images/pages/league/logo_clash.png" loading="lazy" v-if="!previousChampionshipArenaResultsPublished" />
-        <div class="row flex-row video-iframe-section" style="margin: 10px 0 10px 0" v-if="previousChampionshipArenaResultsPublished">
-          <div class="col-xs-12 video-backer video-iframe">
-            <div style="position: relative; padding-top: 56.14583333333333%;"><iframe src="https://iframe.videodelivery.net/26bee42b433e19f789271ae400529025?poster=https://videodelivery.net/26bee42b433e19f789271ae400529025/thumbnails/thumbnail.jpg%3Ftime%3D1732s" style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" allowfullscreen="true" title="CodeCombat AI League Winners - Season 3 - Titan Age"></iframe></div>
-          </div>
-        </div>
-        <div class="row text-center" v-if="previousChampionshipArenaResultsPublished">
-          <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/giants-gate?tournament=612d554b9abe2e0019aeffb9" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.giants_gate`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
-          </div>
-          <div class="col-xs-12 col-md-6 view-winners-col">
-            <a href="/play/ladder/colossus?tournament=612d556f9abe2e0019af000b" class="btn btn-small btn-primary btn-moon play-btn-cta">{{ $t('league.view_arena_winners', { arenaName: $t(`league.colossus`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <yearly-arena-info />
+
     <div class="row">
       <div class="col-xs-12">
         <p>
@@ -1011,11 +957,11 @@ export default {
     color: white;
   }
 
-  .esports-pink {
+  ::v-deep .esports-pink {
     color: #ff39a6;
   }
 
-  .esports-goldenlight {
+  ::v-deep .esports-goldenlight {
     color: #f7d047;
   }
 
@@ -1023,11 +969,11 @@ export default {
     color: #30efd3;
   }
 
-  .esports-green {
+  ::v-deep .esports-green {
     color: #bcff16;
   }
 
-  .esports-purple {
+  ::v-deep .esports-purple {
     color: #9b83ff;
   }
 
@@ -1154,47 +1100,6 @@ export default {
       h1 {
         text-align: center;
       }
-    }
-  }
-
-  #season-arenas {
-    margin-bottom: 30px;
-    h3, p {
-      color: #30EFD3;
-    }
-
-    h3 {
-      font-size: 28px;
-      line-height: 40px;
-    }
-
-    img {
-      max-height: 250px;
-      margin: 15px auto 0 auto;
-    }
-
-    @media screen and (min-width: 992px) {
-      .view-winners-col:nth-child(1) {
-        padding-right: 0
-      }
-      .view-winners-col:nth-child(2) {
-        padding-left: 0
-      }
-    }
-
-    @media screen and (max-width: 992px) {
-      .view-winners-col:nth-child(2) {
-        padding-top: 10px;
-      }
-    }
-
-    .btn-primary.btn-moon.btn-small {
-      padding: 10px;
-      letter-spacing: 0;
-      line-height: 18px;
-      font-size: 14px;
-      margin: 0px;
-      width: calc(100% - 5px);
     }
   }
 

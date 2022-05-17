@@ -64,10 +64,12 @@ module.exports = class Grid
     @xToRow x, rounding
 
   columns: (minY, maxY) ->
-    [@clampColumn(minY) .. @clampColumn(maxY, (y) -> Math.ceil(y))]
+    #[@clampColumn(minY) .. @clampColumn(maxY, (y) -> Math.ceil(y))]  # TODO: breaks CoCo level collisions, had put in for screen reader mode. Should figure out what's right when I have more time.
+    [@clampColumn(minY) ... @clampColumn(maxY)]
 
   rows: (minX, maxX) ->
-    [@clampRow(minX) .. @clampRow(maxX, (x) -> Math.ceil(x))]
+    #[@clampRow(minX) .. @clampRow(maxX, (x) -> Math.ceil(x))]  # TODO: breaks CoCo level collisions, had put in for screen reader mode. Should figure out what's right when I have more time.
+    [@clampRow(minX) ... @clampRow(maxX)]
 
   toString: (rogue=false, axisLabels=false) ->
     upsideDown = _.clone @grid

@@ -98,6 +98,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
 #    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
 #    top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
+#    top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     try_the_game: "Essayez le jeu"
     classroom_edition: "Édition Salle de Classe:"
     learn_to_code: "Apprendre à programmer:"
@@ -1286,13 +1287,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     jobs_title: "Viens travaillier avec nous et aider nous à écrire l'histoire de CodeCombat!"
     jobs_subtitle: "Tu ne vois pas comment aider mais tu souhaites rester en contact ? Regarde notre liste \"Crée la tienne\"."
     jobs_benefits: "Avantages des Employés"
-    jobs_benefit_4: "Vacances illimitées"
+    jobs_benefit_4: "Vacances illimitées" # {change}
     jobs_benefit_5: "dévelopement Professionel  et support constant dans la formation professionnelle – livres gratuits et jeux!"
     jobs_benefit_6: "Couverture Medical (or), dentaire, ophtalmologie" # {change}
-    jobs_benefit_7: "bureaux réglables pour tous"
     jobs_benefit_9: "une fenêtre d'option d'exercice de 10 ans"
-    jobs_benefit_10: "Congé maternité : 10 semaines payées, les 6 suivantes à 55% du salaire" # {change}
     jobs_benefit_11: "Congé paternité: 10 semaines payées" # {change}
+#    jobs_benefit_12: "$50/mo internet & biz services benefit"
+#    jobs_benefit_13: "$50/mo health and wellness benefit"
+#    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "Créer ta propre"
     jobs_custom_description: "Es-tu passionné de CodeCombat mais ne voit pas un travail listé correspondant à tes qualifications? Écris-nous et montres-nous comment tu penses pouvoir contribuer à notre équipe. Nous aimerions t'entendre !"
     jobs_custom_contact_1: "Envoyez-nous une note à"
@@ -3424,6 +3426,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_1: "Forged in Flame"
+#    season_2: "Spells of Fortune"
+#    season_3: "Titan Age"
+#    season_4: "Frosts of War"
+#    season_5: "Sands of Time"
+#    season_6: "Molten Mayhem"
 #    cup: "Cup"
 #    blitz: "Blitz"
 #    clash: "Clash"

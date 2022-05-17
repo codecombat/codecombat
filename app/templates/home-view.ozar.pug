@@ -5,8 +5,11 @@ block content
     section#top-banner.full-width
       .row
         .col-xs-12
-          span(data-i18n="new_home.top_banner_blurb_funding")
-          a(href="/funding", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Funding Page")
+          if maintenanceStartTime && maintenanceStartTime.isAfter(moment().subtract(3, 'hours'))
+            span(data-i18n="new_home.top_banner_blurb_maintenance", data-i18n-options=JSON.stringify(i18nData))
+          else
+            span(data-i18n="new_home.top_banner_blurb_funding")
+            a(href="/funding", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Funding Page")
 
     section.row#jumbotron-container-fluid
       .item-list

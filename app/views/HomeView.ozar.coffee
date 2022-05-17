@@ -29,8 +29,10 @@ module.exports = class HomeView extends RootView
 
   getRenderData: (context={}) ->
     context = super context
+    context.maintenanceStartTime = moment('2022-05-07T16:00:00-07:00')
     context.i18nData =
       pd: "<a href='/professional-development'>#{$.i18n.t('nav.professional_development')}</a>"
+      maintenanceStartTime: "#{context.maintenanceStartTime.calendar()} (#{context.maintenanceStartTime.fromNow()})"
       interpolation: { escapeValue: false }
     context
 
