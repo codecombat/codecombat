@@ -161,15 +161,6 @@ module.exports = class BasicInfoView extends CocoView
     @updateAuthModalInitialValues { password: @$(e.currentTarget).val() }
 
   checkBasicInfo: (data) ->
-    # TODO: Move this to somewhere appropriate
-    tv4.addFormat({
-      'email': (email) ->
-        if forms.validateEmail(email)
-          return null
-        else
-          return {code: tv4.errorCodes.FORMAT_CUSTOM, message: "Please enter a valid email address."}
-    })
-
     forms.clearFormAlerts(@$el)
 
     if data.name and forms.validateEmail(data.name)

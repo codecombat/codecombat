@@ -183,13 +183,6 @@ module.exports = class CreateTeacherAccountView extends RootView
       trialRequestAttrs.educationLevel.push(val) if val
 
     forms.clearFormAlerts(form)
-    tv4.addFormat({
-      'phoneNumber': (phoneNumber) ->
-        if forms.validatePhoneNumber(phoneNumber)
-          return null
-        else
-          return {code: tv4.errorCodes.FORMAT_CUSTOM, message: 'Please enter a valid phone number, including area code.'}
-    })
 
     result = tv4.validateMultiple(trialRequestAttrs, formSchema)
     error = false
