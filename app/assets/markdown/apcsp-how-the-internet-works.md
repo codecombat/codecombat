@@ -15,7 +15,7 @@ Begin by giving students 3-5 minutes to write down how they think the internet w
 ##  What is the Internet?
 
 
-- Have the students watch this code.org video [“The Internet: Packets, Routing & Reliability”]([url](https://www.youtube.com/watch?v=AYdF7b3nMto))
+- Have the students watch this code.org video [“The Internet: Packets, Routing & Reliability”](https://www.youtube.com/watch?v=AYdF7b3nMto)
 - Discuss the video with your class. 
 - Use the following questions to check their understanding:
   - How has the internet been engineered to be fault tolerant?
