@@ -46,6 +46,10 @@ AirBnB has renters and owners give each other reviews before showing each other 
 
 Some sites have “reviews of reviews” where it will say “x number of customers found this review helpful”. Then, how do you sort items based on reviews? You can’t, for example, simply sort based on the average review, otherwise an item with a single 5-star review will outrank an item with an average 4.5 rating with 500 reviews, even though the latter is more reliable. But you also want to give “new” items a chance. Reddit addresses this by having separate tabs for popular and new items, so users can decide what they’d rather sort for.
 
+It is important to note that while the rapid sharing of technology has been widely helpful in shared collaboration and the interchange of information, it still has some disadvantages beyond the intended purpose or control of the programmer. For instance, in the case of AirBnB, a sabotaging review might cause the property 
+value to severely decline.
+
+
 Having discussed ways in which various services harness the group to solve problems, now is a good time to discuss what happens to these services when people act in bad faith. What’s the worst thing people could do to disrupt a collaborative system? What is the effect?
 
 - If people post false information on Wikipedia, not all information there is trusted, and the usefulness as a source of information is reduced.
