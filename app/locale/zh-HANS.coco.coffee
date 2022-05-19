@@ -1309,6 +1309,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   teachers:
     licenses_needed: "需要许可"
+#    programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students."
 
   special_offer:
     special_offer: "特别优惠"
@@ -3412,6 +3413,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_label: "Season __seasonNumber__: __seasonName__"
 #    season_1: "Forged in Flame"
 #    season_2: "Spells of Fortune"
 #    season_3: "Titan Age"
@@ -3529,13 +3531,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    recurring_year_1: "Recurring billing every year"
 
   form_validation_errors:
-    requireValidEmail: '请输入正确的邮箱地址'
-    requireValidPhone: '请输入加区号的手机号码'
 #    required: "Field is required"
 #    invalidEmail: "Invalid email"
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+    requireValidEmail: "请输入正确的邮箱地址"
+    requireValidPhone: "请输入加区号的手机号码"
 
 #  teacher_dashboard:
 #    read: "View Only"

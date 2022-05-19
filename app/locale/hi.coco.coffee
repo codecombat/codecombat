@@ -1309,6 +1309,7 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 
 #  teachers:
 #    licenses_needed: "Licenses needed"
+#    programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students."
 
 #  special_offer:
 #    special_offer: "Special Offer"
@@ -3412,6 +3413,7 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_label: "Season __seasonNumber__: __seasonName__"
 #    season_1: "Forged in Flame"
 #    season_2: "Spells of Fortune"
 #    season_3: "Titan Age"
@@ -3534,6 +3536,8 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #    invalidPhone: "Invalid phone number"
 #    emailExists: "Email already exists"
 #    numberGreaterThanZero: "Should be a number greater than 0"
+#    requireValidEmail: "Please enter a valid email address."
+#    requireValidPhone: "Please enter a valid phone number, including area code."
 
 #  teacher_dashboard:
 #    read: "View Only"
