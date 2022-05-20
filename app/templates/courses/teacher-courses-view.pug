@@ -133,7 +133,7 @@ mixin course-info(course)
         p.semibold
           span(data-i18n="teacher.resources")
           = ": "
-          if courseLessonSlidesURL
+          if courseLessonSlidesURL && !features.china
             a.guide-btn.btn.btn-primary(disabled=disableButtons href=(courseLessonSlidesURL) data-course-id=course.id data-course-name=course.get('name') data-event-action="Lesson Slides" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled') target="_blank")
               span(data-i18n="courses.lesson_slides")
           for resource in (courseResources || [])

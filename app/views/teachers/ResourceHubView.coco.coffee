@@ -22,6 +22,7 @@ module.exports = class ResourceHubView extends RootView
   organizeLessonSlides: ->
     courseLessonSlidesURLs = utils.courseLessonSlidesURLs
     @lessonSlidesURLsByCourse = {}
-    for courseID, acronym of utils.courseAcronyms
-      if url = courseLessonSlidesURLs[courseID]
-        @lessonSlidesURLsByCourse[acronym.toLowerCase()] = url
+    unless me.showChinaResourceInfo()
+      for courseID, acronym of utils.courseAcronyms
+        if url = courseLessonSlidesURLs[courseID]
+          @lessonSlidesURLsByCourse[acronym.toLowerCase()] = url
