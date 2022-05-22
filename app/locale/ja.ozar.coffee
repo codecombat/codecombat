@@ -557,7 +557,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    already_have_account: "Already have a CodeCombat or Ozaria account"
 #    select_your_role: "Select your role"
 #    select_your_state: "Select your state"
-#    password_requirements: "8 to 64 characters with no repeating"
+   password_requirements: "8〜64文字、繰り返しを含めない"
 #    invalid: "Invalid"
 #    invalid_password: "Invalid password"
 
