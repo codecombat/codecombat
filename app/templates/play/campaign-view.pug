@@ -21,6 +21,10 @@ if showGameDevAlert
       #santa-clara-logo-container
         img#santa-clara-logo(src="/images/pages/play/santa-clara-logo.png")
 
+    if view.shouldShow('arapahoe-logo')
+      #arapahoe-logo-container
+        img#arapahoe-logo(src="/images/pages/play/arapahoe-logo.png")
+
     if view.shouldShow('back-to-classroom')
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
 

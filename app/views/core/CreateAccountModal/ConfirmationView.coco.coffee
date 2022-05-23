@@ -15,7 +15,7 @@ module.exports = class ConfirmationView extends CocoView
 
   initialize: ({ @signupState } = {}) ->
     @saveUserPromise = Promise.resolve()
-    @hideEmail = userUtils.isInLibraryNetwork()
+    @hideEmail = userUtils.shouldHideEmail()
 
   onClickStartButton: ->
     @saveUserPromise.then =>

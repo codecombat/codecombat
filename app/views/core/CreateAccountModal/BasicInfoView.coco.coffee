@@ -56,7 +56,7 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
-    @hideEmail = userUtils.isInLibraryNetwork()
+    @hideEmail = userUtils.shouldHideEmail()
 
   afterRender: ->
     @$el.find('#first-name-input').focus()
