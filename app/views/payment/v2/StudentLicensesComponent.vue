@@ -69,14 +69,14 @@ export default {
     })
   },
   async created() {
-    console.log('qwe', this.currentTrialRequest)
     if (!this.currentTrialRequest?.numStudents)
       await this.fetchCurrentTrialRequest()
     await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
-    console.log('prepaids', this.teacherPrepaids)
-    if (this.teacherPrepaids && this.teacherPrepaids.length)
-      window.location.href = '/teacher/licenses/v2'
-    console.log('payyyy', this.currentTrialRequest)
+    const prepaids = this.teacherPrepaids(me.get('_id'))
+    if (prepaids && ((prepaids.expired.length + prepaids.pending.length + prepaids.empty.length + prepaids.available.length) > 0)) {
+      window.location.href = '/teachers/licenses/v0'
+      return
+    }
     if (me.get('role') === 'parent' && !['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia'].includes(me.get('country'))) {
       await this.fetchPaymentGroup('homeschool-coco')
     } else if (this.numStudentsVal === '<=10' && me.isTeacher()) {
