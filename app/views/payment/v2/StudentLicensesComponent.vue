@@ -52,7 +52,8 @@ export default {
   computed: {
     ...mapGetters({
       'currentTrialRequest': 'trialRequest/properties',
-      'paymentGroup': 'paymentGroups/paymentGroup'
+      'paymentGroup': 'paymentGroups/paymentGroup',
+      'teacherPrepaids': 'prepaids/getPrepaidsByTeacher'
     }),
     numStudentsVal () {
       const numStudents = this.currentTrialRequest?.numStudents
@@ -63,13 +64,18 @@ export default {
   methods: {
     ...mapActions({
       'fetchCurrentTrialRequest': 'trialRequest/fetchCurrentTrialRequest',
-      'fetchPaymentGroup': 'paymentGroups/fetch'
+      'fetchPaymentGroup': 'paymentGroups/fetch',
+      'fetchTeacherPrepaids': 'prepaids/fetchPrepaidsForTeacher'
     })
   },
   async created() {
     console.log('qwe', this.currentTrialRequest)
     if (!this.currentTrialRequest?.numStudents)
       await this.fetchCurrentTrialRequest()
+    await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
+    console.log('prepaids', this.teacherPrepaids)
+    if (this.teacherPrepaids && this.teacherPrepaids.length)
+      window.location.href = '/teacher/licenses/v2'
     console.log('payyyy', this.currentTrialRequest)
     if (me.get('role') === 'parent' && !['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia'].includes(me.get('country'))) {
       await this.fetchPaymentGroup('homeschool-coco')
