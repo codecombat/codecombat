@@ -1309,6 +1309,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
 #  teachers:
 #    licenses_needed: "Licenses needed"
+#    programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students."
 
 #  special_offer:
 #    special_offer: "Special Offer"
@@ -3412,6 +3413,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    lava_lake: "Lava Lake"
 #    desert_duel: "Desert Duel"
 #    sandstorm: "Sandstorm"
+#    season_label: "Season __seasonNumber__: __seasonName__"
 #    season_1: "Forged in Flame"
 #    season_2: "Spells of Fortune"
 #    season_3: "Titan Age"
@@ -3534,6 +3536,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     invalidPhone: "유효하지 않은 전화번호"
     emailExists: " 이미 존재하는 메일 주소입니다."
     numberGreaterThanZero: "숫자는 0보다 커야 합니다."
+#    requireValidEmail: "Please enter a valid email address."
+#    requireValidPhone: "Please enter a valid phone number, including area code."
 
 #  teacher_dashboard:
 #    read: "View Only"

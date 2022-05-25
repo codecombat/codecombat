@@ -26,7 +26,7 @@ async function handleCheckoutSession(options) {
   } catch (err) {
     console.error('paymentSession creation failed', err);
     return {
-      errMsg: err.message
+      errMsg: err?.message || 'Payment session creation failed'
     }
   }
 }

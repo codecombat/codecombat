@@ -11,7 +11,7 @@
  
 ## What is packet transfer?
  
-Packet transfer is a way of moving data through the Internet. It involves breaking up the data into smaller pieces, called packets, when sending it over a network.
+Packet transfer is a way of moving data through the Internet. It involves breaking up the data into smaller pieces, called packets, when sending it over a network. Packets may arrive at the destination in order, out of order, or not at all.
  
 #### What you need:
 - A shape made out of Legos, or something else that can be broken into smaller pieces. A piece of paper with a written message or image would also work.
