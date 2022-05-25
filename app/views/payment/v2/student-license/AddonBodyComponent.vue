@@ -75,6 +75,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/payment/variables";
+
 .license {
   font-style: normal;
 
@@ -84,9 +86,7 @@ export default {
     line-height: 3.2rem;
     /* identical to box height, or 167% */
 
-    /* Teal Dark */
-
-    color: #0E4C60;
+    color: $teal-dark;
 
     padding-bottom: 1rem;
     border-bottom: .5rem solid #1FBAB4;
@@ -121,9 +121,7 @@ export default {
       display: flex;
       align-items: center;
 
-      /* Teal Dark */
-
-      color: #0E4C60;
+      color: $teal-dark;
 
       text-transform: uppercase;
 

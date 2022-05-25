@@ -165,6 +165,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/payment/variables";
+
 .student-licenses-body {
   font-size: 62.5%;
 }
@@ -181,7 +183,7 @@ export default {
 
   overflow: hidden;
 
-  font-family: 'Work Sans', serif;
+  font-family: $body-font;
   font-style: normal;
 
   cursor: pointer;
@@ -191,7 +193,7 @@ export default {
   }
 
   &__header {
-    background: #6AE8E3;
+    background: $blue-light-1;
     /* Drop Shadow (Box) */
 
     box-shadow: 3px 0 8px rgba(0, 0, 0, 0.15), -1px 0 1px rgba(0, 0, 0, 0.06);
@@ -207,9 +209,7 @@ export default {
 
       letter-spacing: 0.56px;
 
-      /* Teal Dark */
-
-      color: #0E4C60;
+      color: $teal-dark;
     }
 
     &-subheading {
@@ -218,9 +218,7 @@ export default {
       line-height: 2.6rem;
       /* or 162% */
 
-      /* Teal Dark */
-
-      color: #0E4C60;
+      color: $teal-dark;
     }
   }
 
@@ -232,9 +230,7 @@ export default {
 
     letter-spacing: 0.56px;
 
-    /* Teal Dark */
-
-    color: #0E4C60;
+    color: $teal-dark;
 
     display: inline-block;
   }
@@ -250,7 +246,7 @@ export default {
     /* or 122% */
 
     letter-spacing: 0.56px;
-    color: #0E4C60;
+    color: $teal-dark;
 
     &-student {
       display: block;
@@ -270,9 +266,7 @@ export default {
     letter-spacing: 0.56px;
     text-transform: uppercase;
 
-    /* Teal Dark */
-
-    color: #0E4C60;
+    color: $teal-dark;
 
     display: inline-block;
 
@@ -328,7 +322,7 @@ export default {
   padding-top: 3rem;
 
   &__text {
-    font-family: 'Work Sans', serif;
+    font-family: $body-font;
     font-style: italic;
     font-weight: 400;
     font-size: 1.6rem;
@@ -345,8 +339,9 @@ export default {
 .header {
 
   padding-bottom: 2rem;
-  font-family: 'Work Sans', serif;
+  font-family: $body-font;
   font-style: normal;
+  color: #000000;
 
   &__heading {
     font-weight: 700;
@@ -356,7 +351,6 @@ export default {
 
     letter-spacing: 0.56px;
 
-    color: #000000;
 
     margin-bottom: 1rem;
   }
@@ -366,9 +360,6 @@ export default {
     font-size: 2.2rem;
     line-height: 3rem;
     /* identical to box height, or 136% */
-
-
-    color: #000000;
   }
 }
 </style>

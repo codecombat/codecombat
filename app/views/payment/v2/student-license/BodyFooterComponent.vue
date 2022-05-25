@@ -63,9 +63,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/payment/variables";
+
 .license {
   &__buy {
-    background: #1FBAB4;
+    background: $blue-dark-1;
     padding: 5rem;
 
     &-once {
@@ -115,9 +117,7 @@ export default {
 
     letter-spacing: 0.56px;
 
-    /* Teal Dark */
-
-    color: #0E4C60;
+    color: $teal-dark;
 
     display: inline-block;
   }
@@ -133,7 +133,7 @@ export default {
     /* or 122% */
 
     letter-spacing: 0.56px;
-    color: #0E4C60;
+    color: $teal-dark;
 
     &-student {
       display: block;

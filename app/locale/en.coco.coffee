@@ -3545,6 +3545,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ai_league_info: "Engage students in an exciting esports competition that allows them to showcase their understanding of concepts in a new environment and practice creative problem-solving strategies!"
     ai_custom_tournament: "AI League Custom Tournament"
     implementation_training: "Implementation Training"
+    full_access_coco: "Full Access to both CodeCombat"
+    and_oz: "And Ozaria"
+    cs_info: "Computer Science 1-6: 65 sessions"
+    wd_info: "Web Development 1-2: 10 sessions"
+    gd_info: "Game Development 1-3: 20 sessions"
+    chap1_info: "Chapter 1: 10 class sessions"
+    chap2_info: "Chapter 2: 30 class sessions"
+    chap3_info: "Chapter 3: 25 class sessions"
+    chap4_info: "Chapter 4: 20 class sessions"
+    includes: "Includes"
 
   form_validation_errors:
     required: 'Field is required'
