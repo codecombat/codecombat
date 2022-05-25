@@ -71,9 +71,8 @@ export default {
     getUnitPrice() {
       return getDisplayUnitPrice(this.getPrice.unit_amount);
     },
-    onFormSubmit() {
+    async onFormSubmit() {
       this.errMsg = null
-      console.log('form submitted')
       if (!this.numOfLicenses) {
         this.errMsg = 'Select number of licenses to purchase'
         return
@@ -86,9 +85,9 @@ export default {
         userId: me.get('_id'),
         totalAmount: (this.getPrice.unit_amount * this.numOfLicenses)
       }
-      console.log('purchasing', sessionOptions)
-      handleCheckoutSession(sessionOptions)
-        .catch(err => console.error('checkout session failed', err))
+      const { errMsg } = await handleCheckoutSession(sessionOptions)
+      if (errMsg)
+        alert('Failed to redirect to payment page - please contact support@codecombat.com')
     },
     updateNumberOfLicenses(e) {
       this.numOfLicenses = parseInt(e.target.value)
