@@ -32,7 +32,7 @@
           <span class="license__addon-info-heading-text">{{ $t('nav.professional_development') }}</span>
         </div>
         <div class="license__addon-info-subheading">
-          {{ $t('payments.pd_info') }} <a href="https://www.ozaria.com/professional-development" target="_blank">Learn More.</a>
+          {{ $t('payments.pd_info') }} <a href="https://www.ozaria.com/professional-development" target="_blank" @click.stop>Learn More.</a>
         </div>
       </div>
 
@@ -52,7 +52,7 @@
           <span class="license__addon-info-heading-text">{{ $t('payments.ai_custom_tournament') }}</span>
         </div>
         <div class="license__addon-info-subheading">
-          {{ $t('payments.ai_league_info') }} <a href="https://codecombat.com/league" target="_blank">Learn More.</a>
+          {{ $t('payments.ai_league_info') }} <a href="https://codecombat.com/league" target="_blank" @click.stop>Learn More.</a>
         </div>
       </div>
 
