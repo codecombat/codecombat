@@ -260,7 +260,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/demo': redirect('/teachers/quote')
     'teachers/enrollments': redirect('/teachers/licenses')
     'teachers/hour-of-code': go('special_event/HoC2018View')
-    'teachers/licenses': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true })
+    'teachers/licenses/v0': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true })
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/resources': go('teachers/ResourceHubView', { redirectStudents: true })
@@ -290,6 +290,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'payments/*path': go('core/SingletonAppVueComponentView')
     'ladders/*path': go('core/SingletonAppVueComponentView')
     'ed-link/*path': go('core/SingletonAppVueComponentView')
+    'teachers/licenses': go('core/SingletonAppVueComponentView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
