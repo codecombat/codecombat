@@ -153,6 +153,7 @@ The same is true for pickled peppers.
 
 Could it be compressed even more? Pick and peck are also common words (though pick is often part of picked). 
 
+Notice how we look for patterns when we are trying to compress data. The amount of size reduction from compression depends on both the amount of redundancy in the original data representation and the compression algorithm applied.
 
 ### Video Analysis 
 1. Have students find a high-resolution (4K) YouTube video and click settings to change the resolution from 2160p to 1080p then to 480p and finally to 144p. 
