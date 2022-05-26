@@ -8,7 +8,9 @@
         default: () => []
       }
     },
-
+    created () {
+      this.me = me
+    } ,
     computed: {
       ...mapState('teacherDashboard', {
         currentSelectedClassroom: state => state.classroomId
@@ -174,7 +176,7 @@
         {{ $t('teacher_dashboard.resource_hub') }}
       </router-link>
     </li>
-    <li>
+    <li v-if="!me.showChinaResourceInfo()">
       <router-link to="/teachers/professional-development" id="PDAnchor" :class="{ 'current-route': pdSelected }" @click.native="trackEvent" data-action="PD: Nav Clicked">
         <div id="IconPD" />
         <div id="IconNew">New!</div>
