@@ -9,7 +9,7 @@ Data - There are trade-offs when representing information as digital data.
 
 ### Class Discussion
 
-- Watch this code.org video “Digital Compression explained by Aloe Blacc”
+- Watch this code.org video [“Digital Compression explained by Aloe Blacc”](https://www.youtube.com/watch?v=By30SCp-Tsw)
 - Discuss the video with your class. 
 - Use the following questions to check their understanding:
   - Why do we need data compression?
