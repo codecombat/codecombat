@@ -106,7 +106,10 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "sel" */ 'app/views/sel/SELView.vue')
         },
         { path: '/sel', redirect: '/social-and-emotional-learning' }, // TODO: doesn't actually update to /social-and-emotional-learning URL, just adds alias
-
+        {
+          path: '/efficacy',
+          component: () => import(/* webpackChunkName: "pd" */ 'app/views/efficacy/EfficacyView.vue')
+        },
       ]
     })
 
