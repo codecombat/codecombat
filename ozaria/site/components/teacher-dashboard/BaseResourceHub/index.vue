@@ -50,6 +50,9 @@
       }),
 
       resourceHubSections () {
+        if(features.chinaInfra) {
+          return resourceHubSections.slice(0, 3)
+        }
         return resourceHubSections
       },
 
