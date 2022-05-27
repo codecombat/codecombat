@@ -1,4 +1,3 @@
-<script src="../../core/Router.ozar.coffee"></script>
 <script>
 import ModalGetLicenses from '../../../ozaria/site/components/teacher-dashboard/modals/ModalGetLicenses'
 
@@ -25,40 +24,40 @@ export default {
   main.container-fluid#efficacy-view
     section.header.row
       .col-lg-7.col-md-12.col-sm-12
-        img.main(src="/images/pages/efficacy/image-1.png")
+        img.main(src="/images/pages/efficacy/classroom-image-1.png", data-i18n="[alt]efficacy.classroom_image")
       .col-lg-5.col-md-12.col-sm-12.ozaria-header-text
         a(href="/")
-          img.logo(src="/images/pages/efficacy/logo-500px.png" alt="Ozaria branding logo")
-        h1(style="margin-bottom:15px;") Ozaria Efficacy
-        h2.subtitle-mid Ozaria has proven to have a positive impact on the student learning outcomes that matter most to both students and educators.
+          img.logo(src="/images/pages/efficacy/logo-500px.png", data-i18n="[alt]efficacy.ozaria_branding_logo")
+        h1(style="margin-bottom:15px;" data-i18n='efficacy.ozaria_efficacy')
+        h2.subtitle-mid(data-i18n='efficacy.header_subtitle')
 
     section.pathway
       .images
-        img(src="/images/pages/efficacy/dog-bark.png" alt="Dog").dog
-        img(src="/images/pages/efficacy/hero-5-walk-side.png" alt="Hero").hero
+        img(src="/images/pages/efficacy/dog-bark.png", data-i18n="[alt]efficacy.dog_bark").dog
+        img(src="/images/pages/efficacy/hero-5-walk-side.png", data-i18n="[alt]efficacy.hero").hero
         .dialog
-          span while True:
+          span(data-i18n="efficacy.pathway_dialog_line1")
           p
-            | hero.moveDown(1)
+            span(data-i18n="efficacy.pathway_dialog_line2")
             br
-            | hero.moveRight(2)
+            span(data-i18n="efficacy.pathway_dialog_line3")
 
       .row.pathway-boxes
         .list-item.col.col-lg-3.exploring-creativity
-          h2 Exploring Creativity
-          p Almost all students surveyed said they really enjoyed being able to create their own game at the end of each Chapter.
+          h2(data-i18n="efficacy.exploring_creativity")
+          p(data-i18n="efficacy.exploring_creativity_description")
 
         .list-item.col.col-lg-3.essential-skills
-          h2 Essential Skills
-          p Teachers found Ozaria to be a superior curriculum for teaching complex coding concepts as well as essential 21st century skills, such as problem solving and reasoning, critical and computational thinking skills.
+          h2(data-i18n="efficacy.essential_skills")
+          p(data-i18n="efficacy.essential_skills_description")
 
         .list-item.col.col-lg-3.fun-engaging
-          h2 Fun & Engaging
-          p Ozaria was reported to be a fun and engaging curriculum. Students especially noted how effective it was in teaching text-based coding, and how the tutorials, hints, and error messages provided the appropriate amount of support.
+          h2(data-i18n="efficacy.fun_engaging")
+          p(data-i18n="efficacy.fun_engaging_description")
 
         .list-item.col.col-lg-3.easy-to-use
-          h2 Easy to Use
-          p Both teacher and students found the platform easy to implement and use.
+          h2(data-i18n="efficacy.easy_to_use")
+          p(data-i18n="efficacy.easy_to_use_description")
 
     #graphics-1-back
 
@@ -66,39 +65,43 @@ export default {
     .row.study-boxes
       .col.col-md-6
         .study-box.study-box-mcintosh
-          img(src="/images/pages/efficacy/mcintosh-image.png").box-main-image
+          img(src="/images/pages/efficacy/mcintosh-image.png", data-i18n="[alt]efficacy.mcintosh_middle_school").box-main-image
           .study-box-inner
             .header
               .image
-                img(src="/images/pages/efficacy/mcintosh-logo.png").box-logo
+                img(src="/images/pages/efficacy/mcintosh-logo.png", data-i18n="[alt]efficacy.mcintosh_middle_school").box-logo
               .title
-                h2 Increasing Score Gains on Assessments
-                h3 McIntosh Middle School
+                h2(data-i18n="efficacy.mcintosh_study_title")
+                h3(data-i18n="efficacy.mcintosh_middle_school")
             .content
-              p A novice teacher with advanced level coding experience taught three cohorts of students. Each cohort was studied across a full semester.
-              strong Highlights from the study results:
+              p(data-i18n="efficacy.mcintosh_study_description")
+              strong(data-i18n="efficacy.study_highlights_title")
               ul
-                li 98% of students rated their level of enthusiasm for Ozaria as high or extremely high
-                li 100% of students scored above 70% on both the mid-term and final assessments
-              a(href="https://files.ozaria.com/efficacy/Ozaria+Efficacy+Summary+Report+-+McIntosh+MS.pdf", target="_blank").download-button Read the Study (PDF) &rarr;
+                li(data-i18n="efficacy.mcintosh_study_highlight_1")
+                li(data-i18n="efficacy.mcintosh_study_highlight_2")
+              a(href="https://files.ozaria.com/efficacy/Ozaria+Efficacy+Summary+Report+-+McIntosh+MS.pdf", target="_blank").download-button
+                span(data-i18n="efficacy.read_the_study")
+                | &nbsp; &rarr;
 
       .col.col-md-6
         .study-box.study-box-mrms
-          img(src="/images/pages/efficacy/mrms-image.png").box-main-image
+          img(src="/images/pages/efficacy/mrms-image.png", data-i18n="[alt]efficacy.mountain_ridge_middle_school").box-main-image
           .study-box-inner
             .header
               .image
-                img(src="/images/pages/efficacy/mrms-logo.png").box-logo
+                img(src="/images/pages/efficacy/mrms-logo.png", data-i18n="[alt]efficacy.mountain_ridge_middle_school").box-logo
               .title
-                h2 Gaining Confidence in Computer Science
-                h3 Mountain Ridge Middle School
+                h2(data-i18n="efficacy.mrms_study_title")
+                h3(data-i18n="efficacy.mountain_ridge_middle_school")
             .content
-              p An experienced teacher with beginning level coding experience taught two cohorts of students. Each cohort was studied across a full semester.
-              strong Highlights from the study results:
+              p(data-i18n="efficacy.mrms_study_description")
+              strong(data-i18n="efficacy.study_highlights_title")
               ul
-                li Students made an average gain score of 33% between the pre-assessment and the final assessment
-                li Both the teacher and students found Ozaria to be fun, engaging, and easy to use.
-              a(href="https://files.ozaria.com/efficacy/Ozaria+Efficacy+Summary+Report+-+Mountain+Ridge+MS.pdf", target="_blank").download-button Read the Study (PDF) &rarr;
+                li(data-i18n="efficacy.mrms_study_highlight_1")
+                li(data-i18n="efficacy.mrms_study_highlight_2")
+              a(href="https://files.ozaria.com/efficacy/Ozaria+Efficacy+Summary+Report+-+Mountain+Ridge+MS.pdf", target="_blank").download-button
+                span(data-i18n="efficacy.read_the_study")
+                | &nbsp; &rarr;
 
     section
       .row.graph-boxes
@@ -106,39 +109,39 @@ export default {
           .graph-box.graph-box-mcintosh
             .graph-box-inner
               .graph-logo
-                img(src="/images/pages/efficacy/mcintosh-logo.png").box-logo
+                img(src="/images/pages/efficacy/mcintosh-logo.png", data-i18n="[alt]efficacy.mcintosh_middle_school").box-logo
               .graph-content
                 .big-percent 47%
-                p Students made a 47% average gain score between the pre-assessment and the final assessment.
+                p(data-i18n="efficacy.graph1_description")
                 img(src="/images/pages/efficacy/mcintosh-graph.png")
 
         .col.col-md-6
           .graph-box.graph-box-mrms
             .graph-box-inner
               .graph-logo
-                img(src="/images/pages/efficacy/mrms-logo.png").box-logo
+                img(src="/images/pages/efficacy/mrms-logo.png", , data-i18n="[alt]efficacy.mountain_ridge_middle_school").box-logo
               .graph-content
                 .big-percent 90%
-                p More than 90% of students rated their coding confidence level as Confident or Extremely Confident after using Ozaria.
+                p(data-i18n="efficacy.graph2_description")
                 img(src="/images/pages/efficacy/mrms-graph.png")
 
     section.full-width.quote-section
       .container
         h1 &ldquo;
-        p One thing I am able to do now that I could not do before is actually believe I can code.
-        p.small Student, Mountain Ridge Middle School
+        p(data-i18n="efficacy.quote_section_content")
+        p.small(data-i18n="efficacy.quote_section_footer")
         h1 &rdquo;
 
 
     section.container.teacher-quote
       .bubble
-        p The curriculum had students thoroughly engaged. They enjoyed the story and the characters. More importantly, they gained confidence in their ability to solve complex problems with concepts they'd learned in Ozaria.
+        p(data-i18n="efficacy.teacher_quote1_content")
         p.small
-          | Ronnie Cox, Teacher
+          span(data-i18n="efficacy.teacher_quote1_footer1")
           br
-          | McIntosh Middle School
+          span(data-i18n="efficacy.teacher_quote1_footer2")
         .image
-          img(src="/images/pages/efficacy/teacher-1.png")
+          img(src="/images/pages/efficacy/teacher-1.png", data-i18n="[alt]efficacy.teacher")
 
 
     section.student-quote
@@ -148,42 +151,42 @@ export default {
           img.ladder-image(src="/images/pages/efficacy/student-quote-ladder.png")
         .col.col-md-6.content
           h1 &ldquo;
-          p I like that you can make a mistake and the game corrects it or tells you that there's an error. A lot of beginners make a lot of mistakes when coding and sometimes don't know how to code, so they can't correct their mistakes because they don't know what's wrong. Ozaria is the perfect coding game for beginners.
-          p.small Student, McIntosh Middle School
+          p(data-i18n="efficacy.student_quote_content")
+          p.small(data-i18n="efficacy.student_quote_footer")
           h1 &rdquo;
 
     section.container.teacher-quote
       .bubble
-        p I have absolutely loved using Ozaria in my class for the past three years. My students have thoroughly enjoyed the storyline as they learned Python in a self-paced learning environment. I would highly recommend Ozaria for teachers that know little to nothing about coding, as the support for teachers is very in-depth.
+        p(data-i18n="efficacy.teacher_quote2_content")
         p.small
-          | Lynette Personett, Teacher
+          span(data-i18n="efficacy.teacher_quote2_footer1")
           br
-          | Mountain Ridge Middle School
+          span(data-i18n="efficacy.teacher_quote2_footer2")
         .image
-          img(src="/images/pages/efficacy/teacher-2.png")
+          img(src="/images/pages/efficacy/teacher-2.png", data-i18n="[alt]efficacy.teacher")
 
     section.full-width.section-commitment
       .container
-        h2 CodeCombat’s Commitment to Efficacy
-        p We are committed to ensuring our products have a positive and measurable impact on learning outcomes. We create meaningful learning experiences, and use evidence-based practices to design content that will realize the outcomes that matter the most to teachers and students.
-        p.question Interested in implementing an effective and impactful CS curriculum at your school?
-        a(@click="onClickContact") Contact Us
+        h2(data-i18n="efficacy.commitment_title")
+        p(data-i18n="efficacy.commitment_description")
+        p.question(data-i18n="efficacy.commitment_question")
+        a(@click="onClickContact", data-i18n="general.contact_us")
 
     section.teachers-love
       .container
-        h2 Teachers Love CodeCombat
-        p Explore the impact of our sister product, CodeCombat, on Computer Science teaching & learning!
+        h2(data-i18n="efficacy.teachers_love_codecombat")
+        p(data-i18n="efficacy.teachers_love_description")
         .row.teachers-love-boxes
           .col.col-md-4.teachers-love-box
             h3 99%
-            p Report that their students enjoy using CodeCombat to learn how to code
+            p(data-i18n="efficacy.teachers_love_box1")
           .col.col-md-4.teachers-love-box
             h3 95%
-            p Would recommend CodeCombat to other computer science teachers
+            p(data-i18n="efficacy.teachers_love_box2")
           .col.col-md-4.teachers-love-box
             h3 94%
-            p Say that CodeCombat helps them support students’ problem solving abilities
-        a(href="https://codecombat.com/impact") Learn More
+            p(data-i18n="efficacy.teachers_love_box3")
+        a(href="https://codecombat.com/impact", data-i18n="general.learn_more")
 
     modal-get-licenses(v-if="showModalGetLicenses" @close="showModalGetLicenses = false" subtitle="To get licenses for our research-backed curriculum, send us a message and our classroom success team will be in touch!" email-message="Hi Ozaria! I'm interested in learning more about Ozaria's research-backed computer science curriculum.")
 </template>
@@ -195,28 +198,7 @@ export default {
 @import "ozaria/site/styles/common/common.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 
-.dialog {
-  position: absolute;
-  top: 198px;
-  left: 986px;
-  background: url(/images/pages/efficacy/code-box.svg);
-  width: 247px;
-  height: 132px;
-  padding: 18px 22px;
-  span, p {
-    font-family: 'Space Mono';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 14px;
-    letter-spacing: 0.266667px;
-    color: #72ECF8;
-  }
-  p {
-    margin-left: 2em;
-    line-height: 18px;
-  }
-}
+
 
 #efficacy-view{
   display: flex;
@@ -229,6 +211,33 @@ export default {
   $teal-light-1: #1FBAB4;
   $teal-light-2: #6AE8E3;
   $teal-dark: #0E4C60;
+
+  $body-fonts: 'Space Mono', 'Work Sans', "Open Sans", serif;
+  $body-fonts2: 'Work Sans', "Open Sans", serif;
+
+
+  .dialog {
+    position: absolute;
+    top: 198px;
+    left: 986px;
+    background: url(/images/pages/efficacy/code-box.svg);
+    width: 247px;
+    height: 132px;
+    padding: 18px 22px;
+    span, p {
+      font-family: $body-fonts;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 14px;
+      letter-spacing: 0.266667px;
+      color: #72ECF8;
+    }
+    p > span {
+      margin-left: 2em;
+      line-height: 18px;
+    }
+  }
 
   > .header {
     display: flex;
@@ -249,14 +258,14 @@ export default {
         margin-right:90px;
       }
       h1 {
-        font-family: 'Work Sans';
+        font-family: $body-fonts2;
         font-weight: 600;
         font-size: 64px;
         line-height: 56px;
         margin: 30px 0 20px 0;
       }
       .h2.subtitle-mid {
-        font-family: 'Work Sans';
+        font-family: $body-fonts2;
         font-weight: 400;
         font-size: 24px;
         line-height: 125%;
@@ -325,7 +334,7 @@ export default {
 
 
     h2 {
-      font-family: 'Work Sans';
+      font-family: $body-fonts2;
       font-style: normal;
       font-weight: 600;
       font-size: 28px;
@@ -336,7 +345,7 @@ export default {
     }
 
     p {
-      font-family: 'Work Sans';
+      font-family: $body-fonts2;
       font-style: normal;
       font-weight: 400;
       font-size: 20px;
@@ -393,7 +402,7 @@ export default {
           justify-content: center;
           margin-left: 30px;
           h2 {
-            font-family: 'Work Sans';
+            font-family: $body-fonts2;
             font-style: normal;
             font-weight: 600;
             font-size: 28px;
@@ -403,7 +412,7 @@ export default {
           }
 
           h3 {
-            font-family: 'Work Sans';
+            font-family: $body-fonts2;
             font-style: normal;
             font-weight: 600;
             font-size: 18px;
@@ -424,7 +433,7 @@ export default {
       background-color: $color-secondary-button-dusk;
       color: $pitch;
       border-radius: 23px;
-      font-family: 'Work Sans';
+      font-family: $body-fonts2;
       font-style: normal;
       font-weight: 700;
       font-size: 20px;
@@ -499,7 +508,7 @@ export default {
       }
 
       .big-percent {
-        font-family: 'Space Mono';
+        font-family: $body-fonts;
         font-style: normal;
         font-weight: 700;
         font-size: 150px;
@@ -514,7 +523,7 @@ export default {
       }
 
       p {
-        font-family: 'Work Sans';
+        font-family: $body-fonts2;
         font-style: normal;
         font-weight: 400;
         font-size: 24px;
@@ -596,7 +605,7 @@ export default {
       }
 
       h1 {
-        font-family: 'Work Sans';
+        font-family: $body-fonts2;
         text-align: center;
         font-weight: 400;
         font-size: 200px;
@@ -605,14 +614,14 @@ export default {
         transform: translateY(25%);
       }
       p {
-        font-family: 'Work Sans';
+        font-family: $body-fonts2;
         font-weight: 600;
         font-size: 46px;
         line-height: 56px;
         color: $moon;
 
         &.small {
-          font-family: 'Space Mono';
+          font-family: $body-fonts;
           font-style: normal;
           font-weight: 400;
           font-size: 24px;
@@ -647,7 +656,7 @@ export default {
       }
 
       p {
-        font-family: 'Space Mono';
+        font-family: $body-fonts;
         font-style: normal;
         font-weight: 400;
         font-size: 24px;
@@ -669,7 +678,7 @@ export default {
         height: 288px;
         width: 160px;
         display: block;
-        background-image: url(/images/pages/efficacy/christal.png);
+        background-image: url(/images/pages/efficacy/crystal.png);
         bottom: -110px;
         left: -75px;
         z-index: 1;
@@ -753,7 +762,7 @@ export default {
         }
       }
       h1 {
-        font-family: 'Work Sans';
+        font-family: $body-fonts2;
         font-style: normal;
         font-weight: 400;
         font-size: 200px;
@@ -762,7 +771,7 @@ export default {
         transform: translateY(25%);
       }
       p {
-        font-family: 'Work Sans';
+        font-family: $body-fonts2;
         font-style: normal;
         font-weight: 600;
         font-size: 28px;
@@ -770,7 +779,7 @@ export default {
         letter-spacing: 0.56px;
         color: $pitch;
         &.small {
-          font-family: 'Space Mono';
+          font-family: $body-fonts;
           font-weight: 400;
           font-size: 18px;
           line-height: 24px;
@@ -800,7 +809,7 @@ export default {
       }
 
       h2 {
-        font-family: 'Work Sans';
+        font-family: $body-fonts2;
         font-style: normal;
         font-weight: 600;
         font-size: 46px;
@@ -813,7 +822,7 @@ export default {
       }
 
       p {
-        font-family: 'Work Sans';
+        font-family: $body-fonts2;
         font-style: normal;
         font-weight: 400;
         font-size: 24px;
@@ -838,7 +847,7 @@ export default {
       }
 
       a {
-        font-family: 'Work Sans';
+        font-family: $body-fonts2;
         font-style: normal;
         font-weight: 600;
         font-size: 20px;
@@ -893,7 +902,7 @@ export default {
     }
 
     a {
-      font-family: 'Work Sans';
+      font-family: $body-fonts2;
       font-style: normal;
       font-weight: 600;
       font-size: 20px;
