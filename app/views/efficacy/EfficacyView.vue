@@ -185,7 +185,7 @@ export default {
             p Say that CodeCombat helps them support students’ problem solving abilities
         a(href="https://codecombat.com/impact") Learn More
 
-    modal-get-licenses(v-if="showModalGetLicenses" @close="showModalGetLicenses = false" subtitle="To get licenses for our professional development course, send us a message and our classroom success team will be in touch!" email-message="Hi Ozaria! I'm interested in learning more about Ozaria's research-backed computer science curricula.")
+    modal-get-licenses(v-if="showModalGetLicenses" @close="showModalGetLicenses = false" subtitle="To get licenses for our research-backed curriculum, send us a message and our classroom success team will be in touch!" email-message="Hi Ozaria! I'm interested in learning more about Ozaria's research-backed computer science curriculum.")
 </template>
 
 <style lang="scss" scoped>
