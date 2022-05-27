@@ -80,7 +80,7 @@ In CodeCombat, using strings and `hero.say()` is useful for communicating with f
 
 ### Instructive Activity: String Chuck (12 mins)
 #### Explain (2 mins)
-Strings are pieces of text inside quotes, and a substring is part of an existing string. The students have been using strings ever since Course 1. For example, in the `buildXY()` function, students use the string `"fence"`, to build a fence as in `hero.buildXY("fence", 34, 30)`. In the `attack()` function, the can choose to attack a chest by passing the string, `"Chest"` as a parameter, with `hero.attack("Chest")`.
+Strings are pieces of text inside quotes, and a substring is part of an existing string. For example “en” is a substring of “enemy.” The students have been using strings ever since Course 1. For example, in the `buildXY()` function, students use the string `"fence"`, to build a fence as in `hero.buildXY("fence", 34, 30)`. In the `attack()` function, the can choose to attack a chest by passing the string, `"Chest"` as a parameter, with `hero.attack("Chest")`.
 
 In these levels, students will need to combine two strings together to form a longer string. In programming, this is referred to as **string concatenation**. The students will learn how to concatenate, or add, two strings together by using the string concatenation operator, `+`.
 
