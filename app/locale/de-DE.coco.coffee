@@ -1,11 +1,11 @@
 module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription: "German (Germany)", translation:
 
   new_home:
-#    title: "CodeCombat - Coding games to learn Python and JavaScript"
-#    meta_keywords: "CodeCombat, python, javascript, Coding Games"
-#    meta_description: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
-#    meta_og_url: "https://codecombat.com"
-#    become_investor: "to become an investor in CodeCombat"
+    title: "CodeCombat - Programmierspiele um Phython und JavaScript zu lernen"
+    meta_keywords: "CodeCombat, python, javascript, Programmierspiele, Spiele programmieren, coden"
+    meta_description: "Lerne zu Programmieren mit einem Programmierspiel. Learne Python, JavaScript, und HTML während du Rätsel löst und lernst, deine Spiele und Webseiten zu programmieren.
+    meta_og_url: "https://codecombat.com"
+    become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "Ein Codierspiel entwickelt für Lehrende"
     built_for_teachers_blurb: "Programmierung beizubringen, kann sich oft überwältigend anfühlen. CodeCombat hilft allen Pädagogen, den Lernenden beizubringen, wie man entweder in JavaScript oder Python (zwei der beliebtesten Programmiersprachen) programmiert. Mit einem umfassenden Lehrplan, der sechs Informatik-Einheiten umfasst und das Lernen durch projektbasierte Spieleentwicklung und Webentwicklungseinheiten verstärkt, werden die Schüler auf einer Reise von der grundlegenden Syntax bis zur Rekursion Fortschritte machen!"
     built_for_teachers_subtitle1: "Informatik"
