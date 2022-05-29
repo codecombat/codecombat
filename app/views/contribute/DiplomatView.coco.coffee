@@ -15,7 +15,7 @@ module.exports = class DiplomatView extends ContributeClassView
       console.log "processing #{languageCode}"
       language = locale[languageCode]
       @languageStats[languageCode] = {
-        githubURL: "https://github.com/codecombat/codecombat/blob/master/app/locale/#{languageCode}.coffee"
+        githubURL: "https://github.com/codecombat/codecombat/blob/master/app/locale/#{languageCode}.coco.coffee"
         nativeDescription: language.nativeDescription
         englishDescription: language.englishDescription
         diplomats: @diplomats[languageCode] ? []
