@@ -3,7 +3,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   new_home:
     title: "CodeCombat - Programmierspiele um Phython und JavaScript zu lernen"
     meta_keywords: "CodeCombat, python, javascript, Programmierspiele, Spiele programmieren, coden"
-    meta_description: "Lerne zu Programmieren mit einem Programmierspiel. Learne Python, JavaScript, und HTML während du Rätsel löst und lernst, deine Spiele und Webseiten zu programmieren.
+    meta_description: "Lerne zu programmieren mit einem Programmierspiel. Learne Python, JavaScript und HTML während du Rätsel löst und lernst, deine Spiele und Webseiten zu programmieren."
     meta_og_url: "https://codecombat.com"
     become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "Ein Codierspiel entwickelt für Lehrende"
