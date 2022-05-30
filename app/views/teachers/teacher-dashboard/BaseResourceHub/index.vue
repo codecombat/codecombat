@@ -1,8 +1,7 @@
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
-  import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
+  // import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
   import ButtonResourceIcon from './components/ButtonResourceIcon'
-  import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
   import { getResourceHubResources, getResourceHubZendeskResources } from 'core/api/resource_hub_resource'
   import utils from 'app/core/utils'
   const store = require('core/store')
@@ -30,15 +29,13 @@
   ]
 
   export default {
-    name: COMPONENT_NAMES.RESOURCE_HUB,
+    name: 'BaseResourceHub',
     components: {
       ButtonResourceIcon,
-      ModalOnboardingVideo
     },
 
     data () {
       return {
-        showVideoModal: false,
         resourceHubResources: {},
       }
     },
@@ -59,13 +56,11 @@
     },
 
     mounted () {
-      debugger;
       this.setTeacherId(me.get('_id'))
-      this.setPageTitle(PAGE_TITLES[this.$options.name])
+      this.setPageTitle('Resource Hub')
       this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Resource Hub: Loaded' } })
 
       getResourceHubResources().then(allResources => {
-        debugger;
         if (!Array.isArray(allResources) || allResources.length === 0) {
           return
         }
@@ -142,22 +137,12 @@
           window.tracker?.trackEvent(eventName, { category: 'Teachers' })
         }
       },
-      openVideoModal () {
-        this.showVideoModal = true
-      },
-      closeVideoModal () {
-        this.showVideoModal = false
-      }
     }
   }
 </script>
 
 <template>
   <div id="base-resource-hub">
-    <modal-onboarding-video
-      v-if="showVideoModal"
-      @close="closeVideoModal"
-    />
     <div class="flex-container">
       <div class="aside">
         <h4>{{ $t('common.table_of_contents') }}</h4>
@@ -171,10 +156,10 @@
         <div class="contact-icon">
           <img src="/images/ozaria/teachers/dashboard/svg_icons/IconMail.svg">
           <a
-            :href="`mailto:${$t('teacher_dashboard.support_oz')}`"
+            :href="`mailto:${$t('teacher_dashboard.support_coco')}`"
             @click="trackEvent('Resource Hub: Support Email Clicked')"
           >
-            {{ $t('teacher_dashboard.support_oz') }}
+            {{ $t('teacher_dashboard.support_coco') }}
           </a>
         </div>
       </div>
@@ -195,7 +180,6 @@
               :locked="resourceHubLink.locked"
               :from="resourceHubLink.source || 'Resource Hub'"
               :section="resourceHubSection.slug"
-              @click="() => { if (resourceHubLink.slug === 'dashboard-tutorial') { openVideoModal() } }"
             />
           </div>
         </div>

@@ -1,4 +1,4 @@
-- var path = document.location.pathname
+- var path = document && document.location.pathname || {indexOf(){}}
 
 #teacher-dashboard-nav
   nav.navbar
@@ -12,7 +12,7 @@
         span.navbar-brand.text-h4(data-i18n='teacher.teacher_dashboard')
       #teacher-dashboard-nav-collapse.collapse.navbar-collapse
         ul.nav.navbar-nav
-          if me.isSchoolAdmin()
+          if true
             li(class= path.indexOf('/school-administrator') === 0 ? 'active' : '')
               a(href='/school-administrator')
                 small.label(data-i18n='school_administrator.my_teachers')
@@ -22,7 +22,7 @@
           li(class= path.indexOf('/teachers/courses') === 0 ? 'active' : '')
             a.track-click-event(href='/teachers/courses', data-event-action='Teacher Nav Click Unit Guides')
               small.label(data-i18n='teacher.courses')
-          if me.canManageLicensesViaUI()
+          if true
             li(class= path.indexOf('/teachers/licenses') === 0 ? 'active' : '')
               a.track-click-event(href='/teachers/licenses', data-event-action='Teacher Nav Click Student Licenses')
                 small.label(data-i18n='teacher.enrollments')
