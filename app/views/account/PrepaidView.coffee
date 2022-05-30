@@ -107,7 +107,7 @@ module.exports = class PrepaidView extends RootView
       console.log('res:', res, res.status, res.body)
       if res.status is 404
         if res.responseText is 'Activation code has been used'
-          @ppcInfo.push "The Activation code has been used."
+          @ppcInfo.push $.i18n.t 'account_prepaid.activation_code_used'
           @render?()
           return
       @statusMessage "Unable to retrieve code.", "error"
@@ -132,9 +132,13 @@ module.exports = class PrepaidView extends RootView
       data: { ppc: @dashedPPC()}
     options.error = (model, res, options, foo) =>
       msg = model.responseText ? ''
-      @statusMessage "Error: Could not redeem prepaid code. #{msg}", "error"
+      console.log('re:', model, res)
+      if model.status is 403
+        if model.responseJSON.message is 'Activation Code has been used'
+          msg = $.i18n.t 'account_prepaid.activation_code_used'
+      @statusMessage $.i18n.t('account_prepaid.redeem_code_error') + msg, "error"
     options.success = (model, res, options) =>
-      @statusMessage "Prepaid applied to your account!", "success"
+      @statusMessage $.i18n.t('account_prepaid.prepaid_applied_success'), "success"
       @codes.fetch cache: false
       me.fetch cache: false
       @loadPrepaid(@dashedPPC())

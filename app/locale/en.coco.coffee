@@ -2670,6 +2670,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     you_can3: "that can be applied to your own account or given to others."
     prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account."
     can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times."
+    prepaid_applied_success: "Prepaid applied to your account!"
+    activation_code_used: "The Activation code has been used."
+    redeem_code_error: "Error: Could not redeem prepaid code. "
 
   impact:
     hero_heading: 'Building A World-Class Computer Science Program'

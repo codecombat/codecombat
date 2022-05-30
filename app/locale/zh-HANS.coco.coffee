@@ -2674,6 +2674,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can3: "使用在您的账户或者给其他人。"
     prepaid_add_months: "该激活码将为您的账号提供<strong> __months__ 个月</strong>的高级订阅"
     can_use_times: "它可以被使用<strong>__unlocksLeft__</strong> 次"
+    prepaid_applied_success: "许可已成功激活!"
+    activation_code_used: "激活码已被使用。"
+    redeem_code_error: "错误：无法激活许可："
 
   impact:
     hero_heading: "创建世界一流的计算机科学课程"

@@ -27,10 +27,10 @@ block content
                 if features.chinaHome
                   if me.isPremium()
                     - date = me.premiumEndDate()
-                    span(data-i18n="subscribe.currently_free_until", data-i18n-options={date})
+                    span(data-i18n="subscribe.currently_free_until", data-i18n-options={date}, class="status-info")
                     br
                   else
-                    span(data-i18n="subscribe.currently_not_free")
+                    span(data-i18n="subscribe.currently_not_free" class="status-info")
                   button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title")
                 else
                   p Prepaids are no longer available for purchase.
