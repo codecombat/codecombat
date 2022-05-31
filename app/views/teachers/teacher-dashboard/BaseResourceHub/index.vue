@@ -215,7 +215,7 @@
 }
 
 .aside {
-  margin-top: 3px;
+  margin-top: -20px;
 
   width: 285px;
   padding: 30px;
