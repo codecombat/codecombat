@@ -1,8 +1,5 @@
-<script src="../../../../core/store/modules/classrooms.coco.js"></script>
-<script src="../../../../core/store/index.ozar.coffee"></script>
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
-  // import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
   import ButtonResourceIcon from './components/ButtonResourceIcon'
   import { getResourceHubResources, getResourceHubZendeskResources } from 'core/api/resource_hub_resource'
   import utils from 'app/core/utils'

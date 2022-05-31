@@ -59,13 +59,11 @@
     },
 
     mounted () {
-      debugger;
       this.setTeacherId(me.get('_id'))
       this.setPageTitle(PAGE_TITLES[this.$options.name])
       this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Resource Hub: Loaded' } })
 
       getResourceHubResources().then(allResources => {
-        debugger;
         if (!Array.isArray(allResources) || allResources.length === 0) {
           return
         }
@@ -158,6 +156,7 @@
       v-if="showVideoModal"
       @close="closeVideoModal"
     />
+
     <div class="flex-container">
       <div class="aside">
         <h4>{{ $t('common.table_of_contents') }}</h4>
