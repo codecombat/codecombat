@@ -782,7 +782,7 @@ export default {
       <a class="btn btn-large btn-primary btn-moon" @click="onHandleJoinCTA">{{ $t('league.join_now') }}</a>
     </div>
 
-    <div class="row flex-row text-dont-just-play-code" style="justify-content: flex-end;">
+    <div class="row flex-row text-dont-just-play-code" style="justify-content: flex-end;" id="trailer">
       <img src="/images/pages/league/text_dont_just_play_code.svg" class="img-responsive" />
     </div>
     <div class="row flex-row video-iframe-section section-space">
