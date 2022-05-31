@@ -1,3 +1,5 @@
+<script src="../../../../core/store/modules/classrooms.coco.js"></script>
+<script src="../../../../core/store/index.ozar.coffee"></script>
 <script>
   import { mapGetters, mapActions, mapMutations } from 'vuex'
   // import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
@@ -88,8 +90,9 @@
         }
 
         const relevantCategoryIds = {
-          360004950774: 'Ozaria for Educators',
+          1500001145602: 'CodeCombat for Educators',
         }
+
         const relevantCategories = _.groupBy(_.filter(allResources.categories, (category) => relevantCategoryIds[category.id]), 'id')
         const relevantSections = _.groupBy(_.filter(allResources.sections, (section) => relevantCategories[section.category_id] && !section.outdated), 'id')
         const articlesBySection = _.groupBy(_.filter(allResources.articles, (article) => relevantSections[article.section_id] && !article.draft), 'section_id')
