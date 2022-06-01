@@ -164,6 +164,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/resource': go('editor/resource/ResourceSearchView')
     'editor/resource/:resourceID': go('editor/resource/ResourceEditView')
     'editor/archived-elements': go('core/SingletonAppVueComponentView')
+    'editor/podcasts': go('editor/podcast/PodcastSearchView')
+    'editor/podcasts/:podcastId': go('editor/resource/ResourceEditView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
