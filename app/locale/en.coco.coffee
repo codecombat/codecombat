@@ -3575,5 +3575,4 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share_info: 'To give other teachers access to the class, add their emails below.'
     class_owner: 'Class Owner'
     share: 'Share'
-    support_coco: 'support@codecombat.com',
 

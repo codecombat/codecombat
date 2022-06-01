@@ -263,7 +263,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/licenses/v0': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true })
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true })
-    'teachers/resources': go('core/SingletonAppVueComponentView')
+    'teachers/resources': go('teachers/ResourceHubView', { redirectStudents: true })
+    'teachers/resources_new': go('core/SingletonAppVueComponentView')
     'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
     'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
     'teachers/signup': ->

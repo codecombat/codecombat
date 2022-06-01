@@ -67,6 +67,24 @@ export default {
       return state.preferredLanguage || 'en-US'
     },
 
+    isPaidTeacher (_state, _getters, _rootState, rootGetters) {
+      const prepaids = rootGetters['prepaids/getPrepaidsByTeacher'](me.get('_id'))
+      if (me.isPaidTeacher()) {
+        return true
+      }
+
+      if (!prepaids) {
+        return false
+      }
+
+      const { pending, empty, available } = prepaids
+      if (pending.length + empty.length + available.length > 0) {
+        return true
+      }
+
+      return me.isPremium()
+    },
+
     inEU (state) {
       if (!state.country) {
         return undefined
