@@ -176,6 +176,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .form-group .control-label-desc {
+    display: inline-block;
+    text-align: justify;
+    line-height: 14pt;
+    margin-top: 3px;
+  }
 }
 
 .class-name, .language {
@@ -196,6 +203,9 @@
     height: 35px;
     margin: 0 10px;
     text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
   }
 }
 
