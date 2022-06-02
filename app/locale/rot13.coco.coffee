@@ -3528,6 +3528,33 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     recurring_month_3: 'Erpheevat ovyyvat rirel 3 zbaguf'
     recurring_month_6: 'Erpheevat ovyyvat rirel 6 zbaguf'
     recurring_year_1: 'Erpheevat ovyyvat rirel lrne'
+    purchase_licenses_2: "Chepunfr yvprafrf sbe lbhe fghqragf gb npprff cnvq pheevphyhz nsgre gur svefg pbhefr"
+    applying_licenses: "nccylvat yvprafrf"
+    about: "nobhg"
+    school_district_heading: "Fpubbyf be Qvfgevpgf"
+    school_district_subheading: "Sbe pynffebbzf, fpubbyf naq qvfgevpgf jvgu 10 be zber fghqragf"
+    classroom_heading: "Fznyy Pynffebbz"
+    classroom_subheading: "Sbe pyhof, nsgre-fpubby cebtenzf naq fznyy pynffebbzf jvgu 5-9 fghqragf."
+    customer_support_info_1: "Phfgbzre fhccbeg ivn rznvy be pung"
+    customer_support_info_2: "Phfgbzre fhccbeg ivn rznvy be pung, cyhf n qrqvpngrq fpubby fhpprff znantre ninvynoyr ivn cubar be rznvy sbe vzcyrzragngvba fhccbeg"
+    self_serve_credit: "Frys-freir perqvg pneq chepunfr"
+    multiple_payment_options: "Inevrgl bs cnlzrag bcgvbaf ninvynoyr, vapyhqvat: chepunfr beqre, fvgr yvprafrf, & zhygv-lrne qvfpbhagf."
+    admin_dashboard: "Nqzvavfgengbe qnfuobneq jvgu npgvbanoyr qngn naq vafvtugf"
+    pd_info: "Pbzcerurafvir 40-ubhe bayvar pbhefr gung nyybjf lbh gb yrnea nalgvzr, naljurer naq ng nal cnpr."
+    implementation_info: "60 zva Baobneqvat Genvavat ba ubj gb hfr PbqrPbzong naq Bmnevn gb fhccbeg fcrpvsvp vafgvghgvbany naq vafgehpgvbany tbnyf."
+    ai_league_info: "Ratntr fghqragf va na rkpvgvat rfcbegf pbzcrgvgvba gung nyybjf gurz gb fubjpnfr gurve haqrefgnaqvat bs pbaprcgf va n arj raivebazrag naq cenpgvpr perngvir ceboyrz-fbyivat fgengrtvrf!"
+    ai_custom_tournament: "NV Yrnthr Phfgbz Gbheanzrag"
+    implementation_training: "Vzcyrzragngvba Genvavat"
+    full_access_coco: "Shyy Npprff gb obgu PbqrPbzong"
+    and_oz: "Naq Bmnevn"
+    cs_info: "Pbzchgre Fpvrapr 1-6: 65 frffvbaf"
+    wd_info: "Jro Qrirybczrag 1-2: 10 frffvbaf"
+    gd_info: "Tnzr Qrirybczrag 1-3: 20 frffvbaf"
+    chap1_info: "Puncgre 1: 10 pynff frffvbaf"
+    chap2_info: "Puncgre 2: 30 pynff frffvbaf"
+    chap3_info: "Puncgre 3: 25 pynff frffvbaf"
+    chap4_info: "Puncgre 4: 20 pynff frffvbaf"
+    includes: "Vapyhqrf"
 
   form_validation_errors:
     required: 'Svryq vf erdhverq'
