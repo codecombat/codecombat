@@ -387,6 +387,7 @@ _.extend UserSchema.properties,
   lastAnnouncementSeen:
     type: 'number'
     description: 'The highed announcement modal index displayed to the user.'
+  lastAnnouncementGen: c.date
   studentMilestones:
     type: 'object'
     description: "Flags for whether a teacher's students have reached a given level. Used for Intercom campaigns."
