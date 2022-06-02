@@ -180,7 +180,7 @@
   .form-group .control-label-desc {
     display: inline-block;
     text-align: justify;
-    line-height: 14pt;
+    line-height: 19px;
     margin-top: 3px;
   }
 }
