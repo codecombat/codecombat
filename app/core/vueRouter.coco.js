@@ -95,7 +95,11 @@ export default function getVueRouter () {
         {
           path: '/teachers/licenses',
           component: () => import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/StudentLicensesMainComponent')
-        }
+        },
+        {
+          path: '/teachers/resources_new',
+          component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue'),
+        },
       ],
       scrollBehavior(to) {
         const scroll = {}

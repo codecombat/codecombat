@@ -1099,6 +1099,8 @@ orgKindString = (kind, org=null) ->
   }[kind]
   return $.i18n.t(key)
 
+supportEmail = 'support@ozaria.com'
+
 module.exports = {
   activeAndPastArenas
   activeArenas
@@ -1189,4 +1191,5 @@ module.exports = {
   isOldBrowser
   isCodeCombat
   isOzaria
+  supportEmail
 }
