@@ -180,6 +180,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     top_banner_blurb: "Cneragf, obbx lbhe puvyq'f svefg yvir bayvar pbqvat pynff sbe serr!"
     top_banner_blurb_pd: "Jr abj bssre cebsrffvbany qrirybczrag sbe rqhpngbef."
     top_banner_blurb_funding: "Arj: PNERF Npg shaqvat erfbheprf thvqr gb RFFRE naq TRRE shaqf sbe lbhe PF cebtenzf."
+    top_banner_blurb_maintenance: "Hctenqrf pbzvat! Fpurqhyrq znvagranapr: hc gb 3 ubhef fgnegvat ng __znvagranaprFgnegGvzr__."
     try_the_game: "Gel gur tnzr"
     classroom_edition: "Pynffebbz Rqvgvba:"
     learn_to_code: "Yrnea gb pbqr:"
@@ -568,6 +569,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     invalidPhone: 'Vainyvq cubar ahzore'
     emailExists: 'Rznvy nyernql rkvfgf'
     numberGreaterThanZero: 'Fubhyq or n ahzore terngre guna 0'
+    requireValidEmail: 'Cyrnfr ragre n inyvq rznvy nqqerff.'
+    requireValidPhone: 'Cyrnfr ragre n inyvq cubar ahzore, vapyhqvat nern pbqr.'
 
   recover:
     recover_account_title: "Erpbire Nppbhag"
@@ -1361,6 +1364,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     select_class: "Fryrpg pynff"
     programming_language: "Cebtenzzvat ynathntr"
     programming_language_edit_desc: "Ynathntr pnaabg or punatrq bapr fghqragf wbva n pynff. Jr erpbzzraq perngvat n arj pynff sbe gur fnzr fghqragf."
+    programming_language_edit_desc_new: "Vs lbh punatr gur cebtenzzvat ynathntr, lbhe fghqragf' cebterff va gur byq ynathntr jvyy or uvqqra, naq gurl jvyy unir gb fgneg bire va gur arj ynathntr. Jr erpbzzraq perngvat n arj pynff sbe gur fnzr fghqragf."
     add_a_class: 'Nqq n arj pynff'
     select_desired_lang: 'Fryrpg qrfverq ynathntr sbe lbhe pynff'
     elementary: 'Ryrzragnel'
@@ -3440,3 +3444,57 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     questions: "Unir dhrfgvbaf be jnag zber vasbezngvba? Jr'q or unccl gb uryc."
     reach_out_manager: "Ernpu bhg gb lbhe Nppbhag Znantre __anzr__ ng "
     stats_include: "fgngf vapyhqr __ahzore__ bgure __anzr__"
+  efficacy:
+    ozaria_efficacy: "Bmnevn Rssvpnpl"
+    header_subtitle: "Bmnevn unf cebira gb unir n cbfvgvir vzcnpg ba gur fghqrag yrneavat bhgpbzrf gung znggre zbfg gb obgu fghqragf naq rqhpngbef."
+    pathway_dialog_line1: "juvyr Gehr:"
+    pathway_dialog_line2: "ureb.zbirQbja(1)"
+    pathway_dialog_line3: "ureb.zbirEvtug(2)"
+    exploring_creativity: "Rkcybevat Perngvivgl"
+    exploring_creativity_description: "Nyzbfg nyy fghqragf fheirlrq fnvq gurl ernyyl rawblrq orvat noyr gb perngr gurve bja tnzr ng gur raq bs rnpu Puncgre."
+    essential_skills: "Rffragvny Fxvyyf"
+    essential_skills_description: "Grnpuref sbhaq Bmnevn gb or n fhcrevbe pheevphyhz sbe grnpuvat pbzcyrk pbqvat pbaprcgf nf jryy nf rffragvny 21fg praghel fxvyyf, fhpu nf ceboyrz fbyivat naq ernfbavat, pevgvpny naq pbzchgngvbany guvaxvat fxvyyf."
+    fun_engaging: "Sha & Ratntvat"
+    fun_engaging_description: "Bmnevn jnf ercbegrq gb or n sha naq ratntvat pheevphyhz. Fghqragf rfcrpvnyyl abgrq ubj rssrpgvir vg jnf va grnpuvat grkg-onfrq pbqvat, naq ubj gur ghgbevnyf, uvagf, naq reebe zrffntrf cebivqrq gur nccebcevngr nzbhag bs fhccbeg."
+    easy_to_use: "Rnfl gb Hfr"
+    easy_to_use_description: "Obgu grnpure naq fghqragf sbhaq gur cyngsbez rnfl gb vzcyrzrag naq hfr."
+    mcintosh_study_title: "Vapernfvat Fpber Tnvaf ba Nffrffzragf"
+    mcintosh_middle_school: "ZpVagbfu Zvqqyr Fpubby"
+    mcintosh_study_description: "N abivpr grnpure jvgu nqinaprq yriry pbqvat rkcrevrapr gnhtug guerr pbubegf bs fghqragf. Rnpu pbubeg jnf fghqvrq npebff n shyy frzrfgre."
+    study_highlights_title: "Uvtuyvtugf sebz gur fghql erfhygf:"
+    mcintosh_study_highlight_1: "98% bs fghqragf engrq gurve yriry bs raguhfvnfz sbe Bmnevn nf uvtu be rkgerzryl uvtu"
+    mcintosh_study_highlight_2: "100% bs fghqragf fpberq nobir 70% ba obgu gur zvq-grez naq svany nffrffzragf"
+    read_the_study: "Ernq gur Fghql (CQS)"
+    mrms_study_title: "Tnvavat Pbasvqrapr va Pbzchgre Fpvrapr"
+    mountain_ridge_middle_school: "Zbhagnva Evqtr Zvqqyr Fpubby"
+    mrms_study_description: "Na rkcrevraprq grnpure jvgu ortvaavat yriry pbqvat rkcrevrapr gnhtug gjb pbubegf bs fghqragf. Rnpu pbubeg jnf fghqvrq npebff n shyy frzrfgre."
+    study_highlights_title: "Uvtuyvtugf sebz gur fghql erfhygf:"
+    mrms_study_highlight_1: "Fghqragf znqr na nirentr tnva fpber bs 33% orgjrra gur cer-nffrffzrag naq gur svany nffrffzrag"
+    mrms_study_highlight_2: " Obgu gur grnpure naq fghqragf sbhaq Bmnevn gb or sha, ratntvat, naq rnfl gb hfr."
+    read_the_study: "Ernq gur Fghql (CQS)"
+    graph1_description: "Fghqragf znqr n 47% nirentr tnva fpber orgjrra gur cer-nffrffzrag naq gur svany nffrffzrag."
+    graph2_description: "Zber guna 90% bs fghqragf engrq gurve pbqvat pbasvqrapr yriry nf Pbasvqrag be Rkgerzryl Pbasvqrag nsgre hfvat Bmnevn."
+    quote_section_content: "Bar guvat V nz noyr gb qb abj gung V pbhyq abg qb orsber vf npghnyyl oryvrir V pna pbqr."
+    quote_section_footer: "Fghqrag, Zbhagnva Evqtr Zvqqyr Fpubby"
+    teacher_quote1_content: "Gur pheevphyhz unq fghqragf gubebhtuyl ratntrq. Gurl rawblrq gur fgbel naq gur punenpgref. Zber vzcbegnagyl, gurl tnvarq pbasvqrapr va gurve novyvgl gb fbyir pbzcyrk ceboyrzf jvgu pbaprcgf gurl'q yrnearq va Bmnevn."
+    teacher_quote1_footer1: "Ebaavr Pbk, Grnpure"
+    teacher_quote1_footer2: "ZpVagbfu Zvqqyr Fpubby"
+    student_quote_content: "V yvxr gung lbh pna znxr n zvfgnxr naq gur tnzr pbeerpgf vg be gryyf lbh gung gurer'f na reebe. N ybg bs ortvaaref znxr n ybg bs zvfgnxrf jura pbqvat naq fbzrgvzrf qba'g xabj ubj gb pbqr, fb gurl pna'g pbeerpg gurve zvfgnxrf orpnhfr gurl qba'g xabj jung'f jebat. Bmnevn vf gur cresrpg pbqvat tnzr sbe ortvaaref."
+    student_quote_footer: "Fghqrag, ZpVagbfu Zvqqyr Fpubby"
+    teacher_quote2_content: "V unir nofbyhgryl ybirq hfvat Bmnevn va zl pynff sbe gur cnfg guerr lrnef. Zl fghqragf unir gubebhtuyl rawblrq gur fgbelyvar nf gurl yrnearq Clguba va n frys-cnprq yrneavat raivebazrag. V jbhyq uvtuyl erpbzzraq Bmnevn sbe grnpuref gung xabj yvggyr gb abguvat nobhg pbqvat, nf gur fhccbeg sbe grnpuref vf irel va-qrcgu."
+    teacher_quote2_footer1: "Ylarggr Crefbargg, Grnpure"
+    teacher_quote2_footer2: "Zbhagnva Evqtr Zvqqyr Fpubby"
+    commitment_title: "PbqrPbzong’f Pbzzvgzrag gb Rssvpnpl"
+    commitment_description: "Jr ner pbzzvggrq gb rafhevat bhe cebqhpgf unir n cbfvgvir naq zrnfhenoyr vzcnpg ba yrneavat bhgpbzrf. Jr perngr zrnavatshy yrneavat rkcrevraprf, naq hfr rivqrapr-onfrq cenpgvprf gb qrfvta pbagrag gung jvyy ernyvmr gur bhgpbzrf gung znggre gur zbfg gb grnpuref naq fghqragf."
+    commitment_question: "Vagrerfgrq va vzcyrzragvat na rssrpgvir naq vzcnpgshy PF pheevphyhz ng lbhe fpubby?"
+    teachers_love_codecombat: "Grnpuref Ybir PbqrPbzong"
+    teachers_love_description: "Rkcyber gur vzcnpg bs bhe fvfgre cebqhpg, PbqrPbzong, ba Pbzchgre Fpvrapr grnpuvat & yrneavat!"
+    teachers_love_box1: "Ercbeg gung gurve fghqragf rawbl hfvat PbqrPbzong gb yrnea ubj gb pbqr"
+    teachers_love_box2: "Jbhyq erpbzzraq PbqrPbzong gb bgure pbzchgre fpvrapr grnpuref"
+    teachers_love_box3: "Fnl gung PbqrPbzong urycf gurz fhccbeg fghqragf’ ceboyrz fbyivat novyvgvrf"
+    classroom_image: "Pynffebbz"
+    ozaria_branding_logo: "Bmnevn oenaqvat ybtb"
+    dog: "Qbt"
+    hero: "Ureb"
+    teacher: "Grnpure"
+
