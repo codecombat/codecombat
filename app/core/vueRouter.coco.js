@@ -95,6 +95,10 @@ export default function getVueRouter () {
         {
           path: '/teachers/licenses',
           component: () => import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/StudentLicensesMainComponent')
+        },
+        {
+          path: '/podcast',
+          component: () => import(/* webpackChunkName: "podcastMain" */'/app/views/podcast/PodcastMainComponent')
         }
       ],
       scrollBehavior(to) {

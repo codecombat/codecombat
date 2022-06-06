@@ -40,6 +40,7 @@ store = new Vuex.Store({
     apiClient: require('./modules/apiClient').default,
     trialRequest: require('./modules/trialRequest').default,
     prepaids: require('./modules/prepaids').default
+    podcasts: require('./modules/podcasts').default
   }
 })
 

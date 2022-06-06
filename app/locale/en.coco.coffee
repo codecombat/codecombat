@@ -3574,3 +3574,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share_info: 'To give other teachers access to the class, add their emails below.'
     class_owner: 'Class Owner'
     share: 'Share'
+
+  podcast:
+    learning_adventure: "Where learning is always an adventure."
+    explores_stem: "Our podcast explores the role of technology, STEM, and creative play in education. With expert guests, we discover how learning is always an adventure."
+    listen: "Listen"
+    download: "Download"
+    transcript: "Transcript"
+    learn_more_coco: "Want to learn more about CodeCombat coding experiences?"
+    subscribe: "Subscribe"
+    explore_coco: "Explore CodeCombat"
+    interested_in_being_guest: "Interested in being a guest on EdTech Adventures?"
+    lets_chat: "Let's Chat"
