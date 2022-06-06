@@ -109,7 +109,7 @@ export default class FullstoryTracker extends BaseTracker {
     } else if (me.anonymous && Math.random() < 0.0025) {
       this.log('decide enabled', 'anon user')
       return true
-    } else if (window.me.getM7ExperimentValue() == 'beta') {
+    } else if (window.me.getM7ExperimentValue() == 'beta' && Math.random() < 0.05) {
       this.log('decide enabled', 'm7 experiment')
       return true
     } else if (this.store.getters['me/isTeacher'] && !this.store.getters['me/isParent'] && Math.random() < 0.02) {
