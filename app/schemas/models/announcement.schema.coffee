@@ -61,9 +61,15 @@ _.extend AnnouncementSchema.properties,
     type: 'string'
     enum: ['normal', 'sequence', 'banner']
     description: 'normal: normal announcements; banner: show anyway during live dates on homeview ; sequence: requires step to determine when to show'
-  step:
-    type: 'number'
-    description: 'step for '
+  sequence:
+    prevStep:
+      type: 'number'
+    prevTime:
+      type: 'number'
+      description: 'how many hours required after read prev announcement'
+    step:
+      type: 'number'
+      description: 'announcement publish step'
 
 AnnouncementSchema.definitions = {}
 AnnouncementSchema.definitions['mongoQueryOperator'] = MongoQueryOperatorSchema

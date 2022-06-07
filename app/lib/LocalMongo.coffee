@@ -25,7 +25,6 @@ doQuerySelector = (originalValue, operatorObj) ->
       else 
         trimmedOperator = _.pick(operatorObj, operator)
         return false unless _.isObject(originalValue) and matchesQuery(originalValue, trimmedOperator)
-    console.log('passed')
   true
 
 matchesQuery = (target, queryObj) ->

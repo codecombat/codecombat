@@ -24,6 +24,7 @@ module.exports =
       read:
         type: 'boolean'
         default: false
+      readDate: c.date
       created: c.date
         title: 'Created'
         readOnly: true
