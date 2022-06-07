@@ -211,9 +211,6 @@
 </template>
 
 <style lang="scss" scoped>
-#base-resource-hub {
-  margin-bottom: -50px;
-}
 
 .contact-icon {
   display: flex;
@@ -269,7 +266,7 @@
 }
 
 .resource-hub {
-  padding: 40px 30px;
+  padding: 40px 30px 0;
 
   .resource-hub-section {
     /* Offset by rough header height so that we don't underscroll the header */
