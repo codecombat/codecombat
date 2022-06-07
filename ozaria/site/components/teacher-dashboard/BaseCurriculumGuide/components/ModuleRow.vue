@@ -79,14 +79,15 @@
     height: 100%;
 
     box-sizing: border-box;
+    border: 1px solid transparent;
 
     & > div {
       display: flex;
       flex-direction: row;
       align-items: center;
 
-      padding-top: 5px;
-      padding-bottom: 5px;
+      padding-top: 4px;
+      padding-bottom: 4px;
 
       width:100%;
       height: 100%;
@@ -100,7 +101,7 @@
   }
 
   .module-row:hover:not(.locked) {
-    border: 1px solid #74C6DF;
+    border-color: #74C6DF;
   }
 
   .part-of-intro {
