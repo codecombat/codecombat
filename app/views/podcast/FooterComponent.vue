@@ -17,15 +17,29 @@
         <button class="btn podcast-btn-yellow" @click="letsChatClicked">{{ $t('podcast.lets_chat') }}</button>
       </div>
     </div>
+    <LetsChatModal
+      v-if="showLetsChatModal"
+      @close="showLetsChatModal = false"
+    />
   </div>
 </template>
 
 <script>
+import LetsChatModal from './LetsChatModal'
 export default {
   name: 'FooterComponent',
+  components: {
+    LetsChatModal
+  },
+  data () {
+    return {
+      showLetsChatModal: false
+    }
+  },
   methods: {
     letsChatClicked () {
       console.log('lets chat clicked')
+      this.showLetsChatModal = true
     }
   }
 }
