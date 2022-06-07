@@ -240,6 +240,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     get_involved: "Get Involved"
     open_source: "Open source (GitHub)"
     support: "Support"
+    faq: 'FAQ'
     faqs: "FAQs"
     copyright_prefix: "Copyright"
     copyright_suffix: "All Rights Reserved."
@@ -3574,3 +3575,4 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share_info: 'To give other teachers access to the class, add their emails below.'
     class_owner: 'Class Owner'
     share: 'Share'
+
