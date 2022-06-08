@@ -1,17 +1,14 @@
 <script>
+  const fetchJson = require("../../../core/api/fetch-json")
   export default Vue.extend({
     data() {
      return {
-       hour: 1,
+       hours: 1,
      }
     },
     methods: {
       submit: async function(){
-        await fetch('/admin/maintenance-time', {
-          method: 'POST',
-          body: JSON.stringify({hour: this.hour}),
-          headers: {'Content-Type': 'application/json'}
-        })
+        await fetchJson('/admin/maintenance-time', {json: {hours: this.hours}, method: 'POST' })
       }
     }
   })
@@ -20,14 +17,14 @@
 #modal-base-flat
   .body
     .alert
-      p MAINTENANCE MODE MAKES WEBSITE UNVISITABLE!
-      p MAINTENANCE MODE MAKES WEBSITE UNVISITABLE!
-      p MAINTENANCE MODE MAKES WEBSITE UNVISITABLE!
-      p ARE YOU SURE TO CONTINUE ?
+      p MAINTENANCE MODE MAKES WEBSITE INACCESSIBLE!
+      p MAINTENANCE MODE MAKES WEBSITE INACCESSIBLE!
+      p MAINTENANCE MODE MAKES WEBSITE INACCESSIBLE!
+      p ARE YOU SURE YOU WANT TO CONTINUE ?
     .input
-      p set the maintenance hour:
+      p set the maintenance hours:
       div
-        input(type="number", v-model="hour", min="0.1", step="0.1")
+        input(type="number", v-model="hours", min="0.1", step="0.1")
         span Hours
       br
       a.btn.btn-primary.btn-lg(@click="submit") I'm Sure, Go Ahead!
