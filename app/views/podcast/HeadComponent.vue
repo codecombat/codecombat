@@ -2,12 +2,12 @@
   <div class="podcast-head">
     <div class="container">
       <div class="row">
-        <div class="col-sm-5">
+        <div class="col-xs-10 col-md-7">
           <div class="podcast-head__adventure">
             <img src="/images/pages/podcast/edtech-adventure.jpg" alt="Edtech adventure" class="podcast-head__adventure-img">
           </div>
         </div>
-        <div class="col-sm-7 podcast-head__text">
+        <div class="col-xs-12 col-md-5 podcast-head__text">
           <h2 class="podcast-head__heading">
             {{ $t('podcast.learning_adventure') }}
           </h2>

@@ -11,7 +11,7 @@ const PodcastSchema = schema.object(
     guestName: schema.shortString(),
     guestDetails: { type: 'string' },
     guestImage: { type: 'string', format: 'image-file' },
-    transcriptUrl: schema.url(),
+    transcript: schema.file(),
     uploadDate: schema.date(),
     transistorEpisodeId: schema.shortString(),
     audio: schema.sound()

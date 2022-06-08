@@ -246,6 +246,51 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
     @flushChanges()
     @refreshDisplay()
 
+class GeneralFileTreema extends TreemaNode.nodeMap.string
+  valueClass: 'treema-file'
+  editable: false
+
+  constructor: ->
+    super arguments...
+    initializeFilePicker()
+
+  onClick: (e) ->
+    return if $(e.target).closest('.btn').length
+    super(arguments...)
+
+  buildValueForDisplay: (valEl, data) ->
+    mimetype = 'application/octet-stream'
+    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload File</a>')
+      .click(=> filepicker.pick {}, @onFileChosen)
+
+    valEl.append(pickButton)
+    if data
+      anchor = $('<a></a>')
+        .attr('href', "/file/#{data}")
+        .attr('target', '_blank')
+        .attr('style', 'padding-left: 5px;')
+        .text("/file/#{data}")
+      valEl.append anchor
+
+  onFileChosen: (InkBlob) =>
+    if not @settings.filePath
+      console.error('Need to specify a filePath for this treema', @getRoot())
+      throw Error('cannot upload file')
+
+    body =
+      url: InkBlob.url
+      filename: InkBlob.filename
+      mimetype: InkBlob.mimetype
+      path: @settings.filePath
+      force: true
+
+    @uploadingPath = [@settings.filePath, InkBlob.filename].join('/')
+    $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
+
+  onFileUploaded: (e) =>
+    @data = @uploadingPath
+    @flushChanges()
+    @refreshDisplay()
 
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
@@ -571,4 +616,5 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass('sound-file', SoundFileTreema)
   TreemaNode.setNodeSubclass 'slug-props', SlugPropsObject
   TreemaNode.setNodeSubclass 'task', TaskTreema
+  TreemaNode.setNodeSubclass 'file', GeneralFileTreema
   #TreemaNode.setNodeSubclass 'checkbox', CheckboxTreema

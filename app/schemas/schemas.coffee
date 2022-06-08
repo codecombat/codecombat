@@ -50,6 +50,8 @@ me.sound = (props) ->
   obj.properties[prop] = props[prop] for prop of props
   obj
 
+me.file = (ext) -> combine { type: 'string', format: 'file' }, ext
+
 ColorConfigSchema = me.object {format: 'color-sound'},
   hue: {format: 'range', type: 'number', minimum: 0, maximum: 1}
   saturation: {format: 'range', type: 'number', minimum: 0, maximum: 1}
