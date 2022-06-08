@@ -98,6 +98,7 @@ handleNormalUrls = ->
 
     # Instruct Backbone to trigger routing events
     app.router.navigate url, { trigger: true }
+    return false
 
 setUpBackboneMediator = (app) ->
   Backbone.Mediator.addDefSchemas schemas for definition, schemas of definitionSchemas
