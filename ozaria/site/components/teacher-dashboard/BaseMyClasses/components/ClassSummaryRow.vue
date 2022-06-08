@@ -117,14 +117,14 @@
             @click="$emit('clickAddStudentsModalButton')"
           />
         </div>
-      </div>
-      <div
-        v-if="!displayOnly"
-        class="btn-ellipse share"
-        @click="$emit('clickShareClassWithTeacherModalButton')"
-      >
-        <icon-share-dusk />
-        <span class="share-text">{{this.$t('teacher_dashboard.share')}}</span>
+        <div
+          v-if="!displayOnly"
+          class="btn-ellipse share"
+          @click="$emit('clickShareClassWithTeacherModalButton')"
+        >
+          <icon-share-dusk />
+          <span class="share-text">{{this.$t('teacher_dashboard.share')}}</span>
+        </div>
       </div>
       <div
         v-if="!displayOnly"
