@@ -78,7 +78,7 @@ init = ->
 module.exports.init = init
 
 handleNormalUrls = ->
-  # http://artsy.github.com/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/
+  # https://artsy.github.io/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/
   $(document).on 'click', "a[href^='/']", (event) ->
 
     href = $(event.currentTarget).attr('href')
@@ -98,8 +98,6 @@ handleNormalUrls = ->
 
     # Instruct Backbone to trigger routing events
     app.router.navigate url, { trigger: true }
-
-    return false
 
 setUpBackboneMediator = (app) ->
   Backbone.Mediator.addDefSchemas schemas for definition, schemas of definitionSchemas
