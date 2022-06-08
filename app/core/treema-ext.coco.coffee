@@ -259,7 +259,6 @@ class GeneralFileTreema extends TreemaNode.nodeMap.string
     super(arguments...)
 
   buildValueForDisplay: (valEl, data) ->
-    mimetype = 'application/octet-stream'
     pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload File</a>')
       .click(=> filepicker.pick {}, @onFileChosen)
 

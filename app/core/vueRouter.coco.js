@@ -98,7 +98,7 @@ export default function getVueRouter () {
         },
         {
           path: '/podcast',
-          component: () => import(/* webpackChunkName: "podcastMain" */'/app/views/podcast/PodcastMainComponent')
+          component: () => import(/* webpackChunkName: "podcastMain" */'/app/views/podcast/PodcastHomeView')
         }
       ],
       scrollBehavior(to) {
