@@ -3576,6 +3576,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share_info: 'To give other teachers access to the class, add their emails below.'
     class_owner: 'Class Owner'
     share: 'Share'
+
   partners:
     headline: 'Join us in our mission to make coding engaging and accessible to all'
     below_headline_blurb: 'At CodeCombat we’ve developed comprehensive tools that make learning to code fun and teaching programming easy. Our turnkey solutions can be leveraged in many executions.'

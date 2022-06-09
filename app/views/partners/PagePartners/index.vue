@@ -65,12 +65,10 @@
 export default Vue.extend({
   data() {
     return {
-      count: 0,
-      mystring: 'hello',
       i18nData: {
         hyperx: `<a href='https://www.yahoo.com/now/hyperx-partners-codecombat-esports-coding-175900451.html' target='_blank'>${$.i18n.t('partners.hyperx')}</a>`,
-        respawn: `<a href='https://codecombat.com/league/#winners' target='_blank'>${$.i18n.t('partners.respawn')}</a>`,
-        forty_languages: `<a href='https://codecombat.com/contribute/diplomat' target='_blank'>${$.i18n.t('partners.forty_languages')}</a>`,
+        respawn: `<a href='/league/#winners' target='_blank'>${$.i18n.t('partners.respawn')}</a>`,
+        forty_languages: `<a href='/contribute/diplomat' target='_blank'>${$.i18n.t('partners.forty_languages')}</a>`,
         reach_latinx: `<a href='https://www.yahoo.com/now/mexican-superstar-eugenio-derbez-partners-200100110.html' target='_blank'>${$.i18n.t('partners.reach_latinx')}</a>`,
         interpolation: { escapeValue: false }
       }
