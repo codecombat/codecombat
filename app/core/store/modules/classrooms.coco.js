@@ -81,7 +81,7 @@ export default {
   },
 
   actions: {
-    fetchClassroomsForTeacher: ({ commit }, teacherId) => {
+    fetchClassroomsForTeacher: ({ commit }, { teacherId }) => {
       commit('toggleLoadingForTeacher', teacherId)
 
       return classroomsApi.fetchByOwner(teacherId)
@@ -135,6 +135,18 @@ export default {
         updates: { permissions: response.data } // use response.permissions ?
       })
     },
+    setMostRecentClassroomId: ({ commit, state }, classroomId) => {
+      // TODO: State should be set across all "by" lookups so it can be looked up properly, but hacking this
+      // by unwrapping the teacher -> active -> classroom -> codeCamel
+      let codeCamel = state?.classrooms?.byClassroom?.[classroomId]?.codeCamel
+      if (!codeCamel) {
+        codeCamel = Object.values(state?.classrooms?.byTeacher || {}).find(t => t?.active)?.active?.find(c => c?._id === classroomId)?.codeCamel
+      }
+
+      if (codeCamel) {
+        commit('setMostRecentClassCode', codeCamel)
+      }
+    }
   }
 }
 

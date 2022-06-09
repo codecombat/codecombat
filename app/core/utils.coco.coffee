@@ -1042,7 +1042,7 @@ AILeagueSeasons = [
   {number: 1, championshipType: 'cup',   image: '/images/pages/league/logo_cup.png',         video: '1422969c8f5fbee2a62ee60021becfb4', videoThumbnailTime: '1584s'}
   {number: 2, championshipType: 'blitz', image: '/images/pages/league/logo_blitz.png',       video: '8a347a9c0da34f487ae4fdaa8234000a', videoThumbnailTime: '837s'}
   {number: 3, championshipType: 'clash', image: '/images/pages/league/logo_clash.png',       video: '26bee42b433e19f789271ae400529025', videoThumbnailTime: '1732s'}
-  {number: 4, championshipType: 'cup',   image: '/images/pages/league/tundra-tower-cup.png', video: 'bfbf1a5187888d110ee47f97b7491c2a', videoThumbnailTime: '1568'}
+  {number: 4, championshipType: 'cup',   image: '/images/pages/league/tundra-tower-cup.png', video: 'bfbf1a5187888d110ee47f97b7491c2a', videoThumbnailTime: '1568s'}
   {number: 5, championshipType: 'blitz', image: '/images/pages/league/sand-storm-blitz.png', video: '',                                 videoThumbnailTime: ''}
   {number: 6, championshipType: 'clash', image: '/images/pages/league/lava-lake-clash.png',  video: '',                                 videoThumbnailTime: ''}
 ]
@@ -1106,6 +1106,8 @@ orgKindString = (kind, org=null) ->
     student: 'courses.student'
   }[kind]
   return $.i18n.t(key)
+
+supportEmail = 'support@codecombat.com'
 
 module.exports = {
   activeAndPastArenas
@@ -1197,4 +1199,5 @@ module.exports = {
   isOldBrowser
   isCodeCombat
   isOzaria
+  supportEmail
 }

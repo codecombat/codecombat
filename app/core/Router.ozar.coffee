@@ -275,6 +275,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'professional-development': go('core/SingletonAppVueComponentView')
     'pd': go('core/SingletonAppVueComponentView')
+    'efficacy': go('core/SingletonAppVueComponentView')
 
     'sel': go('core/SingletonAppVueComponentView')
     'social-and-emotional-learning': go('core/SingletonAppVueComponentView')

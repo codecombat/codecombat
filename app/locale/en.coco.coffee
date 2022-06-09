@@ -240,6 +240,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     get_involved: "Get Involved"
     open_source: "Open source (GitHub)"
     support: "Support"
+    faq: 'FAQ'
     faqs: "FAQs"
     copyright_prefix: "Copyright"
     copyright_suffix: "All Rights Reserved."
