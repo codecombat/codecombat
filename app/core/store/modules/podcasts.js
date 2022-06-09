@@ -1,4 +1,4 @@
-import { getPodcasts } from '../../api/podcast'
+import { getPodcasts, getPodcast } from '../../api/podcast'
 
 export default {
   namespaced: true,
@@ -12,11 +12,23 @@ export default {
     },
     setPodcasts (state, podcasts) {
       state.podcasts = [...podcasts]
+    },
+    setPodcast (state, podcast) {
+      const index = state.podcasts.findIndex(p => p.id === podcast.id)
+      console.log('state', state.podcasts, index, podcast)
+      if (index === -1) {
+        state.podcasts.push(podcast)
+      } else {
+        state.podcasts.splice(index, 1, podcast)
+      }
     }
   },
   getters: {
     podcasts (state) {
       return state.podcasts
+    },
+    podcast: (state) => (handle) => {
+      return state.podcasts.find(p => p._id === handle || p.slug === handle)
     }
   },
   actions: {
@@ -26,6 +38,11 @@ export default {
       const result = await getPodcasts()
       commit('setPodcasts', result)
       commit('setLoading', false)
+    },
+    async fetch ({ commit }, { podcastId }) {
+      console.log('fetch get', podcastId)
+      const podcast = await getPodcast(podcastId)
+      commit('setPodcast', podcast)
     }
   }
 }

@@ -7,14 +7,17 @@
       >
         <div class="container">
           <div class="row">
-            <div class="col-sm-6 podcast-item__info">
-              <div class="podcast-content__date">
-                {{ podcast.uploadDate }}
+            <router-link :to="{ name: 'PodcastSingle', params: { podcastId: podcast.slug } }">
+              <div class="col-sm-6 podcast-item__info">
+                <div class="podcast-content__date">
+                  {{ podcast.uploadDate }}
+                </div>
+                <div class="podcast-content__title">
+                  {{ podcast.name }}
+                </div>
               </div>
-              <div class="podcast-content__title">
-                {{ podcast.name }}
-              </div>
-            </div>
+            </router-link>
+
             <div class="col-sm-2 podcast-item__btn-info" @click="() => onListenClick(podcast)">
               <img src="/images/pages/podcast/icons/IconPlay.svg" alt="Listen Icon" class="podcast-content__play-icon podcast-content__icon">
               <span class="podcast-content__listen podcast-content__btn-text">{{ $t('podcast.listen') }}</span>
@@ -131,6 +134,10 @@ export default {
   .container {
     border-top: 1px solid #d3d3d3;
     padding: 4rem;
+  }
+
+  &__info {
+    cursor: pointer;
   }
 
   &__btn-info {

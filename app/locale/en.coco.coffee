@@ -3586,3 +3586,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     explore_coco: "Explore CodeCombat"
     interested_in_being_guest: "Interested in being a guest on EdTech Adventures?"
     lets_chat: "Let's Chat"
+    air_date: "Air date" # upload date
+    play_episode: "Play Episode"
+    about_guest: "About Our Guest"
