@@ -1981,6 +1981,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     pacing_guides_high: "High School Pacing Guide"
     getting_started: "Getting Started"
     student_resources: "Student Resources"
+    curriculum: "Curriculum"
     lesson_slides: "Lesson Slides"
     section: "Section"
     educator_faq: "Educator FAQ"
@@ -3575,4 +3576,3 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share_info: 'To give other teachers access to the class, add their emails below.'
     class_owner: 'Class Owner'
     share: 'Share'
-

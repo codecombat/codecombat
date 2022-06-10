@@ -88,7 +88,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     learner_number: "12 Million"
     code_line_number: "1 Billion"
 
-
   new_home:
     title: "Ozaria - Computer science that captivates"
     meta_keywords: "CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story"
@@ -2068,6 +2067,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     pacing_guides_high: "High School Pacing Guide"
     getting_started: "Getting Started"
     student_resources: "Student Resources"
+    curriculum: "Curriculum"
     lesson_slides: "Lesson Slides"
     section: "Section"
     educator_faq: "Educator FAQ"
@@ -3497,4 +3497,3 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     dog: "Dog"
     hero: "Hero"
     teacher: "Teacher"
-
