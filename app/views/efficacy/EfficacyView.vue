@@ -24,40 +24,40 @@ export default {
   main.container-fluid#efficacy-view
     section.header.row
       .col-lg-7.col-md-12.col-sm-12
-        img.main(src="/images/pages/efficacy/classroom-image-1.png", data-i18n="[alt]efficacy.classroom_image")
+        img.main(src="/images/pages/efficacy/classroom-image-1.png", :alt="`${$t('efficacy.classroom_image')}`")
       .col-lg-5.col-md-12.col-sm-12.ozaria-header-text
         a(href="/")
-          img.logo(src="/images/pages/efficacy/logo-500px.png", data-i18n="[alt]efficacy.ozaria_branding_logo")
-        h1(style="margin-bottom:15px;" data-i18n='efficacy.ozaria_efficacy')
-        h2.subtitle-mid(data-i18n='efficacy.header_subtitle')
+          img.logo(src="/images/pages/efficacy/logo-500px.png", :alt="`${$t('efficacy.ozaria_branding_logo')}`")
+        h1(style="margin-bottom:15px;") {{ $t("efficacy.ozaria_efficacy") }}
+        h2.subtitle-mid {{ $t("efficacy.header_subtitle") }}
 
     section.pathway
       .images
-        img(src="/images/pages/efficacy/dog-bark.png", data-i18n="[alt]efficacy.dog_bark").dog
-        img(src="/images/pages/efficacy/hero-5-walk-side.png", data-i18n="[alt]efficacy.hero").hero
+        img(src="/images/pages/efficacy/dog-bark.png", :alt="`${$t('efficacy.dog_bark')}`").dog
+        img(src="/images/pages/efficacy/hero-5-walk-side.png", :alt="`${$t('efficacy.hero')}`").hero
         .dialog
-          span(data-i18n="efficacy.pathway_dialog_line1")
+          span {{ $t("efficacy.pathway_dialog_line1") }}
           p
-            span(data-i18n="efficacy.pathway_dialog_line2")
+            span {{ $t("efficacy.pathway_dialog_line2") }}
             br
-            span(data-i18n="efficacy.pathway_dialog_line3")
+            span {{ $t("efficacy.pathway_dialog_line3") }}
 
       .row.pathway-boxes
         .list-item.col.col-lg-3.exploring-creativity
-          h2(data-i18n="efficacy.exploring_creativity")
-          p(data-i18n="efficacy.exploring_creativity_description")
+          h2 {{ $t("efficacy.exploring_creativity") }}
+          p {{ $t("efficacy.exploring_creativity_description") }}
 
         .list-item.col.col-lg-3.essential-skills
-          h2(data-i18n="efficacy.essential_skills")
-          p(data-i18n="efficacy.essential_skills_description")
+          h2 {{ $t("efficacy.essential_skills") }}
+          p {{ $t("efficacy.essential_skills_description") }}
 
         .list-item.col.col-lg-3.fun-engaging
-          h2(data-i18n="efficacy.fun_engaging")
-          p(data-i18n="efficacy.fun_engaging_description")
+          h2 {{ $t("efficacy.fun_engaging") }}
+          p {{ $t("efficacy.fun_engaging_description") }}
 
         .list-item.col.col-lg-3.easy-to-use
-          h2(data-i18n="efficacy.easy_to_use")
-          p(data-i18n="efficacy.easy_to_use_description")
+          h2 {{ $t("efficacy.easy_to_use") }}
+          p {{ $t("efficacy.easy_to_use_description") }}
 
     #graphics-1-back
 
@@ -65,42 +65,42 @@ export default {
     .row.study-boxes
       .col.col-md-6
         .study-box.study-box-mcintosh
-          img(src="/images/pages/efficacy/mcintosh-image.png", data-i18n="[alt]efficacy.mcintosh_middle_school").box-main-image
+          img(src="/images/pages/efficacy/mcintosh-image.png", :alt="`${$t('efficacy.mcintosh_middle_school')}`").box-main-image
           .study-box-inner
             .header
               .image
-                img(src="/images/pages/efficacy/mcintosh-logo.png", data-i18n="[alt]efficacy.mcintosh_middle_school").box-logo
+                img(src="/images/pages/efficacy/mcintosh-logo.png", :alt="`${$t('efficacy.mcintosh_middle_school')}`").box-logo
               .title
-                h2(data-i18n="efficacy.mcintosh_study_title")
-                h3(data-i18n="efficacy.mcintosh_middle_school")
+                h2 {{ $t("efficacy.mcintosh_study_title") }}
+                h3 {{ $t("efficacy.mcintosh_middle_school") }}
             .content
-              p(data-i18n="efficacy.mcintosh_study_description")
-              strong(data-i18n="efficacy.study_highlights_title")
+              p {{ $t("efficacy.mcintosh_study_description") }}
+              strong {{ $t("efficacy.study_highlights_title") }}
               ul
-                li(data-i18n="efficacy.mcintosh_study_highlight_1")
-                li(data-i18n="efficacy.mcintosh_study_highlight_2")
+                li {{ $t("efficacy.mcintosh_study_highlight_1") }}
+                li {{ $t("efficacy.mcintosh_study_highlight_2") }}
               a(href="https://files.ozaria.com/efficacy/Ozaria+Efficacy+Summary+Report+-+McIntosh+MS.pdf", target="_blank").download-button
-                span(data-i18n="efficacy.read_the_study")
+                span {{ $t("efficacy.read_the_study") }}
                 | &nbsp; &rarr;
 
       .col.col-md-6
         .study-box.study-box-mrms
-          img(src="/images/pages/efficacy/mrms-image.png", data-i18n="[alt]efficacy.mountain_ridge_middle_school").box-main-image
+          img(src="/images/pages/efficacy/mrms-image.png", :alt="`${$t('efficacy.mountain_ridge_middle_school')}`").box-main-image
           .study-box-inner
             .header
               .image
-                img(src="/images/pages/efficacy/mrms-logo.png", data-i18n="[alt]efficacy.mountain_ridge_middle_school").box-logo
-              .title
-                h2(data-i18n="efficacy.mrms_study_title")
-                h3(data-i18n="efficacy.mountain_ridge_middle_school")
+                img(src="/images/pages/efficacy/mrms-logo.png", :alt="`${$t('efficacy.mountain_ridge_middle_school')}`").box-logo
+              .title.hello
+                h2 {{ $t("efficacy.mrms_study_title") }}
+                h3 {{ $t("efficacy.mountain_ridge_middle_school") }}
             .content
-              p(data-i18n="efficacy.mrms_study_description")
-              strong(data-i18n="efficacy.study_highlights_title")
+              p {{ $t("efficacy.mrms_study_description") }}
+              strong {{ $t("efficacy.study_highlights_title") }}
               ul
-                li(data-i18n="efficacy.mrms_study_highlight_1")
-                li(data-i18n="efficacy.mrms_study_highlight_2")
+                li {{ $t("efficacy.mrms_study_highlight_1") }}
+                li {{ $t("efficacy.mrms_study_highlight_2") }}
               a(href="https://files.ozaria.com/efficacy/Ozaria+Efficacy+Summary+Report+-+Mountain+Ridge+MS.pdf", target="_blank").download-button
-                span(data-i18n="efficacy.read_the_study")
+                span {{ $t("efficacy.read_the_study") }}
                 | &nbsp; &rarr;
 
     section
@@ -109,39 +109,39 @@ export default {
           .graph-box.graph-box-mcintosh
             .graph-box-inner
               .graph-logo
-                img(src="/images/pages/efficacy/mcintosh-logo.png", data-i18n="[alt]efficacy.mcintosh_middle_school").box-logo
+                img(src="/images/pages/efficacy/mcintosh-logo.png", :alt="`${$t('efficacy.mcintosh_middle_school')}`").box-logo
               .graph-content
                 .big-percent 47%
-                p(data-i18n="efficacy.graph1_description")
+                p {{ $t("efficacy.graph1_description") }}
                 img(src="/images/pages/efficacy/mcintosh-graph.png")
 
         .col.col-md-6
           .graph-box.graph-box-mrms
             .graph-box-inner
               .graph-logo
-                img(src="/images/pages/efficacy/mrms-logo.png", , data-i18n="[alt]efficacy.mountain_ridge_middle_school").box-logo
+                img(src="/images/pages/efficacy/mrms-logo.png", , :alt="`${$t('efficacy.mountain_ridge_middle_school')}`").box-logo
               .graph-content
                 .big-percent 90%
-                p(data-i18n="efficacy.graph2_description")
+                p {{ $t("efficacy.graph2_description") }}
                 img(src="/images/pages/efficacy/mrms-graph.png")
 
     section.full-width.quote-section
       .container
         h1 &ldquo;
-        p(data-i18n="efficacy.quote_section_content")
-        p.small(data-i18n="efficacy.quote_section_footer")
+        p {{ $t("efficacy.quote_section_content") }}
+        p.small {{ $t("efficacy.quote_section_footer") }}
         h1 &rdquo;
 
 
     section.container.teacher-quote
       .bubble
-        p(data-i18n="efficacy.teacher_quote1_content")
+        p {{ $t("efficacy.teacher_quote1_content") }}
         p.small
-          span(data-i18n="efficacy.teacher_quote1_footer1")
+          span {{ $t("efficacy.teacher_quote1_footer1") }}
           br
-          span(data-i18n="efficacy.teacher_quote1_footer2")
+          span {{ $t("efficacy.teacher_quote1_footer2") }}
         .image
-          img(src="/images/pages/efficacy/teacher-1.png", data-i18n="[alt]efficacy.teacher")
+          img(src="/images/pages/efficacy/teacher-1.png", :alt="`${$t('efficacy.teacher')}`")
 
 
     section.student-quote
@@ -151,42 +151,42 @@ export default {
           img.ladder-image(src="/images/pages/efficacy/student-quote-ladder.png")
         .col.col-md-6.content
           h1 &ldquo;
-          p(data-i18n="efficacy.student_quote_content")
-          p.small(data-i18n="efficacy.student_quote_footer")
+          p {{ $t("efficacy.student_quote_content") }}
+          p.small {{ $t("efficacy.student_quote_footer") }}
           h1 &rdquo;
 
     section.container.teacher-quote
       .bubble
-        p(data-i18n="efficacy.teacher_quote2_content")
+        p {{ $t("efficacy.teacher_quote2_content") }}
         p.small
-          span(data-i18n="efficacy.teacher_quote2_footer1")
+          span {{ $t("efficacy.teacher_quote2_footer1") }}
           br
-          span(data-i18n="efficacy.teacher_quote2_footer2")
+          span {{ $t("efficacy.teacher_quote2_footer2") }}
         .image
-          img(src="/images/pages/efficacy/teacher-2.png", data-i18n="[alt]efficacy.teacher")
+          img(src="/images/pages/efficacy/teacher-2.png", :alt="`${$t('efficacy.teacher')}`")
 
     section.full-width.section-commitment
       .container
-        h2(data-i18n="efficacy.commitment_title")
-        p(data-i18n="efficacy.commitment_description")
-        p.question(data-i18n="efficacy.commitment_question")
-        a(@click="onClickContact", data-i18n="general.contact_us")
+        h2 {{ $t("efficacy.commitment_title") }}
+        p {{ $t("efficacy.commitment_description") }}
+        p.question {{ $t("efficacy.commitment_question") }}
+        a(@click="onClickContact") {{ $t("general.contact_us") }}
 
     section.teachers-love
       .container
-        h2(data-i18n="efficacy.teachers_love_codecombat")
-        p(data-i18n="efficacy.teachers_love_description")
+        h2 {{ $t("efficacy.teachers_love_codecombat") }}
+        p {{ $t("efficacy.teachers_love_description") }}
         .row.teachers-love-boxes
           .col.col-md-4.teachers-love-box
             h3 99%
-            p(data-i18n="efficacy.teachers_love_box1")
+            p {{ $t("efficacy.teachers_love_box1") }}
           .col.col-md-4.teachers-love-box
             h3 95%
-            p(data-i18n="efficacy.teachers_love_box2")
+            p {{ $t("efficacy.teachers_love_box2") }}
           .col.col-md-4.teachers-love-box
             h3 94%
-            p(data-i18n="efficacy.teachers_love_box3")
-        a(href="https://codecombat.com/impact", data-i18n="general.learn_more")
+            p {{ $t("efficacy.teachers_love_box3") }}
+        a(href="https://codecombat.com/impact") {{ $t("general.learn_more") }}
 
     modal-get-licenses(v-if="showModalGetLicenses" @close="showModalGetLicenses = false" subtitle="To get licenses for our research-backed curriculum, send us a message and our classroom success team will be in touch!" email-message="Hi Ozaria! I'm interested in learning more about Ozaria's research-backed computer science curriculum.")
 </template>
