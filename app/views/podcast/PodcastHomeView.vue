@@ -1,8 +1,10 @@
 <template>
-  <div class="podcast">
-    <head-component :key="keyVal" />
-    <body-component :key="componentKey" />
-    <footer-component :key="componentKey" />
+  <div>
+    <div class="podcast">
+      <head-component />
+      <body-component />
+      <footer-component />
+    </div>
   </div>
 </template>
 

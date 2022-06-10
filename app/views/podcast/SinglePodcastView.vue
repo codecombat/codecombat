@@ -1,20 +1,22 @@
 <template>
-  <div class="single-podcast" v-if="loaded">
-    <head-component
-      :podcast="podcast"
-    />
-    <episode-component
-      :podcast="podcast"
-    />
-    <guest-info-component
-      :guest-details="podcast.guestDetails"
-      :guest-image="podcast.guestImage"
-    />
-    <div class="all-podcasts">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-offset-1 col-md-11">
-            <a href="/podcast" class="all-podcasts__link">View All Episodes</a>
+  <div>
+    <div class="single-podcast" v-if="loaded">
+      <head-component
+        :podcast="podcast"
+      />
+      <episode-component
+        :podcast="podcast"
+      />
+      <guest-info-component
+        :guest-details="podcast.guestDetails"
+        :guest-image="podcast.guestImage"
+      />
+      <div class="all-podcasts">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-offset-1 col-md-11">
+              <router-link :to="{ name: 'AllPodcasts' }" class="all-podcasts__link">View All Episodes</router-link>
+            </div>
           </div>
         </div>
       </div>
