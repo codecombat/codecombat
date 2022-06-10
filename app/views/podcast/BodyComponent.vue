@@ -7,7 +7,7 @@
       >
         <div class="container">
           <div class="row">
-            <router-link :to="{ name: 'PodcastSingle', params: { podcastId: podcast.slug } }">
+            <router-link :to="{ name: 'PodcastSingle', params: { handle: podcast.slug } }">
               <div class="col-sm-6 podcast-item__info">
                 <div class="podcast-content__date">
                   {{ podcast.uploadDate }}
@@ -48,6 +48,8 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import AudioPlayerComponent from './AudioPlayerComponent'
+import { fullFileUrl } from './podcastHelper'
+
 export default {
   name: 'BodyComponent',
   components: {
@@ -56,7 +58,6 @@ export default {
   data () {
     return {
       podcastsLoaded: false,
-      podcasts: [],
       showPlayModal: null
     }
   },
@@ -70,11 +71,11 @@ export default {
     },
     onDownloadClick (podcast) {
       console.log('download', podcast)
-      window.open(podcast.audio.mp3, '_blank').focus()
+      window.open(fullFileUrl(podcast.audio.mp3), '_blank').focus()
     },
     onTranscriptClick (podcast) {
       console.log('transcript', podcast)
-      window.open(podcast.transcriptUrl, '_blank').focus()
+      window.open(fullFileUrl(podcast.transcript), '_blank').focus()
     }
   },
   computed: {
@@ -83,6 +84,7 @@ export default {
     })
   },
   async created () {
+    console.log('fetching all podcasts', this.podcastsLoaded)
     await this.fetchAllPodcasts()
 
     this.podcastsLoaded = true

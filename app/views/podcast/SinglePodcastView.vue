@@ -10,6 +10,15 @@
       :guest-details="podcast.guestDetails"
       :guest-image="podcast.guestImage"
     />
+    <div class="all-podcasts">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-offset-1 col-md-11">
+            <a href="/podcast" class="all-podcasts__link">View All Episodes</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -58,5 +67,12 @@ export default {
   font-size: 62.5%;
 
   padding: 5rem;
+
+  .all-podcasts {
+    padding-top: 2rem;
+    &__link {
+      font-size: 1.8rem;
+    }
+  }
 }
 </style>

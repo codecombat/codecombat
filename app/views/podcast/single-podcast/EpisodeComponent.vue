@@ -46,6 +46,7 @@
 
 <script>
 import AudioPlayerComponent from '../AudioPlayerComponent'
+import { fullFileUrl } from '../podcastHelper'
 export default {
   name: 'EpisodeComponent',
   props: {
@@ -69,14 +70,11 @@ export default {
     },
     onDownloadClick (podcast) {
       console.log('download', podcast)
-      window.open(this.fullFileUrl(podcast.audio.mp3), '_blank').focus()
+      window.open(fullFileUrl(podcast.audio.mp3), '_blank').focus()
     },
     onTranscriptClick (podcast) {
       console.log('transcript', podcast)
-      window.open(this.fullFileUrl(podcast.transcript), '_blank').focus()
-    },
-    fullFileUrl (relativePath) {
-      return `${window.location.protocol}//${window.location.host}/file/${relativePath}`
+      window.open(fullFileUrl(podcast.transcript), '_blank').focus()
     }
   }
 }

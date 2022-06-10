@@ -15,8 +15,7 @@ export default {
   name: 'AudioPlayerComponent',
   props: {
     transistorEpisodeId: {
-      type: String,
-      required: true
+      type: String
     }
   },
   components: {
