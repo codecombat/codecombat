@@ -8,6 +8,7 @@ const PodcastSchema = schema.object(
   {
     name: schema.shortString(),
     description: { type: 'string', format: 'markdown' },
+    shortDescription: { type: 'string', format: 'markdown' },
     guestName: schema.shortString(),
     guestDetails: { type: 'string', format: 'markdown' },
     guestImage: { type: 'string', format: 'image-file' },

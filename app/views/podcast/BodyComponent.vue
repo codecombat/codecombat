@@ -15,6 +15,9 @@
                 <div class="podcast-content__title">
                   {{ podcast.name }}
                 </div>
+                <div class="podcast-content__subtitle" v-if="podcast.shortDescription">
+                  {{ podcast.shortDescription }}
+                </div>
               </div>
             </router-link>
 
@@ -100,11 +103,22 @@ export default {
   &__title {
     font-weight: 700;
     font-size: 3rem;
+
+    color: #000;
+  }
+
+  &__subtitle {
+    font-size: 2rem;
+    color: #000;
+
+    padding-top: 1rem;
   }
 
   &__date {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: #777777;
+
+    font-weight: 700;
   }
 
   &__icon {
