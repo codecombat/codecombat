@@ -55,10 +55,8 @@ export default {
   },
   async created () {
     const handle = this.$route.params.handle
-    console.log('ppid', handle)
     await this.fetchPodcast({ podcastId: handle  })
     this.podcast = this.getPodcast(handle)
-    console.log('podcast', this.podcast)
     this.loaded = true
   }
 }

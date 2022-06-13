@@ -15,7 +15,6 @@ export default {
     },
     setPodcast (state, podcast) {
       const index = state.podcasts.findIndex(p => p.id === podcast.id)
-      console.log('state', state.podcasts, index, podcast)
       if (index === -1) {
         state.podcasts.push(podcast)
       } else {
@@ -40,7 +39,6 @@ export default {
       commit('setLoading', false)
     },
     async fetch ({ commit }, { podcastId }) {
-      console.log('fetch get', podcastId)
       const podcast = await getPodcast(podcastId)
       commit('setPodcast', podcast)
     }

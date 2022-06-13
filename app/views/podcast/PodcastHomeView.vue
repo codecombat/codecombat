@@ -18,22 +18,6 @@ export default {
     HeadComponent,
     BodyComponent,
     FooterComponent
-  },
-  data () {
-    return {
-      keyVal: Date.now(),
-      componentKey: 0
-    }
-  },
-  created () {
-    console.log('update called')
-    this.keyVal = Date.now()
-    this.componentKey = Math.random()
-  },
-  methods: {
-    forceRerender() {
-      this.componentKey += 1;
-    }
   }
 }
 </script>

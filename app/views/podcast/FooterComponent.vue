@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     letsChatClicked () {
-      console.log('lets chat clicked')
       this.showLetsChatModal = true
     }
   }

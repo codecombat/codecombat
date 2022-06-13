@@ -41,7 +41,6 @@ export default {
   },
   methods: {
     onSubscribeClick () {
-      console.log('subscribed click')
       this.showSubscribeModal = true
     }
   }

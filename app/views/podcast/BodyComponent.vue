@@ -8,7 +8,7 @@
         <div class="container">
           <div class="row">
             <router-link :to="{ name: 'PodcastSingle', params: { handle: podcast.slug } }">
-              <div class="col-sm-6 podcast-item__info">
+              <div class="col-md-6 podcast-item__info">
                 <div class="podcast-content__date">
                   {{ getUploadDate(podcast.uploadDate) }}
                 </div>
@@ -21,15 +21,15 @@
               </div>
             </router-link>
 
-            <div class="col-sm-2 podcast-item__btn-info" @click="() => onListenClick(podcast)">
+            <div class="col-md-2 podcast-item__btn-info" @click="() => onListenClick(podcast)">
               <img src="/images/pages/podcast/icons/IconPlay.svg" alt="Listen Icon" class="podcast-content__play-icon podcast-content__icon">
               <span class="podcast-content__listen podcast-content__btn-text">{{ $t('podcast.listen') }}</span>
             </div>
-            <div class="col-sm-2 podcast-item__btn-info" @click="() => onDownloadClick(podcast)">
+            <div class="col-md-2 podcast-item__btn-info" @click="() => onDownloadClick(podcast)">
               <img src="/images/pages/podcast/icons/IconDownload.svg" alt="Download Icon" class="podcast-content__download-icon podcast-content__icon">
               <span class="podcast-content__listen podcast-content__btn-text">{{ $t('podcast.download') }}</span>
             </div>
-            <div class="col-sm-2 podcast-item__btn-info" @click="() => onTranscriptClick(podcast)">
+            <div class="col-md-2 podcast-item__btn-info" @click="() => onTranscriptClick(podcast)">
               <img src="/images/pages/podcast/icons/IconTranscript.svg" alt="Transcript Icon" class="podcast-content__transcript-icon podcast-content__icon">
               <span class="podcast-content__listen podcast-content__btn-text">{{ $t('podcast.transcript') }}</span>
             </div>
@@ -71,15 +71,12 @@ export default {
       'fetchAllPodcasts': 'podcasts/fetchAll'
     }),
     onListenClick (podcast) {
-      console.log('listen', podcast, this.showPlayModal)
       this.showPlayModal = podcast._id
     },
     onDownloadClick (podcast) {
-      console.log('download', podcast)
       window.open(fullFileUrl(podcast.audio.mp3), '_blank').focus()
     },
     onTranscriptClick (podcast) {
-      console.log('transcript', podcast)
       window.open(fullFileUrl(podcast.transcript), '_blank').focus()
     }
   },
@@ -89,7 +86,6 @@ export default {
     })
   },
   async created () {
-    console.log('fetching all podcasts', this.podcastsLoaded)
     await this.fetchAllPodcasts()
 
     this.podcastsLoaded = true
