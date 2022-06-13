@@ -5,7 +5,7 @@ class PodcastSearchView extends SearchView {
   modelLabel = 'Podcast'
   model = require('models/Podcast')
   modelURL = '/db/podcast'
-  tableTemplate = require('app/templates/editor/course/table')
+  tableTemplate = require('app/templates/common/table')
   projection = ['name', 'description']
   page = 'podcast'
   canMakeNew = true
