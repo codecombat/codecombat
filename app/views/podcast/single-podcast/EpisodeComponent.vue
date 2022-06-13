@@ -8,7 +8,7 @@
               {{ $t('podcast.air_date') }}
             </div>
             <div class="episode__air-date-date">
-              {{ podcast.uploadDate }}
+              {{ getUploadDate(podcast.uploadDate) }}
             </div>
           </div>
           <div class="episode__subscribe">
@@ -47,6 +47,7 @@
 <script>
 import AudioPlayerComponent from '../AudioPlayerComponent'
 import { fullFileUrl } from '../podcastHelper'
+import uploadDateMixin from '../uploadDateMixin'
 export default {
   name: 'EpisodeComponent',
   props: {
@@ -63,6 +64,7 @@ export default {
       showPlayModal: false,
     }
   },
+  mixins: [ uploadDateMixin ],
   methods: {
     onListenClick (podcast) {
       console.log('listen', podcast, this.showPlayModal)

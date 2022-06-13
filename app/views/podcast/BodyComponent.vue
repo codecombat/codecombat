@@ -10,7 +10,7 @@
             <router-link :to="{ name: 'PodcastSingle', params: { handle: podcast.slug } }">
               <div class="col-sm-6 podcast-item__info">
                 <div class="podcast-content__date">
-                  {{ podcast.uploadDate }}
+                  {{ getUploadDate(podcast.uploadDate) }}
                 </div>
                 <div class="podcast-content__title">
                   {{ podcast.name }}
@@ -49,6 +49,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import AudioPlayerComponent from './AudioPlayerComponent'
 import { fullFileUrl } from './podcastHelper'
+import uploadDateMixin from './uploadDateMixin'
 
 export default {
   name: 'BodyComponent',
@@ -61,6 +62,7 @@ export default {
       showPlayModal: null
     }
   },
+  mixins: [ uploadDateMixin ],
   methods: {
     ...mapActions({
       'fetchAllPodcasts': 'podcasts/fetchAll'
