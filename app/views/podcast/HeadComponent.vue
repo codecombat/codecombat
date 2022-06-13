@@ -15,17 +15,36 @@
             {{ $t('podcast.explores_stem') }}
           </div>
           <div class="podcast-head__subscribe">
-            <button class="btn btn-subscribe podcast-btn-yellow">{{ $t('podcast.subscribe') }}</button>
+            <button class="btn btn-subscribe podcast-btn-yellow" @click="onSubscribeClick">{{ $t('podcast.subscribe') }}</button>
           </div>
         </div>
       </div>
     </div>
+    <subscribe-modal
+      @close="showSubscribeModal = false"
+      v-if="showSubscribeModal"
+    />
   </div>
 </template>
 
 <script>
+import SubscribeModal from './SubscribeModal'
 export default {
-  name: 'HeadComponent'
+  name: 'HeadComponent',
+  components: {
+    SubscribeModal
+  },
+  data () {
+    return {
+      showSubscribeModal: false
+    }
+  },
+  methods: {
+    onSubscribeClick () {
+      console.log('subscribed click')
+      this.showSubscribeModal = true
+    }
+  }
 }
 </script>
 

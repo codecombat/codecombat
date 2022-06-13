@@ -11,7 +11,7 @@
               {{ getUploadDate(podcast.uploadDate) }}
             </div>
           </div>
-          <div class="episode__subscribe">
+          <div class="episode__subscribe" @click="onSubscribeClick">
             {{ $t('podcast.subscribe') }}+
           </div>
         </div>
@@ -41,11 +41,16 @@
       v-if="showPlayModal"
       @close="showPlayModal = false"
     />
+    <subscribe-modal
+      v-if="showSubscribeModal"
+      @close="showSubscribeModal = false"
+    />
   </div>
 </template>
 
 <script>
 import AudioPlayerComponent from '../AudioPlayerComponent'
+import SubscribeModal from '../SubscribeModal'
 import { fullFileUrl } from '../podcastHelper'
 import uploadDateMixin from '../uploadDateMixin'
 export default {
@@ -57,11 +62,13 @@ export default {
     }
   },
   components: {
-    AudioPlayerComponent
+    AudioPlayerComponent,
+    SubscribeModal
   },
   data () {
     return {
       showPlayModal: false,
+      showSubscribeModal: false
     }
   },
   mixins: [ uploadDateMixin ],
@@ -77,6 +84,9 @@ export default {
     onTranscriptClick (podcast) {
       console.log('transcript', podcast)
       window.open(fullFileUrl(podcast.transcript), '_blank').focus()
+    },
+    onSubscribeClick () {
+      this.showSubscribeModal = true
     }
   }
 }
