@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     pacing_guides_high: "Водич за средњу школу"
     getting_started: "Започињање"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
     educator_faq: "Често постављена питања (FAQ) едукатора"
