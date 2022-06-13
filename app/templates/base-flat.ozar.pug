@@ -35,52 +35,53 @@
               .col-md-12
                 .row
                   img.img-responsive.ozaria-watermark(src="/images/ozaria/layout/footer/OzariaWordmark_White_325px.png" alt="Ozaria by CodeCombat logo")
-                .row
-                  .col-md-6.col-md-offset-2.col-sm-12
-                    h2.subtitile-moon(data-i18n="nav.general")
-                    ul.list-unstyled
-                      if !me.showChinaResourceInfo()
+                if !getQueryVariable('landing', false)
+                  .row
+                    .col-md-6.col-md-offset-2.col-sm-12
+                      h2.subtitile-moon(data-i18n="nav.general")
+                      ul.list-unstyled
+                        if !me.showChinaResourceInfo()
+                          li
+                            a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                         li
-                          a.contact-modal(tabindex=-1, data-i18n="nav.contact")
-                      li
-                        - var aboutURL = me.showChinaResourceInfo() ? 'https://koudashijie.com/about' : 'https://codecombat.com/about';
-                        a(href=aboutURL, data-i18n="nav.about", data-event-action="Click: Footer About")
-                      li
-                        - var faqURL = "/teachers/resources/faq";
-                        - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
-                        -     faqURL += "-nl-NL";
-                        - if (me.get('preferredLanguage') == 'he')
-                        -     faqURL += "-HE";
-                        - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-                        -     faqURL += "-pt-BR";
-                        - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-                        -     faqURL += "-zh-HANS";
-                        a(href=faqURL data-i18n="nav.faq", data-event-action="Click: Footer FAQ")
-                      li
-                        a(href="http://press.ozaria.com" data-i18n="nav.press" data-event-action="Click: Footer Press")
-                      if me.showChinaResourceInfo()
+                          - var aboutURL = me.showChinaResourceInfo() ? 'https://koudashijie.com/about' : 'https://codecombat.com/about';
+                          a(href=aboutURL, data-i18n="nav.about", data-event-action="Click: Footer About")
                         li
-                          a(href="https://ozaria.com") 奥佳睿全球官网
+                          - var faqURL = "/teachers/resources/faq";
+                          - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                          -     faqURL += "-nl-NL";
+                          - if (me.get('preferredLanguage') == 'he')
+                          -     faqURL += "-HE";
+                          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                          -     faqURL += "-pt-BR";
+                          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                          -     faqURL += "-zh-HANS";
+                          a(href=faqURL data-i18n="nav.faq", data-event-action="Click: Footer FAQ")
                         li
-                          a(href="https://koudashijie.com" data-i18n="nav.return_coco" data-event-action="Click: Footer Return to CodeCombat")
-                        li
-                          a(href="http://beian.miit.gov.cn/") 京ICP备19012263号-7
-                      else
-                        li
-                          a(href="https://codecombat.com" data-i18n="nav.return_coco" data-event-action="Click: Footer Return to CodeCombat")
+                          a(href="http://press.ozaria.com" data-i18n="nav.press" data-event-action="Click: Footer Press")
+                        if me.showChinaResourceInfo()
+                          li
+                            a(href="https://ozaria.com") 奥佳睿全球官网
+                          li
+                            a(href="https://koudashijie.com" data-i18n="nav.return_coco" data-event-action="Click: Footer Return to CodeCombat")
+                          li
+                            a(href="http://beian.miit.gov.cn/") 京ICP备19012263号-7
+                        else
+                          li
+                            a(href="https://codecombat.com" data-i18n="nav.return_coco" data-event-action="Click: Footer Return to CodeCombat")
 
-                  .col-md-4.col-sm-12
-                    if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
-                      h2.subtitile-moon(data-i18n="nav.follow_us")
-                      div.social-buttons
-                        a(href="https://www.youtube.com/channel/UCU7Wh4ME_G-_C-8qrQuPNyA", target="_blank", data-event-action="Click: Footer Youtube" rel="noreferrer")
-                          img(src="/images/pages/base/youtube_symbol_button.png", width="40" alt="Youtube")
-                        a(href="https://twitter.com/playozaria", target="_blank", data-event-action="Click: Footer Twitter" rel="noreferrer")
-                          img(src="/images/pages/base/twitter_logo_btn.png", width="40" alt="Twitter")
-                        a(href="https://www.facebook.com/playozaria", target="_blank", data-event-action="Click: Footer Facebook" rel="noreferrer")
-                          img(src="/images/pages/base/facebook_logo_btn.png", width="40" alt="Facebook")
-                        a(href="https://www.instagram.com/playozaria/", target="_blank", data-event-action="Click: Footer Instagram" rel="noreferrer")
-                          img(src="/images/pages/base/instagram-logo.png", width="40" alt="Instagram")
+                    .col-md-4.col-sm-12
+                      if !me.showingStaticPagesWhileLoading() && me.useSocialSignOn()
+                        h2.subtitile-moon(data-i18n="nav.follow_us")
+                        div.social-buttons
+                          a(href="https://www.youtube.com/channel/UCU7Wh4ME_G-_C-8qrQuPNyA", target="_blank", data-event-action="Click: Footer Youtube" rel="noreferrer")
+                            img(src="/images/pages/base/youtube_symbol_button.png", width="40" alt="Youtube")
+                          a(href="https://twitter.com/playozaria", target="_blank", data-event-action="Click: Footer Twitter" rel="noreferrer")
+                            img(src="/images/pages/base/twitter_logo_btn.png", width="40" alt="Twitter")
+                          a(href="https://www.facebook.com/playozaria", target="_blank", data-event-action="Click: Footer Facebook" rel="noreferrer")
+                            img(src="/images/pages/base/facebook_logo_btn.png", width="40" alt="Facebook")
+                          a(href="https://www.instagram.com/playozaria/", target="_blank", data-event-action="Click: Footer Instagram" rel="noreferrer")
+                            img(src="/images/pages/base/instagram-logo.png", width="40" alt="Instagram")
 
       #final-footer
         if me.showChinaResourceInfo()

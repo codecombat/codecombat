@@ -240,6 +240,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     get_involved: "Get Involved"
     open_source: "Open source (GitHub)"
     support: "Support"
+    faq: 'FAQ'
     faqs: "FAQs"
     copyright_prefix: "Copyright"
     copyright_suffix: "All Rights Reserved."
@@ -1980,6 +1981,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     pacing_guides_high: "High School Pacing Guide"
     getting_started: "Getting Started"
     student_resources: "Student Resources"
+    curriculum: "Curriculum"
     lesson_slides: "Lesson Slides"
     section: "Section"
     educator_faq: "Educator FAQ"

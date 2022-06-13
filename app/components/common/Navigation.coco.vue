@@ -6,7 +6,8 @@
     OZARIA_CHINA,
     isOldBrowser,
     isCodeCombat,
-    isOzaria
+    isOzaria,
+    getQueryVariable
   } from 'core/utils'
 
   /**
@@ -55,6 +56,10 @@
         return `${document.location.protocol}//${document.location.host}`
           .replace(CODECOMBAT, OZARIA)
           .replace(CODECOMBAT_CHINA, OZARIA_CHINA)
+      },
+
+      hideNav () {
+        return getQueryVariable('landing', false)
       }
     },
 
@@ -144,7 +149,7 @@
                 img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
               a.navbar-brand(v-else-if="me.showChinaResourceInfo()" href="/home")
                 img#logo-img(src="/images/pages/base/logo-en+cn.png" alt="CodeCombat logo")
-              a.navbar-brand(v-else href="/home")
+              a.navbar-brand(v-else :href="hideNav ? '#' : '/home'")
                 img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
 
             .navbar-browser-recommendation.navbar-header(v-if="isOldBrowser")
@@ -154,7 +159,7 @@
 
             #navbar-collapse.collapse.navbar-collapse
               .nav-spacer
-              ul.nav.navbar-nav(v-if="!me.hideTopRightNav()")
+              ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
                 template(v-if="me.showChinaResourceInfo()")
                   li
                     a.text-p(href="https://blog.koudashijie.com") {{ $t('nav.blog') }}
@@ -264,7 +269,7 @@
                     li
                       a.account-dropdown-item#logout-button {{ $t('login.log_out') }}
 
-              ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous()")
+              ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
                 li
                   a#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
                 li
@@ -412,6 +417,7 @@
   .language-dropdown {
     max-height: 60vh;
     overflow-y: auto;
+    left: -55px;
   }
 
   #navbar-collapse {
