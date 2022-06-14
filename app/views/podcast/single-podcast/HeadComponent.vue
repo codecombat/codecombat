@@ -65,7 +65,7 @@ export default {
     word-spacing: .8rem;
     letter-spacing: .2rem;
     &-title {
-      width: 70%;
+      width: 90%;
     }
     &-guest {
       font-weight: bold;
