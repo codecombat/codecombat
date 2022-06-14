@@ -16,6 +16,7 @@ const PodcastSchema = schema.object(
     uploadDate: schema.date(),
     transistorEpisodeId: schema.shortString(),
     audio: schema.sound(),
+    visible: { type: 'boolean', format: 'checkbox', description: 'toggles from podcast home page' },
     i18n: { type: 'object', format: 'i18n', props: ['name', 'description', 'shortDescription', 'guestName', 'guestDetails'] }
   }
 )

@@ -5,7 +5,7 @@
         class="podcast-item"
         v-for="podcast in allPodcasts"
       >
-        <div class="container">
+        <div class="container" v-if="podcast.visible">
           <div class="row">
             <router-link :to="{ name: 'PodcastSingle', params: { handle: podcast.slug } }">
               <div class="col-md-6 podcast-item__info">
