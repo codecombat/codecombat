@@ -21,17 +21,11 @@
               </div>
             </router-link>
 
-            <div class="col-md-2 podcast-item__btn-info" @click="() => onListenClick(podcast)">
-              <img src="/images/pages/podcast/icons/IconPlay.svg" alt="Listen Icon" class="podcast-content__play-icon podcast-content__icon">
-              <span class="podcast-content__listen podcast-content__btn-text">{{ $t('podcast.listen') }}</span>
-            </div>
-            <div class="col-md-2 podcast-item__btn-info" @click="() => onDownloadClick(podcast)">
-              <img src="/images/pages/podcast/icons/IconDownload.svg" alt="Download Icon" class="podcast-content__download-icon podcast-content__icon">
-              <span class="podcast-content__listen podcast-content__btn-text">{{ $t('podcast.download') }}</span>
-            </div>
-            <div class="col-md-2 podcast-item__btn-info" @click="() => onTranscriptClick(podcast)">
-              <img src="/images/pages/podcast/icons/IconTranscript.svg" alt="Transcript Icon" class="podcast-content__transcript-icon podcast-content__icon">
-              <span class="podcast-content__listen podcast-content__btn-text">{{ $t('podcast.transcript') }}</span>
+            <div class="col-md-6 podcast-item__player">
+              <iframe :src="transistorUrl(podcast)"
+                      width='100%' height='180' frameborder='0' scrolling='no'
+                      seamless='true' style='width:100%; height:180px;'>
+              </iframe>
             </div>
           </div>
           <audio-player-component
@@ -78,6 +72,9 @@ export default {
     },
     onTranscriptClick (podcast) {
       window.open(fullFileUrl(podcast.transcript), '_blank').focus()
+    },
+    transistorUrl (podcast) {
+      return `https://share.transistor.fm/e/${podcast.transistorEpisodeId}/dark`
     }
   },
   computed: {
@@ -159,6 +156,10 @@ export default {
     top: 2rem;
 
     cursor: pointer;
+  }
+
+  &__player {
+    padding: 1rem;
   }
 }
 </style>
