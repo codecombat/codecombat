@@ -1286,11 +1286,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     jobs_title: "Pbzr jbex jvgu hf naq uryc jevgr PbqrPbzong uvfgbel!"
     jobs_subtitle: """Qba'g frr n tbbq svg ohg vagrerfgrq va xrrcvat va gbhpu? Frr bhe "Perngr Lbhe Bja" yvfgvat."""
     jobs_benefits: "Rzcyblrr Orarsvgf"
-    jobs_benefit_4: "Syrkvoyr ubhef, hayvzvgrq inpngvba"  # {punatr}
+    jobs_benefit_4: "Syrkvoyr ubhef, hayvzvgrq inpngvba"
     jobs_benefit_5: "$1000/le cebsrffvbany qrirybczrag naq pbagvahvat rqhpngvba fhccbeg"
-    jobs_benefit_6: "Zrqvpny (tbyq), qragny, ivfvba, 401X"  # {punatr}
+    jobs_benefit_6: "Zrqvpny (tbyq), qragny, ivfvba, 401X"
     jobs_benefit_9: "10-lrne bcgvba rkrepvfr jvaqbj"
-    jobs_benefit_11: "12 jrrxf cnvq cneragny yrnir"  # {punatr}
+    jobs_benefit_11: "12 jrrxf cnvq cneragny yrnir"
     jobs_benefit_12: "$50/zb vagrearg & ovm freivprf orarsvg"
     jobs_benefit_13: "$50/zb urnygu naq jryyarff orarsvg"
     jobs_benefit_14: "100% qvfgevohgrq grnz"
@@ -1313,6 +1313,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   teachers:
     licenses_needed: "Yvprafrf arrqrq"
+    programming_language_edit_desc_new: "Vs lbh punatr gur cebtenzzvat ynathntr, lbhe fghqragf' cebterff va gur byq ynathntr jvyy or uvqqra, naq gurl jvyy unir gb fgneg bire va gur arj ynathntr. Jr erpbzzraq perngvat n arj pynff sbe gur fnzr fghqragf."
 
   special_offer:
     special_offer: "Fcrpvny Bssre"
@@ -3425,6 +3426,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     lava_lake: "Ynin Ynxr"
     desert_duel: "Qrfreg Qhry"
     sandstorm: "Fnaqfgbez"
+    season_label: "Frnfba __frnfbaAhzore__: __frnfbaAnzr__"
     season_1: "Sbetrq va Synzr"
     season_2: "Fcryyf bs Sbeghar"
     season_3: "Gvgna Ntr"
@@ -3548,6 +3550,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     invalidPhone: 'Vainyvq cubar ahzore'
     emailExists: 'Rznvy nyernql rkvfgf'
     numberGreaterThanZero: 'Fubhyq or n ahzore terngre guna 0'
+    requireValidEmail: 'Cyrnfr ragre n inyvq rznvy nqqerff.'
+    requireValidPhone: 'Cyrnfr ragre n inyvq cubar ahzore, vapyhqvat nern pbqr.'
 
   teacher_dashboard:
     read: 'Ivrj Bayl'

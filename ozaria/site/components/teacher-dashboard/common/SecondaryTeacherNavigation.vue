@@ -93,7 +93,7 @@
         aria-labelledby="ClassesDropdown"
       >
         <li :class="allClassesSelected ? 'selected': null">
-          <router-link tag="a" to="/teachers" class="dropdown-item underline-item" @click.native="trackEvent" data-action="All Classes: Nav Clicked">
+          <router-link tag="a" to="/teachers" class="dropdown-item underline-item" @click.native="trackEvent" data-action="All Classes: Nav Clicked" data-toggle="dropdown">
             {{ $t('teacher_dashboard.all_classes') }}
           </router-link>
         </li>
@@ -108,6 +108,7 @@
             class="dropdown-item"
             @click.native="trackEvent"
             data-action="Track Progress: Nav Clicked"
+            data-toggle="dropdown"
             :data-label="$route.path"
           >
             {{ classroom.name }}
@@ -147,6 +148,7 @@
             class="dropdown-item"
             @click.native="trackEvent"
             data-action="Student Projects: Nav Clicked"
+            data-toggle="dropdown"
           >
             {{ classroom.name }}
           </router-link>

@@ -91,7 +91,15 @@ export default function getVueRouter () {
           path: '/ed-link/login-redirect',
           component: () => import(/* webpackChunkName: "edLinkRedirectView" */'app/views/user/EdLinkRedirectView'),
           props: (route) => ({ ...route.query, ...route.params })
-        }
+        },
+        {
+          path: '/teachers/licenses',
+          component: () => import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/StudentLicensesMainComponent')
+        },
+        {
+          path: '/teachers/resources_new',
+          component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue'),
+        },
       ],
       scrollBehavior(to) {
         const scroll = {}

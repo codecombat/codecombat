@@ -1550,7 +1550,10 @@ module.exports = class CampaignView extends RootView
       return @campaign?.get('slug') is 'game-dev-hoc'
 
     if what is 'santa-clara-logo'
-      return userUtils.isInLibraryNetwork()
+      return userUtils.libraryName() is 'santa-clara'
+
+    if what is 'arapahoe-logo'
+      return userUtils.libraryName() is 'arapahoe'
 
     if what is 'league-arena'
       return false if me.showChinaResourceInfo()

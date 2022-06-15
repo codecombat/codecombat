@@ -25,7 +25,7 @@
     { sectionName: 'gettingStarted', slug: 'getting-started', i18nKey: 'teacher.getting_started' },
     { sectionName: 'educatorResources', slug: 'educator-resources', i18nKey: 'new_home.educator_resources' },
     { sectionName: 'studentResources', slug: 'student-resources', i18nKey: 'teacher.student_resources' },
-    { sectionName: 'lessonSlides', slug: 'lesson-slides', i18nKey: 'teacher.lesson_slides' },
+    { sectionName: 'lessonSlides', slug: 'lesson-slides', i18nKey: 'teacher.curriculum' },
     { sectionName: 'faq', slug: 'faq', i18nKey: 'nav.faq' },
   ]
 
@@ -49,6 +49,10 @@
         activeClassrooms: 'teacherDashboard/getActiveClassrooms'
       }),
 
+      supportEmail() {
+        return utils.supportEmail
+      },
+
       resourceHubSections () {
         if(features.chinaInfra) {
           return resourceHubSections.slice(0, 3)
@@ -58,6 +62,12 @@
 
       resourceHubLinks () {
         return (sectionName) => Object.values(this.resourceHubResources).filter((r) => r.section === sectionName).sort(resourceSortFn)
+      },
+
+      relevantCategoryIds(){
+        return {
+          360004950774: 'Ozaria for Educators',
+        }
       }
     },
 
@@ -93,10 +103,7 @@
           return
         }
 
-        const relevantCategoryIds = {
-          360004950774: 'Ozaria for Educators',
-        }
-        const relevantCategories = _.groupBy(_.filter(allResources.categories, (category) => relevantCategoryIds[category.id]), 'id')
+        const relevantCategories = _.groupBy(_.filter(allResources.categories, (category) => this.relevantCategoryIds[category.id]), 'id')
         const relevantSections = _.groupBy(_.filter(allResources.sections, (section) => relevantCategories[section.category_id] && !section.outdated), 'id')
         const articlesBySection = _.groupBy(_.filter(allResources.articles, (article) => relevantSections[article.section_id] && !article.draft), 'section_id')
 
@@ -164,7 +171,7 @@
       <div class="aside">
         <h4>{{ $t('common.table_of_contents') }}</h4>
         <ul>
-          <li v-for="resourceHubSection in resourceHubSections">
+          <li v-for="resourceHubSection in this.resourceHubSections">
             <a v-if="resourceHubLinks(resourceHubSection.sectionName).length" :href="'#' + resourceHubSection.slug">{{ $t(resourceHubSection.i18nKey) }}</a>
           </li>
         </ul>
@@ -173,16 +180,16 @@
         <div class="contact-icon">
           <img src="/images/ozaria/teachers/dashboard/svg_icons/IconMail.svg">
           <a
-            :href="`mailto:${$t('teacher_dashboard.support_oz')}`"
+            :href="`mailto:${supportEmail}`"
             @click="trackEvent('Resource Hub: Support Email Clicked')"
           >
-            {{ $t('teacher_dashboard.support_oz') }}
+            {{ supportEmail }}
           </a>
         </div>
       </div>
 
       <div class="resource-hub">
-        <div class="resource-hub-section" v-for="resourceHubSection in resourceHubSections" :id="resourceHubSection.slug">
+        <div class="resource-hub-section" v-for="resourceHubSection in this.resourceHubSections" :id="resourceHubSection.slug">
         <h4 v-if="resourceHubLinks(resourceHubSection.sectionName).length">
           {{ $t(resourceHubSection.i18nKey) }}
         </h4>
@@ -207,9 +214,6 @@
 </template>
 
 <style lang="scss" scoped>
-#base-resource-hub {
-  margin-bottom: -50px;
-}
 
 .contact-icon {
   display: flex;
@@ -254,6 +258,7 @@
 
   ul a {
     text-decoration: underline;
+    text-transform: capitalize;
   }
 }
 
@@ -265,7 +270,7 @@
 }
 
 .resource-hub {
-  padding: 40px 30px;
+  padding: 40px 30px 0;
 
   .resource-hub-section {
     /* Offset by rough header height so that we don't underscroll the header */
@@ -280,6 +285,7 @@
     line-height: 30px;
     letter-spacing: 0.44px;
     font-weight: 600;
+    text-transform: capitalize;
   }
 }
 

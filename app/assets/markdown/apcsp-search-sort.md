@@ -29,7 +29,7 @@ How quickly will it go? Evaluate based on the expected number of steps, and comp
 - **Linear search from either end**: if the word is before “N”, start at the beginning, otherwise start at the end. Then flip through each page until you find the word.
 - **Random search**: Pick a random page. Check if the word is there. Repeat. (special note here, this will eventually work, but only if the word is in the dictionary, otherwise this algorithm could run forever)
 - **Tabbed search**: Use the letter indicators on the side of the dictionary (or add tabs if there are none) to start from, then do linear search.
-- **Binary search**: Open to the middle of the book. Determine which half of the book the word is in. Take that half, look at its center point, and repeat until you find the word.
+- **Binary search**: Open to the middle of the book. Determine which half of the book the word is in. Take that half, look at its center point, and repeat until you find the word. Note: although this search is often more efficient than sequential/linear searches, the data needs to be sorted first. 
 
 Be sure to talk about at least linear and binary searches. As an activity, give a few students dictionaries and have them “run” searches with some of the algorithms discussed. They can be raced with each other, either in real time, or one page turn at a time. It should be pretty clear that the binary search is the winner.
 
@@ -48,9 +48,12 @@ Q: About how many comparisons does this algorithm make? (A: Just N*W, for N numb
 
 There are other ways we could sort a list that are much slower. Let’s take Bogo Sort as an example. In Bogo Sort, you first check if the list is sorted. If it isn’t, randomize the order. Repeat until the list is sorted. This will not finish in a reasonable amount of time. In fact, this could take an almost infinite amount of time.
 
+There are different ways to assess how efficient an algorithm is at sorting. For example, you can informally measure an algorithm’s efficiency by determining the number of times a statement or group of statements is executed. 
+
 Most ways to sort lists work in a reasonable amount of time, even if they’re slower than others (with the exception of things like Bogo Sort). But for some problems, even the best algorithms are very, very slow. One classic example is the Traveling Salesman problem, where you must find the fastest path that travels through all of a set of points on a map, which can take more than 2^N steps for N points. So 1000 points would take a number of steps too large to type into this page!
 
-The way around that is to find algorithms that can find a good solution, but not necessarily the best solution. By loosening that requirement, we can get much faster results. These methods tend to involve “heuristic functions”, which approximate some part of the algorithm.
+The way around that is to find algorithms that can find a good solution, but not necessarily the best solution. By loosening that requirement, we can get much faster results. These methods tend to involve “heuristic functions”, which approximate some part of the algorithm. A heuristic is an approach to a problem that produces a solution that is not guaranteed to be optimal but may be used when techniques that are guaranteed to always find an optimal solution are impractical. 
+
 
 ### Activity
 

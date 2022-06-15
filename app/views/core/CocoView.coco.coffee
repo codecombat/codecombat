@@ -209,6 +209,7 @@ module.exports = class CocoView extends Backbone.View
     context.serverConfig = window.serverConfig
     context.serverSession = window.serverSession
     context.features = window.features
+    context.getQueryVariable = utils.getQueryVariable
     context
 
   afterRender: ->

@@ -80,7 +80,7 @@ In CodeCombat, using strings and `hero.say()` is useful for communicating with f
 
 ### Instructive Activity: String Chuck (12 mins)
 #### Explain (2 mins)
-Strings are pieces of text inside quotes. The students have been using strings ever since Course 1. For example, in the `buildXY()` function, students use the string `"fence"`, to build a fence as in `hero.buildXY("fence", 34, 30)`. In the `attack()` function, the can choose to attack a chest by passing the string, `"Chest"` as a parameter, with `hero.attack("Chest")`.
+Strings are pieces of text inside quotes, and a substring is part of an existing string. For example “en” is a substring of “enemy.” The students have been using strings ever since Course 1. For example, in the `buildXY()` function, students use the string `"fence"`, to build a fence as in `hero.buildXY("fence", 34, 30)`. In the `attack()` function, the can choose to attack a chest by passing the string, `"Chest"` as a parameter, with `hero.attack("Chest")`.
 
 In these levels, students will need to combine two strings together to form a longer string. In programming, this is referred to as **string concatenation**. The students will learn how to concatenate, or add, two strings together by using the string concatenation operator, `+`.
 
@@ -220,7 +220,9 @@ If student have trouble figuring out an error, ask them to carefully review thei
 ### Summary
 Just like calculators, computers can be used to perform mathematical calculations. In fact, the word computer stems from the act of computing, in a mathematical sense. **Computer arithmetic** is writing code to have a computer perform mathematical operations.
 
-Computers can be used to add, subtract, multiply, and divide numbers. Additionally, they can be used to perform operations on variables representing numbers, and the results of functions that return numbers.
+Computers can be used to add, subtract, multiply, and divide numbers. Additionally, they can be used to perform operations on variables representing numbers, and the results of functions that return numbers. It is important to note that, like calculators, computers apply the order of mathematical operations when evaluating mathematical expressions. 
+
+Here’s the order that you should follow when configuring any mathematical expression:  Parentheses, Exponents, Multiplication and Division (from left to right), Addition and Subtraction (from left to right).
 
 Computer arithmetic is used in these levels to allow the students to dynamically calculate the magic numbers needed to get past a series of wizards. Students will have to edit and run their programs a number of times to get the instructions from each wizard and compute each of the magic numbers.
 

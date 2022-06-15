@@ -714,6 +714,8 @@ module.exports = class User extends CocoModel
     if value is 'beta' and (new Date() - _.find(me.get('experiments') ? [], name: 'm7')?.startDate) > 1 * 24 * 60 * 60 * 1000
       # Experiment only lasts one day so that users don't get stuck in it
       value = 'control'
+    if userUtils.isInLibraryNetwork()
+      value = 'control'
     if not value? and me.get('stats')?.gamesCompleted
       # Don't include players who have already started playing
       value = 'control'

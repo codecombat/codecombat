@@ -26,6 +26,7 @@ store = new Vuex.Store({
     me: require('./modules/me').default,
     courses: require('./modules/courses'),
     game: require('./modules/game'),
+    gameContent: require('./modules/gameContent').default
     schoolAdministrator: require('./modules/schoolAdministrator').default
     clans: require('./modules/clans').default
     classrooms: require('./modules/classrooms').default
@@ -38,7 +39,11 @@ store = new Vuex.Store({
     seasonalLeague: require('./modules/seasonalLeague').default,
     paymentGroups: require('./modules/paymentGroups').default,
     apiClient: require('./modules/apiClient').default,
-    trialRequest: require('./modules/trialRequest').default
+    trialRequest: require('./modules/trialRequest').default,
+    prepaids: require('./modules/prepaids').default,
+    classrooms: require('./modules/classrooms').default,
+    teacherDashboard: require('./modules/teacherDashboard').default,
+    baseCurriculumGuide: require('ozaria/site/store/BaseCurriculumGuide').default
   }
 })
 

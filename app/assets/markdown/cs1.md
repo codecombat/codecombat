@@ -341,7 +341,20 @@ Sample Response:
 #### _(Levels 15 - 17)_
 ### Summary
 
-Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like "School Supplies", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called "School Supplies". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings.  
+Working with variables is like organizing things in shoeboxes. You give the shoebox a name, like "School Supplies", and then you put things inside. The exact contents of the box might change over time, but whatever's inside will always be called "School Supplies". In programming, variables are symbols used to store data that will change over the course of the program. Variables can hold a variety of data types, including numbers and strings. In many programming languages, we need to declare the type of data a variable can store before using it. For example, in JavaScript, a variable named “age” which stores the value 16, has to be declared with the integer data type, by preceding the assignment statement with the word “int”, to not result in errors. It would look like this:
+
+There are many other data types that can be used with variables. These types include numbers, Booleans, lists, and strings. 
+
+The following is a list of the most common data types and what they represent:
+
+| Type      | Description | Example |
+| ----------- | ----------- | ----------- |
+| String (or str or text)      |  for characters, letters, numbers and symbols.       | “43llo” |
+| Integer (or int)   |  for whole numbers        |    44, 6, 9028     |
+| Float (or Real)   |   for numbers that contain decimal points, or fractions.        |    8.443, 3.5, 0.92     |
+| Boolean (or bool)   |  True/False       |    -   |
+
+For further information, share the following article with students: https://www.bbc.co.uk/bitesize/guides/zwmbgk7/revision/3
 
 In these levels, variables are used to name enemies, so that the hero knows which character to attack.
 

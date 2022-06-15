@@ -367,7 +367,7 @@ def out-over-up():
     p2.shoot()
 ```
 
-Then when the coach wants this sequence of actions to happen, she just calls out the name of the play: “Out-over-up!”
+Then when the coach wants this sequence of actions to happen, she just calls out the name of the play: “Out-over-up!”. This practice of grouping different functions to build a program is commonplace in programming. The subdivision of a computer program into separate subprograms is called modularity.
 
 ### Interact (5 mins)
 **Simon Says.**
