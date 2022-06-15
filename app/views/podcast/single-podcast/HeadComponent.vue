@@ -1,14 +1,6 @@
 <template>
   <div class="podcast-head">
     <div class="container">
-      <div class="row podcast-head__frame">
-        <div class="col-md-offset-2 col-md-8">
-          <iframe :src="transistorUrl"
-                  width='100%' height='180' frameborder='0' scrolling='no'
-                  seamless='true' style='width:100%; height:180px;'>
-          </iframe>
-        </div>
-      </div>
       <div class="row">
         <div class="col-md-4 col-xs-4 podcast-head__guest">
           <img :src="`/file/${podcast.guestImage}`" alt="Guest Image" class="podcast-head__guest-img">
@@ -36,21 +28,12 @@ export default {
       type: Object,
       required: true
     }
-  },
-  computed: {
-    transistorUrl () {
-      return `https://share.transistor.fm/e/${this.podcast.transistorEpisodeId}/dark`
-    }
   }
 }
 </script>
 
 <style scoped lang="scss">
 .podcast-head {
-
-  &__frame {
-    padding-bottom: 2rem;
-  }
 
   &__guest {
     text-align: center;

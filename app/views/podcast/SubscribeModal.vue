@@ -27,7 +27,7 @@
             <img src="/images/pages/podcast/subscribe-logos-deezer.png" alt="Deezer" class="subscribe__logo" />
           </a>
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4 podcast-addict">
           <a href="https://podcastaddict.com/podcast/3985051" target="_blank" class="podcast-addict__link">
             <img src="/images/pages/podcast/subscribe-logos-podcast-addict.png" alt="Podcast Addict" class="subscribe__logo" />
             <span class="podcast-addict__text">Podcast Addict</span>
@@ -71,7 +71,7 @@ export default {
 .subscribe {
   &__logo {
     max-width: 100%;
-    max-height: 3rem;
+    max-height: 4rem;
   }
 
   .row {
@@ -79,12 +79,19 @@ export default {
   }
 }
 
-.podcast-addict__text {
-  color: #fc7e0f;
-  font-size: 1.2rem;
+.podcast-addict {
+  text-align: center;
+  &__text {
+    color: #fc7e0f;
+    font-size: 1.4rem;
+  }
+
+  &__link {
+    text-decoration: none;
+  }
 }
 
-.podcast-addict__link {
-  text-decoration: none;
+::v-deep .title {
+  padding-top: 10px;
 }
 </style>

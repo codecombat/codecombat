@@ -1,6 +1,14 @@
 <template>
   <div class="episode">
     <div class="container">
+      <div class="row episode__frame">
+        <div class="col-md-offset-3 col-md-7">
+          <iframe :src="transistorUrl"
+                  width='100%' height='180' frameborder='0' scrolling='no'
+                  seamless='true' style='width:100%; height:180px;'>
+          </iframe>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-offset-1 col-md-2 episode__air">
           <div class="episode__air-date">
@@ -16,9 +24,7 @@
           </div>
         </div>
         <div class="col-md-5 episode__info">
-          <div class="episode__info-description">
-            {{ podcast.description }}
-          </div>
+          <div class="episode__info-description" v-html="formatDescription"></div>
         </div>
         <div class="col-md-4 episode__function">
           <div class="episode__btn-info episode__function-download" @click="() => onDownloadClick(podcast)">
@@ -49,6 +55,7 @@ import AudioPlayerComponent from '../AudioPlayerComponent'
 import SubscribeModal from '../SubscribeModal'
 import { fullFileUrl } from '../podcastHelper'
 import uploadDateMixin from '../uploadDateMixin'
+const marked = require('marked')
 export default {
   name: 'EpisodeComponent',
   props: {
@@ -84,13 +91,21 @@ export default {
     onSubscribeClick () {
       this.showSubscribeModal = true
     }
+  },
+  computed: {
+    transistorUrl () {
+      return `https://share.transistor.fm/e/${this.podcast.transistorEpisodeId}/dark`
+    },
+    formatDescription () {
+      return marked(this.podcast.description)
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
 .episode {
-  padding-top: 6rem;
+  padding-top: 5rem;
 
   &__air {
     &-date {
@@ -179,6 +194,10 @@ export default {
 
   &__btn-info {
     cursor: pointer;
+  }
+
+  &__frame {
+    padding-bottom: 1rem;
   }
 
 }

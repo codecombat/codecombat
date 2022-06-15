@@ -307,7 +307,8 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
-    @vueRouter.push("/#{Backbone.history.getFragment()}")
+    @vueRouter.push("/#{Backbone.history.getFragment()}").catch (e) ->
+      console.error 'vue router push warning:', e
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView

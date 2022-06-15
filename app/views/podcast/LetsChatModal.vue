@@ -76,4 +76,8 @@ export default {
   text-align: initial;
   padding: 2rem;
 }
+
+::v-deep .title {
+  padding-top: 10px;
+}
 </style>

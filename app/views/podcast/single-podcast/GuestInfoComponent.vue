@@ -7,9 +7,7 @@
             <h2 class="guest-info__about-text">
               {{ $t('podcast.about_guest') }}
             </h2>
-            <div class="guest-info__about-desc">
-              {{ guestDetails }}
-            </div>
+            <div class="guest-info__about-desc" v-html="formatGuestDetails"></div>
           </div>
         </div>
         <div class="col-md-5 col-md-offset-1">
@@ -22,6 +20,7 @@
 </template>
 
 <script>
+const marked = require('marked')
 export default {
   name: 'GuestInfoComponent',
   props: {
@@ -32,6 +31,11 @@ export default {
     guestDetails: {
       type: String,
       required: true
+    }
+  },
+  computed: {
+    formatGuestDetails () {
+      return marked(this.guestDetails)
     }
   }
 }
