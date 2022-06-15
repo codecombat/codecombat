@@ -14,7 +14,7 @@ const PodcastSchema = schema.object(
     guestImage: { type: 'string', format: 'image-file' },
     transcript: schema.file(),
     uploadDate: schema.date(),
-    transistorEpisodeId: schema.shortString(),
+    transistorEpisodeId: { type: 'string', maxLength: 50, description: 'Go to transistor Episodes tab in dashboard -> Select episode -> Click social media landing page link -> Copy string you see in the url after https://share.transistor.fm/s/. Example value: 7e35f01c' },
     audio: schema.sound(),
     visible: { type: 'boolean', format: 'checkbox', description: 'toggles from podcast home page' },
     i18n: { type: 'object', format: 'i18n', props: ['name', 'description', 'shortDescription', 'guestName', 'guestDetails'] }
