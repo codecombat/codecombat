@@ -53,56 +53,82 @@
               if me.showChinaResourceInfo()
                 .col-lg-12
                   .row
-                    .col-lg-3
-                      h3(data-i18n="nav.general")
-                      ul.list-unstyled
-                        li
-                          a(href="/about", data-i18n="nav.about")
-                        //li
-                        //  a(href="/about#careers", data-i18n="nav.careers")
-                        if !me.isStudent()
-                          li
-                            a(href="/contact-cn", data-i18n="nav.contact")
-                        li
-                          a(href="/parents", data-i18n="nav.parent")
-                        li
-                          a(href="http://blog.koudashijie.com/", data-i18n="nav.blog")
-                        li
-                          a(href="https://beian.miit.gov.cn/") 京ICP备19012263号
-                    .col-lg-3
-                      if !me.isStudent()
-                        h3(data-i18n="nav.educators")
+                    if !me.showChinaHomeVersion()
+                      .col-lg-3
+                        h3(data-i18n="nav.general")
                         ul.list-unstyled
                           li
-                            - var faqURL = "/teachers/resources/faq";
-                            - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
-                            -     faqURL = "/teachers/resources/faq-nl-NL";
-                            - if (me.get('preferredLanguage') == 'he')
-                            -     faqURL = "/teachers/resources/faq-HE";
-                            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
-                            -     faqURL = "/teachers/resources/faq-pt-BR";
-                            - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-                            -     faqURL = "/teachers/resources/faq-zh-HANS";
-                            a(href=faqURL, data-i18n="teacher.educator_faq")
+                            a(href="/events", data-i18n="nav.events")
+                          //li
+                          //  a(href="/about#careers", data-i18n="nav.careers")
+                          if !me.isStudent()
+                            li
+                              a(href="/contact-cn", data-i18n="nav.contact")
+                          //- li
+                          //-   a(href="/parents", data-i18n="nav.parent")
                           li
-                            a(href="/teachers/resources", data-i18n="nav.resource_hub")
-                          li
-                            a(href="https://ozaria.com", data-i18n="new_home.try_ozaria")
-                          li
-                            a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                            a(href="/CoCoStar", data-i18n="nav.star")
+                      .col-lg-3
+                        if !me.isStudent()
+                          h3(data-i18n="nav.educators")
+                          ul.list-unstyled
+                            li
+                              - var faqURL = "/teachers/resources/faq";
+                              - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+                              -     faqURL = "/teachers/resources/faq-nl-NL";
+                              - if (me.get('preferredLanguage') == 'he')
+                              -     faqURL = "/teachers/resources/faq-HE";
+                              - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                              -     faqURL = "/teachers/resources/faq-pt-BR";
+                              - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+                              -     faqURL = "/teachers/resources/faq-zh-HANS";
+                              a(href=faqURL, data-i18n="teacher.educator_faq")
+                            li
+                              a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                            li
+                              a(href="/teachers/resources") 课程体系
+                            li
+                              a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                    else
+                      .col-lg-3
                     .col-lg-3
                       h3 相关链接
                       ul.list-unstyled
                         li
-                          a(href="https://codecombat.163.com") 极客战记（个人版）
+                          a(href="https://xuetang.koudashijie.com") 扣哒学堂
                         li
-                          a(href="https://aojiarui.com") 奥佳睿 - CodeCombat原创新作
+                          a(href="https://aojiarui.com") 奥佳睿
                         li
-                          a(href="https://codecombat.com") CodeCombat全球官网
-
+                          a(href="http://aiyouth.koudashijie.com") AI世青赛
+                        li
+                          if me.showChinaHomeVersion()
+                            a(href="https://koudashijie.com") 扣哒世界
+                          else
+                            a(href="https://codecombat.cn") CodeCombat 个人版
+                    if features.chinaHome
+                      .col-lg-3
                     .col-lg-3
                       h3(data-i18n="nav.follow_us")
-                      img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+                      idv.follow_us
+                        .socialicon
+                          .si.si-wechat
+                            if features.chinaHome
+                              .mpqrcode
+                                img.mpqr(src="https://assets.koudashijie.com/images/homeVersion/mpqr.jpeg")
+                            else
+                              .mpqrcode
+                                .span
+                                  span='老师请扫'
+                                  img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode.jpeg")
+                                .span
+                                  span='家长请扫'
+                                  img.mpqr(src="https://assets.koudashijie.com/images/mpqrcode-xuetang.jpeg")
+                          if !features.chinaHome
+                            .si.si-tiktok
+                              .tkqrcode
+                                img.tkqr(src="https://assets.koudashijie.com/images/home/tiktokqr.jpg")
+                            a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
+                            a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
               else
                 .col-lg-12
                   .row
