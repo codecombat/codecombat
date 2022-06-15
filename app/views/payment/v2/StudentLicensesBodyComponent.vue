@@ -34,9 +34,14 @@
               </div>
             </div>
 
-            <includes-body-component class-type="small-class" />
+            <div class="body-details" v-show="showPlanFeatures">
+              <includes-body-component class-type="small-class" />
 
-            <addon-body-component class-type="small-class" />
+              <addon-body-component class-type="small-class" />
+            </div>
+            <div class="plan-features" @click="onPlanFeaturesClicked" v-show="!showPlanFeatures" @click.stop>
+              <div class="plan-features__link">{{ $t('payments.show_plan_features') }}</div>
+            </div>
           </div>
 
           <body-footer-component :class-type="'small-class'"/>
@@ -71,9 +76,14 @@
               </div>
             </div>
 
-            <includes-body-component class-type="school-district" />
+            <div class="body-details" v-show="showPlanFeatures">
+              <includes-body-component class-type="school-district" />
 
-            <addon-body-component class-type="school-district" />
+              <addon-body-component class-type="school-district" />
+            </div>
+            <div class="plan-features" @click="onPlanFeaturesClicked" v-show="!showPlanFeatures" @click.stop>
+              <div class="plan-features__link">{{ $t('payments.show_plan_features') }}</div>
+            </div>
           </div>
           <div
             v-else
@@ -135,7 +145,8 @@ export default {
       openLicenseModal: false,
       openPurchaseModal: false,
       openApplyLicenseModal: false,
-      HowToEnrollModal
+      HowToEnrollModal,
+      showPlanFeatures: true
     }
   },
   props: {
@@ -159,13 +170,30 @@ export default {
     },
     onApplyLicenseClicked () {
       this.openApplyLicenseModal = true
+    },
+    onPlanFeaturesClicked () {
+      this.showPlanFeatures = !this.showPlanFeatures
+    },
+    onResize () {
+      // hard-coding pixel for bootstrap md
+      this.showPlanFeatures = window.innerWidth > 992;
     }
+  },
+  created() {
+    window.addEventListener('resize', this.onResize)
+  },
+  mounted () {
+    this.onResize()
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onResize)
   }
 }
 </script>
 
 <style scoped lang="scss">
 @import "app/styles/payment/variables";
+@import "app/styles/bootstrap/variables";
 
 .student-licenses-body {
   font-size: 62.5%;
@@ -292,15 +320,27 @@ export default {
 
     &-2 {
       padding-bottom: 11.5rem;
+
+      @media (max-width: $screen-md-min) {
+        padding-bottom: 3rem;
+      }
     }
 
     &-3 {
       padding-bottom: 26.3rem;
+
+      @media (max-width: $screen-md-min) {
+        padding-bottom: 3rem;
+      }
     }
   }
 }
 
 .school-district {
+  @media (max-width: $screen-md-min) {
+    margin-top: 1rem;
+  }
+
   &::v-deep &__body {
     padding: 2rem;
 
@@ -360,6 +400,16 @@ export default {
     font-size: 2.2rem;
     line-height: 3rem;
     /* identical to box height, or 136% */
+  }
+}
+
+.plan-features {
+  text-align: center;
+
+  &__link {
+    color: #207af1;
+
+    font-size: 1.6rem;
   }
 }
 </style>

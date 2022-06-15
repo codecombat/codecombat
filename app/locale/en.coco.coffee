@@ -3557,6 +3557,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chap3_info: "Chapter 3: 25 class sessions"
     chap4_info: "Chapter 4: 20 class sessions"
     includes: "Includes"
+    show_plan_features: "Show Plan Features"
+    purchase_annually: "Available for purchase one time annually."
+    class_school_solution: "We'll help you build a solution that meets the needs of your class, school or district."
+    bulk: "Bulk"
+    discounts: "discounts"
+    available: "available"
+    request_quote: "Request a Quote"
 
   form_validation_errors:
     required: 'Field is required'
