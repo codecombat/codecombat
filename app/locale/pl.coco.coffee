@@ -33,7 +33,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     classroom_in_box_blurb1: "Zaangażowania każdego ucznia tak, aby uwierzyli że programowanie jest dla nich."
     classroom_in_box_blurb2: "Dać każdemu nauczycielowi poczucie pewności podczas nauczania kodowania."
     classroom_in_box_blurb3: "Zainspirować wszystkich aby stworzyć światowy program nauki informatyki."
-    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
     click_here: "Kliknij tutaj!"
     creativity_rigor_title: "Gdzie kreatywność spotyka się z rygorem"
     creativity_rigor_subtitle1: "Spraw, żeby kodowanie bylo przyjemnością i naucz umiejętności  Make coding fun and teach real-world skills"

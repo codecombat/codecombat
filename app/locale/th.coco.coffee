@@ -33,7 +33,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     classroom_in_box_blurb1: "ให้นักเรียนทุกคนมีส่วนร่วมเพื่อให้พวกเขาเชื่อว่าการเขียนโค้ดนั้นมีไว้สำหรับพวกเขา"
     classroom_in_box_blurb2: "ช่วยให้นักการศึกษารู้สึกมั่นใจเมื่อสอนการเขียนโค้ด"
     classroom_in_box_blurb3: "สร้างแรงบันดาลใจให้ผู้นำโรงเรียนทุกคนสร้างโปรแกรมวิทยาศาสตร์คอมพิวเตอร์ระดับโลก"
-#    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
 #    click_here: "Click here"
     creativity_rigor_title: "ที่ความคิดสร้างสรรค์ตรงกับความรุนแรง"
     creativity_rigor_subtitle1: "ทำให้การเขียนโค้ดสนุกและสอนทักษะการใช้งานจริง"

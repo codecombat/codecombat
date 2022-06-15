@@ -270,7 +270,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    press: "Press"
     twitter_follow: "Volgen"
     my_classrooms: "Mijn klassen" # {change}
-#    my_courses: "My Courses"
+    my_courses: "Mijn lessen"
 #    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Banen"

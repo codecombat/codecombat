@@ -33,7 +33,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     classroom_in_box_blurb1: "讓每個學生都參與進來，讓他們相信編碼是為了他們自己。"
     classroom_in_box_blurb2: "讓每位老師在授課時更有自信。"
     classroom_in_box_blurb3: "激勵更多的學校來創造出世界一流的電腦科學課程。"
-#    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
     click_here: "點擊這裡"
     creativity_rigor_title: "創造力與邏輯相遇的地方"
     creativity_rigor_subtitle1: "讓編碼變得有趣並學習到現實世界共通的技能"
@@ -311,21 +311,21 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   play:
 #    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML"
-#    meta_description: "Learn programming with a coding game for beginners. Learn Python or JavaScript as you solve mazes, make your own games, and level up. Challenge your friends in multiplayer arena levels!"
-#    level_title: "__level__ - Learn to Code in Python, JavaScript, HTML"
+    meta_description: "通過適合初學者的編碼遊戲學習程式設計。在解決迷宮、製作自己的遊戲與升級的過程中學習 Python 或 JavaScript。在多人競技場關卡中挑戰你的朋友！"
+    level_title: "__level__ - 學習 Python, JavaScript, HTML 的程式開發"
 #    video_title: "__video__ | Video Level"
-#    game_development_title: "__level__ | Game Development"
-#    web_development_title: "__level__ | Web Development"
-#    anon_signup_title_1: "CodeCombat has a"
-#    anon_signup_title_2: "Classroom Version!"
-#    anon_signup_enter_code: "Enter Class Code:"
-#    anon_signup_ask_teacher: "Don't have one? Ask your teacher!"
-#    anon_signup_create_class: "Want to create a class?"
-#    anon_signup_setup_class: "Set up a class, add your students, and monitor progress!"
+    game_development_title: "__level__ | 遊戲開發"
+    web_development_title: "__level__ | 網頁開發"
+    anon_signup_title_1: "CodeCombat 也有"
+    anon_signup_title_2: "教室版本!"
+    anon_signup_enter_code: "輸入教室代號:"
+    anon_signup_ask_teacher: "找不到嗎? 問問你的指導老師喔!"
+    anon_signup_create_class: "想建立一間教室嗎?"
+    anon_signup_setup_class: "建立教室, 添加您的學生並且關注他們的學習進度!"
 #    anon_signup_create_teacher: "Create free teacher account"
     play_as: "扮演" # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
+    get_course_for_class: "將游戲開發等分配給您的課程!"
+    request_licenses: "聯繫我們的學校專家了解詳情."
     compete: "競賽!" # Course details page
     spectate: "觀戰" # Ladder page
 #    simulate_all: "Simulate All"
@@ -363,7 +363,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     replay: "重播"
     back_to_classroom: "回到教室"
     teacher_button: "老師專用功能"
-#    get_more_codecombat: "Get More CodeCombat"
+    get_more_codecombat: "取得更多 CodeCombat"
 
   code:
     if: "若是" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -913,7 +913,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     play: "開始玩關卡"
     play_more_codecombat: "玩更多的CodeCombat"
     default_student_instructions: "利用點擊來控制英雄，贏得遊戲！"
-#    goal_survive: "Survive."
+    goal_survive: "生存."
 #    goal_survive_time: "Survive for __seconds__ seconds."
 #    goal_defeat: "Defeat all enemies."
 #    goal_defeat_amount: "Defeat __amount__ enemies."

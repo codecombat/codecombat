@@ -92,7 +92,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     title: "CodeCombat - PythonとJavaScriptを学ぶコーディングゲーム" # {change}
 #    meta_keywords: "CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story"
     meta_description: "プログラミングゲームを通してコードを学ぼう。Python、JavaScript、HTMLをパズルを解くように学んで、あなた自身のゲームやウェブサイト作りを学びましょう。" # {change}
-#    become_investor: "to become an investor in CodeCombat"
+    become_investor: "CodeCombatの投資家になる"
 #    built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
 #    built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
 #    built_for_teachers_subtitle1: "Computer Science"
@@ -119,7 +119,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
-#    click_here: "Click here"
+    click_here: "ここをクリック"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
 #    creativity_rigor_blurb1: "Students type real Python and JavaScript while playing games that encourage trial-and-error, critical thinking, and creativity. Students then apply the coding skills they’ve learned by developing their own games and websites in project-based courses."
@@ -270,7 +270,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    press: "Press"
     twitter_follow: "フォロー"
     my_classrooms: "マイクラス"
-#    my_courses: "My Courses"
+    my_courses: "マイコース"
 #    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "経歴"
@@ -310,7 +310,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   modal:
     close: "閉じる"
     okay: "OK"
-#    cancel: "Cancel"
+    cancel: "取り消し"
 #    try_again: "Try Again"
 
   not_found:
@@ -1019,9 +1019,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     restricted: "(このレベルでは制限品)"
     equip: "装備する"
     unequip: "装備を外す"
-#    warrior_only: "Warrior Only"
-#    ranger_only: "Ranger Only"
-#    wizard_only: "Wizard Only"
+    warrior_only: "Warrior のみ"
+    ranger_only: "Ranger のみ"
+    wizard_only: "Wizard のみ"
 
   buy_gems:
     few_gems: "少し購入"

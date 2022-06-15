@@ -33,7 +33,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     classroom_in_box_blurb1: "Вовлеките каждого ученика, чтобы он поверил, что программирование им по зубам."
     classroom_in_box_blurb2: "Дайте возможность любому преподавателю чувствовать себя уверенно при обучении программированию."
     classroom_in_box_blurb3: "Вдохновите всех школьных лидеров создать программу компьютерных наук мирового класса."
-    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
     click_here: "Нажмите здесь"
     creativity_rigor_title: "Где творчество встречается со строгостью"
     creativity_rigor_subtitle1: "Занимайтесь программированием и обучайтесь реальным навыкам"
@@ -241,7 +241,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     get_involved: "Принять участие"
     open_source: "Открытый исходный код (GitHub)"
     support: "Поддержка"
-#    faq: "FAQ"
+    faq: "ЧЗВ"
     faqs: "Часто задаваемые вопросы"
     copyright_prefix: "Авторское право"
     copyright_suffix: "Все права защищены."
@@ -1402,7 +1402,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     referrer_web: "Google"
     referrer_other: "Другое"
     anything_else: "Что-нибудь ещё, о чём мы должны знать?" # {change}
-    anything_else_helper: ""
+#    anything_else_helper: ""
     thanks_header: "Запрос получен!"
     thanks_sub_header: "Спасибо, что проявили интерес к CodeCombat для вашей школы."
     thanks_p: "Мы скоро свяжемся! Если вам нужно связаться, вы можете связаться с нами здесь:"
@@ -3570,11 +3570,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    request_quote: "Request a Quote"
 
 #  form_validation_errors:
-#    required: "Field is required"
-#    invalidEmail: "Invalid email"
-#    invalidPhone: "Invalid phone number"
-#    emailExists: "Email already exists"
-#    numberGreaterThanZero: "Should be a number greater than 0"
+    required: "Обязательное поле"
+    invalidEmail: "Неверный email"
+    invalidPhone: "Неверный номер телефона"
+    emailExists: "Email уже используется"
+    numberGreaterThanZero: "Необходимо число больше 0"
 #    requireValidEmail: "Please enter a valid email address."
 #    requireValidPhone: "Please enter a valid phone number, including area code."
 

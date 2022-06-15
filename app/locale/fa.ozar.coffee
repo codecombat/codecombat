@@ -270,7 +270,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    press: "Press"
     twitter_follow: "دنبال کردن"
     my_classrooms: "کلاس های من"
-#    my_courses: "My Courses"
+    my_courses: "دوره های من"
 #    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "شغل"

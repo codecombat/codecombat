@@ -33,7 +33,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     classroom_in_box_blurb1: "创建世界一流的青少年编程平台"
     classroom_in_box_blurb2: "培养下一代青少年计算机科学英才"
     classroom_in_box_blurb3: "赋能学校和培训机构开设精品编程课"
-    classroom_in_box_blurb4: "打造具有全球影响力的编程竞赛平台"
+    classroom_in_box_blurb4: "打造具有全球影响力的编程竞赛平台" # only for koudashijie.com
     click_here: "点击这里"
     creativity_rigor_title: "扣哒世界与众不同"
     creativity_rigor_subtitle1: "寓教于乐，轻松入门"
@@ -241,7 +241,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     get_involved: "参与"
     open_source: "开放的源码 (GitHub)"
     support: "支持"
-#    faq: "FAQ"
+    faq: "常见问题"
     faqs: "常见问题"
     copyright_prefix: "版权"
     copyright_suffix: "版权所有."

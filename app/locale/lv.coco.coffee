@@ -33,7 +33,7 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
     classroom_in_box_blurb1: "Iesaistīt ikvienu skolēnu, lai viņi sajustu, ka kodēšana ir priekš viņa."
     classroom_in_box_blurb2: "Dot ikvienam pedagogam justies pārliecinātam, mācot kodēšanu."
     classroom_in_box_blurb3: "Iedvesmot visus skolu vadītājus izveidot pasaules līmeņa datorzinātņu programmu."
-#    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
     click_here: "Noklikšķiniet šeit"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
     creativity_rigor_subtitle1: "Padariet kodēšanu jautru un māciet reālās pasaules prasmes"

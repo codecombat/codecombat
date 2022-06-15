@@ -33,7 +33,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
 #    classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
 #    classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
-#    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
 #    click_here: "Click here"
 #    creativity_rigor_title: "Where Creativity Meets Rigor"
 #    creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"

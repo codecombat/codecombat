@@ -270,7 +270,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
 #    press: "Press"
     twitter_follow: "Segueix-nos"
     my_classrooms: "Les Meves Classes"
-#    my_courses: "My Courses"
+    my_courses: "Els Meus Cursos"
 #    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Professions"

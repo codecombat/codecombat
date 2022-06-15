@@ -33,7 +33,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     classroom_in_box_blurb1: "Libatkan setiap siswa sehingga mereka yakin bahwa kemampuan coding bermanfaat untuk mereka."
     classroom_in_box_blurb2: "Berdayakan semua pendidik untuk merasa percaya diri saat mengajar coding."
     classroom_in_box_blurb3: "Menginspirasi semua pimpinan sekolah untuk membuat program ilmu komputer kelas dunia."
-    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
     click_here: "Klik di sini"
     creativity_rigor_title: "Di Mana Kreativitas Bertemu dengan Ketelitian"
     creativity_rigor_subtitle1: "Jadikan coding menyenangkan dan ajarkan keterampilan dunia nyata"
@@ -1402,7 +1402,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     referrer_web: "Google"
     referrer_other: "Lainnya"
     anything_else: "Kelas yang seperti apa yang kamu perkirakan untuk menggunakan CodeCombat?"
-    anything_else_helper: ""
+#    anything_else_helper: ""
     thanks_header: "Permintaan Diterima!"
     thanks_sub_header: "Terima kasih telah menyatakan ketertarikan dalam CodeCombat untuk sekolahmu."
     thanks_p: "Kamu akan menghubungi segera! Jika kamu membutuhkan kontak, kamu bisa menghubungi di:"

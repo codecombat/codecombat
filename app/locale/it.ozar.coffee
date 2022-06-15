@@ -270,7 +270,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    press: "Press"
     twitter_follow: "Segui"
     my_classrooms: "Le mie Classi"
-#    my_courses: "My Courses"
+    my_courses: "I miei Corsi"
 #    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Lavora con noi"

@@ -33,7 +33,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     classroom_in_box_blurb1: "모든 학생들이 코딩이 자신 스스로를 위한 것이라고 생각하게 합니다."
     classroom_in_box_blurb2: "선생님이 코딩을 가르칠 때 자신감을 갖도록 합니다."
     classroom_in_box_blurb3: "모든 학교 지도자들에게 세계적인 수준의 컴퓨터 공학 프로그램을 만들게 수 있게 영감을 줍니다."
-#    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
 #    click_here: "Click here"
     creativity_rigor_title: "창의력이 활력과 만나는 곳"
     creativity_rigor_subtitle1: "코딩을 더욱 재미있게 만들고 실제 기술을 가르칩니다."
@@ -1402,7 +1402,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    referrer_web: "Google"
 #    referrer_other: "Other"
     anything_else: "당신은 CodeCombat를 통한 수업을 어떤식으로 기대하십니까?"
-    anything_else_helper: ""
+#    anything_else_helper: ""
     thanks_header: "접수 완료!"
     thanks_sub_header: "당신의 학교를 위해 CodeCombat에 대해 관심을 가져주셔서 감사드립니다."
     thanks_p: "저희가 곧 연락드리겠습니다! 만약 당신이 저희에게 연락하고자 하신다면 이 쪽으로 연락주세요:"

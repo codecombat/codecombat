@@ -33,7 +33,7 @@ module.exports = nativeDescription: "Монгол хэл", englishDescription: "
     classroom_in_box_blurb1: "Сурагч бүр кодчилол хийж чадна гэдэгтээ итгэтэл нь тулж ажиллах"
     classroom_in_box_blurb2: "Ямар ч сурган хүмүүжүүлэгчид кодчиллыг заахдаа өөртөө итгэлтэй байх чадварыг олгох."
     classroom_in_box_blurb3: "Бүх сургуулийн удирдагчдад дэлхийн жишигт нийцсэн компьютерийн хөтөлбөрийг бий болгох урам зориг өгөх."
-    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
     click_here: "Энд дар"
     creativity_rigor_title: "Бүтээлч зан, чармайлт хоёр уулздаг газар"
     creativity_rigor_subtitle1: "Кодчиллыг хөгжилтэй болгож, дэлхийн ур чадварыг заах"

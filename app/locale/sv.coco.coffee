@@ -33,7 +33,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     classroom_in_box_blurb1: "Engagera varje elev så att de tror att kodning är för dem."
     classroom_in_box_blurb2: "Ge varje lärare möjlighet att känna sig säker när han/hon undervisar i kodning."
     classroom_in_box_blurb3: "Inspirera alla rektorer att skapa ett datavetenskapsprogram i världsklass."
-    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
     click_here: "Klicka här"
     creativity_rigor_title: "Där kreativitet möter stränghet"
     creativity_rigor_subtitle1: "Gör kodning roligt och lär ut färdigheter för livet"
@@ -1350,9 +1350,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     free: "Gratis"
     purchase: "Inköp"
     courses_prefix: "Kurser"
-    courses_suffix: ""
+#    courses_suffix: ""
     course_prefix: "Kurs"
-    course_suffix: ""
+#    course_suffix: ""
 
   teachers_quote:
     subtitle: "Lär dig mer om CodeCombat med en interaktiv genomgång av produkten, prissättning och implementering!"
@@ -1402,7 +1402,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     referrer_web: "Google"
     referrer_other: "Övrigt"
     anything_else: "Vilken typ av klass räknar du med att använda CodeCombat för?"
-    anything_else_helper: ""
+#    anything_else_helper: ""
     thanks_header: "Förfrågan mottagen!"
     thanks_sub_header: "Tack för att du uttryckte intresse för CodeCombat för din skola."
     thanks_p: "Vi kommer snart att kontakta er! Om du behöver komma i kontakt kan du nå oss på:"

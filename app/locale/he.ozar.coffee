@@ -270,7 +270,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    press: "Press"
     twitter_follow: "מעקב"
     my_classrooms: "הכיתות שלי"
-#    my_courses: "My Courses"
+    my_courses: "הקורסים שלי"
 #    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "דרושים"

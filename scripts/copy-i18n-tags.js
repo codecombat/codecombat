@@ -24,7 +24,7 @@ const CHANGE_MARKER = '{change}'
 
 const CATEGORY_SPLIT_PATTERN = /^[\s\n]*(?=[^:\n]+:\s*$)/gm // One or more new lines followed by "key:", followed by newline
 const CATEGORY_CAPTURE_PATTERN = /^([^:\n]+):\s*\n/ // Extracts category name from first line of category section
-const COMMENTS_PATTERN = /^[\s\n]*([^:\n]+):\s*"[^#\n"]+"\s*#(.*)$/gm // Find lines with comments, capture key / value / comment
+const COMMENTS_PATTERN = /^[\s\n]*([^:\n]+):\s*"[^#\n"]*"\s*#(.*)$/gm // Find lines with comments, capture key / value / comment
 const CHANGE_PATTERN = new RegExp(`\\s?\\s?(#\\s)?${escapeRegexp(CHANGE_MARKER)}`, 'gi') // Identify translation marked change
 const QUOTE_TAG_NAME_PATTERN = /^[a-z0-9_]+$/i // Determines if tag name needs to be quoted
 
@@ -57,6 +57,7 @@ const localeFiles = fs
 
 for (const localeFile of localeFiles) {
   console.log(`Processing ${localeFile}`)
+  const otherLocaleFile = localeFile.replace(productSuffix,otherProductSuffix);
 
   // Load raw source file
   const localeSource = fs.readFileSync(
@@ -67,6 +68,10 @@ for (const localeFile of localeFiles) {
   // Load locale
   const localeContents = require(`../app/locale/${localeFile}`)
   const localeTranslations = localeContents.translation || {}
+
+  // Load other locale (load coco for ozaria and ozaria for coco)
+  const otherLocaleContents = require(`../app/locale/${otherLocaleFile}`)
+  const otherLocaleTranslations = otherLocaleContents.translation || {}
 
   // Initial rewrite of file with first line
   const rewrittenLines = [
@@ -79,6 +84,7 @@ for (const localeFile of localeFiles) {
     const enCategory = enTranslations[enCategoryName]
     const catIsPresent = (typeof localeTranslations[enCategoryName] !== 'undefined')
     const localeCategory = localeTranslations[enCategoryName] || {}
+    const otherLocaleCategory = otherLocaleTranslations[enCategoryName] || {}
 
     // Prefix for regular expressions that require the pattern to exist within a category.  This depends on
     // categories and their tags to not contain new lines and categories being separated by a newline.  This regex
@@ -96,7 +102,7 @@ for (const localeFile of localeFiles) {
 
     // For each tag within the category
     for (const enTagName of Object.keys(enCategory)) {
-      const localeTranslation = localeCategory[enTagName]
+      const localeTranslation = localeCategory[enTagName] || otherLocaleCategory[enTagName]
       const tagIsPresent = (typeof localeTranslation !== 'undefined')
       const sourceFileTag = (QUOTE_TAG_NAME_PATTERN.test(enTagName)) ? enTagName : `"${enTagName}"`
 

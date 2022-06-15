@@ -33,7 +33,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
     classroom_in_box_blurb1: "Antrenăm fiecare elev astfel încât ei să creadă că programarea este pentru ei."
     classroom_in_box_blurb2: "Permitem oricărui formator să fie confident atunci când predă programare."
     classroom_in_box_blurb3: "Inspirăm toți liderii din școli pentru a crea un program internațional de informatică."
-    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
     click_here: "Apasă aici"
     creativity_rigor_title: "Unde creativitatea întâlnește rigoarea"
     creativity_rigor_subtitle1: "Facem programarea distractivă și învățăm abilități necesare în viața actuală"
@@ -86,7 +86,7 @@ module.exports = nativeDescription: "Română", englishDescription: "Romanian", 
 #    quotes_quote5: "Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills."
 #    quotes_quote5_author: "Latthaphon Pohpon, Parent"
     see_example: "Vezi exemplul"
-#    slogan: "The most engaging way to learn computer science"
+    slogan: "Cel mai interesant mod de a învăța codul real."
     slogan_power_of_play: "Învață să programezi prin puterea jocului"
     teach_cs1_free: "Predă informatică gratuit"
     teachers_love_codecombat_title: "Profesorii iubesc CodeCombat"

@@ -33,7 +33,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     classroom_in_box_blurb1: "Jeden Studenten zu motivieren, daran zu glauben, das Programmierung für jeden möglich ist."
     classroom_in_box_blurb2: "Jeden Pädagogen zu stärken, sich beim Unterrichten von Programmierung selbstsicher zu fühlen."
     classroom_in_box_blurb3: "Jeden Schulleiter zu inspieren, ein Informatikprogramm von Weltklasse zu schaffen."
-#    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
 #    click_here: "Click here"
     creativity_rigor_title: "Wo Kreativität auf Exaktheit trifft"
     creativity_rigor_subtitle1: "Machen Sie Programmierung vergnügsam und lehren Sie Fertigkeiten für die reale Welt"

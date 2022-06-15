@@ -270,7 +270,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    press: "Press"
     twitter_follow: "Ακολούθησε"
     my_classrooms: "Οι Τάξεις Μου"
-#    my_courses: "My Courses"
+    my_courses: "Τα Μαθήματά Μου"
 #    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Καριέρες"

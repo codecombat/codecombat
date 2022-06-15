@@ -89,8 +89,8 @@ module.exports = nativeDescription: "latviešu", englishDescription: "Latvian", 
 #    code_line_number: "1 Billion"
 
   new_home:
-#    title: "Ozaria - Computer science that captivates"
-#    meta_keywords: "CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story"
+    title: "CodeCombat - Kodēšanas spēles Python un JavaScript apguvei"
+    meta_keywords: "CodeCombat, python, javascript, Kodēšanas Spēles"
 #    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     become_investor: "kļūt par CodeCombat investoru"
     built_for_teachers_title: "Kodēšanas spēle, kas veidota, domājot par skolotājiem"

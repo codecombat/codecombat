@@ -33,7 +33,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     classroom_in_box_blurb1: "Envolver todos os alunos para que eles acreditem que a codificação é para eles."
     classroom_in_box_blurb2: "Capacitar qualquer educador a se sentir confiante ao ensinar codificação."
     classroom_in_box_blurb3: "Inspirar todos os líderes da escola para criar um programa de ciência da computação de classe mundial."
-    classroom_in_box_blurb4: ""
+#    classroom_in_box_blurb4: "" # only for koudashijie.com
     click_here: "Clique aqui"
     creativity_rigor_title: "Onde a criatividade encontra o rigor"
     creativity_rigor_subtitle1: "Torne a codificação divertida e ensine habilidades do mundo real"

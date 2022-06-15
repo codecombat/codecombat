@@ -270,7 +270,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    press: "Press"
     twitter_follow: "Прати"
     my_classrooms: "Моји разреди"
-#    my_courses: "My Courses"
+    my_courses: "Моји курсеви"
 #    my_units: "My Units"
 #    my_teachers: "My Teachers"
     careers: "Каријере"
