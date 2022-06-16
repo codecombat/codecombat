@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    pacing_guides_high: "High School Pacing Guide"
     getting_started: "Початок роботи"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
     educator_faq: "Учительські ЧаПи (FAQ)"
