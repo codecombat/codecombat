@@ -7,6 +7,8 @@ PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
 
 require 'lib/game-libraries'
+require('lib/setupTreema')
+treemaExt = require 'core/treema-ext'
 
 module.exports = class ResourceEditView extends RootView
   id: 'editor-resource-edit-view'

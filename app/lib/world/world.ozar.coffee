@@ -38,7 +38,7 @@ module.exports = class World
   apiProperties: ['age', 'dt']
   realTimeBufferMax: REAL_TIME_BUFFER_MAX / 1000
   constructor: (@userCodeMap, classMap) ->
-    # classMap is needed for deserializing Worlds, Thangs, and other classes
+# classMap is needed for deserializing Worlds, Thangs, and other classes
     @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang, Ellipse: Ellipse, LineSegment: LineSegment}
     Thang.resetThangIDs()
 
@@ -59,7 +59,7 @@ module.exports = class World
     @destroy = ->
 
   getFrame: (frameIndex) ->
-    # Optimize it a bit--assume we have all if @ended and are at the previous frame otherwise
+# Optimize it a bit--assume we have all if @ended and are at the previous frame otherwise
     frames = @frames
     if @ended
       frame = frames[frameIndex]
@@ -263,7 +263,7 @@ module.exports = class World
     @constrainHeroHealth(level)
 
   loadSystemsFromLevel: (level) ->
-    # Remove old Systems
+# Remove old Systems
     @systems = []
     @systemMap = {}
 
@@ -278,7 +278,7 @@ module.exports = class World
     null
 
   loadThangsFromLevel: (level, willSimulate) ->
-    # Remove old Thangs
+# Remove old Thangs
     @thangs = []
     @thangMap = {}
 
@@ -301,7 +301,7 @@ module.exports = class World
       else if component.original is EXISTS_ORIGINAL
         existsConfigIndex = componentIndex
     if isItem and existsConfigIndex?
-      # For memory usage performance, make sure these don't get any tracked properties assigned.
+# For memory usage performance, make sure these don't get any tracked properties assigned.
       components[existsConfigIndex][1] = {exists: false, stateless: true}
     thangTypeOriginal = thangConfig.thangType
     thangTypeModel = _.find thangTypes, (t) -> t.original is thangTypeOriginal
@@ -327,7 +327,7 @@ module.exports = class World
     @addScripts level.scripts...
 
   loadClassFromCode: (js, name, kind='component') ->
-    # Cache them based on source code so we don't have to worry about extra compilations
+# Cache them based on source code so we don't have to worry about extra compilations
     @componentCodeClassMap ?= {}
     @systemCodeClassMap ?= {}
     map = if kind is 'component' then @componentCodeClassMap else @systemCodeClassMap
@@ -378,9 +378,9 @@ module.exports = class World
     return unless @goalManager
     @goalManager.submitWorldGenerationEvent(channel, event, @frames.length)
 
-  # This can be used for arbitrary Backbone Mediator events tied to world frames.
-  # Example: publishWorldEvent('update-key-value-db', {})
-  # For new event types, add a subscription schema in app/schemas/subscriptions/world
+# This can be used for arbitrary Backbone Mediator events tied to world frames.
+# Example: publishWorldEvent('update-key-value-db', {})
+# For new event types, add a subscription schema in app/schemas/subscriptions/world
   publishWorldEvent: (channel, event) ->
     event ?= {}
     channel = 'world:' + channel
@@ -422,7 +422,7 @@ module.exports = class World
     @trackedProperties = (@trackedProperties ? []).concat props
 
   serialize: ->
-    # Code hotspot; optimize it
+# Code hotspot; optimize it
     @freeMemoryBeforeFinalSerialization() if @ended
     startFrame = @framesSerializedSoFar
     endFrame = @frames.length
@@ -452,9 +452,9 @@ module.exports = class World
     transferableStorageBytesNeeded = 0
     nFrames = endFrame - startFrame
     for thang in @thangs
-      # Don't serialize empty trackedProperties for stateless Thangs which haven't changed (like obstacles).
-      # Check both, since sometimes people mark stateless Thangs but then change them, and those should still be tracked, and the inverse doesn't work on the other end (we'll just think it doesn't exist then).
-      # If streaming the world, a thang marked stateless that actually change will get messed up. I think.
+# Don't serialize empty trackedProperties for stateless Thangs which haven't changed (like obstacles).
+# Check both, since sometimes people mark stateless Thangs but then change them, and those should still be tracked, and the inverse doesn't work on the other end (we'll just think it doesn't exist then).
+# If streaming the world, a thang marked stateless that actually change will get messed up. I think.
       continue if thang.stateless and not _.some(thang.trackedPropertiesUsed, Boolean)
       o.trackedPropertiesThangIDs.push thang.id
       trackedPropertiesIndices = []
@@ -489,7 +489,7 @@ module.exports = class World
         if typedArraySupport
           storageBufferOffset += bytesStored
         else
-          # Instead of one big array with each storage as a view into it, they're all separate, so let's keep 'em around for flattening.
+# Instead of one big array with each storage as a view into it, they're all separate, so let's keep 'em around for flattening.
           storageBufferOffset += storage.length
           o.storageBuffer.push storage
     [o.scoresStorage, scoresBytesStored] = ThangState.createArrayForType 'number', nFrames * @scoreTypes.length, o.storageBuffer, storageBufferOffset
@@ -525,10 +525,10 @@ module.exports = class World
     {serializedWorld: o, transferableObjects: [o.storageBuffer], startFrame: startFrame, endFrame: endFrame}
 
   @deserialize: (o, classMap, oldSerializedWorldFrames, finishedWorldCallback, startFrame, endFrame, level, streamingWorld) ->
-    # Code hotspot; optimize it
-    #console.log 'Deserializing', o, 'length', JSON.stringify(o).length
-    #console.log JSON.stringify(o)
-    #console.log 'Got special keys and values:', o.specialValuesToKeys, o.specialKeysToValues
+# Code hotspot; optimize it
+#console.log 'Deserializing', o, 'length', JSON.stringify(o).length
+#console.log JSON.stringify(o)
+#console.log 'Got special keys and values:', o.specialValuesToKeys, o.specialKeysToValues
     perf = {}
     perf.t0 = now()
     nFrames = endFrame - startFrame
@@ -569,7 +569,7 @@ module.exports = class World
       for type, propIndex in trackedPropertyTypes
         storage = ThangState.createArrayForType(type, nFrames, o.storageBuffer, trackedPropertiesValuesOffsets[propIndex])[0]
         unless typedArraySupport
-          # This could be more efficient
+# This could be more efficient
           i = trackedPropertiesValuesOffsets[propIndex]
           storage = o.storageBuffer.slice i, i + storage.length
         trackedPropertiesValues.push storage
@@ -590,7 +590,7 @@ module.exports = class World
     @deserializationTimeout = _.delay @deserializeSomeFrames, 1, o, w, finishedWorldCallback, perf, startFrame, endFrame
     w  # Return in-progress deserializing world
 
-  # Spread deserialization out across multiple calls so the interface stays responsive
+# Spread deserialization out across multiple calls so the interface stays responsive
   @deserializeSomeFrames: (o, w, finishedWorldCallback, perf, startFrame, endFrame) =>
     ++perf.batches
     startTime = now()
@@ -598,7 +598,7 @@ module.exports = class World
       w.frames.push WorldFrame.deserialize(w, frameIndex - startFrame, o.trackedPropertiesThangIDs, o.trackedPropertiesThangs, o.trackedPropertiesPerThangKeys, o.trackedPropertiesPerThangTypes, o.trackedPropertiesPerThangValues, o.specialKeysToValues, o.scoresStorage, o.frameHashes[frameIndex - startFrame], w.dt * frameIndex)
       elapsed = now() - startTime
       if elapsed > DESERIALIZATION_INTERVAL and frameIndex < endFrame - 1
-        #console.log "  Deserialization not finished, let's do it again soon. Have:", w.frames.length, ", wanted from", startFrame, "to", endFrame
+#console.log "  Deserialization not finished, let's do it again soon. Have:", w.frames.length, ", wanted from", startFrame, "to", endFrame
         perf.framesCPUTime += elapsed
         @deserializationTimeout = _.delay @deserializeSomeFrames, 1, o, w, finishedWorldCallback, perf, startFrame, endFrame
         return
@@ -640,7 +640,7 @@ module.exports = class World
     @frames[i] = null for frame, i in @frames when i < @frames.length - 1
 
   pointsForThang: (thangID, camera=null) ->
-    # Optimized
+# Optimized
     @pointsForThangCache ?= {}
     cacheKey = thangID
     allPoints = @pointsForThangCache[cacheKey]
@@ -662,7 +662,7 @@ module.exports = class World
     return allPoints
 
   actionsForThang: (thangID, keepIdle=false) ->
-    # Optimized
+# Optimized
     @actionsForThangCache ?= {}
     cacheKey = thangID + '_' + Boolean(keepIdle)
     cached = @actionsForThangCache[cacheKey]
@@ -687,13 +687,15 @@ module.exports = class World
 
   teamForPlayer: (n) ->
     playableTeams = @playableTeams ? ['humans']
+    if playableTeams[0] is 'ogres' and playableTeams[1] is 'humans'
+      playableTeams = ['humans', 'ogres']  # Make sure they're in the right order, since our other code is frail to the ordering
     if n?
       playableTeams[n % playableTeams.length]
     else
       _.sample playableTeams  # Pick at random for good distribution
 
   scoreTypes: ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty', 'survival-time', 'defeated']
-  # Not 'code-length', that doesn't need to be stored per each frame
+# Not 'code-length', that doesn't need to be stored per each frame
 
   getScores: ->
     time: @age

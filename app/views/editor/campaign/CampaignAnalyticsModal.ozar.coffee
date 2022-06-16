@@ -21,7 +21,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
   constructor: (options, @campaignHandle, @campaignCompletions) ->
     super options
     @showLeftGame = true
-    @showSubscriptions = true
+    @showSubscriptions = utils.isOzaria
     @getCampaignAnalytics() if me.isAdmin()
 
   getRenderData: ->
@@ -60,7 +60,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     @hide()
 
   addCompletionLineGraphs: ->
-    # TODO: no line graphs if some levels without completion rates?
+# TODO: no line graphs if some levels without completion rates?
     return unless @campaignCompletions.levels
     for level in @campaignCompletions.levels
       days = []
@@ -80,9 +80,9 @@ module.exports = class CampaignAnalyticsModal extends ModalView
       @addLineGraph '#background' + level.level, data
 
   addLineGraph: (containerSelector, lineData, lineColor='green', min=0, max=1.0) ->
-    # Add a line chart to the given container
-    # Adjust stroke-weight based on segment count: width 0.3 to 3.0 for counts roughly 100 to 10000
-    # TODO: Move this to a utility library
+# Add a line chart to the given container
+# Adjust stroke-weight based on segment count: width 0.3 to 3.0 for counts roughly 100 to 10000
+# TODO: Move this to a utility library
     vis = d3.select(containerSelector)
     width = $(containerSelector).width()
     height = $(containerSelector).height()
@@ -134,8 +134,8 @@ module.exports = class CampaignAnalyticsModal extends ModalView
             @render?()
 
   getCampaignAveragePlaytimes: (startDay, endDay, doneCallback) =>
-    # Fetch level average playtimes
-    # Needs date format yyyy-mm-dd
+# Fetch level average playtimes
+# Needs date format yyyy-mm-dd
     success = (data) =>
       return doneCallback() if @destroyed
       # console.log 'getCampaignAveragePlaytimes success', data
@@ -177,7 +177,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     request.load()
 
   getCampaignLevelCompletions: (startDay, endDay, doneCallback) =>
-    # Needs date format yyyymmdd
+# Needs date format yyyymmdd
     success = (data) =>
       return doneCallback() if @destroyed
       # console.log 'getCampaignLevelCompletions success', data
@@ -216,8 +216,8 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     request.load()
 
   getCompaignLevelDrops: (startDay, endDay, doneCallback) =>
-    # Fetch level drops
-    # Needs date format yyyymmdd
+# Fetch level drops
+# Needs date format yyyymmdd
     success = (data) =>
       return if @destroyed
       # console.log 'getCompaignLevelDrops success', data
@@ -247,8 +247,8 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     request.load()
 
   getCampaignLevelSubscriptions: (startDay, endDay, doneCallback) =>
-    # Fetch level subscriptions
-    # Needs date format yyyymmdd
+# Fetch level subscriptions
+# Needs date format yyyymmdd
     success = (data) =>
       return doneCallback() if @destroyed
       # console.log 'getCampaignLevelSubscriptions success', data

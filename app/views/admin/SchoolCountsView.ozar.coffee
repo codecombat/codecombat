@@ -20,7 +20,7 @@ module.exports = class SchoolCountsView extends RootView
 
   initialize: ->
     return super() unless me.isAdmin()
-    @batchSize = utils.getQueryVariable('batchsize', 50000)
+    @batchSize = utils.getQueryVariable('batchsize', 20000)
     @loadData()
     super()
 
@@ -33,8 +33,8 @@ module.exports = class SchoolCountsView extends RootView
     fetchBatch = (baseUrl, results, beforeId) =>
       url = "#{baseUrl}?options[limit]=#{@batchSize}"
       url += "&options[beforeId]=#{beforeId}" if beforeId
-      new Promise((resolve) -> setTimeout(resolve.bind(null, Promise.resolve($.get(url))), 100))
-      .then (batchResults) =>
+      new Promise((resolve) -> setTimeout(resolve.bind(null, Promise.resolve($.get(url))), 200))
+        .then (batchResults) =>
         return Promise.resolve([]) if @destroyed
         results = results.concat(batchResults)
         if batchResults.length < @batchSize
@@ -43,6 +43,9 @@ module.exports = class SchoolCountsView extends RootView
         else
           @updateLoadingState("Received #{results.length} from #{baseUrl} so far")
           fetchBatch(baseUrl, results, batchResults[batchResults.length - 1]._id)
+        .catch (error) =>
+        console.log(new Date().toISOString(), "ERROR! Trying #{baseUrl} #{beforeId} again", error.status, error.statusText)
+        fetchBatch(baseUrl, results, beforeId)
 
     Promise.all([
       fetchBatch("/db/classroom/-/users", [])
@@ -51,7 +54,7 @@ module.exports = class SchoolCountsView extends RootView
       fetchBatch("/db/user/-/teachers", [])
       fetchBatch("/db/trial.request/-/users", [])
     ])
-    .then ([classrooms, courseInstances, students, teachers, trialRequests]) =>
+      .then ([classrooms, courseInstances, students, teachers, trialRequests]) =>
       teacherMap = {} # Used to make sure teachers and students only counted once
       studentMap = {} # Used to make sure teachers and students only counted once
       studentNonHocMap = {} # Used to exclude HoC users
@@ -99,8 +102,8 @@ module.exports = class SchoolCountsView extends RootView
       for trialRequest in trialRequests
         teacherID = trialRequest.applicant
         unless teacherMap[teacherID]
-          # E.g. parents
-          # console.log("Skipping non-teacher #{teacherID} trial request #{trialRequest._id}")
+# E.g. parents
+# console.log("Skipping non-teacher #{teacherID} trial request #{trialRequest._id}")
           continue
         props = trialRequest.properties
         if props.nces_id and props.country and props.state

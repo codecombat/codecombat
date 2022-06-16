@@ -37,8 +37,13 @@ module.exports = {
       json: {members}
     }))
 
-  fetchByOwner: (ownerId) ->
-    fetchJson("/db/classroom?ownerID=#{ownerId}", {
+  fetchByOwner: (ownerId, options={}) ->
+    projectionString = ""
+    if Array.isArray(options.project)
+      projectionString += "&project=#{options.project.join(',')}"
+    if (options.includeShared)
+      projectionString += "&includeShared=true"
+    fetchJson("/db/classroom?ownerID=#{ownerId}#{projectionString}", {
       method: 'GET'
     })
 

@@ -146,6 +146,8 @@ module.exports = class GoalManager extends CocoClass
   # IMPLEMENTATION DETAILS
 
   addGoal: (goal) ->
+    console.log('------ADDING GOAL',goal)
+    window.__this = @
     goal = $.extend(true, {}, goal)
     goal.id = @nextGoalID++ if not goal.id
     # The initial goals also need a capstone stage if this is indeed goals for a capstone stage:

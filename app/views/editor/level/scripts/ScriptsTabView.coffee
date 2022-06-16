@@ -5,6 +5,7 @@ Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'
 defaultScripts = require 'lib/DefaultScripts'
+utils = require 'core/utils'
 require 'lib/setupTreema'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
@@ -183,7 +184,14 @@ class EventPropsNode extends TreemaNode.nodeMap.string
     super(valEl, (data or []).join('.'))
     channel = @getRoot().data.channel
     channelSchema = Backbone.Mediator.channelSchemas[channel]
-    autocompleteValues = []
+    # The note system adds a 'codeLanguage' property to any events
+    # triggered by the level. This provides an additional way to filter
+    # scripts. This property is not part of the events schema as events
+    # only gain this property through the script/note system.
+    if utils.isOzaria
+      autocompleteValues = ['codeLanguage']
+    else
+      autocompleteValues = []
     autocompleteValues.push key for key, val of channelSchema?.properties
     valEl.find('input').autocomplete(source: autocompleteValues, minLength: 0, delay: 0, autoFocus: true).autocomplete('search')
     valEl

@@ -42,7 +42,7 @@ module.exports = class ModalView extends CocoView
     # This makes sure if you press enter right after opening the players guide,
     # it doesn't just reopen the modal.
     $(document.activeElement).blur()
-    
+
     if localStorage?.showViewNames
       title = @constructor.name
       setTimeout ->
@@ -57,10 +57,10 @@ module.exports = class ModalView extends CocoView
     if @$el.data('bs.modal')?.options?.keyboard
       @hide()
 
-  # TODO: Combine hide/onHidden such that backbone 'hide/hidden.bs.modal' events and our 'hide/hidden' events are more 1-to-1
-  # For example:
-  #   pressing 'esc' or using `currentModal.hide()` triggers 'hide', 'hide.bs.modal', 'hidden', 'hidden.bs.modal'
-  #   clicking outside the modal triggers 'hide.bs.modal', 'hidden', 'hidden.bs.modal' (but not 'hide')
+# TODO: Combine hide/onHidden such that backbone 'hide/hidden.bs.modal' events and our 'hide/hidden' events are more 1-to-1
+# For example:
+#   pressing 'esc' or using `currentModal.hide()` triggers 'hide', 'hide.bs.modal', 'hidden', 'hidden.bs.modal'
+#   clicking outside the modal triggers 'hide.bs.modal', 'hidden', 'hidden.bs.modal' (but not 'hide')
   hide: ->
     @trigger 'hide'
     @$el.removeClass('fade').modal 'hide' unless @destroyed
@@ -70,5 +70,5 @@ module.exports = class ModalView extends CocoView
 
   destroy: ->
     @hide() unless @hidden
-    @$el.off 'hide.bs.modal'
+    @$el.off 'hide.bs.modal' if @$el
     super()

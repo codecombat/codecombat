@@ -1,6 +1,7 @@
 require('app/styles/modal/model-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'app/templates/modal/model-modal'
+utils = require 'core/utils'
 require 'lib/setupTreema'
 
 module.exports = class ModelModal extends ModalView
@@ -41,10 +42,16 @@ module.exports = class ModelModal extends ModalView
       child = modelTreema.childrenTreemas[dish]
       child?.open()
       if child and dish is 'code' and model.type() is 'LevelSession' and team = modelTreema.get('team')
-        desserts = {
-          humans: ['hero-placeholder']
-          ogres: ['hero-placeholder-1']
-        }[team]
+        if utils.isOzaria
+          desserts = {
+            humans: ['programmable-tharin', 'programmable-librarian']
+            ogres: ['programmable-brawler', 'programmable-shaman']
+          }[team]
+        else
+          desserts = {
+            humans: ['hero-placeholder']
+            ogres: ['hero-placeholder-1']
+          }[team]
         for dessert in desserts
           child.childrenTreemas[dessert]?.open()
 

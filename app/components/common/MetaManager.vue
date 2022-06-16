@@ -1,4 +1,7 @@
 <script>
+  import {
+    isOzaria,
+  } from 'core/utils'
   /**
    * Renderless component that manages default head tag configuration for vue-meta.
    */
@@ -28,8 +31,7 @@
 
       return {
         title: this.$t('common.default_title'),
-        titleTemplate: '%s | CodeCombat',
-
+        ...(isOzaria ? {} : { titleTemplate: '%s | CodeCombat' }),
         meta: [
           { vmid: 'meta-description', name: 'description', content: this.$t('common.default_meta_description') },
           { vmid: 'viewport', name: 'viewport', content: 'width=1024' }

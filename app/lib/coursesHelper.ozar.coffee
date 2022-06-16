@@ -24,9 +24,9 @@ hasUserCompletedCourse = (userLevels, levelsInCourse) ->
   [userStarted, allComplete and userLevelsSeen == levelsInCourse.size, completed]
 
 module.exports =
-  # Result: Each course instance gains a property, numCompleted, that is the
-  #   number of students in that course instance who have completed ALL of
-  #   the levels in that course
+# Result: Each course instance gains a property, numCompleted, that is the
+#   number of students in that course instance who have completed ALL of
+#   the levels in that course
   calculateDots: (classrooms, courses, courseInstances) ->
     userLevelsCompleted = {}
     sessions = _.flatten (classroom.sessions?.models || [] for classroom in classrooms.models)
@@ -46,7 +46,7 @@ module.exports =
         instance.numCompleted = 0
         instance.started = false
         levelsInVersionedCourse = new Set (level.get('original') for level in classroom.getLevels({courseID: course.id}).models when not
-          (level.get('practice') or level.get('assessment')))
+        (level.get('practice') or level.get('assessment')))
 
         levelsCompletedByStudents = 0
         for userID in instance.get('members')
@@ -57,7 +57,7 @@ module.exports =
         instance.percentLevelCompletion = Math.floor(levelsCompletedByStudents / (levelsInVersionedCourse.size * instance.get('members').length) * 100)
 
   calculateEarliestIncomplete: (classroom, courses, courseInstances, students) ->
-    # Loop through all the combinations of things, return the first one that somebody hasn't finished
+# Loop through all the combinations of things, return the first one that somebody hasn't finished
     for course, courseIndex in courses.models
       instance = courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
       continue if not instance
@@ -84,7 +84,7 @@ module.exports =
     null
 
   calculateLatestComplete: (classroom, courses, courseInstances, students, userLevelCompletedMap) ->
-    # Loop through all the combinations of things in reverse order, return the level that anyone's finished
+# Loop through all the combinations of things in reverse order, return the level that anyone's finished
     courseModels = courses.models.slice()
     for course, courseIndex in courseModels.reverse() #
       courseIndex = courses.models.length - courseIndex - 1 #compensate for reverse
@@ -114,8 +114,8 @@ module.exports =
     null
 
   calculateConceptsCovered: (classrooms, courses, campaigns, courseInstances, students) ->
-    # Loop through all level/user combination and record
-    #   whether they've started, and completed, each concept
+# Loop through all level/user combination and record
+#   whether they've started, and completed, each concept
     conceptData = {}
     for classroom in classrooms.models
       conceptData[classroom.id] = {}
@@ -147,17 +147,17 @@ module.exports =
     conceptData
 
   calculateAllProgressInteractives: (classrooms, interactiveSessions=[]) ->
-    # Structure of progressData:
-    # {
-    #   classroomId: {
-    #     interactiveId: {
-    #       numStudents // total no of students that have started/completed the interactive
-    #       needsReview // true if more than 50% of total 'numStudents' submitted 3 or more incorrect submissions
-    #       flaggedStudents[] // array of student ids who submitted 3 or more incorrect submissions
-    #       studentId: { interactiveSessionObject }
-    #     }
-    #   }
-    # }
+# Structure of progressData:
+# {
+#   classroomId: {
+#     interactiveId: {
+#       numStudents // total no of students that have started/completed the interactive
+#       needsReview // true if more than 50% of total 'numStudents' submitted 3 or more incorrect submissions
+#       flaggedStudents[] // array of student ids who submitted 3 or more incorrect submissions
+#       studentId: { interactiveSessionObject }
+#     }
+#   }
+# }
     progressData = {}
     for classroom in classrooms.models
       progressData[classroom.id] = {}
@@ -189,16 +189,16 @@ module.exports =
     return progressData
 
   calculateAllProgress: (classrooms, courses, courseInstances, students) ->
-    # Loop through all combinations and record:
-    #   Completeness for each student/course
-    #   Completeness for each student/level
-    #   Completeness for each class/course (across all students)
-    #   Completeness for each class/level (across all students)
+# Loop through all combinations and record:
+#   Completeness for each student/course
+#   Completeness for each student/level
+#   Completeness for each class/course (across all students)
+#   Completeness for each class/level (across all students)
 
-    # class -> course
-    #   class -> course -> student
-    #   class -> course -> level
-    #     class -> course -> level -> student
+# class -> course
+#   class -> course -> student
+#   class -> course -> level
+#     class -> course -> level -> student
 
     progressData = {}
     for classroom in classrooms.models
@@ -220,7 +220,7 @@ module.exports =
             completed: students.size() > 0,
             started: false
             numStarted: 0
-            # numCompleted: 0
+# numCompleted: 0
           }
           isOptional = level.get('practice') or level.get('assessment') or level.isLadder()
           sessionsForLevel = _.filter classroom.sessions.models, (session) ->
@@ -269,8 +269,8 @@ module.exports =
               courseProgress.completed = false unless isOptional
               courseProgress[userID].completed = false unless isOptional
               if isOptional
-                # Weird behavior! Since practice levels are optional, the level is considered 'incomplete'
-                # for the class as a whole only if any started-but-not-completed sessions exist
+# Weird behavior! Since practice levels are optional, the level is considered 'incomplete'
+# for the class as a whole only if any started-but-not-completed sessions exist
                 courseProgress[levelID].completed = false if courseProgress[levelID][userID].started
               else
                 courseProgress[levelID].completed = false

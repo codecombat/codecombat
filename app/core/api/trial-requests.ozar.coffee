@@ -6,7 +6,7 @@ module.exports = {
       method: 'POST',
       json: trialRequest
     }))
-    
+
   getOwn: (options) ->
     options ?= {}
     options.data ?= {}

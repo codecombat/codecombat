@@ -21,6 +21,6 @@ module.exports = {
   users: require('./users')
   apiClients: require('./api-clients')
   oauth: require('./o-auth')
-  archivedElements: require('./archived-elements')
   outcomesReports: require('./outcomes-reports')
+  archivedElements: require('./archived-elements')
 }

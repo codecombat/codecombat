@@ -74,7 +74,7 @@
 
     methods: mapActions({
       fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher'
-    })
+    }),
   }
 </script>
 

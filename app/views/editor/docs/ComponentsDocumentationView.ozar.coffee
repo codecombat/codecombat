@@ -3,6 +3,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'app/templates/editor/docs/components-documentation-view'
 CocoCollection = require 'collections/CocoCollection'
 LevelComponent = require 'models/LevelComponent'
+utils = require('core/utils')
 
 class ComponentDocsCollection extends CocoCollection
   url: '/db/level.component?project=system,name,description,dependencies,propertyDocumentation,code'
@@ -24,7 +25,8 @@ module.exports = class ComponentsDocumentationView extends CocoView
   constructor: (options) ->
     super(options)
     @componentDocs = new ComponentDocsCollection()
-    @componentDocs.url += '&archived=false'
+    if utils.isOzaria
+      @componentDocs.url += '&archived=false'
     @loadDocs() unless options.lazy
 
   loadDocs: ->

@@ -3,6 +3,7 @@ CocoView = require 'views/core/CocoView'
 add_thangs_template = require 'app/templates/editor/level/add-thangs-view'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
+utils = require 'core/utils'
 
 PAGE_SIZE = 1000
 
@@ -27,6 +28,8 @@ module.exports = class AddThangsView extends CocoView
 
     @thangTypes = new Backbone.Collection()
     thangTypeCollection = new ThangTypeSearchCollection([])
+    if utils.isOzaria
+      thangTypeCollection.url += '&archived=false'
     thangTypeCollection.fetch({data: {limit: PAGE_SIZE}})
     thangTypeCollection.skip = 0
     # should load depended-on Components, too

@@ -5,6 +5,7 @@ Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'
 defaultScripts = require 'lib/DefaultScripts'
+utils = require 'core/utils'
 require 'lib/setupTreema'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
@@ -125,7 +126,7 @@ module.exports = class ScriptsTabView extends CocoView
     @scriptsTreema.set(@selectedScriptPath, @scriptTreema.data)
 
   onThangsEdited: (e) ->
-    # Update in-place so existing Treema nodes refer to the same array.
+# Update in-place so existing Treema nodes refer to the same array.
     @thangIDs?.splice(0, @thangIDs.length, @getThangIDs()...)
 
   onWindowResize: (e) =>
@@ -187,7 +188,10 @@ class EventPropsNode extends TreemaNode.nodeMap.string
     # triggered by the level. This provides an additional way to filter
     # scripts. This property is not part of the events schema as events
     # only gain this property through the script/note system.
-    autocompleteValues = ['codeLanguage']
+    if utils.isOzaria
+      autocompleteValues = ['codeLanguage']
+    else
+      autocompleteValues = []
     autocompleteValues.push key for key, val of channelSchema?.properties
     valEl.find('input').autocomplete(source: autocompleteValues, minLength: 0, delay: 0, autoFocus: true).autocomplete('search')
     valEl
@@ -207,7 +211,6 @@ class EventPrereqsNode extends TreemaNode.nodeMap.array
 
 class EventPrereqNode extends TreemaNode.nodeMap.object
   buildValueForDisplay: (valEl, data) ->
-    console.log('[z] building:', data)
     eventProp = (data.eventProps or []).join('.')
     eventProp = '(unset)' unless eventProp.length
     statements = []

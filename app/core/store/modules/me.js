@@ -85,6 +85,13 @@ export default {
       return me.isPremium()
     },
 
+    /**
+     * @returns {object|undefined} avatar schema object or undefined if not defined.
+     */
+    getCh1Avatar (state) {
+      return (state.ozariaUserOptions || {}).avatar
+    },
+
     inEU (state) {
       if (!state.country) {
         return undefined
@@ -92,6 +99,7 @@ export default {
 
       return utils.inEU(state.country)
     },
+
     isSmokeTestUser (state) {
       return utils.isSmokeTestEmail(state.email)
     },

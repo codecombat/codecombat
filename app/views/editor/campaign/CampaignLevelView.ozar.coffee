@@ -62,7 +62,7 @@ module.exports = class CampaignLevelView extends CocoView
     @getAnalytics startDay, endDay
 
   onDblClickRecentSession: (e) ->
-    # Admin view of players' code
+# Admin view of players' code
     return unless me.isAdmin()
     row = $(e.target).parent()
     player = new User _id: row.data 'player-id'
@@ -105,9 +105,9 @@ module.exports = class CampaignLevelView extends CocoView
       @render()
 
   updateAnalyticsGraphData: ->
-    # console.log 'updateAnalyticsGraphData'
-    # Build graphs based on available @analytics data
-    # Currently only one graph
+# console.log 'updateAnalyticsGraphData'
+# Build graphs based on available @analytics data
+# Currently only one graph
     @analytics.graphs = [graphID: 'level-completions', lines: []]
 
     # TODO: Where should this metadata live?
@@ -150,7 +150,7 @@ module.exports = class CampaignLevelView extends CocoView
     # Update level completion graph data
     dayStartedMap = {}
     if @analytics?.levelCompletions?.data?.length > 0
-      # Build line data
+# Build line data
       levelPoints = []
       for day, i in @analytics.levelCompletions.data
         dayStartedMap[day.created] = day.started
@@ -182,7 +182,7 @@ module.exports = class CampaignLevelView extends CocoView
 
     # Update average playtime graph data
     if @analytics?.levelPlaytimes?.data?.length > 0
-      # Build line data
+# Build line data
       playtimePoints = []
       for day, i in @analytics.levelPlaytimes.data
         avg = parseFloat(day.average)
@@ -191,7 +191,7 @@ module.exports = class CampaignLevelView extends CocoView
           y: avg
           day: day.created
           pointID: "#{playtimeLineID}#{i}"
-          values: ["Average playtime: #{avg.toFixed(2)}s"]
+          values: ["Average playtime: #{avg.toFixed(2)}s, #{day.count} players"]
       # Ensure points for each day
       for day, i in days
         if playtimePoints.length <= i or playtimePoints[i].day isnt day
@@ -212,7 +212,7 @@ module.exports = class CampaignLevelView extends CocoView
 
     # Update help graph data
     if @analytics?.levelHelps?.data?.length > 0
-      # Build line data
+# Build line data
       helpPoints = []
       videoPoints = []
       for day, i in @analytics.levelHelps.data
@@ -268,7 +268,7 @@ module.exports = class CampaignLevelView extends CocoView
           max: 100.0
 
   updateAnalyticsGraphs: ->
-    # Build d3 graphs
+# Build d3 graphs
     return unless @analytics?.graphs?.length > 0
     containerSelector = '.line-graph-container'
     # console.log 'updateAnalyticsGraphs', containerSelector, @analytics.graphs
@@ -379,7 +379,7 @@ module.exports = class CampaignLevelView extends CocoView
         currentLine++
 
   getAnalytics: (startDay, endDay) =>
-    # Analytics APIs use 2 different day formats
+# Analytics APIs use 2 different day formats
     if startDay?
       startDayDashed = startDay
       startDay = startDay.replace(/-/g, '')
@@ -472,7 +472,7 @@ module.exports = class CampaignLevelView extends CocoView
     request.load()
 
   getRecentSessions: (doneCallback) ->
-    # limit = 100
+# limit = 100
     success = (data) =>
       return doneCallback() if @destroyed
       # console.log 'getRecentSessions', data

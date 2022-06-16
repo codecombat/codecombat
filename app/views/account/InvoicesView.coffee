@@ -31,7 +31,7 @@ module.exports = class InvoicesView extends RootView
     amount = parseFloat($('#amount').val())
     if isNaN(amount) or amount <= 0
       @state = 'validation_error'
-      @stateMessage = $.t('account_invoices.invalid_amount')
+      @stateMessage = $.i18n.t('account_invoices.invalid_amount')
       @amount = 0
       @render()
       return
@@ -70,7 +70,7 @@ module.exports = class InvoicesView extends RootView
 
       # Show success UI
       @state = 'invoice_paid'
-      @stateMessage = "$#{(@amount / 100).toFixed(2)} " + $.t('account_invoices.success')
+      @stateMessage = "$#{(@amount / 100).toFixed(2)} " + $.i18n.t('account_invoices.success')
       @amount = 0
       @description = ''
       @render()

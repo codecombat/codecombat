@@ -5,6 +5,7 @@ LevelSession = require 'models/LevelSession'
 template = require 'app/templates/user/main-user-view'
 {me} = require 'core/auth'
 Clan = require 'models/Clan'
+utils = require 'core/utils'
 EarnedAchievementCollection = require 'collections/EarnedAchievementCollection'
 
 class LevelSessionsCollection extends CocoCollection
@@ -27,6 +28,11 @@ module.exports = class MainUserView extends UserView
   destroy: ->
     @stopListening?()
     super()
+
+  loadHeroPoseImage: =>
+    @user.getHeroPoseImage().then (result) =>
+      @heroPoseImage = result
+      @render()
 
   onLoaded: ->
     if @user.loaded
@@ -58,7 +64,8 @@ module.exports = class MainUserView extends UserView
       @onSyncClans @clans?.models
       @render?()
     @supermodel.loadCollection(@clans, 'clans', {cache: false})
-
+    if utils.isCodeCombat
+      @loadHeroPoseImage()
     super()
 
   onSyncClans: (clans) ->

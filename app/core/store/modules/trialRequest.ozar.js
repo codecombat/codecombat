@@ -1,5 +1,5 @@
 import api from '../../api/trial-requests';
-import { getNcesData, getRootLevelData, ROOT_LEVEL_KEYS } from '../../trialRequestUtil'
+import { getNcesData, getRootLevelData, ROOT_LEVEL_KEYS } from '../../../lib/trialRequestUtils'
 
 export default {
   namespaced: true,
@@ -7,27 +7,27 @@ export default {
     properties: Object.assign({},
       getNcesData(),
       {
-      organization: '',
-      district: '',
-      city: '',
-      state: '',
-      country: '',
-      phoneNumber: '',
-      role: '',
-      purchaserRole: '',
-      numStudents: '',
-      numStudentsTotal: '',
-      notes: '',
-      referrer: '',
-      marketingReferrer: '',
-      educationLevel: [],
-      otherEducationLevel: false,
-      otherEducationLevelExplanation: '',
-      siteOrigin: 'create teacher',
-      firstName: '',
-      lastName: '',
-      email: '',
-    }),
+        organization: '',
+        district: '',
+        city: '',
+        state: '',
+        country: '',
+        phoneNumber: '',
+        role: '',
+        purchaserRole: '',
+        numStudents: '',
+        numStudentsTotal: '',
+        notes: '',
+        referrer: '',
+        marketingReferrer: '',
+        educationLevel: [],
+        otherEducationLevel: false,
+        otherEducationLevelExplanation: '',
+        siteOrigin: 'create teacher',
+        firstName: '',
+        lastName: '',
+        email: '',
+      }),
     ...getRootLevelData()
   },
   getters: {
@@ -57,7 +57,7 @@ export default {
     },
   },
   actions: {
-    async fetchCurrentTrialRequest({ commit }) {
+    async fetchCurrentTrialRequest({ commit, state }) {
       if (state.properties.email) return // already fetched
       let trialRequests;
       try {

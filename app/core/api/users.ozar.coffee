@@ -97,4 +97,9 @@ module.exports = {
     fetchJson("/db/prepaid/#{prepaidId}/creator", _.assign({}, options, {
       method: 'GET'
     }))
+
+  provisionSubscription: ({ userId }) ->
+    fetchJson("/db/user/#{userId}/provision-subscription", _.assign({}, {
+      method: 'PUT'
+    }))
 }

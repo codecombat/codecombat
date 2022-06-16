@@ -4,6 +4,7 @@ template = require 'app/templates/editor/level/thang/level-thang-edit-view'
 ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangType = require 'models/ThangType'
 ace = require('lib/aceContainer')
+utils = require 'core/utils'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
@@ -46,7 +47,8 @@ module.exports = class LevelThangEditView extends CocoView
       supermodel: @supermodel
       level: @level
       world: @world
-      thangType: thangType
+
+    if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') or utils.isCodeCombat then options.thangType = thangType
 
     @thangComponentEditView = new ThangComponentsEditView options
     @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged
