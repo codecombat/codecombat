@@ -5,10 +5,11 @@
   >
     <div class="license__buy row">
       <div class="license__buy-once col-md-6">
-        Available for purchase one time annually.
+        {{ $t('payments.purchase_annually') }}
       </div>
-      <div class="col-md-1">&nbsp;</div>
-      <div class="license__buy-btn clearfix col-md-5">Buy Now</div>
+      <div class="col-md-offset-1 col-md-5">
+        <div class="license__buy-btn">{{ $t('subscribe.buy_now') }}</div>
+      </div>
     </div>
   </div>
   <div
@@ -17,26 +18,29 @@
   >
     <div class="license__buy license__request row" v-if="numStudents === '<=10'">
       <div class="license__buy-once col-md-6">
-        We'll help you build a solution that meets the needs of your class, school or district.
+        {{ $t('payments.class_school_solution') }}
       </div>
-      <div class="col-md-1">&nbsp;</div>
-      <div class="license__buy-btn clearfix col-md-5">Request a Quote</div>
+      <div class="col-md-offset-1 col-md-5">
+        <div class="license__buy-btn">
+          {{ $t('payments.request_quote') }}
+        </div>
+      </div>
     </div>
     <div class="license__buy license__request license__bulk-only" v-else>
       <div class="license__buy-once">
-        We'll help you build a solution that meets the needs of your class, school or district.
+        {{ $t('payments.class_school_solution') }}
       </div>
       <div class="license__bulk-discount">
         <div class="license__bulk-discount-body">
             <div class="license__price">
-              Bulk
+              {{ $t('payments.bulk') }}
             </div>
             <div class="license__per">
-              <span class="license__per-student">discounts</span>
-              <span class="license__per-year">available</span>
+              <span class="license__per-student">{{ $t('payments.discounts') }}</span>
+              <span class="license__per-year">{{ $t('payments.available') }}</span>
             </div>
         </div>
-        <div class="license__buy-btn license__bulk-only-request-quote cls2">Request a Quote</div>
+        <div class="license__buy-btn license__bulk-only-request-quote cls2">{{ $t('payments.request_quote') }}</div>
       </div>
     </div>
   </div>
@@ -64,15 +68,18 @@ export default {
 
 <style scoped lang="scss">
 @import "app/styles/payment/variables";
+@import "app/styles/bootstrap/variables";
 
 .license {
   &__buy {
     background: $blue-dark-1;
     padding: 5rem;
 
-    &-once {
-      display: inline-block;
+    @media (max-width: $screen-md-min) {
+      padding: 2rem;
+    }
 
+    &-once {
       font-style: italic;
       font-weight: 500;
       font-size: 16px;
@@ -86,11 +93,14 @@ export default {
       color: #FFFFFF;
 
       padding-top: 1rem;
+
+      @media (max-width: $screen-md-min) {
+        padding-bottom: 1rem;
+        text-align: center;
+      }
     }
 
     &-btn {
-      float: right;
-
       background: #FCBB00;
       padding: 1rem 3.5rem;
 
@@ -107,6 +117,10 @@ export default {
 
   &__request {
     padding: 4rem;
+
+    @media (max-width: $screen-md-min) {
+      padding: 2rem;
+    }
   }
 
   &__price {
