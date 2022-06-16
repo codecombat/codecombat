@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="single-podcast" v-if="loaded">
+    <div class="single-podcast" v-if="loaded && isPodcastVisible(podcast)">
       <head-component
         :podcast="podcast"
       />
@@ -20,6 +20,12 @@
         </div>
       </div>
     </div>
+    <div class="podcast-loading" v-else-if="!loaded">
+      {{ $t('common.loading') }}
+    </div>
+    <div class="failure" v-else-if="loaded && !isPodcastVisible(podcast)">
+      {{ $t('podcast.no_permission') }}
+    </div>
   </div>
 </template>
 
@@ -28,6 +34,7 @@ import { mapActions, mapGetters } from 'vuex'
 import HeadComponent from './single-podcast/HeadComponent'
 import EpisodeComponent from './single-podcast/EpisodeComponent'
 import GuestInfoComponent from './single-podcast/GuestInfoComponent'
+import podcastVisibleMixin from './podcastVisibleMixin'
 
 export default {
   name: 'SinglePodcastView',
@@ -36,6 +43,9 @@ export default {
     EpisodeComponent,
     HeadComponent
   },
+  mixins: [
+    podcastVisibleMixin
+  ],
   data () {
     return {
       loaded: false,
@@ -62,6 +72,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/podcast/common";
 .single-podcast {
   font-size: 62.5%;
 
@@ -73,5 +84,10 @@ export default {
       font-size: 1.8rem;
     }
   }
+}
+.failure {
+  color: #ff0000;
+  text-align: center;
+  font-size: 3rem;
 }
 </style>

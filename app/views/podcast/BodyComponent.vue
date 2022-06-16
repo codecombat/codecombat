@@ -5,7 +5,7 @@
         class="podcast-item"
         v-for="podcast in allPodcasts"
       >
-        <div class="container" v-if="podcast.visible">
+        <div class="container" v-if="isPodcastVisible(podcast)">
           <div class="row">
             <router-link :to="{ name: 'PodcastSingle', params: { handle: podcast.slug } }">
               <div class="col-md-6 podcast-item__info">
@@ -13,10 +13,10 @@
                   {{ getUploadDate(podcast.uploadDate) }}
                 </div>
                 <div class="podcast-content__title">
-                  {{ podcast.name }}
+                  {{ formatPodcastName(podcast) }}
                 </div>
                 <div class="podcast-content__subtitle" v-if="podcast.shortDescription">
-                  {{ podcast.shortDescription }}
+                  {{ formatShortDescription(podcast) }}
                 </div>
               </div>
             </router-link>
@@ -47,6 +47,8 @@ import { mapActions, mapGetters } from 'vuex'
 import AudioPlayerComponent from './AudioPlayerComponent'
 import { fullFileUrl } from './podcastHelper'
 import uploadDateMixin from './uploadDateMixin'
+import podcastVisibleMixin from './podcastVisibleMixin'
+import { i18n } from 'app/core/utils'
 
 export default {
   name: 'BodyComponent',
@@ -59,7 +61,7 @@ export default {
       showPlayModal: null
     }
   },
-  mixins: [ uploadDateMixin ],
+  mixins: [ uploadDateMixin, podcastVisibleMixin ],
   methods: {
     ...mapActions({
       'fetchAllPodcasts': 'podcasts/fetchAll'
@@ -75,6 +77,12 @@ export default {
     },
     transistorUrl (podcast) {
       return `https://share.transistor.fm/e/${podcast.transistorEpisodeId}/dark`
+    },
+    formatPodcastName (podcast) {
+      return i18n(podcast, 'name')
+    },
+    formatShortDescription (podcast) {
+      return i18n(podcast, 'shortDescription')
     }
   },
   computed: {
@@ -91,6 +99,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/podcast/common";
 .podcast-content {
 
   &__title {
@@ -161,11 +170,5 @@ export default {
   &__player {
     padding: 1rem;
   }
-}
-
-.podcast-loading {
-  text-align: center;
-  font-size: 3rem;
-  color: #00008b;
 }
 </style>
