@@ -204,48 +204,6 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
     @data = @uploadingPath
     @reset()
 
-
-class ImageFileTreema extends TreemaNode.nodeMap.string
-  valueClass: 'treema-image-file'
-  editable: false
-
-  constructor: ->
-    super arguments...
-    initializeFilePicker()
-
-  onClick: (e) ->
-    return if $(e.target).closest('.btn').length
-    super(arguments...)
-
-  buildValueForDisplay: (valEl, data) ->
-    mimetype = 'image/*'
-    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload Picture</a>')
-      .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
-
-    valEl.append(pickButton)
-    if data
-      valEl.append $('<img />').attr('src', "/file/#{data}")
-
-  onFileChosen: (InkBlob) =>
-    if not @settings.filePath
-      console.error('Need to specify a filePath for this treema', @getRoot())
-      throw Error('cannot upload file')
-
-    body =
-      url: InkBlob.url
-      filename: InkBlob.filename
-      mimetype: InkBlob.mimetype
-      path: @settings.filePath
-      force: true
-
-    @uploadingPath = [@settings.filePath, InkBlob.filename].join('/')
-    $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
-
-  onFileUploaded: (e) =>
-    @data = @uploadingPath
-    @flushChanges()
-    @refreshDisplay()
-
 class GeneralFileTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-file'
   editable: false
@@ -290,6 +248,25 @@ class GeneralFileTreema extends TreemaNode.nodeMap.string
     @data = @uploadingPath
     @flushChanges()
     @refreshDisplay()
+
+class ImageFileTreema extends GeneralFileTreema
+  valueClass: 'treema-image-file'
+  editable: false
+
+  constructor: ->
+    super arguments...
+
+  buildValueForDisplay: (valEl, data) ->
+    mimetype = 'image/*'
+    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload Picture</a>')
+      .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
+
+    valEl.append(pickButton)
+    if data
+      valEl.append $('<img />').attr('src', "/file/#{data}")
+
+  onFileChosen: (InkBlob) ->
+    super InkBlob
 
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
