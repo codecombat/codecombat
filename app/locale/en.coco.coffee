@@ -3593,3 +3593,4 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     air_date: "Air date" # upload date
     play_episode: "Play Episode"
     about_guest: "About Our Guest"
+    all_episodes: "View All Episodes"

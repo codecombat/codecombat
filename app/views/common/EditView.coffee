@@ -1,4 +1,4 @@
-require('app/styles/editor/resource/edit.sass')
+require('app/styles/editor/common/edit.scss')
 RootView = require 'views/core/RootView'
 template = require 'app/templates/editor/common/edit'
 ConfirmModal = require 'views/core/ConfirmModal'
@@ -32,6 +32,10 @@ module.exports = class EditView extends RootView
     @listenTo @resource, 'change', =>
       @resource.updateI18NCoverage()
       @treema.set('/', @resource.attributes)
+
+    if !@filePath or !@redirectPathOnSuccess or !@resourceName
+      console.error 'EditView: required field not set', @filePath, @redirectPathOnSuccess, @resourceName
+      noty({ text: 'EditView: required field not set', layout: 'center', type: 'error', timeout: 10000 })
 
   buildTreema: ->
     return if @treema? or (not @resource.loaded)

@@ -8,10 +8,10 @@
         <div class="col-md-7 col-xs-8">
           <div class="podcast-head__heading">
             <h1 class="podcast-head__heading-title">
-              {{ podcast.name }} {{ $t('signup.with') }}
+              {{ formatName }} {{ $t('signup.with') }}
             </h1>
             <h1 class="podcast-head__heading-guest">
-              {{ podcast.guestName }}
+              {{ formatGuestName }}
             </h1>
           </div>
         </div>
@@ -21,12 +21,21 @@
 </template>
 
 <script>
+import { i18n } from 'app/core/utils'
 export default {
   name: 'SinglePodcastHeadComponent',
   props: {
     podcast: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    formatName () {
+      return i18n(this.podcast, 'name')
+    },
+    formatGuestName () {
+      return i18n(this.podcast, 'guestName')
     }
   }
 }

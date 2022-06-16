@@ -37,7 +37,7 @@
       </div>
     </div>
     <div class="podcast-loading" v-else>
-      Loading...
+      {{ $t('common.loading') }}
     </div>
   </div>
 </template>
@@ -161,5 +161,11 @@ export default {
   &__player {
     padding: 1rem;
   }
+}
+
+.podcast-loading {
+  text-align: center;
+  font-size: 3rem;
+  color: #00008b;
 }
 </style>

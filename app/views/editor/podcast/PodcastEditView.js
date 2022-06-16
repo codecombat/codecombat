@@ -6,8 +6,8 @@ class PodcastEditView extends EditView {
   resource = null
   schema = PodcastSchema
   redirectPathOnSuccess = '/editor/podcast'
-  filePath = null
-  resourceName = 'podcast'
+  filePath = 'podcast'
+  resourceName = 'Podcast'
 
   constructor(options = {}, resourceId) {
     super({})

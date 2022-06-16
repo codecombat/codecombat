@@ -11,7 +11,7 @@
           </div>
         </div>
         <div class="col-md-5 col-md-offset-1">
-          <img :src="`/file/${guestImage}`" alt="Guest Image" class="guest-info__img">
+          <img :src="`/file/${podcast.guestImage}`" alt="Guest Image" class="guest-info__img">
         </div>
       </div>
     </div>
@@ -20,22 +20,19 @@
 </template>
 
 <script>
+import { i18n } from 'app/core/utils'
 const marked = require('marked')
 export default {
   name: 'GuestInfoComponent',
   props: {
-    guestImage: {
-      type: String,
-      required: true
-    },
-    guestDetails: {
-      type: String,
+    podcast: {
+      type: Object,
       required: true
     }
   },
   computed: {
     formatGuestDetails () {
-      return marked(this.guestDetails)
+      return marked(i18n(this.podcast, 'guestDetails'))
     }
   }
 }

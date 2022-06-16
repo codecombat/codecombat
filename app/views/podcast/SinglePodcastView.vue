@@ -8,14 +8,13 @@
         :podcast="podcast"
       />
       <guest-info-component
-        :guest-details="podcast.guestDetails"
-        :guest-image="podcast.guestImage"
+        :podcast="podcast"
       />
       <div class="all-podcasts">
         <div class="container">
           <div class="row">
             <div class="col-md-offset-1 col-md-11">
-              <router-link :to="{ name: 'AllPodcasts' }" class="all-podcasts__link">View All Episodes</router-link>
+              <router-link :to="{ name: 'AllPodcasts' }" class="all-podcasts__link">{{ $t('podcast.all_episodes') }}</router-link>
             </div>
           </div>
         </div>

@@ -55,6 +55,7 @@ import AudioPlayerComponent from '../AudioPlayerComponent'
 import SubscribeModal from '../SubscribeModal'
 import { fullFileUrl } from '../podcastHelper'
 import uploadDateMixin from '../uploadDateMixin'
+import { i18n } from 'app/core/utils'
 const marked = require('marked')
 export default {
   name: 'EpisodeComponent',
@@ -76,16 +77,14 @@ export default {
   },
   mixins: [ uploadDateMixin ],
   methods: {
-    onListenClick (podcast) {
-      console.log('listen', podcast, this.showPlayModal)
-      this.showPlayModal = true
-    },
     onDownloadClick (podcast) {
-      console.log('download', podcast)
+      window.tracker.trackEvent('Download podcast clicked')
+        .catch ((e) => console.log('podcastTrackEvent download failed', e))
       window.open(fullFileUrl(podcast.audio.mp3), '_blank').focus()
     },
     onTranscriptClick (podcast) {
-      console.log('transcript', podcast)
+      window.tracker.trackEvent('Transcript podcast clicked')
+        .catch ((e) => console.log('podcastTrackEvent transcript failed', e))
       window.open(fullFileUrl(podcast.transcript), '_blank').focus()
     },
     onSubscribeClick () {
@@ -97,7 +96,7 @@ export default {
       return `https://share.transistor.fm/e/${this.podcast.transistorEpisodeId}/dark`
     },
     formatDescription () {
-      return marked(this.podcast.description)
+      return marked(i18n(this.podcast, 'description'))
     }
   }
 }
