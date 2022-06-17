@@ -14,37 +14,39 @@
         h5.text-h5.text-teal {{ $t("partners.below_headline_blurb") }}
 
   .width-container.row.image-row
-    .col-sm-9
+    .col-md-9
       p.text-navy
         strong {{ $t("partners.coding_title") }}
         | &nbsp;
         span {{ $t("partners.coding_blurb") }}
-    .col-sm-3
+    .col-md-3
       img.img-responsive(src="/images/pages/partners/coding.jpg")
 
   .width-container.row.image-row
-    .col-sm-3
+    .col-md-3
       img.img-responsive(src="/images/pages/partners/powered-by-hyper.png")
-    .col-sm-9
+    .col-md-9
       p.text-navy
         strong {{ $t("partners.esports_title") }}
         | &nbsp;
         span(v-html="$t('partners.esports_blurb', i18nData)")
 
-  .width-container.row
-    .col-lg-12
+  .width-container.row.image-row
+    .col-sm-12
       p.text-navy
         strong {{ $t("partners.distribution_title") }}
         | &nbsp;
         span(v-html="$t('partners.distribution_blurb', i18nData)")
 
-
-  .width-container.row
-    .col-lg-12
+  .width-container.row.image-row
+    .col-md-9
       p.text-navy
         strong {{ $t("partners.equity_social_title") }}
         | &nbsp;
         span(v-html="$t('partners.equity_social_blurb', i18nData)")
+        span(v-html="$t('partners.seek_relationships_blurb', i18nData)")
+    .col-md-3
+      img.img-responsive(src="/images/pages/partners/seeds-of-light.jpg" alt="Seeds of Light")
 
   .width-container.row
     .col-lg-12
@@ -53,22 +55,16 @@
 
 
 
-  .row.width-container.image-row
-    .col-md-3.col-md-offset-3.col-sm-12.teacher-quote.col-sm-offset-0
+  .row.width-container.image-row.quote-row
+    .col-md-5.col-md-offset-1.col-sm-12.teacher-quote.col-sm-offset-0
       h3.text-h3.text-navy {{ $t("partners.eugenio_derbez_blurb") }}
-    .col-md-3.col-sm-12
+    .col-md-5.col-sm-12
       img.img-responsive(src="/images/pages/partners/Eugenio-Derbez.png" alt="Eugenio Derbez")
 
-  .width-container.row
-    .col-sm-12
-      p.text-navy
-        span(v-html="$t('partners.seek_relationships_blurb', i18nData)")
-
-
   .width-container.row.image-row
-    .col-sm-3
+    .col-md-3
       img.img-responsive(src="/images/pages/partners/corporate.png")
-    .col-sm-9
+    .col-md-9
       p.text-navy
         strong {{ $t("partners.corporate_team_building_title") }}
         | &nbsp;
@@ -90,7 +86,7 @@ export default Vue.extend({
   data() {
     return {
       i18nData: {
-        hyperx: `<a href='https://www.yahoo.com/now/hyperx-partners-codecombat-esports-coding-175900451.html' target='_blank'>${$.i18n.t('partners.hyperx')}</a>`,
+        hyperx: `<a href='/league' target='_blank'>${$.i18n.t('partners.hyperx')}</a>`,
         respawn: `<a href='/league/#winners' target='_blank'>${$.i18n.t('partners.respawn')}</a>`,
         forty_languages: `<a href='/contribute/diplomat' target='_blank'>${$.i18n.t('partners.forty_languages')}</a>`,
         reach_latinx: `<a href='https://www.yahoo.com/now/mexican-superstar-eugenio-derbez-partners-200100110.html' target='_blank'>${$.i18n.t('partners.reach_latinx')}</a>`,
@@ -122,26 +118,26 @@ export default Vue.extend({
 .text-h3 {
   font-family: $headline-font;
   font-weight: bold;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 28px;
+  line-height: 40px;
   letter-spacing: 0.52px;
 }
 
 
 .text-h5 {
   font-family: $body-font;
-  font-size: 24px;
-  line-height: 30px;
+  font-size: 36px;
+  line-height: 46px;
   letter-spacing: 0.48px;
   font-weight: normal;
 }
 
 p, .text-p {
   font-family: $body-font;
-  font-size: 18px;
+  font-size: 28px;
   font-weight: 300;
   letter-spacing: 0.75px;
-  line-height: 26px;
+  line-height: 38px;
   text-align: justify;
 }
 
@@ -176,10 +172,22 @@ p, .text-p {
     padding: 5px 0 0;
     &.image-row {
       padding-bottom: 15px;
+
+      @media (max-width: $screen-md-min) {
+        padding: 40px 0;
+      }
     }
+    &.quote-row {
+      padding: 30px 0;
+    }
+
   }
 
   overflow: hidden;
+
+  .img-responsive {
+    width: 100%;
+  }
 }
 
 .teacher-quote {
@@ -203,6 +211,7 @@ p, .text-p {
     font-weight: 600;
   }
 }
+
 
 
 </style>
