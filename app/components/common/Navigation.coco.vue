@@ -1,4 +1,5 @@
 <script>
+  const fetchJson = require('../../core/api/fetch-json')
   import {
     CODECOMBAT,
     CODECOMBAT_CHINA,
@@ -72,7 +73,20 @@
       this.CODECOMBAT = CODECOMBAT
       this.OZARIA = OZARIA
     },
-
+    data () {
+      return {
+        announcementInterval: false
+      }
+    },
+    mounted () {
+      this.checkAnnouncements()
+      if(!this.announcementInterval)
+        this.announcementInterval = setInterval(this.checkAnnouncements, 600000)
+    },
+    beforeUnmounted() {
+      if(this.announcementInterval)
+        clearInterval(this.announcementInterval)
+    },
     methods: {
       navEvent (e) {
         // Only track if user has clicked a link on the nav bar
@@ -125,6 +139,15 @@
 
       ozPath (relativePath) {
         return `${this.ozBaseURL}${relativePath}`
+      },
+      checkAnnouncements () {
+        if(me.isAnonymous())
+          return
+
+        fetchJson('/db/user/announcements/new').then((data) => {
+          console.log('announcements:' , data)
+        })
+
       }
     }
   })
