@@ -2287,6 +2287,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     achievement_title: "Achievement Editor"
     poll_title: "Poll Editor"
     resource_title: "Resource Editor"
+    resource_title_general: "__resource__ Editor"
     back: "Back"
     revert: "Revert"
     revert_models: "Revert Models"
@@ -2338,6 +2339,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_system_edit_title: "Edit System"
     course_edit_title: "Edit Course"
     resource_edit_title: "Edit Resource"
+    resource_edit_title_general: "Edit __resource__"
     create_system_title: "Create New System"
     new_component_title: "Create New Component"
     new_component_field_system: "System"
@@ -3584,6 +3586,23 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     class_owner: 'Class Owner'
     share: 'Share'
 
+  podcast:
+    learning_adventure: "Where learning is always an adventure."
+    explores_stem: "Our podcast explores the role of technology, STEM, and creative play in education. With expert guests, we discover how learning is always an adventure."
+    listen: "Listen"
+    download: "Download"
+    transcript: "Transcript"
+    learn_more_coco: "Want to learn more about CodeCombat coding experiences?"
+    subscribe: "Subscribe"
+    explore_coco: "Explore CodeCombat"
+    interested_in_being_guest: "Interested in being a guest on EdTech Adventures?"
+    lets_chat: "Let's Chat"
+    air_date: "Air date" # upload date
+    play_episode: "Play Episode"
+    about_guest: "About Our Guest"
+    all_episodes: "View All Episodes"
+    no_permission: "You don't have permission to view this podcast"
+    
   library:
     enter_library_card: "Enter your Library Card Number:"
     access_coco: "Access CodeCombat"

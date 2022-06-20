@@ -22,4 +22,4 @@ table.table
             | #{data.name}
         td(title=data.description).body-row
           | #{data.description}
-        td #{data.version.major}.#{data.version.minor}
+        td #{data.version ? data.version.major : ''}.#{data.version ? data.version.minor : ''}

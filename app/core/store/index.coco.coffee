@@ -44,6 +44,7 @@ store = new Vuex.Store({
     classrooms: require('./modules/classrooms').default,
     teacherDashboard: require('./modules/teacherDashboard').default,
     baseCurriculumGuide: require('ozaria/site/store/BaseCurriculumGuide').default
+    podcasts: require('./modules/podcasts').default
   }
 })
 
