@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     pacing_guides_high: "Stap-voor-stap gids hogere klassen Middelbare school"
     getting_started: "Aan de Slag"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
     educator_faq: "Leraar FAQ"
