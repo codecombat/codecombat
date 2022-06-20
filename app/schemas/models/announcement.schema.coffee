@@ -34,19 +34,22 @@ MongoFindQuerySchema =
 AnnouncementSchema = c.object
   title: 'Announcement'
   description: ''
-  required: ['', 'title']
+  required: ['name']
   default:
+    content: ''
+    startDate: Date.now
+    query: {}
+    product: 'codecombat'
     kind: 'normal'
 
-c.extendNamedProperties AnnouncementSchema
+# c.extendNamedProperties AnnouncementSchema # do we need name/slug ?
 
 _.extend AnnouncementSchema.properties,
-  description:
-    type: 'string'
   created: c.date
     title: 'Created'
     readOnly: true
-  title:
+  name:
+    title: 'Title' # we can't use a property named title
     type: 'string'
   content:
     type: 'string'
@@ -62,17 +65,25 @@ _.extend AnnouncementSchema.properties,
     enum: ['normal', 'sequence', 'banner']
     description: 'normal: normal announcements; banner: show anyway during live dates on homeview ; sequence: requires step to determine when to show'
   sequence:
-    prevStep:
-      type: 'number'
-    prevTime:
-      type: 'number'
-      description: 'how many hours required after read prev announcement'
-    step:
-      type: 'number'
-      description: 'announcement publish step'
+    type: 'object'
+    description: 'properties: step*, prevStep, prevTime'
+    properties:
+      prevStep:
+        type: 'number'
+        description: 'requires first reading at least one prev Step announcement'
+      prevTime:
+        type: 'number'
+        description: 'how many hours required after read prev announcement'
+      step:
+        type: 'number'
+        description: 'announcement publish step'
 
 AnnouncementSchema.definitions = {}
 AnnouncementSchema.definitions['mongoQueryOperator'] = MongoQueryOperatorSchema
 AnnouncementSchema.definitions['mongoFindQuery'] = MongoFindQuerySchema
 c.extendBasicProperties AnnouncementSchema, 'announcement'
+c.extendSearchableProperties AnnouncementSchema
+c.extendTranslationCoverageProperties AnnouncementSchema
+c.extendPatchableProperties AnnouncementSchema
+
 module.exports = AnnouncementSchema

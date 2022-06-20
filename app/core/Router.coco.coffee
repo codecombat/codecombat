@@ -150,6 +150,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/article': go('editor/article/ArticleSearchView')
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')
+    'editor/announcement': go('editor/announcement/AnnouncementSearchView')
+    'editor/announcement/:announcementId': go('editor/announcement/AnnouncementEditView')
     'editor/level': go('editor/level/LevelSearchView')
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')
@@ -338,6 +340,7 @@ module.exports = class CocoRouter extends Backbone.Router
       path = 'play/CampaignView'
 
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
+    console.log(path)
     Promise.all([
       dynamicRequire[path](), # Load the view file
       # The locale load is already initialized by `application`, just need the promise
