@@ -1,0 +1,30 @@
+extends /templates/base
+
+block content
+  div
+    ol.breadcrumb
+      li
+        a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
+      li
+        a(href=`/editor/${view.resourceName}`, data-i18n="editor.resource_title_general", data-i18n-options={resource: view.resourceName})
+      li.active
+        | #{view.resource.get('name')}
+
+  - var authorized = !me.get('anonymous');
+  div.edit-actions
+    button.resource-tool-button(data-i18n="editor.pop_i18n", disabled=authorized === true ? undefined : "true").btn.btn-primary#i18n-button
+    button.resource-tool-button(data-i18n="common.save", disabled=authorized === true ? undefined : "true").btn.btn-primary#save-button Save
+
+  h3
+    span(data-i18n="editor.resource_edit_title_general", data-i18n-options={resource: view.resourceName})
+    |: #{view.resource.attributes.name}
+
+  - if (!me.isAdmin())
+    .alert.alert-warning Can only edit translations currently
+
+  #resource-treema
+
+  h3(data-i18n="resources.patches") Patches
+  .patches-view
+
+  hr

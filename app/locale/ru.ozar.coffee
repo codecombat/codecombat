@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     pacing_guides_high: "Руководство для Старшей школы"
     getting_started: "Начать!"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
     educator_faq: "Учительское FAQ"

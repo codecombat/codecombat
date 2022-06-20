@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     pacing_guides_high: "מדריך קצב לימודים לתיכון"
     getting_started: "כיצד להתחיל"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
     educator_faq: "שאלות נפוצות לאנשי חינוך"

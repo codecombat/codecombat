@@ -1982,6 +1982,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     pacing_guides_high: "High School Pacing Guide"
     getting_started: "Getting Started"
     student_resources: "Student Resources"
+    curriculum: "Curriculum"
     lesson_slides: "Lesson Slides"
     section: "Section"
     educator_faq: "Educator FAQ"
@@ -2287,6 +2288,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     achievement_title: "Achievement Editor"
     poll_title: "Poll Editor"
     resource_title: "Resource Editor"
+    resource_title_general: "__resource__ Editor"
     back: "Back"
     revert: "Revert"
     revert_models: "Revert Models"
@@ -2338,6 +2340,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_system_edit_title: "Edit System"
     course_edit_title: "Edit Course"
     resource_edit_title: "Edit Resource"
+    resource_edit_title_general: "Edit __resource__"
     create_system_title: "Create New System"
     new_component_title: "Create New Component"
     new_component_field_system: "System"
@@ -3557,6 +3560,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chap3_info: "Chapter 3: 25 class sessions"
     chap4_info: "Chapter 4: 20 class sessions"
     includes: "Includes"
+    show_plan_features: "Show Plan Features"
+    purchase_annually: "Available for purchase one time annually."
+    class_school_solution: "We'll help you build a solution that meets the needs of your class, school or district."
+    bulk: "Bulk"
+    discounts: "discounts"
+    available: "available"
+    request_quote: "Request a Quote"
 
   form_validation_errors:
     required: 'Field is required'
@@ -3600,3 +3610,21 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     corporate_team_building_blurb: 'Need to engage your employees with a turnkey activity that will inspire their competitive spirit and challenge them to creatively problem solve? Work with us to build a custom competitive coding tournament that will have your team programming their own strategies while playing a game.'
     footer_blurb: 'These are just a few of the partnership structures we have successfully supported. If you would like to initiate a discussion with our business development team on any of these models or have a different partnership opportunity, please reach out today.'
     talk_with_us: 'Talk with Us'
+
+  podcast:
+    learning_adventure: "Where learning is always an adventure."
+    explores_stem: "Our podcast explores the role of technology, STEM, and creative play in education. With expert guests, we discover how learning is always an adventure."
+    listen: "Listen"
+    download: "Download"
+    transcript: "Transcript"
+    learn_more_coco: "Want to learn more about CodeCombat coding experiences?"
+    subscribe: "Subscribe"
+    explore_coco: "Explore CodeCombat"
+    interested_in_being_guest: "Interested in being a guest on EdTech Adventures?"
+    lets_chat: "Let's Chat"
+    air_date: "Air date" # upload date
+    play_episode: "Play Episode"
+    about_guest: "About Our Guest"
+    all_episodes: "View All Episodes"
+    no_permission: "You don't have permission to view this podcast"
+

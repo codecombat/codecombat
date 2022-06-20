@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     pacing_guides_high: "Guia pas a pas d'un Centre d'Estudis Postobligatoris"
     getting_started: "Començant"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
     educator_faq: "Preguntes freqüents de Docents"

@@ -25,7 +25,7 @@
     { sectionName: 'gettingStarted', slug: 'getting-started', i18nKey: 'teacher.getting_started' },
     { sectionName: 'educatorResources', slug: 'educator-resources', i18nKey: 'new_home.educator_resources' },
     { sectionName: 'studentResources', slug: 'student-resources', i18nKey: 'teacher.student_resources' },
-    { sectionName: 'lessonSlides', slug: 'lesson-slides', i18nKey: 'teacher.lesson_slides' },
+    { sectionName: 'lessonSlides', slug: 'lesson-slides', i18nKey: 'teacher.curriculum' },
     { sectionName: 'faq', slug: 'faq', i18nKey: 'nav.faq' },
   ]
 
@@ -255,6 +255,7 @@
 
   ul a {
     text-decoration: underline;
+    text-transform: capitalize;
   }
 }
 
@@ -281,6 +282,7 @@
     line-height: 30px;
     letter-spacing: 0.44px;
     font-weight: 600;
+    text-transform: capitalize;
   }
 }
 
