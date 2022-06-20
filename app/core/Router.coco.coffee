@@ -293,6 +293,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'ed-link/*path': go('core/SingletonAppVueComponentView')
     'teachers/licenses': go('core/SingletonAppVueComponentView')
 
+    'library/*path': go('core/SingletonAppVueComponentView')
+
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
 

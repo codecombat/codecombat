@@ -100,6 +100,11 @@ export default function getVueRouter () {
           path: '/teachers/resources_new',
           component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue'),
         },
+        {
+          path: '/library/:libraryId/login',
+          component: () => import(/* webpackChunkName: "libraryLogin" */ 'app/views/library/LibraryLoginView'),
+          props: (route) => ({ ...route.query, ...route.params })
+        }
       ],
       scrollBehavior(to) {
         const scroll = {}

@@ -337,6 +337,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
     'user/:userID/opt-in/:verificationCode': go('user/UserOptInView')
 
+    'library/*path': go('core/SingletonAppVueComponentView')
+
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
 

@@ -3583,3 +3583,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share_info: 'To give other teachers access to the class, add their emails below.'
     class_owner: 'Class Owner'
     share: 'Share'
+
+  library:
+    enter_library_card: "Enter your Library Card Number:"
+    access_coco: "Access CodeCombat"
+    already_using_library_id: "Already using library id"
+    play_coco: "to play CodeCombat"
+    not_library_id: "Not your library id"
+    access_using_id: "to access using your id!!"
