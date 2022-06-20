@@ -88,7 +88,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     learner_number: "12 Zvyyvba"
     code_line_number: "1 Ovyyvba"
 
-
   new_home:
     title: "Bmnevn - Pbzchgre fpvrapr gung pncgvingrf"
     meta_keywords: "PbqrPbzong, clguba, wninfpevcg, Pbqvat Tnzrf, Pbzchgre Fpvrapr Cebtenz, Nqiragher, Rcvp Fgbel"
@@ -2068,6 +2067,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     pacing_guides_high: "Uvtu Fpubby Cnpvat Thvqr"
     getting_started: "Trggvat Fgnegrq"
     student_resources: "Fghqrag Erfbheprf"
+    curriculum: "Pheevphyhz"
     lesson_slides: "Yrffba Fyvqrf"
     section: "Frpgvba"
     educator_faq: "Rqhpngbe SND"
@@ -3497,4 +3497,3 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     dog: "Qbt"
     hero: "Ureb"
     teacher: "Grnpure"
-

@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     pacing_guides_high: "Οδηγός Βήμα, Βήμα Λυκείου"
     getting_started: "Ξεκινώντας"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
     educator_faq: "Συχνές Ερωτήσεις Εκπαιδευτικού"
