@@ -110,7 +110,7 @@ export default function getVueRouter () {
           path: '/efficacy',
           component: () => import(/* webpackChunkName: "efficacy" */ 'app/views/efficacy/EfficacyView.vue')
         },
-        { // has no use in Oz but keeping to have divergence between files less
+        {
           path: '/library/:libraryId/login',
           component: () => import(/* webpackChunkName: "libraryLogin" */ 'app/views/library/LibraryLoginView'),
           props: (route) => ({ ...route.query, ...route.params })
