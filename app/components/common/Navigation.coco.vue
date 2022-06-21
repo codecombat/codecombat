@@ -1,5 +1,4 @@
 <script>
-  const fetchJson = require('../../core/api/fetch-json')
   import {
     CODECOMBAT,
     CODECOMBAT_CHINA,
@@ -10,13 +9,21 @@
     isOzaria,
     getQueryVariable
   } from 'core/utils'
-
+  import AnnouncementModal from '../../views/announcement/announcementModal'
+  import { mapActions, mapGetters } from 'vuex'
   /**
    * Unified navigation bar component between CodeCombat and Ozaria.
    * This must be copied exactly to the Ozaria repo.
    */
   export default Vue.extend({
     computed: {
+      ...mapGetters('announcements', [
+        'announcements',
+        'unread',
+        'announcementInterval',
+        'announcementModalOpen',
+        'announcementDisplay',
+      ]),
       isOldBrowser () {
         return isOldBrowser()
       },
@@ -75,19 +82,24 @@
     },
     data () {
       return {
-        announcementInterval: false
+        announcementsLink: true
       }
     },
     mounted () {
       this.checkAnnouncements()
       if(!this.announcementInterval)
-        this.announcementInterval = setInterval(this.checkAnnouncements, 600000)
+        this.startInterval()
     },
     beforeUnmounted() {
       if(this.announcementInterval)
         clearInterval(this.announcementInterval)
     },
     methods: {
+      ...mapActions('announcements', [
+        'closeAnnouncementModal',
+        'checkAnnouncements',
+        'startInterval'
+      ]),
       navEvent (e) {
         // Only track if user has clicked a link on the nav bar
         if (!e || !e.target || e.target.tagName !== 'A') {
@@ -140,21 +152,18 @@
       ozPath (relativePath) {
         return `${this.ozBaseURL}${relativePath}`
       },
-      checkAnnouncements () {
-        if(me.isAnonymous())
-          return
-
-        fetchJson('/db/user/announcements/new').then((data) => {
-          console.log('announcements:' , data)
-        })
-
-      }
+    },
+    components: {
+      AnnouncementModal
     }
+
   })
 </script>
 
 <template lang="pug">
     nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
+      announcement-modal(v-if="announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
+
       .container-fluid
         .row
           .col-md-12
@@ -277,6 +286,9 @@
                       a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
+                    li
+                      a.account-dropdown-item(href="/announcements") {{ $t('announcement.announcement') }}
+                        span {{ unread }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")

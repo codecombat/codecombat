@@ -55,6 +55,7 @@ store = new Vuex.Store({
     tracker: require('./modules/tracker').default
     trialRequest: require('./modules/trialRequest').default
     podcasts: require('./modules/podcasts').default
+    announcements: require('./modules/announcements').default
   }
 })
 

@@ -93,6 +93,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/outcomes-report': go('admin/OutcomesReportView')
     'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView')
 
+    'announcements': go('core/SingletonAppVueComponentView')
+
     'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'api-dashboard': go('core/SingletonAppVueComponentView')
