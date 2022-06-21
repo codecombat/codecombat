@@ -156,7 +156,7 @@ module.exports = class SpriteBuilder
     return if _.isEmpty colorGroups
     return unless _.size @shapeStore  # We don't have the shapes loaded because we are doing a prerendered spritesheet approach
     colorConfig = @options.colorConfig
-#    colorConfig ?= {team: {hue:0.4, saturation: -0.5, lightness: -0.5}} # test config
+    #    colorConfig ?= {team: {hue:0.4, saturation: -0.5, lightness: -0.5}} # test config
     return if not colorConfig
 
     for group, config of colorConfig
@@ -164,7 +164,7 @@ module.exports = class SpriteBuilder
       if @thangType.get('ozaria')
         @buildOzariaColorMapForGroup(colorGroups[group], config)
       else
-      @buildColorMapForGroup(colorGroups[group], config)
+        @buildColorMapForGroup(colorGroups[group], config)
 
   # Simpler Ozaria color mapper.
   # Instead of color shifting we apply the color directly.

@@ -47,6 +47,42 @@ module.exports = {
       method: 'GET'
     })
 
+  fetchByCourseInstanceId: (courseInstanceId) ->
+    fetchJson("/db/classroom?courseInstanceId=#{courseInstanceId}", {
+      method: 'GET'
+    })
+
+# classDetails = { aceConfig: {language: ''}, name: ''}
+  post: (classDetails, options={}) ->
+    fetchJson("/db/classroom",  _.assign({}, options, {
+      method: 'POST'
+      json: classDetails
+    }))
+
+  fetchGameContent: (classroomID, options={}) ->
+    fetchJson("/db/classroom/#{classroomID}/game-content", options)
+
+  inviteMembers: ({classroomID, emails, recaptchaResponseToken}, options={}) ->
+    fetchJson("/db/classroom/#{classroomID}/invite-members",  _.assign({}, options, {
+      method: 'POST',
+      json: {
+        emails: emails
+        recaptchaResponseToken: recaptchaResponseToken
+      }
+    }))
+
+  removeMember: ({classroomID, userId}, options={}) ->
+    fetchJson("/db/classroom/#{classroomID}/members/#{userId}",  _.assign({}, options, {
+      method: 'DELETE'
+    }))
+
+# updates = { archived: '', name: ''}
+  update: ({classroomID, updates}, options={}) ->
+    fetchJson("/db/classroom/#{classroomID}",  _.assign({}, options, {
+      method: 'PUT'
+      json: updates
+    }))
+
   addPermission: ({ classroomID, permission }) ->
     fetchJson("/db/classroom/#{classroomID}/permission",  _.assign({}, {
       method: 'POST'

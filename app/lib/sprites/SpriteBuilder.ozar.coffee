@@ -132,7 +132,7 @@ module.exports = class SpriteBuilder
     cont.bounds = new createjs.Rectangle(contData.b...)
     cont
 
-# Builds the spritesheet using the texture atlas images for each animation/action and updates its reference in the movieClip file
+  # Builds the spritesheet using the texture atlas images for each animation/action and updates its reference in the movieClip file
   buildSpriteSheetFromTextureAtlas: (actionNames) ->
     for action in actionNames
       spriteData = @thangType.getRasterAtlasSpriteData(action)
@@ -142,10 +142,10 @@ module.exports = class SpriteBuilder
         continue
 
       try
-# spriteData holds a reference to the spritesheet in the adobe animate's movieClip file (ss)
+        # spriteData holds a reference to the spritesheet in the adobe animate's movieClip file (ss)
         for metaData in spriteData?.ssMetadata
-# builds the spritesheets everytime an action is rendered
-# TODO build new spritesheet only if there are changes in metaData.images / metaData.frames
+          # builds the spritesheets everytime an action is rendered
+          # TODO build new spritesheet only if there are changes in metaData.images / metaData.frames
           spriteData.ss?[metaData.name] = new createjs.SpriteSheet( { 'images': metaData.images, 'frames': metaData.frames })
       catch e
         console.error 'Error in creating spritesheet', e
@@ -164,10 +164,10 @@ module.exports = class SpriteBuilder
       if @thangType.get('ozaria')
         @buildOzariaColorMapForGroup(colorGroups[group], config)
       else
-      @buildColorMapForGroup(colorGroups[group], config)
+        @buildColorMapForGroup(colorGroups[group], config)
 
-# Simpler Ozaria color mapper.
-# Instead of color shifting we apply the color directly.
+  # Simpler Ozaria color mapper.
+  # Instead of color shifting we apply the color directly.
   buildOzariaColorMapForGroup: (shapes, config) ->
     return unless shapes.length
     for shapeKey in shapes

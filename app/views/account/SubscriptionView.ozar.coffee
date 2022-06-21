@@ -63,7 +63,7 @@ module.exports = class SubscriptionView extends RootView
   getMeta: ->
     title: $.i18n.t 'account.subscription_title'
 
-# Personal Subscriptions
+  # Personal Subscriptions
 
   onClickStartSubscription: (e) ->
     if @personalSub.prepaidCode
@@ -86,12 +86,12 @@ module.exports = class SubscriptionView extends RootView
     window.profitwell('init_cancellation_flow', subscription_id: subscriptionID).then (result) =>
       window.tracker?.trackEvent 'Unsubscribe Result - Profitwell', label: result.status, category: 'Subscription'
       if result.status in ['retained', 'aborted']
-# User either aborted the flow (i.e.they clicked on "never mind, I don't want to cancel"),
-# or accepted a salvage attempt or salvage offer.
-# Thus, do nothing, since they won't cancel.
+        # User either aborted the flow (i.e.they clicked on "never mind, I don't want to cancel"),
+        # or accepted a salvage attempt or salvage offer.
+        # Thus, do nothing, since they won't cancel.
         return
       if result.status is 'error'
-# The widget oculdn't be shown; fall back to native cancellation form
+        # The widget oculdn't be shown; fall back to native cancellation form
         @showNativeCancellationForm()
         return
       if result.status isnt 'chose_to_cancel'
@@ -118,7 +118,7 @@ module.exports = class SubscriptionView extends RootView
     message = @$el.find('.unsubscribe-feedback textarea').val().trim()
     @personalSub.unsubscribe(message, => @render?())
 
-# Sponsored subscriptions
+  # Sponsored subscriptions
 
   onClickRecipientsSubscribe: (e) ->
     emails = @$el.find('.recipient-emails').val().split('\n')
@@ -210,10 +210,10 @@ class PersonalSub
     stripeInfo = _.clone(me.get('stripe'))
     if payPalInfo?.billingAgreementID
       api.users.cancelBillingAgreement({userID: me.id, billingAgreementID: payPalInfo?.billingAgreementID})
-        .then (response) =>
+      .then (response) =>
         window.tracker?.trackEvent 'Unsubscribe End', message: message, category: 'Subscription'
         document.location.reload()
-        .catch (jqxhr) =>
+      .catch (jqxhr) =>
         console.error('PayPal unsubscribe', jqxhr)
     else if stripeInfo
       delete stripeInfo.planID
@@ -275,7 +275,7 @@ class PersonalSub
             if sub.cancel_at_period_end
               @activeUntil = periodEnd
               if @free and typeof @free is 'string' and new Date(@free) > @activeUntil
-# stripe.free trumps end of period cancellation date, switch to that state
+                # stripe.free trumps end of period cancellation date, switch to that state
                 delete @self
                 delete @active
                 delete @subscribed
@@ -302,7 +302,7 @@ class PersonalSub
               # For the new annual plan, use the stripe information as source of truth.
               if me.get('stripe')?.planID is "price_1Hja49KaReE7xLUdlPuATOvQ"
                 if sub.discount?.coupon?.percent_off_precise
-# Get percentage off from stripe data.
+                  # Get percentage off from stripe data.
                   discount = sub.plan.amount * (sub.discount.coupon.percent_off_precise / 100)
                   @cost = "$#{((sub.plan.amount - discount)/100).toFixed(2)}"
                 else if sub.discount?.coupon?.amount_off

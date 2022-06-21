@@ -38,7 +38,7 @@ module.exports = class AdminLevelHintsView extends RootView
         levelPromises.push(levelPromise)
         skip += batchSize
       new Promise((resolve) -> setTimeout(resolve.bind(null, Promise.all(levelPromises)), 100))
-        .then (resultsMatrix) =>
+      .then (resultsMatrix) =>
         for newResults in resultsMatrix
           results = results.concat(newResults)
         if results % batchSize is 0
@@ -46,7 +46,7 @@ module.exports = class AdminLevelHintsView extends RootView
         else
           Promise.resolve(results)
     fetchLevelSessions(0, [])
-      .then (levels) =>
+    .then (levels) =>
       levelHintsMap = {}
       for level in levels
         docs = level.documentation ? {}

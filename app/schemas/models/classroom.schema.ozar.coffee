@@ -43,7 +43,7 @@ _.extend ClassroomSchema.properties,
       slug: {type: 'string'}
       position: c.point2d()
 
-# properties relevant for ozaria campaigns
+      # properties relevant for ozaria campaigns
       nextLevels: {
         type: 'object'
         description: 'object containing next levels original id and their details'

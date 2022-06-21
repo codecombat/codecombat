@@ -119,7 +119,7 @@ module.exports = class ClassroomView extends RootView
   onClickActivateSingleLicenseButton: (e) ->
     userID = $(e.target).closest('.btn').data('user-id')
     if @prepaids.totalMaxRedeemers() - @prepaids.totalRedeemers() > 0
-# Have an unused enrollment, enroll student immediately instead of opening the enroll modal
+      # Have an unused enrollment, enroll student immediately instead of opening the enroll modal
       prepaid = @prepaids.find((prepaid) -> prepaid.status() is 'available')
       $.ajax({
         method: 'POST'
@@ -210,7 +210,7 @@ module.exports = class ClassroomView extends RootView
       @listenToOnce courseInstance, 'sync', @render
 
     if courseInstance.isNew()
-# adding the first student to this course, so generate the course instance for it
+      # adding the first student to this course, so generate the course instance for it
       if not courseInstance.saving
         courseInstance.save(null, {validate: false})
         courseInstance.saving = true
@@ -218,7 +218,7 @@ module.exports = class ClassroomView extends RootView
     else
       onCourseInstanceCreated()
 
-# TODO: update newly visible level progress bar (currently all white)
+    # TODO: update newly visible level progress bar (currently all white)
 
   onClickRemoveStudentLink: (e) ->
     user = @users.get($(e.target).closest('a').data('user-id'))
