@@ -102,4 +102,10 @@ module.exports = {
     fetchJson("/db/user/#{userId}/provision-subscription", _.assign({}, {
       method: 'PUT'
     }))
+
+  loginArapahoe: (attrs, options={}) ->
+    fetchJson("/auth/login-arapahoe", _.assign({}, options, {
+      method: 'POST'
+      json: attrs
+    }))
 }
