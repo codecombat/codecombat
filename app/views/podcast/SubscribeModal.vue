@@ -46,7 +46,7 @@
           </a>
         </div>
         <div class="col-xs-4">
-          <a href="#" target="_blank">
+          <a href="https://podcasts.google.com/feed/aHR0cHM6Ly9mZWVkcy50cmFuc2lzdG9yLmZtL2VkdGVjaC1hZHZlbnR1cmVz" target="_blank">
             <img src="/images/pages/podcast/subscribe-logos-google.png" alt="Google" class="subscribe__logo" />
           </a>
         </div>
