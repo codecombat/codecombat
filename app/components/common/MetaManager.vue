@@ -30,10 +30,10 @@
       }
 
       return {
-        title: this.$t('common.default_title'),
+        title: this.$t('common.default_title_' + isOzaria ? 'ozar' : 'coco'),
         ...(isOzaria ? {} : { titleTemplate: '%s | CodeCombat' }),
         meta: [
-          { vmid: 'meta-description', name: 'description', content: this.$t('common.default_meta_description') },
+          { vmid: 'meta-description', name: 'description', content: this.$t('common.default_meta_description_' + isOzaria ? 'ozar' : 'coco') },
           { vmid: 'viewport', name: 'viewport', content: 'width=device-width,initial-scale=1.0' }
         ],
 

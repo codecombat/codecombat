@@ -35,6 +35,9 @@ module.exports = class CreateTeacherAccountView extends RootView
     'change input[name="email"]': 'onChangeEmail'
     'change input[name="name"]': 'onChangeName'
 
+  getRenderData: ->
+    _.merge super(arguments...), { product: utils.getProductName() }
+
   initialize: ->
     @trialRequest = new TrialRequest()
     @trialRequests = new TrialRequests()

@@ -1107,6 +1107,10 @@ orgKindString = (kind, org=null) ->
   }[kind]
   return $.i18n.t(key)
 
+getProductName = ()->
+  product = if isOzaria then OZARIA else CODECOMBAT
+  $.i18n.t("new_home." + product)
+
 supportEmail = 'support@codecombat.com'
 
 module.exports = {
@@ -1151,6 +1155,7 @@ module.exports = {
   getCoursePraise
   getDocumentSearchString
   getPrepaidCodeAmount
+  getProductName
   getQueryVariable
   getQueryVariables
   getSponsoredSubsAmount

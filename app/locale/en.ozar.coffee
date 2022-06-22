@@ -89,9 +89,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     code_line_number: "1 Billion"
 
   new_home:
-    title: "Ozaria - Computer science that captivates"
-    meta_keywords: "CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story"
-    meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+    title_coco: "CodeCombat - Coding games to learn Python and JavaScript"
+    title_ozar: "Ozaria - Computer science that captivates"
+    meta_keywords_coco: "CodeCombat, python, javascript, Coding Games"
+    meta_keywords_ozar: "CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story"
+    meta_description_coco: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    meta_description_ozar: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+    meta_og_url: "https://codecombat.com"
     become_investor: "to become an investor in CodeCombat"
     built_for_teachers_title: "A Coding Game Built with Teachers in Mind"
     built_for_teachers_blurb: "Teaching kids to code can often feel overwhelming. CodeCombat helps all educators teach students how to code in either JavaScript or Python, two of the most popular programming languages. With a comprehensive curriculum that includes six computer science units and reinforces learning through project-based game development and web development units, kids will progress on a journey from basic syntax to recursion!"
@@ -113,12 +117,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     century_skills_subtitle3: "Collaboration"
     century_skills_subblurb3: "Throughout the game, there are opportunities for students to collaborate when they get stuck and to work together using our pair programming guide."
     century_skills_quote4: "I’ve always had aspirations of designing video games and learning how to code ... this is giving me a great starting point."
+    century_skills_quote4_author: "Joey, 10th Grade"
     century_skills_subtitle4: "Communication"
     century_skills_subblurb4: "Coding requires kids to practice new forms of communication, including communicating with the computer itself and conveying their ideas using the most efficient code."
     classroom_in_box_title: "We Strive To:"
     classroom_in_box_blurb1: "Engage every student so that they believe coding is for them."
     classroom_in_box_blurb2: "Empower any educator to feel confident when teaching coding."
     classroom_in_box_blurb3: "Inspire all school leaders to create a world-class computer science program."
+    classroom_in_box_blurb4: "" # only for koudashijie.com
     click_here: "Click here"
     creativity_rigor_title: "Where Creativity Meets Rigor"
     creativity_rigor_subtitle1: "Make coding fun and teach real-world skills"
@@ -129,7 +135,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     creativity_rigor_blurb3: "CodeCombat’s self-paced, standards-aligned curriculum makes teaching computer science possible for everyone. CodeCombat equips teachers with the training, instructional resources, and dedicated support to feel confident and successful in the classroom."
     featured_partners_title1: "Featured In"
     featured_partners_title2: "Awards & Partners"
-    featured_partners_blurb1: "CollegeBoard Endorsed Provider"
+    featured_partners_blurb1: "Clever Partner"
     featured_partners_blurb2: "Best Creativity Tool for Students"
     featured_partners_blurb3: "Top Pick for Learning"
     featured_partners_blurb4: "Code.org Official Partner"
@@ -164,19 +170,23 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     global_subtitle4: "Countries"
     go_to_my_classes: "Go to my classes"
     go_to_my_courses: "Go to my courses"
-    quotes_quote1: "Name any program online, I’ve tried it. None of them match up to CodeCombat. Any teacher who wants their students to learn how to code... start here!"
+    quotes_quote1: "Name any program online, I’ve tried it. None of them match up to CodeCombat & Ozaria. Any teacher who wants their students to learn how to code... start here!"
     quotes_quote2: " I was surprised about how easy and intuitive CodeCombat makes learning computer science. The scores on the AP exam were much higher than I expected and I believe CodeCombat is the reason why this was the case."
     quotes_quote3: "CodeCombat has been the most beneficial for teaching my students real-life coding capabilities. My husband is a software engineer and he has tested out all of my programs. He put this as his top choice."
     quotes_quote4: "The feedback … has been so positive that we are structuring a computer science class around CodeCombat. The program really engages the students with a gaming style platform that is entertaining and instructional at the same time. Keep up the good work, CodeCombat!"
+    quotes_quote5: "Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills."
+    quotes_quote5_author: "Latthaphon Pohpon, Parent"
     see_example: "See example"
     slogan: "The most engaging way to learn computer science"
+    slogan_power_of_play: "Learn to Code Through the Power of Play"
     teach_cs1_free: "Teach CS1 Free"
     teachers_love_codecombat_title: "Teachers Love CodeCombat"
     teachers_love_codecombat_blurb1: "Report that their students enjoy using CodeCombat to learn how to code"
     teachers_love_codecombat_blurb2: "Would recommend CodeCombat to other computer science teachers"
     teachers_love_codecombat_blurb3: "Say that CodeCombat helps them support students’ problem solving abilities"
     teachers_love_codecombat_subblurb: "In partnership with McREL International, a leader in research-based guidance and evaluations of educational technology."
-    top_banner_blurb: "Parents, book your child's first live online coding class for free!"
+    top_banner_blurb: "Parents, give your child the gift of coding and personalized instruction with our live teachers!"
+    top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
     top_banner_blurb_pd: "We now offer professional development for educators."
     top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
@@ -184,9 +194,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
     play_now: "Play Now"
+    im_a_parent: "I'm a Parent"
+    im_a_parent_description: "Explore our live online coding classes"
     im_an_educator: "I'm an Educator"
+    im_an_educator_description: "Teach Computer Science with CodeCombat"
     im_a_teacher: "I'm a Teacher"
     im_a_student: "I'm a Student"
+    im_a_student_description: "Learn Computer Science with your class"
+    im_an_individual: "I'm an Individual"
+    im_an_individual_description: "Play at home outside of a class setting"
     learn_more: "Learn more"
     classroom_in_a_box: "A classroom in-a-box for teaching computer science."
     codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
@@ -247,6 +263,41 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     educator: "Educator"
     student: "Student"
     go_to_my_dashboard: "Go to My Dashboard"
+    our_coding_programs: "Our Coding Programs"
+    codecombat: "CodeCombat"
+    ozaria: "Ozaria"
+    codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
+    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+    try_codecombat: "Try CodeCombat"
+    try_ozaria: "Try Ozaria"
+    explore_codecombat: "Explore CodeCombat"
+    explore_ai_league: "Explore AI League"
+    explore_ozaria: "Explore Ozaria"
+    explore_online_classes: "Explore Online Classes"
+    explore_pd: "Explore Professional Development"
+    new_adventure_game_blurb: "Ozaria is our brand new adventure game and your turnkey solution for teaching Computer science. Our student-facing __slides__ and teacher-facing notes make planning and delivering lessons easier and faster."
+    lesson_slides: "lesson slides"
+    pd_blurb: "Learn the skills to effectively teach computer science with our self-directed, CSTA-accredited professional development course. Earn up to 40 credit hours any time, from any device. Pairs well with Ozaria Classroom."
+    ai_league_blurb: "Competitive coding has never been so epic with this educational esports league, uniquely both an AI battle simulator and game engine for learning real code."
+    codecombat_live_online_classes: "CodeCombat Live Online Classes"
+    learning_technology_blurb: "Our original game teaches real-world skills through the power of play. The scaffolded curriculum systematically builds on student’s experiences and knowledge as they progress."
+    learning_technology_blurb_short: "Our innovative game-based learning technology has transformed the way students learn to code."
+    online_classes_blurb: "Our online coding classes combine the power of gameplay and personalized instruction for an experience your child will love. With both private or group options available, this is remote learning that works."
+    for_educators: "For Educators"
+    for_parents: "For Parents"
+    for_everyone: "For Everyone"
+    for_students: "For Students"
+    for_individuals: "For Individuals"
+    what_our_customers_are_saying: "What Our Customers Are Saying"
+    game_based_learning: "Game-Based Learning"
+    unique_approach_blurb: "With our unique approach, students embrace learning as they play and write code from the very start of their adventure, promoting active learning and a growth mindset."
+    text_based_coding: "Text-Based Coding"
+    custom_code_engine_blurb: "Our custom code engine and interpreter is designed for beginners, teaching true Python, JavaScript, and C++ programming languages using human, beginner-friendly terms."
+    student_impact: "Student Impact"
+    help_enjoy_learning_blurb: "Our products have helped over 20 million students enjoy learning Computer Science, teaching them to be critical, confident, and creative learners. We engage all students, regardless of experience, helping them to realize a pathway to success in Computer Science."
+    global_community: "Join Our Global Community"
+    million: "__num__ Million"
+    billion: "__num__ Billion"
 
   nav:
     educators: "Educators"
@@ -255,6 +306,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     map: "Map"
     play: "Levels"  # The top nav bar entry where players choose which levels to play
     community: "Community"
+    courses: "Courses"
     units: "Units"
     blog: "Blog"
     forum: "Forum"
@@ -266,6 +318,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     legal: "Legal"
     privacy: "Privacy Notice"
     about: "About"
+    impact: "Impact"
     contact: "Contact"
     press: "Press"
     twitter_follow: "Follow"
@@ -305,6 +358,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     professional_development: "Professional Development"
     new: "New!"
     admin: "Admin"
+    api_dashboard: "API Dashboard"
     funding_resources_guide: "Funding Resources Guide"
 
   modal:
@@ -319,10 +373,40 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   diplomat_suggestion:
     title: "Help translate CodeCombat!"  # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
+    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both and are a native speaker of {English}, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
     missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
     learn_more: "Learn more about being a Diplomat"
     subscribe_as_diplomat: "Subscribe as a Diplomat"
+
+  new_home_faq:
+    what_programming_languages: "What programming languages are available?"
+    python_and_javascript: "We currently support Python and JavaScript."
+    why_python: "Why should you choose Python?"
+    why_python_blurb: "Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python."
+    why_javascript: "Why should you choose JavaScript?"
+    why_javascript_blurb: "JavaScript is the language of the web and is used across nearly every website. You may prefer to choose JavaScript if you are planning to also study web development. We’ve also made it easy for students to transition from Python to JavaScript-based web development."
+    javascript_versus_python: "JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python."
+    how_do_i_get_started: "How do I get started?"
+    getting_started_1: "Create your Teacher Account"
+    getting_started_2: "Create a class"
+    getting_started_3: "Add students"
+    getting_started_4: "Sit back and watch your students have fun learning to code"
+    main_curriculum: "Can I use CodeCombat or Ozaria as my main curriculum?"
+    main_curriculum_blurb: "Absolutely! We’ve spent time consulting with education specialists to craft classroom curriculum and materials specifically for teachers who are using CodeCombat or Ozaria without any prior computer science experience themselves. Many schools are implementing CodeCombat and/or Ozaria as the main computer science curriculum."
+    clever_instant_login: "Does CodeCombat and Ozaria support Clever Instant Login?"
+    clever_instant_login_blurb: "Yes! Check out our __clever__ for more details on how to get started."
+    clever_integration_faq: "Clever Integration FAQ"
+    google_classroom: "What about Google Classroom?"
+    google_classroom_blurb1: "Yup! Be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time."
+    google_classroom_blurb2: "Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option."
+    how_much_does_it_cost: "How much does it cost to access all of the available courses and resources?"
+    how_much_does_it_cost_blurb: "We customize solutions for schools and districts and work with you to understand your use case, context, and budget. __contact__ for further details! See also our __funding__ for how to leverage CARES Act funding sources like ESSER and GEER." #
+    recommended_systems: "Is there a recommended browser and operating system?"
+    recommended_systems_blurb: "CodeCombat and Ozaria run best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended."
+    other_questions: "If you have any other questions, please __contact__."
+    see_faq_prefix: "See more"
+    see_faq_link: "frequently asked questions in our help center"
+    see_faq_suffix: "."
 
   play:
     title: 'Play CodeCombat Levels - Learn Python, JavaScript, and HTML'
@@ -343,6 +427,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     request_licenses: "Contact our school specialists for details."
     compete: "Compete!" # Course details page
     spectate: "Spectate"  # Ladder page
+    simulate_all: "Simulate All"
     players: "players"  # Hover over a level on /play
     hours_played: "hours played"  # Hover over a level on /play
     items: "Items"  # Tooltip on item shop button from /play
@@ -470,6 +555,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     create_individual_header: "Create Individual Account"
     email_announcements: "Receive announcements about new CodeCombat levels and features!"
     sign_in_to_continue: "Sign in or create an account to continue"
+    create_account_to_submit_multiplayer: "Create a free account to rank your multiplayer AI and explore the whole game!"
     teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Creating Account..."
     sign_up: "Sign Up"
@@ -486,6 +572,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     birthday: "Birthday"
     parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
     classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
+    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help."
     checking: "Checking..."
     account_exists: "This email is already in use:"
     sign_in: "Sign in"
@@ -522,6 +609,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     account_created: "Account Created!"
     confirm_student_blurb: "Write down your information so that you don't forget it. Your teacher can also help you reset your password at any time."
     confirm_individual_blurb: "Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!"
+    confirm_individual_blurb_without_email: "Write down your login information in case you need it later."
     write_this_down: "Write down your username:"
     start_playing: "Start Playing!"
     sso_connected: "Successfully connected with:"
@@ -529,11 +617,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     you_can_always_change_your_hero_later: "You can always change your hero later."
     finish: "Finish"
     teacher_ready_to_create_class: "You're ready to create your first class!"
-    teacher_students_can_start_now: "Your students will be able to start playing the first unit, Chapter 1: Up The Mountain, immediately."
+    teacher_students_can_start_now_coco: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
+    teacher_students_can_start_now_ozar: "Your students will be able to start playing the first unit, Chapter 1: Up The Mountain, immediately."
     teacher_list_create_class: "On the next screen you will be able to create a new class."
     teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
     teacher_list_resource_hub_1: "Check out the"
-    teacher_list_resource_hub_2: "Unit Guides"
+    teacher_list_resource_hub_2_coco: "Course Guides"
+    teacher_list_resource_hub_2_ozar: "Unit Guides"
     teacher_list_resource_hub_3: "for solutions to every level, and the"
     teacher_list_resource_hub_4: "Resource Hub"
     teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
@@ -561,6 +651,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     password_requirements: "4 to 64 characters with no repeating"
     invalid: "Invalid"
     invalid_password: "Invalid password"
+    with: "with"
+    want_to_play_codecombat: "No, I don't have one but want to play CodeCombat!"
+    have_a_classcode: "Have a Class Code?"
+    yes_i_have_classcode: "Yes, I have a Class Code!"
+    enter_it_here: "Enter it here:"
 
   form_validation_errors:
     required: 'Field is required'
@@ -585,9 +680,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     books: "Books"
 
   common:
-    default_title: "Ozaria - Computer science that captivates"
+    default_title_coco: "CodeCombat - Coding games to learn Python and JavaScript"
+    default_title_ozar: "Ozaria - Computer science that captivates"
     ozaria: "Ozaria"
-    default_meta_description: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
+    default_meta_description_coco: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
+    default_meta_description_ozar: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     back: "Back" # When used as an action verb, like "Navigate backward"
     coming_soon: "Coming soon!"
     continue: "Continue"  # When used as an action verb, like "Continue forward"
@@ -623,6 +720,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     submit: "Submit"
     replay: "Replay"
     complete: "Complete"
+    pick_image: "Pick Image"
     continue_editing: "Continue Editing"
     logout: "Logout"
     empty: "Empty"
@@ -668,6 +766,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ladder: "Ladder"
     when: "When"
     opponent: "Opponent"
+    opponent_and_team: "Opponent"
     rank: "Rank"
     score: "Score"
     win: "Win"
@@ -697,6 +796,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     email_us: "Send us an email"
     sales: "Sales"
     support: "Support"
+    here: "here"
 
   units:
     second: "second"
@@ -724,6 +824,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     finished_hoc: "I'm finished with my Hour of Code"
     get_certificate: "Get your certificate!"
     level_complete: "Level Complete"
+    level_complete_at: "Level Completed "
     completed_level: "Completed Level:"
     course: "Course:"
     done: "Done"
@@ -905,6 +1006,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     capella_character: "Capella Character"
     octans_character: "Octans Character"
     click_to_continue: "Click to Continue"
+    fill_in_solution: "Fill in solution"
+    play_as_humans: "Play As Red"
+    play_as_ogres: "Play As Blue"
+    changed: "Last edited "
+    team_humans: "Red"
+    team_ogres: "Blue"
+    watch_game: "Spectate"
     share_your_project: "Share Your Project"
     keep_editing_your_project: "You can always keep editing your project, even after sharing it."
     copy_url: "Copy URL"
@@ -959,11 +1067,25 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     future_eng_4: "Amazon Future Engineer"
     future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
+  live_class:
+    title: "Thank you!"
+    content: "Amazing! We just launched live online classes."
+    link: "Ready to get ahead on your coding?"
+
+  code_quest:
+    great: "Great!"
+    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills."
+    link: "Click here to register and learn more"
+    global_tournament: "Global Tournament"
+    register: "Register"
+    date: "Aug 1 - Aug 31"
+
   play_game_dev_level:
     created_by: "Created by {{name}}"
     created_during_hoc: "Created during Hour of Code"
     restart: "Restart Level"
     play: "Play Level"
+    play_more_codecombat: "Play More CodeCombat"
     learn_about_ozaria: "Learn About Ozaria"
     default_student_instructions: "Click to control your hero and win your game!"
     goal_survive: "Survive."
@@ -1064,6 +1186,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better."
     unsubscribe_feedback_placeholder: "O, what have we done?"
     stripe_description: "Monthly Subscription"
+    stripe_yearly_description: "Annual Subscription"
     buy_now: "Buy Now"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
@@ -1081,15 +1204,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unsubscribing: "Unsubscribing"
     subscribe_prepaid: "Click Subscribe to use prepaid code"
     using_prepaid: "Using prepaid code for monthly subscription"
-    feature_level_access: "Access 300+ levels available"
+    feature_level_access: "Access 500+ levels available"
     feature_heroes: "Unlock exclusive heroes and pets"
     feature_learn: "Learn to make games and websites"
-    month_price: "$__price__"
+    feature_gems: "Receive __gems__ gems per month"
+    month_price: "$__price__/mo"
     first_month_price: "Only $__price__ for your first month!"
     lifetime: "Lifetime Access"
     lifetime_price: "$__price__"
-    year_subscription: "Yearly Subscription"
-    year_price: "$__price__/year"
+    year_subscription: "Annual Subscription"
+    year_price: "$__price__/yr"
     support_part1: "Need help with payment or prefer PayPal? Email"
     support_part2: "support@codecombat.com"
 
@@ -1173,6 +1297,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     coffeescript_blurb: "Nicer JavaScript syntax."
     lua_blurb: "Game scripting language."
     java_blurb: "(Subscriber Only) Android and enterprise."
+    cpp_blurb: "(Subscriber Only) Game development and high performance computing."
     status: "Status"
     weapons: "Weapons"
     weapons_warrior: "Swords - Short Range, No Magic"
@@ -1181,7 +1306,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     attack: "Damage"  # Can also translate as "Attack"
     health: "Health"
     speed: "Speed"
-    regeneration: "Regeneration"
+    regeneration: "Regen"
     range: "Range"  # As in "attack or visual range"
     blocks: "Blocks"  # As in "this shield blocks this much damage"
     backstab: "Backstab"  # As in "this dagger does this much backstab damage"
@@ -1233,6 +1358,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     optional_parameters: "Optional Parameters"
     returns: "Returns"
     granted_by: "Granted by"
+    still_undocumented: "Still undocumented, sorry."
     description_coming_soon: "Description coming soon"
 
   save_load:
@@ -1244,7 +1370,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     volume_label: "Volume"
     music_label: "Music"
     music_description: "Turn background music on/off."
-    editor_config_title: "Level Options:"
+    editor_config_title_coco: "Editor Configuration"
+    editor_config_title_ozar: "Level Options:"
     editor_config_livecompletion_label: "Enable Autocomplete"
     editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
     editor_config_invisibles_label: "Show Invisibles"
@@ -1267,6 +1394,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     story_link: "Story"
     press_link: "Press"
     mission_title: "Our mission: make computer science accessible to every student on Earth."
+    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
+    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
     mission_teach: "Teach through Adventure"
     mission_desc_1: "In today's world, kids are inundated with entertainment that grows more engaging each year. Every app, every video, every game, every advertisement is created with the goal of capturing and holding their attention. To compete in this environment, education must find ways to hold students' attention and capture their imagination."
     mission_desc_2: "We believe that learning computer science can be captivating. It should feel like magic. After all, programming empowers anyone to explore new ideas, to build something from pure imagination, and to interact with each other in new ways. Our goal is to inspire a connection to the creativity and imagination inherent in computer science by building educational games that are creative and imaginative."
@@ -1274,6 +1403,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     team_title: "Meet the CodeCombat team"
     team_values: "We value open and respectful dialogue, where the best idea wins. Our decisions are grounded in customer research and our process is focused on delivering tangible results for them. Everyone is hands-on, from our CEO to our GitHub contributors, because we value growth and learning in our team."
     nick_title: "Cofounder, CEO"
+    csr_title: "Customer Success Representative"
     csm_title: "Customer Success Manager"
     scsm_title: "Senior Customer Success Manager"
     ae_title: "Account Executive"
@@ -1300,6 +1430,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     community_title: "...and our open-source community"
+    lgd_title: "Lead Game Designer"
     bryukh_title: "Senior Gameplay Developer"
     oa_title: "Operations Associate"
     ac_title: "Administrative Coordinator"
@@ -1307,16 +1438,21 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     om_title: "Operations Manager"
     mo_title: "Manager, Operations"
     smo_title: "Senior Manager, Operations"
+    do_title: "Director of Operations"
     scd_title: "Senior Curriculum Developer"
     lcd_title: "Lead Curriculum Developer"
+    de_title: "Director of Education"
     vpm_title: "VP, Marketing"
-    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
+    oi_title: "Online Instructor"
+    aoim_title: "Associate Online Instructor Manager"
+    bdm_title: "Business Development Manager"
+    community_subtitle: "Over 600 contributors have helped build CodeCombat, with more joining every week!"
     community_description_3: "CodeCombat is a"
     community_description_link_2: "community project"
     community_description_1: "with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our"
     community_description_link: "contribute page"
     community_description_2: "for more info."
-    number_contributors: "Over 450 contributors have lent their support and time to this project."
+    number_contributors: "Over 650 contributors have lent their support and time to this project."
     story_title: "Our story so far"
     story_subtitle: "Since 2013, CodeCombat has grown from a mere set of sketches to a living, thriving game."
     story_statistic_1a: "20,000,000+"
@@ -1333,12 +1469,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     jobs_title: "Come join us and bring computer science to the world!"
     jobs_subtitle: """Don't see a good fit but interested in keeping in touch? See our "Create Your Own" listing."""
     jobs_benefits: "Employee Benefits"
-    jobs_benefit_4: "Unlimited vacation"
-    jobs_benefit_5: "Professional development and continuing education support – free books and games!"
-    jobs_benefit_6: "Medical (gold), dental, vision, commuter, 401K"
+    jobs_benefit_4: "Flexible hours, unlimited vacation"
+    jobs_benefit_5: "$1000/yr professional development and continuing education support"
+    jobs_benefit_6: "Medical (gold), dental, vision, 401K"
     jobs_benefit_9: "10-year option exercise window"
     jobs_benefit_10: "Maternity leave: 12 weeks paid, next 6 @ 55% salary"
-    jobs_benefit_11: "Paternity leave: 12 weeks paid"
+    jobs_benefit_11: "12 weeks paid parental leave"
+    jobs_benefit_12: "$50/mo internet & biz services benefit"
+    jobs_benefit_13: "$50/mo health and wellness benefit"
+    jobs_benefit_14: "100% distributed team"
     jobs_custom_title: "Create Your Own"
     jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
     jobs_custom_contact_1: "Send us a note at"
@@ -1459,7 +1598,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     course_suffix: ""
 
   teachers_quote:
-    subtitle: "Learn more about Ozaria with an interactive walk through of the product, pricing, and implementation!"
+    subtitle_coco: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
+    subtitle_ozar: "Learn more about Ozaria with an interactive walk through of the product, pricing, and implementation!"
     email_exists: "User exists with this email."
     phone_number: "Phone number"
     phone_number_help: "What's the best number to reach you?"
@@ -1486,7 +1626,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     city: "City"
     state: "State / Region"
     country: "Country / Region"
-    num_students_help: "How many students will use Ozaria?"
+    num_students_help: "How many students will use __product__?"
     num_students_default: "Select Range"
     education_level_label: "Education Level of Students"
     education_level_help: "Choose as many as apply."
@@ -1506,9 +1646,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     referrer_pd: "Professional trainings/workshops"
     referrer_web: "Google"
     referrer_other: "Other"
-    anything_else: "What kind of class do you anticipate using Ozaria for?"
+    anything_else: "What kind of class do you anticipate using __product__ for?"
+    anything_else_helper: ""
     thanks_header: "Request Received!"
-    thanks_sub_header: "Thanks for expressing interest in Ozaria for your school."
+    thanks_sub_header_coco: "Thanks for expressing interest in CodeCombat for your school."
+    thanks_sub_header_ozar: "Thanks for expressing interest in Ozaria for your school."
     thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
     back_to_classes: "Back to Classes"
     finish_signup: "Finish creating your teacher account:"
@@ -1626,11 +1768,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
     find_us: "Find us on these sites"
     social_github: "Check out all our code on GitHub"
-    social_blog: "Read the CodeCombat blog on Sett"
+    social_blog: "Read the CodeCombat blog"
     social_discource: "Join the discussion on our Discourse forum"
     social_facebook: "Like CodeCombat on Facebook"
     social_twitter: "Follow CodeCombat on Twitter"
-    social_gplus: "Join CodeCombat on Google+"
     social_slack: "Chat with us in the public CodeCombat Slack channel"
     contribute_to_the_project: "Contribute to the project"
 
@@ -1743,7 +1884,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     complete: "complete"
     practice: "practice"
     required: "required"
-    welcome_to_courses: "Adventurers, welcome to Courses!"
+    welcome_to_courses_coco: "Adventurer, welcome to CodeCombat!"
+    welcome_to_courses_ozar: "Adventurers, welcome to Courses!"
     ready_to_play: "Ready to play?"
     start_new_game: "Start New Game"
     play_now_learn_header: "Play now to learn"
@@ -1759,8 +1901,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_project_gallery: "view my classmates' projects"
     join_class: "Join a Class"
     join_class_2: "Join class"
-    ask_teacher_for_code: "Ask your teacher if you have a Ozaria class code! If so, enter it below:"
-    enter_c_code: "Enter Class Code" #
+    ask_teacher_for_code_coco: "Ask your teacher if you have a CodeCombat class code! If so, enter it below:"
+    ask_teacher_for_code_ozar: "Ask your teacher if you have a Ozaria class code! If so, enter it below:"
+    enter_c_code_coco: "<Enter Class Code>"
+    enter_c_code_ozar: "Enter Class Code" #
     join: "Join"
     joining: "Joining class"
     unit_complete: "Unit Complete"
@@ -1785,6 +1929,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     play_level: "Play Level"
     concepts_covered: "Concepts covered"
     view_guide_online: "Level Overviews and Solutions"
+    lesson_slides: "Lesson Slides"
     grants_lifetime_access: "Grants access to all Courses."
     enrollment_credits_available: "Licenses Available:"
     language_select: "Select a language" # ClassroomSettingsModal
@@ -1797,6 +1942,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     avg_student_exp_intermediate: "Intermediate - some experience with typed code"
     avg_student_exp_advanced: "Advanced - extensive experience with typed code"
     avg_student_exp_varied: "Varied Levels of Experience"
+    class_type_label: "Class Type"
+    class_type_in_school: "In School"
+    class_type_after_school: "After School"
+    class_type_online: "Online"
+    class_type_camp: "Camp"
+    class_type_homeschool: "Homeschool"
+    class_type_other: "Other"
     student_age_range_label: "Student Age Range"
     student_age_range_younger: "Younger than 6"
     student_age_range_older: "Older than 18"
@@ -1894,6 +2046,19 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     certificate_btn_toggle: "Toggle"
     module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
     error_in_creating_data: "Error in creating data for intro level!"
+    ask_next_course: "Want to play more? Ask your teacher for access to the next course."
+    set_start_locked_level: "Lock levels starting at"
+    no_level_limit: "-- (no levels locked)"
+    ask_teacher_to_unlock: "Ask Teacher To Unlock"
+    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen"
+    play_next_level: "Play Next Level"
+    play_tournament: "Play Tournament"
+    levels_completed: "Levels Completed: __count__"
+    ai_league_team_rankings: "AI League Team Rankings"
+    view_standings: "View Standings"
+    view_winners: "View Winners"
+    classroom_announcement: "Classroom Announcement"
+    link_lms_classroom: "Link LMS Classroom"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -1949,6 +2114,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     shared_classes: "Shared Classes"
     archived_classes_blurb: "Classes can be archived for future reference. Unarchive a class to view it in the Current Classes list again."
     view_class: "view class"
+    view_ai_league_team: "View AI League team"
     archive_class: "archive class"
     unarchive_class: "unarchive class"
     unarchive_this_class: "Unarchive this class"
@@ -1973,6 +2139,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     apply_license: "Apply License"
     revoke_license: "Revoke License"
     revoke_licenses: "Revoke All Licenses"
+    revoke_these_licenses: "Select Students and Revoke These Licenses"
+    check_and_revoke_license: "Status & Revoke"
+    manage_license: "Manage License"
     course_progress: "Course Progress"
     unit_progress: "Unit Progress"
     not_applicable: "N/A"
@@ -2009,6 +2178,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     assign_course: "Assign Unit"
     removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
     remove_course: "Remove Unit"
+    not_assigned_msg_1: "Cannot add users to a course instance until they are added to a prepaid that includes this course"
     not_assigned_modal_title: "Units were not assigned"
     not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
     not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
@@ -2020,6 +2190,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_students_selected: "No students were selected."
     show_students_from: "Show students from" # Enroll students modal
     apply_licenses_to_the_following_students: "Apply Licenses to the Following Students"
+    select_license_type: "Select License Type to Apply"
     students_have_licenses: "The following students already have licenses applied:"
     all_students: "All Students"
     apply_licenses: "Apply Licenses"
@@ -2038,14 +2209,22 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     empty_credits: "Exhausted Licenses"
     license_remaining: "license remaining"
     licenses_remaining: "licenses remaining"
+    student_enrollment_history: "Student Enrollment History"
+    enrollment_explanation_1: "The"
+    enrollment_explanation_2: "Student Enrollment History"
+    enrollment_explanation_3: "displays the total number of unique students who were enrolled across all teachers and classrooms added to your dashboard. This includes students in both archived and unarchived classrooms with a class creation date between July 1- June 30 of each respective school year."
+    enrollment_explanation_4: "Remember"
+    enrollment_explanation_5: "classes may be archived and licenses may be reused throughout the school year, so this view allows administrators to understand how many students truly participated in the program overall."
     one_license_used: "1 out of __totalLicenses__ licenses has been used"
     num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"
     starter_licenses: "starter licenses"
     start_date: "start date:"
     end_date: "end date:"
     get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
-    how_to_apply_licenses_blurb_1: "When a teacher assigns a unit to a student for the first time, we’ll automatically apply a license. Use the Select Unit dropdown in your classroom to assign a unit to selected students:"
-    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a unit?"
+    see_also_our: "See also our"
+    for_more_funding_resources: "for how to leverage CARES Act funding sources like ESSER and GEER."
+    how_to_apply_licenses_blurb_1: "When a teacher assigns a course to a student for the first time, we’ll automatically apply a license. Use the bulk-assign dropdown in your classroom to assign a course to selected students:"
+    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a course?"
     how_to_apply_licenses_blurb_3: "Yes — go to the License Status tab in your classroom and click \"Apply License\" to any student who does not have an active license."
     request_sent: "Request Sent!"
     assessments: "Assessments"
@@ -2053,6 +2232,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     status_expired: "Expired on {{date}}"
     status_not_enrolled: "Not Enrolled"
     status_enrolled: "Expires on {{date}}"
+    status_partly_expires: "Partly expires on {{date}}"
     select_all: "Select All"
     project: "Project"
     project_gallery: "Project Gallery"
@@ -2076,6 +2256,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_getting_started_desc: "New to Ozaria? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first unit."
     student_getting_started: "Student Quick Start Guide"
     student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+    standardized_curricula: "Standardized Curricula"
     ap_cs_principles: "AP Computer Science Principles"
     ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
     cs1: "Introduction to Computer Science"
@@ -2155,26 +2336,28 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     student_state: "How is"
     student_state_2: "doing?"
     student_good: "is doing well in"
-    student_good_detail: "This student is keeping pace with the class."
+    student_good_detail: "This student is keeping pace with the class's average level completion times."
     student_warn: "might need some help in"
-    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
+    student_warn_detail: "This student's average level completion times suggest they might need some help with new concepts that have been introduced in this course."
     student_great: "is doing great in"
-    student_great_detail: "This student might be a good candidate to help other students working through this course."
+    student_great_detail: "This student might be a good candidate to help other students working through this course, based on average level completion times."
     full_license: "Full License"
     starter_license: "Starter License"
+    customized_license: "Customized License"
     trial: "Trial"
     hoc_welcome: "Happy Computer Science Education Week"
     hoc_title: "Hour of Code Games - Free Activities to Learn Real Coding Languages"
     hoc_meta_description: "Make your own game or code your way out of a dungeon! CodeCombat has four different Hour of Code activities and over 60 levels to learn code, play, and create."
     hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
     hoc_self_led: "Self-Led Gameplay"
-    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
+    hoc_self_led_desc: "Students can play through our Hour of Code CodeCombat tutorials on their own"
     hoc_game_dev: "Game Development"
     hoc_and: "and"
     hoc_programming: "JavaScript/Python Programming"
     hoc_teacher_led: "Teacher-Led Lessons"
     hoc_teacher_led_desc1: "Download our"
-    hoc_teacher_led_link: "Introduction to Computer Science lesson plans"
+    hoc_teacher_led_link_coco: "Hour of Code lesson plans"
+    hoc_teacher_led_link_ozar: "Introduction to Computer Science lesson plans"
     hoc_teacher_led_desc2: "to introduce your students to programming concepts using offline activities"
     hoc_group: "Group Gameplay"
     hoc_group_desc_1: "Teachers can use the lessons in conjunction with our Introduction to Computer Science course to track student progress. See our"
@@ -2183,7 +2366,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
     hoc_additional_desc2: "Questions"
     hoc_additional_contact: "Get in touch"
+    regenerate_class_code_tooltip: "Generate a new Class Code"
+    regenerate_class_code_confirm: "Are you sure you want to generate a new Class Code?"
     revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+    revoke_alert_no_student: "Please select students first."
+    revoke_selected_confirm: "Are you sure you want to revoke Licenses from all selected students?"
     revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
     revoking: "Revoking..."
     unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they're ready to learn more!"
@@ -2200,22 +2387,22 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_create_classroom: "Create Classroom"
     teacher_quest_add_students: "Add Students"
     teacher_quest_teach_methods: "Help your students learn how to `call methods`."
-    teacher_quest_teach_methods_step1: "Get 75% of at least one class through the first level, __Dungeons of Kithgard__"
-    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
+    teacher_quest_teach_methods_step1: "Get 75% of at least one class through the first level, Dungeons of Kithgard"
+    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](https://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
     teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
-    teacher_quest_teach_strings_step1: "Get 75% of at least one class through __True Names__"
-    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/units) page to preview __True Names__."
+    teacher_quest_teach_strings_step1: "Get 75% of at least one class through True Names"
+    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview True Names."
     teacher_quest_teach_loops: "Keep your students in the loop about `loops`."
-    teacher_quest_teach_loops_step1: "Get 75% of at least one class through __Fire Dancing__."
-    teacher_quest_teach_loops_step2: "Use the __Loops Activity__ in the [CS1 Curriculum guide](/teachers/resources/cs1) to reinforce this concept."
+    teacher_quest_teach_loops_step1: "Get 75% of at least one class through Fire Dancing."
+    teacher_quest_teach_loops_step2: "Use the Loops Activity in the [CS1 Curriculum guide](/teachers/resources/cs1) to reinforce this concept."
     teacher_quest_teach_variables: "Vary it up with `variables`."
-    teacher_quest_teach_variables_step1: "Get 75% of at least one class through __Known Enemy__."
+    teacher_quest_teach_variables_step1: "Get 75% of at least one class through Known Enemy."
     teacher_quest_teach_variables_step2: "Encourage collaboration by using the [Pair Programming Activity](/teachers/resources/pair-programming)."
     teacher_quest_kithgard_gates_100: "Escape the Kithgard Gates with your class."
-    teacher_quest_kithgard_gates_100_step1: "Get 75% of at least one class through __Kithgard Gates__."
-    teacher_quest_kithgard_gates_100_step2: "Guide students to think through hard problems using the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)."
+    teacher_quest_kithgard_gates_100_step1: "Get 75% of at least one class through Kithgard Gates."
+    teacher_quest_kithgard_gates_100_step2: "Guide students to think through hard problems using the [Engineering Cycle Worksheet](https://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)."
     teacher_quest_wakka_maul_100: "Prepare to duel in Wakka Maul."
-    teacher_quest_wakka_maul_100_step1: "Get 75% of at least one class to __Wakka Maul__."
+    teacher_quest_wakka_maul_100_step1: "Get 75% of at least one class to Wakka Maul."
     teacher_quest_wakka_maul_100_step2: "See the [Arena Guide](/teachers/resources/arenas) in the [Resource Hub](/teachers/resources) for tips on how to run a successful arena day."
     teacher_quest_reach_gamedev: "Explore new worlds!"
     teacher_quest_reach_gamedev_step1: "[Get licenses](/teachers/licenses) so that your students can explore new worlds, like Game Development and Web Development!"
@@ -2224,7 +2411,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_quest_more: "See all quests"
     teacher_quest_less: "See fewer quests"
     refresh_to_update: "(refresh the page to see updates)"
-    view_project_gallery: "View Capstone Gallery"
+    view_project_gallery: "View Project Gallery"
     office_hours: "Teacher Webinars"
     office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
     office_hours_link: "teacher webinar"
@@ -2282,10 +2469,44 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     for_loops: "For Loops"
     peer_feedback: "Peer Feedback Form"
     presentation_checklist: "Presentation Checklist"
+    try_ozaria_footer: "Try our new adventure game, Ozaria!"
+    try_ozaria_free: "Try Ozaria for free"
+    ozaria_intro: "Introducing Our New Computer Science Program"
+    share_class: 'share class'
+    permission: 'Permission'
+    not_write_permission: "You don't have write permission to the class"
+    not_read_permission: "You don't have read permission to the class"
+    owned_license: "Licensed"
 
   teacher_licenses:
     active_licenses: "Active Licenses"
     expired_licenses: "Expired Licenses"
+
+  teacher_ozaria_encouragement_modal:
+    title: "Build Computer Science Skills to Save Ozaria"
+    sub_title: "You are invited to try the new adventure game from CodeCombat"
+    cancel: 'Back to CodeCombat'
+    accept: 'Try First Unit Free'
+    bullet1: 'Deepen student connection to learning through an epic story and immersive gameplay'
+    bullet2: 'Teach CS fundamentals, Python or JavaScript and 21st century skills'
+    bullet3: 'Unlock creativity through capstone projects'
+    bullet4: 'Support instructions through dedicated curriculum resources'
+    you_can_return: 'You can always return to CodeCombat'
+
+  educator_signup_ozaria_encouragement:
+    recommended_for: 'Recommended for:'
+    independent_learners: 'Independent learners'
+    homeschoolers: 'Homeschoolers'
+    educators_continue_coco: 'Educators who want to continue using CodeCombat in their class'
+    continue_coco: 'Continue with CodeCombat'
+
+  ozaria_cta:
+    title1: 'Standards Aligned Core Curriculum'
+    description1: 'Immersive, story based curriculum that meets all 6th-8th grade CSTA standards.'
+    title2: 'Turnkey Lesson Plans'
+    description2: 'In-depth presentations and worksheets for teachers to guide students through learning objectives.'
+    title3: 'New Teacher & Admin Dashboards'
+    description3: 'All the actionable insights educators need at a glance, such as student progress and concept understanding.'
 
   share_licenses:
     share_licenses: "Share Licenses"
@@ -2299,6 +2520,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
     teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
     already_shared: "You've already shared these licenses with that teacher."
+    have_not_shared: "You've not shared these licenses with that teacher."
     teachers_using_these: "Teachers who can access these licenses:"
     footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
     you: "(you)"
@@ -2326,6 +2548,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     victory_course_share_suffix: "you just created."
     copy_url: "Copy URL"
     share_with_teacher_email: "Send to your teacher"
+    share_ladder_link: "Share Multiplayer Link"
+    ladder_link_title: "Share Your Multiplayer Match Link"
+    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:"
 
   game_dev:
     creator: "Creator"
@@ -2527,6 +2752,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ambassador_introduction: "This is a community we're building, and you are the connections. We've got forums, emails, and social networks with lots of people to talk with and help get acquainted with the game and learn from. If you want to help people get involved and have fun, and get a good feel of the pulse of CodeCombat and where we're going, then this class might be for you."
     ambassador_attribute_1: "Communication skills. Be able to identify the problems players are having and help them solve them. Also, keep the rest of us informed about what players are saying, what they like and don't like and want more of!"
     ambassador_join_desc: "tell us a little about yourself, what you've done and what you'd be interested in doing. We'll go from there!"
+    ambassador_join_step1: "Read the documentation."
+    ambassador_join_step2: "Find us in our public Slack channel."
+    ambassador_join_step3: "Help others in the Ambassador category."
     ambassador_subscribe_desc: "Get emails on support updates and multiplayer developments."
     teacher_subscribe_desc: "Get emails on updates and announcements for teachers."
     changes_auto_save: "Changes are saved automatically when you toggle checkboxes."
@@ -2581,13 +2809,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     log_in_for_friends: "Log in to play with your friends!"
     social_connect_blurb: "Connect and play against your friends!"
     invite_friends_to_battle: "Invite your friends to join you in battle!"
-    fight: "Fight!"
+    fight: "Battle!"
     watch_victory: "Watch your victory"
     defeat_the: "Defeat the"
     watch_battle: "Watch the battle"
+    tournament_starts: "Tournament starts __timeElapsed__"
     tournament_started: ", started"
     tournament_ends: "Tournament ends"
     tournament_ended: "Tournament ended"
+    tournament_results_published: ", results published"
     tournament_rules: "Tournament Rules"
     tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
     tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
@@ -2600,6 +2830,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     red_ai: "Red CPU"  # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "Blue CPU"
     wins: "Wins"  # At end of multiplayer match playback
+    losses: "Losses"
+    win_num: "Wins"
+    loss_num: "Losses"
+    win_rate: "Win %"
     humans: "Red"  # Ladder page display team name
     ogres: "Blue"
     live_tournament: "Live Tournament"
@@ -2607,6 +2841,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     awaiting_tournament_blurb: "The tournament arena is not currently active."
     tournament_end_desc: "The tournament is over, thanks for playing"
     age: "Age"
+    age_bracket: "Age Bracket"
     bracket_0_11: "0-11"
     bracket_11_14: "11-14"
     bracket_14_18: "14-18"
@@ -2639,6 +2874,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     certificate_levels_completed: "levels completed"
     certificate_for: "For"
     certificate_number: "No."
+    heroes_unlocked: "Heroes Unlocked"
+    current_items: "Items Equipped"
+    contributor_badges: "Contributor Badges"
+    contributions_title: "Contributions"
+    type_stat: "Type"  # As in, which type of contribution
+    patches_submit: "Patches Submitted"
+    patches_approved: "Patches Approved"
+    patches_accepted: "Patches Accepted"
+    level_edits: "Level Edits"
+    total_translations: "Total Translations"
 
   achievements:
     last_earned: "Last Earned"
@@ -2682,7 +2927,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now."
     status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!"
     not_yet_verified: "Not yet verified."
-    resend_email: "Resend email"
+    resend_email: "Please save first then Resend email"
     email_sent: "Email sent! Check your inbox."
     verifying_email: "Verifying your email address..."
     successfully_verified: "You've successfully verified your email address!"
@@ -2691,6 +2936,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unsubscribe_button: "Yes, unsubscribe"
     unsubscribe_failed: "Failed"
     unsubscribe_success: "Success"
+    manage_billing: "Manage Billing"
 
   account_invoices:
     amount: "Amount in US dollars"
@@ -2734,6 +2980,59 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     restart_level: 'Restart Level',
     max_browser: 'Maximize Browser'
 
+  impact:
+    hero_heading: 'Building A World-Class Computer Science Program'
+    hero_subheading: 'We Help Empower Educators and Inspire Students Across the Country'
+    featured_partner_story: 'Featured Partner Story'
+    partner_heading: 'Successfully Teaching Coding at a Title I School'
+    partner_school: 'Bobby Duke Middle School'
+    featured_teacher: 'Scott Baily'
+    teacher_title: 'Technology Teacher Coachella, CA'
+    implementation: 'Implementation'
+    grades_taught: 'Grades Taught'
+    length_use: 'Length of Use'
+    length_use_time: '3 years'
+    students_enrolled: 'Students Enrolled this Year'
+    students_enrolled_number: '130'
+    courses_covered: 'Courses Covered'
+    course1: 'CompSci 1'
+    course2: 'CompSci 2'
+    course3: 'CompSci 3'
+    course4: 'CompSci 4'
+    course5: 'GameDev 1'
+    fav_features: 'Favorite Features'
+    responsive_support: 'Responsive Support'
+    immediate_engagement: 'Immediate Engagement'
+    paragraph1: 'Bobby Duke Middle School sits nestled between the Southern California mountains of Coachella Valley to the west and east and the Salton Sea 33 miles south, and boasts a student population of 697 students within Coachella Valley Unified’s district-wide population of 18,861 students.'
+    paragraph2: 'The students of Bobby Duke Middle School reflect the socioeconomic challenges facing Coachella Valley’s residents and students within the district. With over 95% of the Bobby Duke Middle School student population qualifying for free and reduced-price meals and over 40% classified as English language learners, the importance of teaching 21st century skills was the top priority of Bobby Duke Middle School Technology teacher, Scott Baily.'
+    paragraph3: 'Baily knew that teaching his students coding was a key pathway to opportunity in a job landscape that increasingly prioritizes and necessitates computing skills. So, he decided to take on the exciting challenge of creating and teaching the only coding class in the school and finding a solution that was affordable, responsive to feedback, and engaging to students of all learning abilities and backgrounds.'
+    teacher_quote: 'When I got my hands on CodeCombat [and] started having my students use it, the light bulb went on. It was just night and day from every other program that we had used. They’re not even close.'
+    quote_attribution: 'Scott Baily, Technology Teacher'
+    read_full_story: 'Read Full Story'
+    more_stories: 'More Partner Stories'
+    partners_heading_1: 'Supporting Multiple CS Pathways in One Class'
+    partners_school_1: 'Preston High School'
+    partners_heading_2: 'Excelling on the AP Exam'
+    partners_school_2: 'River Ridge High School'
+    partners_heading_3: 'Teaching Computer Science Without Prior Experience'
+    partners_school_3: 'Riverdale High School'
+    download_study: 'Download Research Study'
+    teacher_spotlight: 'Teacher & Student Spotlights'
+    teacher_name_1: 'Amanda Henry'
+    teacher_title_1: 'Rehabilitation Instructor'
+    teacher_location_1: 'Morehead, Kentucky'
+    spotlight_1: 'Through her compassion and drive to help those who need second chances, Amanda Henry helped change the lives of students who need positive role models. With no previous computer science experience, Henry led her students to coding success in a regional coding competition.'
+    teacher_name_2: 'Kaila, Student'
+    teacher_title_2: 'Maysville Community & Technical College'
+    teacher_location_2: 'Lexington, Kentucky'
+    spotlight_2: 'Kaila was a student who never thought she would be writing lines of code, let alone enrolled in college with a pathway to a bright future.'
+    teacher_name_3: 'Susan Jones-Szabo'
+    teacher_title_3: 'Teacher Librarian'
+    teacher_school_3: 'Ruby Bridges Elementary'
+    teacher_location_3: 'Alameda, CA'
+    spotlight_3: 'Susan Jones-Szabo promotes an equitable atmosphere in her class where everyone can find success in their own way. Mistakes and struggles are welcomed because everyone learns from a challenge, even the teacher.'
+    continue_reading_blog: 'Continue Reading on Blog...'
+
   loading_error:
     could_not_load: "Error loading from server. Try refreshing the page."
     connection_failure: "Connection Failed"
@@ -2743,6 +3042,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unauthorized: "You need to be signed in. Do you have cookies disabled?"
     forbidden: "Forbidden"
     forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
+    user_not_found: "User Not Found"
     not_found: "Not Found"
     not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "Method not allowed."
@@ -2950,7 +3250,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     email_settings_url: "your email settings"
     email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
     cost_title: "Cost"
-    cost_description: "CodeCombat is free to play for all of its core levels, with a ${{price}} USD/mo subscription for access to extra level branches and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
+    cost_description: "CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee."
     copyrights_title: "Copyrights and Licenses"
     contributor_title: "Contributor License Agreement"
     contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"
@@ -3038,6 +3338,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   server_error:
     email_taken: 'Email already taken'
     username_taken: 'Username already taken'
+    easy_password: 'Password is too easy to guess'
+    reused_password: 'Password cannot be reused'
 
   esper:
     line_no: "Line $1: "
@@ -3243,9 +3545,130 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     have_a_class_code: "Have a class code?"
     create_class_and_try_activity: "Create Class and Try Activity"
 
+  parents_landing_2:
+    splash_title: "Discover the magic of coding at home."
+    learn_with_instructor: "Learn with an Instructor"
+    live_classes: "Live Online Classes"
+    live_classes_offered: "CodeCombat now offers live online computer science classes for students learning at home. Great for students who work best in 1:1 or small-group settings where learning outcomes are tailored to their needs."
+    live_class_details_1: "Small group or private lessons"
+    live_class_details_2: "JavaScript and Python coding, plus core Computer Science concepts"
+    live_class_details_3: "Taught by expert coding instructors"
+    live_class_details_4: "Individualized and instant feedback"
+    live_class_details_5: "Curriculum trusted by 80,000+ educators"
+    try_free_class: "Try a free 60 minute class"
+    pricing_plans: "Pricing Plans"
+    choose_plan: "Choose Plan"
+    per_student: "per student"
+    sibling_discount: "15% Sibling Discount!"
+    small_group_classes: "Small Group Coding Classes"
+    small_group_classes_detail: "4 Group Sessions / Mo."
+    small_group_classes_price: "$159/mo"
+    small_group_classes_detail_1: "4:1 student to instructor ratio"
+    small_group_classes_detail_2: "60 minute classes"
+    small_group_classes_detail_3: "Build projects and give feedback to other students"
+    small_group_classes_detail_4: "Screen sharing to get live feedback on coding and debugging"
+    private_classes: "Private Coding Classes"
+    four_sessions_per_month: "4 Private Sessions / Mo."
+    eight_sessions_per_month: "8 Private Sessions / Mo."
+    four_private_classes_price: "$219/mo"
+    eight_private_classes_price: "$399/mo"
+    private_classes_detail: "4 or 8 Private Sessions / Mo."
+    private_classes_price: "$219/mo or $399/mo"
+    private_classes_detail_1: "1:1 student to instructor ratio"
+    private_classes_detail_2: "60 minute classes"
+    private_classes_detail_3: "Flexible schedule tailored to your needs"
+    private_classes_detail_4: "Lesson plans and live feedback tailored to students' learning style, pace, and ability level"
+    best_seller: "Best Seller"
+    best_value: "Best Value"
+    codecombat_premium: "CodeCombat Premium"
+    learn_at_own_pace: "Learn at Your Own Pace"
+    monthly_sub: "Monthly Subscription"
+    buy_now: "Buy now"
+    per_month: " / mo"
+    lifetime_access: "Lifetime Access"
+    premium_details_title: "Great for self-driven learners who thrive with complete autonomy."
+    premium_details_1: "Access to subscriber-only heroes, pets and skills"
+    premium_details_2: "Receive bonus gems to buy gear, pets and more heroes"
+    premium_details_3: "Unlock a deeper understanding of core concepts and skills like web and game development"
+    premium_details_4: "Premium support for subscribers"
+    premium_details_5: "Create private clans to invite friends and compete on a group leaderboard"
+    premium_need_help: 'Need help or prefer Paypal? Email <a href="mailto:support@codecombat.com">support@codecombat.com</a>'
+    not_sure_kid: "Not sure if CodeCombat is right for your kid?  Ask them!"
+    share_trailer: "Share our game trailer with your kid and have them create an account to get started."
+    why_kids_love: "Why Kids Love CodeCombat"
+    learn_through_play: "Learning Through Play"
+    learn_through_play_detail: "Students grow their coding skills, and also use problem-solving skills to progress through levels and power up their heroes."
+    skills_they_can_share: "Skills They Can Share"
+    skills_they_can_share_details: "Students build real-world skills and create projects, such as games and webpages, that they can share with friends and family."
+    help_when_needed: "Help When They Need It"
+    help_when_needed_detail: "Using data, every level has been built to be challenging, but never discouraging.  Students are supported with hints when they get stuck."
+    book_first_class: "Book your first class"
+    why_parents_love: "Why Parents Love CodeCombat"
+    most_engaging: "The most engaging way to learn typed code"
+    most_engaging_detail: "Your child will have everything they need at the tip of their fingers to program algorithms in Python or JavaScript, build websites and even design their own games, while learning material aligned with national curriculum standards."
+    critical_skills: "Building critical skills for the 21st century"
+    critical_skills_detail: "Your child will learn how to navigate and become citizens in the digital world. CodeCombat is a solution that enhances your child’s critical thinking, creativity, and resilience, empowering them with the skills they need for any industry."
+    parent_support: "Supported by parents like you"
+    parent_support_detail: "At CodeCombat, we’re parents. We’re coders. We’re educators. But most of all, we’re people who believe in giving our kids the best opportunity for success in whatever it is they decide to do."
+    everything_they_need: "Everything they need to start typing code on their own"
+    beginner_concepts: "Beginner Concepts"
+    beginner_concepts_1: "Basic syntax"
+    beginner_concepts_2: "While loops"
+    beginner_concepts_3: "Arguments"
+    beginner_concepts_4: "Strings"
+    beginner_concepts_5: "Variables"
+    beginner_concepts_6: "Algorithms"
+    intermediate_concepts: "Intermediate Concepts"
+    intermediate_concepts_1: "If statements"
+    intermediate_concepts_2: "Boolean comparisons"
+    intermediate_concepts_3: "Nested conditionals"
+    intermediate_concepts_4: "Functions"
+    intermediate_concepts_5: "Basic input handling"
+    intermediate_concepts_6: "Basic game artificial intelligence"
+    advanced_concepts: "Advanced Concepts"
+    advanced_concepts_1: "Event handling"
+    advanced_concepts_2: "Conditional while loops"
+    advanced_concepts_3: "Object literals"
+    advanced_concepts_4: "Parameters"
+    advanced_concepts_5: "Vectors"
+    advanced_concepts_6: "Math library operations"
+    advanced_concepts_7: "Recursion"
+    get_started: "Get Started"
+    quotes_title: "What parents and kids are saying about CodeCombat"
+    quote_1: "\"This is next level coding for kids and it’s pretty fun. I am going to learn a thing or two from this too.\""
+    quote_2: "\"I liked learning a new skill that I haven’t done before. I liked that when I was struggling, I could find the goals. I also liked that you could see the code work correctly.\""
+    quote_3: "\"Oliver’s Python is coming along. He’s using CodeCombat to make his own video games. He challenges me to play his games, then laughs when I lose.\""
+    quote_4: "\"This is one of my favorite things to do. Every morning I wake up and play CodeCombat. If I had to give CodeCombat a rating from 1 to 10, I would give it a 10!\""
+    parent: "Parent"
+    student: "Student"
+    grade: "Grade"
+    subscribe_error_user_type: "Looks like you've already signed up for an account. If you're interested in CodeCombat Premium, please contact us at team@codecombat.com."
+    subscribe_error_already_subscribed: "You've already signed up for a Premium account."
+    start_free_trial_today: "Start free trial today"
+    live_classes_title: "Live coding classes from CodeCombat!"
+    live_class_booked_thank_you: "Your live class has been booked, thank you!"
+    book_your_class: "Book Your Class"
+    call_to_book: "Call now to book"
+    student_journey_start: "Congratulations! Your student's coding journey is about to begin!"
+    enter_email_address: "Please provide your email address to get started:"
+    enter_parent_email_address: "If you are a student under 18 years of age, please enter your parent or guardian's email address."
+    email_sent_success: "Awesome! An email has been sent to the address you provided."
+    email_schedule_info: "Please open and click the link to access our trial class scheduling portal and select any available time that works best for you."
+
+  modal_timetap_confirmation:
+    congratulations: "Congratulations!"
+    paragraph_1: "Your student’s coding adventure awaits."
+    paragraph_2: "We have your child booked for an online class and we’re so excited to meet them!"
+    paragraph_3: "Soon you should be recieving an email invitation with the class schedule details as well as your class instructor’s name and contact information."
+    paragraph_4: "If for whatever reason you need to modify your class selections, reschedule or just want to talk with a customer care specialist, simply reach out using the contact information provided in your email invitation."
+    paragraph_5: "Thank you for choosing CodeCombat and good luck on your computer science journey!"
+    back_to_coco: "Back to CodeCombat"
+
   hoc_2018:
-    banner: "Happy Computer Science Education Week!"
+    banner_coco: "Welcome to Hour of Code!"
+    banner_ozar: "Happy Computer Science Education Week!"
     page_heading: "Your students will learn to code by building their own game!"
+    page_heading_ai_league: "Your students will learn to code their own multiplayer AI!"
     step_1: "Step 1: Watch Video Overview"
     step_2: "Step 2: Try it Yourself"
     step_3: "Step 3: Download Lesson Plan"
@@ -3257,9 +3680,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_signup_input_placeholder: "Teacher email address"
     teacher_signup_input_button: "Get CS1 Free"
     activities_header: "More Hour of Code Activities"
-    activity_label_1: "Escape the Dungeon!"
-    activity_label_2: " Beginner: Build a Game!"
-    activity_label_3: "Advanced: Build an Arcade Game!"
+    activity_label_1: "Beginner CS: Escape the Dungeon!"
+    activity_label_2: " Beginner GD: Build a Game!"
+    activity_label_3: "Advanced GD: Build an Arcade Game!"
+    activity_label_hoc_2018: "Intermediate GD: Code, Play, Create"
+    activity_label_ai_league: "Beginner CS: Road to the AI League"
     activity_button_1: "View Lesson"
     about: "About CodeCombat"
     about_copy: "A game-based, standards-aligned computer science program that teaches real, typed Python and JavaScript."
@@ -3305,6 +3730,17 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     active_students_stat_description: 'Active students counts the number of students that have logged into CodeCombat in the last 60 days.'
     project_stat_description: 'Projects created counts the total number of Game and Web development projects that have been created.'
     no_teachers: 'You don’t have any schools tied to your account yet. Please contact your <strong>District Success Manager</strong> or <a href="mailto:schools@codecombat.com">schools@codecombat.com</a> to get your dashboard set up.'
+    totals_calculated: 'How are these totals calculated?'
+    totals_explanation_1: 'How are these totals calculated?'
+    totals_explanation_2: 'Licenses used'
+    totals_explanation_3: 'Counts total licenses applied to students out of total licenses available.'
+    totals_explanation_4: 'Total students'
+    totals_explanation_5: 'Counts teacher’s students across all of their active classrooms. To see total students enrolled in both active and archived classrooms, go to the Student Licenses page.'
+    totals_explanation_6: 'Active students'
+    totals_explanation_7: 'Counts all students who were active within the past 60 days.'
+    totals_explanation_8: 'Projects created'
+    totals_explanation_9: 'Counts total games and web pages created.'
+    date_thru_date: '__startDateRange__ thru __endDateRange__'
 
   interactives:
     phenomenal_job: 'Phenomenal Job!'
@@ -3315,6 +3751,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     console_instructions: 'See why by opening your browser console: 1) Right click 2) Choose "Inspect" 3) Click the console tab.'
     skip_video: 'Skip video'
     unavailable: 'Unavailable'
+
+  browser_recommendation:
+    title: 'CodeCombat works best on Chrome!'
+    pitch_body: 'For the best CodeCombat experience we recommend using the latest version of Chrome. Download the latest version of chrome by clicking the button below!'
+    download: 'Download Chrome'
+    ignore: 'Ignore'
 
   admin:
     license_type_full: 'Full Courses'
@@ -3439,11 +3881,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     projects: "projects"
     progress_stats: "Progress stats based on sampling __sampleSize__ of __populationSize__ students."
     standards_coverage: "Standards Coverage"
-    coverage_p1: 'The full Ozaria curriculum covers major programming standards in several widely-adopted frameworks, including those of the International Society for Technology in Education (ISTE), the Computer Science Teacher Association (CSTA), and the K-12 Computer Science Framework.'
-    coverage_p2: 'Ozaria is created by the CodeCombat, the game-based learning company. We believe that students will be most prepared for both real-world computing jobs and further study of computer science by using real, typed code in full programming languages, so instead of using block-based visual programming languages for beginners, we teach Python and JavaScript – the same languages used widely today by companies ranging from Google to the New York Times.'
+    coverage_p1_coco: 'The full CodeCombat curriculum covers major programming standards in several widely-adopted frameworks, including those of the International Society for Technology in Education (ISTE), the Computer Science Teacher Association (CSTA), and the K-12 Computer Science Framework.'
+    coverage_p1_ozar: 'The full Ozaria curriculum covers major programming standards in several widely-adopted frameworks, including those of the International Society for Technology in Education (ISTE), the Computer Science Teacher Association (CSTA), and the K-12 Computer Science Framework.'
+    coverage_p2_coco: 'At CodeCombat, we believe that students will be most prepared for both real-world computing jobs and further study of computer science by using real, typed code in full programming languages, so instead of using block-based visual programming languages for beginners, we teach Python and JavaScript – the same languages used widely today by companies ranging from Google to the New York Times.'
+    coverage_p2_ozar: 'Ozaria is created by the CodeCombat, the game-based learning company. We believe that students will be most prepared for both real-world computing jobs and further study of computer science by using real, typed code in full programming languages, so instead of using block-based visual programming languages for beginners, we teach Python and JavaScript – the same languages used widely today by companies ranging from Google to the New York Times.'
     questions: "Have questions or want more information? We'd be happy to help."
     reach_out_manager: "Reach out to your Account Manager __name__ at "
     stats_include: "stats include __number__ other __name__"
+
   efficacy:
     ozaria_efficacy: "Ozaria Efficacy"
     header_subtitle: "Ozaria has proven to have a positive impact on the student learning outcomes that matter most to both students and educators."
@@ -3507,3 +3952,219 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     access_using_id: "to access using your id!!"
     network_detected: "Library network detected, redirecting you to play CodeCombat"
     not_redirect_auto: "if redirect doesn't happen automatically"
+
+  league:
+    student_register_1: "Become the next AI Champion!"
+    student_register_2: "Sign up, create your own team, or join other teams to start competing."
+    student_register_3: "Provide the information below to be eligible for prizes."
+    teacher_register_1: "Sign up to access your class league profile page and get your class started."
+    general_news: "Get emails on the latest news and updates regarding our AI Leagues and tournaments."
+    team: 'team'
+    how_it_works1: 'Join a __team__'
+    seasonal_arena_tooltip: 'Battle against your teammates and others as you use your best programming skills to earn points and rank up the AI League leaderboard before taking on the Championship arena at the end of the season.'
+    summary: 'The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python and JavaScript code.'
+    join_now: 'Join Now'
+    tagline: 'The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an organized academic competition unlike any other.'
+    ladder_subheader: 'Use your coding skills and battle strategies to rise up the ranks!'
+    earn_codepoints: 'Earn CodePoints by completing levels'
+    codepoints: 'CodePoints'
+    free_1: 'Access competitive multiplayer arenas, leaderboard, and global coding championships'
+    free_2: 'Earn points for completing practice levels and competing in head-to-head matches'
+    free_3: 'Join competitive coding teams with friends, family, or classmates'
+    free_4: 'Showcase your coding skills and take home great prizes'
+    compete_season: 'Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.'
+    season_subheading1: 'For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.'
+    season_subheading2: 'Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.'
+    team_derbezt: 'Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.'
+    invite_link: 'Invite players to this team by sending them this link:'
+    public_link: 'Share this team leaderboard with its public link:'
+    end_to_end: 'Unlike other esports platforms serving schools, we own the structure top to bottom, which means we’re not tied to any game developer or have issues with licensing. That also means we can make custom modifications in-game for your school or organization.'
+    path_success: 'The game platform fits into a regular Computer Science curriculum, so as students play through the game levels, they’re completing course work. Students learn coding and computer science while they play, then use these skills in arena battles as they practice and play on the same platform.'
+    unlimited_potential: 'Our tournament structure is adaptable to any environment or use case. Students can participate at a designated time during regular learning, play at home asynchronously, or participate on their own schedule.'
+    edit_team: 'Edit Team'
+    start_team: 'Start a Team'
+    leave_team: 'Leave Team'
+    join_team: 'Join Team'
+    view_team: "View Team"
+    join_team_name: "Join Team __name__"
+    features: 'Features'
+    built_in: 'Built-in Competitive Infrastructure'
+    built_in_subheader: 'Our platform hosts every element of the competitive process, from leaderboards to the game platform, assets, and tournament awards.'
+    custom_dev: 'Custom Development'
+    custom_dev_subheader: 'Customization elements for your school or organization are included, plus options like branded landing pages and in-game characters.'
+    comprehensive_curr: 'Comprehensive Curriculum'
+    comprehensive_curr_subheader: 'CodeCombat is a standards-aligned CS solution that helps educators teach real coding in JavaScript and Python, no matter their experience.'
+    roster_management: 'Roster Management Tools'
+    roster_management_subheader: 'Track student performance within the curriculum and within the game, and easily add or remove students.'
+    share_flyer: 'Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested.'
+    download_flyer: 'Download Flyer'
+    championship_summary: 'The __championshipArena__ championship arena is now open! Battle it out for the month of __championshipMonth__ to win prizes in the __championshipArena__ __championshipType__.'
+    play_arena_full: "Play __arenaName__ __arenaType__"
+    play_arena_short: "Play __arenaName__"
+    view_arena_winners: "View __arenaName__ __arenaType__ winners"
+    arena_type_championship: "Championship Arena"
+    arena_type_regular: "Multiplayer Arena"
+    blazing_battle: "Blazing Battle"
+    infinite_inferno: "Infinite Inferno"
+    mages_might: "Mages' Might"
+    sorcerers: "Sorcerers"
+    giants_gate: "Giants' Gate"
+    colossus: "Colossus"
+    iron_and_ice: "Iron and Ice"
+    tundra_tower: "Tundra Tower"
+    magma_mountain: "Magma Mountain"
+    lava_lake: "Lava Lake"
+    desert_duel: "Desert Duel"
+    sandstorm: "Sandstorm"
+    season_label: "Season __seasonNumber__: __seasonName__"
+    season_1: "Forged in Flame"
+    season_2: "Spells of Fortune"
+    season_3: "Titan Age"
+    season_4: "Frosts of War"
+    season_5: "Sands of Time"
+    season_6: "Molten Mayhem"
+    cup: "Cup"
+    blitz: "Blitz"
+    clash: "Clash"
+    season4_announcement_1: "The Tundra Tower Cup Final is on. In this all new take on the classic tower defense gameplay, you must protect your base from the horde of monsters by building towers and using gravitational anomalies."
+    season4_announcement_2: "Note: arena balance adjustments may occur up until April 15th. So be sure to come back often to test your code against the global leaderboard."
+    season3_announcement_1: "Time to put your coding skills to the test in our season 3 final arena. The Colossus Clash is live and offers a new challenge and a new leaderboard to climb."
+    season3_announcement_2: "Need more practice? Stick with the Giant's Gate Arena to refine your skills. You have until December 14th to play both arenas. Note: arena balance adjustments may occur until December 6th."
+    season3_announcement_3: "Great prizes available for top performers in the Colossus Clash:"
+    season2_announcement_1: "Time to put your coding skills to the test in our season 2 final arena. The Sorcerers Blitz is live and offers a new challenge and a new leaderboard to climb."
+    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd."
+    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:"
+    season1_prize_1: "$1,000 Scholarship"
+    season1_prize_2: "RESPAWN Gaming Gear"
+    season1_prize_3: "Custom CodeCombat Avatar"
+    season1_prize_4: "And more!"
+    season1_prize_hyperx: "HyperX Premium Peripherals"
+    codecombat_ai_league: 'CodeCombat AI League'
+    register: "Register"
+    not_registered: "Not Registered"
+    register_for_ai_league: "Register for AI League"
+    world: "World"
+    quickstart_video: "Quickstart Video"
+    arena_rankings: "Arena Rankings"
+    arena_rankings_blurb: "Global AI League arena rankings"
+    arena_rankings_title: "Global leaderboard rank for all players in this team across AI League arenas in the open age bracket."
+    competing: "Competing:" # Competing: 3 students
+    count_student: "student"  # 1 student
+    count_students: "students"  # 2 students
+    top_student: "Top:" # Top: Jane D
+    top_percent: "top" # - top 3%)
+    top_of: "of" # (#8 of 35). Perhaps just use "/" if this doesn't translate naturally.
+    arena_victories: "Arena Victories"
+    arena_victories_blurb: "Global AI League arena recent wins"
+    arena_victories_title: "Win count is based on the last 1000 matches played asynchronously by each player in each of their AI League arenas."
+    count_wins: "wins" # 100+ wins or 974 wins
+    codepoints_blurb: "1 CodePoint = 1 line of code written"
+    codepoints_title: "One CodePoint is earned for every non-whitespace line of code needed to beat the level. Each level is worth the same amount of CodePoints according to its standard solution, regardless of whether the student wrote more or fewer lines of code."
+    count_total: "Total:" # Total: 300 CodePoints, or Total: 300 wins
+    join_teams_header: "Join Teams & Get Cool Stuff!"
+    join_team_hyperx_title: "Join Team HyperX, Get 10% Off"
+    join_team_hyperx_blurb: "30 team members will be chosen at random for a free gaming mousepad!"
+    join_team_derbezt_title: "Join Team DerBezt, Get Exclusive Hero"
+    join_team_derbezt_blurb: "Unlock the Armando Hoyos hero from Mexican superstar Eugenio Derbez!"
+    join_team_ned_title: "Join Team Ned, Unlock Ned's Hero"
+    join_team_ned_blurb: "Get the exclusive spatula-wielding hero from YouTube star, Try Guy Ned Fulmer!"
+    check_out_all: "Check out all the"
+    pick_best_tournaments: "pick the ones that will work best for your custom tournament!"
+    final_arena: "Final Arena"
+    package_options_and_guide: "Package Options & Implementation Guide"
+    custom_tournament: "For a Custom Tournament"
+    you_win: "You can win"
+    great_prizes: "great prizes"
+    powered_by: "Powered by"
+    grand_prize: "Grand Prize"
+    scholarship: "Scholarship"
+    top_players_win: "Top three players in each division win: HyperX pro peripherals"
+    team_hyperx: "Team HyperX"
+    earn_more_gear: "you could earn even more gear!"
+    prize_footer1: "Awarded to the top performing player across all age groups."
+    prize_footer2: "Specific products and models subject to change."
+    prize_footer3: "Prizes will be awarded to players who reach the top of the leaderboard in the Finals arena."
+    prize_footer4_1: "Age verification necessary to be eligible. Some prizes are limited to US participants only."
+    coco_reserves: "CodeCombat reserves"
+    prize_footer4_2: "the right to determine in its sole discretion if a player qualifies and will receive a prize."
+    place: "Place" # as in 1st place
+
+  tournament:
+    mini_tournaments: "Mini Tournaments"
+    usable_ladders: "All Usable Ladders"
+    make_tournament: "Make a mini tournament"
+    go_tournaments: "Go to mini tournaments"
+    class_tournaments: "Class mini tournaments"
+    no_tournaments_owner: "There is no tournament now, please create one"
+    no_tournaments: "There is no tournament now"
+    edit_tournament: "Edit Tournament"
+    create_tournament: "Create a Tournament"
+    upcoming: 'Upcoming'
+    starting: 'Starting'
+    ended: 'Ended'
+    view_results: 'View Results'
+    estimate_days: 'In __time__ Days'
+
+  payments:
+    student_licenses: 'Student Licenses'
+    computer_science: 'Computer Science'
+    web_development: 'Web Development'
+    game_development: 'Game Development'
+    per_student: 'Per Student'
+    just: 'Just'
+    teachers_upto: 'Teacher can purchase upto'
+    great_courses: 'Great Courses included for'
+    studentLicense_successful: 'Congratulations! Your licenses will be ready to use in a min. Click on the Getting Started Guide in the Resource Hub to learn how to apply them to your students.'
+    onlineClasses_successful: 'Congratulations! Your payment was successful. Our team will reach out to you with the next steps.'
+    homeSubscriptions_successful: 'Congratulations! Your payment was successful. Your premium access will be available in few minutes.'
+    failed: 'Your payment failed, please try again'
+    session_week_1: '1 session/week'
+    session_week_2: '2 sessions/week'
+    month_1: 'Monthly'
+    month_3: 'Quarterly'
+    month_6: 'Half-yearly'
+    year_1: 'Yearly'
+    most_popular: 'Most Popular'
+    best_value: 'Best Value'
+    purchase_licenses: 'Purchase Licenses easily to get full access to CodeCombat and Ozaria'
+    homeschooling: 'Homeschooling Licenses'
+    recurring_month_1: 'Recurring billing every month'
+    recurring_month_3: 'Recurring billing every 3 months'
+    recurring_month_6: 'Recurring billing every 6 months'
+    recurring_year_1: 'Recurring billing every year'
+    purchase_licenses_2: "Purchase licenses for your students to access paid curriculum after the first course"
+    applying_licenses: "applying licenses"
+    about: "about"
+    school_district_heading: "Schools or Districts"
+    school_district_subheading: "For classrooms, schools and districts with 10 or more students"
+    classroom_heading: "Small Classroom"
+    classroom_subheading: "For clubs, after-school programs and small classrooms with 5-9 students."
+    customer_support_info_1: "Customer support via email or chat"
+    customer_support_info_2: "Customer support via email or chat, plus a dedicated school success manager available via phone or email for implementation support"
+    self_serve_credit: "Self-serve credit card purchase"
+    multiple_payment_options: "Variety of payment options available, including: purchase order, site licenses, & multi-year discounts."
+    admin_dashboard: "Administrator dashboard with actionable data and insights"
+    pd_info: "Comprehensive 40-hour online course that allows you to learn anytime, anywhere and at any pace."
+    implementation_info: "60 min Onboarding Training on how to use CodeCombat and Ozaria to support specific institutional and instructional goals."
+    ai_league_info: "Engage students in an exciting esports competition that allows them to showcase their understanding of concepts in a new environment and practice creative problem-solving strategies!"
+    ai_custom_tournament: "AI League Custom Tournament"
+    implementation_training: "Implementation Training"
+    full_access_coco: "Full Access to both CodeCombat"
+    and_oz: "And Ozaria"
+    cs_info: "Computer Science 1-6: 65 sessions"
+    wd_info: "Web Development 1-2: 10 sessions"
+    gd_info: "Game Development 1-3: 20 sessions"
+    chap1_info: "Chapter 1: 10 class sessions"
+    chap2_info: "Chapter 2: 30 class sessions"
+    chap3_info: "Chapter 3: 25 class sessions"
+    chap4_info: "Chapter 4: 20 class sessions"
+    includes: "Includes"
+
+  form_validation_errors:
+    required: 'Field is required'
+    invalidEmail: 'Invalid email'
+    invalidPhone: 'Invalid phone number'
+    emailExists: 'Email already exists'
+    numberGreaterThanZero: 'Should be a number greater than 0'
+    requireValidEmail: 'Please enter a valid email address.'
+    requireValidPhone: 'Please enter a valid phone number, including area code.'

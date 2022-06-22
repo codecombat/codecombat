@@ -15,7 +15,7 @@ block content
       .row
         .col-md-offset-2.col-md-8
           h3.text-center(data-i18n="new_home.request_quote")
-          h4.text-center(data-i18n="[html]teachers_quote.subtitle")
+          h4.text-center(data-i18n="[html]teachers_quote.subtitle_ozar")
 
       if !me.isAnonymous()
         .row
@@ -143,7 +143,7 @@ block content
             .form-group
               span.control-label(data-i18n="courses.number_programming_students")
               .help-block.small
-                em.text-info(data-i18n="teachers_quote.num_students_help")
+                em.text-info(data-i18n="teachers_quote.num_students_help", data-i18n-options=JSON.stringify({ product }))
               select.form-control(name="numStudents")
                 option(data-i18n="teachers_quote.num_students_default", value='')
                 option 1-10
@@ -179,7 +179,7 @@ block content
 
     #form-submit-success.text-center(class=showDone ? '' : 'hide')
       h3(data-i18n="teachers_quote.thanks_header")
-      h4(data-i18n="teachers_quote.thanks_sub_header")
+      h4(data-i18n="teachers_quote.thanks_sub_header_ozar")
       p
         span.spr(data-i18n="teachers_quote.thanks_p")
         a.spl(href="mailto:team@ozaria.com") team@ozaria.com
