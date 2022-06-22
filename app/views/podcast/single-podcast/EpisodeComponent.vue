@@ -27,11 +27,19 @@
           <div class="episode__info-description" v-html="formatDescription"></div>
         </div>
         <div class="col-md-4 episode__function">
-          <div class="episode__btn-info episode__function-download" @click="() => onDownloadClick(podcast)">
+          <div
+            v-if="podcast.audio && podcast.audio.mp3"
+            class="episode__btn-info episode__function-download"
+            @click="() => onDownloadClick(podcast)"
+          >
             <img src="/images/pages/podcast/IconDownload.svg" alt="Download Icon" class="episode__download-icon episode__icon">
             <span class="episode__listen episode__btn-text episode__btn-text-hor">{{ $t('podcast.download') }}</span>
           </div>
-          <div class="episode__btn-info" @click="() => onTranscriptClick(podcast)">
+          <div
+            v-if="podcast.transcript"
+            class="episode__btn-info"
+            @click="() => onTranscriptClick(podcast)"
+          >
             <img src="/images/pages/podcast/IconTranscript.svg" alt="Transcript Icon" class="episode__transcript-icon episode__icon">
             <span class="episode__listen episode__btn-text episode__btn-text-hor">{{ $t('podcast.transcript') }}</span>
           </div>
