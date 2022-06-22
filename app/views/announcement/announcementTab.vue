@@ -16,10 +16,11 @@
 <style scoped>
 
   .tab {
-    width: 80%;
+    width: 60%;
     height: 60px;
     border: 1px solid black;
     border-radius: 20px;
+    margin: 15px;
   }
 
   .tab.read {

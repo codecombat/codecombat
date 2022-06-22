@@ -8,7 +8,8 @@ export default {
     announcementModalOpen: false,
     announcements: [],
     unread: 0,
-    display: {}
+    display: {},
+    moreAnnouncements: true
   },
   mutations: {
     setUnread (state, unread) {
@@ -20,8 +21,12 @@ export default {
     setAnnouncementModalOpen (state, mode) {
       state.announcementModalOpen = mode
     },
-    setAnnouncements (state, anns) {
-      state.announcements = [...anns]
+    setAnnouncements (state, {anns, append}) {
+      if(append) {
+        state.announcements = [...state.announcements, ...anns]
+      }
+      else
+        state.announcements = [...anns]
     },
     setDisplay (state, ann) {
       state.display = ann
@@ -33,6 +38,9 @@ export default {
         }
         ann
       })
+    },
+    setMoreAnnouncement (state, more) {
+      state.moreAnnouncements = more
     }
   },
   actions: {
@@ -60,9 +68,15 @@ export default {
         }
       })
     },
-    getAnnouncements ({ commit }) {
-      getList().then((data) => {
-        commit('setAnnouncements', data)
+    getAnnouncements ({ commit }, options) {
+      let append = false
+      if(options)
+        append = options.append
+      getList(options).then((data) => {
+        commit('setAnnouncements', {anns: data, append})
+        if(!data.length) {
+          commit('setMoreAnnouncement', false)
+        }
       })
     },
     readAnnouncement ({commit}, id) {
@@ -86,6 +100,9 @@ export default {
     },
     announcementDisplay (state) {
       return state.display
+    },
+    moreAnnouncements (state) {
+      return state.moreAnnouncements
     }
   }
 }

@@ -6,6 +6,8 @@
       </div>
       <div class="content flex-column">
         <announcement-tab v-for="ann in announcements" :key="ann._id" :announcement="ann" @click.native="read(ann)"></announcement-tab>
+
+        <div class="expand" v-if="moreAnnouncements" @click="more">expand>></div>
       </div>
     </div>
   </div>
@@ -21,11 +23,18 @@
     name: 'AnnouncementView',
     computed: {
       ...mapGetters('announcements', [
-        'announcements'
+        'announcements',
+        'moreAnnouncements'
       ])
     },
     mounted () {
       this.getAnnouncements()
+      this.lastFetch = new Date()
+    },
+    data () {
+      return {
+        lastFetch: false
+      }
     },
     methods: {
       ...mapActions('announcements', [
@@ -37,6 +46,19 @@
         this.openAnnouncementModal(ann)
         if(!ann.read)
           this.readAnnouncement(ann._id)
+      },
+      more () {
+        console.log(this.lastFetch, 'fetch')
+        let startDate = new Date(this.lastFetch)
+        startDate.setMonth(startDate.getMonth() - 1);
+        let options = {
+          append: true,
+          endDate: this.lastFetch.toISOString(),
+          startDate: startDate.toISOString()
+        }
+        this.getAnnouncements(options)
+        this.lastFetch = startDate;
+
       }
     },
     components: {
@@ -53,6 +75,11 @@
     align-items: center;
   }
 
+  .title {
+    font-size: 40px;
+    font-family: bold;
+    margin: 40px;
+  }
   .content {
     width: 100%;
   }
