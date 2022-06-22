@@ -1,15 +1,22 @@
 <template>
   <div class="tab" :class="{read: announcement.read}">
     <div class="title">
-      {{announcement.name}}
+      {{name}}
     </div>
   </div>
 </template>
 
 <script>
+  import utils from 'core/utils'
   export default {
     name: 'announcement-tab',
-    props: ['announcement']
+    props: ['announcement'],
+    computed: {
+      name () {
+        return utils.i18n(this.announcement, 'name')
+      }
+    }
+
   }
 </script>
 

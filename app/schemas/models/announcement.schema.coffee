@@ -77,6 +77,10 @@ _.extend AnnouncementSchema.properties,
       step:
         type: 'number'
         description: 'announcement publish step'
+  i18n:
+    type: 'object'
+    format: 'i18n',
+    props: ['name', 'content']
 
 AnnouncementSchema.definitions = {}
 AnnouncementSchema.definitions['mongoQueryOperator'] = MongoQueryOperatorSchema
@@ -84,6 +88,5 @@ AnnouncementSchema.definitions['mongoFindQuery'] = MongoFindQuerySchema
 c.extendBasicProperties AnnouncementSchema, 'announcement'
 c.extendSearchableProperties AnnouncementSchema
 c.extendTranslationCoverageProperties AnnouncementSchema
-c.extendPatchableProperties AnnouncementSchema
 
 module.exports = AnnouncementSchema

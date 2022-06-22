@@ -8,6 +8,11 @@ storage = require 'core/storage'
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 GetStartedSignupModal  = require('app/views/teachers/GetStartedSignupModal').default
 paymentUtils = require 'app/lib/paymentUtils'
+Announcement = require 'app/models/Announcement'
+
+class BannerCollection extends CocoCollection
+  url: '/db/announcement/-/banner'
+  model: Announcement
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -32,6 +37,7 @@ module.exports = class HomeView extends RootView
   initialize: (options) ->
     super(options)
     @renderedPaymentNoty = false
+    @getBanner()
 
   getRenderData: (context={}) ->
     context = super context
@@ -53,6 +59,11 @@ module.exports = class HomeView extends RootView
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
     ]
+
+  getBanner: ->
+    @banner = @supermodel.loadCollection(new BannerCollection(), 'banner', {cache: false}).model
+    @listenToOnce @banner, 'sync', () ->
+      console.log('banner:', @banner)
 
   onClickStudentButton: (e) ->
     @homePageEvent('Started Signup')

@@ -2,8 +2,10 @@
 @import "app/styles/mixins"
 @import "app/styles/style-flat-variables"
 
-#home-cn-view
+$teal-light-1: #1FBAB4
+$teal-dark: #0E4C60
 
+#home-cn-view
   // style-flat overwrites
   h1, .text-h1
     font-family: $headline-font
@@ -594,6 +596,21 @@
           position: absolute
           top: 145px
           width: 100%
+  #top-banner
+    background-color: $teal-light-1
+    padding: 10px 0px
+    text-align: center
+    color: $teal-dark
+    .row
+      max-width: 1170px
+      float: unset
+      margin: 0 auto
+      padding: 0px
+    a
+      margin-left: 10px
+      color: #FFFFFF
+      text-decoration: underline
+
 
 body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='sr'], body[lang='pl'], body[lang='lt'], body[lang='sl'], body[lang='tr'], body[lang='vi']
   #home-view

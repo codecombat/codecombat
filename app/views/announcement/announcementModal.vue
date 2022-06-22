@@ -5,7 +5,7 @@ div
       .modal-content
         img#subscribe-background(src="/images/pages/play/modal/announcement_modal_bg.png")
         block title
-          h1 {{announcement.name}}
+          h1 {{name}}
         block content
           .markdown(v-html="content")
         a.see-more.btn.btn-primary(v-if="showMoreAnnouncementButton && unread", @click="$emit('close')" href='/announcements' ) {{$t('announcement.see_more', {unread})}}
@@ -16,6 +16,7 @@ div
 <script>
 import DOMPurify from 'dompurify';
 import { mapGetters } from 'vuex'
+import utils from 'core/utils'
 
 export default Vue.extend({
     name: 'announcement-modal',
@@ -25,8 +26,12 @@ export default Vue.extend({
         'showMoreAnnouncementButton',
         'unread'
       ]),
+      name () {
+        return utils.i18n(this.announcement, 'name')
+      },
       content (){
-        return DOMPurify.sanitize(marked(this.announcement.content))
+        let i18nContent = utils.i18n(this.announcement, 'content')
+        return DOMPurify.sanitize(marked(i18nContent || ''))
       }
     }
 })
