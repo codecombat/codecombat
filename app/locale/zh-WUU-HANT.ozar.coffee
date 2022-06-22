@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    pacing_guides_high: "High School Pacing Guide"
 #    getting_started: "Getting Started"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
 #    educator_faq: "Educator FAQ"

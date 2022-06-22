@@ -459,6 +459,9 @@ _.extend UserSchema.properties,
         iValue: { type: 'string' }
       }
   }
+  library: c.object {}, {
+    profileId: { type: 'string' }
+  }
 
 
 c.extendBasicProperties UserSchema, 'user'

@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     pacing_guides_high: "Guía didáctica para preparatoria (High School)"
     getting_started: "Primeros pasos"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
     educator_faq: "Preguntas frecuentes de educadores"

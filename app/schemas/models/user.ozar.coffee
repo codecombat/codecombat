@@ -448,6 +448,9 @@ _.extend UserSchema.properties,
             { staffCreator: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ]) }  # any other external payment source options?
             # ... etc. for each possible payment service ...
           ]
+  library: c.object {}, {
+    profileId: { type: 'string' }
+  }
 
 
 c.extendBasicProperties UserSchema, 'user'

@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     pacing_guides_high: "Guide de stimulation pour les écoles secondaires"
     getting_started: "Prise en main"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
 #    educator_faq: "Educator FAQ"

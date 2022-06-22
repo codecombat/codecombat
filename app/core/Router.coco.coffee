@@ -200,6 +200,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'impact': () ->
       @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
 
+    'partners': () ->
+      @routeDirectly('PagePartners', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+
     'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
     'league/kipp': redirect('/league/autoclan-school-network-kipp') # Redirect for KIPP.
     'league(/*subpath)': go('core/SingletonAppVueComponentView')
@@ -300,6 +303,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/licenses': go('core/SingletonAppVueComponentView')
     'podcast': go('core/SingletonAppVueComponentView')
     'podcast/*path': go('core/SingletonAppVueComponentView')
+
+    'library/*path': go('core/SingletonAppVueComponentView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')

@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     pacing_guides_high: "高中进度指南"
     getting_started: "入门"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
     educator_faq: "常见问题"

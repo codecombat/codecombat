@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     pacing_guides_high: "Panduang Berulang Sekolah Menengah Atas"
     getting_started: "Memulai"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
     educator_faq: "FAQ Pengajar"
