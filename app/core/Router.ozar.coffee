@@ -87,6 +87,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
     'admin/outcomes-report': go('admin/OutcomesReportView')
 
+    'announcements': go('core/SingletonAppVueComponentView')
     # Removing route, leaving plumbing.  Unclear how much we'd rewrite this, given a new endorsement.
     # 'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
@@ -144,6 +145,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/article': go('editor/article/ArticleSearchView')
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')
+    'editor/announcement': go('editor/announcement/AnnouncementSearchView')
+    'editor/announcement/:announcementId': go('editor/announcement/AnnouncementEditView')
     'editor/cinematic(/*subpath)': go('core/SingletonAppVueComponentView')
     'editor/cutscene(/*subpath)': go('core/SingletonAppVueComponentView')
     'editor/interactive(/*subpath)': go('core/SingletonAppVueComponentView')

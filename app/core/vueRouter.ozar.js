@@ -10,6 +10,10 @@ export default function getVueRouter () {
 
       routes: [
         {
+          path: '/announcements',
+          component: () => import(/* webpackChunkName: "AnnouncementView" */ 'app/views/announcement/AnnouncementView')
+        },
+        {
           path: '/diversity-equity-and-inclusion',
           component: () => import(/* webpackChunkName: "dei" */ 'app/views/dei/DEIView.vue')
         },

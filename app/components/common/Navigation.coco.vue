@@ -80,11 +80,6 @@
       this.CODECOMBAT = CODECOMBAT
       this.OZARIA = OZARIA
     },
-    data () {
-      return {
-        announcementsLink: true
-      }
-    },
     mounted () {
       this.checkAnnouncements('fromNav')
       if(!this.announcementInterval)
