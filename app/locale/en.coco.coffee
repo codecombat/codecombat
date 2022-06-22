@@ -3628,3 +3628,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     all_episodes: "View All Episodes"
     no_permission: "You don't have permission to view this podcast"
 
+  library:
+    enter_library_card: "Enter your Library Card Number:"
+    access_coco: "Access CodeCombat"
+    already_using_library_id: "Already using library id"
+    play_coco: "to play CodeCombat"
+    not_library_id: "Not your library id"
+    access_using_id: "to access using your id!!"

@@ -111,6 +111,11 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "efficacy" */ 'app/views/efficacy/EfficacyView.vue')
         },
         {
+          path: '/library/:libraryId/login',
+          component: () => import(/* webpackChunkName: "libraryLogin" */ 'app/views/library/LibraryLoginView'),
+          props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
           path: '/podcast',
           name: 'AllPodcasts',
           component: () => import(/* webpackChunkName: "podcastMain" */'/app/views/podcast/PodcastHomeView')
