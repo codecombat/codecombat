@@ -47,7 +47,6 @@
           this.readAnnouncement(ann._id)
       },
       more () {
-        console.log(this.lastFetch, 'fetch')
         let startDate = new Date(this.lastFetch)
         startDate.setMonth(startDate.getMonth() - 1);
         let options = {

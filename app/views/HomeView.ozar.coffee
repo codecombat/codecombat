@@ -7,6 +7,8 @@ CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
+fetchJson = require 'core/api/fetch-json'
+DOMPurify = require 'dompurify'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'
@@ -27,6 +29,10 @@ module.exports = class HomeView extends RootView
     'click button.press-elaborate': ()->@onCarouselDirectMove(3)
     'click button.press-evaluate': ()->@onCarouselDirectMove(4)
 
+  initialize: (options) ->
+    super(options)
+    @getBanner()
+
   getRenderData: (context={}) ->
     context = super context
     context.maintenanceStartTime = moment('2022-05-07T16:00:00-07:00')
@@ -45,6 +51,13 @@ module.exports = class HomeView extends RootView
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
     ]
+
+  getBanner: ->
+    fetchJson('/db/banner').then((data) =>
+      @banner = data
+      content = utils.i18n data, 'content'
+      @banner.display = DOMPurify.sanitize marked(content ? '')
+    )
 
   onClickRequestQuote: (e) ->
     @playSound 'menu-button-click'

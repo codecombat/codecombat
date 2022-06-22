@@ -1134,6 +1134,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    tornado_description: "It is good to have a reset button when one's cover is blown."
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
+    announcement: '公告'
+    see_more: "查看其他 __unread__ 个未读公告"
 
   avatar_selection:
     pick_an_avatar: "选择一个化身用来代表你的角色"

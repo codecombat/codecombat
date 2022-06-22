@@ -51,7 +51,6 @@ export default {
       state.moreAnnouncements = more
     },
     setShowMoreButton (state, more) {
-      console.log('set more', more)
       state.showMoreAnnouncementButton = more
     }
   },
@@ -68,7 +67,6 @@ export default {
       commit('setAnnouncementInterval', interval)
     },
     checkAnnouncements ({ commit }, fromNav) {
-      console.log('check announcements', fromNav)
       if(me.isAnonymous()) {
         return
       }

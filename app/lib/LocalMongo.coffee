@@ -8,11 +8,8 @@ mapred = (left, right, func) ->
 
 doQuerySelector = (originalValue, operatorObj) ->
   value = if _.isArray originalValue then originalValue else [originalValue] # left hand can be an array too
-  # console.log('obj, query:', value, operatorObj)
   for operator, originalBody of operatorObj
     body = if _.isArray originalBody then originalBody else [originalBody] # right hand can be an array too
-    # if operator is '$in'
-    #   console.log('op, body:', operator, body, value, _.reduce value, ((r, v) -> r or v in body), false)
     switch operator
       when '$gt' then return false unless mapred value, body, (l, r) -> l > r
       when '$gte' then return false unless mapred value, body, (l, r) -> l >= r

@@ -347,7 +347,6 @@ module.exports = class CocoRouter extends Backbone.Router
       path = 'play/CampaignView'
 
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
-    console.log(path)
     Promise.all([
       dynamicRequire[path](), # Load the view file
       # The locale load is already initialized by `application`, just need the promise
