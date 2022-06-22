@@ -1,5 +1,5 @@
 const fetchJson = require('../../api/fetch-json')
-import { getNew, getList } from '../../api/announcements'
+import { getNew, getList, read } from '../../api/announcements'
 
 export default {
   namespaced: true,
@@ -25,6 +25,14 @@ export default {
     },
     setDisplay (state, ann) {
       state.display = ann
+    },
+    readAnnouncement (state, id) {
+      state.announcements = state.announcements.map(ann => {
+        if(ann._id == id) {
+          ann.read = true
+        }
+        ann
+      })
     }
   },
   actions: {
@@ -55,6 +63,11 @@ export default {
     getAnnouncements ({ commit }) {
       getList().then((data) => {
         commit('setAnnouncements', data)
+      })
+    },
+    readAnnouncement ({commit}, id) {
+      read({announcement: id}).then((data) => {
+        commit('readAnnouncement', id)
       })
     }
   },

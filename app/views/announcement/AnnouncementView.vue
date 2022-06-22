@@ -1,10 +1,12 @@
 <template>
   <div>
-    <div class="title">
-      {{ $t('announcement.announcement') }}
-    </div>
-    <div class="content">
-      <announcement-tab v-for="ann in announcements" :key="ann._id" :announcement="ann" @click.native="openAnnouncementModal(ann)"></announcement-tab>
+    <div class="announcements flex-column">
+      <div class="title">
+        {{ $t('announcement.announcement') }}
+      </div>
+      <div class="content flex-column">
+        <announcement-tab v-for="ann in announcements" :key="ann._id" :announcement="ann" @click.native="read(ann)"></announcement-tab>
+      </div>
     </div>
   </div>
 </template>
@@ -29,7 +31,13 @@
       ...mapActions('announcements', [
         'openAnnouncementModal',
         'getAnnouncements',
+        'readAnnouncement'
       ]),
+      read (ann) {
+        this.openAnnouncementModal(ann)
+        if(!ann.read)
+          this.readAnnouncement(ann._id)
+      }
     },
     components: {
       AnnouncementModal,
@@ -38,5 +46,14 @@
   }
 </script>
 
-<style>
+<style scoped>
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content {
+    width: 100%;
+  }
 </style>
