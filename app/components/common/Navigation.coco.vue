@@ -86,9 +86,9 @@
       }
     },
     mounted () {
-      this.checkAnnouncements()
+      this.checkAnnouncements('fromNav')
       if(!this.announcementInterval)
-        this.startInterval()
+        this.startInterval('fromNav')
     },
     beforeUnmounted() {
       if(this.announcementInterval)
@@ -273,7 +273,8 @@
                   a.text-p#logout-button {{ $t('login.log_out') }}
                 li.dropdown(v-else)
                   a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
+                    img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}")
+                    span.unreadMessage(v-if="unread")
                     span {{ $t('nav.my_account') }}
                     span.caret
                   ul.dropdown-menu.pull-right
@@ -288,7 +289,7 @@
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
                     li
                       a.account-dropdown-item(href="/announcements") {{ $t('announcement.announcement') }}
-                        span {{ unread }}
+                        span.unread(v-if="unread") {{ unread }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
@@ -560,6 +561,27 @@
 
   .border-navy {
     border-color: $navy;
+  }
+
+  span.unreadMessage {
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: 10px;
+    left: 45px;
+    border-radius: 50%;
+    background-color: red;
+    box-shadow: 0 0 2px 2px red;
+  }
+
+  span.unread {
+    width: 1.2em;
+    height: 1.2em;
+    line-height: 1.2em;
+    border-radius: 50%;
+    background-color: #ff4848;
+    color: white;
+    display: inline-block;
   }
 
   .dashboard-toggle {

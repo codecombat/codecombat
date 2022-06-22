@@ -9,7 +9,8 @@ export default {
     announcements: [],
     unread: 0,
     display: {},
-    moreAnnouncements: true
+    moreAnnouncements: true,
+    showMoreAnnouncementButton: false
   },
   mutations: {
     setUnread (state, unread) {
@@ -23,7 +24,11 @@ export default {
     },
     setAnnouncements (state, {anns, append}) {
       if(append) {
-        state.announcements = [...state.announcements, ...anns]
+        anns.forEach((ann) => {
+          if(!_.find(state.announcements, {_id: ann._id})) {
+            state.announcements.push(ann)
+          }
+        })
       }
       else
         state.announcements = [...anns]
@@ -32,15 +37,22 @@ export default {
       state.display = ann
     },
     readAnnouncement (state, id) {
-      state.announcements = state.announcements.map(ann => {
+      state.announcements = state.announcements.map((ann) => {
         if(ann._id == id) {
+          if(!ann.read) {
+            state.unread -= 1;
+          }
           ann.read = true
         }
-        ann
+        return ann
       })
     },
     setMoreAnnouncement (state, more) {
       state.moreAnnouncements = more
+    },
+    setShowMoreButton (state, more) {
+      console.log('set more', more)
+      state.showMoreAnnouncementButton = more
     }
   },
   actions: {
@@ -51,12 +63,12 @@ export default {
     closeAnnouncementModal ({commit}) {
       commit('setAnnouncementModalOpen', false)
     },
-    startInterval ({commit, dispatch}) {
-      let interval = setInterval(() => { dispatch('checkAnnouncements') }, 600000) // every 10 mins
+    startInterval ({commit, dispatch}, fromNav) {
+      let interval = setInterval(() => { dispatch('checkAnnouncements', fromNav) }, 600000) // every 10 mins
       commit('setAnnouncementInterval', interval)
     },
-    checkAnnouncements ({ commit }) {
-      console.log('check announcements')
+    checkAnnouncements ({ commit }, fromNav) {
+      console.log('check announcements', fromNav)
       if(me.isAnonymous()) {
         return
       }
@@ -65,16 +77,18 @@ export default {
         if(data.sequence) {
           commit('setDisplay', data.sequence)
           commit('setAnnouncementModalOpen', true)
+          commit('setShowMoreButton', fromNav)
         }
       })
     },
     getAnnouncements ({ commit }, options) {
       let append = false
+      commit('setShowMoreButton', false)
       if(options)
         append = options.append
       getList(options).then((data) => {
         commit('setAnnouncements', {anns: data, append})
-        if(!data.length) {
+        if(append && !data.length) {
           commit('setMoreAnnouncement', false)
         }
       })
@@ -103,6 +117,9 @@ export default {
     },
     moreAnnouncements (state) {
       return state.moreAnnouncements
+    },
+    showMoreAnnouncementButton (state) {
+      return state.showMoreAnnouncementButton
     }
   }
 }

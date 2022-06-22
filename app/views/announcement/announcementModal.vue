@@ -1,23 +1,30 @@
 <template lang="pug">
-.bg
-  .modal-dialog
-    .modal-content
-      img#subscribe-background(src="/images/pages/play/modal/announcement_modal_bg.png")
-      block title
-        h1 {{announcement.name}}
-      block content
-        .markdown(v-html="content")
-    #close-modal(@click="$emit('close')")
-      span.glyphicon.glyphicon-remove
+div
+  .bg
+    .modal-dialog
+      .modal-content
+        img#subscribe-background(src="/images/pages/play/modal/announcement_modal_bg.png")
+        block title
+          h1 {{announcement.name}}
+        block content
+          .markdown(v-html="content")
+        a.see-more.btn.btn-primary(v-if="showMoreAnnouncementButton && unread", @click="$emit('close')" href='/announcements' ) {{$t('announcement.see_more', {unread})}}
+      #close-modal(@click="$emit('close')")
+        span.glyphicon.glyphicon-remove
 </template>
 
 <script>
 import DOMPurify from 'dompurify';
+import { mapGetters } from 'vuex'
 
 export default Vue.extend({
     name: 'announcement-modal',
     props: ['announcement'],
     computed: {
+      ...mapGetters('announcements', [
+        'showMoreAnnouncementButton',
+        'unread'
+      ]),
       content (){
         return DOMPurify.sanitize(marked(this.announcement.content))
       }
@@ -46,6 +53,10 @@ export default Vue.extend({
         top: 120px
         padding: 0 50px
 
+
+    .see-more
+      position: absolute
+      bottom: 10px
     //- Background
     #subscribe-background
       position: absolute

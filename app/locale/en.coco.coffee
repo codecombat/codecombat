@@ -1082,6 +1082,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     wallOfDarkness_name: "Wall of Darkness"
     wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
     announcement: 'Announcement'
+    see_more: "See __unread__ more unread announcements"
 
   avatar_selection:
     pick_an_avatar: "Pick an avatar that will represent you as a player"

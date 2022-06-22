@@ -6,7 +6,6 @@
       </div>
       <div class="content flex-column">
         <announcement-tab v-for="ann in announcements" :key="ann._id" :announcement="ann" @click.native="read(ann)"></announcement-tab>
-
         <div class="expand" v-if="moreAnnouncements" @click="more">expand>></div>
       </div>
     </div>
