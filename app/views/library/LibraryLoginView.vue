@@ -5,7 +5,18 @@
         <div class="arapahoe__head">
           <img src="/images/pages/play/arapahoe-logo.png" alt="Arapahoe logo" class="arapahoe__head-logo">
         </div>
-        <form @submit.prevent="onArapahoeLogin" v-if="!alreadyHaveProfileId">
+        <div
+          v-if="alreadyInArapahoeLibrary"
+          class="already-library arapahoe__msg"
+        >
+          <div class="arapahoe__msg-text">
+            {{ $t('library.network_detected') }}
+          </div>
+          <div class="arapahoe__msg-subtext">
+            <a href="/play" class="arapahoe__existing-link">{{ $t('new_home.click_here') }}</a> {{ $t('library.not_redirect_auto') }}
+          </div>
+        </div>
+        <form @submit.prevent="onArapahoeLogin" v-if="!alreadyHaveProfileId && !alreadyInArapahoeLibrary">
           <div class="arapahoe__body">
             <div class="arapahoe__body__library">
               <h2 class="arapahoe__body__library-text">
@@ -25,11 +36,11 @@
             </div>
           </div>
         </form>
-        <div class="arapahoe__existing" v-if="alreadyHaveProfileId">
-          <div class="arapahoe__existing-text">
+        <div class="arapahoe__existing arapahoe__msg" v-if="alreadyHaveProfileId">
+          <div class="arapahoe__msg-text">
             {{ $t('library.already_using_library_id') }} <b>{{ libraryProfileId }}</b>, <a href="/play" class="arapahoe__existing-link">{{ $t('new_home.click_here') }}</a> {{ $t('library.play_coco') }}
           </div>
-          <div class="arapahoe__existing__new-text">
+          <div class="arapahoe__msg-subtext">
             {{ $t('library.not_library_id') }}, <a href="#" class="arapahoe__new_link" @click.prevent="loginAgain">{{ $t('new_home.click_here') }}</a> {{ $t('library.access_using_id') }}
           </div>
         </div>
@@ -44,13 +55,15 @@
 <script>
 const usersLib = require('../../core/api/users')
 const globalVar = require('core/globalVar')
+import { libraryName } from '../../lib/user-utils'
 export default {
   name: 'LibraryLoginView',
   data () {
     return {
       libraryProfileId: null,
       errMsg: null,
-      alreadyHaveProfileId: false
+      alreadyHaveProfileId: false,
+      alreadyInArapahoeLibrary: false
     }
   },
   props: {
@@ -64,6 +77,19 @@ export default {
       this.libraryProfileId = me.get('library').profileId
     }
     this.alreadyHaveProfileId = me.get('library')?.profileId
+    this.alreadyInArapahoeLibrary = libraryName() === 'arapahoe'
+    // adding a check after x seconds so that if provision-subscription request is not over by created, we get to check again
+    setTimeout(() => {
+      this.alreadyInArapahoeLibrary = libraryName() === 'arapahoe'
+    }, 10000)
+  },
+  watch: {
+    alreadyInArapahoeLibrary (newVal, oldVal) {
+      if (newVal)
+        setTimeout(() => {
+          window.location = '/play'
+        }, 2000)
+    }
   },
   methods: {
     async onArapahoeLogin () {
@@ -134,7 +160,7 @@ export default {
     margin-top: 1rem;
   }
 
-  &__existing {
+  &__msg {
     font-size: 1.8rem;
     padding: 2rem;
 
