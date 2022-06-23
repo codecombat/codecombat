@@ -3496,3 +3496,11 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    dog: "Dog"
 #    hero: "Hero"
 #    teacher: "Teacher"
+
+#  library:
+#    enter_library_card: "Enter your Library Card Number:"
+#    access_coco: "Access CodeCombat"
+#    already_using_library_id: "Already using library id"
+#    play_coco: "to play CodeCombat"
+#    not_library_id: "Not your library id"
+#    access_using_id: "to access using your id!!"
