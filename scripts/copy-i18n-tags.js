@@ -102,7 +102,9 @@ for (const localeFile of localeFiles) {
 
     // For each tag within the category
     for (const enTagName of Object.keys(enCategory)) {
-      const localeTranslation = localeCategory[enTagName] || otherLocaleCategory[enTagName]
+      const tagWithoutSuffix = enTagName.replace(new RegExp('_' + productSuffix + '$'), '')
+      const localeTranslation = localeCategory[enTagName] || localeCategory[tagWithoutSuffix] || otherLocaleCategory[enTagName] || otherLocaleCategory[tagWithoutSuffix]
+
       const tagIsPresent = (typeof localeTranslation !== 'undefined')
       const sourceFileTag = (QUOTE_TAG_NAME_PATTERN.test(enTagName)) ? enTagName : `"${enTagName}"`
 
