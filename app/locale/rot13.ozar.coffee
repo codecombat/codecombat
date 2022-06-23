@@ -3497,3 +3497,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     dog: "Qbt"
     hero: "Ureb"
     teacher: "Grnpure"
+
+  library:
+    enter_library_card: "Ragre lbhe Yvoenel Pneq Ahzore:"
+    access_coco: "Npprff PbqrPbzong"
+    already_using_library_id: "Nyernql hfvat yvoenel vq"
+    play_coco: "gb cynl PbqrPbzong"
+    not_library_id: "Abg lbhe yvoenel vq"
+    access_using_id: "gb npprff hfvat lbhe vq!!"
