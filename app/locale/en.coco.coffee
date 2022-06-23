@@ -3635,3 +3635,5 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     play_coco: "to play CodeCombat"
     not_library_id: "Not your library id"
     access_using_id: "to access using your id!!"
+    network_detected: "Library network detected, redirecting you to play CodeCombat"
+    not_redirect_auto: "if redirect doesn't happen automatically"
