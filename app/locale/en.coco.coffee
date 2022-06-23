@@ -260,6 +260,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     admin: "Admin"
     api_dashboard: "API Dashboard"
     funding_resources_guide: "Funding Resources Guide"
+    partnerships: "Partnerships"
 
   modal:
     close: "Close"
@@ -518,7 +519,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     eu_confirmation_place_of_processing: "Learn more about the possible risks"
     eu_confirmation_student: "If you are not sure, ask your teacher."
     eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
-    password_requirements: "8 to 64 characters with no repeating"
+    password_requirements: "4 to 64 characters with no repeating"
     invalid: "Invalid"
     invalid_password: "Invalid password"
     with: "with"
@@ -2287,6 +2288,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     achievement_title: "Achievement Editor"
     poll_title: "Poll Editor"
     resource_title: "Resource Editor"
+    resource_title_general: "__resource__ Editor"
     back: "Back"
     revert: "Revert"
     revert_models: "Revert Models"
@@ -2338,6 +2340,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_system_edit_title: "Edit System"
     course_edit_title: "Edit Course"
     resource_edit_title: "Edit Resource"
+    resource_edit_title_general: "Edit __resource__"
     create_system_title: "Create New System"
     new_component_title: "Create New Component"
     new_component_field_system: "System"
@@ -3557,6 +3560,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chap3_info: "Chapter 3: 25 class sessions"
     chap4_info: "Chapter 4: 20 class sessions"
     includes: "Includes"
+    show_plan_features: "Show Plan Features"
+    purchase_annually: "Available for purchase one time annually."
+    class_school_solution: "We'll help you build a solution that meets the needs of your class, school or district."
+    bulk: "Bulk"
+    discounts: "discounts"
+    available: "available"
+    request_quote: "Request a Quote"
 
   form_validation_errors:
     required: 'Field is required'
@@ -3576,3 +3586,54 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share_info: 'To give other teachers access to the class, add their emails below.'
     class_owner: 'Class Owner'
     share: 'Share'
+
+  partners:
+    headline: 'Join us in our mission to make coding engaging and accessible to all'
+    below_headline_blurb: 'At CodeCombat we’ve developed comprehensive tools that make learning to code fun and teaching programming easy. Our turnkey solutions can be leveraged in many executions.'
+    coding_title: 'Coding & STEAM Education Businesses:'
+    coding_blurb: 'Valued partners like Code Ninjas and IDEA Lab Kids use our game to teach real Python and JavaScript coding to students in their franchise locations. We offer an easy to use program, implementation resources and training options to ensure an amazing student experience.'
+    esports_title: 'Educational Esports Sponsors:'
+    esports_blurb: 'We are reinventing what an esport can be while engaging thousands of students to learn to code. Endemic esports mainstay __hyperx__ supported the CodeCombat AI League from its inaugural season, building compelling promotional programs around this unique esport.'
+    hyperx: 'HyperX'
+    respawn: 'RESPAWN'
+    distribution_title: 'International Distribution:'
+    distribution_blurb: 'Our programs have served students in over 190 countries and our content is translated into over __forty_languages__. While the US and China are markets where we sell directly, we work closely with local Saas and EdTech distribution partners around the world to expand our reach'
+    forty_languages: '40 languages'
+    equity_social_title: 'Tech Equity & Social Impact:'
+    equity_social_blurb: 'Not every partnership is built on the bottom line. As a mission-based organization we seek ways to give back as well. We work closely with foundations and other philanthropy partners to expand access to high-quality coding education.  '
+    latin_superstar_blurb: 'Additionally, Latin superstar __eugenio_derbez__ has helped us reach the Latinx community with a partnership to engage students in this often underserved and underrepresented group.'
+    reach_latinx: 'reach the Latinx community'
+    eugenio_derbez_blurb: '"It is important to me to see Latino boys and girls represented in this space," said Eugenio Derbez, "Coding is the language of the future and if we want to be a part of that future then we need to get our kids coding."'
+    seek_relationships_blurb: 'We seek relationships with nonprofits and community-based organizations working with groups underrepresented in computer science and technology careers. Our partnership with __seeds_of_light__ will fund CS educational opportunities for thousands of young learners.'
+    seeds_of_light: 'Seeds of Light'
+    corporate_team_building_title: 'Corporate Team Building'
+    corporate_team_building_blurb: 'Need to engage your employees with a turnkey activity that will inspire their competitive spirit and challenge them to creatively problem solve? Work with us to build a custom competitive coding tournament that will have your team programming their own strategies while playing a game.'
+    footer_blurb: 'These are just a few of the partnership structures we have successfully supported. If you would like to initiate a discussion with our business development team on any of these models or have a different partnership opportunity, please reach out today.'
+    talk_with_us: 'Talk with Us'
+
+  podcast:
+    learning_adventure: "Where learning is always an adventure."
+    explores_stem: "Our podcast explores the role of technology, STEM, and creative play in education. With expert guests, we discover how learning is always an adventure."
+    listen: "Listen"
+    download: "Download"
+    transcript: "Transcript"
+    learn_more_coco: "Want to learn more about CodeCombat coding experiences?"
+    subscribe: "Subscribe"
+    explore_coco: "Explore CodeCombat"
+    interested_in_being_guest: "Interested in being a guest on EdTech Adventures?"
+    lets_chat: "Let's Chat"
+    air_date: "Air date" # upload date
+    play_episode: "Play Episode"
+    about_guest: "About Our Guest"
+    all_episodes: "View All Episodes"
+    no_permission: "You don't have permission to view this podcast"
+
+  library:
+    enter_library_card: "Enter your Library Card Number:"
+    access_coco: "Access CodeCombat"
+    already_using_library_id: "Already using library id"
+    play_coco: "to play CodeCombat"
+    not_library_id: "Not your library id"
+    access_using_id: "to access using your id!!"
+    network_detected: "Library network detected, redirecting you to play CodeCombat"
+    not_redirect_auto: "if redirect doesn't happen automatically"

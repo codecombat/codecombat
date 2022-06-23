@@ -164,6 +164,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/resource': go('editor/resource/ResourceSearchView')
     'editor/resource/:resourceID': go('editor/resource/ResourceEditView')
     'editor/archived-elements': go('core/SingletonAppVueComponentView')
+    'editor/podcast': go('editor/podcast/PodcastSearchView')
+    'editor/podcast/:podcastId': go('editor/podcast/PodcastEditView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
@@ -193,6 +195,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'impact': () ->
       @routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+
+    'partners': () ->
+      @routeDirectly('PagePartners', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
 
     'league/academica': redirect('/league/autoclan-school-network-academica') # Redirect for Academica.
     'league/kipp': redirect('/league/autoclan-school-network-kipp') # Redirect for KIPP.
@@ -292,6 +297,10 @@ module.exports = class CocoRouter extends Backbone.Router
     'ladders/*path': go('core/SingletonAppVueComponentView')
     'ed-link/*path': go('core/SingletonAppVueComponentView')
     'teachers/licenses': go('core/SingletonAppVueComponentView')
+    'podcast': go('core/SingletonAppVueComponentView')
+    'podcast/*path': go('core/SingletonAppVueComponentView')
+
+    'library/*path': go('core/SingletonAppVueComponentView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
@@ -303,7 +312,8 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
-    @vueRouter.push("/#{Backbone.history.getFragment()}")
+    @vueRouter.push("/#{Backbone.history.getFragment()}").catch (e) ->
+      console.error 'vue router push warning:', e
 
     if window.alreadyLoadedView
       path = window.alreadyLoadedView

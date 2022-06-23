@@ -100,6 +100,21 @@ export default function getVueRouter () {
           path: '/teachers/resources_new',
           component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue'),
         },
+        {
+          path: '/library/:libraryId/login',
+          component: () => import(/* webpackChunkName: "libraryLogin" */ 'app/views/library/LibraryLoginView'),
+          props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/podcast',
+          name: 'AllPodcasts',
+          component: () => import(/* webpackChunkName: "podcastMain" */'/app/views/podcast/PodcastHomeView')
+        },
+        {
+          path: '/podcast/:handle',
+          name: 'PodcastSingle',
+          component: () => import(/* webpackChunkName: "podcastSingle" */'/app/views/podcast/SinglePodcastView')
+        }
       ],
       scrollBehavior(to) {
         const scroll = {}

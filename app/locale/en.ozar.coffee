@@ -558,7 +558,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     already_have_account: "Already have a CodeCombat or Ozaria account"
     select_your_role: "Select your role"
     select_your_state: "Select your state"
-    password_requirements: "8 to 64 characters with no repeating"
+    password_requirements: "4 to 64 characters with no repeating"
     invalid: "Invalid"
     invalid_password: "Invalid password"
 
@@ -3497,3 +3497,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     dog: "Dog"
     hero: "Hero"
     teacher: "Teacher"
+
+  library:
+    enter_library_card: "Enter your Library Card Number:"
+    access_coco: "Access CodeCombat"
+    already_using_library_id: "Already using library id"
+    play_coco: "to play CodeCombat"
+    not_library_id: "Not your library id"
+    access_using_id: "to access using your id!!"
+    network_detected: "Library network detected, redirecting you to play CodeCombat"
+    not_redirect_auto: "if redirect doesn't happen automatically"

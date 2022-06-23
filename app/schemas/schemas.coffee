@@ -19,7 +19,7 @@ me.shortString = (ext) -> combine({type: 'string', maxLength: 100}, ext)
 me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
 me.passwordString = {
   allOf: [
-    {type: 'string', maxLength: 64, minLength: 8, title: 'Password'},
+    {type: 'string', maxLength: 64, minLength: 4, title: 'Password'},
     { not: { pattern: '([\\s\\S])\\1\\1' } }
   ]
 }
@@ -49,6 +49,8 @@ me.sound = (props) ->
   obj = _.cloneDeep(SoundSchema)
   obj.properties[prop] = props[prop] for prop of props
   obj
+
+me.file = (ext) -> combine { type: 'string', format: 'file' }, ext
 
 ColorConfigSchema = me.object {format: 'color-sound'},
   hue: {format: 'range', type: 'number', minimum: 0, maximum: 1}
