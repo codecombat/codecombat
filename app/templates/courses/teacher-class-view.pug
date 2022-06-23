@@ -119,7 +119,7 @@ mixin courseProgressTab
     if view.courses
       .course-progress-select-wrapper
         label(for="course-select")
-          span(data-i18n='teacher.select_course')
+          span(data-i18n='teacher.select_course_coco')
           span.spr :
         select.course-select#course-select
           each course in view.latestReleasedCourses
@@ -388,7 +388,7 @@ mixin bulkAssignControls
 mixin assessmentsTab
   #assessments-tab
     .text-center.m-t-3
-      span(data-i18n='teacher.select_course')
+      span(data-i18n='teacher.select_course_coco')
       span.spr :
       select.course-select
         each course in view.latestReleasedCourses

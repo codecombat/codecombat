@@ -25,7 +25,7 @@ module.exports = class TeacherCoursesView extends RootView
     'click .play-level-button': 'onClickPlayLevel'
     'click .show-change-log': 'onClickShowChange'
 
-  getMeta: -> { title: "#{$.i18n.t('teacher.courses')} | #{$.i18n.t('common.ozaria')}" }
+  getMeta: -> { title: "#{$.i18n.t('teacher.courses_ozar')} | #{$.i18n.t('common.ozaria')}" }
 
   initialize: (options) ->
     super(options)
