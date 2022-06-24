@@ -1,12 +1,14 @@
 <template>
   <div>
     <div class="announcements flex-column">
-      <div class="title">
-        {{ $t('announcement.announcement') }}
-      </div>
-      <div class="content flex-column">
-        <announcement-tab v-for="ann in announcements" :key="ann._id" :announcement="ann" @click.native="read(ann)"></announcement-tab>
-        <div class="expand" v-if="moreAnnouncements" @click="more">expand>></div>
+      <div class="body flex-column">
+        <div class="title">
+          {{ $t('announcement.announcement') }}
+        </div>
+        <div class="content flex-column">
+          <announcement-tab v-for="ann in announcements" :key="ann._id" :announcement="ann" @click.native="read(ann)"></announcement-tab>
+          <div class="expand" v-if="moreAnnouncements" @click="more">expand>></div>
+        </div>
       </div>
     </div>
   </div>
@@ -72,6 +74,17 @@
     flex-direction: column;
     align-items: center;
   }
+  .announcements {
+    background-image: url(/images/pages/base/background.jpg);
+  }
+
+  .body {
+    background-image: url(/images/pages/base/modal_background.png);
+    background-size: 1024px 100%;
+    width: 1024px;
+    margin: 150px;
+    padding: 100px;
+}
 
   .title {
     font-size: 40px;

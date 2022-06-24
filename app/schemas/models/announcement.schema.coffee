@@ -53,6 +53,7 @@ _.extend AnnouncementSchema.properties,
     type: 'string'
   content:
     type: 'string'
+    format: 'markdown'
   startDate: c.stringDate()
   endDate: c.stringDate() #unset for forever
   query:
