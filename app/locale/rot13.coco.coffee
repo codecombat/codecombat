@@ -260,6 +260,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     admin: "Nqzva"
     api_dashboard: "NCV Qnfuobneq"
     funding_resources_guide: "Shaqvat Erfbheprf Thvqr"
+    partnerships: "Cnegarefuvcf"
 
   modal:
     close: "Pybfr"
@@ -3586,6 +3587,30 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     class_owner: 'Pynff Bjare'
     share: 'Funer'
 
+  partners:
+    headline: 'Wbva hf va bhe zvffvba gb znxr pbqvat ratntvat naq npprffvoyr gb nyy'
+    below_headline_blurb: 'Ng PbqrPbzong jr’ir qrirybcrq pbzcerurafvir gbbyf gung znxr yrneavat gb pbqr sha naq grnpuvat cebtenzzvat rnfl. Bhe gheaxrl fbyhgvbaf pna or yrirentrq va znal rkrphgvbaf.'
+    coding_title: 'Pbqvat & FGRNZ Rqhpngvba Ohfvarffrf:'
+    coding_blurb: 'Inyhrq cnegaref yvxr Pbqr Avawnf naq VQRN Yno Xvqf hfr bhe tnzr gb grnpu erny Clguba naq WninFpevcg pbqvat gb fghqragf va gurve senapuvfr ybpngvbaf. Jr bssre na rnfl gb hfr cebtenz, vzcyrzragngvba erfbheprf naq genvavat bcgvbaf gb rafher na nznmvat fghqrag rkcrevrapr.'
+    esports_title: 'Rqhpngvbany Rfcbegf Fcbafbef:'
+    esports_blurb: 'Jr ner ervairagvat jung na rfcbeg pna or juvyr ratntvat gubhfnaqf bs fghqragf gb yrnea gb pbqr. Raqrzvp rfcbegf znvafgnl __ulcrek__ fhccbegrq gur PbqrPbzong NV Yrnthr sebz vgf vanhtheny frnfba, ohvyqvat pbzcryyvat cebzbgvbany cebtenzf nebhaq guvf havdhr rfcbeg.'
+    hyperx: 'UlcreK'
+    respawn: 'ERFCNJA'
+    distribution_title: 'Vagreangvbany Qvfgevohgvba:'
+    distribution_blurb: 'Bhe cebtenzf unir freirq fghqragf va bire 190 pbhagevrf naq bhe pbagrag vf genafyngrq vagb bire __sbegl_ynathntrf__. Juvyr gur HF naq Puvan ner znexrgf jurer jr fryy qverpgyl, jr jbex pybfryl jvgu ybpny Fnnf naq RqGrpu qvfgevohgvba cnegaref nebhaq gur jbeyq gb rkcnaq bhe ernpu'
+    forty_languages: '40 ynathntrf'
+    equity_social_title: 'Grpu Rdhvgl & Fbpvny Vzcnpg:'
+    equity_social_blurb: 'Abg rirel cnegarefuvc vf ohvyg ba gur obggbz yvar. Nf n zvffvba-onfrq betnavmngvba jr frrx jnlf gb tvir onpx nf jryy. Jr jbex pybfryl jvgu sbhaqngvbaf naq bgure cuvynaguebcl cnegaref gb rkcnaq npprff gb uvtu-dhnyvgl pbqvat rqhpngvba.  '
+    latin_superstar_blurb: 'Nqqvgvbanyyl, Yngva fhcrefgne __rhtravb_qreorm__ unf urycrq hf ernpu gur Yngvak pbzzhavgl jvgu n cnegarefuvc gb ratntr fghqragf va guvf bsgra haqrefreirq naq haqreercerfragrq tebhc.'
+    reach_latinx: 'ernpu gur Yngvak pbzzhavgl'
+    eugenio_derbez_blurb: '"Vg vf vzcbegnag gb zr gb frr Yngvab oblf naq tveyf ercerfragrq va guvf fcnpr," fnvq Rhtravb Qreorm, "Pbqvat vf gur ynathntr bs gur shgher naq vs jr jnag gb or n cneg bs gung shgher gura jr arrq gb trg bhe xvqf pbqvat."'
+    seek_relationships_blurb: 'Jr frrx eryngvbafuvcf jvgu abacebsvgf naq pbzzhavgl-onfrq betnavmngvbaf jbexvat jvgu tebhcf haqreercerfragrq va pbzchgre fpvrapr naq grpuabybtl pnerref. Bhe cnegarefuvc jvgu __frrqf_bs_yvtug__ jvyy shaq PF rqhpngvbany bccbeghavgvrf sbe gubhfnaqf bs lbhat yrnearef.'
+    seeds_of_light: 'Frrqf bs Yvtug'
+    corporate_team_building_title: 'Pbecbengr Grnz Ohvyqvat'
+    corporate_team_building_blurb: 'Arrq gb ratntr lbhe rzcyblrrf jvgu n gheaxrl npgvivgl gung jvyy vafcver gurve pbzcrgvgvir fcvevg naq punyyratr gurz gb perngviryl ceboyrz fbyir? Jbex jvgu hf gb ohvyq n phfgbz pbzcrgvgvir pbqvat gbheanzrag gung jvyy unir lbhe grnz cebtenzzvat gurve bja fgengrtvrf juvyr cynlvat n tnzr.'
+    footer_blurb: 'Gurfr ner whfg n srj bs gur cnegarefuvc fgehpgherf jr unir fhpprffshyyl fhccbegrq. Vs lbh jbhyq yvxr gb vavgvngr n qvfphffvba jvgu bhe ohfvarff qrirybczrag grnz ba nal bs gurfr zbqryf be unir n qvssrerag cnegarefuvc bccbeghavgl, cyrnfr ernpu bhg gbqnl.'
+    talk_with_us: 'Gnyx jvgu Hf'
+
   podcast:
     learning_adventure: "Jurer yrneavat vf nyjnlf na nqiragher."
     explores_stem: "Bhe cbqpnfg rkcyberf gur ebyr bs grpuabybtl, FGRZ, naq perngvir cynl va rqhpngvba. Jvgu rkcreg thrfgf, jr qvfpbire ubj yrneavat vf nyjnlf na nqiragher."
@@ -3602,3 +3627,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     about_guest: "Nobhg Bhe Thrfg"
     all_episodes: "Ivrj Nyy Rcvfbqrf"
     no_permission: "Lbh qba'g unir crezvffvba gb ivrj guvf cbqpnfg"
+
+  library:
+    enter_library_card: "Ragre lbhe Yvoenel Pneq Ahzore:"
+    access_coco: "Npprff PbqrPbzong"
+    already_using_library_id: "Nyernql hfvat yvoenel vq"
+    play_coco: "gb cynl PbqrPbzong"
+    not_library_id: "Abg lbhe yvoenel vq"
+    access_using_id: "gb npprff hfvat lbhe vq!!"

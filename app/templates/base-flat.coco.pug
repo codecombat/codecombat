@@ -128,6 +128,8 @@
                             a(href="/teachers/classes", data-i18n="nav.my_classrooms")
                           li
                             a(href="https://ozaria.com", data-i18n="new_home.try_ozaria")
+                          li
+                            a(href="/partners", data-i18n="nav.partnerships")                                   
                     .col-lg-3
                       h3(data-i18n="nav.get_involved")
                       ul.list-unstyled
@@ -138,7 +140,7 @@
                         li
                           a(href="/contribute", data-i18n="nav.contribute")
                         li
-                          a(href="/league", data-i18n="game_menu.multiplayer_tab")
+                          a(href="/league", data-i18n="game_menu.multiplayer_tab")                      
                         if !me.isStudent() && me.showForumLink()
                           li
                             a(href=view.forumLink(), data-i18n="nav.forum", target="_blank")
