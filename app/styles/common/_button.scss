@@ -1,0 +1,20 @@
+@import "app/styles/ozaria/ozaria-style-params.scss";
+@import "ozaria/site/styles/common/common.scss";
+@import "app/styles/bootstrap/variables";
+
+.btn-moon {
+  background-color: $moon;
+  border-radius: 1px;
+  color: $gray;
+  text-shadow: unset;
+  font-weight: bold;
+  @include font-h-5-button-text-black;
+  min-width: 260px;
+  padding: 15px 0;
+
+  &:hover {
+    @include font-h-5-button-text-white;
+    background-color: $goldenlight;
+    transition: background-color .35s;
+  }
+}
