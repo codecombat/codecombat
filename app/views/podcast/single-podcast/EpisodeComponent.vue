@@ -111,6 +111,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.row > div {
+  padding-bottom: 2rem;
+}
+
 .episode {
   padding-top: 5rem;
 
@@ -152,7 +156,10 @@ export default {
     box-shadow: 0 0 6rem rgba(#000, .1);
 
     text-align: center;
-    padding: 5rem 3rem;
+    padding-top: 5rem;
+    padding-right: 3rem;
+    padding-left: 3rem;
+    padding-bottom: 5rem !important; // because .row > div overrides it otherwise
 
     border-radius: 1rem;
 
@@ -207,9 +214,5 @@ export default {
     padding-bottom: 1rem;
   }
 
-}
-
-.row > div {
-  padding-bottom: 2rem;
 }
 </style>
