@@ -1,4 +1,4 @@
-utils = require 'core/utils'
+utils = require './utils'
 
 STARTER_LICENSE_COURSE_IDS = [
   "560f1a9f22961295f9427742" # Introduction to Computer Science
