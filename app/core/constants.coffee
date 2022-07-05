@@ -1,3 +1,5 @@
+utils = require './utils'
+
 STARTER_LICENSE_COURSE_IDS = [
   "560f1a9f22961295f9427742" # Introduction to Computer Science
   "5632661322961295f9428638" # Computer Science 2
@@ -5,7 +7,7 @@ STARTER_LICENSE_COURSE_IDS = [
   "5789587aad86a6efb573701f" # Web Development 1
 ]
 
-LICENSE_PRESETS = {
+LICENSE_PRESETS = if !utils.isOzaria then {
   'CS1+CS2+GD1+WD1': STARTER_LICENSE_COURSE_IDS
   'CS1+CS2+CS3+CS4': [
     '560f1a9f22961295f9427742' # Introduction to Computer Science
@@ -35,6 +37,8 @@ LICENSE_PRESETS = {
     '5789587aad86a6efb573701e' # Game Development 1
     '57b621e7ad86a6efb5737e64' # GD 2
   ]
+} else {
+  'CH1+CH2+CH3+CH4': OZARIA_COURSE_IDS
 }
 
 FREE_COURSE_IDS = [
@@ -47,10 +51,6 @@ OZARIA_COURSE_IDS = [
   "5e27600d1c9d440000ac3ee7" # chapter 3
   "5f0cb0b7a2492bba0b3520df" # chapter 4
 ]
-
-LICENSE_PRESETS = {
-  'CH1+CH2+CH3+CH4': OZARIA_COURSE_IDS
-}
 
 MAX_STARTER_LICENSES = 75
 
