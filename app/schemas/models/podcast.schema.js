@@ -18,7 +18,7 @@ const PodcastSchema = schema.object(
     audio: schema.sound(),
     releasePhase: { enum: ['beta', 'internalRelease', 'released'], title: 'Release status', description: "Release status of the level, determining who sees it.", default: 'internalRelease' },
     i18n: { type: 'object', format: 'i18n', props: ['name', 'description', 'shortDescription', 'guestName', 'guestDetails'] },
-    priority: { type: 'integer', description: 'higher the number, higher it will show up in podcast listing. Use current date as number for top listing so that we dont need to keep giving hugh numbers here. 20-02-2020 => 20022020'}
+    priority: { type: 'integer', description: 'higher the number, higher it will show up in podcast listing. Use current date as number for top listing so that we dont need to keep giving hugh numbers here. 2020-02-20 => 20200220'}
   }
 )
 
