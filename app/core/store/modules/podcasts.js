@@ -1,5 +1,13 @@
 import { getPodcasts, getPodcast } from '../../api/podcast'
 
+const comparePodcastFn = (a, b) => {
+  // higher priority podcast should come up at top
+  if (a.priority || b.priority)
+    return (b.priority || 0) - (a.priority || 0)
+  const aDate = a.uploadDate ? new Date(a.uploadDate).getTime() : 0
+  const bDate = b.uploadDate ? new Date(b.uploadDate).getTime() : 0
+  return bDate - aDate
+}
 export default {
   namespaced: true,
   state: {
@@ -11,7 +19,7 @@ export default {
       state.loading = loading
     },
     setPodcasts (state, podcasts) {
-      state.podcasts = [...podcasts]
+      state.podcasts = [...podcasts.sort(comparePodcastFn)]
     },
     setPodcast (state, podcast) {
       const index = state.podcasts.findIndex(p => p.id === podcast.id)
