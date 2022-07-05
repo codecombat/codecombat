@@ -15,7 +15,7 @@
             {{ $t('podcast.explores_stem') }}
           </div>
           <div class="podcast-head__subscribe">
-            <button class="btn btn-subscribe podcast-btn-yellow" @click="onSubscribeClick">{{ $t('podcast.subscribe') }}</button>
+            <button class="btn btn-subscribe podcast-btn-yellow" @click="onSubscribeClick">{{ $t('podcast.listen_now') }}</button>
           </div>
         </div>
       </div>

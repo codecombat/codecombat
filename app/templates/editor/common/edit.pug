@@ -6,7 +6,7 @@ block content
       li
         a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
       li
-        a(href=`/editor/${view.resourceName}`, data-i18n="editor.resource_title_general", data-i18n-options={resource: view.resourceName})
+        a(href=`/editor/${view.resourceName.toLowerCase()}`, data-i18n="editor.resource_title_general", data-i18n-options={resource: view.resourceName})
       li.active
         | #{view.resource.get('name')}
 

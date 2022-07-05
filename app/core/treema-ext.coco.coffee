@@ -32,6 +32,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
     @workingSchema.aceMode = 'ace/mode/markdown'
+    @workingSchema.aceUseWrapMode = true
     initializeFilePicker()
 
   initEditor: (valEl) ->
