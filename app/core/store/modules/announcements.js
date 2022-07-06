@@ -38,7 +38,7 @@ export default {
     },
     readAnnouncement (state, id) {
       state.announcements = state.announcements.map((ann) => {
-        if(ann._id == id) {
+        if(ann._id === id) {
           if(!ann.read) {
             state.unread -= 1;
           }

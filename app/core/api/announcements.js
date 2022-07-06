@@ -2,7 +2,7 @@ const fetchJson = require('./fetch-json')
 
 
 module.exports = {
-  getNew: () => fetchJson('/db/user/announcements/new'),
+  getNew: () => fetchJson('/db/user/announcements/new', {method: 'POST'}),
   getList: (options) => {
     let url = '/db/user/announcements';
     if(options && options.startDate && options.endDate) {

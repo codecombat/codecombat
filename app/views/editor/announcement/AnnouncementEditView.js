@@ -7,7 +7,7 @@ class AnnouncementEditView extends EditView{
   schema = AnnouncementSchema
   redirectPathOnSuccess = '/editor/announcement'
   filePath = 'announcement'
-  resourceName = Announcement
+  resourceName = 'Announcement'
 
   constructor(options = {}, resourceId) {
     super({})
