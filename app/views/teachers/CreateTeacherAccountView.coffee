@@ -11,6 +11,7 @@ State = require 'models/State'
 countryList = require('country-list')()
 UsaStates = require('usa-states').UsaStates
 globalVar = require 'core/globalVar'
+utils = require 'core/utils'
 
 
 SIGNUP_REDIRECT = '/teachers/classes'

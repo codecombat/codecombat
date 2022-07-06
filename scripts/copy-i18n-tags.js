@@ -82,7 +82,7 @@ for (const localeFile of localeFiles) {
   // For each category within the locale
   for (const enCategoryName of Object.keys(enTranslations)) {
     const enCategory = enTranslations[enCategoryName]
-    const catIsPresent = (typeof localeTranslations[enCategoryName] !== 'undefined')
+    const catIsPresent = (typeof localeTranslations[enCategoryName] !== 'undefined' || typeof otherLocaleTranslations[enCategoryName] !== 'undefined')
     const localeCategory = localeTranslations[enCategoryName] || {}
     const otherLocaleCategory = otherLocaleTranslations[enCategoryName] || {}
 

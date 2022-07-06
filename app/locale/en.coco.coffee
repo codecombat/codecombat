@@ -18,7 +18,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     core_curriculum_carousel_item1_header: "Make Connections"
     core_curriculum_carousel_item1_p: "At the start of every module, use our turnkey lesson slides to help your students make the connection between new Computer Science concepts and relevant examples from their daily lives."
     core_curriculum_carousel_item2_header: "Construct Own Meaning"
-    core_curriculum_carousel_item2_p: "Next, guide your students in constructing a deeper understanding of new concepts through extension activities that are built into our lesson plans."
+    core_curriculum_carousel_item2_p: "Next, guide your students in constructing a deeper understanding of new concepts through unplugged and discussion activities that are built into our lesson plans."
     core_curriculum_carousel_item3_header: "Learn New Concepts"
     core_curriculum_carousel_item3_p: "In the third stage of the learning cycle, your students will learn new concepts through expositional dialogue between characters in the Ozaria story. Voice-over, graphics, and animations make absorbing new information even more accessible and fun."
     core_curriculum_carousel_item4_header: "Apply New Knowledge"
@@ -3950,6 +3950,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     dog: "Dog"
     hero: "Hero"
     teacher: "Teacher"
+
+  library:
+    enter_library_card: "Enter your Library Card Number:"
+    access_coco: "Access CodeCombat"
+    already_using_library_id: "Already using library id"
+    play_coco: "to play CodeCombat"
+    not_library_id: "Not your library id"
+    access_using_id: "to access using your id!!"
+    network_detected: "Library network detected, redirecting you to play CodeCombat"
+    not_redirect_auto: "if redirect doesn't happen automatically"
 
   league:
     student_register_1: "Become the next AI Champion!"
