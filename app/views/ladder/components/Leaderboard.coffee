@@ -54,14 +54,7 @@ module.exports = class LeaderboardView extends CocoView
     @session = null
     @dataObj = { myRank: @myRank, rankings: @rankings, session: @session, playerRankings: @playerRankings, showContactUs: @anonymousPlayerName && me.isTeacher() }
 
-    @anonymous = false  # false for global league
-    if @league and @anonymous = features.enableAnonymization
-      $.get('/esports/anonymous/' + @league.id).then((res) =>
-        @anonymous = res.anonymous
-        @refreshLadder()
-      )
-    else
-      @refreshLadder()
+    @refreshLadder()
 
   render: ->
     super()
