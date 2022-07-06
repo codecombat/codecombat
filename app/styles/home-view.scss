@@ -619,6 +619,12 @@
     }
   }
 
+  #engaging {
+    .flex-row:nth-child(odd) {
+      padding: 100px 0;
+    }
+  }
+
   #acodus-awards {
     background: url(/images/ozaria/home/acodus_awards_back.svg) no-repeat;
     background-size: 75%;
