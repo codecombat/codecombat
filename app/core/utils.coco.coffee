@@ -4,7 +4,6 @@ isCodeCombat = true
 isOzaria = false
 
 anonymizingUser = (user) ->
-  console.log('????debug user', user)
   id = user?.id ? user
   $.i18n.t('general.player') + ' ' + id.slice(19)
 
