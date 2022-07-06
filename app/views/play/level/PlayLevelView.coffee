@@ -164,7 +164,6 @@ module.exports = class PlayLevelView extends RootView
     preloadImages = ['/images/level/code_palette_wood_background.png', '/images/level/code_editor_background_border.png']
     _.delay (-> $('<img/>')[0].src = img for img in preloadImages), 1000
 
-
   getMeta: ->
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', content: '/play' }
@@ -197,7 +196,6 @@ module.exports = class PlayLevelView extends RootView
     if (league = utils.getQueryVariable('league')) and @anonymousPlayerName = features.enableAnonymization
       fetchAnonymous = $.get('/esports/anonymous/' + league)
       fetchAnonymous.then((res) =>
-        console.log('fetch anonymous', @anonymousPlayerName, res)
         @anonymousPlayerName = res.anonymous
       )
       @supermodel.trackRequest(fetchAnonymous)
