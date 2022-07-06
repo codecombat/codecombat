@@ -42,6 +42,7 @@ export default {
   methods: {
     onSubscribeClick () {
       this.showSubscribeModal = true
+      me.trackActivity('podcast-subscribe')
     }
   }
 }
