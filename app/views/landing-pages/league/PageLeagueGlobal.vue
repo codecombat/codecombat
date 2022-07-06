@@ -55,11 +55,15 @@ export default {
     previousChampionshipArenaSlug: previousChampionshipArena ? previousChampionshipArena.slug : null,
     regularArenaSlug: currentRegularArena ? currentRegularArena.slug : 'mages-might',
     championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
-    championshipActive: !!currentChampionshipArena
+    championshipActive: !!currentChampionshipArena,
+    anonymousPlayerName: false
   }),
 
   beforeRouteUpdate (to, from, next) {
     this.clanIdOrSlug = to.params.idOrSlug || null
+    if(this.clanIdOrSlug) {
+      this.anonymousPlayerName = features.enableAnonymization
+    }
     next()
   },
 
@@ -151,6 +155,9 @@ export default {
                 console.error('Failed to retrieve child clans.')
               })
         }
+        $.get('/esports/anonymous/' + this.currentSelectedClan._id).then((res) => {
+          this.anonymousPlayerName = res.anonymous
+        })
 
         this.loadClanRequiredData({ leagueId: this.clanIdSelected })
         this.loadChampionshipClanRequiredData({ leagueId: this.clanIdSelected })
@@ -575,7 +582,7 @@ export default {
       <InputClanSearch v-if="isGlobalPage" :max-width="510" style="margin: 10px auto"/>
       <p class="subheader2">{{ $t('league.ladder_subheader') }}</p>
       <div class="col-lg-6 section-space">
-        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" />
+        <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" :anonymousPlayerName="anonymousPlayerName" />
         <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
         <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta">{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
       </div>
