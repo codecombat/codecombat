@@ -27,6 +27,7 @@ module.exports = class DuelStatsView extends CocoView
     super options
     @anonymous = options.anonymous
     options.thangs = _.filter options.thangs, 'inThangList'
+    @myId = options.me.get('_id')
     unless options.otherSession
       options.otherSession = get: (prop) => {
         creatorName: $.i18n.t 'ladder.simple_ai'
