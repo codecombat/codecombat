@@ -37,7 +37,7 @@
         default () {
           return []
         }
-      }
+      },
     },
     data () {
       return {
@@ -254,7 +254,15 @@
 
 <template lang="pug">
   .table-responsive(:class="{'col-md-6': scoreType=='arena'}")
-    div(id="histogram-display-humans", class="histogram-display", data-team-name='humans' v-if="scoreType == 'arena'")
+    div(v-if="scoreType == 'arena'")
+      div(:class="{hide: !showContactUs}" id="contact-us-info")
+        .info
+          p Unlock the full potential of the AI League.
+          a(href="https://form.typeform.com/to/qXqgbubC" target='_blank' style="margin-right: 0.6em;")
+            | Contact Us
+          span today to see your
+          p students’ scores, ranks, code and more!
+      div(id="histogram-display-humans", class="histogram-display", data-team-name='humans' :class="{hide: showContactUs}")
     table.table.table-bordered.table-condensed.table-hover.ladder-table
       thead
         tr
@@ -430,5 +438,22 @@
       }
       
     }
+  }
+  #contact-us-info {
+    position: relative;
+    width: 100%;
+    padding-bottom: 28%;
+    vertical-align: top;
+    overflow: hidden;
+    height: 130px;
+    background-color: white;
+
+    font-size: 18px;
+    font-weight: 600;
+    padding: 20px 40px;
+    text-align: center;
+  }
+  .hide {
+    display: none;
   }
 </style>

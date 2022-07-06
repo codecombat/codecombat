@@ -88,6 +88,14 @@ module.exports = class LadderView extends RootView
     @loadLeague()
     @urls = require('core/urls')
 
+    @anonymousPlayerName = false
+    if @leagueType is 'clan' and @anonymousPlayerName = features.enableAnonymization
+      fetchAnonymous = $.get('/esports/anonymous/' + @leagueID)
+      fetchAnonymous.then((res) =>
+        @anonymousPlayerName = res.anonymous
+      )
+      @supermodel.trackRequest(fetchAnonymous)
+
     if @tournamentId
       @checkTournamentCloseInterval = setInterval @checkTournamentClose.bind(@), 3000
       @checkTournamentClose()
@@ -232,10 +240,10 @@ module.exports = class LadderView extends RootView
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
     unless @tournamentState is 'ended'
       if @level.isType('ladder')
-        @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league}, @level, @sessions ))
+        @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league}, @level, @sessions, @anonymousPlayerName ))
       else
         @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
-      @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions))
+      @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions, @anonymousPlayerName))
     else
       @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId}, @level, @sessions ))
     unless @level.isType('ladder') and me.isAnonymous()

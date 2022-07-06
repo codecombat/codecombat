@@ -29,7 +29,7 @@ export default {
     },
     anonymousPlayerName: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
 
@@ -38,7 +38,7 @@ export default {
       if(this.anonymousPlayerName && row.creator !== me.id && this.scoreType !== 'codePoints') {
         return utils.anonymizingUser(row.creator)
       }
-      return row.fullName || row.creatorName || $t("play.anonymous")
+      return row.fullName || row.creatorName || $.i18n.t("play.anonymous")
 
     },
     scoreForDisplay (row) {
