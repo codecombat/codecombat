@@ -1,7 +1,13 @@
+
 slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and _.str on server?
 
 isCodeCombat = true
 isOzaria = false
+
+anonymizingUser = (user) ->
+  console.log('????debug user', user)
+  id = user?.id ? user
+  $.i18n.t('general.player') + ' ' + id.slice(19)
 
 clone = (obj) ->
   return obj if obj is null or typeof (obj) isnt 'object'
@@ -1118,6 +1124,7 @@ module.exports = {
   ageBracketsChina
   ageOfConsent
   ageToBracket
+  anonymizingUser
   arenas
   bracketToAge
   campaignIDs

@@ -54,7 +54,14 @@ module.exports = class LeaderboardView extends CocoView
     @session = null
     @dataObj = { myRank: @myRank, rankings: @rankings, session: @session, playerRankings: @playerRankings }
 
-    @refreshLadder()
+    @anonymous = false  # false for global league
+    if @league and @anonymous = features.enableAnonymization
+      $.get('/esports/anonymous/' + @league.id).then((res) =>
+        @anonymous = res.anonymous
+        @refreshLadder()
+      )
+    else
+      @refreshLadder()
 
   render: ->
     super()
@@ -143,7 +150,7 @@ module.exports = class LeaderboardView extends CocoView
           model.get('creator'),
           model.get('submittedCodeLanguage'),
           model.rank || index+1,
-          (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+          if @anonymous and me.get('_id').toString() != model.get('creator') then utils.anonymizingUser(model.get('creator')) else (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
           @correctScore(model),
           @getAgeBracket(model),
           moment(model.get('submitDate')).fromNow().replace('a few ', ''),

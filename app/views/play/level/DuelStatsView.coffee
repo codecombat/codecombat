@@ -25,10 +25,13 @@ module.exports = class DuelStatsView extends CocoView
 
   constructor: (options) ->
     super options
+    @anonymous = options.anonymous
     options.thangs = _.filter options.thangs, 'inThangList'
+    @myId = options.me.get('_id')
     unless options.otherSession
-      options.otherSession = get: (prop) -> {
+      options.otherSession = get: (prop) => {
         creatorName: $.i18n.t 'ladder.simple_ai'
+        creator: @myId
         team: if options.session.get('team') is 'humans' then 'ogres' else 'humans'
         heroConfig: options.session.get('heroConfig')
       }[prop]
@@ -39,7 +42,7 @@ module.exports = class DuelStatsView extends CocoView
   formatPlayer: (team) ->
     p = team: team
     session = _.find [@options.session, @options.otherSession], (s) -> s.get('team') is team
-    p.name = session.get 'creatorName'
+    p.name = if @anonymous and @myId.toString() != session.get('creator') then utils.anonymizingUser(session.get('creator')) else session.get('creatorName') or 'Anonymous'
     p.heroThangType = (session.get('heroConfig') ? {}).thangType or '529ffbf1cf1818f2be000001'
     p.heroID = if team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
     p
