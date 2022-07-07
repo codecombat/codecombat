@@ -3,6 +3,25 @@ slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and 
 isCodeCombat = true
 isOzaria = false
 
+getAnonymizedName = (shouldAnonymous, session) ->
+  if shouldAnonymous and me.get('_id').toString() != session.get('creator')
+    anonymizingUser(session.get('creator'))
+  else
+    session.get('creatorName') or 'Anonymous'
+
+getAnonymizingStatus = (league, supermodel) ->
+  anonymousPlayerName = false
+  if league and anonymousPlayerName = features.enableAnonymization
+    fetchAnonymous = $.get('/esports/anonymous/' + league)
+    supermodel.trackRequest(fetchAnonymous)
+    return new Promise((resolve, reject) ->
+      fetchAnonymous.then((res) =>
+        console.log('called resolve', res.anonymous)
+        resolve(res.anonymous)
+      ))
+  return new Promise (resolve, reject) ->
+    resolve(anonymousPlayerName)
+
 anonymizingUser = (user) ->
   id = user?.id ? user
   $.i18n.t('general.player') + ' ' + id.slice(19)
@@ -1160,6 +1179,8 @@ module.exports = {
   getQueryVariables
   getSponsoredSubsAmount
   getUTCDay
+  getAnonymizingStatus
+  getAnonymizedName
   grayscale
   hexToHSL
   hourOfCodeOptions

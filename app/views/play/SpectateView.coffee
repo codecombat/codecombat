@@ -106,13 +106,9 @@ module.exports = class SpectateLevelView extends RootView
       spectateMode: true
       team: utils.getQueryVariable('team')
     @god = new God maxAngels: 1, spectate: true
-    @anonymousPlayerName = false
-    if (league = utils.getQueryVariable('league')) and (@anonymousPlayerName = features.enableAnonymization)
-      fetchAnonymous = $.get('/esports/anonymous/' + league)
-      fetchAnonymous.then((res) =>
-        @anonymousPlayerName = res.anonymous
-      )
-      @supermodel.trackRequest(fetchAnonymous)
+    utils.getAnonymizingStatus(utils.getQueryVariable('league'), @supermodel).then((anonymous) =>
+      @anonymousPlayerName = anonymous
+    )
 
   getRenderData: ->
     c = super()
@@ -211,7 +207,7 @@ module.exports = class SpectateLevelView extends RootView
     goldInDuelStatsView = @level.get('slug') in ['wakka-maul', 'cross-bones']
     @insertSubView new GoldView {} unless goldInDuelStatsView
     @insertSubView new HUDView {level: @level}
-    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, anonymous: @anonymousPlayerName, me: me, showsGold: goldInDuelStatsView if @level.isLadder()
+    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, anonymous: @anonymousPlayerName, showsGold: goldInDuelStatsView if @level.isLadder()
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, spectateGame: true}
 
   # callbacks
@@ -237,7 +233,7 @@ module.exports = class SpectateLevelView extends RootView
   findPlayerNames: ->
     playerNames = {}
     for session in [@session, @otherSession] when session?.get('team')
-      playerNames[session.get('team')] = if @anonymousPlayerName and me.get('_id').toString() != session.get('creator') then utils.anonymizingUser(session.get('creator')) else session.get('creatorName') or 'Anonymous'
+      playerNames[session.get('team')] = utils.getAnonymizedName(@anonymousPlayerName, session)
     playerNames
 
   initGoalManager: ->

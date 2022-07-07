@@ -192,13 +192,9 @@ module.exports = class PlayLevelView extends RootView
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
-    @anonymousPlayerName = false
-    if (league = utils.getQueryVariable('league')) and @anonymousPlayerName = features.enableAnonymization
-      fetchAnonymous = $.get('/esports/anonymous/' + league)
-      fetchAnonymous.then((res) =>
-        @anonymousPlayerName = res.anonymous
-      )
-      @supermodel.trackRequest(fetchAnonymous)
+    utils.getAnonymizingStatus(utils.getQueryVariable('league'), @supermodel).then((anonymous) =>
+      @anonymousPlayerName = anonymous
+    )
 
 
   hasAccessThroughClan: (level) ->
@@ -436,7 +432,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     @insertSubView new SurfaceContextMenuView session: @session, level: @level
-    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, anonymous: @anonymousPlayerName, me: me, showsGold: goldInDuelStatsView if @level.isLadder()
+    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, anonymous: @anonymousPlayerName, showsGold: goldInDuelStatsView if @level.isLadder()
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
     @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
     @insertSubView @webSurface = new WebSurfaceView {level: @level, @goalManager} if @level.isType('web-dev')
@@ -528,7 +524,7 @@ module.exports = class PlayLevelView extends RootView
     return {} unless @level.isType('ladder', 'hero-ladder', 'course-ladder')
     playerNames = {}
     for session in [@session, @otherSession] when session?.get('team')
-      playerNames[session.get('team')] = if @anonymousPlayerName and me.get('_id').toString() != session.get('creator') then utils.anonymizingUser(session.get('creator')) else session.get('creatorName') or 'Anonymous'
+      playerNames[session.get('team')] = utils.getAnonymizedName(@anonymousPlayerName, session)
     playerNames
 
   # Once Surface is Loaded ####################################################

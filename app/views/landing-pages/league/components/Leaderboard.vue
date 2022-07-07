@@ -34,7 +34,7 @@ export default {
   },
 
   methods: {
-    nameForDispaly (row) {
+    nameForDisplay (row) {
       if(this.anonymousPlayerName && row.creator !== me.id && this.scoreType !== 'codePoints') {
         return utils.anonymizingUser(row.creator)
       }
@@ -123,7 +123,7 @@ export default {
             td.code-language-cell(:style="`background-image: url(/images/common/code_languages/${row.submittedCodeLanguage}_icon.png)`" :title="row.submittedCodeLanguage")
             td.rank-cell {{ row.rank || rank + 1 }}
             td.score-cell {{ scoreForDisplay(row) }}
-            td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ nameForDispaly(row) }}
+            td(:class="'name-col-cell' + ((new RegExp('(Bronze|Silver|Gold|Platinum|Diamond) AI')).test(row.creatorName) ? ' ai' : '')") {{ nameForDisplay(row) }}
             td(colspan=4).clan-col-cell
               a(:href="`/league/${getClan(row).slug || getClan(row)._id}`") {{ getClanName(row) }}
             td {{ getAgeBracket(row) }}

@@ -257,11 +257,10 @@
     div(v-if="scoreType == 'arena'")
       div(:class="{hide: !showContactUs}" id="contact-us-info")
         .info
-          p Unlock the full potential of the AI League.
-          a(href="https://form.typeform.com/to/qXqgbubC" target='_blank' style="margin-right: 0.6em;")
-            | Contact Us
-          span today to see your
-          p students’ scores, ranks, code and more!
+          p {{ $t('league.unlock_ai_league') }}
+          a(href="https://form.typeform.com/to/qXqgbubC" target='_blank' style="margin-right: 0.6em;") {{ $t('general.contact_us') }}
+          span {{ $t('league.unlock_content_padding_1') }}
+          p {{ $t('league.unlock_content_padding_2') }}
       div(id="histogram-display-humans", class="histogram-display", data-team-name='humans' :class="{hide: showContactUs}")
     table.table.table-bordered.table-condensed.table-hover.ladder-table
       thead

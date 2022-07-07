@@ -88,13 +88,11 @@ module.exports = class LadderView extends RootView
     @loadLeague()
     @urls = require('core/urls')
 
-    @anonymousPlayerName = false
-    if @leagueType is 'clan' and @anonymousPlayerName = features.enableAnonymization
-      fetchAnonymous = $.get('/esports/anonymous/' + @leagueID)
-      fetchAnonymous.then((res) =>
-        @anonymousPlayerName = res.anonymous
+    if @leagueType is 'clan'
+      utils.getAnonymizingStatus(@leagueID, @supermodel).then((anonymous) =>
+        console.log('called anonymous', anonymous)
+        @anonymousPlayerName = anonymous
       )
-      @supermodel.trackRequest(fetchAnonymous)
 
     if @tournamentId
       @checkTournamentCloseInterval = setInterval @checkTournamentClose.bind(@), 3000
