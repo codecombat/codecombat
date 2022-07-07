@@ -5,7 +5,7 @@
         <h2 class="library__heading-text">
           We support equity in computer science by partnering with libraries
         </h2>
-        <button class="btn library__heading-btn btn-moon">
+        <button class="btn library__heading-btn btn-moon" @click="toggleLicenseModal">
           Talk with our Team
         </button>
       </section>
@@ -141,19 +141,50 @@
             Work with us to unlock the next generation of engineers, programmers and CS professionals in your community.
           </h2>
           <div class="library__footer-cta">
-            <button class="btn library__footer-cta-btn btn-moon">
+            <button class="btn library__footer-cta-btn btn-moon" @click="toggleLicenseModal">
               Contact Us
             </button>
           </div>
         </div>
       </div>
     </section>
+    <modal-get-licenses
+      v-if="showLicenseModal"
+      subtitle="Please complete this short form and one of our library specialists will reach out to provide a demo and custom pricing options!"
+      email-message="Hi CodeCombat team! I’m interested in learning more about CodeCombat and how it can be used for my library or library network membership.
+
+        Name of Library or Library Network:
+        State or Region Served:
+        My Role:
+        My Phone Number:
+      "
+      :ask-school-info="askSchoolInfo"
+      licenses-needed-text="Members Needing Access"
+      licenses-needed-placeholder="Approximately how many members do you plan to provide access?"
+      modal-title="Contact Our Team"
+      @close="toggleLicenseModal"
+      />
   </div>
 </template>
 
 <script>
+import ModalGetLicenses from '../../components/common/ModalGetLicenses'
 export default {
-  name: 'LibraryMainView'
+  name: 'LibraryMainView',
+  components: {
+    ModalGetLicenses
+  },
+  data () {
+    return {
+      showLicenseModal: false,
+      askSchoolInfo: false
+    }
+  },
+  methods: {
+    toggleLicenseModal () {
+      this.showLicenseModal = !this.showLicenseModal
+    }
+  }
 }
 </script>
 

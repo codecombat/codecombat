@@ -21,7 +21,23 @@ export default Vue.extend({
 			type: String,
 			// default to DT text
 			default: 'Hi Ozaria! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 2 and on.'
-		}
+		},
+    askSchoolInfo: {
+      type: Boolean,
+      default: true
+    },
+    licensesNeededText: {
+		  type: String,
+      default: $.i18n.t('teachers.licenses_needed')
+    },
+    licensesNeededPlaceholder: {
+		  type: String,
+      default: 'How many licenses do you need?'
+    },
+    modalTitle: {
+		  type: String,
+      default: 'Contact Our Classroom Team'
+    }
 	},
 	mixins: [validationMixin],
 	data: () => ({
@@ -69,13 +85,13 @@ export default Vue.extend({
 
 		this.email = me.get('email') || props.email
 
-		this.message = this.emailMessage + `
+		this.message = this.emailMessage + (this.askSchoolInfo ? `
 
       Name of School: ${props.nces_name || props.organization || ''}
       Name of District: ${props.nces_district || props.district || ''}
       Role: ${props.role || ''}
       Phone Number: ${props.phoneNumber || ''}
-      `
+      ` : '')
 	},
 	methods: {
 		closeModal () {
@@ -110,7 +126,7 @@ export default Vue.extend({
 
 <template>
 	<modal
-			title="Contact Our Classroom Team"
+			:title="modalTitle"
 			@close="closeModal"
 	>
 		<div class="style-ozaria teacher-form">
@@ -162,13 +178,13 @@ export default Vue.extend({
 						:class="{ 'has-error': $v.licensesNeeded.$error }"
 				>
 					<div class="col-xs-12">
-						<span class="control-label"> {{ $t("teachers.licenses_needed") }} </span>
+						<span class="control-label"> {{ licensesNeededText }} </span>
 						<input
 								v-model="$v.licensesNeeded.$model"
 								type="text"
 								class="form-control"
 								:class="{ 'placeholder-text': !licensesNeeded }"
-								placeholder="How many licenses do you need?"
+								:placeholder="this.licensesNeededPlaceholder"
 						>
 						<span
 								v-if="!$v.licensesNeeded.required"
