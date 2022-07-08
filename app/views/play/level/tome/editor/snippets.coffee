@@ -108,9 +108,16 @@ module.exports = (SnippetManager, autoLineEndings) ->
     #Remove anything that looks like an identifier after the completion
     afterIndex = cursor.column
     trailingText = line.substring afterIndex
-    match = trailingText.match /^[a-zA-Z_0-9]*(\(\s*\))?/
-    afterIndex += match[0].length if match
-    afterRange = new Range cursor.row, cursor.column, cursor.row, afterIndex
+    newLine = editor.session.getLine cursor.row # get current session line
+    if (newLine != line) and (prevWordIndex is 0)
+      # deal with we already remove some of code because of begging of the snippet
+      # maybe we need to handle other remove case but let's wait bug first
+      match = trailingText.match /^[a-zA-Z_0-9]*(\(?\s*\))?/ # match single \)
+      afterRange = new Range cursor.row, 0, cursor.row, match[0].length
+    else
+      match = trailingText.match /^[a-zA-Z_0-9]*(\(\s*\))?/
+      afterIndex += match[0].length if match
+      afterRange = new Range cursor.row, cursor.column - 1, cursor.row, afterIndex
     editor.session.remove afterRange
 
     baseInsertSnippet.call @, editor, snippet
