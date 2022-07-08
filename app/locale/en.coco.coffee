@@ -262,6 +262,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     api_dashboard: "API Dashboard"
     funding_resources_guide: "Funding Resources Guide"
     partnerships: "Partnerships"
+    podcast: "Our Podcast"
 
   modal:
     close: "Close"
