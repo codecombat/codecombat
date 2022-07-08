@@ -1,20 +1,22 @@
 @import "app/styles/ozaria/ozaria-style-params.scss";
-@import "ozaria/site/styles/common/common.scss";
-@import "app/styles/bootstrap/variables";
 
 .btn-moon {
-  background-color: $moon;
-  border-radius: 1px;
-  color: $gray;
+  background-color: #fcbb00;
+  border-radius: 4px;
+  color: #131B25;
   text-shadow: unset;
-  font-weight: bold;
   @include font-h-5-button-text-black;
   min-width: 260px;
-  padding: 15px 0;
+  padding: 1.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.71px;
+  line-height: 2.4rem;
+  font-size: 1.8rem;
+  white-space: unset;
+  font-weight: 700;
 
   &:hover {
-    @include font-h-5-button-text-white;
-    background-color: $goldenlight;
+    background-color: #fcd200;
     transition: background-color .35s;
   }
 }
