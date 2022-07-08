@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "rot13", englishDescription: "English with the letters jumbled", translation:
+
   ozaria_home:
     subtitle: "Pbzchgre Fpvrapr gung Pncgvingrf"
     heading_subtitle: "N pbqvat nqiragher sbe fghqragf naq lbhe gheaxrl fbyhgvba sbe grnpuvat Pbzchgre Fpvrapr."
@@ -61,7 +62,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     see_faq_prefix: "Frr zber"
     see_faq_link: "serdhragyl nfxrq dhrfgvbaf va bhe uryc pragre"
     see_faq_suffix: "."
-
     summary: "Bmnevn vf n pbzchgre fpvrapr cebtenz, na nqiragher tnzr, naq n snagnfl fgbel jurer fghqragf znfgre gur ybfg zntvp bs pbqvat gb fnir gurve jbeyq."
     value_prop1_h1: "Rcvp Fgbel. Vzzrefvir Tnzrcynl."
     value_prop1_h2: "Vafcver n qrrcre pbaarpgvba gb yrneavat"
@@ -657,15 +657,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     have_a_classcode: "Unir n Pynff Pbqr?"
     yes_i_have_classcode: "Lrf, V unir n Pynff Pbqr!"
     enter_it_here: "Ragre vg urer:"
-
-  form_validation_errors:
-    required: 'Svryq vf erdhverq'
-    invalidEmail: 'Vainyvq rznvy'
-    invalidPhone: 'Vainyvq cubar ahzore'
-    emailExists: 'Rznvy nyernql rkvfgf'
-    numberGreaterThanZero: 'Fubhyq or n ahzore terngre guna 0'
-    requireValidEmail: 'Cyrnfr ragre n inyvq rznvy nqqerff.'
-    requireValidPhone: 'Cyrnfr ragre n inyvq cubar ahzore, vapyhqvat nern pbqr.'
 
   recover:
     recover_account_title: "Erpbire Nppbhag"
@@ -3921,10 +3912,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     mrms_study_title: "Tnvavat Pbasvqrapr va Pbzchgre Fpvrapr"
     mountain_ridge_middle_school: "Zbhagnva Evqtr Zvqqyr Fpubby"
     mrms_study_description: "Na rkcrevraprq grnpure jvgu ortvaavat yriry pbqvat rkcrevrapr gnhtug gjb pbubegf bs fghqragf. Rnpu pbubeg jnf fghqvrq npebff n shyy frzrfgre."
-    study_highlights_title: "Uvtuyvtugf sebz gur fghql erfhygf:"
     mrms_study_highlight_1: "Fghqragf znqr na nirentr tnva fpber bs 33% orgjrra gur cer-nffrffzrag naq gur svany nffrffzrag"
     mrms_study_highlight_2: " Obgu gur grnpure naq fghqragf sbhaq Bmnevn gb or sha, ratntvat, naq rnfl gb hfr."
-    read_the_study: "Ernq gur Fghql (CQS)"
     graph1_description: "Fghqragf znqr n 47% nirentr tnva fpber orgjrra gur cer-nffrffzrag naq gur svany nffrffzrag."
     graph2_description: "Zber guna 90% bs fghqragf engrq gurve pbqvat pbasvqrapr yriry nf Pbasvqrag be Rkgerzryl Pbasvqrag nsgre hfvat Bmnevn."
     quote_section_content: "Bar guvat V nz noyr gb qb abj gung V pbhyq abg qb orsber vf npghnyyl oryvrir V pna pbqr."
@@ -4184,16 +4173,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     requireValidEmail: 'Cyrnfr ragre n inyvq rznvy nqqerff.'
     requireValidPhone: 'Cyrnfr ragre n inyvq cubar ahzore, vapyhqvat nern pbqr.'
 
-  teacher_dashboard:
-    read: 'Ivrj Bayl'
-    write: 'Shyy Npprff'
-    read_blurb: 'Ivrj Bayl crezvgf gur nqqrq grnpure gb ivrj lbhe pynff naq fghqrag cebterff jvgubhg gur novyvgl gb znxr punatrf gb lbhe pynff.'
-    write_blurb: 'Shyy Npprff tenagf gur nqqrq grnpure gur novyvgl gb znxr zbqvsvpngvbaf gb lbhe pynff (nqq/erzbir fghqragf, nffvta puncgref, zbqvsl yvprafher)'
-    shared_with_none: 'Guvf pynff vf abg pheeragyl funerq jvgu nal bgure grnpuref.'
-    share_info: 'Gb tvir bgure grnpuref npprff gb gur pynff, nqq gurve rznvyf orybj.'
-    class_owner: 'Pynff Bjare'
-    share: 'Funer'
-
   partners:
     headline: 'Wbva hf va bhe zvffvba gb znxr pbqvat ratntvat naq npprffvoyr gb nyy'
     below_headline_blurb: 'Ng PbqrPbzong jr’ir qrirybcrq pbzcerurafvir gbbyf gung znxr yrneavat gb pbqr sha naq grnpuvat cebtenzzvat rnfl. Bhe gheaxrl fbyhgvbaf pna or yrirentrq va znal rkrphgvbaf.'
@@ -4235,13 +4214,3 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     all_episodes: "Ivrj Nyy Rcvfbqrf"
     no_permission: "Lbh qba'g unir crezvffvba gb ivrj guvf cbqpnfg"
     listen_now: "Yvfgra Abj"
-
-  library:
-    enter_library_card: "Ragre lbhe Yvoenel Pneq Ahzore:"
-    access_coco: "Npprff PbqrPbzong"
-    already_using_library_id: "Nyernql hfvat yvoenel vq"
-    play_coco: "gb cynl PbqrPbzong"
-    not_library_id: "Abg lbhe yvoenel vq"
-    access_using_id: "gb npprff hfvat lbhe vq!!"
-    network_detected: "Yvoenel argjbex qrgrpgrq, erqverpgvat lbh gb cynl PbqrPbzong"
-    not_redirect_auto: "vs erqverpg qbrfa'g unccra nhgbzngvpnyyl"

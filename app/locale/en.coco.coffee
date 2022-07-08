@@ -1,4 +1,5 @@
 module.exports = nativeDescription: "English", englishDescription: "English", translation:
+
   ozaria_home:
     subtitle: "Computer Science that Captivates"
     heading_subtitle: "A coding adventure for students and your turnkey solution for teaching Computer Science."
@@ -61,7 +62,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     see_faq_prefix: "See more"
     see_faq_link: "frequently asked questions in our help center"
     see_faq_suffix: "."
-
     summary: "Ozaria is a computer science program, an adventure game, and a fantasy story where students master the lost magic of coding to save their world."
     value_prop1_h1: "Epic Story. Immersive Gameplay."
     value_prop1_h2: "Inspire a deeper connection to learning"
@@ -657,15 +657,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     have_a_classcode: "Have a Class Code?"
     yes_i_have_classcode: "Yes, I have a Class Code!"
     enter_it_here: "Enter it here:"
-
-  form_validation_errors:
-    required: 'Field is required'
-    invalidEmail: 'Invalid email'
-    invalidPhone: 'Invalid phone number'
-    emailExists: 'Email already exists'
-    numberGreaterThanZero: 'Should be a number greater than 0'
-    requireValidEmail: 'Please enter a valid email address.'
-    requireValidPhone: 'Please enter a valid phone number, including area code.'
 
   recover:
     recover_account_title: "Recover Account"
@@ -3921,10 +3912,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     mrms_study_title: "Gaining Confidence in Computer Science"
     mountain_ridge_middle_school: "Mountain Ridge Middle School"
     mrms_study_description: "An experienced teacher with beginning level coding experience taught two cohorts of students. Each cohort was studied across a full semester."
-    study_highlights_title: "Highlights from the study results:"
     mrms_study_highlight_1: "Students made an average gain score of 33% between the pre-assessment and the final assessment"
     mrms_study_highlight_2: " Both the teacher and students found Ozaria to be fun, engaging, and easy to use."
-    read_the_study: "Read the Study (PDF)"
     graph1_description: "Students made a 47% average gain score between the pre-assessment and the final assessment."
     graph2_description: "More than 90% of students rated their coding confidence level as Confident or Extremely Confident after using Ozaria."
     quote_section_content: "One thing I am able to do now that I could not do before is actually believe I can code."
@@ -4184,16 +4173,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     requireValidEmail: 'Please enter a valid email address.'
     requireValidPhone: 'Please enter a valid phone number, including area code.'
 
-  teacher_dashboard:
-    read: 'View Only'
-    write: 'Full Access'
-    read_blurb: 'View Only permits the added teacher to view your class and student progress without the ability to make changes to your class.'
-    write_blurb: 'Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)'
-    shared_with_none: 'This class is not currently shared with any other teachers.'
-    share_info: 'To give other teachers access to the class, add their emails below.'
-    class_owner: 'Class Owner'
-    share: 'Share'
-
   partners:
     headline: 'Join us in our mission to make coding engaging and accessible to all'
     below_headline_blurb: 'At CodeCombat we’ve developed comprehensive tools that make learning to code fun and teaching programming easy. Our turnkey solutions can be leveraged in many executions.'
@@ -4235,13 +4214,3 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     all_episodes: "View All Episodes"
     no_permission: "You don't have permission to view this podcast"
     listen_now: "Listen Now"
-
-  library:
-    enter_library_card: "Enter your Library Card Number:"
-    access_coco: "Access CodeCombat"
-    already_using_library_id: "Already using library id"
-    play_coco: "to play CodeCombat"
-    not_library_id: "Not your library id"
-    access_using_id: "to access using your id!!"
-    network_detected: "Library network detected, redirecting you to play CodeCombat"
-    not_redirect_auto: "if redirect doesn't happen automatically"
