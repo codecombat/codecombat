@@ -1,5 +1,4 @@
 <script>
-  const ace = require('lib/aceContainer')
   const AceDiff = require('ace-diff')
 
   const aceEditModes = {
@@ -80,17 +79,15 @@
     ref="code"
     class="code-diff-component"
   >
-    <!-- {{ trimmedCode }} -->
   </div>
 </template>
 
 <style lang="sass">
+  /* could not be scoped */
   @import 'app/styles/common/ace-diff.sass'
 </style>
 
-<style lang="scss" scoped>
-  .code-area-component {
-    width: 100%;
-  }
-
+<style lang="sass" scoped>
+  .code-area-component
+    width: 100%
 </style>
