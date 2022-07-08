@@ -266,7 +266,7 @@ module.exports = class LevelLoadingView extends CocoView
     @$el.find('.level-loading-goals, .tip, .progress-or-start-container').hide()
     if resource.resource.jqxhr.status is 404
       @$el.find('.resource-not-found>span').text($.i18n.t('loading_error.resource_not_found', {resource: startCase(resource.resource.name)}))
-      @$elfind('.resource-not-found').show()
+      @$el.find('.resource-not-found').show()
     else
       @$el.find('.could-not-load').show()
 
