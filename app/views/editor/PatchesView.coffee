@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/patches'
+template = require 'app/templates/editor/patches'
 PatchesCollection = require 'collections/PatchesCollection'
 nameLoader = require 'core/NameLoader'
 PatchModal = require './PatchModal'

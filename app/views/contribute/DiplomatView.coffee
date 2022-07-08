@@ -1,5 +1,5 @@
 ContributeClassView = require './ContributeClassView'
-template = require 'templates/contribute/diplomat'
+template = require 'app/templates/contribute/diplomat'
 {me} = require 'core/auth'
 locale = require 'locale/locale'
 
@@ -101,6 +101,8 @@ module.exports = class DiplomatView extends ContributeClassView
     hr: []             # hrvatski jezik, Croatian
     mi: []             # te reo Māori, Māori
     haw: []            # ʻŌlelo Hawaiʻi, Hawaiian
-    kk: []            # қазақ тілі, Kazakh
+    kk: []             # қазақ тілі, Kazakh
     az: []             # azərbaycan dili, Azerbaijani
-    fil: ['Celestz'] #Like This?
+    fil: ['Celestz']   # Filipino
+    mn: []             # Монгол хэл, Mongolian
+    lv: []             # latviešu, Latvian

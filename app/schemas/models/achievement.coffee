@@ -95,6 +95,5 @@ AchievementSchema.definitions['mongoQueryOperator'] = MongoQueryOperatorSchema
 AchievementSchema.definitions['mongoFindQuery'] = MongoFindQuerySchema
 c.extendTranslationCoverageProperties AchievementSchema
 c.extendPatchableProperties AchievementSchema
-c.extendAlgoliaProperties AchievementSchema
 
 module.exports = AchievementSchema

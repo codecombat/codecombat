@@ -8,16 +8,20 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-import LevelIntroModal from './modal/LevelIntroModal'
-import OzariaVictoryModal from '../modal/OzariaVictoryModal'
 
-require('ozaria/site/styles/play/level/level-loading-view.sass')
+import OzariaTransitionModal from '../modal/OzariaTransitionModal'
+import RestartLevelModal from 'ozaria/site/views/play/level/modal/RestartLevelModal'
+import { getNextLevelForLevel } from 'ozaria/site/common/ozariaUtils'
+
+require('app/styles/play/level/level-loading-view.sass')
 require('ozaria/site/styles/play/level/tome/spell_palette_entry.sass')
 require('ozaria/site/styles/play/play-level-view.sass')
 const RootView = require('views/core/RootView')
 const template = require('ozaria/site/templates/play/play-level-view.pug')
 const { me } = require('core/auth')
 const ThangType = require('models/ThangType')
+const Classroom = require('models/Classroom')
+const CourseInstance = require('models/CourseInstance')
 const utils = require('core/utils')
 const storage = require('core/storage')
 
@@ -33,13 +37,13 @@ const GameUIState = require('models/GameUIState')
 const createjs = require('lib/createjs-parts')
 
 // subviews
-const LevelLoadingView = require('./LevelLoadingView')
+const LevelLoadingView = require('app/views/play/level/LevelLoadingView')
 const ProblemAlertView = require('./tome/ProblemAlertView')
 const TomeView = require('./tome/TomeView')
-const HUDView = require('./LevelHUDView')
 const LevelDialogueView = require('./LevelDialogueView')
 const ControlBarView = require('./ControlBarView')
 const LevelPlaybackView = require('./LevelPlaybackView')
+const CapstonePlaybackView = require('./CapstonePlaybackView.vue').default
 const GoalsView = require('./LevelGoalsView')
 const LevelFlagsView = require('./LevelFlagsView')
 const GoldView = require('./LevelGoldView')
@@ -48,16 +52,16 @@ const DuelStatsView = require('./DuelStatsView')
 const VictoryModal = require('./modal/VictoryModal')
 const HeroVictoryModal = require('./modal/HeroVictoryModal')
 const CourseVictoryModal = require('./modal/CourseVictoryModal')
-const HoC2018VictoryModal = require('../../special_event/HoC2018VictoryModal')
 const InfiniteLoopModal = require('./modal/InfiniteLoopModal')
 const LevelSetupManager = require('lib/LevelSetupManager')
 const ContactModal = require('../../core/ContactModal')
-const HintsView = require('./HintsView')
 const SurfaceContextMenuView = require('./SurfaceContextMenuView')
-const HintsState = require('./HintsState')
 const WebSurfaceView = require('./WebSurfaceView')
 const SpellPaletteView = require('./tome/SpellPaletteView')
 const store = require('core/store')
+const GameMenuModal = require('ozaria/site/views/play/menu/GameMenuModal')
+const TutorialPlayView = require('./TutorialPlayView').default
+const ThangTypeHUDComponent = require('./ThangTypeHUDComponent').default
 
 require('lib/game-libraries')
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
@@ -72,16 +76,6 @@ class PlayLevelView extends RootView {
   constructor (options, levelID) {
     super(options)
 
-    // TODO: Remove when confident with Ozaria:
-    // Only allow admin access to the Ozaria refactor.
-    if (!me || !me.isAdmin()) {
-      if ((application || {}).router) {
-        return application.router.navigate('/', { trigger: true })
-      }
-      // If application hasn't loaded manually redirect to home page.
-      window.location.pathname = '/'
-    }
-
     if (typeof console.profile === 'function' && PROFILE_ME) {
       console.profile()
     }
@@ -95,10 +89,8 @@ class PlayLevelView extends RootView {
     this.sessionID = utils.getQueryVariable('session') || this.options.sessionID
     this.observing = utils.getQueryVariable('observing')
     this.opponentSessionID = utils.getQueryVariable('opponent') || this.options.opponent
-    this.capstoneStage = parseInt(
-      utils.getQueryVariable('capstoneStage') ||
-      utils.getQueryVariable('capstonestage') || // Case sensitive, so this is easier to use
-      this.options.capstoneStage, 10)
+    this.capstoneStage = this.getCapstoneStageFromArguments() || 1
+    this.continueEditing = utils.getQueryVariable('continueEditing') || false
 
     this.gameUIState = new GameUIState()
 
@@ -222,9 +214,12 @@ class PlayLevelView extends RootView {
     }
 
     if (!e.level.isType('web-dev')) {
+      // This is triggered before this.capstoneStage is updated based on sessions.
+      // But God updates it by itself for session users
       this.god = new God({
         gameUIState: this.gameUIState,
-        indefiniteLength: e.level.isType('game-dev')
+        indefiniteLength: e.level.isType('game-dev'),
+        capstoneStage: this.capstoneStage
       })
     }
     if (this.waitingToSetUpGod) {
@@ -261,10 +256,6 @@ class PlayLevelView extends RootView {
     return this.courseID && this.courseInstanceID
   }
 
-  showAds () {
-    return false // No ads for now.
-  }
-
   // CocoView overridden methods ###############################################
 
   getRenderData () {
@@ -285,7 +276,6 @@ class PlayLevelView extends RootView {
     } // still a hack
     this.insertSubView(
       (this.loadingView = new LevelLoadingView({
-        autoUnveil: this.options.autoUnveil || this.observing,
         level:
           (this.levelLoader != null ? this.levelLoader.level : undefined) !=
           null
@@ -304,6 +294,9 @@ class PlayLevelView extends RootView {
     ) // May not have @level loaded yet
     this.$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
+    if (me.get('aceConfig') && me.get('aceConfig').screenReaderMode) {
+      $('body').addClass('screen-reader-mode')  // TODO: keep this updated
+    };
   }
 
   afterInsert () {
@@ -315,6 +308,7 @@ class PlayLevelView extends RootView {
   onWorldNecessitiesLoaded () {
     console.debug('PlayLevelView: world necessities loaded')
     // Called when we have enough to build the world, but not everything is loaded
+    store.dispatch('game/resetTutorial')
     this.grabLevelLoaderData()
     const randomTeam = this.world && this.world.teamForPlayer() // If no team is set, then we will want to equally distribute players to teams
     const team = utils.getQueryVariable('team') || this.session.get('team') || randomTeam || 'humans'
@@ -335,16 +329,13 @@ class PlayLevelView extends RootView {
 
   grabLevelLoaderData () {
     this.session = this.levelLoader.session
-    // TODO: After Ozaria launch, comment this out to give proper access
-    // if (this.capstoneStage && me.isSessionless() && (me.isAdmin() || me.isTeacher())) {
-    if (this.capstoneStage && me.isAdmin()) {
-      const state = this.session.get('state') || {}
-      state.capstoneStage = this.capstoneStage
-      this.session.set('state', state)
-    }
-
     this.level = this.levelLoader.level
+    this.updateCapstoneStage() // update this.capstoneStage based on session's state
     store.commit('game/setLevel', this.level.attributes)
+    // Set current campaign id and unit map URL details for acodus chrome
+    const campaignID = this.level.get('campaign')
+    store.commit('layoutChrome/setUnitMapUrlDetails', { courseId: this.courseID, courseInstanceId: this.courseInstanceID })
+    store.dispatch('unitMap/buildLevelsData', { campaignHandle: campaignID, courseInstanceId: this.courseInstanceID, courseId: this.courseID })
     if (this.level.isType('web-dev')) {
       this.$el.addClass('web-dev') // Hide some of the elements we won't be using
       return
@@ -400,6 +391,52 @@ class PlayLevelView extends RootView {
       }
     }
     return this.renderSelectors('#stop-real-time-playback-button')
+  }
+
+  updateCapstoneStage () {
+    const maxCapstoneStage = GoalManager.maxCapstoneStage(((this.level || {}).attributes || {}).additionalGoals)
+    if (!me.isSessionless() && this.session) {
+      // As a player, we always want to get it from the session, which is undefined on stage 1:
+      this.capstoneStage = (this.session.get('state') || {}).capstoneStage || 1
+
+      if (!this.level) {
+        return
+      }
+
+      // We don't want to overshoot the capstoneStage, as it causes problems with nextLevels lookups and share modals
+      if (this.capstoneStage > maxCapstoneStage) {
+        this.capstoneStage = maxCapstoneStage
+      }
+    }
+
+    // We don't have a capstoneStage somehow, then it should begin at 1
+    if (!this.capstoneStage) {
+      this.capstoneStage = 1
+    }
+
+    // We have capstone jumping powers so we can set it any time we want
+    // As long as it's not trying to set it back to the default of 1
+    const capstoneStageFromArguments = this.getCapstoneStageFromArguments()
+    if ((me.isAdmin() || me.isTeacher()) && capstoneStageFromArguments) {
+      this.capstoneStage = capstoneStageFromArguments
+    }
+    // Save student goal directed code into another field if student has entered creativeMode at end of capstone.
+    if (this.session && this.capstoneStage === maxCapstoneStage && this.level.get('creativeMode') === true) {
+      const code = this.session.get('code') || {}
+      if (!code['saved-capstone-normal-code'] && code['hero-placeholder']) {
+        code['saved-capstone-normal-code'] = _.cloneDeep(code['hero-placeholder'])
+        this.session.set('code', code)
+        this.session.set('published', true)
+        this.session.save()
+      }
+    }
+  }
+
+  getCapstoneStageFromArguments () {
+    return parseInt(
+      utils.getQueryVariable('capstoneStage') ||
+      utils.getQueryVariable('capstonestage') || // Case sensitive, so this is easier to use
+      this.options.capstoneStage, 10)
   }
 
   onWorldLoadProgressChanged (e) {
@@ -508,7 +545,9 @@ class PlayLevelView extends RootView {
   initGoalManager () {
     const options = {
       additionalGoals: this.level.get('additionalGoals'),
-      session: this.session
+      session: this.session,
+      capstoneStage: this.capstoneStage,
+      creativeMode: this.level.get('creativeMode') || false
     }
     if (this.level.get('assessment') === 'cumulative') {
       options.minGoalsToComplete = 1
@@ -545,6 +584,9 @@ class PlayLevelView extends RootView {
     const useHero =
       /hero/.test(spell.getSource()) ||
       !/(self[\.\:]|this\.|\@)/.test(spell.getSource())
+    if (this.spellPaletteView) {
+      this.removeSubview(this.spellPaletteView)
+    }
     this.spellPaletteView = this.insertSubView(
       new SpellPaletteView({
         thang,
@@ -568,14 +610,6 @@ class PlayLevelView extends RootView {
 
   insertSubviews () {
     let needle
-    this.hintsState = new HintsState(
-      { hidden: true },
-      { session: this.session, level: this.level, supermodel: this.supermodel }
-    )
-    store.commit('game/setHintsVisible', false)
-    this.hintsState.on('change:hidden', (hintsState, newHiddenValue) =>
-      store.commit('game/setHintsVisible', !newHiddenValue)
-    )
     this.tome = new TomeView({
       levelID: this.levelID,
       session: this.session,
@@ -593,10 +627,16 @@ class PlayLevelView extends RootView {
       courseID: this.courseID,
       courseInstanceID: this.courseInstanceID,
       god: this.god,
-      hintsState: this.hintsState
+      capstoneStage: this.capstoneStage
     })
     this.insertSubView(this.tome)
-    if (!this.level.isType('web-dev')) {
+
+    if (this.level.isType('game-dev')) {
+      // TODO: Is this a memory leak?
+      new CapstonePlaybackView({
+        el: this.$el.find('#playback-view')[0]
+      })
+    } else if (!this.level.isType('web-dev')) {
       this.insertSubView(
         new LevelPlaybackView({ session: this.session, level: this.level })
       )
@@ -614,15 +654,26 @@ class PlayLevelView extends RootView {
     if (!this.level.isType('web-dev', 'game-dev') && !goldInDuelStatsView) {
       this.insertSubView(new GoldView({}))
     }
+
+    const HUDThangTypeList = this.world.frames[0]?.thangStateMap?.['Hero Placeholder']?.thang?.HUDThangTypeList
+    if (Array.isArray(HUDThangTypeList)) {
+      this.thangTypeHUDComponent = new ThangTypeHUDComponent({
+        el: this.$el.find('#thangtype-hud-view')[0],
+        propsData: {
+          thangTypes: this.supermodel.getModels(ThangType),
+          initialHUDThangTypeList: HUDThangTypeList
+        }
+      })
+    }
+
     if (this.level.isType('game-dev')) {
       this.insertSubView(new GameDevTrackView({}))
+      this.$('#game-dev-track-view').addClass('hide')
     }
-    if (!this.level.isType('web-dev')) {
-      this.insertSubView(new HUDView({ level: this.level }))
-    }
-    this.insertSubView(
-      new LevelDialogueView({ level: this.level, sessionID: this.session.id })
-    )
+
+    this.insertSubView(new TutorialPlayView({
+      level: this.level
+    }))
     this.insertSubView(
       new ProblemAlertView({
         session: this.session,
@@ -654,15 +705,9 @@ class PlayLevelView extends RootView {
       courseInstanceID: this.courseInstanceID
     })
     this.insertSubView(this.controlBar)
-    this.hintsView = new HintsView({
-      session: this.session,
-      level: this.level,
-      hintsState: this.hintsState
-    })
-    this.insertSubView(
-      this.hintsView,
-      this.$('.hints-view')
-    )
+
+    // Note: This may be buggy now that the goalManager is being messed with
+    // to handle even more complex capstone states, and reloading on the same page
     if (this.level.isType('web-dev')) {
       this.webSurface = new WebSurfaceView({
         level: this.level,
@@ -819,7 +864,6 @@ class PlayLevelView extends RootView {
       observing: this.observing,
       playerNames: this.findPlayerNames(),
       levelType: this.level.get('type', true),
-      stayVisible: this.showAds(),
       gameUIState: this.gameUIState,
       level: this.level // TODO: change from levelType to level
     }
@@ -850,7 +894,7 @@ class PlayLevelView extends RootView {
     for (let session of [this.session, this.otherSession]) {
       if (session != null ? session.get('team') : undefined) {
         playerNames[session.get('team')] =
-          session.get('creatorName') || 'Anonymous';
+          session.get('creatorName') || 'Anonymous'
       }
     }
     return playerNames
@@ -882,9 +926,11 @@ class PlayLevelView extends RootView {
       this.surface.showLevel()
     }
     Backbone.Mediator.publish('level:set-time', { time: 0 })
-    return this.scriptManager != null
-      ? this.scriptManager.initializeCamera()
-      : undefined
+    if (this.scriptManager != null) {
+      this.scriptManager.initializeCamera()
+    }
+
+    store.dispatch('game/setTutorialActive', true)
   }
 
   onLoadingViewUnveiling (e) {
@@ -892,32 +938,50 @@ class PlayLevelView extends RootView {
   }
 
   onLoadingViewUnveiled (e) {
-    this.openModalView(new LevelIntroModal({
-      level: this.level,
-      onStart: () => {
-        Backbone.Mediator.publish('level:loading-view-unveiling', {})
-        if (this.level.isType('course-ladder', 'hero-ladder') || this.observing) {
-          // We used to autoplay by default, but now we only do it if the level says to in the introduction script.
-          Backbone.Mediator.publish('level:set-playing', { playing: true })
-        }
-        if (this.loadingView) {
-          this.loadingView.$el.remove()
-          this.removeSubView(this.loadingView)
-          this.loadingView = null
-        }
-        this.playAmbientSound()
-        // TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
-        if (!this.observing) {
-          trackEvent('Started Level', {
-            category: 'Play Level',
-            label: this.levelID,
-            levelID: this.levelID,
-            ls: this.session != null ? this.session.get('_id') : undefined
-          })
-        }
-        $(window).trigger('resize')
+    this.startLevel()
+  }
+
+  startLevel () {
+    Backbone.Mediator.publish('level:loading-view-unveiling', {})
+    if (this.level.isType('course-ladder', 'hero-ladder') || this.observing) {
+      // We used to autoplay by default, but now we only do it if the level says to in the introduction script.
+      Backbone.Mediator.publish('level:set-playing', { playing: true })
+    }
+    if (this.loadingView) {
+      this.loadingView.$el.remove()
+      this.removeSubView(this.loadingView)
+      this.loadingView = null
+    }
+    this.playAmbientSound()
+    if (!this.observing && this.level) {
+      if (this.level.get('ozariaType') === 'capstone') {
+        trackEvent('Loaded Capstone Stage', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined,
+          capstoneStage: this.capstoneStage
+        }, ['Google Analytics'])
+      } else if (this.level.get('ozariaType') === 'challenge') {
+        trackEvent('Loaded Challenge Level', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined
+        }, ['Google Analytics'])
+      } else {
+        trackEvent('Loaded Practice Level', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined
+        }, ['Google Analytics'])
       }
-    }))
+    } else if (!this.level) {
+      console.error('Expecte this.level to exist in PlayLevelView.startLevel, skipping event logging.')
+    }
+    $(window).trigger('resize')
+
+    if (this.goalManager.goalStates['has-stopped-playing-game']) {
+      this.goalManager.setGoalState('has-stopped-playing-game', 'incomplete')
+    }
   }
 
   onSetVolume (e) {
@@ -939,9 +1003,7 @@ class PlayLevelView extends RootView {
       return
     }
     if (
-      !(file = { Dungeon: 'ambient-dungeon', Grass: 'ambient-grass' }[
-        this.level.get('terrain')
-      ])
+      !(file = { Dungeon: 'ambient-dungeon', Grass: 'ambient-grass' }[this.level.get('terrain')])
     ) {
       return
     }
@@ -953,7 +1015,7 @@ class PlayLevelView extends RootView {
         this.playAmbientSound,
         this
       )
-      return;
+      return
     }
     this.ambientSound = createjs.Sound.play(src, { loop: -1, volume: 0.1 })
     return createjs.Tween.get(this.ambientSound).to({ volume: 1.0 }, 10000)
@@ -977,6 +1039,11 @@ class PlayLevelView extends RootView {
   }
 
   onEscapePressed (e) {
+    if (me.isAdmin() || me.isTeacher() || !application.isProduction()) {
+      // Allow admins, teachers, and local devs to skip tutorials
+      store.dispatch('game/setTutorialActive', false)
+    }
+
     if (this.$el.hasClass('real-time')) {
       return Backbone.Mediator.publish('playback:stop-real-time-playback', {})
     } else if (this.$el.hasClass('cinematic')) {
@@ -987,7 +1054,7 @@ class PlayLevelView extends RootView {
   onLevelReloadFromData (e) {
     const isReload = Boolean(this.world)
     if (isReload) {
-      // Make sure to share any models we loaded that the parent didn't, like hero equipment, in case the parent relodaed
+      // Make sure to share any models we loaded that the parent didn't, like hero equipment, in case the parent reloaded
       for (let url in this.supermodel.models) {
         const model = this.supermodel.models[url]
         if (!e.supermodel.models[url]) {
@@ -1016,6 +1083,14 @@ class PlayLevelView extends RootView {
       }
     }
     return Backbone.Mediator.publish('tome:cast-spell', {})
+  }
+
+  onOpenRestartModal (e) {
+    this.openModalView(new RestartLevelModal(this.session))
+  }
+
+  onOpenOptionsModal (e) {
+    this.openModalView(new GameMenuModal({ level: this.level, session: this.session, supermodel: this.supermodel }))
   }
 
   onWindowResize (e) {
@@ -1048,6 +1123,7 @@ class PlayLevelView extends RootView {
 
   onShowVictory (e) {
     e = e || {}
+    const currentCapstoneStage = this.capstoneStage // this.capstoneStage updated in showVictory/softReload
     if (
       !this.level.isType(
         'hero',
@@ -1061,33 +1137,51 @@ class PlayLevelView extends RootView {
     ) {
       $('#level-done-button').show()
     }
-    if (e.showModal) {
-      this.showVictory(_.pick(e, 'manual', 'capstoneInProgress'))
-    }
-    if (this.victorySeen) {
-      return
-    }
-    this.victorySeen = true
-    const victoryTime = new Date() - this.loadEndTime
-    if (!this.observing && victoryTime > 10 * 1000) {
-      // Don't track it if we're reloading an already-beaten level
-      trackEvent('Saw Victory', {
-        category: 'Play Level',
-        level: this.level.get('name'),
-        label: this.level.get('name'),
-        levelID: this.levelID,
-        ls: this.session != null ? this.session.get('_id') : undefined,
-        playtime:
-          this.session != null ? this.session.get('playtime') : undefined
-      })
+
+    if (!this.observing) {
+      if (this.level.get('ozariaType') === 'capstone') {
+        if (e.capstoneInProgress) {
+          trackEvent('Completed Capstone Stage', {
+            category: 'Play Level',
+            levelOriginalId: this.level.original || this.level.attributes.original,
+            levelSessionId: this.session != null ? this.session.get('_id') : undefined,
+            playtime: this.session != null ? this.session.get('playtime') : undefined,
+            capstoneStage: currentCapstoneStage || this.capstoneStage
+          }, ['Google Analytics'])
+        } else {
+          trackEvent('Completed Capstone Level', {
+            category: 'Play Level',
+            levelOriginalId: this.level.original || this.level.attributes.original,
+            levelSessionId: this.session != null ? this.session.get('_id') : undefined,
+            playtime: this.session != null ? this.session.get('playtime') : undefined
+          }, ['Google Analytics'])
+        }
+      } else if (this.level.get('ozariaType') === 'challenge') {
+        trackEvent('Completed Challenge Level', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined
+        }, ['Google Analytics'])
+      } else {
+        trackEvent('Completed Practice Level', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined,
+          playtime: this.session != null ? this.session.get('playtime') : undefined
+        }, ['Google Analytics'])
+      }
       if (application.tracker) {
         application.tracker.trackTiming(
-          victoryTime,
+          new Date() - this.loadEndTime,
           'Level Victory Time',
           this.levelID,
           this.levelID
         )
       }
+    }
+
+    if (e.showModal) {
+      this.showVictory(_.pick(e, 'manual', 'capstoneInProgress'))
     }
   }
 
@@ -1116,23 +1210,33 @@ class PlayLevelView extends RootView {
     const goToNextDirectly = options.capstoneInProgress
     options = {
       level: this.level,
-      courseID: this.courseID,
-      courseInstanceID: this.courseInstanceID,
-      goToNextDirectly: goToNextDirectly
+      courseId: this.courseID,
+      courseInstanceId: this.courseInstanceID,
+      goToNextDirectly: goToNextDirectly && !this.continueEditing,
+      supermodel: this.supermodel
     }
 
-    if (me.isSessionless()) { // for teachers
-      options.capstoneStage = this.capstoneStage
-    } else if (additionalGoals) { // for students
-      const capstoneStageQueryParam = this.capstoneStage
-      const sessionCapstoneStage = (this.session.get('state') || {}).capstoneStage || 1 // state.capstoneStage is undefined if user is on stage 1
-      if (capstoneStageQueryParam && capstoneStageQueryParam <= sessionCapstoneStage) {
-        options.capstoneStage = capstoneStageQueryParam.toString()
-      } else {
-        options.capstoneStage = sessionCapstoneStage.toString()
+    if (this.level.isCapstone()) {
+      options.capstoneStage = this.capstoneStage.toString()
+    }
+    if (!me.isSessionless()) {
+      this.onSubmissionComplete()
+
+      if (this.continueEditing) {
+        options.showShareModal = true
       }
     }
-    let ModalClass = OzariaVictoryModal
+
+    if (this.level.isCapstone()) {
+      const campaignLevel = store.state.unitMap.currentLevelsList[this.level.original || this.level.attributes.original]
+      if (!getNextLevelForLevel(campaignLevel, this.capstoneStage)) {
+        // If there is no nextLevel, we simply go to the next capstoneStage directly
+        this.softReload()
+        return
+      }
+    }
+
+    let ModalClass = OzariaTransitionModal
     if (this.level.isType('course-ladder')) {
       options.courseInstanceID =
         utils.getQueryVariable('course-instance') ||
@@ -1146,12 +1250,32 @@ class PlayLevelView extends RootView {
     })
 
     if (me.get('anonymous')) {
-      window.nextURL = `/play/${this.level.get('campaign') || ''}` // Signup will go here on completion instead of reloading.
+      // Signup will go here on completion instead of reloading.
+      window.nextURL = `/play/${this.level.get('campaign') || ''}`
     }
   }
 
   onRestartLevel () {
     this.tome.reloadAllCode()
+    if (me.isAdmin() && this.level.get('ozariaType') === 'capstone') {
+      const shouldResetCapstone = window.confirm('Do you want to restart capstone stage progress to 1?')
+      if (shouldResetCapstone) {
+        const code = this.session.get('code') || {}
+        if (code['saved-capstone-normal-code']) {
+          delete code['saved-capstone-normal-code']
+          this.session.set('code', code)
+        }
+        const state = this.session.get('state')
+        if (state) {
+          state.capstoneStage = 1
+          this.session.set('state', state)
+        }
+        this.session.save(null, {
+          success: () => setTimeout(application.router.reload, 3000) // Give settings time to propagate before reloading the page
+        })
+      }
+    }
+
     Backbone.Mediator.publish('level:restarted', {})
     $('#level-done-button', this.$el).hide()
     if (!this.observing) {
@@ -1161,6 +1285,10 @@ class PlayLevelView extends RootView {
         label: this.level.get('name')
       })
     }
+
+    store.dispatch('game/resetTutorial')
+    this.scriptManager.setScripts(this.level.get('scripts'))
+    store.dispatch('game/setTutorialActive', true)
   }
 
   onInfiniteLoop (e) {
@@ -1168,7 +1296,7 @@ class PlayLevelView extends RootView {
       return
     }
     this.openModalView(
-      new InfiniteLoopModal({ nonUserCodeProblem: e.nonUserCodeProblem })
+      new InfiniteLoopModal({ nonUserCodeProblem: e.nonUserCodeProblem, isCapstone: this.level.isCapstone() || false })
     )
     if (!this.observing) {
       trackEvent('Saw Initial Infinite Loop', {
@@ -1277,7 +1405,10 @@ class PlayLevelView extends RootView {
     if (finishedLoading) {
       this.lastWorldFramesLoaded = 0
       if (this.waitingForSubmissionComplete) {
-        _.defer(this.onSubmissionComplete) // Give it a frame to make sure we have the latest goals
+        if (this.level.get('ozariaType') !== 'capstone') {
+          _.defer(this.onSubmissionComplete) // Give it a frame to make sure we have the latest goals
+        }
+
         this.waitingForSubmissionComplete = false
       }
     } else {
@@ -1302,9 +1433,11 @@ class PlayLevelView extends RootView {
       }
       AudioPlayer.preloadSoundReference(sound)
     }
-    if (this.level.isType('game-dev')) {
-      return this.session.updateKeyValueDb(e.keyValueDb)
+    if (this.level.isType('game-dev', 'hero', 'course')) {
+      this.session.updateKeyValueDb(e.keyValueDb)
     }
+
+    this.loadScriptsForCapstoneStage(scripts, this.capstoneStage)
   }
 
   // Real-time playback
@@ -1315,6 +1448,9 @@ class PlayLevelView extends RootView {
     this.updateLevelName()
     this.onWindowResize()
     this.realTimePlaybackWaitingForFrames = true
+    if (this.level.isType('game-dev')) {
+      this.$('#game-dev-track-view').removeClass('hide')
+    }
   }
 
   updateStudentGoals () {
@@ -1344,6 +1480,13 @@ class PlayLevelView extends RootView {
     return this.$('#how-to-play-game-dev-panel').removeClass('hide')
   }
 
+  updateKeyValueDb () {
+    if (this.world.keyValueDb) {
+      this.session.updateKeyValueDb(_.cloneDeep(this.world.keyValueDb))
+      this.session.saveKeyValueDb()
+    }
+  }
+
   updateLevelName () {
     if (this.world.uiText != null ? this.world.uiText.levelName : undefined) {
       return this.controlBar.setLevelName(this.world.uiText.levelName)
@@ -1351,11 +1494,27 @@ class PlayLevelView extends RootView {
   }
 
   onRealTimePlaybackEnded (e) {
+    // TODO Improve later with GoalManger reworking
+    // The game goal has a specific name, and we check if it exists in the goal states before changing
+    if (this.level.isType('game-dev') &&
+      !this.updateAetherIsRunning &&
+      store.getters['game/hasPlayedGame'] &&
+      this.goalManager.goalStates['has-stopped-playing-game']) {
+      this.goalManager.setGoalState('has-stopped-playing-game', 'success')
+    }
+
+    if (store.getters['game/clickedUpdateCapstoneCode'] && this.goalManager.goalStates['has-clicked-update-button']) {
+      this.goalManager.setGoalState('has-clicked-update-button', 'success')
+    }
+
+    this.updateAetherIsRunning = false
+
     if (!this.$el.hasClass('real-time')) {
       return
     }
     if (this.level.isType('game-dev')) {
       this.$('#how-to-play-game-dev-panel').addClass('hide')
+      this.$('#game-dev-track-view').addClass('hide')
     }
     this.$el.removeClass('real-time')
     this.onWindowResize()
@@ -1367,11 +1526,19 @@ class PlayLevelView extends RootView {
       !(this.surface.countdownScreen != null
         ? this.surface.countdownScreen.showing
         : undefined) &&
-      !this.realTimePlaybackWaitingForFrames
+      !this.realTimePlaybackWaitingForFrames &&
+      this.level.get('ozariaType') !== 'capstone'
     ) {
       return _.delay(this.onSubmissionComplete, 750) // Wait for transition to end.
     } else {
       this.waitingForSubmissionComplete = true
+    }
+
+    // Hack to work around bugged goal states not calling notify in specific cases (stage 3 on Chapter 1):
+    if (this.level.get('ozariaType') === 'capstone') {
+      setTimeout(function () {
+        this.goalManager.notifyGoalChanges()
+      }.bind(this), 2000)
     }
   }
 
@@ -1402,14 +1569,8 @@ class PlayLevelView extends RootView {
     }
 
     if (this.goalManager.finishLevel()) {
-      const options = { showModal: true }
-      const state = this.session.get('state')
-      if (state && state.capstoneStage && this.goalManager.getRemainingGoals().length > 0) {
-        options.capstoneInProgress = true
-      }
-
       const showModalFn = () =>
-        Backbone.Mediator.publish('level:show-victory', options)
+        Backbone.Mediator.publish('level:show-victory', { showModal: true })
       this.session.recordScores(this.world.scores, this.level)
 
       // Skip triggering the victory modal automatically for ozaria capstone levels.
@@ -1443,6 +1604,9 @@ class PlayLevelView extends RootView {
     if (this.setupManager != null) {
       this.setupManager.destroy()
     }
+    if (this.thangTypeHUDComponent != null) {
+      this.thangTypeHUDComponent.$destroy()
+    }
     if ((ambientSound = this.ambientSound)) {
       // Doesn't seem to work; stops immediately.
       createjs.Tween.get(ambientSound)
@@ -1460,6 +1624,32 @@ class PlayLevelView extends RootView {
         console.profileEnd()
       }
     }
+    if (this.level) {
+      if (this.level.get('ozariaType') === 'capstone') {
+        trackEvent('Unloaded Capstone Stage', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined,
+          capstoneStage: this.capstoneStage
+        }, ['Google Analytics'])
+      } else if (this.level.get('ozariaType') === 'challenge') {
+        trackEvent('Unloaded Challenge Level', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined
+        }, ['Google Analytics'])
+      } else {
+        trackEvent('Unloaded Practice Level', {
+          category: 'Play Level',
+          levelOriginalId: this.level.original || this.level.attributes.original,
+          levelSessionId: this.session != null ? this.session.get('_id') : undefined
+        }, ['Google Analytics'])
+      }
+    } else if (!this.level) {
+      console.error('Expecte this.level to exist in PlayLevelView.destroy, skipping event logging.')
+    }
+    Backbone.Mediator.unsubscribe('modal:closed', this.onLevelStarted, this)
+    Backbone.Mediator.unsubscribe('audio-player:loaded', this.playAmbientSound, this)
     return super.destroy()
   }
 
@@ -1491,11 +1681,79 @@ class PlayLevelView extends RootView {
   }
 
   onRunCode () {
+    this.updateKeyValueDb()
     return store.commit('game/incrementTimesCodeRun')
+  }
+
+  onSpellChanged () {
+    // This is triggered at very confusing times - for example when a capstone game is about to begin. At that
+    // time, the code has not actually changed, but it is being built.
+    if (this.level.isType('game-dev') &&
+      !this.realTimePlaybackWaitingForFrames &&
+      this.goalManager.goalStates['has-stopped-playing-game']) {
+      store.dispatch('game/setHasPlayedGame', false)
+      this.goalManager.setGoalState('has-stopped-playing-game', 'incomplete')
+    }
+  }
+
+  // Update the elements on the page without reloading the entire page.
+  // This lets us progress to a new capstoneStage and update each element that needs this information.
+  softReload () {
+    this.showVictoryHandlingInProgress = false
+    this.updateCapstoneStage()
+
+    if (me.isSessionless() || !this.session) {
+      this.capstoneStage += 1
+      let url = document.URL
+      if (url.indexOf('capstoneStage') > 0) {
+        url = url.replace(new RegExp('capstoneStage=[^&]+'), 'capstoneStage=' + this.capstoneStage)
+      } else if (url.indexOf('?') > 0) { // No capstoneStage query parameter found, but at least there is a query parameter
+        url += '&capstoneStage=' + this.capstoneStage
+      } else { // Somehow we don't have ANY query parameters... unlikely to ever reach this state
+        url += '?capstoneStage=' + this.capstoneStage
+      }
+
+      window.history.pushState(null, null, url)
+    }
+
+
+    store.dispatch('game/resetTutorial', {
+      keepIntro: true
+    })
+    this.scriptManager.setScripts(this.level.get('scripts'))
+    this.goalManager.destroy()
+    this.initGoalManager()
+    this.tome.softReloadCapstoneStage(this.capstoneStage)
+    Backbone.Mediator.publish('tome:updateAether')
+
+    this.loadScriptsForCapstoneStage(this.world.scripts, this.capstoneStage)
+    store.dispatch('game/setTutorialActive', true)
+  }
+
+  updateAetherRunning (e) {
+    store.dispatch('game/setClickedUpdateCapstoneCode', true)
+    this.updateAetherIsRunning = true
+  }
+
+  loadScriptsForCapstoneStage (scripts, capstoneStage) {
+    if (!scripts) {
+      console.error('Tried to loadScriptsForCapstoneStage but scripts was empty')
+      return
+    }
+
+    const matchesCapstoneStage = { eventProps: ['god', 'capstoneStage'], equalTo: capstoneStage }
+    scripts
+      .filter(script => (script.eventPrereqs || []).find(e => _.isEqual(e, matchesCapstoneStage)))
+      .forEach(script => {
+        const sayEvents = ScriptManager.extractSayEvents(script)
+        if (sayEvents.length) {
+          store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
+        }
+      })
   }
 }
 
-PlayLevelView.prototype.id = 'level-view';
+PlayLevelView.prototype.id = 'level-view'
 PlayLevelView.prototype.template = template
 PlayLevelView.prototype.cache = false
 PlayLevelView.prototype.shortcutsEnabled = true
@@ -1516,6 +1774,8 @@ PlayLevelView.prototype.subscriptions = {
   'god:infinite-loop': 'onInfiniteLoop',
   'level:reload-from-data': 'onLevelReloadFromData',
   'level:reload-thang-type': 'onLevelReloadThangType',
+  'level:open-restart-modal': 'onOpenRestartModal',
+  'level:open-options-modal': 'onOpenOptionsModal',
   'level:started': 'onLevelStarted',
   'level:loading-view-unveiling': 'onLoadingViewUnveiling',
   'level:loading-view-unveiled': 'onLoadingViewUnveiled',
@@ -1526,7 +1786,10 @@ PlayLevelView.prototype.subscriptions = {
   'playback:cinematic-playback-started': 'onCinematicPlaybackStarted',
   'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded',
   'store:item-purchased': 'onItemPurchased',
-  'tome:manual-cast': 'onRunCode'
+  'tome:manual-cast': 'onRunCode',
+  'tome:spell-changed': 'onSpellChanged',
+  'tome:updateAetherRunning': 'updateAetherRunning',
+  'world:update-key-value-db': 'updateKeyValueDb'
 }
 
 PlayLevelView.prototype.events = {

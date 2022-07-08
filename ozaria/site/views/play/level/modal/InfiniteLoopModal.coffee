@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/level/modal/infinite_loop'
+template = require 'ozaria/site/templates/play/level/modal/infinite_loop'
 
 module.exports = class InfiniteLoopModal extends ModalView
   id: '#infinite-loop-modal'

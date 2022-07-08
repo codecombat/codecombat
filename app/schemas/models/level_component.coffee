@@ -23,7 +23,7 @@ PropertyDocumentationSchema = c.object {
   required: ['name', 'type', 'description']
 },
   name: {type: 'string', title: 'Name', description: 'Name of the property.'}
-  i18n: { type: 'object', format: 'i18n', props: ['name', 'description', 'context'], description: 'Help translate this property'}
+  i18n: { type: 'object', format: 'i18n', props: ['name', 'shortDescription', 'description', 'context'], description: 'Help translate this property'}
   context: {
     type: 'object'
     title: 'Example template context'
@@ -118,6 +118,13 @@ PropertyDocumentationSchema = c.object {
         title: 'Variable Name'
         description: 'Variable name this property is autocompleted into.'
         default: 'result'
+      type:
+        type: 'object'
+        title: 'Variable Type'
+        description: 'Variable return types by code language. Can usually leave blank. Fill in if it is a primitive type and not auto in C++.'
+        additionalProperties: {type: 'string', description: 'Description of the return value.', maxLength: 1000}
+        format: 'code-languages-object'
+        default: {cpp: 'auto'}
 
 DependencySchema = c.object {
   title: 'Component Dependency'
@@ -165,10 +172,10 @@ _.extend LevelComponentSchema.properties,
     type: 'string'
     title: 'Language'
     description: 'Which programming language this Component is written in.'
-    'enum': ['coffeescript']
+    'enum': ['coffeescript', 'javascript']
   code:
     title: 'Code'
-    description: 'The code for this Component, as a CoffeeScript class. TODO: add link to documentation for how to write these.'
+    description: 'The code for this Component, as a CoffeeScript/JavaScript class. TODO: add link to documentation for how to write these.'
     type: 'string'
     format: 'coffee'
   js:
@@ -195,6 +202,7 @@ _.extend LevelComponentSchema.properties,
     format: 'i18n',
     props: ['context'], description: 'Help translate the code context'
   }
+  archived: { type: 'integer', description: 'Marks this component to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.'}
 
 c.extendBasicProperties LevelComponentSchema, 'level.component'
 c.extendSearchableProperties LevelComponentSchema
@@ -202,6 +210,5 @@ c.extendVersionedProperties LevelComponentSchema, 'level.component'
 c.extendPermissionsProperties LevelComponentSchema, 'level.component'
 c.extendPatchableProperties LevelComponentSchema
 c.extendTranslationCoverageProperties LevelComponentSchema
-c.extendAlgoliaProperties LevelComponentSchema
 
 module.exports = LevelComponentSchema

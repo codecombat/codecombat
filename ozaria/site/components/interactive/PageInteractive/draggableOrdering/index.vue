@@ -43,6 +43,8 @@
     },
 
     data () {
+      // FIXME: Currently doesn't work. The swap library must be kept manually in sync
+      // using the handleSwap method.
       const shuffle = deterministicShuffleForUserAndDay(
         me,
         [ ...Array(this.localizedInteractiveConfig.elements.length).keys() ]
@@ -117,8 +119,14 @@
 
     methods: {
       async submitSolution () {
-        this.showModal = true
-        this.submitEnabled = false
+        if (this.solutionCorrect) {
+          // Straight to standard victory modal rather than interactive modal
+          this.$emit('completed')
+          this.submitEnabled = true
+        } else {
+          this.showModal = true
+          this.submitEnabled = false
+        }
 
         // TODO save through vuex and block progress until save is successful
         await putSession(this.interactive._id, {
@@ -132,13 +140,15 @@
         })
       },
 
-      closeModal () {
-        if (this.solutionCorrect) {
-          this.$emit('completed')
-        } else {
-          this.resetAnswer()
-        }
+      handleSwap (e) {
+        // Manual hack to ensure that UI and data stays in sync.
+        const temp = this.promptSlots[e.oldDraggableIndex]
+        this.promptSlots[e.oldDraggableIndex] = this.promptSlots[e.newDraggableIndex]
+        this.promptSlots[e.newDraggableIndex] = temp
+      },
 
+      closeModal () {
+        this.resetAnswer()
         this.showModal = false
         this.submitEnabled = true
       },
@@ -219,6 +229,7 @@
           class="slots-container prompt-slots"
           tag="ul"
           :options="{ draggable: '.prompt' }"
+          @change="handleSwap"
         >
           <template
             v-for="prompt in promptSlots"
@@ -286,11 +297,12 @@
     flex-direction: column;
 
     position: relative;
+    
+    user-select: none;
 
     .draggable-ordering-lists {
-      flex-grow: 1;
-
       width: 100%;
+      height: 100%;
 
       display: flex;
       flex-direction: row;
@@ -304,8 +316,18 @@
 
   .submit {
     justify-content: flex-end;
-
     margin: 18.69px auto;
+
+    @media(max-height: 799px) {
+      position: absolute;
+      right: -52%;
+      bottom: 0;
+    }
+    @media(max-width: 1199px) {
+      position: absolute;
+      right: -52%;
+      bottom: 0;
+    }
   }
 
   ul {
@@ -402,6 +424,9 @@
         background-size: 7px 11px;
 
         border: 2px solid #acb9fa;
+
+        font-size: 0.85vw;
+        line-height: 1.2vw;
       }
 
       &.sortable-ghost {
@@ -435,6 +460,9 @@
       div {
         background-color: #acb9fa;
         border: 2px solid #acb9fa;
+
+        font-size: 0.85vw;
+        line-height: 1.2vw;
       }
     }
 

@@ -1,0 +1,48 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    .class_detail
+
+      img(src="/images/pages/contribute/class_detail_ambassador.png", alt="")
+
+    div.class-main#ambassador-main
+
+      h2
+        span(data-i18n="classes.ambassador_title") Ambassador
+        span  
+        span(data-i18n="classes.ambassador_title_description") (Support)
+      p(data-i18n="contribute.ambassador_introduction")
+        | This is a community we're building, and you are the connections.
+        | We've got Olark chats, emails, and social networks with lots of people to talk with
+        | and help get acquainted with the game and learn from.
+        | If you want to help people get involved and have fun, and get a good feel of the pulse of
+        | CodeCombat and where we're going, then this class might be for you.
+  
+      h4(data-i18n="contribute.class_attributes") Class Attributes
+      ul
+        li(data-i18n="contribute.ambassador_attribute_1")
+          | Communication skills. Be able to identify the problems players are having
+          | and help them solve them. Also, keep the rest of us informed about what
+          | players are saying, what they like and don't like and want more of!
+  
+      h4(data-i18n="contribute.how_to_join") How to Join
+      ul
+        li
+          a(href="https://github.com/codecombat/codecombat/wiki/Ambassador-Home", data-i18n="contribute.ambassador_join_step1") Read the documentation.
+        li
+          a(href="https://coco-slack-invite.herokuapp.com/", data-i18n="ambassador_join_step2") Find us in our public Slack channel.
+        li
+          a(href="https://discourse.codecombat.com/c/ambassador/6", data-i18n="ambassador_join_step3") Help others in the Ambassador category.
+
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="support", data-contributor-class-name="ambassador")
+
+      //h3(data-i18n="contribute.helpful_ambassadors")
+      //  | Our Helpful Ambassadorsd:
+      //
+      //#contributor-list
+
+    div.clearfix

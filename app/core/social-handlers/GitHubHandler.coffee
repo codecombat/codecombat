@@ -8,7 +8,7 @@ module.exports = class GitHubHandler extends CocoClass
   subscriptions:
     'auth:log-in-with-github': 'commenceGitHubLogin'
 
-  constructor: ->
+  constructor: (application) ->
     unless me.useSocialSignOn() then throw new Error('Social single sign on not supported')
     super arguments...
     @clientID = if application.isProduction() then '9b405bf5fb84590d1f02' else 'fd5c9d34eb171131bc87'

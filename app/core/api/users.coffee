@@ -92,4 +92,20 @@ module.exports = {
     fetchJson("/db/user/setUserCountryGeo", _.assign({}, options, {
       method: 'PUT'
     }))
+
+  fetchCreatorOfPrepaid: ({prepaidId}, options={}) ->
+    fetchJson("/db/prepaid/#{prepaidId}/creator", _.assign({}, options, {
+      method: 'GET'
+    }))
+
+  provisionSubscription: ({ userId }) ->
+    fetchJson("/db/user/#{userId}/provision-subscription", _.assign({}, {
+      method: 'PUT'
+    }))
+
+  loginArapahoe: (attrs, options={}) ->
+    fetchJson("/auth/login-arapahoe", _.assign({}, options, {
+      method: 'POST'
+      json: attrs
+    }))
 }

@@ -1,9 +1,9 @@
 require('app/styles/play/modal/play-items-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/modal/play-items-modal'
-buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
-earnGemsPromptTemplate = require 'templates/play/modal/earn-gems-prompt'
-subscribeForGemsPrompt = require 'templates/play/modal/subscribe-for-gems-prompt'
+template = require 'app/templates/play/modal/play-items-modal'
+buyGemsPromptTemplate = require 'app/templates/play/modal/buy-gems-prompt'
+earnGemsPromptTemplate = require 'app/templates/play/modal/earn-gems-prompt'
+subscribeForGemsPrompt = require 'app/templates/play/modal/subscribe-for-gems-prompt'
 ItemDetailsView = require './ItemDetailsView'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 CreateAccountModal = require 'views/core/CreateAccountModal'
@@ -263,7 +263,7 @@ module.exports = class PlayItemsModal extends ModalView
         popoverTemplate = subscribeForGemsPrompt {}
       else # user has subscription and yet not enough gems, just ask him to keep playing for more gems
         popoverTemplate = earnGemsPromptTemplate {}
-   
+
     unlockButton.popover(
       animation: true
       trigger: 'manual'
@@ -273,7 +273,7 @@ module.exports = class PlayItemsModal extends ModalView
       template: popoverTemplate
     ).popover 'show'
     popover = unlockButton.data('bs.popover')
-    popover?.$tip?.i18n()
+    popover?.$tip?.i18n()  # Doesn't work
     @applyRTLIfNeeded()
 
   onBuyGemsPromptButtonClicked: (e) ->

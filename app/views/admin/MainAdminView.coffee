@@ -2,8 +2,10 @@ require('app/styles/admin.sass')
 {backboneFailure, genericFailure} = require 'core/errors'
 errors = require 'core/errors'
 RootView = require 'views/core/RootView'
-template = require 'templates/admin'
+template = require 'app/templates/admin'
 AdministerUserModal = require 'views/admin/AdministerUserModal'
+MaintenanceModal = require 'views/admin/MaintenanceModal'
+ModelModal = require 'views/modal/ModelModal'
 forms = require 'core/forms'
 utils = require 'core/utils'
 
@@ -13,8 +15,13 @@ CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 Courses = require 'collections/Courses'
 LevelSessions = require 'collections/LevelSessions'
+InteractiveSessions = require 'collections/InteractiveSessions'
+Prepaid = require 'models/Prepaid'
 User = require 'models/User'
 Users = require 'collections/Users'
+Mandate = require 'models/Mandate'
+window.saveAs ?= require 'file-saver/FileSaver.js' # `window.` is necessary for spec to spy on it
+window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format changed with webpack?
 
 module.exports = class MainAdminView extends RootView
   id: 'admin-view'
@@ -31,8 +38,11 @@ module.exports = class MainAdminView extends RootView
     'click #user-search-result': 'onClickUserSearchResult'
     'click #create-free-sub-btn': 'onClickFreeSubLink'
     'click #terminal-create': 'onClickTerminalSubLink'
+    'click #terminal-activation-create': 'onClickTerminalActivationLink'
     'click .classroom-progress-csv': 'onClickExportProgress'
     'click #clear-feature-mode-btn': 'onClickClearFeatureModeButton'
+    'click .edit-mandate': 'onClickEditMandate'
+    'click #maintenance-mode': 'onClickMaintenanceMode'
 
   getTitle: -> return $.i18n.t('account_settings.admin')
 
@@ -42,6 +52,7 @@ module.exports = class MainAdminView extends RootView
       @amActually.fetch()
       @supermodel.trackModel(@amActually)
     @featureMode = window.serverSession.featureMode
+    @timeZone = if features?.chinaInfra then 'Asia/Shanghai' else 'America/Los_Angeles'
     super()
 
   afterInsert: ->
@@ -55,12 +66,13 @@ module.exports = class MainAdminView extends RootView
       else
         $('#espionage-name-or-email').val spy
         $('#enter-espionage-mode').click()
-    if userID = utils.getQueryVariable 'user'
+    if (me.isAdmin() or me.isOnlineTeacher()) and userID = utils.getQueryVariable 'user'
       @openModalView new AdministerUserModal({}, userID)
 
   clearQueryParams: -> window.history.pushState({}, '', document.location.href.split('?')[0])
 
   stopSpying: ->
+    button = @$('#stop-spying-btn')
     me.stopSpying({
       success: -> document.location.reload()
       error: ->
@@ -152,8 +164,9 @@ module.exports = class MainAdminView extends RootView
           <td>#{user.firstName or ''}</td>
           <td>#{user.lastName or ''}</td>
           <td>
-            <button class='user-spy-button'>Spy</button>
-            #{if new User(user).isTeacher() then "<button class='teacher-dashboard-button'>View Classes</button>" else ""}
+            #{if me.isAdmin() then "<button class='user-spy-button'>Spy</button>" else ""}
+            <!-- New Teacher Dashboard doesn't allow admin to navigate to a teacher classroom. -->
+            #{if new User(user).isTeacher() and not utils.isOzaria then "<button class='teacher-dashboard-button'>View Classes</button>" else ""}
           </td>
         </tr>")
       result = "<table class=\"table\">#{result.join('\n')}</table>"
@@ -214,6 +227,27 @@ module.exports = class MainAdminView extends RootView
       console.error 'Failed to create prepaid', response
     @supermodel.addRequestResource('create_prepaid', options, 0).load()
 
+  onClickTerminalActivationLink: (e) =>
+    return unless me.isAdmin()
+    attrs =
+      type: 'terminal_subscription'
+      creator: me.id
+      maxRedeemers: parseInt($("#users").val())
+      generateActivationCodes: true
+      endDate: $("#endDate").val() + ' ' + "23:59"
+      properties:
+        months: parseInt($("#months").val())
+    prepaid = new Prepaid(attrs)
+    prepaid.save(0)
+    @listenTo prepaid, 'sync', ->
+      csvContent = 'Code,Months,Expires\n'
+      ocode = prepaid.get('code').toUpperCase()
+      months = prepaid.get('properties').months
+      for code in prepaid.get('redeemers')
+        csvContent += "#{ocode.slice(0, 4)}-#{code.code.toUpperCase()}-#{ocode.slice(4)},#{months},#{code.date}\n"
+      file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
+      window.saveAs(file, 'ActivationCodes.csv')
+
   afterRender: ->
     super()
     @$el.find('.search-help-toggle').click () =>
@@ -225,9 +259,12 @@ module.exports = class MainAdminView extends RootView
     classroom = null
     courses = null
     courseLevels = []
+    courseInteractives = []
     sessions = null
+    interactiveSessions = null
     users = null
     userMap = {}
+    userLevelPlaytimeMap = {}
     Promise.resolve(new Classroom().fetchByCode(classCode))
     .then (model) =>
       classroom = new Classroom({ _id: model.data._id })
@@ -243,6 +280,12 @@ module.exports = class MainAdminView extends RootView
             levelID: level.original
             slug: level.slug
             courseSlug: courses.get(course._id).get('slug')
+          for intro in level.introContent ? [] when intro.type is 'interactive'
+            # TODO: this only works for Python presently
+            courseInteractives.push
+              courseIndex: index + 1
+              interactiveID: intro.contentId.python ? intro.contentId
+              courseSlug: courses.get(course._id).get('slug')
       users = new Users()
       Promise.resolve($.when(users.fetchForClassroom(classroom)...))
     .then (models) =>
@@ -250,37 +293,68 @@ module.exports = class MainAdminView extends RootView
       sessions = new LevelSessions()
       Promise.resolve($.when(sessions.fetchForAllClassroomMembers(classroom)...))
     .then (models) =>
-      userLevelPlaytimeMap = {}
       for session in sessions.models
         continue unless session.get('state')?.complete
         levelID = session.get('level').original
         userID = session.get('creator')
         userLevelPlaytimeMap[userID] ?= {}
         userLevelPlaytimeMap[userID][levelID] ?= {}
-        userLevelPlaytimeMap[userID][levelID] = session.get('playtime')
+        if session.get('contentPlaytimes')
+          playtime = 0
+          playtime += content.playtime ? 0 for content in session.get('contentPlaytimes')
+        else
+          playtime = session.get('playtime')
+        userLevelPlaytimeMap[userID][levelID] = playtime
+      interactiveSessions = new InteractiveSessions()
+      if utils.isOzaria
+        Promise.resolve($.when(interactiveSessions.fetchForAllClassroomMembers(classroom)...))
+      else
+        Promise.resolve([])  # No interactives in CodeCombat yet
+    .then (models) =>
+      userInteractiveAttemptMap = {}
+      for session in interactiveSessions.models
+        continue unless session.get('complete')
+        interactiveID = session.get('interactiveId')
+        userID = session.get('userId')
+        userInteractiveAttemptMap[userID] ?= {}
+        userInteractiveAttemptMap[userID][interactiveID] ?= {}
+        userInteractiveAttemptMap[userID][interactiveID] = session.get('submissionCount')
 
-      userPlaytimes = []
+      userRows = []
       for userID, user of userMap
-        playtimes = [user.get('name') ? 'Anonymous']
+        row = [user.get('name') ? 'Anonymous']
         for level in courseLevels
           if userLevelPlaytimeMap[userID]?[level.levelID]?
             rawSeconds = parseInt(userLevelPlaytimeMap[userID][level.levelID])
-            hours = Math.floor(rawSeconds / 60 / 60)
-            minutes = Math.floor(rawSeconds / 60 - hours * 60)
-            seconds = Math.round(rawSeconds - hours * 60 - minutes * 60)
-            hours = "0#{hours}" if hours < 10
-            minutes = "0#{minutes}" if minutes < 10
-            seconds = "0#{seconds}" if seconds < 10
-            playtimes.push "#{hours}:#{minutes}:#{seconds}"
+            if false
+              # Old way, with human-readable times
+              hours = Math.floor(rawSeconds / 60 / 60)
+              minutes = Math.floor(rawSeconds / 60 - hours * 60)
+              seconds = Math.round(rawSeconds - hours * 60 - minutes * 60)
+              hours = "0#{hours}" if hours < 10
+              minutes = "0#{minutes}" if minutes < 10
+              seconds = "0#{seconds}" if seconds < 10
+              row.push "#{hours}:#{minutes}:#{seconds}"
+            else
+              # New way, with machine-analyzable times (seconds)
+              row.push Math.round(rawSeconds)
           else
-            playtimes.push 'Incomplete'
-        userPlaytimes.push(playtimes)
+            row.push 'Incomplete'
+
+        for interactive in courseInteractives
+          attempts = userInteractiveAttemptMap[userID]?[interactive.interactiveID]
+          if attempts
+            row.push attempts
+          else
+            row.push 'Incomplete'
+
+        userRows.push(row)
 
       columnLabels = "Username"
       currentLevel = 1
-      courseLabelIndexes = CS: 1, GD: 0, WD: 0
+      courseLabelIndexes = CS: 1, GD: 0, WD: 0, CH: 1
       lastCourseIndex = 1
-      lastCourseLabel = 'CS1'
+      lastCourseLabel = if utils.isOzaria then 'CH1' else 'CS1'
       for level in courseLevels
         unless level.courseIndex is lastCourseIndex
           currentLevel = 1
@@ -288,11 +362,23 @@ module.exports = class MainAdminView extends RootView
           acronym = switch
             when /game-dev/.test(level.courseSlug) then 'GD'
             when /web-dev/.test(level.courseSlug) then 'WD'
+            when /chapter/.test(level.courseSlug) then 'CH'
             else 'CS'
           lastCourseLabel = acronym + ++courseLabelIndexes[acronym]
         columnLabels += ",#{lastCourseLabel}.#{currentLevel++} #{level.slug}"
+      currentInteractive = 1
+      courseLabelIndexes.CH = 1
+      lastCourseIndex = 1
+      lastCourseLabel = 'CH1'
+      for interactive in courseInteractives
+        unless interactive.courseIndex is lastCourseIndex
+          currentInteractive = 1
+          lastCourseIndex = interactive.courseIndex
+          acronym = 'CH'
+          lastCourseLabel = acronym + ++courseLabelIndexes[acronym]
+        columnLabels += ",#{lastCourseLabel}.#{currentInteractive++} #{interactive.interactiveID}"
       csvContent = "data:text/csv;charset=utf-8,#{columnLabels}\n"
-      for studentRow in userPlaytimes
+      for studentRow in userRows
         csvContent += studentRow.join(',') + "\n"
       csvContent = csvContent.substring(0, csvContent.length - 1)
       encodedUri = encodeURI(csvContent)
@@ -303,3 +389,17 @@ module.exports = class MainAdminView extends RootView
       $('.classroom-progress-csv').prop('disabled', false)
       console.error error
       throw error
+
+  onClickEditMandate: (e) ->
+    @mandate ?= @supermodel.loadModel(new Mandate()).model
+    if @mandate.loaded
+      @editMandate @mandate
+    else
+      @listenTo @mandate, 'sync', @editMandate
+
+  onClickMaintenanceMode: (e) ->
+    @openModalView? new MaintenanceModal() if me.isAdmin()
+
+  editMandate: (mandate) =>
+    mandate = new Mandate _id: mandate.get('0')._id  # Work around weirdness in this actually being a singleton
+    @openModalView? new ModelModal models: [mandate]

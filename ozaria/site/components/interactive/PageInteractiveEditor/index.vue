@@ -36,7 +36,7 @@
       }
     },
     async created () {
-      if (!me.hasInteractiveAccess()) {
+      if (!me.hasInteractiveEditorAccess()) {
         alert('You must be logged in as an admin to use this page.')
         return application.router.navigate('/editor', { trigger: true })
       }
@@ -104,7 +104,7 @@
         const data = this.treema.data
         this.valid = ajv.validate(Interactive.schema, data)
         if (this.valid) {
-          this.interactive.set(data)
+          this.interactive = new Interactive(data)
         } else {
           console.error('Schema validation error', ajv.errors)
           noty({
@@ -113,6 +113,58 @@
             timeout: 2000
           })
         }
+      },
+
+      /**
+       * Ensures that there are empty `i18n` fields set on the interactive.
+       * Makes fields translatable via /i18n route.
+       */
+      makeTranslatable () {
+        if (!(this.treema || {}).data) {
+          noty({ text: 'Nothing to translate', timeout: 1000 })
+          return
+        }
+        if (!window.confirm("This will populate any missing i18n fields so that interactive can be translated. Do you want to continue?")) {
+          noty({ text: 'Cancelled', timeout: 1000 })
+          return
+        }
+
+        const interactiveData = this.treema.data;
+        const i18n = interactiveData.i18n
+        if (i18n === undefined) {
+          interactiveData.i18n = {"-": { "-": "-" }}
+        }
+
+        if (interactiveData.draggableStatementCompletionData) {
+          const { elements, labels } = interactiveData.draggableStatementCompletionData
+          for (const element of (elements || [])) {
+            if (element.text && !element.i18n) {
+              element.i18n = {"-": { "-": "-" }}
+            }
+          }
+          for (const label of (labels || [])) {
+            if (label.text && !label.i18n) {
+              label.i18n = {"-": { "-": "-" }}
+            }
+          }
+        }
+
+        if (interactiveData.draggableOrderingData) {
+          const { elements, labels } = interactiveData.draggableOrderingData
+          for (const element of (elements || [])) {
+            if (element.text && !element.i18n) {
+              element.i18n = {"-": { "-": "-" }}
+            }
+          }
+          for (const label of (labels || [])) {
+            if (label.text && !label.i18n) {
+              label.i18n = {"-": { "-": "-" }}
+            }
+          }
+        }
+
+        noty({ text: 'Translations added. Please save to keep changes', type:"success", timeout: 8000 })
+        this.onTreemaChanged()
       },
 
       /**
@@ -213,6 +265,7 @@
           >
             save
           </button>
+          <button v-on:click="makeTranslatable">Make Translatable</button>
           <button><a @click="fetchList()">Back to list view</a></button>
         </div>
       </div>

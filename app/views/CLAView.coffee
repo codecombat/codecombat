@@ -1,6 +1,6 @@
 require('app/styles/cla.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/cla'
+template = require 'app/templates/cla'
 {me} = require 'core/auth'
 
 module.exports = class CLAView extends RootView

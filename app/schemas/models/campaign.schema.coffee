@@ -21,7 +21,8 @@ _.extend CampaignSchema.properties, {
     additionalProperties: false
     properties: {
       image: { type: 'string', format: 'image-file' }
-      width: { type: 'number' }
+      width: { type: 'number' } #- not required for ozaria campaigns
+      campaignPage: {type: 'number', title: 'Campaign page number', description: 'Give the page number if there are multiple pages in the campaign'}  # Oz-only
     }
   }
   backgroundColor: { type: 'string' }
@@ -53,7 +54,7 @@ _.extend CampaignSchema.properties, {
         ]
     }
   }}
-  isOzaria: {type: 'boolean', description: 'Is this an ozaria campaign', default: true }
+  isOzaria: {type: 'boolean', description: 'Is this an ozaria campaign', default: false }
   levelsUpdated: c.date()
 
   levels: { type: 'object', format: 'levels', additionalProperties: {
@@ -96,6 +97,9 @@ _.extend CampaignSchema.properties, {
         }
       }
       first: {type: 'boolean', description: 'Is it the first level in the campaign', default: true }
+      campaignPage: {type: 'number', title: 'Campaign page number', description: 'Give the page number if there are multiple pages in the campaign'}
+      releasePhase: { enum: ['beta', 'internalRelease', 'released'], title: 'Release status', description: "Release status of the level, determining who sees it.", default: 'internalRelease' }
+      moduleNum: {type: 'number', title: 'Module number', default: 1}
 
       #- denormalized properties from Levels are cloned below
     }
@@ -121,6 +125,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'primerLanguage'
   'shareable'
   'adminOnly'
+  'releasePhase'
   'disableSpaces'
   'hidesSubmitUntilRun'
   'hidesPlayButton'
@@ -132,6 +137,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'backspaceThrottle'
   'lockDefaultCode'
   'moveRightLoopSnippet'
+  'permissions'
   'realTimeSpeedFactor'
   'autocompleteFontSizePx'
   'requiredGear'
@@ -146,9 +152,11 @@ CampaignSchema.denormalizedLevelProperties = [
   'campaign'
   'campaignIndex'
   'scoreTypes'
+  # Ozaria
   'isPlayedInStages'
   'ozariaType'
   'introContent'
+  'displayName'
 ]
 hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
 for prop in CampaignSchema.denormalizedLevelProperties

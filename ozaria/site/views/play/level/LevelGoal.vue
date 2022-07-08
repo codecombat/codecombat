@@ -4,7 +4,7 @@
     <img v-if="goalComplete"
          class="check-mark" alt="Check mark for checkbox"
          src="/images/ozaria/level/check_mark.png" />
-    {{ goalText }}
+    <span class="goal-text" v-html="goalText"></span>
   </li>
 </template>
 
@@ -38,7 +38,7 @@
               completed = targeted - dead
             text = text + " (#{completed}/#{targeted})"
 
-        return text
+        return marked(text)
       goalComplete: -> @state.status == 'success'
     }
   })
@@ -58,15 +58,19 @@
     font-weight: lighter
 
   .rectangle
-    height: 19px
-    width: 18px
+    min-height: 19px
+    min-width: 18px
     border-radius: 4px
     margin-right: 10px
+    margin-top: 2px
     background-color: #FFFFFF
     box-shadow: inset 1px 1px 3px 0 #5D73E1
 
   .check-mark
     position: absolute
-    left: 2.7%
+    left: 3.5%
     width: 20px
+
+  .goal-text
+    white-space: nowrap
 </style>

@@ -6,10 +6,20 @@ import DialogSystem from './dialogsystem/DialogSystem'
 import { CameraSystem } from './CameraSystem'
 import { SoundSystem } from './SoundSystem'
 import Autoplay from './systems/autoplay'
+import UndoSystem from './UndoSystem'
+import { SyncFunction } from './commands/commands'
+import VisualChalkboard from './systems/visualChalkboard'
+import FadeSystem from './systems/FadeSystem'
 
 const createjs = require('lib/createjs-parts')
 const LayerAdapter = require('lib/surface/LayerAdapter')
 const Camera = require('lib/surface/Camera')
+
+const UNDO_MODE = Symbol('undo')
+const FORWARD_MODE = Symbol('forward')
+
+const CINEMATIC_SPRITE_RESOLUTION_FACTOR = 1
+const CINEMATIC_BACKGROUND_OBJECT_RESOLUTION_FACTOR = 3
 
 /**
  * Takes a reference of the canvas and uses this to set up all the systems.
@@ -49,14 +59,21 @@ export class CinematicController {
     this.stubRequiredLayer = new LayerAdapter({ name: 'Ground', webGL: true, camera: camera })
 
     this.layerAdapter = new LayerAdapter({ name: 'Default', webGL: true, camera: camera })
+    this.backgroundObjectAdapter = new LayerAdapter({ name: 'Background Object', webGL: true, camera: camera })
     this.backgroundAdapter = new LayerAdapter({ name: 'Background', webGL: true, camera: camera })
+    this.layerAdapter.resolutionFactor = CINEMATIC_SPRITE_RESOLUTION_FACTOR
+    this.backgroundAdapter.resolutionFactor = CINEMATIC_SPRITE_RESOLUTION_FACTOR
+    this.backgroundObjectAdapter.resolutionFactor = CINEMATIC_BACKGROUND_OBJECT_RESOLUTION_FACTOR
     this.stage.addChild(this.backgroundAdapter.container)
+    this.stage.addChild(this.backgroundObjectAdapter.container)
     this.stage.addChild(this.layerAdapter.container)
 
     this.systems.cameraSystem = new CameraSystem(camera)
     this.systems.loader = new Loader({ data: cinematicData })
+    this.systems.fadeSystem = new FadeSystem()
     this.systems.sound = new SoundSystem()
     this.systems.autoplay = new Autoplay()
+    this.systems.visualChalkboard = new VisualChalkboard()
 
     this.systems.dialogSystem = new DialogSystem({
       canvasDiv,
@@ -71,23 +88,47 @@ export class CinematicController {
       groundLayer: this.stubRequiredLayer,
       layerAdapter: this.layerAdapter,
       backgroundAdapter: this.backgroundAdapter,
+      backgroundObjectAdapter: this.backgroundObjectAdapter,
       camera: camera,
       loader: this.systems.loader
     })
 
+    // This is a singleton. Used so commands can hook into the undo system
+    // via dependency injection. Because this is a singleton we need to clear it
+    // at the start of every cinematic or the commands will persist between
+    // cinematics.
+    this.undoCommands = UndoSystem
+    this.undoCommands.reset()
+
     this.commands = []
+    this.mode = FORWARD_MODE
+    this.wasCancelled = false
+
+    // Explicitly setting class as non reactive for performance benefit.
+    Vue.nonreactive(this)
 
     this.startUp()
+  }
+
+  get hasActiveRunner () {
+    const hasRunner = !!this.runner
+    // Defensive in order to avoid a bad state.
+    if (!hasRunner) {
+      console.warn(`cinematicController: 'wasCancelled' state unexpected.`)
+      this.wasCancelled = false
+    }
+
+    return hasRunner
   }
 
   /**
    * Method that loads and initializes the cinematic.
    *
-   *
    * Finally we run the cinematic runner.
    */
   async startUp () {
     const data = await this.systems.loader.loadAssets()
+    if (this.destroyed) return
 
     const commands = data.shots
       .map(shot => parseShot(shot, this.systems, this.userOptions))
@@ -97,32 +138,78 @@ export class CinematicController {
     attachListener({ cinematicLankBoss: this.systems.cinematicLankBoss, stage: this.stage })
 
     this.commands = commands
-    this.onLoaded()
+
+    await this.systems.cinematicLankBoss.preloaded() // NOTE: This will always complete after about ~2.5 minutes. It has a failsafe.
+    if (this.destroyed) return
+    for (const preloadedLank of Object.values(this.systems.cinematicLankBoss.lankCache)) {
+      preloadedLank.hide()
+    }
+
+    // Provide time for the loaded lanks to be hidden. Otherwise there can be a disruptive flash.
+    setTimeout(() => {
+      if (this.destroyed) return
+      this.onLoaded()
+    }, 100)
   }
 
   /**
    * Used to cancel the current shot.
    */
   cancelShot () {
-    if (!this.runner) return
+    if (!this.hasActiveRunner) return
     this.runner.cancel()
-    this.cleanupRunShot()
+    this.wasCancelled = true
   }
 
   /**
    * Runs the next shot, mutating `this.commands`.
    */
-  runShot () {
-    if (this.runner) return
-    this.onPlay()
+  runShot (autoplaying = false) {
+    if (this.hasActiveRunner) return
 
     if (!Array.isArray(this.commands) || this.commands.length === 0) {
       this.systems.sound.stopAllSounds()
       return
     }
+    this.onPlay()
+
+    this.undoCommands.ignoreUndoCommands = false
+    this.mode = FORWARD_MODE
+
+    if (autoplaying) {
+      // If this shot is being played from an autoplay node, we need to ensure we
+      // autoplay back through the undo.
+      this.undoCommands.pushUndoCommand(new SyncFunction(() => {
+        this.systems.autoplay.autoplay = true
+      }))
+    }
 
     const currentShot = this.commands.shift()
+    this.undoCommands.pushUsedForwardCommands([...currentShot])
+
     this._runShot(currentShot)
+
+    if (this.wasCancelled) {
+      this.cancelShot()
+    }
+  }
+
+  undoShot () {
+    if (this.hasActiveRunner) return
+
+    if (!this.undoCommands.canUndo) {
+      return
+    }
+    this.mode = UNDO_MODE
+    this.undoCommands.ignoreUndoCommands = true
+
+    this.onPlay()
+
+    const { forwardCommands, undoCommands } = this.undoCommands.popUndoCommands()
+    this.commands.unshift(forwardCommands)
+
+    // Run side effects that would undo the shot.
+    this._runShot(undoCommands)
   }
 
   /**
@@ -130,12 +217,13 @@ export class CinematicController {
    * playing and calls `onPause` on the conclusion of the shot.
    * @param {AbstractCommand[]} commands - List of commands. When user cancels it runs to the end of the list.
    */
-  async _runShot (currentShot) {
-    if (!Array.isArray(currentShot) || currentShot.length === 0) {
+  async _runShot (shotCommands) {
+    if (!Array.isArray(shotCommands) || shotCommands.length === 0) {
+      this.onPause()
       return
     }
 
-    const [runner, runningCommands] = runCommands(currentShot)
+    const [runner, runningCommands] = runCommands(shotCommands)
     this.runner = runner
 
     // Block on running commands
@@ -149,16 +237,33 @@ export class CinematicController {
    * If the entire cinematic has completed we call the `onCompletion`.
    */
   cleanupRunShot () {
-    if (!this.runner) return
+    if (!this.hasActiveRunner) return
     this.runner = null
 
     if (Array.isArray(this.commands) && this.commands.length === 0) {
       this.onCompletion()
     }
 
+    // TODO: Do we undo again (autoplay situation???)
+    if (this.mode === FORWARD_MODE) {
+      this.undoCommands.endPlayingShot()
+    }
+
+    if (this.systems.autoplay.autoplay && this.mode === UNDO_MODE) {
+      this.systems.autoplay.autoplay = false
+      return this.undoShot()
+    }
+
     if (this.systems.autoplay.autoplay) {
       this.systems.autoplay.autoplay = false
-      return this.runShot()
+      return this.runShot(true)
+    }
+
+    this.undoCommands.tryMarkFirstStoppingPoint()
+
+    if (this.wasCancelled) {
+      this.wasCancelled = false
+      return this.runShot(false)
     }
 
     this.onPause()
@@ -173,8 +278,22 @@ export class CinematicController {
     createjs.Ticker.removeAllEventListeners()
     this.systems.cameraSystem.destroy()
     this.systems.cinematicLankBoss.cleanup()
-    this.stage.removeAllEventListeners()
     this.systems.sound.stopAllSounds()
+    this.undoCommands.reset()
+    this.stubRequiredLayer.destroy()
+    this.layerAdapter.destroy()
+    this.backgroundObjectAdapter.destroy()
+    this.backgroundAdapter.destroy()
+    // Defensive coding to try to avoid stage/graphics leaks
+    this.stage.clear()
+    this.stage.removeAllChildren()
+    this.stage.removeAllEventListeners()
+    this.stage.enableDOMEvents(false)
+    this.stage.enableMouseOver(0)
+    this.stage.canvas.width = this.stage.canvas.height = 0
+    this.stage.canvas = undefined
+    this.stage = undefined
+    this.destroyed = true
   }
 }
 
@@ -210,9 +329,9 @@ function runCommands (commands) {
  */
 function attachListener ({ cinematicLankBoss, stage }) {
   createjs.Ticker.framerate = 30
-  const listener = () => {
+  const listener = (e) => {
     cinematicLankBoss.update(true)
-    stage.update()
+    stage.update(e)
   }
   createjs.Ticker.addEventListener('tick', listener)
   // Return listener for removing event.

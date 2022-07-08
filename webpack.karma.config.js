@@ -23,7 +23,8 @@ module.exports = (env) => {
       new webpack.DefinePlugin({
         DEF_CHINA_INFRA: process.env.COCO_CHINA_INFRASTRUCTURE ? 'true' : 'false',
       })
-    ]
+    ],
+    mode: 'development'
     // TODO: Get sourcemaps working with Karma
     // devtool: 'source-map', // https://webpack.js.org/configuration/devtool/
   })

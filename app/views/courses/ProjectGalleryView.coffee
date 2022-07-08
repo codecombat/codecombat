@@ -8,7 +8,7 @@ utils = require 'core/utils'
 
 ProjectGalleryComponent = Vue.extend
   name: 'project-gallery-component'
-  template: require('templates/courses/project-gallery-view')()
+  template: require('app/templates/courses/project-gallery-view')()
   components:
     'flat-layout': FlatLayout
   props:
@@ -26,7 +26,7 @@ ProjectGalleryComponent = Vue.extend
     amSchoolAdministratorOfGallery: null
     amTeacherOfGallery: null
   computed:
-    levelName: -> @level and utils.i18n(@level, 'name')
+    levelName: -> @level and (utils.i18n(@level, 'displayName') or utils.i18n(@level, 'name'))
     courseName: -> @course and utils.i18n(@course, 'name')
     teacherBackUrl: -> @classroom and "/teachers/classes/#{@classroom?._id}"
     schoolAdministratorBackUrl: -> @classroom and "/school-administrator/teacher/#{@classroom?.ownerID}/classroom/#{@classroom?._id}"
@@ -58,7 +58,7 @@ ProjectGalleryComponent = Vue.extend
 
 module.exports = class ProjectGalleryView extends RootComponent
   id: 'project-gallery-view'
-  template: require 'templates/base-flat'
+  template: require 'app/templates/base-flat'
   VueComponent: ProjectGalleryComponent
   constructor: (options, @courseInstanceID) ->
     @propsData = { @courseInstanceID }

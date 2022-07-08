@@ -1,6 +1,6 @@
 require 'ozaria/site/styles/play/level/tome/spell_toolbar.sass'
 CocoView = require 'views/core/CocoView'
-template = require 'ozaria/site/templates/play/level/tome/spell_toolbar'
+template = require 'app/templates/play/level/tome/spell_toolbar'
 
 module.exports = class SpellToolbarView extends CocoView
   className: 'spell-toolbar-view'

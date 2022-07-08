@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/play/level/modal/reload-level-modal'
+template = require 'app/templates/play/level/modal/reload-level-modal'
 
 module.exports = class ReloadLevelModal extends ModalView
   id: '#reload-level-modal'

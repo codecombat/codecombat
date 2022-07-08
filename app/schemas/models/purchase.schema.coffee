@@ -14,8 +14,9 @@ PurchaseSchema = c.object({title: 'Purchase', required: ['purchaser', 'recipient
     original: c.objectId(title: 'Target Original')
   })
   created: c.date({title: 'Created', readOnly: true})
+  archived: c.date {description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'}
 })
 
-c.extendBasicProperties(PurchaseSchema, 'patch')
+c.extendBasicProperties(PurchaseSchema, 'purchase')
 
 module.exports = PurchaseSchema

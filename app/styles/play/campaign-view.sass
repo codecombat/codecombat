@@ -1,10 +1,11 @@
+@use "sass:math"
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 
 $mapHeight: 1536
 $mapWidth: 2350
 $levelDotWidth: 2%
-$levelDotHeight: $levelDotWidth * $mapWidth / $mapHeight
+$levelDotHeight: math.div($levelDotWidth * $mapWidth, $mapHeight)
 $levelDotZ: $levelDotHeight * 0.25
 $levelDotHoverZ: $levelDotZ * 1.5
 $levelDotShadowWidth: 0.8 * $levelDotWidth
@@ -16,13 +17,13 @@ $gameControlMargin: 30px
 +keyframes(levelStartedPulse)
   from
     @include box-shadow(0px 0px 4px #333)
-    margin-bottom: -$levelDotHeight / 3 + $levelDotZ
+    margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotZ
   50%
     @include box-shadow(0px 0px 22px skyblue)
-    margin-bottom: -$levelDotHeight / 3 + ($levelDotHoverZ + $levelDotZ) / 2
+    margin-bottom: math.div(-$levelDotHeight, 3) + math.div(($levelDotHoverZ + $levelDotZ), 2)
   to
     @include box-shadow(0px 0px 4px #333)
-    margin-bottom: -$levelDotHeight / 3 + $levelDotZ
+    margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotZ
 
 #campaign-view
   top: 0
@@ -173,7 +174,7 @@ $gameControlMargin: 30px
       width: $levelDotWidth
       height: $levelDotHeight
       margin-left: -0.5 * $levelDotWidth
-      margin-bottom: -$levelDotHeight / 3 + $levelDotZ
+      margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotZ
       border: 2px groove white
       @include transition(margin-bottom 0.5s ease)
       cursor: pointer
@@ -196,7 +197,7 @@ $gameControlMargin: 30px
         width: $levelDotWidth * 0.67
         height: $levelDotHeight * 0.67
         margin-left: -0.5 * 0.67 * $levelDotWidth
-        margin-bottom: -$levelDotHeight / 3 * 0.67 + $levelDotZ / 2
+        margin-bottom: math.div(math.div(-$levelDotHeight, 3) * 0.67 + $levelDotZ, 2)
 
         .treasure-chest
           transform: translateX(-50%) translateY(-200%) scaleY(1.33) scale(0.95)
@@ -298,9 +299,9 @@ $gameControlMargin: 30px
       border-radius: 50%
       background: white
       width: $levelDotWidth * 1.5
-      height: $levelDotHeight * 1.5 / 1.75
+      height: math.div($levelDotHeight * 1.5, 1.75)
       margin-left: -0.5 * $levelDotWidth * 1.5
-      margin-bottom: -$levelDotHeight / 3 * 1.5 / 1.75
+      margin-bottom: math.div(math.div(-$levelDotHeight, 3) * 1.5, 1.75)
 
       &.hero-portrait-on-banner, &.item-portrait-on-banner
         bottom: 170%
@@ -317,7 +318,7 @@ $gameControlMargin: 30px
       width: $levelDotShadowWidth
       height: $levelDotShadowHeight
       margin-left: -0.5 * $levelDotShadowWidth
-      margin-bottom: -$levelDotShadowHeight / 3
+      margin-bottom: math.div(-$levelDotShadowHeight, 3)
       background-color: black
       @include box-shadow(0px 0px 10px black)
       @include opacity(0.75)
@@ -327,7 +328,7 @@ $gameControlMargin: 30px
         width: $levelDotShadowWidth * 0.67
         height: $levelDotShadowHeight * 0.67
         margin-left: -0.5 * 0.67 * $levelDotShadowWidth
-        margin-bottom: -$levelDotShadowHeight / 3 * 0.67
+        margin-bottom: math.div(-$levelDotShadowHeight, 3) * 0.67
 
     .level:hover
       // TODO: This rotate stops Firefox from flickering, but also disables the scaleY(0.75)
@@ -335,7 +336,7 @@ $gameControlMargin: 30px
       // TODO: -moz-transform: scaleY(0.75) didn't do anything
       // TODO: Does not break Chrome's oval.
       -moz-transform: rotate(0)
-      margin-bottom: -$levelDotHeight / 3 + $levelDotHoverZ
+      margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotHoverZ
       @include box-shadow(0px 0px 35px skyblue)
 
     .level
@@ -408,7 +409,7 @@ $gameControlMargin: 30px
         &.complete.premium .level-status
           background-position: -180px 0
 
-        .start-level
+        .start-level, .start-esports
           min-width: 200px
           display: block
           margin: 10px auto 0 auto
@@ -594,17 +595,20 @@ $gameControlMargin: 30px
     font-size: 24px
     color: white
     text-shadow: 0px 2px 1px black, 0px -2px 1px black, -2px 0px 1px black, 2px 0px 1px black
-    height: 32px
-    line-height: 32px
+    height: 33px
+    line-height: 33px
 
     .user-status-line
       position: relative
 
-      button.btn.btn-illustrated
+      .btn.btn-illustrated
         margin-left: 10px
         min-width: 90px
-        height: 32px
+        height: 33px
         color: white
+
+        option
+          color: black
 
       .rtl-allowed
         display: inline-block
@@ -760,9 +764,6 @@ $gameControlMargin: 30px
       #anon-classroom-join-btn
         margin-top: -4px
 
-  .particle-man
-    z-index: 2
-
   .portal
     position: relative
     width: 100%
@@ -772,6 +773,10 @@ $gameControlMargin: 30px
     align-items: center
     justify-content: center
     overflow: hidden
+    @media (hover: none)
+      overflow: scroll
+      @media (orientation: landscape)
+        align-items: initial
 
     .portals
       $campaignWidth: 317px
@@ -781,11 +786,13 @@ $gameControlMargin: 30px
       flex-wrap: nowrap
       display: flex
       overflow: hidden
+      @media (hover: none)
+        overflow: scroll
 
       .campaign
         width: $campaignWidth
         height: $campaignHeight
-        margin-top: $campaignHeight * ($campaignHoverScale - 1) / 2
+        margin-top: $campaignHeight * math.div($campaignHoverScale - 1, 2)
         background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat 0 0
         display: inline-block
         flex-shrink: 0
@@ -854,13 +861,16 @@ $gameControlMargin: 30px
 
         .beta-campaign
           width: $campaignWidth
-          height: $campaignHeight / 2
+          height: math.div($campaignHeight, 2)
           display: inline-block
           flex-shrink: 0
           position: relative
           cursor: pointer
           // http://easings.net/#easeOutBack plus tweaked a bit: http://cubic-bezier.com/#.11,.67,.08,1.42
           @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
+
+          &[data-campaign-slug='campaign-game-dev-3']
+            margin-top: 230px
 
           &:hover
             @include scale($campaignHoverScale)
@@ -905,11 +915,11 @@ $gameControlMargin: 30px
 
           .background-container
             position: absolute
-            left: $campaignWidth / 4
-            width: $campaignWidth / 2
-            height: $campaignHeight / 2
+            left: math.div($campaignWidth, 4)
+            width: math.div($campaignWidth, 2)
+            height: math.div($campaignHeight, 2)
             background: transparent url(/images/pages/play/portal-beta-campaigns.png) no-repeat 0 0
-            background-size: $betaImagesWidth / 2
+            background-size: math.div($betaImagesWidth, 2)
 
             &.campaign-web-dev-1
               background-position: -151px 0px
@@ -919,7 +929,11 @@ $gameControlMargin: 30px
               background-position: -291px 0px
             &.campaign-game-dev-2
               background-position: -628px 0px
+            &.campaign-game-dev-3
+              background-position: -628px 0px
 
+  #esports-arena
+    min-width: 210px
 
   .small-nav-logo, .picoctf-powered-by
     position: absolute
@@ -938,13 +952,6 @@ $gameControlMargin: 30px
     z-index: 1
     width: 193px
 
-  #videos-button
-    position: absolute
-    top: calc(1% + 128px)
-    left: 1%
-    z-index: 1
-    width: 193px
-
   .picoctf-powered-by
     color: rgb(227, 173, 53)
     top: calc(1% + 90px)
@@ -957,26 +964,21 @@ $gameControlMargin: 30px
     top: calc(1% + 5px)
     left: calc(1% + 200px)
 
-  .ad-container
-    width: 100%
-    height: 90px
-    text-align: center
-
   .gameplay-container
     position: absolute
     height: 100%
     width: 100%
 
-  #amazon-campaign-container
-    width: 200px
-    position: absolute
-    top: 60px
-    left: 20px
-    z-index: 1
+  #amazon-campaign-logo, #santa-clara-logo, #arapahoe-logo
     cursor: pointer
+    width: 200px
 
-    #amazon-campaign-logo
-      width: 200px
+  #santa-clara-logo
+    filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
+
+  #arapahoe-logo
+    filter: drop-shadow(1px 1px 0px #000) drop-shadow(-1px -1px 0px #000) drop-shadow(1px -1px 0px #000) drop-shadow(-1px 1px 0px #000)
+    background-color: #fff
 
   #game-dev-hoc-license-alert
     position: absolute
@@ -994,3 +996,10 @@ body.ipad #campaign-view
 
 body[lang='ru'] .portals h2
   font-size: 26px
+
+body:not([lang*="-"]) #campaign-view .user-status .user-status-line .language-dropdown
+  width: 148px
+
+body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdown
+  width: 112px
+

@@ -97,7 +97,7 @@
         }
 
         return this.answerSlots
-          .map((s) => s.elementId)
+          .map((s) => s.id || s.elementId)
       },
 
       solutionCorrect () {
@@ -139,8 +139,14 @@
 
     methods: {
       async submitSolution () {
-        this.showModal = true
-        this.submitEnabled = false
+        if (this.solutionCorrect) {
+          // Straight to standard victory modal rather than interactive modal
+          this.$emit('completed')
+          this.submitEnabled = true
+        } else {
+          this.showModal = true
+          this.submitEnabled = false
+        }
 
         if (!this.questionAnswered) {
           return
@@ -159,12 +165,7 @@
       },
 
       closeModal () {
-        if (this.solutionCorrect) {
-          this.$emit('completed')
-        } else {
-          this.resetAnswer()
-        }
-
+        this.resetAnswer()
         this.showModal = false
         this.submitEnabled = true
       },
@@ -324,7 +325,7 @@
     font-family: 'Roboto Mono', monospace;
 
     .slot {
-      font-size: 16px;
+      font-size: 1.3vw;
       color: #232323;
 
       width: 25%;
@@ -342,7 +343,7 @@
     &.answer-slot-row {
       margin-bottom: $height + 15px;
 
-      /deep/ .slot {
+      ::v-deep .slot {
         ul:empty {
           border: 1.17px dashed #ACB9FC;
         }
@@ -361,9 +362,10 @@
 
           text-align: left;
           justify-content: left;
+          align-items: start;
 
           color: #232323;
-          font-size: 16px;
+          font-size: 14px;
 
           padding: 5px;
         }
@@ -382,11 +384,21 @@
 
   .submit {
     justify-content: flex-end;
-
     margin: auto auto 18.69px auto;
+
+    @media(max-height: 799px) {
+      position: absolute;
+      right: 61%;
+      bottom: 5%;
+    }
+    @media(max-width: 1199px) {
+      position: absolute;
+      right: 61%;
+      bottom: 5%;
+    }
   }
 
-  /deep/ .slot {
+  ::v-deep .slot {
     height: 35px;
 
     ul {

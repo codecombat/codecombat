@@ -1,6 +1,7 @@
 storage = require 'core/storage'
 locale = require 'locale/locale'
 utils = require 'core/utils'
+globalVar = require 'core/globalVar'
 
 class CocoModel extends Backbone.Model
   idAttribute: '_id'
@@ -21,7 +22,7 @@ class CocoModel extends Backbone.Model
     @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
     @usesVersions = @schema()?.properties?.version?
-    if window.application?.testing
+    if globalVar.application?.testing
       @fakeRequests = []
       @on 'request', -> @fakeRequests.push jasmine.Ajax.requests.mostRecent()
 
@@ -78,7 +79,7 @@ class CocoModel extends Backbone.Model
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
 
   getTranslatedName: ->
-    utils.i18n(@attributes, 'name')
+    utils.i18n(@attributes, 'displayName') || utils.i18n(@attributes, 'name')
 
   attributesWithDefaults: undefined
 
@@ -325,6 +326,7 @@ class CocoModel extends Backbone.Model
     return if _.isString @url then @url else @url()
 
   @pollAchievements: ->
+    return if utils.isOzaria  # Not needed until/unlesss we start using achievements in Ozaria
     return if application?.testing
 
     CocoCollection = require 'collections/CocoCollection'
@@ -343,7 +345,7 @@ class CocoModel extends Backbone.Model
         console.error 'Miserably failed to fetch unnotified achievements', arguments
       cache: false
 
-  CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 500
+  CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 3000
 
 
   #- Internationalization

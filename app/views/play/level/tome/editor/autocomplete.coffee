@@ -69,6 +69,12 @@ module.exports = class Autocomplete
       @activateCompleter()
       @editor.commands.on 'afterExec', @doLiveCompletion
 
+  destroy: ->
+    # Noticed a memory leak, so added a destroy function here
+    @editor.commands.off 'afterExec', @doLiveCompletion  # Seems important to do
+    @bgTokenizer?.stop?()  # Guessing
+    @snippetManager?.unregister @oldSnippets if @oldSnippets?  # Guessing
+
   setAceOptions: () ->
     aceOptions =
       'enableLiveAutocompletion': @options.liveCompletion
@@ -252,6 +258,7 @@ module.exports = class Autocomplete
     haveFindNearestEnemy = false
     haveFindNearest = false
     autocompleteReplacement = level.get("autocompleteReplacement") ? []
+    usedAutocompleteReplacement = []
     for group, props of e.propGroups
       for prop in props
         if _.isString prop  # organizePalette
@@ -265,9 +272,14 @@ module.exports = class Autocomplete
         if e.language in ['java', 'cpp'] and not doc?.snippets?[e.language] and doc?.snippets?.javascript
           # These are mostly the same, so use the JavaScript ones if language-specific ones aren't available
           doc.snippets[e.language] = doc.snippets.javascript
+        if e.language in ['lua', 'coffeescript', 'python'] and not doc?.snippets?[e.language] and (doc?.snippets?.python or doc?.snippets?.javascript)
+          # These are mostly the same, so use the Python or JavaScript ones if language-specific ones aren't available
+          doc.snippets[e.language] = doc?.snippets?.python or doc.snippets.javascript
         if doc?.snippets?[e.language]
           name = doc.name
           replacement = _.find(autocompleteReplacement, (el) -> el.name is name)
+          if replacement
+            usedAutocompleteReplacement.push(replacement.name)
           content = replacement?.snippets?[e.language]?.code or doc.snippets[e.language].code
           if /loop/.test(content) and level.get 'moveRightLoopSnippet'
             # Replace default loop snippet with an embedded moveRight()
@@ -315,10 +327,14 @@ module.exports = class Autocomplete
 
           if doc.userShouldCaptureReturn
             varName = doc.userShouldCaptureReturn.variableName ? 'result'
+            type = doc.userShouldCaptureReturn.type?[e.language]
+            type ?= switch e.language
+              when 'javascript', 'java' then 'var'
+              when 'cpp' then 'auto'
+              when 'lua' then 'local'
+              else ''
             entry.captureReturn = switch e.language
-              when 'javascript', 'java' then 'var ' + varName + ' = '
-              when 'cpp' then 'auto ' + varName + ' = '  # TODO: be smarter about return types when we can?
-              #when 'lua' then 'local ' + varName + ' = '  # TODO: should we do this?
+              when 'javascript', 'java', 'cpp', 'lua' then type + ' ' + varName + ' = '
               else varName + ' = '
 
     # TODO: Generalize this snippet replacement
@@ -339,6 +355,17 @@ module.exports = class Autocomplete
 
     if haveFindNearest and not haveFindNearestEnemy
       spellView.translateFindNearest()
+
+    for replacement in autocompleteReplacement
+      continue if replacement.name in usedAutocompleteReplacement
+      continue if not replacement.snippets
+      entry =
+        content: replacement?.snippets?[e.language]?.code
+        meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
+        name: replacement.name
+        tabTrigger: replacement.snippets?[e.language]?.tab
+        importance: replacement.autoCompletePriority ? 1.0
+      snippetEntries.push entry
 
     # window.AutocompleteInstance = @Autocomplete  # For debugging. Make sure to not leave active when committing.
     # window.snippetEntries = snippetEntries

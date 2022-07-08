@@ -1,8 +1,10 @@
 require('app/styles/test-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/test-view'
+template = require 'app/templates/test-view'
 requireUtils = require 'lib/requireUtils'
 storage = require 'core/storage'
+globalVar = require 'core/globalVar'
+utils = require 'core/utils'
 loadAetherLanguage = require("lib/loadAetherLanguage")
 
 require('vendor/styles/jasmine.css')
@@ -47,6 +49,7 @@ module.exports = TestView = class TestView extends RootView
     @loadedFileIDs = []
 
   afterInsert: ->
+    super()
     Promise.all(
       ["python", "coffeescript", "lua"].map(
         loadAetherLanguage
@@ -124,7 +127,7 @@ module.exports = TestView = class TestView extends RootView
       jasmine.demoEl = _.once ($el) ->
         $('#demo-area').append($el)
       jasmine.demoModal = _.once (modal) ->
-        currentView.openModalView(modal)
+        globalVar.currentView.openModalView(modal)
     else
       jasmine.demoEl = _.noop
       jasmine.demoModal = _.noop
@@ -158,7 +161,12 @@ module.exports = TestView = class TestView extends RootView
 
       requireTests(file) for file in specFiles # This runs the spec files
   @getAllSpecFiles = ->
-    requireTests.keys()
+    allTests = requireTests.keys()
+    product = if utils.isOzaria then 'ozaria' else 'codecombat'
+    productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
+    otherProductSuffix = { codecombat: 'ozar', ozaria: 'coco' }[product]
+    productSpecificTests = (file for file in allTests when not ///\.#{otherProductSuffix}\.(coffee|js)$///.test(file))
+    return productSpecificTests
 
   destroy: ->
     # hack to get jasmine tests to properly run again on clicking links, and make sure if you

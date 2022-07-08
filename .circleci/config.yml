@@ -35,7 +35,8 @@ jobs:
             tar -xzvf hub.tgz --strip 1
             sudo mv ./bin/hub /usr/local/bin
 
-      - run: node -r coffee-script/register scripts/copy-i18n-tags.js
+      - run: COCO_PRODUCT=codecombat node -r coffee-script/register scripts/copy-i18n-tags.js
+      - run: COCO_PRODUCT=ozaria node -r coffee-script/register scripts/copy-i18n-tags.js
 
       - run:
           command: |
@@ -55,7 +56,7 @@ jobs:
             git push origin $BRANCH_NAME
 
             # TODO remove reviewer after we're confident in script runs
-            hub pull-request --base master --message 'Run copy-i18n-tags' --reviewer codeluggage
+            hub pull-request --base master --message 'Run copy-i18n-tags' --reviewer mrfinch
 
 
 workflows:

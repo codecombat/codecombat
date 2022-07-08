@@ -1,6 +1,6 @@
 require('app/styles/editor/patch.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/patch_modal'
+template = require 'app/templates/editor/patch_modal'
 DeltaView = require 'views/editor/DeltaView'
 auth = require 'core/auth'
 deltasLib = require 'core/deltas'

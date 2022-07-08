@@ -1,3 +1,4 @@
+@use "sass:math";
 //
 // Navbars
 // --------------------------------------------------
@@ -11,11 +12,11 @@
 .navbar {
   position: relative;
   min-height: $navbar-height; // Ensure a navbar always shows (e.g., without a .navbar-brand in collapsed mode)
-  margin-bottom: $navbar-margin-bottom;  
+  margin-bottom: $navbar-margin-bottom;
 
   border-color: $navbar-default-border;
 
-  @include gradient-vertical($navbar-highlight-bg, $navbar-default-bg);  
+  @include gradient-vertical($navbar-highlight-bg, $navbar-default-bg);
 
   @include box-shadow(0 1px 4px rgba(0,0,0,.065));
 
@@ -34,7 +35,7 @@
 // styling of responsive aspects.
 
 .navbar-header {
-  @include clearfix();  
+  @include clearfix();
 
   @media (min-width: $grid-float-breakpoint) {
     float: left;
@@ -210,7 +211,7 @@
 // the nav the full height of the horizontal nav (above 768px).
 
 .navbar-nav {
-  margin: ($navbar-padding-vertical / 2) (-$navbar-padding-horizontal);
+  margin: math.div($navbar-padding-vertical, 2) (-$navbar-padding-horizontal);
 
   > li > a {
     padding-top:    10px;

@@ -12,12 +12,13 @@ export default {
   },
   data: () => ({
     cutscene: null,
+    treema: null,
     state: {
       saving: false
     }
   }),
   mounted: function() {
-    if (!me.hasCutsceneAccess()) {
+    if (!me.hasCutsceneEditorAccess()) {
       alert('You must be logged in as an admin to use this page.')
       return application.router.navigate('/editor', { trigger: true })
     }
@@ -45,6 +46,7 @@ export default {
       const treema = this.treema = TreemaNode.make(el, {
         data: data,
         schema: Cutscene.schema,
+        filePath: 'cutscene',
         callbacks: {
           change: this.onTreemaChange
         }
@@ -70,6 +72,31 @@ export default {
 
     watchCutscene () {
       application.router.navigate(`/cutscene/${this.cutscene.get('slug')}`, { trigger: true })
+    },
+
+    /**
+     * Ensures that there is an empty `i18n` field set on the cutscene.
+     * Allows fields to be translated via /i18n route.
+     */
+    makeTranslatable () {
+      if (!(this.treema || {}).data) {
+        noty({ text: 'Nothing to translate', timeout: 1000 })
+        return
+      }
+
+      if (!window.confirm('This will populate any missing i18n fields so that cutscene can be translated. Do you want to continue?')) {
+        noty({ text: 'Cancelled', timeout: 1000 })
+        return
+      }
+
+      const cutsceneData = this.treema.data;
+      const i18n = cutsceneData.i18n
+      if (i18n === undefined) {
+        cutsceneData.i18n = { '-': { '-': '-' } }
+      }
+
+      noty({ text: 'Translations added. Please save to keep changes', type: 'success', timeout: 8000 })
+      this.onTreemaChange()
     }
   }
 }
@@ -84,6 +111,7 @@ export default {
       <button v-on:click="saveCutscene" :disabled="state.saving || !cutscene">save</button>
       <button v-on:click="watchCutscene">Watch Cutscene</button>
       <button><a href="/editor/cutscene">Back to list view</a></button>
+      <button @click="makeTranslatable">Make Translatable</button>
     </div>
   </div>
   <div id="treema-editor" ref="treemaEditor" v-once></div>

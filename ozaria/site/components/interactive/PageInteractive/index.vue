@@ -79,12 +79,12 @@
     },
 
     async created () {
-      if (!me.hasInteractiveAccess()) {
-        alert('You must be logged in as an admin to use this page.')
-        return application.router.navigate('/', { trigger: true })
-      }
-
       await this.getInteractiveData()
+      window.tracker.trackEvent('Loaded Interactive', {interactiveId: (this.currentInteractive || {})._id}, ['Google Analytics'])
+    },
+
+    beforeDestroy: function()  {
+      window.tracker.trackEvent('Unloaded Interactive', {interactiveId: (this.currentInteractive || {})._id}, ['Google Analytics'])
     },
 
     methods: {
@@ -95,6 +95,7 @@
 
       onCompleted () {
         this.$emit('completed', this.currentInteractive)
+        window.tracker.trackEvent('Completed Interactive', {interactiveId: (this.currentInteractive || {})._id}, ['Google Analytics'])
       },
 
       async getInteractiveData () {

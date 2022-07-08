@@ -1,3 +1,4 @@
+@use "sass:math"
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 
@@ -162,13 +163,29 @@
 
   .auth-network-logins
     position: absolute
-    top: 358px
-    width: 580px
-    left: 48px
-    padding-left: 29px
+
+    &.two-choices
+      top: 364px
+      width: 580px
+      left: 48px
+      padding-left: 29px
+
+      .network-login
+        width: 251px
+
+        img
+          width: 251px
+
+    &.three-choices
+      top: 369px
+
+      .network-login
+        width: 207px
+
+        img
+          width: 207px
 
     .network-login
-      width: 251px
       height: 60px
       float: left
       text-align: center
@@ -183,13 +200,13 @@
 
       .sign-in-blurb
         line-height: 34px
-        
-      #facebook-blurb  
+
+      #facebook-blurb
         margin-left: 12px
 
       .fb-login-button
-        $scaleX: 251 / 64
-        $scaleY: 60 / 23
+        $scaleX: math.div(251, 64)
+        $scaleY: math.div(60, 23)
         transform: scale($scaleX, $scaleY)
         position: absolute
         top: 4px
@@ -200,17 +217,18 @@
         position: absolute
         left: 65px
         top: -6px
-        $scaleX: 251 / 84
-        $scaleY: 60 / 24
+        $scaleX: math.div(251, 84)
+        $scaleY: math.div(60, 24)
         transform: scale($scaleX, $scaleY)
         @include opacity(0.01)
 
-      .google-login-img
-        width: 251px
-
       .fb-login-img
         width: 251px
-        margin-top: 8px
+        margin-top: 5px
+        border-radius: 3px
+
+      .clever-login-img
+        height: 43px
 
     #github-login-button
       position: relative
@@ -252,10 +270,10 @@
       height: 70px
       line-height: 40px
 
-      
+
 .ie10 #auth-modal .auth-network-logins .btn.btn-lg.network-login .network-logo, .lt-ie10 #auth-modal .auth-network-logins .btn.btn-lg.network-login .network-logo
   left: 15px
-  top: 15px  
+  top: 15px
 
 body[lang^='pt'], body[lang^='es'], body[lang='fr'], body[lang^='de'], body[lang='hu'], body[lang='pl'], body[lang='sr'], body[lang='sk']
   #auth-modal .auth-network-logins .btn.btn-lg.network-login

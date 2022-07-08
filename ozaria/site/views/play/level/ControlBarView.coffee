@@ -10,7 +10,7 @@ Campaign = require 'models/Campaign'
 Classroom = require 'models/Classroom'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
-GameMenuModal = require 'views/play/menu/GameMenuModal'
+GameMenuModal = require 'ozaria/site/views/play/menu/GameMenuModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 
@@ -110,7 +110,7 @@ module.exports = class ControlBarView extends CocoView
       @homeViewClass = 'views/play/CampaignView'
       @homeViewArgs.push gameDevCampaign
     else if me.isSessionless()
-      @homeLink = "/teachers/courses"
+      @homeLink = "/teachers/units"
       @homeViewClass = "views/courses/TeacherCoursesView"
     else if @level.isType('ladder', 'ladder-tutorial', 'hero-ladder', 'course-ladder')
       levelID = @level.get('slug')?.replace(/\-tutorial$/, '') or @level.id

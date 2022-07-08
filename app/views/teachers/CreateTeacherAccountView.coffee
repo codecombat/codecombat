@@ -10,6 +10,7 @@ algolia = require 'core/services/algolia'
 State = require 'models/State'
 countryList = require('country-list')()
 UsaStates = require('usa-states').UsaStates
+globalVar = require 'core/globalVar'
 
 
 SIGNUP_REDIRECT = '/teachers/classes'
@@ -18,7 +19,7 @@ SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 
 module.exports = class CreateTeacherAccountView extends RootView
   id: 'create-teacher-account-view'
-  template: require 'templates/teachers/create-teacher-account-view'
+  template: require 'app/templates/teachers/create-teacher-account-view'
 
   events:
     'click .login-link': 'onClickLoginLink'
@@ -39,7 +40,7 @@ module.exports = class CreateTeacherAccountView extends RootView
     @trialRequests = new TrialRequests()
     @trialRequests.fetchOwn()
     @supermodel.trackCollection(@trialRequests)
-    window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers'
     @state = new State {
       suggestedNameText: '...'
       checkEmailState: 'standby' # 'checking', 'exists', 'available'
@@ -163,7 +164,7 @@ module.exports = class CreateTeacherAccountView extends RootView
 
   onChangeForm: ->
     unless @formChanged
-      window.tracker?.trackEvent 'Teachers Create Account Form Started', category: 'Teachers', ['Mixpanel']
+      window.tracker?.trackEvent 'Teachers Create Account Form Started', category: 'Teachers'
     @formChanged = true
 
   onSubmitForm: (e) ->
@@ -182,13 +183,6 @@ module.exports = class CreateTeacherAccountView extends RootView
       trialRequestAttrs.educationLevel.push(val) if val
 
     forms.clearFormAlerts(form)
-    tv4.addFormat({
-      'phoneNumber': (phoneNumber) ->
-        if forms.validatePhoneNumber(phoneNumber)
-          return null
-        else
-          return {code: tv4.errorCodes.FORMAT_CUSTOM, message: 'Please enter a valid phone number, including area code.'}
-    })
 
     result = tv4.validateMultiple(trialRequestAttrs, formSchema)
     error = false
@@ -247,7 +241,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       errors.showNotyNetworkError(arguments...)
 
   onTrialRequestSubmit: ->
-    window.tracker?.trackEvent 'Teachers Create Account Submitted', category: 'Teachers', ['Mixpanel']
+    window.tracker?.trackEvent 'Teachers Create Account Submitted', category: 'Teachers'
     @formChanged = false
 
     Promise.resolve()
@@ -293,7 +287,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       trialRequestIdentifyData.educationLevel_college = _.contains @trialRequest.attributes.properties.educationLevel, "College+"
 
       application.tracker.identifyAfterNextPageLoad()
-      return window.application.tracker.identify trialRequestIdentifyData
+      return globalVar.application.tracker.identify trialRequestIdentifyData
 
     .then =>
       trackerCalls = []
@@ -311,7 +305,7 @@ module.exports = class CreateTeacherAccountView extends RootView
         )
 
       trackerCalls.push(
-        window.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
+        globalVar.application.tracker?.trackEvent 'Finished Signup', category: "Signup", label: loginMethod
       )
 
       return Promise.all(trackerCalls).catch(->)

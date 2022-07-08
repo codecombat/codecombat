@@ -1,12 +1,12 @@
 require('app/styles/account/account-prepaid-view.sass')
 RootView = require 'views/core/RootView'
-template = require 'templates/account/prepaid-view'
+template = require 'app/templates/account/prepaid-view'
 {getPrepaidCodeAmount} = require '../../core/utils'
 CocoCollection = require 'collections/CocoCollection'
 Prepaid = require '../../models/Prepaid'
 utils = require 'core/utils'
 Products = require 'collections/Products'
-
+CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 
 module.exports = class PrepaidView extends RootView
   id: 'prepaid-view'
@@ -38,6 +38,10 @@ module.exports = class PrepaidView extends RootView
   afterRender: ->
     super()
     @$el.find("span[title]").tooltip()
+    if me.isAnonymous() and @ppc
+      _.defer => @openModalView(new CreateAccountModal({startOnPath: 'individual'})) unless @destroyed
+      window.nextURL = location.href
+
 
   statusMessage: (message, type='alert') ->
     noty text: message, layout: 'topCenter', type: type, killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3
@@ -75,10 +79,12 @@ module.exports = class PrepaidView extends RootView
       @ppcInfo = []
       if model.get('type') is 'terminal_subscription'
         months = model.get('properties')?.months ? 0
+        days = model.get('properties')?.days ? 0
         maxRedeemers = model.get('maxRedeemers') ? 0
         redeemers = model.get('redeemers') ? []
         unlocksLeft = maxRedeemers - redeemers.length
-        @ppcInfo.push "This prepaid code adds <strong>#{months} months of subscription</strong> to your account."
+        duration = if months then "#{months} months" else "#{days} days"
+        @ppcInfo.push "This prepaid code adds <strong>#{duration} of subscription</strong> to your account."
         @ppcInfo.push "It can be used <strong>#{unlocksLeft} more</strong> times."
         # TODO: user needs to know they can't apply it more than once to their account
       else
@@ -114,3 +120,7 @@ module.exports = class PrepaidView extends RootView
       me.fetch cache: false
       @loadPrepaid(@ppc)
     @supermodel.addRequestResource('subscribe_prepaid', options, 0).load()
+
+  destroy: ->
+    super()
+    window.nextURL = null

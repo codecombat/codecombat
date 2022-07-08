@@ -1,18 +1,8 @@
-FacebookHandler = require 'core/social-handlers/FacebookHandler'
-GPlusHandler = require 'core/social-handlers/GPlusHandler'
-GitHubHandler = require 'core/social-handlers/GitHubHandler'
-locale = require 'locale/locale'
-{me} = require 'core/auth'
-storage = require 'core/storage'
-Tracker = require('core/Tracker2').default
-CocoModel = require 'models/CocoModel'
-api = require 'core/api'
+globalVar = require 'core/globalVar'
 
-marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
-
-# TODO, add C-style macro constants like this?
+# TODO: move this out of here to where it should go
 window.SPRITE_RESOLUTION_FACTOR = 3
-window.SPRITE_PLACEHOLDER_WIDTH = 60
+window.SPRITE_PLACEHOLDER_WIDTH = 10
 
 # Prevent Ctrl/Cmd + [ / ], P, S
 ctrlDefaultPrevented = [219, 221, 80, 83]
@@ -32,11 +22,6 @@ elementAcceptsKeystrokes = (el) ->
   # not radio, checkbox, range, or color
   return (tag is 'textarea' or (tag is 'input' and type in textInputTypes) or el.contentEditable in ['', 'true']) and not (el.readOnly or el.disabled)
 
-COMMON_FILES = ['/images/pages/base/modal_background.png', '/images/level/popover_background.png', '/images/level/code_palette_wood_background.png', '/images/level/code_editor_background_border.png']
-preload = (arrayOfImages) ->
-  $(arrayOfImages).each ->
-    $('<img/>')[0].src = @
-
 # IE9 doesn't expose console object unless debugger tools are loaded
 window.console ?=
   info: ->
@@ -47,31 +32,33 @@ console.debug ?= console.log  # Needed for IE10 and earlier
 
 Application = {
   initialize: ->
+    i18next = require('i18next')
+    jqueryI18next = require('jquery-i18next')
+    CocoModel = require 'models/CocoModel'
+    FacebookHandler = require 'core/social-handlers/FacebookHandler'
+    GPlusHandler = require 'core/social-handlers/GPlusHandler'
+    GitHubHandler = require 'core/social-handlers/GitHubHandler'
+    locale = require 'locale/locale'
+    {me} = require 'core/auth'
+    Tracker = require('core/Tracker2').default
+    api = require 'core/api'
+    utils = require 'core/utils'
+    userUtils = require '../lib/user-utils' if utils.isCodeCombat
+
     Router = require('core/Router')
-    @isProduction = -> document.location.href.search('https?://localhost') is -1
     Vue.config.devtools = not @isProduction()
+    Vue.config.ignoredElements = ['stream'] # Used for Cloudflare Cutscene Player and would throw Vue warnings
 
     # propagate changes from global 'me' User to 'me' vuex module
     store = require('core/store')
-
-    routerSync = require('vuex-router-sync')
-    vueRouter = require('app/core/vueRouter').default()
-    routerSync.sync(store, vueRouter)
 
     me.on('change', ->
       store.commit('me/updateUser', me.changedAttributes())
     )
     store.commit('me/updateUser', me.attributes)
     store.commit('updateFeatures', features)
-    if me.showChinaRemindToast()
-      setInterval ( -> noty {
-        text: '你已经练习了一个小时了，建议休息一会儿哦'
-        layout: 'topRight'
-        type:'warning'
-        killer: false
-        timeout: 5000
-        }), 3600000  # one hour
-
+    if utils.isOzaria
+      store.dispatch('layoutChrome/syncSoundToAudioSystem')
 
     @store = store
     @api = api
@@ -91,35 +78,52 @@ Application = {
     if me.useSocialSignOn()
       @facebookHandler = new FacebookHandler()
       @gplusHandler = new GPlusHandler()
-      @githubHandler = new GitHubHandler()
+      #@githubHandler = new GitHubHandler(@)  # Currently unused
     $(document).bind 'keydown', preventBackspace
-    preload(COMMON_FILES)
     moment.relativeTimeThreshold('ss', 1) # do not return 'a few seconds' when calling 'humanize'
     CocoModel.pollAchievements()
     unless me.get('anonymous')
       @checkForNewAchievement()
-    $.i18n.init {
+    @remindPlayerToTakeBreaks()
+    userUtils.provisionPremium() if utils.isCodeCombat
+    window.i18n = i18nextInstance = i18next.default.createInstance {
       lng: me.get('preferredLanguage', true)
-      fallbackLng: 'en'
-      resStore: locale
-      useDataAttrOptions: true
+      fallbackLng: locale.mapFallbackLanguages()
+      resources: locale
+      interpolation: {prefix: '__', suffix: '__'}
       #debug: true
-      #sendMissing: true
-      #sendMissingTo: 'current'
-      #resPostPath: '/languages/add/__lng__/__ns__'
-    }, (t) =>
-      @router = new Router()
-      @userIsIdle = false
-      onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
-      @idleTracker = new Idle
-        onAway: onIdleChanged true
-        onAwayBack: onIdleChanged false
-        onHidden: onIdleChanged true
-        onVisible: onIdleChanged false
-        awayTimeout: 5 * 60 * 1000
-      @idleTracker.start()
+    }
+    i18nextInstance.init()
+    i18nextInstance.services.languageUtils.__proto__.formatLanguageCode = (code) -> code  # Hack so that it doesn't turn zh-HANS into zh-Hans
+    jqueryI18next.init i18nextInstance, $,
+      tName: 't'  # --> appends $.t = i18next.t
+      i18nName: 'i18n'  # --> appends $.i18n = i18next
+      handleName: 'i18n'  # --> appends $(selector).i18n(opts)
+      selectorAttr: 'data-i18n'  # selector for translating elements
+      targetAttr: 'i18n-target'  # data-() attribute to grab target element to translate (if different than itself)
+      optionsAttr: 'i18n-options'  # data-() attribute that contains options, will load/set if useOptionsAttr = true
+      useOptionsAttr: true  # see optionsAttr
+      parseDefaultValueFromContent: true  # parses default values from content ele.val or ele.text
+    # We need i18n loaded before setting up router.
+    # Otherwise dependencies can't use i18n.
+    routerSync = require('vuex-router-sync')
+    vueRouter = require('app/core/vueRouter').default()
+    routerSync.sync(store, vueRouter)
+
+    @router = new Router()
+    @userIsIdle = false
+    onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
+    @idleTracker = new Idle
+      onAway: onIdleChanged true
+      onAwayBack: onIdleChanged false
+      onHidden: onIdleChanged true
+      onVisible: onIdleChanged false
+      awayTimeout: 5 * 60 * 1000
+    @idleTracker.start()
 
   checkForNewAchievement: ->
+    utils = require 'core/utils'
+    return if utils.isOzaria  # Not needed until/unlesss we start using achievements in Ozaria
     if me.get('lastAchievementChecked')
       startFrom = new Date(me.get('lastAchievementChecked'))
     else
@@ -136,12 +140,29 @@ Application = {
     clear: -> api.admin.clearFeatureMode().then(-> document.location.reload())
   }
 
+  isProduction: ->
+    document.location.href.search('https?://localhost') is -1
+
   loadedStaticPage: window.alreadyLoadedView?
 
-  setHocCampaign: (campaignSlug) -> storage.save('hoc-campaign', campaignSlug)
-  getHocCampaign: -> storage.load('hoc-campaign')
+  setHocCampaign: (campaignSlug) ->
+    storage = require 'core/storage'
+    storage.save('hoc-campaign', campaignSlug)
 
+  getHocCampaign: ->
+    storage = require 'core/storage'
+    storage.load('hoc-campaign')
+
+  remindPlayerToTakeBreaks: ->
+    return unless me.showChinaRemindToast()
+    setInterval ( -> noty {
+      text: '你已经练习了一个小时了，建议休息一会儿哦'
+      layout: 'topRight'
+      type:'warning'
+      killer: false
+      timeout: 5000
+      }), 3600000  # one hour
 }
 
 module.exports = Application
-window.application = Application
+globalVar.application = Application

@@ -28,14 +28,26 @@
       window.addEventListener('resize', this.onResize)
       this.onResize()
       this.$nextTick(() => this.onResize())
+      Backbone.Mediator.subscribe('level:loading-view-unveiled', this.unveilResize, this)
     },
 
     beforeDestroy () {
       window.removeEventListener('resize', this.onResize)
+      Backbone.Mediator.unsubscribe('level:loading-view-unveiled', this.unveilResize, this)
     },
 
     methods: {
-      onResize (e) {
+      // Additional defensive coding for the callback as the Backbone.Mediator
+      // library doesn't seem to have an api for unsubscribing a single subscription.
+      unveilResize () {
+        const parent = this?.$refs?.el?.parentElement
+        if (!parent) {
+          return
+        }
+        this.onResize()
+      },
+
+      onResize () {
         const parent = this.$refs.el.parentElement
         if (!parent) {
           throw new Error('Element does not have parent')

@@ -1,5 +1,5 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/editor/thang/export-thang-type-modal'
+template = require 'app/templates/editor/thang/export-thang-type-modal'
 SpriteExporter = require 'lib/sprites/SpriteExporter'
 
 module.exports = class ExportThangTypeModal extends ModalView

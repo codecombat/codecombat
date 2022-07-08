@@ -1,4 +1,4 @@
-import { ConcurrentCommands } from './commands'
+import { ConcurrentCommands, SyncFunction } from './commands'
 import { getLanguageFilter } from '../../../../app/schemas/models/selectors/cinematic'
 
 /**
@@ -103,7 +103,13 @@ export const parseShot = (shot, systems, { programmingLanguage }) => {
   // If we have both dialogNodes and some setupCommands we want to
   // have the setup occur just before the first dialogNode.
   if (dialogNodes.length > 0 && setupCommands.length > 0) {
-    return [[...setupCommands, ...dialogNodes[0]], ...dialogNodes.slice(1)]
+    return [[...setupCommands, new SyncFunction(() => {
+      if (systems.autoplay) {
+        systems.autoplay.autoplay = true
+      } else {
+        console.error('No cinematic autoplay module')
+      }
+    })], ...dialogNodes]
   }
   if (dialogNodes.length === 0) {
     return [setupCommands]

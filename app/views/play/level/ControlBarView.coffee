@@ -2,7 +2,7 @@ require('app/styles/play/level/control-bar-view.sass')
 storage = require 'core/storage'
 
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/control-bar-view'
+template = require 'app/templates/play/level/control-bar-view'
 {me} = require 'core/auth'
 utils = require 'core/utils'
 
@@ -94,7 +94,7 @@ module.exports = class ControlBarView extends CocoView
   getRenderData: (c={}) ->
     super c
     c.worldName = @worldName
-    c.ladderGame = @level.isType('ladder', 'hero-ladder', 'course-ladder')
+    c.ladderGame = @level.isLadder()
     if @level.get 'replayable'
       c.levelDifficulty = @session.get('state')?.difficulty ? 0
       if @observing
@@ -112,7 +112,7 @@ module.exports = class ControlBarView extends CocoView
     else if me.isSessionless()
       @homeLink = "/teachers/courses"
       @homeViewClass = "views/courses/TeacherCoursesView"
-    else if @level.isType('ladder', 'ladder-tutorial', 'hero-ladder', 'course-ladder')
+    else if @level.isLadder()
       levelID = @level.get('slug')?.replace(/\-tutorial$/, '') or @level.id
       @homeLink = "/play/ladder/#{levelID}"
       @homeViewClass = 'views/ladder/LadderView'
@@ -122,6 +122,8 @@ module.exports = class ControlBarView extends CocoView
         @homeViewArgs.push leagueType
         @homeViewArgs.push leagueID
         @homeLink += "/#{leagueType}/#{leagueID}"
+        if tournamentId = utils.getQueryVariable('tournament')
+          @homeLink += "?tournament=#{tournamentId}"
     else if @level.isType('course') or @courseID
       @homeLink = "/play"
       if @course?
@@ -155,7 +157,7 @@ module.exports = class ControlBarView extends CocoView
   onClickHome: (e) ->
     if @level.isType('course')
       category = if me.isTeacher() then 'Teachers' else 'Students'
-      window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug, ['Mixpanel']
+      window.tracker?.trackEvent 'Play Level Back To Levels', category: category, levelSlug: @levelSlug
     e.preventDefault()
     e.stopImmediatePropagation()
     Backbone.Mediator.publish 'router:navigate', route: @homeLink, viewClass: @homeViewClass, viewArgs: @homeViewArgs

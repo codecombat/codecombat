@@ -1,5 +1,6 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
+@import "ozaria/site/styles/play/images"
 
 +keyframes(castablePulse)
   from
@@ -23,33 +24,83 @@
     @include box-shadow(0px 0px 8px #333)
     color: white
 
+@keyframes bounce-animation
+  0%
+    transform: translate(0px)
+  10%
+    transform: translate(0px, 5px)
+  20%
+    transform: translate(0px, -5px)
+  30%
+    transform: translate(0px)
+  50%
+    transform: translate(0px)
+  60%
+    transform: translate(0px, 5px)
+  70%
+    transform: translate(0px, -5px)
+  80%
+    transform: translate(0px)
+  100%
+    transform: translate(0px)
+
 #cast-button-view
   display: flex
   justify-content: center
   align-items: center
-  position: absolute
   width: 100%
   height: 100%
   background: #ffffff
   z-index: 2
 
-  div.play-button
+  button.play-button
     position: relative
-    width: 20.5%
     cursor: pointer
-    img.active-button
-      width: 100%
-    div.active-button-text
-      position: absolute
-      top: 50%
-      left: 50%
-      transform: translate(-50%, -50%)
-      color: #FFFFFF
-      font-family: "Roboto Mono"
-      font-size: 18px
+    // Reset default <button> styles
+    background-color: transparent
+    border: 0
+    padding: 0
+
+    display: flex
+    flex-direction: row
+    justify-content: space-around
+    text-transform: uppercase
+
+    &.active-button-text
+      color: #215055
+      font-family: "Work Sans"
+      font-size: 17px
       font-weight: bold
-      letter-spacing: 0.71px
-      line-height: 21px
+      letter-spacing: 0.77px
+      line-height: 20px
+
+      background-position: center
+      background-size: contain
+      background-repeat: no-repeat
+      background-image: url($Button)
+
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+
+      min-width: 120px
+      height: 100%
+
+      margin: 0 9px
+
+      & > span
+        padding: 0 20px
+
+      &#next:not(.inactive)
+        animation: bounce-animation 2.5s infinite
+
+    &:hover:not(:disabled):not(.inactive)
+      background-image: url($ButtonHover)
+
+    &.inactive
+      background-image: url($ButtonInactive)
+      cursor: default
 
   #reload-code
     display: flex
@@ -172,4 +223,4 @@ html.no-borderimage #cast-button-view
         &:active
           border: 0
           background-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png)
-          
+

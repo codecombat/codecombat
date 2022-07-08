@@ -2,7 +2,7 @@
 </style>
 
 <template>
-    <div v-html="pugOutput"></div>
+    <div id="raw-pug" v-html="pugOutput"></div>
 </template>
 
 <script>
@@ -18,8 +18,17 @@
     },
 
     watch: {
-      $route: function () {
+      $route: async function () {
         this.pugOutput = this.$props.pug()
+        await this.setI18n()
+      }
+    },
+    async mounted () {
+      await this.setI18n()
+    },
+    methods: {
+      async setI18n () {
+        $('#raw-pug').i18n()
       }
     }
   }

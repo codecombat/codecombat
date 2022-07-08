@@ -4,13 +4,15 @@ var lastSource = null;
 var lastOrigin = null;
 window.onerror = function(message, url, line, column, error){
   console.log("User script error on line " + line + ", column " + column + ": ", error);
-  lastSource.postMessage({
-    type: 'error',
-    message: message,
-    url: url,
-    line: line || 0,
-    column: column || 0,
-  }, lastOrigin);
+  if (lastSource) {
+    lastSource.postMessage({
+      type: 'error',
+      message: message,
+      url: url,
+      line: line || 0,
+      column: column || 0,
+    }, lastOrigin);
+  }
 }
 window.addEventListener('message', receiveMessage, false);
 
@@ -28,8 +30,8 @@ var allowedOrigins = [
     /^https?:\/\/localhost:[\d]+$/, // For local development
     /^https?:\/\/10.0.2.2:[\d]+$/, // For local virtual machines
     /^https?:\/\/coco\.code\.ninja$/,
-    /^https?:\/\/.*codecombat-staging-codecombat\.runnableapp\.com$/,
-    /^https?:\/\/(.*\.)?koudashijie\.com$/ // For china infrastructure
+    /^https?:\/\/(.*\.)?koudashijie\.com$/, // For china infrastructure
+    /^https?:\/\/(.*\.)?aojiarui\.com$/ // For china infrastructure
 ];
 
 function receiveMessage(event) {

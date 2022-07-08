@@ -1,6 +1,6 @@
 require('ozaria/site/styles/play/level/goals.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'ozaria/site/templates/play/level/goals.jade'
+template = require 'app/templates/play/level/goals'
 {me} = require 'core/auth'
 utils = require 'core/utils'
 LevelSession = require 'models/LevelSession'
@@ -21,7 +21,7 @@ module.exports = class LevelGoalsView extends CocoView
   constructor: (options) ->
     super options
     @level = options.level
-    
+
   afterRender: ->
     @levelGoalsComponent = new LevelGoals({
       el: @$('.goals-component')[0],
@@ -30,7 +30,7 @@ module.exports = class LevelGoalsView extends CocoView
     })
 
   onNewGoalStates: (e) ->
-    _.assign(@levelGoalsComponent, _.pick(e, 'overallStatus', 'timedOut', 'goals', 'goalStates'))
+    _.assign(@levelGoalsComponent, _.pick(e, 'overallStatus', 'timedOut', 'goals', 'goalStates', 'capstoneStage'))
     @levelGoalsComponent.casting = false
 
     @previousGoalStatus ?= {}
@@ -44,3 +44,9 @@ module.exports = class LevelGoalsView extends CocoView
   onTomeCast: (e) ->
     return if e.preload
     @levelGoalsComponent.casting = true
+
+  destroy: ->
+    silentStore = { commit: _.noop, dispatch: _.noop }
+    @levelGoalsComponent?.$destroy()
+    @levelGoalsComponent?.$store = silentStore
+    super()

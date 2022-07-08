@@ -1,0 +1,63 @@
+div.school-info-panel
+  .container-fluid.text-left
+    .row.m-y-2
+      .col-xs-offset-2.col-xs-8
+        nces-search-input(
+          v-bind:label='$t("teachers_quote.school_name")'
+          v-on:navSearchChoose="applySuggestion"
+          name="organization"
+          displayKey="name"
+          v-bind:initialValue="organization"
+          v-on:updateValue="updateValue"
+        )
+
+    .row.m-y-2
+      .col-xs-offset-2.col-xs-4
+        nces-search-input(
+          v-bind:label='$t("teachers_quote.district_name")'
+          v-on:navSearchChoose="applySuggestion"
+          name="district"
+          displayKey="district"
+          v-bind:initialValue="district"
+          v-bind:showRequired="showRequired"
+          v-on:updateValue="updateValue"
+        )
+
+      .col-xs-4
+        .form-group(v-bind:class="{ 'has-error': showRequired && !city }")
+          span.control-label
+            | {{ $t("teachers_quote.city") }}
+            =" "
+            strong(v-if="showRequired && !city") {{ $t("common.required_field") }}
+          input.form-control(name="city", v-model="city")
+
+    .row.m-y-2
+      if me.addressesIncludeAdministrativeRegion()
+        .col-xs-offset-2.col-xs-4
+          .form-group(v-bind:class="{ 'has-error': showRequired && !state }")
+            span.control-label
+              | {{ $t("teachers_quote.state") }}
+              =" "
+              strong(v-if="showRequired && !state") {{ $t("common.required_field") }}
+            select.form-control.state(name="state", v-model="state", v-if="country == 'United States'")
+              option(v-for="state in usaStates" v-bind:value="state.abbreviation")
+                | {{ state.abbreviation }}
+                = ", "
+                | {{ state.name }}
+            input.form-control(name="state", v-model="state", v-else)
+
+      .col-xs-4(class=me.addressesIncludeAdministrativeRegion()?"":"col-xs-offset-2")
+        .form-group(v-bind:class="{ 'has-error': showRequired && !country }")
+          span.control-label
+            | {{ $t("teachers_quote.country") }}
+            =" "
+            strong(v-if="showRequired && !country") {{ $t("common.required_field") }}
+          select.form-control.country(name="country", v-model="country", @change="onChangeCountry")
+            option(v-for="country in countriesList" v-bind:value="country")
+              | {{ countryMap[country] ? countryMap[country]: country  }}
+
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    button#create-account-btn.next-button.btn.btn-lg.btn-navy(v-on:click="clickContinue") {{ $t("common.next") }}
+    button.back-button.btn.btn-lg.btn-navy-alt(type='button', v-on:click="clickBack") {{ $t("common.back") }}

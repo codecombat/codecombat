@@ -41,7 +41,7 @@ module.exports = class CourseVictoryModal extends ModalView
     @nextLevel = new Level()
     @nextAssessment = new Level()
 
-    unless utils.ozariaCourseIDs.includes(@courseID)
+    unless utils.orderedCourseIDs.includes(@courseID)
       nextLevelPromise = api.levels.fetchNextForCourse({
         levelOriginalID: @level.get('original')
         @courseInstanceID
@@ -112,7 +112,7 @@ module.exports = class CourseVictoryModal extends ModalView
       # TODO: use supermodel.loadCollection for better caching but watch out for @session overwriting
       @levelSessions = new LevelSessions()
       @levelSessions.fetchForCourseInstance(@courseInstanceID, {}).then(=> @levelSessionsLoaded())
-    else if utils.ozariaCourseIDs.includes(@courseID)  # if it is ozaria course and there is no course instance, load campaign so that we can calculate next levels
+    else if utils.orderedCourseIDs.includes(@courseID)  # if it is ozaria course and there is no course instance, load campaign so that we can calculate next levels
       api.campaigns.get({campaignHandle: @course?.get('campaignID')}).then (@campaign) =>
         @levelSessionsLoaded()
     else
@@ -124,7 +124,7 @@ module.exports = class CourseVictoryModal extends ModalView
     @levelSessions?.add(@session)
 
     # get next level for ozaria course, no nextAssessment for ozaria courses
-    if utils.ozariaCourseIDs.includes(@courseID) 
+    if utils.orderedCourseIDs.includes(@courseID) 
       @getNextLevelOzaria().then (level) => 
         @nextLevel.set(level)
         @loadViews()
@@ -225,7 +225,7 @@ module.exports = class CourseVictoryModal extends ModalView
   # TODO: Remove rest of logic transferred to CourseVictoryComponent
   onToMap: ->
     if me.isSessionless()
-      link = "/teachers/courses"
+      link = "/teachers/units"
     else
       link = "/play/#{@course.get('campaignID')}?course-instance=#{@courseInstanceID}"
     window.tracker?.trackEvent 'Play Level Victory Modal Back to Map', category: 'Students', levelSlug: @level.get('slug'), []
@@ -234,7 +234,7 @@ module.exports = class CourseVictoryModal extends ModalView
   onDone: ->
     window.tracker?.trackEvent 'Play Level Victory Modal Done', category: 'Students', levelSlug: @level.get('slug'), []
     if me.isSessionless()
-      link = '/teachers/courses'
+      link = '/teachers/units'
     else
       link = '/students'
     @submitLadder()

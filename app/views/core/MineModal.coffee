@@ -1,6 +1,6 @@
 require('app/styles/modal/mine-modal.sass')
 ModalView = require 'views/core/ModalView'
-template = require 'templates/core/mine-modal'
+template = require 'app/templates/core/mine-modal'
 Products = require 'collections/Products'
 
 # define expectations for good rates before releasing
@@ -41,3 +41,4 @@ module.exports = class MineModal extends ModalView
 
   destroy: ->
     $("#modal-wrapper").off('mousemove')
+    super()

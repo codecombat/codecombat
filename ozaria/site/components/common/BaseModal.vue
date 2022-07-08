@@ -10,6 +10,7 @@
 
 <template>
   <base-modal-container class="ozaria-modal">
+    <slot name="close-icon" />
     <div class="ozaria-modal-content">
       <div class="ozaria-modal-header">
         <slot name="header" />
@@ -25,42 +26,52 @@
 </template>
 
 <style lang="sass">
-@import "ozaria/site/styles/common/variables.sass"
+@import "ozaria/site/styles/common/variables.scss"
 
 .ozaria-modal
-  /deep/ .modal-container
+  ::v-deep .modal-container
     width: 100%
     height: 100%
 
-    padding: 25px
-    border-radius: 10px
+    ::v-deep .modal-container
+      width: 60%
 
-    // transition: all .3s ease;
+      padding: 25px
+      border-radius: 10px
 
-.ozaria-modal-content
-  width: 100%
-  height: 100%
-  display: flex
-  justify-content: center
-  align-items: center
-  flex-direction: column
+      // transition: all .3s ease;
 
-  .ozaria-modal-header, .ozaria-modal-body, .ozaria-modal-footer
+  .ozaria-modal-content
+    width: 100%
+    height: 100%
+    max-height: 95vh
     display: flex
     justify-content: center
     align-items: center
-    width: inherit
-    padding: 10px
+    flex-direction: column
+    flex-flow: column
 
-  .ozaria-modal-header
-    font-weight: bold
-    font-size: 30px
-    font-family: $title-font-style
+    .ozaria-modal-header, .ozaria-modal-body, .ozaria-modal-footer
+      display: flex
+      justify-content: center
+      align-items: center
+      width: inherit
+      padding: 10px
 
-  .ozaria-modal-body
-    font-size: 20px
-    font-family: $body-font-style
+    .ozaria-modal-header
+      font-weight: bold
+      font-size: 30px
+      font-family: $title-font-style
+      flex: 0 1 auto
 
-  .ozaria-modal-footer
-    font-family: $body-font-style
+    .ozaria-modal-body
+      font-size: 20px
+      font-family: $body-font-style
+      flex: 1 1 auto
+      overflow-y: scroll
+      align-items: baseline
+
+    .ozaria-modal-footer
+      font-family: $body-font-style
+      flex: 0 1 auto
 </style>

@@ -1,6 +1,6 @@
 require('app/styles/play/level/duel-stats-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/duel-stats-view'
+template = require 'app/templates/play/level/duel-stats-view'
 ThangAvatarView = require 'views/play/level/ThangAvatarView'
 utils = require 'core/utils'
 
@@ -20,6 +20,8 @@ module.exports = class DuelStatsView extends CocoView
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'surface:frame-changed': 'onFrameChanged'
+    'sprite:speech-updated': 'onSpriteDialogue'
+    'level:sprite-clear-dialogue': 'onSpriteClearDialogue'
 
   constructor: (options) ->
     super options
@@ -112,3 +114,10 @@ module.exports = class DuelStatsView extends CocoView
     return if @teamGold[e.team] is e.gold
     @teamGold[e.team] = e.gold
     utils.replaceText @$find(e.team, '.gold-value'), '' + e.gold
+
+  onSpriteDialogue: (e) ->
+    return unless e.message
+    @$el.css 'display', 'none'  # Hide it while a blue message is showing
+
+  onSpriteClearDialogue: ->
+    @$el.css 'display', 'flex'  # Show it

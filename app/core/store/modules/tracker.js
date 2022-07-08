@@ -1,6 +1,7 @@
 const DEFAULT_TRACKING_DOMAINS = [
-  'codecombat.com'
-];
+  'codecombat.com',
+  'ozaria.com'
+]
 
 const COCO_ENABLE_TRACKING_OVERRIDE_QUERY_PARAM = 'coco_tracking'
 
@@ -36,7 +37,7 @@ export default {
   getters: {
     disableAllTracking (state, getters, rootState, rootGetters) {
       if (state.enableTrackingOverride) {
-        return false;
+        return false
       }
 
       return state.cookieConsent.declined || state.doNotTrack || rootGetters['me/isSmokeTestUser'] || state.spying ||

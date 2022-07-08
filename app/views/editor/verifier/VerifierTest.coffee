@@ -18,6 +18,8 @@ module.exports = class VerifierTest extends CocoClass
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
     @solution = @options.solution
+    @simpleDescription = ""
+    @name = ""
     @language ?= 'python'
     @userCodeProblems = []
     @load()
@@ -37,6 +39,10 @@ module.exports = class VerifierTest extends CocoClass
       @state = 'no-solution'
       @updateCallback? test: @, state: 'no-solution'
       return
+
+    @simpleDescription = if @solution.description then "- #{@solution.description}" else ""
+    @name = "#{if @solution.testOnly then '' else '[Solution]'} #{@level.get('name')}"
+
     me.team = @team = 'humans'
     @setupGod()
     @initGoalManager()
@@ -49,7 +55,7 @@ module.exports = class VerifierTest extends CocoClass
 
     headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
     m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
-    service = window?.localStorage?.kodeKeeperService or "/service/parse-code"
+    service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
     fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
     .then (x) => x.json()
     .then (x) => x.token

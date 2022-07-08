@@ -1,7 +1,7 @@
 require('app/styles/courses/hero-select-modal.sass')
 ModalView = require 'views/core/ModalView'
 HeroSelectView = require 'views/core/HeroSelectView'
-template = require 'templates/courses/hero-select-modal'
+template = require 'app/templates/courses/hero-select-modal'
 Classroom = require 'models/Classroom'
 ThangTypes = require 'collections/ThangTypes'
 State = require 'models/State'
@@ -19,7 +19,7 @@ module.exports = class HeroSelectModal extends ModalView
   initialize: ->
     @listenTo @insertSubView(new HeroSelectView({ showCurrentHero: true })),
       'hero-select:success', (hero) ->
-        @trigger('hero-select:success', hero)
+        @trigger('hero-select:success', hero) unless @destroyed
 
   onClickSelectHeroButton: () ->
     @hide()

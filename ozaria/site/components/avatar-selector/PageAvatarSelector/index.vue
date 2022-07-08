@@ -11,39 +11,44 @@ import { mapActions } from 'vuex';
 import { getThangTypeOriginal } from '../../../../../app/core/api/thang-types'
 const ThangType = require('models/ThangType')
 
-// TODO replace placeholders with the various options.
-const avatars = [
+const avatars = _.shuffle([
   {
-    selectionImg: '/images/ozaria/avatar-selector/circle.png',
-    levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    selectionImg: '/images/ozaria/avatar-selector/avatar_bug.png',
+    cinematicThangTypeId: '5d48b61ae92cc00030a9b2db',
+    cinematicPetThangId: '5d48bd7677c98f0029118e11',
+    avatarCodeString: 'bug'
   },
   {
-    selectionImg: '/images/ozaria/avatar-selector/hex.png',
-    levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    selectionImg: '/images/ozaria/avatar-selector/avatar_crown.png',
+    cinematicThangTypeId: '5d48b85f703ac600249a5d69',
+    cinematicPetThangId: '5d48c12b8ccd96003576806a',
+    avatarCodeString: 'crown'
   },
   {
-    selectionImg: '/images/ozaria/avatar-selector/square.png',
-    levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    selectionImg: '/images/ozaria/avatar-selector/avatar_ghost.png',
+    cinematicThangTypeId: '5d48b98e703ac600249a5df6',
+    cinematicPetThangId: '5d48c17a77c98f0029118fff',
+    avatarCodeString: 'ghost'
   },
   {
-    selectionImg: '/images/ozaria/avatar-selector/circle.png',
-    levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    selectionImg: '/images/ozaria/avatar-selector/avatar_leaf.png',
+    cinematicThangTypeId: '5d48ba358ccd960035767d81',
+    cinematicPetThangId: '5d48c1c48ccd9600357680be',
+    avatarCodeString: 'leaf'
   },
   {
-    selectionImg: '/images/ozaria/avatar-selector/square.png',
-    levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    selectionImg: '/images/ozaria/avatar-selector/avatar_rose.png',
+    cinematicThangTypeId: '5d48babc77c98f0029118cd7',
+    cinematicPetThangId: '5d48c202e92cc00030a9b8bf',
+    avatarCodeString: 'rose'
   },
   {
-    selectionImg: '/images/ozaria/avatar-selector/hex.png',
-    levelThangTypeId: '5c373c9f9034ac0034b43b22',
-    cinematicThangTypeId: '5c373c9f9034ac0034b43b22'
+    selectionImg: '/images/ozaria/avatar-selector/avatar_snake.png',
+    cinematicThangTypeId: '5d48bb5277c98f0029118d0d',
+    cinematicPetThangId: '5d48c24a8ccd9600357680fd',
+    avatarCodeString: 'snake'
   },
-]
+])
 
 export default Vue.extend({
   components: {
@@ -53,7 +58,7 @@ export default Vue.extend({
     BaseButton,
     Surface
   },
-  
+
   data: () => ({
     selected: -1,
     loadedThangTypes: {},
@@ -62,9 +67,6 @@ export default Vue.extend({
   }),
 
   async created () {
-    if (!me.hasAvatarSelectorAccess())  {
-      return application.router.navigate('/', { trigger: true })
-    }
     const loader = []
 
     for (const avatar of avatars) {
@@ -82,6 +84,14 @@ export default Vue.extend({
     }
 
     this.loaded = true
+    window.tracker.trackEvent('Loaded Avatar Selector', {}, ['Google Analytics'])
+  },
+
+  beforeDestroy () {
+    window.tracker.trackEvent('Unloaded Avatar Selector',
+      {petThangTypeOriginalId: (this.avatars[this.selected] || {}).cinematicPetThangId,
+        avatarThangTypeOriginalId: (this.avatars[this.selected] || {}).cinematicThangTypeId},
+      ['Google Analytics'])
   },
 
   computed: {
@@ -95,11 +105,15 @@ export default Vue.extend({
 
     selectedAvatar () {
       return this.avatars[this.selected]
+    },
+
+    title () {
+      return $.i18n.t('avatar_selection.select_avatar_title')
     }
   },
 
   methods: {
-    ...mapActions('me', ['set1fhAvatar']),
+    ...mapActions('me', ['setCh1Avatar', 'save']),
 
     handleClick (e) {
       const selectedAvatar = parseInt(e.target.dataset.avatar, 10)
@@ -107,11 +121,17 @@ export default Vue.extend({
     },
 
     async handleNext () {
-      // TODO: uncomment this once slugs are finalized.
-      //       We do not want to save these placeholder ids.
-      // this.set1fhAvatar(this.selectedAvatar)
+      this.setCh1Avatar(this.selectedAvatar)
 
-      // TODO: Handle saving avatar selection state.
+      try {
+        // TODO handle_error_ozaria - What happens on failure?
+        await this.save()
+        // TODO button should become disabled while saving.
+      } catch (e) {
+        console.error('Failed to save avatar')
+        console.error(JSON.stringify(e))
+      }
+
       this.$emit('completed')
     }
   }
@@ -120,7 +140,9 @@ export default Vue.extend({
 
 <template>
 
-  <layout-chrome>
+  <layout-chrome
+    :title="title"
+  >
     <layout-center-content>
       <layout-aspect-ratio-container
         :aspectRatio="1266 / 668"
@@ -131,11 +153,11 @@ export default Vue.extend({
             <h1>{{ this.$t('avatar_selection.pick_an_avatar') }}:</h1>
           </div>
         </div>
-        <div class="row body">
+        <div class="row">
           <div class="col-xs-8 avatar-grid">
 
             <section class="row">
-              <div class="col-xs-4 avatar-item" v-for="({ selectionImg, levelThangTypeId }, index) in topRowAvatars" :key="levelThangTypeId">
+              <div class="col-xs-4 avatar-item" v-for="({ selectionImg, avatarCodeString }, index) in topRowAvatars" :key="avatarCodeString">
                 <div
                   :class="{selected: selected === index}"
                   :data-avatar="index"
@@ -146,7 +168,7 @@ export default Vue.extend({
             </section>
 
             <section class="row">
-              <div class="col-xs-4 avatar-item" v-for="({ selectionImg, levelThangTypeId }, index) in bottomRowAvatars" :key="levelThangTypeId">
+              <div class="col-xs-4 avatar-item" v-for="({ selectionImg, avatarCodeString }, index) in bottomRowAvatars" :key="avatarCodeString">
                 <div
                   :class="{selected: selected === index + 3}"
                   :data-avatar="index+3"
@@ -162,13 +184,13 @@ export default Vue.extend({
               <Surface
                 :key="selected"
                 :width="200"
-                :height="360"
+                :height="200"
                 :loadedThangTypes="loadedThangTypes"
                 :selectedThang="selectedAvatar.cinematicThangTypeId"
                 :thang="{
-                  scaleFactorX: 3,
-                  scaleFactorY: 3,
-                  pos: { y: 1, x: 1 }
+                  scaleFactorX: 0.5,
+                  scaleFactorY: 0.5,
+                  pos: { y: -21.5, x: 3.5 }
                 }"
               />
             </div>
@@ -197,11 +219,18 @@ export default Vue.extend({
 
 .header h1 {
   margin-top: 0;
+  font-size: 5vh;
 }
 
 .avatar-selector {
   background-color: white;
   height: 100%;
+  @media screen and (max-width: 1008px) {
+    height: unset;
+  }
+  @media screen and (max-width: 652px) {
+    white-space: nowrap;
+  }
   padding: 30px 60px;
 
   display: flex;
@@ -209,10 +238,12 @@ export default Vue.extend({
   flex-direction: column;
   justify-content: space-between;
 
+  overflow: scroll;
 }
 
 .avatar-item {
   height: 100%;
+  padding: 0 0.8vh;
 
   div {
     height: 100%;
@@ -233,21 +264,17 @@ export default Vue.extend({
   }
 }
 
-.body {
-  height: 100%;
-}
-
 .avatar-grid {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: 100%;
+  height: 40vh;
 }
 
 .avatar-grid .row {
-  margin: 15px 0;
-  height: 100%;
-  max-height: 200px;
+  margin: 0.8vh 0;
+  /* Locking height resolves responsive issues seen on chromebook */
+  height: 170px;
 }
 
 .surface {

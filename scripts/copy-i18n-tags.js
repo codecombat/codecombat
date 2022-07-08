@@ -1,7 +1,11 @@
 require('coffee-script').register()
 const fs = require('fs')
 const path = require('path')
-const enTranslations = require('../app/locale/en').translation
+const PWD = __dirname
+const product = process.env.COCO_PRODUCT || "codecombat"
+const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
+const otherProductSuffix = { codecombat: 'ozar', ozaria: 'coco' }[product]
+const enTranslations = require(`../app/locale/en.${productSuffix}`).translation
 
 // TODO: better identification of empty sections after deleting entries.  Empy sections yield module load fails on run.
 
@@ -12,7 +16,7 @@ function escapeRegexp (s) {
 }
 
 const enSourceFile = fs.readFileSync(
-  path.join(__dirname, '../app/locale/en.coffee'),
+  path.join(PWD, `../app/locale/en.${productSuffix}.coffee`),
   { encoding: 'utf8' }
 )
 
@@ -45,19 +49,18 @@ for (const section of enSplitByCategory) {
 }
 
 // Grab all locale files that we need to manage
-const IGNORE_FILES = [ 'rot13.coffee', 'en.coffee', 'locale.coffee' ]
+const IGNORE_FILES = ['rot13.coffee', 'rot13.coco.coffee', 'rot13.ozar.coffee', 'en.coffee', 'en.coco.coffee', 'en.ozar.coffee', 'locale.coffee', 'locale.coco.coffee', 'locale.ozar.coffee']
 const localeFiles = fs
-  .readdirSync(
-    path.join(__dirname, '../app/locale')
-  )
-  .filter((fileName) => IGNORE_FILES.indexOf(fileName) === -1)
+  .readdirSync(path.join(PWD, '../app/locale'))
+  .filter(fileName => IGNORE_FILES.indexOf(fileName) === -1)
+  .filter(fileName => !(new RegExp(`\\.${otherProductSuffix}\\.coffee$`).test(fileName)))
 
 for (const localeFile of localeFiles) {
   console.log(`Processing ${localeFile}`)
 
   // Load raw source file
   const localeSource = fs.readFileSync(
-    path.join(__dirname, `../app/locale/${localeFile}`),
+    path.join(PWD, `../app/locale/${localeFile}`),
     { encoding: 'utf8' }
   )
 
@@ -68,7 +71,7 @@ for (const localeFile of localeFiles) {
   // Initial rewrite of file with first line
   const rewrittenLines = [
     `module.exports = nativeDescription: "${localeContents.nativeDescription}", englishDescription: ` +
-            `"${localeContents.englishDescription}", translation:`
+      `"${localeContents.englishDescription}", translation:`
   ]
 
   // For each category within the locale
@@ -113,15 +116,17 @@ for (const localeFile of localeFiles) {
       } else {
         const tagIsMarkedChangeRegex = new RegExp(
           categoryRegexPrefix +
-                        `\\s+"?${escapeRegexp(sourceFileTag)}"?:` +
-                        `\\s".*"\\s*#.*${escapeRegexp(CHANGE_MARKER)}\\s*`,
+            `\\s+"?${escapeRegexp(sourceFileTag)}"?:` +
+            `\\s".*"\\s*#.*${escapeRegexp(CHANGE_MARKER)}\\s*`,
           'mi' // Case insensitive to support "change" in different capitalizations
         )
 
         // If en locale file has tag marked as change and the current locale file does not
         // have it marked as change, update the current locale file to add change marker
-        if (localeSource.search(tagIsMarkedChangeRegex) >= 0 &&
-                    comment.search(CHANGE_PATTERN) === -1) {
+        if (
+          localeSource.search(tagIsMarkedChangeRegex) >= 0 &&
+          comment.search(CHANGE_PATTERN) === -1
+        ) {
           comment += ` ${CHANGE_MARKER}`
         }
       }
@@ -148,7 +153,7 @@ for (const localeFile of localeFiles) {
   // Write the new file contents to the locale file
   const newLocaleContents = rewrittenLines.join('\n') + '\n' // End file with a new line
   fs.writeFileSync(
-    path.join(__dirname, `../app/locale/${localeFile}`),
+    path.join(PWD, `../app/locale/${localeFile}`),
     newLocaleContents,
     { encoding: 'utf8' }
   )
@@ -157,7 +162,7 @@ for (const localeFile of localeFiles) {
 // Remove change tags from english now that they have been propagated
 const rewrittenEnSource = enSourceFile.replace(CHANGE_PATTERN, '')
 fs.writeFileSync(
-  path.join(__dirname, '../app/locale/en.coffee'),
+  path.join(PWD, `../app/locale/en.${productSuffix}.coffee`),
   rewrittenEnSource
 )
 

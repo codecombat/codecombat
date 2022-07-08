@@ -1,12 +1,11 @@
-export const TRACKER_LOGGING_ENABLED_QUERY_PARAM = 'tracker_logging';
+export const TRACKER_LOGGING_ENABLED_QUERY_PARAM = 'tracker_logging'
 
 export const DEFAULT_USER_TRAITS_TO_REPORT = [
   'email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'testGroupNumberUS',
-  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role', 'firstName', 'lastName',
-  'dateCreated'
+  'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role', 'firstName', 'lastName'
 ]
 
-export const DEFAULT_TRACKER_INIT_TIMEOUT = 12000;
+export const DEFAULT_TRACKER_INIT_TIMEOUT = 12000
 
 export function extractDefaultUserTraits(me) {
   return DEFAULT_USER_TRAITS_TO_REPORT.reduce((obj, key) => {
@@ -15,7 +14,7 @@ export function extractDefaultUserTraits(me) {
       obj[key] = meAttr
     }
 
-    return obj;
+    return obj
   }, {})
 }
 
@@ -44,16 +43,16 @@ export default class BaseTracker {
       this.loggingEnabled = (new URLSearchParams(window.location.search)).has(TRACKER_LOGGING_ENABLED_QUERY_PARAM)
     } catch (e) {}
 
-    this.trackerInitTimeout = DEFAULT_TRACKER_INIT_TIMEOUT;
+    this.trackerInitTimeout = DEFAULT_TRACKER_INIT_TIMEOUT
   }
 
   async identify (traits = {}) {}
 
   async resetIdentity () {}
 
-  async trackPageView (includeIntegrations = []) {}
+  async trackPageView () {}
 
-  async trackEvent (action, properties = {}, includeIntegrations = []) {}
+  async trackEvent (action, properties = {}) {}
 
   async trackTiming (duration, category, variable, label) {}
 
@@ -100,7 +99,7 @@ export default class BaseTracker {
     this.isInitializing = true
 
     const initTimeout = new Promise((resolve, reject) => {
-      setTimeout(() => reject('Tracker init timeout'), this.trackerInitTimeout)
+      setTimeout(() => reject(new Error('Tracker init timeout')), this.trackerInitTimeout)
     })
 
     try {
@@ -146,8 +145,8 @@ export default class BaseTracker {
         finishInitialization(true)
       }
 
-      this.onInitializeFail = () => {
-        reject()
+      this.onInitializeFail = (e) => {
+        reject(e)
         finishInitialization(false)
       }
     })

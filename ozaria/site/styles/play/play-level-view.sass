@@ -1,7 +1,9 @@
+@use "sass:math"
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 @import "ozaria/site/styles/play/variables"
-@import "ozaria/site/styles/common/variables.sass"
+@import "ozaria/site/styles/common/variables.scss"
+@import "ozaria/site/styles/play/images"
 
 body
   height: 100vh
@@ -11,7 +13,6 @@ body.is-playing
 
 $level-resize-transition-time: 0.5s
 // TODO: use this for real-time playback but not cinematic playback
-
 
 #level-view
   position: absolute
@@ -40,7 +41,7 @@ $level-resize-transition-time: 0.5s
       width: 100%
       button, h4
         display: none
-    #code-area, #thang-hud
+    #code-area
       display: none
       visibility: hidden
     #gold-view
@@ -84,6 +85,24 @@ $level-resize-transition-time: 0.5s
     #stop-real-time-playback-button
       display: block
       z-index: 20
+      background-image: url($Button)
+      text-align: center
+      background-position: center
+      padding: 10px 25px
+      background-size: contain
+      background-color: transparent
+      background-repeat: no-repeat
+      border: none
+      color: #215055
+      font-family: "Work Sans"
+      font-size: 17px
+      font-weight: bold
+      letter-spacing: 0.77px
+      line-height: 20px
+      text-transform: uppercase
+
+      &:hover:not(:disabled)
+        background-image: url($ButtonHover)
 
   &.cinematic
     #playback-view
@@ -107,6 +126,8 @@ $level-resize-transition-time: 0.5s
 
   #canvas-wrapper
     top: $goals-vega-height
+    &.undo-vega-spacing
+      top: 7.3%
     width: $game-view-width
     position: relative
     overflow: hidden
@@ -151,14 +172,49 @@ $level-resize-transition-time: 0.5s
     z-index: 3
     top: 0
     left: 0
-    pointer-events: none
+    pointer-events: all
+    /* Not sure what the right user-select setting is for screen readers */
+    user-select: all
     white-space: pre
     font-family: Courier, monospace
     color: white
     background-color: rgba(14, 59, 130, 0.25)
     transform-origin: 0 0 0
-    line-height: 15px
+    font-size: 30px
+    line-height: 30px
 
+  #ascii-surface-table
+    visibility: hidden
+    position: absolute
+    z-index: 4
+    top: 0
+    left: 0
+    /* Width/height will be scaled to viewport with transform */
+    width: 924px
+    height: 589px
+    pointer-events: all
+    /* Not sure what the right user-select setting is for screen readers */
+    user-select: all
+    white-space: pre
+    font-family: Courier, monospace
+    color: white
+    background-color: rgba(14, 59, 130, 0.25)
+    transform-origin: 0 0 0
+    font-size: 30px
+    line-height: 30px
+    table-layout: fixed
+    tr
+      height: 1px
+      td, th
+        width: 1px
+        height: 1px
+        border: 1px dotted rgba(200, 200, 200, 0.2)
+        text-align: center
+        vertical-align: middle
+        position: relative
+        .sr-only
+          top: 50%
+          left: 50%
 
   #code-area
     @include box-sizing(border-box)
@@ -367,7 +423,7 @@ $level-resize-transition-time: 0.5s
     left: 0
     right: 0
 
-    #playback-view, #thang-hud, #play-footer, #level-footer-background, #level-footer-shadow
+    #playback-view, #play-footer, #level-footer-background, #level-footer-shadow
       display: none
 
     .game-container, .level-content, #game-area, #canvas-wrapper
@@ -391,7 +447,7 @@ $level-resize-transition-time: 0.5s
     right: 0
     top: 52px
     width: 20%
-    bottom: 38px
+    bottom: -22px
 
 html.fullscreen-editor
   #level-view
@@ -406,10 +462,10 @@ html.fullscreen-editor
 
 body.ipad #level-view
   // Full-width Surface, preserving aspect ratio, with space for control bar.
-  height: 1024px * (589 / 924) + 50px
+  height: 1024px * (math.div(589, 924)) + 50px
   overflow: hidden
 
-  #code-area, #play-footer, #thang-hud
+  #code-area, #play-footer
     display: none
 
   #level-chat-view
@@ -426,7 +482,7 @@ body.ipad #level-view
     .scrubber .progress
       background-color: rgba(255, 255, 255, 0.4)
 
-  #canvas-wrapper, #control-bar-view, #playback-view, #thang-hud
+  #canvas-wrapper, #control-bar-view, #playback-view
     width: 100%
 
   #canvas-wrapper
@@ -445,3 +501,10 @@ body.ipad #level-view
   background-size: 100% 400px
   height: 400px
   z-index: -9001
+
+body.screen-reader-mode
+  #level-view
+    canvas#webgl-surface, canvas#normal-surface
+      opacity: 0.2
+    #ascii-surface-table
+      visibility: visible

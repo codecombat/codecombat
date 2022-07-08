@@ -1,0 +1,148 @@
+//
+  Layout for CreateAccountModal is done largely with flexboxes.
+  Rules in this file should be ones that apply to all screens/subviews, but this
+  separation may not be perfect.
+
+  Currently it uses .modal-dialog, .modal-content, etc, for some parts of the modal.
+  Unfortunately those preexesting classes don't line up perfectly with the needs of this modal,
+  so many of the other styles for those classes don't apply or are overridden.
+
+@import "app/styles/style-flat-variables"
+
+#create-account-modal
+  display: flex
+  justify-content: center
+  flex-direction: column
+
+  .modal-dialog
+    width: 850px
+    @media (max-height: 800px)
+      margin-top: 0
+  
+  .modal-content
+    display: flex
+    flex-direction: column
+    min-height: 550px
+    max-height: 850px
+    width: 850px
+    text-align: center
+    padding: 0
+    border: none
+    
+  // General modal stuff
+  
+  .close
+    color: $teal
+    opacity: 0.5
+    right: 7px
+    &:hover
+      opacity: 0.9
+
+  .modal-header
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: flex-end
+    height: 100px
+    max-height: 10.5vh
+    padding: 0
+  
+  .modal-footer
+    padding: 0
+    margin: 0
+    height: 50px
+    display: flex
+    align-items: center
+    justify-content: center
+
+  
+  #choose-account-type-view, #segment-check-view, #eu-confirmation-view, #basic-info-view, #coppa-deny-view, #single-sign-on-already-exists-view, #single-sign-on-confirm-view, #confirmation-view
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+  
+  .modal-body
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+
+  .modal-body-content
+    flex-grow: 2
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    padding: 20px 0
+    
+  // Back/forward buttons
+  
+  .history-nav-buttons
+    width: 100%
+    display: flex
+    flex-direction: row-reverse
+    flex-grow: 1
+    align-items: flex-end
+    justify-content: space-between
+    
+    .btn
+      // Undo .style-flat's .btn + .btn margin
+      margin: 0
+    
+    // Left-align when there's only a back button
+    .back-button:first-child:last-child
+      margin-right: auto
+
+  // Forms
+
+  .form-container
+    width: 800px
+
+    .form-group
+      text-align: left
+
+  .full-name
+    display: flex
+    flex-direction: row
+
+  textarea
+    border: 1px solid $teal
+
+  .form-group
+    display: flex
+    flex-direction: column
+    align-content: flex-start
+
+    &.text-center
+      text-align: center
+
+    input
+      height: 40px
+      border: 1px solid $teal
+
+    select
+      border: 1px solid $teal
+
+    &.row
+      display: block
+    
+    &.last-initial
+      margin-left: 30px
+      width: auto
+      
+      input
+        width: 70px
+
+    &.subscribe
+      width: 100%
+
+  // Glyphicon colors
+  
+  .glyphicon-ok-circle
+    color: green
+    
+  .glyphicon-remove-circle
+    color: red
+    
+  p.medium-gray.subscribe-text
+    display: inline-block
+    margin-left: 5px

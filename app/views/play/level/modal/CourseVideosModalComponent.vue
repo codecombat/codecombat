@@ -109,7 +109,7 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import "app/styles/style-flat-variables"
 
 #modal-base-flat

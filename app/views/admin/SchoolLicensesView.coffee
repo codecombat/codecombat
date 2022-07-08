@@ -8,7 +8,7 @@ TrialRequests = require 'collections/TrialRequests'
 
 module.exports = class SchoolLicensesView extends RootView
   id: 'admin-school-licenses-view'
-  template: require 'templates/admin/school-licenses'
+  template: require 'app/templates/admin/school-licenses'
 
   initialize: ->
     return super() unless me.isAdmin()

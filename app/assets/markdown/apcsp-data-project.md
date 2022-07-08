@@ -23,11 +23,17 @@ Ask students for instances where they have seen data provided as evidence for a 
 
 **Spreadsheets How To**
 
-Give students an introduction to your spreadsheet software of choice, such as Microsoft Excel or Google Sheets. Take a sample of data and show how formulas can be used to transform data, and graphs can be used to visualize data. For formulas, be sure to demonstrate functions which are corollaries to the ones they have been learning in CodeCombat, such as the Logical functions listed in the Google spreadsheets function list (OR, IF, etc).
+Give students an introduction to your spreadsheet software of choice, such as Microsoft Excel or Google Sheets. Take a sample of data and show how formulas can be used to transform data, and graphs can be used to visualize data. Transforming data can include cleaning it using different tools such as sorting and filtering. 
+For formulas, be sure to demonstrate functions which are corollaries to the ones they have been learning in CodeCombat, such as the Logical functions listed in the Google spreadsheets function list (OR, IF, etc).
+
+
+Highlight how we can formulate data in different programs using attributes like size, order, date, etc. Those kinds of attributes are what we call **metadata** as they help us increase the effective use of the data we are working with. You can share the following resources to further cover the concept of metadata:
+- https://www.youtube.com/watch?v=fZWg0ClQkYQ
+- https://www.thoughtco.com/metadata-definition-and-examples-1019177 
 
 **Finding Data**
 
-Walk students through finding some data to study. Ask students for data that they would be interested in looking at. For each sort of data, work as a group to find that data on the web and practice asking questions of or making hypotheses about that data. Alternatively, go to sites which list data sources and dig into ones which spark student interest. For example:
+Walk students through finding some data to study. Ask students for data that they would be interested in looking at. For each sort of data, work as a group to find that data on the web and practice asking questions of or making hypotheses about that data. If possible, have students use spreadsheet tools to clean the data as part of the activity. Alternatively, go to sites which list data sources and dig into ones which spark student interest. For example:
 
 * https://www.data.gov/
 * https://www.google.com/publicdata/directory

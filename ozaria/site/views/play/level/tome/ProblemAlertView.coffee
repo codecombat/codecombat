@@ -1,6 +1,6 @@
 require('ozaria/site/styles/play/level/tome/problem_alert.sass')
 CocoView = require 'views/core/CocoView'
-GameMenuModal = require 'views/play/menu/GameMenuModal'
+GameMenuModal = require 'ozaria/site/views/play/menu/GameMenuModal'
 template = require 'ozaria/site/templates/play/level/tome/problem_alert'
 {me} = require 'core/auth'
 
@@ -64,7 +64,11 @@ module.exports = class ProblemAlertView extends CocoView
             message = message.replace /^(Line \d+)/, "$1, time #{age.toFixed(1)}"
           else
             message = "Time #{age.toFixed(1)}: #{message}"
-      @message = format message
+      if @problem.hint and /TypeError: .*? is not a function/.test(message)
+        # This is not useful to add on, so suppress it and just show the hint.
+        @message = null
+      else
+        @message = format message
       @hint = format @problem.hint
 
   onShowProblemAlert: (data) ->
@@ -82,6 +86,7 @@ module.exports = class ProblemAlertView extends CocoView
     @render()
     @onJiggleProblemAlert()
     application.tracker?.trackEvent 'Show problem alert', {levelID: @level.get('slug'), ls: @session?.get('_id')}
+    @announceToScreenReader()
 
   onJiggleProblemAlert: ->
     return unless @problem?
@@ -108,5 +113,19 @@ module.exports = class ProblemAlertView extends CocoView
       @$el.css('right', codeAreaWidth + 20 + 'px')
 
       # TODO: calculate this in a more dynamic, less sketchy way
-      spellViewTop = $("#spell-view").position().top - 10 # roughly aligns top of alert with top of first code line
+      spellViewTop = $("#spell-view").position().top - 30 # roughly aligns top of alert with top of first code line
       @$el.css('top', (spellViewTop + @lineOffsetPx) + 'px')
+
+  announceToScreenReader: ->
+    message = @hint or @message
+    if @problem.row?
+      if /Error/.test message
+        update = "Line #{@problem.row + 1}: #{message.replace(/^Line \d+:? ?/, '')}"
+      else
+        update = "Error on line #{@problem.row + 1}: #{message.replace(/^Line \d+:? ?/, '')}"
+    else
+      if /Error/.test message
+        update = message
+      else
+        update = "Error: #{message}"
+    $('#screen-reader-live-updates').append($("<div>#{update}</div>"))  # TODO: move this to a store or lib? Limit how many lines?

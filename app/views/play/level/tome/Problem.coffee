@@ -36,7 +36,7 @@ module.exports = class Problem
       @userInfo = undefined
       @createdBy = 'web-dev-iframe'
       # TODO: Include runtime/transpile error types depending on something?
-    
+
     @message = @translate(@message)
     @hint = @translate(@hint)
     # TODO: get ACE screen line, too, for positioning, since any multiline "lines" will mess up positioning
@@ -106,7 +106,7 @@ module.exports = class Problem
       @ace.getSession().removeMarker @lineMarkerRange.id
       @lineMarkerRange.start.detach()
       @lineMarkerRange.end.detach()
-  
+
   # Here we take a string from the locale file, find the placeholders ($1/$2/etc)
   #   and replace them with capture groups (.+),
   # returns a regex that will match against the error message
@@ -123,8 +123,8 @@ module.exports = class Problem
       return msg.split('\n').map((line) => @translate(line)).join('\n')
 
     msg = msg.replace /([A-Za-z]+Error:) \1/, '$1'
-    return msg if i18n.lng() in ['en', 'en-US']
-    
+    return msg if $.i18n.language in ['en', 'en-US']
+
     # Separately handle line number and error type prefixes
     en = require('locale/en').translation
     applyReplacementTranslation = (text, regex, key) =>

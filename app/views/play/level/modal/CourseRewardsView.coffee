@@ -11,12 +11,12 @@ User = require 'models/User'
 
 module.exports = class CourseRewardsView extends CocoView
   id: 'course-rewards-view'
-  className: 'modal-content' 
-  template: require('templates/play/level/modal/course-rewards-view')
-  
+  className: 'modal-content'
+  template: require('app/templates/play/level/modal/course-rewards-view')
+
   events:
     'click #continue-btn': 'onClickContinueButton'
-    
+
   initialize: (options) ->
     super()
     @level = options.level

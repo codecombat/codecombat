@@ -1,7 +1,7 @@
 require('app/styles/play/menu/game-menu-modal.sass')
 ModalView = require 'views/core/ModalView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
-template = require 'templates/play/menu/game-menu-modal'
+template = require 'app/templates/play/menu/game-menu-modal'
 submenuViews = [
   require 'views/play/menu/SaveLoadView'
   require 'views/play/menu/OptionsView'
@@ -43,7 +43,7 @@ module.exports = class GameMenuModal extends ModalView
     context
 
   showsChooseHero: ->
-    return false if @level?.isType('course', 'course-ladder', 'game-dev', 'web-dev')
+    return false if @level?.isType('course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')
     return false if @level?.get('assessment') is 'open-ended'
     return false if @level?.usesConfiguredMultiplayerHero()
     return true

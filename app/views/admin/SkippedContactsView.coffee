@@ -1,12 +1,12 @@
 require('app/styles/admin/skipped-contacts-view.sass')
 RootComponent = require 'views/core/RootComponent'
-template = require 'templates/base-flat'
+template = require 'app/templates/base-flat'
 co = require('co')
 api = require 'core/api'
 FlatLayout = require 'core/components/FlatLayout'
 
 SkippedContactInfo =
-  template: require('templates/admin/skipped-contacts/skipped-contact-info')()
+  template: require('app/templates/admin/skipped-contacts/skipped-contact-info')()
   props:
     skippedContact:
       type: Object
@@ -33,9 +33,6 @@ SkippedContactInfo =
         for prop in props
           continue if (['email', 'educationLevel', 'created'].indexOf(prop) >= 0)
           noteData += "demo_#{prop}: #{props[prop]}\n"
-      noteData += "intercom_url: #{@skippedContact.intercomUrl}\n" if (@skippedContact.intercomUrl)
-      noteData += "intercom_lastSeen: #{@skippedContact.intercomLastSeen}\n" if (@skippedContact.intercomLastSeen)
-      noteData += "intercom_sessionCount: #{@skippedContact.intercomSessionCount}\n" if (@skippedContact.intercomSessionCount)
 
       if @user
         noteData += "coco_userID: #{@user._id}\n"
@@ -89,7 +86,7 @@ SkippedContactInfo =
       # @$emit('archiveContact', @skippedContact, archived)
 
 SkippedContactsComponent = Vue.extend
-  template: require('templates/admin/skipped-contacts/skipped-contacts-view')()
+  template: require('app/templates/admin/skipped-contacts/skipped-contacts-view')()
   data: ->
     sortOrder: 'date (descending)'
     showArchived: false

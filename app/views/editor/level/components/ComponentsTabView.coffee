@@ -1,6 +1,6 @@
 require('app/styles/editor/level/components_tab.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/level/components_tab'
+template = require 'app/templates/editor/level/components_tab'
 ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
 LevelComponentEditView = require './LevelComponentEditView'
@@ -18,12 +18,16 @@ module.exports = class ComponentsTabView extends CocoView
 
   subscriptions:
     'editor:level-component-editing-ended': 'onLevelComponentEditingEnded'
+    'editor:level-loaded': 'onLevelLoaded'
 
   events:
     'click #create-new-component-button': 'createNewLevelComponent'
     'click #create-new-component-button-no-select': 'createNewLevelComponent'
 
   onLoaded: ->
+
+  onLevelLoaded: (e) ->
+    @level = e.level
 
   refreshLevelThangsTreema: (thangsData) ->
     presentComponents = {}
@@ -83,7 +87,7 @@ module.exports = class ComponentsTabView extends CocoView
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   editLevelComponent: (e) ->
-    @levelComponentEditView = @insertSubView new LevelComponentEditView(original: e.original, majorVersion: e.majorVersion, supermodel: @supermodel)
+    @levelComponentEditView = @insertSubView new LevelComponentEditView(original: e.original, majorVersion: e.majorVersion, supermodel: @supermodel, filePath: "db/level/#{@level.get('original')}")
 
   onLevelComponentEditingEnded: (e) ->
     @removeSubView @levelComponentEditView

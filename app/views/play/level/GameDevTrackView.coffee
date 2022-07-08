@@ -1,7 +1,11 @@
-require('app/styles/play/level/game_dev_track_view.sass')
+utils = require 'core/utils'
+
+if utils.isOzaria
+  require('ozaria/site/styles/play/level/game_dev_track_view.sass')
+else
+  require('app/styles/play/level/game_dev_track_view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/game_dev_track_view'
-#teamTemplate = require 'templates/play/level/team_gold'
+template = require 'app/templates/play/level/game_dev_track_view'
 
 module.exports = class GameDevTrackView extends CocoView
   id: 'game-dev-track-view'

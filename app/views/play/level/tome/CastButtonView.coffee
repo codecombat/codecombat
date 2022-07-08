@@ -1,6 +1,6 @@
 require('app/styles/play/level/tome/cast_button.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/cast-button-view'
+template = require 'app/templates/play/level/tome/cast-button-view'
 {me} = require 'core/auth'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 LevelSession = require 'models/LevelSession'
@@ -36,7 +36,7 @@ module.exports = class CastButtonView extends CocoView
     # Keep server/middleware/levels.coffee mirror list in sync with this one
     @loadMirrorSession() if @options.level.get('mirrorMatch')
     @mirror = @mirrorSession?
-    @autoSubmitsToLadder = @options.level.isType('course-ladder')
+    @autoSubmitsToLadder = @options.level.isType('course-ladder')  # type 'ladder' will do a lot of work on submit, so don't auto-submit
     # Show publish CourseVictoryModal if they've already published
     if options.session.get('published')
       Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: false }
@@ -113,7 +113,10 @@ module.exports = class CastButtonView extends CocoView
       @playSound 'cast-end', 0.5 unless @options.level.isType('game-dev')
       # Worked great for live beginner tournaments, but probably annoying for asynchronous tournament mode.
       myHeroID = if me.team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
-      if @autoSubmitsToLadder and not e.world.thangMap[myHeroID]?.errorsOut and not me.get('anonymous')
+      shouldAutoSubmit = @autoSubmitsToLadder or (@options.level.isType('ladder') and not @options.session.get('submitDate') and not @autosubmittedOnce)
+      shouldAutoSubmit &&= not e.world.thangMap[myHeroID]?.errorsOut and not me.get('anonymous')
+      if shouldAutoSubmit
+        @autosubmittedOnce = true
         _.delay (=> @ladderSubmissionView?.rankSession()), 1000 if @ladderSubmissionView
     @hasCastOnce = true
     @updateCastButton()

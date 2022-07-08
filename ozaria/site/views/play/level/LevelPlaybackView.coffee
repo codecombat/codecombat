@@ -1,6 +1,6 @@
 require('ozaria/site/styles/play/level/level-playback-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'ozaria/site/templates/play/level/level-playback-view'
+template = require 'app/templates/play/level/level-playback-view'
 {me} = require 'core/auth'
 store = require 'core/store'
 
@@ -27,9 +27,6 @@ module.exports = class LevelPlaybackView extends CocoView
     'playback:stop-cinematic-playback': 'onStopCinematicPlayback'
 
   events:
-    'click #music-button': 'onToggleMusic'
-    'click #zoom-in-button': -> Backbone.Mediator.publish 'camera:zoom-in', {} unless @shouldIgnore()
-    'click #zoom-out-button': -> Backbone.Mediator.publish 'camera:zoom-out', {} unless @shouldIgnore()
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {} unless @realTime
@@ -43,27 +40,18 @@ module.exports = class LevelPlaybackView extends CocoView
     '⌘+], ctrl+]': 'onScrubForward'
     '⌘+⇧+], ctrl+⇧+]': 'onSingleScrubForward'
 
-  constructor: ->
-    super(arguments...)
-    me.on('change:music', @updateMusicButton, @)
-
   afterRender: ->
     super()
     @$progressScrubber = $('.scrubber .progress', @$el)
     @hookUpScrubber() unless @options.level.isType('game-dev')
-    @updateMusicButton()
     $(window).on('resize', @onWindowResize)
-    ua = navigator.userAgent.toLowerCase()
-    if /safari/.test(ua) and not /chrome/.test(ua)
-      @$el.find('.toggle-fullscreen').hide()
-    t = $.i18n.t
-    @second = t 'units.second'
-    @seconds = t 'units.seconds'
-    @minute = t 'units.minute'
-    @minutes = t 'units.minutes'
-    @goto = t 'play_level.time_goto'
-    @current = t 'play_level.time_current'
-    @total = t 'play_level.time_total'
+    @second = $.i18n.t 'units.second'
+    @seconds = $.i18n.t 'units.seconds'
+    @minute = $.i18n.t 'units.minute'
+    @minutes = $.i18n.t 'units.minutes'
+    @goto = $.i18n.t 'play_level.time_goto'
+    @current = $.i18n.t 'play_level.time_current'
+    @total = $.i18n.t 'play_level.time_total'
     @$el.find('#play-button').css('visibility', 'hidden') if @options.level.get 'hidesPlayButton'  # Don't show for first few levels, confuses new players.
 
   # These functions could go to some helper class
@@ -86,9 +74,6 @@ module.exports = class LevelPlaybackView extends CocoView
 
   # callbacks
 
-  updateMusicButton: ->
-    @$el.find('#music-button').toggleClass('music-on', me.get('music'))
-
   onSetLetterbox: (e) ->
     return if @realTime or @cinematic
     @togglePlaybackControls !e.on
@@ -103,7 +88,10 @@ module.exports = class LevelPlaybackView extends CocoView
       @realTime = true
       @togglePlaybackControls false
       Backbone.Mediator.publish 'playback:real-time-playback-started', {}
-      @playSound 'real-time-playback-start'
+
+      # TODO: replace with Ozaria sound
+      # @playSound 'real-time-playback-start'
+
     else if e.cinematic
       @cinematic = true
       Backbone.Mediator.publish 'playback:cinematic-playback-started', {}
@@ -154,7 +142,10 @@ module.exports = class LevelPlaybackView extends CocoView
     ended = button.hasClass 'ended'
     changed = button.hasClass('playing') isnt playing
     button.toggleClass('playing', playing and not ended).toggleClass('paused', not playing and not ended)
-    @playSound (if playing then 'playback-play' else 'playback-pause') unless @options.level.isType('game-dev')
+
+    # TODO: replace with Ozaria sound
+    # @playSound (if playing then 'playback-play' else 'playback-pause') unless @options.level.isType('game-dev')
+
     return   # don't stripe the bar
     bar = @$el.find '.scrubber .progress'
     bar.toggleClass('progress-striped', playing and not ended).toggleClass('active', playing and not ended)
@@ -237,7 +228,9 @@ module.exports = class LevelPlaybackView extends CocoView
     return unless @realTime
     @realTime = false
     @togglePlaybackControls true
-    @playSound 'real-time-playback-end'
+
+    # TODO: replace with Ozaria sound
+    # @playSound 'real-time-playback-end'
 
   onCinematicPlaybackEnded: (e) ->
     @cinematic = false
@@ -264,10 +257,12 @@ module.exports = class LevelPlaybackView extends CocoView
         ++@slideCount
         oldRatio = @getScrubRatio()
         @scrubTo ui.value / @sliderIncrements
-        if ratioChange = @getScrubRatio() - oldRatio
-          sound = "playback-scrub-slide-#{if ratioChange > 0 then 'forward' else 'back'}-#{@slideCount % 3}"
-          unless /back/.test sound  # We don't have the back sounds in yet: http://discourse.codecombat.com/t/bug-some-mp3-lost/4830
-            @playSound sound, (Math.min 1, Math.abs ratioChange * 50)
+
+        # TODO: replace with Ozaria sound
+        # if ratioChange = @getScrubRatio() - oldRatio
+        #   sound = "playback-scrub-slide-#{if ratioChange > 0 then 'forward' else 'back'}-#{@slideCount % 3}"
+        #   unless /back/.test sound  # We don't have the back sounds in yet: http://discourse.codecombat.com/t/bug-some-mp3-lost/4830
+        #     @playSound sound, (Math.min 1, Math.abs ratioChange * 50)
 
       start: (event, ui) =>
         return if @shouldIgnore()
@@ -327,14 +322,7 @@ module.exports = class LevelPlaybackView extends CocoView
     Backbone.Mediator.publish 'level:set-volume', volume: volumes[newI]
     $(document.activeElement).blur()
 
-  onToggleMusic: (e) ->
-    e?.preventDefault()
-    me.set('music', not me.get('music', true))
-    me.patch()
-    $(document.activeElement).blur()
-
   destroy: ->
-    me.off('change:music', @updateMusicButton, @)
     $(window).off('resize', @onWindowResize)
     @onWindowResize = null
     super()

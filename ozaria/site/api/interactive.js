@@ -23,7 +23,7 @@ export const getInteractive = idOrSlug => {
  * Returns a list of all interactives in the database.
  * @returns {Promise<InteractiveList[]>} - List of interactives
  */
-export const getAllInteractives = () => fetchJson('/db/interactives')
+export const getAllInteractives = () => fetchJson('/db/interactives?limit=1000')
 
 /**
  * Updates an interactive in the database.
@@ -92,4 +92,21 @@ export const putSession = (idOrSlug, options = {}) => {
 
     ...options
   })
+}
+
+export const fetchInteractiveSessionForAllClassroomMembers = (classroom, options = {}) => {
+  const limit = 10
+  let skip = 0
+  const size = _.size(classroom.members || classroom.get('members'))
+  options.data = options.data || {}
+  options.data.memberLimit = limit
+  options.remove = false
+  const jqxhrs = []
+  while (skip < size) {
+    options = _.cloneDeep(options)
+    options.data.memberSkip = skip
+    jqxhrs.push(fetchJson(`/db/classroom/${classroom._id || classroom.get('_id')}/member-interactive-sessions`, options))
+    skip += limit
+  }
+  return jqxhrs
 }

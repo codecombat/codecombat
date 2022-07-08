@@ -152,7 +152,7 @@ Throughout this activity, it may also be helpful to use the clock (if you have i
 **How does the `%` operator help wrap around an array?** (By calculating the remainder between a number and the array length so that you never try to access an index that is out of bounds.)
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -283,7 +283,7 @@ If necessary, point out that the `x` and `y` parameters refer to the center for 
 
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -446,7 +446,7 @@ Allow the students to guess letters one at a time and point to the corresponding
 **What data type are each of the elements in a string?** (Each element in a string is a single character, or letter.)
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -587,7 +587,7 @@ Once again, the students may come up with other solutions to the problem that do
 **How do you initialize a `for` loop to increment by more than one step at a time?** (You initialize it just as other `for` loops, but instead of having `i++` as the last part of the loop, you use `i += ` and whatever value you want `i` to increment by each time.)
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -718,7 +718,7 @@ If you are concerned about issues such as gender imbalance or gender identity, t
 **What position in the array is an element pushed into when you use the `push()` function?** (It is pushed into the last element in the array.)
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -831,7 +831,7 @@ If you happen to find a match quickly, then run through the activity again with 
 **Why did we need to add a condition to check if `i == j`?** (We check to see if `i == j` because we want to ensure that we are finding a true duplicate, and not the same element compared to itself.)
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -986,7 +986,7 @@ By searching one row at a time, the robot will inherently search the first half 
 
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -1113,7 +1113,7 @@ If you think the students need additional practice after going through the grid,
 
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -1267,7 +1267,7 @@ else {
 
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -1412,7 +1412,7 @@ Ask the students to help you predict the first three statements the robot will s
 
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -1537,7 +1537,7 @@ function getArea(side1, side2) {
 
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________
@@ -1735,7 +1735,7 @@ After the code is written, go through a few more numbers converting them to deci
 
 
 ### Coding Time (25-40 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](https://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
 Level #: _____  Level Name: ____________________________________

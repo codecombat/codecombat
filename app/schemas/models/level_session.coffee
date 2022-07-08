@@ -65,6 +65,20 @@ _.extend LevelSessionSchema.properties,
   state: c.object {},
     complete:
       type: 'boolean'
+    introContentSessionComplete:  # Ozaria
+      type: 'object'
+      description: 'Key is the content _id allowing for quick lookup.'
+      additionalProperties: c.object {},
+        contentType: c.shortString { enum: ['cinematic', 'cutscene-video', 'interactive'] }
+        complete: { type: 'boolean' }
+        cinematicActionLog:
+          description: 'tracks action log of user - how much time user spent, did user skip prompt'
+          type: 'array'
+          items: c.object {},
+            skip: { type: 'boolean', description: 'did user skip prompt before it got played till completion?' }
+            prompt: { type: 'string', description: 'hash of text shown in prompt' }
+            spent: { type: 'integer', description: 'time spent on prompt in milli-seconds' }
+            next: { type: 'string', enum: ['F', 'B'], description: 'did user go Forward(F) or Backward(B)?' }
     scripts: c.object {},
       ended:
         type: 'object'
@@ -140,7 +154,7 @@ _.extend LevelSessionSchema.properties,
         date: c.date
           description: 'When the submission achieving this score happened.'
         score: {type: 'number'}  # Store 'time', 'damage-taken', etc. as negative numbers so the index works.
-    capstoneStage:
+    capstoneStage:  # Ozaria
       type: 'number'
       title: 'Capstone Stage'
       description: 'Current capstone stage of the level. If, say, stage 7 is yet incomplete, capstoneStage will be 7. If stage 7 is complete, capstoneStage will be 8. When a capstone level is complete, capstoneStage will be 1 higher than the final stage number.'
@@ -315,6 +329,9 @@ _.extend LevelSessionSchema.properties,
               codeLanguage:
                 type: ['string', 'null']  # 'null' in case an opponent session got corrupted, don't care much here
                 description: 'What submittedCodeLanguage the opponent used during the match'
+              team:
+                type: ['string', 'null']
+                description: 'The opponent team in this match'
         simulator: {type: 'object', description: 'Holds info on who simulated the match, and with what tools.'}
         randomSeed: {description: 'Stores the random seed that was used during this match.'}
 
@@ -346,6 +363,23 @@ _.extend LevelSessionSchema.properties,
       type: 'string'
       title: 'Level session source'
       description: 'Source of the level session, if present level session was added from an external source'
+
+  creatorAge:
+    type: 'number'
+    title: 'Creator Age'
+    description: 'Age of creator, in years (but with month precision), at time of session creation, or session.submitDate for ladder sessions'
+    minimum: 0
+
+  codePoints: c.int {title: 'CodePoints', minimum: 0, description: 'CodePoints this user earned for completing this level'}
+
+  contentPlaytimes:  # Ozaria
+    c.array {description: 'List of content playtimes, similar to intro level content lists'},
+      c.object {},
+        type: {type: 'string', description: 'Content type'}
+        contentId: c.stringID(title: 'Content id for same language as level session codeLanguage')
+        playtime: {type: 'number', description: 'Total seconds of playtime for this piece of content'}
+
+  archived: c.date {description: 'Marks this record for automatic online archiving to cold storage by our cloud database.'}
 
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 

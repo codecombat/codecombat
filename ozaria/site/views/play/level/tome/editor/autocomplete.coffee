@@ -69,6 +69,12 @@ module.exports = class Autocomplete
       @activateCompleter()
       @editor.commands.on 'afterExec', @doLiveCompletion
 
+  destroy: ->
+    # Noticed a memory leak, so added a destroy function here
+    @editor.commands.off 'afterExec', @doLiveCompletion  # Seems important to do
+    @bgTokenizer?.stop?()  # Guessing
+    @snippetManager?.unregister @oldSnippets if @oldSnippets?  # Guessing
+
   setAceOptions: () ->
     aceOptions =
       'enableLiveAutocompletion': @options.liveCompletion

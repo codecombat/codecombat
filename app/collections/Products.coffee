@@ -9,6 +9,11 @@ module.exports = class Products extends CocoCollection
   model: Product
   url: '/db/products'
 
+  initialize: (models, options) ->
+    options ?= {}
+    options.url ?= '/db/products?path=' + window.location.pathname if window?.location?.pathname
+    super models, options
+
   getByName: (name) -> @findWhere { name: name }
 
   getBasicSubscriptionForUser: (user) ->
@@ -18,6 +23,9 @@ module.exports = class Products extends CocoCollection
     unless countrySpecificProduct
       countrySpecificProduct = @findWhere { name: "#{user?.get('country')}_basic_subscription" }
     return countrySpecificProduct or @findWhere({ name: 'basic_subscription' })
+
+  getBasicAnnualSubscriptionForUser: () ->
+    return @findWhere({ name: 'basic_subscription_annual' })
 
   getLifetimeSubscriptionForUser: (user) ->
     country = (user?.get('country') or '').toLowerCase()

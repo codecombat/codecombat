@@ -1,6 +1,6 @@
 require('app/styles/editor/level/systems-tab-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/level/systems-tab-view'
+template = require 'app/templates/editor/level/systems-tab-view'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
 LevelSystemEditView = require './LevelSystemEditView'
@@ -122,7 +122,7 @@ module.exports = class SystemsTabView extends CocoView
     Backbone.Mediator.publish 'editor:view-switched', {}
 
   editLevelSystem: (e) ->
-    @levelSystemEditView = @insertSubView new LevelSystemEditView(original: e.original, majorVersion: e.majorVersion, supermodel: @supermodel)
+    @levelSystemEditView = @insertSubView new LevelSystemEditView(original: e.original, majorVersion: e.majorVersion, supermodel: @supermodel, filePath: "db/level/#{@level.get('original')}")
 
   onLevelSystemEditingEnded: (e) ->
     @removeSubView @levelSystemEditView

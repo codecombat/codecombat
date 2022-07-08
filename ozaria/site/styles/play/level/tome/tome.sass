@@ -77,6 +77,16 @@
 // Set z-index of autocomplete popup smaller than the one of popovers
 .ace_editor.ace_autocomplete 
   z-index: 20 !important
+
+  // Makes scroll bar always display by faking it.
+  .ace_scrollbar::-webkit-scrollbar
+    -webkit-appearance: none
+    width: 7px
+  .ace_scrollbar::-webkit-scrollbar-thumb
+    border-radius: 4px
+    background-color: rgba(0, 0, 0, .5)
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5)
+
   .ace_content
     .ace_line .ace_rightAlignedText
       display: none

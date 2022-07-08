@@ -1,6 +1,6 @@
 require('app/styles/editor/level/system/level-system-edit-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/level/system/level-system-edit-view'
+template = require 'app/templates/editor/level/system/level-system-edit-view'
 LevelSystem = require 'models/LevelSystem'
 SystemVersionsModal = require 'views/editor/level/systems/SystemVersionsModal'
 PatchesView = require 'views/editor/PatchesView'
@@ -45,6 +45,7 @@ module.exports = class LevelSystemEditView extends CocoView
     schema.default = _.pick schema.default, (value, key) => key in @editableSettings
 
     treemaOptions =
+      filePath: @options.filePath
       supermodel: @supermodel
       schema: schema
       data: data
@@ -62,6 +63,7 @@ module.exports = class LevelSystemEditView extends CocoView
 
   buildConfigSchemaTreema: ->
     treemaOptions =
+      filePath: @options.filePath
       supermodel: @supermodel
       schema: LevelSystem.schema.properties.configSchema
       data: $.extend true, {}, @levelSystem.get 'configSchema'
@@ -84,8 +86,12 @@ module.exports = class LevelSystemEditView extends CocoView
     @editor = ace.edit(editorEl[0])
     @editor.setReadOnly(me.get('anonymous'))
     session = @editor.getSession()
-    session.setMode 'ace/mode/coffee'
-    session.setTabSize 2
+    if @levelSystem.get('codeLanguage') is 'javascript'
+      session.setMode 'ace/mode/javascript'
+      session.setTabSize 4
+    else
+      session.setMode 'ace/mode/coffee'
+      session.setTabSize 2
     session.setNewLineMode = 'unix'
     session.setUseSoftTabs true
     @editor.on('change', @onEditorChange)

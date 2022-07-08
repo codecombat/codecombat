@@ -7,6 +7,7 @@ LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
+store = require 'core/store'
 
 module.exports = class SpellPaletteView extends CocoView
   id: 'spell-palette-view'
@@ -18,15 +19,13 @@ module.exports = class SpellPaletteView extends CocoView
     'level:enable-controls': 'onEnableControls'
     'surface:frame-changed': 'onFrameChanged'
     'tome:change-language': 'onTomeChangedLanguage'
-    'tome:palette-clicked': 'onPalleteClick'
-    'surface:stage-mouse-down': 'closeCommandBank'
+    'tome:palette-clicked': 'onPaletteClick'
 
 
   events:
-    'click .command-bank-header': 'onClickHeader'
-    'click .closeBtn': 'onClickClose'
     'click .sub-section-header': 'onSubSectionHeaderClick'
-    'click': 'onClick'
+    'click .code-bank-close-btn': 'onCodeBankCloseBtnClick'
+    'transitionend': 'onTransitionEnd'
 
   initialize: (options) ->
     {@level, @session, @thang, @useHero} = options
@@ -50,7 +49,7 @@ module.exports = class SpellPaletteView extends CocoView
         if subGroup != 'none'
           header = $("<div class='sub-section-header' data-panel='#sub-section-#{subGroup}-#{group}'>
               <span>#{subGroup}</span>
-              <div style='float: right; padding-top: 3px;' class='glyphicon glyphicon-chevron-down blue-glyphicon'></div>
+              <button tabindex='0' style='float:right;animation: none;position:absolute;right:10px;transform: rotate(90deg);' class='shepherd-next-button-active shepherd-button'></button>
             </a>").appendTo itemGroup
           itemSubGroup = $("<div class='property-entry-item-sub-group collapse' id='sub-section-#{subGroup}-#{group}'></div>").appendTo itemGroup
         for entry, entryIndex in entries
@@ -83,13 +82,13 @@ module.exports = class SpellPaletteView extends CocoView
         if doc.codeLanguages and not (@options.language in doc.codeLanguages)
           excludedDocs['__' + doc.name] = doc
           continue
-        allDocs['__' + doc.name] ?= []
-        allDocs['__' + doc.name].push doc
         if doc.type is 'snippet' then doc.owner = 'snippets'
-        doc.componentName = lc.get('name')
+        docCopy = Object.assign({ componentName: lc.get('name') }, doc)
+        allDocs['__' + doc.name] ?= []
+        allDocs['__' + doc.name].push docCopy
 
     methodsBankList = @options.level.get('methodsBankList') || []
-    
+
     if methodsBankList.length == 0
       console.log("Methods Bank list is empty!!")
     else
@@ -116,7 +115,7 @@ module.exports = class SpellPaletteView extends CocoView
         console.log 'could not find doc for', propName, 'from', allDocs['__' + propName]
         doc = propName
       if doc
-        @entries.push @addEntry(doc, section, subSection)
+        @entries.push @addEntry(doc, section, subSection, false)
     @entryGroups = _.groupBy @entries, (entry) -> entry.doc.section
     
 
@@ -215,20 +214,17 @@ module.exports = class SpellPaletteView extends CocoView
     @createPalette()
     @render()
 
-  onClick: (e) ->
-    rightBorderWidth = parseInt(@$el.css('borderRightWidth'))
-    leftPanelWidth = parseInt(@$el.find('.left').css('width'))
-    rightPanelWidth = parseInt(@$el.find('.right').css('width'))
-    viewWidth = parseInt(@$el.css('width'))
-    viewWidthOpen = rightBorderWidth + leftPanelWidth # when only left panel is open
-    viewWidthExpanded = rightBorderWidth + leftPanelWidth + rightPanelWidth # when completely open with left and right panel
-    if viewWidth == rightBorderWidth
-      @$el.addClass('open')
-    else if (viewWidth == viewWidthOpen && e.offsetX > leftPanelWidth) || (viewWidth == viewWidthExpanded && e.offsetX > leftPanelWidth + rightPanelWidth)
-      @closeCommandBank()
-
-  onClickHeader: (e) ->
-    @closeCommandBank()
+  onCodeBankCloseBtnClick: () ->
+    $('.code-bank-left-arrow,.code-bank-right-arrow').toggleClass('hide')
+    if $('#spell-palette-view').hasClass('open')
+      $('#spell-palette-view').removeClass('open expand')
+      $('#spell-palette-view .container').css('display','none')
+    else
+      $('#spell-palette-view').addClass('open expand')
+      $('#spell-palette-view .container').css('display','block')
+      if !$('.sub-section-header.selected').length
+        $('.sub-section-header').first().click()
+        $('.spell-palette-entry-view').first().click()
 
   onSubSectionHeaderClick: (e) ->
     $et = @$(e.currentTarget)
@@ -236,11 +232,11 @@ module.exports = class SpellPaletteView extends CocoView
     isCollapsed = !target.hasClass('in')
     if isCollapsed
       target.collapse 'show'
-      $et.find('.glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up')
+      $et.find('.shepherd-button').removeClass('shepherd-next-button-active').addClass('shepherd-back-button-active')
       $et.toggleClass('selected', true)
     else
       target.collapse 'hide'
-      $et.find('.glyphicon').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down')
+      $et.find('.shepherd-button').removeClass('shepherd-next-back-active').addClass('shepherd-next-button-active')
       $et.toggleClass('selected', false)
 
     setTimeout () =>
@@ -248,18 +244,7 @@ module.exports = class SpellPaletteView extends CocoView
     , 200
     e.preventDefault()
 
-  onClickClose: (e) ->
-    @closeRightPanel()
-
-  closeRightPanel: () =>
-    @$el.find('.left .selected').removeClass 'selected'
-    @$el.removeClass('expand')
-
-  closeCommandBank: () =>
-    @closeRightPanel()
-    @$el.removeClass('open')
-
-  onPalleteClick: (e) ->
+  onPaletteClick: (e) ->
     @$el.addClass('expand')
     content = @$el.find(".rightContentTarget")
     content.html(e.entry.doc.initialHTML)
@@ -274,6 +259,9 @@ module.exports = class SpellPaletteView extends CocoView
       aceEditor = aceUtils.initializeACE @, codeLanguage
       aceEditor.renderer.setShowGutter true
       aceEditors.push aceEditor
+
+  onTransitionEnd: (e) ->
+    store.dispatch('game/toggleCodeBank')
 
   destroy: ->
     entry.destroy() for entry in @entries

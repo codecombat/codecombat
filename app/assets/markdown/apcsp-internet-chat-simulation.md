@@ -11,7 +11,7 @@ Inquiry Activity
 
 ## Overview
 
-In this lesson, students will explore and act out the way in which computers communicate with each other over the internet. They do this by simulating a chat room, in which they must send secure messages to other students in the class. Throughout the activity, the students must develop ways to identify the sender and intended recipient of the message, and also to keep it secure.
+In this lesson, students will explore and act out the way in which computers communicate with each other over the internet. They do this by simulating a chat room, in which they must send secure messages to other students in the class. Throughout the activity, the students must develop ways to identify the sender and intended recipient of the message, and also to keep it secure. In doing so, they will learn how to make useful simulations of real phenomena that would otherwise be too complex, (e.g., too big, too small, too fast, too slow) to track in the real world.
 
 This activity will likely span two class periods. Be sure to give the students enough time to brainstorm different problem solving solutions for the later rounds. You will also want to leave enough time to go over the discussion questions.
 

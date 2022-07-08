@@ -6,5 +6,6 @@ class Cutscene extends CocoModel { }
 Cutscene.className = 'Cutscene'
 Cutscene.schema = schema
 Cutscene.urlRoot = '/db/cutscene'
+Cutscene.prototype.urlRoot = '/db/cutscene'
 
 module.exports = Cutscene

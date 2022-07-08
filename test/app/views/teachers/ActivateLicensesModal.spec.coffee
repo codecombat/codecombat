@@ -86,6 +86,7 @@ describe 'ActivateLicensesModal', ->
       beforeEach ->
         selected = @modal.state.get('selectedUsers')
         selected.remove(selected.first())
+        selected.remove(selected.first())
         
       it 'should be enabled', ->
         expect(@modal.$('#activate-licenses-btn').hasClass('disabled')).toBe(false)
@@ -94,14 +95,11 @@ describe 'ActivateLicensesModal', ->
         beforeEach ->
           @modal.$('form').submit()
         
-        it 'enrolls the selected students with the soonest-to-expire, available prepaid', ->
+        it 'enrolls the selected students with the selected prepaid', ->
           request = jasmine.Ajax.requests.mostRecent()
           if request.url.indexOf(@prepaidThatExpiresSooner.id) is -1
             fail('The first prepaid should be the prepaid that expires sooner')
           request.respondWith({ status: 200, responseText: '{ "redeemers": [{}] }' })
-          request = jasmine.Ajax.requests.mostRecent()
-          if request.url.indexOf(@prepaidThatExpiresLater.id) is -1
-            fail('The second prepaid should be the prepaid that expires later')
   
     describe 'when the teacher doesn\'t have enough licenses', ->
       it 'should be disabled', ->

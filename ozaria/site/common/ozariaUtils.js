@@ -1,4 +1,5 @@
 import { merge } from 'lodash'
+import { i18n } from 'app/core/utils'
 
 /**
  Utility functions for ozaria
@@ -118,11 +119,11 @@ export const getLevelStatusMap = (sessions) => {
     const isLevelAreadyComplete = levelOriginal && (levelStatusMap[levelOriginal] === 'complete' || (capstoneStage && levelStatusMap[levelOriginal] === capstoneStage - 1))
     if (!isLevelAreadyComplete) { // Don't overwrite a complete session with an incomplete one
       if (capstoneStage && capstoneStage > 1) {
-        levelStatusMap[levelOriginal] = capstoneStage - 1 // for levels played in stages(1fh capstone), levelStatusMap = last completed stage
+        levelStatusMap[levelOriginal] = capstoneStage - 1 // for levels played in stages (capstone levels), levelStatusMap = last completed stage
       } else if (sessionState.complete) {
         levelStatusMap[levelOriginal] = 'complete'
       } else {
-        levelStatusMap[levelOriginal] = 'started' // for levels played in stages(1fh capstone) as well as normal levels
+        levelStatusMap[levelOriginal] = 'started' // for levels played in stages (capstone levels) as well as normal levels
       }
     }
   }
@@ -134,7 +135,7 @@ export const getLevelStatusMap = (sessions) => {
  * @param {Object} level - The level object.
  * @param {Object} level.nextLevels - The array of nextLevels for the given level.
  * @param {boolean|undefined} level.isPlayedInStages - True/false/undefined
- * @param {number} capstoneStage - Stage of 1FH capstone level for which we need the next level
+ * @param {number} capstoneStage - Stage of capstone level for which we need the next level
  * @returns {Object} - Next level object containing 'Original' id and next level's stage.
  */
 export const getNextLevelForLevel = (level, capstoneStage = 1) => {
@@ -161,18 +162,27 @@ export const getNextLevelForLevel = (level, capstoneStage = 1) => {
  * @param {string} options.codeLanguage
  * @returns {string}
  */
+// TODO: move to app/core/urls and use `$.param(queryParams)` to build query string
 export const getNextLevelLink = (levelData, options) => {
   let link = ''
   if (levelData.type === 'intro') {
-    link = '/ozaria/play/intro/' + levelData.slug
+    link = '/play/intro/' + levelData.slug
   } else {
-    link = '/ozaria/play/level/' + levelData.slug
+    link = '/play/level/' + levelData.slug
   }
 
   if (options.courseId && options.courseInstanceId) {
     link += `?course=${encodeURIComponent(options.courseId)}&course-instance=${encodeURIComponent(options.courseInstanceId)}`
     if (levelData.primerLanguage) {
       link += `&codeLanguage=${encodeURIComponent(levelData.primerLanguage)}`
+    }
+    if (options.nextLevelStage) {
+      link += `&capstoneStage=${encodeURIComponent(options.nextLevelStage)}`
+    }
+  } else if (options.courseInstanceId) {
+    link += `?course-instance=${encodeURIComponent(options.courseInstanceId)}`
+    if (options.codeLanguage) {
+      link += `&codeLanguage=${encodeURIComponent(options.codeLanguage)}`
     }
     if (options.nextLevelStage) {
       link += `&capstoneStage=${encodeURIComponent(options.nextLevelStage)}`
@@ -206,11 +216,149 @@ export function internationalizeConfig (levelConfig, userLocale) {
   const generalLocaleObject = interactiveConfigI18n[userGeneralLocale] || {}
   const fallbackLocaleObject = interactiveConfigI18n[fallbackLocale] || {}
 
-  return merge(
+  levelConfig = merge(
     {},
     levelConfig,
     fallbackLocaleObject,
     generalLocaleObject,
     userLocaleObject
   )
+
+  for (const values of Object.values(levelConfig)) {
+    if (Array.isArray(values)) {
+      for (const arrayVal of values) {
+        internationalizeConfigAux(arrayVal, userLocale)
+      }
+    } else if (typeof values === 'object') {
+      internationalizeConfigAux(values, userLocale)
+    }
+  }
+
+  return levelConfig
+}
+
+/**
+ * This replaces properties recursively with the i18n properties.
+ * It's a very naive implementation and should be replaced with the
+ * i18n function in utils.
+ *
+ * The translation falls back to English but doesn't fall sideways or
+ * fallback gracefully from Traditional to Simplified Chinese.
+ */
+function internationalizeConfigAux (obj, userLocale) {
+  const { i18n } = obj || {}
+  if (i18n) {
+    const translatedObj = i18n[userLocale] || {}
+    _.merge(obj, translatedObj)
+    return
+  }
+
+  for (const values of Object.values(obj)) {
+    if (Array.isArray(values)) {
+      for (const arrayVal of values) {
+        internationalizeConfigAux(arrayVal, userLocale)
+      }
+    } else if (typeof values === 'object') {
+      internationalizeConfigAux(values, userLocale)
+    }
+  }
+}
+
+export function tryCopy () {
+  try {
+    document.execCommand('copy')
+    const message = 'Copied to clipboard'
+    noty({ text: message, layout: 'topCenter', type: 'info', killer: false, timeout: 2000 })
+  } catch (err) {
+    const message = 'Oops, unable to copy'
+    noty({ text: message, layout: 'topCenter', type: 'error', killer: false, timeout: 3000 })
+  }
+}
+
+export function internationalizeLevelType(type, withLevelSuffix, withProjectSuffix){
+  if (['challenge', 'capstone', 'practice', 'cutscene', 'intro'].indexOf(type) == -1){
+    type = 'practice'
+  }
+  let key = 'play_level.level_type_' + type;
+  if (withProjectSuffix && type === 'capstone') {
+    key += '_project'
+  } else if (withLevelSuffix){
+    key += '_level'
+  }
+  return $.i18n.t(key)
+}
+
+export function internationalizeContentType(type){
+  switch (type) {
+    case 'cutscene-video':
+      return $.i18n.t('play_level.level_type_cutscene')
+    case 'cutscene':
+      return $.i18n.t('play_level.level_type_cutscene')
+    case 'avatarSelectionScreen':
+      return $.i18n.t('play_level.content_type_avatar')
+    case 'cinematic':
+      return $.i18n.t('play_level.content_type_cinematic')
+    case 'interactive':
+      return $.i18n.t('play_level.content_type_interactive')
+    default:
+      return this.currentContent.contentType
+  }
+}
+
+// OLD TEACHER DASHBOARD
+// Returns the display label for levels of type practice/challenge/intro/cutscene/capstone
+// For cutscene levels, its name is determined from introContent which should contain the cutscene name.
+export function getLevelDisplayNameWithLabel (level) {
+  if (!level) {
+    return
+  }
+  const contentType = level.getDisplayContentType()
+  let levelName = i18n(level.attributes, 'displayName') || i18n(level.attributes, 'name')
+  if (contentType === 'cutscene' && (level.get('introContent') || [])[0]) {
+    levelName = level.get('introContent')[0].displayName || levelName
+  }
+
+  if (contentType === 'capstone') {
+    return internationalizeLevelType(contentType, false, true) + ': ' + levelName
+  }
+  return internationalizeLevelType(contentType) + ': ' + levelName
+}
+
+// OLD TEACHER DASHBOARD
+// Only for cinematics/interactives
+export function getIntroContentNameWithLabel (introContent) {
+  if (!introContent) {
+    return
+  }
+  const displayName = introContent.displayName || '...'
+  if (introContent.type) {
+    return internationalizeContentType(introContent.type) + ': ' + displayName
+  }
+}
+
+// Used for new teacher dashboard, contentData is the list-item returned by game-content APIs
+// i.e. levels broken down into practice/cinematics/interactives etc
+// `withLevelSuffix` will append 'Level' to the names for practice/capstone/challenge levels
+// `withProjectSuffix` will append 'Project' to the capstone name
+export function getGameContentDisplayNameWithType (contentData, withLevelSuffix = true, withProjectSuffix = false) {
+  if (!contentData) {
+    return
+  }
+  const contentName = i18n(contentData, 'displayName') || i18n(contentData, 'name')
+  const contentType = getGameContentDisplayType(contentData.ozariaType || contentData.type, withLevelSuffix, withProjectSuffix)
+  return `${contentType}: ${contentName}`
+}
+
+// `withLevelSuffix` will append 'Level' to the names for practice/capstone/challenge levels
+// `withProjectSuffix` will append 'Project' to the capstone name
+export function getGameContentDisplayType (contentType, withLevelSuffix = true, withProjectSuffix = false) {
+  if (contentType.startsWith('practice')) {
+    return internationalizeLevelType('practice', withLevelSuffix, withProjectSuffix)
+  } else if (contentType.startsWith('capstone')) {
+    return internationalizeLevelType('capstone', withLevelSuffix, withProjectSuffix)
+  } else if (contentType.startsWith('challenge')) {
+    return internationalizeLevelType('challenge', withLevelSuffix, withProjectSuffix)
+  } else {
+    return internationalizeContentType(contentType)
+  }
 }

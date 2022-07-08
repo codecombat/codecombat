@@ -9,7 +9,7 @@ module.exports = class DialogueAnimator
     @childrenToAdd = _.map(d[0].childNodes, (e) -> return e)
     @t0 = new Date()
     @charsAdded = 0
-    @charsPerSecond = 25
+    @charsPerSecond = 27
 
   tick: ->
     if not @charsToAdd and not @childAnimator

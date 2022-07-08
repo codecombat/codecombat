@@ -4,27 +4,36 @@ import tmpl from 'tmpl'
 /**
  * Extract the text from the DialogNode, and transform it into an html element ready for animation.
  *
- * This function handles internationalization, text interpolation and html processing.
+ * This function handles internationalization, text interpolation and html/markdown processing.
  *
- * We use very light weight [Javascript-Templates](https://blueimp.github.io/JavaScript-Templates/)
- * in order to provide text templating.
+ * We use the very light weight [Javascript-Templates](https://blueimp.github.io/JavaScript-Templates/)
+ * library in order to provide text templating.
  *
  * @param {DialogNode} dialogNode
  * @param {Object} context - The object referred to as `o` in the text templates.
- * @param {bool} wrap - Whether we want to wrap the transpiled text in html tags.
  * @returns {HTMLElement|undefined} The processed element.
  */
-export function processText (dialogNode, context, wrap = true) {
+export function processText (dialogNode, context) {
   let text = utils.i18n(dialogNode, 'text')
   text = tmpl(text || '', context)
   if (!text) {
     return undefined
   }
 
-  if (wrap) {
-    return wrapText(`<div>${text}</div>`)
-  }
-  return text
+  const newText = decodeHtml(marked(text))
+  return wrapText(`<div>${newText}</div>`)
+}
+
+/**
+ * Converts a string such as "3 &lt; 2" into "3 < 2".
+ * Reference: https://stackoverflow.com/a/7394787
+ * @param {string} text
+ * @returns {string} Text with escaped values decoded
+ */
+function decodeHtml (text) {
+  const txt = document.createElement('textarea')
+  txt.innerHTML = text
+  return txt.value
 }
 
 /**
@@ -44,10 +53,10 @@ export function processText (dialogNode, context, wrap = true) {
  */
 export function wrapText (htmlString, wrapLetterString, wrapWordString) {
   if (!wrapLetterString) {
-    wrapLetterString = l => `<span class="letter" style="display: inline-block; opacity:0">${l}</span>`
+    wrapLetterString = l => l ? `<span class="letter" style="display: inline-block; opacity:0">${l}</span>` : ''
   }
   if (!wrapWordString) {
-    wrapWordString = l => `<span class="word" style="display: inline-block; whites-space: nowrap">${l}</span>`
+    wrapWordString = l => l ? `<span class="word" style="display: inline-block; whites-space: nowrap">${l}</span>` : ''
   }
 
   // Method that replaces text content within an html string.
@@ -85,7 +94,8 @@ export function wrapText (htmlString, wrapLetterString, wrapWordString) {
 
 /**
  * Try to guess the frame of the camera and provide sensible defaults for the
- * text bubbles. Uses values sourced from Brian.
+ * text bubbles. These values are sourced from the content team, and are used
+ * in order to keep cinematics consistent and quick to create.
  *
  * If value can't be guessed, sets the text bubble in the center of the canvas.
  *
@@ -96,15 +106,15 @@ export function getDefaultTextPosition (speaker, cameraZoom) {
   // Handling special cases of zoom, checking if speaker is in frame.
   if (speaker === 'left') {
     if (cameraZoom === 1) {
-      return { x: 540, y: 280 }
+      return { x: 480, y: 225 }
     } else if (cameraZoom === 2) {
-      return { x: 800, y: 250 }
+      return { x: 600, y: 180 }
     }
   } else if (speaker === 'right') {
     if (cameraZoom === 1) {
-      return { x: 875, y: 280 }
+      return { x: 875, y: 225 }
     } else if (cameraZoom === 2) {
-      return { x: 600, y: 300 }
+      return { x: 775, y: 180 }
     }
   }
   // Default to center

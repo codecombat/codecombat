@@ -15,4 +15,24 @@ module.exports = {
     fetchJson("/db/course_instance", {
       data: { ownerID: ownerID }
     })
+
+  fetchByClassroom: (classroomID) ->
+    fetchJson("/db/course_instance", {
+      data: { classroomID: classroomID }
+    })
+
+  # courseInstanceDetails = {classroomID: '', courseID: ''}
+  post: (courseInstanceDetails, options={}) ->
+    fetchJson("/db/course_instance", _.assign({}, options, {
+      method: 'POST'
+      json: courseInstanceDetails
+    }))
+
+  removeMember: (courseInstanceID, options={}) ->
+    fetchJson("/db/course_instance/#{courseInstanceID}/members", _.assign({}, options, {
+      method: 'DELETE'
+      json: {
+        userID: options.memberId
+      }
+    }))
 }

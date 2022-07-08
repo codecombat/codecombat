@@ -58,7 +58,6 @@
         .starterCode
         .trim()
         .split('\n')
-        .map(line => line.trim())
 
       let defaultImage
       if (this.interactive.defaultArtAsset) {
@@ -81,7 +80,8 @@
           tabSize: 2,
           mode: `text/${language}`,
           lineNumbers: true,
-          readOnly: 'nocursor'
+          readOnly: 'nocursor',
+          lineWrapping: true
         },
 
         splitSampleCode,
@@ -172,6 +172,9 @@
       },
 
       solutionCorrect () {
+        if (!this.questionAnswered) {
+          return false
+        }
         return this.localizedInteractiveConfig.solution === this.selectedAnswer.choiceId
       },
 
@@ -183,7 +186,7 @@
             return 'interactives.try_again'
           }
         } else {
-          return 'interactives.fill_boxes'
+          return 'interactives.select_statement_left'
         }
       }
     },
@@ -250,8 +253,14 @@
       },
 
       async submitSolution () {
-        this.showModal = true
-        this.submitEnabled = false
+        if (this.solutionCorrect) {
+          // Straight to standard victory modal rather than interactive modal
+          this.$emit('completed')
+          this.submitEnabled = true
+        } else {
+          this.showModal = true
+          this.submitEnabled = false
+        }
 
         if (!this.questionAnswered) {
           return
@@ -270,13 +279,8 @@
       },
 
       closeModal () {
-        if (this.solutionCorrect) {
-          this.$emit('completed')
-        } else {
-          this.resetAnswer()
-          this.updateHighlightedLine()
-        }
-
+        this.resetAnswer()
+        this.updateHighlightedLine()
         this.showModal = false
         this.submitEnabled = true
       }
@@ -386,7 +390,7 @@
         background-color: #FFF;
 
         font-family: 'Roboto Mono', monospace;
-        font-size: 16px;
+        font-size: 0.75vw;
         line-height: 19px;
         color: #232323;
 
@@ -412,9 +416,7 @@
     height: 100%;
 
     .code {
-      flex-grow: 1;
-
-      /deep/ .CodeMirror {
+      ::v-deep .CodeMirror {
         font-family: 'Roboto Mono', monospace;
         font-size: 16px;
         line-height: 20px;
@@ -440,7 +442,6 @@
 
     .submit {
       justify-content: flex-end;
-
       margin: 18.69px auto;
     }
   }

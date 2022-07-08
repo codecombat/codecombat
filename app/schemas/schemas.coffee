@@ -17,7 +17,12 @@ me.object = (ext, props) -> combine({type: 'object', additionalProperties: false
 me.array = (ext, items) -> combine({type: 'array', items: items or {}}, ext)
 me.shortString = (ext) -> combine({type: 'string', maxLength: 100}, ext)
 me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
-me.passwordString = {type: 'string', maxLength: 256, minLength: 2, title: 'Password'}
+me.passwordString = {
+  allOf: [
+    {type: 'string', maxLength: 64, minLength: 4, title: 'Password'},
+    { not: { pattern: '([\\s\\S])\\1\\1' } }
+  ]
+}
 
 # Dates should usually be strings, ObjectIds should be strings: https://github.com/codecombat/codecombat/issues/1384
 me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)  # old
@@ -44,6 +49,8 @@ me.sound = (props) ->
   obj = _.cloneDeep(SoundSchema)
   obj.properties[prop] = props[prop] for prop of props
   obj
+
+me.file = (ext) -> combine { type: 'string', format: 'file' }, ext
 
 ColorConfigSchema = me.object {format: 'color-sound'},
   hue: {format: 'range', type: 'number', minimum: 0, maximum: 1}
@@ -119,18 +126,12 @@ me.extendVersionedProperties = (schema, linkFragment) ->
 # SEARCHABLE
 
 searchableProps = ->
-  index: {format: 'hidden'}
+  index: {format: 'hidden'}  # CodeCombat / original
+  _algoliaObjectID: { type: 'string', format: 'hidden' }  # Ozaria / new
 
 me.extendSearchableProperties = (schema) ->
   schema.properties = {} unless schema.properties?
   _.extend(schema.properties, searchableProps())
-
-algoliaSearchableProps = ->
-  _algoliaObjectID: { type: 'string' }
-
-me.extendAlgoliaProperties = (schema) ->
-  schema.properties = {} unless schema.properties?
-  _.extend(schema.properties, algoliaSearchableProps())
 
 # PERMISSIONED
 
@@ -252,3 +253,22 @@ me.task = me.object {title: 'Task', description: 'A task to be completed', forma
 me.concept = {type: 'string', enum: (concept.concept for concept in concepts), format: 'concept'}
 
 me.scoreType = me.shortString(title: 'Score Type', 'enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty', 'code-length', 'survival-time', 'defeated'])  # TODO: total gear value.
+
+# Valid Teacher Dashboard resource icons
+me.resourceIcons = ['PDF', 'Spreadsheet', 'Doc', 'FAQ', 'Slides', 'Solutions', 'Video']
+
+me.voiceOver = {
+  oneOf: [
+    me.sound(),
+    me.object({
+      title: 'Hero VO',
+      description: 'This voice over is spoken by the hero',
+      required: ['female', 'male']
+    }, {
+      female: me.sound(),
+      male: me.sound()
+    })
+  ]
+}
+
+me.product = type: 'string', title: 'Product', description: 'Which product this document is for (codecombat, ozaria, or both)', enum: ['codecombat', 'ozaria', 'both'], default: 'both'

@@ -24,7 +24,7 @@ export const getCinematic = slugOrId => {
  * @async
  * @returns {Promise<CinematicName[]>} - Sorted by slug
  */
-export const getAllCinematics = () => fetchJson('/db/cinematic?project=slug,name')
+export const getAllCinematics = () => fetchJson('/db/cinematic?project=slug,name,displayName&limit=1000')
 
 /**
  * Updates a cinematic in the database.

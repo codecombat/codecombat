@@ -21,8 +21,12 @@ import {
   getSoundEffects,
   getWaitUserInput,
   getLanguageFilter,
-  getHeroPet
+  getHeroPet,
+  getPlayThangAnimations,
+  getFadeFromBlack,
+  getFadeToBlack
 } from '../../../app/schemas/models/selectors/cinematic'
+import Cinematic from 'ozaria/site/models/Cinematic'
 
 /**
  * This data can be used to check that none of the selectors that match
@@ -42,6 +46,33 @@ const invalidThangTypesSetupData = [
 ]
 
 describe('Cinematic', () => {
+  describe('Model methods', () => {
+    it('find dialogue nodes', () => {
+      const c = (new Cinematic()).set('shots', [shotFixture1])
+      const result = Cinematic.findDialogTextPath(c, 'hello, world')
+      expect(result).toEqual([[0, 0]])
+
+      const c2 = (new Cinematic()).set('shots', [shotFixture2, shotFixture1])
+      const result2 = Cinematic.findDialogTextPath(c2, 'hello, world')
+      expect(result2).toEqual([[1, 0]])
+
+      const result3 = Cinematic.findDialogTextPath(c2, 'More spoken text')
+      expect(result3).toEqual([[0, 1]])
+    })
+
+    it('find multiple dialogue nodes', () => {
+      const c = (new Cinematic()).set('shots', [shotFixture1, shotFixture2, shotFixture1])
+      const result = Cinematic.findDialogTextPath(c, 'hello, world')
+      expect(result).toEqual([ [ 0, 0 ], [ 2, 0 ] ])
+    })
+
+    it('handle missing dialogue node', () => {
+      const c = (new Cinematic()).set('shots', [shotFixture1])
+      const result = Cinematic.findDialogTextPath(c, 'This text doesn\'t exist.')
+      expect(result).toEqual([])
+    })
+  })
+
   describe('Selectors', () => {
     getCharacterThangTypeSlugTest(getLeftCharacterThangTypeSlug, 'getLeftCharacterThangTypeSlug', invalidThangTypesSetupData, 'leftThangType')
     getCharacterThangTypeSlugTest(getRightCharacterThangTypeSlug, 'getRightCharacterThangTypeSlug', invalidThangTypesSetupData, 'rightThangType')
@@ -51,7 +82,7 @@ describe('Cinematic', () => {
       expect(result).toBeUndefined()
 
       const result2 = getLeftCharacterThangTypeSlug(shotFixture2)
-      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 1.2, scaleY: 1.2, pos: { x: -30, y: -72 } } })
+      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 1.2, scaleY: 1.2, pos: { x: -37, y: -73 } } })
     })
 
     it('getRightCharacterThangTypeSlug', () => {
@@ -59,12 +90,12 @@ describe('Cinematic', () => {
       expect(result).toBeUndefined()
 
       const result2 = getRightCharacterThangTypeSlug(shotFixture1)
-      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 1.2, scaleY: 1.2, pos: { x: 30, y: -72 } } })
+      expect(result2).toEqual({ slug: 'fake-slug-thangtype', enterOnStart: false, thang: { scaleX: 1.2, scaleY: 1.2, pos: { x: 37, y: -73 } } })
     })
 
     it('getLeftHero', () => {
       const result = getLeftHero(shotFixture1)
-      expect(result).toEqual({ enterOnStart: true, thang: { scaleX: 1, scaleY: 13, pos: { x: 3, y: 10 } } })
+      expect(result).toEqual({ enterOnStart: true, thang: { scaleX: 1, scaleY: 13, pos: { x: 3, y: 10 } }, type: 'hero' })
 
       const result2 = getLeftHero(shotFixture2)
       expect(result2).toBeUndefined()
@@ -72,7 +103,7 @@ describe('Cinematic', () => {
 
     it('getRightHero', () => {
       const result = getRightHero(shotFixture2)
-      expect(result).toEqual({ enterOnStart: true, thang: { scaleX: 1, scaleY: 13, pos: { x: 3, y: 10 } } })
+      expect(result).toEqual({ enterOnStart: true, thang: { scaleX: 1, scaleY: 13, pos: { x: 3, y: 10 } }, type: 'hero' })
 
       const result2 = getRightHero(shotFixture1)
       expect(result2).toBeUndefined()
@@ -184,7 +215,7 @@ describe('Cinematic', () => {
       expect(result).toEqual('talkyAnimation')
 
       const result2 = getSpeakingAnimationAction(shotFixture2.dialogNodes[0])
-      expect(result2).toBeUndefined()
+      expect(result2).toEqual('talkNeutral')
     })
 
     it('getSoundEffects', () => {
@@ -197,10 +228,20 @@ describe('Cinematic', () => {
 
     it('getSetupMusic', () => {
       const result = getSetupMusic(shotFixture1)
-      expect(result).toEqual({ ogg: 'path/music', mp3: 'path/music/mp3' })
+      expect(result).toEqual({ files: { ogg: 'path/music', mp3: 'path/music/mp3' }, loop: false })
 
       const result2 = getSetupMusic(shotFixture2)
       expect(result2).toBeUndefined()
+    })
+
+    it('getFadeFromBlack', () => {
+      expect(getFadeFromBlack(shotFixture2.dialogNodes[1])).toEqual({ duration: 1500 })
+      expect(getFadeFromBlack(shotFixture2.dialogNodes[0])).toEqual(undefined)
+    })
+
+    it('getFadeToBlack', () => {
+      expect(getFadeToBlack(shotFixture2.dialogNodes[0])).toEqual({ duration: 2000 })
+      expect(getFadeToBlack(shotFixture1.dialogNodes[0])).toEqual(undefined)
     })
 
     it('getWaitUserInput', () => {
@@ -223,6 +264,33 @@ describe('Cinematic', () => {
 
       const result2 = getHeroPet(shotFixture2)
       expect(result2).toBeUndefined()
+    })
+
+    it('getPlayThangAnimations', () => {
+      const result = getPlayThangAnimations(shotFixture1.dialogNodes[0])
+      expect(result).toEqual([
+        {
+          delay: 0,
+          duration: 1000,
+          animation: 'test',
+          lankTarget: 'left'
+        }
+      ])
+
+      const result2 = getPlayThangAnimations(shotFixture1.dialogNodes[1])
+      expect(result2).toEqual([])
+    })
+
+    it('getPlayThangAnimations fills in default delay', () => {
+      const result = getPlayThangAnimations(shotFixture2.dialogNodes[0])
+      expect(result).toEqual([
+        {
+          delay: 0,
+          duration: 1001,
+          animation: 'test2',
+          lankTarget: 'right'
+        }
+      ])
     })
   })
 })
@@ -318,6 +386,14 @@ var shotFixture1 = {
               mp3: 'path/music'
             }
           }
+        ],
+        playThangAnimations: [
+          {
+            delay: 0,
+            duration: 1000,
+            animation: 'test',
+            lankTarget: 'left'
+          }
         ]
       }
     },
@@ -362,12 +438,32 @@ var shotFixture2 = {
             },
             triggerStart: 30
           }
+        ],
+        playThangAnimations: [
+          {
+            duration: 1001,
+            animation: 'test2',
+            lankTarget: 'right'
+          }
         ]
+      },
+      mutators: {
+        fadeToBlack: {
+          duration: 2000
+        }
       },
       textLocation: {
         x: 40,
         y: 10
       }
+    },
+    {
+      text: 'More spoken text',
+      mutators: {
+        fadeFromBlack: {
+          duration: 1500
+        }
+      },
     }
   ]
 }

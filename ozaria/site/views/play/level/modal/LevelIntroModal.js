@@ -1,6 +1,7 @@
 import ModalComponent from 'app/views/core/ModalComponent'
 import LevelIntroComponent from './LevelIntroComponent.vue'
-import { internationalizeConfig } from 'ozaria/site/common/ozariaUtils'
+import { internationalizeLevelType } from 'ozaria/site/common/ozariaUtils'
+import utils from 'core/utils'
 
 class LevelIntroModal extends ModalComponent {
   // Runs before the constructor is called.
@@ -10,6 +11,7 @@ class LevelIntroModal extends ModalComponent {
       levelType: null,
       narrative: null,
       learningGoals: null,
+      characterPortrait: null,
       onStart: function () {}
     }
   }
@@ -23,16 +25,19 @@ class LevelIntroModal extends ModalComponent {
       let narrativeText = 'Placeholder narrative text'
       let learningGoalsText = 'Placeholder learning goals'
       if (narrative) {
-        narrativeText = internationalizeConfig(narrative).body
+        narrativeText = utils.i18n(narrative, 'body')
       }
       if (learningGoals) {
-        learningGoalsText = internationalizeConfig(learningGoals).body
+        learningGoalsText = utils.i18n(learningGoals, 'body')
       }
+      let levelTypeText = internationalizeLevelType(options.level.get('ozariaType'), true)
+      let levelName = utils.i18n(options.level.attributes, 'displayName') || utils.i18n(options.level.attributes, 'name')
       this.propsData = {
-        levelName: options.level.get('name'),
-        levelType: options.level.get('ozariaType') || 'Practice',
+        levelName: levelName,
+        levelType: levelTypeText,
         narrative: narrativeText,
-        learningGoals: learningGoalsText
+        learningGoals: learningGoalsText,
+        characterPortrait: options.level.get('characterPortrait') || 'vega'
       }
     }
     if (options.onStart) {
@@ -44,11 +49,12 @@ class LevelIntroModal extends ModalComponent {
     if (this.onDestroy) {
       this.onDestroy()
     }
+    super.destroy()
   }
 }
 
 LevelIntroModal.prototype.id = 'level-intro-modal'
-LevelIntroModal.prototype.template = require('ozaria/site/templates/core/modal-base-flat')
+LevelIntroModal.prototype.template = require('app/templates/core/modal-base-flat')
 LevelIntroModal.prototype.VueComponent = LevelIntroComponent
 LevelIntroModal.prototype.propsData = null
 LevelIntroModal.prototype.closesOnClickOutside = false

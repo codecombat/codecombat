@@ -114,7 +114,7 @@ export class SequentialCommands extends AbstractCommand {
    */
   constructor (commands) {
     super()
-    this.commandRunner = new CommandRunner(commands)
+    this.seqCommands = commands
   }
 
   [run] () {
@@ -122,6 +122,7 @@ export class SequentialCommands extends AbstractCommand {
   }
 
   run () {
+    this.commandRunner = new CommandRunner([...this.seqCommands])
     return this.commandRunner.run()
   }
 

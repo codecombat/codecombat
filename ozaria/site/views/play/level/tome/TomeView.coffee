@@ -19,12 +19,14 @@ require('ozaria/site/styles/play/level/tome/tome.sass')
 # SpellPaletteViews are destroyed and recreated whenever you switch Thangs.
 
 CocoView = require 'views/core/CocoView'
-template = require 'ozaria/site/templates/play/level/tome/tome.jade'
+template = require 'app/templates/play/level/tome/tome.pug'
 {me} = require 'core/auth'
 Spell = require './Spell'
 SpellPaletteView = require './SpellPaletteView'
 CastButtonView = require './CastButtonView'
 utils = require 'core/utils'
+store = require 'core/store'
+globalVar = require 'core/globalVar'
 
 module.exports = class TomeView extends CocoView
   id: 'tome-view'
@@ -46,6 +48,10 @@ module.exports = class TomeView extends CocoView
 
   constructor: (options) ->
     super options
+    @unwatchFn = store.watch(
+      (state, getters) -> getters['game/levelSolution'],
+      (solution) => @onChangeMyCode(solution.source)
+    )
     unless options.god or options.level.get('type') is 'web-dev'
       console.error "TomeView created with no God!"
 
@@ -57,7 +63,7 @@ module.exports = class TomeView extends CocoView
       if @fakeProgrammableThang = @createFakeProgrammableThang()
         programmableThangs = [@fakeProgrammableThang]
     @createSpells programmableThangs, programmableThangs[0]?.world  # Do before castButton
-    @castButton = @insertSubView new CastButtonView spells: @spells, level: @options.level, session: @options.session, god: @options.god
+    @castButton = @insertSubView new CastButtonView spells: @spells, level: @options.level, session: @options.session, god: @options.god, capstoneStage: @options.capstoneStage
     @teamSpellMap = @generateTeamSpellMap(@spells)
     unless programmableThangs.length
       @cast()
@@ -72,15 +78,33 @@ module.exports = class TomeView extends CocoView
 
   onCommentMyCode: (e) ->
     for spellKey, spell of @spells when spell.canWrite()
+      if (spell?.level?.get('ozariaType') is 'capstone' and @options.session)
+        comment = spell.view.getLanguageComment()
+        sessionCommentedCode = (@options.session.attributes?.code["hero-placeholder"]?.plan || "")
+          .split('\n')
+          .map((line) => comment + ' ' + line)
+          .join('\n')
+
+        @options.session.attributes.code["hero-placeholder"].plan = sessionCommentedCode
+        @options.session.save()
+          .then(() => Backbone.history.loadUrl())
+        return
+      else
+        commentedSource = spell.view.commentOutMyCode() + 'Commented out to stop infinite loop.\n' + spell.getSource()
+
       console.log 'Commenting out', spellKey
-      commentedSource = spell.view.commentOutMyCode() + 'Commented out to stop infinite loop.\n' + spell.getSource()
       spell.view.updateACEText commentedSource
       spell.view.recompile false
     @cast()
 
+  onChangeMyCode: (solution) ->
+    for spellKey, spell of @spells when spell.canWrite()
+      spell.view.updateACEText solution
+      spell.view.recompile false
+
   createWorker: ->
     return null unless Worker?
-    return null if window.application.isIPadApp  # Save memory!
+    return null if globalVar.application.isIPadApp  # Save memory!
     return new Worker('/javascripts/workers/aether_worker.js')
 
   generateTeamSpellMap: (spellObject) ->
@@ -147,13 +171,13 @@ module.exports = class TomeView extends CocoView
     for spellID, spell of @spells
       return unless spell.loaded
     justBegin = @options.level.isType('game-dev')
-    @cast false, false, justBegin
+    @cast false, false, justBegin, false, true
 
   onCastSpell: (e) ->
     # A single spell is cast.
     @cast e?.preload, e?.realTime, e?.justBegin, e?.cinematic
 
-  cast: (preload=false, realTime=false, justBegin=false, cinematic=false) ->
+  cast: (preload=false, realTime=false, justBegin=false, cinematic=false, spellJustLoaded=false) ->
     return if @options.level.isType('web-dev')
     sessionState = @options.session.get('state') ? {}
     if realTime
@@ -178,6 +202,7 @@ module.exports = class TomeView extends CocoView
       god: @options.god,
       fixedSeed: @options.fixedSeed,
       keyValueDb: @options.session.get('keyValueDb') ? {}
+      spellJustLoaded
     }
 
   onClick: (e) ->
@@ -216,7 +241,16 @@ module.exports = class TomeView extends CocoView
     if utils.getQueryVariable 'dev'
       @options.playLevelView.spellPaletteView.destroy()
       @updateSpellPalette @spellView.thang, @spellView.spell
-    spell.view.reloadCode false for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
+    for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
+      maxStage = Math.max((@options.level.get('additionalGoals') || []).map((g) -> g.stage)...)
+      if @options.level.get('ozariaType') == 'capstone' and @options?.capstoneStage == maxStage and @options.level.get('creativeMode') == true
+        # CreativeMode capstones restart to the students own goal directed code that was saved earlier.
+        priorStructuredCode = @options.session.get('code')['saved-capstone-normal-code']?.plan
+        if priorStructuredCode
+          spell.originalSource = priorStructuredCode
+        else
+          console.error('creativeMode failed to reset code due to missing prior code')
+      spell.view.reloadCode false
     @cast false, false
 
   updateLanguageForAllSpells: (e) ->
@@ -249,7 +283,11 @@ module.exports = class TomeView extends CocoView
     thang = _.merge thang, programmableConfig, usesHTMLConfig, usesWebJavaScriptConfig, usesJQueryConfig
     thang
 
+  softReloadCapstoneStage: (newCapstoneStage) ->
+    @castButton.softReloadCapstoneStage(newCapstoneStage)
+
   destroy: ->
     spell.destroy() for spellKey, spell of @spells
     @worker?.terminate()
+    @unwatchFn()
     super()

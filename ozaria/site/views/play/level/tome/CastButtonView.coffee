@@ -3,18 +3,20 @@ CocoView = require 'views/core/CocoView'
 template = require 'ozaria/site/templates/play/level/tome/cast-button-view'
 {me} = require 'core/auth'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
-ReloadLevelModal = require 'ozaria/site/views/play/level/modal/RestartLevelModal'
 LevelSession = require 'models/LevelSession'
 async = require('vendor/scripts/async.js')
+GoalManager = require('lib/world/GoalManager')
+store = require 'core/store'
 
 module.exports = class CastButtonView extends CocoView
   id: 'cast-button-view'
   template: template
 
   events:
-    'click #run': 'onCastButtonClick'
+    'click #run': 'onRunButtonClick'
     'click #update-game': 'onUpdateButtonClick'
     'click #next': 'onNextButtonClick'
+    'click #fill-solution': 'onFillSolution'
 
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
@@ -38,9 +40,6 @@ module.exports = class CastButtonView extends CocoView
     @loadMirrorSession() if @options.level.get('mirrorMatch') or @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty', 'treasure-games', 'king-of-the-hill']  # TODO: remove slug list once these levels are configured as mirror matches
     @mirror = @mirrorSession?
     @autoSubmitsToLadder = @options.level.isType('course-ladder')
-    # Show publish CourseVictoryModal if they've already published
-    if options.session.get('published')
-      Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: false }
 
   destroy: ->
     clearInterval @updateReplayabilityInterval
@@ -74,21 +73,33 @@ module.exports = class CastButtonView extends CocoView
     castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + @castShortcutVerbose()
     castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
 
+  onRunButtonClick: (e) ->
+    Backbone.Mediator.publish 'tome:manual-cast', { realTime: false }
+
   onUpdateButtonClick: (e) ->
+    Backbone.Mediator.publish 'tome:updateAetherRunning'
     Backbone.Mediator.publish 'tome:updateAether'
 
   onNextButtonClick: (e) ->
-    @options.session.recordScores @world?.scores, @options.level
-    args = { showModal: true, manual: true, capstoneInProgress: false }
-    if @options.level.get('ozariaType') == 'capstone'
-      additionalGoals = @options.level.get('additionalGoals')
-      state = @options.session.get('state')
-      capstoneStage = state.capstoneStage
-      finalStage = _.max(additionalGoals, (goals) -> goals.stage)
-      if capstoneStage <= finalStage
-        args['capstoneInProgress'] = true
+    if @winnable
+      @options.session.recordScores @world?.scores, @options.level
+      args = {
+        showModal: true
+        manual: true
+      }
+      if @options.level.get('ozariaType') == 'capstone'
+        # Passed in from PlayLevelView->TomeView, it is the Capstone Stage that has been just completed,
+        # or updated in softReloadCapstoneStage
+        capstoneStage = @options.capstoneStage
+        finalStage = GoalManager.maxCapstoneStage(@options.level.get('additionalGoals'))
+        args['capstoneInProgress'] = capstoneStage < finalStage
+        args['isCapstone'] = true
+      Backbone.Mediator.publish 'level:show-victory', args
 
-    Backbone.Mediator.publish 'level:show-victory', args
+  onFillSolution: ->
+    return unless me.canAutoFillCode()
+    codeLanguage = _.values(@spells)[0]?.language or utils.getQueryVariable('codeLanguage') or 'python'
+    store.dispatch('game/autoFillSolution', codeLanguage)
 
   onSpellChanged: (e) ->
     @updateCastButton()
@@ -96,8 +107,11 @@ module.exports = class CastButtonView extends CocoView
   onCastSpells: (e) ->
     return if e.preload
     @casting = true
-    if @hasStartedCastingOnce  # Don't play this sound the first time
-      @playSound 'cast', 0.5 unless @options.level.isType('game-dev')
+
+    # TODO: replace with Ozaria sound
+    # if @hasStartedCastingOnce  # Don't play this sound the first time
+    #   @playSound 'cast', 0.5 unless @options.level.isType('game-dev')
+
     @hasStartedCastingOnce = true
     @updateCastButton()
 
@@ -109,7 +123,10 @@ module.exports = class CastButtonView extends CocoView
   onNewWorld: (e) ->
     @casting = false
     if @hasCastOnce  # Don't play this sound the first time
-      @playSound 'cast-end', 0.5 unless @options.level.isType('game-dev')
+
+      # TODO: replace with Ozaria sound
+      # @playSound 'cast-end', 0.5 unless @options.level.isType('game-dev')
+
       # Worked great for live beginner tournaments, but probably annoying for asynchronous tournament mode.
       myHeroID = if me.team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
       if @autoSubmitsToLadder and not e.world.thangMap[myHeroID]?.errorsOut and not me.get('anonymous')
@@ -119,19 +136,24 @@ module.exports = class CastButtonView extends CocoView
     @world = e.world
 
   onPlaybackEnded: (e) ->
-    if @winnable
+    if @winnable and @options.level.get('ozariaType') != 'capstone'
       Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
 
   onNewGoalStates: (e) ->
-    winnable = e.overallStatus is 'success'
-    return if @winnable is winnable
-    @winnable = winnable
-    @$el.toggleClass 'winnable', @winnable
-    Backbone.Mediator.publish 'tome:winnability-updated', winnable: @winnable, level: @options.level
-    if @options.level.get('hidesRealTimePlayback') or @options.level.isType('web-dev', 'game-dev')
-      @$el.find('.done-button').toggle @winnable
-    else if @winnable and @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
-      @$el.find('.submit-button').show()  # Hide submit until first win so that script can explain it.
+    @winnable = e.overallStatus is 'success'
+    maxStage = Math.max((@options.level.get('additionalGoals') || []).map((g) -> g.stage)...)
+    if @options.level.get('ozariaType') == 'capstone' and @options?.capstoneStage == maxStage and @options.level.get('creativeMode') == true
+      # In final stage of creativeMode capstone we ignore all goals to allow unconstrained freedom.
+      # If there is a win-goal state set to that one single state.
+      if typeof e.goalStates?['win-game']?.status == 'string'
+        @winnable = e.goalStates?['win-game']?.status is 'success'
+      else
+        @winnable = true
+
+    if @winnable
+      @$el.find('#next').removeClass('inactive')
+    else
+      @$el.find('#next').addClass('inactive')
 
   onGoalsCalculated: (e) ->
     # When preloading, with real-time playback enabled, we highlight the submit button when we think they'll win.
@@ -192,3 +214,6 @@ module.exports = class CastButtonView extends CocoView
     return unless placeholder.length
     @ladderSubmissionView = new LadderSubmissionView session: @options.session, level: @options.level, mirrorSession: @mirrorSession
     @insertSubView @ladderSubmissionView, placeholder
+
+  softReloadCapstoneStage: (newCapstoneStage) ->
+    @options.capstoneStage = newCapstoneStage

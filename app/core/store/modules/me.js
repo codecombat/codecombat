@@ -1,5 +1,6 @@
 import _ from 'lodash'
 const userSchema = require('schemas/models/user')
+const User = require('app/models/User')
 const api = require('core/api')
 const utils = require('core/utils')
 
@@ -10,8 +11,12 @@ export default {
   state: _.cloneDeep(emptyUser),
 
   getters: {
+    currentUserId (state) {
+      return state._id
+    },
+
     isInGodMode (state) {
-      return ((state || {}).permissions || []).indexOf('godmode') > -1
+      return ((state || {}).permissions || []).indexOf(User.PERMISSIONS.GOD_MODE) > -1 || ((state || {}).permissions || []).indexOf(User.PERMISSIONS.ONLINE_TEACHER) > -1
     },
 
     isAnonymous (state) { return state.anonymous === true },
@@ -20,12 +25,16 @@ export default {
       return (state || {}).role === 'student'
     },
 
-    isTeacher (state) {
-      return (state || {}).role === 'teacher'
+    isTeacher (state, includePossibleTeachers) {
+      return User.isTeacher(state, includePossibleTeachers)
     },
 
     isParent (state) {
       return (state || {}).role === 'parent'
+    },
+
+    isHomePlayer (state) {
+      return !(state || {}).role && state.anonymous === false
     },
 
     forumLink (state) {
@@ -39,19 +48,48 @@ export default {
 
     isAdmin (state) {
       const permissions = state.permissions || []
-      return permissions.indexOf('admin') > -1
+      return permissions.indexOf(User.PERMISSIONS.COCO_ADMIN) > -1
     },
 
     isLicensor (state) {
-      return ((state != null ? state.permissions : undefined) || []).indexOf('licensor') > -1
+      return ((state != null ? state.permissions : undefined) || []).indexOf(User.PERMISSIONS.LICENSOR) > -1
+    },
+
+    isAPIClient (state) {
+      return ((state != null ? state.permissions : undefined) || []).indexOf(User.PERMISSIONS.API_CLIENT) > -1
     },
 
     isSchoolAdmin (state) {
-      return ((state != null ? state.permissions : undefined) || []).indexOf('schoolAdministrator') > -1
+      return ((state != null ? state.permissions : undefined) || []).indexOf(User.PERMISSIONS.SCHOOL_ADMINISTRATOR) > -1
     },
 
     preferredLocale (state) {
       return state.preferredLanguage || 'en-US'
+    },
+
+    isPaidTeacher (_state, _getters, _rootState, rootGetters) {
+      const prepaids = rootGetters['prepaids/getPrepaidsByTeacher'](me.get('_id'))
+      if (me.isPaidTeacher()) {
+        return true
+      }
+
+      if (!prepaids) {
+        return false
+      }
+
+      const { pending, empty, available } = prepaids
+      if (pending.length + empty.length + available.length > 0) {
+        return true
+      }
+
+      return me.isPremium()
+    },
+
+    /**
+     * @returns {object|undefined} avatar schema object or undefined if not defined.
+     */
+    getCh1Avatar (state) {
+      return (state.ozariaUserOptions || {}).avatar
     },
 
     inEU (state) {
@@ -105,14 +143,14 @@ export default {
         })
     },
 
-    set1fhAvatar ({ state, commit }, { levelThangTypeId, cinematicThangTypeId }) {
-      if (!(levelThangTypeId && cinematicThangTypeId)) {
-        throw new Error('Require both a levelThangTypeId and cinematicThangTypeId')
+    setCh1Avatar ({ state, commit }, { cinematicThangTypeId, cinematicPetThangId, avatarCodeString }) {
+      if (!(cinematicThangTypeId && cinematicPetThangId && avatarCodeString)) {
+        throw new Error('Require a cinematicThangTypeId, cinematicPetThangId, and avatarCodeString')
       }
 
       const ozariaConfig = state.ozariaUserOptions || {}
       commit('updateUser', { ozariaUserOptions:
-        { ...ozariaConfig, avatar: { levelThangTypeId, cinematicThangTypeId } }
+        { ...ozariaConfig, avatar: { cinematicThangTypeId, cinematicPetThangId, avatarCodeString } }
       })
     },
 

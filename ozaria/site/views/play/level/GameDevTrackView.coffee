@@ -1,20 +1,23 @@
 require('ozaria/site/styles/play/level/game_dev_track_view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/game_dev_track_view'
-#teamTemplate = require 'templates/play/level/team_gold'
+template = require 'app/templates/play/level/game_dev_track_view'
 
 module.exports = class GameDevTrackView extends CocoView
   id: 'game-dev-track-view'
   template: template
 
   subscriptions:
-    'surface:frame-changed': 'onFrameChanged'
+    'surface:frame-changed': 'onFrameChangedThrottled'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
 
   constructor: (options) ->
     super options
     @listings = {}
+    @onFrameChangedThrottledHandler = _.throttle @onFrameChanged, 250
+
+  onFrameChangedThrottled: (e) ->
+    @onFrameChangedThrottledHandler(e)
 
   onFrameChanged: (e) ->
     @listings = {}
@@ -63,7 +66,7 @@ module.exports = class GameDevTrackView extends CocoView
     @$el.removeClass('playback-float-right')
 
   titleize: (name) ->
-    return _.string.titleize(_.string.humanize(name))
+    return _.string.titleize(_.string.humanize(name)) + ":"
 
   beautify: (name, val) ->
     if typeof val is 'object' and val.x? and val.y? and val.z?

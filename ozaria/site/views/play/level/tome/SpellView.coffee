@@ -60,6 +60,9 @@ module.exports = class SpellView extends CocoView
     'level:show-victory': 'onShowVictory'
     'web-dev:error': 'onWebDevError'
     'tome:updateAether': 'onUpdateAether'
+    'tome:scroll-to-top': 'onScrollToTop'
+    'tome:remove-all-markers': 'onRemoveAllMarkers'
+
 
   events:
     'mouseout': 'onMouseOut'
@@ -76,6 +79,8 @@ module.exports = class SpellView extends CocoView
     @highlightCurrentLine = _.throttle @highlightCurrentLine, 100
     $(window).on 'resize', @onWindowResize
     @observing = @session.get('creator') isnt me.id
+    @indentDivMarkers = []
+    @courseID = options.courseID
 
   afterRender: ->
     super()
@@ -124,6 +129,9 @@ module.exports = class SpellView extends CocoView
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     $(@ace.container).find('.ace_gutter').on 'click', @onGutterClick
+    $(@ace.container).find('textarea').attr('aria-label', 'Code Area')
+    if @courseID && @courseID == utils.courseIDs.CHAPTER_ONE
+      @ace.setFontSize 22
     @initAutocomplete aceConfig.liveCompletion ? true
 
     return if @session.get('creator') isnt me.id or @session.fake
@@ -160,8 +168,13 @@ module.exports = class SpellView extends CocoView
       bindKey: {win: 'Ctrl-S', mac: 'Command-S|Ctrl-S'}
       exec: ->  # just prevent page save call
     addCommand
+      name: 'previous-line'
+      bindKey: {mac: 'Ctrl-P'}
+      passEvent: true
+      exec: => @ace.execCommand 'golineup'  # stop trying to jump to matching paren, I want default Mac/Emacs previous line
+    addCommand
       name: 'toggle-playing'
-      bindKey: {win: 'Ctrl-P', mac: 'Command-P|Ctrl-P'}
+      bindKey: {win: 'Ctrl-P', mac: 'Command-P'}
       readOnly: true
       exec: -> Backbone.Mediator.publish 'level:toggle-playing', {}
     addCommand
@@ -281,7 +294,6 @@ module.exports = class SpellView extends CocoView
           @lastBackspace = nowDate
           @ace.remove "left"
 
-
   hookACECustomBehavior: ->
     aceConfig = me.get('aceConfig') ? {}
     @ace.commands.on 'exec', (e) =>
@@ -301,7 +313,8 @@ module.exports = class SpellView extends CocoView
       return /:\s*$/.test(match[1])
 
     @aceSession.addDynamicMarker
-      update: (html, markerLayer, session, config) =>
+      # First argument was changed to null: https://github.com/ajaxorg/ace/issues/3874
+      update: (_html, markerLayer, session, config) =>
         Range = ace.require('ace/range').Range
 
         foldWidgets = @aceSession.foldWidgets
@@ -314,6 +327,9 @@ module.exports = class SpellView extends CocoView
           ar.pop().length
 
         colors = [{border: '74,144,226', fill: '108,162,226'}, {border: '132,180,235', fill: '230,237,245'}]
+
+        @indentDivMarkers.forEach((node) -> node.remove())
+        @indentDivMarkers = []
 
         for row in [0..@aceSession.getLength()]
           foldWidgets[row] = @aceSession.getFoldWidget(row) unless foldWidgets[row]?
@@ -353,16 +369,27 @@ module.exports = class SpellView extends CocoView
           w = 4 * config.characterWidth
           fw = config.characterWidth * ( @aceSession.getScreenLastRowColumn(range.start.row) - xstart )
 
-          html.push """
-            <div style=
-              "position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
-               border: #{bw}px solid rgba(#{color.border},1); border-left: none;"
-            ></div>
-            <div style=
-              "position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
-               border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);"
-            ></div>
+          lineAbove = document.createElement "div"
+          lineAbove.setAttribute "style", """
+            position: absolute; top: #{to}px; left: #{l}px; width: #{fw+bw}px; height: #{config.lineHeight}px;
+            border: #{bw}px solid rgba(#{color.border},1); border-left: none;
           """
+
+          indentedBlock = document.createElement "div"
+          indentedBlock.setAttribute "style", """
+            position: absolute; top: #{t}px; left: #{l}px; width: #{w}px; height: #{h}px; background-color: rgba(#{color.fill},0.5);
+            border-right: #{bw}px solid rgba(#{color.border},1); border-bottom: #{bw}px solid rgba(#{color.border},1);
+          """
+
+          indentVisualMarker = document.createElement "div"
+          indentVisualMarker.appendChild(lineAbove)
+          indentVisualMarker.appendChild(indentedBlock)
+
+          @indentDivMarkers.push(indentVisualMarker)
+
+        markerLayer.elt("indent-highlight")
+        parentNode = markerLayer.element.childNodes[markerLayer.i - 1] or markerLayer.element.lastChild
+        parentNode.appendChild(indentVisualMarker) for indentVisualMarker in @indentDivMarkers
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -565,10 +592,29 @@ module.exports = class SpellView extends CocoView
     @createToolbarView()
     @updateHTML create: true if @options.level.isType('web-dev')
 
+
   onUpdateAether: ->
     @spell.transpile()
     @updateAether false, false
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
+
+  onScrollToTop: ->
+    @ace.scrollToLine(0, false, false)
+
+  onRemoveAllMarkers: ->
+    Object.values(@aceSession.getMarkers())
+      .forEach((m) => @aceSession.removeMarker(m.id))
+
+    if not @decoratedGutter?.length
+      return
+
+    for row in [0 ... @aceSession.getLength()]
+      hold = @decoratedGutter[row]
+      if not hold
+        continue
+      @aceSession.removeGutterDecoration row, 'executing'
+      @aceSession.removeGutterDecoration row, 'executed'
+      @decoratedGutter[row] = ''
 
   createDebugView: ->
     return if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')  # We'll turn this on later, maybe, but not yet.
@@ -594,7 +640,6 @@ module.exports = class SpellView extends CocoView
 
   setThang: (thang) ->
     @focus()
-    @lastScreenLineCount = null
     @updateLines()
     return if thang.id is @thang?.id
     @thang = thang
@@ -627,39 +672,20 @@ module.exports = class SpellView extends CocoView
     return if @destroyed
     lineCount = @aceDoc.getLength()
     lastLine = @aceDoc.$lines[lineCount - 1]
+    cursorPosition = @ace.getCursorPosition()
     if /\S/.test lastLine
-      cursorPosition = @ace.getCursorPosition()
       wasAtEnd = cursorPosition.row is lineCount - 1 and cursorPosition.column is lastLine.length
       @aceDoc.insertNewLine row: lineCount, column: 0  #lastLine.length
       @ace.navigateLeft(1) if wasAtEnd
       ++lineCount
       # Force the popup back
       @ace?.completer?.showPopup(@ace)
-    screenLineCount = @aceSession.getScreenLength()
-    if screenLineCount isnt @lastScreenLineCount
-      @lastScreenLineCount = screenLineCount
-      lineHeight = @ace.renderer.lineHeight or 20
-      tomeHeight = $('#tome-view').innerHeight()
-      spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
-      spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
-      @spellPaletteHeight ?= 75
-      spellPaletteAllowedHeight = Math.min @spellPaletteHeight, tomeHeight / 3
-      maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
-      minHeight = Math.max 8, (Math.min($("#canvas-wrapper").outerHeight(),$("#level-view").innerHeight() - 175) / lineHeight) - 2
-      linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-      lines = Math.max minHeight, Math.min(screenLineCount + 2, linesAtMaxHeight)
-      # 2 lines buffer is nice
-      @ace.setOptions minLines: lines, maxLines: lines
-      # Move spell palette up, slightly overlapping us.
-      newTop = 185 + lineHeight * lines
-      #spellPaletteView.css('top', newTop)
-      # Expand it to bottom of tome if too short.
-      #newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
-      #spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
+    # Ensure current user code line visible and not truncated at bottom of editor
+    if cursorPosition.row >= lineCount - 2
+      @ace.scrollToLine lineCount, true, true
     if @firstEntryToScrollLine? and @ace?.renderer?.$cursorLayer?.config
       @ace.scrollToLine @firstEntryToScrollLine, true, true
       @firstEntryToScrollLine = undefined
-
 
   hideProblemAlert: ->
     return if @destroyed
@@ -744,9 +770,9 @@ module.exports = class SpellView extends CocoView
       _.throttle @notifySpellChanged, 300
       _.throttle @updateLines, 500
       _.throttle @hideProblemAlert, 500
+      _.throttle @clearAetherDisplay.bind(@), 250
     ]
-    unless @options.level.get('ozariaType') == 'capstone'
-      onAnyChange.push(_.debounce(@updateAether, 500))
+
     onSignificantChange.push _.debounce @checkRequiredCode, 750 if @options.level.get 'requiredCode'
     onSignificantChange.push _.debounce @checkSuspectCode, 750 if @options.level.get 'suspectCode'
     onAnyChange.push _.throttle @updateHTML, 10 if @options.level.isType('web-dev')
@@ -857,6 +883,7 @@ module.exports = class SpellView extends CocoView
     isCast = isCast or not _.isEmpty(aether.metrics) or _.some aether.getAllProblems(), {type: 'runtime'}
     annotations = @aceSession.getAnnotations()
 
+    # NOTE: this has crazy side-effects via new Problem()
     newProblems = @convertAetherProblems(aether, aether.getAllProblems(), isCast)
     annotations.push problem.annotation for problem in newProblems when problem.annotation
     if isCast
@@ -988,9 +1015,13 @@ module.exports = class SpellView extends CocoView
     @_singleLineCommentOnlyRegex = new RegExp( '^' + @singleLineCommentRegex().source)
     @_singleLineCommentOnlyRegex
 
+  # Returns string that will stop code from running.
   commentOutMyCode: ->
     prefix = if @spell.language is 'javascript' then 'return;  ' else 'return  '
     comment = prefix + commentStarts[@spell.language]
+
+  getLanguageComment: ->
+    commentStarts[@spell.language]
 
   preload: ->
     # Send this code over to the God for preloading, but don't change the cast state.
@@ -1080,6 +1111,7 @@ module.exports = class SpellView extends CocoView
     # but this view is not part of the normal subview destroying because of how it's swapped
     return unless @controlsEnabled and @writable and $('.modal:visible').length is 0
     return if @ace.isFocused()
+    return if me.get('aceConfig')?.screenReaderMode  # Screen reader users get to control their own focus manually
     @ace.focus()
     @ace.clearSelection()
 
@@ -1104,7 +1136,6 @@ module.exports = class SpellView extends CocoView
 
   highlightCurrentLine: (flow) =>
     # TODO: move this whole thing into SpellDebugView or somewhere?
-    @highlightEntryPoints() unless @destroyed
     flow ?= @spellThang?.castAether?.flow
     return unless flow and @thang
     executed = []
@@ -1167,6 +1198,10 @@ module.exports = class SpellView extends CocoView
         @debugView?.setVariableStates state.variables
         gotVariableStates = true
         markerType = 'text'
+        if start.row isnt @lastAnnouncedRow
+          update = start.row + 1 + ": " + _.string.rtrim @aceDoc.$lines[start.row]
+          $('#screen-reader-live-updates').append($("<div>#{update}</div>"))  # TODO: move this to a store or lib? Limit how many lines?
+          @lastAnnouncedRow = start.row
       markerRange = new Range start.row, start.col, end.row, end.col
       markerRange.start = @aceDoc.createAnchor markerRange.start
       markerRange.end = @aceDoc.createAnchor markerRange.end
@@ -1188,75 +1223,6 @@ module.exports = class SpellView extends CocoView
 
     @debugView?.setVariableStates {} unless gotVariableStates
     null
-
-  highlightEntryPoints: ->
-    # Put a yellow arrow in the gutter pointing to each place we expect them to put in code.
-    # Usually, this is indicated by a blank line after a comment line, except for the first comment lines.
-    # If we need to indicate an entry point on a line that has code, we use ∆ in a comment on that line.
-    # If the entry point line has been changed (beyond the most basic shifted lines), we don't point it out.
-    lines = @aceDoc.$lines
-    originalLines = @spell.originalSource.split '\n'
-    session = @aceSession
-    commentStart = commentStarts[@spell.language] or '//'
-    seenAnEntryPoint = false
-    previousLine = null
-    previousLineHadComment = false
-    previousLineHadCode = false
-    previousLineWasBlank = false
-    pastIntroComments = false
-    for line, index in lines
-      session.removeGutterDecoration index, 'entry-point'
-      session.removeGutterDecoration index, 'next-entry-point'
-      session.removeGutterDecoration index, "entry-point-indent-#{i}" for i in [0, 4, 8, 12, 16]
-
-      lineHasComment = @singleLineCommentRegex().test line
-      lineHasCode = line.trim()[0] and not @singleLineCommentOnlyRegex().test line
-      lineIsBlank = /^[ \t]*$/.test line
-      lineHasExplicitMarker = line.indexOf('∆') isnt -1
-
-      originalLine = originalLines[index]
-      lineHasChanged = line isnt originalLine
-
-      isEntryPoint = lineIsBlank and previousLineHadComment and not previousLineHadCode and pastIntroComments
-      if isEntryPoint and lineHasChanged
-        # It might just be that the line was shifted around by the player inserting more code.
-        # We also look for the unchanged comment line in a new position to find what line we're really on.
-        movedIndex = originalLines.indexOf previousLine
-        if movedIndex isnt -1 and line is originalLines[movedIndex + 1]
-          lineHasChanged = false
-        else
-          isEntryPoint = false
-
-      if lineHasExplicitMarker
-        if lineHasChanged
-          if originalLines.indexOf(line) isnt -1
-            lineHasChanged = false
-            isEntryPoint = true
-        else
-          isEntryPoint = true
-
-      if isEntryPoint
-        session.addGutterDecoration index, 'entry-point'
-        unless seenAnEntryPoint
-          session.addGutterDecoration index, 'next-entry-point'
-          seenAnEntryPoint = true
-          unless @hasSetInitialCursor
-            @hasSetInitialCursor = true
-            @ace.navigateTo index, line.match(/\S/)?.index ? line.length
-            @firstEntryToScrollLine = index
-
-        # Shift pointer right based on current indentation
-        # TODO: tabs probably need different horizontal offsets than spaces
-        indent = 0
-        indent++ while /\s/.test(line[indent])
-        indent = Math.min(16, Math.floor(indent / 4) * 4)
-        session.addGutterDecoration index, "entry-point-indent-#{indent}"
-
-      previousLine = line
-      previousLineHadComment = lineHasComment
-      previousLineHadCode = lineHasCode
-      previousLineWasBlank = lineIsBlank
-      pastIntroComments ||= lineHasCode or previousLineWasBlank
 
   onAnnotationClick: ->
     # @ is the gutter element
@@ -1304,7 +1270,6 @@ module.exports = class SpellView extends CocoView
 
   resize: ->
     @ace?.resize true
-    @lastScreenLineCount = null
     @updateLines()
 
   onChangeEditorConfig: (e) ->
@@ -1373,8 +1338,8 @@ module.exports = class SpellView extends CocoView
     @lastDetectedSuspectCodeFragmentNames = detectedSuspectCodeFragmentNames
 
   destroy: ->
-    $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
-    $(@ace?.container).find('.ace_gutter').off 'click', @onGutterClick
+    $(@ace?.container).find('.ace_gutter').off 'click mouseenter', '.ace_error, .ace_warning, .ace_info'
+    $(@ace?.container).find('.ace_gutter').off()
     @firepad?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
     @ace?.destroy()
@@ -1388,6 +1353,7 @@ module.exports = class SpellView extends CocoView
     $(window).off 'resize', @onWindowResize
     window.clearTimeout @saveSpadeTimeout
     @saveSpadeTimeout = null
+    @autocomplete?.destroy()
     super()
 
 # Note: These need to be double-escaped for insertion into regexes

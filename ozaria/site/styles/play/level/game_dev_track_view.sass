@@ -1,6 +1,7 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 @import "ozaria/site/styles/play/variables"
+@import "app/styles/style-flat-variables"
 
 #game-dev-track-view
   position: absolute
@@ -14,13 +15,23 @@
     z-index: 10
   top: 60px
 
-  border: 16px solid black
-  border-image: url(/images/pages/play/level-info-background.png) fill 20 stretch
+  padding: 10px 21px
+  border: 3px solid $teal
+  background-color: black
+  text-align: center
+  color: white
+  font-family: 'Works Sans', 'Open Sans', sans-serif
+  font-size: 18px
+  letter-spacing: 0.82px
 
   #listings
     .track-elem
       display: flex
       cursor: default
+
+      .track-icon
+        color: $teal
+
       .track-icon, .track-text
         display: flex
         flex-direction: column

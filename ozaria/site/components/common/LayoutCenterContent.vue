@@ -1,28 +1,14 @@
-<script>
-export default {
-  props: {
-    backgroundImage: {
-      type: String,
-      default: "/images/ozaria/cinematic/background.png"
-    }
-  }
-}
-</script>
-
-
 <template>
-  <div id="layout-center" :style="{ 'background-image': 'url(' + backgroundImage + ')' }">
+  <div id="layout-center">
     <slot></slot>
   </div>
 </template>
 
 <style lang="sass">
-// Method for centering div:
-// https://stackoverflow.com/questions/396145/how-to-vertically-center-a-div-for-all-browsers#6182661
+
 #layout-center
   height: 100%
   width: 100%
-  background-color: #F4E4AC
   background-size: 100%
 
   display: flex
@@ -31,6 +17,10 @@ export default {
   align-items: center
   justify-content: center
 
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)
+  // On ipad or smaller devices shifts view to top making space for the virtual keyboard.
+  #layout-center
+    justify-content: flex-start
+    padding-top: 30px
+
 </style>
-
-

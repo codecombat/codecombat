@@ -1,0 +1,65 @@
+$goldenlight: #d1b147;
+$moon: #f7d047;
+
+/* <h5> Button Text Black font style */
+$font-h-5-button-text-black-font-size: 20px;
+$font-h-5-button-text-black-line-height: 30px;
+$font-h-5-button-text-black-text-align: center;
+$font-h-5-button-text-black-color: #131b25;
+$font-h-5-button-text-black-letter-spacing: 0.4px;
+$font-h-5-button-text-black-font-style: normal;
+$font-h-5-button-text-black-font-weight: 600;
+$font-h-5-button-text-black-font-family: Work Sans;
+
+@mixin font-h-5-button-text-black () {
+  font-size: $font-h-5-button-text-black-font-size;
+  line-height: $font-h-5-button-text-black-line-height;
+  text-align: $font-h-5-button-text-black-text-align;
+  color: $font-h-5-button-text-black-color;
+  letter-spacing: $font-h-5-button-text-black-letter-spacing;
+  font-style: $font-h-5-button-text-black-font-style;
+  font-weight: $font-h-5-button-text-black-font-weight;
+  font-family: $font-h-5-button-text-black-font-family;
+}
+
+/* <h2> Subtitle Black 24 font style */
+$font-h-2-subtitle-black-24-font-size: 24px;
+$font-h-2-subtitle-black-24-line-height: normal;
+$font-h-2-subtitle-black-24-text-align: left;
+$font-h-2-subtitle-black-24-color: #000000;
+$font-h-2-subtitle-black-24-letter-spacing: 0.83px;
+$font-h-2-subtitle-black-24-font-style: normal;
+$font-h-2-subtitle-black-24-font-weight: 600;
+$font-h-2-subtitle-black-24-font-family: Work Sans;
+
+@mixin font-h-2-subtitle-black-24 () {
+  font-size: $font-h-2-subtitle-black-24-font-size;
+  line-height: $font-h-2-subtitle-black-24-line-height;
+  text-align: $font-h-2-subtitle-black-24-text-align;
+  color: $font-h-2-subtitle-black-24-color;
+  letter-spacing: $font-h-2-subtitle-black-24-letter-spacing;
+  font-style: $font-h-2-subtitle-black-24-font-style;
+  font-weight: $font-h-2-subtitle-black-24-font-weight;
+  font-family: $font-h-2-subtitle-black-24-font-family;
+}
+
+/* <h5> Button Text White font style */
+$font-h-5-button-text-white-font-size: 20px;
+$font-h-5-button-text-white-line-height: 30px;
+$font-h-5-button-text-white-text-align: center;
+$font-h-5-button-text-white-color: #ffffff;
+$font-h-5-button-text-white-letter-spacing: 0.4px;
+$font-h-5-button-text-white-font-style: normal;
+$font-h-5-button-text-white-font-weight: 600;
+$font-h-5-button-text-white-font-family: Work Sans;
+
+@mixin font-h-5-button-text-white () {
+  font-size: $font-h-5-button-text-white-font-size;
+  line-height: $font-h-5-button-text-white-line-height;
+  text-align: $font-h-5-button-text-white-text-align;
+  color: $font-h-5-button-text-white-color;
+  letter-spacing: $font-h-5-button-text-white-letter-spacing;
+  font-style: $font-h-5-button-text-white-font-style;
+  font-weight: $font-h-5-button-text-white-font-weight;
+  font-family: $font-h-5-button-text-white-font-family;
+}

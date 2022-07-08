@@ -1,5 +1,7 @@
 c = require './../schemas'
 
+CampaignSchema = require './campaign.schema'
+
 ClassroomSchema = c.object {title: 'Classroom', required: ['name']}
 c.extendNamedProperties ClassroomSchema  # name first
 
@@ -37,10 +39,11 @@ _.extend ClassroomSchema.properties,
       type: c.shortString()
       original: c.objectId()
       name: {type: 'string'}
+      displayName: c.shortString()
       slug: {type: 'string'}
       position: c.point2d()
 
-      # properties relevant for ozaria campaigns 
+      # properties relevant for ozaria campaigns
       nextLevels: {
         type: 'object'
         description: 'object containing next levels original id and their details'
@@ -59,9 +62,15 @@ _.extend ClassroomSchema.properties,
         }
       }
       first: {type: 'boolean', description: 'Is it the first level in the campaign' }
+      campaignPage: {type: 'number', title: 'Campaign page number'}
+      moduleNum: {type: 'number', title: 'Module number'}
+      ozariaType: c.shortString()
+      introContent: c.array()
     }
   }
   googleClassroomId: { title: 'Google classroom id', type: 'string' }
+  lmsClassroomId: { title: 'LMS classroom id', type: 'string' }
+  grades: c.array { title: 'Class Grades' }, { type: 'string', enum: ['elementary','middle','high'] }
   settings: c.object {title: 'Classroom Settings', required: []}, {
     optionsEditable: { type: 'boolean', description: 'Allow teacher to use these settings.', default: false }
     map: { type: 'boolean', description: 'Classroom map.', default: false }
@@ -69,10 +78,21 @@ _.extend ClassroomSchema.properties,
     gems: {type: 'boolean', description: 'Allow students to earn gems.', default: false}
     xp: {type: 'boolean', description: 'Students collect XP and level up.', default: false}
   }
-
+  studentLockMap: c.object {
+    title: 'Student Locking Info',
+    description: 'The teacher controls this in order to control student progress through the chapters.'
+    additionalProperties: c.object(
+      { title: 'Student Lock Object', description: 'Key value of student id tied to the lock data.' }, {
+        courseId: c.objectId(),
+        levelOriginal: c.objectId()
+      })
+  }, {}
   stats: c.object { additionalProperties: true }
+  type: { title: 'Class Type', type: 'string', enum: ['', 'in-school', 'after-school', 'online', 'camp', 'homeschool', 'other'] }
 
 c.extendBasicProperties ClassroomSchema, 'Classroom'
 ClassroomSchema.properties.settings.additionalProperties = true
+
+c.extendPermissionsProperties ClassroomSchema
 
 module.exports = ClassroomSchema

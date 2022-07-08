@@ -4,7 +4,7 @@ CocoView = require 'views/core/CocoView'
 module.exports = class SurfaceContextMenuView extends CocoView
   id: 'surface-context-menu-view'
   className: 'surface-context-menu'
-  template: require('templates/play/level/surface-context-menu')
+  template: require('app/templates/play/level/surface-context-menu')
 
   events:
     'click #copy': 'onClickCopy'
@@ -12,16 +12,19 @@ module.exports = class SurfaceContextMenuView extends CocoView
   subscriptions:
     'level:surface-context-menu-pressed': 'showView'
     'level:surface-context-menu-hide': 'hideView'
-    
+
   constructor: (options) ->
     @supermodel = options.supermodel # Has to go before super so events are hooked up
     super options
     @level = options.level
     @session = options.session
-    
 
   destroy: ->
     super()
+
+  afterInsert: ->
+    super()
+    @hideView()
 
   afterRender: ->
     super()
@@ -37,8 +40,6 @@ module.exports = class SurfaceContextMenuView extends CocoView
       textArea.select()
       document.execCommand('copy')
       document.body.removeChild(textArea)
-
-  
 
   setPosition: (e) ->
     @$el.css('left', e.posX)

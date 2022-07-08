@@ -9,7 +9,7 @@ utils = require 'core/utils'
 module.exports = class SpellTranslationView extends CocoView
   className: 'spell-translation-view'
   template: template
-  
+
   events:
     'mousemove': ->
       @$el.hide()
@@ -17,7 +17,7 @@ module.exports = class SpellTranslationView extends CocoView
   constructor: (options) ->
     super options
     @ace = options.ace
-    
+
     levelComponents = @supermodel.getModels LevelComponent
     @componentTranslations = levelComponents.reduce((acc, lc) ->
       for doc in (lc.get('propertyDocumentation') ? [])
@@ -25,9 +25,9 @@ module.exports = class SpellTranslationView extends CocoView
         acc[doc.name] = translated if translated isnt doc.name
       acc
     , {})
-    
+
     @onMouseMove = _.throttle @onMouseMove, 25
-    
+
   afterRender: ->
     super()
     @ace.on 'mousemove', @onMouseMove
@@ -35,10 +35,10 @@ module.exports = class SpellTranslationView extends CocoView
   setTooltipText: (text) =>
     @$el.find('code').text text
     @$el.show().css(@pos)
-    
+
   isIdentifier: (t) ->
     t and (_.any([/identifier/, /keyword/], (regex) -> regex.test(t.type)) or t.value is 'this')
-    
+
   onMouseMove: (e) =>
     return if @destroyed
     pos = e.getDocumentPosition()
@@ -63,7 +63,7 @@ module.exports = class SpellTranslationView extends CocoView
       @markerRange = new Range pos.row, start, pos.row, end
       @reposition(e.domEvent)
     @update()
-    
+
   reposition: (e) ->
     offsetX = e.offsetX ? e.clientX - $(e.target).offset().left
     offsetY = e.offsetY ? e.clientY - $(e.target).offset().top
@@ -71,15 +71,15 @@ module.exports = class SpellTranslationView extends CocoView
     offsetX = w - $(e.target).offset().left - @$el.width() if e.clientX + @$el.width() > w
     @pos = {left: offsetX + 80, top: offsetY - 20}
     @$el.css(@pos)
-    
+
   onMouseOut: ->
     @word = null
     @markerRange = null
     @update()
-    
+
   update: ->
     i18nKey = 'code.'+@word
-    translation = @componentTranslations[@word] or $.t(i18nKey)
+    translation = @componentTranslations[@word] or $.i18n.t(i18nKey)
     if @word and translation and translation not in [i18nKey, @word]
       @setTooltipText translation
     else

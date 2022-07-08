@@ -1,9 +1,10 @@
 require('app/styles/editor/level/thang/level-thang-edit-view.sass')
 CocoView = require 'views/core/CocoView'
-template = require 'templates/editor/level/thang/level-thang-edit-view'
+template = require 'app/templates/editor/level/thang/level-thang-edit-view'
 ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangType = require 'models/ThangType'
 ace = require('lib/aceContainer')
+utils = require 'core/utils'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
@@ -25,6 +26,8 @@ module.exports = class LevelThangEditView extends CocoView
     'blur #thang-type-link input': 'toggleTypeEdit'
     'keydown #thang-name-link input': 'toggleNameEditIfReturn'
     'keydown #thang-type-link input': 'toggleTypeEditIfReturn'
+    'click #prev-thang-link': 'navigateToPreviousThang'
+    'click #next-thang-link': 'navigateToNextThang'
 
   constructor: (options) ->
     options ?= {}
@@ -45,7 +48,7 @@ module.exports = class LevelThangEditView extends CocoView
       level: @level
       world: @world
 
-    if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') then options.thangType = thangType
+    if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') or utils.isCodeCombat then options.thangType = thangType
 
     @thangComponentEditView = new ThangComponentsEditView options
     @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged
@@ -60,6 +63,18 @@ module.exports = class LevelThangEditView extends CocoView
 
   navigateToAllThangs: ->
     Backbone.Mediator.publish 'editor:level-thang-done-editing', {thangData: $.extend(true, {}, @thangData), oldPath: @oldPath}
+
+  navigateToPreviousThang: (e) ->
+    @navigateThangsInDirection -1
+
+  navigateToNextThang: (e) ->
+    @navigateThangsInDirection 1
+
+  navigateThangsInDirection: (dir) ->
+    flattenedThangs = @parent.flattenThangs @parent.groupThangs @level.get('thangs')
+    currentIndex = _.findIndex flattenedThangs, id: @thangData.id
+    if nextThang = flattenedThangs[(currentIndex + dir + flattenedThangs.length) % flattenedThangs.length]
+      Backbone.Mediator.publish 'editor:edit-level-thang', {thangID: nextThang.id}
 
   toggleNameEdit: ->
     link = @$el.find '#thang-name-link'

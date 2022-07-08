@@ -42,6 +42,8 @@ export default class CommandRunner {
     for (const command of this.commands) {
       const runPromise = command[run]()
       if (this.cancelled) {
+        // Required to give time for the command to initialize enough to cancel.
+        await new Promise((resolve, reject) => setTimeout(resolve, 25))
         command[cancel]()
         continue
       }

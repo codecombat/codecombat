@@ -6,6 +6,7 @@ import { getCinematic } from '../../../api/cinematic'
 import CinematicCanvas from '../common/CinematicCanvas'
 import LayoutChrome from '../../common/LayoutChrome'
 import LayoutCenterContent from '../../common/LayoutCenterContent'
+const utils = require('core/utils')
 
 module.exports = Vue.extend({
   props: {
@@ -30,24 +31,27 @@ module.exports = Vue.extend({
   },
 
   async created () {
-    if (!me.hasCinematicAccess())  {
-      alert('You must be logged in as an admin to use this page.')
-      return application.router.navigate('/', { trigger: true })
-    }
     await this.getCinematicData()
-    this.handleSoundVolume()
+    this.handleSoundMuted()
   },
 
   computed: {
     ...mapGetters({
       soundOn: 'layoutChrome/soundOn'
     }),
+    title () {
+      if (this.cinematicData === null) {
+        return ''
+      }
+      return utils.i18n(this.cinematicData, 'displayName') || utils.i18n(this.cinematicData, 'name')
+    }
   },
 
   methods: {
-    completedHandler () {
-      this.$emit('completed', this.cinematicData)
+    completedHandler (cinematicTracking) {
+      this.$emit('completed', this.cinematicData, cinematicTracking)
     },
+
     async getCinematicData() {
       try {
         this.cinematicData = await getCinematic(this.cinematicIdOrSlug)
@@ -61,25 +65,27 @@ module.exports = Vue.extend({
       }
     },
 
-    handleSoundVolume () {
+    handleSoundMuted () {
       if (this.soundOn) {
-        Howler.volume(1)
+        Howler.mute(false)
       } else {
-        Howler.volume(0)
+        Howler.mute(true)
       }
     }
   },
 
   watch: {
     soundOn() {
-      this.handleSoundVolume()
+      this.handleSoundMuted()
     }
   }
 })
 </script>
 
 <template>
-  <layout-chrome>
+  <layout-chrome
+    :title="title"
+  >
     <layout-center-content>
       <cinematic-canvas
         v-if="cinematicData"

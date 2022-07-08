@@ -15,7 +15,7 @@ N_ROWS = 4
 
 module.exports = class SpellPaletteView extends CocoView
   id: 'spell-palette-view'
-  template: require 'templates/play/level/tome/spell-palette-view'
+  template: require 'app/templates/play/level/tome/spell-palette-view'
   controlsEnabled: true
 
   subscriptions:
@@ -186,7 +186,8 @@ module.exports = class SpellPaletteView extends CocoView
     else
       propStorage =
         'this': ['apiProperties', 'apiMethods']
-    if not @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') or not @options.programmable
+    if not @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder') or not @options.programmable
+      # TODO: remove entirely, everything uses new organizePaletteHero
       @organizePalette propStorage, allDocs, excludedDocs
     else
       @organizePaletteHero propStorage, allDocs, excludedDocs
@@ -229,8 +230,7 @@ module.exports = class SpellPaletteView extends CocoView
     if tabbify and _.find @entries, ((entry) -> entry.doc.owner isnt 'this')
       @entryGroups = _.groupBy @entries, groupForEntry
     else
-      i18nKey = if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') then 'play_level.tome_your_skills' else 'play_level.tome_available_spells'
-      defaultGroup = $.i18n.t i18nKey
+      defaultGroup = $.i18n.t 'play_level.tome_your_skills'
       @entryGroups = {}
       @entryGroups[defaultGroup] = @entries
       @defaultGroupSlug = _.string.slugify defaultGroup
@@ -267,6 +267,9 @@ module.exports = class SpellPaletteView extends CocoView
               for prop in _.sortBy(props) when prop[0] isnt '_' and not itemsByProp[prop]  # no private properties
                 continue if prop is 'moveXY' and @options.level.get('slug') is 'slalom'  # Hide for Slalom
                 continue if @thang.excludedProperties and prop in @thang.excludedProperties
+                # Temporary: switching up method documentation for M7 levels
+                continue if @options.level.get('releasePhase') is 'beta' and (prop in ['moveUp', 'moveRight', 'moveDown', 'moveLeft'])
+                continue if @options.level.get('releasePhase') isnt 'beta' and (prop in ['moveTo', 'use'])
                 propsByItem[item.get('name')] ?= []
                 propsByItem[item.get('name')].push owner: owner, prop: prop, item: item
                 itemsByProp[prop] = item
@@ -295,6 +298,9 @@ module.exports = class SpellPaletteView extends CocoView
         continue if prop is 'say' and @options.level.get 'hidesSay'  # Hide for Dungeon Campaign
         continue if prop is 'moveXY' and @options.level.get('slug') is 'slalom'  # Hide for Slalom
         continue if @thang.excludedProperties and prop in @thang.excludedProperties
+        # Temporary: switching up method documentation for M7 levels
+        continue if @options.level.get('releasePhase') is 'beta' and (prop in ['moveUp', 'moveRight', 'moveDown', 'moveLeft'])
+        continue if @options.level.get('releasePhase') isnt 'beta' and (prop in ['moveTo', 'use'])
         propsByItem['Hero'] ?= []
         propsByItem['Hero'].push owner: owner, prop: prop, item: itemThangTypes[@thang.spriteName]
         ++propCount

@@ -19,13 +19,16 @@ include game-dev-goals
         canvas(width=924, height=589)#normal-surface
 
         #web-surface-view
-        #ascii-surface
+        //#ascii-surface.hide(aria-hidden=true)
+        table#ascii-surface-table.hide(aria-label="Level Map" role="grid")
         #canvas-left-gradient.gradient
         #canvas-top-gradient.gradient
 
       #spell-palette-view
 
       #level-flags-view
+
+      #thangtype-hud-view
 
       #game-dev-track-view
 
@@ -35,9 +38,9 @@ include game-dev-goals
 
       button.btn.btn-lg.btn-primary.banner.header-font#stop-cinematic-playback-button(data-i18n="[title]common.continue;common.continue")
 
-    button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback")
+    button#stop-real-time-playback-button(title="Stop real-time playback")
       if view.level && view.level.isType('game-dev')
-        span(data-i18n="play_level.edit_level")
+        span(data-i18n="editor.back")
       else
         span(data-i18n="play_level.skip")
 
@@ -59,6 +62,6 @@ include game-dev-goals
       else
         .panel-body!= view.howToPlayText
 
-    .hints-view.hide
-
   //- #level-footer-shadow
+
+  #screen-reader-live-updates.sr-only(aria-live="polite")
