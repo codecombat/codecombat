@@ -157,7 +157,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
   isNearRightEdge: (width) ->
     @lastSurfacePos.x + width > @camera.surfaceViewport.width
-    
+
   orient: (verticalEdge, horizontalEdge, totalHeight, totalWidth) ->
     @label.regY = @background.regY = verticalEdge.posShift
     @label.regX = @background.regX = horizontalEdge.posShift

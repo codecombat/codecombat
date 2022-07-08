@@ -3,7 +3,9 @@ ScriptModule = require './ScriptModule'
 currentMusic = null
 standingBy = null
 
+{me} = require('core/auth')
 store = require 'app/core/store'
+utils = require 'core/utils'
 
 module.exports = class SoundScriptModule extends ScriptModule
   @neededFor: (noteGroup) ->
@@ -61,18 +63,22 @@ module.exports = class SoundScriptModule extends ScriptModule
     return note
 
   addMusicNote: ->
-    note =
-      vuex: true
-      channel: 'audio/playSound'
-      event: {
-        track: 'background'
-        # Unique key prevents background music from replaying during a level restart.  This is
-        # an alternative to firing end notes from this module, which currently has a race condition
-        # during restarts.  See endNote method for more details.
-        unique: "level/soundScriptModule/background/#{@noteGroup.sound.music.file}"
-        src: [ "/file#{@noteGroup.sound.music.file}.ogg", "/file#{@noteGroup.sound.music.file}.mp3" ]
-        loop: true,
-        volume: 0.25
-      }
-
+    if utils.isOzaria
+      note =
+        vuex: true
+        channel: 'audio/playSound'
+        event: {
+          track: 'background'
+          # Unique key prevents background music from replaying during a level restart.  This is
+          # an alternative to firing end notes from this module, which currently has a race condition
+          # during restarts.  See endNote method for more details.
+          unique: "level/soundScriptModule/background/#{@noteGroup.sound.music.file}"
+          src: [ "/file#{@noteGroup.sound.music.file}.ogg", "/file#{@noteGroup.sound.music.file}.mp3" ]
+          loop: true,
+          volume: 0.25
+        }
+    else
+      note =
+        channel: 'music-player:play-music'
+        event: @noteGroup.sound.music
     return note

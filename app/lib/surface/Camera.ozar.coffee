@@ -42,8 +42,16 @@ module.exports = class Camera extends CocoClass
   # INIT
 
   subscriptions:
-    'camera:zoom-to': 'onZoomTo'
-    'level:restarted': 'onLevelRestarted'
+    Object.assign(
+      {
+        'camera:zoom-to': 'onZoomTo'
+        'level:restarted': 'onLevelRestarted'
+      },
+      if utils.isOzaria then {
+        'camera:zoom-out': 'onZoomOut'
+        'camera:zoom-in': 'onZoomIn'
+      } else {}
+    )
 
   constructor: (@canvas, @options={}) ->
     angle=Math.asin(0.75)
@@ -157,6 +165,9 @@ module.exports = class Camera extends CocoClass
     #zv * ratioWithY + (1 - zv) * ratioWithoutY
 
   # SUBSCRIPTIONS
+
+  onZoomIn: (e) -> @zoomTo @target, @zoom * 1.15, 300
+  onZoomOut: (e) -> @zoomTo @target, @zoom / 1.15, 300
 
   onMouseDown: (e) ->
     return if @dragDisabled

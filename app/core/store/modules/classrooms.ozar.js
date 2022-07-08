@@ -111,6 +111,19 @@ export default {
       Vue.set(state.classrooms.byClassroom, classroomID, classroom)
     },
 
+    updateClassroomById: (state, { classroomID, updates }) => {
+      let classroom = state.classrooms.byClassroom[classroomID]
+      if (!classroom) {
+        console.error('classroom not found for update')
+        return
+      }
+      classroom = { ...classroom }
+      for (const key in updates) {
+        classroom[key] = updates[key]
+      }
+      Vue.set(state.classrooms.byClassroom, classroomID, classroom)
+    },
+
     addClassroomForCourseInstanceId: (state, { courseInstanceId, classroom }) => {
       Vue.set(state.classrooms.byCourseInstanceId, courseInstanceId, classroom)
     },
@@ -194,6 +207,11 @@ export default {
   },
 
   getters: {
+    classroomById(state) {
+      return (id) => {
+        return state.classrooms.byClassroom[id]
+      }
+    },
     getClassroomsByTeacher: (state) => (id) => {
       return state.classrooms.byTeacher[id]
     },

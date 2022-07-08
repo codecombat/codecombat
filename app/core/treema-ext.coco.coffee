@@ -26,6 +26,16 @@ class VersionTreema extends TreemaNode
   buildValueForDisplay: (valEl, data) ->
     @buildValueForDisplaySimply(valEl, "#{data.major}.#{data.minor}")
 
+class CinematicDialogTreema extends TreemaObjectNode
+  buildValueForDisplay: (valEl, data) ->
+    if data?.programmingLanguageFilter == 'javascript'
+      valEl.css('border', 'solid 4px yellow')
+    else if data?.programmingLanguageFilter == 'python'
+      valEl.css('border', 'solid 4px blue')
+
+    # Calling method on parent class: https://stackoverflow.com/a/11520286
+    super(valEl, data)
+
 class LiveEditingMarkup extends TreemaNode.nodeMap.ace
   valueClass: 'treema-markdown treema-multiline treema-ace'
 
@@ -92,6 +102,27 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
       valEl.find('.ace_editor').hide()
     @showingPreview = not @showingPreview
 
+class RichTextTreema extends TreemaNode
+  initPreview: (valEl, data) ->
+    valEl.css('width', '100%')
+    buttonRow = $('<div></div>')
+    valEl.append(buttonRow)
+    buttonRow.append($('<button>Edit Content</button>').addClass('btn btn-sm btn-primary').click(@editContent))
+    previewContainer = $('<div class="preview-container" style="width:100%; min-height: 80px; border:1px solid black; line-height: 16px; padding: 5px; white-space: pre; font-size: calc(0.70em + 1vmin) !important;"></div>')
+    previewContainer.html(@settings.callbacks.jsonToHtml(data))
+    valEl.append(previewContainer)
+
+  editContent: =>
+    saveChangesCallback = (data) =>
+      @data = data
+      @saveChanges()
+      @flushChanges()
+      @refreshDisplay()
+    @settings.callbacks.showRichTextModal @data, saveChangesCallback
+
+  buildValueForDisplay: (valEl, data) -> @initPreview(valEl, data)
+  buildValueForEditing: (valEl, data) -> @initPreview(valEl, data)
+
 class SoundFileTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-sound-file'
   editable: false
@@ -137,8 +168,10 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
 
     menu = $('<div class="dropdown-menu"></div>')
     files = @getFiles()
+    fileExtName = mimetype.replace('audio/', '')
     for file in files
-      continue unless file.get('contentType') in mimetypes
+      # contentType is no longer returned from the API due to s3 migration.
+      continue unless file.get('contentType') in mimetypes or file.get('filename').endsWith(fileExtName)
       path = file.get('metadata').path
       filename = file.get 'filename'
       fullPath = [path, filename].join('/')
@@ -249,6 +282,36 @@ class GeneralFileTreema extends TreemaNode.nodeMap.string
     @data = @uploadingPath
     @flushChanges()
     @refreshDisplay()
+
+class JavaScriptFileTreema extends GeneralFileTreema
+  valueClass: 'treema-js-file'
+  editable: false
+
+  buildValueForDisplay: (valEl, data) ->
+    mimetype = 'text/javascript'
+    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload js file</a>')
+      .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
+
+    valEl.append(pickButton)
+    if data
+      path = data.split('/')
+      name = path[path.length-1]
+      valEl.append($('<span></span>').text(name))
+
+class VttFileTreema extends GeneralFileTreema
+  valueClass: 'treema-vtt-file'
+  editable: false
+
+  buildValueForDisplay: (valEl, data) ->
+    fileExtension = '.vtt'
+    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload vtt file</a>')
+      .click(=> filepicker.pick { accept:[fileExtension] }, @onFileChosen)
+
+    valEl.append(pickButton)
+    if data
+      path = data.split('/')
+      name = path[path.length-1]
+      valEl.append($('<span></span>').text(name))
 
 class ImageFileTreema extends GeneralFileTreema
   valueClass: 'treema-image-file'
@@ -526,7 +589,7 @@ class LevelComponentReferenceNode extends LatestVersionReferenceNode
   # HACK: this list of properties is needed by the thang components edit view and config views.
   # need a better way to specify this, or keep the search models from bleeding into those
   # supermodels.
-  buildSearchURL: (term) -> "#{@url}?term=#{term}&project=name,system,original,version,dependencies,configSchema,description"
+  buildSearchURL: (term) -> "#{@url}?term=#{term}&archived=false&project=name,system,original,version,dependencies,configSchema,description"
   modelToString: (model) -> model.get('system') + '.' + model.get('name')
   canEdit: -> not @getData().original # only allow editing if the row's data hasn't been set yet
 
@@ -594,4 +657,8 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass 'slug-props', SlugPropsObject
   TreemaNode.setNodeSubclass 'task', TaskTreema
   TreemaNode.setNodeSubclass 'file', GeneralFileTreema
+  TreemaNode.setNodeSubclass('js-file', JavaScriptFileTreema)
+  TreemaNode.setNodeSubclass('vtt-file', VttFileTreema)
+  TreemaNode.setNodeSubclass('cinematic-dialog', CinematicDialogTreema)
+  TreemaNode.setNodeSubclass('rich-text', RichTextTreema)
   #TreemaNode.setNodeSubclass 'checkbox', CheckboxTreema

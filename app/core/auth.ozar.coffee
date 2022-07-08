@@ -4,14 +4,17 @@ storage = require 'core/storage'
 BEEN_HERE_BEFORE_KEY = 'beenHereBefore'
 { getQueryVariable } = require('core/utils')
 api = require('core/api')
-{ addLoggerGlobalContext } = require 'ozaria/site/common/logger'
+
+if utils.isOzaria
+  { addLoggerGlobalContext } = require 'ozaria/site/common/logger'
 
 init = ->
   module.exports.me = window.me = new User(window.userObject) # inserted into main.html
   module.exports.me.onLoaded()
 
   trackFirstArrival()
-  addLoggerGlobalContext('userId', window.me.get('_id'))
+  if utils.isOzaria
+    addLoggerGlobalContext('userId', window.me.get('_id'))
 
   # set country and geo fields for returning users if not set during account creation (/server/models/User - makeNew)
   if not me.get('country')

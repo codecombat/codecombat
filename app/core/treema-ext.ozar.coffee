@@ -42,6 +42,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
     @workingSchema.aceMode = 'ace/mode/markdown'
+    @workingSchema.aceUseWrapMode = true
     initializeFilePicker()
 
   initEditor: (valEl) ->
@@ -237,9 +238,8 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
     @data = @uploadingPath
     @reset()
 
-
-class ImageFileTreema extends TreemaNode.nodeMap.string
-  valueClass: 'treema-image-file'
+class GeneralFileTreema extends TreemaNode.nodeMap.string
+  valueClass: 'treema-file'
   editable: false
 
   constructor: ->
@@ -251,13 +251,17 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
     super(arguments...)
 
   buildValueForDisplay: (valEl, data) ->
-    mimetype = 'image/*'
-    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload Picture</a>')
-      .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
+    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload File</a>')
+      .click(=> filepicker.pick {}, @onFileChosen)
 
     valEl.append(pickButton)
     if data
-      valEl.append $('<img />').attr('src', "/file/#{data}")
+      anchor = $('<a></a>')
+        .attr('href', "/file/#{data}")
+        .attr('target', '_blank')
+        .attr('style', 'padding-left: 5px;')
+        .text("/file/#{data}")
+      valEl.append anchor
 
   onFileChosen: (InkBlob) =>
     if not @settings.filePath
@@ -279,8 +283,7 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
     @flushChanges()
     @refreshDisplay()
 
-# TODO: create a generic FileTreema class and extend it for ImageFileTreema/SoundFileTreema/JavaScriptFileTreema classes
-class JavaScriptFileTreema extends ImageFileTreema
+class JavaScriptFileTreema extends GeneralFileTreema
   valueClass: 'treema-js-file'
   editable: false
 
@@ -295,8 +298,7 @@ class JavaScriptFileTreema extends ImageFileTreema
       name = path[path.length-1]
       valEl.append($('<span></span>').text(name))
 
-# TODO: create a generic FileTreema class and extend it for ImageFileTreema/SoundFileTreema/JavaScriptFileTreema classes
-class VttFileTreema extends ImageFileTreema
+class VttFileTreema extends GeneralFileTreema
   valueClass: 'treema-vtt-file'
   editable: false
 
@@ -311,6 +313,24 @@ class VttFileTreema extends ImageFileTreema
       name = path[path.length-1]
       valEl.append($('<span></span>').text(name))
 
+class ImageFileTreema extends GeneralFileTreema
+  valueClass: 'treema-image-file'
+  editable: false
+
+  constructor: ->
+    super arguments...
+
+  buildValueForDisplay: (valEl, data) ->
+    mimetype = 'image/*'
+    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload Picture</a>')
+      .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
+
+    valEl.append(pickButton)
+    if data
+      valEl.append $('<img />').attr('src', "/file/#{data}")
+
+  onFileChosen: (InkBlob) ->
+    super InkBlob
 
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
@@ -636,6 +656,7 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass('sound-file', SoundFileTreema)
   TreemaNode.setNodeSubclass 'slug-props', SlugPropsObject
   TreemaNode.setNodeSubclass 'task', TaskTreema
+  TreemaNode.setNodeSubclass 'file', GeneralFileTreema
   TreemaNode.setNodeSubclass('js-file', JavaScriptFileTreema)
   TreemaNode.setNodeSubclass('vtt-file', VttFileTreema)
   TreemaNode.setNodeSubclass('cinematic-dialog', CinematicDialogTreema)

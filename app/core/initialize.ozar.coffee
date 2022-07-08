@@ -2,7 +2,8 @@ Backbone.Mediator.setValidationEnabled false
 app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
-{ log } = require 'ozaria/site/common/logger'
+if utils.isOzaria
+  { log } = require 'ozaria/site/common/logger'
 globalVar = require 'core/globalVar'
 
 VueRouter = require 'vue-router'
@@ -10,6 +11,7 @@ Vuex = require 'vuex'
 VTooltip = require 'v-tooltip'
 VueMoment = require 'vue-moment'
 VueMeta = require 'vue-meta'
+VueYoutube = require 'vue-youtube'
 VueShepherd = require 'vue-shepherd'
 { VueMaskDirective } = require 'v-mask'
 VueAsyncComputed = require 'vue-async-computed'
@@ -17,7 +19,7 @@ VueAsyncComputed = require 'vue-async-computed'
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
 Vue.use(VueMoment.default)
-
+Vue.use(VueYoutube.default)
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
 Vue.use(VueShepherd);
@@ -65,6 +67,8 @@ init = ->
   setUpBackboneMediator(app)
   app.initialize()
   loadOfflineFonts() unless app.isProduction()
+  # We always want to load this font.
+  $('head').prepend '<link rel="stylesheet" type="text/css" href="/fonts/vt323.css">'
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
@@ -72,7 +76,7 @@ init = ->
   installVueI18n()
   checkAndLogBrowserCrash()
   checkAndRegisterHocModalInterval()
-  window.globalVar = globalVar if me.isAdmin() or !app.isProduction()
+  window.globalVar = globalVar if me.isAdmin() or !app.isProduction() or serverSession?.amActually
   parent.globalVar = globalVar if self != parent
 
 module.exports.init = init
@@ -105,6 +109,12 @@ setUpBackboneMediator = (app) ->
   Backbone.Mediator.addChannelSchemas schemas for channel, schemas of channelSchemas
   # Major performance bottleneck if it is true in production
   Backbone.Mediator.setValidationEnabled(not app.isProduction())
+  if false  # Debug which events are being fired
+    originalPublish = Backbone.Mediator.publish
+    Backbone.Mediator.publish = ->
+      console.log 'Publishing event:', arguments... unless /(tick|frame-changed)/.test(arguments[0])
+      originalPublish.apply Backbone.Mediator, arguments
+
 
   if window.location.hostname == 'localhost'
     if window.sessionStorage?.getItem('COCO_DEBUG_LOGGING') == "1"
@@ -150,12 +160,12 @@ setUpTv4 = ->
     if forms.validateEmail(email)
       return null
     else
-      return {code: tv4.errorCodes.FORMAT_CUSTOM, message: "Please enter a valid email address."}
+      return {code: tv4.errorCodes.FORMAT_CUSTOM, message: $.t('form_validation_errors.requireValidEmail')}
   'phoneNumber': (phoneNumber) ->
     if forms.validatePhoneNumber(phoneNumber)
       return null
     else
-      return {code: tv4.errorCodes.FORMAT_CUSTOM, message: 'Please enter a valid phone number, including area code.'}
+      return {code: tv4.errorCodes.FORMAT_CUSTOM, message: $.t('form_validation_errors.requireValidPhone')}
   })
 
 setupConsoleLogging = ->
@@ -274,7 +284,8 @@ checkAndLogBrowserCrash = ->
     window.sessionStorage?.removeItem('oz_crashed')
 
 window.onbeforeunload = (e) ->
-  window.sessionStorage?.setItem('oz_exit', 'true')
+  if utils.isOzaria
+    window.sessionStorage?.setItem('oz_exit', 'true')
   leavingMessage = _.result(globalVar.currentView, 'onLeaveMessage')
   if leavingMessage
     # Custom messages don't work any more, main browsers just show generic ones. So, this could be refactored.
@@ -283,10 +294,11 @@ window.onbeforeunload = (e) ->
     return
 
 window.onload = () ->
-  if window.sessionStorage
-    # Check if the browser crashed before the current loading in order to log it on datadog
-    if window.sessionStorage.getItem('oz_exit') and window.sessionStorage.getItem('oz_exit') != 'true'
-      window.sessionStorage.setItem('oz_crashed', 'true');
-    window.sessionStorage.setItem('oz_exit', 'pending');
+  if utils.isOzaria
+    if window.sessionStorage
+      # Check if the browser crashed before the current loading in order to log it on datadog
+      if window.sessionStorage.getItem('oz_exit') and window.sessionStorage.getItem('oz_exit') != 'true'
+        window.sessionStorage.setItem('oz_crashed', 'true');
+      window.sessionStorage.setItem('oz_exit', 'pending');
 
 $ -> init()
