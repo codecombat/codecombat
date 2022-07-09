@@ -1,9 +1,11 @@
 <script>
   import CodeArea from '../../common/CodeArea'
+  import CodeDiff from '../../common/CodeDiff'
 
   export default {
     components: {
-      CodeArea
+      CodeArea,
+      CodeDiff
     },
 
     props: {
@@ -27,21 +29,16 @@
       </div>
       <div />
     </div>
-    <div class="flex-row">
-      <div>
+    <div class="flex-row extra-title">
         <h4>Student Code</h4>
-        <code-area
-          :code="panelSessionContent.studentCode"
-          :language="panelSessionContent.language"
-        />
-      </div>
-      <div>
         <h4>Solution</h4>
-        <code-area
-          :code="panelSessionContent.solutionCode"
-          :language="panelSessionContent.language"
+    </div>
+    <div class="flex-row">
+      <code-diff
+        :codeLeft="panelSessionContent.studentCode"
+        :codeRight="panelSessionContent.solutionCode"
+        :language="panelSessionContent.language"
         />
-      </div>
     </div>
   </div>
 </template>
@@ -72,6 +69,11 @@
       flex: 1 1 0px;
       margin: 6px;
     }
+  }
+
+  .extra-title {
+    padding-right: 35%;
+    margin-top: 50px;
   }
 
 </style>
