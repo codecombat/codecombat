@@ -1,3 +1,5 @@
+ranges = require '../ranges'
+
 module.exports = class Language
   name: 'Abstract Language'  # Display name of the programming language
   id: 'abstract-language'  # Snake-case id of the programming language
@@ -31,7 +33,21 @@ module.exports = class Language
 
   # Return an array of UserCodeProblems detected during linting.
   lint: (rawCode, aether) ->
-    []
+    [].concat @lintUncalledMethods(rawCode, aether) # check uncalled-methods for every language
+
+  lintUncalledMethods: (rawCode, aether) ->
+    return [] unless match = rawCode.match /^ *(hero[\.|:][^\d\W]\w*)(;?)$/mi
+    problem =
+      type: 'transpile'
+      reporter: 'aether'
+      level: 'warning'
+      message: $.i18n.t('esper.do_nothing_without_parentheses', {code: match[0]})
+      hint: $.i18n.t('esper.missing_parentheses', {suggestion: "#{match[1]}()#{match[2]}"})
+      range: [
+        ranges.offsetToPos(match.index, rawCode, ''),
+        ranges.offsetToPos(match.index + match[0].length, rawCode, '')
+      ]
+    return [problem]
 
   # Return a beautified representation of the code (cleaning up indentation, etc.)
   beautify: (rawCode, aether) ->

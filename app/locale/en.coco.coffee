@@ -3061,6 +3061,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     put_each_command_on: "Put each command on a separate line"
     are_you_missing_a: "Are you missing a '$1' after '$2'? "
     your_parentheses_must_match: "Your parentheses must match."
+    missing_parentheses: "Missing parentheses? Try `__suggestion__`"
+    do_nothing_without_parentheses: "`__code__` doesn't do anything without `()`"
 
   apcsp:
     title: 'AP Computer Science Principals | College Board Endorsed'

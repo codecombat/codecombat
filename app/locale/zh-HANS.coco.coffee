@@ -3062,6 +3062,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     put_each_command_on: "将每条命令单独列在一行"
     are_you_missing_a: "在`$2`后面有没有`$1`？"
     your_parentheses_must_match: "你的括号必须匹配。"
+    missing_parentheses: "忘了括号？ 试试 `__suggestion__`"
+    do_nothing_without_parentheses: "没有`()`， `__code__` 什么也不会做"
 
   apcsp:
     title: "AP计算机科学原理｜College Board Endorsed"
