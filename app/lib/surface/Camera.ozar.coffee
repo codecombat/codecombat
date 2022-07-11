@@ -1,6 +1,7 @@
 CocoClass = require 'core/CocoClass'
 GameUIState = require 'models/GameUIState'
 createjs = require 'lib/createjs-parts'
+utils = require 'core/utils'
 
 # If I were the kind of math major who remembered his math, this would all be done with matrix transforms.
 
