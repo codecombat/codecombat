@@ -9,10 +9,6 @@
       .col-lg-12
         a.btn.btn-primary.btn-lg(href="https://form.typeform.com/to/loZIh0I9" target="_blank") {{ $t('general.contact_us') }}
 
-    .width-container.text-center.row
-      .col-lg-12
-        h5.text-h5.text-teal {{ $t("partners.below_headline_blurb") }}
-
   .width-container.row.image-row
     .col-md-8
       h3.text-h3 {{ $t("partners.coding_title") }}
@@ -39,7 +35,7 @@
         span(v-html="$t('partners.equity_social_blurb', i18nData)")
         span(v-html="$t('partners.seek_relationships_blurb', i18nData)")
     .col-md-4
-      img.img-responsive(src="/images/pages/partners/seeds-of-light.jpg" alt="Seeds of Light")
+      img.img-responsive(src="/images/pages/partners/selina.jpg" alt="Seeds of Light")
 
   .width-container.row
     .col-lg-12
@@ -158,7 +154,7 @@ p, .text-p {
   }
 
   .header .row {
-    padding: 20px 0;
+    padding: 30px 0;
   }
 
   & > .row {
@@ -175,7 +171,7 @@ p, .text-p {
     }
 
     &.row-button {
-      padding: 20px 0;
+      padding: 30px 0;
     }
 
   }
