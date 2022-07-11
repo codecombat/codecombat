@@ -179,13 +179,17 @@
       .col-lg-12
         a.btn.btn-primary.btn-lg(href="/teachers/quote") {{ $t('general.contact_us') }}
 
+  ozaria-stats
+
 </template>
 
 <script>
 import BaseSchoolFacts from './BaseSchoolFacts'
+import OzariaStats from 'app/views/efficacy/OzariaStats'
 export default Vue.extend({
   components: {
-    'base-school-facts': BaseSchoolFacts
+    'base-school-facts': BaseSchoolFacts,
+    'ozaria-stats': OzariaStats
   }
 })
 </script>
