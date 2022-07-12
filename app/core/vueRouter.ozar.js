@@ -111,7 +111,7 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "efficacy" */ 'app/views/efficacy/EfficacyView.vue')
         },
         {
-          path: '/library',
+          path: '/libraries',
           component: () => import(/* webpackChunkName: "libraryMain" */ 'app/views/library/LibraryMainView')
         },
         {

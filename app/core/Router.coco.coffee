@@ -301,7 +301,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'podcast': go('core/SingletonAppVueComponentView')
     'podcast/*path': go('core/SingletonAppVueComponentView')
 
-    'library': go('core/SingletonAppVueComponentView')
+    'libraries': go('core/SingletonAppVueComponentView')
     'library/*path': go('core/SingletonAppVueComponentView')
 
     '*name/': 'removeTrailingSlash'

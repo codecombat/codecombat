@@ -193,6 +193,7 @@ export default {
 <style scoped lang="scss">
 @import "app/styles/common/button";
 @import "app/styles/style-flat-variables";
+@import "app/styles/bootstrap/variables";
 
 .library {
   font-size: 62.5%;
@@ -248,6 +249,12 @@ export default {
       background-position: right top;
     }
 
+    @media (min-width: $screen-md) {
+      &-only-text {
+        width: 80%;
+      }
+    }
+
     &__heading {
       font-weight: 700;
       font-size: 4rem;
@@ -281,6 +288,12 @@ export default {
 
       &-img {
         padding-top: 1rem;
+      }
+
+      @media (max-width: $screen-md) {
+        &-img {
+          display: none;
+        }
       }
     }
   }
