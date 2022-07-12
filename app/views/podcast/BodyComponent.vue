@@ -24,7 +24,7 @@
             <div class="col-md-6 podcast-item__player">
               <iframe :src="transistorUrl(podcast)"
                       width='100%' height='180' frameborder='0' scrolling='no'
-                      seamless='true' style='width:100%; height:180px;'>
+                      seamless='true' style='width:100%; height:180px;' :id="`podcast-${podcast._id}`">
               </iframe>
             </div>
           </div>
@@ -48,6 +48,7 @@ import AudioPlayerComponent from './AudioPlayerComponent'
 import { fullFileUrl } from './podcastHelper'
 import uploadDateMixin from './uploadDateMixin'
 import podcastVisibleMixin from './podcastVisibleMixin'
+import trackPlayMixin from './trackPlayMixin'
 import { i18n } from 'app/core/utils'
 
 export default {
@@ -61,7 +62,7 @@ export default {
       showPlayModal: null
     }
   },
-  mixins: [ uploadDateMixin, podcastVisibleMixin ],
+  mixins: [ uploadDateMixin, podcastVisibleMixin, trackPlayMixin ],
   methods: {
     ...mapActions({
       'fetchAllPodcasts': 'podcasts/fetchAll'
