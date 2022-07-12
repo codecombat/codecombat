@@ -66,6 +66,22 @@
     .col-lg-12
       a.btn.btn-primary.btn-lg(href="https://form.typeform.com/to/loZIh0I9" target="_blank") {{ $t("partners.talk_with_us") }}
 
+  .width-container.text-center.row.logos-row
+    .col-lg-12
+      h3.text-h3 {{ $t("partners.our_partners") }}
+    .col-lg-12.logo-section
+      .logo-section-left
+        img(src="/images/pages/base/code-ninjas-logo-right.png")
+        img(src="/images/pages/partners/seeds-of-light.jpg")
+      .logo-section-right
+        img(src="/images/pages/league/hyperx-red-logo.png")
+        img(src="/images/pages/partners/camden-education-fund-logo.png")
+        img(src="/images/pages/partners/idealab-logo.png")
+        img(src="/images/pages/partners/amdocs-logo.png")
+        img(src="/images/pages/partners/brite-logo.png")
+        img(src="/images/pages/partners/galaxy-online-education-logo.png")
+
+
   .container-footer-mountains
 </template>
 
@@ -166,6 +182,7 @@ p, .text-p {
         padding: 40px 0;
       }
     }
+    &.logos-row,
     &.quote-row {
       padding: 40px 0;
     }
@@ -214,5 +231,33 @@ p, .text-p {
   margin-bottom: -50px;
 }
 
+$grid-gap: 50px;
+
+.logo-section-left {
+  grid-area: left;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: $grid-gap;
+}
+.logo-section-right {
+  grid-area: right;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: $grid-gap;
+}
+
+.logo-section {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto;
+  grid-template-areas: "left right";
+  gap: $grid-gap;
+  img {
+    place-self: center;
+    max-width: 100%;
+  }
+}
 
 </style>

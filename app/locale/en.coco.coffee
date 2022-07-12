@@ -3611,6 +3611,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     corporate_team_building_blurb: 'Need to engage your employees with a turnkey activity that will inspire their competitive spirit and challenge them to creatively problem solve? Work with us to build a custom competitive coding tournament that will have your team programming their own strategies while playing a game.'
     footer_blurb: 'These are just a few of the partnership structures we have successfully supported. If you would like to initiate a discussion with our business development team on any of these models or have a different partnership opportunity, please reach out today.'
     talk_with_us: 'Talk with Us'
+    our_partners: 'Our Partners'
 
   podcast:
     learning_adventure: "Where learning is always an adventure."
