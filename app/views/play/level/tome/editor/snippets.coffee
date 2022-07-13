@@ -12,6 +12,20 @@ Fuzziac = require './fuzziac' # https://github.com/stollcri/fuzziac.js
 ace = require('lib/aceContainer')
 store = require('core/store')
 
+checkingParentheses = (line, left) ->
+  findRight = left
+  i = 0
+  while i < line.length
+    c = line[i]
+    left += 1 if c is '('
+    left -= 1 if c is ')'
+    i += 1
+    break if findRight and not left
+  if findRight
+    return i
+  else
+    return left
+
 module.exports = (SnippetManager, autoLineEndings) ->
   {Range} = ace.require 'ace/range'
   util = ace.require 'ace/autocomplete/util'
@@ -37,7 +51,9 @@ module.exports = (SnippetManager, autoLineEndings) ->
         # Remove previous word if it's at the beginning of the snippet
         prevWordIndex = snippet.toLowerCase().indexOf prevWord.toLowerCase()
         if prevWordIndex is 0
-          range = new Range cursor.row, cursor.column - 1 - prevWord.length, cursor.row, cursor.column
+          removedStart = cursor.column - 1 - prevWord.length
+          removedEnd = cursor.column
+          range = new Range cursor.row, removedStart, cursor.row, removedEnd
           editor.session.remove range
         else
           # console.log "Snippets cursor.column=#{cursor.column} snippet='#{snippet}' line='#{line}' prevWord='#{prevWord}'"
@@ -92,7 +108,9 @@ module.exports = (SnippetManager, autoLineEndings) ->
 
                   # console.log "Snippets originalObject='#{originalObject}' prevObject='#{prevObject}'", finalScore
                   if finalScore > 0.5
-                    range = new Range cursor.row, prevObjectIndex, cursor.row, snippetStart
+                    removedStart = prevObjectIndex
+                    removedEnd = snippetStart
+                    range = new Range cursor.row, removedStart, cursor.row, removedEnd
                     editor.session.remove range
                   else if /^[^.]+\./.test snippet
                     # Remove the first part of the snippet, and use whats there.
@@ -102,23 +120,32 @@ module.exports = (SnippetManager, autoLineEndings) ->
                 # Remove any alphanumeric characters on this line immediately before prefix
                 extraIndex-- while extraIndex >= 0 and /\w/.test(line[extraIndex])
                 extraIndex++ if extraIndex < 0 or not /\w/.test(line[extraIndex])
-                range = new Range cursor.row, extraIndex, cursor.row, snippetStart
+                removedStart = extraIndex
+                removedEnd = snippetStart
+                range = new Range cursor.row, removedStart, cursor.row, removedEnd
                 editor.session.remove range
 
     #Remove anything that looks like an identifier after the completion
     afterIndex = cursor.column
     trailingText = line.substring afterIndex
     newLine = editor.session.getLine cursor.row # get current session line
-    if (newLine != line) and (prevWordIndex is 0)
+    hasAfterRange = false
+    if newLine != line
       # deal with we already remove some of code because of begging of the snippet
-      # maybe we need to handle other remove case but let's wait bug first
-      match = trailingText.match /^[a-zA-Z_0-9]*(\(?\s*\))?/ # match single \)
-      afterRange = new Range cursor.row, 0, cursor.row, match[0].length
-    else
-      match = trailingText.match /^[a-zA-Z_0-9]*(\(\s*\))?/
-      afterIndex += match[0].length if match
+      removedStr = line.slice(removedStart, removedEnd)
+      left = checkingParentheses removedStr, 0
+      if left
+        length = checkingParentheses newLine.substring(removedStart), left
+        afterRange = new Range cursor.row, removedStart, cursor.row, removedStart + length
+        editor.session.remove afterRange
+        hasAfterRange = true
+
+    match = trailingText.match /^[a-zA-Z_0-9]*(\(\s*\))?/
+    if match[0]
+      afterIndex += match[0].length
+      debugLine = editor.session.getLine cursor.row # get current session line
       afterRange = new Range cursor.row, cursor.column - 1, cursor.row, afterIndex
-    editor.session.remove afterRange
+      editor.session.remove afterRange
 
     baseInsertSnippet.call @, editor, snippet
 
