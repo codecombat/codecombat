@@ -78,7 +78,6 @@ module.exports = class SpellView extends CocoView
     $(window).on 'resize', @onWindowResize
     @observing = @session.get('creator') isnt me.id
     @loadedToken = {}
-    @userDefinedIdentifiers = new Set()
     @addUserSnippets = _.debounce @reallyAddUserSnippets, 1000, {maxWait: 5000}
 
   afterRender: ->
