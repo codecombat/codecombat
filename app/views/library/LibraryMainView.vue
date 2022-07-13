@@ -79,7 +79,7 @@
         </div>
         <div class="row library__needs__info">
           <div class="col-md-6 library__needs__info-img">
-            <img src="/images/pages/library/calgary-home.png" alt="Calgary library page" class="img-responsive">
+            <img src="/images/pages/library/calgary-login.png" alt="Calgary library page" class="img-responsive">
           </div>
           <div class="col-md-6 library__needs__info__text">
             <div class="library__needs__info__text-heading">
