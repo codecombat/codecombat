@@ -69,17 +69,25 @@
   .width-container.text-center.row.logos-row
     .col-lg-12
       h3.text-h3 {{ $t("partners.our_partners") }}
-    .col-lg-12.logo-section
-      .logo-section-left
-        img(src="/images/pages/base/code-ninjas-logo-right.png")
-        img(src="/images/pages/partners/seeds-of-light.jpg")
-      .logo-section-right
-        img(src="/images/pages/league/hyperx-red-logo.png")
-        img(src="/images/pages/partners/camden-education-fund-logo.png")
-        img(src="/images/pages/partners/idealab-logo.png")
-        img(src="/images/pages/partners/amdocs-logo.png")
-        img(src="/images/pages/partners/brite-logo.png")
-        img(src="/images/pages/partners/galaxy-online-education-logo.png")
+    .col-lg-12
+      ul.brands
+        li.item
+          img(src="/images/pages/base/code-ninjas-logo-right.png")
+        li.item
+          img(src="/images/pages/partners/seeds-of-light.png")
+        li.item
+          img(src="/images/pages/league/hyperx-red-logo.png")
+        li.item
+          img.scale(src="/images/pages/partners/camden-education-fund-logo.png")
+        li.item
+          img(src="/images/pages/partners/idealab-logo.png")
+        li.item
+          img(src="/images/pages/partners/amdocs-logo.png")
+        li.item
+          img.scale(src="/images/pages/partners/brite-logo.png")
+        li.item
+          img(src="/images/pages/partners/galaxy-online-education-logo.png")
+
 
 
   .container-footer-mountains
@@ -231,33 +239,32 @@ p, .text-p {
   margin-bottom: -50px;
 }
 
-$grid-gap: 50px;
-
-.logo-section-left {
-  grid-area: left;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: $grid-gap;
-}
-.logo-section-right {
-  grid-area: right;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto;
-  gap: $grid-gap;
-}
-
-.logo-section {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-template-rows: auto;
-  grid-template-areas: "left right";
-  gap: $grid-gap;
-  img {
-    place-self: center;
-    max-width: 100%;
+.brands {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  .item {
+    display: flex;
+    flex: 0 0 33.33%;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    img {
+      place-self: center;
+      object-fit: contain;
+      display: block;
+      max-width: 100%;
+      width: 260px;
+      height: 150px;
+      &.scale {
+        transform: scale(0.7);
+      }
+    }
   }
 }
+
+
 
 </style>
