@@ -1216,6 +1216,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     editor_config_indentguides_description: "显示一条竖线以使缩进更明显。"
     editor_config_behaviors_label: "智能匹配符号"
     editor_config_behaviors_description: "自动匹配括号、大括号和引号。"
+    editor_config_livecompletion_disabled_by_teacher: "你的老师已关闭你的自动补全。"
 
   about:
     title: "关于CodeCombat - 激发学生，赋能老师，释放创造力"
@@ -1325,7 +1326,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   teachers:
     licenses_needed: "需要许可"
-#    programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students."
+    programming_language_edit_desc_new: "如果您更改编程语言，您的学生在旧语言中的进度将被隐藏，他们将不得不使用新语言重新开始每个关卡。 我们更建议为这些学生创建一个新班级。"
+    classroom_live_completion: "关闭该项会关闭所有学生的自动补全功能。启用该项则根据学生自己的设置开启自动补全。"
 
   special_offer:
     special_offer: "特别优惠"
@@ -1819,6 +1821,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    view_winners: "View Winners"
     classroom_announcement: "班级公告"
 #    link_lms_classroom: "Link LMS Classroom"
+    classroom_live_completion: "是否为学生启用自动补全"
 
   project_gallery:
     no_projects_published: "成为第一个在这个课程中发布项目的人吧！"

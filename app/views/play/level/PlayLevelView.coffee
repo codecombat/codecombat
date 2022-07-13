@@ -192,6 +192,11 @@ module.exports = class PlayLevelView extends RootView
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
+    if @courseInstanceID
+      fetchACE = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members")
+      @supermodel.trackRequest fetchACE
+      fetchACE.then (classroom) =>
+        @classroomACE = classroom.aceConfig
 
   hasAccessThroughClan: (level) ->
     _.intersection(level.get('clans') ? [], me.get('clans') ? []).length
@@ -417,7 +422,7 @@ module.exports = class PlayLevelView extends RootView
     @hintsState.on('change:hidden', (hintsState, newHiddenValue) ->
       store.commit('game/setHintsVisible', !newHiddenValue)
     )
-    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
+    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState, @classroomACE }
     @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
     @insertSubView new GoalsView {level: @level, session: @session}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
@@ -430,7 +435,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
     @insertSubView new SurfaceContextMenuView session: @session, level: @level
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isLadder()
-    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
+    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID, @classroomACE}
     @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
     @insertSubView @webSurface = new WebSurfaceView {level: @level, @goalManager} if @level.isType('web-dev')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'

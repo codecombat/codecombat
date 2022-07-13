@@ -74,6 +74,15 @@ block modal-body-content
         option(value="javascript") JavaScript
         if view.enableCpp
           option(value="cpp") C++
+  
+    .form-group
+      label(data-i18n="courses.classroom_live_completion") live completion
+      - var aceConfig = view.classroom.get('aceConfig') || {}
+      - var liveCompletion = aceConfig.liveCompletion
+      if liveCompletion === undefined
+        - liveCompletion = true
+      input#liveCompletion(name="liveCompletion" checked=liveCompletion type='checkbox')
+      .help-block.small.text-navy(data-i18n="teachers.classroom_live_completion")
 
     .form-group.hide
       // We don't show this any more, as we didn't do anything with the data anyway
