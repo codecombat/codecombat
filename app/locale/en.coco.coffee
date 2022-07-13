@@ -1203,6 +1203,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     editor_config_indentguides_description: "Displays vertical lines to see indentation better."
     editor_config_behaviors_label: "Smart Behaviors"
     editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+    editor_config_livecompletion_disabled_by_teacher: "Your teacher already disable your live completion."
 
   about:
     title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
@@ -1313,6 +1314,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   teachers:
     licenses_needed: "Licenses needed"
     programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students."
+    classroom_live_completion: "Enable Live Completion in this classroom or not. Disable: Overwrites students' config. Enable: Allows students configure by themselves."
 
   special_offer:
     special_offer: "Special Offer"
@@ -1806,6 +1808,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_winners: "View Winners"
     classroom_announcement: "Classroom Announcement"
     link_lms_classroom: "Link LMS Classroom"
+    classroom_live_completion: "Classroom Live Completion"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
