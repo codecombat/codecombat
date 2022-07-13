@@ -190,6 +190,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     top_banner_blurb_pd: "We now offer professional development for educators."
     top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
+    top_banner_blurb_podcast: "NEW: Explore the world of EdTech with our new podcast EdTech Adventures."
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -361,6 +362,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     api_dashboard: "API Dashboard"
     funding_resources_guide: "Funding Resources Guide"
     partnerships: "Partnerships"
+    podcast: "Our Podcast"
 
   modal:
     close: "Close"
@@ -3043,6 +3045,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
     user_not_found: "User Not Found"
     not_found: "Not Found"
+    resource_not_found: "404 __resource__ Not Found"
     not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "Method not allowed."
     timeout: "Server Timeout"
