@@ -120,6 +120,18 @@ module.exports = class Autocomplete
           @snippetManager.register m.snippets
           @oldSnippets = m.snippets
 
+  addCustomSnippets: (snippets, language) ->
+    # add user custom identifiers. do not overwrite the codecombat snippets
+    @options.language = language
+    ace.config.loadModule 'ace/ext/language_tools', () =>
+      @snippetManager = ace.require('ace/snippets').snippetManager
+      snippetModulePath = 'ace/snippets/' + language
+      ace.config.loadModule snippetModulePath, (m) =>
+        if m?
+          @snippetManager.unregister @oldCustomSnippets if @oldCustomSnippets?
+          @snippetManager.register snippets
+          @oldCustomSnippets = snippets
+
   setLiveCompletion: (val) ->
     if val is true or val is false
       @options.liveCompletion = val
@@ -372,3 +384,4 @@ module.exports = class Autocomplete
     lang = aceUtils.aceEditModes[e.language].substr 'ace/mode/'.length
     @addSnippets snippetEntries, lang
     spellView.editorLang = lang
+    snippetEntries

@@ -44,6 +44,7 @@ module.exports = class SpellView extends CocoView
     'god:non-user-code-problem': 'onNonUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
     'tome:spell-changed': 'onSpellChanged'
+    'tome:spell-created': 'onSpellCreated'
     'level:session-will-save': 'onSessionWillSave'
     'modal:closed': 'focus'
     'tome:focus-editor': 'focus'
@@ -77,6 +78,8 @@ module.exports = class SpellView extends CocoView
     $(window).on 'resize', @onWindowResize
     @observing = @session.get('creator') isnt me.id
     @loadedToken = {}
+    @userDefinedIdentifiers = new Set()
+    @addUserSnippets = _.debounce @reallyAddUserSnippets, 1000, {maxWait: 5000}
 
   afterRender: ->
     super()
@@ -540,6 +543,62 @@ module.exports = class SpellView extends CocoView
   updateAutocomplete: (@autocompleteOn) ->
     @autocomplete?.set 'snippets', @autocompleteOn
 
+  identifierRegex: (lang, type) ->
+    if type is 'variable'
+      return /([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+)\s*=[^=]/
+    else if type is 'function'
+      regexs =
+        python: /def ([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?):/
+        javascript: /function ([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?)/
+        cpp: /[a-z]+\s+([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?)/
+        java: /[a-z]+\s+([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?)/
+      if lang of regexs
+        return regexs[lang]
+      return /./
+    else if type is 'string'
+      return /('.*?'|".*?")/
+
+  reallyAddUserSnippets: (source, lang) ->
+    replaceParams = (str) ->
+      i = 1
+      str = str.replace(/([a-zA-Z-0-9\$\-\u00A2-\uFFFF]+)/g, "${:$1}")
+      reg = /\$\{:/
+      while (reg.test(str))
+        str = str.replace(reg, "${#{i}:")
+        i += 1
+      str
+
+    makeEntry = (name, content) ->
+      content = content ? name
+      entry =
+        meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
+        importance: 1
+        content: content
+        name: name
+        tabTrigger: name
+
+    lines = source.split('\n')
+    userSnippets = []
+    newIdentifiers = {}
+    lines.forEach((line) =>
+      if @singleLineCommentRegex().test line
+        return
+      match = @identifierRegex(lang, 'variable').exec(line)
+      if match and not (match[1] of newIdentifiers)
+        newIdentifiers[match[1]] = makeEntry(match[1])
+      match = @identifierRegex(lang, 'function').exec(line)
+      if match and match[1]
+        [fun, params] = match[1].split('(')
+        params = '(' + params
+        unless fun of newIdentifiers
+          newIdentifiers[fun] = makeEntry(fun, fun + replaceParams(params))
+      match = @identifierRegex(lang, 'string').exec(line)
+      if match and not (match[0] of newIdentifiers)
+        newIdentifiers[match[0]] = makeEntry(match[0])
+    )
+
+    @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
+
   addAutocompleteSnippets: (e) ->
     # Snippet entry format:
     # content: code inserted into document
@@ -547,7 +606,7 @@ module.exports = class SpellView extends CocoView
     # name: displayed left-justified in popup, and what's being matched
     # tabTrigger: fallback for name field
     return unless @autocomplete and @autocompleteOn
-    @autocomplete.addCodeCombatSnippets @options.level, @, e
+    codecombatSnippets = @autocomplete.addCodeCombatSnippets @options.level, @, e
 
   translateFindNearest: ->
     # If they have advanced glasses but are playing a level which assumes earlier glasses, we'll adjust the sample code to use the more advanced APIs instead.
@@ -1064,9 +1123,13 @@ module.exports = class SpellView extends CocoView
     for key, value of oldSpellThangAether
       @spell.thang.aether[key] = value
 
+  onSpellCreated: (e) ->
+    @addUserSnippets(e.spell.getSource(), e.spell.language)
+
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
     @spellHasChanged = true
+    @addUserSnippets(e.spell.getSource(), e.spell.language)
 
   onAceMouseOut: (e) ->
     Backbone.Mediator.publish("web-dev:stop-hovering-line")
