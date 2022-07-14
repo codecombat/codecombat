@@ -1,32 +1,39 @@
-<script>
-export default {
-  name: 'OzariaStats',
-}
-</script>
-
 <template lang="pug">
-  section#ozaria-stats
+  section#ozaria-stats(:class="{ 'framed': framed }")
     .row.graph-boxes
       .col.col-md-6
         .graph-box.graph-box-mcintosh
           .graph-box-inner
             .graph-logo
-              img(src="/images/pages/efficacy/mcintosh-logo.png", :alt="`${$t('efficacy.mcintosh_middle_school')}`").box-logo
+              img(src="/images/pages/efficacy/mcintosh-logo.png" :alt="`${$t('efficacy.mcintosh_middle_school')}`").box-logo
             .graph-content
-              .big-percent 47%
+              .big-percent +47%
               p {{ $t("efficacy.graph1_description") }}
-              img(src="/images/pages/efficacy/mcintosh-graph.png")
+              img(src="/images/pages/efficacy/mcintosh-graph.png" )
 
       .col.col-md-6
         .graph-box.graph-box-mrms
           .graph-box-inner
             .graph-logo
-              img(src="/images/pages/efficacy/mrms-logo.png", , :alt="`${$t('efficacy.mountain_ridge_middle_school')}`").box-logo
+              img(src="/images/pages/efficacy/mrms-logo.png" :alt="`${$t('efficacy.mountain_ridge_middle_school')}`").box-logo
             .graph-content
               .big-percent 90%
               p {{ $t("efficacy.graph2_description") }}
               img(src="/images/pages/efficacy/mrms-graph.png")
 </template>
+
+<script>
+export default {
+  name: 'OzariaStats',
+  props: {
+    framed: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+}
+</script>
 
 <style lang="scss" scoped>
 @import "app/styles/bootstrap/variables";
@@ -110,10 +117,8 @@ export default {
       flex-direction: column;
       margin: -50px 40px 80px 40px;
 
-      @media (max-width: $screen-lg) {
-        img {
-          max-width: 100%;
-        }
+      img {
+        max-width: 100%;
       }
 
       .big-percent {
@@ -166,22 +171,59 @@ export default {
         background: linear-gradient(to right, #33DACC, #33ECC9);
         margin-left: -30px;
       }
-      img{
+      img {
         transform: translateY(-100px);
       }
     }
 
+    &.graph-box .graph-logo {
       @media (max-width: $screen-md-min) {
-        &.graph-box .graph-logo {
-          &::before {
-            background: linear-gradient(to right, #3272DB, #32A2D4);
-          }
-          &::after {
-            background: linear-gradient(to right, #32A2D4, #33ECC9);
+        &::before {
+          background: linear-gradient(to right, #3272DB, #32A2D4);
+        }
+        &::after {
+          background: linear-gradient(to right, #32A2D4, #33ECC9);
+        }
+      }
+    }
+
+  }
+
+  &.framed .graph-boxes {
+    @media (min-width: $screen-md-min) {
+      background: white;
+    }
+    .graph-box {
+      background: white;
+      &.graph-box-mcintosh .graph-logo {
+        img{
+          border-image-source: linear-gradient(to right, #3272DB, #3283D8);
+          @media (max-width: $screen-md-min) {
+            border: 10px solid #32A2D4;
           }
         }
       }
 
+      &.graph-box-mrms .graph-logo {
+        img {
+          border-image-source: linear-gradient(to right, #33C7CF, #33DACC);
+          @media (max-width: $screen-md-min) {
+            border: 10px solid #32A2D4;
+          }
+        }
+      }
+      .graph-logo {
+        img {
+          border-style: solid;
+          background: white;
+          border-image-slice: 1;
+          border-width: 10px;
+        }
+        &::before, &::after {
+          margin: 0;
+        }
+      }
+    }
   }
 
   .row.flex-row {
