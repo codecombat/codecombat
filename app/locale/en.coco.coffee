@@ -1226,6 +1226,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ae_title: "Account Executive"
     sae_title: "Senior Account Executive"
     sgd_title: "Senior Game Developer"
+    dois_title: "Director of Inside Sales"
     sism_title: "Senior Inside Sales Manager"
     shan_title: "Head of Marketing, CodeCombat Greater China"
     run_title: "Head of Operations, CodeCombat Greater China"
