@@ -40,6 +40,7 @@ module.exports = class Autocomplete
     defaultsCopy = _.extend {}, defaults
     @options = _.merge defaultsCopy, options
 
+    @onPopupFocusChange = _.throttle @onPopupFocusChange, 25
 
     #TODO: Renable option validation if we care
     #validationResult = optionsValidator @options
@@ -259,6 +260,7 @@ module.exports = class Autocomplete
             $('.ace_autocomplete').css('line-height', @options.popupLineHeightPx + 'px') if @options.popupLineHeightPx?
             $('.ace_autocomplete').css('width', @options.popupWidthPx + 'px') if @options.popupWidthPx?
             editor.completer.popup.resize?()
+            editor.completer.popup.on("mousemove", @onPopupFocusChange(editor, TokenIterator))
 
             # TODO: Can't change padding before resize(), but changing it afterwards clears new padding
             # TODO: Figure out how to hook into events rather than using setTimeout()
@@ -271,6 +273,19 @@ module.exports = class Autocomplete
     # Update tokens for text completer
     if @options.completers.text and e.command.name in ['backspace', 'del', 'insertstring', 'removetolinestart', 'Enter', 'Return', 'Space', 'Tab']
       @bgTokenizer.fireUpdateEvent 0, @editor.getSession().getLength()
+
+  onPopupFocusChange: (editor, TokenIterator) =>
+    (e) =>
+      pos = e.getDocumentPosition()
+      it = new TokenIterator editor.completer.popup.session, pos.row, pos.column
+      word = null
+      if it.getCurrentTokenRow() is pos.row
+        line = editor.completer.completions.filtered[pos.row].caption
+        [fun, params] = line.split('(')
+        prefixParts = fun.split(/[.:]/g)
+        word = prefixParts.slice(-1)[0]
+        markerRange = new Range pos.row, pos.column, pos.row, pos.column + word.length
+      Backbone.Mediator.publish 'tome:completer-popup-focus-change', {word, markerRange}
 
   getCompletionPrefix: (editor) ->
     # TODO: this is not used to get prefix that is passed to completer.getCompletions

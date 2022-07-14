@@ -14,6 +14,9 @@ module.exports = class SpellTranslationView extends CocoView
     'mousemove': ->
       @$el.hide()
 
+  subscriptions:
+    'tome:completer-popup-focus-change': 'onPopupFocusChange'
+
   constructor: (options) ->
     super options
     @ace = options.ace
@@ -62,6 +65,10 @@ module.exports = class SpellTranslationView extends CocoView
       @word = token.value
       @markerRange = new Range pos.row, start, pos.row, end
       @reposition(e.domEvent)
+    @update()
+
+  onPopupFocusChange: ({@word, @markerRang}) =>
+    return if @destroyed
     @update()
 
   reposition: (e) ->
