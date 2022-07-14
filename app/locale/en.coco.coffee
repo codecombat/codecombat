@@ -1241,7 +1241,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     pvd_title: "Product and Visual Designer"
     spvd_title: "Senior Product and Visual Designer"
     daniela_title: "Marketing Manager"
-    bobby_title: "Game Designer"
+    bobby_title: "Senior Game Designer"
     brian_title: "Senior Game Design Manager"
     stephanie_title: "Customer Support Specialist"
     sdr_title: "Sales Development Representative"
