@@ -1252,6 +1252,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ac_title: "Administrative Coordinator"
     ea_title: "Executive Assistant"
     om_title: "Operations Manager"
+    pe_title: "Principal Engineer"
     mo_title: "Manager, Operations"
     smo_title: "Senior Manager, Operations"
     do_title: "Director of Operations"
