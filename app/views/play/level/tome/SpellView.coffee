@@ -559,7 +559,7 @@ module.exports = class SpellView extends CocoView
     else if type is 'string'
       return /('.*?'|".*?")/
 
-  reallyAddUserSnippets: (source, lang) ->
+  reallyAddUserSnippets: (source, lang, session) ->
     replaceParams = (str) ->
       i = 1
       str = str.replace(/([a-zA-Z-0-9\$\-\u00A2-\uFFFF]+)/g, "${:$1}")
@@ -569,14 +569,28 @@ module.exports = class SpellView extends CocoView
         i += 1
       str
 
-    makeEntry = (name, content) ->
+    makeEntry = (name, content, importance) ->
       content = content ? name
       entry =
         meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
-        importance: 5
+        importance: importance ? 5
         content: content
         name: name
         tabTrigger: name
+
+    allIdentifiers = {}
+    it = new TokenIterator session, 0, 0
+    while (next = it.stepForward())
+      if next.type is 'string'
+        unless next.value of newIdentifiers
+          newIdentifiers[next.value] = makeEntry(next.value)
+        else
+          newIdentifiers[next.value].importance *= 2
+      if next.type is 'identifier'
+        unless next.value of allIdentifiers
+          allIdentifiers[next.value] = 5
+        else
+          allIdentifiers[next.value] *= 2
 
     lines = source.split('\n')
     userSnippets = []
@@ -585,24 +599,18 @@ module.exports = class SpellView extends CocoView
       if @singleLineCommentRegex().test line
         return
 
-      for type in ['variable', 'object', 'string']
-        match = @identifierRegex(lang, type).exec(line)
-        if match
-          unless (match[1] of newIdentifiers)
-            newIdentifiers[match[1]] = makeEntry(match[1])
-          else
-            newIdentifiers[match[1]].importance *= 2
-
       match = @identifierRegex(lang, 'function').exec(line)
       if match and match[1]
         [fun, params] = match[1].split('(')
         params = '(' + params
         unless fun of newIdentifiers
-          newIdentifiers[fun] = makeEntry(fun, fun + replaceParams(params))
-        else
-          newIdentifiers[fun].importance *= 2
+          newIdentifiers[fun] = makeEntry(fun, fun + replaceParams(params), allIdentifiers[fun])
+          delete allIdentifiers[fun]
     )
+    for id, importance of allIdentifiers
+      newIdentifiers[id] = makeEntry(id, id, importance)
 
+    console.log('debug: newid', newIdentifiers)
     @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
 
   addAutocompleteSnippets: (e) ->
@@ -1130,12 +1138,12 @@ module.exports = class SpellView extends CocoView
       @spell.thang.aether[key] = value
 
   onSpellCreated: (e) ->
-    @addUserSnippets(e.spell.getSource(), e.spell.language)
+    @addUserSnippets(e.spell.getSource(), e.spell.language, e.spell.view.ace.getSession())
 
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
     @spellHasChanged = true
-    @addUserSnippets(e.spell.getSource(), e.spell.language)
+    @addUserSnippets(e.spell.getSource(), e.spell.language, e.spell.view.ace.getSession())
 
   onAceMouseOut: (e) ->
     Backbone.Mediator.publish("web-dev:stop-hovering-line")
