@@ -545,6 +545,8 @@ module.exports = class SpellView extends CocoView
   identifierRegex: (lang, type) ->
     if type is 'variable'
       return /([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+)\s*=[^=]/
+    else if type is 'object'
+      return /([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+)\./
     else if type is 'function'
       regexs =
         python: /def ([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?):/
@@ -571,7 +573,7 @@ module.exports = class SpellView extends CocoView
       content = content ? name
       entry =
         meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
-        importance: 1
+        importance: 5
         content: content
         name: name
         tabTrigger: name
@@ -582,18 +584,23 @@ module.exports = class SpellView extends CocoView
     lines.forEach((line) =>
       if @singleLineCommentRegex().test line
         return
-      match = @identifierRegex(lang, 'variable').exec(line)
-      if match and not (match[1] of newIdentifiers)
-        newIdentifiers[match[1]] = makeEntry(match[1])
+
+      for type in ['variable', 'object', 'string']
+        match = @identifierRegex(lang, type).exec(line)
+        if match
+          unless (match[1] of newIdentifiers)
+            newIdentifiers[match[1]] = makeEntry(match[1])
+          else
+            newIdentifiers[match[1]].importance *= 2
+
       match = @identifierRegex(lang, 'function').exec(line)
       if match and match[1]
         [fun, params] = match[1].split('(')
         params = '(' + params
         unless fun of newIdentifiers
           newIdentifiers[fun] = makeEntry(fun, fun + replaceParams(params))
-      match = @identifierRegex(lang, 'string').exec(line)
-      if match and not (match[0] of newIdentifiers)
-        newIdentifiers[match[0]] = makeEntry(match[0])
+        else
+          newIdentifiers[fun].importance *= 2
     )
 
     @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang

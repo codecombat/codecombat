@@ -172,7 +172,9 @@ module.exports = (SnippetManager, autoLineEndings) ->
 
     beginningOfLine = session.getLine(pos.row).substring(0,pos.column - prefix.length)
 
-    unless (fullPrefixParts.length < 3 and /^(hero|self|this|@|db|game|ui)$/.test(fullPrefixParts[0]) ) or /^\s*$/.test(beginningOfLine)
+    # we already returned if fullPrefixParts.length > 2, so fullPrefixParts.length < 3 always true here
+    # and we want to enable auto completion when cursor is inside a function call as param. so add more check
+    unless /^(hero|self|this|@|db|game|ui)$/.test(fullPrefixParts[0]) or /^\s*$/.test(beginningOfLine) or /(,| |\()$/.test(beginningOfLine)
       # console.log "DEBUG: autocomplete bailing", fullPrefixParts, '|', prefix, '|', beginningOfLine, '|', pos.column - prefix.length
       @completions = completions
       return callback null, completions
@@ -199,6 +201,8 @@ module.exports = (SnippetManager, autoLineEndings) ->
       @completions = _.filter(completions, (x) -> x.caption.indexOf prefix is 0)
       return callback null, @completions
 
+    # slice 20 here to make sure we can show up `hero` completion
+    completions = (completions.sort((a, b) -> b.score - a.score)).slice(0, 20)
     # console.log 'Snippets snippet completions', completions
     @completions = completions
     callback null, completions
@@ -275,11 +279,12 @@ scrubSnippet = (snippet, caption, line, input, pos, lang, autoLineEndings, captu
     # If at end of line
     # And, no parentheses are before snippet. E.g. 'if ('
     # And, line doesn't start with whitespace followed by 'if ' or 'elif '
+    # And, the snippet is a function
     # console.log "Snippets autoLineEndings linePrefixIndex='#{linePrefixIndex}'"
     if lineSuffix.length is 0 and /^\s*$/.test line.slice pos.column
       # console.log 'Snippets atLineEnd', pos.column, lineSuffix.length, line.slice(pos.column + lineSuffix.length), line
       toLinePrefix = line.substring 0, linePrefixIndex
-      if linePrefixIndex < 0 or linePrefixIndex >= 0 and not /[\(\)]/.test(toLinePrefix) and not /^[ \t]*(?:if\b|elif\b)/.test(toLinePrefix)
+      if (linePrefixIndex < 0 or linePrefixIndex >= 0 and not /[\(\)]/.test(toLinePrefix) and not /^[ \t]*(?:if\b|elif\b)/.test(toLinePrefix)) and /\([^)]*\)/.test(snippet)
         snippet += autoLineEndings[lang] if snippetLineBreaks is 0 and autoLineEndings[lang]
         snippet += "\n" if snippetLineBreaks is 0 and not /\$\{/.test(snippet)
 

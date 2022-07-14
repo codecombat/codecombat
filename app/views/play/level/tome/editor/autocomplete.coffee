@@ -186,7 +186,7 @@ module.exports = class Autocomplete
     if e.command.name is "backspace" or e.command.name is "insertstring"
       pos = editor.getCursorPosition()
       token = (new TokenIterator editor.getSession(), pos.row, pos.column).getCurrentToken()
-      if token? and token.type not in ['comment', 'string']
+      if token? and token.type not in ['comment']
         prefix = @getCompletionPrefix editor
         # Bake a fresh autocomplete every keystroke
         editor.completer?.detach() if hasCompleter
@@ -214,6 +214,30 @@ module.exports = class Autocomplete
               Autocomplete.prototype.commands["Shift-Return"] = exitAndReturn
 
             editor.completer = new Autocomplete()
+            getCompletionPrefix = @getCompletionPrefix
+            editor.completer.gatherCompletions = (editor, callback) ->
+              session = editor.getSession();
+              pos = editor.getCursorPosition();
+
+              prefix = getCompletionPrefix(editor);
+
+              @base = session.doc.createAnchor(pos.row, pos.column - prefix.length);
+              @base.$insertRight = true;
+
+              matches = [];
+              total = editor.completers.length;
+              editor.completers.forEach (completer, i) =>
+                completer.getCompletions(editor, session, pos, prefix, (err, results) =>
+                  if (!err && results)
+                    matches = matches.concat(results);
+                  # Fetch prefix again, because they may have changed by now
+                  callback(null, {
+                    prefix: getCompletionPrefix(editor),
+                    matches: matches,
+                    finished: (--total == 0)
+                  })
+                )
+              return true;
 
           # Disable autoInsert and show popup
           editor.completer.autoSelect = true
@@ -261,7 +285,9 @@ module.exports = class Autocomplete
         completer.identifierRegexps.forEach (identifierRegex) ->
           if not prefix and identifierRegex
             prefix = util.retrievePrecedingIdentifier line, pos.column, identifierRegex
-    prefix = util.retrievePrecedingIdentifier line, pos.column unless prefix?
+
+    identifierRegex = /['"\.a-zA-Z_0-9\$\-\u00A2-\uFFFF]/
+    prefix = util.retrievePrecedingIdentifier line, pos.column, identifierRegex unless prefix?
     prefix
 
   addCodeCombatSnippets: (level, spellView, e) ->
