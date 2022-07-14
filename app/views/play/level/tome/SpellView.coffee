@@ -604,7 +604,7 @@ module.exports = class SpellView extends CocoView
         [fun, params] = match[1].split('(')
         params = '(' + params
         unless fun of newIdentifiers
-          newIdentifiers[fun] = makeEntry(fun, fun + replaceParams(params), allIdentifiers[fun])
+          newIdentifiers[fun] = makeEntry(match[1], fun + replaceParams(params), allIdentifiers[fun])
           delete allIdentifiers[fun]
     )
     for id, importance of allIdentifiers
