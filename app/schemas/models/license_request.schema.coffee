@@ -2,7 +2,7 @@ c = require './../schemas'
 
 LicenseRequestSchema = c.object({
   title: 'License request',
-  required: ['trialRequest', 'requestedLicenses', 'createdOn'],
+  required: ['requesterEmail', 'requestedLicenses', 'createdOn'],
 })
 
 _.extend(LicenseRequestSchema.properties, {
