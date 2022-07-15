@@ -1180,7 +1180,7 @@ module.exports = {
   getQueryVariables
   getSponsoredSubsAmount
   getUTCDay
-  getAnonymizingStatus
+  getAnonymizationStatus
   getAnonymizedName
   grayscale
   hexToHSL
