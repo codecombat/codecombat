@@ -10,20 +10,22 @@ getAnonymizedName = (shouldAnonymize, session) ->
     session.get('creatorName') or 'Anonymous'
 
 getAnonymizationStatus = (league, supermodel) ->
-  anonymizePlayerNames = false
-  if league and anonymizePlayerNames = features.enableAnonymization
-    fetchAnonymous = $.get('/esports/anonymous/' + league)
-    supermodel.trackRequest(fetchAnonymous)
-    return new Promise((resolve, reject) ->
-      fetchAnonymous.then((res) =>
-        resolve(res.anonymous)
-      ))
-  return new Promise (resolve, reject) ->
-    resolve(anonymousPlayerName)
+  unless league and features.enableAnonymization
+    return new Promise (resolve, reject) ->
+      resolve(false)
+
+  fetchAnonymous = $.get('/esports/anonymous/' + league)
+  supermodel.trackRequest(fetchAnonymous)
+  return new Promise((resolve, reject) ->
+    fetchAnonymous.then((res) =>
+      resolve(res.anonymous)
+    ))
 
 anonymizingUser = (user) ->
   id = user?.id ? user
-  $.i18n.t('general.player') + ' ' + id.slice(19)
+  hashString = (str) ->
+    (str.charCodeAt i for i in [0...str.length]).reduce(((hash, char) -> ((hash << 5) + hash) + char), 5381)  # hash * 33 + c
+  $.i18n.t('general.player') + ' ' + Math.abs(hashString(id)) % 10000
 
 clone = (obj) ->
   return obj if obj is null or typeof (obj) isnt 'object'
