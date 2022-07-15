@@ -39,7 +39,6 @@ module.exports = class Problem
 
     camelToSnake = (str) ->
       str.replace(/[A-Z]/g, (letter) -> "_#{letter.toLowerCase()}");
-    debugger
     if @errorCode
       @message = $.i18n.t("esper.error#{camelToSnake(@errorCode)}", @i18nParams)
     else
