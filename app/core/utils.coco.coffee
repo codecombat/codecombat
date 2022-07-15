@@ -16,7 +16,6 @@ getAnonymizingStatus = (league, supermodel) ->
     supermodel.trackRequest(fetchAnonymous)
     return new Promise((resolve, reject) ->
       fetchAnonymous.then((res) =>
-        console.log('called resolve', res.anonymous)
         resolve(res.anonymous)
       ))
   return new Promise (resolve, reject) ->
