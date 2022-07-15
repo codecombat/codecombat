@@ -1314,7 +1314,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   teachers:
     licenses_needed: "Licenses needed"
     programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students."
-    classroom_live_completion: "Enable Live Completion in this classroom or not. Disable: Overwrites students' config. Enable: Allows students configure by themselves."
+    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled."
 
   special_offer:
     special_offer: "Special Offer"
