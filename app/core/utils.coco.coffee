@@ -3,8 +3,8 @@ slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and 
 isCodeCombat = true
 isOzaria = false
 
-getAnonymizedName = (shouldAnonymous, session) ->
-  if shouldAnonymous and me.get('_id').toString() != session.get('creator')
+getAnonymizedName = (shouldAnonymize, session) ->
+  if shouldAnonymize and me.get('_id').toString() != session.get('creator')
     anonymizingUser(session.get('creator'))
   else
     session.get('creatorName') or 'Anonymous'
