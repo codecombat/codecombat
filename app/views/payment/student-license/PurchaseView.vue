@@ -1,7 +1,7 @@
 <template>
   <form class="purchase-form" @submit.prevent="onPurchaseNow">
     <div class="form-group">
-      <label for="licenseType">Select License</label>
+      <label for="licenseType">{{ isTecmilenioPartner ? 'Seleccionar licencia' : 'Select License' }}</label>
       <select
           class="form-control"
           id="licenseType"
@@ -12,7 +12,7 @@
             :value="price.id"
             :key="price.id"
         >
-          {{$t(`payments.${price.metadata.i18nName}`)}} - {{getCurrency(price)}}{{getUnitPrice(price)}}
+          {{ isTecmilenioPartner ? 'Licencia anual de estudiante - Universidad Tecmilenio' : $t(`payments.${price.metadata.i18nName}`)}} - {{getCurrency(price)}}{{getUnitPrice(price)}}
         </option>
       </select>
     </div>
@@ -168,8 +168,8 @@ export default {
 
 <style lang="scss" scoped>
 .purchase-form {
-  width: 60%;
-  padding-left: 40%;
+  width: 70%;
+  padding-left: 30%;
   padding-top: 15px;
 }
 .purchase-btn {
