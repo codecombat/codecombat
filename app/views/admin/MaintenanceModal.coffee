@@ -5,10 +5,12 @@ module.exports = class MaintenanceModal extends ModalComponent
   id: 'maintenance-modal'
   template: require('app/templates/core/modal-base-flat')
   VueComponent: MaintenanceComponent
-  propsData: null
 
   constructor: (options) ->
     super options
+    @propsData = {
+      hide: () => @hide()
+    }
 
   destroy: ->
     @onDestroy?()

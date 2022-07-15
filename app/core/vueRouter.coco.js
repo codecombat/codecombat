@@ -97,8 +97,12 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/StudentLicensesMainComponent')
         },
         {
-          path: '/teachers/resources_new',
+          path: '/teachers/resources',
           component: () => import(/* webpackChunkName: "teachers" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue'),
+        },
+        {
+          path: '/teachers/resources_new',
+          component: () => import(/* webpackChunkName: "teachers_new" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue'),
         },
         {
           path: '/library/:libraryId/login',
