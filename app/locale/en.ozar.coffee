@@ -1898,7 +1898,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     certificate_btn_toggle: "Toggle"
     module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
     error_in_creating_data: "Error in creating data for intro level!"
-    classroom_live_completion: "Classroom Code Autocomplete"
+    classroom_live_completion: "Classroom Code Autocomplete: "
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"

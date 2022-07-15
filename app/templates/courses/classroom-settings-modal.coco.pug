@@ -142,7 +142,6 @@ block modal-body-content
     .form-group.checkbox
       label
         span(data-i18n="courses.classroom_live_completion")
-        i.spl.text-muted(data-i18n="signup.optional")
       - var aceConfig = _.assign({liveCompletion: true},  view.classroom.get('aceConfig'))
       - var liveCompletion = aceConfig.liveCompletion
       input#liveCompletion(name="liveCompletion" checked=liveCompletion type='checkbox')

@@ -1807,7 +1807,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    view_winners: "View Winners"
     classroom_announcement: "班级公告"
 #    link_lms_classroom: "Link LMS Classroom"
-    classroom_live_completion: "为学生启用自动补全"
+    classroom_live_completion: "为学生启用自动补全："
 
   project_gallery:
     no_projects_published: "成为第一个在这个课程中发布项目的人吧！"
