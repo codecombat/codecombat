@@ -90,7 +90,6 @@ module.exports = class LadderView extends RootView
 
     if @leagueType is 'clan'
       utils.getAnonymizingStatus(@leagueID, @supermodel).then((anonymous) =>
-        console.log('called anonymous', anonymous)
         @anonymousPlayerName = anonymous
       )
 
