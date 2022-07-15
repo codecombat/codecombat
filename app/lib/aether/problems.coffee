@@ -65,7 +65,7 @@ module.exports.createUserCodeProblem = (options) ->
   p.hint = config.hint or options.hint or ''  # Additional details about error message (sentence)
   p.range = options.range  # Like [{ofs: 305, row: 15, col: 15}, {ofs: 312, row: 15, col: 22}], or null
   p.userInfo = options.userInfo ? {}  # Record extra information with the error here
-  p.errorCode = options.erroCode
+  p.errorCode = options.errorCode
   p.i18nParams = options.i18nParams
   p
 
