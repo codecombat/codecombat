@@ -1257,6 +1257,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
     editor_config_screen_reader_mode_label: "Enable Screen Reader Mode"
     editor_config_screen_reader_mode_description: "Display levels in text rather than visually."
+    editor_config_livecompletion_disabled_by_teacher: "Your teacher has disabled your autocomplete."
 
   about:
     title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
@@ -1385,6 +1386,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_new_students_imported: "No new students imported"
     error_in_importing_classrooms: "Error in importing classrooms"
     error_in_importing_students: "Error in importing students"
+    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled."
 
   no_licenses_page:
     are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -1896,6 +1898,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     certificate_btn_toggle: "Toggle"
     module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
     error_in_creating_data: "Error in creating data for intro level!"
+    classroom_live_completion: "Classroom Code Autocomplete"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"

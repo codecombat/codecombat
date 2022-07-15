@@ -1255,6 +1255,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     editor_config_behaviors_description: "自动匹配括号、大括号和引号。"
 #    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode"
 #    editor_config_screen_reader_mode_description: "Display levels in text rather than visually."
+    editor_config_livecompletion_disabled_by_teacher: "你的老师已关闭你的自动补全。"
 
   about:
 #    title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
@@ -1363,7 +1364,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     select_class: "选择班级"
     programming_language: "编程语言"
     programming_language_edit_desc: "学生一旦加入班级，语言不能修改。推荐重新建一个班级。"
-#    programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students."
+    programming_language_edit_desc_new: "如果您更改编程语言，您的学生在旧语言中的进度将被隐藏，他们将不得不使用新语言重新开始每个关卡。 我们更建议为这些学生创建一个新班级。"
     add_a_class: "添加一个新班级"
     select_desired_lang: "选择一个编程语言"
     elementary: "小学"
@@ -1383,6 +1384,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_new_students_imported: "没有新同学导入"
     error_in_importing_classrooms: "导入班级发生错误"
     error_in_importing_students: "导入学生发生错误"
+    classroom_live_completion: "关闭该项会关闭所有学生的自动补全功能。启用该项则根据学生自己的设置开启自动补全。"
 
   no_licenses_page:
     are_your_students_ready: "学生有兴趣继续学习更多课程了吗？"
@@ -1894,6 +1896,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     certificate_btn_toggle: "中英切换"
 #    module_coming_soon: "Modules 4-6 of Chapter 1 are coming soon!"
 #    error_in_creating_data: "Error in creating data for intro level!"
+    classroom_live_completion: "为学生启用自动补全"
 
   project_gallery:
     no_projects_published: "成为第一个在这个课程中发布项目的人吧！"
