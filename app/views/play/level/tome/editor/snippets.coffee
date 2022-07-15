@@ -258,8 +258,9 @@ scrubSnippet = (snippet, caption, line, input, pos, lang, autoLineEndings, captu
       linePrefix = line.substr linePrefixIndex, pos.column - input.length - linePrefixIndex
     else
       linePrefix = ''
+
     lineSuffix = line.substr pos.column, snippetSuffix.length - 1 + caption.length - input.length + 1
-    lineSuffix = '' unless snippet.indexOf(lineSuffix) is snippet.length - lineSuffix.length
+    lineSuffix = '' unless snippet.endsWith(lineSuffix)
 
     # TODO: This is broken for attack(find in Python, but seems ok in JavaScript.
 
