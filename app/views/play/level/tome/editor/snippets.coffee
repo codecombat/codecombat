@@ -174,7 +174,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
 
     # we already returned if fullPrefixParts.length > 2, so fullPrefixParts.length < 3 always true here
     # and we want to enable auto completion when cursor is inside a function call as param. so add more check
-    unless /^(hero|self|this|@|db|game|ui)$/.test(fullPrefixParts[0]) or /^\s*$/.test(beginningOfLine) or /(,| |\()$/.test(beginningOfLine)
+    unless /^(hero|pet|db|game|ui)$/.test(fullPrefixParts[0]) or /^\s*$/.test(beginningOfLine) or /(,| |\()$/.test(beginningOfLine)
       # console.log "DEBUG: autocomplete bailing", fullPrefixParts, '|', prefix, '|', beginningOfLine, '|', pos.column - prefix.length
       @completions = completions
       return callback null, completions

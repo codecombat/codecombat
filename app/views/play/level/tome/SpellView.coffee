@@ -578,7 +578,10 @@ module.exports = class SpellView extends CocoView
         name: name
         tabTrigger: name
 
+    userSnippets = []
     allIdentifiers = {}
+    newIdentifiers = {}
+
     it = new TokenIterator session, 0, 0
     while (next = it.stepForward())
       if next.type is 'string'
@@ -593,8 +596,6 @@ module.exports = class SpellView extends CocoView
           allIdentifiers[next.value] *= 2
 
     lines = source.split('\n')
-    userSnippets = []
-    newIdentifiers = {}
     lines.forEach((line) =>
       if @singleLineCommentRegex().test line
         return
@@ -608,9 +609,10 @@ module.exports = class SpellView extends CocoView
           delete allIdentifiers[fun]
     )
     for id, importance of allIdentifiers
+      if id is 'hero' and importance <= 20 # if hero doesn't appears more than twice
+        continue
       newIdentifiers[id] = makeEntry(id, id, importance)
 
-    console.log('debug: newid', newIdentifiers)
     @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
 
   addAutocompleteSnippets: (e) ->
@@ -1138,7 +1140,7 @@ module.exports = class SpellView extends CocoView
       @spell.thang.aether[key] = value
 
   onSpellCreated: (e) ->
-    @addUserSnippets(e.spell.getSource(), e.spell.language, e.spell.view.ace.getSession())
+    @addUserSnippets(e.spell.getSource(), e.spell.language, e.spell?.view?.ace?.getSession?())
 
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
