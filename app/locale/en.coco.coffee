@@ -1203,7 +1203,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     editor_config_indentguides_description: "Displays vertical lines to see indentation better."
     editor_config_behaviors_label: "Smart Behaviors"
     editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
-    editor_config_livecompletion_disabled_by_teacher: "Your teacher already disable your live completion."
+    editor_config_livecompletion_disabled_by_teacher: "Your teacher has disabled your autocomplete."
 
   about:
     title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
