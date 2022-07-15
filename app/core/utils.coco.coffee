@@ -9,9 +9,9 @@ getAnonymizedName = (shouldAnonymize, session) ->
   else
     session.get('creatorName') or 'Anonymous'
 
-getAnonymizingStatus = (league, supermodel) ->
-  anonymousPlayerName = false
-  if league and anonymousPlayerName = features.enableAnonymization
+getAnonymizationStatus = (league, supermodel) ->
+  anonymizePlayerNames = false
+  if league and anonymizePlayerNames = features.enableAnonymization
     fetchAnonymous = $.get('/esports/anonymous/' + league)
     supermodel.trackRequest(fetchAnonymous)
     return new Promise((resolve, reject) ->
