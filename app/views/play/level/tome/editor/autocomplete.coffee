@@ -253,7 +253,7 @@ module.exports = class Autocomplete
           # Hide popup if too many suggestions
           # TODO: Completions aren't asked for unless we show popup, so this is super hacky
           # TODO: Backspacing to yield more suggestions does not close popup
-          if editor.completer?.completions?.filtered?.length > 20
+          if editor.completer?.completions?.filtered?.length > 50
             editor.completer.detach()
 
           # Update popup CSS after it's been launched

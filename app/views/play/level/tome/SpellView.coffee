@@ -1140,12 +1140,14 @@ module.exports = class SpellView extends CocoView
       @spell.thang.aether[key] = value
 
   onSpellCreated: (e) ->
-    @addUserSnippets(e.spell.getSource(), e.spell.language, e.spell?.view?.ace?.getSession?())
+    if e.spell.team is me.team
+      @addUserSnippets(e.spell.getSource(), e.spell.language, e.spell?.view?.ace?.getSession?())
 
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
     @spellHasChanged = true
-    @addUserSnippets(e.spell.getSource(), e.spell.language, e.spell.view.ace.getSession())
+    if e.spell.team is me.team
+      @addUserSnippets(e.spell.getSource(), e.spell.language, e.spell.view.ace.getSession())
 
   onAceMouseOut: (e) ->
     Backbone.Mediator.publish("web-dev:stop-hovering-line")

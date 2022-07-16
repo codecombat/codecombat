@@ -201,9 +201,6 @@ module.exports = (SnippetManager, autoLineEndings) ->
       @completions = _.filter(completions, (x) -> x.caption.indexOf prefix is 0)
       return callback null, @completions
 
-    # slice 20 here to make sure we can show up `hero` completion
-    completions = (completions.sort((a, b) -> b.score - a.score)).slice(0, 20)
-    # console.log 'Snippets snippet completions', completions
     @completions = completions
     callback null, completions
 
