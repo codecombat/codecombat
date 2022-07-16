@@ -1,7 +1,7 @@
 <template>
   <form class="purchase-form" @submit.prevent="onPurchaseNow">
     <div class="form-group">
-      <label for="licenseType">Select License</label>
+      <label for="licenseType">{{ isTecmilenioPartner ? 'Seleccionar licencia' : 'Select License' }}</label>
       <select
           class="form-control"
           id="licenseType"
@@ -12,16 +12,18 @@
             :value="price.id"
             :key="price.id"
         >
-          {{$t(`payments.${price.metadata.i18nName}`)}} - {{getCurrency(price)}}{{getUnitPrice(price)}}
+          {{ isTecmilenioPartner ? 'Licencia anual de estudiante - Universidad Tecmilenio' : $t(`payments.${price.metadata.i18nName}`)}} - {{getCurrency(price)}}{{getUnitPrice(price)}}
         </option>
       </select>
     </div>
     <div class="form-group">
-      <label for="licenseNum">Number of Licenses</label>
+      <label for="licenseNum">{{ isTecmilenioPartner ? 'Número de Licencias' : 'Number of Licenses' }}</label>
       <input type="text" class="form-control" id="licenseNum" v-model="licenseNum"
         :disabled="isTecmilenioPartner"
       >
-      <p v-if="licenseNum && !errMsg" class="total-price">Total price: {{selectedCurrency}}{{totalPrice}}</p>
+      <p v-if="licenseNum && !errMsg" class="total-price">
+        {{ isTecmilenioPartner ? 'Total a pagar' : 'Total price' }}: {{selectedCurrency}}{{totalPrice}}
+      </p>
     </div>
     <div class="tecmilenio" v-if="isTecmilenioPartner">
       <div class="form-group">
@@ -168,8 +170,8 @@ export default {
 
 <style lang="scss" scoped>
 .purchase-form {
-  width: 60%;
-  padding-left: 40%;
+  width: 70%;
+  padding-left: 30%;
   padding-top: 15px;
 }
 .purchase-btn {

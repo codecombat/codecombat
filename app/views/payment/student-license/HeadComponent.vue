@@ -4,7 +4,12 @@
       <div class="top-section">
         <div class="heading-row">
           <h1 v-if="!isTecmilenioPartner">{{ title || $t(`payments.${this.i18nHeadingName}`)}}</h1>
-          <h1 v-else>Licencias de Estudiantes</h1>
+          <h1 class="tecmilenio-heading-txt" v-else>Licencias de Estudiantes</h1>
+          <img
+            v-if="isTecmilenioPartner"
+            src="/images/pages/payment/tecmilenio-logo.png" alt="Tecmilenio logo"
+            class="tecmilenio-heading-img"
+          >
           <p class="dsh-info" v-if="isDshPartner"><b>Digital Schoolhouse</b> has partnered with CodeCombat to offer the entirety of the Ozaria story-based computer science adventure game (all 4 Chapters, and over 70 hours of comprehensive instruction) as well as our original game CodeCombat (11 courses spanning Computer Science, Game Development and Web Development) for the <b>discounted rate of $25 USD per annual license (normally $30 USD)</b>. Happy coding!</p>
           <div class="tecmilenio-info" v-else-if="isTecmilenioPartner">
             <p class="tecmilenio-info-txt">
@@ -70,6 +75,8 @@ export default {
 .container-fluid {
   background: linear-gradient(118.13deg, #0E4C60 0%, #20572B 100%);
   color: white;
+
+  position: relative;
 }
 
 .top-section {
@@ -94,5 +101,18 @@ export default {
     color: white;
     font-size: small;
   }
+}
+
+
+.tecmilenio-heading-img {
+  height: 60px;
+  position: absolute;
+  right: 25px;
+  top: 25px;
+
+  border: 1px solid #fff;
+  padding: 10px;
+
+  box-shadow: 0 1px 2px lightgrey;
 }
 </style>
