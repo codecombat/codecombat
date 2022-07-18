@@ -197,6 +197,9 @@ module.exports = class PlayLevelView extends RootView
       @supermodel.trackRequest fetchAceConfig
       fetchAceConfig.then (classroom) =>
         @classroomAceConfig = _.assign {liveCompletion: true}, classroom.aceConfig
+    else
+      @classroomAceConfig = {liveCompletion: true}
+
 
   hasAccessThroughClan: (level) ->
     _.intersection(level.get('clans') ? [], me.get('clans') ? []).length
