@@ -63,7 +63,7 @@
 <script>
 import AudioPlayerComponent from '../AudioPlayerComponent'
 import SubscribeModal from '../SubscribeModal'
-import { fullFileUrl } from '../podcastHelper'
+import { fullFileUrl, podcastLinkRenderer } from '../podcastHelper'
 import uploadDateMixin from '../uploadDateMixin'
 import trackPlayMixin from '../trackPlayMixin'
 import { i18n } from 'app/core/utils'
@@ -107,7 +107,7 @@ export default {
       return `https://share.transistor.fm/e/${this.podcast.transistorEpisodeId}/dark`
     },
     formatDescription () {
-      return marked(i18n(this.podcast, 'description'))
+      return marked(i18n(this.podcast, 'description'), { renderer: podcastLinkRenderer() })
     }
   }
 }
