@@ -53,7 +53,7 @@
 
         <div class="row library__needs__info">
           <div class="col-md-6 library__needs__info-img">
-            <img src="/images/pages/library/self-paced-intuitive.png" alt="Self paced and intuitive" class="img-responsive">
+            <img src="/images/pages/library/self-paced-intuitive-5.png" alt="Self paced and intuitive" class="img-responsive">
           </div>
           <div class="col-md-6 library__needs__info__text">
             <div class="library__needs__info__text-heading">
@@ -162,7 +162,7 @@
       "
       :ask-school-info="askSchoolInfo"
       licenses-needed-text="Members Needing Access"
-      licenses-needed-placeholder="Approximately how many members do you plan to provide access?"
+      licenses-needed-placeholder="Approximately how many members will need access?"
       modal-title="Contact Our Team"
       @close="toggleLicenseModal"
       />

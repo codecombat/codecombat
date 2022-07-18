@@ -27,15 +27,15 @@ export default Vue.extend({
       default: true
     },
     licensesNeededText: {
-		  type: String,
+      type: String,
       default: $.i18n.t('teachers.licenses_needed')
     },
     licensesNeededPlaceholder: {
-		  type: String,
+      type: String,
       default: 'How many licenses do you need?'
     },
     modalTitle: {
-		  type: String,
+      type: String,
       default: 'Contact Our Classroom Team'
     }
 	},
