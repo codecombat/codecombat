@@ -4,10 +4,10 @@
       <div class="container">
       <section class="row library__heading">
         <h2 class="library__heading-text pixel-text">
-          Give your members access to the most engaging way to learn coding
+          {{ $t('library.engage_members') }}
         </h2>
         <button class="btn library__heading-btn btn-moon" @click="toggleLicenseModal">
-          Contact Us
+          {{ $t('general.contact_us') }}
         </button>
       </section>
 
@@ -15,7 +15,7 @@
 
         <div class="row library__sub-1">
           <div class="library__sub-text col-md-6">
-            Libraries play an important role in advancing educational equity in their communities. Many young learners do not have access or exposure to computer science, and libraries can provide important resources to these underserved groups. That is why we are partnering with libraries across the country to provide access to our game-based learning tools and educational resources.
+            {{ $t('library.importance_blurb') }}
           </div>
           <div class="library__sub-image col-md-6">
             <img src="/images/pages/library/library-students.png" alt="Students in library" class="library__sub-image-img img-responsive">
@@ -27,7 +27,7 @@
             <img src="/images/pages/library/teach-real-code.png" alt="Teach real code" class="library__sub-image-img img-responsive">
           </div>
           <div class="library__sub-text col-md-6">
-            Our games teach real typed Python, JavaScript and C++ coding languages through the power of play. The gameplay is paired with a scaffolded curriculum to allow self-paced learners the ability to master foundational programming concepts before moving on to the more complex. Each level challenges the player to type the code necessary to advance their hero and achieve the level goal.
+            {{ $t("library.games_teach_blurb") }}
           </div>
         </div>
 
@@ -35,15 +35,15 @@
 
       <section class="library__needs">
         <div class="library__needs__heading pixel-text">
-          Our platform is built to address the specific needs of libraries and their patrons:
+          {{ $t("library.platform_built") }}
         </div>
         <div class="row library__needs__info">
           <div class="col-md-6 library__needs__info__text">
             <div class="library__needs__info__text-heading">
-              Accessible
+              {{ $t('library.accessible') }}
             </div>
             <div class="library__needs__info__text-sub">
-              A basic computer with internet access is all you need to sign-in and start playing. The content is intended for beginners with no prior coding experience.
+              {{ $t('library.accessible_blurb') }}
             </div>
           </div>
           <div class="col-md-6 library__needs__info-img">
@@ -57,20 +57,20 @@
           </div>
           <div class="col-md-6 library__needs__info__text">
             <div class="library__needs__info__text-heading">
-              Self-Paced and Intuitive
+              {{ $t('library.self_paced_intuitive') }}
             </div>
             <div class="library__needs__info__text-sub">
-              Teachers are not required as players can dictate the pace at which they move through the curriculum. Our custom code engine and interpreter is designed for beginners, it understands the mistakes kids make and speaks to them using human, beginner-friendly terms.
+              {{ $t('library.self_paced_intuitive_blurb') }}
             </div>
           </div>
         </div>
         <div class="row library__needs__info">
           <div class="col-md-6 library__needs__info__text">
             <div class="library__needs__info__text-heading">
-              Engaging Content
+              {{ $t('library.engaging_content') }}
             </div>
             <div class="library__needs__info__text-sub">
-              Game-based learning drives engagement from the start but perhaps even more importantly keeps students engaged when the concepts get more challenging. In a game environment failure and success are expected and embraced as part of the play experience.
+              {{ $t('library.engaging_content_blurb') }}
             </div>
           </div>
           <div class="col-md-6 library__needs__info-img">
@@ -83,50 +83,50 @@
           </div>
           <div class="col-md-6 library__needs__info__text">
             <div class="library__needs__info__text-heading">
-              API integration
+              {{ $t('library.api_integrate') }}
             </div>
             <div class="library__needs__info__text-sub">
-              Our games can be easily incorporated into your digital library interface through EZProxy or other popular systems. This structure provides instant access with the members’ existing log in and no staff is needed to manage any logistics of licensing or access.
+              {{ $t('library.api_integrate_blurb') }}
             </div>
           </div>
         </div>
         <div class="row library__needs__info library__needs-only-text">
           <div class="col-md-11 library__needs__info__text">
             <div class="library__needs__info__text-heading">
-              Privacy
+              {{ $t('library.privacy') }}
             </div>
             <div class="library__needs__info__text-sub">
-              We take user safety, cybersecurity, and data privacy seriously, following many stringent privacy regulations, like COPPA, FERPA, SOPIPA, California AB 1584, CalOPPA, Fair Information Practices, CAN-SPAM, and GDPR. These policies and protective measures have let us securely serve over twenty million users around the world. See <a href="/privacy" target="_blank">our full privacy policy.</a>
+              {{ $t('library.privacy_blurb') }} {{ $t('library.see') }} <a href="/privacy" target="_blank">{{ $t('library.privacy_policy') }}</a>
             </div>
           </div>
         </div>
         <div class="row library__needs__info library__needs-only-text">
           <div class="col-md-11 library__needs__info__text">
             <div class="library__needs__info__text-heading">
-              Communication Limits
+              {{ $t('library.communication_limit') }}
             </div>
             <div class="library__needs__info__text-sub">
-              To ensure the security of your members, we do not offer in-game chat or other communication features between players, however we do allow members to safely share their coding projects with friends, family and the CodeCombat community. We restrict any upsell or marketing messaging to provide an uninterrupted experience for your patrons.
+              {{ $t('library.communication_limit_blurb') }}
             </div>
           </div>
         </div>
         <div class="row library__needs__info library__needs-only-text">
           <div class="col-md-11 library__needs__info__text">
             <div class="library__needs__info__text-heading">
-              Usage Stats
+              {{ $t('library.usage_stats') }}
             </div>
             <div class="library__needs__info__text-sub">
-              Gain insight to your members’ usage with our snapshot reporting tool. It provides access to usage stats at any time, including monthly active users, licensed days used and more valuable data points.
+              {{ $t('library.usage_stats_blurb') }}
             </div>
           </div>
         </div>
         <div class="row library__needs__info library__needs-only-text">
           <div class="col-md-11 library__needs__info__text">
             <div class="library__needs__info__text-heading">
-              Academic Esports
+              {{ $t('library.esports') }}
             </div>
             <div class="library__needs__info__text-sub">
-              Our esports program offers an opportunity to further engage your members through a fun and exciting competition. The AI League allows members to showcase their understanding of coding concepts in a new environment and practice problem solving strategies as they go head to head in battle against the global community.
+              {{ $t('library.esports_blurb') }}
             </div>
           </div>
         </div>
@@ -137,11 +137,11 @@
           <div class="library__footer-content row">
             <div class="col-md-offset-2 col-md-8">
               <h2 class="library__footer-text pixel-text">
-                Work with us to unlock the next generation of engineers, programmers and CS professionals in your community.
+                {{ $t('library.work_with_us_blurb') }}
               </h2>
               <div class="library__footer-cta">
                 <button class="btn library__footer-cta-btn btn-moon" @click="toggleLicenseModal">
-                  Schedule a Demo
+                  {{ $t('library.schedule_demo') }}
                 </button>
               </div>
             </div>
@@ -152,7 +152,7 @@
     </div>
     <modal-get-licenses
       v-if="showLicenseModal"
-      subtitle="Please complete this short form and one of our library specialists will reach out to provide a demo and custom pricing options!"
+      :subtitle="$t('library.license_modal_subtitle')"
       email-message="Hi CodeCombat team! I’m interested in learning more about CodeCombat and how it can be used for my library or library network membership.
 
         Name of Library or Library Network:
@@ -161,9 +161,9 @@
         My Phone Number:
       "
       :ask-school-info="askSchoolInfo"
-      licenses-needed-text="Members Needing Access"
-      licenses-needed-placeholder="Approximately how many members will need access?"
-      modal-title="Contact Our Team"
+      :licenses-needed-text="$t('library.license_modal_members')"
+      :licenses-needed-placeholder="$t('library.license_modal_members_placeholder')"
+      :modal-title="$t('library.license_modal_contact')"
       @close="toggleLicenseModal"
       />
   </div>
