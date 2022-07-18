@@ -192,7 +192,7 @@ module.exports = class PlayLevelView extends RootView
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
-    utils.getAnonymizingStatus(utils.getQueryVariable('league'), @supermodel).then((anonymous) =>
+    utils.getAnonymizationStatus(utils.getQueryVariable('league'), @supermodel).then((anonymous) =>
       @anonymousPlayerName = anonymous
     )
 

@@ -256,11 +256,12 @@
   .table-responsive(:class="{'col-md-6': scoreType=='arena'}")
     div(v-if="scoreType == 'arena'")
       div(:class="{hide: !showContactUs}" id="contact-us-info")
-        .info
-          p {{ $t('league.unlock_ai_league') }}
-          a(href="https://form.typeform.com/to/qXqgbubC" target='_blank' style="margin-right: 0.6em;") {{ $t('general.contact_us') }}
-          span {{ $t('league.unlock_content_padding_1') }}
-          p {{ $t('league.unlock_content_padding_2') }}
+        p.title {{ $t('league.unlock_ai_league') }}
+        .content
+          img.img(src="/images/pages/play/ladder/esports_lock.png")
+          .right-info
+            a.unlock-button(href="https://form.typeform.com/to/qXqgbubC" target='_blank' style="margin-right: 0.6em;") {{ $t('league.esports_get_full_access') }}
+            p {{ $t('league.unlock_content_padding') }}
       div(id="histogram-display-humans", class="histogram-display", data-team-name='humans' :class="{hide: showContactUs}")
     table.table.table-bordered.table-condensed.table-hover.ladder-table
       thead
@@ -444,13 +445,56 @@
     padding-bottom: 28%;
     vertical-align: top;
     overflow: hidden;
-    height: 130px;
-    background-color: white;
-
+    /* height: 130px; */
+    color: white;
+    background: url(/images/pages/play/ladder/unlock_esports_background.png);
+    background-size: 100%;
     font-size: 18px;
     font-weight: 600;
-    padding: 20px 40px;
+    padding: 12px 40px;
     text-align: center;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+      width: 400px
+    }
+
+    .content {
+      width: 380px;
+      display: flex;
+
+      .img {
+        height: 4em;
+      }
+
+      .right-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .unlock-button {
+          width: fit-content;
+          text-transform: uppercase;
+          color: white;
+          display: block;
+          padding: 0.5em;
+          background: linear-gradient(to left top , #DB36A4, #F1D521);
+          border-radius: 2em;
+
+          &:hover {
+            text-decoration: none;
+          }
+        }
+
+        p {
+          margin: 5px 0;
+          font-size: 14px;
+        }
+      }
+    }
   }
   .hide {
     display: none;

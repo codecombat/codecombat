@@ -89,7 +89,7 @@ module.exports = class LadderView extends RootView
     @urls = require('core/urls')
 
     if @leagueType is 'clan'
-      utils.getAnonymizingStatus(@leagueID, @supermodel).then((anonymous) =>
+      utils.getAnonymizationStatus(@leagueID, @supermodel).then((anonymous) =>
         @anonymousPlayerName = anonymous
       )
 

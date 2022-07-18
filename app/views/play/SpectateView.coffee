@@ -106,7 +106,7 @@ module.exports = class SpectateLevelView extends RootView
       spectateMode: true
       team: utils.getQueryVariable('team')
     @god = new God maxAngels: 1, spectate: true
-    utils.getAnonymizingStatus(utils.getQueryVariable('league'), @supermodel).then((anonymous) =>
+    utils.getAnonymizationStatus(utils.getQueryVariable('league'), @supermodel).then((anonymous) =>
       @anonymousPlayerName = anonymous
     )
 
