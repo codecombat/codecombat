@@ -2711,7 +2711,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     spotlight_3: 'Susan Jones-Szabo promotes an equitable atmosphere in her class where everyone can find success in their own way. Mistakes and struggles are welcomed because everyone learns from a challenge, even the teacher.'
     continue_reading_blog: 'Continue Reading on Blog...'
     ozaria_impact_title: 'Positive Impacts with Ozaria'
-    ozaria_impact_blurb: 'CodeCombat\'s sister curriculum, Ozaria, has proven to have a positive impact on the student learning outcomes that matter most to both students and educators. Learn more about Ozaria\'s curriculum efficacy here.'
+    ozaria_impact_blurb: 'CodeCombat\'s sister curriculum, Ozaria, has proven to have a positive impact on the student learning outcomes that matter most to both students and educators.'
+    ozaria_impact_learn_more: 'Learn more about Ozaria\'s curriculum efficacy here.'
 
   loading_error:
     could_not_load: "Error loading from server. Try refreshing the page."
