@@ -59,6 +59,10 @@ module.exports = class ClassroomSettingsModal extends ModalView
       forms.setErrorToProperty(form, 'language', $.i18n.t('common.required_field'))
       return
 
+    if attrs.liveCompletion
+      attrs.aceConfig.liveCompletion = attrs.liveCompletion[0] == 'on'
+      delete attrs.liveCompletion
+
     if !@isGoogleClassroom and !@showLMSDropDown
       delete attrs.googleClassroomId
       delete attrs.lmsClassroomId
