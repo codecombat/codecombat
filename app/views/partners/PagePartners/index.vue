@@ -1,7 +1,6 @@
 <template lang="pug">
 .container-fluid#partners-page
   .header
-    img.animated-griffin(src="/images/pages/parents/Griffin_and_Alejandro1.svg" alt="flying griffin")
     .width-container.text-center.row
       .col-lg-12
         h1.text-h1.text-navy.pixelated {{ $t("partners.headline") }}
@@ -97,8 +96,8 @@
           img.img-responsive-height.native-height(src="/images/pages/parents/graphic_07.svg" alt="hero moving along a path" loading="lazy")
 
 
-  .width-container.row.row-top-margin
-    .col-lg-12
+  .width-container.row.row-top-margin.text-center
+    .col-lg-10.col-sm-12.col-lg-offset-1
       p.text-navy {{ $t("partners.footer_blurb") }}
 
   .width-container.text-center.row.row-button
@@ -197,7 +196,6 @@ p, .text-p {
   font-size: 24px;
   font-weight: 300;
   line-height: 30px;
-  text-align: justify;
 }
 
 .btn-primary {
@@ -226,7 +224,7 @@ p, .text-p {
 
   .header {
     min-height: 628px;
-    background-image: url(/images/pages/parents/parent_hero_image.png), url(/images/pages/parents/image_cloud_3.svg), url(/images/pages/parents/image_cloud_4.svg), url(/images/pages/parents/image_cloud_3.svg), url(/images/pages/parents/image_cloud_1.svg);
+    background-image: url(/images/pages/parents/ten_testimonial.png), url(/images/pages/parents/image_cloud_3.svg), url(/images/pages/parents/image_cloud_4.svg), url(/images/pages/parents/image_cloud_3.svg), url(/images/pages/parents/image_cloud_1.svg);
     background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
     background-position: bottom left 5%, top 50px left 30px, top 35px right 280px, top 360px right 300px, bottom 52px right 475px;
     background-size: 500px, 260px, 90px, 260px, 250px;
@@ -235,11 +233,6 @@ p, .text-p {
       .pixelated {
         font-family: "lores12ot-bold", "VT323";
       }
-    }
-    .animated-griffin {
-      position: absolute;
-      top: 30%;
-      right: 6%;
     }
   }
 
