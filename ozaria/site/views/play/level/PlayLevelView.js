@@ -183,12 +183,13 @@ class PlayLevelView extends RootView {
       'world-necessities-loaded',
       this.onWorldNecessitiesLoaded
     )
-    if(this.courseInstanceID) {
+    if(!this.courseInstanceID) {
+      // playLevelView from teacher account has no courseInstanceID
+      this.classroomAceConfig = {liveCompletion: true}
+    } else {
       let fetchAceConfig = $.get(`/db/course_instance/${this.courseInstanceID}/classroom?project=aceConfig,members`)
       this.supermodel.trackRequest(fetchAceConfig)
       fetchAceConfig.then(classroom => this.classroomAceConfig = _.assign({liveCompletion: true}, classroom.aceConfig))
-    } else {
-      this.classroomAceConfig = {liveCompletion: true}
     }
 
     return this.listenTo(
