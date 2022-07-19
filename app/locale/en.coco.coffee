@@ -1203,6 +1203,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     editor_config_indentguides_description: "Displays vertical lines to see indentation better."
     editor_config_behaviors_label: "Smart Behaviors"
     editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+    editor_config_livecompletion_disabled_by_teacher: "Your teacher has disabled your autocomplete."
 
   about:
     title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
@@ -1317,6 +1318,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   teachers:
     licenses_needed: "Licenses needed"
     programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students."
+    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled."
 
   special_offer:
     special_offer: "Special Offer"
@@ -1810,6 +1812,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_winners: "View Winners"
     classroom_announcement: "Classroom Announcement"
     link_lms_classroom: "Link LMS Classroom"
+    classroom_live_completion: "Classroom Code Autocomplete: "
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -3068,6 +3071,51 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     put_each_command_on: "Put each command on a separate line"
     are_you_missing_a: "Are you missing a '$1' after '$2'? "
     your_parentheses_must_match: "Your parentheses must match."
+
+    error_index_empty: "Cannot read property `__name__` of `__specTypeName__`"
+    error_call_non_function: "`__name__` is not a function."
+    error_not_iterable: "`__var__` is not iterable."
+    error_assignment_invalid: "Invalid reference in assignment."
+    error_invalid_array_length: "Invalid array length."
+    error_didnt_make_generator: "`__name__` didn't make a generator."
+    error_undefined_variable: "`__name__` is not defined."
+    error_declared_identifier: "Identifier `__name__` has already been declared."
+    error_declarations_cant_resolve: "Couldn't resolve declarations component: `__type__`."
+    error_strict_no_statement: "Strict mode code may not include a with statement."
+    error_cant_resolve_ref_component: "Couldn't resolve ref component: `__type__`."
+    error_cant_convert_null: "Cannot convert undefined or null to object."
+    error_need_object: "Need an object."
+    error_illegal_object_prototype: "Object prototype may only be an Object or null."
+    error_no_prototype: "No prototype."
+    error_cant_write_property_to_undefined: "Can't write property of undefined: `__idx__`."
+    error_cant_write_property_to_non_obj: "Can't write property of non-object type: `__idx__`."
+    error_function_isnt_constructor: "function is not a constructor"
+    error_write_protected_property: "Can't write to protected property: `__name__`"
+    error_read_protected_property: "Can't read protected property: `__name__`"
+    error_convert_value_failed: "Cannot convert `__orig__` value to `__new__` value."
+    error_convert_object_to_primitive: "Cannot convert object to primitive value."
+    error_first_argument_to_be_function: "First argument to `__fun__` must be a function."
+    error_write_non_writable: "Can't write to non-writable value."
+    error_delete_nonconfigurable_object: "Can't delete non configurable object."
+    error_cant_access_get: "Can't access get `__name__` of that type."
+    error_base_obj_not_invokable: "Base object not invokable."
+    error_arg2_not_callable: "Arg2 not callable."
+    error_reduce_empty_array_without_init: "Reduce an empty array with no initial value."
+    error_realm_prototype_not_realm: "Realm prototype not realm."
+    error_function_tostring_not_generic: "Function.prototype.toString is not generic"
+    error_regex_on_non_regex: "Calling regex method on non regex.",
+    error_call_string_on_null: "called String function on null or undefined?"
+    error_wrong_type: "Wrong Type."
+    error_replace_callback_not_written: "Replace with callbacks not written yet"
+    error_right_hand_side_not_callable: "Right-hand side of `__name__` is not callable"
+    error_segmentation_fault: "Segmentation Fault `__offset__`."
+    error_no_arg_to_reference: "No argument to reference."
+    error_unimplemented_property: "Unimplemented property type."
+    error_unimplemented: "Unimplemented."
+    error_cant_call_reference: "Can't call reference like that."
+    error_no_arg_to_dereference: "No argument to dereference."
+    error_try_dereference_non: "Tried to dereference non pointer."
+    error_no_arg_to_alloc: "No argument to alloc."
 
   apcsp:
     title: 'AP Computer Science Principals | College Board Endorsed'
