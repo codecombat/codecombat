@@ -213,6 +213,8 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
       s = s.replace /\ var /g, ' auto '
       s = s.replace /\(var /g, '(auto '
       s = s.replace /\nvar /g, '\nauto '
+      s = s.repalce /\ const /g, ' const auto '
+      s = s.repalce /\nconst /g, '\nconst auto '
       s = s.replace /\ return \[([^;]*)\];/g, ' return {$1};'
 
     # TODO: figure out how we are going to call other methods in Java
