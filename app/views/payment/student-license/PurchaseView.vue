@@ -27,7 +27,7 @@
     </div>
     <div class="tecmilenio" v-if="isTecmilenioPartner">
       <div class="form-group">
-        <label for="parentEmail">Correo electrónico de los padres</label>
+        <label for="parentEmail">Correo electrónico del padre, madre o tutor</label>
         <input type="email" class="form-control" id="parentEmail" v-model="parentEmail" required>
       </div>
       <div class="form-group">
@@ -38,7 +38,7 @@
         >
       </div>
       <div class="form-group">
-        <label for="studentName">Nombre del alumno</label>
+        <label for="studentName">Matrícula del alumno</label>
         <input type="text" class="form-control" id="studentName"
           v-model="studentName" required>
       </div>
