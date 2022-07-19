@@ -6,11 +6,11 @@
       </div>
     </div>
     <div class="col-md-3 info-data">
-      <h2 class="info-title">CodeCombat</h2>
+      <h2 class="info-title">{{ isTecmilenioPartner ? 'Acceso ' : '' }}CodeCombat</h2>
       <ul class="info-list" v-if="isTecmilenioPartner">
-        <li>la informática</li>
-        <li>desarrollo web</li>
-        <li>desarrollo de juegos</li>
+        <li>La informática</li>
+        <li>Desarrollo web</li>
+        <li>Desarrollo de juegos</li>
       </ul>
       <ul class="info-list" v-else>
         <li>Computer Science 1-6</li>
