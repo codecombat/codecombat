@@ -232,7 +232,7 @@ class SpeechBubble {
           targets: `#${this.id} .letter`,
           opacity: 1,
           duration: 20,
-          delay: anime.stagger(textDuration / letters, { easing: 'linear' }),
+          delay: anime.stagger(textDuration / (letters * 2), { easing: 'linear' }),
           easing: 'easeOutQuad'
         })
     }
