@@ -18,13 +18,17 @@
             {{ $t('library.importance_blurb') }}
           </div>
           <div class="library__sub-image col-md-6">
-            <img src="/images/pages/library/library-students.png" alt="Students in library" class="library__sub-image-img img-responsive">
+            <img src="/images/pages/library/library-students.png"
+              alt="Students in library"
+              class="library__sub-image-img img-responsive teal-border">
           </div>
         </div>
 
         <div class="row library__sub-2">
           <div class="library__sub-image col-md-6">
-            <img src="/images/pages/library/teach-real-code.png" alt="Teach real code" class="library__sub-image-img img-responsive">
+            <img src="/images/pages/library/teach-real-code.png"
+              alt="Teach real code"
+              class="library__sub-image-img img-responsive teal-border">
           </div>
           <div class="library__sub-text col-md-6">
             {{ $t("library.games_teach_blurb") }}
@@ -47,13 +51,15 @@
             </div>
           </div>
           <div class="col-md-6 library__needs__info-img">
-            <img src="/images/pages/library/kids-in-library.jpeg" alt="Students with computer" class="img-responsive">
+            <img src="/images/pages/library/kids-in-library.jpeg"
+              alt="Students with computer" class="img-responsive teal-border">
           </div>
         </div>
 
         <div class="row library__needs__info">
           <div class="col-md-6 library__needs__info-img">
-            <img src="/images/pages/library/self-paced-intuitive-5.png" alt="Self paced and intuitive" class="img-responsive">
+            <img src="/images/pages/library/self-paced-intuitive-5.png"
+              alt="Self paced and intuitive" class="img-responsive teal-border">
           </div>
           <div class="col-md-6 library__needs__info__text">
             <div class="library__needs__info__text-heading">
@@ -74,12 +80,14 @@
             </div>
           </div>
           <div class="col-md-6 library__needs__info-img">
-            <img src="/images/pages/parents/power_of_play_capstone.gif" alt="Engaging" class="img-responsive">
+            <img src="/images/pages/parents/power_of_play_capstone.gif"
+              alt="Engaging" class="img-responsive teal-border">
           </div>
         </div>
         <div class="row library__needs__info">
           <div class="col-md-6 library__needs__info-img">
-            <img src="/images/pages/library/calgary-login.png" alt="Calgary library page" class="img-responsive">
+            <img src="/images/pages/library/calgary-login.png"
+              alt="Calgary library page" class="img-responsive teal-border">
           </div>
           <div class="col-md-6 library__needs__info__text">
             <div class="library__needs__info__text-heading">
@@ -131,7 +139,8 @@
           </div>
         </div>
         <div class="library__continue">
-          <img class="img-responsive" src="/images/pages/parents/graphic_07.svg" style="margin: 0 auto; transform: translate(-47%, 0);" loading="lazy"/>
+          <img class="img-responsive"
+            src="/images/pages/parents/graphic_07.svg" style="margin: 0 auto; transform: translate(-47%, 0);" loading="lazy"/>
         </div>
         <section class="library__footer">
           <div class="library__footer-content row">
@@ -318,5 +327,11 @@ export default {
 .pixel-text {
   font-family: $pixel-headline-font;
   color: $navy;
+}
+
+.teal-border {
+  border: 10px solid $teal;
+  box-sizing: border-box;
+  border-radius: 20px;
 }
 </style>
