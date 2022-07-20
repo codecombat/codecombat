@@ -105,7 +105,6 @@ export default {
   }
 }
 
-
 .tecmilenio-heading-img {
   height: 60px;
   position: absolute;
