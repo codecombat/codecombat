@@ -24,7 +24,7 @@ module.exports = {
   },
 
   rules: {
-    'vue/script-indent': ['error', 2, {
+    'vue/script-indent': ['warn', 2, {
       baseIndent: 1,
       switchCase: 0,
       ignores: []
