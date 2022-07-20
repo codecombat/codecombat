@@ -4272,7 +4272,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     about_guest: "About Our Guest"
     all_episodes: "View All Episodes"
     no_permission: "You don't have permission to view this podcast"
-    listen_now: "Listen Now
+    listen_now: "Listen Now"
 
   library:
     enter_library_card: "Enter your Library Card Number:"
