@@ -3428,7 +3428,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     put_each_command_on: "Put each command on a separate line"
     are_you_missing_a: "Are you missing a '$1' after '$2'? "
     your_parentheses_must_match: "Your parentheses must match."
-
     error_index_empty: "Cannot read property `__name__` of `__specTypeName__`"
     error_call_non_function: "`__name__` is not a function."
     error_not_iterable: "`__var__` is not iterable."

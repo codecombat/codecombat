@@ -3428,7 +3428,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     put_each_command_on: "Put each command on a separate line"
     are_you_missing_a: "Are you missing a '$1' after '$2'? "
     your_parentheses_must_match: "Your parentheses must match."
-
     error_index_empty: "Cannot read property `__name__` of `__specTypeName__`"
     error_call_non_function: "`__name__` is not a function."
     error_not_iterable: "`__var__` is not iterable."
@@ -4130,6 +4129,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     coco_reserves: "CodeCombat reserves"
     prize_footer4_2: "the right to determine in its sole discretion if a player qualifies and will receive a prize."
     place: "Place" # as in 1st place
+    unlock_ai_league: "Unlock the full potential of the AI League."
+    esports_get_full_access: "Get Full Access"
+    unlock_content_padding: "Contact our team today to see your student's scoress, ranks, code and more!"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
