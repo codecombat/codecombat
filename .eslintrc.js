@@ -23,13 +23,7 @@ module.exports = {
     sourceType: 'module'
   },
 
-  rules: {
-    'vue/script-indent': ['warn', 2, {
-      baseIndent: 1,
-      switchCase: 0,
-      ignores: []
-    }]
-  },
+  rules: {},
 
   overrides: [
     // Disable indent in .vue files - this will be handled by vue/script-indent

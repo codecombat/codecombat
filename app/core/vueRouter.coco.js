@@ -84,6 +84,10 @@ export default function getVueRouter () {
           props: (route) => ({ ...route.query, ...route.params })
         },
         {
+          path: '/payments/tecmilenio-success',
+          component: () => import(/* webpackChunkName: "tecmilenioSuccessComponent" */'app/views/payment/student-license/TecmilenioSuccessView')
+        },
+        {
           path: '/payments/:slug',
           component: () => import(/* webpackChunkName: "paymentComponent" */'app/views/payment/PaymentComponentView'),
         },
