@@ -84,6 +84,10 @@ export default function getVueRouter () {
           props: (route) => ({ ...route.query, ...route.params })
         },
         {
+          path: '/payments/tecmilenio-success',
+          component: () => import(/* webpackChunkName: "tecmilenioSuccessComponent" */'app/views/payment/student-license/TecmilenioSuccessView')
+        },
+        {
           path: '/payments/:slug',
           component: () => import(/* webpackChunkName: "paymentComponent" */'app/views/payment/PaymentComponentView'),
         },
@@ -103,6 +107,10 @@ export default function getVueRouter () {
         {
           path: '/teachers/resources_new',
           component: () => import(/* webpackChunkName: "teachers_new" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue'),
+        },
+        {
+          path: '/libraries',
+          component: () => import(/* webpackChunkName: "libraryMain" */ 'app/views/library/LibraryMainView')
         },
         {
           path: '/library/:libraryId/login',

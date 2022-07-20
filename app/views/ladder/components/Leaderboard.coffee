@@ -19,7 +19,7 @@ module.exports = class LeaderboardView extends CocoView
   id: 'new-leaderboard-view'
   template: require('templates/play/ladder/leaderboard-view')
   VueComponent: LeaderboardComponent
-  constructor: (options, @level, @sessions) ->
+  constructor: (options, @level, @sessions, @anonymousPlayerName) ->
     { @league, @tournament } = options
     # params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
     super options
@@ -52,7 +52,7 @@ module.exports = class LeaderboardView extends CocoView
     @myRank = -1
     @playerRankings = []
     @session = null
-    @dataObj = { myRank: @myRank, rankings: @rankings, session: @session, playerRankings: @playerRankings }
+    @dataObj = { myRank: @myRank, rankings: @rankings, session: @session, playerRankings: @playerRankings, showContactUs: @anonymousPlayerName && me.isTeacher() }
 
     @refreshLadder()
 
@@ -143,7 +143,7 @@ module.exports = class LeaderboardView extends CocoView
           model.get('creator'),
           model.get('submittedCodeLanguage'),
           model.rank || index+1,
-          (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
+          if @anonymousPlayerName and me.get('_id').toString() != model.get('creator') then utils.anonymizingUser(model.get('creator')) else (model.get('fullName') || model.get('creatorName') || $.i18n.t("play.anonymous")),
           @correctScore(model),
           @getAgeBracket(model),
           moment(model.get('submitDate')).fromNow().replace('a few ', ''),

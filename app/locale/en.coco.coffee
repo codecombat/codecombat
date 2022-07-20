@@ -3544,6 +3544,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     coco_reserves: "CodeCombat reserves"
     prize_footer4_2: "the right to determine in its sole discretion if a player qualifies and will receive a prize."
     place: "Place" # as in 1st place
+    unlock_ai_league: "Unlock the full potential of the AI League."
+    esports_get_full_access: "Get Full Access"
+    unlock_content_padding: "Contact our team today to see your student's scoress, ranks, code and more!"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
@@ -3652,19 +3655,20 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     hyperx: 'HyperX'
     respawn: 'RESPAWN'
     distribution_title: 'International Distribution:'
-    distribution_blurb: 'Our programs have served students in over 190 countries and our content is translated into over __forty_languages__. While the US and China are markets where we sell directly, we work closely with local Saas and EdTech distribution partners around the world to expand our reach'
+    distribution_blurb: 'Our programs have served students in over 190 countries and our content is translated into over __forty_languages__. While the US and China are markets where we sell directly, we work closely with local SaaS and EdTech distribution partners around the world to expand our reach'
     forty_languages: '40 languages'
     equity_social_title: 'Tech Equity & Social Impact:'
     equity_social_blurb: 'Not every partnership is built on the bottom line. As a mission-based organization we seek ways to give back as well. We work closely with foundations and other philanthropy partners to expand access to high-quality coding education.  '
     latin_superstar_blurb: 'Additionally, Latin superstar __eugenio_derbez__ has helped us reach the Latinx community with a partnership to engage students in this often underserved and underrepresented group.'
     reach_latinx: 'reach the Latinx community'
-    eugenio_derbez_blurb: '"It is important to me to see Latino boys and girls represented in this space," said Eugenio Derbez, "Coding is the language of the future and if we want to be a part of that future then we need to get our kids coding."'
+    eugenio_derbez_blurb: '"It is important to me to see Latino boys and girls represented in this space," said Eugenio Derbez. "Coding is the language of the future and if we want to be a part of that future then we need to get our kids coding."'
     seek_relationships_blurb: 'We seek relationships with nonprofits and community-based organizations working with groups underrepresented in computer science and technology careers. Our partnership with __seeds_of_light__ will fund CS educational opportunities for thousands of young learners.'
     seeds_of_light: 'Seeds of Light'
     corporate_team_building_title: 'Corporate Team Building'
     corporate_team_building_blurb: 'Need to engage your employees with a turnkey activity that will inspire their competitive spirit and challenge them to creatively problem solve? Work with us to build a custom competitive coding tournament that will have your team programming their own strategies while playing a game.'
     footer_blurb: 'These are just a few of the partnership structures we have successfully supported. If you would like to initiate a discussion with our business development team on any of these models or have a different partnership opportunity, please reach out today.'
     talk_with_us: 'Talk with Us'
+    our_partners: 'Our Partners'
 
   podcast:
     learning_adventure: "Where learning is always an adventure."
@@ -3693,3 +3697,31 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     access_using_id: "to access using your id!!"
     network_detected: "Library network detected, redirecting you to play CodeCombat"
     not_redirect_auto: "if redirect doesn't happen automatically"
+    engage_members: "Give your members access to the most engaging way to learn coding"
+    importance_blurb: "Libraries play an important role in advancing educational equity in their communities. Many young learners do not have access or exposure to computer science, and libraries can provide important resources to these underserved groups. That is why we are partnering with libraries across the country to provide access to our game-based learning tools and educational resources."
+    games_teach_blurb: "Our games teach real typed Python, JavaScript and C++ coding languages through the power of play. The gameplay is paired with a scaffolded curriculum to allow self-paced learners the ability to master foundational programming concepts before moving on to the more complex. Each level challenges the player to type the code necessary to advance their hero and achieve the level goal."
+    platform_built: "Our platform is built to address the specific needs of libraries and their patrons:"
+    accessible: "Accessible"
+    accessible_blurb: "A basic computer with internet access is all you need to sign-in and start playing. The content is intended for beginners with no prior coding experience."
+    self_paced_intuitive: "Self-Paced and Intuitive"
+    self_paced_intuitive_blurb: "Teachers are not required as players can dictate the pace at which they move through the curriculum. Our custom code engine and interpreter is designed for beginners, it understands the mistakes kids make and speaks to them using human, beginner-friendly terms."
+    engaging_content: "Engaging Content"
+    engaging_content_blurb: "Game-based learning drives engagement from the start but perhaps even more importantly keeps students engaged when the concepts get more challenging. In a game environment failure and success are expected and embraced as part of the play experience."
+    api_integrate: "API integration"
+    api_integrate_blurb: "Our games can be easily incorporated into your digital library interface through EZProxy or other popular systems. This structure provides instant access with the members’ existing log in and no staff is needed to manage any logistics of licensing or access."
+    privacy: "Privacy"
+    privacy_blurb: "We take user safety, cybersecurity, and data privacy seriously, following many stringent privacy regulations, like COPPA, FERPA, SOPIPA, California AB 1584, CalOPPA, Fair Information Practices, CAN-SPAM, and GDPR. These policies and protective measures have let us securely serve over twenty million users around the world."
+    privacy_policy: "our full privacy policy."
+    see: "See"
+    communication_limit: "Communication Limits"
+    communication_limit_blurb: "To ensure the security of your members, we do not offer in-game chat or other communication features between players, however we do allow members to safely share their coding projects with friends, family and the CodeCombat community. We restrict any upsell or marketing messaging to provide an uninterrupted experience for your patrons."
+    usage_stats: "Usage Stats"
+    usage_stats_blurb: "Gain insight to your members’ usage with our snapshot reporting tool. It provides access to usage stats at any time, including monthly active users, licensed days used and more valuable data points."
+    esports: "Academic Esports"
+    esports_blurb: "Our esports program offers an opportunity to further engage your members through a fun and exciting competition. The AI League allows members to showcase their understanding of coding concepts in a new environment and practice problem solving strategies as they go head to head in battle against the global community."
+    work_with_us_blurb: "Work with us to unlock the next generation of engineers, programmers and CS professionals in your community."
+    schedule_demo: "Schedule a Demo"
+    license_modal_subtitle: "Please complete this short form and one of our library specialists will reach out to provide a demo and custom pricing options!"
+    license_modal_members: "Members Needing Access"
+    license_modal_members_placeholder: "Approximately how many members will need access?"
+    license_modal_contact: "Contact Our Team"
