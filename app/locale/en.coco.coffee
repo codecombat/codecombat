@@ -3544,6 +3544,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     coco_reserves: "CodeCombat reserves"
     prize_footer4_2: "the right to determine in its sole discretion if a player qualifies and will receive a prize."
     place: "Place" # as in 1st place
+    unlock_ai_league: "Unlock the full potential of the AI League."
+    esports_get_full_access: "Get Full Access"
+    unlock_content_padding: "Contact our team today to see your student's scoress, ranks, code and more!"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
