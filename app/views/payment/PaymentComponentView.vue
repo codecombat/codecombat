@@ -6,7 +6,7 @@
       </div>
     </template>
     <template v-else-if="paymentGroup && paymentGroup.groupType ==='studentLicenses' &&
-      me && !me.anonymous">
+      me && (!me.anonymous || paymentGroup.metadata.isTecmilenioPartner)">
       <payment-student-licenses-component
         :payment-group="paymentGroup"
       />

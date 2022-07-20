@@ -3,6 +3,30 @@ slugify = _.str?.slugify ? _.string?.slugify # TODO: why _.string on client and 
 isCodeCombat = true
 isOzaria = false
 
+getAnonymizedName = (shouldAnonymize, session) ->
+  if shouldAnonymize and me.get('_id').toString() != session.get('creator')
+    anonymizingUser(session.get('creator'))
+  else
+    session.get('creatorName') or 'Anonymous'
+
+getAnonymizationStatus = (league, supermodel) ->
+  unless league and features.enableAnonymization
+    return new Promise (resolve, reject) ->
+      resolve(false)
+
+  fetchAnonymous = $.get('/esports/anonymous/' + league)
+  supermodel.trackRequest(fetchAnonymous)
+  return new Promise((resolve, reject) ->
+    fetchAnonymous.then((res) =>
+      resolve(res.anonymous)
+    ))
+
+anonymizingUser = (user) ->
+  id = user?.id ? user
+  hashString = (str) ->
+    (str.charCodeAt i for i in [0...str.length]).reduce(((hash, char) -> ((hash << 5) + hash) + char), 5381)  # hash * 33 + c
+  $.i18n.t('general.player') + ' ' + Math.abs(hashString(id)) % 10000
+
 clone = (obj) ->
   return obj if obj is null or typeof (obj) isnt 'object'
   temp = obj.constructor()
@@ -1122,6 +1146,7 @@ module.exports = {
   ageBracketsChina
   ageOfConsent
   ageToBracket
+  anonymizingUser
   arenas
   bracketToAge
   campaignIDs
@@ -1160,6 +1185,8 @@ module.exports = {
   getQueryVariables
   getSponsoredSubsAmount
   getUTCDay
+  getAnonymizationStatus
+  getAnonymizedName
   grayscale
   hexToHSL
   hourOfCodeOptions

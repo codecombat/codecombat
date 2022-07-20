@@ -183,6 +183,15 @@ class PlayLevelView extends RootView {
       'world-necessities-loaded',
       this.onWorldNecessitiesLoaded
     )
+    if(!this.courseInstanceID) {
+      // playLevelView from teacher account has no courseInstanceID
+      this.classroomAceConfig = {liveCompletion: true}
+    } else {
+      let fetchAceConfig = $.get(`/db/course_instance/${this.courseInstanceID}/classroom?project=aceConfig,members`)
+      this.supermodel.trackRequest(fetchAceConfig)
+      fetchAceConfig.then(classroom => this.classroomAceConfig = _.assign({liveCompletion: true}, classroom.aceConfig))
+    }
+
     return this.listenTo(
       this.levelLoader,
       'world-necessity-load-failed',
@@ -627,7 +636,8 @@ class PlayLevelView extends RootView {
       courseID: this.courseID,
       courseInstanceID: this.courseInstanceID,
       god: this.god,
-      capstoneStage: this.capstoneStage
+      capstoneStage: this.capstoneStage,
+      classroomAceConfig: this.classroomAceConfig
     })
     this.insertSubView(this.tome)
 
@@ -1090,7 +1100,7 @@ class PlayLevelView extends RootView {
   }
 
   onOpenOptionsModal (e) {
-    this.openModalView(new GameMenuModal({ level: this.level, session: this.session, supermodel: this.supermodel }))
+    this.openModalView(new GameMenuModal({ level: this.level, session: this.session, supermodel: this.supermodel, classroomAceConfig: this.classroomAceConfig}))
   }
 
   onWindowResize (e) {
