@@ -48,7 +48,7 @@ block content
         .col-sm-4.col-sm-offset-1
           h2(data-i18n="ozaria_home.engaging_row1_h2" style="margin-bottom: 20px;")
           p(data-i18n="ozaria_home.engaging_row1_p")
-      .row.flex-row(style="padding: 60px 0;")
+      .row.flex-row
         .col-sm-7.col-sm-push-5
           img(src="/images/ozaria/home/gifs/gameplay_1.gif" class="img-responsive" loading="lazy" style="border: 10px solid #F7D047;" alt="animation of gameplay. Hero casting illusion mist on an enemy")
         .col-sm-4.col-sm-offset-1.col-sm-pull-7
@@ -60,7 +60,7 @@ block content
         .col-sm-4.col-sm-offset-1
           h2(data-i18n="ozaria_home.engaging_row3_h2" style="margin-bottom: 20px;")
           p(data-i18n="ozaria_home.engaging_row3_p")
-      .row.flex-row(style="padding: 60px 0;")
+      .row.flex-row
         .col-sm-7.col-sm-push-5
           img(src="/images/pages/pd/pd-if-then.png" class="img-responsive" loading="lazy" style="border: 10px solid #476FB1;" alt="")
         .col-sm-4.col-sm-offset-1.col-sm-pull-7
@@ -88,7 +88,7 @@ block content
       p(data-i18n="ozaria_home.core_curriculum_p" style="margin-bottom: 40px;")
 
       .carousel-row
-        #core-curriculum-carousel.carousel.slide(data-interval=8000)
+        #core-curriculum-carousel.carousel.slide(data-interval=8000 data-ride="carousel")
           .carousel-inner
             .item.active
               .row
@@ -128,11 +128,11 @@ block content
 
 
         .control-buttons
-          button.press-engage(aria-label="Carousel Engage Item")
-          button.press-explore(aria-label="Carousel Explore Item")
-          button.press-explain(aria-label="Carousel Explain Item")
-          button.press-elaborate(aria-label="Carousel Elaborate Item")
-          button.press-evaluate(aria-label="Carousel Evaluate Item")
+          button.press-engage.active(aria-label="Carousel Engage Item" data-target="#core-curriculum-carousel" data-slide-to="0")
+          button.press-explore(aria-label="Carousel Explore Item" data-target="#core-curriculum-carousel" data-slide-to="1")
+          button.press-explain(aria-label="Carousel Explain Item" data-target="#core-curriculum-carousel" data-slide-to="2")
+          button.press-elaborate(aria-label="Carousel Elaborate Item" data-target="#core-curriculum-carousel" data-slide-to="3")
+          button.press-evaluate(aria-label="Carousel Evaluate Item" data-target="#core-curriculum-carousel" data-slide-to="4")
 
       .row.flex-row.text-center.sm-mt-50(style="padding-top:20px;")
         a.btn.btn-primary.btn-large.btn-moon(data-i18n="ozaria_home.core_curriculum_scope_sequence" data-event-action="Click: View Scope and Sequence" href="https://docs.google.com/spreadsheets/d/1S7qS2zxVccBMVNUQ0Duh6ugyQfhqopGKaSXyhCf-5UA/edit#gid=137569977" target="_blank" rel="noopener")

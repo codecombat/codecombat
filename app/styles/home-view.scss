@@ -589,33 +589,39 @@
       -webkit-appearance: none;
       background-color: unset;
     }
-    button.press-engage:hover {
+    button.press-engage.active {
       background-image: url(/images/ozaria/home/carousel/button_1_hover.svg);
     }
 
     button.press-explore {
       background-image: url(/images/ozaria/home/carousel/button_2.svg);
     }
-    button.press-explore:hover {
+    button.press-explore.active {
       background-image: url(/images/ozaria/home/carousel/button_2_hover.svg);
     }
     button.press-explain {
       background-image: url(/images/ozaria/home/carousel/button_3.svg);
     }
-    button.press-explain:hover {
+    button.press-explain.active {
       background-image: url(/images/ozaria/home/carousel/button_3_hover.svg);
     }
     button.press-elaborate {
       background-image: url(/images/ozaria/home/carousel/button_4.svg);
     }
-    button.press-elaborate:hover {
+    button.press-elaborate.active {
       background-image: url(/images/ozaria/home/carousel/button_4_hover.svg);
     }
     button.press-evaluate {
       background-image: url(/images/ozaria/home/carousel/button_5.svg);
     }
-    button.press-evaluate:hover {
+    button.press-evaluate.active {
       background-image: url(/images/ozaria/home/carousel/button_5_hover.svg);
+    }
+  }
+
+  #engaging {
+    .flex-row:nth-child(odd) {
+      padding: 100px 0;
     }
   }
 
