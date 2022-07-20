@@ -1521,7 +1521,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_new_students_imported: "No new students imported"
     error_in_importing_classrooms: "Error in importing classrooms"
     error_in_importing_students: "Error in importing students"
-    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled."    
+    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled."
 
   no_licenses_page:
     are_your_students_ready: "Are your students excited and ready to learn more?"
@@ -3994,16 +3994,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     dog: "Dog"
     hero: "Hero"
     teacher: "Teacher"
-
-  library:
-    enter_library_card: "Enter your Library Card Number:"
-    access_coco: "Access CodeCombat"
-    already_using_library_id: "Already using library id"
-    play_coco: "to play CodeCombat"
-    not_library_id: "Not your library id"
-    access_using_id: "to access using your id!!"
-    network_detected: "Library network detected, redirecting you to play CodeCombat"
-    not_redirect_auto: "if redirect doesn't happen automatically"
 
   league:
     student_register_1: "Become the next AI Champion!"
