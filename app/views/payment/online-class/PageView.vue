@@ -57,7 +57,7 @@ export default {
   data () {
     return {
       showPurchaseView: false,
-    }
+    };
   },
   props: {
     priceData: {

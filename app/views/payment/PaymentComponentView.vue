@@ -32,7 +32,7 @@ export default {
   name: "PaymentComponentView",
   components: {
     PaymentOnlineClassesView,
-    PaymentStudentLicensesComponent
+    PaymentStudentLicensesComponent,
   },
   data() {
     return {
