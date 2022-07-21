@@ -9,7 +9,8 @@ module.exports = {
     Vue: 'readonly',
     application: 'readonly',
     me: 'readonly',
-    noty: 'readonly'
+    noty: 'readonly',
+    $: 'readonly'
   },
 
   env: {
