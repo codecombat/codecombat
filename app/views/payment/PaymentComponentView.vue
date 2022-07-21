@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-    me: me.attributes
+      me: me.attributes
     }
   },
   created(){
