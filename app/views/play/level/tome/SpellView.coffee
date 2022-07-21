@@ -126,7 +126,8 @@ module.exports = class SpellView extends CocoView
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     $(@ace.container).find('.ace_gutter').on 'click', @onGutterClick
     liveCompletion = aceConfig.liveCompletion ? true
-    liveCompletion = @options.classroomAceConfig.liveCompletion && liveCompletion
+    classroomLiveCompletion = (@options.classroomAceConfig ? {liveCompletion: true}).liveCompletion
+    liveCompletion = classroomLiveCompletion && liveCompletion
     @initAutocomplete liveCompletion
 
     return if @session.get('creator') isnt me.id or @session.fake
