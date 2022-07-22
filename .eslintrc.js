@@ -10,12 +10,14 @@ module.exports = {
     Vue: 'readonly',
     application: 'readonly',
     me: 'readonly',
-    noty: 'readonly'
+    noty: 'readonly',
+    features: 'readonly'
   },
 
   env: {
     browser: true,
-    es2022: true
+    es2022: true,
+    jquery: true
   },
 
   parserOptions: {
