@@ -3604,6 +3604,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unlock_ai_league: "Unlock the full potential of the AI League."
     esports_get_full_access: "Get Full Access"
     unlock_content_padding: "Contact our team today to see your student's scoress, ranks, code and more!"
+    without_license_blurb: "Unlock the full potential of AI League. Purchase a custom tournament package to access your students’ scores, ranks, code and experience more tournament customization options. See our"
+    custom_pricing: "Custom Options and Implementation Guide"
+    more_details: "for more details."
+    contact_sales_custom: "Your custom tournament awaits. Choose the arena that you’d like to use for your custom tournament and contact your CodeCombat sales representative to confirm set up and scheduling details."
 
   tournament:
     mini_tournaments: "Mini Tournaments"
