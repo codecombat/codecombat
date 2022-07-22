@@ -32,14 +32,14 @@ export default {
   name: "PaymentComponentView",
   components: {
     PaymentOnlineClassesView,
-    PaymentStudentLicensesComponent,
+    PaymentStudentLicensesComponent
   },
   data() {
     return {
-      me: me.attributes,
-    };
+      me: me.attributes
+    }
   },
-  created() {
+  created(){
     this.$store.dispatch('paymentGroups/fetch', this.$route.params.slug);
   },
   computed: {

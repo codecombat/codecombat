@@ -8,7 +8,7 @@
     <div class="col-md-3 info-data">
       <h2 class="info-title">{{ isTecmilenioPartner ? 'Acceso ' : '' }}Ozaria</h2>
       <ul class="info-list" v-if="isTecmilenioPartner">
-          <li>Introducción integral a la informática</li>
+        <li>Introducción integral a informática</li>
       </ul>
       <ul class="info-list" v-else>
         <li>Comprehensive Introduction to Computer Science</li>
