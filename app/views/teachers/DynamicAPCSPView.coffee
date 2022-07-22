@@ -45,7 +45,7 @@ module.exports = class DynamicAPCSPView extends RootView
       )
 
   cannotAccess: ->
-    return me.isAnonymous() or !me.isTeacher() or !me.get('verifiedTeacher')
+    return false # me.isAnonymous() or !me.isTeacher() or !me.get('verifiedTeacher')
 
   afterRender: ->
     super()

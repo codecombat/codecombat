@@ -6,9 +6,9 @@
       <h3 class="ladder-head__title">{{ $t('ladder.title') }}</h3>
       <h5 class="ladder-head__subtitle">{{ $t('play.campaign_multiplayer_description') }}</h5>
     </div>
-    <div class="ladder-view" v-if="usableArenas">
+    <div class="ladder-view container" v-if="usableArenas">
       <div
-        class="arena"
+        class="arena row"
         v-for="arena in usableArenas"
       >
         <a class="arena__info" :href="`/play/ladder/${arena.slug}`">
@@ -100,6 +100,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/common/button";
 .ladder-view-v2 {
   font-size: 62.5%;
 }
@@ -107,11 +108,6 @@ export default {
 .ladder-view {
   padding: 5rem 20rem;
   color: #ffffff;
-}
-
-.btn-moon {
-  background-color: #d1b147;
-  color: #232323;
 }
 
 .ladder-head {
@@ -133,6 +129,12 @@ export default {
 
     text-decoration: none;
     color: inherit;
+
+    &:hover {
+      filter: brightness(1.2);
+      -webkit-filter: brightness(1.2);
+      box-shadow: 0 0 5px #000;
+    }
   }
 
   &:not(:last-child) {

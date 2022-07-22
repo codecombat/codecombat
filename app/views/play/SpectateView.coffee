@@ -106,6 +106,9 @@ module.exports = class SpectateLevelView extends RootView
       spectateMode: true
       team: utils.getQueryVariable('team')
     @god = new God maxAngels: 1, spectate: true
+    utils.getAnonymizationStatus(utils.getQueryVariable('league'), @supermodel).then((anonymous) =>
+      @anonymousPlayerName = anonymous
+    )
 
   getRenderData: ->
     c = super()
@@ -204,7 +207,7 @@ module.exports = class SpectateLevelView extends RootView
     goldInDuelStatsView = @level.get('slug') in ['wakka-maul', 'cross-bones']
     @insertSubView new GoldView {} unless goldInDuelStatsView
     @insertSubView new HUDView {level: @level}
-    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isLadder()
+    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, anonymous: @anonymousPlayerName, showsGold: goldInDuelStatsView if @level.isLadder()
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, spectateGame: true}
 
   # callbacks
@@ -230,7 +233,7 @@ module.exports = class SpectateLevelView extends RootView
   findPlayerNames: ->
     playerNames = {}
     for session in [@session, @otherSession] when session?.get('team')
-      playerNames[session.get('team')] = session.get('creatorName') or 'Anonymous'
+      playerNames[session.get('team')] = utils.getAnonymizedName(@anonymousPlayerName, session)
     playerNames
 
   initGoalManager: ->

@@ -21,11 +21,6 @@ module.exports = class HomeView extends RootView
     'click .try-chapter-1': 'onClickGenericTryChapter1'
     'click .contact-us': 'onClickContactModal'
     'click a': 'onClickAnchor'
-    'click button.press-engage': ()->@onCarouselDirectMove(0)
-    'click button.press-explore': ()->@onCarouselDirectMove(1)
-    'click button.press-explain': ()->@onCarouselDirectMove(2)
-    'click button.press-elaborate': ()->@onCarouselDirectMove(3)
-    'click button.press-evaluate': ()->@onCarouselDirectMove(4)
 
   getRenderData: (context={}) ->
     context = super context
@@ -110,6 +105,13 @@ module.exports = class HomeView extends RootView
         @openModalView(new CreateAccountModal({startOnPath: 'student'}))
       if document.location.hash is '#create-account-teacher'
         @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
+
+    window.addEventListener 'load', ->
+      $('#core-curriculum-carousel').data('bs.carousel').$element.on 'slid.bs.carousel', (event) ->
+        nextActiveSlide = $(event.relatedTarget).index()
+        $buttons = $('.control-buttons > button')
+        $buttons.removeClass 'active'
+        $('[data-slide-to=\'' + nextActiveSlide + '\']').addClass('active')
     super()
 
   afterInsert: ->

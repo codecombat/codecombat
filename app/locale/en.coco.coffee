@@ -98,6 +98,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     top_banner_summer_camp: "Enrollment now open for our summer coding camps–ask us about our week-long virtual sessions starting at just $199."
     top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
+    top_banner_blurb_podcast: "NEW: Explore the world of EdTech with our new podcast EdTech Adventures."
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -265,6 +266,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     admin: "Admin"
     api_dashboard: "API Dashboard"
     funding_resources_guide: "Funding Resources Guide"
+    partnerships: "Partnerships"
+    podcast: "Our Podcast"
 
   modal:
     close: "Close"
@@ -523,7 +526,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     eu_confirmation_place_of_processing: "Learn more about the possible risks"
     eu_confirmation_student: "If you are not sure, ask your teacher."
     eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
-    password_requirements: "8 to 64 characters with no repeating"
+    password_requirements: "4 to 64 characters with no repeating"
     invalid: "Invalid"
     invalid_password: "Invalid password"
     with: "with"
@@ -1212,7 +1215,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     editor_config_indentguides_description: "Displays vertical lines to see indentation better."
     editor_config_behaviors_label: "Smart Behaviors"
     editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
-    editor_config_livecompletion_disabled_by_teacher: "Your teacher already disable your live completion."
+    editor_config_livecompletion_disabled_by_teacher: "Your teacher has disabled your autocomplete."
 
   about:
     title: "About CodeCombat - Engaging Students, Empowering Teachers, Inspiring Creation"
@@ -1235,6 +1238,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     scsm_title: "Senior Customer Success Manager"
     ae_title: "Account Executive"
     sae_title: "Senior Account Executive"
+    sgd_title: "Senior Game Developer"
+    dois_title: "Director of Inside Sales"
     sism_title: "Senior Inside Sales Manager"
     shan_title: "Head of Marketing, CodeCombat Greater China"
     run_title: "Head of Operations, CodeCombat Greater China"
@@ -1250,7 +1255,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     pvd_title: "Product and Visual Designer"
     spvd_title: "Senior Product and Visual Designer"
     daniela_title: "Marketing Manager"
-    bobby_title: "Game Designer"
+    bobby_title: "Senior Game Designer"
     brian_title: "Senior Game Design Manager"
     stephanie_title: "Customer Support Specialist"
     sdr_title: "Sales Development Representative"
@@ -1262,6 +1267,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ac_title: "Administrative Coordinator"
     ea_title: "Executive Assistant"
     om_title: "Operations Manager"
+    som_title: "Senior Operations Manager"
+    pe_title: "Principal Engineer"
     mo_title: "Manager, Operations"
     smo_title: "Senior Manager, Operations"
     do_title: "Director of Operations"
@@ -1323,7 +1330,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   teachers:
     licenses_needed: "Licenses needed"
     programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students."
-    classroom_live_completion: "Enable Live Completion in this classroom or not. Disable: Overwrites students' config. Enable: Allows students configure by themselves."
+    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled."
 
   special_offer:
     special_offer: "Special Offer"
@@ -1817,7 +1824,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     view_winners: "View Winners"
     classroom_announcement: "Classroom Announcement"
     link_lms_classroom: "Link LMS Classroom"
-    classroom_live_completion: "Classroom Live Completion"
+    classroom_live_completion: "Classroom Code Autocomplete: "
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
@@ -2305,6 +2312,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     achievement_title: "Achievement Editor"
     poll_title: "Poll Editor"
     resource_title: "Resource Editor"
+    resource_title_general: "__resource__ Editor"
     back: "Back"
     revert: "Revert"
     revert_models: "Revert Models"
@@ -2356,6 +2364,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_system_edit_title: "Edit System"
     course_edit_title: "Edit Course"
     resource_edit_title: "Edit Resource"
+    resource_edit_title_general: "Edit __resource__"
     create_system_title: "Create New System"
     new_component_title: "Create New Component"
     new_component_field_system: "System"
@@ -2731,6 +2740,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     teacher_location_3: 'Alameda, CA'
     spotlight_3: 'Susan Jones-Szabo promotes an equitable atmosphere in her class where everyone can find success in their own way. Mistakes and struggles are welcomed because everyone learns from a challenge, even the teacher.'
     continue_reading_blog: 'Continue Reading on Blog...'
+    ozaria_impact_title: 'Positive Impacts with Ozaria'
+    ozaria_impact_blurb: 'CodeCombat\'s sister curriculum, Ozaria, has proven to have a positive impact on the student learning outcomes that matter most to both students and educators.'
+    ozaria_impact_learn_more: 'Learn more about Ozaria\'s curriculum efficacy here.'
 
   loading_error:
     could_not_load: "Error loading from server. Try refreshing the page."
@@ -2743,6 +2755,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     forbidden_desc: "Oh no, there’s nothing we can show you here! Make sure you’re logged into the correct account, or visit one of the links below to get back to programming!"
     user_not_found: "User Not Found"
     not_found: "Not Found"
+    resource_not_found: "404 __resource__ Not Found"
     not_found_desc: "Hm, there’s nothing here. Visit one of the following links to get back to programming!"
     not_allowed: "Method not allowed."
     timeout: "Server Timeout"
@@ -3083,6 +3096,51 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     are_you_missing_a: "Are you missing a '$1' after '$2'? "
     your_parentheses_must_match: "Your parentheses must match."
 
+    error_index_empty: "Cannot read property `__name__` of `__specTypeName__`"
+    error_call_non_function: "`__name__` is not a function."
+    error_not_iterable: "`__var__` is not iterable."
+    error_assignment_invalid: "Invalid reference in assignment."
+    error_invalid_array_length: "Invalid array length."
+    error_didnt_make_generator: "`__name__` didn't make a generator."
+    error_undefined_variable: "`__name__` is not defined."
+    error_declared_identifier: "Identifier `__name__` has already been declared."
+    error_declarations_cant_resolve: "Couldn't resolve declarations component: `__type__`."
+    error_strict_no_statement: "Strict mode code may not include a with statement."
+    error_cant_resolve_ref_component: "Couldn't resolve ref component: `__type__`."
+    error_cant_convert_null: "Cannot convert undefined or null to object."
+    error_need_object: "Need an object."
+    error_illegal_object_prototype: "Object prototype may only be an Object or null."
+    error_no_prototype: "No prototype."
+    error_cant_write_property_to_undefined: "Can't write property of undefined: `__idx__`."
+    error_cant_write_property_to_non_obj: "Can't write property of non-object type: `__idx__`."
+    error_function_isnt_constructor: "function is not a constructor"
+    error_write_protected_property: "Can't write to protected property: `__name__`"
+    error_read_protected_property: "Can't read protected property: `__name__`"
+    error_convert_value_failed: "Cannot convert `__orig__` value to `__new__` value."
+    error_convert_object_to_primitive: "Cannot convert object to primitive value."
+    error_first_argument_to_be_function: "First argument to `__fun__` must be a function."
+    error_write_non_writable: "Can't write to non-writable value."
+    error_delete_nonconfigurable_object: "Can't delete non configurable object."
+    error_cant_access_get: "Can't access get `__name__` of that type."
+    error_base_obj_not_invokable: "Base object not invokable."
+    error_arg2_not_callable: "Arg2 not callable."
+    error_reduce_empty_array_without_init: "Reduce an empty array with no initial value."
+    error_realm_prototype_not_realm: "Realm prototype not realm."
+    error_function_tostring_not_generic: "Function.prototype.toString is not generic"
+    error_regex_on_non_regex: "Calling regex method on non regex.",
+    error_call_string_on_null: "called String function on null or undefined?"
+    error_wrong_type: "Wrong Type."
+    error_replace_callback_not_written: "Replace with callbacks not written yet"
+    error_right_hand_side_not_callable: "Right-hand side of `__name__` is not callable"
+    error_segmentation_fault: "Segmentation Fault `__offset__`."
+    error_no_arg_to_reference: "No argument to reference."
+    error_unimplemented_property: "Unimplemented property type."
+    error_unimplemented: "Unimplemented."
+    error_cant_call_reference: "Can't call reference like that."
+    error_no_arg_to_dereference: "No argument to dereference."
+    error_try_dereference_non: "Tried to dereference non pointer."
+    error_no_arg_to_alloc: "No argument to alloc."
+
   apcsp:
     title: 'AP Computer Science Principals | College Board Endorsed'
     meta_description: 'CodeCombat’s comprehensive curriculum and professional development program are all you need to offer College Board’s newest computer science course to your students.'
@@ -3380,6 +3438,60 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     reach_out_manager: "Reach out to your Account Manager __name__ at "
     stats_include: "stats include __number__ other __name__"
 
+  efficacy:
+    ozaria_efficacy: "Ozaria Efficacy"
+    header_subtitle: "Ozaria has proven to have a positive impact on the student learning outcomes that matter most to both students and educators."
+    pathway_dialog_line1: "while True:"
+    pathway_dialog_line2: "hero.moveDown(1)"
+    pathway_dialog_line3: "hero.moveRight(2)"
+    exploring_creativity: "Exploring Creativity"
+    exploring_creativity_description: "Almost all students surveyed said they really enjoyed being able to create their own game at the end of each Chapter."
+    essential_skills: "Essential Skills"
+    essential_skills_description: "Teachers found Ozaria to be a superior curriculum for teaching complex coding concepts as well as essential 21st century skills, such as problem solving and reasoning, critical and computational thinking skills."
+    fun_engaging: "Fun & Engaging"
+    fun_engaging_description: "Ozaria was reported to be a fun and engaging curriculum. Students especially noted how effective it was in teaching text-based coding, and how the tutorials, hints, and error messages provided the appropriate amount of support."
+    easy_to_use: "Easy to Use"
+    easy_to_use_description: "Both teacher and students found the platform easy to implement and use."
+    mcintosh_study_title: "Increasing Score Gains on Assessments"
+    mcintosh_middle_school: "McIntosh Middle School"
+    mcintosh_study_description: "A novice teacher with advanced level coding experience taught three cohorts of students. Each cohort was studied across a full semester."
+    study_highlights_title: "Highlights from the study results:"
+    mcintosh_study_highlight_1: "98% of students rated their level of enthusiasm for Ozaria as high or extremely high"
+    mcintosh_study_highlight_2: "100% of students scored above 70% on both the mid-term and final assessments"
+    read_the_study: "Read the Study (PDF)"
+    mrms_study_title: "Gaining Confidence in Computer Science"
+    mountain_ridge_middle_school: "Mountain Ridge Middle School"
+    mrms_study_description: "An experienced teacher with beginning level coding experience taught two cohorts of students. Each cohort was studied across a full semester."
+    study_highlights_title: "Highlights from the study results:"
+    mrms_study_highlight_1: "Students made an average gain score of 33% between the pre-assessment and the final assessment"
+    mrms_study_highlight_2: " Both the teacher and students found Ozaria to be fun, engaging, and easy to use."
+    read_the_study: "Read the Study (PDF)"
+    graph1_description: "Students made a 47% average gain score between the pre-assessment and the final assessment."
+    graph2_description: "More than 90% of students rated their coding confidence level as Confident or Extremely Confident after using Ozaria."
+    quote_section_content: "One thing I am able to do now that I could not do before is actually believe I can code."
+    quote_section_footer: "Student, Mountain Ridge Middle School"
+    teacher_quote1_content: "The curriculum had students thoroughly engaged. They enjoyed the story and the characters. More importantly, they gained confidence in their ability to solve complex problems with concepts they'd learned in Ozaria."
+    teacher_quote1_footer1: "Ronnie Cox, Teacher"
+    teacher_quote1_footer2: "McIntosh Middle School"
+    student_quote_content: "I like that you can make a mistake and the game corrects it or tells you that there's an error. A lot of beginners make a lot of mistakes when coding and sometimes don't know how to code, so they can't correct their mistakes because they don't know what's wrong. Ozaria is the perfect coding game for beginners."
+    student_quote_footer: "Student, McIntosh Middle School"
+    teacher_quote2_content: "I have absolutely loved using Ozaria in my class for the past three years. My students have thoroughly enjoyed the storyline as they learned Python in a self-paced learning environment. I would highly recommend Ozaria for teachers that know little to nothing about coding, as the support for teachers is very in-depth."
+    teacher_quote2_footer1: "Lynette Personett, Teacher"
+    teacher_quote2_footer2: "Mountain Ridge Middle School"
+    commitment_title: "CodeCombat’s Commitment to Efficacy"
+    commitment_description: "We are committed to ensuring our products have a positive and measurable impact on learning outcomes. We create meaningful learning experiences, and use evidence-based practices to design content that will realize the outcomes that matter the most to teachers and students."
+    commitment_question: "Interested in implementing an effective and impactful CS curriculum at your school?"
+    teachers_love_codecombat: "Teachers Love CodeCombat"
+    teachers_love_description: "Explore the impact of our sister product, CodeCombat, on Computer Science teaching & learning!"
+    teachers_love_box1: "Report that their students enjoy using CodeCombat to learn how to code"
+    teachers_love_box2: "Would recommend CodeCombat to other computer science teachers"
+    teachers_love_box3: "Say that CodeCombat helps them support students’ problem solving abilities"
+    classroom_image: "Classroom"
+    ozaria_branding_logo: "Ozaria branding logo"
+    dog: "Dog"
+    hero: "Hero"
+    teacher: "Teacher"
+
   league:
     student_register_1: "Become the next AI Champion!"
     student_register_2: "Sign up, create your own team, or join other teams to start competing."
@@ -3515,6 +3627,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     coco_reserves: "CodeCombat reserves"
     prize_footer4_2: "the right to determine in its sole discretion if a player qualifies and will receive a prize."
     place: "Place" # as in 1st place
+    unlock_ai_league: "Unlock the full potential of the AI League."
+    esports_get_full_access: "Get Full Access"
+    unlock_content_padding: "Contact our team today to see your student's scoress, ranks, code and more!"
 
   tournament:
     mini_tournaments: "Mini Tournaments"
@@ -3587,6 +3702,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     chap3_info: "Chapter 3: 25 class sessions"
     chap4_info: "Chapter 4: 20 class sessions"
     includes: "Includes"
+    show_plan_features: "Show Plan Features"
+    purchase_annually: "Available for purchase one time annually."
+    class_school_solution: "We'll help you build a solution that meets the needs of your class, school or district."
+    bulk: "Bulk"
+    discounts: "discounts"
+    available: "available"
+    request_quote: "Request a Quote"
 
   form_validation_errors:
     required: 'Field is required'
@@ -3609,3 +3731,84 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     share: 'Share'
     add: 'Add'
     note: 'Note'
+
+  partners:
+    headline: 'Join us in our mission to make coding engaging and accessible to all'
+    below_headline_blurb: 'At CodeCombat we’ve developed comprehensive tools that make learning to code fun and teaching programming easy. Our turnkey solutions can be leveraged in many executions.'
+    coding_title: 'Coding & STEAM Education Businesses:'
+    coding_blurb: 'Valued partners like Code Ninjas and IDEA Lab Kids use our game to teach real Python and JavaScript coding to students in their franchise locations. We offer an easy to use program, implementation resources and training options to ensure an amazing student experience.'
+    esports_title: 'Educational Esports Sponsors:'
+    esports_blurb: 'We are reinventing what an esport can be while engaging thousands of students to learn to code. Endemic esports mainstay __hyperx__ supported the CodeCombat AI League from its inaugural season, building compelling promotional programs around this unique esport.'
+    hyperx: 'HyperX'
+    respawn: 'RESPAWN'
+    distribution_title: 'International Distribution:'
+    distribution_blurb: 'Our programs have served students in over 190 countries and our content is translated into over __forty_languages__. While the US and China are markets where we sell directly, we work closely with local SaaS and EdTech distribution partners around the world to expand our reach'
+    forty_languages: '40 languages'
+    equity_social_title: 'Tech Equity & Social Impact:'
+    equity_social_blurb: 'Not every partnership is built on the bottom line. As a mission-based organization we seek ways to give back as well. We work closely with foundations and other philanthropy partners to expand access to high-quality coding education.  '
+    latin_superstar_blurb: 'Additionally, Latin superstar __eugenio_derbez__ has helped us reach the Latinx community with a partnership to engage students in this often underserved and underrepresented group.'
+    reach_latinx: 'reach the Latinx community'
+    eugenio_derbez_blurb: '"It is important to me to see Latino boys and girls represented in this space," said Eugenio Derbez. "Coding is the language of the future and if we want to be a part of that future then we need to get our kids coding."'
+    seek_relationships_blurb: 'We seek relationships with nonprofits and community-based organizations working with groups underrepresented in computer science and technology careers. Our partnership with __seeds_of_light__ will fund CS educational opportunities for thousands of young learners.'
+    seeds_of_light: 'Seeds of Light'
+    corporate_team_building_title: 'Corporate Team Building'
+    corporate_team_building_blurb: 'Need to engage your employees with a turnkey activity that will inspire their competitive spirit and challenge them to creatively problem solve? Work with us to build a custom competitive coding tournament that will have your team programming their own strategies while playing a game.'
+    footer_blurb: 'These are just a few of the partnership structures we have successfully supported. If you would like to initiate a discussion with our business development team on any of these models or have a different partnership opportunity, please reach out today.'
+    talk_with_us: 'Talk with Us'
+    our_partners: 'Our Partners'
+
+  podcast:
+    learning_adventure: "Where learning is always an adventure."
+    explores_stem: "Our podcast explores the role of technology, STEM, and creative play in education. With expert guests, we discover how learning is always an adventure."
+    listen: "Listen"
+    download: "Download"
+    transcript: "Transcript"
+    learn_more_coco: "Want to learn more about CodeCombat coding experiences?"
+    subscribe: "Subscribe"
+    explore_coco: "Explore CodeCombat"
+    interested_in_being_guest: "Interested in being a guest on EdTech Adventures?"
+    lets_chat: "Let's Chat"
+    air_date: "Air date" # upload date
+    play_episode: "Play Episode"
+    about_guest: "About Our Guest"
+    all_episodes: "View All Episodes"
+    no_permission: "You don't have permission to view this podcast"
+    listen_now: "Listen Now"
+
+  library:
+    enter_library_card: "Enter your Library Card Number:"
+    access_coco: "Access CodeCombat"
+    already_using_library_id: "Already using library id"
+    play_coco: "to play CodeCombat"
+    not_library_id: "Not your library id"
+    access_using_id: "to access using your id!!"
+    network_detected: "Library network detected, redirecting you to play CodeCombat"
+    not_redirect_auto: "if redirect doesn't happen automatically"
+    engage_members: "Give your members access to the most engaging way to learn coding"
+    importance_blurb: "Libraries play an important role in advancing educational equity in their communities. Many young learners do not have access or exposure to computer science, and libraries can provide important resources to these underserved groups. That is why we are partnering with libraries across the country to provide access to our game-based learning tools and educational resources."
+    games_teach_blurb: "Our games teach real typed Python, JavaScript and C++ coding languages through the power of play. The gameplay is paired with a scaffolded curriculum to allow self-paced learners the ability to master foundational programming concepts before moving on to the more complex. Each level challenges the player to type the code necessary to advance their hero and achieve the level goal."
+    platform_built: "Our platform is built to address the specific needs of libraries and their patrons:"
+    accessible: "Accessible"
+    accessible_blurb: "A basic computer with internet access is all you need to sign-in and start playing. The content is intended for beginners with no prior coding experience."
+    self_paced_intuitive: "Self-Paced and Intuitive"
+    self_paced_intuitive_blurb: "Teachers are not required as players can dictate the pace at which they move through the curriculum. Our custom code engine and interpreter is designed for beginners, it understands the mistakes kids make and speaks to them using human, beginner-friendly terms."
+    engaging_content: "Engaging Content"
+    engaging_content_blurb: "Game-based learning drives engagement from the start but perhaps even more importantly keeps students engaged when the concepts get more challenging. In a game environment failure and success are expected and embraced as part of the play experience."
+    api_integrate: "API integration"
+    api_integrate_blurb: "Our games can be easily incorporated into your digital library interface through EZProxy or other popular systems. This structure provides instant access with the members’ existing log in and no staff is needed to manage any logistics of licensing or access."
+    privacy: "Privacy"
+    privacy_blurb: "We take user safety, cybersecurity, and data privacy seriously, following many stringent privacy regulations, like COPPA, FERPA, SOPIPA, California AB 1584, CalOPPA, Fair Information Practices, CAN-SPAM, and GDPR. These policies and protective measures have let us securely serve over twenty million users around the world."
+    privacy_policy: "our full privacy policy."
+    see: "See"
+    communication_limit: "Communication Limits"
+    communication_limit_blurb: "To ensure the security of your members, we do not offer in-game chat or other communication features between players, however we do allow members to safely share their coding projects with friends, family and the CodeCombat community. We restrict any upsell or marketing messaging to provide an uninterrupted experience for your patrons."
+    usage_stats: "Usage Stats"
+    usage_stats_blurb: "Gain insight to your members’ usage with our snapshot reporting tool. It provides access to usage stats at any time, including monthly active users, licensed days used and more valuable data points."
+    esports: "Academic Esports"
+    esports_blurb: "Our esports program offers an opportunity to further engage your members through a fun and exciting competition. The AI League allows members to showcase their understanding of coding concepts in a new environment and practice problem solving strategies as they go head to head in battle against the global community."
+    work_with_us_blurb: "Work with us to unlock the next generation of engineers, programmers and CS professionals in your community."
+    schedule_demo: "Schedule a Demo"
+    license_modal_subtitle: "Please complete this short form and one of our library specialists will reach out to provide a demo and custom pricing options!"
+    license_modal_members: "Members Needing Access"
+    license_modal_members_placeholder: "Approximately how many members will need access?"
+    license_modal_contact: "Contact Our Team"

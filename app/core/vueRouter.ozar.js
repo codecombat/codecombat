@@ -110,6 +110,25 @@ export default function getVueRouter () {
           path: '/efficacy',
           component: () => import(/* webpackChunkName: "efficacy" */ 'app/views/efficacy/EfficacyView.vue')
         },
+        {
+          path: '/libraries',
+          component: () => import(/* webpackChunkName: "libraryMain" */ 'app/views/library/LibraryMainView')
+        },
+        {
+          path: '/library/:libraryId/login',
+          component: () => import(/* webpackChunkName: "libraryLogin" */ 'app/views/library/LibraryLoginView'),
+          props: (route) => ({ ...route.query, ...route.params })
+        },
+        {
+          path: '/podcast',
+          name: 'AllPodcasts',
+          component: () => import(/* webpackChunkName: "podcastMain" */'/app/views/podcast/PodcastHomeView')
+        },
+        {
+          path: '/podcast/:handle',
+          name: 'PodcastSingle',
+          component: () => import(/* webpackChunkName: "podcastSingle" */'/app/views/podcast/SinglePodcastView')
+        }
       ]
     })
 

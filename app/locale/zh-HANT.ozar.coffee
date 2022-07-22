@@ -2067,6 +2067,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    pacing_guides_high: "High School Pacing Guide"
     getting_started: "開始吧"
 #    student_resources: "Student Resources"
+#    curriculum: "Curriculum"
 #    lesson_slides: "Lesson Slides"
 #    section: "Section"
     educator_faq: "教育者常見問題"
@@ -3495,3 +3496,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    dog: "Dog"
 #    hero: "Hero"
 #    teacher: "Teacher"
+
+#  library:
+#    enter_library_card: "Enter your Library Card Number:"
+#    access_coco: "Access CodeCombat"
+#    already_using_library_id: "Already using library id"
+#    play_coco: "to play CodeCombat"
+#    not_library_id: "Not your library id"
+#    access_using_id: "to access using your id!!"

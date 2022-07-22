@@ -161,6 +161,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/resource': go('editor/resource/ResourceSearchView')
     'editor/resource/:resourceID': go('editor/resource/ResourceEditView')
     'editor/archived-elements': go('core/SingletonAppVueComponentView')
+    'editor/podcast': go('editor/podcast/PodcastSearchView')
+    'editor/podcast/:podcastId': go('editor/podcast/PodcastEditView')
 
     'etc': redirect('/teachers/demo')
     'demo': redirect('/teachers/demo')
@@ -336,6 +338,12 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
     'user/:userID/opt-in/:verificationCode': go('user/UserOptInView')
+
+    'podcast': go('core/SingletonAppVueComponentView')
+    'podcast/*path': go('core/SingletonAppVueComponentView')
+
+    'libraries': go('core/SingletonAppVueComponentView')
+    'library/*path': go('core/SingletonAppVueComponentView')
 
     '*name/': 'removeTrailingSlash'
     '*name': go('NotFoundView')
