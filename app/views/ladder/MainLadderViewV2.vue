@@ -37,8 +37,9 @@
     </div>
     <div class="ladder-view container" v-if="usableArenas">
       <div
-        class="arena row"
         v-for="arena in usableArenas"
+        :key="arena.slug"
+        class="arena row"
       >
         <a class="arena__info" :href="`/play/ladder/${arena.slug}`">
           <img :src="arena.image" :alt="arena.name" class="arena__image">
@@ -80,26 +81,26 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'MainLadderViewV2',
-  async created() {
-    await this.fetchUsableArenas()
-  },
-  updated() {
-    try {
-      $('#flying-focus').css({top: 0, left: 0}) // because it creates empty space on bottom of page when coming from /league page
-    } catch (err) {
-      console.log('flying-focus error deleting', err)
-    }
-  },
   computed: {
     ...mapGetters({
       usableArenas: 'seasonalLeague/usableArenas'
     }),
     canUseArenaHelpers () {
       return me.isAdmin()
+    }
+  },
+  async created () {
+    await this.fetchUsableArenas()
+  },
+  updated () {
+    try {
+      $('#flying-focus').css({ top: 0, left: 0 }) // because it creates empty space on bottom of page when coming from /league page
+    } catch (err) {
+      console.log('flying-focus error deleting', err)
     }
   },
   methods: {
@@ -124,7 +125,7 @@ export default {
     difficultyStars (difficulty) {
       return Array(difficulty).fill().map(i => '★').join('')
     },
-    hasActiveAiLeagueProduct() {
+    hasActiveAiLeagueProduct () {
       return me.hasAiLeagueActiveProduct()
     }
   }

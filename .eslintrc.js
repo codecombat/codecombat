@@ -15,7 +15,8 @@ module.exports = {
 
   env: {
     browser: true,
-    es2022: true
+    es2022: true,
+    jquery: true
   },
 
   parserOptions: {
