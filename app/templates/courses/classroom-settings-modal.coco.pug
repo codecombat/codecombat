@@ -75,16 +75,7 @@ block modal-body-content
         if view.enableCpp
           option(value="cpp") C++
   
-    .form-group
-      label(data-i18n="courses.classroom_live_completion") live completion
-      - var aceConfig = view.classroom.get('aceConfig') || {}
-      - var liveCompletion = aceConfig.liveCompletion
-      if liveCompletion === undefined
-        - liveCompletion = true
-      input#liveCompletion(name="liveCompletion" checked=liveCompletion type='checkbox')
-      .help-block.small.text-navy(data-i18n="teachers.classroom_live_completion")
-
-      .form-group.hide
+    .form-group.hide
       // We don't show this any more, as we didn't do anything with the data anyway
       label
         span(data-i18n="courses.avg_student_exp_label")
@@ -148,7 +139,7 @@ block modal-body-content
             option(value=">75")= '>75'
           .help-block.small.text-navy.m-l-1.minutes-per-class-help(data-i18n="courses.minutes_per_class")
  
-    .form-group.checkbox
+    .form-group
       label
         span(data-i18n="courses.classroom_live_completion")
       - var aceConfig = _.assign({liveCompletion: true},  view.classroom.get('aceConfig'))
