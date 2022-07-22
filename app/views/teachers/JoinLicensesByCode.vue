@@ -9,7 +9,7 @@
     },
     methods: {
       post () {
-        fetchJson('/db/prepaids/-/join-by-code', {
+        fetchJson('/db/prepaids/-/join-by-codes', {
           method: 'POST',
           json: this.$route.query
         }).then((res) => {
@@ -30,7 +30,7 @@
           }
         })
       }
-    }
+    },
     mounted () {
       if(this.$route.query.codes) {
         this.post()
