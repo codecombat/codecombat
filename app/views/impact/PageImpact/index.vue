@@ -179,13 +179,25 @@
       .col-lg-12
         a.btn.btn-primary.btn-lg(href="/teachers/quote") {{ $t('general.contact_us') }}
 
+  .row.row-dark#ozaria-efficacy
+    .row.width-container
+      .col-md-12
+        h2.text-gold.text-center {{ $t('impact.ozaria_impact_title') }}
+        h3.text-h3.text-center.text-white
+          | {{ $t('impact.ozaria_impact_blurb') }}
+          a(href="https://ozaria.com/efficacy" target="_blank") &nbsp; {{ $t('impact.ozaria_impact_learn_more') }}
+      .col-md-12
+        ozaria-stats(framed=true)
+
 </template>
 
 <script>
 import BaseSchoolFacts from './BaseSchoolFacts'
+import OzariaStats from 'app/views/efficacy/OzariaStats'
 export default Vue.extend({
   components: {
-    'base-school-facts': BaseSchoolFacts
+    'base-school-facts': BaseSchoolFacts,
+    'ozaria-stats': OzariaStats
   }
 })
 </script>
@@ -580,7 +592,7 @@ p, .text-p {
 #global {
   &.row {
     padding-top: 0;
-    padding-bottom: 12px;
+    padding-bottom: 62px;
   }
   .row {
     padding: 62px 15px 0;
@@ -603,4 +615,25 @@ p, .text-p {
   }
 }
 
+#ozaria-efficacy {
+  padding-bottom: 50px;
+  ::v-deep #ozaria-stats {
+    margin-top: 0;
+  }
+  .text-h3 {
+    font-size: 22px;
+    margin: 0 80px;
+    a {
+      color: $teal;
+    }
+  }
+
+}
+
+</style>
+
+<style lang='scss'>
+  .style-flat #footer {
+    margin-top: 0;
+  }
 </style>
