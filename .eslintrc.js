@@ -1,9 +1,12 @@
 module.exports = {
-  plugins: ['@babel'],
+  plugins: [
+    '@babel'
+  ],
   extends: [
     'standard',
     'plugin:vue/recommended',
-    'plugin:diff/diff'
+    'plugin:diff/diff',
+    'plugin:json/recommended'
   ],
 
   globals: {
@@ -32,6 +35,10 @@ module.exports = {
       ignores: []
     }]
   },
+
+  ignorePatterns: [
+    '*.coffee'
+  ],
 
   overrides: [
     // Disable indent in .vue files - this will be handled by vue/script-indent
