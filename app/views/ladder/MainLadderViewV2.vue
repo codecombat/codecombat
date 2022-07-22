@@ -124,7 +124,7 @@ export default {
     difficultyStars (difficulty) {
       return Array(difficulty).fill().map(i => '★').join('')
     },
-    hasActiveAiLeagueProduct () {
+    hasActiveAiLeagueProduct() {
       return me.hasAiLeagueActiveProduct()
     }
   }
