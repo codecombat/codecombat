@@ -103,9 +103,11 @@
   })
 </script>
 <template lang="pug">
-#modal-base-flat
-  .title
-    | Hey this is a license vue-treema test
+#modal-base-flat.style-flat
+  .modal-header
+    .button.close(type='button' data-dismiss="modal", aria-hidden="true") &times;
+    h3.title
+      | Create Teacher License codes
   .body
     .progress.progress-striped.active(v-if="state === 'creating-prepaid'")
       .progress-bar(style="width: 100%")
@@ -122,29 +124,22 @@
 </template>
 
 <style scoped lang="scss">
-  .body {
-    width: 800px;
-    margin-left: -100px;
-    background: #F4FAFF;
-    box-shadow: 2px 2px 2px 2px #777;
-    padding: 5px;
+  #modal-base-flat{
+    background: white;
+    color: black;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    padding: 25px;
     font-size: 18px;
-  }
-  .alert {
-    background: #fac748;
-    color: red;
-    font-size: 24px;
-    border-radius: 10px;
-    text-align: center;
-  }
-  .input {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .buttons {
-    width: 600px;
-    display: flex;
-    justify-content: space-between;
+
+    .input {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .buttons {
+      width: 600px;
+      display: flex;
+      justify-content: space-between;
+    }
   }
 </style>
