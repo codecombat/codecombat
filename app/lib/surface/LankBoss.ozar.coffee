@@ -197,7 +197,8 @@ module.exports = class LankBoss extends CocoClass
     tableChars = grid.toTable true
     tableNames = grid.toTableNames()
     if not @$asciiTableHeader
-      asciiTable.append(@$asciiTableHeader = $('<thead></thead>')).append(@$asciiTableBody = $('<tbody></tbody>'))
+      asciiTable.append(@$caption = $('<caption id="ascii-table-caption" class="sr-only">Level Map</caption>'))
+      asciiTable.append(@$asciiTableHeader = $('<thead role="rowgroup"></thead>')).append(@$asciiTableBody = $('<tbody role="rowgroup"></tbody>'))
       @asciiTableRows = []
       @asciiTableCells = []
     for row, c in tableChars
@@ -205,28 +206,31 @@ module.exports = class LankBoss extends CocoClass
       $tr = @asciiTableRows[c]
       cells = @asciiTableCells[c]
       if not $tr
-        parent.append($tr = $('<tr></tr>'))
+        parent.append($tr = $('<tr role="row"></tr>'))
         @asciiTableRows.push $tr
         @asciiTableCells.push cells = []
       for char, r in row
         if r is 0
           el = 'th'
           scope = 'scope="row"'
+          role = 'role="rowheader"'
         else if c is 0
           el = 'th'
           scope = 'scope="col"'
+          role = 'role="columnheader"'
         else
           el = 'td'
           scope = ''
+          role = 'role="gridcell"'
         $td = cells[r]
+        name = ''
+        if el is 'td'
+          name = tableNames[c][r]
+          name = 'Blank' if not name or name is ' '
         if not $td
-          $tr.append($td = $("<#{el} #{scope}></#{el}>"))
+          $tr.append($td = $("<#{el} #{scope} #{role} tabindex='-1'></#{el}>"))
           cells.push $td
           $td.append($("<span aria-hidden='true'>#{char}</span>"))
-          name = ''
-          if el is 'td'
-            name = tableNames[c][r]
-            name = 'Blank' if not name or name is ' '
           $td.append($("<span class='sr-only'>#{name}</span>"))
         else
           if $td.previousChar isnt char
