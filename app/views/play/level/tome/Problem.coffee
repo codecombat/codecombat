@@ -37,8 +37,6 @@ module.exports = class Problem
       @createdBy = 'web-dev-iframe'
       # TODO: Include runtime/transpile error types depending on something?
 
-    if @errorCode
-      debugger
     @message = @translate(@message, @errorCode, @i18nParams)
     @hint = @translate(@hint)
     # TODO: get ACE screen line, too, for positioning, since any multiline "lines" will mess up positioning
