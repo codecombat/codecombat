@@ -69,23 +69,23 @@ export default {
     await this.fetchPodcast({ podcastId: handle  })
     this.podcast = this.getPodcast(handle)
     this.loaded = true
-
-    try {
-      document.querySelector("[property='og:title']").remove()
-      document.querySelector("[property='og:image']").remove()
-      document.querySelector("[property='og:description']").remove()
-    } catch (e) {
-      console.error('failed to override meta tags with podcast')
-    }
   },
   metaInfo () {
+    // instead of using normal static template, we use podcast.static.pug where these values are not present
     const podcast = this.podcast
+    const title = `${i18n(podcast, 'name')} with ${i18n(podcast, 'guestName')}`
+    const image = `${window.location.protocol}//${window.location.host}/images/pages/podcast/edtech-adventure-og-image.jpg`
+    const desc = `${podcast?.description ? marked(i18n(podcast, 'description')).replace(/<[^>]*>?/gm, '') : ''}`
     return {
       title: podcast?.name,
       meta: [
-        { property: 'og:title', content: `${i18n(podcast, 'name')} with ${i18n(podcast, 'guestName')}`, vmid: 'og:title' },
-        { property: 'og:image', content: 'https://codecombat.com/images/pages/podcast/edtech-adventure.jpg' },
-        { property: 'og:description', content: `${podcast?.description ? marked(i18n(podcast, 'description')).replace(/<[^>]*>?/gm, '') : ''}` }
+        { property: 'og:title', content: title },
+        { property: 'og:image', content: image },
+        { property: 'og:description', content: desc },
+        { name: 'twitter:card', content: 'summary' },
+        { name: 'twitter:title', content: title },
+        { name: 'twitter:image:src', content: image },
+        { name: 'twitter:description', content: desc }
       ]
     }
   }

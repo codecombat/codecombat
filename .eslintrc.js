@@ -33,6 +33,15 @@ module.exports = {
     }]
   },
 
+  ignorePatterns: [
+    '*.coffee',
+    '*.jpg',
+    '*.jpeg',
+    '*.png',
+    '*.pug',
+    'pre-commit'
+  ],
+
   overrides: [
     // Disable indent in .vue files - this will be handled by vue/script-indent
     {
