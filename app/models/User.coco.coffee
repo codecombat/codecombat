@@ -421,6 +421,9 @@ module.exports = class User extends CocoModel
       return p.product == type && (new Date(p.endDate) > now || !p.endDate)
     )
 
+  hasAiLeagueActiveProduct: ->
+    @activeProducts('ai-league').length > 0
+
   prepaidNumericalCourses: ->
     courseProducts = @activeProducts('course')
     return utils.courseNumericalStatus['NO_ACCESS'] unless courseProducts.length
