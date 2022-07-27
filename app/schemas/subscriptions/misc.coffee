@@ -20,6 +20,9 @@ module.exports =
   'audio-player:play-sound': c.object {required: ['trigger']},
     trigger: {type: 'string'}
     volume: {type: 'number', minimum: 0, maximum: 1}
+    delay: {type: 'number', minimum: 0}
+    pos: {type: ['object', 'null']}
+    pan: {type: 'number', minimum: -1, maximum: 1}
 
   'music-player:play-music': c.object {required: ['play']},
     play: {type: 'boolean'}
