@@ -1,106 +1,102 @@
 <script>
-  const Prepaid = require('models/Prepaid')
-  const PrepaidSchema = require('schemas/models/prepaid.schema')
-  const api = require('core/api')
-  const { LICENSE_PRESETS } = require('core/constants')
+import LicenseFormGroup from './LicenseFormGroup'
+import LicenseType from './LicenseType'
 
-  import LicenseFormGroup from './LicenseFormGroup'
-  import LicenseType from './LicenseType'
+const PrepaidSchema = require('schemas/models/prepaid.schema')
+const api = require('core/api')
+const { LICENSE_PRESETS } = require('core/constants')
 
-  export default Vue.extend({
-    props: ['hide'],
-    data() {
-     return {
-       prepaid: {
-         type: 'course',
-         startDate: new Date().toISOString(),
-         includedCourseIDs: ['1' ,'2', '3'],
-         properties: {
-           classroom: 'ObjectId'
-         }
-       },
-       state: 'init',
-       licenseType: 'all',
-       number: 1,
-       duration: 365,
-       includedCourseIDs: [],
-       endDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
-     }
-    },
-    computed: {
-      schema () {
-        return PrepaidSchema
-      },
-      licensePresets () {
-        return LICENSE_PRESETS
-      },
-      timeZone () {
-        if(features?.chinaInfra)
-          return 'Asia/Shanghai'
-        else
-          return 'America/Los_Angeles'
-
-      },
-      moment () {
-        return moment
-      },
-      api () {
-        return api
-      }
-    },
-    methods: {
-      selectType (t) {
-        this.licenseType = t;
-      },
-      selectCourse (c) {
-        this.includedCourseIDs = c
-      },
-      setDate (time) {
-        this.endDate = new Date(time)
-      },
-      addSeats () {
-        if(this.number <= 0 || this.duration <= 0 || (moment().isAfter(this.endDate)))
-          return
-
-        let attrs = {
-          type: 'course',
-          creator: me.id,
-          maxRedeemers: this.number,
-          endDate: this.endDate.toISOString(),
-          startDate: new Date().toISOString(),
-          generateActivationCodes: true,
-          properties: {
-            adminAdded: me.id,
-            days: this.duration,
-            activatedByTeacher: true
-          }
+export default Vue.extend({
+  components: {
+    LicenseFormGroup,
+    LicenseType
+  },
+  props: ['hide'],
+  data () {
+    return {
+      prepaid: {
+        type: 'course',
+        startDate: new Date().toISOString(),
+        includedCourseIDs: ['1', '2', '3'],
+        properties: {
+          classroom: 'ObjectId'
         }
-        if(this.licenseType in this.licensePresets) {
-          attrs.includedCourseIDs = this.licensePresets[this.licenseType];
-        } else if(this.licenseType == 'customize'){
-          attrs.includedCourseIDs = this.includedCourseIDs
-        }
-        this.state = 'creating-prepaid'
-        api.prepaids.post(attrs).then((prepaid) => {
-          let csvContent = 'Code,Expires\n'
-          let ocode = prepaid.code.toUpperCase()
-          prepaid.redeemers.forEach((redeemer) => {
-            csvContent += `T-${ocode.slice(0, 4)}-${redeemer.code.toUpperCase()}-${ocode.slice(4)},${redeemer.date}\n`
-          })
-          let file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
-          window.saveAs(file, 'TeacherLicenseCodes.csv')
-          this.state = 'made-prepaid'
-          setTimeout(() => {this.state = 'init'}, 5000)
-        })
-      }
-    },
-    mounted() {
-    },
-    components: {
-      LicenseFormGroup,
-      LicenseType
+      },
+      state: 'init',
+      licenseType: 'all',
+      number: 1,
+      duration: 365,
+      includedCourseIDs: [],
+      endDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
     }
-  })
+  },
+  computed: {
+    schema () {
+      return PrepaidSchema
+    },
+    licensePresets () {
+      return LICENSE_PRESETS
+    },
+    timeZone () {
+      if (features?.chinaInfra)
+        return 'Asia/Shanghai'
+      else
+        return 'America/Los_Angeles'
+    },
+    moment () {
+      return moment
+    },
+    api () {
+      return api
+    }
+  },
+  methods: {
+    selectType (t) {
+      this.licenseType = t
+    },
+    selectCourse (c) {
+      this.includedCourseIDs = c
+    },
+    setDate (time) {
+      this.endDate = new Date(time)
+    },
+    addSeats () {
+      if (this.number <= 0 || this.duration <= 0 || moment().isAfter(this.endDate))
+        return
+
+      let attrs = {
+        type: 'course',
+        creator: me.id,
+        maxRedeemers: this.number,
+        endDate: this.endDate.toISOString(),
+        startDate: new Date().toISOString(),
+        generateActivationCodes: true,
+        properties: {
+          adminAdded: me.id,
+          days: this.duration,
+          activatedByTeacher: true
+        }
+      }
+      if (this.licenseType in this.licensePresets) {
+        attrs.includedCourseIDs = this.licensePresets[this.licenseType]
+      } else if (this.licenseType === 'customize') {
+        attrs.includedCourseIDs = this.includedCourseIDs
+      }
+      this.state = 'creating-prepaid'
+      api.prepaids.post(attrs).then((prepaid) => {
+        let csvContent = 'Code,Expires\n'
+        const ocode = prepaid.code.toUpperCase()
+        prepaid.redeemers.forEach((redeemer) => {
+          csvContent += `T-${ocode.slice(0, 4)}-${redeemer.code.toUpperCase()}-${ocode.slice(4)},${redeemer.date}\n`
+        })
+        const file = new Blob([csvContent], { type: 'text/csv;charset=utf-8' })
+        window.saveAs(file, `TeacherLicenseCodes-${prepaid._id}-${new Date().toISOString()}.csv`)
+        this.state = 'made-prepaid'
+        setTimeout(() => { this.state = 'init' }, 5000)
+      })
+    }
+  }
+})
 </script>
 <template lang="pug">
 #modal-base-flat.style-flat
@@ -124,22 +120,22 @@
 </template>
 
 <style scoped lang="scss">
-  #modal-base-flat{
-    background: white;
-    color: black;
-    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-    padding: 25px;
-    font-size: 18px;
+#modal-base-flat{
+  background: white;
+  color: black;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  padding: 25px;
+  font-size: 18px;
 
-    .input {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .buttons {
-      width: 600px;
-      display: flex;
-      justify-content: space-between;
-    }
+  .input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+  .buttons {
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
 </style>

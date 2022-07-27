@@ -1,55 +1,58 @@
 <script>
-  const fetchJson = require('../../core/api/fetch-json')
-  export default {
-    data () {
-      return {
-        state: 'loading',
-        result: {}
-      }
-    },
-    methods: {
-      post () {
-        fetchJson('/db/prepaids/-/join-by-codes', {
-          method: 'POST',
-          json: this.$route.query
-        }).then((res) => {
-          let state = 'success'
-          for(let code in res) {
-            if(!res[code] || typeof res[code] == 'string') {
-              state = 'partly-failed'
-              break
-            }
+import { mapActions } from 'vuex'
+export default {
+  data () {
+    return {
+      state: 'loading',
+      result: {}
+    }
+  },
+  mounted () {
+    if (this.$route.query.codes) {
+      this.post()
+    } else {
+      application.router.navigate('/teachers/licenses', { trigger: true })
+    }
+  },
+  methods: {
+    ...mapActions({
+      joinByCodes: 'prepaids/joinPrepaidByCodes'
+    }),
+    post () {
+      this.joinByCodes({
+        method: 'POST',
+        json: this.$route.query
+      }).then((res) => {
+        let state = 'success'
+        for (const code in res) {
+          if (!res[code] || typeof res[code] === 'string') {
+            state = 'partly-failed'
+            break
           }
-          this.result = res
-          this.state = state
+        }
+        this.result = res
+        this.state = state
 
-          if(state == 'success') {
-            setTimeout(() => {
-              application.router.navigate('/teachers/licenses', {trigger: true})
-            }), 3000
-          }
-        })
-      }
-    },
-    mounted () {
-      if(this.$route.query.codes) {
-        this.post()
-      } else {
-        application.router.navigate('/teachers/licenses', {trigger: true})
-      }
+        if (state === 'success') {
+          setTimeout(() => {
+            application.router.navigate('/teachers/licenses', { trigger: true })
+          }, 3000)
+        }
+      })
     }
   }
+}
 </script>
 
 <template lang="pug">
   div
     .progress.progress-striped.active(v-if="state === 'loading'")
       .progress-bar(style="width: 100%")
-    .alert.alert-success(v-if="state === 'success'") Licenses have been Activated Successfully!
+    .alert.alert-success(v-if="state === 'success'") {{ $t('teachers.licenses_activated_success') }}
     .alert.alert-failed(v-if="state === 'partly-failed'")
       .status(v-for="(res, code) in result")
-        .code {{ code }}:
-        .status {{ res }}
+        span.code {{ code }}:
+        span.status {{ res }}
 </template>
 
 <style scoped>

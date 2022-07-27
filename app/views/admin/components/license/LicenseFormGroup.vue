@@ -1,7 +1,7 @@
 <script>
-  export default {
-    props: ['label', 'extra', 'value']
-  }
+export default {
+  props: ['label', 'extra', 'value']
+}
 </script>
 <template lang="pug">
   .form-group
