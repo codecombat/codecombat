@@ -35,6 +35,8 @@ import HeadComponent from './single-podcast/HeadComponent'
 import EpisodeComponent from './single-podcast/EpisodeComponent'
 import GuestInfoComponent from './single-podcast/GuestInfoComponent'
 import podcastVisibleMixin from './podcastVisibleMixin'
+import { i18n } from 'app/core/utils'
+const marked = require('marked')
 
 export default {
   name: 'SinglePodcastView',
@@ -67,6 +69,25 @@ export default {
     await this.fetchPodcast({ podcastId: handle  })
     this.podcast = this.getPodcast(handle)
     this.loaded = true
+
+    try {
+      document.querySelector("[property='og:title']").remove()
+      document.querySelector("[property='og:image']").remove()
+      document.querySelector("[property='og:description']").remove()
+    } catch (e) {
+      console.error('failed to override meta tags with podcast')
+    }
+  },
+  metaInfo () {
+    const podcast = this.podcast
+    return {
+      title: podcast?.name,
+      meta: [
+        { property: 'og:title', content: `${i18n(podcast, 'name')} with ${i18n(podcast, 'guestName')}`, vmid: 'og:title' },
+        { property: 'og:image', content: 'https://codecombat.com/images/pages/podcast/edtech-adventure.jpg' },
+        { property: 'og:description', content: `${podcast?.description ? marked(i18n(podcast, 'description')).replace(/<[^>]*>?/gm, '') : ''}` }
+      ]
+    }
   }
 }
 </script>
