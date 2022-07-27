@@ -367,6 +367,17 @@ module.exports = class World
     @bounds = bounds
     [@width, @height]
 
+  calculateSimpleMovementBounds: ->
+    # Figure out corners based solely on where simple movement dots are
+    # This could also calculate automatically from GridMovement2 System, but that's not used in all levels
+    bounds = {left: 9001, top: -9001, right: -9001, bottom: 9001}
+    for thang in @thangs when /^Dot/.test thang.spriteName  # Dot Stateless, Dot Underwater, etc.
+      bounds.left = Math.min(bounds.left, thang.pos.x)
+      bounds.right = Math.max(bounds.right, thang.pos.x)
+      bounds.bottom = Math.min(bounds.bottom, thang.pos.y)
+      bounds.top = Math.max(bounds.top, thang.pos.y)
+    bounds
+
   publishNote: (channel, event) ->
     event ?= {}
     channel = 'world:' + channel
