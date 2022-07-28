@@ -26,6 +26,7 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
     super()
 
   onUpdateScreenReaderMap: (e) ->
+    # Called whenver we need to instantiate/update the map and what's in it
     if e?.grid
       @grid = e.grid
       @gridChars = @grid.toSimpleMovementChars(true, false)
@@ -46,6 +47,7 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
       return @announceCursor()
 
   handleArrowKey: (key) ->
+    # Move cursor in the specified direction, if valid
     adjacent = @adjacentCells @cursor
     newCursor = switch key.toLowerCase()
       when 'arrowleft'  then adjacent.left
@@ -76,6 +78,7 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
           return @cursor
 
   adjacentCells: (cell) ->
+    # Find the visitable cells next to this cell
     result = {}
     for dirName, dirVec of {
       left:  [-1,  0]
@@ -93,6 +96,7 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
     @gridNames[cell.row][cell.col].replace /,? ?Dot,? ?/g, ''
 
   announceCursor: (full=false) ->
+    # Say what's at the current cursor, if a screen reader is active. Full: includes extra detail on what's around this cell.
     update = @formatCellContents @cursor
     if full
       update ||= 'Empty'
@@ -108,6 +112,7 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
     @$el.find('.map-screen-reader-live-updates').text(update)
 
   updateCells: ->
+    # Create/remove/update .map-cell divs to visually correspond to the current state of the level map grid
     return unless @gridChars
     @mapRows ?= []
     @mapCells ?= []
