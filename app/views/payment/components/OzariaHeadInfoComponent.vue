@@ -6,8 +6,11 @@
       </div>
     </div>
     <div class="col-md-3 info-data">
-      <h2 class="info-title">Ozaria</h2>
-      <ul class="info-list">
+      <h2 class="info-title">{{ isTecmilenioPartner ? 'Acceso ' : '' }}Ozaria</h2>
+      <ul class="info-list" v-if="isTecmilenioPartner">
+        <li>Introducción integral a informática</li>
+      </ul>
+      <ul class="info-list" v-else>
         <li>Comprehensive Introduction to Computer Science</li>
         <li>Chapters 1-4</li>
       </ul>
@@ -17,7 +20,13 @@
 
 <script>
 export default {
-name: "OzariaHeadInfoComponent"
+  name: "OzariaHeadInfoComponent",
+  props: {
+    isTecmilenioPartner: {
+      type: Boolean,
+      default: false
+    }
+  }
 }
 </script>
 

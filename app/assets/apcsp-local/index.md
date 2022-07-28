@@ -1,5 +1,14 @@
-Main page
+##### Resource Hub
+# AP Computer Science Principles
+------
 
-[Other page](/apcsp/nested/1)
+## [The Curriculum](/apcsp/curriculum) 
+## [Professional Development Hub](/apcsp/professional-development)
 
-[Existing markdown](/apcsp/markdown/cs1.md)
+
+-----
+
+##### Quick Links: 
+- [**Curriculum Overview**](/apcsp/curriculum/overview)
+- [**The Syllabus**](/apcsp/curriculum/syllabus)
+- [**Course Schedule**](http://files.codecombat.com.s3.amazonaws.com/docs/resources/APCSPCourseSchedule.pdf)

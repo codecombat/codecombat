@@ -164,6 +164,8 @@ module.exports = class HomeView extends RootView
       if paymentResult is 'success'
         title = $.i18n.t 'payments.studentLicense_successful'
         type = 'success'
+        if utils.getQueryVariable 'tecmilenio'
+          title = '¡Felicidades! El alumno recibirá más información de su profesor para acceder a la licencia de CodeCombat.'
         @trackPurchase("Student license purchase #{type}")
       else
         title = $.i18n.t 'payments.failed'

@@ -132,7 +132,9 @@ module.exports = class SpellView extends CocoView
     $(@ace.container).find('textarea').attr('aria-label', 'Code Area')
     if @courseID && @courseID == utils.courseIDs.CHAPTER_ONE
       @ace.setFontSize 22
-    @initAutocomplete aceConfig.liveCompletion ? true
+    liveCompletion = aceConfig.liveCompletion ? true
+    liveCompletion = @options.classroomAceConfig.liveCompletion && liveCompletion
+    @initAutocomplete liveCompletion
 
     return if @session.get('creator') isnt me.id or @session.fake
     # Create a Spade to 'dig' into Ace.

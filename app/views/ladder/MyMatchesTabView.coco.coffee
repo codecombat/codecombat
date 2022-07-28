@@ -17,7 +17,7 @@ module.exports = class MyMatchesTabView extends CocoView
     'click .load-more-matches': 'onLoadMoreMatches'
     'click .share-ladder-link-button': 'openShareLadderLinkModal'
 
-  initialize: (options, @level, @sessions) ->
+  initialize: (options, @level, @sessions, @anonymousPlayerName) ->
     @nameMap = {}
     @previouslyRankingTeams = {}
     @matchesLimit = 95
@@ -41,7 +41,7 @@ module.exports = class MyMatchesTabView extends CocoView
         @playSound 'chat_received'
       {
         state: state
-        opponentName: @nameMap[opponent.userID]
+        opponentName: if @anonymousPlayerName then utils.anonymizingUser(opponent.userID) else @nameMap[opponent.userID]
         opponentID: opponent.userID
         when: moment(match.date).fromNow()
         sessionID: opponent.sessionID

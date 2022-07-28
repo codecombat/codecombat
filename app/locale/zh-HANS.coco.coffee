@@ -261,6 +261,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     admin: "管理员"
 #    api_dashboard: "API Dashboard"
 #    funding_resources_guide: "Funding Resources Guide"
+#    partnerships: "Partnerships"
 
   modal:
     close: "关闭"
@@ -1203,6 +1204,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     editor_config_indentguides_description: "显示一条竖线以使缩进更明显。"
     editor_config_behaviors_label: "智能匹配符号"
     editor_config_behaviors_description: "自动匹配括号、大括号和引号。"
+    editor_config_livecompletion_disabled_by_teacher: "你的老师已关闭你的自动补全。"
 
   about:
     title: "关于CodeCombat - 激发学生，赋能老师，释放创造力"
@@ -1312,7 +1314,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   teachers:
     licenses_needed: "需要许可"
-#    programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students."
+    programming_language_edit_desc_new: "如果您更改编程语言，您的学生在旧语言中的进度将被隐藏，他们将不得不使用新语言重新开始每个关卡。 我们更建议为这些学生创建一个新班级。"
+    classroom_live_completion: "关闭该项会关闭所有学生的自动补全功能。启用该项则根据学生自己的设置开启自动补全。"
 
   special_offer:
     special_offer: "特别优惠"
@@ -1806,6 +1809,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    view_winners: "View Winners"
     classroom_announcement: "班级公告"
 #    link_lms_classroom: "Link LMS Classroom"
+    classroom_live_completion: "为学生启用自动补全："
 
   project_gallery:
     no_projects_published: "成为第一个在这个课程中发布项目的人吧！"
@@ -2988,7 +2992,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   esper:
     line_no: "第$1行: "
     uncaught: "未捕获的错误$1" # $1 will be an error type, eg "Uncaught SyntaxError"
-    reference_error: "参考错误："
+    reference_error: "引用错误："
     argument_error: "参数错误："
     type_error: "拼写错误："
     syntax_error: "语法错误："
@@ -2998,7 +3002,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     spelling_issues: "请注意拼写错误：你指的是`$1`而不是`$2`, 对吗？"
     capitalization_issues: "请注意大小写：`$1` 应该改成 `$2`？"
     py_empty_block: "清空 $1，在 $2 语句内的语句前加4个空格。"
-    fx_missing_paren: "如果你需要把`$1` 称为函数，你需要加`()`'s"
+    fx_missing_paren: "如果你需要把`$1` 称为函数，你需要加`()`"
     unmatched_token: "非匹配`$1`。每一个开放的`$2`都需要一个`$3`配对。"
     unterminated_string: "未终止字符串，在字符串末加上另外一个`\"`。"
     missing_semicolon: "缺少分号。"
@@ -3063,6 +3067,50 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     put_each_command_on: "将每条命令单独列在一行"
     are_you_missing_a: "在`$2`后面有没有`$1`？"
     your_parentheses_must_match: "你的括号必须匹配。"
+    error_index_empty: "未能读取 `__specTypeName__.__name__`。"
+    error_call_non_function: "`__name__` 不是一个函数。"
+    error_not_iterable: "`__var__` 不可遍历。"
+    error_assignment_invalid: "Invalid reference in assignment."
+    error_invalid_array_length: "无效的数组长度。"
+    error_didnt_make_generator: "`__name__` 并不是一个生成器。"
+    error_undefined_variable: "`__name__` 未定义。"
+    error_declared_identifier: "`__name__` 已在另一处使用。"
+    error_declarations_cant_resolve: "Couldnt resolve declarations component: `__type__`."
+    error_strict_no_statement: "Strict mode code may not include a with statement."
+    error_cant_resolve_ref_component: "Couldnt resolve ref component: `__type__`."
+    error_cant_convert_null: "无法将 `undefined` 或 `null` 转换为对象（`object`）。"
+    error_need_object: "需要一个对象（`object`）。"
+    error_illegal_object_prototype: "Object prototype may only be an Object or null."
+    error_no_prototype: "No prototype."
+    error_cant_write_property_to_undefined: "无法修改 `undefined` 的属性 `__idx__`。"
+    error_cant_write_property_to_non_obj: "无法修改非对象（`non-object`）的属性 `__idx__`."
+    error_function_isnt_constructor: "function is not a constructor"
+    error_write_protected_property: "无法修改对象被保护（`protected`）的属性 `__name__`"
+    error_read_protected_property: "无法读取对象被保护（`protected`）的属性 `__name__`"
+    error_convert_value_failed: "无法将 `__orig__` 类型转换为 `__new__` 类型。"
+    error_convert_object_to_primitive: "无法将对象（`object`）转换为原始值。"
+    error_first_argument_to_be_function: "函数 `__fun__` 的第一个参数必须是一个函数。"
+    error_write_non_writable: "无法修改不可修改的值。"
+    error_delete_nonconfigurable_object: "Can't delete nonconfigurable object."
+    error_cant_access_get: "无法取得 `__name__`。"
+    error_base_obj_not_invokable: "对象（`object`）不可调用。"
+    error_arg2_not_callable: "第二个参数不是一个函数。"
+    error_reduce_empty_array_without_init: "Reduce an empty array with no initial value."
+    error_realm_prototype_not_realm: "Realm prototype not realm."
+    error_function_tostring_not_generic: "Function.prototype.toString is not generic"
+    error_regex_on_non_regex: "Calling regex method on non regex.",
+    error_call_string_on_null: "called String function on null or undefined?"
+    error_wrong_type: "错误的类型。"
+    error_replace_callback_not_written: "Replace with callbacks not written yet"
+    error_right_hand_side_not_callable: "Right-hand side of `__name__` is not callable"
+    error_segmentation_fault: "段错误 `__offset__`."
+    error_no_arg_to_reference: "缺少参数。"
+    error_unimplemented_property: "未实现的属性类型。"
+    error_unimplemented: "未实现。"
+    error_cant_call_reference: "无法直接调用引用。"
+    error_no_arg_to_dereference: "缺少参数。"
+    error_try_dereference_non: "试图释放非指针。"
+    error_no_arg_to_alloc: "缺少 `alloc` 函数的参数。"
 
   apcsp:
     title: "AP计算机科学原理｜College Board Endorsed"
@@ -3589,6 +3637,30 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    class_owner: "Class Owner"
 #    share: "Share"
 
+#  partners:
+#    headline: "Join us in our mission to make coding engaging and accessible to all"
+#    below_headline_blurb: "At CodeCombat we’ve developed comprehensive tools that make learning to code fun and teaching programming easy. Our turnkey solutions can be leveraged in many executions."
+#    coding_title: "Coding & STEAM Education Businesses:"
+#    coding_blurb: "Valued partners like Code Ninjas and IDEA Lab Kids use our game to teach real Python and JavaScript coding to students in their franchise locations. We offer an easy to use program, implementation resources and training options to ensure an amazing student experience."
+#    esports_title: "Educational Esports Sponsors:"
+#    esports_blurb: "We are reinventing what an esport can be while engaging thousands of students to learn to code. Endemic esports mainstay __hyperx__ supported the CodeCombat AI League from its inaugural season, building compelling promotional programs around this unique esport."
+#    hyperx: "HyperX"
+#    respawn: "RESPAWN"
+#    distribution_title: "International Distribution:"
+#    distribution_blurb: "Our programs have served students in over 190 countries and our content is translated into over __forty_languages__. While the US and China are markets where we sell directly, we work closely with local Saas and EdTech distribution partners around the world to expand our reach"
+#    forty_languages: "40 languages"
+#    equity_social_title: "Tech Equity & Social Impact:"
+#    equity_social_blurb: "Not every partnership is built on the bottom line. As a mission-based organization we seek ways to give back as well. We work closely with foundations and other philanthropy partners to expand access to high-quality coding education.  "
+#    latin_superstar_blurb: "Additionally, Latin superstar __eugenio_derbez__ has helped us reach the Latinx community with a partnership to engage students in this often underserved and underrepresented group."
+#    reach_latinx: "reach the Latinx community"
+#    eugenio_derbez_blurb: "\"It is important to me to see Latino boys and girls represented in this space,\" said Eugenio Derbez, \"Coding is the language of the future and if we want to be a part of that future then we need to get our kids coding.\""
+#    seek_relationships_blurb: "We seek relationships with nonprofits and community-based organizations working with groups underrepresented in computer science and technology careers. Our partnership with __seeds_of_light__ will fund CS educational opportunities for thousands of young learners."
+#    seeds_of_light: "Seeds of Light"
+#    corporate_team_building_title: "Corporate Team Building"
+#    corporate_team_building_blurb: "Need to engage your employees with a turnkey activity that will inspire their competitive spirit and challenge them to creatively problem solve? Work with us to build a custom competitive coding tournament that will have your team programming their own strategies while playing a game."
+#    footer_blurb: "These are just a few of the partnership structures we have successfully supported. If you would like to initiate a discussion with our business development team on any of these models or have a different partnership opportunity, please reach out today."
+#    talk_with_us: "Talk with Us"
+
 #  podcast:
 #    learning_adventure: "Where learning is always an adventure."
 #    explores_stem: "Our podcast explores the role of technology, STEM, and creative play in education. With expert guests, we discover how learning is always an adventure."
@@ -3605,3 +3677,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    about_guest: "About Our Guest"
 #    all_episodes: "View All Episodes"
 #    no_permission: "You don't have permission to view this podcast"
+
+#  library:
+#    enter_library_card: "Enter your Library Card Number:"
+#    access_coco: "Access CodeCombat"
+#    already_using_library_id: "Already using library id"
+#    play_coco: "to play CodeCombat"
+#    not_library_id: "Not your library id"
+#    access_using_id: "to access using your id!!"

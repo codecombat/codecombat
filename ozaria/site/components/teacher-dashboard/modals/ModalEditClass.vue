@@ -23,6 +23,7 @@
       return {
         newClassName: '',
         newProgrammingLanguage: '',
+        newLiveCompletion: true,
       }
     },
 
@@ -38,12 +39,16 @@
       },
       archived () {
         return (this.classroom || {}).archived
+      },
+      liveCompletion () {
+        return _.assign({liveCompletion: true}, (this.classroom || {}).aceConfig).liveCompletion
       }
     },
 
     mounted () {
       this.newClassName = this.classroomName
       this.newProgrammingLanguage = this.language
+      this.newLiveCompletion = this.liveCompletion
     },
 
     methods: {
@@ -80,9 +85,13 @@
         if (this.newClassName && this.newClassName !== this.classroomName) {
           updates.name = this.newClassName
         }
+        const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
         if (this.newProgrammingLanguage && this.newProgrammingLanguage !== this.language) {
-          const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
           aceConfig.language = this.newProgrammingLanguage
+          updates.aceConfig = aceConfig
+        }
+        if (this.newLiveCompletion !== this.liveCompletion) {
+          aceConfig.liveCompletion = this.newLiveCompletion
           updates.aceConfig = aceConfig
         }
         if (_.size(updates)) {
@@ -127,6 +136,17 @@
               </option>
             </select>
             <span class="control-label-desc"> {{ $t("teachers.programming_language_edit_desc_new") }} </span>
+          </div>
+        </div>
+        <div class="form-group row autoComplete">
+          <div class="col-xs-12">
+            <span class="control-label"> {{ $t('courses.classroom_live_completion') }}</span>
+            <input
+              v-model="newLiveCompletion"
+              type="checkbox"
+              id="liveCompletion"
+              >
+            <span class="control-label-desc">{{ $t("teachers.classroom_live_completion") }}</span>
           </div>
         </div>
         <div class="form-group row buttons">
@@ -185,7 +205,7 @@
   }
 }
 
-.class-name, .language {
+.class-name, .language, .autoComplete {
   width: 100%;
 }
 
@@ -207,6 +227,12 @@
     align-items: center;
     justify-content: space-evenly;
   }
+}
+
+#liveCompletion {
+  marign-left: 15px;
+  height: 18px;
+  width: 18px;
 }
 
 </style>

@@ -3,14 +3,20 @@
     <payment-student-license-head-component
       :i18n-heading-name="i18nName"
       :is-dsh-partner="isDshPartner"
+      :is-tecmilenio-partner="isTecmilenioPartner"
     />
     <modal-get-licenses
         v-if="showContactModal"
         @close="showContactModal = false"
     />
     <div class="middle-section">
-      <h3 class="per-student text-center">{{$t('payments.just')}} {{this.getCurrency()}}{{this.getUnitPrice()}} {{$t('payments.per_student')}}</h3>
-      <ul class="information">
+      <h3 class="per-student text-center" v-if="isTecmilenioPartner">
+        Su costo es de {{this.getCurrency()}}{{this.getUnitPrice()}} USD por estudiante
+      </h3>
+      <h3 class="per-student text-center" v-else>
+        {{$t('payments.just')}} {{this.getCurrency()}}{{this.getUnitPrice()}} {{$t('payments.per_student')}}
+      </h3>
+      <ul class="information" v-if="!isTecmilenioPartner">
         <li class="light-text" v-if="!this.licenseCap || this.licenseCap < 10000">
           <payment-license-min-max-text-component :min-licenses="this.minLicenses" :max-licenses="this.licenseCap" :max-value-to-show="10000" /> <span>can be purchased, <a href="#" @click="this.enableContactModal">Contact Us</a> to purchase more</span>
         </li>
@@ -66,6 +72,10 @@ export default {
     },
     i18nName: String,
     isDshPartner: {
+      type: Boolean,
+      default: false
+    },
+    isTecmilenioPartner: {
       type: Boolean,
       default: false
     }
