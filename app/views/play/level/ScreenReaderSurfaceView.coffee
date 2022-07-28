@@ -30,37 +30,82 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
       @grid = e.grid
       @gridChars = @grid.toSimpleMovementChars(true, false)
       @gridNames = @grid.toSimpleMovementNames()
-      #console.log @grid, @gridNames
-      #console.log @grid.toString(true, false)
     @updateCells()
     @updateScale()
 
   onKeyEvent: (e) =>
     event = _.pick(e, 'type', 'key', 'keyCode', 'ctrlKey', 'metaKey', 'shiftKey')
-    #console.log 'got event', event, @highlight, /^arrow/.test(event.key.toLowerCase()), event.key.toLowerCase()
-    # TODO: only do this if we have the map area focused
-    return unless @highlight
-    return unless /^arrow/.test event.key.toLowerCase()
+    return unless @cursor
     return unless event.type is 'keydown'
-    newHighlight = {row: @highlight.row, col: @highlight.col}
-    switch event.key.toLowerCase()
-      when 'arrowleft'  then --newHighlight.col
-      when 'arrowright' then ++newHighlight.col
-      when 'arrowup'    then --newHighlight.row
-      when 'arrowdown'  then ++newHighlight.row
-    pan = Math.max -1, Math.min 1, -1 + 2 * newHighlight.col / (@gridNames[0].length - 1)
-    if (newHighlight.$cell = @mapCells[newHighlight.row]?[newHighlight.col]) and newHighlight.$cell.previousChar.trim()
-      # There's something here (a movable area and/or an object)
-      @highlight.$cell.removeClass 'highlighted'
-      newHighlight.$cell.addClass 'highlighted'
-      @highlight = newHighlight
-      update = @gridNames[@highlight.row][@highlight.col]
-      update = update.replace /,? ?Dot,? ?/g, ''
-      @$el.find('.map-screen-reader-live-updates').text(update)
+    if /^arrow/i.test event.key
+      return @handleArrowKey event.key
+    if event.key is ' '  # space
+      return @announceCursor true
+    if event.key.toLowerCase() in ['h', '@']
+      @moveToHero()
+      return @announceCursor()
+
+  handleArrowKey: (key) ->
+    adjacent = @adjacentCells @cursor
+    newCursor = switch key.toLowerCase()
+      when 'arrowleft'  then adjacent.left
+      when 'arrowright' then adjacent.right
+      when 'arrowup'    then adjacent.up
+      when 'arrowdown'  then adjacent.down
+    if newCursor
+      @cursor.$cell.removeClass 'cursor'
+      newCursor.$cell.addClass 'cursor'
+      @cursor = newCursor
+      @announceCursor()
+      pan = Math.max -1, Math.min 1, -1 + 2 * newCursor.col / (@gridNames[0].length - 1)
       @playSound 'game-menu-tab-switch', 1, 0, null, pan  # temporary sfx we already have
     else
-      # There's nothing here, and the hero can't move here--don't move the highlight cursor
+      # There's nothing there, so the hero can't move there--don't move the highlight cursor
+      pan = Math.max -1, Math.min 1, -1 + 2 * @cursor.col / (@gridNames[0].length - 1)
       @playSound 'menu-button-click', 1, 0, null, pan  # temporary sfx we already have, need something more different from success sound
+
+  moveToHero: ->
+    for row, r in @gridChars
+      cells = @mapCells[r]
+      for char, c in row
+        $cell = cells[c]
+        if char is '@'
+          @cursor.$cell.removeClass 'cursor'
+          @cursor = {row: r, col: c, $cell: $cell}
+          $cell.addClass 'cursor'
+          return @cursor
+
+  adjacentCells: (cell) ->
+    result = {}
+    for dirName, dirVec of {
+      left:  [-1,  0]
+      right: [ 1,  0]
+      up:    [ 0, -1]  # y is inverted for the screen
+      down:  [ 0,  1]
+    }
+      $cell = @mapCells[cell.row + dirVec[1]]?[cell.col + dirVec[0]]
+      if $cell?.previousChar.trim()
+        # There's something there (a movable area and/or an object)
+        result[dirName] = row: cell.row + dirVec[1], col: cell.col + dirVec[0], $cell: $cell
+    result
+
+  formatCellContents: (cell) ->
+    @gridNames[cell.row][cell.col].replace /,? ?Dot,? ?/g, ''
+
+  announceCursor: (full=false) ->
+    update = @formatCellContents @cursor
+    if full
+      update ||= 'Empty'
+      contentful = []
+      contentless = []
+      for dirName, cell of @adjacentCells @cursor
+        contents = @formatCellContents cell
+        (if contents then contentful else contentless).push {dirName, cell, contents}
+      for {dirName, cell, contents} in contentful
+        update += ". #{dirName} has #{contents}"
+      if contentless.length
+        update += ". Can #{if contentful.length then 'also ' else ''}move #{(cell.dirName for cell in contentless).join(', ')}."
+    @$el.find('.map-screen-reader-live-updates').text(update)
 
   updateCells: ->
     return unless @gridChars
@@ -87,9 +132,9 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
             utils.replaceText $cell.find('span[aria-hidden="true"]'), char
           if $cell.previousName isnt name
             utils.replaceText $cell.find('span.sr-only'), name
-        if char is '@' and not @highlight
-          @highlight = {row: r, col: c, $cell: $cell}
-          $cell.addClass 'highlighted'
+        if char is '@' and not @cursor
+          @cursor = {row: r, col: c, $cell: $cell}
+          $cell.addClass 'cursor'
         $cell.previousChar = char
         $cell.previousName = name
       if c < cells.length - 1
