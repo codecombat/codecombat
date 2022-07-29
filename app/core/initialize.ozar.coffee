@@ -2,8 +2,7 @@ Backbone.Mediator.setValidationEnabled false
 app = null
 utils = require './utils'
 { installVueI18n } = require 'locale/locale'
-if utils.isOzaria
-  { log } = require 'ozaria/site/common/logger'
+{ log } = require 'ozaria/site/common/logger'
 globalVar = require 'core/globalVar'
 
 VueRouter = require 'vue-router'
@@ -19,13 +18,18 @@ VueAsyncComputed = require 'vue-async-computed'
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
 Vue.use(VueMoment.default)
-Vue.use(VueYoutube.default)
+
+if utils.isOzaria
+  Vue.use(VueYoutube.default)
+
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
-Vue.use(VueShepherd);
-Vue.use(utils.vueNonReactiveInstall)
-Vue.use(VueAsyncComputed)
-Vue.directive('mask', VueMaskDirective)
+
+if utils.isCodeCombat
+  Vue.use(VueShepherd);
+  Vue.use(utils.vueNonReactiveInstall)
+  Vue.use(VueAsyncComputed)
+  Vue.directive('mask', VueMaskDirective)
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
@@ -74,8 +78,9 @@ init = ->
   setUpMoment() # Set up i18n for moment
   setUpTv4()
   installVueI18n()
-  checkAndLogBrowserCrash()
-  checkAndRegisterHocModalInterval()
+  if utils.isOzaria
+    checkAndLogBrowserCrash()
+    checkAndRegisterHocModalInterval()
   window.globalVar = globalVar if me.isAdmin() or !app.isProduction() or serverSession?.amActually
   parent.globalVar = globalVar if self != parent
 
@@ -102,6 +107,7 @@ handleNormalUrls = ->
 
     # Instruct Backbone to trigger routing events
     app.router.navigate url, { trigger: true }
+
     return false
 
 setUpBackboneMediator = (app) ->
@@ -109,12 +115,6 @@ setUpBackboneMediator = (app) ->
   Backbone.Mediator.addChannelSchemas schemas for channel, schemas of channelSchemas
   # Major performance bottleneck if it is true in production
   Backbone.Mediator.setValidationEnabled(not app.isProduction())
-  if false  # Debug which events are being fired
-    originalPublish = Backbone.Mediator.publish
-    Backbone.Mediator.publish = ->
-      console.log 'Publishing event:', arguments... unless /(tick|frame-changed)/.test(arguments[0])
-      originalPublish.apply Backbone.Mediator, arguments
-
 
   if window.location.hostname == 'localhost'
     if window.sessionStorage?.getItem('COCO_DEBUG_LOGGING') == "1"
@@ -293,8 +293,8 @@ window.onbeforeunload = (e) ->
   else
     return
 
-window.onload = () ->
-  if utils.isOzaria
+if utils.isOzaria
+  window.onload = () ->
     if window.sessionStorage
       # Check if the browser crashed before the current loading in order to log it on datadog
       if window.sessionStorage.getItem('oz_exit') and window.sessionStorage.getItem('oz_exit') != 'true'

@@ -785,8 +785,9 @@ module.exports = class User extends CocoModel
   showChinaHomeVersion: -> features?.chinaHome ? false
   useChinaHomeView: -> features?.china and ! features?.chinaHome ? false
   showChinaRegistration: -> features?.china ? false
-  enableCpp: -> @hasSubscription() or @isStudent() or @isTeacher()
+  enableCpp: -> utils.isCodeCombat and (@hasSubscription() or @isStudent() or @isTeacher())
   useQiyukf: -> false
+  useQiyukf: -> features?.china ? false
   useChinaServices: -> features?.china ? false
   useGeneralArticle: -> not (features?.china ? false)
 

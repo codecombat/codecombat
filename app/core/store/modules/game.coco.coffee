@@ -15,14 +15,9 @@ module.exports = {
     timesCodeRun: 0
     timesAutocompleteUsed: 0
     playing: false
-    tutorial: []
-    tutorialActive: false
-    codeBankOpen: false
-    clickedUpdateCapstoneCode: false
-    hasPlayedGame: false
-    # Source for solving the level, and number of times it has been used:
     levelSolution: {
-      autoFillCount: 0,
+      # Number of times state.levelSolution has been auto filled into the code editor.
+      autoFilled: 0
       source: ''
     }
   }
@@ -31,8 +26,6 @@ module.exports = {
       state.playing = playing
     setLevel: (state, updates) ->
       state.level = $.extend(true, {}, updates)
-    setLevelSolution: (state, solution) ->
-      state.levelSolution = solution
     setHintsVisible: (state, visible) ->
       state.hintsVisible = visible
     incrementTimesCodeRun: (state) ->
@@ -43,6 +36,8 @@ module.exports = {
       state.timesAutocompleteUsed += 1
     setTimesAutocompleteUsed: (state, times) ->
       state.timesAutocompleteUsed = times
+    setLevelSolution: (state, solution) ->
+      state.levelSolution = solution
     addTutorialStep: (state, step) ->
       if state.tutorial.find((s) ->
         # There is a function property that needs to be omitted because they don't compare
@@ -68,8 +63,6 @@ module.exports = {
       state.clickedUpdateCapstoneCode = clicked
     setHasPlayedGame: (state, hasPlayed) ->
       state.hasPlayedGame = hasPlayed
-    setLevelSolution: (state, solution) ->
-      state.levelSolution = solution
   }
   actions: {
     # Idempotent, will not add the same step twice
@@ -122,33 +115,7 @@ module.exports = {
     setHasPlayedGame: ({ commit }, hasPlayed) ->
       commit('setHasPlayedGame', hasPlayed)
     autoFillSolution: ({ commit, rootState }, codeLanguage) ->
-      if utils.isOzaria
-        try
-          hero = _.find (rootState.game.level?.thangs ? []), id: 'Hero Placeholder'
-          component = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)
-          plan = component.config?.programmableMethods?.plan
-          solutions = _.filter (plan?.solutions ? []), (s) -> not s.testOnly and s.succeeds
-          rawSource = _.find(solutions, language: codeLanguage)?.source
-          if not rawSource and jsSource = _.find(solutions, language: 'javascript')?.source
-            # If there is no target language solution yet, generate one from JavaScript.
-            rawSource = aetherUtils.translateJS(jsSource, codeLanguage)
-          external_ch1_avatar = rootState.me.ozariaUserOptions?.avatar?.avatarCodeString ? 'crown'
-          context = _.merge({ external_ch1_avatar }, utils.i18n(plan, 'context'))
-          source = _.template(rawSource)(context)
-
-          unless _.isEmpty(source)
-            commit('setLevelSolution', {
-              autoFillCount: rootState.game.levelSolution.autoFillCount + 1,
-              source
-            })
-          else
-            noty({ text: "No solution available.", timeout: 3000 })
-            console.error("Could not find solution for #{rootState.game.level.name}")
-        catch e
-          text = "Cannot auto fill solution: #{e.message}"
-          console.error(text)
-          noty({ type: 'error', text })
-      else # coco
+      if utils.isCodeCombat
         codeLanguage ?= utils.getQueryVariable('codeLanguage') ? 'javascript' # Belongs in Vuex eventually
         noSolution = ->
           text = "No #{codeLanguage} solution available for #{rootState.game.level.name}."
@@ -188,6 +155,32 @@ module.exports = {
           autoFillCount: rootState.game.levelSolution.autoFillCount + 1,
           source
         })
+      else # Ozaria
+        try
+          hero = _.find (rootState.game.level?.thangs ? []), id: 'Hero Placeholder'
+          component = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)
+          plan = component.config?.programmableMethods?.plan
+          solutions = _.filter (plan?.solutions ? []), (s) -> not s.testOnly and s.succeeds
+          rawSource = _.find(solutions, language: codeLanguage)?.source
+          if not rawSource and jsSource = _.find(solutions, language: 'javascript')?.source
+  # If there is no target language solution yet, generate one from JavaScript.
+            rawSource = aetherUtils.translateJS(jsSource, codeLanguage)
+          external_ch1_avatar = rootState.me.ozariaUserOptions?.avatar?.avatarCodeString ? 'crown'
+          context = _.merge({ external_ch1_avatar }, utils.i18n(plan, 'context'))
+          source = _.template(rawSource)(context)
+
+          unless _.isEmpty(source)
+            commit('setLevelSolution', {
+              autoFillCount: rootState.game.levelSolution.autoFillCount + 1,
+              source
+            })
+          else
+            noty({ text: "No solution available.", timeout: 3000 })
+            console.error("Could not find solution for #{rootState.game.level.name}")
+        catch e
+          text = "Cannot auto fill solution: #{e.message}"
+          console.error(text)
+          noty({ type: 'error', text })
   }
   getters: {
     codeBankOpen: (state) -> state.codeBankOpen

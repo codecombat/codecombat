@@ -9,6 +9,8 @@ ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 createjs = require 'lib/createjs-parts'
 
+store = require 'core/store'
+
 # We'll get rid of this once level's teams actually have colors
 healthColors =
   ogres: [64, 128, 212]
@@ -351,16 +353,20 @@ module.exports = Lank = class Lank extends CocoClass
     @sprite.scaleX = @sprite.baseScaleX * @scaleFactorX * scaleX
     @sprite.scaleY = @sprite.baseScaleY * @scaleFactorY * scaleY
 
-    newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
-    newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
-    if @layer?.name is 'Land' or @thang?.isLand or @thang?.spriteName is 'Beam' or @isCinematicLank or @thang?.quickScale
-      @scaleFactorX = newScaleFactorX
-      @scaleFactorY = newScaleFactorY
-    else if @thang and (newScaleFactorX isnt @targetScaleFactorX or newScaleFactorY isnt @targetScaleFactorY)
-      @targetScaleFactorX = newScaleFactorX
-      @targetScaleFactorY = newScaleFactorY
-      createjs.Tween.removeTweens(@)
-      createjs.Tween.get(@).to({scaleFactorX: @targetScaleFactorX, scaleFactorY: @targetScaleFactorY}, 2000, createjs.Ease.elasticOut)
+    if utils.isOzaria
+      @scaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
+      @scaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
+    else
+      newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
+      newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
+      if @layer?.name is 'Land' or @thang?.isLand or @thang?.spriteName is 'Beam' or @isCinematicLank or @thang?.quickScale
+        @scaleFactorX = newScaleFactorX
+        @scaleFactorY = newScaleFactorY
+      else if @thang and (newScaleFactorX isnt @targetScaleFactorX or newScaleFactorY isnt @targetScaleFactorY)
+        @targetScaleFactorX = newScaleFactorX
+        @targetScaleFactorY = newScaleFactorY
+        createjs.Tween.removeTweens(@)
+        createjs.Tween.get(@).to({scaleFactorX: @targetScaleFactorX, scaleFactorY: @targetScaleFactorY}, 2000, createjs.Ease.elasticOut)
 
   updateAlpha: ->
     @sprite.alpha = if @hiding then 0 else 1
@@ -590,8 +596,10 @@ module.exports = Lank = class Lank extends CocoClass
 
   updateMarks: ->
     return unless @options.camera
-    @addMark 'repair', null, 'repair' if @thang?.erroredOut
-    @marks.repair?.toggle @thang?.erroredOut
+    # Don't show errored-out mark in Ozaria
+    if utils.isCodeCombat
+      @addMark 'repair', null, 'repair' if @thang?.erroredOut
+      @marks.repair?.toggle @thang?.erroredOut
 
     if @selected
       @marks[range['name']].toggle true for range in @ranges
@@ -640,9 +648,13 @@ module.exports = Lank = class Lank extends CocoClass
     @marks[effects[@effectIndex]].show()
 
   setHighlight: (to, delay) ->
+    if utils.isOzaria
+      highlightExisted = @marks.highlight?
     @addMark 'highlight', @options.floatingLayer, 'highlight' if to
     @marks.highlight?.highlightDelay = delay
     @marks.highlight?.toggle to and not @dimmed
+    if utils.isOzaria
+      @marks.highlight.update() if highlightExisted and to
 
   setDimmed: (@dimmed) ->
     @marks.highlight?.toggle @marks.highlight.on and not @dimmed
@@ -686,15 +698,19 @@ module.exports = Lank = class Lank extends CocoClass
       label = @addLabel 'dialogue', Label.STYLE_DIALOGUE
       label.setText e.blurb or '...'
     sound = e.sound ? AudioPlayer.soundForDialogue e.message, @thangType.get 'soundTriggers'
-    @dialogueSoundInstance?.stop()
-    if @dialogueSoundInstance = @playSound sound, false
-      @dialogueSoundInstance.addEventListener 'complete', -> Backbone.Mediator.publish 'sprite:dialogue-sound-completed', {}
+    if utils.isCodeCombat
+      @dialogueSoundInstance?.stop()
+      if @dialogueSoundInstance = @playSound sound, false
+        @dialogueSoundInstance.addEventListener 'complete', -> Backbone.Mediator.publish 'sprite:dialogue-sound-completed', {}
+    else
+      @playSound sound, false
     @notifySpeechUpdated e
 
   onClearDialogue: (e) ->
     return unless @labels.dialogue?.text
     @labels.dialogue?.setText null
-    @dialogueSoundInstance?.stop()
+    if utils.isCodeCombat
+      @dialogueSoundInstance?.stop()
     @notifySpeechUpdated {}
 
   onSetLetterbox: (e) ->
@@ -758,21 +774,58 @@ module.exports = Lank = class Lank extends CocoClass
       offsetFrames = Math.abs(@thang.sayStartTime - @thang.world.age) / @thang.world.dt
       if offsetFrames <= 2  # or (not withDelay and offsetFrames < 30)
         sound = AudioPlayer.soundForDialogue @thang.sayMessage, @thangType.get 'soundTriggers'
-        @playSound sound, false, volume
+        played = @playSound sound, false, volume
+        if utils.isOzaria and not played and me.get('aceConfig')?.screenReaderMode and (not @thang.labelStyle or @thang.labelStyle is Label.STYLE_SAY) and @thang.sayLabelOptions?.fontColor isnt 'white'
+          who = {'Hero Placeholder': 'Hero'}[@thang.id] or @thang.id
+          update = "#{who} says, \"#{@thang.sayMessage}\""
+          $('#screen-reader-live-updates').append($("<div>#{update}</div>"))  # TODO: move this to a store or lib? Limit how many lines?
 
   playSound: (sound, withDelay=true, volume=1.0) ->
-    if _.isString sound
-      soundTriggers = utils.i18n @thangType.attributes, 'soundTriggers'
-      sound = soundTriggers?[sound] or @thangType.get('soundTriggers')?[sound]  # Check localized triggers first, then root sound triggers in case of incomplete localization
-    if _.isArray sound
-      sound = sound[Math.floor Math.random() * sound.length]
-    return null unless sound
-    delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.framerate else 0
-    name = AudioPlayer.nameForSoundReference sound
-    AudioPlayer.preloadSoundReference sound
-    instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
-    #console.log @thang?.id, 'played sound', name, 'with delay', delay, 'volume', volume, 'and got sound instance', instance
-    instance
+    if utils.isCodeCombat
+      if _.isString sound
+        soundTriggers = utils.i18n @thangType.attributes, 'soundTriggers'
+        sound = soundTriggers?[sound] or @thangType.get('soundTriggers')?[sound]  # Check localized triggers first, then root sound triggers in case of incomplete localization
+      if _.isArray sound
+        sound = sound[Math.floor Math.random() * sound.length]
+      return null unless sound
+      delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.framerate else 0
+      name = AudioPlayer.nameForSoundReference sound
+      AudioPlayer.preloadSoundReference sound
+      instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
+      #console.log @thang?.id, 'played sound', name, 'with delay', delay, 'volume', volume, 'and got sound instance', instance
+      instance
+    else # Ozaria
+      # Sounds are triggered once and play until they complete.
+      # If a sound is already playing, it is not played again.
+      # These constraints allow us to wait until the thang type is loaded to play sounds.
+      if @thangType.loading || !@thangType.loaded
+        @thangType.once('sync', => @playSound(sound, withDelay, volume))
+        return false
+
+      soundKey = undefined
+
+      if _.isString sound
+        soundKey = sound
+        soundTriggers = utils.i18n @thangType.attributes, 'soundTriggers'
+        sound = soundTriggers?[sound]
+
+      if _.isArray sound
+        soundKey = sound.reduce((x, y) => "#{x}|#{y}")
+        sound = sound[Math.floor Math.random() * sound.length]
+
+      return false unless sound
+
+      # TODO integrate delay
+      delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.framerate else 0
+
+      store.dispatch('audio/playSound', {
+        track: 'soundEffects'
+        unique: "lank/#{@thang.id}/#{JSON.stringify(soundKey)}"
+        src: Object.values(sound).map((f) => "/file/#{f}")
+        volume: volume
+      })
+
+      true
 
   onMove: (e) ->
     return unless e.spriteID is @thang?.id
@@ -852,5 +905,6 @@ module.exports = Lank = class Lank extends CocoClass
     @sprite?.off 'animationend', @playNextAction
     @sprite?.destroy?()
     clearInterval @effectInterval if @effectInterval
-    @dialogueSoundInstance?.removeAllEventListeners()
+    if utils.isCodeCombat
+      @dialogueSoundInstance?.removeAllEventListeners()
     super()

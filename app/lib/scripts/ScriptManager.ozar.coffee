@@ -58,7 +58,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @levelID = options.levelID
     @debugScripts = application.isIPadApp or utils.getQueryVariable 'dev'
     @initProperties()
-    @saveSayEventsToStore()
+    if utils.isOzaria
+      @saveSayEventsToStore()
     @addScriptSubscriptions()
     @beginTicking()
 
@@ -70,7 +71,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @quiet = false
     @addScriptSubscriptions()
     @run()
-    @saveSayEventsToStore()
+    if utils.isOzaria
+      @saveSayEventsToStore()
 
   filterScripts: (scripts) ->
     _.filter scripts, (script) ->
@@ -214,8 +216,9 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
         continue if script.neverRun
 
       continue unless @scriptPrereqsSatisfied(script)
-      # This allows the content team to filter scripts by language.
-      event.codeLanguage ?= @session.get('codeLanguage') ? 'python'
+      if utils.isCodeCombat
+        # This allows the content team to filter scripts by language.
+        event.codeLanguage ?= @session.get('codeLanguage') ? 'python'
       continue unless scriptMatchesEventPrereqs(script, event)
       # everything passed!
       console.debug "SCRIPT: Running script '#{script.id}'" if @debugScripts
@@ -223,11 +226,12 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       @triggered.push(script.id) unless alreadyTriggered
       noteChain = @processScript(script)
 
-      # There may have been new conditions that are met so we are now in a
-      # position to add new say events to the tutorial. Duplicates are ignored.
-      sayEvents = ScriptManager.extractSayEvents(script)
-      if sayEvents.length
-        store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
+      if utils.isCodeCombat
+        # There may have been new conditions that are met so we are now in a
+        # position to add new say events to the tutorial. Duplicates are ignored.
+        sayEvents = ScriptManager.extractSayEvents(script)
+        if sayEvents.length
+          store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
 
       if not noteChain then return @trackScriptCompletions (script.id)
       @addNoteChain(noteChain)

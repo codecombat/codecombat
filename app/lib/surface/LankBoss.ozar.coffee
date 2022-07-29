@@ -44,6 +44,9 @@ module.exports = class LankBoss extends CocoClass
 
   destroy: ->
     @removeLank lank for thangID, lank of @lanks
+    if utils.isCodeCombat
+      @targetMark?.destroy()
+      @selectionMark?.destroy()
     lankLayer.destroy() for lankLayer in _.values @layerAdapters
     super()
 
@@ -88,6 +91,11 @@ module.exports = class LankBoss extends CocoClass
     layer.addLank lank
     layer.updateLayerOrder()
     lank
+
+  createMarks: ->
+    if @world.showTargetMark
+      @targetMark = new Mark name: 'target', camera: @camera, layer: @layerAdapters['Ground'], thangType: 'target'
+    @selectionMark = new Mark name: 'selection', camera: @camera, layer: @layerAdapters['Ground'], thangType: 'selection'
 
   createLankOptions: (options) ->
     _.extend options, {
@@ -143,6 +151,8 @@ module.exports = class LankBoss extends CocoClass
   update: (frameChanged) ->
     @adjustLankExistence() if frameChanged
     lank.update frameChanged for lank in @lankArray
+    if utils.isCodeCombat
+      @updateSelection()
     @layerAdapters['Default'].updateLayerOrder()
     @cacheObstacles()
 
@@ -177,12 +187,34 @@ module.exports = class LankBoss extends CocoClass
     @updateScreenReader()
 
   updateScreenReader: ->
+    if utils.isOzaria
+      @updateScreenReaderOzaria();
+    else
+      @updateScreenReaderCodeCombat()
+
+  updateScreenReaderCodeCombat: ->
+    # Testing ASCII map for screen readers
+    return unless me.get('name') is 'zersiax'  #in ['zersiax', 'Nick']
+    ascii = $('#ascii-surface')
+    thangs = (lank.thang for lank in @lankArray)
+    grid = new Grid thangs, @world.width, @world.height, 0, 0, 0, true
+    utils.replaceText ascii, grid.toString true
+    ascii.css 'transform', 'initial'
+    fullWidth = ascii.innerWidth()
+    fullHeight = ascii.innerHeight()
+    availableWidth = ascii.parent().innerWidth()
+    availableHeight = ascii.parent().innerHeight()
+    scale = availableWidth / fullWidth
+    scale = Math.min scale, availableHeight / fullHeight
+    ascii.css 'transform', "scale(#{scale})"
+
+  updateScreenReaderOzaria: ->
     return unless me.get('aceConfig')?.screenReaderMode and utils.isOzaria
     wv = @camera.worldViewport
     thangs = (lank.thang for lank in @lankArray when (
-        (wv.x             <= lank.thang.pos?.x <= wv.x + wv.width) and
+      (wv.x             <= lank.thang.pos?.x <= wv.x + wv.width) and
         (wv.y - wv.height <= lank.thang.pos?.y <= wv.y)
-      )
+    )
     )  # Ignore off-screen Thangs
     bounds = @world.calculateSimpleMovementBounds thangs
     width = Math.min bounds.right - bounds.left, Math.round(wv.width)
@@ -239,13 +271,19 @@ module.exports = class LankBoss extends CocoClass
   onNewWorld: (e) ->
     @world = @options.world = e.world
     # Clear obstacle cache for this level, since we are spawning walls dynamically
-    @cachedObstacles = false if e.finished and /kithgard-mastery/.test window.location.href
+    @cachedObstacles = false if e.finished and /(kithgard-mastery|dungeon-raider)/.test window.location.href
 
   play: ->
     lank.play() for lank in @lankArray
+    if utils.isCodeCombat
+      @selectionMark?.play()
+      @targetMark?.play()
 
   stop: ->
     lank.stop() for lank in @lankArray
+    if utils.isCodeCombat
+      @selectionMark?.stop()
+      @targetMark?.stop()
 
   # Selection
 
@@ -262,7 +300,8 @@ module.exports = class LankBoss extends CocoClass
     @dragged += 1
 
   onCameraZoomUpdated: (e) ->
-    @updateScreenReader()
+    if utils.isOzaria
+      @updateScreenReader()
 
   onLankMouseUp: (e) ->
     return unless @handleEvents
@@ -362,3 +401,33 @@ module.exports = class LankBoss extends CocoClass
       lank and lank.thangType.get('name') is 'Flag' and lank.thang.team is me.team and (lank.thang.color is e.color or not e.color) and not lank.notOfThisWorld
     return unless flagLank
     Backbone.Mediator.publish 'surface:remove-flag', color: flagLank.thang.color
+
+  # Marks
+
+  updateSelection: ->
+    if @selectedLank?.thang and (not @selectedLank.thang.exists or not @world.getThangByID @selectedLank.thang.id)
+      thangID = @selectedLank.thang.id
+      @selectedLank = null  # Don't actually trigger deselection, but remove the selected lank.
+      @selectionMark?.toggle false
+      @willSelectThang = [thangID, null]
+    @updateTarget()
+    return unless @selectionMark
+    @selectedLank = null if @selectedLank and (@selectedLank.destroyed or not @selectedLank.thang)
+    # The selection mark should be on the ground layer, unless we're not a normal lank (like a wall), in which case we'll place it higher so we can see it.
+    if @selectedLank and @selectedLank.sprite.parent isnt @layerAdapters.Default.container
+      @selectionMark.setLayer @layerAdapters.Default
+    else if @selectedLank
+      @selectionMark.setLayer @layerAdapters.Ground
+    @selectionMark.toggle @selectedLank?
+    @selectionMark.setLank @selectedLank
+    @selectionMark.update()
+
+  updateTarget: ->
+    return unless @targetMark
+    thang = @selectedLank?.thang
+    target = thang?.target
+    targetPos = thang?.targetPos
+    targetPos = null if targetPos?.isZero?()  # Null targetPos get serialized as (0, 0, 0)
+    @targetMark.setLank if target then @lanks[target.id] else null
+    @targetMark.toggle @targetMark.lank or targetPos
+    @targetMark.update if targetPos then @camera.worldToSurface targetPos else null

@@ -2,6 +2,7 @@ ThangState = require './thang_state'
 {thangNames} = require './names'
 {ArgumentError} = require './errors'
 Rand = require './rand'
+utils = require 'core/utils'
 
 module.exports = class Thang
   @className: 'Thang'
@@ -175,14 +176,13 @@ module.exports = class Thang
     colorConfigs = @teamColors or @world?.getTeamColors() or {}
     options = {colorConfig: {}}
     if @id is 'Hero Placeholder' and not @world.getThangByID 'Hero Placeholder 1'
-
-      # Single player color customization options
-      player_tints = me.get('ozariaUserOptions')?.tints or []
-      player_tints.forEach((tint) =>
-        for key,value of (tint.colorGroups or {})
-          options.colorConfig[key] = _.clone(value)
-      )
-
+      if utils.isOzaria
+        # Single player color customization options
+        player_tints = me.get('ozariaUserOptions')?.tints or []
+        player_tints.forEach((tint) =>
+          for key,value of (tint.colorGroups or {})
+            options.colorConfig[key] = _.clone(value)
+        )
       return options
     if @team and teamColor = colorConfigs[@team]
       options.colorConfig.team = teamColor

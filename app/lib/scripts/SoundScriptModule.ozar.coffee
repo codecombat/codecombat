@@ -1,11 +1,11 @@
 ScriptModule = require './ScriptModule'
+utils = require 'core/utils'
 
 currentMusic = null
 standingBy = null
 
 {me} = require('core/auth')
 store = require 'app/core/store'
-utils = require 'core/utils'
 
 module.exports = class SoundScriptModule extends ScriptModule
   @neededFor: (noteGroup) ->
@@ -14,8 +14,10 @@ module.exports = class SoundScriptModule extends ScriptModule
   startNotes: ->
     notes = []
     notes.push(@addSuppressSelectionSoundsNote()) if @noteGroup.sound.suppressSelectionSounds?
-    notes.push(@addMusicNote()) if @noteGroup.sound.music? and @noteGroup.sound.music.file?
-
+    if utils.isOzaria
+      notes.push(@addMusicNote()) if @noteGroup.sound.music? and @noteGroup.sound.music.file?
+    else
+      notes.push(@addMusicNote()) if @noteGroup.sound.music?
     return notes
 
   endNotes: ->
@@ -77,8 +79,9 @@ module.exports = class SoundScriptModule extends ScriptModule
           loop: true,
           volume: 0.25
         }
-    else
+    else # CodeCombat
       note =
         channel: 'music-player:play-music'
         event: @noteGroup.sound.music
+
     return note

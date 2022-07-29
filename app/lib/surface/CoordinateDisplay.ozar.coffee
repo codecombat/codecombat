@@ -1,4 +1,5 @@
 createjs = require 'lib/createjs-parts'
+utils = require 'core/utils'
 
 DEFAULT_DISPLAY_OPTIONS = {
   fontWeight: 'bold',
@@ -63,7 +64,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
   onMouseOut: (e) -> @mouseInBounds = false
 
   onMouseMove: (e) ->
-    return if @disabled
+    return if @disabled and utils.isOzaria
     wop = @camera.screenToWorld x: e.x, y: e.y
     if key.alt
       wop.x = Math.round(wop.x * 1000) / 1000
@@ -73,7 +74,8 @@ module.exports = class CoordinateDisplay extends createjs.Container
       wop.y = Math.round(wop.y)
     return if wop.x is @lastPos?.x and wop.y is @lastPos?.y
     @lastPos = wop
-    @lastSurfacePos = @camera.worldToSurface(@lastPos)
+    if utils.isOzaria
+      @lastSurfacePos = @camera.worldToSurface(@lastPos)
     @lastScreenPos = x: e.x, y: e.y
     if key.alt
       @performShow()

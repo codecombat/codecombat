@@ -8,6 +8,7 @@ GoalManager = require 'lib/world/GoalManager'
 {sendContactMessage} = require 'core/contact'
 errors = require 'core/errors'
 utils = require 'core/utils'
+store = require 'core/store'
 
 reportedLoadErrorAlready = false
 
@@ -301,6 +302,17 @@ module.exports = class Angel extends CocoClass
       @worker.postMessage func: 'addRealTimeInputEvent', args: realTimeInputEvent.toJSON()
 
   onStopRealTimePlayback: (e) ->
+    # TODO Improve later with GoalManger reworking
+    if store.getters['game/clickedUpdateCapstoneCode'] and @work?.world?.goalManager?.goalStates?["has-stopped-playing-game"]
+      # The update button goal is a simple way to ensure that the student presses update to test their code.
+      # After the first time the update button has been pressed, it is in a 'success' state until the page reloads.
+      @work.world.goalManager.setGoalState("has-clicked-update-button", "success")
+
+    if store.getters['game/hasPlayedGame'] and @work?.world?.goalManager?.goalStates?["has-stopped-playing-game"]
+      # Mark the goal completed and prevent the goalmanager being destroying
+      @work.world.goalManager.setGoalState("has-stopped-playing-game", "success")
+      @work.world.endWorld(true, 0)
+      return
     return unless @running and @work.realTime
     if @work.synchronous
       return @abort()
@@ -326,6 +338,7 @@ module.exports = class Angel extends CocoClass
     work.world.flagHistory = work.flagHistory ? []
     work.world.realTimeInputEvents = work.realTimeInputEvents ? []
     work.world.difficulty = work.difficulty ? 0
+    work.world.capstoneStage = work.capstoneStage ? 1
     work.world.language = me.get('preferredLanguage', true)
     work.world.loadFromLevel work.level, true
     work.world.preloading = work.preload
@@ -335,7 +348,7 @@ module.exports = class Angel extends CocoClass
     work.world.justBegin = work.justBegin
     work.world.keyValueDb = work.keyValueDb
     if @shared.goalManager
-      goalManager = new GoalManager(work.world)
+      goalManager = new GoalManager(work.world, @shared.goalManager.initialGoals, null, @shared.goalManager.options)
       goalManager.setGoals work.goals
       goalManager.setCode work.userCodeMap
       goalManager.worldGenerationWillBegin()

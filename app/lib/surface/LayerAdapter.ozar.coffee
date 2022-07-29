@@ -69,22 +69,24 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @updateLayerOrder = _.throttle @updateLayerOrder, 1000 / 30  # Don't call multiple times in one frame; 30 FPS is probably good enough
     @lanks = []
     @labels = []
-    @totalTimeSpentRendering = 0
 
-    # Explicitly setting class as non reactive for performance benefit.
-    Vue.nonreactive(@)
+    if utils.isOzaria
+      @totalTimeSpentRendering = 0
 
-    @reportRenderTime = _.debounce(
-      () =>
-        if @totalTimeSpentRendering != 0 and Math.random() < 0.01
-          log(
-            'LayerAdapter Render Time', {
-              totalTimeSpentRendering: @totalTimeSpentRendering
-              name: @name
-            }
-          )
-      500
-    )
+      # Explicitly setting class as non reactive for performance benefit.
+      Vue.nonreactive(@)
+
+      @reportRenderTime = _.debounce(
+        () =>
+          if @totalTimeSpentRendering != 0 and Math.random() < 0.01
+            log(
+              'LayerAdapter Render Time', {
+                totalTimeSpentRendering: @totalTimeSpentRendering
+                name: @name
+              }
+            )
+        500
+      )
 
     @webGL = !!options.webGL
     if @webGL
@@ -98,8 +100,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     else
       @container = new createjs.Container()
 
-    # Explicitly setting class as non reactive for performance benefit.
-    Vue.nonreactive(@container)
+    if utils.isOzaria
+      # Explicitly setting class as non reactive for performance benefit.
+      Vue.nonreactive(@container)
 
   toString: -> "<Layer #{@layerPriority}: #{@name}>"
 
@@ -120,6 +123,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if aLank = a.lank
       if aThang = aLank.thang
         aPos = aThang.pos
+        if aThang.health < 0 and aThang.pos.z <= aThang.depth / 2 and utils.isCodeCombat
+          # Nice for not being knee deep in the dead, just not nice for ogres flying behind trees when exploded
+          --az
     if bLank = b.lank
       if bThang = bLank.thang
         bPos = bThang.pos
@@ -207,7 +213,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       thangType.fetch() unless thangType.loading
       @numThingsLoading++
       @listenToOnce(thangType, 'sync', @somethingLoaded)
-      if Math.random() < 0.01
+      if Math.random() < 0.01 and utils.isOzaria
         @listenToOnce(thangType, 'sync', ((loadingTimer) -> -> log('ThangType Loaded', {
           loadTimeMS: loadingTimer()
           original: thangType.get('original')
@@ -217,13 +223,13 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       thangType.loadRasterImage()
       @listenToOnce(thangType, 'raster-image-loaded', @somethingLoaded)
       @numThingsLoading++
-      if Math.random() < 0.01
+      if Math.random() < 0.01 and utils.isOzaria
         @listenToOnce(thangType, 'raster-image-loaded', ((loadingTimer) -> -> log('ThangType Loaded', {
           loadTimeMS: loadingTimer()
           original: thangType.get('original')
           name: thangType.get('name')
         }))(startTimer()))
-    else if thangType.get('spriteType') is 'rasterAtlas'
+    else if thangType.get('spriteType') is 'rasterAtlas' and utils.isOzaria
       return if thangType.loadingRasterAtlas or thangType.loadedRasterAtlas
       thangType.loadAllRasterTextureAtlases()
       @listenToOnce(thangType, 'texture-atlas-loaded', -> @somethingLoaded(thangType))
@@ -252,9 +258,12 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if lank.thangType.get('raster')
       @upsertActionToRender(lank.thangType)
     else
-      # Cinematic lanks preload all their own animations and don't use the default action list.
-      defaultActions = if lank?.isCinematicLank then [] else ThangType.defaultActions
-      defaultRenderableActions = defaultActions.concat(lank.thangType.get('preLoadActions') or [])
+      if utils.isOzaria
+        # Cinematic lanks preload all their own animations and don't use the default action list.
+        defaultActions = if lank?.isCinematicLank then [] else ThangType.defaultActions
+        defaultRenderableActions = defaultActions.concat(lank.thangType.get('preLoadActions') or [])
+      else
+        defaultRenderableActions = ThangType.defaultActions.concat(lank.thangType.get('preLoadActions') or [])
       for action in _.values(lank.thangType.getActions())
         continue unless _.any defaultRenderableActions, (prefix) -> _.string.startsWith(action.name, prefix)
         @upsertActionToRender(lank.thangType, action.name, lank.options.colorConfig)
@@ -283,7 +292,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   _renderNewSpriteSheet: (async) ->
     return if @destroyed
-    @renderNewSpriteSheetStartedTime = performance?.now()
+    if utils.isOzaria
+      @renderNewSpriteSheetStartedTime = performance?.now()
     @asyncBuilder.stopAsync() if @asyncBuilder
     @asyncBuilder = null
 
@@ -320,7 +330,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
           @renderSegmentedThangType(args...)
         else
           @renderSingularThangType(args...)
-      else if thangType.get('spriteType') is 'rasterAtlas'
+      else if thangType.get('spriteType') is 'rasterAtlas' and utils.isOzaria
         @buildRasterAtlasSpriteSheet(thangType, actionNames)
       else
         @renderRasterThangType(thangType, builder)
@@ -346,7 +356,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
   onBuildSpriteSheetComplete: (e, builder) ->
     return if @initializing or @destroyed
-    if performance
+    if performance and utils.isOzaria
       @totalTimeSpentRendering += performance?.now() - @renderNewSpriteSheetStartedTime
       @reportRenderTime()
     @asyncBuilder = null
@@ -365,7 +375,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @container = new createjs.Container(@spriteSheet)
 
     # Explicitly setting object as non reactive for performance benefit.
-    Vue.nonreactive(@container)
+    if utils.isOzaria
+      Vue.nonreactive(@container)
 
     for lank in @lanks
       console.log 'zombie sprite found on layer', @name if lank.destroyed
@@ -592,7 +603,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       sprite.gotoAndStop(@renderGroupingKey(lank.thangType))
       sprite.baseScaleX = sprite.baseScaleY = 1
 
-    else if lank.thangType.get('spriteType') is 'rasterAtlas'
+    else if lank.thangType.get('spriteType') is 'rasterAtlas' and utils.isOzaria
       sprite = new RasterAtlasSprite(lank.thangType)
 
     else

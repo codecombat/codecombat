@@ -44,8 +44,9 @@ module.exports = class LankBoss extends CocoClass
 
   destroy: ->
     @removeLank lank for thangID, lank of @lanks
-    @targetMark?.destroy()
-    @selectionMark?.destroy()
+    if utils.isCodeCombat
+      @targetMark?.destroy()
+      @selectionMark?.destroy()
     lankLayer.destroy() for lankLayer in _.values @layerAdapters
     super()
 
@@ -150,7 +151,8 @@ module.exports = class LankBoss extends CocoClass
   update: (frameChanged) ->
     @adjustLankExistence() if frameChanged
     lank.update frameChanged for lank in @lankArray
-    @updateSelection()
+    if utils.isCodeCombat
+      @updateSelection()
     @layerAdapters['Default'].updateLayerOrder()
     @cacheObstacles()
 
@@ -185,7 +187,15 @@ module.exports = class LankBoss extends CocoClass
     @updateScreenReader()
 
   updateScreenReader: ->
-    return unless me.get('aceConfig')?.screenReaderMode and utils.isOzaria
+    if utils.isOzaria
+      @updateScreenReaderOzaria();
+    else
+      @updateScreenReaderCodeCombat()
+
+  updateScreenReaderCodeCombat: ->
+    # Testing ASCII map for screen readers
+    return unless me.get('name') is 'zersiax'  #in ['zersiax', 'Nick']
+    ascii = $('#ascii-surface')
     thangs = (lank.thang for lank in @lankArray)
     bounds = @world.calculateSimpleMovementBounds()
     width = Math.min bounds.right - bounds.left, Math.round(@camera.worldViewport.width)
@@ -197,6 +207,85 @@ module.exports = class LankBoss extends CocoClass
     rogue = true
     simpleMovementGrid = new Grid thangs, width, height, padding, left, bottom, rogue, simpleMovementResolution
     Backbone.Mediator.publish 'surface:update-screen-reader-map', grid: simpleMovementGrid
+
+  updateScreenReaderOzaria: ->
+    # Testing ASCII map for screen readers
+    return unless me.get('aceConfig')?.screenReaderMode
+    #ascii = $('#ascii-surface').removeClass('hide')  # table version has better accessibility
+    asciiTable = $('#ascii-surface-table').removeClass('hide')
+    thangs = (lank.thang for lank in @lankArray)
+    [maxWidth, maxHeight] = @world.calculateBounds()
+    width = Math.min maxWidth, Math.round(@camera.worldViewport.width)
+    height = Math.min maxHeight, Math.round(@camera.worldViewport.height)
+    padding = 0
+    left = Math.max 0, Math.round(@camera.worldViewport.x)
+    bottom = Math.max 0, Math.round(@camera.worldViewport.y - @camera.worldViewport.height)  # y is inverted
+    rogue = true
+    resolution = 10 / 2  # TODO: dynamically find from GridMovement2 System gridStep, along with bounds as gridBottomLeftPoint and gridTopRightPoint
+    grid = new Grid thangs, width, height, padding, left, bottom, rogue, resolution
+    #utils.replaceText ascii, grid.toString true
+
+    # Update table in-place for performance, handling changes in table size as needed
+    tableChars = grid.toTable true
+    tableNames = grid.toTableNames()
+    if not @$asciiTableHeader
+      asciiTable.append(@$asciiTableHeader = $('<thead></thead>')).append(@$asciiTableBody = $('<tbody></tbody>'))
+      @asciiTableRows = []
+      @asciiTableCells = []
+    for row, c in tableChars
+      parent = if c is 0 then @$asciiTableHeader else @$asciiTableBody
+      $tr = @asciiTableRows[c]
+      cells = @asciiTableCells[c]
+      if not $tr
+        parent.append($tr = $('<tr></tr>'))
+        @asciiTableRows.push $tr
+        @asciiTableCells.push cells = []
+      for char, r in row
+        if r is 0
+          el = 'th'
+          scope = 'scope="row"'
+        else if c is 0
+          el = 'th'
+          scope = 'scope="col"'
+        else
+          el = 'td'
+          scope = ''
+        $td = cells[r]
+        if not $td
+          $tr.append($td = $("<#{el} #{scope}></#{el}>"))
+          cells.push $td
+          $td.append($("<span aria-hidden='true'>#{char}</span>"))
+          name = ''
+          if el is 'td'
+            name = tableNames[c][r]
+            name = 'Blank' if not name or name is ' '
+          $td.append($("<span class='sr-only'>#{name}</span>"))
+        else
+          if $td.previousChar isnt char
+            utils.replaceText $td.find('span[aria-hidden="true"]'), char
+          if $td.previousName isnt name
+            utils.replaceText $td.find('span.sr-only'), name
+        $td.previousChar = char
+        $td.previousName = name
+      if r < cells.length - 1
+        # Table has shrunk width; remove extra cells
+        $td.remove() for $td in cells.splice r + 1
+    if c < @asciiTableRows.length - 1
+      # Table has shrunk height; remove extra rows and their cells
+      $tr.remove() for $tr in @asciiTableRows.splice c + 1
+      for cells in @asciiTableCells.splice c + 1
+        $td.remove() for $td in cells
+
+    for $el in [asciiTable]  #[ascii, asciiTable]
+      # Scale the table to match how the visual surface is scaled
+      $el.css 'transform', 'initial'
+      fullWidth = $el.innerWidth()
+      fullHeight = $el.innerHeight()
+      availableWidth = $el.parent().innerWidth()
+      availableHeight = $el.parent().innerHeight()
+      scaleX = availableWidth / fullWidth
+      scaleY = availableHeight / fullHeight
+      $el.css 'transform', "scaleX(#{scaleX}) scaleY(#{scaleY})"
 
   equipNewItems: (thang) ->
     itemsJustEquipped = []
@@ -245,13 +334,15 @@ module.exports = class LankBoss extends CocoClass
 
   play: ->
     lank.play() for lank in @lankArray
-    @selectionMark?.play()
-    @targetMark?.play()
+    if utils.isCodeCombat
+      @selectionMark?.play()
+      @targetMark?.play()
 
   stop: ->
     lank.stop() for lank in @lankArray
-    @selectionMark?.stop()
-    @targetMark?.stop()
+    if utils.isCodeCombat
+      @selectionMark?.stop()
+      @targetMark?.stop()
 
   # Selection
 

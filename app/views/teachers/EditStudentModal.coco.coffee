@@ -47,7 +47,10 @@ module.exports = class EditStudentModal extends ModalView
   fetchPrepaids: ->
     @prepaids = new Prepaids()
     @prepaids.comparator = 'endDate'
-    @supermodel.trackRequest @prepaids.fetchForClassroom(@classroom)
+    if utils.isOzaria
+      @supermodel.trackRequest @prepaids.fetchMineAndShared()
+    else
+      @supermodel.trackRequest @prepaids.fetchForClassroom(@classroom)
 
   onClickSendRecoveryEmail: ->
     email = @user.get('email')
@@ -55,29 +58,63 @@ module.exports = class EditStudentModal extends ModalView
       @state.set { emailSent: true }
 
   onClickRevokeStudentButton: (e) ->
-    return unless me.id is @classroom.get('ownerID')
-    selectedUsers = new Users([@user])
-    modal = new ManageLicenseModal { @classroom, selectedUsers , users: @students, tab: 'revoke'}
-    @openModalView(modal)
-    modal.once 'redeem-users', (enrolledUsers) =>
-      enrolledUsers.each (newUser) =>
-        user = @students.get(newUser.id)
-        if user
-          user.set(newUser.attributes)
-      null
+    if utils.isOzaria
+      button = $(e.currentTarget)
+      s = $.i18n.t('teacher.revoke_confirm').replace('{{student_name}}', @user.broadName())
+      return unless confirm(s)
+      prepaid = @user.makeCoursePrepaid()
+      button.text($.i18n.t('teacher.revoking'))
+      prepaid.revoke(@user, {
+        success: =>
+          @user.unset('coursePrepaid')
+          @prepaids.fetchMineAndShared().done(=> @render())
+        error: (prepaid, jqxhr) =>
+          msg = jqxhr.responseJSON.message
+          noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+      })
+    else # CodeCombat
+      return unless me.id is @classroom.get('ownerID')
+      selectedUsers = new Users([@user])
+      modal = new ManageLicenseModal { @classroom, selectedUsers , users: @students, tab: 'revoke'}
+      @openModalView(modal)
+      modal.once 'redeem-users', (enrolledUsers) =>
+        enrolledUsers.each (newUser) =>
+          user = @students.get(newUser.id)
+          if user
+            user.set(newUser.attributes)
+        null
 
+  studentStatusString: ->
+    status = @user.prepaidStatus()
+    expires = @user.get('coursePrepaid')?.endDate
+    date = if expires? then moment(expires).utc().format('ll') else ''
+    utils.formatStudentLicenseStatusDate(status, date)
 
   onClickEnrollStudentButton: ->
-    return unless @classroom.hasWritePermission()
-    selectedUsers = new Users([@user])
-    modal = new ManageLicenseModal { @classroom, selectedUsers , users: @students }
-    @openModalView(modal)
-    modal.once 'redeem-users', (enrolledUsers) =>
-      enrolledUsers.each (newUser) =>
-        user = @students.get(newUser.id)
-        if user
-          user.set(newUser.attributes)
-      null
+    if utils.isOzaria
+      return unless me.id is @classroom.get('ownerID')
+      prepaid = @prepaids.find((prepaid) -> prepaid.status() is 'available')
+      prepaid.redeem(@user, {
+        success: (prepaid) =>
+          @user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))
+        error: (prepaid, jqxhr) =>
+          msg = jqxhr.responseJSON.message
+          noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+        complete: =>
+          @render()
+      })
+      window.tracker?.trackEvent "Teachers Class Enrollment Enroll Student", category: 'Teachers', classroomID: @classroom.id, userID: @user.id
+    else # CodeCombat
+      return unless @classroom.hasWritePermission()
+      selectedUsers = new Users([@user])
+      modal = new ManageLicenseModal { @classroom, selectedUsers , users: @students }
+      @openModalView(modal)
+      modal.once 'redeem-users', (enrolledUsers) =>
+        enrolledUsers.each (newUser) =>
+          user = @students.get(newUser.id)
+          if user
+            user.set(newUser.attributes)
+        null
 
   onClickChangePassword: ->
     @classroom.setStudentPassword(@user, @state.get('newPassword'))

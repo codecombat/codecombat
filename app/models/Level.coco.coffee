@@ -4,6 +4,7 @@ LevelSystem = require './LevelSystem'
 LevelConstants = require 'lib/LevelConstants'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
 utils = require 'core/utils'
+store = require 'core/store'
 
 # Pure functions for use in Vue
 # First argument is always a raw Level.attributes
@@ -168,12 +169,21 @@ module.exports = class Level extends CocoModel
         levelThang.components.push placeholderComponent
 
     # Load the user's chosen hero AFTER getting stats from default char
-    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF and @get('assessment') isnt 'open-ended' and (not me.showHeroAndInventoryModalsToStudents() or @isAssessment())
-      heroThangType = me.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
-      # use default hero in class if classroomItems is on
-      if @isAssessment() and me.showHeroAndInventoryModalsToStudents()
-        heroThangType = ThangTypeConstants.heroes.captain
-      levelThang.thangType = heroThangType if heroThangType
+    if utils.isOzaria
+      if /Hero Placeholder/.test(levelThang.id)
+        if @isType('course') and not @headless and not @sessionless
+          heroThangType = me.get('ozariaUserOptions')?.isometricThangTypeOriginal
+        else
+          heroThangType = session?.get('heroConfig')?.thangType
+        if heroThangType
+          levelThang.thangType = heroThangType
+    else
+      if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF and @get('assessment') isnt 'open-ended' and (not me.showHeroAndInventoryModalsToStudents() or @isAssessment())
+        heroThangType = me.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
+        # use default hero in class if classroomItems is on
+        if @isAssessment() and me.showHeroAndInventoryModalsToStudents()
+          heroThangType = ThangTypeConstants.heroes.captain
+        levelThang.thangType = heroThangType if heroThangType
 
   sortSystems: (levelSystems, systemModels) ->
     [sorted, originalsSeen] = [[], {}]
@@ -298,8 +308,9 @@ module.exports = class Level extends CocoModel
     return [] unless plan = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)?.config.programmableMethods.plan
     solutions = _.cloneDeep plan.solutions ? []
     for solution in solutions
+      context = _.merge({ external_ch1_avatar: store.getters?['me/getCh1Avatar']?.avatarCodeString || 'crown' }, utils.i18n(plan, 'context') )
       try
-        solution.source = _.template(solution?.source)(utils.i18n(plan, 'context'))
+        solution.source = _.template(solution?.source)(context)
       catch e
         console.error "Problem with template and solution comments for '#{@get('slug') or @get('name')}'\n", e
     solutions
@@ -311,8 +322,9 @@ module.exports = class Level extends CocoModel
     sampleCode = _.cloneDeep plan.languages ? {}
     sampleCode.javascript = plan.source
     for language, code of sampleCode
+      context = _.merge({ external_ch1_avatar: store.getters?['me/getCh1Avatar']?.avatarCodeString || 'crown' }, plan.context )
       try
-        sampleCode[language] = _.template(code)(plan.context)
+        sampleCode[language] = _.template(code)(context)
       catch e
         console.error "Problem with template and solution comments for '#{@get('slug') or @get('name')}'\n", e
     sampleCode
@@ -339,6 +351,21 @@ module.exports = class Level extends CocoModel
     return equips?.config?.inventory?
 
   isAssessment: -> @get('assessment')?
+
+  isCapstone: -> @get('ozariaType') == 'capstone'
+
+  isChallenge: -> @get('ozariaType') == 'challenge'
+
+  getDisplayContentType: ->
+    return 'capstone' if @isCapstone()
+    return 'challenge' if @isChallenge()
+    if @get('type') == 'intro'
+      introContent = @get('introContent') || []
+      if (introContent.length == 1 && introContent[0].type == 'cutscene-video')
+        return 'cutscene'
+      else
+        return 'intro'
+    return 'practice'
 
   checkRemoteChanges: ->
     fetch(this.url()).then (response) =>

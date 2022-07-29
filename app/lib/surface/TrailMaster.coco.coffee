@@ -55,9 +55,14 @@ module.exports = class TrailMaster extends CocoClass
     return key
 
   colorForThang: (team, alpha=1.0) ->
-    rgb = [0, 255, 0]
-    rgb = [255, 0, 0] if team is 'humans'
-    rgb = [0, 0, 255] if team is 'ogres'
+    if utils.isOzaria
+      rgb = [0, 255, 0]
+      rgb = [255, 0, 0] if team is 'humans'
+      rgb = [0, 0, 255] if team is 'ogres'
+    else
+      rgb = [79, 202, 82]
+      rgb = [69, 170, 255] if team is 'humans'
+      rgb = [255, 0, 0] if team is 'ogres'
     rgb.push(alpha)
     return rgb
 

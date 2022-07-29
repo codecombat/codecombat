@@ -13,6 +13,8 @@ CourseInstances = require 'collections/CourseInstances'
 require 'd3/d3.js'
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
+AceDiff = require 'ace-diff'
+require('app/styles/common/ace-diff.sass')
 fullPageTemplate = require 'app/templates/teachers/teacher-student-view-full'
 viewTemplate = require 'app/templates/teachers/teacher-student-view'
 
@@ -26,12 +28,27 @@ module.exports = class TeacherStudentView extends RootView
     'click .level-progress-dot': 'onClickStudentProgressDot'
     'click .nav-link': 'onClickSolutionTab'
 
-  getMeta: -> { title: "#{$.i18n.t('teacher.student_profile')} | #{$.i18n.t('common.ozaria')}" }
+  getMeta: -> { title: if utils.isOzaria then "#{$.i18n.t('teacher.student_profile')} | #{$.i18n.t('common.ozaria')}" else @user?.broadName() }
 
   onClickSolutionTab: (e) ->
     link = $(e.target).closest('a')
     levelSlug = link.data('level-slug')
+    if utils.isCodeCombat
+      idTarget = link.attr('id').split('-')[0]
     solutionIndex = link.data('solution-index')
+    if utils.isCodeCombat
+      lang = @classroom.get('aceConfig').language ? 'python'
+      if [utils.courseIDs.WEB_DEVELOPMENT_1, utils.courseIDs.WEB_DEVELOPMENT_2].indexOf(@selectedCourseId) != -1
+        lang = 'html'
+      if /\+/.test(idTarget)
+        levelOriginal = idTarget.split('+')[0]
+        codes = @levelStudentCodeMap[levelOriginal]
+        code = @levels.fingerprint(codes[solutionIndex].plan, lang)
+        @aceDiffs?[levelOriginal].editors.left.ace.setValue(code, -1)
+      else
+        levelOriginal = link.attr('id').split('-')[0].slice(0, -1)
+        solutions = @levelSolutionsMap[levelOriginal]
+        @aceDiffs?[levelOriginal].editors.right.ace.setValue(solutions[solutionIndex].source, -1)
     tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
   initialize: (options, classroomID, @studentID) ->
@@ -81,7 +98,8 @@ module.exports = class TeacherStudentView extends RootView
     @selectedCourseId = @courses.first().id if @courses.loaded and @courses.length > 0 and not @selectedCourseId
     if @students.loaded and not @destroyed
       @user = _.find(@students.models, (s)=> s.id is @studentID)
-      @setMeta({ title: "#{$.i18n.t('teacher.student_profile')} | #{@user.broadName()} | #{$.i18n.t('common.ozaria')}" })
+      if utils.isOzaria
+        @setMeta({ title: "#{$.i18n.t('teacher.student_profile')} | #{@user.broadName()} | #{$.i18n.t('common.ozaria')}" })
       @updateLastPlayedInfo()
       @updateLevelProgressMap()
       @updateLevelDataMap()
@@ -130,22 +148,65 @@ module.exports = class TeacherStudentView extends RootView
     @$el.find('pre:has(code[class*="lang-"])').each ->
       codeElem = $(@).first().children().first()
       lang = mode for mode of aceUtils.aceEditModes when codeElem?.hasClass('lang-' + mode)
-      aceEditor = aceUtils.initializeACE(@, lang or classLang)
-      aceEditors.push aceEditor
+      if utils.isOzaria
+        aceEditor = aceUtils.initializeACE(@, lang or classLang)
+        aceEditors.push aceEditor
+    if utils.isCodeCombat
+      view = @
+      @aceDiffs = {}
+      @$el.find('div[class*="ace-diff-"]').each ->
+        cls = $(@).attr('class')
+        levelOriginal = cls.split('-')[2]
+        solutions = view.levelSolutionsMap[levelOriginal]
+        studentCode = view.levelStudentCodeMap[levelOriginal]
+        lang = classLang
+        if [utils.courseIDs.WEB_DEVELOPMENT_1, utils.courseIDs.WEB_DEVELOPMENT_2].indexOf(view.selectedCourseId) != -1
+          lang = 'html'
+        view.aceDiffs[levelOriginal] = new AceDiff({
+          element: '.' + cls
+          mode: 'ace/mode/' +classLang
+          theme: 'ace/theme/textmate'
+          left: {
+            content: view.levels.fingerprint(studentCode?[0]?.plan ? '', lang)
+            editable: false
+            copyLinkEnabled: false
+          }
+          right: {
+            content: solutions?[0]?.source ? ''
+            editable: false
+            copyLinkEnabled: false
+          }
+        })
 
   updateSolutions: ->
     return unless @classroom?.loaded and @sessions?.loaded and @levels?.loaded
     @levelSolutionsMap = @levels.getSolutionsMap([@classroom.get('aceConfig')?.language, 'html'])
     @levelStudentCodeMap = {}
     @capstoneGuidedCode = {}
-    for session in @sessions.models when session.get('creator') is @studentID
-      # Normal level
-      @levelStudentCodeMap[session.get('level').original] = session.get('code')?['hero-placeholder']?['plan']
-      # Arena level
-      @levelStudentCodeMap[session.get('level').original] ?= session.get('code')?['hero-placeholder-1']?['plan']
-      # Capstone with saved code level
-      if (session.get('code')?['saved-capstone-normal-code']?['plan'])
-        @capstoneGuidedCode[session.get('level').original] = session.get('code')['saved-capstone-normal-code']['plan']
+    # I it's not clear why the value is _plan_ in Ozaria and {plan:_plan_,...} in CodeCombat
+    if utils.isOzaria
+      for session in @sessions.models when session.get('creator') is @studentID
+        # Normal level
+        @levelStudentCodeMap[session.get('level').original] = session.get('code')?['hero-placeholder']?['plan']
+        # Arena level
+        @levelStudentCodeMap[session.get('level').original] ?= session.get('code')?['hero-placeholder-1']?['plan']
+        # Capstone with saved code level
+        if (session.get('code')?['saved-capstone-normal-code']?['plan'])
+          @capstoneGuidedCode[session.get('level').original] = session.get('code')['saved-capstone-normal-code']['plan']
+    else # CodeCombat
+      for session in @sessions.models when session.get('creator') is @studentID
+        levelOriginal = session.get('level').original
+        @levelStudentCodeMap[levelOriginal] = @levelStudentCodeMap[levelOriginal] || []
+        # Normal level
+        if session.get('code')?['hero-placeholder']?['plan']
+          @levelStudentCodeMap[levelOriginal].push({
+            plan: session.get('code')['hero-placeholder']['plan'],
+            team: 'humans'})
+        # Arena level
+        if session.get('code')?['hero-placeholder-1']?['plan']
+          @levelStudentCodeMap[levelOriginal].push({
+            plan: session.get('code')['hero-placeholder-1']['plan'],
+            team: 'ogres'})
 
   isCreativeMode: (levelOriginal) ->
     return @isCreativeLevelMap && @isCreativeLevelMap[levelOriginal]
@@ -195,10 +256,13 @@ module.exports = class TeacherStudentView extends RootView
     for versionedCourse in @classroom.getSortedCourses() or []
       course = @courses.get(versionedCourse._id)
       numbers = []
+      performanceNumbers = []
       studentCourseTotal = 0
+      performanceStudentCourseTotal = 0
       members = 0 #this is the COUNT for our standard deviation, number of members who have played all of the levels this student has played.
       for member in @classroom.get('members')
         number = 0
+        performanceNumber = 0
         memberPlayed = 0 # number of levels a member has played that this student has also played
         for versionedLevel in versionedCourse.levels
           sessions = (levelSessionsByStudentByLevel[member] ? {})[versionedLevel.original] ? []
@@ -206,26 +270,34 @@ module.exports = class TeacherStudentView extends RootView
             playedLevel = levelDataByLevel[session.get('level').original]
             if playedLevel.levelProgress is 'complete' or playedLevel.levelProgress is 'started'
               number += session.get('playtime') or 0
+              performanceNumber += not playedLevel.isLadder and not playedLevel.isProject and session.get('playtime') or 0
               memberPlayed += 1
             if session.get('creator') is @studentID
               studentCourseTotal += session.get('playtime') or 0
+              performanceStudentCourseTotal += not playedLevel.isLadder and not playedLevel.isProject and session.get('playtime') or 0
         if memberPlayed > 0 then members += 1
         numbers.push number
+        performanceNumbers.push performanceNumber
 
       # add all numbers[]
       sum = numbers.reduce (a,b) -> a + b
+      performanceSum = performanceNumbers.reduce (a,b) -> a + b
 
       # divide by members to get MEAN, remember MEAN is only an average of the members' performance on levels THIS student has done.
       mean = sum/members
+      performanceMean = performanceSum/members
 
       # # for each number in numbers[], subtract MEAN then SQUARE, add all, then divide by COUNT to get VARIANCE
       diffSum = numbers.map((num) -> (num-mean)**2).reduce (a,b) -> a+b
+      performanceDiffSum = performanceNumbers.map((num) -> (num-performanceMean)**2).reduce (a,b) -> a+b
       variance = (diffSum / members)
+      performanceVariance = (performanceDiffSum / members)
 
       # square root of VARIANCE is standardDev
       StandardDev = Math.sqrt(variance)
+      PerformanceStandardDev = Math.sqrt(performanceVariance)
 
-      perf = -(studentCourseTotal - mean) / StandardDev
+      perf = -(performanceStudentCourseTotal - performanceMean) / PerformanceStandardDev
       perf = if perf > 0 then Math.ceil(perf) else Math.floor(perf)
 
       @courseComparisonMap.push {
@@ -365,10 +437,11 @@ module.exports = class TeacherStudentView extends RootView
 
     # Find level for this level session, for it's name
     level = @levels.findWhere({original: session.get('level').original})
-    @levels.forEach((level) =>
-      if (level.get('creativeMode'))
-        @isCreativeLevelMap[level.get('original')] = true
-    )
+    if utils.isOzaria
+      @levels.forEach((level) =>
+        if (level.get('creativeMode'))
+          @isCreativeLevelMap[level.get('original')] = true
+      )
 
     # extra vars for display
     @lastPlayedCourse = course
@@ -399,12 +472,15 @@ module.exports = class TeacherStudentView extends RootView
 
     # Create mapping of level to student progress
     @levelProgressMap = {}
+    @levelProgressTimeMap = {}
     for versionedCourse in @classroom.getSortedCourses() or []
       for versionedLevel in versionedCourse.levels
         session = @levelSessionMap[versionedLevel.original]
         if session?.get('creator') is @studentID
+          @levelProgressTimeMap[versionedLevel.original] = {'changed': moment(session.get('changed'))}
           if session.get('state')?.complete
             @levelProgressMap[versionedLevel.original] = 'complete'
+            @levelProgressTimeMap[versionedLevel.original]['dateFirstCompleted'] = moment(session.get('dateFirstCompleted')) # enable this line if needed
           else
             @levelProgressMap[versionedLevel.original] = 'started'
         else
@@ -416,6 +492,8 @@ module.exports = class TeacherStudentView extends RootView
     @levelData = []
     for versionedCourse in @classroom.getSortedCourses() or []
       course = @courses.get(versionedCourse._id)
+      ladderLevel = this.classroom.getLadderLevel(course.get('_id'))
+      projectLevel = this.classroom.getProjectLevel(course.get('_id'))
       for versionedLevel in versionedCourse.levels
         playTime = 0 # TODO: this and timesPlayed should probably only count when the levels are completed
         timesPlayed = 0
@@ -444,6 +522,8 @@ module.exports = class TeacherStudentView extends RootView
           classAvg: classAvg
           studentTime: if studentTime then studentTime else 0
           levelProgress: levelProgress
+          isLadder: ladderLevel?.attributes.original is versionedLevel.original
+          isProject: projectLevel?.attributes.original is versionedLevel.original
           # required:
         }
 

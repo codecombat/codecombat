@@ -3,6 +3,7 @@ utils = require 'core/utils'
 RootView = require 'views/core/RootView'
 Course = require 'models/Course'
 Level = require 'models/Level'
+LevelComponent = require 'models/LevelComponent'
 Prepaids = require 'collections/Prepaids'
 Levels = require 'collections/Levels'
 utils = require 'core/utils'
@@ -33,6 +34,13 @@ module.exports = class TeacherCourseSolutionView extends RootView
     if @language != "html"
       title +=  " " + utils.capitalLanguages[@language]
     title
+
+  showTeacherLegacyNav: ->
+    # HACK: Hack to support legacy solution page with page from new teacher dashboard.
+    #       Once new dashboard is released we can remove this check.
+    if utils.getQueryVariables()?['from-new-dashboard']
+      return false
+    return true
 
   initialize: (options, @courseID, @language) ->
     @isWebDev = @courseID in [utils.courseIDs.WEB_DEVELOPMENT_2]
@@ -72,9 +80,24 @@ module.exports = class TeacherCourseSolutionView extends RootView
     @updateLevelData()
 
   updateLevelData: ->
-    solutionLanguages = [@language]
-    solutionLanguages.push 'html' if @language isnt 'html' and @isWebDev
-    @levelSolutionsMap = @levels.getSolutionsMap(solutionLanguages)
+    if utils.isCodeCombat
+      solutionLanguages = [@language]
+      solutionLanguages.push 'html' if @language isnt 'html' and @isWebDev
+      @levelSolutionsMap = @levels.getSolutionsMap(solutionLanguages)
+    else # Ozaria
+      @levelSolutionsMap = @levels.getSolutionsMap([@language])
+      # TODO: When we have a property in the course like `modulesReleased`, we can limit and loop over that number here:
+      @levels.models = @levels.models.filter((level) =>
+  # Intro types don't have solutions yet, so don't show them for now:
+        if level.get('type') == 'intro'
+          return false
+        # Without a solution, guide or default code, there's nothing to show:
+        solution = @levelSolutionsMap[level.get('original')] || []
+        if solution.length == 0 && !level.get('guide') && !level.get('begin')
+          return false
+
+        return true
+      )
     for level in @levels?.models
       articles = level.get('documentation')?.specificArticles
       if articles
@@ -83,13 +106,20 @@ module.exports = class TeacherCourseSolutionView extends RootView
         intro = articles.filter((x) => x.name == "Intro").pop()
         level.set 'intro', marked(@hideWrongLanguage(utils.i18n(intro, 'body'))) if intro
       heroPlaceholder = level.get('thangs').filter((x) => x.id == 'Hero Placeholder').pop()
-      comp = heroPlaceholder?.components.filter((x) => x.original.toString() == '524b7b5a7fc0f6d51900000e' ).pop()
+      if utils.isCodeCombat
+        comp = heroPlaceholder?.components.filter((x) => x.original.toString() == '524b7b5a7fc0f6d51900000e' ).pop()
+      else
+        comp = heroPlaceholder?.components.filter((x) => LevelComponent.ProgrammableIDs.includes(x.original.toString())).pop()
       programmableMethod = comp?.config.programmableMethods.plan
       if programmableMethod
-        solutionLanguage = level.get('primerLanguage') or @language
-        solutionLanguage = 'html' if @isWebDev and not level.get('primerLanguage')
+        if utils.isCodeCombat
+          solutionLanguage = level.get('primerLanguage') or @language
+          solutionLanguage = 'html' if @isWebDev and not level.get('primerLanguage')
         try
-          defaultCode = programmableMethod.languages[solutionLanguage] or (@language == 'cpp' and aetherUtils.translateJS(programmableMethod.source, 'cpp')) or programmableMethod.source
+          if utils.isCodeCombat
+            defaultCode = programmableMethod.languages[solutionLanguage] or (@language == 'cpp' and aetherUtils.translateJS(programmableMethod.source, 'cpp')) or programmableMethod.source
+          else
+            defaultCode = programmableMethod.languages[level.get('primerLanguage') or @language] or (@language == 'cpp' and aetherUtils.translateJS(programmableMethod.source, 'cpp')) or programmableMethod.source
           translatedDefaultCode = _.template(defaultCode)(utils.i18n(programmableMethod, 'context'))
         catch e
           console.error('Broken solution for level:', level.get('name'))
@@ -109,7 +139,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
         assessment: level.get('assessment') ? false
       })
     @levelNumberMap = utils.createLevelNumberMap(levels)
-    if @course?.id == utils.courseIDs.WEB_DEVELOPMENT_2
+    if utils.isCodeCombat and @course?.id == utils.courseIDs.WEB_DEVELOPMENT_2
       # Filter out non numbered levels.
       @levels.models = @levels.models.filter((l) => l.get('original') of @levelNumberMap)
     @render?()
@@ -124,3 +154,20 @@ module.exports = class TeacherCourseSolutionView extends RootView
       aceEditor.setBehavioursEnabled false
       aceEditor.setAnimatedScroll false
       aceEditor.$blockScrolling = Infinity
+      if utils.isOzaria
+        aceEditor.renderer.setShowGutter(true)
+
+  getLearningGoalsForLevel: (level) ->
+    documentation = level.get('documentation')
+    if !documentation
+      return
+
+    specificArticles = documentation.specificArticles
+    if !specificArticles
+      return
+
+    learningGoals = _.find(specificArticles, { name: 'Learning Goals' })
+    if !learningGoals
+      return
+
+    return learningGoals.body

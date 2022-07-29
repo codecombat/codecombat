@@ -28,25 +28,27 @@ module.exports = class TeacherStudentView extends RootView
     'click .level-progress-dot': 'onClickStudentProgressDot'
     'click .nav-link': 'onClickSolutionTab'
 
-  getTitle: -> return @user?.broadName()
+  getMeta: -> { title: if utils.isOzaria then "#{$.i18n.t('teacher.student_profile')} | #{$.i18n.t('common.ozaria')}" else @user?.broadName() }
 
   onClickSolutionTab: (e) ->
     link = $(e.target).closest('a')
     levelSlug = link.data('level-slug')
-    idTarget = link.attr('id').split('-')[0]
+    if utils.isCodeCombat
+      idTarget = link.attr('id').split('-')[0]
     solutionIndex = link.data('solution-index')
-    lang = @classroom.get('aceConfig').language ? 'python'
-    if [utils.courseIDs.WEB_DEVELOPMENT_1, utils.courseIDs.WEB_DEVELOPMENT_2].indexOf(@selectedCourseId) != -1
-      lang = 'html'
-    if /\+/.test(idTarget)
-      levelOriginal = idTarget.split('+')[0]
-      codes = @levelStudentCodeMap[levelOriginal]
-      code = @levels.fingerprint(codes[solutionIndex].plan, lang)
-      @aceDiffs?[levelOriginal].editors.left.ace.setValue(code, -1)
-    else
-      levelOriginal = link.attr('id').split('-')[0].slice(0, -1)
-      solutions = @levelSolutionsMap[levelOriginal]
-      @aceDiffs?[levelOriginal].editors.right.ace.setValue(solutions[solutionIndex].source, -1)
+    if utils.isCodeCombat
+      lang = @classroom.get('aceConfig').language ? 'python'
+      if [utils.courseIDs.WEB_DEVELOPMENT_1, utils.courseIDs.WEB_DEVELOPMENT_2].indexOf(@selectedCourseId) != -1
+        lang = 'html'
+      if /\+/.test(idTarget)
+        levelOriginal = idTarget.split('+')[0]
+        codes = @levelStudentCodeMap[levelOriginal]
+        code = @levels.fingerprint(codes[solutionIndex].plan, lang)
+        @aceDiffs?[levelOriginal].editors.left.ace.setValue(code, -1)
+      else
+        levelOriginal = link.attr('id').split('-')[0].slice(0, -1)
+        solutions = @levelSolutionsMap[levelOriginal]
+        @aceDiffs?[levelOriginal].editors.right.ace.setValue(solutions[solutionIndex].source, -1)
     tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
   initialize: (options, classroomID, @studentID) ->
@@ -63,6 +65,7 @@ module.exports = class TeacherStudentView extends RootView
     @classroom = new Classroom({_id: classroomID})
     @listenToOnce @classroom, 'sync', @onClassroomSync
     @supermodel.trackRequest(@classroom.fetch())
+    @isCreativeLevelMap = {}
 
     if @studentID
       @user = new User({ _id: @studentID })
@@ -86,10 +89,17 @@ module.exports = class TeacherStudentView extends RootView
     me.getClientCreatorPermissions()?.then(() => @render?())
     super(options)
 
+  getRenderData: ->
+    c = super(arguments...)
+    c.isCreativeMode = (l) => @isCreativeMode(l)
+    c
+
   onLoaded: ->
     @selectedCourseId = @courses.first().id if @courses.loaded and @courses.length > 0 and not @selectedCourseId
     if @students.loaded and not @destroyed
       @user = _.find(@students.models, (s)=> s.id is @studentID)
+      if utils.isOzaria
+        @setMeta({ title: "#{$.i18n.t('teacher.student_profile')} | #{@user.broadName()} | #{$.i18n.t('common.ozaria')}" })
       @updateLastPlayedInfo()
       @updateLevelProgressMap()
       @updateLevelDataMap()
@@ -138,50 +148,68 @@ module.exports = class TeacherStudentView extends RootView
     @$el.find('pre:has(code[class*="lang-"])').each ->
       codeElem = $(@).first().children().first()
       lang = mode for mode of aceUtils.aceEditModes when codeElem?.hasClass('lang-' + mode)
-
-    view = @
-    @aceDiffs = {}
-    @$el.find('div[class*="ace-diff-"]').each ->
-      cls = $(@).attr('class')
-      levelOriginal = cls.split('-')[2]
-      solutions = view.levelSolutionsMap[levelOriginal]
-      studentCode = view.levelStudentCodeMap[levelOriginal]
-      lang = classLang
-      if [utils.courseIDs.WEB_DEVELOPMENT_1, utils.courseIDs.WEB_DEVELOPMENT_2].indexOf(view.selectedCourseId) != -1
-        lang = 'html'
-      view.aceDiffs[levelOriginal] = new AceDiff({
-        element: '.' + cls
-        mode: 'ace/mode/' +classLang
-        theme: 'ace/theme/textmate'
-        left: {
-          content: view.levels.fingerprint(studentCode?[0]?.plan ? '', lang)
-          editable: false
-          copyLinkEnabled: false
-        }
-        right: {
-          content: solutions?[0]?.source ? ''
-          editable: false
-          copyLinkEnabled: false
-        }
-      })
+      if utils.isOzaria
+        aceEditor = aceUtils.initializeACE(@, lang or classLang)
+        aceEditors.push aceEditor
+    if utils.isCodeCombat
+      view = @
+      @aceDiffs = {}
+      @$el.find('div[class*="ace-diff-"]').each ->
+        cls = $(@).attr('class')
+        levelOriginal = cls.split('-')[2]
+        solutions = view.levelSolutionsMap[levelOriginal]
+        studentCode = view.levelStudentCodeMap[levelOriginal]
+        lang = classLang
+        if [utils.courseIDs.WEB_DEVELOPMENT_1, utils.courseIDs.WEB_DEVELOPMENT_2].indexOf(view.selectedCourseId) != -1
+          lang = 'html'
+        view.aceDiffs[levelOriginal] = new AceDiff({
+          element: '.' + cls
+          mode: 'ace/mode/' +classLang
+          theme: 'ace/theme/textmate'
+          left: {
+            content: view.levels.fingerprint(studentCode?[0]?.plan ? '', lang)
+            editable: false
+            copyLinkEnabled: false
+          }
+          right: {
+            content: solutions?[0]?.source ? ''
+            editable: false
+            copyLinkEnabled: false
+          }
+        })
 
   updateSolutions: ->
     return unless @classroom?.loaded and @sessions?.loaded and @levels?.loaded
     @levelSolutionsMap = @levels.getSolutionsMap([@classroom.get('aceConfig')?.language, 'html'])
     @levelStudentCodeMap = {}
-    for session in @sessions.models when session.get('creator') is @studentID
-      levelOriginal = session.get('level').original
-      @levelStudentCodeMap[levelOriginal] = @levelStudentCodeMap[levelOriginal] || []
-      # Normal level
-      if session.get('code')?['hero-placeholder']?['plan']
-        @levelStudentCodeMap[levelOriginal].push({
-          plan: session.get('code')['hero-placeholder']['plan'],
-          team: 'humans'})
-      # Arena level
-      if session.get('code')?['hero-placeholder-1']?['plan']
-        @levelStudentCodeMap[levelOriginal].push({
-          plan: session.get('code')['hero-placeholder-1']['plan'],
-          team: 'ogres'})
+    @capstoneGuidedCode = {}
+    # I it's not clear why the value is _plan_ in Ozaria and {plan:_plan_,...} in CodeCombat
+    if utils.isOzaria
+      for session in @sessions.models when session.get('creator') is @studentID
+        # Normal level
+        @levelStudentCodeMap[session.get('level').original] = session.get('code')?['hero-placeholder']?['plan']
+        # Arena level
+        @levelStudentCodeMap[session.get('level').original] ?= session.get('code')?['hero-placeholder-1']?['plan']
+        # Capstone with saved code level
+        if (session.get('code')?['saved-capstone-normal-code']?['plan'])
+          @capstoneGuidedCode[session.get('level').original] = session.get('code')['saved-capstone-normal-code']['plan']
+    else # CodeCombat
+      for session in @sessions.models when session.get('creator') is @studentID
+        levelOriginal = session.get('level').original
+        @levelStudentCodeMap[levelOriginal] = @levelStudentCodeMap[levelOriginal] || []
+        # Normal level
+        if session.get('code')?['hero-placeholder']?['plan']
+          @levelStudentCodeMap[levelOriginal].push({
+            plan: session.get('code')['hero-placeholder']['plan'],
+            team: 'humans'})
+        # Arena level
+        if session.get('code')?['hero-placeholder-1']?['plan']
+          @levelStudentCodeMap[levelOriginal].push({
+            plan: session.get('code')['hero-placeholder-1']['plan'],
+            team: 'ogres'})
+
+  isCreativeMode: (levelOriginal) ->
+    return @isCreativeLevelMap && @isCreativeLevelMap[levelOriginal]
 
   updateSelectedCourseProgress: (levelSlug) ->
     return unless levelSlug
@@ -409,6 +437,11 @@ module.exports = class TeacherStudentView extends RootView
 
     # Find level for this level session, for it's name
     level = @levels.findWhere({original: session.get('level').original})
+    if utils.isOzaria
+      @levels.forEach((level) =>
+        if (level.get('creativeMode'))
+          @isCreativeLevelMap[level.get('original')] = true
+      )
 
     # extra vars for display
     @lastPlayedCourse = course
@@ -493,6 +526,13 @@ module.exports = class TeacherStudentView extends RootView
           isProject: projectLevel?.attributes.original is versionedLevel.original
           # required:
         }
+
+  studentStatusString: () ->
+    status = @user.prepaidStatus()
+    return "" unless @user.get('coursePrepaid')
+    expires = @user.get('coursePrepaid')?.endDate
+    date = if expires? then moment(expires).utc().format('l') else ''
+    utils.formatStudentLicenseStatusDate(status, date)
 
   canViewStudentProfile: () -> @classroom && (@classroom.get('ownerID') == me.id || me.isAdmin())
 

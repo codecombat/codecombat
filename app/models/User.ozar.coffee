@@ -8,6 +8,7 @@ co = require 'co'
 storage = require 'core/storage'
 globalVar = require 'core/globalVar'
 fetchJson = require 'core/api/fetch-json'
+userUtils = require 'lib/user-utils'
 
 # Pure functions for use in Vue
 # First argument is always a raw User.attributes
@@ -576,6 +577,14 @@ module.exports = class User extends CocoModel
     options.data.facebookAccessToken = application.facebookHandler.token()
     @fetch(options)
 
+  loginEdLinkUser: (code, options={}) ->
+    options.url = '/auth/login-ed-link'
+    options.type = 'POST'
+    options.xhrFields = { withCredentials: true }
+    options.data ?= {}
+    options.data.code = code
+    @fetch(options)
+
   loginPasswordUser: (usernameOrEmail, password, options={}) ->
     options.xhrFields = { withCredentials: true }
     options.url = '/auth/login'
@@ -651,7 +660,7 @@ module.exports = class User extends CocoModel
   setToSpanish: -> _.string.startsWith((@get('preferredLanguage') or ''), 'es')
 
   freeOnly: ->
-    return @isStudent() or (features.freeOnly and not @isPremium())
+    return @isStudent() or (features.freeOnly and not @isPremium()) or (@isAnonymous() and @get('country') is 'taiwan')
 
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})
@@ -693,6 +702,8 @@ module.exports = class User extends CocoModel
     if value is 'beta' and (new Date() - _.find(me.get('experiments') ? [], name: 'm7')?.startDate) > 1 * 24 * 60 * 60 * 1000
       # Experiment only lasts one day so that users don't get stuck in it
       value = 'control'
+    if userUtils.isInLibraryNetwork()
+      value = 'control'
     if not value? and me.get('stats')?.gamesCompleted
       # Don't include players who have already started playing
       value = 'control'
@@ -727,7 +738,7 @@ module.exports = class User extends CocoModel
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
   canBuyGems: -> false  # Disabled direct buying of gems around 2021-03-16
   constrainHeroHealth: -> features?.classroomItems ? false and @isStudent()
-  promptForClassroomSignup: -> not ((features?.chinaUx ? false) or (window.serverConfig?.codeNinjas ? false) or (features?.brainPop ? false))
+  promptForClassroomSignup: -> not ((features?.chinaUx ? false) or (window.serverConfig?.codeNinjas ? false) or (features?.brainPop ? false) or userUtils.isInLibraryNetwork())
   showGearRestrictionsInClassroom: -> features?.classroomItems ? false and @isStudent()
   showGemsAndXp: -> features?.classroomItems ? false and @isStudent()
   showHeroAndInventoryModalsToStudents: -> features?.classroomItems and @isStudent()
@@ -741,10 +752,11 @@ module.exports = class User extends CocoModel
   hideOtherProductCTAs: -> @isTarena() or @isILK() or @isICode()
   useGoogleClassroom: -> not (features?.chinaUx ? false) and @get('gplusID')?   # if signed in using google SSO
   useGoogleAnalytics: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
+  isEdLinkAccount: -> not (features?.chinaUx ? false) and @get('edLink')?
   useDataDog: -> not ((features?.china ? false) or (features?.chinaInfra ? false))
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
-  canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "5d1a8368abd38e8b5363bad9" # teacher can only access CH1 freely in China
+  canAccessCampaignFreelyFromChina: (campaignID) -> (utils.isCodeCombat and campaignID == "55b29efd1cd6abe8ce07db0d") or (utils.isOzaria and campaignID == "5d1a8368abd38e8b5363bad9") # teacher can only access CS1 or CH1 freely in China
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
   isILK: -> @get('clientCreator') is '6082ec9996895d00a9b96e90' or _.find(@get('clientPermissions') ? [], client: '6082ec9996895d00a9b96e90')
   isICode: -> @get('clientCreator') is '61393874c324991d0f68fc70' or _.find(@get('clientPermissions') ? [], client: '61393874c324991d0f68fc70')
@@ -753,7 +765,7 @@ module.exports = class User extends CocoModel
   showChinaResourceInfo: -> features?.china ? false
   useChinaHomeView: -> features?.china ? false
   showChinaRegistration: -> features?.china ? false
-  enableCpp: -> false
+  enableCpp: -> utils.isCodeCombat and (@hasSubscription() or @isStudent() or @isTeacher())
   useQiyukf: -> features?.china ? false
   useChinaServices: -> features?.china ? false
   useGeneralArticle: -> not (features?.china ? false)

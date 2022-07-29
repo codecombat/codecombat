@@ -1,6 +1,7 @@
 import classroomsApi from 'core/api/classrooms'
 import courseInstancesApi from 'core/api/course-instances'
 import storage from 'core/storage'
+import utils from 'core/utils'
 import _ from 'lodash'
 
 function getTeacherIdBasedOnSharedWritePermission(classroom) {
@@ -111,19 +112,6 @@ export default {
       Vue.set(state.classrooms.byClassroom, classroomID, classroom)
     },
 
-    updateClassroomById: (state, { classroomID, updates }) => {
-      let classroom = state.classrooms.byClassroom[classroomID]
-      if (!classroom) {
-        console.error('classroom not found for update')
-        return
-      }
-      classroom = { ...classroom }
-      for (const key in updates) {
-        classroom[key] = updates[key]
-      }
-      Vue.set(state.classrooms.byClassroom, classroomID, classroom)
-    },
-
     addClassroomForCourseInstanceId: (state, { courseInstanceId, classroom }) => {
       Vue.set(state.classrooms.byCourseInstanceId, courseInstanceId, classroom)
     },
@@ -203,7 +191,21 @@ export default {
       // Persisting to local storage to help HoC users always have their class code in the layout chrome
       // TODO: Probably better ways to handle this! :)
       storage.save('most-recent-class-code', classCode)
+    },
+
+    updateClassroomById: (state, { classroomID, updates }) => {
+      let classroom = state.classrooms.byClassroom[classroomID]
+      if (!classroom) {
+        console.error('classroom not found for update')
+        return
+      }
+      classroom = { ...classroom }
+      for (const key in updates) {
+        classroom[key] = updates[key]
+      }
+      Vue.set(state.classrooms.byClassroom, classroomID, classroom)
     }
+
   },
 
   getters: {
@@ -239,7 +241,7 @@ export default {
     },
     getClassroomById: (state) => (id) => {
       return state.classrooms.byClassroom[id]
-    }
+    },
   },
 
   actions: {
@@ -265,6 +267,7 @@ export default {
     },
     fetchClassroomForId: ({ commit }, classroomID) => {
       commit('toggleLoadingForClassroom', classroomID)
+
       return classroomsApi.get({ classroomID })
         .then(res =>  {
           if (res) {
@@ -370,24 +373,39 @@ export default {
       const classroom = options.classroom
       const params = { classroomID: classroom._id, permission: options.permission }
       const response = await classroomsApi.addPermission(params)
-      const teacherId = getTeacherIdBasedOnSharedWritePermission(classroom)
-      commit('updateClassroom', {
-        teacherId,
-        classroomId: classroom._id,
-        updates: { permissions: response.data } // use response.permissions ?
-      })
+
+      if (utils.isOzaria) {
+        const teacherId = getTeacherIdBasedOnSharedWritePermission(classroom)
+        commit('updateClassroom', {
+          teacherId,
+          classroomId: classroom._id,
+          updates: { permissions: response.data } // use response.permissions ?
+        })
+      } else {
+        commit('updateClassroomById', {
+          classroomID: classroom._id,
+          updates: { permissions: response.data } // use response.permissions ?
+        })
+      }
     },
     removePermission: async ({ commit }, options) => {
       const classroom = options.classroom
       const params = { classroomID: classroom._id, permission: options.permission }
       const response = await classroomsApi.removePermission(params)
 
-      const teacherId = getTeacherIdBasedOnSharedWritePermission(classroom)
-      commit('updateClassroom', {
-        teacherId,
-        classroomId: classroom._id,
-        updates: { permissions: response.data } // use response.permissions ?
-      })
+      if (utils.isOzaria) {
+        const teacherId = getTeacherIdBasedOnSharedWritePermission(classroom)
+        commit('updateClassroom', {
+          teacherId,
+          classroomId: classroom._id,
+          updates: { permissions: response.data } // use response.permissions ?
+        })
+      } else {
+        commit('updateClassroomById', {
+          classroomID: classroom._id,
+          updates: { permissions: response.data } // use response.permissions ?
+        })
+      }
     },
 
     setMostRecentClassCode: ({ commit }, classCode) => {
