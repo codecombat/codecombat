@@ -195,6 +195,15 @@ module.exports = class SpellView extends CocoView
       exec: ->
         Backbone.Mediator.publish 'level:escape-pressed', {}
     addCommand
+      name: 'unfocus-editor'
+      bindKey: {win: 'Escape', mac: 'Escape'}
+      readOnly: true
+      exec: ->
+        return unless me.get('aceConfig')?.screenReaderMode and utils.isOzaria
+        # In screen reader mode, we need to move focus to next element on escape, since tab won't.
+        # Next element happens to be #run button, or maybe #update-code button in game-dev.
+        $('#run, #update-code').focus()
+    addCommand
       name: 'toggle-grid'
       bindKey: {win: 'Ctrl-G', mac: 'Command-G|Ctrl-G'}
       readOnly: true
