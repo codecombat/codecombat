@@ -139,7 +139,7 @@ block modal-body-content
             option(value=">75")= '>75'
           .help-block.small.text-navy.m-l-1.minutes-per-class-help(data-i18n="courses.minutes_per_class")
  
-    .form-group.checkbox
+    .form-group
       label
         span(data-i18n="courses.classroom_live_completion")
       - var aceConfig = _.assign({liveCompletion: true},  view.classroom.get('aceConfig'))

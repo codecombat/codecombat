@@ -15,8 +15,9 @@
       :is-tecmilenio-partner="isTecmilenioPartner"
     />
     <div class="text-center footer">
-      <button type="button" class="btn btn-success btn-lg btn-buy-now" @click="onBuyNow()">
-        {{ isTecmilenioPartner ? 'Comprar Ahora' : 'Buy Now' }}
+      <button v-if="!isTecmilenioPartner"
+              class="btn btn-success btn-lg btn-buy-now" @click="onBuyNow()">
+        Buy Now
       </button>
     </div>
     <purchase-view
@@ -71,6 +72,9 @@ export default {
     isTecmilenioPartner () {
       return !!(this.paymentGroupMetadata ? this.paymentGroupMetadata.isTecmilenioPartner : false)
     }
+  },
+  mounted () {
+    this.isPurchaseViewEnabled = this.isTecmilenioPartner
   }
 }
 </script>

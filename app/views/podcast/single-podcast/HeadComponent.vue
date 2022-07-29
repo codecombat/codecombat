@@ -2,10 +2,10 @@
   <div class="podcast-head">
     <div class="container">
       <div class="row">
-        <div class="col-md-4 col-xs-4 podcast-head__guest">
+        <div class="col-md-4 podcast-head__guest">
           <img :src="`/file/${podcast.guestImage}`" alt="Guest Image" class="podcast-head__guest-img">
         </div>
-        <div class="col-md-7 col-xs-8">
+        <div class="col-md-7">
           <div class="podcast-head__heading">
             <h1 class="podcast-head__heading-title">
               {{ formatName }} {{ $t('signup.with') }}
@@ -42,6 +42,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
+
 .podcast-head {
 
   &__guest {
@@ -61,6 +63,15 @@ export default {
     }
     &-guest {
       font-weight: bold;
+    }
+
+    @media (max-width: $screen-md-min) {
+      margin-top: 2rem;
+      letter-spacing: .1rem;
+
+      &-title, &-guest {
+        font-size: 3.5rem;
+      }
     }
   }
 

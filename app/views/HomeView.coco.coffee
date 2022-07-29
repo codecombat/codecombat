@@ -144,6 +144,8 @@ module.exports = class HomeView extends RootView
         _.defer => @openModalView(new CreateAccountModal()) unless @destroyed
       if document.location.hash is '#create-account-individual'
         _.defer => @openModalView(new CreateAccountModal({startOnPath: 'individual'})) unless @destroyed
+      if document.location.hash is '#create-account-home'
+        _.defer => @openModalView(new CreateAccountModal({startOnPath: 'individual-basic'})) unless @destroyed
       if document.location.hash is '#create-account-student'
         _.defer => @openModalView(new CreateAccountModal({startOnPath: 'student'})) unless @destroyed
       if document.location.hash is '#create-account-teacher'

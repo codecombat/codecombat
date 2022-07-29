@@ -7,8 +7,8 @@ module.exports = class Grid
     # Ex.: if resolution is 2, then w: 8.1, h: 9.9, l: 1.9, b: -0.1 -> w: 10, h: 10, l: 0, b: -2
     @width  = Math.ceil( @width  / @resolution) * @resolution
     @height = Math.ceil( @height / @resolution) * @resolution
-    @left   = Math.floor(@left   / @resolution) * @resolution
-    @bottom = Math.floor(@bottom / @resolution) * @resolution
+    @left   = Math.floor(@left   / @resolution) * @resolution unless @rogue
+    @bottom = Math.floor(@bottom / @resolution) * @resolution unless @rogue
     @update thangs
 
   update: (thangs) ->
@@ -76,15 +76,16 @@ module.exports = class Grid
     upsideDown.reverse()
     ((@charForThangs thangs, rogue, r, c, axisLabels for thangs, c in row).join(' ') for row, r in upsideDown).join("\n")
 
-  toTable: (rogue=false, axisLabels=true) ->
+  toSimpleMovementChars: (rogue=false, axisLabels=true) ->
     upsideDown = _.clone @grid
     upsideDown.reverse()
     ((@charForThangs thangs, rogue, r, c, axisLabels for thangs, c in row) for row, r in upsideDown)
 
-  toTableNames: ->
+  toSimpleMovementNames: ->
     upsideDown = _.clone @grid
     upsideDown.reverse()
-    ((@nameForThangs thangs, r, c for thangs, c in row) for row, r in upsideDown)
+    # Comma-separated list of names for all Thangs significant enough to read aloud to the player
+    (((@nameForThangs([thang], r, c) for thang in thangs).filter((name) -> name isnt ' ').join(', ') for thangs, c in row) for row, r in upsideDown)
 
   charForThangs: (thangs, rogue, row, col, axisLabels) ->
     # TODO: have the Thang know its own letter
@@ -99,6 +100,7 @@ module.exports = class Grid
       return '#' if col is @grid.length - 1
     return ' ' unless thangs.length or (axisLabels and isAxis)
     for t in thangs
+      # TODO: order thangs by significance
       return '@' if /Hero Placeholder/.test t.id
       return '$' if /Hero Goal/.test t.spriteName
       return '%' if /Dog Goal/.test t.spriteName
@@ -130,6 +132,7 @@ module.exports = class Grid
       return 'Edge' if col is @grid.length - 1
     return ' ' unless thangs.length
     for t in thangs
+      # TODO: order thangs by significance
       return 'Hero' if /Hero Placeholder/.test t.id
       return 'Goal' if /Hero Goal/.test t.spriteName
       return 'Dog Goal' if /Dog Goal/.test t.spriteName
