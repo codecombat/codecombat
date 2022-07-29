@@ -35,6 +35,8 @@ import HeadComponent from './single-podcast/HeadComponent'
 import EpisodeComponent from './single-podcast/EpisodeComponent'
 import GuestInfoComponent from './single-podcast/GuestInfoComponent'
 import podcastVisibleMixin from './podcastVisibleMixin'
+import { i18n } from 'app/core/utils'
+const marked = require('marked')
 
 export default {
   name: 'SinglePodcastView',
@@ -67,6 +69,25 @@ export default {
     await this.fetchPodcast({ podcastId: handle  })
     this.podcast = this.getPodcast(handle)
     this.loaded = true
+  },
+  metaInfo () {
+    // instead of using normal static template, we use podcast.static.pug where these values are not present
+    const podcast = this.podcast
+    const title = `${i18n(podcast, 'name')} with ${i18n(podcast, 'guestName')}`
+    const image = `${window.location.protocol}//${window.location.host}/images/pages/podcast/edtech-adventure-og-image.jpg`
+    const desc = `${podcast?.description ? marked(i18n(podcast, 'description')).replace(/<[^>]*>?/gm, '') : ''}`
+    return {
+      title: podcast?.name,
+      meta: [
+        { property: 'og:title', content: title },
+        { property: 'og:image', content: image },
+        { property: 'og:description', content: desc },
+        { name: 'twitter:card', content: 'summary' },
+        { name: 'twitter:title', content: title },
+        { name: 'twitter:image:src', content: image },
+        { name: 'twitter:description', content: desc }
+      ]
+    }
   }
 }
 </script>
