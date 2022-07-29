@@ -452,7 +452,7 @@ module.exports.filterMarkdownCodeLanguages = (text, language) ->
   excludeCpp = 'cpp'
   unless /```cpp\n[^`]+```\n?/.test text
     excludeCpp = 'javascript'
-  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html'], if currentLanguage == 'cpp' then excludeCpp else currentLanguage
+  excludedLanguages = _.without ['javascript', 'python', 'coffeescript', 'lua', 'java', 'cpp', 'html', 'io', 'clojure'], if currentLanguage == 'cpp' then excludeCpp else currentLanguage
   # Exclude language-specific code blocks like ```python (... code ...)``
   # ` for each non-target language.
   codeBlockExclusionRegex = new RegExp "```(#{excludedLanguages.join('|')})\n[^`]+```\n?", 'gm'

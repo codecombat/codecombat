@@ -581,8 +581,8 @@ module.exports = class CocoView extends Backbone.View
       @playSound 'full-screen-end' if req
     return
 
-  playSound: (trigger, volume=1) ->
-    Backbone.Mediator.publish 'audio-player:play-sound', trigger: trigger, volume: volume
+  playSound: (trigger, volume=1, delay=0, pos=null, pan=0) ->
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: trigger, volume: volume, delay: delay, pos: pos, pan: pan
 
   tryCopy: ->
     try
