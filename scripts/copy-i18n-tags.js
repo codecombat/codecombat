@@ -2,10 +2,7 @@ require('coffee-script').register()
 const fs = require('fs')
 const path = require('path')
 const PWD = __dirname
-const product = process.env.COCO_PRODUCT || "codecombat"
-const productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
-const otherProductSuffix = { codecombat: 'ozar', ozaria: 'coco' }[product]
-const enTranslations = require(`../app/locale/en.${productSuffix}`).translation
+const enTranslations = require(`../app/locale/en`).translation
 
 // TODO: better identification of empty sections after deleting entries.  Empy sections yield module load fails on run.
 
@@ -16,7 +13,7 @@ function escapeRegexp (s) {
 }
 
 const enSourceFile = fs.readFileSync(
-  path.join(PWD, `../app/locale/en.${productSuffix}.coffee`),
+  path.join(PWD, `../app/locale/en.coffee`),
   { encoding: 'utf8' }
 )
 
@@ -53,11 +50,9 @@ const IGNORE_FILES = ['rot13.coffee', 'rot13.coco.coffee', 'rot13.ozar.coffee', 
 const localeFiles = fs
   .readdirSync(path.join(PWD, '../app/locale'))
   .filter(fileName => IGNORE_FILES.indexOf(fileName) === -1)
-  .filter(fileName => !(new RegExp(`\\.${otherProductSuffix}\\.coffee$`).test(fileName)))
 
 for (const localeFile of localeFiles) {
   console.log(`Processing ${localeFile}`)
-  const otherLocaleFile = localeFile.replace(productSuffix,otherProductSuffix);
 
   // Load raw source file
   const localeSource = fs.readFileSync(
@@ -69,9 +64,6 @@ for (const localeFile of localeFiles) {
   const localeContents = require(`../app/locale/${localeFile}`)
   const localeTranslations = localeContents.translation || {}
 
-  // Load other locale (load coco for ozaria and ozaria for coco)
-  const otherLocaleContents = require(`../app/locale/${otherLocaleFile}`)
-  const otherLocaleTranslations = otherLocaleContents.translation || {}
 
   // Initial rewrite of file with first line
   const rewrittenLines = [
@@ -82,9 +74,8 @@ for (const localeFile of localeFiles) {
   // For each category within the locale
   for (const enCategoryName of Object.keys(enTranslations)) {
     const enCategory = enTranslations[enCategoryName]
-    const catIsPresent = (typeof localeTranslations[enCategoryName] !== 'undefined' || typeof otherLocaleTranslations[enCategoryName] !== 'undefined')
+    const catIsPresent = typeof localeTranslations[enCategoryName] !== 'undefined'
     const localeCategory = localeTranslations[enCategoryName] || {}
-    const otherLocaleCategory = otherLocaleTranslations[enCategoryName] || {}
 
     // Prefix for regular expressions that require the pattern to exist within a category.  This depends on
     // categories and their tags to not contain new lines and categories being separated by a newline.  This regex
@@ -102,8 +93,7 @@ for (const localeFile of localeFiles) {
 
     // For each tag within the category
     for (const enTagName of Object.keys(enCategory)) {
-      const tagWithoutSuffix = enTagName.replace(new RegExp('_' + productSuffix + '$'), '')
-      const localeTranslation = localeCategory[enTagName] || localeCategory[tagWithoutSuffix] || otherLocaleCategory[enTagName] || otherLocaleCategory[tagWithoutSuffix]
+      const localeTranslation = localeCategory[enTagName];
 
       const tagIsPresent = (typeof localeTranslation !== 'undefined')
       const sourceFileTag = (QUOTE_TAG_NAME_PATTERN.test(enTagName)) ? enTagName : `"${enTagName}"`
@@ -170,7 +160,7 @@ for (const localeFile of localeFiles) {
 // Remove change tags from english now that they have been propagated
 const rewrittenEnSource = enSourceFile.replace(CHANGE_PATTERN, '')
 fs.writeFileSync(
-  path.join(PWD, `../app/locale/en.${productSuffix}.coffee`),
+  path.join(PWD, `../app/locale/en.coffee`),
   rewrittenEnSource
 )
 
