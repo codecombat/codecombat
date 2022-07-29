@@ -68,6 +68,10 @@ export default {
     @media (max-width: $screen-md-min) {
       margin-top: 2rem;
       letter-spacing: .1rem;
+
+      &-title, &-guest {
+        font-size: 3.5rem;
+      }
     }
   }
 
