@@ -187,18 +187,22 @@
           const backButton = {
             classes: 'shepherd-back-button shepherd-back-button-active',
             text: '',
+            label: 'Back',
             action: () => {
               this.tour.back()
-            }
+            },
           }
           const inactiveBackButton = {
             classes: 'shepherd-back-button shepherd-back-button-inactive',
             text: '',
+            label: 'Back',
+            disabled: true,
             action: () => {}
           }
           const nextButton = {
             classes: 'shepherd-next-button shepherd-next-button-active',
             text: '',
+            label: 'Next',
             action: () => {
               this.tour.next()
             }
@@ -206,11 +210,14 @@
           const inactiveNextButton = {
             classes: 'shepherd-next-button shepherd-next-button-inactive',
             text: '',
+            label: 'Next',
+            disabled: true,
             action: () => {}
           }
           const startButton = {
             classes: 'shepherd-start-button',
             text: '',
+            label: 'Start',
             action: () => {
               this.tour.next()
             }
