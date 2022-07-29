@@ -90,4 +90,7 @@ export default {
   text-align: center;
   font-size: 3rem;
 }
+.podcast-loading {
+  color: #000000;
+}
 </style>
