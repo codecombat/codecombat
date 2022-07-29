@@ -1,3 +1,5 @@
+utils = require 'core/utils'
+
 module.exports = class DialogueAnimator
   jqueryElement: null
   childrenToAdd: null
@@ -5,11 +7,15 @@ module.exports = class DialogueAnimator
   childAnimator: null
 
   constructor: (html, @jqueryElement) ->
+    if me.get('aceConfig')?.screenReaderMode and utils.isOzaria
+      # Render instantly when in screen reader mode; don't animate anything.
+      @jqueryElement.html(html)
+      return
     d = $('<div></div>').html(html)
     @childrenToAdd = _.map(d[0].childNodes, (e) -> return e)
     @t0 = new Date()
     @charsAdded = 0
-    @charsPerSecond = 25
+    @charsPerSecond = 27
 
   tick: ->
     if not @charsToAdd and not @childAnimator
@@ -53,7 +59,7 @@ module.exports = class DialogueAnimator
     @charsAdded + (@childAnimator?.charsAdded ? 0)
 
   done: ->
-    return false if @childrenToAdd.length > 0
+    return false if @childrenToAdd?.length > 0
     return false if @charsToAdd
     return false if @childAnimator
     return true

@@ -18,6 +18,7 @@ module.exports = class LankBoss extends CocoClass
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'camera:dragged': 'onCameraDragged'
+    'camera:zoom-updated': 'onCameraZoomUpdated'
     'sprite:loaded': -> @update(true)
     'level:flag-color-selected': 'onFlagColorSelected'
     'level:flag-updated': 'onFlagUpdated'
@@ -184,20 +185,18 @@ module.exports = class LankBoss extends CocoClass
     @updateScreenReader()
 
   updateScreenReader: ->
-    # Testing ASCII map for screen readers
-    return unless me.get('name') is 'zersiax'  #in ['zersiax', 'Nick']
-    ascii = $('#ascii-surface')
+    return unless me.get('aceConfig')?.screenReaderMode and utils.isOzaria
     thangs = (lank.thang for lank in @lankArray)
-    grid = new Grid thangs, @world.width, @world.height, 0, 0, 0, true
-    utils.replaceText ascii, grid.toString true
-    ascii.css 'transform', 'initial'
-    fullWidth = ascii.innerWidth()
-    fullHeight = ascii.innerHeight()
-    availableWidth = ascii.parent().innerWidth()
-    availableHeight = ascii.parent().innerHeight()
-    scale = availableWidth / fullWidth
-    scale = Math.min scale, availableHeight / fullHeight
-    ascii.css 'transform', "scale(#{scale})"
+    bounds = @world.calculateSimpleMovementBounds()
+    width = Math.min bounds.right - bounds.left, Math.round(@camera.worldViewport.width)
+    height = Math.min bounds.top - bounds.bottom, Math.round(@camera.worldViewport.height)
+    left = Math.max bounds.left, Math.round(@camera.worldViewport.x)
+    bottom = Math.max bounds.bottom, Math.round(@camera.worldViewport.y - @camera.worldViewport.height)  # y is inverted
+    simpleMovementResolution = 10  # It's always 10 in Ozaria
+    padding = 0
+    rogue = true
+    simpleMovementGrid = new Grid thangs, width, height, padding, left, bottom, rogue, simpleMovementResolution
+    Backbone.Mediator.publish 'surface:update-screen-reader-map', grid: simpleMovementGrid
 
   equipNewItems: (thang) ->
     itemsJustEquipped = []
@@ -267,6 +266,9 @@ module.exports = class LankBoss extends CocoClass
 
   onCameraDragged: ->
     @dragged += 1
+
+  onCameraZoomUpdated: (e) ->
+    @updateScreenReader()
 
   onLankMouseUp: (e) ->
     return unless @handleEvents

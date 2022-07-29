@@ -1,9 +1,12 @@
 module.exports = {
-  plugins: ['@babel'],
+  plugins: [
+    '@babel'
+  ],
   extends: [
     'standard',
     'plugin:vue/recommended',
-    'plugin:diff/diff'
+    'plugin:diff/diff',
+    'plugin:json/recommended'
   ],
 
   globals: {

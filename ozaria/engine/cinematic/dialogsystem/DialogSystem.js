@@ -196,6 +196,10 @@ class SpeechBubble {
     if (textDuration === undefined) {
       textDuration = letters * LETTER_ANIMATE_TIME
     }
+    if (me.get('aceConfig') && me.get('aceConfig').screenReaderMode) {
+      // Render instantly when in screen reader mode; don't animate anything.
+      textDuration = 0
+    }
 
     this.resetSpeechBubble = () => {
       speechBubbleDiv.style.opacity = 0
