@@ -178,17 +178,23 @@ module.exports = class LankBoss extends CocoClass
 
   updateScreenReader: ->
     return unless me.get('aceConfig')?.screenReaderMode and utils.isOzaria
-    thangs = (lank.thang for lank in @lankArray)
-    bounds = @world.calculateSimpleMovementBounds()
-    width = Math.min bounds.right - bounds.left, Math.round(@camera.worldViewport.width)
-    height = Math.min bounds.top - bounds.bottom, Math.round(@camera.worldViewport.height)
-    left = Math.max bounds.left, Math.round(@camera.worldViewport.x)
-    bottom = Math.max bounds.bottom, Math.round(@camera.worldViewport.y - @camera.worldViewport.height)  # y is inverted
+    wv = @camera.worldViewport
+    thangs = (lank.thang for lank in @lankArray when (
+        (wv.x             <= lank.thang.pos?.x <= wv.x + wv.width) and
+        (wv.y - wv.height <= lank.thang.pos?.y <= wv.y)
+      )
+    )  # Ignore off-screen Thangs
+    bounds = @world.calculateSimpleMovementBounds thangs
+    width = Math.min bounds.right - bounds.left, Math.round(wv.width)
+    height = Math.min bounds.top - bounds.bottom, Math.round(wv.height)
+    left = Math.max bounds.left, Math.round(wv.x)
+    bottom = Math.max bounds.bottom, Math.round(wv.y - wv.height)  # y is inverted
     simpleMovementResolution = 10  # It's always 10 in Ozaria
     padding = 0
     rogue = true
     simpleMovementGrid = new Grid thangs, width, height, padding, left, bottom, rogue, simpleMovementResolution
-    Backbone.Mediator.publish 'surface:update-screen-reader-map', grid: simpleMovementGrid
+    bounds = {left, bottom, width, height}
+    Backbone.Mediator.publish 'surface:update-screen-reader-map', grid: simpleMovementGrid, bounds: bounds
 
   equipNewItems: (thang) ->
     itemsJustEquipped = []
