@@ -548,9 +548,13 @@
               }
 
               if (this.animator.done()) {
-                this.tour.getCurrentStep().updateStepOptions({
-                  text: marked(message)
-                })
+                if (!this.tour) {
+                  console.warn('Problem trying to finish a tour that is already null')
+                } else {
+                  this.tour.getCurrentStep().updateStepOptions({
+                    text: marked(message)
+                  })
+                }
                 this.clearAsyncTimers()
                 return
               }
@@ -849,7 +853,7 @@
     background-repeat: no-repeat !important
     background-size: contain
     background-color: unset
-    outline: none
+    /* outline: none */ /* bad for accessibility, can't see keyboard focus */
     transition: none
 
     &:hover:not(:disabled)
