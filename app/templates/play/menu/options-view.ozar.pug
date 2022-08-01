@@ -2,13 +2,28 @@
 
   h3.options-title(data-i18n="options.editor_config_title") Level Options:
 
+  .form-group.slider-group#volume-group
+    span.glyphicon.glyphicon-volume-down
+    #option-volume.slider.spr.spl
+    span.glyphicon.glyphicon-volume-up
+
+  .form-group.checkbox
+    label(for="option-music").control-label
+      input#option-music(name="option-music", type="checkbox", checked=music)
+      span.custom-checkbox
+        .glyphicon.glyphicon-ok
+      span(data-i18n="options.music_label") Music
+    span.help-block(data-i18n="options.music_description") Turn background music on/off.
+
   .form-group.checkbox
     label(for="option-live-completion")
-      input#option-live-completion(name="liveCompletion", type="checkbox", checked=aceConfig.liveCompletion)
+      input#option-live-completion(name="liveCompletion", type="checkbox", disabled=!view.options.classroomAceConfig.liveCompletion checked=view.options.classroomAceConfig.liveCompletion && aceConfig.liveCompletion)
       span.custom-checkbox
         .glyphicon.glyphicon-ok
       span(data-i18n="options.editor_config_livecompletion_label") Enable Autocomplete
     span.help-block(data-i18n="options.editor_config_livecompletion_description") Displays autocomplete suggestions while typing.
+    if !view.options.classroomAceConfig.liveCompletion
+      span.help-block(data-i18n="options.editor_config_livecompletion_disabled_by_teacher")
 
   .form-group.checkbox
     label(for="option-behaviors")

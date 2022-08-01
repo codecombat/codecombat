@@ -196,6 +196,10 @@ class SpeechBubble {
     if (textDuration === undefined) {
       textDuration = letters * LETTER_ANIMATE_TIME
     }
+    if (me.get('aceConfig') && me.get('aceConfig').screenReaderMode) {
+      // Render instantly when in screen reader mode; don't animate anything.
+      textDuration = 0
+    }
 
     this.resetSpeechBubble = () => {
       speechBubbleDiv.style.opacity = 0
@@ -232,7 +236,7 @@ class SpeechBubble {
           targets: `#${this.id} .letter`,
           opacity: 1,
           duration: 20,
-          delay: anime.stagger(textDuration / letters, { easing: 'linear' }),
+          delay: anime.stagger(textDuration / (letters * 2), { easing: 'linear' }),
           easing: 'easeOutQuad'
         })
     }

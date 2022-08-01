@@ -127,10 +127,13 @@ module.exports = class SpellView extends CocoView
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     $(@ace.container).find('.ace_gutter').on 'click', @onGutterClick
-    @initAutocomplete aceConfig.liveCompletion ? true
     @ace.on 'change', (e) =>
       if e.action is 'insert' and e.start.row == e.end.row - 1
         @addUserSnippets(@spell.getSource(), @spell.language, @ace.getSession())
+    liveCompletion = aceConfig.liveCompletion ? true
+    classroomLiveCompletion = (@options.classroomAceConfig ? {liveCompletion: true}).liveCompletion
+    liveCompletion = classroomLiveCompletion && liveCompletion
+    @initAutocomplete liveCompletion
 
     return if @session.get('creator') isnt me.id or @session.fake
     # Create a Spade to 'dig' into Ace.

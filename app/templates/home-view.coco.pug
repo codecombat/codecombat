@@ -7,12 +7,9 @@ block content
         .col-xs-12
           if maintenanceStartTime && maintenanceStartTime.isAfter(moment().subtract(3, 'hours'))
             span(data-i18n="new_home.top_banner_blurb_maintenance", data-i18n-options=JSON.stringify(i18nData))
-          else if me.isTeacher()
-            span(data-i18n="new_home.top_banner_blurb_funding")
-            a(href="https://www.ozaria.com/funding", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Funding Page" target='_blank')
           else
-            span(data-i18n="new_home.top_banner_blurb")
-            a(href="/parents", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Parents Page")
+            span(data-i18n="new_home.top_banner_blurb_podcast")
+            a(href="/podcast", data-i18n="new_home.learn_more", data-event-action="Click: Homepage Banner Podcast Page")
 
     .cloud-wrapper
       .row#jumbotron-container-fluid

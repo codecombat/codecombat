@@ -64,8 +64,13 @@ module.exports = class LevelLoadingView extends CocoView
     @$el.find('.license-required').show()
 
   onLoadError: (resource) ->
+    startCase = (str) -> str.charAt(0).toUpperCase() + str.slice(1)
     @$el.find('.progress-or-start-container').hide()
-    @$el.find('.could-not-load').show()
+    if resource.resource.jqxhr.status is 404
+      @$el.find('.resource-not-found>span').text($.i18n.t('loading_error.resource_not_found', {resource: startCase(resource.resource.name)}))
+      @$el.find('.resource-not-found').show()
+    else
+      @$el.find('.could-not-load').show()
 
   destroy: ->
     $(window).off 'resize', @onWindowResize

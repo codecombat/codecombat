@@ -120,6 +120,17 @@ block modal-body-content
             option(value=">75")= '>75'
           .help-block.small.text-navy.m-l-1.minutes-per-class-help(data-i18n="courses.minutes_per_class")
 
+    .form-group
+      label.form-check-label
+        span(data-i18n="courses.classroom_live_completion")
+        i.spl.text-muted(data-i18n="signup.optional")
+      - var aceConfig = view.classroom.get('aceConfig') || {}
+      - var liveCompletion = aceConfig.liveCompletion
+      if liveCompletion === undefined
+        - liveCompletion = true
+      input#liveCompletion.form-check-input(name="liveCompletion" checked=liveCompletion type='checkbox')
+      .help-block.small.text-navy(data-i18n="teachers.classroom_live_completion")
+
 block modal-footer-content
   .text-center
     if view.classroom.isNew()

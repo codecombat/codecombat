@@ -167,55 +167,6 @@ $level-resize-transition-time: 0.5s
     &.flag-color-selected
       cursor: crosshair
 
-  #ascii-surface
-    position: absolute
-    z-index: 3
-    top: 0
-    left: 0
-    pointer-events: all
-    /* Not sure what the right user-select setting is for screen readers */
-    user-select: all
-    white-space: pre
-    font-family: Courier, monospace
-    color: white
-    background-color: rgba(14, 59, 130, 0.25)
-    transform-origin: 0 0 0
-    font-size: 30px
-    line-height: 30px
-
-  #ascii-surface-table
-    visibility: hidden
-    position: absolute
-    z-index: 4
-    top: 0
-    left: 0
-    /* Width/height will be scaled to viewport with transform */
-    width: 924px
-    height: 589px
-    pointer-events: all
-    /* Not sure what the right user-select setting is for screen readers */
-    user-select: all
-    white-space: pre
-    font-family: Courier, monospace
-    color: white
-    background-color: rgba(14, 59, 130, 0.25)
-    transform-origin: 0 0 0
-    font-size: 30px
-    line-height: 30px
-    table-layout: fixed
-    tr
-      height: 1px
-      td, th
-        width: 1px
-        height: 1px
-        border: 1px dotted rgba(200, 200, 200, 0.2)
-        text-align: center
-        vertical-align: middle
-        position: relative
-        .sr-only
-          top: 50%
-          left: 50%
-
   #code-area
     @include box-sizing(border-box)
     width: $code-area-width
@@ -501,10 +452,3 @@ body.ipad #level-view
   background-size: 100% 400px
   height: 400px
   z-index: -9001
-
-body.screen-reader-mode
-  #level-view
-    canvas#webgl-surface, canvas#normal-surface
-      opacity: 0.2
-    #ascii-surface-table
-      visibility: visible

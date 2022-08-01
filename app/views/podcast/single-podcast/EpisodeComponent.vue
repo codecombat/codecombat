@@ -2,10 +2,10 @@
   <div class="episode">
     <div class="container">
       <div class="row episode__frame">
-        <div class="col-md-offset-3 col-md-7">
+        <div class="col-md-offset-3 col-md-7" @click="onIframeClick">
           <iframe :src="transistorUrl"
                   width='100%' height='180' frameborder='0' scrolling='no'
-                  seamless='true' style='width:100%; height:180px;'>
+                  seamless='true' style='width:100%; height:180px;' :id="`podcast-${podcast._id}`">
           </iframe>
         </div>
       </div>
@@ -27,14 +27,16 @@
           <div class="episode__info-description" v-html="formatDescription"></div>
         </div>
         <div class="col-md-4 episode__function">
-          <div
+          <a
+            :href="`/file/${podcast.audio.mp3}`"
+            target="_blank"
+            download
             v-if="podcast.audio && podcast.audio.mp3"
-            class="episode__btn-info episode__function-download"
-            @click="() => onDownloadClick(podcast)"
+            class="episode__btn-info episode__btn-anchor episode__function-download"
           >
             <img src="/images/pages/podcast/IconDownload.svg" alt="Download Icon" class="episode__download-icon episode__icon">
             <span class="episode__listen episode__btn-text episode__btn-text-hor">{{ $t('podcast.download') }}</span>
-          </div>
+          </a>
           <div
             v-if="podcast.transcript"
             class="episode__btn-info"
@@ -61,8 +63,9 @@
 <script>
 import AudioPlayerComponent from '../AudioPlayerComponent'
 import SubscribeModal from '../SubscribeModal'
-import { fullFileUrl } from '../podcastHelper'
+import { fullFileUrl, podcastLinkRenderer } from '../podcastHelper'
 import uploadDateMixin from '../uploadDateMixin'
+import trackPlayMixin from '../trackPlayMixin'
 import { i18n } from 'app/core/utils'
 const marked = require('marked')
 export default {
@@ -83,7 +86,7 @@ export default {
       showSubscribeModal: false
     }
   },
-  mixins: [ uploadDateMixin ],
+  mixins: [ uploadDateMixin, trackPlayMixin ],
   methods: {
     onDownloadClick (podcast) {
       window.tracker.trackEvent('Download podcast clicked')
@@ -104,7 +107,7 @@ export default {
       return `https://share.transistor.fm/e/${this.podcast.transistorEpisodeId}/dark`
     },
     formatDescription () {
-      return marked(i18n(this.podcast, 'description'))
+      return marked(i18n(this.podcast, 'description'), { renderer: podcastLinkRenderer() })
     }
   }
 }
@@ -193,6 +196,7 @@ export default {
   &__btn-text {
     font-weight: 700;
     font-size: 1.8rem;
+    color: black;
 
     &-play {
       font-size: 2.2rem;
@@ -212,6 +216,11 @@ export default {
 
   &__frame {
     padding-bottom: 1rem;
+  }
+
+  &__btn-anchor {
+    text-decoration: none;
+    display: block;
   }
 
 }

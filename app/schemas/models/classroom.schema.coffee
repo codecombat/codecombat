@@ -15,6 +15,7 @@ _.extend ClassroomSchema.properties,
   codeCamel: c.shortString(title: "UpperCamelCase version of code for display purposes")
   aceConfig:
     language: {type: 'string', 'enum': ['python', 'javascript', 'cpp']}
+    liveCompletion: {type: 'boolean', default: true}
   averageStudentExp: { type: 'string' }
   ageRangeMin: { type: 'string' }
   ageRangeMax: { type: 'string' }
