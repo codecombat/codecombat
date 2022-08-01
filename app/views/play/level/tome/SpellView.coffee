@@ -78,7 +78,7 @@ module.exports = class SpellView extends CocoView
     $(window).on 'resize', @onWindowResize
     @observing = @session.get('creator') isnt me.id
     @loadedToken = {}
-    @addUserSnippets = _.debounce @reallyAddUserSnippets, 1000, {maxWait: 5000}
+    @addUserSnippets = _.debounce @reallyAddUserSnippets, 500, {maxWait: 1500}
 
   afterRender: ->
     super()
@@ -128,6 +128,9 @@ module.exports = class SpellView extends CocoView
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     $(@ace.container).find('.ace_gutter').on 'click', @onGutterClick
     @initAutocomplete aceConfig.liveCompletion ? true
+    @ace.on 'change', (e) =>
+      if e.action is 'insert' and e.start.row == e.end.row - 1
+        @addUserSnippets(@spell.getSource(), @spell.language, @ace.getSession())
 
     return if @session.get('creator') isnt me.id or @session.fake
     # Create a Spade to 'dig' into Ace.
@@ -543,11 +546,7 @@ module.exports = class SpellView extends CocoView
     @autocomplete?.set 'snippets', @autocompleteOn
 
   identifierRegex: (lang, type) ->
-    if type is 'variable'
-      return /([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+)\s*=[^=]/
-    else if type is 'object'
-      return /([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+)\./
-    else if type is 'function'
+    if type is 'function'
       regexs =
         python: /def ([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?):/
         javascript: /function ([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?)/
@@ -556,13 +555,13 @@ module.exports = class SpellView extends CocoView
       if lang of regexs
         return regexs[lang]
       return /./
-    else if type is 'string'
-      return /('.*?'|".*?")/
+    else if type is 'properties'
+      return /\.([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+)/g
 
   reallyAddUserSnippets: (source, lang, session) ->
     replaceParams = (str) ->
       i = 1
-      str = str.replace(/([a-zA-Z-0-9\$\-\u00A2-\uFFFF]+)/g, "${:$1}")
+      str = str.replace(/([a-zA-Z-0-9\$\-\u00A2-\uFFFF]+)([^,)]*)/g, "${:$1}")
       reg = /\$\{:/
       while (reg.test(str))
         str = str.replace(reg, "${#{i}:")
@@ -590,6 +589,7 @@ module.exports = class SpellView extends CocoView
         else
           newIdentifiers[next.value].importance *= 2
       if next.type is 'identifier'
+        continue if next.value.length is 1 # skip single char variables
         unless next.value of allIdentifiers
           allIdentifiers[next.value] = 5
         else
@@ -607,12 +607,17 @@ module.exports = class SpellView extends CocoView
         unless fun of newIdentifiers
           newIdentifiers[fun] = makeEntry(match[1], fun + replaceParams(params), allIdentifiers[fun])
           delete allIdentifiers[fun]
+      propertiesRegex = @identifierRegex(lang, 'properties')
+      while match = propertiesRegex.exec(line)
+        if match[1] of allIdentifiers
+          delete allIdentifiers[match[1]]
     )
     for id, importance of allIdentifiers
       if id is 'hero' and importance <= 20 # if hero doesn't appears more than twice
         continue
       newIdentifiers[id] = makeEntry(id, id, importance)
 
+    # console.log 'debug newIdentifiers: ', newIdentifiers
     @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
 
   addAutocompleteSnippets: (e) ->
@@ -1146,8 +1151,6 @@ module.exports = class SpellView extends CocoView
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
     @spellHasChanged = true
-    if e.spell.team is me.team
-      @addUserSnippets(e.spell.getSource(), e.spell.language, e.spell.view.ace.getSession())
 
   onAceMouseOut: (e) ->
     Backbone.Mediator.publish("web-dev:stop-hovering-line")

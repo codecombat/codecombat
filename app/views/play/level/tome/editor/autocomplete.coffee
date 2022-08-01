@@ -188,11 +188,6 @@ module.exports = class Autocomplete
       pos = editor.getCursorPosition()
       token = (new TokenIterator editor.getSession(), pos.row, pos.column).getCurrentToken()
       if token? and token.type not in ['comment']
-        if token.type is 'string' or (token.type is 'text' and  /\s*['"]/.test(token.value))
-          line = editor.getSession().getLine pos.row
-          linePrefix = line.substr 0, pos.column - 1
-          return if /^\s*$/.test(linePrefix)
-
         prefix = @getCompletionPrefix editor
         # Bake a fresh autocomplete every keystroke
         editor.completer?.detach() if hasCompleter

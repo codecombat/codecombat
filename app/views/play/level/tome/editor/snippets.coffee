@@ -143,8 +143,8 @@ module.exports = (SnippetManager, autoLineEndings) ->
     match = trailingText.match /^[a-zA-Z_0-9]*(\(\s*\))?/
     if match[0]
       afterIndex += match[0].length
-      debugLine = editor.session.getLine cursor.row # get current session line
-      afterRange = new Range cursor.row, cursor.column - 1, cursor.row, afterIndex
+      # debugLine = editor.session.getLine cursor.row # get current session line
+      afterRange = new Range cursor.row, cursor.column, cursor.row, afterIndex
       editor.session.remove afterRange
 
     baseInsertSnippet.call @, editor, snippet
@@ -159,6 +159,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
     # meta: displayed right-justfied in popup
     lang = session.getMode()?.$id?.substr 'ace/mode/'.length
     line = session.getLine pos.row
+
     completions = []
 
     #If the prefix is a member expression, supress completions
@@ -171,6 +172,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
       return callback null, completions
 
     beginningOfLine = session.getLine(pos.row).substring(0,pos.column - prefix.length)
+    emptyBeginning = /^\s*$/.test(beginningOfLine)
 
     # we already returned if fullPrefixParts.length > 2, so fullPrefixParts.length < 3 always true here
     # and we want to enable auto completion when cursor is inside a function call as param. so add more check
@@ -186,6 +188,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
       for s in snippets
         caption  = s.name or s.tabTrigger
         continue unless caption
+        continue if /^['"]/.test(caption) and emptyBeginning # don't show string completions at the end of line
         [snippet, fuzzScore] = scrubSnippet s.content, caption, line, prefix, pos, lang, autoLineEndings, s.captureReturn
         completions.push
           content: s.content  # Used internally by Snippets, not by ace autocomplete
@@ -257,7 +260,17 @@ scrubSnippet = (snippet, caption, line, input, pos, lang, autoLineEndings, captu
       linePrefix = ''
 
     lineSuffix = line.substr pos.column, snippetSuffix.length - 1 + caption.length - input.length + 1
-    lineSuffix = '' unless snippet.endsWith(lineSuffix)
+    # eat un-matched quotes
+    if /['"]/.test(caption[0])
+      quote = caption[0]
+      num = (line.match(new RegExp(quote, 'g')) || []).length
+      console.log('quotes: ', line, input, num, lineSuffix)
+      if num % 2 == 0
+        lineSuffix = quote
+      else
+        lineSuffix = '' unless snippet.endsWith(lineSuffix)
+    else
+      lineSuffix = '' unless snippet.endsWith(lineSuffix)
 
     # TODO: This is broken for attack(find in Python, but seems ok in JavaScript.
 
