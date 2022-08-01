@@ -3040,6 +3040,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_location_3: "阿拉米达，加利福尼亚州"
     spotlight_3: "苏珊在她的班级中提倡一种公平的氛围，每个人都能以自己的方式成功。犯错和挣扎也是受欢迎的，因为每个人都能从挑战中学习，包括老师。"
     continue_reading_blog: "在博客中继续阅读..."
+#    ozaria_impact_title: "Positive Impacts with Ozaria"
+#    ozaria_impact_blurb: "CodeCombat's sister curriculum, Ozaria, has proven to have a positive impact on the student learning outcomes that matter most to both students and educators."
+#    ozaria_impact_learn_more: "Learn more about Ozaria's curriculum efficacy here."
 
   loading_error:
     could_not_load: "载入失败" # {change}
@@ -4132,6 +4135,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    unlock_ai_league: "Unlock the full potential of the AI League."
 #    esports_get_full_access: "Get Full Access"
 #    unlock_content_padding: "Contact our team today to see your student's scoress, ranks, code and more!"
+#    without_license_blurb: "Unlock the full potential of AI League. Purchase a custom tournament package to access your students’ scores, ranks, code and experience more tournament customization options. See our"
+#    custom_pricing: "Custom Options and Implementation Guide"
+#    more_details: "for more details."
+#    contact_sales_custom: "Your custom tournament awaits. Choose the arena that you’d like to use for your custom tournament and contact your CodeCombat sales representative to confirm set up and scheduling details."
+#    create_custom: "Create Custom Tournament"
 
   tournament:
     mini_tournaments: "迷你锦标赛"

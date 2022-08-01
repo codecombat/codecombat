@@ -3040,6 +3040,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teacher_location_3: 'Nynzrqn, PN'
     spotlight_3: 'Fhfna Wbarf-Fmnob cebzbgrf na rdhvgnoyr ngzbfcurer va ure pynff jurer rirelbar pna svaq fhpprff va gurve bja jnl. Zvfgnxrf naq fgehttyrf ner jrypbzrq orpnhfr rirelbar yrneaf sebz n punyyratr, rira gur grnpure.'
     continue_reading_blog: 'Pbagvahr Ernqvat ba Oybt...'
+    ozaria_impact_title: 'Cbfvgvir Vzcnpgf jvgu Bmnevn'
+    ozaria_impact_blurb: 'PbqrPbzong\'f fvfgre pheevphyhz, Bmnevn, unf cebira gb unir n cbfvgvir vzcnpg ba gur fghqrag yrneavat bhgpbzrf gung znggre zbfg gb obgu fghqragf naq rqhpngbef.'
+    ozaria_impact_learn_more: 'Yrnea zber nobhg Bmnevn\'f pheevphyhz rssvpnpl urer.'
 
   loading_error:
     could_not_load: "Reebe ybnqvat sebz freire. Gel erserfuvat gur cntr."
@@ -4132,6 +4135,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     unlock_ai_league: "Haybpx gur shyy cbgragvny bs gur NV Yrnthr."
     esports_get_full_access: "Trg Shyy Npprff"
     unlock_content_padding: "Pbagnpg bhe grnz gbqnl gb frr lbhe fghqrag'f fpberff, enaxf, pbqr naq zber!"
+    without_license_blurb: "Haybpx gur shyy cbgragvny bs NV Yrnthr. Chepunfr n phfgbz gbheanzrag cnpxntr gb npprff lbhe fghqragf’ fpberf, enaxf, pbqr naq rkcrevrapr zber gbheanzrag phfgbzvmngvba bcgvbaf. Frr bhe"
+    custom_pricing: "Phfgbz Bcgvbaf naq Vzcyrzragngvba Thvqr"
+    more_details: "sbe zber qrgnvyf."
+    contact_sales_custom: "Lbhe phfgbz gbheanzrag njnvgf. Pubbfr gur neran gung lbh’q yvxr gb hfr sbe lbhe phfgbz gbheanzrag naq pbagnpg lbhe PbqrPbzong fnyrf ercerfragngvir gb pbasvez frg hc naq fpurqhyvat qrgnvyf."
+    create_custom: "Perngr Phfgbz Gbheanzrag"
 
   tournament:
     mini_tournaments: "Zvav Gbheanzragf"

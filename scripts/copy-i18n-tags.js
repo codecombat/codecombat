@@ -46,7 +46,7 @@ for (const section of enSplitByCategory) {
 }
 
 // Grab all locale files that we need to manage
-const IGNORE_FILES = ['rot13.coffee', 'rot13.coco.coffee', 'rot13.ozar.coffee', 'en.coffee', 'en.coco.coffee', 'en.ozar.coffee', 'locale.coffee', 'locale.coco.coffee', 'locale.ozar.coffee']
+const IGNORE_FILES = ['rot13.coffee', 'en.coffee', 'locale.coffee']
 const localeFiles = fs
   .readdirSync(path.join(PWD, '../app/locale'))
   .filter(fileName => IGNORE_FILES.indexOf(fileName) === -1)
