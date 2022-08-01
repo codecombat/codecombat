@@ -463,8 +463,11 @@ _.extend UserSchema.properties,
   }
   related: c.array(
     { description: 'related accounts to this user' },
-    c.objectId(
-      { description: 'userId of the account currentUser is related to' }
+    c.object(
+      {},
+      {
+        userId: c.objectId({ description: 'userId of the account currentUser is related to' })
+      }
     )
   )
 
