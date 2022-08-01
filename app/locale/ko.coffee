@@ -3040,6 +3040,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     teacher_location_3: "Alameda, CA"
     spotlight_3: "Susan Jones-Szabo는 모든 사람들이 그들만의 방식으로 성공을 찾을 수 있도록 그녀의 반에서 공평한 분위기를 조성합니다. 실수나 투쟁은 모든 사람이 도전으로부터 배우는 것이기 때문에, 심지어 선생님까지도 환영을 받습니다."
     continue_reading_blog: "블로그에서 계속 읽습니다..."
+#    ozaria_impact_title: "Positive Impacts with Ozaria"
+#    ozaria_impact_blurb: "CodeCombat's sister curriculum, Ozaria, has proven to have a positive impact on the student learning outcomes that matter most to both students and educators."
+#    ozaria_impact_learn_more: "Learn more about Ozaria's curriculum efficacy here."
 
   loading_error:
     could_not_load: "서버로부터 로딩하는 데 문제가 발생했습니다." # {change}
@@ -4132,6 +4135,11 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    unlock_ai_league: "Unlock the full potential of the AI League."
 #    esports_get_full_access: "Get Full Access"
 #    unlock_content_padding: "Contact our team today to see your student's scoress, ranks, code and more!"
+#    without_license_blurb: "Unlock the full potential of AI League. Purchase a custom tournament package to access your students’ scores, ranks, code and experience more tournament customization options. See our"
+#    custom_pricing: "Custom Options and Implementation Guide"
+#    more_details: "for more details."
+#    contact_sales_custom: "Your custom tournament awaits. Choose the arena that you’d like to use for your custom tournament and contact your CodeCombat sales representative to confirm set up and scheduling details."
+#    create_custom: "Create Custom Tournament"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"

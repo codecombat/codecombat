@@ -3040,6 +3040,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    teacher_location_3: "Alameda, CA"
     spotlight_3: "Susan Jones-Szabo bevordert een open-minded houding in haar klas waar iedereen op zijn eigen manier succes kan hebben. Fouten en worstelingen zijn welkom omdat iedereen leert van een uitdaging, zelfs de leraar. "
     continue_reading_blog: "Lees verder op de blog"
+#    ozaria_impact_title: "Positive Impacts with Ozaria"
+#    ozaria_impact_blurb: "CodeCombat's sister curriculum, Ozaria, has proven to have a positive impact on the student learning outcomes that matter most to both students and educators."
+#    ozaria_impact_learn_more: "Learn more about Ozaria's curriculum efficacy here."
 
   loading_error:
     could_not_load: "Fout bij het laden van de server" # {change}
@@ -4132,6 +4135,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    unlock_ai_league: "Unlock the full potential of the AI League."
 #    esports_get_full_access: "Get Full Access"
 #    unlock_content_padding: "Contact our team today to see your student's scoress, ranks, code and more!"
+#    without_license_blurb: "Unlock the full potential of AI League. Purchase a custom tournament package to access your students’ scores, ranks, code and experience more tournament customization options. See our"
+#    custom_pricing: "Custom Options and Implementation Guide"
+#    more_details: "for more details."
+#    contact_sales_custom: "Your custom tournament awaits. Choose the arena that you’d like to use for your custom tournament and contact your CodeCombat sales representative to confirm set up and scheduling details."
+#    create_custom: "Create Custom Tournament"
 
 #  tournament:
 #    mini_tournaments: "Mini Tournaments"
