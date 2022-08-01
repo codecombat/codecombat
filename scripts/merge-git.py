@@ -86,8 +86,8 @@ if 'refs/heads/right' in repo.references:
 if 'refs/heads/merged' in repo.references:
 	repo.references.delete('refs/heads/merged')
 
-lc = repo.create_commit("refs/heads/left", who, who, "Auto merging coco/ozra - left side", lo.oid, [parent.oid] )
-rc = repo.create_commit("refs/heads/right", who, who, "Auto merging coco/ozra - right side", ro.oid, [parent.oid] )
-cc = repo.create_commit("refs/heads/merged", who, who, "Auto merging coco/ozra - center", co.oid, [lc,rc] )
+lc = repo.create_commit("refs/heads/left", who, who, "Auto merging .coco/.ozar - left side", lo.oid, [parent.oid] )
+rc = repo.create_commit("refs/heads/right", who, who, "Auto merging .coco/.ozar - right side", ro.oid, [parent.oid] )
+cc = repo.create_commit("refs/heads/merged", who, who, "Auto merging .coco/.ozar - center", co.oid, [lc,rc] )
 
 print(cc)
