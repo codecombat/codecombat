@@ -5,6 +5,7 @@ RootView = require 'views/core/RootView'
 template = require 'app/templates/admin'
 AdministerUserModal = require 'views/admin/AdministerUserModal'
 MaintenanceModal = require 'views/admin/MaintenanceModal'
+TeacherLicenseCodeModal = require 'views/admin/TeacherLicenseCodeModal'
 ModelModal = require 'views/modal/ModelModal'
 forms = require 'core/forms'
 utils = require 'core/utils'
@@ -43,6 +44,7 @@ module.exports = class MainAdminView extends RootView
     'click #clear-feature-mode-btn': 'onClickClearFeatureModeButton'
     'click .edit-mandate': 'onClickEditMandate'
     'click #maintenance-mode': 'onClickMaintenanceMode'
+    'click #teacher-license-code': 'onClickTeacherLicenseCode'
 
   getTitle: -> return $.i18n.t('account_settings.admin')
 
@@ -399,6 +401,9 @@ module.exports = class MainAdminView extends RootView
 
   onClickMaintenanceMode: (e) ->
     @openModalView? new MaintenanceModal() if me.isAdmin()
+
+  onClickTeacherLicenseCode: (e) ->
+    @openModalView? new TeacherLicenseCodeModal() if me.isAdmin()
 
   editMandate: (mandate) =>
     mandate = new Mandate _id: mandate.get('0')._id  # Work around weirdness in this actually being a singleton

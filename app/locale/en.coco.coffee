@@ -1360,6 +1360,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     courses_suffix: ""
     course_prefix: "Course"
     course_suffix: ""
+    licenses_activated_success: "Licenses have been Activated Successfully!"
+    license_code_used: "License Code used."
 
   teachers_quote:
     subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
