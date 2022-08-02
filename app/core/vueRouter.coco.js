@@ -130,6 +130,11 @@ export default function getVueRouter () {
           path: '/podcast/:handle',
           name: 'PodcastSingle',
           component: () => import(/* webpackChunkName: "podcastSingle" */'/app/views/podcast/SinglePodcastView')
+        },
+        {
+          path: '/user/switch-account',
+          name: 'UserSwitchAccount',
+          component: () => import(/* webpackChunkName: "userSwitchAccount" */'../views/user/SwitchAccountView')
         }
       ],
       scrollBehavior(to) {
