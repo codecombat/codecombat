@@ -264,7 +264,6 @@ scrubSnippet = (snippet, caption, line, input, pos, lang, autoLineEndings, captu
     if /['"]/.test(caption[0])
       quote = caption[0]
       num = (line.match(new RegExp(quote, 'g')) || []).length
-      console.log('quotes: ', line, input, num, lineSuffix)
       if num % 2 == 0
         lineSuffix = quote
       else

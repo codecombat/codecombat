@@ -43,6 +43,8 @@ module.exports = class SpellView extends CocoView
     'god:non-user-code-problem': 'onNonUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
     'tome:spell-changed': 'onSpellChanged'
+    'tome:spell-created': 'onSpellCreated'
+    'tome:completer-add-user-snippets': 'onAddUserSnippets'
     'level:session-will-save': 'onSessionWillSave'
     'modal:closed': 'focus'
     'tome:focus-editor': 'focus'
@@ -133,10 +135,6 @@ module.exports = class SpellView extends CocoView
     $(@ace.container).find('textarea').attr('aria-label', 'Code Area')
     if @courseID && @courseID == utils.courseIDs.CHAPTER_ONE
       @ace.setFontSize 22
-    @ace.on 'change', (e) =>
-      # new line insert, batch line insert, remove line
-      if e.action in ['insert', 'remove'] and e.start.row != e.end.row
-        @addUserSnippets(@spell.getSource(), @spell.language, @ace.getSession())
     liveCompletion = aceConfig.liveCompletion ? true
     liveCompletion = @options.classroomAceConfig.liveCompletion && liveCompletion
     @initAutocomplete liveCompletion
@@ -1049,6 +1047,17 @@ module.exports = class SpellView extends CocoView
     @spell.source = oldSource
     for key, value of oldSpellThangAether
       @spell.thang.aether[key] = value
+
+  onAddUserSnippets: ->
+    if @spell.team is me.team
+      @addUserSnippets(@spell.getSource(), @spell.language, @ace?.getSession?())
+
+  onSpellCreated: (e) ->
+    if e.spell.team is me.team
+      # ace session won't get correct language mode when created. so we wait for 1.5s
+      setTimeout(() =>
+        @addUserSnippets(e.spell.getSource(), e.spell.language, @ace?.getSession?())
+      , 1500)
 
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML

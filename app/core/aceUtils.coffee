@@ -91,7 +91,9 @@ parseUserSnippets = (source, lang, session) ->
   newIdentifiers = {}
 
   it = new TokenIterator session, 0, 0
-  while (next = it.stepForward())
+  next = it.getCurrentToken()
+  next = it.stepForward() unless next
+  while next
     if next.type is 'string'
       unless next.value of newIdentifiers
         newIdentifiers[next.value] = makeEntry(next.value)
@@ -103,6 +105,8 @@ parseUserSnippets = (source, lang, session) ->
         allIdentifiers[next.value] = 5
       else
         allIdentifiers[next.value] *= 2
+    next = it.stepForward()
+    # console.log("deubg next:", next)
 
   lines = source.split('\n')
   lines.forEach((line) =>

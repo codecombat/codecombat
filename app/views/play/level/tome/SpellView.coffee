@@ -44,6 +44,8 @@ module.exports = class SpellView extends CocoView
     'god:non-user-code-problem': 'onNonUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
     'tome:spell-changed': 'onSpellChanged'
+    'tome:spell-created': 'onSpellCreated'
+    'tome:completer-add-user-snippets': 'onAddUserSnippets'
     'level:session-will-save': 'onSessionWillSave'
     'modal:closed': 'focus'
     'tome:focus-editor': 'focus'
@@ -77,7 +79,7 @@ module.exports = class SpellView extends CocoView
     $(window).on 'resize', @onWindowResize
     @observing = @session.get('creator') isnt me.id
     @loadedToken = {}
-    @addUserSnippets = _.debounce @reallyAddUserSnippets, 500, {maxWait: 1500}
+    @addUserSnippets = _.debounce @reallyAddUserSnippets, 500, {maxWait: 1500, leading: true, trailing: false}
 
   afterRender: ->
     super()
@@ -126,9 +128,6 @@ module.exports = class SpellView extends CocoView
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     $(@ace.container).find('.ace_gutter').on 'click', @onGutterClick
-    @ace.on 'change', (e) =>
-      if e.action in ['insert', 'remove'] and e.start.row != e.end.row
-        @addUserSnippets(@spell.getSource(), @spell.language, @ace.getSession())
     liveCompletion = aceConfig.liveCompletion ? true
     classroomLiveCompletion = (@options.classroomAceConfig ? {liveCompletion: true}).liveCompletion
     liveCompletion = classroomLiveCompletion && liveCompletion
@@ -1075,6 +1074,17 @@ module.exports = class SpellView extends CocoView
     @spell.source = oldSource
     for key, value of oldSpellThangAether
       @spell.thang.aether[key] = value
+
+  onAddUserSnippets: ->
+    if @spell.team is me.team
+      @addUserSnippets(@spell.getSource(), @spell.language, @ace?.getSession?())
+
+  onSpellCreated: (e) ->
+    if e.spell.team is me.team
+      # ace session won't get correct language mode when created. so we wait for 1.5s
+      setTimeout(() =>
+        @addUserSnippets(e.spell.getSource(), e.spell.language, @ace?.getSession?())
+      , 1500)
 
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
