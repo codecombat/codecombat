@@ -14,7 +14,7 @@ LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
 aceUtils = require 'core/aceUtils'
 CodeLog = require 'models/CodeLog'
-Autocomplete = require './editor/autocomplete'
+Autocomplete = require 'views/play/level/tome/editor/autocomplete'
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
 LZString = require 'lz-string'
 utils = require 'core/utils'
@@ -81,6 +81,7 @@ module.exports = class SpellView extends CocoView
     @observing = @session.get('creator') isnt me.id
     @indentDivMarkers = []
     @courseID = options.courseID
+    @addUserSnippets = _.debounce @reallyAddUserSnippets, 500, {maxWait: 1500}
 
   afterRender: ->
     super()
@@ -132,6 +133,10 @@ module.exports = class SpellView extends CocoView
     $(@ace.container).find('textarea').attr('aria-label', 'Code Area')
     if @courseID && @courseID == utils.courseIDs.CHAPTER_ONE
       @ace.setFontSize 22
+    @ace.on 'change', (e) =>
+      # new line insert, batch line insert, remove line
+      if e.action in ['insert', 'remove'] and e.start.row != e.end.row
+        @addUserSnippets(@spell.getSource(), @spell.language, @ace.getSession())
     liveCompletion = aceConfig.liveCompletion ? true
     liveCompletion = @options.classroomAceConfig.liveCompletion && liveCompletion
     @initAutocomplete liveCompletion
@@ -540,6 +545,11 @@ module.exports = class SpellView extends CocoView
 
   updateAutocomplete: (@autocompleteOn) ->
     @autocomplete?.set 'snippets', @autocompleteOn
+
+  reallyAddUserSnippets: (source, lang, session) ->
+    newIdentifiers = aceUtils.parseUserSnippets(source, lang, session)
+    # console.log 'debug newIdentifiers: ', newIdentifiers
+    @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
 
   addAutocompleteSnippets: (e) ->
     # Snippet entry format:

@@ -44,7 +44,6 @@ module.exports = class SpellView extends CocoView
     'god:non-user-code-problem': 'onNonUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
     'tome:spell-changed': 'onSpellChanged'
-    'tome:spell-created': 'onSpellCreated'
     'level:session-will-save': 'onSessionWillSave'
     'modal:closed': 'focus'
     'tome:focus-editor': 'focus'
@@ -128,7 +127,7 @@ module.exports = class SpellView extends CocoView
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     $(@ace.container).find('.ace_gutter').on 'click', @onGutterClick
     @ace.on 'change', (e) =>
-      if e.action is 'insert' and e.start.row == e.end.row - 1
+      if e.action in ['insert', 'remove'] and e.start.row != e.end.row
         @addUserSnippets(@spell.getSource(), @spell.language, @ace.getSession())
     liveCompletion = aceConfig.liveCompletion ? true
     classroomLiveCompletion = (@options.classroomAceConfig ? {liveCompletion: true}).liveCompletion
@@ -548,78 +547,8 @@ module.exports = class SpellView extends CocoView
   updateAutocomplete: (@autocompleteOn) ->
     @autocomplete?.set 'snippets', @autocompleteOn
 
-  identifierRegex: (lang, type) ->
-    if type is 'function'
-      regexs =
-        python: /def ([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?):/
-        javascript: /function ([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?)/
-        cpp: /[a-z]+\s+([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?)/
-        java: /[a-z]+\s+([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?)/
-      if lang of regexs
-        return regexs[lang]
-      return /./
-    else if type is 'properties'
-      return /\.([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+)/g
-
   reallyAddUserSnippets: (source, lang, session) ->
-    replaceParams = (str) ->
-      i = 1
-      str = str.replace(/([a-zA-Z-0-9\$\-\u00A2-\uFFFF]+)([^,)]*)/g, "${:$1}")
-      reg = /\$\{:/
-      while (reg.test(str))
-        str = str.replace(reg, "${#{i}:")
-        i += 1
-      str
-
-    makeEntry = (name, content, importance) ->
-      content = content ? name
-      entry =
-        meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
-        importance: importance ? 5
-        content: content
-        name: name
-        tabTrigger: name
-
-    userSnippets = []
-    allIdentifiers = {}
-    newIdentifiers = {}
-
-    it = new TokenIterator session, 0, 0
-    while (next = it.stepForward())
-      if next.type is 'string'
-        unless next.value of newIdentifiers
-          newIdentifiers[next.value] = makeEntry(next.value)
-        else
-          newIdentifiers[next.value].importance *= 2
-      if next.type is 'identifier'
-        continue if next.value.length is 1 # skip single char variables
-        unless next.value of allIdentifiers
-          allIdentifiers[next.value] = 5
-        else
-          allIdentifiers[next.value] *= 2
-
-    lines = source.split('\n')
-    lines.forEach((line) =>
-      if @singleLineCommentRegex().test line
-        return
-
-      match = @identifierRegex(lang, 'function').exec(line)
-      if match and match[1]
-        [fun, params] = match[1].split('(')
-        params = '(' + params
-        unless fun of newIdentifiers
-          newIdentifiers[fun] = makeEntry(match[1], fun + replaceParams(params), allIdentifiers[fun])
-          delete allIdentifiers[fun]
-      propertiesRegex = @identifierRegex(lang, 'properties')
-      while match = propertiesRegex.exec(line)
-        if match[1] of allIdentifiers
-          delete allIdentifiers[match[1]]
-    )
-    for id, importance of allIdentifiers
-      if id is 'hero' and importance <= 20 # if hero doesn't appears more than twice
-        continue
-      newIdentifiers[id] = makeEntry(id, id, importance)
-
+    newIdentifiers = aceUtils.parseUserSnippets(source, lang, session)
     # console.log 'debug newIdentifiers: ', newIdentifiers
     @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
 
@@ -630,7 +559,7 @@ module.exports = class SpellView extends CocoView
     # name: displayed left-justified in popup, and what's being matched
     # tabTrigger: fallback for name field
     return unless @autocomplete and @autocompleteOn
-    codecombatSnippets = @autocomplete.addCodeCombatSnippets @options.level, @, e
+    @autocomplete.addCodeCombatSnippets @options.level, @, e
 
   translateFindNearest: ->
     # If they have advanced glasses but are playing a level which assumes earlier glasses, we'll adjust the sample code to use the more advanced APIs instead.
@@ -1146,10 +1075,6 @@ module.exports = class SpellView extends CocoView
     @spell.source = oldSource
     for key, value of oldSpellThangAether
       @spell.thang.aether[key] = value
-
-  onSpellCreated: (e) ->
-    if e.spell.team is me.team
-      @addUserSnippets(e.spell.getSource(), e.spell.language, e.spell?.view?.ace?.getSession?())
 
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
