@@ -38,7 +38,12 @@ style.
     if view.courseStats
       img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-" + view.course.acronym().toLowerCase() + ".png")
     div(class="certificate-contents")
-      img.logo-img(src="/images/pages/base/logo.png")
+      if me.isTecmilenio()
+        div(class="tecmilenio")
+          img.base-logo(src="/images/pages/base/logo.png")
+          img.base-logo.tec-logo-img(src="/images/pages/payment/tecmilenio-logo-black.png")
+      else
+        img.logo-img(src="/images/pages/base/logo.png")
       .certificate-text-container
         if view.supermodel.isLoading || !view.courseStats
           h1.loading-indicator(data-i18n="common.loading")
@@ -92,7 +97,7 @@ style.
                 span= ' '
                 span= i18n(view.thangType.attributes, 'extendedName')
           else
-            h4 Loading hero 
+            h4 Loading hero
           .course-ribbon(class=view.course.acronym().replace(/\d/g, '').toLowerCase() + ' ' + view.course.acronym().toLowerCase())
             img(src='/images/pages/user/certificates/medallions/medallion-' + view.course.acronym().toLowerCase() + '.png')
             h3= view.course.acronym()
