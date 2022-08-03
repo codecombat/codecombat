@@ -10,6 +10,7 @@ PAST_PATH_INTERVAL_DIVISOR = 2
 Camera = require './Camera'
 CocoClass = require 'core/CocoClass'
 createjs = require 'lib/createjs-parts'
+utils = require 'utils/core'
 
 module.exports = class TrailMaster extends CocoClass
   world: null
@@ -18,12 +19,14 @@ module.exports = class TrailMaster extends CocoClass
     super()
     @tweenedSprites = []
     @tweens = []
-    @listenTo @layerAdapter, 'new-spritesheet', -> @generatePaths(@world, @thang)
+    if utils.isCodeCombat
+      @listenTo @layerAdapter, 'new-spritesheet', -> @generatePaths(@world, @thang)
 
   generatePaths: (@world, @thang) ->
     return if @generatingPaths
     @generatingPaths = true
-    @cleanUp()
+    if utils.isCodeCombat
+      @cleanUp()
     @createGraphics()
     pathDisplayObject = new createjs.Container(@layerAdapter.spriteSheet)
     pathDisplayObject.mouseEnabled = pathDisplayObject.mouseChildren = false
@@ -55,7 +58,7 @@ module.exports = class TrailMaster extends CocoClass
     return key
 
   colorForThang: (team, alpha=1.0) ->
-    if utils.isOzaria
+    if utils.isCodeCombat
       rgb = [0, 255, 0]
       rgb = [255, 0, 0] if team is 'humans'
       rgb = [0, 0, 255] if team is 'ogres'

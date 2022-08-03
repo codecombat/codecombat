@@ -22,7 +22,7 @@ module.exports =
     url
 
   courseWorldMap: ({courseId, courseInstanceId, campaignPage, campaignId, codeLanguage}) ->
-    unless campaignId
+    if not campaignId and utils.isOzaria
       console.error('courseWorldMap: campaign id is not defined')
       return ""
     url = "/play/#{encodeURIComponent(campaignId)}"

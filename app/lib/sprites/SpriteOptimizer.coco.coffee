@@ -1,3 +1,5 @@
+utils = require 'core/utils'
+
 module.exports = class SpriteOptimizer
   debug: false
 
@@ -191,11 +193,12 @@ module.exports = class SpriteOptimizer
         if relatedAction.container and renamedTarget = containerRenamings[relatedAction.container]
           relatedAction.container = renamedTarget
 
-    # Also rename shapes within color groups
-    for group, shapes of @colorGroups
-      for oldShapeName, index in shapes
-        if newShapeName = shapeRenamings[oldShapeName]
-          shapes[index] = newShapeName
+    if utils.isOzaria
+      # Also rename shapes within color groups
+      for group, shapes of @colorGroups
+        for oldShapeName, index in shapes
+          if newShapeName = shapeRenamings[oldShapeName]
+            shapes[index] = newShapeName
 
     if @debug
       console.log shapeRenamings

@@ -216,9 +216,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
         continue if script.neverRun
 
       continue unless @scriptPrereqsSatisfied(script)
-      if utils.isCodeCombat
-        # This allows the content team to filter scripts by language.
-        event.codeLanguage ?= @session.get('codeLanguage') ? 'python'
+      # This allows the content team to filter scripts by language.
+      event.codeLanguage ?= @session.get('codeLanguage') ? 'python'
       continue unless scriptMatchesEventPrereqs(script, event)
       # everything passed!
       console.debug "SCRIPT: Running script '#{script.id}'" if @debugScripts
@@ -226,12 +225,11 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       @triggered.push(script.id) unless alreadyTriggered
       noteChain = @processScript(script)
 
-      if utils.isCodeCombat
-        # There may have been new conditions that are met so we are now in a
-        # position to add new say events to the tutorial. Duplicates are ignored.
-        sayEvents = ScriptManager.extractSayEvents(script)
-        if sayEvents.length
-          store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
+      # There may have been new conditions that are met so we are now in a
+      # position to add new say events to the tutorial. Duplicates are ignored.
+      sayEvents = ScriptManager.extractSayEvents(script)
+      if sayEvents.length
+        store.dispatch('game/addTutorialStepsFromSayEvents', sayEvents)
 
       if not noteChain then return @trackScriptCompletions (script.id)
       @addNoteChain(noteChain)

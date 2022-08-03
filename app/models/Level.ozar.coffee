@@ -134,7 +134,7 @@ module.exports = class Level extends CocoModel
         levelThangComponent = $.extend true, {}, defaultThangComponent
         levelThang.components.push levelThangComponent
 
-      if isHero and placeholderComponent = placeholders[defaultThangComponent.original]
+      if utils.isCodeCombat and isHero and placeholderComponent = placeholders[defaultThangComponent.original]
         placeholdersUsed[placeholderComponent.original] = true
         placeholderConfig = placeholderComponent.config ? {}
         levelThangComponent.config ?= {}

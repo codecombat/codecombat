@@ -277,7 +277,7 @@ module.exports = class LevelLoader extends CocoClass
         heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
       # set default hero for assessment levels in class if classroomItems is on
       if @level.isAssessment() and me.showHeroAndInventoryModalsToStudents()
-        heroThangType = if utils.isOzarai then ThangType.heroes['hero-b'] else ThangType.heroes.captain
+        heroThangType = if utils.isOzaria then ThangType.heroes['hero-b'] else ThangType.heroes.captain
       console.debug "Course mode, loading custom hero: ", heroThangType if LOG
       url = "/db/thang.type/#{heroThangType}/version"
       if heroResource = @maybeLoadURL(url, ThangType, 'thang')

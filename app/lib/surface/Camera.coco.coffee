@@ -48,7 +48,7 @@ module.exports = class Camera extends CocoClass
         'camera:zoom-to': 'onZoomTo'
         'level:restarted': 'onLevelRestarted'
       },
-      if utils.isOzaria then {
+      if utils.isCodeCombat then {
         'camera:zoom-out': 'onZoomOut'
         'camera:zoom-in': 'onZoomIn'
       } else {}
