@@ -1,0 +1,8 @@
+mixin license-form-group(label, extra)
+  .form-group
+    label
+      span=label
+      =" "
+      input&attributes(attributes)
+      if extra
+        =extra

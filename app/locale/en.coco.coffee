@@ -1365,6 +1365,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     courses_suffix: ""
     course_prefix: "Course"
     course_suffix: ""
+    licenses_activated_success: "Licenses have been Activated Successfully!"
+    license_code_used: "License Code used."
 
   teachers_quote:
     subtitle: "Learn more about CodeCombat with an interactive walk through of the product, pricing, and implementation!"
@@ -3544,6 +3546,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     cup: "Cup"
     blitz: "Blitz"
     clash: "Clash"
+    season5_announcement_1: "The Sandstorm Blitz Final is on. In this basketbrawl of an arena, you must summon the right heroes, call the right plays, and outscore your opponent to take the victory!"
+    season5_announcement_2: "Note: arena balance adjustments may occur up until September 15th. So be sure to come back often to test your code against the global leaderboard."
     season4_announcement_1: "The Tundra Tower Cup Final is on. In this all new take on the classic tower defense gameplay, you must protect your base from the horde of monsters by building towers and using gravitational anomalies."
     season4_announcement_2: "Note: arena balance adjustments may occur up until April 15th. So be sure to come back often to test your code against the global leaderboard."
     season3_announcement_1: "Time to put your coding skills to the test in our season 3 final arena. The Colossus Clash is live and offers a new challenge and a new leaderboard to climb."

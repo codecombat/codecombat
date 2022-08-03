@@ -39,4 +39,6 @@ module.exports = {
     options.data.client = clientId
     fetchJson('/db/prepaid/client', options)
 
+  joinByCodes: (options = {}) ->
+    fetchJson('/db/prepaids/-/join-by-codes', options)
 }
