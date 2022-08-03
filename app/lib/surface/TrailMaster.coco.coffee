@@ -10,7 +10,7 @@ PAST_PATH_INTERVAL_DIVISOR = 2
 Camera = require './Camera'
 CocoClass = require 'core/CocoClass'
 createjs = require 'lib/createjs-parts'
-utils = require 'utils/core'
+utils = require 'core/utils'
 
 module.exports = class TrailMaster extends CocoClass
   world: null
