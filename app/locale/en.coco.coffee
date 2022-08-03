@@ -1087,6 +1087,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     announcement: 'Announcement'
     xAnnouncements: '__x__ Announcements'
     xAnnouncementsWithUnread: '__x__ Announcements(__y__ unread)'
+    message: 'Message'
     see_more: "See __unread__ more unread announcements"
 
   avatar_selection:

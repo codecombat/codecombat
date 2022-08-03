@@ -1084,6 +1084,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     wallOfDarkness_name: "暗黑之墙"
     wallOfDarkness_description: "躲在影壁后面，防止偷窥者的目光。"
     announcement: '公告'
+    message: "新消息"
     see_more: "查看其他 __unread__ 个未读公告"
 
   avatar_selection:

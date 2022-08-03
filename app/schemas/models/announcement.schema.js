@@ -5,22 +5,14 @@ const MongoQueryOperatorSchema = {
   title: 'Query Operator',
   type: 'object',
   properties: {
-    '$gt': { type: 'number'
-  },
-    '$gte': { type: 'number'
-  },
-    '$in': { type: 'array'
-  },
-    '$lt': { type: 'number'
-  },
-    '$lte': { type: 'number'
-  },
-    '$ne': { type: ['number', 'string']
-  },
-    '$nin': { type: 'array'
-  },
-    '$exists': { type: 'boolean'
-  }
+    '$gt': { type: 'number' },
+    '$gte': { type: 'number' },
+    '$in': { type: 'array' },
+    '$lt': { type: 'number' },
+    '$lte': { type: 'number' },
+    '$ne': { type: ['number', 'string'] },
+    '$nin': { type: 'array' },
+    '$exists': { type: 'boolean' }
   },
   additionalProperties: false
 };
@@ -47,14 +39,33 @@ const MongoFindQuerySchema = {
 const AnnouncementSchema = c.object({
   title: 'Announcement',
   description: '',
-  required: ['name'],
+  required: ['name', 'product'],
   default: {
     content: '',
     startDate: '',
     query: {},
     product: 'codecombat',
     kind: 'normal'
-  }
+  },
+  allOf: [
+    {
+      if: {
+        properties: { kind: { const: 'sequence' } },
+        required: ['kind']
+      },
+      then: {
+        required: ['sequence']
+      }
+    },
+    {
+      if: {
+        not: { properties: { kind: { const: 'banner' } } }
+      },
+      then: {
+        required: ['content']
+      }
+    }
+  ]
 });
 
 // c.extendNamedProperties AnnouncementSchema # do we need name/slug ?
@@ -104,6 +115,7 @@ _.extend(AnnouncementSchema.properties, {
       }
     }
   },
+
   i18n: {
     type: 'object',
     format: 'i18n',

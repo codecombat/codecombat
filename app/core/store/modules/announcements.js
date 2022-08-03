@@ -85,8 +85,8 @@ export default {
       if(options)
         append = options.append
       getList(options).then((data) => {
-        commit('setAnnouncements', {anns: data, append})
-        if(append && !data.length) {
+        commit('setAnnouncements', { anns: data.slice(0, 10), append })
+        if (data.length < 11) {
           commit('setMoreAnnouncement', false)
         }
       })

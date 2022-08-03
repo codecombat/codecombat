@@ -147,6 +147,15 @@
       ozPath (relativePath) {
         return `${this.ozBaseURL}${relativePath}`
       },
+
+      readAnnouncement () {
+        if(this.unread > 1) {
+          return application.router.navigate('/announcements', {trigger: true})
+        } else {
+
+        }
+
+      }
     },
     components: {
       AnnouncementModal
@@ -282,9 +291,9 @@
                       a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                     li
                       a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                    li
-                      a.account-dropdown-item(href="/announcements") {{ $t('announcement.announcement') }}
-                        span.unread(v-if="unread") {{ unread }}
+                    li(v-if="unread")
+                      a.account-dropdown-item(@click="readAnnouncement") {{ $t('announcement.message') }}
+                        span.unread {{ unread }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                       a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                     li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
@@ -565,18 +574,20 @@
     top: 10px;
     left: 45px;
     border-radius: 50%;
-    background-color: red;
-    box-shadow: 0 0 2px 2px red;
+    background-color: $yellow;
+    box-shadow: 0 0 2px 2px $yellow;
   }
 
   span.unread {
     width: 1.2em;
     height: 1.2em;
+    margin-left: 1em;
     line-height: 1.2em;
     border-radius: 50%;
-    background-color: #ff4848;
+    background-color: $yellow;
     color: white;
     display: inline-block;
+    margin-left: 0.5em;
   }
 
   .dashboard-toggle {
