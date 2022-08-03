@@ -1,16 +1,12 @@
 <template lang="pug">
-div
-  .bg
-    .modal-dialog
-      .modal-content
-        img#subscribe-background(src="/images/pages/play/modal/announcement_modal_bg.png")
-        block title
-          h1 {{name}}
-        block content
-          .markdown(v-html="content")
-        a.see-more.btn.btn-primary(v-if="showMoreAnnouncementButton && unread", @click="$emit('close')" href='/announcements' ) {{$t('announcement.see_more', {unread})}}
-      #close-modal(@click="$emit('close')")
-        span.glyphicon.glyphicon-remove
+#announcement-modal-base-flat.modal
+  .modal-dialog.style-flat
+    .modal-header
+      .button.close(type='button' data-dismiss="modal" aria-hidden="true") &times;
+      h3.title {{name}}
+    block content
+     .markdown(v-html="content")
+     a.see-more.btn.btn-primary(v-if="showMoreAnnouncementButton && unread", @click="$emit('close')" href='/announcements' ) {{$t('announcement.see_more', {unread})}}
 </template>
 
 <script>
@@ -38,16 +34,17 @@ export default Vue.extend({
 </script>
 
 <styple lang="sass" scoped>
-  .bg
+  #announcement-modal-base-flat
     position: absolute
     width: 100%
 
-  .modal-dialog
-    margin: 60px auto 0 auto
-    padding: 0
-    width: 746px
-    height: 520px
-    background: none
+    .modal-dialog
+      margin: 60px auto 0 auto
+      padding: 25px
+      min-width: 746px
+      min-height: 520px
+      background: white
+      box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5)
 
     .modal-content
       box-shadow: none

@@ -5,8 +5,8 @@ module.exports = {
   getNew: () => fetchJson('/db/user/announcements/new', {method: 'POST'}),
   getList: (options) => {
     let url = '/db/user/announcements';
-    if(options && options.startDate && options.endDate) {
-      url += `?startDate=${options.startDate}&endDate=${options.endDate}`
+    if(options && options.skip ) {
+      url += `?skip=${options.skip}`
     }
     return fetchJson(url)
   },

@@ -62,6 +62,7 @@ export default {
   min-height: 60px;
   border: 2px solid #1FBAB4;
   border-radius: 10px;
+  cursor: pointer;
   margin: 15px;
   tansition: height 1s;
 

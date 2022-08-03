@@ -49,7 +49,6 @@ export default {
   },
   mounted () {
     this.getAnnouncements()
-    this.lastFetch = new Date()
   },
   data () {
     return {
@@ -68,16 +67,12 @@ export default {
         this.readAnnouncement(ann._id)
     },
     more () {
-      let startDate = new Date(this.lastFetch)
-      startDate.setMonth(startDate.getMonth() - 1);
+      let skip = this.announcements.length
       let options = {
         append: true,
-        endDate: this.lastFetch.toISOString(),
-        startDate: startDate.toISOString()
+        skip: skip
       }
       this.getAnnouncements(options)
-      this.lastFetch = startDate;
-
     }
   },
   components: {
