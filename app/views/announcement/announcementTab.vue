@@ -1,7 +1,7 @@
 <template>
   <div
     class="tab"
-    :class="{read: announcement.read, collapsed: !display}"
+    :class="{read: announcement.read, collapsed: !display, fullscreen: alwaysDisplay}"
   >
     <div
       class="title"
@@ -22,7 +22,9 @@
 </template>
 
 <script>
+import DOMPurify from 'dompurify'
 import utils from 'core/utils'
+
 export default {
   name: 'AnnouncementTab',
   props: ['announcement', 'alwaysDisplay'],
@@ -36,7 +38,8 @@ export default {
       return utils.i18n(this.announcement, 'name')
     },
     content () {
-      return utils.i18n(this.announcement, 'content')
+      const i18nContent = utils.i18n(this.announcement, 'content')
+      return DOMPurify.sanitize(window.marked(i18nContent || ''))
     }
   },
   mounted () {
@@ -71,8 +74,22 @@ export default {
     background-blend-mode: multiply;
   }
 
-  &.collapsed{
+  &.fullscreen {
+    width: 100%;
+    border: none;
+    cursor: none;
+    background: none !important;
 
+    &> .title:before {
+      display: none;
+    }
+
+    .title {
+      padding-left: 0em;
+    }
+  }
+
+  &.collapsed{
     &> .title:before {
       content: '+';
     }
