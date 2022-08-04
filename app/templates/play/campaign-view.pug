@@ -6,8 +6,11 @@ if showGameDevAlert
 
 // TODO: .gameplay-container causes world map buttons to briefly appear in top left of screen
 .gameplay-container
-  a(href="/").picoctf-hide
+  if (view.DEEP_API_LIST && view.DEEP_API_LIST.indexOf(me.get('clientCreator')) != -1)
     img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+  else
+    a(href="/").picoctf-hide
+      img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
 
   .picoctf-show
     a(href="http://staging.picoctf.com").picoctf-logo
