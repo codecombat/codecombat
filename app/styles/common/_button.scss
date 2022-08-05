@@ -1,12 +1,13 @@
 // all common button styles go here to reuse on pages
 @import "app/styles/ozaria/ozaria-style-params.scss";
+@import "app/styles/bootstrap/variables";
 
 .btn-moon {
   background-color: #fcbb00;
   border-radius: 4px;
   color: #131B25;
   text-shadow: unset;
-  @include font-h-5-button-text-black;
+  //@include font-h-5-button-text-black;
   min-width: 260px;
   padding: 1.5rem 0;
   text-transform: uppercase;
@@ -19,5 +20,13 @@
   &:hover {
     background-color: #fcd200;
     transition: background-color .35s;
+  }
+
+  @media (max-width: $screen-md-min) {
+    padding: 1rem;
+    min-width: unset;
+
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 }

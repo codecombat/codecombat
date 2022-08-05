@@ -108,4 +108,10 @@ module.exports = {
       method: 'POST'
       json: attrs
     }))
+
+  linkRelatedAccounts: (attrs, options={}) ->
+    fetchJson("/db/user/related-accounts", _.assign({}, options, {
+      method: 'PUT'
+      json: attrs
+    }))
 }
