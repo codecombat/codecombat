@@ -1256,6 +1256,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     editor_config_behaviors_label: "Enable Smart Behaviors"
     editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
     editor_config_screen_reader_mode_label: "Enable Screen Reader Mode"
+    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode"
     editor_config_screen_reader_mode_description: "Display levels in text rather than visually."
     editor_config_livecompletion_disabled_by_teacher: "Your teacher has disabled your autocomplete."
 
@@ -2732,8 +2733,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     you_can3: "that can be applied to your own account or given to others."
 
   ozaria_chrome:
-    sound_off: 'Sound Off',
-    sound_on: 'Sound On',
+    sound_off: 'Mute',
+    sound_on: 'Unmute',
     back_to_map: 'Back to Map',
     level_options: 'Level Options',
     restart_level: 'Restart Level',
@@ -3587,4 +3588,3 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_modal_members: "Members Needing Access"
     license_modal_members_placeholder: "Approximately how many members will need access?"
     license_modal_contact: "Contact Our Team"
-

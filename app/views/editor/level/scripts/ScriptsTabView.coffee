@@ -188,10 +188,7 @@ class EventPropsNode extends TreemaNode.nodeMap.string
     # triggered by the level. This provides an additional way to filter
     # scripts. This property is not part of the events schema as events
     # only gain this property through the script/note system.
-    if utils.isOzaria
-      autocompleteValues = ['codeLanguage']
-    else
-      autocompleteValues = []
+    autocompleteValues = ['codeLanguage']
     autocompleteValues.push key for key, val of channelSchema?.properties
     valEl.find('input').autocomplete(source: autocompleteValues, minLength: 0, delay: 0, autoFocus: true).autocomplete('search')
     valEl
