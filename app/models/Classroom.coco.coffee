@@ -4,6 +4,7 @@ utils = require '../core/utils'
 coursesHelper = require '../lib/coursesHelper'
 User = require 'models/User'
 Level = require 'models/Level'
+Users = require 'collections/Users'
 classroomUtils = require 'app/lib/classroom-utils'
 
 module.exports = class Classroom extends CocoModel
@@ -273,3 +274,44 @@ module.exports = class Classroom extends CocoModel
       return classroomUtils.getDisplayPermission('write')
     else if @hasReadPermission()
       return classroomUtils.getDisplayPermission('read')
+
+  revokeStudentLicenses: ->
+    students = new Users()
+    Promise.all(students.fetchForClassroom(@, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,products,deleted'}}))
+      .then =>
+        studentsToRevoke = students.models.filter((student) => student.prepaidStatus() is 'enrolled' and student.prepaidType() is 'course')
+        if studentsToRevoke.length > 0
+          @showRevokeConfirm(studentsToRevoke).then (revokeConfirmed) =>
+            return unless revokeConfirmed
+            students.models.forEach (student) =>
+              student.revokePrepaid @, () =>
+                noty
+                  text: $.i18n.t('teacher.license_revoked_from_student') + student.broadName()
+                  type: 'information',
+                  timeout: 2000,
+                  layout:'topCenter'
+
+  showRevokeConfirm: (studentsToRevoke)->
+    new Promise((resolve) ->
+      notification = noty
+        text: studentsToRevoke.length + $.i18n.t 'teacher.archive_revoke_confirm'
+        type: 'info',
+        layout: 'center',
+        buttons: [
+          {
+            addClass: 'btn btn-primary'
+            text: $.i18n.t 'modal.okay'
+            onClick: ($noty) ->
+              $noty.close()
+              resolve(true)
+          }
+          {
+            addClass: 'btn btn-danger'
+            text: $.i18n.t 'modal.cancel'
+            onClick: ($noty) ->
+              $noty.close()
+              resolve(false)
+          }
+        ]
+      notification.$buttons.addClass('style-flat')
+    )
