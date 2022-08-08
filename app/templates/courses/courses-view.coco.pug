@@ -118,7 +118,7 @@ block content
                   a.more-tournaments(data-i18n="general.more")
 
             .school-stats.col-md-3
-              if features.china
+              if features.china && (!me.isCreatedByTarena())
                 h2
                   span 扣哒学堂
                 hr
