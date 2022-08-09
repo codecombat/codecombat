@@ -1,5 +1,5 @@
 <template>
-  <div class="add-user container">
+  <div class="add-user">
 <!--    <div class="add-user__head">-->
 <!--      <button-->
 <!--        class="add-user__head__btn btn btn-moon"-->
@@ -136,7 +136,12 @@
           v-else
           class="auth__default"
         >
-          Authenticate / Invite
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" disabled>
+            <label class="form-check-label" for="exampleRadios1">
+              Authenticate / Invite
+            </label>
+          </div>
         </div>
       </div>
       <div class="form-group row u-form__submit">
@@ -199,8 +204,8 @@ export default {
           body.verify.sendLinkConfirmEmail = true
         }
       } else {
-        body.unverify = commonBody
-        body.unverify.userRole = this.accountType
+        body.unVerify = commonBody
+        body.unVerify.userRole = this.accountType
       }
       this.$emit('onAddSwitchAccount', body)
     },
@@ -219,9 +224,6 @@ export default {
 <style scoped lang="scss">
 @import "app/styles/common/button";
 .add-user {
-  padding-left: 15%;
-  padding-right: 15%;
-
   font-size: 1.8rem;
 
   &__head {
@@ -247,8 +249,7 @@ export default {
 
 .auth {
   &__default {
-    background-color: #e9ecef;
-    padding: 5px;
+    color: #808080;
   }
 
   &__exists {

@@ -114,4 +114,9 @@ module.exports = {
       method: 'PUT'
       json: attrs
     }))
+
+  getRelatedAccount: ({ userId }) ->
+    fetchJson("/db/user/related-accounts/#{userId}", _.assign({}, {
+      method: 'GET'
+    }))
 }
