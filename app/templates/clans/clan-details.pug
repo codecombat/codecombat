@@ -76,7 +76,22 @@ block content
           input.join-clan-link(type="text", readonly, value=joinClanLink)
         .small(data-i18n="clans.invite_2") *Invite players to this Clan by sending them this link.
 
-    if arenas && arenas.length
+    if view.tournamentModels && view.tournamentModels.length
+      .col-lg-6
+        h2(data-i18n="tournament.mini_tournaments")
+        p(data-i18n="clans.leagues_explanation")
+        for tournament in view.tournamentModels
+          .level-row
+            .tournament-image
+              a(href=`/play/ladder/${tournament.slug}/clan/${tournament.clan}?tournament=${tournament._id}`, title=tournament.description)
+                span.level
+                  if view.ladderImageMap[tournament.levelOriginal]
+                    img.level-image(src=view.ladderImageMap[tournament.levelOriginal], alt=tournament.name).img-rounded
+                  else
+                    img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt=tournament.name).img-rounded
+                    span.dynamic-level-name= tournament.name
+
+    else if arenas && arenas.length
       .col-lg-6
         h2(data-i18n="play.campaign_multiplayer")
         p(data-i18n="clans.leagues_explanation")

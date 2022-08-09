@@ -29,8 +29,16 @@
         links.push({ vmid: 'rel-canonical', rel: 'canonical', href: urlWithoutUtm.toString() })
       }
 
+      let defaultTitleKey
+      if (me.get('aceConfig') && me.get('aceConfig').screenReaderMode) {
+        // Shorten page titles when in screen reader mode
+        defaultTitleKey = isOzaria ? 'common.ozaria' : 'new_home.codecombat'
+      } else {
+        defaultTitleKey = 'common.default_title_' + isOzaria ? 'ozar' : 'coco'
+      }
+
       return {
-        title: this.$t('common.default_title_' + isOzaria ? 'ozar' : 'coco'),
+        title: this.$t(defaultTitleKey),
         ...(isOzaria ? {} : { titleTemplate: '%s | CodeCombat' }),
         meta: [
           { vmid: 'meta-description', name: 'description', content: this.$t('common.default_meta_description_' + isOzaria ? 'ozar' : 'coco') },

@@ -187,18 +187,22 @@
           const backButton = {
             classes: 'shepherd-back-button shepherd-back-button-active',
             text: '',
+            label: 'Back',
             action: () => {
               this.tour.back()
-            }
+            },
           }
           const inactiveBackButton = {
             classes: 'shepherd-back-button shepherd-back-button-inactive',
             text: '',
+            label: 'Back',
+            disabled: true,
             action: () => {}
           }
           const nextButton = {
             classes: 'shepherd-next-button shepherd-next-button-active',
             text: '',
+            label: 'Next',
             action: () => {
               this.tour.next()
             }
@@ -206,11 +210,14 @@
           const inactiveNextButton = {
             classes: 'shepherd-next-button shepherd-next-button-inactive',
             text: '',
+            label: 'Next',
+            disabled: true,
             action: () => {}
           }
           const startButton = {
             classes: 'shepherd-start-button',
             text: '',
+            label: 'Start',
             action: () => {
               this.tour.next()
             }
@@ -541,9 +548,13 @@
               }
 
               if (this.animator.done()) {
-                this.tour.getCurrentStep().updateStepOptions({
-                  text: marked(message)
-                })
+                if (!this.tour) {
+                  console.warn('Problem trying to finish a tour that is already null')
+                } else {
+                  this.tour.getCurrentStep().updateStepOptions({
+                    text: marked(message)
+                  })
+                }
                 this.clearAsyncTimers()
                 return
               }
@@ -842,7 +853,7 @@
     background-repeat: no-repeat !important
     background-size: contain
     background-color: unset
-    outline: none
+    /* outline: none */ /* bad for accessibility, can't see keyboard focus */
     transition: none
 
     &:hover:not(:disabled)

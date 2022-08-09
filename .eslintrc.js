@@ -37,7 +37,10 @@ module.exports = {
   },
 
   ignorePatterns: [
-    '*.coffee'
+    '*.coffee',
+    '*.png',
+    '*.pug',
+    '*.sass'
   ],
 
   overrides: [

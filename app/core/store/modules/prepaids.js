@@ -132,6 +132,10 @@ export default {
         .finally(() => commit('toggleLoadingForTeacher', teacherId))
     },
 
+    joinPrepaidByCodes: ({ commit }, options) => {
+      return prepaidsApi.joinByCodes(options)
+    },
+
     fetchJoinersForPrepaid: ({ commit }, prepaidId) => {
       return prepaidsApi.fetchJoiners({ prepaidID: prepaidId })
         .then(joiners => {

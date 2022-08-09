@@ -29,7 +29,8 @@
       }
     },
     data: () => ({
-      openSaveProgressModal: false
+      openSaveProgressModal: false,
+      screenReaderMode: false
     }),
     computed: {
       ...mapGetters({
@@ -78,6 +79,8 @@
           }
         }, 60000) // every 1 min
       }
+
+      this.screenReaderMode = me.get('aceConfig') && me.get('aceConfig').screenReaderMode
     },
 
     beforeDestroy () {
@@ -87,7 +90,7 @@
     },
 
     methods: {
-      ...mapActions('layoutChrome', ['toggleSoundAction']),
+      ...mapActions('layoutChrome', ['toggleSoundAction', 'toggleScreenReaderModeAction']),
 
       clickOptions () {
         this.$emit('click-options')
@@ -138,6 +141,16 @@
         }
       },
 
+      toggleScreenReaderMode () {
+        this.screenReaderMode = !this.screenReaderMode
+        const aceConfig = me.get('aceConfig') || {}
+        aceConfig.screenReaderMode = this.screenReaderMode
+        me.set('aceConfig', aceConfig)
+        me.patch()
+        $('body').toggleClass('screen-reader-mode', aceConfig.screenReaderMode)
+        Backbone.Mediator.publish('tome:change-config', {})
+      },
+
       copyClassCode () {
         this.$refs['classCodeRef'].select()
         tryCopy()
@@ -148,6 +161,11 @@
 
 <template>
   <div class="chrome-container">
+    <!-- This comes first, because we want the tabindex to start on the code editor and level map -->
+    <div class="background-img">
+      <slot />
+    </div>
+
     <div v-if="classCode" class="class-code-container">
       <label for="classCode" class="class-code-descriptor"> {{ $t("teachers.class_code") }} </label>
       <div class="class-code-text-container">
@@ -169,19 +187,36 @@
       <div :class="[ chromeOn ? 'side-center-on' : 'side-center-off']" />
 
       <div id="chrome-menu">
-        <div
+        <button
+          class="button-flex-item screen-reader-btn"
+          :class="{ 'menu-screen-reader-mode-enabled': screenReaderMode, 'sr-only': !screenReaderMode }"
+          v-tooltip="{
+             content: screenReaderMode
+               ? $t('options.editor_config_screen_reader_mode_label_disable')
+               : $t('options.editor_config_screen_reader_mode_label'),
+             placement: 'right',
+             classes: 'layoutChromeTooltip'
+           }"
+          :aria-label="screenReaderMode
+            ? $t('options.editor_config_screen_reader_mode_label_disable')
+            : $t('options.editor_config_screen_reader_mode_label')"
+          :aria-description="$t('options.editor_config_screen_reader_mode_description')"
+          @click="toggleScreenReaderMode"
+        />
+
+        <button
           class="button-flex-item options-btn"
           :class="{ hideBtn: !displayOptionsMenuItem }"
-
           v-tooltip="{
             content: $t('ozaria_chrome.level_options'),
             placement: 'right',
             classes: 'layoutChromeTooltip',
           }"
-
+          :aria-label="$t('ozaria_chrome.level_options')"
           @click="clickOptions"
         />
-        <div
+
+        <button
           class="button-flex-item restart-btn"
           :class="{ hideBtn: !displayRestartMenuItem }"
 
@@ -190,31 +225,37 @@
             placement: 'right',
             classes: 'layoutChromeTooltip',
           }"
-
+          :aria-label="$t('ozaria_chrome.restart_level')"
           @click="clickRestart"
         />
+
         <div class="spacer" />
-        <a :href="mapLink">
-          <div class="button-flex-item map-btn"
+
+        <a :href="mapLink" tabindex="-1">
+          <button class="button-flex-item map-btn"
             v-tooltip="{
               content: $t('ozaria_chrome.back_to_map'),
               placement: 'right',
               classes: 'layoutChromeTooltip',
             }"
+            :aria-label="$t('ozaria_chrome.back_to_map')"
           />
         </a>
-        <div class="button-flex-item fullscreen-btn"
-            v-tooltip="{
-              content: $t('ozaria_chrome.max_browser'),
-              placement: 'right',
-              classes: 'layoutChromeTooltip',
-            }"
 
-            @click="toggleFullScreen" />
-        <div
+        <button
+          class="button-flex-item fullscreen-btn"
+          v-tooltip="{
+            content: $t('ozaria_chrome.max_browser'),
+            placement: 'right',
+            classes: 'layoutChromeTooltip',
+          }"
+          :aria-label="$t('ozaria_chrome.max_browser')"
+          @click="toggleFullScreen"
+        />
+
+        <button
           class="button-flex-item sound-btn"
           :class="{ menuVolumeOff: soundOn }"
-
           v-tooltip="{
             content: soundOn
               ? $t('ozaria_chrome.sound_off')
@@ -222,8 +263,11 @@
             placement: 'right',
             classes: 'layoutChromeTooltip'
           }"
-
-          @click="toggleSoundAction" />
+          :aria-label="soundOn
+            ? $t('ozaria_chrome.sound_off')
+            : $t('ozaria_chrome.sound_on')"
+          @click="toggleSoundAction"
+        />
       </div>
 
       <div id="text-tab">
@@ -232,20 +276,16 @@
           class="text-contents"
           :class="[ chromeOn ? 'chrome-on' : 'chrome-off']"
         >
-          <span>{{ title }}</span>
+          <span role="heading" aria-level="1">{{ title }}</span>
         </div>
-        <div
+        <button
           v-if="displaySaveProgressButton"
-          class="save-progress-div"
+          class="save-progress-button"
           @click="clickSaveProgress"
         >
           <span class="save-progress-text"> {{ $t("hoc_2019.save_progress") }} </span>
-        </div>
+        </button>
       </div>
-    </div>
-
-    <div class="background-img">
-      <slot />
     </div>
 
     <signup-modal
@@ -389,6 +429,8 @@
         height: 7vh
         margin: 1vh -0.2vw
         cursor: pointer
+        padding: 0
+        border: 0
 
       .spacer
         flex-grow: 1
@@ -432,7 +474,19 @@
         &.menuVolumeOff:hover
           background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOff.png)
 
-      .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn
+      .screen-reader-btn
+        background: url(/images/ozaria/layout/chrome/Global_Neutral_SoundOn.png)
+
+        &:hover
+          background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOn.png)
+
+        &.menu-screen-reader-mode-enabled
+          background: url(/images/ozaria/layout/chrome/Global_Neutral_SoundOff.png)
+
+        &.menu-screen-reader-mode-enabled:hover
+          background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOff.png)
+
+      .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn, .screen-reader-btn, .screen-reader-btn.menu-screen-reader-mode-enabled
         &, &:hover
           background-size: 100%
           background-position: center
@@ -462,7 +516,7 @@
         text-shadow: 0 2px 4px rgba(51,236,201,0.55)
         min-width: 40vw
 
-      .save-progress-div
+      .save-progress-button
         height: 28px
         width: 158px
         border-radius: 10px
@@ -473,6 +527,8 @@
         position: absolute
         cursor: pointer
         pointer-events: auto
+        padding: 0
+        border: 0
 
         .save-progress-text
           height: 30px
@@ -525,7 +581,7 @@
         .spacer
           min-height: 224px
 
-        .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn
+        .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn, .screen-reader-btn, .screen-reader-btn.menu-screen-reader-mode-enabled
           background-size: 45px
 
 </style>

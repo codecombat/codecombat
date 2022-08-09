@@ -451,6 +451,12 @@ _.extend UserSchema.properties,
   library: c.object {}, {
     profileId: { type: 'string' }
   }
+  related: c.array(
+    { description: 'related accounts to this user' },
+    c.objectId(
+      { description: 'userId of the account currentUser is related to' }
+    )
+  )
 
 
 c.extendBasicProperties UserSchema, 'user'
