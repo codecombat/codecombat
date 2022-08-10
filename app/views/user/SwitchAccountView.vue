@@ -8,6 +8,7 @@
         :related="relatedUsersData"
         class="center-cmpt container"
         @switchUser="(data) => onSwitchUser(data)"
+        @removeUser="(data) => onRemoveUser(data)"
       />
       <div class="switch__head">
         <button
@@ -92,7 +93,6 @@ export default {
       })
       if (promiseArr?.length) {
         const resp = await Promise.all(promiseArr)
-        console.log('resp', resp)
         this.relatedUsersData = resp?.map((r, index) => {
           const rel = this.relatedUsers[index]
           return { ...rel, ...r.user }
@@ -102,6 +102,12 @@ export default {
     async onSwitchUser ({ email }) {
       await me.spy(email)
       window.location.reload()
+    },
+    async onRemoveUser ({ userId }) {
+      await me.removeRelatedAccount(userId)
+      await me.fetch({ cache: false })
+      this.relatedUsers = me.get('related')
+      await this.fetchRelatedUsers()
     }
   },
   async created () {

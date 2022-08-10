@@ -55,6 +55,12 @@
               >
                 Switch
               </button>
+              <span
+                class="related__user__switch__close"
+                @click="() => onRemoveUser({ userId: user.userId })"
+              >
+                <icon-close />
+              </span>
             </div>
           </div>
         </div>
@@ -64,8 +70,12 @@
 </template>
 
 <script>
+import IconClose from '../../../core/components/IconClose'
 export default {
   name: 'RelatedUserComponent',
+  components: {
+    IconClose
+  },
   props: {
     related: {
       type: Array,
@@ -75,6 +85,9 @@ export default {
   methods: {
     onSwitch ({ email }) {
       this.$emit('switchUser', { email })
+    },
+    onRemoveUser ({ userId }) {
+      this.$emit('removeUser', { userId })
     }
   }
 }
@@ -102,6 +115,10 @@ export default {
     }
     &__switch {
       display: inline-block;
+
+      &__close {
+        margin-left: 1rem;
+      }
     }
     &__text {
       font-size: 1.6rem;
