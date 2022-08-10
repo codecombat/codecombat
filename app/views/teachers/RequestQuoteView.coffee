@@ -12,6 +12,7 @@ State = require 'models/State'
 parseFullName = require('parse-full-name').parseFullName
 countryList = require('country-list')()
 UsaStates = require('usa-states').UsaStates
+utils = require 'core/utils'
 
 SIGNUP_REDIRECT = '/teachers'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
@@ -21,6 +22,9 @@ module.exports = class RequestQuoteView extends RootView
   id: 'request-quote-view'
   template: require 'app/templates/teachers/request-quote-view'
   logoutRedirectURL: null
+
+  getRenderData: ->
+    _.merge super(arguments...), { product: utils.getProductName() }
 
   events:
     'change #request-form': 'onChangeRequestForm'

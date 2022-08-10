@@ -1,9 +1,6 @@
-product = process.env.COCO_PRODUCT or "codecombat"
-productSuffix = { codecombat: 'coco', ozaria: 'ozar' }[product]
-
 fs = require 'fs'
 
-text = fs.readFileSync("./app/locale/en.#{productSuffix}.coffee").toString()
+text = fs.readFileSync("./app/locale/en.coffee").toString()
 
 lines = text.split('\n')
 
@@ -25,4 +22,4 @@ output = lines.map (line, index) ->
   return leftHalf + rot13(rightHalf)
 .join('\n')
 
-fs.writeFileSync("./app/locale/rot13.#{productSuffix}.coffee", output)
+fs.writeFileSync("./app/locale/rot13.coffee", output)
