@@ -7,6 +7,7 @@
       <related-user-component
         :related="relatedUsersData"
         class="center-cmpt container"
+        @switchUser="(data) => onSwitchUser(data)"
       />
       <div class="switch__head">
         <button
@@ -83,6 +84,7 @@ export default {
     },
     showAddUserForm () {
       this.showAddForm = true
+      this.accountAdded = false
     },
     async fetchRelatedUsers () {
       const promiseArr = this.relatedUsers?.map((r) => {
@@ -96,6 +98,10 @@ export default {
           return { ...rel, ...r.user }
         })
       }
+    },
+    async onSwitchUser ({ email }) {
+      await me.spy(email)
+      window.location.reload()
     }
   },
   async created () {
