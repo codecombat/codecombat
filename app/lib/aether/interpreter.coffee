@@ -77,8 +77,11 @@ updateState = (aether, evaluator) ->
 module.exports.parse = (aether, code) ->
   esper = window?.esper ? self?.esper ? global?.esper ? require 'esper.js'
   esper.plugin 'lang-' + aether.language.id
-  return esper.languages[aether.language.id].parser(code) if aether.language.id in ["coffeescript"]
-  return esper.languages[aether.language.id].parser(code, inFunctionBody: true)
+  realm = new esper.Engine({language: aether.language.id}).realm
+  return realm.parser(code) if aether.language.id in ['coffeescript']
+  return realm.parser(code, inFunctionBody: true)
+  # return esper.languages[aether.language.id].parser(code) if aether.language.id in ["coffeescript"]
+  # return esper.languages[aether.language.id].parser(code, inFunctionBody: true)
 
 ###
   Creates an instrumented function that we can execute.
