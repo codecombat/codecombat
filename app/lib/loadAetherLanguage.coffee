@@ -13,10 +13,10 @@ loadEsper = -> new Promise (accept, reject) ->
   try
     eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });")
     #console.log("Modern javascript detected, aw yeah!");
-    loadScript("/javascripts/esper.modern.js", accept)
+    loadScript("/javascripts/esper.modern.min.js", accept)
   catch e
     #console.log("Legacy javascript detected, falling back...", e.message);
-    loadScript("/javascripts/esper.js", accept)
+    loadScript("/javascripts/esper.min.js", accept)
 
 ###
   Loads the language plugin for a chosen language.
