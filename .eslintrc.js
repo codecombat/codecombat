@@ -35,7 +35,7 @@ module.exports = {
       ignores: []
     }],
     'vue/comment-directive': ['warn', {
-      "reportUnusedDisableDirectives": false
+      reportUnusedDisableDirectives: false
     }]
   },
 
