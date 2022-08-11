@@ -212,9 +212,9 @@ block content
 
         form#join-class-form.form-inline
           .help-block
-            em(data-i18n="courses.ask_teacher_for_code")
+            em(data-i18n="courses.ask_teacher_for_code_coco")
           .form-group
-            input#class-code-input.form-control(data-i18n="[placeholder]courses.enter_c_code", placeholder="<Enter Class Code>", value=view.classCode)
+            input#class-code-input.form-control(data-i18n="[placeholder]courses.enter_c_code_coco", placeholder="<Enter Class Code>", value=view.classCode)
           input#join-class-button.btn.btn-navy(type="submit", data-i18n="[value]courses.join", value="Join")
 
           if view.state === 'enrolling'
@@ -286,7 +286,7 @@ mixin anonymous-welcome-message()
   // Normally it's behind a modal, but they can close the modal and get it back
 
   .anonymous-welcome-message
-    h1.text-center(data-i18n="courses.welcome_to_courses")
+    h1.text-center(data-i18n="courses.welcome_to_courses_coco")
 
     .text-center
       p

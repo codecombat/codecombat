@@ -47,9 +47,9 @@ module.exports = class HomeView extends RootView
     context
 
   getMeta: ->
-    title: $.i18n.t 'new_home.title' + if features?.chinaHome then '_cn_home' else ''
+    title: $.i18n.t 'new_home.title' + if features?.chinaHome then '_cn_home' else '_coco'
     meta: [
-        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description' }
+        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description_coco' }
     ],
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }
@@ -150,6 +150,8 @@ module.exports = class HomeView extends RootView
         _.defer => @openModalView(new CreateAccountModal()) unless @destroyed
       if document.location.hash is '#create-account-individual'
         _.defer => @openModalView(new CreateAccountModal({startOnPath: 'individual'})) unless @destroyed
+      if document.location.hash is '#create-account-home'
+        _.defer => @openModalView(new CreateAccountModal({startOnPath: 'individual-basic'})) unless @destroyed
       if document.location.hash is '#create-account-student'
         _.defer => @openModalView(new CreateAccountModal({startOnPath: 'student'})) unless @destroyed
       if document.location.hash is '#create-account-teacher'

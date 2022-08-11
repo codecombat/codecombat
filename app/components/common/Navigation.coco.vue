@@ -149,6 +149,9 @@
                 img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
               a.navbar-brand(v-else-if="me.showChinaResourceInfo()&&!me.showChinaHomeVersion()" href="/home")
                 img#logo-img(src="/images/pages/base/logo-cn.png")
+              a.navbar-brand(v-else-if="me.isTecmilenio()" href="/home")
+                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-colored.png" alt="Tecmilenio logo")
               a.navbar-brand(v-else :href="hideNav ? '#' : '/home'")
                 img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
 
@@ -291,7 +294,7 @@
   @media print {
     display: none;
   }
-  
+
   h5 {
     font-family: "Arvo", serif;
     font-weight: bold;
@@ -383,7 +386,7 @@
       }
     }
 
-    .code-ninjas-logo, #tarena-logo {
+    .code-ninjas-logo, #tarena-logo, .tecmilenio-logo {
       height: 40px;
       width: auto;
       margin-right: 10px;

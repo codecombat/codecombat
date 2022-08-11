@@ -62,6 +62,7 @@ const store = require('core/store')
 const GameMenuModal = require('ozaria/site/views/play/menu/GameMenuModal')
 const TutorialPlayView = require('./TutorialPlayView').default
 const ThangTypeHUDComponent = require('./ThangTypeHUDComponent').default
+const ScreenReaderSurfaceView = require('app/views/play/level/ScreenReaderSurfaceView')
 
 require('lib/game-libraries')
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
@@ -303,9 +304,6 @@ class PlayLevelView extends RootView {
     ) // May not have @level loaded yet
     this.$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
-    if (me.get('aceConfig') && me.get('aceConfig').screenReaderMode) {
-      $('body').addClass('screen-reader-mode')  // TODO: keep this updated
-    };
   }
 
   afterInsert () {
@@ -725,6 +723,8 @@ class PlayLevelView extends RootView {
       })
       this.insertSubView(this.webSurface)
     }
+
+    this.insertSubView(new ScreenReaderSurfaceView())
   }
 
   initVolume () {

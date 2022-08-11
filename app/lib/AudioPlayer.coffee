@@ -35,7 +35,7 @@ class Media
 
 class AudioPlayer extends CocoClass
   subscriptions:
-    'audio-player:play-sound': (e) -> @playInterfaceSound e.trigger, e.volume
+    'audio-player:play-sound': (e) -> @playInterfaceSound e.trigger, e.volume, e.delay, e.pos, e.pan
 
   constructor: () ->
     super()
@@ -96,16 +96,16 @@ class AudioPlayer extends CocoClass
       filename = "/file/interface/#{name}#{@ext}"
       @preloadSound filename, name
 
-  playInterfaceSound: (name, volume=1) ->
+  playInterfaceSound: (name, volume=1, delay=0, pos=null, pan=0) ->
     return unless volume and me.get 'volume'
     filename = "/file/interface/#{name}#{@ext}"
     if @hasLoadedSound filename
-      @playSound name, volume
+      @playSound name, volume, delay, pos, pan
     else
       @preloadInterfaceSounds [name] unless filename of cache
       @soundsToPlayWhenLoaded[name] = volume
 
-  playSound: (name, volume=1, delay=0, pos=null) ->
+  playSound: (name, volume=1, delay=0, pos=null, pan=0) ->
     return console.error 'Trying to play empty sound?' unless name
     return unless volume and me.get 'volume'
     audioOptions = {volume: volume, delay: delay}
@@ -113,6 +113,7 @@ class AudioPlayer extends CocoClass
     unless @hasLoadedSound filename
       @soundsToPlayWhenLoaded[name] = audioOptions.volume
     audioOptions = @applyPanning audioOptions, pos if @camera and not @camera.destroyed and pos
+    audioOptions.pan ||= pan
     instance = createjs.Sound.play name, audioOptions
     instance
 

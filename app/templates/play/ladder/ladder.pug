@@ -30,6 +30,11 @@ block content
             span.spl - Arena
 
     div#level-column
+      if view.levelBanner
+        img(src=`/file/${view.levelBanner}` alt=`${i18n(view.level.attributes, 'name')}`)
+      else if view.levelDescription
+        img(src="/images/pages/play/ladder/multiplayer_notext.jpg" alt=`${i18n(view.level.attributes, 'name')}`)
+        span.dynamic-level-name= i18n(view.level.attributes, 'name')
       if view.levelDescription
         div!= view.levelDescription
 

@@ -11,6 +11,7 @@ State = require 'models/State'
 countryList = require('country-list')()
 UsaStates = require('usa-states').UsaStates
 globalVar = require 'core/globalVar'
+utils = require 'core/utils'
 
 
 SIGNUP_REDIRECT = '/teachers/classes'
@@ -34,6 +35,9 @@ module.exports = class CreateTeacherAccountView extends RootView
     'change select[name="country"]': 'onChangeCountry'
     'change input[name="email"]': 'onChangeEmail'
     'change input[name="name"]': 'onChangeName'
+
+  getRenderData: ->
+    _.merge super(arguments...), { product: utils.getProductName() }
 
   initialize: ->
     @trialRequest = new TrialRequest()

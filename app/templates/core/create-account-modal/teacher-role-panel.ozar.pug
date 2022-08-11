@@ -17,7 +17,7 @@ div.school-info-panel.text-left
           option(value="Parent") {{ $t("teachers_quote.parent") }}
 
       .form-group(v-bind:class="{ 'has-error': showRequired && !numStudents }")
-        span.control-label {{ $t("teachers_quote.num_students_help") }}
+        span.control-label {{ $t("teachers_quote.num_students_help", { product }) }}
         select.form-control(v-model="numStudents" name="numStudents")
           option(value='') {{ $t("teachers_quote.num_students_default") }}
           option 1-10
@@ -58,7 +58,7 @@ div.school-info-panel.text-left
           option(value='Other') {{ $t("teachers_quote.referrer_other") }}
 
       span.control-label
-        span {{ $t("teachers_quote.anything_else") }}
+        span {{ $t("teachers_quote.anything_else", { product }) }}
         span.spl.text-muted.optional-text {{ $t("signup.optional") }}
       textarea.form-control.m-b-2(rows=2, v-model="notes", name="notes")
 

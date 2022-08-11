@@ -66,6 +66,8 @@ block modal-body-content
 
   h3.m-t-3#licenses Grant Student Licenses
   #prepaid-form.form
+    include ../teachers/common/license-form-group-mixin
+    include ../teachers/common/license-type-mixin
     if view.state === 'creating-prepaid'
       .progress.progress-striped.active
         .progress-bar(style="width: 100%")
@@ -78,47 +80,10 @@ block modal-body-content
         h4.small(style="max-width: 700px") *All licenses granted after Oct 29, 2018 start at 12am CT on the start date and end at 11:59pm CT on the end date listed. All licenses that were granted before that date start and end at 3pm CT on the date listed.
       else
         h4.small(style="max-width: 700px") *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date listed. All licenses that were granted before that date start and end at 5pm PT on the date listed.
-      .form-group
-        label
-          span Number of Activation Codes
-          =" "
-          input#seats-input(type="number", name="maxRedeemers", min="1")
-      .form-group
-        label
-          span Licenses Type
-          =":"
-          #license-type-select
-            .radio
-              label.license-type
-                input(type="radio", name="licenseType", value="all", checked=view.licenseType==='all')
-                span(data-i18n="admin.license_type_full")
-            each v, preset in view.licensePresets
-              .radio
-                label.license-type
-                  input(type="radio", name="licenseType", value=preset, checked=view.licenseType===preset)
-                  span=preset
-            .radio
-              label.license-type
-                input(type="radio", name="licenseType", value="customize", checked=view.licenseType==='customize')
-                span(data-i18n="admin.license_type_customize")
-            #select-courses
-              if view.licenseType === 'customize'
-                each courseID, key in view.utils.courseIDs
-                  label.course-name
-                    input(type="checkbox", name="includedCourseIDs", value=courseID, checked=key==='INTRODUCTION_TO_COMPUTER_SCIENCE')
-                    span=view.utils.courseAcronyms[courseID]
-      .form-group
-        label
-          span Duration
-          =" "
-          input(type="number" name="duration" value=365)
-          | Days
-      .form-group
-        label
-          span Expiration Date
-          =" "
-          input(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
-
+      +license-form-group('Number of Activation Codes')(id="seats-input", type='number', name='maxRedeemers', min='1')
+      +license-type(view.licenseType, view.licensePresets, view.utils)
+      +license-form-group('Duration', ' Days')(type="number" name="duration" value=365)
+      +license-form-group('Expiration Date')(type="date" name="endDate" value=moment.timezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
       .form-group
         button#add-seats-btn.btn.btn-primary Add Licenses
     hr
