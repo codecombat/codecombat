@@ -109,6 +109,7 @@ module.exports.updateSelects = (el) ->
     $(select).val(value)
 
 module.exports.validateEmail = (email) ->
+  return true unless email # allow null
   filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
   return filter.test(email)
 
