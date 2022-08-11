@@ -278,11 +278,11 @@ module.exports = (env) => {
             from: '**/*',
             to: 'javascripts/ace'
           }, { // Esper
-            from: 'bower_components/esper.js/esper.js',
-            to: 'javascripts/esper.js'
+            from: 'bower_components/esper.js/esper.min.js',
+            to: 'javascripts/esper.min.js'
           }, {
-            from: 'bower_components/esper.js/esper-modern.js',
-            to: 'javascripts/esper.modern.js'
+            from: 'bower_components/esper.js/esper-modern.min.js',
+            to: 'javascripts/esper.modern.min.js'
           }, {
             from: 'vendor/esper-plugin-lang-java-modern.js',
             to: 'javascripts/app/vendor/aether-java.modern.js'
