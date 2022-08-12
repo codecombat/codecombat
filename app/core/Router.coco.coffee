@@ -268,7 +268,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/licenses/v0': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true })
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true })
-    'teachers/resources': go('teachers/ResourceHubView', { redirectStudents: true })
+    'teachers/resources_old': go('teachers/ResourceHubView', { redirectStudents: true })
+    'teachers/resources': if me.useChinaHomeView() then go('teachers/ResourceHubView', { redirectStudents: true }) else go('core/SingletonAppVueComponentView')
     'teachers/resources_new': go('core/SingletonAppVueComponentView')
     'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
     'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
@@ -297,9 +298,11 @@ module.exports = class CocoRouter extends Backbone.Router
     'ladders/*path': go('core/SingletonAppVueComponentView')
     'ed-link/*path': go('core/SingletonAppVueComponentView')
     'teachers/licenses': go('core/SingletonAppVueComponentView')
+    'teachers/licenses/join': go('core/SingletonAppVueComponentView')
     'podcast': go('core/SingletonAppVueComponentView')
     'podcast/*path': go('core/SingletonAppVueComponentView')
 
+    'libraries': go('core/SingletonAppVueComponentView')
     'library/*path': go('core/SingletonAppVueComponentView')
 
     '*name/': 'removeTrailingSlash'

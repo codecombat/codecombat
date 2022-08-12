@@ -421,6 +421,9 @@ module.exports = class User extends CocoModel
       return p.product == type && (new Date(p.endDate) > now || !p.endDate)
     )
 
+  hasAiLeagueActiveProduct: ->
+    @activeProducts('ai-league').length > 0
+
   prepaidNumericalCourses: ->
     courseProducts = @activeProducts('course')
     return utils.courseNumericalStatus['NO_ACCESS'] unless courseProducts.length
@@ -760,6 +763,7 @@ module.exports = class User extends CocoModel
   isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
   isILK: -> @get('clientCreator') is '6082ec9996895d00a9b96e90' or _.find(@get('clientPermissions') ? [], client: '6082ec9996895d00a9b96e90')
   isICode: -> @get('clientCreator') is '61393874c324991d0f68fc70' or _.find(@get('clientPermissions') ? [], client: '61393874c324991d0f68fc70')
+  isTecmilenio: -> @get('clientCreator') in ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'] or _.find(@get('clientPermissions') ? [], (p) -> p.client in ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'])
   showForumLink: -> not (features?.china ? false)
   showChinaResourceInfo: -> features?.china ? false
   useChinaHomeView: -> features?.china ? false

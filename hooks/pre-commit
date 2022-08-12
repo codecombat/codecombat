@@ -1,0 +1,3 @@
+#!/bin/sh
+# copy this file to .git/hooks of repo and make it executable
+npx eslint $(git diff --name-only HEAD | xargs)

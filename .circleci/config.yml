@@ -35,8 +35,7 @@ jobs:
             tar -xzvf hub.tgz --strip 1
             sudo mv ./bin/hub /usr/local/bin
 
-      - run: COCO_PRODUCT=codecombat node -r coffee-script/register scripts/copy-i18n-tags.js
-      - run: COCO_PRODUCT=ozaria node -r coffee-script/register scripts/copy-i18n-tags.js
+      - run: node -r coffee-script/register scripts/copy-i18n-tags.js
 
       - run:
           command: |

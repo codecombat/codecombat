@@ -17,15 +17,17 @@
 
   img.hr(src="/images/pages/play/modal/hr.png", draggable="false")
 
-  h3(data-i18n="options.editor_config_title") Editor Configuration
+  h3(data-i18n="options.editor_config_title_coco") Editor Configuration
 
   .form-group.checkbox
     label(for="option-live-completion")
-      input#option-live-completion(name="liveCompletion", type="checkbox", checked=aceConfig.liveCompletion)
+      input#option-live-completion(name="liveCompletion", type="checkbox", disabled=!view.options.classroomAceConfig.liveCompletion checked=view.options.classroomAceConfig.liveCompletion && aceConfig.liveCompletion)
       span.custom-checkbox
         .glyphicon.glyphicon-ok
       span(data-i18n="options.editor_config_livecompletion_label") Live Autocompletion
     span.help-block(data-i18n="options.editor_config_livecompletion_description") Displays autocomplete suggestions while typing.
+    if !view.options.classroomAceConfig.liveCompletion
+      span.help-block(data-i18n="options.editor_config_livecompletion_disabled_by_teacher")
 
   .form-group.checkbox
     label(for="option-behaviors")

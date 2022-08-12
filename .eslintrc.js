@@ -1,35 +1,47 @@
 module.exports = {
-  plugins: ['@babel'],
+  plugins: [
+    '@babel'
+  ],
   extends: [
     'standard',
-    'plugin:vue/recommended'
+    'plugin:vue/recommended',
+    'plugin:diff/diff',
+    'plugin:json/recommended'
   ],
 
   globals: {
     Vue: 'readonly',
     application: 'readonly',
     me: 'readonly',
-    noty: 'readonly'
+    noty: 'readonly',
+    features: 'readonly'
   },
 
   env: {
     browser: true,
-    es6: true,
-    es2020: true
+    es2022: true,
+    jquery: true
   },
 
   parserOptions: {
-    ecmaVersion: 11,
+    ecmaVersion: 13,
     sourceType: 'module'
   },
 
   rules: {
-    'vue/script-indent': ['error', 2, {
-      baseIndent: 1,
+    'vue/script-indent': ['warn', 2, {
+      baseIndent: 0,
       switchCase: 0,
       ignores: []
     }]
   },
+
+  ignorePatterns: [
+    '*.coffee',
+    '*.png',
+    '*.pug',
+    '*.sass'
+  ],
 
   overrides: [
     // Disable indent in .vue files - this will be handled by vue/script-indent

@@ -4,6 +4,18 @@
 @import "ozaria/site/styles/common/common.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 
+
+@mixin fluid-font-size($font-size: 12px, $line-height: 18px, $max-multiplier: 1.3) {
+  $wide-screen: 1366px;
+  font-size: $font-size;
+  line-height: $line-height;
+
+  @media screen and (min-width: $wide-screen){
+    font-size: min($font-size * $max-multiplier, $font-size/$wide-screen*100vw);
+    line-height: min($line-height * $max-multiplier, $line-height/$wide-screen*100vw);
+  }
+}
+
 #home-page {
   display: flex;
   flex-direction: column;
@@ -17,8 +29,7 @@
   h1 {
     font-weight: 600;
     font-style: normal;
-    font-size: 46px;
-    line-height: 56px;
+    @include fluid-font-size(46px, 56px);
     color: black;
   }
 
@@ -36,8 +47,7 @@
   h2 {
     font-style: normal;
     font-weight: 600;
-    font-size: 28px;
-    line-height: 38px;
+    @include fluid-font-size(28px, 38px);
     letter-spacing: 0.56px;
   }
 
@@ -47,8 +57,7 @@
 
   p {
     font-style: normal;
-    font-size: 24px;
-    line-height: 30px;
+    @include fluid-font-size(24px, 30px);
     letter-spacing: 0.444px;
     color: black;
   }
@@ -57,14 +66,12 @@
     font-family: "Space Mono";
     font-weight: 400;
     font-style: normal;
-    font-size: 24px;
-    line-height: 30px;
+    @include fluid-font-size(24px, 30px);
   }
 
   blockquote footer {
     font-weight: 700;
-    font-size: 16px;
-    line-height: 24px;
+    @include fluid-font-size(16px, 24px);
   }
 
   .row.flex-row {
@@ -217,8 +224,15 @@
     min-width: 260px;
     padding: 15px 0;
 
+    @include fluid-font-size($font-h-5-button-text-white-font-size, $font-h-5-button-text-white-line-height, 1.5);
+    @media screen and (min-width: 1366px) {
+      min-width: 300px;
+      padding: 15px 20px;
+    }
+
     &:hover {
       @include font-h-5-button-text-white;
+      @include fluid-font-size($font-h-5-button-text-white-font-size, $font-h-5-button-text-white-line-height, 1.5);
       background-color: $goldenlight;
       transition: background-color .35s;
     }
@@ -279,7 +293,7 @@
 
   // Most sections have a max width and are centered.
   & > section {
-    max-width: 1366px;
+    max-width: 1820px;
     width:100%;
     padding: 0 70px;
     position: relative;
@@ -589,32 +603,32 @@
       -webkit-appearance: none;
       background-color: unset;
     }
-    button.press-engage:hover {
+    button.press-engage.active {
       background-image: url(/images/ozaria/home/carousel/button_1_hover.svg);
     }
 
     button.press-explore {
       background-image: url(/images/ozaria/home/carousel/button_2.svg);
     }
-    button.press-explore:hover {
+    button.press-explore.active {
       background-image: url(/images/ozaria/home/carousel/button_2_hover.svg);
     }
     button.press-explain {
       background-image: url(/images/ozaria/home/carousel/button_3.svg);
     }
-    button.press-explain:hover {
+    button.press-explain.active {
       background-image: url(/images/ozaria/home/carousel/button_3_hover.svg);
     }
     button.press-elaborate {
       background-image: url(/images/ozaria/home/carousel/button_4.svg);
     }
-    button.press-elaborate:hover {
+    button.press-elaborate.active {
       background-image: url(/images/ozaria/home/carousel/button_4_hover.svg);
     }
     button.press-evaluate {
       background-image: url(/images/ozaria/home/carousel/button_5.svg);
     }
-    button.press-evaluate:hover {
+    button.press-evaluate.active {
       background-image: url(/images/ozaria/home/carousel/button_5_hover.svg);
     }
   }
@@ -639,6 +653,9 @@
 
     .acodus-transform {
       transform: translateY(20%);
+      .img-responsive {
+        max-height: 710px;
+      }
     }
 
     @media screen and (max-width: 768px) {

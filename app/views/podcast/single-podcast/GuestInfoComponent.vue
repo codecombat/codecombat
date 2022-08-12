@@ -21,6 +21,7 @@
 
 <script>
 import { i18n } from 'app/core/utils'
+import { podcastLinkRenderer } from '../podcastHelper'
 const marked = require('marked')
 export default {
   name: 'GuestInfoComponent',
@@ -32,7 +33,7 @@ export default {
   },
   computed: {
     formatGuestDetails () {
-      return marked(i18n(this.podcast, 'guestDetails'))
+      return marked(i18n(this.podcast, 'guestDetails'), { renderer: podcastLinkRenderer() })
     }
   }
 }
