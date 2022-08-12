@@ -7,6 +7,7 @@
   import { validationMixin } from 'vuelidate'
   import { educatorOtherInfoValidations, validationMessages } from '../common/signUpValidations'
   import SecondaryButton from '../../../teacher-dashboard/common/buttons/SecondaryButton'
+  import utils from 'core/utils'
 
   export default {
     metaInfo: {
@@ -34,7 +35,8 @@
       gdprConsent: !me.inEU(),
       validationMessages,
       isChinaServerSignup: me.showChinaRegistration(),
-      childFormValid: false
+      childFormValid: false,
+      product: utils.getProductName(),
     }),
 
     validations () {
@@ -129,7 +131,7 @@
       .numStudents.form-group.row(v-if="formFieldConfig.numStudents.visible" :class="{ 'has-error': $v.numStudents.$error }")
         .col-sm-10.col-xs-12
           span.inline-flex-form-label-div
-            span.control-label {{ $t("teachers_quote.num_students_help") }}
+            span.control-label {{ $t("teachers_quote.num_students_help", { product }) }}
               span.control-label.optional-text(v-if="!formFieldConfig.numStudents.required") !{' '}({{ $t("signup.optional") }})
             span.form-error(v-if="!$v.numStudents.required") {{ $t(validationMessages.errorRequired.i18n) }}
           select#numStudents-input.form-control(name="numStudents", v-model="$v.numStudents.$model" @change="onChangeValue($event)" :class="{ 'placeholder-text': !numStudents }")

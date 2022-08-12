@@ -42,9 +42,9 @@ module.exports = class HomeCNView extends RootView
       @supermodel.loadCollection(@trialRequests)
 
   getMeta: ->
-    title: $.i18n.t 'new_home.title'
+    title: $.i18n.t 'new_home.title_coco'
     meta: [
-        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description' }
+        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description_coco' }
     ],
     link: [
       { vmid: 'rel-canonical', rel: 'canonical', href: '/'  }

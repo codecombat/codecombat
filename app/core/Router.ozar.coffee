@@ -209,8 +209,6 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'minigames/conditionals': go('minigames/ConditionalMinigameView')
 
-    'parents': go('ParentsView')
-
     'outcomes-report(/*subpath)': go('core/SingletonAppVueComponentView')
 
     'paypal/subscribe-callback': go('play/CampaignView')

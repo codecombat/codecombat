@@ -25,6 +25,7 @@ ProjectGalleryComponent = Vue.extend
     courseInstance: null
     amSchoolAdministratorOfGallery: null
     amTeacherOfGallery: null
+    product: if utils.isOzaria then 'ozar' else 'coco'
   computed:
     levelName: -> @level and (utils.i18n(@level, 'displayName') or utils.i18n(@level, 'name'))
     courseName: -> @course and utils.i18n(@course, 'name')
