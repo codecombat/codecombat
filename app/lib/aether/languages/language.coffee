@@ -37,6 +37,7 @@ module.exports = class Language
 
   lintUncalledMethods: (rawCode, aether) ->
     return [] unless match = rawCode.match /^ *(hero[\.|:][^\d\W]\w*)(;?)$/mi
+    return [] unless $?.i18n? # don't need lint in aether_worker
     problem =
       type: 'transpile'
       reporter: 'aether'
