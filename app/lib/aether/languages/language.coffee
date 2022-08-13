@@ -37,13 +37,18 @@ module.exports = class Language
 
   lintUncalledMethods: (rawCode, aether) ->
     return [] unless match = rawCode.match /^ *(hero[\.|:][^\d\W]\w*)(;?)$/mi
-    return [] unless $?.i18n? # don't need lint in aether_worker
+
+    message = "i18n::esper.do_nothing_without_parentheses::#{JSON.stringify({code: match[0]})}"
+    hint = "i18n::esper.missing_parentheses::#{JSON.stringify({suggestion: match[1] + "()" + match[2]})}"
+    if $?.i18n? # in aether_worker
+      message: $.i18n.t('esper.do_nothing_without_parentheses', {code: match[0]})
+      hint: $.i18n.t('esper.missing_parentheses', {suggestion: "#{match[1]}()#{match[2]}"})
     problem =
       type: 'transpile'
       reporter: 'aether'
       level: 'warning'
-      message: $.i18n.t('esper.do_nothing_without_parentheses', {code: match[0]})
-      hint: $.i18n.t('esper.missing_parentheses', {suggestion: "#{match[1]}()#{match[2]}"})
+      message: message
+      hint: hint
       range: [
         ranges.offsetToPos(match.index, rawCode, ''),
         ranges.offsetToPos(match.index + match[0].length, rawCode, '')
