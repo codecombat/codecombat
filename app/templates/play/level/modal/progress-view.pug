@@ -122,11 +122,10 @@
           button#map-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.back_to_map')
       .col-sm-5.rtl-allowed
         if view.level.isProject()
-          if !features.china
-            if view.session.get('published')
-              button#publish-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n="play_level.view_gallery")
-            else
-              button#publish-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n="common.publish")
+          if view.session.get('published')
+            button#publish-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n="play_level.view_gallery")
+          else
+            button#publish-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n="common.publish")
         else
           if !view.nextLevel.isNew()
             button#next-level-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n='play_level.next_level')

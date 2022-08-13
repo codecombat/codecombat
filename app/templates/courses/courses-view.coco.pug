@@ -188,7 +188,7 @@ block content
                         span.spr= i18n(course, 'name')
                         small
                           a.view-levels-btn(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
-                          if view.courseInstanceHasProject(courseInstance) && !features.china
+                          if view.courseInstanceHasProject(courseInstance)
                             a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
                           if classroom.hasAssessments({courseId: course._id})
                             =" "
