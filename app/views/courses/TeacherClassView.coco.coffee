@@ -34,6 +34,7 @@ TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default
 PieChart = require('core/components/PieComponent').default
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 clansApi = require 'core/api/clans'
+prepaids = require('core/store/modules/prepaids').default
 
 DOMPurify = require 'dompurify'
 
@@ -809,8 +810,13 @@ module.exports = class TeacherClassView extends RootView
   onClickRevokeAllStudentsButton: ->
     s = $.i18n.t('teacher.revoke_all_confirm')
     return unless confirm(s)
-    for student in @students.models
-      student.revokePrepaid(@classroom, () => @debouncedRenderSelectors('#license-status-table'))
+    prepaids.actions.revokeLicenses(null, {
+      members: @students.models,
+      sharedClassroomId: @classroom.id,
+      confirmed: true,
+      updateUserProducts: true
+    })
+    .then => @debouncedRenderSelectors('#license-status-table')
 
   onClickSelectAll: (e) ->
     e.preventDefault()

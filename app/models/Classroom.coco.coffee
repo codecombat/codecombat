@@ -6,6 +6,7 @@ User = require 'models/User'
 Level = require 'models/Level'
 Users = require 'collections/Users'
 classroomUtils = require 'app/lib/classroom-utils'
+prepaids = require('core/store/modules/prepaids').default
 
 module.exports = class Classroom extends CocoModel
   @className: 'Classroom'
@@ -283,34 +284,37 @@ module.exports = class Classroom extends CocoModel
         if studentsToRevoke.length > 0
           @showRevokeConfirm(studentsToRevoke).then (revokeConfirmed) =>
             return unless revokeConfirmed
-            students.models.forEach (student) =>
-              student.revokePrepaid @, () =>
-                noty
-                  text: $.i18n.t('teacher.license_revoked_from_student') + student.broadName()
-                  type: 'information',
-                  timeout: 2000,
-                  layout:'topCenter'
+
+            if !@isOwner() and @hasWritePermission()
+              sharedClassroomId = @id
+
+            prepaids.actions.revokeLicenses(null, {
+              members: students.models,
+              sharedClassroomId,
+              confirmed: true,
+              updateUserProducts: true
+            })
 
   showRevokeConfirm: (studentsToRevoke)->
     new Promise((resolve) ->
       notification = noty
         text: studentsToRevoke.length + $.i18n.t 'teacher.archive_revoke_confirm'
-        type: 'info',
-        layout: 'center',
+        type: 'info'
+        layout: 'top'
         buttons: [
           {
-            addClass: 'btn btn-primary'
-            text: $.i18n.t 'modal.okay'
-            onClick: ($noty) ->
-              $noty.close()
-              resolve(true)
-          }
-          {
             addClass: 'btn btn-danger'
-            text: $.i18n.t 'modal.cancel'
+            text: $.i18n.t 'teacher.archive_without_revoking'
             onClick: ($noty) ->
               $noty.close()
               resolve(false)
+          }
+          {
+            addClass: 'btn btn-primary'
+            text: $.i18n.t 'teacher.revoke_and_archive'
+            onClick: ($noty) ->
+              $noty.close()
+              resolve(true)
           }
         ]
       notification.$buttons.addClass('style-flat')

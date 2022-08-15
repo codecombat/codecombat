@@ -722,39 +722,6 @@ module.exports = class User extends CocoModel
       me.startExperiment('m7', value, probability)
     value
 
-
-  revokePrepaid: (classroom, complete) ->
-    status = @prepaidStatus()
-    if status is 'enrolled' and @prepaidType() is 'course'
-      courseProducts = @activeProducts('course')
-      Prepaid = require 'models/Prepaid'
-      for product in courseProducts
-        prepaid = new Prepaid({
-          _id: product.prepaid,
-          type: 'course'
-        })
-        options = {
-          # The for loop completes before the success callback for the first student executes.
-          # So, the `student` will be the last student when the callback executes.
-          # Therefore, using a self calling anonymous function for the success callback
-          # to retain the student data for each iteration.
-          # Reference: https://www.pluralsight.com/guides/javascript-callbacks-variable-scope-problem
-          success: (() =>
-            return => @set('products', @get('products').map((p) ->
-              if p.prepaid == product.prepaid
-                p.endDate = new Date().toISOString()
-              return p
-            ))
-          )()
-          error: (prepaid, jqxhr) =>
-            msg = jqxhr.responseJSON.message
-            noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-          complete
-        }
-        if !classroom.isOwner() and classroom.hasWritePermission()
-          options.data = { sharedClassroomId: classroom.id }
-        prepaid.revoke(@, options)
-
   # Feature Flags
   # Abstract raw settings away from specific UX changes
   allowStudentHeroPurchase: -> features?.classroomItems ? false and @isStudent()
