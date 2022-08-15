@@ -40,9 +40,6 @@ module.exports = class Language
 
     message = "i18n::esper.do_nothing_without_parentheses::#{JSON.stringify({code: match[0]})}"
     hint = "i18n::esper.missing_parentheses::#{JSON.stringify({suggestion: match[1] + "()" + match[2]})}"
-    if $?.i18n? # in aether_worker
-      message: $.i18n.t('esper.do_nothing_without_parentheses', {code: match[0]})
-      hint: $.i18n.t('esper.missing_parentheses', {suggestion: "#{match[1]}()#{match[2]}"})
     problem =
       type: 'transpile'
       reporter: 'aether'
