@@ -2527,6 +2527,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     licenses_used_no_braces: "__licensesUsed__ licenses used"
     more_info: "More info"
     shared_pool_label: "Teachers in your shared pool:"
+    teacher_delete_warning: "The shared licenses assigned to the teacher won't be revoked!"
 
   sharing:
     game: "Game"
