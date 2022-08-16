@@ -32,9 +32,9 @@ module.exports = class HomeView extends RootView
     context
 
   getMeta: ->
-    title: $.i18n.t 'new_home.title'
+    title: $.i18n.t 'new_home.title_ozar'
     meta: [
-        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description' },
+        { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description_ozar' },
         { vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }
     ],
     link: [

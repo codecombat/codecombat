@@ -67,7 +67,8 @@ module.exports = class LadderView extends RootView
 
     onLoaded = =>
       return if @destroyed
-      @levelDescription = marked(utils.i18n(@level.attributes, 'description')) if @level.get('description')
+      @levelDescription = marked(utils.i18n(@level.attributes, 'description')).replace(/<img.*?>/, '') if @level.get('description')
+      @levelBanner = @level.get('banner')
       @teams = teamDataFromLevel @level
 
     if @level.loaded then onLoaded() else @level.once('sync', onLoaded)

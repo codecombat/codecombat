@@ -198,6 +198,17 @@ module.exports = class SpellView extends CocoView
       exec: ->
         Backbone.Mediator.publish 'level:escape-pressed', {}
     addCommand
+      name: 'unfocus-editor'
+      bindKey: {win: 'Escape', mac: 'Escape'}
+      readOnly: true
+      exec: ->
+        return unless utils.isOzaria
+        # In screen reader mode, we need to move focus to next element on escape, since tab won't.
+        # Next element happens to be #run button, or maybe #update-code button in game-dev.
+        # We need this even when you're not in screen reader mode, so you can tab over to enable it.
+        if $(document.activeElement).hasClass 'ace_text-input'
+          $('#run, #update-code').focus()
+    addCommand
       name: 'toggle-grid'
       bindKey: {win: 'Ctrl-G', mac: 'Command-G|Ctrl-G'}
       readOnly: true
@@ -1130,9 +1141,9 @@ module.exports = class SpellView extends CocoView
   focus: ->
     # TODO: it's a hack checking if a modal is visible; the events should be removed somehow
     # but this view is not part of the normal subview destroying because of how it's swapped
-    return unless @controlsEnabled and @writable and $('.modal:visible').length is 0
+    return unless @controlsEnabled and @writable and $('.modal:visible, .shepherd-button:visible').length is 0
     return if @ace.isFocused()
-    return if me.get('aceConfig')?.screenReaderMode  # Screen reader users get to control their own focus manually
+    return if me.get('aceConfig')?.screenReaderMode and utils.isOzaria  # Screen reader users get to control their own focus manually
     @ace.focus()
     @ace.clearSelection()
 

@@ -1,4 +1,5 @@
 forms = require 'core/forms'
+utils = require 'core/utils'
 
 TeacherRolePanel = Vue.extend
   name: 'teacher-role-panel'
@@ -12,7 +13,8 @@ TeacherRolePanel = Vue.extend
       'phoneNumber'
     ])
     return _.assign(formData, {
-      showRequired: false
+      showRequired: false,
+      product: utils.getProductName()
     })
 
   computed:

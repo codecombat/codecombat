@@ -111,7 +111,7 @@ export default class DriftTracker extends BaseTracker {
   }
 
   get isChatEnabled () {
-    return !this.onPlayPage && !this.store.getters['me/isStudent'] && !this.store.getters['me/isHomePlayer']  // && !this.disableAllTracking
+    return !this.onPlayPage && !this.store.getters['me/isStudent'] && !this.store.getters['me/isHomePlayer'] && this.store.getters['me/isTeacher']
   }
 
   async updateDriftConfiguration () {

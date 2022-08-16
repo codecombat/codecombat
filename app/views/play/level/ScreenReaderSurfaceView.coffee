@@ -6,8 +6,10 @@ utils = require 'core/utils'
 module.exports = class ScreenReaderSurfaceView extends CocoView
   id: 'screen-reader-surface-view'
   template: template
+  cursorFollowsHero: true
 
   subscriptions:
+    'tome:change-config': 'onChangeTomeConfig'
     'surface:update-screen-reader-map': 'onUpdateScreenReaderMap'
     'camera:zoom-updated': 'onUpdateScreenReaderMap'
 
@@ -18,6 +20,7 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
     super()
     $(window).on('keydown', @onKeyEvent)
     $(window).on('keyup', @onKeyEvent)
+    @onChangeTomeConfig()
     @updateScale()
 
   destroy: ->
@@ -25,14 +28,21 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
     $(window).off('keyup', @onKeyEvent)
     super()
 
+  onChangeTomeConfig: (e) ->
+    # TODO: because this view is only present in PlayLevelView, we still also have the below class toggle line in other places this could be changed outside of PlayLevelView; should refactor
+    $('body').toggleClass('screen-reader-mode', me.get('aceConfig')?.screenReaderMode)
+    if me.get('aceConfig')?.screenReaderMode and not @grid
+      # Need to run the code for this to show up properly
+      Backbone.Mediator.publish 'tome:manual-cast', { realTime: false }
+
   onUpdateScreenReaderMap: (e) ->
     # Called whenver we need to instantiate/update the map and what's in it
     if e?.grid
       @grid = e.grid
       @gridChars = @grid.toSimpleMovementChars(true, false)
       @gridNames = @grid.toSimpleMovementNames()
-    @updateCells()
-    @updateScale()
+    @updateCells @cursorFollowsHero
+    @updateScale e
 
   onKeyEvent: (e) =>
     event = _.pick(e, 'type', 'key', 'keyCode', 'ctrlKey', 'metaKey', 'shiftKey')
@@ -44,6 +54,7 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
       return @announceCursor true
     if event.key.toLowerCase() in ['h', '@']
       @moveToHero()
+      @cursorFollowsHero = true
       return @announceCursor()
 
   handleArrowKey: (key) ->
@@ -55,16 +66,25 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
       when 'arrowup'    then adjacent.up
       when 'arrowdown'  then adjacent.down
     if newCursor
-      @cursor.$cell.removeClass 'cursor'
-      newCursor.$cell.addClass 'cursor'
-      @cursor = newCursor
+      @setCursor newCursor
       @announceCursor()
-      pan = Math.max -1, Math.min 1, -1 + 2 * newCursor.col / (@gridNames[0].length - 1)
-      @playSound 'game-menu-tab-switch', 1, 0, null, pan  # temporary sfx we already have
+      newCol = newCursor.col
+      sound = 'game-menu-switch-tab'  # temporary sfx we already have
+      @cursorFollowsHero = false
     else
       # There's nothing there, so the hero can't move there--don't move the highlight cursor
-      pan = Math.max -1, Math.min 1, -1 + 2 * @cursor.col / (@gridNames[0].length - 1)
-      @playSound 'menu-button-click', 1, 0, null, pan  # temporary sfx we already have, need something more different from success sound
+      newCol = @cursor.col
+      sound = 'menu-button-click'  # temporary sfx we already have, need something more different from success sound
+    if @gridNames[0].length > 1
+      pan = Math.max -1, Math.min 1, -1 + 2 * newCol / (@gridNames[0].length - 1)
+    else
+      pan = 0  # One column, can't pan left/right
+    @playSound sound, 1, 0, null, pan
+
+  setCursor: (newCursor) ->
+    @cursor?.$cell.removeClass 'cursor'
+    newCursor.$cell.addClass 'cursor'
+    @cursor = newCursor
 
   moveToHero: ->
     for row, r in @gridChars
@@ -111,7 +131,7 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
         update += ". Can #{if contentful.length then 'also ' else ''}move #{(cell.dirName for cell in contentless).join(', ')}."
     @$el.find('.map-screen-reader-live-updates').text(update)
 
-  updateCells: ->
+  updateCells: (followHero=false) ->
     # Create/remove/update .map-cell divs to visually correspond to the current state of the level map grid
     return unless @gridChars
     @mapRows ?= []
@@ -137,9 +157,8 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
             utils.replaceText $cell.find('span[aria-hidden="true"]'), char
           if $cell.previousName isnt name
             utils.replaceText $cell.find('span.sr-only'), name
-        if char is '@' and not @cursor
-          @cursor = {row: r, col: c, $cell: $cell}
-          $cell.addClass 'cursor'
+        if char is '@' and (followHero or not @cursor)
+          @setCursor {row: r, col: c, $cell: $cell}
         $cell.previousChar = char
         $cell.previousName = name
       if c < cells.length - 1
@@ -151,16 +170,32 @@ module.exports = class ScreenReaderSurfaceView extends CocoView
       for cells in @mapCells.splice r + 1
         $cell.remove() for $cell in cells
 
-  updateScale: ->
+  updateScale: (e) ->
     # Scale the map to match how the visual surface is scaled
-    availableWidth = @$el.parent().innerWidth()
+
+    # Determine whether we need to update
+    @camera = e.camera if e?.camera
+    @simpleMovementBounds = e.bounds if e?.bounds
+    availableWidth  = @$el.parent().innerWidth()
     availableHeight = @$el.parent().innerHeight()
-    return if availableWidth is @lastAvailableWidth and availableHeight is @lastAvailableHeight
-    @$el.css 'transform', 'initial'
-    fullWidth = @$el.innerWidth()
-    fullHeight = @$el.innerHeight()
-    scaleX = availableWidth / fullWidth
-    scaleY = availableHeight / fullHeight
-    @$el.css 'transform', "scaleX(#{scaleX}) scaleY(#{scaleY})"
-    @lastAvailableWidth = availableWidth
+    return if availableWidth is @lastAvailableWidth and availableHeight is @lastAvailableHeight and _.isEqual(@simpleMovementBounds, @lastSimpleMovementBounds) and _.isEqual(@lastCameraWorldViewport, @camera.worldViewport)
+    return unless @camera and @simpleMovementBounds
+    @lastAvailableWidth  = availableWidth
     @lastAvailableHeight = availableHeight
+    @lastSimpleMovementBounds = @simpleMovementBounds
+    @lastCameraWorldViewport = @camera.worldViewport
+
+    # Calculate the new size and offset
+    wv = @camera.worldViewport
+    gridWorldWidthWithPadding  = @simpleMovementBounds.width  + @grid.resolution
+    gridWorldHeightWithPadding = @simpleMovementBounds.height + @grid.resolution
+    gridWorldOffsetX = @simpleMovementBounds.left   - wv.x               - @grid.resolution / 2
+    gridWorldOffsetY = @simpleMovementBounds.bottom - (wv.y - wv.height) - @grid.resolution / 2
+    screenWidth  = availableWidth  * gridWorldWidthWithPadding  / wv.width
+    screenHeight = availableHeight * gridWorldHeightWithPadding / wv.height
+    screenOffsetX = gridWorldOffsetX / wv.width  * availableWidth
+    screenOffsetY = gridWorldOffsetY / wv.height * availableHeight
+    @$el.css 'width',  Math.round(screenWidth) + 'px'
+    @$el.css 'height', Math.round(screenHeight) + 'px'
+    @$el.css 'left',   Math.round(screenOffsetX) + 'px'
+    @$el.css 'top',    Math.round(availableHeight - screenHeight - screenOffsetY) + 'px'

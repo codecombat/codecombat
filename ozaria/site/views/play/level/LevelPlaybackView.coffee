@@ -142,6 +142,8 @@ module.exports = class LevelPlaybackView extends CocoView
     ended = button.hasClass 'ended'
     changed = button.hasClass('playing') isnt playing
     button.toggleClass('playing', playing and not ended).toggleClass('paused', not playing and not ended)
+    modifierKey = if /Mac/.test(navigator?.appVersion) then "⌘" else "Ctrl"
+    button.attr 'title', "#{modifierKey} + P: #{if playing then 'Play' else 'Pause'}"
 
     # TODO: replace with Ozaria sound
     # @playSound (if playing then 'playback-play' else 'playback-pause') unless @options.level.isType('game-dev')

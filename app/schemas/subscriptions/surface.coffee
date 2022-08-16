@@ -182,3 +182,4 @@ module.exports =  # /app/lib/surface
 
   'surface:update-screen-reader-map': c.object {required: ['grid']},
     grid: {type: 'object'}
+    bounds: {type: 'object'}

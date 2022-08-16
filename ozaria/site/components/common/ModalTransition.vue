@@ -7,6 +7,7 @@
   import api from 'core/api'
   import ModalCharCustomization from 'ozaria/site/components/char-customization/ModalCharCustomization'
   import ClassroomLib from '../../../../app/models/ClassroomLib'
+  import * as focusTrap from 'focus-trap'
 
   export default Vue.extend({
     components: {
@@ -140,6 +141,23 @@
       } catch (e) {
         // TODO handle_error_ozaria
         console.error('Error in victory modal', e)
+      }
+
+      _.delay(() => {
+        // Let screen reader users easily go to the next level by trapping focus into the modal and focusing the next button.
+        // Hack: can't focus it right away, have to wait a bit
+        // If we knew when we could focus it, we could use checkCanFocusTrap option to create a Promise for when it would be ready to trap. When some animation finishes? When some data loads? When some other Vue lifecycle step finishes?
+        // TODO: do this generally for all modals
+        this.focusTrap = focusTrap.createFocusTrap($('.ozaria-modal')[0], {
+          initialFocus: '.next-button.ozaria-primary-button'
+        })
+        this.focusTrap.activate()
+      }, 1000)
+    },
+
+    beforeDestroy () {
+      if (this.focusTrap) {
+        this.focusTrap.deactivate()
       }
     },
 
@@ -295,6 +313,7 @@
   <base-modal
     v-if="!goToNextDirectly && !showCharCx"
     class="victory-modal"
+    :aria-label="`${contentType} ${$t('common.complete')}`"
   >
     <template #header>
       <div class="victory-header">

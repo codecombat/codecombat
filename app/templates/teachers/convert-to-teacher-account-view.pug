@@ -114,7 +114,7 @@ block content
             .form-group
               span.control-label(data-i18n="courses.number_programming_students")
               .help-block.small
-                em.text-info(data-i18n="teachers_quote.num_students_help")
+                em.text-info(data-i18n="teachers_quote.num_students_help", data-i18n-options=JSON.stringify({ product }))
               select.form-control(name="numStudents")
                 option(data-i18n="teachers_quote.num_students_default", value='')
                 option 1-10
@@ -170,7 +170,7 @@ block content
       #anything-else-row.row.m-y-2
         .col-md-offset-2.col-md-8
           span.control-label
-            span(data-i18n="teachers_quote.anything_else")
+            span(data-i18n="teachers_quote.anything_else", data-i18n-options=JSON.stringify({ product }))
             span.spl.text-muted(data-i18n="signup.optional")
           textarea.form-control(rows=8, name="notes")
           input(type="hidden" name="nces_id")

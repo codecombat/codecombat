@@ -6,7 +6,7 @@ flat-layout
       a(v-else-if="amTeacherOfGallery", :href="teacherBackUrl")
         | {{ $t('courses.back_classroom') }}
       a(v-else, href="/students")
-        | {{ $t('courses.back_courses') }}
+        | {{ $t('courses.back_courses_' + product) }}
     div.text-center.m-t-2
       h2(v-if="classroom")
         | {{ classroom.name }}

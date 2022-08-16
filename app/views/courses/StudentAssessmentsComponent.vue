@@ -2,7 +2,7 @@
   flat-layout
     .container.m-t-3
       p
-        a(href="/students", data-i18n="courses.back_courses")
+        a(href="/students") {{ $t('courses.back_courses_' + product) }}
       div.m-t-2
         h2.text-center
           | {{ $t('courses.challenges') }}
@@ -65,6 +65,7 @@ module.exports = Vue.extend
     inCourses: {}
     courses: []
     selectedCourse: ''
+    product: utils.isOzaria ? 'ozar' : 'coco'
   computed:
     backToClassroomUrl: -> "/teachers/classes/#{@classroom?._id}"
   created: ->

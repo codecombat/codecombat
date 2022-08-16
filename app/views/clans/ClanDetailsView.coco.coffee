@@ -6,6 +6,8 @@ CocoCollection = require 'collections/CocoCollection'
 Campaign = require 'models/Campaign'
 Clan = require 'models/Clan'
 EarnedAchievement = require 'models/EarnedAchievement'
+Tournament = require 'models/Tournament'
+Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 SubscribeModal = require 'views/core/SubscribeModal'
 ThangType = require 'models/ThangType'
@@ -53,6 +55,8 @@ module.exports = class ClanDetailsView extends RootView
     @showExpandedProgress = false
     @memberSort = 'nameAsc'
     @stats = {}
+    @ladderLevels = []
+    @ladderImageMap = {}
 
     @clan = new Clan _id: @clanID
     if /^[a-f0-9]{24}$/.test @clanID
@@ -72,16 +76,22 @@ module.exports = class ClanDetailsView extends RootView
     @members = new CocoCollection([], { url: "/db/clan/#{@clanID}/members", model: User, comparator: 'nameLower' })
     @memberAchievements = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_achievements", model: EarnedAchievement, comparator:'_id' })
     @memberSessions = new CocoCollection([], { url: "/db/clan/#{@clanID}/member_sessions", model: LevelSession, comparator:'_id' })
+    @tournaments = new CocoCollection([], {url: "/db/tournaments?clanId=#{@clanID}", model: Tournament})
+    @ladders = new LadderCollection([])
 
     @listenTo me, 'sync', => @render?()
     @listenTo @campaigns, 'sync', @onCampaignSync
     @listenTo @members, 'sync', @onMembersSync
     @listenTo @memberAchievements, 'sync', @onMemberAchievementsSync
     @listenTo @memberSessions, 'sync', @onMemberSessionsSync
+    @listenTo @tournaments, 'sync', @onTournamentsSync
+    @listenTo @ladders, 'sync', @onLaddersSync
 
-    @supermodel.loadModel @campaigns, cache: false
+    @supermodel.loadModel @campaigns
     @supermodel.loadCollection(@members, 'members', {cache: false})
     @supermodel.loadCollection(@memberAchievements, 'member_achievements', {cache: false})
+    @supermodel.loadCollection(@tournaments, 'tournaments', {cache: false})
+    @supermodel.loadCollection(@ladders, 'ladders')
 
   getRenderData: ->
     context = super()
@@ -283,6 +293,23 @@ module.exports = class ClanDetailsView extends RootView
           @memberLanguageMap[user] = language
     @render?()
 
+  onTournamentsSync: (e) ->
+    @tournamentModels = Object.values((t.toJSON() for t in @tournaments.models)[0])[0]
+    @render?()
+
+  onLaddersSync: (e) ->
+    levels = []
+    for ladder in @ladders.models
+      levels.push({
+        name: ladder.get('name'),
+        id: ladder.get('slug'),
+        image: ladder.get('image'),
+        original: ladder.get('original')
+      })
+      @ladderImageMap[ladder.get('original')] = ladder.get('image')
+    @ladderLevels = levels
+    @render?()
+
   onMouseEnterPoint: (e) ->
     $('.level-popup-container').hide()
     container = $(e.target).find('.level-popup-container').show()
@@ -377,3 +404,11 @@ module.exports = class ClanDetailsView extends RootView
       @supermodel.addRequestResource( 'remove_member', options).load()
     else
       console.error "No member ID attached to remove button."
+
+class LadderCollection extends CocoCollection
+  url: ''
+  model: Level
+
+  constructor: (model) ->
+    super()
+    @url = "/db/level/-/arenas"
