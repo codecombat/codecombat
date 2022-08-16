@@ -188,7 +188,7 @@ module.exports = class Autocomplete
       pos = editor.getCursorPosition()
       token = (new TokenIterator editor.getSession(), pos.row, pos.column).getCurrentToken()
       if e.args is '\n' # insert new line
-        Backbone.Mediator.publish 'tome:completer-add-user-snippets'
+        return Backbone.Mediator.publish 'tome:completer-add-user-snippets'
       if token? and token.type not in ['comment']
         prefix = @getCompletionPrefix editor
         # Bake a fresh autocomplete every keystroke

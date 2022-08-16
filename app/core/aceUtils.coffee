@@ -100,13 +100,15 @@ parseUserSnippets = (source, lang, session) ->
       else
         newIdentifiers[next.value].importance *= 2
     if next.type is 'identifier'
-      continue if next.value.length is 1 # skip single char variables
+      if next.value.length is 1 # skip single char variables
+        next = it.stepForward()
+        continue
       unless next.value of allIdentifiers
         allIdentifiers[next.value] = 5
       else
         allIdentifiers[next.value] *= 2
-    next = it.stepForward()
     # console.log("deubg next:", next)
+    next = it.stepForward()
 
   lines = source.split('\n')
   lines.forEach((line) =>
