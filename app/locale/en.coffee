@@ -299,6 +299,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     global_community: "Join Our Global Community"
     million: "__num__ Million"
     billion: "__num__ Billion"
+    meta_keywords_podcast: "CodeCombat, python, javascript, Coding Games, podcast, edtech"
 
   nav:
     educators: "Educators"
