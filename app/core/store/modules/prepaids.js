@@ -328,7 +328,7 @@ export default {
           if (updateUserProducts) {
             student.set(
               'products',
-              student.get('products').map((p) => {
+              (student.get('products') || []).map((p) => {
                 if (p.prepaid === product.prepaid) {
                   p.endDate = new Date().toISOString()
                 }
