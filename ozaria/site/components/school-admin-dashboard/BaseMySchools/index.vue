@@ -34,13 +34,16 @@
         const groupLicenseUsedMap = {};
         const groupNameTeacherArr = [];
         for (const [groupName, teachers] of Object.entries(this.groupedAdministratedTeachers)) {
-          let totalUsage = 0;
+          let totalUsage = 0
+          let enrolledStudents = 0
           for (const teacher of Object.values(teachers)) {
             const usage = teacher?.stats?.licenses?.usage?.used || 0;
+            teacher.userStats = this.getStatsByUser(teacher._id)
+            enrolledStudents += teacher.userStats?.stats?.students?.totalInActiveClassrooms || 0
             totalUsage += usage;
           }
           groupLicenseUsedMap[groupName] = totalUsage;
-          groupNameTeacherArr.push([groupName, teachers]);
+          groupNameTeacherArr.push([groupName, teachers, enrolledStudents])
         }
         const sortByLicenseUsedCompare = (grpNameTeacher1, grpNameTeacher2) => {
           return groupLicenseUsedMap[grpNameTeacher1[0]] > groupLicenseUsedMap[grpNameTeacher2[0]] ? -1 : 1;
@@ -104,13 +107,18 @@
           <span v-else>
             {{ $t('school_administrator.other') }}
           </span>
+          <span class="stats-label">
+            <span class="stats-value">{{ groupedAdminTeachers[1].length }}</span> {{ $t('school_administrator.teachers') }}
+          </span>
+          <span class="stats-label">
+            <span class="stats-value">{{ groupedAdminTeachers[2] }}</span> {{ $t('school_administrator.students_enrolled') }}
+          </span>
         </li>
-
         <teacher-row-component
           v-for="teacher in groupedAdminTeachers[1]"
           :key="teacher._id"
           :teacher="teacher"
-          :user-stats="getStatsByUser(teacher._id)"
+          :user-stats="teacher.userStats"
         />
       </ul>
     </div>
@@ -139,6 +147,19 @@
   color: $twilight;
   text-align: left;
   text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stats-value {
+  @include font-h-2-subtitle-black;
+  color: #3EA1BF;
+  text-align: center;
+}
+.stats-label {
+  @include font-h-5-button-text-black;
+  color: $color-tertiary-brand
 }
 
 .no-teachers {
