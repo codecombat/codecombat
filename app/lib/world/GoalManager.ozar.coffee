@@ -29,7 +29,7 @@ module.exports = class GoalManager extends CocoClass
     @hasProgressed = false # capstoneStage progression
     @initThangTeams()
     @addGoal goal for goal in @initialGoals if @initialGoals
-    if @options?.session and @options?.additionalGoals
+    if utils.isOzaria and @options?.session and @options?.additionalGoals
       additionalGoals = _.cloneDeep(@options.additionalGoals)
       capstoneStage = @options.capstoneStage || 1 # passed in from PlayLevelView
       stages = _.filter(additionalGoals, (ag) -> ag.stage <= capstoneStage and ag.stage > 0)
@@ -139,7 +139,10 @@ module.exports = class GoalManager extends CocoClass
   finishLevel: ->
     stageFinished = @checkOverallStatus() is 'success'
     if @options.additionalGoals and stageFinished
-      @progressCapstoneStage(@options.session, @options.additionalGoals)
+      if utils.isOzaria
+        @progressCapstoneStage(@options.session, @options.additionalGoals)
+      else
+        @addAdditionalGoals(@options.session, @options.additionalGoals)
 
     return stageFinished
 
@@ -149,7 +152,7 @@ module.exports = class GoalManager extends CocoClass
     goal = $.extend(true, {}, goal)
     goal.id = @nextGoalID++ if not goal.id
     # The initial goals also need a capstone stage if this is indeed goals for a capstone stage:
-    if !goal.stage && @options?.additionalGoals
+    if utils.isOzaria && !goal.stage && @options?.additionalGoals
       goal.stage = 1
     return if @goalStates[goal.id]?
     @goals.push(goal)
@@ -164,11 +167,15 @@ module.exports = class GoalManager extends CocoClass
   notifyGoalChanges: ->
     return if @options.headless
     overallStatus = @checkOverallStatus()
+    if utils.isOzaria
+      noTimeOutStatuses = ['success', 'failure', null]
+    else
+      noTimeOutStatuses = ['success', 'failure']
     event =
       goalStates: @goalStates
       goals: @goals
       overallStatus: overallStatus
-      timedOut: @world? and (@world.totalFrames is @world.maxTotalFrames and overallStatus not in ['success', 'failure', null])
+      timedOut: @world? and (@world.totalFrames is @world.maxTotalFrames and overallStatus not in noTimeOutStatuses)
       capstoneStage: @options?.capstoneStage
     Backbone.Mediator.publish('goal-manager:new-goal-states', event)
 
