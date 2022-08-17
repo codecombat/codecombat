@@ -1,4 +1,3 @@
-
 <script>
   import { mapActions } from "vuex";
 
@@ -40,10 +39,37 @@
       ...mapActions({
         revokeJoiner: 'prepaids/revokeJoiner'
       }),
-      async revokeTeacher() {
-        this.revoking = true;
-        await this.revokeJoiner({ prepaidId: this.prepaid._id, email: this.email });
-        this.revoking = false;
+      async revokeTeacher () {
+        this.revoking = true
+        if (this.licensesUsed > 0) {
+          noty({
+            text: $.i18n.t('share_licenses.teacher_delete_warning'),
+            layout: 'center',
+            type: 'warning',
+            buttons: [
+              {
+                addClass: 'btn btn-primary',
+                text: 'Ok',
+                onClick: async ($noty) => {
+                  await this.revokeJoiner({ prepaidId: this.prepaid._id, email: this.email })
+                  this.revoking = false
+                  $noty.close()
+                }
+              },
+              {
+                addClass: 'btn btn-danger',
+                text: 'Cancel',
+                onClick: ($noty) => {
+                  this.revoking = false
+                  $noty.close()
+                }
+              }
+            ]
+          })
+        } else {
+          await this.revokeJoiner({ prepaidId: this.prepaid._id, email: this.email })
+          this.revoking = false
+        }
       }
     }
   }
@@ -59,7 +85,7 @@
       > {{ email }} </a>
     </div>
     <span class="licenses-used"> {{ $t("share_licenses.licenses_used_no_braces", { licensesUsed: licensesUsed }) }} </span>
-    <button :disabled="isOwner || revoking" class="btn btn-danger" type="button" @click.once="revokeTeacher"> {{$t("editor.delete")}} </button>
+    <button :disabled="isOwner || revoking" class="btn btn-danger" type="button" @click="revokeTeacher"> {{$t("editor.delete")}} </button>
 
   </div>
 </template>

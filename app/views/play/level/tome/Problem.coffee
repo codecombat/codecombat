@@ -122,6 +122,10 @@ module.exports = class Problem
     if /\n/.test(msg) # Translate each line independently, since regexes act weirdly with newlines
       return msg.split('\n').map((line) => @translate(line)).join('\n')
 
+    if /^i18n::/.test(msg) # handle i18n msgs from aether_worker
+      msgs = msg.split('::')
+      return $.i18n.t(msgs[1], JSON.parse(msgs[2]))
+
     msg = msg.replace /([A-Za-z]+Error:) \1/, '$1'
     return msg if $.i18n.language in ['en', 'en-US']
 
