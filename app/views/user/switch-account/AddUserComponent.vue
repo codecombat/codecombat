@@ -41,6 +41,7 @@
           v-model="relation"
           class="form-control"
         >
+          <option value="" selected disabled>Please select</option>
           <option
             v-for="(option) in relationOptions"
             :key="option"
@@ -125,7 +126,7 @@
               </select>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked disabled>
               <label class="form-check-label" for="exampleRadios1">
                 Create account and send email to link
               </label>
@@ -170,7 +171,7 @@ export default {
         'Other'
       ],
       email: '',
-      relation: 'Kid',
+      relation: '',
       isBidirectional: true,
       accountExists: null,
       accountTypes: [
@@ -188,7 +189,6 @@ export default {
       this.showAddForm = true
     },
     onFormSubmit () {
-      console.log('data', this.$data)
       // add validation code
       const body = {}
       const commonBody = {
