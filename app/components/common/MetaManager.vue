@@ -34,7 +34,7 @@
         // Shorten page titles when in screen reader mode
         defaultTitleKey = isOzaria ? 'common.ozaria' : 'new_home.codecombat'
       } else {
-        defaultTitleKey = 'common.default_title_' + isOzaria ? 'ozar' : 'coco'
+        defaultTitleKey = 'common.default_title_' + (isOzaria ? 'ozar' : 'coco')
       }
 
       return {
