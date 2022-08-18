@@ -41,7 +41,7 @@
         title: this.$t(defaultTitleKey),
         ...(isOzaria ? {} : { titleTemplate: '%s | CodeCombat' }),
         meta: [
-          { vmid: 'meta-description', name: 'description', content: this.$t('common.default_meta_description_' + isOzaria ? 'ozar' : 'coco') },
+          { vmid: 'meta-description', name: 'description', content: this.$t('common.default_meta_description_' + (isOzaria ? 'ozar' : 'coco')) },
           { vmid: 'viewport', name: 'viewport', content: 'width=device-width,initial-scale=1.0' }
         ],
 
