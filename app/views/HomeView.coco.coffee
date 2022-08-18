@@ -47,7 +47,7 @@ module.exports = class HomeView extends RootView
     context
 
   getMeta: ->
-    title: $.i18n.t 'new_home.title' + if features?.chinaHome then '_cn_home' else '_coco'
+    title: $.i18n.t ('new_home.title' + if features?.chinaHome then '_cn_home' else '_coco')
     meta: [
         { vmid: 'meta-description', name: 'description', content: $.i18n.t 'new_home.meta_description_coco' }
     ],

@@ -280,7 +280,7 @@ module.exports = class RootView extends CocoView
   # See https://vue-meta.nuxtjs.org/ for available configuration options.  This
   # can be later modified by calling setMeta
   getMeta: -> {
-    title: $.i18n.t 'new_home.title' + if features?.chinaHome then '_cn_home' else ''
+    title: $.i18n.t ('new_home.title' + if features?.chinaHome then '_cn_home' else '_coco')
   }
 
   # Allow async updates of the view's meta configuration.  This can be used in addition to getMeta
