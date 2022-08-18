@@ -91,6 +91,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   new_home:
     title_coco: "CodeCombat - Coding games to learn Python and JavaScript"
     title_ozar: "Ozaria - Computer science that captivates"
+    title_cn_home: "CodeCombat|Python, Javascript"
     meta_keywords_coco: "CodeCombat, python, javascript, Coding Games"
     meta_keywords_ozar: "CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story"
     meta_description_coco: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
@@ -269,6 +270,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ozaria: "Ozaria"
     codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
     ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+    ozaria_china_blurb: ""
     try_codecombat: "Try CodeCombat"
     try_ozaria: "Try Ozaria"
     explore_codecombat: "Explore CodeCombat"
@@ -301,6 +303,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     billion: "__num__ Billion"
 
   nav:
+    aiyouth: "AI Youth"
     educators: "Educators"
     follow_us: "Follow Us"
     general: "General"
@@ -319,7 +322,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     legal: "Legal"
     privacy: "Privacy Notice"
     about: "About"
+    events: "Events"
     impact: "Impact"
+    star: "CoCoStar"
     contact: "Contact"
     press: "Press"
     twitter_follow: "Follow"
@@ -659,6 +664,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     have_a_classcode: "Have a Class Code?"
     yes_i_have_classcode: "Yes, I have a Class Code!"
     enter_it_here: "Enter it here:"
+    play_without_saving: "Play without saving"
 
   recover:
     recover_account_title: "Recover Account"
@@ -1200,6 +1206,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     feature_level_access: "Access 500+ levels available"
     feature_heroes: "Unlock exclusive heroes and pets"
     feature_learn: "Learn to make games and websites"
+    feature_languages: "Get all supported languages"
+    feature_aiyouth: ""
     feature_gems: "Receive __gems__ gems per month"
     month_price: "$__price__/mo"
     first_month_price: "Only $__price__ for your first month!"
@@ -1209,6 +1217,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     year_price: "$__price__/yr"
     support_part1: "Need help with payment or prefer PayPal? Email"
     support_part2: "support@codecombat.com"
+    go_prepaid: "Click here after scaning the code and purchasing"
+    forever: "Forever"
+    subscription_status: "Your Subscription Status"
+    currently_not_free: "You don't have a Subscription yet."
 
   announcement:
     now_available: "Now available for subscribers!"
@@ -2280,10 +2292,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Computer Science 2 - Curriculum Guide"
     cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
+    cs2_syntax_python: "Course 2 Python Syntax Guide"
     cs3_curriculum: "Computer Science 3 - Curriculum Guide"
     cs3_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 3."
+    cs3_syntax_python: "Course 3 Python Syntax Guide"
     cs4_curriculum: "Computer Science 4 - Curriculum Guide"
     cs4_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 4."
+    cs4_syntax_python: "Course 4 Python Syntax Guide"
     cs5_curriculum_js: "Computer Science 5 - Curriculum Guide (JavaScript)"
     cs5_curriculum_desc_js: "Scope and sequence, lesson plans, activities and more for Course 5 classes using JavaScript."
     cs5_curriculum_py: "Computer Science 5 - Curriculum Guide (Python)"
@@ -2847,6 +2862,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bracket_14_18: "14-18"
     bracket_11_18: "11-18"
     bracket_open: "Open"
+    create_tournament: "Create a Tournament"
 
   user:
     user_title: '__name__ - Learn to Code with CodeCombat'
@@ -2971,6 +2987,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     you_can1: "You can"
     you_can2: "purchase a prepaid code"
     you_can3: "that can be applied to your own account or given to others."
+    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account."
+    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times."
+    prepaid_applied_success: "Prepaid applied to your account!"
+    activation_code_used: "The Activation code has been used."
+    redeem_code_error: "Error: Could not redeem prepaid code. "
 
   ozaria_chrome:
     sound_off: 'Mute',
@@ -3755,6 +3776,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_type_full: 'Full Courses'
     license_type_customize: 'Customize Courses'
 
+  events:
+    title: 'CodeCombat Events'
+    main_title: 'CodeCombat Events'
+    main_description: 'The important events of codecombat China'
+
   teacher_dashboard:
     lock: 'Lock'
     unlock: 'Unlock'
@@ -4086,6 +4112,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     make_tournament: "Make a mini tournament"
     go_tournaments: "Go to mini tournaments"
     class_tournaments: "Class mini tournaments"
+    class_tournaments_more: "More Class mini tournaments"
     no_tournaments_owner: "There is no tournament now, please create one"
     no_tournaments: "There is no tournament now"
     edit_tournament: "Edit Tournament"
