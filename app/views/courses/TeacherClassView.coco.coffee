@@ -34,6 +34,7 @@ TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default
 PieChart = require('core/components/PieComponent').default
 GoogleClassroomHandler = require('core/social-handlers/GoogleClassroomHandler')
 clansApi = require 'core/api/clans'
+prepaids = require('core/store/modules/prepaids').default
 
 DOMPurify = require 'dompurify'
 
@@ -809,38 +810,13 @@ module.exports = class TeacherClassView extends RootView
   onClickRevokeAllStudentsButton: ->
     s = $.i18n.t('teacher.revoke_all_confirm')
     return unless confirm(s)
-    for student in @students.models
-      status = student.prepaidStatus()
-      if status is 'enrolled' and student.prepaidType() is 'course'
-        courseProducts = student.activeProducts('course')
-        Prepaid = require 'models/Prepaid'
-        for product in courseProducts
-          prepaid = new Prepaid({
-            _id: product.prepaid,
-            type: 'course'
-          })
-          options = {
-            # The for loop completes before the success callback for the first student executes.
-            # So, the `student` will be the last student when the callback executes.
-            # Therefore, using a self calling anonymous function for the success callback
-            # to retain the student data for each iteration.
-            # Reference: https://www.pluralsight.com/guides/javascript-callbacks-variable-scope-problem
-            success: (() ->
-              st = student
-              return -> st.set('products', st.get('products').map((p) ->
-                if p.prepaid == product.prepaid
-                  p.endDate = new Date().toISOString()
-                return p
-              ))
-            )()
-            error: (prepaid, jqxhr) =>
-              msg = jqxhr.responseJSON.message
-              noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
-            complete: => @debouncedRenderSelectors('#license-status-table')
-          }
-          if !@classroom.isOwner() and @classroom.hasWritePermission()
-            options.data = { sharedClassroomId: @classroom.id }
-          prepaid.revoke(student, options)
+    prepaids.actions.revokeLicenses(null, {
+      members: @students.models,
+      sharedClassroomId: @classroom.id,
+      confirmed: true,
+      updateUserProducts: true
+    })
+    .then => @debouncedRenderSelectors('#license-status-table')
 
   onClickSelectAll: (e) ->
     e.preventDefault()

@@ -390,6 +390,7 @@ module.exports = class TeacherClassesView extends RootView
     return unless me.id is @teacherID # Viewing page as admin
     classroomID = $(e.currentTarget).data('classroom-id')
     classroom = @classrooms.get(classroomID)
+    classroom.revokeStudentLicenses()
     classroom.set('archived', true)
     classroom.save {}, {
       success: =>

@@ -44,6 +44,8 @@ module.exports = class SpellView extends CocoView
     'god:non-user-code-problem': 'onNonUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
     'tome:spell-changed': 'onSpellChanged'
+    'tome:spell-created': 'onSpellCreated'
+    'tome:completer-add-user-snippets': 'onAddUserSnippets'
     'level:session-will-save': 'onSessionWillSave'
     'modal:closed': 'focus'
     'tome:focus-editor': 'focus'
@@ -77,6 +79,7 @@ module.exports = class SpellView extends CocoView
     $(window).on 'resize', @onWindowResize
     @observing = @session.get('creator') isnt me.id
     @loadedToken = {}
+    @addUserSnippets = _.debounce @reallyAddUserSnippets, 500, {maxWait: 1500, leading: true, trailing: false}
 
   afterRender: ->
     super()
@@ -553,6 +556,11 @@ module.exports = class SpellView extends CocoView
 
   updateAutocomplete: (@autocompleteOn) ->
     @autocomplete?.set 'snippets', @autocompleteOn
+
+  reallyAddUserSnippets: (source, lang, session) ->
+    newIdentifiers = aceUtils.parseUserSnippets(source, lang, session)
+    # console.log 'debug newIdentifiers: ', newIdentifiers
+    @autocomplete.addCustomSnippets Object.values(newIdentifiers), lang
 
   addAutocompleteSnippets: (e) ->
     # Snippet entry format:
@@ -1080,6 +1088,17 @@ module.exports = class SpellView extends CocoView
     @spell.source = oldSource
     for key, value of oldSpellThangAether
       @spell.thang.aether[key] = value
+
+  onAddUserSnippets: ->
+    if @spell.team is me.team
+      @addUserSnippets(@spell.getSource(), @spell.language, @ace?.getSession?())
+
+  onSpellCreated: (e) ->
+    if e.spell.team is me.team
+      # ace session won't get correct language mode when created. so we wait for 1.5s
+      setTimeout(() =>
+        @addUserSnippets(e.spell.getSource(), e.spell.language, @ace?.getSession?())
+      , 1500)
 
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML

@@ -301,6 +301,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     global_community: "Join Our Global Community"
     million: "__num__ Million"
     billion: "__num__ Billion"
+    meta_keywords_podcast: "CodeCombat, python, javascript, Coding Games, podcast, edtech"
 
   nav:
     aiyouth: "AI Youth"
@@ -2490,6 +2491,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     not_write_permission: "You don't have write permission to the class"
     not_read_permission: "You don't have read permission to the class"
     owned_license: "Licensed"
+    archive_revoke_confirm: " students of the archived class have active licenses. Would you like to revoke them so that you can re-apply them to other students?"
+    archive_without_revoking: "Archive Without Revoking"
+    revoke_and_archive: "Revoke and Archive"
 
   teacher_licenses:
     active_licenses: "Active Licenses"
@@ -2542,6 +2546,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     licenses_used_no_braces: "__licensesUsed__ licenses used"
     more_info: "More info"
     shared_pool_label: "Teachers in your shared pool:"
+    teacher_delete_warning: "The shared licenses assigned to the teacher won't be revoked!"
 
   sharing:
     game: "Game"
@@ -3444,6 +3449,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     put_each_command_on: "Put each command on a separate line"
     are_you_missing_a: "Are you missing a '$1' after '$2'? "
     your_parentheses_must_match: "Your parentheses must match."
+    missing_parentheses: "Missing parentheses? Try `__suggestion__`"
+    do_nothing_without_parentheses: "`__code__` doesn't do anything without `()`"
     error_index_empty: "Cannot read property `__name__` of `__specTypeName__`"
     error_call_non_function: "`__name__` is not a function."
     error_not_iterable: "`__var__` is not iterable."

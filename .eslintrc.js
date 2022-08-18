@@ -43,7 +43,9 @@ module.exports = {
     '*.coffee',
     '*.png',
     '*.pug',
-    '*.sass'
+    '*.sass',
+    '*.jpg',
+    '*.jpeg'
   ],
 
   overrides: [
