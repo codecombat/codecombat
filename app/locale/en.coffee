@@ -1194,7 +1194,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     managed_by: "Managed by"
     will_be_cancelled: "Will be cancelled on"
     currently_free: "You currently have a free subscription"
-    currently_free_until: "You currently have a subscription until"
+    currently_free_until: "You currently have a subscription until __date__"
     free_subscription: "Free subscription"
     was_free_until: "You had a free subscription until"
     managed_subs: "Managed Subscriptions"
