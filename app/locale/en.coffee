@@ -2476,6 +2476,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     not_write_permission: "You don't have write permission to the class"
     not_read_permission: "You don't have read permission to the class"
     owned_license: "Licensed"
+    archive_revoke_confirm: " students of the archived class have active licenses. Would you like to revoke them so that you can re-apply them to other students?"
+    archive_without_revoking: "Archive Without Revoking"
+    revoke_and_archive: "Revoke and Archive"
 
   teacher_licenses:
     active_licenses: "Active Licenses"
