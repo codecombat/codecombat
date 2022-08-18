@@ -32,7 +32,7 @@
   "scripts": {
     "start": "node ./index.js",
     "test": "COCO_TRAVIS_TEST=1 NODE_OPTIONS='--max-old-space-size=4096' npm run webpack && ./node_modules/.bin/karma start --single-run --reporters dots",
-    "test-ubuntu": "(Xvfb :99 &) && COCO_TRAVIS_TEST=1 NODE_OPTIONS='--max-old-space-size=4096' npm run webpack && DISPLAY=:99.0 ./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters dots",
+    "test-ubuntu": "COCO_TRAVIS_TEST=1 NODE_OPTIONS='--max-old-space-size=4096' npm run webpack && ./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters dots",
     "test-china": "COCO_CHINA_INFRASTRUCTURE=true npm run test",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping webpack build --production",
     "postdeploy": "echo Deployed. Unclench.",
@@ -160,7 +160,7 @@
     "vue-scrollto": "^2.18.1",
     "vue-shepherd": "0.0.1",
     "vue-youtube": "^1.3.5",
-    "vuedraggable": "^2.21.0",
+    "vuedraggable": "^2.24.3",
     "vuelidate": "^0.7.5",
     "vuex": "^3.6.2",
     "vuex-router-sync": "^5.0.0"

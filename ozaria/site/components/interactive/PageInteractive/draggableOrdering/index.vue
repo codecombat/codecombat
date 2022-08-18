@@ -228,7 +228,7 @@
           :list="promptSlots"
           class="slots-container prompt-slots"
           tag="ul"
-          :options="{ draggable: '.prompt' }"
+          :options="{ draggable: '.prompt', forceFallback: true }"
           @change="handleSwap"
         >
           <template
