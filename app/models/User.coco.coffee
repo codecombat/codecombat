@@ -323,6 +323,21 @@ module.exports = class User extends CocoModel
       return true if new Date() < new Date(maxFree)
     false
 
+  premiumEndDate: ->
+    return null unless @isPremium()
+    if stripe = @get('stripe')
+      return $.t('subscribe.forever') if stripe.free is true
+      return $.t('subscribe.forever') if stripe.sponsorID
+      return $.t('subscribe.forever') if stripe.subscriptionID
+      stripeEnd =  moment(stripe.free) if _.isString(stripe.free)
+      # return moment(stripe.free).utc().format('ll') if _.isString(stripe.free)
+    if products = @get('products')
+      homeProducts = @activeProducts('basic_subscription')
+      endDate = _.max(homeProducts, (p) => new Date(p.endDate)).endDate
+      productsEnd = moment(endDate)
+      return stripeEnd.utc().format('ll') if stripeEnd and stripeEnd.isAfter(productsEnd)
+      return productsEnd.utc().format('ll')
+
   isPremium: ->
     return true if @isInGodMode()
     return true if @isAdmin()
@@ -760,16 +775,17 @@ module.exports = class User extends CocoModel
   # features.china is set globally for our China server
   showChinaVideo: -> (features?.china ? false) or (features?.chinaInfra ? false)
   canAccessCampaignFreelyFromChina: (campaignID) -> campaignID == "55b29efd1cd6abe8ce07db0d" # teacher can only access CS1 freely in China
-  isCreatedByTarena: -> @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2 on koudashijie.com
+  isCreatedByTarena: -> @get('clientCreator') == '60fa65059e17ca0019950fdd' || @get('clientCreator') == "5c80a2a0d78b69002448f545"   #ClientID of Tarena2/Tarena3 on koudashijie.com
   isILK: -> @get('clientCreator') is '6082ec9996895d00a9b96e90' or _.find(@get('clientPermissions') ? [], client: '6082ec9996895d00a9b96e90')
   isICode: -> @get('clientCreator') is '61393874c324991d0f68fc70' or _.find(@get('clientPermissions') ? [], client: '61393874c324991d0f68fc70')
   isTecmilenio: -> @get('clientCreator') in ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'] or _.find(@get('clientPermissions') ? [], (p) -> p.client in ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'])
   showForumLink: -> not (features?.china ? false)
   showChinaResourceInfo: -> features?.china ? false
-  useChinaHomeView: -> features?.china ? false
+  showChinaHomeVersion: -> features?.chinaHome ? false
+  useChinaHomeView: -> features?.china and ! features?.chinaHome ? false
   showChinaRegistration: -> features?.china ? false
   enableCpp: -> @hasSubscription() or @isStudent() or @isTeacher()
-  useQiyukf: -> features?.china ? false
+  useQiyukf: -> false
   useChinaServices: -> features?.china ? false
   useGeneralArticle: -> not (features?.china ? false)
 
