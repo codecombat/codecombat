@@ -739,7 +739,7 @@ module.exports = class PlayLevelView extends RootView
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world, parent: @}
     ModalClass = if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder') then HeroVictoryModal else VictoryModal
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
-    if @level.isType('course-ladder')
+    if @level.isType('course-ladder') or @level.isType('ladder') and @courseInstanceID
       ModalClass = CourseVictoryModal
       options.courseInstanceID = utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
