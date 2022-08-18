@@ -1195,7 +1195,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     managed_by: "Managed by"
     will_be_cancelled: "Will be cancelled on"
     currently_free: "You currently have a free subscription"
-    currently_free_until: "You currently have a subscription until"
+    currently_free_until: "You currently have a subscription until __date__"
     free_subscription: "Free subscription"
     was_free_until: "You had a free subscription until"
     managed_subs: "Managed Subscriptions"
@@ -3871,9 +3871,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     read_blurb: 'View Only permits the added teacher to view your class and student progress without the ability to make changes to your class.'
     write_blurb: 'Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)'
     shared_with_none: 'This class is not currently shared with any other teachers.'
+    shared_with: 'Shared with'
     share_info: 'To give other teachers access to the class, add their emails below.'
     class_owner: 'Class Owner'
     share: 'Share'
+    add: 'Add'
+    note: 'Note'
 
   outcomes:
     outcomes_report: "Outcomes Report"

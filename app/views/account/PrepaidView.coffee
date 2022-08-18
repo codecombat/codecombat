@@ -49,7 +49,6 @@ module.exports = class PrepaidView extends RootView
     noty text: message, layout: 'topCenter', type: type, killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3
 
   dashedPPC: =>
-    console.log('dashedppc', @ppc.length)
     if @ppc.length is 12
       return "#{@ppc.slice(0,4)}-#{@ppc.slice(4,8)}-#{@ppc.slice(8)}"
     @ppc
@@ -104,7 +103,6 @@ module.exports = class PrepaidView extends RootView
         @ppcInfo.push "Type: #{model.get('type')}"
       @render?()
     options.error = (model, res, options) =>
-      console.log('res:', res, res.status, res.body)
       if res.status is 404
         if res.responseText is 'Activation code has been used'
           @ppcInfo.push $.i18n.t 'account_prepaid.activation_code_used'
@@ -132,7 +130,6 @@ module.exports = class PrepaidView extends RootView
       data: { ppc: @dashedPPC()}
     options.error = (model, res, options, foo) =>
       msg = model.responseText ? ''
-      console.log('re:', model, res)
       if model.status is 403
         if model.responseJSON.message is 'Activation Code has been used'
           msg = $.i18n.t 'account_prepaid.activation_code_used'
