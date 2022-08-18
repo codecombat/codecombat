@@ -3864,9 +3864,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     read_blurb: 'View Only permits the added teacher to view your class and student progress without the ability to make changes to your class.'
     write_blurb: 'Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)'
     shared_with_none: 'This class is not currently shared with any other teachers.'
+    shared_with: 'Shared with'
     share_info: 'To give other teachers access to the class, add their emails below.'
     class_owner: 'Class Owner'
     share: 'Share'
+    add: 'Add'
+    note: 'Note'
 
   outcomes:
     outcomes_report: "Outcomes Report"
