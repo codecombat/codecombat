@@ -1,3 +1,4 @@
+/* eslint import/no-absolute-path: 0 */
 import VueRouter from 'vue-router'
 
 let vueRouter
@@ -135,6 +136,12 @@ export default function getVueRouter () {
           path: '/users/switch-account',
           name: 'UserSwitchAccount',
           component: () => import(/* webpackChunkName: "userSwitchAccount" */'/app/views/user/SwitchAccountView')
+        },
+        {
+          path: '/users/switch-account/:confirmingUserId/:requestingConfirmUserId/confirm',
+          name: 'UserSwitchAccount',
+          component: () => import(/* webpackChunkName: "userSwitchAccountConfirm" */'/app/views/user/SwitchAccountConfirmationView'),
+          props: (route) => ({ ...route.query, ...route.params })
         }
       ],
       scrollBehavior(to) {

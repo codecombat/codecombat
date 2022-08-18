@@ -119,4 +119,10 @@ module.exports = {
     fetchJson("/db/user/related-accounts/#{userId}", _.assign({}, {
       method: 'GET'
     }))
+
+  verifyRelatedAccount: ({ userAskingToRelateId, body }) ->
+    fetchJson("/db/user/related-accounts/#{userAskingToRelateId}/verify", _.assign({}, {
+      method: 'PUT'
+      json: body
+    }))
 }
