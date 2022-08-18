@@ -325,12 +325,13 @@ module.exports = class User extends CocoModel
 
   premiumEndDate: ->
     return null unless @isPremium()
+    stripeEnd = undefined
     if stripe = @get('stripe')
       return $.t('subscribe.forever') if stripe.free is true
       return $.t('subscribe.forever') if stripe.sponsorID
       return $.t('subscribe.forever') if stripe.subscriptionID
       stripeEnd =  moment(stripe.free) if _.isString(stripe.free)
-      # return moment(stripe.free).utc().format('ll') if _.isString(stripe.free)
+
     if products = @get('products')
       homeProducts = @activeProducts('basic_subscription')
       endDate = _.max(homeProducts, (p) => new Date(p.endDate)).endDate
