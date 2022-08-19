@@ -36,6 +36,7 @@ officeHours = [
   {time: moment('2018-03-07 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/a1a6f5f4eb7a0a387c24e00bf0acd2b8', host: 'Nolan', name: 'CodeCombat: Beyond Block-Based Coding'}
   {time: moment('2018-03-15 12:30-08').toDate(), link: 'https://zoom.us/meeting/register/16f0a6b4122087667c24e00bf0acd2b8', host: 'Sean', name: 'Building Student Engagement with CodeCombat'}
   {time: moment('2018-03-21 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/4e7eb093f8689e21c5b9141539e44ee6', host: 'Liz', name: 'CodeCombat for Beginner Teachers'}
+  {time: moment('2022-08-25 16:00-04').toDate(), link: 'https://us06web.zoom.us/webinar/register/WN_q4hJZhMPTlKCT-cDG-rN5Q', host: 'Kerry, Gabby, & Tom', name: 'CodeCombat & Ozaria Demo Day'}
 ]
 
 module.exports = class TeacherClassesView extends RootView
@@ -387,6 +388,7 @@ module.exports = class TeacherClassesView extends RootView
     return unless me.id is @teacherID # Viewing page as admin
     classroomID = $(e.currentTarget).data('classroom-id')
     classroom = @classrooms.get(classroomID)
+    classroom.revokeStudentLicenses()
     classroom.set('archived', true)
     classroom.save {}, {
       success: =>

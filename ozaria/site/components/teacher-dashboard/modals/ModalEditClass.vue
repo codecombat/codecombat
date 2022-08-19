@@ -3,6 +3,7 @@
   import Modal from '../../common/Modal'
   import SecondaryButton from '../common/buttons/SecondaryButton'
   import TertiaryButton from '../common/buttons/TertiaryButton'
+  import Classroom from 'models/Classroom'
 
   export default Vue.extend({
     components: {
@@ -57,20 +58,9 @@
         fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers'
       }),
       archiveClass () {
-        noty({
-          text: "If you haven't done so already, please revoke your students' licenses before archiving the class so that you can re-apply them to other students. Please confirm that you’d like to proceed:",
-          type: 'info',
-          layout: 'center',
-          buttons: [
-            { text: 'Cancel', onClick: ($noty) => $noty.close() },
-            { text: 'Archive',
-              onClick: ($noty) => {
-                this.updateClassroom({ classroom: this.classroom, updates: { archived: true } })
-                $noty.close()
-              }
-            }
-          ]
-        })
+        this.updateClassroom({ classroom: this.classroom, updates: { archived: true } })
+        const classroom = new Classroom(this.classroom)
+        classroom.revokeStudentLicenses()
         this.$emit('close')
       },
       unarchiveClass () {

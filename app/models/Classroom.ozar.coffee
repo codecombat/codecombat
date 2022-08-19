@@ -5,10 +5,12 @@ levelUtils = require '../core/levelUtils'
 { findNextLevelsBySession, getLevelsDataByOriginals } = require 'ozaria/site/common/ozariaUtils'
 coursesHelper = require '../lib/coursesHelper'
 User = require 'models/User'
+Users = require 'collections/Users'
 Level = require 'models/Level'
 api = require 'core/api'
 ClassroomLib = require './ClassroomLib'
 classroomUtils = require 'app/lib/classroom-utils'
+prepaids = require('core/store/modules/prepaids').default
 
 module.exports = class Classroom extends CocoModel
   @className: 'Classroom'
@@ -314,6 +316,50 @@ module.exports = class Classroom extends CocoModel
       return classroomUtils.getDisplayPermission('write')
     else if @hasReadPermission()
       return classroomUtils.getDisplayPermission('read')
+
+  revokeStudentLicenses: ->
+    students = new Users()
+    Promise.all(students.fetchForClassroom(@, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,products,deleted'}}))
+      .then =>
+        studentsToRevoke = students.models.filter((student) => student.prepaidStatus() is 'enrolled' and student.prepaidType() is 'course')
+        if studentsToRevoke.length > 0
+          @showRevokeConfirm(studentsToRevoke).then (revokeConfirmed) =>
+            return unless revokeConfirmed
+
+            if !@isOwner() and @hasWritePermission()
+              sharedClassroomId = @id
+
+            prepaids.actions.revokeLicenses(null, {
+              members: students.models,
+              sharedClassroomId,
+              confirmed: true,
+              updateUserProducts: true
+            })
+
+  showRevokeConfirm: (studentsToRevoke)->
+    new Promise((resolve) ->
+      notification = noty
+        text: studentsToRevoke.length + $.i18n.t 'teacher.archive_revoke_confirm'
+        type: 'info'
+        layout: 'top'
+        buttons: [
+          {
+            addClass: 'btn btn-danger'
+            text: $.i18n.t 'teacher.archive_without_revoking'
+            onClick: ($noty) ->
+              $noty.close()
+              resolve(false)
+          }
+          {
+            addClass: 'btn btn-primary'
+            text: $.i18n.t 'teacher.revoke_and_archive'
+            onClick: ($noty) ->
+              $noty.close()
+              resolve(true)
+          }
+        ]
+      notification.$buttons.addClass('style-flat')
+    )
 
 
 # Make ClassroomLib accessible as static methods.

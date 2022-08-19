@@ -91,6 +91,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   new_home:
     title_coco: "CodeCombat - Coding games to learn Python and JavaScript"
     title_ozar: "Ozaria - Computer science that captivates"
+    title_cn_home: "CodeCombat|Python, Javascript"
     meta_keywords_coco: "CodeCombat, python, javascript, Coding Games"
     meta_keywords_ozar: "CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story"
     meta_description_coco: "Learn typed code through a programming game. Learn Python, JavaScript, and HTML as you solve puzzles and learn to make your own coding games and websites."
@@ -191,6 +192,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     top_banner_blurb_funding: "New: CARES Act funding resources guide to ESSER and GEER funds for your CS programs."
     top_banner_blurb_maintenance: "Upgrades coming! Scheduled maintenance: up to 3 hours starting at __maintenanceStartTime__."
     top_banner_blurb_podcast: "NEW: Explore the world of EdTech with our new podcast EdTech Adventures."
+    top_banner_blurb_demo_day: "Please join us for a demo day webinar on Thursday, August 25 at 4:00 pm EDT."
     try_the_game: "Try the game"
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
@@ -269,6 +271,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ozaria: "Ozaria"
     codecombat_blurb: "Our original coding game. Recommended for parents, individuals, educators, and students who want to experience one of the most-loved coding games in the world."
     ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students."
+    ozaria_china_blurb: ""
     try_codecombat: "Try CodeCombat"
     try_ozaria: "Try Ozaria"
     explore_codecombat: "Explore CodeCombat"
@@ -302,6 +305,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     meta_keywords_podcast: "CodeCombat, python, javascript, Coding Games, podcast, edtech"
 
   nav:
+    aiyouth: "AI Youth"
     educators: "Educators"
     follow_us: "Follow Us"
     general: "General"
@@ -320,7 +324,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     legal: "Legal"
     privacy: "Privacy Notice"
     about: "About"
+    events: "Events"
     impact: "Impact"
+    star: "CoCoStar"
     contact: "Contact"
     press: "Press"
     twitter_follow: "Follow"
@@ -660,6 +666,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     have_a_classcode: "Have a Class Code?"
     yes_i_have_classcode: "Yes, I have a Class Code!"
     enter_it_here: "Enter it here:"
+    play_without_saving: "Play without saving"
 
   recover:
     recover_account_title: "Recover Account"
@@ -1189,7 +1196,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     managed_by: "Managed by"
     will_be_cancelled: "Will be cancelled on"
     currently_free: "You currently have a free subscription"
-    currently_free_until: "You currently have a subscription until"
+    currently_free_until: "You currently have a subscription until __date__"
     free_subscription: "Free subscription"
     was_free_until: "You had a free subscription until"
     managed_subs: "Managed Subscriptions"
@@ -1201,6 +1208,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     feature_level_access: "Access 500+ levels available"
     feature_heroes: "Unlock exclusive heroes and pets"
     feature_learn: "Learn to make games and websites"
+    feature_languages: "Get all supported languages"
+    feature_aiyouth: ""
     feature_gems: "Receive __gems__ gems per month"
     month_price: "$__price__/mo"
     first_month_price: "Only $__price__ for your first month!"
@@ -1210,6 +1219,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     year_price: "$__price__/yr"
     support_part1: "Need help with payment or prefer PayPal? Email"
     support_part2: "support@codecombat.com"
+    go_prepaid: "Click here after scaning the code and purchasing"
+    forever: "Forever"
+    subscription_status: "Your Subscription Status"
+    currently_not_free: "You don't have a Subscription yet."
 
   announcement:
     now_available: "Now available for subscribers!"
@@ -2281,10 +2294,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     assessments_curriculum_desc: "Learn how to use Challenge Levels and Combo Challenge levels to assess students' learning outcomes."
     cs2_curriculum: "Computer Science 2 - Curriculum Guide"
     cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
+    cs2_syntax_python: "Course 2 Python Syntax Guide"
     cs3_curriculum: "Computer Science 3 - Curriculum Guide"
     cs3_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 3."
+    cs3_syntax_python: "Course 3 Python Syntax Guide"
     cs4_curriculum: "Computer Science 4 - Curriculum Guide"
     cs4_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 4."
+    cs4_syntax_python: "Course 4 Python Syntax Guide"
     cs5_curriculum_js: "Computer Science 5 - Curriculum Guide (JavaScript)"
     cs5_curriculum_desc_js: "Scope and sequence, lesson plans, activities and more for Course 5 classes using JavaScript."
     cs5_curriculum_py: "Computer Science 5 - Curriculum Guide (Python)"
@@ -2476,6 +2492,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     not_write_permission: "You don't have write permission to the class"
     not_read_permission: "You don't have read permission to the class"
     owned_license: "Licensed"
+    archive_revoke_confirm: " students of the archived class have active licenses. Would you like to revoke them so that you can re-apply them to other students?"
+    archive_without_revoking: "Archive Without Revoking"
+    revoke_and_archive: "Revoke and Archive"
 
   teacher_licenses:
     active_licenses: "Active Licenses"
@@ -2849,6 +2868,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bracket_14_18: "14-18"
     bracket_11_18: "11-18"
     bracket_open: "Open"
+    create_tournament: "Create a Tournament"
 
   user:
     user_title: '__name__ - Learn to Code with CodeCombat'
@@ -2973,6 +2993,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     you_can1: "You can"
     you_can2: "purchase a prepaid code"
     you_can3: "that can be applied to your own account or given to others."
+    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account."
+    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times."
+    prepaid_applied_success: "Prepaid applied to your account!"
+    activation_code_used: "The Activation code has been used."
+    redeem_code_error: "Error: Could not redeem prepaid code. "
 
   ozaria_chrome:
     sound_off: 'Mute',
@@ -3738,6 +3763,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     totals_explanation_8: 'Projects created'
     totals_explanation_9: 'Counts total games and web pages created.'
     date_thru_date: '__startDateRange__ thru __endDateRange__'
+    teachers: 'Teachers'
+    students_enrolled: 'Students Enrolled'
 
   interactives:
     phenomenal_job: 'Phenomenal Job!'
@@ -3758,6 +3785,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   admin:
     license_type_full: 'Full Courses'
     license_type_customize: 'Customize Courses'
+
+  events:
+    title: 'CodeCombat Events'
+    main_title: 'CodeCombat Events'
+    main_description: 'The important events of codecombat China'
 
   teacher_dashboard:
     lock: 'Lock'
@@ -3842,9 +3874,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     read_blurb: 'View Only permits the added teacher to view your class and student progress without the ability to make changes to your class.'
     write_blurb: 'Full Access grants the added teacher the ability to make modifications to your class (add/remove students, assign chapters, modify licensure)'
     shared_with_none: 'This class is not currently shared with any other teachers.'
+    shared_with: 'Shared with'
     share_info: 'To give other teachers access to the class, add their emails below.'
     class_owner: 'Class Owner'
     share: 'Share'
+    add: 'Add'
+    note: 'Note'
 
   outcomes:
     outcomes_report: "Outcomes Report"
@@ -4090,6 +4125,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     make_tournament: "Make a mini tournament"
     go_tournaments: "Go to mini tournaments"
     class_tournaments: "Class mini tournaments"
+    class_tournaments_more: "More Class mini tournaments"
     no_tournaments_owner: "There is no tournament now, please create one"
     no_tournaments: "There is no tournament now"
     edit_tournament: "Edit Tournament"
