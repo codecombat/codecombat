@@ -4116,6 +4116,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     click_to_unlock_now: "Click to make the anonymizing go away for now"
     click_to_unlock_before_sep: "Click to make the anonymizing go away before Sep.1"
     unlock_content_padding: "Contact our team today to see your student's scoress, ranks, code and more!"
+    unlock_leaderboard: "Contact Us to unlock the leaderboard"
     without_license_blurb: "Unlock the full potential of AI League. Purchase a custom tournament package to access your students’ scores, ranks, code and experience more tournament customization options. See our"
     custom_pricing: "Custom Options and Implementation Guide"
     more_details: "for more details."
