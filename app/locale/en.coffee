@@ -4113,7 +4113,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     unlock_ai_league: "Unlock the full potential of the AI League."
     esports_anonymous_changing: "Esports player name visibility changing September 1"
     esports_get_full_access: "Get Full Access"
-    click_to_unlock_now: "Click to make the anonymizing go away for now"
+    click_to_unlock_now: "Click to dismiss for now"
     click_to_unlock_before_sep: "Click to make the anonymizing go away before Sep.1"
     unlock_content_padding: "Contact our team today to see your student's scoress, ranks, code and more!"
     unlock_leaderboard: "Contact Us to unlock the leaderboard"
