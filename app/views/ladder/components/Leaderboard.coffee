@@ -101,6 +101,10 @@ module.exports = class LeaderboardView extends CocoView
       @vueComponent.$on('load-more', (data) =>
         @onClickLoadMore()
       )
+      @vueComponent.$on('temp-unlock', () =>
+        @anonymousPlayerName = false
+        @render()
+      )
 
     super(arguments...)
 

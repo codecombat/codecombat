@@ -43,6 +43,7 @@
       return {
         selectedRow: [],
         ageFilter: false,
+        dateBeforeSep: new Date() < new Date('2022-9-1')
       }
     },
     computed: {
@@ -223,7 +224,7 @@
         }
       },
       classForRow (row) {
-        if(this.session) {
+        if (this.session) {
           if (row[0] === this.session.get('creator')) {
             return 'my-row'
           }
@@ -238,30 +239,41 @@
           this.$emit('click-player-name', rank, nearby)
       },
       onClickSpectateCell (rank) {
-        let index =this.selectedRow.indexOf(rank)
+        let index = this.selectedRow.indexOf(rank)
         if (index !== -1) {
           this.$delete(this.selectedRow, index)
-        }
-        else {
+        } else {
           this.selectedRow = this.selectedRow.concat([rank]).slice(-2)
         }
         this.$emit('spectate', this.selectedRow)
+      },
+      unlockEsports () {
+        if (this.dateBeforeSep) {
+          this.$emit('temp-unlock')
+        } else {
+          window.open("https://form.typeform.com/to/qXqgbubC", '_blank')
+        }
       }
-
     }
-  });
+  })
 </script>
 
 <template lang="pug">
   .table-responsive(:class="{'col-md-6': scoreType=='arena'}")
     div(v-if="scoreType == 'arena'")
       div(:class="{hide: !showContactUs}" id="contact-us-info")
-        p.title {{ $t('league.unlock_ai_league') }}
+        if dateBeforeSep
+          p.title {{ $t('league.esports_anonymous_changing') }}
+        else
+          p.title {{ $t('league.unlock_ai_league') }}
         .content
           img.img(src="/images/pages/play/ladder/esports_lock.png")
           .right-info
-            a.unlock-button(href="https://form.typeform.com/to/qXqgbubC" target='_blank' style="margin-right: 0.6em;") {{ $t('league.esports_get_full_access') }}
-            p {{ $t('league.unlock_content_padding') }}
+            a.unlock-button(@click="unlockEsports" style="margin-right: 0.6em;") {{ $t('league.esports_get_full_access') }}
+            if dateBeforeSep
+              p {{ $t('league.click_to_unlock_now') }}
+            else
+              p {{ $t('league.unlock_content_padding') }}
       div(id="histogram-display-humans", class="histogram-display", data-team-name='humans' :class="{hide: showContactUs}")
     table.table.table-bordered.table-condensed.table-hover.ladder-table
       thead
