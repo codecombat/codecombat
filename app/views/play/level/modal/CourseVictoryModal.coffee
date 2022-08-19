@@ -231,7 +231,7 @@ module.exports = class CourseVictoryModal extends ModalView
     viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
     ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}"
     if leagueID = (@courseInstanceID or utils.getQueryVariable 'league')
-      leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'  # TODO check this for 'ladder' handling in classroom version
+      leagueType = if @level.isType('course-ladder') or (@level.isType('ladder') and utils.getQueryVariable('course-instance')) then 'course' else 'clan'
       viewArgs.push leagueType
       viewArgs.push leagueID
       ladderURL += "/#{leagueType}/#{leagueID}"

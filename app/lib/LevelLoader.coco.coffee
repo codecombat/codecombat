@@ -164,8 +164,12 @@ module.exports = class LevelLoader extends CocoClass
         else
           url += "?team=#{@team}"
         league = utils.getQueryVariable 'league'
-        if @level.isType('course-ladder') and league and not @courseInstanceID  # TODO check this for 'ladder' handling in classroom version
+        if @level.isType('course-ladder') and league and not @courseInstanceID
           url += "&courseInstance=#{league}"
+        else if @courseID
+          url += "&course=#{@courseID}"
+          if @courseInstanceID
+            url += "&courseInstance=#{@courseInstanceID}"
       else if @courseID
         url += "?course=#{@courseID}"
         if @courseInstanceID
