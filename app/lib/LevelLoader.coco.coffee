@@ -102,7 +102,7 @@ module.exports = class LevelLoader extends CocoClass
           return 'hero' if arguments[0] is 'type'
           return 'web-dev' if arguments[0] is 'realType'
           originalGet.apply @, arguments
-    if (@courseID and not @level.isType('course', 'course-ladder', 'game-dev', 'web-dev')) or window.serverConfig.picoCTF
+    if (@courseID and not @level.isType('course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')) or window.serverConfig.picoCTF
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
       realType = @level.get('type')
@@ -166,6 +166,10 @@ module.exports = class LevelLoader extends CocoClass
         league = utils.getQueryVariable 'league'
         if @level.isType('course-ladder') and league and not @courseInstanceID
           url += "&courseInstance=#{league}"
+        else if @courseID
+          url += "&course=#{@courseID}"
+          if @courseInstanceID
+            url += "&courseInstance=#{@courseInstanceID}"
       else if @courseID
         url += "?course=#{@courseID}"
         if @courseInstanceID
