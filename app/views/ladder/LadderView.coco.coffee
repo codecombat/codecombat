@@ -238,12 +238,12 @@ module.exports = class LadderView extends RootView
     @$el.toggleClass 'single-ladder', @level.isType 'ladder'
     unless @tournamentState is 'ended'
       if @level.isType('ladder')
-        @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league}, @level, @sessions, @anonymousPlayerName ))
+        @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, leagueType: @leagueType, course: @course}, @level, @sessions, @anonymousPlayerName ))
       else
         @insertSubView(@ladderTab = new LadderTabView({league: @league, tournament: @tournamentId}, @level, @sessions))
-      @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league}, @level, @sessions, @anonymousPlayerName))
+      @insertSubView(@myMatchesTab = new MyMatchesTabView({league: @league, leagueType: @leagueType, course: @course}, @level, @sessions, @anonymousPlayerName))
     else
-      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId}, @level, @sessions ))
+      @insertSubView(@ladderTab = new TournamentLeaderboard({league: @league, tournament: @tournamentId, leagueType: 'clan'}, @level, @sessions )) # classroom ladder do not have tournament for now
     unless @level.isType('ladder') and me.isAnonymous()
       @insertSubView(@simulateTab = new SimulateTabView(league: @league, level: @level, leagueID: @leagueID))
     highLoad = true
