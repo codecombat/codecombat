@@ -146,9 +146,16 @@
         </div>
       </div>
       <div class="form-group row u-form__submit">
+        <span
+          v-if="errMsg"
+          class="error"
+        >
+          {{ errMsg }}
+        </span>
         <button
           type="submit"
           class="btn btn-lg btn-success"
+          :disabled="accountCheckedEmail !== email"
         >
           Submit
         </button>
@@ -181,7 +188,9 @@ export default {
       ],
       accountType: 'Individual',
       existsAuthType: '',
-      relatedPass: ''
+      relatedPass: '',
+      errMsg: '',
+      accountCheckedEmail: null
     }
   },
   methods: {
@@ -189,7 +198,7 @@ export default {
       this.showAddForm = true
     },
     onFormSubmit () {
-      // add validation code
+      if (!this.validate()) return
       const body = {}
       const commonBody = {
         relatedUserEmail: this.email,
@@ -209,12 +218,39 @@ export default {
       }
       this.$emit('onAddSwitchAccount', body)
     },
+    validate () {
+      this.errMsg = null
+      if (!this.email) {
+        this.errMsg = 'Email required'
+        return false
+      }
+      if (!this.relation) {
+        this.errMsg = 'Relation required'
+        return false
+      }
+      if (this.accountCheckedEmail !== this.email) {
+        this.errMsg = 'Checking if account exists, try again in few seconds'
+        return false
+      }
+      if (me.get('email') === this.email) {
+        this.errMsg = 'Cannot add your own account'
+        return false
+      }
+      if (this.accountExists) {
+        if (!this.existsAuthType) {
+          this.errMsg = 'Authenticate using one of the options!!'
+          return false
+        }
+      }
+      return true
+    },
     async validateEmail () {
       this.accountExists = null
       if (utils.isValidEmail(this.email)) {
         const resp = await User.checkEmailExists(this.email)
         console.log('resp', resp)
         this.accountExists = resp?.exists
+        this.accountCheckedEmail = this.email
       }
     }
   }
@@ -269,5 +305,11 @@ export default {
   &__additional {
     margin-bottom: 1rem;
   }
+}
+
+.error {
+  font-size: 1.5rem;
+  color: #ff0000;
+  padding-right: 3px;
 }
 </style>

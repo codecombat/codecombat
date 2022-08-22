@@ -141,6 +141,8 @@ export default {
 
   &__head {
     text-align: center;
+
+    margin-top: 1rem;
   }
 
   &__added {
