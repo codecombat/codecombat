@@ -125,4 +125,10 @@ module.exports = {
       method: 'PUT'
       json: body
     }))
+
+  sendVerifyEmail: (body) ->
+    fetchJson("/db/user/related-accounts/confirm-email", _.assign({}, {
+      method: 'POST'
+      json: body
+    }))
 }

@@ -6,9 +6,11 @@
     >
       <related-user-component
         :related="relatedUsersData"
+        :confirm-email-sent-for="confirmEmailSentFor"
         class="center-cmpt container"
         @switchUser="(data) => onSwitchUser(data)"
         @removeUser="(data) => onRemoveUser(data)"
+        @sendVerifyEmail="(data) => onSendVerifyEmail(data)"
       />
       <div class="switch__head">
         <button
@@ -65,7 +67,8 @@ export default {
       relatedUsersData: null,
       accountAdded: false,
       addingAccount: false,
-      showAddForm: false
+      showAddForm: false,
+      confirmEmailSentFor: ''
     }
   },
   methods: {
@@ -108,6 +111,10 @@ export default {
       await me.fetch({ cache: false })
       this.relatedUsers = me.get('related')
       await this.fetchRelatedUsers()
+    },
+    async onSendVerifyEmail ({ userId, email }) {
+      await usersLib.sendVerifyEmail({ userId, email })
+      this.confirmEmailSentFor = email
     }
   },
   async created () {

@@ -35,8 +35,12 @@
               v-if="!user.verified"
               class="related__user__verified"
             >
-              <button class="btn btn-warning">
-                Send Verify Email
+              <button
+                class="btn btn-warning"
+                :disabled="confirmEmailSentFor === user.email"
+                @click="() => onSendVerifyEmail({ userId: user.userId, email: user.email })"
+              >
+                {{ confirmEmailSentFor === user.email ? 'Sent' : 'Send Verify Email' }}
               </button>
             </div>
             <div
@@ -80,6 +84,10 @@ export default {
     related: {
       type: Array,
       default: null
+    },
+    confirmEmailSentFor: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -88,6 +96,9 @@ export default {
     },
     onRemoveUser ({ userId }) {
       this.$emit('removeUser', { userId })
+    },
+    onSendVerifyEmail ({ userId, email }) {
+      this.$emit('sendVerifyEmail', { userId, email })
     }
   }
 }
