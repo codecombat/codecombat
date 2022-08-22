@@ -79,7 +79,7 @@ module.exports.replaceSimpleLoops = (source, language) ->
   switch language
     when 'python' then source.replace /loop:/, 'while True:'
     when 'javascript', 'java', 'cpp' then source.replace /loop {/, 'while (true) {'
-    when 'lua' then source.replace /loop\n/, 'while true then\n'
+    when 'lua' then source.replace /loop\n/, 'while true do\n'
     when 'coffeescript' then source
     else source
 
