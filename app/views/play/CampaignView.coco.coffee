@@ -1349,9 +1349,6 @@ module.exports = class CampaignView extends RootView
       }, { text: 'No', onClick: ($noty) -> $noty.close() }]
     })
 
-
-
-
   getLoadTrackingTag: () ->
     @campaign?.get?('slug') or 'overworld'
 
