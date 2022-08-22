@@ -100,6 +100,8 @@ export default {
           const rel = this.relatedUsers[index]
           return { ...rel, ...r.user }
         })
+      } else {
+        this.relatedUsersData = []
       }
     },
     async onSwitchUser ({ email }) {
@@ -110,6 +112,7 @@ export default {
       await me.removeRelatedAccount(userId)
       await me.fetch({ cache: false })
       this.relatedUsers = me.get('related')
+      console.log('remove', this.relatedUsers)
       await this.fetchRelatedUsers()
     },
     async onSendVerifyEmail ({ userId, email }) {

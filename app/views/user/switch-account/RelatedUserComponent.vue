@@ -14,7 +14,7 @@
       </p>
     </div>
     <div
-      v-if="related.length"
+      v-if="related && related.length"
       class="related__main"
     >
       <div
