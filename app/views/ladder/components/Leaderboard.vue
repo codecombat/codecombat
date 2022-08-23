@@ -51,7 +51,8 @@ export default Vue.extend({
   data () {
     return {
       selectedRow: [],
-      ageFilter: false
+      ageFilter: false,
+      dateBeforeSep: new Date() < new Date('2022-9-1')
     }
   },
   computed: {
@@ -113,22 +114,22 @@ export default Vue.extend({
       const xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(5).outerTickSize(0)
 
       const svg = d3.select('#histogram-display-humans').append('svg')
-                  .attr('preserveAspectRatio', 'xMinYMin meet')
-                  .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
-                  .append('g')
-                  .attr('transform', `translate(${margin.left}, ${margin.top})`)
+                    .attr('preserveAspectRatio', 'xMinYMin meet')
+                    .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+                    .append('g')
+                    .attr('transform', `translate(${margin.left}, ${margin.top})`)
       const barClass = 'humans-bar'
 
       const bar = svg.selectAll('.bar')
-                   .data(data)
-                   .enter().append('g')
-                   .attr('class', barClass)
-                   .attr('transform', (d) => `translate(${x(d.x)}, ${y(d.y)})`)
+                     .data(data)
+                     .enter().append('g')
+                     .attr('class', barClass)
+                     .attr('transform', (d) => `translate(${x(d.x)}, ${y(d.y)})`)
 
       bar.append('rect')
-                   .attr('x', 1)
-                   .attr('width', width / 20)
-                   .attr('height', (d) => height - y(d.y))
+                     .attr('x', 1)
+                     .attr('width', width / 20)
+                     .attr('height', (d) => height - y(d.y))
       if (this.session) {
         let playerScore = this.session.get('totalScore')
         if (this.league) {
@@ -138,15 +139,15 @@ export default Vue.extend({
         playerScore = playerScore * 100
 
         const scorebar = svg.selectAll('.specialbar')
-                          .data([playerScore])
-                          .enter().append('g')
-                          .attr('class', 'specialbar')
-                          .attr('transform', `translate(${x(playerScore)}, 0)`)
+                            .data([playerScore])
+                            .enter().append('g')
+                            .attr('class', 'specialbar')
+                            .attr('transform', `translate(${x(playerScore)}, 0)`)
 
         scorebar.append('rect')
-                          .attr('x', 1)
-                          .attr('width', 2)
-                          .attr('height', height)
+                            .attr('x', 1)
+                            .attr('width', 2)
+                            .attr('height', height)
       }
       const rankClass = 'rank-text humans-rank-text'
 
@@ -263,8 +264,14 @@ export default Vue.extend({
         this.selectedRow = this.selectedRow.concat([rank]).slice(-2)
       }
       this.$emit('spectate', this.selectedRow)
+    },
+    unlockEsports () {
+      if (this.dateBeforeSep) {
+        this.$emit('temp-unlock')
+      } else {
+        window.open('https://form.typeform.com/to/qXqgbubC', '_blank')
+      }
     }
-
   }
 })
 </script>
@@ -273,12 +280,18 @@ export default Vue.extend({
   .table-responsive(:class="{'col-md-6': scoreType=='arena'}")
     div(v-if="scoreType == 'arena'")
       div(:class="{hide: !showContactUs}" id="contact-us-info")
-        p.title {{ $t('league.unlock_ai_league') }}
+        if dateBeforeSep
+          p.title {{ $t('league.esports_anonymous_changing') }}
+        else
+          p.title {{ $t('league.unlock_ai_league') }}
         .content
           img.img(src="/images/pages/play/ladder/esports_lock.png")
           .right-info
-            a.unlock-button(href="https://form.typeform.com/to/qXqgbubC" target='_blank' style="margin-right: 0.6em;") {{ $t('league.esports_get_full_access') }}
-            p {{ $t('league.unlock_content_padding') }}
+            a.unlock-button(@click="unlockEsports" style="margin-right: 0.6em;") {{ $t('league.esports_get_full_access') }}
+            if dateBeforeSep
+              p {{ $t('league.click_to_unlock_now') }}
+            else
+              p {{ $t('league.unlock_content_padding') }}
       div(id="histogram-display-humans", class="histogram-display", data-team-name='humans' :class="{hide: showContactUs}")
     table.table.table-bordered.table-condensed.table-hover.ladder-table
       thead
