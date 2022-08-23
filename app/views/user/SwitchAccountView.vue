@@ -30,19 +30,19 @@
       </div>
       <div
         v-if="inProgress"
-        class="switch__adding"
+        class="switch__adding switch__progress"
       >
         {{ inProgress }}...
       </div>
       <div
         v-if="isComplete"
-        class="switch__added"
+        class="switch__added switch__progress"
       >
         {{ isComplete }}
       </div>
       <div
         v-if="errMsg"
-        class="switch__error"
+        class="switch__error switch__progress"
       >
         {{ errMsg }}
       </div>
@@ -89,7 +89,7 @@ export default {
         await usersLib.linkRelatedAccounts(body)
       } catch (err) {
         this.errMsg = err?.msg || err?.message || err || 'Internal Error'
-        this.addingAccount = false
+        this.inProgress = false
         return
       }
       await me.fetch({ cache: false })
@@ -165,27 +165,28 @@ export default {
     margin-top: 1rem;
   }
 
-  &__added {
+  &__progress {
     text-align: center;
     font-size: 1.8rem;
+
+    margin-top: 5px;
+  }
+
+  &__added {
     color: #73A839;
   }
 
   &__adding {
-    text-align: center;
     color: #808080;
-    font-size: 1.6rem;
   }
 
   &__error {
-    font-size: 1.6rem;
     color: #ff0000;
-    text-align: center;
   }
 }
 
 .center-cmpt {
-  padding-left: 15%;
-  padding-right: 15%;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 </style>

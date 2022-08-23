@@ -23,9 +23,9 @@
         class="related__main__user"
       >
         <div class="row related__user">
-          <div class="col-md-6">
+          <div class="col-md-7">
             <div class="related__user__text">
-              {{ user.email }}
+              {{ user.email }} <span class="related__user__text-help">{{ relatedUserInfo(user) }}</span>
             </div>
           </div>
           <div
@@ -50,7 +50,7 @@
               Verified
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <div class="related__user__switch">
               <button
                 class="btn btn-success"
@@ -99,6 +99,19 @@ export default {
     },
     onSendVerifyEmail ({ userId, email }) {
       this.$emit('sendVerifyEmail', { userId, email })
+    },
+    relatedUserInfo (user) {
+      const info = []
+      if (user.broadName) {
+        info.push(user.broadName)
+      }
+      if (user.role) {
+        info.push(user.role)
+      } else {
+        info.push('Individual')
+      }
+      if (info.length === 0) return ''
+      return `( ${info.join(' - ')} )`
     }
   }
 }
@@ -117,6 +130,8 @@ export default {
     margin-bottom: 1rem;
     background-color: #f0f8ff;
     padding: 1rem;
+    border-radius: 5px;
+
     &__verified {
       text-align: center;
       color: #73A839;
@@ -134,6 +149,11 @@ export default {
     }
     &__text {
       font-size: 1.6rem;
+
+      &-help {
+        font-size: 1.4rem;
+        color: #838383;
+      }
     }
   }
 }
