@@ -29,16 +29,22 @@
         />
       </div>
       <div
-        v-if="addingAccount"
+        v-if="inProgress"
         class="switch__adding"
       >
-        Adding account...
+        {{ inProgress }}...
       </div>
       <div
-        v-if="accountAdded"
+        v-if="isComplete"
         class="switch__added"
       >
-        Account added
+        {{ isComplete }}
+      </div>
+      <div
+        v-if="errMsg"
+        class="switch__error"
+      >
+        {{ errMsg }}
       </div>
     </div>
     <div
@@ -65,30 +71,38 @@ export default {
       loading: true,
       relatedUsers: null,
       relatedUsersData: null,
-      accountAdded: false,
-      addingAccount: false,
+      isComplete: false,
+      inProgress: false,
       showAddForm: false,
-      confirmEmailSentFor: ''
+      confirmEmailSentFor: '',
+      errMsg: null
     }
   },
   methods: {
     async onAddSwitchAccount (body) {
       console.log('body', body)
-      this.addingAccount = true
-      this.accountAdded = false
+      this.inProgress = 'Adding'
+      this.isComplete = false
+      this.errMsg = null
       console.log('old mee', me.get('related'))
-      await usersLib.linkRelatedAccounts(body)
+      try {
+        await usersLib.linkRelatedAccounts(body)
+      } catch (err) {
+        this.errMsg = err?.msg || err?.message || err || 'Internal Error'
+        this.addingAccount = false
+        return
+      }
       await me.fetch({ cache: false })
       console.log('mee', me.get('related'))
       this.relatedUsers = me.get('related')
       await this.fetchRelatedUsers()
-      this.accountAdded = true
-      this.addingAccount = false
+      this.isComplete = 'Account Added'
+      this.inProgress = false
       this.showAddForm = false
     },
     showAddUserForm () {
       this.showAddForm = true
-      this.accountAdded = false
+      this.isComplete = false
     },
     async fetchRelatedUsers () {
       const promiseArr = this.relatedUsers?.map((r) => {
@@ -109,11 +123,14 @@ export default {
       window.location.reload()
     },
     async onRemoveUser ({ userId }) {
+      this.inProgress = 'Removing'
+      this.isComplete = false
       await me.removeRelatedAccount(userId)
       await me.fetch({ cache: false })
       this.relatedUsers = me.get('related')
       console.log('remove', this.relatedUsers)
       await this.fetchRelatedUsers()
+      this.inProgress = false
     },
     async onSendVerifyEmail ({ userId, email }) {
       await usersLib.sendVerifyEmail({ userId, email })
@@ -158,6 +175,12 @@ export default {
     text-align: center;
     color: #808080;
     font-size: 1.6rem;
+  }
+
+  &__error {
+    font-size: 1.6rem;
+    color: #ff0000;
+    text-align: center;
   }
 }
 

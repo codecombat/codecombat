@@ -33,7 +33,7 @@
           >
             <div
               v-if="!user.verified"
-              class="related__user__verified"
+              class="related__user__not__verified"
             >
               <button
                 class="btn btn-warning"
@@ -45,7 +45,7 @@
             </div>
             <div
               v-else
-              class="related__user__not__verified"
+              class="related__user__verified"
             >
               Verified
             </div>
@@ -63,7 +63,7 @@
                 class="related__user__switch__close"
                 @click="() => onRemoveUser({ userId: user.userId })"
               >
-                <icon-close />
+                <icon-close-red />
               </span>
             </div>
           </div>
@@ -74,11 +74,11 @@
 </template>
 
 <script>
-import IconClose from '../../../core/components/IconClose'
+import IconCloseRed from '../../../core/components/IconCloseRed'
 export default {
   name: 'RelatedUserComponent',
   components: {
-    IconClose
+    IconCloseRed
   },
   props: {
     related: {
@@ -118,11 +118,12 @@ export default {
     background-color: #f0f8ff;
     padding: 1rem;
     &__verified {
-      display: inline-block;
-    }
-    &__not__verified {
       text-align: center;
       color: #73A839;
+      font-size: 1.5rem;
+    }
+    &__not__verified {
+      display: inline-block;
     }
     &__switch {
       display: inline-block;

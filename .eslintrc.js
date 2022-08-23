@@ -42,7 +42,8 @@ module.exports = {
     '*.png',
     '*.pug',
     '*.sass',
-    '*.jpg'
+    '*.jpg',
+    '*.svg'
   ],
 
   overrides: [
