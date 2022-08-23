@@ -4,6 +4,9 @@
       <h3 class="related__heading__text">
         Related Users:
       </h3>
+      <p class="related__heading__subtext">
+        {{ $t('related_accounts.subtitle') }}
+      </p>
     </div>
     <div
       v-if="!related || related.length === 0"
@@ -123,6 +126,14 @@ export default {
     &__text {
       color: #808080;
       font-size: 1.6rem;
+    }
+  }
+
+  &__heading {
+    &__subtext {
+      color: #838383;
+      font-size: 1.4rem;
+      line-height: 2.5rem;
     }
   }
 

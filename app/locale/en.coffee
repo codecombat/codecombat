@@ -4292,3 +4292,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     license_modal_members: "Members Needing Access"
     license_modal_members_placeholder: "Approximately how many members will need access?"
     license_modal_contact: "Contact Our Team"
+
+  related_accounts:
+    subtitle: "Add connections between different CodeCombat accounts to be able to quickly switch between them. For example, as a parent, you could switch to viewing CodeCombat from your kids’ accounts. Or, as a teacher, you could add a test student account for yourself to see what your students see."

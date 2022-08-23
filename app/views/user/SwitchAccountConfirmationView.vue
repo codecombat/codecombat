@@ -44,7 +44,7 @@
             v-if="success"
             class="confirm__success"
           >
-            Account linked successfully
+            Account linked successfully, redirecting....
           </div>
         </div>
       </form>
@@ -106,6 +106,9 @@ export default {
         return
       }
       this.success = true
+      setTimeout(() => {
+        window.location.href = '/users/switch-account'
+      }, 2000)
     },
     async getUserInfo (userId) {
       const resp = await usersLib.getRelatedAccount({ userId })
