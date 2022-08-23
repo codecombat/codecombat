@@ -58,7 +58,8 @@ export default {
     regularArenaSlug: currentRegularArena ? currentRegularArena.slug : 'mages-might',
     championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
     championshipActive: !!currentChampionshipArena,
-    anonymousPlayerName: false
+    anonymousPlayerName: false,
+    dateBeforeSep: new Date() < new Date('2022-9-1')
   }),
 
   beforeRouteUpdate (to, from, next) {
@@ -307,6 +308,9 @@ export default {
     },
     isTeacher () {
       return me.isTeacher()
+    },
+    unlockEsports () {
+      this.anonymousPlayerName = false
     }
   },
 
@@ -588,7 +592,12 @@ export default {
       <div class="col-lg-6 section-space">
         <leaderboard v-if="currentSelectedClan" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :rankings="selectedClanRankings" :playerCount="selectedClanLeaderboardPlayerCount" :key="`${clanIdSelected}-score`" :clanId="clanIdSelected" class="leaderboard-component" style="color: black;" :anonymousPlayerName="anonymousPlayerName" />
         <leaderboard v-else :rankings="globalRankings" :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)" :playerCount="globalLeaderboardPlayerCount" class="leaderboard-component" />
-        <a :href="AILeagueProductCTA" target="_blank" class="btn btn-large btn-primary btn-moon play-btn-cta" v-if="showContactUsForTournament() && anonymousPlayerName">Contact Us to unlock the leaderboard</a>
+        <template
+          v-if="showContactUsForTournament() && anonymousPlayerName"
+          >
+          <div v-if="dateBeforeSep" @click.stop="unlockEsports" class="btn btn-large btn-primary btn-moon play-btn-cta"> {{ $t("league.click_to_unlock_before_sep") }}</div>
+          <a :href="AILeagueProductCTA" target="_blank" class="btn btn-large btn-primary btn-moon play-btn-cta" v-else> {{ $t("league.unlock_leaderboard") }}</a>
+        </template>
         <a :href="regularArenaUrl" class="btn btn-large btn-primary btn-moon play-btn-cta" v-else>{{ $t('league.play_arena_full', { arenaName: $t(`league.${regularArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
       </div>
       <div class="col-lg-6 section-space">
