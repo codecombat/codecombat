@@ -189,25 +189,43 @@ block modal-body-content
         .form-group
           button#add-seats-btn.btn.btn-primary Add Licenses
       hr
-
-  if view.aileagueProducts.length
-    h3.m-t-3#prepaids Existing AI League Products
-    table.table.table-condensed
-      tr
-        th ID
-        th Shared by
-        th Type
-        if view.timeZone == 'Asia/Shanghai'
-          th Issued (CT)
-          th Start (CT)
-          th End (CT)
-        else
-          th Issued (PT)
-          th Start (PT)
-          th End (PT)
-        th Used
-      for product in view.aileagueProducts.models
-        - var prepaidControlId=product.id
+  #ai-league-products
+    if view.aileagueProducts.length
+      h3.m-t-3 Existing AI League Products
+      table.table.table-condensed
+        tr
+          th Type
+          if view.timeZone == 'Asia/Shanghai'
+            th Start (CT)
+            th End (CT)
+          else
+            th Start (PT)
+            th End (PT)
+          th Addons
+          th teams
+          th tournaments
+          th arena
+        for product in view.aileagueProducts
+          - console.log('?', product)
+          - var productControlId = product.productOptions.id
+          tr(id=productControlId)
+            td= product.productOptions.type
+            td
+              if view.productTableState && view.productTableState[productControlId] === 'editMode'
+                - var startDateControlId='startDate-'+productControlId
+                input(id= startDateControlId type="date" name="startDate" value=moment.timezone(product.startDate).tz(view.timeZone).format('YYYY-MM-DD'))
+              else
+                = moment.timezone(product.startDate).tz(view.timeZone).format('l')
+            td
+              if view.productTableState && view.productTableState[productControlId] === 'editMode'
+                - var endDateControlId='endDate-'+productControlId
+                input(id= endDateControlId type="date" name="endDate" value=moment.timezone(product.endDate).tz(view.timeZone).format('YYYY-MM-DD'))
+              else
+                = moment.timezone(product.endDate).tz(view.timeZone).format('l')
+            td= (product.productOptions.team ? 'Yes': 'No')
+            td= product.productOptions.team
+            td= product.productOptions.tournament
+            td= product.productOptions.arena
 
   //- could be clan owner, but let's check teacher first
   if view.user.isTeacher()

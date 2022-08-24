@@ -86,6 +86,7 @@ module.exports = class AdministerUserModal extends ModelModal
     @trialRequest = @trialRequests.first()
     @models.push @trialRequest if @trialRequest
     @prepaidTableState={}
+    @productTableState={}
     @foundTeachers = []
     @administratedTeachers = []
     @trialRequests = new TrialRequests()
@@ -207,7 +208,7 @@ module.exports = class AdministerUserModal extends ModelModal
     attrs.startDate = moment.timezone.tz(attrs.startDate, @timeZone ).toISOString()
     attrs.endDate = moment.timezone.tz(attrs.endDate, @timeZone).toISOString()
 
-    attrs.productOptions = {type: attrs.AILeagueType}
+    attrs.productOptions = {type: attrs.AILeagueType, id: _.uniqueId()}
     delete attrs.AILeagueType
 
     if attrs.addon.length
@@ -221,7 +222,7 @@ module.exports = class AdministerUserModal extends ModelModal
     delete attrs.addon
 
     _.extend(attrs, {
-      type: 'ai-league'
+      product: 'ai-league'
       purchaser: @user.id
       recipient: @user.id
       paymentService: 'external'
@@ -229,6 +230,13 @@ module.exports = class AdministerUserModal extends ModelModal
         adminAdded: me.id
     })
     # TODO: save to server safely
+
+    # products = @user.get('products')
+    # products.push(attrs)
+    # @user.set('products', products)
+
+    # @aileagueProducts = @user.allProducts('ai-league')
+    # @renderSelectors('#ai-league-products')
     console.log('ai league product:', attrs)
 
   onClickDestudentButton: (e) ->
