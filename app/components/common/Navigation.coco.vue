@@ -269,7 +269,7 @@
                       a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                     li(v-if="serverSession && serverSession.amActually")
                       a.account-dropdown-item#nav-stop-spying-button Stop Switch
-                    li(v-else)
+                    li(v-else-if="me.isInternal()")
                       a.account-dropdown-item#nav-switch-account(href="/users/switch-account") Switch Accounts
                     li
                       a.account-dropdown-item#logout-button {{ $t('login.log_out') }}

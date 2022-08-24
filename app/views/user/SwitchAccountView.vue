@@ -17,7 +17,7 @@
           class="add-user__head__btn btn btn-moon"
           @click="showAddUserForm"
         >
-          Add Related User
+          {{ $t('related_accounts.add_related_user') }}
         </button>
       </div>
       <div
@@ -80,23 +80,20 @@ export default {
   },
   methods: {
     async onAddSwitchAccount (body) {
-      console.log('body', body)
-      this.inProgress = 'Adding'
+      this.inProgress = $.t('related_accounts.adding')
       this.isComplete = false
       this.errMsg = null
-      console.log('old mee', me.get('related'))
       try {
-        await usersLib.linkRelatedAccounts(body)
+        await me.linkRelatedAccount(body)
       } catch (err) {
-        this.errMsg = err?.msg || err?.message || err || 'Internal Error'
+        this.errMsg = err?.msg || err?.message || err || $.t('common.internal_error')
         this.inProgress = false
         return
       }
       await me.fetch({ cache: false })
-      console.log('mee', me.get('related'))
       this.relatedUsers = me.get('related')
       await this.fetchRelatedUsers()
-      this.isComplete = 'Account Added'
+      this.isComplete = $.t('related_accounts.added')
       this.inProgress = false
       this.showAddForm = false
     },
@@ -123,12 +120,11 @@ export default {
       window.location.reload()
     },
     async onRemoveUser ({ userId }) {
-      this.inProgress = 'Removing'
+      this.inProgress = $.t('related_accounts.removing')
       this.isComplete = false
       await me.removeRelatedAccount(userId)
       await me.fetch({ cache: false })
       this.relatedUsers = me.get('related')
-      console.log('remove', this.relatedUsers)
       await this.fetchRelatedUsers()
       this.inProgress = false
     },
@@ -138,7 +134,6 @@ export default {
     }
   },
   async created () {
-    // fetch users based on related
     const related = me.get('related')
     if (!related || related.length === 0) {
       this.loading = false

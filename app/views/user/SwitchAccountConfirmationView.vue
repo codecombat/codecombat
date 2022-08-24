@@ -5,7 +5,7 @@
         v-if="wrongAccount"
         class="confirm__wrong"
       >
-        Please log in to the correct account to confirm the account linking. Log In to the account and open link from email again.
+        {{ $t('related_accounts.wrong_account') }}
       </div>
       <form
         v-else
@@ -15,7 +15,7 @@
           v-if="requestingConfirmUser"
           class="form-group row confirm__info"
         >
-          Link your account to {{ requestingConfirmUser.email }}
+          {{ $t('related_accounts.link_account') }} {{ requestingConfirmUser.email }}
         </div>
         <div class="form-group row">
           <input
@@ -30,7 +30,7 @@
             type="submit"
             class="btn btn-success"
           >
-            Confirm
+            {{ $t('play.confirm') }}
           </button>
         </div>
         <div class="form-group row">
@@ -44,7 +44,7 @@
             v-if="success"
             class="confirm__success"
           >
-            Account linked successfully, redirecting....
+            {{ $t('related_accounts.link_successful_redirect') }}....
           </div>
         </div>
       </form>
@@ -84,7 +84,6 @@ export default {
       this.wrongAccount = true
       return
     }
-    console.log('props', this.confirmingUserId, this.requestingConfirmUserId)
     this.requestingConfirmUser = await this.getUserInfo(this.requestingConfirmUserId)
   },
   methods: {
@@ -101,7 +100,6 @@ export default {
       try {
         await usersLib.verifyRelatedAccount({ userAskingToRelateId: this.requestingConfirmUserId, body })
       } catch (err) {
-        console.error('verify related', err)
         this.error = err?.message || err || 'Error occurred'
         return
       }

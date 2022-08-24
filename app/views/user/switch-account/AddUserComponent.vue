@@ -1,13 +1,5 @@
 <template>
   <div class="add-user">
-<!--    <div class="add-user__head">-->
-<!--      <button-->
-<!--        class="add-user__head__btn btn btn-moon"-->
-<!--        @click="showAddUserForm"-->
-<!--      >-->
-<!--        Add Related User-->
-<!--      </button>-->
-<!--    </div>-->
     <form
       v-if="showAddForm"
       class="add-user__form u-form"
@@ -18,7 +10,7 @@
           for="u-form-email"
           class="u-form__label"
         >
-          Related User Email
+          {{ $t('related_accounts.related_email') }}
         </label>
         <input
           id="u-form-email"
@@ -34,7 +26,7 @@
           for="u-form-relation"
           class="u-form__label"
         >
-          Relation
+          {{ $t('related_accounts.relation') }}
         </label>
         <select
           id="u-form-relation"
@@ -62,7 +54,7 @@
           class="u-form__check u-form__label"
           for="u-form-check"
         >
-          Bi-directional
+          {{ $t('related_accounts.bi_directional') }}
         </label>
       </div>
       <div class="form-group row auth">
@@ -71,13 +63,13 @@
           class="auth__exists"
         >
           <div class="auth__exists-text">
-            Account exists
+            {{ $t('related_accounts.account_exists') }}
           </div>
           <div class="form-group">
             <div class="form-check">
               <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="authAndPass" v-model="existsAuthType">
               <label class="form-check-label" for="exampleRadios1">
-                Authenticate using {{ email }} password
+                {{ $t('related_accounts.auth_using_pass', { email }) }}
               </label>
             </div>
             <div class="form-check auth__additional" v-if="existsAuthType === 'authAndPass'">
@@ -86,12 +78,12 @@
             <div class="form-check">
               <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="authAndEmail" v-model="existsAuthType">
               <label class="form-check-label" for="exampleRadios2">
-                Link account using confirmation email
+                {{ $t('related_accounts.link_using_email') }}
               </label>
             </div>
             <div class="form-check auth__additional" v-if="existsAuthType === 'authAndEmail'">
               <p>
-                User will receive a mail on {{ email }}. Please ask the user to confirm linking by pressing on link present in email.
+                {{ $t('related_accounts.link_using_email_blurb', { email }) }}
               </p>
             </div>
           </div>
@@ -101,7 +93,7 @@
           class="auth__not-exists"
         >
           <div class="auth__exists-text auth__not-exists-text">
-            Account does not exist
+            {{ $t('related_accounts.account_not_exist') }}
           </div>
           <div class="form-group">
             <div class="form-group">
@@ -109,7 +101,7 @@
                 for="u-form-relation"
                 class="u-form__label"
               >
-                Account Type
+                {{ $t('related_accounts.account_type') }}
               </label>
               <select
                 id="u-form-relation"
@@ -128,7 +120,7 @@
             <div class="form-check">
               <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked disabled>
               <label class="form-check-label" for="exampleRadios1">
-                Create account and send email to link
+                {{ $t('related_accounts.create_account_and_email') }}
               </label>
             </div>
           </div>
@@ -140,7 +132,7 @@
           <div class="form-check">
             <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" disabled>
             <label class="form-check-label" for="exampleRadios1">
-              Authenticate / Invite
+              {{ $t('related_accounts.authenticate') }} / {{ $t('related_accounts.invite') }}
             </label>
           </div>
         </div>
@@ -157,7 +149,7 @@
           class="btn btn-lg btn-success"
           :disabled="accountCheckedEmail !== email"
         >
-          Submit
+          {{ $t('common.submit') }}
         </button>
       </div>
     </form>
@@ -248,7 +240,6 @@ export default {
       this.accountExists = null
       if (utils.isValidEmail(this.email)) {
         const resp = await User.checkEmailExists(this.email)
-        console.log('resp', resp)
         this.accountExists = resp?.exists
         this.accountCheckedEmail = this.email
       }

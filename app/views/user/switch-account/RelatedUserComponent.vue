@@ -2,7 +2,7 @@
   <div class="related">
     <div class="related__heading">
       <h3 class="related__heading__text">
-        Related Users:
+        {{ $t('related_accounts.related_users') }}:
       </h3>
       <p class="related__heading__subtext">
         {{ $t('related_accounts.subtitle') }}
@@ -13,7 +13,7 @@
       class="related__none"
     >
       <p class="related__none__text">
-        No related users right now
+        {{ $t('related_accounts.no_related_users') }}
       </p>
     </div>
     <div
@@ -43,14 +43,14 @@
                 :disabled="confirmEmailSentFor === user.email"
                 @click="() => onSendVerifyEmail({ userId: user.userId, email: user.email })"
               >
-                {{ confirmEmailSentFor === user.email ? 'Sent' : 'Send Verify Email' }}
+                {{ confirmEmailSentFor === user.email ? $t('common.sent') : $t('related_accounts.send_verify_email') }}
               </button>
             </div>
             <div
               v-else
               class="related__user__verified"
             >
-              Verified
+              {{ $t('related_accounts.verified') }}
             </div>
           </div>
           <div class="col-md-2">
@@ -60,7 +60,7 @@
                 :disabled="!user.verified"
                 @click="() => onSwitch({ email: user.email })"
               >
-                Switch
+                {{ $t('related_accounts.switch') }}
               </button>
               <span
                 class="related__user__switch__close"

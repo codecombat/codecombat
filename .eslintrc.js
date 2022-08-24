@@ -43,7 +43,8 @@ module.exports = {
     '*.pug',
     '*.sass',
     '*.jpg',
-    '*.svg'
+    '*.svg',
+    '*.scss'
   ],
 
   overrides: [

@@ -109,12 +109,6 @@ module.exports = {
       json: attrs
     }))
 
-  linkRelatedAccounts: (attrs, options={}) ->
-    fetchJson("/db/user/related-accounts", _.assign({}, options, {
-      method: 'PUT'
-      json: attrs
-    }))
-
   getRelatedAccount: ({ userId }) ->
     fetchJson("/db/user/related-accounts/#{userId}", _.assign({}, {
       method: 'GET'
