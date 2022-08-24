@@ -1556,6 +1556,9 @@ module.exports = class CampaignView extends RootView
     if what is 'santa-clara-logo'
       return userUtils.libraryName() is 'santa-clara'
 
+    if what is 'garfield-logo'
+      return userUtils.libraryName() is 'garfield'
+
     if what is 'arapahoe-logo'
       return userUtils.libraryName() is 'arapahoe'
 
