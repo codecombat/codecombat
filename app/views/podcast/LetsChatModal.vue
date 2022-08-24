@@ -29,7 +29,19 @@
         <textarea id="topicsToDiscuss" placeholder="Enter.." v-model="topicsToDiscuss" class="form-control" />
       </div>
       <div class="form-group pull-right">
-        <button class="btn btn-success btn-lg" type="submit">Submit</button>
+        <span
+          v-if="isSuccess"
+          class="success-msg"
+        >
+          Success
+        </span>
+        <button
+          class="btn btn-success btn-lg"
+          type="submit"
+          :disabled="inProgress"
+        >
+          Submit
+        </button>
       </div>
     </form>
   </modal>
@@ -51,21 +63,26 @@ export default {
       org: null,
       role: me.get('role'),
       userBackground: null,
-      topicsToDiscuss: null
+      topicsToDiscuss: null,
+      isSuccess: false,
+      inProgress: false
     }
   },
   methods: {
     async onFormSubmit () {
+      this.inProgress = true
+      this.isSuccess = false
       const details = {
         ...this.$data
       }
       try {
         await podcastContact(details)
+        this.isSuccess = true
       } catch (err) {
         console.error('podcast contact err', err)
         noty({ text: 'Failed to contact server, please reach out to support@codecombat.com', type:'error', timeout: 5000, layout:'topCenter' })
       }
-
+      this.inProgress = false
     }
   }
 }
@@ -79,5 +96,12 @@ export default {
 
 ::v-deep .title {
   padding-top: 10px;
+}
+
+.success-msg {
+  font-size: 1.6rem;
+  color: #0B6125;
+  display: inline-block;
+  margin-right: 1rem;
 }
 </style>
