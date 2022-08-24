@@ -1054,6 +1054,8 @@ module.exports = class CampaignView extends RootView
     if new Date(me.get('dateCreated')) < new Date('2021-09-21')
       defaultAccess = 'all'
     access = me.getExperimentValue 'home-content', defaultAccess
+    if me.showChinaResourceInfo() or me.get('country') is 'japan'
+      access = 'short'
     freeAccessLevels = (fal.slug for fal in utils.freeAccessLevels when _.any [
       fal.access is 'short'
       fal.access is 'medium' and access in ['medium', 'long', 'extended']

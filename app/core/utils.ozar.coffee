@@ -1053,35 +1053,15 @@ clanHeroes = [
 ]
 
 freeAccessLevels = [
-  { access: 'short', slug: 'dungeons-of-kithgard' }
-  { access: 'short', slug: 'gems-in-the-deep' }
-  { access: 'short', slug: 'shadow-guard' }
-  { access: 'short', slug: 'signs-and-portents' }  # Retroactively unlocks later on, doesn't really impact much
-  { access: 'short', slug: 'enemy-mine' }
-  { access: 'short', slug: 'true-names' }
-  { access: 'medium', slug: 'cell-commentary' }
-  { access: 'medium', slug: 'the-raised-sword' }
-  { access: 'medium', slug: 'kithgard-librarian' }
-  { access: 'medium', slug: 'the-prisoner' }
-  { access: 'medium', slug: 'fire-dancing' }
-  { access: 'medium', slug: 'haunted-kithmaze' }
-  { access: 'medium', slug: 'descending-further' }
-  { access: 'medium', slug: 'dread-door' }
-  { access: 'long', slug: 'hack-and-dash' }
-  { access: 'long', slug: 'cupboards-of-kithgard' }
-  { access: 'long', slug: 'known-enemy' }
-  { access: 'long', slug: 'master-of-names' }
-  { access: 'long', slug: 'the-final-kithmaze' }
-  { access: 'long', slug: 'kithgard-gates' }
-  { access: 'extended', slug: 'defense-of-plainswood' }
-  { access: 'extended', slug: 'winding-trail' }
-  { access: 'china-classroom', slug: 'forgetful-gemsmith' }
-  { access: 'china-classroom', slug: 'kounter-kithwise' }
-  { access: 'china-classroom', slug: 'crawlways-of-kithgard' }
-  { access: 'china-classroom', slug: 'illusory-interruption' }
-  { access: 'china-classroom', slug: 'careful-steps' }
-  { access: 'china-classroom', slug: 'long-steps' }
-  { access: 'china-classroom', slug: 'favorable-odds' }
+  { access: 'short', slug: '1fhcutscene1b'}
+  { access: 'short', slug: '1fhm1l1l1b'}
+  { access: 'short', slug: '1fhm1l1l2b'}
+  { access: 'short', slug: '1fhm1l1l3b'}
+  { access: 'short', slug: '1fhm1l1l4b'}
+  { access: 'short', slug: '1fhm1l1l5b'}
+  { access: 'short', slug: '1fhm1l1l6b'}
+  { access: 'short', slug: '1fhm1l1l7b'}
+  { access: 'short', slug: '1fhm1l1l8b'}
 ]
 
 orgKindString = (kind, org=null) ->
