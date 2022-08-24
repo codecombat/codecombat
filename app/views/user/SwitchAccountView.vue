@@ -86,7 +86,7 @@ export default {
       try {
         await me.linkRelatedAccount(body)
       } catch (err) {
-        this.errMsg = err?.msg || err?.message || err || $.t('common.internal_error')
+        this.errMsg = err?.msg || err?.message || err?.responseText || err || $.t('common.internal_error')
         this.inProgress = false
         return
       }
@@ -153,6 +153,7 @@ export default {
 }
 .switch {
   font-size: 62.5%;
+  margin-bottom: 2rem;
 
   &__head {
     text-align: center;
