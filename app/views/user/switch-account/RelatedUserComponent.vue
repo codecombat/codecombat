@@ -124,8 +124,7 @@ export default {
 .related {
   &__none {
     &__text {
-      color: #808080;
-      font-size: 1.6rem;
+      font-size: 1.8rem;
     }
   }
 
